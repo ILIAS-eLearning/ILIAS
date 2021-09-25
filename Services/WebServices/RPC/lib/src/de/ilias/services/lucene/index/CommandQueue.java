@@ -293,68 +293,39 @@ public class CommandQueue {
 
 		try {
 			
-			ResultSet res = null;
+			int res = 0;
 			PreparedStatement sta = null;
 			
 			if(objType.equalsIgnoreCase("help") == true) {
 				
 				sta = DBFactory.getPreparedStatement(
-					"SELECT lm_id obj_id FROM help_module "
+					"INSERT INTO search_command_queue(obj_id, obj_type, sub_id, sub_type, command, last_update, finished) "
+					+ "SELECT help_module.lm_id, ? as obj_type ,0,'','reset',now(),0 FROM help_module"
 				);
+				DBFactory.setString(sta, 1, objType);
 			}
 			else if(objType.equalsIgnoreCase("usr") != true) 
 			{
 				sta = DBFactory.getPreparedStatement(
-					"SELECT DISTINCT(oda.obj_id) FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id " +
+				  "INSERT INTO search_command_queue(obj_id, obj_type, sub_id, sub_type, command, last_update, finished)" +
+					"SELECT DISTINCT(oda.obj_id),oda.type as obj_type ,0,'','reset',now(),0  FROM object_data oda JOIN object_reference ore ON oda.obj_id = ore.obj_id " +
 					"WHERE (deleted IS NULL) AND type = ? " +
 					"GROUP BY oda.obj_id");
 				DBFactory.setString(sta, 1, objType);
 			}
 			else {
 				sta = DBFactory.getPreparedStatement(
-					"SELECT obj_id FROM object_data " + 
-					"WHERE type = ? "
+				        "INSERT INTO search_command_queue(obj_id, obj_type, sub_id, sub_type, command, last_update, finished) "
+				                + "SELECT  object_data.obj_id, object_data.type as obj_type ,0,'','reset',now(),0 FROM"
+				                        + " object_data WHERE type = ? "
 				);
 				DBFactory.setString(sta, 1, objType);
 			}
 
-			res = sta.executeQuery();
-			logger.info("Adding new commands for object type: " + objType);
+			res = sta.executeUpdate();
 
-			// Add each single object
-			PreparedStatement objReset = DBFactory.getPreparedStatement(
-					"INSERT INTO search_command_queue (obj_id, obj_type, sub_id, sub_type, command, last_update, finished) " + 
-					"VALUES (?, ?, ?, ?, ?, ?, ?)");
+			logger.info("Added {} new commands for object type: {}" , res, objType);
 
-			while(res.next()) {
-
-				logger.debug("Added new reset command for " + res.getInt("obj_id"));
-				
-				objReset.setInt(1,res.getInt("obj_id"));
-				objReset.setString(2, objType);
-				objReset.setInt(3,0);
-				objReset.setString(4,"");
-				objReset.setString(5,"reset");
-				objReset.setTimestamp(6,new java.sql.Timestamp(new java.util.Date().getTime()));
-				objReset.setInt(7,0);
-
-				try {
-					objReset.executeUpdate();
-				}
-				catch(SQLException e) {
-					logger.info("Ignoring duplicate key failure for obj_id: " + res.getInt("obj_id"));
-				}
-			}
-			
-			try {
-				if(res != null)
-				{
-					res.close();
-				}
-			} 
-			catch (SQLException e) {
-				logger.warn("Cannot close result set: " + e);
-			}
 		}
 		catch(SQLException e) {
 			
