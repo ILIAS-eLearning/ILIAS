@@ -151,7 +151,7 @@ public class LuceneSettings {
 	}
 	
 	public static void writeLastIndexTime() throws SQLException {
-		
+	  DBFactory.init();
 		Statement sta = DBFactory.factory().createStatement();
 		sta.executeUpdate("DELETE FROM settings " + 
 				"WHERE module = 'common' AND keyword = 'lucene_last_index_time'");

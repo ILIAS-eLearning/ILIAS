@@ -123,7 +123,10 @@ public class DBFactory {
 	public static Connection factory() throws SQLException {
 		
 		logger.debug("====================================== Used cached DB connector.");
-		return (Connection) connection.get();
+		if (!connection.get().isValid(10)) {
+		  init();
+		}
+		return connection.get();
 	}
 	
 	public static void init() {
