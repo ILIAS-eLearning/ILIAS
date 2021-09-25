@@ -36,7 +36,6 @@ import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 import de.ilias.services.settings.ServerSettings;
-import oracle.jdbc.OraclePreparedStatement;
 
 /**
  * A thread local singleton for db connections
@@ -87,37 +86,6 @@ public class DBFactory {
 						client.getDbPass()
 					);
 				}
-				// Oracle
-				else if(client.getDbType().equalsIgnoreCase("oracle")) {
-					
-					logger.info("Loading Oracle driver...");
-					Class.forName("oracle.jdbc.driver.OracleDriver");
-					
-					if(client.getDbName().length() == 0) {
-						
-						String url = "jdbc:oracle:thin:" + client.getDbUser() + "/" + client.getDbPass() + "@" + client.getDbHost();
-						String log = "jdbc:oracle:thin:" + client.getDbUser() + "/" + "******" + "@" + client.getDbHost();
-						logger.info("Using tnsname.ora: " + log);
-						
-						try {
-							System.setProperty("oracle.net.tns_admin",server.lookupTnsAdmin());
-						}
-						catch(SecurityException e) {
-							logger.error("Cannot connect to database: " + e);
-							return null;
-						}
-						catch(NullPointerException e) {
-							logger.error("No TNS_ADMIN given: " + e);
-							return null;
-						}
-						return DriverManager.getConnection(url);
-					}
-					
-					logger.info("Using URL: " +
-							client.getDbUrl()
-					);
-					return DriverManager.getConnection(client.getDbUrl());
-				}
 				else {
 					logger.error("Unsupported db type given." + client.getDbType());
 					throw new ConfigurationException("Unsupported db type given." + client.getDbType());
@@ -129,11 +97,6 @@ public class DBFactory {
 			catch (ConfigurationException e) {
 				logger.error("Cannot connect to database: " + e);
 			} 
-			catch (ClassNotFoundException e) {
-				// no oracle driver!
-				logger.error(e);
-				logger.error("Could not load the JDBC driver.");
-			}
 			return null;
 		}
 
@@ -267,11 +230,6 @@ public class DBFactory {
 				ps.setString(index, str);
 				return ps;
 			}
-			else {
-				
-				((OraclePreparedStatement) ps).setFixedCHAR(index, str);
-				return (PreparedStatement) ps;
-			}
 		}
 		catch (ConfigurationException e) {
 			// shouldn't happen here
@@ -296,14 +254,6 @@ public class DBFactory {
 				
 				return res.getString(name);
 			}
-			else {
-				
-				String ret = res.getString(name);
-				if(ret == null) {
-					return "";
-				}
-				return ret.trim();
-			}
 		}
 		catch (ConfigurationException e) {
 			// shouldn't happen here
@@ -320,13 +270,7 @@ public class DBFactory {
 	 * @throws SQLException 
 	 */
 	public static String getCLOB(ResultSet res, String name) throws SQLException {
-
-		if(getDbType().equalsIgnoreCase("mysql")) {
-			return DBFactory.getString(res, name);
-		}
-		else {
-			return DBFactory.getString(res, name);
-		}
+		return DBFactory.getString(res, name);
 	}
 
 	/**
