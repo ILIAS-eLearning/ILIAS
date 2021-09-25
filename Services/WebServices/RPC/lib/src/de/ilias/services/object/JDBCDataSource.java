@@ -141,37 +141,37 @@ public class JDBCDataSource extends DataSource {
 	public void writeDocument(CommandQueueElement el, ResultSet parentResult)
 			throws DocumentHandlerException {
 		
-		logger.debug("Handling data source: " + getType());
+		logger.trace("Handling data source: " + getType());
 		
 		try {
 			// Create Statement for JDBC data source
 			DocumentHolder doc = DocumentHolder.factory();
 			
 			int paramNumber = 1;
-			for(Object param : getParameters()) {
+			for(ParameterDefinition param : getParameters()) {
 				
-				((ParameterDefinition) param).writeParameter(getStatement(),paramNumber++,el,parentResult);
+				param.writeParameter(getStatement(),paramNumber++,el,parentResult);
 			}
 			
-			logger.debug(getStatement());
+			logger.trace(getStatement());
 			ResultSet res = getStatement().executeQuery();
 			
 			while(res.next()) {
 				
-				logger.debug("Found new result");
-				for(Object field : getFields()) {
-					((FieldDefinition) field).writeDocument(res);
+				logger.trace("Found new result");
+				for(FieldDefinition field : getFields()) {
+					field.writeDocument(res);
 				}
 				
 				// Add subitems from additional data sources
-				for(Object ds : getDataSources()) {
+				for(DocumentHandler ds : getDataSources()) {
 					
-					((DocumentHandler)ds).writeDocument(el,res);
+					ds.writeDocument(el,res);
 				}
 
 				// Finally addDocument to index
 				if(getAction().equalsIgnoreCase(ACTION_CREATE)) {
-					logger.debug("Adding new document...");
+					logger.trace("Adding new document...");
 					IndexHolder writer = IndexHolder.getInstance();
 					writer.addDocument(doc.getDocument());
 					doc.newDocument();
@@ -180,7 +180,7 @@ public class JDBCDataSource extends DataSource {
 			try {
 				res.close();
 			} catch (SQLException e) {
-				logger.warn("Cannot close result set");
+				logger.warn("Cannot close result set", e);
 			}
 		}
 		catch (SQLException e) {

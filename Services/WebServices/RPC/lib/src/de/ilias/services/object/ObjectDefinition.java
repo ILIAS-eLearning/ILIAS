@@ -159,7 +159,7 @@ public class ObjectDefinition implements DocumentHandler {
 		DocumentHolder docs = DocumentHolder.factory();
 		docs.newGlobalDocument();
 		
-		for(Object def : getDocumentDefinitions()) {
+		for(DocumentDefinition def : getDocumentDefinitions()) {
 			logger.debug("1. New document definition");
 			((DocumentDefinition) def).writeDocument(el);
 		}

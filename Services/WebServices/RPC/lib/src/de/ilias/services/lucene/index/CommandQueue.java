@@ -399,11 +399,11 @@ public class CommandQueue {
 			PreparedStatement pst = DBFactory.getPreparedStatement("INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished ) " +
 			"VALUES ( ?, ?, ?, ?, ?, ?, ?) ");
 
-			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
+			for(ObjectDefinition def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
 				
-				logger.info("Adding reset command for " + ((ObjectDefinition) def).getType());
+				logger.info("Adding reset command for " + def.getType());
 					pst.setInt(1,0);
-					pst.setString(2, ((ObjectDefinition) def).getType());
+					pst.setString(2, def.getType());
 					pst.setInt(3,0);
 					pst.setString(4,"");
 					pst.setString(5,"reset_all");
@@ -457,11 +457,11 @@ public class CommandQueue {
 			
 			PreparedStatement pst = DBFactory.getPreparedStatement("DELETE FROM search_command_queue " +
 					"WHERE obj_type = ?");
-			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
+			for(ObjectDefinition def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
 				
-				if(((ObjectDefinition) def).getIndexType() == ObjectDefinition.TYPE_FULL) {
+				if(def.getIndexType() == ObjectDefinition.TYPE_FULL) {
 					
-					DBFactory.setString(pst, 1, ((ObjectDefinition) def).getType());
+					DBFactory.setString(pst, 1, def.getType());
 					pst.executeUpdate();
 				}
 			}
@@ -487,13 +487,13 @@ public class CommandQueue {
 			PreparedStatement pst = DBFactory.getPreparedStatement("INSERT INTO search_command_queue " +
 					"(obj_id, obj_type,sub_id,sub_type,command,last_update,finished) " +
 					"VALUES (?,?,?,?,?,?,?)");
-			for(Object def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
+			for(ObjectDefinition def : ObjectDefinitions.getInstance(client.getAbsolutePath()).getDefinitions()) {
 
-				if(((ObjectDefinition) def).getIndexType() == ObjectDefinition.TYPE_FULL) {
+				if(def.getIndexType() == ObjectDefinition.TYPE_FULL) {
 				
-					logger.info("Adding reset command for " + ((ObjectDefinition) def).getType());
+					logger.info("Adding reset command for " + def.getType());
 					pst.setInt(1,0);
-					pst.setString(2, ((ObjectDefinition) def).getType());
+					pst.setString(2, def.getType());
 					pst.setInt(3,0);
 					pst.setString(4,"");
 					pst.setString(5,"reset_all");

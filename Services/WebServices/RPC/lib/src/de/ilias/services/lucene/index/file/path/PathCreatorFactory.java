@@ -35,28 +35,28 @@ public class PathCreatorFactory {
 	public static PathCreator factory(String name) throws ObjectDefinitionException {
 		
 		if(name.equalsIgnoreCase("FileObjectPathCreator")) {
-			return (PathCreator) new FileObjectPathCreator();
+			return new FileObjectPathCreator();
 		}
 		if(name.equalsIgnoreCase("FileListPathCreator")) {
-			return (PathCreator) new FileListPathCreator();
+			return  new FileListPathCreator();
 		}
 		if(name.equalsIgnoreCase("FileObjectPathCreator41")) {
-			return (PathCreator) new FileObjectPathCreator41();
+			return  new FileObjectPathCreator41();
 		}
 		if(name.equalsIgnoreCase("FileListPathCreator41")) {
-			return (PathCreator) new FileListPathCreator41();
+			return  new FileListPathCreator41();
 		}
 		if(name.equalsIgnoreCase("HTLMObjectPathCreator")) {
-			return (PathCreator) new HTLMObjectPathCreator();
+			return  new HTLMObjectPathCreator();
 		}
 		if(name.equalsIgnoreCase("ExerciseAssignmentPathCreator")) {
-			return (PathCreator) new ExerciseAssignmentPathCreator();
+			return new ExerciseAssignmentPathCreator();
 		}
 		if(name.equalsIgnoreCase("MailAttachmentPathCreator")) {
-			return (PathCreator) new MailAttachmentPathCreator();
+			return new MailAttachmentPathCreator();
 		}
 		if(name.equalsIgnoreCase("FileObjectPathCreator7")) {
-			return (PathCreator) new FileObjectPathCreator7();
+			return  new FileObjectPathCreator7();
 		}
 		
 		throw new ObjectDefinitionException("Invalid path creator name given: " + name);

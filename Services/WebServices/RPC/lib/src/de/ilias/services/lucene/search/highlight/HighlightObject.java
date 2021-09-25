@@ -37,7 +37,7 @@ import java.util.TreeMap;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class HighlightObject implements ResultExport, Comparator {
+public class HighlightObject implements ResultExport, Comparator<Integer> {
 
 	protected static Logger logger = LogManager.getLogger(HighlightObject.class);
 	
@@ -98,12 +98,12 @@ public class HighlightObject implements ResultExport, Comparator {
 		Element obj = new Element("Object");
 		obj.setAttribute("id",String.valueOf(getObjId()));
 		
-		sortedItems = new TreeMap(this);
+		sortedItems = new TreeMap<Integer, HighlightItem>(this);
 		sortedItems.putAll(items);
 		
-		for(Object item : sortedItems.values()) {
+		for(ResultExport item : sortedItems.values()) {
 			
-			obj.addContent(((ResultExport) item).addXML());
+			obj.addContent(item.addXML());
 		}
 		return obj;
 	}
@@ -114,10 +114,10 @@ public class HighlightObject implements ResultExport, Comparator {
 	 * @param o2
 	 * @return 
 	 */
-	public int compare(Object o1, Object o2) {
+	public int compare(Integer o1, Integer o2) {
 		
-		int index1 = (Integer) o1;
-		int index2 = (Integer) o2;
+		int index1 = o1;
+		int index2 = o2;
 
 		if(items.get(index1).getAbsoluteScore() < items.get(index2).getAbsoluteScore()) {
 			return 1;
