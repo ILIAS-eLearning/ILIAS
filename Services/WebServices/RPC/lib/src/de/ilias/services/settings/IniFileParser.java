@@ -84,6 +84,9 @@ public class IniFileParser {
 						serverSettings.setRAMSize(purgeString(section.get("RAMBufferSize")));
 					if(section.containsKey("IndexMaxFileSizeMB"))
 						serverSettings.setMaxFileSizeMB(purgeString(section.get("IndexMaxFileSizeMB")));
+					if(section.containsKey("IgnoreDocAndXlsFiles")) {
+					  serverSettings.setIgnoreDocAndXlsFiles(Boolean.parseBoolean(section.get("IgnoreDocAndXlsFiles")));
+					}
 				}
 				if(section.getName().startsWith("Client") && parseClientSettings) {
 					if(section.containsKey("ClientId")) {

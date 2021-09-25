@@ -23,7 +23,6 @@
 package de.ilias.services.settings;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -56,6 +55,7 @@ public class ServerSettings {
 	private double RAMSize = 500;
 	private int indexMaxFileSizeMB = 500;
 
+	private boolean ignoreDocAndXlsFiles = true;
 
 
 
@@ -268,5 +268,13 @@ public class ServerSettings {
 	public void setMaxFileSizeMB(String mb)
 	{
 		this.indexMaxFileSizeMB = Integer.valueOf(mb);
+	}
+
+	public void setIgnoreDocAndXlsFiles(boolean ignoreDocAndXlsFiles) {
+	  this.ignoreDocAndXlsFiles = ignoreDocAndXlsFiles;
+	}
+
+	public boolean getIgnoreDocAndXlsFiles() {
+	  return ignoreDocAndXlsFiles;
 	}
 }

@@ -33,8 +33,8 @@ import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.extractor.ExtractorFactory;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.POITextExtractor;
+import org.apache.poi.extractor.POITextExtractor;
+
 
 /**
  * 
@@ -45,10 +45,15 @@ import org.apache.poi.POITextExtractor;
 public class ExtensionFileHandler {
 
     protected static Logger logger = LogManager.getLogger(ExtensionFileHandler.class);
+    private ServerSettings serverSettings;
 
     
     public ExtensionFileHandler() {
-        // Do nothing here
+        try {
+          serverSettings = ServerSettings.getInstance();
+        } catch (ConfigurationException e) {
+          logger.error("Error getting server settings",e);
+        }
     }
 
     /**
@@ -59,7 +64,7 @@ public class ExtensionFileHandler {
      */
     public String getContent(File file, String extension) throws FileHandlerException {
 
-    	// Stop here if no read permission is given
+        // Stop here if no read permission is given
         if(!file.canRead()) {
             throw new FileHandlerException("No permission to read file: " + file.getAbsolutePath());
         }
@@ -82,11 +87,19 @@ public class ExtensionFileHandler {
 				logger.warn("no valid extension found for: " + file.getName());
 				return "";
 			}
-			// Do not index xslx
-			if (extension.equalsIgnoreCase("xlsx")) {
-				logger.info("Ignoring xslx: " + file.getName());
-				return "";
-			}
+	    if (serverSettings.getIgnoreDocAndXlsFiles()) {
+	      // Do not index xslx/xls
+	      if (extension.equalsIgnoreCase("xlsx") || extension.equalsIgnoreCase("xls") ) {
+	        logger.info("Ignoring xslx/xls: " + file.getName());
+	        return "";
+	      }
+
+	      // Do not index docx/doc
+	      if (extension.equalsIgnoreCase("docx") || extension.equalsIgnoreCase("doc")) {
+	        logger.info("Ignoring docx/doc: " + file.getName());
+	        return "";
+	      }
+	    }
 			// Handled extensions are: html,pdf,txt
 			if (extension.equalsIgnoreCase("pdf")) {
 				logger.info("Using getPDFDocument() for " + file.getName());
@@ -178,10 +191,11 @@ public class ExtensionFileHandler {
     	try {
     		StringBuilder content = new StringBuilder();
     		POITextExtractor extractor = null;
-    		
+        logger.debug("starting poi extractor");
     		extractor = ExtractorFactory.createExtractor(fis = new FileInputStream(file));
+        logger.debug("poi extractor gettext" + extractor.getMetadataTextExtractor().getText());
     		content.append(extractor.getText());
-
+        logger.debug("finished poi extractor");
     		if(content.length() > 0) {
     			logger.info("Parsed file: " + file.getName());
     		}
@@ -190,10 +204,6 @@ public class ExtensionFileHandler {
     		}
     		//logger.debug("Parsed content is: " + content.toString());
     		return content.toString();
-    	}
-    	catch (InvalidFormatException e) {
-    		logger.info("File is not a compatible POI file.");
-        	logger.info("Current file is: " + file.getAbsolutePath());
     	}
     	catch(IllegalArgumentException e) {
     		logger.info("No handler found.");
