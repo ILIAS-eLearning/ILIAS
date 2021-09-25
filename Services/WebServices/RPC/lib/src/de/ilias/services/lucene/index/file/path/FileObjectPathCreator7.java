@@ -96,14 +96,18 @@ public class FileObjectPathCreator7  implements PathCreator
 	}
 
 	@Override
-	public String getExtension(CommandQueueElement el, ResultSet res) {
+	public String getExtension(CommandQueueElement el, ResultSet res) throws PathCreatorException{
 		
 		StringBuilder extension = new StringBuilder();
 		try {
 			String fileName = res.getString("file_name");
-	        int dotIndex = fileName.lastIndexOf(".");
-	        if((dotIndex > 0) && (dotIndex < fileName.length())) {
-	            extension.append(fileName.substring(dotIndex + 1, fileName.length()));
+			if (null == fileName) {
+			  logger.error("Cannot split NULL filename for objId: " + el.getObjId());
+			  throw new PathCreatorException("Cannot split NULL filename for objId: " + el.getObjId());
+			}
+			int dotIndex = fileName.lastIndexOf(".");
+			if((dotIndex > 0) && (dotIndex < fileName.length())) {
+			  extension.append(fileName.substring(dotIndex + 1, fileName.length()));
 			}
 			logger.info("Extraced extension: " + extension.toString() + " from file name: " + fileName);
 
