@@ -203,7 +203,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
             $thumbnailPath = $this->backGroundImageFileService->getBackgroundImageThumbPath();
 
-            if (!file_exists($thumbnailPath)) {
+            if (!is_file($thumbnailPath)) {
                 $thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
                 $bgimage->setALlowDeletion(false);
             }
