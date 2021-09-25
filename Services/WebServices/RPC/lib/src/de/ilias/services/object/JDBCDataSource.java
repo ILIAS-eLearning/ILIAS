@@ -173,7 +173,7 @@ public class JDBCDataSource extends DataSource {
 				if(getAction().equalsIgnoreCase(ACTION_CREATE)) {
 					logger.debug("Adding new document...");
 					IndexHolder writer = IndexHolder.getInstance();
-					writer.getWriter().addDocument(doc.getDocument());
+					writer.addDocument(doc.getDocument());
 					doc.newDocument();
 				}
 			}

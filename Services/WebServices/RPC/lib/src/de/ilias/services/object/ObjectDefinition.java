@@ -165,7 +165,7 @@ public class ObjectDefinition implements DocumentHandler {
 		}
 		
 		IndexHolder writer = IndexHolder.getInstance();
-		writer.getWriter().addDocument(docs.getGlobalDocument());
+		writer.addDocument(docs.getGlobalDocument());
 	}
 
 	/**

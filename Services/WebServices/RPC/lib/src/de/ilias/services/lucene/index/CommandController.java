@@ -24,13 +24,11 @@ package de.ilias.services.lucene.index;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Vector;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.index.CorruptIndexException;
-import org.apache.lucene.index.Term;
 import org.apache.lucene.store.LockObtainFailedException;
 
 import de.ilias.services.lucene.search.SearchHolder;
@@ -239,11 +237,9 @@ public class CommandController {
 	public synchronized boolean writeToIndex() {
 
 		try {
-			logger.info("Writer commit.");
-			holder.getWriter().commit();
-			logger.info("Writer forcing merge...");
-			holder.getWriter().forceMerge(IndexHolder.MAX_NUM_SEGMENTS);
-			logger.info("Writer forced merge");
+			logger.info("Writer commitAndMerge.");
+			holder.commitAndForceMerge();
+			logger.info("Writer commited and forced merge");
 			LuceneSettings.writeLastIndexTime();
 			
 			// Refresh index reader
@@ -275,7 +271,7 @@ public class CommandController {
 	
 		try {
 			logger.info("Closing writer");
-			holder.getWriter().close();
+			holder.close();
 			logger.info("Writer closed");
 			
 			// reopen index reader
@@ -330,7 +326,7 @@ public class CommandController {
 	private void deleteDocument(CommandQueueElement el) throws CorruptIndexException, IOException {
 
 		logger.debug("Deleteing document with objId: " + String.valueOf(el.getObjId()));
-		holder.getWriter().deleteDocuments(new Term("objId",String.valueOf(el.getObjId())));
+		holder.deleteDocument(String.valueOf(el.getObjId()));
 	}
 
 

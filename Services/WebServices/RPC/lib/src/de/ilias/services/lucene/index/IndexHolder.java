@@ -22,7 +22,6 @@
 
 package de.ilias.services.lucene.index;
 
-import de.ilias.services.lucene.settings.LuceneSettings;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,26 +29,30 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.lucene.index.IndexWriterConfig;
+import org.apache.lucene.index.Term;
+
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
 import de.ilias.services.settings.ServerSettings;
-import org.apache.lucene.index.IndexWriterConfig;
 
 /**
  * Capsulates the interaction between IndexReader and IndexWriter
  * This class is a singleton for each index path.
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author Pascal Seeland <pascal.seeland@tik.uni-stuttgart.de>
  * @version $Id$
  */
 public class IndexHolder {
 	
 	private static Logger logger = LogManager.getLogger(IndexHolder.class);
 	
-	public static final int MAX_NUM_SEGMENTS = 100;
+	private static final int MAX_NUM_SEGMENTS = 100;
 	
 	private static HashMap<String, IndexHolder> instances = new HashMap<String, IndexHolder>();
 	private ClientSettings settings;
@@ -184,18 +187,17 @@ public class IndexHolder {
 		
 	}
 	
-	/**
-	 * @return the writer
-	 */
-	public IndexWriter getWriter() {
-		return writer;
+	public void addDocument(Document document) throws IOException {
+	  writer.addDocument(document);
 	}
 
-	/**
-	 * @param writer the writer to set
-	 */
-	public void setWriter(IndexWriter writer) {
-		this.writer = writer;
+	public void deleteDocument(String documentId) throws IOException {
+	  writer.deleteDocuments(new Term("objId",documentId));
+	}
+
+	public void commitAndForceMerge() throws IOException {
+	  writer.commit();
+	  writer.forceMerge(IndexHolder.MAX_NUM_SEGMENTS);
 	}
 
 	/**
@@ -204,7 +206,7 @@ public class IndexHolder {
 	public void close() {
 		
 		try {
-			getWriter().close();
+			writer.close();
 			IndexDirectoryFactory.getDirectory(settings.getIndexPath()).close();
 
 		} catch (CorruptIndexException e) {
