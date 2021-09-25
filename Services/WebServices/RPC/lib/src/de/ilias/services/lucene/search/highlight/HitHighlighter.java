@@ -31,13 +31,14 @@ import org.apache.logging.log4j.Logger;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.highlight.Fragmenter;
 import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleFragmenter;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
@@ -47,8 +48,6 @@ import de.ilias.services.lucene.search.SearchHolder;
 import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 
 /**
  * 
@@ -100,7 +99,6 @@ public class HitHighlighter {
 		result = new HighlightHits();
 		HighlightObject resObject;
 		HighlightItem resItem;
-		HighlightField resField;
 		
 		TokenStream token;
 		String fragment;
@@ -137,10 +135,11 @@ public class HitHighlighter {
 			resObject = result.initObject(objId);
 			resItem = resObject.addItem(subItem);
 			resItem.setAbsoluteScore(hits[i].score);
-			
+			StandardAnalyzer sa = new StandardAnalyzer();
 			// Title
 			if(hitDoc.get("title") != null ) { 
-				token = new StandardAnalyzer().tokenStream("title", new StringReader(hitDoc.get("title")));
+
+				token = sa.tokenStream("title", new StringReader(hitDoc.get("title")));
 				fragment = titleHighlighter.getBestFragments(
 						token,
 						hitDoc.get("title"),
@@ -149,11 +148,12 @@ public class HitHighlighter {
 				if(fragment.length() != 0) {
 					resItem.addField(new HighlightField("title",fragment));
 				}
+
 			}
 			
 			// Description
 			if(hitDoc.get("description") != null) {
-				token = new StandardAnalyzer().tokenStream("description", new StringReader(hitDoc.get("description")));
+				token = sa.tokenStream("description", new StringReader(hitDoc.get("description")));
 				fragment = titleHighlighter.getBestFragments(
 						token,
 						hitDoc.get("description"),
@@ -182,7 +182,7 @@ public class HitHighlighter {
 				}
 			}
 			//logger.debug("All content" + allContent.toString());
-			token =	new StandardAnalyzer().tokenStream("content", new StringReader(allContent.toString()));
+			token =	sa.tokenStream("content", new StringReader(allContent.toString()));
 			fragment = highlighter.getBestFragments(
 					token,
 					allContent.toString(),
@@ -194,6 +194,7 @@ public class HitHighlighter {
 				//logger.debug("Found fragment: " + fragment);
 				resItem.addField(new HighlightField("content",fragment));
 			}
+			sa.close();
 		}
 	}
 
