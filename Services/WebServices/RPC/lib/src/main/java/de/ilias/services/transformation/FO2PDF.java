@@ -39,9 +39,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.configuration.DefaultConfigurationBuilder;
 
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
@@ -74,22 +71,16 @@ public class FO2PDF {
 			logger.info("Using config uri: " + fopConfigUrl.toURI());
 				
 			// load custom config
-			DefaultConfigurationBuilder config = new DefaultConfigurationBuilder();
-			Configuration cfg = config.build(fopConfigUrl.toURI().toString());
+//			DefaultConfigurationBuilder config = new DefaultConfigurationBuilder();
+//			Configuration cfg = config.build(fopConfigUrl.toURI().toString());
 				
-			fopFactory = FopFactory.newInstance();
-			fopFactory.setUserConfig(cfg);
+			fopFactory = FopFactory.newInstance(getClass().getResource("/de/ilias/config/fopConfig.xml").toURI());
+//			fopFactory.setUserConfig(cfg);
 			fopFactory.getFontManager().deleteCache();
-			fopFactory.getFontManager().useCache();
+			fopFactory.getFontManager().saveCache();
 			
 		} 
 		catch (SAXException ex) {
-			logger.error("Cannot load fop configuration:" + ex);
-		} 
-		catch (IOException ex) {
-			logger.error("Cannot load fop configuration:" + ex);
-		} 
-		catch (ConfigurationException ex) {
 			logger.error("Cannot load fop configuration:" + ex);
 		} 
 		catch (URISyntaxException ex) {
