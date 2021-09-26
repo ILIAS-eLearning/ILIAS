@@ -572,11 +572,6 @@ class ilInitialisation
      */
     public static function setSessionHandler()
     {
-        if (ini_get('session.save_handler') != 'user' && version_compare(PHP_VERSION, '7.2.0', '<')) {
-            ini_set("session.save_handler", "user");
-        }
-
-        require_once "Services/Authentication/classes/class.ilSessionDBHandler.php";
         $db_session_handler = new ilSessionDBHandler();
         if (!$db_session_handler->setSaveHandler()) {
             self::abortAndDie("Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini");
