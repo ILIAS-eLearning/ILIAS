@@ -63,7 +63,7 @@ class ilBcryptPhpPasswordEncoder extends ilBasePasswordEncoder
 
     public function isSupportedByRuntime() : bool
     {
-        return parent::isSupportedByRuntime() && version_compare(phpversion(), '5.5.0', '>=');
+        return parent::isSupportedByRuntime();
     }
 
     public function getCosts() : string
