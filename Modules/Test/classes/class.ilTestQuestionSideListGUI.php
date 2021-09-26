@@ -187,7 +187,7 @@ class ilTestQuestionSideListGUI
             if ($this->isDisabled() || $row['disabled']) {
                 $tpl->setCurrentBlock('disabled_entry');
                 $tpl->setVariable('CLASS', $class);
-                $tpl->setVariable('HEDERCLASS', $headerclass);
+                $tpl->setVariable('HEADERCLASS', $headerclass);
                 $tpl->setVariable('ITEM', $title);
                 $tpl->setVariable('DESCRIPTION', $description);
                 $tpl->parseCurrentBlock();
@@ -198,7 +198,7 @@ class ilTestQuestionSideListGUI
                 $tpl->setVariable('HREF', $this->buildLink($row['sequence']));
                 $tpl->setVariable('NEXTCMD', ilTestPlayerCommands::SHOW_QUESTION);
                 $tpl->setVariable('NEXTSEQ', $row['sequence']);
-                $tpl->setVariable('HEDERCLASS', $headerclass);
+                $tpl->setVariable('HEADERCLASS', $headerclass);
                 $tpl->setVariable('CLASS', $class);
                 $tpl->setVariable('ITEM', $title);
                 $tpl->setVariable("DESCRIPTION", $description);
