@@ -9,8 +9,8 @@
 class ilSessionDBHandler implements SessionHandlerInterface
 {
     /**
-     * Register callback functions
-     * session.save_handler must be 'user' or safe mode off to succeed
+     * Registers the session save handler
+     * session.save_handler must be 'user'
      */
     public function setSaveHandler() : bool
     {
@@ -27,7 +27,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
     }
 
     /**
-     * Open session, normally a db connection would be opened here, but
+     * Opens session, normally a db connection would be opened here, but
      * we use the standard ilias db connection, so nothing must be done here
      * @param string $path
      * @param string $name session name [PHPSESSID]
@@ -71,7 +71,7 @@ class ilSessionDBHandler implements SessionHandlerInterface
     }
 
     /**
-     * Destroy session
+     * Destroys session
      * @param string $id session id
      */
     public function destroy($id) : bool
