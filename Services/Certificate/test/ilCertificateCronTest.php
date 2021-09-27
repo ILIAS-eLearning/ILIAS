@@ -44,13 +44,11 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $configValues = array('lng');
 
-        $dic->expects($this->any())
+        $dic
             ->method('offsetGet')
-            ->will($this->returnCallback(
-                function ($key) use ($configValues) {
-                    return $configValues[$key];
-                }
-            ));
+            ->willReturnCallback(static function ($key) use ($configValues) {
+                return $configValues[$key];
+            });
 
         $dic['lng'] = $languageMock;
 
@@ -107,13 +105,11 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $configValues = ['lng'];
 
-        $dic->expects($this->any())
+        $dic
             ->method('offsetGet')
-            ->will($this->returnCallback(
-                function ($key) use ($configValues) {
-                    return $configValues[$key];
-                }
-            ));
+            ->willReturnCallback(static function ($key) use ($configValues) {
+                return $configValues[$key];
+            });
 
         $dic['lng'] = $languageMock;
 
@@ -172,13 +168,11 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $configValues = array('lng');
 
-        $dic->expects($this->any())
+        $dic
             ->method('offsetGet')
-            ->will($this->returnCallback(
-                function ($key) use ($configValues) {
-                    return $configValues[$key];
-                }
-            ));
+            ->willReturnCallback(static function ($key) use ($configValues) {
+                return $configValues[$key];
+            });
 
         $dic['lng'] = $languageMock;
 
@@ -256,13 +250,11 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $configValues = array('lng');
 
-        $dic->expects($this->any())
+        $dic
             ->method('offsetGet')
-            ->will($this->returnCallback(
-                function ($key) use ($configValues) {
-                    return $configValues[$key];
-                }
-            ));
+            ->willReturnCallback(static function ($key) use ($configValues) {
+                return $configValues[$key];
+            });
 
         $dic['lng'] = $languageMock;
 
@@ -340,13 +332,11 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $configValues = array('lng');
 
-        $dic->expects($this->any())
+        $dic
             ->method('offsetGet')
-            ->will($this->returnCallback(
-                function ($key) use ($configValues) {
-                    return $configValues[$key];
-                }
-            ));
+            ->willReturnCallback(static function ($key) use ($configValues) {
+                return $configValues[$key];
+            });
 
         $dic['lng'] = $languageMock;
 
@@ -424,13 +414,11 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $configValues = array('lng');
 
-        $dic->expects($this->any())
+        $dic
             ->method('offsetGet')
-            ->will($this->returnCallback(
-                function ($key) use ($configValues) {
-                    return $configValues[$key];
-                }
-            ));
+            ->willReturnCallback(static function ($key) use ($configValues) {
+                return $configValues[$key];
+            });
 
         $dic['lng'] = $languageMock;
 
@@ -508,13 +496,11 @@ class ilCertificateCronTest extends ilCertificateBaseTestCase
 
         $configValues = array('lng');
 
-        $dic->expects($this->any())
+        $dic
             ->method('offsetGet')
-            ->will($this->returnCallback(
-                function ($key) use ($configValues) {
-                    return $configValues[$key];
-                }
-            ));
+            ->willReturnCallback(static function ($key) use ($configValues) {
+                return $configValues[$key];
+            });
 
         $dic['lng'] = $languageMock;
 

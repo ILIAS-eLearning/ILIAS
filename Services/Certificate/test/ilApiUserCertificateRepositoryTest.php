@@ -23,7 +23,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
      */
     private $controller;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -40,14 +40,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
     public function testGetUserData() : void
     {
-        $filter = new \Certificate\API\Filter\UserDataFilter(
-            array(1, 2, 3),
-            'test',
-            100,
-            1234567890,
-            2000,
-            300
-        );
+        $filter = new \Certificate\API\Filter\UserDataFilter();
 
         $this->database
             ->method('fetchAssoc')

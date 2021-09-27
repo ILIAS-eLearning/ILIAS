@@ -158,8 +158,6 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
                 'USER_ZIPCODE' => '',
                 'USER_COUNTRY' => '',
                 'USER_MATRICULATION' => '',
-                'DATE' => '',
-                'DATETIME' => '',
                 'DATE_COMPLETED' => '',
                 'DATETIME_COMPLETED' => '',
                 'DATE' => '2018-09-10',
@@ -220,8 +218,7 @@ class ilDefaultPlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $result = $placeHolderObject->getPlaceholderValuesForPreview(
             100,
-            10,
-            2
+            10
         );
 
         $this->assertEquals(

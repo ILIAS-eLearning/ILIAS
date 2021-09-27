@@ -13,7 +13,7 @@ class ilCertificateTypeClassMapTest extends ilCertificateBaseTestCase
      */
     private $classMap;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->classMap = new ilCertificateTypeClassMap();
     }

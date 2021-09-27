@@ -22,6 +22,6 @@ class ilCertificateScormTemplateDeleteActionTest extends ilCertificateBaseTestCa
 
         $action = new ilCertificateScormTemplateDeleteAction($deleteMock, $settingMock);
 
-        $action->delete(10, 200, 'v5.4.0');
+        $action->delete(10, 200);
     }
 }

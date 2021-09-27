@@ -125,8 +125,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $repository = new ilUserCertificateRepository(
             $database,
             $logger,
-            'someDefaultTitle',
-            'someDefaultDescription'
+            'someDefaultTitle'
         );
 
         $results = $repository->fetchActiveCertificates(400);

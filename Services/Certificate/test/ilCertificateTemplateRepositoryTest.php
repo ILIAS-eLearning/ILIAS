@@ -318,7 +318,7 @@ WHERE id = 30')
 
         $repository = new ilCertificateTemplateDatabaseRepository($database, $logger, $objectDataCache);
 
-        $template = $repository->activatePreviousCertificate(10, 200);
+        $template = $repository->activatePreviousCertificate(10);
 
         $this->assertEquals(30, $template->getId());
     }

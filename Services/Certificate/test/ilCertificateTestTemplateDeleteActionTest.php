@@ -30,6 +30,6 @@ class ilCertificateTestTemplateDeleteActionTest extends ilCertificateBaseTestCas
             $objectHelper
         );
 
-        $action->delete(100, 200, 'v5.4.0');
+        $action->delete(100, 200);
     }
 }
