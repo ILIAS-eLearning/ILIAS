@@ -72,7 +72,7 @@ class ilFormFieldParser
         }
 
         $xsl = file_get_contents("./Services/Certificate/xml/fo2xhtml.xsl");
-        if ((strlen($content)) && (strlen($xsl))) {
+        if ($content !== '' && (is_string($xsl) && $xsl !== '')) {
             $args = [
                 '/_xml' => $content,
                 '/_xsl' => $xsl

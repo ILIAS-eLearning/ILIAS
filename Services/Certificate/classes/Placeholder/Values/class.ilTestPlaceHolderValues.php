@@ -91,7 +91,7 @@ class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
         $pass = (string) $this->testObjectHelper->getResultPass($active_id);
 
         $result_array = &$testObject->getTestResult($active_id);
-        if (strlen($pass)) {
+        if ($pass !== '') {
             $result_array = &$testObject->getTestResult($active_id, $pass);
         }
 

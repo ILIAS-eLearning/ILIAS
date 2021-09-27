@@ -211,7 +211,7 @@ class ilUserCertificateGUI
 
                 $sections = [];
 
-                if (strlen($certificateData['description']) > 0) {
+                if ($certificateData['description'] !== '') {
                     $sections[] = $this->uiFactory->listing()->descriptive([
                         $this->language->txt('cert_description_label') => $certificateData['description']
                     ]);
