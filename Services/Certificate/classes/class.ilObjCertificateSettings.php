@@ -70,15 +70,13 @@ class ilObjCertificateSettings extends ilObject
                 "JPEG",
                 100
             );
-            if (!is_file($this->getDefaultBackgroundImagePath())) {
-                // something went wrong converting the file. use the original file and hope, that PDF can work with it
-                if (!ilUtil::moveUploadedFile(
-                    $this->getDefaultBackgroundImageTempfilePath(),
-                    $convert_filename,
-                    $this->getDefaultBackgroundImagePath()
-                )) {
-                    return false;
-                }
+            // something went wrong converting the file. use the original file and hope, that PDF can work with it
+            if (!is_file($this->getDefaultBackgroundImagePath()) && !ilUtil::moveUploadedFile(
+                $this->getDefaultBackgroundImageTempfilePath(),
+                $convert_filename,
+                $this->getDefaultBackgroundImagePath()
+            )) {
+                return false;
             }
             unlink($this->getDefaultBackgroundImageTempfilePath());
             if (is_file($this->getDefaultBackgroundImagePath()) && filesize($this->getDefaultBackgroundImagePath()) > 0) {

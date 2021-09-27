@@ -46,7 +46,7 @@ class ilUserCertificateRepository
         $version = (int) $this->fetchLatestVersion($userCertificate->getObjId(), $userCertificate->getUserId());
         ++$version;
 
-        $id = (int) $this->database->nextId('il_cert_user_cert');
+        $id = $this->database->nextId('il_cert_user_cert');
 
         $objId = $userCertificate->getObjId();
         $userId = $userCertificate->getUserId();
