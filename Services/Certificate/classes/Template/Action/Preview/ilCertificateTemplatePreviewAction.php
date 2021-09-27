@@ -74,7 +74,6 @@ class ilCertificateTemplatePreviewAction
 
     /**
      * @param int $objectId
-     * @throws ilException
      * @throws Exception
      */
     public function createPreviewPdf(int $objectId) : void

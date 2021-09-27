@@ -6,7 +6,7 @@
  */
 class ilCertificateUserObjectHelper
 {
-    public function lookupFields($user_id)
+    public function lookupFields($user_id) : array
     {
         return ilObjUser::_lookupFields($user_id);
     }

@@ -45,6 +45,7 @@ class ilCertificateCourseLearningProgressEvaluation
      * @param int $refId
      * @param int $userId
      * @return ilCertificateTemplate[]
+     * @throws JsonException
      */
     public function evaluate(int $refId, int $userId) : array
     {

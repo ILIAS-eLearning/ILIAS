@@ -6,18 +6,13 @@
  */
 class ilCertificateLPStatusHelper
 {
-    /**
-     * @param int $objId
-     * @param int $userId
-     * @return mixed
-     */
-    public function lookupStatusChanged(int $objId, int $userId)
+    public function lookupStatusChanged(int $objId, int $userId) : string
     {
         return ilLPStatus::_lookupStatusChanged($objId, $userId);
     }
 
     public function lookUpStatus(int $objectId, int $userId) : ?int
     {
-        return ilLPStatus::_lookupStatus($objectId, $userId);
+        return (int) ilLPStatus::_lookupStatus($objectId, $userId);
     }
 }

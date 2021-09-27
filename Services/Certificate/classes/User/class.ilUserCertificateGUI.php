@@ -148,7 +148,7 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilDateTimeException
-     * @throws ilWACException
+     * @throws ilWACException|JsonException
      */
     public function listCertificates() : void
     {
@@ -290,7 +290,7 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilWACException
-     * @throws ilDateTimeException
+     * @throws ilDateTimeException|JsonException
      */
     protected function applySortation() : void
     {
@@ -304,7 +304,7 @@ class ilUserCertificateGUI
     }
 
     /**
-     * @throws ilException
+     * @throws ilException|JsonException
      */
     public function download() : void
     {

@@ -83,7 +83,7 @@ class ilCertificateTemplateImportAction
      * @throws FileNotFoundException
      * @throws IOException
      * @throws ilDatabaseException
-     * @throws ilException
+     * @throws ilException|JsonException
      */
     public function import(
         string $zipFile,
