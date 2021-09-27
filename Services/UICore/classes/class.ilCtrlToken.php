@@ -89,7 +89,7 @@ final class ilCtrlToken implements ilCtrlTokenInterface
     {
         try {
             $token = bin2hex(random_bytes(32));
-        } catch (Throwable) {
+        } catch (Throwable $t) {
             $token = md5(uniqid($this->user->getLogin(), true));
         }
 

@@ -332,7 +332,7 @@ final class ilCtrlTarget implements ilCtrlTargetInterface
      * @param mixed  $value
      * @return string
      */
-    private function appendParameterString(string $url, string $parameter_name, mixed $value) : string
+    private function appendParameterString(string $url, string $parameter_name, $value) : string
     {
         if (null !== $value && !is_array($value)) {
             $url .= (is_int(strpos($url, '?'))) ?

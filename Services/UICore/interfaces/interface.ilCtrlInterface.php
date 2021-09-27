@@ -54,7 +54,7 @@ interface ilCtrlInterface
      * @return mixed
      * @throws ilCtrlException if executeCommand() cannot be invoked.
      */
-    public function forwardCommand(object $a_gui_object) : mixed;
+    public function forwardCommand(object $a_gui_object);
 
     /**
      * Returns the HTML output of another GUI object by invoking
@@ -109,7 +109,7 @@ interface ilCtrlInterface
      *
      * @param object|string $a_cmd_class
      */
-    public function setCmdClass(object|string $a_cmd_class) : void;
+    public function setCmdClass($a_cmd_class) : void;
 
     /**
      * Returns the classname of the next class in the control flow.
@@ -118,7 +118,7 @@ interface ilCtrlInterface
      * @return string|null
      * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function getNextClass(object|string $a_gui_class = null) : ?string;
+    public function getNextClass($a_gui_class = null) : ?string;
 
     /**
      * Sets parameters for the given object.
@@ -129,7 +129,7 @@ interface ilCtrlInterface
      * @param string|string[] $a_parameter
      * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function saveParameter(object $a_gui_obj, array|string $a_parameter) : void;
+    public function saveParameter(object $a_gui_obj, $a_parameter) : void;
 
     /**
      * Sets a parameter for the given GUI class that must be passed in every
@@ -146,7 +146,7 @@ interface ilCtrlInterface
      * @param string|string[] $a_parameter
      * @throws ilCtrlException if an invalid parameter name is given.
      */
-    public function saveParameterByClass(string $a_class, array|string $a_parameter) : void;
+    public function saveParameterByClass(string $a_class, $a_parameter) : void;
 
     /**
      * Sets a parameter for the given GUI object and appends the given value.
@@ -246,7 +246,7 @@ interface ilCtrlInterface
      * @throws ilCtrlException if a provided class cannot be found.
      */
     public function getLinkTargetByClass(
-        array|string $a_class,
+        $a_class,
         string $a_cmd = "",
         string $a_anchor = "",
         bool $is_async = false,
@@ -284,7 +284,7 @@ interface ilCtrlInterface
      * @throws ilCtrlException if a provided class cannot be found.
      */
     public function getFormActionByClass(
-        array|string $a_class,
+        $a_class,
         string $a_fallback_cmd = "",
         string $a_anchor = "",
         bool $is_async = false,
@@ -316,7 +316,7 @@ interface ilCtrlInterface
      * @throws ilCtrlException if a provided class cannot be found.
      */
     public function redirectByClass(
-        array|string $a_class,
+        $a_class,
         string $a_cmd = "",
         string $a_anchor = "",
         bool $is_async = false

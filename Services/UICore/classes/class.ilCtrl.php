@@ -119,7 +119,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function forwardCommand(object $a_gui_object) : mixed
+    public function forwardCommand(object $a_gui_object)
     {
         $class_name = get_class($a_gui_object);
         if (!method_exists($a_gui_object, 'executeCommand')) {
@@ -238,7 +238,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function setCmdClass(object|string $a_cmd_class) : void
+    public function setCmdClass($a_cmd_class) : void
     {
         $this->target->appendCmdClass($this->getClassByObject($a_cmd_class));
     }
@@ -246,7 +246,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getNextClass(object|string $a_gui_class = null) : ?string
+    public function getNextClass($a_gui_class = null) : ?string
     {
         if (null === $a_gui_class) {
             return $this->target->getCurrentCmdClass();
@@ -269,7 +269,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function saveParameter(object $a_gui_obj, array|string $a_parameter) : void
+    public function saveParameter(object $a_gui_obj, $a_parameter) : void
     {
         $this->saveParameterByClass($this->getClassByObject($a_gui_obj), $a_parameter);
     }
@@ -277,7 +277,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function saveParameterByClass(string $a_class, array|string $a_parameter) : void
+    public function saveParameterByClass(string $a_class, $a_parameter) : void
     {
         if (!empty($a_parameter)) {
             if (is_array($a_parameter)) {
@@ -384,7 +384,7 @@ class ilCtrl implements ilCtrlInterface
      * @inheritDoc
      */
     public function getLinkTargetByClass(
-        array|string $a_class,
+        $a_class,
         string $a_cmd = "",
         string $a_anchor = "",
         bool $is_async = false,
@@ -422,7 +422,7 @@ class ilCtrl implements ilCtrlInterface
      * @inheritDoc
      */
     public function getFormActionByClass(
-        array|string $a_class,
+        $a_class,
         string $a_fallback_cmd = "",
         string $a_anchor = "",
         bool $is_async = false,
@@ -459,7 +459,7 @@ class ilCtrl implements ilCtrlInterface
      * @inheritDoc
      */
     public function redirectByClass(
-        array|string $a_class,
+        $a_class,
         string $a_cmd = "",
         string $a_anchor = "",
         bool $is_async = false
@@ -523,7 +523,7 @@ class ilCtrl implements ilCtrlInterface
 
         try {
             $this->http->sendResponse();
-        } catch (ResponseSendingException) {
+        } catch (ResponseSendingException $e) {
             header("Location: $target_url");
             echo json_encode(
                 $response->getBody()->getContents(),
@@ -808,7 +808,7 @@ class ilCtrl implements ilCtrlInterface
      * @throws ilCtrlException
      */
     private function getTargetUrl(
-        array|string $a_class,
+        $a_class,
         string $a_cmd = "",
         string $a_anchor = "",
         bool $is_async = false,
@@ -961,7 +961,7 @@ class ilCtrl implements ilCtrlInterface
      * @param object|string $object
      * @return string
      */
-    private function getClassByObject(object|string $object) : string
+    private function getClassByObject($object) : string
     {
         return (is_object($object)) ? get_class($object) : $object;
     }

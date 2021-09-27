@@ -220,7 +220,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function setParameterByClass(string $class_name, string $parameter_name, mixed $value) : void
+    public function setParameterByClass(string $class_name, string $parameter_name, $value) : void
     {
         if (!preg_match(self::PARAM_NAME_REGEX, $parameter_name)) {
             throw new ilCtrlException("Cannot set parameter '$parameter_name', as it contains invalid characters.");
@@ -229,7 +229,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
         $this->temporary_parameters[$this->lowercase($class_name)][$parameter_name] = $value;
     }
 
-    /**
+    /**ilCtrlTarget
      * @inheritDoc
      */
     public function removeParametersByClass(string $class_name) : void
@@ -271,7 +271,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      * @param string $cid
      * @return array|string|null
      */
-    private function getValueForKeyByCid(string $identifier_key, string $cid) : array|string|null
+    private function getValueForKeyByCid(string $identifier_key, string $cid)
     {
         if (isset(self::$mapped_structure[$cid][$identifier_key])) {
             return self::$mapped_structure[$cid][$identifier_key];
@@ -295,7 +295,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      * @param string $class_name
      * @return array|string|null
      */
-    private function getValueForKeyByName(string $identifier_key, string $class_name) : array|string|null
+    private function getValueForKeyByName(string $identifier_key, string $class_name)
     {
         $class_name = $this->lowercase($class_name);
         if (isset($this->structure[$class_name])) {
