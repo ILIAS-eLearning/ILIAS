@@ -64,12 +64,11 @@ class ilCertificateSettingsLTIConsumerFormRepository implements ilCertificateFor
     }
 
 
-    public function save(array $formFields)
+    public function save(array $formFields) : void
     {
-        return;
     }
 
-    public function fetchFormFieldData(string $content)
+    public function fetchFormFieldData(string $content) : array
     {
         $formFields = $this->settingsFormRepository->fetchFormFieldData($content);
 

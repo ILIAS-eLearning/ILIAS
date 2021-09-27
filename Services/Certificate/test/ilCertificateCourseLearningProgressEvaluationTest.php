@@ -85,7 +85,7 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                 ilLPStatus::LP_STATUS_COMPLETED_NUM,
                 ilLPStatus::LP_STATUS_COMPLETED_NUM,
                 ilLPStatus::LP_STATUS_COMPLETED_NUM,
-                ilLPStatus::LP_STATUS_IN_PROGRESS
+                ilLPStatus::LP_STATUS_IN_PROGRESS_NUM
             );
 
         $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
