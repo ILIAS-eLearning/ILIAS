@@ -1,5 +1,9 @@
 name: Pull Request Stats
-on: pull_request_target
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
 jobs:
   stats:
     runs-on: ubuntu-latest
