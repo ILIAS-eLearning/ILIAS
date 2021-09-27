@@ -345,9 +345,6 @@ class ilAccordionGUI
         include_once("./Services/YUI/classes/class.ilYuiUtil.php");
         ilYuiUtil::initConnection($tpl);
 
-        include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
-        iljQueryUtil::initjQueryUI($tpl);
-
         foreach (self::getLocalJavascriptFiles() as $f) {
             $tpl->addJavaScript($f, true, 3);
         }
