@@ -17,7 +17,7 @@
  ********************************************************************
  */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * TableGUI class for skill profiles
@@ -32,7 +32,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
     protected $ctrl;
     protected ilAccessHandler $access;
     protected ilRbacSystem $rbacsystem;
-    protected ServerRequestInterface $request;
+    protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id;
     protected int $requested_sprof_id;
 
@@ -44,13 +44,12 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        $params = $this->request->getQueryParams();
-        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
-        $this->requested_sprof_id = (int) ($params["sprof_id"] ?? 0);
+        $this->requested_ref_id = $this->admin_gui_request->getRefId();
+        $this->requested_sprof_id = $this->admin_gui_request->getSkillProfileId();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getProfiles());

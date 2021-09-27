@@ -17,8 +17,6 @@
  ********************************************************************
  */
 
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
  * Container skills administration
  *
@@ -42,9 +40,13 @@ class ilContSkillAdminGUI
     protected int $ref_id;
     protected ilSkillTree $skill_tree;
     protected array $params;
-    protected ServerRequestInterface $request;
+    protected ilSkillContainerGUIRequest $container_gui_request;
     protected int $requested_usr_id;
+    protected array $requested_usr_ids;
     protected string $requested_selected_skill;
+    protected array $requested_combined_skill_ids;
+    protected int $requested_selected_profile_id;
+    protected array $requested_profile_ids;
 
     public function __construct(ilContainerGUI $a_container_gui)
     {
@@ -56,7 +58,6 @@ class ilContSkillAdminGUI
         $this->tpl = $DIC["tpl"];
         $this->toolbar = $DIC->toolbar();
         $this->access = $DIC->access();
-        $this->request = $DIC->http()->request();
 
         $this->container_gui = $a_container_gui;
         /* @var $obj ilContainer */
@@ -74,9 +75,12 @@ class ilContSkillAdminGUI
         $this->ctrl->saveParameter($this, "profile_id");
         $this->params = $this->ctrl->getParameterArray($this);
 
-        $query_params = $this->request->getQueryParams();
-        $this->requested_usr_id = (int) ($params["usr_id"] ?? 0);
-        $this->requested_selected_skill = (string) ($params["selected_skill"] ?? "");
+        $this->requested_usr_id = $this->container_gui_request->getUserId();
+        $this->requested_usr_ids = $this->container_gui_request->getUserIds();
+        $this->requested_selected_skill = $this->container_gui_request->getSelectedSkill();
+        $this->requested_combined_skill_ids = $this->container_gui_request->getCombinedSkillIds();
+        $this->requested_selected_profile_id = $this->container_gui_request->getSelectedProfileId();
+        $this->requested_profile_ids = $this->container_gui_request->getProfileIds();
 
         $this->lng->loadLanguageModule("skmg");
         $this->lng->loadLanguageModule("error");
@@ -229,8 +233,8 @@ class ilContSkillAdminGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        $user_ids = $_POST["usr_id"];
-        if (!is_array($_POST["usr_id"]) && $this->requested_usr_id > 0) {
+        $user_ids = $this->requested_usr_ids;
+        if (empty($this->requested_usr_ids) && $this->requested_usr_id > 0) {
             $user_ids[] = $this->requested_usr_id;
         }
 
@@ -263,8 +267,8 @@ class ilContSkillAdminGUI
 
         $tabs->activateSubTab("members");
 
-        $user_ids = $_POST["usr_id"];
-        if (!is_array($_POST["usr_id"]) && $this->requested_usr_id > 0) {
+        $user_ids = $this->requested_usr_ids;
+        if (empty($this->requested_usr_ids) && $this->requested_usr_id > 0) {
             $user_ids[] = $this->requested_usr_id;
         }
 
@@ -292,7 +296,7 @@ class ilContSkillAdminGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        foreach ($_POST["usr_id"] as $user_id) {
+        foreach ($this->requested_usr_ids as $user_id) {
             $mem_skills = new ilContainerMemberSkills($this->container_skills->getId(), $user_id);
             $mem_skills->removeAllSkillLevels();
         }
@@ -369,7 +373,7 @@ class ilContSkillAdminGUI
 
         $tabs->activateSubTab("competences");
 
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_combined_skill_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ctrl->redirect($this, "listCompetences");
         } else {
@@ -379,7 +383,7 @@ class ilContSkillAdminGUI
             $cgui->setCancel($lng->txt("cancel"), "listCompetences");
             $cgui->setConfirm($lng->txt("remove"), "removeSelectedSkill");
 
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_combined_skill_ids as $i) {
                 $s = explode(":", $i);
                 $cgui->addItem("id[]", $i, ilBasicSkill::_lookupTitle((int) $s[0], (int) $s[1]));
             }
@@ -393,8 +397,8 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
         
-        if (is_array($_POST["id"]) && count($_POST["id"]) > 0) {
-            foreach ($_POST["id"] as $id) {
+        if (!empty($this->requested_combined_skill_ids)) {
+            foreach ($this->requested_combined_skill_ids as $id) {
                 $s = explode(":", $id);
                 $this->container_skills->removeSkill($s[0], $s[1]);
                 ilSkillUsage::setUsage($this->container->getId(), (int) $s[0], (int) $s[1], false);
@@ -477,7 +481,7 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
-        $profile_id = (int) $_POST["p_id"];
+        $profile_id = $this->requested_selected_profile_id;
 
         if (!$profile_id > 0) {
             ilUtil::sendInfo($lng->txt("cont_skill_no_profile_selected"), true);
@@ -501,7 +505,7 @@ class ilContSkillAdminGUI
 
         $tabs->activateSubTab("profiles");
 
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_profile_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ctrl->redirect($this, "listProfiles");
         } else {
@@ -511,7 +515,7 @@ class ilContSkillAdminGUI
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("remove"), "removeSelectedGlobalProfiles");
 
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_profile_ids as $i) {
                 if (ilSkillProfile::lookupRefId($i) > 0) {
                     ilUtil::sendInfo($lng->txt("cont_skill_removal_not_possible"), true);
                     $ctrl->redirect($this, "listProfiles");
@@ -528,8 +532,8 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
-        if (is_array($_POST["id"]) && count($_POST["id"]) > 0) {
-            foreach ($_POST["id"] as $id) {
+        if (!empty($this->requested_profile_ids)) {
+            foreach ($this->requested_profile_ids as $id) {
                 $this->container_global_profiles->removeProfile($id);
             }
             $this->container_global_profiles->save();
@@ -590,7 +594,7 @@ class ilContSkillAdminGUI
 
         $tabs->activateSubTab("profiles");
 
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_profile_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ctrl->redirect($this, "listProfiles");
         } else {
@@ -600,7 +604,7 @@ class ilContSkillAdminGUI
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("delete"), "deleteSelectedLocalProfiles");
 
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_profile_ids as $i) {
                 if (!ilSkillProfile::lookupRefId($i) > 0) {
                     ilUtil::sendInfo($lng->txt("cont_skill_deletion_not_possible"), true);
                     $ctrl->redirect($this, "listProfiles");
@@ -617,8 +621,8 @@ class ilContSkillAdminGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
-        if (is_array($_POST["id"]) && count($_POST["id"]) > 0) {
-            foreach ($_POST["id"] as $id) {
+        if (!empty($this->requested_profile_ids)) {
+            foreach ($this->requested_profile_ids as $id) {
                 if (ilSkillProfile::lookupRefId($id) > 0) {
                     $prof = new ilSkillProfile($id);
                     $prof->delete();

@@ -17,6 +17,8 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillPersonalGUIRequest;
+
 /**
  * Filter for personal skills
  *
@@ -26,11 +28,19 @@
 class ilPersonalSkillsFilterGUI
 {
     protected ilLanguage $lng;
+    protected SkillPersonalGUIRequest $personal_gui_request;
+    protected int $requested_formation_type;
+    protected bool $requested_target_level;
+    protected bool $requested_materials_resources;
 
     public function __construct()
     {
         global $DIC;
         $this->lng = $DIC->language();
+        $this->personal_gui_request = $DIC->skills()->internal()->gui()->personal_request();
+        $this->requested_formation_type = $this->personal_gui_request->getTypeOfFormation();
+        $this->requested_target_level = $this->personal_gui_request->getShowTargetLevel();
+        $this->requested_materials_resources = $this->personal_gui_request->getShowMaterialsResources();
     }
 
     public function addToToolbar(ilToolbarGUI $toolbar, bool $a_include_target = true) : void
@@ -101,9 +111,9 @@ class ilPersonalSkillsFilterGUI
         $t = (is_null($to->getDate()))
             ? ""
             : $to->getDate()->get(IL_CAL_DATETIME);
-        ilSession::set("skmg_pf_type_of_formation", ilUtil::stripSlashes($_POST["type_of_formation"]));
-        ilSession::set("skmg_pf_target_level", ilUtil::stripSlashes($_POST["target_level"]));
-        ilSession::set("skmg_pf_mat_res", ilUtil::stripSlashes($_POST["mat_res"]));
+        ilSession::set("skmg_pf_type_of_formation", $this->requested_formation_type);
+        ilSession::set("skmg_pf_target_level", $this->requested_target_level);
+        ilSession::set("skmg_pf_mat_res", $this->requested_materials_resources);
         ilSession::set("skmg_pf_from", $f);
         ilSession::set("skmg_pf_to", $t);
     }
@@ -139,13 +149,13 @@ class ilPersonalSkillsFilterGUI
         return true;
     }
 
-    public function showTargetLevel() : int
+    public function showTargetLevel() : bool
     {
-        return (int) !ilSession::get("skmg_pf_target_level");
+        return !ilSession::get("skmg_pf_target_level");
     }
 
-    public function showMaterialsRessources() : int
+    public function showMaterialsRessources() : bool
     {
-        return (int) !ilSession::get("skmg_pf_mat_res");
+        return !ilSession::get("skmg_pf_mat_res");
     }
 }

@@ -17,7 +17,7 @@
  ********************************************************************
  */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * TableGUI class for
@@ -35,7 +35,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
     protected int $mode;
     protected ilSkillTree $skill_tree;
     protected int $obj_id;
-    protected ServerRequestInterface $request;
+    protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_obj_id;
     protected int $requested_tref_id;
 
@@ -54,7 +54,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -62,9 +62,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->tref_id = $a_tref_id;
         $ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
 
-        $params = $this->request->getQueryParams();
-        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
-        $this->requested_tref_id = (int) ($params["tref_id"] ?? 0);
+        $this->requested_obj_id = $this->admin_gui_request->getObjId();
+        $this->requested_tref_id = $this->admin_gui_request->getTrefId();
         
         $this->mode = $a_mode;
         $this->skill_tree = new ilSkillTree();

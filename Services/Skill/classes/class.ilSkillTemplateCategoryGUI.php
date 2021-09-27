@@ -178,9 +178,9 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $lng = $DIC->language();
         $ilToolbar = $DIC->toolbar();
         $ilUser = $DIC->user();
-        $params = $DIC->http()->request()->getQueryParams();
+        $admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
 
-        $requested_obj_id = (int) ($params["obj_id"] ?? 0);
+        $requested_obj_id = $admin_gui_request->getObjId();
         
         $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "tmpmode", 1);
         
@@ -256,7 +256,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $this->node_object->setTitle($this->form->getInput("title"));
         $this->node_object->setDescription($this->form->getInput("description"));
         $this->node_object->setOrderNr($this->form->getInput("order_nr"));
-        $this->node_object->setSelfEvaluation((bool) $_POST["self_eval"]);
+        $this->node_object->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
         $this->node_object->update();
     }
 

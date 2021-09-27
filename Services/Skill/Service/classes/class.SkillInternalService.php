@@ -19,14 +19,24 @@
 
 namespace ILIAS\Skill\Service;
 
+use ILIAS\HTTP;
+use ILIAS\Refinery;
+
 /**
  * Skill internal service
  * @author famula@leifos.de
  */
 class SkillInternalService
 {
+    protected HTTP\Services $http;
+    protected Refinery\Factory $refinery;
+
     public function __construct()
     {
+        global $DIC;
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     public function repo() : SkillInternalRepoService
@@ -37,5 +47,17 @@ class SkillInternalService
     public function manager() : SkillInternalManagerService
     {
         return new SkillInternalManagerService();
+    }
+
+    public function gui(
+        array $query_params = null,
+        array $post_data = null
+    ) : SkillInternalGUIService {
+        return new SkillInternalGUIService(
+            $this->http,
+            $this->refinery,
+            $query_params = null,
+            $post_data = null
+        );
     }
 }
