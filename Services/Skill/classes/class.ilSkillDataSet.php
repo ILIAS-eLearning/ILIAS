@@ -39,7 +39,6 @@ class ilSkillDataSet extends ilDataSet
     protected int $init_top_order_nr;
     protected int $init_templ_top_order_nr;
 
-    protected int $init_order_nr;
     protected array $selected_nodes = [];
     protected array $selected_profiles = [];
     protected string $mode = "";
