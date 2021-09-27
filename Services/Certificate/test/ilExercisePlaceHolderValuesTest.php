@@ -85,7 +85,6 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $this->assertEquals(
             array(
-                'RESULT_PASSED' => 'Some Formatted Output',
                 'RESULT_MARK' => 'Some Formatted Output',
                 'EXERCISE_TITLE' => 'Some Formatted Output',
                 'DATE_COMPLETED' => '2018-09-10',
