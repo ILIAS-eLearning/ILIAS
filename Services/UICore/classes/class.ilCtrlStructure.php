@@ -159,7 +159,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getCalledClassesByCid(string $cid) : array
     {
-        return $this->getValueForKeyByCid(self::KEY_CALLED_CLASSES, $cid) ?? [];
+        return $this->getValueForKeyByCid(self::KEY_THIS_CALLING_OTHERS, $cid) ?? [];
     }
 
     /**
@@ -167,7 +167,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getCalledClassesByName(string $class_name) : array
     {
-        return $this->getValueForKeyByName(self::KEY_CALLED_CLASSES, $class_name) ?? [];
+        return $this->getValueForKeyByName(self::KEY_THIS_CALLING_OTHERS, $class_name) ?? [];
     }
 
     /**
@@ -175,7 +175,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getCallingClassesByCid(string $cid) : array
     {
-        return $this->getValueForKeyByCid(self::KEY_CALLING_CLASSES, $cid) ?? [];
+        return $this->getValueForKeyByCid(self::KEY_OTHERS_CALLING_THIS, $cid) ?? [];
     }
 
     /**
@@ -183,7 +183,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getCallingClassesByName(string $class_name) : array
     {
-        return $this->getValueForKeyByName(self::KEY_CALLING_CLASSES, $class_name) ?? [];
+        return $this->getValueForKeyByName(self::KEY_OTHERS_CALLING_THIS, $class_name) ?? [];
     }
 
     /**

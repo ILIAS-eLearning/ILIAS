@@ -7,7 +7,7 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI, ilObjectActivationGUI
- * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI
+ * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI, ilObjRootFolderGUI
  */
 class ilCommonActionDispatcherGUI
 {

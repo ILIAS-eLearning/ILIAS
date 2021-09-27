@@ -8,7 +8,7 @@ include_once 'Services/Mail/classes/class.ilMailUserCache.php';
  * BlockGUI class for Personal Desktop Mail block
  * @author			Alex Killing <alex.killing@gmx.de>
  * @version		   $Id$
- * @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
+ * @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI, il
  */
 class ilPDMailBlockGUI extends ilBlockGUI
 {

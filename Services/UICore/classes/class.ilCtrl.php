@@ -38,7 +38,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * Holds an instance of the current link target.
      *
-     * @var ilCtrlTargetInterface
+     * @var ilCtrlTargetInterface|null
      */
     private ilCtrlTargetInterface $target;
 
@@ -178,18 +178,22 @@ class ilCtrl implements ilCtrlInterface
         $post_command = $this->getPostParam(ilCtrlTarget::PARAM_CMD);
         $get_command  = $this->getQueryParam(ilCtrlTarget::PARAM_CMD);
 
-        // if the $_GET command is 'post', the post command
-        // has to be used.
+        // if the $_GET command is 'post', either the $_POST
+        // command or $_GETs fallback command is used.
         $command = (ilCtrlTarget::CMD_POST === $get_command) ?
-            $this->getQueryParam(ilCtrlTarget::PARAM_CMD_FALLBACK) :
+            $post_command ?? $this->getQueryParam(ilCtrlTarget::PARAM_CMD_FALLBACK) :
             $get_command
         ;
 
         // if no command was found, check the current target
         // for one.
-        $command = $command ?? $this->target->getCmd();
+        if (null === $command && null !== $this->target) {
+            $command = $this->target->getCmd();
+        }
 
         if (null !== $command) {
+
+            // @TODO: fix security issue
             return $command;
 
             // if the executing object implements ilCtrl security,
@@ -224,6 +228,10 @@ class ilCtrl implements ilCtrlInterface
      */
     public function setCmd(string $a_cmd) : void
     {
+        if (null === $this->target) {
+            throw new ilCtrlException("REPLACE_THIS_MESSAGE");
+        }
+
         $this->target->setCmd($a_cmd);
     }
 
@@ -232,7 +240,11 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getCmdClass() : ?string
     {
-        return $this->target->getCurrentCmdClass();
+        if (null !== $this->target) {
+            return $this->target->getCurrentCmdClass();
+        }
+
+        return null;
     }
 
     /**
@@ -240,6 +252,10 @@ class ilCtrl implements ilCtrlInterface
      */
     public function setCmdClass($a_cmd_class) : void
     {
+        if (null === $this->target) {
+            throw new ilCtrlException("REPLACE_THIS_MESSAGE");
+        }
+
         $this->target->appendCmdClass($this->getClassByObject($a_cmd_class));
     }
 
@@ -248,6 +264,10 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getNextClass($a_gui_class = null) : ?string
     {
+        if (null === $this->target) {
+            return null;
+        }
+
         if (null === $a_gui_class) {
             return $this->target->getCurrentCmdClass();
         }
@@ -625,6 +645,10 @@ class ilCtrl implements ilCtrlInterface
      */
     public function setTargetScript(string $a_target_script) : void
     {
+        if (null === $this->target) {
+            throw new ilCtrlException("REPLACE_THIS_MESSAGE");
+        }
+
         $this->target->setTargetScript($a_target_script);
     }
 
@@ -641,7 +665,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function setReturn(object $a_gui_obj, string $a_cmd) : void
     {
-        // TODO: Implement setReturn() method.
+//        $this->setReturnByClass($this->getClassByObject($a_gui_obj), $a_cmd);
     }
 
     /**
@@ -649,7 +673,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function setReturnByClass(string $a_class, string $a_cmd) : void
     {
-        // TODO: Implement setReturnByClass() method.
+
     }
 
     /**
@@ -657,7 +681,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function returnToParent(object $a_gui_obj, string $a_anchor = null) : void
     {
-        // TODO: Implement returnToParent() method.
+        throw new ilCtrlException("Not yet implemented");
     }
 
     /**
@@ -665,7 +689,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getParentReturn(object $a_gui_obj)
     {
-        // TODO: Implement getParentReturn() method.
+        throw new ilCtrlException("Not yet implemented");
     }
 
     /**
@@ -673,7 +697,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getParentReturnByClass(string $a_class)
     {
-        // TODO: Implement getParentReturnByClass() method.
+        throw new ilCtrlException("Not yet implemented");
     }
 
     /**
@@ -681,7 +705,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getReturnClass($a_class)
     {
-        // TODO: Implement getReturnClass() method.
+        throw new ilCtrlException("Not yet implemented");
     }
 
     /**
@@ -706,7 +730,7 @@ class ilCtrl implements ilCtrlInterface
     public function checkCurrentPathForClass(string $gui_class) : bool
     {
         $class_cid = $this->structure->getClassCidByName($gui_class);
-        if (null === $class_cid) {
+        if (null === $class_cid || null === $this->target) {
             return false;
         }
 
@@ -721,7 +745,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getCurrentClassPath() : array
     {
-        if (!$this->target->getTrace()->isValid()) {
+        if (null === $this->target || !$this->target->getTrace()->isValid()) {
             return [];
         }
 
@@ -733,6 +757,25 @@ class ilCtrl implements ilCtrlInterface
         return $class_path;
     }
 
+    private function initTarget(string $base_class = null) : void
+    {
+        $base_class = $base_class ?? $this->getBaseClass();
+
+        // abort if the baseclass is not provided or unknown.
+        if (null === $base_class || !$this->structure->isBaseClass($base_class)) {
+            throw new ilCtrlException("ilCtrl was not provided with a known baseclass.");
+        }
+
+        $this->target = new ilCtrlTarget(
+            $this->structure,
+            $base_class
+        );
+
+        $this->target->withInformation([
+            ilCtrlTarget::PARAM_CMD => $this->getQueryParam()
+        ]);
+    }
+
     /**
      * Returns the baseclass of the current ilCtrl instance.
      *
@@ -740,7 +783,6 @@ class ilCtrl implements ilCtrlInterface
      * the baseclass ilCtrl was initialized with.
      *
      * @return string|null
-     * @throws ilCtrlException if the baseclass is unknown.
      */
     private function getBaseClass() : ?string
     {
@@ -748,13 +790,15 @@ class ilCtrl implements ilCtrlInterface
         // therefore only query-params are fetched.
         $base_class = $this->getQueryParam(ilCtrlTarget::PARAM_BASE_CLASS);
 
-        // if a baseclass was retrieved from $_GET ilCtrl is
-        // initialized with it.
-        if (null !== $base_class) {
-            $this->initBaseClass($base_class);
-        }
+        switch (true) {
+            case null !== $base_class:
+                return $base_class;
+            case null !== $this->target:
+                return $this->target->getBaseClass();
 
-        return $this->target->getBaseClass();
+            default:
+                return null;
+        }
     }
 
     /**
@@ -788,7 +832,19 @@ class ilCtrl implements ilCtrlInterface
         if ($this->http->wrapper()->post()->has($parameter_name)) {
             return $this->http->wrapper()->post()->retrieve(
                 $parameter_name,
-                $this->refinery->to()->string()
+                $this->refinery->custom()->transformation(
+                    static function ($value) {
+                        if (!empty($value)) {
+                            if (is_array($value)) {
+                                return array_key_first($value);
+                            }
+
+                            return (string) $value;
+                        }
+
+                        return null;
+                    }
+                )
             );
         }
 
@@ -820,16 +876,16 @@ class ilCtrl implements ilCtrlInterface
         }
 
         $is_class_path = is_array($a_class);
+        $base_class    = ($is_class_path) ? $a_class[0] : $a_class;
 
-        if (null === $this->target) {
-            $base_class = ($is_class_path) ? $a_class[0] : $a_class;
-            $target = new ilCtrlTarget(
-                $this->structure,
-                $base_class
-            );
-        } else {
-            $target = $this->target;
-        }
+        // initialize new target if currently no target
+        // is set or the target class is a known baseclass.
+        $target = (null === $this->target || $this->structure->isBaseClass($base_class)) ?
+            new ilCtrlTarget($this->structure, $base_class) : $this->target
+        ;
+
+        // makes PHPStorm happy, null-pointer never occurs.
+        if (null === $target) { $x = 1; }
 
         if ($is_class_path) {
             $target->appendCmdClassArray($a_class);

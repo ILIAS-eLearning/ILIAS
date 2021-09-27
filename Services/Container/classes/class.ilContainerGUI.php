@@ -1101,7 +1101,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         if ($a_include_view && $this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             if (!$this->isActiveAdministrationPanel()) {
-                $ilTabs->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTarget($this, "view"));
+                $ilTabs->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass(static::class, "view"));
             } else {
                 $ilTabs->addSubTab(
                     "view_content",

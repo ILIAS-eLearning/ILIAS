@@ -1,7 +1,5 @@
 <?php
 
-use ILIAS\HTTP\Wrapper\RequestWrapper;
-
 /**
  * ilCtrlStructureInterface
  *
@@ -12,11 +10,11 @@ interface ilCtrlStructureInterface
     /**
      * array key constants that are used for certain information.
      */
-    public const KEY_CLASS_CID       = 'cid';
-    public const KEY_CLASS_PATH      = 'class_path';
-    public const KEY_CLASS_NAME      = 'class_name';
-    public const KEY_CALLING_CLASSES = 'calling_classes';
-    public const KEY_CALLED_CLASSES  = 'called_classes';
+    public const KEY_CLASS_CID           = 'cid';
+    public const KEY_CLASS_PATH          = 'class_path';
+    public const KEY_CLASS_NAME          = 'class_name';
+    public const KEY_OTHERS_CALLING_THIS = 'others_calling_this';
+    public const KEY_THIS_CALLING_OTHERS = 'this_calling_others';
 
     /**
      * Returns whether the given class is registered as a valid

@@ -13,20 +13,20 @@ interface ilCtrlTargetInterface
     /**
      * $_GET request parameter names, used throughout ilCtrl.
      */
-    public const PARAM_CSRF_TOKEN      = 'csrf_token';
-    public const PARAM_TRACE           = 'trace';
-    public const PARAM_REDIRECT        = 'redirect_source';
-    public const PARAM_BASE_CLASS      = 'base_class';
-    public const PARAM_CMD_CLASS       = 'cmd_class';
-    public const PARAM_CMD_MODE        = 'cmd_mode';
-    public const PARAM_CMD_FALLBACK    = 'cmd_fallback';
+    public const PARAM_CSRF_TOKEN      = 'rtoken';
+    public const PARAM_TRACE           = 'cmdNode';
+    public const PARAM_REDIRECT        = 'redirectSource';
+    public const PARAM_BASE_CLASS      = 'baseClass';
+    public const PARAM_CMD_CLASS       = 'cmdClass';
+    public const PARAM_CMD_MODE        = 'cmdMode';
+    public const PARAM_CMD_FALLBACK    = 'fallbackCmd';
     public const PARAM_CMD             = 'cmd';
 
     /**
      * different modes used for UI plugins (or in dev-mode).
      */
     public const CMD_MODE_PROCESS = 'execComm';
-    public const CMD_MODE_ASYNC   = 'async';
+    public const CMD_MODE_ASYNC   = 'asynch';
     public const CMD_MODE_HTML    = 'getHtml';
 
     /**

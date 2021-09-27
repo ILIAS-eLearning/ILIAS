@@ -219,6 +219,8 @@ final class ilCtrlTrace implements ilCtrlTraceInterface
                 return $this->cid_trace;
         }
 
+
+
         // check every class stored in trace for a relation
         // with the target class.
         foreach ($this->getCidPieces(SORT_DESC) as $index => $current_cid) {
@@ -231,6 +233,8 @@ final class ilCtrlTrace implements ilCtrlTraceInterface
                 return $paths[$index] . self::CID_TRACE_SEPARATOR . $target_cid;
             }
         }
+
+        // TODO: throw exception here because debugging is nightmare.
 
         return null;
     }

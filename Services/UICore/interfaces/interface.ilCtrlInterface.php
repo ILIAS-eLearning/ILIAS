@@ -11,13 +11,6 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
 interface ilCtrlInterface
 {
     /**
-     * different modes used for UI plugins (or in dev-mode).
-     */
-    public const CMD_MODE_PROCESS = 'execComm';
-    public const CMD_MODE_HTML    = 'getHtml';
-    public const CMD_MODE_ASYNC   = 'asynch';
-
-    /**
      * Initializes ilCtrl with a new baseclass.
      *
      * Note that this means, the URL information will be removed
@@ -35,7 +28,7 @@ interface ilCtrlInterface
      * This method cannot be called until either:
      *
      *      a) @see ilCtrlInterface::initBaseClass() is called, or
-     *      b) @see ilCtrlInterface::PARAM_BASE_CLASS is provided as $_GET parameter.
+     *      b) @see ilCtrlTarget::PARAM_BASE_CLASS is provided as $_GET parameter.
      *
      * @throws ilCtrlException if neither of those options are true OR
      *                         the current baseclass was not yet read by
