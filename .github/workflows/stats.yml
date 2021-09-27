@@ -6,3 +6,7 @@ jobs:
     steps:
       - name: Run pull request stats
         uses: flowwer-dev/pull-request-stats@master
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          charts: true
+          sort-by: 'COMMENTS'
