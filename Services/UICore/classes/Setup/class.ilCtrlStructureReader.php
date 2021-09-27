@@ -6,10 +6,8 @@ require_once "./libs/composer/vendor/autoload.php";
 
 /**
  * Class ilCtrlStructureReader is responsible for the ilCtrl structure.
- *
  * This class reads the call structure of all classes into an
  * array and stores it as an artifact.
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
@@ -19,23 +17,23 @@ final class ilCtrlStructureReader
      * regex patterns used to read the call structure.
      * they're also known as horcruxes or dark magic, don't touch them!
      */
-    private const REGEX_ILCTRL_DECLARATION  = '~^.*@{WHICH}\s+([\w\\\\]+)\s*:\s*([\w\\\\]+(\s*,\s*[\w\\\\]+)*)\s*$~mi';
-    private const REGEX_INTERESTING_FILES   = "~^(class\..*\.php)|(ilSCORM13Player\.php)$~i";
-    private const REGEX_GUI_CLASSES         = "~^.*[/\\\\]class\.(.*GUI)\.php$~i";
+    private const REGEX_ILCTRL_DECLARATION = '~^.*@{WHICH}\s+([\w\\\\]+)\s*:\s*([\w\\\\]+(\s*,\s*[\w\\\\]+)*)\s*$~mi';
+    private const REGEX_INTERESTING_FILES = "~^(class\..*\.php)|(ilSCORM13Player\.php)$~i";
+    private const REGEX_GUI_CLASSES = "~^.*[/\\\\]class\.(.*GUI)\.php$~i";
 
     /**
      * Holds whether the reader has been executed or not.
-     *
      * @var bool
      */
     private static bool $executed = false;
 
     /**
      * Holds the temporarily read data.
-     *
      * @var array
      */
-    private array $temp_data = [];
+    private array $raw_structure = [];
+
+    private int $cid_counter = 0;
 
     /**
      * @return bool
@@ -47,7 +45,6 @@ final class ilCtrlStructureReader
 
     /**
      * Returns the read call structure for ilCtrl.
-     *
      * @return array
      */
     public function readStructure() : array
@@ -71,20 +68,30 @@ final class ilCtrlStructureReader
                         if ($php_doc !== false) {
                             $calls = $this->getCalls($content) ?? [];
                             $called = $this->getCalledBys($content) ?? [];
-                            if (count($calls) > 0 || count($called) > 0) {
-                                foreach ($calls as $call) {
-                                    $this->temp_data[$call][] = $class;
-                                }
+                            if (count($calls) === 0 && count($called) === 0) {
+                                continue;
                             }
-                            $classes[strtolower($class)] = [
-                                ilCtrlStructureInterface::KEY_CLASS_CID       => $this->generateCid($x),
-                                ilCtrlStructureInterface::KEY_CALLED_CLASSES  => $calls,
-                                ilCtrlStructureInterface::KEY_CALLING_CLASSES => $called,
-                                ilCtrlStructureInterface::KEY_CLASS_NAME      => $class,
-                                ilCtrlStructureInterface::KEY_CLASS_PATH      => $this->getRelativeClassPath($class_path),
+                            $this->raw_structure[$class] = [
+                                ilCtrlStructureInterface::KEY_THIS_CALLING_OTHERS => $calls,
+                                ilCtrlStructureInterface::KEY_OTHERS_CALLING_THIS => $called,
                             ];
 
-                            $x++;
+                            /*
+
+                                                        if (count($calls) > 0 || count($called) > 0) {
+                                                            foreach ($calls as $call) {
+                                                                $this->temp_data[$call][] = $class;
+                                                            }
+                                                        }
+                                                        $classes[strtolower($class)] = [
+                                                            ilCtrlStructureInterface::KEY_CLASS_CID       => $this->generateCid($x),
+                                                            ilCtrlStructureInterface::KEY_CALLED_CLASSES  => $calls,
+                                                            ilCtrlStructureInterface::KEY_CALLING_CLASSES => $called,
+                                                            ilCtrlStructureInterface::KEY_CLASS_NAME      => $class,
+                                                            ilCtrlStructureInterface::KEY_CLASS_PATH      => $this->getRelativeClassPath($class_path),
+                                                        ];
+
+                                                        $x++;*/
                         }
                     } catch (Throwable $t) {
 
@@ -95,23 +102,50 @@ final class ilCtrlStructureReader
             }
         }
 
-        foreach ($this->temp_data as $class => $called_bys) {
-            foreach ($called_bys as $called_by) {
-                if (!isset($classes[$class])) {
-                    $classes[strtolower($class)] = [
-                        ilCtrlStructureInterface::KEY_CLASS_CID       => $this->generateCid($x),
-                        ilCtrlStructureInterface::KEY_CALLING_CLASSES => [],
-                        ilCtrlStructureInterface::KEY_CALLED_CLASSES  => $class
-                    ];
+        foreach ($this->raw_structure as $classname => $calling_infos) {
+            if (isset($calling_infos[ilCtrlStructureInterface::KEY_THIS_CALLING_OTHERS])) {
+                foreach ($calling_infos[ilCtrlStructureInterface::KEY_THIS_CALLING_OTHERS] as $called_class) {
+                    $this->raw_structure[$called_class][ilCtrlStructureInterface::KEY_OTHERS_CALLING_THIS][] = $classname;
                 }
-
-                $classes[strtolower($class)][ilCtrlStructureInterface::KEY_CALLING_CLASSES][] = strtolower($called_by);
+            }
+            if (isset($calling_infos[ilCtrlStructureInterface::KEY_OTHERS_CALLING_THIS])) {
+                foreach ($calling_infos[ilCtrlStructureInterface::KEY_OTHERS_CALLING_THIS] as $calling_class) {
+                    $this->raw_structure[$calling_class][ilCtrlStructureInterface::KEY_THIS_CALLING_OTHERS][] = $classname;
+                }
             }
         }
+        $final_structure = [];
+
+        foreach ($this->raw_structure as $class_name => $class_entry) {
+            $others_calling_this = $class_entry[ilCtrlStructureInterface::KEY_OTHERS_CALLING_THIS] ?? [];
+            $this_calling_others = $class_entry[ilCtrlStructureInterface::KEY_THIS_CALLING_OTHERS] ?? [];
+            $final_structure[strtolower($class_name)] = [
+                ilCtrlStructureInterface::KEY_CLASS_CID => $this->generateCid(),
+                ilCtrlStructureInterface::KEY_OTHERS_CALLING_THIS => array_map('strtolower', $others_calling_this),
+                ilCtrlStructureInterface::KEY_THIS_CALLING_OTHERS => array_map('strtolower', $this_calling_others),
+                ilCtrlStructureInterface::KEY_CLASS_NAME => $class_name,
+                //                ilCtrlStructureInterface::KEY_CLASS_PATH      => $this->getRelativeClassPath($class_path),
+            ];
+        }
+
+        /*
+                foreach ($this->temp_data as $class => $called_bys) {
+                    foreach ($called_bys as $called_by) {
+                        if (!isset($classes[$class])) {
+                            $classes[strtolower($class)] = [
+                                ilCtrlStructureInterface::KEY_CLASS_CID       => $this->generateCid($x),
+                                ilCtrlStructureInterface::KEY_CALLING_CLASSES => [],
+                                ilCtrlStructureInterface::KEY_CALLED_CLASSES  => $class
+                            ];
+                        }
+
+                        $classes[strtolower($class)][ilCtrlStructureInterface::KEY_CALLING_CLASSES][] = strtolower($called_by);
+                    }
+                }*/
 
         self::$executed = true;
 
-        return $classes;
+        return $final_structure;
     }
 
     /**
@@ -120,7 +154,7 @@ final class ilCtrlStructureReader
      */
     private function getRelativeClassPath(string $absolute_path) : string
     {
-        return  '.' . str_replace($this->getILIASAbsolutePath(), '', $absolute_path);
+        return '.' . str_replace($this->getILIASAbsolutePath(), '', $absolute_path);
     }
 
     /**
@@ -137,12 +171,12 @@ final class ilCtrlStructureReader
     }
 
     /**
-     * @param int $cnt
      * @return string
      */
-    private function generateCid(int $cnt) : string
+    private function generateCid() : string
     {
-        return base_convert((string) $cnt, 10, 36);
+        $this->cid_counter++;
+        return base_convert((string) $this->cid_counter, 10, 36);
     }
 
     /**
@@ -153,7 +187,7 @@ final class ilCtrlStructureReader
     {
         $res = [];
         if (preg_match(self::REGEX_GUI_CLASSES, $path, $res)) {
-            return strtolower($res[1]);
+            return ($res[1]);
         }
         return null;
     }
@@ -206,12 +240,12 @@ final class ilCtrlStructureReader
         $declaration = [];
         foreach ($res[2] as $ls) {
             foreach (explode(",", $ls) as $l) {
-                $declaration[] = strtolower(trim($l));
+                $declaration[] = (trim($l));
             }
         }
         return $declaration;
 
-        return [strtolower(trim($class_names[0])), $declaration];
+        return [(trim($class_names[0])), $declaration];
     }
 
     /**
@@ -222,8 +256,7 @@ final class ilCtrlStructureReader
 
         $ilias_path = (defined("ILIAS_ABSOLUTE_PATH")) ?
             $this->normalizePath(ILIAS_ABSOLUTE_PATH) :
-            dirname(__FILE__, 5)
-        ;
+            dirname(__FILE__, 5);
 
         return rtrim($ilias_path, '/');
     }
