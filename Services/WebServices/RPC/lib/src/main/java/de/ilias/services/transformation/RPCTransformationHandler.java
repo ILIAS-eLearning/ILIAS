@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
 
 public class RPCTransformationHandler {
 
-    protected static Logger logger = LogManager.getLogger(RPCTransformationHandler.class);
+  private static Logger logger = LogManager.getLogger(RPCTransformationHandler.class);
 	
     public RPCTransformationHandler() {
         

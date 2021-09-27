@@ -24,9 +24,6 @@ package de.ilias.services.lucene.index.transform;
 
 import java.util.regex.Pattern;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * 
  *
@@ -34,8 +31,6 @@ import org.apache.logging.log4j.Logger;
  * @version $Id$
  */
 public class WhitespaceSanitizer implements ContentTransformer {
-
-	protected Logger logger = LogManager.getLogger(WhitespaceSanitizer.class);
 	
 	/**
 	 * @see de.ilias.services.lucene.index.transform.ContentTransformer#transform(java.lang.String)

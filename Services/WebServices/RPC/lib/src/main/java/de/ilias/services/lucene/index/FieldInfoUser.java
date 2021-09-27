@@ -34,9 +34,7 @@ import org.apache.logging.log4j.Logger;
  * @version $Id$
  */
 public class FieldInfoUser  {
-	
-	protected static Logger logger = LogManager.getLogger(FieldInfoUser.class);
-	
+
 	private static HashMap<String, FieldInfoUser> instances = new HashMap<String, FieldInfoUser>();
 	private Vector<String> fields = new Vector<String>();
 	

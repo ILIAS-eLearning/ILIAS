@@ -43,7 +43,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class RPCAdministration {
 
-	private Logger logger = LogManager.getLogger(this.getClass().getName());
+	private static Logger logger = LogManager.getLogger(RPCAdministration.class);
 
 	
 	/**

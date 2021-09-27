@@ -18,7 +18,7 @@ import org.apache.lucene.store.NIOFSDirectory;
  */
 public class IndexDirectoryFactory {
 	
-	protected static Logger logger = LogManager.getLogger(IndexDirectoryFactory.class);
+  private static Logger logger = LogManager.getLogger(IndexDirectoryFactory.class);
 	
 	
 	/**

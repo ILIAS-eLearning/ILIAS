@@ -38,7 +38,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
  */
 public class PDFBoxPDFHandler implements FileHandler {
 
-	protected Logger logger = LogManager.getLogger(PDFBoxPDFHandler.class);
+  private Logger logger = LogManager.getLogger(PDFBoxPDFHandler.class);
 	
 	
 	/**

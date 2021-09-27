@@ -45,7 +45,7 @@ import org.ini4j.IniPreferences;
  */
 public class IniFileParser {
 
-	Logger logger = LogManager.getLogger(IniFileParser.class);
+	private static Logger logger = LogManager.getLogger(IniFileParser.class);
 	
 	/**
 	 * 

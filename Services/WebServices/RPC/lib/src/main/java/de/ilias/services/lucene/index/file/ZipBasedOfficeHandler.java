@@ -46,7 +46,7 @@ import org.jdom.xpath.XPath;
  */
 public abstract class ZipBasedOfficeHandler {
 
-	protected static Logger logger = LogManager.getLogger(ZipBasedOfficeHandler.class); 
+  private static Logger logger = LogManager.getLogger(ZipBasedOfficeHandler.class);
 	protected static final int BUFFER = 2048;
 	
 	/**

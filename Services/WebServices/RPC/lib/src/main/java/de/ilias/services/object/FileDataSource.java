@@ -26,6 +26,9 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandlerException;
 import de.ilias.services.lucene.index.file.ExtensionFileHandler;
@@ -42,6 +45,8 @@ import de.ilias.services.lucene.index.file.path.PathCreatorException;
  * @version $Id$
  */
 public class FileDataSource extends DataSource {
+
+  private static Logger logger = LogManager.getLogger(FileDataSource.class);
 
 	private PathCreator pathCreator = null;
 	

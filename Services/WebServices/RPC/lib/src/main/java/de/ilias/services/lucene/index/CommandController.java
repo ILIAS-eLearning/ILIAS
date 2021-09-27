@@ -51,7 +51,7 @@ public class CommandController {
 	
 	private static final int MAX_ELEMENTS = 100;
 
-	protected static Logger logger = LogManager.getLogger(CommandController.class);
+	private static Logger logger = LogManager.getLogger(CommandController.class);
 	
 	private CommandQueue queue;
 	private ObjectDefinitions objDefinitions;

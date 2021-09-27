@@ -42,7 +42,7 @@ import de.ilias.services.settings.ConfigurationException;
  */
 public class SearchResultWriter {
 
-	protected Logger logger = LogManager.getLogger(SearchResultWriter.class);
+  private Logger logger = LogManager.getLogger(SearchResultWriter.class);
 	
 	private IndexSearcher searcher = null;
 	private ScoreDoc[] hits = null;

@@ -22,8 +22,6 @@
 
 package de.ilias.services.lucene.search;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jdom.Element;
 
 /**
@@ -34,8 +32,6 @@ import org.jdom.Element;
  */
 public class SearchObject implements ResultExport {
 
-	protected static Logger logger = LogManager.getLogger(SearchObject.class);
-	
 	private double absoluteScore = 0;
 	private String relativeScore = "100%";
 	private int id;

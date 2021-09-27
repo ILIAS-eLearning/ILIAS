@@ -38,7 +38,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class ClientSettings {
 
-	protected static Logger logger = LogManager.getLogger(ClientSettings.class);
+  private static Logger logger = LogManager.getLogger(ClientSettings.class);
 	private static HashMap<String, ClientSettings> instances = new HashMap<String, ClientSettings>();
 	
 

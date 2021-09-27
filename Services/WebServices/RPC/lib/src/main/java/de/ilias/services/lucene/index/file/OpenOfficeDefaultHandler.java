@@ -25,6 +25,9 @@ package de.ilias.services.lucene.index.file;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 /**
  * 
  *
@@ -32,6 +35,8 @@ import java.io.InputStream;
  * @version $Id$
  */
 public class OpenOfficeDefaultHandler extends ZipBasedOfficeHandler  implements FileHandler {
+
+  private static Logger logger = LogManager.getLogger(OpenOfficeDefaultHandler.class); 
 
 	/**
 	 * @see de.ilias.services.lucene.index.file.FileHandler#getContent(java.io.InputStream)

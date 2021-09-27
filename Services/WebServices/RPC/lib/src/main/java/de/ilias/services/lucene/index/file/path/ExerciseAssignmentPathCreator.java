@@ -22,7 +22,7 @@ import de.ilias.services.settings.LocalSettings;
 
 public class ExerciseAssignmentPathCreator implements PathCreator {
 
-	protected Logger logger = LogManager.getLogger(ExerciseAssignmentPathCreator.class);
+  private Logger logger = LogManager.getLogger(ExerciseAssignmentPathCreator.class);
 	
 	
 	public File buildFile(CommandQueueElement el, ResultSet res)

@@ -33,7 +33,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class DataSourceFactory {
 	
-	protected static Logger logger = LogManager.getLogger(DataSourceFactory.class);
+  private static Logger logger = LogManager.getLogger(DataSourceFactory.class);
 	
 	public static DataSource factory(int type) throws ObjectDefinitionException {
 		

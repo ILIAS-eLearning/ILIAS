@@ -60,7 +60,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class ObjectDefinitionParser {
 
-	protected Logger logger = LogManager.getLogger(ObjectDefinitionParser.class);
+  private Logger logger = LogManager.getLogger(ObjectDefinitionParser.class);
 	private Vector<File> objectPropertyFiles = new Vector<File>();
 	private ClientSettings settings;
 	private ObjectDefinitions definitions;

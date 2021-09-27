@@ -22,9 +22,6 @@
 
 package de.ilias.services.object;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * 
  *
@@ -33,8 +30,6 @@ import org.apache.logging.log4j.Logger;
  */
 public class TransformerDefinition {
 
-	protected static Logger logger = LogManager.getLogger(TransformerDefinition.class);
-	
 	private String name;
 	
 	/**

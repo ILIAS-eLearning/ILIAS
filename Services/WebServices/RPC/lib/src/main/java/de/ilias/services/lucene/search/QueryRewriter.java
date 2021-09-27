@@ -43,7 +43,7 @@ public class QueryRewriter {
 
 	public static final int MODE_USER_HIGHLIGHT = 4;
 			
-	protected static Logger logger = LogManager.getLogger(QueryRewriter.class);
+	private static Logger logger = LogManager.getLogger(QueryRewriter.class);
 	
 	private String query;
 	private StringBuffer rewritten;

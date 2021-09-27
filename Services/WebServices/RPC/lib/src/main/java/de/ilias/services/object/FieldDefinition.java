@@ -42,7 +42,7 @@ import de.ilias.services.lucene.index.transform.TransformerFactory;
  */
 public class FieldDefinition {
 	
-	protected static Logger logger = LogManager.getLogger(FieldDefinition.class);
+  private static Logger logger = LogManager.getLogger(FieldDefinition.class);
 
 	/**
 	 * Possible index types

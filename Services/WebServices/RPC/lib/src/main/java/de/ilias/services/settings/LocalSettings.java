@@ -22,9 +22,6 @@
 
 package de.ilias.services.settings;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * Class that stores thread local settings
  * E.g the clientKey
@@ -34,7 +31,6 @@ import org.apache.logging.log4j.Logger;
  */
 public class LocalSettings {
 
-	protected static Logger logger = LogManager.getLogger(LocalSettings.class);
 
 	private static ThreadLocal<String> clientKey = new ThreadLocal<String>() {
 		public String initialValue() {

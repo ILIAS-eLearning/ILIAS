@@ -27,6 +27,9 @@ import java.io.FileFilter;
 import java.sql.ResultSet;
 import java.util.Vector;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandlerException;
 import de.ilias.services.lucene.index.file.ExtensionFileHandler;
@@ -40,6 +43,8 @@ import de.ilias.services.lucene.index.file.path.PathCreatorException;
  * @version $Id$
  */
 public class DirectoryDataSource extends FileDataSource {
+
+  private static Logger logger = LogManager.getLogger(DirectoryDataSource.class);
 
 	/**
 	 * @param type

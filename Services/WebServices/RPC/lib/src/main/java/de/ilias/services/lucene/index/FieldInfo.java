@@ -25,9 +25,6 @@ package de.ilias.services.lucene.index;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.ilias.services.settings.LocalSettings;
 
 /**
@@ -37,9 +34,7 @@ import de.ilias.services.settings.LocalSettings;
  * @version $Id$
  */
 public class FieldInfo {
-	
-	protected static Logger logger = LogManager.getLogger(FieldInfo.class);
-	
+
 	private static HashMap<String, FieldInfo> instances = new HashMap<String, FieldInfo>();
 	private Vector<String> fields = new Vector<String>();
 	

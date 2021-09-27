@@ -22,9 +22,6 @@
 
 package de.ilias.services.lucene.index;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * Represents a single entry from table search_command_queue
  * Read only: Updates should be handled in class CommandQueue
@@ -40,9 +37,6 @@ public class CommandQueueElement {
 	public static final String CREATE = "create";
 	public static final String DELETE = "delete";
 
-	
-	protected static Logger logger = LogManager.getLogger(CommandQueueElement.class);
-	
 	private int objId;
 	private String objType;
 	private int subId;

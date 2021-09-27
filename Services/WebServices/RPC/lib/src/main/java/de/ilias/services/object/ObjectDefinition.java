@@ -45,7 +45,7 @@ public class ObjectDefinition implements DocumentHandler {
 	public static final String TYPE_FULL = "full";
 	public static final String TYPE_INCREMENTAL = "incremental";
 
-	protected Logger logger = LogManager.getLogger(ObjectDefinition.class);
+	private Logger logger = LogManager.getLogger(ObjectDefinition.class);
 	
 	private String type;
 	private String indexType = "full";

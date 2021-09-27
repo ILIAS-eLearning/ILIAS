@@ -63,7 +63,7 @@ public class HitHighlighter {
 	private static String HIGHLIGHT_BEGIN_TAG = "<span class=\"ilSearchHighlight\">";
 	private static String HIGHLIGHT_END_TAG = "</span>";
 	
-	protected static Logger logger = LogManager.getLogger(HitHighlighter.class);
+	private static Logger logger = LogManager.getLogger(HitHighlighter.class);
 	
 	private IndexSearcher searcher;
 	private Query query;

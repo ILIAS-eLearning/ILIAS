@@ -28,6 +28,7 @@ import java.net.URL;
 import java.util.Collections;
 
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -54,7 +55,7 @@ public class ilServer {
 	private String[] arguments;
 	private String command;
 	
-	private static final org.apache.logging.log4j.Logger logger = LogManager.getLogger(ilServer.class);
+	private static final Logger logger = LogManager.getLogger(ilServer.class);
 	
 	/**
 	 * @param args

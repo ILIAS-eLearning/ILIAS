@@ -51,7 +51,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class CommandQueue {
 
-	protected Logger logger = LogManager.getLogger(CommandQueue.class);
+  private Logger logger = LogManager.getLogger(CommandQueue.class);
 	
 	private Connection db;
 	private Vector<CommandQueueElement> elements;

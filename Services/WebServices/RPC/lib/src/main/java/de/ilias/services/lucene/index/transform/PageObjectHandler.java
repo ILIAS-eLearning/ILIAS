@@ -36,7 +36,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class PageObjectHandler extends DefaultHandler {
 
-	protected Logger logger = LogManager.getLogger(PageObjectHandler.class);
+  private Logger logger = LogManager.getLogger(PageObjectHandler.class);
 	
 	private StringBuffer buffer = new StringBuffer();
 	private boolean isContent = false;

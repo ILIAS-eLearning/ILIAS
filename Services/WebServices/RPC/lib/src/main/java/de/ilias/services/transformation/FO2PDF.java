@@ -54,7 +54,7 @@ public class FO2PDF {
     
     private static FO2PDF instance = null;
 	
-	private Logger logger = LogManager.getLogger(this.getClass().getName());
+	private static Logger logger = LogManager.getLogger(FO2PDF.class);
     private String foString = null;
     private byte[] pdfByteArray = null;
 	private FopFactory fopFactory = null;

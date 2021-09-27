@@ -24,9 +24,6 @@ package de.ilias.services.lucene.index.file.path;
 
 import java.util.Vector;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * 
  *
@@ -35,11 +32,8 @@ import org.apache.logging.log4j.Logger;
  */
 public class PathUtils {
 	
-	protected static final int FACTOR = 100;
-	protected static final int MAX_EXPONENT = 3;
-	
-	protected static Logger logger = LogManager.getLogger(PathUtils.class);
-	
+	private static final int FACTOR = 100;
+	private static final int MAX_EXPONENT = 3;
 	
 	/**
 	 * 

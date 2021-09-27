@@ -43,7 +43,7 @@ import de.ilias.services.settings.ServerSettings;
  */
 public class RPCIndexHandler {
 
-	protected static Logger logger = LogManager.getLogger(RPCIndexHandler.class);
+  private static Logger logger = LogManager.getLogger(RPCIndexHandler.class);
 	
 	
 	

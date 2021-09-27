@@ -35,7 +35,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class LinefeedSanitizer implements ContentTransformer {
 
-	protected Logger logger = LogManager.getLogger(LinefeedSanitizer.class);
+  private Logger logger = LogManager.getLogger(LinefeedSanitizer.class);
 	
 	/**
 	 * @see de.ilias.services.lucene.index.transform.ContentTransformer#transform(java.lang.String)

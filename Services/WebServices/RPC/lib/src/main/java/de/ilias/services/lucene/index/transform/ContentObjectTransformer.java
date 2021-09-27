@@ -43,7 +43,7 @@ import org.xml.sax.XMLReader;
  */
 public class ContentObjectTransformer implements ContentTransformer {
 
-	protected Logger logger = LogManager.getLogger(ContentObjectTransformer.class);
+  private Logger logger = LogManager.getLogger(ContentObjectTransformer.class);
 	
 	
 

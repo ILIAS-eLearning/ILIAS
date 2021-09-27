@@ -26,9 +26,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Vector;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /**
  * 
  *
@@ -37,7 +34,6 @@ import org.apache.logging.log4j.Logger;
  */
 public class ObjectDefinitions {
 
-	protected static Logger logger = LogManager.getLogger(ObjectDefinitions.class);
 	private static HashMap<File, ObjectDefinitions> instances = new HashMap<File, ObjectDefinitions>();
 	
 	private File absolutePath;

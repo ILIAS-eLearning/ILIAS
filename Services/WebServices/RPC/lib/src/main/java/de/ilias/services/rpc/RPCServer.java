@@ -45,7 +45,7 @@ import de.ilias.services.settings.ConfigurationException;
 public class RPCServer {
 	
 	private static RPCServer instance = null;
-	private Logger logger = LogManager.getLogger(this.getClass().getName());
+	private static Logger logger = LogManager.getLogger(RPCServer.class);
 
 	private WebServer server;
 	private InetAddress host = null;

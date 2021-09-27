@@ -44,7 +44,7 @@ import org.apache.poi.extractor.POITextExtractor;
  */
 public class ExtensionFileHandler {
 
-    protected static Logger logger = LogManager.getLogger(ExtensionFileHandler.class);
+  private static Logger logger = LogManager.getLogger(ExtensionFileHandler.class);
     private ServerSettings serverSettings;
 
     

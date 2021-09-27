@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class MimeTypeExtractor implements ContentTransformer {
 
-	protected static Logger logger = LogManager.getLogger(MimeTypeExtractor.class);
+  private static Logger logger = LogManager.getLogger(MimeTypeExtractor.class);
 
 	private static final String MIME_DEFAULT = "other";
 	private static final String MIME_DOC = "word";

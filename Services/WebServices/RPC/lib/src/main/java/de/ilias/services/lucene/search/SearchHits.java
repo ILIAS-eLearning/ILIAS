@@ -24,8 +24,6 @@ package de.ilias.services.lucene.search;
 
 import java.util.Vector;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.jdom.Element;
 
 
@@ -37,8 +35,6 @@ import org.jdom.Element;
  */
 public class SearchHits implements ResultExport {
 
-	protected static Logger logger = LogManager.getLogger(SearchHits.class);
-	
 	private int totalHits = 0;
 	private int limit = 0;
 	private double maxScore = 0.0;

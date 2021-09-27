@@ -36,7 +36,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class CommandControllerThread extends Thread {
 
-	protected Logger logger = LogManager.getLogger(CommandControllerThread.class);
+  private Logger logger = LogManager.getLogger(CommandControllerThread.class);
 	protected String clientKey = null;
 	
 	protected CommandController controller = null;

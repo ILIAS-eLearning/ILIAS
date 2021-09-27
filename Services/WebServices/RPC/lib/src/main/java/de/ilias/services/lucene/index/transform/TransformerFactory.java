@@ -24,8 +24,6 @@ package de.ilias.services.lucene.index.transform;
 
 import java.util.HashMap;
 
-import javax.xml.transform.Transformer;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,7 +35,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class TransformerFactory {
 
-	protected static Logger logger = LogManager.getLogger(Transformer.class);
+	private static Logger logger = LogManager.getLogger(TransformerFactory.class);
 	
 	private static HashMap<String, ContentTransformer> map = new HashMap<String, ContentTransformer>();
 	

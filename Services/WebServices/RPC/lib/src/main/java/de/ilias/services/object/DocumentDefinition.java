@@ -43,7 +43,7 @@ import de.ilias.services.lucene.index.IndexHolder;
  */
 public class DocumentDefinition implements DocumentHandler {
 
-	protected Logger logger = LogManager.getLogger(DocumentDefinition.class);
+  private Logger logger = LogManager.getLogger(DocumentDefinition.class);
 
 	private String type;
 	private Vector<DataSource> dataSource = new Vector<DataSource>();

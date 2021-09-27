@@ -28,6 +28,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandler;
@@ -42,6 +45,8 @@ import de.ilias.services.lucene.index.IndexHolder;
  * @version $Id$
  */
 public class JDBCDataSource extends DataSource {
+
+  private static Logger logger = LogManager.getLogger(JDBCDataSource.class);
 
 	String query;
 	Vector<ParameterDefinition> parameters = new Vector<ParameterDefinition>();

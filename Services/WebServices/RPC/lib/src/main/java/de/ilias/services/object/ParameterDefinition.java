@@ -46,7 +46,7 @@ public class ParameterDefinition {
 	public static final int TYPE_INT = 1;
 	public static final int TYPE_STRING = 2;
 
-	protected Logger logger = LogManager.getLogger(ParameterDefinition.class);
+	private Logger logger = LogManager.getLogger(ParameterDefinition.class);
 	
 	private int format;
 	private int type;

@@ -46,7 +46,7 @@ public class LuceneSettings {
 	public static final int OPERATOR_AND = 1;
 	public static final int OPERATOR_OR = 2;
 	
-	protected static Logger logger = LogManager.getLogger(LuceneSettings.class);
+	private static Logger logger = LogManager.getLogger(LuceneSettings.class);
 	private static HashMap<String, LuceneSettings> instances = new HashMap<String, LuceneSettings>();
 	
 	
