@@ -85,12 +85,4 @@ public class PDFBoxPDFHandler implements FileHandler {
 		return str;
 	}
 
-	/**
-	 * @see de.ilias.services.lucene.index.file.FileHandler#transformStream(java.io.InputStream)
-	 */
-	public InputStream transformStream(InputStream is) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

@@ -68,11 +68,4 @@ public class RTFHandler implements FileHandler {
 		return bodyText;
 	}
 
-	/**
-	 * @see de.ilias.services.lucene.index.file.FileHandler#transformStream(java.io.InputStream)
-	 */
-	public InputStream transformStream(InputStream is) {
-		return null;
-	}
-
 }

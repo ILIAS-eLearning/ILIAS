@@ -84,14 +84,6 @@ public class JTidyHTMLHandler implements FileHandler {
 
 	}
 
-	/**
-	 * @see de.ilias.services.lucene.index.file.FileHandler#transformStream(java.io.InputStream)
-	 */
-	public InputStream transformStream(InputStream is) {
-
-		return null;
-	}
-
 	private String getTitle(Element rawDoc) {
 		if (rawDoc == null) {
 			return null;

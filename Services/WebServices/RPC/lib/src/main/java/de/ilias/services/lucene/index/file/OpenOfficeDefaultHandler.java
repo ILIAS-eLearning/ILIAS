@@ -61,13 +61,6 @@ public class OpenOfficeDefaultHandler extends ZipBasedOfficeHandler  implements 
 	}
 
 	/**
-	 * @see de.ilias.services.lucene.index.file.FileHandler#transformStream(java.io.InputStream)
-	 */
-	public InputStream transformStream(InputStream is) {
-		return null;
-	}
-
-	/**
 	 * @see de.ilias.services.lucene.index.file.ZipBasedOfficeHandler#getContentFileName()
 	 */
 	protected String getContentFileName() {

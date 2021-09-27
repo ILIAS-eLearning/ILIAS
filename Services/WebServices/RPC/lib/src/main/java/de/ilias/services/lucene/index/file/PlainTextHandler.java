@@ -49,7 +49,6 @@ public class PlainTextHandler implements FileHandler {
 		StringBuilder content = new StringBuilder();
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-        is = transformStream(is);
         try {
             String line = null;
 			while((line = br.readLine()) != null) {
@@ -72,11 +71,4 @@ public class PlainTextHandler implements FileHandler {
         }
 	}
 
-	/**
-	 * @see de.ilias.services.lucene.index.file.FileHandler#transformStream(java.io.InputStream)
-	 */
-	public InputStream transformStream(InputStream is) {
-
-		return is;
-	}
 }

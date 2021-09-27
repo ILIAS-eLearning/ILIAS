@@ -41,11 +41,5 @@ public interface FileHandler {
 	 * @throws IOException 
 	 */
 	public String getContent(InputStream is) throws FileHandlerException, IOException;
-	
-	/**
-	 * 
-	 * @param is
-	 * @return
-	 */
-	public InputStream transformStream(InputStream is);
+
 }
