@@ -199,7 +199,7 @@ class ilCertificateCron extends ilCronJob
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilInvalidCertificateException
-     * @throws ilObjectNotFoundException
+     * @throws ilObjectNotFoundException|JsonException
      */
     public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations) : array
     {

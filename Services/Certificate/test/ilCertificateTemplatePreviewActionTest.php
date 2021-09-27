@@ -6,7 +6,7 @@
  */
 class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
-    public function testA()
+    public function testA() : void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 

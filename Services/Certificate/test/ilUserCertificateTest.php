@@ -6,7 +6,7 @@
  */
 class ilUserCertificateTest extends ilCertificateBaseTestCase
 {
-    public function testCreateUserCertificate()
+    public function testCreateUserCertificate() : void
     {
         $userCertificate = new ilUserCertificate(
             1,

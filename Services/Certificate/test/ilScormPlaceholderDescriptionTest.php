@@ -5,7 +5,7 @@
  */
 class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
-    public function testPlaceholderGetHtmlDescription()
+    public function testPlaceholderGetHtmlDescription() : void
     {
         $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
@@ -62,7 +62,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $this->assertEquals('', $html);
     }
 
-    public function testPlaceholderDescriptions()
+    public function testPlaceholderDescriptions() : void
     {
         $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()

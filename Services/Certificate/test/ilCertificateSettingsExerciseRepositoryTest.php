@@ -6,7 +6,7 @@
  */
 class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testCreate()
+    public function testCreate() : void
     {
         $formMock = $this->getMockBuilder(ilPropertyFormGUI::class)
             ->disableOriginalConstructor()
@@ -69,7 +69,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
     /**
      * @doesNotPerformAssertions
      */
-    public function testSave()
+    public function testSave() : void
     {
         $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
@@ -118,7 +118,7 @@ class ilCertificateSettingsExerciseRepositoryTest extends ilCertificateBaseTestC
         $repository->save(array(1, 2, 3));
     }
 
-    public function testFormFieldData()
+    public function testFormFieldData() : void
     {
         $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()

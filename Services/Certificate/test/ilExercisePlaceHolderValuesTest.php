@@ -6,7 +6,7 @@
  */
 class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
 {
-    public function testGetPlaceholderValues()
+    public function testGetPlaceholderValues() : void
     {
         $defaultPlaceholders = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()
@@ -54,7 +54,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
         $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
-        $utilHelper->expects($this->exactly(3))
+        $utilHelper->expects($this->exactly(2))
             ->method('prepareFormOutput')
             ->willReturn('Some Formatted Output');
 
@@ -85,7 +85,6 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
 
         $this->assertEquals(
             array(
-                'RESULT_PASSED' => 'Some Formatted Output',
                 'RESULT_MARK' => 'Some Formatted Output',
                 'EXERCISE_TITLE' => 'Some Formatted Output',
                 'DATE_COMPLETED' => '2018-09-10',
@@ -95,7 +94,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testGetPlaceholderValuesForPreview()
+    public function testGetPlaceholderValuesForPreview() : void
     {
         $defaultPlaceholders = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()

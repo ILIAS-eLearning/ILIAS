@@ -6,7 +6,7 @@
  */
 class ilCertificateScormTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
-    public function testDeleteScormTemplateAndSettings()
+    public function testDeleteScormTemplateAndSettings() : void
     {
         $deleteMock = $this->getMockBuilder(ilCertificateTemplateDeleteAction::class)
             ->disableOriginalConstructor()

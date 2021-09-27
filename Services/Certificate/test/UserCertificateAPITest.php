@@ -8,7 +8,7 @@ use Certificate\API\Repository\UserDataRepository;
  */
 class UserCertificateAPITest extends ilCertificateBaseTestCase
 {
-    public function testUserDataCall()
+    public function testUserDataCall() : void
     {
         $repository = $this->getMockBuilder(UserDataRepository::class)
             ->disableOriginalConstructor()

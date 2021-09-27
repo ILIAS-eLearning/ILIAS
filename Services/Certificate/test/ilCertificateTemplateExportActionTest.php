@@ -6,7 +6,7 @@
  */
 class ilCertificateTemplateExportActionTest extends ilCertificateBaseTestCase
 {
-    public function testExport()
+    public function testExport() : void
     {
         $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 

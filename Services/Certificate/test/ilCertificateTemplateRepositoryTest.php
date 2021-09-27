@@ -6,7 +6,7 @@
  */
 class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testCertificateWillBeSavedToTheDatabase()
+    public function testCertificateWillBeSavedToTheDatabase() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -65,7 +65,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $repository->save($template);
     }
 
-    public function testFetchCertificateTemplatesByObjId()
+    public function testFetchCertificateTemplatesByObjId() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -119,7 +119,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertEquals(30, $templates[1]->getId());
     }
 
-    public function testFetchCurrentlyActiveCertificate()
+    public function testFetchCurrentlyActiveCertificate() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -172,7 +172,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertEquals(1, $template->getId());
     }
 
-    public function testFetchPreviousCertificate()
+    public function testFetchPreviousCertificate() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
@@ -230,7 +230,7 @@ class ilCertificateTemplateRepositoryTest extends ilCertificateBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testDeleteTemplateFromDatabase()
+    public function testDeleteTemplateFromDatabase() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -259,7 +259,7 @@ AND obj_id = 200');
         $repository->deleteTemplate(10, 200);
     }
 
-    public function testActivatePreviousCertificate()
+    public function testActivatePreviousCertificate() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -323,7 +323,7 @@ WHERE id = 30')
         $this->assertEquals(30, $template->getId());
     }
 
-    public function testFetchAllObjectIdsByType()
+    public function testFetchAllObjectIdsByType() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
@@ -377,7 +377,7 @@ WHERE id = 30')
     /**
      *
      */
-    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved()
+    public function testFetchFirstCreatedTemplateFailsBecauseNothingWasSaved() : void
     {
         $this->expectException(\ilException::class);
 
@@ -408,7 +408,7 @@ WHERE id = 30')
         $this->fail();
     }
 
-    public function fetchFirstCreateTemplate()
+    public function fetchFirstCreateTemplate() : void
     {
         $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 

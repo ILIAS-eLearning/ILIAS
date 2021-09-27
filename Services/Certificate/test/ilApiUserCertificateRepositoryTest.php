@@ -1,23 +1,25 @@
 <?php
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use PHPUnit\Framework\MockObject\MockObject;
+
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
     private $database;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
     private $logger;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
     private $controller;
 
@@ -36,7 +38,7 @@ class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
                          ->getMock();
     }
 
-    public function testGetUserData()
+    public function testGetUserData() : void
     {
         $filter = new \Certificate\API\Filter\UserDataFilter(
             array(1, 2, 3),

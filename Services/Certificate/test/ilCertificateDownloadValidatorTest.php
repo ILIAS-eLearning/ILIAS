@@ -6,7 +6,7 @@
  */
 class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 {
-    public function testValidationSucceedsAndReturnsTrue()
+    public function testValidationSucceedsAndReturnsTrue() : void
     {
         $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
@@ -31,7 +31,7 @@ class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testValidationReturnedFalseBecauseCertificateAreNotGloballyActivated()
+    public function testValidationReturnedFalseBecauseCertificateAreNotGloballyActivated() : void
     {
         $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
@@ -58,7 +58,7 @@ class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
         $this->assertFalse($result);
     }
 
-    public function testValidationReturnedFalseBecauseJavaServerIsNotActive()
+    public function testValidationReturnedFalseBecauseJavaServerIsNotActive() : void
     {
         $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()

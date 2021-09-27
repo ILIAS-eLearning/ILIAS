@@ -6,7 +6,7 @@
  */
 class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
 {
-    public function testCertificateCanBeImportedWithBackgroundImage()
+    public function testCertificateCanBeImportedWithBackgroundImage() : void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->getMock();
@@ -86,7 +86,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
         $this->assertEquals(true, $result);
     }
 
-    public function testCertificateCanBeImportedWithoutBackgroundImage()
+    public function testCertificateCanBeImportedWithoutBackgroundImage() : void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->getMock();
@@ -158,7 +158,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
         $this->assertEquals(true, $result);
     }
 
-    public function testNoXmlFileInUplodadZipFolder()
+    public function testNoXmlFileInUplodadZipFolder() : void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->getMock();
@@ -222,7 +222,7 @@ class ilCertificateTemplateImportActionTest extends ilCertificateBaseTestCase
         $this->assertEquals(false, $result);
     }
 
-    public function testZipfileCouldNoBeMoved()
+    public function testZipfileCouldNoBeMoved() : void
     {
         $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()

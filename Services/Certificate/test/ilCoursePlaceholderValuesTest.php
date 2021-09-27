@@ -6,7 +6,7 @@
  */
 class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
 {
-    public function testGetPlaceholderValues()
+    public function testGetPlaceholderValues() : void
     {
         $customUserFieldsPlaceholderValues = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderValues::class)
             ->disableOriginalConstructor()
@@ -85,7 +85,7 @@ class ilCoursePlaceholderValuesTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testGetPreviewPlaceholderValues()
+    public function testGetPreviewPlaceholderValues() : void
     {
         $customUserFieldsPlaceholderValues = $this->getMockBuilder(ilObjectCustomUserFieldsPlaceholderValues::class)
               ->disableOriginalConstructor()

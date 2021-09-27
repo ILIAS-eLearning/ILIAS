@@ -6,7 +6,7 @@
  */
 class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testEntryCanBeAddedToQueue()
+    public function testEntryCanBeAddedToQueue() : void
     {
         $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
@@ -56,7 +56,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
         $repository->addToQueue($queueEntry);
     }
 
-    public function testRemoveFromQueue()
+    public function testRemoveFromQueue() : void
     {
         $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
@@ -82,7 +82,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
         $repository->removeFromQueue(30);
     }
 
-    public function testFetchAllEntriesFromQueue()
+    public function testFetchAllEntriesFromQueue() : void
     {
         $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();

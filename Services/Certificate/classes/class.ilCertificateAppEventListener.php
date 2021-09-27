@@ -288,7 +288,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
      * @param ilSetting             $settings
      * @throws ilDatabaseException
      * @throws ilException
-     * @throws ilInvalidCertificateException
+     * @throws ilInvalidCertificateException|JsonException
      */
     private function processEntry(
         $type,

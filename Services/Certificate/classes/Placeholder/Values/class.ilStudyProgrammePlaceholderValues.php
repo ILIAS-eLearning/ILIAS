@@ -54,7 +54,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
      * achieve the certificate.
      * @param int $userId
      * @param int $objId
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilObjectNotFoundException

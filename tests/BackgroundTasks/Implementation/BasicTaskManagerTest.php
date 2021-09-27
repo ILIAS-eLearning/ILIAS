@@ -37,7 +37,7 @@ class BasicTaskManagerTest extends TestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testBasicTaskManager()
+    public function testBasicTaskManager() : void
     {
         $dic = new Container();
 

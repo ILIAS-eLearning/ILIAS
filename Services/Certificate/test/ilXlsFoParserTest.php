@@ -6,7 +6,7 @@
  */
 class ilXlsFoParserTest extends ilCertificateBaseTestCase
 {
-    public function testParseWithNonCustomPageFormatting()
+    public function testParseWithNonCustomPageFormatting() : void
     {
         $formData = array(
             'certificate_text' => '<xml> Some Context </xml>',
@@ -99,10 +99,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $this->assertEquals('Something Processed', $output);
     }
 
-    /**
-     *
-     */
-    public function testParseButXmlCheckerFindsAnError()
+    public function testParseButXmlCheckerFindsAnError() : void
     {
         $this->expectException(\Exception::class);
 
@@ -177,7 +174,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $this->fail();
     }
 
-    public function testParseWithCustomPageFormatting()
+    public function testParseWithCustomPageFormatting() : void
     {
         $formData = array(
             'certificate_text' => '<xml> Some Context </xml>',
@@ -272,7 +269,7 @@ class ilXlsFoParserTest extends ilCertificateBaseTestCase
         $this->assertEquals('Something Processed', $output);
     }
 
-    public function testCommasWillBeConvertedToPointInDecimalSepartor()
+    public function testCommasWillBeConvertedToPointInDecimalSepartor() : void
     {
         $formData = array(
             'certificate_text' => '<xml> Some Context </xml>',

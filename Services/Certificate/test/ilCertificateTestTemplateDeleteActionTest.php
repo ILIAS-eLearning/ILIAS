@@ -6,7 +6,7 @@
  */
 class ilCertificateTestTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
-    public function testDelete()
+    public function testDelete() : void
     {
         $deleteAction = $this->getMockBuilder(ilCertificateDeleteAction::class)
             ->getMock();

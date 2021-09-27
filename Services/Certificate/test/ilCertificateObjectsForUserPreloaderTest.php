@@ -6,7 +6,7 @@
  */
 class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
 {
-    public function testUsersWithCertifcatesWillBePreoloaded()
+    public function testUsersWithCertifcatesWillBePreoloaded() : void
     {
         $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
@@ -24,7 +24,7 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testUserWithCertificateIsNotPreloaded()
+    public function testUserWithCertificateIsNotPreloaded() : void
     {
         $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
@@ -42,7 +42,7 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
         $this->assertFalse($result);
     }
 
-    public function testUserIsNoProloaded()
+    public function testUserIsNoProloaded() : void
     {
         $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()

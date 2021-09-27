@@ -66,11 +66,7 @@ class ilCertificateSettingsTestFormRepository implements ilCertificateFormReposi
     {
     }
 
-    /**
-     * @param string $content
-     * @return array|mixed
-     */
-    public function fetchFormFieldData(string $content)
+    public function fetchFormFieldData(string $content) : array
     {
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 

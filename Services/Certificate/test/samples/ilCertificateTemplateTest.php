@@ -6,7 +6,7 @@
  */
 class ilCertificateTemplateTest extends ilCertificateBaseTestCase
 {
-    public function testCreateCertificateTemplate()
+    public function testCreateCertificateTemplate() : void
     {
         $time = time();
 
