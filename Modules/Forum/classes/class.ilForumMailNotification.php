@@ -234,7 +234,7 @@ class ilForumMailNotification extends ilMailNotification
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
 
-        if ($type == self::PERMANENT_LINK_FORUM) {
+        if ($type === self::PERMANENT_LINK_FORUM) {
             $language_text = $this->getLanguageText("forums_notification_show_frm");
             $forum_parameters = $this->provider->getRefId();
         } else {
@@ -304,7 +304,7 @@ class ilForumMailNotification extends ilMailNotification
         $this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
         $this->appendAttachments();
         $this->addLinkToMail();
-        $this->sendMail(array($userId));
+        $this->sendMail([$userId]);
     }
 
     /**
@@ -324,7 +324,7 @@ class ilForumMailNotification extends ilMailNotification
     ) : void {
         $this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
         $this->addLinkToMail();
-        $this->sendMail(array($userId));
+        $this->sendMail([$userId]);
     }
 
     /**
@@ -367,7 +367,7 @@ class ilForumMailNotification extends ilMailNotification
 
         $message = strip_tags($this->getPostMessage());
 
-        if ($this->provider->getPostCensored() == 1) {
+        if ($this->provider->getPostCensored() === 1) {
             $message = $this->provider->getCensorshipComment();
         }
 

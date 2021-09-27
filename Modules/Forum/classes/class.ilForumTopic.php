@@ -29,9 +29,9 @@ class ilForumTopic
     private $db;
     private bool $is_moderator = false;
     private int $thr_author_id = 0;
-    private int|float $average_rating = 0.0;
+    private ?float $average_rating = 0.0;
     private string $orderDirection = 'DESC';
-    protected static array $possibleOrderDirections = array('ASC', 'DESC');
+    protected static array $possibleOrderDirections = ['ASC', 'DESC'];
     private $user;
     private ?int $num_new_posts = 0;
     private ?int $num_unread_posts = 0;
@@ -100,22 +100,22 @@ class ilForumTopic
 
             $this->db->insert(
                 'frm_threads',
-                array(
-                    'thr_pk' => array('integer', (int) $nextId),
-                    'thr_top_fk' => array('integer', (int) $this->forum_id),
-                    'thr_subject' => array('text', $this->subject),
-                    'thr_display_user_id' => array('integer', (int) $this->display_user_id),
-                    'thr_usr_alias' => array('text', $this->user_alias),
-                    'thr_num_posts' => array('integer', (int) $this->num_posts),
-                    'thr_last_post' => array('text', $this->last_post_string),
-                    'thr_date' => array('timestamp', $this->createdate),
-                    'thr_update' => array('timestamp', null),
-                    'import_name' => array('text', $this->import_name),
-                    'is_sticky' => array('integer', (int) $this->is_sticky),
-                    'is_closed' => array('integer', (int) $this->is_closed),
-                    'avg_rating' => array('text', (string) ((float) $this->average_rating)),
-                    'thr_author_id' => array('integer', (int) $this->thr_author_id)
-                )
+                [
+                    'thr_pk' => ['integer', (int) $nextId],
+                    'thr_top_fk' => ['integer', (int) $this->forum_id],
+                    'thr_subject' => ['text', $this->subject],
+                    'thr_display_user_id' => ['integer', (int) $this->display_user_id],
+                    'thr_usr_alias' => ['text', $this->user_alias],
+                    'thr_num_posts' => ['integer', (int) $this->num_posts],
+                    'thr_last_post' => ['text', $this->last_post_string],
+                    'thr_date' => ['timestamp', $this->createdate],
+                    'thr_update' => ['timestamp', null],
+                    'import_name' => ['text', $this->import_name],
+                    'is_sticky' => ['integer', (int) $this->is_sticky],
+                    'is_closed' => ['integer', (int) $this->is_closed],
+                    'avg_rating' => ['text', (string) ((float) $this->average_rating)],
+                    'thr_author_id' => ['integer', (int) $this->thr_author_id]
+                ]
             );
 
             $this->id = $nextId;
@@ -139,8 +139,8 @@ class ilForumTopic
 					thr_last_post = %s,
 					avg_rating = %s
 				WHERE thr_pk = %s',
-                array('integer', 'text', 'timestamp', 'integer', 'text', 'float', 'integer'),
-                array(
+                ['integer', 'text', 'timestamp', 'integer', 'text', 'float', 'integer'],
+                [
                     $this->forum_id,
                     $this->subject,
                     date('Y-m-d H:i:s'),
@@ -148,7 +148,7 @@ class ilForumTopic
                     $this->last_post_string,
                     (float) $this->average_rating,
                     $this->id
-                )
+                ]
             );
 
             return true;
@@ -169,8 +169,8 @@ class ilForumTopic
 				FROM frm_threads
 				INNER JOIN frm_data ON top_pk = thr_top_fk
 				WHERE thr_pk = %s',
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
 
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
@@ -219,8 +219,8 @@ class ilForumTopic
 			SELECT * FROM frm_posts_tree 
 			WHERE thr_fk = %s
 			AND parent_pos = %s',
-            array('integer', 'integer'),
-            array($this->id, '1')
+            ['integer', 'integer'],
+            [$this->id, '1']
         );
 
         if ($row = $this->db->fetchObject($res)) {
@@ -244,8 +244,8 @@ class ilForumTopic
 				UPDATE frm_threads
 				SET	visits = visits + 1
 				WHERE thr_pk = %s',
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
         }
 
@@ -263,8 +263,8 @@ class ilForumTopic
 			FROM frm_posts
 			INNER JOIN frm_posts_tree ON frm_posts_tree.pos_fk = pos_pk
 			WHERE pos_thr_fk = %s' . ($ignoreRoot ? ' AND parent_pos != 0 ' : ''),
-            array('integer'),
-            array($this->id)
+            ['integer'],
+            [$this->id]
         );
 
         $rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
@@ -285,8 +285,8 @@ class ilForumTopic
 			WHERE (pos_status = %s
 				 OR (pos_status = %s AND pos_display_user_id = %s))
 			AND pos_thr_fk = %s' . ($ignoreRoot ? ' AND parent_pos != 0 ' : ''),
-            array('integer', 'integer', 'integer', 'integer'),
-            array('1', '0', $this->user->getId(), $this->id)
+            ['integer', 'integer', 'integer', 'integer'],
+            ['1', '0', $this->user->getId(), $this->id]
         );
 
         $rec = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
@@ -306,8 +306,8 @@ class ilForumTopic
 			INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 			WHERE parent_pos = %s
 			AND thr_fk = %s',
-            array('integer', 'integer'),
-            array(0, $this->id)
+            ['integer', 'integer'],
+            [0, $this->id]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
@@ -322,7 +322,7 @@ class ilForumTopic
     /**
      * Fetches and returns an object of the last post in the current topic.
      */
-    public function getLastPost() : bool|ilForumPost
+    public function getLastPost() : ilForumPost
     {
         if ($this->id) {
             $this->db->setLimit(1);
@@ -332,8 +332,8 @@ class ilForumTopic
 				FROM frm_posts 
 				WHERE pos_thr_fk = %s				 
 				ORDER BY pos_date DESC',
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
 
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
@@ -341,13 +341,13 @@ class ilForumTopic
             return new ilForumPost((int) $row->pos_pk);
         }
 
-        return false;
+        return new ilForumPost(0);
     }
 
     /**
      * Fetches and returns an object of the last active post in the current topic.
      */
-    public function getLastActivePost() : bool|ilForumPost
+    public function getLastActivePost() : ilForumPost
     {
         if ($this->id) {
             $this->db->setLimit(1);
@@ -359,21 +359,21 @@ class ilForumTopic
 				AND (pos_status = %s OR 
 					(pos_status = %s AND pos_display_user_id = %s))							 
 				ORDER BY pos_date DESC',
-                array('integer', 'integer', 'integer', 'integer'),
-                array($this->id, '1', '0', $this->user->getId())
+                ['integer', 'integer', 'integer', 'integer'],
+                [$this->id, '1', '0', $this->user->getId()]
             );
 
             $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
 
-            return new ilForumPost($row->pos_pk);
+            return new ilForumPost((int) $row->pos_pk);
         }
 
-        return false;
+        return new ilForumPost(0);
     }
 
     public function getAllPosts() : array
     {
-        $posts = array();
+        $posts = [];
 
         if ($this->id) {
             $res = $this->db->queryf(
@@ -381,8 +381,8 @@ class ilForumTopic
 				SELECT pos_pk
 				FROM frm_posts 
 				WHERE pos_thr_fk = %s',
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
 
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -390,7 +390,7 @@ class ilForumTopic
             }
         }
 
-        return is_array($posts) ? $posts : array();
+        return is_array($posts) ? $posts : [];
     }
 
     /**
@@ -401,9 +401,9 @@ class ilForumTopic
      */
     public function getPostTree(ilForumPost $a_post_node) : array
     {
-        $posts = array();
-        $data = array();
-        $data_types = array();
+        $posts = [];
+        $data = [];
+        $data_types = [];
 
         if ($a_post_node->getLft() > 1) {
             $dummy_root_condition = 'lft >= %s AND lft < %s';
@@ -450,7 +450,7 @@ class ilForumTopic
             $a_post_node->getThreadId()
         );
 
-        if ($this->orderField != "") {
+        if ($this->orderField !== "") {
             $query .= " ORDER BY " . $this->orderField . " " . $this->getOrderDirection();
         }
 
@@ -462,7 +462,7 @@ class ilForumTopic
             $post->assignData($row);
 
             if (!$this->is_moderator) {
-                if (!$post->isActivated() && $post->getPosAuthorId() != $this->user->getId()) {
+                if (!$post->isActivated() && $post->getPosAuthorId() !== $this->user->getId()) {
                     continue;
                 }
             }
@@ -496,7 +496,7 @@ class ilForumTopic
         if ($this->id) {
             $nodes = $this->getAllPosts();
             if (is_array($nodes)) {
-                $postsMoved = array();
+                $postsMoved = [];
                 // Move attachments
                 try {
                     foreach ($nodes as $node) {
@@ -504,11 +504,11 @@ class ilForumTopic
                         $moved = $file_obj->moveFilesOfPost((int) $new_obj_id);
 
                         if (true === $moved) {
-                            $postsMoved[] = array(
+                            $postsMoved[] = [
                                 'from' => $old_obj_id,
                                 'to' => $new_obj_id,
                                 'position_id' => (int) $node->pos_pk
-                            );
+                            ];
                         }
 
                         unset($file_obj);
@@ -534,8 +534,8 @@ class ilForumTopic
                     '
 				DELETE FROM frm_user_read
 				WHERE obj_id = %s AND thread_id =%s',
-                    array('integer', 'integer'),
-                    array($new_obj_id, $current_id)
+                    ['integer', 'integer'],
+                    [$new_obj_id, $current_id]
                 );
 
                 $ilDB->manipulateF(
@@ -543,16 +543,16 @@ class ilForumTopic
 				UPDATE frm_user_read
 				SET obj_id = %s
 				WHERE thread_id = %s',
-                    array('integer', 'integer'),
-                    array($new_obj_id, $current_id)
+                    ['integer', 'integer'],
+                    [$new_obj_id, $current_id]
                 );
 
                 $ilDB->manipulateF(
                     '
 				DELETE FROM frm_thread_access
 				WHERE obj_id = %s AND thread_id =%s',
-                    array('integer', 'integer'),
-                    array($new_obj_id, $current_id)
+                    ['integer', 'integer'],
+                    [$new_obj_id, $current_id]
                 );
 
                 $ilDB->manipulateF(
@@ -560,8 +560,8 @@ class ilForumTopic
 				UPDATE frm_thread_access
 				SET obj_id = %s
 				WHERE thread_id =%s',
-                    array('integer', 'integer'),
-                    array($new_obj_id, $current_id)
+                    ['integer', 'integer'],
+                    [$new_obj_id, $current_id]
                 );
             });
 
@@ -572,16 +572,16 @@ class ilForumTopic
 				UPDATE frm_posts
 				SET pos_top_fk = %s
 				WHERE pos_thr_fk = %s',
-                array('integer', 'integer'),
-                array($new_pk, $this->id)
+                ['integer', 'integer'],
+                [$new_pk, $this->id]
             );
 
             // update all related news
             $posts = $this->db->queryf(
                 '
 				SELECT * FROM frm_posts WHERE pos_thr_fk = %s',
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
 
             $old_obj_id = ilForum::_lookupObjIdForForumId($old_pk);
@@ -619,8 +619,8 @@ class ilForumTopic
 				FROM		frm_posts_tree
 				WHERE		pos_fk = %s
 				AND			thr_fk = %s",
-                array('integer', 'integer'),
-                array($pos_id, $this->id)
+                ['integer', 'integer'],
+                [$pos_id, $this->id]
             );
 
             $data = $this->db->fetchAssoc($res);
@@ -720,15 +720,15 @@ class ilForumTopic
         $queryCounter .= ' ORDER BY fpt.rgt DESC';
 
         $resCounter = $this->db->query($queryCounter);
-        $counter = array();
+        $counter = [];
         $i = 0;
         while ($row = $this->db->fetchAssoc($resCounter)) {
             $counter[$row['pos_fk']] = $i++;
         }
 
         $res = $this->db->query($query);
-        $children = array();
-        $usr_ids = array();
+        $children = [];
+        $usr_ids = [];
         while ($row = $this->db->fetchAssoc($res)) {
             if ((int) $row['pos_display_user_id']) {
                 $usr_ids[] = (int) $row['pos_display_user_id'];
@@ -753,8 +753,8 @@ class ilForumTopic
                 '
 				SELECT COUNT(notification_id) cnt FROM frm_notification 
 				WHERE user_id = %s AND thread_id = %s',
-                array('integer', 'integer'),
-                array($a_user_id, $this->id)
+                ['integer', 'integer'],
+                [$a_user_id, $this->id]
             );
 
             while ($record = $this->db->fetchAssoc($result)) {
@@ -783,8 +783,8 @@ class ilForumTopic
 						thread_id
 					)
 					VALUES(%s, %s, %s)',
-                    array('integer', 'integer', 'integer'),
-                    array($nextId, $a_user_id, $this->id)
+                    ['integer', 'integer', 'integer'],
+                    [$nextId, $a_user_id, $this->id]
                 );
 
                 return true;
@@ -806,8 +806,8 @@ class ilForumTopic
 				DELETE FROM frm_notification
 				WHERE user_id = %s
 				AND thread_id = %s',
-                array('integer', 'integer'),
-                array($a_user_id, $this->id)
+                ['integer', 'integer'],
+                [$a_user_id, $this->id]
             );
 
             return false;
@@ -827,8 +827,8 @@ class ilForumTopic
 				UPDATE frm_threads 
 				SET is_sticky = %s
 				WHERE thr_pk = %s',
-                array('integer', 'integer'),
-                array('1', $this->id)
+                ['integer', 'integer'],
+                ['1', $this->id]
             );
 
             $this->is_sticky = 1;
@@ -850,8 +850,8 @@ class ilForumTopic
 				UPDATE frm_threads 
 				SET is_sticky = %s
 				WHERE thr_pk = %s',
-                array('integer', 'integer'),
-                array('0', $this->id)
+                ['integer', 'integer'],
+                ['0', $this->id]
             );
 
             $this->is_sticky = 0;
@@ -870,8 +870,8 @@ class ilForumTopic
 				UPDATE frm_threads 
 				SET is_closed = %s
 				WHERE thr_pk = %s',
-                array('integer', 'integer'),
-                array('1', $this->id)
+                ['integer', 'integer'],
+                ['1', $this->id]
             );
 
             $this->is_closed = 1;
@@ -890,8 +890,8 @@ class ilForumTopic
 				UPDATE frm_threads 
 				SET is_closed = %s
 				WHERE thr_pk = %s',
-                array('integer', 'integer'),
-                array('0', $this->id)
+                ['integer', 'integer'],
+                ['0', $this->id]
             );
 
             $this->is_closed = 0;
@@ -902,12 +902,12 @@ class ilForumTopic
         return false;
     }
 
-    public function getAverageRating() : float|int
+    public function getAverageRating() : float
     {
         return (float) $this->average_rating;
     }
 
-    public function setAverageRating(float|int $average_rating) : void
+    public function setAverageRating(float $average_rating) : void
     {
         $this->average_rating = (float) $average_rating;
     }
@@ -998,7 +998,7 @@ class ilForumTopic
 
     public function setLastPostString($a_last_post) : void
     {
-        if ($a_last_post == '') {
+        if ($a_last_post === '') {
             $a_last_post = null;
         }
 
@@ -1095,8 +1095,8 @@ class ilForumTopic
 			SELECT thr_subject
 			FROM frm_threads
 			WHERE thr_pk = %s',
-            array('integer'),
-            array($a_topic_id)
+            ['integer'],
+            [$a_topic_id]
         );
         $row = $ilDB->fetchObject($res);
 
@@ -1111,8 +1111,8 @@ class ilForumTopic
     {
         $this->db->update(
             'frm_threads',
-            array('thr_subject' => array('text', $this->getSubject())),
-            array('thr_pk' => array('integer', $this->getId()))
+            ['thr_subject' => ['text', $this->getSubject()]],
+            ['thr_pk' => ['integer', $this->getId()]]
         );
 
         $first_node = $this->getFirstPostNode();
@@ -1124,7 +1124,7 @@ class ilForumTopic
      * @param $a_num_posts
      * @return ilForumTopic
      */
-    public function setNumPosts($a_num_posts) : static
+    public function setNumPosts($a_num_posts) : ilForumTopic
     {
         $this->num_posts = $a_num_posts;
         return $this;
@@ -1135,7 +1135,7 @@ class ilForumTopic
         return $this->num_posts;
     }
 
-    public function setNumNewPosts(int $num_new_posts) : static
+    public function setNumNewPosts(int $num_new_posts) : ilForumTopic
     {
         $this->num_new_posts = $num_new_posts;
         return $this;
@@ -1146,7 +1146,7 @@ class ilForumTopic
         return $this->num_new_posts;
     }
 
-    public function setNumUnreadPosts(int $num_unread_posts) : static
+    public function setNumUnreadPosts(int $num_unread_posts) : ilForumTopic
     {
         $this->num_unread_posts = $num_unread_posts;
         return $this;
@@ -1157,7 +1157,7 @@ class ilForumTopic
         return $this->num_unread_posts;
     }
 
-    public function setUserNotificationEnabled(bool $user_notification_enabled) : static
+    public function setUserNotificationEnabled(bool $user_notification_enabled) : ilForumTopic
     {
         $this->user_notification_enabled = $user_notification_enabled;
         return $this;
@@ -1168,7 +1168,7 @@ class ilForumTopic
         return $this->user_notification_enabled;
     }
 
-    public function setOrderDirection($direction) : static
+    public function setOrderDirection($direction) : ilForumTopic
     {
         if (!in_array(strtoupper($direction), self::$possibleOrderDirections)) {
             $direction = current(self::$possibleOrderDirections);
@@ -1190,8 +1190,8 @@ class ilForumTopic
 
         $res = $ilDB->queryF(
             'SELECT thr_top_fk FROM frm_threads WHERE thr_pk = %s',
-            array('integer'),
-            array($a_topic_id)
+            ['integer'],
+            [$a_topic_id]
         );
 
         $row = $ilDB->fetchAssoc($res);
@@ -1203,13 +1203,13 @@ class ilForumTopic
     {
         $this->db->update(
             'frm_threads',
-            array(
-                'thr_num_posts' => array('integer', $this->getNumPosts()),
-                'visits' => array('integer', $this->getVisits()),
-                'thr_last_post' => array('text', $this->getLastPostString()),
-                'thr_subject' => array('text', $this->getSubject())
-            ),
-            array('thr_pk' => array('integer', $this->getId()))
+            [
+                'thr_num_posts' => ['integer', $this->getNumPosts()],
+                'visits' => ['integer', $this->getVisits()],
+                'thr_last_post' => ['text', $this->getLastPostString()],
+                'thr_subject' => ['text', $this->getSubject()]
+            ],
+            ['thr_pk' => ['integer', $this->getId()]]
         );
     }
 
@@ -1220,8 +1220,8 @@ class ilForumTopic
 
         $res = $ilDB->queryF(
             'SELECT thr_date FROM frm_threads WHERE thr_pk = %s',
-            array('integer'),
-            array($thread_id)
+            ['integer'],
+            [$thread_id]
         );
 
         $row = $ilDB->fetchAssoc($res);

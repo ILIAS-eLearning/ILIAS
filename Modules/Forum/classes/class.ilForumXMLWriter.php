@@ -149,10 +149,10 @@ class ilForumXMLWriter extends ilXmlWriter
                         }
 
                         $mob_obj = new ilObjMediaObject($mob);
-                        $imgattrs = array(
+                        $imgattrs = [
                             "label" => $moblabel,
                             "uri" => $this->target_dir_relative . "/objects/" . "il_" . IL_INST_ID . "_mob_" . $mob . "/" . $mob_obj->getTitle()
-                        );
+                        ];
 
                         $this->xmlElement("MediaObject", $imgattrs, null);
                         $mob_obj->exportFiles($this->target_dir_absolute);
@@ -193,7 +193,7 @@ class ilForumXMLWriter extends ilXmlWriter
         return true;
     }
 
-    public function getXML() : array|string
+    public function getXML() : string
     {
         // Replace ascii code 11 characters because of problems with xml sax parser
         return str_replace('&#11;', '', $this->xmlDumpMem(false));

@@ -87,7 +87,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $date_type = ilDatePresentation::useRelativeDates();
         ilDatePresentation::setUseRelativeDates(false);
 
-        $mailObjects = array();
+        $mailObjects = [];
 
         switch ($this->getType()) {
             case self::TYPE_THREAD_DELETED:
@@ -102,7 +102,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
                     $mailObjects[] = $this->createMailValueObjectWithoutAttachments(
                         'frm_noti_subject_del_thread',
                         (int) $rcp,
-                        (string) $customText,
+                        $customText,
                         'content_deleted_thread'
                     );
                 }
@@ -119,7 +119,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
                     $mailObjects[] = $this->createMailValueObjectsWithAttachments(
                         'frm_noti_subject_new_post',
                         (int) $rcp,
-                        (string) $customText,
+                        $customText,
                         'new_post'
                     );
                 }
@@ -133,7 +133,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
                     $mailObjects[] = $this->createMailValueObjectsWithAttachments(
                         'frm_noti_subject_act_post',
                         (int) $rcp,
-                        (string) $customText,
+                        $customText,
                         'new_post'
                     );
                 }
@@ -147,7 +147,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
                     $mailObjects[] = $this->createMailValueObjectsWithAttachments(
                         'frm_noti_subject_answ_post',
                         (int) $rcp,
-                        (string) $customText,
+                        $customText,
                         'new_post'
                     );
                 }
@@ -166,7 +166,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
                     $mailObjects[] = $this->createMailValueObjectsWithAttachments(
                         'frm_noti_subject_upt_post',
                         (int) $rcp,
-                        (string) $customText,
+                        $customText,
                         'content_post_updated',
                         $date
                     );
@@ -186,7 +186,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
                     $mailObjects[] = $this->createMailValueObjectsWithAttachments(
                         'frm_noti_subject_cens_post',
                         (int) $rcp,
-                        (string) $customText,
+                        $customText,
                         'content_censored_post',
                         $date
                     );
@@ -205,7 +205,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
                     $mailObjects[] = $this->createMailValueObjectsWithAttachments(
                         'frm_noti_subject_uncens_post',
                         (int) $rcp,
-                        (string) $customText,
+                        $customText,
                         'forums_the_post',
                         $date
                     );
@@ -224,7 +224,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
                     $mailObjects[] = $this->createMailValueObjectWithoutAttachments(
                         'frm_noti_subject_del_post',
                         (int) $rcp,
-                        (string) $customText,
+                        $customText,
                         'content_deleted_post'
                     );
                 }
@@ -238,7 +238,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
 
         $contextParameters = ilMailFormCall::getContextParameters();
         if (is_array($contextParameters)) {
-            $contextParameters = array();
+            $contextParameters = [];
         }
 
         $processor = new ilMassMailTaskProcessor();
@@ -280,7 +280,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         global $DIC;
         $ilClientIniFile = $DIC['ilClientIniFile'];
 
-        if ($type == self::PERMANENT_LINK_FORUM) {
+        if ($type === self::PERMANENT_LINK_FORUM) {
             $language_text = $this->getLanguageText("forums_notification_show_frm");
             $forum_parameters = $this->provider->getRefId();
         } else {
@@ -449,7 +449,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
 
         $message = strip_tags($this->getPostMessage());
 
-        if ($this->provider->getPostCensored() == 1) {
+        if ($this->provider->getPostCensored() === 1) {
             $message = $this->provider->getCensorshipComment();
         }
 

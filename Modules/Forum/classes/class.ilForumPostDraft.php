@@ -22,9 +22,9 @@ class ilForumPostDraft
     protected int $post_display_user_id = 0;
     protected int $notify = 0;
     protected int $post_notify = 0;
-    private static array $instances = array();
-    protected static array $forum_statistics_cache = array();
-    protected static array $drafts_settings_cache = array();
+    private static array $instances = [];
+    protected static array $forum_statistics_cache = [];
+    protected static array $drafts_settings_cache = [];
     private $db;
 
     protected static function populateWithDatabaseRecord(ilForumPostDraft $draft, array $row) : void
@@ -203,8 +203,8 @@ class ilForumPostDraft
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_posts_drafts WHERE post_author_id = %s AND draft_id = %s',
-            array('integer', 'integer'),
-            array($this->getPostAuthorId(), $this->getDraftId())
+            ['integer', 'integer'],
+            [$this->getPostAuthorId(), $this->getDraftId()]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
@@ -299,8 +299,8 @@ class ilForumPostDraft
 
         $res = $ilDB->queryF(
             'SELECT * FROM frm_posts_drafts WHERE draft_id = %s',
-            array('integer'),
-            array($draft_id)
+            ['integer'],
+            [$draft_id]
         );
 
         $tmp_obj = new ilForumPostDraft();
@@ -315,22 +315,22 @@ class ilForumPostDraft
         $draft_id = $this->db->nextId('frm_posts_drafts');
         $post_date = date("Y-m-d H:i:s");
 
-        $this->db->insert('frm_posts_drafts', array(
-            'draft_id' => array('integer', $draft_id),
-            'post_id' => array('integer', $this->getPostId()),
-            'thread_id' => array('integer', $this->getThreadId()),
-            'forum_id' => array('integer', $this->getForumId()),
-            'post_author_id' => array('integer', $this->getPostAuthorId()),
-            'post_subject' => array('text', $this->getPostSubject()),
-            'post_message' => array('clob', $this->getPostMessage()),
-            'notify' => array('integer', $this->getNotify()),
-            'post_notify' => array('integer', $this->getPostNotify()),
-            'post_date' => array('timestamp', $post_date),
-            'post_update' => array('timestamp', $post_date),
-            //			'update_user_id' => array('integer', $this->getUpdateUserId()),
-            'post_user_alias' => array('text', $this->getPostUserAlias()),
-            'pos_display_usr_id' => array('integer', $this->getPostDisplayUserId())
-        ));
+        $this->db->insert('frm_posts_drafts', [
+            'draft_id' => ['integer', $draft_id],
+            'post_id' => ['integer', $this->getPostId()],
+            'thread_id' => ['integer', $this->getThreadId()],
+            'forum_id' => ['integer', $this->getForumId()],
+            'post_author_id' => ['integer', $this->getPostAuthorId()],
+            'post_subject' => ['text', $this->getPostSubject()],
+            'post_message' => ['clob', $this->getPostMessage()],
+            'notify' => ['integer', $this->getNotify()],
+            'post_notify' => ['integer', $this->getPostNotify()],
+            'post_date' => ['timestamp', $post_date],
+            'post_update' => ['timestamp', $post_date],
+            //			'update_user_id' => ['integer', $this->getUpdateUserId()],
+            'post_user_alias' => ['text', $this->getPostUserAlias()],
+            'pos_display_usr_id' => ['integer', $this->getPostDisplayUserId()]
+        ]);
         $this->setDraftId($draft_id);
         return $draft_id;
     }
@@ -339,14 +339,14 @@ class ilForumPostDraft
     {
         $this->db->update(
             'frm_posts_drafts',
-            array(
-                'post_subject' => array('text', $this->getPostSubject()),
-                'post_message' => array('clob', $this->getPostMessage()),
-                'post_user_alias' => array('text', $this->getPostUserAlias()),
-                'post_update' => array('timestamp', date("Y-m-d H:i:s")),
-                'update_user_id' => array('integer', $this->getUpdateUserId()),
-            ),
-            array('draft_id' => array('integer', $this->getDraftId()))
+            [
+                'post_subject' => ['text', $this->getPostSubject()],
+                'post_message' => ['clob', $this->getPostMessage()],
+                'post_user_alias' => ['text', $this->getPostUserAlias()],
+                'post_update' => ['timestamp', date("Y-m-d H:i:s")],
+                'update_user_id' => ['integer', $this->getUpdateUserId()],
+            ],
+            ['draft_id' => ['integer', $this->getDraftId()]]
         );
     }
 
@@ -354,8 +354,8 @@ class ilForumPostDraft
     {
         $this->db->manipulateF(
             'DELETE FROM frm_posts_drafts WHERE draft_id = %s',
-            array('integer'),
-            array($this->getDraftId())
+            ['integer'],
+            [$this->getDraftId()]
         );
     }
 
@@ -372,9 +372,9 @@ class ilForumPostDraft
         }
     }
 
-    public function deleteDraftsByPostIds(array $post_ids = array()) : void
+    public function deleteDraftsByPostIds(array $post_ids = []) : void
     {
-        $draft_ids = array();
+        $draft_ids = [];
         $res = $this->db->query('SELECT draft_id FROM frm_posts_drafts WHERE ' . $this->db->in('post_id', $post_ids,
                 false, 'integer'));
         while ($row = $this->db->fetchAssoc($res)) {
@@ -394,7 +394,7 @@ class ilForumPostDraft
                 'integer'));
     }
 
-    public function deleteDraftsByDraftIds(array $draft_ids = array()) : void
+    public function deleteDraftsByDraftIds(array $draft_ids = []) : void
     {
         foreach ($draft_ids as $draft_id) {
             self::deleteMobsOfDraft((int) $draft_id);
@@ -416,11 +416,11 @@ class ilForumPostDraft
 
         $res = $ilDB->queryF(
             'SELECT draft_id FROM frm_posts_drafts WHERE post_author_id = %s',
-            array('integer'),
-            array($user_id)
+            ['integer'],
+            [$user_id]
         );
 
-        $draft_ids = array();
+        $draft_ids = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $draft_ids[] = (int) $row['draft_id'];
         }
@@ -437,8 +437,8 @@ class ilForumPostDraft
                 'integer'));
         $ilDB->manipulateF(
             'DELETE FROM frm_posts_drafts WHERE post_author_id = %s',
-            array('integer'),
-            array($user_id)
+            ['integer'],
+            [$user_id]
         );
     }
 
@@ -489,8 +489,8 @@ class ilForumPostDraft
 				SELECT COUNT(draft_id) num_drafts, thread_id FROM frm_posts_drafts 
 				WHERE forum_id = %s AND post_author_id = %s
 				GROUP BY thread_id',
-                array('integer', 'integer'),
-                array($forumId, $ilUser->getId())
+                ['integer', 'integer'],
+                [$forumId, $ilUser->getId()]
             );
 
             $num_drafts_total = 0;
@@ -512,8 +512,8 @@ class ilForumPostDraft
 
         $ilDB->update(
             'frm_posts_drafts',
-            array('thread_id' => array('integer', $target_thread_id)),
-            array('thread_id' => array('integer', $source_thread_id))
+            ['thread_id' => ['integer', $target_thread_id]],
+            ['thread_id' => ['integer', $source_thread_id]]
         );
     }
 
@@ -531,8 +531,8 @@ class ilForumPostDraft
 			SET 	forum_id = %s 
 			WHERE 	forum_id = %s 
 			AND ' . $ilDB->in('thread_id', $thread_ids, false, 'integer'),
-            array('integer', 'integer'),
-            array($target_forum_id, $source_forum_id)
+            ['integer', 'integer'],
+            [$target_forum_id, $source_forum_id]
         );
     }
 
@@ -548,17 +548,17 @@ class ilForumPostDraft
 				AND thread_id = %s
 				AND post_id = %s
 				ORDER BY post_date DESC',
-            array('integer', 'integer', 'integer', 'integer'),
-            array($post_author_id, $forum_id, 0, 0)
+            ['integer', 'integer', 'integer', 'integer'],
+            [$post_author_id, $forum_id, 0, 0]
         );
-        $draft_data = array();
+        $draft_data = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $tmp_obj = new self;
             self::populateWithDatabaseRecord($tmp_obj, $row);
-            $draft_data[] = array('subject' => $tmp_obj->getPostSubject(),
-                                  'post_update' => $tmp_obj->getPostUpdate(),
-                                  'draft_id' => $tmp_obj->getDraftId()
-            );
+            $draft_data[] = ['subject' => $tmp_obj->getPostSubject(),
+                             'post_update' => $tmp_obj->getPostUpdate(),
+                             'draft_id' => $tmp_obj->getDraftId()
+            ];
         }
         return $draft_data;
     }
@@ -570,8 +570,8 @@ class ilForumPostDraft
 
         $res = $ilDB->queryF(
             'SELECT * FROM frm_posts_drafts WHERE draft_id = %s',
-            array('integer'),
-            array((int) $draft_id)
+            ['integer'],
+            [(int) $draft_id]
         );
 
         while ($row = $ilDB->fetchAssoc($res)) {
@@ -580,7 +580,7 @@ class ilForumPostDraft
         }
 
         $history_obj = new ilForumDraftsHistory();
-        $history_obj->deleteHistoryByDraftIds(array($draft_id));
+        $history_obj->deleteHistoryByDraftIds([$draft_id]);
 
         $history_obj->setDraftId($draft_id);
         $history_obj->setPostSubject($tmp_obj->getPostSubject());

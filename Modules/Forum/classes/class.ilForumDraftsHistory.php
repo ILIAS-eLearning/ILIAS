@@ -81,8 +81,8 @@ class ilForumDraftsHistory
     {
         $res = $this->db->queryF(
             'SELECT * FROM frm_drafts_history WHERE history_id = %s',
-            array('integer'),
-            array((int) $history_id)
+            ['integer'],
+            [(int) $history_id]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -101,10 +101,10 @@ class ilForumDraftsHistory
 
         $res = $ilDB->queryF(
             'SELECT * FROM frm_drafts_history WHERE draft_id = %s ORDER BY draft_date DESC',
-            array('integer'),
-            array((int) $draft_id)
+            ['integer'],
+            [(int) $draft_id]
         );
-        $instances = array();
+        $instances = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $tmp_obj = new self;
             $tmp_obj = self::populateWithDatabaseRecord($tmp_obj, $row);
@@ -132,8 +132,8 @@ class ilForumDraftsHistory
     {
         $this->db->manipulatef(
             'DELETE FROM frm_drafts_history WHERE history_id = %s',
-            array('integer'),
-            array($this->getHistoryId())
+            ['integer'],
+            [$this->getHistoryId()]
         );
     }
 
@@ -142,8 +142,8 @@ class ilForumDraftsHistory
         $res = $this->db->queryF(
             'SELECT * FROM frm_drafts_history WHERE draft_id = %s 
 			ORDER BY history_id ASC',
-            array('integer'),
-            array((int) $draft_id)
+            ['integer'],
+            [(int) $draft_id]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
@@ -159,8 +159,8 @@ class ilForumDraftsHistory
         $res = $this->db->queryF(
             'SELECT * FROM frm_drafts_history WHERE draft_id = %s 
 			ORDER BY history_id DESC',
-            array('integer'),
-            array((int) $draft_id)
+            ['integer'],
+            [(int) $draft_id]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -176,12 +176,12 @@ class ilForumDraftsHistory
         $next_id = $this->db->nextId('frm_drafts_history');
         $this->db->insert(
             'frm_drafts_history',
-            array('history_id' => array('integer', $next_id),
-                  'draft_id' => array('integer', $this->getDraftId()),
-                  'post_subject' => array('text', $this->getPostSubject()),
-                  'post_message' => array('text', $this->getPostMessage()),
-                  'draft_date' => array('timestamp', date("Y-m-d H:i:s"))
-            )
+            ['history_id' => ['integer', $next_id],
+             'draft_id' => ['integer', $this->getDraftId()],
+             'post_subject' => ['text', $this->getPostSubject()],
+             'post_message' => ['text', $this->getPostMessage()],
+             'draft_date' => ['timestamp', date("Y-m-d H:i:s")]
+            ]
         );
         $this->setHistoryId($next_id);
     }
@@ -232,14 +232,14 @@ class ilForumDraftsHistory
         );
 
         $draft->updateDraft();
-        $this->deleteHistoryByDraftIds(array($draft->getDraftId()));
+        $this->deleteHistoryByDraftIds([$draft->getDraftId()]);
 
         return $draft;
     }
 
-    public function deleteHistoryByPostIds(array $post_ids = array()) : array
+    public function deleteHistoryByPostIds(array $post_ids = []) : array
     {
-        $draft_ids = array();
+        $draft_ids = [];
         if (count($post_ids) > 0) {
             $res = $this->db->query('
 			SELECT frm_drafts_history.history_id, frm_drafts_history.draft_id 
@@ -256,7 +256,7 @@ class ilForumDraftsHistory
         return $draft_ids;
     }
 
-    public function deleteHistoryByDraftIds($draft_ids = array()) : void
+    public function deleteHistoryByDraftIds($draft_ids = []) : void
     {
         if (count($draft_ids) > 0) {
             $res = $this->db->query('SELECT history_id FROM frm_drafts_history 

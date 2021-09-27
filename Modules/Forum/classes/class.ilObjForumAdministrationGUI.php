@@ -47,7 +47,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                 break;
 
             default:
-                if (!$cmd || $cmd == 'view') {
+                if (!$cmd || $cmd === 'view') {
                     $cmd = 'editSettings';
                 }
 
@@ -63,7 +63,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 'settings',
                 $this->ctrl->getLinkTarget($this, 'editSettings'),
-                array('editSettings', 'view')
+                ['editSettings', 'view']
             );
         }
 
@@ -71,7 +71,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             $this->tabs_gui->addTarget(
                 'perm_settings',
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
-                array(),
+                [],
                 'ilpermissiongui'
             );
         }
@@ -126,7 +126,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
     {
         $frma_set = new ilSetting('frma');
 
-        $form->setValuesByArray(array(
+        $form->setValuesByArray([
             'forum_overview' => (bool) $frma_set->get('forum_overview', false),
             'fora_statistics' => (bool) $this->settings->get('enable_fora_statistics', false),
             'anonymous_fora' => (bool) $this->settings->get('enable_anonymous_fora', false),
@@ -138,7 +138,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             'autosave_drafts' => (int) $this->settings->get('autosave_drafts', 0),
             'autosave_drafts_ival' => (int) $this->settings->get('autosave_drafts_ival', 30),
             'send_attachments_by_mail' => (bool) $this->settings->get('send_attachments_by_mail', false)
-        ));
+        ]);
     }
 
     protected function getSettingsForm() : ilPropertyFormGUI
@@ -227,25 +227,25 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
 
-                $fields = array(
-                    'enable_fora_statistics' => array($this->settings->get('enable_fora_statistics', false),
-                                                      ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    ),
-                    'enable_anonymous_fora' => array($this->settings->get('enable_anonymous_fora', false),
-                                                     ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    )
-                );
+                $fields = [
+                    'enable_fora_statistics' => [$this->settings->get('enable_fora_statistics', false),
+                                                 ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ],
+                    'enable_anonymous_fora' => [$this->settings->get('enable_anonymous_fora', false),
+                                                ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ]
+                ];
 
-                return array(array("editSettings", $fields));
+                return [["editSettings", $fields]];
 
             case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
-                $fields = array(
-                    'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForForum(),
-                                                           ilAdministrationSettingsFormHandler::VALUE_BOOL
-                    )
-                );
+                $fields = [
+                    'adm_captcha_anonymous_short' => [ilCaptchaUtil::isActiveForForum(),
+                                                      ilAdministrationSettingsFormHandler::VALUE_BOOL
+                    ]
+                ];
 
-                return array('obj_frma' => array('editSettings', $fields));
+                return ['obj_frma' => ['editSettings', $fields]];
         }
         return [];
     }

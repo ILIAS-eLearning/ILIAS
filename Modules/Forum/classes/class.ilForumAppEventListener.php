@@ -23,7 +23,7 @@ class ilForumAppEventListener implements ilAppEventListener
         $logger = $DIC->logger()->frm();
 
         // 0 = no notifications, 1 = direct, 2 = cron job
-        $immediate_notifications_enabled = $DIC->settings()->get('forum_notification', 0) == 1;
+        $immediate_notifications_enabled = $DIC->settings()->get('forum_notification', 0) === 1;
 
         switch ($a_component) {
             case 'Modules/Forum':
@@ -106,7 +106,7 @@ class ilForumAppEventListener implements ilAppEventListener
                                 $parent_post = new ilForumPost($post->getParentId());
                                 if (
                                     $parent_post->isNotificationEnabled() &&
-                                    $parent_post->getPosAuthorId() != $post->getPosAuthorId()
+                                    $parent_post->getPosAuthorId() !== $post->getPosAuthorId()
                                 ) {
                                     $logger->debug(
                                         'Author of parent posting wants to be notified: ' .
@@ -378,7 +378,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         $draftObj = $a_parameter['draftObj'];
 
                         $historyObj = new ilForumDraftsHistory();
-                        $historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));
+                        $historyObj->deleteHistoryByDraftIds([$draftObj->getDraftId()]);
 
                         break;
                     case 'publishedDraft':
@@ -388,7 +388,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         $draftObj = $a_parameter['draftObj'];
 
                         $historyObj = new ilForumDraftsHistory();
-                        $historyObj->deleteHistoryByDraftIds(array($draftObj->getDraftId()));
+                        $historyObj->deleteHistoryByDraftIds([$draftObj->getDraftId()]);
 
                         ilForumPostDraft::deleteMobsOfDraft($draftObj->getDraftId());
 

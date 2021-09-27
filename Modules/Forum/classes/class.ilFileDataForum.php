@@ -34,17 +34,17 @@ class ilFileDataForum extends ilFileData
 
     public function getObjId() : int
     {
-        return (int) $this->obj_id;
+        return $this->obj_id;
     }
 
     public function getPosId() : int
     {
-        return (int) $this->pos_id;
+        return $this->pos_id;
     }
 
     public function setPosId($a_id)
     {
-        $this->pos_id = $a_id;
+        $this->pos_id = (int) $a_id;
     }
 
     public function getForumPath() : string
@@ -54,7 +54,7 @@ class ilFileDataForum extends ilFileData
 
     public function getFiles() : array
     {
-        $files = array();
+        $files = [];
 
         foreach (new DirectoryIterator($this->forum_path) as $file) {
             /**
@@ -67,13 +67,13 @@ class ilFileDataForum extends ilFileData
 
             list($obj_id, $rest) = explode('_', $file->getFilename(), 2);
             if ($obj_id == $this->obj_id) {
-                $files[] = array(
+                $files[] = [
                     'path' => $file->getPathname(),
                     'md5' => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
                     'name' => $rest,
                     'size' => $file->getSize(),
                     'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-                );
+                ];
             }
         }
 
@@ -82,7 +82,7 @@ class ilFileDataForum extends ilFileData
 
     public function getFilesOfPost() : array
     {
-        $files = array();
+        $files = [];
 
         foreach (new DirectoryIterator($this->forum_path) as $file) {
             /**
@@ -97,13 +97,13 @@ class ilFileDataForum extends ilFileData
             if ($obj_id == $this->obj_id) {
                 list($pos_id, $rest) = explode('_', $rest, 2);
                 if ($pos_id == $this->getPosId()) {
-                    $files[$rest] = array(
+                    $files[$rest] = [
                         'path' => $file->getPathname(),
                         'md5' => md5($this->obj_id . '_' . $this->pos_id . '_' . $rest),
                         'name' => $rest,
                         'size' => $file->getSize(),
                         'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-                    );
+                    ];
                 }
             }
         }
@@ -235,16 +235,16 @@ class ilFileDataForum extends ilFileData
      * @param string md5 encrypted filename
      * @return array|false
      */
-    public function getFileDataByMD5Filename($a_md5_filename) : bool|array
+    public function getFileDataByMD5Filename($a_md5_filename) : array
     {
         $files = ilUtil::getDir($this->forum_path);
         foreach ($files as $file) {
             if ($file['type'] == 'file' && md5($file['entry']) == $a_md5_filename) {
-                return array(
+                return [
                     'path' => $this->forum_path . '/' . $file['entry'],
                     'filename' => $file['entry'],
                     'clean_filename' => str_replace($this->obj_id . '_' . $this->pos_id . '_', '', $file['entry'])
-                );
+                ];
             }
         }
 

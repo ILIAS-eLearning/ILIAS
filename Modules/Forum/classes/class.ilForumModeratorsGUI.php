@@ -77,7 +77,7 @@ class ilForumModeratorsGUI
         }
     }
 
-    public function addModerator($users = array()) : void
+    public function addModerator($users = []) : void
     {
         if (!$users) {
             ilUtil::sendFailure($this->lng->txt('frm_moderators_select_one'));
@@ -90,12 +90,12 @@ class ilForumModeratorsGUI
 
         foreach ($users as $user_id) {
             $this->oForumModerators->addModeratorRole((int) $user_id);
-            if ($isCrsGrp && $frm_noti_type != 'default') {
+            if ($isCrsGrp && $frm_noti_type !== 'default') {
                 $tmp_frm_noti = new ilForumNotification($this->ref_id);
                 $tmp_frm_noti->setUserId((int) $user_id);
                 $tmp_frm_noti->setUserIdNoti($this->user->getId());
-                $tmp_frm_noti->setUserToggle((int) $objFrmProps->getUserToggleNoti());
-                $tmp_frm_noti->setAdminForce((int) $objFrmProps->getAdminForceNoti());
+                $tmp_frm_noti->setUserToggle($objFrmProps->getUserToggleNoti());
+                $tmp_frm_noti->setAdminForce($objFrmProps->getAdminForceNoti());
 
                 $tmp_frm_noti->insertAdminForce();
             }
@@ -122,7 +122,7 @@ class ilForumModeratorsGUI
         }
 
         $entries = $this->oForumModerators->getCurrentModerators();
-        if (count($usr_ids) == count($entries)) {
+        if (count($usr_ids) === count($entries)) {
             ilUtil::sendFailure($this->lng->txt('frm_at_least_one_moderator'));
             $this->ctrl->redirect($this, 'showModerators');
         }
@@ -135,7 +135,7 @@ class ilForumModeratorsGUI
         foreach ($usr_ids as $usr_id) {
             $this->oForumModerators->detachModeratorRole((int) $usr_id);
 
-            if ($isCrsGrp && $frm_noti_type != 'default') {
+            if ($isCrsGrp && $frm_noti_type !== 'default') {
                 if (!ilParticipants::_isParticipant($this->ref_id, $usr_id)) {
                     $tmp_frm_noti = new ilForumNotification($this->ref_id);
                     $tmp_frm_noti->setUserId((int) $usr_id);
@@ -156,12 +156,12 @@ class ilForumModeratorsGUI
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
             $this->toolbar,
-            array(
+            [
                 'auto_complete_name' => $this->lng->txt('user'),
                 'submit_name' => $this->lng->txt('add'),
                 'add_search' => true,
                 'add_from_container' => $this->oForumModerators->getRefId()
-            )
+            ]
         );
         if ($DIC->http()->wrapper()->query()->has('ref_id')) {
             $this->ref_id = $DIC->http()->wrapper()->query()->retrieve(
@@ -173,7 +173,7 @@ class ilForumModeratorsGUI
 
         $entries = $this->oForumModerators->getCurrentModerators();
         $num = count($entries);
-        $result = array();
+        $result = [];
         $i = 0;
         foreach ($entries as $usr_id) {
             /**

@@ -34,7 +34,7 @@ class ilForumPostsDeleted
 
         if (is_object($provider)) {
             if ($provider->objPost->getUserAlias() && $provider->objPost->getDisplayUserId() == 0
-                && $provider->objPost->getPosAuthorId() == $DIC->user()->getId()) {
+                && $provider->objPost->getPosAuthorId() === $DIC->user()->getId()) {
                 $this->setDeletedBy($provider->objPost->getUserAlias());
             } else {
                 $this->setDeletedBy($this->user->getLogin());
@@ -45,7 +45,7 @@ class ilForumPostsDeleted
             $this->setThreadTitle($provider->getThreadTitle());
             $this->setPostTitle($provider->getPostTitle());
 
-            if ($provider->getPostCensored() == 1) {
+            if ($provider->getPostCensored() === 1) {
                 $this->setPostMessage($provider->getCensorshipComment());
             } else {
                 $this->setPostMessage($provider->getPostMessage());
@@ -65,29 +65,29 @@ class ilForumPostsDeleted
     {
         $next_id = $this->db->nextId('frm_posts_deleted');
 
-        $this->db->insert('frm_posts_deleted', array(
-            'deleted_id' => array('integer', $next_id),
-            'deleted_date' => array('timestamp', $this->getDeletedDate()),
-            'deleted_by' => array('text', $this->getDeletedBy()),
-            'forum_title' => array('text', $this->getForumTitle()),
-            'thread_title' => array('text', $this->getThreadTitle()),
-            'post_title' => array('text', $this->getPostTitle()),
-            'post_message' => array('text', $this->getPostMessage()),
+        $this->db->insert('frm_posts_deleted', [
+            'deleted_id' => ['integer', $next_id],
+            'deleted_date' => ['timestamp', $this->getDeletedDate()],
+            'deleted_by' => ['text', $this->getDeletedBy()],
+            'forum_title' => ['text', $this->getForumTitle()],
+            'thread_title' => ['text', $this->getThreadTitle()],
+            'post_title' => ['text', $this->getPostTitle()],
+            'post_message' => ['text', $this->getPostMessage()],
 
-            'post_date' => array('timestamp', $this->getPostDate()),
-            'obj_id' => array('integer', $this->getObjId()),
-            'ref_id' => array('integer', $this->getRefId()),
-            'thread_id' => array('integer', $this->getThreadId()),
-            'forum_id' => array('integer', $this->getForumId()),
-            'pos_display_user_id' => array('integer', $this->getPosDisplayUserId()),
-            'pos_usr_alias' => array('text', $this->getPosUserAlias()),
-            'is_thread_deleted' => array('integer', $this->isThreadDeleted())
-        ));
+            'post_date' => ['timestamp', $this->getPostDate()],
+            'obj_id' => ['integer', $this->getObjId()],
+            'ref_id' => ['integer', $this->getRefId()],
+            'thread_id' => ['integer', $this->getThreadId()],
+            'forum_id' => ['integer', $this->getForumId()],
+            'pos_display_user_id' => ['integer', $this->getPosDisplayUserId()],
+            'pos_usr_alias' => ['text', $this->getPosUserAlias()],
+            'is_thread_deleted' => ['integer', $this->isThreadDeleted()]
+        ]);
     }
 
     public function deleteNotifiedEntries() : void
     {
-        $this->db->manipulateF('DELETE FROM frm_posts_deleted WHERE deleted_id > %s', array('integer'), array(0));
+        $this->db->manipulateF('DELETE FROM frm_posts_deleted WHERE deleted_id > %s', ['integer'], [0]);
     }
 
     public function getDeletedId() : int

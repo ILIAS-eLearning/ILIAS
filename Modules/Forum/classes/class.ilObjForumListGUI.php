@@ -57,12 +57,12 @@ class ilObjForumListGUI extends ilObjectListGUI
         global $DIC;
 
         if (!$this->access->checkAccess('read', '', (int) $this->ref_id)) {
-            return array();
+            return [];
         }
 
         $this->lng->loadLanguageModule('forum');
 
-        $props = array();
+        $props = [];
 
         $properties = ilObjForumAccess::getStatisticsByRefId((int) $this->ref_id);
         $num_posts_total = $properties['num_posts'];
@@ -76,54 +76,54 @@ class ilObjForumListGUI extends ilObjectListGUI
 
         $frm_overview_setting = (int) $this->settings->get('forum_overview');
         $num_new_total = 0;
-        if ($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
+        if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
             $num_new_total = $properties['num_new_posts'];
         }
 
         $last_post = ilObjForumAccess::getLastPostByRefId((int) $this->ref_id);
 
         if (!$this->user->isAnonymous()) {
-            if ($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL) {
-                $props[] = array(
+            if ($this->getDetailsLevel() === ilObjectListGUI::DETAILS_ALL) {
+                $props[] = [
                     'alert' => false,
                     'property' => $this->lng->txt('forums_articles') . ' (' . $this->lng->txt('unread') . ')',
                     'value' => $num_posts_total . ' (' . $num_unread_total . ')'
-                );
-                if ($frm_overview_setting == ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
+                ];
+                if ($frm_overview_setting === ilForumProperties::FORUM_OVERVIEW_WITH_NEW_POSTS) {
                     if ($num_new_total > 0) {
                         // New
-                        $props[] = array(
+                        $props[] = [
                             'alert' => false,
                             'property' => $this->lng->txt('forums_new_articles'),
                             'value' => $num_new_total
-                        );
+                        ];
                     }
                 }
             }
 
             if (ilForumPostDraft::isSavePostDraftAllowed() && $num_drafts_total > 0) {
-                $props[] = array(
+                $props[] = [
                     'alert' => false,
                     'property' => $this->lng->txt('drafts'),
                     'value' => $num_drafts_total
-                );
+                ];
             }
         } else {
-            $props[] = array(
+            $props[] = [
                 'alert' => false,
                 'property' => $this->lng->txt('forums_articles'),
                 'value' => $num_posts_total
-            );
+            ];
         }
 
-        if ($this->getDetailsLevel() == ilObjectListGUI::DETAILS_ALL) {
+        if ($this->getDetailsLevel() === ilObjectListGUI::DETAILS_ALL) {
             if (ilForumProperties::getInstance((int) $this->obj_id)->isAnonymized()) {
-                $props[] = array(
+                $props[] = [
                     'alert' => false,
                     'newline' => false,
                     'property' => $this->lng->txt('forums_anonymized'),
                     'value' => $this->lng->txt('yes')
-                );
+                ];
             }
         }
 
@@ -147,21 +147,21 @@ class ilObjForumListGUI extends ilObjectListGUI
                 (int) $last_post['pos_display_user_id'],
                 (string) $last_post['pos_usr_alias'],
                 (string) $last_post['import_name'],
-                array(
+                [
                     'class' => 'il_ItemProperty',
                     'href' => 'ilias.php?baseClass=ilRepositoryGUI&amp;cmd=showUser&amp;cmdClass=ilobjforumgui&amp;ref_id=' . (int) $this->ref_id . '&amp;user=' . $last_post['pos_display_user_id'] . '&amp;offset=0&amp;backurl=' . urlencode('ilias.php?baseClass=ilRepositoryGUI&amp;ref_id=' . $ref_id)
-                )
+                ]
             );
 
             $lpCont .= $authorinfo->getLinkedAuthorName();
             $lpCont .= ', ' . ilDatePresentation::formatDate(new ilDateTime($last_post['pos_date'], IL_CAL_DATETIME));
 
-            $props[] = array(
+            $props[] = [
                 'alert' => false,
                 'newline' => true,
                 'property' => $this->lng->txt('forums_last_post'),
                 'value' => $lpCont
-            );
+            ];
         }
 
         return $props;

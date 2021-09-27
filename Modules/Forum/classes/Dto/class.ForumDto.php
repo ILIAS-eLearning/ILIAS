@@ -14,7 +14,7 @@ class ForumDto
     private int $top_mods;
     private string $top_date;
     private int $visits;
-    private null|string $top_update;
+    private ?string $top_update = null;
     private int $update_user;
     private int $top_usr_id;
 

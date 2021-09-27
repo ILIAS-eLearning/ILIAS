@@ -58,7 +58,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
             $this->lng->txt("enabled"));
         $icon_not_ok = $this->ui_factory->symbol()->icon()->custom(\ilUtil::getImagePath("icon_not_ok.svg"),
             $this->lng->txt("disabled"));
-        $icon = $user_toggle_noti == 0 ? $icon_ok : $icon_not_ok;
+        $icon = $user_toggle_noti === 0 ? $icon_ok : $icon_not_ok;
 
         return $this->ui_renderer->render($icon);
     }
@@ -89,12 +89,12 @@ class ilForumNotificationTableGUI extends ilTable2GUI
     {
         $interested_events = $row['interested_events'];
         $form = $this->getNotificationSettingsForm($row);
-        $hidden_value = array(
+        $hidden_value = [
             'ref_id' => $this->parent_obj->ref_id,
             'notification_id' => $row['notification_id'],
             'usr_id_events' => $row['usr_id_events'],
             'forum_id' => $row['forum_id'],
-        );
+        ];
 
         $event_values =
             [

@@ -181,7 +181,7 @@ class ilForumSettingsGUI
                             $this->dic->refinery()->string());
                     }
 
-                    $mem_active = array('showMembers', 'forums_notification_settings');
+                    $mem_active = ['showMembers', 'forums_notification_settings'];
                     (in_array($cmd, $mem_active)) ? $force_mem_active = true : $force_mem_active = false;
 
                     $this->tabs->addSubTabTarget(
@@ -217,11 +217,11 @@ class ilForumSettingsGUI
         $a_values['thread_sorting'] = $this->parent_obj->objProperties->getThreadSorting();
         $a_values['thread_rating'] = $this->parent_obj->objProperties->isIsThreadRatingEnabled();
 
-        if (in_array((int) $this->parent_obj->objProperties->getDefaultView(), array(
+        if (in_array((int) $this->parent_obj->objProperties->getDefaultView(), [
             ilForumProperties::VIEW_TREE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
-        ))) {
+        ])) {
             $default_view = (int) $this->parent_obj->objProperties->getDefaultView();
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
@@ -233,11 +233,11 @@ class ilForumSettingsGUI
 
     public function updateCustomValues(ilPropertyFormGUI $a_form) : void
     {
-        if (in_array((int) $a_form->getInput('default_view'), array(
+        if (in_array((int) $a_form->getInput('default_view'), [
             ilForumProperties::VIEW_TREE,
             ilForumProperties::VIEW_DATE_ASC,
             ilForumProperties::VIEW_DATE_DESC
-        ))) {
+        ])) {
             $default_view = (int) $a_form->getInput('default_view');
         } else {
             $default_view = ilForumProperties::VIEW_TREE;
@@ -305,12 +305,12 @@ class ilForumSettingsGUI
                 $form_events[] = \ilForumNotificationEvents::THREAD_DELETED;
             }
 
-            $this->notificationSettingsForm->setValuesByArray(array(
+            $this->notificationSettingsForm->setValuesByArray([
                 'notification_type' => $this->parent_obj->objProperties->getNotificationType(),
                 'adm_force' => (bool) $this->parent_obj->objProperties->isAdminForceNoti(),
                 'usr_toggle' => (bool) $this->parent_obj->objProperties->isUserToggleNoti(),
                 'notification_events' => $form_events
-            ));
+            ]);
         }
 
         // set form html into template
@@ -325,7 +325,7 @@ class ilForumSettingsGUI
         $member_ids = $oParticipants->getMembers();
         $tutor_ids = $oParticipants->getTutors();
 
-        if ($this->parent_obj->objProperties->getNotificationType() == 'default') {
+        if ($this->parent_obj->objProperties->getNotificationType() === 'default') {
             // update forum_notification table
             $forum_noti = new ilForumNotification($this->parent_obj->object->getRefId());
             $forum_noti->setAdminForce((int) $this->parent_obj->objProperties->isAdminForceNoti());
@@ -334,7 +334,7 @@ class ilForumSettingsGUI
             $forum_noti->setInterestedEvents((int) $this->parent_obj->objProperties->getInterestedEvents());
             $forum_noti->update();
         } else {
-            if ($this->parent_obj->objProperties->getNotificationType() == 'per_user') {
+            if ($this->parent_obj->objProperties->getNotificationType() === 'per_user') {
                 $this->initForcedForumNotification();
 
                 $moderators = $this->getUserNotificationTableData($moderator_ids);
@@ -350,7 +350,7 @@ class ilForumSettingsGUI
     private function getUserNotificationTableData($user_ids) : array
     {
         $counter = 0;
-        $users = array();
+        $users = [];
         foreach ($user_ids as $user_id) {
             $forced_events = $this->forumNotificationObj->getForcedEventsObjectByUserId($user_id);
 
@@ -469,7 +469,7 @@ class ilForumSettingsGUI
                 $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
         }
 
-        if (count($user_ids) == 0) {
+        if (count($user_ids) === 0) {
             ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'), true);
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
@@ -506,7 +506,7 @@ class ilForumSettingsGUI
                 $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
         }
 
-        if (count($user_ids) == 0) {
+        if (count($user_ids) === 0) {
             ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
@@ -541,7 +541,7 @@ class ilForumSettingsGUI
                 $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
         }
 
-        if (count($user_ids) == 0) {
+        if (count($user_ids) === 0) {
             ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
@@ -580,7 +580,7 @@ class ilForumSettingsGUI
                 $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
         }
 
-        if (count($user_ids) == 0) {
+        if (count($user_ids) === 0) {
             ilUtil::sendInfo($this->lng->txt('time_limit_no_users_selected'));
         } else {
             $frm_noti = new ilForumNotification($this->parent_obj->object->getRefId());
@@ -605,7 +605,7 @@ class ilForumSettingsGUI
 
     public function getParticipants() : ilParticipants
     {
-        if ($this->parent_obj->isParentObjectCrsOrGrp() == false) {
+        if ($this->parent_obj->isParentObjectCrsOrGrp() === false) {
             $this->parent_obj->error->raiseError(
                 $this->lng->txt('msg_no_perm_read'),
                 $this->parent_obj->error->MESSAGE
@@ -661,7 +661,7 @@ class ilForumSettingsGUI
             if (array_key_exists($user_id, $all_notis) && $update_all_users) {
                 $frm_noti->update();
             } else {
-                if ($frm_noti->existsNotification() == false) {
+                if ($frm_noti->existsNotification() === false) {
                     $frm_noti->insertAdminForce();
                 }
             }
@@ -748,7 +748,7 @@ class ilForumSettingsGUI
                     $this->dic->refinery()->kindlyTo()->string());
             }
 
-            if (strlen($notification_type) && $notification_type == 'all_users') {
+            if (strlen($notification_type) && $notification_type === 'all_users') {
                 // set values and call update
                 $notification_events = $this->notificationSettingsForm->getInput('notification_events');
                 $interested_events = 0;
@@ -765,7 +765,7 @@ class ilForumSettingsGUI
                 $this->parent_obj->objProperties->setInterestedEvents($interested_events);
                 $this->updateUserNotifications(true);
             } else {
-                if ($notification_type == 'per_user') {
+                if ($notification_type === 'per_user') {
                     $this->parent_obj->objProperties->setNotificationType('per_user');
                     $this->parent_obj->objProperties->setAdminForceNoti(1);
                     $this->parent_obj->objProperties->setUserToggleNoti(0);

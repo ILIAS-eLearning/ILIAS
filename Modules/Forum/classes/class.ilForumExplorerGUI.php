@@ -45,7 +45,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->ctrl->setParameter($this->parent_obj, 'thr_pk', $this->thread->getId());
 
         $frm = new ilForum();
-        $this->max_entries = (int) $frm->getPageHits();
+        $this->max_entries = $frm->getPageHits();
 
         $this->initPosting();
 
@@ -59,7 +59,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
             $postingId = (int) ($this->httpRequest->getQueryParams()['pos_pk'] ?? 0);
         }
 
-        $this->currentPostingId = (int) $postingId;
+        $this->currentPostingId = $postingId;
     }
 
     public function getChildsOfNode($a_parent_node_id) : array
@@ -148,7 +148,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
                 ->custom($nodeIconPath, $this->getNodeIconAlt($record));
         }
 
-        if ((int) $record['pos_pk'] === (int) $this->root_node->getId()) {
+        if ((int) $record['pos_pk'] === $this->root_node->getId()) {
             $node = $factory->simple($this->getNodeContent($record), $icon);
         } else {
             $authorInfo = $this->getAuthorInformationByNode($record);
@@ -176,7 +176,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         }
 
         return $this->authorInformation[(int) $node['pos_pk']] = new ilForumAuthorInformation(
-            (int) $node['pos_author_id'] ?? 0,
+            (int) ($node['pos_author_id'] ?? 0),
             (int) $node['pos_display_user_id'],
             (string) $node['pos_usr_alias'],
             (string) $node['import_name']

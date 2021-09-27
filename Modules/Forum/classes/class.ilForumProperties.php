@@ -80,7 +80,7 @@ class ilForumProperties
     /**
      * @var ilForumProperties[]
      */
-    private static array $instances = array();
+    private static array $instances = [];
     private bool $exists = false;
     private ?int $lp_req_num_postings = null;
 
@@ -113,8 +113,8 @@ class ilForumProperties
                 '
 				SELECT * FROM frm_settings
 				WHERE obj_id = %s',
-                array('integer'),
-                array($this->obj_id)
+                ['integer'],
+                [$this->obj_id]
             );
 
             $row = $this->db->fetchObject($res);
@@ -149,24 +149,24 @@ class ilForumProperties
         if ($this->obj_id && !$this->exists) {
             $this->db->insert(
                 'frm_settings',
-                array(
-                    'obj_id' => array('integer', (int) $this->obj_id),
-                    'default_view' => array('integer', (int) $this->default_view),
-                    'anonymized' => array('integer', (int) $this->anonymized),
-                    'statistics_enabled' => array('integer', (int) $this->statistics_enabled),
-                    'post_activation' => array('integer', (int) $this->post_activation_enabled),
-                    'admin_force_noti' => array('integer', (int) $this->admin_force_noti),
-                    'user_toggle_noti' => array('integer', (int) $this->user_toggle_noti),
-                    'preset_subject' => array('integer', (int) $this->preset_subject),
-                    'add_re_subject' => array('integer', (int) $this->add_re_subject),
-                    'notification_type' => array('text', $this->notification_type),
-                    'mark_mod_posts' => array('integer', (int) $this->mark_mod_posts),
-                    'thread_sorting' => array('integer', (int) $this->thread_sorting),
-                    'thread_rating' => array('integer', (int) $this->is_thread_rating_enabled),
-                    'file_upload_allowed' => array('integer', (int) $this->file_upload_allowed),
+                [
+                    'obj_id' => ['integer', (int) $this->obj_id],
+                    'default_view' => ['integer', (int) $this->default_view],
+                    'anonymized' => ['integer', (int) $this->anonymized],
+                    'statistics_enabled' => ['integer', (int) $this->statistics_enabled],
+                    'post_activation' => ['integer', (int) $this->post_activation_enabled],
+                    'admin_force_noti' => ['integer', (int) $this->admin_force_noti],
+                    'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
+                    'preset_subject' => ['integer', (int) $this->preset_subject],
+                    'add_re_subject' => ['integer', (int) $this->add_re_subject],
+                    'notification_type' => ['text', $this->notification_type],
+                    'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
+                    'thread_sorting' => ['integer', (int) $this->thread_sorting],
+                    'thread_rating' => ['integer', (int) $this->is_thread_rating_enabled],
+                    'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
                     'lp_req_num_postings' => ['integer', (int) $this->lp_req_num_postings],
-                    'interested_events' => array('integer', (int) $this->interested_events)
-                )
+                    'interested_events' => ['integer', (int) $this->interested_events]
+                ]
             );
 
             $this->exists = true;
@@ -183,26 +183,26 @@ class ilForumProperties
 
             $this->db->update(
                 'frm_settings',
-                array(
-                    'default_view' => array('integer', $this->default_view),
-                    'anonymized' => array('integer', $this->anonymized),
-                    'statistics_enabled' => array('integer', $this->statistics_enabled),
-                    'post_activation' => array('integer', $this->post_activation_enabled),
-                    'admin_force_noti' => array('integer', $this->admin_force_noti),
-                    'user_toggle_noti' => array('integer', $this->user_toggle_noti),
-                    'preset_subject' => array('integer', $this->preset_subject),
-                    'add_re_subject' => array('integer', $this->add_re_subject),
-                    'notification_type' => array('text', $this->notification_type),
-                    'mark_mod_posts' => array('integer', $this->mark_mod_posts),
-                    'thread_sorting' => array('integer', $this->thread_sorting),
-                    'lp_req_num_postings' => array('integer', $this->lp_req_num_postings),
-                    'thread_rating' => array('integer', $this->isIsThreadRatingEnabled()),
-                    'file_upload_allowed' => array('integer', $this->file_upload_allowed),
-                    'interested_events' => array('integer', $this->interested_events)
-                ),
-                array(
-                    'obj_id' => array('integer', $this->obj_id)
-                )
+                [
+                    'default_view' => ['integer', $this->default_view],
+                    'anonymized' => ['integer', $this->anonymized],
+                    'statistics_enabled' => ['integer', $this->statistics_enabled],
+                    'post_activation' => ['integer', $this->post_activation_enabled],
+                    'admin_force_noti' => ['integer', $this->admin_force_noti],
+                    'user_toggle_noti' => ['integer', $this->user_toggle_noti],
+                    'preset_subject' => ['integer', $this->preset_subject],
+                    'add_re_subject' => ['integer', $this->add_re_subject],
+                    'notification_type' => ['text', $this->notification_type],
+                    'mark_mod_posts' => ['integer', $this->mark_mod_posts],
+                    'thread_sorting' => ['integer', $this->thread_sorting],
+                    'lp_req_num_postings' => ['integer', $this->lp_req_num_postings],
+                    'thread_rating' => ['integer', $this->isIsThreadRatingEnabled()],
+                    'file_upload_allowed' => ['integer', $this->file_upload_allowed],
+                    'interested_events' => ['integer', $this->interested_events]
+                ],
+                [
+                    'obj_id' => ['integer', $this->obj_id]
+                ]
             );
         }
     }
@@ -212,26 +212,26 @@ class ilForumProperties
         if ($a_new_obj_id) {
             $this->db->update(
                 'frm_settings',
-                array(
-                    'default_view' => array('integer', (int) $this->default_view),
-                    'anonymized' => array('integer', (int) $this->anonymized),
-                    'statistics_enabled' => array('integer', (int) $this->statistics_enabled),
-                    'post_activation' => array('integer', (int) $this->post_activation_enabled),
-                    'admin_force_noti' => array('integer', (int) $this->admin_force_noti),
-                    'user_toggle_noti' => array('integer', (int) $this->user_toggle_noti),
-                    'preset_subject' => array('integer', (int) $this->preset_subject),
-                    'add_re_subject' => array('integer', (int) $this->add_re_subject),
-                    'notification_type' => array('text', $this->notification_type),
-                    'mark_mod_posts' => array('integer', (int) $this->mark_mod_posts),
-                    'lp_req_num_postings' => array('integer', (int) $this->lp_req_num_postings),
-                    'thread_sorting' => array('integer', (int) $this->thread_sorting),
-                    'thread_rating' => array('integer', (int) $this->isIsThreadRatingEnabled()),
-                    'file_upload_allowed' => array('integer', (int) $this->file_upload_allowed),
-                    'interested_events' => array('integer', (int) $this->interested_events)
-                ),
-                array(
-                    'obj_id' => array('integer', $a_new_obj_id)
-                )
+                [
+                    'default_view' => ['integer', (int) $this->default_view],
+                    'anonymized' => ['integer', (int) $this->anonymized],
+                    'statistics_enabled' => ['integer', (int) $this->statistics_enabled],
+                    'post_activation' => ['integer', (int) $this->post_activation_enabled],
+                    'admin_force_noti' => ['integer', (int) $this->admin_force_noti],
+                    'user_toggle_noti' => ['integer', (int) $this->user_toggle_noti],
+                    'preset_subject' => ['integer', (int) $this->preset_subject],
+                    'add_re_subject' => ['integer', (int) $this->add_re_subject],
+                    'notification_type' => ['text', $this->notification_type],
+                    'mark_mod_posts' => ['integer', (int) $this->mark_mod_posts],
+                    'lp_req_num_postings' => ['integer', (int) $this->lp_req_num_postings],
+                    'thread_sorting' => ['integer', (int) $this->thread_sorting],
+                    'thread_rating' => ['integer', (int) $this->isIsThreadRatingEnabled()],
+                    'file_upload_allowed' => ['integer', (int) $this->file_upload_allowed],
+                    'interested_events' => ['integer', (int) $this->interested_events]
+                ],
+                [
+                    'obj_id' => ['integer', $a_new_obj_id]
+                ]
             );
             return true;
         }
@@ -286,8 +286,8 @@ class ilForumProperties
 
         $result = $ilDB->queryf(
             "SELECT anonymized FROM frm_settings WHERE obj_id = %s",
-            array('integer'),
-            array($a_obj_id)
+            ['integer'],
+            [$a_obj_id]
         );
 
         while ($record = $ilDB->fetchAssoc($result)) {
@@ -345,8 +345,8 @@ class ilForumProperties
 
         $res = $ilDB->queryF(
             "SELECT admin_force_noti FROM frm_settings WHERE obj_id = %s",
-            array('integer'),
-            array($a_obj_id)
+            ['integer'],
+            [$a_obj_id]
         );
         if ($record = $ilDB->fetchAssoc($res)) {
             return (int) $record['admin_force_noti'];
@@ -362,8 +362,8 @@ class ilForumProperties
 
         $res = $ilDB->queryF(
             "SELECT user_toggle_noti FROM frm_settings WHERE obj_id = %s",
-            array('integer'),
-            array($a_obj_id)
+            ['integer'],
+            [$a_obj_id]
         );
         while ($record = $ilDB->fetchAssoc($res)) {
             return (int) $record['user_toggle_noti'];
@@ -393,7 +393,7 @@ class ilForumProperties
 
     public function setNotificationType($a_notification_type) : void
     {
-        if ($a_notification_type == null) {
+        if ($a_notification_type === null) {
             $this->notification_type = 'default';
         } else {
             $this->notification_type = $a_notification_type;
@@ -407,14 +407,14 @@ class ilForumProperties
 
     public function getSubjectSetting() : string
     {
-        if ($this->getPresetSubject() == 0
-            && $this->getAddReSubject() == 0) {
+        if ($this->getPresetSubject() === 0
+            && $this->getAddReSubject() === 0) {
             return "empty_subject";
         } else {
-            if ($this->getPresetSubject() == 1) {
+            if ($this->getPresetSubject() === 1) {
                 return "preset_subject";
             } else {
-                if ($this->getAddReSubject() == 1) {
+                if ($this->getAddReSubject() === 1) {
                     return "add_re_to_subject";
                 } else {
                     return "preset_subject";
@@ -425,15 +425,15 @@ class ilForumProperties
 
     public function setSubjectSetting($a_subject_setting) : void
     {
-        if ($a_subject_setting == 'empty_subject') {
+        if ($a_subject_setting === 'empty_subject') {
             $this->setPresetSubject(0);
             $this->setAddReSubject(0);
         } else {
-            if ($a_subject_setting == 'preset_subject') {
+            if ($a_subject_setting === 'preset_subject') {
                 $this->setPresetSubject(1);
                 $this->setAddReSubject(0);
             } else {
-                if ($a_subject_setting == 'add_re_to_subject') {
+                if ($a_subject_setting === 'add_re_to_subject') {
                     $this->setPresetSubject(0);
                     $this->setAddReSubject(1);
                 }

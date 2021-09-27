@@ -9,9 +9,9 @@
  */
 class ilForumAuthorInformationCache
 {
-    protected static array $user_instances = array();
-    protected static array $requested_usr_ids = array();
-    protected static array $requested_usr_ids_key_map = array();
+    protected static array $user_instances = [];
+    protected static array $requested_usr_ids = [];
+    protected static array $requested_usr_ids_key_map = [];
 
     public static function preloadUserObjects(array $usr_ids) : void
     {
@@ -36,8 +36,8 @@ class ilForumAuthorInformationCache
 
             $res = $ilDB->queryF(
                 $query,
-                array('text', 'text', 'text'),
-                array('public_profile', 'public_gender', 'public_upload')
+                ['text', 'text', 'text'],
+                ['public_profile', 'public_gender', 'public_upload']
             );
 
             while ($row = $ilDB->fetchAssoc($res)) {
@@ -65,7 +65,7 @@ class ilForumAuthorInformationCache
         }
 
         if (!isset(self::$requested_usr_ids_key_map[$usr_id])) {
-            self::preloadUserObjects(array($usr_id));
+            self::preloadUserObjects([$usr_id]);
         }
 
         return self::$user_instances[$usr_id] ?? null;

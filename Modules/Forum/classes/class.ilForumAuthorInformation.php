@@ -12,7 +12,7 @@ class ilForumAuthorInformation
     protected int $display_id;
     protected string $alias;
     protected string $import_name;
-    protected array $public_profile_link_attributes = array();
+    protected array $public_profile_link_attributes = [];
     protected string $author_name;
     protected string $author_short_name;
     protected $linked_public_name;
@@ -32,7 +32,7 @@ class ilForumAuthorInformation
         int $display_id,
         string $alias,
         string $import_name,
-        array $public_profile_link_attributes = array(),
+        array $public_profile_link_attributes = [],
         ilLanguage $lng = null
     ) {
         global $DIC;
@@ -50,7 +50,7 @@ class ilForumAuthorInformation
         $this->init();
     }
 
-    protected function initUserInstance() :void
+    protected function initUserInstance() : void
     {
         if (is_numeric($this->display_id) && $this->display_id > 0) {
             // Try to read user instance from preloaded cache array
@@ -122,14 +122,14 @@ class ilForumAuthorInformation
         if ($this->doesAuthorAccountExists()) {
             if (!$this->isAuthorAnonymous()
                 && (($this->isCurrentUserSessionLoggedIn()
-                        && $this->getAuthor()->getPref('public_profile') == 'y')
-                    || $this->getAuthor()->getPref('public_profile') == 'g')
+                        && $this->getAuthor()->getPref('public_profile') === 'y')
+                    || $this->getAuthor()->getPref('public_profile') === 'g')
             ) {
                 // Author is NOT anonymous and (the current user session is logged in and the profile is public (y) or the profile is globally public (g))
                 $this->author_name = $this->getAuthor()->getPublicName();
                 $this->author_short_name = $this->getAuthor()->getLogin();
 
-                if ($this->getAuthor()->getPref('public_upload') == 'y') {
+                if ($this->getAuthor()->getPref('public_upload') === 'y') {
                     $this->profilePicture = $this->getUserImagePath($this->getAuthor());
                 } else {
                     $this->profilePicture = $this->getAvatarImageSource(
@@ -142,7 +142,7 @@ class ilForumAuthorInformation
                     );
                 }
 
-                if ($this->getAuthor()->getPref('public_gender') != 'y') {
+                if ($this->getAuthor()->getPref('public_gender') !== 'y') {
                     $this->getAuthor()->setGender('');
                 }
 

@@ -23,6 +23,6 @@ class ilForumNewsRendererGUI extends ilNewsDefaultRendererGUI
             }
         }
 
-        return ilLink::_getLink($this->getNewsRefId(), "", array(), $add);
+        return ilLink::_getLink($this->getNewsRefId(), "", [], $add);
     }
 }

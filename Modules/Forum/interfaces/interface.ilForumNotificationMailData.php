@@ -37,17 +37,17 @@ interface ilForumNotificationMailData
 
     public function getPostDate() : string;
 
-    public function getPostUpdate() : string|null;
+    public function getPostUpdate() : string;
 
-    public function getPostUpdateUserName(ilLanguage $user_lang) : string|null;
+    public function getPostUpdateUserName(ilLanguage $user_lang) : string;
 
     public function getPostCensored() : int;
 
-    public function getPostCensoredDate() : string|null;
+    public function getPostCensoredDate() : string;
 
-    public function getCensorshipComment() : string|null;
+    public function getCensorshipComment() : string;
 
     public function getAttachments() : array;
 
-    public function getDeletedBy() : string|null;
+    public function getDeletedBy() : string;
 }

@@ -80,23 +80,23 @@ class ilForumXMLParser extends ilSaxParser
         switch ($a_name) {
             case 'Forum':
                 $this->entity = 'forum';
-                $this->forumArray = array();
+                $this->forumArray = [];
                 break;
 
             case 'Thread':
                 $this->entity = 'thread';
-                $this->threadArray = array();
+                $this->threadArray = [];
                 break;
 
             case 'Post':
-                $this->mediaObjects = array();
+                $this->mediaObjects = [];
                 $this->entity = 'post';
-                $this->postArray = array();
+                $this->postArray = [];
                 break;
 
             case 'Content':
                 $this->entity = 'content';
-                $this->contentArray = array();
+                $this->contentArray = [];
                 break;
 
             case 'MediaObject':
@@ -143,8 +143,8 @@ class ilForumXMLParser extends ilSaxParser
                             top_num_threads = %s,
                             top_usr_id = %s
                     WHERE top_frm_fk = %s",
-                    array('text', 'integer', 'integer', 'integer', 'integer'),
-                    array($update_str, $num_posts, $num_threads, $this->frm_last_mapped_top_usr_id, $this->forum_obj_id)
+                    ['text', 'integer', 'integer', 'integer', 'integer'],
+                    [$update_str, $num_posts, $num_threads, $this->frm_last_mapped_top_usr_id, $this->forum_obj_id]
                 );
 
                 ilLPStatusWrapper::_refreshStatus($this->forum->getId());
@@ -295,8 +295,8 @@ class ilForumXMLParser extends ilSaxParser
                 $update_str = "$this->lastHandledForumId#$this->lastHandledThreadId#$this->lastHandledPostId";
                 $this->db->manipulateF(
                     "UPDATE frm_threads SET thr_last_post = %s WHERE thr_pk = %s",
-                    array('text', 'integer'),
-                    array($update_str, $this->lastHandledThreadId)
+                    ['text', 'integer'],
+                    [$update_str, $this->lastHandledThreadId]
                 );
                 break;
 
@@ -457,16 +457,16 @@ class ilForumXMLParser extends ilSaxParser
                     }
 
                     $postTreeNodeId = $this->db->nextId('frm_posts_tree');
-                    $this->db->insert('frm_posts_tree', array(
-                        'fpt_pk' => array('integer', $postTreeNodeId),
-                        'thr_fk' => array('integer', $this->lastHandledThreadId),
-                        'pos_fk' => array('integer', $this->forumPost->getId()),
-                        'parent_pos' => array('integer', $parentId),
-                        'lft' => array('integer', $this->postArray['Lft']),
-                        'rgt' => array('integer', $this->postArray['Rgt']),
-                        'depth' => array('integer', $this->postArray['Depth']),
-                        'fpt_date' => array('timestamp', date('Y-m-d H:i:s'))
-                    ));
+                    $this->db->insert('frm_posts_tree', [
+                        'fpt_pk' => ['integer', $postTreeNodeId],
+                        'thr_fk' => ['integer', $this->lastHandledThreadId],
+                        'pos_fk' => ['integer', $this->forumPost->getId()],
+                        'parent_pos' => ['integer', $parentId],
+                        'lft' => ['integer', $this->postArray['Lft']],
+                        'rgt' => ['integer', $this->postArray['Rgt']],
+                        'depth' => ['integer', $this->postArray['Depth']],
+                        'fpt_date' => ['timestamp', date('Y-m-d H:i:s')]
+                    ]);
 
                     $this->mapping['pos'][$this->postArray['Id']] = $this->forumPost->getId();
                     $this->lastHandledPostId = $this->forumPost->getId();
@@ -484,14 +484,14 @@ class ilForumXMLParser extends ilSaxParser
 
                             $this->forumPost->setMessage(
                                 str_replace(
-                                    array(
+                                    [
                                         "src=\"" . $mob_attr["label"] . "\"",
                                         "src=\"" . preg_replace(
                                             "/(il)_[\d]+_(mob)_([\d]+)/",
                                             "$1_0_$2_$3",
                                             $mob_attr["label"]
                                         ) . "\""
-                                    ),
+                                    ],
                                     "src=\"" . "il_" . IL_INST_ID . "_mob_" . $mob->getId() . "\"",
                                     $this->forumPost->getMessage()
                                 )
@@ -538,7 +538,7 @@ class ilForumXMLParser extends ilSaxParser
         return;
     }
 
-    private function getIdAndAliasArray($imp_usr_id, $param = 'import') : bool|array
+    private function getIdAndAliasArray($imp_usr_id, $param = 'import') : array
     {
         $where = '';
         $select = 'SELECT od.obj_id, ud.login FROM object_data od INNER JOIN usr_data ud ON od.obj_id = ud.usr_id';
@@ -563,21 +563,21 @@ class ilForumXMLParser extends ilSaxParser
         }
 
         if ($res) {
-            return array(
+            return [
                 'usr_id' => $res['obj_id'],
                 'usr_alias' => $res['login']
-            );
+            ];
         } else {
-            return false;
+            return [];
         }
     }
 
     private function getAnonymousArray() : array
     {
-        return array(
+        return [
             'usr_id' => $this->aobject->getId(),
             'usr_alias' => $this->aobject->getLogin()
-        );
+        ];
     }
 
     private function getUserIdAndAlias($imp_usr_id, $imp_usr_alias = '') : mixed
@@ -654,10 +654,10 @@ class ilForumXMLParser extends ilSaxParser
                 }
             }
         } else {
-            return array(
+            return [
                 'usr_id' => $imp_usr_id,
                 'usr_alias' => $imp_usr_alias
-            );
+            ];
         }
     }
 

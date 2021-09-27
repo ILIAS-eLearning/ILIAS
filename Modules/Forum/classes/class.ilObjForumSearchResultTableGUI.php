@@ -15,13 +15,13 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
 
         $valid_threads = ilForum::_getThreads($DIC['ilObjDataCache']->lookupObjId($this->ref_id));
 
-        $rows = array();
+        $rows = [];
         foreach ($this->getResults()->getResults() as $result_set) {
             if (!array_key_exists($result_set['item_id'], $valid_threads)) {
                 continue;
             }
 
-            $row = array();
+            $row = [];
 
             $row['title'] = $valid_threads[$result_set['item_id']];
 

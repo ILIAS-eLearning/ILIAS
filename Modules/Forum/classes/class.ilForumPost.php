@@ -55,35 +55,31 @@ class ilForumPost
         unset($this->objThread);
     }
 
-    public function insert() : bool
+    public function insert() : void
     {
         if ($this->forum_id && $this->thread_id) {
             $this->id = $this->db->nextId('frm_posts');
 
-            $this->db->insert('frm_posts', array(
-                'pos_pk' => array('integer', $this->id),
-                'pos_top_fk' => array('integer', $this->forum_id),
-                'pos_thr_fk' => array('integer', $this->thread_id),
-                'pos_display_user_id' => array('integer', $this->display_user_id),
-                'pos_usr_alias' => array('text', $this->user_alias),
-                'pos_subject' => array('text', $this->subject),
-                'pos_message' => array('clob', $this->message),
-                'pos_date' => array('timestamp', $this->createdate),
-                'pos_update' => array('timestamp', $this->createdate),
-                'update_user' => array('integer', $this->user_id_update),
-                'pos_cens' => array('integer', $this->censored),
-                'notify' => array('integer', (int) $this->notification),
-                'import_name' => array('text', (string) $this->import_name),
-                'pos_status' => array('integer', (int) $this->status),
-                'pos_author_id' => array('integer', (int) $this->pos_author_id),
-                'is_author_moderator' => array('integer', $this->is_author_moderator),
-                'pos_activation_date' => array('timestamp', $this->createdate)
-            ));
-
-            return true;
+            $this->db->insert('frm_posts', [
+                'pos_pk' => ['integer', $this->id],
+                'pos_top_fk' => ['integer', $this->forum_id],
+                'pos_thr_fk' => ['integer', $this->thread_id],
+                'pos_display_user_id' => ['integer', $this->display_user_id],
+                'pos_usr_alias' => ['text', $this->user_alias],
+                'pos_subject' => ['text', $this->subject],
+                'pos_message' => ['clob', $this->message],
+                'pos_date' => ['timestamp', $this->createdate],
+                'pos_update' => ['timestamp', $this->createdate],
+                'update_user' => ['integer', $this->user_id_update],
+                'pos_cens' => ['integer', $this->censored],
+                'notify' => ['integer', $this->notification],
+                'import_name' => ['text', $this->import_name],
+                'pos_status' => ['integer', $this->status],
+                'pos_author_id' => ['integer', $this->pos_author_id],
+                'is_author_moderator' => ['integer', $this->is_author_moderator],
+                'pos_activation_date' => ['timestamp', $this->createdate]
+            ]);
         }
-
-        return false;
     }
 
     public function update() : bool
@@ -91,25 +87,25 @@ class ilForumPost
         if ($this->id) {
             $this->db->update(
                 'frm_posts',
-                array(
-                    'pos_top_fk' => array('integer', $this->forum_id),
-                    'pos_thr_fk' => array('integer', $this->thread_id),
-                    'pos_subject' => array('text', $this->subject),
-                    'pos_message' => array('clob', $this->message),
-                    'pos_update' => array('timestamp', $this->changedate),
-                    'update_user' => array('integer', $this->user_id_update),
-                    'pos_cens' => array('integer', $this->censored),
-                    'pos_cens_date' => array('timestamp', $this->censored_date),
-                    'pos_cens_com' => array('text', $this->censorship_comment),
-                    'notify' => array('integer', (int) $this->notification),
-                    'pos_status' => array('integer', (int) $this->status)
-                ),
-                array(
-                    'pos_pk' => array('integer', (int) $this->id)
-                )
+                [
+                    'pos_top_fk' => ['integer', $this->forum_id],
+                    'pos_thr_fk' => ['integer', $this->thread_id],
+                    'pos_subject' => ['text', $this->subject],
+                    'pos_message' => ['clob', $this->message],
+                    'pos_update' => ['timestamp', $this->changedate],
+                    'update_user' => ['integer', $this->user_id_update],
+                    'pos_cens' => ['integer', $this->censored],
+                    'pos_cens_date' => ['timestamp', $this->censored_date],
+                    'pos_cens_com' => ['text', $this->censorship_comment],
+                    'notify' => ['integer', $this->notification],
+                    'pos_status' => ['integer', $this->status]
+                ],
+                [
+                    'pos_pk' => ['integer', $this->id]
+                ]
             );
 
-            if ($this->objThread->getFirstPostId() == $this->id) {
+            if ($this->objThread->getFirstPostId() === $this->id) {
                 $this->objThread->setSubject($this->subject);
                 $this->objThread->update();
                 $this->objThread->reload();
@@ -121,7 +117,7 @@ class ilForumPost
         return false;
     }
 
-    private function read() : bool
+    private function read() : void
     {
         if ($this->id) {
             $res = $this->db->queryF(
@@ -129,8 +125,8 @@ class ilForumPost
 				SELECT * FROM frm_posts
 				INNER JOIN frm_posts_tree ON pos_fk = pos_pk
 				WHERE pos_pk = %s',
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
             $row = $this->db->fetchObject($res);
 
@@ -162,13 +158,10 @@ class ilForumPost
 
                 $this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
 
-                return true;
             }
             $this->id = 0;
-            return false;
         }
 
-        return false;
     }
 
     public function isAnyParentDeactivated() : bool
@@ -181,8 +174,8 @@ class ilForumPost
 				WHERE pos_status = %s
 				AND lft < %s AND rgt > %s
 				AND thr_fk = %s',
-                array('integer', 'integer', 'integer', 'integer'),
-                array('0', $this->lft, $this->rgt, $this->thread_id)
+                ['integer', 'integer', 'integer', 'integer'],
+                ['0', $this->lft, $this->rgt, $this->thread_id]
             );
 
             return $res->numRows();
@@ -202,10 +195,10 @@ class ilForumPost
             $now = date("Y-m-d H:i:s");
             $this->db->update(
                 'frm_posts',
-                array('pos_status' => array('integer', 1),
-                      'pos_activation_date' => array('timestamp', $now)
-                ),
-                array('pos_pk' => array('integer', $this->id))
+                ['pos_status' => ['integer', 1],
+                 'pos_activation_date' => ['timestamp', $now]
+                ],
+                ['pos_pk' => ['integer', $this->id]]
             );
 
             $this->activateParentPosts();
@@ -224,18 +217,18 @@ class ilForumPost
                 . "WHERE treea.pos_fk = %s";
             $result = $this->db->queryF(
                 $query,
-                array('integer'),
-                array($this->id)
+                ['integer'],
+                [$this->id]
             );
 
             $now = date("Y-m-d H:i:s");
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status' => array('integer', 1),
-                          'pos_activation_date' => array('timestamp', $now)
-                    ),
-                    array('pos_pk' => array('integer', $row['pos_pk']))
+                    ['pos_status' => ['integer', 1],
+                     'pos_activation_date' => ['timestamp', $now]
+                    ],
+                    ['pos_pk' => ['integer', $row['pos_pk']]]
                 );
             }
 
@@ -255,18 +248,18 @@ class ilForumPost
                 . "WHERE lft < %s AND rgt > %s AND thr_fk = %s";
             $result = $this->db->queryF(
                 $query,
-                array('integer', 'integer', 'integer'),
-                array($this->lft, $this->rgt, $this->thread_id)
+                ['integer', 'integer', 'integer'],
+                [$this->lft, $this->rgt, $this->thread_id]
             );
 
             $now = date("Y-m-d H:i:s");
             while ($row = $this->db->fetchAssoc($result)) {
                 $this->db->update(
                     'frm_posts',
-                    array('pos_status' => array('integer', 1),
-                          'pos_activation_date' => array('timestamp', $now)
-                    ),
-                    array('pos_pk' => array('integer', $row['pos_pk']))
+                    ['pos_status' => ['integer', 1],
+                     'pos_activation_date' => ['timestamp', $now]
+                    ],
+                    ['pos_pk' => ['integer', $row['pos_pk']]]
                 );
             }
 
@@ -289,8 +282,8 @@ class ilForumPost
 				SELECT * FROM frm_user_read 
 			  	WHERE usr_id = %s
 			 	AND post_id = %s',
-                array('integer', 'integer'),
-                array($a_user_id, $this->id)
+                ['integer', 'integer'],
+                [$a_user_id, $this->id]
             );
 
             return (bool) $res->numRows();
@@ -307,8 +300,8 @@ class ilForumPost
 				SELECT * FROM frm_posts_tree			  		 
 		  	 	WHERE lft > %s AND rgt < %s
 		  	  	AND thr_fk = %s',
-                array('integer', 'integer', 'integer'),
-                array($this->lft, $this->rgt, $this->thread_id)
+                ['integer', 'integer', 'integer'],
+                [$this->lft, $this->rgt, $this->thread_id]
             );
 
             return (bool) $res->numRows();
@@ -320,7 +313,7 @@ class ilForumPost
     public function isOwner($a_user_id = 0) : bool
     {
         if ($this->pos_author_id && $a_user_id) {
-            if ((int) $this->pos_author_id == (int) $a_user_id) {
+            if ($this->pos_author_id === (int) $a_user_id) {
                 return true;
             }
             return false;
@@ -640,7 +633,7 @@ class ilForumPost
 
         $res = $DIC->database()->queryF(
             'SELECT notify FROM frm_posts WHERE pos_pk = %s',
-            array('integer'), array($post_id)
+            ['integer'], [$post_id]
         );
 
         $row = $DIC->database()->fetchAssoc($res);
@@ -654,7 +647,7 @@ class ilForumPost
 
         $res = $ilDB->queryf('
 			SELECT pos_message FROM frm_posts WHERE pos_pk = %s',
-            array('integer'), array($post_id)
+            ['integer'], [$post_id]
         );
 
         if ($row = $ilDB->fetchObject($res)) {

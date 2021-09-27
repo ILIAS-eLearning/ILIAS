@@ -17,7 +17,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
         $a_selection_par = "sel_ref_id"
     ) {
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_selection_gui, $a_selection_cmd, $a_selection_par);
-        $this->setTypeWhiteList(array('root', 'cat', 'fold', 'crs', 'grp', 'frm'));
+        $this->setTypeWhiteList(['root', 'cat', 'fold', 'crs', 'grp', 'frm']);
         $this->setSelectMode('frm_ref_id');
     }
 
@@ -35,8 +35,8 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
     {
         global $DIC;
 
-        if ($a_node['type'] == 'frm') {
-            if ($this->getCurrentFrmRefId() && $this->getCurrentFrmRefId() == $a_node['child']) {
+        if ($a_node['type'] === 'frm') {
+            if ($this->getCurrentFrmRefId() && $this->getCurrentFrmRefId() === $a_node['child']) {
                 return false;
             }
 
@@ -51,8 +51,8 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
     {
         global $DIC;
 
-        if ($a_node['type'] == 'frm') {
-            if ($this->getCurrentFrmRefId() && $this->getCurrentFrmRefId() == $a_node['child']) {
+        if ($a_node['type'] === 'frm') {
+            if ($this->getCurrentFrmRefId() && $this->getCurrentFrmRefId() === $a_node['child']) {
                 return false;
             }
 

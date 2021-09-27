@@ -179,11 +179,11 @@ class ilForumAutoSaveAsyncDraftAction
     {
         $inputValues = [];
 
-        $inputValues['subject'] = (string) $this->form->getInput('subject');
-        $inputValues['message'] = (string) $this->form->getInput('message');
+        $inputValues['subject'] = $this->form->getInput('subject');
+        $inputValues['message'] = $this->form->getInput('message');
         $inputValues['notify'] = (int) $this->form->getInput('notify');
         $inputValues['alias'] = ilForumUtil::getPublicUserAlias(
-            (string) $this->form->getInput('alias'),
+            $this->form->getInput('alias'),
             $this->forumProperties->isAnonymized()
         );
 

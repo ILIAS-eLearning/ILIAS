@@ -9,7 +9,7 @@
  */
 class ilForumNotification
 {
-    protected static array $node_data_cache = array();
+    protected static array $node_data_cache = [];
 
     protected static array $forced_events_cache = [];
 
@@ -136,8 +136,8 @@ class ilForumNotification
 			WHERE user_id = %s 
 			AND frm_id = %s
 			AND user_id_noti > %s ',
-            array('integer', 'integer', 'integer'),
-            array($this->getUserId(), $this->getForumId(), 0)
+            ['integer', 'integer', 'integer'],
+            [$this->getUserId(), $this->getForumId(), 0]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
@@ -154,8 +154,8 @@ class ilForumNotification
 			WHERE user_id = %s 
 			AND frm_id = %s
 			AND user_id_noti > %s',
-            array('integer', 'integer', 'integer'),
-            array($this->getUserId(), $this->getForumId(), 0)
+            ['integer', 'integer', 'integer'],
+            [$this->getUserId(), $this->getForumId(), 0]
         );
 
         if ($row = $this->db->fetchAssoc($res)) {
@@ -172,14 +172,14 @@ class ilForumNotification
 			INSERT INTO frm_notification
 				(notification_id, user_id, frm_id, admin_force_noti, user_toggle_noti, user_id_noti)
 			VALUES(%s,%s,%s,%s,%s,%s)',
-            array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
-            array($next_id,
-                  $this->getUserId(),
-                  $this->getForumId(),
-                  $this->getAdminForce(),
-                  $this->getUserToggle(),
-                  $this->user->getId()
-            )
+            ['integer', 'integer', 'integer', 'integer', 'integer', 'integer'],
+            [$next_id,
+             $this->getUserId(),
+             $this->getForumId(),
+             $this->getAdminForce(),
+             $this->getUserToggle(),
+             $this->user->getId()
+            ]
         );
     }
 
@@ -192,8 +192,8 @@ class ilForumNotification
 			AND		frm_id = %s 
 			AND		admin_force_noti = %s 
 			AND		user_id_noti > %s',
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getUserId(), $this->getForumId(), 1, 0)
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getUserId(), $this->getForumId(), 1, 0]
         );
     }
 
@@ -207,8 +207,8 @@ class ilForumNotification
 			AND		admin_force_noti = %s 
 			AND		user_toggle_noti = %s			
 			AND		user_id_noti > %s',
-            array('integer', 'integer', 'integer', 'integer', 'integer'),
-            array($this->getUserId(), $this->getForumId(), 1, 1, 0)
+            ['integer', 'integer', 'integer', 'integer', 'integer'],
+            [$this->getUserId(), $this->getForumId(), 1, 1, 0]
         );
     }
 
@@ -221,8 +221,8 @@ class ilForumNotification
 			WHERE user_id = %s
 			AND frm_id = %s
 			AND admin_force_noti = %s',
-            array('integer', 'integer', 'integer', 'integer'),
-            array($this->getUserToggle(), $this->getUserId(), $this->getForumId(), 1)
+            ['integer', 'integer', 'integer', 'integer'],
+            [$this->getUserToggle(), $this->getUserId(), $this->getForumId(), 1]
         );
     }
 
@@ -240,7 +240,7 @@ class ilForumNotification
         foreach ($node_data as $data) {
             //check frm_properties if frm_noti is enabled
             $frm_noti = new ilForumNotification($data['ref_id']);
-            if ($user_id != 0) {
+            if ($user_id !== 0) {
                 $frm_noti->setUserId($user_id);
             } else {
                 $frm_noti->setUserId($ilUser->getId());
@@ -250,14 +250,14 @@ class ilForumNotification
             $frm_noti->setAdminForce($admin_force);
 
             $user_toggle = ilForumProperties::_isUserToggleNoti($data['obj_id']);
-            if ($user_toggle == 1) {
+            if ($user_toggle === 1) {
                 $frm_noti->setAdminForce(1);
             }
 
-            if ($admin_force == 1 || $user_toggle == 1) {
+            if ($admin_force === 1 || $user_toggle === 1) {
                 $frm_noti->setUserToggle($user_toggle);
                 $frm_noti->setForumId($data['obj_id']);
-                if ($frm_noti->existsNotification() == false) {
+                if ($frm_noti->existsNotification() === false) {
                     $frm_noti->insertAdminForce();
                 }
             }
@@ -277,7 +277,7 @@ class ilForumNotification
             $objFrmMods = new ilForumModerators($data['ref_id']);
             $moderator_ids = $objFrmMods->getCurrentModerators();
 
-            if ($user_id != 0) {
+            if ($user_id !== 0) {
                 $frm_noti->setUserId($user_id);
             } else {
                 $frm_noti->setUserId($ilUser->getId());
@@ -314,15 +314,15 @@ class ilForumNotification
         return self::$node_data_cache[$ref_id];
     }
 
-    public static function _isParentNodeGrpCrs($a_ref_id) : bool|string
+    public static function _isParentNodeGrpCrs($a_ref_id) : bool
     {
         global $DIC;
 
         $parent_ref_id = $DIC->repositoryTree()->getParentId($a_ref_id);
         $parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
 
-        if ($parent_obj->getType() == 'crs' || $parent_obj->getType() == 'grp') {
-            return $parent_obj->getType();
+        if ($parent_obj->getType() === 'crs' || $parent_obj->getType() === 'grp') {
+            return true;
         } else {
             return false;
         }
@@ -334,7 +334,7 @@ class ilForumNotification
         $ilDB = $DIC->database();
         $ilObjDataCache = $DIC['ilObjDataCache'];
 
-        if (!$a_parameter['tree'] == 'tree') {
+        if (!$a_parameter['tree'] === 'tree') {
             return;
         }
 
@@ -349,8 +349,8 @@ class ilForumNotification
 				DELETE FROM frm_notification 
 				WHERE frm_id = %s 
 				AND admin_force_noti = %s',
-                array('integer', 'integer'),
-                array($forum_id, 1)
+                ['integer', 'integer'],
+                [$forum_id, 1]
             );
         }
     }
@@ -363,14 +363,14 @@ class ilForumNotification
         $parent_ref_id = $tree->getParentId($ref_id);
         $parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
 
-        if ($parent_obj->getType() == 'crs') {
+        if ($parent_obj->getType() === 'crs') {
             $oParticipants = ilCourseParticipants::_getInstanceByObjId($parent_obj->getId());
-        } elseif ($parent_obj->getType() == 'grp') {
+        } elseif ($parent_obj->getType() === 'grp') {
             $oParticipants = ilGroupParticipants::_getInstanceByObjId($parent_obj->getId());
         }
 
-        $result = array();
-        if ($parent_obj->getType() == 'crs' || $parent_obj->getType() == 'grp') {
+        $result = [];
+        if ($parent_obj->getType() === 'crs' || $parent_obj->getType() === 'grp') {
             $moderator_ids = ilForum::_getModerators($ref_id);
             $admin_ids = $oParticipants->getAdmins();
             $tutor_ids = $oParticipants->getTutors();
@@ -390,13 +390,13 @@ class ilForumNotification
 			    interested_events = %s
 				WHERE user_id = %s
 				AND frm_id = %s',
-            array('integer', 'integer', 'integer', 'integer', 'integer'),
-            array($this->getAdminForce(),
-                  $this->getUserToggle(),
-                  $this->getInterestedEvents(),
-                  $this->getUserId(),
-                  $this->getForumId()
-            )
+            ['integer', 'integer', 'integer', 'integer', 'integer'],
+            [$this->getAdminForce(),
+             $this->getUserToggle(),
+             $this->getInterestedEvents(),
+             $this->getUserId(),
+             $this->getForumId()
+            ]
         );
     }
 
@@ -407,21 +407,21 @@ class ilForumNotification
 			DELETE FROM frm_notification
 			WHERE frm_id = %s
 			AND user_id_noti > %s',
-            array('integer', 'integer'),
-            array($this->getForumId(), 0)
+            ['integer', 'integer'],
+            [$this->getForumId(), 0]
         );
     }
 
     public function read() : array
     {
-        $result = array();
+        $result = [];
 
         $query = $this->db->queryF(
             '
 			SELECT * FROM frm_notification WHERE
 			frm_id = %s',
-            array('integer'),
-            array($this->getForumId())
+            ['integer'],
+            [$this->getForumId()]
         );
 
         while ($row = $this->db->fetchAssoc($query)) {
@@ -441,8 +441,8 @@ class ilForumNotification
 		WHERE frm_id = %s 
 		AND  thread_id = %s
 		 ORDER BY user_id ASC',
-            array('integer', 'integer'),
-            array(0, $merge_source_thread_id)
+            ['integer', 'integer'],
+            [0, $merge_source_thread_id]
         );
 
         $res_2 = $ilDB->queryF(
@@ -450,11 +450,11 @@ class ilForumNotification
 		WHERE frm_id = %s 
 		AND  thread_id = %s
 		 ORDER BY user_id ASC',
-            array('integer', 'integer'),
-            array(0, $merge_target_thread_id)
+            ['integer', 'integer'],
+            [0, $merge_target_thread_id]
         );
 
-        $users_already_notified = array();
+        $users_already_notified = [];
         while ($users_row = $ilDB->fetchAssoc($res_2)) {
             $users_already_notified[$users_row['user_id']] = $users_row['user_id'];
         }
@@ -464,16 +464,16 @@ class ilForumNotification
                 // delete source notification because already exists for target_id
                 $ilDB->manipulatef(
                     'DELETE FROM frm_notification WHERE notification_id = %s',
-                    array('integer'),
-                    array($row['notification_id'])
+                    ['integer'],
+                    [$row['notification_id']]
                 );
             } else {
                 // update source notification
                 $ilDB->update(
                     'frm_notification',
-                    array('thread_id' => array('integer', $merge_target_thread_id)),
-                    array('thread_id' => array('integer', $merge_source_thread_id)
-                    )
+                    ['thread_id' => ['integer', $merge_target_thread_id]],
+                    ['thread_id' => ['integer', $merge_source_thread_id]]
+
                 );
             }
         }
@@ -487,8 +487,8 @@ class ilForumNotification
 			WHERE user_id = %s
 			AND frm_id = %s 
 			AND admin_force_noti = %s',
-            array('integer', 'integer', 'integer'),
-            array($this->getUserId(), $this->getForumId(), $this->getAdminForce())
+            ['integer', 'integer', 'integer'],
+            [$this->getUserId(), $this->getForumId(), $this->getAdminForce()]
         );
 
         if ($row = $this->db->numRows($res) > 0) {
@@ -520,8 +520,8 @@ class ilForumNotification
 			SET interested_events = %s
 				WHERE user_id = %s
 				AND frm_id = %s',
-            array('integer', 'integer', 'integer'),
-            array($this->getInterestedEvents(), $this->getUserId(), $this->getForumId())
+            ['integer', 'integer', 'integer'],
+            [$this->getInterestedEvents(), $this->getUserId(), $this->getForumId()]
         );
     }
 
@@ -534,8 +534,8 @@ class ilForumNotification
             FROM frm_notification
             WHERE user_id = %s
             AND frm_id = %s',
-            array('integer', 'integer'),
-            array($this->getUserId(), $this->getForumId())
+            ['integer', 'integer'],
+            [$this->getUserId(), $this->getForumId()]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
@@ -552,8 +552,8 @@ class ilForumNotification
         SELECT * FROM frm_notification
         WHERE admin_force_noti = %s
         AND frm_id = %s',
-            array('integer', 'integer'),
-            array(1, $this->forum_id)
+            ['integer', 'integer'],
+            [1, $this->forum_id]
         );
 
         while ($row = $this->db->fetchAssoc($res)) {

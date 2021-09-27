@@ -58,9 +58,11 @@ class ilForumExportGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        return match ($next_class) {
-            default => $this->$cmd(),
-        };
+        switch ($next_class) {
+            default:
+                return $this->$cmd();
+                break;
+        }
     }
 
     public function printThread() : void
@@ -88,7 +90,7 @@ class ilForumExportGUI
             );
         }
 
-        $this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int) $thr_top_fk));
+        $this->frm->setMDB2WhereCondition('top_pk = %s ', ['integer'], [(int) $thr_top_fk]);
         if (is_array($frmData = $this->frm->getOneTopic())) {
             $print_thread = 0;
             if ($this->http_wrapper->query()->has('print_thread')) {
@@ -143,7 +145,7 @@ class ilForumExportGUI
     {
         $tpl->setCurrentBlock('posts_row');
 
-        if (ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($this->retrieveRefId()))->getMarkModeratorPosts() == 1) {
+        if (ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($this->retrieveRefId()))->getMarkModeratorPosts() === 1) {
             if ($post->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator(
                     $this->retrieveRefId(),
                     $post->getPosAuthorId()
@@ -191,8 +193,8 @@ class ilForumExportGUI
             $tpl->setVariable('AUTHOR', $authorinfo->getAuthorShortName());
         }
 
-        if (self::MODE_EXPORT_CLIENT == $mode) {
-            if ($authorinfo->getAuthor()->getPref('public_profile') != 'n') {
+        if (self::MODE_EXPORT_CLIENT === $mode) {
+            if ($authorinfo->getAuthor()->getPref('public_profile') !== 'n') {
                 $tpl->setVariable('TXT_REGISTERED', $this->lng->txt('registered_since'));
                 $tpl->setVariable(
                     'REGISTERED_SINCE',
@@ -216,13 +218,13 @@ class ilForumExportGUI
                 $this->retrieveRefId(),
                 $post->getPosAuthorId()
             )) {
-            if ($authorinfo->getAuthor()->getGender() == 'f') {
+            if ($authorinfo->getAuthor()->getGender() === 'f') {
                 $tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
             } else {
-                if ($authorinfo->getAuthor()->getGender() == 'm') {
+                if ($authorinfo->getAuthor()->getGender() === 'm') {
                     $tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_m'));
                 } else {
-                    if ($authorinfo->getAuthor()->getGender() == 'n') {
+                    if ($authorinfo->getAuthor()->getGender() === 'n') {
                         $tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_n'));
                     }
                 }
@@ -272,7 +274,7 @@ class ilForumExportGUI
                 $post->setMessage(nl2br($post->getMessage()));
             }
 
-            if ($spanClass != "") {
+            if ($spanClass !== "") {
                 $tpl->setVariable(
                     'POST',
                     "<span class=\"" . $spanClass . "\">" . ilRTE::_replaceMediaObjectImageSrc(
@@ -316,7 +318,7 @@ class ilForumExportGUI
             );
         }
 
-        $this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array((int) $top_pk));
+        $this->frm->setMDB2WhereCondition('top_pk = %s ', ['integer'], [(int) $top_pk]);
         if (is_array($frmData = $this->frm->getOneTopic())) {
             $print_post = 0;
             if ($this->http_wrapper->query()->has('print_post')) {
@@ -378,9 +380,9 @@ class ilForumExportGUI
 
         $j = 0;
         foreach ($threads as $topic) {
-            $this->frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topic->getForumId()));
+            $this->frm->setMDB2WhereCondition('top_pk = %s ', ['integer'], [$topic->getForumId()]);
             if (is_array($thread_data = $this->frm->getOneTopic())) {
-                if (0 == $j) {
+                if (0 === $j) {
                     $tpl->setVariable('TITLE', $thread_data->getTopName());
                 }
 
@@ -431,7 +433,7 @@ class ilForumExportGUI
 
     private function retrieveRefId() : int
     {
-        if ($this->ref_id == 0 || $this->http_wrapper->query()->has('ref_id')) {
+        if ($this->ref_id === 0 || $this->http_wrapper->query()->has('ref_id')) {
             $this->ref_id = $this->http_wrapper->query()->retrieve(
                 'ref_id',
                 $this->refinery->kindlyTo()->int()

@@ -99,15 +99,15 @@ class ilForumPostsTree
         $this->db->update(
             'frm_posts_tree',
             [
-                'lft' => array('integer', $this->getLft()),
-                'rgt' => array('integer', $this->getRgt()),
-                'depth' => array('integer', $this->getDepth()),
-                'thr_fk' => array('integer', $this->getTargetThreadId()),
-                'parent_pos' => array('integer', $this->getParentPos()),
+                'lft' => ['integer', $this->getLft()],
+                'rgt' => ['integer', $this->getRgt()],
+                'depth' => ['integer', $this->getDepth()],
+                'thr_fk' => ['integer', $this->getTargetThreadId()],
+                'parent_pos' => ['integer', $this->getParentPos()],
             ],
             [
-                'pos_fk' => array('integer', $this->getPosFk()),
-                'thr_fk' => array('integer', $this->getSourceThreadId())
+                'pos_fk' => ['integer', $this->getPosFk()],
+                'thr_fk' => ['integer', $this->getSourceThreadId()]
             ]
         );
     }
@@ -119,13 +119,13 @@ class ilForumPostsTree
 
         $ilDB->update(
             'frm_posts_tree',
-            array(
-                'rgt' => array('integer', $rgt)
-            ),
-            array(
-                'parent_pos' => array('integer', 0),
-                'pos_fk' => array('integer', $root_node_id)
-            )
+            [
+                'rgt' => ['integer', $rgt]
+            ],
+            [
+                'parent_pos' => ['integer', 0],
+                'pos_fk' => ['integer', $root_node_id]
+            ]
         );
     }
 }

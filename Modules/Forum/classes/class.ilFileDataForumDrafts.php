@@ -59,7 +59,7 @@ class ilFileDataForumDrafts extends ilFileData
 
     public function getFiles() : array
     {
-        $files = array();
+        $files = [];
 
         foreach (new DirectoryIterator($this->getDraftsPath() . '/' . $this->getDraftId()) as $file) {
             /**
@@ -70,13 +70,13 @@ class ilFileDataForumDrafts extends ilFileData
                 continue;
             }
 
-            $files[] = array(
+            $files[] = [
                 'path' => $file->getPathname(),
                 'md5' => md5($file->getFilename()),
                 'name' => $file->getFilename(),
                 'size' => $file->getSize(),
                 'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-            );
+            ];
         }
 
         return $files;
@@ -84,7 +84,7 @@ class ilFileDataForumDrafts extends ilFileData
 
     public function getFilesOfPost() : array
     {
-        $files = array();
+        $files = [];
 
         foreach (new DirectoryIterator($this->getDraftsPath() . '/' . $this->getDraftId()) as $file) {
             /**
@@ -95,13 +95,13 @@ class ilFileDataForumDrafts extends ilFileData
                 continue;
             }
 
-            $files[$file->getFilename()] = array(
+            $files[$file->getFilename()] = [
                 'path' => $file->getPathname(),
                 'md5' => md5($file->getFilename()),
                 'name' => $file->getFilename(),
                 'size' => $file->getSize(),
                 'ctime' => date('Y-m-d H:i:s', $file->getCTime())
-            );
+            ];
         }
 
         return $files;
@@ -176,12 +176,12 @@ class ilFileDataForumDrafts extends ilFileData
         return '';
     }
 
-    public function unlinkFile($a_filename) : bool|string
+    public function unlinkFile($a_filename) : bool
     {
         if (is_file($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $a_filename)) {
             return unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $a_filename);
         }
-        return '';
+        return false;
     }
 
     public function getAbsolutePath($a_path)
@@ -189,20 +189,20 @@ class ilFileDataForumDrafts extends ilFileData
         return $this->getDraftsPath() . '/' . $this->getDraftId();
     }
 
-    public function getFileDataByMD5Filename($a_md5_filename) : bool|array
+    public function getFileDataByMD5Filename($a_md5_filename) : array
     {
         $files = ilUtil::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
         foreach ($files as $file) {
             if ($file['type'] == 'file' && md5($file['entry']) == $a_md5_filename) {
-                return array(
+                return [
                     'path' => $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry'],
                     'filename' => $file['entry'],
                     'clean_filename' => $file['entry']
-                );
+                ];
             }
         }
 
-        return false;
+        return [];
     }
 
     public function unlinkFilesByMD5Filenames($a_md5_filename) : bool

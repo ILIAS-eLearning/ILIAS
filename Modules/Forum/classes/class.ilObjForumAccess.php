@@ -9,7 +9,7 @@
  */
 class ilObjForumAccess extends ilObjectAccess
 {
-    protected static array $userInstanceCache = array();
+    protected static array $userInstanceCache = [];
 
     /**
      * get commands
@@ -23,19 +23,19 @@ class ilObjForumAccess extends ilObjectAccess
      */
     public static function _getCommands() : array
     {
-        return array(
-            array(
+        return [
+            [
                 'permission' => 'read',
                 'cmd' => 'showThreads',
                 'lang_var' => 'show',
                 'default' => true
-            ),
-            array(
+            ],
+            [
                 'permission' => 'write',
                 'cmd' => 'edit',
                 'lang_var' => 'settings'
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -71,8 +71,8 @@ class ilObjForumAccess extends ilObjectAccess
 
         $res = $ilDB->queryF(
             'SELECT pos_thr_fk FROM frm_posts WHERE pos_pk = %s',
-            array('integer'),
-            array($a_pos_id)
+            ['integer'],
+            [$a_pos_id]
         );
 
         $row = $ilDB->fetchAssoc($res);
@@ -92,8 +92,8 @@ class ilObjForumAccess extends ilObjectAccess
             'SELECT top_frm_fk, pos_pk FROM frm_posts p
 			JOIN frm_data d ON d.top_pk = p.pos_top_fk
 			WHERE top_frm_fk = %s',
-            array('integer'),
-            array($a_obj_id)
+            ['integer'],
+            [$a_obj_id]
         );
 
         $size = 0;
@@ -144,7 +144,7 @@ class ilObjForumAccess extends ilObjectAccess
         return ilObjForum::lookupStatisticsByRefId($ref_id);
     }
 
-    public static function getCachedUserInstance(int $usr_id) : bool|ilObjUser
+    public static function getCachedUserInstance(int $usr_id) : ilObjUser
     {
         if (!isset(self::$userInstanceCache[$usr_id]) && ilObjUser::userExists([$usr_id])) {
             self::$userInstanceCache[$usr_id] = ilObjectFactory::getInstanceByObjId($usr_id, false);

@@ -17,30 +17,27 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
     protected int $post_id = 0;
     protected string $post_title = '';
     protected string $post_message = '';
-    protected string|null $post_date = null;
-    protected string|null $post_update = null;
-    protected bool|int $post_censored = false;
-    protected string|null $post_censored_date = null;
-    protected string|null $post_censored_comment = '';
+    protected ?string $post_date = null;
+    protected ?string $post_update = null;
+    protected $post_censored = false;
+    protected ?string $post_censored_date = null;
+    protected ?string $post_censored_comment = '';
     protected string $pos_usr_alias = '';
     protected int $pos_display_user_id = 0;
     protected bool $is_anonymized = false;
 
-    /**
-     * @var int|string
-     */
-    protected mixed $import_name = '';
+    protected string $import_name = '';
 
-    protected array $attachments = array();
-    protected array $cron_recipients = array();
+    protected array $attachments = [];
+    protected array $cron_recipients = [];
     public int $post_update_user_id = 0;
     public int $pos_author_id = 0;
-    public string|null $deleted_by = '';
+    public ?string $deleted_by = '';
 
     /**
      * @var \ilForumAuthorInformation[]
      */
-    protected static array $authorInformationCache = array();
+    protected static array $authorInformationCache = [];
     private ?string $post_user_name = null;
     private ?string $update_user_name = null;
 
@@ -173,19 +170,19 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         return $this->post_date;
     }
 
-    public function getPostUpdate() : ?string
+    public function getPostUpdate() : string
     {
-        return $this->post_update;
+        return $this->post_update ?? '';
     }
 
     public function getPostCensored() : int
     {
-        return $this->post_censored;
+        return (int) $this->post_censored;
     }
 
-    public function getPostCensoredDate() : ?string
+    public function getPostCensoredDate() : string
     {
-        return $this->post_censored_date;
+        return $this->post_censored_date ?? '';
     }
 
     public function getCensorshipComment() : string
@@ -243,7 +240,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         return $this->deleted_by;
     }
 
-    public function getImportName() : int|string
+    public function getImportName() : string
     {
         return $this->import_name;
     }
@@ -256,7 +253,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
                 $this->getPosAuthorId(),
                 $this->getPosDisplayUserId(),
                 $this->getPosUserAlias(),
-                (string) $this->getImportName()
+                $this->getImportName()
             ));
         }
 
@@ -271,7 +268,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
                 $this->getPosAuthorId(),
                 $this->getPostUpdateUserId(),
                 $this->getPosUserAlias(),
-                (string) $this->getImportName()
+                $this->getImportName()
             ));
         }
 
@@ -304,14 +301,14 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
         string $usrAlias,
         string $importName
     ) {
-        $cacheKey = $this->notificationCache->createKeyByValues(array(
+        $cacheKey = $this->notificationCache->createKeyByValues([
             $this->notification_type,
             $lng->getLangKey(),
             $authorUsrId,
             $displayUserId,
             $usrAlias,
             $importName
-        ));
+        ]);
 
         if (false === $this->notificationCache->exists($cacheKey)) {
             $authorInformation = new ilForumAuthorInformation(
@@ -319,7 +316,7 @@ class ilForumCronNotificationDataProvider implements ilForumNotificationMailData
                 $displayUserId,
                 $usrAlias,
                 $importName,
-                array(),
+                [],
                 $lng
             );
 

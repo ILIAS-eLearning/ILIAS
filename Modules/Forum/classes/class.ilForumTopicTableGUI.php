@@ -65,7 +65,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
     public function init() : void
     {
-        if ($this->parent_cmd == 'mergeThreads') {
+        if ($this->parent_cmd === 'mergeThreads') {
             $this->initMergeThreadsTable();
         } else {
             $this->initTopicsOverviewTable();
@@ -74,7 +74,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
     public function initTopicsOverviewTable() : void
     {
-        if ($this->parent_cmd == "showThreads") {
+        if ($this->parent_cmd === "showThreads") {
             $this->setSelectAllCheckbox('thread_ids');
             $this->addColumn('', 'check', '1px', true);
         } else {
@@ -91,14 +91,14 @@ class ilForumTopicTableGUI extends ilTable2GUI
         }
 
         $this->addColumn($this->lng->txt('forums_last_post'), 'post_date');
-        if ('showThreads' == $this->parent_cmd && $this->parent_obj->objProperties->isIsThreadRatingEnabled()) {
+        if ('showThreads' === $this->parent_cmd && $this->parent_obj->objProperties->isIsThreadRatingEnabled()) {
             $this->addColumn($this->lng->txt('frm_rating'), 'rating');
         }
 
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), 'showThreads'));
         $this->setRowTemplate('tpl.forums_threads_table.html', 'Modules/Forum');
 
-        if ($this->parent_cmd == 'sortThreads') {
+        if ($this->parent_cmd === 'sortThreads') {
             $this->addCommandButton('saveThreadSorting', $this->lng->txt('save'));
         } else {
             // Multi commands
@@ -165,14 +165,14 @@ class ilForumTopicTableGUI extends ilTable2GUI
             );
         }
 
-        if ('mergeThreads' == $this->parent_cmd) {
-            $checked = $this->max_count == 1 || (isset($thread_ids) && in_array($thread->getId(), $thread_ids));
+        if ('mergeThreads' === $this->parent_cmd) {
+            $checked = $this->max_count === 1 || (isset($thread_ids) && in_array($thread->getId(), $thread_ids));
             $this->tpl->setVariable('VAL_CHECK', ilUtil::formRadioButton(
                 $checked,
                 'thread_ids[]',
                 $thread->getId()
             ));
-        } elseif ('showThreads' == $this->parent_cmd) {
+        } elseif ('showThreads' === $this->parent_cmd) {
             $this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
                 (isset($thread_ids) && in_array($thread->getId(), $thread_ids) ? true : false),
                 'thread_ids[]',
@@ -205,7 +205,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         }
 
         if (!$this->user->isAnonymous() &&
-            $this->settings->get('forum_notification') != 0 &&
+            $this->settings->get('forum_notification') !== 0 &&
             $thread->getUserNotificationEnabled()
         ) {
             $subject .= '<span class="light">[' . $this->lng->txt('forums_notification_enabled') . ']</span> ';
@@ -231,10 +231,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
             $thread->getDisplayUserId(),
             $thread->getUserAlias(),
             $thread->getImportName(),
-            array(
+            [
                 'class' => 'il_ItemProperty',
                 'href' => $this->ctrl->getLinkTarget($this->getParentObject(), 'showUser')
-            )
+            ]
         );
         $this->tpl->setVariable('VAL_AUTHOR', $authorinfo->getLinkedAuthorName());
 
@@ -243,7 +243,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
             if ($num_unread > 0) {
                 $topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('unread') . ': ' . $num_unread . '</span>';
             }
-            if ($num_new > 0 && $this->getOverviewSetting() == 0) {
+            if ($num_new > 0 && $this->getOverviewSetting() === 0) {
                 $topicStats .= '<br /><span class="ilAlert ilWhiteSpaceNowrap">' . $this->lng->txt('new') . ': ' . $num_new . '</span>';
             }
         }
@@ -266,9 +266,9 @@ class ilForumTopicTableGUI extends ilTable2GUI
                     $objLastPost->getDisplayUserId(),
                     $objLastPost->getUserAlias(),
                     $objLastPost->getImportName(),
-                    array(
+                    [
                         'href' => $this->ctrl->getLinkTarget($this->getParentObject(), 'showUser')
-                    )
+                    ]
                 );
 
                 $this->tpl->setVariable(
@@ -283,7 +283,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         // Row style
         $css_row = $this->css_row;
         if ($thread->isSticky()) {
-            $css_row = $css_row == 'tblrow1' ? 'tblstickyrow1' : 'tblstickyrow2';
+            $css_row = $css_row === 'tblrow1' ? 'tblstickyrow1' : 'tblstickyrow2';
         }
         $this->tpl->setVariable('CSS_ROW', $css_row);
 
@@ -292,22 +292,22 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->ctrl->setParameter($this->getParentObject(), 'backurl', '');
     }
 
-    public function fetchData() : static
+    public function fetchData() : ilForumTopicTableGUI
     {
         $this->determineOffsetAndOrder();
 
-        $excluded_ids = array();
-        if ($this->parent_cmd == 'mergeThreads' &&
+        $excluded_ids = [];
+        if ($this->parent_cmd === 'mergeThreads' &&
             $this->getSelectedThread() instanceof ilForumTopic) {
             $excluded_ids[] = $this->getSelectedThread()->getId();
         }
 
-        $params = array(
+        $params = [
             'is_moderator' => $this->getIsModerator(),
             'excluded_ids' => $excluded_ids,
             'order_column' => $this->getOrderField(),
             'order_direction' => $this->getOrderDirection()
-        );
+        ];
 
         $data = $this->getMapper()->getAllThreads($this->topicData->getTopPk(), $params, (int) $this->getLimit(),
             (int) $this->getOffset());
@@ -321,8 +321,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setData($data['items']);
 
         // Collect user ids for preloading user objects
-        $thread_ids = array();
-        $user_ids = array();
+        $thread_ids = [];
+        $user_ids = [];
         foreach ($data['items'] as $thread) {
             /**
              * @var $thread ilForumTopic
@@ -343,7 +343,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         return $this;
     }
 
-    public function setMapper(ilForum $mapper) : static
+    public function setMapper(ilForum $mapper) : ilForumTopicTableGUI
     {
         $this->mapper = $mapper;
         return $this;
@@ -354,7 +354,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         return $this->mapper;
     }
 
-    public function setRefId(int $ref_id) : static
+    public function setRefId(int $ref_id) : ilForumTopicTableGUI
     {
         $this->ref_id = $ref_id;
         return $this;
@@ -365,7 +365,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         return (int) $this->ref_id;
     }
 
-    public function setOverviewSetting(int $overview_setting) : static
+    public function setOverviewSetting(int $overview_setting) : ilForumTopicTableGUI
     {
         $this->overview_setting = (int) $overview_setting;
         return $this;
@@ -376,7 +376,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         return $this->overview_setting;
     }
 
-    public function setIsModerator(bool $is_moderator) : static
+    public function setIsModerator(bool $is_moderator) : ilForumTopicTableGUI
     {
         $this->is_moderator = $is_moderator;
         return $this;
@@ -387,7 +387,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         return (bool) $this->is_moderator;
     }
 
-    public function setTopicData(ForumDto $topicData) : static
+    public function setTopicData(ForumDto $topicData) : ilForumTopicTableGUI
     {
         $this->topicData = $topicData;
         return $this;
