@@ -6,7 +6,7 @@
  */
 class ilFormFieldParserTest extends ilCertificateBaseTestCase
 {
-    public function testA4()
+    public function testA4() : void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -31,7 +31,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testCustomPageWidth()
+    public function testCustomPageWidth() : void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -60,7 +60,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testA5()
+    public function testA5() : void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -89,7 +89,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testA5Landscape()
+    public function testA5Landscape() : void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -118,7 +118,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testA4Landscape()
+    public function testA4Landscape() : void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -147,7 +147,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testLetterLandscape()
+    public function testLetterLandscape() : void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();
@@ -176,7 +176,7 @@ class ilFormFieldParserTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testLetter()
+    public function testLetter() : void
     {
         $xlstProcess = $this->getMockBuilder(ilCertificateXlstProcess::class)
             ->getMock();

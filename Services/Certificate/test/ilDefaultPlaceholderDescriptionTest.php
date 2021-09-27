@@ -6,7 +6,7 @@
  */
 class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
-    public function testCreateHtmlDescription()
+    public function testCreateHtmlDescription() : void
     {
         $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
@@ -37,7 +37,7 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $this->assertEquals('', $html);
     }
 
-    public function testPlaceholderDescription()
+    public function testPlaceholderDescription() : void
     {
         $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()

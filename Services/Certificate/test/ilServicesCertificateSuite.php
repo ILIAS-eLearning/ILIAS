@@ -13,7 +13,7 @@ class ilServicesCertificateSuite extends TestSuite
     /**
      * @return self
      */
-    public static function suite()
+    public static function suite() : ilServicesCertificateSuite
     {
         $suite = new self();
 

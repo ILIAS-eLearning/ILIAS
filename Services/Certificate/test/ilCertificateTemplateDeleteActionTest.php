@@ -6,7 +6,7 @@
  */
 class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
-    public function testDeleteTemplateAndUseOldThumbnail()
+    public function testDeleteTemplateAndUseOldThumbnail() : void
     {
         $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
@@ -53,7 +53,7 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $action->delete(100, 2000);
     }
 
-    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate()
+    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate() : void
     {
         $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 

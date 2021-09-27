@@ -320,8 +320,9 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
 
     /**
      * @dataProvider globalLearningProgressStateProvder
-     * @param bool $isGlobalLpEnabled
+     * @param bool                    $isGlobalLpEnabled
      * @param ilCertificateTemplate[] $template_recods
+     * @throws JsonException
      */
     public function testRetrievingCertificateTemplatesForCoursesWorksAsExpectedWhenUsingNonCachingRepository(
         bool $isGlobalLpEnabled,

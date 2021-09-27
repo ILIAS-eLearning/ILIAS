@@ -6,7 +6,7 @@
  */
 class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testSave()
+    public function testSave() : void
     {
         $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
@@ -65,7 +65,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
         );
     }
 
-    public function testFetchFormFieldData()
+    public function testFetchFormFieldData() : void
     {
         $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()

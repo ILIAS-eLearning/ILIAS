@@ -6,7 +6,7 @@
  */
 class ilCertificateValueReplacementTest extends ilCertificateBaseTestCase
 {
-    public function testReplace()
+    public function testReplace() : void
     {
         $replacement = new ilCertificateValueReplacement('/some/where');
 
@@ -27,7 +27,7 @@ Hurray Peter you have received a fantastic prize
         $this->assertEquals($expected, $replacedContent);
     }
 
-    public function testReplaceClientWebDir()
+    public function testReplaceClientWebDir() : void
     {
         $replacement = new ilCertificateValueReplacement('/some/where');
 

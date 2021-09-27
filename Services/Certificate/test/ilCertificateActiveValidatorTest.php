@@ -6,7 +6,7 @@
  */
 class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testCertificatesAreActiveAndJavaServerIsActive()
+    public function testCertificatesAreActiveAndJavaServerIsActive() : void
     {
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
@@ -30,7 +30,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($result);
     }
 
-    public function testValidationReturnFalseBecauseGlobalCertificatesAreInactive()
+    public function testValidationReturnFalseBecauseGlobalCertificatesAreInactive() : void
     {
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
@@ -56,7 +56,7 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-    public function testValidationReturnFalseBecauseJavaServerIsInactive()
+    public function testValidationReturnFalseBecauseJavaServerIsInactive() : void
     {
         $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()

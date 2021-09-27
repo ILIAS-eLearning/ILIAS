@@ -6,7 +6,7 @@
  */
 class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
 {
-    public function testCreatePdfWillCreatedAndIsDownloadable()
+    public function testCreatePdfWillCreatedAndIsDownloadable() : void
     {
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -40,7 +40,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         $this->assertEquals('Something', $result);
     }
 
-    public function testPdfDownloadAction()
+    public function testPdfDownloadAction() : void
     {
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
@@ -83,7 +83,7 @@ class ilCertificatePdfActionTest extends ilCertificateBaseTestCase
         $this->assertEquals('Something', $result);
     }
 
-    public function testDownloadResultsInExceptionBecauseTheServerIsNotActive()
+    public function testDownloadResultsInExceptionBecauseTheServerIsNotActive() : void
     {
         $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()

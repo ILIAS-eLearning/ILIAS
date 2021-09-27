@@ -6,7 +6,7 @@
  */
 class ilCertificateQueueEntryTest extends ilCertificateBaseTestCase
 {
-    public function testEntryCanBeInstantiated()
+    public function testEntryCanBeInstantiated() : void
     {
         $timestamp = time();
 

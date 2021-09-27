@@ -6,7 +6,7 @@
  */
 class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
 {
-    public function testGetPlaceholderValues()
+    public function testGetPlaceholderValues() : void
     {
         $defaultPlaceholders = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()
@@ -95,7 +95,7 @@ class ilExercisePlaceholderValuesTest extends ilCertificateBaseTestCase
         );
     }
 
-    public function testGetPlaceholderValuesForPreview()
+    public function testGetPlaceholderValuesForPreview() : void
     {
         $defaultPlaceholders = $this->getMockBuilder(ilDefaultPlaceholderValues::class)
             ->disableOriginalConstructor()

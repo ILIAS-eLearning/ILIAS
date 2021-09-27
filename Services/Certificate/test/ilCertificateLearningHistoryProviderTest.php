@@ -2,7 +2,7 @@
 
 class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
 {
-    public function testIsActive()
+    public function testIsActive() : void
     {
         $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
             ->disableOriginalConstructor()
@@ -59,7 +59,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
         $this->assertTrue($provider->isActive());
     }
 
-    public function testGetEntries()
+    public function testGetEntries() : void
     {
         $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
             ->disableOriginalConstructor()
@@ -239,7 +239,7 @@ class ilCertificateLearningHistoryProviderTest extends ilCertificateBaseTestCase
         $this->assertEquals($expectedEntries, $actualEntries);
     }
 
-    public function testGetName()
+    public function testGetName() : void
     {
         $learningHistoryFactory = $this->getMockBuilder(ilLearningHistoryFactory::class)
             ->disableOriginalConstructor()

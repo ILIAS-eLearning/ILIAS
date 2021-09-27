@@ -8,9 +8,6 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilUserCertificateApiGUITest extends ilCertificateBaseTestCase
 {
-    /**
-     *
-     */
     public function testCreationOfGuiClass() : void
     {
         $language = $this->getMockBuilder(ilLanguage::class)

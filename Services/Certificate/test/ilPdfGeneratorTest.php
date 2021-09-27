@@ -9,7 +9,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testGenerateSpecificCertificate()
+    public function testGenerateSpecificCertificate() : void
     {
         if (!defined('CLIENT_WEB_DIR')) {
             define("CLIENT_WEB_DIR", 'my/client/web/dir');
@@ -72,7 +72,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
     /**
      * @doesNotPerformAssertions
      */
-    public function testGenerateCurrentActiveCertificate()
+    public function testGenerateCurrentActiveCertificate() : void
     {
         if (!defined('CLIENT_WEB_DIR')) {
             define("CLIENT_WEB_DIR", 'my/client/web/dir');

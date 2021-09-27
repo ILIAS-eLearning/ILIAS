@@ -13,7 +13,7 @@ use ILIAS\FileUpload\FileUpload;
  */
 class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
 {
-    public function testFileCanBeUploaded()
+    public function testFileCanBeUploaded() : void
     {
         $fileUpload = $this->getMockBuilder(FileUpload::class)
             ->getMock();
