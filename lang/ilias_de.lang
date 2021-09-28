@@ -129,6 +129,10 @@ user#:#user_set_visibilty_options#:#Sichtbarkeit konfigurieren
 user#:#user_set_publishing_options#:#Veröffentlichung konfigurieren
 chatroom#:#chat_broadcast_typing#:#Tippen von Nachrichten anzeigen
 chatroom#:#chat_broadcast_typing_info#:#Falls aktiviert, wird Ihren Chatpartnern in einer Konversation oder einem Chatraum angezeigt, wenn Sie beginnen eine Nachricht zu schreiben.
+chatroom#:#chat_broadcast_typing_no#:#Tippen von Nachrichten bei Chatpartnern nicht anzeigen
+chatroom#:#chat_broadcast_typing_yes#:#Tippen von Nachrichten bei Chatpartnern anzeigen
+chatroom#:#chat_use_typing_broadcast#:#Tippen wird Chatpartnern angezeigt
+chatroom#:#chat_no_use_typing_broadcast#:#Tippen wird Chatpartnern nicht angezeigt
 chatroom#:#chat_user_x_is_typing#:#Benutzer %s tippt gerade ...
 chatroom#:#chat_users_are_typing#:#Mehrere Benutzer tippen gerade ...
 chatroom#:#osc_noti_title#:#Neue Chat-Nachricht

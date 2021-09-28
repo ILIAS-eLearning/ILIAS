@@ -54,6 +54,7 @@ class ilSamlSettingsGUI
         'interests_help_looking',
         'bs_allow_to_contact_me',
         'chat_osc_accept_msg',
+        'chat_broadcast_typing',
     ];
 
     protected int $ref_id;

@@ -132,6 +132,10 @@ user#:#user_set_publishing_options#:#Set publishing options
 chatroom#:#osc_noti_title#:#New Chat Message
 chatroom#:#chat_broadcast_typing#:#Broadcast Typing
 chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
+chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants
+chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants
+chatroom#:#chat_use_typing_broadcast#:#Typing will be broadcasted
+chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
 chatroom#:#chat_user_x_is_typing#:#User %s is typing ...
 chatroom#:#chat_users_are_typing#:#Multiple users are typing ...
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
