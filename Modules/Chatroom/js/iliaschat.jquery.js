@@ -1183,7 +1183,7 @@ var ILIASResponseHandler = function ILIASResponseHandler() {
 		 */
 		this.heartbeatInterval = function (interval) {
 			window.setInterval(function () {
-				_sendRequest('poll');
+				_sendRequest('poll', {}, function(response) {});
 			}, interval);
 		};
 
