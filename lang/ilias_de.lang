@@ -127,7 +127,7 @@ user#:#user_check_profile_data#:#Prüfen Sie die Profildaten
 user#:#show_own_online_status#:#Eigenen Online-Status anzeigen
 user#:#user_set_visibilty_options#:#Sichtbarkeit konfigurieren
 user#:#user_set_publishing_options#:#Veröffentlichung konfigurieren
-chatroom#:#chat_broadcast_typing#:#Tippen von Nachrichten angezeigen
+chatroom#:#chat_broadcast_typing#:#Tippen von Nachrichten anzeigen
 chatroom#:#chat_broadcast_typing_info#:#Falls aktiviert, wird Ihren Chatpartnern in einer Konversation oder einem Chatraum angezeigt, wenn Sie beginnen eine Nachricht zu schreiben.
 chatroom#:#chat_user_x_is_typing#:#Benutzer %s tippt gerade ...
 chatroom#:#chat_users_are_typing#:#Mehrere Benutzer tippen gerade ...
