@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -28,6 +28,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             'v5.4.0',
             true,
             '/some/where/background.jpg',
+            '/some/where/thumbnail.jpg',
             300
         );
 
@@ -91,6 +92,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             'v5.4.0',
             true,
             '/some/where/background.jpg',
+            '/some/where/thumbnail.jpg',
             300
         );
 
