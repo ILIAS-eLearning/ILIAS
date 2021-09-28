@@ -27,7 +27,7 @@ class ilForumXMLParser extends ilSaxParser
     private array $contentArray;
     private int $forum_obj_id = 0;
     private int $frm_last_mapped_top_usr_id = 0;
-    private mixed $lastHandledForumId;
+    private $lastHandledForumId;
     private ilForumTopic $forumThread;
     private int $lastHandledThreadId;
     private ilForumPost $forumPost;
@@ -580,7 +580,7 @@ class ilForumXMLParser extends ilSaxParser
         ];
     }
 
-    private function getUserIdAndAlias($imp_usr_id, $imp_usr_alias = '') : mixed
+    private function getUserIdAndAlias($imp_usr_id, $imp_usr_alias = '') : array
     {
         if ((int) $imp_usr_id > 0) {
             $newUsrId = -1;

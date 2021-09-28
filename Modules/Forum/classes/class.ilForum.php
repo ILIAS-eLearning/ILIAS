@@ -590,7 +590,7 @@ class ilForum
     /**
      * Delete post and sub-posts
      */
-    public function deletePost($postIdOrArray, bool $raiseEvents = true) : mixed
+    public function deletePost($postIdOrArray, bool $raiseEvents = true) : int
     {
         if (is_numeric($postIdOrArray)) {
             $p_node = $this->getPostNode($postIdOrArray);
@@ -639,7 +639,7 @@ class ilForum
             ilObjForum::_deleteAccessEntries($p_node['tree']);
 
             // delete thread
-            $dead_thr = $p_node["tree"];
+            $dead_thr = (int) $p_node["tree"];
 
             $this->db->manipulateF(
                 '

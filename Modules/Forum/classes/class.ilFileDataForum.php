@@ -14,7 +14,7 @@ class ilFileDataForum extends ilFileData
     public int $pos_id;
 
     public string $forum_path;
-    private mixed $error;
+    private $error;
 
     public function __construct($a_obj_id = 0, $a_pos_id = 0)
     {

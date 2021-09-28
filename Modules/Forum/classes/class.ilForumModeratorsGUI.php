@@ -13,7 +13,7 @@ class ilForumModeratorsGUI
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilTabsGUI $tabs;
-    private mixed $error;
+    private $error;
     private ilObjUser $user;
     private ilToolbarGUI $toolbar;
     private ilForumModerators $oForumModerators;

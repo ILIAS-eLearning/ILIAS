@@ -178,6 +178,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         return (int) $thr_pk;
     }
 
+    private function retrieveThreadIds()
+    {
+        $thread_ids = [];
+        if ($this->http->wrapper()->post()->has('thread_ids')) {
+            $thread_ids = $this->http->wrapper()->post()->retrieve(
+                'thread_ids',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
+        return $thread_ids;
+    }
+
     private function retrieveDraftId() : int
     {
         $draft_id = 0;
@@ -1361,7 +1373,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
-            $this->tabs->addTarget('export', $this->ctrl->getLinkTargetByClass(ilExportGUI::class, ''), '', 'ilexportgui');
+            $this->tabs->addTarget('export', $this->ctrl->getLinkTargetByClass(ilExportGUI::class, ''), '',
+                'ilexportgui');
         }
 
         if ($this->access->checkAccess('edit_permission', '', $this->ref_id)) {
@@ -1487,13 +1500,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function performDeleteThreadsObject() : void
     {
-        $thread_ids = null;
-        if ($this->http->wrapper()->post()->has('thread_ids')) {
-            $thread_ids = $this->http->wrapper()->post()->retrieve(
-                'thread_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-        }
+        $thread_ids = $this->retrieveThreadIds();
 
         if (!$this->is_moderator) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -1544,15 +1551,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->ctrl->redirect($this, 'showThreads');
     }
 
-    public function confirmDeleteThreads() : mixed
+    public function confirmDeleteThreads() : void
     {
-        $thread_ids = null;
-        if ($this->http->wrapper()->post()->has('thread_ids')) {
-            $thread_ids = $this->http->wrapper()->post()->retrieve(
-                'thread_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-        }
+        $thread_ids = $this->retrieveThreadIds();
 
         if (!isset($thread_ids) || !is_array($thread_ids)) {
             ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'));
@@ -1589,8 +1590,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->confirmation_gui_html = $c_gui->getHTML();
 
         $this->hideToolbar(true);
-
-        return $this->tpl->setContent($c_gui->getHTML());
+        $this->tpl->setContent($c_gui->getHTML());
     }
 
     protected function confirmDeleteThreadDraftsObject() : void
@@ -3048,7 +3048,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
             // print thread
             $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'print_thread', $this->objCurrentTopic->getId());
-            $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'thr_top_fk', $this->objCurrentTopic->getForumId());
+            $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'thr_top_fk',
+                $this->objCurrentTopic->getForumId());
 
             $print_thr_button = ilLinkButton::getInstance();
             $print_thr_button->setCaption('forums_print_thread');
@@ -3483,12 +3484,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         ilSession::set('threads2move', []);
 
-        if ($this->http->wrapper()->post()->has('thread_ids')) {
-            $thread_ids = $this->http->wrapper()->post()->retrieve(
-                'thread_ids',
-                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
-            );
-        }
+        $thread_ids = $this->retrieveThreadIds();
 
         $selected_cmd = '';
         if ($this->http->wrapper()->post()->has('selected_cmd')) {

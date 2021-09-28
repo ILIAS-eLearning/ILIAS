@@ -467,15 +467,15 @@ class ilForumPostDraft
         return self::$drafts_settings_cache['autosave_drafts'];
     }
 
-    public static function lookupAutosaveInterval() : mixed
+    public static function lookupAutosaveInterval() : int
     {
         if (self::isAutoSavePostDraftAllowed()) {
-            return self::$drafts_settings_cache['autosave_drafts_ival'];
+            return (int) self::$drafts_settings_cache['autosave_drafts_ival'];
         }
         return 0;
     }
 
-    public static function getDraftsStatisticsByRefId(int $ref_id) : mixed
+    public static function getDraftsStatisticsByRefId(int $ref_id) : array
     {
         global $DIC;
         $ilDB = $DIC->database();

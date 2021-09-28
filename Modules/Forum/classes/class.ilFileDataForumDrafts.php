@@ -12,7 +12,7 @@ class ilFileDataForumDrafts extends ilFileData
     protected int $draft_id = 0;
     protected string $drafts_path = '';
     private $lng;
-    private mixed $error;
+    private $error;
 
     public function __construct($obj_id, $draft_id)
     {
