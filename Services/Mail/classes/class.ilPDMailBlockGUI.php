@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * BlockGUI class for Personal Desktop Mail block
@@ -12,7 +13,8 @@ use Psr\Http\Message\ServerRequestInterface;
 class ilPDMailBlockGUI extends ilBlockGUI
 {
     public static $block_type = 'pdmail';
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
     private int $requestMailObjId = 0;
     /**
      * @var ilLanguage
@@ -44,7 +46,8 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->ctrl = $DIC->ctrl();
         $this->setting = $DIC->settings();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         parent::__construct();
 
@@ -73,7 +76,11 @@ class ilPDMailBlockGUI extends ilBlockGUI
     public static function getScreenMode() : string
     {
         global $DIC;
-        if ($DIC->http()->request()->getQueryParams()['cmd'] === 'showMail') {
+        $cmd = "";
+        if ($DIC->http()->wrapper()->query()->has('cmd')) {
+            $cmd = $DIC->http()->wrapper()->query()->retrieve('cmd', $DIC->refinery()->kindlyTo()->string());
+        }
+        if ($cmd === 'showMail') {
             return IL_SCREEN_CENTER;
         }
 
@@ -183,26 +190,34 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $mail_gui = new ilPDMailGUI();
 
         $content_block = new ilDashboardContentBlockGUI();
+        $mailId = 0;
+        if ($this->http->wrapper()->query()->has('mail_id')) {
+            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+        }
+        $mobjId = $this->requestMailObjId;
+        if ($this->http->wrapper()->query()->has('mobj_id')) {
+            $mobjId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        }
         $content_block->setContent($mail_gui->getPDMailHTML(
-            $this->httpRequest->getQueryParams()["mail_id"] ?? 0,
-            $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId
+            $mailId,
+            $mobjId
         ));
         $content_block->setTitle($this->lng->txt("message"));
 
         $content_block->addBlockCommand(
             "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id="
-            . $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId . "&type=reply",
+            $mailId . "&mobj_id="
+            . $mobjId . "&type=reply",
             $this->lng->txt("reply")
         );
         $content_block->addBlockCommand(
             "ilias.php?baseClass=ilMailGUI&mail_id=" .
-            $this->httpRequest->getQueryParams()["mail_id"] . "&mobj_id="
-            . $this->httpRequest->getQueryParams()["mobj_id"] ?? $this->requestMailObjId . "&type=read",
+            $mailId . "&mobj_id="
+            . $mobjId . "&type=read",
             $this->lng->txt("inbox")
         );
 
-        $this->ctrl->setParameter($this, 'mail_id', (int) $this->httpRequest->getQueryParams()['mail_id']);
+        $this->ctrl->setParameter($this, 'mail_id', $mailId);
         $content_block->addBlockCommand(
             $this->ctrl->getLinkTarget($this, 'deleteMail'),
             $this->lng->txt('delete')
@@ -219,15 +234,21 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $umail = new ilMail($this->user->getId());
         $mbox = new ilMailbox($this->user->getId());
 
-        if (!isset($this->httpRequest->getQueryParams()['mobj_id']) ||
-            !$this->httpRequest->getQueryParams()['mobj_id']
-        ) {
+        $mailId = 0;
+        if ($this->http->wrapper()->query()->has('mail_id')) {
+            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+        }
+        $mobjId = 0;
+        if ($this->http->wrapper()->query()->has('mobj_id')) {
+            $mobjId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        }
+
+        if ($mobjId) {
             $this->requestMailObjId = $mbox->getInboxFolder();
         }
 
         if ($umail->moveMailsToFolder(
-            [
-            (int) $this->httpRequest->getQueryParams()['mail_id']],
+            [$mailId],
             $mbox->getTrashFolder()
         )) {
             ilUtil::sendInfo($this->lng->txt('mail_moved_to_trash'), true);

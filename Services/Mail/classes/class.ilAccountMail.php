@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
 * Class ilAccountMail
@@ -14,7 +16,8 @@ use Psr\Http\Message\ServerRequestInterface;
 */
 class ilAccountMail
 {
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
     public string $u_password = "";
 
     /**
@@ -49,7 +52,8 @@ class ilAccountMail
     public function __construct()
     {
         global $DIC;
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
     
     public function useLangVariablesAsFallback(bool $a_status) : void
@@ -353,14 +357,15 @@ class ilAccountMail
         
         // target
         $tar = false;
-        if (isset($this->httpRequest->getQueryParams()['target']) &&
-            $this->httpRequest->getQueryParams()['target'] !== ""
+        if ($this->http->wrapper()->query()->has('target') &&
+            $this->http->wrapper()->query()->retrieve('target', $this->refinery->kindlyTo()->string()) !== ""
         ) {
-            $tarr = explode("_", $this->httpRequest->getQueryParams()["target"]);
+            $target = $this->http->wrapper()->query()->retrieve("target", $this->refinery->kindlyTo()->string());
+            $tarr = explode("_", $target);
             if ($tree->isInTree($tarr[1])) {
                 $obj_id = ilObject::_lookupObjId($tarr[1]);
                 $type = ilObject::_lookupType($obj_id);
-                if ($type == $tarr[0]) {
+                if ($type === $tarr[0]) {
                     $a_string = str_replace(
                         ["[TARGET_TITLE]", "[TARGET]"],
                         [
@@ -369,7 +374,7 @@ class ilAccountMail
                             "/goto.php?client_id=" .
                             CLIENT_ID .
                             "&target=" .
-                            $this->httpRequest->getQueryParams()["target"]
+                            $target
                         ],
                         $a_string
                     );

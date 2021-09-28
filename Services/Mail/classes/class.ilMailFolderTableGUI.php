@@ -4,7 +4,8 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author  Jan Posselt <jposselt@databay.de>
@@ -13,7 +14,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailFolderTableGUI extends ilTable2GUI
 {
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
     protected array $_folderNode = [];
     protected ilMailFolderGUI $_parentObject;
     protected int $_currentFolderId = 0;
@@ -51,7 +53,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
         $this->uiFactory = $uiFactory;
         $this->uiRenderer = $uiRenderer;
-        $this->httpRequest = $DIC->http()->request();
+        $this->httpRequest = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->_currentFolderId = $a_current_folder_id;
         $this->_parentObject = $a_parent_obj;
@@ -501,7 +504,9 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
                 if ($user) {
                     $mail['img_sender'] = $user->getPersonalPicturePath('xxsmall');
-                    $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars($user->getPublicName());
+                    $mail['from'] = $mail['mail_login'] = $mail['alt_sender'] = htmlspecialchars(
+                        $user->getPublicName()
+                    );
                 } else {
                     $mail['img_sender'] = '';
                     $mail['from'] = $mail['mail_login'] = $mail['import_name'] . ' ('
@@ -746,7 +751,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         foreach ($this->sub_filter as $item) {
             if ($item->checkInput()) {
-                $item->setValueByArray($this->httpRequest->getParsedBody());
+                $item->setValueByArray($this->http->request()->getParsedBody());
                 $item->writeToSession();
             }
         }
@@ -761,7 +766,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         foreach ($this->sub_filter as $item) {
             if ($item->checkInput()) {
-                $item->setValueByArray($this->httpRequest->getParsedBody());
+                $item->setValueByArray($this->http->request()->getParsedBody());
                 $item->clearFromSession();
             }
         }

@@ -1,6 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @author  Jens Conze
  * @version $Id$
@@ -15,7 +18,8 @@ class ilMailAttachmentGUI
     private ilToolbarGUI $toolbar;
     private ilFormatMail $umail;
     private ilFileDataMail $mfile;
-    private Psr\Http\Message\ServerRequestInterface $request;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
 
 
     public function __construct()
@@ -27,7 +31,8 @@ class ilMailAttachmentGUI
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->toolbar = $DIC->toolbar();
-        $this->request = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->ctrl->saveParameter($this, 'mobj_id');
 
@@ -57,9 +62,17 @@ class ilMailAttachmentGUI
         // otherwise it is no more possible to remove files (please ignore bug reports like 10137)
 
         $sizeOfSelectedFiles = 0;
-        $filesOfRequest = (array) ($this->request->getParsedBody()['filename'] ?? []);
+        $filesOfRequest = [];
+        if ($this->http->wrapper()->post()->has('filename')) {
+            $filesOfRequest = $this->http->wrapper()->post()->retrieve(
+                'filename',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
         foreach ($filesOfRequest as $file) {
-            if (is_file($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)))) {
+            if (is_file($this->mfile->getMailPath() . '/'
+                . basename($this->user->getId() . '_' . urldecode($file)))
+            ) {
                 $files[] = urldecode($file);
                 $sizeOfSelectedFiles += filesize(
                     $this->mfile->getMailPath() . '/' .
@@ -93,7 +106,13 @@ class ilMailAttachmentGUI
 
     public function deleteAttachments() : void
     {
-        $files = (array) ($this->request->getParsedBody()['filename'] ?? []);
+        $files = [];
+        if ($this->http->wrapper()->post()->has('filename')) {
+            $files = $this->http->wrapper()->post()->retrieve(
+                'filename',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
         if (0 === count($files)) {
             ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
             $this->showAttachments();
@@ -122,7 +141,14 @@ class ilMailAttachmentGUI
 
     public function confirmDeleteAttachments() : void
     {
-        $files = (array) ($this->request->getParsedBody()['filename'] ?? []);
+        $files = [];
+        if ($this->http->wrapper()->post()->has('filename')) {
+            $files = $this->http->wrapper()->post()->retrieve(
+                'filename',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
+
         if (0 === count($files)) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_mail'));
             $this->showAttachments();

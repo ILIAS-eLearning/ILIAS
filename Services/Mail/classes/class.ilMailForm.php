@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author Nadia Ahmad
@@ -9,7 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailForm
 {
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $httpRequest;
+    private Refinery $refinery;
 
     /**
      * @return array{hasMoreResults: bool, items: array}
@@ -17,10 +19,11 @@ class ilMailForm
     public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true) : array
     {
         global $DIC;
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $mode = ilMailAutoCompleteRecipientResult::MODE_STOP_ON_MAX_ENTRIES;
-        if (isset($this->httpRequest->getQueryParams()['fetchall']) &&
-            $this->httpRequest->getQueryParams()['fetchall']
+        if ($this->http->wrapper()->query()->has('fetchall') &&
+            $this->http->wrapper()->query()->retrieve('fetchall', $this->refinery->kindlyTo()->bool())
         ) {
             $mode = ilMailAutoCompleteRecipientResult::MODE_FETCH_ALL;
         }

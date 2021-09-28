@@ -211,6 +211,18 @@ class ilMailBoxQuery
             if (array_key_exists('attachments', $row) && $row['attachments']) {
                 $row['attachments'] = unserialize(stripslashes($row['attachments']));
             }
+            if (isset($row['mail_id'])) {
+                $row['mail_id'] = (int) $row['mail_id'];
+            }
+            if (isset($row['user_id'])) {
+                $row['user_id'] = (int) $row['user_id'];
+            }
+            if (isset($row['folder_id'])) {
+                $row['folder_id'] = (int) $row['folder_id'];
+            }
+            if (isset($row['sender_id'])) {
+                $row['sender_id'] = (int) $row['sender_id'];
+            }
             $mails['set'][] = $row;
         }
 

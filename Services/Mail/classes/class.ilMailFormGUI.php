@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
 * @author Jens Conze
@@ -22,7 +23,8 @@ class ilMailFormGUI
     private ilFormatMail $umail;
     private ilMailBox $mbox;
     private ilFileDataMail $mfile;
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
     private int $requestMailObjId = 0;
     private ?array $requestAttachments = null;
     private string $requestMailSubject = "";
@@ -48,7 +50,8 @@ class ilMailFormGUI
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mfile = new ilFileDataMail($this->user->getId());
@@ -59,18 +62,8 @@ class ilMailFormGUI
         }
         $this->purifier = $bodyPurifier;
 
-        if (isset($this->httpRequest->getParsedBody()['mobj_id']) &&
-            (int) $this->httpRequest->getParsedBody()['mobj_id']
-        ) {
-            $this->requestMailObjId = $DIC->refinery()->kindlyTo()->int()->transform(
-                $this->httpRequest->getParsedBody()['mobj_id']
-            );
-        }
-
-        if (0 === $this->requestMailObjId && isset($this->httpRequest->getQueryParams()['mobj_id'])) {
-            $this->requestMailObjId = $DIC->refinery()->kindlyTo()->int()->transform(
-                $this->httpRequest->getQueryParams()['mobj_id']
-            );
+        if ($this->http->wrapper()->post()->has('mobj_id')) {
+            $this->requestMailObjId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         }
 
         $this->ctrl->setParameter($this, 'mobj_id', $this->requestMailObjId);
@@ -138,13 +131,22 @@ class ilMailFormGUI
 
     public function sendMessage() : void
     {
-        $message = (string) $this->httpRequest->getParsedBody()['m_message'] ?? "";
+        $message = '';
+        if ($this->http->wrapper()->post()->has('m_message')) {
+            $message = $this->http->wrapper()->post()->retrieve('m_message', $this->refinery->kindlyTo()->string());
+        }
 
         $mailBody = new ilMailBody($message, $this->purifier);
 
         $sanitizedMessage = $mailBody->getContent();
 
-        $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? [];
+        $attachments = [];
+        if ($this->http->wrapper()->post()->has('attachements')) {
+            $attachments = $this->http->wrapper()->post()->retrieve(
+                'attachements',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
 
         $files = $this->decodeAttachmentFiles(
             $this->requestAttachments ? (array) $this->requestAttachments : $attachments
@@ -160,16 +162,42 @@ class ilMailFormGUI
 
         $mailer->setSaveInSentbox(true);
 
+        $rcpTo = "";
+        if ($this->http->wrapper()->post()->has('rcp_to')) {
+            $rcpTo = $this->http->wrapper()->post()->retrieve('rcp_to', $this->refinery->kindlyTo()->string());
+        }
+        $rcpCc = "";
+        if ($this->http->wrapper()->post()->has('rcp_cc')) {
+            $rcpCc = $this->http->wrapper()->post()->retrieve('rcp_cc', $this->refinery->kindlyTo()->string());
+        }
+        $rcpBcc = "";
+        if ($this->http->wrapper()->post()->has('rcp_bcc')) {
+            $rcpBcc = $this->http->wrapper()->post()->retrieve('rcp_bcc', $this->refinery->kindlyTo()->string());
+        }
+        $mSubject = "";
+        if ($this->http->wrapper()->post()->has('m_subject')) {
+            $mSubject = $this->http->wrapper()->post()->retrieve(
+                'm_subject',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
+        $usePlaceholders = false;
+        if ($this->http->wrapper()->post()->has('use_placholder')) {
+            $usePlaceholders = $this->http->wrapper()->post()->retrieve(
+                'use_placeholder',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
+
         if ($errors = $mailer->enqueue(
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_to'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_cc'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_bcc'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_subject'] ?? ""),
+            ilUtil::securePlainString($rcpTo),
+            ilUtil::securePlainString($rcpCc),
+            ilUtil::securePlainString($rcpBcc),
+            ilUtil::securePlainString($mSubject),
             $sanitizedMessage,
             $files,
-            isset($this->httpRequest->getParsedBody()['use_placeholders']) ?
-                (bool) $this->httpRequest->getParsedBody()['use_placeholders'] :
-                false
+            $usePlaceholders
         )
         ) {
             $this->requestAttachments = $files;
@@ -203,12 +231,22 @@ class ilMailFormGUI
 
     public function saveDraft() : void
     {
-        if (!$this->httpRequest->getParsedBody()['m_subject']) {
+        $mSubject = '';
+        if ($this->http->wrapper()->post()->has('m_subject')) {
+            $mSubject = $this->http->wrapper()->post()->retrieve('m_subject', $this->refinery->kindlyTo()->string());
+        }
+        if (!$mSubject) {
             $this->requestMailSubject = 'No title';
         }
 
         $draftFolderId = $this->mbox->getDraftsFolder();
-        $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? [];
+        $attachments = [];
+        if ($this->http->wrapper()->post()->has('attachements')) {
+            $userId = $this->http->wrapper()->post()->retrieve(
+                'attachements',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
 
         $files = $this->decodeAttachmentFiles(
             $this->requestAttachments ?
@@ -216,12 +254,43 @@ class ilMailFormGUI
             $attachments
         );
 
+        $rcpTo = "";
+        if ($this->http->wrapper()->post()->has('rcp_to')) {
+            $rcpTo = $this->http->wrapper()->post()->retrieve('rcp_to', $this->refinery->kindlyTo()->string());
+        }
+        $rcpCc = "";
+        if ($this->http->wrapper()->post()->has('rcp_cc')) {
+            $rcpCc = $this->http->wrapper()->post()->retrieve('rcp_cc', $this->refinery->kindlyTo()->string());
+        }
+        $rcpBcc = "";
+        if ($this->http->wrapper()->post()->has('rcp_bcc')) {
+            $rcpBcc = $this->http->wrapper()->post()->retrieve('rcp_bcc', $this->refinery->kindlyTo()->string());
+        }
+
+        $mEmail = "";
+        if ($this->http->wrapper()->post()->has('m_email')) {
+            $mEmail = $this->http->wrapper()->post()->retrieve('m_email', $this->refinery->kindlyTo()->string());
+        }
+        $mMessage = "";
+        if ($this->http->wrapper()->post()->has('m_message')) {
+            $mMessage = $this->http->wrapper()->post()->retrieve(
+                'm_message',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $usePlaceholder = false;
+        if ($this->http->wrapper()->post()->has('use_placeholders')) {
+            $usePlaceholder = $this->http->wrapper()->post()->retrieve(
+                'use_placeholders',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
+
         if ($errors = $this->umail->validateRecipients(
-            (string) ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_to'] ?? ""),
-            (string) ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_cc'] ?? ""),
-            (string) ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_bcc'] ?? "")
+            (string) ilUtil::securePlainString($rcpTo),
+            (string) ilUtil::securePlainString($rcpCc),
+            (string) ilUtil::securePlainString($rcpBcc)
         )) {
-            $this->httpRequest->getParsedBody()['attachments'] = $files;
             $this->showSubmissionErrors($errors);
             $this->showForm();
             return;
@@ -237,18 +306,16 @@ class ilMailFormGUI
         $this->umail->updateDraft(
             $draftFolderId,
             $files,
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_to'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_cc'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_bcc'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_email'] ?? ""),
+            ilUtil::securePlainString($rcpTo),
+            ilUtil::securePlainString($rcpCc),
+            ilUtil::securePlainString($rcpBcc),
+            ilUtil::securePlainString($mEmail),
             ilUtil::securePlainString(
-                $this->httpRequest->getParsedBody()['m_subject']
+                $mSubject
             ) ?? $this->requestMailSubject,
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_message']) ?? "",
+            ilUtil::securePlainString($mMessage),
             $draftId,
-            isset($this->httpRequest->getParsedBody()['use_placeholders']) ?
-                (int) $this->httpRequest->getParsedBody()['use_placeholders'] :
-                0,
+            $usePlaceholder,
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
         );
@@ -268,9 +335,17 @@ class ilMailFormGUI
     {
         $this->tpl->setTitle($this->lng->txt("mail"));
 
+
+
         if ($save) {
             $files = [];
-            $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? $this->requestAttachments;
+            $attachments = $this->requestAttachments;
+            if ($this->http->wrapper()->post()->has('attachements')) {
+                $userId = $this->http->wrapper()->post()->retrieve(
+                    'attachements',
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+                );
+            }
 
             if (is_array($attachments)) {
                 foreach ($attachments as $value) {
@@ -278,19 +353,65 @@ class ilMailFormGUI
                 }
             }
 
+
+            $rcpTo = "";
+            if ($this->http->wrapper()->post()->has('rcp_to')) {
+                $rcpTo = $this->http->wrapper()->post()->retrieve('rcp_to', $this->refinery->kindlyTo()->string());
+            }
+            $rcpCc = "";
+            if ($this->http->wrapper()->post()->has('rcp_cc')) {
+                $rcpCc = $this->http->wrapper()->post()->retrieve('rcp_cc', $this->refinery->kindlyTo()->string());
+            }
+            $rcpBcc = "";
+            if ($this->http->wrapper()->post()->has('rcp_bcc')) {
+                $rcpBcc = $this->http->wrapper()->post()->retrieve(
+                    'rcp_bcc',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+
+            $mEmail = "";
+            if ($this->http->wrapper()->post()->has('m_email')) {
+                $mEmail = $this->http->wrapper()->post()->retrieve(
+                    'm_email',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+            $mSubject = $this->requestMailSubject;
+            if ($this->http->wrapper()->post()->has('m_subject')) {
+                $mSubject = $this->http->wrapper()->post()->retrieve(
+                    'm_subject',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+            $mMessage = "";
+            if ($this->http->wrapper()->post()->has('m_message')) {
+                $mMessage = $this->http->wrapper()->post()->retrieve(
+                    'm_message',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
+            $usePlaceholder = false;
+            if ($this->http->wrapper()->post()->has('use_placeholders')) {
+                $usePlaceholder = $this->http->wrapper()->post()->retrieve(
+                    'use_placeholders',
+                    $this->refinery->kindlyTo()->bool()
+                );
+            }
+
             // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
             $this->umail->savePostData(
                 $this->user->getId(),
                 $files,
-                ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_to"] ?? ''),
-                ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_cc"] ?? ''),
-                ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_bcc"] ?? ''),
-                ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_email"] ?? ''),
+                ilUtil::securePlainString($rcpTo),
+                ilUtil::securePlainString($rcpCc),
+                ilUtil::securePlainString($rcpBcc),
+                ilUtil::securePlainString($mEmail),
                 ilUtil::securePlainString(
-                    $this->httpRequest->getParsedBody()["m_subject"] ?? $this->requestMailSubject
+                    $mSubject
                 ),
-                ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_message"] ?? ''),
-                (bool) ($this->httpRequest->getParsedBody()['use_placeholders'] ?? false),
+                ilUtil::securePlainString($mMessage),
+                $usePlaceholder,
                 ilMailFormCall::getContextId(),
                 ilMailFormCall::getContextParameters()
             );
@@ -324,7 +445,7 @@ class ilMailFormGUI
     {
         $this->saveMailBeforeSearch();
 
-        if (isset($this->httpRequest->getParsedBody()['search_crs'])) {
+        if ($this->http->wrapper()->post()->has('search_crs')) {
             $this->ctrl->setParameterByClass(
                 ilMailSearchCoursesGUI::class,
                 'cmd',
@@ -347,7 +468,11 @@ class ilMailFormGUI
 
     public function search() : void
     {
-        ilSession::set("mail_search_search", $this->httpRequest->getParsedBody()["search"]);
+        $mailSearch = '';
+        if ($this->http->wrapper()->post()->has('search')) {
+            $mailSearch = $this->http->wrapper()->post()->retrieve('search', $this->refinery->kindlyTo()->string());
+        }
+        ilSession::set("mail_search_search", $mailSearch);
         if (trim(ilSession::get("mail_search_search")) === '') {
             ilUtil::sendInfo($this->lng->txt("mail_insert_query"));
             $this->searchUsers(false);
@@ -375,26 +500,68 @@ class ilMailFormGUI
     {
         // decode post values
         $files = [];
-        $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? $this->requestAttachments;
-        if (is_array($attachments)) {
-            foreach ($attachments as $value) {
-                $files[] = urldecode($value);
-            }
+        $attachments = $this->requestAttachments;
+        if ($this->http->wrapper()->post()->has('attachements')) {
+            $attachments = $this->http->wrapper()->post()->retrieve(
+                'attachements',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
+        foreach ($attachments as $value) {
+            $files[] = urldecode($value);
+        }
+
+        $rcpTo = "";
+        if ($this->http->wrapper()->post()->has('rcp_to')) {
+            $rcpTo = $this->http->wrapper()->post()->retrieve('rcp_to', $this->refinery->kindlyTo()->string());
+        }
+        $rcpCc = "";
+        if ($this->http->wrapper()->post()->has('rcp_cc')) {
+            $rcpCc = $this->http->wrapper()->post()->retrieve('rcp_cc', $this->refinery->kindlyTo()->string());
+        }
+        $rcpBcc = "";
+        if ($this->http->wrapper()->post()->has('rcp_bcc')) {
+            $rcpBcc = $this->http->wrapper()->post()->retrieve('rcp_bcc', $this->refinery->kindlyTo()->string());
+        }
+        $mEmail = false;
+        if ($this->http->wrapper()->post()->has('m_email')) {
+            $mEmail = $this->http->wrapper()->post()->retrieve('m_email', $this->refinery->kindlyTo()->string());
+        }
+        $mSubject = $this->requestMailSubject;
+        if ($this->http->wrapper()->post()->has('m_subject')) {
+            $mSubject = $this->http->wrapper()->post()->retrieve(
+                'm_subject',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $mMessage = "";
+        if ($this->http->wrapper()->post()->has('m_message')) {
+            $mMessage = $this->http->wrapper()->post()->retrieve(
+                'm_message',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $usePlaceholder = false;
+        if ($this->http->wrapper()->post()->has('use_placeholders')) {
+            $usePlaceholder = $this->http->wrapper()->post()->retrieve(
+                'use_placeholders',
+                $this->refinery->kindlyTo()->bool()
+            );
         }
 
         // Note: For security reasons, ILIAS only allows Plain text messages.
         $this->umail->savePostData(
             $this->user->getId(),
             $files,
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_to"] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_cc"] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()["rcp_bcc"] ?? ""),
-            (bool) ($this->httpRequest->getParsedBody()["m_email"] ?? false),
+            ilUtil::securePlainString($rcpTo),
+            ilUtil::securePlainString($rcpCc),
+            ilUtil::securePlainString($rcpBcc),
+            (bool) $mEmail,
             ilUtil::securePlainString(
-                $this->httpRequest->getParsedBody()["m_subject"] ?? $this->requestMailSubject
+                $mSubject
             ),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()["m_message"] ?? ""),
-            (bool) ($this->httpRequest->getParsedBody()["use_placeholders"] ?? false),
+            ilUtil::securePlainString($mMessage),
+            $usePlaceholder,
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
         );
@@ -441,13 +608,13 @@ class ilMailFormGUI
 
     protected function getTemplateDataById() : void
     {
-        if (!isset($this->httpRequest->getQueryParams()['template_id'])) {
+        if (!$this->http->wrapper()->query()->has('template_id')) {
             exit();
         }
 
         try {
             $template = $this->templateService->loadTemplateForId(
-                (int) ($this->httpRequest->getQueryParams()['template_id'] ?? 0)
+                $this->http->wrapper()->query()->retrieve('template_id', $this->refinery->kindlyTo()->int())
             );
             $context = ilMailTemplateContextService::getTemplateContextById((string) $template->getContext());
 
@@ -482,23 +649,44 @@ class ilMailFormGUI
         $mailData = [];
         $mailData["rcp_to"] = '';
         $mailData["rcp_cc"] = '';
-        $mailData["rcp_cc"] = '';
         $mailData["rcp_bcc"] = '';
         $mailData["attachments"] = [];
 
-        $type = $this->httpRequest->getQueryParams()["type"] ?? ilSession::get("type");
+        $rcpTo = ilSession::get('rcp_to');
+        if ($this->http->wrapper()->query()->has('rcp_to')) {
+            $rcpTo = $this->http->wrapper()->query()->retrieve('rcp_to', $this->refinery->kindlyTo()->string());
+        }
+        $rcpCc = ilSession::get('rcp_cc');
+        if ($this->http->wrapper()->query()->has('rcp_cc')) {
+            $rcpCc = $this->http->wrapper()->query()->retrieve('rcp_cc', $this->refinery->kindlyTo()->string());
+        }
+        $rcpBcc = ilSession::get('rcp_bcc');
+        if ($this->http->wrapper()->query()->has('rcp_bcc')) {
+            $rcpBcc = $this->http->wrapper()->query()->retrieve('rcp_bcc', $this->refinery->kindlyTo()->string());
+        }
+        $mailId = 0;
+        if ($this->http->wrapper()->query()->has('mail_id')) {
+            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+        }
+
+
+        $type = ilSession::get("type");
+        if ($this->http->wrapper()->query()->has('type')) {
+            $type = $this->http->wrapper()->query()->retrieve('type', $this->refinery->kindlyTo()->string());
+        }
+
         switch ($type) {
             case 'reply':
-                if (ilSession::get('mail_id')) {
-                    $this->httpRequest->getQueryParams()['mail_id'] = ilSession::get('mail_id');
-                }
+//                if (ilSession::get('mail_id')) {
+//                    $this->httpRequest->getQueryParams()['mail_id'] = ilSession::get('mail_id');
+//                }
                 $mailData = $this->umail->getMail((int) ilSession::get('mail_id'));
                 $mailData["m_subject"] = $this->umail->formatReplySubject();
                 $mailData["m_message"] = $this->umail->formatReplyMessage();
                 $mailData["m_message"] = $this->umail->prependSignature();
                 // NO ATTACHMENTS FOR REPLIES
                 $mailData["attachments"] = [];
-                //$mailData["rcp_cc"] = $this->umail->formatReplyRecipientsForCC();
+                //$mailData["rcp_cc"] = $this->umail->formatReplyRecipientsForCC();g
                 $mailData["rcp_cc"] = '';
                 $mailData["rcp_to"] = $this->umail->formatReplyRecipient();
                 ilSession::set("mail_id", "");
@@ -547,23 +735,21 @@ class ilMailFormGUI
                 break;
         
             case 'draft':
-                ilSession::set("draft", $this->httpRequest->getQueryParams()["mail_id"] ?? null);
-                $mailData = $this->umail->getMail((int) ($this->httpRequest->getQueryParams()["mail_id"] ?? 0));
+                ilSession::set("draft", $mailId);
+                $mailData = $this->umail->getMail($mailId);
                 ilMailFormCall::setContextId($mailData['tpl_ctx_id']);
                 ilMailFormCall::setContextParameters($mailData['tpl_ctx_params']);
                 break;
         
             case 'forward':
-                $mailData = $this->umail->getMail((int) ($this->httpRequest->getQueryParams()["mail_id"] ?? 0));
+                $mailData = $this->umail->getMail($mailId);
                 $mailData["rcp_to"] = $mailData["rcp_cc"] = $mailData["rcp_bcc"] = '';
                 $mailData["m_subject"] = $this->umail->formatForwardSubject();
                 $mailData["m_message"] = $this->umail->prependSignature();
                 if (is_array($mailData["attachments"]) && count($mailData["attachments"])) {
                     if ($error = $this->mfile->adoptAttachments(
                         $mailData["attachments"],
-                        $this->httpRequest->getQueryParams()["mail_id"] ?
-                            (int) $this->httpRequest->getQueryParams()["mail_id"] :
-                            0
+                        $mailId
                     )
                     ) {
                         ilUtil::sendInfo($error);
@@ -572,24 +758,12 @@ class ilMailFormGUI
                 break;
         
             case 'new':
-                if (isset($this->httpRequest->getQueryParams()['rcp_to'])) {
-                    // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-                    $mailData["rcp_to"] = ilUtil::securePlainString($this->httpRequest->getQueryParams()['rcp_to']);
-                } elseif (ilSession::get('rcp_to')) {
-                    $mailData["rcp_to"] = ilSession::get('rcp_to');
-                }
-                if (isset($this->httpRequest->getQueryParams()['rcp_cc'])) {
-                    // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-                    $mailData["rcp_cc"] = ilUtil::securePlainString($this->httpRequest->getQueryParams()['rcp_cc']);
-                } elseif (ilSession::get('rcp_cc')) {
-                    $mailData["rcp_cc"] = ilSession::get('rcp_cc');
-                }
-                if (isset($this->httpRequest->getQueryParams()['rcp_bcc'])) {
-                    // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-                    $mailData["rcp_bcc"] = ilUtil::securePlainString($this->httpRequest->getQueryParams()['rcp_bcc']);
-                } elseif (ilSession::get('rcp_bcc')) {
-                    $mailData["rcp_bcc"] = ilSession::get('rcp_bcc');
-                }
+
+                // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+                $mailData["rcp_to"] = ilUtil::securePlainString($rcpTo);
+                $mailData["rcp_cc"] = ilUtil::securePlainString($rcpCc);
+                $mailData["rcp_bcc"] = ilUtil::securePlainString($rcpBcc);
+
                 $mailData['m_message'] = '';
                 if (strlen($sig = ilMailFormCall::getSignature())) {
                     $mailData['m_message'] = $sig;
@@ -606,17 +780,18 @@ class ilMailFormGUI
                 break;
         
             case 'role':
-        
-                if (is_array($this->httpRequest->getParsedBody()['roles'])) {
-                    // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
-                    $mailData['rcp_to'] = ilUtil::securePlainString(
-                        implode(',', $this->httpRequest->getParsedBody()['roles'] ?? null)
-                    );
-                } elseif (is_array(ilSession::get('mail_roles'))) {
-                    $mailData['rcp_to'] = ilUtil::securePlainString(
-                        implode(',', ilSession::get('mail_roles'))
+                $roles = ilSession::get('mail_roles');
+                if ($this->http->wrapper()->post()->has('roles')) {
+                    $roles = $this->http->wrapper()->post()->retrieve(
+                        'roles',
+                        $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
                     );
                 }
+
+                // Note: For security reasons, ILIAS only allows Plain text strings in E-Mails.
+                $mailData['rcp_to'] = ilUtil::securePlainString(
+                    implode(',', $roles)
+                );
 
                 $mailData['m_message'] = '';
                 if (strlen($sig = ilMailFormCall::getSignature())) {
@@ -626,22 +801,34 @@ class ilMailFormGUI
                         . chr(13)
                         . chr(10);
                 }
-        
-                $mailData['m_message'] .= $this->httpRequest->getParsedBody()["additional_message_text"] ?? ""
+
+                $additionalMessageText = "";
+                if ($this->http->wrapper()->post()->has('additional_message_text')) {
+                    $additionalMessageText = $this->http->wrapper()->post()->retrieve(
+                        'additional_message_text',
+                        $this->refinery->kindlyTo()->string()
+                    );
+                }
+
+                $mailData['m_message'] .= $additionalMessageText
                     . chr(13)
                     . chr(10)
                     . $this->umail->appendSignature();
-                $this->httpRequest->getParsedBody()["additional_message_text"] = "";
+//                $this->httpRequest->getParsedBody()["additional_message_text"] = "";
                 ilSession::set('mail_roles', []);
                 break;
         
             case 'address':
-                $mailData["rcp_to"] = urldecode($this->httpRequest->getQueryParams()["rcp"]);
+                $rcp = "";
+                if ($this->http->wrapper()->query()->has('rcp')) {
+                    $rcp = $this->http->wrapper()->query()->retrieve('rcp', $this->refinery->kindlyTo()->string());
+                }
+                $mailData["rcp_to"] = urldecode($rcp);
                 break;
         
             default:
                 // GET DATA FROM POST
-                $mailData = $this->httpRequest->getParsedBody();
+                $mailData = $this->http->request()->getParsedBody();
 
                 // strip slashes
                 foreach ($mailData as $key => $value) {
@@ -844,15 +1031,11 @@ class ilMailFormGUI
     public function lookupRecipientAsync() : void
     {
         $search = '';
-        if (isset($this->httpRequest->getQueryParams()["term"]) &&
-            is_string($this->httpRequest->getQueryParams()["term"])
-        ) {
-            $search = $this->httpRequest->getQueryParams()["term"];
+        if ($this->http->wrapper()->query()->has('term')) {
+            $search = $this->http->wrapper()->query()->retrieve('term', $this->refinery->kindlyTo()->string());
         }
-        if (isset($this->httpRequest->getParsedBody()["term"]) &&
-            is_string($this->httpRequest->getParsedBody()["term"])
-        ) {
-            $search = $this->httpRequest->getParsedBody()["term"];
+        if ($this->http->wrapper()->post()->has('term')) {
+            $search = $this->http->wrapper()->post()->retrieve('term', $this->refinery->kindlyTo()->string());
         }
 
         $search = trim($search);
@@ -888,7 +1071,52 @@ class ilMailFormGUI
     protected function saveMailBeforeSearch() : void
     {
         $files = [];
-        $attachments = $this->httpRequest->getParsedBody()['attachments'] ?? $this->requestAttachments;
+
+        $rcpTo = "";
+        if ($this->http->wrapper()->post()->has('rcp_to')) {
+            $rcpTo = $this->http->wrapper()->post()->retrieve('rcp_to', $this->refinery->kindlyTo()->string());
+        }
+        $rcpCc = "";
+        if ($this->http->wrapper()->post()->has('rcp_cc')) {
+            $rcpCc = $this->http->wrapper()->post()->retrieve('rcp_cc', $this->refinery->kindlyTo()->string());
+        }
+        $rcpBcc = "";
+        if ($this->http->wrapper()->post()->has('rcp_bcc')) {
+            $rcpBcc = $this->http->wrapper()->post()->retrieve('rcp_bcc', $this->refinery->kindlyTo()->string());
+        }
+        $mEmail = false;
+        if ($this->http->wrapper()->post()->has('m_email')) {
+            $mEmail = $this->http->wrapper()->post()->retrieve('m_email', $this->refinery->kindlyTo()->string());
+        }
+        $mMessage = "";
+        if ($this->http->wrapper()->post()->has('m_message')) {
+            $mMessage = $this->http->wrapper()->post()->retrieve(
+                'm_message',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $mSubject = "";
+        if ($this->http->wrapper()->post()->has('m_subject')) {
+            $mSubject = $this->http->wrapper()->post()->retrieve(
+                'm_subject',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $usePlaceholder = false;
+        if ($this->http->wrapper()->post()->has('use_placeholders')) {
+            $usePlaceholder = $this->http->wrapper()->post()->retrieve(
+                'use_placeholders',
+                $this->refinery->kindlyTo()->bool()
+            );
+        }
+        $attachments = $this->requestAttachments;
+        if ($this->http->wrapper()->post()->has('attachments')) {
+            $usePlaceholder = $this->http->wrapper()->post()->retrieve(
+                'attachments',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+            );
+        }
+
         if (is_array($attachments)) {
             foreach ($attachments as $value) {
                 $files[] = urldecode($value);
@@ -898,13 +1126,13 @@ class ilMailFormGUI
         $this->umail->savePostData(
             $this->user->getId(),
             $files,
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_to'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_cc'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['rcp_bcc'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_email'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_subject'] ?? ""),
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['m_message']) ?? "",
-            ilUtil::securePlainString($this->httpRequest->getParsedBody()['use_placeholders'] ?? ""),
+            ilUtil::securePlainString($rcpTo),
+            ilUtil::securePlainString($rcpCc),
+            ilUtil::securePlainString($rcpBcc),
+            ilUtil::securePlainString($mEmail),
+            ilUtil::securePlainString($mSubject),
+            ilUtil::securePlainString($mMessage),
+            ilUtil::securePlainString($usePlaceholder),
             ilMailFormCall::getContextId(),
             ilMailFormCall::getContextParameters()
         );

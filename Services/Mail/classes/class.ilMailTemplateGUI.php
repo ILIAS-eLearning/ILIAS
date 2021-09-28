@@ -2,9 +2,11 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\HTTP\Services;
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilMailTemplateGUI
@@ -23,7 +25,8 @@ class ilMailTemplateGUI
     protected ilObject $parentObject;
     protected ilErrorHandling $error;
     protected ilMailTemplateService $service;
-    protected Services $http;
+    protected GlobalHttpState $http;
+    protected Refinery $refinery;
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
 
@@ -36,7 +39,7 @@ class ilMailTemplateGUI
         ilToolbarGUI $toolbar = null,
         ilRbacSystem $rbacsystem = null,
         ilErrorHandling $error = null,
-        Services $http = null,
+        GlobalHttpState $http = null,
         Factory $uiFactory = null,
         Renderer $uiRenderer = null,
         ilMailTemplateService $templateService = null
@@ -79,6 +82,7 @@ class ilMailTemplateGUI
             $http = $DIC->http();
         }
         $this->http = $http;
+        $this->refinery = $DIC->refinery();
 
         if ($uiFactory === null) {
             $uiFactory = $DIC->ui()->factory();
@@ -214,7 +218,10 @@ class ilMailTemplateGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
         }
 
-        $templateId = $this->http->request()->getParsedBody()['tpl_id'] ?? 0;
+        $templateId = 0;
+        if ($this->http->wrapper()->post()->has('tpl_id')) {
+            $templateId = $this->http->wrapper()->post()->retrieve('tpl_id', $this->refinery->kindlyTo()->int());
+        }
 
         if (!is_numeric($templateId) || $templateId < 1) {
             ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
@@ -274,7 +281,13 @@ class ilMailTemplateGUI
     protected function showEditTemplateForm(ilPropertyFormGUI $form = null) : void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
-            $templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? 0;
+            $templateId = 0;
+            if ($this->http->wrapper()->query()->has('tpl_id')) {
+                $templateId = $this->http->wrapper()->query()->retrieve(
+                    'tpl_id',
+                    $this->refinery->kindlyTo()->int()
+                );
+            }
 
             if (!is_numeric($templateId) || $templateId < 1) {
                 ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
@@ -316,16 +329,22 @@ class ilMailTemplateGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
         }
 
-        $templateIds = $this->http->request()->getParsedBody()['tpl_id'] ?? [];
-        if (is_array($templateIds) && count($templateIds) > 0) {
-            $templateIds = array_filter(array_map('intval', $templateIds));
-        } else {
-            $templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? '';
-            if (is_numeric($templateId) && $templateId > 0) {
-                $templateIds = array_filter([(int) $templateId]);
-            } else {
-                $templateIds = [];
+        $templateIds = [];
+        if ($this->http->wrapper()->post()->has('tpl_id')) {
+            $templateIds = $this->http->wrapper()->post()->retrieve(
+                'tpl_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
+        if (count($templateIds) === 0) {
+            $templateId = 0;
+            if ($this->http->wrapper()->query()->has('tpl_id')) {
+                $templateId = $this->http->wrapper()->query()->retrieve(
+                    'tpl_id',
+                    $this->refinery->kindlyTo()->int()
+                );
             }
+            $templateIds = [$templateId];
         }
 
         if (0 === count($templateIds)) {
@@ -360,16 +379,19 @@ class ilMailTemplateGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
         }
 
-        $templateIds = $this->http->request()->getParsedBody()['tpl_id'] ?? [];
-        if (is_array($templateIds) && count($templateIds) > 0) {
-            $templateIds = array_filter(array_map('intval', $templateIds));
-        } else {
-            $templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? '';
-            if (is_numeric($templateId) && $templateId > 0) {
-                $templateIds = array_filter([(int) $templateId]);
-            } else {
-                $templateIds = [];
+        $templateIds = [];
+        if ($this->http->wrapper()->post()->has('tpl_id')) {
+            $templateIds = $this->http->wrapper()->post()->retrieve(
+                'tpl_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
+        if (count($templateIds) === 0) {
+            $templateId = 0;
+            if ($this->http->wrapper()->query()->has('tpl_id')) {
+                $templateId = $this->http->wrapper()->query()->retrieve('tpl_id', $this->refinery->kindlyTo()->int());
             }
+            $templateIds = [$templateId];
         }
 
         if (0 === count($templateIds)) {
@@ -393,7 +415,13 @@ class ilMailTemplateGUI
      */
     public function getAjaxPlaceholdersById() : void
     {
-        $triggerValue = $this->http->request()->getQueryParams()['triggerValue'] ?? '';
+        $triggerValue = '';
+        if ($this->http->wrapper()->query()->has('triggerValue')) {
+            $triggerValue = $this->http->wrapper()->query()->retrieve(
+                'triggerValue',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
         $contextId = ilUtil::stripSlashes($triggerValue);
 
         $placeholders = new ilManualPlaceholderInputGUI('m_message');
@@ -524,7 +552,10 @@ class ilMailTemplateGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
         }
 
-        $templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? 0;
+        $templateId = 0;
+        if ($this->http->wrapper()->query()->has('tpl_id')) {
+            $templateId = $this->http->wrapper()->query()->retrieve('tpl_id', $this->refinery->kindlyTo()->int());
+        }
 
         if (!is_numeric($templateId) || $templateId < 1) {
             ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));
@@ -552,7 +583,10 @@ class ilMailTemplateGUI
             $this->error->raiseError($this->lng->txt('msg_no_perm_write'), $this->error->WARNING);
         }
 
-        $templateId = $this->http->request()->getQueryParams()['tpl_id'] ?? 0;
+        $templateId = 0;
+        if ($this->http->wrapper()->query()->has('tpl_id')) {
+            $templateId = $this->http->wrapper()->query()->retrieve('tpl_id', $this->refinery->kindlyTo()->int());
+        }
 
         if (!is_numeric($templateId) || $templateId < 1) {
             ilUtil::sendFailure($this->lng->txt('mail_template_missing_id'));

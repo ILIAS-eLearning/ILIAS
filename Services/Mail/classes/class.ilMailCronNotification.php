@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Mail notifications
@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailCronNotification extends ilCronJob
 {
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected bool $initDone = false;
@@ -100,7 +100,7 @@ class ilMailCronNotification extends ilCronJob
         $this->init();
         $this->settings->set(
             'mail_notification_message',
-            $this->httpRequest->getParsedBody()['mail_notification_message'] ? 1 : 0
+            $this->http->wrapper()->post()->has('mail_notification_message') ? 1 : 0
         );
         return true;
     }

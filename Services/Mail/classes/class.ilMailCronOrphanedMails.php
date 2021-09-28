@@ -2,7 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Delete orphaned mails
@@ -11,7 +12,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilMailCronOrphanedMails extends ilCronJob
 {
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected ilDBInterface $db;
@@ -28,7 +30,8 @@ class ilMailCronOrphanedMails extends ilCronJob
             $this->lng = $DIC->language();
             $this->db = $DIC->database();
             $this->user = $DIC->user();
-            $this->httpRequest = $DIC->http()->request();
+            $this->http = $DIC->http();
+            $this->refinery = $DIC->refinery();
 
             $this->lng->loadLanguageModule('mail');
             $this->initDone = true;
@@ -122,10 +125,15 @@ class ilMailCronOrphanedMails extends ilCronJob
         $notification->allowDecimals(false);
         $notification->setSuffix($this->lng->txt('days'));
         $notification->setMinValue(0);
-        
-        $mail_threshold = isset($this->httpRequest->getParsedBody()['mail_threshold']) ?
-            (int) $this->httpRequest->getParsedBody()['mail_threshold'] :
-            $this->settings->get('mail_threshold');
+
+        if ($this->http->wrapper()->post()->has('mail_threshold')) {
+            $mail_threshold = $this->http->wrapper()->post()->retrieve(
+                'mail_threshold',
+                $this->refinery->kindlyTo()->int()
+            );
+        } else {
+            $mail_threshold = (int) $this->settings->get('mail_threshold');
+        }
         $maxvalue = $mail_threshold - 1;
         $notification->setMaxValue($maxvalue);
         $notification->setValue($this->settings->get('mail_notify_orphaned'));

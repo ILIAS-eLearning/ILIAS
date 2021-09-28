@@ -4,6 +4,8 @@
 use ILIAS\UI\Component\Tree\Node\Factory;
 use ILIAS\UI\Component\Tree\Node\Node;
 use ILIAS\UI\Component\Tree\Tree;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class Mail Explorer
@@ -13,12 +15,17 @@ use ILIAS\UI\Component\Tree\Tree;
  */
 class ilMailExplorer extends ilTreeExplorerGUI
 {
+    protected GlobalHttpState $http;
+    protected Refinery $refinery;
     private ilMailGUI $parentObject;
     protected int $currentFolderId = 0;
 
 
     public function __construct(ilMailGUI $parentObject, int $userId)
     {
+        global $DIC;
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->parentObject = $parentObject;
 
         $this->tree = new ilTree($userId);
@@ -36,11 +43,14 @@ class ilMailExplorer extends ilTreeExplorerGUI
     
     protected function initFolder() : void
     {
-        $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
-        if (0 === $folderId) {
-            $folderId = (int) ($this->httpRequest->getQueryParams()['mobj_id'] ?? ilSession::get('mobj_id'));
+        $folderId = 0;
+        if ($this->http->wrapper()->post()->has('mobj_id')) {
+            $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
+            $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        } else {
+            $folderId = (int) ilSession::get('mobj_id');
         }
-
         $this->currentFolderId = $folderId;
     }
 

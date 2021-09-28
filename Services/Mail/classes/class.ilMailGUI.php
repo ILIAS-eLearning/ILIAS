@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author       Jens Conze
@@ -16,7 +17,8 @@ class ilMailGUI
     private ilCtrl $ctrl;
     private ilLanguage $lng;
     private string $forwardClass = '';
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
     private int $currentFolderId = 0;
     private ilObjUser $user;
     public ilMail $umail;
@@ -26,12 +28,13 @@ class ilMailGUI
     public function __construct()
     {
         global $DIC;
-
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
 
         $this->lng->loadLanguageModule('mail');
 
@@ -64,9 +67,13 @@ class ilMailGUI
     
     protected function initFolder() : void
     {
-        $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
-        if (0 === $folderId) {
-            $folderId = (int) ($this->httpRequest->getQueryParams()['mobj_id'] ?? ilSession::get('mobj_id'));
+        $folderId = 0;
+        if ($this->http->wrapper()->post()->has('mobj_id')) {
+            $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
+            $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        } else {
+            $folderId = (int) ilSession::get('mobj_id');
         }
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
             $folderId = $this->mbox->getInboxFolder();
@@ -77,32 +84,47 @@ class ilMailGUI
     
     public function executeCommand() : void
     {
-        $type = $this->httpRequest->getQueryParams()['type'] ?? '';
-        $mailId = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
+        $type = "";
+        if ($this->http->wrapper()->query()->has('type')) {
+            $type = $this->http->wrapper()->query()->retrieve('type', $this->refinery->kindlyTo()->string());
+        }
+        $mailId = 0;
+        if ($this->http->wrapper()->query()->has('mail_id')) {
+            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+        }
 
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->currentFolderId);
         $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
 
         if ('search_res' === $type) {
-            ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
+            ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'searchResults');
         } elseif ('attach' === $type) {
-            ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
+            ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailAttachment');
         } elseif ('new' === $type) {
-            $to = $this->httpRequest->getQueryParams()['rcp_to'] ?? '';
+            $to = "";
+            if ($this->http->wrapper()->query()->has('rcp_to')) {
+                $to = $this->http->wrapper()->query()->retrieve('rcp_to', $this->refinery->kindlyTo()->string());
+            }
             ilSession::set('rcp_to', ilUtil::stripSlashes($to));
             if (ilSession::get('rcp_to') === '' && ($recipients = ilMailFormCall::getRecipients())) {
                 ilSession::set('rcp_to', implode(',', $recipients));
                 ilMailFormCall::setRecipients([]);
             }
 
-            $cc = $this->httpRequest->getQueryParams()['rcp_cc'] ?? '';
-            $bcc = $this->httpRequest->getQueryParams()['rcp_bcc'] ?? '';
+            $cc = "";
+            if ($this->http->wrapper()->query()->has('rcp_cc')) {
+                $cc = $this->http->wrapper()->query()->retrieve('rcp_cc', $this->refinery->kindlyTo()->string());
+            }
+            $bcc = "";
+            if ($this->http->wrapper()->query()->has('rcp_bcc')) {
+                $bcc = $this->http->wrapper()->query()->retrieve('rcp_bcc', $this->refinery->kindlyTo()->string());
+            }
             ilSession::set('rcp_cc', ilUtil::stripSlashes($cc));
             ilSession::set('rcp_bcc', ilUtil::stripSlashes($bcc));
 
-            ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
+            ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailUser');
         } elseif ('reply' === $type) {
             ilSession::set('mail_id', $mailId);
@@ -113,37 +135,56 @@ class ilMailGUI
         } elseif ('deliverFile' === $type) {
             ilSession::set('mail_id', $mailId);
 
-            $fileName = '';
-            if (isset($this->httpRequest->getParsedBody()['filename'])) {
-                $fileName = $this->httpRequest->getParsedBody()['filename'];
-            } elseif (isset($this->httpRequest->getQueryParams()['filename'])) {
-                $fileName = $this->httpRequest->getQueryParams()['filename'];
+            $fileName = "";
+            if ($this->http->wrapper()->post()->has('filename')) {
+                $fileName = $this->http->wrapper()->post()->retrieve(
+                    'filename',
+                    $this->refinery->kindlyTo()->string()
+                );
+            } elseif ($this->http->wrapper()->query()->has('filename')) {
+                $fileName = $this->http->wrapper()->query()->retrieve(
+                    'filename',
+                    $this->refinery->kindlyTo()->string()
+                );
             }
+
             ilSession::set('filename', ilUtil::stripSlashes($fileName));
             $this->ctrl->redirectByClass(ilMailFolderGUI::class, 'deliverFile');
         } elseif ('message_sent' === $type) {
             ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
             $this->ctrl->redirectByClass(ilMailFolderGUI::class);
         } elseif ('role' === $type) {
-            $roles = $this->httpRequest->getParsedBody()['roles'] ?? [];
-            if (is_array($roles) && count($roles) > 0) {
-                ilSession::set('mail_roles', $roles);
-            } elseif (isset($this->httpRequest->getQueryParams()['role'])) {
-                ilSession::set('mail_roles', [$this->httpRequest->getQueryParams()['role']]);
+            $roles = [];
+            if ($this->http->wrapper()->post()->has('roles')) {
+                $roles = $this->http->wrapper()->post()->retrieve(
+                    'roles',
+                    $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
+                );
+            } elseif ($this->http->wrapper()->query()->has('role')) {
+                $roles = [$this->http->wrapper()->query()->retrieve('role', $this->refinery->kindlyTo()->string())];
             }
+            ilSession::set('mail_roles', $roles);
 
-            ilMailFormCall::storeReferer($this->httpRequest->getQueryParams());
+            ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailRole');
         }
 
-        $view = (string) ($this->httpRequest->getQueryParams()['view'] ?? '');
+        $view = "";
+        if ($this->http->wrapper()->query()->has('view')) {
+            $view = $this->http->wrapper()->query()->retrieve('view', $this->refinery->kindlyTo()->string());
+        }
         if ('my_courses' === $view) {
-            $search_crs = ilUtil::stripSlashes($this->httpRequest->getQueryParams()['search_crs']);
+            $search_crs = "";
+            if ($this->http->wrapper()->query()->has('search_crs')) {
+                $search_crs = ilUtil::stripSlashes(
+                    $this->http->wrapper()->query()->retrieve('search_crs', $this->refinery->kindlyTo()->string())
+                );
+            }
             $this->ctrl->setParameter($this, 'search_crs', $search_crs);
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'searchCoursesTo');
         }
 
-        if (isset($this->httpRequest->getQueryParams()['viewmode'])) {
+        if ($this->http->wrapper()->query()->has('viewmode')) {
             $this->ctrl->setCmd('setViewMode');
         }
 
@@ -182,9 +223,21 @@ class ilMailGUI
     
     private function setViewMode() : void
     {
-        $targetClass = $this->httpRequest->getQueryParams()['target'] ?? ilMailFolderGUI::class;
-        $type = $this->httpRequest->getQueryParams()['type'] ?? '';
-        $mailId = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
+        $targetClass = ilMailFolderGUI::class;
+        if ($this->http->wrapper()->query()->has('target')) {
+            $targetClass = $this->http->wrapper()->query()->retrieve(
+                'target',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $type = "";
+        if ($this->http->wrapper()->query()->has('type')) {
+            $type = $this->http->wrapper()->query()->retrieve('type', $this->refinery->kindlyTo()->string());
+        }
+        $mailId = 0;
+        if ($this->http->wrapper()->query()->has('mail_id')) {
+            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+        }
 
         $this->ctrl->setParameterByClass($targetClass, 'mobj_id', $this->currentFolderId);
 
@@ -272,7 +325,7 @@ class ilMailGUI
                 break;
         }
 
-        if (isset($this->httpRequest->getQueryParams()['message_sent'])) {
+        if ($this->http->wrapper()->query()->has('message_sent')) {
             $DIC->tabs()->setTabActive('fold');
         }
     }

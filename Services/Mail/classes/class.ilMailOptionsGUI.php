@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author Jens Conze
@@ -18,7 +19,8 @@ class ilMailOptionsGUI
     private ilObjUser $user;
     private ilFormatMail $umail;
     private ilMailbox $mbox;
-    protected ServerRequestInterface $request;
+    protected GlobalHttpState $http;
+    protected Refinery $refinery;
     protected ilMailOptionsFormGUI $form;
 
 
@@ -81,7 +83,13 @@ class ilMailOptionsGUI
     public function executeCommand() : void
     {
         if (!$this->settings->get('show_mail_settings')) {
-            $referrer = $this->request->getQueryParams()['referrer'] ?? '';
+            $referrer = "";
+            if ($this->http->wrapper()->query()->has('referrer')) {
+                $referrer = $this->http->wrapper()->query()->retrieve(
+                    'referrer',
+                    $this->refinery->kindlyTo()->string()
+                );
+            }
             if (strtolower(ilPersonalSettingsGUI::class) === strtolower($referrer)) {
                 $this->ctrl->redirectByClass(ilPersonalSettingsGUI::class);
                 return;

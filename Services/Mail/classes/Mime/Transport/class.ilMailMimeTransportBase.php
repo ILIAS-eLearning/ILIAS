@@ -145,7 +145,8 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->onBeforeSend();
         $result = $this->getMailer()->send();
         if ($result) {
-            ilLoggerFactory::getLogger('mail')->info('Successfully delegated external mail delivery');
+            ilLoggerFactory::getLogger('mail')
+                           ->info('Successfully delegated external mail delivery');
 
             if ($this->getMailer()->ErrorInfo !== '') {
                 ilLoggerFactory::getLogger('mail')->warning(sprintf(

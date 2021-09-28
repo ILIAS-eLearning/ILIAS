@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Mail User Interface class. (only a start, mail scripts code should go here)
@@ -11,7 +12,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilPDMailGUI
 {
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
     protected ILIAS $ilias;
     protected ilRbacSystem $rbacsystem;
     protected ilLanguage $lng;
@@ -26,7 +28,8 @@ class ilPDMailGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->ilias = $DIC['ilias'];
         $this->user = $DIC->user();
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
 
@@ -48,12 +51,16 @@ class ilPDMailGUI
         $tpl = new ilTemplate('tpl.pd_mail.html', true, true, 'Services/Mail');
 
         if ($mail_data['attachments']) {
+            $mailId = 0;
+            if ($this->http->wrapper()->query()->has('mail_id')) {
+                $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+            }
             foreach ($mail_data['attachments'] as $file) {
                 $tpl->setCurrentBlock('a_row');
                 $tpl->setVariable(
                     'HREF_DOWNLOAD',
                     'ilias.php?baseClass=ilMailGUI&amp;type=deliverFile&amp;mail_id='
-                    . $this->httpRequest->getQueryParams()['mail_id'] .
+                    . $mailId .
                         '&amp;filename=' . md5($file)
                 );
                 $tpl->setVariable('FILE_NAME', $file);

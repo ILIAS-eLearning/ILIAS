@@ -3,6 +3,8 @@
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author       Jens Conze
@@ -24,7 +26,8 @@ class ilMailFolderGUI
     private ilObjUser $user;
     public ilMail $umail;
     public ilMailBox $mbox;
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
     private int $currentFolderId = 0;
 
 
@@ -38,7 +41,8 @@ class ilMailFolderGUI
         $this->toolbar = $DIC->toolbar();
         $this->user = $DIC->user();
         $this->tabs = $DIC->tabs();
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         $this->umail = new ilMail($this->user->getId());
         $this->mbox = new ilMailbox($this->user->getId());
@@ -49,9 +53,13 @@ class ilMailFolderGUI
     
     protected function initFolder() : void
     {
-        $folderId = (int) ($this->httpRequest->getParsedBody()['mobj_id'] ?? 0);
-        if (0 === $folderId) {
-            $folderId = (int) ($this->httpRequest->getQueryParams()['mobj_id'] ?? ilSession::get('mobj_id'));
+        $folderId = 0;
+        if ($this->http->wrapper()->post()->has('mobj_id')) {
+            $folderId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
+            $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
+        } else {
+            $folderId = (int) ilSession::get('mobj_id');
         }
 
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
@@ -108,7 +116,11 @@ class ilMailFolderGUI
 
             case strtolower(ilPublicUserProfileGUI::class):
                 $this->tpl->setTitle($this->lng->txt('mail'));
-                $profileGui = new ilPublicUserProfileGUI((int) ($this->httpRequest->getQueryParams()['user'] ?? 0));
+                $userId = 0;
+                if ($this->http->wrapper()->query()->has('user')) {
+                    $userId = $this->http->wrapper()->query()->retrieve('user', $this->refinery->kindlyTo()->int());
+                }
+                $profileGui = new ilPublicUserProfileGUI($userId);
 
                 $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
                 $profileGui->setBackUrl($this->ctrl->getLinkTarget($this, 'showMail'));
@@ -155,19 +167,28 @@ class ilMailFolderGUI
      */
     protected function showUser() : void
     {
+        $userId = 0;
+        if ($this->http->wrapper()->query()->has('user')) {
+            $userId = $this->http->wrapper()->query()->retrieve('user', $this->refinery->kindlyTo()->int());
+        }
         $this->tpl->setVariable('TBL_TITLE', implode(' ', [
             $this->lng->txt('profile_of'),
-            ilObjUser::_lookupLogin((int) ($this->httpRequest->getQueryParams()['user'] ?? 0)),
+            ilObjUser::_lookupLogin($userId),
         ]));
         $this->tpl->setVariable('TBL_TITLE_IMG', ilUtil::getImagePath('icon_usr.svg'));
         $this->tpl->setVariable('TBL_TITLE_IMG_ALT', $this->lng->txt('public_profile'));
 
-        $profile_gui = new ilPublicUserProfileGUI((int) ($this->httpRequest->getQueryParams()['user'] ?? 0));
+        $profile_gui = new ilPublicUserProfileGUI($userId);
+
+        $mailId = 0;
+        if ($this->http->wrapper()->query()->has('mail_id')) {
+            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+        }
 
         $this->ctrl->setParameter(
             $this,
             'mail_id',
-            (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0)
+            $mailId
         );
         $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
         $profile_gui->setBackUrl($this->ctrl->getLinkTarget($this, 'showMail'));
@@ -414,13 +435,22 @@ class ilMailFolderGUI
      */
     protected function getMailIdsFromRequest(bool $ignoreHttpGet = false) : array
     {
-        $mailIds = $this->httpRequest->getParsedBody()['mail_id'] ?? [];
+        $mailIds = [];
+        if ($this->http->wrapper()->post()->has('mail_id')) {
+            $mailIds = $this->http->wrapper()->post()->retrieve(
+                'mail_id',
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+            );
+        }
         if (!is_array($mailIds)) {
             return [];
         }
 
         if (0 === count($mailIds) && !$ignoreHttpGet) {
-            $mailId = $this->httpRequest->getQueryParams()['mail_id'] ?? 0;
+            $mailId = 0;
+            if ($this->http->wrapper()->query()->has('mail_id')) {
+                $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+            }
             if (is_numeric($mailId)) {
                 $mailIds = [$mailId];
             }
@@ -467,7 +497,13 @@ class ilMailFolderGUI
             return;
         }
 
-        $newFolderId = (int) ($this->httpRequest->getParsedBody()['folder_id'] ?? 0);
+        $newFolderId = 0;
+        if ($this->http->wrapper()->post()->has('folder_id')) {
+            $newFolderId = $this->http->wrapper()->post()->retrieve(
+                'folder_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
         $redirectFolderId = $newFolderId;
         foreach ($mailIds as $mailId) {
             $mailData = $this->umail->getMail($mailId);
@@ -562,7 +598,10 @@ class ilMailFolderGUI
             $mailId = (int) ilSession::get('mail_id');
             ilSession::set('mail_id', null);
         } else {
-            $mailId = (int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0);
+            $mailId = 0;
+            if ($this->http->wrapper()->query()->has('mail_id')) {
+                $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+            }
         }
 
         $mailData = $this->umail->getMail($mailId);
@@ -828,7 +867,11 @@ class ilMailFolderGUI
     {
         $tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
 
-        $mailData = $this->umail->getMail((int) ($this->httpRequest->getQueryParams()['mail_id'] ?? 0));
+        $mailId = 0;
+        if ($this->http->wrapper()->query()->has('mail_id')) {
+            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+        }
+        $mailData = $this->umail->getMail($mailId);
 
         /**
          * @var $sender ilObjUser
@@ -881,13 +924,19 @@ class ilMailFolderGUI
 
     protected function deliverFile() : void
     {
-        $mailId = $this->httpRequest->getQueryParams()['mail_id'] ?? 0;
+        $mailId = 0;
+        if ($this->http->wrapper()->query()->has('mail_id')) {
+            $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+        }
         if ((int) ilSession::get('mail_id') > 0) {
             $mailId = ilSession::get('mail_id');
             ilSession::set('mail_id', null);
         }
 
-        $filename = $this->httpRequest->getParsedBody()['filename'] ?? '';
+        $filename = '';
+        if ($this->http->wrapper()->post()->has('filename')) {
+            $filename = $this->http->wrapper()->post()->retrieve('filename', $this->refinery->kindlyTo()->string());
+        }
         if (is_string(ilSession::get('filename')) && ilSession::get('filename') !== '') {
             $filename = ilSession::get('filename');
             ilSession::set('filename', null);
@@ -920,14 +969,20 @@ class ilMailFolderGUI
     protected function deliverAttachments() : void
     {
         try {
-            $mailId = $this->httpRequest->getQueryParams()['mail_id'] ?? 0;
+            $mailId = 0;
+            if ($this->http->wrapper()->query()->has('mail_id')) {
+                $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
+            }
 
             $mailData = $this->umail->getMail((int) $mailId);
             if (null === $mailData || 0 === count((array) $mailData['attachments'])) {
                 throw new ilException('mail_error_reading_attachment');
             }
 
-            $type = $this->httpRequest->getQueryParams()['type'] ?? '';
+            $type = '';
+            if ($this->http->wrapper()->query()->has('type')) {
+                $type = $this->http->wrapper()->query()->retrieve('type', $this->refinery->kindlyTo()->string());
+            }
 
             $mailFileData = new ilFileDataMail($this->user->getId());
             if (count($mailData['attachments']) === 1) {

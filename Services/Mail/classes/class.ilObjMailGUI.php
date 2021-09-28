@@ -689,10 +689,10 @@ class ilObjMailGUI extends ilObjectGUI
         if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
             ilUtil::redirect('ilias.php?baseClass=ilMailGUI');
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            $request->getQueryParams()['cmd'] = '';
-            $request->getQueryParams()['target'] = '';
-            $request->getQueryParams()['ref_id'] = ROOT_FOLDER_ID;
-            $request->getQueryParams()['baseClass'] = ilRepositoryGUI::class;
+            //$request->getQueryParams()['cmd'] = '';
+            //$request->getQueryParams()['target'] = '';
+            //$request->getQueryParams()['ref_id'] = ROOT_FOLDER_ID;
+            //$request->getQueryParams()['baseClass'] = ilRepositoryGUI::class;
             ilUtil::sendFailure(
                 sprintf(
                     $DIC->language()->txt('msg_no_perm_read_item'),
