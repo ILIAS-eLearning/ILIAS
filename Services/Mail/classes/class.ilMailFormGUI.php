@@ -141,9 +141,9 @@ class ilMailFormGUI
         $sanitizedMessage = $mailBody->getContent();
 
         $attachments = [];
-        if ($this->http->wrapper()->post()->has('attachements')) {
+        if ($this->http->wrapper()->post()->has('attachments')) {
             $attachments = $this->http->wrapper()->post()->retrieve(
-                'attachements',
+                'attachments',
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
         }
@@ -507,8 +507,10 @@ class ilMailFormGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
         }
-        foreach ($attachments as $value) {
-            $files[] = urldecode($value);
+        if(is_array($attachments)) {
+            foreach ($attachments as $value) {
+                $files[] = urldecode($value);
+            }
         }
 
         $rcpTo = "";
