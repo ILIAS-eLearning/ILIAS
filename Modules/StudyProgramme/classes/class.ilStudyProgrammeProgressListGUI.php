@@ -181,7 +181,6 @@ class ilStudyProgrammeProgressListGUI
             $css_class = self::NON_SUCCESSFUL_PROGRESS_CSS_CLASS;
         }
 
-        require_once("Services/Container/classes/class.ilContainerObjectiveGUI.php");
         return ilContainerObjectiveGUI::renderProgressBar($current_percent, $required_percent, $css_class, $progress_status, null, $tooltip_id, $tooltip_txt);
     }
     
