@@ -196,7 +196,7 @@ class ilMailAttachmentGUI
 
     public function uploadFile() : void
     {
-        if (trim($this->request->getUploadedFiles()['userfile']['name']) !== '') {
+        if (trim($this->http->request()->getUploadedFiles()['userfile']['name']) !== '') {
             $form = $this->getToolbarForm();
             if ($form->checkInput()) {
                 $this->mfile->storeUploadedFile($_FILES['userfile']);
