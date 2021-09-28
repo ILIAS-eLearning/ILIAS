@@ -9,6 +9,7 @@
 class ilForumCronNotification extends ilCronJob
 {
     const KEEP_ALIVE_CHUNK_SIZE = 25;
+    private $lng;
 
     protected ilSetting $settings;
     protected ilLogger $logger;
@@ -36,6 +37,7 @@ class ilForumCronNotification extends ilCronJob
     {
         global $DIC;
         $this->settings = new ilSetting('frma');
+        $this->lng = $DIC->language();
 
         if ($database === null) {
             $ilDB = $DIC->database();
@@ -55,16 +57,12 @@ class ilForumCronNotification extends ilCronJob
 
     public function getTitle() : string
     {
-        global $DIC;
-
-        return $DIC->language()->txt("cron_forum_notification");
+        return $this->lng->txt("cron_forum_notification");
     }
 
     public function getDescription() : string
     {
-        global $DIC;
-
-        return $DIC->language()->txt("cron_forum_notification_crob_desc");
+        return $this->lng->txt("cron_forum_notification_crob_desc");
     }
 
     public function getDefaultScheduleType() : int

@@ -16,6 +16,7 @@ class ilForum
     const DEFAULT_PAGE_HITS = 30;
 
     protected static array $moderators_by_ref_id_map = [];
+    private ilAppEventHandler $event;
 
     public $lng;
     public $error;
@@ -53,6 +54,7 @@ class ilForum
         $this->db = $DIC->database();
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
+        $this->event = $DIC->event();
     }
 
     // no usage?
@@ -496,7 +498,7 @@ class ilForum
             [$num_moved_posts, $num_moved_threads, $num_visits, $last_post_dest, $newFrmData->getTopPk()]
         );
 
-        $GLOBALS['ilAppEventHandler']->raise(
+        $this->event->raise(
             'Modules/Forum',
             'mergedThreads',
             [
@@ -574,7 +576,7 @@ class ilForum
             $news_item->update();
         }
 
-        $GLOBALS['ilAppEventHandler']->raise(
+        $this->event->raise(
             'Modules/Forum',
             'censoredPost',
             [
@@ -598,7 +600,7 @@ class ilForum
 
         $post = new ilForumPost((int) $p_node['pos_pk']);
         if ($raiseEvents) {
-            $GLOBALS['ilAppEventHandler']->raise(
+            $this->event->raise(
                 'Modules/Forum',
                 'beforePostDeletion',
                 [
@@ -824,7 +826,7 @@ class ilForum
         );
 
         if ($raiseEvents) {
-            $GLOBALS['ilAppEventHandler']->raise(
+            $this->event->raise(
                 'Modules/Forum',
                 'afterPostDeletion',
                 [
@@ -2027,7 +2029,7 @@ class ilForum
             $targetThreadForMerge->reopen();
         }
 
-        $GLOBALS['ilAppEventHandler']->raise(
+        $this->event->raise(
             'Modules/Forum',
             'mergedThreads',
             [

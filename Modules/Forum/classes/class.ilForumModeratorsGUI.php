@@ -108,11 +108,10 @@ class ilForumModeratorsGUI
     public function detachModeratorRole() : void
     {
         $usr_ids = [];
-        global $DIC;
-        if ($DIC->http()->wrapper()->post()->has('usr_id')) {
-            $usr_ids = $DIC->http()->wrapper()->post()->retrieve(
+        if ($this->http_wrapper->post()->has('usr_id')) {
+            $usr_ids = $this->http_wrapper->post()->retrieve(
                 'usr_id',
-                $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
 
@@ -152,7 +151,6 @@ class ilForumModeratorsGUI
 
     public function showModerators() : void
     {
-        global $DIC;
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
             $this->toolbar,
@@ -163,10 +161,10 @@ class ilForumModeratorsGUI
                 'add_from_container' => $this->oForumModerators->getRefId()
             ]
         );
-        if ($DIC->http()->wrapper()->query()->has('ref_id')) {
-            $this->ref_id = $DIC->http()->wrapper()->query()->retrieve(
+        if ($this->http_wrapper->query()->has('ref_id')) {
+            $this->ref_id = $this->http_wrapper->query()->retrieve(
                 'ref_id',
-                $DIC->refinery()->kindlyTo()->int()
+                $this->refinery->kindlyTo()->int()
             );
         }
         $tbl = new ilForumModeratorsTableGUI($this, 'showModerators', '', (int) $this->ref_id);

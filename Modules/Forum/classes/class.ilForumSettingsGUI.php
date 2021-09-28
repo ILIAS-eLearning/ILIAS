@@ -16,6 +16,8 @@ class ilForumSettingsGUI
     private $access;
     private $tree;
     private $parent_obj;
+    private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
+    private \ILIAS\Refinery\Factory $refinery;
 
     protected ilForumNotification $forumNotificationObj;
     protected ilPropertyFormGUI $form;
@@ -41,6 +43,8 @@ class ilForumSettingsGUI
         $this->tree = $DIC->repositoryTree();
         $this->obj_service = $DIC->object();
         $this->ref_id = $this->parent_obj->object->getRefId();
+        $this->http_wrapper = $DIC->http()->wrapper();
+        $this->refinery = $DIC->refinery();
     }
 
     private function initForcedForumNotification() : void
@@ -388,51 +392,48 @@ class ilForumSettingsGUI
 
     public function saveEventsForUser() : void
     {
-        /** @var $DIC  \ILIAS\DI\Container */
-        global $DIC;
-
         $hidden_value = [];
-        if ($DIC->http()->wrapper()->post()->has('hidden_value')) {
-            $hidden_value = $DIC->http()->wrapper()->post()->retrieve(
+        if ($this->http_wrapper->post()->has('hidden_value')) {
+            $hidden_value = $this->http_wrapper->post()->retrieve(
                 'hidden_value',
-                $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->string())
+                $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
         }
 
         $notify_modified = 0;
-        if ($DIC->http()->wrapper()->post()->has('notify_modified')) {
-            $notify_modified = $DIC->http()->wrapper()->post()->retrieve(
+        if ($this->http_wrapper->post()->has('notify_modified')) {
+            $notify_modified = $this->http_wrapper->post()->retrieve(
                 'notify_modified',
-                $DIC->refinery()->kindlyTo()->int()
+                $this->refinery->kindlyTo()->int()
             );
         }
         $notify_censored = 0;
-        if ($DIC->http()->wrapper()->post()->has('notify_censored')) {
-            $notify_censored = $DIC->http()->wrapper()->post()->retrieve(
+        if ($this->http_wrapper->post()->has('notify_censored')) {
+            $notify_censored = $this->http_wrapper->post()->retrieve(
                 'notify_censored',
-                $DIC->refinery()->kindlyTo()->int()
+                $this->refinery->kindlyTo()->int()
             );
         }
         $notify_uncensored = 0;
-        if ($DIC->http()->wrapper()->post()->has('notify_uncensored')) {
-            $notify_uncensored = $DIC->http()->wrapper()->post()->retrieve(
+        if ($this->http_wrapper->post()->has('notify_uncensored')) {
+            $notify_uncensored = $this->http_wrapper->post()->retrieve(
                 'notify_uncensored',
-                $DIC->refinery()->kindlyTo()->int()
+                $this->refinery->kindlyTo()->int()
             );
         }
         $notify_post_deleted = 0;
-        if ($DIC->http()->wrapper()->post()->has('notify_post_deleted')) {
-            $notify_post_deleted = $DIC->http()->wrapper()->post()->retrieve(
+        if ($this->http_wrapper->post()->has('notify_post_deleted')) {
+            $notify_post_deleted = $this->http_wrapper->post()->retrieve(
                 'notify_post_deleted',
-                $DIC->refinery()->kindlyTo()->int()
+                $this->refinery->kindlyTo()->int()
             );
         }
 
         $notify_thread_deleted = 0;
-        if ($DIC->http()->wrapper()->post()->has('notify_thread_deleted')) {
-            $notify_thread_deleted = $DIC->http()->wrapper()->post()->retrieve(
+        if ($this->http_wrapper->post()->has('notify_thread_deleted')) {
+            $notify_thread_deleted = $this->http_wrapper->post()->retrieve(
                 'notify_thread_deleted',
-                $DIC->refinery()->kindlyTo()->int()
+                $this->refinery->kindlyTo()->int()
             );
         }
 

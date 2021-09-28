@@ -1301,7 +1301,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $force_active = $this->ctrl->getNextClass() === 'ilinfoscreengui' || strtolower($cmdClass) === 'ilnotegui';
             $this->tabs->addTarget(
                 'info_short',
-                $this->ctrl->getLinkTargetByClass(['ilobjforumgui', 'ilinfoscreengui'], 'showSummary'),
+                $this->ctrl->getLinkTargetByClass([ilObjForumGUI::class, ilInfoScreenGUI::class], 'showSummary'),
                 ['showSummary', 'infoScreen'],
                 '',
                 '',
@@ -1324,7 +1324,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tabs->addTarget(
                 'frm_moderators',
-                $this->ctrl->getLinkTargetByClass('ilForumModeratorsGUI', 'showModerators'),
+                $this->ctrl->getLinkTargetByClass(ilForumModeratorsGUI::class, 'showModerators'),
                 'showModerators',
                 get_class($this)
             );
@@ -1361,13 +1361,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
-            $this->tabs->addTarget('export', $this->ctrl->getLinkTargetByClass('ilexportgui', ''), '', 'ilexportgui');
+            $this->tabs->addTarget('export', $this->ctrl->getLinkTargetByClass(ilExportGUI::class, ''), '', 'ilexportgui');
         }
 
         if ($this->access->checkAccess('edit_permission', '', $this->ref_id)) {
             $this->tabs->addTarget(
                 'perm_settings',
-                $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], 'perm'),
+                $this->ctrl->getLinkTargetByClass([get_class($this), ilPermissionGUI::class], 'perm'),
                 ['perm', 'info', 'owner'],
                 'ilpermissiongui'
             );
@@ -3047,16 +3047,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             }
 
             // print thread
-            $this->ctrl->setParameterByClass('ilforumexportgui', 'print_thread', $this->objCurrentTopic->getId());
-            $this->ctrl->setParameterByClass('ilforumexportgui', 'thr_top_fk', $this->objCurrentTopic->getForumId());
+            $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'print_thread', $this->objCurrentTopic->getId());
+            $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'thr_top_fk', $this->objCurrentTopic->getForumId());
 
             $print_thr_button = ilLinkButton::getInstance();
             $print_thr_button->setCaption('forums_print_thread');
-            $print_thr_button->setUrl($this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printThread'));
+            $print_thr_button->setUrl($this->ctrl->getLinkTargetByClass(ilForumExportGUI::class, 'printThread'));
 
             $bottom_toolbar_split_button_items[] = $print_thr_button;
 
-            $this->ctrl->clearParametersByClass('ilforumexportgui');
+            $this->ctrl->clearParametersByClass(ilForumExportGUI::class);
 
             $this->addHeaderAction();
 
@@ -5514,11 +5514,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                     }
 
                     if (!$node->isCensored()) {
-                        $this->ctrl->setParameterByClass('ilforumexportgui', 'print_post', $node->getId());
-                        $this->ctrl->setParameterByClass('ilforumexportgui', 'top_pk', $node->getForumId());
-                        $this->ctrl->setParameterByClass('ilforumexportgui', 'thr_pk', $node->getThreadId());
+                        $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'print_post', $node->getId());
+                        $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'top_pk', $node->getForumId());
+                        $this->ctrl->setParameterByClass(ilForumExportGUI::class, 'thr_pk', $node->getThreadId());
 
-                        $actions['print'] = $this->ctrl->getLinkTargetByClass('ilforumexportgui', 'printPost');
+                        $actions['print'] = $this->ctrl->getLinkTargetByClass(ilForumExportGUI::class, 'printPost');
 
                         $this->ctrl->clearParameters($this);
                     }

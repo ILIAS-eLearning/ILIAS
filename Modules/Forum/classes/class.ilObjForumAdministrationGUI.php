@@ -70,7 +70,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         if ($this->rbac->system()->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 'perm_settings',
-                $this->ctrl->getLinkTargetByClass('ilpermissiongui', 'perm'),
+                $this->ctrl->getLinkTargetByClass(ilPermissionGUI::class, 'perm'),
                 [],
                 'ilpermissiongui'
             );
