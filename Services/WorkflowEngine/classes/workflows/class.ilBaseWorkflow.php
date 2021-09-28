@@ -445,7 +445,7 @@ abstract class ilBaseWorkflow implements ilWorkflow
         }
 
         $filename = './Services/WorkflowEngine/classes/' . $componentDirectory . '/class.' . $class_name . '.php';
-        if (file_exists($filename)) {
+        if (is_file($filename)) {
             require_once $filename;
         }
     }
