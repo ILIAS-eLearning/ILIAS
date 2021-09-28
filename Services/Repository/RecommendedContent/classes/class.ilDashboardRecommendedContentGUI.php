@@ -35,6 +35,7 @@ class ilDashboardRecommendedContentGUI
 
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->user = $DIC->user();
@@ -47,7 +48,8 @@ class ilDashboardRecommendedContentGUI
 
         $this->lng->loadLanguageModule("rep");
 
-        $this->requested_item_ref_id = (int) ($_GET["item_ref_id"] ?? null);
+        $request = $DIC->repository()->internal()->gui()->standardRequest();
+        $this->requested_item_ref_id = $request->getItemRefId();
 
         $this->recommendations = $this->rec_manager->getOpenRecommendationsOfUser($this->user->getId());
     }

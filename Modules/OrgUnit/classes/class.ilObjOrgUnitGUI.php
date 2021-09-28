@@ -11,7 +11,7 @@ use ILIAS\OrgUnit\Provider\OrgUnitToolProvider;
  * @author            : Stefan Wanzenried <sw@studer-raimann.ch>
  *
  * @ilCtrl_IsCalledBy ilObjOrgUnitGUI: ilAdministrationGUI, ilObjPluginDispatchGUI
- * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPermissionGUI, ilPageObjectGUI, ilContainerLinkListGUI
+ * @ilCtrl_Calls      ilObjOrgUnitGUI: ilPermissionGUI, ilPageObjectGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilObjUserGUI, ilObjUserFolderGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilInfoScreenGUI, ilObjStyleSheetGUI
  * @ilCtrl_Calls      ilObjOrgUnitGUI: ilCommonActionDispatcherGUI
@@ -696,11 +696,11 @@ class ilObjOrgUnitGUI extends ilContainerGUI
      */
     public function performPaste()
     {
-        if (!in_array($_SESSION['clipboard']['cmd'], array('cut'))) {
+        if (!in_array($_SESSION["clipboard"]['cmd'], array('cut'))) {
             $message = __METHOD__ . ": cmd was not 'cut' ; may be a hack attempt!";
             $this->ilias->raiseError($message, $this->ilias->error_obj->WARNING);
         }
-        if ($_SESSION['clipboard']['cmd'] == 'cut') {
+        if ($_SESSION["clipboard"]['cmd'] == 'cut') {
             if (isset($_GET['ref_id']) && (int) $_GET['ref_id']) {
                 $this->pasteObject();
             }
@@ -754,8 +754,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     public function deleteObject($a_error = false)
     {
         $ilCtrl = $this->ctrl;
-        require_once("./Services/Repository/classes/class.ilRepUtilGUI.php");
-        $ru = new ilRepUtilGUI($this);
+        $ru = new ilRepositoryTrashGUI($this);
 
         $arr_ref_ids = [];
         //Delete via Manage (more than one)
@@ -785,7 +784,7 @@ class ilObjOrgUnitGUI extends ilContainerGUI
     {
         global $DIC;
         $parent_ref_id = $_SESSION["clipboard"]["parent"];
-        unset($_SESSION['clipboard']);
+        unset($_SESSION["clipboard"]);
         $DIC->ctrl()->setParameter($this, 'ref_id', $parent_ref_id);
         $DIC->ctrl()->redirect($this);
     }

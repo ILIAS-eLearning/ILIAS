@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Repository\PluginSlot\PluginSlotGUIRequest;
+
 /**
  * Dispatcher to all repository object plugins
  *
@@ -22,10 +24,18 @@
 class ilObjPluginDispatchGUI
 {
     protected ilCtrl $ctrl;
+    protected PluginSlotGUIRequest $request;
 
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
+        $this->request = $DIC->repository()
+            ->internal()
+            ->gui()
+            ->pluginSlot()
+            ->request();
 
         $this->ctrl = $DIC->ctrl();
     }
@@ -41,8 +51,7 @@ class ilObjPluginDispatchGUI
             $class_path = $ilCtrl->lookupClassPath($next_class);
             include_once($class_path);
             $class_name = $ilCtrl->getClassForClasspath($class_path);
-            //echo "-".$class_name."-".$class_path."-";
-            $this->gui_obj = new $class_name($_GET["ref_id"]);
+            $this->gui_obj = new $class_name($this->request->getRefId());
             $ilCtrl->forwardCommand($this->gui_obj);
         } else {
             $this->processCommand($ilCtrl->getCmd());
@@ -65,13 +74,13 @@ class ilObjPluginDispatchGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $type = ilObject::_lookupType($_GET["ref_id"], true);
+        $type = ilObject::_lookupType($this->request->getRefId(), true);
         if ($type != "") {
             $plugin = ilObjectPlugin::getPluginObjectByType($type);
             if ($plugin) {
                 $gui_cn = "ilObj" . $plugin->getPluginName() . "GUI";
-                $ilCtrl->setParameterByClass($gui_cn, "ref_id", $_GET["ref_id"]);
-                $ilCtrl->redirectByClass($gui_cn, $_GET["forwardCmd"]);
+                $ilCtrl->setParameterByClass($gui_cn, "ref_id", $this->request->getRefId());
+                $ilCtrl->redirectByClass($gui_cn, $this->request->getForwardCmd());
             }
         }
     }

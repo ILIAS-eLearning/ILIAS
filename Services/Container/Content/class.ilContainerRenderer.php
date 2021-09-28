@@ -219,12 +219,13 @@ class ilContainerRenderer
      *
      * @param mixed $a_block_id
      * @param mixed $a_item_id
+     * @param mixed $a_item_html
      */
     public function addItemToBlock(
         $a_block_id,
         string $a_item_type,
         $a_item_id,
-        string $a_item_html,
+        $a_item_html,
         bool $a_force = false
     ) : bool {
         if ($this->isValidBlock($a_block_id) &&

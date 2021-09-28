@@ -16,6 +16,8 @@
 use ILIAS\GlobalScreen\Services;
 use ILIAS\UI\Component\Input\Container\Filter\Standard;
 use ILIAS\DI\UIServices;
+use ILIAS\Repository\Clipboard\ClipboardManager;
+use ILIAS\Container\StandardGUIRequest;
 
 /**
  * Class ilContainerGUI
@@ -46,6 +48,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected bool $adminCommands = false;
     protected string $requested_redirectSource = "";
     protected int $current_position = 0;
+    protected ClipboardManager $clipboard;
+    protected StandardGUIRequest $std_request;
 
     public function __construct(
         $a_data,
@@ -53,6 +57,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         bool $a_call_by_reference = true,
         bool $a_prepare_output = true
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -89,7 +94,17 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->container_filter_service = new ilContainerFilterService();
         $this->initFilter();
 
-        $this->requested_redirectSource = (string) ($_GET["redirectSource"] ?? "");
+        $this->clipboard = $DIC
+            ->repository()
+            ->internal()
+            ->domain()
+            ->clipboard();
+        $this->std_request = $DIC
+            ->container()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+        $this->requested_redirectSource = $this->std_request->getRedirectSource();
     }
 
     public function executeCommand()
@@ -165,7 +180,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->ctrl->setReturn($this, "editStyleProperties");
         $style_gui = new ilObjStyleSheetGUI("", $this->object->getStyleSheetId(), false, false);
         $style_gui->omitLocator();
-        if ($cmd == "create" || $_GET["new_type"] == "sty") {
+        if ($cmd == "create" || $this->std_request->getNewType() == "sty") {
             $style_gui->setCreationMode(true);
         }
 
@@ -430,8 +445,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $this->showPermanentLink();
 
         // add tree updater javascript
-        if ((int) $_GET["ref_id"] > 1 && $ilSetting->get("rep_tree_synchronize")) {
-            $ilCtrl->setParameter($this, "active_node", (int) $_GET["ref_id"]);
+        if ($this->requested_ref_id > 1 && $ilSetting->get("rep_tree_synchronize")) {
+            $ilCtrl->setParameter($this, "active_node", $this->requested_ref_id);
         }
     }
 
@@ -441,7 +456,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function renderBlockAsynchObject()
     {
         $container_view = $this->getContentGUI();
-        echo $container_view->getSingleTypeBlockAsynch($_GET["type"]);
+        echo $container_view->getSingleTypeBlockAsynch(
+            $this->std_request->getType()
+        );
         exit;
     }
 
@@ -488,8 +505,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
 
-            //			if (!$_SESSION["clipboard"])
-            //			{
             if ($this->object->gotItems()) {
                 $toolbar->setLeadingImage(
                     ilUtil::getImagePath("arrow_upright.svg"),
@@ -537,8 +552,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
             $main_tpl->addAdminPanelToolbar(
                 $toolbar,
-                ($this->object->gotItems() && !($_SESSION["clipboard"] ?? false)) ? true : false,
-                ($this->object->gotItems() && !($_SESSION["clipboard"] ?? false)) ? true : false
+                $this->object->gotItems() && !$this->clipboard->hasEntries(),
+                $this->object->gotItems() && !$this->clipboard->hasEntries()
             );
 
             // form action needed, see http://www.ilias.de/mantis/view.php?id=9630
@@ -571,7 +586,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             // as they don't have the possibility to use the multi-download-capability of the manage-tab
             elseif ($this->isMultiDownloadEnabled()) {
                 // bugfix mantis 0021272
-                $ref_id = $_GET['ref_id'];
+                $ref_id = $this->requested_ref_id;
                 $num_files = $this->tree->getChildsByType($ref_id, "file");
                 $num_folders = $this->tree->getChildsByType($ref_id, "fold");
                 if (count($num_files) > 0 or count($num_folders) > 0) {
@@ -686,7 +701,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             "spl"
         );
 
-        $childs = $tree->getChilds($_GET["ref_id"]);
+        $childs = $tree->getChilds($this->requested_ref_id);
         foreach ($childs as $child) {
             if (in_array($child["type"], array("lm", "sahs", "htlm"))) {
                 $cnt["lres"]++;
@@ -884,7 +899,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 ||
                 (is_object($this->object) &&
                     ($this->object->getHiddenFilesFound())) ||
-                $_SESSION["clipboard"]
+                $this->clipboard->hasEntries()
             )
         ) {
             if ($this->isActiveAdministrationPanel()) {
@@ -925,7 +940,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // show clipboard
-        if (strtolower($_GET["baseClass"]) == "ilrepositorygui" && !empty($_SESSION["clipboard"])) {
+        if (strtolower($this->std_request->getBaseClass()) == "ilrepositorygui" &&
+            $this->clipboard->hasEntries()) {
             $this->tabs_gui->addTarget(
                 "clipboard",
                 $this->ctrl->getLinkTarget($this, "clipboard"),
@@ -1002,18 +1018,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilCtrl = $this->ctrl;
         $ilErr = $this->error;
 
-        if ($_GET["item_ref_id"] != "") {
-            $_POST["id"] = array($_GET["item_ref_id"]);
-        }
-
+        $ids = $this->std_request->getSelectedIds();
         $no_cut = [];
 
-        if (!isset($_POST["id"])) {
+        if (count($ids) == 0) {
             $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
         }
 
         // FOR ALL OBJECTS THAT SHOULD BE COPIED
-        foreach ($_POST["id"] as $ref_id) {
+        foreach ($ids as $ref_id) {
             // GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
             $node_data = $this->tree->getNodeData($ref_id);
             $subtree_nodes = $this->tree->getSubTree($node_data);
@@ -1043,9 +1056,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $ilErr->MESSAGE
             );
         }
-        $_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-        $_SESSION["clipboard"]["cmd"] = $ilCtrl->getCmd();
-        $_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
+        $this->clipboard->setParent($this->requested_ref_id);
+        $this->clipboard->setCmd($ilCtrl->getCmd());
+        $this->clipboard->setRefIds($_POST["id"]);
 
         ilUtil::sendInfo($this->lng->txt("msg_cut_clipboard"), true);
 
@@ -1065,17 +1078,15 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $no_copy = [];
 
-        if ($_GET["item_ref_id"] != "") {
-            $_POST["id"] = array($_GET["item_ref_id"]);
-        }
+        $ids = $this->std_request->getSelectedIds();
 
-        if (!isset($_POST["id"])) {
+        if (count($ids) == 0) {
             $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
         }
 
         // FOR ALL OBJECTS THAT SHOULD BE COPIED
         $containers = 0;
-        foreach ($_POST["id"] as $ref_id) {
+        foreach ($ids as $ref_id) {
             // GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
             $node_data = $this->tree->getNodeData($ref_id);
 
@@ -1126,9 +1137,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         }
 
-        $_SESSION["clipboard"]["parent"] = $_GET["ref_id"];
-        $_SESSION["clipboard"]["cmd"] = $ilCtrl->getCmd();
-        $_SESSION["clipboard"]["ref_ids"] = $_POST["id"];
+        $this->clipboard->setParent($this->requested_ref_id);
+        $this->clipboard->setCmd($ilCtrl->getCmd());
+        $this->clipboard->setRefIds($_POST["id"]);
 
         ilUtil::sendInfo($this->lng->txt("msg_copy_clipboard"), true);
 
@@ -1142,15 +1153,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // duplicate inside the zip.
         $initiated_by_folder_action = false;
 
-        if ($_GET["item_ref_id"] != "") {
-            $_POST["id"] = array($_GET["item_ref_id"]);
-        }
+        $ids = $this->std_request->getSelectedIds();
 
-        if (!isset($_POST["id"])) {
-            $object = ilObjectFactory::getInstanceByRefId($_GET['ref_id']);
+        if (count($ids) == 0) {
+            $object = ilObjectFactory::getInstanceByRefId($this->requested_ref_id);
             $object_type = $object->getType();
             if ($object_type == "fold") {
-                $_POST["id"] = array($_GET['ref_id']);
+                $ids = array($this->requested_ref_id);
                 $initiated_by_folder_action = true;
             } else {
                 $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
@@ -1159,7 +1168,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $download_job = new ilDownloadContainerFilesBackgroundTask(
             $GLOBALS['DIC']->user()->getId(),
-            $_POST["id"],
+            $ids,
             $initiated_by_folder_action
         );
 
@@ -1188,16 +1197,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $no_cut = [];
         $no_link = [];
 
-        if ($_GET["item_ref_id"] != "") {
-            $_POST["id"] = array($_GET["item_ref_id"]);
-        }
+        $ids = $this->std_request->getSelectedIds();
 
-        if (!isset($_POST["id"])) {
+        if (count($ids) == 0) {
             $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
         }
 
         // CHECK ACCESS
-        foreach ($_POST["id"] as $ref_id) {
+        foreach ($ids as $ref_id) {
             if (!$rbacsystem->checkAccess('delete', $ref_id)) {
                 $no_cut[] = $ref_id;
             }
@@ -1223,18 +1230,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $ilErr->raiseError($this->lng->txt("msg_obj_no_link"), $ilErr->MESSAGE);
         }
 
-        // WRITE TO CLIPBOARD
-        $clipboard["parent"] = $_GET["ref_id"];
-        $clipboard["cmd"] = $ilCtrl->getCmd();
-
-        foreach ($_POST["id"] as $ref_id) {
-            $clipboard["ref_ids"][] = $ref_id;
-        }
-
-        $_SESSION["clipboard"] = $clipboard;
+        $this->clipboard->setParent($this->requested_ref_id);
+        $this->clipboard->setCmd($ilCtrl->getCmd());
+        $this->clipboard->setRefIds($_POST["id"]);
 
         $suffix = 'p';
-        if (count($clipboard["ref_ids"]) == 1) {
+        if (count($this->clipboard->getRefIds()) == 1) {
             $suffix = 's';
         }
         ilUtil::sendInfo($this->lng->txt("msg_link_clipboard_" . $suffix), true);
@@ -1247,8 +1248,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function clearObject() : void
     {
-        unset($_SESSION["clipboard"]);
-        unset($_SESSION["il_rep_clipboard"]);
+        $this->clipboard->clear();
 
         //var_dump($this->getReturnLocation("clear",$this->ctrl->getLinkTarget($this)),get_class($this));
 
@@ -1278,7 +1278,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $not_allowed_subobject = [];
         $no_paste = [];
 
-        $command = $_SESSION['clipboard']['cmd'];
+        $command = $this->clipboard->getCmd();
         if (!in_array($command, array('cut', 'link', 'copy'))) {
             $message = __METHOD__ . ": cmd was neither 'cut', 'link' nor 'copy'; may be a hack attempt!";
             $ilErr->raiseError($message, $ilErr->WARNING);
@@ -1308,7 +1308,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // this loop does all checks
         $folder_objects_cache = array();
-        foreach ($_SESSION['clipboard']['ref_ids'] as $ref_id) {
+        foreach ($this->clipboard->getRefIds() as $ref_id) {
             $obj_data = ilObjectFactory::getInstanceByRefId($ref_id);
             $current_parent_id = $tree->getParentId($obj_data->getRefId());
 
@@ -1406,8 +1406,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // everything ok: now paste the objects to new location
 
         // to prevent multiple actions via back/reload button
-        $ref_ids = $_SESSION['clipboard']['ref_ids'];
-        unset($_SESSION['clipboard']['ref_ids']);
+        $ref_ids = $this->clipboard->getRefIds();
+        $this->clipboard->clear();
 
 
         // process COPY command
@@ -1571,7 +1571,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $_SESSION['paste_linked_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
 
         // open current position
-        $path = $tree->getPathId((int) $_GET['ref_id']);
+        $path = $tree->getPathId($this->requested_ref_id);
         foreach ((array) $path as $node_id) {
             if (!in_array($node_id, $_SESSION['paste_linked_repexpand'])) {
                 $_SESSION['paste_linked_repexpand'][] = $node_id;
@@ -1588,11 +1588,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $ilTabs->setTabActive('view_content');
 
-        if (!in_array($_SESSION['clipboard']['cmd'], array('link', 'copy', 'cut'))) {
+        if (!in_array($this->clipboard->getCmd(), array('link', 'copy', 'cut'))) {
             $message = __METHOD__ . ": Unknown action.";
             $ilErr->raiseError($message, $ilErr->WARNING);
         }
-        $cmd = $_SESSION['clipboard']['cmd'];
+        $cmd = $this->clipboard->getCmd();
 
         //
         $exp = $this->getTreeSelectorGUI($cmd);
@@ -1640,7 +1640,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $ilCtrl = $this->ctrl;
 
-        unset($_SESSION['clipboard']);
+        $this->clipboard->clear();
         $ilCtrl->returnToParent($this);
     }
 
@@ -1663,7 +1663,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $_SESSION['paste_copy_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
 
         // open current position
-        $path = $tree->getPathId((int) $_GET['ref_id']);
+        $path = $tree->getPathId($this->requested_ref_id);
         foreach ((array) $path as $node_id) {
             if (!in_array($node_id, $_SESSION['paste_copy_repexpand'])) {
                 $_SESSION['paste_copy_repexpand'][] = $node_id;
@@ -1684,7 +1684,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $_SESSION['paste_cut_repexpand'] = is_array($_SESSION['repexpand']) ? $_SESSION['repexpand'] : array();
 
         // open current position
-        $path = $tree->getPathId((int) $_GET['ref_id']);
+        $path = $tree->getPathId($this->requested_ref_id);
         foreach ((array) $path as $node_id) {
             if (!in_array($node_id, $_SESSION['paste_cut_repexpand'])) {
                 $_SESSION['paste_cut_repexpand'][] = $node_id;
@@ -1714,8 +1714,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $not_allowed_subobject = [];
 
 
-        //var_dump($_SESSION["clipboard"]);exit;
-        if (!in_array($_SESSION["clipboard"]["cmd"], array("cut", "link", "copy"))) {
+        if (!in_array($this->clipboard->getCmd(), array("cut", "link", "copy"))) {
             $message = get_class(
                 $this
             ) . "::pasteObject(): cmd was neither 'cut','link' or 'copy'; may be a hack attempt!";
@@ -1723,7 +1722,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // this loop does all checks
-        foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id) {
+        foreach ($this->clipboard->getRefIds() as $ref_id) {
             $obj_data = ilObjectFactory::getInstanceByRefId($ref_id);
 
             // CHECK ACCESS
@@ -1758,7 +1757,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         ////////////////////////////
         // process checking results
         // BEGIN WebDAV: Copying an object into the same container is allowed
-        if (count($exists) > 0 && $_SESSION["clipboard"]["cmd"] != "copy") {
+        if (count($exists) > 0 && $this->clipboard->getCmd() != "copy") {
             // END WebDAV: Copying an object into the same container is allowed
             $ilErr->raiseError($this->lng->txt("msg_obj_exists"), $ilErr->MESSAGE);
         }
@@ -1786,19 +1785,19 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         // log pasteObject call
-        $ilLog->write("ilObjectGUI::pasteObject(), cmd: " . $_SESSION["clipboard"]["cmd"]);
+        $ilLog->write("ilObjectGUI::pasteObject(), cmd: " . $this->clipboard->getCmd());
 
         ////////////////////////////////////////////////////////
         // everything ok: now paste the objects to new location
 
         // to prevent multiple actions via back/reload button
-        $ref_ids = $_SESSION["clipboard"]["ref_ids"];
-        unset($_SESSION["clipboard"]["ref_ids"]);
+        $ref_ids = $this->clipboard->getRefIds();
+        $this->clipboard->clear();
 
         // BEGIN WebDAV: Support a copy command in the repository
         // process COPY command
-        if ($_SESSION["clipboard"]["cmd"] == "copy") {
-            unset($_SESSION["clipboard"]["cmd"]);
+        if ($this->clipboard->getCmd() == "copy") {
+            $this->clipboard->clear();
 
             // new implementation, redirects to ilObjectCopyGUI
             if (count($ref_ids) == 1) {
@@ -1816,7 +1815,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // END WebDAV: Support a Copy command in the repository
 
         // process CUT command
-        if ($_SESSION["clipboard"]["cmd"] == "cut") {
+        if ($this->clipboard->getCmd() == "cut") {
             foreach ($ref_ids as $ref_id) {
                 // Store old parent
                 $old_parent = $tree->getParentId($ref_id);
@@ -1848,7 +1847,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // process LINK command
         $ref_id = 0;
         $subnodes = [];
-        if ($_SESSION["clipboard"]["cmd"] == "link") {
+        if ($this->clipboard->getCmd() == "link") {
             foreach ($ref_ids as $ref_id) {
                 // get node data
                 $top_node = $this->tree->getNodeData($ref_id);
@@ -1862,8 +1861,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 // first paste top_node....
                 $obj_data = ilObjectFactory::getInstanceByRefId($ref_id);
                 $new_ref_id = $obj_data->createReference();
-                $obj_data->putInTree($_GET["ref_id"]);
-                $obj_data->setPermissions($_GET["ref_id"]);
+                $obj_data->putInTree($this->requested_ref_id);
+                $obj_data->setPermissions($this->requested_ref_id);
 
                 // BEGIN ChangeEvent: Record link event.
                 $node_data = $tree->getNodeData($new_ref_id);
@@ -1881,7 +1880,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         } // END LINK
 
         // save cmd for correct message output after clearing the clipboard
-        $last_cmd = $_SESSION["clipboard"]["cmd"];
+        $last_cmd = $this->clipboard->getCmd();
 
         // clear clipboard
         $this->clearObject();
@@ -1913,14 +1912,14 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilTabs->activateTab("clipboard");
 
         // function should not be called if clipboard is empty
-        if (empty($_SESSION['clipboard']) or !is_array($_SESSION['clipboard'])) {
+        if (!$this->clipboard->hasEntries()) {
             $message = sprintf('%s::clipboardObject(): Illegal access. Clipboard variable is empty!', get_class($this));
             $ilLog->write($message, $ilLog->FATAL);
             $ilErr->raiseError($this->lng->txt("permission_denied"), $ilErr->WARNING);
         }
 
         $data = array();
-        foreach ($_SESSION["clipboard"]["ref_ids"] as $ref_id) {
+        foreach ($this->clipboard->getRefIds() as $ref_id) {
             if (!$tmp_obj = ilObjectFactory::getInstanceByRefId($ref_id, false)) {
                 continue;
             }
@@ -1929,8 +1928,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 "type" => $tmp_obj->getType(),
                 "type_txt" => $this->lng->txt("obj_" . $tmp_obj->getType()),
                 "title" => $tmp_obj->getTitle(),
-                "cmd" => ($_SESSION["clipboard"]["cmd"] == "cut") ? $this->lng->txt("move") : $this->lng->txt(
-                    $_SESSION["clipboard"]["cmd"]
+                "cmd" => ($this->clipboard->getCmd() == "cut") ? $this->lng->txt("move") : $this->lng->txt(
+                    $this->clipboard->getCmd()
                 ),
                 "ref_id" => $ref_id,
                 "obj_id" => $tmp_obj->getId()
@@ -2031,7 +2030,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     ) : void {
         $tree = $this->tree;
 
-        if (!$_REQUEST['clone_source']) {
+        $source_id = $this->std_request->getCloneSource();
+        if ($source_id == 0) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             if (isset($_SESSION['wizard_search_title'])) {
                 // $this->searchCloneSourceObject();        ... does not exist
@@ -2040,9 +2040,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             }
             return;
         }
-        $source_id = $_REQUEST['clone_source'];
-        $new_type = $_REQUEST['new_type'];
-        $this->ctrl->setParameter($this, 'clone_source', (int) $_REQUEST['clone_source']);
+        $new_type = $this->std_request->getNewType();
+        $this->ctrl->setParameter($this, 'clone_source', $source_id);
         $this->ctrl->setParameter($this, 'new_type', $new_type);
 
         // Generell JavaScript
@@ -2137,9 +2136,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ilErr = $this->error;
         $rbacsystem = $this->rbacsystem;
 
-        $new_type = $_REQUEST['new_type'];
-        $ref_id = (int) $_GET['ref_id'];
-        $clone_source = (int) $_REQUEST['clone_source'];
+        $new_type = $this->std_request->getNewType();
+        $ref_id = $this->requested_ref_id;
+        $clone_source = $this->std_request->getCloneSource();
 
         if (!$rbacsystem->checkAccess('create', $ref_id, $new_type)) {
             $ilErr->raiseError($this->lng->txt('permission_denied'));
@@ -2342,7 +2341,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $st_styles = ilObjStyleSheet::_getStandardStyles(
                 true,
                 false,
-                $_GET["ref_id"]
+                $this->requested_ref_id
             );
 
             $st_styles[0] = $this->lng->txt("default");
@@ -2434,7 +2433,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function getAsynchItemListObject() : void
     {
-        $ref_id = $_GET["cmdrefid"];
+        $ref_id = $this->std_request->getCmdRefId();
         $obj_id = ilObject::_lookupObjId($ref_id);
         $type = ilObject::_lookupType($obj_id);
 
@@ -2546,19 +2545,22 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $html = null;
 
-        $item_data = $this->object->getSubItems(false, false, (int) $_GET["child_ref_id"]);
+        $child_ref_id = $this->std_request->getChildRefId();
+        $parent_ref_id = $this->std_request->getParentRefId();
+
+        $item_data = $this->object->getSubItems(false, false, $child_ref_id);
         $container_view = $this->getContentGUI();
 
         // list item is session material (not part of "_all"-items - see below)
         $event_items = ilEventItems::_getItemsOfContainer($this->object->getRefId());
-        if (in_array((int) $_GET["child_ref_id"], $event_items)) {
+        if (in_array($child_ref_id, $event_items)) {
             foreach ($this->object->items["sess"] as $id) {
                 $items = ilObjectActivation::getItemsByEvent($id['obj_id']);
                 foreach ($items as $event_item) {
-                    if ($event_item["child"] == (int) $_GET["child_ref_id"]) {
+                    if ($event_item["child"] == $child_ref_id) {
                         // sessions
-                        if ((int) $_GET["parent_ref_id"]) {
-                            $event_item["parent"] = (int) $_GET["parent_ref_id"];
+                        if ($parent_ref_id > 0) {
+                            $event_item["parent"] = $parent_ref_id;
                         }
                         $html = $container_view->renderItem($event_item);
                     }
@@ -2569,7 +2571,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // "normal" list item
         if (!$html) {
             foreach ($this->object->items["_all"] as $id) {
-                if ($id["child"] == (int) $_GET["child_ref_id"]) {
+                if ($id["child"] == $child_ref_id) {
                     $html = $container_view->renderItem($id);
                 }
             }
@@ -2924,7 +2926,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function removeFromSystemObject() : void
     {
-        $ru = new ilRepUtilGUI($this);
+        $ru = new ilRepositoryTrashGUI($this);
         $ru->removeObjectsFromSystem($_POST["trash_id"]);
         $this->ctrl->redirect($this, "trash");
     }
@@ -2933,7 +2935,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     {
         $this->tabs_gui->activateTab('trash');
 
-        $ru = new \ilRepUtilGUI($this);
+        $ru = new \ilRepositoryTrashGUI($this);
         $ru->restoreToNewLocation();
     }
 
@@ -2942,8 +2944,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function undeleteObject() : void
     {
-        $ru = new ilRepUtilGUI($this);
-        $ru->restoreObjects($_GET["ref_id"], $_POST["trash_id"]);
+        $ru = new ilRepositoryTrashGUI($this);
+        $ru->restoreObjects($this->requested_ref_id, $_POST["trash_id"]);
         $this->ctrl->redirect($this, "trash");
     }
 
@@ -2955,7 +2957,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->ctrl->redirect($this, "trash");
         }
 
-        $ru = new ilRepUtilGUI($this);
+        $ru = new ilRepositoryTrashGUI($this);
         $ru->confirmRemoveFromSystemObject($_POST["trash_id"]);
     }
 
@@ -2970,9 +2972,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // Not all types are allowed in the LearningSequence
         // Extend whitelist, if all selected types are possible subojects of LSO
-        if (in_array($_SESSION["clipboard"]["cmd"], ["link", "cut"])) {
+        if (in_array($this->clipboard->getCmd(), ["link", "cut"])) {
             $lso_types = array_keys($this->obj_definition->getSubObjects('lso'));
-            $refs = $_SESSION["clipboard"]["ref_ids"];
+            $refs = $this->clipboard->getRefIds();
             $allow_lso = true;
             foreach ($refs as $item_ref_id) {
                 $type = ilObject::_lookupType($item_ref_id, true);

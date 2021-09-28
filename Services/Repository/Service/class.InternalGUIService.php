@@ -44,4 +44,28 @@ class InternalGUIService
             $this
         );
     }
+
+    public function pluginSlot() : PluginSlot\GUIService
+    {
+        return new PluginSlot\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function trash() : Trash\GUIService
+    {
+        return new Trash\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
+
+    public function standardRequest() : StandardGUIRequest
+    {
+        return new StandardGUIRequest(
+            $this->http(),
+            $this->domain_service->refinery()
+        );
+    }
 }

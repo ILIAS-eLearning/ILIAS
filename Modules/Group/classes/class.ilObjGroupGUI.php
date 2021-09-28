@@ -81,8 +81,8 @@ class ilObjGroupGUI extends ilContainerGUI
         }
 
         switch ($next_class) {
-            case 'ilreputilgui':
-                $ru = new \ilRepUtilGUI($this);
+            case strtolower(ilRepositoryTrashGUI::class):
+                $ru = new \ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
                 $this->ctrl->forwardCommand($ru);
                 break;
@@ -485,7 +485,6 @@ class ilObjGroupGUI extends ilContainerGUI
         }
         
         // Save sorting
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         $sort = new ilContainerSortingSettings($new_object->getId());
         $sort->setSortMode($sort_mode);
         $sort->update();
@@ -1980,13 +1979,10 @@ class ilObjGroupGUI extends ilContainerGUI
             return true;
         }
         
-        include_once './Services/Container/classes/class.ilMemberViewSettings.php';
         if (ilMemberViewSettings::getInstance()->isActive()) {
             return true;
         }
         
-        include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        include_once('Services/Membership/classes/class.ilMemberAgreement.php');
         $privacy = ilPrivacySettings::_getInstance();
         
         // Check agreement

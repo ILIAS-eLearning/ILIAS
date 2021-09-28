@@ -13,13 +13,15 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Repository\Trash\TrashGUIRequest;
+
 /**
  * Repository GUI Utilities
  *
  * @author Alexander Killing <killing@leifos.de>
- * @ilCtrl_Calls ilRepUtilGUI: ilPropertyFormGUI
+ * @ilCtrl_Calls ilRepositoryTrashGUI: ilPropertyFormGUI
  */
-class ilRepUtilGUI
+class ilRepositoryTrashGUI
 {
     protected ilLanguage $lng;
     protected ilSetting $settings;
@@ -29,11 +31,13 @@ class ilRepUtilGUI
     protected ilAccessHandler $access;
     protected ilTree $tree;
     protected ?ilLogger $logger = null;
+    protected TrashGUIRequest $request;
 
     public function __construct(
         object $a_parent_gui,
         string $a_parent_cmd = ""
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -47,6 +51,11 @@ class ilRepUtilGUI
         $this->parent_cmd = $a_parent_cmd;
 
         $this->logger = $DIC->logger()->rep();
+        $this->request = $DIC->repository()
+            ->internal()
+            ->gui()
+            ->trash()
+            ->request();
     }
 
     /**
@@ -78,11 +87,7 @@ class ilRepUtilGUI
     ) : void {
         $this->lng->loadLanguageModule('rep');
 
-        if (isset($_POST['trash_id'])) {
-            $trash_ids = (array) $_POST['trash_id'];
-        } elseif (isset($_REQUEST['trash_ids'])) {
-            $trash_ids = explode(',', $_POST['trash_ids']);
-        }
+        $trash_ids = $this->request->getTrashIds();
 
         $this->ctrl->setParameter($this, 'trash_ids', implode(',', $trash_ids));
 
@@ -104,10 +109,7 @@ class ilRepUtilGUI
      */
     public function doRestoreToNewLocation() : void
     {
-        $trash_ids = [];
-        if (isset($_REQUEST['trash_ids'])) {
-            $trash_ids = explode(',', $_REQUEST['trash_ids']);
-        }
+        $trash_ids = $this->request->getTrashIds();
 
         $form = $this->initFormTrashTargetLocation();
         if (!$form->checkInput() && count($trash_ids)) {
@@ -142,7 +144,7 @@ class ilRepUtilGUI
             [
                 \ilAdministrationGUI::class,
                 get_class($this->parent_gui),
-                \ilRepUtilGUI::class,
+                \ilRepositoryTrashGUI::class,
                 \ilPropertyFormGUI::class,
                 \ilFormPropertyDispatchGUI::class,
                 \ilRepositorySelector2InputGUI::class
@@ -273,7 +275,7 @@ class ilRepUtilGUI
             
             // render
 
-            $tpl = new ilTemplate("tpl.rep_multi_ref.html", true, true, "Services/Repository");
+            $tpl = new ilTemplate("tpl.rep_multi_ref.html", true, true, "Services/Repository/Trash");
 
             $tpl->setVariable("TXT_INTRO", $lng->txt("rep_multiple_reference_deletion_intro"));
             

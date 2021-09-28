@@ -482,7 +482,7 @@ class ilObjectLP
                     // we found a grp/crs in path of (single) parent - mark all objects
                     foreach ($a_obj_ids as $obj_id) {
                         $found[] = $obj_id;
-                        if ($chk[$path_ob_id]) {
+                        if ($chk[$path_ob_id] ?? false) {
                             $a_res[$obj_id] = true;
                         }
                     }

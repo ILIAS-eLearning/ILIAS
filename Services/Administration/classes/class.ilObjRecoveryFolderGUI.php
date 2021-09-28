@@ -49,7 +49,7 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
 
     public function removeFromSystemObject() : void
     {
-        $ru = new ilRepUtilGUI($this);
+        $ru = new ilRepositoryTrashGUI($this);
         $ru->removeObjectsFromSystem($_POST["id"], true);
         $this->ctrl->redirect($this, "view");
     }

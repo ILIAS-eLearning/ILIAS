@@ -462,7 +462,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         return parent::showPossibleSubObjects();
     }
-    // -> ilRepUtilGUI
+    // -> ilRepositoryTrashGUI
     final public function trash()
     {
         return parent::trashObject();

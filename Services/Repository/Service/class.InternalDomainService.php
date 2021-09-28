@@ -16,6 +16,7 @@
 namespace ILIAS\Repository;
 
 use ILIAS\DI\Container;
+use ILIAS\Repository\Clipboard\ClipboardManager;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -47,4 +48,11 @@ class InternalDomainService
             $user_id
         );
     }*/
+
+    public function clipboard() : ClipboardManager
+    {
+        return new ClipboardManager(
+            $this->repo_service->clipboard()
+        );
+    }
 }

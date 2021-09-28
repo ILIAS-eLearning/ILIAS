@@ -360,7 +360,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                             $this->getLanguageText('grp_mail_wl_bod'),
                             $this->getObjectTitle(),
                             $info['position']
-                            )
+                        )
                     );
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));

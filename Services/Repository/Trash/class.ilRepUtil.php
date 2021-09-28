@@ -14,7 +14,7 @@
  */
 
 /**
- * Repository Utilities (application layer, put GUI related stuff into ilRepUtilGUI)
+ * Repository Utilities (application layer, put GUI related stuff into ilRepositoryTrashGUI)
  *
  * @author Alexander Killing <killing@leifos.de>
  */

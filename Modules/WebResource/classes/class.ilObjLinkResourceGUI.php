@@ -246,7 +246,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             $this->object->update();
             
             // update sorting
-            include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
             $sort = new ilContainerSortingSettings($this->object->getId());
             $sort->setSortMode($this->form->getInput('sor'));
             $sort->update();
@@ -303,12 +302,8 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             $obj_service->commonSettings()->legacyForm($this->form, $this->object)->addTileImage();
 
             // Sorting
-            include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-            include_once './Services/Container/classes/class.ilContainer.php';
-
             $sor = new ilRadioGroupInputGUI($this->lng->txt('webr_sorting'), 'sor');
             $sor->setRequired(true);
-            include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
             $sor->setValue(ilContainerSortingSettings::_lookupSortMode($this->object->getId()));
 
             $opt = new ilRadioOption(
@@ -427,7 +422,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
         $modal = $f->modal()->roundtrip(
             $this->lng->txt('webr_new_list'),
             $f->legacy($r->render($info) . $this->form->getHTML())
-            )
+        )
             ->withActionButtons([$submit]);
 
         // modal triggers its show signal on load if form validation failed
@@ -850,10 +845,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
             $item = new ilHiddenInputGUI('sbmt');
             $item->setValue('submit');
             $this->form->addItem($item);
-        }
-
-
-        else {
+        } else {
             $this->form->setFormAction($this->ctrl->getFormAction($this));
 
             // Target
@@ -920,7 +912,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 $dyn->setInfo($this->lng->txt('links_dynamic_info'));
 
 
-                if (count($links = ilParameterAppender::_getParams((int)$_GET['link_id']))) {
+                if (count($links = ilParameterAppender::_getParams((int) $_GET['link_id']))) {
                     $ex = new ilCustomInputGUI($this->lng->txt('links_existing_params'), 'ex');
                     $dyn->addSubItem($ex);
 
@@ -1013,7 +1005,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                     
                 case self::VIEW_MODE_SORT:
                     // #14638
-                    include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
                     if (ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL) {
                         $this->sort();
                         break;
@@ -1099,7 +1090,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     {
         $this->checkPermission('write');
         
-        include_once './Services/Container/classes/class.ilContainerSorting.php';
         $sort = ilContainerSorting::_getInstance($this->object->getId());
         $sort->savePost((array) $_POST['position']);
         
@@ -1129,8 +1119,7 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                 $this->lng->txt('webr_add'),
                 $this->ctrl->getLinkTarget($this, 'addLink')
             );
-        }
-        else {
+        } else {
             $f = $DIC->ui()->factory();
             $r = $DIC->ui()->renderer();
 
@@ -1466,9 +1455,6 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
                         $lng->txt('cntr_manage'),
                         $this->ctrl->getLinkTarget($this, 'switchViewMode')
                     );
-                    include_once './Modules/WebResource/classes/class.ilLinkResourceItems.php';
-                    include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-                    include_once './Services/Container/classes/class.ilContainer.php';
                     if ((ilLinkResourceItems::lookupNumberOfLinks($this->object->getId()) > 1)
                         and ilContainerSortingSettings::_lookupSortMode($this->object->getId()) == ilContainer::SORT_MANUAL) {
                         $this->ctrl->setParameter($this, 'switch_mode', self::VIEW_MODE_SORT);

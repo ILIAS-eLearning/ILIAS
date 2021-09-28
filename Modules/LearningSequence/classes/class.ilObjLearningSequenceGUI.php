@@ -16,7 +16,6 @@ use ILIAS\Data;
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilColumnGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjectCopyGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilExportGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilContainerLinkListGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceSettingsGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceContentGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceLearnerGUI

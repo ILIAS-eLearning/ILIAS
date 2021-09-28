@@ -20,6 +20,8 @@
  */
 class ilRecommendedContentRoleConfigGUI
 {
+    /** @var int[] */
+    protected array $requested_item_ref_ids;
     protected ilRbacSystem $rbacsystem;
     protected ilRbacReview $rbacreview;
     protected ilLanguage $lng;
@@ -33,6 +35,7 @@ class ilRecommendedContentRoleConfigGUI
 
     public function __construct(int $role_id, int $node_ref_id)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->role_id = $role_id;
@@ -44,12 +47,10 @@ class ilRecommendedContentRoleConfigGUI
         $this->toolbar = $DIC->toolbar();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->manager = new ilRecommendedContentManager();
-        $this->requested_item_ref_id = (int) $_GET['item_ref_id'];
-        $this->requested_item_ref_ids = is_array($_POST["item_ref_id"])
-            ? array_map(function ($i) {
-                return (int) $i;
-            }, $_POST["item_ref_id"])
-            : [];
+        $request = $DIC->repository()->internal()->gui()->standardRequest();
+        $this->requested_item_ref_id = $request->getItemRefId();
+        $this->requested_item_ref_ids = $request->getItemRefIds();
+        ;
     }
 
     public function executeCommand() : void

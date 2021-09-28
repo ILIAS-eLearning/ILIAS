@@ -334,6 +334,11 @@ class Container extends \Pimple\Container
         return new Repository\Service($this);
     }
 
+    public function container() : \ILIAS\Container\Service
+    {
+        return new \ILIAS\Container\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

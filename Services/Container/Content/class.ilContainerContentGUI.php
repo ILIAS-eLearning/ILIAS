@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Repository\Clipboard\ClipboardManager;
+
 /**
  * Parent class of all container content GUIs.
  *
@@ -40,9 +42,11 @@ abstract class ilContainerContentGUI
     protected array $items = [];
     /** @var array<string, ilObjectListGUI> */
     protected array $list_gui = [];
+    protected ClipboardManager $clipboard;
 
     public function __construct(ilContainerGUI $container_gui_obj)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -69,6 +73,12 @@ abstract class ilContainerContentGUI
         $this->view_mode = (ilContainer::_lookupContainerSetting($this->container_obj->getId(), "list_presentation") == "tile" && !$this->container_gui->isActiveAdministrationPanel() && !$this->container_gui->isActiveOrdering())
             ? self::VIEW_MODE_TILE
             : self::VIEW_MODE_LIST;
+
+        $this->clipboard = $DIC
+            ->repository()
+            ->internal()
+            ->domain()
+            ->clipboard();
     }
     
     protected function getViewMode() : int
@@ -228,7 +238,7 @@ abstract class ilContainerContentGUI
         $sorting = ilContainerSorting::_getInstance($this->getContainerObject()->getId());
         
         $this->renderer = new ilContainerRenderer(
-            ($this->getContainerGUI()->isActiveAdministrationPanel() && !($_SESSION["clipboard"] ?? false)),
+            ($this->getContainerGUI()->isActiveAdministrationPanel() && !$this->clipboard->hasEntries()),
             $this->getContainerGUI()->isMultiDownloadEnabled(),
             $this->getContainerGUI()->isActiveOrdering() && (get_class($this) != "ilContainerObjectiveGUI") // no block sorting in objective view
             ,
@@ -458,7 +468,7 @@ abstract class ilContainerContentGUI
             $item_list_gui->enableIcon(true);
         }
         
-        if ($this->getContainerGUI()->isActiveAdministrationPanel() && !($_SESSION["clipboard"] ?? false)) {
+        if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$this->clipboard->hasEntries()) {
             $item_list_gui->enableCheckbox(true);
         } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
             // display multi download checkboxes
@@ -537,7 +547,7 @@ abstract class ilContainerContentGUI
                     $item_list_gui2->forceVisibleOnly(true);
                 }
                 
-                if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$_SESSION["clipboard"]) {
+                if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$this->clipboard->hasEntries()) {
                     $item_list_gui2->enableCheckbox(true);
                 } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
                     // display multi download checkbox

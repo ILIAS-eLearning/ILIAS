@@ -73,7 +73,10 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(true);
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
 
-        $this->setRowTemplate('tpl.trash_list_row.html', 'Services/Repository');
+        $this->setRowTemplate(
+            'tpl.trash_list_row.html',
+            'Services/Repository/Trash'
+        );
         $this->setSelectAllCheckbox('trash_id');
 
         $this->addMultiCommand('undelete', $this->lng->txt('btn_undelete_origin_location'));

@@ -740,7 +740,7 @@ class ilObjectGUI
             $_SESSION["saved_post"] = array_unique(array_merge($_SESSION["saved_post"], $_POST["mref_id"]));
         }
         
-        $ru = new ilRepUtilGUI($this);
+        $ru = new ilRepositoryTrashGUI($this);
         $ru->deleteObjects($this->requested_ref_id, ilSession::get("saved_post"));
         ilSession::clear("saved_post");
         $this->ctrl->returnToParent($this);
@@ -1656,7 +1656,7 @@ class ilObjectGUI
         // SAVE POST VALUES (get rid of this
         ilSession::set("saved_post", $_POST["id"]);
 
-        $ru = new ilRepUtilGUI($this);
+        $ru = new ilRepositoryTrashGUI($this);
         if (!$ru->showDeleteConfirmation($_POST["id"], $a_error)) {
             $ilCtrl->returnToParent($this);
         }
@@ -1982,18 +1982,7 @@ class ilObjectGUI
                     $type = $this->object->getType();
                 }
 
-                ilSession::clear("il_rep_ref_id");
-                
                 throw new ilObjectException($this->lng->txt("permission_denied"));
-                
-            /*
-            ilUtil::sendFailure($this->lng->txt("permission_denied"), true);
-            ilUtil::redirect("goto.php?target=".$type."_".$a_ref_id);
-            */
-            }
-            // we should never be here
-            else {
-                die("Permission Denied.");
             }
         }
     }

@@ -1030,7 +1030,6 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
         $this->initParticipants();
         
         // Inherit order type from parent course (if exists)
-        include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
     }
 

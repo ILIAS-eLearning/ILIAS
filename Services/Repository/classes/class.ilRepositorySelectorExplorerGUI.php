@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Repository\StandardGUIRequest;
+
 /**
  * Explorer for selecting repository items.
  *
@@ -35,6 +37,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     protected ?string $selection_gui = null;
     protected string $selection_par;
     protected string $selection_cmd;
+    protected StandardGUIRequest $request;
+    protected int $cur_ref_id;
 
     /**
      * @param object|array $a_parent_obj parent gui class or class array
@@ -48,6 +52,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         string $a_selection_par = "sel_ref_id",
         string $a_id = "rep_exp_sel"
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -56,6 +61,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         $tree = $DIC->repositoryTree();
         $ilSetting = $DIC->settings();
         $objDefinition = $DIC["objDefinition"];
+        $this->request = $DIC->repository()->internal()->gui()->standardRequest();
+        $this->cur_ref_id = $this->request->getRefId();
 
         $this->access = $DIC->access();
         $this->ctrl = $DIC->ctrl();
@@ -86,8 +93,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 
         // always open the path to the current ref id
         $this->setPathOpen((int) $this->tree->readRootId());
-        if ((int) $_GET["ref_id"] > 0) {
-            $this->setPathOpen((int) $_GET["ref_id"]);
+        if ($this->cur_ref_id > 0) {
+            $this->setPathOpen($this->cur_ref_id);
         }
         $this->setChildLimit((int) $ilSetting->get("rep_tree_limit_number"));
     }
@@ -152,8 +159,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             return false;
         }
 
-        if ($a_node["child"] == $_GET["ref_id"] ||
-            ($_GET["ref_id"] == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
+        if ($a_node["child"] == $this->cur_ref_id ||
+            ($this->cur_ref_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
             return true;
         }
         return false;
@@ -268,7 +275,6 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return true;
     }
 
-    // set an alternate highlighted node if $_GET["ref_id"] is not set or wrong
     public function setHighlightedNode(string $a_value) : void
     {
         $this->highlighted_node = $a_value;

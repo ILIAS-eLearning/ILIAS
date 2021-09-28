@@ -8,11 +8,11 @@
  * @author Sascha Hofmann <saschahofmann@gmx.de>
  * @author Alexander Killing <killing@leifos.de>
  *
- * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI, ilObjUserGUI, ilObjUserFolderGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilPermissionGUI, ilContainerPageGUI, ilObjUserGUI, ilObjUserFolderGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilInfoScreenGUI, ilObjStyleSheetGUI, ilCommonActionDispatcherGUI, ilObjectTranslationGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilColumnGUI, ilObjectCopyGUI, ilUserTableGUI, ilDidacticTemplateGUI, ilExportGUI
  * @ilCtrl_Calls ilObjCategoryGUI: ilObjTaxonomyGUI, ilObjectMetaDataGUI, ilContainerNewsSettingsGUI, ilContainerFilterAdminGUI
- * @ilCtrl_Calls ilObjCategoryGUI: ilRepUtilGUI
+ * @ilCtrl_Calls ilObjCategoryGUI: ilRepositoryTrashGUI
  * @ingroup      ModulesCategory
  */
 class ilObjCategoryGUI extends ilContainerGUI
@@ -87,8 +87,8 @@ class ilObjCategoryGUI extends ilContainerGUI
         
         switch ($next_class) {
 
-            case strtolower(ilRepUtilGUI::class):
-                $ru = new \ilRepUtilGUI($this);
+            case strtolower(ilRepositoryTrashGUI::class):
+                $ru = new \ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
                 $this->ctrl->forwardCommand($ru);
                 break;
@@ -152,11 +152,6 @@ class ilObjCategoryGUI extends ilContainerGUI
                 }
                 break;
                 
-            case 'ilcontainerlinklistgui':
-                $link_list_gui = new ilContainerLinkListGUI();
-                $ret = &$this->ctrl->forwardCommand($link_list_gui);
-                break;
-
             // container page editing
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);

@@ -13,8 +13,10 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Repository\PluginSlot\PluginSlotGUIRequest;
+
 /**
- * Object GUI class for plugins
+ * Object GUI class for repository plugins
  *
  * @author Alexander Killing <killing@leifos.de>
  */
@@ -24,13 +26,21 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     protected ilTabsGUI $tabs;
     protected ilPluginAdmin $plugin_admin;
     protected ilPlugin $plugin;
+    protected PluginSlotGUIRequest $slot_request;
 
     public function __construct(
         int $a_ref_id = 0,
         int $a_id_type = self::REPOSITORY_NODE_ID,
         int $a_parent_node_id = 0
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
+        $this->slot_request = $DIC->repository()
+            ->internal()
+            ->gui()
+            ->pluginSlot()
+            ->request();
 
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
@@ -63,7 +73,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             $tpl->setTitleIcon(ilObject::_getIcon($this->object->getId()));
 
             // set tabs
-            if (strtolower($_GET["baseClass"]) != "iladministrationgui") {
+            if (strtolower($this->slot_request->getBaseClass()) != "iladministrationgui") {
                 $this->setTabs();
                 $this->setLocator();
             } else {
@@ -83,8 +93,13 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             // show info of parent
             $tpl->setTitle($this->lookupParentTitleInCreationMode());
             $tpl->setTitleIcon(
-                ilObject::_getIcon(ilObject::_lookupObjId($_GET["ref_id"]), "big"),
-                $lng->txt("obj_" . ilObject::_lookupType($_GET["ref_id"], true))
+                ilObject::_getIcon(ilObject::_lookupObjId(
+                    $this->slot_request->getRefId()
+                ), "big"),
+                $lng->txt("obj_" . ilObject::_lookupType(
+                    $this->slot_request->getRefId(),
+                    true
+                ))
             );
             $this->setLocator();
         }
@@ -119,11 +134,20 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 break;
                         
             case 'illearningprogressgui':
+                $user_id = $this->user->getId();
+                if ($this->access->checkAccess(
+                    'write',
+                    "",
+                    $this->object->getRefId()
+                ) &&
+                    $this->slot_request->getUserId() > 0) {
+                    $user_id = $this->slot_request->getUserId();
+                }
                 $ilTabs->setTabActive("learning_progress");
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
-                    $_GET['user_id'] ? $_GET['user_id'] : $GLOBALS['ilUser']->getId()
+                    $user_id
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 break;
@@ -163,7 +187,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
                 $this->object->getTitle(),
                 $this->ctrl->getLinkTarget($this, $this->getStandardCmd()),
                 "",
-                $_GET["ref_id"]
+                $this->slot_request->getRefId()
             );
         }
     }
@@ -476,6 +500,8 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 
     protected function lookupParentTitleInCreationMode() : string
     {
-        return ilObject::_lookupTitle(ilObject::_lookupObjId($_GET["ref_id"]));
+        return ilObject::_lookupTitle(ilObject::_lookupObjId(
+            $this->slot_request->getRefId()
+        ));
     }
 }

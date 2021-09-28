@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Repository\Clipboard\ClipboardManager;
+
 /**
  * TableGUI class for sub items listed in repository administration
  *
@@ -25,6 +27,8 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
     protected ilObjectDefinition $obj_definition;
     protected ilTree $tree;
     protected bool $editable = false;
+    protected int $ref_id;
+    protected ClipboardManager $clipboard;
 
     public function __construct(
         object $a_parent_obj,
@@ -32,6 +36,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         int $a_ref_id,
         bool $editable = false
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->editable = $editable;
@@ -43,7 +48,12 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $this->tree = $DIC->repositoryTree();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
+        $this->clipboard = $DIC
+            ->repository()
+            ->internal()
+            ->domain()
+            ->clipboard();
+
         $this->ref_id = $a_ref_id;
         
         $this->setId('recf_' . $a_ref_id);
@@ -64,14 +74,14 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
         
         // TODO: Needs other solution
-        if (ilObject::_lookupType((int) $_GET['ref_id'], true) == 'chac') {
+        if (ilObject::_lookupType((int) $a_ref_id, true) == 'chac') {
             $this->getItems();
             return true;
         }
         
 
-        if (ilObject::_lookupType($_GET["ref_id"], true) != "recf") {
-            if ($_SESSION["clipboard"]) {
+        if (ilObject::_lookupType($a_ref_id, true) != "recf") {
+            if ($this->clipboard->hasEntries()) {
                 if ($this->isEditable()) {
                     $this->addCommandButton("paste", $lng->txt("paste"));
                     $this->addCommandButton("clear", $lng->txt("clear"));
@@ -84,7 +94,7 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
                 }
             }
         } else {
-            if ($_SESSION["clipboard"]) {
+            if ($this->clipboard->hasEntries()) {
                 if ($this->isEditable()) {
                     $this->addCommandButton("clear", $lng->txt("clear"));
                 }
@@ -159,13 +169,13 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $class = strtolower("ilObj" . $class_name . "GUI");
         $ilCtrl->setParameterByClass($class, "ref_id", $a_set["ref_id"]);
         $this->tpl->setVariable("HREF_TITLE", $ilCtrl->getLinkTargetByClass($class, "view"));
-        $ilCtrl->setParameterByClass($class, "ref_id", $_GET["ref_id"]);
+        $ilCtrl->setParameterByClass($class, "ref_id", $this->ref_id);
                     
         // TODO: broken! fix me
         $title = $a_set["title"];
-        if (is_array($_SESSION["clipboard"]["ref_ids"])) {
-            if (in_array($a_set["ref_id"], $_SESSION["clipboard"]["ref_ids"])) {
-                switch ($_SESSION["clipboard"]["cmd"]) {
+        if ($this->clipboard->hasEntries()) {
+            if (in_array($a_set["ref_id"], $this->clipboard->getRefIds())) {
+                switch ($this->clipboard->getCmd()) {
                     case "cut":
                         $title = "<del>" . $title . "</del>";
                         break;

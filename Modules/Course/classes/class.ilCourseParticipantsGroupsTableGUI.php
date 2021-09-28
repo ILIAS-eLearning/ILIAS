@@ -114,7 +114,7 @@ class ilCourseParticipantsGroupsTableGUI extends ilTable2GUI
                             "edit_permission",
                             "",
                             $group_data["ref_id"]
-                    );
+                        );
                     
                     $gobj = ilGroupParticipants::_getInstanceByObjId($group_data["obj_id"]);
                     

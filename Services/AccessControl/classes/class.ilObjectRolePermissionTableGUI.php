@@ -3,7 +3,6 @@
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 include_once './Services/AccessControl/classes/class.ilPermissionGUI.php';
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Table for object role permissions

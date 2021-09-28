@@ -15,6 +15,8 @@
 
 namespace ILIAS\Repository;
 
+use ILIAS\Repository\Clipboard\ClipboardSessionRepository;
+
 /**
  * Repository internal repo service
  * @author Alexander Killing <killing@leifos.de>
@@ -38,4 +40,9 @@ class InternalRepoService
             $this->db
         );
     }*/
+
+    public function clipboard() : ClipboardSessionRepository
+    {
+        return new ClipboardSessionRepository();
+    }
 }

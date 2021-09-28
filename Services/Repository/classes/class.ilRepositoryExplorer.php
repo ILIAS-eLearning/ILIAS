@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\Repository\StandardGUIRequest;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -26,9 +28,11 @@ class ilRepositoryExplorer extends ilExplorer
     protected ilAccessHandler $access;
     protected ilCtrl $ctrl;
     protected array $force_open_path;
+    protected StandardGUIRequest $request;
 
     public function __construct(string $a_target, int $a_top_node = 0)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -48,6 +52,7 @@ class ilRepositoryExplorer extends ilExplorer
 
 
         $this->force_open_path = array();
+        $this->request = $DIC->repository()->internal()->gui()->standardRequest();
 
 
         parent::__construct($a_target);
@@ -88,59 +93,61 @@ class ilRepositoryExplorer extends ilExplorer
     public function buildLinkTarget($a_node_id, $a_type)
     {
         $ilCtrl = $this->ctrl;
-        
+
+        $ref_id = $this->request->getRefId();
+
         switch ($a_type) {
             case "cat":
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
             case "catr":
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
             case "grp":
                 $ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjgroupgui"), "");
-                $ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $ref_id);
                 return $link;
             case "grpr":
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
             case "crs":
                 $ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjcoursegui"), "view");
-                $ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $ref_id);
                 return $link;
                 
             case "crsr":
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
             case 'rcrs':
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "infoScreen");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
             case 'prg':
                 $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilobjstudyprogrammegui", "view");
-                $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $ref_id);
                 return $link;
 
             case 'prg':
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
             default:
@@ -336,7 +343,11 @@ class ilRepositoryExplorer extends ilExplorer
             "LINK_TARGET",
             $ilCtrl->getLinkTargetByClass("ilrepositorygui", "")
         );
-        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+        $ilCtrl->setParameterByClass(
+            "ilrepositorygui",
+            "ref_id",
+            $this->request->getRefId()
+        );
         $tpl->setVariable("TARGET", " target=\"_top\"");
         $tpl->parseCurrentBlock();
 

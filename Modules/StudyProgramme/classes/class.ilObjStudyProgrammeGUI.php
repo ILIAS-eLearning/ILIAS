@@ -9,7 +9,6 @@ require_once("./Services/AccessControl/classes/class.ilPermissionGUI.php");
 require_once("./Services/InfoScreen/classes/class.ilInfoScreenGUI.php");
 require_once("./Services/Object/classes/class.ilObjectAddNewItemGUI.php");
 require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php");
-require_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
 require_once("./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php");
 require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
 require_once("./Services/Object/classes/class.ilObjectCopyGUI.php");

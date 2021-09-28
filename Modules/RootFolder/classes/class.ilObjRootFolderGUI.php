@@ -7,10 +7,10 @@
  *
  * @author Stefan Meyer <meyer@leifos.com>
  *
- * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI, ilContainerLinkListGUI
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilPermissionGUI, ilContainerPageGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilColumnGUI, ilObjectCopyGUI, ilObjStyleSheetGUI
  * @ilCtrl_Calls ilObjRootFolderGUI: ilCommonActionDispatcherGUI, ilObjectTranslationGUI
- * @ilCtrl_Calls ilObjRootFolderGUI: ilRepUtilGUI
+ * @ilCtrl_Calls ilObjRootFolderGUI: ilRepositoryTrashGUI
  */
 class ilObjRootFolderGUI extends ilContainerGUI
 {
@@ -108,19 +108,13 @@ class ilObjRootFolderGUI extends ilContainerGUI
         
 
         switch ($next_class) {
-            case 'ilreputilgui':
-                $ru = new \ilRepUtilGUI($this);
+            case strtolower(ilRepositoryTrashGUI::class):
+                $ru = new \ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
                 $this->ctrl->forwardCommand($ru);
                 break;
 
-
-            case 'ilcontainerlinklistgui':
-                $link_list_gui = new ilContainerLinkListGUI();
-                $ret = &$this->ctrl->forwardCommand($link_list_gui);
-                break;
-
-                // container page editing
+            // container page editing
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
                 $ret = $this->forwardToPageObject();
