@@ -91,7 +91,7 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             $fileSystem
         );
 
-        $upload->uploadBackgroundImage('some/where/temporary', '3');
+        $upload->uploadBackgroundImage('some/where/temporary', 3);
     }
 
     /**
@@ -184,7 +184,7 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             $tmp_file_system
         );
 
-        $upload->uploadBackgroundImage('some/where/temporary', '3', [
+        $upload->uploadBackgroundImage('some/where/temporary', 3, [
             'tmp_name' => 'pending_file'
         ]);
     }

@@ -28,6 +28,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             'v5.4.0',
             true,
             '/some/where/background.jpg',
+            '/some/where/thumbnail.jpg',
             300
         );
 
@@ -91,6 +92,7 @@ class ilPdfGeneratorTest extends ilCertificateBaseTestCase
             'v5.4.0',
             true,
             '/some/where/background.jpg',
+            '/some/where/thumbnail.jpg',
             300
         );
 
