@@ -12,7 +12,6 @@ require_once("./Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.
 require_once("./Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php");
 require_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php");
 require_once("./Services/Object/classes/class.ilObjectCopyGUI.php");
-require_once("./Services/Repository/classes/class.ilRepUtil.php");
 
 /**
  * Class ilObjStudyProgrammeGUI class
