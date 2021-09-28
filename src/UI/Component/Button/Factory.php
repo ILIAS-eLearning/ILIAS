@@ -160,7 +160,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Button\Minimize
      */
-    public function minimize();
+    public function minimize() : Minimize;
 
     /**
      * ---

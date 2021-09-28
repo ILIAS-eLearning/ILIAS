@@ -36,7 +36,7 @@ class Factory implements B\Factory
     /**
      * @inheritdoc
      */
-    public function minimize()
+    public function minimize() : B\Minimize
     {
         throw new \ILIAS\UI\NotImplementedException();
     }
