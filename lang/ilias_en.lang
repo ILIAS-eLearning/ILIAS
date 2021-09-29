@@ -2337,6 +2337,7 @@ common#:#client_ip#:#Client IP
 common#:#client#:#Client
 common#:#clipboard#:#Clipboard
 common#:#close#:#Close
+common#:#minimize#:#Minimize
 common#:#cnt_new#:#(%s New)
 common#:#collapse_all#:#Collapse All
 common#:#collapse#:#Collapse
