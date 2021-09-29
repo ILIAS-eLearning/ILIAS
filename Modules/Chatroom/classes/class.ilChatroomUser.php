@@ -18,6 +18,11 @@ class ilChatroomUser
         $this->user = $user;
         $this->room = $chatroom;
     }
+    
+    public function enabledBroadcastTyping() : bool
+    {
+        return ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'));
+    }
 
     /**
      * Returns Ilias User ID. If user is anonymous, a random negative User ID

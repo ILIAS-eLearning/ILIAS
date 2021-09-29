@@ -3012,6 +3012,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             ilUtil::stripSlashes($_POST['select']['default_chat_osc_accept_msg'])
         );
         $ilias->setSetting(
+            'chat_broadcast_typing',
+            ilUtil::stripSlashes($_POST['select']['default_chat_broadcast_typing'] ?? '')
+        );
+        $ilias->setSetting(
             'bs_allow_to_contact_me',
             ilUtil::stripSlashes($_POST['select']['default_bs_allow_to_contact_me'])
         );

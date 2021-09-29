@@ -130,6 +130,17 @@ var Room = function Room(id)
 	};
 
 	/**
+	 * @param {Function} callback
+	 */
+	this.forSubscribers = function(callback) {
+		for (const key in _subscribers) {
+			if (_subscribers.hasOwnProperty(key)) {
+				callback(_subscribers[key]);
+			}
+		}
+	}
+
+	/**
 	 * @returns {{}}
 	 */
 	this.getJoinedSubscribers = function() {

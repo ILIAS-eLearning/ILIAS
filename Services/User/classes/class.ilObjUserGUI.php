@@ -460,6 +460,9 @@ class ilObjUserGUI extends ilObjectGUI
             if ($this->isSettingChangeable('chat_osc_accept_msg')) {
                 $userObj->setPref('chat_osc_accept_msg', $_POST['chat_osc_accept_msg'] ? 'y' : 'n');
             }
+            if ($this->isSettingChangeable('chat_broadcast_typing')) {
+                $userObj->setPref('chat_broadcast_typing', $_POST['chat_broadcast_typing'] ? 'y' : 'n');
+            }
             if ((int) $ilSetting->get('session_reminder_enabled')) {
                 $userObj->setPref('session_reminder_enabled', (int) $_POST['session_reminder_enabled']);
             }
@@ -855,6 +858,9 @@ class ilObjUserGUI extends ilObjectGUI
             if ($this->isSettingChangeable('chat_osc_accept_msg')) {
                 $this->object->setPref('chat_osc_accept_msg', ($_POST['chat_osc_accept_msg'] ?? false) ? 'y' : 'n');
             }
+            if ($this->isSettingChangeable('chat_broadcast_typing')) {
+                $this->object->setPref('chat_broadcast_typing', ($_POST['chat_broadcast_typing'] ?? false) ? 'y' : 'n');
+            }
 
             // set a timestamp for last_password_change
             // this ts is needed by ilSecuritySettings
@@ -1000,6 +1006,7 @@ class ilObjUserGUI extends ilObjectGUI
         $data["hide_own_online_status"] = $this->object->prefs["hide_own_online_status"];
         $data['bs_allow_to_contact_me'] = $this->object->prefs['bs_allow_to_contact_me'] == 'y';
         $data['chat_osc_accept_msg'] = $this->object->prefs['chat_osc_accept_msg'] == 'y';
+        $data['chat_broadcast_typing'] = $this->object->prefs['chat_broadcast_typing'] == 'y';
         $data["session_reminder_enabled"] = (int) ($this->object->prefs["session_reminder_enabled"] ?? 0);
 
         $data["send_mail"] = (($this->object->prefs['send_info_mails'] ?? "") == 'y');
@@ -1386,7 +1393,8 @@ class ilObjUserGUI extends ilObjectGUI
             $this->isSettingChangeable('hits_per_page') or
             $this->isSettingChangeable('hide_own_online_status') or
             $this->isSettingChangeable('bs_allow_to_contact_me') or
-            $this->isSettingChangeable('chat_osc_accept_msg')
+            $this->isSettingChangeable('chat_osc_accept_msg') or
+            $this->isSettingChangeable('chat_broadcast_typing')
         ) {
             $sec_st = new ilFormSectionHeaderGUI();
             $sec_st->setTitle($this->lng->txt("settings"));
