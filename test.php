@@ -1,6 +1,8 @@
 <?php
 
-$k = null;
-var_dump($k->get() ?? 'pajsd');
+require_once 'Services/UICore/classes/Setup/class.ilCtrlStructureReader.php';
+
+$r = new ilCtrlStructureReader();
+$a = $r->readStructure();
 
 exit;
