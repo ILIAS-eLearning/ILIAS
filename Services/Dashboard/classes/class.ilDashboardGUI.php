@@ -132,12 +132,10 @@ class ilDashboardGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        
-        $ilCtrl->setContext(
-            new ilCtrlContext(
-                $ilUser->getId(),
-                "user"
-            )
+
+        $ilCtrl->setContextObject(
+            $ilUser->getId(),
+            "user"
         );
 
         $this->lng->loadLanguageModule("pdesk");
