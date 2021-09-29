@@ -578,10 +578,7 @@ class ilObjectDefinition // extends ilSaxParser
             } else {
                 $subs = $this->getSubObjects($type);
             }
-            #vd('xxxxxxxxxxxxx'.$type);
             foreach ($subs as $subtype => $data) {
-                #vd('------------------------->'.$subtype);
-                
                 // Hide role templates and folder from view
                 if ($this->getDevMode($subtype) or !$this->isRBACObject($subtype)) {
                     continue;

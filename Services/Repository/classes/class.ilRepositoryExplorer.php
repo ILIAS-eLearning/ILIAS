@@ -261,7 +261,6 @@ class ilRepositoryExplorer extends ilExplorer
     {
         $rbacsystem = $this->rbacsystem;
         $tree = $this->tree;
-        //vd($a_ref_id);
 
         if ($a_ref_id == 0) {
             return true;

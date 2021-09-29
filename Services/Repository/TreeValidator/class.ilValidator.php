@@ -1264,7 +1264,6 @@ class ilValidator
         $tree = $this->tree;
         $rbacadmin = $this->rbacadmin;
         $ilLog = $this->log;
-        //vd($a_nodes);exit;
         // handle wrong input
         if (!is_array($a_nodes)) {
             $this->throwError(INVALID_PARAM, WARNING, DEBUG);

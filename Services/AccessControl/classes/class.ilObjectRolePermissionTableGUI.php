@@ -561,7 +561,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         $tree = $DIC['tree'];
         $objDefinition = $DIC['objDefinition'];
         
-        #vd($role);
         $protected_status = $rbacreview->isProtected($role['parent'], $role['obj_id']) ? 'protected_' : '';
         if ($role['role_type'] == 'global') {
             $tp = $this->lng->txt('perm_' . $protected_status . 'global_role');
