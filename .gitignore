@@ -40,7 +40,11 @@ virtual-data
 # /dicto
 /dicto/results/*
 !/dicto/results/README.md
-override.php
+
+# CI
 captainhook.config.json
 captainhook.local.json
 .phpunit.result.cache
+
+# File Delivery
+override.php
