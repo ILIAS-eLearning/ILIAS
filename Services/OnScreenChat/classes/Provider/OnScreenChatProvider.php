@@ -3,11 +3,13 @@
 
 namespace ILIAS\OnScreenChat\Provider;
 
+use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\OnScreenChat\Repository\Conversation;
 use ILIAS\OnScreenChat\Repository\Subscriber;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ILIAS\UI\Implementation\Component\Item\Notification;
 
 /**
  * Class OnScreenChatProvider
@@ -15,6 +17,28 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
  */
 class OnScreenChatProvider extends AbstractStaticMainMenuProvider
 {
+    /**
+     * OnScreenChatNotificationProvider constructor.
+     * @param Container $dic
+     * @param Conversation|null $conversationRepo
+     * @param Subscriber|null $subscriberRepo
+     */
+    public function __construct(Container $dic, Conversation $conversationRepo = null, Subscriber $subscriberRepo = null)
+    {
+        parent::__construct($dic);
+        $dic->language()->loadLanguageModule('chatroom');
+
+        if (null === $conversationRepo) {
+            $conversationRepo = new Conversation($dic->database(), $dic->user());
+        }
+        $this->conversationRepo = $conversationRepo;
+
+        if (null === $subscriberRepo) {
+            $subscriberRepo = new Subscriber($dic->database(), $dic->user());
+        }
+        $this->subscriberRepo = $subscriberRepo;
+    }
+
     /**
      * @inheritDoc
      */
@@ -62,5 +86,154 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                            ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                            ->withPosition(25),
         ];
+    }
+
+
+    /**
+     * @param string $conversationIds
+     * @param bool $withAggregates
+     * @return Notification[]
+     * @throws \ilWACException
+     */
+    public function getAsyncItem(
+        string $conversationIds,
+        bool $withAggregates
+    ) : array {
+        $conversationIds = array_filter(explode(',', $conversationIds));
+
+        $icon = $this->dic->ui()->factory()
+                          ->symbol()
+                          ->icon()
+                          ->standard(Standard::CHTA, 'conversations')->withIsOutlined(true);
+
+        $title = $this->dic->language()->txt('chat_osc_conversations');
+        if ($withAggregates && count($conversationIds) > 0) {
+            $title = $this->dic->ui()->factory()
+                               ->link()
+                               ->standard($title, '#');
+        }
+        $notificationItem = $this->dic->ui()->factory()
+                                      ->item()
+                                      ->notification($title, $icon)
+                                      ->withDescription($this->dic->language()->txt('chat_osc_nc_no_conv'))
+                                      ->withAdditionalOnLoadCode(
+                                          function ($id) {
+                                              $tsInfo = json_encode(new \stdClass());
+                                              return "
+                        il.OnScreenChat.setConversationMessageTimes($tsInfo);
+                        il.OnScreenChat.setNotificationItemId('$id');
+                    ";
+                                          }
+                                      );
+
+        if (
+            !$withAggregates ||
+            0 === count($conversationIds) ||
+            (!$this->dic->user()->getId() || $this->dic->user()->isAnonymous())
+        ) {
+            return [$notificationItem];
+        }
+
+        $conversations = $this->conversationRepo->findByIds($conversationIds);
+        if (0 === count($conversations)) {
+            return [$notificationItem];
+        }
+
+        $allUsrIds = [];
+        array_walk($conversations, function (ConversationDto $conversation) use (&$allUsrIds) {
+            $allUsrIds = array_unique(array_merge($conversation->getSubscriberUsrIds(), $allUsrIds));
+        });
+        $allUsrData = $this->subscriberRepo->getDataByUserIds($allUsrIds);
+
+        $messageTimesByConversation = [];
+
+        $aggregatedItems = [];
+        $latestMessageTimeStamp = null;
+        foreach ($conversations as $conversation) {
+            $convUsrData = array_filter($allUsrData, function ($key) use ($conversation) {
+                return in_array($key, $conversation->getSubscriberUsrIds());
+            }, ARRAY_FILTER_USE_KEY);
+
+            $convUsrNames = array_map(function ($value) {
+                return $value['public_name'];
+            }, $convUsrData);
+
+            $name = implode(', ', $convUsrNames);
+            $message = $conversation->getLastMessage()->getMessage();
+            $timestamp = (int) ($conversation->getLastMessage()->getCreatedTimestamp() / 1000);
+            $formattedDateTime = \ilDatePresentation::formatDate(new \ilDateTime($timestamp, IL_CAL_UNIX));
+
+            $messageTimesByConversation[$conversation->getId()] = [
+                'ts' => $conversation->getLastMessage()->getCreatedTimestamp(),
+                'formatted' => $formattedDateTime
+            ];
+
+            $aggregateTitle = $this->dic->ui()->factory()
+                                        ->button()
+                                        ->shy(
+                                            $name,
+                                            ''
+                                        ) // Important: Do not pass any action here, otherwise there will be onClick/return false;
+                                        ->withAdditionalOnLoadCode(
+                    function ($id) use ($conversation) {
+                        return "
+                             $('#$id').attr('data-onscreenchat-menu-item', '');
+                             $('#$id').attr('data-onscreenchat-conversation', '{$conversation->getId()}');
+                        ";
+                    }
+                );
+            $aggregatedItems[] = $this->dic->ui()->factory()
+                                           ->item()
+                                           ->notification($aggregateTitle, $icon)
+                                           ->withDescription($message)
+                                           ->withAdditionalOnLoadCode(
+                                               function ($id) use ($conversation) {
+                                                   return "
+                            il.OnScreenChat.addConversationToUiIdMapping('{$conversation->getId()}', '$id');
+
+                            $('#$id').find('.il-item-description').html(
+                                il.OnScreenChat.getMessageFormatter().format(
+                                    $('#$id').find('.il-item-description').html()
+                                )                                    
+                            );
+                            $('#$id').find('button.close')
+                                .attr('data-onscreenchat-menu-remove-conversation', '')
+                                .attr('data-onscreenchat-conversation', '{$conversation->getId()}');
+                        ";
+                                               }
+                                           )
+                                           ->withProperties([
+                                               $this->dic->language()->txt('chat_osc_nc_prop_time') => $formattedDateTime,
+                                           ])
+                                           ->withCloseAction('#'); // Important: The # prevents the default onClick handler is triggered
+
+            if ($timestamp > $latestMessageTimeStamp) {
+                $latestMessageTimeStamp = $timestamp;
+            }
+        }
+
+        $description = sprintf($this->dic->language()->txt('chat_osc_nc_conv_x_p'), count($aggregatedItems));
+        if (1 === count($aggregatedItems)) {
+            $description = $this->dic->language()->txt('chat_osc_nc_conv_x_s');
+        }
+
+        $notificationItem = $notificationItem
+            ->withAggregateNotifications($aggregatedItems)
+            ->withDescription($description)
+            ->withAdditionalOnLoadCode(
+                function ($id) use ($messageTimesByConversation) {
+                    $tsInfo = json_encode($messageTimesByConversation);
+                    return "
+                        il.OnScreenChat.setConversationMessageTimes($tsInfo);
+                    ";
+                }
+            )
+            ->withProperties([
+                $this->dic->language()->txt('chat_osc_nc_prop_time') => \ilDatePresentation::formatDate(
+                    new \ilDateTime($latestMessageTimeStamp, IL_CAL_UNIX)
+                )
+            ]);
+
+        return [$notificationItem];
     }
 }
