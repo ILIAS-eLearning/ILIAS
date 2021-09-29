@@ -298,7 +298,7 @@ class ilOnScreenChatGUI
                     ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
                 ),
                 'broadcast_typing' => (
-                    (bool) $DIC->user()->getPref('chat_broadcast_typing')
+                    ilUtil::yn2tf($DIC->user()->getPref('chat_broadcast_typing'))
                 ),
                 'notificationIconPath' => \ilUtil::getImagePath('icon_chta.png'),
             );

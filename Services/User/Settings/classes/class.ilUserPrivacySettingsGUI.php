@@ -417,7 +417,7 @@ class ilUserPrivacySettingsGUI
             $fields[self::PROP_ENABLE_BROADCAST_TYPING] = $fieldFactory
                 ->checkbox($this->lng->txt('chat_broadcast_typing'), $this->lng->txt('chat_broadcast_typing_info'))
                 ->withAdditionalTransformation($checkboxStateToBooleanTrafo)
-                ->withValue((bool) $this->user->getPref('chat_broadcast_typing'));
+                ->withValue(ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing')));
         }
 
         if ($fields !== []) {
@@ -491,7 +491,7 @@ class ilUserPrivacySettingsGUI
                         }
                     }
 
-                    if ($this->chatSettings->get('enable_browser_notifications', false) && $enableOsc) {
+                    if ($enableOsc && $this->chatSettings->get('enable_browser_notifications', false)) {
                         $oldBrowserNotificationValue = ilUtil::yn2tf($this->user->getPref('chat_osc_browser_notifications'));
 
                         $sendBrowserNotifications = false;
@@ -512,10 +512,11 @@ class ilUserPrivacySettingsGUI
                 }
 
                 if ($this->shouldShowChatTypingBroadcastOption()) {
-                    $oldBroadcastTypingValue = (int) $this->user->getPref('chat_broadcast_typing');
-                    $broadcastTyping = (int) ($formData[self::PROP_ENABLE_BROADCAST_TYPING] ?? 0);
+                    $oldBroadcastTypingValue = ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'));
+                    $broadcastTyping = (bool) ($formData[self::PROP_ENABLE_BROADCAST_TYPING] ?? false);
+
                     if ($oldBroadcastTypingValue !== $broadcastTyping) {
-                        $this->user->setPref('chat_broadcast_typing', $broadcastTyping);
+                        $this->user->setPref('chat_broadcast_typing', ilUtil::tf2yn($broadcastTyping));
                         $preferencesUpdated = true;
                     }
                 }
