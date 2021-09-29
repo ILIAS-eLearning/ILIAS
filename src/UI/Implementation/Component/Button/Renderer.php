@@ -20,6 +20,8 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component instanceof Component\Button\Close) {
             return $this->renderClose($component);
+        } elseif ($component instanceof Component\Button\Minimize) {
+            return $this->renderMinimize($component);
         } elseif ($component instanceof Component\Button\Toggle) {
             return $this->renderToggle($component);
         } elseif ($component instanceof Component\Button\Month) {
@@ -151,6 +153,14 @@ class Renderer extends AbstractComponentRenderer
         // if any var was set or block was touched.
         $tpl->setVariable("FORCE_RENDERING", "");
         $tpl->setVariable("ARIA_LABEL", $this->txt("close"));
+        $this->maybeRenderId($component, $tpl);
+        return $tpl->get();
+    }
+
+    protected function renderMinimize($component)
+    {
+        $tpl = $this->getTemplate("tpl.minimize.html", true, true);
+        $tpl->setVariable("ARIA_LABEL", $this->txt("minimize"));
         $this->maybeRenderId($component, $tpl);
         return $tpl->get();
     }
@@ -322,6 +332,7 @@ class Renderer extends AbstractComponentRenderer
         return array(Component\Button\Primary::class
         , Component\Button\Standard::class
         , Component\Button\Close::class
+        , Component\Button\Minimize::class
         , Component\Button\Shy::class
         , Component\Button\Month::class
         , Component\Button\Tag::class

@@ -38,7 +38,7 @@ class Factory implements B\Factory
      */
     public function minimize() : B\Minimize
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        return new Minimize();
     }
 
     /**
