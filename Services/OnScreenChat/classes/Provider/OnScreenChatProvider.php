@@ -28,7 +28,6 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
      */
     public function getStaticSubItems() : array
     {
-
         $icon = $this->dic->ui()->factory()
                           ->symbol()
                           ->icon()

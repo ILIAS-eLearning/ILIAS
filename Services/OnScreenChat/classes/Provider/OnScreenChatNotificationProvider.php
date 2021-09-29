@@ -17,7 +17,7 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
  * Class OnScreenChatNotificationProvider
  * @author Michael Jansen <mjansen@databay.de>
  */
-class OnScreenChatNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
+class OnScreenChatNotificationProvider
 {
     /** @var Conversation */
     private $conversationRepo;
