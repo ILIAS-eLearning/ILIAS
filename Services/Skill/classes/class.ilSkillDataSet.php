@@ -151,6 +151,14 @@ class ilSkillDataSet extends ilDataSet
      */
     protected function getTypes($a_entity, $a_version)
     {
+        if ($a_entity == "skmg") {
+            switch ($a_version) {
+                case "8.0":
+                    return array(
+                        "Id" => "integer"
+                    );
+            }
+        }
         if ($a_entity == "skee") {
             switch ($a_version) {
                 case "5.1.0":
@@ -291,19 +299,40 @@ class ilSkillDataSet extends ilDataSet
 
         $this->data = array();
 
+        echo "-$a_entity-";
+
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
+        }
+        if ($a_entity == "skmg") {
+            switch ($a_version) {
+                case "7.0":
+                case "8.0":
+                    $this->data[] = [
+                        "Id" => $this->getSkillTreeId()
+                    ];
+                    break;
+            }
         }
         if ($a_entity == "skee") {	// dummy node
             switch ($a_version) {
                 case "5.1.0":
                 case "7.0":
                 case "8.0":
-                    if ($this->getMode() == self::MODE_SKILLS) {
-                        $this->data[] = array("Mode" => "Skills");
-                    } elseif ($this->getMode() == self::MODE_PROFILES) {
-                        $this->data[] = array("Mode" => "Profiles");
+                    foreach ($a_ids as $id) {
+                        if ($this->getMode() == self::MODE_SKILLS) {
+                            $this->data[] = array(
+                                "Id" => $id,
+                                "Mode" => "Skills"
+                            );
+                        } elseif ($this->getMode() == self::MODE_PROFILES) {
+                            $this->data[] = array(
+                                "Id" => $id,
+                                "Mode" => "Profiles"
+                            );
+                        }
                     }
+                    var_dump($this->data);
                     break;
 
             }
@@ -491,11 +520,18 @@ class ilSkillDataSet extends ilDataSet
     protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
     {
         $ilDB = $this->db;
-        $skill_tree = $this->skill_tree_factory->getTreeById($this->getSkillTreeId());
+
+        echo "+$a_entity+";
 
         switch ($a_entity) {
-            case "skee":
+            case "skmg":
+                $deps["skee"]["ids"][] = $this->getSkillTreeId();
+                return $deps;
 
+            case "skee":
+                var_dump($a_rec);
+                exit;
+                $skill_tree = $this->skill_tree_factory->getTreeById($a_rec["Id"]);
                 if ($this->getMode() == self::MODE_SKILLS) {
                     // determine top nodes of main tree to be exported and all referenced template nodes
                     $sel_nodes = $this->getSelectedNodes();
