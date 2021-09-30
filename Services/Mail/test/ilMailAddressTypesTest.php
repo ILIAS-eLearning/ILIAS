@@ -280,9 +280,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
             0
         );
 
-        $addressTypeHelper->expects($this->any())->method('receivesInternalMailsOnly')->willReturnOnConsecutiveCalls(
-            true
-        );
+        $addressTypeHelper->method('receivesInternalMailsOnly')->willReturn(true);
 
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
         $rbacsystem->expects($this->exactly(2))->method('checkAccessOfUser')->willReturnOnConsecutiveCalls(
