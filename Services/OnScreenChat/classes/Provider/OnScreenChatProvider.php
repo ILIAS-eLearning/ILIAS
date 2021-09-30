@@ -18,6 +18,9 @@ use ILIAS\UI\Implementation\Component\Item\Notification;
  */
 class OnScreenChatProvider extends AbstractStaticMainMenuProvider
 {
+    private Conversation $conversationRepo;
+    private Subscriber $subscriberRepo;
+
     /**
      * OnScreenChatNotificationProvider constructor.
      * @param Container $dic
