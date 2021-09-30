@@ -9,8 +9,8 @@ function with_additional_links()
         'Example',
         $DIC->ui()->factory()->symbol()->icon()->standard('info', 'Example')
     )
-    ->withAdditionalLinks($DIC->ui()->factory()->link()->standard('ILIAS', 'https://www.ilias.de'))
-    ->withAdditionalLinks($DIC->ui()->factory()->link()->standard('GitHub', 'https://www.github.com'))
+    ->withAdditionalLink($DIC->ui()->factory()->link()->standard('ILIAS', 'https://www.ilias.de'))
+    ->withAdditionalLink($DIC->ui()->factory()->link()->standard('GitHub', 'https://www.github.com'))
     ;
     return $DIC->ui()->renderer()->render($toast);
 }
