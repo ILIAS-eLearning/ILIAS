@@ -15,7 +15,6 @@ class ilMailUserCache
     protected static array $requested_usr_ids = [];
     protected static array $requested_usr_ids_key_map = [];
 
-
     public static function preloadUserObjects(array $usr_ids) : void
     {
         global $DIC;
@@ -58,7 +57,6 @@ class ilMailUserCache
             }
         }
     }
-
 
     public static function getUserObjectById(int $usr_id) : ?ilObjUser
     {

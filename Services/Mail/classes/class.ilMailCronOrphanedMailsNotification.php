@@ -7,9 +7,6 @@
  */
 class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
 {
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(bool $a_is_personal_workspace = false)
     {
         parent::__construct($a_is_personal_workspace);
@@ -21,7 +18,6 @@ class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
         $this->getLanguage()->loadLanguageModule('user');
     }
 
-    
     public function send() : void
     {
         foreach ($this->getRecipients() as $rcp) {

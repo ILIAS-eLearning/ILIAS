@@ -16,7 +16,6 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
     protected string $term = '';
     protected int $user_id = 0;
 
-    
     public function __construct(string $quoted_term, string $term)
     {
         global $DIC;

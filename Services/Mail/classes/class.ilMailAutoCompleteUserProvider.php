@@ -55,7 +55,6 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         $this->res = $this->db->query($query);
     }
 
-    
     protected function getSelectPart() : string
     {
         $fields = [
@@ -87,7 +86,6 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return implode(', ', $fields);
     }
 
-    
     protected function getFromPart() : string
     {
         $joins = [];
@@ -166,12 +164,10 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         return implode(' AND ', $outer_conditions);
     }
 
-    
     protected function getOrderByPart() : string
     {
         return 'login ASC';
     }
-
 
     protected function getQueryConditionByFieldAndValue(string $field, $a_str) : string
     {

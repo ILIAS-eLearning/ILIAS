@@ -4,19 +4,14 @@
 /**
 *
 * @author Jan Posselt <jposselt@databay.de>
-* @version $Id$
-*
-*
 * @ingroup ServicesMail
 */
-
 class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
 {
     /**
      * @var ilLanguage
      */
     protected $lng;
-
 
     public function __construct()
     {
@@ -26,7 +21,6 @@ class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
 
         parent::__construct();
     }
-
 
     public function insert(ilTemplate $a_tpl) : void
     {

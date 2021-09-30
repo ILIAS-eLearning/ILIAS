@@ -15,7 +15,6 @@ class ilMailGlobalServices
     public const CACHE_TYPE_NEW_MAILS = 1;
     protected static $global_mail_services_cache = [];
 
-
     public static function getMailObjectRefId() : int
     {
         global $DIC;
@@ -48,7 +47,6 @@ class ilMailGlobalServices
 
         return (int) self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID];
     }
-
 
     public static function getNewMailsData(int $usr_id, int $leftInterval = 0) : array
     {

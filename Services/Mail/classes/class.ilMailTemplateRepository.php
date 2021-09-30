@@ -77,7 +77,6 @@ class ilMailTemplateRepository
         }
     }
 
-    
     public function store(\ilMailTemplate $template) : void
     {
         if ($template->getTplId() > 0) {

@@ -1,14 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Base class for course/group mail notifications
- *
- * @version $Id$
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  * @ingroup ServicesMembership
  */
 abstract class ilMailNotification
@@ -31,13 +26,10 @@ abstract class ilMailNotification
     protected ilWorkspaceTree $wsp_tree;
     protected ilWorkspaceAccessHandler $wsp_access_handler;
 
-
     public function __construct(bool $a_is_personal_workspace = false)
     {
         global $DIC;
-
         $this->is_in_wsp = $a_is_personal_workspace;
-
         $this->setSender(ANONYMOUS_USER_ID);
         $this->language = ilLanguageFactory::_getLanguage($DIC->language()->getDefaultLanguage());
         
@@ -46,97 +38,81 @@ abstract class ilMailNotification
             $this->wsp_access_handler = new ilWorkspaceAccessHandler($this->wsp_tree);
         }
     }
-    
 
     public function setType(int $a_type) : void
     {
         $this->type = $a_type;
     }
-    
 
     public function getType() : int
     {
         return $this->type;
     }
-    
 
     public function setSender(int $a_usr_id) : void
     {
         $this->sender = $a_usr_id;
     }
 
-
     public function getSender() : int
     {
         return $this->sender;
     }
 
-
     protected function setSubject(string $a_subject) : string
     {
         return $this->subject = $a_subject;
     }
-    
-    
+
     protected function getSubject() : string
     {
         return $this->subject;
     }
 
-    
     protected function setBody(string $a_body) : void
     {
         $this->body = $a_body;
     }
-    
 
     protected function appendBody(string $a_body) : string
     {
         return $this->body .= $a_body;
     }
-    
-    
+
     protected function getBody() : string
     {
         return $this->body;
     }
 
-    
     public function setRecipients(array $a_rcp) : void
     {
         $this->recipients = $a_rcp;
     }
-    
 
     public function getRecipients() : array
     {
         return $this->recipients;
     }
 
-
     public function setAttachments(array $a_att) : void
     {
         $this->attachments = $a_att;
     }
 
-
     public function getAttachments() : array
     {
         return $this->attachments;
     }
-        
 
     public function setLangModules(array $a_modules) : void
     {
         $this->lang_modules = $a_modules;
     }
-        
 
     protected function initLanguage(int $a_usr_id) : void
     {
         $this->language = $this->getUserLanguage($a_usr_id);
     }
-    
 
     public function getUserLanguage(int $a_usr_id) : ilLanguage
     {
@@ -152,7 +128,6 @@ abstract class ilMailNotification
         return $language;
     }
 
-
     protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         $this->language = ilLanguageFactory::_getLanguage($a_code);
@@ -165,24 +140,20 @@ abstract class ilMailNotification
         }
     }
     
-    
     protected function setLanguage(ilLanguage $a_language) : void
     {
         $this->language = $a_language;
     }
-    
-    
+
     protected function getLanguage() : ilLanguage
     {
         return $this->language;
     }
-
     
     protected function getLanguageText(string $a_keyword) : string
     {
         return str_replace('\n', "\n", $this->getLanguage()->txt($a_keyword));
     }
-
     
     public function setRefId(int $a_id) : void
     {
@@ -196,44 +167,37 @@ abstract class ilMailNotification
         
         $this->setObjId($obj_id);
     }
-    
-    
+
     public function getRefId() : int
     {
         return $this->ref_id;
     }
-    
-    
+
     public function getObjId() : int
     {
         return $this->obj_id;
     }
-
     
     public function setObjId(int $a_obj_id) : void
     {
         $this->obj_id = $a_obj_id;
         $this->obj_type = ilObject::_lookupType($this->obj_id);
     }
-    
 
     public function getObjType() : string
     {
         return $this->obj_type;
     }
 
-
     public function setAdditionalInformation(array $a_info) : void
     {
         $this->additional_info = $a_info;
     }
 
-    
     public function getAdditionalInformation() : array
     {
         return $this->additional_info;
     }
-
 
     protected function getObjectTitle(bool $a_shorten = false) : string
     {
@@ -246,7 +210,6 @@ abstract class ilMailNotification
         }
         return $txt;
     }
-
 
     public function sendMail(array $a_rcp, $a_parse_recipients = true) : void
     {
@@ -274,18 +237,15 @@ abstract class ilMailNotification
         }
     }
 
-    
     protected function initMail() : ilMail
     {
         return $this->mail = new ilMail($this->getSender());
     }
 
-    
     protected function getMail() : ilMail
     {
         return is_object($this->mail) ? $this->mail : $this->initMail();
     }
-
 
     protected function createPermanentLink(array $a_params = [], string $a_append = '') : ?string
     {
@@ -301,7 +261,6 @@ abstract class ilMailNotification
         }
     }
 
-    
     protected function userToString(int $a_usr_id) : string
     {
         $name = ilObjUser::_lookupName($a_usr_id);
@@ -309,7 +268,6 @@ abstract class ilMailNotification
             ($name['firstname'] ? $name['firstname'] . ' ' : '') .
             ($name['lastname'] ? $name['lastname'] . ' ' : '');
     }
-        
 
     protected function isRefIdAccessible(int $a_user_id, int $a_ref_id, string $a_permission = "read") : bool
     {
@@ -344,7 +302,6 @@ abstract class ilMailNotification
 
         return true;
     }
-    
 
     public function getBlockBorder() : string
     {

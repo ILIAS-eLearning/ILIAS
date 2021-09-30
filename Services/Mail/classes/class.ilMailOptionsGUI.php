@@ -6,8 +6,6 @@ use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author Jens Conze
- * @version $Id$
- *
  * @ingroup ServicesMail
  */
 class ilMailOptionsGUI

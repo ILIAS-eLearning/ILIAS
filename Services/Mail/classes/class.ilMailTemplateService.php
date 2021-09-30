@@ -10,13 +10,11 @@ class ilMailTemplateService
 {
     protected ilMailTemplateRepository $repository;
 
-
     public function __construct(ilMailTemplateRepository $repository)
     {
         $this->repository = $repository;
     }
 
-    
     public function createNewTemplate(
         string $contextId,
         string $title,
@@ -36,7 +34,6 @@ class ilMailTemplateService
         return $template;
     }
 
-    
     public function modifyExistingTemplate(
         int $templateId,
         string $contextId,
@@ -56,7 +53,6 @@ class ilMailTemplateService
         $this->repository->store($template);
     }
 
-    
     public function loadTemplateForId(int $templateId) : ilMailTemplate
     {
         return $this->repository->findById($templateId);
@@ -91,7 +87,6 @@ class ilMailTemplateService
 
         return $templates;
     }
-
     
     public function unsetAsContextDefault(\ilMailTemplate $template) : void
     {
@@ -100,7 +95,6 @@ class ilMailTemplateService
         $this->repository->store($template);
     }
 
-    
     public function setAsContextDefault(\ilMailTemplate $template) : void
     {
         $allOfContext = $this->repository->findByContextId($template->getContext());

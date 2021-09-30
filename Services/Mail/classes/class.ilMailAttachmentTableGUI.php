@@ -49,9 +49,6 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         $this->setLimit(PHP_INT_MAX);
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function fillRow($a_set) : void
     {
         /**

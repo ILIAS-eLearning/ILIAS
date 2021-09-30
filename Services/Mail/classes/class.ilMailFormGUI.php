@@ -6,8 +6,6 @@ use ILIAS\Refinery\Factory as Refinery;
 
 /**
 * @author Jens Conze
-* @version $Id$
-*
 * @ingroup ServicesMail
 * @ilCtrl_Calls ilMailFormGUI: ilMailFolderGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilMailSearchCoursesGUI, ilMailSearchGroupsGUI, ilMailingListsGUI
 */
@@ -30,7 +28,6 @@ class ilMailFormGUI
     private string $requestMailSubject = "";
     protected ilMailTemplateService $templateService;
     private ilMailBodyPurifier $purifier;
-
 
     public function __construct(
         ilMailTemplateService $templateService = null,
@@ -440,7 +437,6 @@ class ilMailFormGUI
         $this->tpl->printToStdout();
     }
 
-    
     public function searchCoursesTo() : void
     {
         $this->saveMailBeforeSearch();
@@ -457,7 +453,6 @@ class ilMailFormGUI
         $this->ctrl->redirectByClass(ilMailSearchCoursesGUI::class);
     }
 
-    
     public function searchGroupsTo() : void
     {
         $this->saveMailBeforeSearch();
@@ -607,7 +602,6 @@ class ilMailFormGUI
         $this->showForm();
     }
 
-
     protected function getTemplateDataById() : void
     {
         if (!$this->http->wrapper()->query()->has('template_id')) {
@@ -623,7 +617,7 @@ class ilMailFormGUI
             echo json_encode([
                 'm_subject' => $template->getSubject(),
                 'm_message' => $template->getMessage(),
-            ]);
+            ], JSON_THROW_ON_ERROR);
         } catch (Exception $e) {
         }
         exit();
@@ -767,7 +761,7 @@ class ilMailFormGUI
                 $mailData["rcp_bcc"] = ilUtil::securePlainString($rcpBcc);
 
                 $mailData['m_message'] = '';
-                if (strlen($sig = ilMailFormCall::getSignature())) {
+                if (($sig = ilMailFormCall::getSignature()) !== '') {
                     $mailData['m_message'] = $sig;
                     $mailData['m_message'] .= chr(13)
                         . chr(10)
@@ -1068,7 +1062,6 @@ class ilMailFormGUI
 
         $this->showForm();
     }
-
     
     protected function saveMailBeforeSearch() : void
     {
@@ -1140,7 +1133,6 @@ class ilMailFormGUI
         );
     }
 
-    
     public function searchMailingListsTo() : void
     {
         $this->saveMailBeforeSearch();

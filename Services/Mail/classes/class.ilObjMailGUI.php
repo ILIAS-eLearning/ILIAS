@@ -24,7 +24,6 @@ class ilObjMailGUI extends ilObjectGUI
      */
     protected $settings;
 
-
     public function __construct(array $a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
@@ -40,9 +39,6 @@ class ilObjMailGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('mail');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function executeCommand() : bool
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -78,35 +74,26 @@ class ilObjMailGUI extends ilObjectGUI
         return true;
     }
 
-    
     private function isEditingAllowed() : bool
     {
         return $this->rbacsystem->checkAccess('write', $this->object->getRefId());
     }
 
-    
     private function isViewAllowed() : bool
     {
         return $this->rbacsystem->checkAccess('read', $this->object->getRefId());
     }
 
-    
     private function isPermissionChangeAllowed() : bool
     {
         return $this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId());
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAdminTabs() : void
     {
         $this->getTabs();
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getTabs() : void
     {
         if ($this->isViewAllowed()) {
@@ -144,7 +131,6 @@ class ilObjMailGUI extends ilObjectGUI
         }
     }
 
-    
     protected function buildSettingsSubTabs(int $activeSubTab) : void
     {
         if ($this->isViewAllowed()) {
@@ -166,15 +152,11 @@ class ilObjMailGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function viewObject() : void
     {
         $this->showGeneralSettingsForm();
     }
 
-    
     protected function showGeneralSettingsForm(ilPropertyFormGUI $form = null) : void
     {
         if (!$this->isViewAllowed()) {
@@ -191,7 +173,6 @@ class ilObjMailGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    
     protected function getGeneralSettingsForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -267,7 +248,6 @@ class ilObjMailGUI extends ilObjectGUI
         return $form;
     }
 
-    
     protected function populateGeneralSettingsForm(ilPropertyFormGUI $form) : void
     {
         $form->setValuesByArray([
@@ -285,9 +265,6 @@ class ilObjMailGUI extends ilObjectGUI
         ]);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function saveObject() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -321,7 +298,6 @@ class ilObjMailGUI extends ilObjectGUI
         $this->showGeneralSettingsForm($form);
     }
 
-    
     protected function showExternalSettingsFormObject(ilPropertyFormGUI $form = null) : void
     {
         if (!$this->isViewAllowed()) {
@@ -360,7 +336,6 @@ class ilObjMailGUI extends ilObjectGUI
         $this->sendTestMail();
     }
 
-
     protected function sendTestMail(bool $isManualMail = false) : void
     {
         if (!$this->isViewAllowed()) {
@@ -398,7 +373,6 @@ class ilObjMailGUI extends ilObjectGUI
         ilUtil::sendSuccess($this->lng->txt('mail_external_test_sent'));
         $this->showExternalSettingsFormObject();
     }
-
 
     protected function getExternalSettingsForm() : ilPropertyFormGUI
     {
@@ -580,7 +554,6 @@ class ilObjMailGUI extends ilObjectGUI
         return $form;
     }
 
-    
     protected function populateExternalSettingsForm(ilPropertyFormGUI $form) : void
     {
         $subjectPrefix = $this->settings->get('mail_subject_prefix');
@@ -611,7 +584,6 @@ class ilObjMailGUI extends ilObjectGUI
             'global_reply_to_addr' => $this->settings->get('global_reply_to_addr'),
         ]);
     }
-
     
     protected function saveExternalSettingsFormObject() : void
     {
@@ -677,7 +649,6 @@ class ilObjMailGUI extends ilObjectGUI
         ilUtil::sendSuccess($this->lng->txt('saved_successfully'), true);
         $this->ctrl->redirect($this, 'showExternalSettingsForm');
     }
-
 
     public static function _goto(string $a_target) : void
     {

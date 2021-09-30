@@ -66,7 +66,6 @@ class ilMailbox
         ];
     }
 
-    
     public function getInboxFolder() : int
     {
         $res = $this->db->queryF(
@@ -80,7 +79,6 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    
     public function getDraftsFolder() : int
     {
         $res = $this->db->queryF(
@@ -94,7 +92,6 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    
     public function getTrashFolder() : int
     {
         $res = $this->db->queryF(
@@ -108,7 +105,6 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    
     public function getSentFolder() : int
     {
         $res = $this->db->queryF(
@@ -122,7 +118,6 @@ class ilMailbox
         return (int) $row['obj_id'];
     }
 
-    
     private function getRootFolderId() : int
     {
         return $this->mtree->getRootId();
@@ -169,7 +164,6 @@ class ilMailbox
         }
     }
 
-    
     public function addFolder(int $parentFolderId, string $name) : int
     {
         if ($this->folderNameExists($name)) {
@@ -188,7 +182,6 @@ class ilMailbox
         return $nextId;
     }
 
-    
     public function renameFolder(int $folderId, string $name) : bool
     {
         if ($this->folderNameExists($name)) {
@@ -277,7 +270,6 @@ class ilMailbox
             'type' => (string) $row['m_type'],
         ];
     }
-
     
     public function getParentFolderId(int $folderId) : int
     {
@@ -291,7 +283,6 @@ class ilMailbox
         return is_array($row) ? (int) $row['parent'] : 0;
     }
 
-    
     public function getSubFolders() : array
     {
         $userFolders = [];
@@ -334,19 +325,16 @@ class ilMailbox
         return $userFolders;
     }
 
-    
     public function setUsrId(int $usrId) : void
     {
         $this->usrId = $usrId;
     }
 
-    
     public function getUsrId() : int
     {
         return $this->usrId;
     }
 
-    
     public function delete() : void
     {
         $this->db->manipulateF(
@@ -399,7 +387,6 @@ class ilMailbox
         );
     }
 
-    
     public function isOwnedFolder(int $folderId) : bool
     {
         $folderData = $this->getFolderData($folderId);

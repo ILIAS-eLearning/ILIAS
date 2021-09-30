@@ -18,7 +18,6 @@ class ilFileDataImportMail extends ilFileDataImport
     public string $mail_path;
     public array $files;
     public string $xml_file;
-    
 
     /**
     * checks if directory is writable and sets the optional obj_id
@@ -70,6 +69,7 @@ class ilFileDataImportMail extends ilFileDataImport
 
         return false;
     }
+
     public function findXMLFile(string $a_dir = '')
     {
         $a_dir = $a_dir ?: $this->getPath();
@@ -113,7 +113,7 @@ class ilFileDataImportMail extends ilFileDataImport
         }
         return true;
     }
-    // PRIVATE METHODS
+
     public function __readFiles(string $a_dir = '') : bool
     {
         $a_dir = $a_dir ?: $this->getPath();
@@ -150,9 +150,6 @@ class ilFileDataImportMail extends ilFileDataImport
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function _initDirectory() : bool
     {
         if (!is_dir($this->mail_path)) {

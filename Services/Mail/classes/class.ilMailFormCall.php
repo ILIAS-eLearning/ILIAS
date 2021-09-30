@@ -85,7 +85,7 @@ class ilMailFormCall
     }
 
     /**
-     * @param array<string, string> $queryParameters
+     * @param string[] $queryParameters
      */
     public static function storeReferer(array $queryParameters) : void
     {
@@ -126,7 +126,6 @@ class ilMailFormCall
         ilSession::set(self::SESSION_KEY, $session);
     }
 
-
     public static function getSignature() : string
     {
         $sig = '';
@@ -141,7 +140,6 @@ class ilMailFormCall
 
         return $sig;
     }
-
     
     public static function getRefererRedirectUrl() : string
     {
@@ -166,7 +164,6 @@ class ilMailFormCall
         return $url;
     }
 
-    
     public static function isRefererStored() : bool
     {
         $session = ilSession::get(self::SESSION_KEY);
@@ -178,7 +175,6 @@ class ilMailFormCall
         );
     }
 
-    
     public static function getContextId() : ?string
     {
         $session = ilSession::get(self::SESSION_KEY);
@@ -188,7 +184,6 @@ class ilMailFormCall
             $session[self::CONTEXT_PREFIX][self::CONTEXT_KEY] : null
         );
     }
-
     
     public static function setContextId(?string $id) : void
     {
@@ -196,7 +191,6 @@ class ilMailFormCall
         $session[self::CONTEXT_KEY] = $id;
         ilSession::set(self::SESSION_KEY, $session);
     }
-
 
     public static function getContextParameters() : array
     {
@@ -207,7 +201,6 @@ class ilMailFormCall
 
         return [];
     }
-
 
     public static function setContextParameters(array $parameters) : void
     {

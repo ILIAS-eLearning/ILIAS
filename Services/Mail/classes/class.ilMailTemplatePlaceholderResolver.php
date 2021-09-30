@@ -10,7 +10,6 @@ class ilMailTemplatePlaceholderResolver
     protected ilMailTemplateContext $context;
     protected string $message = '';
 
-
     public function __construct(ilMailTemplateContext $context, string $a_message)
     {
         $this->context = $context;

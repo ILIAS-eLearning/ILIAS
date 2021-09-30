@@ -20,7 +20,6 @@ class ilMailCronOrphanedMails extends ilCronJob
     protected ilObjUser $user;
     protected bool $initDone = false;
 
-    
     protected function init() : void
     {
         global $DIC;

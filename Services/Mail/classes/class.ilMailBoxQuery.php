@@ -5,7 +5,6 @@
  * Mail query class.
  *
  * @author Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  *
  */

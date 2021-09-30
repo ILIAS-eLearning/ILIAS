@@ -7,9 +7,7 @@
 class ilMimeMail
 {
     public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
-
     protected static ?ilMailMimeTransport $defaultTransport = null;
-
     protected ilMailMimeSender $sender;
     protected ilMailMimeSubjectBuilder $subjectBuilder;
     protected ilSetting $settings;
@@ -17,42 +15,34 @@ class ilMimeMail
     protected string $body = '';
     protected string $finalBody = '';
     protected string $finalBodyAlt = '';
-
     /**
      * @var string[]
      */
     protected array $sendto = [];
-
     /**
      * @var string[]
      */
     protected array $acc = [];
-
     /**
      * @var string[]
      */
     protected array $abcc = [];
-
     /**
      * @var array<string, array{path: string, cid: string, name: string}>
      */
     protected array $images = [];
-
     /**
      * @var string[]
      */
     protected array $aattach = [];
-
     /**
      * @var string[]
      */
     protected array $actype = [];
-
     /**
      * @var string[]
      */
     protected array $adispo = [];
-
     /**
      * @var string[]
      */
@@ -61,7 +51,6 @@ class ilMimeMail
     public function __construct()
     {
         global $DIC;
-
         $this->settings = $DIC->settings();
 
         if (!(self::getDefaultTransport() instanceof ilMailMimeTransport)) {
@@ -241,7 +230,6 @@ class ilMimeMail
     {
         return array_values($this->images);
     }
-
 
     protected function build() : void
     {

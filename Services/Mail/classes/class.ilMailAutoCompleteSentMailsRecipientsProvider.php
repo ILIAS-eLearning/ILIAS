@@ -49,7 +49,6 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
         return '';
     }
 
-    
     public function valid() : bool
     {
         $this->data = $this->db->fetchAssoc($this->res);

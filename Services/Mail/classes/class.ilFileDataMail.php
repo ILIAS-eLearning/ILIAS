@@ -52,13 +52,11 @@ class ilFileDataMail extends ilFileData
         return false;
     }
 
-    
     public function getUploadLimit() : int
     {
         return $this->mail_max_upload_file_size;
     }
 
-    
     public function getAttachmentsTotalSizeLimit() : ?float
     {
         $max_size = $this->ilias->getSetting('mail_maxsize_attach', '');
@@ -73,7 +71,6 @@ class ilFileDataMail extends ilFileData
     {
         return $this->mail_path;
     }
-
     
     public function getAbsoluteAttachmentPoolPathPrefix() : string
     {
@@ -418,7 +415,6 @@ class ilFileDataMail extends ilFileData
         
         return true;
     }
-
     
     protected function initAttachmentMaxUploadSize() : void
     {

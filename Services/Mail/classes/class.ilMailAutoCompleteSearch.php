@@ -12,19 +12,16 @@ class ilMailAutoCompleteSearch
      */
     protected array $providers = [];
 
-    
     public function __construct(ilMailAutoCompleteRecipientResult $result)
     {
         $this->result = $result;
     }
 
-    
     public function addProvider(Iterator $provider) : void
     {
         $this->providers[] = $provider;
     }
 
-    
     public function search() : void
     {
         foreach ($this->providers as $provider) {

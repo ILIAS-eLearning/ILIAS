@@ -30,7 +30,6 @@ class ilMailOptions
     protected string $firstEmailAddress = '';
     protected string $secondEmailAddress = '';
 
-    
     public function __construct(int $usrId, ilMailTransportSettings $mailTransportSettings = null)
     {
         global $DIC;
@@ -152,68 +151,57 @@ class ilMailOptions
             $data
         );
     }
-
     
     public function getLinebreak() : int
     {
         return $this->linebreak;
     }
 
-    
     public function getSignature() : string
     {
         return $this->signature;
     }
 
-    
     public function getIncomingType() : int
     {
         return $this->incomingType;
     }
 
-    
     public function setLinebreak(int $linebreak) : void
     {
         $this->linebreak = $linebreak;
     }
 
-    
     public function setSignature(string $signature) : void
     {
         $this->signature = $signature;
     }
 
-    
     public function setIncomingType(int $incomingType) : void
     {
         $this->incomingType = $incomingType;
     }
-
     
     public function setIsCronJobNotificationStatus(bool $isCronJobNotificationEnabled) : void
     {
         $this->isCronJobNotificationEnabled = $isCronJobNotificationEnabled;
     }
 
-    
     public function isCronJobNotificationEnabled() : bool
     {
         return $this->isCronJobNotificationEnabled;
     }
 
-    
     public function getEmailAddressMode() : int
     {
         return $this->emailAddressMode;
     }
 
-    
     public function setEmailAddressMode(int $emailAddressMode) : void
     {
         $this->emailAddressMode = $emailAddressMode;
     }
 
-    
     private static function lookupNotificationSetting(int $usrId) : int
     {
         global $DIC;

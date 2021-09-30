@@ -46,7 +46,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->init();
     }
 
-    
     protected function init() : void
     {
         $this->setTitle($this->lng->txt('mail_settings'));
@@ -87,7 +86,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->positiveCmd, $this->lng->txt('save'));
     }
 
-    
     public function save() : bool
     {
         if (!$this->checkInput()) {
@@ -126,7 +124,6 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    
     public function populate() : void
     {
         $data = [

@@ -3,8 +3,6 @@
 
 /**
  * @author Nadia Matuschek <nmatuschek@databay.de>
- * @version $Id:$
- *
  * @ingroup ServicesMail
  */
 class ilMailSummaryNotification extends ilMailNotification
@@ -13,9 +11,6 @@ class ilMailSummaryNotification extends ilMailNotification
     protected ilDBInterface $db;
     protected ilSetting $settings;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(bool $a_is_personal_workspace = false)
     {
         global $DIC;
@@ -48,8 +43,8 @@ class ilMailSummaryNotification extends ilMailNotification
         $user_id = 0;
 
         while ($row = $this->db->fetchAssoc($res)) {
-            if ($user_id === 0 || $row['user_id'] !== $user_id) {
-                $user_id = $row['user_id'];
+            if ($user_id === 0 || (int)$row['user_id'] !== $user_id) {
+                $user_id = (int)$row['user_id'];
             }
             $users[$user_id][] = $row;
         }

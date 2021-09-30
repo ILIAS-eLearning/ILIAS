@@ -53,7 +53,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
         $this->uiFactory = $uiFactory;
         $this->uiRenderer = $uiRenderer;
-        $this->httpRequest = $DIC->http();
+        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
 
         $this->_currentFolderId = $a_current_folder_id;
@@ -80,7 +80,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $this->setFilterCommand('applyFilter');
         $this->setResetCommand('resetFilter');
     }
-
     
     public function getSelectableColumns() : array
     {
@@ -95,7 +94,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         return $columns;
     }
-
     
     protected function isColumnVisible(int $index) : bool
     {
@@ -116,8 +114,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return false;
     }
 
-    /**@inheritdoc
-     */
     final protected function fillRow($a_set) : void
     {
         foreach ($this->removeInvisibleFields($a_set) as $key => $value) {
@@ -125,7 +121,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    
     protected function removeInvisibleFields(array $row) : array
     {
         if (is_array($this->visibleOptionalColumns)) {
@@ -141,7 +136,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $row;
     }
 
-    
     protected function getColumnDefinition() : array
     {
         if ($this->column_definition !== null) {
@@ -353,7 +347,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-
     public function setSelectedItems(array $a_selected_items) : self
     {
         $this->_selectedItems = $a_selected_items;
@@ -361,12 +354,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    
     public function getSelectedItems() : array
     {
         return $this->_selectedItems;
     }
-
     
     protected function shouldUseLuceneSearch() : bool
     {
@@ -381,7 +372,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return false;
     }
 
-    
     private function isLuceneEnabled() : bool
     {
         return ilSearchSettings::getInstance()->enabledLucene();
@@ -632,13 +622,11 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    
     public function getNumberOfMails() : int
     {
         return $this->_number_of_mails;
     }
 
-    
     public function initFilter() : void
     {
         $this->filter = [];
@@ -742,9 +730,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $this->filter['period'] = $duration->getValue();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function writeFilterToSession() : void
     {
         parent::writeFilterToSession();
@@ -757,9 +742,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resetFilter() : void
     {
         parent::resetFilter();
@@ -772,7 +754,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    
     protected function formatActionsDropDown(array $mail) : string
     {
         $buttons = [];
@@ -790,7 +771,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    
     protected function addViewRowAction(array $mail, array &$buttons) : void
     {
         if ($this->isDraftFolder()) {
@@ -831,7 +811,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         $buttons[] = $viewButton;
     }
 
-    
     protected function addReplyRowAction(array $mail, array &$buttons) : void
     {
         if (!$this->isDraftFolder()) {
@@ -864,7 +843,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    
     protected function addForwardRowAction(array $mail, array &$buttons) : void
     {
         if (!$this->isDraftFolder()) {
@@ -895,7 +873,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    
     protected function addPrintRowAction(array $mail, array &$buttons) : void
     {
         if (!$this->isDraftFolder()) {
@@ -913,9 +890,6 @@ class ilMailFolderTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getHTML() : string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);

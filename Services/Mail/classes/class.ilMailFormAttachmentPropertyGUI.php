@@ -4,9 +4,6 @@
 /**
 *
 * @author Jan Posselt <jposselt@databay.de>
-* @version $Id$
-*
-*
 * @ingroup ServicesMail
 */
 
@@ -22,7 +19,6 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
      */
     protected $lng;
 
-
     public function __construct(string $buttonLabel)
     {
         global $DIC;
@@ -32,7 +28,6 @@ class ilMailFormAttachmentPropertyGUI extends ilFormPropertyGUI
         $this->buttonLabel = $buttonLabel;
         parent::__construct($this->lng->txt('attachments'));
     }
-
 
     public function addItem(string $label) : void
     {

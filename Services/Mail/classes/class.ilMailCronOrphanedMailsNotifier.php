@@ -12,7 +12,6 @@ class ilMailCronOrphanedMailsNotifier
     protected int $threshold = 0;
     protected int $mail_notify_orphaned = 0;
 
-
     public function __construct(
         ilMailCronOrphanedMailsNotificationCollector $collector,
         int $threshold,
@@ -27,7 +26,6 @@ class ilMailCronOrphanedMailsNotifier
         $this->mail_notify_orphaned = $mail_notify_orphaned;
     }
 
-    
     private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
         if ($this->threshold > $this->mail_notify_orphaned) {
@@ -63,7 +61,6 @@ class ilMailCronOrphanedMailsNotifier
         }
     }
 
-    
     private function sendMail(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
         $mail = new ilMailCronOrphanedMailsNotification();
@@ -73,7 +70,6 @@ class ilMailCronOrphanedMailsNotifier
         $mail->send();
     }
 
-    
     public function processNotification() : void
     {
         foreach ($this->collector->getCollection() as $collection_obj) {

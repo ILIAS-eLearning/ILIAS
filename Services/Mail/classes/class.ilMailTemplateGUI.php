@@ -30,7 +30,6 @@ class ilMailTemplateGUI
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
 
-
     public function __construct(
         ilObject $parentObject,
         ilGlobalTemplateInterface $tpl = null,
@@ -102,13 +101,11 @@ class ilMailTemplateGUI
         $this->lng->loadLanguageModule('meta');
     }
 
-    
     private function isEditingAllowed() : bool
     {
         return $this->rbacsystem->checkAccess('write', $this->parentObject->getRefId());
     }
 
-    
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -125,7 +122,6 @@ class ilMailTemplateGUI
         }
     }
 
-    
     protected function showTemplates() : void
     {
         $contexts = ilMailTemplateContextService::getTemplateContexts();
@@ -211,7 +207,6 @@ class ilMailTemplateGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    
     protected function updateTemplate() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -277,7 +272,6 @@ class ilMailTemplateGUI
         }
     }
 
-    
     protected function showEditTemplateForm(ilPropertyFormGUI $form = null) : void
     {
         if (!($form instanceof ilPropertyFormGUI)) {
@@ -309,7 +303,6 @@ class ilMailTemplateGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    
     protected function populateFormWithTemplate(ilPropertyFormGUI $form, ilMailTemplate $template) : void
     {
         $form->setValuesByArray([
@@ -322,7 +315,6 @@ class ilMailTemplateGUI
         ]);
     }
 
-    
     protected function confirmDeleteTemplate() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -365,14 +357,13 @@ class ilMailTemplateGUI
         $confirm->setCancel($this->lng->txt('cancel'), 'showTemplates');
 
         foreach ($templateIds as $templateId) {
-            $template = $this->service->loadTemplateForId((int) $templateId);
+            $template = $this->service->loadTemplateForId($templateId);
             $confirm->addItem('tpl_id[]', $templateId, $template->getTitle());
         }
 
         $this->tpl->setContent($confirm->getHTML());
     }
 
-    
     protected function deleteTemplate() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -545,7 +536,6 @@ class ilMailTemplateGUI
         return $form;
     }
 
-    
     public function unsetAsContextDefault() : void
     {
         if (!$this->isEditingAllowed()) {
@@ -576,7 +566,6 @@ class ilMailTemplateGUI
         $this->ctrl->redirect($this, 'showTemplates');
     }
 
-    
     public function setAsContextDefault() : void
     {
         if (!$this->isEditingAllowed()) {

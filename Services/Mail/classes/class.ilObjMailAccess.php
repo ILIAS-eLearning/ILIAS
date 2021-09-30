@@ -3,11 +3,7 @@
 
 /**
 * Class ilObjMailAccess
-*
-*
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
 */
 class ilObjMailAccess extends ilObjectAccess
 {

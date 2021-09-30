@@ -19,7 +19,6 @@ class ilPDMailGUI
     protected ilLanguage $lng;
     protected ilObjUser $user;
 
-
     public function __construct()
     {
         global $DIC;
@@ -31,7 +30,6 @@ class ilPDMailGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
     }
-
 
     public function getPDMailHTML(int $a_mail_id, int $a_mobj_id) : string
     {

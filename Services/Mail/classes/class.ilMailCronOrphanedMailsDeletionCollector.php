@@ -14,7 +14,6 @@ class ilMailCronOrphanedMailsDeletionCollector
      */
     protected array $mail_ids = [];
 
-    
     public function __construct()
     {
         global $DIC;
@@ -25,7 +24,6 @@ class ilMailCronOrphanedMailsDeletionCollector
         $this->collect();
     }
 
-    
     public function collect() : void
     {
         $mail_only_inbox_trash = (int) $this->settings->get('mail_only_inbox_trash');
@@ -60,7 +58,7 @@ class ilMailCronOrphanedMailsDeletionCollector
                 }
                 
                 while ($row = $this->db->fetchAssoc($res)) {
-                    $this->addMailIdToDelete($row['mail_id']);
+                    $this->addMailIdToDelete((int)$row['mail_id']);
                 }
             }
         } else {
@@ -86,12 +84,11 @@ class ilMailCronOrphanedMailsDeletionCollector
 
             $res = $this->db->queryF($mails_query, $types, $data);
             while ($row = $this->db->fetchAssoc($res)) {
-                $this->addMailIdToDelete($row['mail_id']);
+                $this->addMailIdToDelete((int)$row['mail_id']);
             }
         }
     }
 
-    
     public function addMailIdToDelete(int $mail_id) : void
     {
         $this->mail_ids[] = $mail_id;

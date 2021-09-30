@@ -11,7 +11,6 @@ class ilMailCronOrphanedMailsDeletionProcessor
     protected ilDBInterface $db;
     protected ilSetting $settings;
 
-    
     public function __construct(ilMailCronOrphanedMailsDeletionCollector $collector)
     {
         global $DIC;
@@ -21,8 +20,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
         $this->settings = $DIC->settings();
         $this->db = $DIC->database();
     }
-    
-    
+
     private function deleteAttachments() : void
     {
         $attachment_paths = [];
@@ -46,9 +44,9 @@ class ilMailCronOrphanedMailsDeletionProcessor
             );
 
             $num_rows = $this->db->numRows($usage_res);
-            if ($row['cnt_mail_ids'] >= $num_rows) {
+            if ((int)$row['cnt_mail_ids'] >= $num_rows) {
                 // collect path to delete attachment file
-                $attachment_paths[$row['mail_id']] = $row['path'];
+                $attachment_paths[(int)$row['mail_id']] = $row['path'];
             }
         }
 
@@ -105,7 +103,6 @@ class ilMailCronOrphanedMailsDeletionProcessor
         );
     }
     
-    
     private function deleteMails() : void
     {
         $this->db->manipulate(
@@ -113,7 +110,6 @@ class ilMailCronOrphanedMailsDeletionProcessor
             $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer')
         );
     }
-    
 
     private function deleteMarkedAsNotified() : void
     {
@@ -126,8 +122,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
             $this->db->manipulate('DELETE FROM mail_cron_orphaned');
         }
     }
-    
-    
+
     public function processDeletion() : void
     {
         if (count($this->collector->getMailIdsToDelete()) > 0) {

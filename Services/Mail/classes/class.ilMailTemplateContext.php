@@ -18,7 +18,6 @@ abstract class ilMailTemplateContext
     protected ilMailUserHelper $userHelper;
     protected OrgUnitUserService $orgUnitUserService;
 
-
     public function __construct(
         OrgUnitUserService $orgUnitUserService = null,
         ilMailEnvironmentHelper $envHelper = null,
@@ -46,22 +45,17 @@ abstract class ilMailTemplateContext
         $this->languageHelper = $languageHelper;
     }
 
-    
     public function getLanguage() : ilLanguage
     {
         return $this->language ?: $this->languageHelper->getCurrentLanguage();
     }
 
-
     abstract public function getId() : string;
-
 
     abstract public function getTitle() : string;
 
-
     abstract public function getDescription() : string;
 
-    
     private function getGenericPlaceholders() : array
     {
         return [
@@ -101,7 +95,6 @@ abstract class ilMailTemplateContext
         ];
     }
 
-
     final public function getPlaceholders() : array
     {
         $placeholders = $this->getGenericPlaceholders();
@@ -110,17 +103,14 @@ abstract class ilMailTemplateContext
         return $placeholders + $specific;
     }
 
-
     abstract public function getSpecificPlaceholders() : array;
 
-    
     abstract public function resolveSpecificPlaceholder(
         string $placeholder_id,
         array $context_parameters,
         ilObjUser $recipient = null,
         bool $html_markup = false
     ) : string;
-
 
     public function resolvePlaceholder(
         string $placeholder_id,
@@ -211,14 +201,12 @@ abstract class ilMailTemplateContext
 
         return $resolved;
     }
-
     
     protected function initLanguage(ilObjUser $user) : void
     {
         $this->initLanguageByIso2Code($user->getLanguage());
     }
 
-    
     protected function initLanguageByIso2Code(string $isoCode) : void
     {
         $this->language = $this->languageHelper->getLanguageByIsoCode($isoCode);

@@ -8,36 +8,30 @@
 class ilMailCronOrphanedMailsNotificationCollectionObj
 {
     protected int $user_id = 0;
-
     /**
      * @var ilMailCronOrphanedMailsFolderObject[]
      */
     protected array $folder_objects = [];
 
-
     public function __construct(int $user_id)
     {
         $this->setUserId($user_id);
     }
-    
-    
+
     public function getUserId() : int
     {
         return $this->user_id;
     }
 
-    
     public function setUserId(int $user_id) : void
     {
         $this->user_id = $user_id;
     }
 
-    
     public function addFolderObject(ilMailCronOrphanedMailsFolderObject $folder_obj) : void
     {
         $this->folder_objects[$folder_obj->getFolderId()] = $folder_obj;
     }
-
 
     public function getFolderObjectById(int $folder_id) : ilMailCronOrphanedMailsFolderObject
     {

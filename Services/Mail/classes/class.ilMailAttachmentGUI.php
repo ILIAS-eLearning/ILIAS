@@ -21,7 +21,6 @@ class ilMailAttachmentGUI
     private GlobalHttpState $http;
     private Refinery $refinery;
 
-
     public function __construct()
     {
         global $DIC;
@@ -181,7 +180,6 @@ class ilMailAttachmentGUI
         $this->showAttachments();
     }
 
-    
     protected function getToolbarForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();

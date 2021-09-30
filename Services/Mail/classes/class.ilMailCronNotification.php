@@ -6,7 +6,6 @@ use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Mail notifications
- *
  * @author Nadia Ahmad <nahmad@databay.de>
  */
 class ilMailCronNotification extends ilCronJob
@@ -16,7 +15,6 @@ class ilMailCronNotification extends ilCronJob
     protected ilSetting $settings;
     protected bool $initDone = false;
 
-    
     protected function init() : void
     {
         global $DIC;
@@ -24,7 +22,7 @@ class ilMailCronNotification extends ilCronJob
         if (!$this->initDone) {
             $this->settings = $DIC->settings();
             $this->lng = $DIC->language();
-            $this->httpRequest = $DIC->http()->request();
+            $this->http = $DIC->http();
 
             $this->initDone = true;
         }
@@ -51,7 +49,6 @@ class ilMailCronNotification extends ilCronJob
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
-    
 
     public function getDefaultScheduleValue() : ?int
     {

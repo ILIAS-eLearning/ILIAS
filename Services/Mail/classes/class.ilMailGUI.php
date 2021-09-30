@@ -6,7 +6,6 @@ use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author       Jens Conze
- * @version      $Id$
  * @defgroup     ServicesMail Services/Mail
  * @ingroup      ServicesMail
  * @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilContactGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilObjUserGUI
@@ -24,7 +23,6 @@ class ilMailGUI
     public ilMail $umail;
     public ilMailBox $mbox;
 
-
     public function __construct()
     {
         global $DIC;
@@ -34,7 +32,6 @@ class ilMailGUI
         $this->user = $DIC->user();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
 
         $this->lng->loadLanguageModule('mail');
 
@@ -50,7 +47,6 @@ class ilMailGUI
 
         $this->initFolder();
 
-
         $toolContext = $DIC->globalScreen()
                            ->tool()
                            ->context()
@@ -64,7 +60,6 @@ class ilMailGUI
         }
     }
 
-    
     protected function initFolder() : void
     {
         $folderId = 0;
@@ -81,7 +76,6 @@ class ilMailGUI
         $this->currentFolderId = $folderId;
     }
 
-    
     public function executeCommand() : void
     {
         $type = "";
@@ -220,7 +214,6 @@ class ilMailGUI
         }
     }
 
-    
     private function setViewMode() : void
     {
         $targetClass = ilMailFolderGUI::class;
@@ -264,7 +257,6 @@ class ilMailGUI
         }
     }
 
-    
     private function showHeader() : void
     {
         global $DIC;
@@ -329,7 +321,6 @@ class ilMailGUI
             $DIC->tabs()->setTabActive('fold');
         }
     }
-
 
     protected function toggleExplorerNodeState() : void
     {

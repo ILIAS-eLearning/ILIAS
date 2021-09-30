@@ -9,13 +9,11 @@ class ilMailAutoCompleteRecipientResult
 {
     public const MODE_STOP_ON_MAX_ENTRIES = 1;
     public const MODE_FETCH_ALL = 2;
-
     public const MAX_RESULT_ENTRIES = 1000;
-
     protected bool $allow_smtp;
     protected int $user_id;
     /**
-     * @var array<string, int>
+     * @var int[]
      */
     protected array $handled_recipients = [];
     protected int $mode = self::MODE_STOP_ON_MAX_ENTRIES;
@@ -25,7 +23,6 @@ class ilMailAutoCompleteRecipientResult
      */
     public array $result = [];
 
-    
     public function __construct(int $mode)
     {
         global $DIC;
@@ -51,7 +48,6 @@ class ilMailAutoCompleteRecipientResult
         $this->mode = $mode;
     }
 
-    
     public function isResultAddable() : bool
     {
         if ($this->mode === self::MODE_STOP_ON_MAX_ENTRIES &&
@@ -68,7 +64,6 @@ class ilMailAutoCompleteRecipientResult
         return true;
     }
 
-    
     public function addResult(string $login, string $firstname, string $lastname) : void
     {
         if (!isset($this->handled_recipients[$login])) {
@@ -94,7 +89,6 @@ class ilMailAutoCompleteRecipientResult
         return $this->result;
     }
 
-    
     public function numItems() : int
     {
         return count($this->result['items']);

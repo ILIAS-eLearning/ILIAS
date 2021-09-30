@@ -6,7 +6,6 @@
 * @version $Id$
 *
 */
-
 class ilFormatMail extends ilMail
 {
     public function __construct(int $a_user_id)
@@ -117,7 +116,6 @@ class ilFormatMail extends ilMail
         return $this->mail_data;
     }
 
-    
     public function formatLinebreakMessage(string $message) : string
     {
         $formatted = [];
@@ -137,7 +135,6 @@ class ilFormatMail extends ilMail
         return $formatted;
     }
 
-    
     public function appendSignature() : string
     {
         $message = (string) ($this->mail_data['m_message'] ?? '');
@@ -146,7 +143,6 @@ class ilFormatMail extends ilMail
         return $message;
     }
 
-    
     public function prependSignature() : string
     {
         $message = (string) ($this->mail_data['m_message'] ?? '');

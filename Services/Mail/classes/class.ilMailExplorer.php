@@ -20,7 +20,6 @@ class ilMailExplorer extends ilTreeExplorerGUI
     private ilMailGUI $parentObject;
     protected int $currentFolderId = 0;
 
-
     public function __construct(ilMailGUI $parentObject, int $userId)
     {
         global $DIC;
@@ -40,7 +39,6 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->setOrderField('title,m_type');
     }
 
-    
     protected function initFolder() : void
     {
         $folderId = 0;
@@ -54,15 +52,11 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->currentFolderId = $folderId;
     }
 
-    
     public function getTreeLabel() : string
     {
         return $this->lng->txt("mail_folders");
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTreeComponent() : Tree
     {
         $f = $this->ui->factory();
@@ -75,9 +69,6 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $tree;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function build(
         Factory $factory,
         $record,
@@ -88,9 +79,6 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $node->withHighlighted($this->currentFolderId === (int) $record['child']);
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getNodeStateToggleCmdClasses($record) : array
     {
         return [
@@ -98,9 +86,6 @@ class ilMailExplorer extends ilTreeExplorerGUI
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getNodeContent($a_node) : string
     {
         $content = $a_node['title'];
@@ -114,9 +99,6 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $content;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getNodeIcon($a_node) : string
     {
         if ($a_node['child'] === $this->getNodeId($this->getRootNode())) {
@@ -133,9 +115,6 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return $icon;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getNodeHref($a_node) : string
     {
         if ($a_node['child'] === $this->getNodeId($this->getRootNode())) {

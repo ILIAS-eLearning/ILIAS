@@ -18,7 +18,6 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     /** @var ILIAS\UI\Component\Component[] */
     protected array $uiComponents = [];
 
-
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -53,7 +52,6 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->contexts = ilMailTemplateContextService::getTemplateContexts();
     }
 
-    
     protected function formatCellValue(string $column, array $row) : string
     {
         if ('tpl_id' === $column) {
@@ -83,9 +81,6 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         return $row[$column];
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function fillRow($a_set) : void
     {
         foreach ($a_set as $column => $value) {
@@ -100,7 +95,6 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_ACTION', $this->formatActionsDropDown($a_set));
     }
 
-    
     protected function formatActionsDropDown(array $row) : string
     {
         $this->ctrl->setParameter($this->getParentObject(), 'tpl_id', $row['tpl_id']);
@@ -170,9 +164,6 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getHTML() : string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);

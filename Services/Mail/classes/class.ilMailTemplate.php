@@ -15,7 +15,6 @@ class ilMailTemplate
     protected string $message = '';
     protected bool $isDefault = false;
 
-
     public function __construct(array $data = null)
     {
         if (is_array($data)) {
@@ -29,7 +28,6 @@ class ilMailTemplate
         }
     }
 
-    
     public function toArray() : array
     {
         return [
@@ -43,85 +41,71 @@ class ilMailTemplate
         ];
     }
 
-    
     public function getTplId() : int
     {
         return $this->templateId;
     }
 
-    
     public function setTplId(int $templateId) : void
     {
         $this->templateId = $templateId;
     }
 
-    
     public function getTitle() : string
     {
         return $this->title;
     }
 
-    
     public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
 
-    
     public function getContext() : string
     {
         return $this->context;
     }
 
-    
     public function setContext(string $context) : void
     {
         $this->context = $context;
     }
-
     
     public function getLang() : string
     {
         return $this->lang;
     }
 
-    
     public function setLang(string $lang) : void
     {
         $this->lang = $lang;
     }
 
-    
     public function getSubject() : string
     {
         return $this->subject;
     }
 
-    
     public function setSubject(string $subject) : void
     {
         $this->subject = $subject;
     }
 
-    
     public function getMessage() : string
     {
         return $this->message;
     }
 
-    
     public function setMessage(string $message) : void
     {
         $this->message = $message;
     }
 
-    
     public function isDefault() : bool
     {
         return $this->isDefault;
     }
 
-    
     public function setAsDefault(bool $isDefault) : void
     {
         $this->isDefault = $isDefault;

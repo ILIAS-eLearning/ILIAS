@@ -30,7 +30,6 @@ class ilMailFolderGUI
     private Refinery $refinery;
     private int $currentFolderId = 0;
 
-
     public function __construct()
     {
         global $DIC;
@@ -50,7 +49,6 @@ class ilMailFolderGUI
         $this->initFolder();
     }
 
-    
     protected function initFolder() : void
     {
         $folderId = 0;
@@ -69,7 +67,6 @@ class ilMailFolderGUI
         $this->currentFolderId = $folderId;
     }
 
-    
     protected function parseCommand(string $originalCommand) : string
     {
         $matches = [];
@@ -96,7 +93,6 @@ class ilMailFolderGUI
         throw new InvalidArgumentException("Cannot parse a numeric folder id from command string!");
     }
 
-    
     public function executeCommand() : void
     {
         $cmd = $this->parseCommand(
@@ -142,7 +138,6 @@ class ilMailFolderGUI
         }
     }
 
-
     protected function performEmptyTrash() : void
     {
         $this->umail->deleteMailsOfFolder($this->currentFolderId);
@@ -151,7 +146,6 @@ class ilMailFolderGUI
         $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
         $this->ctrl->redirect($this, 'showFolder');
     }
-
 
     protected function confirmEmptyTrash() : void
     {
@@ -199,7 +193,6 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-    
     protected function addSubFolderCommands(bool $isUserSubFolder = false) : void
     {
         $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
@@ -220,7 +213,6 @@ class ilMailFolderGUI
         }
         $this->ctrl->clearParameters($this);
     }
-
 
     protected function showFolder(bool $oneConfirmationDialogueRendered = false) : void
     {
@@ -296,7 +288,6 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-
     protected function deleteSubFolder(bool $a_show_confirm = true) : void
     {
         if ($a_show_confirm) {
@@ -331,7 +322,6 @@ class ilMailFolderGUI
         }
     }
 
-    
     protected function getSubFolderForm(string $mode = 'create') : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -354,7 +344,6 @@ class ilMailFolderGUI
         return $form;
     }
 
-
     protected function performAddSubFolder() : void
     {
         $form = $this->getSubFolderForm();
@@ -376,7 +365,6 @@ class ilMailFolderGUI
         $this->addSubFolder($form);
     }
 
-
     protected function addSubFolder(ilPropertyFormGUI $form = null) : void
     {
         if (null === $form) {
@@ -387,7 +375,6 @@ class ilMailFolderGUI
         $this->tpl->setContent($form->getHTML());
         $this->tpl->printToStdout();
     }
-
 
     protected function performRenameSubFolder() : void
     {
@@ -414,7 +401,6 @@ class ilMailFolderGUI
         ilUtil::sendFailure($this->lng->txt('mail_folder_exists'));
         $this->renameSubFolder($form);
     }
-
 
     protected function renameSubFolder(ilPropertyFormGUI $form = null) : void
     {
@@ -459,7 +445,6 @@ class ilMailFolderGUI
         return array_filter(array_map('intval', $mailIds));
     }
 
-
     protected function markMailsRead() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
@@ -473,7 +458,6 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-
     protected function markMailsUnread() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
@@ -486,7 +470,6 @@ class ilMailFolderGUI
 
         $this->showFolder();
     }
-
 
     protected function moveSingleMail() : void
     {
@@ -526,7 +509,6 @@ class ilMailFolderGUI
         }
     }
 
-
     protected function moveMails() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
@@ -546,7 +528,6 @@ class ilMailFolderGUI
             $this->showFolder();
         }
     }
-
 
     protected function deleteMails() : void
     {
@@ -571,7 +552,6 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-
     protected function confirmDeleteMails() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
@@ -590,7 +570,6 @@ class ilMailFolderGUI
 
         $this->showFolder();
     }
-
 
     protected function showMail() : void
     {
@@ -862,7 +841,6 @@ class ilMailFolderGUI
         $this->tpl->printToStdout();
     }
 
-
     protected function printMail() : void
     {
         $tplprint = new ilTemplate('tpl.mail_print.html', true, true, 'Services/Mail');
@@ -1021,7 +999,6 @@ class ilMailFolderGUI
             $this->ctrl->redirect($this);
         }
     }
-
     
     protected function getMailFolderTable() : ilMailFolderTableGUI
     {
@@ -1041,7 +1018,6 @@ class ilMailFolderGUI
         return $table;
     }
 
-    
     protected function applyFilter() : void
     {
         $table = $this->getMailFolderTable();
@@ -1051,7 +1027,6 @@ class ilMailFolderGUI
         $this->showFolder();
     }
 
-    
     protected function resetFilter() : void
     {
         $table = $this->getMailFolderTable();

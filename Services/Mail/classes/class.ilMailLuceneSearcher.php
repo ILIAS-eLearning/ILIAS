@@ -3,7 +3,6 @@
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  */
 class ilMailLuceneSearcher
@@ -12,13 +11,10 @@ class ilMailLuceneSearcher
     protected ilMailSearchResult $result;
     protected ilSetting $settings;
 
-    
     public function __construct(ilLuceneQueryParser $query_parser, ilMailSearchResult $result)
     {
         global $DIC;
-
         $this->settings = $DIC->settings();
-
         $this->query_parser = $query_parser;
         $this->result = $result;
     }

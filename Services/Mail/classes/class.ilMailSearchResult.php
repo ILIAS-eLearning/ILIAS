@@ -3,18 +3,15 @@
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  */
 class ilMailSearchResult
 {
     protected array $result = [];
 
-    
     public function __construct()
     {
     }
-
     
     public function addItem(int $id, array $fields) : void
     {

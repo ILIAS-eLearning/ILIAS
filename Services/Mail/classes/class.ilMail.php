@@ -44,7 +44,6 @@ class ilMail
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
 
-    
     public function __construct(
         int $a_user_id,
         ilMailAddressTypeFactory $mailAddressTypeFactory = null,
@@ -140,12 +139,10 @@ class ilMail
         return $clone;
     }
 
-    
     protected function isSystemMail() : bool
     {
         return $this->user_id == ANONYMOUS_USER_ID;
     }
-
     
     public function existsRecipient(string $newRecipient, string $existingRecipients) : bool
     {
@@ -159,13 +156,11 @@ class ilMail
         return count($diffedAddresses) === 0;
     }
 
-    
     public function setSaveInSentbox(bool $saveInSentbox) : void
     {
         $this->save_in_sentbox = $saveInSentbox;
     }
 
-    
     public function getSaveInSentbox() : bool
     {
         return $this->save_in_sentbox;
@@ -176,7 +171,6 @@ class ilMail
         $this->mail_obj_ref_id = ilMailGlobalServices::getMailObjectRefId();
     }
 
-    
     public function getMailObjectReferenceId() : int
     {
         return $this->mail_obj_ref_id;
@@ -297,7 +291,6 @@ class ilMail
         return array_filter($mails);
     }
 
-    
     public function countMailsOfFolder(int $folderId) : int
     {
         $res = $this->db->queryF(
@@ -309,7 +302,6 @@ class ilMail
         return $this->db->numRows($res);
     }
 
-    
     public function deleteMailsOfFolder(int $folderId) : void
     {
         $mails = $this->getMailsOfFolder($folderId);
@@ -609,7 +601,6 @@ class ilMail
         return $nextId;
     }
 
-    
     protected function replacePlaceholders(
         string $message,
         int $usrId = 0,
@@ -916,7 +907,7 @@ class ilMail
     }
 
     /**
-     * @return   ilMailError[]
+     * @return ilMailError[]
      */
     protected function checkMail(string $to, string $cc, string $bcc, string $subject) : array
     {
@@ -1041,7 +1032,6 @@ class ilMail
 
     /**
      * Should be used to enqueue a 'mail'. A validation is executed before, errors are returned
-     * @param bool|int $a_use_placeholders
      * @param string[] $a_attachment
      * @return ilMailError[]
      */
@@ -1154,8 +1144,6 @@ class ilMail
      * To use the mail system as a consumer, please use ilMail::enqueue
      * @param string[] $attachments
      * @return ilMailError[]
-     * @see ilMail::enqueue()
-     * @internal
      */
     public function sendMail(
         string $to,
@@ -1280,7 +1268,6 @@ class ilMail
         );
     }
 
-
     private function sendMimeMail(
         string $to,
         string $cc,
@@ -1337,7 +1324,6 @@ class ilMail
 
     /**
      * Explode recipient string, allowed separators are ',' ';' ' '
-     * Returns an array with recipient ilMailAddress instances
      * @return ilMailAddress[]
      */
     protected function parseAddresses(string $addresses) : array
@@ -1391,7 +1377,6 @@ class ilMail
         );
     }
 
-    
     protected function getEmailRecipients(string $recipients) : string
     {
         $addresses = new ilMailOnlyExternalAddressList(
@@ -1424,7 +1409,6 @@ class ilMail
         ) . "\n\n";
     }
 
-    
     public static function _getIliasMailerName() : string
     {
         /** @var ilMailMimeSenderFactory $senderFactory */
@@ -1445,7 +1429,6 @@ class ilMail
         $this->appendInstallationSignature = $a_flag;
         return $this;
     }
-
 
     public static function _getInstallationSignature() : string
     {
@@ -1500,7 +1483,6 @@ class ilMail
             $name['lastname'] . ',';
     }
 
-    
     protected function getUserInstanceById(int $usrId) : ilObjUser
     {
         if (!isset($this->userInstancesByIdMap[$usrId])) {
@@ -1518,7 +1500,6 @@ class ilMail
         $this->userInstancesByIdMap = $userInstanceByIdMap;
     }
 
-    
     protected function getMailOptionsByUserId(int $usrId) : ilMailOptions
     {
         if (!isset($this->mailOptionsByUsrIdMap[$usrId])) {
@@ -1536,9 +1517,6 @@ class ilMail
         $this->mailOptionsByUsrIdMap = $mailOptionsByUsrIdMap;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function formatLinebreakMessage(string $message) : string
     {
         return $message;

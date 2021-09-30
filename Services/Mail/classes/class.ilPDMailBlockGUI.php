@@ -7,7 +7,6 @@ use ILIAS\Refinery\Factory as Refinery;
 /**
  * BlockGUI class for Personal Desktop Mail block
  * @author			Alex Killing <alex.killing@gmx.de>
- * @version		   $Id$
  * @ilCtrl_IsCalledBy ilPDMailBlockGUI: ilColumnGUI
  */
 class ilPDMailBlockGUI extends ilBlockGUI
@@ -36,7 +35,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
     protected array $mails = [];
     protected int $inbox;
 
-
     public function __construct()
     {
         global $DIC;
@@ -56,22 +54,15 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->setPresentation(self::PRES_SEC_LIST);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBlockType() : string
     {
         return self::$block_type;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isRepositoryObject() : bool
     {
         return false;
     }
-
 
     public static function getScreenMode() : string
     {
@@ -86,7 +77,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
         return IL_SCREEN_SIDE;
     }
-
 
     public function executeCommand() : string
     {
@@ -108,7 +98,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return parent::getHTML();
     }
 
-
     protected function getMails() : void
     {
         $umail = new ilMail($this->user->getId());
@@ -123,7 +112,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
         );
     }
 
-
     public function fillDataSection() : void
     {
         $this->getMails();
@@ -137,7 +125,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
             $this->setDataSection($this->getOverview());
         }
     }
-
 
     public function fillRow($a_set) : void
     {
@@ -178,12 +165,10 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->ctrl->clearParameters($this);
     }
 
-
     protected function getOverview() : string
     {
         return '<div class="small">' . (count($this->mails)) . " " . $this->lng->txt("mails_pl") . "</div>";
     }
-
 
     protected function showMail() : string
     {
@@ -226,7 +211,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
         return $content_block->getHTML();
     }
 
-
     public function deleteMail() : void
     {
         $this->lng->loadLanguageModule('mail');
@@ -258,7 +242,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
         $this->ctrl->redirectByClass(ilDashboardGUI::class, 'show');
     }
 
-    
     protected function preloadData(array $data) : void
     {
         $usr_ids = [];
@@ -278,10 +261,6 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     protected $new_rendering = true;
 
-
-    /**
-     * @inheritdoc
-     */
     protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
         $f = $this->ui->factory();
