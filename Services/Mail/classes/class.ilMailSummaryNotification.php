@@ -43,8 +43,8 @@ class ilMailSummaryNotification extends ilMailNotification
         $user_id = 0;
 
         while ($row = $this->db->fetchAssoc($res)) {
-            if ($user_id === 0 || (int)$row['user_id'] !== $user_id) {
-                $user_id = (int)$row['user_id'];
+            if ($user_id === 0 || (int) $row['user_id'] !== $user_id) {
+                $user_id = (int) $row['user_id'];
             }
             $users[$user_id][] = $row;
         }

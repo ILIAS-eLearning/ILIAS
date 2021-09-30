@@ -68,6 +68,7 @@ class ilMailAttachmentGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
         }
+
         foreach ($filesOfRequest as $file) {
             if (is_file($this->mfile->getMailPath() . '/'
                 . basename($this->user->getId() . '_' . urldecode($file)))
@@ -81,8 +82,9 @@ class ilMailAttachmentGUI
         }
 
         if (
+            $files !== [] &&
             null !== $this->mfile->getAttachmentsTotalSizeLimit() &&
-            $files && $sizeOfSelectedFiles > $this->mfile->getAttachmentsTotalSizeLimit()
+            $sizeOfSelectedFiles > $this->mfile->getAttachmentsTotalSizeLimit()
         ) {
             ilUtil::sendFailure(
                 $this->lng->txt('mail_max_size_attachments_total_error') . ' ' .
@@ -112,7 +114,7 @@ class ilMailAttachmentGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
         }
-        if (0 === count($files)) {
+        if ($files === []) {
             ilUtil::sendFailure($this->lng->txt('mail_select_one_file'));
             $this->showAttachments();
             return;
@@ -148,7 +150,7 @@ class ilMailAttachmentGUI
             );
         }
 
-        if (0 === count($files)) {
+        if ($files === []) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one_mail'));
             $this->showAttachments();
             return;
@@ -194,7 +196,7 @@ class ilMailAttachmentGUI
 
     public function uploadFile() : void
     {
-        if (trim($this->http->request()->getUploadedFiles()['userfile']['name']) !== '') {
+        if (strlen(trim($_FILES['userfile']['name']))) {
             $form = $this->getToolbarForm();
             if ($form->checkInput()) {
                 $this->mfile->storeUploadedFile($_FILES['userfile']);

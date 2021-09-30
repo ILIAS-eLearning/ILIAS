@@ -9,9 +9,7 @@ class ilMailCronOrphanedMailsFolderObject
 {
     protected int $folder_id = 0;
     protected string $folder_title = '';
-    /**
-     * @var ilMailCronOrphanedMailsFolderMailObject[]
-     */
+    /** @var ilMailCronOrphanedMailsFolderMailObject[]*/
     protected array $orphaned_mail_objects = [];
 
     public function __construct(int $folder_id)

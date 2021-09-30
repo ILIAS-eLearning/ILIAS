@@ -39,7 +39,7 @@ class ilMailGlobalServices
             );
 
             while ($row = $DIC->database()->fetchAssoc($res)) {
-                self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID] = $row['ref_id'];
+                self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID] = (int) $row['ref_id'];
             }
         } else {
             self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID] = MAIL_SETTINGS_ID;
@@ -48,15 +48,23 @@ class ilMailGlobalServices
         return (int) self::$global_mail_services_cache[self::CACHE_TYPE_REF_ID];
     }
 
-    public static function getNewMailsData(int $usr_id, int $leftInterval = 0) : array
+    /**
+     * @param ilObjUser $user
+     * @param int $leftInterval
+     * @return array{count: int, max_time: string}
+     */
+    public static function getNewMailsData(ilObjUser $user, int $leftInterval = 0) : array
     {
         global $DIC;
 
-        if (!$usr_id) {
-            return 0;
+        if ($user->isAnonymous() || 0 === $user->getId()) {
+            return [
+                'count' => 0,
+                'max_time' => (new DateTimeImmutable('@' . time()))->format('Y-m-d H:i:s')
+            ];
         }
 
-        $cacheKey = implode('_', [self::CACHE_TYPE_NEW_MAILS, $usr_id, $leftInterval]);
+        $cacheKey = implode('_', [self::CACHE_TYPE_NEW_MAILS, $user->getId(), $leftInterval]);
 
         if (
             isset(self::$global_mail_services_cache[$cacheKey]) &&
@@ -77,7 +85,7 @@ class ilMailGlobalServices
         $res = $DIC->database()->queryF(
             $query,
             ['integer', 'integer', 'text'],
-            [0, $usr_id, 'unread']
+            [0, $user->getId(), 'unread']
         );
         $row = $DIC->database()->fetchAssoc($res);
 
@@ -98,12 +106,12 @@ class ilMailGlobalServices
         $res = $DIC->database()->queryF(
             $query,
             ['text', 'integer', 'text'],
-            ['inbox', $usr_id, 'unread']
+            ['inbox', $user->getId(), 'unread']
         );
         $row2 = $DIC->database()->fetchAssoc($res);
 
         self::$global_mail_services_cache[$cacheKey] = [
-            'count' => (int) ($row['cnt'] + $row2['cnt']),
+            'count' => ((int) $row['cnt'] + (int) $row2['cnt']),
             'max_time' => max(
                 (string) $row['send_time'],
                 (string) $row2['send_time']

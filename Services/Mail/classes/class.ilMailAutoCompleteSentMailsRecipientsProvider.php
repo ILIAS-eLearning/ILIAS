@@ -7,9 +7,7 @@
  */
 class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRecipientProvider
 {
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $users_stack = [];
     
     /**
@@ -38,7 +36,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
 
     public function key() : string
     {
-        if (is_array($this->data)) {
+        if (is_array($this->data) && !empty($this->data)) {
             return $this->data['login'];
         }
 
@@ -69,7 +67,7 @@ class ilMailAutoCompleteSentMailsRecipientsProvider extends ilMailAutoCompleteRe
                 }
             }
             if ($this->users_stack) {
-                $this->data = null;
+                $this->data = [];
             }
         }
         return is_array($this->data) || count($this->users_stack) > 0;

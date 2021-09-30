@@ -15,13 +15,9 @@ class ilMailbox
     protected ilDBInterface $db;
     protected ilTree $mtree;
     protected int $usrId;
-    /**
-     * @var array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string}
-     */
+    /** @var array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string} */
     protected array $actions = [];
-    /**
-     * @var array{b_inbox => string, c_trash => string, d_drafts => string, e_sent => string, z_local => string}
-     */
+    /** @var array{b_inbox: string, c_trash: string, d_drafts: string, e_sent: string, z_local : string} */
     protected array $defaultFolders = [];
     protected string $table_mail_obj_data;
     protected string $table_tree;
@@ -120,10 +116,11 @@ class ilMailbox
 
     private function getRootFolderId() : int
     {
-        return $this->mtree->getRootId();
+        return (int) $this->mtree->getRootId();
     }
 
     /**
+     * @param int $folderId
      * @return array{moveMails: string, markMailsRead: string, markMailsUnread: string, deleteMails: string}
      */
     public function getActions(int $folderId) : array
@@ -237,7 +234,7 @@ class ilMailbox
 
             $mailIds = [];
             foreach ($mails as $mail) {
-                $mailIds[] = $mail['mail_id'];
+                $mailIds[] = (int) $mail['mail_id'];
             }
 
             $mailer->deleteMails($mailIds);
@@ -253,6 +250,7 @@ class ilMailbox
     }
 
     /**
+     * @param int $folderId
      * @return array{obj_id: int, title: string, type: string}
      */
     public function getFolderData(int $folderId) : array

@@ -8,18 +8,10 @@
  */
 class ilMailAttachmentTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
     public function __construct($a_parent_obj, $a_parent_cmd)
     {
         global $DIC;
 
-        $this->ctrl = $DIC->ctrl();
-
-        // Call this immediately in constructor
         $this->setId('mail_attachments');
 
         $this->setDefaultOrderDirection('ASC');
@@ -72,9 +64,6 @@ class ilMailAttachmentTableGUI extends ilTable2GUI
         );
     }
 
-    /**
-     * @param string $a_field
-     */
     public function numericOrdering($a_field) : bool
     {
         return $a_field === 'filesize' || $a_field === 'filecreatedate';

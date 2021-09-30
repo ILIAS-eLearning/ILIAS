@@ -2,10 +2,9 @@
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* @author	Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*/
+ * @author Stefan Meyer <meyer@leifos.com>
+ *
+ */
 class ilFormatMail extends ilMail
 {
     public function __construct(int $a_user_id)
@@ -13,26 +12,27 @@ class ilFormatMail extends ilMail
         parent::__construct($a_user_id);
     }
 
-    public function formatReplyMessage()
+    public function formatReplyMessage() : string
     {
         if (empty($this->mail_data)) {
-            return false;
+            return '';
         }
 
-        $bodylines = preg_split("/\r\n|\n|\r/", $this->mail_data["m_message"]);
+        $bodylines = preg_split("/\r\n|\n|\r/", $this->mail_data['m_message']);
         foreach ($bodylines as $i => $iValue) {
-            $bodylines[$i] = "> " . $iValue;
+            $bodylines[$i] = '> ' . $iValue;
         }
 
-        return $this->mail_data["m_message"] = implode(chr(10), $bodylines);
+        return $this->mail_data['m_message'] = implode(chr(10), $bodylines);
     }
 
-    public function formatReplySubject()
+    public function formatReplySubject() : string
     {
         if (empty($this->mail_data)) {
-            return false;
+            return '';
         }
-        return $this->mail_data["m_subject"] = "RE: " . $this->mail_data["m_subject"];
+
+        return $this->mail_data['m_subject'] = 'RE: ' . $this->mail_data['m_subject'];
     }
 
     public function formatReplyRecipientsForCC() : string
@@ -48,70 +48,67 @@ class ilFormatMail extends ilMail
         $currentUserLogin = $DIC->user()->getLogin();
 
         foreach (explode(',', $this->mail_data['rcp_to']) as $to) {
-            if (trim($to) !== '' && $currentUserLogin !== trim($to)) {
-                $newCC[] = trim($to);
+            $to = trim($to);
+            if ($to !== '' && $currentUserLogin !== $to) {
+                $newCC[] = $to;
             }
         }
 
         foreach (explode(',', $this->mail_data['rcp_cc']) as $cc) {
-            if (trim($cc) !== '' && $currentUserLogin !== trim($cc)) {
-                $newCC[] = trim($cc);
+            $cc = trim($cc);
+            if ($cc !== '' && $currentUserLogin !== $cc) {
+                $newCC[] = $cc;
             }
         }
 
-        return ($this->mail_data['rcp_cc'] = implode(', ', $newCC));
+        return $this->mail_data['rcp_cc'] = implode(', ', $newCC);
     }
 
-    public function formatReplyRecipient()
+    public function formatReplyRecipient() : string
     {
         if (empty($this->mail_data)) {
-            return false;
+            return '';
         }
 
-        $user = new ilObjUser($this->mail_data["sender_id"]);
-        return $this->mail_data["rcp_to"] = $user->getLogin();
+        $user = new ilObjUser((int) $this->mail_data['sender_id']);
+        return $this->mail_data['rcp_to'] = $user->getLogin();
     }
 
-    public function formatForwardSubject()
+    public function formatForwardSubject() : string
     {
         if (empty($this->mail_data)) {
-            return false;
+            return '';
         }
-        return $this->mail_data["m_subject"] = "[FWD: " . $this->mail_data["m_subject"] . "]";
+
+        return $this->mail_data['m_subject'] = '[FWD: ' . $this->mail_data['m_subject'] . ']';
     }
 
     /**
-    * @param string[] $a_names names to append
-    */
+     * @param string[] $a_names
+     * @param string $a_type
+     * @return array
+     */
     public function appendSearchResult(array $a_names, string $a_type) : array
     {
         $name_str = implode(',', $a_names);
-        switch ($a_type) {
-            case 'to':
-                if ($this->mail_data["rcp_to"]) {
-                    $this->mail_data["rcp_to"] = trim($this->mail_data["rcp_to"]);
-                    $this->mail_data["rcp_to"] .= ",";
-                }
-                $this->mail_data["rcp_to"] .= $name_str;
-                break;
 
-            case 'cc':
-                if ($this->mail_data["rcp_cc"]) {
-                    $this->mail_data["rcp_cc"] = trim($this->mail_data["rcp_cc"]);
-                    $this->mail_data["rcp_cc"] .= ",";
-                }
-                $this->mail_data["rcp_cc"] .= $name_str;
-                break;
-
-            case 'bc':
-                if ($this->mail_data["rcp_bcc"]) {
-                    $this->mail_data["rcp_bcc"] = trim($this->mail_data["rcp_bcc"]);
-                    $this->mail_data["rcp_bcc"] .= ",";
-                }
-                $this->mail_data["rcp_bcc"] .= $name_str;
-                break;
-
+        $key = 'rcp_to';
+        if ('cc' === $a_type) {
+            $key = 'rcp_cc';
+        } elseif ('bcc' === $a_type) {
+            $key = 'rcp_bcc';
         }
+
+        if (!isset($this->mail_data[$key]) || !is_string($this->mail_data[$key])) {
+            $this->mail_data[$key] = '';
+        } else {
+            $this->mail_data[$key] = trim($this->mail_data[$key]);
+        }
+
+        if ($this->mail_data[$key] !== '') {
+            $this->mail_data[$key] .= ',';
+        }
+        $this->mail_data[$key] .= $name_str;
 
         return $this->mail_data;
     }

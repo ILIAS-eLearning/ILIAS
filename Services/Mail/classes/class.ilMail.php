@@ -19,11 +19,9 @@ class ilMail
     public int $user_id;
     protected string $table_mail;
     protected string $table_mail_saved;
-    /**
-     * @var string[]|null
-     */
+    /** @var string[]|null */
     protected ?array $mail_data = [];
-    protected ?int $mail_obj_ref_id;
+    protected ?int $mail_obj_ref_id = null;
     protected bool $save_in_sentbox;
     protected bool $appendInstallationSignature = false;
     private ilAppEventHandler $eventHandler;
@@ -32,13 +30,9 @@ class ilMail
     protected $contextId;
     protected array $contextParameters = [];
     protected ilLogger $logger;
-    /**
-     * @var ilMailOptions[]
-     */
+    /** @var array<int, ilMailOptions> */
     protected array $mailOptionsByUsrIdMap = [];
-    /**
-     * @var ilObjUser[]
-     */
+    /** @var array<int, ilObjUser> */
     protected array $userInstancesByIdMap = [];
     protected $usrIdByLoginCallable;
     protected int $maxRecipientCharacterLength = 998;
@@ -141,7 +135,7 @@ class ilMail
 
     protected function isSystemMail() : bool
     {
-        return $this->user_id == ANONYMOUS_USER_ID;
+        return $this->user_id === ANONYMOUS_USER_ID;
     }
     
     public function existsRecipient(string $newRecipient, string $existingRecipients) : bool
@@ -176,10 +170,6 @@ class ilMail
         return $this->mail_obj_ref_id;
     }
 
-    /**
-     * Prepends the full name of each ILIAS login name (if user has a public profile) found
-     * in the passed string and brackets the ILIAS login name afterwards.
-     */
     public function formatNamesForOutput(string $recipients) : string
     {
         global $DIC;
@@ -209,9 +199,6 @@ class ilMail
         return implode(', ', $names);
     }
 
-    /**
-     * @return string[]|null
-     */
     public function getPreviousMail(int $mailId) : ?array
     {
         $this->db->setLimit(1, 0);
@@ -233,9 +220,6 @@ class ilMail
         return $this->mail_data;
     }
 
-    /**
-     * @return string[]|null
-     */
     public function getNextMail(int $mailId) : ?array
     {
         $this->db->setLimit(1, 0);
@@ -257,9 +241,6 @@ class ilMail
         return $this->mail_data;
     }
 
-    /**
-     * @return string[]
-     */
     public function getMailsOfFolder(int $a_folder_id, array $filter = []) : array
     {
         $mails = [];
@@ -310,9 +291,6 @@ class ilMail
         }
     }
 
-    /**
-     * @return string[]|null
-     */
     public function getMail(int $mailId) : ?array
     {
         $res = $this->db->queryF(
@@ -366,6 +344,8 @@ class ilMail
 
     /**
      * @param int[] $mailIds
+     * @param int $folderId
+     * @return bool
      */
     public function moveMailsToFolder(array $mailIds, int $folderId) : bool
     {
@@ -411,7 +391,8 @@ class ilMail
     }
 
     /**
-     * @param string[]|null $row
+     * @param array|null $row
+     * @return array|null
      */
     protected function fetchMailData(?array $row) : ?array
     {
@@ -420,13 +401,13 @@ class ilMail
         }
 
         if (isset($row['attachments'])) {
-            $row['attachments'] = unserialize(stripslashes($row['attachments']));
+            $row['attachments'] = unserialize(stripslashes($row['attachments']), ['allowed_classes' => false]);
         } else {
             $row['attachments'] = [];
         }
 
         if (isset($row['tpl_ctx_params']) && is_string($row['tpl_ctx_params'])) {
-            $decoded = json_decode($row['tpl_ctx_params'], true);
+            $decoded = json_decode($row['tpl_ctx_params'], true, 512, JSON_THROW_ON_ERROR);
             $row['tpl_ctx_params'] = (array) ($decoded ?? []);
         } else {
             $row['tpl_ctx_params'] = [];
@@ -435,12 +416,15 @@ class ilMail
         if (isset($row['mail_id'])) {
             $row['mail_id'] = (int) $row['mail_id'];
         }
+
         if (isset($row['user_id'])) {
             $row['user_id'] = (int) $row['user_id'];
         }
+
         if (isset($row['folder_id'])) {
             $row['folder_id'] = (int) $row['folder_id'];
         }
+
         if (isset($row['sender_id'])) {
             $row['sender_id'] = (int) $row['sender_id'];
         }
@@ -461,20 +445,35 @@ class ilMail
         return $nextId;
     }
 
+    /**
+     * @param int $a_folder_id
+     * @param string[] $a_attachments
+     * @param string $a_rcp_to
+     * @param string $a_rcp_cc
+     * @param string $a_rcp_bcc
+     * @param string $a_m_email
+     * @param string $a_m_subject
+     * @param string $a_m_message
+     * @param int $a_draft_id
+     * @param int $a_use_placeholders
+     * @param string|null $a_tpl_context_id
+     * @param array $a_tpl_context_params
+     * @return int
+     */
     public function updateDraft(
-        $a_folder_id,
-        $a_attachments,
-        $a_rcp_to,
-        $a_rcp_cc,
-        $a_rcp_bcc,
-        $a_m_email,
-        $a_m_subject,
-        $a_m_message,
-        $a_draft_id = 0,
-        $a_use_placeholders = 0,
-        $a_tpl_context_id = null,
-        $a_tpl_context_params = []
-    ) {
+        int $a_folder_id,
+        array $a_attachments,
+        string $a_rcp_to,
+        string $a_rcp_cc,
+        string $a_rcp_bcc,
+        string $a_m_email,
+        string $a_m_subject,
+        string $a_m_message,
+        int $a_draft_id = 0,
+        int $a_use_placeholders = 0,
+        ?string $a_tpl_context_id = null,
+        array $a_tpl_context_params = []
+    ) : int {
         $this->db->update(
             $this->table_mail,
             [
@@ -490,7 +489,7 @@ class ilMail
                 'm_message' => ['clob', $a_m_message],
                 'use_placeholders' => ['integer', $a_use_placeholders],
                 'tpl_ctx_id' => ['text', $a_tpl_context_id],
-                'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_context_params)],
+                'tpl_ctx_params' => ['blob', json_encode($a_tpl_context_params, JSON_THROW_ON_ERROR)],
             ],
             [
                 'mail_id' => ['integer', $a_draft_id],
@@ -500,20 +499,16 @@ class ilMail
         return $a_draft_id;
     }
 
-    /**
-     * @param string[] $attachments
-     */
     private function sendInternalMail(
         int $folderId,
-        ?int $senderUsrId,
-        ?array $attachments,
-        ?string $to,
-        ?string $cc,
-        ?string $bcc,
-        ?string $status,
-        ?int $email,
-        ?string $subject,
-        ?string $message,
+        int $senderUsrId,
+        array $attachments,
+        string $to,
+        string $cc,
+        string $bcc,
+        string $status,
+        string $subject,
+        string $message,
         int $usrId = 0,
         int $usePlaceholders = 0,
         string $templateContextId = null,
@@ -551,9 +546,6 @@ class ilMail
         if (!$status) {
             $status = null;
         }
-        if (!$email) {
-            $email = null;
-        }
         if (!$subject) {
             $subject = null;
         }
@@ -573,11 +565,11 @@ class ilMail
             'rcp_cc' => ['clob', $cc],
             'rcp_bcc' => ['clob', $bcc],
             'm_status' => ['text', $status],
-            'm_email' => ['integer', $email],
+            'm_email' => ['integer', null],
             'm_subject' => ['text', $subject],
             'm_message' => ['clob', $message],
             'tpl_ctx_id' => ['text', $templateContextId],
-            'tpl_ctx_params' => ['blob', json_encode((array) $templateContextParameters)],
+            'tpl_ctx_params' => ['blob', json_encode((array) $templateContextParameters, JSON_THROW_ON_ERROR)],
         ]);
 
         $raiseEvent = $usrId !== $this->mailbox->getUsrId();
@@ -625,7 +617,15 @@ class ilMail
     }
 
     /**
+     * @param string $to
+     * @param string $cc
+     * @param string $bcc
+     * @param string $subject
+     * @param string $message
      * @param string[] $attachments
+     * @param int $sentMailId
+     * @param bool $usePlaceholders
+     * @return bool
      */
     protected function distributeMail(
         string $to,
@@ -695,8 +695,15 @@ class ilMail
     }
 
     /**
-     * @param int[]  $usrIds
-     * @param string[]  $attachments
+     * @param string $to
+     * @param string $cc
+     * @param string $bcc
+     * @param int[] $usrIds
+     * @param string $subject
+     * @param string $message
+     * @param string[] $attachments
+     * @param int $sentMailId
+     * @param bool $usePlaceholders
      */
     protected function sendChanneledMails(
         string $to,
@@ -775,7 +782,6 @@ class ilMail
                 $cc,
                 '',
                 'unread',
-                0,
                 $subject,
                 $individualMessage,
                 $user->getId()
@@ -797,7 +803,12 @@ class ilMail
     }
 
     /**
+     * @param string $subject
+     * @param string $message
      * @param string[] $attachments
+     * @param bool $usePlaceholders
+     * @param array<int, string[]> $usrIdToExternalEmailAddressesMap
+     * @param array<int, string> $usrIdToMessageMap
      */
     protected function delegateExternalEmails(
         string $subject,
@@ -907,17 +918,21 @@ class ilMail
     }
 
     /**
+     * @param string $to
+     * @param string $cc
+     * @param string $bcc
+     * @param string $subject
      * @return ilMailError[]
      */
     protected function checkMail(string $to, string $cc, string $bcc, string $subject) : array
     {
         $errors = [];
 
-        foreach ([
-                     $subject => 'mail_add_subject',
-                     $to => 'mail_add_recipient',
-                 ] as $string => $error
-        ) {
+        $checks = [
+            $subject => 'mail_add_subject',
+            $to => 'mail_add_recipient',
+        ];
+        foreach ($checks as $string => $error) {
             if ($string === '') {
                 $errors[] = new ilMailError($error);
             }
@@ -927,6 +942,7 @@ class ilMail
     }
 
     /**
+     * @param string $recipients
      * @return ilMailError[]
      * @throws ilMailException
      */
@@ -956,7 +972,18 @@ class ilMail
     }
 
     /**
+     * @param int $a_user_id
      * @param string[]|null $a_attachments
+     * @param string|null $a_rcp_to
+     * @param string|null $a_rcp_cc
+     * @param string|null $a_rcp_bcc
+     * @param $a_m_email
+     * @param string $a_m_subject
+     * @param string|null $a_m_message
+     * @param $a_use_placeholders
+     * @param string|null $a_tpl_context_id
+     * @param array|null $a_tpl_ctx_params
+     * @return bool
      */
     public function savePostData(
         int $a_user_id,
@@ -1008,7 +1035,7 @@ class ilMail
                 'm_message' => ['clob', $a_m_message],
                 'use_placeholders' => ['integer', $a_use_placeholders],
                 'tpl_ctx_id' => ['text', $a_tpl_context_id],
-                'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_ctx_params)],
+                'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_ctx_params, JSON_THROW_ON_ERROR)],
             ]
         );
 
@@ -1032,7 +1059,13 @@ class ilMail
 
     /**
      * Should be used to enqueue a 'mail'. A validation is executed before, errors are returned
+     * @param string $a_rcp_to
+     * @param string $a_rcp_cc
+     * @param string $a_rcp_bcc
+     * @param string $a_m_subject
+     * @param string $a_m_message
      * @param string[] $a_attachment
+     * @param bool $a_use_placeholders
      * @return ilMailError[]
      */
     public function enqueue(
@@ -1142,8 +1175,16 @@ class ilMail
     /**
      * This method is used to finally send internal messages and external emails
      * To use the mail system as a consumer, please use ilMail::enqueue
+     * @param string $to
+     * @param string $cc
+     * @param string $bcc
+     * @param string $subject
+     * @param string $message
      * @param string[] $attachments
+     * @param bool $usePlaceholders
      * @return ilMailError[]
+     * @see ilMail::enqueue()
+     * @internal
      */
     public function sendMail(
         string $to,
@@ -1222,6 +1263,9 @@ class ilMail
     }
 
     /**
+     * @param string $to
+     * @param string $cc
+     * @param string $bcc
      * @return ilMailError[]
      */
     public function validateRecipients(string $to, string $cc, string $bcc) : array
@@ -1244,6 +1288,12 @@ class ilMail
 
     /**
      * @param string[] $attachment
+     * @param string $to
+     * @param string $cc
+     * @param string $bcc
+     * @param string $subject
+     * @param string $message
+     * @return int
      */
     protected function saveInSentbox(
         array $attachment,
@@ -1261,13 +1311,20 @@ class ilMail
             $cc,
             $bcc,
             'read',
-            0,
             $subject,
             $message,
             $this->user_id
         );
     }
 
+    /**
+     * @param string $to
+     * @param string $cc
+     * @param string $bcc
+     * @param string $subject
+     * @param string $message
+     * @param string[] $attachments
+     */
     private function sendMimeMail(
         string $to,
         string $cc,
@@ -1324,6 +1381,7 @@ class ilMail
 
     /**
      * Explode recipient string, allowed separators are ',' ';' ' '
+     * @param string $addresses
      * @return ilMailAddress[]
      */
     protected function parseAddresses(string $addresses) : array
@@ -1418,6 +1476,7 @@ class ilMail
     }
 
     /**
+     * @param bool|null $a_flag
      * @return self|bool
      */
     public function appendInstallationSignature(bool $a_flag = null)
@@ -1493,7 +1552,7 @@ class ilMail
     }
 
     /**
-     * @param ilObjUser[] $userInstanceByIdMap
+     * @param array<int, ilObjUser> $userInstanceByIdMap
      */
     public function setUserInstanceById(array $userInstanceByIdMap) : void
     {

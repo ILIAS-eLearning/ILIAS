@@ -17,7 +17,7 @@ class ilMailFolderGUI
 {
     private bool $confirmTrashDeletion = false;
     private bool $errorDelete = false;
-    /** @var ilGlobalTemplate */
+    /** @var ilGlobalTemplateInterface */
     private ilGlobalTemplateInterface $tpl;
     private ilCtrl $ctrl;
     private ilLanguage $lng;
@@ -57,7 +57,7 @@ class ilMailFolderGUI
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = (int) ilSession::get('mobj_id');
+            $folderId = $this->refinery->kindlyTo()->int()->transform(ilSession::get('mobj_id'));
         }
 
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
@@ -77,9 +77,6 @@ class ilMailFolderGUI
         return $originalCommand;
     }
 
-    /**
-     * @throws InvalidArgumentException
-     */
     protected function parseFolderIdFromCommand(string $command) : int
     {
         $matches = [];
@@ -428,11 +425,8 @@ class ilMailFolderGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
             );
         }
-        if (!is_array($mailIds)) {
-            return [];
-        }
 
-        if (0 === count($mailIds) && !$ignoreHttpGet) {
+        if ($mailIds === [] && !$ignoreHttpGet) {
             $mailId = 0;
             if ($this->http->wrapper()->query()->has('mail_id')) {
                 $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
@@ -448,7 +442,7 @@ class ilMailFolderGUI
     protected function markMailsRead() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
-        if (count($mailIds) > 0) {
+        if ($mailIds !== []) {
             $this->umail->markRead($mailIds);
             ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
         } else {
@@ -461,7 +455,7 @@ class ilMailFolderGUI
     protected function markMailsUnread() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
-        if (count($mailIds) > 0) {
+        if ($mailIds !== []) {
             $this->umail->markUnread($mailIds);
             ilUtil::sendSuccess($this->lng->txt('saved_successfully'));
         } else {
@@ -488,13 +482,14 @@ class ilMailFolderGUI
             );
         }
         $redirectFolderId = $newFolderId;
+
         foreach ($mailIds as $mailId) {
             $mailData = $this->umail->getMail($mailId);
             if (isset($mailData['folder_id']) &&
                 is_numeric($mailData['folder_id']) &&
                 (int) $mailData['folder_id'] > 0
             ) {
-                $redirectFolderId = $mailData['folder_id'];
+                $redirectFolderId = (int) $mailData['folder_id'];
                 break;
             }
         }
@@ -512,7 +507,7 @@ class ilMailFolderGUI
     protected function moveMails() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
-        if (0 === count($mailIds)) {
+        if ($mailIds === []) {
             $this->showFolder();
             ilUtil::sendInfo($this->lng->txt('mail_select_one'));
             return;
@@ -535,11 +530,11 @@ class ilMailFolderGUI
         $mailIds = $this->getMailIdsFromRequest();
 
         if ($trashFolderId === $this->currentFolderId) {
-            if (0 === count($mailIds)) {
+            if ($mailIds === []) {
                 ilUtil::sendInfo($this->lng->txt('mail_select_one'));
                 $this->errorDelete = true;
             }
-        } elseif (0 === count($mailIds)) {
+        } elseif ($mailIds === []) {
             ilUtil::sendInfo($this->lng->txt('mail_select_one'));
         } elseif ($this->umail->moveMailsToFolder($mailIds, $trashFolderId)) {
             ilUtil::sendSuccess($this->lng->txt('mail_moved_to_trash'), true);
@@ -555,7 +550,7 @@ class ilMailFolderGUI
     protected function confirmDeleteMails() : void
     {
         $mailIds = $this->getMailIdsFromRequest();
-        if (0 === count($mailIds)) {
+        if ($mailIds === []) {
             $this->showFolder();
             ilUtil::sendInfo($this->lng->txt('mail_select_one'));
             return;
@@ -687,11 +682,9 @@ class ilMailFolderGUI
 
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
             $from->setHtml($picture . ' ' . $linked_fullname);
-            $form->addItem($from);
         } elseif (!$sender || !$sender->getId()) {
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
             $from->setHtml($mailData['import_name'] . ' (' . $this->lng->txt('user_deleted') . ')');
-            $form->addItem($from);
         } else {
             $from = new ilCustomInputGUI($this->lng->txt('from') . ':');
             $from->setHtml(
@@ -706,8 +699,8 @@ class ilMailFolderGUI
                 ) .
                 '<br />' . ilMail::_getIliasMailerName()
             );
-            $form->addItem($from);
         }
+        $form->addItem($from);
 
         $to = new ilCustomInputGUI($this->lng->txt('mail_to') . ':');
         $to->setHtml(ilUtil::htmlencodePlainString(
@@ -762,7 +755,7 @@ class ilMailFolderGUI
         }
 
         $isTrashFolder = false;
-        if ($this->mbox->getTrashFolder() == $mailData['folder_id']) {
+        if ($this->mbox->getTrashFolder() === $mailData['folder_id']) {
             $isTrashFolder = true;
         }
 
@@ -906,8 +899,9 @@ class ilMailFolderGUI
         if ($this->http->wrapper()->query()->has('mail_id')) {
             $mailId = $this->http->wrapper()->query()->retrieve('mail_id', $this->refinery->kindlyTo()->int());
         }
+
         if ((int) ilSession::get('mail_id') > 0) {
-            $mailId = ilSession::get('mail_id');
+            $mailId = (int) ilSession::get('mail_id');
             ilSession::set('mail_id', null);
         }
 
@@ -915,6 +909,7 @@ class ilMailFolderGUI
         if ($this->http->wrapper()->post()->has('filename')) {
             $filename = $this->http->wrapper()->post()->retrieve('filename', $this->refinery->kindlyTo()->string());
         }
+
         if (is_string(ilSession::get('filename')) && ilSession::get('filename') !== '') {
             $filename = ilSession::get('filename');
             ilSession::set('filename', null);
@@ -922,7 +917,7 @@ class ilMailFolderGUI
 
         try {
             if ($mailId > 0 && $filename !== '') {
-                while (strpos($filename, '..')) {
+                while (strpos($filename, '..') !== false) {
                     $filename = str_replace('..', '', $filename);
                 }
 

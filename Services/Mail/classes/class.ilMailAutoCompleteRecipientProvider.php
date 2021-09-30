@@ -7,10 +7,8 @@
 abstract class ilMailAutoCompleteRecipientProvider implements Iterator
 {
     protected ilDBInterface $db;
-    protected ?ilDBStatement $res;
-    /**
-     * @var string[]
-     */
+    protected ?ilDBStatement $res = null;
+    /** @var string[] */
     protected array $data = [];
     protected $quoted_term = '';
     protected string $term = '';
@@ -30,7 +28,7 @@ abstract class ilMailAutoCompleteRecipientProvider implements Iterator
     {
         $this->data = $this->db->fetchAssoc($this->res);
 
-        return is_array($this->data);
+        return is_array($this->data) && !empty($this->data);
     }
 
     public function next() : void

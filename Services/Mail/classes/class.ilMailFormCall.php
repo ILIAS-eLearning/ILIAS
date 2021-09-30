@@ -17,6 +17,11 @@ class ilMailFormCall
 
     /**
      * @param object|string $gui
+     * @param string $cmd
+     * @param array $gui_params
+     * @param array $mail_params
+     * @param array $context_params
+     * @return string
      */
     public static function getLinkTarget(
         $gui,
@@ -30,6 +35,11 @@ class ilMailFormCall
 
     /**
      * @param object|string $gui
+     * @param string $cmd
+     * @param array $gui_params
+     * @param array $mail_params
+     * @param array $context_params
+     * @return string
      */
     public static function getRedirectTarget(
         $gui,
@@ -42,7 +52,13 @@ class ilMailFormCall
     }
 
     /**
+     * @param string $argument_separator
      * @param object|string $gui
+     * @param string $cmd
+     * @param array $gui_params
+     * @param array $mail_params
+     * @param array $context_params
+     * @return string
      */
     protected static function getTargetUrl(
         string $argument_separator,
@@ -85,7 +101,7 @@ class ilMailFormCall
     }
 
     /**
-     * @param string[] $queryParameters
+     * @param array<string, mixed> $queryParameters
      */
     public static function storeReferer(array $queryParameters) : void
     {

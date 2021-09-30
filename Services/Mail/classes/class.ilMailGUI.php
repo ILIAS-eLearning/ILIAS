@@ -298,7 +298,7 @@ class ilMailGUI
             $this->ctrl->clearParametersByClass(ilMailOptionsGUI::class);
         }
 
-        switch ($this->forwardClass) {
+        switch (strtolower($this->forwardClass)) {
             case strtolower(ilMailFormGUI::class):
                 $DIC->tabs()->setTabActive('compose');
                 break;

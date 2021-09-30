@@ -28,10 +28,9 @@ class ilMailCronOrphanedMailsNotifier
 
     private function markAsNotified(ilMailCronOrphanedMailsNotificationCollectionObj $collection_obj) : void
     {
+        $notify_days_before = 1;
         if ($this->threshold > $this->mail_notify_orphaned) {
             $notify_days_before = $this->threshold - $this->mail_notify_orphaned;
-        } else {
-            $notify_days_before = 1;
         }
 
         $ts_delete = strtotime("+ " . $notify_days_before . " days");

@@ -12,15 +12,11 @@ class ilMailAutoCompleteRecipientResult
     public const MAX_RESULT_ENTRIES = 1000;
     protected bool $allow_smtp;
     protected int $user_id;
-    /**
-     * @var int[]
-     */
+    /** @var int[] */
     protected array $handled_recipients = [];
     protected int $mode = self::MODE_STOP_ON_MAX_ENTRIES;
     protected int $max_entries;
-    /**
-     * @var array{hasMoreResults: bool, items: array}
-     */
+    /** @var array{hasMoreResults: bool, items: array} */
     public array $result = [];
 
     public function __construct(int $mode)
@@ -42,7 +38,7 @@ class ilMailAutoCompleteRecipientResult
      */
     protected function initMode(int $mode) : void
     {
-        if (!in_array($mode, [self::MODE_FETCH_ALL, self::MODE_STOP_ON_MAX_ENTRIES])) {
+        if (!in_array($mode, [self::MODE_FETCH_ALL, self::MODE_STOP_ON_MAX_ENTRIES], true)) {
             throw new InvalidArgumentException("Wrong mode passed!");
         }
         $this->mode = $mode;
@@ -50,8 +46,10 @@ class ilMailAutoCompleteRecipientResult
 
     public function isResultAddable() : bool
     {
-        if ($this->mode === self::MODE_STOP_ON_MAX_ENTRIES &&
-        $this->max_entries >= 0 && count($this->result['items']) >= $this->max_entries) {
+        if (
+            $this->mode === self::MODE_STOP_ON_MAX_ENTRIES &&
+            $this->max_entries >= 0 && count($this->result['items']) >= $this->max_entries
+        ) {
             return false;
         }
 
@@ -61,6 +59,7 @@ class ilMailAutoCompleteRecipientResult
         ) {
             return false;
         }
+
         return true;
     }
 
