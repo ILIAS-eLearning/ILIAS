@@ -54,7 +54,6 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
             $ass_id = (int) substr($context_id, 0, -1);
             // 1 is peer review deadline
             if ($subtype != 1) {
-                include_once './Modules/Exercise/classes/class.ilExAssignment.php';
                 $ass = new ilExAssignment($ass_id);
                 if ($ass->getExerciseId() == $exc_obj_id) {
                     $idl = $ass->getPersonalDeadline($this->user_id);
@@ -87,7 +86,6 @@ class ilCalendarScheduleFilterExercise implements ilCalendarScheduleFilter
             $exc_obj_id = $cal_cat->getObjId();
             
             include_once './Services/Calendar/classes/class.ilCalendarCategoryAssignments.php';
-            include_once './Modules/Exercise/classes/class.ilExAssignment.php';
             foreach (ilExAssignment::getInstancesByExercise($exc_obj_id) as $ass) {
                 $idl = $ass->getPersonalDeadline($this->user_id);
 

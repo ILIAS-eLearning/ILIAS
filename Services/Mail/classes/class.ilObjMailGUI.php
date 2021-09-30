@@ -675,7 +675,7 @@ class ilObjMailGUI extends ilObjectGUI
         if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
             ilUtil::redirect('ilias.php?baseClass=ilMailGUI');
         } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
-            $_GET['cmd'] = 'frameset';
+            $_GET['cmd'] = '';
             $_GET['target'] = '';
             $_GET['ref_id'] = ROOT_FOLDER_ID;
             $_GET['baseClass'] = 'ilRepositoryGUI';

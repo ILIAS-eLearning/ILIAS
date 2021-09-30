@@ -1,4 +1,4 @@
-# MediaObjects
+# Media Objects
 
 ## Business Rules
 

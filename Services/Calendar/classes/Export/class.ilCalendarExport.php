@@ -286,7 +286,10 @@ class ilCalendarExport
             foreach (ilCalendarRecurrenceExclusions::getExclusionDates($app->getEntryId()) as $excl) {
                 $this->writer->addLine($excl->toICal());
             }
-            $this->writer->addLine($rec->toICal($ilUser->getId()));
+            $recurrence_ical = $rec->toICal($ilUser->getId());
+            if (strlen($recurrence_ical)) {
+                $this->writer->addLine($recurrence_ical);
+            }
         }
     }
     

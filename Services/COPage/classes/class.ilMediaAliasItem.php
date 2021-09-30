@@ -903,8 +903,8 @@ class ilMediaAliasItem
     */
     public function makeMapWorkCopy(
         $a_st_item,
-        $a_area_nr = 0,
-        $a_exclude = false,
+        $a_area_nr,
+        $a_exclude,
         $a_output_new_area,
         $a_area_type,
         $a_coords

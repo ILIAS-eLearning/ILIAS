@@ -19,7 +19,9 @@ function ui()
 }
 
 
+
 if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
+    chdir('../../../../../../');
     _initIliasForPreview();
 
     global $DIC;
@@ -55,13 +57,6 @@ if (isset($_GET['new_ui']) && $_GET['new_ui'] == '1') {
         'ILIAS', //short title
         'Std. Page Demo' //view title
     )
-        /*
-        ->withModeInfo($f->mainControls()->modeInfo("Member View", new URI($_SERVER['HTTP_REFERER'])))
-        ->withSystemInfos(
-            [$f->mainControls()->systemInfo('This is an neutral Message!', 'read it, understand it, dismiss it...')
-               ->withDismissAction(new URI($_SERVER['HTTP_REFERER']))]
-        )
-        */
     ->withUIDemo(true);
 
     echo $renderer->render($page);
@@ -79,10 +74,10 @@ if (isset($_GET['replaced']) && $_GET['replaced'] == '1') {
 
 function _initIliasForPreview()
 {
-    chdir('../../../../../../');
     require_once("Services/Init/classes/class.ilInitialisation.php");
-    require_once('src/UI/examples/Layout/Page/Standard/ui.php');
     \ilInitialisation::initILIAS();
+    global $DIC;
+    $DIC->globalScreen()->layout()->meta()->addCss("./templates/default/delos.css");
 }
 
 function pagedemoCrumbs($f)

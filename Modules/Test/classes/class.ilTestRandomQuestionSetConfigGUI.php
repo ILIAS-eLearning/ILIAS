@@ -575,7 +575,6 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $this->questionSetConfig->loadFromDb();
         
-        require_once 'Services/Repository/classes/class.ilTestQuestionPoolSelectorExplorer.php';
         $selector = new ilTestQuestionPoolSelectorExplorer(
             $this,
             self::CMD_SHOW_POOL_SELECTOR_EXPLORER,

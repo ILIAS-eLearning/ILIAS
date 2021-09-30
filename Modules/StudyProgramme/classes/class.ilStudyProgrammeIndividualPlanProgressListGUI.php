@@ -19,12 +19,12 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
         return $this->progress->isRelevant();
     }
     
-    public function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress)
+    public function shouldShowSubProgress(ilStudyProgrammeProgress $a_progress)
     {
         return true;
     }
     
-    public function newSubItem(ilStudyProgrammeUserProgress $a_progress)
+    public function newSubItem(ilStudyProgrammeProgress $a_progress)
     {
         return new ilStudyProgrammeIndividualPlanProgressListGUI($a_progress);
     }
@@ -32,16 +32,21 @@ class ilStudyProgrammeIndividualPlanProgressListGUI extends ilStudyProgrammeExpa
     protected function getTitleForItem(ilObjStudyProgramme $a_programme)
     {
         $title = $a_programme->getTitle();
-        if (!$this->progress->isRelevant() || $this->progress->getStudyProgramme()->getStatus() == ilStudyProgrammeSettings::STATUS_OUTDATED) {
+        if (!$this->progress->isRelevant()
+            || $a_programme->getStatus() == ilStudyProgrammeSettings::STATUS_OUTDATED
+        ) {
             return "<s>" . $title . "</s>";
         }
         return $title;
     }
     
-    protected function buildProgressStatus(ilStudyProgrammeUserProgress $a_progress)
+    protected function buildProgressStatus(ilStudyProgrammeProgress $a_progress)
     {
+        $programme = ilObjStudyProgramme::getInstanceByObjId($a_progress->getNodeId());
+        $can_be_completed = $programme->canBeCompleted($a_progress);
+        
         $points = parent::buildProgressStatus($a_progress);
-        if (!$a_progress->canBeCompleted() && !$a_progress->isSuccessful()) {
+        if (!$can_be_completed && !$a_progress->isSuccessful()) {
             return "<img src='" . ilUtil::getImagePath("icon_alert.svg") . "' alt='" . $this->il_lng->txt("warning") . "'>" . $points;
         } else {
             return $points;

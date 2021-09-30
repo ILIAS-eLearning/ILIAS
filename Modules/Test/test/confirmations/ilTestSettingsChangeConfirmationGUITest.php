@@ -12,24 +12,29 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
 {
     private ilTestSettingsChangeConfirmationGUI $testSettingsChangeConfirmationGUI;
     /**
-     * @var ilObjTest|mixed|MockObject
+     * @var ilObjTest|MockObject
      */
     private $testObj_mock;
     /**
-     * @var ilLanguage|mixed|MockObject
+     * @var ilLanguage|MockObject
      */
     private $lng_mock;
 
     protected function setUp() : void
     {
         parent::setUp();
-        $this->lng_mock = $this->createMock(ilLanguage::class);
-        $this->testObj_mock = $this->createMock(ilObjTest::class);
-        $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI($this->lng_mock,
-            $this->testObj_mock);
+        $this->lng_mock = $this->getMockBuilder(ilLanguage::class)->disableOriginalConstructor()->getMock();
+        $this->testObj_mock = $this->getMockBuilder(ilObjTest::class)->disableOriginalConstructor()->getMock();
+
+        $this->setGlobalVariable('lng', $this->lng_mock);
+
+        $this->testSettingsChangeConfirmationGUI = new ilTestSettingsChangeConfirmationGUI(
+            $this->lng_mock,
+            $this->testObj_mock
+        );
     }
 
-    protected function testSetAndGetOldQuestionSetType() : void
+    public function testSetAndGetOldQuestionSetType() : void
     {
         $expect = "testType";
 
@@ -38,7 +43,7 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
         $this->assertEquals($expect, $this->testSettingsChangeConfirmationGUI->getOldQuestionSetType());
     }
 
-    protected function testSetAndGetNewQuestionSetType() : void
+    public function testSetAndGetNewQuestionSetType() : void
     {
         $expect = "testType";
 
@@ -47,7 +52,7 @@ class ilTestSettingsChangeConfirmationGUITest extends ilTestBaseTestCase
         $this->assertEquals($expect, $this->testSettingsChangeConfirmationGUI->getNewQuestionSetType());
     }
 
-    protected function testSetAndIsQuestionLossInfoEnabled() : void
+    public function testSetAndIsQuestionLossInfoEnabled() : void
     {
         $expect = true;
 

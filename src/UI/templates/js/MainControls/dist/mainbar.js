@@ -914,10 +914,12 @@ var renderer = function($) {
         },
         focusSubentry: function(triggered_entry_id) {
             var dom_id = dom_references[triggered_entry_id],
-                first = $('#' + dom_id.slate)
+                someting_to_focus_on = $('#' + dom_id.slate)
                     .children().first()
                     .children().first();
-            first[0].focus();
+            if(someting_to_focus_on[0]){
+                someting_to_focus_on[0].focus();
+            }
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];

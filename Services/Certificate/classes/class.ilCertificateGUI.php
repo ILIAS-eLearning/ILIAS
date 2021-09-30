@@ -133,7 +133,7 @@ class ilCertificateGUI
         $this->settingsFormFactory = $settingsFormFactory;
 
         if (null === $templateRepository) {
-            $templateRepository = new ilCertificateTemplateRepository($DIC->database(), $logger);
+            $templateRepository = new ilCertificateTemplateDatabaseRepository($DIC->database(), $logger);
         }
         $this->templateRepository = $templateRepository;
 
@@ -312,7 +312,6 @@ class ilCertificateGUI
 
     /**
      * Deletes the certificate and all its data
-     * @throws ilDatabaseException
      */
     public function certificateDeleteConfirm() : void
     {
@@ -596,11 +595,7 @@ class ilCertificateGUI
         $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
     }
 
-    /**
-     * @param ilCertificateTemplate $certificateTemplate
-     * @return array|mixed
-     */
-    private function createFormatArray(ilCertificateTemplate $certificateTemplate)
+    private function createFormatArray(ilCertificateTemplate $certificateTemplate) : array
     {
         if ('' === $certificateTemplate->getCertificateHash()) {
             $format = $this->settings->get('pageformat');

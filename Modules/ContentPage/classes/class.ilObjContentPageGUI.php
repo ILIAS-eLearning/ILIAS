@@ -74,7 +74,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->infoScreenEnabled = (bool) ilContainer::_lookupContainerSetting(
                 $this->object->getId(),
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-                true
+                '1'
             );
         }
 

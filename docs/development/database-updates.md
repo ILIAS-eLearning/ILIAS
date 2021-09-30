@@ -82,14 +82,14 @@ class MyDBUpdateSteps implements ilDatabaseUpdateSteps
         $this->db = $db;
     }
 
-    public function step_1(\ilDBInterface $db)
+    public function step_1()
     {
-        //... your code using $db
+        //... your code using $this->db
     }
 
-    public function step_2(\ilDBInterface $db)
+    public function step_2()
     {
-        //... your code using $db
+        //... your code using $this->db
     }
 }
 ```

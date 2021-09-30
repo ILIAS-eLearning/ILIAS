@@ -11,11 +11,6 @@
 class ilObjRecoveryFolderGUI extends ilContainerGUI
 {
     /**
-     * @var ilRbacAdmin
-     */
-    protected $rbacadmin;
-
-    /**
      * @var ilRbacSystem
      */
     protected $rbacsystem;
@@ -52,9 +47,9 @@ class ilObjRecoveryFolderGUI extends ilContainerGUI
         exit();
     }
 
-    public function removeFromSystemObject()
+    public function removeFromSystemObject() : void
     {
-        $ru = new ilRepUtilGUI($this);
+        $ru = new ilRepositoryTrashGUI($this);
         $ru->removeObjectsFromSystem($_POST["id"], true);
         $this->ctrl->redirect($this, "view");
     }

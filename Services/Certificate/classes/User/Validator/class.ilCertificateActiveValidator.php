@@ -30,7 +30,7 @@ class ilCertificateActiveValidator
             return false;
         }
 
-        $serverActive = (bool) $this->rpcSettings->isEnabled();
+        $serverActive = $this->rpcSettings->isEnabled();
 
         if (false === $serverActive) {
             return false;

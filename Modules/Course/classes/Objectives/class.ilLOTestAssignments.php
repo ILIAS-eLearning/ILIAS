@@ -17,11 +17,7 @@ class ilLOTestAssignments
     private $settings = null;
     
     
-    /**
-     * Constructor
-     * @param type $a_container_id
-     */
-    public function __construct($a_container_id)
+    public function __construct(int $a_container_id)
     {
         $this->container_id = $a_container_id;
         
@@ -30,12 +26,7 @@ class ilLOTestAssignments
         $this->readTestAssignments();
     }
     
-    /**
-     * Get instance by container id
-     * @param type $a_container_id
-     * @return ilLOTestAssignments
-     */
-    public static function getInstance($a_container_id)
+    public static function getInstance(int $a_container_id) : self
     {
         if (self::$instances[$a_container_id]) {
             return self::$instances[$a_container_id];
@@ -43,11 +34,7 @@ class ilLOTestAssignments
         return self::$instances[$a_container_id] = new self($a_container_id);
     }
     
-    /**
-     *
-     * @param type $a_test_ref_id
-     */
-    public static function lookupContainerForTest($a_test_ref_id)
+    public static function lookupContainerForTest(int $a_test_ref_id) : int
     {
         global $DIC;
 
@@ -133,8 +120,8 @@ class ilLOTestAssignments
 
     /**
      *
-     * @param type $a_objective_id
-     * @param type $a_type
+     * @param int $a_objective_id
+     * @param int $a_type
      * @return int
      */
     public function getTestByObjective($a_objective_id, $a_type)

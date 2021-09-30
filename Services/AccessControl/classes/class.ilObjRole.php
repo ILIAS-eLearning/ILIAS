@@ -2,8 +2,6 @@
 
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "./Services/Object/classes/class.ilObject.php";
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilObjRole

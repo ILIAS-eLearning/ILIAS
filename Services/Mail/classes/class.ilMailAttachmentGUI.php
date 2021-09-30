@@ -75,7 +75,7 @@ class ilMailAttachmentGUI
         $sizeOfSelectedFiles = 0;
         $filesOfRequest = (array) ($this->request->getParsedBody()['filename'] ?? []);
         foreach ($filesOfRequest as $file) {
-            if (file_exists($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)))) {
+            if (is_file($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)))) {
                 $files[] = urldecode($file);
                 $sizeOfSelectedFiles += filesize($this->mfile->getMailPath() . '/' . basename($this->user->getId() . '_' . urldecode($file)));
             }

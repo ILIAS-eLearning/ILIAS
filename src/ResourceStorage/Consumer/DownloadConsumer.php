@@ -17,7 +17,7 @@ class DownloadConsumer extends BaseConsumer implements DeliveryConsumer
 
         $revision = $this->getRevision();
 
-        $file_name = $this->file_name_policy->prepareFileNameForConsumer($revision->getInformation()->getTitle());
+        $file_name = $this->file_name_policy->prepareFileNameForConsumer($this->file_name ?? $revision->getInformation()->getTitle());
         $mime_type = $revision->getInformation()->getMimeType();
 
         $response = $DIC->http()->response();

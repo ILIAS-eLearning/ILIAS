@@ -68,10 +68,11 @@ Point 2
 -------
 
 General Refactoring:
-- ilSkillSelfEvaluationGUI is not used anymore -> remove
-- ilSelfEvaluationTableGUI is not used anymore -> remove
-- ilSkillSelfEvaluation is not used anymore -> remove
-- Table skl_self_eval not used anymore -> remove
+- ilSkillSelfEvaluationGUI is not used anymore -> removed
+- ilSkillSelfEvalSkillTableGUI is not used anymore -> removed
+- ilSelfEvaluationTableGUI is not used anymore -> removed
+- ilSkillSelfEvaluation is not used anymore -> removed
+- Table skl_self_eval and skl_self_eval_level not used anymore -> removed
 
 Todo 4.4
 ========

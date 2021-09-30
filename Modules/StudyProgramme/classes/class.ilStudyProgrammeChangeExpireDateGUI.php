@@ -77,11 +77,6 @@ class ilStudyProgrammeChangeExpireDateGUI
     protected $data_factory;
 
     /**
-     * @var ilStudyProgrammeUserProgressDB
-     */
-    protected $user_progress_db;
-
-    /**
      * @var array
      */
     protected $progress_ids;
@@ -96,6 +91,11 @@ class ilStudyProgrammeChangeExpireDateGUI
      */
     protected $object;
 
+    /**
+     * @var ilPRGMessages
+     */
+    protected $messages;
+
     public function __construct(
         ilCtrl $ctrl,
         ilGlobalTemplateInterface $tpl,
@@ -107,7 +107,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         ServerRequest $request,
         \ILIAS\Refinery\Factory $refinery_factory,
         \ILIAS\Data\Factory $data_factory,
-        ilStudyProgrammeUserProgressDB $user_progress_db
+        ilPRGMessagePrinter $messages
     ) {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
@@ -119,7 +119,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         $this->request = $request;
         $this->refinery_factory = $refinery_factory;
         $this->data_factory = $data_factory;
-        $this->user_progress_db = $user_progress_db;
+        $this->messages = $messages;
     }
 
     public function executeCommand() : void
@@ -190,9 +190,8 @@ class ilStudyProgrammeChangeExpireDateGUI
         $format = $this->data_factory->dateFormat()->germanShort();
         $vq_date_sub_form = $ff
             ->dateTime('', $txt('validity_qualification_date_desc'))
-            ->withMinValue(new DateTimeImmutable())
             ->withFormat($format);
-        $date = $prg->getValidityOfQualificationSettings()->getQualificationDate();
+        $date = $prg->getSettings()->getValidityOfQualificationSettings()->getQualificationDate();
         if ($date !== null) {
             $vq_date_sub_form = $vq_date_sub_form->withValue($date->format($format->toString()));
             $option = ilObjStudyProgrammeSettingsGUI::OPT_VALIDITY_OF_QUALIFICATION_DATE;
@@ -234,42 +233,30 @@ class ilStudyProgrammeChangeExpireDateGUI
 
         $result = $form->getInputGroup()->getContent();
 
+        $msg_collection = $this->messages->getMessageCollection('msg_change_expire_date');
+
         if ($result->isOK()) {
             $values = $result->value();
-            foreach ($this->getProgressIds() as $prgs_id) {
-                /** @var ilStudyProgrammeUserProgress $prgs */
-                $progress = $this->user_progress_db->getInstanceById($prgs_id);
-                $status = $progress->getStatus();
+            $programme = $this->getObject();
+            $acting_usr_id = $this->user->getId();
 
-                if (
-                    $status != ilStudyProgrammeProgress::STATUS_COMPLETED &&
-                    $status != ilStudyProgrammeProgress::STATUS_ACCREDITED
-                ) {
-                    continue;
+            $vq_data = $values[0][self::PROP_VALIDITY_OF_QUALIFICATION];
+            $vq_type = $vq_data[0];
+            $validity = null;
+            if ($vq_type === ilObjStudyProgrammeSettingsGUI::OPT_VALIDITY_OF_QUALIFICATION_DATE) {
+                $validity = DateTimeImmutable::createFromFormat('d.m.Y', array_shift($vq_data[1]));
+                if (!$validity) {
+                    ilUtil::sendFailure($this->lng->txt('error_updating_expire_date'), true);
+                    $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
                 }
-
-                $vq_data = $values[0][self::PROP_VALIDITY_OF_QUALIFICATION];
-                $vq_type = $vq_data[0];
-
-                switch ($vq_type) {
-                    case ilObjStudyProgrammeSettingsGUI::OPT_NO_VALIDITY_OF_QUALIFICATION:
-                        $progress->setValidityOfQualification(null);
-                        break;
-                    case ilObjStudyProgrammeSettingsGUI::OPT_VALIDITY_OF_QUALIFICATION_DATE:
-                        $progress->setValidityOfQualification(
-                            DateTime::createFromFormat('d.m.Y', array_shift($vq_data[1]))
-                        );
-                        break;
-                }
-
-                $progress->updateProgress($this->user->getId());
-                $progress->updateFromProgramNode();
+            }
+            foreach ($this->getProgressIds() as $progress_id) {
+                $programme->changeProgressValidityDate($progress_id, $acting_usr_id, $msg_collection, $validity, );
             }
 
-            ilUtil::sendSuccess($this->lng->txt('update_expire_date'), true);
+            $this->messages->showMessages($msg_collection);
             $this->ctrl->redirectByClass('ilObjStudyProgrammeMembersGUI', 'view');
         }
-
         ilUtil::sendFailure($this->lng->txt('error_updating_expire_date'), true);
         $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
     }
@@ -291,7 +278,7 @@ class ilStudyProgrammeChangeExpireDateGUI
 
     public function setProgressIds(array $progress_ids) : void
     {
-        $this->progress_ids = $progress_ids;
+        $this->progress_ids = array_map('intval', $progress_ids);
     }
 
     protected function getRefId() : int

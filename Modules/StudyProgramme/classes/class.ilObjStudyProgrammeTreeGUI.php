@@ -5,7 +5,6 @@ require_once("./Services/UIComponent/Modal/classes/class.ilModalGUI.php");
 require_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 require_once("./Modules/StudyProgramme/classes/helpers/class.ilAsyncContainerSelectionExplorer.php");
 require_once("./Modules/StudyProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php");
-require_once('./Services/Container/classes/class.ilContainerSorting.php');
 require_once("./Modules/StudyProgramme/classes/helpers/class.ilAsyncNotifications.php");
 require_once("./Modules/CourseReference/classes/class.ilObjCourseReference.php");
 

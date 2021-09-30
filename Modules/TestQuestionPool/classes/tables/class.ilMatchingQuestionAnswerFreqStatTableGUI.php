@@ -19,7 +19,7 @@ class ilMatchingQuestionAnswerFreqStatTableGUI extends ilAnswerFrequencyStatisti
      */
     protected $question;
     
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $question)
+    public function __construct($a_parent_obj, $a_parent_cmd = "", $question = "")
     {
         parent::__construct($a_parent_obj, $a_parent_cmd, $question);
         $this->setDefaultOrderField('term');

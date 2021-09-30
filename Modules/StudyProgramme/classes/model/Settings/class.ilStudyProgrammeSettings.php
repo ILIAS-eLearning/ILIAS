@@ -42,10 +42,10 @@ class ilStudyProgrammeSettings
     // already.
     const STATUS_DRAFT = 10;
 
-    // The program is active, that is used can be assigned to it.
+    // The program is active, that is users can be assigned to it.
     const STATUS_ACTIVE = 20;
 
-    // The program is outdated, that is user won't be assigned to it but can
+    // The program is outdated, that is users won't be assigned to it but can
     // still complete the program.
     const STATUS_OUTDATED = 30;
 

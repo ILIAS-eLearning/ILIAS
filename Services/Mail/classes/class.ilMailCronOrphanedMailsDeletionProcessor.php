@@ -85,7 +85,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
                             $path_name,
                             $mail_id
                         ));
-                    } elseif (file_exists($path_name) && unlink($path_name)) {
+                    } elseif (is_file($path_name) && unlink($path_name)) {
                         ilLoggerFactory::getLogger('mail')->info(sprintf(
                             'Attachment file (%s) deleted for mail_id: %s',
                             $path_name,

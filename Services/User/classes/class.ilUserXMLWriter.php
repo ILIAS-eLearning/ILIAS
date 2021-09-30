@@ -404,6 +404,7 @@ class ilUserXMLWriter extends ilXmlWriter
                 'hide_own_online_status',
                 'bs_allow_to_contact_me',
                 'chat_osc_accept_msg',
+                'chat_broadcast_typing',
                 'user_tz',
                 'weekstart',
                 'mail_incoming_type',

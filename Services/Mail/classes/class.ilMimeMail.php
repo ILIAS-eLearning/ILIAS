@@ -293,7 +293,7 @@ class ilMimeMail
         if ($skin !== 'default') {
             $tplpath = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
 
-            if (file_exists($tplpath)) {
+            if (is_file($tplpath)) {
                 $bracket_path = './Customizing/global/skin/' . $skin . '/Services/Mail/tpl.html_mail_template.html';
             }
         }

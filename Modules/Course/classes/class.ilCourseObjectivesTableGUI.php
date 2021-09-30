@@ -405,7 +405,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                         $objective_id,
                         ilObject::_lookupObjId($this->getSettings()->getInitialTest()),
                         ilLOSettings::TYPE_TEST_INITIAL
-                        ) as $sequence_id
+                    ) as $sequence_id
                     ) {
                         $test['obj_id'] = ilObject::_lookupObjId($this->getSettings()->getInitialTest());
                         $qst = ilLOUtils::lookupQplBySequence($this->getSettings()->getInitialTest(), $sequence_id);
@@ -458,7 +458,7 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
                         $objective_id,
                         ilObject::_lookupObjId($this->getSettings()->getQualifiedTest()),
                         ilLOSettings::TYPE_TEST_QUALIFIED
-                        ) as $sequence_id
+                    ) as $sequence_id
                     ) {
                         $test['obj_id'] = ilObject::_lookupObjId($this->getSettings()->getQualifiedTest());
                         $qst = ilLOUtils::lookupQplBySequence($this->getSettings()->getQualifiedTest(), $sequence_id);

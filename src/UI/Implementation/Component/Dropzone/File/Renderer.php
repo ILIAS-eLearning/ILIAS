@@ -4,7 +4,6 @@ namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Button\Button;
-use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Component\TriggeredSignal;
 use ILIAS\UI\Implementation\DefaultRenderer;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
@@ -173,6 +172,8 @@ class Renderer extends AbstractComponentRenderer
                     'maxFiles' => $dropzone->getMaxFiles(),
                     'identifier' => $dropzone->getParametername(),
                     'typeError' => $this->txt('msg_wrong_filetypes') . " " . implode(", ", $dropzone->getAllowedFileTypes()),
+                    'tooManyItemsError' => $this->txt('msg_to_many_files') . ' ' . $dropzone->getMaxFiles(),
+                    'noFilesError' => $this->txt('msg_no_files_selected'),
                 ]
             );
             $reflect = new \ReflectionClass($dropzone);

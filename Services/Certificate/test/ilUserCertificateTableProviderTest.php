@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,9 +6,9 @@
  */
 class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
 {
-    public function testFetchingDataSetForTableWithoutParamtersAndWithoutFilters()
+    public function testFetchingDataSetForTableWithoutParamtersAndWithoutFilters() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -32,24 +32,24 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
             ->willReturn('something');
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('CourseTest');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -85,11 +85,9 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->assertEquals($expected, $dataSet);
     }
 
-    public function testFetchingDataSetForTableWithLimitParamterAndWithoutFilters()
+    public function testFetchingDataSetForTableWithLimitParamterAndWithoutFilters() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $database
             ->expects($this->atLeastOnce())
@@ -115,24 +113,24 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
             ->willReturn('something');
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('CourseTest');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -168,11 +166,9 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->assertEquals($expected, $dataSet);
     }
 
-    public function testFetchingDataSetForTableWithOrderFieldDate()
+    public function testFetchingDataSetForTableWithOrderFieldDate() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $database
             ->expects($this->atLeastOnce())
@@ -198,24 +194,24 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
             ->willReturn('something');
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('CourseTest');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -255,16 +251,11 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->assertEquals($expected, $dataSet);
     }
 
-    /**
-     *
-     */
-    public function testFetchingDataWithInvalidOrderFieldWillResultInException()
+    public function testFetchingDataWithInvalidOrderFieldWillResultInException() : void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder('ilDBInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $database
             ->expects($this->atLeastOnce())
@@ -286,24 +277,24 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
             ->willReturn('something');
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('CourseTest');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -327,16 +318,11 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen');
     }
 
-    /**
-     *
-     */
-    public function testFetchingDataWithEmptyOrderFieldWillResultInException()
+    public function testFetchingDataWithEmptyOrderFieldWillResultInException() : void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder('ilDBInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $database
             ->expects($this->atLeastOnce())
@@ -358,24 +344,24 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
             ->willReturn('something');
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('CourseTest');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -399,16 +385,11 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen');
     }
 
-    /**
-     *
-     */
-    public function testFetchingDataWithWrongOrderDirectionWillResultInException()
+    public function testFetchingDataWithWrongOrderDirectionWillResultInException() : void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder('ilDBInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $database
             ->expects($this->atLeastOnce())
@@ -430,24 +411,24 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
             ->willReturn('something');
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('CourseTest');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -476,16 +457,11 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen');
     }
 
-    /**
-     *
-     */
-    public function testFetchingDataWithInvalidLimitParameterWillResultInException()
+    public function testFetchingDataWithInvalidLimitParameterWillResultInException() : void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder('ilDBInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $database
             ->expects($this->atLeastOnce())
@@ -507,24 +483,24 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
             ->willReturn('something');
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('CourseTest');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -553,16 +529,11 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen');
     }
 
-    /**
-     *
-     */
-    public function testFetchingDataWithInvalidOffsetParameterWillResultInException()
+    public function testFetchingDataWithInvalidOffsetParameterWillResultInException() : void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $database = $this->getMockBuilder('ilDBInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $database = $this->getMockBuilder(ilDBInterface::class)->getMock();
 
         $database
             ->expects($this->atLeastOnce())
@@ -584,24 +555,24 @@ class ilUserCertificateTableProviderTest extends ilCertificateBaseTestCase
                 null
             );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->getMock();
 
         $controller->method('getLinkTargetByClass')
             ->willReturn('something');
 
-        $objectMock = $this->getMockBuilder('ilObject')
+        $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $objectMock->method('getTitle')
             ->willReturn('CourseTest');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 

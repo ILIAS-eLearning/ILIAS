@@ -237,7 +237,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         //$this->addContentSubTabs();
         $this->showAdministrationPanel();
 
-        unset($_SESSION['clipboard']['wsp2repo']);
+        unset($_SESSION["clipboard"]['wsp2repo']);
         
         // add new item
         $gui = new ilObjectAddNewItemGUI($this->node_id);
@@ -361,8 +361,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         }
 
         // remember source node
-        $_SESSION['clipboard']['source_ids'] = $item_ids;
-        $_SESSION['clipboard']['cmd'] = 'cut';
+        $_SESSION["clipboard"]['source_ids'] = $item_ids;
+        $_SESSION["clipboard"]['cmd'] = 'cut';
 
         return $this->showMoveIntoObjectTree($repo_switch_allowed);
     }
@@ -374,7 +374,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
      */
     public function cut_for_repository()
     {
-        $_SESSION['clipboard']['wsp2repo'] = true;
+        $_SESSION["clipboard"]['wsp2repo'] = true;
         $this->cut();
     }
     
@@ -385,7 +385,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
      */
     public function cut_for_workspace()
     {
-        $_SESSION['clipboard']['wsp2repo'] = false;
+        $_SESSION["clipboard"]['wsp2repo'] = false;
         $this->cut();
     }
 
@@ -431,8 +431,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         }
 
         // remember source node
-        $_SESSION['clipboard']['source_ids'] = $item_ids;
-        $_SESSION['clipboard']['cmd'] = 'copy';
+        $_SESSION["clipboard"]['source_ids'] = $item_ids;
+        $_SESSION["clipboard"]['cmd'] = 'copy';
 
         return $this->showMoveIntoObjectTree($repo_switch_allowed);
     }
@@ -448,9 +448,9 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         // see ilSharedRessourceGUI::hasAccess()
         if ($handler->checkAccess("read", "", $current_node)) {
             // remember source node
-            $_SESSION['clipboard']['source_ids'] = [$current_node];
-            $_SESSION['clipboard']['cmd'] = 'copy';
-            $_SESSION['clipboard']['shared'] = true;
+            $_SESSION["clipboard"]['source_ids'] = [$current_node];
+            $_SESSION["clipboard"]['cmd'] = 'copy';
+            $_SESSION["clipboard"]['shared'] = true;
 
             return $this->showMoveIntoObjectTree();
         } else {
@@ -471,7 +471,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
      */
     public function copy_to_repository()
     {
-        $_SESSION['clipboard']['wsp2repo'] = true;
+        $_SESSION["clipboard"]['wsp2repo'] = true;
         $this->copy();
     }
 
@@ -482,7 +482,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
      */
     public function copy_to_workspace()
     {
-        $_SESSION['clipboard']['wsp2repo'] = false;
+        $_SESSION["clipboard"]['wsp2repo'] = false;
         $this->copy();
     }
 
@@ -496,7 +496,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         
         $ilTabs->clearTargets();
 
-        if (!$_SESSION['clipboard']['shared']) {
+        if (!$_SESSION["clipboard"]['shared']) {
             $ilTabs->setBackTarget(
                 $this->lng->txt('back'),
                 $this->ctrl->getLinkTarget($this)
@@ -508,7 +508,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             );
         }
         
-        $mode = $_SESSION['clipboard']['cmd'];
+        $mode = $_SESSION["clipboard"]['cmd'];
 
         ilUtil::sendInfo($this->lng->txt('msg_' . $mode . '_clipboard'));
         
@@ -520,7 +520,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         );
         
         // move/copy in personal workspace
-        if (!$_SESSION['clipboard']['wsp2repo']) {
+        if (!$_SESSION["clipboard"]['wsp2repo']) {
             $exp = new ilWorkspaceExplorerGUI($this->user->getId(), $this, "showMoveIntoObjectTree", $this, "");
             $exp->setTypeWhiteList(array("wsrt", "wfld"));
             $exp->setSelectableTypes(array("wsrt", "wfld"));
@@ -605,8 +605,8 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
     {
         $ilUser = $this->user;
         
-        $mode = $_SESSION['clipboard']['cmd'];
-        $source_node_ids = $_SESSION['clipboard']['source_ids'];
+        $mode = $_SESSION["clipboard"]['cmd'];
+        $source_node_ids = $_SESSION["clipboard"]['source_ids'];
         $target_node_id = $_REQUEST['node'];
 
         if (!is_array($source_node_ids) || count($source_node_ids) == 0) {
@@ -618,7 +618,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             $this->ctrl->redirect($this, "showMoveIntoObjectTree");
         }
 
-        if (!$_SESSION['clipboard']['wsp2repo']) {
+        if (!$_SESSION["clipboard"]['wsp2repo']) {
             $target_obj_id = $this->tree->lookupObjectId($target_node_id);
         } else {
             $target_obj_id = ilObject::_lookupObjId($target_node_id);
@@ -655,7 +655,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 $fail[] = $this->lng->txt('permission_denied');
             }
 
-            if (!$_SESSION['clipboard']['wsp2repo']) {
+            if (!$_SESSION["clipboard"]['wsp2repo']) {
                 if ($mode == "cut" && $this->tree->isGrandChild($source_node_id, $target_node_id)) {
                     $fail[] = sprintf(
                         $this->lng->txt('msg_paste_object_not_in_itself'),
@@ -664,7 +664,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 }
             }
 
-            if ($_SESSION['clipboard']['wsp2repo'] == true) {        // see #22959
+            if ($_SESSION["clipboard"]['wsp2repo'] == true) {        // see #22959
                 global $ilAccess;
                 if (!$ilAccess->checkAccess("create", "", $target_node_id, $source_object->getType())) {
                     $fail[] = sprintf(
@@ -699,7 +699,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
             // move the node
             if ($mode == "cut") {
-                if (!$_SESSION['clipboard']['wsp2repo']) {
+                if (!$_SESSION["clipboard"]['wsp2repo']) {
                     $this->tree->moveTree($source_node_id, $target_node_id);
                 } else {
                     $parent_id = $this->tree->getParentId($source_node_id);
@@ -723,7 +723,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                 $wizard_options = ilCopyWizardOptions::_getInstance($copy_id);
                 $this->wsp_log->debug("Copy ID: " . $copy_id . ", Source Node: " . $source_node_id
                     . ", source object: " . $source_object->getId());
-                if (!$_SESSION['clipboard']['wsp2repo']) {
+                if (!$_SESSION["clipboard"]['wsp2repo']) {
                     $wizard_options->disableTreeCopy();
                 }
                 $wizard_options->saveOwner($ilUser->getId());
@@ -732,7 +732,7 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
 
                 $new_obj = $source_object->cloneObject($target_node_id, $copy_id);
                 // insert into workspace tree
-                if ($new_obj && !$_SESSION['clipboard']['wsp2repo']) {
+                if ($new_obj && !$_SESSION["clipboard"]['wsp2repo']) {
                     $this->wsp_log->debug("New Obj ID: " . $new_obj->getId());
                     $new_obj_node_id = $this->tree->insertObject($target_node_id, $new_obj->getId());
                     $this->getAccessHandler()->setPermissions($target_node_id, $new_obj_node_id);
@@ -743,17 +743,17 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
         }
         
         // redirect to target if not repository
-        if (!$_SESSION['clipboard']['wsp2repo']) {
+        if (!$_SESSION["clipboard"]['wsp2repo']) {
             $redirect_node = $target_node_id;
         } else {
             // reload current folder
             $redirect_node = $this->node_id;
         }
         
-        unset($_SESSION['clipboard']['cmd']);
-        unset($_SESSION['clipboard']['source_ids']);
-        unset($_SESSION['clipboard']['wsp2repo']);
-        unset($_SESSION['clipboard']['shared']);
+        unset($_SESSION["clipboard"]['cmd']);
+        unset($_SESSION["clipboard"]['source_ids']);
+        unset($_SESSION["clipboard"]['wsp2repo']);
+        unset($_SESSION["clipboard"]['shared']);
         
         // #17746
         if ($mode == 'cut') {
@@ -968,10 +968,10 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
      */
     public function cancelDeletion()
     {
-        unset($_SESSION['clipboard']['cmd']);
-        unset($_SESSION['clipboard']['source_ids']);
-        unset($_SESSION['clipboard']['wsp2repo']);
-        unset($_SESSION['clipboard']['shared']);
+        unset($_SESSION["clipboard"]['cmd']);
+        unset($_SESSION["clipboard"]['source_ids']);
+        unset($_SESSION["clipboard"]['wsp2repo']);
+        unset($_SESSION["clipboard"]['shared']);
         parent::cancelDelete();
     }
 
@@ -1021,8 +1021,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
             $this->ctrl->setParameter($this, "type", "");
             $this->ctrl->setParameter($this, "item_ref_id", "");
 
-            //			if (!$_SESSION["clipboard"])
-            //			{
             if ($this->object->gotItems($this->node_id)) {
                 $toolbar->setLeadingImage(
                     ilUtil::getImagePath("arrow_upright.svg"),
@@ -1045,36 +1043,6 @@ class ilObjWorkspaceFolderGUI extends ilObject2GUI
                     'download'
                 );
                 // add download button if multi download enabled
-
-                //@todo download
-                /*
-                $folder_set = new ilSetting("fold");
-                if ($folder_set->get("enable_multi_download") == true)
-                {
-                    $toolbar->addSeparator();
-
-                    if(!$folder_set->get("bgtask_download", 0))
-                    {
-                        $toolbar->addFormButton(
-                            $this->lng->txt('download_selected_items'),
-                            'download'
-                        );
-                    }
-                    else
-                    {
-
-                        $url =  $this->ctrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjfoldergui", "ilbackgroundtaskhub"), "", "", true, false);
-                        $main_tpl->addJavaScript("Services/BackgroundTask/js/BgTask.js");
-                        $main_tpl->addOnLoadCode("il.BgTask.initMultiForm('ilFolderDownloadBackgroundTaskHandler');");
-                        $main_tpl->addOnLoadCode('il.BgTask.setAjax("'.$url.'");');
-
-                        $button = ilSubmitButton::getInstance();
-                        $button->setCaption("download_selected_items");
-                        $button->addCSSClass("ilbgtasksubmit");
-                        $button->setCommand("download");
-                        $toolbar->addButtonInstance($button);
-                    }
-                }*/
             }
 
             $main_tpl->addAdminPanelToolbar(

@@ -118,13 +118,17 @@ class ilCalendarRecurrence implements ilCalendarRecurrenceCalculation
     
     /**
      * Get ical presentation for calendar recurrence
-     * @param type $a_user_id
+     * @param int $a_user_id
      * @return string
      */
     public function toICal($a_user_id)
     {
         include_once './Services/Calendar/classes/class.ilCalendarEntry.php';
         $entry = new ilCalendarEntry($this->getEntryId());
+
+        if (!$this->getFrequenceType()) {
+            return '';
+        }
 
         $ical = 'RRULE:';
         $ical .= ('FREQ=' . $this->getFrequenceType());

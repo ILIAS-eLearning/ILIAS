@@ -17,7 +17,7 @@ class ilCertificateBackgroundImageDelete
 
     public function deleteBackgroundImage(?int $version) : void
     {
-        if (file_exists($this->fileService->getBackgroundImageThumbPath())) {
+        if (is_file($this->fileService->getBackgroundImageThumbPath())) {
             unlink($this->fileService->getBackgroundImageThumbPath());
         }
 
@@ -27,11 +27,11 @@ class ilCertificateBackgroundImageDelete
         }
 
         $filename = $this->certificatePath . 'background_' . $version . '.jpg';
-        if (file_exists($filename)) {
+        if (is_file($filename)) {
             unlink($filename);
         }
 
-        if (file_exists($this->fileService->getBackgroundImageTempfilePath())) {
+        if (is_file($this->fileService->getBackgroundImageTempfilePath())) {
             unlink($this->fileService->getBackgroundImageTempfilePath());
         }
     }

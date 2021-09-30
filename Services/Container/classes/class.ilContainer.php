@@ -1,67 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilContainer
  *
  * Base class for all container objects (categories, courses, groups)
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainer extends ilObject
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var Logger
-     */
-    protected $log;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * MUST be public because it is already accessed
-     * @var array
-     */
-    public $items = [];
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    protected $order_type = 0;
-    protected $hiddenfilesfound = false;
-    protected $news_timeline = false;
-    protected $news_timeline_auto_entries = false;
-
     // container view constants
     const VIEW_SESSIONS = 0;
     const VIEW_OBJECTIVE = 1;
@@ -73,13 +33,13 @@ class ilContainer extends ilObject
 
     const VIEW_DEFAULT = self::VIEW_BY_TYPE;
 
-    
+
     const SORT_TITLE = 0;
     const SORT_MANUAL = 1;
     const SORT_ACTIVATION = 2;
     const SORT_INHERIT = 3;
     const SORT_CREATION = 4;
-    
+
     const SORT_DIRECTION_ASC = 0;
     const SORT_DIRECTION_DESC = 1;
 
@@ -90,30 +50,28 @@ class ilContainer extends ilObject
     const SORT_NEW_ITEMS_ORDER_CREATION = 1;
     const SORT_NEW_ITEMS_ORDER_ACTIVATION = 2;
 
-    public static $data_preloaded = false;
+    public static bool $data_preloaded = false;
 
-    /**
-     * @var ilSetting
-     */
-    protected $setting;
-
-    /**
-     * @var ilObjectTranslation
-     */
-    protected $obj_trans = null;
-
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected ilObjUser $user;
+    public array $items = [];
+    protected ilObjectDefinition $obj_definition;
+    protected int $order_type = 0;
+    protected bool $hiddenfilesfound = false;
+    protected bool $news_timeline = false;
+    protected bool $news_timeline_auto_entries = false;
+    protected ilSetting $setting;
+    protected ?ilObjectTranslation $obj_trans = null;
     protected int $style_id = 0;
     protected bool $news_timeline_landing_page = false;
     protected bool $news_block_activated = false;
     protected bool $use_news = false;
+    protected ilRecommendedContentManager $recommended_content_manager;
 
-    /**
-     * @var ilRecommendedContentManager
-     */
-    protected $recommended_content_manager;
-
-    public function __construct($a_id = 0, $a_reference = true)
+    public function __construct(int $a_id = 0, bool $a_reference = true)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->db = $DIC->database();
@@ -135,29 +93,18 @@ class ilContainer extends ilObject
         $this->recommended_content_manager = new ilRecommendedContentManager();
     }
 
-    /**
-     * Get object translation
-     * @return ilObjectTranslation
-     */
-    public function getObjectTranslation()
+    public function getObjectTranslation() : ?ilObjectTranslation
     {
         return $this->obj_trans;
     }
 
-    /**
-     * Get object translation
-     * @param ilObjectTranslation $obj_trans
-     */
-    public function setObjectTranslation(ilObjectTranslation $obj_trans)
+    public function setObjectTranslation(?ilObjectTranslation $obj_trans) : void
     {
         $this->obj_trans = $obj_trans;
     }
 
-    /**
-    * Create directory for the container.
-    * It is <webspace_dir>/container_data.
-    */
-    public function createContainerDirectory()
+    // <webspace_dir>/container_data.
+    public function createContainerDirectory() : void
     {
         $webspace_dir = ilUtil::getWebspaceDir();
         $cont_dir = $webspace_dir . "/container_data";
@@ -170,128 +117,68 @@ class ilContainer extends ilObject
         }
     }
     
-    /**
-    * Get the container directory.
-    *
-    * @return	string	container directory
-    */
-    public function getContainerDirectory()
+    public function getContainerDirectory() : string
     {
         return $this->_getContainerDirectory($this->getId());
     }
     
-    /**
-    * Get the container directory.
-    *
-    * @return	string	container directory
-    */
-    public static function _getContainerDirectory($a_id)
+    public static function _getContainerDirectory(int $a_id) : string
     {
         return ilUtil::getWebspaceDir() . "/container_data/obj_" . $a_id;
     }
 
-    /**
-    * Set Found hidden files (set by getSubItems).
-    *
-    * @param	boolean	$a_hiddenfilesfound	Found hidden files (set by getSubItems)
-    */
-    public function setHiddenFilesFound($a_hiddenfilesfound)
+    // Set Found hidden files (set by getSubItems).
+    public function setHiddenFilesFound(bool $a_hiddenfilesfound) : void
     {
         $this->hiddenfilesfound = $a_hiddenfilesfound;
     }
 
-    /**
-    * Get Found hidden files (set by getSubItems).
-    *
-    * @return	boolean	Found hidden files (set by getSubItems)
-    */
-    public function getHiddenFilesFound()
+    public function getHiddenFilesFound() : bool
     {
         return $this->hiddenfilesfound;
     }
 
-    /**
-    * get ID of assigned style sheet object
-    */
-    public function getStyleSheetId()
+    public function getStyleSheetId() : int
     {
         return $this->style_id;
     }
 
-    /**
-    * set ID of assigned style sheet object
-    */
-    public function setStyleSheetId($a_style_id)
+    public function setStyleSheetId(int $a_style_id) : void
     {
         $this->style_id = $a_style_id;
     }
 
-    /**
-     * Set news timeline
-     *
-     * @param bool $a_val activate news timeline
-     */
-    public function setNewsTimeline($a_val)
+    public function setNewsTimeline(bool $a_val) : void
     {
         $this->news_timeline = $a_val;
     }
 
-    /**
-     * Get news timeline
-     *
-     * @return bool activate news timeline
-     */
-    public function getNewsTimeline()
+    public function getNewsTimeline() : bool
     {
         return $this->news_timeline;
     }
     
-    /**
-     * Set news timeline auto entries
-     *
-     * @param bool $a_val include automatically created entries
-     */
-    public function setNewsTimelineAutoEntries($a_val)
+    public function setNewsTimelineAutoEntries(bool $a_val) : void
     {
         $this->news_timeline_auto_entries = $a_val;
     }
     
-    /**
-     * Get news timeline auto entries
-     *
-     * @return bool include automatically created entries
-     */
-    public function getNewsTimelineAutoEntries()
+    public function getNewsTimelineAutoEntries() : bool
     {
         return $this->news_timeline_auto_entries;
     }
 
-    /**
-     * Set news timline is landing page
-     *
-     * @param bool $a_val is news timline landing page?
-     */
-    public function setNewsTimelineLandingPage($a_val)
+    public function setNewsTimelineLandingPage(bool $a_val) : void
     {
         $this->news_timeline_landing_page = $a_val;
     }
 
-    /**
-     * Get news timline is landing page
-     *
-     * @return bool is news timline landing page?
-     */
-    public function getNewsTimelineLandingPage()
+    public function getNewsTimelineLandingPage() : bool
     {
         return $this->news_timeline_landing_page;
     }
 
-    /**
-     * Is news timeline effective?
-     *
-     * @return bool
-     */
-    public function isNewsTimelineEffective()
+    public function isNewsTimelineEffective() : bool
     {
         if ($this->getUseNews()) {
             if ($this->getNewsTimeline()) {
@@ -301,12 +188,7 @@ class ilContainer extends ilObject
         return false;
     }
 
-    /**
-     * Is news timeline landing page effective?
-     *
-     * @return bool
-     */
-    public function isNewsTimelineLandingPageEffective()
+    public function isNewsTimelineLandingPageEffective() : bool
     {
         if ($this->getUseNews()) {
             if ($this->getNewsTimeline()) {
@@ -319,56 +201,31 @@ class ilContainer extends ilObject
     }
 
 
-    /**
-     * Set news block activated
-     *
-     * @param bool $a_val news block activated
-     */
-    public function setNewsBlockActivated($a_val)
+    public function setNewsBlockActivated(bool $a_val) : void
     {
         $this->news_block_activated = $a_val;
     }
     
-    /**
-     * Get news block activated
-     *
-     * @return bool news block activated
-     */
-    public function getNewsBlockActivated()
+    public function getNewsBlockActivated() : bool
     {
         return $this->news_block_activated;
     }
     
-    /**
-     * Set use news
-     *
-     * @param bool $a_val use news system?
-     */
-    public function setUseNews($a_val)
+    public function setUseNews(bool $a_val) : void
     {
         $this->use_news = $a_val;
     }
     
-    /**
-     * Get use news
-     *
-     * @return bool use news system?
-     */
-    public function getUseNews()
+    public function getUseNews() : bool
     {
         return $this->use_news;
     }
     
-    /**
-    * Lookup a container setting.
-    *
-    * @param	int			container id
-    * @param	string		setting keyword
-    *
-    * @return	string		setting value
-    */
-    public static function _lookupContainerSetting($a_id, $a_keyword, $a_default_value = null)
-    {
+    public static function _lookupContainerSetting(
+        int $a_id,
+        string $a_keyword,
+        string $a_default_value = null
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -388,13 +245,11 @@ class ilContainer extends ilObject
         return $a_default_value;
     }
 
-    /**
-     * @param $a_id
-     * @param $a_keyword
-     * @param $a_value
-     */
-    public static function _writeContainerSetting($a_id, $a_keyword, $a_value)
-    {
+    public static function _writeContainerSetting(
+        int $a_id,
+        string $a_keyword,
+        string $a_value
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -402,7 +257,7 @@ class ilContainer extends ilObject
         $query = "DELETE FROM container_settings WHERE " .
             "id = " . $ilDB->quote($a_id, 'integer') . " " .
             "AND keyword = " . $ilDB->quote($a_keyword, 'text');
-        $res = $ilDB->manipulate($query);
+        $ilDB->manipulate($query);
 
         $log = ilLoggerFactory::getLogger("cont");
         $log->debug("Write container setting, id: " . $a_id . ", keyword: " . $a_keyword . ", value: " . $a_value);
@@ -413,10 +268,14 @@ class ilContainer extends ilObject
             $ilDB->quote($a_value, 'text') .
             ")";
 
-        $res = $ilDB->manipulate($query);
+        $ilDB->manipulate($query);
     }
-    
-    public static function _getContainerSettings($a_id)
+
+    /**
+     * @param int $a_id
+     * @return array<string, string>
+     */
+    public static function _getContainerSettings(int $a_id) : array
     {
         global $DIC;
 
@@ -434,8 +293,11 @@ class ilContainer extends ilObject
         return $res;
     }
     
-    public static function _deleteContainerSettings($a_id, $a_keyword = null, $a_keyword_like = false)
-    {
+    public static function _deleteContainerSettings(
+        int $a_id,
+        string $a_keyword = "",
+        bool $a_keyword_like = false
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -446,7 +308,7 @@ class ilContainer extends ilObject
         
         $sql = "DELETE FROM container_settings WHERE " .
                 " id = " . $ilDB->quote($a_id, 'integer');
-        if ($a_keyword) {
+        if ($a_keyword != "") {
             if (!$a_keyword_like) {
                 $sql .= " AND keyword = " . $ilDB->quote($a_keyword, "text");
             } else {
@@ -456,8 +318,10 @@ class ilContainer extends ilObject
         $ilDB->manipulate($sql);
     }
     
-    public static function _exportContainerSettings(ilXmlWriter $a_xml, $a_obj_id)
-    {
+    public static function _exportContainerSettings(
+        ilXmlWriter $a_xml,
+        int $a_obj_id
+    ) : void {
         // container settings
         $settings = self::_getContainerSettings($a_obj_id);
         if (sizeof($settings)) {
@@ -584,21 +448,26 @@ class ilContainer extends ilObject
     }
 
     /**
-     * clone all objects according to this container
-     *
      * @param string $session_id
      * @param string $client_id
      * @param string $new_type
-     * @param int $ref_id
-     * @param int $clone_source
-     * @param array $options
-     * @param bool force soap
-     * @param int submode 1 => copy all, 2 => copy content
-     * @return new refid if clone has finished or parameter ref id if cloning is still in progress
-     * @return array(copy_id => xyz, ref_id => new ref_id)
+     * @param int    $ref_id
+     * @param int    $clone_source
+     * @param array  $options
+     * @param bool   $soap_call force soap
+     * @param int    $a_submode submode 1 => copy all, 2 => copy content
+     * @return array
      */
-    public function cloneAllObject($session_id, $client_id, $new_type, $ref_id, $clone_source, $options, $soap_call = false, $a_submode = 1)
-    {
+    public function cloneAllObject(
+        string $session_id,
+        string $client_id,
+        string $new_type,
+        int $ref_id,
+        int $clone_source,
+        array $options,
+        bool $soap_call = false,
+        int $a_submode = 1
+    ) : array {
         $ilLog = $this->log;
         $ilUser = $this->user;
             
@@ -667,31 +536,21 @@ class ilContainer extends ilObject
         return true;
     }
 
-    /**
-    * Get container view mode
-    */
-    public function getViewMode()
+    public function getViewMode() : int
     {
         return ilContainer::VIEW_BY_TYPE;
     }
     
-    /**
-    * Get order type default implementation
-    */
-    public function getOrderType()
+    public function getOrderType() : int
     {
-        return $this->order_type ? $this->order_type : ilContainer::SORT_TITLE;
+        return $this->order_type ?: ilContainer::SORT_TITLE;
     }
 
-    public function setOrderType($a_value)
+    public function setOrderType(int $a_value) : void
     {
         $this->order_type = $a_value;
     }
 
-    /**
-     * Is classification filter active?
-     * @return bool
-     */
     public function isClassificationFilterActive() : bool
     {
         // apply container classification filters
@@ -709,7 +568,6 @@ class ilContainer extends ilObject
     /**
      * Note grp/crs currently allow to filter in their whole subtrees
      * Catetories only their direct childs
-     * @return bool
      */
     public function filteredSubtree() : bool
     {
@@ -719,11 +577,6 @@ class ilContainer extends ilObject
         return false;
     }
 
-    /**
-     * Get initial subitems
-     *
-     * @return array
-     */
     protected function getInitialSubitems() : array
     {
         $tree = $this->tree;
@@ -735,20 +588,12 @@ class ilContainer extends ilObject
         return $objects;
     }
 
-    /**
-    * Get subitems of container
-    *
-    * @param bool administration panel enabled
-    * @param bool side blocks enabled
-    *
-    * @return	array
-    */
     public function getSubItems(
-        $a_admin_panel_enabled = false,
-        $a_include_side_block = false,
-        $a_get_single = 0,
+        bool $a_admin_panel_enabled = false,
+        bool $a_include_side_block = false,
+        int $a_get_single = 0,
         \ilContainerUserFilter $container_user_filter = null
-    ) {
+    ) : array {
         $objDefinition = $this->obj_definition;
 
         // Caching
@@ -880,10 +725,8 @@ class ilContainer extends ilObject
         return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
     }
     
-    /**
-    * Check whether we got any items
-    */
-    public function gotItems()
+    // Check whether we got any items
+    public function gotItems() : bool
     {
         if (isset($this->items["_all"]) && is_array($this->items["_all"]) && count($this->items["_all"]) > 0) {
             return true;
@@ -895,16 +738,12 @@ class ilContainer extends ilObject
     * Add additional information to sub item, e.g. used in
     * courses for timings information etc.
     */
-    public function addAdditionalSubItemInformation(&$object)
+    public function addAdditionalSubItemInformation(array &$object) : void
     {
     }
     
-    /**
-    * Get grouped repository object types.
-    *
-    * @return	array	array of object types
-    */
-    public function getGroupedObjTypes()
+    // Get grouped repository object types.
+    public function getGroupedObjTypes() : array
     {
         $objDefinition = $this->obj_definition;
         
@@ -914,10 +753,7 @@ class ilContainer extends ilObject
         return $this->type_grps;
     }
     
-    /**
-    * Check whether page editing is allowed for container
-    */
-    public function enablePageEditing()
+    public function enablePageEditing() : bool
     {
         $ilSetting = $this->setting;
         
@@ -925,11 +761,9 @@ class ilContainer extends ilObject
         if ($ilSetting->get("enable_cat_page_edit")) {
             return true;
         }
+        return false;
     }
     
-    /**
-    * Create
-    */
     public function create()
     {
         global $DIC;
@@ -965,9 +799,6 @@ class ilContainer extends ilObject
         return $ret;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function putInTree($a_parent_ref)
     {
         parent::putInTree($a_parent_ref);
@@ -981,9 +812,6 @@ class ilContainer extends ilObject
         }
     }
 
-    /**
-    * Update
-    */
     public function update()
     {
         $ret = parent::update();
@@ -1007,14 +835,6 @@ class ilContainer extends ilObject
         return $ret;
     }
     
-    
-    /**
-     * read
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function read()
     {
         parent::read();
@@ -1027,13 +847,7 @@ class ilContainer extends ilObject
         $this->obj_trans = ilObjectTranslation::getInstance($this->getId());
     }
 
-    /**
-     * Read container settings
-     *
-     * @param
-     * @return
-     */
-    public function readContainerSettings()
+    public function readContainerSettings() : void
     {
         $this->setNewsTimeline(self::_lookupContainerSetting($this->getId(), "news_timeline"));
         $this->setNewsTimelineAutoEntries(self::_lookupContainerSetting($this->getId(), "news_timeline_incl_auto"));
@@ -1050,16 +864,14 @@ class ilContainer extends ilObject
     /**
      * overwrites description fields to long or short description in an assoc array
      * keys needed (obj_id and description)
-     *
-     * @param array $objects
-     * @return array
      */
-    public static function getCompleteDescriptions(array $objects)
+    public static function getCompleteDescriptions(array $objects) : array
     {
         global $DIC;
 
         $ilSetting = $DIC->settings();
         $ilObjDataCache = $DIC["ilObjDataCache"];
+
         // using long descriptions?
         $short_desc = $ilSetting->get("rep_shorten_description");
         $short_desc_max_length = $ilSetting->get("rep_shorten_description_length");
@@ -1094,14 +906,11 @@ class ilContainer extends ilObject
         return $objects;
     }
 
-    /**
-     * Fix internal links after copy process
-     *
-     * @param int $a_target_id ref if of new container
-     * @param int $a_copy_id copy process id
-     */
-    protected static function fixInternalLinksAfterCopy($a_target_id, $a_copy_id, $a_source_ref_id)
-    {
+    protected static function fixInternalLinksAfterCopy(
+        int $a_target_id,
+        int $a_copy_id,
+        int $a_source_ref_id
+    ) : void {
         global $DIC;
 
         /** @var ilObjectDefinition $obj_definition */
@@ -1142,59 +951,43 @@ class ilContainer extends ilObject
         }
     }
 
-    /**
-     * Remove all translations of container
-     */
-    public function removeTranslations()
+    // Remove all translations of container
+    public function removeTranslations() : void
     {
         $this->obj_trans->delete();
     }
 
-    /**
-     * Delete translation
-     *
-     * @param $a_lang
-     */
-    public function deleteTranslation($a_lang)
+    public function deleteTranslation(string $a_lang) : void
     {
         $this->obj_trans->removeLanguage($a_lang);
         $this->obj_trans->save();
     }
 
-    /**
-     * Add translation
-     *
-     * @param $a_title
-     * @param $a_desc
-     * @param $a_lang
-     * @param $a_lang_default
-     * @return bool
-     */
-    public function addTranslation($a_title, $a_desc, $a_lang, $a_lang_default)
-    {
+    public function addTranslation(
+        string $a_title,
+        string $a_desc,
+        string $a_lang,
+        string $a_lang_default
+    ) : void {
         if (empty($a_title)) {
             $a_title = "NO TITLE";
         }
 
         $this->obj_trans->addLanguage($a_lang, $a_title, $a_desc, $a_lang_default, true);
         $this->obj_trans->save();
-
-        return true;
     }
 
     /**
      * Apply container user filter on objects
      *
-     * @todo this deserces a decentralized general concept (consumers provide object filter types)
+     * @todo this deserves a decentralized general concept (consumers provide object filter types)
      * @todo move selects to respective components
-     *
-     * @param $objects
-     * @param ilContainerUserFilter|null $container_user_filter
-     * @return array
      * @throws ilException
      */
-    protected function applyContainerUserFilter($objects, ilContainerUserFilter $container_user_filter = null)
-    {
+    protected function applyContainerUserFilter(
+        array $objects,
+        ilContainerUserFilter $container_user_filter = null
+    ) : array {
         global $DIC;
         $db = $DIC->database();
 
@@ -1375,14 +1168,16 @@ class ilContainer extends ilObject
      * Legacy online filter
      *
      * This can be removed, once all objects use the central online/offline property
-     *
-     * @param $obj_ids
-     * @param $objects
-     * @param $val
-     * @return mixed
+     * @param int[] $obj_ids
+     * @param array $objects
+     * @param int   $val
+     * @return int[]
      */
-    protected function legacyOnlineFilter($obj_ids, $objects, $val)
-    {
+    protected function legacyOnlineFilter(
+        array $obj_ids,
+        array $objects,
+        int $val
+    ) : array {
         $legacy_types = ["glo", "wiki", "qpl", "book", "dcl", "prtt"];
         foreach ($legacy_types as $type) {
             $lobjects = array_filter($objects, function ($o) use ($type) {
@@ -1428,7 +1223,6 @@ class ilContainer extends ilObject
                 }
             }
         }
-
         return $obj_ids;
     }
-} // END class ilContainer
+}

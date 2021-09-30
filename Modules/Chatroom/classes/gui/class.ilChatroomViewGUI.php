@@ -139,6 +139,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             'moderator' => ilChatroom::checkUserPermissions('moderate', $ref_id, false),
             'id' => $chat_user->getUserId(),
             'login' => $chat_user->getUsername(),
+            'broadcast_typing' => $chat_user->enabledBroadcastTyping(),
         ];
 
         $smileys = [];
@@ -397,6 +398,10 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         foreach ($js_translations as $placeholder => $lng_variable) {
             $roomTpl->setVariable($placeholder, json_encode($this->ilLng->txt($lng_variable), JSON_THROW_ON_ERROR));
         }
+        $this->ilLng->toJSMap([
+            'chat_user_x_is_typing' => $this->ilLng->txt('chat_user_x_is_typing'),
+            'chat_users_are_typing' => $this->ilLng->txt('chat_users_are_typing'),
+        ]);
 
         $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $this->ilLng->txt('chat_create_private_room_button'));
         $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM_TEXT', $this->ilLng->txt('create_private_room_text'));

@@ -6,12 +6,7 @@
  */
 class ilCertificateExerciseMembersHelper
 {
-    /**
-     * @param int $objectId
-     * @param int $userId
-     * @return mixed
-     */
-    public function lookUpStatus(int $objectId, int $userId)
+    public function lookUpStatus(int $objectId, int $userId) : ?string
     {
         return ilExerciseMembers::_lookupStatus($objectId, $userId);
     }

@@ -418,7 +418,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                             $this->getLanguageText('crs_subscribe_wl_body'),
                             $this->getObjectTitle(),
                             $info['position']
-                            )
+                        )
                     );
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));

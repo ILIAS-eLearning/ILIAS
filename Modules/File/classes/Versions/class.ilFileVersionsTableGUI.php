@@ -69,11 +69,12 @@ class ilFileVersionsTableGUI extends ilTable2GUI
 
         // Columns
         $this->addColumn("", "", "1", true);
-        $this->addColumn($this->dic->language()->txt("version"), "", "1");
+        $this->addColumn($this->dic->language()->txt("version"), "", "auto");
         $this->addColumn($this->dic->language()->txt("date"));
         $this->addColumn($this->dic->language()->txt("file_uploaded_by"));
         $this->addColumn($this->dic->language()->txt("filename"));
-        $this->addColumn($this->dic->language()->txt("filesize"), "", "", false, "ilRight");
+        $this->addColumn($this->dic->language()->txt("versionname"));
+        $this->addColumn($this->dic->language()->txt("filesize"), "", "", false);
         $this->addColumn($this->dic->language()->txt("type"));
         $this->addColumn($this->dic->language()->txt("action"));
         $this->addColumn("", "", "1");
@@ -145,6 +146,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TXT_UPLOADED_BY", $username);
         $this->tpl->setVariable("DL_LINK", $link);
         $this->tpl->setVariable("TXT_FILENAME", $filename);
+        $this->tpl->setVariable("TXT_VERSIONNAME", $a_set['title']);
         $this->tpl->setVariable("TXT_FILESIZE", ilUtil::formatSize($filesize));
 
         // columns depending on confirmation

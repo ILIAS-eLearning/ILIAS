@@ -229,6 +229,12 @@ class ilObjFileGUI extends ilObject2GUI
         $upload = $DIC->upload();
         $upload->register(new ilCountPDFPagesPreProcessors());
         $post = $DIC->http()->request()->getParsedBody();
+        // Sanitize POST
+        array_walk($post, function (&$item) {
+            if (is_string($item)) {
+                $item = ilUtil::stripSlashes($item);
+            }
+        });
 
         if (!$upload->hasBeenProcessed()) {
             $upload->process();
@@ -250,11 +256,13 @@ class ilObjFileGUI extends ilObject2GUI
                         (int) $this->id_type,
                         $this->tree);
                 } else {
-                    $delegate = new ilObjFileUnzipFlatDelegate();
+                    $delegate = new ilObjFileUnzipFlatDelegate(
+                        $this->access_handler,
+                        (int) $this->id_type,
+                        $this->tree);
                 }
             } else {
                 $delegate = new ilObjFileSingleFileDelegate();
-
             }
             $response = $delegate->handle(
                 (int) $this->parent_id,
@@ -262,6 +270,14 @@ class ilObjFileGUI extends ilObject2GUI
                 $result,
                 $this
             );
+
+            $suffixes = array_unique($delegate->getUploadedSuffixes());
+            if (count(array_diff($suffixes, ilFileUtils::getValidExtensions())) > 0) {
+                ilUtil::sendInfo(
+                    $this->lng->txt('file_upload_info_file_with_critical_extension'),
+                    true
+                );
+            }
             $response->send();
         }
 

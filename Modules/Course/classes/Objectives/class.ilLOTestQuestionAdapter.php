@@ -359,7 +359,6 @@ class ilLOTestQuestionAdapter
             $this->logger->debug('No qualified test run');
             return false;
         }
-        include_once './Services/Container/classes/class.ilContainerStartObjects.php';
         if (!ilContainerStartObjects::isStartObject($this->getContainerId(), $session->getRefId())) {
             $this->logger->debug('No start object');
             return false;
@@ -420,7 +419,7 @@ class ilLOTestQuestionAdapter
                         $res['max'],
                         $res['reached'],
                         $old_result['limit_perc']
-                        ) ?
+                    ) ?
                                 ilLOUserResults::STATUS_COMPLETED :
                                 ilLOUserResults::STATUS_FAILED,
                     (int) $res['percentage'],

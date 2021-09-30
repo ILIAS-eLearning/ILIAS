@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * A node in the skill tree
@@ -9,72 +24,24 @@
  */
 class ilSkillTreeNode
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var ilSkillTree
-     */
-    protected $skill_tree;
-
-    /**
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var int
-     */
-    protected $id;
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var string
-     */
-    protected $description;
-
-    /**
-     * @var bool
-     */
-    protected $self_eval;
-
-    /**
-     * @var int
-     */
-    protected $order_nr;
-
-    /**
-     * @var string
-     */
-    protected $import_id;
-
-    /**
-     * @var string
-     */
-    protected $creation_date;
-
-    /**
-     * @var int|bool
-     */
-    protected $status;
-
-
-    protected $data_record;
+    protected ilDBInterface $db;
+    protected ilSkillTree $skill_tree;
+    protected string $type;
+    protected int $id;
+    protected string $title;
+    protected string $description = "";
+    protected bool $self_eval = false;
+    protected int $order_nr;
+    protected string $import_id = "";
+    protected string $creation_date;
+    protected int $status = 0;
+    protected array $data_record;
 
     public const STATUS_PUBLISH = 0;
     public const STATUS_DRAFT = 1;
     public const STATUS_OUTDATED = 2;
 
-    /**
-    * @param	int		node id
-    */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
 
@@ -88,180 +55,95 @@ class ilSkillTreeNode
         }
     }
 
-    /**
-     * Set title
-     *
-     * @param	string		$a_title	title
-     */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-     * Get title
-     *
-     * @return	string		title
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * Get skill tree
-     */
     public function getSkillTree() : ilSkillTree
     {
         return $this->skill_tree;
     }
 
-    /**
-     * Set description
-     *
-     * @param	string		$a_description	description
-     */
-    public function setDescription($a_description)
+    public function setDescription(string $a_description) : void
     {
         $this->description = $a_description;
     }
 
-    /**
-     * Get description
-     *
-     * @return	string		description
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-    /**
-     * Set type
-     *
-     * @param	string		Type
-     */
-    public function setType($a_type)
+    public function setType(string $a_type) : void
     {
         $this->type = $a_type;
     }
 
-    /**
-     * Get type
-     *
-     * @return	string		Type
-     */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-     * Set Node ID
-     *
-     * @param	int		Node ID
-     */
-    public function setId($a_id)
+    public function setId(int $a_id) : void
     {
         $this->id = $a_id;
     }
 
-    /**
-     * Get Node ID
-     *
-     * @param	int		Node ID
-     */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
 
-    /**
-     * Set self evaluation
-     *
-     * @param	bool	self evaluation
-     */
-    public function setSelfEvaluation($a_val)
+    public function setSelfEvaluation(bool $a_val) : void
     {
         $this->self_eval = $a_val;
     }
 
-    /**
-     * Get self evaluation
-     *
-     * @return	bool	self evaluation
-     */
-    public function getSelfEvaluation()
+    public function getSelfEvaluation() : bool
     {
         return $this->self_eval;
     }
-    
-    /**
-     * Set order nr
-     *
-     * @param int $a_val order nr
-     */
-    public function setOrderNr($a_val)
+
+    public function setOrderNr(int $a_val) : void
     {
         $this->order_nr = $a_val;
     }
-    
-    /**
-     * Get order nr
-     *
-     * @return int order nr
-     */
-    public function getOrderNr()
+
+    public function getOrderNr() : int
     {
         return $this->order_nr;
     }
 
-    /**
-     * Set import id
-     *
-     * @param string $a_val import id
-     */
-    public function setImportId($a_val)
+    public function setImportId(string $a_val) : void
     {
         $this->import_id = $a_val;
     }
 
-    /**
-     * Get import id
-     *
-     * @return string import id
-     */
-    public function getImportId()
+    public function getImportId() : string
     {
         return $this->import_id;
     }
 
-    /**
-     * Set creation date
-     *
-     * @param string $a_val creation date
-     */
-    protected function setCreationDate($a_val)
+    protected function setCreationDate(string $a_val) : void
     {
         $this->creation_date = $a_val;
     }
 
-    /**
-     * Get creation date
-     *
-     * @return string creation date
-     */
-    public function getCreationDate()
+    public function getCreationDate() : string
     {
         return $this->creation_date;
     }
 
     /**
-     * Get all status
-     *
-     * @return array array of status, key is value, value is lang text
+     * Get all status as array, key is value, value is lang text
      */
-    public static function getAllStatus()
+    public static function getAllStatus() : array
     {
         global $DIC;
 
@@ -274,13 +156,7 @@ class ilSkillTreeNode
         );
     }
 
-    /**
-     * Get status info
-     *
-     * @param int $a_status status
-     * @return string info text
-     */
-    public static function getStatusInfo($a_status)
+    public static function getStatusInfo(int $a_status) : string
     {
         global $DIC;
 
@@ -297,7 +173,7 @@ class ilSkillTreeNode
     /**
     * Read Data of Node
     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
 
@@ -309,29 +185,23 @@ class ilSkillTreeNode
         }
         $this->setType($this->data_record["type"]);
         $this->setTitle($this->data_record["title"]);
-        $this->setDescription($this->data_record["description"]);
+        $this->setDescription($this->data_record["description"] ?? "");
         $this->setOrderNr($this->data_record["order_nr"]);
-        $this->setSelfEvaluation($this->data_record["self_eval"]);
+        $this->setSelfEvaluation((bool) $this->data_record["self_eval"]);
         $this->setStatus($this->data_record["status"]);
-        $this->setImportId($this->data_record["import_id"]);
-        $this->setCreationDate($this->data_record["creation_date"]);
+        $this->setImportId($this->data_record["import_id"] ?? "");
+        $this->setCreationDate($this->data_record["creation_date"] ?? "");
     }
 
     /**
     * this method should only be called by class ilSCORM2004NodeFactory
     */
-    public function setDataRecord($a_record)
+    public function setDataRecord(array $a_record) : void
     {
         $this->data_record = $a_record;
     }
 
-    /**
-     * Lookup Title
-     *
-     * @param	int			Node ID
-     * @return	string		Title
-     */
-    protected static function _lookup($a_obj_id, $a_field)
+    protected static function _lookup(int $a_obj_id, string $a_field)
     {
         global $DIC;
 
@@ -345,13 +215,7 @@ class ilSkillTreeNode
         return $obj_rec[$a_field];
     }
 
-    /**
-     * Lookup Title
-     *
-     * @param	int			node ID
-     * @return	string		title
-     */
-    public static function _lookupTitle($a_obj_id, $a_tref_id = 0)
+    public static function _lookupTitle(int $a_obj_id, int $a_tref_id = 0) : string
     {
         if ($a_tref_id > 0 && ilSkillTemplateReference::_lookupTemplateId($a_tref_id) == $a_obj_id) {
             return self::_lookup($a_tref_id, "title");
@@ -359,13 +223,7 @@ class ilSkillTreeNode
         return self::_lookup($a_obj_id, "title");
     }
 
-    /**
-     * Lookup Description
-     *
-     * @param	int			node ID
-     * @return	string		description
-     */
-    public static function _lookupDescription($a_obj_id)
+    public static function _lookupDescription(int $a_obj_id) : string
     {
         global $DIC;
 
@@ -374,13 +232,7 @@ class ilSkillTreeNode
         return self::_lookup($a_obj_id, "description");
     }
 
-    /**
-     * Lookup self evaluation
-     *
-     * @param	int			node ID
-     * @return	bool		selectable? (self evaluation)
-     */
-    public static function _lookupSelfEvaluation($a_obj_id)
+    public static function _lookupSelfEvaluation(int $a_obj_id) : bool
     {
         global $DIC;
 
@@ -388,14 +240,8 @@ class ilSkillTreeNode
 
         return (bool) self::_lookup($a_obj_id, "self_eval");
     }
-    
-    /**
-     * Lookup Status
-     *
-     * @param int $a_obj_id node ID
-     * @return int status
-     */
-    public static function _lookupStatus($a_obj_id)
+
+    public static function _lookupStatus(int $a_obj_id) : int
     {
         global $DIC;
 
@@ -403,14 +249,8 @@ class ilSkillTreeNode
 
         return (int) self::_lookup($a_obj_id, "status");
     }
-    
-    /**
-    * Lookup Type
-    *
-    * @param	int			Node ID
-    * @return	string		Type
-    */
-    public static function _lookupType($a_obj_id)
+
+    public static function _lookupType(int $a_obj_id) : string
     {
         global $DIC;
 
@@ -424,33 +264,17 @@ class ilSkillTreeNode
         return $obj_rec["type"];
     }
 
-    /**
-     * Set status
-     *
-     * @param bool $a_val status
-     */
-    public function setStatus($a_val)
+    public function setStatus(int $a_val) : void
     {
         $this->status = $a_val;
     }
-    
-    /**
-     * Get status
-     *
-     * @return int status
-     */
-    public function getStatus()
+
+    public function getStatus() : int
     {
         return $this->status;
     }
-    
-    /**
-     * Write Title
-     *
-     * @param	int			Node ID
-     * @param	string		Title
-     */
-    public static function _writeTitle($a_obj_id, $a_title)
+
+    public static function _writeTitle(int $a_obj_id, string $a_title) : void
     {
         global $DIC;
 
@@ -463,13 +287,7 @@ class ilSkillTreeNode
         $ilDB->manipulate($query);
     }
 
-    /**
-     * Write Description
-     *
-     * @param	int			Node ID
-     * @param	string		Description
-     */
-    public static function _writeDescription($a_obj_id, $a_description)
+    public static function _writeDescription(int $a_obj_id, string $a_description) : void
     {
         global $DIC;
 
@@ -482,13 +300,7 @@ class ilSkillTreeNode
         $ilDB->manipulate($query);
     }
 
-    /**
-     * Write Order Nr
-     *
-     * @param	int			Node ID
-     * @param	string		Order Nr
-     */
-    public static function _writeOrderNr($a_obj_id, $a_nr)
+    public static function _writeOrderNr(int $a_obj_id, int $a_nr) : void
     {
         global $DIC;
 
@@ -499,13 +311,11 @@ class ilSkillTreeNode
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer");
         $ilDB->manipulate($query);
     }
-    
+
     /**
     * Create Node
-    *
-    * @param	bool		Upload Mode
     */
-    public function create()
+    public function create() : void
     {
         $ilDB = $this->db;
 
@@ -520,7 +330,7 @@ class ilSkillTreeNode
             $ilDB->now() . ", " .
             $ilDB->quote((int) $this->getSelfEvaluation(), "integer") . ", " .
             $ilDB->quote($this->getOrderNr(), "integer") . ", " .
-            $ilDB->quote((int) $this->getStatus(), "integer") . ", " .
+            $ilDB->quote($this->getStatus(), "integer") . ", " .
             $ilDB->now() . ", " .
             $ilDB->quote($this->getImportId(), "text") .
             ")";
@@ -540,7 +350,7 @@ class ilSkillTreeNode
             " ,description = " . $ilDB->quote($this->getDescription(), "clob") .
             " ,self_eval = " . $ilDB->quote((int) $this->getSelfEvaluation(), "integer") .
             " ,order_nr = " . $ilDB->quote($this->getOrderNr(), "integer") .
-            " ,status = " . $ilDB->quote((int) $this->getStatus(), "integer") .
+            " ,status = " . $ilDB->quote($this->getStatus(), "integer") .
             " ,import_id = " . $ilDB->quote($this->getImportId(), "text") .
             " WHERE obj_id = " . $ilDB->quote($this->getId(), "integer");
 
@@ -562,12 +372,12 @@ class ilSkillTreeNode
     /**
      * Put this object into the skill tree
      */
-    public static function putInTree($a_obj, $a_parent_id = "", $a_target_node_id = "")
+    public static function putInTree(ilSkillTreeNode $a_obj, int $a_parent_id = 0, int $a_target_node_id = 0) : void
     {
         $skill_tree = new ilSkillTree();
 
         // determine parent
-        $parent_id = ($a_parent_id != "")
+        $parent_id = ($a_parent_id != 0)
             ? $a_parent_id
             : $skill_tree->getRootId();
 
@@ -584,7 +394,7 @@ class ilSkillTreeNode
         }
         
         // determine target
-        if ($a_target_node_id != "") {
+        if ($a_target_node_id != 0) {
             $target = $a_target_node_id;
         } else {
             // determine last child that serves as predecessor
@@ -604,12 +414,8 @@ class ilSkillTreeNode
     
     /**
     * Get scorm module editing tree
-    *
-    * @param	int		scorm module object id
-    *
-    * @return	object		tree object
     */
-    public static function getTree($a_slm_obj_id)
+    public static function getTree(int $a_slm_obj_id) : ilSkillTree //seems not to be used
     {
         $tree = new ilSkillTree();
         
@@ -619,9 +425,9 @@ class ilSkillTreeNode
     /**
      * Check for unique types
      */
-    public static function uniqueTypesCheck($a_items)
+    public static function uniqueTypesCheck(array $a_items) : bool
     {
-        $types = array();
+        $types = [];
         if (is_array($a_items)) {
             foreach ($a_items as $item) {
                 $type = ilSkillTreeNode::_lookupType($item);
@@ -638,8 +444,6 @@ class ilSkillTreeNode
     /**
      * Cut and copy a set of skills/skill categories into the clipboard
      *
-     * @param int   $a_tree_id
-     * @param array $a_ids
      * @throws ilInvalidTreeStructureException
      */
     public static function clipboardCut(int $a_tree_id, array $a_ids) : void
@@ -679,7 +483,7 @@ class ilSkillTreeNode
     /**
      * Copy a set of skills/skill categories into the clipboard
      */
-    public static function clipboardCopy($a_tree_id, $a_ids)
+    public static function clipboardCopy(int $a_tree_id, array $a_ids) : void
     {
         global $DIC;
 
@@ -727,7 +531,7 @@ class ilSkillTreeNode
     /**
      * Insert basic skills from clipboard
      */
-    public static function insertItemsFromClip($a_type, $a_obj_id)
+    public static function insertItemsFromClip(string $a_type, int $a_obj_id) : array
     {
         global $DIC;
 
@@ -740,7 +544,7 @@ class ilSkillTreeNode
 
         // cut and paste
         $skills = $ilUser->getClipboardObjects($a_type);  // this will get all skills _regardless_ of level
-        $copied_nodes = array();
+        $copied_nodes = [];
         foreach ($skills as $skill) {
             // if skill was already copied as part of tree - do not copy it again
             if (!in_array($skill["id"], array_keys($copied_nodes))) {
@@ -764,7 +568,7 @@ class ilSkillTreeNode
 
         ilSkillTreeNode::saveChildsOrder(
             $a_obj_id,
-            array(),
+            [],
             in_array($a_type, array("sktp", "sctp"))
         );
 
@@ -774,7 +578,7 @@ class ilSkillTreeNode
     /**
      * Remove all skill items from clipboard
      */
-    public static function clearClipboard()
+    public static function clearClipboard() : void
     {
         global $DIC;
 
@@ -793,14 +597,14 @@ class ilSkillTreeNode
      * Paste item (tree) from clipboard to skill tree
      */
     public static function pasteTree(
-        $a_item_id,
-        $a_parent_id,
-        $a_target,
-        $a_insert_time,
-        &$a_copied_nodes,
-        $a_as_copy = false,
-        $a_add_suffix = false
-    ) {
+        int $a_item_id,
+        int $a_parent_id,
+        int $a_target,
+        string $a_insert_time,
+        array &$a_copied_nodes,
+        bool $a_as_copy = false,
+        bool $a_add_suffix = false
+    ) : int {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -860,11 +664,8 @@ class ilSkillTreeNode
 
     /**
      * Is id in tree?
-     *
-     * @param
-     * @return
      */
-    public static function isInTree($a_id)
+    public static function isInTree(int $a_id) : bool
     {
         $skill_tree = new ilSkillTree();
         if ($skill_tree->isInTree($a_id)) {
@@ -873,13 +674,7 @@ class ilSkillTreeNode
         return false;
     }
 
-    /**
-     * Get all self evaluation nodes
-     *
-     * @param
-     * @return
-     */
-    public static function getAllSelfEvaluationNodes()
+    public static function getAllSelfEvaluationNodes() : array
     {
         global $DIC;
 
@@ -889,7 +684,7 @@ class ilSkillTreeNode
             "SELECT obj_id, title FROM skl_tree_node WHERE " .
             " self_eval = " . $ilDB->quote(true, "integer") . " ORDER BY TITLE "
         );
-        $nodes = array();
+        $nodes = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $nodes[$rec["obj_id"]] = $rec["title"];
         }
@@ -898,25 +693,16 @@ class ilSkillTreeNode
 
     /**
      * Get top skill templates and template categories
-     *
-     * @param
-     * @return
      */
-    public static function getTopTemplates()
+    public static function getTopTemplates() : array
     {
         $tr = new ilSkillTree();
         $childs = $tr->getChildsByTypeFilter($tr->getRootId(), array("sktp", "sctp"));
         
         return $childs;
     }
-    
-    /**
-     * Get selectable skills
-     *
-     * @param
-     * @return
-     */
-    public static function getSelectableSkills()
+
+    public static function getSelectableSkills() : array
     {
         global $DIC;
 
@@ -927,7 +713,7 @@ class ilSkillTreeNode
             " WHERE self_eval = " . $ilDB->quote(1, "integer")
         );
         
-        $sel_skills = array();
+        $sel_skills = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $sel_skills[] = $rec;
         }
@@ -935,14 +721,7 @@ class ilSkillTreeNode
         return $sel_skills;
     }
 
-    /**
-     * Save childs order
-     *
-     * @param int $a_par_id
-     * @param array $a_childs_order
-     * @param bool $a_templates
-     */
-    public static function saveChildsOrder($a_par_id, $a_childs_order, $a_templates = false)
+    public static function saveChildsOrder(int $a_par_id, array $a_childs_order, bool $a_templates = false) : void
     {
         $skill_tree = new ilSkillTree();
         
@@ -975,16 +754,7 @@ class ilSkillTreeNode
         }
     }
 
-    /**
-     * Get icon path
-     *
-     * @param int $a_obj_id node id
-     * @param string $a_type node type
-     * @param string $a_size size
-     * @param int $a_status status
-     * @return string icon path
-     */
-    public static function getIconPath($a_obj_id, $a_type, $a_size = "", $a_status = 0)
+    public static function getIconPath(int $a_obj_id, string $a_type, string $a_size = "", int $a_status = 0) : string
     {
         if ($a_status == self::STATUS_DRAFT && $a_type == "sctp") {
             $a_type = "scat";
@@ -1009,20 +779,14 @@ class ilSkillTreeNode
         return ilUtil::getImagePath($a_name) . "?" . $vers;
     }
 
-    /**
-     * Find skills
-     *
-     * @param
-     * @return
-     */
-    public static function findSkills($a_term)
+    public static function findSkills(string $a_term) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
-        $res = array();
-        $candidates = array();
+        $res = [];
+        $candidates = [];
 
         $skill_tree = new ilSkillTree();
 
@@ -1079,13 +843,10 @@ class ilSkillTreeNode
 
     /**
      * Get all possible common skill IDs for node IDs
-     *
-     * @param array $a_node_ids array of node ids
-     * @return array array of skill ids
      */
-    public static function getAllCSkillIdsForNodeIds(array $a_node_ids)
+    public static function getAllCSkillIdsForNodeIds(array $a_node_ids) : array
     {
-        $cskill_ids = array();
+        $cskill_ids = [];
         foreach ($a_node_ids as $id) {
             if (in_array(self::_lookupType($id), array("skll", "scat", "sktr"))) {
                 $skill_id = $id;

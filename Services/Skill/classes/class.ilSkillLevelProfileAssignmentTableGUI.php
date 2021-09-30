@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * TableGUI class for skill profile skill level assignment
@@ -13,42 +30,19 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
      * @var ilCtrl
      */
     protected $ctrl;
+    protected int $skill_id;
+    protected int $tref_id;
+    protected ilBasicSkill $skill;
+    protected SkillAdminGUIRequest $admin_gui_request;
+    protected int $requested_level_id;
 
-    /**
-     * @var int
-     */
-    protected $skill_id;
-
-    /**
-     * @var int
-     */
-    protected $tref_id;
-
-    /**
-     * @var ilBasicSkill
-     */
-    protected $skill;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_level_id;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_cskill_id)
+    public function __construct($a_parent_obj, string $a_parent_cmd, string $a_cskill_id)
     {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
@@ -56,8 +50,7 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
         $this->skill_id = (int) $parts[0];
         $this->tref_id = (int) $parts[1];
 
-        $params = $this->request->getQueryParams();
-        $this->requested_level_id = (int) ($params["level_id"] ?? 0);
+        $this->requested_level_id = $this->admin_gui_request->getLevelId();
 
         $this->skill = new ilBasicSkill($this->skill_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -71,11 +64,8 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_level_profile_assignment_row.html", "Services/Skill");
     }
-    
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

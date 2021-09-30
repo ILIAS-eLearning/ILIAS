@@ -1,60 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\UI\Component\Item\Group;
+use ILIAS\UI\Component\Item\Item;
 
 /**
  * Dashboard recommended content UI
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilDashboardRecommendedContentGUI
 {
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected ilRecommendedContentManager $rec_manager;
+    /** @var int[] */
+    protected array $recommendations;
+    public static array $list_by_type = [];
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilFavouritesManager $fav_manager;
 
-    /**
-     * @var \ilRecommendedContentManager
-     */
-    protected $rec_manager;
-
-    /**
-     * @var int[]
-     */
-    protected $recommendations;
-
-    /**
-     * @var array
-     */
-    public static $list_by_type = [];
-
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilFavouritesManager
-     */
-    protected $fav_manager;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->user = $DIC->user();
@@ -67,15 +48,13 @@ class ilDashboardRecommendedContentGUI
 
         $this->lng->loadLanguageModule("rep");
 
-        $this->requested_item_ref_id = (int) ($_GET["item_ref_id"] ?? null);
+        $request = $DIC->repository()->internal()->gui()->standardRequest();
+        $this->requested_item_ref_id = $request->getItemRefId();
 
         $this->recommendations = $this->rec_manager->getOpenRecommendationsOfUser($this->user->getId());
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -90,12 +69,7 @@ class ilDashboardRecommendedContentGUI
         }
     }
 
-    /**
-     * Render
-     *
-     * @return string
-     */
-    public function render()
+    public function render() : string
     {
         if (count($this->recommendations) == 0) {
             return "";
@@ -109,9 +83,7 @@ class ilDashboardRecommendedContentGUI
     }
 
     /**
-     * Get items
-     *
-     * @return \ILIAS\UI\Component\Item\Group[]
+     * @return Group[]
      */
     protected function getListItemGroups() : array
     {
@@ -134,11 +106,7 @@ class ilDashboardRecommendedContentGUI
         return $item_groups;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    protected function getListItemForData($ref_id) : ?\ILIAS\UI\Component\Item\Item
+    protected function getListItemForData(int $ref_id) : ?Item
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -175,22 +143,20 @@ class ilDashboardRecommendedContentGUI
 
 
         $list_item = $item_gui->getAsListItem(
-            (int) $ref_id,
-            (int) $obj_id,
-            (string) $type,
-            (string) $title,
-            (string) $desc
+            $ref_id,
+            $obj_id,
+            $type,
+            $title,
+            $desc
         );
 
         return $list_item;
     }
 
     /**
-     * @param string $a_type
-     * @return ilObjectListGUI
      * @throws ilException
      */
-    public function byType($a_type)
+    public function byType(string $a_type) : ilObjectListGUI
     {
         /** @var $item_list_gui ilObjectListGUI */
         if (!array_key_exists($a_type, self::$list_by_type)) {
@@ -228,10 +194,8 @@ class ilDashboardRecommendedContentGUI
         return (clone self::$list_by_type[$a_type]);
     }
 
-    /**
-     * Remove from list
-     */
-    protected function remove()
+    // Remove from list
+    protected function remove() : void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -240,11 +204,7 @@ class ilDashboardRecommendedContentGUI
         $ctrl->returnToParent($this);
     }
 
-
-    /**
-     * Make favourite
-     */
-    protected function makeFavourite()
+    protected function makeFavourite() : void
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;

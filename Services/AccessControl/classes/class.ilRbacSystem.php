@@ -387,7 +387,6 @@ class ilRbacSystem
      */
     public function initMemberView()
     {
-        include_once './Services/Container/classes/class.ilMemberViewSettings.php';
         $settings = ilMemberViewSettings::getInstance();
         
         // disable member view

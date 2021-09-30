@@ -173,6 +173,8 @@ class ilTestQuestionSideListGUI
             $class = (
                 $row['worked_through'] ? 'answered' . $active : 'unanswered' . $active
             );
+
+            $headerclass =  ($row['sequence'] == $this->getCurrentSequenceElement()) ? 'bold' : '';
             
             if ($row['marked']) {
                 $tpl->setCurrentBlock("mark_icon");
@@ -185,6 +187,7 @@ class ilTestQuestionSideListGUI
             if ($this->isDisabled() || $row['disabled']) {
                 $tpl->setCurrentBlock('disabled_entry');
                 $tpl->setVariable('CLASS', $class);
+                $tpl->setVariable('HEADERCLASS', $headerclass);
                 $tpl->setVariable('ITEM', $title);
                 $tpl->setVariable('DESCRIPTION', $description);
                 $tpl->parseCurrentBlock();
@@ -195,6 +198,7 @@ class ilTestQuestionSideListGUI
                 $tpl->setVariable('HREF', $this->buildLink($row['sequence']));
                 $tpl->setVariable('NEXTCMD', ilTestPlayerCommands::SHOW_QUESTION);
                 $tpl->setVariable('NEXTSEQ', $row['sequence']);
+                $tpl->setVariable('HEADERCLASS', $headerclass);
                 $tpl->setVariable('CLASS', $class);
                 $tpl->setVariable('ITEM', $title);
                 $tpl->setVariable("DESCRIPTION", $description);

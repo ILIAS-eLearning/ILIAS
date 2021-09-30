@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Basic Skill
@@ -8,25 +23,10 @@
  */
 class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilBasicSkillLevelRepository
-     */
-    protected $bsc_skl_lvl_db_rep;
-
-    /**
-     * @var ilBasicSkillUserLevelRepository
-     */
-    protected $bsc_skl_usr_lvl_db_rep;
-
-    /**
-     * @var ilBasicSkillTreeRepository
-     */
-    protected $bsc_skl_tre_rep;
+    protected ilObjUser $user;
+    protected ilBasicSkillLevelRepository $bsc_skl_lvl_db_rep;
+    protected ilBasicSkillUserLevelRepository $bsc_skl_usr_lvl_db_rep;
+    protected ilBasicSkillTreeRepository $bsc_skl_tre_rep;
 
     //TODO: What to do with these constants?
     public const ACHIEVED = 1;
@@ -36,15 +36,6 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     public const EVAL_BY_SELF = 1;
     public const EVAL_BY_ALL = 2;
 
-    public $id;
-
-    /**
-     * ilBasicSkill constructor.
-     * @param int                                  $a_id
-     * @param ilBasicSkillLevelRepository|null     $bsc_skl_lvl_db_rep
-     * @param ilBasicSkillUserLevelRepository|null $bsc_skl_usr_lvl_db_rep
-     * @param ilBasicSkillTreeRepository|null      $bsc_skl_tre_rep
-     */
     public function __construct(
         int $a_id = 0,
         ilBasicSkillLevelRepository $bsc_skl_lvl_db_rep = null,
@@ -81,7 +72,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     /**
      * Read data from database
      */
-    public function read()
+    public function read() : void
     {
         parent::read();
     }
@@ -89,7 +80,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     /**
      * Create skill
      */
-    public function create()
+    public function create() : void
     {
         parent::create();
     }
@@ -97,7 +88,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     /**
      * Delete skill
      */
-    public function delete()
+    public function delete() : void
     {
         $skill_id = $this->getId();
         $this->bsc_skl_lvl_db_rep->deleteLevelsOfSkill($skill_id);
@@ -109,7 +100,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     /**
      * Copy basic skill
      */
-    public function copy()
+    public function copy() : ilBasicSkill
     {
         $skill = new ilBasicSkill();
         $skill->setTitle($this->getTitle());
@@ -136,7 +127,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     //
     //
 
-    public function addLevel(string $a_title, string $a_description, string $a_import_id = "")
+    public function addLevel(string $a_title, string $a_description, string $a_import_id = "") : void
     {
         $skill_id = $this->getId();
         $this->bsc_skl_lvl_db_rep->addLevel($skill_id, $a_title, $a_description, $a_import_id);
@@ -182,7 +173,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         return $repository->lookupLevelSkillId($a_id);
     }
 
-    public static function writeLevelTitle(int $a_id, string $a_title)
+    public static function writeLevelTitle(int $a_id, string $a_title) : void
     {
         global $DIC;
 
@@ -192,7 +183,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $repository->writeLevelTitle($a_id, $a_title);
     }
 
-    public static function writeLevelDescription(int $a_id, string $a_description)
+    public static function writeLevelDescription(int $a_id, string $a_description) : void
     {
         global $DIC;
 
@@ -202,24 +193,24 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $repository->writeLevelDescription($a_id, $a_description);
     }
 
-    public function updateLevelOrder(array $order)
+    public function updateLevelOrder(array $order) : void
     {
         asort($order);
         $this->bsc_skl_lvl_db_rep->updateLevelOrder($order);
     }
 
-    public function deleteLevel(int $a_id)
+    public function deleteLevel(int $a_id) : void
     {
         $this->bsc_skl_lvl_db_rep->deleteLevel($a_id);
     }
 
-    public function fixLevelNumbering()
+    public function fixLevelNumbering() : void
     {
         $skill_id = $this->getId();
         $this->bsc_skl_lvl_db_rep->fixLevelNumbering($skill_id);
     }
 
-    public function getSkillForLevelId(int $a_level_id)
+    public function getSkillForLevelId(int $a_level_id) : ?ilBasicSkill
     {
         return $this->bsc_skl_lvl_db_rep->getSkillForLevelId($a_level_id);
     }
@@ -236,7 +227,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0,
         bool $a_self_eval = false
-    ) {
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -274,7 +265,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         int $a_skill_id,
         int $a_tref_id = 0,
         int $a_trigger_ref_id = 0
-    ) {
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -319,7 +310,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
         float $a_next_level_fulfilment = 0.0
-    ) {
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -391,7 +382,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         );
     }
 
-    public static function removeAllUserData(int $a_user_id)
+    public static function removeAllUserData(int $a_user_id) : void
     {
         global $DIC;
 
@@ -509,7 +500,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) {
+    ) : ?int {
         if ($a_user_id == 0) {
             $a_user_id = $this->user->getId();
         }
@@ -529,7 +520,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) {
+    ) : ?string {
         if ($a_user_id == 0) {
             $a_user_id = $this->user->getId();
         }
@@ -550,30 +541,17 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     //
     //
 
-    /**
-     * Get title for certificate
-     * @return string
-     */
-    public function getTitleForCertificate()
+    public function getTitleForCertificate() : string
     {
         return $this->getTitle();
     }
 
-    /**
-     * Get short title for certificate
-     * @return string
-     */
-    public function getShortTitleForCertificate()
+    public function getShortTitleForCertificate() : string
     {
         return "Skill";
     }
 
-    /**
-     * Get usage info
-     * @param array $a_cskill_ids
-     * @param array $a_usages
-     */
-    public static function getUsageInfo($a_cskill_ids, &$a_usages)
+    public static function getUsageInfo(array $a_cskill_ids, array &$a_usages) // return type?
     {
         ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
@@ -596,7 +574,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         $tree = new ilSkillTree();
 
         if ($a_source_inst_id == 0) {
-            return array();
+            return [];
         }
 
         $repository = new ilBasicSkillTreeDBRepository($ilDB);
@@ -619,14 +597,6 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         return $repository->getLevelIdForImportId($a_source_inst_id, $a_level_import_id);
     }
 
-    /**
-     * Get level ids for import Ids matching common skills
-     * @param int $a_source_inst_id
-     * @param int $a_level_import_id
-     * @param int $a_skill_import_id
-     * @param int $a_tref_import_id
-     * @return array
-     */
     public static function getLevelIdForImportIdMatchSkill(
         int $a_source_inst_id,
         int $a_level_import_id,
@@ -635,7 +605,7 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
     ) : array {
         $level_id_data = self::getLevelIdForImportId($a_source_inst_id, $a_level_import_id);
         $skill_data = self::getCommonSkillIdForImportId($a_source_inst_id, $a_skill_import_id, $a_tref_import_id);
-        $matches = array();
+        $matches = [];
         foreach ($level_id_data as $l) {
             reset($skill_data);
             foreach ($skill_data as $s) {

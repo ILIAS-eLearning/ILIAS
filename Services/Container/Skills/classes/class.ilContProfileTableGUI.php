@@ -1,6 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
 
 /**
  * TableGUI class for competence profiles in containers
@@ -22,41 +40,18 @@ class ilContProfileTableGUI extends ilTable2GUI
     protected $lng;
 
     /**
-     * @var ilTemplate
+     * @var ilGlobalTemplateInterface
      */
     protected $tpl;
+    protected Factory $ui_factory;
+    protected Renderer $ui_renderer;
+    protected ilContainerGlobalProfiles $container_global_profiles;
+    protected ilContainerLocalProfiles $container_local_profiles;
+    protected ilSkillManagementSettings $skmg_settings;
 
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $ui_factory;
-
-    /**
-     * @var \ILIAS\UI\Renderer
-     */
-    protected $ui_renderer;
-
-    /**
-     * @var ilContainerGlobalProfiles
-     */
-    protected $container_global_profiles;
-
-    /**
-     * @var ilContainerLocalProfiles
-     */
-    protected $container_local_profiles;
-
-    /**
-     * @var ilSkillManagementSettings
-     */
-    protected $skmg_settings;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
+        string $a_parent_cmd,
         ilContainerGlobalProfiles $a_cont_glb_profiles,
         ilContainerLocalProfiles $a_cont_lcl_profiles
     ) {
@@ -93,14 +88,9 @@ class ilContProfileTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * Get profiles
-     *
-     * @return array
-     */
-    public function getProfiles()
+    public function getProfiles() : array
     {
-        $profiles = array();
+        $profiles = [];
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
             foreach ($this->container_global_profiles->getProfiles() as $gp) {
                 $profiles[$gp["profile_id"]] = array(
@@ -122,10 +112,7 @@ class ilContProfileTableGUI extends ilTable2GUI
         return $profiles;
     }
 
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;

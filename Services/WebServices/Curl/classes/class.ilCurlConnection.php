@@ -106,6 +106,8 @@ class ilCurlConnection
      */
     final public function init(bool $set_proxy = true)
     {
+        // teminate existing handles
+        $this->close();
         if (strlen($this->url)) {
             $this->ch = curl_init($this->url);
         #$GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': ' . $this->url);

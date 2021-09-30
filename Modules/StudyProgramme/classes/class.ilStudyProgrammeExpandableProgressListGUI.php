@@ -39,7 +39,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
      */
     protected $il_rbacsystem;
 
-    public function __construct(ilStudyProgrammeUserProgress $a_progress)
+    public function __construct(ilStudyProgrammeProgress $a_progress)
     {
         parent::__construct($a_progress);
 
@@ -116,7 +116,9 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
 
     protected function getAccordionContentHTML()
     {
-        if (!$this->progress->getStudyProgramme()->hasLPChildren()) {
+        $programme = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
+
+        if (!$programme->hasLPChildren()) {
             return $this->getAccordionContentProgressesHTML();
         } else {
             return $this->getAccordionContentCoursesHTML();
@@ -127,20 +129,24 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
     {
         // Make shouldShowSubProgress and newSubItem protected again afterwards, do
         // the same in the derived class ilStudyProgrammeIndividualPlanProgressListGUI.
-        return implode("\n", array_map(function (ilStudyProgrammeUserProgress $progress) {
+        $programme = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
+        $child_progresses = $programme->getChildrenProgress($this->progress);
+
+        return implode("\n", array_map(function (ilStudyProgrammeProgress $progress) {
             if (!$this->shouldShowSubProgress($progress)) {
                 return "";
             }
             $gui = $this->newSubItem($progress);
             $gui->setIndent($this->getIndent() + 1);
             return $gui->getHTML();
-        }, $this->progress->getChildrenProgress()));
+        }, $child_progresses));
     }
 
-    protected function shouldShowSubProgress(ilStudyProgrammeUserProgress $a_progress)
+    protected function shouldShowSubProgress(ilStudyProgrammeProgress $a_progress)
     {
         if ($a_progress->isRelevant()) {
-            $prg = $a_progress->getStudyProgramme();
+            $prg = ilObjStudyProgramme::getInstanceByObjId($a_progress->getNodeId());
+
             $can_read = $this->il_access->checkAccess("read", "", $prg->getRefId(), "prg", $prg->getId());
             if ($this->visible_on_pd_mode == ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD_READ && !$can_read) {
                 return false;
@@ -152,7 +158,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         return false;
     }
 
-    protected function newSubItem(ilStudyProgrammeUserProgress $a_progress)
+    protected function newSubItem(ilStudyProgrammeProgress $a_progress)
     {
         return new ilStudyProgrammeExpandableProgressListGUI($a_progress);
     }
@@ -163,7 +169,14 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_PERSONAL_DESKTOP);
 
         $crs = array();
-        foreach ($this->progress->getStudyProgramme()->getLPChildren() as $il_obj_crs_ref) {
+        $prg = ilObjStudyProgramme::getInstanceByObjId($this->progress->getNodeId());
+        foreach ($prg->getLPChildren() as $il_obj_crs_ref) {
+            if (ilObject::_exists($il_obj_crs_ref, true) &&
+                is_null(ilObject::_lookupDeletedDate($il_obj_crs_ref))
+            ) {
+                continue;
+            }
+
             $course = ilObjectFactory::getInstanceByRefId($il_obj_crs_ref->getTargetRefId());
             $preloader->addItem($course->getId(), $course->getType(), $course->getRefId());
             $crs[] = $course;
@@ -182,7 +195,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
                 $course->getId(),
                 $course->getTitle(),
                 $course->getDescription()
-                );
+            );
         }, $crs));
     }
     
@@ -246,7 +259,7 @@ class ilStudyProgrammeExpandableProgressListGUI extends ilStudyProgrammeProgress
         return ilUtil::getImagePath("tree_col.svg");
     }
 
-    protected function getTitleAndIconTarget(ilStudyProgrammeUserProgress $a_progress)
+    protected function getTitleAndIconTarget(ilStudyProgrammeProgress $a_progress)
     {
         return null;
     }

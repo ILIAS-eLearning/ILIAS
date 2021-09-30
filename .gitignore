@@ -43,3 +43,4 @@ virtual-data
 override.php
 captainhook.config.json
 captainhook.local.json
+.phpunit.result.cache

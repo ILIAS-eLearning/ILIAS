@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,9 +6,9 @@
  */
 class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testSaveOfUserCertificateToDatabase()
+    public function testSaveOfUserCertificateToDatabase() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $database->method('nextId')
@@ -35,7 +35,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             )
         );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -68,9 +68,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $repository->save($userCertificate);
     }
 
-    public function testFetchAllActiveCertificateForUser()
+    public function testFetchAllActiveCertificateForUser() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $database->method('nextId')
@@ -115,7 +115,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             )
         );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -125,8 +125,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $repository = new ilUserCertificateRepository(
             $database,
             $logger,
-            'someDefaultTitle',
-            'someDefaultDescription'
+            'someDefaultTitle'
         );
 
         $results = $repository->fetchActiveCertificates(400);
@@ -135,9 +134,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertEquals(142, $results[1]->getUserCertificate()->getId());
     }
 
-    public function testFetchActiveCertificateForUserObjectCombination()
+    public function testFetchActiveCertificateForUserObjectCombination() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $database->method('nextId')
@@ -180,7 +179,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             )
         );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -201,11 +200,11 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
     /**
      *
      */
-    public function testFetchNoActiveCertificateLeadsToException()
+    public function testFetchNoActiveCertificateLeadsToException() : void
     {
         $this->expectException(\ilException::class);
 
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $database->method('nextId')
@@ -213,7 +212,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 
         $database->method('fetchAssoc')->willReturn(array());
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -227,9 +226,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen. Certificate Found?');
     }
 
-    public function testFetchActiveCertificatesByType()
+    public function testFetchActiveCertificatesByType() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $database->method('nextId')
@@ -276,7 +275,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             )
         );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -291,9 +290,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertEquals(142, $results[1]->getUserCertificate()->getId());
     }
 
-    public function testFetchCertificate()
+    public function testFetchCertificate() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $database->method('nextId')
@@ -321,7 +320,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
             )
         );
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -335,14 +334,11 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertEquals(141, $result->getId());
     }
 
-    /**
-     *
-     */
-    public function testNoCertificateInFetchtCertificateLeadsToException()
+    public function testNoCertificateInFetchtCertificateLeadsToException() : void
     {
         $this->expectException(\ilException::class);
 
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $database->method('nextId')
@@ -351,7 +347,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $database->method('fetchAssoc')
             ->willReturn(array());
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -365,9 +361,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->fail('Should never happen. Certificate Found?');
     }
 
-    public function testFetchObjectWithCertificateForUser()
+    public function testFetchObjectWithCertificateForUser() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $database
@@ -390,7 +386,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $database->method('fetchAssoc')
             ->willReturn(array());
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -407,9 +403,9 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $this->assertEquals(array(100, 300), $results);
     }
 
-    public function testFetchUserIdsWithCertificateForObject()
+    public function testFetchUserIdsWithCertificateForObject() : void
     {
-        $database = $this->getMockBuilder('ilDBInterface')
+        $database = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $database
@@ -428,7 +424,7 @@ class ilUserCertificateRepositoryTest extends ilCertificateBaseTestCase
         $database->method('fetchAssoc')
             ->willReturn(array());
 
-        $logger = $this->getMockBuilder('ilLogger')
+        $logger = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 

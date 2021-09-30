@@ -54,7 +54,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
@@ -317,7 +317,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
      *
      * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         /** @var $rbacsystem ilRbacSystem */
         /** @var $ilTabs ilTabsGUI */
@@ -396,10 +396,9 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
     /**
      * @param int $active_id
      * @param int $pass
-     *
-     * @return mixed|string
+     * @return string
      */
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution):string
     {
         $output = "";
         return $this->object->prepareTextareaOutput($output, true);
@@ -556,7 +555,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return $tpl;
     }
     
-    public function getAnswersFrequency($relevantAnswers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         $answers = array();
         
@@ -573,7 +572,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
         return $answers;
     }
     
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         // points
         $points = new ilNumberInputGUI($this->lng->txt("points"), "points");
@@ -617,7 +616,7 @@ class assNumericGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjust
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $this->object->setPoints((float) $form->getInput('points'));
         $this->object->setLowerLimit((float) $form->getInput('lowerlimit'));

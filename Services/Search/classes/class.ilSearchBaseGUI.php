@@ -4,6 +4,8 @@
 include_once 'Services/Search/classes/class.ilSearchSettings.php';
 include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
 
+use ILIAS\Repository\Clipboard\ClipboardManager;
+
 /**
 * Class ilSearchBaseGUI
 *
@@ -49,12 +51,15 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
      */
     protected $user;
 
+    protected ClipboardManager $clipboard;
+
     /**
     * Constructor
     * @access public
     */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
@@ -73,6 +78,11 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $this->settings = new ilSearchSettings();
         $this->favourites = new ilFavouritesManager();
         $this->user = $DIC->user();
+        $this->clipboard = $DIC
+            ->repository()
+            ->internal()
+            ->domain()
+            ->clipboard();
     }
 
     public function prepareOutput()
@@ -127,7 +137,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
                         ilSearchBaseGUI::SEARCH_FAST ?
                         ilSearchBaseGUI::SEARCH_FAST :
                         ilSearchBaseGUI::SEARCH_DETAILS
-                    );
+                );
                 $op1 = new ilRadioOption($lng->txt("search_fast_info"), ilSearchBaseGUI::SEARCH_FAST);
                 $radg->addOption($op1);
                 $op2 = new ilRadioOption($lng->txt("search_details_info"), ilSearchBaseGUI::SEARCH_DETAILS);
@@ -333,7 +343,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
     public function clear()
     {
-        unset($_SESSION['clipboard']);
+        $this->clipboard->clear();
         $this->ctrl->redirect($this);
     }
 

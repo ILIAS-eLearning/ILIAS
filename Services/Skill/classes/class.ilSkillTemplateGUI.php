@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skill template GUI class
@@ -10,31 +25,12 @@
  */
 class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTabsGUI $tabs;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_node_id = 0)
+    public function __construct(int $a_node_id = 0)
     {
         global $DIC;
 
@@ -49,18 +45,12 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
         parent::__construct($a_node_id);
     }
 
-    /**
-     * Get Node Type
-     */
-    public function getType()
+    public function getType() : string
     {
         return "stmp";
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -77,11 +67,8 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
                 break;
         }
     }
-    
-    /**
-     * output tabs
-     */
-    public function setTabs()
+
+    public function setTabs() : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -92,18 +79,5 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
         $tpl->setTitle(
             $lng->txt("skmg_skill_template") . ": " . $this->node_object->getTitle()
         );
-    }
-
-
-    /**
-     * Perform drag and drop action
-     */
-    public function proceedDragDrop()
-    {
-        $ilCtrl = $this->ctrl;
-
-        //		$this->slm_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
-//			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
-//		$ilCtrl->redirect($this, "showOrganization");
     }
 }

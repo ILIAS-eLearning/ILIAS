@@ -118,7 +118,9 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
                 ilStudyProgrammeProgress::STATUS_ACCREDITED
             );
 
-            $prg_user_progress = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserProgressDB']->getInstancesForUser($a_obj_id, $a_usr_id);
+            $prg_user_progress = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository']
+                ->getByPrgIdAndUserId($a_obj_id, $a_usr_id);
+                
             foreach ($prg_user_progress as $progress) {
                 if (in_array($progress->getStatus(), $valid_progress)) {
                     return true;

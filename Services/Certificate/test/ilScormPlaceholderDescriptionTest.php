@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
-    public function testPlaceholderGetHtmlDescription()
+    public function testPlaceholderGetHtmlDescription() : void
     {
         $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
@@ -62,7 +62,7 @@ class ilScormPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $this->assertEquals('', $html);
     }
 
-    public function testPlaceholderDescriptions()
+    public function testPlaceholderDescriptions() : void
     {
         $objectMock = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
