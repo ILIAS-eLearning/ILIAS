@@ -974,7 +974,7 @@ class ilSkillProfileGUI
         $conf->setMode(ilSkillExportConfig::MODE_PROFILES);
         $conf->setSelectedProfiles($_POST["id"]);
         $conf->setSkillTreeId($this->skill_tree_id);
-        $exp->exportObject("skee", ilObject::_lookupObjId((int) $_GET["ref_id"]));
+        $exp->exportObject("skmg", ilObject::_lookupObjId((int) $_GET["ref_id"]));
 
         //ilExport::_createExportDirectory(0, "xml", "");
         //$export_dir = ilExport::_getExportDirectory($a_id, "xml", $a_type);
