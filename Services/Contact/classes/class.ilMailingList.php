@@ -150,6 +150,9 @@ class ilMailingList
         }
     }
 
+    /**
+     * @return array<int, array{a_id: int, usr_id: int}>
+     */
     public function getAssignedEntries() : array
     {
         $res = $this->db->queryf(
@@ -162,9 +165,9 @@ class ilMailingList
         $entries = [];
         $counter = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $entries[$row->a_id] = [
-                'a_id' => $row->a_id,
-                'usr_id' => $row->usr_id
+            $entries[(int) $row->a_id] = [
+                'a_id' => (int) $row->a_id,
+                'usr_id' => (int) $row->usr_id
             ];
         }
 
