@@ -9,10 +9,8 @@ interface ilMailAddressTypeHelper
 {
     public function doesGroupNameExists(string $name) : bool;
 
-    
     public function getGroupObjIdByTitle(string $title) : int;
 
-    
     public function getInstanceByRefId(int $refId) : ilObject;
 
     /**
@@ -20,15 +18,11 @@ interface ilMailAddressTypeHelper
      */
     public function getAllRefIdsForObjId(int $objId) : array;
 
-    
     public function getUserIdByLogin(string $login) : int;
 
-    
     public function getInstallationHost() : string;
 
-    
     public function getGlobalMailSystemId() : int;
 
-    
     public function receivesInternalMailsOnly(int $usrId) : bool;
 }

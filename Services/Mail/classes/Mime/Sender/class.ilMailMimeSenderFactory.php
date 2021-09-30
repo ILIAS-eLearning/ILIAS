@@ -18,6 +18,10 @@ class ilMailMimeSenderFactory
         if (null === $anonymousUsrId && defined('ANONYMOUS_USER_ID')) {
             $anonymousUsrId = ANONYMOUS_USER_ID;
         }
+        if (null === $anonymousUsrId) {
+            throw new Exception();
+        }
+
         $this->anonymousUsrId = $anonymousUsrId;
     }
 

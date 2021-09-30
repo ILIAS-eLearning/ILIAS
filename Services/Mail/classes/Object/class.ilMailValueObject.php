@@ -41,31 +41,26 @@ class ilMailValueObject
         $this->saveInSentBox = $saveInSentBox;
     }
 
-    
     public function getRecipients() : string
     {
         return $this->recipients;
     }
 
-    
     public function getRecipientsCC() : string
     {
         return $this->recipientsCC;
     }
 
-    
     public function getRecipientsBCC() : string
     {
         return $this->recipientsBCC;
     }
 
-    
     public function getSubject() : string
     {
         return $this->subject;
     }
 
-    
     public function getBody() : string
     {
         return $this->body;
@@ -79,19 +74,16 @@ class ilMailValueObject
         return $this->attachments;
     }
 
-    
     public function isUsingPlaceholders() : bool
     {
         return $this->usePlaceholders;
     }
 
-    
     public function shouldSaveInSentBox() : bool
     {
         return $this->saveInSentBox;
     }
 
-    
     public function getFrom() : string
     {
         return $this->from;

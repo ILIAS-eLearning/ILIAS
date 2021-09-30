@@ -7,17 +7,11 @@
  */
 class ilMailGroupAddressType extends ilBaseMailAddressType
 {
-    /**
-     * @inheritdoc
-     */
     protected function isValid(int $senderId) : bool
     {
         return $this->typeHelper->doesGroupNameExists(substr($this->address->getMailbox(), 1));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
         $usrIds = [];

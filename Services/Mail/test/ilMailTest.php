@@ -39,10 +39,10 @@ class ilMailTest extends ilMailBaseTest
                 ->disableOriginalConstructor()
                 ->onlyMethods(['getId', 'hasToAcceptTermsOfService', 'checkTimeLimit', 'getActive'])
                 ->getMock();
-            $user->expects($this->any())->method('getId')->willReturn($usrId);
-            $user->expects($this->any())->method('getActive')->willReturn(true);
-            $user->expects($this->any())->method('hasToAcceptTermsOfService')->willReturn(false);
-            $user->expects($this->any())->method('checkTimeLimit')->willReturn(true);
+            $user->method('getId')->willReturn($usrId);
+            $user->method('getActive')->willReturn(true);
+            $user->method('hasToAcceptTermsOfService')->willReturn(false);
+            $user->method('checkTimeLimit')->willReturn(true);
             $userInstanceById[$usrId] = $user;
 
             $mailOptions = $this
@@ -132,7 +132,7 @@ class ilMailTest extends ilMailBaseTest
             $mailOptions,
             $mailBox,
             new ilMailMimeSenderFactory($settings),
-            function (string $login) use ($loginToIdMap) {
+            static function (string $login) use ($loginToIdMap) : int {
                 return $loginToIdMap[$login] ?? 0;
             },
             4711
@@ -143,7 +143,7 @@ class ilMailTest extends ilMailBaseTest
         $mailTransport = $this
             ->getMockBuilder(ilMailMimeTransport::class)
             ->getMock();
-        $mailTransport->expects($this->exactly(1))->method('send')->with($this->callback(function (
+        $mailTransport->expects($this->once())->method('send')->with($this->callback(function (
             ilMimeMail $mailer
         ) use ($loginToIdMap) : bool {
             $totalBcc = [];

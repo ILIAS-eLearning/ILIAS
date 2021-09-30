@@ -12,9 +12,6 @@ class ilRoleMailboxSearch
     protected ilMailRfc822AddressParserFactory $parserFactory;
     protected ilDBInterface $db;
 
-    /**
-     * ilRoleMailboxSearch constructor.
-     */
     public function __construct(
         ilMailRfc822AddressParserFactory $parserFactory,
         ilDBInterface $db = null
@@ -103,7 +100,7 @@ class ilRoleMailboxSearch
                     "AND t.tree = 1";
                 $res = $this->db->query($query);
                 if ($this->db->numRows($res) > 0) {
-                    $role_ids[] = $role_id;
+                    $role_ids[] = (int) $role_id;
                 }
                 continue;
             }
@@ -149,7 +146,7 @@ class ilRoleMailboxSearch
 
             $count = 0;
             while ($row = $this->db->fetchAssoc($res)) {
-                $role_ids[] = $row['obj_id'];
+                $role_ids[] = (int) $row['obj_id'];
 
                 $count++;
             }
@@ -167,7 +164,7 @@ class ilRoleMailboxSearch
                 $res = $this->db->query($q);
 
                 while ($row = $this->db->fetchAssoc($res)) {
-                    $role_ids[] = $row['obj_id'];
+                    $role_ids[] = (int) $row['obj_id'];
                 }
             }
         }

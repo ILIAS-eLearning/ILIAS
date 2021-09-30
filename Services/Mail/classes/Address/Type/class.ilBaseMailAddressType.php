@@ -25,9 +25,6 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
 
     abstract protected function isValid(int $senderId) : bool;
 
-    /**
-     * @inheritdoc
-     */
     public function validate(int $senderId) : bool
     {
         $this->resetErrors();
@@ -35,29 +32,21 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
         return $this->isValid($senderId);
     }
 
-    
     protected function pushError(string $languageVariable, array $placeHolderValues = []) : void
     {
         $this->errors[] = new ilMailError($languageVariable, $placeHolderValues);
     }
 
-    
     private function resetErrors() : void
     {
         $this->errors = [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getErrors() : array
     {
         return $this->errors;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAddress() : ilMailAddress
     {
         return $this->address;

@@ -6,9 +6,9 @@
  */
 class ilMailCachedAddressType implements ilMailAddressType
 {
-    /** @var array[] */
+    /** @var array<string, int[]>  */
     protected static array $usrIdsByAddressCache = [];
-    /** @var bool[] */
+    /** @var array<string, bool> */
     protected static array $isValidCache = [];
     protected ilMailAddressType $inner;
     protected bool $useCache = true;
@@ -19,16 +19,12 @@ class ilMailCachedAddressType implements ilMailAddressType
         $this->useCache = $useCache;
     }
 
-    
     private function getCacheKey() : string
     {
         $address = $this->getAddress();
         return (string) $address;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function validate(int $senderId) : bool
     {
         $cacheKey = $this->getCacheKey();
@@ -40,25 +36,16 @@ class ilMailCachedAddressType implements ilMailAddressType
         return self::$isValidCache[$cacheKey];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getErrors() : array
     {
         return $this->inner->getErrors();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAddress() : ilMailAddress
     {
         return $this->inner->getAddress();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
         $cacheKey = $this->getCacheKey();

@@ -38,10 +38,9 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         return $roleIds;
     }
 
-    
     protected function maySendToGlobalRole(int $senderId) : bool
     {
-        if ($senderId == ANONYMOUS_USER_ID) {
+        if ($senderId === ANONYMOUS_USER_ID) {
             return true;
         }
 
@@ -54,9 +53,6 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         return $maySendToGlobalRoles;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isValid(int $senderId) : bool
     {
         $roleIds = $this->getRoleIdsByAddress($this->address);
@@ -69,7 +65,7 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
             }
         }
 
-        if (count($roleIds) === 0) {
+        if ($roleIds === []) {
             $this->pushError('mail_recipient_not_found', [$this->address->getMailbox()]);
             return false;
         }
@@ -85,9 +81,6 @@ class ilMailRoleAddressType extends ilBaseMailAddressType
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
         $usrIds = [];

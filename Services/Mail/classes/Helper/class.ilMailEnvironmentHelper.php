@@ -12,7 +12,7 @@ class ilMailEnvironmentHelper
     {
         return ilUtil::_getHttpPath();
     }
-    
+
     public function getClientId() : string
     {
         $clientId = '';

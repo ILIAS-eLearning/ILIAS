@@ -26,9 +26,6 @@ class ilMailOnlyExternalAddressList implements ilMailAddressList
         $this->getUsrIdByLoginCallable = $getUsrIdByLoginCallable;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function value() : array
     {
         $addresses = $this->origin->value();

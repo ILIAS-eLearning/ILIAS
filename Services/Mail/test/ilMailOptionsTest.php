@@ -30,7 +30,6 @@ class ilMailOptionsTest extends ilMailBaseTest
         $object->email = 'test@test.com';
         $object->second_email = 'ilias@ilias.com';
 
-
         $database->expects($this->once())->method('fetchObject')->willReturn($object);
         $database->expects($this->once())->method('queryF')->willReturn($queryMock);
         $database->method('replace');

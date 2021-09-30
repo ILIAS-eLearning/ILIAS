@@ -16,13 +16,9 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
         ilRbacSystem $rbacsystem
     ) {
         parent::__construct($typeHelper, $address, $logger);
-
         $this->rbacsystem = $rbacsystem;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isValid(int $senderId) : bool
     {
         if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {
@@ -38,30 +34,26 @@ class ilMailLoginOrEmailAddressAddressType extends ilBaseMailAddressType
 
         if (
             $usrId &&
+            $this->typeHelper->receivesInternalMailsOnly($usrId) &&
             !$this->rbacsystem->checkAccessOfUser(
                 $usrId,
                 'internal_mail',
                 $this->typeHelper->getGlobalMailSystemId()
             )
         ) {
-            if ($this->typeHelper->receivesInternalMailsOnly($usrId)) {
-                $this->logger->debug(sprintf(
-                    "Address '%s' not valid. Found id %s, " .
-                    "but user can't use mail system and wants to receive emails only internally.",
-                    $this->address->getMailbox(),
-                    $usrId
-                ));
-                $this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
-                return false;
-            }
+            $this->logger->debug(sprintf(
+                "Address '%s' not valid. Found id %s, " .
+                "but user can't use mail system and wants to receive emails only internally.",
+                $this->address->getMailbox(),
+                $usrId
+            ));
+            $this->pushError('user_cant_receive_mail', [$this->address->getMailbox()]);
+            return false;
         }
 
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
         if ($this->address->getHost() === $this->typeHelper->getInstallationHost()) {

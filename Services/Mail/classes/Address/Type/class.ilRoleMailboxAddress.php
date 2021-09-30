@@ -15,9 +15,6 @@ class ilRoleMailboxAddress
     protected ilDBInterface $db;
     protected ilLanguage $lng;
 
-    /**
-     * @param bool $localize A boolean flag whether mailbox addresses should be localized
-     */
     public function __construct(
         int $roleId,
         bool $localize = true,
@@ -122,7 +119,7 @@ class ilRoleMailboxAddress
         }
 
         $object_title = $row->object_title;
-        $object_ref = $row->object_ref;
+        $object_ref = (int) $row->object_ref;
         $role_title = $row->role_title;
 
         // In a perfect world, we could use the object_title in the
@@ -166,7 +163,7 @@ class ilRoleMailboxAddress
         // If the role title is one of the ILIAS reserved role titles,
         //     we can use a shorthand version of it for the local part
         //     of the mailbox address.
-        if (strpos($role_title, 'il_') === 0 && $domain !== null) {
+        if ($domain !== null && strpos($role_title, 'il_') === 0) {
             $unambiguous_role_title = $role_title;
 
             $pos = strpos($role_title, '_', 3) + 1;

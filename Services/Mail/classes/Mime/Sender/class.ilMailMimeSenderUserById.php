@@ -19,7 +19,6 @@ class ilMailMimeSenderUserById extends ilMailMimeSenderUser
         parent::__construct($settings, self::$userInstances[$usrId]);
     }
 
-    
     public static function addUserToCache(int $usrId, ilObjUser $user) : void
     {
         self::$userInstances[$usrId] = $user;

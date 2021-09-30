@@ -9,21 +9,15 @@ interface ilMailMimeSender
 {
     public function hasReplyToAddress() : bool;
 
-    
     public function getReplyToAddress() : string;
 
-    
     public function getReplyToName() : string;
 
-    
     public function hasEnvelopFromAddress() : bool;
 
-    
     public function getEnvelopFromAddress() : string;
 
-    
     public function getFromAddress() : string;
 
-    
     public function getFromName() : string;
 }

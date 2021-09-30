@@ -23,16 +23,16 @@ class ilMailOptionsGUI
     protected Refinery $refinery;
     protected ilMailOptionsFormGUI $form;
 
-
     public function __construct(
         ilGlobalTemplateInterface $tpl = null,
         ilCtrl $ctrl = null,
         ilSetting $setting = null,
         ilLanguage $lng = null,
         ilObjUser $user = null,
-        ServerRequestInterface $request = null,
+        GlobalHttpState $http = null,
         ilFormatMail $mail = null,
-        ilMailbox $malBox = null
+        ilMailbox $malBox = null,
+        Refinery $refinery = null
     ) {
         global $DIC;
 
@@ -61,10 +61,15 @@ class ilMailOptionsGUI
         }
         $this->user = $user;
 
-        if (null === $request) {
-            $request = $DIC->http()->request();
+        if (null === $http) {
+            $http = $DIC->http();
         }
-        $this->request = $request;
+        $this->http = $http;
+
+        if (null === $refinery) {
+            $http = $DIC->refinery();
+        }
+        $this->refinery = $refinery;
 
         if (null === $mail) {
             $mail = new ilFormatMail($this->user->getId());
@@ -83,7 +88,7 @@ class ilMailOptionsGUI
     public function executeCommand() : void
     {
         if (!$this->settings->get('show_mail_settings')) {
-            $referrer = "";
+            $referrer = '';
             if ($this->http->wrapper()->query()->has('referrer')) {
                 $referrer = $this->http->wrapper()->query()->retrieve(
                     'referrer',
@@ -110,13 +115,11 @@ class ilMailOptionsGUI
         }
     }
 
-    
     public function setForm(ilMailOptionsFormGUI $form) : void
     {
         $this->form = $form;
     }
 
-    
     protected function getForm() : ilMailOptionsFormGUI
     {
         return $this->form ?? new ilMailOptionsFormGUI(
@@ -125,7 +128,6 @@ class ilMailOptionsGUI
             'saveOptions'
         );
     }
-
 
     protected function saveOptions() : void
     {
@@ -139,7 +141,6 @@ class ilMailOptionsGUI
 
         $this->showOptions($form);
     }
-
 
     protected function showOptions(ilMailOptionsFormGUI $form = null) : void
     {

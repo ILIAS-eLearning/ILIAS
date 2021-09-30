@@ -15,7 +15,6 @@ class ilMailAddressTypeFactory
     protected ilMailingLists $lists;
     protected ilRoleMailboxSearch $roleMailboxSearch;
 
-    
     public function __construct(
         ilGroupNameAsMailValidator $groupNameValidator = null,
         ilLogger $logger = null,
@@ -64,7 +63,6 @@ class ilMailAddressTypeFactory
         $this->roleMailboxSearch = $roleMailboxSearch;
     }
 
-    
     public function getByPrefix(ilMailAddress $address, bool $cached = true) : ilMailAddressType
     {
         switch (true) {

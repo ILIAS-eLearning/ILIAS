@@ -20,9 +20,6 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
         $this->lists = $lists;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isValid(int $senderId) : bool
     {
         $valid = $this->lists->mailingListExists($this->address->getMailbox());
@@ -38,9 +35,6 @@ class ilMailMailingListAddressType extends ilBaseMailAddressType
         return $valid;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
         $usrIds = [];

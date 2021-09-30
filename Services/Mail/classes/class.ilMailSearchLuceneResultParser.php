@@ -2,8 +2,7 @@
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
+ * @author Michael Jansen <mjansen@databay.de>
  * @ingroup ServicesMail
  */
 class ilMailSearchLuceneResultParser
@@ -11,26 +10,22 @@ class ilMailSearchLuceneResultParser
     protected ilMailSearchResult $result;
     protected string $xml;
 
-    
     public function __construct(ilMailSearchResult $result, string $xml)
     {
         $this->result = $result;
         $this->xml = $xml;
     }
 
-    
     public function getXml() : string
     {
         return $this->xml;
     }
-
 
     public function getResult() : ilMailSearchResult
     {
         return $this->result;
     }
 
-    
     public function parse() : void
     {
         if ($this->getXml() === '') {
@@ -40,14 +35,10 @@ class ilMailSearchLuceneResultParser
         $hits = new SimpleXMLElement($this->getXml());
         foreach ($hits->children() as $user) {
             foreach ($user->children() as $item) {
-                /**
-                 * @var $item SimpleXMLElement
-                 */
+                /** @var $item SimpleXMLElement */
                 $fields = [];
                 foreach ($item->children() as $field) {
-                    /**
-                     * @var $field SimpleXMLElement
-                     */
+                    /** @var $field SimpleXMLElement */
                     $name = (string) $field['name'];
                     $content = (string) $field;
                     $fields[] = [

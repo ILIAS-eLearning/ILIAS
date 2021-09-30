@@ -11,19 +11,17 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilMailBaseTest extends TestCase
 {
-    /**
-     * @inheritdoc
-     */
     protected function setUp() : void
     {
+        if (!defined('ANONYMOUS_USER_ID')) {
+            define('ANONYMOUS_USER_ID', 13);
+        }
+
         $GLOBALS['DIC'] = new Container();
 
         parent::setUp();
     }
 
-    /**
-     * @param $value
-     */
     protected function setGlobalVariable(string $name, $value) : void
     {
         global $DIC;

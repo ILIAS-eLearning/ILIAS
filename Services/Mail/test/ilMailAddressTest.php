@@ -8,10 +8,9 @@
  */
 class ilMailAddressTest extends ilMailBaseTest
 {
-    const LOCAL_PART = 'phpunit';
-    const DOMAIN_PART = 'ilias.de';
+    private const LOCAL_PART = 'phpunit';
+    private const DOMAIN_PART = 'ilias.de';
 
-    
     public function testInstanceCanBeCreated() : ilMailAddress
     {
         $address = new ilMailAddress(self::LOCAL_PART, self::DOMAIN_PART);

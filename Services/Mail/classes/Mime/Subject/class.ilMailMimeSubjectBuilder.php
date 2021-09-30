@@ -16,7 +16,6 @@ class ilMailMimeSubjectBuilder
         $this->defaultPrefix = $defaultPrefix;
     }
 
-    
     public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = '') : string
     {
         $subject = trim($subject);

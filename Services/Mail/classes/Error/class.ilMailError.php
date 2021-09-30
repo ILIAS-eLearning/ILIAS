@@ -16,7 +16,6 @@ class ilMailError
         $this->placeHolderValues = $placeHolderValues;
     }
 
-    
     public function getLanguageVariable() : string
     {
         return $this->languageVariable;

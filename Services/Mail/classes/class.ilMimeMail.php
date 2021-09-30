@@ -7,47 +7,56 @@
 class ilMimeMail
 {
     public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
-    protected static ?ilMailMimeTransport $defaultTransport;
+
+    protected static ?ilMailMimeTransport $defaultTransport = null;
+
+    protected ilMailMimeSender $sender;
+    protected ilMailMimeSubjectBuilder $subjectBuilder;
+    protected ilSetting $settings;
     protected string $subject = '';
     protected string $body = '';
     protected string $finalBody = '';
     protected string $finalBodyAlt = '';
+
     /**
      * @var string[]
      */
     protected array $sendto = [];
+
     /**
      * @var string[]
      */
     protected array $acc = [];
+
     /**
      * @var string[]
      */
     protected array $abcc = [];
+
     /**
-     * @var array{path:string, cid:string, name:string}[]
+     * @var array<string, array{path: string, cid: string, name: string}>
      */
     protected array $images = [];
+
     /**
      * @var string[]
      */
     protected array $aattach = [];
+
     /**
      * @var string[]
      */
     protected array $actype = [];
+
     /**
      * @var string[]
      */
     protected array $adispo = [];
+
     /**
      * @var string[]
      */
     protected array $adisplay = [];
-    protected ilMailMimeSender $sender;
-    protected ilSetting $settings;
-    protected ilMailMimeSubjectBuilder $subjectBuilder;
-
 
     public function __construct()
     {
@@ -64,7 +73,7 @@ class ilMimeMail
     }
 
     /**
-     * @throws InvalidArgumentException
+     * @param ilMailMimeTransport|null $transport
      */
     public static function setDefaultTransport(?ilMailMimeTransport $transport) : void
     {
@@ -78,7 +87,7 @@ class ilMimeMail
         self::$defaultTransport = $transport;
     }
 
-    public static function getDefaultTransport() : ?\ilMailMimeTransport
+    public static function getDefaultTransport() : ?ilMailMimeTransport
     {
         return self::$defaultTransport;
     }
@@ -226,7 +235,7 @@ class ilMimeMail
     }
 
     /**
-     * @return array{path: string, cid: string, name: string}[]
+     * @return array{path: string, cid: string, name: string}[] An array of images. Each element must container to associative keys, 'path', 'cid' and 'name'
      */
     public function getImages() : array
     {

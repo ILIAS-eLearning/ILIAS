@@ -9,36 +9,30 @@ use ilMailGlobalServices;
 
 /**
  * Class MailMainBarProvider
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class MailMainBarProvider extends AbstractStaticMainMenuProvider
 {
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticTopItems() : array
     {
         return [];
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticSubItems() : array
     {
         $dic = $this->dic;
 
         $title = $this->dic->language()->txt("mm_mail");
-        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::MAIL, $title)
-                                                             ->withIsOutlined(true);
+        $icon = $this->dic->ui()->factory()
+            ->symbol()
+            ->icon()
+            ->standard(Standard::MAIL, $title)
+            ->withIsOutlined(true);
 
         return [
             $this->mainmenu->link($this->if->identifier('mm_pd_mail'))
                 ->withTitle($title)
-                ->withAction("ilias.php?baseClass=ilMailGUI")
+                ->withAction('ilias.php?baseClass=ilMailGUI')
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(10)
                 ->withSymbol($icon)
@@ -47,7 +41,7 @@ class MailMainBarProvider extends AbstractStaticMainMenuProvider
                 )
                 ->withAvailableCallable(
                     static function () use ($dic) : bool {
-                        return ($dic->user()->getId() !== ANONYMOUS_USER_ID);
+                        return !$dic->user()->isAnonymous() && $dic->user()->getId() !== 0;
                     }
                 )
                 ->withVisibilityCallable(

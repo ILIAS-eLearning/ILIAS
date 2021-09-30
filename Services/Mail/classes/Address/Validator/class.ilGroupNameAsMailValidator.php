@@ -37,9 +37,6 @@ class ilGroupNameAsMailValidator
         return $func($groupName) && $this->isHostValid($address->getHost());
     }
 
-    /**
-     * Checks if the given host is valid in the email context
-     */
     private function isHostValid(string $host) : bool
     {
         return ($host === $this->host || $host === '');

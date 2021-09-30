@@ -3,7 +3,6 @@
 
 /**
  * @author Niels Theen <ntheen@databay.de>
- * @version $Id$
  */
 class ilMailTransportSettings
 {
@@ -14,9 +13,6 @@ class ilMailTransportSettings
         $this->mailOptions = $mailOptions;
     }
 
-    /**
-     * Validates the current instance settings and eventually adjusts these
-     */
     public function adjust(string $firstMail, string $secondMail) : void
     {
         if ($this->mailOptions->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {

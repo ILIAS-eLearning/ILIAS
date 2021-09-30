@@ -22,13 +22,11 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->setMailer($mail);
     }
 
-    
     protected function getMailer() : PHPMailer
     {
         return $this->mailer;
     }
 
-    
     protected function setMailer(PHPMailer $mailer) : void
     {
         $this->mailer = $mailer;
@@ -42,14 +40,10 @@ abstract class ilMailMimeTransportBase implements ilMailMimeTransport
         $this->getMailer()->ErrorInfo = '';
     }
 
-    
     protected function onBeforeSend() : void
     {
     }
 
-    /**
-     * @inheritdoc
-     */
     final public function send(ilMimeMail $mail) : bool
     {
         $this->resetMailer();

@@ -43,7 +43,7 @@ class ilMailErrorFormatter
                 }, $error->getPlaceholderValues());
 
                 array_unshift($escapedPlaceholderValues, $translation);
-                $errorsToDisplay[] = call_user_func_array('sprintf', $escapedPlaceholderValues);
+                $errorsToDisplay[] = sprintf(...$escapedPlaceholderValues);
             }
         }
 

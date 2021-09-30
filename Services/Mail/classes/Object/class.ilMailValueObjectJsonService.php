@@ -6,7 +6,6 @@
  */
 class ilMailValueObjectJsonService
 {
-
     /**
      * @param ilMailValueObject[] $mailValueObjects
      */
@@ -29,7 +28,7 @@ class ilMailValueObjectJsonService
             $mailArray[] = $array;
         }
 
-        return json_encode($mailArray);
+        return json_encode($mailArray, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -38,7 +37,7 @@ class ilMailValueObjectJsonService
     public function convertFromJson(string $json) : array
     {
         $result = [];
-        $array = json_decode($json, true);
+        $array = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
 
         foreach ($array as $objectValues) {
             $result[] = new ilMailValueObject(

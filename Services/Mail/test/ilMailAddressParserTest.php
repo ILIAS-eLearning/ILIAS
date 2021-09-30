@@ -8,7 +8,7 @@
  */
 class ilMailAddressParserTest extends ilMailBaseTest
 {
-    const DEFAULT_HOST = 'ilias';
+    private const DEFAULT_HOST = 'ilias';
 
     /**
      * @return array[]

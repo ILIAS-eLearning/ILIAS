@@ -4,24 +4,17 @@ use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 
 /**
  * Class MailGlobalScreenToolProvider
- *
  * @author Michael Jansen <mjansen@databay.de>
  */
 class MailGlobalScreenToolProvider extends AbstractDynamicToolProvider
 {
     public const SHOW_MAIL_FOLDERS_TOOL = 'show_mail_folders_tool';
 
-    /**
-     * @inheritDoc
-     */
     public function isInterestedInContexts() : ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection
     {
         return $this->context_collection->main()->repository()->administration();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getToolsForContextStack(
         ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts
     ) : array {

@@ -22,9 +22,6 @@ class ilMailAddressListImpl implements ilMailAddressList
         $this->addresses = $addresses;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function value() : array
     {
         return $this->addresses;

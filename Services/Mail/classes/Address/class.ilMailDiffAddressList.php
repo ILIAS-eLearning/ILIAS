@@ -16,10 +16,6 @@ class ilMailDiffAddressList implements ilMailAddressList
         $this->right = $right;
     }
 
-
-    /**
-     * @inheritdoc
-     */
     public function value() : array
     {
         $leftAddresses = $this->left->value();

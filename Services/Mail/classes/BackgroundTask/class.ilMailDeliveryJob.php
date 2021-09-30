@@ -7,6 +7,8 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class ilMailDeliveryJob
@@ -14,10 +16,7 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilMailDeliveryJob extends AbstractJob
 {
-    /**
-     * @inheritdoc
-     */
-    public function run(array $input, Observer $observer) : BooleanValue
+    public function run(array $input, Observer $observer) : Value
     {
         global $DIC;
 
@@ -56,9 +55,6 @@ class ilMailDeliveryJob extends AbstractJob
         return $output;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInputTypes() : array
     {
         return [
@@ -76,26 +72,17 @@ class ilMailDeliveryJob extends AbstractJob
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isStateless() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(BooleanValue::class);
     }

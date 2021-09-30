@@ -507,7 +507,7 @@ class ilMailFormGUI
                 $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->string())
             );
         }
-        if(is_array($attachments)) {
+        if (is_array($attachments)) {
             foreach ($attachments as $value) {
                 $files[] = urldecode($value);
             }

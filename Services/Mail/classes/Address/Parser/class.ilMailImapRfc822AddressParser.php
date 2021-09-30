@@ -7,9 +7,6 @@
  */
 class ilMailImapRfc822AddressParser extends ilBaseMailRfc822AddressParser
 {
-    /**
-     * @inheritdoc
-     */
     protected function parseAddressString(string $addresses) : array
     {
         $parsedAddresses = imap_rfc822_parse_adrlist($addresses, $this->installationHost);
@@ -19,7 +16,7 @@ class ilMailImapRfc822AddressParser extends ilBaseMailRfc822AddressParser
             return '.SYNTAX-ERROR.' !== $address->host;
         });
 
-        if ($parsedAddresses != $validParsedAddresses) {
+        if ($parsedAddresses !== $validParsedAddresses) {
             throw new ilMailException($addresses);
         }
 

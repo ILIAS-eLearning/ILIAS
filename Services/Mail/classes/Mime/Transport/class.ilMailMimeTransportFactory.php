@@ -13,7 +13,6 @@ class ilMailMimeTransportFactory
         $this->eventHandler = $eventHandler;
     }
 
-    
     public function getTransport() : ilMailMimeTransport
     {
         if (!(bool) $this->settings->get('mail_allow_external')) {

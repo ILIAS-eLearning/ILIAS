@@ -9,8 +9,7 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
     protected array $fields = [];
     protected string $url;
 
-    
-    public function __construct(string $a_title = '', string $a_postvar = '', string $url = '', array $fields = [])
+    public function __construct(string $a_title, string $a_postvar, string $url, array $fields)
     {
         parent::__construct($a_title, $a_postvar);
 
@@ -18,9 +17,6 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
         $this->fields = $fields;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function render($a_mode = '') : string
     {
         $html = parent::render($a_mode);
@@ -32,7 +28,7 @@ class ilMailTemplateSelectInputGUI extends ilSelectInputGUI
             'Services/Mail'
         );
         $tpl->setVariable('CONTENT', $html);
-        $tpl->setVariable('FIELDS', json_encode($this->fields));
+        $tpl->setVariable('FIELDS', json_encode($this->fields, JSON_THROW_ON_ERROR));
         $tpl->setVariable('URL', $this->url);
         $tpl->setVariable('ID', $this->getFieldId());
 

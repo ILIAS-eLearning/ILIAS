@@ -19,9 +19,6 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 {
     public const MUTED_UNTIL_PREFERENCE_KEY = 'mail_nc_muted_until';
 
-    /**
-     * @inheritDoc
-     */
     public function getNotifications() : array
     {
         $id = function (string $id) : IdentificationInterface {

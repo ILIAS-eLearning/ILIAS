@@ -16,17 +16,11 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
         $this->user = $user;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasReplyToAddress() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getReplyToAddress() : string
     {
         if (
@@ -40,41 +34,26 @@ abstract class ilMailMimeSenderUser implements ilMailMimeSender
         return (string) $this->user->getEmail();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getReplyToName() : string
     {
         return (string) $this->user->getFullname();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasEnvelopFromAddress() : bool
     {
         return ((string) $this->settings->get('mail_system_usr_env_from_addr', '')) !== '';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getEnvelopFromAddress() : string
     {
         return $this->settings->get('mail_system_usr_env_from_addr', '');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getFromAddress() : string
     {
         return $this->settings->get('mail_system_usr_from_addr', '');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getFromName() : string
     {
         $from = ((string) $this->settings->get('mail_system_usr_from_name', ''));

@@ -6,9 +6,6 @@
  */
 class ilMailMimeTransportNull implements ilMailMimeTransport
 {
-    /**
-     * @inheritdoc
-     */
     public function send(ilMimeMail $mail) : bool
     {
         ilLoggerFactory::getLogger('mail')->debug(

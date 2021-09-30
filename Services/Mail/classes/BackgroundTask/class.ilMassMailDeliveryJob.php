@@ -7,6 +7,8 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -24,11 +26,7 @@ class ilMassMailDeliveryJob extends AbstractJob
         $this->mailJsonService = new ilMailValueObjectJsonService();
     }
 
-    /**
-     * @inheritdoc
-     * @throws \ILIAS\BackgroundTasks\Exceptions\InvalidArgumentException
-     */
-    public function run(array $input, Observer $observer) : BooleanValue
+    public function run(array $input, Observer $observer) : Value
     {
         $mailValueObjects = $this->mailJsonService->convertFromJson((string) $input[1]->getValue());
 
@@ -72,9 +70,6 @@ class ilMassMailDeliveryJob extends AbstractJob
         return $output;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getInputTypes() : array
     {
         return [
@@ -85,26 +80,17 @@ class ilMassMailDeliveryJob extends AbstractJob
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function isStateless() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 42; // The answer to life, universe and the rest
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(BooleanValue::class);
     }
