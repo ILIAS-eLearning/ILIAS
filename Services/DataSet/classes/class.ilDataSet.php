@@ -271,9 +271,7 @@ abstract class ilDataSet
         $this->dircnt = 1;
         
         // step 1: check target release and supported versions
-        
-        
-        
+
         // step 2: init writer
         include_once "./Services/Xml/classes/class.ilXmlWriter.php";
         $writer = new ilXmlWriter();
@@ -303,7 +301,6 @@ abstract class ilDataSet
             $this->ds_log->debug("...write types");
             $this->addTypesXml($writer, $a_entity, $a_schema_version);
         }
-        
         // add records
         $this->ds_log->debug("...write records");
         $this->addRecordsXml($writer, $prefixes, $a_entity, $a_schema_version, $a_ids, $a_field);

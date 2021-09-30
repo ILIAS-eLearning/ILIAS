@@ -153,6 +153,7 @@ class ilSkillDataSet extends ilDataSet
     {
         if ($a_entity == "skmg") {
             switch ($a_version) {
+                case "7.0":
                 case "8.0":
                     return array(
                         "Id" => "integer"
@@ -165,7 +166,8 @@ class ilSkillDataSet extends ilDataSet
                 case "7.0":
                 case "8.0":
                     return array(
-                            "Mode" => "text"
+                        "Id" => "integer",
+                        "Mode" => "text"
                     );
             }
         }
@@ -299,8 +301,6 @@ class ilSkillDataSet extends ilDataSet
 
         $this->data = array();
 
-        echo "-$a_entity-";
-
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
         }
@@ -332,7 +332,6 @@ class ilSkillDataSet extends ilDataSet
                             );
                         }
                     }
-                    var_dump($this->data);
                     break;
 
             }
@@ -521,16 +520,15 @@ class ilSkillDataSet extends ilDataSet
     {
         $ilDB = $this->db;
 
-        echo "+$a_entity+";
-
         switch ($a_entity) {
             case "skmg":
                 $deps["skee"]["ids"][] = $this->getSkillTreeId();
                 return $deps;
 
             case "skee":
-                var_dump($a_rec);
-                exit;
+                if (is_null($a_rec["Id"])) {
+                    return [];
+                }
                 $skill_tree = $this->skill_tree_factory->getTreeById($a_rec["Id"]);
                 if ($this->getMode() == self::MODE_SKILLS) {
                     // determine top nodes of main tree to be exported and all referenced template nodes

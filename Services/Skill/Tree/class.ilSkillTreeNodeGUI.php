@@ -775,7 +775,6 @@ class ilSkillTreeNodeGUI
         $conf->setSelectedNodes($_POST["id"]);
         $conf->setSkillTreeId($this->skill_tree_id);
         $exp->exportObject("skmg", ilObject::_lookupObjId((int) $_GET["ref_id"]));
-exit;
         $ilCtrl->redirectByClass(array("ilobjskilltreegui", "ilexportgui"), "");
     }
 }
