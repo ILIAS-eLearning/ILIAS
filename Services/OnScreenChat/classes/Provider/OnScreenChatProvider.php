@@ -6,6 +6,7 @@ namespace ILIAS\OnScreenChat\Provider;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
+use ILIAS\OnScreenChat\DTO\ConversationDto;
 use ILIAS\OnScreenChat\Repository\Conversation;
 use ILIAS\OnScreenChat\Repository\Subscriber;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
@@ -29,12 +30,12 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
         $dic->language()->loadLanguageModule('chatroom');
 
         if (null === $conversationRepo) {
-            $conversationRepo = new Conversation($dic->database(), $dic->user());
+            $conversationRepo = new Conversation($this->dic->database(), $this->dic->user());
         }
         $this->conversationRepo = $conversationRepo;
 
         if (null === $subscriberRepo) {
-            $subscriberRepo = new Subscriber($dic->database(), $dic->user());
+            $subscriberRepo = new Subscriber($this->dic->database(), $this->dic->user());
         }
         $this->subscriberRepo = $subscriberRepo;
     }
@@ -68,18 +69,12 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                            ->withTitle($this->dic->language()->txt('obj_chtr'))
                            ->withSymbol($icon)
                            ->withContentWrapper(function () {
-                               $provider = new OnScreenChatNotificationProvider(
-                                   $this->dic,
-                                   new Conversation($this->dic->database(), $this->dic->user()),
-                                   new Subscriber($this->dic->database(), $this->dic->user())
-                               );
-
                                $conversationIds = (string) ($this->dic->http()->request()->getQueryParams()['ids'] ?? '');
                                $noAggregates = ($this->dic->http()->request()->getQueryParams()['no_aggregates'] ?? '');
 
                                return $this->dic->ui()->factory()->legacy(
                                    $this->dic->ui()->renderer()->renderAsync(
-                                       $provider->getAsyncItem($conversationIds, $noAggregates !== 'true')
+                                       $this->getAsyncItem($conversationIds, $noAggregates !== 'true')
                                    )
                                );
                            })
