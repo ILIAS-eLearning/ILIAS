@@ -249,7 +249,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
                 //$exp_gui->addFormat("html", "", $this, "exportHTML");
+                $this->object->setType("skmg");
                 $ret = $this->ctrl->forwardCommand($exp_gui);
+                $this->object->setType("skee");
                 break;
 
             default:
