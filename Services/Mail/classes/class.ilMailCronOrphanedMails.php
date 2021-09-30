@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -39,19 +39,19 @@ class ilMailCronOrphanedMails extends ilCronJob
 
     public function getId() : string
     {
-        return "mail_orphaned_mails";
+        return 'mail_orphaned_mails';
     }
 
     public function getTitle() : string
     {
         $this->init();
-        return $this->lng->txt("mail_orphaned_mails");
+        return $this->lng->txt('mail_orphaned_mails');
     }
 
     public function getDescription() : string
     {
         $this->init();
-        return $this->lng->txt("mail_orphaned_mails_desc");
+        return $this->lng->txt('mail_orphaned_mails_desc');
     }
 
     public function hasAutoActivation() : bool
@@ -64,9 +64,6 @@ class ilMailCronOrphanedMails extends ilCronJob
         return true;
     }
 
-    /**
-     * @return int[]
-     */
     public function getValidScheduleTypes() : array
     {
         return [
@@ -168,14 +165,14 @@ class ilMailCronOrphanedMails extends ilCronJob
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             'Started mail deletion job with threshold: %s day(s)',
-            var_export($mail_threshold, 1)
+            var_export($mail_threshold, true)
         ));
 
-        if ((int) $this->settings->get('mail_notify_orphaned') >= 1 && $mail_threshold >= 1) {
+        if ($mail_threshold >= 1 && (int) $this->settings->get('mail_notify_orphaned') >= 1) {
             $this->processNotification();
         }
 
-        if ((int) $this->settings->get('last_cronjob_start_ts', time()) && $mail_threshold >= 1) {
+        if ($mail_threshold >= 1 && (int) $this->settings->get('last_cronjob_start_ts', time())) {
             $this->processDeletion();
         }
 
@@ -185,7 +182,7 @@ class ilMailCronOrphanedMails extends ilCronJob
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             'Finished mail deletion job with threshold: %s day(s)',
-            var_export($mail_threshold, 1)
+            var_export($mail_threshold, true)
         ));
 
         return $result;

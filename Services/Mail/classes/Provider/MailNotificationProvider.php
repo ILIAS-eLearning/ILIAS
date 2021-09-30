@@ -39,11 +39,11 @@ class MailNotificationProvider extends AbstractNotificationProvider implements N
 
         $leftIntervalTimestamp = $this->dic->user()->getPref(self::MUTED_UNTIL_PREFERENCE_KEY);
         $newMailData = ilMailGlobalServices::getNewMailsData(
-            $this->dic->user()->getId(),
+            $this->dic->user(),
             is_numeric($leftIntervalTimestamp) ? (int) $leftIntervalTimestamp : 0
         );
 
-        $numberOfNewMessages = (int) $newMailData['count'];
+        $numberOfNewMessages = $newMailData['count'];
         if (0 === $numberOfNewMessages) {
             return [];
         }

@@ -7,9 +7,7 @@
 class ilMailAutoCompleteSearch
 {
     protected ilMailAutoCompleteRecipientResult $result;
-    /**
-     * @var Iterator[]
-     */
+    /** @var Iterator[] */
     protected array $providers = [];
 
     public function __construct(ilMailAutoCompleteRecipientResult $result)

@@ -8,27 +8,13 @@
 */
 class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-
-        parent::__construct();
-    }
-
     public function insert(ilTemplate $a_tpl) : void
     {
         $subtpl = new ilTemplate(
-            "tpl.mail_new_placeholders.html",
+            'tpl.mail_new_placeholders.html',
             false,
             false,
-            "Services/Mail"
+            'Services/Mail'
         );
         $subtpl->setVariable('TXT_USE_PLACEHOLDERS', $this->lng->txt('mail_nacc_use_placeholder'));
         $subtpl->setVariable(
@@ -42,8 +28,8 @@ class ilMailFormPlaceholdersPropertyGUI extends ilFormPropertyGUI
         $subtpl->setVariable('TXT_ILIAS_URL', $this->lng->txt('mail_nacc_ilias_url'));
         $subtpl->setVariable('TXT_CLIENT_NAME', $this->lng->txt('mail_nacc_client_name'));
 
-        $a_tpl->setCurrentBlock("prop_generic");
-        $a_tpl->setVariable("PROP_GENERIC", $subtpl->get());
+        $a_tpl->setCurrentBlock('prop_generic');
+        $a_tpl->setVariable('PROP_GENERIC', $subtpl->get());
         $a_tpl->parseCurrentBlock();
     }
 }

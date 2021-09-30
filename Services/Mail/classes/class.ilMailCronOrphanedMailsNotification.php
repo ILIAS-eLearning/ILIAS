@@ -7,11 +7,6 @@
  */
 class ilMailCronOrphanedMailsNotification extends ilMimeMailNotification
 {
-    public function __construct(bool $a_is_personal_workspace = false)
-    {
-        parent::__construct($a_is_personal_workspace);
-    }
-
     protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         parent::initLanguageByIso2Code($a_code);

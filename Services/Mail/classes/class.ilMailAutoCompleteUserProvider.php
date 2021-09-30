@@ -12,13 +12,6 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
         parent::__construct($quoted_term, $term);
     }
 
-    public function valid() : bool
-    {
-        $this->data = $this->db->fetchAssoc($this->res);
-
-        return is_array($this->data);
-    }
-
     /**
      * @return array{login: string, firstname: string, lastname:string}
      */
@@ -42,6 +35,7 @@ class ilMailAutoCompleteUserProvider extends ilMailAutoCompleteRecipientProvider
             $this->db->free($this->res);
             $this->res = null;
         }
+
         $select_part = $this->getSelectPart();
         $where_part = $this->getWherePart($this->quoted_term);
         $order_by_part = $this->getOrderByPart();

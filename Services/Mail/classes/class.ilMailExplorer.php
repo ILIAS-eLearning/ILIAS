@@ -47,8 +47,9 @@ class ilMailExplorer extends ilTreeExplorerGUI
         } elseif ($this->http->wrapper()->query()->has('mobj_id')) {
             $folderId = $this->http->wrapper()->query()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
         } else {
-            $folderId = (int) ilSession::get('mobj_id');
+            $folderId = $this->refinery->kindlyTo()->int()->transform(ilSession::get('mobj_id'));
         }
+
         $this->currentFolderId = $folderId;
     }
 
@@ -63,7 +64,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
         $tree = $f->tree()
             ->expandable($this->getTreeLabel(), $this)
-            ->withData($this->tree->getChilds($this->tree->readRootId()))
+            ->withData($this->tree->getChilds((int) $this->tree->readRootId()))
             ->withHighlightOnNodeClick(false);
 
         return $tree;
@@ -90,7 +91,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
     {
         $content = $a_node['title'];
 
-        if ($a_node['child'] === $this->getNodeId($this->getRootNode())) {
+        if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $content = $this->lng->txt('mail_folders');
         } elseif ($a_node['depth'] < 3) {
             $content = $this->lng->txt('mail_' . $a_node['title']);
@@ -101,7 +102,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
     public function getNodeIcon($a_node) : string
     {
-        if ($a_node['child'] === $this->getNodeId($this->getRootNode())) {
+        if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath('icon_mail.svg');
         } else {
             $iconType = $a_node['m_type'];
@@ -117,7 +118,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
     public function getNodeHref($a_node) : string
     {
-        if ($a_node['child'] === $this->getNodeId($this->getRootNode())) {
+        if ((int) $a_node['child'] === (int) $this->getNodeId($this->getRootNode())) {
             $a_node['child'] = 0;
         }
 

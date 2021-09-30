@@ -493,7 +493,7 @@ class ilInitialisation
         define("ROOT_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
         define("SYSTEM_FOLDER_ID", $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
         define("ROLE_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
-        define("MAIL_SETTINGS_ID", $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
+        define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
         define("ERROR_HANDLER", $error_handler ? $error_handler : "PRETTY_PAGE");
 

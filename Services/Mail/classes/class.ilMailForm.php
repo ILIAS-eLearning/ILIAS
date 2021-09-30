@@ -10,19 +10,25 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilMailForm
 {
-    private GlobalHttpState $httpRequest;
+    private GlobalHttpState $http;
     private Refinery $refinery;
 
     /**
+     * @param string $quotedTerm
+     * @param string $term
+     * @param bool $doRecipientSearch
      * @return array{hasMoreResults: bool, items: array}
      */
     public function getRecipientAsync(string $quotedTerm, string $term, bool $doRecipientSearch = true) : array
     {
         global $DIC;
+
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
+
         $mode = ilMailAutoCompleteRecipientResult::MODE_STOP_ON_MAX_ENTRIES;
-        if ($this->http->wrapper()->query()->has('fetchall') &&
+        if (
+            $this->http->wrapper()->query()->has('fetchall') &&
             $this->http->wrapper()->query()->retrieve('fetchall', $this->refinery->kindlyTo()->bool())
         ) {
             $mode = ilMailAutoCompleteRecipientResult::MODE_FETCH_ALL;

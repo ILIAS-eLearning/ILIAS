@@ -33,8 +33,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
             $this->collector->getMailIdsToDelete(),
             false,
             'integer'
-        ) . '
-				GROUP BY path');
+        ) . ' GROUP BY path');
         
         while ($row = $this->db->fetchAssoc($res)) {
             $usage_res = $this->db->queryF(
@@ -44,9 +43,9 @@ class ilMailCronOrphanedMailsDeletionProcessor
             );
 
             $num_rows = $this->db->numRows($usage_res);
-            if ((int)$row['cnt_mail_ids'] >= $num_rows) {
+            if ((int) $row['cnt_mail_ids'] >= $num_rows) {
                 // collect path to delete attachment file
-                $attachment_paths[(int)$row['mail_id']] = $row['path'];
+                $attachment_paths[(int) $row['mail_id']] = $row['path'];
             }
         }
 
@@ -59,9 +58,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
                 );
 
                 foreach ($iter as $file) {
-                    /**
-                     * @var $file SplFileInfo
-                     */
+                    /** @var $file SplFileInfo */
 
                     $path_name = $file->getPathname();
                     if ($file->isDir()) {

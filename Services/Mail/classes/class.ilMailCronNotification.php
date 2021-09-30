@@ -30,19 +30,19 @@ class ilMailCronNotification extends ilCronJob
 
     public function getId() : string
     {
-        return "mail_notification";
+        return 'mail_notification';
     }
 
     public function getTitle() : string
     {
         $this->init();
-        return $this->lng->txt("cron_mail_notification");
+        return $this->lng->txt('cron_mail_notification');
     }
 
     public function getDescription() : string
     {
         $this->init();
-        return  $this->lng->txt("cron_mail_notification_desc");
+        return  $this->lng->txt('cron_mail_notification_desc');
     }
 
     public function getDefaultScheduleType() : int
@@ -84,11 +84,11 @@ class ilMailCronNotification extends ilCronJob
     {
         $this->init();
         $cb = new ilCheckboxInputGUI(
-            $this->lng->txt("cron_mail_notification_message"),
-            "mail_notification_message"
+            $this->lng->txt('cron_mail_notification_message'),
+            'mail_notification_message'
         );
-        $cb->setInfo($this->lng->txt("cron_mail_notification_message_info"));
-        $cb->setChecked($this->settings->get("mail_notification_message"));
+        $cb->setInfo($this->lng->txt('cron_mail_notification_message_info'));
+        $cb->setChecked($this->settings->get('mail_notification_message'));
         $a_form->addItem($cb);
     }
 

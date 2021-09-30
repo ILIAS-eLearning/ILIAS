@@ -9,9 +9,7 @@ class ilMailCronOrphanedMailsDeletionCollector
 {
     protected ilDBInterface $db;
     protected ilSetting $settings;
-    /**
-     * @var int[]
-     */
+    /** @var int[] */
     protected array $mail_ids = [];
 
     public function __construct()
@@ -58,7 +56,7 @@ class ilMailCronOrphanedMailsDeletionCollector
                 }
                 
                 while ($row = $this->db->fetchAssoc($res)) {
-                    $this->addMailIdToDelete((int)$row['mail_id']);
+                    $this->addMailIdToDelete((int) $row['mail_id']);
                 }
             }
         } else {
@@ -84,7 +82,7 @@ class ilMailCronOrphanedMailsDeletionCollector
 
             $res = $this->db->queryF($mails_query, $types, $data);
             while ($row = $this->db->fetchAssoc($res)) {
-                $this->addMailIdToDelete((int)$row['mail_id']);
+                $this->addMailIdToDelete((int) $row['mail_id']);
             }
         }
     }

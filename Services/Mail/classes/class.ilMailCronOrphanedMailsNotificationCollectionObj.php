@@ -8,9 +8,7 @@
 class ilMailCronOrphanedMailsNotificationCollectionObj
 {
     protected int $user_id = 0;
-    /**
-     * @var ilMailCronOrphanedMailsFolderObject[]
-     */
+    /** @var ilMailCronOrphanedMailsFolderObject[] */
     protected array $folder_objects = [];
 
     public function __construct(int $user_id)

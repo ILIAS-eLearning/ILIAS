@@ -41,7 +41,7 @@ class ilMailCronOrphanedMailsNotificationCollector
         $res = $this->db->query('SELECT mail_id FROM mail_cron_orphaned');
         $already_notified = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            $already_notified[$row['mail_id']] = $row['mail_id'];
+            $already_notified[$row['mail_id']] = (int) $row['mail_id'];
         }
 
         $types = ['timestamp'];
@@ -64,34 +64,31 @@ class ilMailCronOrphanedMailsNotificationCollector
             array_values($already_notified),
             true,
             'integer'
-        )
-            . " ORDER BY m.user_id, folder_id, mail_id";
+        ) . " ORDER BY m.user_id, folder_id, mail_id";
 
         $collection_obj = null;
         $folder_obj = null;
 
         $res = $this->db->queryF($notification_query, $types, $data);
         while ($row = $this->db->fetchAssoc($res)) {
-            if (!$this->existsCollectionObjForUserId((int)$row['user_id'])) {
-                if (is_object($collection_obj)) {
-                    $this->addCollectionObject($collection_obj);
-                }
+            if (is_object($collection_obj) && !$this->existsCollectionObjForUserId((int) $row['user_id'])) {
+                $this->addCollectionObject($collection_obj);
             }
 
             if (!is_object($collection_obj)) {
-                $collection_obj = new ilMailCronOrphanedMailsNotificationCollectionObj((int)$row['user_id']);
+                $collection_obj = new ilMailCronOrphanedMailsNotificationCollectionObj((int) $row['user_id']);
             }
 
             if (is_object($collection_obj)) {
-                if (!$folder_obj = $collection_obj->getFolderObjectById((int)$row['folder_id'])) {
-                    $folder_obj = new ilMailCronOrphanedMailsFolderObject((int)$row['folder_id']);
+                if (!$folder_obj = $collection_obj->getFolderObjectById((int) $row['folder_id'])) {
+                    $folder_obj = new ilMailCronOrphanedMailsFolderObject((int) $row['folder_id']);
                     $folder_obj->setFolderTitle($row['title']);
                     $collection_obj->addFolderObject($folder_obj);
                 }
 
                 if (is_object($folder_obj)) {
                     $orphaned_mail_obj = new ilMailCronOrphanedMailsFolderMailObject(
-                        (int)$row['mail_id'],
+                        (int) $row['mail_id'],
                         $row['m_subject']
                     );
                     $folder_obj->addMailObject($orphaned_mail_obj);
