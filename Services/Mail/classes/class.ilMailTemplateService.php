@@ -88,14 +88,14 @@ class ilMailTemplateService
         return $templates;
     }
     
-    public function unsetAsContextDefault(\ilMailTemplate $template) : void
+    public function unsetAsContextDefault(ilMailTemplate $template) : void
     {
         $template->setAsDefault(false);
 
         $this->repository->store($template);
     }
 
-    public function setAsContextDefault(\ilMailTemplate $template) : void
+    public function setAsContextDefault(ilMailTemplate $template) : void
     {
         $allOfContext = $this->repository->findByContextId($template->getContext());
         foreach ($allOfContext as $otherTemplate) {

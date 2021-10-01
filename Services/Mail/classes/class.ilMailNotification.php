@@ -230,10 +230,8 @@ abstract class ilMailNotification
             $this->getBody(),
             $this->getAttachments()
         );
-        // smeyer: 19.5.16 fixed strlen warning, since $error is of type array
         if (count($errors) > 0) {
             ilLoggerFactory::getLogger('mail')->dump($errors, ilLogLevel::ERROR);
-            //ilLoggerFactory::getLogger('mail')->error($error);
         }
     }
 
@@ -252,13 +250,10 @@ abstract class ilMailNotification
         if ($this->getRefId()) {
             if (!$this->is_in_wsp) {
                 return ilLink::_getLink($this->ref_id, $this->getObjType(), $a_params, $a_append);
-            } else {
-                return ilWorkspaceAccessHandler::getGotoLink($this->getRefId(), $this->getObjId(), $a_append);
             }
-        } else {
-            // Return root
-            return ilLink::_getLink(ROOT_FOLDER_ID, 'root');
+            return ilWorkspaceAccessHandler::getGotoLink($this->getRefId(), $this->getObjId(), $a_append);
         }
+        return ilLink::_getLink(ROOT_FOLDER_ID, 'root');
     }
 
     protected function userToString(int $a_usr_id) : string

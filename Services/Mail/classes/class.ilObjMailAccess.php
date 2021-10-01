@@ -22,8 +22,9 @@ class ilObjMailAccess extends ilObjectAccess
 
     public static function _checkGoto($a_target) : bool
     {
-        $mail = new ilMail($GLOBALS['DIC']['ilUser']->getId());
-        if ($GLOBALS['DIC']['rbacsystem']->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
+        global $DIC;
+        $mail = new ilMail($DIC->user()->getId());
+        if ($DIC->rbac()->system()->checkAccess('internal_mail', $mail->getMailObjectReferenceId())) {
             return true;
         }
         return false;

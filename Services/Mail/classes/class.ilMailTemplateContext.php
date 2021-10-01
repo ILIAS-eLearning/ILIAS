@@ -12,7 +12,7 @@ use OrgUnit\User\ilOrgUnitUser;
  */
 abstract class ilMailTemplateContext
 {
-    protected ?ilLanguage $language = null;
+    protected ilLanguage $language;
     protected ilMailEnvironmentHelper $envHelper;
     protected ilMailLanguageHelper $languageHelper;
     protected ilMailUserHelper $userHelper;
@@ -24,30 +24,15 @@ abstract class ilMailTemplateContext
         ilMailUserHelper $usernameHelper = null,
         ilMailLanguageHelper $languageHelper = null
     ) {
-        if (null === $orgUnitUserService) {
-            $orgUnitUserService = new OrgUnitUserService();
-        }
-        $this->orgUnitUserService = $orgUnitUserService;
-
-        if (null === $envHelper) {
-            $envHelper = new ilMailEnvironmentHelper();
-        }
-        $this->envHelper = $envHelper;
-
-        if (null === $usernameHelper) {
-            $usernameHelper = new ilMailUserHelper();
-        }
-        $this->userHelper = $usernameHelper;
-
-        if (null === $languageHelper) {
-            $languageHelper = new ilMailLanguageHelper();
-        }
-        $this->languageHelper = $languageHelper;
+        $this->orgUnitUserService = $orgUnitUserService ?? new OrgUnitUserService();
+        $this->envHelper = $envHelper ?? new ilMailEnvironmentHelper();
+        $this->userHelper = $usernameHelper ?? new ilMailUserHelper();
+        $this->languageHelper = $languageHelper ?? new ilMailLanguageHelper();
     }
 
     public function getLanguage() : ilLanguage
     {
-        return $this->language ?: $this->languageHelper->getCurrentLanguage();
+        return $this->language ?? $this->languageHelper->getCurrentLanguage();
     }
 
     abstract public function getId() : string;
@@ -100,7 +85,7 @@ abstract class ilMailTemplateContext
         $placeholders = $this->getGenericPlaceholders();
         $specific = $this->getSpecificPlaceholders();
 
-        return $placeholders + $specific;
+        return array_merge($placeholders, $specific);
     }
 
     abstract public function getSpecificPlaceholders() : array;

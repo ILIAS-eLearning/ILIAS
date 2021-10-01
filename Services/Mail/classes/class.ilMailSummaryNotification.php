@@ -10,14 +10,15 @@ class ilMailSummaryNotification extends ilMailNotification
     protected ilLanguage $lng;
     protected ilDBInterface $db;
     protected ilSetting $settings;
+    protected ilMailMimeSenderFactory $senderFactory;
 
     public function __construct(bool $a_is_personal_workspace = false)
     {
         global $DIC;
-
         $this->db = $DIC->database();
         $this->lng = $DIC->language();
         $this->settings = $DIC->settings();
+        $this->senderFactory = $DIC["mail.mime.sender.factory"];
 
         parent::__construct($a_is_personal_workspace);
     }
@@ -48,10 +49,7 @@ class ilMailSummaryNotification extends ilMailNotification
             }
             $users[$user_id][] = $row;
         }
-
-        /** @var ilMailMimeSenderFactory $senderFactory */
-        $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
-        $sender = $senderFactory->system();
+        $sender = $this->senderFactory->system();
 
         foreach ($users as $user_id => $mail_data) {
             $this->initLanguage($user_id);
@@ -86,10 +84,10 @@ class ilMailSummaryNotification extends ilMailNotification
                 $this->appendBody('#' . $counter . "\n\n");
                 $this->appendBody($user_lang->txt('date') . ": " . $mail['send_time']);
                 $this->appendBody("\n");
-                if ($mail['sender_id'] === ANONYMOUS_USER_ID) {
+                if ((int) $mail['sender_id'] === ANONYMOUS_USER_ID) {
                     $senderName = ilMail::_getIliasMailerName();
                 } else {
-                    $senderName = ilObjUser::_lookupLogin($mail['sender_id']);
+                    $senderName = ilObjUser::_lookupLogin((int) $mail['sender_id']);
                 }
                 $this->appendBody($user_lang->txt('sender') . ": " . $senderName);
                 $this->appendBody("\n");

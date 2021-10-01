@@ -35,10 +35,8 @@ class ilMailSearchLuceneResultParser
         $hits = new SimpleXMLElement($this->getXml());
         foreach ($hits->children() as $user) {
             foreach ($user->children() as $item) {
-                /** @var $item SimpleXMLElement */
                 $fields = [];
                 foreach ($item->children() as $field) {
-                    /** @var $field SimpleXMLElement */
                     $name = (string) $field['name'];
                     $content = (string) $field;
                     $fields[] = [

@@ -7,6 +7,7 @@
  */
 class ilMailSearchResult
 {
+    /** @var array[] */
     protected array $result = [];
 
     public function __construct()

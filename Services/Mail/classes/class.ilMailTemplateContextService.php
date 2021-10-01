@@ -12,11 +12,9 @@ class ilMailTemplateContextService
     public static function clearFromXml(string $a_component, array $a_new_templates) : void
     {
         global $DIC;
-
         if (!$DIC->database()->tableExists('mail_tpl_ctx')) {
             return;
         }
-
         $persisted_templates = [];
         $query = 'SELECT id FROM mail_tpl_ctx WHERE component = '
             . $DIC->database()->quote($a_component, 'text');
@@ -68,7 +66,7 @@ class ilMailTemplateContextService
      */
     public static function getTemplateContextById(string $a_id) : ilMailTemplateContext
     {
-        $contexts = self::getTemplateContexts($a_id);
+        $contexts = self::getTemplateContexts([$a_id]);
         $first_context = current($contexts);
         if (!($first_context instanceof ilMailTemplateContext) || $first_context->getId() !== $a_id) {
             throw new ilMailException(sprintf("Could not find a mail template context with id: %s", $a_id));
@@ -78,22 +76,17 @@ class ilMailTemplateContextService
 
     /**
      * Returns an array of mail template contexts, the key of each entry matches its id
-     * @param null|string|array $a_id
+     * @param string[] $a_id
      * @return ilMailTemplateContext[]
      */
-    public static function getTemplateContexts($a_id = null) : array
+    public static function getTemplateContexts(array $a_id = null) : array
     {
         global $DIC;
-
         $templates = [];
-
-        if ($a_id && !is_array($a_id)) {
-            $a_id = [$a_id];
-        }
 
         $query = 'SELECT * FROM mail_tpl_ctx';
         $where = [];
-        if ($a_id) {
+        if (count($a_id)) {
             $where[] = $DIC->database()->in('id', $a_id, false, 'text');
         }
         if (count($where)) {

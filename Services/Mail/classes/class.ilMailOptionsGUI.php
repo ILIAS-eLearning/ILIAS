@@ -33,51 +33,15 @@ class ilMailOptionsGUI
         Refinery $refinery = null
     ) {
         global $DIC;
-
-        if (null === $tpl) {
-            $tpl = $DIC->ui()->mainTemplate();
-        }
-        $this->tpl = $tpl;
-
-        if (null === $ctrl) {
-            $ctrl = $DIC->ctrl();
-        }
-        $this->ctrl = $ctrl;
-
-        if (null === $setting) {
-            $setting = $DIC->settings();
-        }
-        $this->settings = $setting;
-
-        if (null === $lng) {
-            $lng = $DIC->language();
-        }
-        $this->lng = $lng;
-
-        if (null === $user) {
-            $user = $DIC->user();
-        }
-        $this->user = $user;
-
-        if (null === $http) {
-            $http = $DIC->http();
-        }
-        $this->http = $http;
-
-        if (null === $refinery) {
-            $http = $DIC->refinery();
-        }
-        $this->refinery = $refinery;
-
-        if (null === $mail) {
-            $mail = new ilFormatMail($this->user->getId());
-        }
-        $this->umail = $mail;
-
-        if (null === $malBox) {
-            $malBox = new ilMailbox($this->user->getId());
-        }
-        $this->mbox = $malBox;
+        $this->tpl = $tpl ?? $DIC->ui()->mainTemplate();
+        $this->ctrl = $ctrl ?? $DIC->ctrl();
+        $this->settings = $setting ?? $DIC->settings();
+        $this->lng = $lng ?? $DIC->language();
+        $this->user = $user ?? $DIC->user();
+        $this->http = $http ?? $DIC->http();
+        $this->refinery = $refinery ?? $DIC->refinery();
+        $this->umail = $mail ?? new ilFormatMail($this->user->getId());
+        $this->mbox = $malBox ?? new ilMailbox($this->user->getId());
 
         $this->lng->loadLanguageModule('mail');
         $this->ctrl->saveParameter($this, 'mobj_id');

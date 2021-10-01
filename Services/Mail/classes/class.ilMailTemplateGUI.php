@@ -44,59 +44,18 @@ class ilMailTemplateGUI
         ilMailTemplateService $templateService = null
     ) {
         global $DIC;
-
         $this->parentObject = $parentObject;
-
-        if ($tpl === null) {
-            $tpl = $DIC->ui()->mainTemplate();
-        }
-        $this->tpl = $tpl;
-
-        if ($ctrl === null) {
-            $ctrl = $DIC->ctrl();
-        }
-        $this->ctrl = $ctrl;
-
-        if ($lng === null) {
-            $lng = $DIC->language();
-        }
-        $this->lng = $lng;
-
-        if ($toolbar === null) {
-            $toolbar = $DIC->toolbar();
-        }
-        $this->toolbar = $toolbar;
-
-        if ($rbacsystem === null) {
-            $rbacsystem = $DIC->rbac()->system();
-        }
-        $this->rbacsystem = $rbacsystem;
-
-        if ($error === null) {
-            $error = $DIC['ilErr'];
-        }
-        $this->error = $error;
-
-        if ($http === null) {
-            $http = $DIC->http();
-        }
-        $this->http = $http;
+        $this->tpl = $tpl ?? $DIC->ui()->mainTemplate();
+        $this->ctrl = $ctrl ?? $DIC->ctrl();
+        $this->lng = $lng ?? $DIC->language();
+        $this->toolbar = $toolbar ?? $DIC->toolbar();
+        $this->rbacsystem = $rbacsystem ?? $DIC->rbac()->system();
+        $this->error = $error ?? $DIC['ilErr'];
+        $this->http = $http ?? $DIC->http();
         $this->refinery = $DIC->refinery();
-
-        if ($uiFactory === null) {
-            $uiFactory = $DIC->ui()->factory();
-        }
-        $this->uiFactory = $uiFactory;
-
-        if ($uiRenderer === null) {
-            $uiRenderer = $DIC->ui()->renderer();
-        }
-        $this->uiRenderer = $uiRenderer;
-
-        if (null === $templateService) {
-            $templateService = $DIC['mail.texttemplates.service'];
-        }
-        $this->service = $templateService;
+        $this->uiFactory = $uiFactory ?? $DIC->ui()->factory();
+        $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
+        $this->service = $templateService ?? $DIC['mail.texttemplates.service'];
 
         $this->lng->loadLanguageModule('meta');
     }

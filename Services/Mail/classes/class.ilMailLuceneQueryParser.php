@@ -3,7 +3,6 @@
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  */
 class ilMailLuceneQueryParser extends ilLuceneQueryParser
