@@ -15,7 +15,6 @@ use ILIAS\Refinery\Factory as Refinery;
 class ilMailFolderTableGUI extends ilTable2GUI
 {
     private GlobalHttpState $http;
-    private Refinery $refinery;
     protected array $_folderNode = [];
     protected ilMailFolderGUI $_parentObject;
     protected int $_currentFolderId = 0;
@@ -30,8 +29,8 @@ class ilMailFolderTableGUI extends ilTable2GUI
     protected array $visibleOptionalColumns = [];
     protected array $optionalColumns = [];
     protected array $optional_filter = [];
-    private ?Factory $uiFactory;
-    private ?Renderer $uiRenderer;
+    private Factory $uiFactory;
+    private Renderer $uiRenderer;
     private ?array $column_definition = null;
 
     public function __construct(
@@ -42,19 +41,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
         Renderer $uiRenderer = null
     ) {
         global $DIC;
-
         $this->user = $DIC->user();
-
-        if (null === $uiFactory) {
-            $uiFactory = $DIC->ui()->factory();
-        }
-        if (null === $uiRenderer) {
-            $uiRenderer = $DIC->ui()->renderer();
-        }
-        $this->uiFactory = $uiFactory;
-        $this->uiRenderer = $uiRenderer;
+        $this->uiFactory = $uiFactory ?? $DIC->ui()->factory();
+        $this->uiRenderer = $uiRenderer ?? $DIC->ui()->renderer();
         $this->http = $DIC->http();
-        $this->refinery = $DIC->refinery();
 
         $this->_currentFolderId = $a_current_folder_id;
         $this->_parentObject = $a_parent_obj;
@@ -361,15 +351,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
     
     protected function shouldUseLuceneSearch() : bool
     {
-        if (
-            isset($this->filter['mail_filter']) &&
+        return isset($this->filter['mail_filter']) &&
             is_string($this->filter['mail_filter']) &&
             $this->filter['mail_filter'] !== '' &&
-            $this->isLuceneEnabled()
-        ) {
-            return true;
-        }
-        return false;
+            $this->isLuceneEnabled();
     }
 
     private function isLuceneEnabled() : bool

@@ -34,12 +34,7 @@ class ilMailFormGUI
         ilMailBodyPurifier $bodyPurifier = null
     ) {
         global $DIC;
-
-        if (null === $templateService) {
-            $templateService = $DIC['mail.texttemplates.service'];
-        }
-        $this->templateService = $templateService;
-
+        $this->templateService = $templateService ?? $DIC['mail.texttemplates.service'];
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -49,15 +44,10 @@ class ilMailFormGUI
         $this->rbacsystem = $DIC->rbac()->system();
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
-
         $this->umail = new ilFormatMail($this->user->getId());
         $this->mfile = new ilFileDataMail($this->user->getId());
         $this->mbox = new ilMailbox($this->user->getId());
-
-        if (null === $bodyPurifier) {
-            $bodyPurifier = new ilMailBodyPurifier();
-        }
-        $this->purifier = $bodyPurifier;
+        $this->purifier = $bodyPurifier ?? new ilMailBodyPurifier();
 
         if ($this->http->wrapper()->post()->has('mobj_id')) {
             $this->requestMailObjId = $this->http->wrapper()->post()->retrieve('mobj_id', $this->refinery->kindlyTo()->int());
