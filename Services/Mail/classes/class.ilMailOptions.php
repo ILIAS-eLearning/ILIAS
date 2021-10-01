@@ -5,7 +5,6 @@
  * Class ilMailOptions
  * this class handles user mails
  * @author    Stefan Meyer <meyer@leifos.com>
- * @version $Id$
  */
 class ilMailOptions
 {
@@ -33,16 +32,10 @@ class ilMailOptions
     public function __construct(int $usrId, ilMailTransportSettings $mailTransportSettings = null)
     {
         global $DIC;
-
         $this->usrId = $usrId;
-
         $this->db = $DIC->database();
         $this->settings = $DIC->settings();
-
-        if ($mailTransportSettings === null) {
-            $mailTransportSettings = new ilMailTransportSettings($this);
-        }
-        $this->mailTransportSettings = $mailTransportSettings;
+        $this->mailTransportSettings = $mailTransportSettings ?? new ilMailTransportSettings($this);
 
         $this->read();
     }

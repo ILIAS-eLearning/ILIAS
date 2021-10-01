@@ -1,9 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * Class ilMimeMail
- */
 class ilMimeMail
 {
     public const MAIL_SUBJECT_PREFIX = '[ILIAS]';
@@ -15,37 +12,21 @@ class ilMimeMail
     protected string $body = '';
     protected string $finalBody = '';
     protected string $finalBodyAlt = '';
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $sendto = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $acc = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $abcc = [];
-    /**
-     * @var array<string, array{path: string, cid: string, name: string}>
-     */
+    /** @var array<string, array{path: string, cid: string, name: string}> */
     protected array $images = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $aattach = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $actype = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $adispo = [];
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $adisplay = [];
 
     public function __construct()
@@ -61,9 +42,6 @@ class ilMimeMail
         $this->subjectBuilder = new ilMailMimeSubjectBuilder($this->settings, self::MAIL_SUBJECT_PREFIX);
     }
 
-    /**
-     * @param ilMailMimeTransport|null $transport
-     */
     public static function setDefaultTransport(?ilMailMimeTransport $transport) : void
     {
         if ($transport !== null && !($transport instanceof ilMailMimeTransport)) {
@@ -224,7 +202,8 @@ class ilMimeMail
     }
 
     /**
-     * @return array{path: string, cid: string, name: string}[] An array of images. Each element must container to associative keys, 'path', 'cid' and 'name'
+     * @return array{path: string, cid: string, name: string}[] An array of images. Each element must container
+     * to associative keys, 'path', 'cid' and 'name'
      */
     public function getImages() : array
     {

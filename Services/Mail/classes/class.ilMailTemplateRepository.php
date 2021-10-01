@@ -8,14 +8,10 @@ class ilMailTemplateRepository
 {
     protected ilDBInterface $db;
 
-    public function __construct(\ilDBInterface $db = null)
+    public function __construct(ilDBInterface $db = null)
     {
         global $DIC;
-
-        if (null === $db) {
-            $db = $DIC->database();
-        }
-        $this->db = $db;
+        $this->db = $db ?? $DIC->database();
     }
 
     /**
@@ -77,7 +73,7 @@ class ilMailTemplateRepository
         }
     }
 
-    public function store(\ilMailTemplate $template) : void
+    public function store(ilMailTemplate $template) : void
     {
         if ($template->getTplId() > 0) {
             $this->db->update(

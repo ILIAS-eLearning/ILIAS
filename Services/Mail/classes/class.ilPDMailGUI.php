@@ -8,7 +8,6 @@ use ILIAS\Refinery\Factory as Refinery;
  * Mail User Interface class. (only a start, mail scripts code should go here)
  *
  * @author Peter Gabriel <pgabriel@databay.de>
- * @version $Id$
  */
 class ilPDMailGUI
 {
@@ -22,7 +21,6 @@ class ilPDMailGUI
     public function __construct()
     {
         global $DIC;
-
         $this->lng = $DIC->language();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->ilias = $DIC['ilias'];
@@ -72,9 +70,7 @@ class ilPDMailGUI
 
         $tpl->setVariable('TXT_FROM', $this->lng->txt('from'));
 
-        /**
-         * @var $sender ilObjUser
-         */
+        /** @var $sender ilObjUser */
         $sender = ilObjectFactory::getInstanceByObjId($mail_data['sender_id'], false);
         if ($sender && $sender->getId() !== ANONYMOUS_USER_ID) {
             $tpl->setCurrentBlock('pers_image');

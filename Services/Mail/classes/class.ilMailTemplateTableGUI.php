@@ -57,11 +57,9 @@ class ilMailTemplateTableGUI extends ilTable2GUI
         if ('tpl_id' === $column) {
             return ilUtil::formCheckbox(false, 'tpl_id[]', $row[$column]);
         }
-
         if ('lang' === $column) {
             return $this->lng->txt('meta_l_' . $row[$column]);
         }
-
         if ($column === 'context') {
             if (isset($this->contexts[$row[$column]])) {
                 $isDefaultSuffix = '';

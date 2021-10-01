@@ -3,18 +3,18 @@
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  */
 class ilMailUserCache
 {
-    /**
-     * @var ilObjUser[]
-     */
+    /** @var ilObjUser[] */
     protected static array $user_instances = [];
     protected static array $requested_usr_ids = [];
     protected static array $requested_usr_ids_key_map = [];
 
+    /**
+     * @param int[] $usr_ids
+     */
     public static function preloadUserObjects(array $usr_ids) : void
     {
         global $DIC;

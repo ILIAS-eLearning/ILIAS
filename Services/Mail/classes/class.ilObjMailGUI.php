@@ -1,8 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
  * @author       Stefan Meyer <meyer@leifos.com>
  * @author       Michael Jansen <mjansen@databay.de>
@@ -13,28 +11,21 @@ class ilObjMailGUI extends ilObjectGUI
     public const SETTINGS_SUB_TAB_ID_GENERAL = 1;
     public const SETTINGS_SUB_TAB_ID_EXTERNAL = 2;
     public const PASSWORD_PLACE_HOLDER = '***********************';
-    private ServerRequestInterface $httpRequest;
     protected ilTabsGUI $tabs;
-    /**
-     * @var ilRbacSystem
-     */
+    /** @var ilRbacSystem */
     protected $rbacsystem;
-    /**
-     * @var ilSetting
-     */
+    /** @var ilSetting */
     protected $settings;
 
     public function __construct(array $a_data, int $a_id, bool $a_call_by_reference)
     {
         global $DIC;
-
         $this->type = 'mail';
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
         $this->tabs = $DIC->tabs();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->settings = $DIC['ilSetting'];
-        $this->httpRequest = $DIC->http()->request();
 
         $this->lng->loadLanguageModule('mail');
     }
@@ -311,16 +302,16 @@ class ilObjMailGUI extends ilObjectGUI
             $this->populateExternalSettingsForm($form);
         }
 
-        if ($GLOBALS['DIC']->user()->getEmail() !== '') {
+        if ($this->user->getEmail() !== '') {
             $btn = ilLinkButton::getInstance();
             $btn->setUrl($this->ctrl->getLinkTarget($this, 'sendTestUserMail'));
             $btn->setCaption('mail_external_send_test_usr');
-            $GLOBALS['DIC']->toolbar()->addButtonInstance($btn);
+            $this->toolbar->addButtonInstance($btn);
 
             $btn = ilLinkButton::getInstance();
             $btn->setUrl($this->ctrl->getLinkTarget($this, 'sendTestSystemMail'));
             $btn->setCaption('mail_external_send_test_sys');
-            $GLOBALS['DIC']->toolbar()->addButtonInstance($btn);
+            $this->toolbar->addButtonInstance($btn);
         }
 
         $this->tpl->setContent($form->getHTML());
@@ -342,13 +333,13 @@ class ilObjMailGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt('msg_no_perm_write'), $this->ilias->error_obj->WARNING);
         }
 
-        if ($GLOBALS['DIC']->user()->getEmail() === '') {
+        if ($this->user->getEmail() === '') {
             $this->showExternalSettingsFormObject();
             return;
         }
 
         if ($isManualMail) {
-            $mail = new ilMail($GLOBALS['DIC']->user()->getId());
+            $mail = new ilMail($this->user->getId());
         } else {
             $mail = new ilMail(ANONYMOUS_USER_ID);
         }
@@ -362,7 +353,7 @@ class ilObjMailGUI extends ilObjectGUI
         }
 
         $mail->enqueue(
-            $GLOBALS['DIC']->user()->getEmail(),
+            $this->user->getEmail(),
             '',
             '',
             $this->lng->txt('mail_email_' . $lngVariablePrefix . '_subject'),
@@ -653,7 +644,6 @@ class ilObjMailGUI extends ilObjectGUI
     public static function _goto(string $a_target) : void
     {
         global $DIC;
-
         $mail = new ilMail($DIC->user()->getId());
         $request = $DIC->http()->request();
 

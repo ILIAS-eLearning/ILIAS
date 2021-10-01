@@ -17,7 +17,7 @@ class ilMailTemplate
 
     public function __construct(array $data = null)
     {
-        if (is_array($data)) {
+        if ($data) {
             $this->setTplId((int) $data['tpl_id']);
             $this->setTitle((string) $data['title']);
             $this->setContext((string) $data['context']);

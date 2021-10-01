@@ -15,30 +15,21 @@ class ilPDMailBlockGUI extends ilBlockGUI
     private GlobalHttpState $http;
     private Refinery $refinery;
     private int $requestMailObjId = 0;
-    /**
-     * @var ilLanguage
-     */
+    /** @var ilLanguage */
     protected $lng;
-    /**
-     * @var ilObjUser
-     */
+    /** @var ilObjUser */
     protected $user;
-    /**
-     * @var ilCtrl
-     */
+    /** @var ilCtrl */
     protected $ctrl;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $setting;
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     protected array $mails = [];
     protected int $inbox;
 
     public function __construct()
     {
         global $DIC;
-
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
@@ -128,7 +119,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     public function fillRow($a_set) : void
     {
-        $user = ilMailUserCache::getUserObjectById($a_set['sender_id']);
+        $user = ilMailUserCache::getUserObjectById((int) $a_set['sender_id']);
         
         $this->tpl->touchBlock('usr_image_space');
         if ($user && $user->getId() !== ANONYMOUS_USER_ID) {

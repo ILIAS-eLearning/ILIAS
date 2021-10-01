@@ -19,9 +19,6 @@ class ilMailLuceneSearcher
         $this->result = $result;
     }
 
-    /**
-     * @throws Exception
-     */
     public function search(int $user_id, int $mail_folder_id) : void
     {
         if (!$this->query_parser->getQuery()) {
