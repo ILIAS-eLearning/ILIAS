@@ -161,6 +161,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
 
         switch ($next_class) {
             case 'ilskillrootgui':
+                if (!$this->skill_tree_access_manager->hasReadCompetencesPermission()) {
+                    return;
+                }
                 $skrt_gui = new ilSkillRootGUI(
                     $this->skill_tree_node_manager,
                     (int) $this->requested_obj_id
@@ -170,6 +173,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 break;
 
             case 'ilskillcategorygui':
+                if (!$this->skill_tree_access_manager->hasReadCompetencesPermission()) {
+                    return;
+                }
                 $this->tabs_gui->activateTab("skills");
                 $scat_gui = new ilSkillCategoryGUI(
                     $this->skill_tree_node_manager,
@@ -181,6 +187,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 break;
 
             case 'ilbasicskillgui':
+                if (!$this->skill_tree_access_manager->hasReadCompetencesPermission()) {
+                    return;
+                }
                 $this->tabs_gui->activateTab("skills");
                 $skill_gui = new ilBasicSkillGUI(
                     $this->skill_tree_node_manager,
@@ -192,6 +201,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 break;
 
             case 'ilskilltemplatecategorygui':
+                if (!$this->skill_tree_access_manager->hasReadCompetencesPermission()) {
+                    return;
+                }
                 $this->tabs_gui->activateTab("skill_templates");
                 $sctp_gui = new ilSkillTemplateCategoryGUI(
                     $this->skill_tree_node_manager,
@@ -204,6 +216,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 break;
 
             case 'ilbasicskilltemplategui':
+                if (!$this->skill_tree_access_manager->hasReadCompetencesPermission()) {
+                    return;
+                }
                 $this->tabs_gui->activateTab("skill_templates");
                 $sktp_gui = new ilBasicSkillTemplateGUI(
                     $this->skill_tree_node_manager,
@@ -216,6 +231,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 break;
 
             case 'ilskilltemplatereferencegui':
+                if (!$this->skill_tree_access_manager->hasReadCompetencesPermission()) {
+                    return;
+                }
                 $this->tabs_gui->activateTab("skills");
                 $sktr_gui = new ilSkillTemplateReferenceGUI(
                     $this->skill_tree_node_manager,
@@ -239,12 +257,18 @@ class ilObjSkillTreeGUI extends ilObjectGUI
                 break;
 
             case 'ilpermissiongui':
+                if (!$this->skill_tree_access_manager->hasEditTreePermissionsPermission()) {
+                    return;
+                }
                 $this->tabs_gui->activateTab('permissions');
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilexportgui":
+                if (!$this->skill_tree_access_manager->hasEditTreeSettingsPermission()) {
+                    return;
+                }
                 $this->tabs_gui->activateTab('export');
                 $exp_gui = new ilExportGUI($this);
                 $exp_gui->addFormat("xml");
@@ -347,6 +371,9 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $mtpl = $this->main_tpl;
         $ui = $this->ui;
 
+        if (!$this->skill_tree_access_manager->hasEditTreeSettingsPermission()) {
+            return;
+        }
         $mtpl->setContent($ui->renderer()->render($this->initTreeForm(true)));
     }
 
@@ -471,17 +498,19 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         );
 
         if ($this->skill_tree_access_manager->hasReadTreePermission()) {
-            $this->tabs_gui->addTab(
-                "skills",
-                $lng->txt("skmg_skills"),
-                $this->ctrl->getLinkTarget($this, "editSkills")
-            );
+            if ($this->skill_tree_access_manager->hasReadCompetencesPermission()) {
+                $this->tabs_gui->addTab(
+                    "skills",
+                    $lng->txt("skmg_skills"),
+                    $this->ctrl->getLinkTarget($this, "editSkills")
+                );
 
-            $this->tabs_gui->addTab(
-                "skill_templates",
-                $lng->txt("skmg_skill_templates"),
-                $this->ctrl->getLinkTarget($this, "editSkillTemplates")
-            );
+                $this->tabs_gui->addTab(
+                    "skill_templates",
+                    $lng->txt("skmg_skill_templates"),
+                    $this->ctrl->getLinkTarget($this, "editSkillTemplates")
+                );
+            }
 
             if ($this->skill_tree_access_manager->hasReadProfilesPermission()) {
                 $this->tabs_gui->addTab(

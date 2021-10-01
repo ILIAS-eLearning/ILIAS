@@ -1,3 +1,10 @@
 skmg#:#skmg_add_skill_tree#:#Kompetenzbaum hinzufügen
 skmg#:#skmg_skill_tree#:#Kompetenzbaum
 skmg#:#skmg_skill_trees#:#Kompetenzbäume
+skmg#:#skmg_lp_triggers_level_resources#:#Magazinobjekte gesetzt durch 'Bearbeitet'-Status
+rbac#:#obj_skee#:#Kompetenzbaum
+rbac#:#read_comp#:#Lesezugriff auf Kompetenzen und Kompetenzvorlagen
+rbac#:#read_profiles#:#Lesezugriff auf Kompetenzprofile
+rbac#:#manage_comp#:#Kompetenzen bearbeiten
+rbac#:#manage_comp_temp#:#Kompetenzvorlagen bearbeiten
+rbac#:#manage_profiles#:#Kompetenzprofile bearbeiten

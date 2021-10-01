@@ -1,3 +1,10 @@
 skmg#:#skmg_add_skill_tree#:#Add Competence Tree
 skmg#:#skmg_skill_tree#:#Competence Tree
 skmg#:#skmg_skill_trees#:#Competence Trees
+skmg#:#skmg_lp_triggers_level_resources#:#Resources triggered by Completion
+rbac#:#obj_skee#:#Competence Tree
+rbac#:#read_comp#:#User has read access to Competences and Competence Templates
+rbac#:#read_profiles#:#User has read access to Competence Profiles
+rbac#:#manage_comp#:#User can change Competences
+rbac#:#manage_comp_temp#:#User can change Competence Templates
+rbac#:#manage_profiles#:#User can change Competence Profiles

@@ -45,12 +45,24 @@ class SkillTreeAccess
      * @param int $a_usr_id
      * @return bool
      */
+    public function hasVisibleTreePermission(int $a_usr_id = 0) : bool
+    {
+        if ($a_usr_id == 0) {
+            $a_usr_id = $this->usr_id;
+        }
+        return $this->access->checkAccessOfUser($a_usr_id, "visible", $this->ref_id);
+    }
+
+    /**
+     * @param int $a_usr_id
+     * @return bool
+     */
     public function hasReadTreePermission(int $a_usr_id = 0) : bool
     {
         if ($a_usr_id == 0) {
             $a_usr_id = $this->usr_id;
         }
-        return $this->access->checkAccessOfUser($a_usr_id, "visible,read", $this->ref_id);
+        return $this->access->checkAccessOfUser($a_usr_id, "read", $this->ref_id);
     }
 
     /**

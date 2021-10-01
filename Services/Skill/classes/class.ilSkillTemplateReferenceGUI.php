@@ -236,6 +236,10 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
                 $this->form->addCommandButton("updateSkillTemplateReference", $lng->txt("save"));
                 $this->form->setTitle($lng->txt("skmg_edit_sktr"));
             }
+        } else {
+            foreach ($this->form->getItems() as $item) {
+                $item->setDisabled(true);
+            }
         }
         
         $this->form->setFormAction($ilCtrl->getFormAction($this));

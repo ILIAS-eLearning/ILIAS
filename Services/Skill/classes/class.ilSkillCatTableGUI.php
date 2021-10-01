@@ -180,6 +180,9 @@ class ilSkillCatTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("nr");
             $this->tpl->setVariable("OBJ_ID", $a_set["child"]);
             $this->tpl->setVariable("ORDER_NR", $a_set["order_nr"]);
+            if (!$this->manage_perm) {
+                $this->tpl->touchBlock("disabled");
+            }
             $this->tpl->parseCurrentBlock();
         }
         

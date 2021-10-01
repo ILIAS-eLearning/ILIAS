@@ -57,7 +57,8 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         
         // root?
         if ($a_node["type"] == "skrt") {
-            $title = $lng->txt("skmg_skills");
+            $tree_obj = $this->skill_tree_manager->getTree($a_node["skl_tree_id"]);
+            $title = $tree_obj->getTitle();
         } else {
             if ($a_node["type"] == "sktr") {
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_parent_skl_tree_id);

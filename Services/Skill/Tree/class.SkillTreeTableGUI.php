@@ -24,6 +24,11 @@ class SkillTreeTableGUI extends \ilTable2GUI
     protected $lng;
 
     /**
+     * @var SkillInternalManagerService
+     */
+    protected $internal_manager;
+
+    /**
      * @var SkillTreeManager
      */
     protected $tree_manager;
@@ -69,6 +74,7 @@ class SkillTreeTableGUI extends \ilTable2GUI
         $params = $this->request->getQueryParams();
         $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
 
+        $this->internal_manager = $manager;
         $this->tree_manager = $manager->getTreeManager();
         $this->management_access_manager = $manager->getManagementAccessManager($this->requested_ref_id);
         $this->tree_factory = $DIC->skills()->internal()->factory()->tree();
@@ -98,13 +104,16 @@ class SkillTreeTableGUI extends \ilTable2GUI
      */
     protected function getItems()
     {
-        return array_map(function ($i) {
-            return [
-                "title" => $i->getTitle(),
-                "tree" => $i
-            ];
+        return array_filter(array_map(function ($i) {
+            $tree_access_manager = $this->internal_manager->getTreeAccessManager($i->getRefId());
+            if ($tree_access_manager->hasVisibleTreePermission()) {
+                return [
+                    "title" => $i->getTitle(),
+                    "tree" => $i
+                ];
+            }
         },
-            iterator_to_array($this->tree_manager->getTrees()));
+            iterator_to_array($this->tree_manager->getTrees())));
     }
 
     /**
@@ -115,7 +124,6 @@ class SkillTreeTableGUI extends \ilTable2GUI
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;
         $lng = $this->lng;
-        $ui = $this->ui;
 
         $tree_obj = $row["tree"];
         $tree = $this->tree_factory->getTreeById($tree_obj->getId());
@@ -127,14 +135,9 @@ class SkillTreeTableGUI extends \ilTable2GUI
         }
         $tpl->setVariable("TITLE", $tree_obj->getTitle());
 
-        // actions
-        $actions = [];
+        // action
         $ctrl->setParameterByClass("ilobjskilltreegui", "ref_id", $tree_obj->getRefId());
-        $actions[] = $ui->factory()->link()->standard(
-            $lng->txt("edit"),
-            $ctrl->getLinkTargetByClass("ilobjskilltreegui", "editSkills")
-        );
-        $dd = $ui->factory()->dropdown()->standard($actions);
-        $tpl->setVariable("ACTIONS", $ui->renderer()->render($dd));
+        $tpl->setVariable("TXT_CMD", $lng->txt("edit"));
+        $tpl->setVariable("HREF_CMD", $ctrl->getLinkTargetByClass("ilobjskilltreegui", "editSkills"));
     }
 }

@@ -182,6 +182,10 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
                 $this->form->addCommandButton("update", $lng->txt("save"));
                 $this->form->setTitle($lng->txt("skmg_edit_" . $this->getType()));
             }
+        } else {
+            foreach ($this->form->getItems() as $item) {
+                $item->setDisabled(true);
+            }
         }
 
         $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);

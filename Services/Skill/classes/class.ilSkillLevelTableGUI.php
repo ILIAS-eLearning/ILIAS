@@ -72,10 +72,11 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         }
         $this->addColumn($this->lng->txt("title"));
         $this->addColumn($this->lng->txt("description"));
-        //		$this->addColumn($this->lng->txt("skmg_trigger"));
-        //		$this->addColumn($this->lng->txt("skmg_certificate"))
-        $this->addColumn($this->lng->txt("resources"));
-        $this->addColumn($this->lng->txt("actions"));
+        $this->addColumn($this->lng->txt("skmg_suggested_resources"));
+        $this->addColumn($this->lng->txt("skmg_lp_triggers_level_resources"));
+        if ($this->manage_perm) {
+            $this->addColumn($this->lng->txt("actions"));
+        }
         $this->setDefaultOrderField("nr");
         $this->setDefaultOrderDirection("asc");
 
@@ -119,7 +120,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         $res = array();
         $resources = new ilSkillResources($this->skill_id, $this->tref_id);
         foreach ($resources->getResources() as $level_id => $item) {
-            $res[$level_id] = array_keys($item);
+            $res[$level_id] = $item;
         }
         
         foreach ($levels as $idx => $item) {
@@ -147,14 +148,15 @@ class ilSkillLevelTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock("nr");
             $this->tpl->setVariable("ORD_ID", $a_set["id"]);
             $this->tpl->setVariable("VAL_NR", ((int) $a_set["nr"]) * 10);
+            if (!$this->manage_perm) {
+                $this->tpl->touchBlock("disabled");
+            }
             $this->tpl->parseCurrentBlock();
         }
         
         $this->tpl->setCurrentBlock("cmd");
         if ($this->manage_perm) {
             $this->tpl->setVariable("TXT_CMD", $lng->txt("edit"));
-        } else {
-            $this->tpl->setVariable("TXT_CMD", $lng->txt("show"));
         }
         $ilCtrl->setParameter($this->parent_obj, "level_id", $a_set["id"]);
         if ($this->tref_id == 0) {
@@ -172,34 +174,29 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
-        /*		$this->tpl->setVariable("TXT_CERTIFICATE",
-                    ilBasicSkill::_lookupCertificate($this->skill->getId(),
-                    $a_set["id"])
-                    ? $lng->txt("yes")
-                    : $lng->txt("no"));*/
-
-        /*		$trigger = ilBasicSkill::lookupLevelTrigger((int) $a_set["id"]);
-                if (ilObject::_lookupType($trigger["obj_id"]) != "crs" ||
-                    ilObject::_isInTrash($trigger["ref_id"]))
-                {
-                    $trigger = array();
-                }
-
-                // trigger
-                if ($trigger["obj_id"] > 0)
-                {
-                    $this->tpl->setVariable("TXT_TRIGGER",
-                        ilObject::_lookupTitle($trigger["obj_id"]));
-                }*/
         
         if (is_array($a_set["ressources"])) {
-            $this->tpl->setCurrentBlock("ressource_bl");
-            foreach ($a_set["ressources"] as $rref_id) {
+            foreach ($a_set["ressources"] as $rref_id => $ressource) {
                 $robj_id = ilObject::_lookupObjId($rref_id);
-                $this->tpl->setVariable("RSRC_IMG", ilUtil::img(ilObject::_getIcon($robj_id, "tiny")));
-                $this->tpl->setVariable("RSRC_TITLE", ilObject::_lookupTitle($robj_id));
-                $this->tpl->setVariable("RSRC_URL", ilLink::_getStaticLink($rref_id));
-                $this->tpl->parseCurrentBlock();
+                $robj_img = ilUtil::img(ilObject::_getIcon($robj_id, "tiny"));
+                $robj_title = ilObject::_lookupTitle($robj_id);
+                $robj_link = ilLink::_getStaticLink($rref_id);
+
+                if ($ressource["imparting"]) {
+                    $this->tpl->setCurrentBlock("ressource_sugg");
+                    $this->tpl->setVariable("RSRC_IMG", $robj_img);
+                    $this->tpl->setVariable("RSRC_TITLE", $robj_title);
+                    $this->tpl->setVariable("RSRC_URL", $robj_link);
+                    $this->tpl->parseCurrentBlock();
+                }
+
+                if ($ressource["trigger"]) {
+                    $this->tpl->setCurrentBlock("ressource_trigg");
+                    $this->tpl->setVariable("RSRC_IMG", $robj_img);
+                    $this->tpl->setVariable("RSRC_TITLE", $robj_title);
+                    $this->tpl->setVariable("RSRC_URL", $robj_link);
+                    $this->tpl->parseCurrentBlock();
+                }
             }
         }
     }
