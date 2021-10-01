@@ -54,61 +54,24 @@ class ilMail
         int $mailAdminNodeRefId = null
     ) {
         global $DIC;
-
-        if ($logger === null) {
-            $logger = ilLoggerFactory::getLogger('mail');
-        }
-        if ($mailAddressTypeFactory === null) {
-            $mailAddressTypeFactory = new ilMailAddressTypeFactory(null, $logger);
-        }
-        if ($mailAddressParserFactory === null) {
-            $mailAddressParserFactory = new ilMailRfc822AddressParserFactory();
-        }
-        if ($eventHandler === null) {
-            $eventHandler = $DIC->event();
-        }
-        if ($db === null) {
-            $db = $DIC->database();
-        }
-        if ($lng === null) {
-            $lng = $DIC->language();
-        }
-        if ($mailFileData === null) {
-            $mailFileData = new ilFileDataMail($a_user_id);
-        }
-        if ($mailOptions === null) {
-            $mailOptions = new ilMailOptions($a_user_id);
-        }
-        if ($mailBox === null) {
-            $mailBox = new ilMailbox($a_user_id);
-        }
-        if ($senderFactory === null) {
-            $senderFactory = $GLOBALS["DIC"]["mail.mime.sender.factory"];
-        }
-        if ($usrIdByLoginCallable === null) {
-            $usrIdByLoginCallable = static function (string $login) : int {
+        $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
+        $this->mailAddressTypeFactory = $mailAddressTypeFactory ?? new ilMailAddressTypeFactory(null, $logger);
+        $this->mailAddressParserFactory = $mailAddressParserFactory ?? new ilMailRfc822AddressParserFactory();
+        $this->eventHandler = $eventHandler ?? $DIC->event();
+        $this->db = $db ??$DIC->database();
+        $this->lng = $lng ?? $DIC->language();
+        $this->mfile = $mailFileData ?? new ilFileDataMail($a_user_id);
+        $this->mail_options = $mailOptions ?? new ilMailOptions($a_user_id);
+        $this->mailbox = $mailBox ?? new ilMailbox($a_user_id);
+        $this->senderFactory = $senderFactory ?? $GLOBALS["DIC"]["mail.mime.sender.factory"];
+        $this->usrIdByLoginCallable = $usrIdByLoginCallable ?? static function (string $login) : int {
                 return (int) ilObjUser::_lookupId($login);
             };
-        }
-
         $this->user_id = $a_user_id;
-        $this->mailAddressParserFactory = $mailAddressParserFactory;
-        $this->mailAddressTypeFactory = $mailAddressTypeFactory;
-        $this->eventHandler = $eventHandler;
-        $this->logger = $logger;
-        $this->db = $db;
-        $this->lng = $lng;
-        $this->mfile = $mailFileData;
-        $this->mail_options = $mailOptions;
-        $this->mailbox = $mailBox;
-        $this->senderFactory = $senderFactory;
-        $this->usrIdByLoginCallable = $usrIdByLoginCallable;
-
         $this->mail_obj_ref_id = $mailAdminNodeRefId;
         if (null === $this->mail_obj_ref_id) {
             $this->readMailObjectReferenceId();
         }
-
         $this->lng->loadLanguageModule('mail');
         $this->table_mail = 'mail';
         $this->table_mail_saved = 'mail_saved';
