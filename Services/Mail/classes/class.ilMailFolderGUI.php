@@ -619,7 +619,7 @@ class ilMailFolderGUI
                 $mailData['folder_id']
             );
             $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
-            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'reply');
+            $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_REPLY);
             $replyBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
             $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
             $replyBtn->setAccessKey(ilAccessKey::REPLY);
@@ -631,7 +631,7 @@ class ilMailFolderGUI
         $fwdBtn->setCaption('forward');
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $mailData['folder_id']);
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mail_id', $mailId);
-        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'forward');
+        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_FORWARD);
         $fwdBtn->setUrl($this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
         $fwdBtn->setAccessKey(ilAccessKey::FORWARD_MAIL);

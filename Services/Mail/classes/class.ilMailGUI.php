@@ -90,13 +90,13 @@ class ilMailGUI
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->currentFolderId);
         $this->ctrl->setParameterByClass(ilMailFolderGUI::class, 'mobj_id', $this->currentFolderId);
 
-        if ('search_res' === $type) {
+        if (ilMailFormGUI::MAIL_FORM_TYPE_SEARCH_RESULT === $type) {
             ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'searchResults');
-        } elseif ('attach' === $type) {
+        } elseif (ilMailFormGUI::MAIL_FORM_TYPE_ATTACH === $type) {
             ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailAttachment');
-        } elseif ('new' === $type) {
+        } elseif (ilMailFormGUI::MAIL_FORM_TYPE_NEW === $type) {
             $to = "";
             if ($this->http->wrapper()->query()->has('rcp_to')) {
                 $to = $this->http->wrapper()->query()->retrieve('rcp_to', $this->refinery->kindlyTo()->string());
@@ -120,7 +120,7 @@ class ilMailGUI
 
             ilMailFormCall::storeReferer($this->http->request()->getQueryParams());
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'mailUser');
-        } elseif ('reply' === $type) {
+        } elseif (ilMailFormGUI::MAIL_FORM_TYPE_REPLY === $type) {
             ilSession::set('mail_id', $mailId);
             $this->ctrl->redirectByClass(ilMailFormGUI::class, 'replyMail');
         } elseif ('read' === $type) {
@@ -147,7 +147,7 @@ class ilMailGUI
         } elseif ('message_sent' === $type) {
             ilUtil::sendSuccess($this->lng->txt('mail_message_send'), true);
             $this->ctrl->redirectByClass(ilMailFolderGUI::class);
-        } elseif ('role' === $type) {
+        } elseif (ilMailFormGUI::MAIL_FORM_TYPE_ROLE === $type) {
             $roles = [];
             if ($this->http->wrapper()->post()->has('roles')) {
                 $roles = $this->http->wrapper()->post()->retrieve(
@@ -273,7 +273,7 @@ class ilMailGUI
         $DIC->tabs()->addTarget('fold', $this->ctrl->getLinkTargetByClass(ilMailFolderGUI::class));
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
 
-        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', 'new');
+        $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'type', ilMailFormGUI::MAIL_FORM_TYPE_NEW);
         $this->ctrl->setParameterByClass(ilMailFormGUI::class, 'mobj_id', $this->currentFolderId);
         $DIC->tabs()->addTarget('compose', $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class));
         $this->ctrl->clearParametersByClass(ilMailFormGUI::class);

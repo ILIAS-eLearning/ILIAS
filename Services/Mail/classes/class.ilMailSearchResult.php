@@ -13,7 +13,7 @@ class ilMailSearchResult
     public function __construct()
     {
     }
-    
+
     public function addItem(int $id, array $fields) : void
     {
         $this->result[$id] = $fields;

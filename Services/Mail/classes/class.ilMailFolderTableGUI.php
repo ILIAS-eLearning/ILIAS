@@ -5,7 +5,6 @@
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\HTTP\GlobalHttpState;
-use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * @author  Jan Posselt <jposselt@databay.de>
@@ -503,7 +502,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 $this->ctrl->setParameterByClass(
                     ilMailFormGUI::class,
                     'type',
-                    'draft'
+                    ilMailFormGUI::MAIL_FORM_TYPE_DRAFT
                 );
                 $link_mark_as_read = $this->ctrl->getLinkTargetByClass(ilMailFormGUI::class);
                 $this->ctrl->clearParametersByClass(ilMailFormGUI::class);
@@ -553,7 +552,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             if (is_array($mail['attachments']) && count($mail['attachments']) > 0) {
                 $this->ctrl->setParameter($this->getParentObject(), 'mail_id', (int) $mail['mail_id']);
                 if ($this->isDraftFolder()) {
-                    $this->ctrl->setParameter($this->getParentObject(), 'type', 'draft');
+                    $this->ctrl->setParameter($this->getParentObject(), 'type', ilMailFormGUI::MAIL_FORM_TYPE_DRAFT);
                 }
                 $this->ctrl->setParameter($this->getParentObject(), 'mobj_id', $this->_currentFolderId);
                 $mail['attachment_indicator'] = $this->uiRenderer->render(
@@ -772,7 +771,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass(
                 ilMailFormGUI::class,
                 'type',
-                'draft'
+                ilMailFormGUI::MAIL_FORM_TYPE_DRAFT
             );
             $viewButton = $this->uiFactory
                 ->link()
@@ -813,7 +812,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 $this->ctrl->setParameterByClass(
                     ilMailFormGUI::class,
                     'type',
-                    'reply'
+                    ilMailFormGUI::MAIL_FORM_TYPE_REPLY
                 );
                 $replyButton = $this->uiFactory
                     ->link()
@@ -844,7 +843,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $this->ctrl->setParameterByClass(
                 ilMailFormGUI::class,
                 'type',
-                'forward'
+                ilMailFormGUI::MAIL_FORM_TYPE_FORWARD
             );
             $forwardButton = $this->uiFactory
                 ->link()
