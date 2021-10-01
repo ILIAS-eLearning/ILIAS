@@ -484,7 +484,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $this->object->getId(),
                 0,
                 $index
-                ) . '</td> </tr>';
+            ) . '</td> </tr>';
         }
         $feedback .= '</tbody></table>';
         return $this->object->prepareTextareaOutput($feedback, true);
@@ -666,7 +666,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $answers;
     }
     
-    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)  : ilAnswerFrequencyStatisticTableGUI
+    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex) : ilAnswerFrequencyStatisticTableGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

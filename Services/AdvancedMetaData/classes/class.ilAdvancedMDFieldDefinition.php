@@ -703,8 +703,7 @@ abstract class ilAdvancedMDFieldDefinition
         $title->setRequired(true);
         if ($this->getFieldId()) {
             $translations->modifyTranslationInfoForTitle($this->getFieldId(), $a_form, $title, $language);
-        }
-        else {
+        } else {
             $title->setValue($this->getTitle());
         }
 
@@ -722,8 +721,7 @@ abstract class ilAdvancedMDFieldDefinition
         $desc->setCols(50);
         if ($this->getFieldId()) {
             $translations->modifyTranslationInfoForDescription($this->getFieldId(), $a_form, $desc, $language);
-        }
-        else {
+        } else {
             $desc->setValue($this->getDescription());
         }
 
@@ -1035,7 +1033,7 @@ abstract class ilAdvancedMDFieldDefinition
         foreach ($translations->getTranslations($this->getFieldId()) as $translation) {
             $a_writer->xmlStartTag('FieldTranslation', ['language' => $translation->getLangKey()]);
             $a_writer->xmlElement('FieldTranslationTitle', [], (string) $translation->getTitle());
-            $a_writer->xmlElement('FieldTranslationDescription',[], (string) $translation->getDescription());
+            $a_writer->xmlElement('FieldTranslationDescription', [], (string) $translation->getDescription());
             $a_writer->xmlEndTag('FieldTranslation');
         }
         $a_writer->xmlEndTag('FieldTranslations');

@@ -30,12 +30,11 @@ class InternalRepoService
         $this->db = $db;
     }
 
-    /*
-    public function ...() : ...\RepoService
+    public function content() : Content\RepoService
     {
-        return new ...\RepoService(
+        return new Content\RepoService(
             $this->data,
             $this->db
         );
-    }*/
+    }
 }

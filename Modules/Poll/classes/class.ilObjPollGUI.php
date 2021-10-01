@@ -211,7 +211,6 @@ class ilObjPollGUI extends ilObject2GUI
 
     public function setTabs()
     {
-
         $this->help->setScreenIdComponent("poll");
 
         if ($this->checkPermissionBool("write")) {
@@ -428,7 +427,6 @@ class ilObjPollGUI extends ilObject2GUI
     
     protected function setParticipantsSubTabs($a_active)
     {
-        
         if (!$this->object->getNonAnonymous()) {
             return;
         }

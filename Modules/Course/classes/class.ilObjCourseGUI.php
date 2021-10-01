@@ -108,7 +108,7 @@ class ilObjCourseGUI extends ilContainerGUI
         parent::afterImport($a_new_object);
     }
 
-    public function renderObject()
+    public function renderObject() : void
     {
         $this->ctrl->setCmd("view");
         $this->viewObject();

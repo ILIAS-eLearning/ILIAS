@@ -20,7 +20,6 @@ abstract class ilObjFileImplementationAbstract implements ilObjFileImplementatio
      */
     public function replaceFile($a_upload_file, $a_filename)
     {
-
     }
 
     /**
@@ -28,7 +27,6 @@ abstract class ilObjFileImplementationAbstract implements ilObjFileImplementatio
      */
     public function addFileVersion($a_upload_file, $a_filename)
     {
-
     }
 
     /**
@@ -44,7 +42,6 @@ abstract class ilObjFileImplementationAbstract implements ilObjFileImplementatio
      */
     public function setFileType($a_type)
     {
-
     }
 
     /**
@@ -52,12 +49,10 @@ abstract class ilObjFileImplementationAbstract implements ilObjFileImplementatio
      */
     public function setFileSize($a_size)
     {
-
     }
 
     public function getFileSize()
     {
-
     }
 
     /**
@@ -65,12 +60,10 @@ abstract class ilObjFileImplementationAbstract implements ilObjFileImplementatio
      */
     public function setVersion($a_version)
     {
-
     }
 
     public function getVersion()
     {
-
     }
 
     /**
@@ -78,12 +71,10 @@ abstract class ilObjFileImplementationAbstract implements ilObjFileImplementatio
      */
     public function setMaxVersion($a_max_version)
     {
-
     }
 
     public function getMaxVersion()
     {
-
     }
 
     /**
@@ -91,7 +82,6 @@ abstract class ilObjFileImplementationAbstract implements ilObjFileImplementatio
      */
     public function storeUnzipedFile($a_upload_file, $a_filename)
     {
-
     }
 
     /**
@@ -99,9 +89,5 @@ abstract class ilObjFileImplementationAbstract implements ilObjFileImplementatio
      */
     public function getSpecificVersion($version_id)
     {
-
     }
-
-
-
 }

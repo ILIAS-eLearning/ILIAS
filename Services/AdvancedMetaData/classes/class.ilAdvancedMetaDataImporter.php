@@ -24,7 +24,7 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
     }
     
     
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDParser.php";
         include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";

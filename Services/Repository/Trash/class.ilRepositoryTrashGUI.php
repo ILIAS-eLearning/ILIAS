@@ -401,7 +401,7 @@ class ilRepositoryTrashGUI
     ) : void {
         $ilSetting = $this->settings;
         $lng = $this->lng;
-        
+
         if (!is_array($a_ref_ids) || count($a_ref_ids) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
         } else {

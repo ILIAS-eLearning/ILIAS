@@ -226,7 +226,7 @@ class ilObjPoll extends ilObject2
         
         if ($this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
-            $this->setAccessType((int) ($activation["timing_type"] ?? ilObjectActivation::TIMINGS_DEACTIVATED ));
+            $this->setAccessType((int) ($activation["timing_type"] ?? ilObjectActivation::TIMINGS_DEACTIVATED));
             if ($this->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION) {
                 // default entry values should not be loaded if not activated
                 $this->setAccessBegin((int) ($activation["timing_start"] ?? time()));
@@ -648,7 +648,7 @@ class ilObjPoll extends ilObject2
         // remove obsolete answers
         if (sizeof($existing)) {
             foreach ($existing as $item) {
-                if(isset($item["id"]) && is_int($item["id"])) {
+                if (isset($item["id"]) && is_int($item["id"])) {
                     $this->deleteAnswer($item["id"]);
                 }
             }

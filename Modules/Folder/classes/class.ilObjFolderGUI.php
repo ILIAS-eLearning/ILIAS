@@ -79,15 +79,14 @@ class ilObjFolderGUI extends ilContainerGUI
     /**
     * Render folder
     */
-    public function renderObject()
+    public function renderObject() : void
     {
         $ilTabs = $this->tabs;
         
         $this->checkPermission('read');
 
         $ilTabs->activateTab("view_content");
-        $ret = parent::renderObject();
-        return $ret;
+        parent::renderObject();
     }
 
     public function executeCommand()

@@ -7,7 +7,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
     protected ilSetting $settings;
     protected ilRbacReview $rbac_review;
 
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -15,9 +15,9 @@ class ilLearningSequenceExporter extends ilXmlExporter
         $this->rbac_review = $DIC["rbacreview"];
     }
 
-    public function getXmlRepresentation($entity, $target_release, $obj_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        $writer = $this->getWriter((int) $obj_id);
+        $writer = $this->getWriter((int) $a_id);
         $writer->start();
 
         return $writer->getXml();
@@ -48,7 +48,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
         );
     }
 
-    public function getValidSchemaVersions($entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "5.4.0" => array(
@@ -61,13 +61,13 @@ class ilLearningSequenceExporter extends ilXmlExporter
         );
     }
 
-    public function getXmlExportHeadDependencies($entity, $target_release, $ids)
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         return array(
             array(
                 'component' => 'Services/Container',
                 'entity' => 'struct',
-                'ids' => $ids
+                'ids' => $a_ids
             )
         );
     }
@@ -75,7 +75,7 @@ class ilLearningSequenceExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $res = [];
 

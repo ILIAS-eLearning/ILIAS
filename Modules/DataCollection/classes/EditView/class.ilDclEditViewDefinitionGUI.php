@@ -231,13 +231,13 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
     /**
      * Save table entries
      */
-    public function saveTable() {
+    public function saveTable()
+    {
         // die(var_dump($_POST));
         /**
          * @var ilDclTableViewFieldSetting $setting
          */
         foreach ($this->tableview->getFieldSettings() as $setting) {
-
             if (!$setting->getFieldObject()->isStandardField() || $setting->getFieldObject()->getId() === 'owner') {
 
                 // Radio Inputs

@@ -1,7 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class for category export
@@ -12,13 +22,12 @@ class ilCategoryExporter extends ilXmlExporter
 {
     /**
      * Get head dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
      * @return		array		array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         // always trigger container because of co-page(s)
         return array(
@@ -55,15 +64,7 @@ class ilCategoryExporter extends ilXmlExporter
         */
     }
     
-    /**
-     * Get tail dependencies
-     *
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
-     */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         if ($a_entity == "cat") {
             $tax_ids = array();
@@ -84,16 +85,10 @@ class ilCategoryExporter extends ilXmlExporter
         return array();
     }
 
-    /**
-     * Get xml
-     * @param object $a_entity
-     * @param object $a_schema_version
-     * @param object $a_id
-     * @return
-     */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        $cat_ref_id = end(ilObject::_getAllReferences($a_id));
+        $all_ref = ilObject::_getAllReferences($a_id);
+        $cat_ref_id = end($all_ref);
         $category = ilObjectFactory::getInstanceByRefId($cat_ref_id, false);
 
         if (!$category instanceof ilObjCategory) {
@@ -112,10 +107,9 @@ class ilCategoryExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.3.0" => array(
@@ -130,7 +124,7 @@ class ilCategoryExporter extends ilXmlExporter
     /**
      * Init method
      */
-    public function init()
+    public function init() : void
     {
     }
 }

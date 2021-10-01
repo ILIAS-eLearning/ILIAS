@@ -5,20 +5,22 @@
 /**
  * Manifest parser for ILIAS standard export files
  *
- * @author Aleex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilDataSetImportParser extends ilSaxParser
 {
-    protected $import = null;				// import object
-    protected $entities = array();			// types array
-    protected $current_entity = "";			// current entity
-    protected $current_version = "";		// current version
-    protected $current_ftypes = array();	// current field types
-    protected $entities_sent = false;		// sent entities to import class?
-    protected $in_record = false;			// are we currently in a rec tag?
-    protected $current_field = "";			// current field
-    protected $current_field_values = array();	// current field values
-    protected $current_installation_id = "";
+    protected ?ilImport $import = null;				// import object
+    protected array $entities = array();			// types array
+    protected string $current_entity = "";			// current entity
+    protected string $current_version = "";		// current version
+    protected array $current_ftypes = array();	// current field types
+    protected bool $entities_sent = false;		// sent entities to import class?
+    protected bool $in_record = false;			// are we currently in a rec tag?
+    protected string $current_field = "";			// current field
+    protected array $current_field_values = array();	// current field values
+    protected string $current_installation_id = "";
+    protected string $chr_data = "";
+    protected ilImportMapping $mapping;
     
     
     /**
@@ -27,8 +29,13 @@ class ilDataSetImportParser extends ilSaxParser
      * @param
      * @return
      */
-    public function __construct($a_top_entity, $a_schema_version, $a_xml, $a_ds, $a_mapping)
-    {
+    public function __construct(
+        string $a_top_entity,
+        string $a_schema_version,
+        string $a_xml,
+        ilDataSet $a_ds,
+        ilImportMapping $a_mapping
+    ) {
         $this->ds = $a_ds;
         $this->mapping = $a_mapping;
         $this->top_entity = $a_top_entity;
@@ -133,7 +140,7 @@ class ilDataSetImportParser extends ilSaxParser
             case $this->dspref . "Rec":
                 $this->ds->importRecord(
                     $this->current_entity,
-                    $this->entities[$this->current_entity]["types"],
+                    $this->entities[$this->current_entity]["types"] ?? [],
                     $this->current_field_values,
                     $this->mapping,
                     $this->schema_version

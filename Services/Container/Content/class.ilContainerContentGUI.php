@@ -3,6 +3,9 @@
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
+use ILIAS\Container\StandardGUIRequest;
+use ILIAS\Container\Content\ItemManager;
+use ILIAS\Container\Content\BlockSessionRepository;
 
 /**
  * Parent class of all container content GUIs.
@@ -43,6 +46,9 @@ abstract class ilContainerContentGUI
     /** @var array<string, ilObjectListGUI> */
     protected array $list_gui = [];
     protected ClipboardManager $clipboard;
+    protected StandardGUIRequest $request;
+    protected ItemManager $item_manager;
+    protected BlockSessionRepository $block_repo;
 
     public function __construct(ilContainerGUI $container_gui_obj)
     {
@@ -79,6 +85,23 @@ abstract class ilContainerContentGUI
             ->internal()
             ->domain()
             ->clipboard();
+        $this->request = $DIC
+            ->container()
+            ->internal()
+            ->gui()
+            ->standardRequest();
+        $this->item_manager = $DIC
+            ->container()
+            ->internal()
+            ->domain()
+            ->content()
+            ->items($this->container_obj);
+        $this->block_repo = $DIC
+            ->container()
+            ->internal()
+            ->repo()
+            ->content()
+            ->block();
     }
     
     protected function getViewMode() : int
@@ -467,7 +490,7 @@ abstract class ilContainerContentGUI
             $a_item_data["type"] == "sess" || $a_force_icon) {
             $item_list_gui->enableIcon(true);
         }
-        
+
         if ($this->getContainerGUI()->isActiveAdministrationPanel() && !$this->clipboard->hasEntries()) {
             $item_list_gui->enableCheckbox(true);
         } elseif ($this->getContainerGUI()->isMultiDownloadEnabled()) {
@@ -693,10 +716,7 @@ abstract class ilContainerContentGUI
         );
 
 
-        $ref_ids = array_map(function ($i) {
-            $parts = explode("_", $i);
-            return $parts[2];
-        }, $_POST["ids"]);
+        $ref_ids = $this->request->getAlreadyRenderedRefIds();
 
         // iterate all types
         if (is_array($this->items[$type]) &&
@@ -823,7 +843,11 @@ abstract class ilContainerContentGUI
 
         // determine behaviour
         $beh = ilObjItemGroup::lookupBehaviour($a_itgr["obj_id"]);
-        $stored_val = ilContainerBlockPropertiesStorage::getProperty("itgr_" . $a_itgr["ref_id"], $ilUser->getId(), "opened");
+        $stored_val = $this->block_repo->getProperty(
+            "itgr_" . $a_itgr["ref_id"],
+            $ilUser->getId(),
+            "opened"
+        );
         if ($stored_val !== false && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
@@ -832,7 +856,7 @@ abstract class ilContainerContentGUI
 
         $data = array(
             "behaviour" => $beh,
-            "store-url" => "./ilias.php?baseClass=ilcontainerblockpropertiesstorage&cmd=store" .
+            "store-url" => "./ilias.php?baseClass=ilcontainerblockpropertiesstoragegui&cmd=store" .
                 "&cont_block_id=itgr_" . $a_itgr['ref_id']
         );
         if (ilObjItemGroup::lookupHideTitle($a_itgr["obj_id"]) &&
@@ -860,6 +884,16 @@ abstract class ilContainerContentGUI
                 // :TODO: show it multiple times?
                 $this->renderer->addItemToBlock($a_itgr["ref_id"], $item["type"], $item["child"], $html2, true);
             }
+        }
+    }
+
+    protected function handleSessionExpand() : void
+    {
+        $expand = $this->request->getExpand();
+        if ($expand > 0) {
+            $this->item_manager->setExpanded(abs($expand), self::DETAILS_ALL);
+        } elseif ($expand < 0) {
+            $this->item_manager->setExpanded(abs($expand), self::DETAILS_TITLE);
         }
     }
 }

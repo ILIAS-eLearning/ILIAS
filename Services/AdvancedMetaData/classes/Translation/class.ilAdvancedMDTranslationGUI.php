@@ -109,8 +109,7 @@ abstract class ilAdvancedMDTranslationGUI
     protected function addTranslations(ilPropertyFormGUI $form = null)
     {
         $this->tabs->activateTab(self::CMD_DEFAULT);
-        if (!$form instanceof ilPropertyFormGUI)
-        {
+        if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initCreateTranslationForm();
         }
         $this->tpl->setContent($form->getHTML());
@@ -173,7 +172,6 @@ abstract class ilAdvancedMDTranslationGUI
         $options = [];
         $options[''] = $this->language->txt('select_one');
         foreach ($installed_languages as $key => $language) {
-
             if ($languages->isConfigured($language)) {
                 continue;
             }
@@ -191,7 +189,6 @@ abstract class ilAdvancedMDTranslationGUI
             return $this->addTranslations($form);
         }
         foreach (array_unique((array) $form->getInput('languages')) as $language_code) {
-
             $languages = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->record->getRecordId());
             $languages->addTranslationEntry($language_code);
         }
@@ -199,6 +196,4 @@ abstract class ilAdvancedMDTranslationGUI
         ilUtil::sendSuccess($this->language->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
     }
-
-
 }

@@ -13,7 +13,7 @@ class ilMediaCastImporter extends ilXmlImporter
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilMediaCastDataSet();
         $this->ds->setDSPrefix("ds");
@@ -22,11 +22,10 @@ class ilMediaCastImporter extends ilXmlImporter
 
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $parser = new ilDataSetImportParser(
             $a_entity,
@@ -37,7 +36,7 @@ class ilMediaCastImporter extends ilXmlImporter
         );
     }
     
-    public function finalProcessing($a_mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         // restore manual order
         $order = $this->ds->getOrder();

@@ -569,7 +569,6 @@ class ilEventParticipants
             if (in_array($usr_id, $parentRecipients)) {
                 $this->participants[$usr_id]['notification_enabled'] = true;
             }
-
         }
     }
     

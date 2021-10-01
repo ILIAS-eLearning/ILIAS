@@ -59,7 +59,5 @@ class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
 
         ilUtil::sendSuccess($this->language->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);
-
-
     }
 }

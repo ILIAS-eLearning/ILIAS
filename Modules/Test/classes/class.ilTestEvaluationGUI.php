@@ -1008,10 +1008,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $template->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
         $data = &$this->object->getCompleteEvaluationData();
-		$result = $data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")";
-		$template->setCurrentBlock('total_score');
-		$template->setVariable("TOTAL_RESULT_TEXT",$this->lng->txt('tst_stat_result_resultspoints'));
-		$template->setVariable("TOTAL_RESULT",$result);
+        $result = $data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")";
+        $template->setCurrentBlock('total_score');
+        $template->setVariable("TOTAL_RESULT_TEXT", $this->lng->txt('tst_stat_result_resultspoints'));
+        $template->setVariable("TOTAL_RESULT", $result);
         $template->parseCurrentBlock();
 
         if (!$this->getObjectiveOrientedContainer()->isObjectiveOrientedPresentationRequired()) {
@@ -1331,10 +1331,10 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
         $tpl->setVariable("PASS_DETAILS", $this->ctrl->getHTML($overviewTableGUI));
 
         $data = &$this->object->getCompleteEvaluationData();
-		$result = $data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")";
-		$tpl->setCurrentBlock('total_score');
-		$tpl->setVariable("TOTAL_RESULT_TEXT",$this->lng->txt('tst_stat_result_resultspoints'));
-		$tpl->setVariable("TOTAL_RESULT",$result);
+        $result = $data->getParticipant($active_id)->getReached() . " " . strtolower($this->lng->txt("of")) . " " . $data->getParticipant($active_id)->getMaxpoints() . " (" . sprintf("%2.2f", $data->getParticipant($active_id)->getReachedPointsInPercent()) . " %" . ")";
+        $tpl->setCurrentBlock('total_score');
+        $tpl->setVariable("TOTAL_RESULT_TEXT", $this->lng->txt('tst_stat_result_resultspoints'));
+        $tpl->setVariable("TOTAL_RESULT", $result);
         $tpl->parseCurrentBlock();
         
         if ($this->object->canShowSolutionPrintview()) {

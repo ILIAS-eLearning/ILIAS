@@ -1104,7 +1104,6 @@ class ilInitialisation
         if (self::$already_initialized) {
             return;
         }
-
         $GLOBALS["DIC"] = new \ILIAS\DI\Container();
         $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
             return ilLoggerFactory::getInstance();

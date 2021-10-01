@@ -239,7 +239,7 @@ class ilPersonalSettingsGUI
             
             // new password
             $ipass = new ilPasswordInputGUI($lng->txt("desired_password"), "new_password");
-            if($pw_info_set === false) {
+            if ($pw_info_set === false) {
                 $ipass->setInfo(ilUtil::getPasswordRequirementsInfo());
             }
             $ipass->setRequired(true);

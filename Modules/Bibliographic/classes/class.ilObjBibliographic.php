@@ -115,8 +115,11 @@ class ilObjBibliographic extends ilObject2
         $this->bib_type_factory = new ilBiblTypeFactory();
         $this->bib_field_factory = new ilBiblFieldFactory($this->bib_type_factory->getInstanceForType($this->getFileType()));
         $this->bib_overview_factory = new ilBiblOverviewModelFactory();
-        $this->bib_entry_factory = new ilBiblEntryFactory($this->bib_field_factory,
-            $this->bib_type_factory->getInstanceForType($this->getFileType()), $this->bib_overview_factory);
+        $this->bib_entry_factory = new ilBiblEntryFactory(
+            $this->bib_field_factory,
+            $this->bib_type_factory->getInstanceForType($this->getFileType()),
+            $this->bib_overview_factory
+        );
         $this->bib_filereader_factory = new ilBiblFileReaderFactory();
         $this->bib_attribute_factory = new ilBiblAttributeFactory($this->bib_field_factory);
     }
@@ -444,8 +447,12 @@ class ilObjBibliographic extends ilObject2
     {
         //Read File
         $type = $this->getFileType();
-        $reader = $this->bib_filereader_factory->getByType($type, $this->bib_entry_factory, $this->bib_field_factory,
-            $this->bib_attribute_factory);
+        $reader = $this->bib_filereader_factory->getByType(
+            $type,
+            $this->bib_entry_factory,
+            $this->bib_field_factory,
+            $this->bib_attribute_factory
+        );
         $reader->readContent($this->getResourceId());
         $this->entries = $reader->parseContentToEntries($this);
     }

@@ -16,33 +16,30 @@ class ilNotesDataSet extends ilDataSet
 {
     /**
      * Get supported versions
-     *
      * @param
-     * @return
+     * @return array
      */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return array("4.3.0");
     }
     
     /**
      * Get xml namespace
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Services/Notes/" . $a_entity;
     }
     
     /**
      * Get field types for entity
-     *
      * @param
-     * @return
+     * @return array
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         // user notes
         if ($a_entity == "user_notes") {
@@ -68,11 +65,10 @@ class ilNotesDataSet extends ilDataSet
 
     /**
      * Read data
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
@@ -98,9 +94,13 @@ class ilNotesDataSet extends ilDataSet
     /**
      * Determine the dependent sets of data
      */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
-    {
-        return false;
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
+        return [];
     }
     
     ////
@@ -110,11 +110,10 @@ class ilNotesDataSet extends ilDataSet
     
     /**
      * Import record
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
+    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
     {
         switch ($a_entity) {
             case "user_notes":

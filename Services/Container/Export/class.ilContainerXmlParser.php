@@ -26,7 +26,7 @@ class ilContainerXmlParser
     private int $source = 0;
     private ?ilImportMapping $mapping = null;
     private string $xml = '';
-    private string $sxml = "";
+    private ?SimpleXMLElement $sxml = null;
     private int $root_id = 0;
     public static array $style_map = array();
 
@@ -52,7 +52,6 @@ class ilContainerXmlParser
     {
         $this->sxml = simplexml_load_string($this->xml);
         $this->root_id = $a_root_id;
-        
         foreach ($this->sxml->Item as $item) {
             $this->initItem($item, (int) $this->mapping->getTargetId());
         }

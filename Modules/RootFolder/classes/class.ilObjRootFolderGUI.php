@@ -30,14 +30,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
     }
 
     /**
-    * import categories form
-    */
-    public function importCategoriesFormObject()
-    {
-        ilObjCategoryGUI::_importCategoriesForm($this->ref_id, $this->tpl);
-    }
-
-    /**
     * import cancelled
     *
     * @access private
@@ -195,7 +187,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
     /**
     * Render root folder
     */
-    public function renderObject()
+    public function renderObject() : void
     {
         global $ilTabs;
 
@@ -206,8 +198,7 @@ class ilObjRootFolderGUI extends ilContainerGUI
         );
         
         $ilTabs->activateTab("view_content");
-        $ret = parent::renderObject();
-        return $ret;
+        parent::renderObject();
     }
 
     /**

@@ -1192,7 +1192,7 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      * @param $questionIndex
      * @return ilMatchingQuestionAnswerFreqStatTableGUI
      */
-    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)  : ilAnswerFrequencyStatisticTableGUI
+    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex) : ilAnswerFrequencyStatisticTableGUI
     {
         require_once 'Modules/TestQuestionPool/classes/tables/class.ilMatchingQuestionAnswerFreqStatTableGUI.php';
         

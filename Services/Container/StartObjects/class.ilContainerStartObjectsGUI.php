@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Container\StandardGUIRequest;
+
 /**
  * Class ilContainerStartObjectsGUI
  *
@@ -30,9 +32,11 @@ class ilContainerStartObjectsGUI
     protected ilToolbarGUI $toolbar;
     protected ilObject $object;
     protected ilContainerStartObjects $start_object;
+    protected StandardGUIRequest $request;
     
     public function __construct(ilObject $a_parent_obj)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->access = $DIC->access();
@@ -53,6 +57,11 @@ class ilContainerStartObjectsGUI
             $this->object->getRefId(),
             $this->object->getId()
         );
+
+        $this->request = $DIC->container()
+            ->internal()
+            ->gui()
+            ->standardRequest();
         
         $this->lng->loadLanguageModule("crs");
     }
@@ -157,7 +166,7 @@ class ilContainerStartObjectsGUI
     
     protected function saveSortingObject() : void
     {
-        $pos = $_POST["pos"];
+        $pos = $this->request->getStartObjPositions();
         if (is_array($pos)) {
             asort($pos);
             $counter = 0;
@@ -174,7 +183,7 @@ class ilContainerStartObjectsGUI
     
     protected function askDeleteStarterObject() : void
     {
-        if (empty($_POST['starter'])) {
+        if (count($this->request->getStartObjIds()) == 0) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, "listStructure");
         }
@@ -191,7 +200,7 @@ class ilContainerStartObjectsGUI
 
         // list objects that should be deleted
         $all = $this->start_object->getStartObjects();
-        foreach ($_POST['starter'] as $starter_id) {
+        foreach ($this->request->getStartObjIds() as $starter_id) {
             $obj_id = ilObject::_lookupObjId($all[$starter_id]["item_ref_id"]);
             $title = ilObject::_lookupTitle($obj_id);
             $icon = ilObject::_getIcon($obj_id, "tiny");
@@ -206,10 +215,10 @@ class ilContainerStartObjectsGUI
     {
         $this->checkPermission('write');
         
-        if (!count($_POST['starter'])) {
+        if (count($this->request->getStartObjIds()) == 0) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
         } else {
-            foreach ($_POST['starter'] as $starter_id) {
+            foreach ($this->request->getStartObjIds() as $starter_id) {
                 $this->start_object->delete((int) $starter_id);
             }
 
@@ -232,13 +241,13 @@ class ilContainerStartObjectsGUI
     {
         $this->checkPermission('write');
 
-        if (empty($_POST['starter'])) {
+        if (count($this->request->getStartObjIds()) == 0) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, "selectStarter");
         }
             
         $added = 0;
-        foreach ($_POST['starter'] as $item_ref_id) {
+        foreach ($this->request->getStartObjIds() as $item_ref_id) {
             if (!$this->start_object->exists($item_ref_id)) {
                 ++$added;
                 $this->start_object->add($item_ref_id);

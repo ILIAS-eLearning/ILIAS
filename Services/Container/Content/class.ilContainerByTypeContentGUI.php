@@ -43,8 +43,8 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
         }
-        if (isset($_SESSION['sess']['expanded'][$a_item_id])) {
-            return $_SESSION['sess']['expanded'][$a_item_id];
+        if ($this->item_manager->getExpanded($a_item_id) !== null) {
+            return $this->item_manager->getExpanded($a_item_id);
         }
         if ($a_item_id == $this->force_details) {
             return self::DETAILS_ALL;
@@ -142,15 +142,8 @@ class ilContainerByTypeContentGUI extends ilContainerContentGUI
     
     protected function initDetails() : void
     {
-        if (isset($_GET['expand']) && $_GET['expand']) {
-            if ($_GET['expand'] > 0) {
-                $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
-            } else {
-                $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_TITLE;
-            }
-        }
-        
-        
+        $this->handleSessionExpand();
+
         if ($this->getContainerObject()->getType() == 'crs') {
             if ($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId())) {
                 $this->force_details = $session;

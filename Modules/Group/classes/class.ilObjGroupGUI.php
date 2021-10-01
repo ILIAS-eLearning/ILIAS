@@ -420,15 +420,14 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
     * Render group
     */
-    public function renderObject()
+    public function renderObject() : void
     {
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
         
         $ilTabs->activateTab("view_content");
-        $ret = parent::renderObject();
-        return $ret;
+        parent::renderObject();
     }
 
     /**

@@ -116,6 +116,31 @@ trait BaseGUIRequest
         return (array) ($this->get($key, $t) ?? []);
     }
 
+    // get string array kindly
+    protected function arrayArray($key) : array
+    {
+        if (!$this->isArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            function ($arr) {
+                // keep keys(!), transform all values to string
+                return array_column(
+                    array_map(
+                        function ($k, $v) {
+                            return [$k, \ilUtil::stripSlashes((array) $v)];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->get($key, $t) ?? []);
+    }
+
     /**
      * Check if parameter is an array
      */

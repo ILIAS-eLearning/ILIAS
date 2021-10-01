@@ -14,6 +14,7 @@
  */
 
 use Psr\Http\Message\RequestInterface;
+use ILIAS\Container;
 
 /**
  * Settings for members view
@@ -33,7 +34,8 @@ class ilMemberViewSettings
     private ?int $container = null;
     private array $container_items = [];
     private int $current_ref_id = 0;
-    
+    protected Container\Service $container_service;
+
     private function __construct()
     {
         global $DIC;
@@ -44,6 +46,8 @@ class ilMemberViewSettings
         $this->ctrl = $DIC->ctrl();
         $this->logger = $DIC->logger()->cont();
         $this->read();
+        $this->container_service = $DIC
+            ->container();
     }
 
 
@@ -69,7 +73,12 @@ class ilMemberViewSettings
     {
         $this->container = $container;
         ilSession::set(self::SESSION_MEMBER_VIEW_CONTAINER, $this->container);
-        ilSession::set('il_cont_admin_panel', false);
+        $this->container_service
+            ->internal()
+            ->domain()
+            ->content()
+            ->view()
+            ->setContentView();
     }
 
     /**

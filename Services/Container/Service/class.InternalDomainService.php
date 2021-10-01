@@ -38,6 +38,15 @@ class InternalDomainService
         $this->initDomainServices($DIC);
     }
 
+    public function content() : Content\DomainService
+    {
+        return new Content\DomainService(
+            $this->repo_service,
+            $this->data_service,
+            $this
+        );
+    }
+
     /*
     public function access(int $ref_id, int $user_id) : Access\AccessManager
     {

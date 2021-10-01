@@ -349,7 +349,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
             array_merge(
                 array($this->getTargetType()),
                 array("root", "cat", "grp", "fold", "crs")
-        )
+            )
         );
         $repo->setInfo($this->lng->txt($this->getReferenceType() . '_edit_info'));
 

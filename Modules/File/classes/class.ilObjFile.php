@@ -44,7 +44,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     protected $log;
 
-// ABSTRACT
+    // ABSTRACT
     /**
      * @var string
      */
@@ -69,7 +69,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * @var string
      */
     protected $action;
-// ABSTRACT
+    // ABSTRACT
 
     /**
      * @var string|null
@@ -773,5 +773,4 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         return $this->implementation->getFileExtension();
     }
-
 }

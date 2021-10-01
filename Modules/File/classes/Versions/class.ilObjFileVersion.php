@@ -288,5 +288,4 @@ class ilObjFileVersion extends ArrayObject
         $this->size = $size;
         return $this;
     }
-
 }

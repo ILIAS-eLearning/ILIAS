@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * A dataset contains in data in a common structure that can be
@@ -17,13 +28,10 @@
  *   http://www.ilias.de/docu/goto.php?target=pg_25354_42&client_id=docu
  * - records (similar to records of a database query; associative arrays)
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilDataSet
 {
-    public $dircnt;
-    protected $current_installation_id = "";
-    
     const EXPORT_NO_INST_ID = 1;
     const EXPORT_ID_ILIAS_LOCAL = 2;
     const EXPORT_ID_ILIAS_LOCAL_INVALID = 3;
@@ -32,24 +40,20 @@ abstract class ilDataSet
     const EXPORT_ID = 6;
     const EXPORT_ID_INVALID = 7;
 
-    /**
-     * array
-     */
-    protected $data = [];
+    public int $dircnt = 0;
+    protected string $current_installation_id = "";
+    protected array $data = [];
+    protected ilDBInterface $db;
+    protected ilLogger $ds_log;
+    protected string $import_directory;
+    protected string $entity;
+    protected string $schema_version;
+    protected string $relative_export_dir;
+    protected string $absolute_export_dir;
+    protected string $ds_prefix;
+    protected string $version;
+    protected ilImport $import;
 
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var ilLogger
-     */
-    protected $ds_log;
-    
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -70,97 +74,63 @@ abstract class ilDataSet
      * 						values only, not 4.2.0 (ask for the 4.1.0
      * 						version in ILIAS 4.2.0)
      */
-    final public function init($a_entity, $a_schema_version)
+    final public function init(string $a_entity, string $a_schema_version) : void
     {
         $this->entity = $a_entity;
         $this->schema_version = $a_schema_version;
         $this->data = array();
     }
     
-    /**
-     * Get supported version
-     *
-     * @return	array		array of supported version
-     */
-    abstract public function getSupportedVersions();
-        
+    abstract public function getSupportedVersions() : array;
+
     /**
      * Get (abstract) types for (abstract) field names.
      * Please note that the abstract fields/types only depend on
      * the version! Not on a choosen representation!
-     *
-     * @return	array		types array, e.g.
+     * @return	array        types array, e.g.
      * array("field_1" => "text", "field_2" => "integer", ...)
      */
-    abstract protected function getTypes($a_entity, $a_version);
-    
-    /**
-     * Get xml namespace
-     *
-     */
-    abstract protected function getXmlNamespace($a_entity, $a_schema_version);
+    abstract protected function getTypes(string $a_entity, string $a_version) : array;
+
+    abstract protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string;
     
     /**
      * Read data from DB. This should result in the
      * abstract field structure of the version set in the constructor.
-     *
-     * @param	array	one or multiple ids
      */
-    abstract public function readData($a_entity, $a_version, $a_ids);
+    abstract public function readData(
+        string $a_entity,
+        string $a_version,
+        array $a_ids
+    ) : void;
     
-    /**
-     * Set export directories
-     *
-     * @param
-     * @return
-     */
-    public function setExportDirectories($a_relative, $a_absolute)
+    public function setExportDirectories(string $a_relative, string $a_absolute) : void
     {
         $this->relative_export_dir = $a_relative;
         $this->absolute_export_dir = $a_absolute;
     }
 
-    /**
-     * Set import directory
-     *
-     * @param	string	import directory
-     */
-    public function setImportDirectory($a_val)
+    public function setImportDirectory(string $a_val) : void
     {
         $this->import_directory = $a_val;
     }
 
-    /**
-     * Get import directory
-     *
-     * @return	string	import directory
-     */
-    public function getImportDirectory()
+    public function getImportDirectory() : string
     {
         return $this->import_directory;
     }
 
-    /**
-     * Set XML dataset namespace prefix
-     *
-     * @param	string	XML dataset namespace prefix
-     */
-    public function setDSPrefix($a_val)
+    public function setDSPrefix(string $a_val) : void
     {
-        $this->var = $a_val;
+        $this->ds_prefix = $a_val;
     }
 
-    /**
-     * Get XML dataset namespace prefix
-     *
-     * @return	string	XML dataset namespace prefix
-     */
-    public function getDSPrefix()
+    public function getDSPrefix() : string
     {
-        return $this->var;
+        return $this->ds_prefix;
     }
 
-    public function getDSPrefixString()
+    public function getDSPrefixString() : string
     {
         if ($this->getDSPrefix() != "") {
             return $this->getDSPrefix() . ":";
@@ -170,13 +140,12 @@ abstract class ilDataSet
     /**
      * Get data from query.This is a standard procedure,
      * all db field names are directly mapped to abstract fields.
-     * @param string $a_query
-     * @param bool $a_convert_to_leading_upper
-     * @param bool $a_set should internal data array already be set?
-     * @return array
      */
-    public function getDirectDataFromQuery($a_query, $a_convert_to_leading_upper = true, $a_set = true)
-    {
+    public function getDirectDataFromQuery(
+        string $a_query,
+        bool $a_convert_to_leading_upper = true,
+        bool $a_set = true
+    ) : array {
         $ilDB = $this->db;
         
         $set = $ilDB->query($a_query);
@@ -202,11 +171,8 @@ abstract class ilDataSet
 
     /**
      * Make xyz_abc a XyzAbc string
-     *
-     * @param
-     * @return
      */
-    public function convertToLeadingUpper($a_str)
+    public function convertToLeadingUpper(string $a_str) : string
     {
         $a_str = strtoupper(substr($a_str, 0, 1)) . substr($a_str, 1);
         while (is_int($pos = strpos($a_str, "_"))) {
@@ -221,10 +187,10 @@ abstract class ilDataSet
     /**
      * Get json representation
      */
-    final public function getJsonRepresentation()
+    final public function getJsonRepresentation() : string
     {
         if ($this->version === false) {
-            return false;
+            return "";
         }
         
         $arr["entity"] = $this->getJsonEntityName();
@@ -262,13 +228,13 @@ abstract class ilDataSet
      *  </dataset>
      */
     final public function getXmlRepresentation(
-        $a_entity,
-        $a_schema_version,
-        $a_ids,
-        $a_field = "",
-        $a_omit_header = false,
-        $a_omit_types = false
-    ) {
+        string $a_entity,
+        string $a_schema_version,
+        ?array $a_ids,
+        string $a_field = "",
+        bool $a_omit_header = false,
+        bool $a_omit_types = false
+    ) : string {
         $this->dircnt = 1;
         
         // step 1: check target release and supported versions
@@ -318,18 +284,18 @@ abstract class ilDataSet
     }
     
     
-    /**
-     * Add records xml
-     *
-     * @param
-     * @return
-     */
-    public function addRecordsXml($a_writer, $a_prefixes, $a_entity, $a_schema_version, $a_ids, $a_field = "")
-    {
+    public function addRecordsXml(
+        ilXmlWriter $a_writer,
+        array $a_prefixes,
+        string $a_entity,
+        string $a_schema_version,
+        array $a_ids,
+        ?string $a_field = ""
+    ) : void {
         $types = $this->getXmlTypes($a_entity, $a_schema_version);
 
         $this->ds_log->debug("...read data");
-        $this->readData($a_entity, $a_schema_version, $a_ids, $a_field);
+        $this->readData($a_entity, $a_schema_version, $a_ids);
         $this->ds_log->debug("...data: " . print_r($this->data, true));
         if (is_array($this->data)) {
             foreach ($this->data as $d) {
@@ -372,7 +338,10 @@ abstract class ilDataSet
                 $this->ds_log->debug("...dependencies: " . print_r($deps, true));
                 if (is_array($deps)) {
                     foreach ($deps as $dp => $par) {
-                        $this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $par["ids"], $par["field"]);
+                        $ids = is_string($par["ids"])
+                            ? [$par["ids"]]
+                            : $par["ids"];
+                        $this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $ids, $par["field"] ?? null);
                     }
                 }
             }
@@ -382,28 +351,31 @@ abstract class ilDataSet
             $deps = $this->getDependencies($a_entity, $a_schema_version, null, $a_ids);
             if (is_array($deps)) {
                 foreach ($deps as $dp => $par) {
-                    $this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $par["ids"], $par["field"]);
+                    $ids = is_string($par["ids"])
+                        ? [$par["ids"]]
+                        : $par["ids"];
+                    $this->addRecordsXml($a_writer, $a_prefixes, $dp, $a_schema_version, $ids, $par["field"] ?? null);
                 }
             }
         }
     }
-    
-    /**
-     * After xml record writing hook record
-     *
-     * @param
-     * @return
-     */
-    public function afterXmlRecordWriting($a_entity, $a_version, $a_set)
+
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
+        return [];
+    }
+
+    // After xml record writing hook record
+    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set) : void
     {
     }
 
-    /**
-     * Add types to xml writer
-     *
-     * @param
-     */
-    private function addTypesXml($a_writer, $a_entity, $a_schema_version)
+    // Add types to xml writer
+    private function addTypesXml(ilXmlWriter $a_writer, string $a_entity, string $a_schema_version) : void
     {
         $types = $this->getXmlTypes($a_entity, $a_schema_version);
         
@@ -432,14 +404,8 @@ abstract class ilDataSet
         }
     }
     
-    /**
-     * Get xml namespaces
-     *
-     * @param		array		namespaces per entity
-     * @param		string		entity
-     * @param		string		target release
-     */
-    public function getNamespaces(&$namespaces, $a_entity, $a_schema_version)
+    // Get xml namespaces
+    public function getNamespaces(array &$namespaces, string $a_entity, string $a_schema_version) : void
     {
         $ns = $this->getXmlNamespace($a_entity, $a_schema_version);
         if ($ns != "") {
@@ -456,42 +422,33 @@ abstract class ilDataSet
     
     /**
      * Get xml record for version
-     *
-     * @param	array	abstract data record
-     * @return	array	xml record
+     * @param array  $a_set abstract data record
      */
-    public function getXmlRecord($a_entity, $a_version, $a_set)
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
     {
         return $a_set;
     }
     
-    /**
-     * Get json record for version
-     *
-     * @param	array	abstract data record
-     * @return	array	json record
-     */
-    public function getJsonRecord($a_set)
+    // Get json record for version
+    public function getJsonRecord(array $a_set) : array
     {
         return $a_set;
     }
     
     /**
      * Get xml types
-     *
      * @return	array	types array for xml/version set in constructor
      */
-    public function getXmlTypes($a_entity, $a_version)
+    public function getXmlTypes(string $a_entity, string $a_version) : array
     {
         return $this->getTypes($a_entity, $a_version);
     }
     
     /**
      * Get json types
-     *
      * @return	array	types array for json/version set in constructor
      */
-    public function getJsonTypes($a_entity, $a_version)
+    public function getJsonTypes(string $a_entity, string $a_version) : array
     {
         return $this->getTypes($a_entity, $a_version);
     }
@@ -499,21 +456,18 @@ abstract class ilDataSet
     /**
      * Get entity name for xml
      * (may be overwritten)
-     *
-     * @return	string
      */
-    public function getXMLEntityName($a_entity, $a_version)
+    public function getXMLEntityName(string $a_entity, string $a_version) : string
     {
         return $a_entity;
     }
 
     /**
      * Get entity tag
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function getXMLEntityTag($a_entity, $a_schema_version)
+    public function getXMLEntityTag(string $a_entity, string $a_schema_version) : string
     {
         return $this->convertToLeadingUpper($a_entity);
     }
@@ -522,71 +476,44 @@ abstract class ilDataSet
      * Get entity name for json
      * (may be overwritten)
      */
-    public function getJsonEntityName($a_entity, $a_version)
+    public function getJsonEntityName(string $a_entity, string $a_version) : string
     {
         return $a_entity;
     }
     
-    /**
-     * Set import object
-     *
-     * @param	object	import object
-     */
-    public function setImport($a_val)
+    public function setImport(ilImport $a_val)
     {
         $this->import = $a_val;
     }
     
-    /**
-     * Get import object
-     *
-     * @return	object	import object
-     */
-    public function getImport()
+    public function getImport() : ilImport
     {
         return $this->import;
     }
 
-    /**
-     * Set current installation id
-     *
-     * @param string $a_val current installation id
-     */
-    public function setCurrentInstallationId($a_val)
+    public function setCurrentInstallationId(string $a_val) : void
     {
         $this->current_installation_id = $a_val;
     }
 
-    /**
-     * Get current installation id
-     *
-     * @return string current installation id
-     */
-    public function getCurrentInstallationId()
+    public function getCurrentInstallationId() : string
     {
         return $this->current_installation_id;
     }
     
     /**
      * Build ilias export id
-     *
-     * @param string $a_type
-     * @param int $a_id
-     * @return string
      */
-    protected function createObjectExportId($a_type, $a_id)
+    protected function createObjectExportId(string $a_type, string $a_id) : string
     {
         return "il_" . IL_INST_ID . "_" . $a_type . "_" . $a_id;
     }
         
     /**
      * Parse export id
-     *
-     * @param string $a_id
-     * @param int $a_fallback_id
      * @return array type, id
      */
-    protected function parseObjectExportId($a_id, $a_fallback_id = null)
+    protected function parseObjectExportId(string $a_id, ?string $a_fallback_id = null) : array
     {
         // ilias export id?
         if (substr($a_id, 0, 3) == "il_") {
@@ -632,5 +559,14 @@ abstract class ilDataSet
         } else {
             return array("type" => self::EXPORT_ID_INVALID, "id" => $a_fallback_id);
         }
+    }
+
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
     }
 }

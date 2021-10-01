@@ -76,8 +76,12 @@ class ilBiblEntryTablePresentationGUI
                     if ($last_sign_after_end_emph_tag) {
                         $italic_text = substr($single_entry, $first_sign_after_begin_emph_tag, $italic_text_length);
                         //parse
-                        $it_tpl = new ilTemplate("tpl.bibliographic_italicizer.html", true, true,
-                            "Modules/Bibliographic");
+                        $it_tpl = new ilTemplate(
+                            "tpl.bibliographic_italicizer.html",
+                            true,
+                            true,
+                            "Modules/Bibliographic"
+                        );
                         $it_tpl->setCurrentBlock("italic_section");
                         $it_tpl->setVariable('ITALIC_STRING', $italic_text);
                         $it_tpl->parseCurrentBlock();

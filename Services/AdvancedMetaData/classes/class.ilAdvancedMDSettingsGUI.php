@@ -82,7 +82,7 @@ class ilAdvancedMDSettingsGUI
     /**
      * @var ilAdvancedMDRecord
      */
-    protected  $record;
+    protected $record;
 
     
     /**
@@ -142,7 +142,7 @@ class ilAdvancedMDSettingsGUI
     /**
      * @return ilAdvancedMDPermissionHelper
      */
-    protected function getPermissions() :ilAdvancedMDPermissionHelper
+    protected function getPermissions() : ilAdvancedMDPermissionHelper
     {
         return $this->permissions;
     }
@@ -162,7 +162,7 @@ class ilAdvancedMDSettingsGUI
 
             case strtolower(ilAdvancedMDRecordTranslationGUI::class):
                 $record = $this->initRecordObject();
-                $this->setRecordSubTabs(1,true);
+                $this->setRecordSubTabs(1, true);
                 $int_gui = new \ilAdvancedMDRecordTranslationGUI($record);
                 $this->ctrl->forwardCommand($int_gui);
                 break;
@@ -775,7 +775,7 @@ class ilAdvancedMDSettingsGUI
             $this->ctrl->redirect($this, 'showRecords');
         }
         $this->initRecordObject();
-        $this->setRecordSubTabs(1,true);
+        $this->setRecordSubTabs(1, true);
         $this->tabs_gui->activateTab(self::TAB_RECORD_SETTINGS);
 
         if (!$form instanceof ilPropertyFormGUI) {
@@ -938,7 +938,7 @@ class ilAdvancedMDSettingsGUI
         }
         $this->initRecordObject();
         $this->initLanguage($record_id);
-        $this->showLanguageSwitch($record_id,'editRecord');
+        $this->showLanguageSwitch($record_id, 'editRecord');
 
         $this->initForm('edit');
         if (!$this->form->checkInput()) {
@@ -1003,11 +1003,10 @@ class ilAdvancedMDSettingsGUI
         if ($level == 1) {
             $this->tabs_gui->setBackTarget(
                 $this->lng->txt('md_adv_record_list'),
-                $this->ctrl->getLinkTarget($this,'showRecords')
+                $this->ctrl->getLinkTarget($this, 'showRecords')
             );
 
             if ($show_settings) {
-
                 $this->tabs_gui->addTab(
                     self::TAB_RECORD_SETTINGS,
                     $this->lng->txt('settings'),
@@ -1032,11 +1031,11 @@ class ilAdvancedMDSettingsGUI
         if ($level == 2) {
             $this->tabs_gui->setBack2Target(
                 $this->lng->txt('md_adv_record_list'),
-                $this->ctrl->getLinkTarget($this,'showRecords')
+                $this->ctrl->getLinkTarget($this, 'showRecords')
             );
             $this->tabs_gui->setBackTarget(
                 $this->lng->txt('md_adv_field_list'),
-                $this->ctrl->getLinkTarget($this,'editFields')
+                $this->ctrl->getLinkTarget($this, 'editFields')
             );
         }
     }
@@ -1157,7 +1156,7 @@ class ilAdvancedMDSettingsGUI
             $this->form->getInput('title'),
             $this->form->getInput('desc')
         );
-        ilUtil::sendSuccess($this->lng->txt('md_adv_added_new_record'),true);
+        ilUtil::sendSuccess($this->lng->txt('md_adv_added_new_record'), true);
         $this->ctrl->redirect($this, 'showRecords');
     }
     
@@ -1322,8 +1321,7 @@ class ilAdvancedMDSettingsGUI
         $translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($this->record->getRecordId());
         if ($is_creation_mode) {
             $form->setDescription($a_definition->getDescription());
-        }
-        else {
+        } else {
             $form->setDescription($translations->getFormTranslationInfo(
                 $a_definition->getFieldId(),
                 $this->active_language
@@ -1830,7 +1828,6 @@ class ilAdvancedMDSettingsGUI
         
         if (!$this->obj_type) {
             if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES]) {
-
                 $obj_types = [];
                 foreach (ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $type) {
                     $t = $type["obj_type"] . ":" . $type["sub_type"];
@@ -1870,7 +1867,7 @@ class ilAdvancedMDSettingsGUI
         if (!$this->record instanceof ilAdvancedMDRecord) {
             $record_id = $this->request->getQueryParams()['record_id'] ?? 0;
             $this->record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
-            $this->ctrl->saveParameter($this,'record_id');
+            $this->ctrl->saveParameter($this, 'record_id');
 
             // bind to parent object (aka local adv md)
             if (!$record_id &&
@@ -2108,7 +2105,8 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->setParameter($this, 'mdlang', $this->active_language);
         $view_control = $this->ui_factory->viewControl()->mode(
             $actions,
-            $this->lng->txt('meta_aria_language_selection'))->withActive($this->active_language);
+            $this->lng->txt('meta_aria_language_selection')
+        )->withActive($this->active_language);
         $this->toolbar->addComponent($view_control);
     }
 }

@@ -145,7 +145,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         $subcompl = new ilCheckboxInputGUI($this->lng->txt(
             'ass_completion_by_submission'
-                                           ), 'completion_by_submission');
+        ), 'completion_by_submission');
         $subcompl->setInfo($this->lng->txt('ass_completion_by_submission_info'));
         $subcompl->setValue(1);
         $subcompl->setChecked($this->object->isCompletionBySubmissionEnabled());

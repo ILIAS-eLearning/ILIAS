@@ -658,7 +658,7 @@ class ilObjDataCollectionGUI extends ilObject2GUI
                 "",
                 true,
                 false
-        ),
+            ),
             $ilCtrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false)
         );
 

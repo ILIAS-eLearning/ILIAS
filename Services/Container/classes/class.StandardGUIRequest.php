@@ -92,4 +92,77 @@ class StandardGUIRequest
     {
         return $this->int("parent_ref_id");
     }
+
+    public function getExpand() : int
+    {
+        return $this->int("expand");
+    }
+
+    public function getBlockAction() : string
+    {
+        return $this->str("act");
+    }
+
+    public function getBlockId() : string
+    {
+        return $this->str("cont_block_id");
+    }
+
+    public function getPreviousSession() : int
+    {
+        return $this->int("crs_prev_sess");
+    }
+
+    public function getNextSession() : int
+    {
+        return $this->int("crs_next_sess");
+    }
+
+    public function getObjectiveId() : int
+    {
+        return $this->int("oobj");
+    }
+
+    public function getNodes() : array
+    {
+        if ($this->int("node") > 0) {
+            return [$this->int("node")];
+        }
+        return $this->intArray("nodes");
+    }
+
+    public function getCopyOptions() : array
+    {
+        return $this->arrayArray("cp_options");
+    }
+
+    public function getPositions() : array
+    {
+        return $this->arrayArray("position");
+    }
+
+    public function getTrashIds() : array
+    {
+        return $this->intArray("trash_id");
+    }
+
+    public function getAlreadyRenderedRefIds() : array
+    {
+        $ids = $this->strArray("ids");
+        $ref_ids = array_map(function ($i) {
+            $parts = explode("_", $i);
+            return $parts[2];
+        }, $ids);
+        return $ref_ids;
+    }
+
+    public function getStartObjPositions() : array
+    {
+        return $this->intArray("pos");
+    }
+
+    public function getStartObjIds() : array
+    {
+        return $this->intArray("starter");
+    }
 }

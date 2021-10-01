@@ -1646,18 +1646,19 @@ class ilObjectGUI
         if ($_GET["item_ref_id"] != "") {
             $_POST["id"] = array($_GET["item_ref_id"]);
         }
-        
+
+        $ids = [];
         if (is_array($_POST["id"])) {
             foreach ($_POST["id"] as $idx => $id) {
-                $_POST["id"][$idx] = (int) $id;
+                $ids["id"][$idx] = (int) $id;
             }
         }
 
         // SAVE POST VALUES (get rid of this
-        ilSession::set("saved_post", $_POST["id"]);
+        ilSession::set("saved_post", $ids["id"]);
 
         $ru = new ilRepositoryTrashGUI($this);
-        if (!$ru->showDeleteConfirmation($_POST["id"], $a_error)) {
+        if (!$ru->showDeleteConfirmation($ids["id"], $a_error)) {
             $ilCtrl->returnToParent($this);
         }
     }

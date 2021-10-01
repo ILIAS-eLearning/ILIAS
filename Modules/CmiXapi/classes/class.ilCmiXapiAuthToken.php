@@ -296,8 +296,8 @@ class ilCmiXapiAuthToken
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $ilDB = $DIC->database();
         
-		$query = "SELECT * FROM cmix_token WHERE obj_id = %s AND usr_id = %s";
-		
+        $query = "SELECT * FROM cmix_token WHERE obj_id = %s AND usr_id = %s";
+        
         if ($checkValid) {
             $query .= " AND valid_until > CURRENT_TIMESTAMP";
         }

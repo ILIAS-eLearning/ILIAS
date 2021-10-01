@@ -636,7 +636,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
     }
 
-    public function renderObject()
+    public function renderObject() : void
     {
         // disables this method in ilContainerGUI
     }

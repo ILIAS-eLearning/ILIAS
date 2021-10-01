@@ -804,7 +804,7 @@ class ilContainerObjectiveGUI extends ilContainerContentGUI
                 $this->buildAccordionTitle($objective, $a_lo_result),
                 $co_page .
                     $this->buildAccordionContent($acc_content),
-                (isset($_GET["oobj"]) && (int) $_GET["oobj"] == $objective->getObjectiveId())
+                ($this->request->getObjectiveId() == $objective->getObjectiveId())
             );
         }
         return "";

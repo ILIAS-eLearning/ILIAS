@@ -63,8 +63,10 @@ class ilFileVersionsTableGUI extends ilTable2GUI
             $this->setFormAction($this->dic->ctrl()->getFormAction($calling_gui_class));
             $this->setSelectAllCheckbox("hist_id[]");
             $this->addMultiCommand(ilFileVersionsGUI::CMD_DELETE_VERSIONS, $this->dic->language()->txt("delete"));
-            $this->addMultiCommand(ilFileVersionsGUI::CMD_ROLLBACK_VERSION,
-                $this->dic->language()->txt("file_rollback"));
+            $this->addMultiCommand(
+                ilFileVersionsGUI::CMD_ROLLBACK_VERSION,
+                $this->dic->language()->txt("file_rollback")
+            );
         }
 
         // Columns
@@ -129,11 +131,17 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setId($hist_id);
         $actions->setListTitle($this->dic->language()->txt("actions"));
-        $actions->addItem($this->dic->language()->txt("delete"), "",
-            $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_DELETE_VERSIONS));
+        $actions->addItem(
+            $this->dic->language()->txt("delete"),
+            "",
+            $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_DELETE_VERSIONS)
+        );
         if ($this->current_version !== (int) $version) {
-            $actions->addItem($this->dic->language()->txt("file_rollback"), "",
-                $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_ROLLBACK_VERSION));
+            $actions->addItem(
+                $this->dic->language()->txt("file_rollback"),
+                "",
+                $this->dic->ctrl()->getLinkTarget($this->parent_obj, ilFileVersionsGUI::CMD_ROLLBACK_VERSION)
+            );
         }
 
         // reset history parameter
@@ -141,8 +149,10 @@ class ilFileVersionsTableGUI extends ilTable2GUI
 
         // fill template
         $this->tpl->setVariable("TXT_VERSION", $version);
-        $this->tpl->setVariable("TXT_DATE",
-            ilDatePresentation::formatDate(new ilDateTime($a_set['date'], IL_CAL_DATETIME)));
+        $this->tpl->setVariable(
+            "TXT_DATE",
+            ilDatePresentation::formatDate(new ilDateTime($a_set['date'], IL_CAL_DATETIME))
+        );
         $this->tpl->setVariable("TXT_UPLOADED_BY", $username);
         $this->tpl->setVariable("DL_LINK", $link);
         $this->tpl->setVariable("TXT_FILENAME", $filename);
