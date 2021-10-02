@@ -314,15 +314,13 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     public function toggleAutoMessageDisplayState() : void
     {
-        global $DIC;
-
         $this->redirectIfNoPermission('read');
 
         $room = ilChatroom::byObjectId($this->gui->object->getId());
  
         $state = 0;
-        if (isset($DIC->http()->request()->getParsedBody()['state'])) {
-            $state = (int) $DIC->http()->request()->getParsedBody()['state'];
+        if ($this->http->wrapper()->post()->has('state')) {
+            $state = $this->http->wrapper()->post()->retrieve('state', $this->refinery->kindlyTo()->int());
         }
         
         ilObjUser::_writePref($this->ilUser->getId(), 'chat_hide_automsg_' . $room->getRoomId(), (int) (!(bool) $state));
@@ -510,8 +508,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     public function lostConnection() : void
     {
-        if (isset($this->httpServices->request()->getQueryParams()['msg'])) {
-            switch ($this->httpServices->request()->getQueryParams()['msg']) {
+        if ($this->http->wrapper()->query()->has('msg')) {
+            switch ($this->http->wrapper()->query()->retrieve('msg', $this->refinery->kindlyTo()->string())) {
                 case 'kicked':
                     ilUtil::sendFailure($this->ilLng->txt('kicked'), true);
                     break;
