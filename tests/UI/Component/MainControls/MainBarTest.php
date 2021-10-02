@@ -61,10 +61,8 @@ class MainBarTest extends ILIAS_UI_TestBase
     {
         $mock = $this->getMockBuilder(Legacy::class)
             ->disableOriginalConstructor()
-            ->setMethods(["transformToLegacyComponent"])
             ->getMock();
 
-        $mock->method('transformToLegacyComponent')->willReturn('content');
         return $mock;
     }
 
