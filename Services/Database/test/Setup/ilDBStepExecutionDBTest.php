@@ -44,7 +44,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $STEP = 1;
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
@@ -61,7 +61,7 @@ class ilDBStepExecutionDBTest extends TestCase
     public function testStartedThrowsWhenLastStepNotFinished() : void
     {
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
@@ -86,7 +86,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $STEP = 1;
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
@@ -132,7 +132,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $NOW = "2021-08-12 13:37:23.111111";
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
@@ -166,7 +166,7 @@ class ilDBStepExecutionDBTest extends TestCase
         $NOW = "2021-08-12 13:37:23.222222";
 
         $execution_db = $this->getMockBuilder(\ilDBStepExecutionDB::class)
-            ->setMethods(["getLastStartedStep", "getLastFinishedStep"])
+            ->onlyMethods(["getLastStartedStep", "getLastFinishedStep"])
             ->setConstructorArgs([$this->db, fn () => new \DateTime($NOW)])
             ->getMock();
 
