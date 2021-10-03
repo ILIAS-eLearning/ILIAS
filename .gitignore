@@ -36,6 +36,7 @@
 /setup/sql/ilDBTemplate
 virtual-data
 /libs/composer/vendor
+/node_modules/**/.cache
 
 # /dicto
 /dicto/results/*
