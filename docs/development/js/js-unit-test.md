@@ -1,6 +1,7 @@
 # JS Unit Testing
 
-ILIAS is using [Mocha](https://mochajs.org/) as test framework for Javascript unit tests. The `esm` extension allows to use ES6 modules seamlessly. [Chai](https://www.chaijs.com/) is being used as assertion library.
+ILIAS is using [Mocha](https://mochajs.org/) as test framework for Javascript unit tests. The `esm` extension 
+allows to use ES6 modules seamlessly. [Chai](https://www.chaijs.com/) is being used as assertion library.
 
 ## Install
 
@@ -14,17 +15,25 @@ ILIAS is using [Mocha](https://mochajs.org/) as test framework for Javascript un
 
 ## package.json changes
 
+The expression for mocha to run the files which contain the tests are listed in package.json as such: 
+
 ```
 {
   ...
   "scripts": {
-    "test": "mocha --require esm"
+    "test": "mocha tests/UI/Client/* --require esm"
   },
   ...
 }
 ```
 
+Note that it might be good practise to keep the tests cloze to the source an only symlink the files to the above
+directories.
+
+
 ## Run tests
+
+With this in place, the tests in the above dirs can be executed with:
 
 ```
 > npm test
