@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
-import ddmodel from '../src/drilldown.model.js';
-import ddmapping from '../src/drilldown.mapping.js';
-import drilldown from '../src/drilldown.main.js';
+import ddmodel from '../../../../../src/UI/templates/js/Menu/src/drilldown.model.js';
+import ddmapping from '../../../../../src/UI/templates/js/Menu/src/drilldown.mapping.js';
+import drilldown from '../../../../../src/UI/templates/js/Menu/src/drilldown.main.js';
 
 
 describe('drilldown', function() {
