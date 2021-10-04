@@ -1,6 +1,7 @@
 import {notificationItemFactory} from "./notification.main.js";
 import {counterFactory} from "../../Counter/src/counter.main.js";
 
+il.UI = il.UI || {};
 il.UI.item = il.UI.item || {};
 
 /**

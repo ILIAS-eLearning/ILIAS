@@ -867,6 +867,7 @@
 	    return public_object_interace;
 	};
 
+	il.UI = il.UI || {};
 	il.UI.item = il.UI.item || {};
 
 	/**
