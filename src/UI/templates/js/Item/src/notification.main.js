@@ -439,7 +439,7 @@ var notificationItemObject = function($item, $, counterFactory){
 	 * @returns jQuery Object of the Aggregates of the Item
 	 */
 	var getAggregatesOfItem = function(){
-		$parent = getParentSlateOfItem().parent();
+		var $parent = getParentSlateOfItem().parent();
 		if(!$parent.length){
 			$parent = $('body');
 		}
