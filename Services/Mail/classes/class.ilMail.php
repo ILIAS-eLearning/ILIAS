@@ -392,6 +392,10 @@ class ilMail
             $row['sender_id'] = (int) $row['sender_id'];
         }
 
+        if (isset($row['use_placeholders'])) {
+            $row['use_placeholders'] = (bool) $row['use_placeholders'];
+        }
+
         return $row;
     }
 
@@ -417,7 +421,7 @@ class ilMail
      * @param string $a_m_subject
      * @param string $a_m_message
      * @param int $a_draft_id
-     * @param int $a_use_placeholders
+     * @param bool $a_use_placeholders
      * @param string|null $a_tpl_context_id
      * @param array $a_tpl_context_params
      * @return int
@@ -431,7 +435,7 @@ class ilMail
         string $a_m_subject,
         string $a_m_message,
         int $a_draft_id = 0,
-        int $a_use_placeholders = 0,
+        bool $a_use_placeholders = false,
         ?string $a_tpl_context_id = null,
         array $a_tpl_context_params = []
     ) : int {
@@ -447,7 +451,7 @@ class ilMail
                 'm_status' => ['text', 'read'],
                 'm_subject' => ['text', $a_m_subject],
                 'm_message' => ['clob', $a_m_message],
-                'use_placeholders' => ['integer', $a_use_placeholders],
+                'use_placeholders' => ['integer', (int) $a_use_placeholders],
                 'tpl_ctx_id' => ['text', $a_tpl_context_id],
                 'tpl_ctx_params' => ['blob', json_encode($a_tpl_context_params, JSON_THROW_ON_ERROR)],
             ],
@@ -470,7 +474,7 @@ class ilMail
         string $subject,
         string $message,
         int $usrId = 0,
-        int $usePlaceholders = 0,
+        bool $usePlaceholders = false,
         ?string $templateContextId = null,
         array $templateContextParameters = []
     ) : int {
@@ -920,29 +924,10 @@ class ilMail
         string $a_rcp_bcc,
         string $a_m_subject,
         string $a_m_message,
-        bool $a_use_placeholders,
+        bool $a_use_placeholders = false,
         ?string $a_tpl_context_id = null,
         ?array $a_tpl_ctx_params = []
     ) : bool {
-        if (!$a_attachments) {
-            $a_attachments = null;
-        }
-        if (!$a_rcp_to) {
-            $a_rcp_to = null;
-        }
-        if (!$a_rcp_cc) {
-            $a_rcp_cc = null;
-        }
-        if (!$a_rcp_bcc) {
-            $a_rcp_bcc = null;
-        }
-        if (!$a_m_message) {
-            $a_m_message = null;
-        }
-        if (!$a_use_placeholders) {
-            $a_use_placeholders = false;
-        }
-
         $this->db->replace(
             $this->table_mail_saved,
             [
@@ -1027,14 +1012,6 @@ class ilMail
         $rcp_cc = $a_rcp_cc;
         $rcp_bcc = $a_rcp_bcc;
 
-        if (null === $rcp_cc) {
-            $rcp_cc = '';
-        }
-
-        if (null === $rcp_bcc) {
-            $rcp_bcc = '';
-        }
-
         $numberOfExternalAddresses = $this->getCountRecipients($rcp_to, $rcp_cc, $rcp_bcc);
         if (
             $numberOfExternalAddresses > 0 &&
@@ -1056,7 +1033,7 @@ class ilMail
                 $a_m_subject,
                 $a_m_message,
                 $a_attachment,
-                (bool) $a_use_placeholders
+                $a_use_placeholders
             );
         }
 
@@ -1074,7 +1051,7 @@ class ilMail
             $a_m_subject,
             $a_m_message,
             serialize($a_attachment),
-            (bool) $a_use_placeholders,
+            $a_use_placeholders,
             $this->getSaveInSentbox(),
             (string) $this->contextId,
             serialize($this->contextParameters),
