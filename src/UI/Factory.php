@@ -834,7 +834,7 @@ interface Factory
      *   style:
      *     1: The Toast MUST be visible on the top layer of the page, Therefore it MUST cover up all other UI Items in
      *        its space.
-     *     2: The Toast ä disappear after a certain amount of time or earlier by user interaction. No interaction can
+     *     2: The Toast disappear after a certain amount of time or earlier by user interaction. No interaction can
      *        extends the Toast time of appearance above the global defined amount.
      *   accessibility:
      *     1: All interactions SHOULD be only accessible as long a the Toast is not vanished.
