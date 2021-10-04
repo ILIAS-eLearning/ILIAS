@@ -11602,7 +11602,7 @@ orgu#:#scope#:#In
 common#:#my_staff#:#Staff
 mst#:#mst_my_staff#:#Staff
 mst#:#mst_list_users#:#Staff List
-mst#:#mst_list_courses#:#Enrolments
+mst#:#mst_list_courses#:#Course Memberships
 mst#:#mst_list_certificates#:#Certificates
 mst#:#mst_list_competences#:#Competences
 mst#:#mst_select_course#:#Select Course
@@ -11611,8 +11611,8 @@ mst#:#mst_opt_all#:#All
 mst#:#mst_memb_status_requested#:#Requested
 mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
-mst#:#mst_show_courses#:#Enrolments
-mst#:#mst_courses_of#:#Enrolments of %s
+mst#:#mst_show_courses#:#Course Memberships
+mst#:#mst_courses_of#:#Course Memberships of %s
 mst#:#mst_profile_fulfilled#:#Not met, yet
 mst#:#mst_profile_not_fulfilled#:#Fulfilled
 mst#:#mst_cert_issued_on#:#Issued On
@@ -14799,7 +14799,7 @@ lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
-orgu#:#org_op_access_enrolments#:#View Enrolments
+orgu#:#org_op_access_enrolments#:#View Course Memberships
 orgu#:#msg_position_updated#:#Position updated.
 orgu#:#msg_position_created#:#Position created.
 orgu#:#msg_success_permission_saved#:#Permissions saved.
@@ -14809,7 +14809,7 @@ common#:#position_permission_settings#:#Orgunit-Specific Permissions
 common#:#org_permission_settings#:#Permissions of Positions in Organisational Units
 common#:#org_op_read_learning_progress#:#View Learning Progress of Subordinate Users
 common#:#org_op_manage_members#:#Manage Subordinate Members
-common#:#org_op_access_enrolments#:#View Enrolment-Status
+common#:#org_op_access_enrolments#:#View Course Membership Status
 dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.
 sahs#:#sahs_add#:#Create SCORM Learning Module
 sahs#:#sahs_copy#:#Copy SCORM Learning Module
