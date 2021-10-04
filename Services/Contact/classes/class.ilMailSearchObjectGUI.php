@@ -245,9 +245,7 @@ abstract class ilMailSearchObjectGUI
                 '',
                 '',
                 '',
-                '',
-                '',
-                ''
+                false
             );
         }
 
@@ -301,7 +299,6 @@ abstract class ilMailSearchObjectGUI
             $mail_data['rcp_to'],
             $mail_data['rcp_cc'],
             $mail_data['rcp_bcc'],
-            $mail_data['m_email'],
             $mail_data['m_subject'],
             $mail_data['m_message'],
             $mail_data['use_placeholders'],
@@ -325,9 +322,7 @@ abstract class ilMailSearchObjectGUI
                 '',
                 '',
                 '',
-                '',
-                '',
-                ''
+                false
             );
         }
 
@@ -358,7 +353,6 @@ abstract class ilMailSearchObjectGUI
             $mail_data['rcp_to'],
             $mail_data['rcp_cc'],
             $mail_data['rcp_bcc'],
-            $mail_data['m_email'],
             $mail_data['m_subject'],
             $mail_data['m_message'],
             $mail_data['use_placeholders'],

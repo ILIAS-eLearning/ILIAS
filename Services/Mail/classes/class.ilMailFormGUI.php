@@ -205,9 +205,7 @@ class ilMailFormGUI
                 '',
                 '',
                 '',
-                '',
-                '',
-                ''
+                false
             );
 
             $this->ctrl->setParameterByClass(ilMailGUI::class, 'type', 'message_sent');
@@ -263,7 +261,6 @@ class ilMailFormGUI
             $rcp_to,
             $rcp_cc,
             $rcp_bcc,
-            $this->getBodyParam('m_email', $this->refinery->kindlyTo()->bool(), false),
             ilUtil::securePlainString(
                 $this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')
             ) ?: 'No Subject',
@@ -309,7 +306,6 @@ class ilMailFormGUI
                 ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
                 ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
                 ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), '')),
-                $this->getBodyParam('m_email', $this->refinery->kindlyTo()->bool(), false),
                 ilUtil::securePlainString($this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')),
                 ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), '')),
                 $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
@@ -412,7 +408,6 @@ class ilMailFormGUI
             ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
             ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
             ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), '')),
-            $this->getBodyParam('m_email', $this->refinery->kindlyTo()->bool(), false),
             ilUtil::securePlainString($this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')),
             ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), '')),
             $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),
@@ -930,7 +925,6 @@ class ilMailFormGUI
             ilUtil::securePlainString($this->getBodyParam('rcp_to', $this->refinery->kindlyTo()->string(), '')),
             ilUtil::securePlainString($this->getBodyParam('rcp_cc', $this->refinery->kindlyTo()->string(), '')),
             ilUtil::securePlainString($this->getBodyParam('rcp_bcc', $this->refinery->kindlyTo()->string(), '')),
-            $this->getBodyParam('m_email', $this->refinery->kindlyTo()->bool(), false),
             ilUtil::securePlainString($this->getBodyParam('m_subject', $this->refinery->kindlyTo()->string(), '')),
             ilUtil::securePlainString($this->getBodyParam('m_message', $this->refinery->kindlyTo()->string(), '')),
             $this->getBodyParam('use_placeholders', $this->refinery->kindlyTo()->bool(), false),

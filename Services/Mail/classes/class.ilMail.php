@@ -58,15 +58,15 @@ class ilMail
         $this->mailAddressTypeFactory = $mailAddressTypeFactory ?? new ilMailAddressTypeFactory(null, $logger);
         $this->mailAddressParserFactory = $mailAddressParserFactory ?? new ilMailRfc822AddressParserFactory();
         $this->eventHandler = $eventHandler ?? $DIC->event();
-        $this->db = $db ??$DIC->database();
+        $this->db = $db ?? $DIC->database();
         $this->lng = $lng ?? $DIC->language();
         $this->mfile = $mailFileData ?? new ilFileDataMail($a_user_id);
         $this->mail_options = $mailOptions ?? new ilMailOptions($a_user_id);
         $this->mailbox = $mailBox ?? new ilMailbox($a_user_id);
         $this->senderFactory = $senderFactory ?? $GLOBALS["DIC"]["mail.mime.sender.factory"];
         $this->usrIdByLoginCallable = $usrIdByLoginCallable ?? static function (string $login) : int {
-                return (int) ilObjUser::_lookupId($login);
-            };
+            return (int) ilObjUser::_lookupId($login);
+        };
         $this->user_id = $a_user_id;
         $this->mail_obj_ref_id = $mailAdminNodeRefId;
         if (null === $this->mail_obj_ref_id) {
@@ -414,7 +414,6 @@ class ilMail
      * @param string $a_rcp_to
      * @param string $a_rcp_cc
      * @param string $a_rcp_bcc
-     * @param string $a_m_email
      * @param string $a_m_subject
      * @param string $a_m_message
      * @param int $a_draft_id
@@ -429,7 +428,6 @@ class ilMail
         string $a_rcp_to,
         string $a_rcp_cc,
         string $a_rcp_bcc,
-        string $a_m_email,
         string $a_m_subject,
         string $a_m_message,
         int $a_draft_id = 0,
@@ -447,7 +445,6 @@ class ilMail
                 'rcp_cc' => ['clob', $a_rcp_cc],
                 'rcp_bcc' => ['clob', $a_rcp_bcc],
                 'm_status' => ['text', 'read'],
-                'm_email' => ['integer', $a_m_email],
                 'm_subject' => ['text', $a_m_subject],
                 'm_message' => ['clob', $a_m_message],
                 'use_placeholders' => ['integer', $a_use_placeholders],
@@ -474,7 +471,7 @@ class ilMail
         string $message,
         int $usrId = 0,
         int $usePlaceholders = 0,
-        string $templateContextId = null,
+        ?string $templateContextId = null,
         array $templateContextParameters = []
     ) : int {
         $usrId = $usrId ?: $this->user_id;
@@ -528,7 +525,6 @@ class ilMail
             'rcp_cc' => ['clob', $cc],
             'rcp_bcc' => ['clob', $bcc],
             'm_status' => ['text', $status],
-            'm_email' => ['integer', null],
             'm_subject' => ['text', $subject],
             'm_message' => ['clob', $message],
             'tpl_ctx_id' => ['text', $templateContextId],
@@ -936,28 +932,26 @@ class ilMail
 
     /**
      * @param int $a_user_id
-     * @param string[]|null $a_attachments
-     * @param string|null $a_rcp_to
-     * @param string|null $a_rcp_cc
-     * @param string|null $a_rcp_bcc
-     * @param $a_m_email
+     * @param string[] $a_attachments
+     * @param string $a_rcp_to
+     * @param string $a_rcp_cc
+     * @param string $a_rcp_bcc
      * @param string $a_m_subject
-     * @param string|null $a_m_message
-     * @param $a_use_placeholders
+     * @param string $a_m_message
+     * @param bool $a_use_placeholders
      * @param string|null $a_tpl_context_id
      * @param array|null $a_tpl_ctx_params
      * @return bool
      */
     public function savePostData(
         int $a_user_id,
-        ?array $a_attachments,
-        ?string $a_rcp_to,
-        ?string $a_rcp_cc,
-        ?string $a_rcp_bcc,
-        $a_m_email,
+        array $a_attachments,
+        string $a_rcp_to,
+        string $a_rcp_cc,
+        string $a_rcp_bcc,
         string $a_m_subject,
-        ?string $a_m_message,
-        $a_use_placeholders,
+        string $a_m_message,
+        bool $a_use_placeholders,
         ?string $a_tpl_context_id = null,
         ?array $a_tpl_ctx_params = []
     ) : bool {
@@ -973,14 +967,11 @@ class ilMail
         if (!$a_rcp_bcc) {
             $a_rcp_bcc = null;
         }
-        if (!$a_m_email) {
-            $a_m_email = null;
-        }
         if (!$a_m_message) {
             $a_m_message = null;
         }
         if (!$a_use_placeholders) {
-            $a_use_placeholders = 0;
+            $a_use_placeholders = false;
         }
 
         $this->db->replace(
@@ -993,10 +984,9 @@ class ilMail
                 'rcp_to' => ['clob', $a_rcp_to],
                 'rcp_cc' => ['clob', $a_rcp_cc],
                 'rcp_bcc' => ['clob', $a_rcp_bcc],
-                'm_email' => ['integer', $a_m_email],
                 'm_subject' => ['text', $a_m_subject],
                 'm_message' => ['clob', $a_m_message],
-                'use_placeholders' => ['integer', $a_use_placeholders],
+                'use_placeholders' => ['integer', (int) $a_use_placeholders],
                 'tpl_ctx_id' => ['text', $a_tpl_context_id],
                 'tpl_ctx_params' => ['blob', json_encode((array) $a_tpl_ctx_params, JSON_THROW_ON_ERROR)],
             ]

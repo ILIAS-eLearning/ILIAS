@@ -60,9 +60,8 @@ class ilContactGUI
 
         $forward_class = $this->ctrl->getNextClass($this);
 
-        // delete all stored maildata
-        $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', '', '', '');
-        
+        $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
+
         switch (strtolower($forward_class)) {
             case strtolower(ilMailFormGUI::class):
                 $this->ctrl->forwardCommand(new ilMailFormGUI());
@@ -323,7 +322,7 @@ class ilContactGUI
 
         $mail_data = $this->umail->getSavedData();
         if (!is_array($mail_data)) {
-            $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', '', '', '');
+            $this->umail->savePostData($this->user->getId(), [], '', '', '', '', '', false);
         }
 
         $logins = [];
@@ -340,7 +339,6 @@ class ilContactGUI
                 $mail_data['rcp_to'],
                 $mail_data['rcp_cc'],
                 $mail_data['rcp_bcc'],
-                $mail_data['m_email'],
                 $mail_data['m_subject'],
                 $mail_data['m_message'],
                 $mail_data['use_placeholders'],
