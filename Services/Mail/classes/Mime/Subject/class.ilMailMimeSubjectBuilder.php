@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailMimeSubjectBuilder
@@ -7,28 +7,15 @@
  */
 class ilMailMimeSubjectBuilder
 {
-    /** @var ilSetting */
-    private $settings;
-    /** @var string */
-    private $defaultPrefix;
+    private ilSetting $settings;
+    private string $defaultPrefix;
 
-    /**
-     * ilMailMimeSubjectBuilder constructor.
-     * @param ilSetting $settings
-     * @param string $defaultPrefix
-     */
     public function __construct(ilSetting $settings, string $defaultPrefix)
     {
         $this->settings = $settings;
         $this->defaultPrefix = $defaultPrefix;
     }
 
-    /**
-     * @param string $subject
-     * @param bool $addPrefix
-     * @param string $contextPrefix
-     * @return string
-     */
     public function subject(string $subject, bool $addPrefix = false, string $contextPrefix = '') : string
     {
         $subject = trim($subject);
@@ -52,7 +39,7 @@ class ilMailMimeSubjectBuilder
                 }
             }
 
-            if (strlen($prefix) > 0) {
+            if ($prefix && $prefix !== '') {
                 $subject = $prefix . ' ' . $subject;
             }
         }
