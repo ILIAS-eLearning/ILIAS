@@ -14,7 +14,7 @@
     "dropzone": "^5.5.0",
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "fine-uploader": "^5.16.2",
-    "jquery": "^3.5.1",
+    "jquery": "^3.6.0",
     "jquery-dragster": "git+https://github.com/catmanjan/jquery-dragster.git",
     "jquery-migrate": "^3.0.0",
     "jquery-mousewheel": "^3.1.13",
@@ -22,7 +22,7 @@
     "jquery-ui-dist": "^1.12.1",
     "jstree": "^3.3.9",
     "linkifyjs": "^2.1.9",
-    "maphilight": "^1.4.0",
+    "maphilight": "^1.4.2",
     "mediaelement": "4.2.16",
     "moment": "^2.24.0",
     "nestable2": "^1.6.0",
@@ -71,7 +71,7 @@
       "approved-by": "Jour Fixe",
       "developer": null,
       "purpose": "We use jQuery for most JS-related actions in ILIAS.",
-      "last-update-for-ilias": "5.3.0"
+      "last-update-for-ilias": "8.0"
     },
     "jquery-migrate": {
       "introduction-date": null,
@@ -100,7 +100,7 @@
       "approved-by": "Jour Fixe",
       "developer": null,
       "purpose": "Image Maps",
-      "last-update-for-ilias": "5.3.0",
+      "last-update-for-ilias": "8.0",
       "note": "This is linked direclty to the git repo of kemayo/maphilight, since the bower package is out of date."
     },
     "jqueryui-touch-punch": {

@@ -261,7 +261,7 @@ class ilCronManager implements \ilCronManagerInterface
 
         $class_file = $a_path . 'class.' . $a_class . '.php';
 
-        if (file_exists($class_file)) {
+        if (is_file($class_file)) {
             include_once $class_file;
             if (class_exists($a_class)) {
                 if ($isCreationContext) {

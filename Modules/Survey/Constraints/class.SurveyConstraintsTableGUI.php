@@ -12,7 +12,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
     protected $read_only; // [bool]
     protected $structure; // [array]
     
-    public function __construct($a_parent_obj, $a_parent_cmd = "", ilObjSurvey $a_survey, $a_read_only)
+    public function __construct($a_parent_obj, $a_parent_cmd, ilObjSurvey $a_survey, $a_read_only)
     {
         global $DIC;
 

@@ -9,36 +9,27 @@
  */
 class ilCategoryImportParser extends ilSaxParser
 {
+    protected ilRbacAdmin $rbacadmin;
+    protected ilRbacReview $rbacreview;
+    protected ilRbacSystem $rbacsystem;
+    /** @var int[] $parent */
+    public array $parent;		// current parent ref id
+    public int $parent_cnt;
+    public int $withrol;
+    protected ilLogger $cat_log;
+
     /**
-     * @var ilRbacAdmin
+     * ilCategoryImportParser constructor.
+     * @param string $a_xml_file
+     * @param int    $a_parent
+     * @param int    $withrol   // must have value 1 when creating a hierarchy of local roles
      */
-    protected $rbacadmin;
-
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    public $parent;		// current parent ref id
-    public $withrol;          // must have value '1' when creating a hierarchy of local roles
-
-    protected $cat_log;
- 
-
-    /**
-    * Constructor
-    *
-    * @param	string		$a_xml_file		xml file
-    *
-    * @access	public
-    */
-    public function __construct($a_xml_file, $a_parent, $withrol)
-    {
+    public function __construct(
+        string $a_xml_file,
+        int $a_parent,
+        int $withrol
+    ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->rbacadmin = $DIC->rbac()->admin();
@@ -52,12 +43,6 @@ class ilCategoryImportParser extends ilSaxParser
         parent::__construct($a_xml_file);
     }
 
-
-    /**
-    * set event handler
-    * should be overwritten by inherited class
-    * @access	private
-    */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
@@ -65,23 +50,17 @@ class ilCategoryImportParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    /**
-    * start the parser
-    */
     public function startParsing()
     {
         parent::startParsing();
     }
 
-    /**
-    * generate a tag with given name and attributes
-    *
-    * @param	string		"start" | "end" for starting or ending tag
-    * @param	string		element/tag name
-    * @param	array		array of attributes
-    */
-    public function buildTag($type, $name, $attr = "")
-    {
+    // generate a tag with given name and attributes
+    public function buildTag(
+        string $type,
+        string $name,
+        array $attr = null
+    ) {
         $tag = "<";
 
         if ($type == "end") {
@@ -101,9 +80,6 @@ class ilCategoryImportParser extends ilSaxParser
         return $tag;
     }
 
-    /**
-    * handler for begin of element
-    */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
         switch ($a_name) {
@@ -127,9 +103,6 @@ class ilCategoryImportParser extends ilSaxParser
     }
 
 
-    /**
-    * handler for end of element
-    */
     public function handlerEndTag($a_xml_parser, $a_name)
     {
         switch ($a_name) {
@@ -167,9 +140,6 @@ class ilCategoryImportParser extends ilSaxParser
         $this->cdata = "";
     }
 
-    /**
-    * handler for character data
-    */
     public function handlerCharacterData($a_xml_parser, $a_data)
     {
         // i don't know why this is necessary, but

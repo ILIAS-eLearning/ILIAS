@@ -31,10 +31,11 @@ class ilUserCertificateTableProvider
     }
 
     /**
-     * @param int $userId
+     * @param int                  $userId
      * @param array<string, mixed> $params
      * @param array<string, mixed> $filter
      * @return array{cnt: int, items: array<int, array>}
+     * @throws JsonException
      */
     public function fetchDataSet(int $userId, array $params, array $filter) : array
     {

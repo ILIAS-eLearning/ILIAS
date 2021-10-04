@@ -54,8 +54,7 @@ abstract class ilHtmlPurifierAbstractLibWrapper implements ilHtmlPurifierInterfa
 
     final public static function _getCacheDirectory() : string
     {
-        if (!file_exists(ilUtil::getDataDir() . '/HTMLPurifier') ||
-            !is_dir(ilUtil::getDataDir() . '/HTMLPurifier')) {
+        if (!is_dir(ilUtil::getDataDir() . '/HTMLPurifier')) {
             ilUtil::makeDirParents(ilUtil::getDataDir() . '/HTMLPurifier');
         }
 

@@ -30,6 +30,10 @@ abstract class BaseConsumer implements DeliveryConsumer
      * @var FileNamePolicy
      */
     protected $file_name_policy;
+    /**
+     * @var string
+     */
+    protected $file_name = '';
 
     /**
      * DownloadConsumer constructor.
@@ -46,6 +50,7 @@ abstract class BaseConsumer implements DeliveryConsumer
         $this->resource = $resource;
         $this->storage_handler = $storage_handler;
         $this->file_name_policy = $file_name_policy;
+        $this->file_name = $resource->getCurrentRevision()->getInformation()->getTitle();
     }
 
     abstract public function run() : void;
@@ -56,6 +61,12 @@ abstract class BaseConsumer implements DeliveryConsumer
     public function setRevisionNumber(int $revision_number) : DeliveryConsumer
     {
         $this->revision_number = $revision_number;
+        return $this;
+    }
+
+    public function overrideFileName(string $file_name) : DeliveryConsumer
+    {
+        $this->file_name = $file_name;
         return $this;
     }
 

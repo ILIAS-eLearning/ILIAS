@@ -210,9 +210,9 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
             $data = $ilDB->fetchAssoc($result);
             $this->setId($question_id);
             $this->setObjId($data["obj_fi"]);
-            $this->setTitle((string)$data["title"]);
+            $this->setTitle((string) $data["title"]);
             $this->setNrOfTries($data['nr_of_tries']);
-            $this->setComment((string)$data["description"]);
+            $this->setComment((string) $data["description"]);
             $this->setOriginalId($data["original_id"]);
             $this->setAuthor($data["author"]);
             $this->setPoints($data["points"]);
@@ -645,14 +645,20 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
         if ($entered_values) {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng(
+                    "assessment",
+                    "log_user_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()
+                ), $active_id, $this->getId());
             }
         } else {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng(
+                    "assessment",
+                    "log_user_not_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()
+                ), $active_id, $this->getId());
             }
         }
         

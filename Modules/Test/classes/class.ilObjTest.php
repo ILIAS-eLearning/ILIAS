@@ -5475,7 +5475,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         assQuestion::_includeClass($question_type, 1);
         
-        $question_type_gui = $question_type.'GUI';
+        $question_type_gui = $question_type . 'GUI';
         $question = new $question_type_gui();
         
         if ($question_id > 0) {
@@ -7204,7 +7204,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         
         // clone certificate
         $pathFactory = new ilCertificatePathFactory();
-        $templateRepository = new ilCertificateTemplateRepository($ilDB);
+        $templateRepository = new ilCertificateTemplateDatabaseRepository($ilDB);
 
         $cloneAction = new ilCertificateCloneAction(
             $ilDB,

@@ -64,7 +64,7 @@ class ilCertificateSettingsStudyProgrammeFormRepository implements ilCertificate
         return $form;
     }
 
-    public function save(array $formFields)
+    public function save(array $formFields) : void
     {
     }
 

@@ -2,11 +2,11 @@
 <service xmlns="http://www.w3.org" version="$Id$"
 	id="cont">
 	<copage>
-		<pageobject parent_type="cont" class_name="ilContainerPage" directory="classes"/>
-		<pageobject parent_type="cstr" class_name="ilContainerStartObjectsPage" directory="classes"/>
+		<pageobject parent_type="cont" class_name="ilContainerPage" directory="Page"/>
+		<pageobject parent_type="cstr" class_name="ilContainerStartObjectsPage" directory="StartObjects"/>
 	</copage>
 	<baseclasses>
-		<baseclass name="ilContainerBlockPropertiesStorage" dir="classes" />
+		<baseclass name="ilContainerBlockPropertiesStorageGUI" dir="Content" />
 	</baseclasses>
 	<logging />
 	<web_access_checker>

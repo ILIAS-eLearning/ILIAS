@@ -9,10 +9,7 @@
  */
 class ilImport
 {
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    protected ilLogger $log;
 
     protected $install_id = "";
     protected $install_url = "";
@@ -336,6 +333,7 @@ class ilImport
 
         // we should only get on mapping here
         $top_mapping = $this->mapping->getMappingsOfEntity($this->comp, $a_type);
+
         $new_id = (int) current($top_mapping);
         return array(
             'new_id' => $new_id,
@@ -355,7 +353,8 @@ class ilImport
         $objDefinition = $DIC['objDefinition'];
         
         // skip
-        if ($this->skip_entity[$this->current_comp][$a_entity]) {
+        if (isset($this->skip_entity[$this->current_comp][$a_entity]) &&
+            $this->skip_entity[$this->current_comp][$a_entity]) {
             return;
         }
 

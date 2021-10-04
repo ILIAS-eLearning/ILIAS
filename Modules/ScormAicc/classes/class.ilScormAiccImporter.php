@@ -12,23 +12,22 @@ class ilScormAiccImporter extends ilXmlImporter
         $this->manifest = [];
     }
 
-    public function init()
+    public function init() : void
     {
     }
 
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_import_dirname, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         global $DIC;
         $ilLog = $DIC['ilLog'];
         
-        if ($this->handleEditableLmXml($a_entity, $a_id, $a_import_dirname, $a_mapping)) {
-            return true;
+        if ($this->handleEditableLmXml($a_entity, $a_id, $a_xml, $a_mapping)) {
+            return;
         }
         // case i container
         if ($a_id != null && $new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
@@ -47,18 +46,18 @@ class ilScormAiccImporter extends ilXmlImporter
             $zar->open($tempFile);
             $zar->extractTo($lmTempDir);
             $zar->close();
-            $a_import_dirname = $lmTempDir . '/' . basename($this->getImportDirectory());
+            $a_xml = $lmTempDir . '/' . basename($this->getImportDirectory());
         }
 
 
 
         $result = false;
-        if (file_exists($a_import_dirname)) {
-            $manifestFile = $a_import_dirname . "/manifest.xml";
+        if (file_exists($a_xml)) {
+            $manifestFile = $a_xml . "/manifest.xml";
             if (file_exists($manifestFile)) {
                 $manifest = file_get_contents($manifestFile);
                 if (isset($manifest)) {
-                    $propertiesFile = $a_import_dirname . "/properties.xml";
+                    $propertiesFile = $a_xml . "/properties.xml";
                     $xml = file_get_contents($propertiesFile);
                     if (isset($xml)) {
                         $xmlRoot = simplexml_load_string($xml);
@@ -74,7 +73,7 @@ class ilScormAiccImporter extends ilXmlImporter
                             $newObj->createReference();
 
                             $scormFile = "content.zip";
-                            $scormFilePath = $a_import_dirname . "/" . $scormFile;
+                            $scormFilePath = $a_xml . "/" . $scormFile;
                             $targetPath = $newObj->getDataDirectory() . "/" . $scormFile;
                             $file_path = $targetPath;
 
@@ -116,7 +115,6 @@ class ilScormAiccImporter extends ilXmlImporter
             $ilLog->write("error file lost while importing");
             //error non existing file
         }
-        return $result;
     }
 
     public function writeData($a_entity, $a_version, $a_id)

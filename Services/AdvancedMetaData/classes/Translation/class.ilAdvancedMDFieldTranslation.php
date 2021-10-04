@@ -135,11 +135,10 @@ class ilAdvancedMDFieldTranslation
         $query = 'insert into ' . self::TABLE_NAME . ' (field_id, title, lang_code, description) ' .
             'values (  ' .
             $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ', ' .
-            $this->db->quote($this->getTitle() , ilDBConstants::T_TEXT) . ', ' .
+            $this->db->quote($this->getTitle(), ilDBConstants::T_TEXT) . ', ' .
             $this->db->quote($this->getLangKey(), ilDBConstants::T_TEXT) . ', ' .
             $this->db->quote($this->getDescription(), ilDBConstants::T_TEXT) . ' ' .
             ')';
         $this->db->manipulate($query);
     }
-
 }

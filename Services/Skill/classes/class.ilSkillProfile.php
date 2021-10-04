@@ -448,7 +448,8 @@ class ilSkillProfile implements ilSkillUsageInfo
             $users[$rec["user_id"]] = array(
                 "type" => $type,
                 "name" => $name,
-                "id" => $rec["user_id"]
+                "id" => $rec["user_id"],
+                "object_title" => "",
                 );
         }
         return $users;

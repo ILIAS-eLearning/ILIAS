@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +13,7 @@ class ilServicesCertificateSuite extends TestSuite
     /**
      * @return self
      */
-    public static function suite()
+    public static function suite() : ilServicesCertificateSuite
     {
         $suite = new self();
 

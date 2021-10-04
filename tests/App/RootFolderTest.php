@@ -83,11 +83,11 @@ final class RootFolderTest extends TestCase
     {
         $app_root_folder = getcwd();
 
-        for ($i = 0; $i < 20 && !file_exists($app_root_folder . '/index.php'); $i++) {
-            $app_root_folder = $app_root_folder . '/..';
+        for ($i = 0; $i < 20 && !is_file($app_root_folder . '/index.php'); $i++) {
+            $app_root_folder .= '/..';
         }
 
-        if (!file_exists($app_root_folder . '/index.php')) {
+        if (!is_file($app_root_folder . '/index.php')) {
             $this->fail('Could not determine ILIAS root folder');
         }
         

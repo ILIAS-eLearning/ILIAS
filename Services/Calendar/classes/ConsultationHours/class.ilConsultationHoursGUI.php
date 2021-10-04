@@ -1102,7 +1102,6 @@ class ilConsultationHoursGUI
     protected function rewriteBookingIdsForAppointments(\ilBookingEntry $booking, $appointments, \ilPropertyFormGUI $form)
     {
         foreach ($appointments as $appointment_id) {
-
             $booking_appointment = new \ilCalendarEntry($appointment_id);
             $booking_start = $booking_appointment->getStart();
             $booking_end = $booking_appointment->getEnd();
@@ -1119,7 +1118,6 @@ class ilConsultationHoursGUI
                 $booking_end
             );
             foreach ($relevant_appointments as $relevant_appointment_id) {
-
                 $entry = new \ilCalendarEntry($relevant_appointment_id);
                 $entry->setContextId($booking->getId());
                 $entry->setTitle($form->getInput('ti'));
@@ -1143,7 +1141,6 @@ class ilConsultationHoursGUI
         $this->initFormSequence(self::MODE_MULTI);
 
         if ($this->form->checkInput()) {
-
             $this->form->setValuesByPost();
             $apps = explode(';', (string) $_POST['apps']);
 

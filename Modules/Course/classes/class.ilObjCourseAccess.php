@@ -288,7 +288,6 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     {
         // #7669
         if ($a_mind_member_view) {
-            include_once './Services/Container/classes/class.ilMemberViewSettings.php';
             if (ilMemberViewSettings::getInstance()->isActive()) {
                 $a_visible_flag = true;
                 return true;

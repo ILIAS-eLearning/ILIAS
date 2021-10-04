@@ -39,7 +39,6 @@ class ilSkillDataSet extends ilDataSet
     protected int $init_top_order_nr;
     protected int $init_templ_top_order_nr;
 
-    protected int $init_order_nr;
     protected array $selected_nodes = [];
     protected array $selected_profiles = [];
     protected string $mode = "";
@@ -108,23 +107,22 @@ class ilSkillDataSet extends ilDataSet
     }
 
     /**
-     * @param $a_entity
-     * @param $a_schema_version
+     * @param string $a_entity
+     * @param string $a_schema_version
      * @return string
      */
-    protected function getXmlNamespace($a_entity, $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Services/Skill/" . $a_entity;
     }
     
     /**
      * Get field types for entity
-     *
      * @param string $a_entity
      * @param string $a_version
      * @return array
      */
-    protected function getTypes($a_entity, $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "skmg") {
             switch ($a_version) {
@@ -234,10 +232,9 @@ class ilSkillDataSet extends ilDataSet
     /**
      * @param string $a_entity
      * @param string $a_version
-     * @param int|array $a_ids
-     * @param string $a_field
+     * @param array  $a_ids
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
@@ -396,10 +393,14 @@ class ilSkillDataSet extends ilDataSet
     }
 
     /**
-     * @return array|false
+     * @return array
      */
-    protected function getDependencies(string $a_entity, string $a_version, array $a_rec, array $a_ids)
-    {
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
         $ilDB = $this->db;
 
         switch ($a_entity) {
@@ -466,16 +467,16 @@ class ilSkillDataSet extends ilDataSet
 
             case "skl_prof":
             case "skl_local_prof":
-                $deps["skl_prof_level"]["ids"][] = $a_rec["Id"];
+                $deps["skl_prof_level"]["ids"][] = $a_rec["Id"] ?? null;
                 return $deps;
         }
 
-        return false;
+        return [];
     }
 
     public function importRecord(
         string $a_entity,
-        $a_types,
+        array $a_types,
         array $a_rec,
         ilImportMapping $a_mapping,
         string $a_schema_version
@@ -498,7 +499,7 @@ class ilSkillDataSet extends ilDataSet
                         $scat->setTitle($a_rec["Title"]);
                         $scat->setDescription($a_rec["Description"]);
                         $scat->setImportId("il_" . $source_inst_id . "_scat_" . $a_rec["Child"]);
-                        $scat->setSelfEvaluation($a_rec["SelfEval"]);
+                        $scat->setSelfEvaluation((bool) $a_rec["SelfEval"]);
                         $scat->setOrderNr($order);
                         $scat->setStatus($status);
                         $scat->create();
@@ -511,7 +512,7 @@ class ilSkillDataSet extends ilDataSet
                         $skll->setTitle($a_rec["Title"]);
                         $skll->setDescription($a_rec["Description"]);
                         $skll->setImportId("il_" . $source_inst_id . "_skll_" . $a_rec["Child"]);
-                        $skll->setSelfEvaluation($a_rec["SelfEval"]);
+                        $skll->setSelfEvaluation((bool) $a_rec["SelfEval"]);
                         $skll->setOrderNr($order);
                         $skll->setStatus($status);
                         $skll->create();
@@ -527,7 +528,7 @@ class ilSkillDataSet extends ilDataSet
                             $sktr->setTitle($a_rec["Title"]);
                             $sktr->setDescription($a_rec["Description"]);
                             $sktr->setImportId("il_" . $source_inst_id . "_sktr_" . $a_rec["Child"]);
-                            $sktr->setSelfEvaluation($a_rec["SelfEval"]);
+                            $sktr->setSelfEvaluation((bool) $a_rec["SelfEval"]);
                             $sktr->setOrderNr($order);
                             $sktr->setSkillTemplateId($template_id);
                             $sktr->setStatus($status);

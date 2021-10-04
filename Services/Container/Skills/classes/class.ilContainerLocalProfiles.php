@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Local competence profiles of a container
@@ -9,31 +24,11 @@
  */
 class ilContainerLocalProfiles
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected array $profiles = [];
+    protected int $obj_id;
+    protected int $mem_rol_id;
 
-    /**
-     * @var array
-     */
-    protected $profiles = array();
-
-    /**
-     * @var int object id
-     */
-    protected $obj_id;
-
-    /**
-     * @var int $mem_rol_id
-     */
-    protected $mem_rol_id;
-
-    /**
-     * Constructor
-     *
-     * @param int $a_obj_id
-     */
     public function __construct(int $a_obj_id)
     {
         global $DIC;
@@ -47,66 +42,38 @@ class ilContainerLocalProfiles
         }
     }
 
-    /**
-     * Set object id
-     *
-     * @param int $a_obj_id object id
-     */
-    protected function setObjId(int $a_obj_id)
+    protected function setObjId(int $a_obj_id) : void
     {
         $this->obj_id = $a_obj_id;
     }
 
-    /**
-     * Get object id
-     *
-     * @return int object id
-     */
     protected function getObjId() : int
     {
         return $this->obj_id;
     }
 
-    /**
-     * Set member role id of object
-     *
-     * @param int $a_obj_id object id
-     */
-    protected function setMemberRoleId()
+    protected function setMemberRoleId() : void
     {
         $refs = ilObject::_getAllReferences($this->getObjId());
         $ref_id = end($refs);
         $this->mem_rol_id = ilParticipants::getDefaultMemberRole($ref_id);
     }
 
-    /**
-     * Get member role id of object
-     *
-     * @return int member role id
-     */
     protected function getMemberRoleId() : int
     {
         return $this->mem_rol_id;
     }
 
-    /**
-     * Get profiles
-     *
-     * @return array
-     */
-    public function getProfiles()
+    public function getProfiles() : array
     {
         return $this->profiles;
     }
 
-    /**
-     * Read
-     */
-    protected function read()
+    protected function read() : void
     {
         $db = $this->db;
 
-        $this->profiles = array();
+        $this->profiles = [];
         $set = $db->query(
             "SELECT spr.profile_id, spr.role_id, sp.title FROM skl_profile_role spr INNER JOIN skl_profile sp " .
             " ON spr.profile_id = sp.id " .

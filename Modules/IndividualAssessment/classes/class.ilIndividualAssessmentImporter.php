@@ -13,7 +13,7 @@ class ilIndividualAssessmentImporter extends ilXmlImporter
     /**
      * Init
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilIndividualAssessmentDataSet();
         $this->ds->setImportDirectory($this->getImportDirectory());
@@ -21,14 +21,13 @@ class ilIndividualAssessmentImporter extends ilXmlImporter
 
     /**
      * Import xml representation
-     *
      * @param	string		entity
      * @param	string		target release
      * @param	string		id
-     * @return	string		xml string
+     * @return	void		xml string
      */
-    public function importXmlRepresentation($entity, $id, $xml, $mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
-        $parser = new ilDataSetImportParser($entity, $this->getSchemaVersion(), $xml, $this->ds, $mapping);
+        $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }
 }

@@ -264,7 +264,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
                 "AdvancedMetaData",
                 "amdc",
                 $plugin_name
-             );
+            );
         }
         
         return $res;

@@ -131,7 +131,7 @@ class ilContainerReferenceXmlWriter extends ilXmlWriter
                     'type' => $this->getReference()->getTitleType()
                 ),
             $title
-            );
+        );
     }
 
     /**

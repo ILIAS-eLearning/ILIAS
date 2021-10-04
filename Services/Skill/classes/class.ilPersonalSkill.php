@@ -289,15 +289,6 @@ class ilPersonalSkill implements ilSkillUsageInfo
             "user_id"
         );
 
-        // self evaluations
-        ilSkillUsage::getUsageInfoGeneric(
-            $a_cskill_ids,
-            $a_usages,
-            ilSkillUsage::SELF_EVAL,
-            "skl_self_eval_level",
-            "user_id"
-        );
-
         // users that use the skills as personal skills
         $pskill_ids = [];
         $tref_ids = [];

@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class for category export
@@ -9,25 +20,13 @@
  */
 class ilCategoryXmlWriter extends ilXmlWriter
 {
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
     const MODE_SOAP = 1;
     const MODE_EXPORT = 2;
-    
-    private $mode = self::MODE_SOAP;
-    private $xml;
-    private $category;
 
-    /**
-    * constructor
-    * @param	string	xml version
-    * @param	string	output encoding
-    * @param	string	input encoding
-    * @access	public
-    */
+    protected ilSetting $settings;
+    private int $mode = self::MODE_SOAP;
+    private ?ilObjCategory $category;
+
     public function __construct(ilObjCategory $cat = null)
     {
         global $DIC;
@@ -38,38 +37,22 @@ class ilCategoryXmlWriter extends ilXmlWriter
         $this->category = $cat;
     }
 
-    /**
-     * Set export mode
-     * @param int $a_mode
-     */
-    public function setMode($a_mode)
+    public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
 
-    /**
-     * get export mode
-     * @return int
-     */
-    public function getMode()
+    public function getMode() : int
     {
         return $this->mode;
     }
 
-    /**
-     * Get category object
-     * @return ilObjCategory
-     */
-    public function getCategory()
+    public function getCategory() : ilObjCategory
     {
         return $this->category;
     }
 
-
-    /**
-     * Start wrting xml
-     */
-    public function export($a_with_header = true)
+    public function export(bool $a_with_header = true) : void
     {
         if ($this->getMode() == self::MODE_EXPORT) {
             if ($a_with_header) {
@@ -83,21 +66,13 @@ class ilCategoryXmlWriter extends ilXmlWriter
         }
     }
 
-    /**
-     * get XML
-     * @return string
-     */
-    public function getXml()
+    public function getXml() : string
     {
         return $this->xmlDumpMem(false);
     }
 
-    /**
-     * Build xml header
-     * @global <type> $ilSetting
-     * @return <type>
-     */
-    protected function buildHeader()
+    // Build xml header
+    protected function buildHeader() : bool
     {
         $ilSetting = $this->settings;
 
@@ -105,30 +80,23 @@ class ilCategoryXmlWriter extends ilXmlWriter
         $this->xmlSetGenCmt("Export of ILIAS category " . $this->getCategory()->getId() . " of installation " . $ilSetting->get('inst_id') . ".");
         $this->xmlHeader();
 
-
         return true;
     }
 
-    /**
-     * Build category xml
-     */
-    protected function buildCategory()
+    // Build category start tag
+    protected function buildCategory() : void
     {
         $this->xmlStartTag('Category');
     }
     
-    /**
-     * Add footer elements
-     */
-    protected function buildFooter()
+    // category end tag
+    protected function buildFooter() : void
     {
         $this->xmlEndTag('Category');
     }
     
-    /**
-     * Add Translations
-     */
-    protected function buildTranslations()
+    // Add Translations
+    protected function buildTranslations() : void
     {
         $this->xmlStartTag('Translations');
         

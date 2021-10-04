@@ -1,4 +1,6 @@
-<?php namespace ILIAS\Contact\Provider;
+<?php declare(strict_types=1);
+
+namespace ILIAS\Contact\Provider;
 
 use ilBuddySystem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
@@ -41,10 +43,10 @@ class ContactMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withParent(StandardTopItemsProvider::getInstance()->getCommunicationIdentification())
                 ->withPosition(20)
                 ->withSymbol($icon)
-                ->withNonAvailableReason($this->dic->ui()->factory()->legacy("{$this->dic->language()->txt('component_not_active')}"))
+                ->withNonAvailableReason($this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active')))
                 ->withAvailableCallable(
-                    function () {
-                        return (bool) (ilBuddySystem::getInstance()->isEnabled());
+                    static function () : bool {
+                        return ilBuddySystem::getInstance()->isEnabled();
                     }
                 ),
         ];

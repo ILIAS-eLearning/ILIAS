@@ -199,14 +199,14 @@ class ilCalendarManageTableGUI extends ilTable2GUI
             "ilcalendarpresentationgui",
             'category_id',
             $a_set['id']
-            );
+        );
         $this->tpl->setVariable(
             'EDIT_LINK',
             $this->ctrl->getLinkTargetByClass(
                 "ilcalendarpresentationgui",
                 ''
-                    )
-            );
+            )
+        );
         $this->ctrl->setParameterByClass("ilcalendarpresentationgui", 'category_id', $_GET["category_id"]);
 
         $this->tpl->setVariable('BGCOLOR', $a_set['color']);

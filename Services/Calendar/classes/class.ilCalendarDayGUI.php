@@ -256,7 +256,7 @@ class ilCalendarDayGUI extends ilCalendarViewGUI
                     $this->tpl->setVariable('NEW_APP_GLYPH', $renderer->render(
                         $ui_factory->symbol()->glyph()->add(
                             $this->ctrl->getLinkTargetByClass('ilcalendarappointmentgui', 'add')
-                            )
+                        )
                     ));
                     $this->tpl->parseCurrentBlock();
                 }

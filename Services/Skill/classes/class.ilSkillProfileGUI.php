@@ -17,7 +17,7 @@
  ********************************************************************
  */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * Skill profile GUI class
@@ -36,12 +36,18 @@ class ilSkillProfileGUI
     protected int $id = 0;
     protected ?ilSkillProfile $profile = null;
     public ilAccessHandler $access;
-    protected ServerRequestInterface $request;
+    protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id;
     protected int $requested_sprof_id;
+    protected array $requested_profile_ids;
     protected bool $requested_local_context;
     protected string $requested_cskill_id;
     protected int $requested_level_id;
+    protected array $requested_level_ass_ids;
+    protected array $requested_level_order;
+    protected string $requested_user_login;
+    protected array $requested_users;
+    protected array $requested_user_ids;
     protected bool $local_context = false;
 
     public function __construct()
@@ -54,19 +60,24 @@ class ilSkillProfileGUI
         $this->tpl = $DIC["tpl"];
         $this->help = $DIC["ilHelp"];
         $this->toolbar = $DIC->toolbar();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $ilCtrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
         
         $ilCtrl->saveParameter($this, ["sprof_id", "local_context"]);
         $this->access = $ilAccess;
 
-        $params = $this->request->getQueryParams();
-        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
-        $this->requested_sprof_id = (int) ($params["sprof_id"] ?? 0);
-        $this->requested_local_context = (bool) ($params["local_context"] ?? false);
-        $this->requested_cskill_id = (string) ($params["cskill_id"] ?? "");
-        $this->requested_level_id = (int) ($params["level_id"] ?? 0);
+        $this->requested_ref_id = $this->admin_gui_request->getRefId();
+        $this->requested_sprof_id = $this->admin_gui_request->getSkillProfileId();
+        $this->requested_profile_ids = $this->admin_gui_request->getProfileIds();
+        $this->requested_local_context = $this->admin_gui_request->getLocalContext();
+        $this->requested_cskill_id = $this->admin_gui_request->getCombinedSkillId();
+        $this->requested_level_id = $this->admin_gui_request->getLevelId();
+        $this->requested_level_ass_ids = $this->admin_gui_request->getAssignedLevelIds();
+        $this->requested_level_order = $this->admin_gui_request->getOrder();
+        $this->requested_user_login = $this->admin_gui_request->getUserLogin();
+        $this->requested_users = $this->admin_gui_request->getUsers();
+        $this->requested_user_ids = $this->admin_gui_request->getUserIds();
 
         if ($this->requested_sprof_id > 0) {
             $this->id = $this->requested_sprof_id;
@@ -362,7 +373,7 @@ class ilSkillProfileGUI
         $tpl = $this->tpl;
         $lng = $this->lng;
             
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_profile_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listProfiles");
         } else {
@@ -372,7 +383,7 @@ class ilSkillProfileGUI
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("delete"), "deleteProfiles");
             
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_profile_ids as $i) {
                 $cgui->addItem("id[]", $i, ilSkillProfile::lookupTitle($i));
             }
             
@@ -390,8 +401,8 @@ class ilSkillProfileGUI
             return;
         }
 
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $i) {
+        if (!empty($this->requested_profile_ids)) {
+            foreach ($this->requested_profile_ids as $i) {
                 $prof = new ilSkillProfile($i);
                 $prof->delete();
             }
@@ -576,7 +587,7 @@ class ilSkillProfileGUI
             $this->setTabs("levels");
         }
             
-        if (!is_array($_POST["ass_id"]) || count($_POST["ass_id"]) == 0) {
+        if (empty($this->requested_level_ass_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             if ($local) {
                 $ilCtrl->redirect($this, "showLevelsWithLocalContext");
@@ -592,8 +603,8 @@ class ilSkillProfileGUI
                 $cgui->setCancel($lng->txt("cancel"), "showLevels");
             }
             $cgui->setConfirm($lng->txt("remove"), "removeLevelAssignments");
-            
-            foreach ($_POST["ass_id"] as $i) {
+
+            foreach ($this->requested_level_ass_ids as $i) {
                 $id_arr = explode(":", $i);
                 $cgui->addItem(
                     "ass_id[]",
@@ -616,8 +627,8 @@ class ilSkillProfileGUI
             return;
         }
 
-        if (is_array($_POST["ass_id"])) {
-            foreach ($_POST["ass_id"] as $i) {
+        if (!empty($this->requested_level_ass_ids)) {
+            foreach ($this->requested_level_ass_ids as $i) {
                 $id_arr = explode(":", $i);
                 $this->profile->removeSkillLevel((int) $id_arr[0], (int) $id_arr[1], (int) $id_arr[2], (int) $id_arr[3]);
             }
@@ -641,7 +652,7 @@ class ilSkillProfileGUI
             return;
         }
 
-        $order = ilUtil::stripSlashesArray($_POST["order"]);
+        $order = ilUtil::stripSlashesArray($this->requested_level_order);
         $this->profile->updateSkillOrder($order);
 
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -697,15 +708,15 @@ class ilSkillProfileGUI
         }
 
         // user assignment with toolbar
-        $user_id = ilObjUser::_lookupId(ilUtil::stripSlashes($_POST["user_login"]));
+        $user_id = ilObjUser::_lookupId($this->requested_user_login);
         if ($user_id > 0) {
             $this->profile->addUserToProfile($user_id);
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         }
 
         // user assignment with ilRepositorySearchGUI
-        $users = $_POST['user'];
-        if (is_array($users)) {
+        $users = $this->requested_users;
+        if (!empty($users)) {
             foreach ($users as $id) {
                 if ($id > 0) {
                     $this->profile->addUserToProfile($id);
@@ -752,7 +763,7 @@ class ilSkillProfileGUI
 
         $this->setTabs("users");
 
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_user_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showUsers");
         } else {
@@ -762,7 +773,7 @@ class ilSkillProfileGUI
             $cgui->setCancel($lng->txt("cancel"), "showUsers");
             $cgui->setConfirm($lng->txt("remove"), "removeUsers");
 
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_user_ids as $i) {
                 $type = ilObject::_lookupType($i);
 
                 switch ($type) {
@@ -802,8 +813,8 @@ class ilSkillProfileGUI
             return;
         }
 
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $i) {
+        if (!empty($this->requested_user_ids)) {
+            foreach ($this->requested_user_ids as $i) {
                 $type = ilObject::_lookupType($i);
                 switch ($type) {
                     case 'usr':
@@ -844,14 +855,14 @@ class ilSkillProfileGUI
     {
         $ilCtrl = $this->ctrl;
 
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_profile_ids)) {
             $ilCtrl->redirect($this, "");
         }
 
         $exp = new ilExport();
         $conf = $exp->getConfig("Services/Skill");
         $conf->setMode(ilSkillExportConfig::MODE_PROFILES);
-        $conf->setSelectedProfiles($_POST["id"]);
+        $conf->setSelectedProfiles($this->requested_profile_ids);
         $exp->exportObject("skmg", ilObject::_lookupObjId($this->requested_ref_id));
 
         //ilExport::_createExportDirectory(0, "xml", "");

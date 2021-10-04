@@ -265,7 +265,8 @@ class ilObjFileAccessSettingsGUI extends ilObjectGUI
     }
 
 
-    protected function showPreviewRenderers() {
+    protected function showPreviewRenderers()
+    {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
         $ilErr = $DIC['ilErr'];

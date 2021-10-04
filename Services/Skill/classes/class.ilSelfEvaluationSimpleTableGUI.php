@@ -102,7 +102,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         $lng = $this->lng;
 
         $this->skill = ilSkillTreeNodeFactory::getInstance($this->basic_skill_id);
-        $levels[] = array("id" => 0, "description" => $lng->txt("skmg_no_skills"));
+        $levels[] = array("id" => 0, "title" => "", "description" => $lng->txt("skmg_no_skills"));
         foreach ($this->skill->getLevelData() as $k => $v) {
             $levels[] = $v;
         }

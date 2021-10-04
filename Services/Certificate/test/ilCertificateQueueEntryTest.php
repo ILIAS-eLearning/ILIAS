@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,7 +6,7 @@
  */
 class ilCertificateQueueEntryTest extends ilCertificateBaseTestCase
 {
-    public function testEntryCanBeInstantiated()
+    public function testEntryCanBeInstantiated() : void
     {
         $timestamp = time();
 
@@ -15,7 +15,7 @@ class ilCertificateQueueEntryTest extends ilCertificateBaseTestCase
             500,
             'SomeClass',
             'SomeState',
-            '1000',
+            1000,
             $timestamp,
             20
         );

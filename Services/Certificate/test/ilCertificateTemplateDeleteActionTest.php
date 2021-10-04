@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,11 +6,9 @@
  */
 class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
 {
-    public function testDeleteTemplateAndUseOldThumbnail()
+    public function testDeleteTemplateAndUseOldThumbnail() : void
     {
-        $templateRepositoryMock = $this->getMockBuilder('ilCertificateTemplateRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $templateRepositoryMock
             ->method('deleteTemplate')
@@ -31,14 +29,14 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 'samples/background.jpg'
             ));
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper
             ->expects($this->once())
             ->method('convertImage');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
         $objectHelper->method('lookUpType')
@@ -55,11 +53,9 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
         $action->delete(100, 2000);
     }
 
-    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate()
+    public function testDeleteTemplateButNoThumbnailWillBeCopiedFromOldCertificate() : void
     {
-        $templateRepositoryMock = $this->getMockBuilder('ilCertificateTemplateRepository')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $templateRepositoryMock = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $templateRepositoryMock
             ->method('deleteTemplate')
@@ -79,14 +75,14 @@ class ilCertificateTemplateDeleteActionTest extends ilCertificateBaseTestCase
                 true
             ));
 
-        $utilHelper = $this->getMockBuilder('ilCertificateUtilHelper')
+        $utilHelper = $this->getMockBuilder(ilCertificateUtilHelper::class)
             ->getMock();
 
         $utilHelper
             ->expects($this->once())
             ->method('convertImage');
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->getMock();
 
         $objectHelper->method('lookUpType')

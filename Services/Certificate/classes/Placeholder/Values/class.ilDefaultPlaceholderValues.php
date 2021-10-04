@@ -109,7 +109,7 @@ class ilDefaultPlaceholderValues implements ilCertificatePlaceholderValues
 
         $salutation = '';
         $gender = $user->getGender();
-        if (is_string($gender) && strlen(trim($gender)) > 0 && strtolower($gender) !== 'n') {
+        if (is_string($gender) && trim($gender) !== '' && strtolower($gender) !== 'n') {
             $salutation = $this->utilHelper->prepareFormOutput($this->language->txt("salutation_" . trim($gender)));
         }
 

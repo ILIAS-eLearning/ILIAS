@@ -66,7 +66,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
             $this->refinery->kindlyTo()->string()->transform($this->getRequestValue('q'))
         );
 
-        if (isset($this->httpServices->request()->getQueryParams()['fetchall'])) {
+        if ($this->http->wrapper()->query()->has('fetchall')) {
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
         $auto->setMoreLinkAvailable(true);

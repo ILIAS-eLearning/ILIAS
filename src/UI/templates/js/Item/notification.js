@@ -396,6 +396,7 @@ il.UI.item = il.UI.item || {};
 					$aggregates.insertAfter($item).show();
 					$item.hide();
 				}
+				$aggregates.find(':focusable').first().focus();
 			};
 
 
@@ -410,6 +411,7 @@ il.UI.item = il.UI.item || {};
 				if($parent_slate.length){
 					$parent_slate.siblings().show();
 					$parent_slate.show();
+					$parent_slate.find(':focusable').first().focus();
 				}
 				$item.show().append($aggregates);
 				$aggregates.hide();
@@ -501,7 +503,7 @@ il.UI.item = il.UI.item || {};
 			var getNotificationsTriggererIfAny = function(){
 				var $meta_bar = getMetaBarOfItemIfIsInOne();
 				if($meta_bar.length){
-					var $notification_glyph = $meta_bar.find('.il-maincontrols-metabar > .btn-bulky .glyphicon-bell');
+					var $notification_glyph = $meta_bar.find('li > .btn-bulky .glyphicon-bell');
 					return $notification_glyph.parents('.btn-bulky');
 				}
 			}

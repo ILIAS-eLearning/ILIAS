@@ -12,7 +12,7 @@ class ilServicesUserSuite extends TestSuite
         include_once("./Services/User/test/ilObjUserTest.php");
         $suite->addTestSuite("ilObjUserTest");
 
-        require_once dirname(__FILE__) . '/ilObjUserPasswordTest.php';
+        require_once __DIR__ . '/ilObjUserPasswordTest.php';
         $suite->addTestSuite('ilObjUserPasswordTest');
 
         return $suite;

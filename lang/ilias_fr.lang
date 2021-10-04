@@ -8436,7 +8436,7 @@ file#:#file_suffix_default_white#:#Liste blanche de suffixes par défaut
 file#:#file_suffix_default_white_info#:#Liste par défaut des suffixes de fichier acceptés.
 file#:#file_suffix_overall_white#:#Liste blanche globale de suffixes
 file#:#file_suffix_overall_white_info#:#Liste globale résultante des suffixes de fichiers acceptés.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Déposé par
 file#:#replace_file_info#:#Toutes les versions du fichier seront supprimées.
 file#:#repository_disk_quota#:#Quota de Disque pour le Catalogue

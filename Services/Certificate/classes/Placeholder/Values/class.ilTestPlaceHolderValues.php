@@ -76,7 +76,7 @@ class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
      * achieve the certificate.
      * @param int $userId
      * @param int $objId
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
@@ -91,7 +91,7 @@ class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
         $pass = (string) $this->testObjectHelper->getResultPass($active_id);
 
         $result_array = &$testObject->getTestResult($active_id);
-        if (strlen($pass)) {
+        if ($pass !== '') {
             $result_array = &$testObject->getTestResult($active_id, $pass);
         }
 

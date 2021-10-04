@@ -44,6 +44,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     protected int $base_skill_id;
     protected int $requested_level_id;
     protected int $requested_root_id;
+    protected array $requested_level_order;
+    protected array $requested_level_ids;
+    protected array $requested_resource_ids;
+    protected array $requested_suggested;
+    protected array $requested_trigger;
 
     public function __construct(int $a_node_id = 0)
     {
@@ -62,12 +67,16 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         $ilCtrl->saveParameter($this, array("obj_id", "level_id"));
         $this->base_skill_id = $a_node_id;
-
-        $params = $this->request->getQueryParams();
-        $this->requested_level_id = (int) ($params["level_id"] ?? 0);
-        $this->requested_root_id = (int) ($params["root_id"] ?? 0);
         
         parent::__construct($a_node_id);
+
+        $this->requested_level_id = $this->admin_gui_request->getLevelId();
+        $this->requested_root_id = $this->admin_gui_request->getRootId();
+        $this->requested_level_order = $this->admin_gui_request->getOrder();
+        $this->requested_level_ids = $this->admin_gui_request->getLevelIds();
+        $this->requested_resource_ids = $this->admin_gui_request->getResourceIds();
+        $this->requested_suggested = $this->admin_gui_request->getSuggested();
+        $this->requested_trigger = $this->admin_gui_request->getTrigger();
     }
 
     public function getType() : string
@@ -115,7 +124,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $it->setDescription($this->form->getInput("description"));
         $it->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
         $it->setStatus($this->form->getInput("status"));
-        $it->setSelfEvaluation($_POST["self_eval"]);
+        $it->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
         $it->create();
         ilSkillTreeNode::putInTree($it, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $it;
@@ -141,8 +150,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         $this->node_object->setTitle($this->form->getInput("title"));
         $this->node_object->setDescription($this->form->getInput("description"));
-        $this->node_object->setSelfEvaluation($_POST["self_eval"]);
-        $this->node_object->setStatus($_POST["status"]);
+        $this->node_object->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
+        $this->node_object->setStatus($this->form->getInput("status"));
         $this->node_object->update();
     }
 
@@ -374,7 +383,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             return;
         }
 
-        $order = ilUtil::stripSlashesArray($_POST["order"]);
+        $order = ilUtil::stripSlashesArray($this->requested_level_order);
         $this->node_object->updateLevelOrder($order);
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "edit");
@@ -392,7 +401,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         $this->setTabs("levels");
 
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_level_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "edit");
         } else {
@@ -402,7 +411,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $cgui->setCancel($lng->txt("cancel"), "edit");
             $cgui->setConfirm($lng->txt("delete"), "deleteLevel");
 
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_level_ids as $i) {
                 $cgui->addItem("id[]", $i, ilBasicSkill::lookupLevelTitle($i));
             }
 
@@ -419,8 +428,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             return;
         }
 
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $id) {
+        if (!empty($this->requested_level_ids)) {
+            foreach ($this->requested_level_ids as $id) {
                 $this->node_object->deleteLevel((int) $id);
             }
             $this->node_object->fixLevelNumbering();
@@ -654,7 +663,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->setLevelHead();
         $ilTabs->activateTab("level_resources");
 
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_resource_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showLevelResources");
         } else {
@@ -664,7 +673,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             $cgui->setCancel($lng->txt("cancel"), "showLevelResources");
             $cgui->setConfirm($lng->txt("remove"), "removeLevelResources");
             
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_resource_ids as $i) {
                 $title = ilObject::_lookupTitle(ilObject::_lookupObjId($i));
                 $cgui->addItem("id[]", $i, $title);
             }
@@ -682,9 +691,9 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             return;
         }
 
-        if (is_array($_POST["id"])) {
+        if (!empty($this->requested_resource_ids)) {
             $sres = new ilSkillResources($this->base_skill_id, $this->tref_id);
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_resource_ids as $i) {
                 $sres->setResourceAsImparting($this->requested_level_id, $i, false);
                 $sres->setResourceAsTrigger($this->requested_level_id, $i, false);
             }
@@ -703,11 +712,17 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
         foreach ($resources->getResourcesOfLevel($this->requested_level_id) as $r) {
             $imparting = false;
-            if (is_array($_POST["suggested"]) && isset($_POST["suggested"][$r["rep_ref_id"]]) && $_POST["suggested"][$r["rep_ref_id"]]) {
+            if (!empty($this->requested_suggested)
+                && isset($this->requested_suggested[$r["rep_ref_id"]])
+                && $this->requested_suggested[$r["rep_ref_id"]]
+            ) {
                 $imparting = true;
             }
             $trigger = false;
-            if (is_array($_POST["trigger"]) && isset($_POST["trigger"][$r["rep_ref_id"]]) && $_POST["trigger"][$r["rep_ref_id"]]) {
+            if (!empty($this->requested_trigger)
+                && isset($this->requested_trigger[$r["rep_ref_id"]])
+                && $this->requested_trigger[$r["rep_ref_id"]]
+            ) {
                 $trigger = true;
             }
             $resources->setResourceAsImparting($this->requested_level_id, $r["rep_ref_id"], $imparting);

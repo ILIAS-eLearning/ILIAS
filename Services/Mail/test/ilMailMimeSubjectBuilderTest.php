@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author Michael Jansen <mjansen@databay.de>
@@ -30,12 +30,12 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
             'Empty Global Prefix with Brackets and Additional Context Prefix' => [
                 '',  // The administrator saved the global email settings form with an empty global subject prefix
                 'Course',
-                '[Course] %s'
+                '[Course] %s',
             ],
             'Absent Global Prefix with Brackets and Additional Context Prefix' => [
                 false, // The administrator did not save the global email settings form, yet
                 'Course',
-                '[' . self::DEFAULT_PREFIX . ' : Course] %s'
+                '[' . self::DEFAULT_PREFIX . ' : Course] %s',
             ],
         ];
     }
@@ -52,8 +52,6 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
 
     /**
      * @dataProvider globalSubjectPrefixOnlyProvider
-     * @param string $globalPrefix
-     * @param string $expectedSubject
      */
     public function testGlobalPrefixMustBePrependedWhenDefinedAndPrefixShouldBeAppended(
         string $globalPrefix,
@@ -84,8 +82,6 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     /**
      * @dataProvider subjectPrefixesProvider
      * @param string|false $globalPrefix
-     * @param string       $contextPrefix
-     * @param string       $expectedSubject
      */
     public function testContextPrefixMustBePrependedWhenGivenAndPrefixShouldBeAppended(
         $globalPrefix,

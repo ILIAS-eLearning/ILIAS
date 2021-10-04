@@ -1,35 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\UI\Component\Input\Container\Filter\Standard;
 
 /**
  * Utilities for container filter
  *
- * @author killing@leifos.de
- * @ingroup ServicesContainer
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainerFilterUtil
 {
-    /**
-     * @var ilContainerFilterAdvMDAdapter
-     */
-    protected $adv_adapter;
+    protected ilContainerFilterAdvMDAdapter $adv_adapter;
+    protected ilLanguage $lng;
+    protected ilContainerFilterService $service;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilContainerFilterService
-     */
-    protected $service;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilContainerFilterService $service, ilContainerFilterAdvMDAdapter $adv_adapter, ilLanguage $lng)
-    {
+    public function __construct(
+        ilContainerFilterService $service,
+        ilContainerFilterAdvMDAdapter $adv_adapter,
+        ilLanguage $lng
+    ) {
         $this->adv_adapter = $adv_adapter;
         $this->lng = $lng;
         $this->service = $service;
@@ -37,13 +38,12 @@ class ilContainerFilterUtil
 
     /**
      * Get title of field
-     * @param $record_id
-     * @param $field_id
-     * @return string
      * @throws ilException
      */
-    public function getContainerFieldTitle($record_id, $field_id)
-    {
+    public function getContainerFieldTitle(
+        int $record_id,
+        int $field_id
+    ) : string {
         $lng = $this->lng;
 
         if ($record_id == 0) {
@@ -56,11 +56,9 @@ class ilContainerFilterUtil
 
     /**
      * Get title of record
-     * @param $record_id
-     * @return string
      * @throws ilException
      */
-    public function getContainerRecordTitle($record_id)
+    public function getContainerRecordTitle(int $record_id) : string
     {
         $lng = $this->lng;
 
@@ -74,15 +72,16 @@ class ilContainerFilterUtil
 
     /**
      * Get filter element for reference id
-     *
-     * @param $ref_id
-     * @param $action
-     * @return \ILIAS\UI\Component\Input\Container\Filter\Standard
      * @throws ilException
      */
-    public function getFilterForRefId($ref_id, $action, bool $admin = false) : \ILIAS\UI\Component\Input\Container\Filter\Standard
-    {
+    public function getFilterForRefId(
+        int $ref_id,
+        string $action,
+        bool $admin = false
+    ) : Standard {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
         $ui = $DIC->ui()->factory();
         $service = $this->service;
         $lng = $this->lng;

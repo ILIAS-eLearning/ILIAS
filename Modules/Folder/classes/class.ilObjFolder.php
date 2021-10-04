@@ -99,7 +99,7 @@ class ilObjFolder extends ilContainer
     /**
     * Get container view mode
     */
-    public function getViewMode()
+    public function getViewMode() : int
     {
         $tree = $this->tree;
         
@@ -127,9 +127,9 @@ class ilObjFolder extends ilContainer
     * Add additional information to sub item, e.g. used in
     * courses for timings information etc.
     */
-    public function addAdditionalSubItemInformation(&$a_item_data)
+    public function addAdditionalSubItemInformation(array &$object) : void
     {
-        ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
+        ilObjectActivation::addAdditionalSubItemInformation($object);
     }
     
     /**

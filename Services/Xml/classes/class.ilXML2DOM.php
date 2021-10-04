@@ -68,7 +68,6 @@ class XMLStruct
             $newNode->set_content(implode("", $this->content));
         }
         if (is_array($this->attrs)) {
-            #vd($this->attrs);
             reset($this->attrs);
             while (list($key, $val) = each($this->attrs)) {
                 $newNode->set_attribute($key, $val);
@@ -119,7 +118,6 @@ class XML2DOM
     public function startElement($a_parser, $a_name, $a_attrs)
     {
         if (!is_object($this->xmlStruct)) {
-            #vd($a_attrs);
             $this->xmlStruct = new XMLStruct($a_name, $a_attrs);
             $GLOBALS["lastObj"] = &$this->xmlStruct;
         } else {

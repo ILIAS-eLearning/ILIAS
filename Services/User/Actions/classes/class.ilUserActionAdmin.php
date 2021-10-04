@@ -38,7 +38,7 @@ class ilUserActionAdmin
             ),
             array(
                 "active" => array("integer", $a_active))
-            );
+        );
 
         self::$loaded = false;
     }
@@ -57,7 +57,7 @@ class ilUserActionAdmin
         if (!self::$loaded) {
             self::loadData();
         }
-        if(
+        if (
             !isset(self::$data[$a_context_comp])
         || !isset(self::$data[$a_context_comp][$a_context_id])
         || !isset(self::$data[$a_context_comp][$a_context_id][$a_action_comp])

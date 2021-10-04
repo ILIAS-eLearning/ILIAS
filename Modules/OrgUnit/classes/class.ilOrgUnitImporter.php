@@ -42,7 +42,7 @@ class ilOrgUnitImporter extends ilXmlImporter
         } elseif ($type == 'external_id') {
             $obj_id = ilObject::_lookupObjIdByImportId($id);
 
-            if(ilObject::_lookupType($obj_id) !== 'orgu') {
+            if (ilObject::_lookupType($obj_id) !== 'orgu') {
                 return false;
             }
 
@@ -81,7 +81,7 @@ class ilOrgUnitImporter extends ilXmlImporter
         $ilDB = $DIC->database();
 
         $query = "SELECT * FROM object_data " .
-            "INNER JOIN object_reference as ref on ref.obj_id = object_data.obj_id and ref.deleted is null ".
+            "INNER JOIN object_reference as ref on ref.obj_id = object_data.obj_id and ref.deleted is null " .
             'WHERE object_data.type = "orgu" and import_id = ' . $ilDB->quote($external_id, "text") . " " .
             "ORDER BY create_date DESC";
 
@@ -163,16 +163,14 @@ class ilOrgUnitImporter extends ilXmlImporter
 
 
     /**
-     * @param $a_entity
-     * @param $a_id
-     * @param $a_xml
+     * @param string $a_entity
+     * @param string $a_id
+     * @param string $a_xml
      * @param $a_mapping ilImportMapping
-     *
-     * @return string|void
-     *
+     * @return void
      * @deprecated
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $container_mappings = $a_mapping->getMappingsOfEntity("Services/Container", "objs");
         foreach ($container_mappings as $old => $new) {

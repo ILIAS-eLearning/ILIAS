@@ -24,5 +24,4 @@ class ilDclTextSelectionRecordFieldModel extends ilDclSelectionRecordFieldModel
         $worksheet->setCell($row, $col, $this->getExportValue(), DataType::TYPE_STRING);
         $col++;
     }
-
 }

@@ -44,7 +44,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
 
         $this->dic["ui.template_factory"] = $this->getTemplateFactory();
 
-        $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->setMethods([
+        $this->dic["ilCtrl"] = $this->getMockBuilder(\ilCtrl::class)->onlyMethods([
             "getFormActionByClass","setParameterByClass","saveParameterByClass","initBaseClass","getLinkTargetByClass"
         ])->getMock();
         $this->dic["ilCtrl"]->method("getFormActionByClass")->willReturn("Testing");
@@ -54,7 +54,7 @@ class ExamplesTest extends ILIAS_UI_TestBase
 
         $this->dic["tree"] = $this->getMockBuilder(\ilTree::class)
                                   ->disableOriginalConstructor()
-                                  ->setMethods(["getNodeData"])->getMock();
+                                  ->onlyMethods(["getNodeData"])->getMock();
         $this->dic["tree"]->method("getNodeData")->willReturn(["ref_id" => "1",
                                                                      "title" => "mock root node",
                                                                      "type" => "crs"

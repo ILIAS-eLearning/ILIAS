@@ -12,12 +12,12 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
  */
 class ilNotesExporter extends ilXmlExporter
 {
-    private $ds;
+    private ilNotesDataSet $ds;
 
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         include_once("./Services/Notes/classes/class.ilNotesDataSet.php");
         $this->ds = new ilNotesDataSet();
@@ -27,26 +27,24 @@ class ilNotesExporter extends ilXmlExporter
 
     /**
      * Get xml representation
-     *
      * @param	string		entity
      * @param	string		target release
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.3.0" => array(

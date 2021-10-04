@@ -38,7 +38,7 @@ class ilCourseWaitingList extends ilWaitingList
                     'obj_id' => $this->getObjId(),
                     'usr_id' => $a_usr_id
                 )
-            );
+        );
         return true;
     }
 

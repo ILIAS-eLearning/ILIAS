@@ -19,33 +19,30 @@ class ilSurveyDataSet extends ilDataSet
 {
     /**
      * Get supported versions
-     *
      * @return array of version strings
      */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return array("5.1.0");
     }
     
     /**
      * Get xml namespace
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Modules/Survey/" . $a_entity;
     }
     
     /**
      * Get field types for entity
-     *
-     * @param string $a_entity entity
+     * @param string $a_entity  entity
      * @param string $a_version version
      * @return array
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "svy_quest_skill") {
             switch ($a_version) {
@@ -75,13 +72,11 @@ class ilSurveyDataSet extends ilDataSet
 
     /**
      * Read data
-     *
-     * @param string $a_entity entity
+     * @param string $a_entity  entity
      * @param string $a_version version
-     * @param array $a_ids ids
-     * @param string $a_field field
+     * @param array  $a_ids     ids
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
@@ -117,8 +112,12 @@ class ilSurveyDataSet extends ilDataSet
     /**
      * Determine the dependent sets of data
      */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
-    {
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
         $ilDB = $this->db;
 
         /*switch ($a_entity)
@@ -128,17 +127,16 @@ class ilSurveyDataSet extends ilDataSet
                 return $deps;
         }*/
 
-        return false;
+        return [];
     }
     
     
     /**
      * Import record
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
+    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
     {
         switch ($a_entity) {
             case "svy_quest_skill":

@@ -65,7 +65,7 @@ class ilOrgUnitSimpleUserImport extends ilOrgUnitImporter
         if ($role === 'employee') {
             $position_id = ilOrgUnitPosition::CORE_POSITION_EMPLOYEE;
         } elseif ($role === 'superior') {
-            $position_id =  ilOrgUnitPosition::CORE_POSITION_SUPERIOR;
+            $position_id = ilOrgUnitPosition::CORE_POSITION_SUPERIOR;
         } else {
             $this->addError('not_a_valid_role', $user_id);
 

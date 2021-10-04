@@ -1,53 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use \Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 
 /**
  * Filter administration for containers
  *
- * @author killing@leifos.de
- * @ingroup ServicesContainer
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainerFilterAdminGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilToolbarGUI $toolbar;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilContainerFilterService $container_filter_service;
+    protected int $ref_id;
+    protected ilContainerGUI $container_gui;
+    protected ServerRequestInterface $request;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $main_tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilContainerFilterService
-     */
-    protected $container_filter_service;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * Constructor
-     */
     public function __construct(ilContainerGUI $container_gui)
     {
         global $DIC;
@@ -64,10 +49,7 @@ class ilContainerFilterAdminGUI
         $this->container_filter_service = new ilContainerFilterService();
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -85,7 +67,7 @@ class ilContainerFilterAdminGUI
     /**
      * Show table
      */
-    protected function show()
+    protected function show() : void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -101,19 +83,18 @@ class ilContainerFilterAdminGUI
 
         $this->toolbar->addComponent($button);
 
+        /** @var $container ilObjCategory */
+        $container = $this->container_gui->object;
         $table = new ilContainerFilterTableGUI(
             $this,
             "show",
             $this->container_filter_service,
-            $this->container_gui->object
+            $container
         );
         $main_tpl->setContent($table->getHTML());
     }
 
-    /**
-     * Select fields
-     */
-    protected function selectFields()
+    protected function selectFields() : void
     {
         $main_tpl = $this->main_tpl;
         $ui = $this->ui;
@@ -122,12 +103,7 @@ class ilContainerFilterAdminGUI
         $main_tpl->setContent($r->render($form));
     }
 
-    /**
-     * Get field selection form
-     *
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
-     */
-    protected function getFieldSelectionForm()
+    protected function getFieldSelectionForm() : Standard
     {
         $ui = $this->ui;
         $f = $ui->factory();
@@ -154,7 +130,7 @@ class ilContainerFilterAdminGUI
             }
         }
 
-        $fields[0] = $f->input()->field()->multiselect($lng->txt("cont_std_record_title"), $options)
+        $fields[0] = $f->input()->field()->multiSelect($lng->txt("cont_std_record_title"), $options)
             ->withRequired(false)
             ->withValue($selected);
 
@@ -168,7 +144,7 @@ class ilContainerFilterAdminGUI
                     $selected[] = $fl->getFieldId();
                 }
             }
-            $fields[$rs->getRecordId()] = $f->input()->field()->multiselect($rs->getTitle(), $options, $rs->getDescription())
+            $fields[$rs->getRecordId()] = $f->input()->field()->multiSelect($rs->getTitle(), $options, $rs->getDescription())
                 ->withRequired(false)
                 ->withValue($selected);
         }
@@ -180,10 +156,7 @@ class ilContainerFilterAdminGUI
         return $f->input()->container()->form()->standard($form_action, ["sec" => $section1]);
     }
 
-    /**
-     * Save field selection
-     */
-    protected function saveFields()
+    protected function saveFields() : void
     {
         $request = $this->request;
         $service = $this->container_filter_service;

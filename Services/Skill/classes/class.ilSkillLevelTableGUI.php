@@ -114,7 +114,9 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         }
         
         foreach ($levels as $idx => $item) {
-            $levels[$idx]["ressources"] = $res[$item["id"]];
+            if (isset($res[$item["id"]])) {
+                $levels[$idx]["ressources"] = $res[$item["id"]];
+            }
         }
         
         return $levels;
@@ -154,7 +156,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
         $this->tpl->setVariable("TXT_DESCRIPTION", $a_set["description"]);
-        if (is_array($a_set["ressources"])) {
+        if (isset($a_set["ressources"]) && is_array($a_set["ressources"])) {
             $this->tpl->setCurrentBlock("ressource_bl");
             foreach ($a_set["ressources"] as $rref_id) {
                 $robj_id = ilObject::_lookupObjId($rref_id);

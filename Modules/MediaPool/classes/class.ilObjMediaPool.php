@@ -295,7 +295,7 @@ class ilObjMediaPool extends ilObject
     /**
     * Get media objects
     */
-    public function getMediaObjects($a_title_filter = "", $a_format_filter = "", $a_keyword_filter = '', $a_caption_filter)
+    public function getMediaObjects($a_title_filter = "", $a_format_filter = "", $a_keyword_filter = '', $a_caption_filter = "")
     {
         $ilDB = $this->db;
 

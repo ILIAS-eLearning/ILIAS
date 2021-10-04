@@ -7,7 +7,9 @@
  */
 class ilLearningSequenceAppEventListener
 {
-    public static function handleEvent(string $component, string $event, array $parameter) : void
+    private static ?ilLSLPEventHandler $lp_event_handler;
+
+    public static function handleEvent($component, $event, $parameter)
     {
         switch ($component) {
             case "Services/Tracking":
@@ -49,8 +51,10 @@ class ilLearningSequenceAppEventListener
 
     private static function onServiceTrackingUpdateStatus(array $parameter) : void
     {
-        $handler = new ilLSLPEventHandler(self::getIlTree(), self::getIlLPStatusWrapper());
-        $handler->updateLPForChildEvent($parameter);
+        if (!self::$lp_event_handler) {
+            self::$lp_event_handler = new ilLSLPEventHandler(self::getIlTree(), self::getIlLPStatusWrapper());
+        }
+        self::$lp_event_handler->updateLPForChildEvent($parameter);
     }
 
     private static function onObjectDeletion(array $parameter) : void

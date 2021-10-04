@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Certificate\API\Repository\UserDataRepository;
@@ -8,7 +8,7 @@ use Certificate\API\Repository\UserDataRepository;
  */
 class UserCertificateAPITest extends ilCertificateBaseTestCase
 {
-    public function testUserDataCall()
+    public function testUserDataCall() : void
     {
         $repository = $this->getMockBuilder(UserDataRepository::class)
             ->disableOriginalConstructor()
@@ -33,7 +33,7 @@ class UserCertificateAPITest extends ilCertificateBaseTestCase
 
         $api = new \Certificate\API\UserCertificateAPI($repository);
 
-        $result = $api->getUserCertificateData(new \Certificate\API\Filter\UserDataFilter(array(20, 10 , 11)), array());
+        $result = $api->getUserCertificateData(new \Certificate\API\Filter\UserDataFilter(), array());
 
         $this->assertEquals(array('5' => $userData), $result);
     }

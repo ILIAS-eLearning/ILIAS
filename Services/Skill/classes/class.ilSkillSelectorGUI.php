@@ -17,6 +17,8 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
+
 /**
  * Explorer class that works on tree objects (Services/Tree)
  *
@@ -35,6 +37,9 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     protected $select_gui;
     protected string $select_cmd;
     protected string $select_par;
+    protected bool $select_multi = false;
+    protected SkillAdminGUIRequest $admin_gui_request;
+    protected array $requested_selected_ids;
 
     public function __construct(
         $a_parent_obj,
@@ -46,6 +51,7 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         parent::__construct("skill_sel", $a_parent_obj, $a_parent_cmd);
         $this->select_gui = (is_object($a_select_gui))
             ? strtolower(get_class($a_select_gui))
@@ -53,6 +59,7 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
         $this->select_cmd = $a_select_cmd;
         $this->select_par = $a_select_par;
         $this->setSkipRootNode(true);
+        $this->requested_selected_ids = $this->admin_gui_request->getSelectedIds($this->select_postvar);
     }
 
     public function setSkillSelected(string $a_id) : void
@@ -63,8 +70,8 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     public function getSelectedSkills() : array
     {
         $skills = [];
-        $pa = $_POST[$this->select_postvar];
-        if (is_array($pa)) {
+        $pa = $this->requested_selected_ids;
+        if (!empty($pa)) {
             foreach ($pa as $p) {
                 $skills[] = $this->vtree->getCSkillIdForVTreeId($p);
             }

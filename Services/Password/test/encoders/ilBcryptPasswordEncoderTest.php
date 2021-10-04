@@ -48,13 +48,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
         $this->testDirectoryUrl = $testDirectoryUrl;
     }
 
-    private function skipIfPhpVersionIsNotSupported() : void
-    {
-        if (version_compare(PHP_VERSION, '5.3.7', '<')) {
-            $this->markTestSkipped('Requires PHP >= 5.3.7');
-        }
-    }
-
     private function isVsfStreamInstalled() : bool
     {
         return class_exists('org\bovigo\vfs\vfsStreamWrapper');
@@ -290,7 +283,6 @@ class ilBcryptPasswordEncoderTest extends ilPasswordBaseTest
 
     public function testBackwardCompatibility() : void
     {
-        $this->skipIfPhpVersionIsNotSupported();
         $this->skipIfvfsStreamNotSupported();
 
         $encoder = $this->getInstanceWithConfiguredDataDirectory();

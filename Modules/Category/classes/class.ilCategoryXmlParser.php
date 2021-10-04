@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Group Import Parser
@@ -9,39 +20,19 @@
  */
 class ilCategoryXmlParser extends ilSaxParser
 {
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
     const MODE_CREATE = 1;
     const MODE_UPDATE = 2;
-    
-    private $cat = null;
-    private $parent_id = 0;
-    
-    private $current_translation = array();
-    private $current_container_setting;
 
+    private ?ilObjCategory $cat = null;
+    private int $parent_id = 0;
+    private array $current_translation = array();
+    private string $current_container_setting;
+    protected ilLogger $cat_log;
+    protected int $mode;
+    protected string $cdata = "";
 
-    /**
-     * @var ilLogger
-     */
-    protected $cat_log;
-
-    /**
-     * Constructor
-     *
-     * @param	string		$a_xml_file		xml file
-     *
-     * @access	public
-     */
-
-    public function __construct($a_xml, $a_parent_id)
+    public function __construct(string $a_xml, int $a_parent_id)
     {
-        global $DIC;
-
-        $this->error = $DIC["ilErr"];
         parent::__construct(null);
 
         $this->mode = ilCategoryXmlParser::MODE_CREATE;
@@ -51,30 +42,16 @@ class ilCategoryXmlParser extends ilSaxParser
         $this->cat_log = ilLoggerFactory::getLogger("cat");
     }
     
-    /**
-     * Get parent id
-     * @return type
-     */
-    public function getParentId()
+    public function getParentId() : int
     {
         return $this->parent_id;
     }
     
-    /**
-     * Get current translation
-     */
-    protected function getCurrentTranslation()
+    protected function getCurrentTranslation() : array
     {
         return $this->current_translation;
     }
     
-
-
-    /**
-     * set event handler
-     * should be overwritten by inherited class
-     * @access	private
-     */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
@@ -82,9 +59,6 @@ class ilCategoryXmlParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
-    /**
-     * start the parser
-     */
     public function startParsing()
     {
         parent::startParsing();
@@ -96,14 +70,8 @@ class ilCategoryXmlParser extends ilSaxParser
         }
     }
 
-
-    /**
-     * handler for begin of element
-     */
     public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
     {
-        $ilErr = $this->error;
-
         switch ($a_name) {
             case "Category":
                 break;
@@ -129,12 +97,6 @@ class ilCategoryXmlParser extends ilSaxParser
         }
     }
 
-
-    /**
-     * Handler end tag
-     * @param type $a_xml_parser
-     * @param type $a_name
-     */
     public function handlerEndTag($a_xml_parser, $a_name)
     {
         switch ($a_name) {
@@ -189,10 +151,6 @@ class ilCategoryXmlParser extends ilSaxParser
         $this->cdata = '';
     }
 
-
-    /**
-     * handler for character data
-     */
     public function handlerCharacterData($a_xml_parser, $a_data)
     {
         #$a_data = str_replace("<","&lt;",$a_data);
@@ -203,11 +161,7 @@ class ilCategoryXmlParser extends ilSaxParser
         }
     }
 
-    /**
-     * Save category object
-     * @return type
-     */
-    protected function save()
+    protected function save() : bool
     {
 
         /**
@@ -224,28 +178,17 @@ class ilCategoryXmlParser extends ilSaxParser
         return true;
     }
 
-
-
-
-    /**
-     * Set import mode
-     * @param type $mode
-     */
-    public function setMode($mode)
+    public function setMode(int $mode) : void
     {
         $this->mode = $mode;
     }
 
-    /**
-     * Set category object
-     * @param type $cat
-     */
-    public function setCategory($cat)
+    public function setCategory(ilObjCategory $cat)
     {
         $this->cat = $cat;
     }
     
-    public function getCategory()
+    public function getCategory() : ilObjCategory
     {
         return $this->cat;
     }

@@ -12,7 +12,7 @@
  * @ilCtrl_Calls ilObjFolderGUI: ilInfoScreenGUI, ilContainerPageGUI, ilColumnGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilObjectCopyGUI, ilObjStyleSheetGUI
  * @ilCtrl_Calls ilObjFolderGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilDidacticTemplateGUI
- * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectTranslationGUI, ilRepUtilGUI
+ * @ilCtrl_Calls ilObjFolderGUI: ilBackgroundTaskHub, ilObjectTranslationGUI, ilRepositoryTrashGUI
  */
 class ilObjFolderGUI extends ilContainerGUI
 {
@@ -79,15 +79,14 @@ class ilObjFolderGUI extends ilContainerGUI
     /**
     * Render folder
     */
-    public function renderObject()
+    public function renderObject() : void
     {
         $ilTabs = $this->tabs;
         
         $this->checkPermission('read');
 
         $ilTabs->activateTab("view_content");
-        $ret = parent::renderObject();
-        return $ret;
+        parent::renderObject();
     }
 
     public function executeCommand()
@@ -99,8 +98,8 @@ class ilObjFolderGUI extends ilContainerGUI
         $cmd = $this->ctrl->getCmd();
         
         switch ($next_class) {
-            case 'ilreputilgui':
-                $ru = new \ilRepUtilGUI($this);
+            case strtolower(ilRepositoryTrashGUI::class):
+                $ru = new \ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
                 $this->ctrl->forwardCommand($ru);
                 break;
@@ -492,6 +491,9 @@ class ilObjFolderGUI extends ilContainerGUI
         }
 
         // show clipboard in repository
+        // note: this checks for !empty($_SESSION['il_rep_clipboard']) which is
+        // never set (in ILIAS 8), most probably not needed anymore (or bug)
+        /*
         if ($_GET["baseClass"] == "ilRepositoryGUI" and !empty($_SESSION['il_rep_clipboard'])) {
             $this->tabs_gui->addTarget(
                 "clipboard",
@@ -499,7 +501,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 "clipboard",
                 get_class($this)
             );
-        }
+        }*/
     }
 
     /**
@@ -524,12 +526,11 @@ class ilObjFolderGUI extends ilContainerGUI
     
     /**
      * Modify Item ListGUI for presentation in container
-     * @global type $tree
-     * @param type $a_item_list_gui
-     * @param type $a_item_data
-     * @param type $a_show_path
+     * @param ilObjectListGUI $a_item_list_gui
+     * @param array           $a_item_data
+     *@global type            $tree
      */
-    public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
+    public function modifyItemGUI(ilObjectListGUI $a_item_list_gui, array $a_item_data) : void
     {
         $tree = $this->tree;
 

@@ -37,7 +37,7 @@ class ilUserCertificateRepository
     /**
      * @param ilUserCertificate $userCertificate
      * @return ilUserCertificate
-     * @throws ilDatabaseException
+     * @throws ilDatabaseException|JsonException
      */
     public function save(ilUserCertificate $userCertificate) : ilUserCertificate
     {
@@ -46,7 +46,7 @@ class ilUserCertificateRepository
         $version = (int) $this->fetchLatestVersion($userCertificate->getObjId(), $userCertificate->getUserId());
         ++$version;
 
-        $id = (int) $this->database->nextId('il_cert_user_cert');
+        $id = $this->database->nextId('il_cert_user_cert');
 
         $objId = $userCertificate->getObjId();
         $userId = $userCertificate->getUserId();
@@ -84,6 +84,7 @@ class ilUserCertificateRepository
     /**
      * @param int $userId
      * @return ilUserCertificatePresentation[]
+     * @throws JsonException
      */
     public function fetchActiveCertificates(int $userId) : array
     {
@@ -152,6 +153,7 @@ AND currently_active = 1';
      * @param int $startTimestamp
      * @param int $endTimeStamp
      * @return ilUserCertificatePresentation[]
+     * @throws JsonException
      */
     public function fetchActiveCertificatesInIntervalForPresentation(
         int $userId,
@@ -224,7 +226,7 @@ AND acquired_timestamp <= ' . $this->database->quote($endTimeStamp, 'integer');
      * @param int $userId
      * @param int $objectId
      * @return ilUserCertificate
-     * @throws ilException
+     * @throws ilException|JsonException
      */
     public function fetchActiveCertificate(int $userId, int $objectId) : ilUserCertificate
     {
@@ -265,7 +267,7 @@ AND currently_active = 1';
      * @param int $userId
      * @param int $objectId
      * @return ilUserCertificatePresentation
-     * @throws ilException
+     * @throws ilException|JsonException
      */
     public function fetchActiveCertificateForPresentation(int $userId, int $objectId) : ilUserCertificatePresentation
     {
@@ -411,7 +413,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
     /**
      * @param int $id
      * @return ilUserCertificate
-     * @throws ilException
+     * @throws ilException|JsonException
      */
     public function fetchCertificate(int $id) : ilUserCertificate
     {
@@ -433,9 +435,10 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
     }
 
     /**
-     * @param int $userId
+     * @param int   $userId
      * @param int[] $objectIds
      * @return int[]
+     * @throws JsonException
      */
     public function fetchObjectIdsWithCertificateForUser(int $userId, array $objectIds) : array
     {
@@ -476,6 +479,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . '
     /**
      * @param int $objectId
      * @return int[]
+     * @throws JsonException
      */
     public function fetchUserIdsWithCertificateForObject(int $objectId) : array
     {
@@ -512,6 +516,7 @@ WHERE obj_id = ' . $this->database->quote($objectId, 'integer') . '
      * @param int $objId
      * @param int $userId
      * @return ilUserCertificate[]
+     * @throws JsonException
      */
     private function fetchCertificatesOfObject(int $objId, int $userId) : array
     {

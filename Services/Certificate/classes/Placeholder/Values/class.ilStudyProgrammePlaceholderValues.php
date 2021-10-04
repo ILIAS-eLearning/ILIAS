@@ -54,7 +54,7 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
      * achieve the certificate.
      * @param int $userId
      * @param int $objId
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilObjectNotFoundException
@@ -82,13 +82,18 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
                 return null;
             }
         );
+
+        if (!$latest_progress) {
+            throw new \ilInvalidCertificateException('PRG: no valid progress for user ' . $userId . ' while generating certificate');
+        }
+
         $type = $object->getSubType();
         $placeholders['PRG_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
         $placeholders['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
         $placeholders['PRG_TYPE'] = ilUtil::prepareFormOutput($type ? $type->getTitle() : '');
         $placeholders['PRG_POINTS'] = ilUtil::prepareFormOutput($object->getPoints());
-        $placeholders['PRG_COMPLETION_DATE'] = ilUtil::prepareFormOutput($latest_progress->getCompletionDate() instanceof DateTime ? $latest_progress->getCompletionDate()->format('d.m.Y') : '');
-        $placeholders['PRG_EXPIRES_AT'] = ilUtil::prepareFormOutput($latest_progress->getValidityOfQualification() instanceof DateTime ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : '');
+        $placeholders['PRG_COMPLETION_DATE'] = ilUtil::prepareFormOutput($latest_progress->getCompletionDate() instanceof \DateTimeImmutable ? $latest_progress->getCompletionDate()->format('d.m.Y') : '');
+        $placeholders['PRG_EXPIRES_AT'] = ilUtil::prepareFormOutput($latest_progress->getValidityOfQualification() instanceof \DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : '');
         return $placeholders;
     }
 

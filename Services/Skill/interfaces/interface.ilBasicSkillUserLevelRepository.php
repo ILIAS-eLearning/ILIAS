@@ -170,7 +170,7 @@ interface ilBasicSkillUserLevelRepository
         int $a_object_id,
         int $a_user_id = 0,
         int $a_self_eval = 0
-    ) : ?int;
+    ) : int;
 
     public function getLastUpdatePerObject(
         int $skill_id,

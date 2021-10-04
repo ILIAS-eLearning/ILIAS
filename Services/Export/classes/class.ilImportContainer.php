@@ -43,21 +43,20 @@ class ilImportContainer extends ilImport
         // @todo: check if this is required
         // all container have container export sets
         $all_importers = array();
-        
+
         if (!$parser->getExportSets()) {
             $this->createDummy($type);
             $import_info = parent::doImportObject($dir, $type);
-            
+
             $all_importers = array_merge($all_importers, $import_info['importers']);
             return $import_info;
             //return $import_info['new_id'];
         }
-        
+
         // Handling containers with subitems
         $first = true;
         foreach ($parser->getExportSets() as $set) {
             $import_info = parent::doImportObject($dir . DIRECTORY_SEPARATOR . $set['path'], $set['type']);
-            
             $all_importers = array_merge($all_importers, $import_info['importers']);
             if ($first) {
                 $ret = $import_info;

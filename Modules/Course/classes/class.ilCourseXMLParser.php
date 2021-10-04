@@ -268,7 +268,6 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                 break;
 
             case 'Sort':
-                include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
                 ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->course_obj->getId());
 
                 //#17837
@@ -562,8 +561,7 @@ class ilCourseXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
                     if ((int) $this->cdata) {
                         if ($this->in_period_with_time) {
                             $this->period_end = new \ilDateTime((int) $this->cdata, IL_CAL_UNIX);
-                        }
-                        else {
+                        } else {
                             $this->period_end = new \ilDate((int) $this->cdata, IL_CAL_UNIX);
                         }
                     }

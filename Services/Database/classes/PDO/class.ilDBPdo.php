@@ -52,6 +52,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             $options = $this->getAttributes();
             $this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $options);
             $this->initHelpers();
+            $this->initSQLMode();
         } catch (Exception $e) {
             $this->error_code = $e->getCode();
             if ($return_false_for_error) {
@@ -640,6 +641,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
                 return (string) (int) $value;
             case ilDBConstants::T_FLOAT:
                 $pdo_type = PDO::PARAM_INT;
+                $value = (string) $value;
                 break;
             case ilDBConstants::T_TEXT:
             default:
@@ -648,7 +650,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
                 break;
         }
 
-        return $this->pdo->quote($value, $pdo_type);
+        return $this->pdo->quote((string) $value, $pdo_type);
     }
 
     public function indexExistsByFields(string $table_name, array $fields) : bool
