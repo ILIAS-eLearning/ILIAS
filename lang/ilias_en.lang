@@ -15534,7 +15534,7 @@ pd#:#pd_presentation_mode_tile#:#Tile Presentation
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
 common#:#mm_organisation#:#Organisation
 common#:#mm_staff_list#:#Staff List
-common#:#mm_enrolments#:#Enrolments
+common#:#mm_enrolments#:#Course Memberships
 common#:#mm_communication#:#Communication
 common#:#mm_contacts#:#Contacts
 common#:#mm_mail#:#Mail
