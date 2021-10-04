@@ -22,7 +22,7 @@ namespace ILIAS\Repository\Clipboard;
  */
 class ClipboardSessionRepository
 {
-    const KEY_BASE = "repo_clip";
+    public const KEY_BASE = "repo_clip";
 
     public function __construct()
     {

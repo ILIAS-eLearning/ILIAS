@@ -15,7 +15,7 @@
 
 namespace ILIAS\Repository\Trash;
 
-use \ILIAS\Repository;
+use ILIAS\Repository;
 
 class TrashGUIRequest
 {

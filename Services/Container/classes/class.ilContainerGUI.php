@@ -158,7 +158,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     protected function afterUpdate() : void
     {
         // check if template is changed
-        $current_tpl_id = (int) ilDidacticTemplateObjSettings::lookupTemplateId(
+        $current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
             $this->object->getRefId()
         );
         $new_tpl_id = (int) $this->getDidacticTemplateVar('dtpl');
@@ -205,14 +205,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
-    public function forwardToPageObject() : void
+    public function forwardToPageObject() : string
     {
         $lng = $this->lng;
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
-
         $cmd = $ilCtrl->getCmd();
-
         if (in_array($cmd, array("displayMediaFullscreen", "downloadFile", "displayMedia"))) {
             $this->checkPermission("read");
         } else {
@@ -271,7 +269,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // style tab
         $page_gui->setTabHook($this, "addPageTabs");
 
-        $this->ctrl->forwardCommand($page_gui);
+        return $this->ctrl->forwardCommand($page_gui);
     }
 
     public function addPageTabs() : void
@@ -344,12 +342,12 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
-    public function setTitleAndDescription()
+    protected function setTitleAndDescription()
     {
         if (ilContainer::_lookupContainerSetting($this->object->getId(), "hide_header_icon_and_title")) {
-            $this->tpl->setTitle((string) $this->object->getTitle(), true);
+            $this->tpl->setTitle($this->object->getTitle(), true);
         } else {
-            $this->tpl->setTitle((string) $this->object->getTitle());
+            $this->tpl->setTitle($this->object->getTitle());
             $this->tpl->setDescription($this->object->getLongDescription());
 
             // set tile icon
@@ -362,7 +360,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
-    public function showPossibleSubObjects()
+    protected function showPossibleSubObjects()
     {
         if ($this->isActiveAdministrationPanel() || $this->isActiveOrdering()) {
             return;
@@ -911,7 +909,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
-    public function getTabs()
+    protected function getTabs()
     {
         $rbacsystem = $this->rbacsystem;
         $ilCtrl = $this->ctrl;
@@ -1038,11 +1036,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
         if (count($no_cut)) {
             $titles = array();
-            foreach ((array) $no_cut as $cut_id) {
+            foreach ($no_cut as $cut_id) {
                 $titles[] = ilObject::_lookupTitle(ilObject::_lookupObjId($cut_id));
             }
             $ilErr->raiseError(
-                $this->lng->txt("msg_no_perm_cut") . " " . implode(',', (array) $titles),
+                $this->lng->txt("msg_no_perm_cut") . " " . implode(',', $titles),
                 $ilErr->MESSAGE
             );
         }
@@ -1109,7 +1107,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         // IF THERE IS ANY OBJECT WITH NO PERMISSION TO 'delete'
         if (is_array($no_copy) && count($no_copy)) {
             $titles = array();
-            foreach ((array) $no_copy as $copy_id) {
+            foreach ($no_copy as $copy_id) {
                 $titles[] = ilObject::_lookupTitle(ilObject::_lookupObjId($copy_id));
             }
             $ilErr->raiseError(
@@ -1122,11 +1120,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $ids = $this->std_request->getSelectedIds();
         if ($ids == 1) {
             $ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $ids[0]);
-            $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         } else {
             $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $ids));
-            $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
         }
+        $ilCtrl->redirectByClass("ilobjectcopygui", "initTargetSelection");
 
         $this->clipboard->setParent($this->requested_ref_id);
         $this->clipboard->setCmd($ilCtrl->getCmd());
@@ -1280,13 +1277,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (count($nodes) == 0) {
             ilUtil::sendFailure($this->lng->txt('select_at_least_one_object'));
             switch ($command) {
-                case 'cut':
-                    $this->showPasteTreeObject();
-                    break;
-                case 'copy':
-                    $this->showPasteTreeObject();
-                    break;
                 case 'link':
+                case 'copy':
+                case 'cut':
                     $this->showPasteTreeObject();
                     break;
             }
@@ -1373,13 +1366,9 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($error != '') {
             ilUtil::sendFailure($error);
             switch ($command) {
-                case 'cut':
-                    $this->showPasteTreeObject();
-                    break;
-                case 'copy':
-                    $this->showPasteTreeObject();
-                    break;
                 case 'link':
+                case 'copy':
+                case 'cut':
                     $this->showPasteTreeObject();
                     break;
             }
@@ -1488,7 +1477,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $top_node = $tree->getNodeData($ref_id);
 
                     // get subnodes of top nodes
-                    $subnodes[$ref_id] = $tree->getSubtree($top_node);
+                    $subnodes[$ref_id] = $tree->getSubTree($top_node);
                 }
 
                 // now move all subtrees to new location
@@ -1739,15 +1728,13 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
             $this->clipboard->clear();
 
             // new implementation, redirects to ilObjectCopyGUI
+            $ilCtrl->setParameterByClass("ilobjectcopygui", "target", $this->object->getRefId());
             if (count($ref_ids) == 1) {
-                $ilCtrl->setParameterByClass("ilobjectcopygui", "target", $this->object->getRefId());
                 $ilCtrl->setParameterByClass("ilobjectcopygui", "source_id", $ref_ids[0]);
-                $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             } else {
-                $ilCtrl->setParameterByClass("ilobjectcopygui", "target", $this->object->getRefId());
                 $ilCtrl->setParameterByClass("ilobjectcopygui", "source_ids", implode("_", $ref_ids));
-                $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
             }
+            $ilCtrl->redirectByClass("ilobjectcopygui", "saveTarget");
 
             $ilLog->write("ilObjectGUI::pasteObject(), copy finished");
         }
@@ -1792,7 +1779,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $top_node = $this->tree->getNodeData($ref_id);
 
                 // get subnodes of top nodes
-                $subnodes[$ref_id] = $this->tree->getSubtree($top_node);
+                $subnodes[$ref_id] = $this->tree->getSubTree($top_node);
             }
 
             // now move all subtrees to new location
@@ -1994,12 +1981,11 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if (ilCopyWizardOptions::_isFinished($result['copy_id'])) {
             ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $result['ref_id']);
-            $ilCtrl->redirectByClass("ilrepositorygui", "");
         } else {
             ilUtil::sendInfo($this->lng->txt("object_copy_in_progress"), true);
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
-            $ilCtrl->redirectByClass("ilrepositorygui", "");
         }
+        $ilCtrl->redirectByClass("ilrepositorygui", "");
     }
 
     public function saveSortingObject() : void
@@ -2826,11 +2812,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         if ($cmd == "link") {
             $exp->setSelectMode("nodes", true);
-            return $exp;
         } else {
             $exp->setSelectMode("nodes[]", false);
-            return $exp;
         }
+        return $exp;
     }
 
     public function setSideColumnReturn() : void
@@ -2852,7 +2837,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $filter = $filter_service->util()->getFilterForRefId(
             $this->ref_id,
             $DIC->ctrl()->getLinkTarget($this, "render", "", true),
-            (bool) $this->isActiveAdministrationPanel()
+            $this->isActiveAdministrationPanel()
         );
 
         $filter_data = $DIC->uiService()->filter()->getData($filter);

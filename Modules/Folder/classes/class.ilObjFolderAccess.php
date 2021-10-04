@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjFileAccess
@@ -9,9 +20,9 @@
  */
 class ilObjFolderAccess extends ilObjectAccess
 {
-    private static $folderSettings;
+    private static ilSetting $folderSettings;
 
-    private static function getFolderSettings()
+    private static function getFolderSettings() : ilSetting
     {
         if (is_null(ilObjFolderAccess::$folderSettings)) {
             ilObjFolderAccess::$folderSettings = new ilSetting('fold');
@@ -20,18 +31,6 @@ class ilObjFolderAccess extends ilObjectAccess
     }
      
     
-    /**
-     * get commands
-     *
-     * this method returns an array of all possible commands/permission combinations
-     *
-     * example:
-     * $commands = array
-     *	(
-     *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-     *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-     *	);
-     */
     public static function _getCommands()
     {
         $commands = array();
@@ -58,41 +57,15 @@ class ilObjFolderAccess extends ilObjectAccess
     }
 
     
-    private static function hasDownloadAction($ref_id)
+    private static function hasDownloadAction(int $ref_id) : bool
     {
-        global $DIC;
-
-        $tree = $DIC->repositoryTree();
-        $ilUser = $DIC->user();
         $settings = ilObjFolderAccess::getFolderSettings();
-        // default value should reflect previous behaviour (-> 0)
         if ($settings->get("enable_download_folder", 0) != 1) {
             return false;
         }
-            
-        /*
-         * deactivated check for now, because wrong ref_id here!
-
-         *
-        $children = $tree->getChildsByTypeFilter($ref_id, array("file","fold"));
-
-        // no children at all, so no download button
-        if (count ($children) == 0)
-            return false;
-        // check if at least one of the children has a read permission
-        foreach ($children as $child)
-        {
-            if ($rbacsystem->checkAccessOfUser($ilUser->getId(), "read", $child["ref_id"]))
-                return true;
-        }
-        return false;
-        */
         return true;
     }
 
-    /**
-     * check whether goto script will succeed
-     */
     public static function _checkGoto($a_target)
     {
         global $DIC;

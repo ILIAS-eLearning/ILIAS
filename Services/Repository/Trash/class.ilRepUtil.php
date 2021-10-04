@@ -61,6 +61,7 @@ class ilRepUtil
 
         // FOR ALL SELECTED OBJECTS
         $not_deletable = [];
+        $all_node_data = [];
         foreach ($a_ids as $id) {
             if ($tree->isDeleted($id)) {
                 $log->write(__METHOD__ . ': Object with ref_id: ' . $id . ' already deleted.');
@@ -183,6 +184,7 @@ class ilRepUtil
         
         // DELETE THEM
         foreach ($a_ref_ids as $id) {
+            $saved_tree = null;
             // GET COMPLETE NODE_DATA OF ALL SUBTREE NODES
             if (!$a_from_recovery_folder) {
                 $trees = \ilTree::lookupTreesForNode($id);
@@ -249,7 +251,9 @@ class ilRepUtil
 
             // Use the saved tree object here (negative tree_id)
             if (!$a_from_recovery_folder) {
-                $saved_tree->deleteTree($node_data);
+                if ($saved_tree) {
+                    $saved_tree->deleteTree($node_data);
+                }
             } else {
                 $tree->deleteTree($node_data);
             }
@@ -280,7 +284,7 @@ class ilRepUtil
         array $a_checked,
         bool $a_delete_objects,
         array &$a_affected_ids
-    ) : bool {
+    ) : void {
         global $DIC;
 
         $ilLog = $DIC["ilLog"];
@@ -331,8 +335,6 @@ class ilRepUtil
                     ", child: " . $del_node_data["child"]);
             }
         }
-        
-        return true;
     }
     
     /**

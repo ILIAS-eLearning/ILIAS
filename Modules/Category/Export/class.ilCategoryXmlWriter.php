@@ -20,8 +20,8 @@
  */
 class ilCategoryXmlWriter extends ilXmlWriter
 {
-    const MODE_SOAP = 1;
-    const MODE_EXPORT = 2;
+    public const MODE_SOAP = 1;
+    public const MODE_EXPORT = 2;
 
     protected ilSetting $settings;
     private int $mode = self::MODE_SOAP;
@@ -101,7 +101,7 @@ class ilCategoryXmlWriter extends ilXmlWriter
         $this->xmlStartTag('Translations');
         
         $translations = $this->getCategory()->getObjectTranslation()->getLanguages();
-        foreach ((array) $translations as $translation) {
+        foreach ($translations as $translation) {
             $this->xmlStartTag(
                 'Translation',
                 array(

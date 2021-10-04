@@ -22,7 +22,7 @@ namespace ILIAS\Container\Content;
  */
 class BlockSessionRepository
 {
-    const KEY_BASE = "cont_block";
+    protected const KEY_BASE = "cont_block";
 
     public function __construct()
     {
@@ -35,7 +35,7 @@ class BlockSessionRepository
         string $a_value
     ) : void {
         \ilSession::set(self::KEY_BASE . "_" .
-            $a_block_id . "_" . $a_user_id . "_" . $a_property, (string) $a_value);
+            $a_block_id . "_" . $a_user_id . "_" . $a_property, $a_value);
     }
 
     public function getProperty(

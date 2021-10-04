@@ -45,7 +45,7 @@ abstract class ilContainerReferenceExporter extends ilXmlExporter
         return array();
     }
     
-    abstract protected function initWriter(ilContainerReference $ref);
+    abstract protected function initWriter(ilContainerReference $ref) : ilContainerReferenceXmlWriter;
 
 
     /**

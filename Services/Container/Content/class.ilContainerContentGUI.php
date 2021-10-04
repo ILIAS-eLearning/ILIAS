@@ -17,12 +17,12 @@ use ILIAS\Container\Content\BlockSessionRepository;
  */
 abstract class ilContainerContentGUI
 {
-    const DETAILS_DEACTIVATED = 0;
-    const DETAILS_TITLE = 1;
-    const DETAILS_ALL = 2;
+    public const DETAILS_DEACTIVATED = 0;
+    public const DETAILS_TITLE = 1;
+    public const DETAILS_ALL = 2;
 
-    const VIEW_MODE_LIST = 0;
-    const VIEW_MODE_TILE = 1;
+    public const VIEW_MODE_LIST = 0;
+    public const VIEW_MODE_TILE = 1;
 
     protected \ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
@@ -501,7 +501,7 @@ abstract class ilContainerContentGUI
         if ($this->getContainerGUI()->isActiveItemOrdering() && ($a_item_data['type'] != 'sess' || get_class($this) != 'ilContainerSessionsContentGUI')) {
             $item_list_gui->setPositionInputField(
                 $a_pos_prefix . "[" . $a_item_data["ref_id"] . "]",
-                sprintf('%d', (int) $a_position * 10)
+                sprintf('%d', $a_position * 10)
             );
         }
         
@@ -580,7 +580,7 @@ abstract class ilContainerContentGUI
                 if ($this->getContainerGUI()->isActiveItemOrdering()) {
                     $item_list_gui2->setPositionInputField(
                         "[sess][" . $a_item_data['obj_id'] . "][" . $item["ref_id"] . "]",
-                        sprintf('%d', (int) $pos * 10)
+                        sprintf('%d', $pos * 10)
                     );
                     $pos++;
                 }
@@ -848,7 +848,7 @@ abstract class ilContainerContentGUI
             $ilUser->getId(),
             "opened"
         );
-        if ($stored_val !== false && $beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
+        if ($beh != ilItemGroupBehaviour::ALWAYS_OPEN) {
             $beh = ($stored_val == "1")
                 ? ilItemGroupBehaviour::EXPANDABLE_OPEN
                 : ilItemGroupBehaviour::EXPANDABLE_CLOSED;

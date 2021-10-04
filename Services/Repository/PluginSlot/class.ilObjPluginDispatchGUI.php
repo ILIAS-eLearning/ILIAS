@@ -25,6 +25,7 @@ class ilObjPluginDispatchGUI
 {
     protected ilCtrl $ctrl;
     protected PluginSlotGUIRequest $request;
+    protected object $gui_obj;
 
     public function __construct()
     {

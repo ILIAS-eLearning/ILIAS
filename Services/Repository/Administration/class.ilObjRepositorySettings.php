@@ -20,8 +20,8 @@
  */
 class ilObjRepositorySettings extends ilObject
 {
-    const NEW_ITEM_GROUP_TYPE_GROUP = 1;
-    const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
+    public const NEW_ITEM_GROUP_TYPE_GROUP = 1;
+    public const NEW_ITEM_GROUP_TYPE_SEPARATOR = 2;
     
     public function __construct(int $a_id, bool $a_call_by_reference = true)
     {

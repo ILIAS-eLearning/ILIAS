@@ -15,7 +15,7 @@
 
 namespace ILIAS\Container\Content;
 
-use \ILIAS\Container\InternalDataService;
+use ILIAS\Container\InternalDataService;
 
 /**
  * Repository internal repo service

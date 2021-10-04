@@ -86,7 +86,7 @@ class ilRecommendedContentRoleTableGUI extends ilTable2GUI
         return implode(" &raquo; ", array_column($a_path_arr, "title"));
     }
 
-    public function fillRow($a_set)
+    protected function fillRow($a_set)
     {
         $this->tpl->setVariable("VAL_ID", $a_set["ref_id"]);
         $this->tpl->setVariable("VAL_TITLE", $a_set["title"]);

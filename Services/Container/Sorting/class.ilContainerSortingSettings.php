@@ -215,7 +215,7 @@ class ilContainerSortingSettings
 
     public function setSortNewItemsOrder(int $a_order) : void
     {
-        $this->new_items_order = (int) $a_order;
+        $this->new_items_order = $a_order;
     }
 
     public function update() : void

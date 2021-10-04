@@ -448,7 +448,7 @@ abstract class ilObject2GUI extends ilObjectGUI
     {
         return parent::getRightColumnHTML();
     }
-    final protected function setColumnSettings(ilColumnGUI $column_gui)
+    final public function setColumnSettings(ilColumnGUI $column_gui)
     {
         return parent::setColumnSettings($column_gui);
     }

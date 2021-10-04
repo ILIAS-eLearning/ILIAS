@@ -74,9 +74,9 @@ class ilAdminSubItemsTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
         
         // TODO: Needs other solution
-        if (ilObject::_lookupType((int) $a_ref_id, true) == 'chac') {
+        if (ilObject::_lookupType($a_ref_id, true) == 'chac') {
             $this->getItems();
-            return true;
+            return;
         }
         
 

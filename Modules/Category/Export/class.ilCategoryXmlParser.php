@@ -20,8 +20,8 @@
  */
 class ilCategoryXmlParser extends ilSaxParser
 {
-    const MODE_CREATE = 1;
-    const MODE_UPDATE = 2;
+    public const MODE_CREATE = 1;
+    public const MODE_UPDATE = 2;
 
     private ?ilObjCategory $cat = null;
     private int $parent_id = 0;
@@ -66,7 +66,7 @@ class ilCategoryXmlParser extends ilSaxParser
         if ($this->mode == ilCategoryXmlParser::MODE_CREATE) {
             return is_object($this->cat) ? $this->cat->getRefId() : false;
         } else {
-            return is_object($this->cat) ? $this->cat->update() : false;
+            return is_object($this->cat) && $this->cat->update();
         }
     }
 
@@ -168,7 +168,7 @@ class ilCategoryXmlParser extends ilSaxParser
          * mode can be create or update
          */
         if ($this->mode == ilCategoryXmlParser::MODE_CREATE) {
-            $this->create();
+            //$this->create();
             $this->getCategory()->create();
             $this->getCategory()->createReference();
             $this->getCategory()->putInTree($this->getParentId());

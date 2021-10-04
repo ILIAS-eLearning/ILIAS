@@ -224,7 +224,6 @@ class ilContainerReferenceXmlParser extends ilSaxParser
         /**
          * mode can be create or update
          */
-        include_once './Modules/Category/classes/class.ilCategoryXmlParser.php';
         if ($this->mode == ilCategoryXmlParser::MODE_CREATE) {
             $this->create();
             $this->getReference()->create();
