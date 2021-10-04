@@ -482,37 +482,6 @@ class ilMail
         $message = $this->formatLinebreakMessage((string) $message);
         $message = str_ireplace(["<br />", "<br>", "<br/>"], "\n", $message);
 
-        if (!$usrId) {
-            $usrId = 0;
-        }
-        if (!$folderId) {
-            $folderId = 0;
-        }
-        if (!$senderUsrId) {
-            $senderUsrId = null;
-        }
-        if (!$attachments) {
-            $attachments = null;
-        }
-        if (!$to) {
-            $to = null;
-        }
-        if (!$cc) {
-            $cc = null;
-        }
-        if (!$bcc) {
-            $bcc = null;
-        }
-        if (!$status) {
-            $status = null;
-        }
-        if (!$subject) {
-            $subject = null;
-        }
-        if (!$message) {
-            $message = null;
-        }
-
         $nextId = $this->db->nextId($this->table_mail);
         $this->db->insert($this->table_mail, [
             'mail_id' => ['integer', $nextId],
