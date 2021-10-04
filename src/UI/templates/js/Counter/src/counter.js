@@ -1,4 +1,6 @@
 import {counterFactory} from "./counter.main.js";
+
+il.UI = il.UI || {};
 /**
  * Declaration and implementation of the il.UI.counter scope.
  *
