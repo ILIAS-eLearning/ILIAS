@@ -132,9 +132,9 @@ class ilMailMemberSearchGUI
                     $this->ctrl->redirectToURL(ilMailFormCall::getRedirectTarget(
                         $this,
                         'showSearchForm',
-                        ['type' => 'role'],
+                        ['type' => ilMailFormGUI::MAIL_FORM_TYPE_ROLE],
                         [
-                            'type' => 'role',
+                            'type' => ilMailFormGUI::MAIL_FORM_TYPE_ROLE,
                             'rcp_to' => implode(',', $role_mail_boxes),
                             'sig' => $this->gui->createMailSignature()
                         ],
@@ -232,7 +232,7 @@ class ilMailMemberSearchGUI
             'members',
             [],
             [
-                'type' => 'new',
+                'type' => ilMailFormGUI::MAIL_FORM_TYPE_NEW,
                 'sig' => $this->gui->createMailSignature(),
             ],
             $this->generateContextArray()

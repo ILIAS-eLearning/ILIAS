@@ -101,7 +101,7 @@ class ilMailAttachmentGUI
 
     public function cancelSaveAttachments() : void
     {
-        $this->ctrl->setParameter($this, 'type', 'attach');
+        $this->ctrl->setParameter($this, 'type', ilMailFormGUI::MAIL_FORM_TYPE_ATTACH);
         $this->ctrl->returnToParent($this);
     }
 
