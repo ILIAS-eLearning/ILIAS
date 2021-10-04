@@ -123,7 +123,7 @@ class ilSystemNotification extends ilMailNotification
      * @param string $a_permission
      * @return array recipient ids
      */
-    public function sendMail(array $a_user_ids, $a_goto_additional = null, $a_permission = "read")
+    public function sendMailAndReturnRecipients(array $a_user_ids, $a_goto_additional = null, $a_permission = "read")
     {
         $this->all_ref_ids = null;
         
