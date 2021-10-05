@@ -6,6 +6,7 @@ class ButtonFactoryTest extends AbstractFactoryTest
 {
     public $kitchensink_info_settings = array( "standard" => array("context" => false)
         , "close" => array("context" => false)
+        , "minimize" => array("context" => false)
         , "shy" => array("context" => false)
         , "tag" => array("context" => false)
         , "bulky" => array("context" => false)
