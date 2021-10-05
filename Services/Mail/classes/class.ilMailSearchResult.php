@@ -28,7 +28,8 @@ class ilMailSearchResult
     }
 
     /**
-     * @throws OutOfBoundsException
+     * @param int $id
+     * @return array
      */
     public function getFields(int $id) : array
     {

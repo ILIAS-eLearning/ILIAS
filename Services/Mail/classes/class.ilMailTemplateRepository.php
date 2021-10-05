@@ -31,7 +31,8 @@ class ilMailTemplateRepository
     }
 
     /**
-     * @throws OutOfBoundsException
+     * @param int $templateId
+     * @return ilMailTemplate
      */
     public function findById(int $templateId) : ilMailTemplate
     {
@@ -50,6 +51,7 @@ class ilMailTemplateRepository
     }
 
     /**
+     * @param string $contextId
      * @return ilMailTemplate[]
      */
     public function findByContextId(string $contextId) : array

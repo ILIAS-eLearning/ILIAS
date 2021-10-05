@@ -6,20 +6,14 @@
  */
 class ilMailOptionsFormGUI extends ilPropertyFormGUI
 {
-    /** @var ilLanguage */
-    protected $lng;
-    /** @var ilSetting */
-    protected $settings;
-    /** @var ilObjUser */
-    protected $user;
-    /** @var ilCtrl */
-    protected $ctrl;
     protected object $parentGui;
     protected string $positiveCmd = '';
     protected ilMailOptions $options;
 
     /**
-     * @throws InvalidArgumentException
+     * @param ilMailOptions $options
+     * @param object $parentGui
+     * @param string $positiveCmd
      */
     public function __construct(ilMailOptions $options, object $parentGui, string $positiveCmd)
     {
@@ -28,16 +22,11 @@ class ilMailOptionsFormGUI extends ilPropertyFormGUI
         if (!method_exists($parentGui, 'executeCommand')) {
             throw new InvalidArgumentException(sprintf(
                 'Parameter $parentGui must be ilCtrl enabled by implementing executeCommand(), %s given.',
-                is_object($parentGui) ? get_class($parentGui) : var_export($parentGui, 1)
+                is_object($parentGui) ? get_class($parentGui) : var_export($parentGui, true)
             ));
         }
 
         parent::__construct();
-
-        $this->ctrl = $DIC->ctrl();
-        $this->settings = $DIC->settings();
-        $this->lng = $DIC->language();
-        $this->user = $DIC->user();
 
         $this->options = $options;
         $this->parentGui = $parentGui;

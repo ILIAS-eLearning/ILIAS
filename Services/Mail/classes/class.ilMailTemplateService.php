@@ -59,6 +59,7 @@ class ilMailTemplateService
     }
 
     /**
+     * @param string $contextId
      * @return ilMailTemplate[]
      */
     public function loadTemplatesForContextId(string $contextId) : array
