@@ -22,13 +22,13 @@ final class ilCtrlStructureReader
      *             an ilCtrl_Calls statement. '{CLASS_NAME}' has to
      *             be replaced with an actual classname before used.
      */
-    private const REGEX_PHPDOC_CALLS = '/((@ilCtrl_Calls|@ilctrl_calls)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K.*)/';
+    private const REGEX_PHPDOC_CALLS = '/(((@ilCtrl_Calls|@ilctrl_calls)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*)/';
 
     /**
      * @var string regex pattern similar to the one above, except it's
      *             used for ilCtrl_isCalledBy statements.
      */
-    private const REGEX_PHPDOC_CALLED_BYS = '/((@ilCtrl_isCalledBy|@ilctrl_iscalledby)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K.*)/';
+    private const REGEX_PHPDOC_CALLED_BYS = '/((@ilCtrl_isCalledBy|@ilctrl_iscalledby)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*)/';
 
     /**
      * Holds whether the structure reader was already executed or not.
@@ -106,24 +106,34 @@ final class ilCtrlStructureReader
             }
 
             $array_key = strtolower($class_name);
+            $cid       = $this->generateCid();
 
             try {
-                $reflection = new ReflectionClass($path);
+                $reflection = new ReflectionClass($class_name);
+                $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]      = $cid;
                 $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
                 $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
             } catch (ReflectionException $e) {
                 continue;
             }
 
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $cid;
             $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->generateCid();
             $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
         }
 
-
         foreach ($this->references as $class_name => $data) {
-            $this->addViseVersaMapping($class_name, ilCtrlStructureInterface::KEY_CLASS_CHILDREN);
-            $this->addViseVersaMapping($class_name, ilCtrlStructureInterface::KEY_CLASS_PARENTS);
+            $this->addViseVersaMapping(
+                $class_name,
+                ilCtrlStructureInterface::KEY_CLASS_CHILDREN,
+                ilCtrlStructureInterface::KEY_CLASS_PARENTS
+            );
+
+            $this->addViseVersaMapping(
+                $class_name,
+                ilCtrlStructureInterface::KEY_CLASS_PARENTS,
+                ilCtrlStructureInterface::KEY_CLASS_CHILDREN
+            );
         }
 
         foreach ($this->structure as $class_name => $data) {
@@ -142,19 +152,18 @@ final class ilCtrlStructureReader
      * exist.
      *
      * @param string $class_name
-     * @param string $array_key
+     * @param string $key_ref_from
+     * @param string $key_ref_to
      */
-    private function addViseVersaMapping(string $class_name, string $array_key) : void
+    private function addViseVersaMapping(string $class_name, string $key_ref_from, string $key_ref_to) : void
     {
-        if (!empty($this->references[$class_name][$array_key])) {
-            foreach ($this->references[$class_name][$array_key] as $reference) {
-                if (!isset($this->references[$reference])) {
-                    throw new LogicException("Class '$class_name' referenced '$reference' but it doesn't exist.");
-                }
-
+        if (!empty($this->references[$class_name][$key_ref_from])) {
+            foreach ($this->references[$class_name][$key_ref_from] as $reference) {
                 // only add vise-versa mapping if it doesn't already exist.
-                if (!in_array($class_name, $this->references[$reference][$array_key], true)) {
-                    $this->references[$reference][$array_key][] = $class_name;
+                if (isset($this->references[$reference]) &&
+                    !in_array($class_name, $this->references[$reference][$key_ref_to], true)
+                ) {
+                    $this->references[$reference][$key_ref_to][] = $class_name;
                 }
             }
         }
@@ -192,6 +201,14 @@ final class ilCtrlStructureReader
             foreach (explode(',', $class_list) as $class) {
                 $class_name = $this->stripWhitespaces($class);
                 if (!empty($class_name)) {
+                    /**
+                     * @TODO: uncomment exception and inform developers they need
+                     *        to clean up ilCtrl call statements before release.
+                     */
+                    if (!isset($this->class_map[$class_name])) {
+                        // throw new LogicException("Class '{$reflection->getName()}' referenced '$class_name' which is not a valid mapping.");
+                    }
+
                     // NOTE that all references are lowercase.
                     $referenced_classes[] = strtolower($class_name);
                 }
@@ -223,6 +240,10 @@ final class ilCtrlStructureReader
      */
     private function getParentsRecursively(string $target_class, string $current_path = null) : array
     {
+        if ($target_class === 'asserrortextgui') {
+            $x = 1;
+        }
+
         $target_class_parents = $this->references[$target_class][ilCtrlStructureInterface::KEY_CLASS_PARENTS] ?? [];
         $target_class_cid     = $this->structure[$target_class][ilCtrlStructureInterface::KEY_CLASS_CID];
 
@@ -305,7 +326,7 @@ final class ilCtrlStructureReader
      */
     private function getRelativePath(string $absolute_path) : string
     {
-        return str_replace($this->ilias_path, '', $absolute_path);
+        return '.' . str_replace($this->ilias_path, '', $absolute_path);
     }
 
     /**

@@ -86,16 +86,7 @@ interface ilCtrlInterface
     /**
      * Returns the command passed with the current POST or GET request.
      *
-     * Note that $safe_commands will need no CSRF token validation, all
-     * other commands have to check-pass the validation.
-     *
-     * The optional command handler is used for exceptional cases within
-     * some sort of transitioning phase, because $_POST and $_GET
-     * manipulations were made within this method. Since they will be
-     * prohibited in the future, a handler allows to still take advantage
-     * of that.
-     *
-     * @param string|null               $fallback_command
+     * @param string|null $fallback_command
      * @return string|null
      */
     public function getCmd(string $fallback_command = null) : ?string;
