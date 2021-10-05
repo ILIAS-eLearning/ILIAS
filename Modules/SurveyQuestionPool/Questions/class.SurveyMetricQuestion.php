@@ -585,7 +585,7 @@ class SurveyMetricQuestion extends SurveyQuestion
     * @return The ILIAS form element
     * @access public
     */
-    public function getPreconditionSelectValue($default = "", $title, $variable)
+    public function getPreconditionSelectValue($default, $title, $variable)
     {
         $step3 = new ilNumberInputGUI($title, $variable);
         $step3->setValue($default);

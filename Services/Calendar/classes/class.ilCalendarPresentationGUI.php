@@ -176,9 +176,9 @@ class ilCalendarPresentationGUI
                 }
                 $visibility->showSelected($v);
                 $visibility->save();
-                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed' , $this->seed);
+                $this->ctrl->setParameterByClass(\ilCalendarMonthGUI::class, 'seed', $this->seed);
                 $this->ctrl->redirectToURL(
-                    $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class,'')
+                    $this->ctrl->getLinkTargetByClass(\ilCalendarMonthGUI::class, '')
                 );
             }
         }
@@ -198,7 +198,6 @@ class ilCalendarPresentationGUI
         } else {
             $this->cal_view = $this->cal_settings->getDefaultCal();
         }
-
     }
     
     /**

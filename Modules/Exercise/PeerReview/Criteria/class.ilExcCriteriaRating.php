@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise\GUIRequest;
+
 /**
  * Class ilExcCriteriaRating
  *
@@ -12,6 +14,7 @@ class ilExcCriteriaRating extends ilExcCriteria
 {
     protected ilGlobalTemplateInterface $tpl;
     protected ilCustomInputGUI $form_item;
+    protected GUIRequest $request;
 
     /**
      * Constructor
@@ -23,6 +26,7 @@ class ilExcCriteriaRating extends ilExcCriteria
 
         parent::__construct();
         $this->tpl = $DIC->ui()->mainTemplate();
+        $this->request = $DIC->exercise()->internal()->gui()->request();
     }
 
     public function getType() : string
@@ -54,7 +58,9 @@ class ilExcCriteriaRating extends ilExcCriteria
         // #16993 - making form checkInput() work
         if (is_array($_POST) &&
             array_key_exists("cmd", $_POST)) {
-            $_POST[$field_id] = $this->hasValue($a_value);
+            if ($this->isRequired() && !$this->hasValue($a_value)) {
+                $input->setAlert($this->lng->txt("msg_input_is_required"));
+            }
         }
         
         $this->form_item = $input;
@@ -106,7 +112,7 @@ class ilExcCriteriaRating extends ilExcCriteria
             $this->peer_id,
             $this->getRatingSubType(),
             $this->giver_id,
-            $_POST["value"]
+            $this->request->getRatingValue()
         );
                 
         // render current rating

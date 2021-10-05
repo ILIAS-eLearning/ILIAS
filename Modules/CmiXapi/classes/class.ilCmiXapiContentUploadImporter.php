@@ -186,7 +186,7 @@ class ilCmiXapiContentUploadImporter
         switch ($this->fetchFileExtension($uploadResult)) {
             case self::IMP_FILE_EXTENSION_XML:
                 
-                $this->handleXmlFileFromUpload($uploadResult->getName(),$uploadResult->getPath());
+                $this->handleXmlFileFromUpload($uploadResult->getName(), $uploadResult->getPath());
                 break;
                 
             case self::IMP_FILE_EXTENSION_ZIP:

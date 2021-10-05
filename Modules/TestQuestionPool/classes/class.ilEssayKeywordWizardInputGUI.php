@@ -41,7 +41,7 @@ class ilEssayKeywordWizardInputGUI extends ilSingleChoiceWizardInputGUI
                 false,
                 ilObjAdvancedEditing::_getUsedHTMLTagsAsString(
                     "assessment"
-                                                                         )
+                )
             );
         }
         $foundvalues = $_POST[$this->getPostVar()];

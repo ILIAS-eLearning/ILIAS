@@ -16,8 +16,9 @@ class ilCertificateObjectsForUserPreloader
     }
 
     /**
-     * @param int $userId
+     * @param int   $userId
      * @param int[] $objIds
+     * @throws JsonException
      */
     public function preLoad(int $userId, array $objIds) : void
     {

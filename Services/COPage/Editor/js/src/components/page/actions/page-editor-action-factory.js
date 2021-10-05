@@ -175,11 +175,12 @@ export default class PageEditorActionFactory {
   /**
    * @returns {EditorAction}
    */
-  formatSave(pcids, parFormat, secFormat) {
+  formatSave(pcids, parFormat, secFormat, medFormat) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_SAVE, {
       pcids: pcids,
       parFormat: parFormat,
-      secFormat: secFormat
+      secFormat: secFormat,
+      medFormat: medFormat
     });
   }
 
@@ -222,6 +223,15 @@ export default class PageEditorActionFactory {
    */
     formatSection(format) {
     return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_SECTION, {
+      format: format
+    });
+  }
+
+  /**
+   * @returns {EditorAction}
+   */
+    formatMedia(format) {
+    return this.editorActionFactory.action(this.COMPONENT, ACTIONS.FORMAT_MEDIA, {
       format: format
     });
   }

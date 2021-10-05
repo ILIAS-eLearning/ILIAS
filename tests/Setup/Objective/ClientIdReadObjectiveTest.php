@@ -48,7 +48,7 @@ class ClientIdReadObjectiveTest extends TestCase
         $env = $this->createMock(Setup\Environment::class);
 
         $mock = $this->getMockBuilder(ClientIdReadObjective::class)
-            ->setMethods(["getDataDirectoryPath", "scanDirectory", "isDirectory"])
+            ->onlyMethods(["getDataDirectoryPath", "scanDirectory", "isDirectory"])
             ->getMock();
 
         $DATA_DIR = "/foo/bar/data";

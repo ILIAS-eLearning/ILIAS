@@ -118,7 +118,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 $this->database,
                 $legacy_files_dir . "/" . self::MIGRATION_LOG_CSV
             );
-
         }
         $this->helper->rewind();
     }
@@ -143,5 +142,4 @@ class ilFileObjectToStorageMigration implements Setup\Migration
 
         return $this->helper->getAmountOfItems();
     }
-
 }

@@ -64,7 +64,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
     /**
      * @return array
      */
-    public function getParentTypes()
+    public function getParentTypes() : array
     {
         $par_types = array("orgu");
 
@@ -78,7 +78,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
      *
      * @return string
      */
-    public static function _getIcon($a_type, $a_size)
+    public static function _getIcon(string $a_type) : string
     {
         return ilPlugin::_getImagePath(IL_COMP_MODULE, "OrgUnit", "orguext", ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $a_type), "icon_"
             . $a_type
@@ -91,7 +91,7 @@ abstract class ilOrgUnitExtensionPlugin extends ilRepositoryObjectPlugin
      *
      * @return string
      */
-    public static function _getName($a_id)
+    public static function _getName($a_id) : string
     {
         $name = ilPlugin::lookupNameForId(IL_COMP_MODULE, "Repository", "orguext", $a_id);
         if ($name != "") {

@@ -64,7 +64,7 @@ class ASS_Mark
         $official_name = "",
         $minimum_level = 0,
         $passed = 0
-  ) {
+    ) {
         $this->setShortName($short_name);
         $this->setOfficialName($official_name);
         $this->setMinimumLevel($minimum_level);

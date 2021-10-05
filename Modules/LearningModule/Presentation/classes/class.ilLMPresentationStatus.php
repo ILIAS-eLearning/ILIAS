@@ -31,9 +31,9 @@ class ilLMPresentationStatus
         string $requested_focus_id = "",
         string $requested_focus_return = "",
         string $requested_search_string = "",
-        string $offline,
-        bool $export_all_languages,
-        string $export_format
+        bool $offline = false,
+        bool $export_all_languages = false,
+        string $export_format = ""
     ) {
         $this->lm = $lm;
         $this->ot = ilObjectTranslation::getInstance($lm->getId());

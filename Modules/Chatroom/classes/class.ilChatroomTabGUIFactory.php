@@ -2,7 +2,8 @@
 
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilChatroomTabGUIFactory
@@ -16,7 +17,8 @@ class ilChatroomTabGUIFactory
     private ilObjectGUI $gui;
     private ilLanguage $lng;
     private ilRbacSystem $rbacSystem;
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
+    private Refinery $refinery;
 
     public function __construct(ilObjectGUI $gui)
     {
@@ -26,7 +28,8 @@ class ilChatroomTabGUIFactory
         $this->gui = $gui;
         $this->lng = $DIC->language();
         $this->rbacSystem = $DIC->rbac()->system();
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
     }
 
     /**
@@ -127,16 +130,15 @@ class ilChatroomTabGUIFactory
             $commandParts[1] = 'clientsettings';
         } elseif (
             $is_in_permission_gui &&
-            isset($this->httpRequest->getQueryParams()['ref_id']) &&
-            (int) $this->httpRequest->getQueryParams()['ref_id'] === $public_room_ref
+            $this->http->wrapper()->query()->has('ref_id') &&
+            $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int()) === $public_room_ref
         ) {
             $commandParts[0] = 'perm';
             $DIC->ctrl()->setParameterByClass(ilPermissionGUI::class, 'ref_id', $public_room_ref);
         } elseif (
             $is_in_permission_gui &&
-            isset($this->httpRequest->getQueryParams()['ref_id']) &&
-            (int) $this->httpRequest->getQueryParams()['ref_id'] === $admin_ref
-
+            $this->http->wrapper()->query()->has('ref_id') &&
+            $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int()) === $admin_ref
         ) {
             $commandParts[0] = 'perm_settings';
             $DIC->ctrl()->setParameterByClass(ilPermissionGUI::class, 'ref_id', $admin_ref);

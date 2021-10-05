@@ -316,7 +316,7 @@ class ilFileVersionsGUI
 
         $parent_id = $DIC->repositoryTree()->getParentId($this->ref_id);
 
-        $ru = new ilRepUtilGUI($this);
+        $ru = new ilRepositoryTrashGUI($this);
         $ru->deleteObjects($parent_id, array($this->ref_id));
 
         // redirect to parent object

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Repository\Clipboard\ClipboardManager;
+
 /**
  * ilPasteIntoMultipleItemsExplorer Explorer
  *
@@ -20,23 +22,18 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
      */
     protected $error;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
     const SEL_TYPE_CHECK = 1;
     const SEL_TYPE_RADIO = 2;
     
     public $root_id = 0;
     public $output = '';
-    public $ctrl = null;
-    
+
     private $checked_items = array();
     private $post_var = '';
     private $form_items = array();
     private $form_item_permission = 'read';
     private $type = 0;
+    protected ClipboardManager $clipboard;
     
     /**
     * Constructor
@@ -46,6 +43,7 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
     */
     public function __construct($a_type, $a_target, $a_session_variable)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -82,6 +80,11 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         
         $this->setFiltered(true);
         $this->setFilterMode(IL_FM_POSITIVE);
+        $this->clipboard = $DIC
+            ->repository()
+            ->internal()
+            ->domain()
+            ->clipboard();
     }
     
     public function isClickable($a_type, $a_ref_id = 0, $a_obj_id = 0)
@@ -151,11 +154,9 @@ class ilPasteIntoMultipleItemsExplorer extends ilRepositoryExplorer
         }
         
         $disabled = false;
-        if (is_array($_SESSION["clipboard"]["ref_ids"])) {
-            $disabled = in_array($a_node_id, $_SESSION["clipboard"]["ref_ids"]);
-        } elseif ((int) $_SESSION["clipboard"]["ref_ids"]) {
-            $disabled = $a_node_id == $_SESSION["clipboard"]["ref_ids"];
-        } elseif ($_SESSION["clipboard"]["cmd"] == 'copy' && $a_node_id == $_SESSION["clipboard"]["parent"]) {
+        if ($this->clipboard->hasEntries()) {
+            $disabled = in_array($a_node_id, $this->clipboard->getRefIds());
+        } elseif ($this->clipboard->getCmd() == 'copy' && $a_node_id == $this->clipboard->getParent()) {
             $disabled = true;
         }
 

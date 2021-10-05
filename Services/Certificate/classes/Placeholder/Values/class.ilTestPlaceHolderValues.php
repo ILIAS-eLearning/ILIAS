@@ -4,9 +4,9 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
+class ilTestPlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
     private ilCertificateObjectHelper $objectHelper;
     private ilCertificateTestObjectHelper $testObjectHelper;
     private ilCertificateUserObjectHelper $userObjectHelper;
@@ -35,7 +35,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
         if (null === $defaultPlaceholderValues) {
             $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
         }
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
 
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -76,7 +76,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
      * achieve the certificate.
      * @param int $userId
      * @param int $objId
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilDatabaseException
      * @throws ilDateTimeException
      * @throws ilException
@@ -91,7 +91,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
         $pass = (string) $this->testObjectHelper->getResultPass($active_id);
 
         $result_array = &$testObject->getTestResult($active_id);
-        if (strlen($pass)) {
+        if ($pass !== '') {
             $result_array = &$testObject->getTestResult($active_id, $pass);
         }
 
@@ -113,7 +113,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
             $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
         }
 
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
         $placeholders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($passed);
         $placeholders['RESULT_POINTS'] = $this->utilHelper->prepareFormOutput((string) $result_array['test']['total_reached_points']);
@@ -146,7 +146,7 @@ class ilTestPlaceHolderValues implements ilCertificatePlaceholderValues
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 

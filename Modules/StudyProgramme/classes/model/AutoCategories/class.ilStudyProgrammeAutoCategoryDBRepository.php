@@ -36,7 +36,7 @@ class ilStudyProgrammeAutoCategoryDBRepository implements ilStudyProgrammeAutoCa
     /**
      * @inheritdoc
      */
-    public function readFor(int $prg_obj_id) : array
+    public function getFor(int $prg_obj_id) : array
     {
         $query = 'SELECT '
             . self::FIELD_PRG_OBJ_ID . ','

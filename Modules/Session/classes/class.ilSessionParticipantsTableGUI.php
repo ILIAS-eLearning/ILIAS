@@ -215,7 +215,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
             ilTable2GUI::FILTER_CHECKBOX,
             false,
             $this->lng->txt('sess_part_filter_participated')
-            );
+        );
         $this->current_filter['filter_participated'] = (bool) $participated->getChecked();
     }
     

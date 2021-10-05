@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Collector of skills for a container
@@ -9,42 +24,13 @@
  */
 class ilContSkillCollector
 {
-    /**
-     * @var array
-     */
-    protected $tab_skills = array();
+    protected array $tab_skills = [];
+    protected array $pres_skills = [];
+    protected ilContainerSkills $container_skills;
+    protected ilContainerGlobalProfiles $container_global_profiles;
+    protected ilContainerLocalProfiles $container_local_profiles;
+    protected ilSkillManagementSettings $skmg_settings;
 
-    /**
-     * @var array
-     */
-    protected $pres_skills = array();
-
-    /**
-     * @var ilContainerSkills
-     */
-    protected $container_skills;
-
-    /**
-     * @var ilContainerGlobalProfiles
-     */
-    protected $container_global_profiles;
-
-    /**
-     * @var ilContainerLocalProfiles
-     */
-    protected $container_local_profiles;
-
-    /**
-     * @var ilSkillManagementSettings
-     */
-    protected $skmg_settings;
-
-    /**
-     * Constructor
-     * @param ilContainerSkills         $a_cont_skills
-     * @param ilContainerGlobalProfiles $a_cont_glb_profiles
-     * @param ilContainerLocalProfiles  $a_cont_lcl_profiles
-     */
     public function __construct(
         ilContainerSkills $a_cont_skills,
         ilContainerGlobalProfiles $a_cont_glb_profiles,
@@ -56,9 +42,6 @@ class ilContSkillCollector
         $this->skmg_settings = new ilSkillManagementSettings();
     }
 
-    /**
-     * @return array
-     */
     public function getSkillsForTableGUI() : array
     {
         // Get single and profile skills WITHOUT array keys so as not to remove multiple occurrences when merging
@@ -75,17 +58,12 @@ class ilContSkillCollector
         return $this->tab_skills;
     }
 
-    /**
-     * Get all skills for presentation gui
-     *
-     * @return array
-     */
     public function getSkillsForPresentationGUI() : array
     {
         // Get single and profile skills WITH array keys so as to remove multiple occurrences when merging
 
         $s_skills = $this->getSingleSkills();
-        $p_skills = array();
+        $p_skills = [];
 
         foreach ($this->getProfileSkills() as $ps) {
             $p_skills[$ps["base_skill_id"] . "-" . $ps["tref_id"]] = array(
@@ -101,11 +79,6 @@ class ilContSkillCollector
         return $this->pres_skills;
     }
 
-    /**
-     * Get single skills of container
-     *
-     * @return array
-     */
     protected function getSingleSkills() : array
     {
         $s_skills = array_map(function ($v) {
@@ -119,14 +92,9 @@ class ilContSkillCollector
         return $s_skills;
     }
 
-    /**
-     * Get profile skills of container
-     *
-     * @return array
-     */
     protected function getProfileSkills() : array
     {
-        $p_skills = array();
+        $p_skills = [];
         // Global skills
         if ($this->skmg_settings->getLocalAssignmentOfProfiles()) {
             foreach ($this->container_global_profiles->getProfiles() as $gp) {

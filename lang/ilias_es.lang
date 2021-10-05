@@ -8438,7 +8438,7 @@ file#:#file_suffix_default_white#:#Lista blanca predeterminada de sufijos
 file#:#file_suffix_default_white_info#:#Lista predeterminada de sufijos aceptados.
 file#:#file_suffix_overall_white#:#Lista blanca general de sufijos
 file#:#file_suffix_overall_white_info#:#Lista total resultante de sufijos de archivo aceptados.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
 file#:#file_uploaded_by#:#Enviado por
 file#:#replace_file_info#:#Todas las versiones del Archivo serán borradas
 file#:#repository_disk_quota#:#Cuota de disco permisiva para el repositorio

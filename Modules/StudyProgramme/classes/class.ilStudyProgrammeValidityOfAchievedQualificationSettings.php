@@ -125,8 +125,8 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
                     $lng->txt('validity_qualification_date_desc')
                 )
                 ->withFormat($format)
-                ->withMinValue(new DateTimeImmutable())
                 ->withValue($this->getQualificationDate() !== null ? $this->getQualificationDate()->format('d.m.Y') : '')
+                ->withRequired(true)
             ],
             $lng->txt('validity_qualification_date')
         );

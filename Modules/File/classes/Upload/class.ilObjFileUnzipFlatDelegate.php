@@ -8,7 +8,6 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 class ilObjFileUnzipFlatDelegate extends ilObjFileAbstractZipDelegate
 {
-
     public function handle(
         int $parent_id,
         array $post_data,
@@ -31,5 +30,4 @@ class ilObjFileUnzipFlatDelegate extends ilObjFileAbstractZipDelegate
         $response->error = null;
         return $response;
     }
-
 }

@@ -10,8 +10,6 @@
 *
 */
 
-include_once './Services/Tracking/classes/class.ilLPStatus.php';
-
 class ilLPStatusStudyProgramme extends ilLPStatus
 {
     public static function _getCountInProgress($a_obj_id)
@@ -21,7 +19,6 @@ class ilLPStatusStudyProgramme extends ilLPStatus
     
     public static function _getInProgress($a_obj_id)
     {
-        require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
         $prg = new ilObjStudyProgramme($a_obj_id, false);
         return $prg->getIdsOfUsersWithNotCompletedAndRelevantProgress();
     }
@@ -33,21 +30,18 @@ class ilLPStatusStudyProgramme extends ilLPStatus
     
     public static function _getCompleted($a_obj_id)
     {
-        require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
         $prg = new ilObjStudyProgramme($a_obj_id, false);
         return $prg->getIdsOfUsersWithCompletedProgress();
     }
 
     public static function _getFailed($a_obj_id)
     {
-        require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
         $prg = new ilObjStudyProgramme($a_obj_id, false);
         return $prg->getIdsOfUsersWithFailedProgress();
     }
 
     public function determineStatus($a_obj_id, $a_user_id, $a_obj = null)
     {
-        require_once("Modules/StudyProgramme/classes/class.ilObjStudyProgramme.php");
         $prg = new ilObjStudyProgramme($a_obj_id, false);
         $progresses = $prg->getProgressesOf($a_user_id);
 
@@ -65,9 +59,6 @@ class ilLPStatusStudyProgramme extends ilLPStatus
             if ($progress->isRelevant()) {
                 $relevant = true;
             }
-            
-            //Careful, there is a writing function involved in the getter!
-            //see $progress->recalculateFailedToDeadline();
             if ($progress->isFailed()) {
                 $failed = true;
             }

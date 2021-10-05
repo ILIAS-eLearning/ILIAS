@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\BackgroundTasks\Implementation\TaskManager\BasicTaskManager;
 use ILIAS\BackgroundTasks\Task\TaskFactory;
@@ -12,14 +12,9 @@ use ILIAS\DI\Container;
  */
 class ilMailTaskProcessorTest extends ilMailBaseTest
 {
-    /** @var ilLanguage */
-    private $languageMock;
-
-    /** @var Container */
-    private $dicMock;
-
-    /** @var ilLogger */
-    private $loggerMock;
+    private ilLanguage $languageMock;
+    private Container $dicMock;
+    private ilLogger $loggerMock;
 
     /**
      * @throws ReflectionException
@@ -51,7 +46,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $taskManager
-            ->expects($this->exactly(1))
+            ->expects($this->once())
             ->method('run');
 
         $taskFactory = $this->getMockBuilder(ILIAS\BackgroundTasks\Task\TaskFactory::class)
@@ -63,7 +58,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->disableOriginalConstructor()
             ->getMock();
 
-        $backgroundTask->expects($this->any())->method('unfoldTask')
+        $backgroundTask->method('unfoldTask')
             ->willReturn([]);
 
         $taskFactory
@@ -93,7 +88,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
         );
 
         $mailValueObjects = [
-            $mailValueObject
+            $mailValueObject,
         ];
 
         $userId = 100;
@@ -120,7 +115,7 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $taskManager
-            ->expects($this->exactly(1))
+            ->expects($this->once())
             ->method('run');
 
         $taskFactory = $this->getMockBuilder(TaskFactory::class)
@@ -133,7 +128,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $backgroundTask
-            ->expects($this->any())
             ->method('unfoldTask')
             ->willReturn([]);
 
@@ -211,7 +205,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $backgroundTask
-            ->expects($this->any())
             ->method('unfoldTask')
             ->willReturn([]);
 
@@ -302,7 +295,6 @@ class ilMailTaskProcessorTest extends ilMailBaseTest
             ->getMock();
 
         $backgroundTask
-            ->expects($this->any())
             ->method('unfoldTask')
             ->willReturn([]);
 

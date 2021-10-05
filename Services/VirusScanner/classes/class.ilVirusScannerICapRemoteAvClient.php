@@ -27,25 +27,20 @@ class ilVirusScannerICapRemoteAvClient extends ilVirusScannerICapRemote
     public function scanFile($a_filepath, $a_origname = "")
     {
         $return_string = '';
-        if (file_exists($a_filepath)) {
-            if (is_readable($a_filepath)) {
-                $results = ($this->reqmod(
-                    'avscan',
-                    [
-                        'req-hdr'  => "POST /test HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n",
-                        'req-body' => file_get_contents($a_filepath) //Todo: find a better way
-                    ]
-                ));
-                if ($this->analyseHeader($results)) {
-                    $return_string = sprintf('Virus found in file "%s"!', $a_filepath);
-                    $this->log->warning($return_string);
-                }
-            } else {
-                $return_string = sprintf('File "%s" not readable.', $a_filepath);
+        if (is_readable($a_filepath)) {
+            $results = ($this->reqmod(
+                'avscan',
+                [
+                    'req-hdr'  => "POST /test HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n",
+                    'req-body' => file_get_contents($a_filepath) //Todo: find a better way
+                ]
+            ));
+            if ($this->analyseHeader($results)) {
+                $return_string = sprintf('Virus found in file "%s"!', $a_filepath);
                 $this->log->warning($return_string);
             }
         } else {
-            $return_string = sprintf('File "%s" not found.', $a_filepath);
+            $return_string = sprintf('File "%s" not found or not readable.', $a_filepath);
             $this->log->warning($return_string);
         }
         $this->log->info(sprintf('No virus found in file "%s".', $a_filepath));

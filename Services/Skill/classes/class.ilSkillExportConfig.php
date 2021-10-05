@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 
 /**
@@ -12,66 +27,48 @@ class ilSkillExportConfig extends ilExportConfig
 {
     public const MODE_SKILLS = "";
     public const MODE_PROFILES = "prof";
-    protected $selected_nodes = [];
-    protected $selected_profiles = [];
-    protected $mode = "";
+    protected array $selected_nodes = [];
+    protected array $selected_profiles = [];
+    protected string $mode = "";
 
-    /**
-     * Set mode
-     *
-     * @param string $a_val mode
-     */
-    public function setMode($a_val)
+    public function setMode(string $a_val) : void
     {
         $this->mode = $a_val;
     }
-    
-    /**
-     * Get mode
-     *
-     * @return string mode
-     */
-    public function getMode()
+
+    public function getMode() : string
     {
         return $this->mode;
     }
-    
+
     /**
-     * Set export selected nodes
-     *
-     * @param array $a_val array of int
+     * @param int[] $a_val
      */
-    public function setSelectedNodes($a_val)
+    public function setSelectedNodes(array $a_val) : void
     {
         $this->selected_nodes = $a_val;
     }
 
     /**
-     * Get export selected nodes
-     *
-     * @return array array of int
+     * @return int[]
      */
-    public function getSelectedNodes()
+    public function getSelectedNodes() : array
     {
         return $this->selected_nodes;
     }
 
     /**
-     * Set selected profiles
-     *
-     * @param array $a_val array of int (profile ids)
+     * @param int[] $a_val (profile ids)
      */
-    public function setSelectedProfiles($a_val)
+    public function setSelectedProfiles(array $a_val) : void
     {
         $this->selected_profiles = $a_val;
     }
 
     /**
-     * Get selected profiles
-     *
-     * @return array array of int (profile ids)
+     * @return int[] (profile ids)
      */
-    public function getSelectedProfiles()
+    public function getSelectedProfiles() : array
     {
         return $this->selected_profiles;
     }

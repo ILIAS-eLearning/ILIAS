@@ -1,18 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Container field data
  *
- * @author killing@leifos.de
- * @ingroup ServicesContainer
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilContainerFilterFieldData
 {
-    /**
-     * Constructor
-     */
+    protected \ilDBInterface $db;
+
     public function __construct()
     {
         global $DIC;
@@ -20,12 +29,6 @@ class ilContainerFilterFieldData
         $this->db = $DIC->database();
     }
 
-    /**
-     * Get filter for ref id
-     *
-     * @param int $ref_id
-     * @return ilContainerFilterSet
-     */
     public function getFilterSetForRefId(int $ref_id) : ilContainerFilterSet
     {
         $db = $this->db;
@@ -54,12 +57,7 @@ class ilContainerFilterFieldData
         return new ilContainerFilterSet($filter);
     }
 
-    /**
-     * Save filter set for ref id
-     * @param int $ref_id
-     * @param ilContainerFilterSet $set
-     */
-    public function saveFilterSetForRefId(int $ref_id, ilContainerFilterSet $set)
+    public function saveFilterSetForRefId(int $ref_id, ilContainerFilterSet $set) : void
     {
         $db = $this->db;
 

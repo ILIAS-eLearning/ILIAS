@@ -61,23 +61,23 @@ class ilObjExerciseGUI extends ilObjectGUI
         $this->service = $DIC->exercise()->internal();
         $this->exercise_request = $DIC->exercise()->internal()->gui()->request();
         $this->exercise_ui = $DIC->exercise()->internal()->gui();
-        $this->requested_ass_id = $this->exercise_request->getRequestedAssId();
+        $this->requested_ass_id = $this->exercise_request->getAssId();
 
         if ($this->requested_ass_id > 0 && is_object($this->object) && ilExAssignment::lookupExerciseId(
             $this->requested_ass_id
         ) == $this->object->getId()) {
-            $this->ass = $this->exercise_request->getRequestedAssignment();
+            $this->ass = $this->exercise_request->getAssignment();
         } elseif ($this->requested_ass_id > 0) {
             throw new ilExerciseException("Assignment ID does not match Exercise.");
         }
 
-        $this->lp_user_id = ($this->exercise_request->getRequestedUserId() > 0)
+        $this->lp_user_id = ($this->exercise_request->getUserId() > 0)
             ?: $this->user->getId();
-        $this->requested_sort_order = $this->exercise_request->getRequestedSortOrder();
-        $this->requested_sort_by = $this->exercise_request->getRequestedSortBy();
-        $this->requested_offset = $this->exercise_request->getRequestedOffset();
-        $this->requested_ref_id = $this->exercise_request->getRequestedRefId();
-        $this->requested_ass_id_goto = $this->exercise_request->getRequestedAssIdGoto();
+        $this->requested_sort_order = $this->exercise_request->getSortOrder();
+        $this->requested_sort_by = $this->exercise_request->getSortBy();
+        $this->requested_offset = $this->exercise_request->getOffset();
+        $this->requested_ref_id = $this->exercise_request->getRefId();
+        $this->requested_ass_id_goto = $this->exercise_request->getAssIdGoto();
 
         $this->certificateDownloadValidator = new ilCertificateDownloadValidator();
     }

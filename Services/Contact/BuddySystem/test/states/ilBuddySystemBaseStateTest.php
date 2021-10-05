@@ -12,11 +12,7 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
     private const RELATION_OWNER_ID = -1;
     private const RELATION_BUDDY_ID = -2;
 
-    /** @var bool */
-    protected $backupGlobals = false;
-
-    /** @var ilBuddySystemRelation */
-    protected $relation;
+    protected ilBuddySystemRelation $relation;
 
     protected function setUp() : void
     {
@@ -29,8 +25,5 @@ abstract class ilBuddySystemBaseStateTest extends ilBuddySystemBaseTest
         );
     }
 
-    /**
-     * @return ilBuddySystemRelationState
-     */
     abstract public function getInitialState() : ilBuddySystemRelationState;
 }

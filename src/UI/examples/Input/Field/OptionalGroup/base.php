@@ -13,12 +13,16 @@ function base()
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
 
-    //Step 1: Define the field in the group
+    //Step 1: Define the fields in the group
     $dependant_field = $ui->input()->field()->text("Item 1", "Just some dependent group field");
+    $dependant_field2 = $ui->input()->field()->datetime("Item 2", "a dependent date");
 
     //Step 2: define the checkbox and attach the dependant group
     $checkbox_input = $ui->input()->field()->optionalGroup(
-        ["dependant_field" => $dependant_field],
+        [
+            "dependant_text" => $dependant_field,
+            "dependant_date" => $dependant_field2
+        ],
         "Optional Group",
         "Check to display group field."
     );

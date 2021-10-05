@@ -25,7 +25,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @var assOrderingQuestion
      */
-    public $object;
+    public assQuestion $object;
     
     public $old_ordering_depth = array();
     public $leveled_ordering = array();
@@ -189,7 +189,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     public function writeQuestionSpecificPostData(ilPropertyFormGUI $form)
     {
         $this->object->setThumbGeometry($_POST["thumb_geometry"]);
-       // $this->object->setElementHeight($_POST["element_height"]);
+        // $this->object->setElementHeight($_POST["element_height"]);
         //$this->object->setOrderingType( $_POST["ordering_type"] );
         $this->object->setPoints($_POST["points"]);
     }
@@ -327,11 +327,11 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($forceSaving = false)
+    protected function writePostData(bool $always = false) : int
     {
         $savingAllowed = true; // assume saving allowed first
         
-        if (!$forceSaving) {
+        if (!$always) {
             // this case seems to be a regular save call, so we consider
             // the validation result for the decision of saving as well
             
@@ -373,9 +373,9 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     }
     
     /**
-     * @return ilAssOrderingQuestionAuthoringFormGUI
+     * @return ilPropertyFormGUI
      */
-    protected function buildEditForm()
+    protected function buildEditForm() : ilPropertyFormGUI
     {
         require_once 'Modules/TestQuestionPool/classes/forms/class.ilAssOrderingQuestionAuthoringFormGUI.php';
         $form = new ilAssOrderingQuestionAuthoringFormGUI();
@@ -524,7 +524,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         //$this->tpl->addJavascript("./Modules/TestQuestionPool/templates/default/ordering.js");
     }
     
-    public function getPresentationJavascripts()
+    public function getPresentationJavascripts() : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -591,7 +591,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      *
      * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -673,7 +673,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->addBackTab($ilTabs);
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
             return '';
@@ -911,7 +911,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $html;
     }
     
-    public function getAnswersFrequency($relevantAnswers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         $answersByActiveAndPass = array();
         
@@ -956,7 +956,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function prepareReprintableCorrectionsForm(ilPropertyFormGUI $form)
+    public function prepareReprintableCorrectionsForm(ilPropertyFormGUI $form) : void
     {
         $orderingInput = $form->getItemByPostVar(assOrderingQuestion::ORDERING_ELEMENT_FORM_FIELD_POSTVAR);
         $orderingInput->prepareReprintable($this->object);
@@ -965,7 +965,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $points = new ilNumberInputGUI($this->lng->txt("points"), "points");
         $points->allowDecimals(true);
@@ -992,7 +992,7 @@ class assOrderingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $this->object->setPoints((float) $form->getInput('points'));
         

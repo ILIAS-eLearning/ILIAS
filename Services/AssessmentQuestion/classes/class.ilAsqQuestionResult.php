@@ -11,45 +11,45 @@
  */
 class ilAsqQuestionResult
 {
-	/**
-	 * @var float
-	 */
-	protected $points;
-	
-	/**
-	 * @var bool
-	 */
-	protected $correct;
-	
-	/**
-	 * @param float $points
-	 */
-	public function setPoints(float $points)
-	{
-		$this->points = $points;
-	}
-	
-	/**
-	 * @return float
-	 */
-	public function getPoints() : float
-	{
-		return $this->points;
-	}
-	
-	/**
-	 * @param bool $correct
-	 */
-	public function setCorrect(bool $correct)
-	{
-		$this->correct = $correct;
-	}
-	
-	/**
-	 * @return bool
-	 */
-	public function isCorrect() : bool
-	{
-		return $this->correct;
-	}
+    /**
+     * @var float
+     */
+    protected $points;
+    
+    /**
+     * @var bool
+     */
+    protected $correct;
+    
+    /**
+     * @param float $points
+     */
+    public function setPoints(float $points)
+    {
+        $this->points = $points;
+    }
+    
+    /**
+     * @return float
+     */
+    public function getPoints() : float
+    {
+        return $this->points;
+    }
+    
+    /**
+     * @param bool $correct
+     */
+    public function setCorrect(bool $correct)
+    {
+        $this->correct = $correct;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function isCorrect() : bool
+    {
+        return $this->correct;
+    }
 }

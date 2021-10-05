@@ -122,7 +122,7 @@ class ilOrgUnitUserRepository
         $empl_id_sup_ids = [];
         while ($data = $DIC->database()->fetchAssoc($st)) {
             $org_unit_user = ilOrgUnitUser::getInstanceById($data['empl_usr_id']);
-            $superior = ilOrgUnitUser::getInstance($data['sup_usr_id'], (string)$data['sup_login'], (string)$data['sup_email'], (string)$data['sup_second_email']);
+            $superior = ilOrgUnitUser::getInstance($data['sup_usr_id'], (string) $data['sup_login'], (string) $data['sup_email'], (string) $data['sup_second_email']);
             $org_unit_user->addSuperior($superior);
         }
     }
@@ -217,7 +217,7 @@ class ilOrgUnitUserRepository
         $set = $this->dic->database()->query($q);
 
         while ($row = $this->dic->database()->fetchAssoc($set)) {
-            $users[] = ilOrgUnitUser::getInstance($row['usr_id'], (string)$row['login'], (string)$row['email'], (string)$row['second_email']);
+            $users[] = ilOrgUnitUser::getInstance($row['usr_id'], (string) $row['login'], (string) $row['email'], (string) $row['second_email']);
         }
 
         return $users;

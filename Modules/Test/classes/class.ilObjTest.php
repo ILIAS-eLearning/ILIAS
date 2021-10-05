@@ -363,13 +363,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     protected $allowedUsersTimeGap;
 
     /**
-* visiblity settings for a test certificate
-*
-* @var int
-*/
-    public $certificate_visibility;
-
-    /**
 * Anonymity of the test users
 *
 * @var int
@@ -648,7 +641,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $this->pass_scoring = SCORE_LAST_PASS;
         $this->answer_feedback = 0;
         $this->password = "";
-        $this->certificate_visibility = 0;
         $this->allowedUsers = "";
         $this->_showfinalstatement = false;
         $this->_finalstatement = "";
@@ -1299,7 +1291,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                 'alloweduserstimegap' => array('integer', $this->getAllowedUsersTimeGap()),
                 'mailnottype' => array('integer', $this->getMailNotificationType()),
                 'exportsettings' => array('integer', $this->getExportSettings()),
-                'certificate_visibility' => array('text', $this->getCertificateVisibility()),
                 'mailnotification' => array('integer', $this->getMailNotification()),
                 'created' => array('integer', time()),
                 'tstamp' => array('integer', time()),
@@ -1420,7 +1411,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                         'alloweduserstimegap' => array('integer', $this->getAllowedUsersTimeGap()),
                         'mailnottype' => array('integer', $this->getMailNotificationType()),
                         'exportsettings' => array('integer', $this->getExportSettings()),
-                        'certificate_visibility' => array('text', $this->getCertificateVisibility()),
                         'mailnotification' => array('integer', $this->getMailNotification()),
                         'tstamp' => array('integer', time()),
                         'enabled_view_mode' => array('text', $this->getEnabledViewMode()),
@@ -1918,7 +1908,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $this->setPassScoring($data->pass_scoring);
             $this->setObligationsEnabled($data->obligations_enabled);
             $this->setOfferingQuestionHintsEnabled($data->offer_question_hints);
-            $this->setCertificateVisibility($data->certificate_visibility);
             $this->setEnabledViewMode($data->enabled_view_mode);
             $this->setTemplate($data->template_id);
             $this->setPoolUsage($data->pool_usage);
@@ -5486,7 +5475,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
         assQuestion::_includeClass($question_type, 1);
         
-        $question_type_gui = $question_type.'GUI';
+        $question_type_gui = $question_type . 'GUI';
         $question = new $question_type_gui();
         
         if ($question_id > 0) {
@@ -7184,7 +7173,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setUsePreviousAnswers($this->getUsePreviousAnswers());
         $newObj->setRedirectionMode($this->getRedirectionMode());
         $newObj->setRedirectionUrl($this->getRedirectionUrl());
-        $newObj->setCertificateVisibility($this->getCertificateVisibility());
         $newObj->mark_schema = clone $this->mark_schema;
         $newObj->setEnabledViewMode($this->getEnabledViewMode());
         $newObj->setTemplate($this->getTemplate());
@@ -7216,7 +7204,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         
         // clone certificate
         $pathFactory = new ilCertificatePathFactory();
-        $templateRepository = new ilCertificateTemplateRepository($ilDB);
+        $templateRepository = new ilCertificateTemplateDatabaseRepository($ilDB);
 
         $cloneAction = new ilCertificateCloneAction(
             $ilDB,
@@ -9336,46 +9324,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     }
 
     /**
-    * Saves the visibility settings of the certificate
-    *
-    * @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
-    * @access private
-    */
-    public function saveCertificateVisibility($a_value)
-    {
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $affectedRows = $ilDB->manipulateF(
-            "UPDATE tst_tests SET certificate_visibility = %s, tstamp = %s WHERE test_id = %s",
-            array('text', 'integer', 'integer'),
-            array($a_value, time(), $this->getTestId())
-        );
-    }
-
-    /**
-    * Returns the visibility settings of the certificate
-    *
-    * @return integer The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
-    * @access public
-    */
-    public function getCertificateVisibility()
-    {
-        return (strlen($this->certificate_visibility)) ? $this->certificate_visibility : 0;
-    }
-
-    /**
-    * Sets the visibility settings of the certificate
-    *
-    * @param integer $a_value The value for the visibility settings (0 = always, 1 = only passed,  2 = never)
-    * @access public
-    */
-    public function setCertificateVisibility($a_value)
-    {
-        $this->certificate_visibility = $a_value;
-    }
-
-    /**
     * Returns the anonymity status of the test
     *
     * @return integer The value for the anonymity status (0 = personalized, 1 = anonymized)
@@ -10390,51 +10338,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
             $counted_pass = ilObjTest::_getResultPass($active_id);
             $result_array = &$this->getTestResult($active_id, $counted_pass);
             return $result_array["test"]["passed"];
-        }
-    }
-
-    /**
-    * Checks whether the certificate button could be shown on the info page or not
-    *
-    * @access public
-    */
-    public function canShowCertificate($testSession, $user_id, $active_id)
-    {
-        if ($this->canShowTestResults($testSession)) {
-            $isComplete = false;
-            $userCertificateRepository = new ilUserCertificateRepository($this->db, $this->log);
-            try {
-                $userCertificateRepository->fetchActiveCertificate($user_id, $this->getId());
-                $isComplete = true;
-            } catch (ilException $e) {
-            }
-
-            if ($isComplete) {
-                $vis = $this->getCertificateVisibility();
-                $showcert = false;
-                switch ($vis) {
-                    case 0:
-                        $showcert = true;
-                        break;
-                    case 1:
-                        if ($this->getPassed($active_id)) {
-                            $showcert = true;
-                        }
-                        break;
-                    case 2:
-                        $showcert = false;
-                        break;
-                }
-                if ($showcert) {
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } else {
-            return false;
         }
     }
 

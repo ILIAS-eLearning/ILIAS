@@ -24,5 +24,4 @@ class ilFileObjectToStorageInfoResolver extends StreamInfoResolver
         parent::__construct($stream, $next_version_number, $revision_owner_id, $revision_title);
         $this->creation_date = $creation_date;
     }
-
 }

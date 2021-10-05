@@ -342,6 +342,20 @@ class ilUserProfile
                 "y" => "chat_osc_accepts_messages_yes"
             )
         ),
+        "chat_broadcast_typing" => array(
+            "input" => "selection",
+            "lang_var" => "chat_broadcast_typing",
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "group" => "settings",
+            "default" => "y",
+            "options" => array(
+                "n" => "chat_broadcast_typing_no",
+                "y" => "chat_broadcast_typing_yes"
+            )
+        ),
         "preferences" => array(
                         "visible_fix_value" => 1,
                         "changeable_fix_value" => 1,

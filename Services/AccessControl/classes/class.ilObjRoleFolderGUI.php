@@ -400,7 +400,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $form->addItem($roles);
 
         $form->addCommandButton('roleSearchList', $this->lng->txt('back'));
-        $form->addCommandButton('adjustRole',$this->lng->txt('rbac_form_copy_roles_adjust_button'));
+        $form->addCommandButton('adjustRole', $this->lng->txt('rbac_form_copy_roles_adjust_button'));
         return $form;
     }
     
@@ -420,11 +420,9 @@ class ilObjRoleFolderGUI extends ilObjectGUI
 
         $form = $this->initCopyBehaviourForm($source);
         if ($form->checkInput()) {
-
             $adjustment_type = $form->getInput('type');
             foreach ((array) $roles as $role_id) {
                 if ($role_id != $source) {
-
                     $start_obj = $review->getRoleFolderOfRole($role_id);
                     $this->logger->debug('Start object: ' . $start_obj);
 
@@ -550,7 +548,6 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             $target,
             $rbacreview->getRoleFolderOfRole($target)
         );
-
     }
     
     
@@ -594,12 +591,10 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $target_ref_id = $review->getRoleFolderOfRole($a_target_role);
         if ($review->isProtected($target_ref_id, $a_target_role)) {
             $mode = \ilObjRole::MODE_PROTECTED_KEEP_LOCAL_POLICIES;
-        }
-        else {
+        } else {
             $mode = \ilObjRole::MODE_UNPROTECTED_KEEP_LOCAL_POLICIES;
         }
         if ($a_start_obj) {
-
             $operation_stack = [];
             if ($a_operation_mode !== \ilObjRole::MODE_READ_OPERATIONS) {
                 $operation_stack[] = $review->getAllOperationsOfRole($a_source_role, $a_start_obj);

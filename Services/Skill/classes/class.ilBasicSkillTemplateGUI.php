@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Basic skill template GUI class
@@ -10,41 +25,14 @@
  */
 class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilHelpGUI $help;
+    protected ilToolbarGUI $toolbar;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_node_id = 0, $a_tref_id = 0)
+    public function __construct(int $a_node_id = 0, int $a_tref_id = 0)
     {
         global $DIC;
 
@@ -63,20 +51,12 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         parent::__construct($a_node_id);
     }
 
-    /**
-     * Get Node Type
-     */
-    public function getType()
+    public function getType() : string
     {
         return "sktp";
     }
 
-    /**
-     * Init form.
-     *
-     * @param string $a_mode edit mode
-     */
-    public function initForm($a_mode = "edit")
+    public function initForm(string $a_mode = "edit") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -124,10 +104,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    /**
-     * Set header for level
-     */
-    public function setLevelHead()
+    public function setLevelHead() : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -189,12 +166,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         );
     }
 
-    /**
-     * Set header for skill
-     *
-     * @param
-     */
-    public function setTabs($a_tab = "")
+    public function setTabs(string $a_tab = "") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -258,10 +230,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         }
     }
 
-    /**
-     * Save item
-     */
-    public function saveItem()
+    public function saveItem() : void
     {
         if (!$this->checkPermissionBool("write")) {
             return;
@@ -275,11 +244,8 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         ilSkillTreeNode::putInTree($it, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $it;
     }
-    
-    /**
-     * After saving
-     */
-    public function afterSave()
+
+    public function afterSave() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -291,10 +257,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $ilCtrl->redirectByClass("ilbasicskilltemplategui", "edit");
     }
 
-    /**
-     * Edit skill
-     */
-    public function edit()
+    public function edit() : void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -318,10 +281,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $tpl->setContent($table->getHTML());
     }
 
-    /**
-     * Show skill usage
-     */
-    public function showUsage()
+    public function showUsage() : void
     {
         $tpl = $this->tpl;
 
@@ -348,10 +308,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $tpl->setContent($html);
     }
 
-    /**
-     * Show assigned objects
-     */
-    public function showObjects()
+    public function showObjects() : void
     {
         $tpl = $this->tpl;
 

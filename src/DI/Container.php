@@ -8,6 +8,7 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\Skill\Service\SkillService;
+use ILIAS\Repository;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -328,6 +329,25 @@ class Container extends \Pimple\Container
         return $this['resource_storage'];
     }
 
+    public function repository() : Repository\Service
+    {
+        return new Repository\Service($this);
+    }
+
+    public function container() : \ILIAS\Container\Service
+    {
+        return new \ILIAS\Container\Service($this);
+    }
+
+    public function containerReference() : \ILIAS\ContainerReference\Service
+    {
+        return new \ILIAS\ContainerReference\Service($this);
+    }
+
+    public function category() : \ILIAS\Category\Service
+    {
+        return new \ILIAS\Category\Service($this);
+    }
 
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,

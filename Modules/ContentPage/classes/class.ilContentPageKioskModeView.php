@@ -8,7 +8,8 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\MessageBox\MessageBox;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilContentPageKioskModeView
@@ -23,22 +24,17 @@ class ilContentPageKioskModeView extends ilKioskModeView
     protected Factory $uiFactory;
     protected Renderer $uiRenderer;
     protected ilGlobalTemplateInterface $mainTemplate;
-    protected ServerRequestInterface $httpRequest;
+    protected GlobalHttpState $http;
+    protected Refinery $refinery;
     protected ilTabsGUI $tabs;
     /** @var MessageBox[] */
     protected array $messages = [];
 
-    /**
-     * @inheritDoc
-     */
     protected function getObjectClass() : string
     {
         return ilObjContentPage::class;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function setObject(ilObject $object)
     {
         global $DIC;
@@ -49,38 +45,27 @@ class ilContentPageKioskModeView extends ilKioskModeView
         $this->mainTemplate = $DIC->ui()->mainTemplate();
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
         $this->tabs = $DIC->tabs();
         $this->user = $DIC->user();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function hasPermissionToAccessKioskMode() : bool
     {
         return $this->access->checkAccess('read', '', $this->contentPageObject->getRefId());
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildInitialState(State $empty_state) : State
     {
         return $empty_state;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildControls(State $state, ControlBuilder $builder)
     {
         $this->buildLearningProgressToggleControl($builder);
     }
 
-    /**
-     * @param ControlBuilder $builder
-     */
     protected function buildLearningProgressToggleControl(ControlBuilder $builder) : void
     {
         $learningProgress = ilObjectLP::getInstance($this->contentPageObject->getId());
@@ -103,9 +88,6 @@ class ilContentPageKioskModeView extends ilKioskModeView
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function updateGet(State $state, string $command, int $parameter = null) : State
     {
         $this->toggleLearningProgress($command);
@@ -113,9 +95,6 @@ class ilContentPageKioskModeView extends ilKioskModeView
         return $state;
     }
 
-    /**
-     * @param string $command
-     */
     protected function toggleLearningProgress(string $command) : void
     {
         if (in_array($command, [
@@ -142,17 +121,11 @@ class ilContentPageKioskModeView extends ilKioskModeView
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function updatePost(State $state, string $command, array $post) : State
     {
         return $state;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function render(
         State $state,
         Factory $factory,
@@ -169,12 +142,13 @@ class ilContentPageKioskModeView extends ilKioskModeView
         $this->renderContentStyle();
 
         $forwarder = new ilContentPagePageCommandForwarder(
-            $this->httpRequest,
+            $this->http,
             $this->ctrl,
             $this->tabs,
             $this->lng,
             $this->contentPageObject,
-            $this->user
+            $this->user,
+            $this->refinery
         );
         $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_EMBEDDED_PRESENTATION);
 

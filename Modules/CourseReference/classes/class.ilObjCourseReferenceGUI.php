@@ -35,23 +35,14 @@ include_once('./Services/ContainerReference/classes/class.ilContainerReferenceGU
  */
 class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
 {
-    /**
-     * @var \ilLogger | null
-     */
-    private $logger = null;
+    private ?ilLogger $logger = null;
 
-    protected $target_type = 'crs';
-    protected $reference_type = 'crsr';
-
-    /**
-     * Constructor
-     * @param
-     * @return
-     */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
     {
         global $DIC;
 
+        $this->target_type = 'crs';
+        $this->reference_type = 'crsr';
         $this->logger = $DIC->logger()->crsr();
 
         parent::__construct($a_data, $a_id, true, false);
@@ -139,7 +130,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
     /**
      * @inheritdoc
      */
-    public function initForm($a_mode = self::MODE_EDIT)
+    public function initForm($a_mode = self::MODE_EDIT) : ilPropertyFormGUI
     {
         $form = parent::initForm($a_mode);
 

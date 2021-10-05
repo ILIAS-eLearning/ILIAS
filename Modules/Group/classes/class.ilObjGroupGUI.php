@@ -81,8 +81,8 @@ class ilObjGroupGUI extends ilContainerGUI
         }
 
         switch ($next_class) {
-            case 'ilreputilgui':
-                $ru = new \ilRepUtilGUI($this);
+            case strtolower(ilRepositoryTrashGUI::class):
+                $ru = new \ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
                 $this->ctrl->forwardCommand($ru);
                 break;
@@ -420,25 +420,23 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
     * Render group
     */
-    public function renderObject()
+    public function renderObject() : void
     {
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
         
         $ilTabs->activateTab("view_content");
-        $ret = parent::renderObject();
-        return $ret;
+        parent::renderObject();
     }
 
     /**
      * Modify Item ListGUI for presentation in container
-     * @global type $tree
-     * @param type $a_item_list_gui
-     * @param type $a_item_data
-     * @param type $a_show_path
+     * @param ilObjectListGUI $a_item_list_gui
+     * @param array           $a_item_data
+     *@global type            $tree
      */
-    public function modifyItemGUI($a_item_list_gui, $a_item_data, $a_show_path)
+    public function modifyItemGUI(ilObjectListGUI $a_item_list_gui, array $a_item_data) : void
     {
         global $DIC;
 
@@ -486,7 +484,6 @@ class ilObjGroupGUI extends ilContainerGUI
         }
         
         // Save sorting
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         $sort = new ilContainerSortingSettings($new_object->getId());
         $sort->setSortMode($sort_mode);
         $sort->update();
@@ -1981,13 +1978,10 @@ class ilObjGroupGUI extends ilContainerGUI
             return true;
         }
         
-        include_once './Services/Container/classes/class.ilMemberViewSettings.php';
         if (ilMemberViewSettings::getInstance()->isActive()) {
             return true;
         }
         
-        include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        include_once('Services/Membership/classes/class.ilMemberAgreement.php');
         $privacy = ilPrivacySettings::_getInstance();
         
         // Check agreement
@@ -2153,7 +2147,7 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
      * Set return point for side column actions
      */
-    public function setSideColumnReturn()
+    public function setSideColumnReturn() : void
     {
         $this->ctrl->setReturn($this, "view");
     }

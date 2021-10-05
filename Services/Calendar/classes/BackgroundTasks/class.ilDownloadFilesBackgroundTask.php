@@ -169,7 +169,6 @@ class ilDownloadFilesBackgroundTask
                 $cat->getObjType() == 'exc' ||
                 !in_array($obj_id, $object_ids)
             ) {
-
                 $this->logger->debug('New obj_id..');
                 $object_ids[] = $obj_id;
 
@@ -208,13 +207,13 @@ class ilDownloadFilesBackgroundTask
                         $file_property->getAbsolutePath(),
                         $folder_date . '/' . $folder_app . '/' . $file_property->getFileName()
                     );
-                    $this->logger->debug('Added new copy definition: ' .
-                        $folder_date .  '/' . $folder_app . '/' . $file_property->getFileName() . ' => ' .
+                    $this->logger->debug(
+                        'Added new copy definition: ' .
+                        $folder_date . '/' . $folder_app . '/' . $file_property->getFileName() . ' => ' .
                         $file_property->getAbsolutePath()
                     );
                 }
-            }
-            else {
+            } else {
                 $this->logger->info('Ignoring obj_id: ' . $obj_id . ' already processed.');
             }
         }

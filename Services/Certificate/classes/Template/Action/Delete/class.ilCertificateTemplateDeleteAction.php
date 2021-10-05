@@ -40,7 +40,6 @@ class ilCertificateTemplateDeleteAction implements ilCertificateDeleteAction
      * @param $templateId
      * @param $objectId
      * @return void
-     * @throws ilDatabaseException
      */
     public function delete($templateId, $objectId) : void
     {

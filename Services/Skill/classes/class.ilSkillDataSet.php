@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skill Data set class
@@ -19,34 +34,15 @@ class ilSkillDataSet extends ilDataSet
     public const MODE_SKILLS = "";
     public const MODE_PROFILES = "prof";
 
-    /**
-     * @var ilSkillTree
-     */
-    protected $skill_tree;
+    protected ilSkillTree $skill_tree;
+    protected int $skill_tree_root_id;
+    protected int $init_top_order_nr;
+    protected int $init_templ_top_order_nr;
 
-    /**
-     * @var int
-     */
-    protected $skill_tree_root_id;
+    protected array $selected_nodes = [];
+    protected array $selected_profiles = [];
+    protected string $mode = "";
 
-    /**
-     * @var int
-     */
-    protected $init_top_order_nr;
-
-    /**
-     * @var int
-     */
-    protected $init_templ_top_order_nr;
-
-    protected $init_order_nr;
-    protected $selected_nodes = [];
-    protected $selected_profiles = [];
-    protected $mode = "";
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -60,96 +56,73 @@ class ilSkillDataSet extends ilDataSet
         $this->init_templ_top_order_nr = $this->skill_tree->getMaxOrderNr($this->skill_tree_root_id, true);
     }
 
-    /**
-     * Set mode
-     *
-     * @param string $a_val mode
-     */
-    public function setMode($a_val)
+    public function setMode(string $a_val) : void
     {
         $this->mode = $a_val;
     }
 
-    /**
-     * Get mode
-     *
-     * @return string mode
-     */
-    public function getMode()
+    public function getMode() : string
     {
         return $this->mode;
     }
 
     /**
-     * Set export selected nodes
-     *
-     * @param array $a_val array of int
+     * @param int[] $a_val
      */
-    public function setSelectedNodes($a_val)
+    public function setSelectedNodes(array $a_val) : void
     {
         $this->selected_nodes = $a_val;
     }
 
     /**
-     * Get export selected nodes
-     *
-     * @return array array of int
+     * @return int[]
      */
-    public function getSelectedNodes()
+    public function getSelectedNodes() : array
     {
         return $this->selected_nodes;
     }
 
     /**
-     * Set selected profiles
-     *
-     * @param array $a_val array of int (profile ids)
+     * @param int[] $a_val (profile ids)
      */
-    public function setSelectedProfiles($a_val)
+    public function setSelectedProfiles(array $a_val) : void
     {
         $this->selected_profiles = $a_val;
     }
 
     /**
-     * Get selected profiles
-     *
-     * @return array array of int (profile ids)
+     * @return int[] (profile ids)
      */
-    public function getSelectedProfiles()
+    public function getSelectedProfiles() : array
     {
         return $this->selected_profiles;
     }
 
     /**
-     * Get supported versions
-     *
-     * @return array of version strings
+     * @return string[]
      */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return array("5.1.0", "7.0");
     }
-    
+
     /**
-     * Get xml namespace
-     *
      * @param string $a_entity
      * @param string $a_schema_version
      * @return string
      */
-    protected function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Services/Skill/" . $a_entity;
     }
     
     /**
      * Get field types for entity
-     *
      * @param string $a_entity
      * @param string $a_version
      * @return array
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "skmg") {
             switch ($a_version) {
@@ -253,22 +226,19 @@ class ilSkillDataSet extends ilDataSet
                     );
             }
         }
-        return array();
+        return [];
     }
 
     /**
-     * Read data
-     *
      * @param string $a_entity
      * @param string $a_version
-     * @param array $a_ids
-     * @param string $a_field
+     * @param array  $a_ids
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
-        $this->data = array();
+        $this->data = [];
 
         if (!is_array($a_ids)) {
             $a_ids = array($a_ids);
@@ -296,7 +266,7 @@ class ilSkillDataSet extends ilDataSet
                             $set = $ilDB->query(
                                 "SELECT * FROM skl_templ_ref " .
                                 " WHERE skl_node_id = " . $ilDB->quote($s["child"], "integer")
-                                );
+                            );
                             $rec = $ilDB->fetchAssoc($set);
 
                             $top_node = ($s["child"] == $id)
@@ -384,13 +354,13 @@ class ilSkillDataSet extends ilDataSet
                         $obj_ref_id = ilObject::_getAllReferences($obj_id);
                         $obj_ref_id = end($obj_ref_id);
                         $profiles = ilSkillProfile::getLocalProfiles($obj_ref_id);
-                        $profile_ids = array();
+                        $profile_ids = [];
                         foreach ($profiles as $p) {
                             $profile_ids[] = $p["id"];
                         }
                         $set = $ilDB->query(
                             "SELECT * FROM skl_profile " .
-                            " WHERE ". $ilDB->in("id", $profile_ids, false, "integer")
+                            " WHERE " . $ilDB->in("id", $profile_ids, false, "integer")
                         );
                         while ($rec = $ilDB->fetchAssoc($set)) {
                             $this->data[] = [
@@ -421,39 +391,43 @@ class ilSkillDataSet extends ilDataSet
             }
         }
     }
-    
+
     /**
-     * Determine the dependent sets of data
+     * @return array
      */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
-    {
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
         $ilDB = $this->db;
 
         switch ($a_entity) {
             case "skmg":
 
-                $deps = array();
+                $deps = [];
                 if ($this->getMode() == self::MODE_SKILLS) {
                     // determine top nodes of main tree to be exported and all referenced template nodes
                     $sel_nodes = $this->getSelectedNodes();
                     $exp_types = array("skll", "scat", "sctr", "sktr");
                     if (!is_array($sel_nodes)) {
                         $childs = $this->skill_tree->getChildsByTypeFilter($this->skill_tree->readRootId(), $exp_types);
-                        $skl_subtree_deps = array();
+                        $skl_subtree_deps = [];
                         foreach ($childs as $c) {
                             $skl_subtree_deps[] = $c["child"];
                         }
                     } else {
-                        $skl_subtree_deps = array();
+                        $skl_subtree_deps = [];
                         foreach ($sel_nodes as $n) {
-                            if (in_array(ilSkillTreeNode::_lookupType((int) $n), $exp_types)) {
+                            if (in_array(ilSkillTreeNode::_lookupType($n), $exp_types)) {
                                 $skl_subtree_deps[] = $n;
                             }
                         }
                     }
 
                     // determine template subtrees
-                    $ref_nodes = array();
+                    $ref_nodes = [];
                     if (is_array($skl_subtree_deps)) {
                         foreach ($skl_subtree_deps as $id) {
                             if (ilSkillTreeNode::_lookupType($id) == "sktr") {
@@ -485,7 +459,7 @@ class ilSkillDataSet extends ilDataSet
 
             case "skl_subtree":
             case "skl_templ_subtree":
-                $deps = array();
+                $deps = [];
                 if (in_array($a_rec["Type"], array("skll", "sktp"))) {
                     $deps["skl_level"]["ids"][] = $a_rec["Child"];
                 }
@@ -493,25 +467,20 @@ class ilSkillDataSet extends ilDataSet
 
             case "skl_prof":
             case "skl_local_prof":
-                $deps["skl_prof_level"]["ids"][] = $a_rec["Id"];
+                $deps["skl_prof_level"]["ids"][] = $a_rec["Id"] ?? null;
                 return $deps;
         }
 
-        return false;
+        return [];
     }
 
-
-    /**
-     * Import record
-     *
-     * @param $a_entity
-     * @param $a_types
-     * @param $a_rec
-     * @param $a_mapping
-     * @param $a_schema_version
-     */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         $source_inst_id = $a_mapping->getInstallId();
         switch ($a_entity) {
             case "skl_subtree":
@@ -530,7 +499,7 @@ class ilSkillDataSet extends ilDataSet
                         $scat->setTitle($a_rec["Title"]);
                         $scat->setDescription($a_rec["Description"]);
                         $scat->setImportId("il_" . $source_inst_id . "_scat_" . $a_rec["Child"]);
-                        $scat->setSelfEvaluation($a_rec["SelfEval"]);
+                        $scat->setSelfEvaluation((bool) $a_rec["SelfEval"]);
                         $scat->setOrderNr($order);
                         $scat->setStatus($status);
                         $scat->create();
@@ -543,7 +512,7 @@ class ilSkillDataSet extends ilDataSet
                         $skll->setTitle($a_rec["Title"]);
                         $skll->setDescription($a_rec["Description"]);
                         $skll->setImportId("il_" . $source_inst_id . "_skll_" . $a_rec["Child"]);
-                        $skll->setSelfEvaluation($a_rec["SelfEval"]);
+                        $skll->setSelfEvaluation((bool) $a_rec["SelfEval"]);
                         $skll->setOrderNr($order);
                         $skll->setStatus($status);
                         $skll->create();
@@ -559,7 +528,7 @@ class ilSkillDataSet extends ilDataSet
                             $sktr->setTitle($a_rec["Title"]);
                             $sktr->setDescription($a_rec["Description"]);
                             $sktr->setImportId("il_" . $source_inst_id . "_sktr_" . $a_rec["Child"]);
-                            $sktr->setSelfEvaluation($a_rec["SelfEval"]);
+                            $sktr->setSelfEvaluation((bool) $a_rec["SelfEval"]);
                             $sktr->setOrderNr($order);
                             $sktr->setSkillTemplateId($template_id);
                             $sktr->setStatus($status);
@@ -644,8 +613,6 @@ class ilSkillDataSet extends ilDataSet
                     $prof = new ilSkillProfile($profile_id);
                     $level_id_data = ilBasicSkill::getLevelIdForImportId($this->getCurrentInstallationId(), $a_rec["LevelId"]);
                     $skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);
-                    //var_dump($level_id_data);
-                    //var_dump($skill_data);
                     $level_id = $tref_id = $base_skill = 0;
                     foreach ($level_id_data as $l) {
                         reset($skill_data);

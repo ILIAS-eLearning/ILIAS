@@ -33,10 +33,7 @@ class ilExAssTypeBlogGUI implements ilExAssignmentTypeGUIInterface
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission)
+    public function getOverviewContent(ilInfoScreenGUI $a_info, ilExSubmission $a_submission) : void
     {
     }
 }

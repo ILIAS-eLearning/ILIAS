@@ -26,7 +26,7 @@ class BuildArtifactObjectiveTest extends TestCase
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
-            ->setMethods(["build", "buildIn", "getArtifactPath"])
+            ->onlyMethods(["build", "buildIn", "getArtifactPath"])
             ->getMock();
 
         $this->artifact = $this->createMock(Setup\Artifact::class);
@@ -37,7 +37,7 @@ class BuildArtifactObjectiveTest extends TestCase
     {
         $this->o = $this
             ->getMockBuilder(Artifact\BuildArtifactObjective::class)
-            ->setMethods(["build", "getArtifactPath"])
+            ->onlyMethods(["build", "getArtifactPath"])
             ->getMock();
 
         $this->o

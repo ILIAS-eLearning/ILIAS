@@ -8474,7 +8474,7 @@ file#:#file_suffix_default_white#:#Zadana bijela lista sufiksa
 file#:#file_suffix_default_white_info#:#Zadani popis prihvaćenih sufiksa datoteka.
 file#:#file_suffix_overall_white#:#Opća bijela lista sufiksa
 file#:#file_suffix_overall_white_info#:#Rezultira ukupnim popisom prihvaćenih sufiksa datoteka.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Učitana datoteka sadrži kritičnu ili nepoznatu ekstenziju datoteke. Ekstenzija datoteke bit će promijenjena u .sec za svako preuzimanje.
+file#:#file_upload_info_file_with_critical_extension#:#Učitana datoteka sadrži kritičnu ili nepoznatu ekstenziju datoteke. Ekstenzija datoteke bit će promijenjena u .sec za svako preuzimanje.
 file#:#file_uploaded_by#:#Učitana od
 file#:#generate_sanitize_report#:#Izvještaj o nepristupačnim datotekama
 file#:#replace_file_info#:#Sve prethodne verzije datoteka bit će izbrisane.

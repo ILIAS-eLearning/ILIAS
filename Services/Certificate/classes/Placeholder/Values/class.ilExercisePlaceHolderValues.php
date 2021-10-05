@@ -4,10 +4,10 @@
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
+class ilExercisePlaceholderValues implements ilCertificatePlaceholderValues
 {
     private ilLanguage $language;
-    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
     private ilCertificateLPMarksHelper $lpMarksHelper;
     private ilCertificateObjectHelper $objectHelper;
     private ilCertificateExerciseMembersHelper $exerciseMembersHelper;
@@ -38,7 +38,7 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
         if (null === $defaultPlaceholderValues) {
             $defaultPlaceholderValues = new ilDefaultPlaceholderValues();
         }
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
 
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -94,9 +94,12 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
 
         $completionDate = $this->lpStatusHelper->lookupStatusChanged($objId, $userId);
 
-        $placeHolders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeHolders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
-        $placeHolders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($this->language->txt('exc_' . $status));
+        if ($status !== null) {
+            $placeHolders['RESULT_PASSED'] = $this->utilHelper->prepareFormOutput($this->language->txt('exc_' . $status));
+        }
+
         $placeHolders['RESULT_MARK'] = $this->utilHelper->prepareFormOutput($mark);
         $placeHolders['EXERCISE_TITLE'] = $this->utilHelper->prepareFormOutput($exerciseObject->getTitle());
         $placeHolders['DATE_COMPLETED'] = '';
@@ -123,7 +126,7 @@ class ilExercisePlaceHolderValues implements ilCertificatePlaceholderValues
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
 

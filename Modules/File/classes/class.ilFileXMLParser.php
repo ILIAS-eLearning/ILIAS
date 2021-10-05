@@ -391,8 +391,10 @@ class ilFileXMLParser extends ilSaxParser
             if (!file_exists($version["tmpFilename"])) {
                 // try to get first file of dir
                 $files = scandir(dirname($version["tmpFilename"]));
-                $version["tmpFilename"] = rtrim(dirname($version["tmpFilename"]),
-                        "/") . "/" . $files[2];// because [0] = "." [1] = ".."
+                $version["tmpFilename"] = rtrim(
+                    dirname($version["tmpFilename"]),
+                    "/"
+                ) . "/" . $files[2];// because [0] = "." [1] = ".."
                 if (!file_exists($version["tmpFilename"])) {
                     ilLoggerFactory::getLogger('file')->error(__METHOD__ . ' "' . ($version["tmpFilename"]) . '" file not found.');
 
@@ -421,12 +423,11 @@ class ilFileXMLParser extends ilSaxParser
     public function updateFileContents()
     {
         if ($this->setFileContents()) {
-
-                if ($this->file->getAction() != "" and $this->file->getAction() != null) {
-                    ilHistory::_createEntry($this->file->getId(), $this->file->getAction(), $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
-                } else {
-                    ilHistory::_createEntry($this->file->getId(), "replace", $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
-                }
+            if ($this->file->getAction() != "" and $this->file->getAction() != null) {
+                ilHistory::_createEntry($this->file->getId(), $this->file->getAction(), $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
+            } else {
+                ilHistory::_createEntry($this->file->getId(), "replace", $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
+            }
 
             $this->file->notifyUpdate($this->file->getId(), $this->file->getDescription());
         }

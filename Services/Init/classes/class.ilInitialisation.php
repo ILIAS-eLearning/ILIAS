@@ -493,7 +493,7 @@ class ilInitialisation
         define("ROOT_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
         define("SYSTEM_FOLDER_ID", $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
         define("ROLE_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
-        define("MAIL_SETTINGS_ID", $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
+        define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
         define("ERROR_HANDLER", $error_handler ? $error_handler : "PRETTY_PAGE");
 
@@ -926,7 +926,7 @@ class ilInitialisation
 
         // we do not know if ref_id of request is accesible, so redirecting to root
         $_GET["ref_id"] = ROOT_FOLDER_ID;
-        $_GET["cmd"] = "frameset";
+        $_GET["cmd"] = "";
         self::redirect(
             "ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=" .
             $_GET["cmd"] . "&ref_id=" . $_GET["ref_id"]
@@ -1104,7 +1104,6 @@ class ilInitialisation
         if (self::$already_initialized) {
             return;
         }
-
         $GLOBALS["DIC"] = new \ILIAS\DI\Container();
         $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
             return ilLoggerFactory::getInstance();

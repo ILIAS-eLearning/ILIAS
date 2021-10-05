@@ -12,7 +12,7 @@ interface ilStudyProgrammeAutoCategoryRepository
      * @param int $prg_obj_id
      * @return ilStudyProgrammeAutoCategory[]
      */
-    public function readFor(int $prg_obj_id) : array;
+    public function getFor(int $prg_obj_id) : array;
 
     /**
      * Build an auto-category object.

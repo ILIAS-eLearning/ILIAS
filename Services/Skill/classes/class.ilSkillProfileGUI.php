@@ -1,7 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * Skill profile GUI class
@@ -11,85 +27,29 @@
  */
 class ilSkillProfileGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilHelpGUI $help;
+    protected ilToolbarGUI $toolbar;
+    protected int $id = 0;
+    protected ?ilSkillProfile $profile = null;
+    public ilAccessHandler $access;
+    protected SkillAdminGUIRequest $admin_gui_request;
+    protected int $requested_ref_id;
+    protected int $requested_sprof_id;
+    protected array $requested_profile_ids;
+    protected bool $requested_local_context;
+    protected string $requested_cskill_id;
+    protected int $requested_level_id;
+    protected array $requested_level_ass_ids;
+    protected array $requested_level_order;
+    protected string $requested_user_login;
+    protected array $requested_users;
+    protected array $requested_user_ids;
+    protected bool $local_context = false;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var int
-     */
-    protected $id = 0;
-
-    protected $profile = null;
-    /**
-     * @var ilAccessHandler
-     */
-    public $access;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_ref_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_sprof_id;
-
-    /**
-     * @var bool
-     */
-    protected $requested_local_context;
-
-    /**
-     * @var string
-     */
-    protected $requested_cskill_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_level_id;
-
-    /**
-     * @var bool
-     */
-    protected $local_context = false;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -100,19 +60,24 @@ class ilSkillProfileGUI
         $this->tpl = $DIC["tpl"];
         $this->help = $DIC["ilHelp"];
         $this->toolbar = $DIC->toolbar();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $ilCtrl = $DIC->ctrl();
         $ilAccess = $DIC->access();
         
         $ilCtrl->saveParameter($this, ["sprof_id", "local_context"]);
         $this->access = $ilAccess;
 
-        $params = $this->request->getQueryParams();
-        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
-        $this->requested_sprof_id = (int) ($params["sprof_id"] ?? 0);
-        $this->requested_local_context = (bool) ($params["local_context"] ?? false);
-        $this->requested_cskill_id = (string) ($params["cskill_id"] ?? "");
-        $this->requested_level_id = (int) ($params["level_id"] ?? 0);
+        $this->requested_ref_id = $this->admin_gui_request->getRefId();
+        $this->requested_sprof_id = $this->admin_gui_request->getSkillProfileId();
+        $this->requested_profile_ids = $this->admin_gui_request->getProfileIds();
+        $this->requested_local_context = $this->admin_gui_request->getLocalContext();
+        $this->requested_cskill_id = $this->admin_gui_request->getCombinedSkillId();
+        $this->requested_level_id = $this->admin_gui_request->getLevelId();
+        $this->requested_level_ass_ids = $this->admin_gui_request->getAssignedLevelIds();
+        $this->requested_level_order = $this->admin_gui_request->getOrder();
+        $this->requested_user_login = $this->admin_gui_request->getUserLogin();
+        $this->requested_users = $this->admin_gui_request->getUsers();
+        $this->requested_user_ids = $this->admin_gui_request->getUserIds();
 
         if ($this->requested_sprof_id > 0) {
             $this->id = $this->requested_sprof_id;
@@ -126,21 +91,12 @@ class ilSkillProfileGUI
         }
     }
 
-    /**
-     * Check permission pool
-     *
-     * @param string $a_perm
-     * @return bool
-     */
-    public function checkPermissionBool($a_perm)
+    public function checkPermissionBool(string $a_perm) : bool
     {
         return $this->access->checkAccess($a_perm, "", $this->requested_ref_id);
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -174,13 +130,8 @@ class ilSkillProfileGUI
                 break;
         }
     }
-    
-    /**
-     * Set tabs
-     *
-     * @param
-     */
-    public function setTabs($a_active)
+
+    public function setTabs(string $a_active) : void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;
@@ -230,12 +181,8 @@ class ilSkillProfileGUI
 
         $ilTabs->activateTab($a_active);
     }
-    
-    
-    /**
-     * List profiles
-     */
-    public function listProfiles()
+
+    public function listProfiles() : void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -259,17 +206,14 @@ class ilSkillProfileGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    public function listLocalProfiles()
+    public function listLocalProfiles() : void
     {
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->redirectByClass("ilcontskilladmingui", "listProfiles");
     }
-    
-    /**
-     * Create
-     */
-    public function create()
+
+    public function create() : void
     {
         $tpl = $this->tpl;
         
@@ -277,7 +221,7 @@ class ilSkillProfileGUI
         $tpl->setContent($form->getHTML());
     }
 
-    public function createLocal()
+    public function createLocal() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -293,11 +237,8 @@ class ilSkillProfileGUI
         $form = $this->initProfileForm("createLocal");
         $tpl->setContent($form->getHTML());
     }
-    
-    /**
-     * Edit
-     */
-    public function edit()
+
+    public function edit() : void
     {
         $tpl = $this->tpl;
         
@@ -305,14 +246,8 @@ class ilSkillProfileGUI
         $form = $this->initProfileForm("edit");
         $tpl->setContent($form->getHTML());
     }
-    
-    
-    /**
-     * Init profile form.
-     *
-     * @param string $a_mode edit mode
-     */
-    public function initProfileForm($a_mode = "edit")
+
+    public function initProfileForm(string $a_mode = "edit") : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -357,11 +292,8 @@ class ilSkillProfileGUI
 
         return $form;
     }
-    
-    /**
-     * Save profile form
-     */
-    public function save()
+
+    public function save() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -385,7 +317,7 @@ class ilSkillProfileGUI
         }
     }
 
-    public function saveLocal()
+    public function saveLocal() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -410,11 +342,8 @@ class ilSkillProfileGUI
             $tpl->setContent($form->getHTML());
         }
     }
-    
-    /**
-     * Update
-     */
-    public function update()
+
+    public function update() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -437,17 +366,14 @@ class ilSkillProfileGUI
             $tpl->setContent($form->getHTML());
         }
     }
-    
-    /**
-     * Confirm profile deletion
-     */
-    public function confirmDeleteProfiles()
+
+    public function confirmDeleteProfiles() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
             
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_profile_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listProfiles");
         } else {
@@ -457,18 +383,15 @@ class ilSkillProfileGUI
             $cgui->setCancel($lng->txt("cancel"), "listProfiles");
             $cgui->setConfirm($lng->txt("delete"), "deleteProfiles");
             
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_profile_ids as $i) {
                 $cgui->addItem("id[]", $i, ilSkillProfile::lookupTitle($i));
             }
             
             $tpl->setContent($cgui->getHTML());
         }
     }
-    
-    /**
-     * Delete profiles
-     */
-    public function deleteProfiles()
+
+    public function deleteProfiles() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -478,8 +401,8 @@ class ilSkillProfileGUI
             return;
         }
 
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $i) {
+        if (!empty($this->requested_profile_ids)) {
+            foreach ($this->requested_profile_ids as $i) {
                 $prof = new ilSkillProfile($i);
                 $prof->delete();
             }
@@ -492,11 +415,8 @@ class ilSkillProfileGUI
     ////
     //// skill profile levels
     ////
-    
-    /**
-     * Show skill levels
-     */
-    public function showLevels()
+
+    public function showLevels() : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -521,7 +441,7 @@ class ilSkillProfileGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    public function showLevelsWithLocalContext()
+    public function showLevelsWithLocalContext() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -550,11 +470,8 @@ class ilSkillProfileGUI
         );
         $tpl->setContent($tab->getHTML());
     }
-    
-    /**
-     * Assign Level
-     */
-    public function assignLevel()
+
+    public function assignLevel() : void
     {
         $lng = $this->lng;
         $ilTabs = $this->tabs;
@@ -593,7 +510,7 @@ class ilSkillProfileGUI
     /**
      * Output level table for profile assignment
      */
-    public function assignLevelSelectSkill()
+    public function assignLevelSelectSkill() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -627,11 +544,8 @@ class ilSkillProfileGUI
         );
         $tpl->setContent($tab->getHTML());
     }
-    
-    /**
-     * Assign level to profile
-     */
-    public function assignLevelToProfile()
+
+    public function assignLevelToProfile() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -658,11 +572,8 @@ class ilSkillProfileGUI
         }
         $ilCtrl->redirect($this, "showLevels");
     }
-    
-    /**
-     * Confirm level assignment removal
-     */
-    public function confirmLevelAssignmentRemoval()
+
+    public function confirmLevelAssignmentRemoval() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -676,7 +587,7 @@ class ilSkillProfileGUI
             $this->setTabs("levels");
         }
             
-        if (!is_array($_POST["ass_id"]) || count($_POST["ass_id"]) == 0) {
+        if (empty($this->requested_level_ass_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             if ($local) {
                 $ilCtrl->redirect($this, "showLevelsWithLocalContext");
@@ -692,8 +603,8 @@ class ilSkillProfileGUI
                 $cgui->setCancel($lng->txt("cancel"), "showLevels");
             }
             $cgui->setConfirm($lng->txt("remove"), "removeLevelAssignments");
-            
-            foreach ($_POST["ass_id"] as $i) {
+
+            foreach ($this->requested_level_ass_ids as $i) {
                 $id_arr = explode(":", $i);
                 $cgui->addItem(
                     "ass_id[]",
@@ -707,10 +618,7 @@ class ilSkillProfileGUI
         }
     }
 
-    /**
-     * Remove level assignment
-     */
-    public function removeLevelAssignments()
+    public function removeLevelAssignments() : void
     {
         $ilCtrl = $this->ctrl;
         $local = $this->local_context;
@@ -719,10 +627,10 @@ class ilSkillProfileGUI
             return;
         }
 
-        if (is_array($_POST["ass_id"])) {
-            foreach ($_POST["ass_id"] as $i) {
+        if (!empty($this->requested_level_ass_ids)) {
+            foreach ($this->requested_level_ass_ids as $i) {
                 $id_arr = explode(":", $i);
-                $this->profile->removeSkillLevel($id_arr[0], $id_arr[1], $id_arr[2], $id_arr[3]);
+                $this->profile->removeSkillLevel((int) $id_arr[0], (int) $id_arr[1], (int) $id_arr[2], (int) $id_arr[3]);
             }
             $this->profile->update();
             $this->profile->fixSkillOrderNumbering();
@@ -734,10 +642,7 @@ class ilSkillProfileGUI
         $ilCtrl->redirect($this, "showLevels");
     }
 
-    /**
-     * Save level order
-     */
-    public function saveLevelOrder()
+    public function saveLevelOrder() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -747,7 +652,7 @@ class ilSkillProfileGUI
             return;
         }
 
-        $order = ilUtil::stripSlashesArray($_POST["order"]);
+        $order = ilUtil::stripSlashesArray($this->requested_level_order);
         $this->profile->updateSkillOrder($order);
 
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -756,11 +661,8 @@ class ilSkillProfileGUI
         }
         $ilCtrl->redirect($this, "showLevels");
     }
-    
-    /**
-     * Show users
-     */
-    public function showUsers()
+
+    public function showUsers() : void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
@@ -796,10 +698,7 @@ class ilSkillProfileGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    /**
-     * Assign user
-     */
-    public function assignUser()
+    public function assignUser() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -809,15 +708,15 @@ class ilSkillProfileGUI
         }
 
         // user assignment with toolbar
-        $user_id = ilObjUser::_lookupId(ilUtil::stripSlashes($_POST["user_login"]));
+        $user_id = ilObjUser::_lookupId($this->requested_user_login);
         if ($user_id > 0) {
             $this->profile->addUserToProfile($user_id);
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         }
 
         // user assignment with ilRepositorySearchGUI
-        $users = $_POST['user'];
-        if (is_array($users)) {
+        $users = $this->requested_users;
+        if (!empty($users)) {
             foreach ($users as $id) {
                 if ($id > 0) {
                     $this->profile->addUserToProfile($id);
@@ -829,10 +728,7 @@ class ilSkillProfileGUI
         $ilCtrl->redirect($this, "showUsers");
     }
 
-    /**
-     * Assign role
-     */
-    public function assignRole(array $role_ids)
+    public function assignRole(array $role_ids) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -854,11 +750,8 @@ class ilSkillProfileGUI
 
         $ilCtrl->redirect($this, "showUsers");
     }
-    
-    /**
-     * Confirm user removal
-     */
-    public function confirmUserRemoval()
+
+    public function confirmUserRemoval() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -870,7 +763,7 @@ class ilSkillProfileGUI
 
         $this->setTabs("users");
 
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_user_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showUsers");
         } else {
@@ -880,7 +773,7 @@ class ilSkillProfileGUI
             $cgui->setCancel($lng->txt("cancel"), "showUsers");
             $cgui->setConfirm($lng->txt("remove"), "removeUsers");
 
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_user_ids as $i) {
                 $type = ilObject::_lookupType($i);
 
                 switch ($type) {
@@ -910,11 +803,8 @@ class ilSkillProfileGUI
             $tpl->setContent($cgui->getHTML());
         }
     }
-    
-    /**
-     * Remove users
-     */
-    public function removeUsers()
+
+    public function removeUsers() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -923,8 +813,8 @@ class ilSkillProfileGUI
             return;
         }
 
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $i) {
+        if (!empty($this->requested_user_ids)) {
+            foreach ($this->requested_user_ids as $i) {
                 $type = ilObject::_lookupType($i);
                 switch ($type) {
                     case 'usr':
@@ -944,10 +834,7 @@ class ilSkillProfileGUI
         $ilCtrl->redirect($this, "showUsers");
     }
 
-    /**
-     * Show assigned objects
-     */
-    public function showObjects()
+    public function showObjects() : void
     {
         $tpl = $this->tpl;
 
@@ -964,21 +851,18 @@ class ilSkillProfileGUI
         $tpl->setContent($tab->getHTML());
     }
 
-    /**
-     * Export profiles
-     */
-    public function exportProfiles()
+    public function exportProfiles() : void
     {
         $ilCtrl = $this->ctrl;
 
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_profile_ids)) {
             $ilCtrl->redirect($this, "");
         }
 
         $exp = new ilExport();
         $conf = $exp->getConfig("Services/Skill");
         $conf->setMode(ilSkillExportConfig::MODE_PROFILES);
-        $conf->setSelectedProfiles($_POST["id"]);
+        $conf->setSelectedProfiles($this->requested_profile_ids);
         $exp->exportObject("skmg", ilObject::_lookupObjId($this->requested_ref_id));
 
         //ilExport::_createExportDirectory(0, "xml", "");
@@ -988,10 +872,7 @@ class ilSkillProfileGUI
         $ilCtrl->redirectByClass(array("iladministrationgui", "ilobjskillmanagementgui", "ilexportgui"), "");
     }
 
-    /**
-     * Show import form
-     */
-    public function showImportForm()
+    public function showImportForm() : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -999,10 +880,7 @@ class ilSkillProfileGUI
         $tpl->setContent($this->initInputForm()->getHTML());
     }
 
-    /**
-     * Init input form.
-     */
-    public function initInputForm()
+    public function initInputForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1024,10 +902,7 @@ class ilSkillProfileGUI
         return $form;
     }
 
-    /**
-     * Import profiles
-     */
-    public function importProfiles()
+    public function importProfiles() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;

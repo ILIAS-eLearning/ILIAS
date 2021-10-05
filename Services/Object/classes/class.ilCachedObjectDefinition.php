@@ -92,7 +92,7 @@ class ilCachedObjectDefinition
     }
 
 
-    /** 
+    /**
      * @param mixed $parent
      *
      * @return mixed

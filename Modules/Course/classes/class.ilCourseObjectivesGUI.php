@@ -1103,7 +1103,7 @@ class ilCourseObjectivesGUI
             new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
                 $GLOBALS['DIC']['ilDB'],
                 $tst
-                )
+            )
         );
                 
         $list->loadDefinitions();
@@ -1577,7 +1577,7 @@ class ilCourseObjectivesGUI
             $this->lng->txt('crs_checklist_objective'),
             $steps
         );
-        if(!empty($step_positions[$active_step])) {
+        if (!empty($step_positions[$active_step])) {
             $list = $list->withActive($step_positions[$active_step]);
         }
 

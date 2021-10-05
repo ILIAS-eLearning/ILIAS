@@ -201,9 +201,6 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
         $allow_longer_periods = $news_set->get("allow_longer_periods");
         $enable_private_feed = $news_set->get("enable_private_feed");
 
-        // subscribe/unsibscribe link
-        include_once("./Services/News/classes/class.ilNewsSubscription.php");
-        
         // show feed url
         if ($enable_internal_rss) {
             include_once("./Services/News/classes/class.ilRSSButtonGUI.php");

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise\GUIRequest;
+
 /**
  * Class ilExcCriteriaGUI
  *
@@ -16,6 +18,7 @@ class ilExcCriteriaGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected int $cat_id;
+    protected GUIRequest $request;
     
     public function __construct(int $a_cat_id)
     {
@@ -26,6 +29,7 @@ class ilExcCriteriaGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $this->cat_id = $a_cat_id;
+        $this->request = $DIC->exercise()->internal()->gui()->request();
     }
     
     public function executeCommand() : void
@@ -77,8 +81,9 @@ class ilExcCriteriaGUI
         $all_cat = ilExcCriteria::getInstancesByParentId($this->cat_id);
                 
         $pos = 0;
-        asort($_POST["pos"]);
-        foreach (array_keys($_POST["pos"]) as $id) {
+        $req_positions = $this->request->getPositions();
+        asort($req_positions);
+        foreach (array_keys($req_positions) as $id) {
             if (array_key_exists($id, $all_cat)) {
                 $pos += 10;
                 $all_cat[$id]->setPosition($pos);
@@ -96,8 +101,8 @@ class ilExcCriteriaGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
         
-        $ids = $_POST["id"];
-        if (!sizeof($ids)) {
+        $ids = $this->request->getCriteriaIds();
+        if (count($ids) == 0) {
             ilUtil::sendInfo($lng->txt("select_one"), true);
             $ilCtrl->redirect($this, "view");
         }
@@ -121,9 +126,9 @@ class ilExcCriteriaGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        $ids = $_POST["id"];
-        if (!sizeof($ids)) {
+
+        $ids = $this->request->getCriteriaIds();
+        if (count($ids) == 0) {
             $ilCtrl->redirect($this, "view");
         }
         
@@ -186,7 +191,7 @@ class ilExcCriteriaGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         
-        $new_type = trim($_REQUEST["type"]);
+        $new_type = $this->request->getType();
         if (!$new_type) {
             $ilCtrl->redirect($this, "view");
         }
@@ -247,7 +252,7 @@ class ilExcCriteriaGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $new_type = trim($_REQUEST["type"]);
+        $new_type = $this->request->getType();
         if (!$new_type) {
             $ilCtrl->redirect($this, "view");
         }
@@ -260,7 +265,7 @@ class ilExcCriteriaGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $id = (int) $_REQUEST["crit_id"];
+        $id = $this->request->getCritId();
         if ($id) {
             $crit_obj = ilExcCriteria::getInstanceById($id);
             if ($crit_obj->getParent() == $this->cat_id) {

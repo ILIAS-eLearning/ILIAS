@@ -10,7 +10,7 @@ class ilLearningSequenceImporter extends ilXmlImporter
     protected ilObject $obj;
     protected array $data;
 
-    public function init()
+    public function init() : void
     {
         global $DIC;
         $this->user = $DIC["ilUser"];
@@ -18,29 +18,29 @@ class ilLearningSequenceImporter extends ilXmlImporter
         $this->log = $DIC["ilLoggerFactory"]->getRootLogger();
     }
 
-    public function importXmlRepresentation($entity, $id, $xml, $mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
-        if ($new_id = $mapping->getMapping("Services/Container", "objs", $id)) {
+        if ($new_id = $a_mapping->getMapping("Services/Container", "objs", $a_id)) {
             $this->obj = ilObjectFactory::getInstanceByObjId($new_id, false);
         } else {
             $this->obj = new ilObjLearningSequence();
             $this->obj->create();
         }
 
-        $parser = new ilLearningSequenceXMLParser($this->obj, $xml);
+        $parser = new ilLearningSequenceXMLParser($this->obj, $a_xml);
         $this->data = $parser->start();
 
-        $mapping->addMapping("Modules/LearningSequence", "lso", $id, $this->obj->getId());
+        $a_mapping->addMapping("Modules/LearningSequence", "lso", $a_id, $this->obj->getId());
     }
 
-    public function finalProcessing($mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         $this->buildSettings($this->data["settings"]);
 
         $this->obj->update();
     }
 
-    public function afterContainerImportProcessing(ilImportMapping $mapping)
+    public function afterContainerImportProcessing(ilImportMapping $mapping) : void
     {
         $this->updateRefId($mapping);
         $this->buildLSItems($this->data["item_data"], $mapping);

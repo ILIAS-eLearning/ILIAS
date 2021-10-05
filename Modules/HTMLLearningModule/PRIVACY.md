@@ -1,22 +1,45 @@
 # HTML Learning Module Privacy
 
-This documentation comes with no guarantee of completeness or correctness. Please report any issues (missing or wrong information) in the ILIAS issue tracker.
+This documentation does not warrant completeness or correctness. Please report any missing or wrong information using the <a href="https://mantis.ilias.de/">ILIAS issue tracker</a>.
 
 ## Data being stored
 
-- The HTML Learning Module component itself do not store any personal data.
-- Like all repository objects, it uses the basic Object service which stores the owner, creation and update timestamps for the object.
-- Like all repository objects it uses the Permission service which stores information about which users / user roles have what kind of access to the object.
-- The module integrates the Learning Progress service, which stores data on access time (last time, number of accesses) and the progress status (in progress, completed) for each user accessing the object.
+- The HTML Learning Module component itself does not store any personal data.
+- The HTML Learning Module component employs the following services, please consult the respective privacy.mds 
+- Reference to Learning Progress (Move to respective md: Learning Progress service stores data on access time speifically last time, number of accesses and the progress status specifically in progress, completed for each user accessing the object.) 
+- Reference to Metadata (Move to respective md: Metadata  service contains two branches: LOM and custom metdata. The LOM offers storing personal dates like author. Custom metadata do contain user-created metadata sets which may contain personal dates, which mus be individually checked in the global administration)
+- Reference to Permission (Move to respective md: The account which created the very object is stored as it's owner, creation and update timestamps for the object. The permission service stores which users / user roles have what kind of access to the object.) 
 
-## Data presentation
+## Data being presented
 
 - The HTML Learning Module component itself does not present any personal data.
-- Like all repository objects it integrates screens of the Permission service which present information about which users / user roles have what kind of access to the object.
-- The module integrates the Info Screen service which reveals owner and creation date of the object.
-- The module integrates the Learning Progress service, which presents (depending on global settings) progress and access data to users having the "View learning progress" permission.
+- Reference to Learning Progress (Move to respective md: Depending on global settings Learning Progress service presents progress and access data to accounts having the "View learning progress" permission.
+- Reference to Metadata (Move to respective md: Metadata  service presents metadata to accounts with "view" permission on respective Info-tab) 
+- Reference to Permission (Move to respective md: The service presents the owner to accounts with "view" permission on respective Info-tab). 
 
-## Data Deletion
 
-- The Item group itself does not store or delete any personal data.
-- Basic object, permission and learning progress data is deleted once the object is "finally" deleted (removed from trash).
+## Data being deleted
+
+- The HTML Learning Module itself does not store or delete any personal data.
+- Basic object, permission and learning progress data is deleted only, once the object is deleted from trash. User can empty the trash at Administration> System Settings an Maintenance > Repository Trash and Permissions 
+
+
+## Data being exported 
+
+- The HTML Learning Module component itself does not export any personal data.
+- Reference to Learning Progress (Move to respective md: Personal data can be exported from the Learning Progress service) 
+- Reference to Metadata (Move to respective md: Metadata  service exports metadata like author along with the compnent itself)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

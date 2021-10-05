@@ -28,7 +28,7 @@ class ilExAssignmentFileSystemTableGUI extends ilFileSystemTableGUI
         global $DIC;
 
         $request = $DIC->exercise()->internal()->gui()->request();
-        $this->requested_ass_id = $request->getRequestedAssId();
+        $this->requested_ass_id = $request->getAssId();
 
         $this->lng = $DIC->language();
 

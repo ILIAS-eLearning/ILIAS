@@ -9,25 +9,22 @@ require_once __DIR__ . '/bootstrap.php';
 class ilTinyMCETest extends ilRTEBaseTest
 {
     protected $backupGlobals = false;
-    protected function setUp() : void
-    {
-        parent::setUp();
-    }
 
-    public function testAddPlugin()
+    public function testAddPlugin() : void
     {
         $tinymce = new ilTinyMCE();
         $tinymce->addPlugin('a_new_test_plugin');
         $plugins = $tinymce->getPlugins();
-        $this->assertTrue(in_array('a_new_test_plugin', $plugins));
+        $this->assertContains('a_new_test_plugin', $plugins);
     }
 
-    public function testTiny3xCodeHasbeenRemoved()
+    public function testTiny3xCodeHasbeenRemoved() : void
     {
         $this->assertDirectoryNotExists('./Services/RTE/tiny_mce_3_4_7');
         $this->assertDirectoryNotExists('./Services/RTE/tiny_mce_3_5_11');
     }
-    public function testRemovePlugin()
+
+    public function testRemovePlugin() : void
     {
         $tinymce = new ilTinyMCE();
         $plugins_before_empty_removal = $tinymce->getPlugins();
@@ -35,6 +32,6 @@ class ilTinyMCETest extends ilRTEBaseTest
         $tinymce->removePlugin('');//empty name for the plugin
         $this->assertEquals($plugins_before_empty_removal, $tinymce->getPlugins());
         $tinymce->removePlugin('link');
-        $this->assertFalse(array_key_exists('link', $tinymce->getPlugins()));
+        $this->assertArrayNotHasKey('link', $tinymce->getPlugins());
     }
 }

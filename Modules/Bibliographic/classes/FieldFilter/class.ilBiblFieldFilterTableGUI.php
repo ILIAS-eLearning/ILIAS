@@ -115,7 +115,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
             'VAL_FILTER_TYPE',
             $this->lng()->txt(
                 "filter_type_" . $filter->getFilterType()
-        )
+            )
         );
 
         $this->addActionMenu($filter);

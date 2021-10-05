@@ -58,7 +58,7 @@ class ilAssSpecificFeedbackIdentifierList implements Iterator
         return next($this->map);
     }
     
-    public function key(): ?int
+    public function key() : ?int
     {
         return key($this->map);
     }

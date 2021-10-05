@@ -3012,6 +3012,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
             ilUtil::stripSlashes($_POST['select']['default_chat_osc_accept_msg'])
         );
         $ilias->setSetting(
+            'chat_broadcast_typing',
+            ilUtil::stripSlashes($_POST['select']['default_chat_broadcast_typing'] ?? '')
+        );
+        $ilias->setSetting(
             'bs_allow_to_contact_me',
             ilUtil::stripSlashes($_POST['select']['default_bs_allow_to_contact_me'])
         );
@@ -4119,11 +4123,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $mail_data['user_id'],
             $mail_data['attachments'],
             '#il_ml_' . $list_id,
-            // $mail_data['rcp_to'],
             $mail_data['rcp_cc'],
             $mail_data['rcp_bcc'],
-            $mail_data['m_type'],
-            $mail_data['m_email'],
             $mail_data['m_subject'],
             $mail_data['m_message'],
             $mail_data['use_placeholders'],

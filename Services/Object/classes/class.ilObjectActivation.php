@@ -14,31 +14,22 @@ class ilObjectActivation
     const ERR_SUG_START_END = 1;
 
 
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
+    protected ilErrorHandling $error;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected int $timing_type;
+    protected int $timing_start;
+    protected int $timing_end;
+    protected int $suggestion_start;
+    protected int $suggestion_end;
+    protected int $visible;
+    protected int $changeable;
+    protected int $earliest_start_rel;
+    protected int $earliest_start;
 
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    protected $timing_type;
-    protected $timing_start;
-    protected $timing_end;
-    protected $suggestion_start;
-    protected $suggestion_end;
-    protected $visible;
-    protected $changeable;
-    
-    protected $suggestion_start_rel;
-    protected $suggestion_end_rel;
+    protected int $suggestion_start_rel = 0;
+    protected int $suggestion_end_rel = 0;
 
     protected static $preloaded_data = array();
     
@@ -56,205 +47,119 @@ class ilObjectActivation
         $this->db = $DIC->database();
     }
     
-    /**
-     * Set timing type
-     *
-     * @see class constants
-     * @param int $a_type
-     */
-    public function setTimingType($a_type)
+    public function setTimingType(int $a_type) : void
     {
         $this->timing_type = $a_type;
     }
     
-    /**
-     * get timing type
-     *
-     * @see class constants
-     * @return int
-     */
-    public function getTimingType()
+    public function getTimingType() : int
     {
         return $this->timing_type;
     }
     
-    /**
-     * Set timing start
-     *
-     * @param timestamp $a_start
-     */
-    public function setTimingStart($a_start)
+    public function setTimingStart(int $a_start) : void
     {
         $this->timing_start = $a_start;
     }
     
-    /**
-     * Get timing start
-     *
-     * @return timestamp
-     */
-    public function getTimingStart()
+    public function getTimingStart() : int
     {
         return $this->timing_start;
     }
     
-    /**
-     * Set timing end
-     *
-     * @param timestamp $a_end
-     */
-    public function setTimingEnd($a_end)
+    public function setTimingEnd(int $a_end) : void
     {
         $this->timing_end = $a_end;
     }
     
-    /**
-     * Get timing end
-     *
-     * @return timestamp
-     */
-    public function getTimingEnd()
+    public function getTimingEnd() : int
     {
         return $this->timing_end;
     }
     
-    /**
-     * Set suggestion start
-     *
-     * @param timestamp $a_start
-     */
-    public function setSuggestionStart($a_start)
+    public function setSuggestionStart(int $a_start) : void
     {
         $this->suggestion_start = $a_start;
     }
     
-    /**
-     * Get suggestion start
-     *
-     * @return timestamp
-     */
-    public function getSuggestionStart()
+    public function getSuggestionStart() : int
     {
         return $this->suggestion_start;
     }
     
-    public function getSuggestionStartRelative()
+    public function getSuggestionStartRelative() : int
     {
         return $this->suggestion_start_rel;
     }
     
-    public function setSuggestionStartRelative($a_start)
+    public function setSuggestionStartRelative(int $a_start) : void
     {
         $this->suggestion_start_rel = $a_start;
     }
     
-    public function getSuggestionEndRelative()
+    public function getSuggestionEndRelative() : int
     {
         return $this->suggestion_end_rel;
     }
     
-    public function setSuggestionEndRelative($a_end)
+    public function setSuggestionEndRelative(int $a_end) : void
     {
         $this->suggestion_end_rel = $a_end;
     }
     
-    public function getEaliestStartRelative()
+    public function getEaliestStartRelative() : int
     {
         return $this->earliest_start_rel;
     }
     
-    public function setEarliestStartRelative($a_start)
+    public function setEarliestStartRelative(int $a_start) : void
     {
         $this->earliest_start_rel = $a_start;
     }
     
-    /**
-     * Set suggestion end
-     *
-     * @param int $a_end
-     */
-    public function setSuggestionEnd($a_end)
+    public function setSuggestionEnd(int $a_end) : void
     {
         $this->suggestion_end = $a_end;
     }
     
-    /**
-     * Get suggestion end
-     *
-     * @return int
-     */
-    public function getSuggestionEnd()
+    public function getSuggestionEnd() : int
     {
         return $this->suggestion_end;
     }
     
-    /**
-     * Set earliest start
-     *
-     * @param int $a_start
-     */
-    public function setEarliestStart($a_start)
+    public function setEarliestStart(int $a_start) : void
     {
         $this->earliest_start = $a_start;
     }
     
-    /**
-     * Get earliest start
-     *
-     * @return int
-     */
-    public function getEarliestStart()
+    public function getEarliestStart() : int
     {
         return $this->earliest_start;
     }
     
 
-    /**
-     * Set visible status
-     *
-     * @param bool $a_status
-     */
-    public function toggleVisible($a_status)
+    public function toggleVisible(bool $a_status) : void
     {
         $this->visible = (int) $a_status;
     }
     
-    /**
-     * Get visible status
-     *
-     * @return bool
-     */
-    public function enabledVisible()
+    public function enabledVisible() : bool
     {
         return (bool) $this->visible;
     }
     
-    /**
-     * Set changeable status
-     *
-     * @param bool $a_status
-     */
-    public function toggleChangeable($a_status)
+    public function toggleChangeable(bool $a_status) : void
     {
         $this->changeable = (int) $a_status;
     }
     
-    /**
-     * Get changeable status
-     *
-     * @return bool
-     */
-    public function enabledChangeable()
+    public function enabledChangeable() : bool
     {
         return (bool) $this->changeable;
     }
         
-    /**
-     * Validate current properties
-     *
-     * @return boolean
-     */
-    public function validateActivation()
+    // Validate current properties
+    public function validateActivation() : bool
     {
         $ilErr = $this->error;
         $lng = $this->lng;
@@ -625,16 +530,16 @@ class ilObjectActivation
             $new_parent = $mappings[$item['parent_id']];
             
             $new_item = new self();
-            $new_item->setTimingType($item['timing_type']);
-            $new_item->setTimingStart($item['timing_start']);
-            $new_item->setTimingEnd($item['timing_end']);
-            $new_item->setSuggestionStart($item['suggestion_start']);
-            $new_item->setSuggestionEnd($item['suggestion_end']);
-            $new_item->toggleChangeable($item['changeable']);
-            $new_item->toggleVisible($item['visible']);
+            $new_item->setTimingType((int) $item['timing_type']);
+            $new_item->setTimingStart((int) $item['timing_start']);
+            $new_item->setTimingEnd((int) $item['timing_end']);
+            $new_item->setSuggestionStart((int) $item['suggestion_start']);
+            $new_item->setSuggestionEnd((int) $item['suggestion_end']);
+            $new_item->toggleChangeable((int) $item['changeable']);
+            $new_item->toggleVisible((int) $item['visible']);
             $new_item->update($new_item_id, $new_parent);
-            $new_item->setSuggestionStartRelative($item['suggestion_start_rel']);
-            $new_item->setSuggestionEndRelative($item['suggestion_end_rel']);
+            $new_item->setSuggestionStartRelative((int) $item['suggestion_start_rel']);
+            $new_item->setSuggestionEndRelative((int) $item['suggestion_end_rel']);
             $new_item->createDefaultEntry($new_item_id);
             $new_item->update($new_item_id);
         }

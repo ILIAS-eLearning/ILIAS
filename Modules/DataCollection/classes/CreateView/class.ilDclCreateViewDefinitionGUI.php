@@ -59,14 +59,13 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $table = new ilDclCreateViewTableGUI($this);
         $this->table_gui = $table;
         $this->tpl->setContent($table->getHTML());
-
     }
 
 
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -232,7 +231,8 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
     /**
      * Save table entries
      */
-    public function saveTable() {
+    public function saveTable()
+    {
         $f = new ilDclDefaultValueFactory();
         foreach ($_POST as $key => $value) {
             if (strpos($key, "default_") === 0) {
@@ -271,7 +271,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
          * @var ilDclTableViewFieldSetting $setting
          */
         foreach ($this->tableview->getFieldSettings() as $setting) {
-
             if (!$setting->getFieldObject()->isStandardField()) {
 
                 // Radio Inputs

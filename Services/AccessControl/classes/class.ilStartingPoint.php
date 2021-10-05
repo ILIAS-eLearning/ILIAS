@@ -237,8 +237,8 @@ class ilStartingPoint
                 "position" => $point["position"],
                 "starting_point" => $point['starting_point'],
                 "starting_object" => $point['starting_object'],
-                "calendar_view"   => $point['calendar_view'],
-                "calendar_period"   => $point['calendar_period'],
+                "calendar_view" => $point['calendar_view'],
+                "calendar_period" => $point['calendar_period'],
                 "rule_type" => $point['rule_type'],
                 "rule_options" => $point['rule_options']
             );
@@ -288,8 +288,8 @@ class ilStartingPoint
                 "id" => $sp['id'],
                 "starting_point" => $sp['starting_point'],
                 "starting_object" => $sp['starting_object'],
-                "calendar_view"   => $sp['calendar_view'],
-                "calendar_period"   => $sp['calendar_period'],
+                "calendar_view" => $sp['calendar_view'],
+                "calendar_period" => $sp['calendar_period'],
                 "position" => $sp['position'],
                 "role_id" => $options['role_id'],
 

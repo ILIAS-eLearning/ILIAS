@@ -13,7 +13,7 @@ class ilGlossaryImporter extends ilXmlImporter
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilGlossaryDataSet();
         $this->ds->setDSPrefix("ds");
@@ -22,11 +22,10 @@ class ilGlossaryImporter extends ilXmlImporter
 
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         if ($a_entity == "glo") {
             // case i container
@@ -107,11 +106,10 @@ class ilGlossaryImporter extends ilXmlImporter
     
     /**
      * Final processing
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function finalProcessing($a_mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
 
         // get all glossaries of the import

@@ -34,7 +34,7 @@ class ilCertificateGUIFactory
 
         $logger = $DIC->logger()->cert();
 
-        $templateRepository = new ilCertificateTemplateRepository($this->dic->database(), $logger);
+        $templateRepository = new ilCertificateTemplateDatabaseRepository($this->dic->database(), $logger);
         $deleteAction = new ilCertificateTemplateDeleteAction($templateRepository);
         $pathFactory = new ilCertificatePathFactory();
 
@@ -43,7 +43,7 @@ class ilCertificateGUIFactory
         switch ($type) {
             case 'tst':
                 $placeholderDescriptionObject = new ilTestPlaceholderDescription();
-                $placeholderValuesObject = new ilTestPlaceHolderValues();
+                $placeholderValuesObject = new ilTestPlaceholderValues();
 
                 $formFactory = new ilCertificateSettingsTestFormRepository(
                     $objectId,
@@ -83,7 +83,7 @@ class ilCertificateGUIFactory
                 break;
             case 'exc':
                 $placeholderDescriptionObject = new ilExercisePlaceholderDescription();
-                $placeholderValuesObject = new ilExercisePlaceHolderValues();
+                $placeholderValuesObject = new ilExercisePlaceholderValues();
 
                 $formFactory = new ilCertificateSettingsExerciseRepository(
                     $object,

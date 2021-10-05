@@ -12,7 +12,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     /**
      * @inheritdoc
      */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return [
             '5.4.0',
@@ -22,7 +22,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     /**
      * @inheritdoc
      */
-    protected function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return 'http://www.ilias.de/xml/Modules/ContentPage/' . $a_entity;
     }
@@ -30,7 +30,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     /**
      * @inheritdoc
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         switch ($a_entity) {
             case self::OBJ_TYPE:
@@ -50,7 +50,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     /**
      * @inheritdoc
      */
-    public function readData($a_entity, $a_version, $a_ids)
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $this->data = [];
 
@@ -79,11 +79,11 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                             'id' => $obj->getId(),
                             'title' => $obj->getTitle(),
                             'description' => $obj->getDescription(),
-                            'info-tab' => (int) ilContainer::_lookupContainerSetting(
+                            'info-tab' => (string) ((bool) ilContainer::_lookupContainerSetting(
                                 $obj->getId(),
                                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-                                true
-                            ),
+                                '1'
+                            )),
                             'style-id' => $obj->getStyleSheetId(),
                         ];
                     }
@@ -96,14 +96,19 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     }
 
     /**
-     * @param $a_entity
-     * @param $a_types
-     * @param $a_rec
+     * @param string $a_entity
+     * @param array $a_types
+     * @param array $a_rec
      * @param ilImportMapping $a_mapping
-     * @param $a_schema_version
+     * @param string $a_schema_version
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) : void
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case self::OBJ_TYPE:
                 if ($newObjId = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
@@ -123,7 +128,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                 ilContainer::_writeContainerSetting(
                     $newObject->getId(),
                     ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-                    (int) $a_rec['info-tab']
+                    (string) ((bool) $a_rec['info-tab'])
                 );
 
                 $a_mapping->addMapping('Modules/ContentPage', self::OBJ_TYPE, $a_rec['id'], $newObject->getId());
@@ -141,8 +146,12 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     /**
      * This method is an implicit interface method. The types of the arguments may vary.
      */
-    protected function getDependencies(string $a_entity, string $a_version, ?array $a_rec, $a_ids) : array
-    {
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
         return [];
     }
 }

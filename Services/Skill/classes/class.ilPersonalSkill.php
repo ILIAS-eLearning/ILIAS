@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Personal skill
@@ -9,13 +24,7 @@
  */
 class ilPersonalSkill implements ilSkillUsageInfo
 {
-    /**
-     * Get personal selected user skills
-     *
-     * @param int $a_user_id user id
-     * @return array
-     */
-    public static function getSelectedUserSkills($a_user_id)
+    public static function getSelectedUserSkills(int $a_user_id) : array
     {
         global $DIC;
 
@@ -26,8 +35,8 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_personal_skill " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
-        $pskills = array();
+        );
+        $pskills = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($stree->isInTree($rec["skill_node_id"])) {
                 $pskills[$rec["skill_node_id"]] = array("skill_node_id" => $rec["skill_node_id"],
@@ -36,14 +45,8 @@ class ilPersonalSkill implements ilSkillUsageInfo
         }
         return $pskills;
     }
-    
-    /**
-     * Add personal skill
-     *
-     * @param int $a_user_id
-     * @param int $a_skill_node_id
-     */
-    public static function addPersonalSkill($a_user_id, $a_skill_node_id)
+
+    public static function addPersonalSkill(int $a_user_id, int $a_skill_node_id) : void
     {
         global $DIC;
 
@@ -53,7 +56,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
             "SELECT * FROM skl_personal_skill " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND skill_node_id = " . $ilDB->quote($a_skill_node_id, "integer")
-            );
+        );
         if (!$ilDB->fetchAssoc($set)) {
             $ilDB->manipulate("INSERT INTO skl_personal_skill " .
                 "(user_id, skill_node_id) VALUES (" .
@@ -62,14 +65,8 @@ class ilPersonalSkill implements ilSkillUsageInfo
                 ")");
         }
     }
-    
-    /**
-     * Remove personal skill
-     *
-     * @param int $a_user_id user id
-     * @param int $a_skill_node_id the "selectable" top skill
-     */
-    public static function removeSkill($a_user_id, $a_skill_node_id)
+
+    public static function removeSkill(int $a_user_id, int $a_skill_node_id) : void
     {
         global $DIC;
 
@@ -79,15 +76,10 @@ class ilPersonalSkill implements ilSkillUsageInfo
             "DELETE FROM skl_personal_skill WHERE " .
             " user_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND skill_node_id = " . $ilDB->quote($a_skill_node_id, "integer")
-            );
+        );
     }
 
-    /**
-     * Remove personal skills of user
-     *
-     * @param int $a_user_id user id
-     */
-    public static function removeSkills($a_user_id)
+    public static function removeSkills(int $a_user_id) : void
     {
         global $DIC;
 
@@ -96,7 +88,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $ilDB->manipulate(
             "DELETE FROM skl_personal_skill WHERE " .
             " user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
     }
 
     
@@ -114,8 +106,14 @@ class ilPersonalSkill implements ilSkillUsageInfo
      * @param int $a_level level id
      * @param int $a_wsp_id workspace object
      */
-    public static function assignMaterial($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill, $a_level, $a_wsp_id)
-    {
+    public static function assignMaterial(
+        int $a_user_id,
+        int $a_top_skill,
+        int $a_tref_id,
+        int $a_basic_skill,
+        int $a_level,
+        int $a_wsp_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -124,17 +122,17 @@ class ilPersonalSkill implements ilSkillUsageInfo
             "SELECT * FROM skl_assigned_material " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
             " AND top_skill_id = " . $ilDB->quote($a_top_skill, "integer") .
-            " AND tref_id = " . $ilDB->quote((int) $a_tref_id, "integer") .
+            " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND skill_id = " . $ilDB->quote($a_basic_skill, "integer") .
             " AND level_id = " . $ilDB->quote($a_level, "integer") .
             " AND wsp_id = " . $ilDB->quote($a_wsp_id, "integer")
-            );
+        );
         if (!$ilDB->fetchAssoc($set)) {
             $ilDB->manipulate("INSERT INTO skl_assigned_material " .
                 "(user_id, top_skill_id, tref_id, skill_id, level_id, wsp_id) VALUES (" .
                 $ilDB->quote($a_user_id, "integer") . "," .
                 $ilDB->quote($a_top_skill, "integer") . "," .
-                $ilDB->quote((int) $a_tref_id, "integer") . "," .
+                $ilDB->quote($a_tref_id, "integer") . "," .
                 $ilDB->quote($a_basic_skill, "integer") . "," .
                 $ilDB->quote($a_level, "integer") . "," .
                 $ilDB->quote($a_wsp_id, "integer") .
@@ -144,12 +142,8 @@ class ilPersonalSkill implements ilSkillUsageInfo
     
     /**
      * Get assigned material (for a skill level and user)
-     *
-     * @param int $a_user_id user id
-     * @param int $a_tref_id template reference id
-     * @param int $a_level level id
      */
-    public static function getAssignedMaterial($a_user_id, $a_tref_id, $a_level)
+    public static function getAssignedMaterial(int $a_user_id, int $a_tref_id, int $a_level) : array
     {
         global $DIC;
 
@@ -158,10 +152,10 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_assigned_material " .
             " WHERE level_id = " . $ilDB->quote($a_level, "integer") .
-            " AND tref_id = " . $ilDB->quote((int) $a_tref_id, "integer") .
+            " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
-        $mat = array();
+        );
+        $mat = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $mat[] = $rec;
         }
@@ -169,13 +163,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
     }
     
     /**
-     * Get assigned material (for a skill level and user)
-     *
-     * @param int $a_user_id user id
-     * @param int $a_tref_id template reference id
-     * @param int $a_level level id
+     * Count assigned material (for a skill level and user)
      */
-    public static function countAssignedMaterial($a_user_id, $a_tref_id, $a_level)
+    public static function countAssignedMaterial(int $a_user_id, int $a_tref_id, int $a_level) : int
     {
         global $DIC;
 
@@ -184,22 +174,14 @@ class ilPersonalSkill implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT count(*) as cnt FROM skl_assigned_material " .
             " WHERE level_id = " . $ilDB->quote($a_level, "integer") .
-            " AND tref_id = " . $ilDB->quote((int) $a_tref_id, "integer") .
+            " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
-        return $rec["cnt"];
+        return (int) $rec["cnt"];
     }
-    
-    /**
-     * Remove material
-     *
-     * @param int $a_user_id
-     * @param int $a_tref_id
-     * @param int $a_level_id
-     * @param int $a_wsp_id
-     */
-    public static function removeMaterial($a_user_id, $a_tref_id, $a_level_id, $a_wsp_id)
+
+    public static function removeMaterial(int $a_user_id, int $a_tref_id, int $a_level_id, int $a_wsp_id) : void
     {
         global $DIC;
 
@@ -207,19 +189,14 @@ class ilPersonalSkill implements ilSkillUsageInfo
         
         $t = "DELETE FROM skl_assigned_material WHERE " .
             " user_id = " . $ilDB->quote($a_user_id, "integer") .
-            " AND tref_id = " . $ilDB->quote((int) $a_tref_id, "integer") .
+            " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
             " AND level_id = " . $ilDB->quote($a_level_id, "integer") .
             " AND wsp_id = " . $ilDB->quote($a_wsp_id, "integer");
 
         $ilDB->manipulate($t);
     }
 
-    /**
-     * Remove materials of user
-     *
-     * @param int $a_user_id
-     */
-    public static function removeMaterials($a_user_id)
+    public static function removeMaterials(int $a_user_id) : void
     {
         global $DIC;
 
@@ -235,16 +212,19 @@ class ilPersonalSkill implements ilSkillUsageInfo
     //
     
     /**
-     * Save self evaluation
-     *
      * @param int $a_user_id user id
      * @param int $a_top_skill the "selectable" top skill
      * @param int $a_tref_id template reference id
      * @param int $a_basic_skill the basic skill the level belongs to
      * @param int $a_level level id
      */
-    public static function saveSelfEvaluation($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill, $a_level)
-    {
+    public static function saveSelfEvaluation(
+        int $a_user_id,
+        int $a_top_skill,
+        int $a_tref_id,
+        int $a_basic_skill,
+        int $a_level
+    ) : void {
         if ($a_level > 0) {
             ilBasicSkill::writeUserSkillLevelStatus(
                 $a_level,
@@ -261,42 +241,40 @@ class ilPersonalSkill implements ilSkillUsageInfo
     }
 
     /**
-     * Get self evaluation
-     *
      * @param int $a_user_id user id
      * @param int $a_top_skill the "selectable" top skill
      * @param int $a_tref_id template reference id
      * @param int $a_basic_skill the basic skill the level belongs to
-     * @return int level id
+     * @return int|null level id
      */
-    public static function getSelfEvaluation($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
-    {
+    public static function getSelfEvaluation(
+        int $a_user_id,
+        int $a_top_skill,
+        int $a_tref_id,
+        int $a_basic_skill
+    ) : ?int {
         $bs = new ilBasicSkill($a_basic_skill);
         return $bs->getLastLevelPerObject($a_tref_id, 0, $a_user_id, 1);
     }
 
     /**
-     * Get self evaluation
-     *
      * @param int $a_user_id user id
      * @param int $a_top_skill the "selectable" top skill
      * @param int $a_tref_id template reference id
      * @param int $a_basic_skill the basic skill the level belongs to
-     * @return int level id
+     * @return string|null status date
      */
-    public static function getSelfEvaluationDate($a_user_id, $a_top_skill, $a_tref_id, $a_basic_skill)
-    {
+    public static function getSelfEvaluationDate(
+        int $a_user_id,
+        int $a_top_skill,
+        int $a_tref_id,
+        int $a_basic_skill
+    ) : ?string {
         $bs = new ilBasicSkill($a_basic_skill);
         return $bs->getLastUpdatePerObject($a_tref_id, 0, $a_user_id, 1);
     }
 
-    /**
-     * Get usage info
-     *
-     * @param array $a_cskill_ids skill ids
-     * @param array $a_usages usages array
-     */
-    public static function getUsageInfo($a_cskill_ids, &$a_usages)
+    public static function getUsageInfo(array $a_cskill_ids, array &$a_usages) : void
     {
         global $DIC;
 
@@ -311,18 +289,9 @@ class ilPersonalSkill implements ilSkillUsageInfo
             "user_id"
         );
 
-        // self evaluations
-        ilSkillUsage::getUsageInfoGeneric(
-            $a_cskill_ids,
-            $a_usages,
-            ilSkillUsage::SELF_EVAL,
-            "skl_self_eval_level",
-            "user_id"
-        );
-
         // users that use the skills as personal skills
-        $pskill_ids = array();
-        $tref_ids = array();
+        $pskill_ids = [];
+        $tref_ids = [];
         foreach ($a_cskill_ids as $cs) {
             if ($cs["tref_id"] > 0) {
                 if (ilSkillTemplateReference::_lookupTemplateId($cs["tref_id"]) == $cs["skill_id"]) {
@@ -337,7 +306,7 @@ class ilPersonalSkill implements ilSkillUsageInfo
             "SELECT skill_node_id, user_id FROM skl_personal_skill " .
             " WHERE " . $ilDB->in("skill_node_id", $pskill_ids, false, "integer") .
             " GROUP BY skill_node_id, user_id"
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             if (isset($tref_ids[(int) $rec["skill_node_id"]])) {
                 $a_usages[$tref_ids[$rec["skill_node_id"]] . ":" . $rec["skill_node_id"]][ilSkillUsage::PERSONAL_SKILL][] =

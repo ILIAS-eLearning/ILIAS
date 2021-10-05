@@ -11,14 +11,6 @@ class ilDataCollectionDataSet extends ilDataSet
 {
 
     /**
-     * @var ilDB
-     */
-    protected $db;
-    /**
-     * @var array
-     */
-    protected $data = array();
-    /**
      * Maps a given record_field ID (key) to the correct table where the value is stored (il_dcl_stloc(1|2|3)_value)
      *
      * @var array
@@ -105,7 +97,7 @@ class ilDataCollectionDataSet extends ilDataSet
     /**
      * @return array
      */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return array('4.5.0');
     }
@@ -132,24 +124,28 @@ class ilDataCollectionDataSet extends ilDataSet
     /**
      * @param string $a_entity
      * @param string $a_schema_version
-     *
      * @return string
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return 'http://www.ilias.de/xml/Modules/DataCollection/' . $a_entity;
     }
 
 
     /**
-     * @param string          $a_entity
-     * @param                 $a_types
-     * @param array           $a_rec
+     * @param string $a_entity
+     * @param array $a_types
+     * @param array $a_rec
      * @param ilImportMapping $a_mapping
-     * @param string          $a_schema_version
+     * @param string $a_schema_version
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case 'dcl':
                 if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
@@ -473,13 +469,11 @@ class ilDataCollectionDataSet extends ilDataSet
 
     /**
      * Map XML attributes of entities to datatypes (text, integer...)
-     *
      * @param string $a_entity
      * @param string $a_version
-     *
      * @return array
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         switch ($a_entity) {
             case 'dcl':
@@ -617,18 +611,20 @@ class ilDataCollectionDataSet extends ilDataSet
 
     /**
      * Return dependencies form entities to other entities (in our case these are all the DB relations)
-     *
-     * @param $a_entity
-     * @param $a_version
-     * @param $a_rec
-     * @param $a_ids
-     *
+     * @param string $a_entity
+     * @param string $a_version
+     * @param array|null $a_rec
+     * @param array|null $a_ids
      * @return array
      */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
-    {
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
         if (!$a_rec && !$a_ids) {
-            return false;
+            return [];
         }
         switch ($a_entity) {
             case 'dcl':
@@ -715,18 +711,17 @@ class ilDataCollectionDataSet extends ilDataSet
                 );
         }
 
-        return false;
+        return [];
     }
 
 
     /**
      * Read data from Cache for a given entity and ID(s)
-     *
      * @param string $a_entity
      * @param string $a_version
      * @param array  $a_ids one or multiple ids
      */
-    public function readData($a_entity, $a_version, $a_ids)
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $this->data = array();
         if (!is_array($a_ids)) {

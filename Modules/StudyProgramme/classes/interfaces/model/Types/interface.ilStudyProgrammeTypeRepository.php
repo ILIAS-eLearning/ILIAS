@@ -58,41 +58,41 @@ interface ilStudyProgrammeTypeRepository
     /**
      * Get all persisted type-objects.
      */
-    public function readAllTypes() : array;
+    public function getAllTypes() : array;
 
     /**
      * Get a type with given type_id.
      */
-    public function readType(int $type_id) : ilStudyProgrammeType;
+    public function getType(int $type_id) : ilStudyProgrammeType;
 
 
     /**
      * Get an assicative array of all persisted types id => title
      */
-    public function readAllTypesArray() : array;
+    public function getAllTypesArray() : array;
 
-    public function readAssignedAMDRecordsByType(int $type_id, bool $only_active = false) : array;
-    public function readAssignedAMDRecordIdsByType(int $type_id, bool $only_active = false) : array;
+    public function getAssignedAMDRecordsByType(int $type_id, bool $only_active = false) : array;
+    public function getAssignedAMDRecordIdsByType(int $type_id, bool $only_active = false) : array;
 
-    public function readAllAMDRecords() : array;
-    public function readAllAMDRecordIds() : array;
-    public function readAMDRecordsByTypeIdAndRecordId(int $type_id, int $record_id) : array;
-    public function readAMDRecordsByTypeId(int $type_id, bool $only_active = false) : array;
+    public function getAllAMDRecords() : array;
+    public function getAllAMDRecordIds() : array;
+    public function getAMDRecordsByTypeIdAndRecordId(int $type_id, int $record_id) : array;
+    public function getAMDRecordsByTypeId(int $type_id, bool $only_active = false) : array;
 
-    public function readTranslationsArrayByTypeIdAndLangCode(int $type_id, string $lang_code) : array;
+    public function getTranslationsArrayByTypeIdAndLangCode(int $type_id, string $lang_code) : array;
 
     /**
      * Get all prg-settings objects by corresponding type-id
      */
-    public function readStudyProgrammesByTypeId(int $type_id) : array;
+    public function getStudyProgrammesByTypeId(int $type_id) : array;
     /**
      * Get all prg-settings ids by corresponding type-id
      */
-    public function readStudyProgrammeIdsByTypeId(int $type_id) : array;
+    public function getStudyProgrammeIdsByTypeId(int $type_id) : array;
 
     public function getAvailableAdvancedMDRecords() : array;
     public function getAvailableAdvancedMDRecordIds() : array;
 
-    public function readTranslationsByTypeAndLang(int $type_id, string $lang_code);
-    public function readTranslationByTypeIdMemberLang(int $type_id, string $member, string $lang_code);
+    public function getTranslationsByTypeAndLang(int $type_id, string $lang_code);
+    public function getTranslationByTypeIdMemberLang(int $type_id, string $member, string $lang_code);
 }

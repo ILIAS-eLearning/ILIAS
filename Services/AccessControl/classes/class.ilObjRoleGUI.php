@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Object/classes/class.ilObjectGUI.php";
-include_once './Services/AccessControl/classes/class.ilObjRole.php';
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Class ilObjRoleGUI
@@ -63,7 +60,7 @@ class ilObjRoleGUI extends ilObjectGUI
                     (int) $_REQUEST['rolf_ref_id'] ?
                 (int) $_REQUEST['rolf_ref_id'] :
                 (int) $_REQUEST['ref_id']
-        );
+                );
         
         $this->obj_obj_id = ilObject::_lookupObjId($this->getParentRefId());
         $this->obj_obj_type = ilObject::_lookupType($this->getParentObjId());
@@ -1273,7 +1270,7 @@ class ilObjRoleGUI extends ilObjectGUI
                 'export',
                 $this->ctrl->getLinkTargetByClass('ilExportGUI'),
                 array()
-                );
+            );
         }
     }
 

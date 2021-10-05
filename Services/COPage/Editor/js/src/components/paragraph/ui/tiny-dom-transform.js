@@ -56,6 +56,8 @@ export default class TinyDomTransform {
     let ed = this.tiny, par, r;
     const dom = ed.dom;
 
+    dom.removeClass(dom.select('ol'), 'ilc_list_u_BulletedList');
+    dom.removeClass(dom.select('ul'), 'ilc_list_o_NumberedList');
     dom.addClass(dom.select('ol'), 'ilc_list_o_NumberedList');
     dom.addClass(dom.select('ul'), 'ilc_list_u_BulletedList');
     dom.addClass(dom.select('li'), 'ilc_list_item_StandardListItem');

@@ -12,12 +12,12 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
  */
 class ilSessionExporter extends ilXmlExporter
 {
-    private $ds;
+    private ilSessionDataSet $ds;
 
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         include_once("./Modules/Session/classes/class.ilSessionDataSet.php");
         $this->ds = new ilSessionDataSet();
@@ -27,12 +27,12 @@ class ilSessionExporter extends ilXmlExporter
     
     /**
      * Get tail dependencies
-     * @param type $a_entity
-     * @param type $a_target_release
-     * @param type $a_ids
-     * @return string
+     * @param string $a_entity
+     * @param string $a_target_release
+     * @param array  $a_ids
+     * @return array
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $deps = [];
         
@@ -111,25 +111,23 @@ class ilSessionExporter extends ilXmlExporter
 
     /**
      * Get xml representation
-     *
      * @param	string		entity
      * @param	string		schema version
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.1.0" => array(

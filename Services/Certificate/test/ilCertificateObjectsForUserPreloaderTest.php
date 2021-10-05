@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,9 +6,9 @@
  */
 class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
 {
-    public function testUsersWithCertifcatesWillBePreoloaded()
+    public function testUsersWithCertifcatesWillBePreoloaded() : void
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -24,9 +24,9 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testUserWithCertificateIsNotPreloaded()
+    public function testUserWithCertificateIsNotPreloaded() : void
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -42,9 +42,9 @@ class ilCertificateObjectsForUserPreloaderTest extends ilCertificateBaseTestCase
         $this->assertFalse($result);
     }
 
-    public function testUserIsNoProloaded()
+    public function testUserIsNoProloaded() : void
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 

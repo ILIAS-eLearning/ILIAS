@@ -52,6 +52,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
             $options = $this->getAttributes();
             $this->pdo = new PDO($this->getDSN(), $this->getUsername(), $this->getPassword(), $options);
             $this->initHelpers();
+            $this->initSQLMode();
         } catch (Exception $e) {
             $this->error_code = $e->getCode();
             if ($return_false_for_error) {
@@ -143,7 +144,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         $this->setUsername($clientIniFile->readVariable("db", "user"));
         $this->setHost($clientIniFile->readVariable("db", "host"));
         $this->setPort((int) $clientIniFile->readVariable("db", "port"));
-        $this->setPassword($clientIniFile->readVariable("db", "pass"));
+        $this->setPassword((string) $clientIniFile->readVariable("db", "pass"));
         $this->setDbname($clientIniFile->readVariable("db", "name"));
         $this->setDBType($clientIniFile->readVariable("db", "type"));
 
@@ -640,6 +641,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
                 return (string) (int) $value;
             case ilDBConstants::T_FLOAT:
                 $pdo_type = PDO::PARAM_INT;
+                $value = (string) $value;
                 break;
             case ilDBConstants::T_TEXT:
             default:
@@ -648,7 +650,7 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
                 break;
         }
 
-        return $this->pdo->quote($value, $pdo_type);
+        return $this->pdo->quote((string) $value, $pdo_type);
     }
 
     public function indexExistsByFields(string $table_name, array $fields) : bool
@@ -1024,12 +1026,13 @@ abstract class ilDBPdo implements ilDBInterface, ilDBPdoInterface
         return " LOWER(" . $expression . ") ";
     }
 
-    /**
-     * @param string $a_exp
-     */
-    public function substr(string $expression) : string
+    public function substr(string $a_exp, int $a_pos = 1, int $a_len = -1) : string
     {
-        return "";
+        $lenstr = "";
+        if ($a_len > -1) {
+            $lenstr = ", " . $a_len;
+        }
+        return " SUBSTR(" . $a_exp . ", " . $a_pos . $lenstr . ") ";
     }
 
     /**

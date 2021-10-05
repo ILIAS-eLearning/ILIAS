@@ -14,15 +14,21 @@ class ilExPeerReviewGUI
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
     protected ilLanguage $lng;
-    protected ilTemplate $tpl;
+    protected ilGlobalPageTemplate $tpl;
     protected ilObjUser $user;
     protected ilExAssignment $ass;
     protected ?ilExSubmission $submission;
-    
+    protected int $requested_review_giver_id = 0;
+    protected int $requested_review_peer_id = 0;
+    protected string $requested_review_crit_id = "";
+    protected int $requested_peer_id = 0;
+    protected string $requested_crit_id = "";
+
     public function __construct(
         ilExAssignment $a_ass,
         ilExSubmission $a_submission = null
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->user = $DIC->user();
@@ -39,6 +45,13 @@ class ilExPeerReviewGUI
         $this->tabs_gui = $ilTabs;
         $this->lng = $lng;
         $this->tpl = $tpl;
+
+        $request = $DIC->exercise()->internal()->gui()->request();
+        $this->requested_review_giver_id = $request->getReviewGiverId();
+        $this->requested_review_peer_id = $request->getReviewPeerId();
+        $this->requested_review_crit_id = $request->getReviewCritId();
+        $this->requested_peer_id = $request->getPeerId();
+        $this->requested_crit_id = $request->getCritId();
     }
 
     /**
@@ -62,9 +75,8 @@ class ilExPeerReviewGUI
                 $ilCtrl->saveParameter($this, array("fu"));
 
                 // see self::downloadPeerReview()
-                $parts = explode("__", $_GET["fu"]);
-                $giver_id = $parts[0];
-                $peer_id = $parts[1];
+                $giver_id = $this->requested_review_giver_id;
+                $peer_id = $this->requested_review_peer_id;
 
                 if (!$this->canGive()) {
                     $this->returnToParentObject();
@@ -103,13 +115,13 @@ class ilExPeerReviewGUI
                                 
             case "ilratinggui":
                 $peer_review = new ilExPeerReview($this->ass);
-                $peer_review->updatePeerReviewTimestamp((int) $_REQUEST["peer_id"]);
+                $peer_review->updatePeerReviewTimestamp($this->requested_peer_id);
                 
                 $rating_gui = new ilRatingGUI();
                 $rating_gui->setObject(
                     $this->ass->getId(),
                     "ass",
-                    (int) $_REQUEST["peer_id"],
+                    $this->requested_peer_id,
                     "peer"
                 );
                 $this->ctrl->forwardCommand($rating_gui);
@@ -494,12 +506,12 @@ class ilExPeerReviewGUI
         $tpl = $this->tpl;
         
         if (!$this->canGive() ||
-            !$this->isValidPeer($_GET["peer_id"])) {
+            !$this->isValidPeer($this->requested_peer_id)) {
             $this->returnToParentObject();
         }
         
         if (!$a_form) {
-            $a_form = $this->initPeerReviewItemForm($_GET["peer_id"]);
+            $a_form = $this->initPeerReviewItemForm($this->requested_peer_id);
         }
         
         $tpl->setContent($a_form->getHTML());
@@ -626,14 +638,14 @@ class ilExPeerReviewGUI
         $tpl = $this->tpl;
         
         if (!$this->canGive() ||
-            !$_POST["peer_id"] ||
-            !$_POST["crit_id"] ||
+            !$this->requested_peer_id ||
+            !$this->requested_crit_id ||
             !$ilCtrl->isAsynch()) {
             exit();
         }
         
-        $peer_id = (int) $_POST["peer_id"];
-        $crit_id = $_POST["crit_id"];
+        $peer_id = $this->requested_peer_id;
+        $crit_id = $this->requested_crit_id;
         $giver_id = $ilUser->getId();
         
         if (!is_numeric($crit_id)) {
@@ -657,11 +669,11 @@ class ilExPeerReviewGUI
         $ilCtrl = $this->ctrl;
         
         if (!$this->canGive() ||
-            !$this->isValidPeer($_REQUEST["peer_id"])) {
+            !$this->isValidPeer($this->requested_peer_id)) {
             $this->returnToParentObject();
         }
                         
-        $peer_id = $_REQUEST["peer_id"];
+        $peer_id = $this->requested_peer_id;
         
         $form = $this->initPeerReviewItemForm($peer_id);
         if ($form->checkInput()) {
@@ -724,10 +736,9 @@ class ilExPeerReviewGUI
             $this->returnToParentObject();
         }
         
-        $parts = explode("__", $_GET["fu"]);
-        $giver_id = $parts[0];
-        $peer_id = $parts[1];
-        $crit_id = $parts[2];
+        $giver_id = $this->requested_review_giver_id;
+        $peer_id = $this->requested_review_peer_id;
+        $crit_id = $this->requested_review_crit_id;
         
         if (!is_numeric($crit_id)) {
             $crit = ilExcCriteria::getInstanceByType($crit_id);

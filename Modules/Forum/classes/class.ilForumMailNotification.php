@@ -61,7 +61,7 @@ class ilForumMailNotification extends ilMailNotification
     /**
      * @inheritdoc
      */
-    public function sendMail(array $a_rcp, $a_parse_recipients = true)
+    public function sendMail(array $a_rcp, $a_parse_recipients = true) : void
     {
         $this->logger->debug(sprintf(
             'Delegating notification transport to mail service for recipients: %s',
@@ -74,7 +74,7 @@ class ilForumMailNotification extends ilMailNotification
     /**
      * @inheritdoc
      */
-    protected function setSubject($a_subject)
+    protected function setSubject(string $a_subject) : string
     {
         $value = parent::setSubject($a_subject);
         $this->logger->debug(sprintf('Setting subject to: %s', $a_subject));
@@ -198,7 +198,7 @@ class ilForumMailNotification extends ilMailNotification
     /**
      * @param int $a_usr_id
      */
-    protected function initLanguage($a_usr_id)
+    protected function initLanguage(int $a_usr_id): void
     {
         parent::initLanguage($a_usr_id);
         $this->language->loadLanguageModule('forum');

@@ -12,7 +12,6 @@
 class ilCmiXapiDataSet extends ilDataSet
 {
     private $_data = [];
-    public $data = [];
     private $_archive = [];
     private $_dataSetMapping = null;
     private $_main_object_id = null;
@@ -66,11 +65,11 @@ class ilCmiXapiDataSet extends ilDataSet
 
 
     /**
-     * @param $a_entity
-     * @param $a_version
+     * @param string $a_entity
+     * @param string $a_version
      * @param $a_id
      */
-    public function readData($a_entity, $a_version, $a_ids)
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         global $DIC; /** @var $DIC \ILIAS\DI\Container */
 
@@ -116,12 +115,11 @@ class ilCmiXapiDataSet extends ilDataSet
 
     /**
      * Get field types for entity
-     *
-     * @param string$a_entity entity
-     * @param string$a_version version number
+     * @param string $a_entity  entity
+     * @param string $a_version version number
      * @return array types array
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         $types = [];
         foreach ($this->_cmixSettingsProperties as $key => $value) {
@@ -352,14 +350,19 @@ class ilCmiXapiDataSet extends ilDataSet
 
 
     /**
-     * @param $a_entity
-     * @param $a_types
-     * @param $a_rec
-     * @param $a_mapping
-     * @param $a_schema_version
+     * @param string $a_entity
+     * @param array $a_types
+     * @param array $a_rec
+     * @param ilImportMapping $a_mapping
+     * @param string $a_schema_version
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         //var_dump( [$a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version] ); exit;
         switch ($a_entity) {
             case "cmix":
@@ -402,22 +405,20 @@ class ilCmiXapiDataSet extends ilDataSet
 
     /**
      * Get supported versions
-     *
      * @param
-     * @return
+     * @return array
      */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return array("5.1.0");
     }
 
     /**
      * Get xml namespace
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Modules/CmiXapi/" . $a_entity;
     }
@@ -425,8 +426,12 @@ class ilCmiXapiDataSet extends ilDataSet
     /**
      * Determine the dependent sets of data
      */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
-    {
-        return false;
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
+        return [];
     }
 }

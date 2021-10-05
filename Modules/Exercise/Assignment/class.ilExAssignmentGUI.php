@@ -35,7 +35,7 @@ class ilExAssignmentGUI
         global $DIC;
 
         $request = $DIC->exercise()->internal()->gui()->request();
-        $this->requested_ass_id = $request->getRequestedAssId();
+        $this->requested_ass_id = $request->getAssId();
 
         $this->lng = $DIC->language();
         $this->user = $DIC->user();
@@ -374,14 +374,13 @@ class ilExAssignmentGUI
         } else {
             $show_global_feedback = ($last_sub && $a_ass->getFeedbackFile());
         }
-
         $this->addSubmissionFeedback($a_info, $a_ass, $submission->getFeedbackId(), $show_global_feedback);
     }
     
     protected function addSubmissionFeedback(
         ilInfoScreenGUI $a_info,
         ilExAssignment $a_ass,
-        int $a_feedback_id,
+        string $a_feedback_id,
         bool $a_show_global_feedback
     ) : void {
         $lng = $this->lng;

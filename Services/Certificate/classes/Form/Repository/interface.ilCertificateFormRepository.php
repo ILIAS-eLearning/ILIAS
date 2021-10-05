@@ -8,15 +8,7 @@ interface ilCertificateFormRepository
 {
     public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI;
 
-    /**
-     * @param array $formFields
-     * @return mixed
-     */
-    public function save(array $formFields);
+    public function save(array $formFields) : void;
 
-    /**
-     * @param string $content
-     * @return mixed
-     */
-    public function fetchFormFieldData(string $content);
+    public function fetchFormFieldData(string $content) : array;
 }

@@ -81,7 +81,7 @@ class ilObjRootFolder extends ilContainer
     }
 
     // remove translations of current category
-    public function deleteTranslation($a_lang)
+    public function deleteTranslation(string $a_lang) : void
     {
         global $ilDB;
 
@@ -92,7 +92,7 @@ class ilObjRootFolder extends ilContainer
     }
 
     // remove all Translations of current category
-    public function removeTranslations()
+    public function removeTranslations() : void
     {
         global $ilDB;
 
@@ -102,7 +102,7 @@ class ilObjRootFolder extends ilContainer
     }
 
     // add a new translation to current category
-    public function addTranslation($a_title, $a_desc, $a_lang, $a_lang_default)
+    public function addTranslation(string $a_title, string $a_desc, string $a_lang, string $a_lang_default) : void
     {
         global $ilDB;
 
@@ -118,12 +118,11 @@ class ilObjRootFolder extends ilContainer
              $ilDB->quote($a_desc, 'text') . "," .
              $ilDB->quote($a_lang, 'text') . "," .
              $ilDB->quote($a_lang_default, 'integer') . ")";
-        $res = $ilDB->manipulate($query);
-        return true;
+        $ilDB->manipulate($query);
     }
     
-    public function addAdditionalSubItemInformation(&$a_item_data)
+    public function addAdditionalSubItemInformation(array &$object) : void
     {
-        ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
+        ilObjectActivation::addAdditionalSubItemInformation($object);
     }
 }
