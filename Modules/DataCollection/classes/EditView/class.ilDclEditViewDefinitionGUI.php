@@ -65,7 +65,7 @@ class ilDclEditViewDefinitionGUI extends ilPageObjectGUI
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];

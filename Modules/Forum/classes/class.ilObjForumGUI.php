@@ -4079,7 +4079,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
     /**
      * @inheritdoc
      */
-    protected function setColumnSettings(ilColumnGUI $column_gui)
+    public function setColumnSettings(ilColumnGUI $column_gui)
     {
         $column_gui->setBlockProperty('news', 'title', $this->lng->txt('frm_latest_postings'));
         $column_gui->setBlockProperty('news', 'prevent_aggregation', true);

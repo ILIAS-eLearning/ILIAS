@@ -29,34 +29,6 @@ class ilObjRootFolderGUI extends ilContainerGUI
         $lng->loadLanguageModule("obj");
     }
 
-    /**
-    * import cancelled
-    *
-    * @access private
-    */
-    public function importCancelledObject()
-    {
-        $this->ctrl->returnToParent($this);
-    }
-
-    /**
-    * import categories
-    */
-    public function importCategoriesObject()
-    {
-        ilObjCategoryGUI::_importCategories($this->ref_id, 0);
-    }
-
-
-    /**
-     * import categories
-     */
-    public function importCategoriesWithRolObject()
-    {
-        ilObjCategoryGUI::_importCategories($this->ref_id, 1);
-    }
-
-
     public function getTabs()
     {
         global $rbacsystem, $lng, $ilHelp, $DIC;

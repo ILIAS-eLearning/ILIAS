@@ -32,6 +32,8 @@ class ilRepositoryTrashGUI
     protected ilTree $tree;
     protected ?ilLogger $logger = null;
     protected TrashGUIRequest $request;
+    protected object $parent_gui;
+    protected string $parent_cmd;
 
     public function __construct(
         object $a_parent_gui,
@@ -182,7 +184,7 @@ class ilRepositoryTrashGUI
         }
         
         // Remove duplicate entries
-        $a_ids = array_unique((array) $a_ids);
+        $a_ids = array_unique($a_ids);
 
         $cgui = new ilConfirmationGUI();
 
@@ -262,9 +264,10 @@ class ilRepositoryTrashGUI
                             $may_delete = true;
                             $may_delete_any++;
                         }
-                                                
+
+                        $path = $this->buildPath(array($mref_id));
                         $items[] = array("id" => $mref_id,
-                            "path" => array_shift($this->buildPath(array($mref_id))),
+                            "path" => array_shift($path),
                             "delete" => $may_delete);
                     } else {
                         $counter++;
@@ -291,13 +294,12 @@ class ilRepositoryTrashGUI
                         $tpl->setCurrentBlock("cbox");
                         $tpl->setVariable("ITEM_NAME", $var_name);
                         $tpl->setVariable("ITEM_VALUE", $item["id"]);
-                        $tpl->parseCurrentBlock();
                     } else {
                         $tpl->setCurrentBlock("item_info");
                         $tpl->setVariable("TXT_ITEM_INFO", $lng->txt("rep_no_permission_to_delete"));
-                        $tpl->parseCurrentBlock();
                     }
-                    
+                    $tpl->parseCurrentBlock();
+
                     $tpl->setCurrentBlock("item");
                     $tpl->setVariable("ITEM_TITLE", $item["path"]);
                     $tpl->parseCurrentBlock();

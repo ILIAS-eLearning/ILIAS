@@ -37,31 +37,6 @@ class ilCategoryExporter extends ilXmlExporter
                 'ids' => $a_ids
             )
         );
-        
-        /*
-        $eo = ilExportOptions::getInstance();
-
-        $obj_id = end($a_ids);
-
-
-        $GLOBALS['ilLog']->write(__METHOD__.': '.$obj_id);
-        if($eo->getOption(ilExportOptions::KEY_ROOT) != $obj_id)
-        {
-            return array();
-        }
-
-        if(count(ilExportOptions::getInstance()->getSubitemsForExport()) > 1)
-        {
-            return array(
-                array(
-                    'component'		=> 'Services/Container',
-                    'entity'		=> 'struct',
-                    'ids'			=> $a_ids
-                )
-            );
-        }
-        return array();
-        */
     }
     
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
@@ -85,6 +60,10 @@ class ilCategoryExporter extends ilXmlExporter
         return array();
     }
 
+    /**
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         $all_ref = ilObject::_getAllReferences($a_id);
@@ -107,13 +86,12 @@ class ilCategoryExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     * @return array
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.3.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Category/cat/4_3",
+                "namespace" => "https://www.ilias.de/Modules/Category/cat/4_3",
                 "xsd_file" => "ilias_cat_4_3.xsd",
                 "uses_dataset" => false,
                 "min" => "4.3.0",

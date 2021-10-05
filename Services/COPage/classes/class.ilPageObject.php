@@ -120,7 +120,7 @@ abstract class ilPageObject
     protected string $renderedcontent = "";
     protected string $renderedtime = "";
     protected string $lastchange = "";
-    protected int $last_change_user = 0;
+    public int $last_change_user = 0;
     protected bool $contains_question = false;
     protected array $hier_ids = [];
     protected array $first_row_ids = [];

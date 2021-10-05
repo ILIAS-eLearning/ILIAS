@@ -60,6 +60,8 @@ class ilRepositoryGUI
     public ilCtrl $ctrl;
     private \ILIAS\HTTP\Services $http;
     protected StandardGUIRequest $request;
+    protected bool $creation_mode;
+    protected ilObjectGUI $gui_obj;
 
     public function __construct()
     {
@@ -210,18 +212,12 @@ class ilRepositoryGUI
                             $this->gui_obj = new $class_name("", 0, true, false);
                         }
                     }
-                    //$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
-
-    
-                    $tabs_out = ($new_type == "")
-                        ? true
-                        : false;
                     $this->gui_obj->setCreationMode($this->creation_mode);
                     $this->ctrl->setReturn($this, "return");
 
                     $this->show();
                 } else {	//
-                    $cmd = $this->ctrl->getCmd("");
+                    $cmd = (string) $this->ctrl->getCmd("");
                     
                     // check read access for category
                     if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id) && $cmd != "showRepTree") {

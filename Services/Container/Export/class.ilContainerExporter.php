@@ -122,13 +122,13 @@ class ilContainerExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     * @return array
+     * @return array[]
      */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Folder/fold/4_1",
+                "namespace" => "https://www.ilias.de/Modules/Folder/fold/4_1",
                 "xsd_file" => "ilias_fold_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",

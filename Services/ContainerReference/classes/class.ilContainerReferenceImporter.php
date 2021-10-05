@@ -33,12 +33,12 @@ abstract class ilContainerReferenceImporter extends ilXmlImporter
     /**
      * Get reference type
      */
-    abstract protected function getType();
+    abstract protected function getType() : string;
     
     /**
      * Init xml parser
      */
-    abstract protected function initParser($a_xml);
+    abstract protected function initParser($a_xml) : ilContainerReferenceXmlParser;
     
     /**
      * get reference

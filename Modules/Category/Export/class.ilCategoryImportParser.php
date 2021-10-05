@@ -17,6 +17,12 @@ class ilCategoryImportParser extends ilSaxParser
     public int $parent_cnt;
     public int $withrol;
     protected ilLogger $cat_log;
+    protected ?ilObjCategory $category;
+    protected string $default_language = "";
+    protected string $cur_spec_lang = "";
+    protected string $cur_title = "";
+    protected string $cur_description = "";
+    protected string $cdata = "";
 
     /**
      * ilCategoryImportParser constructor.
@@ -85,7 +91,7 @@ class ilCategoryImportParser extends ilSaxParser
         switch ($a_name) {
             case "Category":
                 $cur_parent = $this->parent[$this->parent_cnt - 1];
-                $this->category = new ilObjCategory;
+                $this->category = new ilObjCategory();
                 $this->category->setImportId($a_attribs["Id"] . " (#" . $cur_parent . ")");
                 $this->default_language = $a_attribs["DefaultLanguage"];
                 $this->category->setTitle($a_attribs["Id"]);

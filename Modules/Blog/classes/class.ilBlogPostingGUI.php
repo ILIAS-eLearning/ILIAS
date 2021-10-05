@@ -128,7 +128,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
         $ilLocator = $this->locator;

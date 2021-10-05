@@ -36,7 +36,7 @@ class ClipboardManager
 
     public function getCmd() : string
     {
-        $this->repo->getCmd();
+        return $this->repo->getCmd();
     }
 
     public function setParent(int $parent) : void
@@ -46,7 +46,7 @@ class ClipboardManager
 
     public function getParent() : int
     {
-        $this->repo->getParent();
+        return $this->repo->getParent();
     }
 
     public function setRefIds(array $ref_ids) : void
@@ -56,7 +56,7 @@ class ClipboardManager
 
     public function getRefIds() : array
     {
-        $this->repo->getRefIds();
+        return $this->repo->getRefIds();
     }
 
     public function hasEntries() : bool

@@ -53,7 +53,7 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->addColumn($lng->txt("cmps_group"), "");
         $this->addColumn($lng->txt("cmps_enable_creation"), "");
     
-        if ((bool) $a_has_write) {
+        if ($a_has_write) {
             // save options command
             $this->addCommandButton("saveModules", $lng->txt("cmps_save_options"));
         }

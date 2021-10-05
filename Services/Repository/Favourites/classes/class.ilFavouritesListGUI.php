@@ -23,7 +23,7 @@ class ilFavouritesListGUI
     protected ilPDSelectedItemsBlockViewGUI $block_view;
     protected \ILIAS\DI\UIServices $ui;
     protected ilCtrl $ctrl;
-
+    protected ilLanguage $lng;
 
     public function __construct(?ilObjUser $user = null)
     {
@@ -55,7 +55,7 @@ class ilFavouritesListGUI
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($item["obj_id"]), $item["title"]));
             }
             if (count($items) > 0) {
-                $item_groups[] = $f->item()->group((string) $group->getLabel(), $items);
+                $item_groups[] = $f->item()->group($group->getLabel(), $items);
             }
         }
         if (count($item_groups) > 0) {

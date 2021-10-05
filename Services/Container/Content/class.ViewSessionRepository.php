@@ -15,16 +15,17 @@
 
 namespace ILIAS\Container\Content;
 
+use ilSession;
+
 /**
  * Stores view status
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ViewSessionRepository
 {
-    const KEY = "cont_view";
-    const VIEW_ADMIN = "admin";
-    const VIEW_CONTENT = "content";
+    protected const KEY = "cont_view";
+    protected const VIEW_ADMIN = "admin";
+    protected const VIEW_CONTENT = "content";
 
     public function __construct()
     {
@@ -32,24 +33,24 @@ class ViewSessionRepository
 
     public function setAdminView() : void
     {
-        \ilSession::set(self::KEY, self::VIEW_ADMIN);
+        ilSession::set(self::KEY, self::VIEW_ADMIN);
     }
 
     public function setContentView() : void
     {
-        \ilSession::clear(self::KEY);
+        ilSession::clear(self::KEY);
     }
 
     public function isAdminView() : bool
     {
-        if (\ilSession::has(self::KEY)) {
-            return (\ilSession::get(self::KEY) == self::VIEW_ADMIN);
+        if (ilSession::has(self::KEY)) {
+            return (ilSession::get(self::KEY) == self::VIEW_ADMIN);
         }
         return false;
     }
 
     public function isContentView() : bool
     {
-        return !\ilSession::has(self::KEY);
+        return !ilSession::has(self::KEY);
     }
 }

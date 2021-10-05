@@ -9,13 +9,13 @@
  */
 class ilBadgeAppEventListener implements ilAppEventListener
 {
-    public static function handleEvent($a_component, $a_event, $a_params)
+    public static function handleEvent($a_component, $a_event, $a_parameter)
     {
         switch ($a_component) {
             case 'Services/User':
                 switch ($a_event) {
                     case 'afterUpdate':
-                        $user_obj = $a_params['user_obj'];
+                        $user_obj = $a_parameter['user_obj'];
                         ilBadgeHandler::getInstance()->triggerEvaluation(
                             'user/profile',
                             $user_obj->getId()
@@ -27,11 +27,11 @@ class ilBadgeAppEventListener implements ilAppEventListener
             case 'Services/Tracking':
                 switch ($a_event) {
                     case 'updateStatus':
-                        if ($a_params['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
+                        if ($a_parameter['status'] == ilLPStatus::LP_STATUS_COMPLETED_NUM) {
                             ilBadgeHandler::getInstance()->triggerEvaluation(
                                 'crs/course_lp',
-                                $a_params['usr_id'],
-                                array('obj_id' => $a_params['obj_id'])
+                                $a_parameter['usr_id'],
+                                array('obj_id' => $a_parameter['obj_id'])
                             );
                         }
                         break;

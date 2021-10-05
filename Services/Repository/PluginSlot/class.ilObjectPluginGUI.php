@@ -178,7 +178,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         }
     }
 
-    public function addLocatorItems() : void
+    protected function addLocatorItems() : void
     {
         $ilLocator = $this->locator;
 
@@ -233,6 +233,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
             case self::CFORM_CLONE:
                 return $this->txt("objs_" . $this->getType() . "_duplicate");
         }
+        return "";
     }
     
     /**
@@ -269,7 +270,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     * @param	string	$a_new_type
     * @return	ilPropertyFormGUI
     */
-    public function initCreateForm($a_new_type)
+    protected function initCreateForm($a_new_type)
     {
         $form = new ilPropertyFormGUI();
         $form->setTarget("_top");
@@ -300,7 +301,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
     *
     * @return	ilPropertyFormGUI
     */
-    public function initEditForm()
+    protected function initEditForm()
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -353,11 +354,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         return $form;
     }
 
-    /**
-    * After saving
-    * @access	public
-    */
-    public function afterSave(ilObject $newObj)
+    protected function afterSave(ilObject $a_new_object)
     {
         $ilCtrl = $this->ctrl;
         // always send a message
@@ -366,7 +363,7 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
         $ilCtrl->initBaseClass("ilObjPluginDispatchGUI");
         $ilCtrl->getCallStructure(strtolower("ilObjPluginDispatchGUI"));
         
-        $ilCtrl->setParameterByClass(get_class($this), "ref_id", $newObj->getRefId());
+        $ilCtrl->setParameterByClass(get_class($this), "ref_id", $a_new_object->getRefId());
         $ilCtrl->redirectByClass(array("ilobjplugindispatchgui", get_class($this)), $this->getAfterCreationCmd());
     }
     

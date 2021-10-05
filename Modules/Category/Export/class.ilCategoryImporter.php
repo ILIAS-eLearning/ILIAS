@@ -25,7 +25,11 @@ class ilCategoryImporter extends ilXmlImporter
     public function init() : void
     {
     }
-    
+
+    /**
+     * @throws ilDatabaseException
+     * @throws ilObjectNotFoundException
+     */
     public function importXmlRepresentation(
         string $a_entity,
         string $a_id,
@@ -51,12 +55,10 @@ class ilCategoryImporter extends ilXmlImporter
             $parser->setMode(ilCategoryXmlParser::MODE_UPDATE);
             $parser->startParsing();
             $a_mapping->addMapping('Modules/Category', 'cat', $a_id, $this->category->getId());
-        } catch (ilSaxParserException $e) {
-            $GLOBALS['ilLog']->write(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
-        } catch (Exception $e) {
+        } catch (ilSaxParserException | Exception $e) {
             $GLOBALS['ilLog']->write(__METHOD__ . ': Parsing failed with message, "' . $e->getMessage() . '".');
         }
-                            
+
         foreach ($a_mapping->getMappingsOfEntity('Services/Container', 'objs') as $old => $new) {
             $type = ilObject::_lookupType($new);
             

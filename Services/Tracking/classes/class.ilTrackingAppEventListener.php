@@ -20,9 +20,9 @@ class ilTrackingAppEventListener implements ilAppEventListener
     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
-    public static function handleEvent($a_component, $a_event, $a_params)
+    public static function handleEvent($a_component, $a_event, $a_parameter)
     {
-        $obj_id = $a_params['obj_id'] ?? null;
+        $obj_id = $a_parameter['obj_id'] ?? null;
         
         switch ($a_component) {
             case 'Services/Object':
@@ -48,9 +48,9 @@ class ilTrackingAppEventListener implements ilAppEventListener
             case 'Services/Tree':
                 switch ($a_event) {
                     case 'moveTree':
-                        if ($a_params['tree'] == 'tree') {
+                        if ($a_parameter['tree'] == 'tree') {
                             include_once './Services/Object/classes/class.ilObjectLP.php';
-                            ilObjectLP::handleMove($a_params['source_id']);
+                            ilObjectLP::handleMove($a_parameter['source_id']);
                         }
                         break;
                 }

@@ -44,13 +44,13 @@ class ilSearchAppEventListener implements ilAppEventListener
     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
-    public static function handleEvent($a_component, $a_event, $a_params)
+    public static function handleEvent($a_component, $a_event, $a_parameter)
     {
         // only for files in the moment
-        if (!isset($a_params['obj_type'])) {
-            $type = ilObject::_lookupType($a_params['obj_id']);
+        if (!isset($a_parameter['obj_type'])) {
+            $type = ilObject::_lookupType($a_parameter['obj_id']);
         } else {
-            $type = $a_params['obj_type'];
+            $type = $a_parameter['obj_type'];
         }
 
         if ($type != 'file' and
@@ -87,7 +87,7 @@ class ilSearchAppEventListener implements ilAppEventListener
                         return true;
                 }
                 
-                ilSearchAppEventListener::storeElement($command, $a_params);
+                ilSearchAppEventListener::storeElement($command, $a_parameter);
                 return true;
         }
     }

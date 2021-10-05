@@ -29,6 +29,9 @@ class ilRepositoryExplorer extends ilExplorer
     protected ilCtrl $ctrl;
     protected array $force_open_path;
     protected StandardGUIRequest $request;
+    protected array $session_materials;
+    protected array $item_group_items;
+    protected array $type_grps;
 
     public function __construct(string $a_target, int $a_top_node = 0)
     {
@@ -103,6 +106,8 @@ class ilRepositoryExplorer extends ilExplorer
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
+            case "grpr":
+            case "crsr":
             case "catr":
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
@@ -114,22 +119,11 @@ class ilRepositoryExplorer extends ilExplorer
                 $link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjgroupgui"), "");
                 $ilCtrl->setParameterByClass("ilobjgroupgui", "ref_id", $ref_id);
                 return $link;
-            case "grpr":
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
-                return $link;
 
             case "crs":
                 $ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass(array("ilrepositorygui", "ilobjcoursegui"), "view");
                 $ilCtrl->setParameterByClass("ilobjcoursegui", "ref_id", $ref_id);
-                return $link;
-                
-            case "crsr":
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
             case 'rcrs':
@@ -142,12 +136,6 @@ class ilRepositoryExplorer extends ilExplorer
                 $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $a_node_id);
                 $link = $ilCtrl->getLinkTargetByClass("ilobjstudyprogrammegui", "view");
                 $ilCtrl->setParameterByClass("ilobjstudyprogrammegui", "ref_id", $ref_id);
-                return $link;
-
-            case 'prg':
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $a_node_id);
-                $link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", "redirect");
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
                 return $link;
 
             default:
@@ -203,10 +191,8 @@ class ilRepositoryExplorer extends ilExplorer
             case "mep":
                 if ($rbacsystem->checkAccess("read", $a_ref_id)) {
                     return true;
-                } else {
-                    return false;
                 }
-                break;
+                return false;
             case 'grpr':
             case 'crsr':
             case 'catr':
@@ -250,17 +236,14 @@ class ilRepositoryExplorer extends ilExplorer
                     }
 
                     return true;
-                } else {
-                    return false;
                 }
-                break;
+                return false;
         }
     }
 
     public function showChilds($a_ref_id, $a_obj_id = 0)
     {
         $rbacsystem = $this->rbacsystem;
-        $tree = $this->tree;
 
         if ($a_ref_id == 0) {
             return true;
@@ -399,9 +382,9 @@ class ilRepositoryExplorer extends ilExplorer
         return $nodes;
     }
 
-    public function forceExpanded($a_node)
+    public function forceExpanded($a_obj_id)
     {
-        if (in_array($a_node, $this->force_open_path)) {
+        if (in_array($a_obj_id, $this->force_open_path)) {
             return true;
         }
         return false;

@@ -64,7 +64,7 @@ class ilImprintGUI extends ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
         $ilLocator = $this->locator;
@@ -79,10 +79,7 @@ class ilImprintGUI extends ilPageObjectGUI
         $title = $lng->txt("adm_imprint");
         
         switch ($next_class) {
-            case "ilpageobjectgui":
-                die("Deprecated. ilImprintGUI gui forwarding to ilpageobject");
-                return;
-                
+
             default:
                 $this->setPresentationTitle($title);
 
