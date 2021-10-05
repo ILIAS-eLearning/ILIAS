@@ -24,18 +24,14 @@
 include_once('./Services/Object/classes/class.ilObjectAccess.php');
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesPrivacySecurity
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesPrivacySecurity
+ */
 class ilObjPrivacySecurityAccess extends ilObjectAccess
 {
     /**
      * Overwritten checkAccess
-     *
      */
     public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
     {

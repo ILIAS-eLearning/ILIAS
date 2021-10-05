@@ -22,31 +22,26 @@
 */
 
 /**
-* @defgroup
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup Services/PrivacySecurity
-*/
+ * @defgroup
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup Services/PrivacySecurity
+ */
 class ilExportFieldsInfo
 {
     private static $instance = null;
-    
+
     private $settings;
     private $db;
     private $lng;
-    
+
     private $obj_type = '';
-    
+
     private $possible_fields = array();
-    
+
     /**
      * Private Singleton Constructor. Use getInstance
-     *
      * @access private
-     *
      */
     private function __construct($a_type)
     {
@@ -55,21 +50,19 @@ class ilExportFieldsInfo
         $ilDB = $DIC['ilDB'];
         $ilSetting = $DIC['ilSetting'];
         $lng = $DIC['lng'];
-        
+
         $this->db = $ilDB;
         $this->lng = $lng;
         $this->settings = $ilSetting;
-        
+
         $this->obj_type = $a_type;
-        
+
         $this->read();
     }
-    
+
     /**
      * Get Singleton Instance
-     *
      * @access public
-     *
      */
     public static function _getInstanceByType($a_type)
     {
@@ -78,7 +71,7 @@ class ilExportFieldsInfo
         }
         return self::$instance[$a_type] = new ilExportFieldsInfo($a_type);
     }
-    
+
     /**
      * Get object type
      * @return
@@ -87,34 +80,29 @@ class ilExportFieldsInfo
     {
         return $this->obj_type;
     }
-    
+
     /**
      * Check if field is exportable
-     *
      * @access public
      * @param string field name
      * @return bool
-     *
      */
     public function isExportable($a_field_name)
     {
         return array_key_exists($a_field_name, $this->possible_fields);
     }
-    
+
     /**
      * Get informations (exportable) about user data profile fields
-     *
      * @access public
-     *
      */
     public function getFieldsInfo()
     {
         return $this->possible_fields;
     }
-    
+
     /**
      * Get Exportable Fields
-     *
      * @access public
      */
     public function getExportableFields()
@@ -126,7 +114,7 @@ class ilExportFieldsInfo
         }
         return $fields ? $fields : array();
     }
-    
+
     /**
      * Get selectable fields
      * @return
@@ -136,19 +124,19 @@ class ilExportFieldsInfo
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $fields = array();
         foreach ($this->getExportableFields() as $field) {
             switch ($field) {
                 case 'lastname':
                 case 'firstname':
                     break;
-    
+
                 case 'username':
                     $fields['login']['txt'] = $lng->txt('login');
                     $fields['login']['default'] = 1;
                     break;
-                
+
                 default:
                     // #18795
                     $caption = ($field == "title")
@@ -159,14 +147,14 @@ class ilExportFieldsInfo
                     break;
             }
         }
-        
+
         include_once './Services/Booking/classes/class.ilBookingEntry.php';
         if (ilBookingEntry::hasObjectBookingEntries($a_obj_id, $GLOBALS['DIC']['ilUser']->getId())) {
             $GLOBALS['DIC']['lng']->loadLanguageModule('dateplaner');
             $fields['consultation_hour']['txt'] = $GLOBALS['DIC']['lng']->txt('cal_ch_field_ch');
             $fields['consultation_hour']['default'] = 0;
         }
-        
+
         include_once './Services/User/classes/class.ilUserDefinedFields.php';
         if ($this->getType() == 'crs') {
             $udf = ilUserDefinedFields::_getInstance()->getCourseExportableFields();
@@ -179,7 +167,7 @@ class ilExportFieldsInfo
                 $fields['udf_' . $field_id]['default'] = 0;
             }
         }
-        
+
         include_once './Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php';
         $cdf = ilCourseDefinedFieldDefinition::_getFields($a_obj_id);
         foreach ($cdf as $def) {
@@ -192,13 +180,12 @@ class ilExportFieldsInfo
             $fields['odf_last_update']['txt'] = $GLOBALS['DIC']['lng']->txt($this->getType() . '_cdf_tbl_last_edit');
             $fields['odf_last_update']['default'] = 0;
         }
-        
+
         return $fields;
     }
-    
+
     /**
      * Get exportable fields as info string
-     *
      * @access public
      * @return string info page string
      */
@@ -210,20 +197,18 @@ class ilExportFieldsInfo
         }
         return implode('<br />', $fields);
     }
-    
+
     /**
      * Read info about exportable fields
-     *
      * @access private
-     *
      */
     private function read()
     {
         include_once './Services/User/classes/class.ilUserProfile.php';
-        
+
         $profile = new ilUserProfile();
         $profile->skipGroup('settings');
-        
+
         foreach ($profile->getStandardFields() as $key => $data) {
             if ($this->getType() == 'crs') {
                 if (!$data['course_export_hide']) {
@@ -251,13 +236,13 @@ class ilExportFieldsInfo
                 $field_prefix = 'usr_settings_course_export_';
                 $field_part_limit = 5;
                 break;
-                
+
             case 'grp':
                 $field_prefix = 'usr_settings_group_export_';
                 $field_part_limit = 5;
                 break;
         }
-        
+
         foreach ($settings_all as $key => $value) {
             if ($field_prefix && stristr($key, $field_prefix) and $value) {
                 // added limit for mantis 11096

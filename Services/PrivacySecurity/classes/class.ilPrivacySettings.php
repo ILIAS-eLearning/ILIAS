@@ -22,21 +22,17 @@
 */
 
 /**
-* Singleton class that stores all privacy settings
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup Services/PrivacySecurity
-*/
-
+ * Singleton class that stores all privacy settings
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup Services/PrivacySecurity
+ */
 class ilPrivacySettings
 {
     private static $instance = null;
     private $db;
     private $settings;
-    
+
     private $export_course;
     private $export_group;
     private $export_learning_sequence;
@@ -67,10 +63,8 @@ class ilPrivacySettings
 
     /**
      * Private constructor: use _getInstance()
-     *
      * @access private
      * @param
-     *
      */
     private function __construct()
     {
@@ -87,7 +81,6 @@ class ilPrivacySettings
 
     /**
      * Get instance of ilPrivacySettings
-     *
      * @access public
      * @return \ilPrivacySettings
      */
@@ -108,7 +101,7 @@ class ilPrivacySettings
     {
         return $this->export_course;
     }
-    
+
     public function enabledGroupExport()
     {
         return $this->export_group;
@@ -137,9 +130,9 @@ class ilPrivacySettings
 
     /**
      * Check if a user has the permission to access approved user profile fields, course related user data and custom user data
-     * @todo rename
      * @param object $a_ref_id
      * @return
+     * @todo rename
      */
     public function checkExportAccess($a_ref_id, $a_user_id = 0)
     {
@@ -148,15 +141,21 @@ class ilPrivacySettings
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
         $rbacsystem = $DIC['rbacsystem'];
-        
+
         $user_id = $a_user_id ? $a_user_id : $ilUser->getId();
-        
+
         if (ilObject::_lookupType($a_ref_id, true) == 'crs') {
-            return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members', '', $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data', $this->getPrivacySettingsRefId());
+            return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members', '',
+                    $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data',
+                    $this->getPrivacySettingsRefId());
         } elseif (ilObject::_lookupType($a_ref_id, true) == 'grp') {
-            return $this->enabledGroupExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members', '', $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data', $this->getPrivacySettingsRefId());
+            return $this->enabledGroupExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members', '',
+                    $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data',
+                    $this->getPrivacySettingsRefId());
         } elseif (ilObject::_lookupType($a_ref_id, true) == 'lso') {
-            return $this->enabledLearningSequenceExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members', '', $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data', $this->getPrivacySettingsRefId());
+            return $this->enabledLearningSequenceExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members',
+                    '', $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data',
+                    $this->getPrivacySettingsRefId());
         }
     }
 
@@ -176,83 +175,83 @@ class ilPrivacySettings
     }
 
     /**
-    *	write access to property fora statitics
-    * @param bool $a_status	value to set property
-    */
+     *    write access to property fora statitics
+     * @param bool $a_status value to set property
+     */
     public function enableForaStatistics($a_status)
     {
         $this->fora_statistics = (bool) $a_status;
     }
-    
+
     /**
-    *	read access to property enable fora statistics
-    * @return bool true if enabled, false otherwise
-    */
+     *    read access to property enable fora statistics
+     * @return bool true if enabled, false otherwise
+     */
     public function enabledForaStatistics()
     {
         return $this->fora_statistics;
     }
 
     /**
-    * write access to property anonymous fora
-    * @param bool $a_status	value to set property
-    */
+     * write access to property anonymous fora
+     * @param bool $a_status value to set property
+     */
     public function enableAnonymousFora($a_status)
     {
         $this->anonymous_fora = (bool) $a_status;
     }
-    
+
     /**
-    * read access to property enable anonymous fora
-    * @return bool true if enabled, false otherwise
-    */
+     * read access to property enable anonymous fora
+     * @return bool true if enabled, false otherwise
+     */
     public function enabledAnonymousFora()
     {
         return $this->anonymous_fora;
     }
 
     /**
-    * write access to property rbac_log
-    * @param bool $a_status	value to set property
-    */
+     * write access to property rbac_log
+     * @param bool $a_status value to set property
+     */
     public function enableRbacLog($a_status)
     {
         $this->rbac_log = (bool) $a_status;
     }
 
     /**
-    * read access to property enable rbac log
-    * @return bool true if enabled, false otherwise
-    */
+     * read access to property enable rbac log
+     * @return bool true if enabled, false otherwise
+     */
     public function enabledRbacLog()
     {
         return $this->rbac_log;
     }
 
     /**
-    * write access to property rbac log age
-    *  @param int $a_age	value to set property
-    */
+     * write access to property rbac log age
+     * @param int $a_age value to set property
+     */
     public function setRbacLogAge($a_age)
     {
         $this->rbac_log_age = (int) $a_age;
     }
 
     /**
-    * read access to property rbac log age
-    * @return int
-    */
+     * read access to property rbac log age
+     * @return int
+     */
     public function getRbacLogAge()
     {
         return $this->rbac_log_age;
     }
-    
+
     public function confirmationRequired($a_type)
     {
         switch ($a_type) {
             case 'crs':
                 return $this->courseConfirmationRequired();
-                
+
             case 'grp':
                 return $this->groupConfirmationRequired();
 
@@ -281,7 +280,7 @@ class ilPrivacySettings
     {
         $this->export_confirm_course = (bool) $a_status;
     }
-    
+
     public function setGroupConfirmationRequired($a_status)
     {
         $this->export_confirm_group = (bool) $a_status;
@@ -294,30 +293,25 @@ class ilPrivacySettings
 
     /**
      * Show group last access times
-     *
      * @access public
      * @param
-     *
      */
     public function showGroupAccessTimes($a_status)
     {
         $this->show_grp_access_times = $a_status;
     }
-    
+
     /**
      * check if group access time are visible
-     *
      * @access public
-     *
      */
     public function enabledGroupAccessTimes()
     {
         return (bool) $this->show_grp_access_times;
     }
-    
+
     /**
      * show course access times
-     *
      * @access public
      * @param bool status
      * @return
@@ -326,10 +320,9 @@ class ilPrivacySettings
     {
         $this->show_crs_access_times = $a_status;
     }
-    
+
     /**
      * check if access time are enabled in lso
-     *
      * @access public
      * @return
      */
@@ -340,7 +333,6 @@ class ilPrivacySettings
 
     /**
      * show lso access times
-     *
      * @access public
      * @param bool status
      * @return
@@ -349,10 +341,9 @@ class ilPrivacySettings
     {
         $this->show_lso_access_times = $a_status;
     }
-    
+
     /**
      * check if access time are enabled in courses
-     *
      * @access public
      * @return
      */
@@ -360,7 +351,7 @@ class ilPrivacySettings
     {
         return (bool) $this->show_crs_access_times;
     }
-    
+
     /**
      * Check if access time are enabled for a specific type
      * @param type $a_obj_type
@@ -371,7 +362,7 @@ class ilPrivacySettings
         switch ($a_obj_type) {
             case 'crs':
                 return $this->enabledCourseAccessTimes();
-                
+
             case 'grp':
                 return $this->enabledGroupAccessTimes();
         }
@@ -379,14 +370,13 @@ class ilPrivacySettings
 
     /**
      * Save settings
-     *
-     *
      */
     public function save()
     {
         $this->settings->set('ps_export_confirm', (bool) $this->courseConfirmationRequired());
         $this->settings->set('ps_export_confirm_group', (bool) $this->groupConfirmationRequired());
-        $this->settings->set('ps_export_confirm_learning_sequence', (bool) $this->learningSequenceConfirmationRequired());
+        $this->settings->set('ps_export_confirm_learning_sequence',
+            (bool) $this->learningSequenceConfirmationRequired());
         $this->settings->set('ps_export_course', (bool) $this->enabledCourseExport());
         $this->settings->set('ps_export_group', (bool) $this->enabledGroupExport());
         $this->settings->set('ps_export_learning_sequence', (bool) $this->enabledLearningSequenceExport());
@@ -402,24 +392,23 @@ class ilPrivacySettings
         $this->settings->set('participants_list_courses', (bool) $this->participantsListInCoursesEnabled());
         $this->settings->set('comments_export', (bool) $this->enabledCommentsExport());
     }
+
     /**
      * read settings
-     *
      * @access private
      * @param
-     *
      */
     private function read()
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data " .
-                "WHERE tree.parent = " . $ilDB->quote(SYSTEM_FOLDER_ID, 'integer') . " " .
-                "AND object_data.type = 'ps' " .
-                "AND object_reference.ref_id = tree.child " .
-                "AND object_reference.obj_id = object_data.obj_id";
+            "WHERE tree.parent = " . $ilDB->quote(SYSTEM_FOLDER_ID, 'integer') . " " .
+            "AND object_data.type = 'ps' " .
+            "AND object_reference.ref_id = tree.child " .
+            "AND object_reference.obj_id = object_data.obj_id";
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
         $this->ref_id = $row["ref_id"];
@@ -436,13 +425,13 @@ class ilPrivacySettings
         $this->rbac_log_age = (int) $this->settings->get('rbac_log_age', 6);
         $this->sahs_protocol_data = (int) $this->settings->get('enable_sahs_pd', 0);
         $this->export_scorm = (bool) $this->settings->get('ps_export_scorm', false);
-        $this->enableParticipantsListInCourses((bool) $this->settings->get('participants_list_courses', $this->participantsListInCoursesEnabled()));
+        $this->enableParticipantsListInCourses((bool) $this->settings->get('participants_list_courses',
+            $this->participantsListInCoursesEnabled()));
         $this->enableCommentsExport((bool) $this->settings->get('comments_export', false));
     }
 
     /**
      * validate settings
-     *
      * @return 0, if everything is ok, an error code otherwise
      */
     public function validate()
@@ -454,6 +443,7 @@ class ilPrivacySettings
     {
         return (int) $this->sahs_protocol_data;
     }
+
     public function enableSahsProtocolData($status)
     {
         $this->sahs_protocol_data = (int) $status;
@@ -464,6 +454,7 @@ class ilPrivacySettings
     {
         return $this->export_scorm;
     }
+
     public function enableExportSCORM($a_status)
     {
         $this->export_scorm = (bool) $a_status;
@@ -482,7 +473,7 @@ class ilPrivacySettings
      * Enable comments export
      * @return bool
      */
-    public function enabledCommentsExport(): bool
+    public function enabledCommentsExport() : bool
     {
         return $this->comments_export;
     }

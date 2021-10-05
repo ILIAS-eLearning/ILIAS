@@ -22,42 +22,36 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesPrivacySecurity
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesPrivacySecurity
+ */
 class ilRobotSettings
 {
     private $open_robots = false;
     private $settings = null;
-    
+
     private static $instance = null;
+
     /**
      * Private constructor => use getInstance
-     *
      * @access private
      * @param
-     *
      */
     private function __construct()
     {
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-        
+
         $this->settings = $ilSetting;
         $this->read();
     }
-    
+
     /**
      * Get instance
-     *
      * @access public
      * @static
-     *
      * @param
      */
     public static function _getInstance()
@@ -68,10 +62,9 @@ class ilRobotSettings
             return self::$instance = new ilRobotSettings();
         }
     }
-    
+
     /**
      * Check if client is open for robots
-     *
      * @access public
      * @return bool support given
      */
@@ -79,34 +72,29 @@ class ilRobotSettings
     {
         return (bool) $this->open_robots;
     }
-    
+
     /**
      * Read settings
-     *
      * @access private
-     *
      */
     private function read()
     {
         $this->open_robots = (bool) $this->settings->get('open_google', false);
     }
 
-    
     /**
      * Indirect Check of allow override
-     *
      * @access public
-     *
      */
     public function checkRewrite()
     {
         if (!function_exists('apache_lookup_uri')) {
             return true;
         }
-        
+
         $url = ILIAS_HTTP_PATH . '/goto_' . CLIENT_ID . '_root_1.html';
         $status_info = @apache_lookup_uri($url);
-        
+
         // fallback for php as cgi (and available remote fopen)
         if ($status_info === false && ini_get('allow_url_fopen')) {
             // fopen respects HTTP error codes
@@ -117,7 +105,7 @@ class ilRobotSettings
             }
             return false;
         }
-        
+
         return $status_info->status == 200;
     }
 }

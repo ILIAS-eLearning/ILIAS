@@ -22,21 +22,16 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesPrivacySecurity
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesPrivacySecurity
+ */
 class ilObjPrivacySecurity extends ilObject
 {
     /**
      * Constructor
-     *
      * @access public
      * @param
-     *
      */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {

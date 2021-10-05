@@ -22,15 +22,11 @@
 */
 
 /**
-* Singleton class that stores all security settings
-*
-* @author Roland Küstermann <roland@kuestermann.com>
-* @version $Id$
-*
-*
-* @ingroup Services/PrivacySecurity
-*/
-
+ * Singleton class that stores all security settings
+ * @author  Roland Küstermann <roland@kuestermann.com>
+ * @version $Id$
+ * @ingroup Services/PrivacySecurity
+ */
 class ilSecuritySettings
 {
     public static $SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS = 1;
@@ -51,7 +47,7 @@ class ilSecuritySettings
     private $settings;
 
     private $https_enable;
-    
+
     const DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED = true;
     const DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED = false;
     const DEFAULT_PASSWORD_MIN_LENGTH = 8;
@@ -74,15 +70,13 @@ class ilSecuritySettings
 
     private $password_change_on_first_login_enabled = self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED;
     private $prevent_simultaneous_logins = self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS;
-    
+
     private $protect_admin_role = false;
 
     /**
      * Private constructor: use _getInstance()
-     *
      * @access private
      * @param
-     *
      */
     private function __construct()
     {
@@ -99,10 +93,8 @@ class ilSecuritySettings
 
     /**
      * Get instance of ilSecuritySettings
-     *
      * @return ilSecuritySettings  instance
      * @access public
-     *
      */
     public static function _getInstance()
     {
@@ -120,9 +112,7 @@ class ilSecuritySettings
     /**
      * set if the passwords have to contain
      * characters and numbers
-     *
      * @param boolean $a_chars_and_numbers_enabled
-     *
      */
     public function setPasswordCharsAndNumbersEnabled($a_chars_and_numbers_enabled)
     {
@@ -132,9 +122,7 @@ class ilSecuritySettings
     /**
      * get boolean if the passwords have to contain
      * characters and numbers
-     *
-     * @return boolean	characters and numbers enabled
-     *
+     * @return boolean    characters and numbers enabled
      */
     public function isPasswordCharsAndNumbersEnabled()
     {
@@ -144,9 +132,7 @@ class ilSecuritySettings
     /**
      * set if the passwords have to contain
      * special characters
-     *
      * @param boolean $a_password_special_chars_enabled
-     *
      */
     public function setPasswordSpecialCharsEnabled($a_password_special_chars_enabled)
     {
@@ -156,9 +142,7 @@ class ilSecuritySettings
     /**
      * get boolean if the passwords have to contain
      * special characters
-     *
-     * @return boolean	password special chars enabled
-     *
+     * @return boolean    password special chars enabled
      */
     public function isPasswordSpecialCharsEnabled()
     {
@@ -167,7 +151,6 @@ class ilSecuritySettings
 
     /**
      * set the minimum length for passwords
-     *
      * @param integer $a_password_min_length
      */
     public function setPasswordMinLength($a_password_min_length)
@@ -177,7 +160,6 @@ class ilSecuritySettings
 
     /**
      * get the minimum length for passwords
-     *
      * @return integer  password min length
      */
     public function getPasswordMinLength()
@@ -187,7 +169,6 @@ class ilSecuritySettings
 
     /**
      * set the maximum length for passwords
-     *
      * @param integer $a_password_max_length
      */
     public function setPasswordMaxLength($a_password_max_length)
@@ -197,7 +178,6 @@ class ilSecuritySettings
 
     /**
      * get the maximum length for passwords
-     *
      * @return integer  password max length
      */
     public function getPasswordMaxLength()
@@ -207,7 +187,6 @@ class ilSecuritySettings
 
     /**
      * set the maximum password age
-     *
      * @param integer $a_password_max_age
      */
     public function setPasswordMaxAge($a_password_max_age)
@@ -217,7 +196,6 @@ class ilSecuritySettings
 
     /**
      * get the maximum password age
-     *
      * @return integer  password max age
      */
     public function getPasswordMaxAge()
@@ -227,7 +205,6 @@ class ilSecuritySettings
 
     /**
      * set the maximum count of login attempts
-     *
      * @param integer $a_login_max_attempts
      */
     public function setLoginMaxAttempts($a_login_max_attempts)
@@ -237,7 +214,6 @@ class ilSecuritySettings
 
     /**
      * get the maximum count of login attempts
-     *
      * @return integer  password max login attempts
      */
     public function getLoginMaxAttempts()
@@ -247,7 +223,6 @@ class ilSecuritySettings
 
     /**
      * Enable https for certain scripts
-     *
      * @param boolean $value
      */
     public function setHTTPSEnabled($value)
@@ -257,20 +232,17 @@ class ilSecuritySettings
 
     /**
      * read access to https enabled property
-     *
      * @return boolean  true, if enabled, false otherwise
      */
     public function isHTTPSEnabled()
     {
         return $this->https_enable;
     }
-    
+
     /**
      * set if the passwords have to be changed by users
      * on first login
-     *
      * @param boolean $a_password_change_on_first_login_enabled
-     *
      */
     public function setPasswordChangeOnFirstLoginEnabled($a_password_change_on_first_login_enabled)
     {
@@ -280,15 +252,13 @@ class ilSecuritySettings
     /**
      * get boolean if the passwords have to be changed by users
      * on first login
-     *
-     * @return boolean	password change on first login enabled
-     *
+     * @return boolean    password change on first login enabled
      */
     public function isPasswordChangeOnFirstLoginEnabled()
     {
         return $this->password_change_on_first_login_enabled;
     }
-     
+
     /**
      * Check if admin role is protected
      * @return type
@@ -297,7 +267,7 @@ class ilSecuritySettings
     {
         return (bool) $this->protect_admin_role;
     }
-     
+
     /**
      * Set admin role protection status
      * @param type $a_stat
@@ -306,7 +276,7 @@ class ilSecuritySettings
     {
         $this->protect_admin_role = $a_stat;
     }
-     
+
     /**
      * Check if the administrator role is accessible for a specific user
      * @param int $a_usr_id
@@ -316,7 +286,7 @@ class ilSecuritySettings
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
-         
+
         if (!$this->isAdminRoleProtected()) {
             return true;
         }
@@ -328,13 +298,11 @@ class ilSecuritySettings
 
     /**
      * Save settings
-     *
-     *
      */
     public function save()
     {
         $this->settings->set('https', (int) $this->isHTTPSEnabled());
-        
+
         $this->settings->set('ps_password_chars_and_numbers_enabled', (bool) $this->isPasswordCharsAndNumbersEnabled());
         $this->settings->set('ps_password_special_chars_enabled', (bool) $this->isPasswordSpecialCharsEnabled());
         $this->settings->set('ps_password_min_length', (int) $this->getPasswordMinLength());
@@ -343,18 +311,19 @@ class ilSecuritySettings
         $this->settings->set('ps_login_max_attempts', (int) $this->getLoginMaxAttempts());
         $this->settings->set('ps_password_uppercase_chars_num', (int) $this->getPasswordNumberOfUppercaseChars());
         $this->settings->set('ps_password_lowercase_chars_num', (int) $this->getPasswordNumberOfLowercaseChars());
-        $this->settings->set('ps_password_must_not_contain_loginame', (int) $this->getPasswordMustNotContainLoginnameStatus());
+        $this->settings->set('ps_password_must_not_contain_loginame',
+            (int) $this->getPasswordMustNotContainLoginnameStatus());
 
-        $this->settings->set('ps_password_change_on_first_login_enabled', (bool) $this->isPasswordChangeOnFirstLoginEnabled());
+        $this->settings->set('ps_password_change_on_first_login_enabled',
+            (bool) $this->isPasswordChangeOnFirstLoginEnabled());
         $this->settings->set('ps_prevent_simultaneous_logins', (int) $this->isPreventionOfSimultaneousLoginsEnabled());
         $this->settings->set('ps_protect_admin', (int) $this->isAdminRoleProtected());
     }
+
     /**
      * read settings
-     *
      * @access private
      * @param
-     *
      */
     private function read()
     {
@@ -363,41 +332,48 @@ class ilSecuritySettings
         $ilDB = $DIC['ilDB'];
 
         $query = "SELECT object_reference.ref_id FROM object_reference,tree,object_data " .
-                "WHERE tree.parent = " . $ilDB->quote(SYSTEM_FOLDER_ID, 'integer') . " " .
-                "AND object_data.type = 'ps' " .
-                "AND object_reference.ref_id = tree.child " .
-                "AND object_reference.obj_id = object_data.obj_id";
+            "WHERE tree.parent = " . $ilDB->quote(SYSTEM_FOLDER_ID, 'integer') . " " .
+            "AND object_data.type = 'ps' " .
+            "AND object_reference.ref_id = tree.child " .
+            "AND object_reference.obj_id = object_data.obj_id";
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
         $this->ref_id = $row["ref_id"];
 
         $this->https_enable = (boolean) $this->settings->get('https', false);
 
-        $this->password_chars_and_numbers_enabled = (bool) $this->settings->get('ps_password_chars_and_numbers_enabled', self::DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED);
-        $this->password_special_chars_enabled = (bool) $this->settings->get('ps_password_special_chars_enabled', self::DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED);
-        $this->password_min_length = (int) $this->settings->get('ps_password_min_length', self::DEFAULT_PASSWORD_MIN_LENGTH);
-        $this->password_max_length = (int) $this->settings->get('ps_password_max_length', self::DEFAULT_PASSWORD_MAX_LENGTH);
+        $this->password_chars_and_numbers_enabled = (bool) $this->settings->get('ps_password_chars_and_numbers_enabled',
+            self::DEFAULT_PASSWORD_CHARS_AND_NUMBERS_ENABLED);
+        $this->password_special_chars_enabled = (bool) $this->settings->get('ps_password_special_chars_enabled',
+            self::DEFAULT_PASSWORD_SPECIAL_CHARS_ENABLED);
+        $this->password_min_length = (int) $this->settings->get('ps_password_min_length',
+            self::DEFAULT_PASSWORD_MIN_LENGTH);
+        $this->password_max_length = (int) $this->settings->get('ps_password_max_length',
+            self::DEFAULT_PASSWORD_MAX_LENGTH);
         $this->password_max_age = (int) $this->settings->get('ps_password_max_age', self::DEFAULT_PASSWORD_MAX_AGE);
-        $this->login_max_attempts = (int) $this->settings->get('ps_login_max_attempts', self::DEFAULT_LOGIN_MAX_ATTEMPTS);
+        $this->login_max_attempts = (int) $this->settings->get('ps_login_max_attempts',
+            self::DEFAULT_LOGIN_MAX_ATTEMPTS);
         $this->password_ucase_chars_num = (int) $this->settings->get('ps_password_uppercase_chars_num', 0);
         $this->password_lcase_chars_num = (int) $this->settings->get('ps_password_lowercase_chars_num', 0);
-        $this->password_must_not_contain_loginname = $this->settings->get('ps_password_must_not_contain_loginame', 0) == '1' ? true : false;
+        $this->password_must_not_contain_loginname = $this->settings->get('ps_password_must_not_contain_loginame',
+            0) == '1' ? true : false;
 
-        $this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled', self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED);
-        $this->prevent_simultaneous_logins = (bool) $this->settings->get('ps_prevent_simultaneous_logins', self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS);
-        
+        $this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled',
+            self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED);
+        $this->prevent_simultaneous_logins = (bool) $this->settings->get('ps_prevent_simultaneous_logins',
+            self::DEFAULT_PREVENT_SIMULTANEOUS_LOGINS);
+
         $this->protect_admin_role = (bool) $this->settings->get('ps_protect_admin', $this->protect_admin_role);
     }
 
     /**
      * validate settings
-     *
      * @return 0, if everything is ok, an error code otherwise
      */
     public function validate(ilPropertyFormGUI $a_form = null)
     {
         $code = null;
-        
+
         if ($a_form) {
             include_once "Services/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php";
         }
@@ -415,14 +391,14 @@ class ilSecuritySettings
                 }
             }
         }
-        
+
         if ($this->getPasswordMinLength() < 0) {
             $code = self::SECURITY_SETTINGS_ERR_CODE_INVALID_PASSWORD_MIN_LENGTH;
             if (!$a_form) {
                 return $code;
             } else {
                 $a_form->getItemByPostVar('password_min_length')
-                        ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+                       ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
             }
         }
 
@@ -432,7 +408,7 @@ class ilSecuritySettings
                 return $code;
             } else {
                 $a_form->getItemByPostVar('password_max_length')
-                        ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+                       ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
             }
         }
 
@@ -468,7 +444,7 @@ class ilSecuritySettings
                 return $code;
             } else {
                 $a_form->getItemByPostVar('password_min_length')
-                        ->setAlert(sprintf(ilObjPrivacySecurityGUI::getErrorMessage($code), $password_min_length));
+                       ->setAlert(sprintf(ilObjPrivacySecurityGUI::getErrorMessage($code), $password_min_length));
             }
         }
         if ($this->getPasswordMaxLength() > 0 && $this->getPasswordMaxLength() < $this->getPasswordMinLength()) {
@@ -477,7 +453,7 @@ class ilSecuritySettings
                 return $code;
             } else {
                 $a_form->getItemByPostVar('password_max_length')
-                        ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+                       ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
             }
         }
 
@@ -487,7 +463,7 @@ class ilSecuritySettings
                 return $code;
             } else {
                 $a_form->getItemByPostVar('password_max_age')
-                        ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+                       ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
             }
         }
 
@@ -497,7 +473,7 @@ class ilSecuritySettings
                 return $code;
             } else {
                 $a_form->getItemByPostVar('login_max_attempts')
-                        ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
+                       ->setAlert(ilObjPrivacySecurityGUI::getErrorMessage($code));
             }
         }
 
@@ -515,17 +491,15 @@ class ilSecuritySettings
 
     /**
      * Prevention of simultaneous logins with the same account
-     *
      * @return boolean  true, if prevention of simultaneous logins with the same account is enabled, false otherwise
      */
     public function isPreventionOfSimultaneousLoginsEnabled()
     {
         return (bool) $this->prevent_simultaneous_logins;
     }
-    
+
     /**
      * Enable/Disable prevention of simultaneous logins with the same account
-     *
      * @param boolean $value
      */
     public function setPreventionOfSimultaneousLogins($value)
@@ -535,7 +509,7 @@ class ilSecuritySettings
 
     /**
      * Set number of uppercase characters required
-     * @param    integer
+     * @param integer
      */
     public function setPasswordNumberOfUppercaseChars($password_ucase_chars_num)
     {
@@ -553,7 +527,7 @@ class ilSecuritySettings
 
     /**
      * Set number of lowercase characters required
-     * @param    integer
+     * @param integer
      */
     public function setPasswordNumberOfLowercaseChars($password_lcase_chars_num)
     {
@@ -571,7 +545,7 @@ class ilSecuritySettings
 
     /**
      * Set whether the password must not contain the loginname or not
-     * @param	boolean
+     * @param boolean
      */
     public function setPasswordMustNotContainLoginnameStatus($status)
     {
@@ -580,7 +554,7 @@ class ilSecuritySettings
 
     /**
      * Return whether the password must not contain the loginname or not
-     * @param	boolean
+     * @param boolean
      */
     public function getPasswordMustNotContainLoginnameStatus()
     {
