@@ -18,7 +18,7 @@
  *
  * @author Stefan Meyer <meyer@leifos.com>
  */
-abstract class ilContainerReferenceXmlParser extends ilSaxParser
+class ilContainerReferenceXmlParser extends ilSaxParser
 {
     public const MODE_CREATE = 1;
     public const MODE_UPDATE = 2;
@@ -152,7 +152,9 @@ abstract class ilContainerReferenceXmlParser extends ilSaxParser
         }
     }
 
-    abstract protected function create() : void;
+    protected function create()
+    {
+    }
 
     protected function save() : void
     {

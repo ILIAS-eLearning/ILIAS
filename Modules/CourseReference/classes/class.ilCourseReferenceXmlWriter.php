@@ -28,7 +28,7 @@ class ilCourseReferenceXmlWriter extends ilContainerReferenceXmlWriter
     /**
      * Start writing xml
      */
-    public function export($a_with_header = true)
+    public function export(bool $a_with_header = true) : void
     {
         if ($this->getMode() == self::MODE_EXPORT) {
             if ($a_with_header) {

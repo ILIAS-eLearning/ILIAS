@@ -129,7 +129,7 @@ class ilContainerReferenceGUI extends ilObjectGUI
     }
     
     
-    public function saveObject() : void
+    public function saveObject()
     {
         $ilAccess = $this->access;
         
