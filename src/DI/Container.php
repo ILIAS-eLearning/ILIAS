@@ -349,6 +349,16 @@ class Container extends \Pimple\Container
         return new \ILIAS\Category\Service($this);
     }
 
+    public function folder() : \ILIAS\Folder\Service
+    {
+        return new \ILIAS\Folder\Service($this);
+    }
+
+    public function rootFolder() : \ILIAS\RootFolder\Service
+    {
+        return new \ILIAS\RootFolder\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

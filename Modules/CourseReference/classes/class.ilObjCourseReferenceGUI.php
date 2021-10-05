@@ -83,7 +83,7 @@ class ilObjCourseReferenceGUI extends ilContainerReferenceGUI
      *
      * @access public
      */
-    public function getTabs()
+    protected function getTabs()
     {
         global $DIC;
 

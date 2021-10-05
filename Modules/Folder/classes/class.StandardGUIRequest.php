@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\ContainerReference;
+namespace ILIAS\Folder;
 
 use ILIAS\Repository;
 
@@ -36,18 +36,18 @@ class StandardGUIRequest
         return $this->int("ref_id");
     }
 
-    public function getTargetId() : int
+    public function getUserId() : int
     {
-        return $this->int("target_id");
+        return $this->int("user_id");
     }
 
-    public function getCreationMode() : int
+    public function getCmdClass() : string
     {
-        return $this->int("creation_mode");
+        return $this->str("cmdClass");
     }
 
-    public function getNewType() : string
+    public function getBaseClass() : string
     {
-        return $this->str("new_type");
+        return $this->str("baseClass");
     }
 }
