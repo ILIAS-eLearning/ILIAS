@@ -3,7 +3,6 @@
 
 include_once('./Services/Table/classes/class.ilTable2GUI.php');
 include_once './Services/AccessControl/classes/class.ilPermissionGUI.php';
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * Table for object role permissions
@@ -562,7 +561,6 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         $tree = $DIC['tree'];
         $objDefinition = $DIC['objDefinition'];
         
-        #vd($role);
         $protected_status = $rbacreview->isProtected($role['parent'], $role['obj_id']) ? 'protected_' : '';
         if ($role['role_type'] == 'global') {
             $tp = $this->lng->txt('perm_' . $protected_status . 'global_role');

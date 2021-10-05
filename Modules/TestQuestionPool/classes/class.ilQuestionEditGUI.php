@@ -150,7 +150,7 @@ class ilQuestionEditGUI
                 $q_gui->object->setObjId((int) $this->getPoolObjId());
                 
                 for ($i = 0; $i < $this->new_id_listener_cnt; $i++) {
-                    $object = &$this->new_id_listeners[$i]["object"];
+                    $object = $this->new_id_listeners[$i]["object"];
                     $method = $this->new_id_listeners[$i]["method"];
                     $parameters = $this->new_id_listeners[$i]["parameters"];
                     $q_gui->addNewIdListener(

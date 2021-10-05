@@ -392,4 +392,9 @@ class Factory implements \ILIAS\UI\Factory
     {
         return $this->symbol_factory;
     }
+
+    public function toast() : C\Toast\Factory
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }

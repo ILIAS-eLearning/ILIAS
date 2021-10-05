@@ -27,20 +27,20 @@ class ilWebResourceExporter extends ilXmlExporter
     
     /**
      * Init export
-     * @return
+     * @return void
      */
-    public function init()
+    public function init() : void
     {
     }
     
     /**
      * Get xml
-     * @param object $a_entity
-     * @param object $a_schema_version
-     * @param object $a_id
-     * @return
+     * @param string $a_entity
+     * @param string $a_schema_version
+     * @param string $a_id
+     * @return string
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         try {
             $this->writer = new ilWebLinkXmlWriter(false);
@@ -55,13 +55,12 @@ class ilWebResourceExporter extends ilXmlExporter
 
     /**
      * Get tail dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @return        array        array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $deps = [];
 
@@ -79,10 +78,9 @@ class ilWebResourceExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.1.0" => array(

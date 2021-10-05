@@ -22,6 +22,8 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
     const EXPIRE_DATE = "prg_expiry_date";
     const VALIDITY = "prg_validity";
 
+    const DATE_FORMAT = 'd-m-Y H:i:s';
+
     /**
      * @var ilLanguage
      */
@@ -204,7 +206,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = ilObjUser::lookupOrgUnitsRepresentation($recipient->getId());
                 break;
             case self::STATUS:
-                $string = $this->statusToRepr($progress->getStatus());
+                $string = $this->statusToRepr($progress->getStatus(), $recipient->getLanguage());
                 break;
             case self::COMPLETION_DATE:
                 $string = $this->date2String($progress->getCompletionDate());
@@ -238,14 +240,13 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
                 $string = $this->date2String($progress->getDeadline());
                 break;
             case self::VALIDITY:
-                $string = $this->lng->txt('prg_quali_not_valid');
-                $now = (new DateTime())->format('Y-m-d H:i:s');
-                $val_of_qual = $progress->getValidityOfQualification();
+                $now = new DateTimeImmutable();
 
-                if (!is_null($val_of_qual)) {
-                    $vq_date = $val_of_qual->format('Y-m-d H:i:s');
-                    if ($vq_date > $now) {
-                        $string = $this->lng->txt('prg_quali_still_valid');
+                $string = '-';
+                if (!is_null($progress->hasValidQualification($now))) {
+                    $string = $this->lng->txtlng('prg', 'prg_not_valid', $recipient->getLanguage());
+                    if ($progress->hasValidQualification($now)) {
+                        $string = $this->lng->txtlng('prg', 'prg_still_valid', $recipient->getLanguage());
                     }
                 }
                 break;
@@ -259,11 +260,11 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         return $string;
     }
 
-    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id) : ilStudyProgrammeUserProgress
+    protected function getNewestProgressForUser(ilObjStudyProgramme $obj, int $user_id) : ilStudyProgrammeProgress
     {
         $progress = $obj->getProgressesOf($user_id);
 
-        $successfully_progress = array_filter($progress, function (ilStudyProgrammeUserProgress $a) {
+        $successfully_progress = array_filter($progress, function (ilStudyProgrammeProgress $a) {
             return $a->isSuccessful() || $a->isSuccessfulExpired() || $a->isAccredited();
         });
 
@@ -271,7 +272,7 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
             return $progress[0];
         }
 
-        usort($successfully_progress, function (ilStudyProgrammeUserProgress $a, ilStudyProgrammeUserProgress $b) {
+        usort($successfully_progress, function (ilStudyProgrammeProgress $a, ilStudyProgrammeProgress $b) {
             if ($a->getCompletionDate() > $b->getCompletionDate()) {
                 return -1;
             } elseif ($a->getCompletionDate() < $b->getCompletionDate()) {
@@ -284,32 +285,32 @@ class ilStudyProgrammeMailTemplateContext extends ilMailTemplateContext
         return array_shift($successfully_progress);
     }
 
-    protected function statusToRepr(int $status) : string
+    protected function statusToRepr(int $status, string $lang) : string
     {
         if ($status == ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
-            return $this->lng->txt("prg_status_in_progress");
+            return $this->lng->txtlng('prg', 'prg_status_in_progress', $lang);
         }
         if ($status == ilStudyProgrammeProgress::STATUS_COMPLETED) {
-            return $this->lng->txt("prg_status_completed");
+            return $this->lng->txtlng('prg', 'prg_status_completed', $lang);
         }
         if ($status == ilStudyProgrammeProgress::STATUS_ACCREDITED) {
-            return $this->lng->txt("prg_status_accredited");
+            return $this->lng->txtlng('prg', 'prg_status_accredited', $lang);
         }
         if ($status == ilStudyProgrammeProgress::STATUS_NOT_RELEVANT) {
-            return $this->lng->txt("prg_status_not_relevant");
+            return $this->lng->txtlng('prg', 'prg_status_not_relevant', $lang);
         }
         if ($status == ilStudyProgrammeProgress::STATUS_FAILED) {
-            return $this->lng->txt("prg_status_failed");
+            return $this->lng->txtlng('prg', 'prg_status_failed', $lang);
         }
+            
         throw new ilException("Unknown status: '$status'");
     }
 
-    protected function date2String(DateTime $date_time = null) : string
+    protected function date2String(DateTimeImmutable $date_time = null) : string
     {
         if (is_null($date_time)) {
             return '';
         }
-
-        return $date_time->format('d-m-Y H:i:s');
+        return $date_time->format(self::DATE_FORMAT);
     }
 }

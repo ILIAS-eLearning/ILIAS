@@ -48,7 +48,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
@@ -345,7 +345,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         parent::saveFeedback();
     }
     
-    public function getPresentationJavascripts()
+    public function getPresentationJavascripts() : array
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -365,7 +365,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
      *
      * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -447,7 +447,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         $this->addBackTab($ilTabs);
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         if (strpos($this->object->getOrderText(), '::')) {
             $answers = explode('::', $this->object->getOrderText());
@@ -581,7 +581,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         return $tpl;
     }
     
-    public function getAnswersFrequency($relevantAnswers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         $answers = array();
         
@@ -606,7 +606,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
         return $answers;
     }
     
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         // points
         $points = new ilNumberInputGUI($this->lng->txt("points"), "points");
@@ -623,7 +623,7 @@ class assOrderingHorizontalGUI extends assQuestionGUI implements ilGuiQuestionSc
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $this->object->setPoints((float) $form->getInput('points'));
     }

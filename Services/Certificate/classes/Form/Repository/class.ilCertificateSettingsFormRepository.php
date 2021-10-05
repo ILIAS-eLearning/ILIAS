@@ -87,7 +87,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
         $this->importAction = $importAction;
 
         if (null === $templateRepository) {
-            $templateRepository = new ilCertificateTemplateRepository($database, $logger);
+            $templateRepository = new ilCertificateTemplateDatabaseRepository($database, $logger);
         }
         $this->templateRepository = $templateRepository;
 
@@ -203,7 +203,7 @@ class ilCertificateSettingsFormRepository implements ilCertificateFormRepository
 
             $thumbnailPath = $this->backGroundImageFileService->getBackgroundImageThumbPath();
 
-            if (!file_exists($thumbnailPath)) {
+            if (!is_file($thumbnailPath)) {
                 $thumbnailPath = ilObjCertificateSettingsAccess::getBackgroundImageThumbPath();
                 $bgimage->setALlowDeletion(false);
             }

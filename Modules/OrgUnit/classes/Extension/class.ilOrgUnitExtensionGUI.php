@@ -37,7 +37,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
      * @return ilOrgUnitExtensionPlugin plugin object
      * @throws ilPluginException
      */
-    protected function getPlugin()
+    protected function getPlugin() : ilPlugin
     {
         if (!$this->plugin) {
             $this->plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext", ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $this->getType()));
@@ -53,7 +53,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
     /**
      * @return bool
      */
-    protected function supportsExport()
+    protected function supportsExport() : bool
     {
         return false;
     }
@@ -62,7 +62,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
     /**
      * @return string
      */
-    protected function lookupParentTitleInCreationMode()
+    protected function lookupParentTitleInCreationMode() : string
     {
         $parent = parent::lookupParentTitleInCreationMode();
         if ($parent == '__OrgUnitAdministration') {
@@ -76,7 +76,7 @@ abstract class ilOrgUnitExtensionGUI extends ilObjectPluginGUI
     /**
      * @return bool returns true iff this object supports cloning.
      */
-    protected function supportsCloning()
+    protected function supportsCloning() : bool
     {
         return false;
     }

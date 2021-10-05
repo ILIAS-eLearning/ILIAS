@@ -221,7 +221,9 @@ il.UI = il.UI || {};
                     itemLimit: options.maxFiles
                 },
                 messages: {
-                    typeError: options.typeError
+                    typeError: options.typeError,
+                    tooManyItemsError: options.tooManyItemsError,
+                    noFilesError: options.noFilesError,
                 },
                 callbacks: {
                     onUpload: function (fileId, name) {

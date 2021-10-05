@@ -182,8 +182,11 @@ class ilFileObjectToStorageMigrationRunner
     private function getResource(
         ilFileObjectToStorageDirectory $item
     ) : StorableResource {
-        $r = $this->database->queryF("SELECT rid FROM file_data WHERE file_id = %s", ['integer'],
-            [$item->getObjectId()]);
+        $r = $this->database->queryF(
+            "SELECT rid FROM file_data WHERE file_id = %s",
+            ['integer'],
+            [$item->getObjectId()]
+        );
         $d = $this->database->fetchObject($r);
 
         if (isset($d->rid) && $d->rid !== '' && ($resource_identification = $this->storage_manager->find($d->rid)) && $resource_identification !== null) {
@@ -212,5 +215,4 @@ class ilFileObjectToStorageMigrationRunner
         $this->keep_originals = true;
         return $this;
     }
-
 }

@@ -197,7 +197,6 @@ class ilUserStartingPointGUI
             $opt = new ilRadioOption($caption, $value);
 
             if ($value === ilUserUtil::START_PD_CALENDAR) {
-
                 $default_cal_view = new ilRadioGroupInputGUI($this->lng->txt('cal_def_view'), 'user_calendar_view');
                 $default_cal_view->setRequired(true);
 
@@ -212,7 +211,7 @@ class ilUserStartingPointGUI
 
                 $cal_periods = new ilSelectInputGUI($this->lng->txt("cal_list"), "user_cal_period");
                 $cal_periods->setOptions([
-                    ilCalendarAgendaListGUI::PERIOD_DAY  => "1 " . $this->lng->txt("day"),
+                    ilCalendarAgendaListGUI::PERIOD_DAY => "1 " . $this->lng->txt("day"),
                     ilCalendarAgendaListGUI::PERIOD_WEEK => "1 " . $this->lng->txt("week"),
                     ilCalendarAgendaListGUI::PERIOD_MONTH => "1 " . $this->lng->txt("month"),
                     ilCalendarAgendaListGUI::PERIOD_HALF_YEAR => "6 " . $this->lng->txt("months")
@@ -220,7 +219,7 @@ class ilUserStartingPointGUI
                 $cal_periods->setRequired(true);
 
 
-                if(isset($st_point)) {
+                if (isset($st_point)) {
                     $default_cal_view->setValue($st_point->getCalendarView());
                     $cal_periods->setValue($st_point->getCalendarPeriod());
                 } else {
@@ -355,8 +354,8 @@ class ilUserStartingPointGUI
                 }
 
                 if (!empty($cal_view) && !empty($cal_period) && ($starting_point->getStartingPoint() == ilUserUtil::START_PD_CALENDAR)) {
-                   $starting_point->setCalendarView($cal_view);
-                   $starting_point->setCalendarPeriod($cal_period);
+                    $starting_point->setCalendarView($cal_view);
+                    $starting_point->setCalendarPeriod($cal_period);
                 } else {
                     $starting_point->setCalendarView(0);
                     $starting_point->setCalendarPeriod(0);
@@ -367,10 +366,10 @@ class ilUserStartingPointGUI
                 } else {
                     $starting_point->save();
                 }
-            } else if(!empty($form->getInput("user_calendar_view")) && !empty($form->getInput("user_cal_period"))) {
+            } elseif (!empty($form->getInput("user_calendar_view")) && !empty($form->getInput("user_cal_period"))) {
                 $calendar_info = [
                     "user_calendar_view" => $form->getInput("user_calendar_view"),
-                    "user_cal_period"    => $form->getInput("user_cal_period")
+                    "user_cal_period" => $form->getInput("user_cal_period")
                 ];
                 ilUserUtil::setStartingPoint($form->getInput('start_point'), $form->getInput('start_object'), $calendar_info);
                 ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

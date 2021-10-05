@@ -56,7 +56,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
@@ -265,7 +265,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return $errors;
     }
 
-    public function addBasicQuestionFormProperties($form)
+    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form) : int
     {
         // title
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -371,6 +371,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
             $ni->setRequired(true);
             $form->addItem($ni);
         }
+        return $nr_tries;
     }
 
     public function populateQuestionSpecificFormPart(ilPropertyFormGUI $form)
@@ -1119,7 +1120,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return $best_solution_text;
     }
 
-    public function getAnswerFeedbackOutput($active_id, $pass)
+    public function getGenericFeedbackOutput(int $active_id, $pass) : string
     {
         include_once "./Modules/Test/classes/class.ilObjTest.php";
         $manual_feedback = ilObjTest::getManualFeedback($active_id, $this->object->getId(), $pass);
@@ -1251,7 +1252,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      *
      * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -1336,7 +1337,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $this->addBackTab($ilTabs);
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
             return '';
@@ -1537,7 +1538,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return false;
     }
 
-    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex) : ilAnswerFrequencyStatisticTableGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 
@@ -1560,7 +1561,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return $table;
     }
 
-    public function getSubQuestionsIndex()
+    public function getSubQuestionsIndex() : array
     {
         return array_keys($this->object->getGaps());
     }
@@ -1609,11 +1610,11 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return $answers;
     }
 
-    public function getAnswersFrequency($relevant_answers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         $answers = array();
 
-        foreach ($relevant_answers as $row) {
+        foreach ($relevantAnswers as $row) {
             if ($row['value1'] != $questionIndex) {
                 continue;
             }
@@ -1672,7 +1673,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return $combinations;
     }
 
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         foreach ($this->object->getGaps() as $gapIndex => $gap) {
             $this->populateGapCorrectionFormProperties(
@@ -1769,7 +1770,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         foreach ($this->object->getGaps() as $gapIndex => $gap) {
             if ($this->isUsedInCombinations($gapIndex)) {

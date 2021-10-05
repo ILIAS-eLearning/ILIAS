@@ -74,7 +74,7 @@ class ilObject
     public $id;	// true object_id!!!!
     public $ref_id;// reference_id
     public $type;
-    public $title;
+    public string $title = "";
 
     /**
      * Check if object is offline
@@ -425,7 +425,7 @@ class ilObject
      */
     final public function getDescription() : string
     {
-        return $this->desc;
+        return (string) $this->desc;
     }
 
     /**

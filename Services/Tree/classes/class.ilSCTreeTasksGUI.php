@@ -104,7 +104,6 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
                 
             case self::TYPE_DUMP:
                 
-                include_once './Services/Repository/classes/class.ilValidator.php';
                 $validator = new ilValidator();
                 if ($validator->hasScanLog()) {
                     $actions[] = array(
@@ -232,7 +231,6 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
      */
     public function listTree()
     {
-        include_once './Services/Repository/classes/class.ilValidator.php';
         $validator = new ilValidator(true);
         $errors_count = $validator->dumpTree();
         
@@ -258,7 +256,6 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
      */
     public function showTree()
     {
-        include_once "./Services/Repository/classes/class.ilValidator.php";
         $validator = new ilValidator();
         $scan_log = $validator->readScanLog();
 

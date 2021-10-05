@@ -28,7 +28,7 @@ class ilCOPageImporter extends ilXmlImporter
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         global $DIC;
         /** @var ilPluginAdmin $ilPluginAdmin */
@@ -54,11 +54,10 @@ class ilCOPageImporter extends ilXmlImporter
     
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $this->log->debug("entity: " . $a_entity . ", id: " . $a_id);
 
@@ -140,7 +139,7 @@ class ilCOPageImporter extends ilXmlImporter
      *
      * @param	array		mapping array
      */
-    public function finalProcessing($a_mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         $this->log->debug("start");
         $pages = $a_mapping->getMappingsOfEntity("Services/COPage", "pgl");

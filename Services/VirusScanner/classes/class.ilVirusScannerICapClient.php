@@ -43,29 +43,25 @@ class ilVirusScannerICapClient extends ilVirusScanner
     function scanFile($a_filepath, $a_origname = "")
     {
         $return_string = '';
-        if (file_exists($a_filepath)) {
-            if (is_readable($a_filepath)) {
-                $cmd            = $this->buildScanCommand($a_filepath) . " 2>&1";
-                $out            = ilUtil::execQuoted($cmd);
-                $timeout        = preg_grep('/failed\/timedout.*/', $out);
-                $virus_detected = preg_grep('/' . self::HEADER_INFECTION_FOUND . '.*/', $out);
-                if (is_array($virus_detected) && count($virus_detected) > 0) {
-                    $return_string = sprintf('Virus detected in %s', $a_filepath);
-                    $this->log->warning($return_string);
-                    
-                } elseif (is_array($timeout) && count($timeout) > 0) {
-                    $return_string = 'Cannot connect to icap server.';
-                    $this->log->warning($return_string);
-                }
-                $this->scanResult = implode("\n", $out);
-            } else {
-                $return_string = sprintf('File "%s" not readable.', $a_filepath);
-                $this->log->info($return_string);
+        if (is_readable($a_filepath)) {
+            $cmd            = $this->buildScanCommand($a_filepath) . " 2>&1";
+            $out            = ilUtil::execQuoted($cmd);
+            $timeout        = preg_grep('/failed\/timedout.*/', $out);
+            $virus_detected = preg_grep('/' . self::HEADER_INFECTION_FOUND . '.*/', $out);
+            if (is_array($virus_detected) && count($virus_detected) > 0) {
+                $return_string = sprintf('Virus detected in %s', $a_filepath);
+                $this->log->warning($return_string);
+
+            } elseif (is_array($timeout) && count($timeout) > 0) {
+                $return_string = 'Cannot connect to icap server.';
+                $this->log->warning($return_string);
             }
+            $this->scanResult = implode("\n", $out);
         } else {
-            $return_string = sprintf('File "%s" not found.', $a_filepath);
+            $return_string = sprintf('File "%s" not found or not readable.', $a_filepath);
             $this->log->info($return_string);
         }
+
         $this->log->info(sprintf('No virus found in file "%s".', $a_filepath));
         return $return_string;
     }

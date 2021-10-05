@@ -118,5 +118,4 @@ class ilFileObjectToStorageVersion
     {
         return $this->creation_date_timestamp;
     }
-
 }

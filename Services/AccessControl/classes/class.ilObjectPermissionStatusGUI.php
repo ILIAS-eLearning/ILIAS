@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * This class displays the permission status of a user concerning a specific object.

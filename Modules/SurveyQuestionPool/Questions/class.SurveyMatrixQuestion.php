@@ -1321,7 +1321,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
     * @return The ILIAS form element
     * @access public
     */
-    public function getPreconditionSelectValue($default = "", $title, $variable)
+    public function getPreconditionSelectValue($default, $title, $variable)
     {
         $step3 = new ilSelectInputGUI($title, $variable);
         $options = $this->getPreconditionOptions();
@@ -1339,7 +1339,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
      * @param double $percent_bipolar_adjective2 The width in percent for the second bipolar adjective
      * @return void
      **/
-    public function saveLayout($percent_row, $percent_columns, $percent_bipolar_adjective1 = "", $percent_bipolar_adjective2 = "", $percent_neutral)
+    public function saveLayout($percent_row, $percent_columns, $percent_bipolar_adjective1 = "", $percent_bipolar_adjective2 = "", $percent_neutral = 0)
     {
         $ilDB = $this->db;
         

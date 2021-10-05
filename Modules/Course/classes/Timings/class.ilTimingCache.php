@@ -159,5 +159,4 @@ class ilTimingCache
 
         return $cache[$a_ref_id];
     }
-        
 }

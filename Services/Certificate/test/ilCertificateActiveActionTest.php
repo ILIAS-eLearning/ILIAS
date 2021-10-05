@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,9 +6,9 @@
  */
 class ilCertificateActiveActionTest extends ilCertificateBaseTestCase
 {
-    public function testCertificateIsActive()
+    public function testCertificateIsActive() : void
     {
-        $databaseMock = $this->getMockBuilder('ilDBInterface')
+        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
         $databaseMock->expects($this->atLeastOnce())
@@ -24,9 +24,9 @@ class ilCertificateActiveActionTest extends ilCertificateBaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testCertificateIsNotActive()
+    public function testCertificateIsNotActive() : void
     {
-        $databaseMock = $this->getMockBuilder('ilDBInterface')
+        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
 

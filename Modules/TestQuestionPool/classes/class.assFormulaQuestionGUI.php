@@ -42,7 +42,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
      * Sets the ILIAS tabs for this question type
      * @access public
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -159,7 +159,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         $checked = true;
@@ -293,7 +293,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         $ilAssQuestionPreviewSession->setParticipantsSolution(array());
     }
     
-    public function isSaveCommand()
+    public function isSaveCommand() : bool
     {
         return in_array($this->ctrl->getCmd(), array('saveFQ', 'saveEdit', 'saveReturnFQ'));
     }
@@ -1115,7 +1115,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
         return $pageoutput;
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         return '';
     }

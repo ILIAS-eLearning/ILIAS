@@ -36,7 +36,6 @@ trait ilObjFileUsages
             . $ilDB->quote((int) $a_id, "integer") . " AND usage_lang= "
             . $ilDB->quote($a_usage_lang, "text") . " AND usage_hist_nr = "
             . $ilDB->quote((int) $a_usage_hist_nr, "integer"));
-
     }
 
     /**
@@ -120,5 +119,4 @@ trait ilObjFileUsages
 
         return $ret;
     }
-
 }

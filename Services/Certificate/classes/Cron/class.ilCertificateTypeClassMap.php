@@ -11,11 +11,12 @@ class ilCertificateTypeClassMap
      */
     private array $typeClassMap = [
         'crs' => ['placeholder' => ilCoursePlaceholderValues::class],
-        'tst' => ['placeholder' => ilTestPlaceHolderValues::class],
-        'exc' => ['placeholder' => ilExercisePlaceHolderValues::class],
+        'tst' => ['placeholder' => ilTestPlaceholderValues::class],
+        'exc' => ['placeholder' => ilExercisePlaceholderValues::class],
         'cmix' => ['placeholder' => ilCmiXapiPlaceholderValues::class],
         'lti' => ['placeholder' => ilLTIConsumerPlaceholderValues::class],
-        'sahs' => ['placeholder' => ilScormPlaceholderValues::class]
+        'sahs' => ['placeholder' => ilScormPlaceholderValues::class],
+        'prg' => ['placeholder' => ilStudyProgrammePlaceholderValues::class]
     ];
 
     /**

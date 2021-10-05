@@ -8,7 +8,6 @@ use ILIAS\FileUpload\DTO\UploadResult;
  */
 class ilObjFileUnzipRecursiveDelegate extends ilObjFileAbstractZipDelegate
 {
-
     protected function getPossibleContainer(int $parent_id) : ilObject
     {
         if (!$this->isInWorkspace()) {
@@ -92,5 +91,4 @@ class ilObjFileUnzipRecursiveDelegate extends ilObjFileAbstractZipDelegate
         $response->error = null;
         return $response;
     }
-
 }

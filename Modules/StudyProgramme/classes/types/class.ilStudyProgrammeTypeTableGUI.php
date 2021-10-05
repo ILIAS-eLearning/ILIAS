@@ -84,7 +84,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
     public function fillRow($set)
     {
         $icon = "";
-        $type = $this->type_repo->readType((int) $set['id']);
+        $type = $this->type_repo->getType((int) $set['id']);
 
         if ($this->webdir->has($type->getIconPath(true))) {
             $icon = ilUtil::getWebspaceDir() . '/' . $type->getIconPath(true);
@@ -127,7 +127,7 @@ class ilStudyProgrammeTypeTableGUI extends ilTable2GUI
      */
     protected function buildData()
     {
-        $types = $this->type_repo->readAllTypes();
+        $types = $this->type_repo->getAllTypes();
         $data = array();
         /** @var $type ilStudyProgrammeType */
         foreach ($types as $type) {

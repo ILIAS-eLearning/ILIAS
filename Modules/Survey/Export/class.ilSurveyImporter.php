@@ -38,11 +38,10 @@ class ilSurveyImporter extends ilXmlImporter
 
     /**
      * Init
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilSurveyDataSet();
         $this->ds->setDSPrefix("ds");
@@ -76,17 +75,16 @@ class ilSurveyImporter extends ilXmlImporter
 
     /**
      * Import XML
-     *
-     * @param $a_entity
-     * @param $a_id
-     * @param $a_xml
+     * @param string          $a_entity
+     * @param string          $a_id
+     * @param string          $a_xml
      * @param ilImportMapping $a_mapping
-     * @return bool|string
+     * @return void
      * @throws ilDatabaseException
      * @throws ilImportException
      * @throws ilObjectNotFoundException
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         if ($a_entity == "svy") {
             // Container import => test object already created
@@ -104,7 +102,7 @@ class ilSurveyImporter extends ilXmlImporter
 
             if (!@file_exists($xml_file)) {
                 $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
-                return false;
+                return;
             }
             $GLOBALS['ilLog']->write("getQuestionPoolID = " . $this->getImport()->getConfig("Modules/Survey")->getQuestionPoolID());
 
@@ -170,7 +168,8 @@ class ilSurveyImporter extends ilXmlImporter
                 $newObj->saveToDb();
             }
             $a_mapping->addMapping("Modules/Survey", "svy", (int) $a_id, (int) $newObj->getId());
-            return $newObj->getId();
+            //return $newObj->getId();
+            return;
         } else {
             $parser = new ilDataSetImportParser(
                 $a_entity,
@@ -180,8 +179,6 @@ class ilSurveyImporter extends ilXmlImporter
                 $a_mapping
             );
         }
-
-        return true;
     }
     
     

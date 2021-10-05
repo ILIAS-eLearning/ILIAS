@@ -1,22 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
-    public function testPlaceholderGetHtmlDescription()
+    public function testPlaceholderGetHtmlDescription() : void
     {
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
-        $templateMock = $this->getMockBuilder('ilTemplate')
+        $templateMock = $this->getMockBuilder(ilTemplate::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -36,9 +36,9 @@ class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $this->assertEquals('', $html);
     }
 
-    public function testPlaceholderDescriptions()
+    public function testPlaceholderDescriptions() : void
     {
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
@@ -47,7 +47,7 @@ class ilExercisePlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->method('txt')
             ->willReturn('Something translated');
 
-        $userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 

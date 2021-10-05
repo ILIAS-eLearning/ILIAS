@@ -190,7 +190,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $question_id A unique key which defines the cloze test in the database
      *
      */
-    public function loadFromDb($question_id)  : void
+    public function loadFromDb($question_id) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1411,14 +1411,20 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         if ($entered_values) {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng(
+                    "assessment",
+                    "log_user_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()
+                ), $active_id, $this->getId());
             }
         } else {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng(
+                    "assessment",
+                    "log_user_not_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()
+                ), $active_id, $this->getId());
             }
         }
 
@@ -1431,7 +1437,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     * @return integer The question type of the question
     * @access public
     */
-    public function getQuestionType() :string
+    public function getQuestionType() : string
     {
         return "assClozeTest";
     }

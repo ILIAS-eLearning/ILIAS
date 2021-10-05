@@ -186,7 +186,7 @@ class ilFileDataForum extends ilFileData
     public function delete()
     {
         foreach ($this->getFiles() as $file) {
-            if (file_exists($this->getForumPath() . "/" . $this->getObjId() . "_" . $file["name"])) {
+            if (is_file($this->getForumPath() . "/" . $this->getObjId() . "_" . $file["name"])) {
                 unlink($this->getForumPath() . "/" . $this->getObjId() . "_" . $file["name"]);
             }
         }
@@ -264,7 +264,7 @@ class ilFileDataForum extends ilFileData
     */
     public function unlinkFile($a_filename)
     {
-        if (file_exists($this->forum_path . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $a_filename)) {
+        if (is_file($this->forum_path . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $a_filename)) {
             return unlink($this->forum_path . '/' . $this->obj_id . '_' . $this->pos_id . "_" . $a_filename);
         }
     }
@@ -339,7 +339,7 @@ class ilFileDataForum extends ilFileData
     {
         if ($a_files) {
             foreach ($a_files as $file) {
-                if (!file_exists($this->forum_path . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $file)) {
+                if (!is_file($this->forum_path . '/' . $this->obj_id . '_' . $this->pos_id . '_' . $file)) {
                     return false;
                 }
             }
@@ -354,7 +354,7 @@ class ilFileDataForum extends ilFileData
      */
     private function checkForumPath() : bool
     {
-        if (!@file_exists($this->getForumPath())) {
+        if (!is_dir($this->getForumPath())) {
             return false;
         }
         $this->checkReadWrite();
@@ -400,7 +400,7 @@ class ilFileDataForum extends ilFileData
     */
     private function rotateFiles($a_path)
     {
-        if (file_exists($a_path)) {
+        if (is_file($a_path)) {
             $this->rotateFiles($a_path . ".old");
             return \ilFileUtils::rename($a_path, $a_path . '.old');
         }

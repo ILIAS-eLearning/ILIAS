@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Course/group skill notification
@@ -9,30 +24,11 @@
  */
 class ilSkillNotifications extends ilCronJob
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilIniFile $client_ini;
+    protected ilTree $tree;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilIniFile
-     */
-    protected $client_ini;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -121,8 +117,6 @@ class ilSkillNotifications extends ilCronJob
         ilDatePresentation::setUseRelativeDates(false);
 
 
-        // $last_run = "2017-07-20 12:00:00";
-
         // get latest course/group skill changes per user
         $achievements = ilBasicSkill::getNewAchievementsPerUser($last_run);
 
@@ -154,15 +148,10 @@ class ilSkillNotifications extends ilCronJob
         return $result;
     }
 
-
     /**
      * Send news mail for 1 user and n objects
-     *
-     * @param int $a_user_id
-     * @param array $a_objects
-     * @param string $a_last_run
      */
-    protected function sendMail($a_user_id, array $a_achievements, $a_last_run)
+    protected function sendMail(int $a_user_id, array $a_achievements, string $a_last_run) : void
     {
         $ilClientIniFile = $this->client_ini;
         $tree = $this->tree;
@@ -173,7 +162,6 @@ class ilSkillNotifications extends ilCronJob
         // user specific language
         $lng = $ntf->getUserLanguage($a_user_id);
 
-        $tmp = array();
         $txt = "";
         $last_obj_id = 0;
 
@@ -182,10 +170,9 @@ class ilSkillNotifications extends ilCronJob
         $a_achievements = $vtree->getOrderedNodeset($a_achievements, "skill_id", "tref_id");
 
         foreach ($a_achievements as $skill_level) {
-            $parent = array();
 
             // path
-            $path = array();
+            $path = [];
             foreach ($tree->getPathId($skill_level["trigger_ref_id"]) as $node) {
                 $path[] = $node;
             }

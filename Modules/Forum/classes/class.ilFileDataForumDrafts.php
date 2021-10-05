@@ -225,7 +225,7 @@ class ilFileDataForumDrafts extends ilFileData
      */
     public function unlinkFile($a_filename)
     {
-        if (file_exists($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $a_filename)) {
+        if (is_file($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $a_filename)) {
             return unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $a_filename);
         }
     }
@@ -300,7 +300,7 @@ class ilFileDataForumDrafts extends ilFileData
     {
         if ($a_files) {
             foreach ($a_files as $file) {
-                if (!file_exists($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file)) {
+                if (!is_file($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file)) {
                     return false;
                 }
             }
@@ -315,7 +315,7 @@ class ilFileDataForumDrafts extends ilFileData
      */
     public function checkForumDraftsPath() : bool
     {
-        if (!@file_exists($this->getDraftsPath() . '/' . $this->getDraftId())) {
+        if (!is_dir($this->getDraftsPath() . '/' . $this->getDraftId())) {
             return false;
         }
         $this->checkReadWrite();
@@ -359,7 +359,7 @@ class ilFileDataForumDrafts extends ilFileData
      */
     private function rotateFiles($a_path)
     {
-        if (file_exists($a_path)) {
+        if (is_file($a_path)) {
             $this->rotateFiles($a_path . ".old");
             return \ilFileUtils::rename($a_path, $a_path . '.old');
         }

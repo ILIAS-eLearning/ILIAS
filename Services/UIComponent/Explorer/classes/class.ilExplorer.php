@@ -292,12 +292,7 @@ class ilExplorer
         $this->title = $a_val;
     }
     
-    /**
-     * Set max title length
-     * @param object $a_length
-     * @return
-     */
-    public function setTitleLength($a_length)
+    public function setTitleLength(int $a_length) : void
     {
         $this->textwidth = $a_length;
     }

@@ -23,7 +23,7 @@ class ilBibliographicExporter extends ilXmlExporter
     protected $db;
 
 
-    public function init()
+    public function init() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -35,10 +35,9 @@ class ilBibliographicExporter extends ilXmlExporter
 
     /**
      * @param string $a_entity
-     *
      * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             '4.5.0' => array(
@@ -52,12 +51,12 @@ class ilBibliographicExporter extends ilXmlExporter
     }
 
 
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->exportLibraryFile($a_id);
 
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, '', true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);
     }
 }

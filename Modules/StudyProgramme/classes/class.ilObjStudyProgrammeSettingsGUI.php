@@ -239,7 +239,7 @@ class ilObjStudyProgrammeSettingsGUI
                 $this->ctrl->getLinkTargetByClass(
                     'ilobjstudyprogrammetreegui',
                     'view'
-            )
+                )
             );
 
             $heading =
@@ -261,7 +261,8 @@ class ilObjStudyProgrammeSettingsGUI
     ) : ILIAS\UI\Component\Input\Container\Form\Form {
         $trans = $prg->getObjectTranslation();
         $ff = $this->input_factory->field();
-        $sp_types = $this->type_repository->readAllTypesArray();
+        $sp_types = $this->type_repository->getAllTypesArray();
+        $settings = $prg->getSettings();
 
         return $this->input_factory->container()->form()->standard(
             $submit_action,
@@ -269,31 +270,24 @@ class ilObjStudyProgrammeSettingsGUI
                 $ff,
                 $trans,
                 $sp_types,
-                $prg
+                $settings
             )
         )->withAdditionalTransformation(
             $this->refinery_factory->custom()->transformation(
                 function ($values) use ($prg) {
-                    // to the section they originated from.
                     $object_data = $values[0];
                     $prg->setTitle($object_data[self::PROP_TITLE]);
                     $prg->setDescription($object_data[self::PROP_DESC]);
 
-                    $type_settings = $values['prg_type'];
-                    $type = $type_settings->getTypeId();
-                    if ($prg->getTypeSettings()->getTypeId() != $type) {
-                        $prg->setTypeSettings($type_settings);
-                        $prg->updateCustomIcon();
-                    }
-
-                    $prg->setAssessmentSettings($values['prg_assessment']);
-                    $prg->setDeadlineSettings($values['prg_deadline']);
-                    $prg->setValidityOfQualificationSettings(
-                        $values['prg_validity_of_qualification']
-                    );
-
-                    $prg->setAutoMailSettings($values["automail_settings"]);
-
+                    $settings = $prg->getSettings()
+                        ->withAssessmentSettings($values['prg_assessment'])
+                        ->withDeadlineSettings($values['prg_deadline'])
+                        ->withValidityOfQualificationSettings($values['prg_validity_of_qualification'])
+                        ->withAutoMailSettings($values['automail_settings'])
+                        ->withTypeSettings($values['prg_type']);
+                    
+                    $prg->updateSettings($settings);
+                    $prg->updateCustomIcon();
                     return $prg;
                 }
             )
@@ -304,7 +298,7 @@ class ilObjStudyProgrammeSettingsGUI
         InputFieldFactory $ff,
         ilObjectTranslation $trans,
         array $sp_types,
-        ilObjStudyProgramme $prg
+        ilStudyProgrammeSettings $settings
     ) : array {
         global $DIC;
         $ilLng = $DIC->language();
@@ -312,23 +306,23 @@ class ilObjStudyProgrammeSettingsGUI
 
         $return = [
             $this->getEditSection($ff, $trans),
-            "prg_type" => $prg
+            "prg_type" => $settings
                 ->getTypeSettings()
                 ->toFormInput($ff, $ilLng, $refinery, $sp_types)
             ,
-            "prg_assessment" => $prg
+            "prg_assessment" => $settings
                 ->getAssessmentSettings()
                 ->toFormInput($ff, $ilLng, $refinery)
             ,
-            "prg_deadline" => $prg
+            "prg_deadline" => $settings
                 ->getDeadlineSettings()
                 ->toFormInput($ff, $ilLng, $refinery, $this->data_factory)
             ,
-            "prg_validity_of_qualification" => $prg
+            "prg_validity_of_qualification" => $settings
                 ->getValidityOfQualificationSettings()
                 ->toFormInput($ff, $ilLng, $refinery, $this->data_factory)
             ,
-            "automail_settings" => $prg
+            "automail_settings" => $settings
                 ->getAutoMailSettings()
                 ->toFormInput($ff, $ilLng, $refinery)
         ];

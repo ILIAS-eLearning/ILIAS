@@ -79,11 +79,10 @@ class ComponentRendererFSLoaderTest extends TestCase
     public function test_getRenderer_uses_RendererFactory()
     {
         $loader = $this->getMockBuilder(ILIAS\UI\Implementation\Render\FSLoader::class)
-            ->setMethods(["getRendererFactoryFor", "getContextNames"])
+            ->onlyMethods(["getRendererFactoryFor", "getContextNames"])
             ->disableOriginalConstructor()
             ->getMock();
-        $factory = $this->getMockBuilder(ILIAS\UI\Implementation\RendererFactory::class)
-            ->setMethods(["getRendererInContext"])
+        $factory = $this->getMockBuilder(ILIAS\UI\Implementation\Render\RendererFactory::class)
             ->getMock();
 
         $rendered_component = $this->createMock(ILIAS\UI\Component\Component::class);

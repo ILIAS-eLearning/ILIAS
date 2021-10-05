@@ -691,10 +691,16 @@ var renderer = function($) {
             return $('#' + this.html_id);
         },
         engage: function() {
-            this.getElement().addClass(css.engaged);
-            this.getElement().removeClass(css.disengaged);
-            this.getElement().trigger('in_view'); //this is most important for async loading of slates,
-                                                  //it triggers the GlobalScreen-Service.
+            var element = this.getElement(),
+                loaded = element.hasClass(css.engaged);
+
+            element.addClass(css.engaged);
+            element.removeClass(css.disengaged);
+
+            if(! loaded) {
+                element.trigger('in_view'); //this is most important for async loading of slates,
+                                            //it triggers the GlobalScreen-Service.
+            }
             if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
                 il.UI.maincontrols.metabar.disengageAll();
             }
@@ -914,10 +920,12 @@ var renderer = function($) {
         },
         focusSubentry: function(triggered_entry_id) {
             var dom_id = dom_references[triggered_entry_id],
-                first = $('#' + dom_id.slate)
+                someting_to_focus_on = $('#' + dom_id.slate)
                     .children().first()
                     .children().first();
-            first[0].focus();
+            if(someting_to_focus_on[0]){
+                someting_to_focus_on[0].focus();
+            }
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];

@@ -119,7 +119,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;

@@ -139,6 +139,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             'moderator' => ilChatroom::checkUserPermissions('moderate', $ref_id, false),
             'id' => $chat_user->getUserId(),
             'login' => $chat_user->getUsername(),
+            'broadcast_typing' => $chat_user->enabledBroadcastTyping(),
         ];
 
         $smileys = [];
@@ -313,15 +314,13 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     public function toggleAutoMessageDisplayState() : void
     {
-        global $DIC;
-
         $this->redirectIfNoPermission('read');
 
         $room = ilChatroom::byObjectId($this->gui->object->getId());
  
         $state = 0;
-        if (isset($DIC->http()->request()->getParsedBody()['state'])) {
-            $state = (int) $DIC->http()->request()->getParsedBody()['state'];
+        if ($this->http->wrapper()->post()->has('state')) {
+            $state = $this->http->wrapper()->post()->retrieve('state', $this->refinery->kindlyTo()->int());
         }
         
         ilObjUser::_writePref($this->ilUser->getId(), 'chat_hide_automsg_' . $room->getRoomId(), (int) (!(bool) $state));
@@ -397,6 +396,10 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         foreach ($js_translations as $placeholder => $lng_variable) {
             $roomTpl->setVariable($placeholder, json_encode($this->ilLng->txt($lng_variable), JSON_THROW_ON_ERROR));
         }
+        $this->ilLng->toJSMap([
+            'chat_user_x_is_typing' => $this->ilLng->txt('chat_user_x_is_typing'),
+            'chat_users_are_typing' => $this->ilLng->txt('chat_users_are_typing'),
+        ]);
 
         $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM', $this->ilLng->txt('chat_create_private_room_button'));
         $roomTpl->setVariable('LBL_CREATE_PRIVATE_ROOM_TEXT', $this->ilLng->txt('create_private_room_text'));
@@ -505,8 +508,8 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
     public function lostConnection() : void
     {
-        if (isset($this->httpServices->request()->getQueryParams()['msg'])) {
-            switch ($this->httpServices->request()->getQueryParams()['msg']) {
+        if ($this->http->wrapper()->query()->has('msg')) {
+            switch ($this->http->wrapper()->query()->retrieve('msg', $this->refinery->kindlyTo()->string())) {
                 case 'kicked':
                     ilUtil::sendFailure($this->ilLng->txt('kicked'), true);
                     break;

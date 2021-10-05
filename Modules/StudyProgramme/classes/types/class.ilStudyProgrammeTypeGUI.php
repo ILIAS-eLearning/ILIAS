@@ -199,7 +199,7 @@ class ilStudyProgrammeTypeGUI
             );
         }
 
-        if (count($this->type_repository->readAllAMDRecordIds()) > 0) {
+        if (count($this->type_repository->getAllAMDRecordIds()) > 0) {
             $this->tabs->addSubTab(
                 'amd',
                 $this->lng->txt('md_advanced'),
@@ -216,7 +216,7 @@ class ilStudyProgrammeTypeGUI
             $this,
             $this->type_repository
         );
-        $form->fillForm($this->type_repository->readType((int) $_GET['type_id']));
+        $form->fillForm($this->type_repository->getType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -226,7 +226,7 @@ class ilStudyProgrammeTypeGUI
             $this,
             $this->type_repository
         );
-        if ($form->saveObject($this->type_repository->readType((int) $_GET['type_id']))) {
+        if ($form->saveObject($this->type_repository->getType((int) $_GET['type_id']))) {
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, 'editCustomIcons');
         } else {
@@ -240,7 +240,7 @@ class ilStudyProgrammeTypeGUI
             $this,
             $this->type_repository
         );
-        $form->fillForm($this->type_repository->readType((int) $_GET['type_id']));
+        $form->fillForm($this->type_repository->getType((int) $_GET['type_id']));
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -250,7 +250,7 @@ class ilStudyProgrammeTypeGUI
             $this,
             $this->type_repository
         );
-        if ($form->saveObject($this->type_repository->readType((int) $_GET['type_id']))) {
+        if ($form->saveObject($this->type_repository->getType((int) $_GET['type_id']))) {
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
             $this->ctrl->redirect($this, 'editAMD');
         } else {
@@ -290,7 +290,7 @@ class ilStudyProgrammeTypeGUI
 
     protected function edit() : void
     {
-        $type = $this->type_repository->readType((int) $_GET['type_id']);
+        $type = $this->type_repository->getType((int) $_GET['type_id']);
 
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
@@ -328,7 +328,7 @@ class ilStudyProgrammeTypeGUI
 
     protected function update() : void
     {
-        $type = $this->type_repository->readType((int)$_GET['type_id']);
+        $type = $this->type_repository->getType((int) $_GET['type_id']);
         $form = $this->buildForm(
             $this->ctrl->getFormActionByClass(
                 ilStudyProgrammeTypeGUI::class,
@@ -351,11 +351,11 @@ class ilStudyProgrammeTypeGUI
 
     protected function updateTypeFromFormResult(ilStudyProgrammeType $type, array $result)
     {
-        if(isset($result['default_lang'])) {
+        if (isset($result['default_lang'])) {
             $type->setDefaultLang($result['default_lang']);
         }
 
-        if(isset($result['info'])) {
+        if (isset($result['info'])) {
             /** @var ilStudyProgrammeTypeInfo $info */
             foreach ($result['info'] as $info) {
                 $type->setTitle($info->getTitle(), $info->getLanguageCode());
@@ -367,7 +367,7 @@ class ilStudyProgrammeTypeGUI
 
     protected function delete() : void
     {
-        $type = $this->type_repository->readType((int) $_GET['type_id']);
+        $type = $this->type_repository->getType((int) $_GET['type_id']);
         try {
             $this->type_repository->deleteType($type);
             ilUtil::sendSuccess($this->lng->txt('prg_type_msg_deleted'), true);

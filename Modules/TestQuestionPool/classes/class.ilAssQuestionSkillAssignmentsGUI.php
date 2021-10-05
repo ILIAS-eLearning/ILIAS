@@ -318,7 +318,8 @@ class ilAssQuestionSkillAssignmentsGUI
                         $assignment->getParentObjId(),
                         $assignment->getSkillBaseId(),
                         $assignment->getSkillTrefId(),
-                        false);
+                        false
+                    );
                 }
             }
 

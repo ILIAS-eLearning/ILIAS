@@ -69,7 +69,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
@@ -140,7 +140,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @return ilPropertyFormGUI
      */
-    protected function buildEditForm()
+    protected function buildEditForm() : ilPropertyFormGUI
     {
         $form = $this->buildBasicEditFormObject();
 
@@ -558,7 +558,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         }
 
         $questionoutput = $template->get();
-        $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+        $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
         if (strlen($feedback)) {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
@@ -779,7 +779,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
      *
      * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -858,7 +858,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         $this->addBackTab($ilTabs);
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         if (!$this->object->feedbackOBJ->specificAnswerFeedbackExists()) {
             return '';
@@ -961,7 +961,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         );
     }
     
-    protected function getPreviousSolutionConfirmationCheckboxHtml()
+    protected function getPreviousSolutionConfirmationCheckboxHtml() : string
     {
         if (!count($this->object->currentSolution)) {
             return '';
@@ -981,7 +981,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $tpl->get();
     }
     
-    public function getAnswersFrequency($relevantAnswers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         $agg = $this->aggregateAnswers($relevantAnswers, $this->object->getAnswers());
         
@@ -997,7 +997,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
         return $answers;
     }
     
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         require_once 'Modules/TestQuestionPool/classes/forms/class.ilImagemapCorrectionsInputGUI.php';
         $image = new ilImagemapCorrectionsInputGUI($this->lng->txt('image'), 'image');
@@ -1022,7 +1022,7 @@ class assImagemapQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $areas = $form->getItemByPostVar('image')->getAreas();
         

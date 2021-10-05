@@ -69,22 +69,14 @@ class ilPageLayoutGUI extends ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
-        $ilCtrl = $this->ctrl;
-        
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             case 'ilmdeditorgui':
                 return parent::executeCommand();
-                break;
 
-            case "ilpageobjectgui":
-die("ilPageLayoutGUI forward to ilpageobjectgui error.");
-                return;
-                
             default:
                 $html = parent::executeCommand();
                 return $html;

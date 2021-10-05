@@ -599,6 +599,7 @@ class ilLPStatus
                 return $rec["status"];
             }
         }
+        return null;
     }
     
     /**

@@ -242,5 +242,4 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
         ilDatePresentation::resetToDefaults();
         return (string) $title;
     }
-
 }

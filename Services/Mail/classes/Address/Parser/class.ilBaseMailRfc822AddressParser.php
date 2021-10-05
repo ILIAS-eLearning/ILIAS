@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBaseMailRfc822AddressParser
@@ -7,15 +7,14 @@
  */
 abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
 {
-    /** @var string */
-    protected $addresses = '';
-
-    /** @var string */
-    protected $installationHost = '';
+    /**
+     * @param string A comma separated list of email addresses
+     */
+    protected string $addresses = '';
+    protected string $installationHost = '';
 
     /**
      * @param string $addresses A comma separated list of email addresses
-     * @param string $installationHost
      */
     public function __construct(string $addresses, string $installationHost = ilMail::ILIAS_HOST)
     {
@@ -24,7 +23,7 @@ abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
     }
 
     /**
-     * @return string
+     * @return string A comma separated list of email addresses
      */
     public function getAddresses() : string
     {
@@ -32,10 +31,9 @@ abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
     }
 
     /**
-     * A comma separated list of email addresses
-     * @param string $addresses
+     * @param string $addresses A comma separated list of email addresses
      */
-    public function setAddresses(string $addresses)
+    public function setAddresses(string $addresses) : void
     {
         $this->addresses = $addresses;
     }
@@ -46,9 +44,6 @@ abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
      */
     abstract protected function parseAddressString(string $addresses) : array;
 
-    /**
-     * @inheritdoc
-     */
     public function parse() : array
     {
         $addresses = preg_replace('/;/', ',', trim($this->addresses));

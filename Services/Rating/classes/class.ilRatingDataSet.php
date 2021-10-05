@@ -20,7 +20,7 @@ class ilRatingDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    protected function getXmlNamespace($a_entity, $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Services/Rating/" . $a_entity;
     }
@@ -28,7 +28,7 @@ class ilRatingDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    protected function getTypes($a_entity, $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "rating_category") {
             switch ($a_version) {
@@ -47,7 +47,7 @@ class ilRatingDataSet extends ilDataSet
     /**
      * @inheritDoc
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
@@ -70,17 +70,17 @@ class ilRatingDataSet extends ilDataSet
     protected function getDependencies(
         string $a_entity,
         string $a_version,
-        array $a_rec,
-        array $a_ids
+        ?array $a_rec = null,
+        ?array $a_ids = null
     ) : array {
         return [];
     }
         
     public function importRecord(
         string $a_entity,
-        $a_types,
+        array $a_types,
         array $a_rec,
-        $a_mapping,
+        ilImportMapping $a_mapping,
         string $a_schema_version
     ) : void {
         switch ($a_entity) {

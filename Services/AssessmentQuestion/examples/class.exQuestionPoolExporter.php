@@ -4,22 +4,22 @@
 
 class exQuestionPoolExporter extends ilXmlExporter
 {
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         /* export schema versions code */
     }
     
-    public function init()
+    public function init() : void
     {
         /* question pool init code */
     }
     
     /**
      * @param string $a_entity
-     * @param array $a_schema_version
-     * @param int $a_id
+     * @param string $a_schema_version
+     * @param string $a_id
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         /* question pool export code */
         
@@ -33,10 +33,10 @@ class exQuestionPoolExporter extends ilXmlExporter
     /**
      * @param string $a_entity
      * @param string $a_target_release
-     * @param array $a_ids
+     * @param array  $a_ids
      * @return array
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         /**
          * when components use the assessment question service, they can declare questions

@@ -134,7 +134,6 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
     {
         $counter = 0;
         foreach ($a_definitions as $definition) {
-
             $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($definition->getRecordId());
 
             $tmp_arr['position'] = ++$counter * 10;

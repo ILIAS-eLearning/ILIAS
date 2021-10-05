@@ -250,9 +250,11 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $childs_by_type = array();
         $item_groups = array();
         foreach ($childs as $child) {
-            $childs_by_type[$type_to_grp[$child["type"]]][] = $child;
-            if ($child["type"] == "itgr") {
-                $item_groups[(int) $child["ref_id"]] = $child["title"];
+            if (isset($type_to_grp[$child["type"]])) {
+                $childs_by_type[$type_to_grp[$child["type"]]][] = $child;
+                if ($child["type"] == "itgr") {
+                    $item_groups[(int) $child["ref_id"]] = $child["title"];
+                }
             }
         }
 

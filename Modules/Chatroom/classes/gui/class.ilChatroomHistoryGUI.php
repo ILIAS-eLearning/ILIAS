@@ -36,7 +36,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $messages = [];
         $psessions = [];
-        $submit_request = strtolower($this->httpServices->request()->getServerParams()['REQUEST_METHOD']) === 'post';
+        $submit_request = strtolower($this->http->request()->getServerParams()['REQUEST_METHOD']) === 'post';
         $from = null;
         $to = null;
 
@@ -251,7 +251,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             $this->ilCtrl->getFormAction($this->gui, 'history-bySession')
         );
 
-        if (strtolower($this->httpServices->request()->getServerParams()['REQUEST_METHOD']) === 'post') {
+        if (strtolower($this->http->request()->getServerParams()['REQUEST_METHOD']) === 'post') {
             $session = $this->refinery->kindlyTo()->string()->transform($this->getRequestValue('session'));
             $durationForm->checkInput();
             $postVals = explode(',', $session);

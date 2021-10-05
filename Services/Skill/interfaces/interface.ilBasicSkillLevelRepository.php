@@ -1,94 +1,48 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Interface ilBasicSkillLevelRepository
  */
 interface ilBasicSkillLevelRepository
 {
+    public function deleteLevelsOfSkill(int $skill_id) : void;
 
-    /**
-     * Delete levels of a skill
-     * @param int $skill_id
-     */
-    public function deleteLevelsOfSkill(int $skill_id);
+    public function addLevel(int $skill_id, string $a_title, string $a_description, string $a_import_id = "") : void;
 
-    /**
-     * Add new level
-     * @param int    $skill_id
-     * @param string $a_title
-     * @param string $a_description
-     * @param string $a_import_id
-     */
-    public function addLevel(int $skill_id, string $a_title, string $a_description, string $a_import_id = "");
-
-    /**
-     * Get level data
-     * @param int $skill_id
-     * @param int $a_id
-     * @return array level data
-     */
     public function getLevelData(int $skill_id, int $a_id = 0) : array;
 
-    /**
-     * Lookup level title
-     * @param int $a_id level id
-     * @return string level title
-     */
     public function lookupLevelTitle(int $a_id) : string;
 
-    /**
-     * Lookup level description
-     * @param int $a_id level id
-     * @return string level description
-     */
     public function lookupLevelDescription(int $a_id) : string;
 
-    /**
-     * Lookup level skill id
-     * @param int $a_id level id
-     * @return int skill id
-     */
     public function lookupLevelSkillId(int $a_id) : int;
 
-    /**
-     * Write level title
-     * @param int    $a_id    level id
-     * @param string $a_title level title
-     */
-    public function writeLevelTitle(int $a_id, string $a_title);
+    public function writeLevelTitle(int $a_id, string $a_title) : void;
 
-    /**
-     * Write level description
-     * @param int    $a_id          level id
-     * @param string $a_description level description
-     */
-    public function writeLevelDescription(int $a_id, string $a_description);
+    public function writeLevelDescription(int $a_id, string $a_description) : void;
 
-    /**
-     * Update level order
-     * @param array $order
-     */
-    public function updateLevelOrder(array $order);
+    public function updateLevelOrder(array $order) : void;
 
-    /**
-     * Delete level
-     * @param int $a_id
-     */
-    public function deleteLevel(int $a_id);
+    public function deleteLevel(int $a_id) : void;
 
-    /**
-     * Fix level numbering
-     * @param int $skill_id
-     */
-    public function fixLevelNumbering(int $skill_id);
+    public function fixLevelNumbering(int $skill_id) : void;
 
-    /**
-     * Get skill for level id
-     * @param int $a_level_id
-     * @return null|ilBasicSkill
-     */
-    public function getSkillForLevelId(int $a_level_id);
-
+    public function getSkillForLevelId(int $a_level_id) : ?ilBasicSkill;
 }

@@ -531,7 +531,7 @@ class SurveyMultipleChoiceQuestion extends SurveyQuestion
     * @return The ILIAS form element
     * @access public
     */
-    public function getPreconditionSelectValue($default = "", $title, $variable)
+    public function getPreconditionSelectValue($default, $title, $variable)
     {
         $step3 = new ilSelectInputGUI($title, $variable);
         $options = $this->getPreconditionOptions();

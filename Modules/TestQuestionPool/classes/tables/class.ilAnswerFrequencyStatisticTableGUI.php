@@ -43,7 +43,7 @@ class ilAnswerFrequencyStatisticTableGUI extends ilTable2GUI
      * @param string $a_parent_cmd
      * @param string $question
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $question)
+    public function __construct($a_parent_obj, $a_parent_cmd = "", $question = "")
     {
         global $DIC; /* @var ILIAS\DI\Container $this->DIC */
         

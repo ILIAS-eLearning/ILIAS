@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailMimeSenderUserByEmailAddress
@@ -7,11 +7,6 @@
  */
 class ilMailMimeSenderUserByEmailAddress extends ilMailMimeSenderUser
 {
-    /**
-     * ilMailMimeSenderUserByEmailAddress constructor.
-     * @param ilSetting $settings
-     * @param string $emailAddress
-     */
     public function __construct(ilSetting $settings, string $emailAddress)
     {
         $user = new ilObjUser();

@@ -40,6 +40,10 @@ class ilGlobalCacheMetricsCollectedObjective extends Setup\Metrics\CollectedObje
             $service,
             "The backend that is used for the ILIAS cache."
         );
+        $storage->storeConfigText(
+            "active",
+            $settings->isActive() ? 'yes' : 'no',
+        );
 
         $servers = ilMemcacheServer::get();
         if (

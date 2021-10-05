@@ -138,7 +138,6 @@ class ilPollBlock extends ilCustomBlock
     
     public function getMessage($a_user_id) : ?string
     {
-
         if (!sizeof($this->answers)) {
             return $this->lng->txt("poll_block_message_no_answers");
         }

@@ -1,8 +1,22 @@
-<?php namespace ILIAS\Repository\Provider;
+<?php
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+namespace ILIAS\Repository\Provider;
 
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\Link;
-use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item\LinkList;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
@@ -10,6 +24,9 @@ use ilLink;
 use ilObject;
 use ilUtil;
 use InvalidArgumentException;
+use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\DI\Container;
+use ILIAS\Repository\StandardGUIRequest;
 
 /**
  * Repository related main menu items
@@ -26,20 +43,19 @@ use InvalidArgumentException;
  */
 class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 {
+    protected StandardGUIRequest $request;
 
+    public function __construct(Container $dic)
+    {
+        parent::__construct($dic);
+        $this->request = $dic->repository()->internal()->gui()->standardRequest();
+    }
 
-    /**
-     * @inheritDoc
-     */
     public function getStaticTopItems() : array
     {
         return [];
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getStaticSubItems() : array
     {
         $top = StandardTopItemsProvider::getInstance()->getRepositoryIdentification();
@@ -59,16 +75,6 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $title = $this->dic->language()->txt("mm_rep_tree_view");
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
-
-        /*
-        if ($_GET["baseClass"] == "ilRepositoryGUI") {
-            $entries[] = $this->mainmenu->link($this->if->identifier('tree_view'))
-                ->withAction($link)
-                ->withParent($top)
-                ->withPosition(30)
-                ->withSymbol($icon)
-                ->withTitle($title);
-        }*/
 
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
@@ -133,14 +139,7 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
             ->withAction($action());
     }
 
-
-
-    /**
-     * Render last visited
-     *
-     * @return string
-     */
-    protected function renderLastVisited()
+    protected function renderLastVisited() : string
     {
         $nav_items = [];
         if (isset($this->dic['ilNavigationHistory'])) {
@@ -158,8 +157,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 break;
             }
 
-            if (!isset($nav_item["ref_id"]) || !isset($_GET["ref_id"])
-                || ($nav_item["ref_id"] != $_GET["ref_id"] || !$first)
+            if (!isset($nav_item["ref_id"]) || $this->request->getRefId() == 0
+                || ($nav_item["ref_id"] != $this->request->getRefId() || !$first)
             ) {            // do not list current item
                 $ititle = ilUtil::shortenText(strip_tags($nav_item["title"]), 50, true); // #11023
                 $obj_id = ilObject::_lookupObjectId($nav_item["ref_id"]);
@@ -179,12 +178,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         return $this->dic->ui()->renderer()->render($this->getNoLastVisitedMessage());
     }
 
-    /**
-     * No favourites message box
-     *
-     * @return \ILIAS\UI\Component\MessageBox\MessageBox
-     */
-    public function getNoLastVisitedMessage() : \ILIAS\UI\Component\MessageBox\MessageBox
+    // No favourites message box
+    public function getNoLastVisitedMessage() : MessageBox
     {
         global $DIC;
 
@@ -197,20 +192,13 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         return $mbox;
     }
 
-
-
-    /**
-     * Render repository tree
-     *
-     * @return string
-     */
-    protected function renderRepoTree()
+    protected function renderRepoTree() : string
     {
         global $DIC;
 
         $tree = $DIC->repositoryTree();
-        $ref_id = (int) ($_GET["ref_id"] ?? 0);
-        if ($_GET["baseClass"] == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
+        $ref_id = $this->request->getRefId();
+        if ($this->request->getBaseClass() == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
             $ref_id = $tree->readRootId();
         }
 

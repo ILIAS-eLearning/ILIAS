@@ -466,7 +466,7 @@ class ilAdvancedMDRecord
         $this->language_default = $language_code;
     }
 
-    public function getDefaultLanguage() :string
+    public function getDefaultLanguage() : string
     {
         return (string) $this->language_default;
     }
@@ -1012,7 +1012,7 @@ class ilAdvancedMDRecord
             $r = "SELECT * FROM adv_md_obj_rec_select " .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND sub_type = " . $ilDB->quote($a_sub_type, "text")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $recs[] = $rec["rec_id"];
         }

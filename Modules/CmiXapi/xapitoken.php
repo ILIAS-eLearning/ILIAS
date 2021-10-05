@@ -5,7 +5,7 @@ chdir("../../");
 require_once 'libs/composer/vendor/autoload.php';
 
 if (!isset($_GET['param']) || !strlen($_GET['param'])) {
-    header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+    header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
     header('Access-Control-Allow-Credentials: true');
     header('HTTP/1.1 401 Authorization Required');
     exit;
@@ -22,7 +22,7 @@ try {
         ilCmiXapiAuthToken::OPENSSL_IV
     ), true);
 } catch (ilCmiXapiException $e) {
-    header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+    header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
     header('Access-Control-Allow-Credentials: true');
     header('HTTP/1.1 500 Internal Server Error');
     exit;
@@ -40,7 +40,7 @@ $DIC = $GLOBALS['DIC']; /* @var \ILIAS\DI\Container $DIC */
 try {
     $token = ilCmiXapiAuthToken::getInstanceByObjIdAndUsrId($objId, $DIC->user()->getId());
 } catch (ilCmiXapiException $e) {
-    header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+    header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
     header('Access-Control-Allow-Credentials: true');
     header('HTTP/1.1 401 Authorization Failed');
     exit;
@@ -50,7 +50,7 @@ try {
 $object = ilObjectFactory::getInstanceByObjId($objId, false);
 
 if (!$object) {
-    header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+    header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
     header('Access-Control-Allow-Credentials: true');
     header('HTTP/1.1 401 Authorization Failed');
     exit;
@@ -64,7 +64,7 @@ if ($object->isBypassProxyEnabled()) {
 
 $response = array("auth-token" => $authToken);
 
-header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
+header('Access-Control-Allow-Origin: ' . $_SERVER["HTTP_ORIGIN"]);
 header('Access-Control-Allow-Credentials: true');
 header('Content-type:application/json;charset=utf-8');
 echo json_encode($response);

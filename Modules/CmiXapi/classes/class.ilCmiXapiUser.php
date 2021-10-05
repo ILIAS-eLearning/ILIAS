@@ -470,63 +470,62 @@ class ilCmiXapiUser
      * @param int $length
      * @return string
      */
-    public static function getUserObjectUniqueId( $length = 32 )
+    public static function getUserObjectUniqueId($length = 32)
     {
         // $storedId = self::readUserObjectUniqueId();
         // if( (bool)strlen($storedId) ) {
-            // return strstr($storedId,'@', true);
+        // return strstr($storedId,'@', true);
         // }
 
         // $getId = function( $length ) {
-            // $multiplier = floor($length/8) * 2;
-            // $uid = str_shuffle(str_repeat(uniqid(), $multiplier));
+        // $multiplier = floor($length/8) * 2;
+        // $uid = str_shuffle(str_repeat(uniqid(), $multiplier));
 
-            // try {
-                // $ident = bin2hex(random_bytes($length));
-            // } catch (Exception $e) {
-                // $ident = $uid;
-            // }
+        // try {
+        // $ident = bin2hex(random_bytes($length));
+        // } catch (Exception $e) {
+        // $ident = $uid;
+        // }
 
-            // $start = rand(0, strlen($ident) - $length - 1);
-            // return substr($ident, $start, $length);
+        // $start = rand(0, strlen($ident) - $length - 1);
+        // return substr($ident, $start, $length);
         // };
 
         $id = self::getUUID($length);//$getId($length);
         $exists = self::userObjectUniqueIdExists($id);
-        while( $exists ) {
+        while ($exists) {
             $id = self::getUUID($length);//$getId($length);
             $exists = self::userObjectUniqueIdExists($id);
         }
 
         return $id;
-
     }
 
-	public static function getUUID($length = 32 )
-	{
-		$multiplier = floor($length/8) * 2;
-		$uid = str_shuffle(str_repeat(uniqid(), $multiplier));
+    public static function getUUID($length = 32)
+    {
+        $multiplier = floor($length / 8) * 2;
+        $uid = str_shuffle(str_repeat(uniqid(), $multiplier));
 
-		try {
-			$ident = bin2hex(random_bytes($length));
-		} catch (Exception $e) {
-			$ident = $uid;
-		}
+        try {
+            $ident = bin2hex(random_bytes($length));
+        } catch (Exception $e) {
+            $ident = $uid;
+        }
 
-		$start = rand(0, strlen($ident) - $length - 1);
-		return substr($ident, $start, $length);
-	}
+        $start = rand(0, strlen($ident) - $length - 1);
+        return substr($ident, $start, $length);
+    }
 
     // private static function readUserObjectUniqueId()
     // {
-        // global $DIC; /** @var Container */
-        // $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+    // global $DIC; /** @var Container */
+    // $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
 
-        // $query = "SELECT usr_ident FROM cmix_users".
-            // " WHERE usr_id = " . $DIC->database()->quote($DIC->user()->getId(), 'integer') .
-            // " AND obj_id = " . $DIC->database()->quote($obj_id, 'integer');
-        // $result = $DIC->database()->query($query);
-        // return is_array($row = $DIC->database()->fetchAssoc($result)) ? $row['usr_ident'] : '';
+    // $query = "SELECT usr_ident FROM cmix_users".
+    // " WHERE usr_id = " . $DIC->database()->quote($DIC->user()->getId(), 'integer') .
+    // " AND obj_id = " . $DIC->database()->quote($obj_id, 'integer');
+    // $result = $DIC->database()->query($query);
+    // return is_array($row = $DIC->database()->fetchAssoc($result)) ? $row['usr_ident'] : '';
     // }
 
     private static function userObjectUniqueIdExists($id)
@@ -535,13 +534,11 @@ class ilCmiXapiUser
 
         $query = "SELECT usr_ident FROM cmix_users WHERE " . $DIC->database()->like('usr_ident', 'text', $id . '@%');
         $result = $DIC->database()->query($query);
-        return (bool)$num = $DIC->database()->numRows($result);
+        return (bool) $num = $DIC->database()->numRows($result);
     }
 
     public static function getRegistration(ilObjCmiXapi $obj, ilObjUser $user)
     {
-        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(),$obj->getRefId() . '-' . $user->getId());
+        return (new \Ramsey\Uuid\UuidFactory())->uuid3(self::getIliasUuid(), $obj->getRefId() . '-' . $user->getId());
     }
-
-
 }

@@ -1,5 +1,17 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Xml Exporter class
@@ -10,46 +22,30 @@
  */
 abstract class ilXmlExporter
 {
-    protected $dir_relative;
-    protected $dir_absolute;
-    protected $exp;
+    protected string $dir_relative = "";
+    protected string $dir_absolute = "";
+    protected ilExport $exp;
 
-    /**
-     * Constructor
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
     }
 
-    /**
-     * Set export object
-     *
-     * @param ilExport $a_exp export object
-     */
-    public function setExport(ilExport $a_exp)
+    public function setExport(ilExport $a_exp) : void
     {
         $this->exp = $a_exp;
     }
 
-    /**
-     * Get export
-     *
-     * @return ilExport export object
-     */
-    public function getExport()
+    public function getExport() : ilExport
     {
         return $this->exp;
     }
 
-    /**
-     * export directory lookup
-     * @return string export directory
-     */
-    public static function lookupExportDirectory($a_obj_type, $a_obj_id, $a_export_type = 'xml', $a_entity = "")
-    {
+    public static function lookupExportDirectory(
+        string $a_obj_type,
+        int $a_obj_id,
+        string $a_export_type = 'xml',
+        string $a_entity = ""
+    ) : string {
         $ent = ($a_entity == "")
             ? ""
             : "_" . $a_entity;
@@ -60,74 +56,51 @@ abstract class ilXmlExporter
         return ilUtil::getDataDir() . "/" . $a_obj_type . $ent . "_data" . "/" . $a_obj_type . "_" . $a_obj_id . "/export_" . $a_export_type;
     }
 
-    /**
-     * Get xml representation
-     *
-     * @param	string		entity
-     * @param	string		schema version
-     * @param	string		id
-     * @return	string		xml string
-     */
-    abstract public function getXmlRepresentation($a_entity, $a_schema_version, $a_id);
+    abstract public function getXmlRepresentation(
+        string $a_entity,
+        string $a_schema_version,
+        string $a_id
+    ) : string;
 
-    abstract public function init();
+    abstract public function init() : void;
 
-
-    /**
-     * Export directories
-     *
-     * @param	string		relative directory
-     * @param	string		absolute directory
-     */
-    public function setExportDirectories($a_dir_relative, $a_dir_absolute)
+    public function setExportDirectories(string $a_dir_relative, string $a_dir_absolute) : void
     {
         $this->dir_relative = $a_dir_relative;
         $this->dir_absolute = $a_dir_absolute;
     }
 
-    /**
-     * Get relative export directory
-     *
-     * @return	string	relative directory
-     */
-    public function getRelativeExportDirectory()
+    public function getRelativeExportDirectory() : string
     {
         return $this->dir_relative;
     }
 
-    /**
-     * Get absolute export directory
-     *
-     * @return	string	absolute directory
-     */
-    public function getAbsoluteExportDirectory()
+    public function getAbsoluteExportDirectory() : string
     {
         return $this->dir_absolute;
     }
 
     /**
      * Get head dependencies
-     *
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @return array array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
-    {
-        return array();
+    public function getXmlExportHeadDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ) : array {
+        return [];
     }
 
     /**
      * Get tail dependencies
-     *
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @return array array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
-    {
+    public function getXmlExportTailDependencies(
+        string $a_entity,
+        string $a_target_release,
+        array $a_ids
+    ) : array {
         return array();
     }
 
@@ -135,7 +108,6 @@ abstract class ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top. Example:
-     *
      * 		return array (
      *		"4.1.0" => array(
      *			"namespace" => "http://www.ilias.de/Services/MetaData/md/4_1",
@@ -143,20 +115,14 @@ abstract class ilXmlExporter
      *			"min" => "4.1.0",
      *			"max" => "")
      *		);
-     *
-     *
      * @return		array
      */
-    abstract public function getValidSchemaVersions($a_entity);
+    abstract public function getValidSchemaVersions(string $a_entity) : array;
 
-    /**
-     * Determine schema version
-     *
-     * @param
-     * @return
-     */
-    final public function determineSchemaVersion($a_entity, $a_target_release)
-    {
+    final public function determineSchemaVersion(
+        string $a_entity,
+        string $a_target_release
+    ) : array {
         $svs = $this->getValidSchemaVersions($a_entity);
         $found = false;
         foreach ($svs as $k => $sv) {
@@ -169,7 +135,6 @@ abstract class ilXmlExporter
                 }
             }
         }
-
         return $rsv;
     }
 }
