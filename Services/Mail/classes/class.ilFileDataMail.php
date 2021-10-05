@@ -78,8 +78,7 @@ class ilFileDataMail extends ilFileData
     }
 
     /**
-     * @return array{path: string, filename: string}
-     *      An array containing the 'path' and the 'filename' for the passed MD5 hash
+     * @return array{path: string, filename: string} An array containing 'path' and 'filename' for the passed MD5 hash
      * @throws OutOfBoundsException
      */
     public function getAttachmentPathAndFilenameByMd5Hash(string $md5FileHash, int $mailId) : array
@@ -136,11 +135,13 @@ class ilFileDataMail extends ilFileData
 
         return '';
     }
+
     /**
-    * adopt attachments (in case of forwarding a mail)
-    * @param string[] attachments
-    * @return string error message
-    */
+     * Adopt attachments (in case of forwarding a mail)
+     * @param string[] $a_attachments
+     * @param int $a_mail_id
+     * @return string An error message
+     */
     public function adoptAttachments(array $a_attachments, int $a_mail_id) : string
     {
         if (is_array($a_attachments)) {
@@ -153,6 +154,7 @@ class ilFileDataMail extends ilFileData
         } else {
             return "ARRAY REQUIRED";
         }
+
         return '';
     }
 
@@ -167,23 +169,28 @@ class ilFileDataMail extends ilFileData
             $this->mail_path,
             $this->ilias->error_obj->FATAL
         );
+
         return false;
     }
 
+    /**
+     * @return array{name: string, size: int, ctime: int}[]
+     */
     public function getUserFilesData() : array
     {
         return $this->getUnsentFiles();
     }
 
+    /**
+     * @return array{name: string, size: int, ctime: int}[]
+     */
     private function getUnsentFiles() : array
     {
         $files = [];
 
         $iter = new DirectoryIterator($this->mail_path);
         foreach ($iter as $file) {
-            /**
-             * @var $file SplFileInfo
-             */
+            /** @var $file SplFileInfo */
             if ($file->isFile()) {
                 [$uid, $rest] = explode('_', $file->getFilename(), 2);
                 if ($uid === (string) $this->user_id) {
@@ -210,7 +217,7 @@ class ilFileDataMail extends ilFileData
 
         $abs_path = $this->getMailPath() . '/' . $this->user_id . '_' . $name;
 
-        $fp = fopen($abs_path, 'w+');
+        $fp = fopen($abs_path, 'wb+');
         if (!is_resource($fp)) {
             return false;
         }
@@ -242,6 +249,9 @@ class ilFileDataMail extends ilFileData
 
     /**
      * Copy files in mail directory. This is used for sending ILIAS generated mails with attachments
+     * @param string $a_abs_path
+     * @param string $a_new_name
+     * @return bool
      */
     public function copyAttachmentFile(string $a_abs_path, string $a_new_name) : bool
     {
@@ -250,22 +260,20 @@ class ilFileDataMail extends ilFileData
         return true;
     }
 
-    /**
-    * rotate files with same name
-    * recursive method
-    */
     public function rotateFiles(string $a_path) : bool
     {
         if (is_file($a_path)) {
             $this->rotateFiles($a_path . ".old");
             return ilFileUtils::rename($a_path, $a_path . '.old');
         }
+
         return true;
     }
+
     /**
-    * @param string[] filenames to delete
-    * @return string error message with filename that couldn't be deleted
-    */
+     * @param string[] filenames to delete
+     * @return string error message with filename that couldn't be deleted
+     */
     public function unlinkFiles(array $a_filenames) : string
     {
         if (is_array($a_filenames)) {
@@ -290,6 +298,8 @@ class ilFileDataMail extends ilFileData
     /**
      * Resolves a path for a passed filename in regards of a user's mail attachment pool,
      * meaning attachments not being sent
+     * @param string $fileName
+     * @return string
      */
     public function getAbsoluteAttachmentPoolPathByFilename(string $fileName) : string
     {
@@ -320,13 +330,13 @@ class ilFileDataMail extends ilFileData
         
         return $fsstorage_cache[$a_mail_id][$a_usr_id];
     }
-    
+
     /**
-    * save attachment file in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
-    * @param int mail id of mail in sent box
-    * @param array filenames to save
-    * @access	public
-    */
+     * Save attachment file in a specific mail directory .../mail/<calculated_path>/mail_<mail_id>_<user_id>/...
+     * @param int $a_mail_id
+     * @param string $a_attachment
+     * @return bool
+     */
     public function saveFile(int $a_mail_id, string $a_attachment) : bool
     {
         $oStorage = self::getStorage($a_mail_id, $this->user_id);
@@ -343,6 +353,10 @@ class ilFileDataMail extends ilFileData
         );
     }
 
+    /**
+     * @param string[] $a_files
+     * @return bool
+     */
     public function checkFilesExist(array $a_files) : bool
     {
         if ($a_files) {
@@ -458,40 +472,6 @@ class ilFileDataMail extends ilFileData
         // Copy of ilFileInputGUI: end
 
         $this->mail_max_upload_file_size = $max_filesize;
-    }
-
-    /**
-     * Returns the number of bytes used on the harddisk for mail attachments,
-     * by the user with the specified user id.
-     * @return array{'count'=>integer,'size'=>integer}
-     *                            // an associative array with the disk
-     *                            // usage in bytes and the count of attachments.
-     */
-    public static function _lookupDiskUsageOfUser(int $user_id) : array
-    {
-        // XXX - This method is extremely slow. We should
-        // use a cache to speed it up, for example, we should
-        // store the disk space used in table mail_attachment.
-        global $DIC;
-
-        $mail_data_dir = ilUtil::getDataDir() . DIRECTORY_SEPARATOR . "mail";
-
-        $q = "SELECT path " .
-            "FROM mail_attachment ma " .
-            "JOIN mail m ON ma.mail_id=m.mail_id " .
-            "WHERE m.user_id = " . $DIC->database()->quote($user_id);
-        $result_set = $DIC->database()->query($q);
-        $size = 0;
-        $count = 0;
-        while ($row = $result_set->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            $attachment_path = $mail_data_dir . DIRECTORY_SEPARATOR . $row['path'];
-            $attachment_size = ilUtil::dirsize($attachment_path);
-            if ($attachment_size !== -1) {
-                $size += $attachment_size;
-            }
-            $count++;
-        }
-        return ['count' => $count, 'size' => $size];
     }
 
     public function onUserDelete() : void
