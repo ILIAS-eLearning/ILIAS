@@ -165,14 +165,14 @@ class ilTrObjectUsersPropsTableGUI extends ilLPTableBaseGUI
         if ($this->in_course) {
             // privacy (if course agreement is activated)
             include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
-            $privacy = ilPrivacySettings::_getInstance();
+            $privacy = ilPrivacySettings::getInstance();
             if ($privacy->courseConfirmationRequired()) {
                 $check_agreement = $this->in_course;
             }
         } elseif ($this->in_group) {
             // privacy (if group agreement is activated)
             include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
-            $privacy = ilPrivacySettings::_getInstance();
+            $privacy = ilPrivacySettings::getInstance();
             if ($privacy->groupConfirmationRequired()) {
                 $check_agreement = $this->in_group;
             }

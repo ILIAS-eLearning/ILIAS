@@ -2848,7 +2848,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
 
         // check if a course export state of any field has been added
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         if ($privacy->enabledCourseExport() == true &&
             $privacy->courseConfirmationRequired() == true &&
             $action != "save") {

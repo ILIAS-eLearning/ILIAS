@@ -227,7 +227,7 @@ class ilAdministrationSettingsFormHandler
                         $field_type = $subitems = null;
                         if (is_array($field_value)) {
                             $field_type = $field_value[1];
-                            $subitems = $field_value[2];
+                            $subitems = $field_value[2] ?? [];
                             $field_value = $field_value[0];
                         }
                                     

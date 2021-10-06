@@ -99,7 +99,7 @@ class ilMemberExportGUI
 
         
         include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        if (!ilPrivacySettings::_getInstance()->checkExportAccess($this->ref_id)) {
+        if (!ilPrivacySettings::getInstance()->checkExportAccess($this->ref_id)) {
             ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
             $this->ctrl->returnToParent($this);
         }

@@ -1115,7 +1115,7 @@ class ilMembershipGUI
         }
         
         include_once 'Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
-        if (ilPrivacySettings::_getInstance()->checkExportAccess($this->getParentObject()->getRefId())) {
+        if (ilPrivacySettings::getInstance()->checkExportAccess($this->getParentObject()->getRefId())) {
             $tabs->addSubTabTarget(
                 'export_members',
                 $this->ctrl->getLinkTargetByClass(array(get_class($this),'ilmemberexportgui'), 'show'),
@@ -1743,7 +1743,7 @@ class ilMembershipGUI
         /**
          * @var ilPrivacySettings
          */
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         if ($privacy->enabledAccessTimesByType($this->getParentObject()->getType())) {
             $list->addPreset('access', $this->lng->txt('last_access'), true);
         }
