@@ -1,6 +1,7 @@
 <?php namespace ILIAS\GlobalScreen\Scope\MetaBar\Provider;
 
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
+use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 
 /**
  * Class NotificationCenterProvider
@@ -16,7 +17,7 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
     public function getMetaBarItems() : array
     {
         $mb = $this->globalScreen()->metaBar();
-
+        $access_checks = BasicAccessCheckClosures::getInstance();
         $id = function ($id) : IdentificationInterface {
             return $this->if->identifier($id);
         };
@@ -41,9 +42,9 @@ class NotificationCenterProvider extends AbstractStaticMetaBarProvider
                     return true;
                 })
                 ->withVisibilityCallable(
-                    function () {
-                        return !$this->dic->user()->isAnonymous() && $this->dic->globalScreen()->collector()->notifications()->hasItems();
-                    }
+                    $access_checks->isUserLoggedIn(function () : bool {
+                        return $this->dic->globalScreen()->collector()->notifications()->hasItems();
+                    })
                 ),
         ];
     }
