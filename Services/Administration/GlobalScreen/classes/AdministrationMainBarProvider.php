@@ -29,8 +29,8 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
     {
         $access_helper = BasicAccessCheckClosures::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
-        $logged_in = $access_helper->isUserLoggedIn();
-        if (!$logged_in()) {
+
+        if (!$access_helper->isUserLoggedIn()() || !$access_helper->hasAdministrationAccess()()) {
             return [];
         }
 
@@ -178,19 +178,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 || $c["type"] == "xxx"
             ) {
                 continue;
-            }/*
-            $accessible = $rbacsystem->checkAccess('visible,read', $c["ref_id"]);
-            if (!$accessible) {
-                continue;
             }
-            if ($c["ref_id"] == ROOT_FOLDER_ID
-                && !$rbacsystem->checkAccess('write', $c["ref_id"])
-            ) {
-                continue;
-            }
-            if ($c["type"] == "rolf" && $c["ref_id"] != ROLE_FOLDER_ID) {
-                continue;
-            }*/
             $items[] = $c;
         }
 
