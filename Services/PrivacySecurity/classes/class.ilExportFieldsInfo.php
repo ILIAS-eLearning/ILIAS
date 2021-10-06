@@ -32,7 +32,6 @@ class ilExportFieldsInfo
     private static $instance = null;
 
     private $settings;
-    private $db;
     private $lng;
 
     private $obj_type = '';
@@ -47,11 +46,9 @@ class ilExportFieldsInfo
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
         $ilSetting = $DIC['ilSetting'];
         $lng = $DIC['lng'];
 
-        $this->db = $ilDB;
         $this->lng = $lng;
         $this->settings = $ilSetting;
 
@@ -107,12 +104,13 @@ class ilExportFieldsInfo
      */
     public function getExportableFields()
     {
+        $fields = [];
         foreach ($this->possible_fields as $field => $exportable) {
             if ($exportable) {
                 $fields[] = $field;
             }
         }
-        return $fields ? $fields : array();
+        return $fields;
     }
 
     /**
@@ -155,7 +153,7 @@ class ilExportFieldsInfo
             $fields['consultation_hour']['default'] = 0;
         }
 
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
+        $udf = [];
         if ($this->getType() == 'crs') {
             $udf = ilUserDefinedFields::_getInstance()->getCourseExportableFields();
         } elseif ($this->getType() == 'grp') {
@@ -231,6 +229,7 @@ class ilExportFieldsInfo
         $settings_all = $this->settings->getAll();
 
         $field_part_limit = 5;
+        $field_prefix = '';
         switch ($this->getType()) {
             case 'crs':
                 $field_prefix = 'usr_settings_course_export_';

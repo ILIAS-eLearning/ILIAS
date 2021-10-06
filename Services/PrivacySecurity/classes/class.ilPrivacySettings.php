@@ -130,8 +130,6 @@ class ilPrivacySettings
 
     /**
      * Check if a user has the permission to access approved user profile fields, course related user data and custom user data
-     * @param object $a_ref_id
-     * @return
      * @todo rename
      */
     public function checkExportAccess($a_ref_id, $a_user_id = 0)
@@ -352,11 +350,6 @@ class ilPrivacySettings
         return (bool) $this->show_crs_access_times;
     }
 
-    /**
-     * Check if access time are enabled for a specific type
-     * @param type $a_obj_type
-     * @return type
-     */
     public function enabledAccessTimesByType($a_obj_type)
     {
         switch ($a_obj_type) {
