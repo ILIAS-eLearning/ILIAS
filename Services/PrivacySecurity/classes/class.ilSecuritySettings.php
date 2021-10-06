@@ -15,7 +15,7 @@
 /**
  * Singleton class that stores all security settings
  * @author  Roland Küstermann <roland@kuestermann.com>
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup Services/PrivacySecurity
  */
 class ilSecuritySettings
@@ -212,7 +212,7 @@ class ilSecuritySettings
      * set if the passwords have to be changed by users
      * on first login
      */
-    public function setPasswordChangeOnFirstLoginEnabled(bool $a_password_change_on_first_login_enabled) : bool
+    public function setPasswordChangeOnFirstLoginEnabled(bool $a_password_change_on_first_login_enabled) : void
     {
         $this->password_change_on_first_login_enabled = $a_password_change_on_first_login_enabled;
     }
@@ -288,7 +288,6 @@ class ilSecuritySettings
             "AND object_reference.obj_id = object_data.obj_id";
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-        $this->ref_id = $row["ref_id"];
 
         $this->https_enable = (boolean) $this->settings->get('https', false);
 
@@ -305,7 +304,8 @@ class ilSecuritySettings
             self::DEFAULT_LOGIN_MAX_ATTEMPTS);
         $this->password_ucase_chars_num = (int) $this->settings->get('ps_password_uppercase_chars_num', 0);
         $this->password_lcase_chars_num = (int) $this->settings->get('ps_password_lowercase_chars_num', 0);
-        $this->password_must_not_contain_loginname = (bool) $this->settings->get('ps_password_must_not_contain_loginame',0);
+        $this->password_must_not_contain_loginname = (bool) $this->settings->get('ps_password_must_not_contain_loginame',
+            0);
         $this->password_change_on_first_login_enabled = (bool) $this->settings->get('ps_password_change_on_first_login_enabled',
             self::DEFAULT_PASSWORD_CHANGE_ON_FIRST_LOGIN_ENABLED);
         $this->prevent_simultaneous_logins = (bool) $this->settings->get('ps_prevent_simultaneous_logins',

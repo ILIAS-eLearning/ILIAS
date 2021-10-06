@@ -232,8 +232,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             $_POST['rbac_log_age'] = 1;
         }
 
-        $_POST['profile_protection'] = isset($_POST['profile_protection']) ? $_POST['profile_protection'] : array();
-
+        $_POST['profile_protection'] = $_POST['profile_protection'] ??  [];
         $privacy = ilPrivacySettings::getInstance();
 
         // to determine if agreements need to be reset - see below

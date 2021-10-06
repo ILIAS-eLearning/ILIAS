@@ -21,7 +21,6 @@ class ilObjPrivacySecurity extends ilObject
     /**
      * Constructor
      * @access public
-     * @param
      */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {

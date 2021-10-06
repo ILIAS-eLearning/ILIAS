@@ -52,7 +52,7 @@ class ilExportFieldsInfo
         return self::$instances[$a_type];
     }
 
-    public function getType(): string
+    public function getType() : string
     {
         return $this->obj_type;
     }
@@ -169,7 +169,7 @@ class ilExportFieldsInfo
     /**
      * Read info about exportable fields
      */
-    private function read() : bool
+    private function read() : void
     {
         $profile = new \ilUserProfile();
         $profile->skipGroup('settings');
@@ -219,7 +219,6 @@ class ilExportFieldsInfo
                 }
             }
         }
-        return true;
     }
 
     /**

@@ -108,7 +108,7 @@ class ilPrivacySettings
         $ilAccess = $DIC->access();
         $rbacsystem = $DIC->rbac()->system();
 
-        $user_id = $a_user_id ? $a_user_id : $ilUser->getId();
+        $user_id = $a_user_id ?? $ilUser->getId();
 
         if (ilObject::_lookupType($a_ref_id, true) == 'crs') {
             return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members', '',
@@ -123,6 +123,7 @@ class ilPrivacySettings
                     '', $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data',
                     $this->getPrivacySettingsRefId());
         }
+        return false;
     }
 
     public function enableCourseExport(bool $a_status) : void
