@@ -20,10 +20,6 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
      * @var string
      */
     protected $title = '';
-    /**
-     * @var bool
-     */
-    protected $supports_async_loading = false;
 
     /**
      * @param string $title
