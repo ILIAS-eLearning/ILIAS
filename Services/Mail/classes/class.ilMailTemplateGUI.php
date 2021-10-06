@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
-
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
@@ -155,6 +153,7 @@ class ilMailTemplateGUI
     }
 
     /**
+     * @param ilPropertyFormGUI|null $form
      * @throws ilMailException
      */
     protected function showInsertTemplateForm(ilPropertyFormGUI $form = null) : void
@@ -384,10 +383,11 @@ class ilMailTemplateGUI
         }
 
         $placeholders->render(true);
-        exit();
     }
 
     /**
+     * @param ilMailTemplate|null $template
+     * @return ilPropertyFormGUI
      * @throws ilMailException
      */
     protected function getTemplateForm(ilMailTemplate $template = null) : ilPropertyFormGUI

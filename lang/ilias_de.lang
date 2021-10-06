@@ -5193,13 +5193,13 @@ content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werd
 content#:#cont_no_text#:#Kein Text
 content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
 content#:#cont_none#:#Keine
-content#:#cont_nr_col_footer#:#Fuß (Spalten)
-content#:#cont_nr_col_header#:#Kopf (Spalten)
+content#:#cont_nr_col_footer#:#Fußspalten
+content#:#cont_nr_col_header#:#Kopfspalten
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_of_tries_exceeded#:#Sie haben keine Versuche mehr.
-content#:#cont_nr_row_footer#:#Fuß (Zeilen)
-content#:#cont_nr_row_header#:#Kopf (Zeilen)
+content#:#cont_nr_row_footer#:#Fußzeilen
+content#:#cont_nr_row_header#:#Kopfzeilen
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_number_of_tabs#:#Anzahl der Fächer
 content#:#cont_number_std#:#Standard
@@ -13885,7 +13885,7 @@ assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass di
 common#:#grpr#:#Gruppenlink
 common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
-common#:#grpr_new#:#Neue Gruppenlink anlegen
+common#:#grpr_new#:#Neuen Gruppenlink anlegen
 common#:#obj_grpr#:#Gruppenlink
 common#:#objs_grpr#:#Gruppenlinks
 rbac#:#grpr_copy#:#Gruppenlinks kopieren
@@ -16090,8 +16090,8 @@ prg#:#modal_categories_title#:#Zu überwachende Kategorie
 prg#:#category#:#Kategorie
 common#:#obj_prgr#:#Link zum Studienprogramm
 common#:#obj_prgrs#:#Links zu Studienprogrammen
-prg#:#prgr_new#:#Neuer Link zum Studienprogramm
-prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
+common#:#prgr_new#:#Neuen Link zu einem Studienprogramm anlegen
+common#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
@@ -16379,7 +16379,7 @@ content#:#cont_edit_comp#:#Bearbeitungsmodus
 content#:#cont_edit_multi#:#Mehrfachauswahl
 content#:#cont_block_format#:#Blockformat
 content#:#cont_upload_file#:#Datei hochladen
-content#:#cont_add_url#:#URL angeben
+content#:#cont_add_url#:#Über URL einbinden
 content#:#cont_url_info#:#URL einer Mediendatei oder Youtube-URL.
 content#:#cont_choose_from_pool#:#Aus Medienpool
 content#:#cont_choose_media_pool#:#Medienpool auswählen

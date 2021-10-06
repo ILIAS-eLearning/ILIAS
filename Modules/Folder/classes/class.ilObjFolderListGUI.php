@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Folder\StandardGUIRequest;
+
 /**
  * Class ilObjFolderListGUI
  *
@@ -20,8 +22,13 @@
  */
 class ilObjFolderListGUI extends ilObjectListGUI
 {
+    protected StandardGUIRequest $folder_request;
+
     public function init()
     {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -34,6 +41,11 @@ class ilObjFolderListGUI extends ilObjectListGUI
 
         // general commands array
         $this->commands = ilObjFolderAccess::_getCommands();
+        $this->folder_request = $DIC
+            ->folder()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
     public function getCommandLink($a_cmd)
@@ -55,7 +67,11 @@ class ilObjFolderListGUI extends ilObjectListGUI
                 // separate method for this line
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass(
+                    "ilrepositorygui",
+                    "ref_id",
+                    $this->folder_request->getRefId()
+                );
                 break;
         }
         

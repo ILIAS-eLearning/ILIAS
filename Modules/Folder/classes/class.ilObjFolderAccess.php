@@ -29,8 +29,16 @@ class ilObjFolderAccess extends ilObjectAccess
         }
         return ilObjFolderAccess::$folderSettings;
     }
-     
-    
+
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    {
+        if ($a_cmd == "download" &&
+            !ilObjFolderAccess::hasDownloadAction($a_ref_id)) {
+            return false;
+        }
+        return true;
+    }
+
     public static function _getCommands()
     {
         $commands = array();
@@ -39,9 +47,7 @@ class ilObjFolderAccess extends ilObjectAccess
         // why here, why read permission? it just needs info_screen_enabled = true in ilObjCategoryListGUI (alex, 30.7.2008)
         // this is not consistent, with all other objects...
         //$commands[] = array("permission" => "read", "cmd" => "showSummary", "lang_var" => "info_short", "enable_anonymous" => "false");
-        if (ilObjFolderAccess::hasDownloadAction($_GET["ref_id"])) {
-            $commands[] = array("permission" => "read", "cmd" => "download", "lang_var" => "download"); // #18805
-        }
+        $commands[] = array("permission" => "read", "cmd" => "download", "lang_var" => "download"); // #18805
         // BEGIN WebDAV: Mount Webfolder.
         if (ilDAVActivationChecker::_isActive()) {
             if (ilWebDAVUtil::getInstance()->isLocalPasswordInstructionRequired()) {

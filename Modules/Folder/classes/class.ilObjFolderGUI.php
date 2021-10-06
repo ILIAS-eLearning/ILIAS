@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Folder\StandardGUIRequest;
+
 /**
  * Class ilObjFolderGUI
  *
@@ -29,6 +31,7 @@ class ilObjFolderGUI extends ilContainerGUI
 {
     protected ilHelpGUI $help;
     public ilTree $folder_tree;
+    protected StandardGUIRequest $folder_request;
 
     public function __construct(
         $a_data,
@@ -36,6 +39,7 @@ class ilObjFolderGUI extends ilContainerGUI
         bool $a_call_by_reference = true,
         bool $a_prepare_output = false
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -51,16 +55,19 @@ class ilObjFolderGUI extends ilContainerGUI
         $this->settings = $DIC->settings();
         $this->type = "fold";
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-
         $this->lng->loadLanguageModule("obj");
+        $this->folder_request = $DIC
+            ->folder()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
 
     public function viewObject()
     {
         $this->checkPermission('read');
-
-        if (strtolower($_GET["baseClass"]) == "iladministrationgui") {
+        if (strtolower($this->folder_request->getBaseClass()) == "iladministrationgui") {
             parent::viewObject();
             return;
         }
@@ -120,7 +127,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 $new_gui = new ilLearningProgressGUI(
                     ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
-                    $_GET['user_id'] ?: $ilUser->getId()
+                    $this->folder_request->getUserId() ?: $ilUser->getId()
                 );
                 $this->ctrl->forwardCommand($new_gui);
                 $this->tabs_gui->setTabActive('learning_progress');
@@ -364,13 +371,13 @@ class ilObjFolderGUI extends ilContainerGUI
 
         $info->enablePrivateNotes();
         
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $info->enableNews();
         }
 
         // no news editing for files, just notifications
         $info->enableNewsEditing(false);
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("write", "", $this->requested_ref_id)) {
             $news_set = new ilSetting("news");
             $enable_internal_rss = $news_set->get("enable_rss_for_internal");
             
@@ -410,7 +417,7 @@ class ilObjFolderGUI extends ilContainerGUI
 
             //BEGIN ChangeEvent add info tab to category object
             $force_active = $this->ctrl->getNextClass() == "ilinfoscreengui"
-                || strtolower($_GET["cmdClass"]) == "ilnotegui";
+                || strtolower($this->ctrl->getCmdClass()) == "ilnotegui";
             $this->tabs_gui->addTarget(
                 "info_short",
                 $this->ctrl->getLinkTargetByClass(
@@ -526,11 +533,11 @@ class ilObjFolderGUI extends ilContainerGUI
             return;
         }
         if (!$this->ctrl->getCmd() and ilObjCourse::_lookupViewMode(ilObject::_lookupObjId($crs_ref)) == ilContainer::VIEW_TIMING) {
-            if (!isset($_SESSION['crs_timings'])) {
-                $_SESSION['crs_timings'] = true;
+            if (!ilSession::has('crs_timings')) {
+                ilSession::set('crs_timings', true);
             }
             
-            if ($_SESSION['crs_timings'] == true) {
+            if (ilSession::get('crs_timings') == true) {
                 $course_content_obj = new ilCourseContentGUI($this);
                 $this->ctrl->setCmdClass(get_class($course_content_obj));
                 $this->ctrl->setCmd('editUserTimings');
@@ -538,7 +545,7 @@ class ilObjFolderGUI extends ilContainerGUI
                 return;
             }
         }
-        $_SESSION['crs_timings'] = false;
+        ilSession::set('crs_timings', false);
     }
     
     public function editObject()

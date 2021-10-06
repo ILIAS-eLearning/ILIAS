@@ -45,7 +45,7 @@ abstract class ilMimeMailNotification extends ilMailNotification
     /**
      * @throws ilMailException
      */
-    protected function handleCurrentRecipient(string $rcp) : void
+    protected function handleCurrentRecipient($rcp) : void
     {
         if (is_numeric($rcp)) {
             /** @var $rcp ilObjUser */

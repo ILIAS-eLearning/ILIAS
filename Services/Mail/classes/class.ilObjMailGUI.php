@@ -12,10 +12,6 @@ class ilObjMailGUI extends ilObjectGUI
     public const SETTINGS_SUB_TAB_ID_EXTERNAL = 2;
     public const PASSWORD_PLACE_HOLDER = '***********************';
     protected ilTabsGUI $tabs;
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
-    /** @var ilSetting */
-    protected $settings;
 
     public function __construct(array $a_data, int $a_id, bool $a_call_by_reference)
     {
@@ -24,8 +20,6 @@ class ilObjMailGUI extends ilObjectGUI
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
 
         $this->tabs = $DIC->tabs();
-        $this->rbacsystem = $DIC->rbac()->system();
-        $this->settings = $DIC['ilSetting'];
 
         $this->lng->loadLanguageModule('mail');
     }
