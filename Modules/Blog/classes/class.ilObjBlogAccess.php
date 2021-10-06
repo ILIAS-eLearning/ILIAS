@@ -128,7 +128,7 @@ class ilObjBlogAccess extends ilObjectAccess implements ilWACCheckingClass
         global $DIC;
 
         $setting = $DIC->settings();
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         if ($setting->get("disable_comments")) {
             return false;
         }

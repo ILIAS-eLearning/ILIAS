@@ -129,7 +129,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      */
     public function showPrivacy()
     {
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
 
         $this->tabs_gui->setTabActive('show_privacy');
 
@@ -267,7 +267,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
         $_POST['profile_protection'] = isset($_POST['profile_protection']) ? $_POST['profile_protection'] : array();
 
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
 
         // to determine if agreements need to be reset - see below
         $old_settings = array(
@@ -384,7 +384,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_COURSE:
 
-                $privacy = ilPrivacySettings::_getInstance();
+                $privacy = ilPrivacySettings::getInstance();
 
                 $subitems = array(
                     'ps_export_course' => array($privacy->enabledCourseExport(),
@@ -407,7 +407,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
             case ilAdministrationSettingsFormHandler::FORM_GROUP:
 
-                $privacy = ilPrivacySettings::_getInstance();
+                $privacy = ilPrivacySettings::getInstance();
 
                 $subitems = array(
                     'ps_export_groups' => array($privacy->enabledGroupExport(),

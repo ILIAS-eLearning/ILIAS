@@ -57,7 +57,7 @@ class ilMemberAgreementGUI
         $this->lng = $lng;
         $this->lng->loadLanguageModule('ps');
         
-        $this->privacy = ilPrivacySettings::_getInstance();
+        $this->privacy = ilPrivacySettings::getInstance();
         $this->agreement = new ilMemberAgreement($ilUser->getId(), $this->obj_id);
         $this->init();
     }

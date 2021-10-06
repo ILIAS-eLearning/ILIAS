@@ -194,7 +194,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $cb_prop->setChecked($lm_set->get("scorm_without_session"));
         $form->addItem($cb_prop);
         
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         $check = new ilCheckboxInputGui($lng->txt('enable_sahs_protocol_data'), 'enable_sahs_pd');
         $check->setInfo($this->lng->txt('enable_sahs_protocol_data_desc'));
         $check->setChecked($privacy->enabledSahsProtocolData());
@@ -273,7 +273,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             ilUtil::stripSlashes($_POST["scorm_lp_auto_activate"])
         );
 
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         $privacy->enableSahsProtocolData((int) $_POST['enable_sahs_pd']);
         $privacy->enableExportSCORM((int) $_POST['export_scorm']);
         $privacy->save();
@@ -288,7 +288,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
                 
-                $privacy = ilPrivacySettings::_getInstance();
+                $privacy = ilPrivacySettings::getInstance();
                 
                 $fields = array('enable_sahs_protocol_data' => array($privacy->enabledSahsProtocolData(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
                 

@@ -181,7 +181,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         )
             ->withValue((string) $setting->get("comments_noti_recip"));
 
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         $subfields["enable_comments_export"] = $f->input()->field()->checkbox(
             $lng->txt("enable_comments_export"),
             $lng->txt("note_enable_comments_export_info")
@@ -226,7 +226,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
                 $setting->set("comments_del_tutor", ($data["comm_del_tutor"] ? 1 : 0));
                 $setting->set("comments_noti_recip", $data["comments_noti_recip"]);
 
-                $privacy = ilPrivacySettings::_getInstance();
+                $privacy = ilPrivacySettings::getInstance();
                 $privacy->enableCommentsExport((bool) $data['enable_comments_export']);
                 $privacy->save();
 
@@ -241,7 +241,7 @@ class ilObjCommentsSettingsGUI extends ilObjectGUI
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
 
-                $privacy = ilPrivacySettings::_getInstance();
+                $privacy = ilPrivacySettings::getInstance();
 
                 $fields = array('enable_comments_export' => array($privacy->enabledCommentsExport(), ilAdministrationSettingsFormHandler::VALUE_BOOL));
 
