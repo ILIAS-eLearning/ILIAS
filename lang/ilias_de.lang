@@ -5193,13 +5193,13 @@ content#:#cont_no_subdir_in_zip#:#Das ZIP-Kommando konnte nicht ausgeführt werd
 content#:#cont_no_text#:#Kein Text
 content#:#cont_nomenu#:#Oberes Navigationsmenü ausblenden
 content#:#cont_none#:#Keine
-content#:#cont_nr_col_footer#:#Fuß (Spalten)
-content#:#cont_nr_col_header#:#Kopf (Spalten)
+content#:#cont_nr_col_footer#:#Fußspalten
+content#:#cont_nr_col_header#:#Kopfspalten
 content#:#cont_nr_cols#:#Zahl der Spalten
 content#:#cont_nr_items#:#Anzahl der Einträge
 content#:#cont_nr_of_tries_exceeded#:#Sie haben keine Versuche mehr.
-content#:#cont_nr_row_footer#:#Fuß (Zeilen)
-content#:#cont_nr_row_header#:#Kopf (Zeilen)
+content#:#cont_nr_row_footer#:#Fußzeilen
+content#:#cont_nr_row_header#:#Kopfzeilen
 content#:#cont_nr_rows#:#Zahl der Zeilen
 content#:#cont_number_of_tabs#:#Anzahl der Fächer
 content#:#cont_number_std#:#Standard
