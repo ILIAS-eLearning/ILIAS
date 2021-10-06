@@ -110,7 +110,10 @@ class BasicAccessCheckClosures
             return false;
         }
 
-        return $r->hasReturnType() && $r->getReturnType()->isBuiltin();
+        if(!$r->hasReturnType() || !$r->getReturnType()->isBuiltin()){
+            throw new \InvalidArgumentException('the additional Closure MUST return a bool dy declaration');
+        }
+        return true;
     }
 
     private function getClosureWithOptinalClosure(Closure $closure, ?Closure $additional = null) : Closure

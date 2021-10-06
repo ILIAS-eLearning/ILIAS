@@ -149,14 +149,14 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_orga.svg"), $title);
 
         $organisation = $this->mainmenu->topParentItem($this->getOrganisationIdentification())
-            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () {
+            ->withVisibilityCallable($this->basic_access_helper->isUserLoggedIn(static function () : bool {
                 return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
             }))
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(60)
             ->withAvailableCallable(
-                static function () {
+                static function () : bool {
                     return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
                 });
 
@@ -164,7 +164,8 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("adm", $title)->withIsOutlined(true);
 
         $administration = $this->mainmenu->topParentItem($this->getAdministrationIdentification())
-            ->withSupportsAsynchronousLoading(true)
+            ->withSupportsAsynchronousLoading(false)
+            ->withAvailableCallable($this->basic_access_helper->isUserLoggedIn())
             ->withSymbol($icon)
             ->withTitle($title)
             ->withPosition(70)
