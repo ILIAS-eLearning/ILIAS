@@ -30,7 +30,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         $access_helper = BasicAccessCheckClosures::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
         $logged_in = $access_helper->isUserLoggedIn();
-        if (!$logged_in()) {
+        if (!$logged_in() || !$this->dic->rbac()->system()->checkAccess("visible", SYSTEM_FOLDER_ID)) {
             return [];
         }
 
@@ -52,8 +52,9 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"])
                         ->withIsOutlined(true);
 
+                    $admin_mode = $this->dic->http()->request()->getQueryParams()["admin_mode"] ?? '';
                     $ref_id = $titems[$group_item]["ref_id"];
-                    if ($_GET["admin_mode"] != 'repository' && $ref_id == ROOT_FOLDER_ID) {
+                    if ($admin_mode != 'repository' && $ref_id == ROOT_FOLDER_ID) {
                         $identification = $this->if->identifier('mm_adm_rep');
                         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&admin_mode=repository";
                     } else {
@@ -66,10 +67,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->link($identification)
                         ->withTitle($titems[$group_item]["title"])
                         ->withAction($action)
-                        ->withSymbol($icon)
-                        ->withVisibilityCallable(function() use($ref_id){
-                            return $this->dic->rbac()->system()->checkAccess('visible,read', $ref_id);
-                        });
+                        ->withSymbol($icon);
                 }
 
                 // Main entry
@@ -178,7 +176,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                 || $c["type"] == "xxx"
             ) {
                 continue;
-            }/*
+            }
             $accessible = $rbacsystem->checkAccess('visible,read', $c["ref_id"]);
             if (!$accessible) {
                 continue;
@@ -190,7 +188,7 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             }
             if ($c["type"] == "rolf" && $c["ref_id"] != ROLE_FOLDER_ID) {
                 continue;
-            }*/
+            }
             $items[] = $c;
         }
 
