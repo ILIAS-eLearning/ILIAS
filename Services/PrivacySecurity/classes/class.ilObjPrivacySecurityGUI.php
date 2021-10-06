@@ -29,7 +29,6 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
     {
         $this->type = 'ps';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
-
         self::initErrorMessages();
     }
 
@@ -39,12 +38,10 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
         $lng = $DIC->language();
 
-        if (!count(self::$ERROR_MESSAGE)) {
+        if (count(self::$ERROR_MESSAGE)) {
             return;
         }
-
         $lng->loadLanguageModule('ps');
-
         ilObjPrivacySecurityGUI::$ERROR_MESSAGE = [
             ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS => $lng->txt("ps_error_message_https_header_missing"),
             ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE => $lng->txt('https_not_possible'),

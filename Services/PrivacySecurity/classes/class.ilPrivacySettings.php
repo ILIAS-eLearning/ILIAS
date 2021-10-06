@@ -25,10 +25,10 @@ class ilPrivacySettings
 
     private bool $export_course;
     private bool $export_group;
-    private bool $export_learning_sequence;
-    private bool $export_confirm_course;
-    private bool $export_confirm_group;
-    private bool $export_confirm_learning_sequence;
+    private bool $export_learning_sequence = false;
+    private bool $export_confirm_course = false;
+    private bool $export_confirm_group = false;
+    private bool $export_confirm_learning_sequence = false;
 
     private bool $participants_list_course_enabled = true;
 
@@ -349,7 +349,7 @@ class ilPrivacySettings
             "AND object_reference.obj_id = object_data.obj_id";
         $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
-        $this->ref_id = $row["ref_id"];
+        $this->ref_id = (int) $row["ref_id"];
 
         $this->export_course = (bool) $this->settings->get('ps_export_course', false);
         $this->export_group = (bool) $this->settings->get('ps_export_group', false);
