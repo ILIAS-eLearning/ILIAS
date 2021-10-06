@@ -28,6 +28,7 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 		};
 
 		var onToggleSignal = function(slate, triggerer, is_in_metabar_more) {
+			already_engaged = _isEngaged(slate);
 			//special case for metabar-more
 			if(triggerer.attr('id') === il.UI.maincontrols.metabar._getMoreButton().attr('id')) {
 				if(il.UI.maincontrols.metabar.getEngagedSlates().length > 0){
@@ -46,6 +47,9 @@ il.UI.maincontrols = il.UI.maincontrols || {};
 				triggerer.addClass(_cls_engaged);
 				triggerer.removeClass(_cls_disengaged);
 				slate.trigger('in_view');
+				if (! already_engaged) {
+					slate.trigger('on_first_view');
+				}
 			} else {
 				triggerer.removeClass(_cls_engaged);
 				triggerer.addClass(_cls_disengaged);
