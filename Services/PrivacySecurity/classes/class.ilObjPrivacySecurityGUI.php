@@ -115,11 +115,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         }
     }
 
-    /**
-     * Show Privacy settings
-     * @access public
-     */
-    public function showPrivacy() : void
+    protected function initPrivacyForm() : \ilPropertyFormGUI
     {
         $privacy = ilPrivacySettings::getInstance();
 
@@ -196,6 +192,18 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         if ($this->checkPermissionBool("write")) {
             $form->addCommandButton('save_privacy', $this->lng->txt('save'));
         }
+        return $form;
+    }
+
+    /**
+     * Show Privacy settings
+     * @access public
+     */
+    public function showPrivacy(?\ilPropertyFormGUI $form = null) : void
+    {
+        if (!$form instanceof \ilPropertyFormGUI) {
+            $form = $this->initPrivacyForm();
+        }
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -226,13 +234,13 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
         }
 
-        if ((int) $_POST['rbac_log_age'] > 24) {
-            $_POST['rbac_log_age'] = 24;
-        } elseif ((int) $_POST['rbac_log_age'] < 1) {
-            $_POST['rbac_log_age'] = 1;
+        $form = $this->initPrivacyForm();
+        $valid = true;
+        if (!$form->checkInput()) {
+            $valid = false;
         }
 
-        $_POST['profile_protection'] = $_POST['profile_protection'] ??  [];
+        $profile_protection = $form->getInput('profile_protection') ?? [];
         $privacy = ilPrivacySettings::getInstance();
 
         // to determine if agreements need to be reset - see below
@@ -246,25 +254,30 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             'participants_list_courses' => $privacy->participantsListInCoursesEnabled()
         );
 
-        $privacy->enableCourseExport((bool) in_array('export_course', $_POST['profile_protection']));
-        $privacy->enableGroupExport((bool) in_array('export_group', $_POST['profile_protection']));
-        $privacy->setCourseConfirmationRequired((bool) in_array('export_confirm_course', $_POST['profile_protection']));
-        $privacy->setGroupConfirmationRequired((bool) in_array('export_confirm_group', $_POST['profile_protection']));
-        $privacy->showGroupAccessTimes((bool) in_array('grp_access_times', $_POST['profile_protection']));
-        $privacy->showCourseAccessTimes((bool) in_array('crs_access_times', $_POST['profile_protection']));
-        $privacy->enableParticipantsListInCourses((bool) in_array('participants_list_courses',
-            $_POST['profile_protection']));
+        $privacy->enableCourseExport(in_array('export_course', $profile_protection));
+        $privacy->enableGroupExport(in_array('export_group', $profile_protection));
+        $privacy->setCourseConfirmationRequired(in_array('export_confirm_course', $profile_protection));
+        $privacy->setGroupConfirmationRequired(in_array('export_confirm_group', $profile_protection));
+        $privacy->showGroupAccessTimes(in_array('grp_access_times', $profile_protection));
+        $privacy->showCourseAccessTimes(in_array('crs_access_times', $profile_protection));
+        $privacy->enableParticipantsListInCourses(in_array('participants_list_courses', $profile_protection));
 
         // validate settings
         $code = $privacy->validate();
-
         // if error code != 0, display error and do not save
-        if ($code != 0) {
+        if ($code !== 0) {
             $msg = $this->getErrorMessage($code);
-            ilUtil::sendFailure($msg);
+            \ilUtil::sendFailure($msg);
+            $form->setValuesByPost();
+            $this->showPrivacy($form);
+            return;
+        } elseif (!$valid) {
+            \ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $form->setValuesByPost();
+            $this->showPrivacy($form);
+            return;
         } else {
             $privacy->save();
-
             // reset agreements?
             $do_reset = false;
             if (!$old_settings['export_course'] && $privacy->enabledCourseExport()) {
@@ -288,10 +301,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             if ($do_reset) {
                 ilMemberAgreement::_reset();
             }
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+            ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
         }
-
-        $this->showPrivacy();
+        $this->ctrl->redirect($this, 'showPrivacy');
     }
 
     /**
