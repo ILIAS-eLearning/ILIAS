@@ -1,19 +1,25 @@
-<?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
-include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
+<?php declare(strict_types=1);
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * @defgroup     ServicesPrivacySecurity Services/PrivacySecurity
- * @author       Stefan Meyer <meyer@leifos.com>
- * @version      $Id$
+ * @author       Stefan Meyer <meyer@leifos.de>
  * @ilCtrl_Calls ilObjPrivacySecurityGUI: ilPermissionGUI
  * @ingroup      ServicesPrivacySecurity
  */
 class ilObjPrivacySecurityGUI extends ilObjectGUI
 {
-    private static $ERROR_MESSAGE;
+    private static array $ERROR_MESSAGE = [];
 
     /**
      * Contructor
@@ -27,19 +33,19 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         self::initErrorMessages();
     }
 
-    public static function initErrorMessages()
+    public static function initErrorMessages() : void
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
-        if (is_array(self::$ERROR_MESSAGE)) {
+        if (!count(self::$ERROR_MESSAGE)) {
             return;
         }
 
         $lng->loadLanguageModule('ps');
 
-        ilObjPrivacySecurityGUI::$ERROR_MESSAGE = array(
+        ilObjPrivacySecurityGUI::$ERROR_MESSAGE = [
             ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_AUTO_HTTPS => $lng->txt("ps_error_message_https_header_missing"),
             ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTPS_NOT_AVAILABLE => $lng->txt('https_not_possible'),
             ilSecuritySettings::$SECURITY_SETTINGS_ERR_CODE_HTTP_NOT_AVAILABLE => $lng->txt('http_not_possible'),
@@ -51,30 +57,23 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN2 => $lng->txt('ps_error_message_password_min2_because_chars_numbers'),
             ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MIN_LENGTH_MIN3 => $lng->txt('ps_error_message_password_min3_because_chars_numbers_sc'),
             ilSecuritySettings::SECURITY_SETTINGS_ERR_CODE_PASSWORD_MAX_LENGTH_LESS_MIN_LENGTH => $lng->txt('ps_error_message_password_max_less_min')
-        );
+        ];
     }
 
-    /**
-     * Execute command
-     * @access public
-     */
     public function executeCommand()
     {
-        global $DIC;
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
-        if (!$DIC->rbac()->system()->checkAccess('visible,read', $this->object->getRefId())) {
-            $DIC['ilErr']->raiseError($this->lng->txt('no_permission'), $DIC['ilErr']->WARNING);
+        if (!$this->rbacsystem->checkAccess('visible,read', $this->object->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
         }
 
         switch ($next_class) {
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -96,11 +95,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      */
     public function getAdminTabs()
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
-
-        if ($rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "show_privacy",
                 $this->ctrl->getLinkTarget($this, "showPrivacy"),
@@ -113,7 +108,7 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             );
         }
 
-        if ($rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
+        if ($this->rbacsystem->checkAccess('edit_permission', $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
                 $this->ctrl->getLinkTargetByClass('ilpermissiongui', "perm"),
@@ -127,23 +122,21 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      * Show Privacy settings
      * @access public
      */
-    public function showPrivacy()
+    public function showPrivacy() : void
     {
         $privacy = ilPrivacySettings::getInstance();
 
         $this->tabs_gui->setTabActive('show_privacy');
 
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('ps_privacy_protection'));
 
-        include_once('Services/Membership/classes/class.ilMemberAgreement.php');
         if (ilMemberAgreement::_hasAgreements()) {
             ilUtil::sendInfo($this->lng->txt('ps_warning_modify'));
         }
 
-        $value = array();
+        $value = [];
         if ($privacy->enabledCourseExport()) {
             $value[] = "export_course";
         }
@@ -197,7 +190,6 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $check->setValue('participants_list_courses');
         $group->addOption($check);
 
-        include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_PRIVACY,
             $form,
@@ -212,18 +204,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
     /**
      * Show Privacy settings
-     * @access public
      */
-    public function showSecurity()
+    public function showSecurity() : void
     {
-        global $DIC;
-
-        $ilSetting = $DIC['ilSetting'];
-        $ilUser = $DIC['ilUser'];
-        $rbacreview = $DIC['rbacreview'];
-
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
-
         $security = ilSecuritySettings::_getInstance();
 
         $this->tabs_gui->setTabActive('show_security');
@@ -232,31 +215,18 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('ps_security_protection'));
 
-        include_once "Services/Administration/classes/class.ilAdministrationSettingsFormHandler.php";
         ilAdministrationSettingsFormHandler::addFieldsToForm(
             ilAdministrationSettingsFormHandler::FORM_SECURITY,
             $form,
             $this
         );
-
-        // $form->addCommandButton('save_security',$this->lng->txt('save'));
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Save privacy settings
-     * @access public
-     */
-    public function save_privacy()
+    public function save_privacy() : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilSetting = $DIC['ilSetting'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
         }
 
         if ((int) $_POST['rbac_log_age'] > 24) {
@@ -280,12 +250,12 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
             'participants_list_courses' => $privacy->participantsListInCoursesEnabled()
         );
 
-        $privacy->enableCourseExport((int) in_array('export_course', $_POST['profile_protection']));
-        $privacy->enableGroupExport((int) in_array('export_group', $_POST['profile_protection']));
-        $privacy->setCourseConfirmationRequired((int) in_array('export_confirm_course', $_POST['profile_protection']));
-        $privacy->setGroupConfirmationRequired((int) in_array('export_confirm_group', $_POST['profile_protection']));
-        $privacy->showGroupAccessTimes((int) in_array('grp_access_times', $_POST['profile_protection']));
-        $privacy->showCourseAccessTimes((int) in_array('crs_access_times', $_POST['profile_protection']));
+        $privacy->enableCourseExport((bool) in_array('export_course', $_POST['profile_protection']));
+        $privacy->enableGroupExport((bool) in_array('export_group', $_POST['profile_protection']));
+        $privacy->setCourseConfirmationRequired((bool) in_array('export_confirm_course', $_POST['profile_protection']));
+        $privacy->setGroupConfirmationRequired((bool) in_array('export_confirm_group', $_POST['profile_protection']));
+        $privacy->showGroupAccessTimes((bool) in_array('grp_access_times', $_POST['profile_protection']));
+        $privacy->showCourseAccessTimes((bool) in_array('crs_access_times', $_POST['profile_protection']));
         $privacy->enableParticipantsListInCourses((bool) in_array('participants_list_courses',
             $_POST['profile_protection']));
 
@@ -320,7 +290,6 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
                 $do_reset = true;
             }
             if ($do_reset) {
-                include_once('Services/Membership/classes/class.ilMemberAgreement.php');
                 ilMemberAgreement::_reset();
             }
             ilUtil::sendSuccess($this->lng->txt('settings_saved'));
@@ -331,39 +300,12 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
 
     /**
      * Save security settings
-     * @access public
      */
-    public function save_security()
+    public function save_security() : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilSetting = $DIC['ilSetting'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilUser = $DIC['ilUser'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
+        if (!$this->access->checkAccess('write', '', $this->object->getRefId())) {
+            $this->ilErr->raiseError($this->lng->txt('no_permission'), $this->ilErr->WARNING);
         }
-
-        /*
-        $security = ilSecuritySettings::_getInstance();
-
-        $code = $security->validate();
-
-        // if error code != 0, display error and do not save
-        if ($code != 0)
-        {
-            $msg = $this->getErrorMessage ($code);
-            ilUtil::sendFailure($msg);
-        } else
-        {
-            $security->save();
-            ilUtil::sendSuccess($this->lng->txt('settings_saved'));
-        }
-        */
-
         $this->showSecurity();
     }
 
@@ -373,13 +315,16 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
      * @return string
      */
 
-    public static function getErrorMessage($code)
+    public static function getErrorMessage(int $code) : string
     {
         self::initErrorMessages();
-        return ilObjPrivacySecurityGUI::$ERROR_MESSAGE[$code];
+        if (array_key_exists($code, self::$ERROR_MESSAGE)) {
+            return self::$ERROR_MESSAGE[$code];
+        }
+        return '';
     }
 
-    public function addToExternalSettingsForm($a_form_id)
+    public function addToExternalSettingsForm(int $a_form_id) : array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_COURSE:
@@ -400,9 +345,9 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
                                                        \ilAdministrationSettingsFormHandler::VALUE_BOOL
                     ]
                 );
-                $fields = array(
-                    'ps_profile_export' => array(null, null, $subitems)
-                );
+                $fields = [
+                    'ps_profile_export' => [null, null, $subitems]
+                ];
                 return array(array("showPrivacy", $fields));
 
             case ilAdministrationSettingsFormHandler::FORM_GROUP:
@@ -423,7 +368,8 @@ class ilObjPrivacySecurityGUI extends ilObjectGUI
                 $fields = array(
                     'ps_profile_export' => array(null, null, $subitems)
                 );
-                return array(array("showPrivacy", $fields));
+                return [["showPrivacy", $fields]];
         }
+        return [];
     }
 }
