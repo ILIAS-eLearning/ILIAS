@@ -9,7 +9,7 @@ namespace ILIAS\UI\Component\Input\Field;
  *
  * @package ILIAS\UI\Component\Input\Field
  */
-interface FileInput extends NestedInput, File
+interface FileInput extends File, Input, AdditionalInputsAware
 {
 
 }

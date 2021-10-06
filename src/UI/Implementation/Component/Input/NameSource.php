@@ -9,11 +9,10 @@ namespace ILIAS\UI\Implementation\Component\Input;
  */
 interface NameSource
 {
-
     /**
      * Generates a unique name on every call.
      *
      * @return string
      */
-    public function getNewName();
+    public function getNewName() : string;
 }

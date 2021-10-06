@@ -12,6 +12,7 @@ use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Component\Input\Field\FileInput;
 use ILIAS\Data\Result\Ok;
+use ILIAS\UI\Implementation\Component\Input\SubordinateNameSource;
 
 /**
  * Class File
@@ -52,14 +53,23 @@ class File extends Input implements C\Input\Field\FileInput
     private $max_files;
 
     /**
-     * @var Input[]
+     * Holds the template for additional inputs.
+     *
+     * @var Input
      */
-    private $input_templates;
+    private $template;
 
     /**
+     * Holds the additional inputs, cloned from $this->template.
+     *
      * @var Input[]
      */
-    private $inputs;
+    private $templates;
+
+    /**
+     * @var NameSource
+     */
+    private $name_source;
 
     /**
      * @var bool
@@ -182,34 +192,45 @@ class File extends Input implements C\Input\Field\FileInput
     /**
      * @inheritDoc
      */
-    public function withNestedInputs(array $inputs) : C\Input\Field\NestedInput
+    public function withTemplateForAdditionalInputs(C\Input\Field\Input $input) : C\Input\Field\AdditionalInputsAware
     {
-        $this->checkArgListElements('inputs', $inputs, Input::class);
+//        input array option:
+//
+//        $this->checkArgList('inputs', $inputs, Input::class);
+//        $clone = clone $this;
+//        $clone->templates = $inputs;
+//        return $clone;
+
+        $this->checkArgInstanceOf('input', $input, Input::class);
 
         $clone = clone $this;
-        $clone->input_templates = $inputs;
+        $clone->template = $input;
 
         return $clone;
     }
 
     /**
-     * Returns the nested input templates of this input.
-     *
-     * Note that this method is only needed during the render process.
-     *
-     * @return Input[]|null
+     * @inheritDoc
      */
-    public function getNestedInputTemplates() : ?array
+    public function getTemplateForAdditionalInputs() : ?C\Input\Field\Input
     {
-        return $this->input_templates;
+//        input array option:
+//
+//        return $this->templates;
+
+        return $this->template;
     }
 
     /**
      * @inheritDoc
      */
-    public function getNestedInputs() : ?array
+    public function getPreparedTemplatesForAdditionalInputs() : ?array
     {
-        return $this->inputs;
+//        input array option:
+//
+//        return $this->prepared_templates;
+
+        return $this->templates;
     }
 
     /**
@@ -218,13 +239,15 @@ class File extends Input implements C\Input\Field\FileInput
     public function withValue($value)
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
+
         $clone = clone $this;
 
-        foreach ($value as $file_id => $input_values) {
-            $clone->value[] = $file_id;
-            foreach ($this->input_templates as $key => $template) {
-                $array_key = "{$file_id}_$key";
-                $clone->inputs[$array_key] = $template->withValue($input_values[$key]);
+        foreach ($value as $file_id => $template_value) {
+            if (null !== $this->template) {
+                $clone->templates[] = $this->template->withValue($template_value);
+                $clone->value[] = $file_id;
+            } else {
+                $clone->value[] = $template_value;
             }
         }
 
@@ -241,13 +264,8 @@ class File extends Input implements C\Input\Field\FileInput
         }
 
         $values = [];
-        if (!empty($this->value)) {
-            foreach ($this->value as $file_id) {
-                foreach ($this->input_templates as $key => $template) {
-                    $array_key = "{$file_id}_$key";
-                    $values[$file_id][$key] = $this->inputs[$array_key]->getValue();
-                }
-            }
+        foreach ($this->value as $index => $file_id) {
+            $values[$file_id] = $this->templates[$index]->getValue();
         }
 
         return $values;
@@ -269,11 +287,11 @@ class File extends Input implements C\Input\Field\FileInput
                 $content[$file_id]['zip_structure'] = (isset($file_data['zip_structure']) && 'checked' === $file_data['zip_structure']);
             }
 
-            if (null !== ($templates = $this->getNestedInputTemplates())) {
-                foreach ($templates as $key => $template) {
-                    $content[$file_id][$key] = $file_data[$key];
-                }
-            }
+//            if (null !== ($templates = $this->getNestedInputTemplates())) {
+//                foreach ($templates as $key => $template) {
+//                    $content[$file_id][$key] = $file_data[$key];
+//                }
+//            }
         }
 
         // @TODO: apply trafos of nested inputs here, as they cannot be done
@@ -292,9 +310,9 @@ class File extends Input implements C\Input\Field\FileInput
     public function withDisabled($is_disabled)
     {
         $clone = parent::withDisabled($is_disabled);
-        $clone->inputs = array_map(static function ($input) use ($is_disabled) {
-            return $input->withDisabled($is_disabled);
-        }, $this->inputs);
+        if (null !== $this->template) {
+            $clone->template = $this->template->withDisabled($is_disabled);
+        }
 
         return $clone;
     }
@@ -307,9 +325,9 @@ class File extends Input implements C\Input\Field\FileInput
     public function withRequired($is_required)
     {
         $clone = parent::withRequired($is_required);
-        $clone->inputs = array_map(static function ($input) use ($is_required) {
-            return $input->withRequired($is_required);
-        }, $this->inputs);
+        if (null !== $this->template) {
+            $clone->template = $this->template->withRequired($is_required);
+        }
 
         return $clone;
     }
@@ -322,9 +340,9 @@ class File extends Input implements C\Input\Field\FileInput
     public function withOnUpdate(Signal $signal)
     {
         $clone = parent::withOnUpdate($signal);
-        $clone->inputs = array_map(static function ($input) use ($signal) {
-            return $input->withOnUpdate($signal);
-        }, $this->inputs);
+        if (null !== $this->template) {
+            $clone->template = $this->template->withOnUpdate($signal);
+        }
 
         return $clone;
     }
@@ -338,18 +356,22 @@ class File extends Input implements C\Input\Field\FileInput
     {
         $clone = parent::withNameFrom($source);
 
-        $named_inputs = [];
-        if (!empty($this->input_templates)) {
-            foreach ($this->input_templates as $key => $input) {
-                $input_clone = clone $input;
-                $input_clone->name = $clone->getName() . "[][$key]";
-                $named_inputs[$key] = $input_clone;
-            }
+        if (null !== $this->template) {
+            $template_clone = clone $this->template;
+            $template_clone = $template_clone->withNameFrom(new SubordinateNameSource($clone->getName()));
+
+            $clone->template = $template_clone;
         }
 
-        $clone->input_templates = $named_inputs;
-
         return $clone;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSubordinateNameSource() : NameSource
+    {
+        return $this->name_source;
     }
 
     /**
@@ -360,26 +382,22 @@ class File extends Input implements C\Input\Field\FileInput
         if (null === $value) {
             return true;
         }
+
         if (!is_array($value)) {
             return false;
         }
 
-        foreach ($value as $string => $array) {
-            // if nested inputs exist, $value must consist of file-id => options[] pairs.
-            // the options must also contain ALL keys of input_templates.
-            if (null !== $this->input_templates) {
-                if (!is_string($string) || !is_array($array)) {
+        foreach ($value as $file_id => $template_value) {
+            // if this input has a template for additional inputs,
+            // the given value must consist of file-id's (string)
+            // mapped to a value that matches the current template's
+            // display value. If it has no template, the array must
+            // only consist of file-id's (string values).
+            if (null !== $this->template) {
+                if (!is_string($file_id) || !$this->template->isClientSideValueOk($template_value)) {
                     return false;
                 }
-                foreach ($array as $key => $nested_value) {
-                    if (!array_key_exists($key, $this->input_templates)) {
-                        return false;
-                    }
-                }
-            }
-
-            // if no nested inputs exist, the array must only consist file-id's (string[])
-            if (null === $this->input_templates && !is_string($array)) {
+            } elseif (!is_string($template_value)) {
                 return false;
             }
         }

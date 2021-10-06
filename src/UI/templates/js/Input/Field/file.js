@@ -20,14 +20,14 @@ Dropzone.autoDiscover = false;
      *
      * @type {{init: init, renderFileListEntry: renderFileListEntry}}
      */
-    il.UI.Input.file = (function ($) {
+    UI.Input.file = (function ($) {
 
         /**
          * Constant to enable or disable the debugging of a file-input
          *
          * @type {boolean}
          */
-        const DEBUG = false;
+        const DEBUG = true;
 
         /**
          * Default settings used for dropzone.js initialization.

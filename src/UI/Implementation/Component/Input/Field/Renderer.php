@@ -14,6 +14,8 @@ use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\DefaultRenderer;
+use ILIAS\FileUpload\Handler\FileInfoResult;
 
 /**
  * Class Renderer
@@ -599,7 +601,7 @@ class Renderer extends AbstractComponentRenderer
         $existing_files = $component->getValue();
         if (null !== $existing_files) {
             $existing_file_infos = [];
-            foreach ($existing_files as $file_id => $nested_input_values) {
+            foreach ($existing_files as $file_id => $template_value) {
                 $existing_file_infos[] = $component->getUploadHandler()->getSingleFileInfoResult($file_id);
             }
 
@@ -616,7 +618,7 @@ class Renderer extends AbstractComponentRenderer
         $settings->file_mime_types      = $component->getAcceptedMimeTypes();
         $settings->max_file_amount      = $component->getMaxFiles();
         $settings->max_file_size        = $component->getMaxFileSize();
-        $settings->with_nested_inputs   = (null !== $component->getNestedInputs());
+        $settings->with_nested_inputs   = (null !== $component->getPreparedTemplatesForAdditionalInputs());
         $settings->translations         = [
             'msg_invalid_mime'   => $this->txt('msg_input_file_invalid_mime'),
             'msg_invalid_amount' => $this->txt('msg_input_file_invalid_amount'),
@@ -641,18 +643,6 @@ class Renderer extends AbstractComponentRenderer
 
         $tpl = $this->getTemplate("tpl.file.html", true, true);
         $this->maybeDisable($component, $tpl);
-
-        // helper function to get the inputs-toggle html.
-        $getToggle = function () use ($default_renderer) : string {
-            return
-                '<span class="file-info metadata-toggle">' .
-                    $default_renderer->render([
-                        $this->getUIFactory()->symbol()->glyph()->collapse(),
-                        $this->getUIFactory()->symbol()->glyph()->expand(),
-                    ]) .
-                '</span>'
-            ;
-        };
 
         // helper function to get zip-options html.
         $getZipOptions = function () use ($default_renderer, $component) : string {
@@ -680,71 +670,31 @@ class Renderer extends AbstractComponentRenderer
             ;
         };
 
-        // helper function to wrap nested inputs within a container.
-        $wrapNestedInputs = static function (array $components, bool $with_zip_options) use ($default_renderer, $getZipOptions) : string {
-            $html = '<div class="il-file-input-metadata form-horizontal" style="display: none;">';
+        if (null !== ($template = $component->getTemplateForAdditionalInputs())) {
+            $additional_inputs_toggle =
+                '<span class="file-info metadata-toggle">' .
+                $default_renderer->render([
+                    $this->getUIFactory()->symbol()->glyph()->collapse(),
+                    $this->getUIFactory()->symbol()->glyph()->expand(),
+                ]) .
+                '</span>'
+            ;
 
-            if ($with_zip_options) {
-                $html .= $getZipOptions();
-            }
+            if (null !== ($templates = $component->getPreparedTemplatesForAdditionalInputs())) {
+                foreach ($templates as $index => $template) {
+                    // @TODO: render zip options if mime === 'application/zip'.
 
-            $html .= $default_renderer->render($components) . '</div>';
-
-            return $html;
-        };
-
-        $tpl->setCurrentBlock('block_file_preview');
-
-        $templates   = $component->getNestedInputTemplates();
-        $zip_options = $component->hasZipExtractOptions();
-
-        // if the file input has either nested inputs or enabled zip-options,
-        // the toggles have to be rendered.
-        if (null !== $templates || $zip_options) {
-            $tpl->setVariable('NESTED_INPUTS_TOGGLE', $getToggle());
-        }
-
-        // render the zip-options and nested-inputs according to their state
-        if (null !== $templates && $zip_options) {
-            $tpl->setVariable('NESTED_INPUTS', $wrapNestedInputs($templates, true));
-        } else if (null !== $templates) {
-            $tpl->setVariable('NESTED_INPUTS', $wrapNestedInputs($templates, false));
-        } else if ($zip_options) {
-            $tpl->setVariable('NESTED_INPUTS', $wrapNestedInputs([], true));
-        }
-
-        $tpl->setVariable('NAME', $component->getName());
-        $tpl->parseCurrentBlock();
-
-        // if the file-input already has values (existing files),
-        // the preview is additionally rendered for each value.
-        if (null !== $component->getValue()) {
-            $counter = 0;
-            $nested_inputs = $component->getNestedInputs();
-            foreach ($component->getValue() as $file_id => $nested_values) {
-                $nested_inputs_of_iteration = [];
-                foreach ($component->getNestedInputTemplates() as $key => $template) {
-                    $array_key = "{$file_id}_$key";
-                    $nested_inputs_of_iteration[] = $nested_inputs[$array_key];
+                    $tpl->setCurrentBlock('block_file_preview');
+                    $tpl->setVariable('RENDER_CLASS', 'il-file-input-server-side');
+                    $tpl->setVariable('NESTED_INPUTS_TOGGLE', $additional_inputs_toggle);
+                    $tpl->setVariable('ADDITIONAL_INPUTS', $default_renderer->render($template));
+                    $tpl->setVariable('FILE_NAME', $existing_files[$index]->getName());
+                    $tpl->setVariable('FILE_SIZE', $existing_files[$index]->getSize());
+                    $tpl->setVariable('FILE_ID', $existing_files[$index]->getFileIdentifier());
+                    $tpl->setVariable('NAME', $component->getName());
+                    $tpl->setVariable('COUNT', $index);
+                    $tpl->parseCurrentBlock();
                 }
-
-                $tpl->setCurrentBlock('block_file_preview');
-
-                $tpl->setVariable('RENDER_CLASS', 'il-file-input-server-side');
-                $tpl->setVariable('NESTED_INPUTS_TOGGLE', $getToggle());
-                $tpl->setVariable('FILE_NAME', $existing_files[$counter]->getName());
-                $tpl->setVariable('FILE_SIZE', $existing_files[$counter]->getSize());
-                $tpl->setVariable('NAME', $component->getName());
-                $tpl->setVariable('COUNT', $counter);
-                $tpl->setVariable('FILE_ID', $file_id);
-                $tpl->setVariable('NESTED_INPUTS', $wrapNestedInputs(
-                        $nested_inputs_of_iteration,
-                        $existing_files[$counter]->hasZipExtractOptions())
-                );
-
-                $tpl->parseCurrentBlock();
-
-                $counter++;
             }
         }
 
@@ -806,36 +756,20 @@ class Renderer extends AbstractComponentRenderer
     }
 
     /**
-     * Creates a fake NameSource that returns the given input name.
+     * Returns the rendered (and wrapped) additional inputs.
      *
-     * @param string $input_name
-     * @return NameSource
+     * @param RendererInterface $renderer
+     * @param array             $components
+     * @return string
      */
-    private function getFakeNameSource(string $input_name) : NameSource
+    private function getAdditionalInputsHTML(RendererInterface $renderer, array $components) : string
     {
-        return new class ($input_name) implements NameSource
-        {
-            /**
-             * @var string
-             */
-            private $input_name;
-
-            /**
-             * @param string $input_name
-             */
-            public function __construct(string $input_name)
-            {
-                $this->input_name = $input_name;
-            }
-
-            /**
-             * @inheritDoc
-             */
-            public function getNewName()
-            {
-                return $this->input_name;
-            }
-        };
+        // @TODO: rename classes to be more universal.
+        return
+            '<div class="il-file-input-metadata form-horizontal" style="display: none;">' .
+                $renderer->render($components) .
+            '</div>'
+        ;
     }
 
     /**

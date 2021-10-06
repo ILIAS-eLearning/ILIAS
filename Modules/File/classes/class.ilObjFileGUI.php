@@ -363,18 +363,20 @@ class ilObjFileGUI extends ilObject2GUI
                     )
                     ->withZipExtractOptions(true)
                     ->withMaxFiles(100)
-                    ->withNestedInputs([
-                        'filename' => $this->ui->factory()->input()->field()
-                            ->text(
-                                $this->lng->txt('name')
-                            )
-                        ,
-                        'description' => $this->ui->factory()->input()->field()
-                            ->textarea(
-                                $this->lng->txt('description')
-                            )
-                        ,
-                    ])
+                    ->withTemplateForAdditionalInputs(
+                        $this->ui->factory()->input()->field()->group([
+                            'filename' => $this->ui->factory()->input()->field()
+                                                   ->text(
+                                                       $this->lng->txt('name')
+                                                   )
+                            ,
+                            'description' => $this->ui->factory()->input()->field()
+                                                      ->textarea(
+                                                          $this->lng->txt('description')
+                                                      )
+                            ,
+                        ])
+                    )
                 ,
             ]
         );

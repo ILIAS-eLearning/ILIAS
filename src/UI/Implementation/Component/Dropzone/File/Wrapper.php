@@ -124,7 +124,7 @@ class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\
             $dropzone_file_input = $dropzone_file_input->withAcceptedMimeTypes($this->getAcceptedMimeTypes());
         }
         if (null !== $this->getMetadataInputs()) {
-            $dropzone_file_input = $dropzone_file_input->withNestedInputs($this->getMetadataInputs());
+            $dropzone_file_input = $dropzone_file_input->withTemplateForAdditionalInputs($this->getMetadataInputs());
         }
 
         return $this->input_factory->container()->form()->standard(
