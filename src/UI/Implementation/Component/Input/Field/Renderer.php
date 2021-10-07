@@ -639,7 +639,7 @@ class Renderer extends AbstractComponentRenderer
             $wrapInput = static function (FI\Input $input) use ($default_renderer) : string {
                 return
                     '<div class="il-file-input-additional-inputs">' .
-                        // type-cast can be ignored, as if works anyhow.
+                        // type-cast can be ignored, as it works anyhow.
                         $default_renderer->render($input) .
 				    '</div>'
                 ;

@@ -20,6 +20,13 @@ interface File
     public function getUploadHandler() : UploadHandler;
 
     /**
+     * Returns whether the file input has zip-extract options or not.
+     *
+     * @return bool
+     */
+    public function hasZipExtractOptions() : bool;
+
+    /**
      * Returns a file input like this, with mime-types that will be accepted.
      *
      * @param string[] $mime_types
@@ -63,20 +70,4 @@ interface File
      * @return int
      */
     public function getMaxFiles() : int;
-
-    /**
-     * Returns a file input like this, with enabled or disabled zip-
-     * extraction options.
-     *
-     * @param bool $with_options
-     * @return FileInput
-     */
-    public function withZipExtractOptions(bool $with_options) : File;
-
-    /**
-     * Returns if the file input should have zip-extraction options.
-     *
-     * @return bool
-     */
-    public function hasZipExtractOptions() : bool;
 }

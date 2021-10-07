@@ -2,112 +2,93 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery\Factory;
-use ILIAS\UI\Component as C;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Implementation\Component\Input\Field\Factory as InputFactory;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Component\Input\Field\FileInput;
-use ILIAS\Data\Result\Ok;
-use ILIAS\UI\Implementation\Component\Input\SubordinateNameSource;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Component\Input\Field\FormInput;
 use ILIAS\FileUpload\Handler\FileInfoResult;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Data\Factory as DataFactory;
+use ILIAS\UI\Component as C;
+use ILIAS\Data\Result\Ok;
+use ilLanguage;
 
 /**
- * Class File
+ * Class File is responsible for managing file inputs.
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
  *
  * @package ILIAS\UI\Implementation\Component\Input\Field
  */
-class File extends Input implements C\Input\Field\FileInput
+class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
 {
-    use JavaScriptBindable;
-    use Triggerer;
+    /**
+     * @var ilLanguage
+     */
+    private ilLanguage $lang;
 
     /**
-     * @var \ilLanguage
+     * @var InputFactory
      */
-    private $lang;
+    private InputFactory $factory;
 
     /**
-     * @var \ILIAS\UI\Implementation\Component\Input\Field\Factory
+     * @var UploadHandler
      */
-    private $factory;
+    private UploadHandler $upload_handler;
 
     /**
-     * @var C\Input\Field\UploadHandler
+     * @var string[]|null
      */
-    private $upload_handler;
-
-    /**
-     * @var string[]
-     */
-    private $accepted_mime_types;
+    private ?array $accepted_mime_types;
 
     /**
      * @var int|null
      */
-    private $max_file_size;
+    private ?int $max_file_size;
 
     /**
      * @var int|null
      */
-    private $max_files;
-
-    /**
-     * Holds the template for additional inputs.
-     *
-     * @var Input
-     */
-    private $template;
-
-    /**
-     * Holds the additional inputs, cloned from $this->template.
-     *
-     * @var Input[]
-     */
-    private $templates;
-
-    /**
-     * @var NameSource
-     */
-    private $name_source;
+    private ?int $max_files;
 
     /**
      * @var bool
      */
-    private $zip_options = false;
+    private bool $zip_options;
 
     /**
      * File Constructor
      *
-     * @param \ILIAS\UI\Implementation\Component\Input\Field\Factory $factory
-     * @param DataFactory                                            $data_factory
-     * @param \ilLanguage                                            $lang
-     * @param Factory                                                $refinery
-     * @param C\Input\Field\UploadHandler                            $handler
-     * @param string                                                 $label
-     * @param string|null                                            $byline
-     * @param bool                                                   $with_zip_options
+     * @param InputFactory  $factory
+     * @param DataFactory   $data_factory
+     * @param ilLanguage    $lang
+     * @param Refinery      $refinery
+     * @param UploadHandler $upload_handler
+     * @param string        $label
+     * @param string|null   $byline
+     * @param bool          $with_zip_options
      */
     public function __construct(
-        \ILIAS\UI\Implementation\Component\Input\Field\Factory $factory,
+        InputFactory $factory,
         DataFactory $data_factory,
-        \ilLanguage $lang,
-        Factory $refinery,
-        C\Input\Field\UploadHandler $handler,
+        ilLanguage $lang,
+        Refinery $refinery,
+        UploadHandler $upload_handler,
         string $label,
         string $byline = null,
         bool $with_zip_options = false
     ) {
-        $this->lang = $lang;
-        $this->upload_handler = $handler;
-        $this->factory = $factory;
-        $this->zip_options = $with_zip_options;
+        $this->lang             = $lang;
+        $this->factory          = $factory;
+        $this->upload_handler   = $upload_handler;
+        $this->zip_options      = $with_zip_options;
+
+        if ($with_zip_options) {
+            // append
+            $this->input_template = $factory->group($this->getZipExtractOptions());
+        }
 
         parent::__construct($data_factory, $refinery, $label, $byline);
     }
@@ -118,6 +99,14 @@ class File extends Input implements C\Input\Field\FileInput
     public function getUploadHandler() : C\Input\Field\UploadHandler
     {
         return $this->upload_handler;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function hasZipExtractOptions() : bool
+    {
+        return $this->zip_options;
     }
 
     /**
@@ -144,6 +133,7 @@ class File extends Input implements C\Input\Field\FileInput
      */
     public function withMaxFileSize(int $size_in_bytes) : C\Input\Field\File
     {
+        $this->checkIntArg('size_in_bytes', $size_in_bytes);
         $clone = clone $this;
         $clone->max_file_size = $size_in_bytes;
 
@@ -164,7 +154,6 @@ class File extends Input implements C\Input\Field\FileInput
     public function withMaxFiles(int $amount) : C\Input\Field\File
     {
         $this->checkIntArg('amount', $amount);
-
         $clone = clone $this;
         $clone->max_files = $amount;
 
@@ -183,60 +172,26 @@ class File extends Input implements C\Input\Field\FileInput
         return 1;
     }
 
+    //
+    // BEGIN OVERWRITTEN METHODS
+    //
+
     /**
+     * Parent method is overwritten in order to merge templates with the
+     * zip-extract options of this input.
+     *
      * @inheritDoc
      */
-    public function withZipExtractOptions(bool $with_options) : FileInput
+    public function withTemplateForAdditionalInputs(FormInput $template) : self
     {
-        $clone = clone $this;
-        $clone->zip_options = $with_options;
+        /** @var $clone self */
+        $clone =  parent::withTemplateForAdditionalInputs($template);
 
-        if (null !== $this->template && $with_options) {
-            $clone->template = $this->mergeTemplateAndZipOptions($clone->template);
+        if ($clone->hasZipExtractOptions()) {
+            $clone->input_template = $this->mergeInputWithZipOptions($clone->input_template);
         }
 
         return $clone;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function hasZipExtractOptions() : bool
-    {
-        return $this->zip_options;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withTemplateForAdditionalInputs(C\Input\Field\Input $input) : C\Input\Field\AdditionalInputsAware
-    {
-        $this->checkArgInstanceOf('input', $input, Input::class);
-
-        $clone = clone $this;
-        if (!$this->zip_options) {
-            $clone->template = $input;
-        } else {
-            $clone->template = $this->mergeTemplateAndZipOptions($input);
-        }
-
-        return $clone;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getTemplateForAdditionalInputs() : ?C\Input\Field\Input
-    {
-        return $this->template;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getPreparedTemplatesForAdditionalInputs() : ?array
-    {
-        return $this->templates;
     }
 
     /**
@@ -244,25 +199,22 @@ class File extends Input implements C\Input\Field\FileInput
      */
     public function withValue($value)
     {
-        // @TODO: doesnt work because of order!!
-
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
-
         $clone = clone $this;
 
         foreach ($value as $file_id => $template_value) {
             $file_info = $this->upload_handler->getInfoResult($file_id);
             if (null === $file_info) {
-                throw new \InvalidArgumentException("Invalid argument supplied, '$file_id' is not an existing file.");
+                throw new \InvalidArgumentException("Invalid argument supplied,  resource '$file_id' does not exist.");
             }
 
-            if (null !== $this->template) {
-                $template = $clone->template->withValue($value);
+            if (null !== $this->input_template) {
+                $template = $clone->input_template->withValue($value);
                 if ('application/zip' === $file_info->getMimeType()) {
-                    $template = $this->mergeTemplateAndZipOptions($template);
+                    $template = $this->mergeInputWithZipOptions($template);
                 }
 
-                $clone->templates[$file_id] = $template;
+                $clone->additional_inputs[$file_id] = $template;
             }
 
             $clone->value[$file_id] = $file_info;
@@ -272,6 +224,8 @@ class File extends Input implements C\Input\Field\FileInput
     }
 
     /**
+     * Parent method is overwritten in order to
+     *
      * @inheritDoc
      */
     public function getValue()
@@ -284,8 +238,8 @@ class File extends Input implements C\Input\Field\FileInput
         foreach ($this->value as $file_id => $file_info) {
             /** @var $file_info FileInfoResult */
             $values[$file_id] = [
-                'file_info' => $file_info,
-                'additional_inputs' => $this->templates[$file_id]->getValue(),
+                $file_info,
+                $this->additional_inputs[$file_id]->getValue(),
             ];
         }
 
@@ -293,96 +247,31 @@ class File extends Input implements C\Input\Field\FileInput
     }
 
     /**
+     * @TODO: discuss how transformations are applied/handled.
+     *
      * @inheritDoc
      */
-    public function withInput(InputData $post_input)
+    public function withInput(InputData $input)
     {
         $content = [];
         $clone = clone $this;
-        $post_data = $post_input->get($this->getName());
+        $post_data = $input->get($this->getName());
 
         foreach ($post_data as $file_data) {
-            $file_id = $file_data['file_id'];
+            $file_id = $file_data[$this->upload_handler->getFileIdentifierParameterName()];
             if ($this->hasZipExtractOptions()) {
                 $content[$file_id]['zip_extract'] = (isset($file_data['zip_extract']) && 'checked' === $file_data['zip_extract']);
                 $content[$file_id]['zip_structure'] = (isset($file_data['zip_structure']) && 'checked' === $file_data['zip_structure']);
             }
 
-//            if (null !== ($templates = $this->getNestedInputTemplates())) {
-//                foreach ($templates as $key => $template) {
-//                    $content[$file_id][$key] = $file_data[$key];
-//                }
-//            }
+            if (null !== ($templates = $this->getAdditionalInputs())) {
+                foreach ($templates as $key => $template) {
+                    $content[$file_id][$key] = $file_data[$key];
+                }
+            }
         }
-
-        // @TODO: apply trafos of nested inputs here, as they cannot be done
-        //        in the instance itself.
 
         $clone->content = new Ok($content);
-
-        return $clone;
-    }
-
-    /**
-     * Extend parents method due to implementation of NestedInputs (sub-inputs).
-     *
-     * @inheritDoc
-     */
-    public function withDisabled($is_disabled)
-    {
-        $clone = parent::withDisabled($is_disabled);
-        if (null !== $this->template) {
-            $clone->template = $this->template->withDisabled($is_disabled);
-        }
-
-        return $clone;
-    }
-
-    /**
-     * Extend parents method due to implementation of NestedInputs (sub-inputs).
-     *
-     * @inheritDoc
-     */
-    public function withRequired($is_required)
-    {
-        $clone = parent::withRequired($is_required);
-        if (null !== $this->template) {
-            $clone->template = $this->template->withRequired($is_required);
-        }
-
-        return $clone;
-    }
-
-    /**
-     * Extend parents method due to implementation of NestedInputs (sub-inputs).
-     *
-     * @inheritDoc
-     */
-    public function withOnUpdate(Signal $signal)
-    {
-        $clone = parent::withOnUpdate($signal);
-        if (null !== $this->template) {
-            $clone->template = $this->template->withOnUpdate($signal);
-        }
-
-        return $clone;
-    }
-
-    /**
-     * Extend parents method to name nested sub-inputs as well.
-     *
-     * @inheritdoc
-     */
-    public function withNameFrom(NameSource $source)
-    {
-        $clone = parent::withNameFrom($source);
-
-        if (null !== $this->template) {
-            $template_clone = clone $this->template;
-            $template_clone = $template_clone->withNameFrom(new SubordinateNameSource($clone->getName()));
-
-            $clone->template = $template_clone;
-        }
 
         return $clone;
     }
@@ -392,8 +281,6 @@ class File extends Input implements C\Input\Field\FileInput
      */
     protected function isClientSideValueOk($value) : bool
     {
-        // @TODO: let consumers pass along FALSE two times if zip options are enabled.
-
         if (null === $value) {
             return true;
         }
@@ -408,17 +295,17 @@ class File extends Input implements C\Input\Field\FileInput
             // mapped to a value that matches the current template's
             // display value. If it has no template, the array must
             // only consist of file-id's (string values).
-            if (null !== $this->template) {
+            if (null !== ($template = $this->getTemplateForAdditionalInputs())) {
                 if (!is_string($file_id)) {
                     return false;
                 }
 
-                if ($this->template instanceof C\Input\Field\Group) {
+                if ($template instanceof C\Input\Field\Group) {
                     if (!is_array($template_value)) {
                         return false;
                     }
 
-                    $inputs = $this->template->getInputs();
+                    $inputs = $template->getInputs();
                     foreach ($template_value as $key => $val) {
                         if (!isset($inputs[$key])) {
                             return false;
@@ -439,14 +326,16 @@ class File extends Input implements C\Input\Field\FileInput
         return true;
     }
 
+    //
+    // END OVERWRITTEN METHODS
+    //
+
     /**
      * @inheritDoc
      */
     public function getUpdateOnLoadCode() : \Closure
     {
-        return static function ($id) {
-            return '';
-        };
+        return static function () {};
     }
 
     /**
@@ -458,41 +347,23 @@ class File extends Input implements C\Input\Field\FileInput
     }
 
     /**
-     * Merges the given template with zip-options and returns them
-     * in a group.
+     * Merges the given input with the zip-extract options by putting
+     * them into a group input.
      *
-     * @param C\Input\Field\Input $template
+     * @param C\Input\Field\Input $input
      * @return C\Input\Field\Group
      */
-    private function mergeTemplateAndZipOptions(C\Input\Field\Input $template) : C\Input\Field\Group
+    private function mergeInputWithZipOptions(C\Input\Field\Input $input) : C\Input\Field\Group
     {
         $zip_options = $this->getZipExtractOptions();
-
-        if ($template instanceof C\Input\Field\Group) {
-            $inputs = array_merge_recursive($zip_options, $template->getInputs());
+        if ($input instanceof C\Input\Field\Group) {
+            $inputs = array_merge_recursive($zip_options, $input->getInputs());
         } else {
-            $inputs   = $zip_options;
-            $inputs[] = $template;
+            $inputs[] = $zip_options;
+            $inputs[] = $input;
         }
 
         return $this->factory->group($inputs);
-    }
-
-    /**
-     * Converts a FileInfoResult to array data.
-     *
-     * @param FileInfoResult $file
-     * @return array
-     */
-    private function fileInfoToArray(FileInfoResult $file) : array
-    {
-        // @TODO: probably hardcode array keys.
-        return [
-            $this->upload_handler->getFileIdentifierParameterName() => $file->getFileIdentifier(),
-            'mime' => $file->getMimeType(),
-            'name' => $file->getName(),
-            'size' => $file->getSize(),
-        ];
     }
 
     /**

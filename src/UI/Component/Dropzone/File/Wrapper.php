@@ -44,7 +44,7 @@ interface Wrapper extends FileDropzone
     /**
      * Returns a file input like this, with additional (metadata) inputs.
      *
-     * @TODO: name this withNestedInputs instead? maybe adopt AdditionalInputsAware
+     * @TODO: name this withNestedInputs instead? maybe adopt AdditionalFormInputsAware
      *        interface as well, in order to work with dropzone too?
      *
      * @param Input[] $inputs
@@ -55,7 +55,7 @@ interface Wrapper extends FileDropzone
     /**
      * Returns additional (metadata) inputs of this input.
      *
-     * @TODO: name this getNestedInputs instead? maybe adopt AdditionalInputsAware
+     * @TODO: name this getNestedInputs instead? maybe adopt AdditionalFormInputsAware
      *        interface as well, in order to work with dropzone too?
      *
      * @return Input[]|null

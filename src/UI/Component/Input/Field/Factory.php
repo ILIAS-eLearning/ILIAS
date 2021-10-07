@@ -605,8 +605,9 @@ interface Factory
      * @param UploadHandler $handler
      * @param string        $label defines the label.
      * @param string|null   $byline
+     * @param bool          $with_zip_options
      *
-     * @return \ILIAS\UI\Component\Input\Field\FileInput
+     * @return \ILIAS\UI\Component\Input\Field\File
      */
-    public function file(UploadHandler $handler, string $label, string $byline = null) : FileInput;
+    public function file(UploadHandler $handler, string $label, string $byline = null, bool $with_zip_options = false) : File;
 }
