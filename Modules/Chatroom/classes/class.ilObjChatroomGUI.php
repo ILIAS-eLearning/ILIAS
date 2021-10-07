@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\HTTP\Response\ResponseHeader;
 
 /**
  * Class ilObjChatroomGUI
@@ -213,7 +214,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
                         $this->http->saveResponse(
                             $this->http->response()
                                 ->withBody($responseStream)
-                                ->withHeader('Content-Type', 'application/json')
+                                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                         );
                         $this->http->sendResponse();
                         $this->http->close();
