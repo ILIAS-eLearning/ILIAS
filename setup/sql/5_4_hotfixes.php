@@ -1530,3 +1530,18 @@ if (!$ilDB->tableColumnExists('il_bt_value_to_task', 'position')) {
     );
 }
 ?>
+<#112>
+<?php
+if (!$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'pool_ref_id')) {
+    $ilDB->addTableColumn(
+        'tst_rnd_quest_set_qpls',
+        'pool_ref_id',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 8,
+            'notnull' => false,
+            'default' => null
+        ]
+    );
+}
+?>

@@ -135,30 +135,19 @@ abstract class ilTestQuestionSetConfig
      */
     public function getQuestionPoolPathString($poolId)
     {
-        $nodePath = $this->tree->getNodePath(
-            current(ilObject::_getAllReferences($poolId))
-        );
+        $ref_id = current(ilObject::_getAllReferences($poolId));
 
-        $questionPoolPathString = '';
-        
-        $i = 0;
-        $j = count($nodePath) - 2;
-        
-        foreach ($nodePath as $node) {
-            if ($i > 0) {
-                $questionPoolPathString .= ' > ';
-            }
-            
-            $questionPoolPathString .= $node['title'];
-            
-            if ($i == $j) {
-                break;
-            }
-            
-            $i++;
-        }
-        
-        return $questionPoolPathString;
+        $path = new ilPathGUI();
+        $path->enableTextOnly(true);
+        return $path->getPath(ROOT_FOLDER_ID, $ref_id);
+    }
+    
+    public function getFirstQuestionPoolRefIdByObjId(int $pool_obj_id) : int
+    {
+        $refs_ids = ilObject::_getAllReferences($pool_obj_id);
+        $refs_id = current($refs_ids);
+
+        return (int) $refs_id;
     }
 
     abstract public function isResultTaxonomyFilterSupported();
