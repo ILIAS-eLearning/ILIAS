@@ -70,13 +70,14 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 ->withTitle($title);
         }*/
 
+        \ilRepositoryExplorerGUI::init();
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
             ->withVisibilityCallable($access_helper->isRepositoryVisible())
             ->withContentWrapper(function () {
                 return $this->dic->ui()->factory()->legacy($this->renderRepoTree());
             })
-            ->withSupportsAsynchronousLoading(false)
+            ->withSupportsAsynchronousLoading(true)
             ->withTitle($title)
             ->withSymbol($icon)
             ->withParent($top)
@@ -217,7 +218,6 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $exp = new \ilRepositoryExplorerGUI("ilrepositorygui", "showRepTree");
         $exp->setSkipRootNode(true);
-
-        return $exp->getHTML();
+        return $exp->getHTML()."<script>".$exp->getOnLoadCode()."</script>";
     }
 }
