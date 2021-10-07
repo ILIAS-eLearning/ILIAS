@@ -599,14 +599,6 @@ class Renderer extends AbstractComponentRenderer
     protected function renderFileField(F\File $component, RendererInterface $default_renderer) : string
     {
         $existing_files = $component->getValue();
-        if (null !== $existing_files) {
-            $existing_file_infos = [];
-            foreach ($existing_files as $file_id => $template_value) {
-                $existing_file_infos[] = $component->getUploadHandler()->getSingleFileInfoResult($file_id);
-            }
-
-            $existing_files = $existing_file_infos;
-        }
 
         $settings = new \stdClass();
         $settings->existing_files       = $existing_files;
@@ -618,7 +610,6 @@ class Renderer extends AbstractComponentRenderer
         $settings->file_mime_types      = $component->getAcceptedMimeTypes();
         $settings->max_file_amount      = $component->getMaxFiles();
         $settings->max_file_size        = $component->getMaxFileSize();
-        $settings->with_nested_inputs   = (null !== $component->getPreparedTemplatesForAdditionalInputs());
         $settings->translations         = [
             'msg_invalid_mime'   => $this->txt('msg_input_file_invalid_mime'),
             'msg_invalid_amount' => $this->txt('msg_input_file_invalid_amount'),
@@ -644,55 +635,44 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.file.html", true, true);
         $this->maybeDisable($component, $tpl);
 
-        // helper function to get zip-options html.
-        $getZipOptions = function () use ($default_renderer, $component) : string {
-            return
-                '<div class="il-file-input-zip-options">' .
-                    $default_renderer->render([
-                        $this->getUIFactory()->input()->field()
-                             ->checkbox(
-                                 $this->txt('zip_extract')
-                             )
-                             ->withNameFrom(
-                                 $this->getFakeNameSource($component->getName() . '[][zip_extract]')
-                             )
-                        ,
-                        $this->getUIFactory()->input()->field()
-                            ->checkbox(
-                                $this->txt('zip_structure')
-                            )
-                            ->withNameFrom(
-                                $this->getFakeNameSource($component->getName() . '[][zip_structure]')
-                            )
-                        ,
-                    ]) .
-                '</div>'
-            ;
-        };
-
         if (null !== ($template = $component->getTemplateForAdditionalInputs())) {
+            $wrapInput = static function (FI\Input $input) use ($default_renderer) : string {
+                return
+                    '<div class="il-file-input-additional-inputs">' .
+                        // type-cast can be ignored, as if works anyhow.
+                        $default_renderer->render($input) .
+				    '</div>'
+                ;
+            };
+
             $additional_inputs_toggle =
                 '<span class="file-info metadata-toggle">' .
-                $default_renderer->render([
-                    $this->getUIFactory()->symbol()->glyph()->collapse(),
-                    $this->getUIFactory()->symbol()->glyph()->expand(),
-                ]) .
+                    $default_renderer->render([
+                        $this->getUIFactory()->symbol()->glyph()->collapse(),
+                        $this->getUIFactory()->symbol()->glyph()->expand(),
+                    ]) .
                 '</span>'
             ;
 
+            $tpl->setCurrentBlock('block_file_preview');
+            $tpl->setVariable('NESTED_INPUTS_TOGGLE', $additional_inputs_toggle);
+            $tpl->setVariable('FILE_IDENTIFIER', $component->getUploadHandler()->getFileIdentifierParameterName());
+            $tpl->setVariable('ADDITIONAL_INPUTS', $wrapInput($template));
+            $tpl->setVariable('NAME', $component->getName());
+            $tpl->parseCurrentBlock();
+
             if (null !== ($templates = $component->getPreparedTemplatesForAdditionalInputs())) {
                 foreach ($templates as $index => $template) {
-                    // @TODO: render zip options if mime === 'application/zip'.
-
                     $tpl->setCurrentBlock('block_file_preview');
                     $tpl->setVariable('RENDER_CLASS', 'il-file-input-server-side');
                     $tpl->setVariable('NESTED_INPUTS_TOGGLE', $additional_inputs_toggle);
-                    $tpl->setVariable('ADDITIONAL_INPUTS', $default_renderer->render($template));
+                    $tpl->setVariable('FILE_IDENTIFIER', $component->getUploadHandler()->getFileIdentifierParameterName());
                     $tpl->setVariable('FILE_NAME', $existing_files[$index]->getName());
                     $tpl->setVariable('FILE_SIZE', $existing_files[$index]->getSize());
                     $tpl->setVariable('FILE_ID', $existing_files[$index]->getFileIdentifier());
+                    $tpl->setVariable('ADDITIONAL_INPUTS', $wrapInput($template));
                     $tpl->setVariable('NAME', $component->getName());
-                    $tpl->setVariable('COUNT', $index);
+                    $tpl->setVariable('INDEX', $index);
                     $tpl->parseCurrentBlock();
                 }
             }
@@ -753,23 +733,6 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $section_tpl->get();
-    }
-
-    /**
-     * Returns the rendered (and wrapped) additional inputs.
-     *
-     * @param RendererInterface $renderer
-     * @param array             $components
-     * @return string
-     */
-    private function getAdditionalInputsHTML(RendererInterface $renderer, array $components) : string
-    {
-        // @TODO: rename classes to be more universal.
-        return
-            '<div class="il-file-input-metadata form-horizontal" style="display: none;">' .
-                $renderer->render($components) .
-            '</div>'
-        ;
     }
 
     /**

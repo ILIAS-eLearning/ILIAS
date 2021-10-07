@@ -96,7 +96,7 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
      * @param string $identifier
      * @return FileInfoResult
      */
-    protected function getInfoResult(string $identifier) : FileInfoResult
+    public function getInfoResult(string $identifier) : ?FileInfoResult
     {
         if (null !== ($id = $this->storage->manage()->find($identifier))) {
             $revision = $this->storage->manage()->getCurrentRevision($id)->getInformation();

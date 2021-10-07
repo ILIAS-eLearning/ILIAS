@@ -45,9 +45,9 @@ interface UploadHandler
 
     /**
      * @param string $identifier
-     * @return FileInfoResult
+     * @return FileInfoResult|null
      */
-    public function getSingleFileInfoResult(string $identifier) : FileInfoResult;
+    public function getInfoResult(string $identifier) : ?FileInfoResult;
 
 
     /**

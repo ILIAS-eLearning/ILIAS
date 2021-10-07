@@ -13,6 +13,7 @@ use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Component\Input\Field\FileInput;
 use ILIAS\Data\Result\Ok;
 use ILIAS\UI\Implementation\Component\Input\SubordinateNameSource;
+use ILIAS\FileUpload\Handler\FileInfoResult;
 
 /**
  * Class File
@@ -31,6 +32,11 @@ class File extends Input implements C\Input\Field\FileInput
      * @var \ilLanguage
      */
     private $lang;
+
+    /**
+     * @var \ILIAS\UI\Implementation\Component\Input\Field\Factory
+     */
+    private $factory;
 
     /**
      * @var C\Input\Field\UploadHandler
@@ -77,25 +83,32 @@ class File extends Input implements C\Input\Field\FileInput
     private $zip_options = false;
 
     /**
-     * File constructor
+     * File Constructor
      *
-     * @param DataFactory                 $data_factory
-     * @param \ilLanguage                 $lang
-     * @param Factory                     $refinery
-     * @param C\Input\Field\UploadHandler $handler
-     * @param                             $label
-     * @param                             $byline
+     * @param \ILIAS\UI\Implementation\Component\Input\Field\Factory $factory
+     * @param DataFactory                                            $data_factory
+     * @param \ilLanguage                                            $lang
+     * @param Factory                                                $refinery
+     * @param C\Input\Field\UploadHandler                            $handler
+     * @param string                                                 $label
+     * @param string|null                                            $byline
+     * @param bool                                                   $with_zip_options
      */
     public function __construct(
+        \ILIAS\UI\Implementation\Component\Input\Field\Factory $factory,
         DataFactory $data_factory,
         \ilLanguage $lang,
         Factory $refinery,
         C\Input\Field\UploadHandler $handler,
-        $label,
-        $byline
+        string $label,
+        string $byline = null,
+        bool $with_zip_options = false
     ) {
         $this->lang = $lang;
         $this->upload_handler = $handler;
+        $this->factory = $factory;
+        $this->zip_options = $with_zip_options;
+
         parent::__construct($data_factory, $refinery, $label, $byline);
     }
 
@@ -178,6 +191,10 @@ class File extends Input implements C\Input\Field\FileInput
         $clone = clone $this;
         $clone->zip_options = $with_options;
 
+        if (null !== $this->template && $with_options) {
+            $clone->template = $this->mergeTemplateAndZipOptions($clone->template);
+        }
+
         return $clone;
     }
 
@@ -194,17 +211,14 @@ class File extends Input implements C\Input\Field\FileInput
      */
     public function withTemplateForAdditionalInputs(C\Input\Field\Input $input) : C\Input\Field\AdditionalInputsAware
     {
-//        input array option:
-//
-//        $this->checkArgList('inputs', $inputs, Input::class);
-//        $clone = clone $this;
-//        $clone->templates = $inputs;
-//        return $clone;
-
         $this->checkArgInstanceOf('input', $input, Input::class);
 
         $clone = clone $this;
-        $clone->template = $input;
+        if (!$this->zip_options) {
+            $clone->template = $input;
+        } else {
+            $clone->template = $this->mergeTemplateAndZipOptions($input);
+        }
 
         return $clone;
     }
@@ -214,10 +228,6 @@ class File extends Input implements C\Input\Field\FileInput
      */
     public function getTemplateForAdditionalInputs() : ?C\Input\Field\Input
     {
-//        input array option:
-//
-//        return $this->templates;
-
         return $this->template;
     }
 
@@ -226,10 +236,6 @@ class File extends Input implements C\Input\Field\FileInput
      */
     public function getPreparedTemplatesForAdditionalInputs() : ?array
     {
-//        input array option:
-//
-//        return $this->prepared_templates;
-
         return $this->templates;
     }
 
@@ -238,17 +244,28 @@ class File extends Input implements C\Input\Field\FileInput
      */
     public function withValue($value)
     {
+        // @TODO: doesnt work because of order!!
+
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
 
         $clone = clone $this;
 
         foreach ($value as $file_id => $template_value) {
-            if (null !== $this->template) {
-                $clone->templates[] = $this->template->withValue($template_value);
-                $clone->value[] = $file_id;
-            } else {
-                $clone->value[] = $template_value;
+            $file_info = $this->upload_handler->getInfoResult($file_id);
+            if (null === $file_info) {
+                throw new \InvalidArgumentException("Invalid argument supplied, '$file_id' is not an existing file.");
             }
+
+            if (null !== $this->template) {
+                $template = $clone->template->withValue($value);
+                if ('application/zip' === $file_info->getMimeType()) {
+                    $template = $this->mergeTemplateAndZipOptions($template);
+                }
+
+                $clone->templates[$file_id] = $template;
+            }
+
+            $clone->value[$file_id] = $file_info;
         }
 
         return $clone;
@@ -264,8 +281,12 @@ class File extends Input implements C\Input\Field\FileInput
         }
 
         $values = [];
-        foreach ($this->value as $index => $file_id) {
-            $values[$file_id] = $this->templates[$index]->getValue();
+        foreach ($this->value as $file_id => $file_info) {
+            /** @var $file_info FileInfoResult */
+            $values[$file_id] = [
+                'file_info' => $file_info,
+                'additional_inputs' => $this->templates[$file_id]->getValue(),
+            ];
         }
 
         return $values;
@@ -369,16 +390,10 @@ class File extends Input implements C\Input\Field\FileInput
     /**
      * @inheritDoc
      */
-    public function getSubordinateNameSource() : NameSource
-    {
-        return $this->name_source;
-    }
-
-    /**
-     * @inheritDoc
-     */
     protected function isClientSideValueOk($value) : bool
     {
+        // @TODO: let consumers pass along FALSE two times if zip options are enabled.
+
         if (null === $value) {
             return true;
         }
@@ -394,7 +409,26 @@ class File extends Input implements C\Input\Field\FileInput
             // display value. If it has no template, the array must
             // only consist of file-id's (string values).
             if (null !== $this->template) {
-                if (!is_string($file_id) || !$this->template->isClientSideValueOk($template_value)) {
+                if (!is_string($file_id)) {
+                    return false;
+                }
+
+                if ($this->template instanceof C\Input\Field\Group) {
+                    if (!is_array($template_value)) {
+                        return false;
+                    }
+
+                    $inputs = $this->template->getInputs();
+                    foreach ($template_value as $key => $val) {
+                        if (!isset($inputs[$key])) {
+                            return false;
+                        }
+
+                        if (!$inputs[$key]->isClientSideValueOk($val)) {
+                            return false;
+                        }
+                    }
+                } elseif (!$this->template->isClientSideValueOk($template_value)) {
                     return false;
                 }
             } elseif (!is_string($template_value)) {
@@ -421,5 +455,56 @@ class File extends Input implements C\Input\Field\FileInput
     protected function getConstraintForRequirement()
     {
         return $this->refinery->string();
+    }
+
+    /**
+     * Merges the given template with zip-options and returns them
+     * in a group.
+     *
+     * @param C\Input\Field\Input $template
+     * @return C\Input\Field\Group
+     */
+    private function mergeTemplateAndZipOptions(C\Input\Field\Input $template) : C\Input\Field\Group
+    {
+        $zip_options = $this->getZipExtractOptions();
+
+        if ($template instanceof C\Input\Field\Group) {
+            $inputs = array_merge_recursive($zip_options, $template->getInputs());
+        } else {
+            $inputs   = $zip_options;
+            $inputs[] = $template;
+        }
+
+        return $this->factory->group($inputs);
+    }
+
+    /**
+     * Converts a FileInfoResult to array data.
+     *
+     * @param FileInfoResult $file
+     * @return array
+     */
+    private function fileInfoToArray(FileInfoResult $file) : array
+    {
+        // @TODO: probably hardcode array keys.
+        return [
+            $this->upload_handler->getFileIdentifierParameterName() => $file->getFileIdentifier(),
+            'mime' => $file->getMimeType(),
+            'name' => $file->getName(),
+            'size' => $file->getSize(),
+        ];
+    }
+
+    /**
+     * Returns the zip-extract option inputs.
+     *
+     * @return C\Input\Field\Input[]
+     */
+    private function getZipExtractOptions() : array
+    {
+        return [
+            $this->factory->checkbox($this->lang->txt('zip_extract')),
+            $this->factory->checkbox($this->lang->txt('zip_structure')),
+        ];
     }
 }

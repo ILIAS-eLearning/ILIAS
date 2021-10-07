@@ -44,7 +44,6 @@ Dropzone.autoDiscover = false;
             existing_files:     null,
             max_file_size:      null,
             has_zip_options:    false,
-            with_nested_inputs: false,
         };
 
         /**
@@ -73,7 +72,7 @@ Dropzone.autoDiscover = false;
             file_preview:       '.il-file-input-preview',
             file_input:         '.il-file-input',
             file_input_tpl:     '.il-file-input-template',
-            nested_inputs:      '.il-file-input-metadata',
+            nested_inputs:      '.il-file-input-additional-inputs',
             zip_options:        '.il-file-input-zip-options',
             inputs_toggle:      '.il-file-input-preview .metadata-toggle',
             file_removal:       '.il-file-input-preview .remove',

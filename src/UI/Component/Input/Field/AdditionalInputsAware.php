@@ -2,8 +2,6 @@
 
 namespace ILIAS\UI\Component\Input\Field;
 
-use ILIAS\UI\Implementation\Component\Input\NameSource;
-
 /**
  * Interface AdditionalInputsAware
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>

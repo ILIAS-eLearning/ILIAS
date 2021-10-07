@@ -110,18 +110,13 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
         $this->http->close();
     }
 
-    public function getSingleFileInfoResult(string $identifier) : FileInfoResult
-    {
-        return $this->getInfoResult($identifier);
-    }
-
     abstract protected function getUploadResult() : HandlerResult;
 
 
     abstract protected function getRemoveResult(string $identifier) : HandlerResult;
 
 
-    abstract protected function getInfoResult(string $identifier) : FileInfoResult;
+    abstract public function getInfoResult(string $identifier) : ?FileInfoResult;
 
 
     abstract public function getInfoForExistingFiles(array $file_ids) : array;
