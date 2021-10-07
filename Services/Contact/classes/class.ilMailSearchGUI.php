@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Refinery\Factory as Refinery;
 
 /**
@@ -229,7 +230,7 @@ class ilMailSearchGUI
 
         $this->http->saveResponse(
             $this->http->response()
-                ->withHeader('Content-Type', 'application/json')
+                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                 ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
         );
         $this->http->close();
