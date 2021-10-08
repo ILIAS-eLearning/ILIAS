@@ -263,7 +263,7 @@ class ilObjFileDAV extends ilObjectDAV implements Sabre\DAV\IFile
         switch ($a_action) {
             case "new_version":
             case "replace":
-                ilHistory::_createEntry($this->obj->getId(), $a_action, $this->obj->getTitle() . "," . $this->obj->getVersion() . "," . $this->obj->getMaxVersion());
+                ilHistory::_createEntry($this->obj->getId(), $a_action, [$this->obj->getTitle(), $this->obj->getVersion(), $this->obj->getMaxVersion()]);
                 break;
         }
 

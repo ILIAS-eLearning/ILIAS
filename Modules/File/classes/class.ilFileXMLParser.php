@@ -424,9 +424,9 @@ class ilFileXMLParser extends ilSaxParser
     {
         if ($this->setFileContents()) {
             if ($this->file->getAction() != "" and $this->file->getAction() != null) {
-                ilHistory::_createEntry($this->file->getId(), $this->file->getAction(), $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
+                ilHistory::_createEntry($this->file->getId(), $this->file->getAction(), [$this->file->getFilename()] . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
             } else {
-                ilHistory::_createEntry($this->file->getId(), "replace", $this->file->getFilename() . "," . $this->file->getVersion() . "," . $this->file->getMaxVersion());
+                ilHistory::_createEntry($this->file->getId(), "replace", [$this->file->getFilename() . "," . $this->file->getVersion()] . "," . $this->file->getMaxVersion());
             }
 
             $this->file->notifyUpdate($this->file->getId(), $this->file->getDescription());
