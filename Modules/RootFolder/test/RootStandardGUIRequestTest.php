@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class StandardGUIRequestTest extends TestCase
+class RootStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 

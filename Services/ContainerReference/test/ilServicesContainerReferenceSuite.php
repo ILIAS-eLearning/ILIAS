@@ -27,8 +27,8 @@ class ilServicesContainerReferenceSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/ContainerReference/test/StandardGUIRequestTest.php");
-        $suite->addTestSuite("StandardGUIRequestTest");
+        require_once("./Services/ContainerReference/test/ContRefStandardGUIRequestTest.php");
+        $suite->addTestSuite("ContRefStandardGUIRequestTest");
 
         return $suite;
     }

@@ -27,8 +27,8 @@ class ilModulesRootFolderSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Modules/RootFolder/test/StandardGUIRequestTest.php");
-        $suite->addTestSuite("StandardGUIRequestTest");
+        require_once("./Modules/RootFolder/test/RootStandardGUIRequestTest.php");
+        $suite->addTestSuite("RootStandardGUIRequestTest");
 
         return $suite;
     }

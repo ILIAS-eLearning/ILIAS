@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class StandardGUIRequestTest extends TestCase
+class ContRefStandardGUIRequestTest extends TestCase
 {
     //protected $backupGlobals = false;
 
@@ -20,13 +20,13 @@ class StandardGUIRequestTest extends TestCase
     {
     }
 
-    protected function getRequest(array $get, array $post) : \ILIAS\Folder\StandardGUIRequest
+    protected function getRequest(array $get, array $post) : \ILIAS\ContainerReference\StandardGUIRequest
     {
         $http_mock = $this->createMock(ILIAS\HTTP\Services::class);
         $lng_mock = $this->createMock(ilLanguage::class);
         $data = new \ILIAS\Data\Factory();
         $refinery = new \ILIAS\Refinery\Factory($data, $lng_mock);
-        return new \ILIAS\Folder\StandardGUIRequest(
+        return new \ILIAS\ContainerReference\StandardGUIRequest(
             $http_mock,
             $refinery,
             $get,
@@ -70,56 +70,56 @@ class StandardGUIRequestTest extends TestCase
     }
 
     /**
-     * Test base class
+     * Test target id
      */
-    public function testBaseClass()
+    public function testTargetId()
     {
         $request = $this->getRequest(
             [
-                "baseClass" => "myClass"
+                "target_id" => "14"
             ],
             []
         );
 
         $this->assertEquals(
-            "myClass",
-            $request->getBaseClass()
+            14,
+            $request->getTargetId()
         );
     }
 
     /**
-     * Test cmd class
+     * Test new type
      */
-    public function testCmdClass()
+    public function testNewType()
     {
         $request = $this->getRequest(
             [
-                "cmdClass" => "myClass"
+                "new_type" => "cat"
             ],
             []
         );
 
         $this->assertEquals(
-            "myClass",
-            $request->getCmdClass()
+            "cat",
+            $request->getNewType()
         );
     }
 
     /**
-     * Test user id
+     * Test creation mode
      */
-    public function testUserId()
+    public function testCreationMode()
     {
         $request = $this->getRequest(
             [
-                "user_id" => "4"
+                "creation_mode" => "1"
             ],
             []
         );
 
         $this->assertEquals(
-            4,
-            $request->getUserId()
+            1,
+            $request->getCreationMode()
         );
     }
 }
