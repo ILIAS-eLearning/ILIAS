@@ -112,7 +112,7 @@ class ilCertificateAppEventListener implements ilAppEventListener
      * @param array  $a_parameter
      * @throws IOException
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter) : void
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         global $DIC;
 
