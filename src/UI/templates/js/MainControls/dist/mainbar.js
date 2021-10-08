@@ -117,13 +117,13 @@ var mainbar = function() {
                     case 'disengage_all':
                         mb.model.actions.disengageAll();
                         var state = mb.model.getState();
-                            last_top_id = state.last_active_top;
+                            last_top_id = state.current_active_top;
 
                         after_render = function() {
                             mb.renderer.focusTopentry(last_top_id);
                         };
 
-                        state.last_active_top = null;
+                        state.current_active_top = null;
                         mb.model.setState(state);
                         break;
 
@@ -254,7 +254,7 @@ var mainbar = function() {
             ) {
                 mb.model.actions.disengageAll();
             } else {
-                last_top = mb.model.getState().last_active_top;
+                last_top = mb.model.getState().current_active_top;
                 if(last_top) {
                     mb.model.actions.engageEntry(last_top);
                 }else {
@@ -334,7 +334,9 @@ var model = function() {
             entries: {},
             tools: {}, //"moving" parts, current tools
             known_tools: [], //gs-ids; a tool is "new", if not listed here
-            last_active_top: null
+            current_active_top: null,
+            last_actively_engaged: null,
+            top_level_changed: null
         },
         entry: {
             id: null,
@@ -342,6 +344,9 @@ var model = function() {
             engaged: false,
             hidden: false,
             gs_id: null,
+            getTopLevel: function () {
+                return this.id.split(':')[0] + ':' + this.id.split(':')[1];
+            },
             isTopLevel: function() {return this.id.split(':').length === 2;}
         }
     },
@@ -351,9 +356,11 @@ var model = function() {
         state: function(nu_state) {
             var tmp_state = factories.cloned(state, nu_state);
             for(idx in tmp_state.entries) {
+                tmp_state.entries[idx].getTopLevel = classes.entry.getTopLevel;
                 tmp_state.entries[idx].isTopLevel = classes.entry.isTopLevel;
             }
             for(idx in tmp_state.tools) {
+                tmp_state.tools[idx].getTopLevel = classes.entry.getTopLevel;
                 tmp_state.tools[idx].isTopLevel = classes.entry.isTopLevel;
             }
             state = tmp_state;
@@ -408,6 +415,7 @@ var model = function() {
         getTopLevelEntries: function() {
             var id,
                 ret = [];
+
             for(id in state.entries) {
                 if(state.entries[id].isTopLevel()) {
                     ret.push(state.entries[id]);
@@ -438,19 +446,23 @@ var model = function() {
             state.tools[entry_id] = tool;
         },
         engageEntry: function (entry_id) {
+            state.last_actively_engaged = entry_id;
             state.tools = reducers.entries.disengageTopLevel(state.tools);
             state.entries = reducers.entries.disengageTopLevel(state.entries);
             state.entries = reducers.entries.engageEntryPath(state.entries, entry_id);
             state = reducers.bar.disengageTools(state);
             state = reducers.bar.anySlates(state);
-            state.last_active_top = helpers.getEngagedTopLevelEntryId();
+            var last_active_top = state.current_active_top;
+            state.current_active_top = helpers.getEngagedTopLevelEntryId();
+            state.top_level_changed = state.current_active_top !== last_active_top;
         },
         disengageEntry: function (entry_id) {
+            state.last_actively_engaged = null;
             state.entries[entry_id] = reducers.entry.disengage(state.entries[entry_id]);
             if(state.entries[entry_id].isTopLevel()) {
                 state = reducers.bar.noSlates(state);
             }
-            state.last_active_top = helpers.getEngagedTopLevelEntryId();
+            state.current_active_top = helpers.getEngagedTopLevelEntryId();
         },
         hideEntry: function (entry_id) {
             state.entries[entry_id] = reducers.entry.mb_hide(state.entries[entry_id]);
@@ -482,7 +494,7 @@ var model = function() {
             }
             if(!state.any_tools_visible()) {
                 actions.disengageTools();
-                last_top = state.last_active_top;
+                last_top = state.current_active_top;
                 if(last_top) {
                     actions.engageEntry(last_top);
                 }else {
@@ -510,6 +522,7 @@ var model = function() {
             state.tools = reducers.entries.disengageTopLevel(state.tools);
             state = reducers.bar.noSlates(state);
             state = reducers.bar.disengageTools(state);
+            state.current_active_top = helpers.getEngagedTopLevelEntryId();
 
         },
         initMoreButton: function(max_buttons) {
@@ -687,20 +700,14 @@ var renderer = function($) {
             return Object.assign({}, this, {html_id: html_id});
         },
         getElement: function(){
-            //return document.getElementById(this.html_id);
             return $('#' + this.html_id);
         },
         engage: function() {
-            var element = this.getElement(),
-                loaded = element.hasClass(css.engaged);
+            var element = this.getElement();
 
             element.addClass(css.engaged);
             element.removeClass(css.disengaged);
 
-            if(! loaded) {
-                element.trigger('in_view'); //this is most important for async loading of slates,
-                                            //it triggers the GlobalScreen-Service.
-            }
             if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
                 il.UI.maincontrols.metabar.disengageAll();
             }
@@ -833,7 +840,7 @@ var renderer = function($) {
             dom_references[entry_id] = dom_references[entry_id] || {};
             dom_references[entry_id][part] = html_id;
         },
-        renderEntry: function (entry, is_tool) {
+        renderEntry: function (entry, is_tool, fire_event = false) {
             if(!dom_references[entry.id]){
                 return;
             }
@@ -855,6 +862,11 @@ var renderer = function($) {
             if(entry.engaged) {
                 triggerer.engage();
                 slate.engage();
+                // fire event
+                if(fire_event) {
+                    slate.getElement().trigger('in_view');
+                }
+
                 if(entry.removeable) {
                     remover = parts.remover.withHtmlId(dom_references[entry.id].remover);
                     remover.mb_show(true);
@@ -909,8 +921,10 @@ var renderer = function($) {
                 parts.tools_area.disengage();
             }
 
-            for(idx in model_state.entries) {
-                actions.renderEntry(model_state.entries[idx], false);
+            for (idx in model_state.entries) {
+                actions.renderEntry(model_state.entries[idx], false,
+                  model_state.last_actively_engaged === idx
+                  || (model_state.top_level_changed && model_state.current_active_top === model_state.entries[idx].getTopLevel()));
             }
             for(idx in model_state.tools) {
                 actions.renderEntry(model_state.tools[idx], true);

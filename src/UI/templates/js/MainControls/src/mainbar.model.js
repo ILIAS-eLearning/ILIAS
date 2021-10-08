@@ -36,7 +36,9 @@ var model = function() {
             entries: {},
             tools: {}, //"moving" parts, current tools
             known_tools: [], //gs-ids; a tool is "new", if not listed here
-            last_active_top: null
+            current_active_top: null,
+            last_actively_engaged: null,
+            top_level_changed: null
         },
         entry: {
             id: null,
@@ -44,6 +46,9 @@ var model = function() {
             engaged: false,
             hidden: false,
             gs_id: null,
+            getTopLevel: function () {
+                return this.id.split(':')[0] + ':' + this.id.split(':')[1];
+            },
             isTopLevel: function() {return this.id.split(':').length === 2;}
         }
     },
@@ -53,9 +58,11 @@ var model = function() {
         state: function(nu_state) {
             var tmp_state = factories.cloned(state, nu_state);
             for(idx in tmp_state.entries) {
+                tmp_state.entries[idx].getTopLevel = classes.entry.getTopLevel;
                 tmp_state.entries[idx].isTopLevel = classes.entry.isTopLevel;
             }
             for(idx in tmp_state.tools) {
+                tmp_state.tools[idx].getTopLevel = classes.entry.getTopLevel;
                 tmp_state.tools[idx].isTopLevel = classes.entry.isTopLevel;
             }
             state = tmp_state;
@@ -110,6 +117,7 @@ var model = function() {
         getTopLevelEntries: function() {
             var id,
                 ret = [];
+
             for(id in state.entries) {
                 if(state.entries[id].isTopLevel()) {
                     ret.push(state.entries[id]);
@@ -140,19 +148,23 @@ var model = function() {
             state.tools[entry_id] = tool;
         },
         engageEntry: function (entry_id) {
+            state.last_actively_engaged = entry_id;
             state.tools = reducers.entries.disengageTopLevel(state.tools);
             state.entries = reducers.entries.disengageTopLevel(state.entries);
             state.entries = reducers.entries.engageEntryPath(state.entries, entry_id);
             state = reducers.bar.disengageTools(state);
             state = reducers.bar.anySlates(state);
-            state.last_active_top = helpers.getEngagedTopLevelEntryId();
+            var last_active_top = state.current_active_top;
+            state.current_active_top = helpers.getEngagedTopLevelEntryId();
+            state.top_level_changed = state.current_active_top !== last_active_top;
         },
         disengageEntry: function (entry_id) {
+            state.last_actively_engaged = null;
             state.entries[entry_id] = reducers.entry.disengage(state.entries[entry_id]);
             if(state.entries[entry_id].isTopLevel()) {
                 state = reducers.bar.noSlates(state);
             }
-            state.last_active_top = helpers.getEngagedTopLevelEntryId();
+            state.current_active_top = helpers.getEngagedTopLevelEntryId();
         },
         hideEntry: function (entry_id) {
             state.entries[entry_id] = reducers.entry.mb_hide(state.entries[entry_id]);
@@ -184,7 +196,7 @@ var model = function() {
             }
             if(!state.any_tools_visible()) {
                 actions.disengageTools();
-                last_top = state.last_active_top;
+                last_top = state.current_active_top;
                 if(last_top) {
                     actions.engageEntry(last_top);
                 }else {
@@ -212,6 +224,7 @@ var model = function() {
             state.tools = reducers.entries.disengageTopLevel(state.tools)
             state = reducers.bar.noSlates(state);
             state = reducers.bar.disengageTools(state);
+            state.current_active_top = helpers.getEngagedTopLevelEntryId();
 
         },
         initMoreButton: function(max_buttons) {

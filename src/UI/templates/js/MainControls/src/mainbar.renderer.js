@@ -19,20 +19,14 @@ var renderer = function($) {
             return Object.assign({}, this, {html_id: html_id});
         },
         getElement: function(){
-            //return document.getElementById(this.html_id);
             return $('#' + this.html_id);
         },
         engage: function() {
-            var element = this.getElement(),
-                loaded = element.hasClass(css.engaged);
+            var element = this.getElement();
 
             element.addClass(css.engaged);
             element.removeClass(css.disengaged);
 
-            if(! loaded) {
-                element.trigger('in_view'); //this is most important for async loading of slates,
-                                            //it triggers the GlobalScreen-Service.
-            }
             if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
                 il.UI.maincontrols.metabar.disengageAll();
             }
@@ -165,7 +159,7 @@ var renderer = function($) {
             dom_references[entry_id] = dom_references[entry_id] || {};
             dom_references[entry_id][part] = html_id;
         },
-        renderEntry: function (entry, is_tool) {
+        renderEntry: function (entry, is_tool, fire_event = false) {
             if(!dom_references[entry.id]){
                 return;
             }
@@ -187,6 +181,11 @@ var renderer = function($) {
             if(entry.engaged) {
                 triggerer.engage();
                 slate.engage();
+                // fire event
+                if(fire_event) {
+                    slate.getElement().trigger('in_view');
+                }
+
                 if(entry.removeable) {
                     remover = parts.remover.withHtmlId(dom_references[entry.id].remover);
                     remover.mb_show(true);
@@ -242,8 +241,10 @@ var renderer = function($) {
                 parts.tools_area.disengage();
             }
 
-            for(idx in model_state.entries) {
-                actions.renderEntry(model_state.entries[idx], false);
+            for (idx in model_state.entries) {
+                actions.renderEntry(model_state.entries[idx], false,
+                  model_state.last_actively_engaged === idx
+                  || (model_state.top_level_changed && model_state.current_active_top === model_state.entries[idx].getTopLevel()));
             }
             for(idx in model_state.tools) {
                 actions.renderEntry(model_state.tools[idx], true);

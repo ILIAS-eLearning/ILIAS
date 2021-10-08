@@ -117,13 +117,13 @@ var mainbar = function() {
                     case 'disengage_all':
                         mb.model.actions.disengageAll();
                         var state = mb.model.getState()
-                            last_top_id = state.last_active_top;
+                            last_top_id = state.current_active_top;
 
                         after_render = function() {
                             mb.renderer.focusTopentry(last_top_id);
                         }
 
-                        state.last_active_top = null;
+                        state.current_active_top = null;
                         mb.model.setState(state);
                         break;
 
@@ -254,7 +254,7 @@ var mainbar = function() {
             ) {
                 mb.model.actions.disengageAll();
             } else {
-                last_top = mb.model.getState().last_active_top;
+                last_top = mb.model.getState().current_active_top;
                 if(last_top) {
                     mb.model.actions.engageEntry(last_top);
                 }else {
