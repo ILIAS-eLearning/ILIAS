@@ -1,6 +1,5 @@
 <?php namespace ILIAS\Administration;
 
-use ILIAS\DI\Exceptions\Exception;
 use ILIAS\GlobalScreen\Helper\BasicAccessCheckClosures;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
@@ -31,6 +30,10 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
         $access_helper = BasicAccessCheckClosures::getInstance();
         $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
 
+        if (!$access_helper->isUserLoggedIn()() || !$access_helper->hasAdministrationAccess()()) {
+            return [];
+        }
+
         $entries = [];
         $this->dic->language()->loadLanguageModule('administration');
 
@@ -49,12 +52,13 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                     $icon = $this->dic->ui()->factory()->symbol()->icon()->standard($titems[$group_item]["type"], $titems[$group_item]["title"])
                         ->withIsOutlined(true);
 
-                    if ($_GET["admin_mode"] != 'repository' && $titems[$group_item]["ref_id"] == ROOT_FOLDER_ID) {
+                    $ref_id = $titems[$group_item]["ref_id"];
+                    if ($_GET["admin_mode"] != 'repository' && $ref_id == ROOT_FOLDER_ID) {
                         $identification = $this->if->identifier('mm_adm_rep');
-                        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $titems[$group_item]["ref_id"] . "&admin_mode=repository";
+                        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&admin_mode=repository";
                     } else {
                         $identification = $this->if->identifier("mm_adm_" . $titems[$group_item]["type"]);
-                        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $titems[$group_item]["ref_id"] . "&cmd=jump";
+                        $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . $ref_id . "&cmd=jump";
                     }
 
                     $links[] = $this->globalScreen()
@@ -62,7 +66,10 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
                         ->link($identification)
                         ->withTitle($titems[$group_item]["title"])
                         ->withAction($action)
-                        ->withSymbol($icon);
+                        ->withSymbol($icon)
+                        ->withVisibilityCallable(function() use($ref_id){
+                            return $this->dic->rbac()->system()->checkAccess('visible,read', $ref_id);
+                        });
                 }
 
                 // Main entry
@@ -170,18 +177,6 @@ class AdministrationMainBarProvider extends AbstractStaticMainMenuProvider
             if ($c["type"] == "" || $c["type"] == "objf"
                 || $c["type"] == "xxx"
             ) {
-                continue;
-            }
-            $accessible = $rbacsystem->checkAccess('visible,read', $c["ref_id"]);
-            if (!$accessible) {
-                continue;
-            }
-            if ($c["ref_id"] == ROOT_FOLDER_ID
-                && !$rbacsystem->checkAccess('write', $c["ref_id"])
-            ) {
-                continue;
-            }
-            if ($c["type"] == "rolf" && $c["ref_id"] != ROLE_FOLDER_ID) {
                 continue;
             }
             $items[] = $c;

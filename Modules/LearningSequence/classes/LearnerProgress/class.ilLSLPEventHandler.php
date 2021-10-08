@@ -19,6 +19,15 @@ class ilLSLPEventHandler
      */
     protected $lpstatus;
 
+    /**
+     * @var array
+     */
+    protected $cached_parent_lso = [];
+    /**
+     * @var array
+     */
+    protected $cached_refs_for_obj = [];
+
 
     public function __construct(
         ilTree $tree,
@@ -32,11 +41,10 @@ class ilLSLPEventHandler
     {
         $refs = $this->getRefIdsOfObjId((int) $parameter['obj_id']);
         foreach ($refs as $ref_id) {
-            $lso_info = $this->getParentLSO((int) $ref_id);
-            if ($lso_info !== false) {
-                $obj_id = $lso_info['obj_id'];
+            $lso_id = $this->getParentLSOObjId((int) $ref_id);
+            if ($lso_id !== false) {
                 $usr_id = $parameter['usr_id'];
-                $this->lpstatus::_refreshStatus($obj_id, [$usr_id]);
+                $this->lpstatus::_updateStatus($lso_id, $usr_id);
             }
         }
     }
@@ -45,23 +53,28 @@ class ilLSLPEventHandler
      * get the LSO up from $child_ref_if
      * @return int | false;
      */
-    protected function getParentLSO(int $child_ref_id)
+    protected function getParentLSOObjId(int $child_ref_id)
     {
-        $path = $this->tree->getPathFull($child_ref_id);
-        if (!$path) {
-            return false;
+        if (!array_key_exists($child_ref_id, $this->cached_parent_lso)) {
+            $this->cached_parent_lso[$child_ref_id] = $this->getParentLSOIdFromTree($child_ref_id);
         }
+        return $this->cached_parent_lso[$child_ref_id];
+    }
 
-        foreach ($path as $hop) {
-            if ($hop['type'] === 'lso') {
-                return $hop;
-            }
+    private function getParentLSOIdFromTree(int $child_ref_id)
+    {
+        $parent_nd = $this->tree->getParentNodeData($child_ref_id);
+        if ($parent_nd['type'] === 'lso') {
+            return $parent_nd['obj_id'];
         }
         return false;
     }
 
     protected function getRefIdsOfObjId(int $triggerer_obj_id) : array
     {
-        return ilObject::_getAllReferences($triggerer_obj_id);
+        if (!array_key_exists($triggerer_obj_id, $this->cached_refs_for_obj)) {
+            $this->cached_refs_for_obj[$triggerer_obj_id] = ilObject::_getAllReferences($triggerer_obj_id);
+        }
+        return $this->cached_refs_for_obj[$triggerer_obj_id];
     }
 }

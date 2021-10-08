@@ -29,6 +29,7 @@ final class Delivery
     const DIRECT_PHP_OUTPUT = 'php://output';
     const DISP_ATTACHMENT = 'attachment';
     const DISP_INLINE = 'inline';
+    const EXPIRES_IN = '+5 days';
     /**
      * @var integer
      */
@@ -195,7 +196,7 @@ final class Delivery
     {
         $response = $this->httpService->response()->withHeader(ResponseHeader::CACHE_CONTROL, 'must-revalidate, post-check=0, pre-check=0')->withHeader(ResponseHeader::PRAGMA, 'public');
 
-        $this->httpService->saveResponse($response);
+        $this->httpService->saveResponse($response->withHeader(ResponseHeader::EXPIRES, date("D, j M Y H:i:s", strtotime(self::EXPIRES_IN)) . " GMT"));
         $this->sendEtagHeader();
         $this->sendLastModified();
     }

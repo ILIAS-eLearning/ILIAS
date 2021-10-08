@@ -14287,7 +14287,7 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist###10 11 2018 new varia
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.###10 11 2018 new variable
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist###10 11 2018 new variable
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.###10 11 2018 new variable
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###10 11 2018 new variable
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.###10 11 2018 new variable
 common#:#obj_copa#:#Content Page###10 11 2018 new variable
 common#:#objs_copa#:#Content Pages###10 11 2018 new variable
 rbac#:#copa_visible#:#Content Page is visible###10 11 2018 new variable
@@ -15831,8 +15831,6 @@ cmix#:#conf_lrs_secret#:#Secret / Password###18 05 2020 new variable
 cmix#:#info_lrs_secret#:#Shared secret / Password, i.e. secret###18 05 2020 new variable
 cmix#:#conf_own_window#:#Own Window###18 05 2020 new variable
 cmix#:#conf_own_window_info#:#The content is opened in the same window and replaces the ILIAS Screen. When leaving the content the user returns to ILIAS.###18 05 2020 new variable
-cmix#:#conf_any_window#:#Any Window###18 05 2020 new variable
-cmix#:#conf_any_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###18 05 2020 new variable
 cmix#:#conf_launch_mode#:#Launch Mode###18 05 2020 new variable
 cmix#:#conf_launch_mode_normal#:#Normal###18 05 2020 new variable
 cmix#:#conf_launch_mode_browse#:#Browse###18 05 2020 new variable
@@ -16243,3 +16241,12 @@ rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###30 04 
 dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###04 06 2021 new variable
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###04 06 2021 new variable
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.###10 09 2021 new variable
+assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###10 09 2021 new variable
+cmix#:#conf_new_window#:#New Window###10 09 2021 new variable
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###10 09 2021 new variable
+cmix#:#type_cmi5#:#cmi5 Learning Module###10 09 2021 new variable
+cmix#:#type_generic#:#xAPI Standard Object###10 09 2021 new variable
+common#:#il_lti_learner#:#LTI Learner###10 09 2021 new variable
+common#:#il_lti_instructor#:#LTI Instructor###10 09 2021 new variable
+rbac#:#il_lti_global_role#:#LTI User###10 09 2021 new variable

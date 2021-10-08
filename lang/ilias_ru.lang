@@ -3009,8 +3009,6 @@ cmix#:#cmix_info_privacy_section#:#Информация о персональн�
 cmix#:#cmix_info_privacy_section_launch#:#Информация о персональных данных, передаваемых при запуске
 cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
 cmix#:#cmix_new#:#Новый объект xAPI/cmi5
-cmix#:#conf_any_window#:#Новое окно
-cmix#:#conf_any_window_info#:#Содержимое открывается в новом окне. При выходе из содержимого это окно закрывается.
 cmix#:#conf_availability#:#Доступность
 cmix#:#conf_availability_0#:#Не доступно
 cmix#:#conf_availability_1#:#Для существующих объектов
@@ -9098,7 +9096,7 @@ file#:#file_suffix_default_white_info#:#Список допустимых рас
 file#:#file_suffix_overall_white#:#Действующий «белый» список расширений
 file#:#file_suffix_overall_white_info#:#Это окончательный список допустимых расширений файлов.
 file#:#file_uploaded_by#:#Загрузил
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Загруженный файл содержит опасное или неизвестное расширение файла. Расширение файла будет изменено на .sec при каждом скачивании.
+file#:#file_upload_info_file_with_critical_extension#:#Загруженный файл содержит опасное или неизвестное расширение файла. Расширение файла будет изменено на .sec при каждом скачивании.
 file#:#general_upload_error_occured#:#Во время загрузки произошла неожиданная ошибка.
 file#:#generate_sanitize_report#:#Отчет о недоступных файлах
 file#:#personal_resources_disk_quota#:#Включить дисковую квоту для персональных ресурсов
@@ -16244,3 +16242,12 @@ rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###30 04 
 dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###04 06 2021 new variable
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###04 06 2021 new variable
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.###10 09 2021 new variable
+assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###10 09 2021 new variable
+cmix#:#conf_new_window#:#New Window###10 09 2021 new variable
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###10 09 2021 new variable
+cmix#:#type_cmi5#:#cmi5 Learning Module###10 09 2021 new variable
+cmix#:#type_generic#:#xAPI Standard Object###10 09 2021 new variable
+common#:#il_lti_learner#:#LTI Learner###10 09 2021 new variable
+common#:#il_lti_instructor#:#LTI Instructor###10 09 2021 new variable
+rbac#:#il_lti_global_role#:#LTI User###10 09 2021 new variable

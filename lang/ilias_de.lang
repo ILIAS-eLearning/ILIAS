@@ -202,6 +202,8 @@ auth#:#auth_oidc_role_mapping_table#:#Zuordnung von ILIAS-Rollen zu OpenID-Conne
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenID-Connect-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
+common#:#msg_to_many_files#:#Zu viele Dateien ausgewählt, erlaubte Anzahl Dateien:
+common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#obj_tool_setting_filter#:#Filter
 obj#:#obj_tool_setting_filter_info#:#Ein Filter wird im Reiter "Inhalte" angezeigt.
@@ -3069,6 +3071,7 @@ rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
 common#:#file_info#:#Dateiinformation
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_not_found#:#Datei nicht gefunden
+common#:#file_not_found_sec#:#Diese Datei wurde in ILIAS nicht gefunden oder wurde aus Sicherheitsgründen gesperrt.
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Maximal erlaubte Upload-Größe:
 rbac#:#file_read#:#Datei herunterladen
@@ -13817,7 +13820,7 @@ assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass di
 common#:#grpr#:#Gruppenlink
 common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
-common#:#grpr_new#:#Neue Gruppenlink anlegen
+common#:#grpr_new#:#Neuen Gruppenlink anlegen
 common#:#obj_grpr#:#Gruppenlink
 common#:#objs_grpr#:#Gruppenlinks
 rbac#:#grpr_copy#:#Gruppenlinks kopieren
@@ -14806,7 +14809,7 @@ file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
 file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
+file#:#file_upload_info_file_with_critical_extension#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator.
 common#:#settings_presentation_header#:#Darstellung
 common#:#obj_copa#:#Inhaltsseite
 common#:#objs_copa#:#Inhaltsseiten
@@ -16017,8 +16020,8 @@ prg#:#modal_categories_title#:#Zu überwachende Kategorie
 prg#:#category#:#Kategorie (RefId)
 common#:#obj_prgr#:#Link zum Studienprogramm
 common#:#obj_prgrs#:#Links zu Studienprogrammen
-prg#:#prgr_new#:#Neuer Link zum Studienprogramm
-prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
+common#:#prgr_new#:#Neuen Link zu einem Studienprogramm anlegen
+common#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit

@@ -1,7 +1,6 @@
 <?php
 // declare(strict_types=1);
 
-use ILIAS\HTTP\Cookies\Cookie;
 use ILIAS\HTTP\Cookies\CookieFactory;
 use ILIAS\HTTP\Cookies\CookieFactoryImpl;
 use ILIAS\HTTP\GlobalHttpState;
@@ -44,7 +43,7 @@ class ilWACSignedPath
     /**
      * @var int
      */
-    protected static $token_max_lifetime_in_seconds = 3;
+    protected static $token_max_lifetime_in_seconds = 20;
     /**
      * @var int
      */
@@ -115,30 +114,28 @@ class ilWACSignedPath
      */
     public function isFolderSigned()
     {
-        $cookieJar = $this->httpService->cookieJar();
+        $jar = $this->httpService->cookieJar();
+        $cookies = $jar->getAll();
 
         $this->setType(PathType::FOLDER);
         $plain_token = $this->buildTokenInstance();
         $name = $plain_token->getHashedId();
 
-        $tokenCookie = $cookieJar->get($name);
-        $timestampCookie = $cookieJar->get($name . self::TS_SUFFIX);
-        $ttlCookie = $cookieJar->get($name . self::TTL_SUFFIX);
+        // Token
+        $default_token = '';
+        $token_cookie_value = $this->httpService->request()->getCookieParams()[$name] ?? $default_token;
+        // Timestamp
+        $default_timestamp = 0;
+        $timestamp_cookie_value = $this->httpService->request()->getCookieParams()[$name . self::TS_SUFFIX] ?? $default_timestamp;
+        $timestamp_cookie_value = intval($timestamp_cookie_value);
+        // TTL
+        $default_ttl = 0;
+        $ttl_cookie_value = $this->httpService->request()->getCookieParams()[$name . self::TTL_SUFFIX] ?? $default_ttl;
+        $ttl_cookie_value = intval($ttl_cookie_value);
 
-        $defaultToken = '';
-        $tokenCookieValue = is_null($tokenCookie) ? $defaultToken : (is_a($tokenCookie->getValue(), Cookie::class) ? $tokenCookie->getValue() : $defaultToken);
-
-        $defaultTimestamp = 0;
-        $timestampCookieValue = is_null($timestampCookie) ? $defaultTimestamp : (is_a($timestampCookie->getValue(), Cookie::class) ? $timestampCookie->getValue() : $defaultTimestamp);
-        $timestampCookieValue = intval($timestampCookieValue);
-
-        $defaultTtl = 0;
-        $ttlCookieValue = is_null($ttlCookie) ? $defaultTtl : (is_a($ttlCookie->getValue(), Cookie::class) ? $ttlCookie->getValue() : $defaultTtl);
-        $ttlCookieValue = intval($ttlCookieValue);
-
-        $this->getPathObject()->setToken($tokenCookieValue);
-        $this->getPathObject()->setTimestamp($timestampCookieValue);
-        $this->getPathObject()->setTTL($ttlCookieValue);
+        $this->getPathObject()->setToken($token_cookie_value);
+        $this->getPathObject()->setTimestamp($timestamp_cookie_value);
+        $this->getPathObject()->setTTL($ttl_cookie_value);
         $this->buildAndSetTokenInstance();
 
         return $this->getPathObject()->hasToken();
@@ -164,25 +161,45 @@ class ilWACSignedPath
      */
     protected function saveFolderToken()
     {
-        $cookie_lifetime = self::getCookieMaxLifetimeInSeconds();
-        //$str = 'save folder token for folder: ' . $this->getPathObject()->getDirName() . ', valid for ' . $cookie_lifetime . 's';
+        $ttl = $this->getPathObject()->getTTL();
+        $cookie_lifetime = $ttl !== 0 ? $ttl : self::getCookieMaxLifetimeInSeconds();
         $id = $this->getTokenInstance()->getHashedId();
-        $expire = time() + $cookie_lifetime;
+        $expire = time() + $cookie_lifetime + 3600;
+        $secure = true;
+        $domain = null;
+        $http_only = true;
+        $path = '/';
 
-        $tokenCookie = $this->cookieFactory->create($id, $this->getTokenInstance()->getToken())->withExpires(time()
-                                                                                                             + 24
-                                                                                                               * 3600)->withPath('/')->withSecure(false)->withDomain(null)->withSecure(false)->withHttpOnly(false);
+        $tokenCookie = $this->cookieFactory->create($id, $this->getTokenInstance()->getToken())
+                                           ->withExpires($expire)
+                                           ->withPath($path)
+                                           ->withSecure($secure)
+                                           ->withDomain($domain)
+                                           ->withHttpOnly($http_only);
 
-        $timestampCookie = $this->cookieFactory->create($id
-                                                        . self::TS_SUFFIX, time())->withExpires($expire)->withPath('/')->withDomain(null)->withSecure(false)->withHttpOnly(false);
+        $timestampCookie = $this->cookieFactory->create($id . self::TS_SUFFIX, time())
+                                               ->withExpires($expire)
+                                               ->withPath($path)
+                                               ->withDomain($domain)
+                                               ->withSecure($secure)
+                                               ->withHttpOnly($http_only);
 
-        $ttlCookie = $this->cookieFactory->create($id
-                                                  . self::TTL_SUFFIX, self::getCookieMaxLifetimeInSeconds())->withExpires($expire)->withPath('/')->withDomain(null)->withSecure(false)->withHttpOnly(false);
+        $ttlCookie = $this->cookieFactory->create($id . self::TTL_SUFFIX, $cookie_lifetime)
+                                         ->withExpires($expire)
+                                         ->withPath($path)
+                                         ->withDomain($domain)
+                                         ->withSecure($secure)
+                                         ->withHttpOnly($http_only);
 
-        $cookieJar = $this->httpService->cookieJar();
-        $response = $cookieJar->with($tokenCookie)->with($timestampCookie)->with($ttlCookie)->renderIntoResponseHeader($this->httpService->response());
+        $jar = $this->httpService->cookieJar()->with($tokenCookie)
+                                 ->with($timestampCookie)
+                                 ->with($ttlCookie);
 
-        $this->httpService->saveResponse($response);
+        // FIX: currently the cookies are never stored, we must use setcookie
+        foreach ($jar->getAll() as $cookie) {
+            setcookie($cookie->getName(), $cookie->getValue(), $cookie->getExpires(), $cookie->getPath(),
+                $cookie->getDomain(), $cookie->getSecure(), $cookie->getHttpOnly());
+        }
     }
 
 
@@ -194,7 +211,11 @@ class ilWACSignedPath
         if ($this->getType() !== PathType::FOLDER) {
             return false;
         }
-        $this->buildAndSetTokenInstance(time(), self::getCookieMaxLifetimeInSeconds());
+        $this->buildAndSetTokenInstance(time(), $this->getPathObject()->getTTL());
+        $this->getPathObject()->setTTL($this->getTokenInstance()->getTTL());
+        $this->getPathObject()->setTimestamp($this->getTokenInstance()->getTimestamp());
+        $this->getPathObject()->setToken($this->getTokenInstance()->getToken());
+
         $this->saveFolderToken();
 
         return true;
@@ -324,7 +345,7 @@ class ilWACSignedPath
      */
     protected function checkToken()
     {
-        $request_token = $this->getPathObject()->getToken();
+        $request_token_string = $this->getPathObject()->getToken();
         $request_ttl = $this->getPathObject()->getTTL();
         $request_timestamp = $this->getPathObject()->getTimestamp();
         $current_timestamp = time();
@@ -337,8 +358,9 @@ class ilWACSignedPath
             return false;
         }
 
-        $simulatedTokenInstance = $this->buildTokenInstance($request_timestamp, $request_ttl);
-        $token_valid = ($simulatedTokenInstance->getToken() == $request_token);
+        $simulated_token = $this->buildTokenInstance($request_timestamp, $request_ttl);
+        $simulated_token_string = $simulated_token->getToken();
+        $token_valid = ($simulated_token_string == $request_token_string);
 
         if (!$token_valid) {
             $this->setChecked(true);
@@ -367,10 +389,7 @@ class ilWACSignedPath
 
         switch ($this->getType()) {
             case PathType::FOLDER:
-                $path = $this->getPathObject()->getModulePath();
-                break;
-            case PathType::FILE:
-                $path = $this->getPathObject()->getPathWithoutQuery();
+                $path = $this->getPathObject()->getSecurePath();
                 break;
             default:
                 $path = $this->getPathObject()->getPathWithoutQuery();
@@ -378,8 +397,8 @@ class ilWACSignedPath
         }
 
         $client = $this->getPathObject()->getClient();
-        $timestamp = $timestamp ? $timestamp : $this->getPathObject()->getTimestamp();
-        $ttl = $ttl ? $ttl : $this->getPathObject()->getTTL();
+        $timestamp = $timestamp !== 0 ? $timestamp : $this->getPathObject()->getTimestamp();
+        $ttl = $ttl !== 0 ? $ttl : $this->getPathObject()->getTTL();
 
         return new ilWACToken($path, $client, $timestamp, $ttl);
     }

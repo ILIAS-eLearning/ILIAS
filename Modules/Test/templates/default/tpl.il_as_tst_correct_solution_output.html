@@ -43,11 +43,13 @@
 <script>
 	$( document ).ready(function() {
 
+		let tinymce_active = (typeof tinyMCE !== 'undefined') && ("{TINYMCE_ACTIVE}" === "tinymce");
+
 		$('input[name="cmd[checkConstraintsBeforeSaving]"]').off("click");
 
 		$('input[name="cmd[checkConstraintsBeforeSaving]"]').on("click", function(e) {
 			e.preventDefault();
-			if (typeof tinyMCE !== 'undefined'){
+			if (tinymce_active){
 				tinyMCE.triggerSave();
 			}
 			$.post( "{MODAL_AJAX_URL}", $('.modal.fade.in #form_').serialize(), function() {})
@@ -82,7 +84,7 @@
 			$('[name="cmd[checkConstraintsBeforeSaving]"]').attr('disabled', disable);
 		});
 
-		if (typeof tinyMCE !== 'undefined' && $('#' + feedback_id).prop('disabled') != true){
+		if (tinymce_active && $('#' + feedback_id).prop('disabled') != true){
 			if( feedback_id.indexOf('m_feedback__') == 0) {
 				var dt 			= new Date().getTime();
 				var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {

@@ -131,7 +131,9 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
     protected function copyFiles($tmpdir, ilCopyDefinition $definition)
     {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
-
+            if($copy_task[ilCopyDefinition::COPY_SOURCE_DIR] === '') { // see https://mantis.ilias.de/view.php?id=31328
+                continue;
+            }
             $this->logger->debug('Creating directory: ' . $tmpdir . '/' . dirname($copy_task[ilCopyDefinition::COPY_TARGET_DIR]));
             ilUtil::makeDirParents(
                 $tmpdir . '/' . dirname($copy_task[ilCopyDefinition::COPY_TARGET_DIR])

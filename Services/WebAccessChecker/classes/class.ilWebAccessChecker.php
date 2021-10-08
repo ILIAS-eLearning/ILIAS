@@ -222,13 +222,28 @@ class ilWebAccessChecker
     protected function checkPublicSection()
     {
         global $DIC;
-        $not_on_login_page = $this->isRequestNotFromLoginPage();
+        $on_login_page = !$this->isRequestNotFromLoginPage();
         $is_anonymous = ((int) $DIC->user()->getId() === (int) ANONYMOUS_USER_ID);
         $is_null_user = ($DIC->user()->getId() === 0);
         $pub_section_activated = (bool) $DIC['ilSetting']->get('pub_section');
         $isset = isset($DIC['ilSetting']);
         $instanceof = $DIC['ilSetting'] instanceof ilSetting;
-        if (!$isset || !$instanceof || (!$pub_section_activated && ($is_anonymous || ($is_null_user && $not_on_login_page)))) {
+
+        if (!$isset || !$instanceof) {
+            throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
+        }
+
+        if ($on_login_page && ($is_null_user || $is_anonymous)) {
+            // Request is initiated from login page
+            return;
+        }
+
+        if ($pub_section_activated && ($is_null_user || $is_anonymous)) {
+            // Request is initiated from an enabled public area
+            return;
+        }
+
+        if ($is_anonymous || $is_null_user) {
             throw new ilWACException(ilWACException::ACCESS_DENIED_NO_PUB);
         }
     }
@@ -470,9 +485,24 @@ class ilWebAccessChecker
      */
     protected function isRequestNotFromLoginPage()
     {
-        $referrer = !is_null($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+        $referrer = (string) ($_SERVER['HTTP_REFERER'] ?? '');
         $not_on_login_page = (strpos($referrer, 'login.php') === false
                               && strpos($referrer, '&baseClass=ilStartUpGUI') === false);
+
+        if ($not_on_login_page && $referrer !== '') {
+            // In some scenarios (observed for content styles on login page, the HTTP_REFERER does not contain a PHP script
+            $referrer_url_parts = parse_url($referrer);
+            $ilias_url_parts = parse_url(ilUtil::_getHttpPath());
+            if (
+                $ilias_url_parts['host'] === $referrer_url_parts['host'] &&
+                (
+                    !isset($referrer_url_parts['path']) ||
+                    strpos($referrer_url_parts['path'], '.php') === false
+                )
+            ) {
+                $not_on_login_page = false;
+            }
+        }
 
         return $not_on_login_page;
     }

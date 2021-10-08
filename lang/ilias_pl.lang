@@ -3009,8 +3009,6 @@ cmix#:#cmix_info_privacy_section#:#Informacje o danych osobowych
 cmix#:#cmix_info_privacy_section_launch#:#Informacje o danych osobowych przekazanych przy uruchomieniu
 cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
 cmix#:#cmix_new#:#Nowy obiekt xAPI/cmi5
-cmix#:#conf_any_window#:#Jakieś okno
-cmix#:#conf_any_window_info#:#Treść zostanie otwarta w nowym oknie. Przy opuszczaniu treści to okno zostaje zamknięte.
 cmix#:#conf_availability#:#Dostępność
 cmix#:#conf_availability_0#:#Niedostępny
 cmix#:#conf_availability_1#:#Istniejące są dozwolone
@@ -9100,7 +9098,7 @@ file#:#file_suffix_default_white#:#Końcówki plików: Lista pozytywna (lista wy
 file#:#file_suffix_default_white_info#:#Wstępnie skonfigurowana lista wyjściowa z zatwierdzonymi końcówkami plików.
 file#:#file_suffix_overall_white#:#Efektywna lista pozytywna
 file#:#file_suffix_overall_white_info#:#To jest ostateczna lista zatwierdzonych końcówek plików.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Przesłany plik zawiera krytyczne lub nieznane zakończenie. Przy każdym pobieraniu końcówka pliku zostanie zmieniona na .sec.
+file#:#file_upload_info_file_with_critical_extension#:#Przesłany plik zawiera krytyczne lub nieznane zakończenie. Przy każdym pobieraniu końcówka pliku zostanie zmieniona na .sec.
 file#:#file_uploaded_by#:#Wysłane przez
 file#:#general_upload_error_occured#:#Podczas przesyłania wystąpił nieoczekiwany błąd.
 file#:#generate_sanitize_report#:#Zgłoś niedostępne pliki
@@ -16244,3 +16242,12 @@ rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###30 04 
 dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###04 06 2021 new variable
 dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###04 06 2021 new variable
 administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.###10 09 2021 new variable
+assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###10 09 2021 new variable
+cmix#:#conf_new_window#:#New Window###10 09 2021 new variable
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###10 09 2021 new variable
+cmix#:#type_cmi5#:#cmi5 Learning Module###10 09 2021 new variable
+cmix#:#type_generic#:#xAPI Standard Object###10 09 2021 new variable
+common#:#il_lti_learner#:#LTI Learner###10 09 2021 new variable
+common#:#il_lti_instructor#:#LTI Instructor###10 09 2021 new variable
+rbac#:#il_lti_global_role#:#LTI User###10 09 2021 new variable
