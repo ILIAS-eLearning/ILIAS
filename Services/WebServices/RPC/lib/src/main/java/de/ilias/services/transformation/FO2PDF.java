@@ -27,18 +27,12 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamSource;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.fop.apps.FOUserAgent;
 import org.apache.fop.apps.Fop;
@@ -51,17 +45,12 @@ import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 public class FO2PDF {
-    
-    private static FO2PDF instance = null;
-	
-	private static Logger logger = LogManager.getLogger(FO2PDF.class);
+
+    private static Logger logger = LogManager.getLogger(FO2PDF.class);
     private String foString = null;
     private byte[] pdfByteArray = null;
-	private FopFactory fopFactory = null;
+    private FopFactory fopFactory = null;
 
-	/**
-	 * Singleton contructor
-	 */
     public FO2PDF() 
 	{
 		try 
@@ -69,25 +58,13 @@ public class FO2PDF {
 			// add font config
 			URL fopConfigUrl = getClass().getResource("/de/ilias/config/fopConfig.xml");
 			logger.info("Using config uri: " + fopConfigUrl.toURI());
-				
-			// load custom config
-//			DefaultConfigurationBuilder config = new DefaultConfigurationBuilder();
-//			Configuration cfg = config.build(fopConfigUrl.toURI().toString());
-				
+
 			fopFactory = FopFactory.newInstance(getClass().getResource("/de/ilias/config/fopConfig.xml").toURI());
-//			fopFactory.setUserConfig(cfg);
-			fopFactory.getFontManager().deleteCache();
-			fopFactory.getFontManager().saveCache();
-			
-		} 
-		catch (SAXException ex) {
-			logger.error("Cannot load fop configuration:" + ex);
 		} 
 		catch (URISyntaxException ex) {
-			logger.error("Cannot load fop configuration:" + ex);
+			logger.error("Cannot load fop configuration:",ex);
 		}
-        
-    }
+  }
 	
 	/**
 	 * clear fop uri cache
@@ -97,17 +74,6 @@ public class FO2PDF {
 		fopFactory.getImageManager().getCache().clearCache();
 	}
 	
-	/**
-	 * Get FO2PDF instance
-	 * @return 
-	 */
-	public static FO2PDF getInstance() {
-		
-		if(instance == null) {
-			return instance = new FO2PDF();
-		}
-		return instance;
-	}
     
 	/**
 	 * Transform 
@@ -119,30 +85,31 @@ public class FO2PDF {
         try {
 
 			logger.info("Starting fop transformation...");
-			
+      logger.debug(foString);
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
-//            foUserAgent.setTargetResolution(300);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             
+
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
-            
-//          Setup JAXP using identity transformer
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer(); // identity transformer
-            
-            Source src = new StreamSource(getFoInputStream());
-            Result res = new SAXResult(fop.getDefaultHandler());
-            
-            transformer.transform(src,res);
+
+
+            SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+            saxParserFactory.setNamespaceAware(true);
+            saxParserFactory.setValidating(false);
+            SAXParser sp = saxParserFactory.newSAXParser();
+            InputStream is = new ByteArrayInputStream(foString.getBytes("utf8"));
+            sp.parse(is,new ILIASFopDhAdapter(fop.getDefaultHandler()));
             
             FormattingResults foResults = fop.getResults();
-            java.util.List pageSequences = foResults.getPageSequences();
-            for (java.util.Iterator it = pageSequences.iterator(); it.hasNext();) {
-                PageSequenceResults pageSequenceResults = (PageSequenceResults)it.next();
-                logger.debug("PageSequenze "
-                        + (String.valueOf(pageSequenceResults.getID()).length() > 0 
-                                ? pageSequenceResults.getID() : "<no id>") 
-                        + " generated " + pageSequenceResults.getPageCount() + " pages.");
+            if (logger.isDebugEnabled()) {
+              java.util.List pageSequences = foResults.getPageSequences();
+              for (java.util.Iterator it = pageSequences.iterator(); it.hasNext();) {
+                  PageSequenceResults pageSequenceResults = (PageSequenceResults)it.next();
+                  logger.debug("PageSequenze "
+                          + (String.valueOf(pageSequenceResults.getID()).length() > 0
+                                  ? pageSequenceResults.getID() : "<no id>")
+                          + " generated " + pageSequenceResults.getPageCount() + " pages.");
+              }
             }
             logger.info("Generated " + foResults.getPageCount() + " pages in total.");
             
@@ -150,21 +117,16 @@ public class FO2PDF {
 
         }
 		catch (SAXException ex) { 
-			logger.error("Cannot load fop configuration:" + ex);
+			logger.error("Cannot load fop configuration", ex);
 		} 
 		catch (IOException ex) {
-			logger.error("Cannot load fop configuration:" + ex);
+			logger.error("Cannot load fop configuration", ex);
 		} 
-        catch (TransformerConfigurationException e) {
-        	logger.warn("Configuration exception: " + e);
-            throw new TransformationException(e);
-		} 
-        catch (TransformerException e) {
-        	logger.warn("Transformer exception: " + e);
-            throw new TransformationException(e);
-		}
+        catch (ParserConfigurationException e) {
+      logger.error("Cannot configure Sax parser",e);
+      throw new TransformationException(e);
+        }
     }
-
 
     /**
      * @return Returns the foString.
@@ -190,9 +152,4 @@ public class FO2PDF {
         this.pdfByteArray = ba;
     }
 
-    
-    private InputStream getFoInputStream() throws UnsupportedEncodingException { 
-        
-        return new ByteArrayInputStream(getFoString().getBytes("utf8"));
-    }
 }

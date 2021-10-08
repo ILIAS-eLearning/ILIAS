@@ -56,7 +56,7 @@ public class RPCTransformationHandler {
 		} 
 		catch (TransformationException e) {
 			
-			logger.warn("Transformation failed:" + e);
+			logger.warn("Transformation failed:",e);
 		}
         return null;
     }

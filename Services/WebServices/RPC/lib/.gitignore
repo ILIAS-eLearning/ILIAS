@@ -1,4 +1,8 @@
 .idea
+.classpath
+.project
+.settings/
 bin
 tmp
 /target/
+log
