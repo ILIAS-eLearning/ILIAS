@@ -27,8 +27,8 @@ class ilServicesRepositorySuite extends TestSuite
     {
         $suite = new self();
 
-        require_once("./Services/Repository/test/TagRelevanceTest.php");
-        $suite->addTestSuite("TagRelevanceTest");
+        require_once("./Services/Repository/test/ClipboardSessionRepositoryTest.php");
+        $suite->addTestSuite("ClipboardSessionRepositoryTest");
 
         return $suite;
     }
