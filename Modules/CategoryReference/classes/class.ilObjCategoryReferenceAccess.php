@@ -47,7 +47,6 @@ class ilObjCategoryReferenceAccess extends ilContainerReferenceAccess
                 array("permission" => "write", "cmd" => "editReference", "lang_var" => "edit")
             );
         } else {
-            include_once('./Modules/Category/classes/class.ilObjCategoryAccess.php');
             $commands = ilObjCategoryAccess::_getCommands();
         }
         return $commands;
