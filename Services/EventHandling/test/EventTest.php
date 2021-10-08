@@ -16,7 +16,9 @@ class EventTest extends TestCase
         $dic = new ILIAS\DI\Container();
         $GLOBALS['DIC'] = $dic;
 
-        define("ILIAS_LOG_ENABLED", false);
+        if (!defined("ILIAS_LOG_ENABLED")) {
+            define("ILIAS_LOG_ENABLED", false);
+        }
 
         parent::setUp();
 
