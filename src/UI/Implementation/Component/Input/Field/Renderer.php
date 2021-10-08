@@ -618,9 +618,6 @@ class Renderer extends AbstractComponentRenderer
             'msg_upload_success' => $this->txt('msg_input_file_upload_success'),
         ];
 
-        /**
-         * @var $component FI\FileInput
-         */
         $component = $component->withAdditionalOnLoadCode(
             static function($id) use ($settings) {
                 $settings = json_encode($settings);
@@ -632,6 +629,9 @@ class Renderer extends AbstractComponentRenderer
             }
         );
 
+        /**
+         * @var $component F\File
+         */
         $tpl = $this->getTemplate("tpl.file.html", true, true);
         $this->maybeDisable($component, $tpl);
 
@@ -639,7 +639,7 @@ class Renderer extends AbstractComponentRenderer
             $wrapInput = static function (FI\Input $input) use ($default_renderer) : string {
                 return
                     '<div class="il-file-input-additional-inputs">' .
-                        // type-cast can be ignored, as it works anyhow.
+                        // type-cast can be ignored, it always works.
                         $default_renderer->render($input) .
 				    '</div>'
                 ;
@@ -661,7 +661,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable('NAME', $component->getName());
             $tpl->parseCurrentBlock();
 
-            if (null !== ($templates = $component->getPreparedTemplatesForAdditionalInputs())) {
+            if (null !== ($templates = $component->getAdditionalInputs())) {
                 foreach ($templates as $index => $template) {
                     $tpl->setCurrentBlock('block_file_preview');
                     $tpl->setVariable('RENDER_CLASS', 'il-file-input-server-side');

@@ -158,6 +158,7 @@ abstract class AdditionalFormInputAwareInput extends Input implements Additional
     {
         /** @var $clone self */
         $clone = parent::withNameFrom($source);
+
         if (null !== $clone->input_template) {
             $clone->input_template = $clone->input_template->withNameFrom(
                 new SubordinateNameSource($clone->getName())

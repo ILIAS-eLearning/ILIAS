@@ -6,6 +6,8 @@ use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Implementation\Component\Input\Factory as InputFactory;
+use ILIAS\UI\Component\Input\Factory;
+use ilLanguage;
 
 /**
  * Class Wrapper
@@ -19,39 +21,33 @@ class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\
     /**
      * @var Component[]
      */
-    private $components;
-
-    /**
-     * @var InputFactory
-     */
-    private $input_factory;
-
-    /**
-     * @var Input[]|null
-     */
-    private $inputs;
+    private array $components;
 
     /**
      * @var string|null
      */
-    private $title;
+    private ?string $title;
 
     /**
-     * Wrapper constructor.
-     *
-     * @param InputFactory  $input_factory
+     * Wrapper Constructor
+     * @param Factory       $factory
+     * @param ilLanguage    $lang
      * @param UploadHandler $upload_handler
      * @param string        $post_url
-     * @param array         $components
+     * @param Component[]   $components
+     * @param bool          $with_zip_options
      */
-    public function __construct(InputFactory $input_factory, UploadHandler $upload_handler, string $post_url, array $components)
-    {
-        $this->checkArgListElements('components', $components, Component::class);
-
+    public function __construct(
+        Factory $factory,
+        ilLanguage $lang,
+        UploadHandler $upload_handler,
+        string $post_url,
+        array $components,
+        bool $with_zip_options = false
+    ) {
         $this->components = $components;
-        $this->input_factory = $input_factory;
 
-        parent::__construct($upload_handler, $post_url);
+        parent::__construct($factory, $lang, $upload_handler, $post_url, $with_zip_options);
     }
 
     /**
@@ -84,52 +80,32 @@ class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\
     }
 
     /**
-     * @inheritDoc
-     */
-    public function withMetadataInputs(array $inputs) : Wrapper
-    {
-        $this->checkArgListElements('inputs', $inputs, Input::class);
-
-        $clone = clone $this;
-        $clone->inputs = $inputs;
-
-        return $clone;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getMetadataInputs() : ?array
-    {
-        return $this->inputs;
-    }
-
-    /**
      * Returns the form needed for file-submissions.
      *
      * @return \ILIAS\UI\Component\Input\Container\Form\Standard
      */
     public function getForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-        $dropzone_file_input = $this->input_factory->field()->file($this->getUploadHandler(), $this->getTitle() ?? '');
-        $dropzone_file_input = $dropzone_file_input->withZipExtractOptions($this->hasZipExtractOptions());
+        $dropzone_file_input = $this->factory->field()->file($this->getUploadHandler(), $this->getTitle() ?? '', $this->hasZipExtractOptions());
 
-        if (null !== $this->getMaxFileSize()) {
-            $dropzone_file_input = $dropzone_file_input->withMaxFileSize($this->getMaxFileSize());
+        if (null !== ($max_size = $this->getMaxFileSize())) {
+            $dropzone_file_input = $dropzone_file_input->withMaxFileSize($max_size);
         }
-        if (null !== $this->getMaxFiles()) {
-            $dropzone_file_input = $dropzone_file_input->withMaxFiles($this->getMaxFiles());
+        if (null !== ($amount = $this->getMaxFiles())) {
+            $dropzone_file_input = $dropzone_file_input->withMaxFiles($amount);
         }
-        if (null !== $this->getAcceptedMimeTypes()) {
-            $dropzone_file_input = $dropzone_file_input->withAcceptedMimeTypes($this->getAcceptedMimeTypes());
+        if (null !== ($types = $this->getAcceptedMimeTypes())) {
+            $dropzone_file_input = $dropzone_file_input->withAcceptedMimeTypes($types);
         }
-        if (null !== $this->getMetadataInputs()) {
-            $dropzone_file_input = $dropzone_file_input->withTemplateForAdditionalInputs($this->getMetadataInputs());
+        if (null !== ($template = $this->getTemplateForAdditionalInputs())) {
+            $dropzone_file_input = $dropzone_file_input->withTemplateForAdditionalInputs($template);
         }
 
-        return $this->input_factory->container()->form()->standard(
+        return $this->factory->container()->form()->standard(
             $this->getPostURL(),
-            [$dropzone_file_input]
+            [
+                $dropzone_file_input
+            ]
         );
     }
 }

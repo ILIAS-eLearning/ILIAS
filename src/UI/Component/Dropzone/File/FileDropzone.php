@@ -2,11 +2,11 @@
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Input\Field\AdditionalFormInputsAware;
+use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Droppable;
-use ILIAS\UI\Component\Input\Field\File;
-use Psr\Http\Message\ServerRequestInterface;
-use ILIAS\UI\Component\Input\Container\Form\Form;
 
 /**
  * Interface FileDropzone
@@ -15,7 +15,7 @@ use ILIAS\UI\Component\Input\Container\Form\Form;
  *
  * @package ILIAS\UI\Component\Dropzone\FileDropzone
  */
-interface FileDropzone extends Droppable, Component, File
+interface FileDropzone extends File, Droppable, Component, AdditionalFormInputsAware
 {
     /**
      * Returns the post-url of this dropzone.

@@ -14,7 +14,7 @@ class Standard extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File
     /**
      * @var string|null
      */
-    private $message;
+    private ?string $message;
 
     /**
      * @inheritdoc
@@ -40,8 +40,13 @@ class Standard extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File
     /**
      * @inheritDoc
      */
-    protected function getForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
+    public function getForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-
+        return $this->factory->container()->form()->standard(
+            $this->getPostURL(),
+            [
+                // @TODO: implement this
+            ]
+        );
     }
 }

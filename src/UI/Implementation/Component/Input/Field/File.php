@@ -2,6 +2,8 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
+use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Input\SubordinateNameSource;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as InputFactory;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
@@ -24,11 +26,6 @@ use ilLanguage;
 class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
 {
     /**
-     * @var ilLanguage
-     */
-    private ilLanguage $lang;
-
-    /**
      * @var InputFactory
      */
     private InputFactory $factory;
@@ -37,6 +34,11 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
      * @var UploadHandler
      */
     private UploadHandler $upload_handler;
+
+    /**
+     * @var C\Input\Field\Group
+     */
+    private C\Input\Field\Group $zip_options_template;
 
     /**
      * @var string[]|null
@@ -56,7 +58,7 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
     /**
      * @var bool
      */
-    private bool $zip_options;
+    private bool $has_zip_options;
 
     /**
      * File Constructor
@@ -80,15 +82,14 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
         string $byline = null,
         bool $with_zip_options = false
     ) {
-        $this->lang             = $lang;
         $this->factory          = $factory;
         $this->upload_handler   = $upload_handler;
-        $this->zip_options      = $with_zip_options;
+        $this->has_zip_options  = $with_zip_options;
 
-        if ($with_zip_options) {
-            // append
-            $this->input_template = $factory->group($this->getZipExtractOptions());
-        }
+        $this->zip_options_template = $this->factory->group([
+            $this->factory->checkbox($lang->txt('zip_extract')),
+            $this->factory->checkbox($lang->txt('zip_structure')),
+        ]);
 
         parent::__construct($data_factory, $refinery, $label, $byline);
     }
@@ -106,7 +107,15 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
      */
     public function hasZipExtractOptions() : bool
     {
-        return $this->zip_options;
+        return $this->has_zip_options;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getZipExtractOptionsTemplate() : C\Input\Field\Group
+    {
+        return $this->zip_options_template;
     }
 
     /**
@@ -257,13 +266,11 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
         $clone = clone $this;
         $post_data = $input->get($this->getName());
 
+        /**
+         * @TODO: fix this, doesnt quite work.
+         */
         foreach ($post_data as $file_data) {
             $file_id = $file_data[$this->upload_handler->getFileIdentifierParameterName()];
-            if ($this->hasZipExtractOptions()) {
-                $content[$file_id]['zip_extract'] = (isset($file_data['zip_extract']) && 'checked' === $file_data['zip_extract']);
-                $content[$file_id]['zip_structure'] = (isset($file_data['zip_structure']) && 'checked' === $file_data['zip_structure']);
-            }
-
             if (null !== ($templates = $this->getAdditionalInputs())) {
                 foreach ($templates as $key => $template) {
                     $content[$file_id][$key] = $file_data[$key];
@@ -274,6 +281,24 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
         $clone->content = new Ok($content);
 
         return $clone;
+    }
+
+    /**
+     * Parent method is overwritten in order to generate a subordinate
+     * name for the zip options if they weren't added to the template.
+     *
+     * @inheritDoc
+     */
+    public function withNameFrom(NameSource $source)
+    {
+        /** @var $clone self */
+        $clone = parent::withNameFrom($source);
+
+        if ($clone->hasZipExtractOptions() && null === $clone->getTemplateForAdditionalInputs()) {
+            $clone->zip_options_template = $clone->zip_options_template->withNameFrom(
+                new SubordinateNameSource($clone->getName())
+            );
+        }
     }
 
     /**
@@ -290,11 +315,6 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
         }
 
         foreach ($value as $file_id => $template_value) {
-            // if this input has a template for additional inputs,
-            // the given value must consist of file-id's (string)
-            // mapped to a value that matches the current template's
-            // display value. If it has no template, the array must
-            // only consist of file-id's (string values).
             if (null !== ($template = $this->getTemplateForAdditionalInputs())) {
                 if (!is_string($file_id)) {
                     return false;
@@ -315,7 +335,7 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
                             return false;
                         }
                     }
-                } elseif (!$this->template->isClientSideValueOk($template_value)) {
+                } elseif (!$template->isClientSideValueOk($template_value)) {
                     return false;
                 }
             } elseif (!is_string($template_value)) {
@@ -355,7 +375,7 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
      */
     private function mergeInputWithZipOptions(C\Input\Field\Input $input) : C\Input\Field\Group
     {
-        $zip_options = $this->getZipExtractOptions();
+        $zip_options = $this->getZipExtractOptionsTemplate()->getInputs();
         if ($input instanceof C\Input\Field\Group) {
             $inputs = array_merge_recursive($zip_options, $input->getInputs());
         } else {
@@ -364,18 +384,5 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
         }
 
         return $this->factory->group($inputs);
-    }
-
-    /**
-     * Returns the zip-extract option inputs.
-     *
-     * @return C\Input\Field\Input[]
-     */
-    private function getZipExtractOptions() : array
-    {
-        return [
-            $this->factory->checkbox($this->lang->txt('zip_extract')),
-            $this->factory->checkbox($this->lang->txt('zip_structure')),
-        ];
     }
 }

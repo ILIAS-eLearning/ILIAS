@@ -2,12 +2,19 @@
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Triggerer;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\Input\Field\File;
 use ILIAS\UI\Component\Input\Field\UploadHandler;
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Component\Input\Container\Form\Form;
+use ILIAS\UI\Component\Input\Field\FormInput;
+use ILIAS\UI\Component\Input\Field\AdditionalFormInputsAware;
+use ILIAS\UI\Component\Input\Factory;
+use ILIAS\UI\Component\Signal;
+use ilLanguage;
 
 /**
  * Class FileDropzone
@@ -18,9 +25,9 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDropzone
 {
-    use Triggerer;
-    use ComponentHelper;
     use JavaScriptBindable;
+    use ComponentHelper;
+    use Triggerer;
 
     /**
      * @var string name of the event in javascript, e.g.
@@ -29,58 +36,90 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     private const EVENT = 'drop';
 
     /**
+     * @var Factory
+     */
+    protected Factory $factory;
+
+    /**
+     * @var Form
+     */
+    protected Form $form;
+
+    /**
      * @var UploadHandler
      */
-    private $upload_handler;
+    private UploadHandler $upload_handler;
+
+    /**
+     * @var Group
+     */
+    private Group $zip_options_template;
+
+    /**
+     * @var FormInput|null
+     */
+    private ?FormInput $input_template;
+
+    /**
+     * @var FormInput[]|null
+     */
+    private ?array $additional_inputs;
 
     /**
      * @var string
      */
-    private $post_url;
+    private string $post_url;
 
     /**
-     * @var string[]
+     * @var string[]|null
      */
-    private $accepted_mime_types;
-
-    /**
-     * @var int|null
-     */
-    private $max_file_size;
+    private ?array $accepted_mime_types;
 
     /**
      * @var int|null
      */
-    private $max_files;
+    private ?int $max_file_size;
+
+    /**
+     * @var int|null
+     */
+    private ?int $max_files;
 
     /**
      * @var bool
      */
-    private $zip_options = false;
+    private bool $has_zip_options;
 
     /**
-     * @var \ILIAS\UI\Component\Input\Container\Form\Standard
-     */
-    private $form;
-
-    /**
-     * FileDropzone constructor.
+     * FileDropzone Constructor
      *
+     * @param Factory       $factory
+     * @param ilLanguage    $lang
      * @param UploadHandler $upload_handler
      * @param string        $post_url
+     * @param bool          $with_zip_options
      */
-    public function __construct(UploadHandler $upload_handler, string $post_url)
-    {
-        $this->upload_handler = $upload_handler;
-        $this->post_url = $post_url;
+    public function __construct(
+        Factory $factory,
+        ilLanguage $lang,
+        UploadHandler $upload_handler,
+        string $post_url,
+        bool $with_zip_options = false
+    ) {
+        $this->factory          = $factory;
+        $this->post_url         = $post_url;
+        $this->upload_handler   = $upload_handler;
+        $this->has_zip_options  = $with_zip_options;
+
+        $this->zip_options_template = $factory->field()->group([
+            $factory->field()->checkbox($lang->txt('zip_extract')),
+            $factory->field()->checkbox($lang->txt('zip_structure')),
+        ]);
     }
 
-    /**
-     * Returns the form needed to submit the dropped/uploaded files.
-     *
-     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
-     */
-    abstract protected function getForm() : \ILIAS\UI\Component\Input\Container\Form\Standard;
+    //
+    // BEGIN FILE IMPLEMENTATION
+    //
 
     /**
      * @inheritDoc
@@ -93,9 +132,17 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     /**
      * @inheritDoc
      */
-    public function getPostURL() : string
+    public function hasZipExtractOptions() : bool
     {
-        return $this->post_url;
+        return $this->has_zip_options;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getZipExtractOptionsTemplate() : Group
+    {
+        return $this->zip_options_template;
     }
 
     /**
@@ -159,14 +206,23 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
         return 1;
     }
 
+    //
+    // END FILE IMPLEMENTATION
+    //
+
+    //
+    // BEGIN ADDITIONAL-INPUTS-AWARE IMPLEMENTATION
+    //
 
     /**
      * @inheritDoc
      */
-    public function withZipExtractOptions(bool $with_options) : FileDropzone
+    public function withTemplateForAdditionalInputs(FormInput $template) : AdditionalFormInputsAware
     {
+        $this->checkArgInstanceOf('template', $template, FormInput::class);
+
         $clone = clone $this;
-        $clone->zip_options = $with_options;
+        $clone->input_template = $template;
 
         return $clone;
     }
@@ -174,15 +230,39 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     /**
      * @inheritDoc
      */
-    public function hasZipExtractOptions() : bool
+    public function getTemplateForAdditionalInputs() : ?FormInput
     {
-        return $this->zip_options;
+        return $this->input_template;
     }
 
     /**
      * @inheritDoc
      */
-    public function withOnDrop(\ILIAS\UI\Component\Signal $signal)
+    public function getAdditionalInputs() : ?array
+    {
+        return $this->additional_inputs;
+    }
+
+    //
+    // END ADDITIONAL-INPUTS-AWARE IMPLEMENTATION
+    //
+
+    //
+    // BEGIN FILE-DROPZONE IMPLEMENTATION
+    //
+
+    /**
+     * @inheritDoc
+     */
+    public function getPostURL() : string
+    {
+        return $this->post_url;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function withOnDrop(Signal $signal)
     {
         return $this->withTriggeredSignal($signal, self::EVENT);
     }
@@ -190,7 +270,7 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     /**
      * @inheritDoc
      */
-    public function withAdditionalDrop(\ILIAS\UI\Component\Signal $signal)
+    public function withAdditionalDrop(Signal $signal)
     {
         return $this->appendTriggeredSignal($signal, self::EVENT);
     }
@@ -213,4 +293,15 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     {
         return $this->form->getData();
     }
+
+    /**
+     * Returns the form needed to submit the dropped/uploaded files.
+     *
+     * @return \ILIAS\UI\Component\Input\Container\Form\Standard
+     */
+    abstract public function getForm() : \ILIAS\UI\Component\Input\Container\Form\Standard;
+
+    //
+    // END FILE-DROPZONE IMPLEMENTATION
+    //
 }

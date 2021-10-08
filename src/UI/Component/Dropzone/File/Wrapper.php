@@ -2,8 +2,8 @@
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Input\Field\AdditionalFormInputsAware;
 
 /**
  * Interface Wrapper
@@ -17,7 +17,7 @@ use ILIAS\UI\Component\Component;
  *
  * @package ILIAS\UI\Component\Dropzone\File
  */
-interface Wrapper extends FileDropzone
+interface Wrapper extends FileDropzone, AdditionalFormInputsAware
 {
     /**
      * Returns the component(s) wrapped by this dropzone.
@@ -40,25 +40,4 @@ interface Wrapper extends FileDropzone
      * @return string
      */
     public function getTitle() : ?string;
-
-    /**
-     * Returns a file input like this, with additional (metadata) inputs.
-     *
-     * @TODO: name this withNestedInputs instead? maybe adopt AdditionalFormInputsAware
-     *        interface as well, in order to work with dropzone too?
-     *
-     * @param Input[] $inputs
-     * @return Wrapper
-     */
-    public function withMetadataInputs(array $inputs) : Wrapper;
-
-    /**
-     * Returns additional (metadata) inputs of this input.
-     *
-     * @TODO: name this getNestedInputs instead? maybe adopt AdditionalFormInputsAware
-     *        interface as well, in order to work with dropzone too?
-     *
-     * @return Input[]|null
-     */
-    public function getMetadataInputs() : ?array;
 }

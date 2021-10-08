@@ -176,7 +176,7 @@ class InitUIFramework
             return new ILIAS\UI\Implementation\Component\Input\ViewControl\Factory();
         };
         $c["ui.factory.dropzone.file"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory($c["ui.factory.input"]);
+            return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory($c["ui.factory.input"], $c["lng"]);
         };
         $c["ui.factory.panel.listing"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Panel\Listing\Factory();

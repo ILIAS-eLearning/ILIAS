@@ -27,6 +27,16 @@ interface File
     public function hasZipExtractOptions() : bool;
 
     /**
+     * Returns the template for zip-extract options.
+     *
+     * Note that this method is only used when withTemplateForAdditionalInputs()
+     * was not called, as this method merges them if enabled.
+     *
+     * @return Group
+     */
+    public function getZipExtractOptionsTemplate() : Group;
+
+    /**
      * Returns a file input like this, with mime-types that will be accepted.
      *
      * @param string[] $mime_types

@@ -381,6 +381,8 @@ class ilObjFileGUI extends ilObject2GUI
                         '776d5622-595d-410f-9939-c93f4ba6db2c' => [
                             'filename' => 'test',
                             'description' => 'test',
+                            false,
+                            false,
                         ],
                     ])
                 ,
