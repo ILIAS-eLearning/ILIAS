@@ -36,14 +36,13 @@ class ilCalendarAppEventListener implements ilAppEventListener
 {
     /**
      * Handle events like create, update, delete
-     *
      * @access public
-     * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)	 *
+     * @param	string $a_component component, e.g. "Modules/Forum" or "Services/User"
+     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
+     * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)	 *
      * @static
      */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         global $DIC;
 

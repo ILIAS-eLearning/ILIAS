@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Global event handler
@@ -34,23 +45,13 @@
  */
 class ilAppEventHandler
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    protected $listener; // [array]
-
-    /**
-     * @var ilLogger
-     */
-    protected $logger;
+    protected ilDBInterface $db;
+    protected array $listener; // [array]
+    protected ilLogger $logger;
     
-    /**
-    * Constructor
-    */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->db = $DIC->database();
@@ -59,7 +60,7 @@ class ilAppEventHandler
         $this->logger = \ilLoggerFactory::getLogger('evnt');
     }
 
-    protected function initListeners()
+    protected function initListeners() : void
     {
         $ilGlobalCache = ilGlobalCache::getInstance(ilGlobalCache::COMP_EVENTS);
         $cached_listeners = $ilGlobalCache->get('listeners');
@@ -83,17 +84,18 @@ class ilAppEventHandler
         $ilGlobalCache->set('listeners', $this->listener);
     }
 
-
-
     /**
-    * Raise an event. The event is passed to all interested listeners.
-    *
-    * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-    * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-    * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
-    */
-    public function raise($a_component, $a_event, $a_parameter = "")
-    {
+     * Raise an event. The event is passed to all interested listeners.
+     *
+     * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
+     * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
+     * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
+     */
+    public function raise(
+        string $a_component,
+        string $a_event,
+        array $a_parameter = []
+    ) : void {
         $this->logger->debug(sprintf(
             "Received event '%s' from component '%s'.",
             $a_event,
@@ -102,22 +104,13 @@ class ilAppEventHandler
 
         // lazy transforming event data to string
         $this->logger->debug(new class($a_parameter) {
-            /**
-             * @var mixed
-             */
-            protected $parameter;
+            protected array $parameter;
 
-            /**
-             * @param mixed $parameter
-             */
-            public function __construct($parameter)
+            public function __construct(array $parameter)
             {
                 $this->parameter = $parameter;
             }
 
-            /**
-             * @return string
-             */
             public function __toString()
             {
                 if (is_object($this->parameter)) {
@@ -156,7 +149,6 @@ class ilAppEventHandler
                 } else {
                     $class = 'il' . substr($listener, $last_slash + 1) . 'AppEventListener';
                     $file = "./" . $listener . "/classes/class." . $class . ".php";
-
                     // if file exists, call listener
                     if (is_file($file)) {
                         include_once($file);
