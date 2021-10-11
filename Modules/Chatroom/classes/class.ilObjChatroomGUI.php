@@ -10,7 +10,7 @@
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface
 {
     public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
     {

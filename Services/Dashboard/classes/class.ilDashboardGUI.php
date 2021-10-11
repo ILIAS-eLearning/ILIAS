@@ -18,7 +18,7 @@
  * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
  *
  */
-class ilDashboardGUI
+class ilDashboardGUI implements ilCtrlBaseClassInterface
 {
     public const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
     public const DISENGAGE_MAINBAR = "dash_mb_disengage";

@@ -12,7 +12,7 @@ require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 * @ilCtrl_Calls ilObjPluginDispatchGUI:
 * @ingroup ServicesRepository
 */
-class ilObjPluginDispatchGUI
+class ilObjPluginDispatchGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

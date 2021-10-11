@@ -15,7 +15,7 @@
 *
 */
 
-class ilSearchController
+class ilSearchController implements ilCtrlBaseClassInterface
 {
     const TYPE_USER_SEARCH = -1;
     

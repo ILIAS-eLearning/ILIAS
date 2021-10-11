@@ -18,7 +18,7 @@ use \ILIAS\Survey\Participants;
  * @ilCtrl_Calls ilObjSurveyGUI: ilSurveyParticipantsGUI, ilLearningProgressGUI
  * @ilCtrl_Calls ilObjSurveyGUI: ilExportGUI, ilLTIProviderObjectSettingGUI
  */
-class ilObjSurveyGUI extends ilObjectGUI
+class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilNavigationHistory

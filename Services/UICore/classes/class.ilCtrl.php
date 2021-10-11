@@ -57,7 +57,7 @@ class ilCtrl implements ilCtrlInterface
     private object $exec_object;
 
     /**
-     * Constructor
+     * ilCtrl Constructor
      *
      * @throws ilCtrlException if the artifact cannot be included.
      */
@@ -77,16 +77,15 @@ class ilCtrl implements ilCtrlInterface
      */
     public function initBaseClass(string $a_base_class) : void
     {
-        // abort if the given baseclass has no entry in
-        // module_class or service_class db table.
+        // abort if the given classname is not a baseclass.
         if (!$this->structure->isBaseClass($a_base_class)) {
-            throw new ilCtrlException("Class '$a_base_class' is an unknown baseclass.");
+            throw new ilCtrlException("Class '$a_base_class' is not a known baseclass.");
         }
 
-        // reinitialize the current context because with
-        // this method ilCtrl resets the control flow.
-        $this->stacktrace = [];
+        // reinitialize the current context with the new
+        // baseclass (the stacktrace is also reset).
         $this->context = new ilCtrlContext($a_base_class);
+        $this->stacktrace = [];
     }
 
     /**
@@ -96,7 +95,7 @@ class ilCtrl implements ilCtrlInterface
     {
         $base_class = $this->getBaseClass();
         if (null === $base_class) {
-            throw new ilCtrlException("ilCtrl cannot determine current baseclass.");
+            throw new ilCtrlException("ilCtrl cannot determine the current baseclass.");
         }
 
         $obj_name = $this->structure->getObjNameByName($base_class);
@@ -152,8 +151,7 @@ class ilCtrl implements ilCtrlInterface
             $get_command
         ;
 
-        // if no command was found, check the current target
-        // for one.
+        // if no command was found, check the current context.
         if (null === $command && null !== $this->context->getCmd()) {
             $command = $this->context->getCmd();
         }
@@ -229,6 +227,7 @@ class ilCtrl implements ilCtrlInterface
         }
 
         return null;
+
     }
 
     /**
@@ -454,7 +453,7 @@ class ilCtrl implements ilCtrlInterface
 
         // this line can be dropped after discussion with TB or JF,
         // it keeps the functionality of UI plugin hooks alive.
-        $target_url = $this->modifyUrlWithPluginsHooks($target_url);
+        $target_url = $this->modifyUrlWithPluginHooks($target_url);
 
         // there's an exceptional case for asynchronous file uploads
         // where a json response is delivered.
@@ -713,17 +712,7 @@ class ilCtrl implements ilCtrlInterface
     {
         // target information will never be found in $_POST,
         // therefore only query-params are fetched.
-        $base_class = $this->getQueryParam(self::PARAM_BASE_CLASS);
-
-        switch (true) {
-            case null !== $base_class:
-                return $base_class;
-            case null !== $this->context->getBaseClass():
-                return $this->context->getBaseClass();
-
-            default:
-                return null;
-        }
+        return $this->getQueryParam(self::PARAM_BASE_CLASS) ?? $this->context->getBaseClass();
     }
 
     /**
@@ -761,6 +750,10 @@ class ilCtrl implements ilCtrlInterface
                     static function ($value) {
                         if (!empty($value)) {
                             if (is_array($value)) {
+                                // this most likely only works by accident, but
+                                // the selected or clicked command button will
+                                // always be sent as first array entry. This
+                                // should definitely be done better.
                                 return array_key_first($value);
                             }
 
@@ -863,7 +856,7 @@ class ilCtrl implements ilCtrlInterface
      * @param string $target_url
      * @return string
      */
-    private function modifyUrlWithPluginsHooks(string $target_url) : string
+    private function modifyUrlWithPluginHooks(string $target_url) : string
     {
         $ui_plugins = ilPluginAdmin::getActivePluginsForSlot('Services', 'UIComponent', 'uihk');
         if (!empty($ui_plugins)) {

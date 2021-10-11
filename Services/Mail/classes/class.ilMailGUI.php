@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @ingroup      ServicesMail
  * @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilContactGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilObjUserGUI
  */
-class ilMailGUI
+class ilMailGUI implements ilCtrlBaseClassInterface
 {
     /** @var ilGlobalPageTemplate */
     private $tpl;

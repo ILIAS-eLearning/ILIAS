@@ -7,7 +7,6 @@
  * @author       Fabian Schmid <fabian.schmid@ilub.unibe.ch>
  * @version      $Id$
  *
- * @ilCtrl_Calls ilAuthShibbolethSettingsGUI:
  * @ingroup      AuthShibboleth
  */
 class ilAuthShibbolethSettingsGUI

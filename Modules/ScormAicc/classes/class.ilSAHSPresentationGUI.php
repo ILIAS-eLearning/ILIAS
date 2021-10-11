@@ -18,7 +18,7 @@
 *
 * @ingroup ModulesScormAicc
 */
-class ilSAHSPresentationGUI
+class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 {
     public $ilias;
     public $tpl;

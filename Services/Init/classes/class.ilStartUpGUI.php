@@ -14,7 +14,7 @@ use ILIAS\UICore\PageContentProvider;
 *
 * @ingroup ServicesInit
 */
-class ilStartUpGUI implements ilCtrlSecurityInterface
+class ilStartUpGUI implements ilCtrlSecurityInterface, ilCtrlBaseClassInterface
 {
     const ACCOUNT_MIGRATION_MIGRATE = 1;
     const ACCOUNT_MIGRATION_NEW = 2;

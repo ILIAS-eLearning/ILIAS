@@ -31,13 +31,6 @@ final class ilCtrlPath implements ilCtrlPathInterface
     private ilCtrlContextInterface $context;
 
     /**
-     * Holds the current cid.
-     *
-     * @var string|null
-     */
-    private ?string $current_cid = null;
-
-    /**
      * Holds the whole cid path.
      *
      * @var string
@@ -61,8 +54,6 @@ final class ilCtrlPath implements ilCtrlPathInterface
             $this->getCidPathByArray($target) :
             $this->getCidPathByClass($target)
         ;
-
-        $this->current_cid = $this->getCurrentCid();
     }
 
     /**
@@ -78,34 +69,23 @@ final class ilCtrlPath implements ilCtrlPathInterface
      */
     public function getCurrentCid() : ?string
     {
-        // if the current cid has not been set, the baseclass
-        // cid is set.
-        if (null === $this->current_cid) {
-            $cid_array = $this->getCidArray($this->cid_path);
-            $this->current_cid = $cid_array[0];
-        }
+        $cid_array = $this->getCidArray($this->cid_path);
 
-        return $this->current_cid;
+        return $cid_array[count($cid_array) - 1];
     }
 
     /**
      * @inheritDoc
      */
-    public function getNextCid() : ?string
+    public function getNextCid(string $current_class) : ?string
     {
-        $cid_array = $this->getCidArray($this->cid_path);
-        $cid_count = count($cid_array);
+        $current_cid = $this->structure->getClassCidByName($current_class);
+        $cid_array   = $this->getCidArray($this->cid_path);
+        $cid_count   = count($cid_array);
 
         foreach ($cid_array as $index => $cid) {
-            if ($this->current_cid === $cid) {
-                if (($index + 1) < $cid_count) {
-                    // update current cid and return the next one.
-                    $next_cid = $cid_array[$index + 1];
-                    $this->current_cid = $next_cid;
-                    return $next_cid;
-                }
-
-                return null;
+            if ($current_cid === $cid && ($index + 1) < $cid_count) {
+                return $cid_array[$index + 1];
             }
         }
 

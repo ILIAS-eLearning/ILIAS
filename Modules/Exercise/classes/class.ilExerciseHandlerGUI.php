@@ -10,7 +10,7 @@
 *
 * @ingroup ModulesExercise
 */
-class ilExerciseHandlerGUI
+class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

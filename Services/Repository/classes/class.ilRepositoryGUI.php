@@ -31,7 +31,7 @@ include_once("./Services/Table/classes/class.ilTableGUI.php");
 * @ilCtrl_Calls ilRepositoryGUI: ilPermissionGUI
 *
 */
-class ilRepositoryGUI
+class ilRepositoryGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilObjectDefinition

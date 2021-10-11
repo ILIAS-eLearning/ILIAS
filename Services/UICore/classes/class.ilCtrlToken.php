@@ -113,14 +113,14 @@ final class ilCtrlToken implements ilCtrlTokenInterface
     {
         $query_result = $this->database->fetchAssoc(
             $this->database->queryF(
-                "SELECT token FROM il_request_token WHERE user_id = %s AND session_id = %s;",
+                "SELECT token FROM il_request_token WHERE user_id = %s AND session_id = %s AND stamp < ;",
                 [
                     'integer',
                     'text',
                 ],
                 [
                     $this->user->getId(),
-                    $this->sid,
+                    ($this->sid) ?: '',
                 ]
             )
         );
@@ -146,7 +146,7 @@ final class ilCtrlToken implements ilCtrlTokenInterface
             [
                 $this->user->getId(),
                 $this->database->now(),
-                $this->sid,
+                ($this->sid) ?: '',
                 $token,
             ]
         );

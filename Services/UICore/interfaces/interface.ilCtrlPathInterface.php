@@ -32,7 +32,8 @@ interface ilCtrlPathInterface
     /**
      * Returns the next CID that must be processed.
      *
+     * @param string $current_class
      * @return string|null
      */
-    public function getNextCid() : ?string;
+    public function getNextCid(string $current_class) : ?string;
 }

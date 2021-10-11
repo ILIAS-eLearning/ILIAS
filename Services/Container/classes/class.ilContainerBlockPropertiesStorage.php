@@ -8,7 +8,7 @@
  * @ingroup ServicesContainer
  * @ilCtrl_Calls ilContainerBlockPropertiesStorage:
  */
-class ilContainerBlockPropertiesStorage
+class ilContainerBlockPropertiesStorage implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

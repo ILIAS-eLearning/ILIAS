@@ -36,28 +36,26 @@ final class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @var string|null
      */
+    private ?string $cmd_class = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $cmd = null;
+
+    /**
+     * @var string|null
+     */
     private ?string $base_class;
 
     /**
-     * @var string|null
-     */
-    private ?string $cmd_class;
-
-    /**
-     * @var string|null
-     */
-    private ?string $cmd;
-
-    /**
+     * ilCtrlContext Constructor
+     *
      * @param string|null $base_class
-     * @param string|null $cmd_class
-     * @param string|null $cmd
      */
-    public function __construct(string $base_class = null, string $cmd_class = null, string $cmd = null)
+    public function __construct(string $base_class = null)
     {
         $this->base_class = $base_class;
-        $this->cmd_class = $cmd_class;
-        $this->cmd = $cmd;
     }
 
     /**

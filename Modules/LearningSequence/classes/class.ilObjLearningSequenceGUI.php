@@ -32,7 +32,7 @@ declare(strict_types=1);
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjSurveyGUI
 
  */
-class ilObjLearningSequenceGUI extends ilContainerGUI
+class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
 {
     const CMD_VIEW = "view";
     const CMD_LEARNER_VIEW = "learnerView";

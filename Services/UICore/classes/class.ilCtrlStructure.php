@@ -1,13 +1,10 @@
 <?php
 
 /**
- * Class ilCtrlStructure is responsible for managing the
- * currently read control structure.
+ * Class ilCtrlStructure holds the currently read control
+ * structure.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
- *
- * @TODO: move implementation of service and module classes
- *        to artifact as well.
  */
 final class ilCtrlStructure implements ilCtrlStructureInterface
 {
@@ -16,13 +13,6 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      *             (allows A-Z, a-z, 0-9, '_' and '-'.)
      */
     private const PARAM_NAME_REGEX = '/^[A-Za-z0-9_-]*$/';
-
-    /**
-     * Holds an instance of the database access layer.
-     *
-     * @var ilDBInterface
-     */
-    private ilDBInterface $database;
 
     /**
      * Holds parameter => value pairs mapped to the corresponding
@@ -48,18 +38,11 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     private array $structure;
 
     /**
-     * Holds a list of all baseclasses from services.
+     * Holds a list of the currently gathered ilCtrl base classes.
      *
      * @var string[]
      */
-    private array $services;
-
-    /**
-     * Holds a list of all baseclasses from modules.
-     *
-     * @var string[]
-     */
-    private array $modules;
+    private array $base_classes;
 
     /**
      * Holds the control structure mapped by other identifiers than
@@ -70,21 +53,18 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     private static array $mapped_structure = [];
 
     /**
-     * Constructor
+     * ilCtrlStructure Constructor
      *
-     * @throws ilCtrlException if the artifact cannot be included.
+     * @throws ilCtrlException if the artifacts cannot be included.
      */
-    public function __construct(ilDBInterface $database)
+    public function __construct()
     {
         try {
-            $this->structure = require ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
-        } catch (Throwable $exception) {
-            throw new ilCtrlException("Could not include structure from artifact: " . $exception->getMessage());
+            $this->structure    = require ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
+            $this->base_classes = require ilCtrlBaseClassArtifactObjective::ARTIFACT_PATH;
+        } catch (Throwable $t) {
+            throw new ilCtrlException("Could not include ilCtrl artifacts: " . $t->getMessage());
         }
-
-        $this->database = $database;
-        $this->services = $this->fetchServices();
-        $this->modules  = $this->fetchModules();
     }
 
     /**
@@ -92,13 +72,9 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function isBaseClass(string $class_name) : bool
     {
-        $class_name = $this->lowercase($class_name);
         return
             null !== $this->getClassCidByName($class_name) &&
-            (
-                in_array($class_name, $this->modules, true) ||
-                in_array($class_name, $this->services, true)
-            )
+            in_array($this->lowercase($class_name), $this->base_classes, true)
         ;
     }
 
@@ -304,44 +280,6 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
         }
 
         return null;
-    }
-
-    /**
-     * Returns all (lowercase) classes of services.
-     *
-     * @return string[]
-     */
-    private function fetchServices() : array
-    {
-        $services    = [];
-        $service_set = $this->database->query(
-            "SELECT LOWER(class) AS class_name FROM service_class;"
-        );
-
-        while ($record = $service_set->fetchAssoc()) {
-            $services[] = $record['class_name'];
-        }
-
-        return (!empty($services)) ? $services : [];
-    }
-
-    /**
-     * Returns all (lowercase) classes of services.
-     *
-     * @return string[]
-     */
-    private function fetchModules() : array
-    {
-        $modules    = [];
-        $module_set = $this->database->query(
-            "SELECT LOWER(class) AS class_name FROM module_class;"
-        );
-
-        while ($record = $module_set->fetchAssoc()) {
-            $modules[] = $record['class_name'];
-        }
-
-        return (!empty($modules)) ? $modules : [];
     }
 
     /**

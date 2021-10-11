@@ -22,13 +22,13 @@ final class ilCtrlStructureReader
      *             an ilCtrl_Calls statement. '{CLASS_NAME}' has to
      *             be replaced with an actual classname before used.
      */
-    private const REGEX_PHPDOC_CALLS = '/(((@ilCtrl_Calls|@ilctrl_calls)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*)/';
+    private const REGEX_PHPDOC_CALLS = '/((@ilCtrl_Calls|@ilctrl_calls)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
 
     /**
      * @var string regex pattern similar to the one above, except it's
      *             used for ilCtrl_isCalledBy statements.
      */
-    private const REGEX_PHPDOC_CALLED_BYS = '/((@ilCtrl_isCalledBy|@ilctrl_iscalledby)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*)/';
+    private const REGEX_PHPDOC_CALLED_BYS = '/((@ilCtrl_isCalledBy|@ilctrl_iscalledby)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
 
     /**
      * Holds whether the structure reader was already executed or not.
@@ -106,18 +106,15 @@ final class ilCtrlStructureReader
             }
 
             $array_key = strtolower($class_name);
-            $cid       = $this->generateCid();
-
             try {
                 $reflection = new ReflectionClass($class_name);
-                $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]      = $cid;
                 $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
                 $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
             } catch (ReflectionException $e) {
                 continue;
             }
 
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $cid;
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->generateCid();;
             $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
             $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
         }
@@ -134,11 +131,9 @@ final class ilCtrlStructureReader
                 ilCtrlStructureInterface::KEY_CLASS_PARENTS,
                 ilCtrlStructureInterface::KEY_CLASS_CHILDREN
             );
-        }
 
-        foreach ($this->structure as $class_name => $data) {
-            $parents = $this->getParentsRecursively($class_name);
-            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CID_PATHS] = (!empty($parents)) ? array_keys($parents) : [];
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS] = $data[ilCtrlStructureInterface::KEY_CLASS_PARENTS];
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $data[ilCtrlStructureInterface::KEY_CLASS_CHILDREN];
         }
 
         self::$is_executed = true;
@@ -216,72 +211,6 @@ final class ilCtrlStructureReader
         }
 
         return $referenced_classes;
-    }
-
-    /**
-     * Returns all direct and derived parent classes for a given
-     * class. The parents are mapped to their cid path in order
-     * to know how it can be reached.
-     *
-     * Return value might look like this for example:
-     *
-     *      array(
-     *          'cid1'           => 'foo',
-     *          'cid1:cid2'      => 'fooBar',
-     *          'cid1:cid2:cid3' => null,
-     *          ...
-     *      );
-     *
-     * If no parents are found null will be mapped to the path.
-     *
-     * @param string      $target_class
-     * @param string|null $current_path
-     * @return array<string, string[]>
-     */
-    private function getParentsRecursively(string $target_class, string $current_path = null) : array
-    {
-        if ($target_class === 'asserrortextgui') {
-            $x = 1;
-        }
-
-        $target_class_parents = $this->references[$target_class][ilCtrlStructureInterface::KEY_CLASS_PARENTS] ?? [];
-        $target_class_cid     = $this->structure[$target_class][ilCtrlStructureInterface::KEY_CLASS_CID];
-
-        // abort if the target is an orphan.
-        if (empty($target_class_parents)) {
-            return [];
-        }
-
-        // initialize the current path if not provided,
-        // else append the target class cid.
-        $current_path = (null !== $current_path) ?
-            $current_path . ilCtrlPathInterface::CID_PATH_SEPARATOR . $target_class_cid :
-            $target_class_cid
-        ;
-
-        // map the target classes parents to the current path
-        $parents[$current_path] = $target_class_parents;
-
-        // fetch derived parents for all parent objects of the
-        // current target class.
-        foreach ($parents[$current_path] as $parent_class) {
-            // only process parent class if it exists (in the
-            // control structure).
-            $parent_class_cid = $this->structure[$parent_class][ilCtrlStructureInterface::KEY_CLASS_CID];
-            $parent_class_parents = $this->getParentsRecursively($parent_class, $current_path);
-            if (!empty($parent_class_parents)) {
-                // if the parent has further parents, map them to their path.
-                foreach ($parent_class_parents as $parent_path => $parent) {
-                    $parents[$parent_path] = $parent;
-                }
-            } else {
-                // if the parent class is an orphan, set null mapped
-                // to the parent's path.
-                $parents[$current_path . ilCtrlPathInterface::CID_PATH_SEPARATOR . $parent_class_cid] = null;
-            }
-        }
-
-        return $parents;
     }
 
     /**

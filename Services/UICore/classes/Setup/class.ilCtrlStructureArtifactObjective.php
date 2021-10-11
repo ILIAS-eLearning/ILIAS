@@ -6,12 +6,12 @@ use ILIAS\Setup\Artifact\BuildArtifactObjective;
 use ILIAS\Setup;
 
 /**
- * ilCtrlStructureArtifactObjective
+ * Class ilCtrlStructureArtifactObjective
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
+final class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
 {
     /**
      * @var string absolute path to the php artifact file.
@@ -31,8 +31,8 @@ class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
      */
     public function build() : Setup\Artifact
     {
-        $reader = new ilCtrlStructureReader();
-
-        return new Setup\Artifact\ArrayArtifact($reader->readStructure());
+        return new Setup\Artifact\ArrayArtifact(
+            (new ilCtrlStructureReader())->readStructure()
+        );
     }
 }
