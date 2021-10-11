@@ -2,6 +2,7 @@
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Response\ResponseHeader;
 use ILIAS\Refinery\Factory as Refinery;
 
 /**
@@ -468,7 +469,7 @@ class ilMailFormGUI
 
             $this->http->saveResponse(
                 $this->http->response()
-                    ->withHeader('Content-Type', 'application/json')
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                     ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
                         'm_subject' => $template->getSubject(),
                         'm_message' => $template->getMessage(),
@@ -872,7 +873,7 @@ class ilMailFormGUI
         if (ilStr::strLen($search) < 3) {
             $this->http->saveResponse(
                 $this->http->response()
-                    ->withHeader('Content-Type', 'application/json')
+                    ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                     ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
             );
 
@@ -889,7 +890,7 @@ class ilMailFormGUI
 
         $this->http->saveResponse(
             $this->http->response()
-                ->withHeader('Content-Type', 'application/json')
+                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                 ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode($result, JSON_THROW_ON_ERROR)))
         );
         $this->http->sendResponse();

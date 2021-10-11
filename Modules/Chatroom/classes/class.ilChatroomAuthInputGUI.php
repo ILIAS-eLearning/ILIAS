@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\Response\ResponseHeader;
+
 /**
  * Class ilChatroomAuthInputGUI
  * @author            Michael Jansen <mjansen@databay.de>
@@ -44,7 +46,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         $this->http->saveResponse(
             $this->http->response()
                 ->withBody($responseStream)
-                ->withHeader('Content-Type', 'application/json')
+                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
         );
         $this->http->sendResponse();
         $this->http->close();
