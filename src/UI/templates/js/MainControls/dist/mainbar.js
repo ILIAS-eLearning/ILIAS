@@ -335,8 +335,7 @@ var model = function() {
             tools: {}, //"moving" parts, current tools
             known_tools: [], //gs-ids; a tool is "new", if not listed here
             current_active_top: null,
-            last_actively_engaged: null,
-            top_level_changed: null
+            last_actively_engaged: null
         },
         entry: {
             id: null,
@@ -452,9 +451,7 @@ var model = function() {
             state.entries = reducers.entries.engageEntryPath(state.entries, entry_id);
             state = reducers.bar.disengageTools(state);
             state = reducers.bar.anySlates(state);
-            var last_active_top = state.current_active_top;
             state.current_active_top = helpers.getEngagedTopLevelEntryId();
-            state.top_level_changed = state.current_active_top !== last_active_top;
         },
         disengageEntry: function (entry_id) {
             state.last_actively_engaged = null;
@@ -645,6 +642,7 @@ var persistence = function() {
     storeStates = function(state) {
         state.entries = compressEntries(state.entries);
         state.tools = compressTools(state.tools);
+        state.last_actively_engaged = null;
         cs = storage();
         for(idx in state) {
             cs.add(idx, state[idx]);
@@ -693,6 +691,7 @@ var renderer = function($) {
         ,mainbar_buttons: '.il-mainbar .il-mainbar-entries .btn-bulky, .il-mainbar .il-mainbar-entries .link-bulky'
         ,mainbar_entries: 'il-mainbar-entries'
     },
+      events_fired_for = [],
 
     dom_references = {},
     dom_element = {
@@ -847,7 +846,7 @@ var renderer = function($) {
 
             var triggerer = parts.triggerer.withHtmlId(dom_references[entry.id].triggerer),
                 slate = parts.slate.withHtmlId(dom_references[entry.id].slate);
-                
+
                 //a11y
                 triggerer.getElement().attr('aria-controls', slate.html_id);
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
@@ -863,7 +862,8 @@ var renderer = function($) {
                 triggerer.engage();
                 slate.engage();
                 // fire event
-                if(fire_event) {
+                if(fire_event && !events_fired_for.includes(entry.id)) {
+                    events_fired_for.push(entry.id);
                     slate.getElement().trigger('in_view');
                 }
 
@@ -924,7 +924,7 @@ var renderer = function($) {
             for (idx in model_state.entries) {
                 actions.renderEntry(model_state.entries[idx], false,
                   model_state.last_actively_engaged === idx
-                  || (model_state.top_level_changed && model_state.current_active_top === model_state.entries[idx].getTopLevel()));
+                  || model_state.current_active_top === model_state.entries[idx].getTopLevel());
             }
             for(idx in model_state.tools) {
                 actions.renderEntry(model_state.tools[idx], true);

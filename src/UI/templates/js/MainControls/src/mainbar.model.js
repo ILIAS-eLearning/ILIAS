@@ -37,8 +37,7 @@ var model = function() {
             tools: {}, //"moving" parts, current tools
             known_tools: [], //gs-ids; a tool is "new", if not listed here
             current_active_top: null,
-            last_actively_engaged: null,
-            top_level_changed: null
+            last_actively_engaged: null
         },
         entry: {
             id: null,
@@ -154,9 +153,7 @@ var model = function() {
             state.entries = reducers.entries.engageEntryPath(state.entries, entry_id);
             state = reducers.bar.disengageTools(state);
             state = reducers.bar.anySlates(state);
-            var last_active_top = state.current_active_top;
             state.current_active_top = helpers.getEngagedTopLevelEntryId();
-            state.top_level_changed = state.current_active_top !== last_active_top;
         },
         disengageEntry: function (entry_id) {
             state.last_actively_engaged = null;

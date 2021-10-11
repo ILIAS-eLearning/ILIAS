@@ -85,6 +85,7 @@ var persistence = function() {
     storeStates = function(state) {
         state.entries = compressEntries(state.entries);
         state.tools = compressTools(state.tools);
+        state.last_actively_engaged = null;
         cs = storage();
         for(idx in state) {
             cs.add(idx, state[idx]);

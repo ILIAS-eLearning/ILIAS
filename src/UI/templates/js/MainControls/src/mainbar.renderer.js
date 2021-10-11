@@ -12,6 +12,7 @@ var renderer = function($) {
         ,mainbar_buttons: '.il-mainbar .il-mainbar-entries .btn-bulky, .il-mainbar .il-mainbar-entries .link-bulky'
         ,mainbar_entries: 'il-mainbar-entries'
     },
+      events_fired_for = [],
 
     dom_references = {},
     dom_element = {
@@ -166,7 +167,7 @@ var renderer = function($) {
 
             var triggerer = parts.triggerer.withHtmlId(dom_references[entry.id].triggerer),
                 slate = parts.slate.withHtmlId(dom_references[entry.id].slate);
-                
+
                 //a11y
                 triggerer.getElement().attr('aria-controls', slate.html_id);
                 triggerer.getElement().attr('aria-labelledby', triggerer.html_id);
@@ -182,7 +183,8 @@ var renderer = function($) {
                 triggerer.engage();
                 slate.engage();
                 // fire event
-                if(fire_event) {
+                if(fire_event && !events_fired_for.includes(entry.id)) {
+                    events_fired_for.push(entry.id);
                     slate.getElement().trigger('in_view');
                 }
 
@@ -244,7 +246,7 @@ var renderer = function($) {
             for (idx in model_state.entries) {
                 actions.renderEntry(model_state.entries[idx], false,
                   model_state.last_actively_engaged === idx
-                  || (model_state.top_level_changed && model_state.current_active_top === model_state.entries[idx].getTopLevel()));
+                  || model_state.current_active_top === model_state.entries[idx].getTopLevel());
             }
             for(idx in model_state.tools) {
                 actions.renderEntry(model_state.tools[idx], true);
