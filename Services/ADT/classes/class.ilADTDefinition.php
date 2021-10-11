@@ -12,11 +12,6 @@ abstract class ilADTDefinition
 {
     protected $allow_null; // [bool]
     
-    /**
-     * Constructor
-     *
-     * @return self
-     */
     public function __construct()
     {
         $this->reset();

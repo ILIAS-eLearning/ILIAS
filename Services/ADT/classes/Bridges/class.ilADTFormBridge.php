@@ -23,7 +23,6 @@ abstract class ilADTFormBridge
      * Constructor
      *
      * @param ilADT $a_adt
-     * @return self
      */
     public function __construct(ilADT $a_adt)
     {
@@ -246,14 +245,12 @@ abstract class ilADTFormBridge
     protected function findParentElementInForm()
     {
         $parent_def = $this->getParentElement();
+        $parent_option = '';
         if ($parent_def) {
             if (is_array($parent_def)) {
                 $parent_option = $parent_def[1];
                 $parent_def = $parent_def[0];
             }
-
-            // :TODO: throw exception on invalid definition ?!
-
             $parent_field = $this->getForm()->getItemByPostVar($parent_def);
             if ($parent_field instanceof ilSubEnabledFormPropertyGUI) {
                 // radio/checkbox group
@@ -346,7 +343,7 @@ abstract class ilADTFormBridge
     /**
      * Validate ADT and parse error codes
      *
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {
@@ -356,7 +353,7 @@ abstract class ilADTFormBridge
         
         // ilADTFormBridge->isRequired() != ilADT->allowNull()
         if ($this->isRequired() && $this->getADT()->isNull()) {
-            $field = $this->getForm()->getItemByPostvar($this->getElementId());
+            $field = $this->getForm()->getItemByPostVar($this->getElementId());
             $field->setAlert($lng->txt("msg_input_is_required"));
             return false;
         }
@@ -369,7 +366,7 @@ abstract class ilADTFormBridge
                 $tmp[] = $this->getADT()->translateErrorCode($error_code);
             }
             
-            $field = $this->getForm()->getItemByPostvar($this->getElementId());
+            $field = $this->getForm()->getItemByPostVar($this->getElementId());
             $field->setAlert(implode("<br />", $tmp));
             
             return false;
@@ -380,7 +377,7 @@ abstract class ilADTFormBridge
     
     public function setExternalErrors($a_errors)
     {
-        $field = $this->getForm()->getItemByPostvar($this->getElementId());
+        $field = $this->getForm()->getItemByPostVar($this->getElementId());
         $field->setAlert(implode("<br />", $a_errors));
     }
 }

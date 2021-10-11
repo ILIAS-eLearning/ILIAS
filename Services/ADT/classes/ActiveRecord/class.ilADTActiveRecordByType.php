@@ -20,14 +20,12 @@ class ilADTActiveRecordByType
 
     /** @var array|null */
     protected static $preloaded; // [array]
-    
-    const SINGLE_COLUMN_NAME = "value";
+
+    public const SINGLE_COLUMN_NAME = "value";
     
     /**
      * Constructor
-     *
      * @param ilADTGroupDBBridge $a_properties
-     * @return self
      */
     public function __construct(ilADTGroupDBBridge $a_properties)
     {
@@ -111,6 +109,7 @@ class ilADTActiveRecordByType
         if (isset($this->tables_map_type[$a_type])) {
             return $this->properties->getTable() . "_" . $this->tables_map_type[$a_type];
         }
+        return '';
     }
     
     /**
@@ -180,6 +179,7 @@ class ilADTActiveRecordByType
                 }
                 break;
         }
+        return [];
     }
     
     /**
@@ -202,8 +202,11 @@ class ilADTActiveRecordByType
         if (is_array(self::$preloaded) && !$a_return_additional_data) {
             $primary = $this->properties->getPrimary();
             foreach (self::$preloaded as $table => $data) {
-                $sub_table = array_pop(explode("_", $table));
-                
+                $sub_table = '';
+                $sub_tables = explode('_' , $table);
+                if ($sub_tables !== false) {
+                    $sub_table = array_pop($sub_tables);
+                }
                 foreach ($data as $row) {
                     // match by primary key
                     foreach ($primary as $primary_field => $primary_value) {
@@ -234,8 +237,11 @@ class ilADTActiveRecordByType
                 " WHERE " . $this->properties->buildPrimaryWhere();
             $set = $ilDB->query($sql);
             if ($ilDB->numRows($set)) {
-                $sub_table = array_pop(explode("_", $table));
-                
+                $sub_table = '';
+                $sub_tables = explode('_', $table);
+                if ($sub_tables !== false) {
+                    $sub_table = array_pop($sub_tables);
+                }
                 while ($row = $ilDB->fetchAssoc($set)) {
                     $element_id = $row[$this->getElementIdColumn()];
                     if (in_array($element_id, $element_ids)) {
@@ -426,6 +432,7 @@ class ilADTActiveRecordByType
         if (sizeof($where)) {
             return implode(" AND ", $where);
         }
+        return '';
     }
     
     /**
@@ -472,12 +479,12 @@ class ilADTActiveRecordByType
             }
         }
     }
-    
+
     /**
      * Read values by (partial) primary key
-     *
      * @param string $a_table
-     * @param array $a_primary
+     * @param array  $a_primary
+     * @return bool
      */
     public static function preloadByPrimary($a_table, array $a_primary)
     {
@@ -605,13 +612,13 @@ class ilADTActiveRecordByType
     
         return $has_data;
     }
-    
+
     /**
      * Read directly
-     *
      * @param string $a_table
-     * @param array $a_primary
-     * @param string $a_type
+     * @param array  $a_primary
+     * @param null   $a_type
+     * @return array|void
      */
     public static function readByPrimary($a_table, array $a_primary, $a_type = null)
     {

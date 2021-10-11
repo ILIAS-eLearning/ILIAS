@@ -4,13 +4,13 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeMulti.php";
 
 class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 {
-    const ENUM_SEARCH_COLUMN = 'value_index';
+    public const ENUM_SEARCH_COLUMN = 'value_index';
 
     protected $multi_source; // [bool]
     protected $search_mode; // [int]
-    
-    const SEARCH_MODE_ALL = 1;
-    const SEARCH_MODE_ANY = 2;
+
+    public const SEARCH_MODE_ALL = 1;
+    public const SEARCH_MODE_ANY = 2;
     
     public function setSearchMode($a_mode)
     {

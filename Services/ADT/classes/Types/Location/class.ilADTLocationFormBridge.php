@@ -78,7 +78,7 @@ class ilADTLocationFormBridge extends ilADTFormBridge
             $this->getADT()->setZoom(null);
         }
         
-        $field = $this->getForm()->getItemByPostvar($this->getElementId());
+        $field = $this->getForm()->getItemByPostVar($this->getElementId());
         $field->setLongitude($this->getADT()->getLongitude());
         $field->setLatitude($this->getADT()->getLatitude());
         $field->setZoom($this->getADT()->getZoom());

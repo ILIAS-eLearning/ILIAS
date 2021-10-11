@@ -11,10 +11,10 @@ class ilADTTest extends ilADTBasedObject
 {
     protected $id; // [int]
     protected $properties; // [ilADTGroup]
-    
-    const INTERESTS_NONE = 0;
-    const INTERESTS_LANGUAGES = 1;
-    const INTERESTS_IT = 2;
+
+    public const INTERESTS_NONE = 0;
+    public const INTERESTS_LANGUAGES = 1;
+    public const INTERESTS_IT = 2;
         
     
     // properties

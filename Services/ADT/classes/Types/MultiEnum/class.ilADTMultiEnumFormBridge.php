@@ -58,7 +58,7 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setSelections($this->getForm()->getInput($this->getElementId()));
     
-        $field = $this->getForm()->getItemByPostvar($this->getElementId());
+        $field = $this->getForm()->getItemByPostVar($this->getElementId());
         $field->setValue($this->getADT()->getSelections());
     }
     

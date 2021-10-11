@@ -12,9 +12,6 @@ class ilADTLocalizedText extends ilADTText
      */
     private $translations = [];
 
-    /**
-     * @param string $language
-     */
     public function getTextForLanguage(string $language)
     {
         if (strlen($this->getTranslations()[$language])) {

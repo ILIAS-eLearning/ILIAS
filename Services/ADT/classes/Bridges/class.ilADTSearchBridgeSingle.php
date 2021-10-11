@@ -46,7 +46,7 @@ abstract class ilADTSearchBridgeSingle extends ilADTSearchBridge
                 $tmp[] = $this->getADT()->translateErrorCode($error_code);
             }
             
-            $field = $this->getForm()->getItemByPostvar($this->getElementId());
+            $field = $this->getForm()->getItemByPostVar($this->getElementId());
             $field->setAlert(implode("<br />", $tmp));
             
             return false;

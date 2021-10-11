@@ -5,7 +5,6 @@
  * ADT base class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  * @ingroup ServicesADT
  */
 abstract class ilADT
@@ -15,30 +14,25 @@ abstract class ilADT
     
     
     // :TODO: error codes for ALL types - see self::translateErrorMessage()
-    
-    const ADT_VALIDATION_ERROR_NULL_NOT_ALLOWED = "adt1";
+
+    public const ADT_VALIDATION_ERROR_NULL_NOT_ALLOWED = "adt1";
     
     // text-based
-    const ADT_VALIDATION_ERROR_MAX_LENGTH = "adt2";
+    public const ADT_VALIDATION_ERROR_MAX_LENGTH = "adt2";
     
     // multi
-    const ADT_VALIDATION_ERROR_MAX_SIZE = "adt3";
+    public const ADT_VALIDATION_ERROR_MAX_SIZE = "adt3";
     
     // number-based
-    const ADT_VALIDATION_ERROR_MIN = "adt4";
-    const ADT_VALIDATION_ERROR_MAX = "adt5";
+    public const ADT_VALIDATION_ERROR_MIN = "adt4";
+    public const ADT_VALIDATION_ERROR_MAX = "adt5";
     
     // date-based
-    const ADT_VALIDATION_DATE = "adt6";
+    public const ADT_VALIDATION_DATE = "adt6";
     
     // invalid target node for internal link
-    const ADT_VALIDATION_ERROR_INVALID_NODE = 'adt7';
+    public const ADT_VALIDATION_ERROR_INVALID_NODE = 'adt7';
     
-    /**
-     * Constructor
-     *
-     * @return self
-     */
     public function __construct(ilADTDefinition $a_def)
     {
         $this->setDefinition($a_def);
@@ -58,7 +52,7 @@ abstract class ilADT
     /**
      * Init property defaults
      */
-    protected function reset()
+    public function reset()
     {
     }
     

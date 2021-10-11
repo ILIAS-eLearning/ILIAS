@@ -43,9 +43,8 @@ class ilADTInternalLink extends ilADT
     }
 
     /**
-     *
      * @param ilADT $a_adt
-     * @return type
+     * @return bool
      */
     public function equals(ilADT $a_adt)
     {
@@ -82,7 +81,7 @@ class ilADTInternalLink extends ilADT
 
     /**
      * is valid
-     * @return boolean
+     * @return bool
      */
     public function isValid()
     {
