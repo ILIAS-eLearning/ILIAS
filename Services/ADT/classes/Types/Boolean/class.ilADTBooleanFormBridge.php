@@ -34,7 +34,7 @@ class ilADTBooleanFormBridge extends ilADTFormBridge
         
         $this->getADT()->setStatus($incoming);
         
-        $field = $this->getForm()->getItemByPostvar($this->getElementId());
+        $field = $this->getForm()->getItemByPostVar($this->getElementId());
         $field->setChecked($this->getADT()->getStatus());
     }
     

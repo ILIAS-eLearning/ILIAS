@@ -34,11 +34,6 @@ abstract class ilADT
     // invalid target node for internal link
     const ADT_VALIDATION_ERROR_INVALID_NODE = 'adt7';
     
-    /**
-     * Constructor
-     *
-     * @return self
-     */
     public function __construct(ilADTDefinition $a_def)
     {
         $this->setDefinition($a_def);

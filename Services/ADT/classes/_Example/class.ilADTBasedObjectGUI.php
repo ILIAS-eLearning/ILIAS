@@ -18,7 +18,6 @@ abstract class ilADTBasedObjectGUI
      * Parent GUI is just needed for testing (ilCtrl)
      *
      * @param ilObjectGUI $a_parent_gui
-     * @return self
      */
     public function __construct(ilObjectGUI $a_parent_gui)
     {

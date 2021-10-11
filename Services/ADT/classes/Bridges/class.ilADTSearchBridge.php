@@ -25,7 +25,6 @@ abstract class ilADTSearchBridge
      * Constructor
      *
      * @param ilADT $a_adt_def
-     * @return self
      */
     public function __construct(ilADTDefinition $a_adt_def)
     {

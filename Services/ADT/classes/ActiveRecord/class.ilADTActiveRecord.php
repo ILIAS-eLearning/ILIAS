@@ -18,7 +18,6 @@ class ilADTActiveRecord
      * Constructor
      *
      * @param ilADTGroupDBBridge $a_properties
-     * @return self
      */
     public function __construct(ilADTGroupDBBridge $a_properties)
     {
