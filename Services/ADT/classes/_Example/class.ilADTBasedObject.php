@@ -152,7 +152,7 @@ abstract class ilADTBasedObject
     /**
      * Read record
      *
-     * @return boolean
+     * @return bool
      */
     public function read()
     {
@@ -166,7 +166,7 @@ abstract class ilADTBasedObject
     /**
      * Create record (only if valid)
      *
-     * @return boolean
+     * @return bool
      */
     public function create()
     {
@@ -192,7 +192,7 @@ abstract class ilADTBasedObject
     /**
      * Update record (only if valid)
      *
-     * @return boolean
+     * @return bool
      */
     public function update()
     {
@@ -216,7 +216,7 @@ abstract class ilADTBasedObject
     /**
      * Delete record
      *
-     * @return boolean
+     * @return bool
      */
     public function delete()
     {

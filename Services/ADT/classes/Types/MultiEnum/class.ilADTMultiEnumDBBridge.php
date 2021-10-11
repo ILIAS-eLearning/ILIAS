@@ -4,7 +4,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTMultiDBBridge.php";
 
 class ilADTMultiEnumDBBridge extends ilADTDBBridge
 {
-    const TABLE_NAME = 'adv_md_values_enum';
+    public const TABLE_NAME = 'adv_md_values_enum';
 
     /**
      * @var ilDBInterface
@@ -12,8 +12,8 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
     protected $db;
 
     protected $fake_single;
-    
-    const SEPARATOR = "~|~";
+
+    public const SEPARATOR = "~|~";
 
     public function __construct(ilADT $a_adt)
     {

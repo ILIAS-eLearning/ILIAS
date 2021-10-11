@@ -63,7 +63,7 @@ abstract class ilADTBasedObjectGUI
     /**
      * Init ADT-based form
      *
-     * @return ilADTGroupFormBridge $a_form
+     * @return ilADTFormBridge $a_form
      */
     protected function initForm()
     {

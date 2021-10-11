@@ -343,7 +343,7 @@ abstract class ilADTFormBridge
     /**
      * Validate ADT and parse error codes
      *
-     * @return boolean
+     * @return bool
      */
     public function validate()
     {

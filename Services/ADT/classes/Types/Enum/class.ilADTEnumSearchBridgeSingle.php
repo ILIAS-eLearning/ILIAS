@@ -4,7 +4,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
 
 class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    const ENUM_SEARCH_COLUMN = 'value_index';
+    public const ENUM_SEARCH_COLUMN = 'value_index';
 
     protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
     {

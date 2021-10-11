@@ -56,9 +56,6 @@ class ilADTActiveRecordWrapper extends ActiveRecord
             case "timestamp":
                 return arField::FIELD_TYPE_TIMESTAMP;
 
-            case "integer":
-                return arField::FIELD_TYPE_INTEGER;
-
             /*
             case "clob":
                 return arField::FIELD_TYPE_CLOB;

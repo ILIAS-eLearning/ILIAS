@@ -12,7 +12,7 @@ include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
  */
 abstract class ilADTSearchBridge
 {
-    const DEFAULT_SEARCH_COLUMN = 'value';
+    public const DEFAULT_SEARCH_COLUMN = 'value';
 
     protected $form; // [ilPropertyFormGUI]
     protected $table_gui; // [ilTable2GUI]
@@ -167,11 +167,10 @@ abstract class ilADTSearchBridge
             unset($_SESSION["form_" . $this->table_gui->getId()][$this->getElementId()]);
         }
     }
-    
+
     /**
      * Load value(s) from filter store (in session)
-     *
-     * @param string $a_element_id
+     * @return mixed|void
      */
     protected function readFilter()
     {
@@ -305,7 +304,7 @@ abstract class ilADTSearchBridge
      * Compare directly against ADT
      *
      * @param ilADT $a_adt
-     * @return boolean
+     * @return bool
      */
     public function isInCondition(ilADT $a_adt)
     {

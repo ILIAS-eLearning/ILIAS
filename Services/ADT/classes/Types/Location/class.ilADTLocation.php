@@ -5,9 +5,9 @@ class ilADTLocation extends ilADT
     protected $longitude; // [float]
     protected $latitude; // [float]
     protected $zoom; // [int]
-        
-    const ADT_VALIDATION_ERROR_LONGITUDE = "loc1";
-    const ADT_VALIDATION_ERROR_LATITUDE = "loc2";
+
+    public const ADT_VALIDATION_ERROR_LONGITUDE = "loc1";
+    public const ADT_VALIDATION_ERROR_LATITUDE = "loc2";
     
     
     // definition

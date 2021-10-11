@@ -2,7 +2,7 @@
 
 class ilADTExternalLink extends ilADT
 {
-    const MAX_LENGTH = 500;
+    public const MAX_LENGTH = 500;
     
     /**
      * @var string
@@ -69,7 +69,7 @@ class ilADTExternalLink extends ilADT
 
     /**
      * Get url
-     * @return type
+     * @return string
      */
     public function getUrl()
     {
@@ -78,9 +78,8 @@ class ilADTExternalLink extends ilADT
 
 
     /**
-     *
      * @param ilADT $a_adt
-     * @return type
+     * @return bool
      */
     public function equals(ilADT $a_adt)
     {
@@ -130,7 +129,7 @@ class ilADTExternalLink extends ilADT
 
     /**
      * is valid
-     * @return boolean
+     * @return bool
      */
     public function isValid()
     {

@@ -20,8 +20,8 @@ class ilADTActiveRecordByType
 
     /** @var array|null */
     protected static $preloaded; // [array]
-    
-    const SINGLE_COLUMN_NAME = "value";
+
+    public const SINGLE_COLUMN_NAME = "value";
     
     /**
      * Constructor
@@ -479,12 +479,12 @@ class ilADTActiveRecordByType
             }
         }
     }
-    
+
     /**
      * Read values by (partial) primary key
-     *
      * @param string $a_table
-     * @param array $a_primary
+     * @param array  $a_primary
+     * @return bool
      */
     public static function preloadByPrimary($a_table, array $a_primary)
     {
@@ -612,13 +612,13 @@ class ilADTActiveRecordByType
     
         return $has_data;
     }
-    
+
     /**
      * Read directly
-     *
      * @param string $a_table
-     * @param array $a_primary
-     * @param string $a_type
+     * @param array  $a_primary
+     * @param null   $a_type
+     * @return array|void
      */
     public static function readByPrimary($a_table, array $a_primary, $a_type = null)
     {

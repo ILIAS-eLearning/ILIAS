@@ -4,10 +4,10 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
 
 class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    const SQL_STRICT = 1;
-    const SQL_LIKE = 2;
-    const SQL_LIKE_END = 3;
-    const SQL_LIKE_START = 4;
+    public const SQL_STRICT = 1;
+    public const SQL_LIKE = 2;
+    public const SQL_LIKE_END = 3;
+    public const SQL_LIKE_START = 4;
     
     protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
     {
