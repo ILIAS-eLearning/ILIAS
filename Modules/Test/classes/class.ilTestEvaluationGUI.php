@@ -1073,7 +1073,7 @@ class ilTestEvaluationGUI extends ilTestServiceGUI
 
         $ilTabs->setBackTarget(
             $this->lng->txt('back'),
-            $this->ctrl->getLinkTargetByClass('ilParticipantsTestResultsGUI')
+            $this->ctrl->getLinkTargetByClass(['ilObjTestGUI', 'ilTestResultsGUI', 'ilParticipantsTestResultsGUI'])
         );
 
         // prepare generation before contents are processed (for mathjax)
