@@ -281,7 +281,7 @@ class ilTable2GUI extends ilTableGUI
 
             $new_column = ($sel_fields[$k] === null);
 
-            if (isset($_POST["tblfsh" . $this->getId()])) {
+            if (isset($_POST["tblfsh" . $this->getId()]) && $_POST["tblfsh" . $this->getId()]) {
                 $set = true;
                 if (is_array($_POST["tblfs" . $this->getId()]) && in_array($k, $_POST["tblfs" . $this->getId()])) {
                     $this->selected_column[$k] = true;
@@ -292,13 +292,13 @@ class ilTable2GUI extends ilTableGUI
                 if ($new_column) {
                     $set = true;
                 }
-                if (isset($c["default"])) {
+                if (isset($c["default"]) && $c["default"]) {
                     $this->selected_column[$k] = true;
                 }
             }
 
             // Optional filters
-            if (isset($_POST["tblff" . $this->getId()])) {
+            if (isset($_POST["tblff" . $this->getId()]) && $_POST["tblff" . $this->getId()]) {
                 $set = true;
                 if (is_array($_POST["tblff" . $this->getId()]) && in_array($k, $_POST["tblff" . $this->getId()])) {
                     $this->selected_column[$k] = true;
