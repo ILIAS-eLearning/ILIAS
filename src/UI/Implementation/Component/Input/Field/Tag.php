@@ -110,7 +110,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         $configuration->dropdownMaxItems = 200;
         $configuration->dropdownCloseOnSelect = false;
         $configuration->readonly = $this->isDisabled();
-        $configuration->extendable = $this->areUserCreatedTagsAllowed();
+        $configuration->userInput = $this->areUserCreatedTagsAllowed();
         $configuration->dropdownSuggestionsStartAfter = $this->getSuggestionsStartAfter();
         $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
         $configuration->maxChars = 2000;
@@ -119,6 +119,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         $configuration->allowDuplicates = false;
         $configuration->highlight = true;
         $configuration->tagClass = "input-tag";
+        $configuration->tagTextProp = "displayValue";
 
         return $configuration;
     }
@@ -212,21 +213,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     {
         $clone = clone $this;
         $clone->extendable = $extendable;
-        /**
-         * @var $with_constraint C\Input\Field\Tag
-         */
-        $with_constraint = $clone->withAdditionalTransformation(
-            $this->refinery->custom()->constraint(
-                function ($value) use ($clone) {
-                    return (0 == count(array_diff($value, $clone->getTags())));
-                },
-                function ($txt, $value) use ($clone) {
-                    return "user created tags are not allowed: " . implode(", ", array_diff($value, $clone->getTags()));
-                }
-            )
-        );
-
-        return $with_constraint;
+        return $clone;
     }
 
 

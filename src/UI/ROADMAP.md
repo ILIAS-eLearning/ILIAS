@@ -254,6 +254,18 @@ directly under the <nav>-tag.
 
 ## Long Term
 
+### Make Constraint in Tag Input Field work again
+
+In the commit where this entry was added, a check in Tag Input Field was removed.
+Currently, the Tag Input Field won't check if the Tags supplied by a user are
+indeed allowed. For Tag Input Fields where user created tags are not allowed, we
+would need to check if the supplied tags are indeed contained in the available options.
+If user created tags are allowed, we would not need to do so. However, since we currently
+cannot remove transformations and the default is that user created tags are not allowed,
+we could not remove that check when a consumer allows user created tags. Fixing this would
+require some rework of the form processing internals, so this is a reminder to look into
+the tags again after such a rework.
+
 ### All UI-Elements Step 2
 
 As mentioned above, the UI-Framework attempts to be the source for all visual elements in ILIAS and
