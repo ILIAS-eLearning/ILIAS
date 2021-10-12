@@ -158,6 +158,7 @@ final class ilCtrlContext implements ilCtrlContextInterface
     public function setCmdClass(string $cmd_class) : ilCtrlContextInterface
     {
         $this->cmd_class = $cmd_class;
+        $this->path = $this->path_factory->singleClass($this, $cmd_class);
         return $this;
     }
 

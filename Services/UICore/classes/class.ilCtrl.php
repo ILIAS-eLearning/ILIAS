@@ -142,6 +142,7 @@ class ilCtrl implements ilCtrlInterface
         }
 
         $this->exec_object = $a_gui_object;
+        $this->context->setCmdClass($this->getClassByObject($a_gui_object));
 
         return (null !== $a_parameters) ?
             $a_gui_object->getHTML($a_parameters) :
@@ -155,7 +156,7 @@ class ilCtrl implements ilCtrlInterface
     public function getCmd(string $fallback_command = null) : ?string
     {
         // retrieve $_GET and $_POST parameters.
-        $post_command = $this->getPostParam(self::PARAM_CMD);
+        $post_command = $this->getPostCommand();
         $get_command  = $this->getQueryParam(self::PARAM_CMD);
 
         // if the $_GET command is 'post', either the $_POST
@@ -187,10 +188,7 @@ class ilCtrl implements ilCtrlInterface
                 $DIC->user()
             );
 
-            // the CSRF token could either be in $_POST or $_GET.
-            $token = $this->getQueryParam(self::PARAM_CSRF_TOKEN) ??
-                $this->getPostParam(self::PARAM_CSRF_TOKEN)
-            ;
+            $token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
 
             // if the command is considered unsafe, the CSRF token
             // has to bee valid to retrieve the command.
@@ -217,7 +215,9 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getCmdClass() : ?string
     {
-        return $this->context->getCmdClass();
+        // @TODO: remove null coalescing operator before release
+        //        and inform developers that null-check is needed.
+        return $this->context->getCmdClass() ?? '';
     }
 
     /**
@@ -677,12 +677,12 @@ class ilCtrl implements ilCtrlInterface
     public function checkCurrentPathForClass(string $gui_class) : bool
     {
         $class_cid = $this->structure->getClassCidByName($gui_class);
-        if (null === $this->context->getPath() || null === $class_cid) {
+        if (null === $class_cid) {
             return false;
         }
 
         return str_contains(
-            $this->context->getPath()->getCidPath(),
+            $this->context->getPath()->getCidPath() ?? '',
             $class_cid
         );
     }
@@ -739,17 +739,15 @@ class ilCtrl implements ilCtrlInterface
     }
 
     /**
-     * Returns a parameter with the given name from the current POST
-     * request.
+     * Returns the current $_POST command.
      *
-     * @param string $parameter_name
      * @return string|null
      */
-    private function getPostParam(string $parameter_name) : ?string
+    private function getPostCommand() : ?string
     {
-        if ($this->http->wrapper()->post()->has($parameter_name)) {
+        if ($this->http->wrapper()->post()->has(self::PARAM_CMD)) {
             return $this->http->wrapper()->post()->retrieve(
-                $parameter_name,
+                self::PARAM_CMD,
                 $this->refinery->custom()->transformation(
                     static function ($value) {
                         if (!empty($value)) {
@@ -757,7 +755,7 @@ class ilCtrl implements ilCtrlInterface
                                 // this most likely only works by accident, but
                                 // the selected or clicked command button will
                                 // always be sent as first array entry. This
-                                // should definitely be done better.
+                                // should definitely be done differently.
                                 return array_key_first($value);
                             }
 
@@ -797,6 +795,14 @@ class ilCtrl implements ilCtrlInterface
         }
 
         $is_array   = is_array($a_class);
+        $base_class = ($is_array) ?
+            $a_class[array_key_first($a_class)] :
+            $this->context->getBaseClass()
+        ;
+
+        if ($is_array && !$this->structure->isBaseClass($base_class)) {
+            array_unshift($a_class, $this->context->getBaseClass());
+        }
 
         $path = ($is_array) ?
             $this->path_factory->arrayClass($a_class) :
@@ -808,10 +814,6 @@ class ilCtrl implements ilCtrlInterface
         }
 
         $target_url = $this->context->getTargetScript();
-        $base_class = ($is_array) ?
-            $a_class[array_key_first($a_class)] :
-            $this->context->getBaseClass()
-        ;
         $cmd_class  = ($is_array) ?
             $a_class[array_key_last($a_class)] :
             $a_class
@@ -846,6 +848,15 @@ class ilCtrl implements ilCtrlInterface
             }
         } else {
             $target_url = $this->appendParameterStringsByClass($a_class, $target_url, $is_escaped);
+        }
+
+        if ($is_post) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CMD,
+                self::CMD_POST,
+                $is_escaped
+            );
         }
 
         if (!empty($a_cmd)) {

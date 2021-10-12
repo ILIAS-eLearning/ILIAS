@@ -15,7 +15,7 @@ include_once 'Services/Search/classes/class.ilSearchBaseGUI.php';
 * @ilCtrl_Calls ilSearchGUI: ilPropertyFormGUI
 * @ilCtrl_Calls ilSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI
-* @ilCtrl_Calls ilSearchGUI: ilObjRootFolderGUIGUI, ilObjectCopyGUI
+* @ilCtrl_Calls ilSearchGUI: ilObjRootFolderGUI, ilObjectCopyGUI
 *
 * @ingroup	ServicesSearch
 */

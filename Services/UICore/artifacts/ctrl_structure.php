@@ -12990,6 +12990,7 @@
       3 => 'illuceneadvancedsearchgui',
       4 => 'illucenesearchgui',
       5 => 'ilrepositorygui',
+      6 => 'ilsearchgui',
     ),
     'children' => 
     array (
@@ -18072,7 +18073,7 @@
       4 => 'ilobjcoursegui',
       5 => 'ilobjfoldergui',
       6 => 'ilobjgroupgui',
-      7 => 'ilobjrootfolderguigui',
+      7 => 'ilobjrootfoldergui',
       8 => 'ilobjectcopygui',
     ),
   ),
