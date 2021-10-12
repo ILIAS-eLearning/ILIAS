@@ -1,3 +1,0 @@
-[submodule "test/mocha"]
-	path = test/mocha
-	url = git://github.com/visionmedia/mocha.git
