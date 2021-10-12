@@ -110,14 +110,27 @@ class ilMembershipCronNotificationsData
 
                             // store all single news
                             foreach ($this->user_news_aggr as $agg_news) {
-                                if (is_array($agg_news["aggregation"]) && count($agg_news["aggregation"]) > 0) {
+                                if (isset($agg_news["aggregation"]) && is_array($agg_news["aggregation"]) && $agg_news["aggregation"] !== []) {
                                     foreach ($agg_news["aggregation"] as $n) {
                                         $this->news[$n["id"]] = $n;
                                         $this->news_per_user[$user_id][$ref_id][$n["id"]] = $n["id"];
                                     }
                                 } else {
-                                    $this->news[$agg_news["id"]] = $agg_news;
-                                    $this->news_per_user[$user_id][$ref_id][$agg_news["id"]] = $agg_news["id"];
+                                    if (is_array($agg_news)) {
+                                        if (isset($agg_news["id"])) {
+                                            $this->news[$agg_news["id"]] = $agg_news;
+                                            $this->news_per_user[$user_id][$ref_id][$agg_news["id"]] = $agg_news["id"];
+                                        } else {
+                                            foreach ($agg_news as $agg_news_items) {
+                                                foreach ($agg_news_items as $agg_news_item) {
+                                                    if (isset($agg_news_item["id"])) {
+                                                        $this->news[$agg_news_item["id"]] = $agg_news_item;
+                                                        $this->news_per_user[$user_id][$ref_id][$agg_news_item["id"]] = $agg_news_item["id"];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
