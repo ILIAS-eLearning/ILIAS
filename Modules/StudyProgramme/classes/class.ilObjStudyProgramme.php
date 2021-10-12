@@ -406,6 +406,12 @@ class ilObjStudyProgramme extends ilContainer
      */
     public function adjustLPMode() : void
     {
+        // Clear caches here, there have been some changes, because this method
+        // would not have been called otherwise, and the changer just does not
+        // know if we have filled the caches already...
+        $this->clearLPChildrenCache();
+        $this->clearChildrenCache();
+
         if ($this->getAmountOfLPChildren() > 0) {
             $this->settings_repository->update(
                 $this->getSettings()->setLPMode(ilStudyProgrammeSettings::MODE_LP_COMPLETED)
