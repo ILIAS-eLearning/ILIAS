@@ -26,6 +26,9 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     private $id = null;
     
     private $poolId = null;
+
+    /** @var null|int */
+    private $poolRefId = null;
     
     private $poolTitle = null;
     
@@ -87,6 +90,16 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     public function getPoolId()
     {
         return $this->poolId;
+    }
+
+    public function getPoolRefId() : ?int
+    {
+        return $this->poolRefId;
+    }
+
+    public function setPoolRefId(?int $poolRefId) : void
+    {
+        $this->poolRefId = $poolRefId;
     }
     
     public function setPoolTitle($poolTitle)
@@ -312,6 +325,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
             switch ($field) {
                 case 'def_id':				$this->setId($value);						break;
                 case 'pool_fi':				$this->setPoolId($value);					break;
+                case 'pool_ref_id':         $this->setPoolRefId($value ? (int) $value : null); break;
                 case 'pool_title':			$this->setPoolTitle($value);				break;
                 case 'pool_path':			$this->setPoolPath($value);					break;
                 case 'pool_quest_count':	$this->setPoolQuestionCount($value);		break;
@@ -384,6 +398,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
             array(
                 'test_fi' => array('integer', $testId),
                 'pool_fi' => array('integer', $this->getPoolId()),
+                'pool_ref_id' => array('integer', $this->getPoolRefId()),
                 'pool_title' => array('text', $this->getPoolTitle()),
                 'pool_path' => array('text', $this->getPoolPath()),
                 'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
@@ -416,6 +431,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
                 'def_id' => array('integer', $nextId),
                 'test_fi' => array('integer', $testId),
                 'pool_fi' => array('integer', $this->getPoolId()),
+                'pool_ref_id' => array('integer', $this->getPoolRefId()),
                 'pool_title' => array('text', $this->getPoolTitle()),
                 'pool_path' => array('text', $this->getPoolPath()),
                 'pool_quest_count' => array('integer', $this->getPoolQuestionCount()),
@@ -439,10 +455,17 @@ class ilTestRandomQuestionSetSourcePoolDefinition
     
     public function getPoolInfoLabel(ilLanguage $lng)
     {
+        $pool_path = $this->getPoolPath();
+        if (is_int($this->getPoolRefId()) && ilObject::_lookupObjId($this->getPoolRefId())) {
+            $path = new ilPathGUI();
+            $path->enableTextOnly(true);
+            $pool_path = $path->getPath(ROOT_FOLDER_ID, $this->getPoolRefId());
+        }
+
         $poolInfoLabel = sprintf(
             $lng->txt('tst_dynamic_question_set_source_questionpool_summary_string'),
             $this->getPoolTitle(),
-            $this->getPoolPath(),
+            $pool_path,
             $this->getPoolQuestionCount()
         );
         
