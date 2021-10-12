@@ -1,10 +1,10 @@
 <?php
 
+use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\HTTP\Services as HttpService;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Filesystem\Stream\Streams;
-use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 
 /**
  * Class ilCtrl provides processing control methods. A global
@@ -85,29 +85,13 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function initBaseClass(string $a_base_class) : void
-    {
-        // abort if the given classname is not a baseclass.
-        if (!$this->structure->isBaseClass($a_base_class)) {
-            throw new ilCtrlException("Class '$a_base_class' is not a known baseclass.");
-        }
-
-        // reinitialize the current context with the new
-        // baseclass (the stacktrace is also reset).
-        $this->stacktrace = [];
-        $this->context = new ilCtrlContext(
-            $this->path_factory,
-            $this->http->wrapper()->query(),
-            $this->refinery,
-            $a_base_class
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function callBaseClass(string $a_base_class = null) : void
     {
+        $a_base_class = $a_base_class ?? $this->getQueryParam(self::PARAM_BASE_CLASS);
+        if (null === $a_base_class || !$this->structure->isBaseClass($a_base_class)) {
+            throw new ilCtrlException("ilCtrl cannot determine current baseclass.");
+        }
+
         $this->context = new ilCtrlContext(
             $this->path_factory,
             $this->http->wrapper()->query(),
@@ -115,14 +99,7 @@ class ilCtrl implements ilCtrlInterface
             $a_base_class
         );
 
-        $base_class = $a_base_class ?? $this->getBaseClass();
-        if (null === $base_class || !$this->structure->isBaseClass($base_class)) {
-            throw new ilCtrlException("ilCtrl cannot determine the current baseclass.");
-        }
-
-
-
-        $obj_name = $this->structure->getObjNameByName($base_class);
+        $obj_name = $this->structure->getObjNameByName($this->context->getBaseClass());
         $this->forwardCommand(new $obj_name());
     }
 
@@ -813,8 +790,8 @@ class ilCtrl implements ilCtrlInterface
         $is_array   = is_array($a_class);
 
         $path = ($is_array) ?
-            $this->path_factory->byArrayClass($a_class) :
-            $this->path_factory->bySingleClass($this->context, $a_class)
+            $this->path_factory->arrayClass($a_class) :
+            $this->path_factory->singleClass($this->context, $a_class)
         ;
 
         if (null !== ($exception = $path->getException())) {

@@ -68,9 +68,9 @@ final class ilCtrlContext implements ilCtrlContextInterface
     private ?string $cmd = null;
 
     /**
-     * @var string|null
+     * @var string
      */
-    private ?string $base_class;
+    private string $base_class;
 
     /**
      * ilCtrlContext Constructor
@@ -78,20 +78,29 @@ final class ilCtrlContext implements ilCtrlContextInterface
      * @param ilCtrlPathFactory $path_factory
      * @param RequestWrapper    $request
      * @param Refinery          $refinery
-     * @param string|null       $base_class
+     * @param string            $base_class
      */
     public function __construct(
         ilCtrlPathFactory $path_factory,
         RequestWrapper $request,
         Refinery $refinery,
-        string $base_class = null
+        string $base_class
     ) {
         $this->base_class   = $base_class;
         $this->path_factory = $path_factory;
         $this->refinery     = $refinery;
         $this->request      = $request;
+        $this->path         = $path_factory->null();
 
         $this->initFromRequest();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getBaseClass() : string
+    {
+        return $this->base_class;
     }
 
     /**
@@ -143,23 +152,6 @@ final class ilCtrlContext implements ilCtrlContextInterface
     public function getTargetScript() : string
     {
         return $this->target_script;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setBaseClass(string $base_class) : ilCtrlContextInterface
-    {
-        $this->base_class = $base_class;
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getBaseClass() : ?string
-    {
-        return $this->base_class;
     }
 
     /**
@@ -236,15 +228,11 @@ final class ilCtrlContext implements ilCtrlContextInterface
      */
     private function initFromRequest() : void
     {
-        if (null === $this->base_class) {
-            $this->base_class = $this->getQueryParam(ilCtrlInterface::PARAM_BASE_CLASS);
-        }
-
         $cmd_class = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
         $cid_path  = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
         if (null !== $cmd_class && null !== $cid_path) {
             $this->setCmdClass($cmd_class);
-            $this->setPath($this->path_factory->byExistingPath($cid_path));
+            $this->setPath($this->path_factory->existingPath($cid_path));
         }
 
         if (null !== ($cmd = $this->getQueryParam(ilCtrlInterface::PARAM_CMD))) {

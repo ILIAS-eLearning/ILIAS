@@ -8,6 +8,13 @@
 interface ilCtrlContextInterface
 {
     /**
+     * Returns the baseclass this context was instantiated with.
+     *
+     * @return string
+     */
+    public function getBaseClass() : string;
+
+    /**
      * Sets the path of this context.
      *
      * @param ilCtrlPathInterface $path
@@ -51,21 +58,6 @@ interface ilCtrlContextInterface
      * @return string
      */
     public function getTargetScript() : string;
-
-    /**
-     * Sets the baseclass of this context.
-     *
-     * @param string $base_class
-     * @return ilCtrlContextInterface
-     */
-    public function setBaseClass(string $base_class) : ilCtrlContextInterface;
-
-    /**
-     * Returns the baseclass this context was instantiated with.
-     *
-     * @return string|null
-     */
-    public function getBaseClass() : ?string;
 
     /**
      * Sets the command class of this context.

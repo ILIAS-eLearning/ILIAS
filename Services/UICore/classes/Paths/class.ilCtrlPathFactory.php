@@ -26,7 +26,7 @@ class ilCtrlPathFactory
      * @param string $cid_path
      * @return ilCtrlPathInterface
      */
-    public function byExistingPath(string $cid_path) : ilCtrlPathInterface
+    public function existingPath(string $cid_path) : ilCtrlPathInterface
     {
         return new ilCtrlExistingPath($this->structure, $cid_path);
     }
@@ -36,7 +36,7 @@ class ilCtrlPathFactory
      * @param string                 $target_class
      * @return ilCtrlPathInterface
      */
-    public function bySingleClass(ilCtrlContextInterface $context, string $target_class) : ilCtrlPathInterface
+    public function singleClass(ilCtrlContextInterface $context, string $target_class) : ilCtrlPathInterface
     {
         return new ilCtrlSingleClassPath($this->structure, $context, $target_class);
     }
@@ -45,8 +45,16 @@ class ilCtrlPathFactory
      * @param array $target_classes
      * @return ilCtrlPathInterface
      */
-    public function byArrayClass(array $target_classes) : ilCtrlPathInterface
+    public function arrayClass(array $target_classes) : ilCtrlPathInterface
     {
         return new ilCtrlArrayClassPath($this->structure, $target_classes);
+    }
+
+    /**
+     * @return ilCtrlPathInterface
+     */
+    public function null() : ilCtrlPathInterface
+    {
+        return new ilCtrlNullPath();
     }
 }
