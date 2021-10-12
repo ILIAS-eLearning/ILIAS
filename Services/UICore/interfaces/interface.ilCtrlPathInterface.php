@@ -36,4 +36,30 @@ interface ilCtrlPathInterface
      * @return string|null
      */
     public function getNextCid(string $current_class) : ?string;
+
+    /**
+     * Returns all individual paths for each cid position for the
+     * given direction.
+     *
+     * For example, trace 'cid1:cid2:cid3' it would return:
+     *      array(
+     *          'cid1',
+     *          'cid1:cid2',
+     *          'cid1:cid2:cid3',
+     *          ...
+     *      );
+     *
+     * @param int $order (SORT_DESC|SORT_ASC)
+     * @return string[]
+     */
+    public function getCidPaths(int $order = SORT_DESC) : array;
+
+    /**
+     * Returns all cid's from the current path in the provided
+     * directory/order.
+     *
+     * @param int $order (SORT_DESC|SORT_ASC)
+     * @return string[]
+     */
+    public function getCidArray(int $order = SORT_DESC) : array;
 }

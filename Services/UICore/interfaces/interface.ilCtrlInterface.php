@@ -193,12 +193,11 @@ interface ilCtrlInterface
     /**
      * Returns all parameters that have been saved or set for a given GUI class.
      *
-     * @param string      $a_class
-     * @param string|null $a_cmd
-     * @return array
+     * @param string $a_class
+     * @return array<string, mixed>
      * @throws ilCtrlException if the given class cannot be found.
      */
-    public function getParameterArrayByClass(string $a_class, string $a_cmd = null) : array;
+    public function getParameterArrayByClass(string $a_class) : array;
 
     /**
      * Removes all currently set or saved parameters for the given GUI object.

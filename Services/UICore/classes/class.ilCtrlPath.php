@@ -69,7 +69,7 @@ final class ilCtrlPath implements ilCtrlPathInterface
      */
     public function getCurrentCid() : ?string
     {
-        $cid_array = $this->getCidArray($this->cid_path);
+        $cid_array = $this->getCidArray();
 
         return $cid_array[count($cid_array) - 1];
     }
@@ -80,7 +80,7 @@ final class ilCtrlPath implements ilCtrlPathInterface
     public function getNextCid(string $current_class) : ?string
     {
         $current_cid = $this->structure->getClassCidByName($current_class);
-        $cid_array   = $this->getCidArray($this->cid_path);
+        $cid_array   = $this->getCidArray();
         $cid_count   = count($cid_array);
 
         foreach ($cid_array as $index => $cid) {
@@ -93,41 +93,84 @@ final class ilCtrlPath implements ilCtrlPathInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getCidPaths(int $order = SORT_DESC) : array
+    {
+        // cid array must be ascending, because the
+        // paths should begin at the baseclass.
+        $cid_array = $this->getCidArray(SORT_ASC);
+        $cid_paths = [];
+
+        foreach ($cid_array as $index => $cid) {
+            $cid_paths[] = (0 !== $index) ?
+                $this->appendCid($cid, $cid_paths[$index - 1]) :
+                $cid
+            ;
+        }
+
+        if (SORT_DESC === $order) {
+            $cid_paths = array_reverse($cid_paths);
+        }
+
+        return $cid_paths;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCidArray(int $order = SORT_DESC) : array
+    {
+        $cid_array = explode(self::CID_PATH_SEPARATOR, $this->cid_path);
+        if (SORT_DESC === $order) {
+            $cid_array = array_reverse($cid_array);
+        }
+
+        return $cid_array;
+    }
+
+    /**
      * Returns a cid path that reaches from the current context's
      * baseclass to the given class.
-     *
      * If the given class cannot be reached from the context's
      * baseclass this instance must be given a class array instead.
-     *
-     * @param string $class_name
+     * @param string $target_class
      * @return string
-     *
      * @throws ilCtrlException if the class has no relations or cannot
      *                         reach the baseclass of this context.
      */
-    private function getCidPathByClass(string $class_name) : string
+    private function getCidPathByClass(string $target_class) : string
     {
-        $parents = $this->getParentsRecursively($class_name);
-        if (empty($parents)) {
-            if (!$this->structure->isBaseClass($class_name)) {
-                throw new ilCtrlException("Class '$class_name' is no baseclass and not related to another one.");
-            }
+        $target_cid = $this->structure->getClassCidByName($target_class);
 
-            // null will not be returned because isBaseClass()
-            // already returned true.
-            return $this->structure->getClassCidByName($class_name);
+        // abort if the given class cannot be found.
+        if (null === $target_cid) {
+            throw new ilCtrlException("Class '$target_class' was not found in the control structure, try `composer du` to read artifacts.");
         }
 
-        foreach ($parents as $path => $direct_parents) {
-            $cid_array = $this->getCidArray($path);
-            if ($this->context->getBaseClass() === $cid_array[count($cid_array) - 1]) {
-                // the match must be reverted, as the path is
-                // found backwards (from target to baseclass).
-                return strrev($path);
+        // the class cid can be returned, if the given class
+        // is a baseclass itself.
+        if ($this->structure->isBaseClass($target_class)) {
+            return $target_cid;
+        }
+
+        // if the given class is already the current cid
+        // of the current context, this path can be returned.
+        if ($target_cid === $this->context->getPath()->getCurrentCid()) {
+            return $this->context->getPath()->getCidPath();
+        }
+
+        // check if the target is related to a class within
+        // the current context's path.
+        $cid_paths = $this->context->getPath()->getCidPaths();
+        foreach ($this->context->getPath()->getCidArray() as $index => $cid) {
+            $current_class = $this->structure->getClassNameByCid($cid);
+            if ($this->isClassChildOf($target_class, $current_class)) {
+                return $this->appendCid($target_cid, $cid_paths[$index]);
             }
         }
 
-        throw new ilCtrlException("ilCtrl cannot find a path for '$class_name' that reaches '{$this->context->getBaseClass()}'");
+        throw new ilCtrlException("ilCtrl cannot find a path for '$target_class' that reaches '{$this->context->getBaseClass()}'");
     }
 
     /**
@@ -137,12 +180,12 @@ final class ilCtrlPath implements ilCtrlPathInterface
      * path an according exception will be thrown.
      *
      * @param string[] $class_path
-     * @return string|null
+     * @return string
      *
      * @throws ilCtrlException if classes within the classes array
      *                         are not related.
      */
-    private function getCidPathByArray(array $class_path) : ?string
+    private function getCidPathByArray(array $class_path) : string
     {
         // abort if the target class (array) is empty or
         // the baseclass of the class array is unknown.
@@ -150,182 +193,67 @@ final class ilCtrlPath implements ilCtrlPathInterface
             throw new ilCtrlException("First class provided in array must be a known baseclass.");
         }
 
-        $path = $previous_class_name = null;
-        foreach ($class_path as $class_name) {
-            $class_cid = $this->structure->getClassCidByName($class_name);
+        $cid_path = $previous_class = null;
+        foreach ($class_path as $current_class) {
+            $current_cid = $this->structure->getClassCidByName($current_class);
 
-            // abort if one of the class cid's cannot be found.
-            if (null === $class_cid) {
-                throw new ilCtrlException("ilCtrl can't find cid for target class '$class_name'.");
+            // abort if the current class cannot be found.
+            if (null === $current_cid) {
+                throw new ilCtrlException("Class '$current_class' was not found in the control structure, try `composer du` to read artifacts.");
             }
 
-            // abort if the previous class is not a parent of
-            // the current one.
-            if (null !== $previous_class_name && !$this->isClassChildOf($class_name, $previous_class_name)) {
-                throw new ilCtrlException("Classes '$class_name' and '$previous_class_name' are not related.");
+            // abort if the current and previous classes are
+            // not related.
+            if (null !== $previous_class && !$this->isClassParentOf($previous_class, $current_class)) {
+                throw new ilCtrlException("Class '$current_class' is not a child of '$previous_class'.");
             }
 
-            $path = (null !== $path) ?
-                $this->appendCid($path, $class_cid) :
-                $class_cid
-            ;
-
-            $previous_class_name = $class_name;
+            $cid_path = $this->appendCid($current_cid, $cid_path);
+            $previous_class = $current_class;
         }
 
-        return $path;
-    }
-
-    /**
-     * Returns all direct and derived parent classes for a given
-     * class. The parents are mapped to their cid path in order
-     * to know how it can be reached.
-     *
-     * Return value might look like this for example:
-     *
-     *      array(
-     *          'cid1'           => 'foo',
-     *          'cid1:cid2'      => 'fooBar',
-     *          'cid1:cid2:cid3' => null,
-     *          ...
-     *      );
-     *
-     * If no parents are found null will be mapped to the path.
-     *
-     * @param string      $target_class
-     * @param string|null $current_path
-     * @return array<string, string[]>
-     */
-    private function getParentsRecursively(string $target_class, string $current_path = null) : array
-    {
-        $target_class_parents = $this->structure->getParentsByName($target_class);
-        $target_class_cid     = $this->structure->getClassCidByName($target_class);
-
-        // abort if the target cid cannot be found or
-        // if the target class is an orphan.
-        if (null === $target_class_cid || null === $target_class_parents) {
-            return [];
-        }
-
-        // initialize the current path if not provided,
-        // else append the target class cid.
-        $current_path = (null !== $current_path) ?
-            $this->appendCid($current_path, $target_class_cid) :
-            $target_class_cid
-        ;
-
-        // map the target classes parents to the current path
-        $parents[$current_path] = $target_class_parents;
-
-        // fetch derived parents for all parent objects of the
-        // current target class.
-        foreach ($parents[$current_path] as $parent_class) {
-            // only process parent class if it exists (in the
-            // control structure).
-            $parent_class_cid = $this->structure->getClassCidByName($parent_class);
-            if (null !== $parent_class_cid) {
-                $parent_class_parents = $this->getParentsRecursively($parent_class, $current_path);
-                if (!empty($parent_class_parents)) {
-                    // if the parent has further parents, map them to their path.
-                    foreach ($parent_class_parents as $parent_path => $parent) {
-                        $parents[$parent_path] = $parent;
-                    }
-                } else {
-                    // if the parent class is an orphan, set null mapped
-                    // to the parent's path.
-                    $parents[$this->appendCid($current_path, $parent_class_cid)] = null;
-                }
-            }
-        }
-
-        return $parents;
-    }
-
-    /**
-     * Returns whether a given cid path is valid or not.
-     *
-     * @param string $path
-     * @return bool
-     */
-    private function isPathValid(string $path) : bool
-    {
-        $cid_array = $this->getCidArray($path);
-        $cid_count = count($cid_array);
-
-        if (0 === $cid_count) {
-            return false;
-        }
-
-        $base_class = $this->structure->getClassNameByCid($cid_array[0]);
-
-        // check if the first class is a known baseclass.
-        if (null === $base_class || !$this->structure->isBaseClass($base_class)) {
-            return false;
-        }
-
-        // check if each class is related to it's child.
-        foreach ($cid_array as $index => $cid) {
-            if (($index + 1) < $cid_count) {
-                $current_class = $this->structure->getClassNameByCid($cid);
-                $next_class    = $this->structure->getClassNameByCid($cid_array[$index + 1]);
-
-                // the trace is invalid if there are classes chained
-                // together that are not related to each other.
-                if (!$this->isClassParentOf($current_class, $next_class)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return $cid_path;
     }
 
     /**
      * Returns whether the given target class is a child of the
      * other given class.
      *
-     * @param string $target_class
-     * @param string $other_class
+     * @param string $child_class
+     * @param string $parent_class
      * @return bool
      */
-    private function isClassChildOf(string $target_class, string $other_class) : bool
+    private function isClassChildOf(string $child_class, string $parent_class) : bool
     {
-        return in_array($target_class, $this->structure->getChildrenByName($other_class), true);
+        return in_array($child_class, $this->structure->getChildrenByName($parent_class), true);
     }
 
     /**
      * Returns whether the given target class is a parent of the
      * other given class.
      *
-     * @param string $target_class
-     * @param string $other_class
+     * @param string $parent_class
+     * @param string $child_class
      * @return bool
      */
-    private function isClassParentOf(string $target_class, string $other_class) : bool
+    private function isClassParentOf(string $parent_class, string $child_class) : bool
     {
-        return in_array($target_class, $this->structure->getParentsByName($other_class), true);
+        return in_array($parent_class, $this->structure->getParentsByName($child_class), true);
     }
 
     /**
      * Helper function to add CIDs to a given path.
      *
-     * @param string $path
-     * @param string $cid
+     * @param string      $cid
+     * @param string|null $path
      * @return string
      */
-    private function appendCid(string $path, string $cid) : string
+    private function appendCid(string $cid, string $path = null) : string
     {
-        return $path . self::CID_PATH_SEPARATOR . $cid;
-    }
+        if (null === $path) {
+            return $cid;
+        }
 
-    /**
-     * Helper function that returns all cid's from a given path.
-     *
-     * @param string $path
-     * @return array
-     */
-    private function getCidArray(string $path) : array
-    {
-        return explode(self::CID_PATH_SEPARATOR, $path);
+        return $path . self::CID_PATH_SEPARATOR . $cid;
     }
 }

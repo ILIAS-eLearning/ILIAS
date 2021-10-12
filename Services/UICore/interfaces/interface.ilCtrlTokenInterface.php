@@ -1,7 +1,7 @@
 <?php
 
 /**
- * ilCtrlTokenInterface
+ * Interface ilCtrlTokenInterface describes an ilCtrl token.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */

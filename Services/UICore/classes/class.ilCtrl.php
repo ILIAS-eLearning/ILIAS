@@ -59,7 +59,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * ilCtrl Constructor
      *
-     * @throws ilCtrlException if the artifact cannot be included.
+     * @throws ilCtrlException if the artifacts cannot be included.
      */
     public function __construct()
     {
@@ -68,7 +68,7 @@ class ilCtrl implements ilCtrlInterface
         $this->stacktrace = [];
         $this->http       = $DIC->http();
         $this->context    = new ilCtrlContext();
-        $this->structure  = new ilCtrlStructure($DIC->database());
+        $this->structure  = new ilCtrlStructure();
         $this->refinery   = new Refinery(new DataFactory(), $DIC->language());
     }
 
@@ -84,8 +84,15 @@ class ilCtrl implements ilCtrlInterface
 
         // reinitialize the current context with the new
         // baseclass (the stacktrace is also reset).
-        $this->context = new ilCtrlContext($a_base_class);
         $this->stacktrace = [];
+        $this->context = new ilCtrlContext($a_base_class);
+        $this->context->setPath(
+            new ilCtrlPath(
+                $this->structure,
+                $this->context,
+                $a_base_class
+            )
+        );
     }
 
     /**
@@ -102,12 +109,20 @@ class ilCtrl implements ilCtrlInterface
         $this->forwardCommand(new $obj_name());
     }
 
+    private function initContext(string $base_class = null) : void
+    {
+        $this->context = new ilCtrlContext($base_class);
+        $this->context->setPath();
+    }
+
     /**
      * @inheritDoc
      */
     public function forwardCommand(object $a_gui_object)
     {
         $class_name = get_class($a_gui_object);
+
+        // @TODO: remove this check once an interface for command classes exists.
         if (!method_exists($a_gui_object, 'executeCommand')) {
             throw new ilCtrlException("$class_name doesn't implement executeCommand().");
         }
@@ -123,6 +138,8 @@ class ilCtrl implements ilCtrlInterface
     public function getHTML(object $a_gui_object, array $a_parameters = null) : string
     {
         $class_name = get_class($a_gui_object);
+
+        // @TODO: remove this check once an interface for command classes exists.
         if (!method_exists($a_gui_object, 'getHTML')) {
             throw new ilCtrlException("$class_name doesn't implement getHTML().");
         }
@@ -221,13 +238,19 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getNextClass($a_gui_class = null) : ?string
     {
-        $next_cid = $this->context->getPath()->getNextCid();
+        if (null === $a_gui_class && null === $this->exec_object) {
+            return null;
+        }
+
+        $next_cid = $this->context->getPath()->getNextCid(
+            $this->getClassByObject($a_gui_class ?? $this->exec_object)
+        );
+
         if (null !== $next_cid) {
             return $this->structure->getClassNameByCid($next_cid);
         }
 
         return null;
-
     }
 
     /**
@@ -283,8 +306,11 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getParameterArrayByClass(string $a_class, string $a_cmd = null) : array
     {
-        $parameters = [];
+        if (null === $this->structure->getClassCidByName($a_class)) {
+            throw new ilCtrlException("Cannot find provided class '$a_class' in the control structure.");
+        }
 
+        $parameters = [];
         $permanent_parameters = $this->structure->getSavedParametersByClass($a_class);
         if (null !== $permanent_parameters) {
             foreach ($permanent_parameters as $parameter) {
@@ -569,11 +595,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function setTargetScript(string $a_target_script) : void
     {
-        if (null === $this->target) {
-            throw new ilCtrlException("REPLACE_THIS_MESSAGE");
-        }
-
-        $this->target->setTargetScript($a_target_script);
+        $this->context->setTargetScript($a_target_script);
     }
 
     /**
@@ -581,7 +603,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function isAsynch() : bool
     {
-        return (ilCtrlTarget::CMD_MODE_ASYNC === $this->getQueryParam(ilCtrlTarget::PARAM_CMD_MODE));
+        return (self::CMD_MODE_ASYNC === $this->getQueryParam(self::PARAM_CMD_MODE));
     }
 
     /**
@@ -589,7 +611,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function setReturn(object $a_gui_obj, string $a_cmd) : void
     {
-//        $this->setReturnByClass($this->getClassByObject($a_gui_obj), $a_cmd);
+
     }
 
     /**
@@ -637,7 +659,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getRedirectSource() : ?string
     {
-        return $this->getQueryParam(ilCtrlTarget::PARAM_REDIRECT);
+        return $this->getQueryParam(self::PARAM_REDIRECT);
     }
 
     /**
@@ -654,12 +676,12 @@ class ilCtrl implements ilCtrlInterface
     public function checkCurrentPathForClass(string $gui_class) : bool
     {
         $class_cid = $this->structure->getClassCidByName($gui_class);
-        if (null === $class_cid || null === $this->target) {
+        if (null === $class_cid) {
             return false;
         }
 
         return str_contains(
-            $this->target->getTrace()->getCidPath(),
+            $this->context->getPath()->getCidPath(),
             $class_cid
         );
     }
@@ -669,35 +691,11 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getCurrentClassPath() : array
     {
-        if (null === $this->target || !$this->target->getTrace()->isValid()) {
-            return [];
+        $class_paths = [];
+        foreach ($this->context->getPath()->getCidArray(SORT_ASC) as $cid) {
+            $class_paths[] = $this->structure->getObjNameByCid($cid);
         }
-
-        $class_path = [];
-        foreach ($this->target->getTrace()->getCidPieces() as $cid) {
-            $class_path[] = $this->structure->getObjNameByCid($cid);
-        }
-
-        return $class_path;
-    }
-
-    private function initTarget(string $base_class = null) : void
-    {
-        $base_class = $base_class ?? $this->getBaseClass();
-
-        // abort if the baseclass is not provided or unknown.
-        if (null === $base_class || !$this->structure->isBaseClass($base_class)) {
-            throw new ilCtrlException("ilCtrl was not provided with a known baseclass.");
-        }
-
-        $this->target = new ilCtrlTarget(
-            $this->structure,
-            $base_class
-        );
-
-        $this->target->withInformation([
-            ilCtrlTarget::PARAM_CMD => $this->getQueryParam()
-        ]);
+        return $class_paths;
     }
 
     /**
@@ -771,12 +769,11 @@ class ilCtrl implements ilCtrlInterface
 
     /**
      * Helper function that returns a target URL string.
-     *
      * @param array|string $a_class
      * @param string       $a_cmd
      * @param string       $a_anchor
      * @param bool         $is_async
-     * @param bool         $has_xml_style
+     * @param bool         $is_escaped
      * @param bool         $is_post
      * @return string|null
      * @throws ilCtrlException
@@ -786,65 +783,100 @@ class ilCtrl implements ilCtrlInterface
         string $a_cmd = "",
         string $a_anchor = "",
         bool $is_async = false,
-        bool $has_xml_style = false,
+        bool $is_escaped = false,
         bool $is_post = false
     ) : ?string {
         if (empty($a_class)) {
             throw new ilCtrlException(__METHOD__ . " was provided with an empty class or class-array.");
         }
 
-        $is_class_path = is_array($a_class);
-        $base_class    = ($is_class_path) ? $a_class[0] : $a_class;
+        $path = new ilCtrlPath(
+            $this->structure,
+            $this->context,
+            $a_class
+        );
 
-        // initialize new target if currently no target
-        // is set or the target class is a known baseclass.
-        $target = (null === $this->target || $this->structure->isBaseClass($base_class)) ?
-            new ilCtrlTarget($this->structure, $base_class) : $this->target
+        $is_array   = is_array($a_class);
+        $target_url = $this->context->getTargetScript();
+        $base_class = ($is_array) ?
+            $a_class[array_key_first($a_class)] :
+            $this->context->getBaseClass()
+        ;
+        $cmd_class  = ($is_array) ?
+            $a_class[array_key_last($a_class)] :
+            $a_class
         ;
 
-        // makes PHPStorm happy, null-pointer never occurs.
-        if (null === $target) { $x = 1; }
+        $target_url = $this->appendParameterString(
+            $target_url,
+            self::PARAM_BASE_CLASS,
+            $base_class,
+            $is_escaped
+        );
 
-        if ($is_class_path) {
-            $target->appendCmdClassArray($a_class);
-        } else {
-            $target->appendCmdClass($a_class);
-        }
+        if (null !== $path->getNextCid($base_class)) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CID_PATH,
+                $path->getCidPath(),
+                $is_escaped
+            );
 
-        if (!$target->getTrace()->isValid()) {
-            throw new ilCtrlException("ilCtrl cannot determine a trace to the provided command class.");
-        }
-
-        // once $target->getTrace()->isValid() is called no
-        // further structure checks are needed.
-        foreach ($target->getTrace()->getCidPieces() as $cid) {
-            $target->setParameters(
-                $this->getParameterArrayByClass(
-                    // so this call doesn't need a null check.
-                    $this->structure->getClassNameByCid($cid)
-                )
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CMD_CLASS,
+                $cmd_class,
+                $is_escaped
             );
         }
 
-        $target
-            ->setCmd($a_cmd)
-            ->setAsync($is_async)
-            ->setEscaped($has_xml_style)
-            ->setAnchor($a_anchor)
-        ;
+        if ($is_array) {
+            foreach ($a_class as $current_class) {
+                $target_url = $this->appendParameterStringsByClass($current_class, $target_url, $is_escaped);
+            }
+        } else {
+            $target_url = $this->appendParameterStringsByClass($a_class, $target_url, $is_escaped);
+        }
 
-        if ($this->isCmdSecure($target->getCurrentCmdClass(), $a_cmd)) {
+        if (!empty($a_cmd)) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                ($is_post) ? self::PARAM_CMD_FALLBACK : self::PARAM_CMD,
+                $a_cmd,
+                $is_escaped
+            );
+        }
+
+        if (!$this->isCmdSecure($cmd_class, $a_cmd)) {
             global $DIC;
 
-            $target->setToken(
-                new ilCtrlToken(
-                    $DIC->database(),
-                    $DIC->user()
-                )
+            $token = new ilCtrlToken(
+                $DIC->database(),
+                $DIC->user()
+            );
+
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CSRF_TOKEN,
+                $token->getToken(),
+                $is_escaped
             );
         }
 
-        return $target->getTargetUrl($is_post);
+        if ($is_async) {
+            $target_url = $this->appendParameterString(
+                $target_url,
+                self::PARAM_CMD_MODE,
+                self::CMD_MODE_ASYNC,
+                $is_escaped
+            );
+        }
+
+        if (!empty($a_anchor)) {
+            $target_url .= "#$a_anchor";
+        }
+
+        return $target_url;
     }
 
     /**
@@ -918,15 +950,53 @@ class ilCtrl implements ilCtrlInterface
     }
 
     /**
-     * Populates a call to the given target in the stacktrace of
-     * this ilCtrl instance.
+     * Appends all parameters for a given class to the given URL.
      *
-     * @param ilCtrlTarget $target
+     * @param string $class_name
+     * @param string $target_url
+     * @param bool   $is_escaped
+     * @return string
+     * @throws ilCtrlException
      */
-    private function populateCall(ilCtrlTarget $target) : void
+    private function appendParameterStringsByClass(string $class_name, string $target_url, bool $is_escaped = false) : string
     {
-        $this->stacktrace[] = $target;
+        $class_parameters = $this->getParameterArrayByClass($class_name);
+        if (!empty($class_parameters)) {
+            foreach ($class_parameters as $key => $value) {
+                $target_url = $this->appendParameterString(
+                    $target_url,
+                    $key,
+                    $value,
+                    $is_escaped
+                );
+            }
+        }
+
+        return $target_url;
     }
+
+    /**
+     * Appends a query parameter to the given URL and returns it.
+     *
+     * @param string $url
+     * @param string $parameter_name
+     * @param mixed  $value
+     * @param bool   $is_escaped
+     * @return string
+     */
+    private function appendParameterString(string $url, string $parameter_name, $value, bool $is_escaped = false) : string
+    {
+        $ampersand = ($is_escaped) ? '&amp;' : '&';
+        if (null !== $value && !is_array($value)) {
+            $url .= (is_int(strpos($url, '?'))) ?
+                $ampersand . $parameter_name . '=' . $value :
+                '?' . $parameter_name . '=' . $value
+            ;
+        }
+
+        return $url;
+    }
+
 
     /**
      * Helper function that returns the class name of a mixed

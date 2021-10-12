@@ -63,7 +63,7 @@ interface ilCtrlContextInterface
     /**
      * Returns the baseclass this context was instantiated with.
      *
-     * @return string
+     * @return string|null
      */
     public function getBaseClass() : ?string;
 
