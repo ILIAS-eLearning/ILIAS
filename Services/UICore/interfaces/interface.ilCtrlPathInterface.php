@@ -18,9 +18,9 @@ interface ilCtrlPathInterface
      *
      * Null is returned when there's no valid path.
      *
-     * @return string
+     * @return string|null
      */
-    public function getCidPath() : string;
+    public function getCidPath() : ?string;
 
     /**
      * Returns the CID that must currently be processed.
@@ -62,4 +62,12 @@ interface ilCtrlPathInterface
      * @return string[]
      */
     public function getCidArray(int $order = SORT_DESC) : array;
+
+    /**
+     * Returns the exception produced during the path-finding-
+     * process.
+     *
+     * @return ilCtrlException|null
+     */
+    public function getException() : ?ilCtrlException;
 }

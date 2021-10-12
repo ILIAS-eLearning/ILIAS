@@ -34,30 +34,15 @@ interface ilCtrlInterface
     public const CMD_MODE_HTML    = 'getHtml';
 
     /**
-     * Initializes ilCtrl with a new baseclass.
-     *
-     * Note that this means, the URL information will be removed
-     * and only the given baseclass is appended for future link
-     * target generations from this point on.
-     *
-     * @param string $a_base_class
-     * @throws ilCtrlException if the baseclass is unknown.
-     */
-    public function initBaseClass(string $a_base_class) : void;
-
-    /**
      * Calls the currently provided baseclass.
      *
-     * This method cannot be called until either:
+     * If no baseclass is provided as an argument, the current GET
+     * request MUST contain @see ilCtrlInterface::PARAM_BASE_CLASS.
      *
-     *      a) @see ilCtrlInterface::initBaseClass() is called, or
-     *      b) @see ilCtrlTarget::PARAM_BASE_CLASS is provided as $_GET parameter.
-     *
-     * @throws ilCtrlException if neither of those options are true OR
-     *                         the current baseclass was not yet read by
-     *                         the @see ilCtrlStructureReader.
+     * @param string|null $a_base_class
+     * @throws ilCtrlException if no valid baseclass is provided.
      */
-    public function callBaseClass() : void;
+    public function callBaseClass(string $a_base_class = null) : void;
 
     /**
      * Forwards the request by invoking executeCommand() on the

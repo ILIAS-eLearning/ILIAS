@@ -1,17 +1,41 @@
 <?php
 
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
+
 /**
  * Class ilCtrlContext is responsible for holding the
  * current context information.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ *
+ * @TODO: discuss: it's possible for ilCtrl to be in an unstable
+ *        state, because possibly no context exists. Contexts
+ *        start existing AFTER initBaseClass() or callBaseClass()
+ *        is called. It is possible to work around that with null
+ *        checks, but we shouldn't have to.
  */
 final class ilCtrlContext implements ilCtrlContextInterface
 {
     /**
-     * @var ilCtrlPathInterface|null
+     * @var RequestWrapper
      */
-    private ?ilCtrlPathInterface $path = null;
+    private RequestWrapper $request;
+
+    /**
+     * @var Refinery
+     */
+    private Refinery $refinery;
+
+    /**
+     * @var ilCtrlPathFactory
+     */
+    private ilCtrlPathFactory $path_factory;
+
+    /**
+     * @var ilCtrlPathInterface
+     */
+    private ilCtrlPathInterface $path;
 
     /**
      * @var string
@@ -51,11 +75,23 @@ final class ilCtrlContext implements ilCtrlContextInterface
     /**
      * ilCtrlContext Constructor
      *
-     * @param string|null $base_class
+     * @param ilCtrlPathFactory $path_factory
+     * @param RequestWrapper    $request
+     * @param Refinery          $refinery
+     * @param string|null       $base_class
      */
-    public function __construct(string $base_class = null)
-    {
-        $this->base_class = $base_class;
+    public function __construct(
+        ilCtrlPathFactory $path_factory,
+        RequestWrapper $request,
+        Refinery $refinery,
+        string $base_class = null
+    ) {
+        $this->base_class   = $base_class;
+        $this->path_factory = $path_factory;
+        $this->refinery     = $refinery;
+        $this->request      = $request;
+
+        $this->initFromRequest();
     }
 
     /**
@@ -192,5 +228,49 @@ final class ilCtrlContext implements ilCtrlContextInterface
     public function getObjType() : ?string
     {
         return $this->obj_type;
+    }
+
+    /**
+     * Initializes the current context with information
+     * from the current request.
+     */
+    private function initFromRequest() : void
+    {
+        if (null === $this->base_class) {
+            $this->base_class = $this->getQueryParam(ilCtrlInterface::PARAM_BASE_CLASS);
+        }
+
+        $cmd_class = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
+        $cid_path  = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
+        if (null !== $cmd_class && null !== $cid_path) {
+            $this->setCmdClass($cmd_class);
+            $this->setPath($this->path_factory->byExistingPath($cid_path));
+        }
+
+        if (null !== ($cmd = $this->getQueryParam(ilCtrlInterface::PARAM_CMD))) {
+            $this->setCmd($cmd);
+        }
+
+        $this->setAsync(
+            ilCtrlInterface::CMD_MODE_ASYNC === $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE)
+        );
+    }
+
+    /**
+     * Helper function to retrieve $_GET parameters by name.
+     *
+     * @param string $parameter_name
+     * @return string|null
+     */
+    private function getQueryParam(string $parameter_name) : ?string
+    {
+        if ($this->request->has($parameter_name)) {
+            return $this->request->retrieve(
+                $parameter_name,
+                $this->refinery->to()->string()
+            );
+        }
+
+        return null;
     }
 }

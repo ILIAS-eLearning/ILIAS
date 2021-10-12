@@ -43,6 +43,13 @@ class ilCtrl implements ilCtrlInterface
     private ilCtrlContextInterface $context;
 
     /**
+     * Holds an instance of the path factory.
+     *
+     * @var ilCtrlPathFactory
+     */
+    private ilCtrlPathFactory $path_factory;
+
+    /**
      * Holds a history of calls made with the current ilCtrl instance.
      *
      * @var array<int, string[]>
@@ -58,18 +65,21 @@ class ilCtrl implements ilCtrlInterface
 
     /**
      * ilCtrl Constructor
-     *
-     * @throws ilCtrlException if the artifacts cannot be included.
      */
     public function __construct()
     {
         global $DIC;
 
-        $this->stacktrace = [];
-        $this->http       = $DIC->http();
-        $this->context    = new ilCtrlContext();
-        $this->structure  = new ilCtrlStructure();
-        $this->refinery   = new Refinery(new DataFactory(), $DIC->language());
+        $this->stacktrace   = [];
+        $this->http         = $DIC->http();
+        $this->structure    = new ilCtrlStructure();
+        $this->path_factory = new ilCtrlPathFactory($this->structure);
+        $this->refinery     = new Refinery(new DataFactory(), $DIC->language());
+        $this->context      = new ilCtrlContext(
+            $this->path_factory,
+            $this->http->wrapper()->query(),
+            $this->refinery
+        );
     }
 
     /**
@@ -85,34 +95,35 @@ class ilCtrl implements ilCtrlInterface
         // reinitialize the current context with the new
         // baseclass (the stacktrace is also reset).
         $this->stacktrace = [];
-        $this->context = new ilCtrlContext($a_base_class);
-        $this->context->setPath(
-            new ilCtrlPath(
-                $this->structure,
-                $this->context,
-                $a_base_class
-            )
+        $this->context = new ilCtrlContext(
+            $this->path_factory,
+            $this->http->wrapper()->query(),
+            $this->refinery,
+            $a_base_class
         );
     }
 
     /**
      * @inheritDoc
      */
-    public function callBaseClass() : void
+    public function callBaseClass(string $a_base_class = null) : void
     {
-        $base_class = $this->getBaseClass();
-        if (null === $base_class) {
+        $this->context = new ilCtrlContext(
+            $this->path_factory,
+            $this->http->wrapper()->query(),
+            $this->refinery,
+            $a_base_class
+        );
+
+        $base_class = $a_base_class ?? $this->getBaseClass();
+        if (null === $base_class || !$this->structure->isBaseClass($base_class)) {
             throw new ilCtrlException("ilCtrl cannot determine the current baseclass.");
         }
 
+
+
         $obj_name = $this->structure->getObjNameByName($base_class);
         $this->forwardCommand(new $obj_name());
-    }
-
-    private function initContext(string $base_class = null) : void
-    {
-        $this->context = new ilCtrlContext($base_class);
-        $this->context->setPath();
     }
 
     /**
@@ -239,6 +250,10 @@ class ilCtrl implements ilCtrlInterface
     public function getNextClass($a_gui_class = null) : ?string
     {
         if (null === $a_gui_class && null === $this->exec_object) {
+            return null;
+        }
+
+        if (null === $this->context->getPath()) {
             return null;
         }
 
@@ -676,7 +691,7 @@ class ilCtrl implements ilCtrlInterface
     public function checkCurrentPathForClass(string $gui_class) : bool
     {
         $class_cid = $this->structure->getClassCidByName($gui_class);
-        if (null === $class_cid) {
+        if (null === $this->context->getPath() || null === $class_cid) {
             return false;
         }
 
@@ -691,10 +706,15 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getCurrentClassPath() : array
     {
+        if (null === $this->context->getPath()) {
+            return [];
+        }
+
         $class_paths = [];
         foreach ($this->context->getPath()->getCidArray(SORT_ASC) as $cid) {
             $class_paths[] = $this->structure->getObjNameByCid($cid);
         }
+
         return $class_paths;
     }
 
@@ -790,13 +810,17 @@ class ilCtrl implements ilCtrlInterface
             throw new ilCtrlException(__METHOD__ . " was provided with an empty class or class-array.");
         }
 
-        $path = new ilCtrlPath(
-            $this->structure,
-            $this->context,
-            $a_class
-        );
-
         $is_array   = is_array($a_class);
+
+        $path = ($is_array) ?
+            $this->path_factory->byArrayClass($a_class) :
+            $this->path_factory->bySingleClass($this->context, $a_class)
+        ;
+
+        if (null !== ($exception = $path->getException())) {
+            throw $exception;
+        }
+
         $target_url = $this->context->getTargetScript();
         $base_class = ($is_array) ?
             $a_class[array_key_first($a_class)] :
@@ -996,7 +1020,6 @@ class ilCtrl implements ilCtrlInterface
 
         return $url;
     }
-
 
     /**
      * Helper function that returns the class name of a mixed

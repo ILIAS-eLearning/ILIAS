@@ -113,7 +113,9 @@ final class ilCtrlToken implements ilCtrlTokenInterface
     {
         $query_result = $this->database->fetchAssoc(
             $this->database->queryF(
-                "SELECT token FROM il_request_token WHERE user_id = %s AND session_id = %s AND stamp < ;",
+                // @TODO: figure out, if ' AND stamp < {timestamp_before_12h};' or
+                //        similar is needed.
+                "SELECT token FROM il_request_token WHERE user_id = %s AND session_id = %s;",
                 [
                     'integer',
                     'text',
