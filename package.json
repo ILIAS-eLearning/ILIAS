@@ -44,7 +44,9 @@
     "rollup": "^2.18.0",
     "rollup-plugin-terser": "^6.1.0"
   },
-  "scripts": {},
+  "scripts": {
+    "test": "mocha --require esm"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ILIAS-eLearning/ILIAS.git"
