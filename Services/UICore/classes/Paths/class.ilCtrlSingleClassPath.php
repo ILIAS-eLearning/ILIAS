@@ -49,29 +49,33 @@ class ilCtrlSingleClassPath extends ilCtrlAbstractPath
     {
         $target_cid = $this->structure->getClassCidByName($target_class);
 
-        // abort if the given class cannot be found.
-        if (null === $target_cid) {
-            throw new ilCtrlException("Class '$target_class' was not found in the control structure, try `composer du` to read artifacts.");
-        }
+        switch (true) {
+            // abort if the target cid is unknown.
+            case null === $target_cid:
+                throw new ilCtrlException("Class '$target_class' was not found in the control structure, try `composer du` to read artifacts.");
 
-        // the class cid can be returned, if the given class
-        // is a baseclass itself.
-        if ($this->structure->isBaseClass($target_class)) {
-            return $target_cid;
-        }
+            // the target is used as trace, if either
+            //      (a) there's no trace yet,
+            //      (b) the target is already the current cid of trace, or
+            //      (c) the target class is a known baseclass.
+            case null === $this->context->getPath()->getCidPath():
+            case $target_cid === $this->context->getPath()->getCidPath():
+            case $this->structure->isBaseClass($target_class):
+                return $target_cid;
 
-        // if the given class is already the current cid
-        // of the current context, this path can be returned.
-        if ($target_cid === $this->context->getPath()->getCurrentCid()) {
-            return $this->context->getPath()->getCidPath();
+            // if the target cid is already the current cid
+            // nothing has to be changed, so the current trace
+            // is returned.
+            case $target_cid === $this->context->getPath()->getCurrentCid():
+                return $this->context->getPath()->getCurrentCid();
         }
 
         // check if the target is related to a class within
         // the current context's path.
-        $cid_paths = $this->context->getPath()->getCidPaths();
         foreach ($this->context->getPath()->getCidArray() as $index => $cid) {
             $current_class = $this->structure->getClassNameByCid($cid);
             if ($this->isClassChildOf($target_class, $current_class)) {
+                $cid_paths = $this->context->getPath()->getCidPaths();
                 return $this->appendCid($target_cid, $cid_paths[$index]);
             }
         }

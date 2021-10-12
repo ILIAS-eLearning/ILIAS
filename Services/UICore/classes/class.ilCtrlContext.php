@@ -8,15 +8,14 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  * current context information.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
- *
- * @TODO: discuss: it's possible for ilCtrl to be in an unstable
- *        state, because possibly no context exists. Contexts
- *        start existing AFTER initBaseClass() or callBaseClass()
- *        is called. It is possible to work around that with null
- *        checks, but we shouldn't have to.
  */
 final class ilCtrlContext implements ilCtrlContextInterface
 {
+    /**
+     * @var ilCtrlPathFactory
+     */
+    private ilCtrlPathFactory $path_factory;
+
     /**
      * @var RequestWrapper
      */
@@ -28,19 +27,9 @@ final class ilCtrlContext implements ilCtrlContextInterface
     private Refinery $refinery;
 
     /**
-     * @var ilCtrlPathFactory
-     */
-    private ilCtrlPathFactory $path_factory;
-
-    /**
      * @var ilCtrlPathInterface
      */
     private ilCtrlPathInterface $path;
-
-    /**
-     * @var string
-     */
-    private string $target_script = 'ilias.php';
 
     /**
      * @var bool
@@ -48,14 +37,14 @@ final class ilCtrlContext implements ilCtrlContextInterface
     private bool $is_async = false;
 
     /**
-     * @var int|null
+     * @var string
      */
-    private ?int $obj_id = null;
+    private string $target_script = 'ilias.php';
 
     /**
      * @var string|null
      */
-    private ?string $obj_type = null;
+    private ?string $base_class = null;
 
     /**
      * @var string|null
@@ -68,9 +57,14 @@ final class ilCtrlContext implements ilCtrlContextInterface
     private ?string $cmd = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    private string $base_class;
+    private ?string $obj_type = null;
+
+    /**
+     * @var int|null
+     */
+    private ?int $obj_id = null;
 
     /**
      * ilCtrlContext Constructor
@@ -78,38 +72,42 @@ final class ilCtrlContext implements ilCtrlContextInterface
      * @param ilCtrlPathFactory $path_factory
      * @param RequestWrapper    $request
      * @param Refinery          $refinery
-     * @param string            $base_class
      */
-    public function __construct(
-        ilCtrlPathFactory $path_factory,
-        RequestWrapper $request,
-        Refinery $refinery,
-        string $base_class
-    ) {
-        $this->base_class   = $base_class;
+    public function __construct(ilCtrlPathFactory $path_factory, RequestWrapper $request, Refinery $refinery)
+    {
         $this->path_factory = $path_factory;
-        $this->refinery     = $refinery;
         $this->request      = $request;
-        $this->path         = $path_factory->null();
+        $this->refinery     = $refinery;
 
-        $this->initFromRequest();
+        // initialize null-path per default.
+        $this->path = $path_factory->null();
     }
 
     /**
      * @inheritDoc
      */
-    public function getBaseClass() : string
+    public function adoptRequestParameters() : void
     {
-        return $this->base_class;
+        $this->is_async   = (ilCtrlInterface::CMD_MODE_ASYNC === $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE));
+        $this->base_class = $this->getQueryParam(ilCtrlInterface::PARAM_BASE_CLASS) ?? $this->base_class;
+        $this->cmd_class  = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
+        $this->cmd        = $this->getQueryParam(ilCtrlInterface::PARAM_CMD);
+
+        $existing_path = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
+        if (null !== $existing_path) {
+            $this->path = $this->path_factory->existingPath($existing_path);
+        } elseif (null !== $this->base_class) {
+            $this->path = $this->path_factory->singleClass($this, $this->base_class);
+        }
+        // otherwise, the path is null per default.
     }
 
     /**
      * @inheritDoc
      */
-    public function setPath(ilCtrlPathInterface $path) : ilCtrlContextInterface
+    public function isAsync() : bool
     {
-        $this->path = $path;
-        return $this;
+        return $this->is_async;
     }
 
     /**
@@ -123,18 +121,18 @@ final class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setAsync(bool $is_async) : ilCtrlContextInterface
+    public function setBaseClass(string $base_class) : ilCtrlContextInterface
     {
-        $this->is_async = $is_async;
+        $this->base_class = $base_class;
         return $this;
     }
 
     /**
      * @inheritDoc
      */
-    public function isAsync() : bool
+    public function getBaseClass() : ?string
     {
-        return $this->is_async;
+        return $this->base_class;
     }
 
     /**
@@ -191,24 +189,7 @@ final class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
-    public function setObjId(int $obj_id) : ilCtrlContext
-    {
-        $this->obj_id = $obj_id;
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getObjId() : ?int
-    {
-        return $this->obj_id;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setObjType(string $obj_type) : ilCtrlContext
+    public function setObjType(string $obj_type) : ilCtrlContextInterface
     {
         $this->obj_type = $obj_type;
         return $this;
@@ -223,29 +204,24 @@ final class ilCtrlContext implements ilCtrlContextInterface
     }
 
     /**
-     * Initializes the current context with information
-     * from the current request.
+     * @inheritDoc
      */
-    private function initFromRequest() : void
+    public function setObjId(int $obj_id) : ilCtrlContextInterface
     {
-        $cmd_class = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
-        $cid_path  = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
-        if (null !== $cmd_class && null !== $cid_path) {
-            $this->setCmdClass($cmd_class);
-            $this->setPath($this->path_factory->existingPath($cid_path));
-        }
-
-        if (null !== ($cmd = $this->getQueryParam(ilCtrlInterface::PARAM_CMD))) {
-            $this->setCmd($cmd);
-        }
-
-        $this->setAsync(
-            ilCtrlInterface::CMD_MODE_ASYNC === $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE)
-        );
+        $this->obj_id = $obj_id;
+        return $this;
     }
 
     /**
-     * Helper function to retrieve $_GET parameters by name.
+     * @inheritDoc
+     */
+    public function getObjId() : ?int
+    {
+        return $this->obj_id;
+    }
+
+    /**
+     * Helper function to retrieve request parameter values by name.
      *
      * @param string $parameter_name
      * @return string|null

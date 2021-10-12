@@ -22,13 +22,13 @@ final class ilCtrlStructureReader
      *             an ilCtrl_Calls statement. '{CLASS_NAME}' has to
      *             be replaced with an actual classname before used.
      */
-    private const REGEX_PHPDOC_CALLS = '/((@ilCtrl_Calls|@ilctrl_calls)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
+    private const REGEX_PHPDOC_CALLS = '/(((?i)@ilctrl_calls)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
 
     /**
      * @var string regex pattern similar to the one above, except it's
      *             used for ilCtrl_isCalledBy statements.
      */
-    private const REGEX_PHPDOC_CALLED_BYS = '/((@ilCtrl_isCalledBy|@ilctrl_iscalledby)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
+    private const REGEX_PHPDOC_CALLED_BYS = '/(((?i)@ilctrl_iscalledby)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
 
     /**
      * Holds whether the structure reader was already executed or not.
@@ -98,6 +98,8 @@ final class ilCtrlStructureReader
      */
     public function readStructure() : array
     {
+        // loops through all classes of the composer generated
+        // class-map and gathers their information.
         foreach ($this->class_map as $class_name => $path) {
             // skip iteration if class doesn't meet ILIAS
             // GUI class criteria.
@@ -114,11 +116,14 @@ final class ilCtrlStructureReader
                 continue;
             }
 
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->generateCid();;
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->generateCid();
             $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
             $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
         }
 
+        // loops through all references and creates vise-versa
+        // entries for them, e.g. if a class has children, the
+        // class is added to all children as their parent.
         foreach ($this->references as $class_name => $data) {
             $this->addViseVersaMapping(
                 $class_name,
@@ -131,9 +136,15 @@ final class ilCtrlStructureReader
                 ilCtrlStructureInterface::KEY_CLASS_PARENTS,
                 ilCtrlStructureInterface::KEY_CLASS_CHILDREN
             );
+        }
 
-            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS] = $data[ilCtrlStructureInterface::KEY_CLASS_PARENTS];
-            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $data[ilCtrlStructureInterface::KEY_CLASS_CHILDREN];
+        // loops again through all references in order to
+        // add this data to the actual output. This needs
+        // to happen in a separate loop, as the vise-versa
+        // mappings are not yet finished the previous loop.
+        foreach ($this->references as $class_name => $data) {
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS];
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN];
         }
 
         self::$is_executed = true;

@@ -138,6 +138,8 @@
     'class_path' => './Modules/SurveyQuestionPool/Questions/class.SurveyMatrixQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveyquestionpoolgui',
+      1 => 'ilsurveyeditorgui',
     ),
     'children' => 
     array (
@@ -150,6 +152,8 @@
     'class_path' => './Modules/SurveyQuestionPool/Questions/class.SurveyMetricQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveyquestionpoolgui',
+      1 => 'ilsurveyeditorgui',
     ),
     'children' => 
     array (
@@ -162,6 +166,8 @@
     'class_path' => './Modules/SurveyQuestionPool/Questions/class.SurveyMultipleChoiceQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveyquestionpoolgui',
+      1 => 'ilsurveyeditorgui',
     ),
     'children' => 
     array (
@@ -186,6 +192,8 @@
     'class_path' => './Modules/SurveyQuestionPool/Questions/class.SurveySingleChoiceQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveyquestionpoolgui',
+      1 => 'ilsurveyeditorgui',
     ),
     'children' => 
     array (
@@ -198,6 +206,8 @@
     'class_path' => './Modules/SurveyQuestionPool/Questions/class.SurveyTextQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveyquestionpoolgui',
+      1 => 'ilsurveyeditorgui',
     ),
     'children' => 
     array (
@@ -210,10 +220,15 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assClozeTestGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
+      1 => 'iltestexpresspageobjectgui',
     ),
   ),
   'asserrortextgui' => 
@@ -224,6 +239,8 @@
     'parents' => 
     array (
       0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
     ),
     'children' => 
     array (
@@ -250,6 +267,7 @@
     'parents' => 
     array (
       0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -263,10 +281,15 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assFormulaQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
+      1 => 'iltestexpresspageobjectgui',
     ),
   ),
   'assimagemapquestiongui' => 
@@ -276,11 +299,16 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assImagemapQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilpropertyformgui',
       1 => 'ilformpropertydispatchgui',
+      2 => 'iltestexpresspageobjectgui',
     ),
   ),
   'asskprimchoicegui' => 
@@ -290,6 +318,9 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assKprimChoiceGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
     ),
     'children' => 
     array (
@@ -304,6 +335,9 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assLongMenuGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
     ),
     'children' => 
     array (
@@ -318,10 +352,15 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assMatchingQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
+      1 => 'iltestexpresspageobjectgui',
     ),
   ),
   'assmultiplechoicegui' => 
@@ -331,10 +370,15 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assMultipleChoiceGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
+      1 => 'iltestexpresspageobjectgui',
     ),
   ),
   'assnumericgui' => 
@@ -344,10 +388,15 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assNumericGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
+      1 => 'iltestexpresspageobjectgui',
     ),
   ),
   'assorderinghorizontalgui' => 
@@ -358,6 +407,8 @@
     'parents' => 
     array (
       0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
     ),
     'children' => 
     array (
@@ -372,10 +423,15 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assOrderingQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
+      1 => 'iltestexpresspageobjectgui',
     ),
   ),
   'assquestiongui' => 
@@ -397,10 +453,15 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assSingleChoiceGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
+      1 => 'iltestexpresspageobjectgui',
     ),
   ),
   'asstextquestiongui' => 
@@ -410,10 +471,15 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assTextQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
+      1 => 'iltestexpresspageobjectgui',
     ),
   ),
   'asstextsubsetgui' => 
@@ -423,10 +489,15 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.assTextSubsetGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilquestioneditgui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
       0 => 'ilformpropertydispatchgui',
+      1 => 'iltestexpresspageobjectgui',
     ),
   ),
   'exobjquestionpoolgui' => 
@@ -484,6 +555,8 @@
     'class_path' => './Services/AdministrativeNotification/classes/class.ilADNNotificationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjadministrativenotificationgui',
+      1 => 'ilobjadministrativenotificationgui',
     ),
     'children' => 
     array (
@@ -580,6 +653,7 @@
     'class_path' => './Services/Accessibility/classes/class.ilAccessibilityControlConceptGUI.php',
     'parents' => 
     array (
+      0 => 'ilstartupgui',
     ),
     'children' => 
     array (
@@ -616,6 +690,7 @@
     'class_path' => './Services/Accessibility/classes/Document/class.ilAccessibilityDocumentGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjaccessibilitysettingsgui',
     ),
     'children' => 
     array (
@@ -688,6 +763,7 @@
     'class_path' => './Services/User/classes/class.ilAccountCodesGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjuserfoldergui',
     ),
     'children' => 
     array (
@@ -712,6 +788,7 @@
     'class_path' => './Services/Registration/classes/class.ilAccountRegistrationGUI.php',
     'parents' => 
     array (
+      0 => 'ilstartupgui',
     ),
     'children' => 
     array (
@@ -724,6 +801,7 @@
     'class_path' => './Services/Dashboard/Achievements/classes/class.ilAchievementsGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -731,6 +809,7 @@
       1 => 'ilpersonalskillsgui',
       2 => 'ilbadgeprofilegui',
       3 => 'illearninghistorygui',
+      4 => 'ilusercertificategui',
     ),
   ),
   'iladdanswermodalformgui' => 
@@ -876,6 +955,43 @@
       82 => 'ilobjlticonsumergui',
       83 => 'ilobjlearningsequenceadmingui',
       84 => 'ilobjcontentpageadministrationgui',
+      85 => 'ilobjaccessibilitysettingsgui',
+      86 => 'ilobjadministrativenotificationgui',
+      87 => 'ilobjawarenessadministrationgui',
+      88 => 'ilobjblogadministrationgui',
+      89 => 'ilobjbookingpoolgui',
+      90 => 'ilobjcertificatesettingsgui',
+      91 => 'ilobjchatroomadmingui',
+      92 => 'ilobjcommentssettingsgui',
+      93 => 'ilobjcontactadministrationgui',
+      94 => 'ilobjcontentpagegui',
+      95 => 'ilobjdashboardsettingsgui',
+      96 => 'ilobjexternalfeedgui',
+      97 => 'ilobjfileservicesgui',
+      98 => 'ilobjhelpsettingsgui',
+      99 => 'ilobjitemgroupgui',
+      100 => 'ilobjltiadministrationgui',
+      101 => 'ilobjlearninghistorysettingsgui',
+      102 => 'ilobjlearningresourcessettingsgui',
+      103 => 'ilobjlearningsequencegui',
+      104 => 'ilobjmainmenugui',
+      105 => 'ilobjmediacastsettingsgui',
+      106 => 'ilobjmediaobjectssettingsgui',
+      107 => 'ilobjnotessettingsgui',
+      108 => 'ilobjnotificationadmingui',
+      109 => 'ilobjobjecttemplateadministrationgui',
+      110 => 'ilobjorgunitgui',
+      111 => 'ilobjpdfgenerationgui',
+      112 => 'ilobjpersonalworkspacesettingsgui',
+      113 => 'ilobjportfolioadministrationgui',
+      114 => 'ilobjskillmanagementgui',
+      115 => 'ilobjsystemcheckgui',
+      116 => 'ilobjtaggingsettingsgui',
+      117 => 'ilobjtermsofservicegui',
+      118 => 'ilobjwebdavgui',
+      119 => 'ilobjwikigui',
+      120 => 'ilobjwikisettingsgui',
+      121 => 'ilobjworkflowenginegui',
     ),
   ),
   'iladvselectinputgui' => 
@@ -982,10 +1098,13 @@
     'class_path' => './Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjmdsettingsgui',
+      1 => 'ilobjectmetadatagui',
     ),
     'children' => 
     array (
       0 => 'ilpropertyformgui',
+      1 => 'iladvancedmdrecordtranslationgui',
     ),
   ),
   'iladvancedmdtranslationgui' => 
@@ -1076,6 +1195,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationBookingPoolGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1088,6 +1208,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationConsultationHoursGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1100,6 +1221,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationCourseGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1112,6 +1234,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationExerciseGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1124,6 +1247,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1136,6 +1260,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationGroupGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1148,6 +1273,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationMilestoneGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1160,6 +1286,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationPublicGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1172,6 +1299,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationSessionGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1184,6 +1312,7 @@
     'class_path' => './Services/Calendar/classes/AppointmentPresentation/class.ilAppointmentPresentationUserGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
     ),
     'children' => 
     array (
@@ -1232,6 +1361,18 @@
     'class_path' => './Modules/TestQuestionPool/classes/feedback/class.ilAssGenFeedbackPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionfeedbackeditinggui',
+      1 => 'ilassquestionpreviewgui',
+      2 => 'illmpageobjectgui',
+      3 => 'illmpresentationgui',
+      4 => 'ilmytestresultsgui',
+      5 => 'ilobjtestgui',
+      6 => 'ilparticipantstestresultsgui',
+      7 => 'ilscorm2004pagenodegui',
+      8 => 'ilscorm2004scogui',
+      9 => 'iltestplayerdynamicquestionsetgui',
+      10 => 'iltestplayerfixedquestionsetgui',
+      11 => 'iltestplayerrandomquestionsetgui',
     ),
     'children' => 
     array (
@@ -1251,6 +1392,9 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssHintPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionhintgui',
+      1 => 'ilassquestionhintrequestgui',
+      2 => 'ilassquestionhintsgui',
     ),
     'children' => 
     array (
@@ -1378,6 +1522,10 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionFeedbackEditingGUI.php',
     'parents' => 
     array (
+      0 => 'illmpagegui',
+      1 => 'ilobjquestionpoolgui',
+      2 => 'ilobjtestgui',
+      3 => 'ilscorm2004pagegui',
     ),
     'children' => 
     array (
@@ -1405,6 +1553,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionHintGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionhintsgui',
     ),
     'children' => 
     array (
@@ -1418,6 +1567,10 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionHintRequestGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionpreviewgui',
+      1 => 'iltestplayerdynamicquestionsetgui',
+      2 => 'iltestplayerfixedquestionsetgui',
+      3 => 'iltestplayerrandomquestionsetgui',
     ),
     'children' => 
     array (
@@ -1434,6 +1587,8 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionHintsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -1451,6 +1606,8 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionHintsTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionhintrequestgui',
+      1 => 'ilassquestionhintsgui',
     ),
     'children' => 
     array (
@@ -1463,6 +1620,18 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionskillassignmentsgui',
+      1 => 'ilmytestresultsgui',
+      2 => 'ilmytestsolutionsgui',
+      3 => 'ilobjquestionpoolgui',
+      4 => 'ilobjtestgui',
+      5 => 'ilparticipantstestresultsgui',
+      6 => 'iltestevalobjectiveorientedgui',
+      7 => 'iltestexpresspageobjectgui',
+      8 => 'iltestfixedquestionsetconfiggui',
+      9 => 'iltestplayerdynamicquestionsetgui',
+      10 => 'iltestplayerfixedquestionsetgui',
+      11 => 'iltestplayerrandomquestionsetgui',
     ),
     'children' => 
     array (
@@ -1482,6 +1651,8 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -1500,6 +1671,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewToolbarGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionpreviewgui',
     ),
     'children' => 
     array (
@@ -1512,6 +1684,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionRelatedNavigationBarGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionpreviewgui',
     ),
     'children' => 
     array (
@@ -1524,6 +1697,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/forms/class.ilAssQuestionSkillAssignmentPropertyFormGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionskillassignmentsgui',
     ),
     'children' => 
     array (
@@ -1536,6 +1710,8 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionSkillAssignmentsGUI.php',
     'parents' => 
     array (
+      0 => 'ilquestionpoolskilladministrationgui',
+      1 => 'iltestskilladministrationgui',
     ),
     'children' => 
     array (
@@ -1554,6 +1730,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilAssQuestionSkillAssignmentsTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionskillassignmentsgui',
     ),
     'children' => 
     array (
@@ -1566,6 +1743,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilAssQuestionSkillUsagesTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilquestionpoolskilladministrationgui',
     ),
     'children' => 
     array (
@@ -1590,6 +1768,14 @@
     'class_path' => './Modules/TestQuestionPool/classes/feedback/class.ilAssSpecFeedbackPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionfeedbackeditinggui',
+      1 => 'ilassquestionpreviewgui',
+      2 => 'ilmytestresultsgui',
+      3 => 'ilobjtestgui',
+      4 => 'ilparticipantstestresultsgui',
+      5 => 'iltestplayerdynamicquestionsetgui',
+      6 => 'iltestplayerfixedquestionsetgui',
+      7 => 'iltestplayerrandomquestionsetgui',
     ),
     'children' => 
     array (
@@ -1695,6 +1881,7 @@
     'class_path' => './Services/AuthShibboleth/classes/class.ilAuthShibbolethSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjauthsettingsgui',
     ),
     'children' => 
     array (
@@ -1791,6 +1978,9 @@
     'class_path' => './Services/Badge/classes/class.ilBadgeManagementGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbadgeadministrationgui',
+      1 => 'ilobjcoursegui',
+      2 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -1816,6 +2006,7 @@
     'class_path' => './Services/Badge/classes/class.ilBadgeProfileGUI.php',
     'parents' => 
     array (
+      0 => 'ilachievementsgui',
     ),
     'children' => 
     array (
@@ -1914,6 +2105,7 @@
     'class_path' => './Modules/Bibliographic/classes/Field/class.ilBiblAdminBibtexFieldGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbibliographicadmingui',
     ),
     'children' => 
     array (
@@ -1927,6 +2119,7 @@
     'class_path' => './Modules/Bibliographic/classes/Field/class.ilBiblAdminFieldGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbibliographicadmingui',
     ),
     'children' => 
     array (
@@ -1951,6 +2144,7 @@
     'class_path' => './Modules/Bibliographic/classes/Field/class.ilBiblAdminRisFieldGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbibliographicadmingui',
     ),
     'children' => 
     array (
@@ -1976,6 +2170,7 @@
     'class_path' => './Modules/Bibliographic/classes/Entry/class.ilBiblEntryTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbibliographicgui',
     ),
     'children' => 
     array (
@@ -2012,6 +2207,7 @@
     'class_path' => './Modules/Bibliographic/classes/FieldFilter/class.ilBiblFieldFilterGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbibliographicgui',
     ),
     'children' => 
     array (
@@ -2060,6 +2256,7 @@
     'class_path' => './Modules/Bibliographic/classes/Admin/Library/class.ilBiblLibraryGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbibliographicadmingui',
     ),
     'children' => 
     array (
@@ -2096,6 +2293,8 @@
     'class_path' => './Modules/Bibliographic/classes/Translation/class.ilBiblTranslationGUI.php',
     'parents' => 
     array (
+      0 => 'ilbibladminbibtexfieldgui',
+      1 => 'ilbibladminrisfieldgui',
     ),
     'children' => 
     array (
@@ -2144,6 +2343,7 @@
     'class_path' => './Modules/Blog/classes/class.ilBlogExerciseGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbloggui',
     ),
     'children' => 
     array (
@@ -2168,6 +2368,8 @@
     'class_path' => './Modules/Blog/classes/class.ilBlogPostingGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbloggui',
+      1 => 'ilportfoliopagegui',
     ),
     'children' => 
     array (
@@ -2211,6 +2413,8 @@
     'class_path' => './Modules/BookingManager/BookingService/classes/class.ilBookingGatewayGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
+      1 => 'ilobjsessiongui',
     ),
     'children' => 
     array (
@@ -2226,6 +2430,7 @@
     'class_path' => './Modules/BookingManager/Objects/classes/class.ilBookingObjectGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbookingpoolgui',
     ),
     'children' => 
     array (
@@ -2240,6 +2445,7 @@
     'class_path' => './Modules/BookingManager/BookingService/classes/class.ilBookingObjectServiceGUI.php',
     'parents' => 
     array (
+      0 => 'ilbookinggatewaygui',
     ),
     'children' => 
     array (
@@ -2266,6 +2472,7 @@
     'class_path' => './Modules/BookingManager/Participants/classes/class.ilBookingParticipantGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbookingpoolgui',
     ),
     'children' => 
     array (
@@ -2291,6 +2498,7 @@
     'class_path' => './Modules/BookingManager/Preferences/classes/class.ilBookingPreferencesGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbookingpoolgui',
     ),
     'children' => 
     array (
@@ -2303,6 +2511,8 @@
     'class_path' => './Modules/BookingManager/BookingProcess/classes/class.ilBookingProcessGUI.php',
     'parents' => 
     array (
+      0 => 'ilbookingobjectgui',
+      1 => 'ilbookingobjectservicegui',
     ),
     'children' => 
     array (
@@ -2315,6 +2525,8 @@
     'class_path' => './Modules/BookingManager/Reservations/classes/class.ilBookingReservationsGUI.php',
     'parents' => 
     array (
+      0 => 'ilbookinggatewaygui',
+      1 => 'ilobjbookingpoolgui',
     ),
     'children' => 
     array (
@@ -2339,6 +2551,7 @@
     'class_path' => './Modules/BookingManager/Schedule/classes/class.ilBookingScheduleGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbookingpoolgui',
     ),
     'children' => 
     array (
@@ -2365,6 +2578,8 @@
     array (
       0 => 'iluipluginroutergui',
       1 => 'ilpublicuserprofilegui',
+      2 => 'ilmailsearchcoursesgui',
+      3 => 'ilmailsearchgroupsgui',
     ),
     'children' => 
     array (
@@ -2389,6 +2604,7 @@
     'class_path' => './Services/CAS/classes/class.ilCASSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjauthsettingsgui',
     ),
     'children' => 
     array (
@@ -2413,6 +2629,7 @@
     'class_path' => './Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarinboxgui',
     ),
     'children' => 
     array (
@@ -2426,6 +2643,15 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarAppointmentGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
+      1 => 'ilcalendarblockgui',
+      2 => 'ilcalendarcategorygui',
+      3 => 'ilcalendardaygui',
+      4 => 'ilcalendarinboxgui',
+      5 => 'ilcalendarmonthgui',
+      6 => 'ilcalendarpresentationgui',
+      7 => 'ilcalendarweekgui',
+      8 => 'ilpdcalendarblockgui',
     ),
     'children' => 
     array (
@@ -2450,11 +2676,27 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendaragendalistgui',
+      1 => 'ilcalendarblockgui',
+      2 => 'ilcalendardaygui',
+      3 => 'ilcalendarmonthgui',
+      4 => 'ilcalendarweekgui',
+      5 => 'ilpdcalendarblockgui',
     ),
     'children' => 
     array (
       0 => 'ilinfoscreengui',
       1 => 'ilcalendarappointmentgui',
+      2 => 'ilappointmentpresentationbookingpoolgui',
+      3 => 'ilappointmentpresentationconsultationhoursgui',
+      4 => 'ilappointmentpresentationcoursegui',
+      5 => 'ilappointmentpresentationexercisegui',
+      6 => 'ilappointmentpresentationgui',
+      7 => 'ilappointmentpresentationgroupgui',
+      8 => 'ilappointmentpresentationmilestonegui',
+      9 => 'ilappointmentpresentationpublicgui',
+      10 => 'ilappointmentpresentationsessiongui',
+      11 => 'ilappointmentpresentationusergui',
     ),
   ),
   'ilcalendarappointmentstablegui' => 
@@ -2476,6 +2718,8 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
+      1 => 'ilcalendarpresentationgui',
     ),
     'children' => 
     array (
@@ -2494,6 +2738,7 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarCategoryGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarpresentationgui',
     ),
     'children' => 
     array (
@@ -2532,6 +2777,9 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarDayGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarblockgui',
+      1 => 'ilcalendarpresentationgui',
+      2 => 'ilpdcalendarblockgui',
     ),
     'children' => 
     array (
@@ -2558,6 +2806,8 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarInboxGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarpresentationgui',
+      1 => 'ilpdcalendarblockgui',
     ),
     'children' => 
     array (
@@ -2596,6 +2846,11 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarMonthGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarblockgui',
+      1 => 'ilcalendarpresentationgui',
+      2 => 'ilpdcalendarblockgui',
+      3 => 'ilportfoliopagegui',
+      4 => 'ilportfoliotemplatepagegui',
     ),
     'children' => 
     array (
@@ -2610,6 +2865,9 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarPresentationGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
+      1 => 'ilobjcoursegui',
+      2 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -2658,6 +2916,7 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarcategorygui',
     ),
     'children' => 
     array (
@@ -2706,6 +2965,7 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarSubscriptionGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarpresentationgui',
     ),
     'children' => 
     array (
@@ -2718,6 +2978,7 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarpresentationgui',
     ),
     'children' => 
     array (
@@ -2742,6 +3003,9 @@
     'class_path' => './Services/Calendar/classes/class.ilCalendarWeekGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarblockgui',
+      1 => 'ilcalendarpresentationgui',
+      2 => 'ilpdcalendarblockgui',
     ),
     'children' => 
     array (
@@ -2792,6 +3056,14 @@
     'class_path' => './Services/Certificate/classes/class.ilCertificateGUI.php',
     'parents' => 
     array (
+      0 => 'ilcmixapisettingsgui',
+      1 => 'illticonsumersettingsgui',
+      2 => 'ilobjcoursegui',
+      3 => 'ilobjexercisegui',
+      4 => 'ilobjscorm2004learningmodulegui',
+      5 => 'ilobjscormlearningmodulegui',
+      6 => 'ilobjstudyprogrammegui',
+      7 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -2876,6 +3148,7 @@
     'class_path' => './Modules/Chatroom/classes/class.ilChatroomAuthInputGUI.php',
     'parents' => 
     array (
+      0 => 'ilformpropertydispatchgui',
     ),
     'children' => 
     array (
@@ -3092,6 +3365,7 @@
     'class_path' => './Services/Classification/classes/class.ilClassificationBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
     ),
     'children' => 
     array (
@@ -3128,6 +3402,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginActionListGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3152,6 +3427,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginCreateFolderGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3176,6 +3452,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginDeleteGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3188,6 +3465,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginFileTreeGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3212,6 +3490,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginHeaderActionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3224,6 +3503,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginInfoScreenGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3236,6 +3516,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginInitGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3248,6 +3529,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginItemCreationListGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3272,6 +3554,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3284,6 +3567,7 @@
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginUploadGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcloudgui',
     ),
     'children' => 
     array (
@@ -3320,6 +3604,7 @@
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiExportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcmixapigui',
     ),
     'children' => 
     array (
@@ -3332,6 +3617,7 @@
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiLaunchGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcmixapigui',
     ),
     'children' => 
     array (
@@ -3356,6 +3642,7 @@
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiRegistrationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcmixapigui',
     ),
     'children' => 
     array (
@@ -3368,6 +3655,7 @@
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiScoringGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcmixapigui',
     ),
     'children' => 
     array (
@@ -3392,6 +3680,7 @@
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcmixapigui',
     ),
     'children' => 
     array (
@@ -3405,6 +3694,7 @@
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiStatementsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcmixapigui',
     ),
     'children' => 
     array (
@@ -3453,9 +3743,37 @@
     'class_path' => './Services/Block/classes/class.ilColumnGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendargui',
+      1 => 'ilcoursecontentgui',
+      2 => 'ildashboardgui',
+      3 => 'ilinfoscreengui',
+      4 => 'ilobjcategorygui',
+      5 => 'ilobjcoursegui',
+      6 => 'ilobjfoldergui',
+      7 => 'ilobjforumgui',
+      8 => 'ilobjgroupgui',
+      9 => 'ilobjlearningsequencegui',
+      10 => 'ilobjorgunitgui',
+      11 => 'ilobjrootfoldergui',
+      12 => 'ilobjstudyprogrammegui',
+      13 => 'ilpermanentlinkgui',
     ),
     'children' => 
     array (
+      0 => 'ilcalendarblockgui',
+      1 => 'ilclassificationblockgui',
+      2 => 'ilexternalfeedblockgui',
+      3 => 'ilnewsforcontextblockgui',
+      4 => 'ilobjectmetadatablockgui',
+      5 => 'ilpdcalendarblockgui',
+      6 => 'ilpdexternalfeedblockgui',
+      7 => 'ilpdmailblockgui',
+      8 => 'ilpdnewsblockgui',
+      9 => 'ilpdselecteditemsblockgui',
+      10 => 'ilpdstudyprogrammeexpandablelistgui',
+      11 => 'ilpdstudyprogrammesimplelistgui',
+      12 => 'ilpdtasksblockgui',
+      13 => 'ilpollblockgui',
     ),
   ),
   'ilcombinationinputgui' => 
@@ -3477,6 +3795,61 @@
     'class_path' => './Services/Object/classes/class.ilCommonActionDispatcherGUI.php',
     'parents' => 
     array (
+      0 => 'ilinfoscreengui',
+      1 => 'illmpagegui',
+      2 => 'illmpresentationgui',
+      3 => 'ilobjbibliographicgui',
+      4 => 'ilobjbloggui',
+      5 => 'ilobjbookingpoolgui',
+      6 => 'ilobjcategorygui',
+      7 => 'ilobjchatroomgui',
+      8 => 'ilobjcloudgui',
+      9 => 'ilobjcmixapigui',
+      10 => 'ilobjcontentpagegui',
+      11 => 'ilobjcoursegui',
+      12 => 'ilobjcoursereferencegui',
+      13 => 'ilobjdatacollectiongui',
+      14 => 'ilobjexercisegui',
+      15 => 'ilobjfilebasedlmgui',
+      16 => 'ilobjfilegui',
+      17 => 'ilobjfoldergui',
+      18 => 'ilobjforumgui',
+      19 => 'ilobjglossarygui',
+      20 => 'ilobjgroupgui',
+      21 => 'ilobjindividualassessmentgui',
+      22 => 'ilobjitemgroupgui',
+      23 => 'ilobjlticonsumergui',
+      24 => 'ilobjlearningmodulegui',
+      25 => 'ilobjlearningsequencegui',
+      26 => 'ilobjlinkresourcegui',
+      27 => 'ilobjmediacastgui',
+      28 => 'ilobjmediapoolgui',
+      29 => 'ilobjorgunitgui',
+      30 => 'ilobjpollgui',
+      31 => 'ilobjportfoliotemplategui',
+      32 => 'ilobjquestionpoolgui',
+      33 => 'ilobjremotecategorygui',
+      34 => 'ilobjremotecoursegui',
+      35 => 'ilobjremotefilegui',
+      36 => 'ilobjremoteglossarygui',
+      37 => 'ilobjremotegroupgui',
+      38 => 'ilobjremotelearningmodulegui',
+      39 => 'ilobjremotetestgui',
+      40 => 'ilobjremotewikigui',
+      41 => 'ilobjrootfoldergui',
+      42 => 'ilobjsahslearningmodulegui',
+      43 => 'ilobjscorm2004learningmodulegui',
+      44 => 'ilobjsessiongui',
+      45 => 'ilobjstudyprogrammegui',
+      46 => 'ilobjsurveygui',
+      47 => 'ilobjsurveyquestionpoolgui',
+      48 => 'ilobjtestgui',
+      49 => 'ilobjwikigui',
+      50 => 'ilobjworkspacefoldergui',
+      51 => 'ilobjworkspacerootfoldergui',
+      52 => 'ilpdmembershipblockgui',
+      53 => 'ilpdselecteditemsblockgui',
+      54 => 'ilwikipagegui',
     ),
     'children' => 
     array (
@@ -3506,6 +3879,10 @@
     'class_path' => './Services/Conditions/classes/class.ilConditionHandlerGUI.php',
     'parents' => 
     array (
+      0 => 'illoeditorgui',
+      1 => 'ilobjcoursegui',
+      2 => 'ilobjectactivationgui',
+      3 => 'ilstructureobjectgui',
     ),
     'children' => 
     array (
@@ -3530,6 +3907,13 @@
     'class_path' => './Services/UIComponent/Confirmation/class.ilConfirmationGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionhintrequestgui',
+      1 => 'ilassquestionhintsgui',
+      2 => 'ilassquestionskillassignmentsgui',
+      3 => 'ilobjtestsettingsgeneralgui',
+      4 => 'ilobjtestsettingsscoringresultsgui',
+      5 => 'iltestplayerfixedquestionsetgui',
+      6 => 'iltestplayerrandomquestionsetgui',
     ),
     'children' => 
     array (
@@ -3578,6 +3962,11 @@
     'class_path' => './Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarblockgui',
+      1 => 'ilcalendarpresentationgui',
+      2 => 'ilpdcalendarblockgui',
+      3 => 'ilportfoliopagegui',
+      4 => 'ilportfoliotemplatepagegui',
     ),
     'children' => 
     array (
@@ -3626,6 +4015,7 @@
     'class_path' => './Services/Container/Skills/classes/class.ilContSkillAdminGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontainerskillgui',
     ),
     'children' => 
     array (
@@ -3651,6 +4041,7 @@
     'class_path' => './Services/Container/Skills/classes/class.ilContSkillPresentationGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontainerskillgui',
     ),
     'children' => 
     array (
@@ -3676,6 +4067,8 @@
     'class_path' => './Services/Contact/classes/class.ilContactGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
+      1 => 'ilmailgui',
     ),
     'children' => 
     array (
@@ -3719,6 +4112,7 @@
     'class_path' => './Services/Container/Filter/classes/class.ilContainerFilterAdminGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcategorygui',
     ),
     'children' => 
     array (
@@ -3743,6 +4137,10 @@
     'class_path' => './Services/Container/classes/class.ilContainerGUI.php',
     'parents' => 
     array (
+      0 => 'iladvancedsearchgui',
+      1 => 'illuceneadvancedsearchgui',
+      2 => 'illucenesearchgui',
+      3 => 'ilsearchgui',
     ),
     'children' => 
     array (
@@ -3755,6 +4153,10 @@
     'class_path' => './Services/Container/classes/class.ilContainerLinkListGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcategorygui',
+      1 => 'ilobjlearningsequencegui',
+      2 => 'ilobjorgunitgui',
+      3 => 'ilobjrootfoldergui',
     ),
     'children' => 
     array (
@@ -3767,6 +4169,10 @@
     'class_path' => './Services/Container/classes/class.ilContainerNewsSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcategorygui',
+      1 => 'ilobjcoursegui',
+      2 => 'ilobjforumgui',
+      3 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -3791,6 +4197,11 @@
     'class_path' => './Services/Container/classes/class.ilContainerPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcategorygui',
+      1 => 'ilobjcoursegui',
+      2 => 'ilobjfoldergui',
+      3 => 'ilobjgroupgui',
+      4 => 'ilobjrootfoldergui',
     ),
     'children' => 
     array (
@@ -3847,6 +4258,8 @@
     'class_path' => './Services/Container/Skills/classes/class.ilContainerSkillGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
+      1 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -3885,6 +4298,8 @@
     'class_path' => './Services/Container/classes/class.ilContainerStartObjectsGUI.php',
     'parents' => 
     array (
+      0 => 'illoeditorgui',
+      1 => 'ilobjcoursegui',
     ),
     'children' => 
     array (
@@ -3898,6 +4313,8 @@
     'class_path' => './Services/Container/classes/class.ilContainerStartObjectsPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontainerstartobjectsgui',
+      1 => 'ilobjcoursegui',
     ),
     'children' => 
     array (
@@ -3930,6 +4347,7 @@
     'class_path' => './Modules/ContentPage/classes/class.ilContentPagePageGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcontentpagegui',
     ),
     'children' => 
     array (
@@ -3950,6 +4368,7 @@
     'class_path' => './Services/Style/Content/classes/class.ilContentStyleSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstylesettingsgui',
     ),
     'children' => 
     array (
@@ -4023,6 +4442,9 @@
     'class_path' => './Modules/Course/classes/class.ilCourseContentGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
+      1 => 'ilobjfoldergui',
+      2 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -4097,6 +4519,7 @@
     'class_path' => './Modules/Course/classes/class.ilCourseMembershipGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
     ),
     'children' => 
     array (
@@ -4164,6 +4587,10 @@
     'class_path' => './Modules/Course/classes/class.ilCourseObjectivesGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'illoeditorgui',
+      2 => 'ilobjcoursegui',
+      3 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -4188,6 +4615,10 @@
     'class_path' => './Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php',
     'parents' => 
     array (
+      0 => 'ilcoursemembershipgui',
+      1 => 'ilgroupmembershipgui',
+      2 => 'illearningsequencemembershipgui',
+      3 => 'ilobjcoursegui',
     ),
     'children' => 
     array (
@@ -4236,6 +4667,7 @@
     'class_path' => './Modules/Course/classes/class.ilCourseRegistrationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
     ),
     'children' => 
     array (
@@ -4272,6 +4704,7 @@
     'class_path' => './Services/Cron/classes/class.ilCronManagerGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsystemfoldergui',
     ),
     'children' => 
     array (
@@ -4321,6 +4754,7 @@
     'class_path' => './Services/User/classes/class.ilCustomUserFieldsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjuserfoldergui',
     ),
     'children' => 
     array (
@@ -4357,6 +4791,7 @@
     'class_path' => './Services/Dashboard/classes/class.ilDashboardGUI.php',
     'parents' => 
     array (
+      0 => 'ilstartupgui',
     ),
     'children' => 
     array (
@@ -4380,6 +4815,8 @@
       17 => 'ilpdmailblockgui',
       18 => 'ildashboardrecommendedcontentgui',
       19 => 'ilstudyprogrammedashboardviewgui',
+      20 => 'ilnotificationgui',
+      21 => 'ilobjlanguageextgui',
     ),
   ),
   'ildashboardlearningsequencegui' => 
@@ -4401,6 +4838,7 @@
     'class_path' => './Services/Repository/RecommendedContent/classes/class.ilDashboardRecommendedContentGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -4449,6 +4887,7 @@
     'class_path' => './Modules/DataCollection/classes/CreateView/class.ilDclCreateViewDefinitionGUI.php',
     'parents' => 
     array (
+      0 => 'ildcltablevieweditgui',
     ),
     'children' => 
     array (
@@ -4478,6 +4917,8 @@
     'class_path' => './Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php',
     'parents' => 
     array (
+      0 => 'ildcldetailedviewgui',
+      1 => 'ildcltablevieweditgui',
     ),
     'children' => 
     array (
@@ -4495,6 +4936,7 @@
     'class_path' => './Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjdatacollectiongui',
     ),
     'children' => 
     array (
@@ -4509,6 +4951,7 @@
     'class_path' => './Modules/DataCollection/classes/EditView/class.ilDclEditViewDefinitionGUI.php',
     'parents' => 
     array (
+      0 => 'ildcltablevieweditgui',
     ),
     'children' => 
     array (
@@ -4538,6 +4981,7 @@
     'class_path' => './Modules/DataCollection/classes/class.ilDclExportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjdatacollectiongui',
     ),
     'children' => 
     array (
@@ -4562,6 +5006,7 @@
     'class_path' => './Modules/DataCollection/classes/Fields/class.ilDclFieldEditGUI.php',
     'parents' => 
     array (
+      0 => 'ildcltablelistgui',
     ),
     'children' => 
     array (
@@ -4574,6 +5019,7 @@
     'class_path' => './Modules/DataCollection/classes/Fields/class.ilDclFieldListGUI.php',
     'parents' => 
     array (
+      0 => 'ildcltablelistgui',
     ),
     'children' => 
     array (
@@ -4634,6 +5080,7 @@
     'class_path' => './Modules/DataCollection/classes/Helpers/class.ilDclPropertyFormGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjdatacollectiongui',
     ),
     'children' => 
     array (
@@ -4647,6 +5094,8 @@
     'class_path' => './Modules/DataCollection/classes/Content/class.ilDclRecordEditGUI.php',
     'parents' => 
     array (
+      0 => 'ildcltreepickinputgui',
+      1 => 'ilobjdatacollectiongui',
     ),
     'children' => 
     array (
@@ -4659,6 +5108,7 @@
     'class_path' => './Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjdatacollectiongui',
     ),
     'children' => 
     array (
@@ -4683,6 +5133,7 @@
     'class_path' => './Modules/DataCollection/classes/Table/class.ilDclTableEditGUI.php',
     'parents' => 
     array (
+      0 => 'ildcltablelistgui',
     ),
     'children' => 
     array (
@@ -4695,6 +5146,7 @@
     'class_path' => './Modules/DataCollection/classes/Table/class.ilDclTableListGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjdatacollectiongui',
     ),
     'children' => 
     array (
@@ -4747,6 +5199,7 @@
     'class_path' => './Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php',
     'parents' => 
     array (
+      0 => 'ildcltableviewgui',
     ),
     'children' => 
     array (
@@ -4762,6 +5215,7 @@
     'class_path' => './Modules/DataCollection/classes/TableView/class.ilDclTableViewGUI.php',
     'parents' => 
     array (
+      0 => 'ildcltablelistgui',
     ),
     'children' => 
     array (
@@ -4799,6 +5253,7 @@
     'class_path' => './Modules/DataCollection/classes/Helpers/class.ilDclTreePickInputGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjdatacollectiongui',
     ),
     'children' => 
     array (
@@ -4812,6 +5267,7 @@
     'class_path' => './Services/Tasks/DerivedTasks/classes/class.ilDerivedTasksGUI.php',
     'parents' => 
     array (
+      0 => 'ilstartupgui',
     ),
     'children' => 
     array (
@@ -4836,6 +5292,11 @@
     'class_path' => './Services/DidacticTemplate/classes/class.ilDidacticTemplateGUI.php',
     'parents' => 
     array (
+      0 => 'ilpermissiongui',
+      1 => 'ilobjcategorygui',
+      2 => 'ilobjcoursegui',
+      3 => 'ilobjfoldergui',
+      4 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -4848,6 +5309,8 @@
     'class_path' => './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjrolefoldergui',
+      1 => 'ilobjobjecttemplateadministrationgui',
     ),
     'children' => 
     array (
@@ -4934,6 +5397,7 @@
     'class_path' => './Services/WebServices/ECS/classes/Mapping/class.ilECSMappingSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilecssettingsgui',
     ),
     'children' => 
     array (
@@ -4958,6 +5422,7 @@
     'class_path' => './Services/WebServices/ECS/classes/class.ilECSParticipantSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilecssettingsgui',
     ),
     'children' => 
     array (
@@ -4994,6 +5459,7 @@
     'class_path' => './Services/WebServices/ECS/classes/class.ilECSSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjecssettingsgui',
     ),
     'children' => 
     array (
@@ -5020,6 +5486,33 @@
     'class_path' => './Modules/MediaPool/Clipboard/classes/class.ilEditClipboardGUI.php',
     'parents' => 
     array (
+      0 => 'ilassgenfeedbackpagegui',
+      1 => 'ilasshintpagegui',
+      2 => 'ilassquestionpagegui',
+      3 => 'ilassspecfeedbackpagegui',
+      4 => 'ilblogpostinggui',
+      5 => 'ilcontainerpagegui',
+      6 => 'ilcontainerstartobjectspagegui',
+      7 => 'ilcontentpagepagegui',
+      8 => 'ildclcreateviewdefinitiongui',
+      9 => 'ildcldetailedviewdefinitiongui',
+      10 => 'ildcldetailedviewgui',
+      11 => 'ildcleditviewdefinitiongui',
+      12 => 'ilglossarydefpagegui',
+      13 => 'ilimprintgui',
+      14 => 'illmpagegui',
+      15 => 'illopagegui',
+      16 => 'illoginpagegui',
+      17 => 'ilmediapoolpagegui',
+      18 => 'ilobjmediapoolgui',
+      19 => 'ilobjtestgui',
+      20 => 'ilpagelayoutgui',
+      21 => 'ilpageobjectgui',
+      22 => 'ilportfoliopagegui',
+      23 => 'ilportfoliotemplatepagegui',
+      24 => 'ilscorm2004pagegui',
+      25 => 'iltestexpresspageobjectgui',
+      26 => 'ilwikipagegui',
     ),
     'children' => 
     array (
@@ -5142,6 +5635,7 @@
     'class_path' => './Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjexercisegui',
     ),
     'children' => 
     array (
@@ -5157,6 +5651,7 @@
     'class_path' => './Modules/Exercise/classes/class.ilExAssignmentFileSystemGUI.php',
     'parents' => 
     array (
+      0 => 'ilexassignmenteditorgui',
     ),
     'children' => 
     array (
@@ -5289,6 +5784,9 @@
     'class_path' => './Modules/Exercise/classes/class.ilExPeerReviewGUI.php',
     'parents' => 
     array (
+      0 => 'ilexassignmenteditorgui',
+      1 => 'ilexsubmissiongui',
+      2 => 'ilexercisemanagementgui',
     ),
     'children' => 
     array (
@@ -5317,6 +5815,8 @@
     'class_path' => './Modules/Exercise/classes/class.ilExSubmissionFileGUI.php',
     'parents' => 
     array (
+      0 => 'ilexsubmissiongui',
+      1 => 'ilexercisemanagementgui',
     ),
     'children' => 
     array (
@@ -5329,6 +5829,7 @@
     'class_path' => './Modules/Exercise/classes/class.ilExSubmissionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjexercisegui',
     ),
     'children' => 
     array (
@@ -5337,6 +5838,7 @@
       2 => 'ilexsubmissiontextgui',
       3 => 'ilexsubmissionobjectgui',
       4 => 'ilexpeerreviewgui',
+      5 => 'ilexasstypewikiteamgui',
     ),
   ),
   'ilexsubmissionobjectgui' => 
@@ -5346,6 +5848,7 @@
     'class_path' => './Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php',
     'parents' => 
     array (
+      0 => 'ilexsubmissiongui',
     ),
     'children' => 
     array (
@@ -5358,6 +5861,8 @@
     'class_path' => './Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php',
     'parents' => 
     array (
+      0 => 'ilexsubmissiongui',
+      1 => 'ilexercisemanagementgui',
     ),
     'children' => 
     array (
@@ -5371,6 +5876,9 @@
     'class_path' => './Modules/Exercise/classes/class.ilExSubmissionTextGUI.php',
     'parents' => 
     array (
+      0 => 'ilexpeerreviewgui',
+      1 => 'ilexsubmissiongui',
+      2 => 'ilexercisemanagementgui',
     ),
     'children' => 
     array (
@@ -5383,6 +5891,7 @@
     'class_path' => './Modules/Exercise/classes/class.ilExcCriteriaCatalogueGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjexercisegui',
     ),
     'children' => 
     array (
@@ -5408,6 +5917,7 @@
     'class_path' => './Modules/Exercise/classes/class.ilExcCriteriaGUI.php',
     'parents' => 
     array (
+      0 => 'ilexccriteriacataloguegui',
     ),
     'children' => 
     array (
@@ -5444,6 +5954,7 @@
     'class_path' => './Modules/Exercise/MandatoryAssignments/classes/class.ilExcRandomAssignmentGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjexercisegui',
     ),
     'children' => 
     array (
@@ -5469,6 +5980,7 @@
     'class_path' => './Modules/Exercise/classes/class.ilExerciseManagementGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjexercisegui',
     ),
     'children' => 
     array (
@@ -5547,6 +6059,36 @@
     'class_path' => './Services/Export/classes/class.ilExportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbibliographicgui',
+      1 => 'ilobjbloggui',
+      2 => 'ilobjcategorygui',
+      3 => 'ilobjchatroomadmingui',
+      4 => 'ilobjchatroomgui',
+      5 => 'ilobjcontentpagegui',
+      6 => 'ilobjcoursegui',
+      7 => 'ilobjexercisegui',
+      8 => 'ilobjexternalfeedgui',
+      9 => 'ilobjfilebasedlmgui',
+      10 => 'ilobjfilegui',
+      11 => 'ilobjfoldergui',
+      12 => 'ilobjforumgui',
+      13 => 'ilobjglossarygui',
+      14 => 'ilobjgroupgui',
+      15 => 'ilobjindividualassessmentgui',
+      16 => 'ilobjlearningmodulegui',
+      17 => 'ilobjlearningsequencegui',
+      18 => 'ilobjlinkresourcegui',
+      19 => 'ilobjmediacastgui',
+      20 => 'ilobjmediapoolgui',
+      21 => 'ilobjpollgui',
+      22 => 'ilobjportfoliotemplategui',
+      23 => 'ilobjrolegui',
+      24 => 'ilobjsahslearningmodulegui',
+      25 => 'ilobjsessiongui',
+      26 => 'ilobjskillmanagementgui',
+      27 => 'ilobjsurveygui',
+      28 => 'ilobjwikigui',
+      29 => 'ilsahseditgui',
     ),
     'children' => 
     array (
@@ -5595,6 +6137,7 @@
     'class_path' => './Modules/OrgUnit/classes/ExtId/class.ilExtIdGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -5607,6 +6150,8 @@
     'class_path' => './Modules/ExternalFeed/classes/class.ilExternalFeedBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
+      1 => 'ilobjexternalfeedgui',
     ),
     'children' => 
     array (
@@ -5704,6 +6249,15 @@
     'class_path' => './Services/FileSystem/classes/class.ilFileSystemGUI.php',
     'parents' => 
     array (
+      0 => 'ilexpeerreviewgui',
+      1 => 'ilexercisemanagementgui',
+      2 => 'ilobjfilebasedlmgui',
+      3 => 'ilobjmediaobjectgui',
+      4 => 'ilobjmediapoolgui',
+      5 => 'ilobjsahslearningmodulegui',
+      6 => 'ilobjscorm2004learningmodulegui',
+      7 => 'ilobjscormlearningmodulegui',
+      8 => 'ilsahseditgui',
     ),
     'children' => 
     array (
@@ -5764,6 +6318,7 @@
     'class_path' => './Modules/File/classes/Versions/class.ilFileVersionsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjfilegui',
     ),
     'children' => 
     array (
@@ -5824,9 +6379,55 @@
     'class_path' => './Services/Form/classes/class.ilFormPropertyDispatchGUI.php',
     'parents' => 
     array (
+      0 => 'assclozetestgui',
+      1 => 'asserrortextgui',
+      2 => 'assfileuploadgui',
+      3 => 'assformulaquestiongui',
+      4 => 'assimagemapquestiongui',
+      5 => 'asskprimchoicegui',
+      6 => 'asslongmenugui',
+      7 => 'assmatchingquestiongui',
+      8 => 'assmultiplechoicegui',
+      9 => 'assnumericgui',
+      10 => 'assorderinghorizontalgui',
+      11 => 'assorderingquestiongui',
+      12 => 'asssinglechoicegui',
+      13 => 'asstextquestiongui',
+      14 => 'asstextsubsetgui',
+      15 => 'ildclpropertyformgui',
+      16 => 'illpobjectstatisticsadmintablegui',
+      17 => 'illpobjectstatisticsdailytablegui',
+      18 => 'illpobjectstatisticslptablegui',
+      19 => 'illpobjectstatisticstablegui',
+      20 => 'illpobjectstatisticstypestablegui',
+      21 => 'illpprogresstablegui',
+      22 => 'ilmdeditorgui',
+      23 => 'ilmstlistcertificatesgui',
+      24 => 'ilmstlistcoursesgui',
+      25 => 'ilmstshowusercoursesgui',
+      26 => 'ilobjstudyprogrammemembersgui',
+      27 => 'ilpresentationlisttablegui',
+      28 => 'ilpropertyformgui',
+      29 => 'ilquestionbrowsertablegui',
+      30 => 'ilrepositorysearchgui',
+      31 => 'iltaxmdgui',
+      32 => 'iltestdynamicquestionsetstatistictablegui',
+      33 => 'iltestpassdetailsoverviewtablegui',
+      34 => 'iltestquestionbrowsertablegui',
+      35 => 'iltestrandomquestionsetgeneralconfigformgui',
+      36 => 'iltestrandomquestionsetpooldefinitionformgui',
+      37 => 'iltrobjectuserspropstablegui',
+      38 => 'iltrsummarytablegui',
+      39 => 'iltruserobjectspropstablegui',
+      40 => 'ilusertablegui',
     ),
     'children' => 
     array (
+      0 => 'ilchatroomauthinputgui',
+      1 => 'illinkinputgui',
+      2 => 'ilrepositoryselector2inputgui',
+      3 => 'ilrepositoryselectorinputgui',
+      4 => 'iltaxselectinputgui',
     ),
   ),
   'ilformpropertygui' => 
@@ -5896,6 +6497,7 @@
     'class_path' => './Modules/Forum/classes/class.ilForumExportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjforumgui',
     ),
     'children' => 
     array (
@@ -5908,6 +6510,7 @@
     'class_path' => './Modules/Forum/classes/class.ilForumModeratorsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjforumgui',
     ),
     'children' => 
     array (
@@ -5945,6 +6548,7 @@
     'class_path' => './Modules/Forum/classes/class.ilForumSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjforumgui',
     ),
     'children' => 
     array (
@@ -6041,6 +6645,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilGlobalUnitConfigurationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjassessmentfoldergui',
     ),
     'children' => 
     array (
@@ -6065,6 +6670,10 @@
     'class_path' => './Modules/Glossary/classes/class.ilGlossaryDefPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilglossarypresentationgui',
+      1 => 'ilglossarytermgui',
+      2 => 'illmpresentationgui',
+      3 => 'iltermdefinitioneditorgui',
     ),
     'children' => 
     array (
@@ -6097,6 +6706,7 @@
     'class_path' => './Modules/Glossary/classes/class.ilGlossaryForeignTermCollectorGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjglossarygui',
     ),
     'children' => 
     array (
@@ -6161,6 +6771,7 @@
     'class_path' => './Modules/Glossary/classes/class.ilGlossaryTermGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjglossarygui',
     ),
     'children' => 
     array (
@@ -6213,6 +6824,7 @@
     'class_path' => './Modules/Group/UserActions/classes/class.ilGroupAddToGroupActionGUI.php',
     'parents' => 
     array (
+      0 => 'ilgroupuseractionsgui',
     ),
     'children' => 
     array (
@@ -6237,6 +6849,7 @@
     'class_path' => './Modules/Group/classes/class.ilGroupMembershipGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -6268,6 +6881,7 @@
     'class_path' => './Modules/Group/classes/class.ilGroupRegistrationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -6280,6 +6894,7 @@
     'class_path' => './Modules/Group/UserActions/classes/class.ilGroupUserActionsGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -6452,6 +7067,7 @@
     'class_path' => './Services/MediaObjects/classes/class.ilImageMapEditorGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjmediaobjectgui',
     ),
     'children' => 
     array (
@@ -6525,6 +7141,7 @@
     'class_path' => './Services/Imprint/classes/class.ilImprintGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsystemfoldergui',
     ),
     'children' => 
     array (
@@ -6554,6 +7171,7 @@
     'class_path' => './Modules/IndividualAssessment/classes/Settings/class.ilIndividualAssessmentCommonSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilindividualassessmentsettingsgui',
     ),
     'children' => 
     array (
@@ -6566,6 +7184,7 @@
     'class_path' => './Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMemberGUI.php',
     'parents' => 
     array (
+      0 => 'ilindividualassessmentmembersgui',
     ),
     'children' => 
     array (
@@ -6578,6 +7197,7 @@
     'class_path' => './Modules/IndividualAssessment/classes/class.ilIndividualAssessmentMembersGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjindividualassessmentgui',
     ),
     'children' => 
     array (
@@ -6604,6 +7224,8 @@
     'class_path' => './Modules/IndividualAssessment/classes/class.ilIndividualAssessmentSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjindividualassessmentgui',
+      1 => 'ilobjlearningsequencegui',
     ),
     'children' => 
     array (
@@ -6617,6 +7239,62 @@
     'class_path' => './Services/InfoScreen/classes/class.ilInfoScreenGUI.php',
     'parents' => 
     array (
+      0 => 'ilcalendarappointmentpresentationgui',
+      1 => 'ilexpeerreviewgui',
+      2 => 'ilglossarypresentationgui',
+      3 => 'illmpresentationgui',
+      4 => 'ilobjbibliographicgui',
+      5 => 'ilobjbloggui',
+      6 => 'ilobjbookingpoolgui',
+      7 => 'ilobjcategorygui',
+      8 => 'ilobjcategoryreferencegui',
+      9 => 'ilobjchatroomadmingui',
+      10 => 'ilobjchatroomgui',
+      11 => 'ilobjcloudgui',
+      12 => 'ilobjcmixapigui',
+      13 => 'ilobjcontentpagegui',
+      14 => 'ilobjcoursegui',
+      15 => 'ilobjcoursereferencegui',
+      16 => 'ilobjdatacollectiongui',
+      17 => 'ilobjexercisegui',
+      18 => 'ilobjfilebasedlmgui',
+      19 => 'ilobjfilegui',
+      20 => 'ilobjfoldergui',
+      21 => 'ilobjforumgui',
+      22 => 'ilobjglossarygui',
+      23 => 'ilobjgroupgui',
+      24 => 'ilobjgroupreferencegui',
+      25 => 'ilobjindividualassessmentgui',
+      26 => 'ilobjlticonsumergui',
+      27 => 'ilobjlearningmodulegui',
+      28 => 'ilobjlearningsequencegui',
+      29 => 'ilobjlinkresourcegui',
+      30 => 'ilobjmediacastgui',
+      31 => 'ilobjmediapoolgui',
+      32 => 'ilobjorgunitgui',
+      33 => 'ilobjpollgui',
+      34 => 'ilobjportfoliotemplategui',
+      35 => 'ilobjquestionpoolgui',
+      36 => 'ilobjremotecategorygui',
+      37 => 'ilobjremotecoursegui',
+      38 => 'ilobjremotefilegui',
+      39 => 'ilobjremoteglossarygui',
+      40 => 'ilobjremotegroupgui',
+      41 => 'ilobjremotelearningmodulegui',
+      42 => 'ilobjremotetestgui',
+      43 => 'ilobjremotewikigui',
+      44 => 'ilobjsahslearningmodulegui',
+      45 => 'ilobjscorm2004learningmodulegui',
+      46 => 'ilobjscormlearningmodulegui',
+      47 => 'ilobjsessiongui',
+      48 => 'ilobjstudyprogrammegui',
+      49 => 'ilobjstudyprogrammereferencegui',
+      50 => 'ilobjsurveygui',
+      51 => 'ilobjsurveyquestionpoolgui',
+      52 => 'ilobjtestgui',
+      53 => 'ilobjwikigui',
+      54 => 'ilsahseditgui',
+      55 => 'ilsahspresentationgui',
     ),
     'children' => 
     array (
@@ -6645,6 +7323,23 @@
     'class_path' => './Services/Link/classes/class.ilInternalLinkGUI.php',
     'parents' => 
     array (
+      0 => 'ilassgenfeedbackpagegui',
+      1 => 'ilasshintpagegui',
+      2 => 'ilassquestionpagegui',
+      3 => 'ilassspecfeedbackpagegui',
+      4 => 'ilcontainerpagegui',
+      5 => 'ilcontainerstartobjectspagegui',
+      6 => 'ilcontentpagepagegui',
+      7 => 'ilglossarydefpagegui',
+      8 => 'ilimagemapeditorgui',
+      9 => 'illopagegui',
+      10 => 'illinkinputgui',
+      11 => 'illoginpagegui',
+      12 => 'ilobjlinkresourcegui',
+      13 => 'ilpciimtriggereditorgui',
+      14 => 'ilpcimagemapeditorgui',
+      15 => 'ilpageeditorgui',
+      16 => 'ilpageobjectgui',
     ),
     'children' => 
     array (
@@ -6777,6 +7472,7 @@
     'class_path' => './Services/LDAP/classes/class.ilLDAPSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjauthsettingsgui',
     ),
     'children' => 
     array (
@@ -6825,6 +7521,7 @@
     'class_path' => './Modules/LearningModule/classes/class.ilLMEditShortTitlesGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningmodulegui',
     ),
     'children' => 
     array (
@@ -6898,6 +7595,7 @@
     'class_path' => './Modules/LearningModule/classes/class.ilLMImportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningmodulegui',
     ),
     'children' => 
     array (
@@ -6958,6 +7656,9 @@
     'class_path' => './Modules/LearningModule/classes/class.ilLMPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilhelpgui',
+      1 => 'illmpageobjectgui',
+      2 => 'illmpresentationgui',
     ),
     'children' => 
     array (
@@ -6981,6 +7682,7 @@
     'class_path' => './Modules/LearningModule/classes/class.ilLMPageObjectGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningmodulegui',
     ),
     'children' => 
     array (
@@ -7117,6 +7819,8 @@
     'class_path' => './Modules/Course/classes/Objectives/class.ilLOPageGUI.php',
     'parents' => 
     array (
+      0 => 'illoeditorgui',
+      1 => 'ilobjcoursegui',
     ),
     'children' => 
     array (
@@ -7161,6 +7865,7 @@
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilLPListOfObjectsGUI.php',
     'parents' => 
     array (
+      0 => 'illearningprogressgui',
     ),
     'children' => 
     array (
@@ -7178,6 +7883,7 @@
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilLPListOfProgressGUI.php',
     'parents' => 
     array (
+      0 => 'illearningprogressgui',
     ),
     'children' => 
     array (
@@ -7191,6 +7897,7 @@
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilLPListOfSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'illearningprogressgui',
     ),
     'children' => 
     array (
@@ -7229,6 +7936,8 @@
     'class_path' => './Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsGUI.php',
     'parents' => 
     array (
+      0 => 'illearningprogressgui',
+      1 => 'ilobjusertrackinggui',
     ),
     'children' => 
     array (
@@ -7255,6 +7964,7 @@
     'class_path' => './Services/Tracking/classes/object_statistics/class.ilLPObjectStatisticsTableGUI.php',
     'parents' => 
     array (
+      0 => 'illpobjectstatisticsgui',
     ),
     'children' => 
     array (
@@ -7281,6 +7991,7 @@
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilLPProgressTableGUI.php',
     'parents' => 
     array (
+      0 => 'illplistofprogressgui',
     ),
     'children' => 
     array (
@@ -7342,6 +8053,7 @@
     'class_path' => './Modules/LTIConsumer/classes/class.ilLTIConsumeProviderSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'illticonsumersettingsgui',
     ),
     'children' => 
     array (
@@ -7354,6 +8066,7 @@
     'class_path' => './Modules/LTIConsumer/classes/class.ilLTIConsumerAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjltiadministrationgui',
     ),
     'children' => 
     array (
@@ -7366,6 +8079,7 @@
     'class_path' => './Modules/LTIConsumer/classes/class.ilLTIConsumerEmbeddedContentGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlticonsumergui',
     ),
     'children' => 
     array (
@@ -7414,6 +8128,7 @@
     'class_path' => './Modules/LTIConsumer/classes/class.ilLTIConsumerScoringGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlticonsumergui',
     ),
     'children' => 
     array (
@@ -7450,6 +8165,7 @@
     'class_path' => './Modules/LTIConsumer/classes/class.ilLTIConsumerSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlticonsumergui',
     ),
     'children' => 
     array (
@@ -7476,6 +8192,7 @@
     'class_path' => './Modules/LTIConsumer/classes/class.ilLTIConsumerXapiStatementsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlticonsumergui',
     ),
     'children' => 
     array (
@@ -7488,6 +8205,14 @@
     'class_path' => './Services/LTI/classes/InternalProvider/class.ilLTIProviderObjectSettingGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
+      1 => 'ilobjgroupgui',
+      2 => 'ilobjlearningmodulegui',
+      3 => 'ilobjscorm2004learningmodulegui',
+      4 => 'ilobjscormlearningmodulegui',
+      5 => 'ilobjsurveygui',
+      6 => 'ilobjtestgui',
+      7 => 'ilsahseditgui',
     ),
     'children' => 
     array (
@@ -7515,6 +8240,7 @@
     ),
     'children' => 
     array (
+      0 => 'illtiviewgui',
     ),
   ),
   'illtiviewgui' => 
@@ -7524,6 +8250,7 @@
     'class_path' => './Services/LTI/classes/class.ilLTIViewGUI.php',
     'parents' => 
     array (
+      0 => 'illtiroutergui',
     ),
     'children' => 
     array (
@@ -7560,6 +8287,9 @@
     'class_path' => './Services/LearningHistory/classes/class.ilLearningHistoryGUI.php',
     'parents' => 
     array (
+      0 => 'ilachievementsgui',
+      1 => 'ilpageobjectgui',
+      2 => 'ilportfoliopagegui',
     ),
     'children' => 
     array (
@@ -7596,6 +8326,32 @@
     'class_path' => './Services/Tracking/classes/class.ilLearningProgressGUI.php',
     'parents' => 
     array (
+      0 => 'ilachievementsgui',
+      1 => 'illmpresentationgui',
+      2 => 'ilobjcmixapigui',
+      3 => 'ilobjcontentpagegui',
+      4 => 'ilobjcoursegui',
+      5 => 'ilobjcoursereferencegui',
+      6 => 'ilobjexercisegui',
+      7 => 'ilobjfilebasedlmgui',
+      8 => 'ilobjfilegui',
+      9 => 'ilobjfoldergui',
+      10 => 'ilobjgroupgui',
+      11 => 'ilobjindividualassessmentgui',
+      12 => 'ilobjlticonsumergui',
+      13 => 'ilobjlearningmodulegui',
+      14 => 'ilobjlearningsequencegui',
+      15 => 'ilobjmediacastgui',
+      16 => 'ilobjorgunitgui',
+      17 => 'ilobjsahslearningmodulegui',
+      18 => 'ilobjscorm2004learningmodulegui',
+      19 => 'ilobjscormlearningmodulegui',
+      20 => 'ilobjsessiongui',
+      21 => 'ilobjsurveygui',
+      22 => 'ilobjtestgui',
+      23 => 'ilobjusergui',
+      24 => 'ilobjusertrackinggui',
+      25 => 'ilsahspresentationgui',
     ),
     'children' => 
     array (
@@ -7624,6 +8380,7 @@
     'class_path' => './Modules/LearningSequence/classes/Members/class.ilLearningSequenceMembershipGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningsequencegui',
     ),
     'children' => 
     array (
@@ -7679,6 +8436,7 @@
     'class_path' => './Services/Like/classes/class.ilLikeGUI.php',
     'parents' => 
     array (
+      0 => 'ilnewstimelinegui',
     ),
     'children' => 
     array (
@@ -7703,6 +8461,7 @@
     'class_path' => './Services/Form/classes/class.ilLinkInputGUI.php',
     'parents' => 
     array (
+      0 => 'ilformpropertydispatchgui',
     ),
     'children' => 
     array (
@@ -7777,6 +8536,8 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilLocalUnitConfigurationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
+      1 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -7789,6 +8550,7 @@
     'class_path' => './Modules/OrgUnit/classes/LocalUser/class.ilLocalUserGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -7849,6 +8611,8 @@
     'class_path' => './Services/Authentication/classes/class.ilLoginPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilauthloginpageeditorgui',
+      1 => 'ilstartupgui',
     ),
     'children' => 
     array (
@@ -7880,6 +8644,7 @@
     'class_path' => './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchGUI.php',
     'parents' => 
     array (
+      0 => 'ilsearchcontroller',
     ),
     'children' => 
     array (
@@ -7912,6 +8677,7 @@
     'class_path' => './Services/Search/classes/Lucene/class.ilLuceneSearchGUI.php',
     'parents' => 
     array (
+      0 => 'ilsearchcontroller',
     ),
     'children' => 
     array (
@@ -7933,6 +8699,7 @@
     'class_path' => './Services/Search/classes/Lucene/class.ilLuceneUserSearchGUI.php',
     'parents' => 
     array (
+      0 => 'ilsearchcontroller',
     ),
     'children' => 
     array (
@@ -7970,6 +8737,7 @@
     'class_path' => './Services/MetaData/classes/class.ilMDCopyrightUsageGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjmdsettingsgui',
     ),
     'children' => 
     array (
@@ -7995,6 +8763,21 @@
     'class_path' => './Services/MetaData/classes/class.ilMDEditorGUI.php',
     'parents' => 
     array (
+      0 => 'ilassgenfeedbackpagegui',
+      1 => 'ilasshintpagegui',
+      2 => 'ilassquestionpagegui',
+      3 => 'ilassspecfeedbackpagegui',
+      4 => 'ilcontainerpagegui',
+      5 => 'ilcontainerstartobjectspagegui',
+      6 => 'ilcontentpagepagegui',
+      7 => 'illopagegui',
+      8 => 'illoginpagegui',
+      9 => 'ilobjchatroomadmingui',
+      10 => 'ilobjchatroomgui',
+      11 => 'ilobjglossarygui',
+      12 => 'ilobjectmetadatagui',
+      13 => 'ilscorm2004assetgui',
+      14 => 'ilscorm2004seqchaptergui',
     ),
     'children' => 
     array (
@@ -8020,6 +8803,8 @@
     'class_path' => './Services/MainMenu/classes/Administration/class.ilMMItemTranslationGUI.php',
     'parents' => 
     array (
+      0 => 'ilmmsubitemgui',
+      1 => 'ilmmtopitemgui',
     ),
     'children' => 
     array (
@@ -8044,6 +8829,7 @@
     'class_path' => './Services/MainMenu/classes/Administration/class.ilMMSubItemGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjmainmenugui',
     ),
     'children' => 
     array (
@@ -8093,6 +8879,7 @@
     'class_path' => './Services/MainMenu/classes/Administration/class.ilMMTopItemGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjmainmenugui',
     ),
     'children' => 
     array (
@@ -8131,6 +8918,7 @@
     'class_path' => './Services/MyStaff/classes/ListCertificates/class.ilMStListCertificatesGUI.php',
     'parents' => 
     array (
+      0 => 'ilmystaffgui',
     ),
     'children' => 
     array (
@@ -8145,6 +8933,7 @@
     'class_path' => './Services/MyStaff/classes/ListCompetences/class.ilMStListCompetencesGUI.php',
     'parents' => 
     array (
+      0 => 'ilmystaffgui',
     ),
     'children' => 
     array (
@@ -8159,6 +8948,7 @@
     'class_path' => './Services/MyStaff/classes/ListCompetences/Skills/class.ilMStListCompetencesSkillsGUI.php',
     'parents' => 
     array (
+      0 => 'ilmstlistcompetencesgui',
     ),
     'children' => 
     array (
@@ -8171,6 +8961,7 @@
     'class_path' => './Services/MyStaff/classes/ListCourses/class.ilMStListCoursesGUI.php',
     'parents' => 
     array (
+      0 => 'ilmystaffgui',
     ),
     'children' => 
     array (
@@ -8184,6 +8975,7 @@
     'class_path' => './Services/MyStaff/classes/ListUsers/class.ilMStListUsersGUI.php',
     'parents' => 
     array (
+      0 => 'ilmystaffgui',
     ),
     'children' => 
     array (
@@ -8196,6 +8988,7 @@
     'class_path' => './Services/MyStaff/classes/ShowUser/Competences/class.ilMStShowUserCompetencesGUI.php',
     'parents' => 
     array (
+      0 => 'ilmstshowusergui',
     ),
     'children' => 
     array (
@@ -8208,6 +9001,7 @@
     'class_path' => './Services/MyStaff/classes/ShowUser/Courses/class.ilMStShowUserCoursesGUI.php',
     'parents' => 
     array (
+      0 => 'ilmstshowusergui',
     ),
     'children' => 
     array (
@@ -8221,10 +9015,13 @@
     'class_path' => './Services/MyStaff/classes/ShowUser/class.ilMStShowUserGUI.php',
     'parents' => 
     array (
+      0 => 'ilmystaffgui',
     ),
     'children' => 
     array (
       0 => 'ilusercertificategui',
+      1 => 'ilmstshowusercompetencesgui',
+      2 => 'ilmstshowusercoursesgui',
     ),
   ),
   'ilmailattachmentgui' => 
@@ -8234,6 +9031,9 @@
     'class_path' => './Services/Mail/classes/class.ilMailAttachmentGUI.php',
     'parents' => 
     array (
+      0 => 'ilmailfoldergui',
+      1 => 'ilmailformgui',
+      2 => 'ilmailgui',
     ),
     'children' => 
     array (
@@ -8258,6 +9058,8 @@
     'class_path' => './Services/Mail/classes/class.ilMailFolderGUI.php',
     'parents' => 
     array (
+      0 => 'ilmailformgui',
+      1 => 'ilmailgui',
     ),
     'children' => 
     array (
@@ -8298,6 +9100,8 @@
     'class_path' => './Services/Mail/classes/class.ilMailFormGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontactgui',
+      1 => 'ilmailgui',
     ),
     'children' => 
     array (
@@ -8347,6 +9151,12 @@
     'class_path' => './Services/Contact/classes/class.ilMailMemberSearchGUI.php',
     'parents' => 
     array (
+      0 => 'ilcoursemembershipgui',
+      1 => 'ilgroupmembershipgui',
+      2 => 'illearningsequencemembershipgui',
+      3 => 'ilobjcoursegui',
+      4 => 'ilobjgroupgui',
+      5 => 'ilsessionmembershipgui',
     ),
     'children' => 
     array (
@@ -8383,6 +9193,9 @@
     'class_path' => './Services/Mail/classes/class.ilMailOptionsGUI.php',
     'parents' => 
     array (
+      0 => 'ilmailfoldergui',
+      1 => 'ilmailgui',
+      2 => 'ilpersonalsettingsgui',
     ),
     'children' => 
     array (
@@ -8407,6 +9220,9 @@
     'class_path' => './Services/Contact/classes/class.ilMailSearchCoursesGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontactgui',
+      1 => 'ilmailformgui',
+      2 => 'ilworkspaceaccessgui',
     ),
     'children' => 
     array (
@@ -8444,6 +9260,11 @@
     'class_path' => './Services/Contact/classes/class.ilMailSearchGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
+      1 => 'ilmailfoldergui',
+      2 => 'ilmailformgui',
+      3 => 'ilmailgui',
+      4 => 'ilworkspaceaccessgui',
     ),
     'children' => 
     array (
@@ -8456,6 +9277,9 @@
     'class_path' => './Services/Contact/classes/class.ilMailSearchGroupsGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontactgui',
+      1 => 'ilmailformgui',
+      2 => 'ilworkspaceaccessgui',
     ),
     'children' => 
     array (
@@ -8506,6 +9330,8 @@
     'class_path' => './Services/Contact/classes/class.ilMailingListsGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontactgui',
+      1 => 'ilmailformgui',
     ),
     'children' => 
     array (
@@ -8590,6 +9416,7 @@
     'class_path' => './Modules/Test/classes/class.ilMarkSchemaGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -8687,6 +9514,7 @@
     'class_path' => './Services/MediaObjects/Creation/class.ilMediaCreationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjmediacastgui',
     ),
     'children' => 
     array (
@@ -8736,6 +9564,7 @@
     'class_path' => './Modules/MediaPool/classes/class.ilMediaPoolImportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjmediapoolgui',
     ),
     'children' => 
     array (
@@ -8748,6 +9577,7 @@
     'class_path' => './Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjmediapoolgui',
     ),
     'children' => 
     array (
@@ -8801,6 +9631,8 @@
     'class_path' => './Services/Membership/classes/class.ilMemberAgreementGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
+      1 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -8825,6 +9657,12 @@
     'class_path' => './Services/Membership/classes/Export/class.ilMemberExportGUI.php',
     'parents' => 
     array (
+      0 => 'ilcoursemembershipgui',
+      1 => 'ilgroupmembershipgui',
+      2 => 'illearningsequencemembershipgui',
+      3 => 'ilobjcoursegui',
+      4 => 'ilobjgroupgui',
+      5 => 'ilsessionmembershipgui',
     ),
     'children' => 
     array (
@@ -8837,6 +9675,11 @@
     'class_path' => './Services/Membership/classes/Export/class.ilMemberExportSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjcourseadministrationgui',
+      2 => 'ilobjcoursegui',
+      3 => 'ilobjgroupadministrationgui',
+      4 => 'ilobjlearningsequenceadmingui',
     ),
     'children' => 
     array (
@@ -8885,6 +9728,7 @@
     'class_path' => './Services/Membership/classes/class.ilMembershipMailGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsessiongui',
     ),
     'children' => 
     array (
@@ -8897,6 +9741,7 @@
     'class_path' => './Services/Membership/classes/class.ilMembershipOverviewGUI.php',
     'parents' => 
     array (
+      0 => 'ilstartupgui',
     ),
     'children' => 
     array (
@@ -8958,6 +9803,8 @@
     'class_path' => './Services/MediaObjects/classes/class.ilMobMultiSrtUploadGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningmodulegui',
+      1 => 'ilobjmediapoolgui',
     ),
     'children' => 
     array (
@@ -9030,6 +9877,7 @@
     'class_path' => './Services/Multilingualism/classes/class.ilMultilingualismGUI.php',
     'parents' => 
     array (
+      0 => 'ildidactictemplatesettingsgui',
     ),
     'children' => 
     array (
@@ -9102,9 +9950,15 @@
     'class_path' => './Services/MyStaff/classes/class.ilMyStaffGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
+      0 => 'ilmstlistcertificatesgui',
+      1 => 'ilmstlistcompetencesgui',
+      2 => 'ilmstlistcoursesgui',
+      3 => 'ilmstlistusersgui',
+      4 => 'ilmstshowusergui',
     ),
   ),
   'ilmytestresultsgui' => 
@@ -9114,6 +9968,7 @@
     'class_path' => './Modules/Test/classes/class.ilMyTestResultsGUI.php',
     'parents' => 
     array (
+      0 => 'iltestresultsgui',
     ),
     'children' => 
     array (
@@ -9130,6 +9985,7 @@
     'class_path' => './Modules/Test/classes/class.ilMyTestSolutionsGUI.php',
     'parents' => 
     array (
+      0 => 'iltestresultsgui',
     ),
     'children' => 
     array (
@@ -9192,6 +10048,7 @@
     'class_path' => './Services/News/classes/class.ilNewsForContextBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
     ),
     'children' => 
     array (
@@ -9217,6 +10074,9 @@
     'class_path' => './Services/News/classes/class.ilNewsItemGUI.php',
     'parents' => 
     array (
+      0 => 'illmpagegui',
+      1 => 'ilnewsforcontextblockgui',
+      2 => 'ilpageobjectgui',
     ),
     'children' => 
     array (
@@ -9229,6 +10089,8 @@
     'class_path' => './Services/News/classes/class.ilNewsTimelineGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
+      1 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -9267,6 +10129,41 @@
     'class_path' => './Services/Notes/classes/class.ilNoteGUI.php',
     'parents' => 
     array (
+      0 => 'ilassgenfeedbackpagegui',
+      1 => 'ilasshintpagegui',
+      2 => 'ilassquestionpagegui',
+      3 => 'ilassquestionpreviewgui',
+      4 => 'ilassspecfeedbackpagegui',
+      5 => 'ilblogpostinggui',
+      6 => 'ilcommonactiondispatchergui',
+      7 => 'ilcontainerpagegui',
+      8 => 'ilcontainerstartobjectspagegui',
+      9 => 'ilcontentpagepagegui',
+      10 => 'ilglossarydefpagegui',
+      11 => 'ilglossarypresentationgui',
+      12 => 'ilinfoscreengui',
+      13 => 'illmpresentationgui',
+      14 => 'illopagegui',
+      15 => 'illoginpagegui',
+      16 => 'ilnewstimelinegui',
+      17 => 'ilobjbibliographicgui',
+      18 => 'ilobjbloggui',
+      19 => 'ilobjcloudgui',
+      20 => 'ilobjdatacollectiongui',
+      21 => 'ilobjpollgui',
+      22 => 'ilobjportfoliogui',
+      23 => 'ilobjportfoliotemplategui',
+      24 => 'ilobjscorm2004learningmodulegui',
+      25 => 'ilpdnotesgui',
+      26 => 'ilpageobjectgui',
+      27 => 'ilpermanentlinkgui',
+      28 => 'ilscorm2004assetgui',
+      29 => 'ilscorm2004chaptergui',
+      30 => 'ilscorm2004pagegui',
+      31 => 'ilscorm2004scogui',
+      32 => 'ilscorm2004seqchaptergui',
+      33 => 'iltestexpresspageobjectgui',
+      34 => 'ilwikipagegui',
     ),
     'children' => 
     array (
@@ -9279,6 +10176,8 @@
     'class_path' => './Services/Notifications/classes/class.ilNotificationGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalprofilegui',
+      1 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -9327,6 +10226,7 @@
     'class_path' => './Services/Accessibility/classes/class.ilObjAccessibilitySettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9341,10 +10241,12 @@
     'class_path' => './Services/AdministrativeNotification/classes/class.ilObjAdministrativeNotificationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
       0 => 'ilpermissiongui',
+      1 => 'iladnnotificationgui',
     ),
   ),
   'ilobjadvancededitinggui' => 
@@ -9354,6 +10256,7 @@
     'class_path' => './Services/AdvancedEditing/classes/class.ilObjAdvancedEditingGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9367,6 +10270,7 @@
     'class_path' => './Modules/Test/classes/class.ilObjAssessmentFolderGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9382,6 +10286,7 @@
     'class_path' => './Services/Authentication/classes/class.ilObjAuthSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9393,6 +10298,7 @@
       5 => 'ilcassettingsgui',
       6 => 'ilsamlsettingsgui',
       7 => 'ilopenidconnectsettingsgui',
+      8 => 'ilauthloginpageeditorgui',
     ),
   ),
   'ilobjawarenessadministrationgui' => 
@@ -9402,6 +10308,7 @@
     'class_path' => './Services/Awareness/classes/class.ilObjAwarenessAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9416,6 +10323,7 @@
     'class_path' => './Services/Badge/classes/class.ilObjBadgeAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9430,6 +10338,7 @@
     'class_path' => './Modules/Bibliographic/classes/class.ilObjBibliographicAdminGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9449,6 +10358,7 @@
     'parents' => 
     array (
       0 => 'ilrepositorygui',
+      1 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9483,6 +10393,7 @@
     'class_path' => './Modules/Blog/classes/class.ilObjBlogAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9496,6 +10407,11 @@
     'class_path' => './Modules/Blog/classes/class.ilObjBlogGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilpersonalworkspacegui',
+      2 => 'ilportfoliopagegui',
+      3 => 'ilrepositorygui',
+      4 => 'ilsharedresourcegui',
     ),
     'children' => 
     array (
@@ -9533,6 +10449,8 @@
     'class_path' => './Modules/BookingManager/classes/class.ilObjBookingPoolGUI.php',
     'parents' => 
     array (
+      0 => 'ilrepositorygui',
+      1 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9568,6 +10486,7 @@
     'class_path' => './Services/Calendar/classes/class.ilObjCalendarSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9581,6 +10500,12 @@
     'class_path' => './Modules/Category/classes/class.ilObjCategoryGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'iladvancedsearchgui',
+      2 => 'illuceneadvancedsearchgui',
+      3 => 'illucenesearchgui',
+      4 => 'ilrepositorygui',
+      5 => 'ilsearchgui',
     ),
     'children' => 
     array (
@@ -9624,6 +10549,8 @@
     'class_path' => './Modules/CategoryReference/classes/class.ilObjCategoryReferenceGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -9651,6 +10578,7 @@
     'class_path' => './Services/Certificate/classes/class.ilObjCertificateSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9664,6 +10592,8 @@
     'class_path' => './Modules/Chatroom/classes/class.ilObjChatroomAdminGUI.php',
     'parents' => 
     array (
+      0 => 'ilrepositorygui',
+      1 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9681,6 +10611,9 @@
     'class_path' => './Modules/Chatroom/classes/class.ilObjChatroomGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ildashboardgui',
+      2 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -9725,6 +10658,8 @@
     'class_path' => './Modules/Cloud/classes/class.ilObjCloudGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -9764,6 +10699,7 @@
     'class_path' => './Modules/CmiXapi/classes/class.ilObjCmiXapiAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9777,6 +10713,8 @@
     'class_path' => './Modules/CmiXapi/classes/class.ilObjCmiXapiGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -9813,6 +10751,7 @@
     'class_path' => './Modules/CmiXapi/classes/Verification/class.ilObjCmiXapiVerificationGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalworkspacegui',
     ),
     'children' => 
     array (
@@ -9851,6 +10790,7 @@
     'class_path' => './Services/Component/classes/class.ilObjComponentSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9890,6 +10830,7 @@
     'class_path' => './Modules/ContentPage/classes/class.ilObjContentPageAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9905,6 +10846,7 @@
     array (
       0 => 'ilrepositorygui',
       1 => 'iladministrationgui',
+      2 => 'ilobjlearningsequencegui',
     ),
     'children' => 
     array (
@@ -9940,6 +10882,7 @@
     'class_path' => './Modules/Course/classes/class.ilObjCourseAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -9955,6 +10898,13 @@
     'class_path' => './Modules/Course/classes/class.ilObjCourseGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'iladvancedsearchgui',
+      2 => 'illuceneadvancedsearchgui',
+      3 => 'illucenesearchgui',
+      4 => 'ilobjtestgui',
+      5 => 'ilrepositorygui',
+      6 => 'ilsearchgui',
     ),
     'children' => 
     array (
@@ -9999,6 +10949,8 @@
       38 => 'ilobjecttranslationgui',
       39 => 'ilbookinggatewaygui',
       40 => 'ilreputilgui',
+      41 => 'illoeditorgui',
+      42 => 'illomembertestresultgui',
     ),
   ),
   'ilobjcoursegroupinggui' => 
@@ -10008,6 +10960,8 @@
     'class_path' => './Modules/Course/classes/class.ilObjCourseGroupingGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
+      1 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -10032,6 +10986,8 @@
     'class_path' => './Modules/CourseReference/classes/class.ilObjCourseReferenceGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10061,6 +11017,7 @@
     'class_path' => './Modules/Course/classes/Verification/class.ilObjCourseVerificationGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalworkspacegui',
     ),
     'children' => 
     array (
@@ -10100,6 +11057,8 @@
     'class_path' => './Modules/DataCollection/classes/class.ilObjDataCollectionGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10140,6 +11099,7 @@
     'class_path' => './Services/WebServices/ECS/classes/class.ilObjECSSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10154,6 +11114,7 @@
     'class_path' => './Modules/Exercise/classes/class.ilObjExerciseAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10167,6 +11128,11 @@
     'class_path' => './Modules/Exercise/classes/class.ilObjExerciseGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilexercisehandlergui',
+      2 => 'ilobjlearningsequencegui',
+      3 => 'ilportfoliorepositorygui',
+      4 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10217,6 +11183,8 @@
     'class_path' => './Modules/Exercise/classes/class.ilObjExerciseVerificationGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalworkspacegui',
+      1 => 'ilsharedresourcegui',
     ),
     'children' => 
     array (
@@ -10242,6 +11210,9 @@
     'class_path' => './Modules/ExternalFeed/classes/class.ilObjExternalFeedGUI.php',
     'parents' => 
     array (
+      0 => 'ilrepositorygui',
+      1 => 'iladministrationgui',
+      2 => 'ilexternalfeedhandlergui',
     ),
     'children' => 
     array (
@@ -10269,6 +11240,7 @@
     'class_path' => './Services/Administration/classes/class.ilObjExternalToolsSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10282,6 +11254,7 @@
     'class_path' => './Modules/File/classes/class.ilObjFileAccessSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10295,6 +11268,11 @@
     'class_path' => './Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilhtlmeditorgui',
+      2 => 'ilhtlmpresentationgui',
+      3 => 'ilobjlearningsequencegui',
+      4 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10326,6 +11304,13 @@
     'class_path' => './Modules/File/classes/class.ilObjFileGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjdatacollectiongui',
+      2 => 'ilobjlearningsequencegui',
+      3 => 'ilobjstudyprogrammemembersgui',
+      4 => 'ilpersonalworkspacegui',
+      5 => 'ilrepositorygui',
+      6 => 'ilsharedresourcegui',
     ),
     'children' => 
     array (
@@ -10360,6 +11345,7 @@
     'class_path' => './Services/FileServices/classes/class.ilObjFileServicesGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10373,6 +11359,13 @@
     'class_path' => './Modules/Folder/classes/class.ilObjFolderGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'iladvancedsearchgui',
+      2 => 'illuceneadvancedsearchgui',
+      3 => 'illucenesearchgui',
+      4 => 'ilobjmediapoolgui',
+      5 => 'ilrepositorygui',
+      6 => 'ilsearchgui',
     ),
     'children' => 
     array (
@@ -10411,6 +11404,7 @@
     'class_path' => './Modules/Forum/classes/class.ilObjForumAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10424,6 +11418,8 @@
     'class_path' => './Modules/Forum/classes/class.ilObjForumGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10485,6 +11481,9 @@
     'class_path' => './Modules/Glossary/classes/class.ilObjGlossaryGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilglossaryeditorgui',
+      2 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10532,6 +11531,7 @@
     'class_path' => './Modules/Group/classes/class.ilObjGroupAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10547,6 +11547,12 @@
     'class_path' => './Modules/Group/classes/class.ilObjGroupGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'iladvancedsearchgui',
+      2 => 'illuceneadvancedsearchgui',
+      3 => 'illucenesearchgui',
+      4 => 'ilrepositorygui',
+      5 => 'ilsearchgui',
     ),
     'children' => 
     array (
@@ -10600,6 +11606,8 @@
     'class_path' => './Modules/GroupReference/classes/class.ilObjGroupReferenceGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10641,6 +11649,8 @@
     'class_path' => './Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningsequencegui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10718,6 +11728,8 @@
     'class_path' => './Modules/LTIConsumer/classes/class.ilObjLTIConsumerGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10752,6 +11764,7 @@
     'class_path' => './Modules/LTIConsumer/classes/Verification/class.ilObjLTIConsumerVerificationGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalworkspacegui',
     ),
     'children' => 
     array (
@@ -10776,6 +11789,8 @@
     'class_path' => './Services/Language/classes/class.ilObjLanguageExtGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
+      1 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10788,6 +11803,7 @@
     'class_path' => './Services/Language/classes/class.ilObjLanguageFolderGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10827,6 +11843,10 @@
     'class_path' => './Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'illmeditorgui',
+      2 => 'ilobjlearningsequencegui',
+      3 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -10879,6 +11899,7 @@
     'class_path' => './Modules/LearningModule/classes/class.ilObjLearningResourcesSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10892,6 +11913,7 @@
     'class_path' => './Modules/LearningSequence/classes/Settings/class.ilObjLearningSequenceAdminGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -10907,6 +11929,7 @@
     'class_path' => './Modules/LearningSequence/classes/Content/class.ilObjLearningSequenceContentGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningsequencegui',
     ),
     'children' => 
     array (
@@ -10967,6 +11990,7 @@
     'class_path' => './Modules/LearningSequence/classes/Player/class.ilObjLearningSequenceLearnerGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningsequencegui',
     ),
     'children' => 
     array (
@@ -10991,6 +12015,7 @@
     'class_path' => './Modules/LearningSequence/classes/Settings/class.ilObjLearningSequenceSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningsequencegui',
     ),
     'children' => 
     array (
@@ -11003,6 +12028,11 @@
     'class_path' => './Modules/WebResource/classes/class.ilObjLinkResourceGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'illinkresourcehandlergui',
+      2 => 'ilpersonalworkspacegui',
+      3 => 'ilrepositorygui',
+      4 => 'ilsharedresourcegui',
     ),
     'children' => 
     array (
@@ -11048,6 +12078,7 @@
     'class_path' => './Services/Logging/classes/class.ilObjLoggingSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11061,6 +12092,7 @@
     'class_path' => './Services/MetaData/classes/class.ilObjMDSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11076,10 +12108,12 @@
     'class_path' => './Services/Mail/classes/class.ilObjMailGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
       0 => 'ilpermissiongui',
+      1 => 'ilmailtemplategui',
     ),
   ),
   'ilobjmainmenugui' => 
@@ -11089,10 +12123,14 @@
     'class_path' => './Services/MainMenu/classes/class.ilObjMainMenuGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
       0 => 'ilpermissiongui',
+      1 => 'ilmmsubitemgui',
+      2 => 'ilmmtopitemgui',
+      3 => 'ilmmuploadhandlergui',
     ),
   ),
   'ilobjmediacastgui' => 
@@ -11102,6 +12140,9 @@
     'class_path' => './Modules/MediaCast/classes/class.ilObjMediaCastGUI.php',
     'parents' => 
     array (
+      0 => 'ilrepositorygui',
+      1 => 'iladministrationgui',
+      2 => 'ilmediacasthandlergui',
     ),
     'children' => 
     array (
@@ -11133,6 +12174,7 @@
     'class_path' => './Modules/MediaCast/classes/class.ilObjMediaCastSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11146,6 +12188,10 @@
     'class_path' => './Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php',
     'parents' => 
     array (
+      0 => 'ileditclipboardgui',
+      1 => 'ilobjmediapoolgui',
+      2 => 'ilpcmediaobjectgui',
+      3 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -11161,6 +12207,7 @@
     'class_path' => './Services/MediaObjects/classes/class.ilObjMediaObjectsSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11174,6 +12221,9 @@
     'class_path' => './Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilmediapoolpresentationgui',
+      2 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11224,6 +12274,7 @@
     'class_path' => './Services/News/classes/class.ilObjNewsSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11251,6 +12302,7 @@
     'class_path' => './Services/Notifications/classes/class.ilObjNotificationAdminGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11264,6 +12316,8 @@
     'class_path' => './Services/Notification/classes/class.ilObjNotificationSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbloggui',
+      1 => 'ilobjwikigui',
     ),
     'children' => 
     array (
@@ -11276,6 +12330,7 @@
     'class_path' => './Services/Object/classes/class.ilObjObjectFolderGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11289,6 +12344,7 @@
     'class_path' => './Services/DidacticTemplate/classes/class.ilObjObjectTemplateAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11303,6 +12359,8 @@
     'class_path' => './Modules/OrgUnit/classes/class.ilObjOrgUnitGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjplugindispatchgui',
     ),
     'children' => 
     array (
@@ -11331,6 +12389,7 @@
       22 => 'ilorgunituserassignmentgui',
       23 => 'ilorgunittypegui',
       24 => 'ilpropertyformgui',
+      25 => 'ilorgunitglobalsettingsgui',
     ),
   ),
   'ilobjorgunitlistgui' => 
@@ -11364,6 +12423,7 @@
     'class_path' => './Services/PDFGeneration/classes/class.ilObjPDFGenerationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11406,6 +12466,7 @@
     ),
     'children' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
   ),
   'ilobjpollgui' => 
@@ -11415,6 +12476,8 @@
     'class_path' => './Modules/Poll/classes/class.ilObjPollGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11445,6 +12508,7 @@
     'class_path' => './Modules/Portfolio/classes/class.ilObjPortfolioAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11470,6 +12534,9 @@
     'class_path' => './Modules/Portfolio/classes/class.ilObjPortfolioGUI.php',
     'parents' => 
     array (
+      0 => 'ilportfoliorepositorygui',
+      1 => 'ilpublicuserprofilegui',
+      2 => 'ilsharedresourcegui',
     ),
     'children' => 
     array (
@@ -11488,6 +12555,8 @@
     'class_path' => './Modules/Portfolio/classes/class.ilObjPortfolioTemplateGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11521,6 +12590,7 @@
     'class_path' => './Services/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11534,6 +12604,10 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjtestgui',
+      2 => 'ilrepositorygui',
+      3 => 'iltestexpresspageobjectgui',
     ),
     'children' => 
     array (
@@ -11566,6 +12640,9 @@
       26 => 'asskprimchoicegui',
       27 => 'asslongmenugui',
       28 => 'ilquestionpoolskilladministrationgui',
+      29 => 'asserrortextgui',
+      30 => 'assfileuploadgui',
+      31 => 'assorderinghorizontalgui',
     ),
   ),
   'ilobjquestionpoollistgui' => 
@@ -11587,6 +12664,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilObjQuestionPoolSettingsGeneralGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
     ),
     'children' => 
     array (
@@ -11600,6 +12678,7 @@
     'class_path' => './Services/Administration/classes/class.ilObjRecoveryFolderGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11613,6 +12692,8 @@
     'class_path' => './Modules/RemoteCategory/classes/class.ilObjRemoteCategoryGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11640,6 +12721,8 @@
     'class_path' => './Modules/RemoteCourse/classes/class.ilObjRemoteCourseGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11667,6 +12750,8 @@
     'class_path' => './Modules/RemoteFile/classes/class.ilObjRemoteFileGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11694,6 +12779,8 @@
     'class_path' => './Modules/RemoteGlossary/classes/class.ilObjRemoteGlossaryGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11721,6 +12808,8 @@
     'class_path' => './Modules/RemoteGroup/classes/class.ilObjRemoteGroupGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11748,6 +12837,8 @@
     'class_path' => './Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11775,6 +12866,8 @@
     'class_path' => './Modules/RemoteTest/classes/class.ilObjRemoteTestGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11802,6 +12895,8 @@
     'class_path' => './Modules/RemoteWiki/classes/class.ilObjRemoteWikiGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11829,6 +12924,7 @@
     'class_path' => './Services/Repository/classes/class.ilObjRepositorySettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11842,10 +12938,12 @@
     'class_path' => './Services/AccessControl/classes/class.ilObjRoleFolderGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
       0 => 'ilpermissiongui',
+      1 => 'ildidactictemplatesettingsgui',
     ),
   ),
   'ilobjrolegui' => 
@@ -11855,6 +12953,9 @@
     'class_path' => './Services/AccessControl/classes/class.ilObjRoleGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilpermissiongui',
+      2 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11870,6 +12971,7 @@
     'class_path' => './Services/AccessControl/classes/class.ilObjRoleTemplateGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -11882,6 +12984,12 @@
     'class_path' => './Modules/RootFolder/classes/class.ilObjRootFolderGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'iladvancedsearchgui',
+      2 => 'ilcommonactiondispatchergui',
+      3 => 'illuceneadvancedsearchgui',
+      4 => 'illucenesearchgui',
+      5 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -11915,6 +13023,10 @@
     'class_path' => './Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjlearningsequencegui',
+      2 => 'ilrepositorygui',
+      3 => 'ilsahseditgui',
     ),
     'children' => 
     array (
@@ -11947,6 +13059,8 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php',
     'parents' => 
     array (
+      0 => 'ilsahseditgui',
+      1 => 'ilsahspresentationgui',
     ),
     'children' => 
     array (
@@ -11977,6 +13091,8 @@
     'class_path' => './Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php',
     'parents' => 
     array (
+      0 => 'ilsahseditgui',
+      1 => 'ilsahspresentationgui',
     ),
     'children' => 
     array (
@@ -12000,6 +13116,7 @@
     'class_path' => './Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerificationGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalworkspacegui',
     ),
     'children' => 
     array (
@@ -12025,6 +13142,7 @@
     'class_path' => './Services/Search/classes/class.ilObjSearchSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -12038,6 +13156,8 @@
     'class_path' => './Modules/Session/classes/class.ilObjSessionGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -12080,6 +13200,13 @@
       0 => 'ilpermissiongui',
       1 => 'ilskillprofilegui',
       2 => 'ilexportgui',
+      3 => 'ilbasicskillgui',
+      4 => 'ilbasicskilltemplategui',
+      5 => 'ilskillcategorygui',
+      6 => 'ilskillrootgui',
+      7 => 'ilskilltemplatecategorygui',
+      8 => 'ilskilltemplategui',
+      9 => 'ilskilltemplatereferencegui',
     ),
   ),
   'ilobjstudyprogrammeadmingui' => 
@@ -12089,6 +13216,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdminGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -12103,6 +13231,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAutoCategoriesGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammegui',
     ),
     'children' => 
     array (
@@ -12116,6 +13245,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAutoMembershipsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammegui',
     ),
     'children' => 
     array (
@@ -12129,6 +13259,8 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -12153,6 +13285,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammemembersgui',
     ),
     'children' => 
     array (
@@ -12177,6 +13310,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammegui',
     ),
     'children' => 
     array (
@@ -12196,6 +13330,7 @@
     'class_path' => './Modules/StudyProgrammeReference/classes/class.ilObjStudyProgrammeReferenceGUI.php',
     'parents' => 
     array (
+      0 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -12223,6 +13358,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammegui',
     ),
     'children' => 
     array (
@@ -12248,6 +13384,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammegui',
     ),
     'children' => 
     array (
@@ -12260,6 +13397,7 @@
     'class_path' => './Services/Style/classes/class.ilObjStyleSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -12276,6 +13414,21 @@
     'class_path' => './Services/Style/Content/classes/class.ilObjStyleSheetGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontentstylesettingsgui',
+      1 => 'ilobjbloggui',
+      2 => 'ilobjcategorygui',
+      3 => 'ilobjcontentpagegui',
+      4 => 'ilobjcoursegui',
+      5 => 'ilobjfoldergui',
+      6 => 'ilobjglossarygui',
+      7 => 'ilobjgroupgui',
+      8 => 'ilobjlearningmodulegui',
+      9 => 'ilobjorgunitgui',
+      10 => 'ilobjportfoliogui',
+      11 => 'ilobjportfoliotemplategui',
+      12 => 'ilobjrootfoldergui',
+      13 => 'ilobjscorm2004learningmodulegui',
+      14 => 'ilobjwikigui',
     ),
     'children' => 
     array (
@@ -12288,6 +13441,7 @@
     'class_path' => './Modules/Survey/Administration/class.ilObjSurveyAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -12302,6 +13456,9 @@
     'class_path' => './Modules/Survey/classes/class.ilObjSurveyGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjlearningsequencegui',
+      2 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -12341,6 +13498,8 @@
     'class_path' => './Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -12384,6 +13543,7 @@
       1 => 'ilobjectownershipmanagementgui',
       2 => 'ilobjsystemfoldergui',
       3 => 'ilsccomponenttasksgui',
+      4 => 'ilsctreetasksgui',
     ),
   ),
   'ilobjsystemfoldergui' => 
@@ -12393,6 +13553,8 @@
     'class_path' => './Modules/SystemFolder/classes/class.ilObjSystemFolderGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjsystemcheckgui',
     ),
     'children' => 
     array (
@@ -12409,6 +13571,7 @@
     'class_path' => './Services/Tagging/classes/class.ilObjTaggingSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -12422,6 +13585,7 @@
     'class_path' => './Services/Taxonomy/classes/class.ilObjTaxonomyAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -12435,6 +13599,11 @@
     'class_path' => './Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcategorygui',
+      1 => 'ilobjglossarygui',
+      2 => 'ilobjquestionpoolgui',
+      3 => 'ilobjtaxonomygui',
+      4 => 'ilobjectmetadatagui',
     ),
     'children' => 
     array (
@@ -12464,6 +13633,7 @@
     'class_path' => './Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfigGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -12477,6 +13647,9 @@
     'class_path' => './Modules/Test/classes/class.ilObjTestGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjlearningsequencegui',
+      2 => 'ilrepositorygui',
     ),
     'children' => 
     array (
@@ -12537,6 +13710,7 @@
       54 => 'iltestquestionbrowsertablegui',
       55 => 'iltestinfoscreentoolbargui',
       56 => 'illtiproviderobjectsettinggui',
+      57 => 'iltestservicegui',
     ),
   ),
   'ilobjtestlistgui' => 
@@ -12558,6 +13732,7 @@
     'class_path' => './Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -12573,6 +13748,7 @@
     'class_path' => './Modules/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -12587,6 +13763,8 @@
     'class_path' => './Modules/Test/classes/class.ilObjTestVerificationGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalworkspacegui',
+      1 => 'ilsharedresourcegui',
     ),
     'children' => 
     array (
@@ -12624,6 +13802,9 @@
     'class_path' => './Services/User/classes/class.ilObjUserFolderGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjcategorygui',
+      2 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -12643,6 +13824,13 @@
     'class_path' => './Services/User/classes/class.ilObjUserGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ildashboardgui',
+      2 => 'ilmailgui',
+      3 => 'ilobjbibliographicgui',
+      4 => 'ilobjcategorygui',
+      5 => 'ilobjdatacollectiongui',
+      6 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -12657,6 +13845,7 @@
     'class_path' => './Services/Tracking/classes/class.ilObjUserTrackingGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -12673,10 +13862,12 @@
     'class_path' => './Services/WebDAV/classes/class.ilObjWebDAVGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
       0 => 'ilpermissiongui',
+      1 => 'ilwebdavmountinstructionsuploadgui',
     ),
   ),
   'ilobjwebresourceadministrationgui' => 
@@ -12686,6 +13877,7 @@
     'class_path' => './Modules/WebResource/classes/class.ilObjWebResourceAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -12699,6 +13891,9 @@
     'class_path' => './Modules/Wiki/classes/class.ilObjWikiGUI.php',
     'parents' => 
     array (
+      0 => 'ilrepositorygui',
+      1 => 'iladministrationgui',
+      2 => 'ilwikihandlergui',
     ),
     'children' => 
     array (
@@ -12776,6 +13971,7 @@
     'class_path' => './Services/WorkflowEngine/classes/class.ilObjWorkflowEngineGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
     ),
     'children' => 
     array (
@@ -12789,6 +13985,7 @@
     'class_path' => './Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalworkspacegui',
     ),
     'children' => 
     array (
@@ -12827,6 +14024,7 @@
     'class_path' => './Modules/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalworkspacegui',
     ),
     'children' => 
     array (
@@ -12865,6 +14063,7 @@
     'class_path' => './Services/Object/classes/class.ilObjectActivationGUI.php',
     'parents' => 
     array (
+      0 => 'ilcommonactiondispatchergui',
     ),
     'children' => 
     array (
@@ -12926,6 +14125,49 @@
     'class_path' => './Services/Object/classes/class.ilObjectCopyGUI.php',
     'parents' => 
     array (
+      0 => 'iladvancedsearchgui',
+      1 => 'ilcoursecontentgui',
+      2 => 'illuceneadvancedsearchgui',
+      3 => 'illucenesearchgui',
+      4 => 'ilobjbibliographicgui',
+      5 => 'ilobjbloggui',
+      6 => 'ilobjbookingpoolgui',
+      7 => 'ilobjcategorygui',
+      8 => 'ilobjchatroomadmingui',
+      9 => 'ilobjchatroomgui',
+      10 => 'ilobjcloudgui',
+      11 => 'ilobjcmixapigui',
+      12 => 'ilobjcontentpagegui',
+      13 => 'ilobjcoursegui',
+      14 => 'ilobjdatacollectiongui',
+      15 => 'ilobjexercisegui',
+      16 => 'ilobjfilegui',
+      17 => 'ilobjfoldergui',
+      18 => 'ilobjforumgui',
+      19 => 'ilobjglossarygui',
+      20 => 'ilobjgroupgui',
+      21 => 'ilobjindividualassessmentgui',
+      22 => 'ilobjitemgroupgui',
+      23 => 'ilobjlticonsumergui',
+      24 => 'ilobjlearningmodulegui',
+      25 => 'ilobjlearningsequencegui',
+      26 => 'ilobjlinkresourcegui',
+      27 => 'ilobjmediacastgui',
+      28 => 'ilobjmediapoolgui',
+      29 => 'ilobjorgunitgui',
+      30 => 'ilobjpollgui',
+      31 => 'ilobjportfoliotemplategui',
+      32 => 'ilobjquestionpoolgui',
+      33 => 'ilobjrootfoldergui',
+      34 => 'ilobjsahslearningmodulegui',
+      35 => 'ilobjsessiongui',
+      36 => 'ilobjstudyprogrammegui',
+      37 => 'ilobjsurveygui',
+      38 => 'ilobjsurveyquestionpoolgui',
+      39 => 'ilobjtestgui',
+      40 => 'ilobjwikigui',
+      41 => 'ilpersonalworkspacegui',
+      42 => 'ilsearchgui',
     ),
     'children' => 
     array (
@@ -12974,6 +14216,7 @@
     'class_path' => './Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcontentpagegui',
     ),
     'children' => 
     array (
@@ -12986,6 +14229,11 @@
     'class_path' => './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php',
     'parents' => 
     array (
+      0 => 'ilcoursemembershipgui',
+      1 => 'ilgroupmembershipgui',
+      2 => 'illearningsequencemembershipgui',
+      3 => 'ilobjcoursegui',
+      4 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -13010,6 +14258,10 @@
     'class_path' => './Services/Object/classes/class.ilObjectGUI.php',
     'parents' => 
     array (
+      0 => 'iladvancedsearchgui',
+      1 => 'illuceneadvancedsearchgui',
+      2 => 'illucenesearchgui',
+      3 => 'ilsearchgui',
     ),
     'children' => 
     array (
@@ -13034,6 +14286,7 @@
     'class_path' => './Services/Object/classes/class.ilObjectMetaDataBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
     ),
     'children' => 
     array (
@@ -13046,6 +14299,40 @@
     'class_path' => './Services/Object/classes/class.ilObjectMetaDataGUI.php',
     'parents' => 
     array (
+      0 => 'ilglossarydefpagegui',
+      1 => 'ilglossarytermgui',
+      2 => 'illmpagegui',
+      3 => 'ilobjbookingpoolgui',
+      4 => 'ilobjcategorygui',
+      5 => 'ilobjcmixapigui',
+      6 => 'ilobjcoursegui',
+      7 => 'ilobjexercisegui',
+      8 => 'ilobjfilebasedlmgui',
+      9 => 'ilobjfilegui',
+      10 => 'ilobjglossarygui',
+      11 => 'ilobjgroupgui',
+      12 => 'ilobjindividualassessmentgui',
+      13 => 'ilobjlticonsumergui',
+      14 => 'ilobjlearningmodulegui',
+      15 => 'ilobjlinkresourcegui',
+      16 => 'ilobjmediaobjectgui',
+      17 => 'ilobjmediapoolgui',
+      18 => 'ilobjquestionpoolgui',
+      19 => 'ilobjsahslearningmodulegui',
+      20 => 'ilobjscorm2004learningmodulegui',
+      21 => 'ilobjscormlearningmodulegui',
+      22 => 'ilobjsessiongui',
+      23 => 'ilobjsurveygui',
+      24 => 'ilobjsurveyquestionpoolgui',
+      25 => 'ilobjtestgui',
+      26 => 'ilobjwikigui',
+      27 => 'ilpageobjectgui',
+      28 => 'ilsahseditgui',
+      29 => 'ilscorm2004chaptergui',
+      30 => 'ilscorm2004pagegui',
+      31 => 'ilscorm2004scogui',
+      32 => 'ilstructureobjectgui',
+      33 => 'ilwikipagegui',
     ),
     'children' => 
     array (
@@ -13063,6 +14350,11 @@
     'class_path' => './Services/Object/classes/class.ilObjectOwnershipManagementGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsystemcheckgui',
+      1 => 'ilobjsystemfoldergui',
+      2 => 'ilobjusergui',
+      3 => 'ilobjworkspacefoldergui',
+      4 => 'ilobjworkspacerootfoldergui',
     ),
     'children' => 
     array (
@@ -13087,6 +14379,7 @@
     'class_path' => './Services/AccessControl/classes/class.ilObjectPermissionStatusGUI.php',
     'parents' => 
     array (
+      0 => 'ilpermissiongui',
     ),
     'children' => 
     array (
@@ -13160,6 +14453,8 @@
     'class_path' => './Services/Object/classes/class.ilObjectServiceSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcoursegui',
+      1 => 'ilobjgroupgui',
     ),
     'children' => 
     array (
@@ -13208,6 +14503,15 @@
     'class_path' => './Services/Object/classes/class.ilObjectTranslationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcategorygui',
+      1 => 'ilobjcontentpagegui',
+      2 => 'ilobjcoursegui',
+      3 => 'ilobjfoldergui',
+      4 => 'ilobjgroupgui',
+      5 => 'ilobjlearningmodulegui',
+      6 => 'ilobjmediapoolgui',
+      7 => 'ilobjrootfoldergui',
+      8 => 'ilobjstudyprogrammegui',
     ),
     'children' => 
     array (
@@ -13256,6 +14560,7 @@
     'class_path' => './Services/OpenIdConnect/classes/class.ilOpenIdConnectSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjauthsettingsgui',
     ),
     'children' => 
     array (
@@ -13316,6 +14621,7 @@
     'class_path' => './Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitDefaultPermissionGUI.php',
     'parents' => 
     array (
+      0 => 'ilorgunitpositiongui',
     ),
     'children' => 
     array (
@@ -13352,6 +14658,7 @@
     'class_path' => './Modules/OrgUnit/classes/class.ilOrgUnitExportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -13400,6 +14707,7 @@
     'class_path' => './Modules/OrgUnit/classes/Settings/class.ilOrgUnitGlobalSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -13436,6 +14744,7 @@
     'class_path' => './Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitPermissionGUI.php',
     'parents' => 
     array (
+      0 => 'ilorgunitpositiongui',
     ),
     'children' => 
     array (
@@ -13472,9 +14781,12 @@
     'class_path' => './Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
+      0 => 'ilorgunitdefaultpermissiongui',
+      1 => 'ilorgunitpermissiongui',
     ),
   ),
   'ilorgunitpositiontablegui' => 
@@ -13508,6 +14820,7 @@
     'class_path' => './Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -13520,6 +14833,7 @@
     'class_path' => './Modules/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -13532,6 +14846,7 @@
     'class_path' => './Modules/OrgUnit/classes/Staff/class.ilOrgUnitStaffGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -13593,6 +14908,7 @@
     'class_path' => './Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -13617,6 +14933,7 @@
     'class_path' => './Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -13654,6 +14971,7 @@
     'class_path' => './Modules/Wiki/classes/class.ilPCAMDPageListGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13666,6 +14984,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCBlogGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13678,6 +14997,7 @@
     'class_path' => './Modules/Portfolio/classes/class.ilPCConsultationHoursGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13690,6 +15010,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCContentIncludeGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13715,6 +15036,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCDataTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13739,6 +15061,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCFileItemGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13751,6 +15074,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCFileListGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13775,6 +15099,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCGridCellGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13811,6 +15136,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCGridGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13847,6 +15173,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCIIMTriggerEditorGUI.php',
     'parents' => 
     array (
+      0 => 'ilpcinteractiveimagegui',
     ),
     'children' => 
     array (
@@ -13872,6 +15199,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCImageMapEditorGUI.php',
     'parents' => 
     array (
+      0 => 'ilpcmediaobjectgui',
     ),
     'children' => 
     array (
@@ -13897,6 +15225,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCInteractiveImageGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13923,6 +15252,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCListGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13935,6 +15265,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCListItemGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13947,6 +15278,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCLoginPageElementGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13959,6 +15291,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCMapGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13983,6 +15316,8 @@
     'class_path' => './Services/COPage/classes/class.ilPCMediaObjectGUI.php',
     'parents' => 
     array (
+      0 => 'ilpcplaceholdergui',
+      1 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -13997,6 +15332,7 @@
     'class_path' => './Modules/Portfolio/classes/class.ilPCMyCoursesGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14021,6 +15357,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCParagraphGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14033,6 +15370,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCPlaceHolderGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14046,6 +15384,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCPluggedGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14058,6 +15397,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCProfileGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14070,6 +15410,9 @@
     'class_path' => './Services/COPage/classes/class.ilPCQuestionGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
+      1 => 'ilscorm2004assetgui',
+      2 => 'ilscorm2004scogui',
     ),
     'children' => 
     array (
@@ -14082,6 +15425,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCQuestionOverviewGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14094,6 +15438,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCResourcesGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14118,6 +15463,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCSectionGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14131,6 +15477,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCSkillsGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14143,6 +15490,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCSourceCodeGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14155,6 +15503,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCTabGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14167,6 +15516,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCTableDataGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14179,6 +15529,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14191,6 +15542,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCTabsGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14215,6 +15567,7 @@
     'class_path' => './Services/COPage/classes/class.ilPCVerificationGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14227,6 +15580,8 @@
     'class_path' => './Services/Calendar/classes/class.ilPDCalendarBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
+      1 => 'ilcalendarpresentationgui',
     ),
     'children' => 
     array (
@@ -14246,6 +15601,7 @@
     'class_path' => './Services/Feeds/classes/class.ilPDExternalFeedBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
     ),
     'children' => 
     array (
@@ -14258,6 +15614,9 @@
     'class_path' => './Services/Mail/classes/class.ilPDMailBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
+      1 => 'il',
+      2 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -14282,6 +15641,8 @@
     'class_path' => './Services/Dashboard/ItemsBlock/classes/class.ilPDMembershipBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
+      1 => 'ilmembershipoverviewgui',
     ),
     'children' => 
     array (
@@ -14295,6 +15656,7 @@
     'class_path' => './Services/News/classes/class.ilPDNewsBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
     ),
     'children' => 
     array (
@@ -14307,6 +15669,7 @@
     'class_path' => './Services/News/classes/class.ilPDNewsGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -14331,6 +15694,7 @@
     'class_path' => './Services/Notes/classes/class.ilPDNotesGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -14344,6 +15708,8 @@
     'class_path' => './Services/Dashboard/ItemsBlock/classes/class.ilPDSelectedItemsBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
+      1 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -14393,6 +15759,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilPDStudyProgrammeExpandableListGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
     ),
     'children' => 
     array (
@@ -14405,6 +15772,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilPDStudyProgrammeSimpleListGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
     ),
     'children' => 
     array (
@@ -14417,6 +15785,7 @@
     'class_path' => './Services/Tasks/classes/class.ilPDTasksBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
     ),
     'children' => 
     array (
@@ -14453,6 +15822,31 @@
     'class_path' => './Services/COPage/classes/class.ilPageEditorGUI.php',
     'parents' => 
     array (
+      0 => 'ilassgenfeedbackpagegui',
+      1 => 'ilasshintpagegui',
+      2 => 'ilassquestionpagegui',
+      3 => 'ilassspecfeedbackpagegui',
+      4 => 'ilblogpostinggui',
+      5 => 'ilcontainerpagegui',
+      6 => 'ilcontainerstartobjectspagegui',
+      7 => 'ilcontentpagepagegui',
+      8 => 'ildclcreateviewdefinitiongui',
+      9 => 'ildcldetailedviewdefinitiongui',
+      10 => 'ildcleditviewdefinitiongui',
+      11 => 'ilglossarydefpagegui',
+      12 => 'ilimprintgui',
+      13 => 'illmpagegui',
+      14 => 'illopagegui',
+      15 => 'illoginpagegui',
+      16 => 'ilmediapoolpagegui',
+      17 => 'ilpagelayoutgui',
+      18 => 'ilpageobjectgui',
+      19 => 'ilportfoliopagegui',
+      20 => 'ilportfoliotemplatepagegui',
+      21 => 'ilscorm2004pagegui',
+      22 => 'iltestexpresspageobjectgui',
+      23 => 'iltestfixedquestionsetconfiggui',
+      24 => 'ilwikipagegui',
     ),
     'children' => 
     array (
@@ -14490,6 +15884,8 @@
       31 => 'ilpcgridgui',
       32 => 'ilpcgridcellgui',
       33 => 'ilpageeditorserveradaptergui',
+      34 => 'ilpccontenttemplategui',
+      35 => 'ilpclearninghistorygui',
     ),
   ),
   'ilpageeditorserveradaptergui' => 
@@ -14499,6 +15895,7 @@
     'class_path' => './Services/COPage/Editor/class.ilPageEditorServerAdapterGUI.php',
     'parents' => 
     array (
+      0 => 'ilpageeditorgui',
     ),
     'children' => 
     array (
@@ -14523,6 +15920,7 @@
     'class_path' => './Services/COPage/Layout/classes/class.ilPageLayoutAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstylesettingsgui',
     ),
     'children' => 
     array (
@@ -14536,6 +15934,7 @@
     'class_path' => './Services/COPage/Layout/classes/class.ilPageLayoutGUI.php',
     'parents' => 
     array (
+      0 => 'ilpagelayoutadministrationgui',
     ),
     'children' => 
     array (
@@ -14564,6 +15963,14 @@
     'class_path' => './Services/COPage/classes/class.ilPageMultiLangGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontainerpagegui',
+      1 => 'ilcontainerstartobjectspagegui',
+      2 => 'ilcontentpagepagegui',
+      3 => 'illmpagegui',
+      4 => 'illopagegui',
+      5 => 'ilobjcontentpagegui',
+      6 => 'ilobjlearningmodulegui',
+      7 => 'ilpageobjectgui',
     ),
     'children' => 
     array (
@@ -14588,6 +15995,20 @@
     'class_path' => './Services/COPage/classes/class.ilPageObjectGUI.php',
     'parents' => 
     array (
+      0 => 'ilblogpostinggui',
+      1 => 'ildclcreateviewdefinitiongui',
+      2 => 'ildcldetailedviewdefinitiongui',
+      3 => 'ildcleditviewdefinitiongui',
+      4 => 'ilimprintgui',
+      5 => 'illmpagegui',
+      6 => 'ilobjorgunitgui',
+      7 => 'ilobjportfoliogui',
+      8 => 'ilobjportfoliotemplategui',
+      9 => 'ilpagelayoutgui',
+      10 => 'ilportfoliopagegui',
+      11 => 'ilportfoliotemplatepagegui',
+      12 => 'ilscorm2004pagegui',
+      13 => 'ilwikipagegui',
     ),
     'children' => 
     array (
@@ -14634,6 +16055,8 @@
     'class_path' => './Modules/Test/classes/class.ilParticipantsTestResultsGUI.php',
     'parents' => 
     array (
+      0 => 'iltestexportgui',
+      1 => 'iltestresultsgui',
     ),
     'children' => 
     array (
@@ -14662,6 +16085,7 @@
     'class_path' => './Services/Init/classes/class.ilPasswordAssistanceGUI.php',
     'parents' => 
     array (
+      0 => 'ilstartupgui',
     ),
     'children' => 
     array (
@@ -14737,12 +16161,133 @@
     'class_path' => './Services/AccessControl/classes/class.ilPermissionGUI.php',
     'parents' => 
     array (
+      0 => 'iladministrationgui',
+      1 => 'ilobjaccessibilitysettingsgui',
+      2 => 'ilobjadministrativenotificationgui',
+      3 => 'ilobjadvancededitinggui',
+      4 => 'ilobjassessmentfoldergui',
+      5 => 'ilobjauthsettingsgui',
+      6 => 'ilobjawarenessadministrationgui',
+      7 => 'ilobjbadgeadministrationgui',
+      8 => 'ilobjbibliographicadmingui',
+      9 => 'ilobjbibliographicgui',
+      10 => 'ilobjblogadministrationgui',
+      11 => 'ilobjbloggui',
+      12 => 'ilobjbookingpoolgui',
+      13 => 'ilobjcalendarsettingsgui',
+      14 => 'ilobjcategorygui',
+      15 => 'ilobjcategoryreferencegui',
+      16 => 'ilobjcertificatesettingsgui',
+      17 => 'ilobjchatroomadmingui',
+      18 => 'ilobjchatroomgui',
+      19 => 'ilobjcloudgui',
+      20 => 'ilobjcmixapiadministrationgui',
+      21 => 'ilobjcmixapigui',
+      22 => 'ilobjcommentssettingsgui',
+      23 => 'ilobjcomponentsettingsgui',
+      24 => 'ilobjcontactadministrationgui',
+      25 => 'ilobjcontentpageadministrationgui',
+      26 => 'ilobjcontentpagegui',
+      27 => 'ilobjcourseadministrationgui',
+      28 => 'ilobjcoursegui',
+      29 => 'ilobjcoursereferencegui',
+      30 => 'ilobjdashboardsettingsgui',
+      31 => 'ilobjdatacollectiongui',
+      32 => 'ilobjecssettingsgui',
+      33 => 'ilobjexerciseadministrationgui',
+      34 => 'ilobjexercisegui',
+      35 => 'ilobjexternalfeedgui',
+      36 => 'ilobjexternaltoolssettingsgui',
+      37 => 'ilobjfileaccesssettingsgui',
+      38 => 'ilobjfilebasedlmgui',
+      39 => 'ilobjfilegui',
+      40 => 'ilobjfileservicesgui',
+      41 => 'ilobjfoldergui',
+      42 => 'ilobjforumadministrationgui',
+      43 => 'ilobjforumgui',
+      44 => 'ilobjglossarygui',
+      45 => 'ilobjgroupadministrationgui',
+      46 => 'ilobjgroupgui',
+      47 => 'ilobjgroupreferencegui',
+      48 => 'ilobjhelpsettingsgui',
+      49 => 'ilobjindividualassessmentgui',
+      50 => 'ilobjitemgroupgui',
+      51 => 'ilobjltiadministrationgui',
+      52 => 'ilobjlticonsumergui',
+      53 => 'ilobjlanguagefoldergui',
+      54 => 'ilobjlearninghistorysettingsgui',
+      55 => 'ilobjlearningmodulegui',
+      56 => 'ilobjlearningresourcessettingsgui',
+      57 => 'ilobjlearningsequenceadmingui',
+      58 => 'ilobjlearningsequencegui',
+      59 => 'ilobjlinkresourcegui',
+      60 => 'ilobjloggingsettingsgui',
+      61 => 'ilobjmdsettingsgui',
+      62 => 'ilobjmailgui',
+      63 => 'ilobjmainmenugui',
+      64 => 'ilobjmediacastgui',
+      65 => 'ilobjmediacastsettingsgui',
+      66 => 'ilobjmediaobjectssettingsgui',
+      67 => 'ilobjmediapoolgui',
+      68 => 'ilobjnewssettingsgui',
+      69 => 'ilobjnotessettingsgui',
+      70 => 'ilobjnotificationadmingui',
+      71 => 'ilobjobjectfoldergui',
+      72 => 'ilobjobjecttemplateadministrationgui',
+      73 => 'ilobjorgunitgui',
+      74 => 'ilobjpdfgenerationgui',
+      75 => 'ilobjpersonalworkspacesettingsgui',
+      76 => 'ilobjpollgui',
+      77 => 'ilobjportfolioadministrationgui',
+      78 => 'ilobjportfoliotemplategui',
+      79 => 'ilobjprivacysecuritygui',
+      80 => 'ilobjquestionpoolgui',
+      81 => 'ilobjrecoveryfoldergui',
+      82 => 'ilobjremotecategorygui',
+      83 => 'ilobjremotecoursegui',
+      84 => 'ilobjremotefilegui',
+      85 => 'ilobjremoteglossarygui',
+      86 => 'ilobjremotegroupgui',
+      87 => 'ilobjremotelearningmodulegui',
+      88 => 'ilobjremotetestgui',
+      89 => 'ilobjremotewikigui',
+      90 => 'ilobjrepositorysettingsgui',
+      91 => 'ilobjrolefoldergui',
+      92 => 'ilobjrootfoldergui',
+      93 => 'ilobjsahslearningmodulegui',
+      94 => 'ilobjscorm2004learningmodulegui',
+      95 => 'ilobjscormlearningmodulegui',
+      96 => 'ilobjsearchsettingsgui',
+      97 => 'ilobjsessiongui',
+      98 => 'ilobjskillmanagementgui',
+      99 => 'ilobjstudyprogrammeadmingui',
+      100 => 'ilobjstudyprogrammegui',
+      101 => 'ilobjstudyprogrammereferencegui',
+      102 => 'ilobjstylesettingsgui',
+      103 => 'ilobjsurveyadministrationgui',
+      104 => 'ilobjsurveygui',
+      105 => 'ilobjsurveyquestionpoolgui',
+      106 => 'ilobjsystemcheckgui',
+      107 => 'ilobjsystemfoldergui',
+      108 => 'ilobjtaggingsettingsgui',
+      109 => 'ilobjtaxonomyadministrationgui',
+      110 => 'ilobjtermsofservicegui',
+      111 => 'ilobjtestgui',
+      112 => 'ilobjuserfoldergui',
+      113 => 'ilobjusertrackinggui',
+      114 => 'ilobjwebdavgui',
+      115 => 'ilobjwebresourceadministrationgui',
+      116 => 'ilobjwikigui',
+      117 => 'ilobjwikisettingsgui',
+      118 => 'ilobjworkflowenginegui',
+      119 => 'ilrepositorygui',
     ),
     'children' => 
     array (
       0 => 'ilobjrolegui',
       1 => 'ilrepositorysearchgui',
       2 => 'ilobjectpermissionstatusgui',
+      3 => 'ildidactictemplategui',
     ),
   ),
   'ilpersonalprofilegui' => 
@@ -14752,11 +16297,13 @@
     'class_path' => './Services/User/Profile/classes/class.ilPersonalProfileGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
       0 => 'ilpublicuserprofilegui',
       1 => 'iluserprivacysettingsgui',
+      2 => 'ilnotificationgui',
     ),
   ),
   'ilpersonalsettingsgui' => 
@@ -14766,6 +16313,7 @@
     'class_path' => './Services/User/Settings/classes/class.ilPersonalSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -14815,6 +16363,8 @@
     'class_path' => './Services/Skill/classes/class.ilPersonalSkillsGUI.php',
     'parents' => 
     array (
+      0 => 'ilachievementsgui',
+      1 => 'ilcontskillpresentationgui',
     ),
     'children' => 
     array (
@@ -14827,6 +16377,7 @@
     'class_path' => './Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -14899,6 +16450,7 @@
     'class_path' => './Modules/Poll/classes/class.ilPollBlockGUI.php',
     'parents' => 
     array (
+      0 => 'ilcolumngui',
     ),
     'children' => 
     array (
@@ -14935,6 +16487,8 @@
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjexercisegui',
+      1 => 'ilobjportfoliogui',
     ),
     'children' => 
     array (
@@ -14947,6 +16501,9 @@
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbloggui',
+      1 => 'ilobjfilegui',
+      2 => 'ilobjportfoliogui',
     ),
     'children' => 
     array (
@@ -14980,6 +16537,7 @@
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioRepositoryGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -15006,6 +16564,7 @@
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioTemplatePageGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjportfoliotemplategui',
     ),
     'children' => 
     array (
@@ -15024,6 +16583,7 @@
     'class_path' => './Modules/Glossary/Presentation/class.ilPresentationListTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilglossarypresentationgui',
     ),
     'children' => 
     array (
@@ -15061,6 +16621,61 @@
     'class_path' => './Services/Form/classes/class.ilPropertyFormGUI.php',
     'parents' => 
     array (
+      0 => 'assimagemapquestiongui',
+      1 => 'asskprimchoicegui',
+      2 => 'asslongmenugui',
+      3 => 'assorderinghorizontalgui',
+      4 => 'iladministrationgui',
+      5 => 'iladvancedmdsettingsgui',
+      6 => 'iladvancedsearchgui',
+      7 => 'ilassgenfeedbackpagegui',
+      8 => 'ilasshintpagegui',
+      9 => 'ilassquestionfeedbackeditinggui',
+      10 => 'ilassquestionhintrequestgui',
+      11 => 'ilassquestionpagegui',
+      12 => 'ilassspecfeedbackpagegui',
+      13 => 'ilbadgemanagementgui',
+      14 => 'ilbookinggatewaygui',
+      15 => 'ilbookingobjectgui',
+      16 => 'ilbookingobjectservicegui',
+      17 => 'ilcontainerpagegui',
+      18 => 'ilcontainerstartobjectspagegui',
+      19 => 'ilcontentpagepagegui',
+      20 => 'ilcronmanagergui',
+      21 => 'ildidactictemplatesettingsgui',
+      22 => 'ilexassignmenteditorgui',
+      23 => 'ilglossarydefpagegui',
+      24 => 'ilglossarytermgui',
+      25 => 'illmpagegui',
+      26 => 'illopagegui',
+      27 => 'illoginpagegui',
+      28 => 'illucenesearchgui',
+      29 => 'ilmediacreationgui',
+      30 => 'ilobjcategoryreferencegui',
+      31 => 'ilobjchatroomgui',
+      32 => 'ilobjcoursegui',
+      33 => 'ilobjcoursereferencegui',
+      34 => 'ilobjdatacollectiongui',
+      35 => 'ilobjgroupgui',
+      36 => 'ilobjgroupreferencegui',
+      37 => 'ilobjlinkresourcegui',
+      38 => 'ilobjorgunitgui',
+      39 => 'ilobjquestionpoolgui',
+      40 => 'ilobjquestionpoolsettingsgeneralgui',
+      41 => 'ilobjsessiongui',
+      42 => 'ilobjstudyprogrammeautocategoriesgui',
+      43 => 'ilobjstudyprogrammeautomembershipsgui',
+      44 => 'ilobjstudyprogrammereferencegui',
+      45 => 'ilobjtestdynamicquestionsetconfiggui',
+      46 => 'ilobjtestsettingsgeneralgui',
+      47 => 'ilobjtestsettingsscoringresultsgui',
+      48 => 'ilobjectmetadatagui',
+      49 => 'ilpcsectiongui',
+      50 => 'ilpageobjectgui',
+      51 => 'ilreputilgui',
+      52 => 'ilsearchgui',
+      53 => 'iltestpasswordprotectiongui',
+      54 => 'ilwikipagegui',
     ),
     'children' => 
     array (
@@ -15098,10 +16713,47 @@
     'class_path' => './Services/User/classes/class.ilPublicUserProfileGUI.php',
     'parents' => 
     array (
+      0 => 'ilassgenfeedbackpagegui',
+      1 => 'ilasshintpagegui',
+      2 => 'ilassquestionpagegui',
+      3 => 'ilassspecfeedbackpagegui',
+      4 => 'ilblogpostinggui',
+      5 => 'ilcalendarpresentationgui',
+      6 => 'ilcontactgui',
+      7 => 'ilcontainerpagegui',
+      8 => 'ilcontainerstartobjectspagegui',
+      9 => 'ilcontentpagepagegui',
+      10 => 'ildclcreateviewdefinitiongui',
+      11 => 'ildcldetailedviewdefinitiongui',
+      12 => 'ildcleditviewdefinitiongui',
+      13 => 'ilglossarydefpagegui',
+      14 => 'ilimprintgui',
+      15 => 'ilinfoscreengui',
+      16 => 'illopagegui',
+      17 => 'illoginpagegui',
+      18 => 'illuceneusersearchgui',
+      19 => 'ilmdcopyrightusagegui',
+      20 => 'ilmailfoldergui',
+      21 => 'ilmediapoolpagegui',
+      22 => 'ilobjbookingpoolgui',
+      23 => 'ilobjcoursegui',
+      24 => 'ilobjforumgui',
+      25 => 'ilobjgroupgui',
+      26 => 'ilobjwikigui',
+      27 => 'ilpagelayoutgui',
+      28 => 'ilpageobjectgui',
+      29 => 'ilpermanentlinkgui',
+      30 => 'ilpersonalprofilegui',
+      31 => 'ilscorm2004pagegui',
+      32 => 'iltestexpresspageobjectgui',
+      33 => 'ilusersgallerygui',
+      34 => 'ilwikipagegui',
+      35 => 'ilworkspaceaccessgui',
     ),
     'children' => 
     array (
       0 => 'ilobjportfoliogui',
+      1 => 'ilbuddysystemgui',
     ),
   ),
   'ilquestionbrowsertablegui' => 
@@ -15111,6 +16763,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
     ),
     'children' => 
     array (
@@ -15136,6 +16789,8 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php',
     'parents' => 
     array (
+      0 => 'illmpagegui',
+      1 => 'ilscorm2004pagegui',
     ),
     'children' => 
     array (
@@ -15175,6 +16830,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
     ),
     'children' => 
     array (
@@ -15223,6 +16879,7 @@
     'class_path' => './Modules/TestQuestionPool/classes/class.ilQuestionPoolSkillAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjquestionpoolgui',
     ),
     'children' => 
     array (
@@ -15273,6 +16930,7 @@
     'class_path' => './Services/Radius/classes/class.ilRadiusSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjauthsettingsgui',
     ),
     'children' => 
     array (
@@ -15297,6 +16955,7 @@
     'class_path' => './Services/Rating/classes/class.ilRatingCategoryGUI.php',
     'parents' => 
     array (
+      0 => 'ilratinggui',
     ),
     'children' => 
     array (
@@ -15321,6 +16980,16 @@
     'class_path' => './Services/Rating/classes/class.ilRatingGUI.php',
     'parents' => 
     array (
+      0 => 'ilblogpostinggui',
+      1 => 'ilcommonactiondispatchergui',
+      2 => 'ilexpeerreviewgui',
+      3 => 'illmpresentationgui',
+      4 => 'ilobjdatacollectiongui',
+      5 => 'ilobjforumgui',
+      6 => 'ilobjwikigui',
+      7 => 'ilscorm2004pagegui',
+      8 => 'iltestexpresspageobjectgui',
+      9 => 'ilwikipagegui',
     ),
     'children' => 
     array (
@@ -15346,6 +17015,7 @@
     'class_path' => './Services/Repository/RecommendedContent/classes/class.ilRecommendedContentRoleConfigGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjrolegui',
     ),
     'children' => 
     array (
@@ -15418,6 +17088,7 @@
     'class_path' => './Services/Registration/classes/class.ilRegistrationSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjauthsettingsgui',
     ),
     'children' => 
     array (
@@ -15466,6 +17137,10 @@
     'class_path' => './Services/Repository/classes/class.ilRepUtilGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcategorygui',
+      1 => 'ilobjcoursegui',
+      2 => 'ilobjfoldergui',
+      3 => 'ilobjrootfoldergui',
     ),
     'children' => 
     array (
@@ -15539,6 +17214,14 @@
       42 => 'ilobjlticonsumergui',
       43 => 'ilobjcmixapigui',
       44 => 'ilpermissiongui',
+      45 => 'ilobjbibliographicgui',
+      46 => 'ilobjbookingpoolgui',
+      47 => 'ilobjchatroomadmingui',
+      48 => 'ilobjcontentpagegui',
+      49 => 'ilobjexternalfeedgui',
+      50 => 'ilobjitemgroupgui',
+      51 => 'ilobjlearningsequencegui',
+      52 => 'ilobjwikigui',
     ),
   ),
   'ilrepositoryobjectresulttablegui' => 
@@ -15572,6 +17255,8 @@
     'class_path' => './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjforumgui',
+      1 => 'ilobjwikigui',
     ),
     'children' => 
     array (
@@ -15596,6 +17281,27 @@
     'class_path' => './Services/Search/classes/class.ilRepositorySearchGUI.php',
     'parents' => 
     array (
+      0 => 'ilbookingparticipantgui',
+      1 => 'ilcoursemembershipgui',
+      2 => 'ilexsubmissionteamgui',
+      3 => 'ilexercisemanagementgui',
+      4 => 'ilforummoderatorsgui',
+      5 => 'ilgroupmembershipgui',
+      6 => 'ilindividualassessmentmembersgui',
+      7 => 'illearningsequencemembershipgui',
+      8 => 'ilobjbloggui',
+      9 => 'ilobjcoursegui',
+      10 => 'ilobjrolegui',
+      11 => 'ilobjtestgui',
+      12 => 'ilobjuserfoldergui',
+      13 => 'ilobjectpermissionstatusgui',
+      14 => 'ilorgunitstaffgui',
+      15 => 'ilorgunituserassignmentgui',
+      16 => 'ilpermissiongui',
+      17 => 'ilsessionmembershipgui',
+      18 => 'ilskillprofilegui',
+      19 => 'ilsurveyparticipantsgui',
+      20 => 'iltestparticipantsgui',
     ),
     'children' => 
     array (
@@ -15609,6 +17315,7 @@
     'class_path' => './Services/Form/classes/class.ilRepositorySelector2InputGUI.php',
     'parents' => 
     array (
+      0 => 'ilformpropertydispatchgui',
     ),
     'children' => 
     array (
@@ -15621,6 +17328,7 @@
     'class_path' => './Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php',
     'parents' => 
     array (
+      0 => 'iltestrandomquestionsetconfiggui',
     ),
     'children' => 
     array (
@@ -15633,6 +17341,7 @@
     'class_path' => './Services/Form/classes/class.ilRepositorySelectorInputGUI.php',
     'parents' => 
     array (
+      0 => 'ilformpropertydispatchgui',
     ),
     'children' => 
     array (
@@ -15804,6 +17513,7 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004AssetGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscorm2004learningmodulegui',
     ),
     'children' => 
     array (
@@ -15820,6 +17530,7 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004ChapterGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscorm2004learningmodulegui',
     ),
     'children' => 
     array (
@@ -15882,6 +17593,9 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php',
     'parents' => 
     array (
+      0 => 'ilscorm2004assetgui',
+      1 => 'ilscorm2004pagenodegui',
+      2 => 'ilscorm2004scogui',
     ),
     'children' => 
     array (
@@ -15904,6 +17618,7 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004PageNodeGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscorm2004learningmodulegui',
     ),
     'children' => 
     array (
@@ -15918,6 +17633,7 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscorm2004learningmodulegui',
     ),
     'children' => 
     array (
@@ -15935,6 +17651,7 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004SeqChapterGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscorm2004learningmodulegui',
     ),
     'children' => 
     array (
@@ -15949,6 +17666,7 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerScoFilterGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscorm2004learningmodulegui',
     ),
     'children' => 
     array (
@@ -15961,6 +17679,7 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscorm2004learningmodulegui',
     ),
     'children' => 
     array (
@@ -15973,6 +17692,7 @@
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscorm2004learningmodulegui',
     ),
     'children' => 
     array (
@@ -16021,6 +17741,7 @@
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMOfflineModeGUI.php',
     'parents' => 
     array (
+      0 => 'ilsahspresentationgui',
     ),
     'children' => 
     array (
@@ -16033,6 +17754,7 @@
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMOfflineModeUsersTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscormlearningmodulegui',
     ),
     'children' => 
     array (
@@ -16069,6 +17791,7 @@
     'class_path' => './Modules/ScormAicc/classes/SCORM/class.ilSCORMPresentationGUI.php',
     'parents' => 
     array (
+      0 => 'ilsahspresentationgui',
     ),
     'children' => 
     array (
@@ -16117,6 +17840,7 @@
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoFilterGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscormlearningmodulegui',
     ),
     'children' => 
     array (
@@ -16141,6 +17865,7 @@
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscormlearningmodulegui',
     ),
     'children' => 
     array (
@@ -16177,6 +17902,7 @@
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjscormlearningmodulegui',
     ),
     'children' => 
     array (
@@ -16298,6 +18024,7 @@
     'class_path' => './Services/Saml/classes/class.ilSamlSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjauthsettingsgui',
     ),
     'children' => 
     array (
@@ -16322,6 +18049,7 @@
     'class_path' => './Services/Search/classes/class.ilSearchBaseGUI.php',
     'parents' => 
     array (
+      0 => 'ilsearchcontroller',
     ),
     'children' => 
     array (
@@ -16451,6 +18179,7 @@
     'class_path' => './Modules/Session/classes/class.ilSessionMembershipGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsessiongui',
     ),
     'children' => 
     array (
@@ -16480,6 +18209,12 @@
     'class_path' => './Modules/Session/classes/class.ilSessionOverviewGUI.php',
     'parents' => 
     array (
+      0 => 'ilcoursemembershipgui',
+      1 => 'ilgroupmembershipgui',
+      2 => 'illearningsequencemembershipgui',
+      3 => 'ilobjcoursegui',
+      4 => 'ilobjgroupgui',
+      5 => 'ilsessionmembershipgui',
     ),
     'children' => 
     array (
@@ -16528,6 +18263,7 @@
     'class_path' => './Services/Authentication/classes/class.ilSessionStatisticsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjusertrackinggui',
     ),
     'children' => 
     array (
@@ -16540,6 +18276,7 @@
     'class_path' => './Services/AccessControl/classes/class.ilSettingsPermissionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjwikigui',
     ),
     'children' => 
     array (
@@ -16552,6 +18289,8 @@
     'class_path' => './Services/Administration/classes/class.ilSettingsTemplateGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjassessmentfoldergui',
+      1 => 'ilobjsurveyadministrationgui',
     ),
     'children' => 
     array (
@@ -16618,6 +18357,7 @@
     'class_path' => './Services/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php',
     'parents' => 
     array (
+      0 => 'ilworkspaceaccessgui',
     ),
     'children' => 
     array (
@@ -16715,6 +18455,8 @@
     'class_path' => './Services/Skill/classes/class.ilSkillProfileGUI.php',
     'parents' => 
     array (
+      0 => 'ilcontskilladmingui',
+      1 => 'ilobjskillmanagementgui',
     ),
     'children' => 
     array (
@@ -16777,6 +18519,7 @@
     'class_path' => './Services/Skill/classes/class.ilSkillSelectorGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionskillassignmentsgui',
     ),
     'children' => 
     array (
@@ -16955,6 +18698,7 @@
     'class_path' => './Modules/LearningModule/classes/class.ilStructureObjectGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjlearningmodulegui',
     ),
     'children' => 
     array (
@@ -17005,6 +18749,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeChangeDeadlineGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammemembersgui',
     ),
     'children' => 
     array (
@@ -17017,6 +18762,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeChangeExpireDateGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammemembersgui',
     ),
     'children' => 
     array (
@@ -17029,6 +18775,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeCommonSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammesettingsgui',
     ),
     'children' => 
     array (
@@ -17053,6 +18800,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeDashboardViewGUI.php',
     'parents' => 
     array (
+      0 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -17101,6 +18849,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeMailMemberSearchGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammemembersgui',
     ),
     'children' => 
     array (
@@ -17149,6 +18898,7 @@
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammemembersgui',
     ),
     'children' => 
     array (
@@ -17185,6 +18935,7 @@
     'class_path' => './Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstudyprogrammeadmingui',
     ),
     'children' => 
     array (
@@ -17389,6 +19140,7 @@
     'class_path' => './Modules/Survey/Constraints/class.ilSurveyConstraintsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveygui',
     ),
     'children' => 
     array (
@@ -17413,6 +19165,7 @@
     'class_path' => './Modules/Survey/Editing/class.ilSurveyEditorGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveygui',
     ),
     'children' => 
     array (
@@ -17431,6 +19184,7 @@
     'class_path' => './Modules/Survey/Evaluation/class.ilSurveyEvaluationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveygui',
     ),
     'children' => 
     array (
@@ -17443,6 +19197,7 @@
     'class_path' => './Modules/Survey/Execution/class.ilSurveyExecutionGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveygui',
     ),
     'children' => 
     array (
@@ -17479,6 +19234,7 @@
     'class_path' => './Modules/Survey/Editing/class.ilSurveyPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilsurveyeditorgui',
     ),
     'children' => 
     array (
@@ -17491,6 +19247,7 @@
     'class_path' => './Modules/Survey/Participants/class.ilSurveyParticipantsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveygui',
     ),
     'children' => 
     array (
@@ -17516,6 +19273,7 @@
     'class_path' => './Modules/SurveyQuestionPool/Phrases/class.ilSurveyPhrasesGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveyquestionpoolgui',
     ),
     'children' => 
     array (
@@ -17660,6 +19418,7 @@
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillDeterminationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveygui',
     ),
     'children' => 
     array (
@@ -17672,6 +19431,7 @@
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjsurveygui',
     ),
     'children' => 
     array (
@@ -17697,6 +19457,7 @@
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillThresholdsGUI.php',
     'parents' => 
     array (
+      0 => 'ilsurveyskillgui',
     ),
     'children' => 
     array (
@@ -17757,6 +19518,7 @@
     'class_path' => './Services/Style/System/classes/Documentation/class.ilSystemStyleDocumentationGUI.php',
     'parents' => 
     array (
+      0 => 'ilsystemstylemaingui',
     ),
     'children' => 
     array (
@@ -17769,6 +19531,7 @@
     'class_path' => './Services/Style/System/classes/Icons/class.ilSystemStyleIconsGUI.php',
     'parents' => 
     array (
+      0 => 'ilsystemstylemaingui',
     ),
     'children' => 
     array (
@@ -17781,6 +19544,7 @@
     'class_path' => './Services/Style/System/classes/Less/class.ilSystemStyleLessGUI.php',
     'parents' => 
     array (
+      0 => 'ilsystemstylemaingui',
     ),
     'children' => 
     array (
@@ -17793,6 +19557,7 @@
     'class_path' => './Services/Style/System/classes/class.ilSystemStyleMainGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjstylesettingsgui',
     ),
     'children' => 
     array (
@@ -17810,6 +19575,7 @@
     'class_path' => './Services/Style/System/classes/Overview/class.ilSystemStyleOverviewGUI.php',
     'parents' => 
     array (
+      0 => 'ilsystemstylemaingui',
     ),
     'children' => 
     array (
@@ -17822,6 +19588,7 @@
     'class_path' => './Services/Style/System/classes/Settings/class.ilSystemStyleSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilsystemstylemaingui',
     ),
     'children' => 
     array (
@@ -17966,6 +19733,7 @@
     'class_path' => './Services/Tagging/classes/class.ilTaggingGUI.php',
     'parents' => 
     array (
+      0 => 'ilcommonactiondispatchergui',
     ),
     'children' => 
     array (
@@ -18014,6 +19782,7 @@
     'class_path' => './Services/Taxonomy/classes/class.ilTaxMDGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjectmetadatagui',
     ),
     'children' => 
     array (
@@ -18027,6 +19796,7 @@
     'class_path' => './Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php',
     'parents' => 
     array (
+      0 => 'ilformpropertydispatchgui',
     ),
     'children' => 
     array (
@@ -18087,6 +19857,7 @@
     'class_path' => './Modules/Glossary/classes/class.ilTermDefinitionEditorGUI.php',
     'parents' => 
     array (
+      0 => 'ilglossarytermgui',
     ),
     'children' => 
     array (
@@ -18136,6 +19907,7 @@
     'class_path' => './Services/TermsOfService/classes/History/class.ilTermsOfServiceAcceptanceHistoryGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtermsofservicegui',
     ),
     'children' => 
     array (
@@ -18184,6 +19956,7 @@
     'class_path' => './Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtermsofservicegui',
     ),
     'children' => 
     array (
@@ -18280,6 +20053,8 @@
     'class_path' => './Modules/Test/classes/confirmations/class.ilTestAnswerOptionalQuestionsConfirmationGUI.php',
     'parents' => 
     array (
+      0 => 'iltestplayerfixedquestionsetgui',
+      1 => 'iltestplayerrandomquestionsetgui',
     ),
     'children' => 
     array (
@@ -18304,6 +20079,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestCorrectionsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18316,6 +20092,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestDashboardGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18342,6 +20119,7 @@
     'class_path' => './Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php',
     'parents' => 
     array (
+      0 => 'iltestplayerdynamicquestionsetgui',
     ),
     'children' => 
     array (
@@ -18355,6 +20133,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php',
     'parents' => 
     array (
+      0 => 'iltestresultsgui',
     ),
     'children' => 
     array (
@@ -18369,6 +20148,11 @@
     'class_path' => './Modules/Test/classes/class.ilTestEvaluationGUI.php',
     'parents' => 
     array (
+      0 => 'ilmytestresultsgui',
+      1 => 'ilmytestsolutionsgui',
+      2 => 'ilobjtestgui',
+      3 => 'ilparticipantstestresultsgui',
+      4 => 'iltestparticipantsgui',
     ),
     'children' => 
     array (
@@ -18384,6 +20168,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestExportGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18409,6 +20194,18 @@
     'class_path' => './Modules/Test/classes/class.ilTestExpressPageObjectGUI.php',
     'parents' => 
     array (
+      0 => 'assmultiplechoicegui',
+      1 => 'assclozetestgui',
+      2 => 'assmatchingquestiongui',
+      3 => 'assorderingquestiongui',
+      4 => 'assimagemapquestiongui',
+      5 => 'assnumericgui',
+      6 => 'asstextsubsetgui',
+      7 => 'asssinglechoicegui',
+      8 => 'asstextquestiongui',
+      9 => 'assformulaquestiongui',
+      10 => 'ilobjtestgui',
+      11 => 'iltestfixedquestionsetconfiggui',
     ),
     'children' => 
     array (
@@ -18439,6 +20236,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestFixedQuestionSetConfigGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18466,6 +20264,7 @@
     'class_path' => './Modules/Test/classes/toolbars/class.ilTestInfoScreenToolbarGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18574,6 +20373,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestParticipantsGUI.php',
     'parents' => 
     array (
+      0 => 'iltestdashboardgui',
     ),
     'children' => 
     array (
@@ -18589,6 +20389,7 @@
     'class_path' => './Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php',
     'parents' => 
     array (
+      0 => 'iltestparticipantsgui',
     ),
     'children' => 
     array (
@@ -18601,6 +20402,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestParticipantsTimeExtensionGUI.php',
     'parents' => 
     array (
+      0 => 'iltestdashboardgui',
     ),
     'children' => 
     array (
@@ -18614,6 +20416,7 @@
     'class_path' => './Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php',
     'parents' => 
     array (
+      0 => 'iltestevaluationgui',
     ),
     'children' => 
     array (
@@ -18626,6 +20429,8 @@
     'class_path' => './Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
+      1 => 'iltestevaluationgui',
     ),
     'children' => 
     array (
@@ -18663,6 +20468,9 @@
     'class_path' => './Modules/Test/classes/class.ilTestPasswordProtectionGUI.php',
     'parents' => 
     array (
+      0 => 'iltestplayerdynamicquestionsetgui',
+      1 => 'iltestplayerfixedquestionsetgui',
+      2 => 'iltestplayerrandomquestionsetgui',
     ),
     'children' => 
     array (
@@ -18688,6 +20496,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestPersonalSkillsGUI.php',
     'parents' => 
     array (
+      0 => 'iltestskillevaluationgui',
     ),
     'children' => 
     array (
@@ -18712,6 +20521,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18732,6 +20542,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18753,6 +20564,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18774,6 +20586,8 @@
     'class_path' => './Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
+      1 => 'iltestquestionbrowsertablegui',
     ),
     'children' => 
     array (
@@ -18836,6 +20650,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestRandomQuestionSetConfigGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18854,6 +20669,7 @@
     'class_path' => './Modules/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php',
     'parents' => 
     array (
+      0 => 'iltestrandomquestionsetconfiggui',
     ),
     'children' => 
     array (
@@ -18867,6 +20683,7 @@
     'class_path' => './Modules/Test/classes/tables/class.ilTestRandomQuestionSetNonAvailablePoolsTableGUI.php',
     'parents' => 
     array (
+      0 => 'iltestrandomquestionsetconfiggui',
     ),
     'children' => 
     array (
@@ -18879,6 +20696,7 @@
     'class_path' => './Modules/Test/classes/forms/class.ilTestRandomQuestionSetPoolDefinitionFormGUI.php',
     'parents' => 
     array (
+      0 => 'iltestrandomquestionsetconfiggui',
     ),
     'children' => 
     array (
@@ -18892,6 +20710,7 @@
     'class_path' => './Modules/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI.php',
     'parents' => 
     array (
+      0 => 'iltestrandomquestionsetconfiggui',
     ),
     'children' => 
     array (
@@ -18904,6 +20723,7 @@
     'class_path' => './Modules/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI.php',
     'parents' => 
     array (
+      0 => 'iltestrandomquestionsetconfiggui',
     ),
     'children' => 
     array (
@@ -18916,6 +20736,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestResultsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18934,6 +20755,9 @@
     'class_path' => './Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
+      1 => 'iltestevalobjectiveorientedgui',
+      2 => 'iltestevaluationgui',
     ),
     'children' => 
     array (
@@ -18946,6 +20770,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestScoringByQuestionsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18958,6 +20783,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestScoringGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18970,6 +20796,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestServiceGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -18982,6 +20809,8 @@
     'class_path' => './Modules/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
+      1 => 'ilobjtestsettingsgeneralgui',
     ),
     'children' => 
     array (
@@ -19006,6 +20835,8 @@
     'class_path' => './Modules/Test/classes/class.ilTestSignatureGUI.php',
     'parents' => 
     array (
+      0 => 'iltestplayerfixedquestionsetgui',
+      1 => 'iltestplayerrandomquestionsetgui',
     ),
     'children' => 
     array (
@@ -19018,6 +20849,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestSkillAdministrationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjtestgui',
     ),
     'children' => 
     array (
@@ -19032,6 +20864,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestSkillEvaluationGUI.php',
     'parents' => 
     array (
+      0 => 'iltestresultsgui',
     ),
     'children' => 
     array (
@@ -19046,6 +20879,7 @@
     'class_path' => './Modules/Test/classes/toolbars/class.ilTestSkillEvaluationToolbarGUI.php',
     'parents' => 
     array (
+      0 => 'iltestskillevaluationgui',
     ),
     'children' => 
     array (
@@ -19058,6 +20892,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php',
     'parents' => 
     array (
+      0 => 'iltestskilladministrationgui',
     ),
     'children' => 
     array (
@@ -19071,6 +20906,7 @@
     'class_path' => './Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php',
     'parents' => 
     array (
+      0 => 'iltestskilllevelthresholdsgui',
     ),
     'children' => 
     array (
@@ -19083,6 +20919,9 @@
     'class_path' => './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php',
     'parents' => 
     array (
+      0 => 'iltestplayerdynamicquestionsetgui',
+      1 => 'iltestplayerfixedquestionsetgui',
+      2 => 'iltestplayerrandomquestionsetgui',
     ),
     'children' => 
     array (
@@ -19107,6 +20946,7 @@
     'class_path' => './Modules/Test/classes/class.ilTestToplistGUI.php',
     'parents' => 
     array (
+      0 => 'iltestresultsgui',
     ),
     'children' => 
     array (
@@ -19191,6 +21031,7 @@
     'class_path' => './Modules/Test/classes/tables/class.ilTimingOverviewTableGUI.php',
     'parents' => 
     array (
+      0 => 'iltestparticipantstimeextensiongui',
     ),
     'children' => 
     array (
@@ -19227,6 +21068,10 @@
     'class_path' => './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php',
     'parents' => 
     array (
+      0 => 'ilassquestionhintsgui',
+      1 => 'ilassquestionskillassignmentsgui',
+      2 => 'ilobjquestionpoolgui',
+      3 => 'iltestplayerdynamicquestionsetgui',
     ),
     'children' => 
     array (
@@ -19251,6 +21096,7 @@
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrMatrixTableGUI.php',
     'parents' => 
     array (
+      0 => 'illplistofobjectsgui',
     ),
     'children' => 
     array (
@@ -19263,6 +21109,7 @@
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php',
     'parents' => 
     array (
+      0 => 'illplistofobjectsgui',
     ),
     'children' => 
     array (
@@ -19276,6 +21123,7 @@
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php',
     'parents' => 
     array (
+      0 => 'illplistofobjectsgui',
     ),
     'children' => 
     array (
@@ -19289,6 +21137,7 @@
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrUserObjectsPropsTableGUI.php',
     'parents' => 
     array (
+      0 => 'illplistofobjectsgui',
     ),
     'children' => 
     array (
@@ -19302,6 +21151,7 @@
     'class_path' => './Modules/OrgUnit/classes/Translation/class.ilTranslationGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjorgunitgui',
     ),
     'children' => 
     array (
@@ -19378,6 +21228,8 @@
     ),
     'children' => 
     array (
+      0 => 'ilbuddysystemgui',
+      1 => 'iluidemofileuploadhandlergui',
     ),
   ),
   'ilunitcategorytablegui' => 
@@ -19447,6 +21299,10 @@
     'class_path' => './Services/User/Actions/classes/class.ilUserActionAdminGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjawarenessadministrationgui',
+      1 => 'ilobjcourseadministrationgui',
+      2 => 'ilobjgroupadministrationgui',
+      3 => 'ilobjlearningsequenceadmingui',
     ),
     'children' => 
     array (
@@ -19483,6 +21339,7 @@
     'class_path' => './Services/Certificate/classes/API/Download/class.ilUserCertificateApiGUI.php',
     'parents' => 
     array (
+      0 => 'ilmstlistcertificatesgui',
     ),
     'children' => 
     array (
@@ -19495,6 +21352,8 @@
     'class_path' => './Services/Certificate/classes/User/class.ilUserCertificateGUI.php',
     'parents' => 
     array (
+      0 => 'ilachievementsgui',
+      1 => 'ilmstshowusergui',
     ),
     'children' => 
     array (
@@ -19543,6 +21402,7 @@
     'class_path' => './Services/Search/classes/class.ilUserFilterGUI.php',
     'parents' => 
     array (
+      0 => 'illplistofobjectsgui',
     ),
     'children' => 
     array (
@@ -19591,6 +21451,7 @@
     'class_path' => './Services/User/Settings/classes/class.ilUserPrivacySettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilpersonalprofilegui',
     ),
     'children' => 
     array (
@@ -19615,6 +21476,7 @@
     'class_path' => './Services/User/ProfilePrompt/classes/class.ilUserProfileInfoSettingsGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjuserfoldergui',
     ),
     'children' => 
     array (
@@ -19639,6 +21501,7 @@
     'class_path' => './Services/User/classes/class.ilUserStartingPointGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjuserfoldergui',
     ),
     'children' => 
     array (
@@ -19651,6 +21514,9 @@
     'class_path' => './Services/User/classes/class.ilUserTableGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjcategorygui',
+      1 => 'ilobjorgunitgui',
+      2 => 'ilobjuserfoldergui',
     ),
     'children' => 
     array (
@@ -19666,6 +21532,9 @@
     array (
       0 => 'ilcoursemembershipgui',
       1 => 'ilgroupmembershipgui',
+      2 => 'ilcontactgui',
+      3 => 'illearningsequencemembershipgui',
+      4 => 'ilsessionmembershipgui',
     ),
     'children' => 
     array (
@@ -19873,6 +21742,7 @@
     'class_path' => './Modules/Wiki/classes/class.ilWikiPageGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjwikigui',
     ),
     'children' => 
     array (
@@ -19896,6 +21766,7 @@
     'class_path' => './Modules/Wiki/classes/class.ilWikiPageTemplateGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjwikigui',
     ),
     'children' => 
     array (
@@ -19956,6 +21827,8 @@
     'class_path' => './Modules/Wiki/classes/class.ilWikiStatGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjwikigui',
+      1 => 'ilwikipagegui',
     ),
     'children' => 
     array (
@@ -20064,6 +21937,14 @@
     'class_path' => './Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php',
     'parents' => 
     array (
+      0 => 'ilobjbloggui',
+      1 => 'ilobjcourseverificationgui',
+      2 => 'ilobjexerciseverificationgui',
+      3 => 'ilobjfilegui',
+      4 => 'ilobjlinkresourcegui',
+      5 => 'ilobjportfoliogui',
+      6 => 'ilobjscormverificationgui',
+      7 => 'ilobjtestverificationgui',
     ),
     'children' => 
     array (

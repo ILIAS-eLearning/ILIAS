@@ -8,19 +8,17 @@
 interface ilCtrlContextInterface
 {
     /**
-     * Returns the baseclass this context was instantiated with.
-     *
-     * @return string
+     * Adopts context properties from the according ones
+     * delivered by the current request.
      */
-    public function getBaseClass() : string;
+    public function adoptRequestParameters() : void;
 
     /**
-     * Sets the path of this context.
+     * Returns whether this context is asynchronous or not.
      *
-     * @param ilCtrlPathInterface $path
-     * @return ilCtrlContextInterface
+     * @return bool
      */
-    public function setPath(ilCtrlPathInterface $path) : ilCtrlContextInterface;
+    public function isAsync() : bool;
 
     /**
      * Returns the path of this context.
@@ -30,19 +28,19 @@ interface ilCtrlContextInterface
     public function getPath() : ilCtrlPathInterface;
 
     /**
-     * Sets whether this context is asynchronous or not.
+     * Sets the baseclass of the current context.
      *
-     * @param bool $is_async
+     * @param string $base_class
      * @return ilCtrlContextInterface
      */
-    public function setAsync(bool $is_async) : ilCtrlContextInterface;
+    public function setBaseClass(string $base_class) : ilCtrlContextInterface;
 
     /**
-     * Returns whether this context is asynchronous or not.
+     * Returns the baseclass the current context.
      *
-     * @return bool
+     * @return string|null
      */
-    public function isAsync() : bool;
+    public function getBaseClass() : ?string;
 
     /**
      * Sets the target script of this context (usually ilias.php).
@@ -60,12 +58,12 @@ interface ilCtrlContextInterface
     public function getTargetScript() : string;
 
     /**
-     * Sets the command class of this context.
+     * Sets the current contexts command class.
      *
      * @param string $cmd_class
-     * @return self
+     * @return ilCtrlContextInterface
      */
-    public function setCmdClass(string $cmd_class) : self;
+    public function setCmdClass(string $cmd_class) : ilCtrlContextInterface;
 
     /**
      * Returns the command class of this context.
@@ -91,23 +89,6 @@ interface ilCtrlContextInterface
      */
     public function getCmd() : ?string;
 
-    // BEGIN LEGACY METHODS
-
-    /**
-     * Sets the object id of the current context.
-     *
-     * @param int $obj_id
-     * @return ilCtrlContextInterface
-     */
-    public function setObjId(int $obj_id) : ilCtrlContextInterface;
-
-    /**
-     * Returns the object id of the current context.
-     *
-     * @return int|null
-     */
-    public function getObjId() : ?int;
-
     /**
      * Sets the object type of the current context.
      *
@@ -123,5 +104,18 @@ interface ilCtrlContextInterface
      */
     public function getObjType() : ?string;
 
-    // END LEGACY METHODS
+    /**
+     * Sets the object id of the current context.
+     *
+     * @param int $obj_id
+     * @return ilCtrlContextInterface
+     */
+    public function setObjId(int $obj_id) : ilCtrlContextInterface;
+
+    /**
+     * Returns the object id of the current context.
+     *
+     * @return int|null
+     */
+    public function getObjId() : ?int;
 }

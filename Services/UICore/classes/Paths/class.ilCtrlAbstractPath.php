@@ -123,7 +123,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      */
     protected function isClassChildOf(string $child_class, string $parent_class) : bool
     {
-        return in_array($child_class, $this->structure->getChildrenByName($parent_class), true);
+        return in_array(strtolower($child_class), $this->structure->getChildrenByName($parent_class), true);
     }
 
     /**
@@ -136,7 +136,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      */
     protected function isClassParentOf(string $parent_class, string $child_class) : bool
     {
-        return in_array($parent_class, $this->structure->getParentsByName($child_class), true);
+        return in_array(strtolower($parent_class), $this->structure->getParentsByName($child_class), true);
     }
 
     /**

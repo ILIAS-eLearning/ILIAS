@@ -75,7 +75,10 @@ class ilCtrl implements ilCtrlInterface
         $this->structure    = new ilCtrlStructure();
         $this->path_factory = new ilCtrlPathFactory($this->structure);
         $this->refinery     = new Refinery(new DataFactory(), $DIC->language());
-        $this->context      = new ilCtrlContext(
+
+        // initialize the context without adopting
+        // any values.
+        $this->context = new ilCtrlContext(
             $this->path_factory,
             $this->http->wrapper()->query(),
             $this->refinery
@@ -87,19 +90,25 @@ class ilCtrl implements ilCtrlInterface
      */
     public function callBaseClass(string $a_base_class = null) : void
     {
-        $a_base_class = $a_base_class ?? $this->getQueryParam(self::PARAM_BASE_CLASS);
-        if (null === $a_base_class || !$this->structure->isBaseClass($a_base_class)) {
-            throw new ilCtrlException("ilCtrl cannot determine current baseclass.");
+        $this->context->adoptRequestParameters();
+
+        if (null === $a_base_class && null === $this->context->getBaseClass()) {
+            throw new ilCtrlException(__METHOD__ . " was not given a baseclass an the request doesn't include one either.");
         }
 
-        $this->context = new ilCtrlContext(
-            $this->path_factory,
-            $this->http->wrapper()->query(),
-            $this->refinery,
-            $a_base_class
+        if (null !== $a_base_class && null === $this->context->getBaseClass()) {
+            if (!$this->structure->isBaseClass($a_base_class)) {
+                throw new ilCtrlException("Provided class '$a_base_class' is not a baseclass in " . __METHOD__);
+            }
+
+            $this->context->setBaseClass($a_base_class);
+        }
+
+        // no null-check needed because
+        $obj_name = $this->structure->getObjNameByName(
+            $this->context->getBaseClass()
         );
 
-        $obj_name = $this->structure->getObjNameByName($this->context->getBaseClass());
         $this->forwardCommand(new $obj_name());
     }
 
