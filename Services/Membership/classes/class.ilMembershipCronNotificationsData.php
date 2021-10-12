@@ -90,7 +90,11 @@ class ilMembershipCronNotificationsData
                 // gather news per object
                 $news_item = new ilNewsItem();
                 $objs = $this->getObjectsForRefId($ref_id);
-                if ($news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run)) {
+                if (
+                    isset($objs["obj_id"]) &&
+                    is_array($objs["obj_id"]) &&
+                    $news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run)
+                ) {
                     $this->log->debug("Got news");
                     foreach ($user_ids as $user_id) {
                         // gather news for user
