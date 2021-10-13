@@ -174,7 +174,7 @@ class ilTestQuestionSideListGUI
                 $row['worked_through'] ? 'answered' . $active : 'unanswered' . $active
             );
 
-            $headerclass =  ($row['sequence'] == $this->getCurrentSequenceElement()) ? 'bold' : '';
+            $headerclass = ($row['sequence'] == $this->getCurrentSequenceElement()) ? 'bold' : '';
             
             if ($row['marked']) {
                 $tpl->setCurrentBlock("mark_icon");

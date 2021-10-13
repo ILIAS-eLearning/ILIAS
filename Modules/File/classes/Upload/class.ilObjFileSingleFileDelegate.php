@@ -60,5 +60,4 @@ class ilObjFileSingleFileDelegate implements ilObjUploadDelegateInterface
     {
         return $this->uploaded_suffixes;
     }
-
 }

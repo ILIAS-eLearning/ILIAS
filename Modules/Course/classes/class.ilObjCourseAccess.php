@@ -259,7 +259,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
      * Lookup view mode. This is placed here to the need that ilObjFolder must
      * always instantiate a Course object.
      * @return
-     * @param object $a_id
+     * @param int $a_id
      */
     public static function _lookupViewMode($a_id)
     {

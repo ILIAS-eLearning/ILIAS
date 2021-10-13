@@ -57,14 +57,13 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         switch ($default) {
             case 'innodb':
-            case 'myisam':
                 $io->text("reading dump file, this may take a while...");
                 $this->readDumpFile($db);
                 break;
 
             default:
                 throw new Setup\UnachievableException(
-                    "Cannot determine database default engine, must be InnoDB or MyISAM"
+                    "Cannot determine database default engine, must be InnoDB"
                 );
         }
 
@@ -123,7 +122,6 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
             case ilDBConstants::TYPE_GALERA:
                 $db->manipulate('SET default_storage_engine=InnoDB;');
                 break;
-
         }
     }
 

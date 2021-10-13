@@ -479,7 +479,7 @@ class ilLMObject
         ilHistory::_createEntry(
             $this->getId(),
             "create",
-            "",
+            [],
             $this->content_object->getType() . ":" . $this->getType()
         );
 

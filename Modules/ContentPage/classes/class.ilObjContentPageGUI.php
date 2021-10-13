@@ -6,7 +6,8 @@ use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
 use ILIAS\DI\Container;
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
 /**
  * Class ilObjContentPageGUI
@@ -26,8 +27,10 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectConstants, ilDesktopItemHandling
 {
-    /** @var ServerRequestInterface */
-    protected $request;
+    /** @var GlobalHttpState */
+    protected $http;
+    /** @var Refinery */
+    protected $refinery;
     /** @var ilCtrl */
     protected $ctrl;
     /** @var ilAccessHandler */
@@ -45,17 +48,15 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     private PageMetricsService $pageMetricsService;
     private ilHelpGUI $help;
 
-    /**
-     * @inheritdoc
-     */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
+    public function __construct(int $a_id = 0, int $a_id_type = self::REPOSITORY_NODE_ID, int $a_parent_node_id = 0)
     {
         global $DIC;
 
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
         $this->dic = $DIC;
-        $this->request = $this->dic->http()->request();
+        $this->http = $this->dic->http();
+        $this->refinery = $this->dic->refinery();
         $this->settings = $this->dic->settings();
         $this->access = $this->dic->access();
         $this->ctrl = $this->dic->ctrl();
@@ -84,9 +85,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         );
     }
 
-    /**
-     * @param string $target
-     */
     public static function _goto(string $target) : void
     {
         global $DIC;
@@ -101,7 +99,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         if ($DIC->access()->checkAccess('read', '', $refId)) {
             $DIC->ctrl()->setTargetScript('ilias.php');
             $DIC->ctrl()->initBaseClass(ilRepositoryGUI::class);
-            if (isset($DIC->http()->request()->getQueryParams()['gotolp'])) {
+            if ($DIC->http()->wrapper()->query()->has('gotolp')) {
                 $DIC->ctrl()->setParameterByClass(self::class, 'gotolp', 1);
             }
             $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $refId);
@@ -126,17 +124,11 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getType()
     {
         return self::OBJ_TYPE;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function setTabs()
     {
         $this->help->setScreenIdComponent($this->object->getType());
@@ -190,12 +182,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    /**
-     * @inheritdoc
-     * @throws ilObjectException
-     * @throws ilCtrlException
-     * @throws ilException
-     */
     public function executeCommand()
     {
         $nextClass = $this->ctrl->getNextClass($this);
@@ -232,7 +218,15 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     false
                 );
                 $style_gui->omitLocator();
-                if ($cmd === 'create' || ($this->request->getQueryParams()['new_type'] ?? '') === 'sty') {
+
+                $new_type = '';
+                if ($this->http->wrapper()->query()->has('new_type')) {
+                    $new_type = $this->http->wrapper()->query()->retrieve(
+                        'new_type',
+                        $this->refinery->kindlyTo()->string()
+                    );
+                }
+                if ($cmd === 'create' || $new_type === 'sty') {
                     $style_gui->setCreationMode();
                 }
 
@@ -276,12 +270,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tpl->parseCurrentBlock();
 
                 $forwarder = new ilContentPagePageCommandForwarder(
-                    $this->request,
+                    $this->http,
                     $this->ctrl,
                     $this->tabs,
                     $this->lng,
                     $this->object,
-                    $this->user
+                    $this->user,
+                    $this->refinery
                 );
 
                 $forwarder->addUpdateListener(function (PageUpdatedEvent $event) : void {
@@ -329,16 +324,18 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->prepareOutput();
                 $this->tabs->activateTab(self::UI_TAB_ID_LP);
 
+                $usr_id = 0;
+                if ($this->http->wrapper()->query()->has('user_id')) {
+                    $usr_id = $this->http->wrapper()->query()->retrieve(
+                        'user_id',
+                        $this->refinery->kindlyTo()->int()
+                    );
+                }
+
                 $this->ctrl->forwardCommand(new ilLearningProgressGUI(
                     ilLearningProgressBaseGUI::LP_CONTEXT_REPOSITORY,
                     $this->object->getRefId(),
-                    isset(
-                        $this->request->getQueryParams()['user_id']) &&
-                        is_numeric(
-                            $this->request->getQueryParams()['user_id']
-                        ) ?
-                        (int) $this->request->getQueryParams()['user_id'] :
-                        $this->user->getId()
+                    $usr_id === 0 ? $this->user->getId() : $usr_id
                 ));
                 break;
 
@@ -413,9 +410,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    /**
-     * @throws ilCtrlException
-     */
     public function infoScreenForward() : void
     {
         if (!$this->infoScreenEnabled) {
@@ -436,10 +430,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->ctrl->forwardCommand($info);
     }
 
-    /**
-     * Sub tab configuration of the settings area
-     * @param string $activeTab
-     */
     protected function setSettingsSubTabs(string $activeTab) : void
     {
         if ($this->checkPermissionBool('write')) {
@@ -473,10 +463,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         }
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function addLocatorItems()
+    protected function addLocatorItems() : void
     {
         if ($this->object instanceof ilObject) {
             $this->locator->addItem(
@@ -497,7 +484,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     }
 
 
-    public function view()
+    public function view() : void
     {
         $this->checkPermission('read');
 
@@ -511,9 +498,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tpl->setContent($this->getContent());
     }
 
-    /**
-     * Sub tab configuration of the content area
-     */
     protected function setContentSubTabs() : void
     {
         if ($this->checkPermissionBool('write')) {
@@ -573,10 +557,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tpl->parseCurrentBlock();
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $a_new_object) : void
     {
         $a_new_object->getObjectTranslation()->addLanguage(
             $this->lng->getDefaultLanguage(),
@@ -591,10 +572,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->ctrl->redirect($this, 'edit');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function setTitleAndDescription()
+    protected function setTitleAndDescription() : void
     {
         parent::setTitleAndDescription();
 
@@ -602,10 +580,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tpl->setTitleIcon($icon, $this->lng->txt('obj_' . $this->object->getType()));
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function initEditCustomForm(ilPropertyFormGUI $a_form)
+    protected function initEditCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $sh = new ilFormSectionHeaderGUI();
         $sh->setTitle($this->lng->txt('obj_features'));
@@ -625,18 +600,12 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->addTileImage();
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function getEditFormCustomValues(array &$a_values)
+    protected function getEditFormCustomValues(array &$a_values) : void
     {
         $a_values[ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY] = $this->infoScreenEnabled;
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function updateCustom(ilPropertyFormGUI $a_form)
+    protected function updateCustom(ilPropertyFormGUI $a_form) : void
     {
         ilObjectServiceSettingsGUI::updateServiceSettingsForm(
             $this->object->getId(),
@@ -648,9 +617,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
     }
 
-    /**
-     * @throws ilObjectException
-     */
     protected function editStyleProperties() : void
     {
         $this->checkPermission('write');
@@ -662,9 +628,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
     protected function buildStylePropertiesForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
@@ -683,7 +646,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $st_styles = ilObjStyleSheet::_getStandardStyles(
                 true,
                 false,
-                (int) ($this->request->getQueryParams()['ref_id'] ?? 0)
+                $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int())
             );
 
             if ($defaultStyle > 0) {
@@ -735,9 +698,6 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->ctrl->redirectByClass('ilobjstylesheetgui', 'delete');
     }
 
-    /**
-     * @throws ilObjectException
-     */
     protected function saveStyleSettings() : void
     {
         $this->checkPermission('write');
@@ -751,7 +711,9 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->object->getStyleSheetId() === 0
             )
         ) {
-            $this->object->setStyleSheetId(ilUtil::stripSlashes($this->request->getParsedBody()['style_id'] ?? 0));
+            $this->object->setStyleSheetId(
+                $this->http->wrapper()->query()->retrieve('style_id', $this->refinery->kindlyTo()->int())
+            );
             $this->object->update();
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
         }

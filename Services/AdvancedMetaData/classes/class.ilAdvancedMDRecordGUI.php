@@ -213,7 +213,6 @@ class ilAdvancedMDRecordGUI
         $this->editor_form = array();
         
         foreach ($this->getActiveRecords() as $record_obj) {
-
             $record_id = $record_obj->getRecordId();
             
             $values = new ilAdvancedMDValues($record_id, $this->obj_id, $this->sub_type, $this->sub_id);
@@ -345,7 +344,6 @@ class ilAdvancedMDRecordGUI
             $this->form->addItem($section);
             
             foreach ($fields as $field) {
-
                 $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record->getRecordId());
 
                 $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
@@ -422,7 +420,6 @@ class ilAdvancedMDRecordGUI
             $defs = $a_values->getDefinitions();
             foreach ($a_values->getADTGroup()->getElements() as $element_id => $element) {
                 if (!$element->isNull()) {
-
                     $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record_id);
                     $title = $field_translations->getTitleForLanguage($element_id, $this->user->getLanguage());
 
@@ -816,7 +813,8 @@ class ilAdvancedMDRecordGUI
                 
                 $this->table_gui->addColumn(
                     $field_translations->getTitleForLanguage($def->getFieldId(), $this->user->getLanguage()),
-                    'md_' . $def->getFieldId());
+                    'md_' . $def->getFieldId()
+                );
             }
         }
     }

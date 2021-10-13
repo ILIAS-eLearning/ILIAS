@@ -23,5 +23,4 @@ class ilObjBibliographicStakeholder extends AbstractResourceStakeholder
     {
         return 6;
     }
-
 }

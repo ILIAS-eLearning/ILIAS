@@ -587,7 +587,7 @@ class ilPageEditorGUI
         ilHistory::_createEntry(
             $this->page->getId(),
             "update",
-            "",
+            [],
             $this->page->getParentType() . ":pg",
             ilUtil::stripSlashes($_POST["change_comment"]),
             true

@@ -67,7 +67,6 @@ class ilCertificateSettingsCmiXapiFormRepository implements ilCertificateFormRep
 
     public function save(array $formFields) : void
     {
-
     }
 
     public function fetchFormFieldData(string $content) : array

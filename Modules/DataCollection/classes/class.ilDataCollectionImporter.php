@@ -16,7 +16,7 @@ class ilDataCollectionImporter extends ilXmlImporter
     protected $ds;
 
 
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilDataCollectionDataSet();
         $this->ds->setDSPrefix("ds");
@@ -26,15 +26,13 @@ class ilDataCollectionImporter extends ilXmlImporter
 
     /**
      * Executes the Import
-     *
-     * @param $a_entity
-     * @param $a_id
-     * @param $a_xml
-     * @param $a_mapping
-     *
-     * @return string|void
+     * @param string          $a_entity
+     * @param string          $a_id
+     * @param string          $a_xml
+     * @param ilImportMapping $a_mapping
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }
@@ -42,10 +40,9 @@ class ilDataCollectionImporter extends ilXmlImporter
 
     /**
      * Called before finishing the import
-     *
-     * @param $a_mapping
+     * @param ilImportMapping $a_mapping
      */
-    public function finalProcessing($a_mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         $this->ds->beforeFinishImport($a_mapping);
     }
@@ -61,7 +58,7 @@ class ilDataCollectionImporter extends ilXmlImporter
         $char = "";
         $rng = range("A", "Z");
         while ($int > 0) {
-            $diff = ($int-1) % 26;
+            $diff = ($int - 1) % 26;
             $char = $rng[$diff] . $char;
             $int -= $diff;
             $int = (int) ($int / 26);

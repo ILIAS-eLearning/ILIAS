@@ -786,7 +786,7 @@ class ilObjSCORMLearningModuleGUI extends ilObjSAHSLearningModuleGUI
         $ilAccess = $DIC['ilAccess'];
         if ($ilAccess->checkAccess("edit_learning_progress", "", $_GET["ref_id"])) {
             include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-            $privacy = ilPrivacySettings::_getInstance();
+            $privacy = ilPrivacySettings::getInstance();
             if (!$privacy->enabledSahsProtocolData()) {
                 $this->ilias->raiseError($this->lng->txt('permission_denied'), $this->ilias->error_obj->MESSAGE);
             }

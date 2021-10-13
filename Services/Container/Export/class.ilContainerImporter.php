@@ -23,7 +23,7 @@ class ilContainerImporter extends ilXmlImporter
     private string $structure_xml;
     protected ilLogger $cont_log;
 
-    public function init()
+    public function init() : void
     {
         $this->cont_log = ilLoggerFactory::getLogger('cont');
     }
@@ -33,7 +33,7 @@ class ilContainerImporter extends ilXmlImporter
      *
      * @inheritdoc
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $this->structure_xml = $a_xml;
         $this->cont_log->debug('Import xml: ' . $a_xml);
@@ -46,7 +46,7 @@ class ilContainerImporter extends ilXmlImporter
     /**
      * @inheritdoc
      */
-    public function finalProcessing($a_mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         $this->handleOfflineStatus($this->structure_xml, $a_mapping);
         // pages
@@ -70,7 +70,7 @@ class ilContainerImporter extends ilXmlImporter
         // style
         $sty_map = $a_mapping->getMappingsOfEntity('Services/Style', 'sty');
         foreach ($sty_map as $old_sty_id => $new_sty_id) {
-            if (is_array(ilContainerXmlParser::$style_map[$old_sty_id])) {
+            if (isset(ilContainerXmlParser::$style_map[$old_sty_id])) {
                 foreach (ilContainerXmlParser::$style_map[$old_sty_id] as $obj_id) {
                     ilObjStyleSheet::writeStyleUsage($obj_id, $new_sty_id);
                 }
@@ -78,7 +78,8 @@ class ilContainerImporter extends ilXmlImporter
         }
 
         // skills
-        $new_crs_obj_id = end($a_mapping->getMappingsOfEntity('Modules/Course', 'crs'));
+        $crs_map = $a_mapping->getMappingsOfEntity('Modules/Course', 'crs');
+        $new_crs_obj_id = end($crs_map);
         $new_crs_ref_id = ilObject::_getAllReferences($new_crs_obj_id);
         $new_crs_ref_id = end($new_crs_ref_id);
 

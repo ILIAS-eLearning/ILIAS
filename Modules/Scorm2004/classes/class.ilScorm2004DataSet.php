@@ -12,34 +12,30 @@ class ilScorm2004DataSet extends ilDataSet
 
     /**
      * Note: this is currently used for SCORM authoring lms
-     *
      * Get supported versions
-     *
      * @return string[]
      */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return array("5.1.0");
     }
 
     /**
      * Get xml namespace
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Modules/Scorm2004/" . $a_entity;
     }
 
     /**
      * Get field types for entity
-     *
      * @param
-     * @return
+     * @return array
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "sahs") {
             switch ($a_version) {
@@ -58,11 +54,10 @@ class ilScorm2004DataSet extends ilDataSet
 
     /**
      * Read data
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
@@ -95,23 +90,26 @@ class ilScorm2004DataSet extends ilDataSet
     /**
      * Determine the dependent sets of data
      */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
-    {
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
         switch ($a_entity) {
             case "sahs":
                 return array();
 
         }
-        return false;
+        return [];
     }
 
     /**
      * Get xml record
-     *
      * @param
-     * @return
+     * @return array
      */
-    public function getXmlRecord($a_entity, $a_version, $a_set)
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
     {
         if ($a_entity == "sahs") {
             // build traditional author export file
@@ -137,17 +135,15 @@ class ilScorm2004DataSet extends ilDataSet
 
 
     /**
-     *
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function afterXmlRecordWriting($a_entity, $a_schema_version, $d)
+    public function afterXmlRecordWriting(string $a_entity, string $a_version, array $a_set) : void
     {
         if ($a_entity == "sahs") {
             // delete our temp dir
-            if (isset($this->temp_dir[$d["Id"]]) && is_dir($this->temp_dir[$d["Id"]])) {
-                ilUtil::delDir($this->temp_dir[$d["Id"]]);
+            if (isset($this->temp_dir[$a_set["Id"]]) && is_dir($this->temp_dir[$a_set["Id"]])) {
+                ilUtil::delDir($this->temp_dir[$a_set["Id"]]);
             }
         }
     }
@@ -155,14 +151,19 @@ class ilScorm2004DataSet extends ilDataSet
 
     /**
      * Import record
-     * @param $a_entity
-     * @param $a_types
-     * @param $a_rec
-     * @param $a_mapping
-     * @param $a_schema_version
+     * @param string $a_entity
+     * @param array $a_types
+     * @param array $a_rec
+     * @param ilImportMapping $a_mapping
+     * @param string $a_schema_version
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "sahs":
                 $new_obj_id = $a_mapping->getMapping("Services/Container", "objs", $a_rec["Id"]);

@@ -1538,7 +1538,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return false;
     }
 
-    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)  : ilAnswerFrequencyStatisticTableGUI
+    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex) : ilAnswerFrequencyStatisticTableGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
 

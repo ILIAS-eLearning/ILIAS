@@ -467,12 +467,12 @@ class ilObjectDefinition // extends ilSaxParser
     */
     public function allowCopy($a_obj_name)
     {
-        return (bool) $this->obj_data[$a_obj_name]["allow_copy"];
+        return (bool) ($this->obj_data[$a_obj_name]["allow_copy"] ?? false);
     }
     
     public function allowExport($a_obj_name)
     {
-        return (bool) $this->obj_data[$a_obj_name]['export'];
+        return (bool) ($this->obj_data[$a_obj_name]['export'] ?? false);
     }
     
     /**
@@ -710,7 +710,7 @@ class ilObjectDefinition // extends ilSaxParser
      */
     public function isContainer($a_obj_name)
     {
-        if (!is_array($this->obj_data[$a_obj_name]['subobjects'])) {
+        if (!isset($this->obj_data[$a_obj_name]['subobjects'])) {
             return false;
         }
         return count($this->obj_data[$a_obj_name]['subobjects']) >= 1 ? true : false;

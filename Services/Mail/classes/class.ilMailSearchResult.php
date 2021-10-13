@@ -1,37 +1,28 @@
-<?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author  Michael Jansen <mjansen@databay.de>
- * @version $Id$
  * @ingroup ServicesMail
  */
 class ilMailSearchResult
 {
-    /**
-     * @var array
-     */
-    protected $result = array();
+    /** @var array[] */
+    protected array $result = [];
 
-    /**
-     *
-     */
     public function __construct()
     {
     }
 
-    /**
-     * @param array $item
-     */
-    public function addItem($id, array $fields)
+    public function addItem(int $id, array $fields) : void
     {
         $this->result[$id] = $fields;
     }
 
     /**
-     * @return array
+     * @return int[]
      */
-    public function getIds()
+    public function getIds() : array
     {
         return array_keys($this->result);
     }
@@ -39,9 +30,8 @@ class ilMailSearchResult
     /**
      * @param int $id
      * @return array
-     * @throws OutOfBoundsException
      */
-    public function getFields($id)
+    public function getFields(int $id) : array
     {
         if (!isset($this->result[$id])) {
             throw new OutOfBoundsException('mail_missing_result_fields');

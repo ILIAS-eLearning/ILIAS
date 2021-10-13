@@ -90,7 +90,7 @@ abstract class ilRegistrationGUI
         // Init waiting list
         $this->initWaitingList();
         
-        $this->privacy = ilPrivacySettings::_getInstance();
+        $this->privacy = ilPrivacySettings::getInstance();
     }
     
     /**

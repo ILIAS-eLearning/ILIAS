@@ -1,41 +1,26 @@
-<?php
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailAutoCompleteSearch
  */
 class ilMailAutoCompleteSearch
 {
-    /**
-     * @var ilMailAutoCompleteRecipientResult
-     */
-    protected $result;
+    protected ilMailAutoCompleteRecipientResult $result;
+    /** @var Iterator[] */
+    protected array $providers = [];
 
-    /**
-     * @var Iterator[]
-     */
-    protected $providers = array();
-
-    /**
-     * @param ilMailAutoCompleteRecipientResult $result
-     */
     public function __construct(ilMailAutoCompleteRecipientResult $result)
     {
         $this->result = $result;
     }
 
-    /**
-     * @param Iterator $provider
-     */
-    public function addProvider(Iterator $provider)
+    public function addProvider(Iterator $provider) : void
     {
         $this->providers[] = $provider;
     }
 
-    /**
-     *
-     */
-    public function search()
+    public function search() : void
     {
         foreach ($this->providers as $provider) {
             foreach ($provider as $row) {

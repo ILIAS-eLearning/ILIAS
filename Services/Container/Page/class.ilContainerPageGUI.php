@@ -36,17 +36,16 @@ class ilContainerPageGUI extends ilPageObjectGUI
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
-        $tpl = $DIC["tpl"];
         $this->obj_definition = $DIC["objDefinition"];
-        $params = $DIC->http()->request()->getQueryParams();
-        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
+        $request = $DIC->container()->internal()->gui()->standardRequest();
+        $this->requested_ref_id = $request->getRefId();
 
         parent::__construct("cont", $a_id, $a_old_nr, false, $a_lang);
     }
 
     public function getProfileBackUrl() : string
     {
-        $link = ilLink::_getLink((int) $_GET["ref_id"]);
+        $link = ilLink::_getLink($this->requested_ref_id);
         // make it relative, since profile only accepts relative links as back links
         $link = substr($link, strpos($link, "//") + 2);
         $link = substr($link, strpos($link, "/"));

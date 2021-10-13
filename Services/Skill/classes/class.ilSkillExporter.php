@@ -42,15 +42,15 @@ class ilSkillExporter extends ilXmlExporter
     /**
      * @inheritdoc
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     /**
      * @inheritdoc
      */
-    public function getValidSchemaVersions($a_entity) : array
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "7.0" => array(

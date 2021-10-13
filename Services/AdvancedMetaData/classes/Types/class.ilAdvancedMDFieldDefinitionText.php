@@ -352,7 +352,8 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
                 $this->getADT()->getType(),
                 $this->getFieldId(),
                 $condition,
-                $a_locate);
+                $a_locate
+            );
             if (isset($objects) && count($objects)) {
                 return $this->parseSearchObjects($objects, $a_object_types);
             }

@@ -110,7 +110,7 @@ class ilLMMailNotification extends ilMailNotification
      *
      * @param int $a_usr_id user id
      */
-    protected function initLanguage($a_usr_id)
+    protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('content');

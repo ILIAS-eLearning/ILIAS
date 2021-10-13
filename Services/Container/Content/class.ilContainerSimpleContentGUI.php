@@ -98,18 +98,11 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
         
         $a_tpl->setVariable("CONTAINER_PAGE_CONTENT", $output_html);
     }
-    
+
     protected function initDetails() : void
     {
-        if ($_GET['expand']) {
-            if ($_GET['expand'] > 0) {
-                $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
-            } else {
-                $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_TITLE;
-            }
-        }
-        
-        
+        $this->handleSessionExpand();
+
         if ($this->getContainerObject()->getType() == 'crs') {
             if ($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId())) {
                 $this->force_details = $session;
@@ -118,14 +111,14 @@ class ilContainerSimpleContentGUI extends ilContainerContentGUI
             }
         }
     }
-    
-    public function getDetailsLevel(int $a_item_id) : int
+
+    protected function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
         }
-        if (isset($_SESSION['sess']['expanded'][$a_item_id])) {
-            return $_SESSION['sess']['expanded'][$a_item_id];
+        if ($this->item_manager->getExpanded($a_item_id) !== null) {
+            return $this->item_manager->getExpanded($a_item_id);
         }
         if ($a_item_id == $this->force_details) {
             return self::DETAILS_ALL;

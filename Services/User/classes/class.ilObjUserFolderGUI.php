@@ -2848,7 +2848,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
 
         // check if a course export state of any field has been added
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         if ($privacy->enabledCourseExport() == true &&
             $privacy->courseConfirmationRequired() == true &&
             $action != "save") {
@@ -4123,11 +4123,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $mail_data['user_id'],
             $mail_data['attachments'],
             '#il_ml_' . $list_id,
-            // $mail_data['rcp_to'],
             $mail_data['rcp_cc'],
             $mail_data['rcp_bcc'],
-            $mail_data['m_type'],
-            $mail_data['m_email'],
             $mail_data['m_subject'],
             $mail_data['m_message'],
             $mail_data['use_placeholders'],

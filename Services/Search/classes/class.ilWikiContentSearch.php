@@ -24,7 +24,7 @@
 /**
 * Class ilWikiContentSearch
 *
-* Abstract class for wiki content. Should be inherited by ilFulltextWikiContentSearch
+* Abstract class for wiki content.
 *
 * @author Alex Killing <alex.killing@gmx.de>
 * @version $Id$

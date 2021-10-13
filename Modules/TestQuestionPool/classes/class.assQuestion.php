@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
-require_once dirname(__DIR__).'../../../libs/composer/vendor/autoload.php';
+require_once dirname(__DIR__) . '../../../libs/composer/vendor/autoload.php';
 
 /**
  * Abstract basic class which is to be extended by the concrete assessment question type classes
@@ -330,9 +330,9 @@ abstract class assQuestion
             array($active_id)
         );
         $test_id = -1;
-        if($this->db->numRows($result) > 0) {
+        if ($this->db->numRows($result) > 0) {
             $row = $this->db->fetchAssoc($result);
-            $test_id =  (int)$row["test_fi"];
+            $test_id = (int) $row["test_fi"];
         }
         
         return $test_id;
@@ -370,7 +370,7 @@ abstract class assQuestion
         $this->shuffler = $shuffler;
     }
 
-    public function setProcessLocker( ilAssQuestionProcessLocker $processLocker) : void
+    public function setProcessLocker(ilAssQuestionProcessLocker $processLocker) : void
     {
         $this->processLocker = $processLocker;
     }
@@ -390,7 +390,7 @@ abstract class assQuestion
     * @param integer $question_counter A reference to a question counter to count the questions of an imported question pool
     * @param array $import_mapping An array containing references to included ILIAS objects
     */
-    public function fromXML($item, int $questionpool_id,  int $tst_id, $tst_object, int $question_counter,  array $import_mapping) : void
+    public function fromXML($item, int $questionpool_id, int $tst_id, $tst_object, int $question_counter, array $import_mapping) : void
     {
         include_once "./Modules/TestQuestionPool/classes/import/qti12/class." . $this->getQuestionType() . "Import.php";
         $classname = $this->getQuestionType() . "Import";
@@ -408,8 +408,8 @@ abstract class assQuestion
         bool $a_include_binary = true,
         bool $a_shuffle = false,
         bool $test_output = false,
-        bool $force_image_references = false) : string
-    {
+        bool $force_image_references = false
+    ) : string {
         include_once "./Modules/TestQuestionPool/classes/export/qti12/class." . $this->getQuestionType() . "Export.php";
         $classname = $this->getQuestionType() . "Export";
         $export = new $classname($this);
@@ -623,7 +623,7 @@ abstract class assQuestion
         );
         if ($ilDB->numRows($result) == 1) {
             $row = $ilDB->fetchAssoc($result);
-            $points = (float)$row["points"];
+            $points = (float) $row["points"];
         }
         return $points;
     }
@@ -764,7 +764,7 @@ abstract class assQuestion
         );
         if ($result->numRows() == 1) {
             $row = $ilDB->fetchAssoc($result);
-            $points = (float)$row["points"];
+            $points = (float) $row["points"];
         }
         return $points;
     }
@@ -920,7 +920,6 @@ abstract class assQuestion
         $saveStatus = false;
 
         $this->getProcessLocker()->executePersistWorkingStateLockOperation(function () use ($active_id, $pass, $authorized, $obligationsEnabled, &$saveStatus) {
-
             $saveStatus = $this->saveWorkingData($active_id, $pass, $authorized);
 
             if ($authorized) {
@@ -990,8 +989,8 @@ abstract class assQuestion
         
         $row = $ilDB->fetchAssoc($result);
         
-        $max = (float)$row['maxpoints'];
-        $reached = (float)$row['points'];
+        $max = (float) $row['maxpoints'];
+        $reached = (float) $row['points'];
         
         $obligationsAnswered = (int) $row['obligations_answered'];
         
@@ -1050,8 +1049,8 @@ abstract class assQuestion
         int $pass,
         bool $obligationsEnabled = false,
         ilAssQuestionProcessLocker $processLocker = null,
-        int $test_obj_id = null) : array
-    {
+        int $test_obj_id = null
+    ) : array {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
@@ -1381,7 +1380,7 @@ abstract class assQuestion
             array($question_id)
         );
         $row = $this->db->fetchAssoc($result);
-        $count = (int)$row["question_count"];
+        $count = (int) $row["question_count"];
 
         $result = $this->db->queryF(
             "
@@ -1394,7 +1393,7 @@ abstract class assQuestion
             array('integer'),
             array($question_id)
         );
-        $count += (int)$this->db->numRows($result);
+        $count += (int) $this->db->numRows($result);
 
         return $count;
     }
@@ -1413,7 +1412,7 @@ abstract class assQuestion
             array($question_id)
         );
         $row = $this->db->fetchAssoc($result);
-        return ((int)$row["cnt"]) > 0;
+        return ((int) $row["cnt"]) > 0;
     }
 
     public static function getQuestionTypeFromDb(int $question_id) : string
@@ -1876,7 +1875,7 @@ abstract class assQuestion
         return str_replace($needles, $replacements, $imageFilenameContainingString);
     }
 
-    public function fixUnavailableSkinImageSources(string $html): string
+    public function fixUnavailableSkinImageSources(string $html) : string
     {
         $matches = null;
         if (preg_match_all('/src="(.*?)"/m', $html, $matches)) {
@@ -1934,7 +1933,7 @@ abstract class assQuestion
         if ($this->db->numRows($result) > 0) {
             include_once("./Services/RTE/classes/class.ilRTE.php");
             while ($row = $this->db->fetchAssoc($result)) {
-                $value = (is_array(unserialize($row["value"],false))) ? unserialize($row["value"], false) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
+                $value = (is_array(unserialize($row["value"], false))) ? unserialize($row["value"], false) : ilRTE::_replaceMediaObjectImageSrc($row["value"], 1);
                 $this->suggested_solutions[$row["subquestion_index"]] = array(
                     "type" => $row["type"],
                     "value" => $value,
@@ -2087,7 +2086,7 @@ abstract class assQuestion
         self::saveOriginalId($this->getId(), $newId);
     }
     
-    public static function saveOriginalId(int $questionId,int $originalId) : void
+    public static function saveOriginalId(int $questionId, int $originalId) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -2402,7 +2401,7 @@ abstract class assQuestion
             array('integer'),
             array($question_id)
         );
-        if ($this->db->numRows($result)>0) {
+        if ($this->db->numRows($result) > 0) {
             while ($row = $this->db->fetchAssoc($result)) {
                 $internal_link = $row["internal_link"];
                 include_once "./Modules/TestQuestionPool/classes/class.assQuestion.php";
@@ -2485,7 +2484,7 @@ abstract class assQuestion
                 return $row["original_id"];
             }
 
-            return (int)$row["question_id"];
+            return (int) $row["question_id"];
         }
 
         return -1;
@@ -2656,7 +2655,7 @@ abstract class assQuestion
         );
         if ($result->numRows() == 1) {
             $row = $ilDB->fetchAssoc($result);
-            return (int)$row["maxpass"];
+            return (int) $row["maxpass"];
         }
 
         return 0;
@@ -2678,7 +2677,7 @@ abstract class assQuestion
         );
         if ($ilDB->numRows($result) == 1) {
             $row = $ilDB->fetchAssoc($result);
-            $qpl_object_id = (int)$row["obj_fi"];
+            $qpl_object_id = (int) $row["obj_fi"];
             include_once "./Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php";
             return ilObjQuestionPool::_isWriteable($qpl_object_id, $user_id);
         }
@@ -2909,7 +2908,7 @@ abstract class assQuestion
     * @return boolean true on success, otherwise false
     * @access public
     */
-    public static function _setReachedPoints(int $active_id, int $question_id, float $points, float $maxpoints, int $pass, bool $manualscoring,  bool $obligationsEnabled) : bool
+    public static function _setReachedPoints(int $active_id, int $question_id, float $points, float $maxpoints, int $pass, bool $manualscoring, bool $obligationsEnabled) : bool
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -2947,7 +2946,7 @@ abstract class assQuestion
                 );
             }
 
-            if (self::isForcePassResultUpdateEnabled() || $old_points != $points || $rowsnum==0 ) {
+            if (self::isForcePassResultUpdateEnabled() || $old_points != $points || $rowsnum == 0) {
                 assQuestion::_updateTestPassResults($active_id, $pass, $obligationsEnabled);
                 // finally update objective result
                 include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -2961,9 +2960,17 @@ abstract class assQuestion
                     $ilUser = $DIC['ilUser'];
                     include_once "./Modules/Test/classes/class.ilObjTestAccess.php";
                     $username = ilObjTestAccess::_getParticipantData($active_id);
-                    assQuestion::logAction(sprintf($lng->txtlng("assessment", "log_answer_changed_points",
-                        ilObjAssessmentFolder::_getLogLanguage()), $username, $old_points, $points,
-                        $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"), $active_id, $question_id);
+                    assQuestion::logAction(sprintf(
+                        $lng->txtlng(
+                            "assessment",
+                            "log_answer_changed_points",
+                            ilObjAssessmentFolder::_getLogLanguage()
+                        ),
+                        $username,
+                        $old_points,
+                        $points,
+                        $ilUser->getFullname() . " (" . $ilUser->getLogin() . ")"
+                    ), $active_id, $question_id);
                 }
             }
 
@@ -2999,7 +3006,7 @@ abstract class assQuestion
         );
         if ($this->db->numRows($result) == 1) {
             $row = $this->db->fetchAssoc($result);
-            return (int)$row["question_type_id"];
+            return (int) $row["question_type_id"];
         }
         return 0;
     }
@@ -3140,7 +3147,7 @@ abstract class assQuestion
         return array();
     }
 
-    public static function _includeClass(string $question_type,int $gui = 0) : void
+    public static function _includeClass(string $question_type, int $gui = 0) : void
     {
         if (self::isCoreQuestionType($question_type)) {
             self::includeCoreClass($question_type, $gui);
@@ -3163,7 +3170,7 @@ abstract class assQuestion
     {
         if ($withGuiClass) {
             require_once "Modules/TestQuestionPool/classes/class.{$questionType}GUI.php";
-            // object class is included by gui classes constructor
+        // object class is included by gui classes constructor
         } else {
             require_once "Modules/TestQuestionPool/classes/class.{$questionType}.php";
         }
@@ -3183,7 +3190,7 @@ abstract class assQuestion
         );
 
         if ($withGuiClass) {
-            $classes[] = $questionType.'GUI';
+            $classes[] = $questionType . 'GUI';
         }
 
         $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
@@ -3242,7 +3249,7 @@ abstract class assQuestion
 
             assQuestion::_includeClass($question_type, 1);
 
-            $question_type_gui = $question_type.'GUI';
+            $question_type_gui = $question_type . 'GUI';
             $question_gui = new $question_type_gui();
             $question_gui->object->loadFromDb($a_question_id);
 
@@ -3719,7 +3726,7 @@ abstract class assQuestion
             array($solutionId)
         );
 
-        if($this->db->numRows($result) > 0) {
+        if ($this->db->numRows($result) > 0) {
             return $this->db->fetchAssoc($result);
         }
         return array();
@@ -4007,7 +4014,7 @@ abstract class assQuestion
 
         $row = $this->db->fetchAssoc($result);
 
-        return (int)$row['max_step'];
+        return (int) $row['max_step'];
     }
 
     // fau: testNav - new function lookupForExistingSolutions

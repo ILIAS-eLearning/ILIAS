@@ -26,13 +26,13 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
     public function getStaticSubItems() : array
     {
         $this->dic->language()->loadLanguageModule('mst');
-        $items         = [];
+        $items = [];
         $access_helper = BasicAccessCheckClosures::getInstance();
-        $top           = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
+        $top = StandardTopItemsProvider::getInstance()->getAdministrationIdentification();
 
-        $title  = $this->dic->language()->txt("objs_orgu");
+        $title = $this->dic->language()->txt("objs_orgu");
         $action = "ilias.php?baseClass=ilAdministrationGUI&ref_id=" . ilObjOrgUnit::getRootOrgRefId() . "&cmd=jump";
-        $icon   = $this->dic->ui()->factory()->symbol()->icon()->standard('orgu', $title)
+        $icon = $this->dic->ui()->factory()->symbol()->icon()->standard('orgu', $title)
                             ->withIsOutlined(true);
 
         $items[] = $this->mainmenu->link($this->if->identifier('mm_adm_orgu'))
@@ -44,9 +44,10 @@ class OrgUnitMainBarProvider extends AbstractStaticMainMenuProvider
                                   ->withSymbol($icon)
                                   ->withPosition(7)
                                   ->withVisibilityCallable(
-                                      $access_helper->hasAdministrationAccess(function () {
+                                      $access_helper->hasAdministrationAccess(function () : bool {
                                           return (bool) $this->dic->access()->checkAccess('read', '', ilObjOrgUnit::getRootOrgRefId());
-                                      }));
+                                      })
+                                  );
 
         return $items;
     }

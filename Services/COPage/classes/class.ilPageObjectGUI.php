@@ -1064,7 +1064,7 @@ class ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $this->ctrl->setReturn($this, "edit");
 

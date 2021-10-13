@@ -22,7 +22,6 @@ class ilADTActiveRecordWrapper extends ActiveRecord
      * Constructor
      *
      * @param ilADTGroupActiveRecordBridge $a_properties
-     * @return self
      */
     public function __construct(ilADTGroupActiveRecordBridge $a_properties)
     {
@@ -56,9 +55,6 @@ class ilADTActiveRecordWrapper extends ActiveRecord
 
             case "timestamp":
                 return arField::FIELD_TYPE_TIMESTAMP;
-
-            case "integer":
-                return arField::FIELD_TYPE_INTEGER;
 
             /*
             case "clob":
@@ -124,7 +120,8 @@ class ilADTActiveRecordWrapper extends ActiveRecord
 
     public function getPrimaryFieldValue()
     {
-        $primary = array_shift($this->properties->getPrimary());
+        $primaries = $this->properties->getPrimary();
+        $primary = array_shift($primaries);
         return $primary[1];
     }
 

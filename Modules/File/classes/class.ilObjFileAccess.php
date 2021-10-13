@@ -250,17 +250,20 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             === null
         ) {
             $settings = new ilSetting('file_access');
-            self::$_inlineFileExtensionsArray = preg_split('/ /', $settings->get('inline_file_extensions'), -1,
-                PREG_SPLIT_NO_EMPTY);
+            self::$_inlineFileExtensionsArray = preg_split(
+                '/ /',
+                $settings->get('inline_file_extensions'),
+                -1,
+                PREG_SPLIT_NO_EMPTY
+            );
         }
         $extension = self::_getFileExtension($a_file_name);
 
         return in_array($extension, self::$_inlineFileExtensionsArray);
     }
 
-    public function isMigrated():bool
+    public function isMigrated() : bool
     {
-
     }
 
     /**
@@ -423,9 +426,12 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             self::$preload_list_gui_data[$row["file_id"]]["rid"] = $row["rid"];
         }
 
-        $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in('file_id',
-                $a_obj_ids, false,
-                'integer'));
+        $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in(
+            'file_id',
+            $a_obj_ids,
+            false,
+            'integer'
+        ));
         while ($row = $DIC->database()->fetchObject($res)) {
             if ($id = $DIC->resourceStorage()->manage()->find($row->rid)) {
                 $max = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
@@ -434,8 +440,6 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
                 self::$preload_list_gui_data[$row->file_id]["date"] = $max->getInformation()->getCreationDate()->format(DATE_ATOM);
             }
         }
-
-
     }
 
     /**

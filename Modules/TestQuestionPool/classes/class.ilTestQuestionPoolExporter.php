@@ -17,17 +17,17 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
     }
 
     /**
      * Overwritten for qpl
      * @param string $a_obj_type
-     * @param int $a_obj_id
+     * @param int    $a_obj_id
      * @param string $a_export_type
      */
-    public static function lookupExportDirectory($a_obj_type, $a_obj_id, $a_export_type = 'xml', $a_entity = "")
+    public static function lookupExportDirectory(string $a_obj_type, int $a_obj_id, string $a_export_type = 'xml', string $a_entity = "") : string
     {
         if ($a_export_type == 'xml') {
             return ilUtil::getDataDir() . "/qpl_data" . "/qpl_" . $a_obj_id . "/export_zip";
@@ -38,13 +38,12 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 
     /**
      * Get xml representation
-     *
      * @param	string		entity
      * @param	string		schema version
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         include_once './Modules/TestQuestionPool/classes/class.ilObjQuestionPool.php';
         $qpl = new ilObjQuestionPool($a_id, false);
@@ -60,13 +59,12 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
 
     /**
      * Get tail dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @return        array        array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         if ($a_entity == 'qpl') {
             $deps = array();
@@ -110,10 +108,9 @@ class ilTestQuestionPoolExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.1.0" => array(

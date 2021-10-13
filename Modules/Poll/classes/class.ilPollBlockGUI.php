@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Container\Content\ViewManager;
+
 /**
  * BlockGUI class for polls.
  *
@@ -15,6 +17,8 @@ class ilPollBlockGUI extends ilBlockGUI
     protected $poll_block; // [ilPollBlock]
 
     public static $js_init = false;
+
+    protected ViewManager $container_view_manager;
 
     /**
      * Constructor
@@ -33,6 +37,13 @@ class ilPollBlockGUI extends ilBlockGUI
 
         $lng->loadLanguageModule("poll");
         $this->setRowTemplate("tpl.block.html", "Modules/Poll");
+
+        $this->container_view_manager = $DIC
+            ->container()
+            ->internal()
+            ->domain()
+            ->content()
+            ->view();
     }
 
     /**
@@ -104,7 +115,7 @@ class ilPollBlockGUI extends ilBlockGUI
 
 
         // nested form problem
-        if (!ilSession::get('il_cont_admin_panel')) {
+        if (!$this->container_view_manager->isAdminView()) {
             // vote
 
             if ($this->poll_block->mayVote($this->user->getId())) {

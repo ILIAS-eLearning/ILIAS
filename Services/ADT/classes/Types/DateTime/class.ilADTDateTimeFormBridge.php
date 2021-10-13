@@ -37,7 +37,7 @@ class ilADTDateTimeFormBridge extends ilADTFormBridge
     
     public function importFromPost()
     {
-        $field = $this->getForm()->getItemByPostvar($this->getElementId());
+        $field = $this->getForm()->getItemByPostVar($this->getElementId());
                 
         // because of ilDateTime the ADT can only have valid dates
         if (!$field->hasInvalidInput()) {

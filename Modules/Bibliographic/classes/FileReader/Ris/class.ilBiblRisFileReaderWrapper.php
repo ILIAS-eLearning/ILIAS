@@ -21,5 +21,4 @@ class ilBiblRisFileReaderWrapper
 
         return $RISReader->getRecords();
     }
-
 }

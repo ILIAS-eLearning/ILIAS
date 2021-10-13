@@ -10,10 +10,10 @@
  */
 class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    const SQL_STRICT = 1;
-    const SQL_LIKE = 2;
-    const SQL_LIKE_END = 3;
-    const SQL_LIKE_START = 4;
+    public const SQL_STRICT = 1;
+    public const SQL_LIKE = 2;
+    public const SQL_LIKE_END = 3;
+    public const SQL_LIKE_START = 4;
 
     
     /**
@@ -107,7 +107,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     /**
      * get serialized value
-     * @return type
+     * @return string
      */
     public function getSerializedValue()
     {

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
+use ILIAS\Container\Content\ViewManager;
+
 require_once("./Services/Container/classes/class.ilContainerGUI.php");
 require_once("./Services/AccessControl/classes/class.ilObjRole.php");
 require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -124,6 +126,8 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
      */
     protected $permissions;
 
+    protected ViewManager $container_view_manager;
+
     public function __construct()
     {
         global $DIC;
@@ -160,6 +164,13 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
         $this->type_gui = ilStudyProgrammeDIC::dic()['ilStudyProgrammeTypeGUI'];
         $this->autocategories_gui = ilStudyProgrammeDIC::dic()['ilObjStudyProgrammeAutoCategoriesGUI'];
         $this->type_repository = ilStudyProgrammeDIC::dic()['model.Type.ilStudyProgrammeTypeRepository'];
+
+        $this->container_view_manager = $DIC
+            ->container()
+            ->internal()
+            ->domain()
+            ->content()
+            ->view();
     }
 
 
@@ -263,7 +274,7 @@ class ilObjStudyProgrammeGUI extends ilContainerGUI
                 $this->tabs_gui->activateSubTab(self::SUBTAB_VIEW_TREE);
 
                 // disable admin panel
-                $_SESSION["il_cont_admin_panel"] = false;
+                $this->container_view_manager->setContentView();
 
                 $this->tree_gui->setRefId($this->id);
                 $this->ctrl->forwardCommand($this->tree_gui);

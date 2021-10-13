@@ -28,7 +28,7 @@ class ilContainerExporter extends ilXmlExporter
     {
     }
     
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         if ($a_entity != 'struct') {
             return [];
@@ -103,7 +103,7 @@ class ilContainerExporter extends ilXmlExporter
         return $res;
     }
     
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         global $DIC;
 
@@ -122,14 +122,13 @@ class ilContainerExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array[]
      */
-    public function getValidSchemaVersions($a_entity) : array
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.1.0" => array(
-                "namespace" => "http://www.ilias.de/Modules/Folder/fold/4_1",
+                "namespace" => "https://www.ilias.de/Modules/Folder/fold/4_1",
                 "xsd_file" => "ilias_fold_4_1.xsd",
                 "uses_dataset" => false,
                 "min" => "4.1.0",

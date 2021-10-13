@@ -30,6 +30,7 @@ class ilValidator
     protected ?array $media_pool_ids = null;
     public array $rbac_object_types;
     public array $workspace_object_ids = [];
+    public array $invalid_rbac_entries;
 
     /**
      * list of object types to exclude from recovering
@@ -470,7 +471,7 @@ class ilValidator
      * entry. Furthermore gets all rolefolders that are placed accidently in
      * RECOVERY_FOLDER from earlier versions of System check.
      * Result is stored in $this->invalid_rolefolders
-     * @return	boolean	false if analyze mode disabled or nothing found
+     * @return bool false if analyze mode disabled or nothing found
      */
     public function findInvalidRolefolders() : bool
     {
@@ -585,7 +586,7 @@ class ilValidator
         $q = "SELECT object_data.*, ref_id FROM object_data " .
              "LEFT JOIN object_reference ON object_data.obj_id = object_reference.obj_id " .
              "LEFT JOIN tree ON object_reference.ref_id = tree.child " .
-             "WHERE object_reference.ref_id =" . $ilDB->quote(RECOVERY_FOLDER_ID) . " " .
+             "WHERE object_reference.ref_id =" . $ilDB->quote(RECOVERY_FOLDER_ID, "integer") . " " .
              "AND object_data.type='rolf'";
         $r = $this->db->query($q);
         
@@ -1363,7 +1364,7 @@ class ilValidator
             }
 
             // get subnodes of top nodes
-            $subnodes[$node["child"]] = $tree->getSubtree($topnode);
+            $subnodes[$node["child"]] = $tree->getSubTree($topnode);
         
             // delete old tree entries
             $tree->deleteTree($topnode);
@@ -1554,7 +1555,7 @@ class ilValidator
                 continue;
             }
 
-            $ref_id = ($node["child"]) ? $node["child"] : $node["ref_id"];
+            $ref_id = ($node["child"]) ?: $node["ref_id"];
             $node_obj = ilObjectFactory::getInstanceByRefId($ref_id, false);
             
             if ($node_obj === false) {
@@ -1630,7 +1631,8 @@ class ilValidator
     ) : void {
         $call_loc = $error->backtrace[count($error->backtrace) - 1];
         $num_args = count($call_loc["args"]);
-
+        $arg_list = [];
+        $arg_str = "";
         if ($num_args > 0) {
             foreach ($call_loc["args"] as $arg) {
                 $type = gettype($arg);
@@ -1847,14 +1849,11 @@ class ilValidator
                         }
                         break;
                         
-                        
-                    case 'fold':
+                    default:
                         // ignore folders on media pools
-                        if ($this->isMediaFolder($row->obj_id)) {
+                        if ($row->type == "fold" && $this->isMediaFolder($row->obj_id)) {
                             continue 2;
                         }
-                        // no break
-                    default:
                         $error_count++;
                         $isRowOkay = false;
                         $isParentOkay = false;
@@ -2169,7 +2168,7 @@ class ilValidator
             }
         }
 
-        return in_array($a_obj_id, $this->media_pool_ids) ? true : false;
+        return in_array($a_obj_id, $this->media_pool_ids);
     }
     
     // Check if type is excluded from recovery

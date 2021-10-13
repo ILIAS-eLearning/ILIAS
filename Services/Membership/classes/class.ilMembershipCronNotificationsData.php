@@ -90,7 +90,11 @@ class ilMembershipCronNotificationsData
                 // gather news per object
                 $news_item = new ilNewsItem();
                 $objs = $this->getObjectsForRefId($ref_id);
-                if ($news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run)) {
+                if (
+                    isset($objs["obj_id"]) &&
+                    is_array($objs["obj_id"]) &&
+                    $news_item->checkNewsExistsForObjects($objs["obj_id"], $this->last_run)
+                ) {
                     $this->log->debug("Got news");
                     foreach ($user_ids as $user_id) {
                         // gather news for user
@@ -110,14 +114,27 @@ class ilMembershipCronNotificationsData
 
                             // store all single news
                             foreach ($this->user_news_aggr as $agg_news) {
-                                if (is_array($agg_news["aggregation"]) && count($agg_news["aggregation"]) > 0) {
+                                if (isset($agg_news["aggregation"]) && is_array($agg_news["aggregation"]) && $agg_news["aggregation"] !== []) {
                                     foreach ($agg_news["aggregation"] as $n) {
                                         $this->news[$n["id"]] = $n;
                                         $this->news_per_user[$user_id][$ref_id][$n["id"]] = $n["id"];
                                     }
                                 } else {
-                                    $this->news[$agg_news["id"]] = $agg_news;
-                                    $this->news_per_user[$user_id][$ref_id][$agg_news["id"]] = $agg_news["id"];
+                                    if (is_array($agg_news)) {
+                                        if (isset($agg_news["id"])) {
+                                            $this->news[$agg_news["id"]] = $agg_news;
+                                            $this->news_per_user[$user_id][$ref_id][$agg_news["id"]] = $agg_news["id"];
+                                        } else {
+                                            foreach ($agg_news as $agg_news_items) {
+                                                foreach ($agg_news_items as $agg_news_item) {
+                                                    if (isset($agg_news_item["id"])) {
+                                                        $this->news[$agg_news_item["id"]] = $agg_news_item;
+                                                        $this->news_per_user[$user_id][$ref_id][$agg_news_item["id"]] = $agg_news_item["id"];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
 
@@ -142,9 +159,10 @@ class ilMembershipCronNotificationsData
                         reset($user_ids);
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;
-                            foreach ($ref_for_obj_id[$obj_id] as $ref_id) {
-                                if ($has_perm || $ilAccess->checkAccessOfUser($user_id, "read", "", $ref_id)) {
+                            foreach ($ref_for_obj_id[$obj_id] as $perm_ref_id) {
+                                if ($ilAccess->checkAccessOfUser($user_id, "read", "", $perm_ref_id)) {
                                     $has_perm = true;
+                                    break;
                                 }
                             }
                             if ($has_perm) {
@@ -174,9 +192,10 @@ class ilMembershipCronNotificationsData
                         reset($user_ids);
                         foreach ($user_ids as $user_id) {
                             $has_perm = false;
-                            foreach ($ref_for_obj_id[$obj_id] as $ref_id) {
-                                if ($has_perm || $ilAccess->checkAccessOfUser($user_id, "read", "", $ref_id)) {
+                            foreach ($ref_for_obj_id[$obj_id] as $perm_ref_id) {
+                                if ($ilAccess->checkAccessOfUser($user_id, "read", "", $perm_ref_id)) {
                                     $has_perm = true;
+                                    break;
                                 }
                             }
                             if ($has_perm) {

@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * XML  parser for folder xml
@@ -9,13 +20,9 @@
  */
 class ilFolderXmlParser extends ilSaxParser
 {
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    private $folder = null;
-    
+    protected ilErrorHandling $error;
+    private ?ilObject $folder = null;
+    protected string $cdata = "";
 
     /**
      * Constructor
@@ -31,44 +38,24 @@ class ilFolderXmlParser extends ilSaxParser
         $this->setThrowException(true);
     }
     
-    /**
-     * set weblink
-     * @param ilObject $webl
-     * @return
-     */
     public function setFolder(ilObject $folder)
     {
         $this->folder = $folder;
     }
     
-    /**
-     * Get folder object
-     * @return ilObject
-     */
-    public function getFolder()
+    public function getFolder() : ilObject
     {
         return $this->folder;
     }
-    
-    
+
     /**
-     *
-     * @return
-     * @throws	ilSaxParserException	if invalid xml structure is given
-     * @throws	ilWebLinkXMLParserException	missing elements
+     * @throws ilSaxParserException
      */
-    
-    public function start()
+    public function start() : void
     {
-        return $this->startParsing();
+        $this->startParsing();
     }
     
-    /**
-    * set event handlers
-    *
-    * @param	resource	reference to the xml parser
-    * @access	private
-    */
     public function setHandlers($a_xml_parser)
     {
         xml_set_object($a_xml_parser, $this);
@@ -77,42 +64,29 @@ class ilFolderXmlParser extends ilSaxParser
     }
     
     /**
-    * handler for begin of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    * @param	array		$a_attribs			element attributes array
-    */
-    public function handlerBeginTag($a_xml_parser, $a_name, $a_attribs)
+     * handler for begin of element
+     * @param	resource	$a_xml_parser		xml parser
+     */
+    public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
-        $ilErr = $this->error;
-
         switch ($a_name) {
 
             case 'Folder':
+            case 'Title':
+            case 'Description':
                 break;
-
 
             case 'Sorting':
             case 'Sort':
                 ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $this->getFolder()->getId());
                 break;
-                
-            case 'Title':
-            case 'Description':
-                break;
         }
     }
     
     /**
-    * handler for end of element
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_name				element name
-    * @throws	ilSaxParserException	if invalid xml structure is given
-    * @throws	ilWebLinkXMLParserException	missing elements
-    */
-    public function handlerEndTag($a_xml_parser, $a_name)
+     * @param	resource	$a_xml_parser		xml parser
+     */
+    public function handlerEndTag($a_xml_parser, string $a_name) : void
     {
         $GLOBALS['ilLog']->write(__METHOD__ . ': Called ' . $a_name);
 
@@ -139,12 +113,9 @@ class ilFolderXmlParser extends ilSaxParser
 
     
     /**
-    * handler for character data
-    *
-    * @param	resource	$a_xml_parser		xml parser
-    * @param	string		$a_data				character data
-    */
-    public function handlerCharacterData($a_xml_parser, $a_data)
+     * @param	resource	$a_xml_parser		xml parser
+     */
+    public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data != "\n") {
             // Replace multiple tabs with one space

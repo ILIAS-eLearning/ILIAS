@@ -62,7 +62,7 @@ class ilLink
             $a_type = $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_ref_id));
         }
         
-        $robot_settings = ilRobotSettings::_getInstance();
+        $robot_settings = ilRobotSettings::getInstance();
         if (!$robot_settings->robotSupportEnabled()) {
             if ($a_fallback_goto) {
                 return ilLink::_getLink($a_ref_id, $a_type, array(), $append);

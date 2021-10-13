@@ -1,7 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjCategory
@@ -10,13 +20,7 @@
  */
 class ilObjCategory extends ilContainer
 {
-    /**
-    * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
-    */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
 
@@ -28,12 +32,6 @@ class ilObjCategory extends ilContainer
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    /**
-    * delete category and all related data
-    *
-    * @access	public
-    * @return	boolean	true if all object data were removed; false if only a references were removed
-    */
     public function delete()
     {
         $ilDB = $this->db;
@@ -65,14 +63,6 @@ class ilObjCategory extends ilContainer
         return true;
     }
 
-    /**
-     * Clone course (no member data)
-     *
-     * @access public
-     * @param int target ref_id
-     * @param int copy id
-     *
-     */
     public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
@@ -126,12 +116,8 @@ class ilObjCategory extends ilContainer
         }
     }
     
-    /**
-    * Add additional information to sub item, e.g. used in
-    * courses for timings information etc.
-    */
     public function addAdditionalSubItemInformation(array &$object) : void
     {
         ilObjectActivation::addAdditionalSubItemInformation($object);
     }
-} // END class.ilObjCategory
+}

@@ -37,8 +37,10 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
          */
         $this->resource = $resource;
         $this->storage = $DIC->resourceStorage();
-        $this->download_with_uploaded_filename = (bool) $DIC->clientIni()->readVariable('file_access',
-            'download_with_uploaded_filename');
+        $this->download_with_uploaded_filename = (bool) $DIC->clientIni()->readVariable(
+            'file_access',
+            'download_with_uploaded_filename'
+        );
     }
 
     private function debug() : void
@@ -112,11 +114,11 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
         if ($a_hist_entry_id) {
             $revision = $this->resource->getSpecificRevision($a_hist_entry_id);
             $consumer->setRevisionNumber($a_hist_entry_id);
-        }else {
+        } else {
             $revision = $this->resource->getCurrentRevision();
         }
 
-        if(!$this->download_with_uploaded_filename) {
+        if (!$this->download_with_uploaded_filename) {
             $consumer->overrideFileName($revision->getTitle());
         }
 
@@ -195,5 +197,4 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     {
         return $this->resource->getStorageID();
     }
-
 }

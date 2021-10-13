@@ -91,7 +91,7 @@ class ilObjOrgUnitTree
                 break;
             case true:
                 $assignment_query = ilOrgUnitUserAssignmentQueries::getInstance();
-                $arr_usr_ids = $assignment_query->getUserIdsOfOrgUnitsInPosition($this->getAllChildren($ref_id),ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                $arr_usr_ids = $assignment_query->getUserIdsOfOrgUnitsInPosition($this->getAllChildren($ref_id), ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
                 break;
         }
 
@@ -351,19 +351,20 @@ class ilObjOrgUnitTree
 
         $orgu_ref_ids = $assignment_query->getOrgUnitIdsOfUsersPosition(
             ilOrgUnitPosition::CORE_POSITION_SUPERIOR,
-            $user_id);
+            $user_id
+        );
 
-        switch($recursive) {
+        switch ($recursive) {
             case true:
                 $orgu_ref_id_with_children = [];
-                foreach($orgu_ref_ids as $orgu_ref_id ) {
+                foreach ($orgu_ref_ids as $orgu_ref_id) {
                     $orgu_ref_id_with_children = array_merge($orgu_ref_ids, $this->getAllChildren($orgu_ref_id));
                 }
 
-                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_id_with_children,ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_id_with_children, ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
             break;
             default:
-                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_ids,ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
+                return $assignment_query->getUserIdsOfOrgUnitsInPosition($orgu_ref_ids, ilOrgUnitPosition::CORE_POSITION_EMPLOYEE);
                 break;
         }
 
@@ -448,8 +449,8 @@ class ilObjOrgUnitTree
         $orgu_ref_ids = [];
         $orgu_query = ilOrgUnitUserAssignmentQueries::getInstance();
 
-        $orgus =  $orgu_query->getAssignmentsOfUserId($user_id);
-        foreach($orgus as $orgu) {
+        $orgus = $orgu_query->getAssignmentsOfUserId($user_id);
+        foreach ($orgus as $orgu) {
             $orgu_ref_ids[] = $orgu->getOrguId();
         }
         return $orgu_ref_ids;

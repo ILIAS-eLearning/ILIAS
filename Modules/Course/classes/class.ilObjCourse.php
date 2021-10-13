@@ -1514,7 +1514,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->setImportantInformation($row->important);
             $this->setShowMembers($row->show_members);
 
-            if (\ilPrivacySettings::_getInstance()->participantsListInCoursesEnabled()) {
+            if (\ilPrivacySettings::getInstance()->participantsListInCoursesEnabled()) {
                 $this->setShowMembersExport($row->show_members_export);
             } else {
                 $this->setShowMembersExport(false);

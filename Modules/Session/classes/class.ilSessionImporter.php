@@ -16,7 +16,7 @@ class ilSessionImporter extends ilXmlImporter
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         include_once("./Modules/Session/classes/class.ilSessionDataSet.php");
         $this->ds = new ilSessionDataSet();
@@ -26,11 +26,10 @@ class ilSessionImporter extends ilXmlImporter
 
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $this->ds->setTargetId($a_mapping->getTargetId());
         $parser = new ilDataSetImportParser(

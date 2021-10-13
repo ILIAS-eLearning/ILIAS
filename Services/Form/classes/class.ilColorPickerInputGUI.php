@@ -15,6 +15,11 @@ class ilColorPickerInputGUI extends ilTextInputGUI
     protected $hex;
 
     /**
+     * @var bool
+     */
+    protected $acceptnamedcolors = false;
+
+    /**
     * Constructor
     *
     * @param	string	$a_title	Title

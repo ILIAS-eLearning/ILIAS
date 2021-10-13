@@ -140,7 +140,7 @@ class ilOnScreenChatGUI
         if ($this->ctrl->isAsynch()) {
             $this->http->saveResponse($response);
             $this->http->sendResponse();
-            exit();
+            $this->http->close();
         }
     }
 

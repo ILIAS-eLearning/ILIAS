@@ -2,7 +2,7 @@
 
 class ilADTExternalLink extends ilADT
 {
-    const MAX_LENGTH = 500;
+    public const MAX_LENGTH = 500;
     
     /**
      * @var string
@@ -19,7 +19,7 @@ class ilADTExternalLink extends ilADT
      * @param ilADTDefinition $a_def
      * @return bool
      */
-    protected function isValidDefinition(ilADTDefinition $a_def)
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return $a_def instanceof ilADTExternalLinkDefinition;
     }
@@ -27,7 +27,7 @@ class ilADTExternalLink extends ilADT
     /**
      * Reset
      */
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
         $this->value = null;
@@ -69,7 +69,7 @@ class ilADTExternalLink extends ilADT
 
     /**
      * Get url
-     * @return type
+     * @return string
      */
     public function getUrl()
     {
@@ -78,38 +78,36 @@ class ilADTExternalLink extends ilADT
 
 
     /**
-     *
      * @param ilADT $a_adt
-     * @return type
+     * @return bool
      */
-    public function equals(ilADT $a_adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return strcmp($this->getCheckSum(), $a_adt->getCheckSum()) === 0;
         }
+        return null;
     }
 
     /**
      * Is larger
      * @param ilADT $a_adt
      */
-    public function isLarger(ilADT $a_adt)
+    public function isLarger(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
-    /**
-     * Is smaller
-     * @param ilADT $a_adt
-     */
-    public function isSmaller(ilADT $a_adt)
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
     /**
      * is null
      * @return bool
      */
-    public function isNull()
+    public function isNull() : bool
     {
         return (bool) !$this->getLength();
     }
@@ -128,21 +126,15 @@ class ilADTExternalLink extends ilADT
     }
     
 
-    /**
-     * is valid
-     * @return boolean
-     */
-    public function isValid()
+    public function isValid() : bool
     {
         $valid = parent::isValid();
-
         if (!$this->isNull()) {
             if (self::MAX_LENGTH < $this->getLength()) {
                 $valid = false;
                 $this->addValidationError(self::ADT_VALIDATION_ERROR_MAX_LENGTH);
             }
         }
-
         return $valid;
     }
 
@@ -150,33 +142,34 @@ class ilADTExternalLink extends ilADT
      * get checksum
      * @return string
      */
-    public function getCheckSum()
+    public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
             return md5($this->getUrl() . $this->getTitle());
         }
+        return null;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function exportStdClass()
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
             $obj->url = $this->getUrl();
             $obj->title = $this->getTitle();
-
             return $obj;
         }
+        return null;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function importStdClass($a_std)
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->setTitle($a_std->title);

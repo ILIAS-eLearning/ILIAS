@@ -9,20 +9,10 @@ class ilADTFactory
 
     protected static $instance; // [ilADTFactory]
     
-    /**
-     * Constructor
-     *
-     * @return self
-     */
     protected function __construct()
     {
     }
     
-    /**
-     * Get singleton
-     *
-     * @return self
-     */
     public static function getInstance()
     {
         if (self::$instance === null) {
@@ -66,6 +56,7 @@ class ilADTFactory
      */
     public function initTypeClass($a_type, $a_class = null)
     {
+        $class = $file = '';
         if ($this->isValidType($a_type)) {
             $class = "ilADT" . $a_type . $a_class;
             $file = "Services/ADT/classes/Types/" . $a_type . "/class." . $class . ".php";
@@ -74,7 +65,6 @@ class ilADTFactory
                 return $class;
             }
         }
-        
         throw new Exception("ilADTFactory unknown type: " . $a_type . ' -> ' . $file);
     }
     

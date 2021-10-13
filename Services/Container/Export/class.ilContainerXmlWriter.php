@@ -122,7 +122,7 @@ class ilContainerXmlWriter extends ilXmlWriter
             $tmp_date = new ilDateTime($item['suggestion_end'], IL_CAL_UNIX);
             $this->xmlElement('SuggestionEnd', array(), $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
         }
-        if ($item['earliest_start']) {
+        if ($item['earliest_start'] ?? false) {
             $tmp_date = new ilDateTime($item['earliest_start'], IL_CAL_UNIX);
             $this->xmlElement('EarliestStart', array(), $tmp_date->get(IL_CAL_DATETIME, '', ilTimeZone::UTC));
         }

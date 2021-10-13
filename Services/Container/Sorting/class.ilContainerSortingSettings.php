@@ -215,7 +215,7 @@ class ilContainerSortingSettings
 
     public function setSortNewItemsOrder(int $a_order) : void
     {
-        $this->new_items_order = (int) $a_order;
+        $this->new_items_order = $a_order;
     }
 
     public function update() : void
@@ -392,7 +392,7 @@ class ilContainerSortingSettings
                 break;
         }
 
-        switch ($attibs['position']) {
+        switch ($attibs['position'] ?? "") {
             case "Top":
                 $settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_TOP);
                 break;
@@ -401,7 +401,7 @@ class ilContainerSortingSettings
                 break;
         }
 
-        switch ($attibs['order']) {
+        switch ($attibs['order'] ?? "") {
             case 'Creation':
                 $settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
                 break;

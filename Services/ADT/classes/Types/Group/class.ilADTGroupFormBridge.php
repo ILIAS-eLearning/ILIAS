@@ -103,7 +103,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         // ilADTFormBridge->isRequired() != ilADT->allowNull()
         foreach ($this->getElements() as $element_id => $element) {
             if ($element->isRequired() && $element->getADT()->isNull()) {
-                $field = $this->getForm()->getItemByPostvar($element_id);
+                $field = $this->getForm()->getItemByPostVar($element_id);
                 $field->setAlert($lng->txt("msg_input_is_required"));
                 $valid = false;
             }
@@ -124,7 +124,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
             }
             
             foreach ($tmp as $element_id => $errors) {
-                $field = $this->getForm()->getItemByPostvar($element_id);
+                $field = $this->getForm()->getItemByPostVar($element_id);
                 $field->setAlert(implode("<br />", $errors));
             }
             

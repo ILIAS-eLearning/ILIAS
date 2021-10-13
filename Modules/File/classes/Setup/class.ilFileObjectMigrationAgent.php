@@ -71,5 +71,4 @@ class ilFileObjectMigrationAgent implements Setup\Agent
             new ilFileObjectToStorageMigration()
         ];
     }
-
 }

@@ -92,7 +92,7 @@ class ilMemberExport
             
         $this->agreement = ilMemberAgreement::_readByObjId($this->obj_id);
         $this->settings = new ilUserFormSettings('memexp');
-        $this->privacy = ilPrivacySettings::_getInstance();
+        $this->privacy = ilPrivacySettings::getInstance();
     }
     
     
@@ -281,7 +281,7 @@ class ilMemberExport
         $field_info->sortExportFields();
         $fields[] = 'role';
         // Append agreement info
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         if ($privacy->courseConfirmationRequired()) {
             $fields[] = 'agreement';
         }

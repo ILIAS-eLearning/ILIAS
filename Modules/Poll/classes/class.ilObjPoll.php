@@ -226,7 +226,7 @@ class ilObjPoll extends ilObject2
         
         if ($this->ref_id) {
             $activation = ilObjectActivation::getItem($this->ref_id);
-            $this->setAccessType((int) ($activation["timing_type"] ?? ilObjectActivation::TIMINGS_DEACTIVATED ));
+            $this->setAccessType((int) ($activation["timing_type"] ?? ilObjectActivation::TIMINGS_DEACTIVATED));
             if ($this->getAccessType() == ilObjectActivation::TIMINGS_ACTIVATION) {
                 // default entry values should not be loaded if not activated
                 $this->setAccessBegin((int) ($activation["timing_start"] ?? time()));
@@ -450,7 +450,6 @@ class ilObjPoll extends ilObject2
         } else {
             $success = copy($tmp_name, $path . $original);
         }
-        
         if ($success) {
             chmod($path . $original, 0770);
 
@@ -459,8 +458,18 @@ class ilObjPoll extends ilObject2
             $original_file = ilUtil::escapeShellArg($path . $original);
             $thumb_file = ilUtil::escapeShellArg($path . $thumb);
             $processed_file = ilUtil::escapeShellArg($path . $processed);
-            ilUtil::execConvert($original_file . "[0] -geometry \"100x100>\" -quality 100 PNG:" . $thumb_file);
-            ilUtil::execConvert($original_file . "[0] -geometry \"" . self::getImageSize() . ">\" -quality 100 PNG:" . $processed_file);
+
+            // -geometry "100x100>" is escaped by -geometry "100x100\>"
+            // re-replace "\>" with ">"
+            $convert_100 = $original_file . "[0] -geometry \"100x100>\" -quality 100 PNG:" . $thumb_file;
+            $escaped_convert_100 = ilUtil::escapeShellCmd($convert_100);
+            $escaped_convert_100 = str_replace('-geometry "100x100\>', '-geometry "100x100>', $escaped_convert_100);
+            ilUtil::execQuoted(PATH_TO_CONVERT, $escaped_convert_100);
+
+            $convert_300 = $original_file . "[0] -geometry \"" . self::getImageSize() . ">\" -quality 100 PNG:" . $processed_file;
+            $escaped_convert_300 = ilUtil::escapeShellCmd($convert_300);
+            $escaped_convert_300 = str_replace('-geometry "' . self::getImageSize() . '\>"', '-geometry "' . self::getImageSize() .'>"', $escaped_convert_300);
+            ilUtil::execQuoted(PATH_TO_CONVERT, $escaped_convert_300);
             
             $this->setImage($processed);
             return true;
@@ -648,7 +657,7 @@ class ilObjPoll extends ilObject2
         // remove obsolete answers
         if (sizeof($existing)) {
             foreach ($existing as $item) {
-                if(isset($item["id"]) && is_int($item["id"])) {
+                if (isset($item["id"]) && is_int($item["id"])) {
                     $this->deleteAnswer($item["id"]);
                 }
             }

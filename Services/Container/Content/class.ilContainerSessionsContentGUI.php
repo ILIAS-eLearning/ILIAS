@@ -35,15 +35,15 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         $this->lng = $lng;
         $this->initDetails();
     }
-    
 
-    public function getDetailsLevel(int $a_item_id) : int
+
+    protected function getDetailsLevel(int $a_item_id) : int
     {
         if ($this->getContainerGUI()->isActiveAdministrationPanel()) {
             return self::DETAILS_DEACTIVATED;
         }
-        if (isset($_SESSION['sess']['expanded'][$a_item_id])) {
-            return $_SESSION['sess']['expanded'][$a_item_id];
+        if ($this->item_manager->getExpanded($a_item_id) !== null) {
+            return $this->item_manager->getExpanded($a_item_id);
         }
         if (in_array($a_item_id, $this->force_details)) {
             return self::DETAILS_ALL;
@@ -164,30 +164,22 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
             
             if ($prefp) {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_hide_prev_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_prev_sess', (int) !$prefp);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             } else {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_show_all_prev_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_prev_sess', (int) !$prefp);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             }
+            $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_prev_sess', (int) !$prefp);
         } else {
             $prefn = $ilUser->getPref('crs_sess_show_next_' . $this->getContainerObject()->getId());
 
             if ($prefn) {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_hide_next_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_next_sess', (int) !$prefn);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             } else {
                 $tpl->setVariable('TXT_TITLE_LINKED', $lng->txt('crs_link_show_all_next_sessions'));
-                $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_next_sess', (int) !$prefn);
-                $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
-                $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
             }
+            $ilCtrl->setParameterByClass(get_class($this->getContainerGUI()), 'crs_next_sess', (int) !$prefn);
         }
+        $tpl->setVariable('HREF_TITLE_LINKED', $ilCtrl->getLinkTargetByClass(get_class($this->getContainerGUI())));
+        $ilCtrl->clearParametersByClass(get_class($this->getContainerGUI()));
         $tpl->parseCurrentBlock();
 
         return $tpl->get();
@@ -199,7 +191,11 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
     ) : void {
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+        $ilCtrl->setParameterByClass(
+            "ilrepositorygui",
+            "ref_id",
+            $this->request->getRefId()
+        );
         
         $tpl->setCurrentBlock('container_details_row');
         $tpl->setVariable('TXT_DETAILS', $this->lng->txt('details'));
@@ -208,13 +204,7 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
     
     protected function initDetails() : void
     {
-        if (isset($_GET['expand'])) {
-            if ($_GET['expand'] > 0) {
-                $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_ALL;
-            } else {
-                $_SESSION['sess']['expanded'][abs((int) $_GET['expand'])] = self::DETAILS_TITLE;
-            }
-        }
+        $this->handleSessionExpand();
 
         if ($session = ilSessionAppointment::lookupNextSessionByCourse($this->getContainerObject()->getRefId())) {
             $this->force_details = $session;
@@ -223,22 +213,22 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
         }
     }
 
-    /**
-     * @param array       $items
-     * @param ilContainer $container
-     * @return array
-     */
     public static function prepareSessionPresentationLimitation(
         array $items,
         ilContainer $container,
         bool $admin_panel_enabled = false,
         bool $include_side_block = false
     ) : array {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $user = $DIC->user();
         $access = $DIC->access();
         $tree = $DIC->repositoryTree();
+        $request = $DIC->container()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $limit_sessions = false;
         if (
@@ -276,11 +266,17 @@ class ilContainerSessionsContentGUI extends ilContainerContentGUI
 
 
         // do session limit
-        if (isset($_GET['crs_prev_sess'])) {
-            $user->writePref('crs_sess_show_prev_' . $container->getId(), (string) (int) $_GET['crs_prev_sess']);
+        if ($request->getPreviousSession() > 0) {
+            $user->writePref(
+                'crs_sess_show_prev_' . $container->getId(),
+                (string) $request->getPreviousSession()
+            );
         }
-        if (isset($_GET['crs_next_sess'])) {
-            $user->writePref('crs_sess_show_next_' . $container->getId(), (string) (int) $_GET['crs_next_sess']);
+        if ($request->getNextSession() > 0) {
+            $user->writePref(
+                'crs_sess_show_next_' . $container->getId(),
+                (string) $request->getNextSession()
+            );
         }
 
         $session_rbac_checked = [];

@@ -102,7 +102,6 @@ abstract class ilBiblAdminFieldGUI
                 ),
                 ilBiblAdminRisFieldGUI::CMD_STANDARD
             )
-
         );
         $this->tabs()->activateSubTab(self::SUBTAB_RIS);
 

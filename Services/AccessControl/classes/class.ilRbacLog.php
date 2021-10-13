@@ -25,7 +25,7 @@ class ilRbacLog
     public static function isActive()
     {
         include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
-        $settings = ilPrivacySettings::_getInstance();
+        $settings = ilPrivacySettings::getInstance();
         if ($settings->enabledRbacLog()) {
             return true;
         }
@@ -227,7 +227,7 @@ class ilRbacLog
         $ilDB = $DIC['ilDB'];
         
         include_once "Services/PrivacySecurity/classes/class.ilPrivacySettings.php";
-        $settings = ilPrivacySettings::_getInstance();
+        $settings = ilPrivacySettings::getInstance();
         $max = $settings->getRbacLogAge();
 
         $ilDB->query("DELETE FROM rbac_log WHERE created < " . $ilDB->quote(strtotime("-" . $max . "months"), "integer"));

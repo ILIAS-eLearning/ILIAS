@@ -5,6 +5,7 @@ include_once 'Services/Search/classes/class.ilSearchSettings.php';
 include_once './Services/Administration/interfaces/interface.ilAdministrationCommandHandling.php';
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
+use ILIAS\Container\Content\ViewManager;
 
 /**
 * Class ilSearchBaseGUI
@@ -52,6 +53,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     protected $user;
 
     protected ClipboardManager $clipboard;
+    protected ViewManager $container_view_manager;
 
     /**
     * Constructor
@@ -83,6 +85,12 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             ->internal()
             ->domain()
             ->clipboard();
+        $this->container_view_manager = $DIC
+            ->container()
+            ->internal()
+            ->domain()
+            ->content()
+            ->view();
     }
 
     public function prepareOutput()
@@ -349,13 +357,13 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
 
     public function enableAdministrationPanel()
     {
-        $_SESSION["il_cont_admin_panel"] = true;
+        $this->container_view_manager->setAdminView();
         $this->ctrl->redirect($this);
     }
     
     public function disableAdministrationPanel()
     {
-        $_SESSION["il_cont_admin_panel"] = false;
+        $this->container_view_manager->setContentView();
         $this->ctrl->redirect($this);
     }
 

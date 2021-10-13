@@ -23,12 +23,12 @@ class UserHtmlExport
      */
     public function exportUserImages($dir, $user_ids)
     {
-        $base_dir = $dir."/data/".CLIENT_ID."/usr_images";
+        $base_dir = $dir . "/data/" . CLIENT_ID . "/usr_images";
         \ilUtil::makeDirParents($base_dir);
         foreach ($user_ids as $id) {
-            $source = "./data/".CLIENT_ID."/usr_images/usr_$id.jpg";
+            $source = "./data/" . CLIENT_ID . "/usr_images/usr_$id.jpg";
             if (is_file($source)) {
-                copy($source, $base_dir."/usr_$id.jpg");
+                copy($source, $base_dir . "/usr_$id.jpg");
             }
         }
     }

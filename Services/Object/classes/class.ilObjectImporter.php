@@ -24,7 +24,7 @@ class ilObjectImporter extends ilXmlImporter
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilObjectDataSet();
         $this->ds->setDSPrefix("ds");
@@ -37,7 +37,7 @@ class ilObjectImporter extends ilXmlImporter
      *
      * @param
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $parser = new ilDataSetImportParser(
             $a_entity,

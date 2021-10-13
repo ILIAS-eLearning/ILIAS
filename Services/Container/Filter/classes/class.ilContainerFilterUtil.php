@@ -114,23 +114,12 @@ class ilContainerFilterUtil
                 $title = $service->util()->getContainerFieldTitle(0, $field->getFieldId());
                 $key = "std_" . $field->getFieldId();
                 switch ($field->getFieldId()) {
-                    case ilContainerFilterField::STD_FIELD_TITLE:
-                        $fields[$key] = $ui->input()->field()->text($title);
-                        $fields_act[] = false;
-                        break;
                     case ilContainerFilterField::STD_FIELD_DESCRIPTION:
-                        $fields[$key] = $ui->input()->field()->text($title);
-                        $fields_act[] = false;
-                        break;
                     case ilContainerFilterField::STD_FIELD_TITLE_DESCRIPTION:
-                        $fields[$key] = $ui->input()->field()->text($title);
-                        $fields_act[] = false;
-                        break;
                     case ilContainerFilterField::STD_FIELD_KEYWORD:
-                        $fields[$key] = $ui->input()->field()->text($title);
-                        $fields_act[] = false;
-                        break;
                     case ilContainerFilterField::STD_FIELD_AUTHOR:
+                    case ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT:
+                    case ilContainerFilterField::STD_FIELD_TITLE:
                         $fields[$key] = $ui->input()->field()->text($title);
                         $fields_act[] = false;
                         break;
@@ -145,10 +134,6 @@ class ilContainerFilterUtil
                             }
                         }
                         $fields[$key] = $ui->input()->field()->select($title, $options);
-                        $fields_act[] = false;
-                        break;
-                    case ilContainerFilterField::STD_FIELD_TUTORIAL_SUPPORT:
-                        $fields[$key] = $ui->input()->field()->text($title);
                         $fields_act[] = false;
                         break;
                     case ilContainerFilterField::STD_FIELD_OBJECT_TYPE:

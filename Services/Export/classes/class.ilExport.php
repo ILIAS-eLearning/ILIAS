@@ -303,8 +303,11 @@ class ilExport
      *
      * @return array success and info array
      */
-    public function exportObject($a_type, $a_id, $a_target_release = "")
-    {
+    public function exportObject(
+        string $a_type,
+        string $a_id,
+        string $a_target_release = ""
+    ) {
         $this->log->debug("export type: $a_type, id: $a_id, target_release: " . $a_target_release);
 
         // if no target release specified, use latest major release number
@@ -345,7 +348,7 @@ class ilExport
         $class = ilImportExportFactory::getExporterClass($a_type);
         $comp = ilImportExportFactory::getComponentForExport($a_type);
         
-        $success = $this->processExporter($comp, $class, $a_type, $a_target_release, $a_id);
+        $success = $this->processExporter($comp, $class, $a_type, $a_target_release, [$a_id]);
 
         $this->manifest_writer->xmlEndTag('Manifest');
 
@@ -384,14 +387,14 @@ class ilExport
      * @return array success and info array
      */
     public function exportEntity(
-        $a_entity,
-        $a_id,
-        $a_target_release,
-        $a_component,
-        $a_title,
-        $a_export_dir,
-        $a_type_for_file = ""
-    ) {
+        string $a_entity,
+        string $a_id,
+        string $a_target_release,
+        string $a_component,
+        string $a_title,
+        string $a_export_dir,
+        string $a_type_for_file = ""
+    ) : array {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
@@ -436,7 +439,7 @@ class ilExport
 
         $this->cnt = array();
         
-        $success = $this->processExporter($comp, $class, $a_entity, $a_target_release, $a_id);
+        $success = $this->processExporter($comp, $class, $a_entity, $a_target_release, [$a_id]);
 
         $this->manifest_writer->xmlEndTag('Manifest');
 
@@ -464,16 +467,21 @@ class ilExport
      * @return bool success true/false
      * @throws ilExportException
      */
-    public function processExporter($a_comp, $a_class, $a_entity, $a_target_release, $a_id)
-    {
+    public function processExporter(
+        string $a_comp,
+        string $a_class,
+        string $a_entity,
+        string $a_target_release,
+        array $a_id = null
+    ) {
         $success = true;
 
         $this->log->debug("process exporter, comp: " . $a_comp . ", class: " . $a_class . ", entity: " . $a_entity .
-            ", target release " . $a_target_release . ", id: " . $a_id);
+            ", target release " . $a_target_release . ", id: " . print_r($a_id, true));
 
         if (!is_array($a_id)) {
             if ($a_id == "") {
-                return;
+                return true;
             }
             $a_id = array($a_id);
         }
@@ -525,6 +533,7 @@ class ilExport
         $export_writer->xmlHeader();
 
         $sv = $exp->determineSchemaVersion($a_entity, $a_target_release);
+        $sv["uses_dataset"] = $sv["uses_dataset"] ?? false;
         $this->log->debug("schema version for entity: $a_entity, target release: $a_target_release");
         $this->log->debug("...is: " . $sv["schema_version"] . ", namespace: " . $sv["namespace"] .
             ", xsd file: " . $sv["xsd_file"] . ", uses_dataset: " . ((int) $sv["uses_dataset"]));

@@ -203,7 +203,7 @@ class ilTestSession
                 array(
                         'active_id' => array('integer', $this->getActiveId())
                     )
-                );
+            );
         }
     }
     

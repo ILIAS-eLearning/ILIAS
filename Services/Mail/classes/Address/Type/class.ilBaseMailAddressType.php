@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilBaseMailAddressType
@@ -7,24 +7,12 @@
  */
 abstract class ilBaseMailAddressType implements ilMailAddressType
 {
-    /** @var ilMailAddressTypeHelper */
-    protected $typeHelper;
-
-    /** @var ilMailAddress */
-    protected $address;
-
-    /** @var ilLogger */
-    protected $logger;
-
+    protected ilMailAddressTypeHelper $typeHelper;
+    protected ilMailAddress $address;
+    protected ilLogger $logger;
     /** @var ilMailError[] */
-    private $errors = [];
+    private array $errors = [];
 
-    /**
-     * ilBaseMailAddressType constructor.
-     * @param ilMailAddressTypeHelper $typeHelper
-     * @param ilMailAddress $address
-     * @param ilLogger $logger
-     */
     public function __construct(
         ilMailAddressTypeHelper $typeHelper,
         ilMailAddress $address,
@@ -35,15 +23,8 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
         $this->logger = $logger;
     }
 
-    /**
-     * @param $senderId int
-     * @return bool
-     */
     abstract protected function isValid(int $senderId) : bool;
 
-    /**
-     * @inheritdoc
-     */
     public function validate(int $senderId) : bool
     {
         $this->resetErrors();
@@ -51,34 +32,21 @@ abstract class ilBaseMailAddressType implements ilMailAddressType
         return $this->isValid($senderId);
     }
 
-    /**
-     * @param string $languageVariable
-     * @param array $placeHolderValues
-     */
-    protected function pushError(string $languageVariable, array $placeHolderValues = [])
+    protected function pushError(string $languageVariable, array $placeHolderValues = []) : void
     {
         $this->errors[] = new ilMailError($languageVariable, $placeHolderValues);
     }
 
-    /**
-     *
-     */
     private function resetErrors() : void
     {
         $this->errors = [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getErrors() : array
     {
         return $this->errors;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getAddress() : ilMailAddress
     {
         return $this->address;
