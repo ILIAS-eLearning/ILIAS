@@ -9,7 +9,7 @@
  *
  * @ilCtrl_Calls ilWikiHandlerGUI: ilObjWikiGUI
  */
-class ilWikiHandlerGUI
+class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

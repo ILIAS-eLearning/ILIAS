@@ -1,443 +1,294 @@
 <?php
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+require_once "./libs/composer/vendor/autoload.php";
 
 /**
-* Class ilCtrlStructureReader
-*
-* Reads call structure of classes into db
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-*/
-class ilCtrlStructureReader
+ * Class ilCtrlStructureReader is responsible for reading
+ * ilCtrl's control structure.
+ *
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ */
+final class ilCtrlStructureReader
 {
-    public $executed;
-    public $db = null;
-    protected $read_plugins = false;
-
-    public function __construct($a_ini_file = null)
-    {
-        $this->class_script = array();
-        $this->class_childs = array();
-        $this->executed = false;
-        $this->ini = $a_ini_file;
-    }
-
-    public function setIniFile($a_ini_file)
-    {
-        $this->ini = $a_ini_file;
-    }
-    
     /**
-    * parse code files and store call structure in db
-    */
-    public function getStructure()
-    {
-        $ilDB = $this->getDB();
+     * @var string regex pattern for ILIAS GUI classes. Filename
+     *             must be 'class.<classname>GUI.php'.
+     */
+    private const REGEX_GUI_CLASS_NAME = '/^class\.([A-z0-9]*(GUI))\.php$/';
 
-        $this->ini->setVariable("db", "structure_reload", "1");
-        $this->ini->write();
-        if ($this->ini->readVariable("db", "structure_reload") != "1") {
-            echo "Error Cannot write client.ini.file.";
-        }
-        //$this->get_structure = true;
+    /**
+     * @var string regex pattern that matches classes listed behind
+     *             an ilCtrl_Calls statement. '{CLASS_NAME}' has to
+     *             be replaced with an actual classname before used.
+     */
+    private const REGEX_PHPDOC_CALLS = '/(((?i)@ilctrl_calls)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
+
+    /**
+     * @var string regex pattern similar to the one above, except it's
+     *             used for ilCtrl_isCalledBy statements.
+     */
+    private const REGEX_PHPDOC_CALLED_BYS = '/(((?i)@ilctrl_iscalledby)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
+
+    /**
+     * Holds whether the structure reader was already executed or not.
+     *
+     * @var bool
+     */
+    private static bool $is_executed = false;
+
+    /**
+     * Holds the ILIAS absolute path (without ending '/').
+     *
+     * @var string
+     */
+    private string $ilias_path;
+
+    /**
+     * Holds the composer generated class map.
+     *
+     * @var array
+     */
+    private array $class_map;
+
+    /**
+     * Holds the currently read references mapped by classname.
+     *
+     * @var array
+     */
+    private array $references = [];
+
+    /**
+     * Holds the currently read control structure.
+     *
+     * @var array
+     */
+    private array $structure = [];
+
+    /**
+     * Holds the current cid count.
+     *
+     * @var int
+     */
+    private int $cid_count = 0;
+
+    /**
+     * ilCtrlStructureReader Constructor
+     */
+    public function __construct()
+    {
+        $this->class_map  = include "./libs/composer/vendor/composer/autoload_classmap.php";
+        $this->ilias_path = rtrim(dirname(__FILE__, 5), '/');
     }
 
-
-    // ----------------------
-    // READING CTRL STRUCTURE
-    // ----------------------
-
-    public function readStructure(
-        $a_force = false,
-        $a_dir = "",
-        $a_comp_prefix = "",
-        $a_plugin_path = ""
-    ) : void {
-        $ilDB = $this->getDB();
-
-        if (!$a_force && $this->ini->readVariable("db", "structure_reload") != "1") {
-            return;
-        }
-
-        // only run one time per db_update request
-        if ($this->executed) {
-            return;
-        }
-
-        $this->flushCaches();
-    
-        // prefix for component
-        $this->comp_prefix = $a_comp_prefix;
-
-        // plugin path
-        $this->plugin_path = $a_plugin_path;
-
-        if ($this->plugin_path != "" && $this->comp_prefix != "") {
-            $this->read_plugins = true;
-        }
-
-        if ($a_dir == "") {
-            $a_dir = $this->getILIASAbsolutePath();
-        }
-
-        $ctrl_structure = $this->readDirTo($a_dir, new \ilCtrlStructure());
-        $this->storeToDB($ctrl_structure, $a_dir);
-        $this->setClassFileIdsInDB();
-
-        $this->executed = true;
-        if (!$a_force) {
-            $this->ini->setVariable("db", "structure_reload", "0");
-            $this->ini->write();
-        }
+    /**
+     * Returns whether this instance was already executed or not.
+     *
+     * @return bool
+     */
+    public function isExecuted() : bool
+    {
+        return self::$is_executed;
     }
 
-    protected function flushCaches() : void
+    /**
+     * Processes all classes within the ILIAS installation.
+     *
+     * @return array
+     */
+    public function readStructure() : array
     {
-        ilCachedCtrl::flush();
-        ilGlobalCache::flushAll();
-    }
-
-    protected function readDirTo(string $a_cdir, \ilCtrlStructure $cs) : \ilCtrlStructure
-    {
-        // check wether $a_cdir is a directory
-        if (!@is_dir($a_cdir)) {
-            throw new \LogicException("'$a_cdir' is not a directory.");
-        }
-
-        foreach ($this->getFilesIn($a_cdir) as list($file, $full_path)) {
-            if (!$this->isInterestingFile($file)) {
+        // loops through all classes of the composer generated
+        // class-map and gathers their information.
+        foreach ($this->class_map as $class_name => $path) {
+            // skip iteration if class doesn't meet ILIAS
+            // GUI class criteria.
+            if (!$this->isGuiClass($path)) {
                 continue;
             }
 
-            $content = file_get_contents($full_path);
+            $array_key = strtolower($class_name);
             try {
-                $cs = $this->parseFileTo($cs, $full_path, $content);
-            } catch (\LogicException $e) {
-                throw new \LogicException("In file \"$full_path\": " . $e->getMessage(), $e->getCode(), $e);
-            } catch (\RuntimeException $e) {
-                if (!isset($e->class) || !isset($e->file_path)) {
-                    throw $e;
-                }
-                $this->panicOnDuplicateClass(
-                    $e->file_path,
-                    $cs->getClassScriptOf($e->class),
-                    $e->class
-                );
-            }
-        }
-
-        return $cs;
-    }
-
-
-    // ----------------------
-    // DIRECTORY TRAVERSAL
-    // ----------------------
-
-    protected function getFilesIn(string $dir) : \Generator
-    {
-        foreach (scandir($dir) as $e) {
-            if ($e == "." || $e == "..") {
+                $reflection = new ReflectionClass($class_name);
+                $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
+                $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
+            } catch (ReflectionException $e) {
                 continue;
             }
-            $f = $this->normalizePath("$dir/$e");
-            if (@is_dir($f)) {
-                if (!$this->shouldDescendToDirectory($dir)) {
-                    continue;
-                }
-                foreach ($this->getFilesIn($f) as $s) {
-                    yield $s;
-                }
-            }
-            if (@is_file($f)) {
-                yield [$e, $f];
-            }
-        }
-    }
 
-    protected function shouldDescendToDirectory(string $dir) : bool
-    {
-        $il_absolute_path = $this->getILIASAbsolutePath();
-        $data_dir = $this->normalizePath($il_absolute_path . "/data");
-        $customizing_dir = $this->normalizePath($il_absolute_path . "/Customizing");
-
-        $dir = $this->normalizePath($dir);
-        if ($this->read_plugins) {
-            return $dir != $data_dir;
-        }
-        return $dir != $customizing_dir && $dir != $data_dir;
-    }
-
-    protected function normalizePath(string $path) : string
-    {
-        return realpath(str_replace(['//'], ['/'], $path));
-    }
-
-    const INTERESTING_FILES_REGEXP = "~^(class\..*\.php)|(ilSCORM13Player\.php)$~i";
-
-    protected function isInterestingFile(string $file) : bool
-    {
-        return preg_match(self::INTERESTING_FILES_REGEXP, $file);
-    }
-
-
-    // ----------------------
-    // RESULT STORAGE
-    // ----------------------
-
-    protected function panicOnDuplicateClass(string $full_path, string $other_path, string $parent) : void
-    {
-        $ilDB = $this->getDB();
-
-        // delete all class to file assignments
-        $ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = " .
-            $ilDB->quote($this->comp_prefix, "text"));
-        if ($this->comp_prefix == "") {
-            $ilDB->manipulate($q = "DELETE FROM ctrl_classfile WHERE " .
-                $ilDB->equals("comp_prefix", "", "text", true));
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->generateCid();
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
         }
 
-        // delete all call entries
-        $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = " .
-            $ilDB->quote($this->comp_prefix, "text"));
-        if ($this->comp_prefix == "") {
-            $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix IS NULL");
-        }
-
-        $msg = implode("\n", [
-            "Error: Duplicate call structure definition found (Class %s) in files:",
-            "- %s",
-            "- %s",
-            "",
-            "Please remove the file, that does not belong to the official ILIAS distribution.",
-            "After that invoke 'Tools' -> 'Reload Control Structure' in the ILIAS Setup."
-        ]);
-
-        throw new \Exception(
-            sprintf(
-                $msg,
-                $parent,
-                $other_path,
-                $full_path
-            )
-        );
-    }
-
-    protected function storeToDB(\ilCtrlStructure $ctrl_structure, string $start_dir) : void
-    {
-        $ilDB = $this->getDB();
-
-        // delete all class to file assignments
-        $ilDB->manipulate("DELETE FROM ctrl_classfile WHERE comp_prefix = " .
-            $ilDB->quote($this->comp_prefix, "text"));
-        if ($this->comp_prefix == "") {
-            $ilDB->manipulate($q = "DELETE FROM ctrl_classfile WHERE " .
-                $ilDB->equals("comp_prefix", "", "text", true));
-        }
-
-        // delete all call entries
-        $ilDB->manipulate("DELETE FROM ctrl_calls WHERE comp_prefix = " .
-            $ilDB->quote($this->comp_prefix, "text"));
-        if ($this->comp_prefix == "") {
-            $ilDB->manipulate("DELETE FROM ctrl_calls WHERE " .
-                $ilDB->equals("comp_prefix", "", "text", true));
-        }
-
-        foreach ($ctrl_structure->getClassScripts() as $class => $script) {
-            $file = substr(realpath($script), strlen(realpath($start_dir)) + 1);
-            // store class to file assignment
-            $ilDB->manipulate(sprintf(
-                "INSERT INTO ctrl_classfile (class, filename, comp_prefix, plugin_path) " .
-                " VALUES (%s,%s,%s,%s)",
-                $ilDB->quote($class, "text"),
-                $ilDB->quote($file, "text"),
-                $ilDB->quote($this->comp_prefix, "text"),
-                $ilDB->quote($this->plugin_path, "text")
-            ));
-        }
-        //$this->class_childs[$parent][] = $child;
-        foreach ($ctrl_structure->getClassChildren() as $parent => $children) {
-            if (!strlen($parent)) {
-                continue;
-            }
-            foreach ($children as $child) {
-                if (!strlen(trim($child))) {
-                    continue;
-                }
-                // store call entry
-                $ilDB->manipulate(sprintf(
-                    "INSERT INTO ctrl_calls (parent, child, comp_prefix) " .
-                    "VALUES (%s,%s,%s)",
-                    $ilDB->quote($parent, "text"),
-                    $ilDB->quote($child, "text"),
-                    $ilDB->quote($this->comp_prefix, "text")
-                ));
-            }
-        }
-    }
-
-    protected function setClassFileIdsInDB() : void
-    {
-        $ilDB = $this->getDB();
-
-        $ilDB->manipulate(
-            "UPDATE ctrl_classfile SET " .
-            " cid = " . $ilDB->quote("", "text")
-        );
-        $set = $ilDB->query("SELECT * FROM ctrl_classfile ");
-        $cnt = 1;
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $cid = base_convert((string) $cnt, 10, 36);
-            $ilDB->manipulate(
-                "UPDATE ctrl_classfile SET " .
-                " cid = " . $ilDB->quote($cid, "text") .
-                " WHERE class = " . $ilDB->quote($rec["class"], "text")
+        // loops through all references and creates vise-versa
+        // entries for them, e.g. if a class has children, the
+        // class is added to all children as their parent.
+        foreach ($this->references as $class_name => $data) {
+            $this->addViseVersaMapping(
+                $class_name,
+                ilCtrlStructureInterface::KEY_CLASS_CHILDREN,
+                ilCtrlStructureInterface::KEY_CLASS_PARENTS
             );
-            $cnt++;
-        }
-    }
 
-
-    // ----------------------
-    // PARSING
-    // ----------------------
-
-    /**
-     * @throw \LogicException if some file declares control structure for multiple classes
-     * @throw \RuntimeException if there are different locations defined for some class.
-     */
-    protected function parseFileTo(\ilCtrlStructure $cs, string $full_path, string $content) : \ilCtrlStructure
-    {
-        list($parent, $children) = $this->getIlCtrlCalls($content);
-        if ($parent) {
-            $cs = $cs->withClassScript($parent, $full_path);
-        }
-        if ($children) {
-            foreach ($children as $child) {
-                $cs = $cs->withClassChild($parent, $child);
-            }
-        }
-
-        list($child, $parents) = $this->getIlCtrlIsCalledBy($content);
-        if ($child) {
-            $cs = $cs->withClassScript($child, $full_path);
-        }
-        if ($parents) {
-            foreach ($parents as $parent) {
-                $cs = $cs->withClassChild($parent, $child);
-            }
-        }
-
-        $cl = $this->getGUIClassNameFromClassPath($full_path);
-        if ($cl && $this->containsClassDefinitionFor($cl, $content)) {
-            $cs = $cs->withClassScript($cl, $full_path);
-        }
-
-        return $cs;
-    }
-
-    // ----------------------
-    // GUI CLASS FINDING
-    // ----------------------
-
-    const GUI_CLASS_FILE_REGEXP = "~^.*[/\\\\]class\.(.*GUI)\.php$~i";
-
-    protected function getGUIClassNameFromClassPath(string $path) : ?string
-    {
-        $res = [];
-        if (preg_match(self::GUI_CLASS_FILE_REGEXP, $path, $res)) {
-            return strtolower($res[1]);
-        }
-        return null;
-    }
-
-    protected function containsClassDefinitionFor(string $class, string $content) : bool
-    {
-        $regexp = "~.*class\s+$class~mi";
-        return preg_match($regexp, $content) != 0;
-    }
-
-
-    // ----------------------
-    // ILCTRL DECLARATION FINDING
-    // ----------------------
-
-    const IL_CTRL_DECLARATION_REGEXP = '~^.*@{WHICH}\s+([\w\\\\]+)\s*:\s*([\w\\\\]+(\s*,\s*[\w\\\\]+)*)\s*$~mi';
-
-    /**
-     * @return null|(string,string[])
-     */
-    protected function getIlCtrlCalls(string $content) : ?array
-    {
-        return $this->getIlCtrlDeclarations($content, "ilctrl_calls");
-    }
-
-    /**
-     * @return null|(string,string[])
-     */
-    protected function getIlCtrlIsCalledBy(string $content) : ?array
-    {
-        return $this->getIlCtrlDeclarations($content, "ilctrl_iscalledby");
-    }
-
-    /**
-     * @return null|(string,string[])
-     */
-    protected function getIlCtrlDeclarations(string $content, string $which) : ?array
-    {
-        $regexp = str_replace("{WHICH}", $which, self::IL_CTRL_DECLARATION_REGEXP);
-        $res = [];
-        if (!preg_match_all($regexp, $content, $res)) {
-            return null;
-        }
-
-        $class_names = array_unique($res[1]);
-        if (count($class_names) != 1) {
-            throw new \LogicException(
-                "Found different class names in ilctrl_calls: " . join(",", $class_names)
+            $this->addViseVersaMapping(
+                $class_name,
+                ilCtrlStructureInterface::KEY_CLASS_PARENTS,
+                ilCtrlStructureInterface::KEY_CLASS_CHILDREN
             );
         }
 
-        $declaration = [];
-        foreach ($res[2] as $ls) {
-            foreach (explode(",", $ls) as $l) {
-                $declaration[] = strtolower(trim($l));
+        // loops again through all references in order to
+        // add this data to the actual output. This needs
+        // to happen in a separate loop, as the vise-versa
+        // mappings are not yet finished the previous loop.
+        foreach ($this->references as $class_name => $data) {
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS];
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN];
+        }
+
+        self::$is_executed = true;
+
+        return $this->structure;
+    }
+
+    /**
+     * If a class has referenced another one as child or parent,
+     * this method adds a vise-versa mapping if it doesn't already
+     * exist.
+     *
+     * @param string $class_name
+     * @param string $key_ref_from
+     * @param string $key_ref_to
+     */
+    private function addViseVersaMapping(string $class_name, string $key_ref_from, string $key_ref_to) : void
+    {
+        if (!empty($this->references[$class_name][$key_ref_from])) {
+            foreach ($this->references[$class_name][$key_ref_from] as $reference) {
+                // only add vise-versa mapping if it doesn't already exist.
+                if (isset($this->references[$reference]) &&
+                    !in_array($class_name, $this->references[$reference][$key_ref_to], true)
+                ) {
+                    $this->references[$reference][$key_ref_to][] = $class_name;
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns all classes referenced by an ilCtrl_Calls or
+     * ilCtrl_isCalledBy statement.
+     *
+     * @param ReflectionClass $reflection
+     * @param string          $regex
+     * @return array
+     */
+    private function getReferencedClassesByReflection(ReflectionClass $reflection, string $regex) : array
+    {
+        // abort if the class has no PHPDoc comment.
+        if (!$reflection->getDocComment()) {
+            return [];
+        }
+
+        // replace the classname placeholder with the
+        // actual one and execute the regex search.
+        $regex = str_replace('{CLASS_NAME}', $reflection->getName(), $regex);
+        preg_match_all($regex, $reflection->getDocComment(), $matches);
+
+        // the first array entry of $matches contains
+        // the list's of statements found.
+        if (empty($matches[0])) {
+            return [];
+        }
+
+        $referenced_classes = [];
+        foreach ($matches[0] as $class_list) {
+            // explode lists and strip all whitespaces.
+            foreach (explode(',', $class_list) as $class) {
+                $class_name = $this->stripWhitespaces($class);
+                if (!empty($class_name)) {
+                    /**
+                     * @TODO: uncomment exception and inform developers they need
+                     *        to clean up ilCtrl call statements before release.
+                     */
+                    if (!isset($this->class_map[$class_name])) {
+                        // throw new LogicException("Class '{$reflection->getName()}' referenced '$class_name' which is not a valid mapping.");
+                    }
+
+                    // NOTE that all references are lowercase.
+                    $referenced_classes[] = strtolower($class_name);
+                }
             }
         }
 
-        return [strtolower(trim($class_names[0])), $declaration];
+        return $referenced_classes;
     }
 
-
-    // ----------------------
-    // DEPENDENCIES
-    // ----------------------
-
-    public function withDB(\ilDBInterface $db)
+    /**
+     * Helper function that returns all children references.
+     *
+     * @param ReflectionClass $reflection
+     * @return array
+     */
+    private function getChildren(ReflectionClass $reflection) : array
     {
-        $clone = clone $this;
-        $clone->db = $db;
-        return $clone;
+        return $this->getReferencedClassesByReflection($reflection, self::REGEX_PHPDOC_CALLS);
     }
 
-    protected function getDB() : \ilDBInterface
+    /**
+     * Helper function that returns all parent references.
+     *
+     * @param ReflectionClass $reflection
+     * @return array
+     */
+    private function getParents(ReflectionClass $reflection) : array
     {
-        if (!is_null($this->db)) {
-            return $this->db;
-        }
-        //return ilDB in any case - backward compat.
-        global $ilDB;
-        return $ilDB;
+        return $this->getReferencedClassesByReflection($reflection, self::REGEX_PHPDOC_CALLED_BYS);
     }
 
-    protected function getILIASAbsolutePath() : string
+    /**
+     * Helper function that replaces all whitespace characters
+     * from the given string.
+     *
+     * @param string $string
+     * @return string
+     */
+    private function stripWhitespaces(string $string) : string
     {
-        if (defined("ILIAS_ABSOLUTE_PATH")) {
-            return $this->normalizePath(ILIAS_ABSOLUTE_PATH);
-        } else {
-            return dirname(__FILE__, 5);
-        }
+        return preg_replace('/\s+/', '', $string);
+    }
+
+    /**
+     * Returns a given path relative to the ILIAS absolute path.
+     *
+     * @param string $absolute_path
+     * @return string
+     */
+    private function getRelativePath(string $absolute_path) : string
+    {
+        return '.' . str_replace($this->ilias_path, '', $absolute_path);
+    }
+
+    /**
+     * Returns whether the given file/path matches ILIAS conventions.
+     *
+     * @param string $path
+     * @return bool
+     */
+    private function isGuiClass(string $path) : bool
+    {
+        return preg_match(self::REGEX_GUI_CLASS_NAME, basename($path));
+    }
+
+    /**
+     * Returns an incremented base 36 class id.
+     *
+     * @return string
+     */
+    private function generateCid() : string
+    {
+        $this->cid_count++;
+
+        return base_convert((string) $this->cid_count, 10, 36);
     }
 }

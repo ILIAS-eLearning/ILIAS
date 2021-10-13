@@ -8,7 +8,7 @@
  * @author Alex Killing <alex.killing@gmx.de>
  * @ilCtrl_Calls ilHTLMPresentationGUI: ilObjFileBasedLMGUI
  */
-class ilHTLMPresentationGUI
+class ilHTLMPresentationGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

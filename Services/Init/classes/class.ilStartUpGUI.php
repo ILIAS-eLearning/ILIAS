@@ -9,11 +9,12 @@ use ILIAS\UICore\PageContentProvider;
 *
 * @author	Alex Killing <alex.killing@gmx.de>
 * @version	$Id$
-* @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI
+* @ilCtrl_Calls ilStartUpGUI: ilAccountRegistrationGUI, ilPasswordAssistanceGUI, ilLoginPageGUI, ilDashboardGUI
+* @ilCtrl_Calls ilStartUpGUI: ilMembershipOverviewGUI, ilDerivedTasksGUI, ilAccessibilityControlConceptGUI
 *
 * @ingroup ServicesInit
 */
-class ilStartUpGUI
+class ilStartUpGUI implements ilCtrlSecurityInterface, ilCtrlBaseClassInterface
 {
     const ACCOUNT_MIGRATION_MIGRATE = 1;
     const ACCOUNT_MIGRATION_NEW = 2;
@@ -89,12 +90,24 @@ class ilStartUpGUI
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getSafeCommands() : array
+    {
+        return [
+            'processIndexPHP',
+            'showLoginPage',
+            'showLoginPageOrStartupPage',
+        ];
+    }
+
+    /**
      * execute command
      * @see register.php
      */
     public function executeCommand()
     {
-        $cmd = $this->ctrl->getCmd("processIndexPHP", array('processIndexPHP','showLoginPage'));
+        $cmd = $this->ctrl->getCmd("processIndexPHP");
         $next_class = $this->ctrl->getNextClass($this);
 
         switch ($next_class) {
@@ -113,7 +126,7 @@ class ilStartUpGUI
                 if (method_exists($this, $cmd)) {
                     return $this->$cmd();
                 }
-    }
+        }
     }
 
     /**
@@ -224,7 +237,7 @@ class ilStartUpGUI
         $credentials->setUsername(ilUtil::stripSlashes($extUid));
         $credentials->setPassword(ilUtil::stripSlashes($soapPw));
         $credentials->tryAuthenticationOnLoginPage();
-        
+
         // try apache auth
         include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
         $frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
@@ -408,7 +421,7 @@ class ilStartUpGUI
     {
         include_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($this->ctrl->getFormAction($this, ''));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'doStandardAuthentication'));
         $form->setName("formlogin");
         $form->setShowTopButtons(false);
         $form->setTitle($this->lng->txt("login_to_ilias"));

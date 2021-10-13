@@ -11,7 +11,7 @@
  * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilObjStyleSheetGUI, ilPortfolioExerciseGUI
  */
-class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
+class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilHelpGUI

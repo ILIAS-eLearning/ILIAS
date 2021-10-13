@@ -1631,7 +1631,7 @@ class ilInitialisation
 
         $requestBaseClass = strtolower((string) ($_REQUEST['baseClass'] ?? ''));
         if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
-            $requestCmdClass = strtolower((string) ($_REQUEST['cmdClass']) ?? '');
+            $requestCmdClass = strtolower((string) ($_REQUEST['cmdClass'] ?? ''));
             if (
                 $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
                 $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)

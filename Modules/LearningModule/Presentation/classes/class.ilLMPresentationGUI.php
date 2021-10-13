@@ -18,7 +18,7 @@
 *
 * @ingroup ModulesIliasLearningModule
 */
-class ilLMPresentationGUI
+class ilLMPresentationGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilObjUser

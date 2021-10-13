@@ -17,7 +17,7 @@
  * @author Stefan Meyer <meyer@leifos.com>
  * @ilCtrl_Calls ilObjCategoryReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
  */
-class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
+class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
 {
     protected ilHelpGUI $help;
 
@@ -41,7 +41,7 @@ class ilObjCategoryReferenceGUI extends ilContainerReferenceGUI
     {
         parent::executeCommand();
     }
-    
+
     public static function _goto($a_target)
     {
         $target_ref_id = ilContainerReference::_lookupTargetRefId(ilObject::_lookupObjId($a_target));

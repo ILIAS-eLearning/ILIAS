@@ -31,6 +31,11 @@ class ilTable2GUI extends ilTableGUI
      */
     protected $parent_cmd;
 
+    /**
+     * @var ilTableCommandHandler
+     */
+    protected ilTableCommandHandler $command_handler;
+
     protected $close_command = "";
     private $unique_id;
     private $headerHTML;
@@ -198,6 +203,8 @@ class ilTable2GUI extends ilTableGUI
         $this->setIsDataTable(true);
         $this->setEnableNumInfo(true);
         $this->determineSelectedColumns();
+
+        $this->command_handler = new ilTableCommandHandler();
     }
 
     /**

@@ -1,21 +1,17 @@
-<?php declare(strict_types=1);
+<?php
 
 use ILIAS\Setup;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\ObjectiveCollection;
 
-class ilUICoreSetupAgent implements Setup\Agent
+/**
+ * Class ilUICoreSetupAgent
+ *
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ */
+final class ilUICoreSetupAgent implements Setup\Agent
 {
-    /**
-     * @var ilCtrlStructureReader
-     */
-    protected $ctrl_reader;
-
-    public function __construct()
-    {
-        $this->ctrl_reader = new \ilCtrlStructureReader();
-    }
-
     /**
      * @inheritdoc
      */
@@ -37,7 +33,7 @@ class ilUICoreSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new \ilCtrlStructureStoredObjective($this->ctrl_reader);
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -45,7 +41,7 @@ class ilUICoreSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new \ilCtrlStructureStoredObjective($this->ctrl_reader);
+        return new Setup\Objective\NullObjective();
     }
 
     /**
@@ -53,7 +49,12 @@ class ilUICoreSetupAgent implements Setup\Agent
      */
     public function getBuildArtifactObjective() : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ObjectiveCollection(
+            'buildIlCtrlArtifacts',
+            false,
+            new \ilCtrlStructureArtifactObjective(),
+            new \ilCtrlBaseClassArtifactObjective()
+        );
     }
 
     /**
@@ -72,20 +73,17 @@ class ilUICoreSetupAgent implements Setup\Agent
         return [];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
     {
-        if ($name == "reloadCtrlStructure") {
-            return new ObjectiveCollection(
-                "Reload Control Structure of ILIAS",
-                false,
-                new \ilCtrlStructureStoredObjective(
-                    new \ilCtrlStructureReader()
-                ),
-                new \ilComponentDefinitionsStoredObjective(false)
-            );
+        switch ($name) {
+            case 'buildIlCtrlArtifacts':
+                return $this->getBuildArtifactObjective();
+
+            default:
+                throw new \InvalidArgumentException("There is no named objective '$name'");
         }
-        throw new \InvalidArgumentException(
-            "There is no named objective '$name'"
-        );
     }
 }

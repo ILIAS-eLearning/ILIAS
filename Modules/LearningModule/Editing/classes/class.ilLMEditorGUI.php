@@ -12,7 +12,7 @@
  *
  * @ingroup ModulesIliasLearningModule
  */
-class ilLMEditorGUI
+class ilLMEditorGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

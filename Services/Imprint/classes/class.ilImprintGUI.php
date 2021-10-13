@@ -10,7 +10,7 @@
  * @ilCtrl_Calls ilImprintGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
  * @ilCtrl_Calls ilImprintGUI: ilPublicUserProfileGUI, ilPageObjectGUI
  */
-class ilImprintGUI extends ilPageObjectGUI
+class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilLocatorGUI

@@ -58,17 +58,13 @@ class ilMainMenuSearchGUI
     {
         global $DIC;
 
+        /**
+         * @var $ilCtrl ilCtrlInterface
+         */
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
-        
-        if (!$this->isContainer) {
-            #return '';
-        }
-        if ($_GET['baseClass'] == 'ilSearchController') {
-            //			return '';
-        }
 
         include_once "Services/jQuery/classes/class.iljQueryUtil.php";
         iljQueryUtil::initjQuery();
@@ -100,12 +96,21 @@ class ilMainMenuSearchGUI
             $this->tpl->setVariable('TXT_USR_SEARCH', $this->lng->txt('search_users'));
             $this->tpl->parseCurrentBlock();
         }
-        
-        $this->tpl->setVariable('FORMACTION', 'ilias.php?baseClass=ilSearchController&cmd=post' .
-            '&rtoken=' . $ilCtrl->getRequestToken() . '&fallbackCmd=remoteSearch');
+
+        // temporary fix until $ilCtrl functions flawlessly.
+        $token = new ilCtrlToken(
+            $DIC->database(),
+            $DIC->user()
+        );
+
+        // @TODO: user $ilCtrl->getFormAction() instead.
+        $this->tpl->setVariable('FORMACTION', 'ilias.php?base_class=ilSearchController&cmd=post' .
+            '&csrf_token=' . $token->getToken() . '&cmd_fallback=remoteSearch');
+
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
-        $this->tpl->setVariable('AC_DATASOURCE', "ilias.php?baseClass=ilSearchController&cmd=autoComplete");
+        // @TODO: user $ilCtrl->getFormAction() instead.
+        $this->tpl->setVariable('AC_DATASOURCE', "ilias.php?base_class=ilSearchController&cmd=autoComplete");
         
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
             ilUtil::getImagePath("icon_seas.svg"),

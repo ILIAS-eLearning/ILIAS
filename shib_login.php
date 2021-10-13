@@ -21,6 +21,5 @@ if (!$_SERVER['HTTP_SHIB_APPLICATION_ID'] && !$_SERVER['Shib-Application-ID'] &&
 }
 
 // authentication is done here ->
-$ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd('doShibbolethAuthentication');
-$ilCtrl->callBaseClass();
+$ilCtrl->callBaseClass('ilStartUpGUI');

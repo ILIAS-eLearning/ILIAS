@@ -12,7 +12,7 @@ use ILIAS\UI\Renderer;
  * @ilCtrl_Calls ilCronManagerGUI: ilPropertyFormGUI
  * @ingroup ServicesCron
  */
-class ilCronManagerGUI
+class ilCronManagerGUI implements ilCtrlBaseClassInterface
 {
     private ilLanguage $lng;
     private ilCtrl $ctrl;

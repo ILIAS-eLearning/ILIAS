@@ -11,7 +11,7 @@
  *
  * @ilCtrl_IsCalledBy ilPDExternalFeedBlockGUI: ilColumnGUI
  */
-class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUIGen
+class ilPDExternalFeedBlockGUI extends ilExternalFeedBlockGUI
 {
     const FORM_EDIT = 0;
     const FORM_CREATE = 1;

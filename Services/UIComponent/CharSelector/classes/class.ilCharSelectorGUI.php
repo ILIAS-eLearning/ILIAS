@@ -5,7 +5,7 @@
 /**
 * This shows a character selector
 */
-class ilCharSelectorGUI
+class ilCharSelectorGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilLanguage
