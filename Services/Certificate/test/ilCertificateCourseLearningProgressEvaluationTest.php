@@ -254,8 +254,8 @@ class ilCertificateCourseLearningProgressEvaluationTest extends ilCertificateBas
                 array('cert_subitems_6')
             )
             ->willReturnOnConsecutiveCalls(
-                false,
-                false
+                null,
+                null
             );
 
         $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)

@@ -70,7 +70,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     public function testDefaultPrefixMustBePrependedWhenNoGlobalPrefixIsDefinedAndPrefixShouldBeAppended() : void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getMock();
-        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn(false);
+        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn((string) false);
 
         $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
@@ -89,7 +89,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
         string $expectedSubject
     ) : void {
         $settings = $this->getMockBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getMock();
-        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn($globalPrefix);
+        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn((string) $globalPrefix);
 
         $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
