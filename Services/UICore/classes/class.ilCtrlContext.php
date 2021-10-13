@@ -37,6 +37,16 @@ final class ilCtrlContext implements ilCtrlContextInterface
     private bool $is_async = false;
 
     /**
+     * @var string|null
+     */
+    private ?string $cmd_mode = null;
+
+    /**
+     * @var string|null
+     */
+    private ?string $redirect = null;
+
+    /**
      * @var string
      */
     private string $target_script = 'ilias.php';
@@ -89,8 +99,10 @@ final class ilCtrlContext implements ilCtrlContextInterface
     public function adoptRequestParameters() : void
     {
         $this->is_async   = (ilCtrlInterface::CMD_MODE_ASYNC === $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE));
+        $this->redirect   = $this->getQueryParam(ilCtrlInterface::PARAM_REDIRECT);
         $this->base_class = $this->getQueryParam(ilCtrlInterface::PARAM_BASE_CLASS) ?? $this->base_class;
         $this->cmd_class  = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
+        $this->cmd_mode   = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE);
         $this->cmd        = $this->getQueryParam(ilCtrlInterface::PARAM_CMD);
 
         $existing_path = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
@@ -113,9 +125,34 @@ final class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @inheritDoc
      */
+    public function getRedirectSource() : ?string
+    {
+        return $this->redirect;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getPath() : ilCtrlPathInterface
     {
         return $this->path;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setCmdMode(string $mode) : ilCtrlContextInterface
+    {
+        $this->cmd_mode = $mode;
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getCmdMode() : ?string
+    {
+        return $this->cmd_mode;
     }
 
     /**

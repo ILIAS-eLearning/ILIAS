@@ -166,4 +166,20 @@ interface ilCtrlStructureInterface
      * @param string $parameter_name
      */
     public function removeSingleParameterByClass(string $class_name, string $parameter_name) : void;
+
+    /**
+     * Sets a target URL for the given class in order to reach it.
+     *
+     * @param string $class_name
+     * @param string $target_url
+     */
+    public function setReturnTargetByClass(string $class_name, string $target_url) : void;
+
+    /**
+     * Returns a target URL for the given class in order to reach it.
+     *
+     * @param string $class_name
+     * @return string|null
+     */
+    public function getReturnTargetByClass(string $class_name) : ?string;
 }

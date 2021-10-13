@@ -125,6 +125,15 @@ class ilCtrl implements ilCtrlInterface
         }
 
         $this->exec_object = $a_gui_object;
+        $this->populateCall($class_name, self::CMD_MODE_PROCESS);
+
+        // with forward command we cannot progress, or set
+        // the current command class. Otherwise, the path-
+        // finding gets mixed up, as it can only be used in
+        // getHTML() method calls.
+        $this->context
+            ->setCmdMode(self::CMD_MODE_PROCESS)
+        ;
 
         return $a_gui_object->executeCommand();
     }
@@ -142,7 +151,11 @@ class ilCtrl implements ilCtrlInterface
         }
 
         $this->exec_object = $a_gui_object;
-        $this->context->setCmdClass($this->getClassByObject($a_gui_object));
+        $this->populateCall($class_name, self::CMD_MODE_HTML);
+        $this->context
+            ->setCmdClass($class_name)
+            ->setCmdMode(self::CMD_MODE_HTML)
+        ;
 
         return (null !== $a_parameters) ?
             $a_gui_object->getHTML($a_parameters) :
@@ -361,8 +374,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getLinkTarget(
         object $a_gui_obj,
-        string $a_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string {
@@ -380,8 +393,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getLinkTargetByClass(
         $a_class,
-        string $a_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string {
@@ -399,8 +412,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getFormAction(
         object $a_gui_obj,
-        string $a_fallback_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string {
@@ -418,8 +431,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getFormActionByClass(
         $a_class,
-        string $a_fallback_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string {
@@ -438,8 +451,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function redirect(
         object $a_gui_obj,
-        string $a_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false
     ) : void {
         $this->redirectByClass(
@@ -455,8 +468,8 @@ class ilCtrl implements ilCtrlInterface
      */
     public function redirectByClass(
         $a_class,
-        string $a_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false
     ) : void {
         $this->redirectToURL(
@@ -608,23 +621,29 @@ class ilCtrl implements ilCtrlInterface
      */
     public function isAsynch() : bool
     {
-        return (self::CMD_MODE_ASYNC === $this->getQueryParam(self::PARAM_CMD_MODE));
+        return $this->context->isAsync();
     }
 
     /**
      * @inheritDoc
      */
-    public function setReturn(object $a_gui_obj, string $a_cmd) : void
+    public function setReturn(object $a_gui_obj, string $a_cmd = null) : void
     {
-
+        $this->setReturnByClass($this->getClassByObject($a_gui_obj), $a_cmd);
     }
 
     /**
      * @inheritDoc
      */
-    public function setReturnByClass(string $a_class, string $a_cmd) : void
+    public function setReturnByClass(string $a_class, string $a_cmd = null) : void
     {
-
+        $this->structure->setReturnTargetByClass(
+            $a_class,
+            $this->getLinkTargetByClass(
+                $a_class,
+                $a_cmd
+            )
+        );
     }
 
     /**
@@ -632,31 +651,35 @@ class ilCtrl implements ilCtrlInterface
      */
     public function returnToParent(object $a_gui_obj, string $a_anchor = null) : void
     {
-        throw new ilCtrlException("Not yet implemented");
+        $class_name = $this->getClassByObject($a_gui_obj);
+        $target_url = $this->getParentReturnByClass($class_name);
+        if (null === $target_url) {
+            throw new ilCtrlException("ilCtrl was not yet provided with a return-target for class '$class_name'");
+        }
+
+        $target_url = $this->appendParameterString(
+            $target_url,
+            self::PARAM_REDIRECT,
+            $class_name
+        );
+
+        $this->redirectToURL($target_url);
     }
 
     /**
      * @inheritDoc
      */
-    public function getParentReturn(object $a_gui_obj)
+    public function getParentReturn(object $a_gui_obj) : ?string
     {
-        throw new ilCtrlException("Not yet implemented");
+        return $this->structure->getReturnTargetByClass($this->getClassByObject($a_gui_obj));
     }
 
     /**
      * @inheritDoc
      */
-    public function getParentReturnByClass(string $a_class)
+    public function getParentReturnByClass(string $a_class) : ?string
     {
-        throw new ilCtrlException("Not yet implemented");
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getReturnClass($a_class)
-    {
-        throw new ilCtrlException("Not yet implemented");
+        return $this->structure->getReturnTargetByClass($a_class);
     }
 
     /**
@@ -664,7 +687,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getRedirectSource() : ?string
     {
-        return $this->getQueryParam(self::PARAM_REDIRECT);
+        return $this->context->getRedirectSource();
     }
 
     /**
@@ -777,9 +800,11 @@ class ilCtrl implements ilCtrlInterface
 
     /**
      * Helper function that returns a target URL string.
+     * (that function is horrific, I'm sorry little one)
+     *
      * @param array|string $a_class
-     * @param string       $a_cmd
-     * @param string       $a_anchor
+     * @param string|null  $a_cmd
+     * @param string|null  $a_anchor
      * @param bool         $is_async
      * @param bool         $is_escaped
      * @param bool         $is_post
@@ -788,8 +813,8 @@ class ilCtrl implements ilCtrlInterface
      */
     private function getTargetUrl(
         $a_class,
-        string $a_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false,
         bool $is_escaped = false,
         bool $is_post = false
@@ -801,7 +826,6 @@ class ilCtrl implements ilCtrlInterface
         $is_array = is_array($a_class);
         if ($is_array) {
             $base_class = (string) $a_class[array_key_first($a_class)];
-
             // if the provided classes don't include a baseclass
             // at first position, add the context's baseclass to
             // the first position instead.
@@ -811,6 +835,7 @@ class ilCtrl implements ilCtrlInterface
                 }
 
                 array_unshift($a_class, $this->context->getBaseClass());
+                $base_class = $this->context->getBaseClass();
             }
         } else {
             if (null === $this->context->getBaseClass() && !$this->structure->isBaseClass($a_class)) {
@@ -895,6 +920,8 @@ class ilCtrl implements ilCtrlInterface
             );
         }
 
+        // append a csrf token if the command is considered
+        // unsafe, regardless of the request method.
         if (!$this->isCmdSecure($cmd_class, $a_cmd)) {
             global $DIC;
 
@@ -973,12 +1000,16 @@ class ilCtrl implements ilCtrlInterface
     /**
      * Returns whether a given command is considered safe or not.
      *
-     * @param string $cmd_class
-     * @param string $cmd
+     * @param string      $cmd_class
+     * @param string|null $cmd
      * @return bool
      */
-    private function isCmdSecure(string $cmd_class, string $cmd) : bool
+    private function isCmdSecure(string $cmd_class, string $cmd = null) : bool
     {
+        if (null === $cmd) {
+            return true;
+        }
+
         $obj_name = $this->structure->getObjNameByName($cmd_class);
         if (is_a($obj_name, ilCtrlSecurityInterface::class, true)) {
             if (null !== $this->exec_object) {
@@ -1034,14 +1065,24 @@ class ilCtrl implements ilCtrlInterface
      */
     private function appendParameterString(string $url, string $parameter_name, $value, bool $is_escaped = false) : string
     {
-        if (null !== $value && !is_array($value)) {
-            if (str_contains($url, "$parameter_name=")) {
-                // if the url already contains the given parameter name,
-                // the following magic replaces the value.
+        // only append value if it exists and can be cast
+        // to string.
+        if (null !== $value && !is_array($value) && !is_object($value)) {
+            // declare ampersand escaped or not, according to
+            // the given argument.
+            $ampersand = ($is_escaped) ? '&amp;' : '&';
+
+            // check if the given url already contains the given
+            // parameter name.
+            if (preg_match("/($ampersand|\?)$parameter_name(=|$)/", $url)) {
+                // replace the value appended to the given parameter
+                // name by the provided one.
                 $url = preg_replace("/(?<=($parameter_name=))([^&]*|$)/", $value, $url);
             } else {
-                $ampersand = ($is_escaped) ? '&amp;' : '&';
-                $url .= (is_int(strpos($url, '?'))) ?
+                // append the parameter key => value pair and prepend
+                // a question mark or ampersand, determined by whether
+                // it's the first query param or not.
+                $url .= (str_contains($url, '?')) ?
                     $ampersand . $parameter_name . '=' . $value :
                     '?' . $parameter_name . '=' . $value
                 ;
@@ -1049,6 +1090,23 @@ class ilCtrl implements ilCtrlInterface
         }
 
         return $url;
+    }
+
+    /**
+     * Helper function that populates a call in the current stacktrace.
+     *
+     * @param string $class_name
+     * @param string $cmd_mode
+     */
+    private function populateCall(string $class_name, string $cmd_mode) : void
+    {
+        $obj_name = $this->structure->getObjNameByName($class_name);
+
+        $this->stacktrace[] = [
+            self::PARAM_CMD_CLASS => $obj_name,
+            self::PARAM_CMD_MODE  => $cmd_mode,
+            self::PARAM_CMD       => $this->getCmd(),
+        ];
     }
 
     /**

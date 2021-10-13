@@ -209,18 +209,18 @@ interface ilCtrlInterface
     /**
      * Returns a link target for the given information.
      *
-     * @param object $a_gui_obj
-     * @param string $a_cmd
-     * @param string $a_anchor
-     * @param bool   $is_async
-     * @param bool   $has_xml_style
+     * @param object      $a_gui_obj
+     * @param string|null $a_cmd
+     * @param string|null $a_anchor
+     * @param bool        $is_async
+     * @param bool        $has_xml_style
      * @return string
      * @throws ilCtrlException if the provided class cannot be found.
      */
     public function getLinkTarget(
         object $a_gui_obj,
-        string $a_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string;
@@ -229,8 +229,8 @@ interface ilCtrlInterface
      * Returns a link target for the given information.
      *
      * @param string|string[] $a_class
-     * @param string          $a_cmd
-     * @param string          $a_anchor
+     * @param string|null     $a_cmd
+     * @param string|null     $a_anchor
      * @param bool            $is_async
      * @param bool            $has_xml_style
      * @return string
@@ -238,8 +238,8 @@ interface ilCtrlInterface
      */
     public function getLinkTargetByClass(
         $a_class,
-        string $a_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string;
@@ -247,18 +247,18 @@ interface ilCtrlInterface
     /**
      * Returns a form action link for the given information.
      *
-     * @param object $a_gui_obj
-     * @param string $a_fallback_cmd
-     * @param string $a_anchor
-     * @param bool   $is_async
-     * @param bool   $has_xml_style
+     * @param object      $a_gui_obj
+     * @param string|null $a_cmd
+     * @param string|null $a_anchor
+     * @param bool        $is_async
+     * @param bool        $has_xml_style
      * @return string
      * @throws ilCtrlException if the provided class cannot be found.
      */
     public function getFormAction(
         object $a_gui_obj,
-        string $a_fallback_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string;
@@ -267,8 +267,8 @@ interface ilCtrlInterface
      * Returns a form action link for the given information.
      *
      * @param string|string[] $a_class
-     * @param string          $a_fallback_cmd
-     * @param string          $a_anchor
+     * @param string|null     $a_cmd
+     * @param string|null     $a_anchor
      * @param bool            $is_async
      * @param bool            $has_xml_style
      * @return string
@@ -276,8 +276,8 @@ interface ilCtrlInterface
      */
     public function getFormActionByClass(
         $a_class,
-        string $a_fallback_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
     ) : string;
@@ -285,31 +285,32 @@ interface ilCtrlInterface
     /**
      * Redirects to another GUI object.
      *
-     * @param object $a_gui_obj
-     * @param string $a_cmd
-     * @param string $a_anchor
-     * @param bool   $is_async
+     * @param object      $a_gui_obj
+     * @param string|null $a_cmd
+     * @param string|null $a_anchor
+     * @param bool        $is_async
      * @throws ilCtrlException if the provided class cannot be found.
      */
     public function redirect(
         object $a_gui_obj,
-        string $a_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false
     ) : void;
 
     /**
      * Redirects to the provided GUI class.
+     *
      * @param string|string[] $a_class
-     * @param string          $a_cmd
-     * @param string          $a_anchor
+     * @param string|null     $a_cmd
+     * @param string|null     $a_anchor
      * @param bool            $is_async
      * @throws ilCtrlException if a provided class cannot be found.
      */
     public function redirectByClass(
         $a_class,
-        string $a_cmd = "",
-        string $a_anchor = "",
+        string $a_cmd = null,
+        string $a_anchor = null,
         bool $is_async = false
     ) : void;
 
@@ -323,6 +324,9 @@ interface ilCtrlInterface
     /**
      * Sets the current object (id and type) of ilCtrl's context.
      *
+     * @deprecated setParameterByClass, setParameter, saveParameterByClass
+     *             or saveParameter should be used.
+     *
      * @param int    $obj_id
      * @param string $obj_type
      */
@@ -331,12 +335,18 @@ interface ilCtrlInterface
     /**
      * Returns the current context's object id.
      *
+     * @deprecated setParameterByClass, setParameter, saveParameterByClass
+     *             or saveParameter should be used.
+     *
      * @return int|null
      */
     public function getContextObjId() : ?int;
 
     /**
      * Returns the current context's object type.
+     *
+     * @deprecated setParameterByClass, setParameter, saveParameterByClass
+     *             or saveParameter should be used.
      *
      * @return string|null
      */
@@ -389,29 +399,22 @@ interface ilCtrlInterface
     /**
      * Sets the return command of a given GUI object.
      *
-     * @param object $a_gui_obj
-     * @param string $a_cmd
+     * @param object      $a_gui_obj
+     * @param string|null $a_cmd
      * @return mixed
+     * @throws ilCtrlException if a provided class cannot be found.
      */
-    public function setReturn(object $a_gui_obj, string $a_cmd) : void;
+    public function setReturn(object $a_gui_obj, string $a_cmd = null) : void;
 
     /**
      * Sets the return command of a given class.
      *
-     * @param string $a_class
-     * @param string $a_cmd
+     * @param string      $a_class
+     * @param string|null $a_cmd
      * @return mixed
+     * @throws ilCtrlException if a provided class cannot be found.
      */
-    public function setReturnByClass(string $a_class, string $a_cmd) : void;
-
-    /**
-     * Redirects to next parent class set with setReturn().
-     *
-     * @param object      $a_gui_obj
-     * @param string|null $a_anchor
-     * @return mixed
-     */
-    public function returnToParent(object $a_gui_obj, string $a_anchor = null) : void;
+    public function setReturnByClass(string $a_class, string $a_cmd = null) : void;
 
     /**
      * @see ilCtrlInterface::getReturnClass().
@@ -420,34 +423,28 @@ interface ilCtrlInterface
      *             ilBlockGUI->addHeaderCommand.
      *
      * @param object $a_gui_obj
-     * @return string|bool
-     * @throws ilCtrlException if the cid trace cannot be generated.
+     * @return string|null
      */
-    public function getParentReturn(object $a_gui_obj);
+    public function getParentReturn(object $a_gui_obj) : ?string;
 
     /**
      * @see ilCtrlInterface::getReturnClass().
      *
-     * @deprecated
+     * @deprecated @see ilCtrlInterface::getParentReturn().
      *
      * @param string $a_class
-     * @return string|bool
-     * @throws ilCtrlException if the cid trace cannot be generated.
+     * @return string|null
      */
-    public function getParentReturnByClass(string $a_class);
+    public function getParentReturnByClass(string $a_class) : ?string;
 
     /**
-     * Returns the name of the current return-class.
+     * Redirects to next parent class set with setReturn().
      *
-     * @deprecated This method is only used by COPage/ilPCParagraphGUI and
-     *             COPage/ilPCPlaceHolderGUI. As these are edge-cases this
-     *             method should not be used anymore.
-     *
-     * @param string|object $a_class
-     * @return string|bool
-     * @throws ilCtrlException if the cid trace cannot be generated.
+     * @param object      $a_gui_obj
+     * @param string|null $a_anchor
+     * @throws ilCtrlException if the object was not yet provided with a return target.
      */
-    public function getReturnClass($a_class);
+    public function returnToParent(object $a_gui_obj, string $a_anchor = null) : void;
 
     /**
      * Returns the current redirect source.

@@ -31,6 +31,13 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     private array $permanent_parameters = [];
 
     /**
+     * Holds target URLs mapped to
+     *
+     * @var array<string, string>
+     */
+    private array $return_targets = [];
+
+    /**
      * Holds the currently read control structure as array data.
      *
      * @var array<string, string|string[]>
@@ -238,6 +245,22 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
         if (isset($this->temporary_parameters[$class_name][$parameter_name])) {
             unset($this->temporary_parameters[$class_name][$parameter_name]);
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setReturnTargetByClass(string $class_name, string $target_url) : void
+    {
+        $this->return_targets[$this->lowercase($class_name)] = $target_url;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getReturnTargetByClass(string $class_name) : ?string
+    {
+        return $this->return_targets[$this->lowercase($class_name)] ?? null;
     }
 
     /**

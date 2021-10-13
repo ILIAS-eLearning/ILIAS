@@ -21,11 +21,33 @@ interface ilCtrlContextInterface
     public function isAsync() : bool;
 
     /**
+     * Returns where the request of this context was redirected from.
+     *
+     * @return string|null
+     */
+    public function getRedirectSource() : ?string;
+
+    /**
      * Returns the path of this context.
      *
      * @return ilCtrlPathInterface
      */
     public function getPath() : ilCtrlPathInterface;
+
+    /**
+     * Sets the command mode of the current context.
+     *
+     * @param string $mode
+     * @return ilCtrlContextInterface
+     */
+    public function setCmdMode(string $mode) : ilCtrlContextInterface;
+
+    /**
+     * Returns the command mode of the current context.
+     *
+     * @return string|null
+     */
+    public function getCmdMode() : ?string;
 
     /**
      * Sets the baseclass of the current context.
