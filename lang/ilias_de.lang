@@ -13913,7 +13913,7 @@ badge#:#badge_obi_salt#:#Salt
 badge#:#badge_obi_salt_info#:#Geben Sie eine Kombination von Zahlen und Buchstaben ein, um Dritten später die Möglichkeit zu bieten, die Echtheit des Badges zu validieren. Bitte ändern Sie die Eingabe später nicht mehr.
 badge#:#badge_types#:#Typen
 badge#:#badge_image_templates#:#Bildvorlagen
-badge#:#badge_activity_badges#:#Activity Badges
+badge#:#badge_activity_badges#:#Automatisch vergebenes Badge
 badge#:#badge_crs_merit#:#Händisch vergebenes Badge
 badge#:#badge_manual#:#Manuelle Vergabe
 badge#:#badge_user_profile#:#Benutzerprofil
