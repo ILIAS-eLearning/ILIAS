@@ -15151,3 +15151,6 @@ ldap#:#ldap_escapedn#:#Escape DN###14 05 2021 new variable
 ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.###14 05 2021 new variable
 mail#:#mail_sel_label#:#Choose the Recipients###14 05 2021 new variable
 assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###27 08 2021 new variable
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###13 10 2021 new variable
+common#:#msg_no_files_selected#:#No files selected###13 10 2021 new variable
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###13 10 2021 new variable
