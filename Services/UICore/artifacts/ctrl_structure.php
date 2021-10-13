@@ -828,7 +828,7 @@
   array (
     'cid' => '1p',
     'class_name' => 'ilAdminSubItemsTableGUI',
-    'class_path' => './Services/Repository/classes/class.ilAdminSubItemsTableGUI.php',
+    'class_path' => './Services/Repository/Administration/class.ilAdminSubItemsTableGUI.php',
     'parents' => 
     array (
     ),
@@ -1824,11 +1824,23 @@
     array (
     ),
   ),
-  'ilassignmentstablegui' => 
+  'ilassignmentsperparticipanttablegui' => 
   array (
     'cid' => '3f',
+    'class_name' => 'ilAssignmentsPerParticipantTableGUI',
+    'class_path' => './Modules/Exercise/classes/class.ilAssignmentsPerParticipantTableGUI.php',
+    'parents' => 
+    array (
+    ),
+    'children' => 
+    array (
+    ),
+  ),
+  'ilassignmentstablegui' => 
+  array (
+    'cid' => '3g',
     'class_name' => 'ilAssignmentsTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilAssignmentsTableGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilAssignmentsTableGUI.php',
     'parents' => 
     array (
     ),
@@ -1838,7 +1850,7 @@
   ),
   'ilasyncpropertyformgui' => 
   array (
-    'cid' => '3g',
+    'cid' => '3h',
     'class_name' => 'ilAsyncPropertyFormGUI',
     'class_path' => './Modules/StudyProgramme/classes/helpers/class.ilAsyncPropertyFormGUI.php',
     'parents' => 
@@ -1850,7 +1862,7 @@
   ),
   'ilauthloginpageeditorgui' => 
   array (
-    'cid' => '3h',
+    'cid' => '3i',
     'class_name' => 'ilAuthLoginPageEditorGUI',
     'class_path' => './Services/Authentication/classes/class.ilAuthLoginPageEditorGUI.php',
     'parents' => 
@@ -1864,7 +1876,7 @@
   ),
   'ilauthloginpageeditortablegui' => 
   array (
-    'cid' => '3i',
+    'cid' => '3j',
     'class_name' => 'ilAuthLoginPageEditorTableGUI',
     'class_path' => './Services/Authentication/classes/class.ilAuthLoginPageEditorTableGUI.php',
     'parents' => 
@@ -1876,7 +1888,7 @@
   ),
   'ilauthshibbolethsettingsgui' => 
   array (
-    'cid' => '3j',
+    'cid' => '3k',
     'class_name' => 'ilAuthShibbolethSettingsGUI',
     'class_path' => './Services/AuthShibboleth/classes/class.ilAuthShibbolethSettingsGUI.php',
     'parents' => 
@@ -1889,7 +1901,7 @@
   ),
   'ilavailablerolesstatustablegui' => 
   array (
-    'cid' => '3k',
+    'cid' => '3l',
     'class_name' => 'ilAvailableRolesStatusTableGUI',
     'class_path' => './Services/AccessControl/classes/class.ilAvailableRolesStatusTableGUI.php',
     'parents' => 
@@ -1901,7 +1913,7 @@
   ),
   'ilawarenessgui' => 
   array (
-    'cid' => '3l',
+    'cid' => '3m',
     'class_name' => 'ilAwarenessGUI',
     'class_path' => './Services/Awareness/classes/class.ilAwarenessGUI.php',
     'parents' => 
@@ -1913,7 +1925,7 @@
   ),
   'ilbtcontrollergui' => 
   array (
-    'cid' => '3m',
+    'cid' => '3n',
     'class_name' => 'ilBTControllerGUI',
     'class_path' => './Services/BackgroundTasks/classes/class.ilBTControllerGUI.php',
     'parents' => 
@@ -1925,7 +1937,7 @@
   ),
   'ilbtpopovergui' => 
   array (
-    'cid' => '3n',
+    'cid' => '3o',
     'class_name' => 'ilBTPopOverGUI',
     'class_path' => './Services/BackgroundTasks/classes/class.ilBTPopOverGUI.php',
     'parents' => 
@@ -1937,7 +1949,7 @@
   ),
   'ilbackgroundimageinputgui' => 
   array (
-    'cid' => '3o',
+    'cid' => '3p',
     'class_name' => 'ilBackgroundImageInputGUI',
     'class_path' => './Services/Style/Content/classes/class.ilBackgroundImageInputGUI.php',
     'parents' => 
@@ -1949,7 +1961,7 @@
   ),
   'ilbackgroundpositioninputgui' => 
   array (
-    'cid' => '3p',
+    'cid' => '3q',
     'class_name' => 'ilBackgroundPositionInputGUI',
     'class_path' => './Services/Style/Content/classes/class.ilBackgroundPositionInputGUI.php',
     'parents' => 
@@ -1961,7 +1973,7 @@
   ),
   'ilbadgeimagetemplatetablegui' => 
   array (
-    'cid' => '3q',
+    'cid' => '3r',
     'class_name' => 'ilBadgeImageTemplateTableGUI',
     'class_path' => './Services/Badge/classes/class.ilBadgeImageTemplateTableGUI.php',
     'parents' => 
@@ -1973,7 +1985,7 @@
   ),
   'ilbadgemanagementgui' => 
   array (
-    'cid' => '3r',
+    'cid' => '3s',
     'class_name' => 'ilBadgeManagementGUI',
     'class_path' => './Services/Badge/classes/class.ilBadgeManagementGUI.php',
     'parents' => 
@@ -1989,7 +2001,7 @@
   ),
   'ilbadgepersonaltablegui' => 
   array (
-    'cid' => '3s',
+    'cid' => '3t',
     'class_name' => 'ilBadgePersonalTableGUI',
     'class_path' => './Services/Badge/classes/class.ilBadgePersonalTableGUI.php',
     'parents' => 
@@ -2001,7 +2013,7 @@
   ),
   'ilbadgeprofilegui' => 
   array (
-    'cid' => '3t',
+    'cid' => '3u',
     'class_name' => 'ilBadgeProfileGUI',
     'class_path' => './Services/Badge/classes/class.ilBadgeProfileGUI.php',
     'parents' => 
@@ -2014,7 +2026,7 @@
   ),
   'ilbadgetablegui' => 
   array (
-    'cid' => '3u',
+    'cid' => '3v',
     'class_name' => 'ilBadgeTableGUI',
     'class_path' => './Services/Badge/classes/class.ilBadgeTableGUI.php',
     'parents' => 
@@ -2026,7 +2038,7 @@
   ),
   'ilbadgetypestablegui' => 
   array (
-    'cid' => '3v',
+    'cid' => '3w',
     'class_name' => 'ilBadgeTypesTableGUI',
     'class_path' => './Services/Badge/classes/class.ilBadgeTypesTableGUI.php',
     'parents' => 
@@ -2038,7 +2050,7 @@
   ),
   'ilbadgeusertablegui' => 
   array (
-    'cid' => '3w',
+    'cid' => '3x',
     'class_name' => 'ilBadgeUserTableGUI',
     'class_path' => './Services/Badge/classes/class.ilBadgeUserTableGUI.php',
     'parents' => 
@@ -2050,7 +2062,7 @@
   ),
   'ilbanneduserstablegui' => 
   array (
-    'cid' => '3x',
+    'cid' => '3y',
     'class_name' => 'ilBannedUsersTableGUI',
     'class_path' => './Modules/Chatroom/classes/class.ilBannedUsersTableGUI.php',
     'parents' => 
@@ -2062,7 +2074,7 @@
   ),
   'ilbasicskillgui' => 
   array (
-    'cid' => '3y',
+    'cid' => '3z',
     'class_name' => 'ilBasicSkillGUI',
     'class_path' => './Services/Skill/classes/class.ilBasicSkillGUI.php',
     'parents' => 
@@ -2075,7 +2087,7 @@
   ),
   'ilbasicskilltemplategui' => 
   array (
-    'cid' => '3z',
+    'cid' => '40',
     'class_name' => 'ilBasicSkillTemplateGUI',
     'class_path' => './Services/Skill/classes/class.ilBasicSkillTemplateGUI.php',
     'parents' => 
@@ -2088,7 +2100,7 @@
   ),
   'ilbenchmarktablegui' => 
   array (
-    'cid' => '40',
+    'cid' => '41',
     'class_name' => 'ilBenchmarkTableGUI',
     'class_path' => './Modules/SystemFolder/classes/class.ilBenchmarkTableGUI.php',
     'parents' => 
@@ -2100,7 +2112,7 @@
   ),
   'ilbibladminbibtexfieldgui' => 
   array (
-    'cid' => '41',
+    'cid' => '42',
     'class_name' => 'ilBiblAdminBibtexFieldGUI',
     'class_path' => './Modules/Bibliographic/classes/Field/class.ilBiblAdminBibtexFieldGUI.php',
     'parents' => 
@@ -2114,7 +2126,7 @@
   ),
   'ilbibladminfieldgui' => 
   array (
-    'cid' => '42',
+    'cid' => '43',
     'class_name' => 'ilBiblAdminFieldGUI',
     'class_path' => './Modules/Bibliographic/classes/Field/class.ilBiblAdminFieldGUI.php',
     'parents' => 
@@ -2127,7 +2139,7 @@
   ),
   'ilbibladminfieldtablegui' => 
   array (
-    'cid' => '43',
+    'cid' => '44',
     'class_name' => 'ilBiblAdminFieldTableGUI',
     'class_path' => './Modules/Bibliographic/classes/Field/class.ilBiblAdminFieldTableGUI.php',
     'parents' => 
@@ -2139,7 +2151,7 @@
   ),
   'ilbibladminrisfieldgui' => 
   array (
-    'cid' => '44',
+    'cid' => '45',
     'class_name' => 'ilBiblAdminRisFieldGUI',
     'class_path' => './Modules/Bibliographic/classes/Field/class.ilBiblAdminRisFieldGUI.php',
     'parents' => 
@@ -2153,7 +2165,7 @@
   ),
   'ilbiblentrydetailpresentationgui' => 
   array (
-    'cid' => '45',
+    'cid' => '46',
     'class_name' => 'ilBiblEntryDetailPresentationGUI',
     'class_path' => './Modules/Bibliographic/classes/Entry/class.ilBiblEntryDetailPresentationGUI.php',
     'parents' => 
@@ -2165,7 +2177,7 @@
   ),
   'ilbiblentrytablegui' => 
   array (
-    'cid' => '46',
+    'cid' => '47',
     'class_name' => 'ilBiblEntryTableGUI',
     'class_path' => './Modules/Bibliographic/classes/Entry/class.ilBiblEntryTableGUI.php',
     'parents' => 
@@ -2178,7 +2190,7 @@
   ),
   'ilbiblentrytablepresentationgui' => 
   array (
-    'cid' => '47',
+    'cid' => '48',
     'class_name' => 'ilBiblEntryTablePresentationGUI',
     'class_path' => './Modules/Bibliographic/classes/Entry/class.ilBiblEntryTablePresentationGUI.php',
     'parents' => 
@@ -2190,7 +2202,7 @@
   ),
   'ilbiblfieldfilterformgui' => 
   array (
-    'cid' => '48',
+    'cid' => '49',
     'class_name' => 'ilBiblFieldFilterFormGUI',
     'class_path' => './Modules/Bibliographic/classes/FieldFilter/class.ilBiblFieldFilterFormGUI.php',
     'parents' => 
@@ -2202,7 +2214,7 @@
   ),
   'ilbiblfieldfiltergui' => 
   array (
-    'cid' => '49',
+    'cid' => '4a',
     'class_name' => 'ilBiblFieldFilterGUI',
     'class_path' => './Modules/Bibliographic/classes/FieldFilter/class.ilBiblFieldFilterGUI.php',
     'parents' => 
@@ -2215,7 +2227,7 @@
   ),
   'ilbiblfieldfilterpresentationgui' => 
   array (
-    'cid' => '4a',
+    'cid' => '4b',
     'class_name' => 'ilBiblFieldFilterPresentationGUI',
     'class_path' => './Modules/Bibliographic/classes/FieldFilter/class.ilBiblFieldFilterPresentationGUI.php',
     'parents' => 
@@ -2227,7 +2239,7 @@
   ),
   'ilbiblfieldfiltertablegui' => 
   array (
-    'cid' => '4b',
+    'cid' => '4c',
     'class_name' => 'ilBiblFieldFilterTableGUI',
     'class_path' => './Modules/Bibliographic/classes/FieldFilter/class.ilBiblFieldFilterTableGUI.php',
     'parents' => 
@@ -2239,7 +2251,7 @@
   ),
   'ilbibllibraryformgui' => 
   array (
-    'cid' => '4c',
+    'cid' => '4d',
     'class_name' => 'ilBiblLibraryFormGUI',
     'class_path' => './Modules/Bibliographic/classes/Admin/Library/class.ilBiblLibraryFormGUI.php',
     'parents' => 
@@ -2251,7 +2263,7 @@
   ),
   'ilbibllibrarygui' => 
   array (
-    'cid' => '4d',
+    'cid' => '4e',
     'class_name' => 'ilBiblLibraryGUI',
     'class_path' => './Modules/Bibliographic/classes/Admin/Library/class.ilBiblLibraryGUI.php',
     'parents' => 
@@ -2264,7 +2276,7 @@
   ),
   'ilbibllibrarypresentationgui' => 
   array (
-    'cid' => '4e',
+    'cid' => '4f',
     'class_name' => 'ilBiblLibraryPresentationGUI',
     'class_path' => './Modules/Bibliographic/classes/Admin/Library/class.ilBiblLibraryPresentationGUI.php',
     'parents' => 
@@ -2276,7 +2288,7 @@
   ),
   'ilbibllibrarytablegui' => 
   array (
-    'cid' => '4f',
+    'cid' => '4g',
     'class_name' => 'ilBiblLibraryTableGUI',
     'class_path' => './Modules/Bibliographic/classes/Admin/Library/class.ilBiblLibraryTableGUI.php',
     'parents' => 
@@ -2288,7 +2300,7 @@
   ),
   'ilbibltranslationgui' => 
   array (
-    'cid' => '4g',
+    'cid' => '4h',
     'class_name' => 'ilBiblTranslationGUI',
     'class_path' => './Modules/Bibliographic/classes/Translation/class.ilBiblTranslationGUI.php',
     'parents' => 
@@ -2302,7 +2314,7 @@
   ),
   'ilbibltranslationtablegui' => 
   array (
-    'cid' => '4h',
+    'cid' => '4i',
     'class_name' => 'ilBiblTranslationTableGUI',
     'class_path' => './Modules/Bibliographic/classes/Translation/class.ilBiblTranslationTableGUI.php',
     'parents' => 
@@ -2314,7 +2326,7 @@
   ),
   'ilbirthdayinputgui' => 
   array (
-    'cid' => '4i',
+    'cid' => '4j',
     'class_name' => 'ilBirthdayInputGUI',
     'class_path' => './Services/Form/classes/class.ilBirthdayInputGUI.php',
     'parents' => 
@@ -2326,7 +2338,7 @@
   ),
   'ilblockgui' => 
   array (
-    'cid' => '4j',
+    'cid' => '4k',
     'class_name' => 'ilBlockGUI',
     'class_path' => './Services/Block/classes/class.ilBlockGUI.php',
     'parents' => 
@@ -2338,7 +2350,7 @@
   ),
   'ilblogexercisegui' => 
   array (
-    'cid' => '4k',
+    'cid' => '4l',
     'class_name' => 'ilBlogExerciseGUI',
     'class_path' => './Modules/Blog/classes/class.ilBlogExerciseGUI.php',
     'parents' => 
@@ -2351,7 +2363,7 @@
   ),
   'ilblognewsrenderergui' => 
   array (
-    'cid' => '4l',
+    'cid' => '4m',
     'class_name' => 'ilBlogNewsRendererGUI',
     'class_path' => './Modules/Blog/classes/class.ilBlogNewsRendererGUI.php',
     'parents' => 
@@ -2363,7 +2375,7 @@
   ),
   'ilblogpostinggui' => 
   array (
-    'cid' => '4m',
+    'cid' => '4n',
     'class_name' => 'ilBlogPostingGUI',
     'class_path' => './Modules/Blog/classes/class.ilBlogPostingGUI.php',
     'parents' => 
@@ -2384,7 +2396,7 @@
   ),
   'ilbookingassignobjectstablegui' => 
   array (
-    'cid' => '4n',
+    'cid' => '4o',
     'class_name' => 'ilBookingAssignObjectsTableGUI',
     'class_path' => './Modules/BookingManager/Participants/classes/class.ilBookingAssignObjectsTableGUI.php',
     'parents' => 
@@ -2396,7 +2408,7 @@
   ),
   'ilbookingassignparticipantstablegui' => 
   array (
-    'cid' => '4o',
+    'cid' => '4p',
     'class_name' => 'ilBookingAssignParticipantsTableGUI',
     'class_path' => './Modules/BookingManager/BookingProcess/classes/class.ilBookingAssignParticipantsTableGUI.php',
     'parents' => 
@@ -2408,7 +2420,7 @@
   ),
   'ilbookinggatewaygui' => 
   array (
-    'cid' => '4p',
+    'cid' => '4q',
     'class_name' => 'ilBookingGatewayGUI',
     'class_path' => './Modules/BookingManager/BookingService/classes/class.ilBookingGatewayGUI.php',
     'parents' => 
@@ -2425,7 +2437,7 @@
   ),
   'ilbookingobjectgui' => 
   array (
-    'cid' => '4q',
+    'cid' => '4r',
     'class_name' => 'ilBookingObjectGUI',
     'class_path' => './Modules/BookingManager/Objects/classes/class.ilBookingObjectGUI.php',
     'parents' => 
@@ -2440,7 +2452,7 @@
   ),
   'ilbookingobjectservicegui' => 
   array (
-    'cid' => '4r',
+    'cid' => '4s',
     'class_name' => 'ilBookingObjectServiceGUI',
     'class_path' => './Modules/BookingManager/BookingService/classes/class.ilBookingObjectServiceGUI.php',
     'parents' => 
@@ -2455,7 +2467,7 @@
   ),
   'ilbookingobjectstablegui' => 
   array (
-    'cid' => '4s',
+    'cid' => '4t',
     'class_name' => 'ilBookingObjectsTableGUI',
     'class_path' => './Modules/BookingManager/Objects/classes/class.ilBookingObjectsTableGUI.php',
     'parents' => 
@@ -2467,7 +2479,7 @@
   ),
   'ilbookingparticipantgui' => 
   array (
-    'cid' => '4t',
+    'cid' => '4u',
     'class_name' => 'ilBookingParticipantGUI',
     'class_path' => './Modules/BookingManager/Participants/classes/class.ilBookingParticipantGUI.php',
     'parents' => 
@@ -2481,7 +2493,7 @@
   ),
   'ilbookingparticipantstablegui' => 
   array (
-    'cid' => '4u',
+    'cid' => '4v',
     'class_name' => 'ilBookingParticipantsTableGUI',
     'class_path' => './Modules/BookingManager/Participants/classes/class.ilBookingParticipantsTableGUI.php',
     'parents' => 
@@ -2493,7 +2505,7 @@
   ),
   'ilbookingpreferencesgui' => 
   array (
-    'cid' => '4v',
+    'cid' => '4w',
     'class_name' => 'ilBookingPreferencesGUI',
     'class_path' => './Modules/BookingManager/Preferences/classes/class.ilBookingPreferencesGUI.php',
     'parents' => 
@@ -2506,7 +2518,7 @@
   ),
   'ilbookingprocessgui' => 
   array (
-    'cid' => '4w',
+    'cid' => '4x',
     'class_name' => 'ilBookingProcessGUI',
     'class_path' => './Modules/BookingManager/BookingProcess/classes/class.ilBookingProcessGUI.php',
     'parents' => 
@@ -2520,7 +2532,7 @@
   ),
   'ilbookingreservationsgui' => 
   array (
-    'cid' => '4x',
+    'cid' => '4y',
     'class_name' => 'ilBookingReservationsGUI',
     'class_path' => './Modules/BookingManager/Reservations/classes/class.ilBookingReservationsGUI.php',
     'parents' => 
@@ -2534,7 +2546,7 @@
   ),
   'ilbookingreservationstablegui' => 
   array (
-    'cid' => '4y',
+    'cid' => '4z',
     'class_name' => 'ilBookingReservationsTableGUI',
     'class_path' => './Modules/BookingManager/Reservations/classes/class.ilBookingReservationsTableGUI.php',
     'parents' => 
@@ -2546,7 +2558,7 @@
   ),
   'ilbookingschedulegui' => 
   array (
-    'cid' => '4z',
+    'cid' => '50',
     'class_name' => 'ilBookingScheduleGUI',
     'class_path' => './Modules/BookingManager/Schedule/classes/class.ilBookingScheduleGUI.php',
     'parents' => 
@@ -2559,7 +2571,7 @@
   ),
   'ilbookingschedulestablegui' => 
   array (
-    'cid' => '50',
+    'cid' => '51',
     'class_name' => 'ilBookingSchedulesTableGUI',
     'class_path' => './Modules/BookingManager/Schedule/classes/class.ilBookingSchedulesTableGUI.php',
     'parents' => 
@@ -2571,7 +2583,7 @@
   ),
   'ilbuddysystemgui' => 
   array (
-    'cid' => '51',
+    'cid' => '52',
     'class_name' => 'ilBuddySystemGUI',
     'class_path' => './Services/Contact/BuddySystem/classes/class.ilBuddySystemGUI.php',
     'parents' => 
@@ -2587,7 +2599,7 @@
   ),
   'ilbuddysystemrelationstablegui' => 
   array (
-    'cid' => '52',
+    'cid' => '53',
     'class_name' => 'ilBuddySystemRelationsTableGUI',
     'class_path' => './Services/Contact/BuddySystem/classes/tables/class.ilBuddySystemRelationsTableGUI.php',
     'parents' => 
@@ -2599,7 +2611,7 @@
   ),
   'ilcassettingsgui' => 
   array (
-    'cid' => '53',
+    'cid' => '54',
     'class_name' => 'ilCASSettingsGUI',
     'class_path' => './Services/CAS/classes/class.ilCASSettingsGUI.php',
     'parents' => 
@@ -2612,7 +2624,7 @@
   ),
   'ilcssrectinputgui' => 
   array (
-    'cid' => '54',
+    'cid' => '55',
     'class_name' => 'ilCSSRectInputGUI',
     'class_path' => './Services/Form/classes/class.ilCSSRectInputGUI.php',
     'parents' => 
@@ -2624,7 +2636,7 @@
   ),
   'ilcalendaragendalistgui' => 
   array (
-    'cid' => '55',
+    'cid' => '56',
     'class_name' => 'ilCalendarAgendaListGUI',
     'class_path' => './Services/Calendar/classes/Agenda/class.ilCalendarAgendaListGUI.php',
     'parents' => 
@@ -2638,7 +2650,7 @@
   ),
   'ilcalendarappointmentgui' => 
   array (
-    'cid' => '56',
+    'cid' => '57',
     'class_name' => 'ilCalendarAppointmentGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarAppointmentGUI.php',
     'parents' => 
@@ -2659,7 +2671,7 @@
   ),
   'ilcalendarappointmentpanelgui' => 
   array (
-    'cid' => '57',
+    'cid' => '58',
     'class_name' => 'ilCalendarAppointmentPanelGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarAppointmentPanelGUI.php',
     'parents' => 
@@ -2671,7 +2683,7 @@
   ),
   'ilcalendarappointmentpresentationgui' => 
   array (
-    'cid' => '58',
+    'cid' => '59',
     'class_name' => 'ilCalendarAppointmentPresentationGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarAppointmentPresentationGUI.php',
     'parents' => 
@@ -2701,7 +2713,7 @@
   ),
   'ilcalendarappointmentstablegui' => 
   array (
-    'cid' => '59',
+    'cid' => '5a',
     'class_name' => 'ilCalendarAppointmentsTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarAppointmentsTableGUI.php',
     'parents' => 
@@ -2713,7 +2725,7 @@
   ),
   'ilcalendarblockgui' => 
   array (
-    'cid' => '5a',
+    'cid' => '5b',
     'class_name' => 'ilCalendarBlockGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarBlockGUI.php',
     'parents' => 
@@ -2733,7 +2745,7 @@
   ),
   'ilcalendarcategorygui' => 
   array (
-    'cid' => '5b',
+    'cid' => '5c',
     'class_name' => 'ilCalendarCategoryGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarCategoryGUI.php',
     'parents' => 
@@ -2748,7 +2760,7 @@
   ),
   'ilcalendarcategorytablegui' => 
   array (
-    'cid' => '5c',
+    'cid' => '5d',
     'class_name' => 'ilCalendarCategoryTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarCategoryTableGUI.php',
     'parents' => 
@@ -2760,7 +2772,7 @@
   ),
   'ilcalendarchangedappointmentstablegui' => 
   array (
-    'cid' => '5d',
+    'cid' => '5e',
     'class_name' => 'ilCalendarChangedAppointmentsTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarChangedAppointmentsTableGUI.php',
     'parents' => 
@@ -2772,7 +2784,7 @@
   ),
   'ilcalendardaygui' => 
   array (
-    'cid' => '5e',
+    'cid' => '5f',
     'class_name' => 'ilCalendarDayGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarDayGUI.php',
     'parents' => 
@@ -2789,7 +2801,7 @@
   ),
   'ilcalendarheadernavigationgui' => 
   array (
-    'cid' => '5f',
+    'cid' => '5g',
     'class_name' => 'ilCalendarHeaderNavigationGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarHeaderNavigationGUI.php',
     'parents' => 
@@ -2801,7 +2813,7 @@
   ),
   'ilcalendarinboxgui' => 
   array (
-    'cid' => '5g',
+    'cid' => '5h',
     'class_name' => 'ilCalendarInboxGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarInboxGUI.php',
     'parents' => 
@@ -2817,7 +2829,7 @@
   ),
   'ilcalendarinboxsharedtablegui' => 
   array (
-    'cid' => '5h',
+    'cid' => '5i',
     'class_name' => 'ilCalendarInboxSharedTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarInboxSharedTableGUI.php',
     'parents' => 
@@ -2829,7 +2841,7 @@
   ),
   'ilcalendarmanagetablegui' => 
   array (
-    'cid' => '5i',
+    'cid' => '5j',
     'class_name' => 'ilCalendarManageTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarManageTableGUI.php',
     'parents' => 
@@ -2841,7 +2853,7 @@
   ),
   'ilcalendarmonthgui' => 
   array (
-    'cid' => '5j',
+    'cid' => '5k',
     'class_name' => 'ilCalendarMonthGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarMonthGUI.php',
     'parents' => 
@@ -2860,7 +2872,7 @@
   ),
   'ilcalendarpresentationgui' => 
   array (
-    'cid' => '5k',
+    'cid' => '5l',
     'class_name' => 'ilCalendarPresentationGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarPresentationGUI.php',
     'parents' => 
@@ -2887,7 +2899,7 @@
   ),
   'ilcalendarrecurrencegui' => 
   array (
-    'cid' => '5l',
+    'cid' => '5m',
     'class_name' => 'ilCalendarRecurrenceGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarRecurrenceGUI.php',
     'parents' => 
@@ -2899,7 +2911,7 @@
   ),
   'ilcalendarrecurrencetablegui' => 
   array (
-    'cid' => '5m',
+    'cid' => '5n',
     'class_name' => 'ilCalendarRecurrenceTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarRecurrenceTableGUI.php',
     'parents' => 
@@ -2911,7 +2923,7 @@
   ),
   'ilcalendarselectionblockgui' => 
   array (
-    'cid' => '5n',
+    'cid' => '5o',
     'class_name' => 'ilCalendarSelectionBlockGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarSelectionBlockGUI.php',
     'parents' => 
@@ -2924,7 +2936,7 @@
   ),
   'ilcalendarsharedlisttablegui' => 
   array (
-    'cid' => '5o',
+    'cid' => '5p',
     'class_name' => 'ilCalendarSharedListTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarSharedListTableGUI.php',
     'parents' => 
@@ -2936,7 +2948,7 @@
   ),
   'ilcalendarsharedrolelisttablegui' => 
   array (
-    'cid' => '5p',
+    'cid' => '5q',
     'class_name' => 'ilCalendarSharedRoleListTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarSharedRoleListTableGUI.php',
     'parents' => 
@@ -2948,7 +2960,7 @@
   ),
   'ilcalendarshareduserlisttablegui' => 
   array (
-    'cid' => '5q',
+    'cid' => '5r',
     'class_name' => 'ilCalendarSharedUserListTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarSharedUserListTableGUI.php',
     'parents' => 
@@ -2960,7 +2972,7 @@
   ),
   'ilcalendarsubscriptiongui' => 
   array (
-    'cid' => '5r',
+    'cid' => '5s',
     'class_name' => 'ilCalendarSubscriptionGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarSubscriptionGUI.php',
     'parents' => 
@@ -2973,7 +2985,7 @@
   ),
   'ilcalendarusersettingsgui' => 
   array (
-    'cid' => '5s',
+    'cid' => '5t',
     'class_name' => 'ilCalendarUserSettingsGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarUserSettingsGUI.php',
     'parents' => 
@@ -2986,7 +2998,7 @@
   ),
   'ilcalendarviewgui' => 
   array (
-    'cid' => '5t',
+    'cid' => '5u',
     'class_name' => 'ilCalendarViewGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarViewGUI.php',
     'parents' => 
@@ -2998,7 +3010,7 @@
   ),
   'ilcalendarweekgui' => 
   array (
-    'cid' => '5u',
+    'cid' => '5v',
     'class_name' => 'ilCalendarWeekGUI',
     'class_path' => './Services/Calendar/classes/class.ilCalendarWeekGUI.php',
     'parents' => 
@@ -3015,7 +3027,7 @@
   ),
   'ilcaptchainputgui' => 
   array (
-    'cid' => '5v',
+    'cid' => '5w',
     'class_name' => 'ilCaptchaInputGUI',
     'class_path' => './Services/Captcha/classes/class.ilCaptchaInputGUI.php',
     'parents' => 
@@ -3027,7 +3039,7 @@
   ),
   'ilcategoryassignroletablegui' => 
   array (
-    'cid' => '5w',
+    'cid' => '5x',
     'class_name' => 'ilCategoryAssignRoleTableGUI',
     'class_path' => './Modules/Category/classes/class.ilCategoryAssignRoleTableGUI.php',
     'parents' => 
@@ -3039,7 +3051,7 @@
   ),
   'ilcategorywizardinputgui' => 
   array (
-    'cid' => '5x',
+    'cid' => '5y',
     'class_name' => 'ilCategoryWizardInputGUI',
     'class_path' => './Modules/SurveyQuestionPool/Categories/class.ilCategoryWizardInputGUI.php',
     'parents' => 
@@ -3051,7 +3063,7 @@
   ),
   'ilcertificategui' => 
   array (
-    'cid' => '5y',
+    'cid' => '5z',
     'class_name' => 'ilCertificateGUI',
     'class_path' => './Services/Certificate/classes/class.ilCertificateGUI.php',
     'parents' => 
@@ -3071,7 +3083,7 @@
   ),
   'ilchapterhierarchyformgui' => 
   array (
-    'cid' => '5z',
+    'cid' => '60',
     'class_name' => 'ilChapterHierarchyFormGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilChapterHierarchyFormGUI.php',
     'parents' => 
@@ -3083,7 +3095,7 @@
   ),
   'ilcharselectorgui' => 
   array (
-    'cid' => '60',
+    'cid' => '61',
     'class_name' => 'ilCharSelectorGUI',
     'class_path' => './Services/UIComponent/CharSelector/classes/class.ilCharSelectorGUI.php',
     'parents' => 
@@ -3095,7 +3107,7 @@
   ),
   'ilcharselectorradiogroupinputgui' => 
   array (
-    'cid' => '61',
+    'cid' => '62',
     'class_name' => 'ilCharSelectorRadioGroupInputGUI',
     'class_path' => './Services/UIComponent/CharSelector/classes/class.ilCharSelectorRadioGroupInputGUI.php',
     'parents' => 
@@ -3107,7 +3119,7 @@
   ),
   'ilchatroomadminsmileygui' => 
   array (
-    'cid' => '62',
+    'cid' => '63',
     'class_name' => 'ilChatroomAdminSmileyGUI',
     'class_path' => './Modules/Chatroom/classes/admingui/class.ilChatroomAdminSmileyGUI.php',
     'parents' => 
@@ -3119,7 +3131,7 @@
   ),
   'ilchatroomadminsmiliesgui' => 
   array (
-    'cid' => '63',
+    'cid' => '64',
     'class_name' => 'ilChatroomAdminSmiliesGUI',
     'class_path' => './Modules/Chatroom/classes/admingui/class.ilChatroomAdminSmiliesGUI.php',
     'parents' => 
@@ -3131,7 +3143,7 @@
   ),
   'ilchatroomadminviewgui' => 
   array (
-    'cid' => '64',
+    'cid' => '65',
     'class_name' => 'ilChatroomAdminViewGUI',
     'class_path' => './Modules/Chatroom/classes/admingui/class.ilChatroomAdminViewGUI.php',
     'parents' => 
@@ -3143,7 +3155,7 @@
   ),
   'ilchatroomauthinputgui' => 
   array (
-    'cid' => '65',
+    'cid' => '66',
     'class_name' => 'ilChatroomAuthInputGUI',
     'class_path' => './Modules/Chatroom/classes/class.ilChatroomAuthInputGUI.php',
     'parents' => 
@@ -3156,7 +3168,7 @@
   ),
   'ilchatroombangui' => 
   array (
-    'cid' => '66',
+    'cid' => '67',
     'class_name' => 'ilChatroomBanGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomBanGUI.php',
     'parents' => 
@@ -3168,7 +3180,7 @@
   ),
   'ilchatroomcleargui' => 
   array (
-    'cid' => '67',
+    'cid' => '68',
     'class_name' => 'ilChatroomClearGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomClearGUI.php',
     'parents' => 
@@ -3180,7 +3192,7 @@
   ),
   'ilchatroomcreategui' => 
   array (
-    'cid' => '68',
+    'cid' => '69',
     'class_name' => 'ilChatroomCreateGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomCreateGUI.php',
     'parents' => 
@@ -3192,7 +3204,7 @@
   ),
   'ilchatroomhistorygui' => 
   array (
-    'cid' => '69',
+    'cid' => '6a',
     'class_name' => 'ilChatroomHistoryGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomHistoryGUI.php',
     'parents' => 
@@ -3204,7 +3216,7 @@
   ),
   'ilchatroominfogui' => 
   array (
-    'cid' => '6a',
+    'cid' => '6b',
     'class_name' => 'ilChatroomInfoGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomInfoGUI.php',
     'parents' => 
@@ -3216,7 +3228,7 @@
   ),
   'ilchatroominviteuserstoprivateroomgui' => 
   array (
-    'cid' => '6b',
+    'cid' => '6c',
     'class_name' => 'ilChatroomInviteUsersToPrivateRoomGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomInviteUsersToPrivateRoomGUI.php',
     'parents' => 
@@ -3228,7 +3240,7 @@
   ),
   'ilchatroomkickgui' => 
   array (
-    'cid' => '6c',
+    'cid' => '6d',
     'class_name' => 'ilChatroomKickGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomKickGUI.php',
     'parents' => 
@@ -3240,7 +3252,7 @@
   ),
   'ilchatroomobjectgui' => 
   array (
-    'cid' => '6d',
+    'cid' => '6e',
     'class_name' => 'ilChatroomObjectGUI',
     'class_path' => './Modules/Chatroom/classes/class.ilChatroomObjectGUI.php',
     'parents' => 
@@ -3252,7 +3264,7 @@
   ),
   'ilchatroompollgui' => 
   array (
-    'cid' => '6e',
+    'cid' => '6f',
     'class_name' => 'ilChatroomPollGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomPollGUI.php',
     'parents' => 
@@ -3264,7 +3276,7 @@
   ),
   'ilchatroomprivateroomgui' => 
   array (
-    'cid' => '6f',
+    'cid' => '6g',
     'class_name' => 'ilChatroomPrivateRoomGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomPrivateRoomGUI.php',
     'parents' => 
@@ -3276,7 +3288,7 @@
   ),
   'ilchatroomsettingsgui' => 
   array (
-    'cid' => '6g',
+    'cid' => '6h',
     'class_name' => 'ilChatroomSettingsGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomSettingsGUI.php',
     'parents' => 
@@ -3288,7 +3300,7 @@
   ),
   'ilchatroomsmiliesgui' => 
   array (
-    'cid' => '6h',
+    'cid' => '6i',
     'class_name' => 'ilChatroomSmiliesGUI',
     'class_path' => './Modules/Chatroom/classes/class.ilChatroomSmiliesGUI.php',
     'parents' => 
@@ -3300,7 +3312,7 @@
   ),
   'ilchatroomsmiliestablegui' => 
   array (
-    'cid' => '6i',
+    'cid' => '6j',
     'class_name' => 'ilChatroomSmiliesTableGUI',
     'class_path' => './Modules/Chatroom/classes/class.ilChatroomSmiliesTableGUI.php',
     'parents' => 
@@ -3312,7 +3324,7 @@
   ),
   'ilchatroomviewgui' => 
   array (
-    'cid' => '6j',
+    'cid' => '6k',
     'class_name' => 'ilChatroomViewGUI',
     'class_path' => './Modules/Chatroom/classes/gui/class.ilChatroomViewGUI.php',
     'parents' => 
@@ -3324,7 +3336,7 @@
   ),
   'ilcheckboxgroupinputgui' => 
   array (
-    'cid' => '6k',
+    'cid' => '6l',
     'class_name' => 'ilCheckboxGroupInputGUI',
     'class_path' => './Services/Form/classes/class.ilCheckboxGroupInputGUI.php',
     'parents' => 
@@ -3336,7 +3348,7 @@
   ),
   'ilcheckboxinputgui' => 
   array (
-    'cid' => '6l',
+    'cid' => '6m',
     'class_name' => 'ilCheckboxInputGUI',
     'class_path' => './Services/Form/classes/class.ilCheckboxInputGUI.php',
     'parents' => 
@@ -3348,7 +3360,7 @@
   ),
   'ilcheckboxlistoverlaygui' => 
   array (
-    'cid' => '6m',
+    'cid' => '6n',
     'class_name' => 'ilCheckboxListOverlayGUI',
     'class_path' => './Services/UIComponent/CheckboxListOverlay/classes/class.ilCheckboxListOverlayGUI.php',
     'parents' => 
@@ -3360,7 +3372,7 @@
   ),
   'ilclassificationblockgui' => 
   array (
-    'cid' => '6n',
+    'cid' => '6o',
     'class_name' => 'ilClassificationBlockGUI',
     'class_path' => './Services/Classification/classes/class.ilClassificationBlockGUI.php',
     'parents' => 
@@ -3373,7 +3385,7 @@
   ),
   'ilclipboardtablegui' => 
   array (
-    'cid' => '6o',
+    'cid' => '6p',
     'class_name' => 'ilClipboardTableGUI',
     'class_path' => './Modules/MediaPool/Clipboard/classes/class.ilClipboardTableGUI.php',
     'parents' => 
@@ -3385,7 +3397,7 @@
   ),
   'ilcloudgroupedlistgui' => 
   array (
-    'cid' => '6p',
+    'cid' => '6q',
     'class_name' => 'ilCloudGroupedListGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudGroupedListGUI.php',
     'parents' => 
@@ -3397,7 +3409,7 @@
   ),
   'ilcloudpluginactionlistgui' => 
   array (
-    'cid' => '6q',
+    'cid' => '6r',
     'class_name' => 'ilCloudPluginActionListGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginActionListGUI.php',
     'parents' => 
@@ -3410,7 +3422,7 @@
   ),
   'ilcloudpluginconfiggui' => 
   array (
-    'cid' => '6r',
+    'cid' => '6s',
     'class_name' => 'ilCloudPluginConfigGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginConfigGUI.php',
     'parents' => 
@@ -3422,7 +3434,7 @@
   ),
   'ilcloudplugincreatefoldergui' => 
   array (
-    'cid' => '6s',
+    'cid' => '6t',
     'class_name' => 'ilCloudPluginCreateFolderGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginCreateFolderGUI.php',
     'parents' => 
@@ -3435,7 +3447,7 @@
   ),
   'ilcloudplugincreationgui' => 
   array (
-    'cid' => '6t',
+    'cid' => '6u',
     'class_name' => 'ilCloudPluginCreationGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginCreationGUI.php',
     'parents' => 
@@ -3447,7 +3459,7 @@
   ),
   'ilcloudplugindeletegui' => 
   array (
-    'cid' => '6u',
+    'cid' => '6v',
     'class_name' => 'ilCloudPluginDeleteGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginDeleteGUI.php',
     'parents' => 
@@ -3460,7 +3472,7 @@
   ),
   'ilcloudpluginfiletreegui' => 
   array (
-    'cid' => '6v',
+    'cid' => '6w',
     'class_name' => 'ilCloudPluginFileTreeGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginFileTreeGUI.php',
     'parents' => 
@@ -3473,7 +3485,7 @@
   ),
   'ilcloudplugingui' => 
   array (
-    'cid' => '6w',
+    'cid' => '6x',
     'class_name' => 'ilCloudPluginGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginGUI.php',
     'parents' => 
@@ -3485,7 +3497,7 @@
   ),
   'ilcloudpluginheaderactiongui' => 
   array (
-    'cid' => '6x',
+    'cid' => '6y',
     'class_name' => 'ilCloudPluginHeaderActionGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginHeaderActionGUI.php',
     'parents' => 
@@ -3498,7 +3510,7 @@
   ),
   'ilcloudplugininfoscreengui' => 
   array (
-    'cid' => '6y',
+    'cid' => '6z',
     'class_name' => 'ilCloudPluginInfoScreenGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginInfoScreenGUI.php',
     'parents' => 
@@ -3511,7 +3523,7 @@
   ),
   'ilcloudplugininitgui' => 
   array (
-    'cid' => '6z',
+    'cid' => '70',
     'class_name' => 'ilCloudPluginInitGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginInitGUI.php',
     'parents' => 
@@ -3524,7 +3536,7 @@
   ),
   'ilcloudpluginitemcreationlistgui' => 
   array (
-    'cid' => '70',
+    'cid' => '71',
     'class_name' => 'ilCloudPluginItemCreationListGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginItemCreationListGUI.php',
     'parents' => 
@@ -3537,7 +3549,7 @@
   ),
   'ilcloudpluginlistgui' => 
   array (
-    'cid' => '71',
+    'cid' => '72',
     'class_name' => 'ilCloudPluginListGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginListGUI.php',
     'parents' => 
@@ -3549,7 +3561,7 @@
   ),
   'ilcloudpluginsettingsgui' => 
   array (
-    'cid' => '72',
+    'cid' => '73',
     'class_name' => 'ilCloudPluginSettingsGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginSettingsGUI.php',
     'parents' => 
@@ -3562,7 +3574,7 @@
   ),
   'ilcloudpluginuploadgui' => 
   array (
-    'cid' => '73',
+    'cid' => '74',
     'class_name' => 'ilCloudPluginUploadGUI',
     'class_path' => './Modules/Cloud/classes/class.ilCloudPluginUploadGUI.php',
     'parents' => 
@@ -3575,7 +3587,7 @@
   ),
   'ilclozegapinputbuildergui' => 
   array (
-    'cid' => '74',
+    'cid' => '75',
     'class_name' => 'ilClozeGapInputBuilderGUI',
     'class_path' => './Modules/TestQuestionPool/classes/Form/class.ilClozeGapInputBuilderGUI.php',
     'parents' => 
@@ -3587,7 +3599,7 @@
   ),
   'ilcmixapidatedurationinputgui' => 
   array (
-    'cid' => '75',
+    'cid' => '76',
     'class_name' => 'ilCmiXapiDateDurationInputGUI',
     'class_path' => './Modules/CmiXapi/classes/Form/class.ilCmiXapiDateDurationInputGUI.php',
     'parents' => 
@@ -3599,7 +3611,7 @@
   ),
   'ilcmixapiexportgui' => 
   array (
-    'cid' => '76',
+    'cid' => '77',
     'class_name' => 'ilCmiXapiExportGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiExportGUI.php',
     'parents' => 
@@ -3612,7 +3624,7 @@
   ),
   'ilcmixapilaunchgui' => 
   array (
-    'cid' => '77',
+    'cid' => '78',
     'class_name' => 'ilCmiXapiLaunchGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiLaunchGUI.php',
     'parents' => 
@@ -3625,7 +3637,7 @@
   ),
   'ilcmixapilrstypestablegui' => 
   array (
-    'cid' => '78',
+    'cid' => '79',
     'class_name' => 'ilCmiXapiLrsTypesTableGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiLrsTypesTableGUI.php',
     'parents' => 
@@ -3637,7 +3649,7 @@
   ),
   'ilcmixapiregistrationgui' => 
   array (
-    'cid' => '79',
+    'cid' => '7a',
     'class_name' => 'ilCmiXapiRegistrationGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiRegistrationGUI.php',
     'parents' => 
@@ -3650,7 +3662,7 @@
   ),
   'ilcmixapiscoringgui' => 
   array (
-    'cid' => '7a',
+    'cid' => '7b',
     'class_name' => 'ilCmiXapiScoringGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiScoringGUI.php',
     'parents' => 
@@ -3663,7 +3675,7 @@
   ),
   'ilcmixapiscoringtablegui' => 
   array (
-    'cid' => '7b',
+    'cid' => '7c',
     'class_name' => 'ilCmiXapiScoringTableGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiScoringTableGUI.php',
     'parents' => 
@@ -3675,7 +3687,7 @@
   ),
   'ilcmixapisettingsgui' => 
   array (
-    'cid' => '7c',
+    'cid' => '7d',
     'class_name' => 'ilCmiXapiSettingsGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiSettingsGUI.php',
     'parents' => 
@@ -3689,7 +3701,7 @@
   ),
   'ilcmixapistatementsgui' => 
   array (
-    'cid' => '7d',
+    'cid' => '7e',
     'class_name' => 'ilCmiXapiStatementsGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiStatementsGUI.php',
     'parents' => 
@@ -3702,7 +3714,7 @@
   ),
   'ilcmixapistatementstablegui' => 
   array (
-    'cid' => '7e',
+    'cid' => '7f',
     'class_name' => 'ilCmiXapiStatementsTableGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilCmiXapiStatementsTableGUI.php',
     'parents' => 
@@ -3714,7 +3726,7 @@
   ),
   'ilcmixapiverificationtablegui' => 
   array (
-    'cid' => '7f',
+    'cid' => '7g',
     'class_name' => 'ilCmiXapiVerificationTableGUI',
     'class_path' => './Modules/CmiXapi/classes/Verification/class.ilCmiXapiVerficationTableGUI.php',
     'parents' => 
@@ -3726,7 +3738,7 @@
   ),
   'ilcolorpickerinputgui' => 
   array (
-    'cid' => '7g',
+    'cid' => '7h',
     'class_name' => 'ilColorPickerInputGUI',
     'class_path' => './Services/Form/classes/class.ilColorPickerInputGUI.php',
     'parents' => 
@@ -3738,7 +3750,7 @@
   ),
   'ilcolumngui' => 
   array (
-    'cid' => '7h',
+    'cid' => '7i',
     'class_name' => 'ilColumnGUI',
     'class_path' => './Services/Block/classes/class.ilColumnGUI.php',
     'parents' => 
@@ -3778,7 +3790,7 @@
   ),
   'ilcombinationinputgui' => 
   array (
-    'cid' => '7i',
+    'cid' => '7j',
     'class_name' => 'ilCombinationInputGUI',
     'class_path' => './Services/Form/classes/class.ilCombinationInputGUI.php',
     'parents' => 
@@ -3790,7 +3802,7 @@
   ),
   'ilcommonactiondispatchergui' => 
   array (
-    'cid' => '7j',
+    'cid' => '7k',
     'class_name' => 'ilCommonActionDispatcherGUI',
     'class_path' => './Services/Object/classes/class.ilCommonActionDispatcherGUI.php',
     'parents' => 
@@ -3862,7 +3874,7 @@
   ),
   'ilcomponentstablegui' => 
   array (
-    'cid' => '7k',
+    'cid' => '7l',
     'class_name' => 'ilComponentsTableGUI',
     'class_path' => './Services/Component/classes/class.ilComponentsTableGUI.php',
     'parents' => 
@@ -3874,7 +3886,7 @@
   ),
   'ilconditionhandlergui' => 
   array (
-    'cid' => '7l',
+    'cid' => '7m',
     'class_name' => 'ilConditionHandlerGUI',
     'class_path' => './Services/Conditions/classes/class.ilConditionHandlerGUI.php',
     'parents' => 
@@ -3890,7 +3902,7 @@
   ),
   'ilconditionhandlertablegui' => 
   array (
-    'cid' => '7m',
+    'cid' => '7n',
     'class_name' => 'ilConditionHandlerTableGUI',
     'class_path' => './Services/Conditions/classes/class.ilConditionHandlerTableGUI.php',
     'parents' => 
@@ -3902,7 +3914,7 @@
   ),
   'ilconfirmationgui' => 
   array (
-    'cid' => '7n',
+    'cid' => '7o',
     'class_name' => 'ilConfirmationGUI',
     'class_path' => './Services/UIComponent/Confirmation/class.ilConfirmationGUI.php',
     'parents' => 
@@ -3921,7 +3933,7 @@
   ),
   'ilconfirmationtablegui' => 
   array (
-    'cid' => '7o',
+    'cid' => '7p',
     'class_name' => 'ilConfirmationTableGUI',
     'class_path' => './Services/UIComponent/Confirmation/class.ilConfirmationTableGUI.php',
     'parents' => 
@@ -3933,7 +3945,7 @@
   ),
   'ilconsultationhourbookingtablegui' => 
   array (
-    'cid' => '7p',
+    'cid' => '7q',
     'class_name' => 'ilConsultationHourBookingTableGUI',
     'class_path' => './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourBookingTableGUI.php',
     'parents' => 
@@ -3945,7 +3957,7 @@
   ),
   'ilconsultationhourgrouptablegui' => 
   array (
-    'cid' => '7q',
+    'cid' => '7r',
     'class_name' => 'ilConsultationHourGroupTableGUI',
     'class_path' => './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourGroupTableGUI.php',
     'parents' => 
@@ -3957,7 +3969,7 @@
   ),
   'ilconsultationhoursgui' => 
   array (
-    'cid' => '7r',
+    'cid' => '7s',
     'class_name' => 'ilConsultationHoursGUI',
     'class_path' => './Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursGUI.php',
     'parents' => 
@@ -3974,7 +3986,7 @@
   ),
   'ilconsultationhourstablegui' => 
   array (
-    'cid' => '7s',
+    'cid' => '7t',
     'class_name' => 'ilConsultationHoursTableGUI',
     'class_path' => './Services/Calendar/classes/ConsultationHours/class.ilConsultationHoursTableGUI.php',
     'parents' => 
@@ -3986,7 +3998,7 @@
   ),
   'ilcontobjlocatorgui' => 
   array (
-    'cid' => '7t',
+    'cid' => '7u',
     'class_name' => 'ilContObjLocatorGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilContObjLocatorGUI.php',
     'parents' => 
@@ -3998,7 +4010,7 @@
   ),
   'ilcontprofiletablegui' => 
   array (
-    'cid' => '7u',
+    'cid' => '7v',
     'class_name' => 'ilContProfileTableGUI',
     'class_path' => './Services/Container/Skills/classes/class.ilContProfileTableGUI.php',
     'parents' => 
@@ -4010,7 +4022,7 @@
   ),
   'ilcontskilladmingui' => 
   array (
-    'cid' => '7v',
+    'cid' => '7w',
     'class_name' => 'ilContSkillAdminGUI',
     'class_path' => './Services/Container/Skills/classes/class.ilContSkillAdminGUI.php',
     'parents' => 
@@ -4024,7 +4036,7 @@
   ),
   'ilcontskillmembertablegui' => 
   array (
-    'cid' => '7w',
+    'cid' => '7x',
     'class_name' => 'ilContSkillMemberTableGUI',
     'class_path' => './Services/Container/Skills/classes/class.ilContSkillMemberTableGUI.php',
     'parents' => 
@@ -4036,7 +4048,7 @@
   ),
   'ilcontskillpresentationgui' => 
   array (
-    'cid' => '7x',
+    'cid' => '7y',
     'class_name' => 'ilContSkillPresentationGUI',
     'class_path' => './Services/Container/Skills/classes/class.ilContSkillPresentationGUI.php',
     'parents' => 
@@ -4050,7 +4062,7 @@
   ),
   'ilcontskilltablegui' => 
   array (
-    'cid' => '7y',
+    'cid' => '7z',
     'class_name' => 'ilContSkillTableGUI',
     'class_path' => './Services/Container/Skills/classes/class.ilContSkillTableGUI.php',
     'parents' => 
@@ -4062,7 +4074,7 @@
   ),
   'ilcontactgui' => 
   array (
-    'cid' => '7z',
+    'cid' => '80',
     'class_name' => 'ilContactGUI',
     'class_path' => './Services/Contact/classes/class.ilContactGUI.php',
     'parents' => 
@@ -4081,11 +4093,25 @@
       6 => 'ilpublicuserprofilegui',
     ),
   ),
+  'ilcontainerblockpropertiesstoragegui' => 
+  array (
+    'cid' => '81',
+    'class_name' => 'ilContainerBlockPropertiesStorageGUI',
+    'class_path' => './Services/Container/Content/class.ilContainerBlockPropertiesStorageGUI.php',
+    'parents' => 
+    array (
+      0 => 'ilcontainerblockpropertiesstoragegui',
+    ),
+    'children' => 
+    array (
+      0 => 'ilcontainerblockpropertiesstoragegui',
+    ),
+  ),
   'ilcontainerbytypecontentgui' => 
   array (
-    'cid' => '80',
+    'cid' => '82',
     'class_name' => 'ilContainerByTypeContentGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerByTypeContentGUI.php',
+    'class_path' => './Services/Container/Content/class.ilContainerByTypeContentGUI.php',
     'parents' => 
     array (
     ),
@@ -4095,9 +4121,9 @@
   ),
   'ilcontainercontentgui' => 
   array (
-    'cid' => '81',
+    'cid' => '83',
     'class_name' => 'ilContainerContentGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerContentGUI.php',
+    'class_path' => './Services/Container/Content/class.ilContainerContentGUI.php',
     'parents' => 
     array (
     ),
@@ -4107,7 +4133,7 @@
   ),
   'ilcontainerfilteradmingui' => 
   array (
-    'cid' => '82',
+    'cid' => '84',
     'class_name' => 'ilContainerFilterAdminGUI',
     'class_path' => './Services/Container/Filter/classes/class.ilContainerFilterAdminGUI.php',
     'parents' => 
@@ -4120,7 +4146,7 @@
   ),
   'ilcontainerfiltertablegui' => 
   array (
-    'cid' => '83',
+    'cid' => '85',
     'class_name' => 'ilContainerFilterTableGUI',
     'class_path' => './Services/Container/Filter/classes/class.ilContainerFilterTableGUI.php',
     'parents' => 
@@ -4132,7 +4158,7 @@
   ),
   'ilcontainergui' => 
   array (
-    'cid' => '84',
+    'cid' => '86',
     'class_name' => 'ilContainerGUI',
     'class_path' => './Services/Container/classes/class.ilContainerGUI.php',
     'parents' => 
@@ -4146,27 +4172,11 @@
     array (
     ),
   ),
-  'ilcontainerlinklistgui' => 
-  array (
-    'cid' => '85',
-    'class_name' => 'ilContainerLinkListGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerLinkListGUI.php',
-    'parents' => 
-    array (
-      0 => 'ilobjcategorygui',
-      1 => 'ilobjlearningsequencegui',
-      2 => 'ilobjorgunitgui',
-      3 => 'ilobjrootfoldergui',
-    ),
-    'children' => 
-    array (
-    ),
-  ),
   'ilcontainernewssettingsgui' => 
   array (
-    'cid' => '86',
+    'cid' => '87',
     'class_name' => 'ilContainerNewsSettingsGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerNewsSettingsGUI.php',
+    'class_path' => './Services/Container/News/class.ilContainerNewsSettingsGUI.php',
     'parents' => 
     array (
       0 => 'ilobjcategorygui',
@@ -4180,9 +4190,9 @@
   ),
   'ilcontainerobjectivegui' => 
   array (
-    'cid' => '87',
+    'cid' => '88',
     'class_name' => 'ilContainerObjectiveGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerObjectiveGUI.php',
+    'class_path' => './Services/Container/Content/class.ilContainerObjectiveGUI.php',
     'parents' => 
     array (
     ),
@@ -4192,9 +4202,9 @@
   ),
   'ilcontainerpagegui' => 
   array (
-    'cid' => '88',
+    'cid' => '89',
     'class_name' => 'ilContainerPageGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerPageGUI.php',
+    'class_path' => './Services/Container/Page/class.ilContainerPageGUI.php',
     'parents' => 
     array (
       0 => 'ilobjcategorygui',
@@ -4217,7 +4227,7 @@
   ),
   'ilcontainerreferencegui' => 
   array (
-    'cid' => '89',
+    'cid' => '8a',
     'class_name' => 'ilContainerReferenceGUI',
     'class_path' => './Services/ContainerReference/classes/class.ilContainerReferenceGUI.php',
     'parents' => 
@@ -4229,9 +4239,9 @@
   ),
   'ilcontainersessionscontentgui' => 
   array (
-    'cid' => '8a',
+    'cid' => '8b',
     'class_name' => 'ilContainerSessionsContentGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerSessionsContentGUI.php',
+    'class_path' => './Services/Container/Content/class.ilContainerSessionsContentGUI.php',
     'parents' => 
     array (
     ),
@@ -4241,9 +4251,9 @@
   ),
   'ilcontainersimplecontentgui' => 
   array (
-    'cid' => '8b',
+    'cid' => '8c',
     'class_name' => 'ilContainerSimpleContentGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerSimpleContentGUI.php',
+    'class_path' => './Services/Container/Content/class.ilContainerSimpleContentGUI.php',
     'parents' => 
     array (
     ),
@@ -4253,7 +4263,7 @@
   ),
   'ilcontainerskillgui' => 
   array (
-    'cid' => '8c',
+    'cid' => '8d',
     'class_name' => 'ilContainerSkillGUI',
     'class_path' => './Services/Container/Skills/classes/class.ilContainerSkillGUI.php',
     'parents' => 
@@ -4269,9 +4279,9 @@
   ),
   'ilcontainerstartobjectscontentgui' => 
   array (
-    'cid' => '8d',
+    'cid' => '8e',
     'class_name' => 'ilContainerStartObjectsContentGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerStartObjectsContentGUI.php',
+    'class_path' => './Services/Container/StartObjects/class.ilContainerStartObjectsContentGUI.php',
     'parents' => 
     array (
     ),
@@ -4281,9 +4291,9 @@
   ),
   'ilcontainerstartobjectscontenttablegui' => 
   array (
-    'cid' => '8e',
+    'cid' => '8f',
     'class_name' => 'ilContainerStartObjectsContentTableGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerStartObjectsContentTableGUI.php',
+    'class_path' => './Services/Container/StartObjects/class.ilContainerStartObjectsContentTableGUI.php',
     'parents' => 
     array (
     ),
@@ -4293,9 +4303,9 @@
   ),
   'ilcontainerstartobjectsgui' => 
   array (
-    'cid' => '8f',
+    'cid' => '8g',
     'class_name' => 'ilContainerStartObjectsGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerStartObjectsGUI.php',
+    'class_path' => './Services/Container/StartObjects/class.ilContainerStartObjectsGUI.php',
     'parents' => 
     array (
       0 => 'illoeditorgui',
@@ -4308,9 +4318,9 @@
   ),
   'ilcontainerstartobjectspagegui' => 
   array (
-    'cid' => '8g',
+    'cid' => '8h',
     'class_name' => 'ilContainerStartObjectsPageGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerStartObjectsPageGUI.php',
+    'class_path' => './Services/Container/StartObjects/class.ilContainerStartObjectsPageGUI.php',
     'parents' => 
     array (
       0 => 'ilcontainerstartobjectsgui',
@@ -4330,9 +4340,9 @@
   ),
   'ilcontainerstartobjectstablegui' => 
   array (
-    'cid' => '8h',
+    'cid' => '8i',
     'class_name' => 'ilContainerStartObjectsTableGUI',
-    'class_path' => './Services/Container/classes/class.ilContainerStartObjectsTableGUI.php',
+    'class_path' => './Services/Container/StartObjects/class.ilContainerStartObjectsTableGUI.php',
     'parents' => 
     array (
     ),
@@ -4342,7 +4352,7 @@
   ),
   'ilcontentpagepagegui' => 
   array (
-    'cid' => '8i',
+    'cid' => '8j',
     'class_name' => 'ilContentPagePageGUI',
     'class_path' => './Modules/ContentPage/classes/class.ilContentPagePageGUI.php',
     'parents' => 
@@ -4363,7 +4373,7 @@
   ),
   'ilcontentstylesettingsgui' => 
   array (
-    'cid' => '8j',
+    'cid' => '8k',
     'class_name' => 'ilContentStyleSettingsGUI',
     'class_path' => './Services/Style/Content/classes/class.ilContentStyleSettingsGUI.php',
     'parents' => 
@@ -4377,7 +4387,7 @@
   ),
   'ilcontentstylestablegui' => 
   array (
-    'cid' => '8k',
+    'cid' => '8l',
     'class_name' => 'ilContentStylesTableGUI',
     'class_path' => './Services/Style/Content/classes/class.ilContentStylesTableGUI.php',
     'parents' => 
@@ -4389,7 +4399,7 @@
   ),
   'ilcontributortablegui' => 
   array (
-    'cid' => '8l',
+    'cid' => '8m',
     'class_name' => 'ilContributorTableGUI',
     'class_path' => './Modules/Blog/classes/class.ilContributorTableGUI.php',
     'parents' => 
@@ -4401,7 +4411,7 @@
   ),
   'ilcopyselfassquestiontablegui' => 
   array (
-    'cid' => '8m',
+    'cid' => '8n',
     'class_name' => 'ilCopySelfAssQuestionTableGUI',
     'class_path' => './Services/COPage/classes/class.ilCopySelfAssQuestionTableGUI.php',
     'parents' => 
@@ -4413,7 +4423,7 @@
   ),
   'ilcopyrightinputgui' => 
   array (
-    'cid' => '8n',
+    'cid' => '8o',
     'class_name' => 'ilCopyrightInputGUI',
     'class_path' => './Services/MetaData/classes/class.ilCopyrightInputGUI.php',
     'parents' => 
@@ -4425,7 +4435,7 @@
   ),
   'ilcountryselectinputgui' => 
   array (
-    'cid' => '8o',
+    'cid' => '8p',
     'class_name' => 'ilCountrySelectInputGUI',
     'class_path' => './Services/Form/classes/class.ilCountrySelectInputGUI.php',
     'parents' => 
@@ -4437,7 +4447,7 @@
   ),
   'ilcoursecontentgui' => 
   array (
-    'cid' => '8p',
+    'cid' => '8q',
     'class_name' => 'ilCourseContentGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseContentGUI.php',
     'parents' => 
@@ -4454,7 +4464,7 @@
   ),
   'ilcourseeditparticipantstablegui' => 
   array (
-    'cid' => '8q',
+    'cid' => '8r',
     'class_name' => 'ilCourseEditParticipantsTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseEditParticipantsTableGUI.php',
     'parents' => 
@@ -4466,7 +4476,7 @@
   ),
   'ilcoursegroupingassignmenttablegui' => 
   array (
-    'cid' => '8r',
+    'cid' => '8s',
     'class_name' => 'ilCourseGroupingAssignmentTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseGroupingAssignmentTableGUI.php',
     'parents' => 
@@ -4478,7 +4488,7 @@
   ),
   'ilcoursegroupingtablegui' => 
   array (
-    'cid' => '8s',
+    'cid' => '8t',
     'class_name' => 'ilCourseGroupingTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseGroupingTableGUI.php',
     'parents' => 
@@ -4490,7 +4500,7 @@
   ),
   'ilcourseinfofiletablegui' => 
   array (
-    'cid' => '8t',
+    'cid' => '8u',
     'class_name' => 'ilCourseInfoFileTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseInfoFileTableGUI.php',
     'parents' => 
@@ -4502,7 +4512,7 @@
   ),
   'ilcourselpbadgegui' => 
   array (
-    'cid' => '8u',
+    'cid' => '8v',
     'class_name' => 'ilCourseLPBadgeGUI',
     'class_path' => './Modules/Course/classes/Badges/class.ilCourseLPBadgeGUI.php',
     'parents' => 
@@ -4514,7 +4524,7 @@
   ),
   'ilcoursemembershipgui' => 
   array (
-    'cid' => '8v',
+    'cid' => '8w',
     'class_name' => 'ilCourseMembershipGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseMembershipGUI.php',
     'parents' => 
@@ -4534,7 +4544,7 @@
   ),
   'ilcourseobjectivelistgui' => 
   array (
-    'cid' => '8w',
+    'cid' => '8x',
     'class_name' => 'ilCourseObjectiveListGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseObjectiveListGUI.php',
     'parents' => 
@@ -4546,7 +4556,7 @@
   ),
   'ilcourseobjectivematerialassignmenttablegui' => 
   array (
-    'cid' => '8x',
+    'cid' => '8y',
     'class_name' => 'ilCourseObjectiveMaterialAssignmentTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseObjectiveMaterialAssignmentTableGUI.php',
     'parents' => 
@@ -4558,7 +4568,7 @@
   ),
   'ilcourseobjectivequestionassignmenttablegui' => 
   array (
-    'cid' => '8y',
+    'cid' => '8z',
     'class_name' => 'ilCourseObjectiveQuestionAssignmentTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseObjectiveQuestionAssignmentTableGUI.php',
     'parents' => 
@@ -4570,7 +4580,7 @@
   ),
   'ilcourseobjectivequestionstablegui' => 
   array (
-    'cid' => '8z',
+    'cid' => '90',
     'class_name' => 'ilCourseObjectiveQuestionsTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseObjectiveQuestionsTableGUI.php',
     'parents' => 
@@ -4582,7 +4592,7 @@
   ),
   'ilcourseobjectivesgui' => 
   array (
-    'cid' => '90',
+    'cid' => '91',
     'class_name' => 'ilCourseObjectivesGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseObjectivesGUI.php',
     'parents' => 
@@ -4598,7 +4608,7 @@
   ),
   'ilcourseobjectivestablegui' => 
   array (
-    'cid' => '91',
+    'cid' => '92',
     'class_name' => 'ilCourseObjectivesTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseObjectivesTableGUI.php',
     'parents' => 
@@ -4610,7 +4620,7 @@
   ),
   'ilcourseparticipantsgroupsgui' => 
   array (
-    'cid' => '92',
+    'cid' => '93',
     'class_name' => 'ilCourseParticipantsGroupsGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseParticipantsGroupsGUI.php',
     'parents' => 
@@ -4626,7 +4636,7 @@
   ),
   'ilcourseparticipantsgroupstablegui' => 
   array (
-    'cid' => '93',
+    'cid' => '94',
     'class_name' => 'ilCourseParticipantsGroupsTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseParticipantsGroupsTableGUI.php',
     'parents' => 
@@ -4638,7 +4648,7 @@
   ),
   'ilcourseparticipantstablegui' => 
   array (
-    'cid' => '94',
+    'cid' => '95',
     'class_name' => 'ilCourseParticipantsTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseParticipantsTableGUI.php',
     'parents' => 
@@ -4650,7 +4660,7 @@
   ),
   'ilcoursereferencedeleteconfirmationtablegui' => 
   array (
-    'cid' => '95',
+    'cid' => '96',
     'class_name' => 'ilCourseReferenceDeleteConfirmationTableGUI',
     'class_path' => './Modules/CourseReference/classes/class.ilCourseReferenceDeleteConfirmationTableGUI.php',
     'parents' => 
@@ -4662,7 +4672,7 @@
   ),
   'ilcourseregistrationgui' => 
   array (
-    'cid' => '96',
+    'cid' => '97',
     'class_name' => 'ilCourseRegistrationGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseRegistrationGUI.php',
     'parents' => 
@@ -4675,7 +4685,7 @@
   ),
   'ilcoursestartobjectstablegui' => 
   array (
-    'cid' => '97',
+    'cid' => '98',
     'class_name' => 'ilCourseStartObjectsTableGUI',
     'class_path' => './Modules/Course/classes/class.ilCourseStartObjectsTableGUI.php',
     'parents' => 
@@ -4687,7 +4697,7 @@
   ),
   'ilcourseverificationtablegui' => 
   array (
-    'cid' => '98',
+    'cid' => '99',
     'class_name' => 'ilCourseVerificationTableGUI',
     'class_path' => './Modules/Course/classes/Verification/class.ilCourseVerificationTableGUI.php',
     'parents' => 
@@ -4699,7 +4709,7 @@
   ),
   'ilcronmanagergui' => 
   array (
-    'cid' => '99',
+    'cid' => '9a',
     'class_name' => 'ilCronManagerGUI',
     'class_path' => './Services/Cron/classes/class.ilCronManagerGUI.php',
     'parents' => 
@@ -4713,7 +4723,7 @@
   ),
   'ilcronmanagertablegui' => 
   array (
-    'cid' => '9a',
+    'cid' => '9b',
     'class_name' => 'ilCronManagerTableGUI',
     'class_path' => './Services/Cron/classes/class.ilCronManagerTableGUI.php',
     'parents' => 
@@ -4725,7 +4735,7 @@
   ),
   'ilcustominputgui' => 
   array (
-    'cid' => '9b',
+    'cid' => '9c',
     'class_name' => 'ilCustomInputGUI',
     'class_path' => './Services/Form/classes/class.ilCustomInputGUI.php',
     'parents' => 
@@ -4737,7 +4747,7 @@
   ),
   'ilcustomuserfieldsettingstablegui' => 
   array (
-    'cid' => '9c',
+    'cid' => '9d',
     'class_name' => 'ilCustomUserFieldSettingsTableGUI',
     'class_path' => './Services/User/classes/class.ilCustomUserFieldSettingsTableGUI.php',
     'parents' => 
@@ -4749,7 +4759,7 @@
   ),
   'ilcustomuserfieldsgui' => 
   array (
-    'cid' => '9d',
+    'cid' => '9e',
     'class_name' => 'ilCustomUserFieldsGUI',
     'class_path' => './Services/User/classes/class.ilCustomUserFieldsGUI.php',
     'parents' => 
@@ -4762,7 +4772,7 @@
   ),
   'ildashobjectstablegui' => 
   array (
-    'cid' => '9e',
+    'cid' => '9f',
     'class_name' => 'ilDashObjectsTableGUI',
     'class_path' => './Services/Dashboard/ItemsBlock/classes/class.ilDashObjectsTableGUI.php',
     'parents' => 
@@ -4774,7 +4784,7 @@
   ),
   'ildashboardcontentblockgui' => 
   array (
-    'cid' => '9f',
+    'cid' => '9g',
     'class_name' => 'ilDashboardContentBlockGUI',
     'class_path' => './Services/Dashboard/classes/class.ilDashboardContentBlockGUI.php',
     'parents' => 
@@ -4786,7 +4796,7 @@
   ),
   'ildashboardgui' => 
   array (
-    'cid' => '9g',
+    'cid' => '9h',
     'class_name' => 'ilDashboardGUI',
     'class_path' => './Services/Dashboard/classes/class.ilDashboardGUI.php',
     'parents' => 
@@ -4821,7 +4831,7 @@
   ),
   'ildashboardlearningsequencegui' => 
   array (
-    'cid' => '9h',
+    'cid' => '9i',
     'class_name' => 'ilDashboardLearningSequenceGUI',
     'class_path' => './Modules/LearningSequence/classes/class.ilDashboardLearningSequenceGUI.php',
     'parents' => 
@@ -4833,7 +4843,7 @@
   ),
   'ildashboardrecommendedcontentgui' => 
   array (
-    'cid' => '9i',
+    'cid' => '9j',
     'class_name' => 'ilDashboardRecommendedContentGUI',
     'class_path' => './Services/Repository/RecommendedContent/classes/class.ilDashboardRecommendedContentGUI.php',
     'parents' => 
@@ -4846,7 +4856,7 @@
   ),
   'ildatedurationinputgui' => 
   array (
-    'cid' => '9j',
+    'cid' => '9k',
     'class_name' => 'ilDateDurationInputGUI',
     'class_path' => './Services/Form/classes/class.ilDateDurationInputGUI.php',
     'parents' => 
@@ -4858,7 +4868,7 @@
   ),
   'ildatetimeinputgui' => 
   array (
-    'cid' => '9k',
+    'cid' => '9l',
     'class_name' => 'ilDateTimeInputGUI',
     'class_path' => './Services/Form/classes/class.ilDateTimeInputGUI.php',
     'parents' => 
@@ -4870,7 +4880,7 @@
   ),
   'ildclcheckboxinputgui' => 
   array (
-    'cid' => '9l',
+    'cid' => '9m',
     'class_name' => 'ilDclCheckboxInputGUI',
     'class_path' => './Modules/DataCollection/classes/Helpers/class.ilDclCheckboxInputGUI.php',
     'parents' => 
@@ -4882,7 +4892,7 @@
   ),
   'ildclcreateviewdefinitiongui' => 
   array (
-    'cid' => '9m',
+    'cid' => '9n',
     'class_name' => 'ilDclCreateViewDefinitionGUI',
     'class_path' => './Modules/DataCollection/classes/CreateView/class.ilDclCreateViewDefinitionGUI.php',
     'parents' => 
@@ -4900,7 +4910,7 @@
   ),
   'ildclcreateviewtablegui' => 
   array (
-    'cid' => '9n',
+    'cid' => '9o',
     'class_name' => 'ilDclCreateViewTableGUI',
     'class_path' => './Modules/DataCollection/classes/CreateView/class.ilDclCreateViewTableGUI.php',
     'parents' => 
@@ -4912,7 +4922,7 @@
   ),
   'ildcldetailedviewdefinitiongui' => 
   array (
-    'cid' => '9o',
+    'cid' => '9p',
     'class_name' => 'ilDclDetailedViewDefinitionGUI',
     'class_path' => './Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewDefinitionGUI.php',
     'parents' => 
@@ -4931,7 +4941,7 @@
   ),
   'ildcldetailedviewgui' => 
   array (
-    'cid' => '9p',
+    'cid' => '9q',
     'class_name' => 'ilDclDetailedViewGUI',
     'class_path' => './Modules/DataCollection/classes/DetailedView/class.ilDclDetailedViewGUI.php',
     'parents' => 
@@ -4946,7 +4956,7 @@
   ),
   'ildcleditviewdefinitiongui' => 
   array (
-    'cid' => '9q',
+    'cid' => '9r',
     'class_name' => 'ilDclEditViewDefinitionGUI',
     'class_path' => './Modules/DataCollection/classes/EditView/class.ilDclEditViewDefinitionGUI.php',
     'parents' => 
@@ -4964,7 +4974,7 @@
   ),
   'ildcleditviewtablegui' => 
   array (
-    'cid' => '9r',
+    'cid' => '9s',
     'class_name' => 'ilDclEditViewTableGUI',
     'class_path' => './Modules/DataCollection/classes/EditView/class.ilDclEditViewTableGUI.php',
     'parents' => 
@@ -4976,7 +4986,7 @@
   ),
   'ildclexportgui' => 
   array (
-    'cid' => '9s',
+    'cid' => '9t',
     'class_name' => 'ilDclExportGUI',
     'class_path' => './Modules/DataCollection/classes/class.ilDclExportGUI.php',
     'parents' => 
@@ -4989,7 +4999,7 @@
   ),
   'ildclexporttablegui' => 
   array (
-    'cid' => '9t',
+    'cid' => '9u',
     'class_name' => 'ilDclExportTableGUI',
     'class_path' => './Modules/DataCollection/classes/class.ilDclExportTableGUI.php',
     'parents' => 
@@ -5001,7 +5011,7 @@
   ),
   'ildclfieldeditgui' => 
   array (
-    'cid' => '9u',
+    'cid' => '9v',
     'class_name' => 'ilDclFieldEditGUI',
     'class_path' => './Modules/DataCollection/classes/Fields/class.ilDclFieldEditGUI.php',
     'parents' => 
@@ -5014,7 +5024,7 @@
   ),
   'ildclfieldlistgui' => 
   array (
-    'cid' => '9v',
+    'cid' => '9w',
     'class_name' => 'ilDclFieldListGUI',
     'class_path' => './Modules/DataCollection/classes/Fields/class.ilDclFieldListGUI.php',
     'parents' => 
@@ -5027,7 +5037,7 @@
   ),
   'ildclfieldlisttablegui' => 
   array (
-    'cid' => '9w',
+    'cid' => '9x',
     'class_name' => 'ilDclFieldListTableGUI',
     'class_path' => './Modules/DataCollection/classes/Fields/class.ilDclFieldListTableGUI.php',
     'parents' => 
@@ -5039,7 +5049,7 @@
   ),
   'ildclgenericmultiinputgui' => 
   array (
-    'cid' => '9x',
+    'cid' => '9y',
     'class_name' => 'ilDclGenericMultiInputGUI',
     'class_path' => './Modules/DataCollection/classes/Helpers/class.ilDclGenericMultiInputGUI.php',
     'parents' => 
@@ -5051,7 +5061,7 @@
   ),
   'ildclmultitextinputgui' => 
   array (
-    'cid' => '9y',
+    'cid' => '9z',
     'class_name' => 'ilDclMultiTextInputGUI',
     'class_path' => './Modules/DataCollection/classes/Helpers/class.ilDclMultiTextInputGUI.php',
     'parents' => 
@@ -5063,7 +5073,7 @@
   ),
   'ildclnreferencefieldgui' => 
   array (
-    'cid' => '9z',
+    'cid' => 'a0',
     'class_name' => 'ilDclNReferenceFieldGUI',
     'class_path' => './Modules/DataCollection/classes/Fields/NReference/class.ilDclNReferenceFieldGUI.php',
     'parents' => 
@@ -5075,7 +5085,7 @@
   ),
   'ildclpropertyformgui' => 
   array (
-    'cid' => 'a0',
+    'cid' => 'a1',
     'class_name' => 'ilDclPropertyFormGUI',
     'class_path' => './Modules/DataCollection/classes/Helpers/class.ilDclPropertyFormGUI.php',
     'parents' => 
@@ -5089,7 +5099,7 @@
   ),
   'ildclrecordeditgui' => 
   array (
-    'cid' => 'a1',
+    'cid' => 'a2',
     'class_name' => 'ilDclRecordEditGUI',
     'class_path' => './Modules/DataCollection/classes/Content/class.ilDclRecordEditGUI.php',
     'parents' => 
@@ -5103,7 +5113,7 @@
   ),
   'ildclrecordlistgui' => 
   array (
-    'cid' => 'a2',
+    'cid' => 'a3',
     'class_name' => 'ilDclRecordListGUI',
     'class_path' => './Modules/DataCollection/classes/Content/class.ilDclRecordListGUI.php',
     'parents' => 
@@ -5116,7 +5126,7 @@
   ),
   'ildclrecordlisttablegui' => 
   array (
-    'cid' => 'a3',
+    'cid' => 'a4',
     'class_name' => 'ilDclRecordListTableGUI',
     'class_path' => './Modules/DataCollection/classes/Content/class.ilDclRecordListTableGUI.php',
     'parents' => 
@@ -5128,7 +5138,7 @@
   ),
   'ildcltableeditgui' => 
   array (
-    'cid' => 'a4',
+    'cid' => 'a5',
     'class_name' => 'ilDclTableEditGUI',
     'class_path' => './Modules/DataCollection/classes/Table/class.ilDclTableEditGUI.php',
     'parents' => 
@@ -5141,7 +5151,7 @@
   ),
   'ildcltablelistgui' => 
   array (
-    'cid' => 'a5',
+    'cid' => 'a6',
     'class_name' => 'ilDclTableListGUI',
     'class_path' => './Modules/DataCollection/classes/Table/class.ilDclTableListGUI.php',
     'parents' => 
@@ -5158,7 +5168,7 @@
   ),
   'ildcltablelisttablegui' => 
   array (
-    'cid' => 'a6',
+    'cid' => 'a7',
     'class_name' => 'ilDclTableListTableGUI',
     'class_path' => './Modules/DataCollection/classes/Table/class.ilDclTableListTableGUI.php',
     'parents' => 
@@ -5170,7 +5180,7 @@
   ),
   'ildcltablevieweditfieldstablegui' => 
   array (
-    'cid' => 'a7',
+    'cid' => 'a8',
     'class_name' => 'ilDclTableViewEditFieldsTableGUI',
     'class_path' => './Modules/DataCollection/classes/TableView/class.ilDclTableViewFieldsTableGUI.php',
     'parents' => 
@@ -5182,7 +5192,7 @@
   ),
   'ildcltablevieweditformgui' => 
   array (
-    'cid' => 'a8',
+    'cid' => 'a9',
     'class_name' => 'ilDclTableViewEditFormGUI',
     'class_path' => './Modules/DataCollection/classes/TableView/class.ilDclTableViewEditFormGUI.php',
     'parents' => 
@@ -5194,7 +5204,7 @@
   ),
   'ildcltablevieweditgui' => 
   array (
-    'cid' => 'a9',
+    'cid' => 'aa',
     'class_name' => 'ilDclTableViewEditGUI',
     'class_path' => './Modules/DataCollection/classes/TableView/class.ilDclTableViewEditGUI.php',
     'parents' => 
@@ -5210,7 +5220,7 @@
   ),
   'ildcltableviewgui' => 
   array (
-    'cid' => 'aa',
+    'cid' => 'ab',
     'class_name' => 'ilDclTableViewGUI',
     'class_path' => './Modules/DataCollection/classes/TableView/class.ilDclTableViewGUI.php',
     'parents' => 
@@ -5224,7 +5234,7 @@
   ),
   'ildcltableviewtablegui' => 
   array (
-    'cid' => 'ab',
+    'cid' => 'ac',
     'class_name' => 'ilDclTableViewTableGUI',
     'class_path' => './Modules/DataCollection/classes/TableView/class.ilDclTableViewTableGUI.php',
     'parents' => 
@@ -5236,7 +5246,7 @@
   ),
   'ildcltextinputgui' => 
   array (
-    'cid' => 'ac',
+    'cid' => 'ad',
     'class_name' => 'ilDclTextInputGUI',
     'class_path' => './Modules/DataCollection/classes/Helpers/class.ilDclTextInputGUI.php',
     'parents' => 
@@ -5248,7 +5258,7 @@
   ),
   'ildcltreepickinputgui' => 
   array (
-    'cid' => 'ad',
+    'cid' => 'ae',
     'class_name' => 'ilDclTreePickInputGUI',
     'class_path' => './Modules/DataCollection/classes/Helpers/class.ilDclTreePickInputGUI.php',
     'parents' => 
@@ -5262,24 +5272,12 @@
   ),
   'ilderivedtasksgui' => 
   array (
-    'cid' => 'ae',
+    'cid' => 'af',
     'class_name' => 'ilDerivedTasksGUI',
     'class_path' => './Services/Tasks/DerivedTasks/classes/class.ilDerivedTasksGUI.php',
     'parents' => 
     array (
       0 => 'ilstartupgui',
-    ),
-    'children' => 
-    array (
-    ),
-  ),
-  'ildesktopitemgui' => 
-  array (
-    'cid' => 'af',
-    'class_name' => 'ilDesktopItemGUI',
-    'class_path' => './Services/Repository/Favourites/classes/class.ilDesktopItemGUI.php',
-    'parents' => 
-    array (
     ),
     'children' => 
     array (
@@ -5559,7 +5557,7 @@
   array (
     'cid' => 'az',
     'class_name' => 'ilExAssTypeBlogGUI',
-    'class_path' => './Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeBlogGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/Types/GUI/classes/class.ilExAssTypeBlogGUI.php',
     'parents' => 
     array (
     ),
@@ -5571,7 +5569,7 @@
   array (
     'cid' => 'b0',
     'class_name' => 'ilExAssTypePortfolioGUI',
-    'class_path' => './Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypePortfolioGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/Types/GUI/classes/class.ilExAssTypePortfolioGUI.php',
     'parents' => 
     array (
     ),
@@ -5583,7 +5581,7 @@
   array (
     'cid' => 'b1',
     'class_name' => 'ilExAssTypeTextGUI',
-    'class_path' => './Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeTextGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/Types/GUI/classes/class.ilExAssTypeTextGUI.php',
     'parents' => 
     array (
     ),
@@ -5595,7 +5593,7 @@
   array (
     'cid' => 'b2',
     'class_name' => 'ilExAssTypeUploadGUI',
-    'class_path' => './Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeUploadGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/Types/GUI/classes/class.ilExAssTypeUploadGUI.php',
     'parents' => 
     array (
     ),
@@ -5607,7 +5605,7 @@
   array (
     'cid' => 'b3',
     'class_name' => 'ilExAssTypeUploadTeamGUI',
-    'class_path' => './Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeUploadTeamGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/Types/GUI/classes/class.ilExAssTypeUploadTeamGUI.php',
     'parents' => 
     array (
     ),
@@ -5619,7 +5617,7 @@
   array (
     'cid' => 'b4',
     'class_name' => 'ilExAssTypeWikiTeamGUI',
-    'class_path' => './Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssTypeWikiTeamGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/Types/GUI/classes/class.ilExAssTypeWikiTeamGUI.php',
     'parents' => 
     array (
       0 => 'ilexsubmissiongui',
@@ -5632,7 +5630,7 @@
   array (
     'cid' => 'b5',
     'class_name' => 'ilExAssignmentEditorGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExAssignmentEditorGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilExAssignmentEditorGUI.php',
     'parents' => 
     array (
       0 => 'ilobjexercisegui',
@@ -5648,7 +5646,7 @@
   array (
     'cid' => 'b6',
     'class_name' => 'ilExAssignmentFileSystemGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExAssignmentFileSystemGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilExAssignmentFileSystemGUI.php',
     'parents' => 
     array (
       0 => 'ilexassignmenteditorgui',
@@ -5661,7 +5659,7 @@
   array (
     'cid' => 'b7',
     'class_name' => 'ilExAssignmentFileSystemTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExAssignmentFileSystemTableGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilExAssignmentFileSystemTableGUI.php',
     'parents' => 
     array (
     ),
@@ -5673,7 +5671,7 @@
   array (
     'cid' => 'b8',
     'class_name' => 'ilExAssignmentGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExAssignmentGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilExAssignmentGUI.php',
     'parents' => 
     array (
     ),
@@ -5685,7 +5683,7 @@
   array (
     'cid' => 'b9',
     'class_name' => 'ilExAssignmentListTextTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExAssignmentListTextTableGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilExAssignmentListTextTableGUI.php',
     'parents' => 
     array (
     ),
@@ -5697,7 +5695,7 @@
   array (
     'cid' => 'ba',
     'class_name' => 'ilExAssignmentPeerReviewOverviewTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExAssignmentPeerReviewOverviewTableGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilExAssignmentPeerReviewOverviewTableGUI.php',
     'parents' => 
     array (
     ),
@@ -5709,7 +5707,7 @@
   array (
     'cid' => 'bb',
     'class_name' => 'ilExAssignmentPeerReviewTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExAssignmentPeerReviewTableGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilExAssignmentPeerReviewTableGUI.php',
     'parents' => 
     array (
     ),
@@ -5721,7 +5719,7 @@
   array (
     'cid' => 'bc',
     'class_name' => 'ilExAssignmentTeamLogTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExAssignmentTeamLogTableGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilExAssignmentTeamLogTableGUI.php',
     'parents' => 
     array (
     ),
@@ -5733,7 +5731,7 @@
   array (
     'cid' => 'bd',
     'class_name' => 'ilExAssignmentTeamTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExAssignmentTeamTableGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/class.ilExAssignmentTeamTableGUI.php',
     'parents' => 
     array (
     ),
@@ -5745,7 +5743,7 @@
   array (
     'cid' => 'be',
     'class_name' => 'ilExAssignmentTypesGUI',
-    'class_path' => './Modules/Exercise/AssignmentTypes/GUI/classes/class.ilExAssignmentTypesGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/Types/GUI/classes/class.ilExAssignmentTypesGUI.php',
     'parents' => 
     array (
     ),
@@ -5765,23 +5763,11 @@
     array (
     ),
   ),
-  'ilexparticipanttablegui' => 
-  array (
-    'cid' => 'bg',
-    'class_name' => 'ilExParticipantTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExParticipantTableGUI.php',
-    'parents' => 
-    array (
-    ),
-    'children' => 
-    array (
-    ),
-  ),
   'ilexpeerreviewgui' => 
   array (
-    'cid' => 'bh',
+    'cid' => 'bg',
     'class_name' => 'ilExPeerReviewGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExPeerReviewGUI.php',
+    'class_path' => './Modules/Exercise/PeerReview/class.ilExPeerReviewGUI.php',
     'parents' => 
     array (
       0 => 'ilexassignmenteditorgui',
@@ -5798,9 +5784,9 @@
   ),
   'ilexsubmissionbasegui' => 
   array (
-    'cid' => 'bi',
+    'cid' => 'bh',
     'class_name' => 'ilExSubmissionBaseGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExSubmissionBaseGUI.php',
+    'class_path' => './Modules/Exercise/Submission/class.ilExSubmissionBaseGUI.php',
     'parents' => 
     array (
     ),
@@ -5810,9 +5796,9 @@
   ),
   'ilexsubmissionfilegui' => 
   array (
-    'cid' => 'bj',
+    'cid' => 'bi',
     'class_name' => 'ilExSubmissionFileGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExSubmissionFileGUI.php',
+    'class_path' => './Modules/Exercise/Submission/class.ilExSubmissionFileGUI.php',
     'parents' => 
     array (
       0 => 'ilexsubmissiongui',
@@ -5824,9 +5810,9 @@
   ),
   'ilexsubmissiongui' => 
   array (
-    'cid' => 'bk',
+    'cid' => 'bj',
     'class_name' => 'ilExSubmissionGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExSubmissionGUI.php',
+    'class_path' => './Modules/Exercise/Submission/class.ilExSubmissionGUI.php',
     'parents' => 
     array (
       0 => 'ilobjexercisegui',
@@ -5843,9 +5829,9 @@
   ),
   'ilexsubmissionobjectgui' => 
   array (
-    'cid' => 'bl',
+    'cid' => 'bk',
     'class_name' => 'ilExSubmissionObjectGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExSubmissionObjectGUI.php',
+    'class_path' => './Modules/Exercise/Submission/class.ilExSubmissionObjectGUI.php',
     'parents' => 
     array (
       0 => 'ilexsubmissiongui',
@@ -5856,9 +5842,9 @@
   ),
   'ilexsubmissionteamgui' => 
   array (
-    'cid' => 'bm',
+    'cid' => 'bl',
     'class_name' => 'ilExSubmissionTeamGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExSubmissionTeamGUI.php',
+    'class_path' => './Modules/Exercise/Submission/class.ilExSubmissionTeamGUI.php',
     'parents' => 
     array (
       0 => 'ilexsubmissiongui',
@@ -5871,9 +5857,9 @@
   ),
   'ilexsubmissiontextgui' => 
   array (
-    'cid' => 'bn',
+    'cid' => 'bm',
     'class_name' => 'ilExSubmissionTextGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExSubmissionTextGUI.php',
+    'class_path' => './Modules/Exercise/Submission/class.ilExSubmissionTextGUI.php',
     'parents' => 
     array (
       0 => 'ilexpeerreviewgui',
@@ -5886,9 +5872,9 @@
   ),
   'ilexccriteriacataloguegui' => 
   array (
-    'cid' => 'bo',
+    'cid' => 'bn',
     'class_name' => 'ilExcCriteriaCatalogueGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExcCriteriaCatalogueGUI.php',
+    'class_path' => './Modules/Exercise/PeerReview/Criteria/class.ilExcCriteriaCatalogueGUI.php',
     'parents' => 
     array (
       0 => 'ilobjexercisegui',
@@ -5900,9 +5886,9 @@
   ),
   'ilexccriteriacataloguetablegui' => 
   array (
-    'cid' => 'bp',
+    'cid' => 'bo',
     'class_name' => 'ilExcCriteriaCatalogueTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExcCriteriaCatalogueTableGUI.php',
+    'class_path' => './Modules/Exercise/PeerReview/Criteria/class.ilExcCriteriaCatalogueTableGUI.php',
     'parents' => 
     array (
     ),
@@ -5912,9 +5898,9 @@
   ),
   'ilexccriteriagui' => 
   array (
-    'cid' => 'bq',
+    'cid' => 'bp',
     'class_name' => 'ilExcCriteriaGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExcCriteriaGUI.php',
+    'class_path' => './Modules/Exercise/PeerReview/Criteria/class.ilExcCriteriaGUI.php',
     'parents' => 
     array (
       0 => 'ilexccriteriacataloguegui',
@@ -5925,9 +5911,9 @@
   ),
   'ilexccriteriatablegui' => 
   array (
-    'cid' => 'br',
+    'cid' => 'bq',
     'class_name' => 'ilExcCriteriaTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExcCriteriaTableGUI.php',
+    'class_path' => './Modules/Exercise/PeerReview/Criteria/class.ilExcCriteriaTableGUI.php',
     'parents' => 
     array (
     ),
@@ -5937,7 +5923,7 @@
   ),
   'ilexcdeliveredfilestablegui' => 
   array (
-    'cid' => 'bs',
+    'cid' => 'br',
     'class_name' => 'ilExcDeliveredFilesTableGUI',
     'class_path' => './Modules/Exercise/classes/class.ilExcDeliveredFilesTableGUI.php',
     'parents' => 
@@ -5949,9 +5935,9 @@
   ),
   'ilexcrandomassignmentgui' => 
   array (
-    'cid' => 'bt',
+    'cid' => 'bs',
     'class_name' => 'ilExcRandomAssignmentGUI',
-    'class_path' => './Modules/Exercise/MandatoryAssignments/classes/class.ilExcRandomAssignmentGUI.php',
+    'class_path' => './Modules/Exercise/Assignment/Mandatory/class.ilExcRandomAssignmentGUI.php',
     'parents' => 
     array (
       0 => 'ilobjexercisegui',
@@ -5962,7 +5948,7 @@
   ),
   'ilexercisehandlergui' => 
   array (
-    'cid' => 'bu',
+    'cid' => 'bt',
     'class_name' => 'ilExerciseHandlerGUI',
     'class_path' => './Modules/Exercise/classes/class.ilExerciseHandlerGUI.php',
     'parents' => 
@@ -5975,7 +5961,7 @@
   ),
   'ilexercisemanagementgui' => 
   array (
-    'cid' => 'bv',
+    'cid' => 'bu',
     'class_name' => 'ilExerciseManagementGUI',
     'class_path' => './Modules/Exercise/classes/class.ilExerciseManagementGUI.php',
     'parents' => 
@@ -5992,23 +5978,11 @@
       5 => 'ilexpeerreviewgui',
     ),
   ),
-  'ilexercisemembertablegui' => 
-  array (
-    'cid' => 'bw',
-    'class_name' => 'ilExerciseMemberTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExerciseMemberTableGUI.php',
-    'parents' => 
-    array (
-    ),
-    'children' => 
-    array (
-    ),
-  ),
   'ilexercisesubmissiontablegui' => 
   array (
-    'cid' => 'bx',
+    'cid' => 'bv',
     'class_name' => 'ilExerciseSubmissionTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilExerciseSubmissionTableGUI.php',
+    'class_path' => './Modules/Exercise/Submission/class.ilExerciseSubmissionTableGUI.php',
     'parents' => 
     array (
     ),
@@ -6018,7 +5992,7 @@
   ),
   'ilexerciseverificationtablegui' => 
   array (
-    'cid' => 'by',
+    'cid' => 'bw',
     'class_name' => 'ilExerciseVerificationTableGUI',
     'class_path' => './Modules/Exercise/classes/class.ilExerciseVerificationTableGUI.php',
     'parents' => 
@@ -6030,7 +6004,7 @@
   ),
   'ilexplorerbasegui' => 
   array (
-    'cid' => 'bz',
+    'cid' => 'bx',
     'class_name' => 'ilExplorerBaseGUI',
     'class_path' => './Services/UIComponent/Explorer2/classes/class.ilExplorerBaseGUI.php',
     'parents' => 
@@ -6042,7 +6016,7 @@
   ),
   'ilexplorerselectinputgui' => 
   array (
-    'cid' => 'c0',
+    'cid' => 'by',
     'class_name' => 'ilExplorerSelectInputGUI',
     'class_path' => './Services/UIComponent/Explorer2/classes/class.ilExplorerSelectInputGUI.php',
     'parents' => 
@@ -6054,7 +6028,7 @@
   ),
   'ilexportgui' => 
   array (
-    'cid' => 'c1',
+    'cid' => 'bz',
     'class_name' => 'ilExportGUI',
     'class_path' => './Services/Export/classes/class.ilExportGUI.php',
     'parents' => 
@@ -6096,7 +6070,7 @@
   ),
   'ilexportidtablegui' => 
   array (
-    'cid' => 'c2',
+    'cid' => 'c0',
     'class_name' => 'ilExportIDTableGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilExportIDTableGUI.php',
     'parents' => 
@@ -6108,7 +6082,7 @@
   ),
   'ilexportselectiontablegui' => 
   array (
-    'cid' => 'c3',
+    'cid' => 'c1',
     'class_name' => 'ilExportSelectionTableGUI',
     'class_path' => './Services/Export/classes/class.ilExportSelectionTableGUI.php',
     'parents' => 
@@ -6120,7 +6094,7 @@
   ),
   'ilexporttablegui' => 
   array (
-    'cid' => 'c4',
+    'cid' => 'c2',
     'class_name' => 'ilExportTableGUI',
     'class_path' => './Services/Export/classes/class.ilExportTableGUI.php',
     'parents' => 
@@ -6132,7 +6106,7 @@
   ),
   'ilextidgui' => 
   array (
-    'cid' => 'c5',
+    'cid' => 'c3',
     'class_name' => 'ilExtIdGUI',
     'class_path' => './Modules/OrgUnit/classes/ExtId/class.ilExtIdGUI.php',
     'parents' => 
@@ -6145,7 +6119,7 @@
   ),
   'ilexternalfeedblockgui' => 
   array (
-    'cid' => 'c6',
+    'cid' => 'c4',
     'class_name' => 'ilExternalFeedBlockGUI',
     'class_path' => './Modules/ExternalFeed/classes/class.ilExternalFeedBlockGUI.php',
     'parents' => 
@@ -6159,7 +6133,7 @@
   ),
   'ilexternalfeedhandlergui' => 
   array (
-    'cid' => 'c7',
+    'cid' => 'c5',
     'class_name' => 'ilExternalFeedHandlerGUI',
     'class_path' => './Modules/ExternalFeed/classes/class.ilExternalFeedHandlerGUI.php',
     'parents' => 
@@ -6172,7 +6146,7 @@
   ),
   'ilfavouriteslistgui' => 
   array (
-    'cid' => 'c8',
+    'cid' => 'c6',
     'class_name' => 'ilFavouritesListGUI',
     'class_path' => './Services/Repository/Favourites/classes/class.ilFavouritesListGUI.php',
     'parents' => 
@@ -6184,7 +6158,7 @@
   ),
   'ilfeedurlinputgui' => 
   array (
-    'cid' => 'c9',
+    'cid' => 'c7',
     'class_name' => 'ilFeedUrlInputGUI',
     'class_path' => './Services/Form/classes/class.ilFeedUrlInputGUI.php',
     'parents' => 
@@ -6196,7 +6170,7 @@
   ),
   'ilfeedbackconfirmationtable2gui' => 
   array (
-    'cid' => 'ca',
+    'cid' => 'c8',
     'class_name' => 'ilFeedbackConfirmationTable2GUI',
     'class_path' => './Modules/Exercise/classes/class.ilFeedbackConfirmationTable2GUI.php',
     'parents' => 
@@ -6208,7 +6182,7 @@
   ),
   'ilfileinputgui' => 
   array (
-    'cid' => 'cb',
+    'cid' => 'c9',
     'class_name' => 'ilFileInputGUI',
     'class_path' => './Services/Form/classes/class.ilFileInputGUI.php',
     'parents' => 
@@ -6220,7 +6194,7 @@
   ),
   'ilfilenewsrenderergui' => 
   array (
-    'cid' => 'cc',
+    'cid' => 'ca',
     'class_name' => 'ilFileNewsRendererGUI',
     'class_path' => './Modules/File/classes/class.ilFileNewsRendererGUI.php',
     'parents' => 
@@ -6232,7 +6206,7 @@
   ),
   'ilfilestandarddropzoneinputgui' => 
   array (
-    'cid' => 'cd',
+    'cid' => 'cb',
     'class_name' => 'ilFileStandardDropzoneInputGUI',
     'class_path' => './Services/Form/classes/class.ilFileStandardDropzoneInputGUI.php',
     'parents' => 
@@ -6244,7 +6218,7 @@
   ),
   'ilfilesystemgui' => 
   array (
-    'cid' => 'ce',
+    'cid' => 'cc',
     'class_name' => 'ilFileSystemGUI',
     'class_path' => './Services/FileSystem/classes/class.ilFileSystemGUI.php',
     'parents' => 
@@ -6265,7 +6239,7 @@
   ),
   'ilfilesystemtablegui' => 
   array (
-    'cid' => 'cf',
+    'cid' => 'cd',
     'class_name' => 'ilFileSystemTableGUI',
     'class_path' => './Services/FileSystem/classes/class.ilFileSystemTableGUI.php',
     'parents' => 
@@ -6277,7 +6251,7 @@
   ),
   'ilfileuploadgui' => 
   array (
-    'cid' => 'cg',
+    'cid' => 'ce',
     'class_name' => 'ilFileUploadGUI',
     'class_path' => './Services/FileUpload/classes/class.ilFileUploadGUI.php',
     'parents' => 
@@ -6289,7 +6263,7 @@
   ),
   'ilfileversionformgui' => 
   array (
-    'cid' => 'ch',
+    'cid' => 'cf',
     'class_name' => 'ilFileVersionFormGUI',
     'class_path' => './Modules/File/classes/Versions/class.ilFileVersionFormGUI.php',
     'parents' => 
@@ -6301,7 +6275,7 @@
   ),
   'ilfileversiontablegui' => 
   array (
-    'cid' => 'ci',
+    'cid' => 'cg',
     'class_name' => 'ilFileVersionTableGUI',
     'class_path' => './Modules/File/classes/Versions/class.ilFileVersionTableGUI.php',
     'parents' => 
@@ -6313,7 +6287,7 @@
   ),
   'ilfileversionsgui' => 
   array (
-    'cid' => 'cj',
+    'cid' => 'ch',
     'class_name' => 'ilFileVersionsGUI',
     'class_path' => './Modules/File/classes/Versions/class.ilFileVersionsGUI.php',
     'parents' => 
@@ -6326,7 +6300,7 @@
   ),
   'ilfileversionstablegui' => 
   array (
-    'cid' => 'ck',
+    'cid' => 'ci',
     'class_name' => 'ilFileVersionsTableGUI',
     'class_path' => './Modules/File/classes/Versions/class.ilFileVersionsTableGUI.php',
     'parents' => 
@@ -6338,7 +6312,7 @@
   ),
   'ilfilewizardinputgui' => 
   array (
-    'cid' => 'cl',
+    'cid' => 'cj',
     'class_name' => 'ilFileWizardInputGUI',
     'class_path' => './Services/Form/classes/class.ilFileWizardInputGUI.php',
     'parents' => 
@@ -6350,7 +6324,7 @@
   ),
   'ilfontsizeinputgui' => 
   array (
-    'cid' => 'cm',
+    'cid' => 'ck',
     'class_name' => 'ilFontSizeInputGUI',
     'class_path' => './Services/Style/Content/classes/class.ilFontSizeInputGUI.php',
     'parents' => 
@@ -6362,7 +6336,7 @@
   ),
   'ilformgui' => 
   array (
-    'cid' => 'cn',
+    'cid' => 'cl',
     'class_name' => 'ilFormGUI',
     'class_path' => './Services/Form/classes/class.ilFormGUI.php',
     'parents' => 
@@ -6374,7 +6348,7 @@
   ),
   'ilformpropertydispatchgui' => 
   array (
-    'cid' => 'co',
+    'cid' => 'cm',
     'class_name' => 'ilFormPropertyDispatchGUI',
     'class_path' => './Services/Form/classes/class.ilFormPropertyDispatchGUI.php',
     'parents' => 
@@ -6432,7 +6406,7 @@
   ),
   'ilformpropertygui' => 
   array (
-    'cid' => 'cp',
+    'cid' => 'cn',
     'class_name' => 'ilFormPropertyGUI',
     'class_path' => './Services/Form/classes/class.ilFormPropertyGUI.php',
     'parents' => 
@@ -6444,7 +6418,7 @@
   ),
   'ilformsectionheadergui' => 
   array (
-    'cid' => 'cq',
+    'cid' => 'co',
     'class_name' => 'ilFormSectionHeaderGUI',
     'class_path' => './Services/Form/classes/class.ilFormSectionHeaderGUI.php',
     'parents' => 
@@ -6456,7 +6430,7 @@
   ),
   'ilformulainputgui' => 
   array (
-    'cid' => 'cr',
+    'cid' => 'cp',
     'class_name' => 'ilFormulaInputGUI',
     'class_path' => './Services/Form/classes/class.ilFormulaInputGUI.php',
     'parents' => 
@@ -6468,7 +6442,7 @@
   ),
   'ilforumdraftstablegui' => 
   array (
-    'cid' => 'cs',
+    'cid' => 'cq',
     'class_name' => 'ilForumDraftsTableGUI',
     'class_path' => './Modules/Forum/classes/class.ilForumDraftsTableGUI.php',
     'parents' => 
@@ -6480,7 +6454,7 @@
   ),
   'ilforumexplorergui' => 
   array (
-    'cid' => 'ct',
+    'cid' => 'cr',
     'class_name' => 'ilForumExplorerGUI',
     'class_path' => './Modules/Forum/classes/class.ilForumExplorerGUI.php',
     'parents' => 
@@ -6492,7 +6466,7 @@
   ),
   'ilforumexportgui' => 
   array (
-    'cid' => 'cu',
+    'cid' => 'cs',
     'class_name' => 'ilForumExportGUI',
     'class_path' => './Modules/Forum/classes/class.ilForumExportGUI.php',
     'parents' => 
@@ -6505,7 +6479,7 @@
   ),
   'ilforummoderatorsgui' => 
   array (
-    'cid' => 'cv',
+    'cid' => 'ct',
     'class_name' => 'ilForumModeratorsGUI',
     'class_path' => './Modules/Forum/classes/class.ilForumModeratorsGUI.php',
     'parents' => 
@@ -6519,7 +6493,7 @@
   ),
   'ilforummoderatorstablegui' => 
   array (
-    'cid' => 'cw',
+    'cid' => 'cu',
     'class_name' => 'ilForumModeratorsTableGUI',
     'class_path' => './Modules/Forum/classes/class.ilForumModeratorsTableGUI.php',
     'parents' => 
@@ -6531,9 +6505,33 @@
   ),
   'ilforumnewsrenderergui' => 
   array (
-    'cid' => 'cx',
+    'cid' => 'cv',
     'class_name' => 'ilForumNewsRendererGUI',
     'class_path' => './Modules/Forum/classes/class.ilForumNewsRendererGUI.php',
+    'parents' => 
+    array (
+    ),
+    'children' => 
+    array (
+    ),
+  ),
+  'ilforumnotificationeventsformgui' => 
+  array (
+    'cid' => 'cw',
+    'class_name' => 'ilForumNotificationEventsFormGUI',
+    'class_path' => './Modules/Forum/classes/Notification/class.ilForumNotificationEventsFormGUI.php',
+    'parents' => 
+    array (
+    ),
+    'children' => 
+    array (
+    ),
+  ),
+  'ilforumnotificationtablegui' => 
+  array (
+    'cid' => 'cx',
+    'class_name' => 'ilForumNotificationTableGUI',
+    'class_path' => './Modules/Forum/classes/class.ilForumNotificationTableGUI.php',
     'parents' => 
     array (
     ),
@@ -8336,22 +8334,23 @@
       7 => 'ilobjfilebasedlmgui',
       8 => 'ilobjfilegui',
       9 => 'ilobjfoldergui',
-      10 => 'ilobjgroupgui',
-      11 => 'ilobjindividualassessmentgui',
-      12 => 'ilobjlticonsumergui',
-      13 => 'ilobjlearningmodulegui',
-      14 => 'ilobjlearningsequencegui',
-      15 => 'ilobjmediacastgui',
-      16 => 'ilobjorgunitgui',
-      17 => 'ilobjsahslearningmodulegui',
-      18 => 'ilobjscorm2004learningmodulegui',
-      19 => 'ilobjscormlearningmodulegui',
-      20 => 'ilobjsessiongui',
-      21 => 'ilobjsurveygui',
-      22 => 'ilobjtestgui',
-      23 => 'ilobjusergui',
-      24 => 'ilobjusertrackinggui',
-      25 => 'ilsahspresentationgui',
+      10 => 'ilobjforumgui',
+      11 => 'ilobjgroupgui',
+      12 => 'ilobjindividualassessmentgui',
+      13 => 'ilobjlticonsumergui',
+      14 => 'ilobjlearningmodulegui',
+      15 => 'ilobjlearningsequencegui',
+      16 => 'ilobjmediacastgui',
+      17 => 'ilobjorgunitgui',
+      18 => 'ilobjsahslearningmodulegui',
+      19 => 'ilobjscorm2004learningmodulegui',
+      20 => 'ilobjscormlearningmodulegui',
+      21 => 'ilobjsessiongui',
+      22 => 'ilobjsurveygui',
+      23 => 'ilobjtestgui',
+      24 => 'ilobjusergui',
+      25 => 'ilobjusertrackinggui',
+      26 => 'ilsahspresentationgui',
     ),
     'children' => 
     array (
@@ -9229,33 +9228,9 @@
       0 => 'ilbuddysystemgui',
     ),
   ),
-  'ilmailsearchcoursesmemberstablegui' => 
-  array (
-    'cid' => 'ib',
-    'class_name' => 'ilMailSearchCoursesMembersTableGUI',
-    'class_path' => './Services/Contact/classes/class.ilMailSearchCoursesMembersTableGUI.php',
-    'parents' => 
-    array (
-    ),
-    'children' => 
-    array (
-    ),
-  ),
-  'ilmailsearchcoursestablegui' => 
-  array (
-    'cid' => 'ic',
-    'class_name' => 'ilMailSearchCoursesTableGUI',
-    'class_path' => './Services/Contact/classes/class.ilMailSearchCoursesTableGUI.php',
-    'parents' => 
-    array (
-    ),
-    'children' => 
-    array (
-    ),
-  ),
   'ilmailsearchgui' => 
   array (
-    'cid' => 'id',
+    'cid' => 'ib',
     'class_name' => 'ilMailSearchGUI',
     'class_path' => './Services/Contact/classes/class.ilMailSearchGUI.php',
     'parents' => 
@@ -9272,7 +9247,7 @@
   ),
   'ilmailsearchgroupsgui' => 
   array (
-    'cid' => 'ie',
+    'cid' => 'ic',
     'class_name' => 'ilMailSearchGroupsGUI',
     'class_path' => './Services/Contact/classes/class.ilMailSearchGroupsGUI.php',
     'parents' => 
@@ -9286,9 +9261,45 @@
       0 => 'ilbuddysystemgui',
     ),
   ),
-  'ilmailtemplategui' => 
+  'ilmailsearchobjectgui' => 
+  array (
+    'cid' => 'id',
+    'class_name' => 'ilMailSearchObjectGUI',
+    'class_path' => './Services/Contact/classes/class.ilMailSearchObjectGUI.php',
+    'parents' => 
+    array (
+    ),
+    'children' => 
+    array (
+    ),
+  ),
+  'ilmailsearchobjectmembershipstablegui' => 
+  array (
+    'cid' => 'ie',
+    'class_name' => 'ilMailSearchObjectMembershipsTableGUI',
+    'class_path' => './Services/Contact/classes/class.ilMailSearchObjectMembershipsTableGUI.php',
+    'parents' => 
+    array (
+    ),
+    'children' => 
+    array (
+    ),
+  ),
+  'ilmailsearchobjectstablegui' => 
   array (
     'cid' => 'if',
+    'class_name' => 'ilMailSearchObjectsTableGUI',
+    'class_path' => './Services/Contact/classes/class.ilMailSearchObjectsTableGUI.php',
+    'parents' => 
+    array (
+    ),
+    'children' => 
+    array (
+    ),
+  ),
+  'ilmailtemplategui' => 
+  array (
+    'cid' => 'ig',
     'class_name' => 'ilMailTemplateGUI',
     'class_path' => './Services/Mail/classes/class.ilMailTemplateGUI.php',
     'parents' => 
@@ -9301,7 +9312,7 @@
   ),
   'ilmailtemplateselectinputgui' => 
   array (
-    'cid' => 'ig',
+    'cid' => 'ih',
     'class_name' => 'ilMailTemplateSelectInputGUI',
     'class_path' => './Services/Mail/classes/Form/class.ilMailTemplateSelectInputGUI.php',
     'parents' => 
@@ -9313,7 +9324,7 @@
   ),
   'ilmailtemplatetablegui' => 
   array (
-    'cid' => 'ih',
+    'cid' => 'ii',
     'class_name' => 'ilMailTemplateTableGUI',
     'class_path' => './Services/Mail/classes/class.ilMailTemplateTableGUI.php',
     'parents' => 
@@ -9325,7 +9336,7 @@
   ),
   'ilmailinglistsgui' => 
   array (
-    'cid' => 'ii',
+    'cid' => 'ij',
     'class_name' => 'ilMailingListsGUI',
     'class_path' => './Services/Contact/classes/class.ilMailingListsGUI.php',
     'parents' => 
@@ -9339,7 +9350,7 @@
   ),
   'ilmailinglistsmemberstablegui' => 
   array (
-    'cid' => 'ij',
+    'cid' => 'ik',
     'class_name' => 'ilMailingListsMembersTableGUI',
     'class_path' => './Services/Contact/classes/class.ilMailingListsMembersTableGUI.php',
     'parents' => 
@@ -9351,7 +9362,7 @@
   ),
   'ilmailingliststablegui' => 
   array (
-    'cid' => 'ik',
+    'cid' => 'il',
     'class_name' => 'ilMailingListsTableGUI',
     'class_path' => './Services/Contact/classes/class.ilMailingListsTableGUI.php',
     'parents' => 
@@ -9363,7 +9374,7 @@
   ),
   'ilmainmenugui' => 
   array (
-    'cid' => 'il',
+    'cid' => 'im',
     'class_name' => 'ilMainMenuGUI',
     'class_path' => './Services/MainMenu/classes/class.ilMainMenuGUI.php',
     'parents' => 
@@ -9375,7 +9386,7 @@
   ),
   'ilmainmenusearchgui' => 
   array (
-    'cid' => 'im',
+    'cid' => 'in',
     'class_name' => 'ilMainMenuSearchGUI',
     'class_path' => './Services/Search/classes/class.ilMainMenuSearchGUI.php',
     'parents' => 
@@ -9387,7 +9398,7 @@
   ),
   'ilmanualplaceholderinputgui' => 
   array (
-    'cid' => 'in',
+    'cid' => 'io',
     'class_name' => 'ilManualPlaceholderInputGUI',
     'class_path' => './Services/Mail/classes/Form/class.ilManualPlaceholderInputGUI.php',
     'parents' => 
@@ -9399,7 +9410,7 @@
   ),
   'ilmapgui' => 
   array (
-    'cid' => 'io',
+    'cid' => 'ip',
     'class_name' => 'ilMapGUI',
     'class_path' => './Services/Maps/classes/class.ilMapGUI.php',
     'parents' => 
@@ -9411,7 +9422,7 @@
   ),
   'ilmarkschemagui' => 
   array (
-    'cid' => 'ip',
+    'cid' => 'iq',
     'class_name' => 'ilMarkSchemaGUI',
     'class_path' => './Modules/Test/classes/class.ilMarkSchemaGUI.php',
     'parents' => 
@@ -9424,7 +9435,7 @@
   ),
   'ilmarkschematablegui' => 
   array (
-    'cid' => 'iq',
+    'cid' => 'ir',
     'class_name' => 'ilMarkSchemaTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilMarkSchemaTableGUI.php',
     'parents' => 
@@ -9436,7 +9447,7 @@
   ),
   'ilmatchingpairwizardinputgui' => 
   array (
-    'cid' => 'ir',
+    'cid' => 'is',
     'class_name' => 'ilMatchingPairWizardInputGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilMatchingPairWizardInputGUI.php',
     'parents' => 
@@ -9448,7 +9459,7 @@
   ),
   'ilmatchingquestionanswerfreqstattablegui' => 
   array (
-    'cid' => 'is',
+    'cid' => 'it',
     'class_name' => 'ilMatchingQuestionAnswerFreqStatTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilMatchingQuestionAnswerFreqStatTableGUI.php',
     'parents' => 
@@ -9460,7 +9471,7 @@
   ),
   'ilmatchingwizardinputgui' => 
   array (
-    'cid' => 'it',
+    'cid' => 'iu',
     'class_name' => 'ilMatchingWizardInputGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilMatchingWizardInputGUI.php',
     'parents' => 
@@ -9472,7 +9483,7 @@
   ),
   'ilmatrixrowwizardinputgui' => 
   array (
-    'cid' => 'iu',
+    'cid' => 'iv',
     'class_name' => 'ilMatrixRowWizardInputGUI',
     'class_path' => './Modules/SurveyQuestionPool/classes/class.ilMatrixRowWizardInputGUI.php',
     'parents' => 
@@ -9484,7 +9495,7 @@
   ),
   'ilmediacasthandlergui' => 
   array (
-    'cid' => 'iv',
+    'cid' => 'iw',
     'class_name' => 'ilMediaCastHandlerGUI',
     'class_path' => './Modules/MediaCast/classes/class.ilMediaCastHandlerGUI.php',
     'parents' => 
@@ -9497,7 +9508,7 @@
   ),
   'ilmediacasttablegui' => 
   array (
-    'cid' => 'iw',
+    'cid' => 'ix',
     'class_name' => 'ilMediaCastTableGUI',
     'class_path' => './Modules/MediaCast/classes/class.ilMediaCastTableGUI.php',
     'parents' => 
@@ -9509,7 +9520,7 @@
   ),
   'ilmediacreationgui' => 
   array (
-    'cid' => 'ix',
+    'cid' => 'iy',
     'class_name' => 'ilMediaCreationGUI',
     'class_path' => './Services/MediaObjects/Creation/class.ilMediaCreationGUI.php',
     'parents' => 
@@ -9523,7 +9534,7 @@
   ),
   'ilmediaobjectusagestablegui' => 
   array (
-    'cid' => 'iy',
+    'cid' => 'iz',
     'class_name' => 'ilMediaObjectUsagesTableGUI',
     'class_path' => './Services/MediaObjects/classes/class.ilMediaObjectUsagesTableGUI.php',
     'parents' => 
@@ -9535,7 +9546,7 @@
   ),
   'ilmediaplayergui' => 
   array (
-    'cid' => 'iz',
+    'cid' => 'j0',
     'class_name' => 'ilMediaPlayerGUI',
     'class_path' => './Services/MediaObjects/classes/class.ilMediaPlayerGUI.php',
     'parents' => 
@@ -9547,7 +9558,7 @@
   ),
   'ilmediapoolexplorergui' => 
   array (
-    'cid' => 'j0',
+    'cid' => 'j1',
     'class_name' => 'ilMediaPoolExplorerGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilMediaPoolExplorerGUI.php',
     'parents' => 
@@ -9559,7 +9570,7 @@
   ),
   'ilmediapoolimportgui' => 
   array (
-    'cid' => 'j1',
+    'cid' => 'j2',
     'class_name' => 'ilMediaPoolImportGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilMediaPoolImportGUI.php',
     'parents' => 
@@ -9572,7 +9583,7 @@
   ),
   'ilmediapoolpagegui' => 
   array (
-    'cid' => 'j2',
+    'cid' => 'j3',
     'class_name' => 'ilMediaPoolPageGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilMediaPoolPageGUI.php',
     'parents' => 
@@ -9589,7 +9600,7 @@
   ),
   'ilmediapoolpageusagestablegui' => 
   array (
-    'cid' => 'j3',
+    'cid' => 'j4',
     'class_name' => 'ilMediaPoolPageUsagesTableGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilMediaPoolPageUsagesTableGUI.php',
     'parents' => 
@@ -9601,7 +9612,7 @@
   ),
   'ilmediapoolpresentationgui' => 
   array (
-    'cid' => 'j4',
+    'cid' => 'j5',
     'class_name' => 'ilMediaPoolPresentationGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilMediaPoolPresentationGUI.php',
     'parents' => 
@@ -9614,7 +9625,7 @@
   ),
   'ilmediapooltablegui' => 
   array (
-    'cid' => 'j5',
+    'cid' => 'j6',
     'class_name' => 'ilMediaPoolTableGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilMediaPoolTableGUI.php',
     'parents' => 
@@ -9626,7 +9637,7 @@
   ),
   'ilmemberagreementgui' => 
   array (
-    'cid' => 'j6',
+    'cid' => 'j7',
     'class_name' => 'ilMemberAgreementGUI',
     'class_path' => './Services/Membership/classes/class.ilMemberAgreementGUI.php',
     'parents' => 
@@ -9640,7 +9651,7 @@
   ),
   'ilmemberexportfiletablegui' => 
   array (
-    'cid' => 'j7',
+    'cid' => 'j8',
     'class_name' => 'ilMemberExportFileTableGUI',
     'class_path' => './Services/Membership/classes/Export/class.ilMemberExportFileTableGUI.php',
     'parents' => 
@@ -9652,7 +9663,7 @@
   ),
   'ilmemberexportgui' => 
   array (
-    'cid' => 'j8',
+    'cid' => 'j9',
     'class_name' => 'ilMemberExportGUI',
     'class_path' => './Services/Membership/classes/Export/class.ilMemberExportGUI.php',
     'parents' => 
@@ -9670,7 +9681,7 @@
   ),
   'ilmemberexportsettingsgui' => 
   array (
-    'cid' => 'j9',
+    'cid' => 'ja',
     'class_name' => 'ilMemberExportSettingsGUI',
     'class_path' => './Services/Membership/classes/Export/class.ilMemberExportSettingsGUI.php',
     'parents' => 
@@ -9679,7 +9690,6 @@
       1 => 'ilobjcourseadministrationgui',
       2 => 'ilobjcoursegui',
       3 => 'ilobjgroupadministrationgui',
-      4 => 'ilobjlearningsequenceadmingui',
     ),
     'children' => 
     array (
@@ -9687,9 +9697,9 @@
   ),
   'ilmemberviewgui' => 
   array (
-    'cid' => 'ja',
+    'cid' => 'jb',
     'class_name' => 'ilMemberViewGUI',
-    'class_path' => './Services/Container/classes/class.ilMemberViewGUI.php',
+    'class_path' => './Services/Container/MemberView/class.ilMemberViewGUI.php',
     'parents' => 
     array (
     ),
@@ -9699,7 +9709,7 @@
   ),
   'ilmembershipadministrationgui' => 
   array (
-    'cid' => 'jb',
+    'cid' => 'jc',
     'class_name' => 'ilMembershipAdministrationGUI',
     'class_path' => './Services/Membership/classes/class.ilMembershipAdministrationGUI.php',
     'parents' => 
@@ -9711,7 +9721,7 @@
   ),
   'ilmembershipgui' => 
   array (
-    'cid' => 'jc',
+    'cid' => 'jd',
     'class_name' => 'ilMembershipGUI',
     'class_path' => './Services/Membership/classes/class.ilMembershipGUI.php',
     'parents' => 
@@ -9723,7 +9733,7 @@
   ),
   'ilmembershipmailgui' => 
   array (
-    'cid' => 'jd',
+    'cid' => 'je',
     'class_name' => 'ilMembershipMailGUI',
     'class_path' => './Services/Membership/classes/class.ilMembershipMailGUI.php',
     'parents' => 
@@ -9736,7 +9746,7 @@
   ),
   'ilmembershipoverviewgui' => 
   array (
-    'cid' => 'je',
+    'cid' => 'jf',
     'class_name' => 'ilMembershipOverviewGUI',
     'class_path' => './Services/Membership/classes/class.ilMembershipOverviewGUI.php',
     'parents' => 
@@ -9750,7 +9760,7 @@
   ),
   'ilmembershipregistrationsettingsgui' => 
   array (
-    'cid' => 'jf',
+    'cid' => 'jg',
     'class_name' => 'ilMembershipRegistrationSettingsGUI',
     'class_path' => './Services/Membership/classes/class.ilMembershipRegistrationSettingsGUI.php',
     'parents' => 
@@ -9762,7 +9772,7 @@
   ),
   'ilmilestoneresponsiblestablegui' => 
   array (
-    'cid' => 'jg',
+    'cid' => 'jh',
     'class_name' => 'ilMilestoneResponsiblesTableGUI',
     'class_path' => './Services/Calendar/classes/class.ilMilestoneResponsiblesTableGUI.php',
     'parents' => 
@@ -9774,7 +9784,7 @@
   ),
   'ilminicalendargui' => 
   array (
-    'cid' => 'jh',
+    'cid' => 'ji',
     'class_name' => 'ilMiniCalendarGUI',
     'class_path' => './Services/Calendar/classes/class.ilMiniCalendarGUI.php',
     'parents' => 
@@ -9786,7 +9796,7 @@
   ),
   'ilmobmultisrtconfirmationtable2gui' => 
   array (
-    'cid' => 'ji',
+    'cid' => 'jj',
     'class_name' => 'ilMobMultiSrtConfirmationTable2GUI',
     'class_path' => './Services/MediaObjects/classes/class.ilMobMultiSrtConfirmationTable2GUI.php',
     'parents' => 
@@ -9798,7 +9808,7 @@
   ),
   'ilmobmultisrtuploadgui' => 
   array (
-    'cid' => 'jj',
+    'cid' => 'jk',
     'class_name' => 'ilMobMultiSrtUploadGUI',
     'class_path' => './Services/MediaObjects/classes/class.ilMobMultiSrtUploadGUI.php',
     'parents' => 
@@ -9812,7 +9822,7 @@
   ),
   'ilmobsubtitletablegui' => 
   array (
-    'cid' => 'jk',
+    'cid' => 'jl',
     'class_name' => 'ilMobSubtitleTableGUI',
     'class_path' => './Services/MediaObjects/classes/class.ilMobSubtitleTableGUI.php',
     'parents' => 
@@ -9824,7 +9834,7 @@
   ),
   'ilmodalgui' => 
   array (
-    'cid' => 'jl',
+    'cid' => 'jm',
     'class_name' => 'ilModalGUI',
     'class_path' => './Services/UIComponent/Modal/classes/class.ilModalGUI.php',
     'parents' => 
@@ -9836,9 +9846,9 @@
   ),
   'ilmodulestablegui' => 
   array (
-    'cid' => 'jm',
+    'cid' => 'jn',
     'class_name' => 'ilModulesTableGUI',
-    'class_path' => './Services/Repository/classes/class.ilModulesTableGUI.php',
+    'class_path' => './Services/Repository/Administration/class.ilModulesTableGUI.php',
     'parents' => 
     array (
     ),
@@ -9848,7 +9858,7 @@
   ),
   'ilmultiselectinputgui' => 
   array (
-    'cid' => 'jn',
+    'cid' => 'jo',
     'class_name' => 'ilMultiSelectInputGUI',
     'class_path' => './Services/Form/classes/class.ilMultiSelectInputGUI.php',
     'parents' => 
@@ -9860,7 +9870,7 @@
   ),
   'ilmultisrtconfirmationtable2gui' => 
   array (
-    'cid' => 'jo',
+    'cid' => 'jp',
     'class_name' => 'ilMultiSrtConfirmationTable2GUI',
     'class_path' => './Services/MediaObjects/classes/class.ilMultiSrtConfirmationTable2GUI.php',
     'parents' => 
@@ -9872,7 +9882,7 @@
   ),
   'ilmultilingualismgui' => 
   array (
-    'cid' => 'jp',
+    'cid' => 'jq',
     'class_name' => 'ilMultilingualismGUI',
     'class_path' => './Services/Multilingualism/classes/class.ilMultilingualismGUI.php',
     'parents' => 
@@ -9885,7 +9895,7 @@
   ),
   'ilmultilingualismtablegui' => 
   array (
-    'cid' => 'jq',
+    'cid' => 'jr',
     'class_name' => 'ilMultilingualismTableGUI',
     'class_path' => './Services/Multilingualism/classes/class.ilMultilingualismTableGUI.php',
     'parents' => 
@@ -9897,7 +9907,7 @@
   ),
   'ilmultiplechoicewizardinputgui' => 
   array (
-    'cid' => 'jr',
+    'cid' => 'js',
     'class_name' => 'ilMultipleChoiceWizardInputGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilMultipleChoiceWizardInputGUI.php',
     'parents' => 
@@ -9909,7 +9919,7 @@
   ),
   'ilmultipleimagesinputgui' => 
   array (
-    'cid' => 'js',
+    'cid' => 'jt',
     'class_name' => 'ilMultipleImagesInputGUI',
     'class_path' => './Services/Form/classes/class.ilMultipleImagesInputGUI.php',
     'parents' => 
@@ -9921,7 +9931,7 @@
   ),
   'ilmultiplenestedorderingelementsinputgui' => 
   array (
-    'cid' => 'jt',
+    'cid' => 'ju',
     'class_name' => 'ilMultipleNestedOrderingElementsInputGUI',
     'class_path' => './Services/Form/classes/class.ilMultipleNestedOrderingElementsInputGUI.php',
     'parents' => 
@@ -9933,7 +9943,7 @@
   ),
   'ilmultipletextsinputgui' => 
   array (
-    'cid' => 'ju',
+    'cid' => 'jv',
     'class_name' => 'ilMultipleTextsInputGUI',
     'class_path' => './Services/Form/classes/class.ilMultipleTextsInputGUI.php',
     'parents' => 
@@ -9945,7 +9955,7 @@
   ),
   'ilmystaffgui' => 
   array (
-    'cid' => 'jv',
+    'cid' => 'jw',
     'class_name' => 'ilMyStaffGUI',
     'class_path' => './Services/MyStaff/classes/class.ilMyStaffGUI.php',
     'parents' => 
@@ -9963,7 +9973,7 @@
   ),
   'ilmytestresultsgui' => 
   array (
-    'cid' => 'jw',
+    'cid' => 'jx',
     'class_name' => 'ilMyTestResultsGUI',
     'class_path' => './Modules/Test/classes/class.ilMyTestResultsGUI.php',
     'parents' => 
@@ -9980,7 +9990,7 @@
   ),
   'ilmytestsolutionsgui' => 
   array (
-    'cid' => 'jx',
+    'cid' => 'jy',
     'class_name' => 'ilMyTestSolutionsGUI',
     'class_path' => './Modules/Test/classes/class.ilMyTestSolutionsGUI.php',
     'parents' => 
@@ -9995,7 +10005,7 @@
   ),
   'ilnavigationhistorygui' => 
   array (
-    'cid' => 'jy',
+    'cid' => 'jz',
     'class_name' => 'ilNavigationHistoryGUI',
     'class_path' => './Services/Navigation/classes/class.ilNavigationHistoryGUI.php',
     'parents' => 
@@ -10007,7 +10017,7 @@
   ),
   'ilnestedlistinputgui' => 
   array (
-    'cid' => 'jz',
+    'cid' => 'k0',
     'class_name' => 'ilNestedListInputGUI',
     'class_path' => './Services/Form/classes/class.ilNestedListInputGUI.php',
     'parents' => 
@@ -10019,9 +10029,9 @@
   ),
   'ilnewitemgrouptablegui' => 
   array (
-    'cid' => 'k0',
+    'cid' => 'k1',
     'class_name' => 'ilNewItemGroupTableGUI',
-    'class_path' => './Services/Repository/classes/class.ilNewItemGroupTableGUI.php',
+    'class_path' => './Services/Repository/Administration/class.ilNewItemGroupTableGUI.php',
     'parents' => 
     array (
     ),
@@ -10031,7 +10041,7 @@
   ),
   'ilnewsdefaultrenderergui' => 
   array (
-    'cid' => 'k1',
+    'cid' => 'k2',
     'class_name' => 'ilNewsDefaultRendererGUI',
     'class_path' => './Services/News/classes/class.ilNewsDefaultRendererGUI.php',
     'parents' => 
@@ -10043,7 +10053,7 @@
   ),
   'ilnewsforcontextblockgui' => 
   array (
-    'cid' => 'k2',
+    'cid' => 'k3',
     'class_name' => 'ilNewsForContextBlockGUI',
     'class_path' => './Services/News/classes/class.ilNewsForContextBlockGUI.php',
     'parents' => 
@@ -10057,7 +10067,7 @@
   ),
   'ilnewsforcontexttablegui' => 
   array (
-    'cid' => 'k3',
+    'cid' => 'k4',
     'class_name' => 'ilNewsForContextTableGUI',
     'class_path' => './Services/News/classes/class.ilNewsForContextTableGUI.php',
     'parents' => 
@@ -10069,7 +10079,7 @@
   ),
   'ilnewsitemgui' => 
   array (
-    'cid' => 'k4',
+    'cid' => 'k5',
     'class_name' => 'ilNewsItemGUI',
     'class_path' => './Services/News/classes/class.ilNewsItemGUI.php',
     'parents' => 
@@ -10084,7 +10094,7 @@
   ),
   'ilnewstimelinegui' => 
   array (
-    'cid' => 'k5',
+    'cid' => 'k6',
     'class_name' => 'ilNewsTimelineGUI',
     'class_path' => './Services/News/classes/class.ilNewsTimelineGUI.php',
     'parents' => 
@@ -10100,7 +10110,7 @@
   ),
   'ilnewstimelineitemgui' => 
   array (
-    'cid' => 'k6',
+    'cid' => 'k7',
     'class_name' => 'ilNewsTimelineItemGUI',
     'class_path' => './Services/News/classes/class.ilNewsTimelineItemGUI.php',
     'parents' => 
@@ -10112,7 +10122,7 @@
   ),
   'ilnoneditablevaluegui' => 
   array (
-    'cid' => 'k7',
+    'cid' => 'k8',
     'class_name' => 'ilNonEditableValueGUI',
     'class_path' => './Services/Form/classes/class.ilNonEditableValueGUI.php',
     'parents' => 
@@ -10124,7 +10134,7 @@
   ),
   'ilnotegui' => 
   array (
-    'cid' => 'k8',
+    'cid' => 'k9',
     'class_name' => 'ilNoteGUI',
     'class_path' => './Services/Notes/classes/class.ilNoteGUI.php',
     'parents' => 
@@ -10171,7 +10181,7 @@
   ),
   'ilnotificationgui' => 
   array (
-    'cid' => 'k9',
+    'cid' => 'ka',
     'class_name' => 'ilNotificationGUI',
     'class_path' => './Services/Notifications/classes/class.ilNotificationGUI.php',
     'parents' => 
@@ -10185,7 +10195,7 @@
   ),
   'ilnotificationosdgui' => 
   array (
-    'cid' => 'ka',
+    'cid' => 'kb',
     'class_name' => 'ilNotificationOSDGUI',
     'class_path' => './Services/Notifications/classes/class.ilNotificationOSDGUI.php',
     'parents' => 
@@ -10197,7 +10207,7 @@
   ),
   'ilnumberinputgui' => 
   array (
-    'cid' => 'kb',
+    'cid' => 'kc',
     'class_name' => 'ilNumberInputGUI',
     'class_path' => './Services/Form/classes/class.ilNumberInputGUI.php',
     'parents' => 
@@ -10209,7 +10219,7 @@
   ),
   'ilnumericstylevalueinputgui' => 
   array (
-    'cid' => 'kc',
+    'cid' => 'kd',
     'class_name' => 'ilNumericStyleValueInputGUI',
     'class_path' => './Services/Style/Content/classes/class.ilNumericStyleValueInputGUI.php',
     'parents' => 
@@ -10221,7 +10231,7 @@
   ),
   'ilobjaccessibilitysettingsgui' => 
   array (
-    'cid' => 'kd',
+    'cid' => 'ke',
     'class_name' => 'ilObjAccessibilitySettingsGUI',
     'class_path' => './Services/Accessibility/classes/class.ilObjAccessibilitySettingsGUI.php',
     'parents' => 
@@ -10236,7 +10246,7 @@
   ),
   'ilobjadministrativenotificationgui' => 
   array (
-    'cid' => 'ke',
+    'cid' => 'kf',
     'class_name' => 'ilObjAdministrativeNotificationGUI',
     'class_path' => './Services/AdministrativeNotification/classes/class.ilObjAdministrativeNotificationGUI.php',
     'parents' => 
@@ -10251,7 +10261,7 @@
   ),
   'ilobjadvancededitinggui' => 
   array (
-    'cid' => 'kf',
+    'cid' => 'kg',
     'class_name' => 'ilObjAdvancedEditingGUI',
     'class_path' => './Services/AdvancedEditing/classes/class.ilObjAdvancedEditingGUI.php',
     'parents' => 
@@ -10265,7 +10275,7 @@
   ),
   'ilobjassessmentfoldergui' => 
   array (
-    'cid' => 'kg',
+    'cid' => 'kh',
     'class_name' => 'ilObjAssessmentFolderGUI',
     'class_path' => './Modules/Test/classes/class.ilObjAssessmentFolderGUI.php',
     'parents' => 
@@ -10281,7 +10291,7 @@
   ),
   'ilobjauthsettingsgui' => 
   array (
-    'cid' => 'kh',
+    'cid' => 'ki',
     'class_name' => 'ilObjAuthSettingsGUI',
     'class_path' => './Services/Authentication/classes/class.ilObjAuthSettingsGUI.php',
     'parents' => 
@@ -10303,7 +10313,7 @@
   ),
   'ilobjawarenessadministrationgui' => 
   array (
-    'cid' => 'ki',
+    'cid' => 'kj',
     'class_name' => 'ilObjAwarenessAdministrationGUI',
     'class_path' => './Services/Awareness/classes/class.ilObjAwarenessAdministrationGUI.php',
     'parents' => 
@@ -10318,7 +10328,7 @@
   ),
   'ilobjbadgeadministrationgui' => 
   array (
-    'cid' => 'kj',
+    'cid' => 'kk',
     'class_name' => 'ilObjBadgeAdministrationGUI',
     'class_path' => './Services/Badge/classes/class.ilObjBadgeAdministrationGUI.php',
     'parents' => 
@@ -10333,7 +10343,7 @@
   ),
   'ilobjbibliographicadmingui' => 
   array (
-    'cid' => 'kk',
+    'cid' => 'kl',
     'class_name' => 'ilObjBibliographicAdminGUI',
     'class_path' => './Modules/Bibliographic/classes/class.ilObjBibliographicAdminGUI.php',
     'parents' => 
@@ -10352,7 +10362,7 @@
   ),
   'ilobjbibliographicgui' => 
   array (
-    'cid' => 'kl',
+    'cid' => 'km',
     'class_name' => 'ilObjBibliographicGUI',
     'class_path' => './Modules/Bibliographic/classes/class.ilObjBibliographicGUI.php',
     'parents' => 
@@ -10376,7 +10386,7 @@
   ),
   'ilobjbibliographiclistgui' => 
   array (
-    'cid' => 'km',
+    'cid' => 'kn',
     'class_name' => 'ilObjBibliographicListGUI',
     'class_path' => './Modules/Bibliographic/classes/class.ilObjBibliographicListGUI.php',
     'parents' => 
@@ -10388,7 +10398,7 @@
   ),
   'ilobjblogadministrationgui' => 
   array (
-    'cid' => 'kn',
+    'cid' => 'ko',
     'class_name' => 'ilObjBlogAdministrationGUI',
     'class_path' => './Modules/Blog/classes/class.ilObjBlogAdministrationGUI.php',
     'parents' => 
@@ -10402,7 +10412,7 @@
   ),
   'ilobjbloggui' => 
   array (
-    'cid' => 'ko',
+    'cid' => 'kp',
     'class_name' => 'ilObjBlogGUI',
     'class_path' => './Modules/Blog/classes/class.ilObjBlogGUI.php',
     'parents' => 
@@ -10432,7 +10442,7 @@
   ),
   'ilobjbloglistgui' => 
   array (
-    'cid' => 'kp',
+    'cid' => 'kq',
     'class_name' => 'ilObjBlogListGUI',
     'class_path' => './Modules/Blog/classes/class.ilObjBlogListGUI.php',
     'parents' => 
@@ -10444,7 +10454,7 @@
   ),
   'ilobjbookingpoolgui' => 
   array (
-    'cid' => 'kq',
+    'cid' => 'kr',
     'class_name' => 'ilObjBookingPoolGUI',
     'class_path' => './Modules/BookingManager/classes/class.ilObjBookingPoolGUI.php',
     'parents' => 
@@ -10469,7 +10479,7 @@
   ),
   'ilobjbookingpoollistgui' => 
   array (
-    'cid' => 'kr',
+    'cid' => 'ks',
     'class_name' => 'ilObjBookingPoolListGUI',
     'class_path' => './Modules/BookingManager/classes/class.ilObjBookingPoolListGUI.php',
     'parents' => 
@@ -10481,7 +10491,7 @@
   ),
   'ilobjcalendarsettingsgui' => 
   array (
-    'cid' => 'ks',
+    'cid' => 'kt',
     'class_name' => 'ilObjCalendarSettingsGUI',
     'class_path' => './Services/Calendar/classes/class.ilObjCalendarSettingsGUI.php',
     'parents' => 
@@ -10495,7 +10505,7 @@
   ),
   'ilobjcategorygui' => 
   array (
-    'cid' => 'kt',
+    'cid' => 'ku',
     'class_name' => 'ilObjCategoryGUI',
     'class_path' => './Modules/Category/classes/class.ilObjCategoryGUI.php',
     'parents' => 
@@ -10511,28 +10521,27 @@
     array (
       0 => 'ilpermissiongui',
       1 => 'ilcontainerpagegui',
-      2 => 'ilcontainerlinklistgui',
-      3 => 'ilobjusergui',
-      4 => 'ilobjuserfoldergui',
-      5 => 'ilinfoscreengui',
-      6 => 'ilobjstylesheetgui',
-      7 => 'ilcommonactiondispatchergui',
-      8 => 'ilobjecttranslationgui',
-      9 => 'ilcolumngui',
-      10 => 'ilobjectcopygui',
-      11 => 'ilusertablegui',
-      12 => 'ildidactictemplategui',
-      13 => 'ilexportgui',
-      14 => 'ilobjtaxonomygui',
-      15 => 'ilobjectmetadatagui',
-      16 => 'ilcontainernewssettingsgui',
-      17 => 'ilcontainerfilteradmingui',
-      18 => 'ilreputilgui',
+      2 => 'ilobjusergui',
+      3 => 'ilobjuserfoldergui',
+      4 => 'ilinfoscreengui',
+      5 => 'ilobjstylesheetgui',
+      6 => 'ilcommonactiondispatchergui',
+      7 => 'ilobjecttranslationgui',
+      8 => 'ilcolumngui',
+      9 => 'ilobjectcopygui',
+      10 => 'ilusertablegui',
+      11 => 'ildidactictemplategui',
+      12 => 'ilexportgui',
+      13 => 'ilobjtaxonomygui',
+      14 => 'ilobjectmetadatagui',
+      15 => 'ilcontainernewssettingsgui',
+      16 => 'ilcontainerfilteradmingui',
+      17 => 'ilrepositorytrashgui',
     ),
   ),
   'ilobjcategorylistgui' => 
   array (
-    'cid' => 'ku',
+    'cid' => 'kv',
     'class_name' => 'ilObjCategoryListGUI',
     'class_path' => './Modules/Category/classes/class.ilObjCategoryListGUI.php',
     'parents' => 
@@ -10544,7 +10553,7 @@
   ),
   'ilobjcategoryreferencegui' => 
   array (
-    'cid' => 'kv',
+    'cid' => 'kw',
     'class_name' => 'ilObjCategoryReferenceGUI',
     'class_path' => './Modules/CategoryReference/classes/class.ilObjCategoryReferenceGUI.php',
     'parents' => 
@@ -10561,7 +10570,7 @@
   ),
   'ilobjcategoryreferencelistgui' => 
   array (
-    'cid' => 'kw',
+    'cid' => 'kx',
     'class_name' => 'ilObjCategoryReferenceListGUI',
     'class_path' => './Modules/CategoryReference/classes/class.ilObjCategoryReferenceListGUI.php',
     'parents' => 
@@ -10573,7 +10582,7 @@
   ),
   'ilobjcertificatesettingsgui' => 
   array (
-    'cid' => 'kx',
+    'cid' => 'ky',
     'class_name' => 'ilObjCertificateSettingsGUI',
     'class_path' => './Services/Certificate/classes/class.ilObjCertificateSettingsGUI.php',
     'parents' => 
@@ -10587,7 +10596,7 @@
   ),
   'ilobjchatroomadmingui' => 
   array (
-    'cid' => 'ky',
+    'cid' => 'kz',
     'class_name' => 'ilObjChatroomAdminGUI',
     'class_path' => './Modules/Chatroom/classes/class.ilObjChatroomAdminGUI.php',
     'parents' => 
@@ -10606,7 +10615,7 @@
   ),
   'ilobjchatroomgui' => 
   array (
-    'cid' => 'kz',
+    'cid' => 'l0',
     'class_name' => 'ilObjChatroomGUI',
     'class_path' => './Modules/Chatroom/classes/class.ilObjChatroomGUI.php',
     'parents' => 
@@ -10629,7 +10638,7 @@
   ),
   'ilobjchatroomlistgui' => 
   array (
-    'cid' => 'l0',
+    'cid' => 'l1',
     'class_name' => 'ilObjChatroomListGUI',
     'class_path' => './Modules/Chatroom/classes/class.ilObjChatroomListGUI.php',
     'parents' => 
@@ -10641,7 +10650,7 @@
   ),
   'ilobjclipboardtablegui' => 
   array (
-    'cid' => 'l1',
+    'cid' => 'l2',
     'class_name' => 'ilObjClipboardTableGUI',
     'class_path' => './Services/Object/classes/class.ilObjClipboardTableGUI.php',
     'parents' => 
@@ -10653,7 +10662,7 @@
   ),
   'ilobjcloudgui' => 
   array (
-    'cid' => 'l2',
+    'cid' => 'l3',
     'class_name' => 'ilObjCloudGUI',
     'class_path' => './Modules/Cloud/classes/class.ilObjCloudGUI.php',
     'parents' => 
@@ -10682,7 +10691,7 @@
   ),
   'ilobjcloudlistgui' => 
   array (
-    'cid' => 'l3',
+    'cid' => 'l4',
     'class_name' => 'ilObjCloudListGUI',
     'class_path' => './Modules/Cloud/classes/class.ilObjCloudListGUI.php',
     'parents' => 
@@ -10694,7 +10703,7 @@
   ),
   'ilobjcmixapiadministrationgui' => 
   array (
-    'cid' => 'l4',
+    'cid' => 'l5',
     'class_name' => 'ilObjCmiXapiAdministrationGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilObjCmiXapiAdministrationGUI.php',
     'parents' => 
@@ -10708,7 +10717,7 @@
   ),
   'ilobjcmixapigui' => 
   array (
-    'cid' => 'l5',
+    'cid' => 'l6',
     'class_name' => 'ilObjCmiXapiGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilObjCmiXapiGUI.php',
     'parents' => 
@@ -10734,7 +10743,7 @@
   ),
   'ilobjcmixapilistgui' => 
   array (
-    'cid' => 'l6',
+    'cid' => 'l7',
     'class_name' => 'ilObjCmiXapiListGUI',
     'class_path' => './Modules/CmiXapi/classes/class.ilObjCmiXapiListGUI.php',
     'parents' => 
@@ -10746,7 +10755,7 @@
   ),
   'ilobjcmixapiverificationgui' => 
   array (
-    'cid' => 'l7',
+    'cid' => 'l8',
     'class_name' => 'ilObjCmiXapiVerificationGUI',
     'class_path' => './Modules/CmiXapi/classes/Verification/class.ilObjCmiXapiVerificationGUI.php',
     'parents' => 
@@ -10759,7 +10768,7 @@
   ),
   'ilobjcmixapiverificationlistgui' => 
   array (
-    'cid' => 'l8',
+    'cid' => 'l9',
     'class_name' => 'ilObjCmiXapiVerificationListGUI',
     'class_path' => './Modules/CmiXapi/classes/Verification/class.ilObjCmiXapiVerificationListGUI.php',
     'parents' => 
@@ -10771,7 +10780,7 @@
   ),
   'ilobjcommentssettingsgui' => 
   array (
-    'cid' => 'l9',
+    'cid' => 'la',
     'class_name' => 'ilObjCommentsSettingsGUI',
     'class_path' => './Services/Notes/Administration/classes/class.ilObjCommentsSettingsGUI.php',
     'parents' => 
@@ -10785,7 +10794,7 @@
   ),
   'ilobjcomponentsettingsgui' => 
   array (
-    'cid' => 'la',
+    'cid' => 'lb',
     'class_name' => 'ilObjComponentSettingsGUI',
     'class_path' => './Services/Component/classes/class.ilObjComponentSettingsGUI.php',
     'parents' => 
@@ -10799,7 +10808,7 @@
   ),
   'ilobjcontactadministrationgui' => 
   array (
-    'cid' => 'lb',
+    'cid' => 'lc',
     'class_name' => 'ilObjContactAdministrationGUI',
     'class_path' => './Services/Contact/classes/class.ilObjContactAdministrationGUI.php',
     'parents' => 
@@ -10813,7 +10822,7 @@
   ),
   'ilobjcontentobjectgui' => 
   array (
-    'cid' => 'lc',
+    'cid' => 'ld',
     'class_name' => 'ilObjContentObjectGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilObjContentObjectGUI.php',
     'parents' => 
@@ -10825,7 +10834,7 @@
   ),
   'ilobjcontentpageadministrationgui' => 
   array (
-    'cid' => 'ld',
+    'cid' => 'le',
     'class_name' => 'ilObjContentPageAdministrationGUI',
     'class_path' => './Modules/ContentPage/classes/class.ilObjContentPageAdministrationGUI.php',
     'parents' => 
@@ -10839,7 +10848,7 @@
   ),
   'ilobjcontentpagegui' => 
   array (
-    'cid' => 'le',
+    'cid' => 'lf',
     'class_name' => 'ilObjContentPageGUI',
     'class_path' => './Modules/ContentPage/classes/class.ilObjContentPageGUI.php',
     'parents' => 
@@ -10865,7 +10874,7 @@
   ),
   'ilobjcontentpagelistgui' => 
   array (
-    'cid' => 'lf',
+    'cid' => 'lg',
     'class_name' => 'ilObjContentPageListGUI',
     'class_path' => './Modules/ContentPage/classes/class.ilObjContentPageListGUI.php',
     'parents' => 
@@ -10877,7 +10886,7 @@
   ),
   'ilobjcourseadministrationgui' => 
   array (
-    'cid' => 'lg',
+    'cid' => 'lh',
     'class_name' => 'ilObjCourseAdministrationGUI',
     'class_path' => './Modules/Course/classes/class.ilObjCourseAdministrationGUI.php',
     'parents' => 
@@ -10893,7 +10902,7 @@
   ),
   'ilobjcoursegui' => 
   array (
-    'cid' => 'lh',
+    'cid' => 'li',
     'class_name' => 'ilObjCourseGUI',
     'class_path' => './Modules/Course/classes/class.ilObjCourseGUI.php',
     'parents' => 
@@ -10948,14 +10957,14 @@
       37 => 'illtiproviderobjectsettinggui',
       38 => 'ilobjecttranslationgui',
       39 => 'ilbookinggatewaygui',
-      40 => 'ilreputilgui',
+      40 => 'ilrepositorytrashgui',
       41 => 'illoeditorgui',
       42 => 'illomembertestresultgui',
     ),
   ),
   'ilobjcoursegroupinggui' => 
   array (
-    'cid' => 'li',
+    'cid' => 'lj',
     'class_name' => 'ilObjCourseGroupingGUI',
     'class_path' => './Modules/Course/classes/class.ilObjCourseGroupingGUI.php',
     'parents' => 
@@ -10969,7 +10978,7 @@
   ),
   'ilobjcourselistgui' => 
   array (
-    'cid' => 'lj',
+    'cid' => 'lk',
     'class_name' => 'ilObjCourseListGUI',
     'class_path' => './Modules/Course/classes/class.ilObjCourseListGUI.php',
     'parents' => 
@@ -10981,7 +10990,7 @@
   ),
   'ilobjcoursereferencegui' => 
   array (
-    'cid' => 'lk',
+    'cid' => 'll',
     'class_name' => 'ilObjCourseReferenceGUI',
     'class_path' => './Modules/CourseReference/classes/class.ilObjCourseReferenceGUI.php',
     'parents' => 
@@ -11000,7 +11009,7 @@
   ),
   'ilobjcoursereferencelistgui' => 
   array (
-    'cid' => 'll',
+    'cid' => 'lm',
     'class_name' => 'ilObjCourseReferenceListGUI',
     'class_path' => './Modules/CourseReference/classes/class.ilObjCourseReferenceListGUI.php',
     'parents' => 
@@ -11012,7 +11021,7 @@
   ),
   'ilobjcourseverificationgui' => 
   array (
-    'cid' => 'lm',
+    'cid' => 'ln',
     'class_name' => 'ilObjCourseVerificationGUI',
     'class_path' => './Modules/Course/classes/Verification/class.ilObjCourseVerificationGUI.php',
     'parents' => 
@@ -11026,7 +11035,7 @@
   ),
   'ilobjcourseverificationlistgui' => 
   array (
-    'cid' => 'ln',
+    'cid' => 'lo',
     'class_name' => 'ilObjCourseVerificationListGUI',
     'class_path' => './Modules/Course/classes/Verification/class.ilObjCourseVerificationListGUI.php',
     'parents' => 
@@ -11038,7 +11047,7 @@
   ),
   'ilobjdashboardsettingsgui' => 
   array (
-    'cid' => 'lo',
+    'cid' => 'lp',
     'class_name' => 'ilObjDashboardSettingsGUI',
     'class_path' => './Services/Dashboard/Administration/classes/class.ilObjDashboardSettingsGUI.php',
     'parents' => 
@@ -11052,7 +11061,7 @@
   ),
   'ilobjdatacollectiongui' => 
   array (
-    'cid' => 'lp',
+    'cid' => 'lq',
     'class_name' => 'ilObjDataCollectionGUI',
     'class_path' => './Modules/DataCollection/classes/class.ilObjDataCollectionGUI.php',
     'parents' => 
@@ -11082,7 +11091,7 @@
   ),
   'ilobjdatacollectionlistgui' => 
   array (
-    'cid' => 'lq',
+    'cid' => 'lr',
     'class_name' => 'ilObjDataCollectionListGUI',
     'class_path' => './Modules/DataCollection/classes/class.ilObjDataCollectionListGUI.php',
     'parents' => 
@@ -11094,7 +11103,7 @@
   ),
   'ilobjecssettingsgui' => 
   array (
-    'cid' => 'lr',
+    'cid' => 'ls',
     'class_name' => 'ilObjECSSettingsGUI',
     'class_path' => './Services/WebServices/ECS/classes/class.ilObjECSSettingsGUI.php',
     'parents' => 
@@ -11109,7 +11118,7 @@
   ),
   'ilobjexerciseadministrationgui' => 
   array (
-    'cid' => 'ls',
+    'cid' => 'lt',
     'class_name' => 'ilObjExerciseAdministrationGUI',
     'class_path' => './Modules/Exercise/classes/class.ilObjExerciseAdministrationGUI.php',
     'parents' => 
@@ -11123,7 +11132,7 @@
   ),
   'ilobjexercisegui' => 
   array (
-    'cid' => 'lt',
+    'cid' => 'lu',
     'class_name' => 'ilObjExerciseGUI',
     'class_path' => './Modules/Exercise/classes/class.ilObjExerciseGUI.php',
     'parents' => 
@@ -11154,7 +11163,7 @@
   ),
   'ilobjexerciselistgui' => 
   array (
-    'cid' => 'lu',
+    'cid' => 'lv',
     'class_name' => 'ilObjExerciseListGUI',
     'class_path' => './Modules/Exercise/classes/class.ilObjExerciseListGUI.php',
     'parents' => 
@@ -11166,7 +11175,7 @@
   ),
   'ilobjexercisesubitemlistgui' => 
   array (
-    'cid' => 'lv',
+    'cid' => 'lw',
     'class_name' => 'ilObjExerciseSubItemListGUI',
     'class_path' => './Modules/Exercise/classes/class.ilObjExerciseSubItemListGUI.php',
     'parents' => 
@@ -11178,7 +11187,7 @@
   ),
   'ilobjexerciseverificationgui' => 
   array (
-    'cid' => 'lw',
+    'cid' => 'lx',
     'class_name' => 'ilObjExerciseVerificationGUI',
     'class_path' => './Modules/Exercise/classes/class.ilObjExerciseVerificationGUI.php',
     'parents' => 
@@ -11193,7 +11202,7 @@
   ),
   'ilobjexerciseverificationlistgui' => 
   array (
-    'cid' => 'lx',
+    'cid' => 'ly',
     'class_name' => 'ilObjExerciseVerificationListGUI',
     'class_path' => './Modules/Exercise/classes/class.ilObjExerciseVerificationListGUI.php',
     'parents' => 
@@ -11205,7 +11214,7 @@
   ),
   'ilobjexternalfeedgui' => 
   array (
-    'cid' => 'ly',
+    'cid' => 'lz',
     'class_name' => 'ilObjExternalFeedGUI',
     'class_path' => './Modules/ExternalFeed/classes/class.ilObjExternalFeedGUI.php',
     'parents' => 
@@ -11223,7 +11232,7 @@
   ),
   'ilobjexternalfeedlistgui' => 
   array (
-    'cid' => 'lz',
+    'cid' => 'm0',
     'class_name' => 'ilObjExternalFeedListGUI',
     'class_path' => './Modules/ExternalFeed/classes/class.ilObjExternalFeedListGUI.php',
     'parents' => 
@@ -11235,7 +11244,7 @@
   ),
   'ilobjexternaltoolssettingsgui' => 
   array (
-    'cid' => 'm0',
+    'cid' => 'm1',
     'class_name' => 'ilObjExternalToolsSettingsGUI',
     'class_path' => './Services/Administration/classes/class.ilObjExternalToolsSettingsGUI.php',
     'parents' => 
@@ -11249,7 +11258,7 @@
   ),
   'ilobjfileaccesssettingsgui' => 
   array (
-    'cid' => 'm1',
+    'cid' => 'm2',
     'class_name' => 'ilObjFileAccessSettingsGUI',
     'class_path' => './Modules/File/classes/class.ilObjFileAccessSettingsGUI.php',
     'parents' => 
@@ -11263,7 +11272,7 @@
   ),
   'ilobjfilebasedlmgui' => 
   array (
-    'cid' => 'm2',
+    'cid' => 'm3',
     'class_name' => 'ilObjFileBasedLMGUI',
     'class_path' => './Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMGUI.php',
     'parents' => 
@@ -11287,7 +11296,7 @@
   ),
   'ilobjfilebasedlmlistgui' => 
   array (
-    'cid' => 'm3',
+    'cid' => 'm4',
     'class_name' => 'ilObjFileBasedLMListGUI',
     'class_path' => './Modules/HTMLLearningModule/classes/class.ilObjFileBasedLMListGUI.php',
     'parents' => 
@@ -11299,7 +11308,7 @@
   ),
   'ilobjfilegui' => 
   array (
-    'cid' => 'm4',
+    'cid' => 'm5',
     'class_name' => 'ilObjFileGUI',
     'class_path' => './Modules/File/classes/class.ilObjFileGUI.php',
     'parents' => 
@@ -11328,7 +11337,7 @@
   ),
   'ilobjfilelistgui' => 
   array (
-    'cid' => 'm5',
+    'cid' => 'm6',
     'class_name' => 'ilObjFileListGUI',
     'class_path' => './Modules/File/classes/class.ilObjFileListGUI.php',
     'parents' => 
@@ -11340,7 +11349,7 @@
   ),
   'ilobjfileservicesgui' => 
   array (
-    'cid' => 'm6',
+    'cid' => 'm7',
     'class_name' => 'ilObjFileServicesGUI',
     'class_path' => './Services/FileServices/classes/class.ilObjFileServicesGUI.php',
     'parents' => 
@@ -11354,7 +11363,7 @@
   ),
   'ilobjfoldergui' => 
   array (
-    'cid' => 'm7',
+    'cid' => 'm8',
     'class_name' => 'ilObjFolderGUI',
     'class_path' => './Modules/Folder/classes/class.ilObjFolderGUI.php',
     'parents' => 
@@ -11382,12 +11391,12 @@
       10 => 'ildidactictemplategui',
       11 => 'ilbackgroundtaskhub',
       12 => 'ilobjecttranslationgui',
-      13 => 'ilreputilgui',
+      13 => 'ilrepositorytrashgui',
     ),
   ),
   'ilobjfolderlistgui' => 
   array (
-    'cid' => 'm8',
+    'cid' => 'm9',
     'class_name' => 'ilObjFolderListGUI',
     'class_path' => './Modules/Folder/classes/class.ilObjFolderListGUI.php',
     'parents' => 
@@ -11399,7 +11408,7 @@
   ),
   'ilobjforumadministrationgui' => 
   array (
-    'cid' => 'm9',
+    'cid' => 'ma',
     'class_name' => 'ilObjForumAdministrationGUI',
     'class_path' => './Modules/Forum/classes/class.ilObjForumAdministrationGUI.php',
     'parents' => 
@@ -11413,7 +11422,7 @@
   ),
   'ilobjforumgui' => 
   array (
-    'cid' => 'ma',
+    'cid' => 'mb',
     'class_name' => 'ilObjForumGUI',
     'class_path' => './Modules/Forum/classes/class.ilObjForumGUI.php',
     'parents' => 
@@ -11436,11 +11445,12 @@
       10 => 'ilratinggui',
       11 => 'ilforumsettingsgui',
       12 => 'ilcontainernewssettingsgui',
+      13 => 'illearningprogressgui',
     ),
   ),
   'ilobjforumlistgui' => 
   array (
-    'cid' => 'mb',
+    'cid' => 'mc',
     'class_name' => 'ilObjForumListGUI',
     'class_path' => './Modules/Forum/classes/class.ilObjForumListGUI.php',
     'parents' => 
@@ -11452,7 +11462,7 @@
   ),
   'ilobjforumsearchresulttablegui' => 
   array (
-    'cid' => 'mc',
+    'cid' => 'md',
     'class_name' => 'ilObjForumSearchResultTableGUI',
     'class_path' => './Modules/Forum/classes/class.ilObjForumSearchResultTableGUI.php',
     'parents' => 
@@ -11464,7 +11474,7 @@
   ),
   'ilobjforumsubitemlistgui' => 
   array (
-    'cid' => 'md',
+    'cid' => 'me',
     'class_name' => 'ilObjForumSubItemListGUI',
     'class_path' => './Modules/Forum/classes/class.ilObjForumSubItemListGUI.php',
     'parents' => 
@@ -11476,7 +11486,7 @@
   ),
   'ilobjglossarygui' => 
   array (
-    'cid' => 'me',
+    'cid' => 'mf',
     'class_name' => 'ilObjGlossaryGUI',
     'class_path' => './Modules/Glossary/classes/class.ilObjGlossaryGUI.php',
     'parents' => 
@@ -11502,7 +11512,7 @@
   ),
   'ilobjglossarylistgui' => 
   array (
-    'cid' => 'mf',
+    'cid' => 'mg',
     'class_name' => 'ilObjGlossaryListGUI',
     'class_path' => './Modules/Glossary/classes/class.ilObjGlossaryListGUI.php',
     'parents' => 
@@ -11514,7 +11524,7 @@
   ),
   'ilobjglossarysubitemlistgui' => 
   array (
-    'cid' => 'mg',
+    'cid' => 'mh',
     'class_name' => 'ilObjGlossarySubItemListGUI',
     'class_path' => './Modules/Glossary/classes/class.ilObjGlossarySubItemListGUI.php',
     'parents' => 
@@ -11526,7 +11536,7 @@
   ),
   'ilobjgroupadministrationgui' => 
   array (
-    'cid' => 'mh',
+    'cid' => 'mi',
     'class_name' => 'ilObjGroupAdministrationGUI',
     'class_path' => './Modules/Group/classes/class.ilObjGroupAdministrationGUI.php',
     'parents' => 
@@ -11542,7 +11552,7 @@
   ),
   'ilobjgroupgui' => 
   array (
-    'cid' => 'mi',
+    'cid' => 'mj',
     'class_name' => 'ilObjGroupGUI',
     'class_path' => './Modules/Group/classes/class.ilObjGroupGUI.php',
     'parents' => 
@@ -11589,7 +11599,7 @@
   ),
   'ilobjgrouplistgui' => 
   array (
-    'cid' => 'mj',
+    'cid' => 'mk',
     'class_name' => 'ilObjGroupListGUI',
     'class_path' => './Modules/Group/classes/class.ilObjGroupListGUI.php',
     'parents' => 
@@ -11601,7 +11611,7 @@
   ),
   'ilobjgroupreferencegui' => 
   array (
-    'cid' => 'mk',
+    'cid' => 'ml',
     'class_name' => 'ilObjGroupReferenceGUI',
     'class_path' => './Modules/GroupReference/classes/class.ilObjGroupReferenceGUI.php',
     'parents' => 
@@ -11618,7 +11628,7 @@
   ),
   'ilobjgroupreferencelistgui' => 
   array (
-    'cid' => 'ml',
+    'cid' => 'mm',
     'class_name' => 'ilObjGroupReferenceListGUI',
     'class_path' => './Modules/GroupReference/classes/class.ilObjGroupReferenceListGUI.php',
     'parents' => 
@@ -11630,7 +11640,7 @@
   ),
   'ilobjhelpsettingsgui' => 
   array (
-    'cid' => 'mm',
+    'cid' => 'mn',
     'class_name' => 'ilObjHelpSettingsGUI',
     'class_path' => './Services/Help/classes/class.ilObjHelpSettingsGUI.php',
     'parents' => 
@@ -11644,7 +11654,7 @@
   ),
   'ilobjindividualassessmentgui' => 
   array (
-    'cid' => 'mn',
+    'cid' => 'mo',
     'class_name' => 'ilObjIndividualAssessmentGUI',
     'class_path' => './Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentGUI.php',
     'parents' => 
@@ -11667,7 +11677,7 @@
   ),
   'ilobjindividualassessmentlistgui' => 
   array (
-    'cid' => 'mo',
+    'cid' => 'mp',
     'class_name' => 'ilObjIndividualAssessmentListGUI',
     'class_path' => './Modules/IndividualAssessment/classes/class.ilObjIndividualAssessmentListGUI.php',
     'parents' => 
@@ -11679,7 +11689,7 @@
   ),
   'ilobjitemgroupgui' => 
   array (
-    'cid' => 'mp',
+    'cid' => 'mq',
     'class_name' => 'ilObjItemGroupGUI',
     'class_path' => './Modules/ItemGroup/classes/class.ilObjItemGroupGUI.php',
     'parents' => 
@@ -11696,7 +11706,7 @@
   ),
   'ilobjitemgrouplistgui' => 
   array (
-    'cid' => 'mq',
+    'cid' => 'mr',
     'class_name' => 'ilObjItemGroupListGUI',
     'class_path' => './Modules/ItemGroup/classes/class.ilObjItemGroupListGUI.php',
     'parents' => 
@@ -11708,7 +11718,7 @@
   ),
   'ilobjltiadministrationgui' => 
   array (
-    'cid' => 'mr',
+    'cid' => 'ms',
     'class_name' => 'ilObjLTIAdministrationGUI',
     'class_path' => './Services/LTI/classes/class.ilObjLTIAdministrationGUI.php',
     'parents' => 
@@ -11723,7 +11733,7 @@
   ),
   'ilobjlticonsumergui' => 
   array (
-    'cid' => 'ms',
+    'cid' => 'mt',
     'class_name' => 'ilObjLTIConsumerGUI',
     'class_path' => './Modules/LTIConsumer/classes/class.ilObjLTIConsumerGUI.php',
     'parents' => 
@@ -11747,7 +11757,7 @@
   ),
   'ilobjlticonsumerlistgui' => 
   array (
-    'cid' => 'mt',
+    'cid' => 'mu',
     'class_name' => 'ilObjLTIConsumerListGUI',
     'class_path' => './Modules/LTIConsumer/classes/class.ilObjLTIConsumerListGUI.php',
     'parents' => 
@@ -11759,7 +11769,7 @@
   ),
   'ilobjlticonsumerverificationgui' => 
   array (
-    'cid' => 'mu',
+    'cid' => 'mv',
     'class_name' => 'ilObjLTIConsumerVerificationGUI',
     'class_path' => './Modules/LTIConsumer/classes/Verification/class.ilObjLTIConsumerVerificationGUI.php',
     'parents' => 
@@ -11772,7 +11782,7 @@
   ),
   'ilobjlticonsumerverificationlistgui' => 
   array (
-    'cid' => 'mv',
+    'cid' => 'mw',
     'class_name' => 'ilObjLTIConsumerVerificationListGUI',
     'class_path' => './Modules/LTIConsumer/classes/Verification/class.ilObjLTIConsumerVerificationListGUI.php',
     'parents' => 
@@ -11784,7 +11794,7 @@
   ),
   'ilobjlanguageextgui' => 
   array (
-    'cid' => 'mw',
+    'cid' => 'mx',
     'class_name' => 'ilObjLanguageExtGUI',
     'class_path' => './Services/Language/classes/class.ilObjLanguageExtGUI.php',
     'parents' => 
@@ -11798,7 +11808,7 @@
   ),
   'ilobjlanguagefoldergui' => 
   array (
-    'cid' => 'mx',
+    'cid' => 'my',
     'class_name' => 'ilObjLanguageFolderGUI',
     'class_path' => './Services/Language/classes/class.ilObjLanguageFolderGUI.php',
     'parents' => 
@@ -11812,7 +11822,7 @@
   ),
   'ilobjlanguagegui' => 
   array (
-    'cid' => 'my',
+    'cid' => 'mz',
     'class_name' => 'ilObjLanguageGUI',
     'class_path' => './Services/Language/classes/class.ilObjLanguageGUI.php',
     'parents' => 
@@ -11824,7 +11834,7 @@
   ),
   'ilobjlearninghistorysettingsgui' => 
   array (
-    'cid' => 'mz',
+    'cid' => 'n0',
     'class_name' => 'ilObjLearningHistorySettingsGUI',
     'class_path' => './Services/LearningHistory/Administration/classes/class.ilObjLearningHistorySettingsGUI.php',
     'parents' => 
@@ -11838,7 +11848,7 @@
   ),
   'ilobjlearningmodulegui' => 
   array (
-    'cid' => 'n0',
+    'cid' => 'n1',
     'class_name' => 'ilObjLearningModuleGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilObjLearningModuleGUI.php',
     'parents' => 
@@ -11870,7 +11880,7 @@
   ),
   'ilobjlearningmodulelistgui' => 
   array (
-    'cid' => 'n1',
+    'cid' => 'n2',
     'class_name' => 'ilObjLearningModuleListGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilObjLearningModuleListGUI.php',
     'parents' => 
@@ -11882,7 +11892,7 @@
   ),
   'ilobjlearningmodulesubitemlistgui' => 
   array (
-    'cid' => 'n2',
+    'cid' => 'n3',
     'class_name' => 'ilObjLearningModuleSubItemListGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilObjLearningModuleSubItemListGUI.php',
     'parents' => 
@@ -11894,7 +11904,7 @@
   ),
   'ilobjlearningresourcessettingsgui' => 
   array (
-    'cid' => 'n3',
+    'cid' => 'n4',
     'class_name' => 'ilObjLearningResourcesSettingsGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilObjLearningResourcesSettingsGUI.php',
     'parents' => 
@@ -11908,23 +11918,21 @@
   ),
   'ilobjlearningsequenceadmingui' => 
   array (
-    'cid' => 'n4',
+    'cid' => 'n5',
     'class_name' => 'ilObjLearningSequenceAdminGUI',
-    'class_path' => './Modules/LearningSequence/classes/Settings/class.ilObjLearningSequenceAdminGUI.php',
+    'class_path' => './Modules/LearningSequence/classes/class.ilObjLearningSequenceAdminGUI.php',
     'parents' => 
     array (
       0 => 'iladministrationgui',
     ),
     'children' => 
     array (
-      0 => 'iluseractionadmingui',
-      1 => 'ilpermissiongui',
-      2 => 'ilmemberexportsettingsgui',
+      0 => 'ilpermissiongui',
     ),
   ),
   'ilobjlearningsequencecontentgui' => 
   array (
-    'cid' => 'n5',
+    'cid' => 'n6',
     'class_name' => 'ilObjLearningSequenceContentGUI',
     'class_path' => './Modules/LearningSequence/classes/Content/class.ilObjLearningSequenceContentGUI.php',
     'parents' => 
@@ -11937,7 +11945,7 @@
   ),
   'ilobjlearningsequencecontenttablegui' => 
   array (
-    'cid' => 'n6',
+    'cid' => 'n7',
     'class_name' => 'ilObjLearningSequenceContentTableGUI',
     'class_path' => './Modules/LearningSequence/classes/Content/class.ilObjLearningSequenceContentTableGUI.php',
     'parents' => 
@@ -11949,7 +11957,7 @@
   ),
   'ilobjlearningsequencegui' => 
   array (
-    'cid' => 'n7',
+    'cid' => 'n8',
     'class_name' => 'ilObjLearningSequenceGUI',
     'class_path' => './Modules/LearningSequence/classes/class.ilObjLearningSequenceGUI.php',
     'parents' => 
@@ -11965,27 +11973,26 @@
       3 => 'ilcolumngui',
       4 => 'ilobjectcopygui',
       5 => 'ilexportgui',
-      6 => 'ilcontainerlinklistgui',
-      7 => 'ilobjlearningsequencesettingsgui',
-      8 => 'ilobjlearningsequencecontentgui',
-      9 => 'ilobjlearningsequencelearnergui',
-      10 => 'illearningsequencemembershipgui',
-      11 => 'illearningprogressgui',
-      12 => 'ilobjlearningmodulegui',
-      13 => 'ilobjfilebasedlmgui',
-      14 => 'ilobjsahslearningmodulegui',
-      15 => 'ilobjcontentpagegui',
-      16 => 'ilobjexercisegui',
-      17 => 'ilobjfilegui',
-      18 => 'ilobjindividualassessmentgui',
-      19 => 'ilindividualassessmentsettingsgui',
-      20 => 'ilobjtestgui',
-      21 => 'ilobjsurveygui',
+      6 => 'ilobjlearningsequencesettingsgui',
+      7 => 'ilobjlearningsequencecontentgui',
+      8 => 'ilobjlearningsequencelearnergui',
+      9 => 'illearningsequencemembershipgui',
+      10 => 'illearningprogressgui',
+      11 => 'ilobjlearningmodulegui',
+      12 => 'ilobjfilebasedlmgui',
+      13 => 'ilobjsahslearningmodulegui',
+      14 => 'ilobjcontentpagegui',
+      15 => 'ilobjexercisegui',
+      16 => 'ilobjfilegui',
+      17 => 'ilobjindividualassessmentgui',
+      18 => 'ilindividualassessmentsettingsgui',
+      19 => 'ilobjtestgui',
+      20 => 'ilobjsurveygui',
     ),
   ),
   'ilobjlearningsequencelearnergui' => 
   array (
-    'cid' => 'n8',
+    'cid' => 'n9',
     'class_name' => 'ilObjLearningSequenceLearnerGUI',
     'class_path' => './Modules/LearningSequence/classes/Player/class.ilObjLearningSequenceLearnerGUI.php',
     'parents' => 
@@ -11998,7 +12005,7 @@
   ),
   'ilobjlearningsequencelistgui' => 
   array (
-    'cid' => 'n9',
+    'cid' => 'na',
     'class_name' => 'ilObjLearningSequenceListGUI',
     'class_path' => './Modules/LearningSequence/classes/class.ilObjLearningSequenceListGUI.php',
     'parents' => 
@@ -12010,7 +12017,7 @@
   ),
   'ilobjlearningsequencesettingsgui' => 
   array (
-    'cid' => 'na',
+    'cid' => 'nb',
     'class_name' => 'ilObjLearningSequenceSettingsGUI',
     'class_path' => './Modules/LearningSequence/classes/Settings/class.ilObjLearningSequenceSettingsGUI.php',
     'parents' => 
@@ -12023,7 +12030,7 @@
   ),
   'ilobjlinkresourcegui' => 
   array (
-    'cid' => 'nb',
+    'cid' => 'nc',
     'class_name' => 'ilObjLinkResourceGUI',
     'class_path' => './Modules/WebResource/classes/class.ilObjLinkResourceGUI.php',
     'parents' => 
@@ -12049,7 +12056,7 @@
   ),
   'ilobjlinkresourcelistgui' => 
   array (
-    'cid' => 'nc',
+    'cid' => 'nd',
     'class_name' => 'ilObjLinkResourceListGUI',
     'class_path' => './Modules/WebResource/classes/class.ilObjLinkResourceListGUI.php',
     'parents' => 
@@ -12061,7 +12068,7 @@
   ),
   'ilobjlinkresourcesubitemlistgui' => 
   array (
-    'cid' => 'nd',
+    'cid' => 'ne',
     'class_name' => 'ilObjLinkResourceSubItemListGUI',
     'class_path' => './Modules/WebResource/classes/class.ilObjLinkResourceSubItemListGUI.php',
     'parents' => 
@@ -12073,7 +12080,7 @@
   ),
   'ilobjloggingsettingsgui' => 
   array (
-    'cid' => 'ne',
+    'cid' => 'nf',
     'class_name' => 'ilObjLoggingSettingsGUI',
     'class_path' => './Services/Logging/classes/class.ilObjLoggingSettingsGUI.php',
     'parents' => 
@@ -12087,7 +12094,7 @@
   ),
   'ilobjmdsettingsgui' => 
   array (
-    'cid' => 'nf',
+    'cid' => 'ng',
     'class_name' => 'ilObjMDSettingsGUI',
     'class_path' => './Services/MetaData/classes/class.ilObjMDSettingsGUI.php',
     'parents' => 
@@ -12103,7 +12110,7 @@
   ),
   'ilobjmailgui' => 
   array (
-    'cid' => 'ng',
+    'cid' => 'nh',
     'class_name' => 'ilObjMailGUI',
     'class_path' => './Services/Mail/classes/class.ilObjMailGUI.php',
     'parents' => 
@@ -12118,7 +12125,7 @@
   ),
   'ilobjmainmenugui' => 
   array (
-    'cid' => 'nh',
+    'cid' => 'ni',
     'class_name' => 'ilObjMainMenuGUI',
     'class_path' => './Services/MainMenu/classes/class.ilObjMainMenuGUI.php',
     'parents' => 
@@ -12135,7 +12142,7 @@
   ),
   'ilobjmediacastgui' => 
   array (
-    'cid' => 'ni',
+    'cid' => 'nj',
     'class_name' => 'ilObjMediaCastGUI',
     'class_path' => './Modules/MediaCast/classes/class.ilObjMediaCastGUI.php',
     'parents' => 
@@ -12157,7 +12164,7 @@
   ),
   'ilobjmediacastlistgui' => 
   array (
-    'cid' => 'nj',
+    'cid' => 'nk',
     'class_name' => 'ilObjMediaCastListGUI',
     'class_path' => './Modules/MediaCast/classes/class.ilObjMediaCastListGUI.php',
     'parents' => 
@@ -12169,7 +12176,7 @@
   ),
   'ilobjmediacastsettingsgui' => 
   array (
-    'cid' => 'nk',
+    'cid' => 'nl',
     'class_name' => 'ilObjMediaCastSettingsGUI',
     'class_path' => './Modules/MediaCast/classes/class.ilObjMediaCastSettingsGUI.php',
     'parents' => 
@@ -12183,7 +12190,7 @@
   ),
   'ilobjmediaobjectgui' => 
   array (
-    'cid' => 'nl',
+    'cid' => 'nm',
     'class_name' => 'ilObjMediaObjectGUI',
     'class_path' => './Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php',
     'parents' => 
@@ -12202,7 +12209,7 @@
   ),
   'ilobjmediaobjectssettingsgui' => 
   array (
-    'cid' => 'nm',
+    'cid' => 'nn',
     'class_name' => 'ilObjMediaObjectsSettingsGUI',
     'class_path' => './Services/MediaObjects/classes/class.ilObjMediaObjectsSettingsGUI.php',
     'parents' => 
@@ -12216,7 +12223,7 @@
   ),
   'ilobjmediapoolgui' => 
   array (
-    'cid' => 'nn',
+    'cid' => 'no',
     'class_name' => 'ilObjMediaPoolGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilObjMediaPoolGUI.php',
     'parents' => 
@@ -12245,7 +12252,7 @@
   ),
   'ilobjmediapoollistgui' => 
   array (
-    'cid' => 'no',
+    'cid' => 'np',
     'class_name' => 'ilObjMediaPoolListGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilObjMediaPoolListGUI.php',
     'parents' => 
@@ -12257,7 +12264,7 @@
   ),
   'ilobjmediapoolsubitemlistgui' => 
   array (
-    'cid' => 'np',
+    'cid' => 'nq',
     'class_name' => 'ilObjMediaPoolSubItemListGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilObjMediaPoolSubItemListGUI.php',
     'parents' => 
@@ -12269,7 +12276,7 @@
   ),
   'ilobjnewssettingsgui' => 
   array (
-    'cid' => 'nq',
+    'cid' => 'nr',
     'class_name' => 'ilObjNewsSettingsGUI',
     'class_path' => './Services/News/classes/class.ilObjNewsSettingsGUI.php',
     'parents' => 
@@ -12283,7 +12290,7 @@
   ),
   'ilobjnotessettingsgui' => 
   array (
-    'cid' => 'nr',
+    'cid' => 'ns',
     'class_name' => 'ilObjNotesSettingsGUI',
     'class_path' => './Services/Notes/Administration/classes/class.ilObjNotesSettingsGUI.php',
     'parents' => 
@@ -12297,7 +12304,7 @@
   ),
   'ilobjnotificationadmingui' => 
   array (
-    'cid' => 'ns',
+    'cid' => 'nt',
     'class_name' => 'ilObjNotificationAdminGUI',
     'class_path' => './Services/Notifications/classes/class.ilObjNotificationAdminGUI.php',
     'parents' => 
@@ -12311,7 +12318,7 @@
   ),
   'ilobjnotificationsettingsgui' => 
   array (
-    'cid' => 'nt',
+    'cid' => 'nu',
     'class_name' => 'ilObjNotificationSettingsGUI',
     'class_path' => './Services/Notification/classes/class.ilObjNotificationSettingsGUI.php',
     'parents' => 
@@ -12325,7 +12332,7 @@
   ),
   'ilobjobjectfoldergui' => 
   array (
-    'cid' => 'nu',
+    'cid' => 'nv',
     'class_name' => 'ilObjObjectFolderGUI',
     'class_path' => './Services/Object/classes/class.ilObjObjectFolderGUI.php',
     'parents' => 
@@ -12339,7 +12346,7 @@
   ),
   'ilobjobjecttemplateadministrationgui' => 
   array (
-    'cid' => 'nv',
+    'cid' => 'nw',
     'class_name' => 'ilObjObjectTemplateAdministrationGUI',
     'class_path' => './Services/DidacticTemplate/classes/class.ilObjObjectTemplateAdministrationGUI.php',
     'parents' => 
@@ -12354,7 +12361,7 @@
   ),
   'ilobjorgunitgui' => 
   array (
-    'cid' => 'nw',
+    'cid' => 'nx',
     'class_name' => 'ilObjOrgUnitGUI',
     'class_path' => './Modules/OrgUnit/classes/class.ilObjOrgUnitGUI.php',
     'parents' => 
@@ -12366,35 +12373,34 @@
     array (
       0 => 'ilpermissiongui',
       1 => 'ilpageobjectgui',
-      2 => 'ilcontainerlinklistgui',
-      3 => 'ilobjusergui',
-      4 => 'ilobjuserfoldergui',
-      5 => 'ilinfoscreengui',
-      6 => 'ilobjstylesheetgui',
-      7 => 'ilcommonactiondispatchergui',
-      8 => 'ilcolumngui',
-      9 => 'ilobjectcopygui',
-      10 => 'ilusertablegui',
-      11 => 'ildidactictemplategui',
-      12 => 'illearningprogressgui',
-      13 => 'iltranslationgui',
-      14 => 'illocalusergui',
-      15 => 'ilorgunitexportgui',
-      16 => 'ilorgunitstaffgui',
-      17 => 'ilextidgui',
-      18 => 'ilorgunitsimpleimportgui',
-      19 => 'ilorgunitsimpleuserimportgui',
-      20 => 'ilorgunittypegui',
-      21 => 'ilorgunitpositiongui',
-      22 => 'ilorgunituserassignmentgui',
-      23 => 'ilorgunittypegui',
-      24 => 'ilpropertyformgui',
-      25 => 'ilorgunitglobalsettingsgui',
+      2 => 'ilobjusergui',
+      3 => 'ilobjuserfoldergui',
+      4 => 'ilinfoscreengui',
+      5 => 'ilobjstylesheetgui',
+      6 => 'ilcommonactiondispatchergui',
+      7 => 'ilcolumngui',
+      8 => 'ilobjectcopygui',
+      9 => 'ilusertablegui',
+      10 => 'ildidactictemplategui',
+      11 => 'illearningprogressgui',
+      12 => 'iltranslationgui',
+      13 => 'illocalusergui',
+      14 => 'ilorgunitexportgui',
+      15 => 'ilorgunitstaffgui',
+      16 => 'ilextidgui',
+      17 => 'ilorgunitsimpleimportgui',
+      18 => 'ilorgunitsimpleuserimportgui',
+      19 => 'ilorgunittypegui',
+      20 => 'ilorgunitpositiongui',
+      21 => 'ilorgunituserassignmentgui',
+      22 => 'ilorgunittypegui',
+      23 => 'ilpropertyformgui',
+      24 => 'ilorgunitglobalsettingsgui',
     ),
   ),
   'ilobjorgunitlistgui' => 
   array (
-    'cid' => 'nx',
+    'cid' => 'ny',
     'class_name' => 'ilObjOrgUnitListGUI',
     'class_path' => './Modules/OrgUnit/classes/class.ilObjOrgUnitListGUI.php',
     'parents' => 
@@ -12406,7 +12412,7 @@
   ),
   'ilobjorgunitsettingsformgui' => 
   array (
-    'cid' => 'ny',
+    'cid' => 'nz',
     'class_name' => 'ilObjOrgUnitSettingsFormGUI',
     'class_path' => './Modules/OrgUnit/classes/Settings/class.ilObjOrgUnitSettingsFormGUI.php',
     'parents' => 
@@ -12418,7 +12424,7 @@
   ),
   'ilobjpdfgenerationgui' => 
   array (
-    'cid' => 'nz',
+    'cid' => 'o0',
     'class_name' => 'ilObjPDFGenerationGUI',
     'class_path' => './Services/PDFGeneration/classes/class.ilObjPDFGenerationGUI.php',
     'parents' => 
@@ -12432,7 +12438,7 @@
   ),
   'ilobjpersistentcertificateverificationgui' => 
   array (
-    'cid' => 'o0',
+    'cid' => 'o1',
     'class_name' => 'ilObjPersistentCertificateVerificationGUI',
     'class_path' => './Services/Certificate/classes/Portfolio/class.ilObjPersistentCertificateVerificationGUI.php',
     'parents' => 
@@ -12444,7 +12450,7 @@
   ),
   'ilobjpersonalworkspacesettingsgui' => 
   array (
-    'cid' => 'o1',
+    'cid' => 'o2',
     'class_name' => 'ilObjPersonalWorkspaceSettingsGUI',
     'class_path' => './Services/PersonalWorkspace/Administration/classes/class.ilObjPersonalWorkspaceSettingsGUI.php',
     'parents' => 
@@ -12458,9 +12464,9 @@
   ),
   'ilobjplugindispatchgui' => 
   array (
-    'cid' => 'o2',
+    'cid' => 'o3',
     'class_name' => 'ilObjPluginDispatchGUI',
-    'class_path' => './Services/Repository/classes/class.ilObjPluginDispatchGUI.php',
+    'class_path' => './Services/Repository/PluginSlot/class.ilObjPluginDispatchGUI.php',
     'parents' => 
     array (
     ),
@@ -12471,7 +12477,7 @@
   ),
   'ilobjpollgui' => 
   array (
-    'cid' => 'o3',
+    'cid' => 'o4',
     'class_name' => 'ilObjPollGUI',
     'class_path' => './Modules/Poll/classes/class.ilObjPollGUI.php',
     'parents' => 
@@ -12491,7 +12497,7 @@
   ),
   'ilobjpolllistgui' => 
   array (
-    'cid' => 'o4',
+    'cid' => 'o5',
     'class_name' => 'ilObjPollListGUI',
     'class_path' => './Modules/Poll/classes/class.ilObjPollListGUI.php',
     'parents' => 
@@ -12503,7 +12509,7 @@
   ),
   'ilobjportfolioadministrationgui' => 
   array (
-    'cid' => 'o5',
+    'cid' => 'o6',
     'class_name' => 'ilObjPortfolioAdministrationGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilObjPortfolioAdministrationGUI.php',
     'parents' => 
@@ -12517,7 +12523,7 @@
   ),
   'ilobjportfoliobasegui' => 
   array (
-    'cid' => 'o6',
+    'cid' => 'o7',
     'class_name' => 'ilObjPortfolioBaseGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilObjPortfolioBaseGUI.php',
     'parents' => 
@@ -12529,7 +12535,7 @@
   ),
   'ilobjportfoliogui' => 
   array (
-    'cid' => 'o7',
+    'cid' => 'o8',
     'class_name' => 'ilObjPortfolioGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilObjPortfolioGUI.php',
     'parents' => 
@@ -12550,7 +12556,7 @@
   ),
   'ilobjportfoliotemplategui' => 
   array (
-    'cid' => 'o8',
+    'cid' => 'o9',
     'class_name' => 'ilObjPortfolioTemplateGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilObjPortfolioTemplateGUI.php',
     'parents' => 
@@ -12573,7 +12579,7 @@
   ),
   'ilobjportfoliotemplatelistgui' => 
   array (
-    'cid' => 'o9',
+    'cid' => 'oa',
     'class_name' => 'ilObjPortfolioTemplateListGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilObjPortfolioTemplateListGUI.php',
     'parents' => 
@@ -12585,7 +12591,7 @@
   ),
   'ilobjprivacysecuritygui' => 
   array (
-    'cid' => 'oa',
+    'cid' => 'ob',
     'class_name' => 'ilObjPrivacySecurityGUI',
     'class_path' => './Services/PrivacySecurity/classes/class.ilObjPrivacySecurityGUI.php',
     'parents' => 
@@ -12599,7 +12605,7 @@
   ),
   'ilobjquestionpoolgui' => 
   array (
-    'cid' => 'ob',
+    'cid' => 'oc',
     'class_name' => 'ilObjQuestionPoolGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilObjQuestionPoolGUI.php',
     'parents' => 
@@ -12647,7 +12653,7 @@
   ),
   'ilobjquestionpoollistgui' => 
   array (
-    'cid' => 'oc',
+    'cid' => 'od',
     'class_name' => 'ilObjQuestionPoolListGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilObjQuestionPoolListGUI.php',
     'parents' => 
@@ -12659,7 +12665,7 @@
   ),
   'ilobjquestionpoolsettingsgeneralgui' => 
   array (
-    'cid' => 'od',
+    'cid' => 'oe',
     'class_name' => 'ilObjQuestionPoolSettingsGeneralGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilObjQuestionPoolSettingsGeneralGUI.php',
     'parents' => 
@@ -12673,7 +12679,7 @@
   ),
   'ilobjrecoveryfoldergui' => 
   array (
-    'cid' => 'oe',
+    'cid' => 'of',
     'class_name' => 'ilObjRecoveryFolderGUI',
     'class_path' => './Services/Administration/classes/class.ilObjRecoveryFolderGUI.php',
     'parents' => 
@@ -12687,7 +12693,7 @@
   ),
   'ilobjremotecategorygui' => 
   array (
-    'cid' => 'of',
+    'cid' => 'og',
     'class_name' => 'ilObjRemoteCategoryGUI',
     'class_path' => './Modules/RemoteCategory/classes/class.ilObjRemoteCategoryGUI.php',
     'parents' => 
@@ -12704,7 +12710,7 @@
   ),
   'ilobjremotecategorylistgui' => 
   array (
-    'cid' => 'og',
+    'cid' => 'oh',
     'class_name' => 'ilObjRemoteCategoryListGUI',
     'class_path' => './Modules/RemoteCategory/classes/class.ilObjRemoteCategoryListGUI.php',
     'parents' => 
@@ -12716,7 +12722,7 @@
   ),
   'ilobjremotecoursegui' => 
   array (
-    'cid' => 'oh',
+    'cid' => 'oi',
     'class_name' => 'ilObjRemoteCourseGUI',
     'class_path' => './Modules/RemoteCourse/classes/class.ilObjRemoteCourseGUI.php',
     'parents' => 
@@ -12733,7 +12739,7 @@
   ),
   'ilobjremotecourselistgui' => 
   array (
-    'cid' => 'oi',
+    'cid' => 'oj',
     'class_name' => 'ilObjRemoteCourseListGUI',
     'class_path' => './Modules/RemoteCourse/classes/class.ilObjRemoteCourseListGUI.php',
     'parents' => 
@@ -12745,7 +12751,7 @@
   ),
   'ilobjremotefilegui' => 
   array (
-    'cid' => 'oj',
+    'cid' => 'ok',
     'class_name' => 'ilObjRemoteFileGUI',
     'class_path' => './Modules/RemoteFile/classes/class.ilObjRemoteFileGUI.php',
     'parents' => 
@@ -12762,7 +12768,7 @@
   ),
   'ilobjremotefilelistgui' => 
   array (
-    'cid' => 'ok',
+    'cid' => 'ol',
     'class_name' => 'ilObjRemoteFileListGUI',
     'class_path' => './Modules/RemoteFile/classes/class.ilObjRemoteFileListGUI.php',
     'parents' => 
@@ -12774,7 +12780,7 @@
   ),
   'ilobjremoteglossarygui' => 
   array (
-    'cid' => 'ol',
+    'cid' => 'om',
     'class_name' => 'ilObjRemoteGlossaryGUI',
     'class_path' => './Modules/RemoteGlossary/classes/class.ilObjRemoteGlossaryGUI.php',
     'parents' => 
@@ -12791,7 +12797,7 @@
   ),
   'ilobjremoteglossarylistgui' => 
   array (
-    'cid' => 'om',
+    'cid' => 'on',
     'class_name' => 'ilObjRemoteGlossaryListGUI',
     'class_path' => './Modules/RemoteGlossary/classes/class.ilObjRemoteGlossaryListGUI.php',
     'parents' => 
@@ -12803,7 +12809,7 @@
   ),
   'ilobjremotegroupgui' => 
   array (
-    'cid' => 'on',
+    'cid' => 'oo',
     'class_name' => 'ilObjRemoteGroupGUI',
     'class_path' => './Modules/RemoteGroup/classes/class.ilObjRemoteGroupGUI.php',
     'parents' => 
@@ -12820,7 +12826,7 @@
   ),
   'ilobjremotegrouplistgui' => 
   array (
-    'cid' => 'oo',
+    'cid' => 'op',
     'class_name' => 'ilObjRemoteGroupListGUI',
     'class_path' => './Modules/RemoteGroup/classes/class.ilObjRemoteGroupListGUI.php',
     'parents' => 
@@ -12832,7 +12838,7 @@
   ),
   'ilobjremotelearningmodulegui' => 
   array (
-    'cid' => 'op',
+    'cid' => 'oq',
     'class_name' => 'ilObjRemoteLearningModuleGUI',
     'class_path' => './Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleGUI.php',
     'parents' => 
@@ -12849,7 +12855,7 @@
   ),
   'ilobjremotelearningmodulelistgui' => 
   array (
-    'cid' => 'oq',
+    'cid' => 'or',
     'class_name' => 'ilObjRemoteLearningModuleListGUI',
     'class_path' => './Modules/RemoteLearningModule/classes/class.ilObjRemoteLearningModuleListGUI.php',
     'parents' => 
@@ -12861,7 +12867,7 @@
   ),
   'ilobjremotetestgui' => 
   array (
-    'cid' => 'or',
+    'cid' => 'os',
     'class_name' => 'ilObjRemoteTestGUI',
     'class_path' => './Modules/RemoteTest/classes/class.ilObjRemoteTestGUI.php',
     'parents' => 
@@ -12878,7 +12884,7 @@
   ),
   'ilobjremotetestlistgui' => 
   array (
-    'cid' => 'os',
+    'cid' => 'ot',
     'class_name' => 'ilObjRemoteTestListGUI',
     'class_path' => './Modules/RemoteTest/classes/class.ilObjRemoteTestListGUI.php',
     'parents' => 
@@ -12890,7 +12896,7 @@
   ),
   'ilobjremotewikigui' => 
   array (
-    'cid' => 'ot',
+    'cid' => 'ou',
     'class_name' => 'ilObjRemoteWikiGUI',
     'class_path' => './Modules/RemoteWiki/classes/class.ilObjRemoteWikiGUI.php',
     'parents' => 
@@ -12907,7 +12913,7 @@
   ),
   'ilobjremotewikilistgui' => 
   array (
-    'cid' => 'ou',
+    'cid' => 'ov',
     'class_name' => 'ilObjRemoteWikiListGUI',
     'class_path' => './Modules/RemoteWiki/classes/class.ilObjRemoteWikiListGUI.php',
     'parents' => 
@@ -12919,9 +12925,9 @@
   ),
   'ilobjrepositorysettingsgui' => 
   array (
-    'cid' => 'ov',
+    'cid' => 'ow',
     'class_name' => 'ilObjRepositorySettingsGUI',
-    'class_path' => './Services/Repository/classes/class.ilObjRepositorySettingsGUI.php',
+    'class_path' => './Services/Repository/Administration/class.ilObjRepositorySettingsGUI.php',
     'parents' => 
     array (
       0 => 'iladministrationgui',
@@ -12933,7 +12939,7 @@
   ),
   'ilobjrolefoldergui' => 
   array (
-    'cid' => 'ow',
+    'cid' => 'ox',
     'class_name' => 'ilObjRoleFolderGUI',
     'class_path' => './Services/AccessControl/classes/class.ilObjRoleFolderGUI.php',
     'parents' => 
@@ -12948,7 +12954,7 @@
   ),
   'ilobjrolegui' => 
   array (
-    'cid' => 'ox',
+    'cid' => 'oy',
     'class_name' => 'ilObjRoleGUI',
     'class_path' => './Services/AccessControl/classes/class.ilObjRoleGUI.php',
     'parents' => 
@@ -12966,7 +12972,7 @@
   ),
   'ilobjroletemplategui' => 
   array (
-    'cid' => 'oy',
+    'cid' => 'oz',
     'class_name' => 'ilObjRoleTemplateGUI',
     'class_path' => './Services/AccessControl/classes/class.ilObjRoleTemplateGUI.php',
     'parents' => 
@@ -12979,7 +12985,7 @@
   ),
   'ilobjrootfoldergui' => 
   array (
-    'cid' => 'oz',
+    'cid' => 'p0',
     'class_name' => 'ilObjRootFolderGUI',
     'class_path' => './Modules/RootFolder/classes/class.ilObjRootFolderGUI.php',
     'parents' => 
@@ -12996,18 +13002,17 @@
     array (
       0 => 'ilpermissiongui',
       1 => 'ilcontainerpagegui',
-      2 => 'ilcontainerlinklistgui',
-      3 => 'ilcolumngui',
-      4 => 'ilobjectcopygui',
-      5 => 'ilobjstylesheetgui',
-      6 => 'ilcommonactiondispatchergui',
-      7 => 'ilobjecttranslationgui',
-      8 => 'ilreputilgui',
+      2 => 'ilcolumngui',
+      3 => 'ilobjectcopygui',
+      4 => 'ilobjstylesheetgui',
+      5 => 'ilcommonactiondispatchergui',
+      6 => 'ilobjecttranslationgui',
+      7 => 'ilrepositorytrashgui',
     ),
   ),
   'ilobjrootfolderlistgui' => 
   array (
-    'cid' => 'p0',
+    'cid' => 'p1',
     'class_name' => 'ilObjRootFolderListGUI',
     'class_path' => './Modules/RootFolder/classes/class.ilObjRootFolderListGUI.php',
     'parents' => 
@@ -13019,7 +13024,7 @@
   ),
   'ilobjsahslearningmodulegui' => 
   array (
-    'cid' => 'p1',
+    'cid' => 'p2',
     'class_name' => 'ilObjSAHSLearningModuleGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleGUI.php',
     'parents' => 
@@ -13043,7 +13048,7 @@
   ),
   'ilobjsahslearningmodulelistgui' => 
   array (
-    'cid' => 'p2',
+    'cid' => 'p3',
     'class_name' => 'ilObjSAHSLearningModuleListGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilObjSAHSLearningModuleListGUI.php',
     'parents' => 
@@ -13055,7 +13060,7 @@
   ),
   'ilobjscorm2004learningmodulegui' => 
   array (
-    'cid' => 'p3',
+    'cid' => 'p4',
     'class_name' => 'ilObjSCORM2004LearningModuleGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilObjSCORM2004LearningModuleGUI.php',
     'parents' => 
@@ -13087,7 +13092,7 @@
   ),
   'ilobjscormlearningmodulegui' => 
   array (
-    'cid' => 'p4',
+    'cid' => 'p5',
     'class_name' => 'ilObjSCORMLearningModuleGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilObjSCORMLearningModuleGUI.php',
     'parents' => 
@@ -13112,7 +13117,7 @@
   ),
   'ilobjscormverificationgui' => 
   array (
-    'cid' => 'p5',
+    'cid' => 'p6',
     'class_name' => 'ilObjSCORMVerificationGUI',
     'class_path' => './Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerificationGUI.php',
     'parents' => 
@@ -13126,7 +13131,7 @@
   ),
   'ilobjscormverificationlistgui' => 
   array (
-    'cid' => 'p6',
+    'cid' => 'p7',
     'class_name' => 'ilObjSCORMVerificationListGUI',
     'class_path' => './Modules/ScormAicc/classes/Verification/class.ilObjSCORMVerificationListGUI.php',
     'parents' => 
@@ -13138,7 +13143,7 @@
   ),
   'ilobjsearchsettingsgui' => 
   array (
-    'cid' => 'p7',
+    'cid' => 'p8',
     'class_name' => 'ilObjSearchSettingsGUI',
     'class_path' => './Services/Search/classes/class.ilObjSearchSettingsGUI.php',
     'parents' => 
@@ -13152,7 +13157,7 @@
   ),
   'ilobjsessiongui' => 
   array (
-    'cid' => 'p8',
+    'cid' => 'p9',
     'class_name' => 'ilObjSessionGUI',
     'class_path' => './Modules/Session/classes/class.ilObjSessionGUI.php',
     'parents' => 
@@ -13177,7 +13182,7 @@
   ),
   'ilobjsessionlistgui' => 
   array (
-    'cid' => 'p9',
+    'cid' => 'pa',
     'class_name' => 'ilObjSessionListGUI',
     'class_path' => './Modules/Session/classes/class.ilObjSessionListGUI.php',
     'parents' => 
@@ -13189,7 +13194,7 @@
   ),
   'ilobjskillmanagementgui' => 
   array (
-    'cid' => 'pa',
+    'cid' => 'pb',
     'class_name' => 'ilObjSkillManagementGUI',
     'class_path' => './Services/Skill/classes/class.ilObjSkillManagementGUI.php',
     'parents' => 
@@ -13212,7 +13217,7 @@
   ),
   'ilobjstudyprogrammeadmingui' => 
   array (
-    'cid' => 'pb',
+    'cid' => 'pc',
     'class_name' => 'ilObjStudyProgrammeAdminGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAdminGUI.php',
     'parents' => 
@@ -13227,7 +13232,7 @@
   ),
   'ilobjstudyprogrammeautocategoriesgui' => 
   array (
-    'cid' => 'pc',
+    'cid' => 'pd',
     'class_name' => 'ilObjStudyProgrammeAutoCategoriesGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAutoCategoriesGUI.php',
     'parents' => 
@@ -13241,7 +13246,7 @@
   ),
   'ilobjstudyprogrammeautomembershipsgui' => 
   array (
-    'cid' => 'pd',
+    'cid' => 'pe',
     'class_name' => 'ilObjStudyProgrammeAutoMembershipsGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeAutoMembershipsGUI.php',
     'parents' => 
@@ -13255,7 +13260,7 @@
   ),
   'ilobjstudyprogrammegui' => 
   array (
-    'cid' => 'pe',
+    'cid' => 'pf',
     'class_name' => 'ilObjStudyProgrammeGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeGUI.php',
     'parents' => 
@@ -13281,7 +13286,7 @@
   ),
   'ilobjstudyprogrammeindividualplangui' => 
   array (
-    'cid' => 'pf',
+    'cid' => 'pg',
     'class_name' => 'ilObjStudyProgrammeIndividualPlanGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeIndividualPlanGUI.php',
     'parents' => 
@@ -13294,7 +13299,7 @@
   ),
   'ilobjstudyprogrammelistgui' => 
   array (
-    'cid' => 'pg',
+    'cid' => 'ph',
     'class_name' => 'ilObjStudyProgrammeListGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeListGUI.php',
     'parents' => 
@@ -13306,7 +13311,7 @@
   ),
   'ilobjstudyprogrammemembersgui' => 
   array (
-    'cid' => 'ph',
+    'cid' => 'pi',
     'class_name' => 'ilObjStudyProgrammeMembersGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeMembersGUI.php',
     'parents' => 
@@ -13326,7 +13331,7 @@
   ),
   'ilobjstudyprogrammereferencegui' => 
   array (
-    'cid' => 'pi',
+    'cid' => 'pj',
     'class_name' => 'ilObjStudyProgrammeReferenceGUI',
     'class_path' => './Modules/StudyProgrammeReference/classes/class.ilObjStudyProgrammeReferenceGUI.php',
     'parents' => 
@@ -13342,7 +13347,7 @@
   ),
   'ilobjstudyprogrammereferencelistgui' => 
   array (
-    'cid' => 'pj',
+    'cid' => 'pk',
     'class_name' => 'ilObjStudyProgrammeReferenceListGUI',
     'class_path' => './Modules/StudyProgrammeReference/classes/class.ilObjStudyProgrammeReferenceListGUI.php',
     'parents' => 
@@ -13354,7 +13359,7 @@
   ),
   'ilobjstudyprogrammesettingsgui' => 
   array (
-    'cid' => 'pk',
+    'cid' => 'pl',
     'class_name' => 'ilObjStudyProgrammeSettingsGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeSettingsGUI.php',
     'parents' => 
@@ -13368,7 +13373,7 @@
   ),
   'ilobjstudyprogrammetreeexplorergui' => 
   array (
-    'cid' => 'pl',
+    'cid' => 'pm',
     'class_name' => 'ilObjStudyProgrammeTreeExplorerGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeExplorerGUI.php',
     'parents' => 
@@ -13380,7 +13385,7 @@
   ),
   'ilobjstudyprogrammetreegui' => 
   array (
-    'cid' => 'pm',
+    'cid' => 'pn',
     'class_name' => 'ilObjStudyProgrammeTreeGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilObjStudyProgrammeTreeGUI.php',
     'parents' => 
@@ -13393,7 +13398,7 @@
   ),
   'ilobjstylesettingsgui' => 
   array (
-    'cid' => 'pn',
+    'cid' => 'po',
     'class_name' => 'ilObjStyleSettingsGUI',
     'class_path' => './Services/Style/classes/class.ilObjStyleSettingsGUI.php',
     'parents' => 
@@ -13410,7 +13415,7 @@
   ),
   'ilobjstylesheetgui' => 
   array (
-    'cid' => 'po',
+    'cid' => 'pp',
     'class_name' => 'ilObjStyleSheetGUI',
     'class_path' => './Services/Style/Content/classes/class.ilObjStyleSheetGUI.php',
     'parents' => 
@@ -13437,7 +13442,7 @@
   ),
   'ilobjsurveyadministrationgui' => 
   array (
-    'cid' => 'pp',
+    'cid' => 'pq',
     'class_name' => 'ilObjSurveyAdministrationGUI',
     'class_path' => './Modules/Survey/Administration/class.ilObjSurveyAdministrationGUI.php',
     'parents' => 
@@ -13452,7 +13457,7 @@
   ),
   'ilobjsurveygui' => 
   array (
-    'cid' => 'pq',
+    'cid' => 'pr',
     'class_name' => 'ilObjSurveyGUI',
     'class_path' => './Modules/Survey/classes/class.ilObjSurveyGUI.php',
     'parents' => 
@@ -13482,7 +13487,7 @@
   ),
   'ilobjsurveylistgui' => 
   array (
-    'cid' => 'pr',
+    'cid' => 'ps',
     'class_name' => 'ilObjSurveyListGUI',
     'class_path' => './Modules/Survey/classes/class.ilObjSurveyListGUI.php',
     'parents' => 
@@ -13494,7 +13499,7 @@
   ),
   'ilobjsurveyquestionpoolgui' => 
   array (
-    'cid' => 'ps',
+    'cid' => 'pt',
     'class_name' => 'ilObjSurveyQuestionPoolGUI',
     'class_path' => './Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolGUI.php',
     'parents' => 
@@ -13519,7 +13524,7 @@
   ),
   'ilobjsurveyquestionpoollistgui' => 
   array (
-    'cid' => 'pt',
+    'cid' => 'pu',
     'class_name' => 'ilObjSurveyQuestionPoolListGUI',
     'class_path' => './Modules/SurveyQuestionPool/classes/class.ilObjSurveyQuestionPoolListGUI.php',
     'parents' => 
@@ -13531,7 +13536,7 @@
   ),
   'ilobjsystemcheckgui' => 
   array (
-    'cid' => 'pu',
+    'cid' => 'pv',
     'class_name' => 'ilObjSystemCheckGUI',
     'class_path' => './Services/SystemCheck/classes/class.ilObjSystemCheckGUI.php',
     'parents' => 
@@ -13549,7 +13554,7 @@
   ),
   'ilobjsystemfoldergui' => 
   array (
-    'cid' => 'pv',
+    'cid' => 'pw',
     'class_name' => 'ilObjSystemFolderGUI',
     'class_path' => './Modules/SystemFolder/classes/class.ilObjSystemFolderGUI.php',
     'parents' => 
@@ -13567,7 +13572,7 @@
   ),
   'ilobjtaggingsettingsgui' => 
   array (
-    'cid' => 'pw',
+    'cid' => 'px',
     'class_name' => 'ilObjTaggingSettingsGUI',
     'class_path' => './Services/Tagging/classes/class.ilObjTaggingSettingsGUI.php',
     'parents' => 
@@ -13581,7 +13586,7 @@
   ),
   'ilobjtaxonomyadministrationgui' => 
   array (
-    'cid' => 'px',
+    'cid' => 'py',
     'class_name' => 'ilObjTaxonomyAdministrationGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilObjTaxonomyAdministrationGUI.php',
     'parents' => 
@@ -13595,7 +13600,7 @@
   ),
   'ilobjtaxonomygui' => 
   array (
-    'cid' => 'py',
+    'cid' => 'pz',
     'class_name' => 'ilObjTaxonomyGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilObjTaxonomyGUI.php',
     'parents' => 
@@ -13613,7 +13618,7 @@
   ),
   'ilobjtermsofservicegui' => 
   array (
-    'cid' => 'pz',
+    'cid' => 'q0',
     'class_name' => 'ilObjTermsOfServiceGUI',
     'class_path' => './Services/TermsOfService/classes/class.ilObjTermsOfServiceGUI.php',
     'parents' => 
@@ -13629,7 +13634,7 @@
   ),
   'ilobjtestdynamicquestionsetconfiggui' => 
   array (
-    'cid' => 'q0',
+    'cid' => 'q1',
     'class_name' => 'ilObjTestDynamicQuestionSetConfigGUI',
     'class_path' => './Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfigGUI.php',
     'parents' => 
@@ -13643,7 +13648,7 @@
   ),
   'ilobjtestgui' => 
   array (
-    'cid' => 'q1',
+    'cid' => 'q2',
     'class_name' => 'ilObjTestGUI',
     'class_path' => './Modules/Test/classes/class.ilObjTestGUI.php',
     'parents' => 
@@ -13716,7 +13721,7 @@
   ),
   'ilobjtestlistgui' => 
   array (
-    'cid' => 'q2',
+    'cid' => 'q3',
     'class_name' => 'ilObjTestListGUI',
     'class_path' => './Modules/Test/classes/class.ilObjTestListGUI.php',
     'parents' => 
@@ -13728,7 +13733,7 @@
   ),
   'ilobjtestsettingsgeneralgui' => 
   array (
-    'cid' => 'q3',
+    'cid' => 'q4',
     'class_name' => 'ilObjTestSettingsGeneralGUI',
     'class_path' => './Modules/Test/classes/class.ilObjTestSettingsGeneralGUI.php',
     'parents' => 
@@ -13744,7 +13749,7 @@
   ),
   'ilobjtestsettingsscoringresultsgui' => 
   array (
-    'cid' => 'q4',
+    'cid' => 'q5',
     'class_name' => 'ilObjTestSettingsScoringResultsGUI',
     'class_path' => './Modules/Test/classes/class.ilObjTestSettingsScoringResultsGUI.php',
     'parents' => 
@@ -13759,7 +13764,7 @@
   ),
   'ilobjtestverificationgui' => 
   array (
-    'cid' => 'q5',
+    'cid' => 'q6',
     'class_name' => 'ilObjTestVerificationGUI',
     'class_path' => './Modules/Test/classes/class.ilObjTestVerificationGUI.php',
     'parents' => 
@@ -13774,7 +13779,7 @@
   ),
   'ilobjtestverificationlistgui' => 
   array (
-    'cid' => 'q6',
+    'cid' => 'q7',
     'class_name' => 'ilObjTestVerificationListGUI',
     'class_path' => './Modules/Test/classes/class.ilObjTestVerificationListGUI.php',
     'parents' => 
@@ -13786,7 +13791,7 @@
   ),
   'ilobjtypedefinitiongui' => 
   array (
-    'cid' => 'q7',
+    'cid' => 'q8',
     'class_name' => 'ilObjTypeDefinitionGUI',
     'class_path' => './Services/Object/classes/class.ilObjTypeDefinitionGUI.php',
     'parents' => 
@@ -13798,7 +13803,7 @@
   ),
   'ilobjuserfoldergui' => 
   array (
-    'cid' => 'q8',
+    'cid' => 'q9',
     'class_name' => 'ilObjUserFolderGUI',
     'class_path' => './Services/User/classes/class.ilObjUserFolderGUI.php',
     'parents' => 
@@ -13820,7 +13825,7 @@
   ),
   'ilobjusergui' => 
   array (
-    'cid' => 'q9',
+    'cid' => 'qa',
     'class_name' => 'ilObjUserGUI',
     'class_path' => './Services/User/classes/class.ilObjUserGUI.php',
     'parents' => 
@@ -13841,7 +13846,7 @@
   ),
   'ilobjusertrackinggui' => 
   array (
-    'cid' => 'qa',
+    'cid' => 'qb',
     'class_name' => 'ilObjUserTrackingGUI',
     'class_path' => './Services/Tracking/classes/class.ilObjUserTrackingGUI.php',
     'parents' => 
@@ -13858,7 +13863,7 @@
   ),
   'ilobjwebdavgui' => 
   array (
-    'cid' => 'qb',
+    'cid' => 'qc',
     'class_name' => 'ilObjWebDAVGUI',
     'class_path' => './Services/WebDAV/classes/class.ilObjWebDAVGUI.php',
     'parents' => 
@@ -13873,7 +13878,7 @@
   ),
   'ilobjwebresourceadministrationgui' => 
   array (
-    'cid' => 'qc',
+    'cid' => 'qd',
     'class_name' => 'ilObjWebResourceAdministrationGUI',
     'class_path' => './Modules/WebResource/classes/class.ilObjWebResourceAdministrationGUI.php',
     'parents' => 
@@ -13887,7 +13892,7 @@
   ),
   'ilobjwikigui' => 
   array (
-    'cid' => 'qd',
+    'cid' => 'qe',
     'class_name' => 'ilObjWikiGUI',
     'class_path' => './Modules/Wiki/classes/class.ilObjWikiGUI.php',
     'parents' => 
@@ -13917,7 +13922,7 @@
   ),
   'ilobjwikilistgui' => 
   array (
-    'cid' => 'qe',
+    'cid' => 'qf',
     'class_name' => 'ilObjWikiListGUI',
     'class_path' => './Modules/Wiki/classes/class.ilObjWikiListGUI.php',
     'parents' => 
@@ -13929,7 +13934,7 @@
   ),
   'ilobjwikisearchresulttablegui' => 
   array (
-    'cid' => 'qf',
+    'cid' => 'qg',
     'class_name' => 'ilObjWikiSearchResultTableGUI',
     'class_path' => './Modules/Wiki/classes/class.ilObjWikiSearchResultTableGUI.php',
     'parents' => 
@@ -13941,7 +13946,7 @@
   ),
   'ilobjwikisettingsgui' => 
   array (
-    'cid' => 'qg',
+    'cid' => 'qh',
     'class_name' => 'ilObjWikiSettingsGUI',
     'class_path' => './Modules/Wiki/classes/class.ilObjWikiSettingsGUI.php',
     'parents' => 
@@ -13955,7 +13960,7 @@
   ),
   'ilobjwikisubitemlistgui' => 
   array (
-    'cid' => 'qh',
+    'cid' => 'qi',
     'class_name' => 'ilObjWikiSubItemListGUI',
     'class_path' => './Modules/Wiki/classes/class.ilObjWikiSubItemListGUI.php',
     'parents' => 
@@ -13967,7 +13972,7 @@
   ),
   'ilobjworkflowenginegui' => 
   array (
-    'cid' => 'qi',
+    'cid' => 'qj',
     'class_name' => 'ilObjWorkflowEngineGUI',
     'class_path' => './Services/WorkflowEngine/classes/class.ilObjWorkflowEngineGUI.php',
     'parents' => 
@@ -13981,7 +13986,7 @@
   ),
   'ilobjworkspacefoldergui' => 
   array (
-    'cid' => 'qj',
+    'cid' => 'qk',
     'class_name' => 'ilObjWorkspaceFolderGUI',
     'class_path' => './Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderGUI.php',
     'parents' => 
@@ -13996,7 +14001,7 @@
   ),
   'ilobjworkspacefolderlistgui' => 
   array (
-    'cid' => 'qk',
+    'cid' => 'ql',
     'class_name' => 'ilObjWorkspaceFolderListGUI',
     'class_path' => './Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderListGUI.php',
     'parents' => 
@@ -14008,7 +14013,7 @@
   ),
   'ilobjworkspacefoldertablegui' => 
   array (
-    'cid' => 'ql',
+    'cid' => 'qm',
     'class_name' => 'ilObjWorkspaceFolderTableGUI',
     'class_path' => './Modules/WorkspaceFolder/classes/class.ilObjWorkspaceFolderTableGUI.php',
     'parents' => 
@@ -14020,7 +14025,7 @@
   ),
   'ilobjworkspacerootfoldergui' => 
   array (
-    'cid' => 'qm',
+    'cid' => 'qn',
     'class_name' => 'ilObjWorkspaceRootFolderGUI',
     'class_path' => './Modules/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderGUI.php',
     'parents' => 
@@ -14035,7 +14040,7 @@
   ),
   'ilobjworkspacerootfolderlistgui' => 
   array (
-    'cid' => 'qn',
+    'cid' => 'qo',
     'class_name' => 'ilObjWorkspaceRootFolderListGUI',
     'class_path' => './Modules/WorkspaceRootFolder/classes/class.ilObjWorkspaceRootFolderListGUI.php',
     'parents' => 
@@ -14047,7 +14052,7 @@
   ),
   'ilobject2gui' => 
   array (
-    'cid' => 'qo',
+    'cid' => 'qp',
     'class_name' => 'ilObject2GUI',
     'class_path' => './Services/Object/classes/class.ilObject2GUI.php',
     'parents' => 
@@ -14059,7 +14064,7 @@
   ),
   'ilobjectactivationgui' => 
   array (
-    'cid' => 'qp',
+    'cid' => 'qq',
     'class_name' => 'ilObjectActivationGUI',
     'class_path' => './Services/Object/classes/class.ilObjectActivationGUI.php',
     'parents' => 
@@ -14073,7 +14078,7 @@
   ),
   'ilobjectaddnewitemgui' => 
   array (
-    'cid' => 'qq',
+    'cid' => 'qr',
     'class_name' => 'ilObjectAddNewItemGUI',
     'class_path' => './Services/Object/classes/class.ilObjectAddNewItemGUI.php',
     'parents' => 
@@ -14085,7 +14090,7 @@
   ),
   'ilobjectbadgetablegui' => 
   array (
-    'cid' => 'qr',
+    'cid' => 'qs',
     'class_name' => 'ilObjectBadgeTableGUI',
     'class_path' => './Services/Badge/classes/class.ilObjectBadgeTableGUI.php',
     'parents' => 
@@ -14097,7 +14102,7 @@
   ),
   'ilobjectconsumertablegui' => 
   array (
-    'cid' => 'qs',
+    'cid' => 'qt',
     'class_name' => 'ilObjectConsumerTableGUI',
     'class_path' => './Services/LTI/classes/Consumer/class.ilLTIConsumerTableGUI.php',
     'parents' => 
@@ -14109,7 +14114,7 @@
   ),
   'ilobjectcopycoursegroupselectiontablegui' => 
   array (
-    'cid' => 'qt',
+    'cid' => 'qu',
     'class_name' => 'ilObjectCopyCourseGroupSelectionTableGUI',
     'class_path' => './Services/Object/classes/class.ilObjectCopyCourseGroupSelectionTableGUI.php',
     'parents' => 
@@ -14121,7 +14126,7 @@
   ),
   'ilobjectcopygui' => 
   array (
-    'cid' => 'qu',
+    'cid' => 'qv',
     'class_name' => 'ilObjectCopyGUI',
     'class_path' => './Services/Object/classes/class.ilObjectCopyGUI.php',
     'parents' => 
@@ -14176,7 +14181,7 @@
   ),
   'ilobjectcopyprogresstablegui' => 
   array (
-    'cid' => 'qv',
+    'cid' => 'qw',
     'class_name' => 'ilObjectCopyProgressTableGUI',
     'class_path' => './Services/Object/classes/class.ilObjectCopyProgressTableGUI.php',
     'parents' => 
@@ -14188,7 +14193,7 @@
   ),
   'ilobjectcopysearchresulttablegui' => 
   array (
-    'cid' => 'qw',
+    'cid' => 'qx',
     'class_name' => 'ilObjectCopySearchResultTableGUI',
     'class_path' => './Services/Object/classes/class.ilObjectCopySearchResultTableGUI.php',
     'parents' => 
@@ -14200,7 +14205,7 @@
   ),
   'ilobjectcopyselectiontablegui' => 
   array (
-    'cid' => 'qx',
+    'cid' => 'qy',
     'class_name' => 'ilObjectCopySelectionTableGUI',
     'class_path' => './Services/Object/classes/class.ilObjectCopySelectionTableGUI.php',
     'parents' => 
@@ -14212,7 +14217,7 @@
   ),
   'ilobjectcustomiconconfigurationgui' => 
   array (
-    'cid' => 'qy',
+    'cid' => 'qz',
     'class_name' => 'ilObjectCustomIconConfigurationGUI',
     'class_path' => './Services/Object/Icon/classes/class.ilObjectCustomIconConfigurationGUI.php',
     'parents' => 
@@ -14225,7 +14230,7 @@
   ),
   'ilobjectcustomuserfieldsgui' => 
   array (
-    'cid' => 'qz',
+    'cid' => 'r0',
     'class_name' => 'ilObjectCustomUserFieldsGUI',
     'class_path' => './Services/Membership/classes/class.ilObjectCustomUserFieldsGUI.php',
     'parents' => 
@@ -14242,7 +14247,7 @@
   ),
   'ilobjectcustomuserfieldstablegui' => 
   array (
-    'cid' => 'r0',
+    'cid' => 'r1',
     'class_name' => 'ilObjectCustomUserFieldsTableGUI',
     'class_path' => './Services/Membership/classes/class.ilObjectCustomUserFieldsTableGUI.php',
     'parents' => 
@@ -14254,7 +14259,7 @@
   ),
   'ilobjectgui' => 
   array (
-    'cid' => 'r1',
+    'cid' => 'r2',
     'class_name' => 'ilObjectGUI',
     'class_path' => './Services/Object/classes/class.ilObjectGUI.php',
     'parents' => 
@@ -14270,7 +14275,7 @@
   ),
   'ilobjectlistgui' => 
   array (
-    'cid' => 'r2',
+    'cid' => 'r3',
     'class_name' => 'ilObjectListGUI',
     'class_path' => './Services/Object/classes/class.ilObjectListGUI.php',
     'parents' => 
@@ -14282,7 +14287,7 @@
   ),
   'ilobjectmetadatablockgui' => 
   array (
-    'cid' => 'r3',
+    'cid' => 'r4',
     'class_name' => 'ilObjectMetaDataBlockGUI',
     'class_path' => './Services/Object/classes/class.ilObjectMetaDataBlockGUI.php',
     'parents' => 
@@ -14295,7 +14300,7 @@
   ),
   'ilobjectmetadatagui' => 
   array (
-    'cid' => 'r4',
+    'cid' => 'r5',
     'class_name' => 'ilObjectMetaDataGUI',
     'class_path' => './Services/Object/classes/class.ilObjectMetaDataGUI.php',
     'parents' => 
@@ -14346,7 +14351,7 @@
   ),
   'ilobjectownershipmanagementgui' => 
   array (
-    'cid' => 'r5',
+    'cid' => 'r6',
     'class_name' => 'ilObjectOwnershipManagementGUI',
     'class_path' => './Services/Object/classes/class.ilObjectOwnershipManagementGUI.php',
     'parents' => 
@@ -14363,7 +14368,7 @@
   ),
   'ilobjectownershipmanagementtablegui' => 
   array (
-    'cid' => 'r6',
+    'cid' => 'r7',
     'class_name' => 'ilObjectOwnershipManagementTableGUI',
     'class_path' => './Services/Object/classes/class.ilObjectOwnershipManagementTableGUI.php',
     'parents' => 
@@ -14375,7 +14380,7 @@
   ),
   'ilobjectpermissionstatusgui' => 
   array (
-    'cid' => 'r7',
+    'cid' => 'r8',
     'class_name' => 'ilObjectPermissionStatusGUI',
     'class_path' => './Services/AccessControl/classes/class.ilObjectPermissionStatusGUI.php',
     'parents' => 
@@ -14389,9 +14394,9 @@
   ),
   'ilobjectplugingui' => 
   array (
-    'cid' => 'r8',
+    'cid' => 'r9',
     'class_name' => 'ilObjectPluginGUI',
-    'class_path' => './Services/Repository/classes/class.ilObjectPluginGUI.php',
+    'class_path' => './Services/Repository/PluginSlot/class.ilObjectPluginGUI.php',
     'parents' => 
     array (
     ),
@@ -14401,9 +14406,9 @@
   ),
   'ilobjectpluginlistgui' => 
   array (
-    'cid' => 'r9',
+    'cid' => 'ra',
     'class_name' => 'ilObjectPluginListGUI',
-    'class_path' => './Services/Repository/classes/class.ilObjectPluginListGUI.php',
+    'class_path' => './Services/Repository/PluginSlot/class.ilObjectPluginListGUI.php',
     'parents' => 
     array (
     ),
@@ -14413,7 +14418,7 @@
   ),
   'ilobjectrolepermissiontablegui' => 
   array (
-    'cid' => 'ra',
+    'cid' => 'rb',
     'class_name' => 'ilObjectRolePermissionTableGUI',
     'class_path' => './Services/AccessControl/classes/class.ilObjectRolePermissionTableGUI.php',
     'parents' => 
@@ -14425,7 +14430,7 @@
   ),
   'ilobjectroletemplateoptionstablegui' => 
   array (
-    'cid' => 'rb',
+    'cid' => 'rc',
     'class_name' => 'ilObjectRoleTemplateOptionsTableGUI',
     'class_path' => './Services/AccessControl/classes/class.ilObjectRoleTemplateOptionsTableGUI.php',
     'parents' => 
@@ -14437,7 +14442,7 @@
   ),
   'ilobjectroletemplatepermissiontablegui' => 
   array (
-    'cid' => 'rc',
+    'cid' => 'rd',
     'class_name' => 'ilObjectRoleTemplatePermissionTableGUI',
     'class_path' => './Services/AccessControl/classes/class.ilObjectRoleTemplatePermissionTableGUI.php',
     'parents' => 
@@ -14449,7 +14454,7 @@
   ),
   'ilobjectservicesettingsgui' => 
   array (
-    'cid' => 'rd',
+    'cid' => 're',
     'class_name' => 'ilObjectServiceSettingsGUI',
     'class_path' => './Services/Object/classes/class.ilObjectServiceSettingsGUI.php',
     'parents' => 
@@ -14463,7 +14468,7 @@
   ),
   'ilobjectsubitemlistgui' => 
   array (
-    'cid' => 're',
+    'cid' => 'rf',
     'class_name' => 'ilObjectSubItemListGUI',
     'class_path' => './Services/Object/classes/class.ilObjectSubItemListGUI.php',
     'parents' => 
@@ -14475,7 +14480,7 @@
   ),
   'ilobjecttablegui' => 
   array (
-    'cid' => 'rf',
+    'cid' => 'rg',
     'class_name' => 'ilObjectTableGUI',
     'class_path' => './Services/Object/classes/class.ilObjectTableGUI.php',
     'parents' => 
@@ -14487,7 +14492,7 @@
   ),
   'ilobjecttranslation2tablegui' => 
   array (
-    'cid' => 'rg',
+    'cid' => 'rh',
     'class_name' => 'ilObjectTranslation2TableGUI',
     'class_path' => './Services/Object/classes/class.ilObjectTranslation2TableGUI.php',
     'parents' => 
@@ -14499,7 +14504,7 @@
   ),
   'ilobjecttranslationgui' => 
   array (
-    'cid' => 'rh',
+    'cid' => 'ri',
     'class_name' => 'ilObjectTranslationGUI',
     'class_path' => './Services/Object/classes/class.ilObjectTranslationGUI.php',
     'parents' => 
@@ -14520,7 +14525,7 @@
   ),
   'ilobjecttranslationtablegui' => 
   array (
-    'cid' => 'ri',
+    'cid' => 'rj',
     'class_name' => 'ilObjectTranslationTableGUI',
     'class_path' => './Services/Object/classes/class.ilObjectTranslationTableGUI.php',
     'parents' => 
@@ -14532,7 +14537,7 @@
   ),
   'ilobjectivesalignmenttablegui' => 
   array (
-    'cid' => 'rj',
+    'cid' => 'rk',
     'class_name' => 'ilObjectivesAlignmentTableGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilObjectivesAlignmentTableGUI.php',
     'parents' => 
@@ -14544,7 +14549,7 @@
   ),
   'ilonscreenchatgui' => 
   array (
-    'cid' => 'rk',
+    'cid' => 'rl',
     'class_name' => 'ilOnScreenChatGUI',
     'class_path' => './Services/OnScreenChat/classes/class.ilOnScreenChatGUI.php',
     'parents' => 
@@ -14556,7 +14561,7 @@
   ),
   'ilopenidconnectsettingsgui' => 
   array (
-    'cid' => 'rl',
+    'cid' => 'rm',
     'class_name' => 'ilOpenIdConnectSettingsGUI',
     'class_path' => './Services/OpenIdConnect/classes/class.ilOpenIdConnectSettingsGUI.php',
     'parents' => 
@@ -14569,7 +14574,7 @@
   ),
   'ilopenlayersmapgui' => 
   array (
-    'cid' => 'rm',
+    'cid' => 'rn',
     'class_name' => 'ilOpenLayersMapGUI',
     'class_path' => './Services/Maps/classes/class.ilOpenLayersMapGUI.php',
     'parents' => 
@@ -14581,7 +14586,7 @@
   ),
   'ilorgunitauthorityformgui' => 
   array (
-    'cid' => 'rn',
+    'cid' => 'ro',
     'class_name' => 'ilOrgUnitAuthorityFormGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/Authorities/class.ilOrgUnitAuthorityFormGUI.php',
     'parents' => 
@@ -14593,7 +14598,7 @@
   ),
   'ilorgunitauthorityinputgui' => 
   array (
-    'cid' => 'ro',
+    'cid' => 'rp',
     'class_name' => 'ilOrgUnitAuthorityInputGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/Authorities/class.ilOrgUnitAuthorityInputGUI.php',
     'parents' => 
@@ -14605,7 +14610,7 @@
   ),
   'ilorgunitdefaultpermissionformgui' => 
   array (
-    'cid' => 'rp',
+    'cid' => 'rq',
     'class_name' => 'ilOrgUnitDefaultPermissionFormGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitDefaultPermissionFormGUI.php',
     'parents' => 
@@ -14617,7 +14622,7 @@
   ),
   'ilorgunitdefaultpermissiongui' => 
   array (
-    'cid' => 'rq',
+    'cid' => 'rr',
     'class_name' => 'ilOrgUnitDefaultPermissionGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitDefaultPermissionGUI.php',
     'parents' => 
@@ -14630,7 +14635,7 @@
   ),
   'ilorgunitdefaultpermissiontablegui' => 
   array (
-    'cid' => 'rr',
+    'cid' => 'rs',
     'class_name' => 'ilOrgUnitDefaultPermissionTableGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitDefaultPermissionTableGUI.php',
     'parents' => 
@@ -14642,7 +14647,7 @@
   ),
   'ilorgunitexplorergui' => 
   array (
-    'cid' => 'rs',
+    'cid' => 'rt',
     'class_name' => 'ilOrgUnitExplorerGUI',
     'class_path' => './Modules/OrgUnit/classes/class.ilOrgUnitExplorerGUI.php',
     'parents' => 
@@ -14654,7 +14659,7 @@
   ),
   'ilorgunitexportgui' => 
   array (
-    'cid' => 'rt',
+    'cid' => 'ru',
     'class_name' => 'ilOrgUnitExportGUI',
     'class_path' => './Modules/OrgUnit/classes/class.ilOrgUnitExportGUI.php',
     'parents' => 
@@ -14667,7 +14672,7 @@
   ),
   'ilorgunitextensiongui' => 
   array (
-    'cid' => 'ru',
+    'cid' => 'rv',
     'class_name' => 'ilOrgUnitExtensionGUI',
     'class_path' => './Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionGUI.php',
     'parents' => 
@@ -14679,7 +14684,7 @@
   ),
   'ilorgunitextensionlistgui' => 
   array (
-    'cid' => 'rv',
+    'cid' => 'rw',
     'class_name' => 'ilOrgUnitExtensionListGUI',
     'class_path' => './Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionListGUI.php',
     'parents' => 
@@ -14691,7 +14696,7 @@
   ),
   'ilorgunitgenericmultiinputgui' => 
   array (
-    'cid' => 'rw',
+    'cid' => 'rx',
     'class_name' => 'ilOrgUnitGenericMultiInputGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/Authorities/class.ilOrgUnitGenericMultiInputGUI.php',
     'parents' => 
@@ -14703,7 +14708,7 @@
   ),
   'ilorgunitglobalsettingsgui' => 
   array (
-    'cid' => 'rx',
+    'cid' => 'ry',
     'class_name' => 'ilOrgUnitGlobalSettingsGUI',
     'class_path' => './Modules/OrgUnit/classes/Settings/class.ilOrgUnitGlobalSettingsGUI.php',
     'parents' => 
@@ -14716,7 +14721,7 @@
   ),
   'ilorgunitmultilineinputgui' => 
   array (
-    'cid' => 'ry',
+    'cid' => 'rz',
     'class_name' => 'ilOrgUnitMultiLineInputGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/Authorities/class.ilOrgUnitMultiLineInputGUI.php',
     'parents' => 
@@ -14728,7 +14733,7 @@
   ),
   'ilorgunitotherrolestablegui' => 
   array (
-    'cid' => 'rz',
+    'cid' => 's0',
     'class_name' => 'ilOrgUnitOtherRolesTableGUI',
     'class_path' => './Modules/OrgUnit/classes/Staff/class.ilOrgUnitOtherRolesTableGUI.php',
     'parents' => 
@@ -14740,7 +14745,7 @@
   ),
   'ilorgunitpermissiongui' => 
   array (
-    'cid' => 's0',
+    'cid' => 's1',
     'class_name' => 'ilOrgUnitPermissionGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitPermissionGUI.php',
     'parents' => 
@@ -14753,7 +14758,7 @@
   ),
   'ilorgunitpermissiontablegui' => 
   array (
-    'cid' => 's1',
+    'cid' => 's2',
     'class_name' => 'ilOrgUnitPermissionTableGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/Permissions/class.ilOrgUnitPermissionTableGUI.php',
     'parents' => 
@@ -14765,7 +14770,7 @@
   ),
   'ilorgunitpositionformgui' => 
   array (
-    'cid' => 's2',
+    'cid' => 's3',
     'class_name' => 'ilOrgUnitPositionFormGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionFormGUI.php',
     'parents' => 
@@ -14777,7 +14782,7 @@
   ),
   'ilorgunitpositiongui' => 
   array (
-    'cid' => 's3',
+    'cid' => 's4',
     'class_name' => 'ilOrgUnitPositionGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionGUI.php',
     'parents' => 
@@ -14792,7 +14797,7 @@
   ),
   'ilorgunitpositiontablegui' => 
   array (
-    'cid' => 's4',
+    'cid' => 's5',
     'class_name' => 'ilOrgUnitPositionTableGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/class.ilOrgUnitPositionTableGUI.php',
     'parents' => 
@@ -14804,7 +14809,7 @@
   ),
   'ilorgunitrecursiveuserassignmenttablegui' => 
   array (
-    'cid' => 's5',
+    'cid' => 's6',
     'class_name' => 'ilOrgUnitRecursiveUserAssignmentTableGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitRecursiveUserAssignmentTableGUI.php',
     'parents' => 
@@ -14816,7 +14821,7 @@
   ),
   'ilorgunitsimpleimportgui' => 
   array (
-    'cid' => 's6',
+    'cid' => 's7',
     'class_name' => 'ilOrgUnitSimpleImportGUI',
     'class_path' => './Modules/OrgUnit/classes/SimpleImport/class.ilOrgUnitSimpleImportGUI.php',
     'parents' => 
@@ -14829,7 +14834,7 @@
   ),
   'ilorgunitsimpleuserimportgui' => 
   array (
-    'cid' => 's7',
+    'cid' => 's8',
     'class_name' => 'ilOrgUnitSimpleUserImportGUI',
     'class_path' => './Modules/OrgUnit/classes/SimpleUserImport/class.ilOrgUnitSimpleUserImportGUI.php',
     'parents' => 
@@ -14842,7 +14847,7 @@
   ),
   'ilorgunitstaffgui' => 
   array (
-    'cid' => 's8',
+    'cid' => 's9',
     'class_name' => 'ilOrgUnitStaffGUI',
     'class_path' => './Modules/OrgUnit/classes/Staff/class.ilOrgUnitStaffGUI.php',
     'parents' => 
@@ -14856,7 +14861,7 @@
   ),
   'ilorgunitstafftablegui' => 
   array (
-    'cid' => 's9',
+    'cid' => 'sa',
     'class_name' => 'ilOrgUnitStaffTableGUI',
     'class_path' => './Modules/OrgUnit/classes/Staff/class.ilOrgUnitStaffTableGUI.php',
     'parents' => 
@@ -14868,7 +14873,7 @@
   ),
   'ilorgunittypeadvancedmetadataformgui' => 
   array (
-    'cid' => 'sa',
+    'cid' => 'sb',
     'class_name' => 'ilOrgUnitTypeAdvancedMetaDataFormGUI',
     'class_path' => './Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeAdvancedMetaDataFormGUI.php',
     'parents' => 
@@ -14880,7 +14885,7 @@
   ),
   'ilorgunittypecustomiconsformgui' => 
   array (
-    'cid' => 'sb',
+    'cid' => 'sc',
     'class_name' => 'ilOrgUnitTypeCustomIconsFormGUI',
     'class_path' => './Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeCustomIconsFormGUI.php',
     'parents' => 
@@ -14892,7 +14897,7 @@
   ),
   'ilorgunittypeformgui' => 
   array (
-    'cid' => 'sc',
+    'cid' => 'sd',
     'class_name' => 'ilOrgUnitTypeFormGUI',
     'class_path' => './Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeFormGUI.php',
     'parents' => 
@@ -14904,7 +14909,7 @@
   ),
   'ilorgunittypegui' => 
   array (
-    'cid' => 'sd',
+    'cid' => 'se',
     'class_name' => 'ilOrgUnitTypeGUI',
     'class_path' => './Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeGUI.php',
     'parents' => 
@@ -14917,7 +14922,7 @@
   ),
   'ilorgunittypetablegui' => 
   array (
-    'cid' => 'se',
+    'cid' => 'sf',
     'class_name' => 'ilOrgUnitTypeTableGUI',
     'class_path' => './Modules/OrgUnit/classes/Types/class.ilOrgUnitTypeTableGUI.php',
     'parents' => 
@@ -14929,7 +14934,7 @@
   ),
   'ilorgunituserassignmentgui' => 
   array (
-    'cid' => 'sf',
+    'cid' => 'sg',
     'class_name' => 'ilOrgUnitUserAssignmentGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentGUI.php',
     'parents' => 
@@ -14943,7 +14948,7 @@
   ),
   'ilorgunituserassignmenttablegui' => 
   array (
-    'cid' => 'sg',
+    'cid' => 'sh',
     'class_name' => 'ilOrgUnitUserAssignmentTableGUI',
     'class_path' => './Modules/OrgUnit/classes/Positions/UserAssignment/class.ilOrgUnitUserAssignmentTableGUI.php',
     'parents' => 
@@ -14955,7 +14960,7 @@
   ),
   'iloverlaygui' => 
   array (
-    'cid' => 'sh',
+    'cid' => 'si',
     'class_name' => 'ilOverlayGUI',
     'class_path' => './Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php',
     'parents' => 
@@ -14967,7 +14972,7 @@
   ),
   'ilpcamdpagelistgui' => 
   array (
-    'cid' => 'si',
+    'cid' => 'sj',
     'class_name' => 'ilPCAMDPageListGUI',
     'class_path' => './Modules/Wiki/classes/class.ilPCAMDPageListGUI.php',
     'parents' => 
@@ -14980,7 +14985,7 @@
   ),
   'ilpcbloggui' => 
   array (
-    'cid' => 'sj',
+    'cid' => 'sk',
     'class_name' => 'ilPCBlogGUI',
     'class_path' => './Services/COPage/classes/class.ilPCBlogGUI.php',
     'parents' => 
@@ -14993,7 +14998,7 @@
   ),
   'ilpcconsultationhoursgui' => 
   array (
-    'cid' => 'sk',
+    'cid' => 'sl',
     'class_name' => 'ilPCConsultationHoursGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilPCConsultationHoursGUI.php',
     'parents' => 
@@ -15006,7 +15011,7 @@
   ),
   'ilpccontentincludegui' => 
   array (
-    'cid' => 'sl',
+    'cid' => 'sm',
     'class_name' => 'ilPCContentIncludeGUI',
     'class_path' => './Services/COPage/classes/class.ilPCContentIncludeGUI.php',
     'parents' => 
@@ -15019,7 +15024,7 @@
   ),
   'ilpccontenttemplategui' => 
   array (
-    'cid' => 'sm',
+    'cid' => 'sn',
     'class_name' => 'ilPCContentTemplateGUI',
     'class_path' => './Services/COPage/classes/class.ilPCContentTemplateGUI.php',
     'parents' => 
@@ -15032,7 +15037,7 @@
   ),
   'ilpcdatatablegui' => 
   array (
-    'cid' => 'sn',
+    'cid' => 'so',
     'class_name' => 'ilPCDataTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPCDataTableGUI.php',
     'parents' => 
@@ -15045,7 +15050,7 @@
   ),
   'ilpcfileitemfileselectorgui' => 
   array (
-    'cid' => 'so',
+    'cid' => 'sp',
     'class_name' => 'ilPCFileItemFileSelectorGUI',
     'class_path' => './Services/COPage/classes/class.ilPCFileItemFileSelectorGUI.php',
     'parents' => 
@@ -15057,7 +15062,7 @@
   ),
   'ilpcfileitemgui' => 
   array (
-    'cid' => 'sp',
+    'cid' => 'sq',
     'class_name' => 'ilPCFileItemGUI',
     'class_path' => './Services/COPage/classes/class.ilPCFileItemGUI.php',
     'parents' => 
@@ -15070,7 +15075,7 @@
   ),
   'ilpcfilelistgui' => 
   array (
-    'cid' => 'sq',
+    'cid' => 'sr',
     'class_name' => 'ilPCFileListGUI',
     'class_path' => './Services/COPage/classes/class.ilPCFileListGUI.php',
     'parents' => 
@@ -15083,7 +15088,7 @@
   ),
   'ilpcfilelisttablegui' => 
   array (
-    'cid' => 'sr',
+    'cid' => 'ss',
     'class_name' => 'ilPCFileListTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPCFileListTableGUI.php',
     'parents' => 
@@ -15095,7 +15100,7 @@
   ),
   'ilpcgridcellgui' => 
   array (
-    'cid' => 'ss',
+    'cid' => 'st',
     'class_name' => 'ilPCGridCellGUI',
     'class_path' => './Services/COPage/classes/class.ilPCGridCellGUI.php',
     'parents' => 
@@ -15108,7 +15113,7 @@
   ),
   'ilpcgridcelltablegui' => 
   array (
-    'cid' => 'st',
+    'cid' => 'su',
     'class_name' => 'ilPCGridCellTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPCGridCellTableGUI.php',
     'parents' => 
@@ -15120,7 +15125,7 @@
   ),
   'ilpcgrideditorgui' => 
   array (
-    'cid' => 'su',
+    'cid' => 'sv',
     'class_name' => 'ilPCGridEditorGUI',
     'class_path' => './Services/COPage/Editor/Components/Grid/class.ilPCGridEditorGUI.php',
     'parents' => 
@@ -15132,7 +15137,7 @@
   ),
   'ilpcgridgui' => 
   array (
-    'cid' => 'sv',
+    'cid' => 'sw',
     'class_name' => 'ilPCGridGUI',
     'class_path' => './Services/COPage/classes/class.ilPCGridGUI.php',
     'parents' => 
@@ -15145,7 +15150,7 @@
   ),
   'ilpciimoverlaystablegui' => 
   array (
-    'cid' => 'sw',
+    'cid' => 'sx',
     'class_name' => 'ilPCIIMOverlaysTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPCIIMOverlaysTableGUI.php',
     'parents' => 
@@ -15157,7 +15162,7 @@
   ),
   'ilpciimpopuptablegui' => 
   array (
-    'cid' => 'sx',
+    'cid' => 'sy',
     'class_name' => 'ilPCIIMPopupTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPCIIMPopupTableGUI.php',
     'parents' => 
@@ -15169,7 +15174,7 @@
   ),
   'ilpciimtriggereditorgui' => 
   array (
-    'cid' => 'sy',
+    'cid' => 'sz',
     'class_name' => 'ilPCIIMTriggerEditorGUI',
     'class_path' => './Services/COPage/classes/class.ilPCIIMTriggerEditorGUI.php',
     'parents' => 
@@ -15183,7 +15188,7 @@
   ),
   'ilpciimtriggertablegui' => 
   array (
-    'cid' => 'sz',
+    'cid' => 't0',
     'class_name' => 'ilPCIIMTriggerTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPCIIMTriggerTableGUI.php',
     'parents' => 
@@ -15195,7 +15200,7 @@
   ),
   'ilpcimagemapeditorgui' => 
   array (
-    'cid' => 't0',
+    'cid' => 't1',
     'class_name' => 'ilPCImageMapEditorGUI',
     'class_path' => './Services/COPage/classes/class.ilPCImageMapEditorGUI.php',
     'parents' => 
@@ -15209,7 +15214,7 @@
   ),
   'ilpcimagemaptablegui' => 
   array (
-    'cid' => 't1',
+    'cid' => 't2',
     'class_name' => 'ilPCImageMapTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPCImageMapTableGUI.php',
     'parents' => 
@@ -15221,7 +15226,7 @@
   ),
   'ilpcinteractiveimagegui' => 
   array (
-    'cid' => 't2',
+    'cid' => 't3',
     'class_name' => 'ilPCInteractiveImageGUI',
     'class_path' => './Services/COPage/classes/class.ilPCInteractiveImageGUI.php',
     'parents' => 
@@ -15235,7 +15240,7 @@
   ),
   'ilpclearninghistorygui' => 
   array (
-    'cid' => 't3',
+    'cid' => 't4',
     'class_name' => 'ilPCLearningHistoryGUI',
     'class_path' => './Services/LearningHistory/classes/class.ilPCLearningHistoryGUI.php',
     'parents' => 
@@ -15248,7 +15253,7 @@
   ),
   'ilpclistgui' => 
   array (
-    'cid' => 't4',
+    'cid' => 't5',
     'class_name' => 'ilPCListGUI',
     'class_path' => './Services/COPage/classes/class.ilPCListGUI.php',
     'parents' => 
@@ -15261,7 +15266,7 @@
   ),
   'ilpclistitemgui' => 
   array (
-    'cid' => 't5',
+    'cid' => 't6',
     'class_name' => 'ilPCListItemGUI',
     'class_path' => './Services/COPage/classes/class.ilPCListItemGUI.php',
     'parents' => 
@@ -15274,7 +15279,7 @@
   ),
   'ilpcloginpageelementgui' => 
   array (
-    'cid' => 't6',
+    'cid' => 't7',
     'class_name' => 'ilPCLoginPageElementGUI',
     'class_path' => './Services/COPage/classes/class.ilPCLoginPageElementGUI.php',
     'parents' => 
@@ -15287,7 +15292,7 @@
   ),
   'ilpcmapgui' => 
   array (
-    'cid' => 't7',
+    'cid' => 't8',
     'class_name' => 'ilPCMapGUI',
     'class_path' => './Services/COPage/classes/class.ilPCMapGUI.php',
     'parents' => 
@@ -15300,7 +15305,7 @@
   ),
   'ilpcmediaobjecteditorgui' => 
   array (
-    'cid' => 't8',
+    'cid' => 't9',
     'class_name' => 'ilPCMediaObjectEditorGUI',
     'class_path' => './Services/COPage/Editor/Components/MediaObject/class.ilPCMediaObjectEditorGUI.php',
     'parents' => 
@@ -15312,7 +15317,7 @@
   ),
   'ilpcmediaobjectgui' => 
   array (
-    'cid' => 't9',
+    'cid' => 'ta',
     'class_name' => 'ilPCMediaObjectGUI',
     'class_path' => './Services/COPage/classes/class.ilPCMediaObjectGUI.php',
     'parents' => 
@@ -15328,7 +15333,7 @@
   ),
   'ilpcmycoursesgui' => 
   array (
-    'cid' => 'ta',
+    'cid' => 'tb',
     'class_name' => 'ilPCMyCoursesGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilPCMyCoursesGUI.php',
     'parents' => 
@@ -15341,7 +15346,7 @@
   ),
   'ilpcparagrapheditorgui' => 
   array (
-    'cid' => 'tb',
+    'cid' => 'tc',
     'class_name' => 'ilPCParagraphEditorGUI',
     'class_path' => './Services/COPage/Editor/Components/Paragraph/class.ilPCParagraphEditorGUI.php',
     'parents' => 
@@ -15353,7 +15358,7 @@
   ),
   'ilpcparagraphgui' => 
   array (
-    'cid' => 'tc',
+    'cid' => 'td',
     'class_name' => 'ilPCParagraphGUI',
     'class_path' => './Services/COPage/classes/class.ilPCParagraphGUI.php',
     'parents' => 
@@ -15366,7 +15371,7 @@
   ),
   'ilpcplaceholdergui' => 
   array (
-    'cid' => 'td',
+    'cid' => 'te',
     'class_name' => 'ilPCPlaceHolderGUI',
     'class_path' => './Services/COPage/classes/class.ilPCPlaceHolderGUI.php',
     'parents' => 
@@ -15380,7 +15385,7 @@
   ),
   'ilpcpluggedgui' => 
   array (
-    'cid' => 'te',
+    'cid' => 'tf',
     'class_name' => 'ilPCPluggedGUI',
     'class_path' => './Services/COPage/classes/class.ilPCPluggedGUI.php',
     'parents' => 
@@ -15393,7 +15398,7 @@
   ),
   'ilpcprofilegui' => 
   array (
-    'cid' => 'tf',
+    'cid' => 'tg',
     'class_name' => 'ilPCProfileGUI',
     'class_path' => './Services/COPage/classes/class.ilPCProfileGUI.php',
     'parents' => 
@@ -15406,7 +15411,7 @@
   ),
   'ilpcquestiongui' => 
   array (
-    'cid' => 'tg',
+    'cid' => 'th',
     'class_name' => 'ilPCQuestionGUI',
     'class_path' => './Services/COPage/classes/class.ilPCQuestionGUI.php',
     'parents' => 
@@ -15421,7 +15426,7 @@
   ),
   'ilpcquestionoverviewgui' => 
   array (
-    'cid' => 'th',
+    'cid' => 'ti',
     'class_name' => 'ilPCQuestionOverviewGUI',
     'class_path' => './Services/COPage/classes/class.ilPCQuestionOverviewGUI.php',
     'parents' => 
@@ -15434,7 +15439,7 @@
   ),
   'ilpcresourcesgui' => 
   array (
-    'cid' => 'ti',
+    'cid' => 'tj',
     'class_name' => 'ilPCResourcesGUI',
     'class_path' => './Services/COPage/classes/class.ilPCResourcesGUI.php',
     'parents' => 
@@ -15447,7 +15452,7 @@
   ),
   'ilpcsectioneditorgui' => 
   array (
-    'cid' => 'tj',
+    'cid' => 'tk',
     'class_name' => 'ilPCSectionEditorGUI',
     'class_path' => './Services/COPage/Editor/Components/Section/class.ilPCSectionEditorGUI.php',
     'parents' => 
@@ -15459,7 +15464,7 @@
   ),
   'ilpcsectiongui' => 
   array (
-    'cid' => 'tk',
+    'cid' => 'tl',
     'class_name' => 'ilPCSectionGUI',
     'class_path' => './Services/COPage/classes/class.ilPCSectionGUI.php',
     'parents' => 
@@ -15473,7 +15478,7 @@
   ),
   'ilpcskillsgui' => 
   array (
-    'cid' => 'tl',
+    'cid' => 'tm',
     'class_name' => 'ilPCSkillsGUI',
     'class_path' => './Services/COPage/classes/class.ilPCSkillsGUI.php',
     'parents' => 
@@ -15486,7 +15491,7 @@
   ),
   'ilpcsourcecodegui' => 
   array (
-    'cid' => 'tm',
+    'cid' => 'tn',
     'class_name' => 'ilPCSourceCodeGUI',
     'class_path' => './Services/COPage/classes/class.ilPCSourceCodeGUI.php',
     'parents' => 
@@ -15499,7 +15504,7 @@
   ),
   'ilpctabgui' => 
   array (
-    'cid' => 'tn',
+    'cid' => 'to',
     'class_name' => 'ilPCTabGUI',
     'class_path' => './Services/COPage/classes/class.ilPCTabGUI.php',
     'parents' => 
@@ -15512,7 +15517,7 @@
   ),
   'ilpctabledatagui' => 
   array (
-    'cid' => 'to',
+    'cid' => 'tp',
     'class_name' => 'ilPCTableDataGUI',
     'class_path' => './Services/COPage/classes/class.ilPCTableDataGUI.php',
     'parents' => 
@@ -15525,7 +15530,7 @@
   ),
   'ilpctablegui' => 
   array (
-    'cid' => 'tp',
+    'cid' => 'tq',
     'class_name' => 'ilPCTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPCTableGUI.php',
     'parents' => 
@@ -15538,7 +15543,7 @@
   ),
   'ilpctabsgui' => 
   array (
-    'cid' => 'tq',
+    'cid' => 'tr',
     'class_name' => 'ilPCTabsGUI',
     'class_path' => './Services/COPage/classes/class.ilPCTabsGUI.php',
     'parents' => 
@@ -15551,7 +15556,7 @@
   ),
   'ilpctabstablegui' => 
   array (
-    'cid' => 'tr',
+    'cid' => 'ts',
     'class_name' => 'ilPCTabsTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPCTabsTableGUI.php',
     'parents' => 
@@ -15563,7 +15568,7 @@
   ),
   'ilpcverificationgui' => 
   array (
-    'cid' => 'ts',
+    'cid' => 'tt',
     'class_name' => 'ilPCVerificationGUI',
     'class_path' => './Services/COPage/classes/class.ilPCVerificationGUI.php',
     'parents' => 
@@ -15576,7 +15581,7 @@
   ),
   'ilpdcalendarblockgui' => 
   array (
-    'cid' => 'tt',
+    'cid' => 'tu',
     'class_name' => 'ilPDCalendarBlockGUI',
     'class_path' => './Services/Calendar/classes/class.ilPDCalendarBlockGUI.php',
     'parents' => 
@@ -15597,7 +15602,7 @@
   ),
   'ilpdexternalfeedblockgui' => 
   array (
-    'cid' => 'tu',
+    'cid' => 'tv',
     'class_name' => 'ilPDExternalFeedBlockGUI',
     'class_path' => './Services/Feeds/classes/class.ilPDExternalFeedBlockGUI.php',
     'parents' => 
@@ -15610,14 +15615,13 @@
   ),
   'ilpdmailblockgui' => 
   array (
-    'cid' => 'tv',
+    'cid' => 'tw',
     'class_name' => 'ilPDMailBlockGUI',
     'class_path' => './Services/Mail/classes/class.ilPDMailBlockGUI.php',
     'parents' => 
     array (
       0 => 'ilcolumngui',
-      1 => 'il',
-      2 => 'ildashboardgui',
+      1 => 'ildashboardgui',
     ),
     'children' => 
     array (
@@ -15625,7 +15629,7 @@
   ),
   'ilpdmailgui' => 
   array (
-    'cid' => 'tw',
+    'cid' => 'tx',
     'class_name' => 'ilPDMailGUI',
     'class_path' => './Services/Mail/classes/class.ilPDMailGUI.php',
     'parents' => 
@@ -15637,7 +15641,7 @@
   ),
   'ilpdmembershipblockgui' => 
   array (
-    'cid' => 'tx',
+    'cid' => 'ty',
     'class_name' => 'ilPDMembershipBlockGUI',
     'class_path' => './Services/Dashboard/ItemsBlock/classes/class.ilPDMembershipBlockGUI.php',
     'parents' => 
@@ -15652,7 +15656,7 @@
   ),
   'ilpdnewsblockgui' => 
   array (
-    'cid' => 'ty',
+    'cid' => 'tz',
     'class_name' => 'ilPDNewsBlockGUI',
     'class_path' => './Services/News/classes/class.ilPDNewsBlockGUI.php',
     'parents' => 
@@ -15665,7 +15669,7 @@
   ),
   'ilpdnewsgui' => 
   array (
-    'cid' => 'tz',
+    'cid' => 'u0',
     'class_name' => 'ilPDNewsGUI',
     'class_path' => './Services/News/classes/class.ilPDNewsGUI.php',
     'parents' => 
@@ -15678,7 +15682,7 @@
   ),
   'ilpdnewstablegui' => 
   array (
-    'cid' => 'u0',
+    'cid' => 'u1',
     'class_name' => 'ilPDNewsTableGUI',
     'class_path' => './Services/News/classes/class.ilPDNewsTableGUI.php',
     'parents' => 
@@ -15690,7 +15694,7 @@
   ),
   'ilpdnotesgui' => 
   array (
-    'cid' => 'u1',
+    'cid' => 'u2',
     'class_name' => 'ilPDNotesGUI',
     'class_path' => './Services/Notes/classes/class.ilPDNotesGUI.php',
     'parents' => 
@@ -15704,7 +15708,7 @@
   ),
   'ilpdselecteditemsblockgui' => 
   array (
-    'cid' => 'u2',
+    'cid' => 'u3',
     'class_name' => 'ilPDSelectedItemsBlockGUI',
     'class_path' => './Services/Dashboard/ItemsBlock/classes/class.ilPDSelectedItemsBlockGUI.php',
     'parents' => 
@@ -15719,7 +15723,7 @@
   ),
   'ilpdselecteditemsblockmembershipsviewgui' => 
   array (
-    'cid' => 'u3',
+    'cid' => 'u4',
     'class_name' => 'ilPDSelectedItemsBlockMembershipsViewGUI',
     'class_path' => './Services/Dashboard/ItemsBlock/classes/class.ilPDSelectedItemsBlockMembershipsViewGUI.php',
     'parents' => 
@@ -15731,7 +15735,7 @@
   ),
   'ilpdselecteditemsblockselecteditemsviewgui' => 
   array (
-    'cid' => 'u4',
+    'cid' => 'u5',
     'class_name' => 'ilPDSelectedItemsBlockSelectedItemsViewGUI',
     'class_path' => './Services/Dashboard/ItemsBlock/classes/class.ilPDSelectedItemsBlockSelectedItemsViewGUI.php',
     'parents' => 
@@ -15743,7 +15747,7 @@
   ),
   'ilpdselecteditemsblockviewgui' => 
   array (
-    'cid' => 'u5',
+    'cid' => 'u6',
     'class_name' => 'ilPDSelectedItemsBlockViewGUI',
     'class_path' => './Services/Dashboard/ItemsBlock/classes/class.ilPDSelectedItemsBlockViewGUI.php',
     'parents' => 
@@ -15755,7 +15759,7 @@
   ),
   'ilpdstudyprogrammeexpandablelistgui' => 
   array (
-    'cid' => 'u6',
+    'cid' => 'u7',
     'class_name' => 'ilPDStudyProgrammeExpandableListGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilPDStudyProgrammeExpandableListGUI.php',
     'parents' => 
@@ -15768,7 +15772,7 @@
   ),
   'ilpdstudyprogrammesimplelistgui' => 
   array (
-    'cid' => 'u7',
+    'cid' => 'u8',
     'class_name' => 'ilPDStudyProgrammeSimpleListGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilPDStudyProgrammeSimpleListGUI.php',
     'parents' => 
@@ -15781,7 +15785,7 @@
   ),
   'ilpdtasksblockgui' => 
   array (
-    'cid' => 'u8',
+    'cid' => 'u9',
     'class_name' => 'ilPDTasksBlockGUI',
     'class_path' => './Services/Tasks/classes/class.ilPDTasksBlockGUI.php',
     'parents' => 
@@ -15794,7 +15798,7 @@
   ),
   'ilpagecomponentplugingui' => 
   array (
-    'cid' => 'u9',
+    'cid' => 'ua',
     'class_name' => 'ilPageComponentPluginGUI',
     'class_path' => './Services/COPage/classes/class.ilPageComponentPluginGUI.php',
     'parents' => 
@@ -15806,7 +15810,7 @@
   ),
   'ilpagecontentgui' => 
   array (
-    'cid' => 'ua',
+    'cid' => 'ub',
     'class_name' => 'ilPageContentGUI',
     'class_path' => './Services/COPage/classes/class.ilPageContentGUI.php',
     'parents' => 
@@ -15818,7 +15822,7 @@
   ),
   'ilpageeditorgui' => 
   array (
-    'cid' => 'ub',
+    'cid' => 'uc',
     'class_name' => 'ilPageEditorGUI',
     'class_path' => './Services/COPage/classes/class.ilPageEditorGUI.php',
     'parents' => 
@@ -15891,7 +15895,7 @@
   ),
   'ilpageeditorserveradaptergui' => 
   array (
-    'cid' => 'uc',
+    'cid' => 'ud',
     'class_name' => 'ilPageEditorServerAdapterGUI',
     'class_path' => './Services/COPage/Editor/class.ilPageEditorServerAdapterGUI.php',
     'parents' => 
@@ -15904,7 +15908,7 @@
   ),
   'ilpagehistorytablegui' => 
   array (
-    'cid' => 'ud',
+    'cid' => 'ue',
     'class_name' => 'ilPageHistoryTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPageHistoryTableGUI.php',
     'parents' => 
@@ -15916,7 +15920,7 @@
   ),
   'ilpagelayoutadministrationgui' => 
   array (
-    'cid' => 'ue',
+    'cid' => 'uf',
     'class_name' => 'ilPageLayoutAdministrationGUI',
     'class_path' => './Services/COPage/Layout/classes/class.ilPageLayoutAdministrationGUI.php',
     'parents' => 
@@ -15930,7 +15934,7 @@
   ),
   'ilpagelayoutgui' => 
   array (
-    'cid' => 'uf',
+    'cid' => 'ug',
     'class_name' => 'ilPageLayoutGUI',
     'class_path' => './Services/COPage/Layout/classes/class.ilPageLayoutGUI.php',
     'parents' => 
@@ -15947,7 +15951,7 @@
   ),
   'ilpagelayouttablegui' => 
   array (
-    'cid' => 'ug',
+    'cid' => 'uh',
     'class_name' => 'ilPageLayoutTableGUI',
     'class_path' => './Services/COPage/Layout/classes/class.ilPageLayoutTableGUI.php',
     'parents' => 
@@ -15959,7 +15963,7 @@
   ),
   'ilpagemultilanggui' => 
   array (
-    'cid' => 'uh',
+    'cid' => 'ui',
     'class_name' => 'ilPageMultiLangGUI',
     'class_path' => './Services/COPage/classes/class.ilPageMultiLangGUI.php',
     'parents' => 
@@ -15979,7 +15983,7 @@
   ),
   'ilpagemultilangtablegui' => 
   array (
-    'cid' => 'ui',
+    'cid' => 'uj',
     'class_name' => 'ilPageMultiLangTableGUI',
     'class_path' => './Services/COPage/classes/class.ilPageMultiLangTableGUI.php',
     'parents' => 
@@ -15991,7 +15995,7 @@
   ),
   'ilpageobjectgui' => 
   array (
-    'cid' => 'uj',
+    'cid' => 'uk',
     'class_name' => 'ilPageObjectGUI',
     'class_path' => './Services/COPage/classes/class.ilPageObjectGUI.php',
     'parents' => 
@@ -16027,7 +16031,7 @@
   ),
   'ilpanelgui' => 
   array (
-    'cid' => 'uk',
+    'cid' => 'ul',
     'class_name' => 'ilPanelGUI',
     'class_path' => './Services/UIComponent/Panel/classes/class.ilPanelGUI.php',
     'parents' => 
@@ -16039,7 +16043,7 @@
   ),
   'ilparticipanttablegui' => 
   array (
-    'cid' => 'ul',
+    'cid' => 'um',
     'class_name' => 'ilParticipantTableGUI',
     'class_path' => './Services/Membership/classes/class.ilParticipantsTableGUI.php',
     'parents' => 
@@ -16049,9 +16053,21 @@
     array (
     ),
   ),
+  'ilparticipantsperassignmenttablegui' => 
+  array (
+    'cid' => 'un',
+    'class_name' => 'ilParticipantsPerAssignmentTableGUI',
+    'class_path' => './Modules/Exercise/classes/class.ilParticipantsPerAssignmentTableGUI.php',
+    'parents' => 
+    array (
+    ),
+    'children' => 
+    array (
+    ),
+  ),
   'ilparticipantstestresultsgui' => 
   array (
-    'cid' => 'um',
+    'cid' => 'uo',
     'class_name' => 'ilParticipantsTestResultsGUI',
     'class_path' => './Modules/Test/classes/class.ilParticipantsTestResultsGUI.php',
     'parents' => 
@@ -16069,7 +16085,7 @@
   ),
   'ilparticipantstestresultstablegui' => 
   array (
-    'cid' => 'un',
+    'cid' => 'up',
     'class_name' => 'ilParticipantsTestResultsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilParticipantsTestResultsTableGUI.php',
     'parents' => 
@@ -16081,7 +16097,7 @@
   ),
   'ilpasswordassistancegui' => 
   array (
-    'cid' => 'uo',
+    'cid' => 'uq',
     'class_name' => 'ilPasswordAssistanceGUI',
     'class_path' => './Services/Init/classes/class.ilPasswordAssistanceGUI.php',
     'parents' => 
@@ -16094,7 +16110,7 @@
   ),
   'ilpasswordinputgui' => 
   array (
-    'cid' => 'up',
+    'cid' => 'ur',
     'class_name' => 'ilPasswordInputGUI',
     'class_path' => './Services/Form/classes/class.ilPasswordInputGUI.php',
     'parents' => 
@@ -16106,7 +16122,7 @@
   ),
   'ilpastestylecharacteristictablegui' => 
   array (
-    'cid' => 'uq',
+    'cid' => 'us',
     'class_name' => 'ilPasteStyleCharacteristicTableGUI',
     'class_path' => './Services/Style/Content/classes/class.ilPasteStyleCharacteristicTableGUI.php',
     'parents' => 
@@ -16118,7 +16134,7 @@
   ),
   'ilpathgui' => 
   array (
-    'cid' => 'ur',
+    'cid' => 'ut',
     'class_name' => 'ilPathGUI',
     'class_path' => './Services/Tree/classes/class.ilPathGUI.php',
     'parents' => 
@@ -16130,7 +16146,7 @@
   ),
   'ilpermanentlinkgui' => 
   array (
-    'cid' => 'us',
+    'cid' => 'uu',
     'class_name' => 'ilPermanentLinkGUI',
     'class_path' => './Services/PermanentLink/classes/class.ilPermanentLinkGUI.php',
     'parents' => 
@@ -16145,7 +16161,7 @@
   ),
   'ilpermission2gui' => 
   array (
-    'cid' => 'ut',
+    'cid' => 'uv',
     'class_name' => 'ilPermission2GUI',
     'class_path' => './Services/AccessControl/classes/class.ilPermission2GUI.php',
     'parents' => 
@@ -16157,7 +16173,7 @@
   ),
   'ilpermissiongui' => 
   array (
-    'cid' => 'uu',
+    'cid' => 'uw',
     'class_name' => 'ilPermissionGUI',
     'class_path' => './Services/AccessControl/classes/class.ilPermissionGUI.php',
     'parents' => 
@@ -16293,7 +16309,7 @@
   ),
   'ilpersonalprofilegui' => 
   array (
-    'cid' => 'uv',
+    'cid' => 'ux',
     'class_name' => 'ilPersonalProfileGUI',
     'class_path' => './Services/User/Profile/classes/class.ilPersonalProfileGUI.php',
     'parents' => 
@@ -16309,7 +16325,7 @@
   ),
   'ilpersonalsettingsgui' => 
   array (
-    'cid' => 'uw',
+    'cid' => 'uy',
     'class_name' => 'ilPersonalSettingsGUI',
     'class_path' => './Services/User/Settings/classes/class.ilPersonalSettingsGUI.php',
     'parents' => 
@@ -16323,7 +16339,7 @@
   ),
   'ilpersonalskillexplorergui' => 
   array (
-    'cid' => 'ux',
+    'cid' => 'uz',
     'class_name' => 'ilPersonalSkillExplorerGUI',
     'class_path' => './Services/Skill/classes/class.ilPersonalSkillExplorerGUI.php',
     'parents' => 
@@ -16335,7 +16351,7 @@
   ),
   'ilpersonalskilltablegui' => 
   array (
-    'cid' => 'uy',
+    'cid' => 'v0',
     'class_name' => 'ilPersonalSkillTableGUI',
     'class_path' => './Services/Skill/classes/class.ilPersonalSkillTableGUI.php',
     'parents' => 
@@ -16347,7 +16363,7 @@
   ),
   'ilpersonalskillsfiltergui' => 
   array (
-    'cid' => 'uz',
+    'cid' => 'v1',
     'class_name' => 'ilPersonalSkillsFilterGUI',
     'class_path' => './Services/Skill/classes/class.ilPersonalSkillsFilterGUI.php',
     'parents' => 
@@ -16359,7 +16375,7 @@
   ),
   'ilpersonalskillsgui' => 
   array (
-    'cid' => 'v0',
+    'cid' => 'v2',
     'class_name' => 'ilPersonalSkillsGUI',
     'class_path' => './Services/Skill/classes/class.ilPersonalSkillsGUI.php',
     'parents' => 
@@ -16373,7 +16389,7 @@
   ),
   'ilpersonalworkspacegui' => 
   array (
-    'cid' => 'v1',
+    'cid' => 'v3',
     'class_name' => 'ilPersonalWorkspaceGUI',
     'class_path' => './Services/PersonalWorkspace/classes/class.ilPersonalWorkspaceGUI.php',
     'parents' => 
@@ -16398,7 +16414,7 @@
   ),
   'ilpluginconfiggui' => 
   array (
-    'cid' => 'v2',
+    'cid' => 'v4',
     'class_name' => 'ilPluginConfigGUI',
     'class_path' => './Services/Component/classes/class.ilPluginConfigGUI.php',
     'parents' => 
@@ -16410,7 +16426,7 @@
   ),
   'ilpluginsoverviewtablefiltergui' => 
   array (
-    'cid' => 'v3',
+    'cid' => 'v5',
     'class_name' => 'ilPluginsOverviewTableFilterGUI',
     'class_path' => './Services/Component/classes/class.ilPluginsOverviewTableFilterGUI.php',
     'parents' => 
@@ -16422,7 +16438,7 @@
   ),
   'ilpluginsoverviewtablegui' => 
   array (
-    'cid' => 'v4',
+    'cid' => 'v6',
     'class_name' => 'ilPluginsOverviewTableGUI',
     'class_path' => './Services/Component/classes/class.ilPluginsOverviewTableGUI.php',
     'parents' => 
@@ -16434,7 +16450,7 @@
   ),
   'ilpollanswertablegui' => 
   array (
-    'cid' => 'v5',
+    'cid' => 'v7',
     'class_name' => 'ilPollAnswerTableGUI',
     'class_path' => './Modules/Poll/classes/class.ilPollAnswerTableGUI.php',
     'parents' => 
@@ -16446,7 +16462,7 @@
   ),
   'ilpollblockgui' => 
   array (
-    'cid' => 'v6',
+    'cid' => 'v8',
     'class_name' => 'ilPollBlockGUI',
     'class_path' => './Modules/Poll/classes/class.ilPollBlockGUI.php',
     'parents' => 
@@ -16459,7 +16475,7 @@
   ),
   'ilpollusertablegui' => 
   array (
-    'cid' => 'v7',
+    'cid' => 'v9',
     'class_name' => 'ilPollUserTableGUI',
     'class_path' => './Modules/Poll/classes/class.ilPollUserTableGUI.php',
     'parents' => 
@@ -16471,7 +16487,7 @@
   ),
   'ilpoolselectorgui' => 
   array (
-    'cid' => 'v8',
+    'cid' => 'va',
     'class_name' => 'ilPoolSelectorGUI',
     'class_path' => './Services/COPage/classes/class.ilPoolSelectorGUI.php',
     'parents' => 
@@ -16483,7 +16499,7 @@
   ),
   'ilportfolioexercisegui' => 
   array (
-    'cid' => 'v9',
+    'cid' => 'vb',
     'class_name' => 'ilPortfolioExerciseGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioExerciseGUI.php',
     'parents' => 
@@ -16497,7 +16513,7 @@
   ),
   'ilportfoliopagegui' => 
   array (
-    'cid' => 'va',
+    'cid' => 'vc',
     'class_name' => 'ilPortfolioPageGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioPageGUI.php',
     'parents' => 
@@ -16521,7 +16537,7 @@
   ),
   'ilportfoliopagetablegui' => 
   array (
-    'cid' => 'vb',
+    'cid' => 'vd',
     'class_name' => 'ilPortfolioPageTableGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioPageTableGUI.php',
     'parents' => 
@@ -16533,7 +16549,7 @@
   ),
   'ilportfoliorepositorygui' => 
   array (
-    'cid' => 'vc',
+    'cid' => 've',
     'class_name' => 'ilPortfolioRepositoryGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioRepositoryGUI.php',
     'parents' => 
@@ -16548,7 +16564,7 @@
   ),
   'ilportfoliotablegui' => 
   array (
-    'cid' => 'vd',
+    'cid' => 'vf',
     'class_name' => 'ilPortfolioTableGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioTableGUI.php',
     'parents' => 
@@ -16560,7 +16576,7 @@
   ),
   'ilportfoliotemplatepagegui' => 
   array (
-    'cid' => 've',
+    'cid' => 'vg',
     'class_name' => 'ilPortfolioTemplatePageGUI',
     'class_path' => './Modules/Portfolio/classes/class.ilPortfolioTemplatePageGUI.php',
     'parents' => 
@@ -16579,7 +16595,7 @@
   ),
   'ilpresentationlisttablegui' => 
   array (
-    'cid' => 'vf',
+    'cid' => 'vh',
     'class_name' => 'ilPresentationListTableGUI',
     'class_path' => './Modules/Glossary/Presentation/class.ilPresentationListTableGUI.php',
     'parents' => 
@@ -16593,7 +16609,7 @@
   ),
   'ilpreviewgui' => 
   array (
-    'cid' => 'vg',
+    'cid' => 'vi',
     'class_name' => 'ilPreviewGUI',
     'class_path' => './Services/Preview/classes/class.ilPreviewGUI.php',
     'parents' => 
@@ -16605,7 +16621,7 @@
   ),
   'ilprofilechecklistgui' => 
   array (
-    'cid' => 'vh',
+    'cid' => 'vj',
     'class_name' => 'ilProfileChecklistGUI',
     'class_path' => './Services/User/Profile/classes/class.ilProfileChecklistGUI.php',
     'parents' => 
@@ -16617,7 +16633,7 @@
   ),
   'ilpropertyformgui' => 
   array (
-    'cid' => 'vi',
+    'cid' => 'vk',
     'class_name' => 'ilPropertyFormGUI',
     'class_path' => './Services/Form/classes/class.ilPropertyFormGUI.php',
     'parents' => 
@@ -16673,7 +16689,7 @@
       48 => 'ilobjectmetadatagui',
       49 => 'ilpcsectiongui',
       50 => 'ilpageobjectgui',
-      51 => 'ilreputilgui',
+      51 => 'ilrepositorytrashgui',
       52 => 'ilsearchgui',
       53 => 'iltestpasswordprotectiongui',
       54 => 'ilwikipagegui',
@@ -16685,7 +16701,7 @@
   ),
   'ilpublicsectionexplorergui' => 
   array (
-    'cid' => 'vj',
+    'cid' => 'vl',
     'class_name' => 'ilPublicSectionExplorerGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilPublicSectionExplorerGUI.php',
     'parents' => 
@@ -16697,9 +16713,9 @@
   ),
   'ilpublicsubmissionstablegui' => 
   array (
-    'cid' => 'vk',
+    'cid' => 'vm',
     'class_name' => 'ilPublicSubmissionsTableGUI',
-    'class_path' => './Modules/Exercise/classes/class.ilPublicSubmissionsTableGUI.php',
+    'class_path' => './Modules/Exercise/Submission/class.ilPublicSubmissionsTableGUI.php',
     'parents' => 
     array (
     ),
@@ -16709,7 +16725,7 @@
   ),
   'ilpublicuserprofilegui' => 
   array (
-    'cid' => 'vl',
+    'cid' => 'vn',
     'class_name' => 'ilPublicUserProfileGUI',
     'class_path' => './Services/User/classes/class.ilPublicUserProfileGUI.php',
     'parents' => 
@@ -16759,7 +16775,7 @@
   ),
   'ilquestionbrowsertablegui' => 
   array (
-    'cid' => 'vm',
+    'cid' => 'vo',
     'class_name' => 'ilQuestionBrowserTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilQuestionBrowserTableGUI.php',
     'parents' => 
@@ -16773,7 +16789,7 @@
   ),
   'ilquestioncumulatedstatisticstablegui' => 
   array (
-    'cid' => 'vn',
+    'cid' => 'vp',
     'class_name' => 'ilQuestionCumulatedStatisticsTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilQuestionCumulatedStatisticsTableGUI.php',
     'parents' => 
@@ -16785,7 +16801,7 @@
   ),
   'ilquestioneditgui' => 
   array (
-    'cid' => 'vo',
+    'cid' => 'vq',
     'class_name' => 'ilQuestionEditGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilQuestionEditGUI.php',
     'parents' => 
@@ -16814,7 +16830,7 @@
   ),
   'ilquestioninternallinkselectiontablegui' => 
   array (
-    'cid' => 'vp',
+    'cid' => 'vr',
     'class_name' => 'ilQuestionInternalLinkSelectionTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilQuestionInternalLinkSelectionTableGUI.php',
     'parents' => 
@@ -16826,7 +16842,7 @@
   ),
   'ilquestionpoolexportgui' => 
   array (
-    'cid' => 'vq',
+    'cid' => 'vs',
     'class_name' => 'ilQuestionPoolExportGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilQuestionPoolExportGUI.php',
     'parents' => 
@@ -16839,7 +16855,7 @@
   ),
   'ilquestionpoolexporttablegui' => 
   array (
-    'cid' => 'vr',
+    'cid' => 'vt',
     'class_name' => 'ilQuestionPoolExportTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolExportTableGUI.php',
     'parents' => 
@@ -16851,7 +16867,7 @@
   ),
   'ilquestionpoolimportverificationtablegui' => 
   array (
-    'cid' => 'vs',
+    'cid' => 'vu',
     'class_name' => 'ilQuestionPoolImportVerificationTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolImportVerificationTableGUI.php',
     'parents' => 
@@ -16863,7 +16879,7 @@
   ),
   'ilquestionpoolprintviewtablegui' => 
   array (
-    'cid' => 'vt',
+    'cid' => 'vv',
     'class_name' => 'ilQuestionPoolPrintViewTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilQuestionPoolPrintViewTableGUI.php',
     'parents' => 
@@ -16875,7 +16891,7 @@
   ),
   'ilquestionpoolskilladministrationgui' => 
   array (
-    'cid' => 'vu',
+    'cid' => 'vw',
     'class_name' => 'ilQuestionPoolSkillAdministrationGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilQuestionPoolSkillAdministrationGUI.php',
     'parents' => 
@@ -16890,7 +16906,7 @@
   ),
   'ilquestionusagestablegui' => 
   array (
-    'cid' => 'vv',
+    'cid' => 'vx',
     'class_name' => 'ilQuestionUsagesTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilQuestionUsagesTableGUI.php',
     'parents' => 
@@ -16902,7 +16918,7 @@
   ),
   'ilrssbuttongui' => 
   array (
-    'cid' => 'vw',
+    'cid' => 'vy',
     'class_name' => 'ilRSSButtonGUI',
     'class_path' => './Services/News/classes/class.ilRSSButtonGUI.php',
     'parents' => 
@@ -16914,7 +16930,7 @@
   ),
   'ilradiogroupinputgui' => 
   array (
-    'cid' => 'vx',
+    'cid' => 'vz',
     'class_name' => 'ilRadioGroupInputGUI',
     'class_path' => './Services/Form/classes/class.ilRadioGroupInputGUI.php',
     'parents' => 
@@ -16926,7 +16942,7 @@
   ),
   'ilradiussettingsgui' => 
   array (
-    'cid' => 'vy',
+    'cid' => 'w0',
     'class_name' => 'ilRadiusSettingsGUI',
     'class_path' => './Services/Radius/classes/class.ilRadiusSettingsGUI.php',
     'parents' => 
@@ -16939,7 +16955,7 @@
   ),
   'ilrandomtestroinputgui' => 
   array (
-    'cid' => 'vz',
+    'cid' => 'w1',
     'class_name' => 'ilRandomTestROInputGUI',
     'class_path' => './Modules/Test/classes/class.ilRandomTestROInputGUI.php',
     'parents' => 
@@ -16951,7 +16967,7 @@
   ),
   'ilratingcategorygui' => 
   array (
-    'cid' => 'w0',
+    'cid' => 'w2',
     'class_name' => 'ilRatingCategoryGUI',
     'class_path' => './Services/Rating/classes/class.ilRatingCategoryGUI.php',
     'parents' => 
@@ -16964,7 +16980,7 @@
   ),
   'ilratingcategorytablegui' => 
   array (
-    'cid' => 'w1',
+    'cid' => 'w3',
     'class_name' => 'ilRatingCategoryTableGUI',
     'class_path' => './Services/Rating/classes/class.ilRatingCategoryTableGUI.php',
     'parents' => 
@@ -16976,7 +16992,7 @@
   ),
   'ilratinggui' => 
   array (
-    'cid' => 'w2',
+    'cid' => 'w4',
     'class_name' => 'ilRatingGUI',
     'class_path' => './Services/Rating/classes/class.ilRatingGUI.php',
     'parents' => 
@@ -16999,7 +17015,7 @@
   ),
   'ilrbaclogtablegui' => 
   array (
-    'cid' => 'w3',
+    'cid' => 'w5',
     'class_name' => 'ilRbacLogTableGUI',
     'class_path' => './Services/AccessControl/classes/class.ilRbacLogTableGUI.php',
     'parents' => 
@@ -17011,7 +17027,7 @@
   ),
   'ilrecommendedcontentroleconfiggui' => 
   array (
-    'cid' => 'w4',
+    'cid' => 'w6',
     'class_name' => 'ilRecommendedContentRoleConfigGUI',
     'class_path' => './Services/Repository/RecommendedContent/classes/class.ilRecommendedContentRoleConfigGUI.php',
     'parents' => 
@@ -17024,7 +17040,7 @@
   ),
   'ilrecommendedcontentroletablegui' => 
   array (
-    'cid' => 'w5',
+    'cid' => 'w7',
     'class_name' => 'ilRecommendedContentRoleTableGUI',
     'class_path' => './Services/Repository/RecommendedContent/classes/class.ilRecommendedContentRoleTableGUI.php',
     'parents' => 
@@ -17036,7 +17052,7 @@
   ),
   'ilrecurrenceinputgui' => 
   array (
-    'cid' => 'w6',
+    'cid' => 'w8',
     'class_name' => 'ilRecurrenceInputGUI',
     'class_path' => './Services/Calendar/classes/Form/class.ilRecurrenceInputGUI.php',
     'parents' => 
@@ -17048,7 +17064,7 @@
   ),
   'ilregexpinputgui' => 
   array (
-    'cid' => 'w7',
+    'cid' => 'w9',
     'class_name' => 'ilRegExpInputGUI',
     'class_path' => './Services/Form/classes/class.ilRegExpInputGUI.php',
     'parents' => 
@@ -17060,7 +17076,7 @@
   ),
   'ilregistrationcodestablegui' => 
   array (
-    'cid' => 'w8',
+    'cid' => 'wa',
     'class_name' => 'ilRegistrationCodesTableGUI',
     'class_path' => './Services/Registration/classes/class.ilRegistrationCodesTableGUI.php',
     'parents' => 
@@ -17072,7 +17088,7 @@
   ),
   'ilregistrationgui' => 
   array (
-    'cid' => 'w9',
+    'cid' => 'wb',
     'class_name' => 'ilRegistrationGUI',
     'class_path' => './Services/Membership/classes/class.ilRegistrationGUI.php',
     'parents' => 
@@ -17084,7 +17100,7 @@
   ),
   'ilregistrationsettingsgui' => 
   array (
-    'cid' => 'wa',
+    'cid' => 'wc',
     'class_name' => 'ilRegistrationSettingsGUI',
     'class_path' => './Services/Registration/classes/class.ilRegistrationSettingsGUI.php',
     'parents' => 
@@ -17097,7 +17113,7 @@
   ),
   'ilremoteobjectbasegui' => 
   array (
-    'cid' => 'wb',
+    'cid' => 'wd',
     'class_name' => 'ilRemoteObjectBaseGUI',
     'class_path' => './Services/WebServices/ECS/classes/class.ilRemoteObjectBaseGUI.php',
     'parents' => 
@@ -17109,7 +17125,7 @@
   ),
   'ilrenderertablegui' => 
   array (
-    'cid' => 'wc',
+    'cid' => 'we',
     'class_name' => 'ilRendererTableGUI',
     'class_path' => './Services/Preview/classes/class.ilRendererTableGUI.php',
     'parents' => 
@@ -17121,36 +17137,19 @@
   ),
   'ilrepdependenciestablegui' => 
   array (
-    'cid' => 'wd',
+    'cid' => 'wf',
     'class_name' => 'ilRepDependenciesTableGUI',
-    'class_path' => './Services/Repository/classes/class.ilRepDependenciesTableGUI.php',
+    'class_path' => './Services/Repository/Trash/class.ilRepDependenciesTableGUI.php',
     'parents' => 
     array (
     ),
     'children' => 
     array (
-    ),
-  ),
-  'ilreputilgui' => 
-  array (
-    'cid' => 'we',
-    'class_name' => 'ilRepUtilGUI',
-    'class_path' => './Services/Repository/classes/class.ilRepUtilGUI.php',
-    'parents' => 
-    array (
-      0 => 'ilobjcategorygui',
-      1 => 'ilobjcoursegui',
-      2 => 'ilobjfoldergui',
-      3 => 'ilobjrootfoldergui',
-    ),
-    'children' => 
-    array (
-      0 => 'ilpropertyformgui',
     ),
   ),
   'ilrepositoryexplorergui' => 
   array (
-    'cid' => 'wf',
+    'cid' => 'wg',
     'class_name' => 'ilRepositoryExplorerGUI',
     'class_path' => './Services/Repository/classes/class.ilRepositoryExplorerGUI.php',
     'parents' => 
@@ -17162,7 +17161,7 @@
   ),
   'ilrepositorygui' => 
   array (
-    'cid' => 'wg',
+    'cid' => 'wh',
     'class_name' => 'ilRepositoryGUI',
     'class_path' => './Services/Repository/classes/class.ilRepositoryGUI.php',
     'parents' => 
@@ -17227,7 +17226,7 @@
   ),
   'ilrepositoryobjectresulttablegui' => 
   array (
-    'cid' => 'wh',
+    'cid' => 'wi',
     'class_name' => 'ilRepositoryObjectResultTableGUI',
     'class_path' => './Services/Search/classes/class.ilRepositoryObjectResultTableGUI.php',
     'parents' => 
@@ -17239,7 +17238,7 @@
   ),
   'ilrepositoryobjectsearchblockgui' => 
   array (
-    'cid' => 'wi',
+    'cid' => 'wj',
     'class_name' => 'ilRepositoryObjectSearchBlockGUI',
     'class_path' => './Services/Search/classes/class.ilRepositoryObjectSearchBlockGUI.php',
     'parents' => 
@@ -17251,7 +17250,7 @@
   ),
   'ilrepositoryobjectsearchgui' => 
   array (
-    'cid' => 'wj',
+    'cid' => 'wk',
     'class_name' => 'ilRepositoryObjectSearchGUI',
     'class_path' => './Services/Search/classes/class.ilRepositoryObjectSearchGUI.php',
     'parents' => 
@@ -17265,7 +17264,7 @@
   ),
   'ilrepositoryobjectsearchresulttablegui' => 
   array (
-    'cid' => 'wk',
+    'cid' => 'wl',
     'class_name' => 'ilRepositoryObjectSearchResultTableGUI',
     'class_path' => './Services/Search/classes/class.ilRepositoryObjectSearchResultTableGUI.php',
     'parents' => 
@@ -17277,7 +17276,7 @@
   ),
   'ilrepositorysearchgui' => 
   array (
-    'cid' => 'wl',
+    'cid' => 'wm',
     'class_name' => 'ilRepositorySearchGUI',
     'class_path' => './Services/Search/classes/class.ilRepositorySearchGUI.php',
     'parents' => 
@@ -17311,7 +17310,7 @@
   ),
   'ilrepositoryselector2inputgui' => 
   array (
-    'cid' => 'wm',
+    'cid' => 'wn',
     'class_name' => 'ilRepositorySelector2InputGUI',
     'class_path' => './Services/Form/classes/class.ilRepositorySelector2InputGUI.php',
     'parents' => 
@@ -17324,7 +17323,7 @@
   ),
   'ilrepositoryselectorexplorergui' => 
   array (
-    'cid' => 'wn',
+    'cid' => 'wo',
     'class_name' => 'ilRepositorySelectorExplorerGUI',
     'class_path' => './Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php',
     'parents' => 
@@ -17337,7 +17336,7 @@
   ),
   'ilrepositoryselectorinputgui' => 
   array (
-    'cid' => 'wo',
+    'cid' => 'wp',
     'class_name' => 'ilRepositorySelectorInputGUI',
     'class_path' => './Services/Form/classes/class.ilRepositorySelectorInputGUI.php',
     'parents' => 
@@ -17348,9 +17347,26 @@
     array (
     ),
   ),
+  'ilrepositorytrashgui' => 
+  array (
+    'cid' => 'wq',
+    'class_name' => 'ilRepositoryTrashGUI',
+    'class_path' => './Services/Repository/Trash/class.ilRepositoryTrashGUI.php',
+    'parents' => 
+    array (
+      0 => 'ilobjcategorygui',
+      1 => 'ilobjcoursegui',
+      2 => 'ilobjfoldergui',
+      3 => 'ilobjrootfoldergui',
+    ),
+    'children' => 
+    array (
+      0 => 'ilpropertyformgui',
+    ),
+  ),
   'ilrepositoryuserresulttablegui' => 
   array (
-    'cid' => 'wp',
+    'cid' => 'wr',
     'class_name' => 'ilRepositoryUserResultTableGUI',
     'class_path' => './Services/Search/classes/class.ilRepositoryUserResultTableGUI.php',
     'parents' => 
@@ -17362,7 +17378,7 @@
   ),
   'ilresourcestorageinfogui' => 
   array (
-    'cid' => 'wq',
+    'cid' => 'ws',
     'class_name' => 'ilResourceStorageInfoGUI',
     'class_path' => './Services/ResourceStorage/classes/class.ilResourceStorageInfoGUI.php',
     'parents' => 
@@ -17374,7 +17390,7 @@
   ),
   'ilresultsbyquestiontablegui' => 
   array (
-    'cid' => 'wr',
+    'cid' => 'wt',
     'class_name' => 'ilResultsByQuestionTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilResultsByQuestionTableGUI.php',
     'parents' => 
@@ -17386,7 +17402,7 @@
   ),
   'ilroleadoptpermissiontablegui' => 
   array (
-    'cid' => 'ws',
+    'cid' => 'wu',
     'class_name' => 'ilRoleAdoptPermissionTableGUI',
     'class_path' => './Services/AccessControl/classes/class.ilRoleAdoptPermissionTableGUI.php',
     'parents' => 
@@ -17398,7 +17414,7 @@
   ),
   'ilroleassignmenttablegui' => 
   array (
-    'cid' => 'wt',
+    'cid' => 'wv',
     'class_name' => 'ilRoleAssignmentTableGUI',
     'class_path' => './Services/User/classes/class.ilRoleAssignmentTableGUI.php',
     'parents' => 
@@ -17410,7 +17426,7 @@
   ),
   'ilroleautocompleteinputgui' => 
   array (
-    'cid' => 'wu',
+    'cid' => 'ww',
     'class_name' => 'ilRoleAutoCompleteInputGUI',
     'class_path' => './Services/Form/classes/class.ilRoleAutoCompleteInputGUI.php',
     'parents' => 
@@ -17422,7 +17438,7 @@
   ),
   'ilroleselectiontablegui' => 
   array (
-    'cid' => 'wv',
+    'cid' => 'wx',
     'class_name' => 'ilRoleSelectionTableGUI',
     'class_path' => './Services/AccessControl/classes/class.ilRoleSelectionTableGUI.php',
     'parents' => 
@@ -17434,7 +17450,7 @@
   ),
   'ilroletablegui' => 
   array (
-    'cid' => 'ww',
+    'cid' => 'wy',
     'class_name' => 'ilRoleTableGUI',
     'class_path' => './Services/AccessControl/classes/class.ilRoleTableGUI.php',
     'parents' => 
@@ -17446,7 +17462,7 @@
   ),
   'ilsahseditgui' => 
   array (
-    'cid' => 'wx',
+    'cid' => 'wz',
     'class_name' => 'ilSAHSEditGUI',
     'class_path' => './Modules/ScormAicc/Editing/classes/class.ilSAHSEditGUI.php',
     'parents' => 
@@ -17466,7 +17482,7 @@
   ),
   'ilsahspresentationgui' => 
   array (
-    'cid' => 'wy',
+    'cid' => 'x0',
     'class_name' => 'ilSAHSPresentationGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSAHSPresentationGUI.php',
     'parents' => 
@@ -17485,7 +17501,7 @@
   ),
   'ilsccomponenttaskgui' => 
   array (
-    'cid' => 'wz',
+    'cid' => 'x1',
     'class_name' => 'ilSCComponentTaskGUI',
     'class_path' => './Services/SystemCheck/classes/class.ilSCComponentTaskGUI.php',
     'parents' => 
@@ -17497,7 +17513,7 @@
   ),
   'ilscgrouptablegui' => 
   array (
-    'cid' => 'x0',
+    'cid' => 'x2',
     'class_name' => 'ilSCGroupTableGUI',
     'class_path' => './Services/SystemCheck/classes/class.ilSCGroupTableGUI.php',
     'parents' => 
@@ -17509,7 +17525,7 @@
   ),
   'ilscorm2004assetgui' => 
   array (
-    'cid' => 'x1',
+    'cid' => 'x3',
     'class_name' => 'ilSCORM2004AssetGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004AssetGUI.php',
     'parents' => 
@@ -17526,7 +17542,7 @@
   ),
   'ilscorm2004chaptergui' => 
   array (
-    'cid' => 'x2',
+    'cid' => 'x4',
     'class_name' => 'ilSCORM2004ChapterGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004ChapterGUI.php',
     'parents' => 
@@ -17541,7 +17557,7 @@
   ),
   'ilscorm2004editorexplorergui' => 
   array (
-    'cid' => 'x3',
+    'cid' => 'x5',
     'class_name' => 'ilSCORM2004EditorExplorerGUI',
     'class_path' => './Modules/ScormAicc/Editing/classes/class.ilSCORM2004EditorExplorerGUI.php',
     'parents' => 
@@ -17553,7 +17569,7 @@
   ),
   'ilscorm2004exporttablegui' => 
   array (
-    'cid' => 'x4',
+    'cid' => 'x6',
     'class_name' => 'ilSCORM2004ExportTableGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004ExportTableGUI.php',
     'parents' => 
@@ -17565,7 +17581,7 @@
   ),
   'ilscorm2004nodegui' => 
   array (
-    'cid' => 'x5',
+    'cid' => 'x7',
     'class_name' => 'ilSCORM2004NodeGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004NodeGUI.php',
     'parents' => 
@@ -17577,7 +17593,7 @@
   ),
   'ilscorm2004organizationhformgui' => 
   array (
-    'cid' => 'x6',
+    'cid' => 'x8',
     'class_name' => 'ilSCORM2004OrganizationHFormGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004OrganizationHFormGUI.php',
     'parents' => 
@@ -17589,7 +17605,7 @@
   ),
   'ilscorm2004pagegui' => 
   array (
-    'cid' => 'x7',
+    'cid' => 'x9',
     'class_name' => 'ilSCORM2004PageGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004PageGUI.php',
     'parents' => 
@@ -17614,7 +17630,7 @@
   ),
   'ilscorm2004pagenodegui' => 
   array (
-    'cid' => 'x8',
+    'cid' => 'xa',
     'class_name' => 'ilSCORM2004PageNodeGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004PageNodeGUI.php',
     'parents' => 
@@ -17629,7 +17645,7 @@
   ),
   'ilscorm2004scogui' => 
   array (
-    'cid' => 'x9',
+    'cid' => 'xb',
     'class_name' => 'ilSCORM2004ScoGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004ScoGUI.php',
     'parents' => 
@@ -17647,7 +17663,7 @@
   ),
   'ilscorm2004seqchaptergui' => 
   array (
-    'cid' => 'xa',
+    'cid' => 'xc',
     'class_name' => 'ilSCORM2004SeqChapterGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004SeqChapterGUI.php',
     'parents' => 
@@ -17662,7 +17678,7 @@
   ),
   'ilscorm2004trackingitemsperscofiltergui' => 
   array (
-    'cid' => 'xb',
+    'cid' => 'xd',
     'class_name' => 'ilSCORM2004TrackingItemsPerScoFilterGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerScoFilterGUI.php',
     'parents' => 
@@ -17675,7 +17691,7 @@
   ),
   'ilscorm2004trackingitemsperuserfiltergui' => 
   array (
-    'cid' => 'xc',
+    'cid' => 'xe',
     'class_name' => 'ilSCORM2004TrackingItemsPerUserFilterGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsPerUserFilterGUI.php',
     'parents' => 
@@ -17688,7 +17704,7 @@
   ),
   'ilscorm2004trackingitemstablegui' => 
   array (
-    'cid' => 'xd',
+    'cid' => 'xf',
     'class_name' => 'ilSCORM2004TrackingItemsTableGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004TrackingItemsTableGUI.php',
     'parents' => 
@@ -17701,7 +17717,7 @@
   ),
   'ilscorm2004trackingtablegui' => 
   array (
-    'cid' => 'xe',
+    'cid' => 'xg',
     'class_name' => 'ilSCORM2004TrackingTableGUI',
     'class_path' => './Modules/Scorm2004/classes/class.ilSCORM2004TrackingTableGUI.php',
     'parents' => 
@@ -17713,7 +17729,7 @@
   ),
   'ilscormitemgui' => 
   array (
-    'cid' => 'xf',
+    'cid' => 'xh',
     'class_name' => 'ilSCORMItemGUI',
     'class_path' => './Modules/ScormAicc/classes/SCORM/class.ilSCORMItemGUI.php',
     'parents' => 
@@ -17725,7 +17741,7 @@
   ),
   'ilscormobjectgui' => 
   array (
-    'cid' => 'xg',
+    'cid' => 'xi',
     'class_name' => 'ilSCORMObjectGUI',
     'class_path' => './Modules/ScormAicc/classes/SCORM/class.ilSCORMObjectGUI.php',
     'parents' => 
@@ -17737,7 +17753,7 @@
   ),
   'ilscormofflinemodegui' => 
   array (
-    'cid' => 'xh',
+    'cid' => 'xj',
     'class_name' => 'ilSCORMOfflineModeGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMOfflineModeGUI.php',
     'parents' => 
@@ -17750,7 +17766,7 @@
   ),
   'ilscormofflinemodeuserstablegui' => 
   array (
-    'cid' => 'xi',
+    'cid' => 'xk',
     'class_name' => 'ilSCORMOfflineModeUsersTableGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMOfflineModeUsersTableGUI.php',
     'parents' => 
@@ -17763,7 +17779,7 @@
   ),
   'ilscormorganizationgui' => 
   array (
-    'cid' => 'xj',
+    'cid' => 'xl',
     'class_name' => 'ilSCORMOrganizationGUI',
     'class_path' => './Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizationGUI.php',
     'parents' => 
@@ -17775,7 +17791,7 @@
   ),
   'ilscormorganizationsgui' => 
   array (
-    'cid' => 'xk',
+    'cid' => 'xm',
     'class_name' => 'ilSCORMOrganizationsGUI',
     'class_path' => './Modules/ScormAicc/classes/SCORM/class.ilSCORMOrganizationsGUI.php',
     'parents' => 
@@ -17787,7 +17803,7 @@
   ),
   'ilscormpresentationgui' => 
   array (
-    'cid' => 'xl',
+    'cid' => 'xn',
     'class_name' => 'ilSCORMPresentationGUI',
     'class_path' => './Modules/ScormAicc/classes/SCORM/class.ilSCORMPresentationGUI.php',
     'parents' => 
@@ -17800,7 +17816,7 @@
   ),
   'ilscormresourcegui' => 
   array (
-    'cid' => 'xm',
+    'cid' => 'xo',
     'class_name' => 'ilSCORMResourceGUI',
     'class_path' => './Modules/ScormAicc/classes/SCORM/class.ilSCORMResourceGUI.php',
     'parents' => 
@@ -17812,7 +17828,7 @@
   ),
   'ilscormresourcesgui' => 
   array (
-    'cid' => 'xn',
+    'cid' => 'xp',
     'class_name' => 'ilSCORMResourcesGUI',
     'class_path' => './Modules/ScormAicc/classes/SCORM/class.ilSCORMResourcesGUI.php',
     'parents' => 
@@ -17824,7 +17840,7 @@
   ),
   'ilscormtrackingitemperusertablegui' => 
   array (
-    'cid' => 'xo',
+    'cid' => 'xq',
     'class_name' => 'ilSCORMTrackingItemPerUserTableGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemPerUserTableGUI.php',
     'parents' => 
@@ -17836,7 +17852,7 @@
   ),
   'ilscormtrackingitemsperscofiltergui' => 
   array (
-    'cid' => 'xp',
+    'cid' => 'xr',
     'class_name' => 'ilSCORMTrackingItemsPerScoFilterGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoFilterGUI.php',
     'parents' => 
@@ -17849,7 +17865,7 @@
   ),
   'ilscormtrackingitemsperscotablegui' => 
   array (
-    'cid' => 'xq',
+    'cid' => 'xs',
     'class_name' => 'ilSCORMTrackingItemsPerScoTableGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerScoTableGUI.php',
     'parents' => 
@@ -17861,7 +17877,7 @@
   ),
   'ilscormtrackingitemsperuserfiltergui' => 
   array (
-    'cid' => 'xr',
+    'cid' => 'xt',
     'class_name' => 'ilSCORMTrackingItemsPerUserFilterGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserFilterGUI.php',
     'parents' => 
@@ -17874,7 +17890,7 @@
   ),
   'ilscormtrackingitemsperusertablegui' => 
   array (
-    'cid' => 'xs',
+    'cid' => 'xu',
     'class_name' => 'ilSCORMTrackingItemsPerUserTableGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsPerUserTableGUI.php',
     'parents' => 
@@ -17886,7 +17902,7 @@
   ),
   'ilscormtrackingitemsscotablegui' => 
   array (
-    'cid' => 'xt',
+    'cid' => 'xv',
     'class_name' => 'ilSCORMTrackingItemsScoTableGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsScoTableGUI.php',
     'parents' => 
@@ -17898,7 +17914,7 @@
   ),
   'ilscormtrackingitemstablegui' => 
   array (
-    'cid' => 'xu',
+    'cid' => 'xw',
     'class_name' => 'ilSCORMTrackingItemsTableGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingItemsTableGUI.php',
     'parents' => 
@@ -17911,7 +17927,7 @@
   ),
   'ilscormtrackinguserstablegui' => 
   array (
-    'cid' => 'xv',
+    'cid' => 'xx',
     'class_name' => 'ilSCORMTrackingUsersTableGUI',
     'class_path' => './Modules/ScormAicc/classes/class.ilSCORMTrackingUsersTableGUI.php',
     'parents' => 
@@ -17923,7 +17939,7 @@
   ),
   'ilscormverificationtablegui' => 
   array (
-    'cid' => 'xw',
+    'cid' => 'xy',
     'class_name' => 'ilSCORMVerificationTableGUI',
     'class_path' => './Modules/ScormAicc/classes/Verification/class.ilSCORMVerificationTableGUI.php',
     'parents' => 
@@ -17935,7 +17951,7 @@
   ),
   'ilscormmanifestgui' => 
   array (
-    'cid' => 'xx',
+    'cid' => 'xz',
     'class_name' => 'ilSCORMmanifestGUI',
     'class_path' => './Modules/ScormAicc/classes/SCORM/class.ilSCORMManifestGUI.php',
     'parents' => 
@@ -17947,7 +17963,7 @@
   ),
   'ilsctasktablegui' => 
   array (
-    'cid' => 'xy',
+    'cid' => 'y0',
     'class_name' => 'ilSCTaskTableGUI',
     'class_path' => './Services/SystemCheck/classes/class.ilSCTaskTableGUI.php',
     'parents' => 
@@ -17959,7 +17975,7 @@
   ),
   'ilsctreeduplicatestablegui' => 
   array (
-    'cid' => 'xz',
+    'cid' => 'y1',
     'class_name' => 'ilSCTreeDuplicatesTableGUI',
     'class_path' => './Services/Tree/classes/class.ilSCTreeDuplicatesTableGUI.php',
     'parents' => 
@@ -17971,7 +17987,7 @@
   ),
   'ilsctreetasksgui' => 
   array (
-    'cid' => 'y0',
+    'cid' => 'y2',
     'class_name' => 'ilSCTreeTasksGUI',
     'class_path' => './Services/Tree/classes/class.ilSCTreeTasksGUI.php',
     'parents' => 
@@ -17984,7 +18000,7 @@
   ),
   'ilsamlidpmetadatainputgui' => 
   array (
-    'cid' => 'y1',
+    'cid' => 'y3',
     'class_name' => 'ilSamlIdpMetadataInputGUI',
     'class_path' => './Services/Saml/classes/form/class.ilSamlIdpMetadataInputGUI.php',
     'parents' => 
@@ -17996,7 +18012,7 @@
   ),
   'ilsamlidpselectiontablegui' => 
   array (
-    'cid' => 'y2',
+    'cid' => 'y4',
     'class_name' => 'ilSamlIdpSelectionTableGUI',
     'class_path' => './Services/Saml/classes/class.ilSamlIdpSelectionTableGUI.php',
     'parents' => 
@@ -18008,7 +18024,7 @@
   ),
   'ilsamlidptablegui' => 
   array (
-    'cid' => 'y3',
+    'cid' => 'y5',
     'class_name' => 'ilSamlIdpTableGUI',
     'class_path' => './Services/Saml/classes/class.ilSamlIdpTableGUI.php',
     'parents' => 
@@ -18020,7 +18036,7 @@
   ),
   'ilsamlsettingsgui' => 
   array (
-    'cid' => 'y4',
+    'cid' => 'y6',
     'class_name' => 'ilSamlSettingsGUI',
     'class_path' => './Services/Saml/classes/class.ilSamlSettingsGUI.php',
     'parents' => 
@@ -18033,7 +18049,7 @@
   ),
   'ilscheduleinputgui' => 
   array (
-    'cid' => 'y5',
+    'cid' => 'y7',
     'class_name' => 'ilScheduleInputGUI',
     'class_path' => './Modules/BookingManager/classes/class.ilScheduleInputGUI.php',
     'parents' => 
@@ -18045,7 +18061,7 @@
   ),
   'ilsearchbasegui' => 
   array (
-    'cid' => 'y6',
+    'cid' => 'y8',
     'class_name' => 'ilSearchBaseGUI',
     'class_path' => './Services/Search/classes/class.ilSearchBaseGUI.php',
     'parents' => 
@@ -18058,7 +18074,7 @@
   ),
   'ilsearchgui' => 
   array (
-    'cid' => 'y7',
+    'cid' => 'y9',
     'class_name' => 'ilSearchGUI',
     'class_path' => './Services/Search/classes/class.ilSearchGUI.php',
     'parents' => 
@@ -18079,7 +18095,7 @@
   ),
   'ilsearchresulttablegui' => 
   array (
-    'cid' => 'y8',
+    'cid' => 'ya',
     'class_name' => 'ilSearchResultTableGUI',
     'class_path' => './Services/Search/classes/class.ilSearchResultTableGUI.php',
     'parents' => 
@@ -18091,7 +18107,7 @@
   ),
   'ilselectbuilderinputgui' => 
   array (
-    'cid' => 'y9',
+    'cid' => 'yb',
     'class_name' => 'ilSelectBuilderInputGUI',
     'class_path' => './Services/Form/classes/class.ilSelectBuilderInputGUI.php',
     'parents' => 
@@ -18103,7 +18119,7 @@
   ),
   'ilselectinputgui' => 
   array (
-    'cid' => 'ya',
+    'cid' => 'yc',
     'class_name' => 'ilSelectInputGUI',
     'class_path' => './Services/Form/classes/class.ilSelectInputGUI.php',
     'parents' => 
@@ -18115,7 +18131,7 @@
   ),
   'ilselfevaluationsimpletablegui' => 
   array (
-    'cid' => 'yb',
+    'cid' => 'yd',
     'class_name' => 'ilSelfEvaluationSimpleTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSelfEvaluationSimpleTableGUI.php',
     'parents' => 
@@ -18125,21 +18141,9 @@
     array (
     ),
   ),
-  'ilselfevaluationtablegui' => 
-  array (
-    'cid' => 'yc',
-    'class_name' => 'ilSelfEvaluationTableGUI',
-    'class_path' => './Services/Skill/classes/class.ilSelfEvaluationTableGUI.php',
-    'parents' => 
-    array (
-    ),
-    'children' => 
-    array (
-    ),
-  ),
   'ilsessionclassificationpathgui' => 
   array (
-    'cid' => 'yd',
+    'cid' => 'ye',
     'class_name' => 'ilSessionClassificationPathGUI',
     'class_path' => './Modules/Session/classes/class.ilSessionClassificationPathGUI.php',
     'parents' => 
@@ -18151,7 +18155,7 @@
   ),
   'ilsessionfiletablegui' => 
   array (
-    'cid' => 'ye',
+    'cid' => 'yf',
     'class_name' => 'ilSessionFileTableGUI',
     'class_path' => './Modules/Session/classes/class.ilSessionFileTableGUI.php',
     'parents' => 
@@ -18163,7 +18167,7 @@
   ),
   'ilsessionmaterialstablegui' => 
   array (
-    'cid' => 'yf',
+    'cid' => 'yg',
     'class_name' => 'ilSessionMaterialsTableGUI',
     'class_path' => './Modules/Session/classes/class.ilSessionMaterialsTableGUI.php',
     'parents' => 
@@ -18175,7 +18179,7 @@
   ),
   'ilsessionmembershipgui' => 
   array (
-    'cid' => 'yg',
+    'cid' => 'yh',
     'class_name' => 'ilSessionMembershipGUI',
     'class_path' => './Modules/Session/classes/class.ilSessionMembershipGUI.php',
     'parents' => 
@@ -18193,7 +18197,7 @@
   ),
   'ilsessionmembershipregistrationsettingsgui' => 
   array (
-    'cid' => 'yh',
+    'cid' => 'yi',
     'class_name' => 'ilSessionMembershipRegistrationSettingsGUI',
     'class_path' => './Modules/Session/classes/class.ilSessionMembershipRegistrationSettingsGUI.php',
     'parents' => 
@@ -18205,7 +18209,7 @@
   ),
   'ilsessionoverviewgui' => 
   array (
-    'cid' => 'yi',
+    'cid' => 'yj',
     'class_name' => 'ilSessionOverviewGUI',
     'class_path' => './Modules/Session/classes/class.ilSessionOverviewGUI.php',
     'parents' => 
@@ -18223,7 +18227,7 @@
   ),
   'ilsessionoverviewtablegui' => 
   array (
-    'cid' => 'yj',
+    'cid' => 'yk',
     'class_name' => 'ilSessionOverviewTableGUI',
     'class_path' => './Modules/Session/classes/class.ilSessionOverviewTableGUI.php',
     'parents' => 
@@ -18235,7 +18239,7 @@
   ),
   'ilsessionparticipantstablegui' => 
   array (
-    'cid' => 'yk',
+    'cid' => 'yl',
     'class_name' => 'ilSessionParticipantsTableGUI',
     'class_path' => './Modules/Session/classes/class.ilSessionParticipantsTableGUI.php',
     'parents' => 
@@ -18247,7 +18251,7 @@
   ),
   'ilsessionremindergui' => 
   array (
-    'cid' => 'yl',
+    'cid' => 'ym',
     'class_name' => 'ilSessionReminderGUI',
     'class_path' => './Services/Authentication/classes/class.ilSessionReminderGUI.php',
     'parents' => 
@@ -18259,7 +18263,7 @@
   ),
   'ilsessionstatisticsgui' => 
   array (
-    'cid' => 'ym',
+    'cid' => 'yn',
     'class_name' => 'ilSessionStatisticsGUI',
     'class_path' => './Services/Authentication/classes/class.ilSessionStatisticsGUI.php',
     'parents' => 
@@ -18272,7 +18276,7 @@
   ),
   'ilsettingspermissiongui' => 
   array (
-    'cid' => 'yn',
+    'cid' => 'yo',
     'class_name' => 'ilSettingsPermissionGUI',
     'class_path' => './Services/AccessControl/classes/class.ilSettingsPermissionGUI.php',
     'parents' => 
@@ -18285,7 +18289,7 @@
   ),
   'ilsettingstemplategui' => 
   array (
-    'cid' => 'yo',
+    'cid' => 'yp',
     'class_name' => 'ilSettingsTemplateGUI',
     'class_path' => './Services/Administration/classes/class.ilSettingsTemplateGUI.php',
     'parents' => 
@@ -18299,7 +18303,7 @@
   ),
   'ilsettingstemplatetablegui' => 
   array (
-    'cid' => 'yp',
+    'cid' => 'yq',
     'class_name' => 'ilSettingsTemplateTableGUI',
     'class_path' => './Services/Administration/classes/class.ilSettingsTemplateTableGUI.php',
     'parents' => 
@@ -18311,7 +18315,7 @@
   ),
   'ilsharedresourcegui' => 
   array (
-    'cid' => 'yq',
+    'cid' => 'yr',
     'class_name' => 'ilSharedResourceGUI',
     'class_path' => './Services/PersonalWorkspace/classes/class.ilSharedResourceGUI.php',
     'parents' => 
@@ -18329,7 +18333,7 @@
   ),
   'ilshibbolethroleassignmenttablegui' => 
   array (
-    'cid' => 'yr',
+    'cid' => 'ys',
     'class_name' => 'ilShibbolethRoleAssignmentTableGUI',
     'class_path' => './Services/AuthShibboleth/classes/class.ilShibbolethRoleAssignmentTableGUI.php',
     'parents' => 
@@ -18341,7 +18345,7 @@
   ),
   'ilsinglechoicewizardinputgui' => 
   array (
-    'cid' => 'ys',
+    'cid' => 'yt',
     'class_name' => 'ilSingleChoiceWizardInputGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilSingleChoiceWizardInputGUI.php',
     'parents' => 
@@ -18353,7 +18357,7 @@
   ),
   'ilsingleusersharegui' => 
   array (
-    'cid' => 'yt',
+    'cid' => 'yu',
     'class_name' => 'ilSingleUserShareGUI',
     'class_path' => './Services/PersonalWorkspace/classes/class.ilSingleUserShareGUI.php',
     'parents' => 
@@ -18366,7 +18370,7 @@
   ),
   'ilskillassignmaterialstablegui' => 
   array (
-    'cid' => 'yu',
+    'cid' => 'yv',
     'class_name' => 'ilSkillAssignMaterialsTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillAssignMaterialsTableGUI.php',
     'parents' => 
@@ -18378,7 +18382,7 @@
   ),
   'ilskillassignedobjectstablegui' => 
   array (
-    'cid' => 'yv',
+    'cid' => 'yw',
     'class_name' => 'ilSkillAssignedObjectsTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillAssignedObjectsTableGUI.php',
     'parents' => 
@@ -18390,7 +18394,7 @@
   ),
   'ilskillcattablegui' => 
   array (
-    'cid' => 'yw',
+    'cid' => 'yx',
     'class_name' => 'ilSkillCatTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillCatTableGUI.php',
     'parents' => 
@@ -18402,7 +18406,7 @@
   ),
   'ilskillcategorygui' => 
   array (
-    'cid' => 'yx',
+    'cid' => 'yy',
     'class_name' => 'ilSkillCategoryGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillCategoryGUI.php',
     'parents' => 
@@ -18415,7 +18419,7 @@
   ),
   'ilskilllevelprofileassignmenttablegui' => 
   array (
-    'cid' => 'yy',
+    'cid' => 'yz',
     'class_name' => 'ilSkillLevelProfileAssignmentTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillLevelProfileAssignmentTableGUI.php',
     'parents' => 
@@ -18427,7 +18431,7 @@
   ),
   'ilskilllevelresourcestablegui' => 
   array (
-    'cid' => 'yz',
+    'cid' => 'z0',
     'class_name' => 'ilSkillLevelResourcesTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillLevelResourcesTableGUI.php',
     'parents' => 
@@ -18439,7 +18443,7 @@
   ),
   'ilskillleveltablegui' => 
   array (
-    'cid' => 'z0',
+    'cid' => 'z1',
     'class_name' => 'ilSkillLevelTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillLevelTableGUI.php',
     'parents' => 
@@ -18451,7 +18455,7 @@
   ),
   'ilskillprofilegui' => 
   array (
-    'cid' => 'z1',
+    'cid' => 'z2',
     'class_name' => 'ilSkillProfileGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillProfileGUI.php',
     'parents' => 
@@ -18466,7 +18470,7 @@
   ),
   'ilskillprofilelevelstablegui' => 
   array (
-    'cid' => 'z2',
+    'cid' => 'z3',
     'class_name' => 'ilSkillProfileLevelsTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillProfileLevelsTableGUI.php',
     'parents' => 
@@ -18478,7 +18482,7 @@
   ),
   'ilskillprofiletablegui' => 
   array (
-    'cid' => 'z3',
+    'cid' => 'z4',
     'class_name' => 'ilSkillProfileTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillProfileTableGUI.php',
     'parents' => 
@@ -18490,7 +18494,7 @@
   ),
   'ilskillprofileusertablegui' => 
   array (
-    'cid' => 'z4',
+    'cid' => 'z5',
     'class_name' => 'ilSkillProfileUserTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillProfileUserTableGUI.php',
     'parents' => 
@@ -18502,7 +18506,7 @@
   ),
   'ilskillrootgui' => 
   array (
-    'cid' => 'z5',
+    'cid' => 'z6',
     'class_name' => 'ilSkillRootGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillRootGUI.php',
     'parents' => 
@@ -18515,7 +18519,7 @@
   ),
   'ilskillselectorgui' => 
   array (
-    'cid' => 'z6',
+    'cid' => 'z7',
     'class_name' => 'ilSkillSelectorGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillSelectorGUI.php',
     'parents' => 
@@ -18526,33 +18530,9 @@
     array (
     ),
   ),
-  'ilskillselfevalskilltablegui' => 
-  array (
-    'cid' => 'z7',
-    'class_name' => 'ilSkillSelfEvalSkillTableGUI',
-    'class_path' => './Services/Skill/classes/class.ilSkillSelfEvalSkillTableGUI.php',
-    'parents' => 
-    array (
-    ),
-    'children' => 
-    array (
-    ),
-  ),
-  'ilskillselfevaluationgui' => 
-  array (
-    'cid' => 'z8',
-    'class_name' => 'ilSkillSelfEvaluationGUI',
-    'class_path' => './Services/Skill/classes/class.ilSkillSelfEvaluationGUI.php',
-    'parents' => 
-    array (
-    ),
-    'children' => 
-    array (
-    ),
-  ),
   'ilskilltemplatecategorygui' => 
   array (
-    'cid' => 'z9',
+    'cid' => 'z8',
     'class_name' => 'ilSkillTemplateCategoryGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillTemplateCategoryGUI.php',
     'parents' => 
@@ -18565,7 +18545,7 @@
   ),
   'ilskilltemplategui' => 
   array (
-    'cid' => 'za',
+    'cid' => 'z9',
     'class_name' => 'ilSkillTemplateGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillTemplateGUI.php',
     'parents' => 
@@ -18578,7 +18558,7 @@
   ),
   'ilskilltemplatereferencegui' => 
   array (
-    'cid' => 'zb',
+    'cid' => 'za',
     'class_name' => 'ilSkillTemplateReferenceGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillTemplateReferenceGUI.php',
     'parents' => 
@@ -18591,7 +18571,7 @@
   ),
   'ilskilltemplatetreeexplorergui' => 
   array (
-    'cid' => 'zc',
+    'cid' => 'zb',
     'class_name' => 'ilSkillTemplateTreeExplorerGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillTemplateTreeExplorerGUI.php',
     'parents' => 
@@ -18603,7 +18583,7 @@
   ),
   'ilskilltreeexplorergui' => 
   array (
-    'cid' => 'zd',
+    'cid' => 'zc',
     'class_name' => 'ilSkillTreeExplorerGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillTreeExplorerGUI.php',
     'parents' => 
@@ -18615,7 +18595,7 @@
   ),
   'ilskilltreenodegui' => 
   array (
-    'cid' => 'ze',
+    'cid' => 'zd',
     'class_name' => 'ilSkillTreeNodeGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillTreeNodeGUI.php',
     'parents' => 
@@ -18627,7 +18607,7 @@
   ),
   'ilskillusagetablegui' => 
   array (
-    'cid' => 'zf',
+    'cid' => 'ze',
     'class_name' => 'ilSkillUsageTableGUI',
     'class_path' => './Services/Skill/classes/class.ilSkillUsageTableGUI.php',
     'parents' => 
@@ -18639,7 +18619,7 @@
   ),
   'ilsolutiontitleinputgui' => 
   array (
-    'cid' => 'zg',
+    'cid' => 'zf',
     'class_name' => 'ilSolutionTitleInputGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilSolutionTitleInputGUI.php',
     'parents' => 
@@ -18651,7 +18631,7 @@
   ),
   'ilspecialuserstablegui' => 
   array (
-    'cid' => 'zh',
+    'cid' => 'zg',
     'class_name' => 'ilSpecialUsersTableGUI',
     'class_path' => './Modules/Survey/Participants/class.ilSpecialUsersTableGUI.php',
     'parents' => 
@@ -18663,7 +18643,7 @@
   ),
   'ilsplitbuttongui' => 
   array (
-    'cid' => 'zi',
+    'cid' => 'zh',
     'class_name' => 'ilSplitButtonGUI',
     'class_path' => './Services/UIComponent/SplitButton/classes/class.ilSplitButtonGUI.php',
     'parents' => 
@@ -18675,7 +18655,7 @@
   ),
   'ilstartupgui' => 
   array (
-    'cid' => 'zj',
+    'cid' => 'zi',
     'class_name' => 'ilStartUpGUI',
     'class_path' => './Services/Init/classes/class.ilStartUpGUI.php',
     'parents' => 
@@ -18694,7 +18674,7 @@
   ),
   'ilstructureobjectgui' => 
   array (
-    'cid' => 'zk',
+    'cid' => 'zj',
     'class_name' => 'ilStructureObjectGUI',
     'class_path' => './Modules/LearningModule/classes/class.ilStructureObjectGUI.php',
     'parents' => 
@@ -18709,7 +18689,7 @@
   ),
   'ilstudyprogrammeacknowledgecompletedcoursestablegui' => 
   array (
-    'cid' => 'zl',
+    'cid' => 'zk',
     'class_name' => 'ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeAcknowledgeCompletedCoursesTableGUI.php',
     'parents' => 
@@ -18721,7 +18701,7 @@
   ),
   'ilstudyprogrammeautocategoriestablegui' => 
   array (
-    'cid' => 'zm',
+    'cid' => 'zl',
     'class_name' => 'ilStudyProgrammeAutoCategoriesTableGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeAutoCategoriesTableGUI.php',
     'parents' => 
@@ -18733,7 +18713,7 @@
   ),
   'ilstudyprogrammeautomembershipstablegui' => 
   array (
-    'cid' => 'zn',
+    'cid' => 'zm',
     'class_name' => 'ilStudyProgrammeAutoMembershipsTableGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeAutoMembershipsTableGUI.php',
     'parents' => 
@@ -18745,7 +18725,7 @@
   ),
   'ilstudyprogrammechangedeadlinegui' => 
   array (
-    'cid' => 'zo',
+    'cid' => 'zn',
     'class_name' => 'ilStudyProgrammeChangeDeadlineGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeChangeDeadlineGUI.php',
     'parents' => 
@@ -18758,7 +18738,7 @@
   ),
   'ilstudyprogrammechangeexpiredategui' => 
   array (
-    'cid' => 'zp',
+    'cid' => 'zo',
     'class_name' => 'ilStudyProgrammeChangeExpireDateGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeChangeExpireDateGUI.php',
     'parents' => 
@@ -18771,7 +18751,7 @@
   ),
   'ilstudyprogrammecommonsettingsgui' => 
   array (
-    'cid' => 'zq',
+    'cid' => 'zp',
     'class_name' => 'ilStudyProgrammeCommonSettingsGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeCommonSettingsGUI.php',
     'parents' => 
@@ -18784,7 +18764,7 @@
   ),
   'ilstudyprogrammecourselistgui' => 
   array (
-    'cid' => 'zr',
+    'cid' => 'zq',
     'class_name' => 'ilStudyProgrammeCourseListGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeCourseListGUI.php',
     'parents' => 
@@ -18796,7 +18776,7 @@
   ),
   'ilstudyprogrammedashboardviewgui' => 
   array (
-    'cid' => 'zs',
+    'cid' => 'zr',
     'class_name' => 'ilStudyProgrammeDashboardViewGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeDashboardViewGUI.php',
     'parents' => 
@@ -18809,7 +18789,7 @@
   ),
   'ilstudyprogrammeexpandableprogresslistgui' => 
   array (
-    'cid' => 'zt',
+    'cid' => 'zs',
     'class_name' => 'ilStudyProgrammeExpandableProgressListGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeExpandableProgressListGUI.php',
     'parents' => 
@@ -18821,7 +18801,7 @@
   ),
   'ilstudyprogrammeindividualplanprogresslistgui' => 
   array (
-    'cid' => 'zu',
+    'cid' => 'zt',
     'class_name' => 'ilStudyProgrammeIndividualPlanProgressListGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanProgressListGUI.php',
     'parents' => 
@@ -18833,7 +18813,7 @@
   ),
   'ilstudyprogrammeindividualplantablegui' => 
   array (
-    'cid' => 'zv',
+    'cid' => 'zu',
     'class_name' => 'ilStudyProgrammeIndividualPlanTableGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeIndividualPlanTableGUI.php',
     'parents' => 
@@ -18845,7 +18825,7 @@
   ),
   'ilstudyprogrammemailmembersearchgui' => 
   array (
-    'cid' => 'zw',
+    'cid' => 'zv',
     'class_name' => 'ilStudyProgrammeMailMemberSearchGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeMailMemberSearchGUI.php',
     'parents' => 
@@ -18858,7 +18838,7 @@
   ),
   'ilstudyprogrammemailmembersearchtablegui' => 
   array (
-    'cid' => 'zx',
+    'cid' => 'zw',
     'class_name' => 'ilStudyProgrammeMailMemberSearchTableGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeMailMemberSearchTableGUI.php',
     'parents' => 
@@ -18870,7 +18850,7 @@
   ),
   'ilstudyprogrammememberstablegui' => 
   array (
-    'cid' => 'zy',
+    'cid' => 'zx',
     'class_name' => 'ilStudyProgrammeMembersTableGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeMembersTableGUI.php',
     'parents' => 
@@ -18882,7 +18862,7 @@
   ),
   'ilstudyprogrammeprogresslistgui' => 
   array (
-    'cid' => 'zz',
+    'cid' => 'zy',
     'class_name' => 'ilStudyProgrammeProgressListGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeProgressListGUI.php',
     'parents' => 
@@ -18894,7 +18874,7 @@
   ),
   'ilstudyprogrammerepositorysearchgui' => 
   array (
-    'cid' => '100',
+    'cid' => 'zz',
     'class_name' => 'ilStudyProgrammeRepositorySearchGUI',
     'class_path' => './Modules/StudyProgramme/classes/class.ilStudyProgrammeRepositorySearchGUI.php',
     'parents' => 
@@ -18907,7 +18887,7 @@
   ),
   'ilstudyprogrammetypeadvancedmetadataformgui' => 
   array (
-    'cid' => '101',
+    'cid' => '100',
     'class_name' => 'ilStudyProgrammeTypeAdvancedMetaDataFormGUI',
     'class_path' => './Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeAdvancedMetaDataFormGUI.php',
     'parents' => 
@@ -18919,7 +18899,7 @@
   ),
   'ilstudyprogrammetypecustomiconsformgui' => 
   array (
-    'cid' => '102',
+    'cid' => '101',
     'class_name' => 'ilStudyProgrammeTypeCustomIconsFormGUI',
     'class_path' => './Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeCustomIconsFormGUI.php',
     'parents' => 
@@ -18931,7 +18911,7 @@
   ),
   'ilstudyprogrammetypegui' => 
   array (
-    'cid' => '103',
+    'cid' => '102',
     'class_name' => 'ilStudyProgrammeTypeGUI',
     'class_path' => './Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeGUI.php',
     'parents' => 
@@ -18944,7 +18924,7 @@
   ),
   'ilstudyprogrammetypetablegui' => 
   array (
-    'cid' => '104',
+    'cid' => '103',
     'class_name' => 'ilStudyProgrammeTypeTableGUI',
     'class_path' => './Modules/StudyProgramme/classes/types/class.ilStudyProgrammeTypeTableGUI.php',
     'parents' => 
@@ -18956,7 +18936,7 @@
   ),
   'ilstylecolortablegui' => 
   array (
-    'cid' => '105',
+    'cid' => '104',
     'class_name' => 'ilStyleColorTableGUI',
     'class_path' => './Services/Style/Content/classes/class.ilStyleColorTableGUI.php',
     'parents' => 
@@ -18968,7 +18948,7 @@
   ),
   'ilstyleimagetablegui' => 
   array (
-    'cid' => '106',
+    'cid' => '105',
     'class_name' => 'ilStyleImageTableGUI',
     'class_path' => './Services/Style/Content/classes/class.ilStyleImageTableGUI.php',
     'parents' => 
@@ -18980,7 +18960,7 @@
   ),
   'ilstylemediaquerytablegui' => 
   array (
-    'cid' => '107',
+    'cid' => '106',
     'class_name' => 'ilStyleMediaQueryTableGUI',
     'class_path' => './Services/Style/Content/classes/class.ilStyleMediaQueryTableGUI.php',
     'parents' => 
@@ -18992,7 +18972,7 @@
   ),
   'ilstyletablegui' => 
   array (
-    'cid' => '108',
+    'cid' => '107',
     'class_name' => 'ilStyleTableGUI',
     'class_path' => './Services/Style/Content/classes/class.ilStyleTableGUI.php',
     'parents' => 
@@ -19004,7 +18984,7 @@
   ),
   'ilsubenabledformpropertygui' => 
   array (
-    'cid' => '109',
+    'cid' => '108',
     'class_name' => 'ilSubEnabledFormPropertyGUI',
     'class_path' => './Services/Form/classes/class.ilSubEnabledFormPropertyGUI.php',
     'parents' => 
@@ -19016,7 +18996,7 @@
   ),
   'ilsubitemlistgui' => 
   array (
-    'cid' => '10a',
+    'cid' => '109',
     'class_name' => 'ilSubItemListGUI',
     'class_path' => './Services/Object/classes/class.ilSubItemListGUI.php',
     'parents' => 
@@ -19028,7 +19008,7 @@
   ),
   'ilsubitemselectiontablegui' => 
   array (
-    'cid' => '10b',
+    'cid' => '10a',
     'class_name' => 'ilSubItemSelectionTableGUI',
     'class_path' => './Services/Export/classes/class.ilSubItemSelectionTableGUI.php',
     'parents' => 
@@ -19040,7 +19020,7 @@
   ),
   'ilsubstyleassignmentgui' => 
   array (
-    'cid' => '10c',
+    'cid' => '10b',
     'class_name' => 'ilSubStyleAssignmentGUI',
     'class_path' => './Services/Style/System/classes/Settings/class.ilSubStyleAssignmentGUI.php',
     'parents' => 
@@ -19052,7 +19032,7 @@
   ),
   'ilsubscribertablegui' => 
   array (
-    'cid' => '10d',
+    'cid' => '10c',
     'class_name' => 'ilSubscriberTableGUI',
     'class_path' => './Services/Membership/classes/class.ilSubscriberTableGUI.php',
     'parents' => 
@@ -19064,7 +19044,7 @@
   ),
   'ilsuggestedsolutioninputgui' => 
   array (
-    'cid' => '10e',
+    'cid' => '10d',
     'class_name' => 'ilSuggestedSolutionInputGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilSuggestedSolutionInputGUI.php',
     'parents' => 
@@ -19076,7 +19056,7 @@
   ),
   'ilsuggestedsolutionselectorgui' => 
   array (
-    'cid' => '10f',
+    'cid' => '10e',
     'class_name' => 'ilSuggestedSolutionSelectorGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilSuggestedSolutionSelectorGUI.php',
     'parents' => 
@@ -19088,7 +19068,7 @@
   ),
   'ilsumscoretablegui' => 
   array (
-    'cid' => '10g',
+    'cid' => '10f',
     'class_name' => 'ilSumScoreTableGUI',
     'class_path' => './Modules/Survey/classes/tables/class.ilSumScoreTableGUI.php',
     'parents' => 
@@ -19100,7 +19080,7 @@
   ),
   'ilsurveyappraiseestablegui' => 
   array (
-    'cid' => '10h',
+    'cid' => '10g',
     'class_name' => 'ilSurveyAppraiseesTableGUI',
     'class_path' => './Modules/Survey/Participants/class.ilSurveyAppraiseesTableGUI.php',
     'parents' => 
@@ -19112,7 +19092,7 @@
   ),
   'ilsurveycodesedittablegui' => 
   array (
-    'cid' => '10i',
+    'cid' => '10h',
     'class_name' => 'ilSurveyCodesEditTableGUI',
     'class_path' => './Modules/Survey/Participants/class.ilSurveyCodesEditTableGUI.php',
     'parents' => 
@@ -19124,7 +19104,7 @@
   ),
   'ilsurveycodestablegui' => 
   array (
-    'cid' => '10j',
+    'cid' => '10i',
     'class_name' => 'ilSurveyCodesTableGUI',
     'class_path' => './Modules/Survey/Participants/class.ilSurveyCodesTableGUI.php',
     'parents' => 
@@ -19136,7 +19116,7 @@
   ),
   'ilsurveyconstraintsgui' => 
   array (
-    'cid' => '10k',
+    'cid' => '10j',
     'class_name' => 'ilSurveyConstraintsGUI',
     'class_path' => './Modules/Survey/Constraints/class.ilSurveyConstraintsGUI.php',
     'parents' => 
@@ -19149,7 +19129,7 @@
   ),
   'ilsurveycontainsdatamessageboxgui' => 
   array (
-    'cid' => '10l',
+    'cid' => '10k',
     'class_name' => 'ilSurveyContainsDataMessageBoxGUI',
     'class_path' => './Modules/Survey/Editing/class.ilSurveyContainsDataMessageBoxGUI.php',
     'parents' => 
@@ -19161,7 +19141,7 @@
   ),
   'ilsurveyeditorgui' => 
   array (
-    'cid' => '10m',
+    'cid' => '10l',
     'class_name' => 'ilSurveyEditorGUI',
     'class_path' => './Modules/Survey/Editing/class.ilSurveyEditorGUI.php',
     'parents' => 
@@ -19180,7 +19160,7 @@
   ),
   'ilsurveyevaluationgui' => 
   array (
-    'cid' => '10n',
+    'cid' => '10m',
     'class_name' => 'ilSurveyEvaluationGUI',
     'class_path' => './Modules/Survey/Evaluation/class.ilSurveyEvaluationGUI.php',
     'parents' => 
@@ -19193,7 +19173,7 @@
   ),
   'ilsurveyexecutiongui' => 
   array (
-    'cid' => '10o',
+    'cid' => '10n',
     'class_name' => 'ilSurveyExecutionGUI',
     'class_path' => './Modules/Survey/Execution/class.ilSurveyExecutionGUI.php',
     'parents' => 
@@ -19206,7 +19186,7 @@
   ),
   'ilsurveymaintenancetablegui' => 
   array (
-    'cid' => '10p',
+    'cid' => '10o',
     'class_name' => 'ilSurveyMaintenanceTableGUI',
     'class_path' => './Modules/Survey/Participants/class.ilSurveyMaintenanceTableGUI.php',
     'parents' => 
@@ -19218,7 +19198,7 @@
   ),
   'ilsurveymaterialstablegui' => 
   array (
-    'cid' => '10q',
+    'cid' => '10p',
     'class_name' => 'ilSurveyMaterialsTableGUI',
     'class_path' => './Modules/SurveyQuestionPool/Material/class.ilSurveyMaterialsTableGUI.php',
     'parents' => 
@@ -19230,7 +19210,7 @@
   ),
   'ilsurveypagegui' => 
   array (
-    'cid' => '10r',
+    'cid' => '10q',
     'class_name' => 'ilSurveyPageGUI',
     'class_path' => './Modules/Survey/Editing/class.ilSurveyPageGUI.php',
     'parents' => 
@@ -19243,7 +19223,7 @@
   ),
   'ilsurveyparticipantsgui' => 
   array (
-    'cid' => '10s',
+    'cid' => '10r',
     'class_name' => 'ilSurveyParticipantsGUI',
     'class_path' => './Modules/Survey/Participants/class.ilSurveyParticipantsGUI.php',
     'parents' => 
@@ -19257,7 +19237,7 @@
   ),
   'ilsurveyparticipantstablegui' => 
   array (
-    'cid' => '10t',
+    'cid' => '10s',
     'class_name' => 'ilSurveyParticipantsTableGUI',
     'class_path' => './Modules/Survey/Participants/class.ilSurveyParticipantsTableGUI.php',
     'parents' => 
@@ -19269,7 +19249,7 @@
   ),
   'ilsurveyphrasesgui' => 
   array (
-    'cid' => '10u',
+    'cid' => '10t',
     'class_name' => 'ilSurveyPhrasesGUI',
     'class_path' => './Modules/SurveyQuestionPool/Phrases/class.ilSurveyPhrasesGUI.php',
     'parents' => 
@@ -19282,7 +19262,7 @@
   ),
   'ilsurveyphrasestablegui' => 
   array (
-    'cid' => '10v',
+    'cid' => '10u',
     'class_name' => 'ilSurveyPhrasesTableGUI',
     'class_path' => './Modules/SurveyQuestionPool/Phrases/class.ilSurveyPhrasesTableGUI.php',
     'parents' => 
@@ -19294,7 +19274,7 @@
   ),
   'ilsurveyquestionpoolexporttablegui' => 
   array (
-    'cid' => '10w',
+    'cid' => '10v',
     'class_name' => 'ilSurveyQuestionPoolExportTableGUI',
     'class_path' => './Modules/SurveyQuestionPool/Export/class.ilSurveyQuestionPoolExportTableGUI.php',
     'parents' => 
@@ -19306,7 +19286,7 @@
   ),
   'ilsurveyquestiontablegui' => 
   array (
-    'cid' => '10x',
+    'cid' => '10w',
     'class_name' => 'ilSurveyQuestionTableGUI',
     'class_path' => './Modules/Survey/Editing/class.ilSurveyQuestionTableGUI.php',
     'parents' => 
@@ -19318,7 +19298,7 @@
   ),
   'ilsurveyquestionblockbrowsertablegui' => 
   array (
-    'cid' => '10y',
+    'cid' => '10x',
     'class_name' => 'ilSurveyQuestionblockbrowserTableGUI',
     'class_path' => './Modules/Survey/Editing/class.ilSurveyQuestionblockbrowserTableGUI.php',
     'parents' => 
@@ -19330,7 +19310,7 @@
   ),
   'ilsurveyquestionbrowsertablegui' => 
   array (
-    'cid' => '10z',
+    'cid' => '10y',
     'class_name' => 'ilSurveyQuestionbrowserTableGUI',
     'class_path' => './Modules/Survey/Editing/class.ilSurveyQuestionbrowserTableGUI.php',
     'parents' => 
@@ -19342,7 +19322,7 @@
   ),
   'ilsurveyquestionstablegui' => 
   array (
-    'cid' => '110',
+    'cid' => '10z',
     'class_name' => 'ilSurveyQuestionsTableGUI',
     'class_path' => './Modules/SurveyQuestionPool/Questions/class.ilSurveyQuestionsTableGUI.php',
     'parents' => 
@@ -19354,7 +19334,7 @@
   ),
   'ilsurveyresultscumulatedtablegui' => 
   array (
-    'cid' => '111',
+    'cid' => '110',
     'class_name' => 'ilSurveyResultsCumulatedTableGUI',
     'class_path' => './Modules/Survey/Results/class.ilSurveyResultsCumulatedTableGUI.php',
     'parents' => 
@@ -19366,7 +19346,7 @@
   ),
   'ilsurveyresultsusertablegui' => 
   array (
-    'cid' => '112',
+    'cid' => '111',
     'class_name' => 'ilSurveyResultsUserTableGUI',
     'class_path' => './Modules/Survey/Results/class.ilSurveyResultsUserTableGUI.php',
     'parents' => 
@@ -19378,7 +19358,7 @@
   ),
   'ilsurveysavephrasetablegui' => 
   array (
-    'cid' => '113',
+    'cid' => '112',
     'class_name' => 'ilSurveySavePhraseTableGUI',
     'class_path' => './Modules/SurveyQuestionPool/Phrases/class.ilSurveySavePhraseTableGUI.php',
     'parents' => 
@@ -19390,7 +19370,7 @@
   ),
   'ilsurveyskillassignmenttablegui' => 
   array (
-    'cid' => '114',
+    'cid' => '113',
     'class_name' => 'ilSurveySkillAssignmentTableGUI',
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillAssignmentTableGUI.php',
     'parents' => 
@@ -19402,7 +19382,7 @@
   ),
   'ilsurveyskillchangestablegui' => 
   array (
-    'cid' => '115',
+    'cid' => '114',
     'class_name' => 'ilSurveySkillChangesTableGUI',
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillChangesTableGUI.php',
     'parents' => 
@@ -19414,7 +19394,7 @@
   ),
   'ilsurveyskilldeterminationgui' => 
   array (
-    'cid' => '116',
+    'cid' => '115',
     'class_name' => 'ilSurveySkillDeterminationGUI',
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillDeterminationGUI.php',
     'parents' => 
@@ -19427,7 +19407,7 @@
   ),
   'ilsurveyskillgui' => 
   array (
-    'cid' => '117',
+    'cid' => '116',
     'class_name' => 'ilSurveySkillGUI',
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillGUI.php',
     'parents' => 
@@ -19441,7 +19421,7 @@
   ),
   'ilsurveyskilltablegui' => 
   array (
-    'cid' => '118',
+    'cid' => '117',
     'class_name' => 'ilSurveySkillTableGUI',
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillTableGUI.php',
     'parents' => 
@@ -19453,7 +19433,7 @@
   ),
   'ilsurveyskillthresholdsgui' => 
   array (
-    'cid' => '119',
+    'cid' => '118',
     'class_name' => 'ilSurveySkillThresholdsGUI',
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillThresholdsGUI.php',
     'parents' => 
@@ -19466,7 +19446,7 @@
   ),
   'ilsurveyskillthresholdstablegui' => 
   array (
-    'cid' => '11a',
+    'cid' => '119',
     'class_name' => 'ilSurveySkillThresholdsTableGUI',
     'class_path' => './Modules/Survey/Skills/class.ilSurveySkillThresholdsTableGUI.php',
     'parents' => 
@@ -19478,7 +19458,7 @@
   ),
   'ilsurveysynctablegui' => 
   array (
-    'cid' => '11b',
+    'cid' => '11a',
     'class_name' => 'ilSurveySyncTableGUI',
     'class_path' => './Modules/SurveyQuestionPool/classes/class.ilSurveySyncTableGUI.php',
     'parents' => 
@@ -19490,7 +19470,7 @@
   ),
   'ilsysstylecatassignmenttablegui' => 
   array (
-    'cid' => '11c',
+    'cid' => '11b',
     'class_name' => 'ilSysStyleCatAssignmentTableGUI',
     'class_path' => './Services/Style/System/classes/Settings/class.ilSysStyleCatAssignmentTableGUI.php',
     'parents' => 
@@ -19502,7 +19482,7 @@
   ),
   'ilsystemstyledeletegui' => 
   array (
-    'cid' => '11d',
+    'cid' => '11c',
     'class_name' => 'ilSystemStyleDeleteGUI',
     'class_path' => './Services/Style/System/classes/Overview/class.ilSystemStyleDeleteGUI.php',
     'parents' => 
@@ -19514,7 +19494,7 @@
   ),
   'ilsystemstyledocumentationgui' => 
   array (
-    'cid' => '11e',
+    'cid' => '11d',
     'class_name' => 'ilSystemStyleDocumentationGUI',
     'class_path' => './Services/Style/System/classes/Documentation/class.ilSystemStyleDocumentationGUI.php',
     'parents' => 
@@ -19527,7 +19507,7 @@
   ),
   'ilsystemstyleiconsgui' => 
   array (
-    'cid' => '11f',
+    'cid' => '11e',
     'class_name' => 'ilSystemStyleIconsGUI',
     'class_path' => './Services/Style/System/classes/Icons/class.ilSystemStyleIconsGUI.php',
     'parents' => 
@@ -19540,7 +19520,7 @@
   ),
   'ilsystemstylelessgui' => 
   array (
-    'cid' => '11g',
+    'cid' => '11f',
     'class_name' => 'ilSystemStyleLessGUI',
     'class_path' => './Services/Style/System/classes/Less/class.ilSystemStyleLessGUI.php',
     'parents' => 
@@ -19553,7 +19533,7 @@
   ),
   'ilsystemstylemaingui' => 
   array (
-    'cid' => '11h',
+    'cid' => '11g',
     'class_name' => 'ilSystemStyleMainGUI',
     'class_path' => './Services/Style/System/classes/class.ilSystemStyleMainGUI.php',
     'parents' => 
@@ -19571,7 +19551,7 @@
   ),
   'ilsystemstyleoverviewgui' => 
   array (
-    'cid' => '11i',
+    'cid' => '11h',
     'class_name' => 'ilSystemStyleOverviewGUI',
     'class_path' => './Services/Style/System/classes/Overview/class.ilSystemStyleOverviewGUI.php',
     'parents' => 
@@ -19584,7 +19564,7 @@
   ),
   'ilsystemstylesettingsgui' => 
   array (
-    'cid' => '11j',
+    'cid' => '11i',
     'class_name' => 'ilSystemStyleSettingsGUI',
     'class_path' => './Services/Style/System/classes/Settings/class.ilSystemStyleSettingsGUI.php',
     'parents' => 
@@ -19597,7 +19577,7 @@
   ),
   'ilsystemstylestablegui' => 
   array (
-    'cid' => '11k',
+    'cid' => '11j',
     'class_name' => 'ilSystemStylesTableGUI',
     'class_path' => './Services/Style/System/classes/Overview/class.ilSystemStylesTableGUI.php',
     'parents' => 
@@ -19609,7 +19589,7 @@
   ),
   'ilsystemsupportcontactsgui' => 
   array (
-    'cid' => '11l',
+    'cid' => '11k',
     'class_name' => 'ilSystemSupportContactsGUI',
     'class_path' => './Modules/SystemFolder/classes/class.ilSystemSupportContactsGUI.php',
     'parents' => 
@@ -19621,7 +19601,7 @@
   ),
   'iltrblborderstyleinputgui' => 
   array (
-    'cid' => '11m',
+    'cid' => '11l',
     'class_name' => 'ilTRBLBorderStyleInputGUI',
     'class_path' => './Services/Style/Content/classes/class.ilTRBLBorderStyleInputGUI.php',
     'parents' => 
@@ -19633,7 +19613,7 @@
   ),
   'iltrblborderwidthinputgui' => 
   array (
-    'cid' => '11n',
+    'cid' => '11m',
     'class_name' => 'ilTRBLBorderWidthInputGUI',
     'class_path' => './Services/Style/Content/classes/class.ilTRBLBorderWidthInputGUI.php',
     'parents' => 
@@ -19645,7 +19625,7 @@
   ),
   'iltrblcolorpickerinputgui' => 
   array (
-    'cid' => '11o',
+    'cid' => '11n',
     'class_name' => 'ilTRBLColorPickerInputGUI',
     'class_path' => './Services/Style/Content/classes/class.ilTRBLColorPickerInputGUI.php',
     'parents' => 
@@ -19657,7 +19637,7 @@
   ),
   'iltrblnumericstylevalueinputgui' => 
   array (
-    'cid' => '11p',
+    'cid' => '11o',
     'class_name' => 'ilTRBLNumericStyleValueInputGUI',
     'class_path' => './Services/Style/Content/classes/class.ilTRBLNumericStyleValueInputGUI.php',
     'parents' => 
@@ -19669,7 +19649,7 @@
   ),
   'iltable2gui' => 
   array (
-    'cid' => '11q',
+    'cid' => '11p',
     'class_name' => 'ilTable2GUI',
     'class_path' => './Services/Table/classes/class.ilTable2GUI.php',
     'parents' => 
@@ -19681,7 +19661,7 @@
   ),
   'iltablegui' => 
   array (
-    'cid' => '11r',
+    'cid' => '11q',
     'class_name' => 'ilTableGUI',
     'class_path' => './Services/Table/classes/class.ilTableGUI.php',
     'parents' => 
@@ -19693,7 +19673,7 @@
   ),
   'iltabletemplatestablegui' => 
   array (
-    'cid' => '11s',
+    'cid' => '11r',
     'class_name' => 'ilTableTemplatesTableGUI',
     'class_path' => './Services/Style/Content/classes/class.ilTableTemplatesTableGUI.php',
     'parents' => 
@@ -19705,7 +19685,7 @@
   ),
   'iltabsgui' => 
   array (
-    'cid' => '11t',
+    'cid' => '11s',
     'class_name' => 'ilTabsGUI',
     'class_path' => './Services/UIComponent/Tabs/classes/class.ilTabsGUI.php',
     'parents' => 
@@ -19717,7 +19697,7 @@
   ),
   'iltaginputgui' => 
   array (
-    'cid' => '11u',
+    'cid' => '11t',
     'class_name' => 'ilTagInputGUI',
     'class_path' => './Services/Form/classes/class.ilTagInputGUI.php',
     'parents' => 
@@ -19729,7 +19709,7 @@
   ),
   'iltagginggui' => 
   array (
-    'cid' => '11v',
+    'cid' => '11u',
     'class_name' => 'ilTaggingGUI',
     'class_path' => './Services/Tagging/classes/class.ilTaggingGUI.php',
     'parents' => 
@@ -19742,7 +19722,7 @@
   ),
   'iltaggingslatecontentgui' => 
   array (
-    'cid' => '11w',
+    'cid' => '11v',
     'class_name' => 'ilTaggingSlateContentGUI',
     'class_path' => './Services/Tagging/classes/class.ilTaggingSlateContentGUI.php',
     'parents' => 
@@ -19754,7 +19734,7 @@
   ),
   'iltaxassigninputgui' => 
   array (
-    'cid' => '11x',
+    'cid' => '11w',
     'class_name' => 'ilTaxAssignInputGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilTaxAssignInputGUI.php',
     'parents' => 
@@ -19766,7 +19746,7 @@
   ),
   'iltaxassigneditemstablegui' => 
   array (
-    'cid' => '11y',
+    'cid' => '11x',
     'class_name' => 'ilTaxAssignedItemsTableGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilTaxAssignedItemsTableGUI.php',
     'parents' => 
@@ -19778,7 +19758,7 @@
   ),
   'iltaxmdgui' => 
   array (
-    'cid' => '11z',
+    'cid' => '11y',
     'class_name' => 'ilTaxMDGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilTaxMDGUI.php',
     'parents' => 
@@ -19792,7 +19772,7 @@
   ),
   'iltaxselectinputgui' => 
   array (
-    'cid' => '120',
+    'cid' => '11z',
     'class_name' => 'ilTaxSelectInputGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php',
     'parents' => 
@@ -19805,7 +19785,7 @@
   ),
   'iltaxonomyadministrationrepositorytablegui' => 
   array (
-    'cid' => '121',
+    'cid' => '120',
     'class_name' => 'ilTaxonomyAdministrationRepositoryTableGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilTaxonomyAdministrationRepositoryTableGUI.php',
     'parents' => 
@@ -19817,7 +19797,7 @@
   ),
   'iltaxonomyexplorergui' => 
   array (
-    'cid' => '122',
+    'cid' => '121',
     'class_name' => 'ilTaxonomyExplorerGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilTaxonomyExplorerGUI.php',
     'parents' => 
@@ -19829,7 +19809,7 @@
   ),
   'iltaxonomylisttablegui' => 
   array (
-    'cid' => '123',
+    'cid' => '122',
     'class_name' => 'ilTaxonomyListTableGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilTaxonomyListTableGUI.php',
     'parents' => 
@@ -19841,7 +19821,7 @@
   ),
   'iltaxonomytablegui' => 
   array (
-    'cid' => '124',
+    'cid' => '123',
     'class_name' => 'ilTaxonomyTableGUI',
     'class_path' => './Services/Taxonomy/classes/class.ilTaxonomyTableGUI.php',
     'parents' => 
@@ -19853,7 +19833,7 @@
   ),
   'iltermdefinitioneditorgui' => 
   array (
-    'cid' => '125',
+    'cid' => '124',
     'class_name' => 'ilTermDefinitionEditorGUI',
     'class_path' => './Modules/Glossary/classes/class.ilTermDefinitionEditorGUI.php',
     'parents' => 
@@ -19867,7 +19847,7 @@
   ),
   'iltermlisttablegui' => 
   array (
-    'cid' => '126',
+    'cid' => '125',
     'class_name' => 'ilTermListTableGUI',
     'class_path' => './Modules/Glossary/classes/class.ilTermListTableGUI.php',
     'parents' => 
@@ -19879,7 +19859,7 @@
   ),
   'iltermquicklisttablegui' => 
   array (
-    'cid' => '127',
+    'cid' => '126',
     'class_name' => 'ilTermQuickListTableGUI',
     'class_path' => './Modules/Glossary/classes/class.ilTermQuickListTableGUI.php',
     'parents' => 
@@ -19891,7 +19871,7 @@
   ),
   'iltermusagestablegui' => 
   array (
-    'cid' => '128',
+    'cid' => '127',
     'class_name' => 'ilTermUsagesTableGUI',
     'class_path' => './Modules/Glossary/classes/class.ilTermUsagesTableGUI.php',
     'parents' => 
@@ -19903,7 +19883,7 @@
   ),
   'iltermsofserviceacceptancehistorygui' => 
   array (
-    'cid' => '129',
+    'cid' => '128',
     'class_name' => 'ilTermsOfServiceAcceptanceHistoryGUI',
     'class_path' => './Services/TermsOfService/classes/History/class.ilTermsOfServiceAcceptanceHistoryGUI.php',
     'parents' => 
@@ -19916,7 +19896,7 @@
   ),
   'iltermsofserviceacceptancehistorytablegui' => 
   array (
-    'cid' => '12a',
+    'cid' => '129',
     'class_name' => 'ilTermsOfServiceAcceptanceHistoryTableGUI',
     'class_path' => './Services/TermsOfService/classes/History/class.ilTermsOfServiceAcceptanceHistoryTableGUI.php',
     'parents' => 
@@ -19928,7 +19908,7 @@
   ),
   'iltermsofservicecriterionformgui' => 
   array (
-    'cid' => '12b',
+    'cid' => '12a',
     'class_name' => 'ilTermsOfServiceCriterionFormGUI',
     'class_path' => './Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceCriterionFormGUI.php',
     'parents' => 
@@ -19940,7 +19920,7 @@
   ),
   'iltermsofservicedocumentformgui' => 
   array (
-    'cid' => '12c',
+    'cid' => '12b',
     'class_name' => 'ilTermsOfServiceDocumentFormGUI',
     'class_path' => './Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentFormGUI.php',
     'parents' => 
@@ -19952,7 +19932,7 @@
   ),
   'iltermsofservicedocumentgui' => 
   array (
-    'cid' => '12d',
+    'cid' => '12c',
     'class_name' => 'ilTermsOfServiceDocumentGUI',
     'class_path' => './Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentGUI.php',
     'parents' => 
@@ -19965,7 +19945,7 @@
   ),
   'iltermsofservicedocumenttablegui' => 
   array (
-    'cid' => '12e',
+    'cid' => '12d',
     'class_name' => 'ilTermsOfServiceDocumentTableGUI',
     'class_path' => './Services/TermsOfService/classes/Document/class.ilTermsOfServiceDocumentTableGUI.php',
     'parents' => 
@@ -19977,7 +19957,7 @@
   ),
   'iltermsofservicesettingsformgui' => 
   array (
-    'cid' => '12f',
+    'cid' => '12e',
     'class_name' => 'ilTermsOfServiceSettingsFormGUI',
     'class_path' => './Services/TermsOfService/classes/class.ilTermsOfServiceSettingsFormGUI.php',
     'parents' => 
@@ -19989,7 +19969,7 @@
   ),
   'iltermsofservicetablegui' => 
   array (
-    'cid' => '12g',
+    'cid' => '12f',
     'class_name' => 'ilTermsOfServiceTableGUI',
     'class_path' => './Services/TermsOfService/classes/class.ilTermsOfServiceTableGUI.php',
     'parents' => 
@@ -20001,7 +19981,7 @@
   ),
   'iltermsofserviceuserhascountrycriteriongui' => 
   array (
-    'cid' => '12h',
+    'cid' => '12g',
     'class_name' => 'ilTermsOfServiceUserHasCountryCriterionGUI',
     'class_path' => './Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceUserHasCountryCriterionGUI.php',
     'parents' => 
@@ -20013,7 +19993,7 @@
   ),
   'iltermsofserviceuserhasglobalrolecriteriongui' => 
   array (
-    'cid' => '12i',
+    'cid' => '12h',
     'class_name' => 'ilTermsOfServiceUserHasGlobalRoleCriterionGUI',
     'class_path' => './Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceUserHasGlobalRoleCriterionGUI.php',
     'parents' => 
@@ -20025,7 +20005,7 @@
   ),
   'iltermsofserviceuserhaslanguagecriteriongui' => 
   array (
-    'cid' => '12j',
+    'cid' => '12i',
     'class_name' => 'ilTermsOfServiceUserHasLanguageCriterionGUI',
     'class_path' => './Services/TermsOfService/classes/Criteria/class.ilTermsOfServiceUserHasLanguageCriterionGUI.php',
     'parents' => 
@@ -20037,7 +20017,7 @@
   ),
   'iltestaggregatedresultstablegui' => 
   array (
-    'cid' => '12k',
+    'cid' => '12j',
     'class_name' => 'ilTestAggregatedResultsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestAggregatedResultsTableGUI.php',
     'parents' => 
@@ -20049,7 +20029,7 @@
   ),
   'iltestansweroptionalquestionsconfirmationgui' => 
   array (
-    'cid' => '12l',
+    'cid' => '12k',
     'class_name' => 'ilTestAnswerOptionalQuestionsConfirmationGUI',
     'class_path' => './Modules/Test/classes/confirmations/class.ilTestAnswerOptionalQuestionsConfirmationGUI.php',
     'parents' => 
@@ -20063,7 +20043,7 @@
   ),
   'iltestaveragereachedpointstablegui' => 
   array (
-    'cid' => '12m',
+    'cid' => '12l',
     'class_name' => 'ilTestAverageReachedPointsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestAverageReachedPointsTableGUI.php',
     'parents' => 
@@ -20075,7 +20055,7 @@
   ),
   'iltestcorrectionsgui' => 
   array (
-    'cid' => '12n',
+    'cid' => '12m',
     'class_name' => 'ilTestCorrectionsGUI',
     'class_path' => './Modules/Test/classes/class.ilTestCorrectionsGUI.php',
     'parents' => 
@@ -20088,7 +20068,7 @@
   ),
   'iltestdashboardgui' => 
   array (
-    'cid' => '12o',
+    'cid' => '12n',
     'class_name' => 'ilTestDashboardGUI',
     'class_path' => './Modules/Test/classes/class.ilTestDashboardGUI.php',
     'parents' => 
@@ -20103,7 +20083,7 @@
   ),
   'iltestdetailedevaluationstatisticstablegui' => 
   array (
-    'cid' => '12p',
+    'cid' => '12o',
     'class_name' => 'ilTestDetailedEvaluationStatisticsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestDetailedEvaluationStatisticsTableGUI.php',
     'parents' => 
@@ -20115,7 +20095,7 @@
   ),
   'iltestdynamicquestionsetstatistictablegui' => 
   array (
-    'cid' => '12q',
+    'cid' => '12p',
     'class_name' => 'ilTestDynamicQuestionSetStatisticTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestDynamicQuestionSetStatisticTableGUI.php',
     'parents' => 
@@ -20129,7 +20109,7 @@
   ),
   'iltestevalobjectiveorientedgui' => 
   array (
-    'cid' => '12r',
+    'cid' => '12q',
     'class_name' => 'ilTestEvalObjectiveOrientedGUI',
     'class_path' => './Modules/Test/classes/class.ilTestEvalObjectiveOrientedGUI.php',
     'parents' => 
@@ -20144,7 +20124,7 @@
   ),
   'iltestevaluationgui' => 
   array (
-    'cid' => '12s',
+    'cid' => '12r',
     'class_name' => 'ilTestEvaluationGUI',
     'class_path' => './Modules/Test/classes/class.ilTestEvaluationGUI.php',
     'parents' => 
@@ -20164,7 +20144,7 @@
   ),
   'iltestexportgui' => 
   array (
-    'cid' => '12t',
+    'cid' => '12s',
     'class_name' => 'ilTestExportGUI',
     'class_path' => './Modules/Test/classes/class.ilTestExportGUI.php',
     'parents' => 
@@ -20178,7 +20158,7 @@
   ),
   'iltestexporttablegui' => 
   array (
-    'cid' => '12u',
+    'cid' => '12t',
     'class_name' => 'ilTestExportTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestExportTableGUI.php',
     'parents' => 
@@ -20190,7 +20170,7 @@
   ),
   'iltestexpresspageobjectgui' => 
   array (
-    'cid' => '12v',
+    'cid' => '12u',
     'class_name' => 'ilTestExpressPageObjectGUI',
     'class_path' => './Modules/Test/classes/class.ilTestExpressPageObjectGUI.php',
     'parents' => 
@@ -20232,7 +20212,7 @@
   ),
   'iltestfixedquestionsetconfiggui' => 
   array (
-    'cid' => '12w',
+    'cid' => '12v',
     'class_name' => 'ilTestFixedQuestionSetConfigGUI',
     'class_path' => './Modules/Test/classes/class.ilTestFixedQuestionSetConfigGUI.php',
     'parents' => 
@@ -20248,7 +20228,7 @@
   ),
   'iltesthistorytablegui' => 
   array (
-    'cid' => '12x',
+    'cid' => '12w',
     'class_name' => 'ilTestHistoryTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestHistoryTableGUI.php',
     'parents' => 
@@ -20260,7 +20240,7 @@
   ),
   'iltestinfoscreentoolbargui' => 
   array (
-    'cid' => '12y',
+    'cid' => '12x',
     'class_name' => 'ilTestInfoScreenToolbarGUI',
     'class_path' => './Modules/Test/classes/toolbars/class.ilTestInfoScreenToolbarGUI.php',
     'parents' => 
@@ -20273,7 +20253,7 @@
   ),
   'iltestinvitegroupstablegui' => 
   array (
-    'cid' => '12z',
+    'cid' => '12y',
     'class_name' => 'ilTestInviteGroupsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestInviteGroupsTableGUI.php',
     'parents' => 
@@ -20285,7 +20265,7 @@
   ),
   'iltestinviterolestablegui' => 
   array (
-    'cid' => '130',
+    'cid' => '12z',
     'class_name' => 'ilTestInviteRolesTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestInviteRolesTableGUI.php',
     'parents' => 
@@ -20297,7 +20277,7 @@
   ),
   'iltestinviteuserstablegui' => 
   array (
-    'cid' => '131',
+    'cid' => '130',
     'class_name' => 'ilTestInviteUsersTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestInviteUsersTableGUI.php',
     'parents' => 
@@ -20309,7 +20289,7 @@
   ),
   'iltestlearningobjectivesstatusgui' => 
   array (
-    'cid' => '132',
+    'cid' => '131',
     'class_name' => 'ilTestLearningObjectivesStatusGUI',
     'class_path' => './Modules/Test/classes/class.ilTestLearningObjectivesStatusGUI.php',
     'parents' => 
@@ -20321,7 +20301,7 @@
   ),
   'iltestmanscoringparticipantsbyselectedquestionandpasstablegui' => 
   array (
-    'cid' => '133',
+    'cid' => '132',
     'class_name' => 'ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestManScoringParticipantsBySelectedQuestionAndPassTableGUI.php',
     'parents' => 
@@ -20333,7 +20313,7 @@
   ),
   'iltestmanscoringparticipantstablegui' => 
   array (
-    'cid' => '134',
+    'cid' => '133',
     'class_name' => 'ilTestManScoringParticipantsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestManScoringParticipantsTableGUI.php',
     'parents' => 
@@ -20345,7 +20325,7 @@
   ),
   'iltestnavigationtoolbargui' => 
   array (
-    'cid' => '135',
+    'cid' => '134',
     'class_name' => 'ilTestNavigationToolbarGUI',
     'class_path' => './Modules/Test/classes/class.ilTestNavigationToolbarGUI.php',
     'parents' => 
@@ -20357,7 +20337,7 @@
   ),
   'iltestoutputgui' => 
   array (
-    'cid' => '136',
+    'cid' => '135',
     'class_name' => 'ilTestOutputGUI',
     'class_path' => './Modules/Test/classes/class.ilTestOutputGUI.php',
     'parents' => 
@@ -20369,7 +20349,7 @@
   ),
   'iltestparticipantsgui' => 
   array (
-    'cid' => '137',
+    'cid' => '136',
     'class_name' => 'ilTestParticipantsGUI',
     'class_path' => './Modules/Test/classes/class.ilTestParticipantsGUI.php',
     'parents' => 
@@ -20385,7 +20365,7 @@
   ),
   'iltestparticipantstablegui' => 
   array (
-    'cid' => '138',
+    'cid' => '137',
     'class_name' => 'ilTestParticipantsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestParticipantsTableGUI.php',
     'parents' => 
@@ -20398,7 +20378,7 @@
   ),
   'iltestparticipantstimeextensiongui' => 
   array (
-    'cid' => '139',
+    'cid' => '138',
     'class_name' => 'ilTestParticipantsTimeExtensionGUI',
     'class_path' => './Modules/Test/classes/class.ilTestParticipantsTimeExtensionGUI.php',
     'parents' => 
@@ -20412,7 +20392,7 @@
   ),
   'iltestpassdeletionconfirmationgui' => 
   array (
-    'cid' => '13a',
+    'cid' => '139',
     'class_name' => 'ilTestPassDeletionConfirmationGUI',
     'class_path' => './Modules/Test/classes/confirmations/class.ilTestPassDeletionConfirmationGUI.php',
     'parents' => 
@@ -20425,7 +20405,7 @@
   ),
   'iltestpassdetailsoverviewtablegui' => 
   array (
-    'cid' => '13b',
+    'cid' => '13a',
     'class_name' => 'ilTestPassDetailsOverviewTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestPassDetailsOverviewTableGUI.php',
     'parents' => 
@@ -20440,7 +20420,7 @@
   ),
   'iltestpassmanualscoringoverviewtablegui' => 
   array (
-    'cid' => '13c',
+    'cid' => '13b',
     'class_name' => 'ilTestPassManualScoringOverviewTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestPassManualScoringOverviewTableGUI.php',
     'parents' => 
@@ -20452,7 +20432,7 @@
   ),
   'iltestpassoverviewtablegui' => 
   array (
-    'cid' => '13d',
+    'cid' => '13c',
     'class_name' => 'ilTestPassOverviewTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestPassOverviewTableGUI.php',
     'parents' => 
@@ -20464,7 +20444,7 @@
   ),
   'iltestpasswordprotectiongui' => 
   array (
-    'cid' => '13e',
+    'cid' => '13d',
     'class_name' => 'ilTestPasswordProtectionGUI',
     'class_path' => './Modules/Test/classes/class.ilTestPasswordProtectionGUI.php',
     'parents' => 
@@ -20480,7 +20460,7 @@
   ),
   'iltestpersonaldefaultsettingstablegui' => 
   array (
-    'cid' => '13f',
+    'cid' => '13e',
     'class_name' => 'ilTestPersonalDefaultSettingsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestPersonalDefaultSettingsTableGUI.php',
     'parents' => 
@@ -20492,7 +20472,7 @@
   ),
   'iltestpersonalskillsgui' => 
   array (
-    'cid' => '13g',
+    'cid' => '13f',
     'class_name' => 'ilTestPersonalSkillsGUI',
     'class_path' => './Modules/Test/classes/class.ilTestPersonalSkillsGUI.php',
     'parents' => 
@@ -20505,7 +20485,7 @@
   ),
   'iltestplayerabstractgui' => 
   array (
-    'cid' => '13h',
+    'cid' => '13g',
     'class_name' => 'ilTestPlayerAbstractGUI',
     'class_path' => './Modules/Test/classes/class.ilTestPlayerAbstractGUI.php',
     'parents' => 
@@ -20517,7 +20497,7 @@
   ),
   'iltestplayerdynamicquestionsetgui' => 
   array (
-    'cid' => '13i',
+    'cid' => '13h',
     'class_name' => 'ilTestPlayerDynamicQuestionSetGUI',
     'class_path' => './Modules/Test/classes/class.ilTestPlayerDynamicQuestionSetGUI.php',
     'parents' => 
@@ -20538,7 +20518,7 @@
   ),
   'iltestplayerfixedquestionsetgui' => 
   array (
-    'cid' => '13j',
+    'cid' => '13i',
     'class_name' => 'ilTestPlayerFixedQuestionSetGUI',
     'class_path' => './Modules/Test/classes/class.ilTestPlayerFixedQuestionSetGUI.php',
     'parents' => 
@@ -20560,7 +20540,7 @@
   ),
   'iltestplayerrandomquestionsetgui' => 
   array (
-    'cid' => '13k',
+    'cid' => '13j',
     'class_name' => 'ilTestPlayerRandomQuestionSetGUI',
     'class_path' => './Modules/Test/classes/class.ilTestPlayerRandomQuestionSetGUI.php',
     'parents' => 
@@ -20582,7 +20562,7 @@
   ),
   'iltestquestionbrowsertablegui' => 
   array (
-    'cid' => '13l',
+    'cid' => '13k',
     'class_name' => 'ilTestQuestionBrowserTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestQuestionBrowserTableGUI.php',
     'parents' => 
@@ -20598,7 +20578,7 @@
   ),
   'iltestquestionnavigationgui' => 
   array (
-    'cid' => '13m',
+    'cid' => '13l',
     'class_name' => 'ilTestQuestionNavigationGUI',
     'class_path' => './Modules/Test/classes/class.ilTestQuestionNavigationGUI.php',
     'parents' => 
@@ -20610,7 +20590,7 @@
   ),
   'iltestquestionsidelistgui' => 
   array (
-    'cid' => '13n',
+    'cid' => '13m',
     'class_name' => 'ilTestQuestionSideListGUI',
     'class_path' => './Modules/Test/classes/class.ilTestQuestionSideListGUI.php',
     'parents' => 
@@ -20622,7 +20602,7 @@
   ),
   'iltestquestionstablegui' => 
   array (
-    'cid' => '13o',
+    'cid' => '13n',
     'class_name' => 'ilTestQuestionsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestQuestionsTableGUI.php',
     'parents' => 
@@ -20634,7 +20614,7 @@
   ),
   'iltestrandomquestionselectiontablegui' => 
   array (
-    'cid' => '13p',
+    'cid' => '13o',
     'class_name' => 'ilTestRandomQuestionSelectionTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestRandomQuestionSelectionTableGUI.php',
     'parents' => 
@@ -20646,7 +20626,7 @@
   ),
   'iltestrandomquestionsetconfiggui' => 
   array (
-    'cid' => '13q',
+    'cid' => '13p',
     'class_name' => 'ilTestRandomQuestionSetConfigGUI',
     'class_path' => './Modules/Test/classes/class.ilTestRandomQuestionSetConfigGUI.php',
     'parents' => 
@@ -20665,7 +20645,7 @@
   ),
   'iltestrandomquestionsetgeneralconfigformgui' => 
   array (
-    'cid' => '13r',
+    'cid' => '13q',
     'class_name' => 'ilTestRandomQuestionSetGeneralConfigFormGUI',
     'class_path' => './Modules/Test/classes/forms/class.ilTestRandomQuestionSetGeneralConfigFormGUI.php',
     'parents' => 
@@ -20679,7 +20659,7 @@
   ),
   'iltestrandomquestionsetnonavailablepoolstablegui' => 
   array (
-    'cid' => '13s',
+    'cid' => '13r',
     'class_name' => 'ilTestRandomQuestionSetNonAvailablePoolsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestRandomQuestionSetNonAvailablePoolsTableGUI.php',
     'parents' => 
@@ -20692,7 +20672,7 @@
   ),
   'iltestrandomquestionsetpooldefinitionformgui' => 
   array (
-    'cid' => '13t',
+    'cid' => '13s',
     'class_name' => 'ilTestRandomQuestionSetPoolDefinitionFormGUI',
     'class_path' => './Modules/Test/classes/forms/class.ilTestRandomQuestionSetPoolDefinitionFormGUI.php',
     'parents' => 
@@ -20706,7 +20686,7 @@
   ),
   'iltestrandomquestionsetsourcepooldefinitionlisttablegui' => 
   array (
-    'cid' => '13u',
+    'cid' => '13t',
     'class_name' => 'ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestRandomQuestionSetSourcePoolDefinitionListTableGUI.php',
     'parents' => 
@@ -20719,7 +20699,7 @@
   ),
   'iltestrandomquestionsetsourcepooldefinitionlisttoolbargui' => 
   array (
-    'cid' => '13v',
+    'cid' => '13u',
     'class_name' => 'ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI',
     'class_path' => './Modules/Test/classes/toolbars/class.ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI.php',
     'parents' => 
@@ -20732,7 +20712,7 @@
   ),
   'iltestresultsgui' => 
   array (
-    'cid' => '13w',
+    'cid' => '13v',
     'class_name' => 'ilTestResultsGUI',
     'class_path' => './Modules/Test/classes/class.ilTestResultsGUI.php',
     'parents' => 
@@ -20751,7 +20731,7 @@
   ),
   'iltestresultstoolbargui' => 
   array (
-    'cid' => '13x',
+    'cid' => '13w',
     'class_name' => 'ilTestResultsToolbarGUI',
     'class_path' => './Modules/Test/classes/toolbars/class.ilTestResultsToolbarGUI.php',
     'parents' => 
@@ -20766,7 +20746,7 @@
   ),
   'iltestscoringbyquestionsgui' => 
   array (
-    'cid' => '13y',
+    'cid' => '13x',
     'class_name' => 'ilTestScoringByQuestionsGUI',
     'class_path' => './Modules/Test/classes/class.ilTestScoringByQuestionsGUI.php',
     'parents' => 
@@ -20779,7 +20759,7 @@
   ),
   'iltestscoringgui' => 
   array (
-    'cid' => '13z',
+    'cid' => '13y',
     'class_name' => 'ilTestScoringGUI',
     'class_path' => './Modules/Test/classes/class.ilTestScoringGUI.php',
     'parents' => 
@@ -20792,7 +20772,7 @@
   ),
   'iltestservicegui' => 
   array (
-    'cid' => '140',
+    'cid' => '13z',
     'class_name' => 'ilTestServiceGUI',
     'class_path' => './Modules/Test/classes/class.ilTestServiceGUI.php',
     'parents' => 
@@ -20805,7 +20785,7 @@
   ),
   'iltestsettingschangeconfirmationgui' => 
   array (
-    'cid' => '141',
+    'cid' => '140',
     'class_name' => 'ilTestSettingsChangeConfirmationGUI',
     'class_path' => './Modules/Test/classes/confirmations/class.ilTestSettingsChangeConfirmationGUI.php',
     'parents' => 
@@ -20819,7 +20799,7 @@
   ),
   'iltestsettingsgui' => 
   array (
-    'cid' => '142',
+    'cid' => '141',
     'class_name' => 'ilTestSettingsGUI',
     'class_path' => './Modules/Test/classes/class.ilTestSettingsGUI.php',
     'parents' => 
@@ -20831,7 +20811,7 @@
   ),
   'iltestsignaturegui' => 
   array (
-    'cid' => '143',
+    'cid' => '142',
     'class_name' => 'ilTestSignatureGUI',
     'class_path' => './Modules/Test/classes/class.ilTestSignatureGUI.php',
     'parents' => 
@@ -20845,7 +20825,7 @@
   ),
   'iltestskilladministrationgui' => 
   array (
-    'cid' => '144',
+    'cid' => '143',
     'class_name' => 'ilTestSkillAdministrationGUI',
     'class_path' => './Modules/Test/classes/class.ilTestSkillAdministrationGUI.php',
     'parents' => 
@@ -20860,7 +20840,7 @@
   ),
   'iltestskillevaluationgui' => 
   array (
-    'cid' => '145',
+    'cid' => '144',
     'class_name' => 'ilTestSkillEvaluationGUI',
     'class_path' => './Modules/Test/classes/class.ilTestSkillEvaluationGUI.php',
     'parents' => 
@@ -20875,7 +20855,7 @@
   ),
   'iltestskillevaluationtoolbargui' => 
   array (
-    'cid' => '146',
+    'cid' => '145',
     'class_name' => 'ilTestSkillEvaluationToolbarGUI',
     'class_path' => './Modules/Test/classes/toolbars/class.ilTestSkillEvaluationToolbarGUI.php',
     'parents' => 
@@ -20888,7 +20868,7 @@
   ),
   'iltestskilllevelthresholdsgui' => 
   array (
-    'cid' => '147',
+    'cid' => '146',
     'class_name' => 'ilTestSkillLevelThresholdsGUI',
     'class_path' => './Modules/Test/classes/class.ilTestSkillLevelThresholdsGUI.php',
     'parents' => 
@@ -20902,7 +20882,7 @@
   ),
   'iltestskilllevelthresholdstablegui' => 
   array (
-    'cid' => '148',
+    'cid' => '147',
     'class_name' => 'ilTestSkillLevelThresholdsTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestSkillLevelThresholdsTableGUI.php',
     'parents' => 
@@ -20915,7 +20895,7 @@
   ),
   'iltestsubmissionreviewgui' => 
   array (
-    'cid' => '149',
+    'cid' => '148',
     'class_name' => 'ilTestSubmissionReviewGUI',
     'class_path' => './Modules/Test/classes/class.ilTestSubmissionReviewGUI.php',
     'parents' => 
@@ -20930,7 +20910,7 @@
   ),
   'iltesttoplisttablegui' => 
   array (
-    'cid' => '14a',
+    'cid' => '149',
     'class_name' => 'ilTestTopListTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestTopListTableGUI.php',
     'parents' => 
@@ -20942,7 +20922,7 @@
   ),
   'iltesttoplistgui' => 
   array (
-    'cid' => '14b',
+    'cid' => '14a',
     'class_name' => 'ilTestToplistGUI',
     'class_path' => './Modules/Test/classes/class.ilTestToplistGUI.php',
     'parents' => 
@@ -20955,7 +20935,7 @@
   ),
   'iltestverificationtablegui' => 
   array (
-    'cid' => '14c',
+    'cid' => '14b',
     'class_name' => 'ilTestVerificationTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTestVerificationTableGUI.php',
     'parents' => 
@@ -20967,7 +20947,7 @@
   ),
   'iltextareainputgui' => 
   array (
-    'cid' => '14d',
+    'cid' => '14c',
     'class_name' => 'ilTextAreaInputGUI',
     'class_path' => './Services/Form/classes/class.ilTextAreaInputGUI.php',
     'parents' => 
@@ -20979,7 +20959,7 @@
   ),
   'iltexthighlightergui' => 
   array (
-    'cid' => '14e',
+    'cid' => '14d',
     'class_name' => 'ilTextHighlighterGUI',
     'class_path' => './Services/UIComponent/TextHighlighter/classes/class.ilTextHighlighterGUI.php',
     'parents' => 
@@ -20991,7 +20971,7 @@
   ),
   'iltextinputgui' => 
   array (
-    'cid' => '14f',
+    'cid' => '14e',
     'class_name' => 'ilTextInputGUI',
     'class_path' => './Services/Form/classes/class.ilTextInputGUI.php',
     'parents' => 
@@ -21003,7 +20983,7 @@
   ),
   'iltextwizardinputgui' => 
   array (
-    'cid' => '14g',
+    'cid' => '14f',
     'class_name' => 'ilTextWizardInputGUI',
     'class_path' => './Services/Form/classes/class.ilTextWizardInputGUI.php',
     'parents' => 
@@ -21015,7 +20995,7 @@
   ),
   'iltimelinegui' => 
   array (
-    'cid' => '14h',
+    'cid' => '14g',
     'class_name' => 'ilTimelineGUI',
     'class_path' => './Services/News/Timeline/classes/class.ilTimelineGUI.php',
     'parents' => 
@@ -21027,7 +21007,7 @@
   ),
   'iltimingoverviewtablegui' => 
   array (
-    'cid' => '14i',
+    'cid' => '14h',
     'class_name' => 'ilTimingOverviewTableGUI',
     'class_path' => './Modules/Test/classes/tables/class.ilTimingOverviewTableGUI.php',
     'parents' => 
@@ -21040,7 +21020,7 @@
   ),
   'iltimingsmanagetablegui' => 
   array (
-    'cid' => '14j',
+    'cid' => '14i',
     'class_name' => 'ilTimingsManageTableGUI',
     'class_path' => './Modules/Course/classes/Timings/class.ilTimingsManageTableGUI.php',
     'parents' => 
@@ -21052,7 +21032,7 @@
   ),
   'iltimingspersonaltablegui' => 
   array (
-    'cid' => '14k',
+    'cid' => '14j',
     'class_name' => 'ilTimingsPersonalTableGUI',
     'class_path' => './Modules/Course/classes/Timings/class.ilTimingsPersonalTableGUI.php',
     'parents' => 
@@ -21064,7 +21044,7 @@
   ),
   'iltoolbargui' => 
   array (
-    'cid' => '14l',
+    'cid' => '14k',
     'class_name' => 'ilToolbarGUI',
     'class_path' => './Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php',
     'parents' => 
@@ -21080,7 +21060,7 @@
   ),
   'iltooltipgui' => 
   array (
-    'cid' => '14m',
+    'cid' => '14l',
     'class_name' => 'ilTooltipGUI',
     'class_path' => './Services/UIComponent/Tooltip/classes/class.ilTooltipGUI.php',
     'parents' => 
@@ -21092,7 +21072,7 @@
   ),
   'iltrmatrixtablegui' => 
   array (
-    'cid' => '14n',
+    'cid' => '14m',
     'class_name' => 'ilTrMatrixTableGUI',
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrMatrixTableGUI.php',
     'parents' => 
@@ -21105,7 +21085,7 @@
   ),
   'iltrobjectuserspropstablegui' => 
   array (
-    'cid' => '14o',
+    'cid' => '14n',
     'class_name' => 'ilTrObjectUsersPropsTableGUI',
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrObjectUsersPropsTableGUI.php',
     'parents' => 
@@ -21119,7 +21099,7 @@
   ),
   'iltrsummarytablegui' => 
   array (
-    'cid' => '14p',
+    'cid' => '14o',
     'class_name' => 'ilTrSummaryTableGUI',
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrSummaryTableGUI.php',
     'parents' => 
@@ -21133,7 +21113,7 @@
   ),
   'iltruserobjectspropstablegui' => 
   array (
-    'cid' => '14q',
+    'cid' => '14p',
     'class_name' => 'ilTrUserObjectsPropsTableGUI',
     'class_path' => './Services/Tracking/classes/repository_statistics/class.ilTrUserObjectsPropsTableGUI.php',
     'parents' => 
@@ -21147,7 +21127,7 @@
   ),
   'iltranslationgui' => 
   array (
-    'cid' => '14r',
+    'cid' => '14q',
     'class_name' => 'ilTranslationGUI',
     'class_path' => './Modules/OrgUnit/classes/Translation/class.ilTranslationGUI.php',
     'parents' => 
@@ -21160,9 +21140,9 @@
   ),
   'iltrashtablegui' => 
   array (
-    'cid' => '14s',
+    'cid' => '14r',
     'class_name' => 'ilTrashTableGUI',
-    'class_path' => './Services/Repository/classes/class.ilTrashTableGUI.php',
+    'class_path' => './Services/Repository/Trash/class.ilTrashTableGUI.php',
     'parents' => 
     array (
     ),
@@ -21172,7 +21152,7 @@
   ),
   'iltreeexplorergui' => 
   array (
-    'cid' => '14t',
+    'cid' => '14s',
     'class_name' => 'ilTreeExplorerGUI',
     'class_path' => './Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php',
     'parents' => 
@@ -21184,7 +21164,7 @@
   ),
   'iltypicallearningtimeinputgui' => 
   array (
-    'cid' => '14u',
+    'cid' => '14t',
     'class_name' => 'ilTypicalLearningTimeInputGUI',
     'class_path' => './Services/MetaData/classes/class.ilTypicalLearningTimeInputGUI.php',
     'parents' => 
@@ -21196,7 +21176,7 @@
   ),
   'iluidemofileuploadhandlergui' => 
   array (
-    'cid' => '14v',
+    'cid' => '14u',
     'class_name' => 'ilUIDemoFileUploadHandlerGUI',
     'class_path' => './Services/UI/classes/class.ilUIDemoFileUploadHandlerGUI.php',
     'parents' => 
@@ -21209,7 +21189,7 @@
   ),
   'iluihookplugingui' => 
   array (
-    'cid' => '14w',
+    'cid' => '14v',
     'class_name' => 'ilUIHookPluginGUI',
     'class_path' => './Services/UIComponent/classes/class.ilUIHookPluginGUI.php',
     'parents' => 
@@ -21221,7 +21201,7 @@
   ),
   'iluipluginroutergui' => 
   array (
-    'cid' => '14x',
+    'cid' => '14w',
     'class_name' => 'ilUIPluginRouterGUI',
     'class_path' => './Services/UIComponent/classes/class.ilUIPluginRouterGUI.php',
     'parents' => 
@@ -21235,7 +21215,7 @@
   ),
   'ilunitcategorytablegui' => 
   array (
-    'cid' => '14y',
+    'cid' => '14x',
     'class_name' => 'ilUnitCategoryTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilUnitCategoryTableGUI.php',
     'parents' => 
@@ -21247,7 +21227,7 @@
   ),
   'ilunitconfigurationgui' => 
   array (
-    'cid' => '14z',
+    'cid' => '14y',
     'class_name' => 'ilUnitConfigurationGUI',
     'class_path' => './Modules/TestQuestionPool/classes/class.ilUnitConfigurationGUI.php',
     'parents' => 
@@ -21259,7 +21239,7 @@
   ),
   'ilunittablegui' => 
   array (
-    'cid' => '150',
+    'cid' => '14z',
     'class_name' => 'ilUnitTableGUI',
     'class_path' => './Modules/TestQuestionPool/classes/tables/class.ilUnitTableGUI.php',
     'parents' => 
@@ -21271,7 +21251,7 @@
   ),
   'iluploaddirfilestablegui' => 
   array (
-    'cid' => '151',
+    'cid' => '150',
     'class_name' => 'ilUploadDirFilesTableGUI',
     'class_path' => './Modules/MediaPool/classes/class.ilUploadDirFilesTableGUI.php',
     'parents' => 
@@ -21283,7 +21263,7 @@
   ),
   'iluriinputgui' => 
   array (
-    'cid' => '152',
+    'cid' => '151',
     'class_name' => 'ilUriInputGUI',
     'class_path' => './Services/Form/classes/class.ilUriInputGUI.php',
     'parents' => 
@@ -21295,7 +21275,7 @@
   ),
   'iluseractionadmingui' => 
   array (
-    'cid' => '153',
+    'cid' => '152',
     'class_name' => 'ilUserActionAdminGUI',
     'class_path' => './Services/User/Actions/classes/class.ilUserActionAdminGUI.php',
     'parents' => 
@@ -21303,7 +21283,6 @@
       0 => 'ilobjawarenessadministrationgui',
       1 => 'ilobjcourseadministrationgui',
       2 => 'ilobjgroupadministrationgui',
-      3 => 'ilobjlearningsequenceadmingui',
     ),
     'children' => 
     array (
@@ -21311,7 +21290,7 @@
   ),
   'iluseractionadmintablegui' => 
   array (
-    'cid' => '154',
+    'cid' => '153',
     'class_name' => 'ilUserActionAdminTableGUI',
     'class_path' => './Services/User/Actions/classes/class.ilUserActionAdminTableGUI.php',
     'parents' => 
@@ -21323,7 +21302,7 @@
   ),
   'iluseractiongui' => 
   array (
-    'cid' => '155',
+    'cid' => '154',
     'class_name' => 'ilUserActionGUI',
     'class_path' => './Services/User/Actions/classes/class.ilUserActionGUI.php',
     'parents' => 
@@ -21335,7 +21314,7 @@
   ),
   'ilusercertificateapigui' => 
   array (
-    'cid' => '156',
+    'cid' => '155',
     'class_name' => 'ilUserCertificateApiGUI',
     'class_path' => './Services/Certificate/classes/API/Download/class.ilUserCertificateApiGUI.php',
     'parents' => 
@@ -21348,7 +21327,7 @@
   ),
   'ilusercertificategui' => 
   array (
-    'cid' => '157',
+    'cid' => '156',
     'class_name' => 'ilUserCertificateGUI',
     'class_path' => './Services/Certificate/classes/User/class.ilUserCertificateGUI.php',
     'parents' => 
@@ -21362,7 +21341,7 @@
   ),
   'iluserclipboardtablegui' => 
   array (
-    'cid' => '158',
+    'cid' => '157',
     'class_name' => 'ilUserClipboardTableGUI',
     'class_path' => './Services/User/classes/class.ilUserClipboardTableGUI.php',
     'parents' => 
@@ -21374,7 +21353,7 @@
   ),
   'iluserexportfiletablegui' => 
   array (
-    'cid' => '159',
+    'cid' => '158',
     'class_name' => 'ilUserExportFileTableGUI',
     'class_path' => './Services/User/classes/class.ilUserExportFileTableGUI.php',
     'parents' => 
@@ -21386,7 +21365,7 @@
   ),
   'iluserfieldsettingstablegui' => 
   array (
-    'cid' => '15a',
+    'cid' => '159',
     'class_name' => 'ilUserFieldSettingsTableGUI',
     'class_path' => './Services/User/classes/class.ilUserFieldSettingsTableGUI.php',
     'parents' => 
@@ -21398,7 +21377,7 @@
   ),
   'iluserfiltergui' => 
   array (
-    'cid' => '15b',
+    'cid' => '15a',
     'class_name' => 'ilUserFilterGUI',
     'class_path' => './Services/Search/classes/class.ilUserFilterGUI.php',
     'parents' => 
@@ -21411,7 +21390,7 @@
   ),
   'iluserfortagtablegui' => 
   array (
-    'cid' => '15c',
+    'cid' => '15b',
     'class_name' => 'ilUserForTagTableGUI',
     'class_path' => './Services/Tagging/classes/class.ilUserForTagTableGUI.php',
     'parents' => 
@@ -21423,7 +21402,7 @@
   ),
   'iluserlptablegui' => 
   array (
-    'cid' => '15d',
+    'cid' => '15c',
     'class_name' => 'ilUserLPTableGUI',
     'class_path' => './Services/User/classes/class.ilUserLPTableGUI.php',
     'parents' => 
@@ -21435,7 +21414,7 @@
   ),
   'iluserlogininputgui' => 
   array (
-    'cid' => '15e',
+    'cid' => '15d',
     'class_name' => 'ilUserLoginInputGUI',
     'class_path' => './Services/Form/classes/class.ilUserLoginInputGUI.php',
     'parents' => 
@@ -21447,7 +21426,7 @@
   ),
   'iluserprivacysettingsgui' => 
   array (
-    'cid' => '15f',
+    'cid' => '15e',
     'class_name' => 'ilUserPrivacySettingsGUI',
     'class_path' => './Services/User/Settings/classes/class.ilUserPrivacySettingsGUI.php',
     'parents' => 
@@ -21460,7 +21439,7 @@
   ),
   'iluserprofilebadgegui' => 
   array (
-    'cid' => '15g',
+    'cid' => '15f',
     'class_name' => 'ilUserProfileBadgeGUI',
     'class_path' => './Services/User/classes/Badges/class.ilUserProfileBadgeGUI.php',
     'parents' => 
@@ -21472,7 +21451,7 @@
   ),
   'iluserprofileinfosettingsgui' => 
   array (
-    'cid' => '15h',
+    'cid' => '15g',
     'class_name' => 'ilUserProfileInfoSettingsGUI',
     'class_path' => './Services/User/ProfilePrompt/classes/class.ilUserProfileInfoSettingsGUI.php',
     'parents' => 
@@ -21485,7 +21464,7 @@
   ),
   'iluserrolestartingpointtablegui' => 
   array (
-    'cid' => '15i',
+    'cid' => '15h',
     'class_name' => 'ilUserRoleStartingPointTableGUI',
     'class_path' => './Services/User/classes/class.ilUserRoleStartingPointTableGUI.php',
     'parents' => 
@@ -21497,7 +21476,7 @@
   ),
   'iluserstartingpointgui' => 
   array (
-    'cid' => '15j',
+    'cid' => '15i',
     'class_name' => 'ilUserStartingPointGUI',
     'class_path' => './Services/User/classes/class.ilUserStartingPointGUI.php',
     'parents' => 
@@ -21510,7 +21489,7 @@
   ),
   'ilusertablegui' => 
   array (
-    'cid' => '15k',
+    'cid' => '15j',
     'class_name' => 'ilUserTableGUI',
     'class_path' => './Services/User/classes/class.ilUserTableGUI.php',
     'parents' => 
@@ -21526,7 +21505,7 @@
   ),
   'ilusersgallerygui' => 
   array (
-    'cid' => '15l',
+    'cid' => '15k',
     'class_name' => 'ilUsersGalleryGUI',
     'class_path' => './Services/User/Gallery/classes/class.ilUsersGalleryGUI.php',
     'parents' => 
@@ -21544,7 +21523,7 @@
   ),
   'ilvirtualskilltreeexplorergui' => 
   array (
-    'cid' => '15m',
+    'cid' => '15l',
     'class_name' => 'ilVirtualSkillTreeExplorerGUI',
     'class_path' => './Services/Skill/classes/class.ilVirtualSkillTreeExplorerGUI.php',
     'parents' => 
@@ -21556,7 +21535,7 @@
   ),
   'ilwaitinglisttablegui' => 
   array (
-    'cid' => '15n',
+    'cid' => '15m',
     'class_name' => 'ilWaitingListTableGUI',
     'class_path' => './Services/Membership/classes/class.ilWaitingListTableGUI.php',
     'parents' => 
@@ -21568,7 +21547,7 @@
   ),
   'ilwebdavmountinstructionsdocumentformgui' => 
   array (
-    'cid' => '15o',
+    'cid' => '15n',
     'class_name' => 'ilWebDAVMountInstructionsDocumentFormGUI',
     'class_path' => './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsDocumentFormGUI.php',
     'parents' => 
@@ -21580,7 +21559,7 @@
   ),
   'ilwebdavmountinstructionsdocumenttablegui' => 
   array (
-    'cid' => '15p',
+    'cid' => '15o',
     'class_name' => 'ilWebDAVMountInstructionsDocumentTableGUI',
     'class_path' => './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsDocumentTableGUI.php',
     'parents' => 
@@ -21592,7 +21571,7 @@
   ),
   'ilwebdavmountinstructionsgui' => 
   array (
-    'cid' => '15q',
+    'cid' => '15p',
     'class_name' => 'ilWebDAVMountInstructionsGUI',
     'class_path' => './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsGUI.php',
     'parents' => 
@@ -21604,7 +21583,7 @@
   ),
   'ilwebdavmountinstructionsmodalgui' => 
   array (
-    'cid' => '15r',
+    'cid' => '15q',
     'class_name' => 'ilWebDAVMountInstructionsModalGUI',
     'class_path' => './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsModalGUI.php',
     'parents' => 
@@ -21616,7 +21595,7 @@
   ),
   'ilwebdavmountinstructionsuploadgui' => 
   array (
-    'cid' => '15s',
+    'cid' => '15r',
     'class_name' => 'ilWebDAVMountInstructionsUploadGUI',
     'class_path' => './Services/WebDAV/classes/mount_instructions/class.ilWebDAVMountInstructionsUploadGUI.php',
     'parents' => 
@@ -21629,7 +21608,7 @@
   ),
   'ilwebresourceeditablelinktablegui' => 
   array (
-    'cid' => '15t',
+    'cid' => '15s',
     'class_name' => 'ilWebResourceEditableLinkTableGUI',
     'class_path' => './Modules/WebResource/classes/class.ilWebResourceEditableLinkTableGUI.php',
     'parents' => 
@@ -21641,7 +21620,7 @@
   ),
   'ilwebresourcelinktablegui' => 
   array (
-    'cid' => '15u',
+    'cid' => '15t',
     'class_name' => 'ilWebResourceLinkTableGUI',
     'class_path' => './Modules/WebResource/classes/class.ilWebResourceLinkTableGUI.php',
     'parents' => 
@@ -21653,7 +21632,7 @@
   ),
   'ilwidthheightinputgui' => 
   array (
-    'cid' => '15v',
+    'cid' => '15u',
     'class_name' => 'ilWidthHeightInputGUI',
     'class_path' => './Services/MediaObjects/classes/class.ilWidthHeightInputGUI.php',
     'parents' => 
@@ -21665,7 +21644,7 @@
   ),
   'ilwikicontributorstablegui' => 
   array (
-    'cid' => '15w',
+    'cid' => '15v',
     'class_name' => 'ilWikiContributorsTableGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiContributorsTableGUI.php',
     'parents' => 
@@ -21677,7 +21656,7 @@
   ),
   'ilwikiexportordertablegui' => 
   array (
-    'cid' => '15x',
+    'cid' => '15w',
     'class_name' => 'ilWikiExportOrderTableGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiExportOrderTableGUI.php',
     'parents' => 
@@ -21689,7 +21668,7 @@
   ),
   'ilwikifunctionsblockgui' => 
   array (
-    'cid' => '15y',
+    'cid' => '15x',
     'class_name' => 'ilWikiFunctionsBlockGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiFunctionsBlockGUI.php',
     'parents' => 
@@ -21701,7 +21680,7 @@
   ),
   'ilwikihandlergui' => 
   array (
-    'cid' => '15z',
+    'cid' => '15y',
     'class_name' => 'ilWikiHandlerGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiHandlerGUI.php',
     'parents' => 
@@ -21714,7 +21693,7 @@
   ),
   'ilwikiimportantpagesblockgui' => 
   array (
-    'cid' => '160',
+    'cid' => '15z',
     'class_name' => 'ilWikiImportantPagesBlockGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiImportantPagesBlockGUI.php',
     'parents' => 
@@ -21726,7 +21705,7 @@
   ),
   'ilwikinewsrenderergui' => 
   array (
-    'cid' => '161',
+    'cid' => '160',
     'class_name' => 'ilWikiNewsRendererGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiNewsRendererGUI.php',
     'parents' => 
@@ -21738,7 +21717,7 @@
   ),
   'ilwikipagegui' => 
   array (
-    'cid' => '162',
+    'cid' => '161',
     'class_name' => 'ilWikiPageGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiPageGUI.php',
     'parents' => 
@@ -21762,7 +21741,7 @@
   ),
   'ilwikipagetemplategui' => 
   array (
-    'cid' => '163',
+    'cid' => '162',
     'class_name' => 'ilWikiPageTemplateGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiPageTemplateGUI.php',
     'parents' => 
@@ -21775,7 +21754,7 @@
   ),
   'ilwikipagetemplatestablegui' => 
   array (
-    'cid' => '164',
+    'cid' => '163',
     'class_name' => 'ilWikiPageTemplatesTableGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiPageTemplatesTableGUI.php',
     'parents' => 
@@ -21787,7 +21766,7 @@
   ),
   'ilwikipagestablegui' => 
   array (
-    'cid' => '165',
+    'cid' => '164',
     'class_name' => 'ilWikiPagesTableGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiPagesTableGUI.php',
     'parents' => 
@@ -21799,7 +21778,7 @@
   ),
   'ilwikirecentchangestablegui' => 
   array (
-    'cid' => '166',
+    'cid' => '165',
     'class_name' => 'ilWikiRecentChangesTableGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiRecentChangesTableGUI.php',
     'parents' => 
@@ -21811,7 +21790,7 @@
   ),
   'ilwikisearchresultstablegui' => 
   array (
-    'cid' => '167',
+    'cid' => '166',
     'class_name' => 'ilWikiSearchResultsTableGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiSearchResultsTableGUI.php',
     'parents' => 
@@ -21823,7 +21802,7 @@
   ),
   'ilwikistatgui' => 
   array (
-    'cid' => '168',
+    'cid' => '167',
     'class_name' => 'ilWikiStatGUI',
     'class_path' => './Modules/Wiki/classes/class.ilWikiStatGUI.php',
     'parents' => 
@@ -21837,7 +21816,7 @@
   ),
   'ilwkhtmltopdfconfigformgui' => 
   array (
-    'cid' => '169',
+    'cid' => '168',
     'class_name' => 'ilWkhtmlToPdfConfigFormGUI',
     'class_path' => './Services/PDFGeneration/classes/renderer/wkhtmltopdf/class.ilWkhtmlToPdfConfigFormGUI.php',
     'parents' => 
@@ -21849,7 +21828,7 @@
   ),
   'ilworkflowarmergui' => 
   array (
-    'cid' => '16a',
+    'cid' => '169',
     'class_name' => 'ilWorkflowArmerGUI',
     'class_path' => './Services/WorkflowEngine/classes/administration/class.ilWorkflowArmerGUI.php',
     'parents' => 
@@ -21861,7 +21840,7 @@
   ),
   'ilworkflowenginedashboardgui' => 
   array (
-    'cid' => '16b',
+    'cid' => '16a',
     'class_name' => 'ilWorkflowEngineDashboardGUI',
     'class_path' => './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDashboardGUI.php',
     'parents' => 
@@ -21873,7 +21852,7 @@
   ),
   'ilworkflowenginedefinitionsgui' => 
   array (
-    'cid' => '16c',
+    'cid' => '16b',
     'class_name' => 'ilWorkflowEngineDefinitionsGUI',
     'class_path' => './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsGUI.php',
     'parents' => 
@@ -21885,7 +21864,7 @@
   ),
   'ilworkflowenginedefinitionstablegui' => 
   array (
-    'cid' => '16d',
+    'cid' => '16c',
     'class_name' => 'ilWorkflowEngineDefinitionsTableGUI',
     'class_path' => './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineDefinitionsTableGUI.php',
     'parents' => 
@@ -21897,7 +21876,7 @@
   ),
   'ilworkflowengineinstancesgui' => 
   array (
-    'cid' => '16e',
+    'cid' => '16d',
     'class_name' => 'ilWorkflowEngineInstancesGUI',
     'class_path' => './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineInstancesGUI.php',
     'parents' => 
@@ -21909,7 +21888,7 @@
   ),
   'ilworkflowenginesettingsgui' => 
   array (
-    'cid' => '16f',
+    'cid' => '16e',
     'class_name' => 'ilWorkflowEngineSettingsGUI',
     'class_path' => './Services/WorkflowEngine/classes/administration/class.ilWorkflowEngineSettingsGUI.php',
     'parents' => 
@@ -21921,7 +21900,7 @@
   ),
   'ilworkflowlaunchergui' => 
   array (
-    'cid' => '16g',
+    'cid' => '16f',
     'class_name' => 'ilWorkflowLauncherGUI',
     'class_path' => './Services/WorkflowEngine/classes/administration/class.ilWorkflowLauncherGUI.php',
     'parents' => 
@@ -21933,7 +21912,7 @@
   ),
   'ilworkspaceaccessgui' => 
   array (
-    'cid' => '16h',
+    'cid' => '16g',
     'class_name' => 'ilWorkspaceAccessGUI',
     'class_path' => './Services/PersonalWorkspace/classes/class.ilWorkspaceAccessGUI.php',
     'parents' => 
@@ -21958,7 +21937,7 @@
   ),
   'ilworkspaceaccesstablegui' => 
   array (
-    'cid' => '16i',
+    'cid' => '16h',
     'class_name' => 'ilWorkspaceAccessTableGUI',
     'class_path' => './Services/PersonalWorkspace/classes/class.ilWorkspaceAccessTableGUI.php',
     'parents' => 
@@ -21970,7 +21949,7 @@
   ),
   'ilworkspacecontentgui' => 
   array (
-    'cid' => '16j',
+    'cid' => '16i',
     'class_name' => 'ilWorkspaceContentGUI',
     'class_path' => './Modules/WorkspaceFolder/classes/class.ilWorkspaceContentGUI.php',
     'parents' => 
@@ -21982,7 +21961,7 @@
   ),
   'ilworkspaceexplorergui' => 
   array (
-    'cid' => '16k',
+    'cid' => '16j',
     'class_name' => 'ilWorkspaceExplorerGUI',
     'class_path' => './Services/PersonalWorkspace/classes/class.ilWorkspaceExplorerGUI.php',
     'parents' => 
@@ -21994,7 +21973,7 @@
   ),
   'ilworkspacesharetablegui' => 
   array (
-    'cid' => '16l',
+    'cid' => '16k',
     'class_name' => 'ilWorkspaceShareTableGUI',
     'class_path' => './Services/PersonalWorkspace/classes/class.ilWorkspaceShareTableGUI.php',
     'parents' => 

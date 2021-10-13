@@ -321,7 +321,11 @@ class ilCtrl implements ilCtrlInterface
 
         $temporary_parameters = $this->structure->getParametersByClass($a_class);
         if (null !== $temporary_parameters) {
-            $parameters = array_merge_recursive($parameters, $temporary_parameters);
+            // override existing ones, as temporary parameters
+            // are prioritised over fetched ones.
+            foreach ($temporary_parameters as $key => $value) {
+                $parameters[$key] = $value;
+            }
         }
 
         return $parameters;
@@ -472,7 +476,7 @@ class ilCtrl implements ilCtrlInterface
     {
         // prepend the ILIAS HTTP path if it wasn't already.
         if (defined("ILIAS_HTTP_PATH") &&
-            !is_int(strpos($target_url, "://")) &&
+            !str_contains($target_url, "://") &&
             !str_starts_with($target_url, "/")
         ) {
             $target_url = ILIAS_HTTP_PATH . "/" . $target_url;
@@ -1030,12 +1034,18 @@ class ilCtrl implements ilCtrlInterface
      */
     private function appendParameterString(string $url, string $parameter_name, $value, bool $is_escaped = false) : string
     {
-        $ampersand = ($is_escaped) ? '&amp;' : '&';
         if (null !== $value && !is_array($value)) {
-            $url .= (is_int(strpos($url, '?'))) ?
-                $ampersand . $parameter_name . '=' . $value :
-                '?' . $parameter_name . '=' . $value
-            ;
+            if (str_contains($url, "$parameter_name=")) {
+                // if the url already contains the given parameter name,
+                // the following magic replaces the value.
+                $url = preg_replace("/(?<=($parameter_name=))([^&]*|$)/", $value, $url);
+            } else {
+                $ampersand = ($is_escaped) ? '&amp;' : '&';
+                $url .= (is_int(strpos($url, '?'))) ?
+                    $ampersand . $parameter_name . '=' . $value :
+                    '?' . $parameter_name . '=' . $value
+                ;
+            }
         }
 
         return $url;
