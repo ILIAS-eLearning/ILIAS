@@ -46,7 +46,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
     /**
      * {@inheritdoc}
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         global $DIC;
 
@@ -64,7 +64,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
     /**
      * {@inheritdoc}
      */
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         return parent::isNodeVisible($a_node);
     }
@@ -72,7 +72,7 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
     /**
      * {@inheritdoc}
      */
-    protected function isNodeSelectable($a_node)
+    protected function isNodeSelectable($a_node) : bool
     {
         global $DIC;
         

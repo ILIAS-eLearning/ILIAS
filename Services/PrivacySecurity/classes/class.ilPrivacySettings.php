@@ -111,17 +111,38 @@ class ilPrivacySettings
         $user_id = $a_user_id ?? $ilUser->getId();
 
         if (ilObject::_lookupType($a_ref_id, true) == 'crs') {
-            return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members', '',
-                    $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data',
-                    $this->getPrivacySettingsRefId());
+            return $this->enabledCourseExport() and $ilAccess->checkAccessOfUser(
+                $user_id,
+                'manage_members',
+                '',
+                $a_ref_id
+            ) and $rbacsystem->checkAccessOfUser(
+                $user_id,
+                'export_member_data',
+                $this->getPrivacySettingsRefId()
+            );
         } elseif (ilObject::_lookupType($a_ref_id, true) == 'grp') {
-            return $this->enabledGroupExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members', '',
-                    $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data',
-                    $this->getPrivacySettingsRefId());
+            return $this->enabledGroupExport() and $ilAccess->checkAccessOfUser(
+                $user_id,
+                'manage_members',
+                '',
+                $a_ref_id
+            ) and $rbacsystem->checkAccessOfUser(
+                $user_id,
+                'export_member_data',
+                $this->getPrivacySettingsRefId()
+            );
         } elseif (ilObject::_lookupType($a_ref_id, true) == 'lso') {
-            return $this->enabledLearningSequenceExport() and $ilAccess->checkAccessOfUser($user_id, 'manage_members',
-                    '', $a_ref_id) and $rbacsystem->checkAccessOfUser($user_id, 'export_member_data',
-                    $this->getPrivacySettingsRefId());
+            return $this->enabledLearningSequenceExport() and $ilAccess->checkAccessOfUser(
+                $user_id,
+                'manage_members',
+                '',
+                $a_ref_id
+            ) and $rbacsystem->checkAccessOfUser(
+                $user_id,
+                'export_member_data',
+                $this->getPrivacySettingsRefId()
+            );
         }
         return false;
     }
@@ -318,24 +339,26 @@ class ilPrivacySettings
      */
     public function save() : void
     {
-        $this->settings->set('ps_export_confirm', (bool) $this->courseConfirmationRequired());
-        $this->settings->set('ps_export_confirm_group', (bool) $this->groupConfirmationRequired());
-        $this->settings->set('ps_export_confirm_learning_sequence',
-            (bool) $this->learningSequenceConfirmationRequired());
-        $this->settings->set('ps_export_course', (bool) $this->enabledCourseExport());
-        $this->settings->set('ps_export_group', (bool) $this->enabledGroupExport());
-        $this->settings->set('ps_export_learning_sequence', (bool) $this->enabledLearningSequenceExport());
-        $this->settings->set('enable_fora_statistics', (bool) $this->enabledForaStatistics());
-        $this->settings->set('enable_anonymous_fora', (bool) $this->enabledAnonymousFora());
-        $this->settings->set('ps_access_times', (bool) $this->enabledGroupAccessTimes());
-        $this->settings->set('ps_crs_access_times', (bool) $this->enabledCourseAccessTimes());
-        $this->settings->set('rbac_log', (bool) $this->enabledRbacLog());
-        $this->settings->set('rbac_log_age', (int) $this->getRbacLogAge());
-        $this->settings->set('enable_sahs_pd', (int) $this->enabledSahsProtocolData());
-        $this->settings->set('ps_export_scorm', (bool) $this->enabledExportSCORM());
+        $this->settings->set('ps_export_confirm', (string) $this->courseConfirmationRequired());
+        $this->settings->set('ps_export_confirm_group', (string) $this->groupConfirmationRequired());
+        $this->settings->set(
+            'ps_export_confirm_learning_sequence',
+            (string) $this->learningSequenceConfirmationRequired()
+        );
+        $this->settings->set('ps_export_course', (string) $this->enabledCourseExport());
+        $this->settings->set('ps_export_group', (string) $this->enabledGroupExport());
+        $this->settings->set('ps_export_learning_sequence', (string) $this->enabledLearningSequenceExport());
+        $this->settings->set('enable_fora_statistics', (string) $this->enabledForaStatistics());
+        $this->settings->set('enable_anonymous_fora', (string) $this->enabledAnonymousFora());
+        $this->settings->set('ps_access_times', (string) $this->enabledGroupAccessTimes());
+        $this->settings->set('ps_crs_access_times', (string) $this->enabledCourseAccessTimes());
+        $this->settings->set('rbac_log', (string) $this->enabledRbacLog());
+        $this->settings->set('rbac_log_age', (string) $this->getRbacLogAge());
+        $this->settings->set('enable_sahs_pd', (string) $this->enabledSahsProtocolData());
+        $this->settings->set('ps_export_scorm', (string) $this->enabledExportSCORM());
 
-        $this->settings->set('participants_list_courses', (bool) $this->participantsListInCoursesEnabled());
-        $this->settings->set('comments_export', (bool) $this->enabledCommentsExport());
+        $this->settings->set('participants_list_courses', (string) $this->participantsListInCoursesEnabled());
+        $this->settings->set('comments_export', (string) $this->enabledCommentsExport());
     }
 
     /**
@@ -352,21 +375,23 @@ class ilPrivacySettings
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC);
         $this->ref_id = (int) $row["ref_id"];
 
-        $this->export_course = (bool) $this->settings->get('ps_export_course', false);
-        $this->export_group = (bool) $this->settings->get('ps_export_group', false);
-        $this->export_confirm_course = (bool) $this->settings->get('ps_export_confirm', false);
-        $this->export_confirm_group = (bool) $this->settings->get('ps_export_confirm_group', false);
-        $this->fora_statistics = (bool) $this->settings->get('enable_fora_statistics', false);
-        $this->anonymous_fora = (bool) $this->settings->get('enable_anonymous_fora', false);
-        $this->show_grp_access_times = (bool) $this->settings->get('ps_access_times', false);
-        $this->show_crs_access_times = (bool) $this->settings->get('ps_crs_access_times', false);
-        $this->rbac_log = (bool) $this->settings->get('rbac_log', false);
-        $this->rbac_log_age = (int) $this->settings->get('rbac_log_age', 6);
-        $this->sahs_protocol_data = (int) $this->settings->get('enable_sahs_pd', 0);
-        $this->export_scorm = (bool) $this->settings->get('ps_export_scorm', false);
-        $this->enableParticipantsListInCourses((bool) $this->settings->get('participants_list_courses',
-            $this->participantsListInCoursesEnabled()));
-        $this->enableCommentsExport((bool) $this->settings->get('comments_export', false));
+        $this->export_course = (bool) $this->settings->get('ps_export_course', null);
+        $this->export_group = (bool) $this->settings->get('ps_export_group', null);
+        $this->export_confirm_course = (bool) $this->settings->get('ps_export_confirm', null);
+        $this->export_confirm_group = (bool) $this->settings->get('ps_export_confirm_group', null);
+        $this->fora_statistics = (bool) $this->settings->get('enable_fora_statistics', null);
+        $this->anonymous_fora = (bool) $this->settings->get('enable_anonymous_fora', null);
+        $this->show_grp_access_times = (bool) $this->settings->get('ps_access_times', null);
+        $this->show_crs_access_times = (bool) $this->settings->get('ps_crs_access_times', null);
+        $this->rbac_log = (bool) $this->settings->get('rbac_log', null);
+        $this->rbac_log_age = (int) $this->settings->get('rbac_log_age', "6");
+        $this->sahs_protocol_data = (int) $this->settings->get('enable_sahs_pd', "0");
+        $this->export_scorm = (bool) $this->settings->get('ps_export_scorm', null);
+        $this->enableParticipantsListInCourses((bool) $this->settings->get(
+            'participants_list_courses',
+            (string) $this->participantsListInCoursesEnabled()
+        ));
+        $this->enableCommentsExport((bool) $this->settings->get('comments_export', null));
     }
 
     /**
@@ -415,5 +440,4 @@ class ilPrivacySettings
     {
         return $this->comments_export;
     }
-
 }

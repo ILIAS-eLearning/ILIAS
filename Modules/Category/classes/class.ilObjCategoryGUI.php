@@ -181,10 +181,10 @@ class ilObjCategoryGUI extends ilContainerGUI
             // container page editing
             case "ilcontainerpagegui":
                 $this->prepareOutput(false);
-                $this->forwardToPageObject();
-                /*if ($ret != "") {
+                $ret = $this->forwardToPageObject();
+                if ($ret != "") {
                     $this->tpl->setContent($ret);
-                }*/
+                }
                 break;
                 
             case 'ilobjectcopygui':

@@ -129,8 +129,8 @@ class ilSessionReminder
 
         $ilSetting = $DIC['ilSetting'];
 
-        $isSessionReminderEnabled = (bool) $ilSetting->get('session_reminder_enabled', false);
-        $sessionHandlingMode = $ilSetting->get('session_handling_type', ilSession::SESSION_HANDLING_FIXED);
+        $isSessionReminderEnabled = (bool) $ilSetting->get('session_reminder_enabled', null);
+        $sessionHandlingMode = (int) $ilSetting->get('session_handling_type', (string) ilSession::SESSION_HANDLING_FIXED);
 
         return (
             $isSessionReminderEnabled &&

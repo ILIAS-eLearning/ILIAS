@@ -212,11 +212,10 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 
     /**
      * Get childs of node
-     *
      * @param int $a_parent_node_id parent id
      * @return array childs
      */
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         if ($this->preloaded && $this->getSearchTerm() == "") {
             if (isset($this->childs[$a_parent_node_id]) && is_array($this->childs[$a_parent_node_id])) {
@@ -282,11 +281,10 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 
     /**
      * Get node icon alt attribute
-     *
      * @param mixed $a_node node object/array
      * @return string image alt attribute
      */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
         
@@ -336,7 +334,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
      *
      * @return string html
      */
-    public function getHTML($new = false)
+    public function getHTML($new = false) : string
     {
         if ($this->getPreloadChilds()) {
             $this->preloadChilds();

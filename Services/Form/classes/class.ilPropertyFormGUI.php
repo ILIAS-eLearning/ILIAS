@@ -536,7 +536,7 @@ class ilPropertyFormGUI extends ilFormGUI
      *
      * @param	string	The key used for value determination
      * @param	boolean	A flag whether the form input has to be validated before calling this method
-     * @return	string	The value of a HTTP-POST variable, identified by the passed id
+     * @return	string|array	The value of a HTTP-POST variable, identified by the passed id
      * @access	public
      *
      */

@@ -58,7 +58,7 @@ class ilRobotSettings
      */
     private function read()
     {
-        $this->open_robots = (bool) $this->settings->get('open_google', false);
+        $this->open_robots = (bool) $this->settings->get('open_google', null);
     }
 
     /**

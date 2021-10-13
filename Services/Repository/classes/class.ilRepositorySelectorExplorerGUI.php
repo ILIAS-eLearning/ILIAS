@@ -109,7 +109,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $this->nc_modifier;
     }
 
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
 
@@ -128,13 +128,13 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $title;
     }
 
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
@@ -150,7 +150,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return parent::getNodeIconAlt($a_node);
     }
 
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($this->getHighlightedNode()) {
             if ($this->getHighlightedNode() == $a_node["child"]) {
@@ -166,7 +166,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
 
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -181,7 +181,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $link;
     }
 
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         $ilAccess = $this->access;
 
@@ -192,7 +192,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return true;
     }
 
-    public function sortChilds($a_childs, $a_parent_node_id)
+    public function sortChilds(array $a_childs, $a_parent_node_id) : array
     {
         $objDefinition = $this->obj_definition;
 
@@ -245,7 +245,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $ilAccess = $this->access;
 
@@ -256,7 +256,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return parent::getChildsOfNode($a_parent_node_id);
     }
 
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         $ilAccess = $this->access;
 
@@ -305,7 +305,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $this->selectable_types;
     }
 
-    protected function isNodeSelectable($a_node)
+    protected function isNodeSelectable($a_node) : bool
     {
         if (count($this->getSelectableTypes())) {
             return in_array($a_node['type'], $this->getSelectableTypes());
