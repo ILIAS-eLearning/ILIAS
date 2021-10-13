@@ -794,14 +794,29 @@ class ilCtrl implements ilCtrlInterface
             throw new ilCtrlException(__METHOD__ . " was provided with an empty class or class-array.");
         }
 
-        $is_array   = is_array($a_class);
-        $base_class = ($is_array) ?
-            $a_class[array_key_first($a_class)] :
-            $this->context->getBaseClass()
-        ;
+        $is_array = is_array($a_class);
+        if ($is_array) {
+            $base_class = (string) $a_class[array_key_first($a_class)];
 
-        if ($is_array && !$this->structure->isBaseClass($base_class)) {
-            array_unshift($a_class, $this->context->getBaseClass());
+            // if the provided classes don't include a baseclass
+            // at first position, add the context's baseclass to
+            // the first position instead.
+            if (!$this->structure->isBaseClass($base_class)) {
+                if (null === $this->context->getBaseClass()) {
+                    throw new ilCtrlException("First class in array is not a baseclass and the current context has no baseclass yet.");
+                }
+
+                array_unshift($a_class, $this->context->getBaseClass());
+            }
+        } else {
+            if (null === $this->context->getBaseClass() && !$this->structure->isBaseClass($a_class)) {
+                throw new ilCtrlException("Provided class is not a baseclass and the current context has no baseclass yet.");
+            }
+
+            // at this point, the current context either knows a
+            // baseclass, or the provided one is one itself, so
+            // the null coalescing operator can be used.
+            $base_class = $this->context->getBaseClass() ?? $a_class;
         }
 
         $path = ($is_array) ?
@@ -826,6 +841,8 @@ class ilCtrl implements ilCtrlInterface
             $is_escaped
         );
 
+        // only append the cid path and command class params
+        // if they exist.
         if (null !== $path->getNextCid($base_class)) {
             $target_url = $this->appendParameterString(
                 $target_url,
@@ -842,6 +859,8 @@ class ilCtrl implements ilCtrlInterface
             );
         }
 
+        // collect all set parameters from the structure and
+        // append them to the target url.
         if ($is_array) {
             foreach ($a_class as $current_class) {
                 $target_url = $this->appendParameterStringsByClass($current_class, $target_url, $is_escaped);
@@ -850,6 +869,8 @@ class ilCtrl implements ilCtrlInterface
             $target_url = $this->appendParameterStringsByClass($a_class, $target_url, $is_escaped);
         }
 
+        // if the target url is generated for form actions,
+        // the command must be set to 'post'.
         if ($is_post) {
             $target_url = $this->appendParameterString(
                 $target_url,
@@ -859,6 +880,8 @@ class ilCtrl implements ilCtrlInterface
             );
         }
 
+        // the actual command is appended as fallback command
+        // for form actions and 'normal' get requests.
         if (!empty($a_cmd)) {
             $target_url = $this->appendParameterString(
                 $target_url,

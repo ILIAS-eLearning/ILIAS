@@ -56,7 +56,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     public function getNextCid(string $current_class) : ?string
     {
         $current_cid = $this->structure->getClassCidByName($current_class);
-        $cid_array   = $this->getCidArray();
+        $cid_array   = $this->getCidArray(SORT_ASC);
         $cid_count   = count($cid_array);
 
         foreach ($cid_array as $index => $cid) {

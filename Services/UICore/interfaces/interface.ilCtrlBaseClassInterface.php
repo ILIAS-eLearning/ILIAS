@@ -5,6 +5,9 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
+ * Constructors of ilCtrl base classes MUST NOT contain arguments!
+ * If they do though, they must be optional and cannot use DI yet.
+ *
  * Up till now, base classes were determined by an entry in the
  * database tables 'service_class' and 'module_class'. This
  * interface makes that query obsolete, because the ilCtrl

@@ -9,7 +9,7 @@
  * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilNoteGUI, ilTaggingGUI, ilObjectActivationGUI
  * @ilCtrl_Calls ilCommonActionDispatcherGUI: ilRatingGUI, ilObjRootFolderGUI
  */
-class ilCommonActionDispatcherGUI
+class ilCommonActionDispatcherGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl
