@@ -30,7 +30,7 @@ abstract class ilADTDefinition
     /**
      * Init property defaults
      */
-    protected function reset()
+    public function reset()
     {
         $this->setAllowNull(true);
     }

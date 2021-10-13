@@ -11,7 +11,7 @@ class ilADTInternalLink extends ilADT
      * @param ilADTDefinition $a_def
      * @return bool
      */
-    protected function isValidDefinition(ilADTDefinition $a_def)
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return $a_def instanceof ilADTInternalLinkDefinition;
     }
@@ -19,7 +19,7 @@ class ilADTInternalLink extends ilADT
     /**
      * Reset
      */
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
         $this->value = null;
@@ -46,44 +46,39 @@ class ilADTInternalLink extends ilADT
      * @param ilADT $a_adt
      * @return bool
      */
-    public function equals(ilADT $a_adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return strcmp($this->getCheckSum(), $a_adt->getCheckSum()) === 0;
         }
+        return null;
     }
 
     /**
      * Is larger
      * @param ilADT $a_adt
      */
-    public function isLarger(ilADT $a_adt)
+    public function isLarger(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
-    /**
-     * Is smaller
-     * @param ilADT $a_adt
-     */
-    public function isSmaller(ilADT $a_adt)
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
     /**
      * is null
      * @return bool
      */
-    public function isNull()
+    public function isNull() : bool
     {
         return (bool) !$this->getTargetRefId();
     }
     
 
-    /**
-     * is valid
-     * @return bool
-     */
-    public function isValid()
+    public function isValid() : bool
     {
         $valid = parent::isValid();
         if (!$this->isNull()) {
@@ -99,21 +94,18 @@ class ilADTInternalLink extends ilADT
         return $valid;
     }
 
-    /**
-     * get checksum
-     * @return string
-     */
-    public function getCheckSum()
+    public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
             return md5($this->getTargetRefId());
         }
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function exportStdClass()
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -121,13 +113,14 @@ class ilADTInternalLink extends ilADT
 
             return $obj;
         }
+        return null;
     }
 
 
     /**
      * @inheritDoc
      */
-    public function importStdClass($a_std)
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->setTargetRefId($a_std->target_ref_id);

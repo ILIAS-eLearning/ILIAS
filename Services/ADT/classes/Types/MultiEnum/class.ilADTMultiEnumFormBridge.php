@@ -32,7 +32,7 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
         
         $options = $def->getOptions();
         
-        if ((bool) $this->auto_sort) {
+        if ($this->auto_sort) {
             asort($options);
         }
 

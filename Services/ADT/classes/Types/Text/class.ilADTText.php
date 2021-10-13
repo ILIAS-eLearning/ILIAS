@@ -7,15 +7,14 @@ class ilADTText extends ilADT
     
     // definition
     
-    protected function isValidDefinition(ilADTDefinition $a_def)
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
-        return ($a_def instanceof ilADTTextDefinition);
+        return $a_def instanceof ilADTTextDefinition;
     }
     
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
-        
         $this->value = null;
     }
     
@@ -50,38 +49,38 @@ class ilADTText extends ilADT
     
     // comparison
     
-    public function equals(ilADT $a_adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return !strcmp($this->getText(), $a_adt->getText());
         }
+        return null;
     }
                 
-    public function isLarger(ilADT $a_adt)
+    public function isLarger(ilADT $a_adt) : ?bool
     {
-        // return null?
+        return null;
     }
 
-    public function isSmaller(ilADT $a_adt)
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
-        // return null?
+        return null;
     }
     
     
     // null
     
-    public function isNull()
+    public function isNull() : bool
     {
-        return !(bool) $this->getLength();
+        return (bool) !$this->getLength();
     }
     
     
     // validation
     
-    public function isValid()
+    public function isValid() : bool
     {
         $valid = parent::isValid();
-        
         if (!$this->isNull()) {
             $max = $this->getDefinition()->getMaxLength();
             if ($max && $max < $this->getLength()) {
@@ -89,33 +88,30 @@ class ilADTText extends ilADT
                 $this->addValidationError(self::ADT_VALIDATION_ERROR_MAX_LENGTH);
             }
         }
-            
         return $valid;
     }
     
     
-    // check
-    
-    public function getCheckSum()
+    public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
             return md5($this->getText());
         }
+        return null;
     }
     
     
-    // stdClass
-    
-    public function exportStdClass()
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
             $obj->value = $this->getText();
             return $obj;
         }
+        return null;
     }
     
-    public function importStdClass($a_std)
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->setText($a_std->value);

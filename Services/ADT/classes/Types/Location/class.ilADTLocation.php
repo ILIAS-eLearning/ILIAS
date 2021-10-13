@@ -12,15 +12,15 @@ class ilADTLocation extends ilADT
     
     // definition
     
-    protected function isValidDefinition(ilADTDefinition $a_def)
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
-        return ($a_def instanceof ilADTLocationDefinition);
+        return $a_def instanceof ilADTLocationDefinition;
     }
     
     
     // default
     
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
         
@@ -71,41 +71,39 @@ class ilADTLocation extends ilADT
     
     // comparison
 
-    public function equals(ilADT $a_adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getLongitude() == $a_adt->getLongitude() &&
                 $this->getLatitude() == $a_adt->getLatitude());
         }
+        return null;
     }
-                
-    public function isLarger(ilADT $a_adt)
+
+    public function isLarger(ilADT $a_adt) : ?bool
     {
-        // return null?
+        return null;
     }
     
-    public function isSmaller(ilADT $a_adt)
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
-        // return null?
+        return null;
     }
 
     
     // null
     
-    public function isNull()
+    public function isNull() : bool
     {
-        return ($this->getLongitude() === null && $this->getLatitude() === null);
+        return $this->getLongitude() === null && $this->getLatitude() === null;
     }
     
     
     // validation
     
-    public function isValid()
+    public function isValid() : bool
     {
         $valid = parent::isValid();
-        
-        // zoom?
-
         $long = $this->getLongitude();
         $lat = $this->getLatitude();
         if ($long !== null && $lat !== null) {
@@ -120,21 +118,20 @@ class ilADTLocation extends ilADT
                 $valid = false;
             }
         }
-        
         return $valid;
     }
     
     
     // check
-    
-    public function translateErrorCode($a_code)
+
+    /**
+     * @inheritcoc
+     */
+    public function translateErrorCode(string $a_code) : string
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
-        // $lng->txt("msg_wrong_format");
-        
         switch ($a_code) {
             case self::ADT_VALIDATION_ERROR_LONGITUDE:
                 return $lng->txt("adt_error_longitude");
@@ -143,24 +140,22 @@ class ilADTLocation extends ilADT
                 return $lng->txt("adt_error_latitude");
             
             default:
-                // all other / unknown "codes"
                 return parent::translateErrorCode($a_code);
         }
     }
     
-    public function getCheckSum()
+    public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
             return md5($this->getLongitude() .
                     "#" . $this->getLatitude() .
                     "#" . $this->getZoom());
         }
+        return null;
     }
     
     
-    // stdClass
-    
-    public function exportStdClass()
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
@@ -169,9 +164,10 @@ class ilADTLocation extends ilADT
             $obj->zoom = $this->getZoom();
             return $obj;
         }
+        return null;
     }
     
-    public function importStdClass($a_std)
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->setLatitude($a_std->lat);

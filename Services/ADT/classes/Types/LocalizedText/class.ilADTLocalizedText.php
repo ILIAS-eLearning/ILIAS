@@ -40,7 +40,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    protected function isValidDefinition(ilADTDefinition $a_def)
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return $a_def instanceof ilADTLocalizedTextDefinition;
     }
@@ -48,15 +48,15 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function equals(ilADT $adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
-        if (!$this->getDefinition()->isComparableTo($adt)) {
+        if (!$this->getDefinition()->isComparableTo($a_adt)) {
+            return null;
+        }
+        if (count($this->getTranslations() != count($a_adt->getTranslations()))) {
             return false;
         }
-        if (count($this->getTranslations() != count($adt->getTranslations()))) {
-            return false;
-        }
-        foreach ($adt->getTranslations() as $key => $value) {
+        foreach ($a_adt->getTranslations() as $key => $value) {
             if (!isset($this->getTranslations()[$key])) {
                 return false;
             }
@@ -70,21 +70,23 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function isLarger(ilADT $a_adt)
+    public function isLarger(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function isSmaller(ilADT $a_adt)
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function isNull()
+    public function isNull() : bool
     {
         return !$this->getLength() && !count($this->getTranslations());
     }
@@ -92,27 +94,31 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @inheritDoc
      */
-    public function getCheckSum()
+    public function getCheckSum() : ?string
     {
-        return md5(serialize($this->getTranslations()));
+        if (!$this->isNull()) {
+            return md5(serialize($this->getTranslations()));
+        }
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function exportStdClass()
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
             $obj->translations = $this->getTranslations();
             return $obj;
         }
+        return null;
     }
 
     /**
      * @inheritDoc
      */
-    public function importStdClass($a_std)
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->translations = $a_std->translations;
