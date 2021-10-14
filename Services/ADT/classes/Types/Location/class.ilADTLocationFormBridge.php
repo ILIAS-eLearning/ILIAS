@@ -22,8 +22,7 @@ class ilADTLocationFormBridge extends ilADTFormBridge
             // see ilPersonalProfileGUI::addLocationToForm()
             
             // use installation default
-            include_once("./Services/Maps/classes/class.ilMapUtil.php");
-            $def = ilMapUtil::getDefaultSettings();
+                        $def = ilMapUtil::getDefaultSettings();
             $adt->setLatitude($def["latitude"]);
             $adt->setLongitude($def["longitude"]);
             $adt->setZoom($def["zoom"]);

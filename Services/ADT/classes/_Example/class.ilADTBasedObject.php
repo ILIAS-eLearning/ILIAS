@@ -143,7 +143,6 @@ abstract class ilADTBasedObject
         $this->initDBBridge($this->adt_db);
         
         // use custom error handling
-        include_once "Services/ADT/classes/class.ilADTDBException.php";
         $ilDB->exception = "ilADTDBException";
                         
         return $factory->getActiveRecordInstance($this->adt_db);

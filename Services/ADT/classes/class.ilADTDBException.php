@@ -1,6 +1,5 @@
 <?php
 
-include_once "Services/Exceptions/classes/class.ilException.php";
 
 class ilADTDBException extends ilException
 {
