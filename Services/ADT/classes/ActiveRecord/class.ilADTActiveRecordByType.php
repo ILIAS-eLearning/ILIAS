@@ -167,7 +167,7 @@ class ilADTActiveRecordByType
             $primary = $this->properties->getPrimary();
             foreach (self::$preloaded as $table => $data) {
                 $sub_table = '';
-                $sub_tables = explode('_' , $table);
+                $sub_tables = explode('_', $table);
                 if ($sub_tables !== false) {
                     $sub_table = array_pop($sub_tables);
                 }
@@ -298,9 +298,7 @@ class ilADTActiveRecordByType
         // update/insert in sub tables
         if (count($tmp)) {
             foreach ($tmp as $table => $elements) {
-
                 foreach ($elements as $element_id => $fields) {
-
                     if (is_array($fields) && count($fields)) {
                         if (isset($existing[$table][$element_id])) {
                             // update
@@ -330,13 +328,15 @@ class ilADTActiveRecordByType
         if (count($existing)) {
             foreach ($existing as $table => $element_ids) {
                 if ($element_ids) {
-                    $this->db->manipulate($q = "DELETE FROM " . $table .
+                    $this->db->manipulate(
+                        $q = "DELETE FROM " . $table .
                         " WHERE " . $this->properties->buildPrimaryWhere() .
                         " AND " . $this->db->in(
                             $this->getElementIdColumn(),
                             $element_ids,
                             false,
-                            $this->element_column_type)
+                            $this->element_column_type
+                        )
                     );
                 }
             }
@@ -354,7 +354,7 @@ class ilADTActiveRecordByType
             if (!is_array($def[1])) {
                 $where[] = $field . "=" . $ilDB->quote($def[1], $def[0]);
             } else {
-                $where[] = $ilDB->in($field, $def[1], "", $def[0]);
+                $where[] = $ilDB->in($field, $def[1], false, $def[0]);
             }
         }
         if (count($where)) {

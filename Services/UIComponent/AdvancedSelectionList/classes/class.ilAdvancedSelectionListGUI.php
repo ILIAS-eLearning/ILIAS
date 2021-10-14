@@ -55,7 +55,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     private bool $dd_pullright = true;
 
     protected string $listtitle;
-    protected string $aria_listtitle;
+    protected string $aria_listtitle = "";
     protected bool $useimages;
     protected string $itemlinkclass = '';
     protected string $mode;
@@ -194,7 +194,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $this->grouped_list = $a_val;
     }
     
-    public function getGroupedList() : ilGroupedListGUI
+    public function getGroupedList() : ?ilGroupedListGUI
     {
         return $this->grouped_list;
     }
@@ -396,7 +396,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
     /**
      * Get additional toggle element
      */
-    public function getAdditionalToggleElement() : array
+    public function getAdditionalToggleElement() : ?array
     {
         return $this->toggle;
     }
