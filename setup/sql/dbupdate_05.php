@@ -7073,7 +7073,14 @@ if ($ilDB->tableExists(ilDBStepExecutionDB::TABLE_NAME)
 ?>
 <#5809>
 <?php
-    $ilDB->migrateAllTablesToEngine();
+$errors = $ilDB->migrateAllTablesToEngine();
+if (sizeof($errors) > 0) {
+    $error_string = '';
+    foreach ($errors as $table_name => $error) {
+        $error_string .= sprintf("Table: %s => ErrorMessage: %s\n", $table_name, $error);
+    }
+    throw new ilException("The migration of the following tables did throw errors, please resolve the problem before you continue: \n" . $error_string);
+}
 ?>
 
 <?php
