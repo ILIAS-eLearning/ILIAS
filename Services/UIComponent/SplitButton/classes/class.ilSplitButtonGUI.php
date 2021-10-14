@@ -9,11 +9,6 @@
 class ilSplitButtonGUI extends ilButtonBase
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilButtonBase
      */
     protected $default_button;
@@ -43,7 +38,7 @@ class ilSplitButtonGUI extends ilButtonBase
     /**
      * @return self;
      */
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new self(self::TYPE_SPLIT);
     }
@@ -129,7 +124,7 @@ class ilSplitButtonGUI extends ilButtonBase
      * @return string
      * @throws ilSplitButtonException
      */
-    public function render()
+    public function render() : string
     {
         $tpl = new ilTemplate('tpl.split_button.html', true, true, 'Services/UIComponent/SplitButton');
 
