@@ -33,14 +33,14 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
                 '[Course] %s',
             ],
             'Absent Global Prefix with Brackets and Additional Context Prefix' => [
-                false, // The administrator did not save the global email settings form, yet
+                null, // The administrator did not save the global email settings form, yet
                 'Course',
                 '[' . self::DEFAULT_PREFIX . ' : Course] %s',
             ],
         ];
     }
 
-    public function testSubjectMustNotBeChangedWhenNotPrefixShouldBeAdded() : void
+    public function testSubjectMustNotBeChangedWhenNoPrefixShouldBeAdded() : void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getMock();
         $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
@@ -70,7 +70,9 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
     public function testDefaultPrefixMustBePrependedWhenNoGlobalPrefixIsDefinedAndPrefixShouldBeAppended() : void
     {
         $settings = $this->getMockBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getMock();
-        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn((string) false);
+        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn(
+            null
+        );
 
         $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 
@@ -81,7 +83,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
 
     /**
      * @dataProvider subjectPrefixesProvider
-     * @param string|false $globalPrefix
+     * @param string|null $globalPrefix
      */
     public function testContextPrefixMustBePrependedWhenGivenAndPrefixShouldBeAppended(
         $globalPrefix,
@@ -89,7 +91,7 @@ class ilMailMimeSubjectBuilderTest extends ilMailBaseTest
         string $expectedSubject
     ) : void {
         $settings = $this->getMockBuilder(ilSetting::class)->onlyMethods(['get'])->disableOriginalConstructor()->getMock();
-        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn((string) $globalPrefix);
+        $settings->expects($this->once())->method('get')->with('mail_subject_prefix')->willReturn($globalPrefix);
 
         $subjectBuilder = new ilMailMimeSubjectBuilder($settings, self::DEFAULT_PREFIX);
 

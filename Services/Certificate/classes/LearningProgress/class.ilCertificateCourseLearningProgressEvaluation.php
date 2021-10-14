@@ -59,7 +59,7 @@ class ilCertificateCourseLearningProgressEvaluation
             $courseObjectId = $courseTemplate->getObjId();
 
             $subItems = $this->setting->get('cert_subitems_' . $courseObjectId, null);
-            if (false === $subItems || $subItems === null) {
+            if ($subItems === null) {
                 continue;
             }
             $subItems = json_decode($subItems, true, 512, JSON_THROW_ON_ERROR);
