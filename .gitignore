@@ -28,6 +28,8 @@
 /install_client.php
 /Services/GlobalScreen/artifacts/global_screen_providers.php
 /Services/Style/System/data/data.php
+/Services/UICore/artifacts/ctrl_structure.php
+/Services/UICore/artifacts/ctrl_base_classes.php
 
 # Directories
 /data

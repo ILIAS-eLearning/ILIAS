@@ -74,8 +74,8 @@ class ilMailMimeTest extends ilMailBaseTest
             'set',
             'get',
         ])->getMock();
-        $settings->method('get')->willReturnCallback(static function ($key) : bool {
-            return !('mail_allow_external' === $key);
+        $settings->method('get')->willReturnCallback(static function ($key) : ?string {
+            return (string) !('mail_allow_external' === $key);
         });
         $this->setGlobalVariable('ilSetting', $settings);
 
@@ -96,17 +96,17 @@ class ilMailMimeTest extends ilMailBaseTest
             'set',
             'get',
         ])->getMock();
-        $settings->method('get')->willReturnCallback(static function ($key) : bool {
+        $settings->method('get')->willReturnCallback(static function ($key) : ?string {
             if ('mail_allow_external' === $key) {
-                return true;
+                return (string) true;
             }
 
 
             if ('mail_smtp_status' === $key) {
-                return true;
+                return (string) true;
             }
 
-            return true;
+            return (string) true;
         });
         $this->setGlobalVariable('ilSetting', $settings);
 
@@ -128,17 +128,17 @@ class ilMailMimeTest extends ilMailBaseTest
             'get',
         ])->getMock();
 
-        $settings->method('get')->willReturnCallback(static function ($key) : bool {
+        $settings->method('get')->willReturnCallback(static function ($key) : ?string {
             if ('mail_allow_external' === $key) {
-                return true;
+                return (string) true;
             }
 
 
             if ('mail_smtp_status' === $key) {
-                return false;
+                return (string) false;
             }
 
-            return true;
+            return (string) true;
         });
         $this->setGlobalVariable('ilSetting', $settings);
 

@@ -71,8 +71,6 @@ class ilADTEnumDefinition extends ilADTDefinition
         } else {
             $class = "ilADTEnumText";
         }
-        include_once "Services/ADT/classes/Types/Enum/class.ilADTEnum.php";
-        include_once "Services/ADT/classes/Types/Enum/class." . $class . ".php";
-        return new $class($this);
+                        return new $class($this);
     }
 }

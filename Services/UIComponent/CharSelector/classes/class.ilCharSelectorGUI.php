@@ -1,61 +1,53 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-* This shows a character selector
-*/
+ * This shows a character selector
+ * @deprecated needs to be moved to KS
+ */
 class ilCharSelectorGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilTemplate $tpl;
 
     /**
      * @static list of command classes for which the char selector is allowed
      * (can also be a parent class of the actual command class)
      */
-    private static $allowed_guis = array(
+    private static array $allowed_guis = array(
         'assQuestionGUI',
         'ilAssQuestionFeedbackEditingGUI',
         'ilAssQuestionHintGUI',
         'ilObjTestSettingsGeneralGUI',
         'ilTestScoringGUI'
     );
-    
+
+    // instance used for the current selector
+    private static ilCharSelectorGUI $current_gui;
+    private ?ilCharSelectorConfig $config = null;
+
+    // selector is already added to the page
+    private bool $added_to_page = false;
+
     /**
-     * @static ilCharSelectorGUI	instance used for the current selector
+     * @param string $a_context configuration context
      */
-    private static $current_gui;
-    
-    /**
-     * @var ilCharSelectorConfig	configuration object
-     */
-    private $config = null;
-        
-    /**
-     * @var boolean	selector is already added to the page
-     */
-    private $added_to_page = false;
-    
-    
-    /**
-     * Constructor
-     * @param string	configuration context
-     */
-    public function __construct($a_context = ilCharSelectorConfig::CONTEXT_NONE)
-    {
+    public function __construct(
+        string $a_context = ilCharSelectorConfig::CONTEXT_NONE
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -63,17 +55,16 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $this->tpl = $DIC["tpl"];
         $this->config = new ilCharSelectorConfig($a_context);
     }
-    
+
     /**
      * Check if the CharSelector is allowed for the current GUI
-     * @return boolean CharSelector is allowed
      */
-    public static function _isAllowed()
+    public static function _isAllowed() : bool
     {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
-        
+
         // get the command class
         // with correct case for checking parent classes
         foreach ($ilCtrl->getCallHistory() as $call) {
@@ -96,11 +87,8 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
     /**
      * Get the GUI that is used for the currently available selector
      * (other GUI instances may exist for configuration in property forms)
-     *
-     * @param	object	(optional) current running test
-     * @return	object
      */
-    public static function _getCurrentGUI(ilObjTest $a_test_obj = null)
+    public static function _getCurrentGUI(ilObjTest $a_test_obj = null) : self
     {
         if (!isset(self::$current_gui)) {
             self::$current_gui = new ilCharSelectorGUI();
@@ -108,30 +96,21 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         }
         return self::$current_gui;
     }
-    
-    /**
-     * Set the configuraton object
-     * @param ilCharSelectorConfig
-     */
-    public function setConfig(ilCharSelectorConfig $a_config)
+
+    public function setConfig(ilCharSelectorConfig $a_config) : void
     {
         $this->config = $a_config;
     }
-    
-    /**
-     * Get the configuraton object
-     * @return ilCharSelectorConfig
-     */
-    public function getConfig()
+
+    public function getConfig() : ilCharSelectorConfig
     {
         return $this->config;
     }
-    
+
     /**
      * add the configuration elements to a property form
-     * @param object	property form
      */
-    public function addFormProperties(ilPropertyFormGUI $a_form)
+    public function addFormProperties(ilPropertyFormGUI $a_form) : void
     {
         $lng = $this->lng;
         $lng->loadLanguageModule('adve');
@@ -167,7 +146,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $tpl->setVariable('6b', $lng->txt('char_selector_custom_items_info6b'));
         $custom_items->setInfo($tpl->get());
         $enabled->addSubItem($custom_items);
-        
+
         switch ($this->config->getContext()) {
             case ilCharSelectorConfig::CONTEXT_ADMIN:
                 $availability->addOption($inactive);
@@ -175,7 +154,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
                 $availability->addOption($disabled);
                 $a_form->addItem($availability);
                 break;
-            
+
             case ilCharSelectorConfig::CONTEXT_USER:
             case ilCharSelectorConfig::CONTEXT_TEST:
                 $availability->addOption($inherit);
@@ -185,51 +164,47 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
                 break;
         }
     }
-    
-    
+
+
     /**
      * Set the values in a property form based on the configuration
-     * @param object		property form
-     * @param string		context of the form
      */
-    public function setFormValues(ilPropertyFormGUI $a_form)
+    public function setFormValues(ilPropertyFormGUI $a_form) : void
     {
         $a_form->getItemByPostVar('char_selector_availability')->setValue($this->config->getAvailability());
         $a_form->getItemByPostVar('char_selector_blocks')->setValue($this->config->getAddedBlocks());
         $a_form->getItemByPostVar('char_selector_custom_items')->setValue($this->config->getCustomItems());
     }
-    
-    
+
+
     /**
      * Set the configuration based on the values of a property form
-     * @param object		property form
-     * @param string		context of the form
      */
-    public function getFormValues(ilPropertyFormGUI $a_form)
+    public function getFormValues(ilPropertyFormGUI $a_form) : void
     {
         $this->config->setAvailability($a_form->getInput('char_selector_availability'));
         $this->config->setAddedBlocks($a_form->getInput('char_selector_blocks'));
         $this->config->setCustomItems($a_form->getInput('char_selector_custom_items'));
     }
-    
+
     /**
      * Adds the the character selector to the ilias page
      * Initializes the selector according to the state saved in the user session
      * @see self::saveState()
      */
-    public function addToPage()
+    public function addToPage() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
+
         // don't add the panel twice
         if ($this->added_to_page) {
             return;
         }
-        
+
         $lng->loadLanguageModule('adve');
-        
+
         // prepare the configuration for the js script
         $this->jsconfig = new stdClass();
         $this->jsconfig->pages = $this->config->getCharPages();
@@ -237,7 +212,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $this->jsconfig->open = (int) $_SESSION['char_selector_open'];
         $this->jsconfig->current_page = (int) $_SESSION['char_selector_current_page'];
         $this->jsconfig->current_subpage = (int) $_SESSION['char_selector_current_subpage'];
-        
+
         // provide texts to be dynamically rendered in the js script
         $this->jstexts = new stdClass();
         $this->jstexts->page = $lng->txt('page');
@@ -256,16 +231,15 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $tpl->addOnLoadCode('il.CharSelector.init(' . json_encode($this->jsconfig) . ',' . json_encode($this->jstexts) . ')');
         $this->added_to_page = true;
     }
-    
+
     /**
      * Get the HTML code of the selector panel
-     * @return string	panel html code
      */
-    public function getSelectorHTML()
+    public function getSelectorHTML() : string
     {
         $lng = $this->lng;
         $tpl = new ilTemplate("tpl.char_selector_panel.html", true, true, "Services/UIComponent/CharSelector");
-        
+
         if (count($this->jsconfig->pages) > 1) {
             $index = 0;
             foreach ($this->jsconfig->pages as $page) {
@@ -285,18 +259,18 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         return '<script type="text/html" id="ilCharSelectorTemplate">' . $tpl->get() . '</script>';
     }
 
-    
+
     /**
      * Save the selector panel state in the user session
      * (This keeps the panel state between page moves)
      * @see self::addToPage()
      */
-    public function saveState()
+    public function saveState() : void
     {
         $_SESSION['char_selector_open'] = (int) $_GET['open'];
         $_SESSION['char_selector_current_page'] = (int) $_GET['current_page'];
         $_SESSION['char_selector_current_subpage'] = (int) $_GET['current_subpage'];
-        
+
         // debugging output (normally ignored by the js part)
         echo json_encode(array(
             'open' => $_SESSION['char_selector_open'],
@@ -305,11 +279,8 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         ));
         exit;
     }
-    
-    /**
-    * execute command
-    */
-    public function executeCommand()
+
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $cmd = $ilCtrl->getCmd("saveState");
@@ -318,7 +289,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
                 $this->$cmd();
                 break;
             default:
-                return;
+                break;
         }
     }
 }

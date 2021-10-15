@@ -215,11 +215,10 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
     /**
      * Is node highlighted?
-     *
      * @param mixed $a_node node object/array
      * @return boolean node visible true/false
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($a_node["child"] == $this->getHighlightNode()) {
             return true;
@@ -229,11 +228,10 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
     /**
      * Get node content
-     *
      * @param array $a_node node array
      * @return string node content
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             return $this->service->getPresentationStatus()->getLMPresentationTitle();
@@ -271,11 +269,10 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
     /**
      * Get node icon
-     *
      * @param array $a_node node array
      * @return string icon path
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         // overwrite chapter icons with lp info?
         if (!$this->getOfflineMode() && $a_node["type"] == "st") {
@@ -321,11 +318,10 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
     /**
      * Is node clickable
-     *
      * @param array $a_node node array
      * @return bool clickable?
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         $ilUser = $this->user;
 
@@ -397,21 +393,19 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
     /**
      * Get node icon alt text
-     *
      * @param array $a_node node array
      * @return string alt text
      */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
     }
     
     /**
      * Get href for node
-     *
      * @param mixed $a_node node object/array
      * @return string href attribute
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         if (!$this->getOfflineMode()) {
             return $this->linker->getLink("", $a_node["child"]);
@@ -452,11 +446,10 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
     /**
      * Is node visible?
-     *
      * @param mixed $a_node node object/array
      * @return boolean node visible true/false
      */
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         return (bool) $this->complete_tree["visibility"][$a_node["child"]];
     }

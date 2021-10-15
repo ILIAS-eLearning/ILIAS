@@ -265,7 +265,6 @@ class ilStartUpGUI implements ilCtrlSecurityInterface, ilCtrlBaseClassInterface
         $page_editor_html = $this->showSamlLoginForm($page_editor_html);
         $page_editor_html = $this->showRegistrationLinks($page_editor_html);
         $page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
-
         $page_editor_html = $this->purgePlaceholders($page_editor_html);
 
         // check expired session and send message
@@ -435,7 +434,6 @@ class ilStartUpGUI implements ilCtrlSecurityInterface, ilCtrlBaseClassInterface
 
         include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
         $det = ilAuthModeDetermination::_getInstance();
-
         if (ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection()) {
             $visible_auth_methods = array();
             $radg = new ilRadioGroupInputGUI($this->lng->txt("auth_selection"), "auth_mode");

@@ -172,7 +172,7 @@ abstract class ilPDSelectedItemsBlockViewGUI
         $obj_ids = [];
         foreach ($item_groups as $item_group) {
             foreach ($item_group->getItems() as $item) {
-                $obj_ids[] = $item['obj_id'];
+                $obj_ids[] = (int) $item['obj_id'];
                 $listPreloader->addItem($item['obj_id'], $item['type'], $item['ref_id']);
             }
         }

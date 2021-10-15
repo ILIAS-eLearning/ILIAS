@@ -31,10 +31,6 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
      */
     protected $lng;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_obj_id;
     protected array $parent;

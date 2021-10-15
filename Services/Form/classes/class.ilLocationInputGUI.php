@@ -38,7 +38,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
     /**
     * Set Latitude.
     *
-    * @param	real	$a_latitude	Latitude
+    * @param	float	$a_latitude	Latitude
     */
     public function setLatitude($a_latitude)
     {
@@ -48,7 +48,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
     /**
     * Get Latitude.
     *
-    * @return	real	Latitude
+    * @return	float	Latitude
     */
     public function getLatitude()
     {
@@ -60,7 +60,7 @@ class ilLocationInputGUI extends ilFormPropertyGUI
     /**
     * Set Longitude.
     *
-    * @param	real	$a_longitude	Longitude
+    * @param	float	$a_longitude	Longitude
     */
     public function setLongitude($a_longitude)
     {

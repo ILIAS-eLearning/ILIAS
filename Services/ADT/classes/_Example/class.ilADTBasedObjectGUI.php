@@ -72,8 +72,6 @@ abstract class ilADTBasedObjectGUI
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-        
-        include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this->gui, "updateAction"));
         
@@ -105,20 +103,20 @@ abstract class ilADTBasedObjectGUI
         
         $adt_form = $this->initForm();
         $valid = $adt_form->getForm()->checkInput(); // :TODO: return value is obsolete
-        
+
         $old_chksum = $this->object->getProperties()->getCheckSum();
-        
+
         $adt_form->importFromPost();
         $valid = $adt_form->validate();
-        
+
         $changed = ($old_chksum != $this->object->getProperties()->getCheckSum());
-        
+
         // validation errors have top priority
         if (!$valid) {
             ilUtil::sendFailure($lng->txt("form_input_not_valid"));
             return $this->editAction($adt_form);
         }
-                
+
         // :TODO: experimental, update only if necessary
         if ($changed) {
             if ($this->object->update()) {

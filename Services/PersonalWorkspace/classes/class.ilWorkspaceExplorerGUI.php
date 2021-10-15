@@ -10,11 +10,6 @@
 class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilLanguage
      */
     protected $lng;
@@ -164,11 +159,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Get href for node
-     *
      * @param mixed $a_node node object/array
      * @return string href attribute
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         if ($this->select_postvar != "") {
             return "";
@@ -210,11 +204,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Get node content
-     *
      * @param array
-     * @return
+     * @return string
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
 
@@ -227,11 +220,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     
     /**
      * Is clickable
-     *
      * @param
-     * @return
+     * @return bool
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -241,11 +233,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Is selectable
-     *
      * @param
-     * @return
+     * @return bool
      */
-    public function isNodeSelectable($a_node)
+    public function isNodeSelectable($a_node) : bool
     {
         if (in_array($a_node["type"], $this->getSelectableTypes())) {
             return true;
@@ -256,7 +247,7 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
     /**
      * get image path (may be overwritten by derived classes)
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $t = $a_node["type"];
         if (in_array($t, array("sktr"))) {
@@ -267,11 +258,10 @@ class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Is node highlighted?
-     *
      * @param mixed $a_node node object/array
      * @return boolean node highlighted true/false
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($this->getActivateHighlighting() &&
             ($a_node["child"] == $_GET["wsp_id"] || $_GET["wsp_id"] == "" && $a_node["child"] == $this->getRootId())) {
