@@ -34,6 +34,13 @@ interface ilCtrlSecurityInterface
      * interface are considered unsafe and need to check-pass a
      * CSRF validation.
      *
+     * @TODO: make this method static? I'm not a fan of static
+     *        stuff, but commands could be checked without having
+     *        an instance of the object.
+     *
+     * @TODO: test performance of static implementation vs usage
+     *        of reflection classes in @see ilCtrl::isCmdSecure().
+     *
      * @return string[]
      */
     public function getSafeCommands() : array;

@@ -8,14 +8,22 @@
 class ilCtrlArrayClassPath extends ilCtrlAbstractPath
 {
     /**
+     * @var ilCtrlContextInterface
+     */
+    private ilCtrlContextInterface $context;
+
+    /**
      * ilCtrlArrayClassPath Constructor
      *
      * @param ilCtrlStructureInterface $structure
+     * @param ilCtrlContextInterface   $context
      * @param string[]                 $target_classes
      */
-    public function __construct(ilCtrlStructureInterface $structure, array $target_classes)
+    public function __construct(ilCtrlStructureInterface $structure, ilCtrlContextInterface $context, array $target_classes)
     {
         parent::__construct($structure);
+
+        $this->context = $context;
 
         try {
             $this->cid_path = $this->getCidPathByArray($target_classes);
@@ -38,12 +46,13 @@ class ilCtrlArrayClassPath extends ilCtrlAbstractPath
      */
     private function getCidPathByArray(array $target_classes) : string
     {
-        // abort if the target class (array) is empty or
-        // the baseclass of the class array is unknown.
-        if (empty($target_classes) || !$this->structure->isBaseClass($target_classes[0])) {
-            throw new ilCtrlException("First class provided in array must be a known baseclass.");
+        if (empty($target_classes)) {
+            throw new ilCtrlException(__METHOD__ . " must be provided with a list of classes.");
         }
 
+        // loop through each provided class in descending order
+        // and check if they are all related to one another and
+        // convert them to a cid path.
         $cid_path = $previous_class = null;
         foreach ($target_classes as $current_class) {
             $current_cid = $this->structure->getClassCidByName($current_class);
@@ -63,6 +72,31 @@ class ilCtrlArrayClassPath extends ilCtrlAbstractPath
             $previous_class = $current_class;
         }
 
-        return $cid_path;
+        // if the first provided class is a baseclass the
+        // created cid path can be returned.
+        $first_array_class = $target_classes[array_key_first($target_classes)];
+        if ($this->structure->isBaseClass($first_array_class)) {
+            return $cid_path;
+        }
+
+        // if the first provided class is not a baseclass,
+        // the current context is checked for a relation
+        // that leads to the context's baseclass.
+        if (!$this->structure->isBaseClass($first_array_class) && null !== $this->context->getPath()->getCidPath()) {
+            foreach ($this->context->getPath()->getCidArray() as $index => $cid) {
+                $current_class = $this->structure->getClassNameByCid($cid);
+
+                // if one of the existing classes from the context's
+                // current path is related to the first provided class
+                // the generated path from above can be appended to
+                // the context's existing one.
+                if (null !== $current_class && $this->isClassParentOf($current_class, $first_array_class)) {
+                    $paths = $this->context->getPath()->getCidPaths();
+                    return $this->appendCid($cid_path, $paths[$index]);
+                }
+            }
+        }
+
+        throw new ilCtrlException("Class '$first_array_class' is not a baseclass and the current context doesn't have one either.");
     }
 }

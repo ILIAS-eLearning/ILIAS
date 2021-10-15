@@ -648,7 +648,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function editPageFrameObject() : void
     {
-        $this->ctrl->redirectByClass(array("ilcontainerpagegui"), "edit");
+        $this->ctrl->redirectByClass(array(static::class, "ilcontainerpagegui"), "edit");
     }
 
     public function cancelPageContentObject() : void

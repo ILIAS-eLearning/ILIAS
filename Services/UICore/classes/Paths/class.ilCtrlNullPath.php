@@ -50,6 +50,14 @@ class ilCtrlNullPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
+    public function getBaseClass() : ?string
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getException() : ?ilCtrlException
     {
         return null;

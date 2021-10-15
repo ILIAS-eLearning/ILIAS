@@ -88,7 +88,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getObjNameByName(string $class_name) : string
+    public function getObjNameByName(string $class_name) : ?string
     {
         return $this->getValueForKeyByName(self::KEY_CLASS_NAME, $class_name);
     }
@@ -96,7 +96,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getObjNameByCid(string $cid) : string
+    public function getObjNameByCid(string $cid) : ?string
     {
         return $this->getValueForKeyByCid(self::KEY_CLASS_NAME, $cid);
     }

@@ -79,7 +79,7 @@ interface ilCtrlInterface
     /**
      * Sets the current command.
      *
-     * @depracated this method should not be used anymore, as all commands
+     * @deprecated this method should not be used anymore, as all commands
      *             should be passed as $_GET or $_POST parameters.
      *
      * @param string $a_cmd

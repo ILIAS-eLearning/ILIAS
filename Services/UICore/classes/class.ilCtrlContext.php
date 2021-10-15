@@ -99,19 +99,24 @@ final class ilCtrlContext implements ilCtrlContextInterface
     public function adoptRequestParameters() : void
     {
         $this->is_async   = (ilCtrlInterface::CMD_MODE_ASYNC === $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE));
-        $this->redirect   = $this->getQueryParam(ilCtrlInterface::PARAM_REDIRECT);
+
+        // if the query parameter is not provided, the currently
+        // set value must be used instead, otherwise the values
+        // are overwritten by null.
+        $this->redirect   = $this->getQueryParam(ilCtrlInterface::PARAM_REDIRECT) ?? $this->redirect;
         $this->base_class = $this->getQueryParam(ilCtrlInterface::PARAM_BASE_CLASS) ?? $this->base_class;
-        $this->cmd_class  = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
-        $this->cmd_mode   = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE);
-        $this->cmd        = $this->getQueryParam(ilCtrlInterface::PARAM_CMD);
+        $this->cmd_class  = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS) ?? $this->cmd_class;
+        $this->cmd_mode   = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE) ?? $this->cmd_mode;
+        $this->cmd        = $this->getQueryParam(ilCtrlInterface::PARAM_CMD) ?? $this->cmd;
 
         $existing_path = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
         if (null !== $existing_path) {
-            $this->path = $this->path_factory->existingPath($existing_path);
+            $this->path = $this->path_factory->existing($existing_path);
         } elseif (null !== $this->base_class) {
-            $this->path = $this->path_factory->singleClass($this, $this->base_class);
+            $this->path = $this->path_factory->find($this, $this->base_class);
+        } else {
+            $this->path = $this->path_factory->null();
         }
-        // otherwise, the path is null per default.
     }
 
     /**
@@ -161,6 +166,7 @@ final class ilCtrlContext implements ilCtrlContextInterface
     public function setBaseClass(string $base_class) : ilCtrlContextInterface
     {
         $this->base_class = $base_class;
+        $this->path = $this->path_factory->find($this, $base_class);
         return $this;
     }
 
@@ -195,7 +201,7 @@ final class ilCtrlContext implements ilCtrlContextInterface
     public function setCmdClass(string $cmd_class) : ilCtrlContextInterface
     {
         $this->cmd_class = $cmd_class;
-        $this->path = $this->path_factory->singleClass($this, $cmd_class);
+        $this->path = $this->path_factory->find($this, $cmd_class);
         return $this;
     }
 
@@ -204,7 +210,9 @@ final class ilCtrlContext implements ilCtrlContextInterface
      */
     public function getCmdClass() : ?string
     {
-        return $this->cmd_class;
+        // if no cmd_class is set yet, the baseclass
+        // value can be returned.
+        return $this->cmd_class ?? $this->base_class;
     }
 
     /**

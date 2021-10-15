@@ -49,6 +49,9 @@ interface ilCtrlPathInterface
      *          ...
      *      );
      *
+     * ASC  => from baseclass to command class.
+     * DESC => from command class to baseclass.
+     *
      * @param int $order (SORT_DESC|SORT_ASC)
      * @return string[]
      */
@@ -58,10 +61,20 @@ interface ilCtrlPathInterface
      * Returns all cid's from the current path in the provided
      * directory/order.
      *
+     * ASC  => from baseclass to command class.
+     * DESC => from command class to baseclass.
+     *
      * @param int $order (SORT_DESC|SORT_ASC)
      * @return string[]
      */
     public function getCidArray(int $order = SORT_DESC) : array;
+
+    /**
+     * Returns the baseclass of the current cid path.
+     *
+     * @return string|null
+     */
+    public function getBaseClass() : ?string;
 
     /**
      * Returns the exception produced during the path-finding-

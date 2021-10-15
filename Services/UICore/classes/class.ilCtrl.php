@@ -59,9 +59,9 @@ class ilCtrl implements ilCtrlInterface
     /**
      * Holds an instance of the object that is currently executed.
      *
-     * @var object
+     * @var object|null
      */
-    private object $exec_object;
+    private ?object $exec_object = null;
 
     /**
      * ilCtrl Constructor
@@ -171,10 +171,11 @@ class ilCtrl implements ilCtrlInterface
         // retrieve $_GET and $_POST parameters.
         $post_command = $this->getPostCommand();
         $get_command  = $this->getQueryParam(self::PARAM_CMD);
+        $is_post      = (self::CMD_POST === $get_command);
 
         // if the $_GET command is 'post', either the $_POST
         // command or $_GETs fallback command is used.
-        $command = (self::CMD_POST === $get_command) ?
+        $command = ($is_post) ?
             $post_command ?? $this->getQueryParam(self::PARAM_CMD_FALLBACK) :
             $get_command
         ;
@@ -185,27 +186,22 @@ class ilCtrl implements ilCtrlInterface
         }
 
         if (null !== $command) {
+            // if the command is for post requests, or the command
+            // is not considered safe, the csrf-validation must pass.
+            $cmd_class = $this->context->getCmdClass();
+            if ($is_post || (null !== $cmd_class && !$this->isCmdSecure($cmd_class, $command))) {
+                global $DIC;
 
-            // @TODO: fix security issue
-            return $command;
+                $stored_token = new ilCtrlToken(
+                    $DIC->database(),
+                    $DIC->user()
+                );
 
-            // if the executing object implements ilCtrl security,
-            // the command is returned if it's a safe one.
-            if ($this->isCmdSecure($this->getCmdClass(), $command)) {
-                return $command;
-            }
-
-            global $DIC;
-            $stored_token = new ilCtrlToken(
-                $DIC->database(),
-                $DIC->user()
-            );
-
-            $token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
-
-            // if the command is considered unsafe, the CSRF token
-            // has to bee valid to retrieve the command.
-            if (null !== $token && $stored_token->verifyWith($token)) {
+                $sent_token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
+                if (null !== $sent_token && $stored_token->verifyWith($sent_token)) {
+                    return $command;
+                }
+            } else {
                 return $command;
             }
         }
@@ -230,7 +226,7 @@ class ilCtrl implements ilCtrlInterface
     {
         // @TODO: remove null coalescing operator before release
         //        and inform developers that null-check is needed.
-        return $this->context->getCmdClass() ?? '';
+        return $this->context->getCmdClass();
     }
 
     /**
@@ -412,7 +408,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getFormAction(
         object $a_gui_obj,
-        string $a_cmd = null,
+        string $a_fallback_cmd = null,
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
@@ -431,7 +427,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getFormActionByClass(
         $a_class,
-        string $a_cmd = null,
+        string $a_fallback_cmd = null,
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false
@@ -824,51 +820,29 @@ class ilCtrl implements ilCtrlInterface
         }
 
         $is_array = is_array($a_class);
-        if ($is_array) {
-            $base_class = (string) $a_class[array_key_first($a_class)];
-            // if the provided classes don't include a baseclass
-            // at first position, add the context's baseclass to
-            // the first position instead.
-            if (!$this->structure->isBaseClass($base_class)) {
-                if (null === $this->context->getBaseClass()) {
-                    throw new ilCtrlException("First class in array is not a baseclass and the current context has no baseclass yet.");
-                }
 
-                array_unshift($a_class, $this->context->getBaseClass());
-                $base_class = $this->context->getBaseClass();
-            }
-        } else {
-            if (null === $this->context->getBaseClass() && !$this->structure->isBaseClass($a_class)) {
-                throw new ilCtrlException("Provided class is not a baseclass and the current context has no baseclass yet.");
-            }
-
-            // at this point, the current context either knows a
-            // baseclass, or the provided one is one itself, so
-            // the null coalescing operator can be used.
-            $base_class = $this->context->getBaseClass() ?? $a_class;
-        }
-
-        $path = ($is_array) ?
-            $this->path_factory->arrayClass($a_class) :
-            $this->path_factory->singleClass($this->context, $a_class)
-        ;
-
+        $path = $this->path_factory->find($this->context, $a_class);
         if (null !== ($exception = $path->getException())) {
             throw $exception;
         }
 
-        $target_url = $this->context->getTargetScript();
-        $cmd_class  = ($is_array) ?
-            $a_class[array_key_last($a_class)] :
-            $a_class
-        ;
+        $base_class = $path->getBaseClass();
+        if (null === $base_class) {
+            throw new ilCtrlException("Cannot find a valid baseclass in the cid path '{$path->getCidPath()}'");
+        }
 
+        $target_url = $this->context->getTargetScript();
         $target_url = $this->appendParameterString(
             $target_url,
             self::PARAM_BASE_CLASS,
             $base_class,
             $is_escaped
         );
+
+        $cmd_class  = ($is_array) ?
+            $a_class[array_key_last($a_class)] :
+            $a_class
+        ;
 
         // only append the cid path and command class params
         // if they exist.
@@ -886,16 +860,6 @@ class ilCtrl implements ilCtrlInterface
                 $cmd_class,
                 $is_escaped
             );
-        }
-
-        // collect all set parameters from the structure and
-        // append them to the target url.
-        if ($is_array) {
-            foreach ($a_class as $current_class) {
-                $target_url = $this->appendParameterStringsByClass($current_class, $target_url, $is_escaped);
-            }
-        } else {
-            $target_url = $this->appendParameterStringsByClass($a_class, $target_url, $is_escaped);
         }
 
         // if the target url is generated for form actions,
@@ -920,9 +884,19 @@ class ilCtrl implements ilCtrlInterface
             );
         }
 
+        // collect all set parameters from the structure and
+        // append them to the target url.
+        if ($is_array) {
+            foreach ($a_class as $current_class) {
+                $target_url = $this->appendParameterStringsByClass($current_class, $target_url, $is_escaped);
+            }
+        } else {
+            $target_url = $this->appendParameterStringsByClass($a_class, $target_url, $is_escaped);
+        }
+
         // append a csrf token if the command is considered
-        // unsafe, regardless of the request method.
-        if (!$this->isCmdSecure($cmd_class, $a_cmd)) {
+        // unsafe or the link is for form actions.
+        if ($is_post || !$this->isCmdSecure($cmd_class, $a_cmd)) {
             global $DIC;
 
             $token = new ilCtrlToken(
@@ -1006,26 +980,45 @@ class ilCtrl implements ilCtrlInterface
      */
     private function isCmdSecure(string $cmd_class, string $cmd = null) : bool
     {
+        // if no specified command is executed, the command
+        // is considered safe per default.
         if (null === $cmd) {
             return true;
         }
 
+        // if the given command class doesn't exist, the
+        // command is not considered safe as it might've been
+        // tampered with.
         $obj_name = $this->structure->getObjNameByName($cmd_class);
-        if (is_a($obj_name, ilCtrlSecurityInterface::class, true)) {
-            if (null !== $this->exec_object) {
-                $obj = ($obj_name !== get_class($this->exec_object)) ?
-                    new $obj_name() : $this->exec_object
-                ;
-            } else {
-                $obj = new $obj_name();
-            }
+        if (null === $obj_name) {
+            return false;
+        }
 
-            if (in_array($cmd, $obj->getSafeCommands(), true)) {
-                return true;
+        // if the command class does not yet implement the
+        // ilCtrlSecurityInterface, the command is considered
+        // safe per default as well.
+        if (!is_a($obj_name, ilCtrlSecurityInterface::class, true)) {
+            return true;
+        }
+
+        if (null !== $this->exec_object && $obj_name === get_class($this->exec_object)) {
+            $obj = $this->exec_object;
+        } else {
+            try {
+                // it's crucial to use reflection class and instantiate
+                // the object without calling the constructor, as there
+                // are cases this method is reached from there,what
+                // leads to infinite loops.
+                $ref = new ReflectionClass($obj_name);
+                $obj = $ref->newInstanceWithoutConstructor();
+            } catch (ReflectionException $exception) {
+                return false;
             }
         }
 
-        return false;
+        // check if the command is within the provided
+        // safe command's list.
+        return in_array($cmd, $obj->getSafeCommands(), true);
     }
 
     /**

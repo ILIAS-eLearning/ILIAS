@@ -95,6 +95,8 @@ class ilStartUpGUI implements ilCtrlSecurityInterface, ilCtrlBaseClassInterface
     public function getSafeCommands() : array
     {
         return [
+            'force_login',
+            'doLogout',
             'processIndexPHP',
             'showLoginPage',
             'showLoginPageOrStartupPage',
@@ -127,6 +129,11 @@ class ilStartUpGUI implements ilCtrlSecurityInterface, ilCtrlBaseClassInterface
                     return $this->$cmd();
                 }
         }
+
+        // because this class now implements ilCtrlSecurityInterface,
+        // it may occur that commands are null, therefore I added
+        // this as a fallback method.
+        return $this->showLoginPageOrStartupPage();
     }
 
     /**

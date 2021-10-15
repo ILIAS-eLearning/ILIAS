@@ -108,6 +108,22 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     /**
      * @inheritDoc
      */
+    public function getBaseClass() : ?string
+    {
+        if (null !== $this->cid_path) {
+            $cid_array = $this->getCidArray(SORT_ASC);
+            $class_name = $this->structure->getClassNameByCid($cid_array[0]);
+            if (null !== $class_name && $this->structure->isBaseClass($class_name)) {
+                return $class_name;
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getException() : ?ilCtrlException
     {
         return $this->exception;
