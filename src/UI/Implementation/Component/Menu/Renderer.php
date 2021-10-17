@@ -26,7 +26,7 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Menu\Drilldown) {
             $ui_factory = $this->getUIFactory();
             $back_signal = $component->getBacklinkSignal();
-            $glyph = $ui_factory->symbol()->glyph()->back();
+            $glyph = $ui_factory->symbol()->glyph()->collapsehorizontal();
             $btn = $ui_factory->button()->bulky($glyph, '', '#')->withOnClick($back_signal);
             $back_button_html = $default_renderer->render($btn);
 

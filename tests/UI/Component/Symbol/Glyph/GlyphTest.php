@@ -68,6 +68,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::LISTINDENT => "glyphicon glyphicon-listindent"
         , G\Glyph::LISTOUTDENT => "glyphicon glyphicon-listoutdent"
         , G\Glyph::FILTER => "glyphicon glyphicon-filter"
+        , G\Glyph::COLLAPSE_HORIZONTAL => "glyphicon glyphicon-triangle-left"
     );
 
     public static $aria_labels = array(
@@ -116,6 +117,7 @@ class GlyphTest extends ILIAS_UI_TestBase
         , G\Glyph::LISTINDENT => "listindent"
         , G\Glyph::LISTOUTDENT => "listoutdent"
         , G\Glyph::FILTER => "filter"
+        , G\Glyph::COLLAPSE_HORIZONTAL => "collapse/back"
     );
 
     /**
