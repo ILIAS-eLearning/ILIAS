@@ -50,6 +50,6 @@ class SubordinateNameSource implements NameSource
     {
         $this->count++;
 
-        return "$this->parent_input_name[" . self::INDEX_PLACEHOLDER . "][input_$this->count]";
+        return "$this->parent_input_name[" . self::INDEX_PLACEHOLDER . "][sub_input_$this->count]";
     }
 }

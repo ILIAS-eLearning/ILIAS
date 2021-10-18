@@ -146,7 +146,7 @@ class Group extends Input implements C\Input\Field\Group
      */
     public function withInput(InputData $post_input)
     {
-        if (sizeof($this->getInputs()) === 0) {
+        if (count($this->getInputs()) === 0) {
             return $this;
         }
 

@@ -8,6 +8,8 @@ use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Component\Input\Field\FormInput;
 use ILIAS\UI\Implementation\Component\Input\SubordinateNameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\ArrayInputData;
+use ILIAS\Data\Result\Ok;
 
 /**
  * Class AdditionalFormInputAwareInput can be inherited in order
@@ -90,9 +92,6 @@ abstract class AdditionalFormInputAwareInput extends Input implements Additional
     }
 
     /**
-     * @TODO: discuss if values should be separated e.g. by
-     *        withValueForAdditionalInputs().
-     *
      * @inheritDoc
      */
     public function withValue($value)
@@ -120,19 +119,39 @@ abstract class AdditionalFormInputAwareInput extends Input implements Additional
         }
 
         $clone = clone $this;
-        $post_data = $input->getOr($this->getName(), null);
+        $post_data = $input->getOr($clone->getName(), null);
 
-        if (!empty($post_data) && null !== $clone->input_template) {
-            foreach ($post_data as $input_value) {
-                /** @var $tpl_input FormInput */
-                $tpl_input = $clone->input_template->withValue($input_value);
-                $tpl_input->content = $tpl_input->applyOperationsTo($input_value);
-                if ($tpl_input->content->isError()) {
-                    $tpl_input = $tpl_input->withError($tpl_input->content->error());
+        $contents = [];
+        if (!empty($post_data) && null !== ($template = $clone->getTemplateForAdditionalInputs())) {
+            foreach ($post_data as $input_data) {
+                $data = [];
+                foreach ($input_data as $key => $value) {
+                    $input_name = "{$clone->getName()}[" . SubordinateNameSource::INDEX_PLACEHOLDER . "][$key]";
+                    $data[$input_name] = $value;
                 }
 
-                $clone->additional_inputs[] = $tpl_input;
+                $template = $template->withInput(new ArrayInputData($data));
+                $content  = $template->getContent();
+
+                if ($content->isOk()) {
+                    $content = $content->value();
+                    if (is_array($content) && !empty($content)) {
+                        foreach ($content as $key => $val) {
+                            $contents[$key] = $val;
+                        }
+                    } else {
+                        $contents[] = $content;
+                    }
+                }
             }
+
+            $clone->content = $clone->applyOperationsTo($contents);
+
+            if ($clone->content->isError()) {
+                $clone = $clone->withError($clone->content->error());
+            }
+        } else {
+            $clone->content = new Ok(null);
         }
 
         return $clone;
@@ -164,6 +183,17 @@ abstract class AdditionalFormInputAwareInput extends Input implements Additional
                 new SubordinateNameSource($clone->getName())
             );
         }
+
+        $named_inputs = [];
+        if (null !== $clone->additional_inputs) {
+            foreach ($clone->additional_inputs as $key => $input) {
+                $named_inputs[$key] = $input->withNameFrom(
+                    new SubordinateNameSource($clone->getName())
+                );
+            }
+        }
+
+        $clone->additional_inputs = $named_inputs;
 
         return $clone;
     }

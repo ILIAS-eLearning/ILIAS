@@ -3,6 +3,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\NameSource;
+use ILIAS\UI\Implementation\Component\Input\Container\Form\ArrayInputData;
 use ILIAS\UI\Implementation\Component\Input\SubordinateNameSource;
 use ILIAS\UI\Implementation\Component\Input\Field\Factory as InputFactory;
 use ILIAS\UI\Implementation\Component\Input\InputData;
@@ -14,6 +15,7 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Result\Ok;
 use ilLanguage;
+use _HumbugBox0b2f2d5c77b8\Symfony\Component\Console\Exception\LogicException;
 
 /**
  * Class File is responsible for managing file inputs.
@@ -214,29 +216,41 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
         $clone = clone $this;
 
         foreach ($value as $file_id => $template_value) {
-            $file_info = $this->upload_handler->getInfoResult($file_id);
-            if (null === $file_info) {
-                throw new \InvalidArgumentException("Invalid argument supplied,  resource '$file_id' does not exist.");
-            }
-
-            if (null !== $this->input_template) {
-                $template = $clone->input_template->withValue($template_value);
-                if ('application/zip' === $file_info->getMimeType() && $clone->hasZipExtractOptions()) {
-                    $template = $this->mergeInputWithZipOptions($template);
+            if (null !== ($template = $clone->getTemplateForAdditionalInputs()) || $clone->hasZipExtractOptions()) {
+                $file_info = $clone->upload_handler->getInfoResult($file_id);
+                if (null === $file_info) {
+                    throw new LogicException("Provided file for resource id '$file_id' not found.");
                 }
 
-                $clone->additional_inputs[$file_id] = $template;
-            }
+                if (null !== $template) {
+                    $template = $clone->input_template->withValue($template_value);
+                    if ($clone->has_zip_options && 'application/zip' === $file_info->getMimeType()) {
+                        $template = $clone->mergeInputWithZipOptions($template);
+                    }
 
-            $clone->value[$file_id] = $file_info;
+                    $clone->additional_inputs[$file_id] = $template;
+                } else {
+                    $zip_options = $this->getZipExtractOptionsTemplate();
+                    $zip_options = $zip_options->withValue($template_value);
+
+                    $clone->additional_inputs[$file_id] = $zip_options;
+                }
+
+                $clone->value[$file_id] = $file_info;
+            } else {
+                $file_info = $clone->upload_handler->getInfoResult($template_value);
+                if (null === $file_info) {
+                    throw new LogicException("Provided file for resource id '$template_value' not found.");
+                }
+
+                $clone->value[$template_value] = $file_info;
+            }
         }
 
         return $clone;
     }
 
     /**
-     * Parent method is overwritten in order to
-     *
      * @inheritDoc
      */
     public function getValue()
@@ -246,21 +260,25 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
         }
 
         $values = [];
+        /** @var $file_info FileInfoResult */
         foreach ($this->value as $file_id => $file_info) {
-            /** @var $file_info FileInfoResult */
-            $template_value = $this->additional_inputs[$file_id]->getValue();
-            if (is_array($template_value) && !empty($template_value)) {
-                foreach ($template_value as $key => $value) {
-                    $values[$file_id][$key] = $value;
+            if (!empty($this->additional_inputs)) {
+                $template_value = $this->additional_inputs[$file_id]->getValue();
+                if (is_array($template_value) && !empty($template_value)) {
+                    foreach ($template_value as $key => $value) {
+                        $values[$file_id][$key] = $value;
+                    }
+                } else {
+                    $values[$file_id][] = $template_value;
                 }
-            } else {
-                $values[$file_id][] = $template_value;
-            }
 
-            // file-info is appended as last array entry, in
-            // order to "consistently" fetch it with PHPs
-            // array_key_last() function.
-            $values[$file_id][] = $file_info;
+                // file-info is appended as last array entry, in
+                // order to "consistently" fetch it with PHPs
+                // array_key_last() function.
+                $values[$file_id][] = $file_info;
+            } else {
+                $values[$file_id] = $file_info;
+            }
         }
 
         return $values;
@@ -271,25 +289,58 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
      *
      * @inheritDoc
      */
-    public function withInput(InputData $input)
+    public function withInput(InputData $post_input)
     {
-        $content = [];
-        $clone = clone $this;
-        $post_data = $input->get($this->getName());
+        if (null === $this->getName()) {
+            throw new \LogicException("Can only collect if input has a name.");
+        }
 
-        /**
-         * @TODO: fix this, doesnt quite work.
-         */
+        $clone           = clone $this;
+        $post_data       = $post_input->getOr($this->getName(), null);
+        $file_identifier = $clone->upload_handler->getFileIdentifierParameterName();
+
+        if (empty($post_data)) {
+            $clone->content = new Ok($post_data);
+            return $clone;
+        }
+
+        $contents = [];
         foreach ($post_data as $file_data) {
-            $file_id = $file_data[$this->upload_handler->getFileIdentifierParameterName()];
-            if (null !== ($templates = $this->getAdditionalInputs())) {
-                foreach ($templates as $key => $template) {
-                    $content[$file_id][$key] = $file_data[$key];
+            $file_id = $file_data[$file_identifier];
+
+            if (null !== ($template = $clone->getTemplateForAdditionalInputs()) || $clone->hasZipExtractOptions()) {
+                $data = [];
+                foreach ($file_data as $key => $value) {
+                    if ($key !== $file_identifier) {
+                        $input_name = "{$clone->getName()}[" . SubordinateNameSource::INDEX_PLACEHOLDER . "][$key]";
+                        $data[$input_name] = $value;
+                    }
                 }
+
+                $template = ($template) ?: $clone->getZipExtractOptionsTemplate();
+                $template = $template->withInput(new ArrayInputData($data));
+                $content  = $template->getContent();
+
+                if ($content->isOk()) {
+                    $content = $content->value();
+                    if (is_array($content) && !empty($content)) {
+                        foreach ($content as $key => $value) {
+                            $contents[$file_id][$key] = $value;
+                        }
+                    } else {
+                        $contents[$file_id] = $content;
+                    }
+                }
+            } else {
+                $contents[] = $file_id;
             }
         }
 
-        $clone->content = new Ok($content);
+        $clone->content = $clone->applyOperationsTo($contents);
+
+        if ($clone->content->isError()) {
+            $clone = $clone->withError($clone->content->error());
+        }
 
         return $clone;
     }
@@ -334,24 +385,11 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
                     return false;
                 }
 
-                if ($template instanceof C\Input\Field\Group) {
-                    if (!is_array($template_value)) {
-                        return false;
-                    }
-
-                    $inputs = $template->getInputs();
-                    foreach ($template_value as $key => $val) {
-                        if (!isset($inputs[$key])) {
-                            return false;
-                        }
-
-                        if (!$inputs[$key]->isClientSideValueOk($val)) {
-                            return false;
-                        }
-                    }
-                } elseif (!$template->isClientSideValueOk($template_value)) {
+                if (!$template->isClientSideValueOk($template_value)) {
                     return false;
                 }
+            } elseif ($this->hasZipExtractOptions()) {
+                return true;
             } elseif (!is_string($template_value)) {
                 return false;
             }
@@ -377,7 +415,7 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
      */
     protected function getConstraintForRequirement()
     {
-        return $this->refinery->string();
+        return static function () {};
     }
 
     /**

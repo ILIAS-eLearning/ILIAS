@@ -35,15 +35,16 @@ Dropzone.autoDiscover = false;
          * @type {object}
          */
         const DEFAULT_SETTINGS = {
-            file_upload_url:    '',
-            file_removal_url:   '',
-            file_info_url:      '',
-            file_identifier:    'file_id',
-            max_file_amount:    1,
-            file_mime_types:    null,
-            existing_files:     null,
-            max_file_size:      null,
-            has_zip_options:    false,
+            file_upload_url:        '',
+            file_removal_url:       '',
+            file_info_url:          '',
+            file_identifier:        'file_id',
+            max_file_amount:        1,
+            file_mime_types:        null,
+            existing_files:         null,
+            existing_files_count:   0,
+            max_file_size:          null,
+            has_zip_options:        false,
         };
 
         /**
@@ -73,11 +74,12 @@ Dropzone.autoDiscover = false;
             file_input:         '.il-file-input',
             file_input_tpl:     '.il-file-input-template',
             nested_inputs:      '.il-file-input-additional-inputs',
-            zip_options:        '.il-file-input-zip-options',
+            zip_options:        '.il-file-input-additional-inputs input:eq(0), .il-file-input-additional-inputs input:eq(1)',
             inputs_toggle:      '.il-file-input-preview .metadata-toggle',
             file_removal:       '.il-file-input-preview .remove',
             file_error_msg:     '.il-file-input-upload-error',
             toggle_glyph:       '.metadata-toggle .glyph',
+            form_group:         '.form-group.row',
             file_name:          '.filename',
             close_glyph:        '.remove',
             glyph:              '.glyph',
@@ -150,27 +152,41 @@ Dropzone.autoDiscover = false;
          * @param {File} file
          */
         let addFileHook = function (file) {
-            let preview  = $(file.previewElement);
-            let dropzone = $(this)[0];
+            let preview     = $(file.previewElement);
+            let dropzone    = $(this)[0];
+            let zip_options = preview.find(SELECTOR.zip_options);
 
             // if zip-options were enabled and the file is of type zip,
-            // the inputs can be shown or they are removed entirely.
-            if ('application/zip' === file.type && $(this)[0].has_zip_options) {
-                preview.find(SELECTOR.zip_options).show();
-            } else {
-                preview.find(SELECTOR.zip_options).remove();
+            // the inputs can be shown or they are hidden, as the backend
+            // needs the input to be submitted.
+            if (dropzone.has_zip_options) {
+                for (let i = 0, i_max = zip_options.length; i < i_max; i++) {
+                    let form_group = $(zip_options[i]).closest(SELECTOR.form_group);
+                    if ('application/zip' === file.type) {
+                        form_group.show();
+                    } else {
+                        form_group.hide();
+                    }
+                }
             }
 
-            let inputs = $(file.previewElement).find('input, textarea, select');
+            let inputs = preview.find('input, textarea, select');
             for (let i = 0, i_max = inputs.length; i < i_max; i++) {
                 let input = $(inputs[i]);
+                let name  = input.attr('name');
+                let id    = generateId();
 
-                // replaces the first empty brackets with one's that contain
-                // the current input count.
-                input.attr('name', input.attr('name').replace('[]', `[${dropzone.existing_files}]`));
+                if (true === name.includes('SUBORDINATE_INPUT_INDEX')) {
+                    input.attr('name', name.replace('SUBORDINATE_INPUT_INDEX', `${dropzone.existing_files_count}`));
+                    input.attr('id', id);
+                    $(input.closest(SELECTOR.form_group).find('label')).attr('for', id);
+                } else {
+                    debug("entered else");
+                    input.attr('name', name.replace('[]', `[${dropzone.existing_files_count}]`));
+                }
             }
 
-            dropzone.existing_files++;
+            dropzone.existing_files_count++;
         };
 
         /**
@@ -289,6 +305,8 @@ Dropzone.autoDiscover = false;
             // fetch dropzone(s) of the current form and process their queues.
             let file_inputs = current_form.find(SELECTOR.file_input);
 
+            debug(file_inputs);
+
             // in case multiple file-inputs were added to ONE form, they
             // all need to be processed.
             if (Array.isArray(file_inputs)) {
@@ -299,7 +317,11 @@ Dropzone.autoDiscover = false;
                 }
             } else {
                 let dropzone = instances[file_inputs.attr('id')];
-                dropzone.processQueue();
+                if (0 !== dropzone.files.length) {
+                    dropzone.processQueue();
+                } else {
+                    current_form.submit();
+                }
             }
         };
 
@@ -312,7 +334,7 @@ Dropzone.autoDiscover = false;
 
             // only adjust auto-processing if there are actually
             // more than one file.
-            if (1 !== dropzone.existing_files) {
+            if (1 !== dropzone.existing_files_count) {
                 dropzone.options.autoProcessQueue = true;
             }
         };
@@ -330,10 +352,8 @@ Dropzone.autoDiscover = false;
 
         /**
          * Toggles the state of each list-entry's metadata inputs section.
-         *
-         * @param {Event} event
          */
-        let toggleMetadataHook = function (event) {
+        let toggleAdditionalInputsHook = function () {
             $(this)
                 .parent()
                 .parent()
@@ -364,21 +384,35 @@ Dropzone.autoDiscover = false;
             // if toggles were rendered, they need to be set up.
             if (0 !== toggles.length) {
                 // hide only every 2nd toggle, to hide the collapse toggles.
-                for (let i = 0; i < toggles.length; i += 2) {
+                for (let i = 0, i_max = toggles.length; i < i_max; i += 2) {
                     $(toggles[i]).hide();
                 }
 
-                // if zip options were rendered, those inputs need to
-                // be set up as well.
-                if (with_zip_options) {
-                    // zip options can be hidden, if the file-name doesn't
-                    // contain 'zip' extension.
-                    for (let i = 0; i < previews.length; i++) {
+                for (let i = 0, i_max = previews.length; i < i_max; i++) {
+                    if (i !== 0) {
+                        // only rename inputs that were provided or rendered
+                        // server-side.
+                        let inputs = $(previews[i]).find('input, select, textarea');
+                        debug(inputs);
+
+                        for (let j = 0, j_max = inputs.length; j < j_max; j++) {
+                            let input = $(inputs[j]);
+                            debug(input);
+                            input.attr('name', input.attr('name').replace('SUBORDINATE_INPUT_INDEX', `${i - 1}`));
+                        }
+                    }
+
+                    if (with_zip_options) {
+                        // hide zip options for files that are not of type
+                        // zip, if the zip options were enabled.
                         let zip_options = $(previews[i]).find(SELECTOR.zip_options);
                         let filename    = $(previews[i]).find(SELECTOR.file_name).html();
+
                         // first iteration can also be set up, because it's the preview element
                         if (i === 0 || null === filename.match('^.*\.(zip)$')) {
-                            zip_options.hide();
+                            for (let j = 0, j_max = zip_options.length; j < j_max; j++) {
+                                $(zip_options[j]).closest(SELECTOR.form_group).hide();
+                            }
                         }
                     }
                 }
@@ -391,9 +425,9 @@ Dropzone.autoDiscover = false;
             // use little trick to get whole HTML of the element. HTML must
             // be stored before the element is removed from DOM.
             let html = $('<div />').append(preview.clone()).html();
-            if (!DEBUG) {
+            // if (!DEBUG) {
                 preview.remove();
-            }
+            // }
 
             return html;
         };
@@ -407,7 +441,7 @@ Dropzone.autoDiscover = false;
             // general event-listeners
             if (!instantiated) {
                 $(SELECTOR.dropzone).closest('form').on('click', SELECTOR.submit_btn, formSubmissionHook);
-                $(SELECTOR.file_list).on('click', SELECTOR.toggle_glyph, toggleMetadataHook);
+                $(SELECTOR.file_list).on('click', SELECTOR.toggle_glyph, toggleAdditionalInputsHook);
                 $(SELECTOR.file_list).on('click', SELECTOR.close_glyph, removeFileManuallyHook)
             }
 
@@ -467,8 +501,8 @@ Dropzone.autoDiscover = false;
             // this setting is used for indexing the generated inputs,
             // therefore it must either start at 0 or the amount of
             // existing files counted from 0.
-            dropzone.existing_files = (null !== settings.existing_files) ?
-                (settings.existing_files.length - 1) : 0
+            dropzone.existing_files_count = (0 !== settings.existing_files_count) ?
+                (settings.existing_files_count - 1) : 0
             ;
 
             initEventListeners(dropzone);
@@ -514,6 +548,16 @@ Dropzone.autoDiscover = false;
             this.getData = function() {
                 return file;
             };
+        };
+
+        /**
+         * Helper function to generate (very) unique id's for
+         * additional inputs rendered.
+         *
+         * @return {string}
+         */
+        let generateId = function () {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
         };
 
         return {

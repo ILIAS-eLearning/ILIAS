@@ -300,16 +300,18 @@ class ilObjFileGUI extends ilObject2GUI
     protected function getCreationFormsHTML(array $a_forms)
     {
         // abort if empty array was passed
-        if (empty($a_forms)) return '';
-
-        // return ui component form html if it's the only array entry
-        if (1 === count($a_forms) && $a_forms[0] instanceof UIComponentForm) {
-            return $this->ui->renderer()->render($a_forms[0]);
+        if (empty($a_forms)) {
+            return '';
         }
 
-        // return legacy form html if it's the only array entry
-        if (1 === count($a_forms) && $a_forms[0] instanceof ilPropertyFormGUI) {
-            return $a_forms[0]->getHTML();
+        if (1 === count($a_forms)) {
+            if ($a_forms[0] instanceof UIComponentForm) {
+                return $this->ui->renderer()->render($a_forms[0]);
+            }
+
+            if ($a_forms[0] instanceof ilPropertyFormGUI) {
+                return $a_forms[0]->getHTML();
+            }
         }
 
         $accordion = new ilAccordionGUI();
@@ -359,9 +361,10 @@ class ilObjFileGUI extends ilObject2GUI
                 'files' => $this->ui->factory()->input()->field()
                     ->file(
                         $this->upload_handler,
-                        $this->lng->txt('upload')
+                        $this->lng->txt('upload'),
+                        null,
+                        true
                     )
-                    ->withZipExtractOptions(true)
                     ->withMaxFiles(100)
                     ->withTemplateForAdditionalInputs(
                         $this->ui->factory()->input()->field()->group([
@@ -377,14 +380,6 @@ class ilObjFileGUI extends ilObject2GUI
                             ,
                         ])
                     )
-                    ->withValue([
-                        '776d5622-595d-410f-9939-c93f4ba6db2c' => [
-                            'filename' => 'test',
-                            'description' => 'test',
-                            false,
-                            false,
-                        ],
-                    ])
                 ,
             ]
         );
@@ -450,7 +445,7 @@ class ilObjFileGUI extends ilObject2GUI
         foreach ($data['files'] as $file_id => $file_data) {
             $rid = $this->storage->manage()->find($file_id);
             if (null !== $rid) {
-                $processor = $this->getFileProcessor($file_data['zip_extract'], $file_data['zip_structure']);
+                $processor = $this->getFileProcessor($file_data[0], $file_data[1]);
                 $processor->process($rid, $this->parent_id, [
                     ilObjFileProcessorInterface::OPTION_FILENAME     => $file_data['filename'],
                     ilObjFileProcessorInterface::OPTION_DESCRIPTION  => $file_data['description'],

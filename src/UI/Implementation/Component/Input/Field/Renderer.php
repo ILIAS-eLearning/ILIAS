@@ -602,6 +602,7 @@ class Renderer extends AbstractComponentRenderer
 
         $settings = new \stdClass();
         $settings->existing_files       = $existing_files;
+        $settings->existing_files_count = ($existing_files !== null) ? count($existing_files) : 0;
         $settings->has_zip_options      = $component->hasZipExtractOptions();
         $settings->file_identifier      = $component->getUploadHandler()->getFileIdentifierParameterName();
         $settings->file_upload_url      = $component->getUploadHandler()->getUploadURL();
@@ -635,7 +636,7 @@ class Renderer extends AbstractComponentRenderer
         $tpl = $this->getTemplate("tpl.file.html", true, true);
         $this->maybeDisable($component, $tpl);
 
-        if (null !== ($template = $component->getTemplateForAdditionalInputs())) {
+        if (null !== ($template = $component->getTemplateForAdditionalInputs()) || $component->hasZipExtractOptions()) {
             $wrapInput = static function (FI\Input $input) use ($default_renderer) : string {
                 return
                     '<div class="il-file-input-additional-inputs">' .
@@ -648,34 +649,37 @@ class Renderer extends AbstractComponentRenderer
             $additional_inputs_toggle =
                 '<span class="file-info metadata-toggle">' .
                     $default_renderer->render([
-                        $this->getUIFactory()->symbol()->glyph()->collapse(),
                         $this->getUIFactory()->symbol()->glyph()->expand(),
+                        $this->getUIFactory()->symbol()->glyph()->collapse(),
                     ]) .
                 '</span>'
             ;
 
             $tpl->setCurrentBlock('block_file_preview');
-            $tpl->setVariable('NESTED_INPUTS_TOGGLE', $additional_inputs_toggle);
+            $tpl->setVariable('ADDITIONAL_INPUTS_TOGGLE', $additional_inputs_toggle);
             $tpl->setVariable('FILE_IDENTIFIER', $component->getUploadHandler()->getFileIdentifierParameterName());
-            $tpl->setVariable('ADDITIONAL_INPUTS', $wrapInput($template));
+            $tpl->setVariable('ADDITIONAL_INPUTS', $wrapInput(($template) ?: $component->getZipExtractOptionsTemplate()));
             $tpl->setVariable('NAME', $component->getName());
             $tpl->parseCurrentBlock();
 
             if (null !== ($templates = $component->getAdditionalInputs())) {
+                $count = 0;
                 foreach ($templates as $index => $template) {
                     $file_info = $existing_files[$index][array_key_last($existing_files[$index])];
 
                     $tpl->setCurrentBlock('block_file_preview');
                     $tpl->setVariable('RENDER_CLASS', 'il-file-input-server-side');
-                    $tpl->setVariable('NESTED_INPUTS_TOGGLE', $additional_inputs_toggle);
+                    $tpl->setVariable('ADDITIONAL_INPUTS_TOGGLE', $additional_inputs_toggle);
                     $tpl->setVariable('FILE_IDENTIFIER', $component->getUploadHandler()->getFileIdentifierParameterName());
                     $tpl->setVariable('FILE_NAME', $file_info->getName());
                     $tpl->setVariable('FILE_SIZE', $file_info->getSize());
                     $tpl->setVariable('FILE_ID', $file_info->getFileIdentifier());
                     $tpl->setVariable('ADDITIONAL_INPUTS', $wrapInput($template));
                     $tpl->setVariable('NAME', $component->getName());
-                    $tpl->setVariable('INDEX', $index);
+                    $tpl->setVariable('INDEX', $count);
                     $tpl->parseCurrentBlock();
+
+                    $count++;
                 }
             }
         }

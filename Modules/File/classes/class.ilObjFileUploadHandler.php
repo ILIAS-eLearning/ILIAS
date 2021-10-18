@@ -40,6 +40,23 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getUploadURL() : string
+    {
+        return $this->ctrl->getLinkTargetByClass([static::class], self::CMD_UPLOAD, '', true);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function getExistingFileInfoURL() : string
+    {
+        return $this->ctrl->getLinkTargetByClass([static::class], self::CMD_INFO, '', true);
+    }
+
+    /**
      * overrides parent method in order to provide an async URL.
      *
      * @return string
@@ -85,8 +102,8 @@ class ilObjFileUploadHandler extends AbstractCtrlAwareUploadHandler
             $status = HandlerResult::STATUS_OK;
             $message = "file removal OK";
         } else {
-            $status = HandlerResult::STATUS_FAILED;
-            $message = "file with identifier '{$identifier}' doesn't exist.";
+            $status = HandlerResult::STATUS_OK;
+            $message = "file with identifier '$identifier' doesn't exist, nothing to do.";
         }
 
         return new BasicHandlerResult($this->getFileIdentifierParameterName(), $status, $identifier, $message);

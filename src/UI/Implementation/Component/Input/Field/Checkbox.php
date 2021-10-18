@@ -33,11 +33,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
      */
     protected function isClientSideValueOk($value) : bool
     {
-        if ($value == "checked" || $value === "" || is_bool($value)) {
-            return true;
-        } else {
-            return false;
-        }
+        return $value === "checked" || $value === "" || is_bool($value);
     }
 
 
@@ -47,11 +43,7 @@ class Checkbox extends Input implements C\Input\Field\Checkbox, C\Changeable, C\
      */
     public function withValue($value)
     {
-        if (!is_bool($value)) {
-            throw new \InvalidArgumentException(
-                "Unknown value type for checkbox: " . gettype($value)
-            );
-        }
+        $this->checkArg('value', $this->isClientSideValueOk($value), "Display value does not match input type.");
 
         /**
          * @var $clone Checkbox
