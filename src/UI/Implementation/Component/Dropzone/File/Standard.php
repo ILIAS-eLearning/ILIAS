@@ -14,7 +14,7 @@ class Standard extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File
     /**
      * @var string|null
      */
-    private ?string $message;
+    private ?string $message = null;
 
     /**
      * @inheritdoc

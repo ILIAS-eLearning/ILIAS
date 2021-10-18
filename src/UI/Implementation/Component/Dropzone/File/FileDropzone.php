@@ -58,12 +58,12 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     /**
      * @var FormInput|null
      */
-    private ?FormInput $input_template;
+    private ?FormInput $input_template = null;
 
     /**
      * @var FormInput[]|null
      */
-    private ?array $additional_inputs;
+    private ?array $additional_inputs = null;
 
     /**
      * @var string
@@ -73,17 +73,17 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
     /**
      * @var string[]|null
      */
-    private ?array $accepted_mime_types;
+    private ?array $accepted_mime_types = null;
 
     /**
      * @var int|null
      */
-    private ?int $max_file_size;
+    private ?int $max_file_size = null;
 
     /**
      * @var int|null
      */
-    private ?int $max_files;
+    private int $max_files = 1;
 
     /**
      * @var bool
@@ -199,11 +199,7 @@ abstract class FileDropzone implements \ILIAS\UI\Component\Dropzone\File\FileDro
      */
     public function getMaxFiles() : int
     {
-        if (null !== $this->max_files && 1 < $this->max_files) {
-            return $this->max_files;
-        }
-
-        return 1;
+        return $this->max_files;
     }
 
     //

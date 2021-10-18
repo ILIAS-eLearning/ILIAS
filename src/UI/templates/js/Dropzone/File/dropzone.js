@@ -18,7 +18,7 @@ il.UI.Dropzone = il.UI.Dropzone || {};
      *
      * @type {{init: init}}
      */
-    il.UI.Dropzone.wrapper = (function ($) {
+    UI.Dropzone.wrapper = (function ($) {
 
         /**
          * Enables or disables the debugging of this component.

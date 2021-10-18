@@ -26,7 +26,7 @@ class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\
     /**
      * @var string|null
      */
-    private ?string $title;
+    private ?string $title = null;
 
     /**
      * Wrapper Constructor
@@ -86,7 +86,7 @@ class Wrapper extends FileDropzone implements \ILIAS\UI\Component\Dropzone\File\
      */
     public function getForm() : \ILIAS\UI\Component\Input\Container\Form\Standard
     {
-        $dropzone_file_input = $this->factory->field()->file($this->getUploadHandler(), $this->getTitle() ?? '', $this->hasZipExtractOptions());
+        $dropzone_file_input = $this->factory->field()->file($this->getUploadHandler(), $this->getTitle() ?? '', null, $this->hasZipExtractOptions());
 
         if (null !== ($max_size = $this->getMaxFileSize())) {
             $dropzone_file_input = $dropzone_file_input->withMaxFileSize($max_size);

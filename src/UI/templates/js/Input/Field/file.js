@@ -27,7 +27,7 @@ Dropzone.autoDiscover = false;
          *
          * @type {boolean}
          */
-        const DEBUG = true;
+        const DEBUG = false;
 
         /**
          * Default settings used for dropzone.js initialization.
@@ -425,9 +425,9 @@ Dropzone.autoDiscover = false;
             // use little trick to get whole HTML of the element. HTML must
             // be stored before the element is removed from DOM.
             let html = $('<div />').append(preview.clone()).html();
-            // if (!DEBUG) {
+            if (!DEBUG) {
                 preview.remove();
-            // }
+            }
 
             return html;
         };
