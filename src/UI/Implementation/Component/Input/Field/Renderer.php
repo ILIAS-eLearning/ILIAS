@@ -663,13 +663,15 @@ class Renderer extends AbstractComponentRenderer
 
             if (null !== ($templates = $component->getAdditionalInputs())) {
                 foreach ($templates as $index => $template) {
+                    $file_info = $existing_files[$index][array_key_last($existing_files[$index])];
+
                     $tpl->setCurrentBlock('block_file_preview');
                     $tpl->setVariable('RENDER_CLASS', 'il-file-input-server-side');
                     $tpl->setVariable('NESTED_INPUTS_TOGGLE', $additional_inputs_toggle);
                     $tpl->setVariable('FILE_IDENTIFIER', $component->getUploadHandler()->getFileIdentifierParameterName());
-                    $tpl->setVariable('FILE_NAME', $existing_files[$index]->getName());
-                    $tpl->setVariable('FILE_SIZE', $existing_files[$index]->getSize());
-                    $tpl->setVariable('FILE_ID', $existing_files[$index]->getFileIdentifier());
+                    $tpl->setVariable('FILE_NAME', $file_info->getName());
+                    $tpl->setVariable('FILE_SIZE', $file_info->getSize());
+                    $tpl->setVariable('FILE_ID', $file_info->getFileIdentifier());
                     $tpl->setVariable('ADDITIONAL_INPUTS', $wrapInput($template));
                     $tpl->setVariable('NAME', $component->getName());
                     $tpl->setVariable('INDEX', $index);

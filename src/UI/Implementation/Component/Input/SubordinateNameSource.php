@@ -14,7 +14,7 @@ class SubordinateNameSource implements NameSource
      * @var string placeholder used for indexing the subordinate
      *             input names on clientside.
      */
-    public const INDEX_PLACEHOLDER = '{INDEX}';
+    public const INDEX_PLACEHOLDER = 'SUBORDINATE_INPUT_INDEX';
 
     /**
      * @var int
@@ -40,7 +40,7 @@ class SubordinateNameSource implements NameSource
      * Returns a name that is "mapped" to the parent-input-name
      * this source got instantiated with.
      *
-     * NOTE that the '{INDEX}' placeholder within the first two
+     * NOTE that the index placeholder within the first two
      * brackets must be replaced on client-side, in order to
      * retrieve valid $_POST values.
      *

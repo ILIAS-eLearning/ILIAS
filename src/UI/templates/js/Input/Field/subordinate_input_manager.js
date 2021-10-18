@@ -1,5 +1,5 @@
 /**
- * duplicator.js
+ * subordinate_input_manager.js
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
@@ -17,7 +17,7 @@ il.UI = il.UI || {};
      *
      * @type {{duplicate: duplicate}}
      */
-    UI.Duplicator = (function ($) {
+    UI.SubordinateInpputManager = (function ($) {
 
         /**
          * descr goes here

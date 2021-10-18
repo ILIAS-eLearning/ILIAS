@@ -26,6 +26,12 @@ use ilLanguage;
 class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
 {
     /**
+     * @var string array key used for storing the retrieved file-
+     *             info result in $this->values.
+     */
+    public const FILE_INFO_RESULT_KEY = 'file_info';
+
+    /**
      * @var InputFactory
      */
     private InputFactory $factory;
@@ -43,17 +49,17 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
     /**
      * @var string[]|null
      */
-    private ?array $accepted_mime_types;
+    private ?array $accepted_mime_types = null;
 
     /**
      * @var int|null
      */
-    private ?int $max_file_size;
+    private ?int $max_file_size = null;
 
     /**
-     * @var int|null
+     * @var int
      */
-    private ?int $max_files;
+    private int $max_files = 1;
 
     /**
      * @var bool
@@ -174,11 +180,7 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
      */
     public function getMaxFiles() : int
     {
-        if (null !== $this->max_files && 1 < $this->max_files) {
-            return $this->max_files;
-        }
-
-        return 1;
+        return $this->max_files;
     }
 
     //
@@ -218,8 +220,8 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
             }
 
             if (null !== $this->input_template) {
-                $template = $clone->input_template->withValue($value);
-                if ('application/zip' === $file_info->getMimeType()) {
+                $template = $clone->input_template->withValue($template_value);
+                if ('application/zip' === $file_info->getMimeType() && $clone->hasZipExtractOptions()) {
                     $template = $this->mergeInputWithZipOptions($template);
                 }
 
@@ -246,10 +248,19 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
         $values = [];
         foreach ($this->value as $file_id => $file_info) {
             /** @var $file_info FileInfoResult */
-            $values[$file_id] = [
-                $file_info,
-                $this->additional_inputs[$file_id]->getValue(),
-            ];
+            $template_value = $this->additional_inputs[$file_id]->getValue();
+            if (is_array($template_value) && !empty($template_value)) {
+                foreach ($template_value as $key => $value) {
+                    $values[$file_id][$key] = $value;
+                }
+            } else {
+                $values[$file_id][] = $template_value;
+            }
+
+            // file-info is appended as last array entry, in
+            // order to "consistently" fetch it with PHPs
+            // array_key_last() function.
+            $values[$file_id][] = $file_info;
         }
 
         return $values;
@@ -285,7 +296,8 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
 
     /**
      * Parent method is overwritten in order to generate a subordinate
-     * name for the zip options if they weren't added to the template.
+     * name for the zip options if they weren't added to the template (
+     * because withTemplateForAdditionalInputs was never called).
      *
      * @inheritDoc
      */
@@ -299,6 +311,8 @@ class File extends AdditionalFormInputAwareInput implements C\Input\Field\File
                 new SubordinateNameSource($clone->getName())
             );
         }
+
+        return $clone;
     }
 
     /**
