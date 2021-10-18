@@ -9,11 +9,11 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends TestCase
     public function test_forwards_from_underlying()
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-            ->setMethods(["getRendererFor", "getRendererFactoryFor"])
+            ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
             ->getMock();
 
         $renderer = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\ComponentRenderer::class)
-            ->setMethods(["registerResources", "render"])
+            ->onlyMethods(["registerResources", "render"])
             ->getMock();
         $component = $this->getMockBuilder(\ILIAS\UI\Component\Component::class)->getMock();
         $context = ["a", "b"];
@@ -35,11 +35,11 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends TestCase
     public function test_registerResources()
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-            ->setMethods(["getRendererFor", "getRendererFactoryFor"])
+            ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
             ->getMock();
 
         $renderer = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\ComponentRenderer::class)
-            ->setMethods(["registerResources", "render"])
+            ->onlyMethods(["registerResources", "render"])
             ->getMock();
         $component = $this->getMockBuilder(\ILIAS\UI\Component\Component::class)->getMock();
         $underlying
@@ -63,7 +63,7 @@ class ComponentRendererLoaderResourceRegistryWrapperTest extends TestCase
     public function test_passthrough_getRendererFactory()
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-            ->setMethods(["getRendererFor", "getRendererFactoryFor"])
+            ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
             ->getMock();
 
         $c1 = $this->createMock(\ILIAS\UI\Component\Component::class);

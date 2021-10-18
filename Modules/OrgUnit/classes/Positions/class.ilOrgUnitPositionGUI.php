@@ -14,7 +14,8 @@ class ilOrgUnitPositionGUI extends BaseCommands
     const CMD_CONFIRM_DELETION = 'confirmDeletion';
     const CMD_ASSIGN = 'assign';
 
-    public function __construct() {
+    public function __construct()
+    {
         global $DIC;
 
         if (!ilObjOrgUnitAccess::_checkAccessPositions((int) $_GET['ref_id'])) {

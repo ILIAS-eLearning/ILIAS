@@ -12,12 +12,12 @@ include_once("./Services/Export/classes/class.ilXmlExporter.php");
  */
 class ilNewsExporter extends ilXmlExporter
 {
-    private $ds;
+    private ilNewsDataSet $ds;
 
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         include_once("./Services/News/classes/class.ilNewsDataSet.php");
         $this->ds = new ilNewsDataSet();
@@ -28,13 +28,12 @@ class ilNewsExporter extends ilXmlExporter
 
     /**
      * Get tail dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
      * @return		array		array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         include_once("./Services/News/classes/class.ilNewsItem.php");
         $mob_ids = array();
@@ -56,25 +55,23 @@ class ilNewsExporter extends ilXmlExporter
 
     /**
      * Get xml representation
-     *
      * @param	string		entity
      * @param	string		target release
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "5.4.0" => array(

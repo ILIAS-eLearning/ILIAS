@@ -256,7 +256,7 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
                     new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
                         $GLOBALS['DIC']['ilDB'],
                         $tst
-                        )
+                    )
                 );
                 
                 $list->loadDefinitions();

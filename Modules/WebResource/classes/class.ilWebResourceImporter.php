@@ -17,17 +17,16 @@ class ilWebResourceImporter extends ilXmlImporter
     private $webl = null;
     
 
-    public function init()
+    public function init() : void
     {
     }
     
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         include_once './Modules/Folder/classes/class.ilObjFolder.php';
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {

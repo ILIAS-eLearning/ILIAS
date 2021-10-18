@@ -11,11 +11,10 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
 {
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         // Container import => test object already created
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
@@ -24,7 +23,7 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
         } else {	// case ii, non container
             // Shouldn't happen
             $GLOBALS['ilLog']->write(__METHOD__ . ': Called in non container mode');
-            return false;
+            return;
         }
         
         
@@ -32,15 +31,12 @@ class ilSurveyQuestionPoolImporter extends ilXmlImporter
 
         if (!@file_exists($xml_file)) {
             $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
-            return false;
+            return;
         }
 
         // import qti data
-        $qtiresult = $newObj->importObject($xml_file);
-
+        $newObj->importObject($xml_file);
         $a_mapping->addMapping("Modules/SurveyQuestionPool", "spl", $a_id, $newObj->getId());
-
-        return true;
     }
     
     

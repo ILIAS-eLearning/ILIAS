@@ -15,7 +15,7 @@ class ilAppointmentExerciseFileHandler extends ilAppointmentBaseFileHandler impl
     /**
      * @inheritDoc
      */
-    public function getFiles(): array
+    public function getFiles() : array
     {
         global $DIC;
 

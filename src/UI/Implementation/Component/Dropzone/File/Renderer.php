@@ -95,7 +95,7 @@ class Renderer extends AbstractComponentRenderer
          * @var $dropzone Wrapper
          */
         $js_id = $this->bindJavaScript($dropzone);
-        
+
         $tpl->setVariable('ID', $js_id);
         $tpl->setVariable('MODAL', $default_renderer->render($dropzone_modal));
         $tpl->setVariable('CONTENT', $default_renderer->render($dropzone->getComponents()));

@@ -17,7 +17,7 @@
  ********************************************************************
  */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * TableGUI class for skill profile skill level assignment
@@ -33,7 +33,7 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
     protected int $skill_id;
     protected int $tref_id;
     protected ilBasicSkill $skill;
-    protected ServerRequestInterface $request;
+    protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_level_id;
 
     public function __construct($a_parent_obj, string $a_parent_cmd, string $a_cskill_id)
@@ -42,7 +42,7 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
@@ -50,8 +50,7 @@ class ilSkillLevelProfileAssignmentTableGUI extends ilTable2GUI
         $this->skill_id = (int) $parts[0];
         $this->tref_id = (int) $parts[1];
 
-        $params = $this->request->getQueryParams();
-        $this->requested_level_id = (int) ($params["level_id"] ?? 0);
+        $this->requested_level_id = $this->admin_gui_request->getLevelId();
 
         $this->skill = new ilBasicSkill($this->skill_id);
         parent::__construct($a_parent_obj, $a_parent_cmd);

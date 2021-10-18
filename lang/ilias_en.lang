@@ -130,6 +130,14 @@ user#:#show_own_online_status#:#Show My Online Status
 user#:#user_set_visibilty_options#:#Set visibility options
 user#:#user_set_publishing_options#:#Set publishing options
 chatroom#:#osc_noti_title#:#New Chat Message
+chatroom#:#chat_broadcast_typing#:#Broadcast Typing
+chatroom#:#chat_broadcast_typing_info#:#If enabled, your typing will be broadcasted to other participants of a conversation or chat room.
+chatroom#:#chat_broadcast_typing_no#:#Typing will not be broadcasted to other chat participants
+chatroom#:#chat_broadcast_typing_yes#:#Typing will be broadcasted to other chat participants
+chatroom#:#chat_use_typing_broadcast#:#Typing will be broadcasted
+chatroom#:#chat_no_use_typing_broadcast#:#Typing will not be broadcasted
+chatroom#:#chat_user_x_is_typing#:#User %s is typing ...
+chatroom#:#chat_users_are_typing#:#Multiple users are typing ...
 chatroom#:#osc_enable_browser_notifications_label#:#Browser Notifications
 chatroom#:#osc_enable_browser_notifications_info#:#If enabled, a browser notification will be shown if you receive new messages and conversations when the ILIAS browser tab is in background, or if the browser is hidden. You will also receive a browser notification for new messages in a conversation after %s minute(s) of idling if the ILIAS tab is in foreground.
 chatroom#:#osc_browser_noti_no_support_error#:#Browser notifications are not supported in your browser. Please ensure you are requesting ILIAS via HTTPS and use a <a href="https://caniuse.com/#feat=notifications" target="_blank" rel="noopener noreferrer">supported browser</a>.
@@ -262,6 +270,8 @@ auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Conne
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
+common#:#msg_no_files_selected#:#No files selected
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#obj_tool_setting_filter#:#Filter
 obj#:#obj_tool_setting_filter_info#:#A filter will be displayed in the content tab.
@@ -2631,6 +2641,7 @@ common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_not_found#:#File Not Found
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 rbac#:#file_read#:#User can download file
@@ -7223,10 +7234,8 @@ search#:#search_for_crs_members#:#Search for Courses
 search#:#search_for_grp_members#:#Search for Groups
 search#:#search_for_role_members#:#Search for Roles
 search#:#search_for_users#:#Search for users
-search#:#search_full_info#:#Choose this option to search in a large amount of data.
 search#:#search_grp_title#:#Group Name
 search#:#search_hide_adv_search#:#Hide Advanced Search
-search#:#search_index#:#Indexed search
 search#:#search_like_info#:#Choose this option to get best results.
 search#:#search_limit_reached#:#Your search produced more than %s hits. You can restrict the search terms to receive more detailed results.
 search#:#search_lom#:#LOM Metadata
@@ -11591,7 +11600,7 @@ orgu#:#scope#:#In
 common#:#my_staff#:#Staff
 mst#:#mst_my_staff#:#Staff
 mst#:#mst_list_users#:#Staff List
-mst#:#mst_list_courses#:#Enrolments
+mst#:#mst_list_courses#:#Course Memberships
 mst#:#mst_list_certificates#:#Certificates
 mst#:#mst_list_competences#:#Competences
 mst#:#mst_select_course#:#Select Course
@@ -11600,8 +11609,8 @@ mst#:#mst_opt_all#:#All
 mst#:#mst_memb_status_requested#:#Requested
 mst#:#mst_memb_status_waitinglist#:#Waiting List
 mst#:#mst_memb_status_registered#:#Registered
-mst#:#mst_show_courses#:#Enrolments
-mst#:#mst_courses_of#:#Enrolments of %s
+mst#:#mst_show_courses#:#Course Memberships
+mst#:#mst_courses_of#:#Course Memberships of %s
 mst#:#mst_profile_fulfilled#:#Not met, yet
 mst#:#mst_profile_not_fulfilled#:#Fulfilled
 mst#:#mst_cert_issued_on#:#Issued On
@@ -14788,7 +14797,7 @@ lti#:#lti_exited#:#LTI Session closed
 lti#:#lti_exited_info#:#LTI Session successfully closed
 blog#:#blog_nav_mode_month_list_num_month_with_post#:#Number of month with listed postings
 blog#:#blog_nav_mode_month_list_num_month_with_post_info#:#These months will be displayed with all their postings in the navigation block.
-orgu#:#org_op_access_enrolments#:#View Enrolments
+orgu#:#org_op_access_enrolments#:#View Course Memberships
 orgu#:#msg_position_updated#:#Position updated.
 orgu#:#msg_position_created#:#Position created.
 orgu#:#msg_success_permission_saved#:#Permissions saved.
@@ -14798,7 +14807,7 @@ common#:#position_permission_settings#:#Orgunit-Specific Permissions
 common#:#org_permission_settings#:#Permissions of Positions in Organisational Units
 common#:#org_op_read_learning_progress#:#View Learning Progress of Subordinate Users
 common#:#org_op_manage_members#:#Manage Subordinate Members
-common#:#org_op_access_enrolments#:#View Enrolment-Status
+common#:#org_op_access_enrolments#:#View Course Membership Status
 dateplaner#:#cal_down_no_files#:#Nothing to download, the events listed do not contain files.
 sahs#:#sahs_add#:#Create SCORM Learning Module
 sahs#:#sahs_copy#:#Copy SCORM Learning Module
@@ -15523,7 +15532,7 @@ pd#:#pd_presentation_mode_tile#:#Tile Presentation
 forum#:#frm_move_invalid_file_type#:#The thread "%s" has an unsupported file type attached. Remove the file or contact the administrator of the system to add this file type to the file type whitelist.
 common#:#mm_organisation#:#Organisation
 common#:#mm_staff_list#:#Staff List
-common#:#mm_enrolments#:#Enrolments
+common#:#mm_enrolments#:#Course Memberships
 common#:#mm_communication#:#Communication
 common#:#mm_contacts#:#Contacts
 common#:#mm_mail#:#Mail
@@ -16414,7 +16423,7 @@ content#:#cont_edit_comp#:#Editing
 content#:#cont_edit_multi#:#Selection
 content#:#cont_block_format#:#Section Format
 content#:#cont_upload_file#:#Upload File
-content#:#cont_add_url#:#From URL
+content#:#cont_add_url#:#Enter URL
 content#:#cont_url_info#:#URL of a media file or Youtube URL.
 content#:#cont_choose_from_pool#:#Select from Media Pool
 content#:#cont_choose_media_pool#:#Select Pool
@@ -16533,6 +16542,7 @@ file#:#generate_sanitize_report#:#Report about inaccessible files
 file#:#file_import#:#Import File
 file#:#file_download#:#Download File
 file#:#file_uploaded_by#:#Version uploaded by
+file#:#versionname#:#Title
 file#:#version_uploaded#:#Version uploaded
 file#:#file_copy#:#Copy File
 file#:#general_upload_error_occured#:#An unexpected error occured during upload.
@@ -16546,7 +16556,7 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.
 file#:#not_yet_migrated#:#This file object has not yet been migrated and no new versions can be created. Please contact the administrators of the platform.
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor

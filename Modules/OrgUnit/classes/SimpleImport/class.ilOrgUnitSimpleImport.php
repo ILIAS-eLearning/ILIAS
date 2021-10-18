@@ -60,8 +60,7 @@ class ilOrgUnitSimpleImport extends ilOrgUnitImporter
 
         //see mantis 0024601
         if ($ou_id_type == 'external_id') {
-
-            if(strlen($external_id) == 0) {
+            if (strlen($external_id) == 0) {
                 $external_id = $ou_id;
             }
 

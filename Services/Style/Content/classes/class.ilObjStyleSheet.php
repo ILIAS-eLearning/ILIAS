@@ -11,6 +11,8 @@ class ilObjStyleSheet extends ilObject
 {
     public $style;
 
+    protected int $scope = 0;
+
     public static $num_unit = array("px", "em", "ex", "%", "pt", "pc", "in", "mm", "cm");
     public static $num_unit_no_perc = array("px", "em", "ex", "pt", "pc", "in", "mm", "cm");
     
@@ -1508,6 +1510,7 @@ class ilObjStyleSheet extends ilObject
         // e.g. ha_iheada must be written after ha_ihead, since they are acting on the same dom node
         // styles that must be added at the end
         $this->end_styles = array();
+        $tag = null;
         while ($style_rec = $ilDB->fetchAssoc($style_set)) {
             if ($style_rec["tag"] != $ctag || $style_rec["class"] != $cclass
                 || $style_rec["type"] != $ctype || $style_rec["mq_id"] != $cmq_id) {
@@ -3475,7 +3478,7 @@ class ilObjStyleSheet extends ilObject
                 $tag .= '<StyleTemplate Name="' . $t["name"] . '">';
                 
                 foreach ($atts as $type => $t) {
-                    if ($c[$type] != "") {
+                    if (($c[$type] ?? "") != "") {
                         $tag .= '<StyleClass Type="' . $type . '" Value="' . $c[$type] . '" />';
                     }
                 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Filesystem\Filesystem;
@@ -13,7 +13,7 @@ use ILIAS\FileUpload\FileUpload;
  */
 class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
 {
-    public function testFileCanBeUploaded()
+    public function testFileCanBeUploaded() : void
     {
         $fileUpload = $this->getMockBuilder(FileUpload::class)
             ->getMock();
@@ -91,7 +91,7 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             $fileSystem
         );
 
-        $upload->uploadBackgroundImage('some/where/temporary', '3');
+        $upload->uploadBackgroundImage('some/where/temporary', 3);
     }
 
     /**
@@ -184,7 +184,7 @@ class ilCertificateBackgroundImageUploadTest extends ilCertificateBaseTestCase
             $tmp_file_system
         );
 
-        $upload->uploadBackgroundImage('some/where/temporary', '3', [
+        $upload->uploadBackgroundImage('some/where/temporary', 3, [
             'tmp_name' => 'pending_file'
         ]);
     }

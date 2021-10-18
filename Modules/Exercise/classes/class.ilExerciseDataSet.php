@@ -29,12 +29,12 @@ class ilExerciseDataSet extends ilDataSet
         return array("4.1.0", "4.4.0", "5.0.0", "5.1.0", "5.2.0", "5.3.0");
     }
 
-    protected function getXmlNamespace($a_entity, $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "https://www.ilias.de/xml/Modules/Exercise/" . $a_entity;
     }
     
-    protected function getTypes($a_entity, $a_version) : array
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "exc") {
             switch ($a_version) {
@@ -274,7 +274,7 @@ class ilExerciseDataSet extends ilDataSet
         return [];
     }
 
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "") : void
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
@@ -404,7 +404,7 @@ class ilExerciseDataSet extends ilDataSet
     /**
      * @throws ilDateTimeException
      */
-    public function getXmlRecord($a_entity, $a_version, $a_set) : array
+    public function getXmlRecord(string $a_entity, string $a_version, array $a_set) : array
     {
         if ($a_entity == "exc_assignment") {
             // convert server dates to utc
@@ -447,8 +447,12 @@ class ilExerciseDataSet extends ilDataSet
         return $a_set;
     }
 
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids) : array
-    {
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
         switch ($a_entity) {
             case "exc":
                 switch ($a_version) {
@@ -497,8 +501,13 @@ class ilExerciseDataSet extends ilDataSet
      * @throws ilObjectNotFoundException
      * @throws IOException
      */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version) : void
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         //echo $a_entity;
         //var_dump($a_rec);
 

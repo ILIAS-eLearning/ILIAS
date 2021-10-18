@@ -240,12 +240,12 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $tree = new ilSkillTree();
 
         $sktr = new ilSkillTemplateReference();
-        $sktr->setTitle($_POST["title"]);
-        $sktr->setDescription($_POST["description"]);
-        $sktr->setSkillTemplateId($_POST["skill_template_id"]);
-        $sktr->setSelfEvaluation((bool) $_POST["selectable"]);
+        $sktr->setTitle($this->form->getInput("title"));
+        $sktr->setDescription($this->form->getInput("description"));
+        $sktr->setSkillTemplateId($this->form->getInput("skill_template_id"));
+        $sktr->setSelfEvaluation((bool) $this->form->getInput("selectable"));
         $sktr->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
-        $sktr->setStatus($_POST["status"]);
+        $sktr->setStatus($this->form->getInput("status"));
         $sktr->create();
         ilSkillTreeNode::putInTree($sktr, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $sktr;
@@ -281,11 +281,10 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->initForm("edit");
         if ($this->form->checkInput()) {
             // perform update
-            //			$this->node_object->setSkillTemplateId($_POST["skill_template_id"]);
-            $this->node_object->setTitle($_POST["title"]);
-            $this->node_object->setDescription($_POST["description"]);
-            $this->node_object->setSelfEvaluation((bool) $_POST["selectable"]);
-            $this->node_object->setStatus($_POST["status"]);
+            $this->node_object->setTitle($this->form->getInput("title"));
+            $this->node_object->setDescription($this->form->getInput("description"));
+            $this->node_object->setSelfEvaluation((bool) $this->form->getInput("selectable"));
+            $this->node_object->setStatus($this->form->getInput("status"));
             $this->node_object->update();
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

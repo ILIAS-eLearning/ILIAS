@@ -25,6 +25,8 @@ use ilObject;
 use ilUtil;
 use InvalidArgumentException;
 use ILIAS\UI\Component\MessageBox\MessageBox;
+use ILIAS\DI\Container;
+use ILIAS\Repository\StandardGUIRequest;
 
 /**
  * Repository related main menu items
@@ -41,6 +43,14 @@ use ILIAS\UI\Component\MessageBox\MessageBox;
  */
 class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 {
+    protected StandardGUIRequest $request;
+
+    public function __construct(Container $dic)
+    {
+        parent::__construct($dic);
+        $this->request = $dic->repository()->internal()->gui()->standardRequest();
+    }
+
     public function getStaticTopItems() : array
     {
         return [];
@@ -66,13 +76,14 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->custom(\ilUtil::getImagePath("outlined/icon_reptr.svg"), $title);
 
+        \ilRepositoryExplorerGUI::init();
         $entries[]
             = $this->mainmenu->complex($this->if->identifier('rep_tree_view'))
             ->withVisibilityCallable($access_helper->isRepositoryVisible())
             ->withContentWrapper(function () {
                 return $this->dic->ui()->factory()->legacy($this->renderRepoTree());
             })
-            ->withSupportsAsynchronousLoading(false)
+            ->withSupportsAsynchronousLoading(true)
             ->withTitle($title)
             ->withSymbol($icon)
             ->withParent($top)
@@ -147,8 +158,8 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
                 break;
             }
 
-            if (!isset($nav_item["ref_id"]) || !isset($_GET["ref_id"])
-                || ($nav_item["ref_id"] != $_GET["ref_id"] || !$first)
+            if (!isset($nav_item["ref_id"]) || $this->request->getRefId() == 0
+                || ($nav_item["ref_id"] != $this->request->getRefId() || !$first)
             ) {            // do not list current item
                 $ititle = ilUtil::shortenText(strip_tags($nav_item["title"]), 50, true); // #11023
                 $obj_id = ilObject::_lookupObjectId($nav_item["ref_id"]);
@@ -187,15 +198,14 @@ class RepositoryMainBarProvider extends AbstractStaticMainMenuProvider
         global $DIC;
 
         $tree = $DIC->repositoryTree();
-        $ref_id = (int) ($_GET["ref_id"] ?? 0);
-        if ($_GET["baseClass"] == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
+        $ref_id = $this->request->getRefId();
+        if ($this->request->getBaseClass() == "ilAdministrationGUI" || $ref_id <= 0 || !$tree->isInTree($ref_id)) {
             $ref_id = $tree->readRootId();
         }
 
         $DIC->ctrl()->setParameterByClass("ilrepositorygui", "ref_id", $ref_id);
         $exp = new \ilRepositoryExplorerGUI("ilrepositorygui", "showRepTree");
         $exp->setSkipRootNode(true);
-
-        return $exp->getHTML();
+        return $exp->getHTML() . "<script>" . $exp->getOnLoadCode() . "</script>";
     }
 }

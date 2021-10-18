@@ -269,7 +269,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getOnlyMoveon(): bool
+    public function getOnlyMoveon() : bool
     {
         return $this->only_moveon;
     }
@@ -285,7 +285,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getAchieved(): bool
+    public function getAchieved() : bool
     {
         return $this->achieved;
     }
@@ -301,7 +301,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getAnswered(): bool
+    public function getAnswered() : bool
     {
         return $this->answered;
     }
@@ -317,7 +317,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getCompleted(): bool
+    public function getCompleted() : bool
     {
         return $this->completed;
     }
@@ -333,7 +333,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getFailed(): bool
+    public function getFailed() : bool
     {
         return $this->failed;
     }
@@ -349,7 +349,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getInitialized(): bool
+    public function getInitialized() : bool
     {
         return $this->initialized;
     }
@@ -365,7 +365,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getPassed(): bool
+    public function getPassed() : bool
     {
         return $this->passed;
     }
@@ -381,7 +381,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getProgressed(): bool
+    public function getProgressed() : bool
     {
         return $this->progressed;
     }
@@ -397,7 +397,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getSatisfied(): bool
+    public function getSatisfied() : bool
     {
         return $this->satisfied;
     }
@@ -413,7 +413,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getTerminated(): bool
+    public function getTerminated() : bool
     {
         return $this->terminated;
     }
@@ -429,7 +429,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getHideData(): bool
+    public function getHideData() : bool
     {
         return $this->hide_data;
     }
@@ -445,7 +445,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getTimestamp(): bool
+    public function getTimestamp() : bool
     {
         return $this->timestamp;
     }
@@ -461,7 +461,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getDuration(): bool
+    public function getDuration() : bool
     {
         return $this->duration;
     }
@@ -477,7 +477,7 @@ class ilCmiXapiLrsType
     /**
      * @return bool
      */
-    public function getNoSubstatements(): bool
+    public function getNoSubstatements() : bool
     {
         return $this->no_substatements;
     }
@@ -601,20 +601,20 @@ class ilCmiXapiLrsType
             $this->setRemarks($row->remarks);
             
             $this->setBypassProxyEnabled((bool) $row->bypass_proxy);
-            $this->setOnlyMoveon((bool)$row->only_moveon);
-            $this->setAchieved((bool)$row->achieved);
-            $this->setAnswered((bool)$row->answered);
-            $this->setCompleted((bool)$row->completed);
-            $this->setFailed((bool)$row->failed);
-            $this->setInitialized((bool)$row->initialized);
-            $this->setPassed((bool)$row->passed);
-            $this->setProgressed((bool)$row->progressed);
-            $this->setSatisfied((bool)$row->satisfied);
-            $this->setTerminated((bool)$row->c_terminated);
-            $this->setHideData((bool)$row->hide_data);
-            $this->setTimestamp((bool)$row->c_timestamp);
-            $this->setDuration((bool)$row->duration);
-            $this->setNoSubstatements((bool)$row->no_substatements);
+            $this->setOnlyMoveon((bool) $row->only_moveon);
+            $this->setAchieved((bool) $row->achieved);
+            $this->setAnswered((bool) $row->answered);
+            $this->setCompleted((bool) $row->completed);
+            $this->setFailed((bool) $row->failed);
+            $this->setInitialized((bool) $row->initialized);
+            $this->setPassed((bool) $row->passed);
+            $this->setProgressed((bool) $row->progressed);
+            $this->setSatisfied((bool) $row->satisfied);
+            $this->setTerminated((bool) $row->c_terminated);
+            $this->setHideData((bool) $row->hide_data);
+            $this->setTimestamp((bool) $row->c_timestamp);
+            $this->setDuration((bool) $row->duration);
+            $this->setNoSubstatements((bool) $row->no_substatements);
 
             return true;
         }
@@ -666,20 +666,20 @@ class ilCmiXapiLrsType
                 'privacy_comment_default' => array('text', $this->getPrivacyCommentDefault()),
                 'external_lrs' => array('integer', $this->getExternalLrs()),
                 'bypass_proxy' => array('integer', (int) $this->isBypassProxyEnabled()),
-                'only_moveon' => array('integer', (int)$this->getOnlyMoveon()),
-                'achieved' => array('integer', (int)$this->getAchieved()),
-                'answered' => array('integer', (int)$this->getAnswered()),
-                'completed' => array('integer', (int)$this->getCompleted()),
-                'failed' => array('integer', (int)$this->getFailed()),
-                'initialized' => array('integer', (int)$this->getInitialized()),
-                'passed' => array('integer', (int)$this->getPassed()),
-                'progressed' => array('integer', (int)$this->getProgressed()),
-                'satisfied' => array('integer', (int)$this->getSatisfied()),
-                'c_terminated' => array('integer', (int)$this->getTerminated()),
-                'hide_data' => array('integer', (int)$this->getHideData()),
-                'c_timestamp' => array('integer', (int)$this->getTimestamp()),
-                'duration' => array('integer', (int)$this->getDuration()),
-                'no_substatements' => array('integer', (int)$this->getNoSubstatements())
+                'only_moveon' => array('integer', (int) $this->getOnlyMoveon()),
+                'achieved' => array('integer', (int) $this->getAchieved()),
+                'answered' => array('integer', (int) $this->getAnswered()),
+                'completed' => array('integer', (int) $this->getCompleted()),
+                'failed' => array('integer', (int) $this->getFailed()),
+                'initialized' => array('integer', (int) $this->getInitialized()),
+                'passed' => array('integer', (int) $this->getPassed()),
+                'progressed' => array('integer', (int) $this->getProgressed()),
+                'satisfied' => array('integer', (int) $this->getSatisfied()),
+                'c_terminated' => array('integer', (int) $this->getTerminated()),
+                'hide_data' => array('integer', (int) $this->getHideData()),
+                'c_timestamp' => array('integer', (int) $this->getTimestamp()),
+                'duration' => array('integer', (int) $this->getDuration()),
+                'no_substatements' => array('integer', (int) $this->getNoSubstatements())
             )
         );
         
@@ -725,5 +725,4 @@ class ilCmiXapiLrsType
     {
         return base64_encode("{$lrsKey}:{$lrsSecret}");
     }
-
 }

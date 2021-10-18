@@ -120,7 +120,7 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
             false,
             0,
             $this->getRoleId()
-            );
+        );
         
         /*
         if($rbacreview->isAssigned(SYSTEM_USER_ID, $this->getRoleId()))

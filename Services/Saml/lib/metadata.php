@@ -22,7 +22,7 @@ $ilias_main_directory = './';
 $cookie_path = dirname($_SERVER['PHP_SELF']);
 
 $i = 0;
-while (!file_exists($ilias_main_directory . 'ilias.ini.php') && $i < 20) {
+while (!is_file($ilias_main_directory . 'ilias.ini.php') && $i < 20) {
     $ilias_main_directory .= '../';
     ++$i;
 
@@ -30,7 +30,7 @@ while (!file_exists($ilias_main_directory . 'ilias.ini.php') && $i < 20) {
 }
 chdir($ilias_main_directory);
 
-if (!file_exists(getcwd() . '/ilias.ini.php')) {
+if (!is_file(getcwd() . '/ilias.ini.php')) {
     die('Please ensure ILIAS is installed!');
 }
 

@@ -9,7 +9,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
     public function test_forwards_from_underlying()
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-            ->setMethods(["getRendererFor", "getRendererFactoryFor"])
+            ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
             ->getMock();
 
         $renderer = new \stdClass();
@@ -30,7 +30,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
     public function test_caches()
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-            ->setMethods(["getRendererFor", "getRendererFactoryFor"])
+            ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
             ->getMock();
 
         $renderer = new \stdClass();
@@ -52,7 +52,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
     public function test_caching_respects_contexts()
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-            ->setMethods(["getRendererFor", "getRendererFactoryFor"])
+            ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
             ->getMock();
 
         $renderer1 = new \stdClass();
@@ -80,7 +80,7 @@ class ComponentRendererLoaderCachingWrapperTest extends TestCase
     public function test_passthrough_getRendererFactory()
     {
         $underlying = $this->getMockBuilder(\ILIAS\UI\Implementation\Render\Loader::class)
-            ->setMethods(["getRendererFor", "getRendererFactoryFor"])
+            ->onlyMethods(["getRendererFor", "getRendererFactoryFor"])
             ->getMock();
 
         $c1 = $this->createMock(\ILIAS\UI\Component\Component::class);

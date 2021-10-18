@@ -447,7 +447,6 @@ class ilObjCloudGUI extends ilObject2GUI
                 ilUtil::sendSuccess($lng->txt("cld_object_added"), true);
                 $ilCtrl->redirectByClass("ilCloudPluginSettingsGUI", "editSettings");
             } else {
-                include_once("./Services/Repository/classes/class.ilRepUtil.php");
                 ilRepUtil::deleteObjects($this->object->getRefId(), $this->object->getRefId());
 
                 ilUtil::sendFailure($lng->txt("cld_auth_failed_no_object_created"), true);

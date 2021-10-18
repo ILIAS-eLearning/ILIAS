@@ -7,12 +7,12 @@ abstract class ilADTEnum extends ilADT
     
     // definition
     
-    protected function isValidDefinition(ilADTDefinition $a_def)
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return ($a_def instanceof ilADTEnumDefinition);
     }
     
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
         
@@ -49,54 +49,57 @@ abstract class ilADTEnum extends ilADT
     
     // comparison
     
-    public function equals(ilADT $a_adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getSelection() === $a_adt->getSelection());
         }
+        return null;
     }
                 
-    public function isLarger(ilADT $a_adt)
+    public function isLarger(ilADT $a_adt) : ?bool
     {
-        // return null?
+        return null;
     }
 
-    public function isSmaller(ilADT $a_adt)
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
-        // return null?
+        return null;
     }
     
     
     // null
     
-    public function isNull()
+    public function isNull() : bool
     {
-        return ($this->getSelection() === null);
+        return $this->getSelection() === null;
     }
         
     
     // check
     
-    public function getCheckSum()
+    public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
             return (string) $this->getSelection();
         }
+        return null;
     }
     
     
     // stdClass
     
-    public function exportStdClass()
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
             $obj->value = $this->getSelection();
             return $obj;
         }
+        return null;
     }
     
-    public function importStdClass($a_std)
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->setSelection($a_std->value);

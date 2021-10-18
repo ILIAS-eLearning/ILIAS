@@ -134,9 +134,8 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
             $data = ilObjFileImplementationLegacy::parseInfoParams($entry);
             $file = $this->getDirectory($data["version"]) . "/" . $data["filename"];
         }
-
+        global $DIC;
         if ($this->file_storage->fileExists($file)) {
-            global $DIC;
             $ilClientIniFile = $DIC['ilClientIniFile'];
             /**
              * @var $ilClientIniFile ilIniFile
@@ -144,8 +143,10 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
 
             $ilFileDelivery = new \ilFileDelivery($file);
             $ilFileDelivery->setDisposition($this->isInline() ? ilFileDelivery::DISP_INLINE : ilFileDelivery::DISP_ATTACHMENT);
-            $ilFileDelivery->setConvertFileNameToAsci((bool) !$ilClientIniFile->readVariable('file_access',
-                'disable_ascii'));
+            $ilFileDelivery->setConvertFileNameToAsci((bool) !$ilClientIniFile->readVariable(
+                'file_access',
+                'disable_ascii'
+            ));
 
             // also returning the 'real' filename if a history file is delivered
             if ($ilClientIniFile->readVariable('file_access', 'download_with_uploaded_filename')
@@ -167,7 +168,7 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
             $ilFileDelivery->deliver();
         }
 
-        throw new FileNotFoundException("This file cannot be found in ILIAS or has been blocked due to security reasons.");
+        throw new FileNotFoundException($DIC->language()->txt('file_not_found_sec'));
     }
 
     /**
@@ -379,5 +380,4 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
     {
         return '-';
     }
-
 }

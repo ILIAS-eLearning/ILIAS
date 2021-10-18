@@ -84,7 +84,9 @@ class ilVirtualSkillTree
         if ($skl_template_tree_id == 0 || (ilSkillTemplateReference::_lookupTemplateId($skl_tree_id)
                     == $skl_template_tree_id)) {
             $node_data = $this->tree->getNodeData($skl_tree_id);
-            $node_data["parent"] = $node_data["parent"] . ":0";
+            if (isset($node_data["parent"])) {
+                $node_data["parent"] = $node_data["parent"] . ":0";
+            }
         } else {
             $node_data = $this->tree->getNodeData($skl_template_tree_id);
             $node_data["parent"] = $skl_tree_id . ":" . $node_data["parent"];

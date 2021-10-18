@@ -134,23 +134,21 @@ class ilTranslationGUI
         // save the stuff
         $this->ilObjectOrgUnit->removeTranslations();
         foreach ($_POST["title"] as $k => $v) {
-
-
             $translations = $this->ilObjectOrgUnit->getTranslations();
 
-            if(array_key_exists($_POST["lang"][$k], $translations)) {
+            if (array_key_exists($_POST["lang"][$k], $translations)) {
                 $this->ilObjectOrgUnit->updateTranslation(
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),
-                    ($_POST["default"]==$k)?1:0
+                    ($_POST["default"] == $k)?1:0
                 );
             } else {
                 $this->ilObjectOrgUnit->addTranslation(
                     ilUtil::stripSlashes($v),
                     ilUtil::stripSlashes($_POST["desc"][$k]),
                     ilUtil::stripSlashes($_POST["lang"][$k]),
-                    ($_POST["default"]==$k)?1:0
+                    ($_POST["default"] == $k)?1:0
                 );
             }
         }

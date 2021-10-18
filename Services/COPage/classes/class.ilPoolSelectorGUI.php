@@ -50,11 +50,10 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 
     /**
      * Get href for node
-     *
      * @param mixed $a_node node object/array
      * @return string href attribute
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
         
@@ -66,11 +65,10 @@ class ilPoolSelectorGUI extends ilRepositorySelectorExplorerGUI
 
     /**
      * Is node visible
-     *
      * @param array $a_node node data
      * @return bool visible true/false
      */
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         if (parent::isNodeVisible($a_node)) {
             //hide empty container

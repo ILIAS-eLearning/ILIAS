@@ -17,7 +17,7 @@
  ********************************************************************
  */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
@@ -31,11 +31,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
      */
     protected $lng;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    protected ServerRequestInterface $request;
+    protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_obj_id;
     protected array $parent;
     protected array $draft;
@@ -50,12 +46,11 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $tree = new ilSkillTree();
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
-        $params = $this->request->getQueryParams();
-        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
+        $this->requested_obj_id = $this->admin_gui_request->getObjId();
 
         $this->setTypeWhiteList(array("skrt", "sktp", "sctp"));
         

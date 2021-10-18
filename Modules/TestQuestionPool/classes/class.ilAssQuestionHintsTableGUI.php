@@ -157,7 +157,7 @@ class ilAssQuestionHintsTableGUI extends ilTable2GUI
                 $this->addMultiCommand(
                     ilAssQuestionHintsGUI::CMD_CUT_TO_ORDERING_CLIPBOARD,
                     $lng->txt('tst_questions_hints_table_multicmd_cut_hint')
-            );
+                );
             }
 
             $this->addCommandButton(

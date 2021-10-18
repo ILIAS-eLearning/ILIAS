@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Repository\StandardGUIRequest;
+
 /**
  * Explorer for selecting repository items.
  *
@@ -35,6 +37,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     protected ?string $selection_gui = null;
     protected string $selection_par;
     protected string $selection_cmd;
+    protected StandardGUIRequest $request;
+    protected int $cur_ref_id;
 
     /**
      * @param object|array $a_parent_obj parent gui class or class array
@@ -48,6 +52,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         string $a_selection_par = "sel_ref_id",
         string $a_id = "rep_exp_sel"
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tree = $DIC->repositoryTree();
@@ -56,6 +61,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         $tree = $DIC->repositoryTree();
         $ilSetting = $DIC->settings();
         $objDefinition = $DIC["objDefinition"];
+        $this->request = $DIC->repository()->internal()->gui()->standardRequest();
+        $this->cur_ref_id = $this->request->getRefId();
 
         $this->access = $DIC->access();
         $this->ctrl = $DIC->ctrl();
@@ -86,8 +93,8 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 
         // always open the path to the current ref id
         $this->setPathOpen((int) $this->tree->readRootId());
-        if ((int) $_GET["ref_id"] > 0) {
-            $this->setPathOpen((int) $_GET["ref_id"]);
+        if ($this->cur_ref_id > 0) {
+            $this->setPathOpen($this->cur_ref_id);
         }
         $this->setChildLimit((int) $ilSetting->get("rep_tree_limit_number"));
     }
@@ -102,7 +109,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $this->nc_modifier;
     }
 
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
 
@@ -121,13 +128,13 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $title;
     }
 
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
@@ -143,7 +150,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return parent::getNodeIconAlt($a_node);
     }
 
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($this->getHighlightedNode()) {
             if ($this->getHighlightedNode() == $a_node["child"]) {
@@ -152,14 +159,14 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             return false;
         }
 
-        if ($a_node["child"] == $_GET["ref_id"] ||
-            ($_GET["ref_id"] == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
+        if ($a_node["child"] == $this->cur_ref_id ||
+            ($this->cur_ref_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
             return true;
         }
         return false;
     }
 
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -174,7 +181,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $link;
     }
 
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         $ilAccess = $this->access;
 
@@ -185,7 +192,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return true;
     }
 
-    public function sortChilds($a_childs, $a_parent_node_id)
+    public function sortChilds(array $a_childs, $a_parent_node_id) : array
     {
         $objDefinition = $this->obj_definition;
 
@@ -238,7 +245,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $ilAccess = $this->access;
 
@@ -249,7 +256,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return parent::getChildsOfNode($a_parent_node_id);
     }
 
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         $ilAccess = $this->access;
 
@@ -268,7 +275,6 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return true;
     }
 
-    // set an alternate highlighted node if $_GET["ref_id"] is not set or wrong
     public function setHighlightedNode(string $a_value) : void
     {
         $this->highlighted_node = $a_value;
@@ -299,7 +305,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $this->selectable_types;
     }
 
-    protected function isNodeSelectable($a_node)
+    protected function isNodeSelectable($a_node) : bool
     {
         if (count($this->getSelectableTypes())) {
             return in_array($a_node['type'], $this->getSelectableTypes());

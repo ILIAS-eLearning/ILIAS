@@ -265,9 +265,10 @@ class ilObjSessionListGUI extends ilObjectListGUI
                 'WHERE event_id = ' . $ilDB->quote($a_sess_id, 'integer') . ' ' .
                 'AND tree > 0';
         $res = $ilDB->query($query);
+        $items = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $items[] = $row->item_id;
         }
-        return $items ? $items : array();
+        return $items;
     }
 }

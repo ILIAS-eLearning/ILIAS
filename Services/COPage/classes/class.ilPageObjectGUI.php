@@ -1064,7 +1064,7 @@ class ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $this->ctrl->setReturn($this, "edit");
 
@@ -1335,7 +1335,6 @@ class ilPageObjectGUI
             $this->log->debug("ilPageObjectGUI, showPage() in edit mode.");
 
             $tpl = new ilTemplate("tpl.page_edit_wysiwyg.html", true, true, "Services/COPage");
-
             // to do: status dependent class
             $tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
 

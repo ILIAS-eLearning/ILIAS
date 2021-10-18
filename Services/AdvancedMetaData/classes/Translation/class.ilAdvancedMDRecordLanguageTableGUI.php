@@ -69,7 +69,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('md_adv_record_lng_table_active'), self::COL_ACTIVE, '25%');
         $this->addColumn($this->lng->txt('md_adv_record_lng_table_inst'), self::COL_INSTALLED, '25%');
 
-        $this->addMultiCommand(self::CMD_SAVE_ACTION,$this->lng->txt('md_adv_record_activate_languages'));
+        $this->addMultiCommand(self::CMD_SAVE_ACTION, $this->lng->txt('md_adv_record_activate_languages'));
         $this->setSelectAllCheckbox('active_languages');
         $this->enable('select_all');
 
@@ -90,7 +90,6 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
 
         $rows = [];
         foreach ($all_languages as $language_code) {
-
             $row = [];
             $row[self::COL_LANGUAGE_CODE] = $language_code;
             $row[self::COL_LANGUAGE] = $this->lng->txt('meta_l_' . $language_code);
@@ -99,8 +98,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
                 $row[self::COL_ACTIVE] = true;
                 $translation = $this->record_translation->getTranslation($language_code);
                 $row[self::COL_DEFAULT] = ($translation->getLangKey() == $this->record->getDefaultLanguage());
-            }
-            else {
+            } else {
                 $row[self::COL_ACTIVE] = false;
                 $row[self::COL_DEFAULT] = false;
             }
@@ -115,7 +113,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     {
         $this->tpl->setVariable('VAL_ID', $row[self::COL_LANGUAGE_CODE]);
 
-        if ($row[self::COL_ACTIVE])  {
+        if ($row[self::COL_ACTIVE]) {
             $this->tpl->setVariable('ACTIVATION_CHECKED', 'checked="checked"');
         }
 

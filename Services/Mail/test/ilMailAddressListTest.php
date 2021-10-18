@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailAddressListTest
@@ -8,9 +8,6 @@
  */
 class ilMailAddressListTest extends ilMailBaseTest
 {
-    /**
-     * @return array
-     */
     public function addressProvider() : array
     {
         return [
@@ -20,9 +17,9 @@ class ilMailAddressListTest extends ilMailBaseTest
                 ],
                 [
                     new ilMailAddress('user', 'ilias'),
-                    new ilMailAddress('max.mustermann', 'ilias.de')
+                    new ilMailAddress('max.mustermann', 'ilias.de'),
                 ],
-                1
+                1,
             ],
             'Role Addresses' => [
                 [
@@ -33,17 +30,14 @@ class ilMailAddressListTest extends ilMailBaseTest
                 [
                     new ilMailAddress('#il_ml_4713', 'ilias'),
                     new ilMailAddress('#il_role_1000', 'ilias'),
-                    new ilMailAddress('#admin', '[Math Course]')
+                    new ilMailAddress('#admin', '[Math Course]'),
                 ],
-                2
-            ]
+                2,
+            ],
         ];
     }
 
     /**
-     * @param array $leftAddresses
-     * @param array $rightAddresses
-     * @param int $numberOfExpectedItems
      * @dataProvider addressProvider
      */
     public function testDiffAddressListCanCalculateTheDifferenceOfTwoLists(

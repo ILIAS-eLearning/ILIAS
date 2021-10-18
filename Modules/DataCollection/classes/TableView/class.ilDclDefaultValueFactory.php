@@ -11,7 +11,8 @@ class ilDclDefaultValueFactory
     /**
      * @return ilDclTableViewBaseDefaultValue
      */
-    public function create($data_type_id) {
+    public function create($data_type_id)
+    {
         $storage_location = ilDclCache::getDatatype($data_type_id)->getStorageLocation();
         $class = self::STORAGE_LOCATION_MAPPING[$storage_location];
         return new $class();
@@ -28,5 +29,4 @@ class ilDclDefaultValueFactory
         //         break;
         // }
     }
-
 }

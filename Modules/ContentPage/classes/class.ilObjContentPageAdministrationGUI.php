@@ -3,11 +3,11 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Input\Container\Form\Standard as Form;
 use ILIAS\ContentPage\GlobalSettings\Storage;
 use ILIAS\ContentPage\GlobalSettings\StorageImpl;
 use ILIAS\UI\Component\Component;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  * Class ilObjContentPageAdministrationGUI
@@ -21,7 +21,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
     private const CMD_SAVE = 'save';
     private const F_READING_TIME = 'reading_time';
 
-    private ServerRequestInterface $httpRequest;
+    private GlobalHttpState $http;
     private Factory $uiFactory;
     private Renderer $uiRenderer;
     private ILIAS\Refinery\Factory $refinery;
@@ -41,7 +41,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
 
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
-        $this->httpRequest = $DIC->http()->request();
+        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->error = $DIC['ilErr'];
         $this->settingsStorage = new StorageImpl($DIC->settings());
@@ -159,8 +159,7 @@ class ilObjContentPageAdministrationGUI extends ilObjectGUI
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        $form = $this->getForm()->withRequest($this->httpRequest);
-
+        $form = $this->getForm()->withRequest($this->http->request());
         $data = $form->getData();
         if ($data) {
             $readingTime = $data[self::F_READING_TIME];

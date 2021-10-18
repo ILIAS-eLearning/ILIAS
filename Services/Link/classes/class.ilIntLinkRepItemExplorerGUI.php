@@ -40,7 +40,7 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
         return $this->link_target_script;
     }
 
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         if ($this->getSetLinkTargetScript() == "") {
             return "#";
@@ -59,7 +59,7 @@ class ilIntLinkRepItemExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * get onclick event handling
      */
-    public function getNodeOnClick($a_node)
+    public function getNodeOnClick($a_node) : string
     {
         if ($this->getSetLinkTargetScript() == "") {
             return "return il.IntLink.addInternalLink('[iln " . $a_node['type'] . "=&quot;" . $a_node['child'] . "&quot;]','[/iln]', event);";

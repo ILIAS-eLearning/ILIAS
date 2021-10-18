@@ -16,7 +16,6 @@ use ILIAS\Data;
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilColumnGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjectCopyGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilExportGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilContainerLinkListGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceSettingsGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceContentGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceLearnerGUI
@@ -473,7 +472,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             $this,
             $this->getObject(),
             $this->getTrackingObject(),
-            ilPrivacySettings::_getInstance(),
+            ilPrivacySettings::getInstance(),
             $this->rbac_review,
             $this->settings,
             $this->toolbar
@@ -637,7 +636,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
     }
 
-    public function renderObject()
+    public function renderObject() : void
     {
         // disables this method in ilContainerGUI
     }

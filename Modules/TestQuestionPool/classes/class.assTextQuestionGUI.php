@@ -298,7 +298,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
         $template = new ilTemplate("tpl.il_as_qpl_text_question_output_solution.html", true, true, "Modules/TestQuestionPool");
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
 
-        $solution =  $this->object->getHtmlUserSolutionPurifier()->purify($this->object->getLatestAutosaveContent($active_id));
+        $solution = $this->object->getHtmlUserSolutionPurifier()->purify($this->object->getLatestAutosaveContent($active_id));
         if ($this->renderPurposeSupportsFormHtml()) {
             $template->setCurrentBlock('essay_div');
             $template->setVariable("DIV_ESSAY", $this->object->prepareTextareaOutput($solution, true));
@@ -674,7 +674,7 @@ class assTextQuestionGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                     $this->object->getId(),
                     0,
                     $idx
-                    );
+                );
                 $feedback .= '<tr><td><b><i>' . $ans->getAnswertext() . '</i></b></td><td>';
                 $feedback .= $fb . '</td> </tr>';
             }

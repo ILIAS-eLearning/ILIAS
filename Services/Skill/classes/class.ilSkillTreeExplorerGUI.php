@@ -17,7 +17,7 @@
  ********************************************************************
  */
 
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
@@ -26,12 +26,8 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilLanguage $lng;
-    protected ServerRequestInterface $request;
+    protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_obj_id;
     protected int $requested_tref_id;
 
@@ -45,12 +41,11 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd);
 
-        $params = $this->request->getQueryParams();
-        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
-        $this->requested_tref_id = (int) ($params["tref_id"] ?? 0);
+        $this->requested_obj_id = $this->admin_gui_request->getObjId();
+        $this->requested_tref_id = $this->admin_gui_request->getTrefId();
 
         // node should be hidden #26849 (not not hidden, see discussion in #26813 and JF 6 Jan 2020)
         $this->setSkipRootNode(false);

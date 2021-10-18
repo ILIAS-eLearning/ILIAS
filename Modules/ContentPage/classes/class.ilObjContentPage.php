@@ -125,11 +125,11 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         ilContainer::_writeContainerSetting(
             $new_obj->getId(),
             ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-            ilContainer::_lookupContainerSetting(
+            (string) ((bool) ilContainer::_lookupContainerSetting(
                 $this->getId(),
                 ilObjectServiceSettingsGUI::INFO_TAB_VISIBILITY,
-                true
-            )
+                '1'
+            ))
         );
 
         $lpSettings = new ilLPObjSettings($this->getId());

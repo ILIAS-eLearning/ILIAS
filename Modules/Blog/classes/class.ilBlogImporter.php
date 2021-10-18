@@ -14,7 +14,7 @@ class ilBlogImporter extends ilXmlImporter
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilBlogDataSet();
         $this->ds->setDSPrefix("ds");
@@ -24,7 +24,7 @@ class ilBlogImporter extends ilXmlImporter
      * Import XML
      *
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $this->ds->setImportDirectory($this->getImportDirectory());
         $parser = new ilDataSetImportParser(
@@ -41,7 +41,7 @@ class ilBlogImporter extends ilXmlImporter
      *
      * @param	array		mapping array
      */
-    public function finalProcessing($a_mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         $blp_map = $a_mapping->getMappingsOfEntity("Services/COPage", "pg");
         foreach ($blp_map as $blp_id) {

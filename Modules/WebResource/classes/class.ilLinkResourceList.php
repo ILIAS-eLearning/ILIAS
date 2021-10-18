@@ -168,7 +168,7 @@ class ilLinkResourceList
             ilHistory::_createEntry(
                 $this->getListResourceId(),
                 "delete",
-                $this->getTitle()
+                [$this->getTitle()]
             );
         }
 
@@ -199,7 +199,7 @@ class ilLinkResourceList
             ilHistory::_createEntry(
                 $this->getListResourceId(),
                 "update",
-                $this->getTitle()
+                [$this->getTitle()]
             );
         }
 
@@ -232,7 +232,7 @@ class ilLinkResourceList
             ilHistory::_createEntry(
                 $this->getListResourceId(),
                 "add",
-                $this->getTitle()
+                [$this->getTitle()]
             );
         }
 

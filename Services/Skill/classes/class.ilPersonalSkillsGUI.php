@@ -20,7 +20,7 @@
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Skill\Service\SkillPersonalGUIRequest;
 
 /**
  * Personal skills GUI class
@@ -69,15 +69,18 @@ class ilPersonalSkillsGUI
     protected bool $use_materials;
     protected ilSkillManagementSettings $skmg_settings;
     protected ilPersonalSkillsFilterGUI $filter;
-    protected ServerRequestInterface $request;
+    protected SkillPersonalGUIRequest $personal_gui_request;
     protected string $requested_list_mode;
     protected int $requested_obj_id;
     protected int $requested_profile_id;
     protected int $requested_skill_id;
+    protected array $requested_skill_ids;
     protected int $requested_basic_skill_id;
     protected int $requested_tref_id;
     protected int $requested_level_id;
+    protected int $requested_self_eval_level_id;
     protected int $requested_wsp_id;
+    protected array $requested_wsp_ids;
 
     public function __construct()
     {
@@ -95,7 +98,7 @@ class ilPersonalSkillsGUI
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
         $this->ui = $DIC->ui();
-        $this->request = $DIC->http()->request();
+        $this->personal_gui_request = $DIC->skills()->internal()->gui()->personal_request();
 
         $ilCtrl = $this->ctrl;
         $ilHelp = $this->help;
@@ -111,15 +114,17 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "profile_id");
         $ilCtrl->saveParameter($this, "list_mode");
 
-        $params = $this->request->getQueryParams();
-        $this->requested_list_mode = (string) ($params["list_mode"] ?? self::LIST_SELECTED);
-        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
-        $this->requested_profile_id = (int) ($params["profile_id"] ?? 0);
-        $this->requested_skill_id = (int) ($params["skill_id"] ?? 0);
-        $this->requested_basic_skill_id = (int) ($params["basic_skill_id"] ?? 0);
-        $this->requested_tref_id = (int) ($params["tref_id"] ?? 0);
-        $this->requested_level_id = (int) ($params["level_id"] ?? 0);
-        $this->requested_wsp_id = (int) ($params["wsp_id"] ?? 0);
+        $this->requested_list_mode = $this->personal_gui_request->getListMode();
+        $this->requested_obj_id = $this->personal_gui_request->getObjId();
+        $this->requested_profile_id = $this->personal_gui_request->getProfileId();
+        $this->requested_skill_id = $this->personal_gui_request->getSkillId();
+        $this->requested_skill_ids = $this->personal_gui_request->getSkillIds();
+        $this->requested_basic_skill_id = $this->personal_gui_request->getBasicSkillId();
+        $this->requested_tref_id = $this->personal_gui_request->getTrefId();
+        $this->requested_level_id = $this->personal_gui_request->getLevelId();
+        $this->requested_self_eval_level_id = $this->personal_gui_request->getSelfEvaluationLevelId();
+        $this->requested_wsp_id = $this->personal_gui_request->getWorkspaceId();
+        $this->requested_wsp_ids = $this->personal_gui_request->getWorkspaceIds();
 
         $this->user_profiles = ilSkillProfile::getProfilesOfUser($this->user->getId());
         $this->cont_profiles = [];
@@ -676,9 +681,9 @@ class ilPersonalSkillsGUI
         $ilCtrl = $this->ctrl;
 
         if ($this->requested_skill_id > 0) {
-            $_POST["id"][] = $this->requested_skill_id;
+            $this->requested_skill_ids[] = $this->requested_skill_id;
         }
-        if (!is_array($_POST["id"]) || count($_POST["id"]) == 0) {
+        if (empty($this->requested_skill_ids)) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "listSkills");
         } else {
@@ -688,7 +693,7 @@ class ilPersonalSkillsGUI
             $cgui->setCancel($lng->txt("cancel"), "listSkills");
             $cgui->setConfirm($lng->txt("remove"), "removeSkills");
             
-            foreach ($_POST["id"] as $i) {
+            foreach ($this->requested_skill_ids as $i) {
                 $cgui->addItem("id[]", $i, ilSkillTreeNode::_lookupTitle($i));
             }
             
@@ -702,8 +707,8 @@ class ilPersonalSkillsGUI
         $ilUser = $this->user;
         $lng = $this->lng;
         
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $n_id) {
+        if (!empty($this->requested_skill_ids)) {
+            foreach ($this->requested_skill_ids as $n_id) {
                 ilPersonalSkill::removeSkill($ilUser->getId(), $n_id);
             }
         }
@@ -758,12 +763,10 @@ class ilPersonalSkillsGUI
             //$options[$b["id"]] = ilSkillTreeNode::_lookupTitle($b["id"]);
             $options[$b["skill_id"]] = ilSkillTreeNode::_lookupTitle($b["skill_id"]);
         }
-        
-        $cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
-            ? (int) $_POST["basic_skill_id"]
-            : (($this->requested_basic_skill_id > 0)
+
+        $cur_basic_skill_id = ($this->requested_basic_skill_id > 0)
                 ? $this->requested_basic_skill_id
-                : key($options));
+                : key($options);
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
 
@@ -862,8 +865,8 @@ class ilPersonalSkillsGUI
         $lng = $this->lng;
 
 
-        if (is_array($_POST["wsp_id"])) {
-            foreach ($_POST["wsp_id"] as $w) {
+        if (!empty($this->requested_wsp_ids)) {
+            foreach ($this->requested_wsp_ids as $w) {
                 ilPersonalSkill::assignMaterial(
                     $ilUser->getId(),
                     $this->requested_skill_id,
@@ -945,11 +948,9 @@ class ilPersonalSkillsGUI
             $options[$b["skill_id"]] = ilSkillTreeNode::_lookupTitle($b["skill_id"]);
         }
 
-        $cur_basic_skill_id = ((int) $_POST["basic_skill_id"] > 0)
-            ? (int) $_POST["basic_skill_id"]
-            : (($this->requested_basic_skill_id > 0)
+        $cur_basic_skill_id = ($this->requested_basic_skill_id > 0)
                 ? $this->requested_basic_skill_id
-                : key($options));
+                : key($options);
 
         $ilCtrl->setParameter($this, "basic_skill_id", $cur_basic_skill_id);
 
@@ -987,7 +988,7 @@ class ilPersonalSkillsGUI
             $this->requested_skill_id,
             $this->requested_tref_id,
             $this->requested_basic_skill_id,
-            (int) $_POST["se"]
+            $this->requested_self_eval_level_id
         );
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         
@@ -1312,7 +1313,7 @@ class ilPersonalSkillsGUI
     {
         $ilCtrl = $this->ctrl;
 
-        $ilCtrl->setParameter($this, "profile_id", $_POST["profile_id"]);
+        $ilCtrl->setParameter($this, "profile_id", $this->requested_profile_id);
         if ($this->mode == "gap") {
             $ilCtrl->redirect($this, "listProfilesForGap");
         } else {

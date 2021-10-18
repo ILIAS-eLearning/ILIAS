@@ -20,7 +20,6 @@ abstract class ilADTBasedObject
      *
      * Tries to read record from DB, in accordance to current ILIAS behaviour
      *
-     * @return self
      */
     public function __construct()
     {
@@ -86,7 +85,7 @@ abstract class ilADTBasedObject
                 return $this->properties->getElement($parsed);
             
             default:
-                throw new Exception("ilADTObject unknown method " . $parsed);
+                throw new Exception("ilADTObject unknown type: " . $type);
         }
     }
     
@@ -144,7 +143,6 @@ abstract class ilADTBasedObject
         $this->initDBBridge($this->adt_db);
         
         // use custom error handling
-        include_once "Services/ADT/classes/class.ilADTDBException.php";
         $ilDB->exception = "ilADTDBException";
                         
         return $factory->getActiveRecordInstance($this->adt_db);
@@ -153,7 +151,7 @@ abstract class ilADTBasedObject
     /**
      * Read record
      *
-     * @return boolean
+     * @return bool
      */
     public function read()
     {
@@ -167,7 +165,7 @@ abstract class ilADTBasedObject
     /**
      * Create record (only if valid)
      *
-     * @return boolean
+     * @return bool
      */
     public function create()
     {
@@ -193,7 +191,7 @@ abstract class ilADTBasedObject
     /**
      * Update record (only if valid)
      *
-     * @return boolean
+     * @return bool
      */
     public function update()
     {
@@ -217,7 +215,7 @@ abstract class ilADTBasedObject
     /**
      * Delete record
      *
-     * @return boolean
+     * @return bool
      */
     public function delete()
     {

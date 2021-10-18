@@ -82,7 +82,6 @@ class ilCalendarAppointmentGUI
                 $this->$cmd();
                 break;
         }
-
     }
     
     /**
@@ -873,15 +872,14 @@ class ilCalendarAppointmentGUI
             !count($recs) &&
             !$this->app->isMilestone()
         ) {
-        $confirm = new ilConfirmationGUI();
-        $confirm->setFormAction($this->ctrl->getFormAction($this));
-        $confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
-        $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
-        $confirm->addItem('appointments[]', $this->app->getEntryId(), $this->app->getTitle());
+            $confirm = new ilConfirmationGUI();
+            $confirm->setFormAction($this->ctrl->getFormAction($this));
+            $confirm->setHeaderText($this->lng->txt('cal_delete_app_sure'));
+            $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
+            $confirm->addItem('appointments[]', $this->app->getEntryId(), $this->app->getTitle());
             $confirm->setConfirm($this->lng->txt('delete'), 'delete');
             $this->tpl->setContent($confirm->getHTML());
         } else {
-
             $table = new ilCalendarRecurrenceTableGUI(
                 $this->app,
                 $this,

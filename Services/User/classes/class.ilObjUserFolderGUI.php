@@ -2848,7 +2848,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
         );
 
         // check if a course export state of any field has been added
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         if ($privacy->enabledCourseExport() == true &&
             $privacy->courseConfirmationRequired() == true &&
             $action != "save") {
@@ -3010,6 +3010,10 @@ class ilObjUserFolderGUI extends ilObjectGUI
         $ilias->setSetting(
             'chat_osc_accept_msg',
             ilUtil::stripSlashes($_POST['select']['default_chat_osc_accept_msg'])
+        );
+        $ilias->setSetting(
+            'chat_broadcast_typing',
+            ilUtil::stripSlashes($_POST['select']['default_chat_broadcast_typing'] ?? '')
         );
         $ilias->setSetting(
             'bs_allow_to_contact_me',
@@ -4119,11 +4123,8 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $mail_data['user_id'],
             $mail_data['attachments'],
             '#il_ml_' . $list_id,
-            // $mail_data['rcp_to'],
             $mail_data['rcp_cc'],
             $mail_data['rcp_bcc'],
-            $mail_data['m_type'],
-            $mail_data['m_email'],
             $mail_data['m_subject'],
             $mail_data['m_message'],
             $mail_data['use_placeholders'],

@@ -1,24 +1,45 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Category\StandardGUIRequest;
 
 /**
  * Class ilObjCategoryListGUI
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjCategoryListGUI extends ilObjectListGUI
 {
+    protected StandardGUIRequest $cat_request;
 
     /**
      * Constructor
      */
-    public function __construct($a_context = self::CONTEXT_REPOSITORY)
+    public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         parent::__construct($a_context);
         $this->ctrl = $DIC->ctrl();
+
+        $this->cat_request = $DIC
+            ->category()
+            ->internal()
+            ->gui()
+            ->standardRequest();
     }
 
     /**
@@ -89,7 +110,9 @@ class ilObjCategoryListGUI extends ilObjectListGUI
     public function getCommandLink($a_cmd)
     {
         $ilCtrl = $this->ctrl;
-        
+
+        $cmd_link = "";
+
         // BEGIN WebDAV
         switch ($a_cmd) {
             case 'mount_webfolder':
@@ -103,7 +126,11 @@ class ilObjCategoryListGUI extends ilObjectListGUI
                 // separate method for this line
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass(
+                    "ilrepositorygui",
+                    "ref_id",
+                    $this->cat_request->getRefId()
+                );
                 break;
         }
         // END WebDAV
@@ -111,11 +138,8 @@ class ilObjCategoryListGUI extends ilObjectListGUI
         return $cmd_link;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function checkInfoPageOnAsynchronousRendering() : bool
     {
         return true;
     }
-} // END class.ilObjCategoryGUI
+}

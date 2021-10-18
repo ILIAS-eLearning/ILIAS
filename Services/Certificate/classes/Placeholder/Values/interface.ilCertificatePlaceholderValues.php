@@ -14,7 +14,7 @@ interface ilCertificatePlaceholderValues
      * achieve the certificate.
      * @param int $userId
      * @param int $objId
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @return array - [PLACEHOLDER] => 'actual value'
      * @throws ilInvalidCertificateException
      */
     public function getPlaceholderValues(int $userId, int $objId) : array;

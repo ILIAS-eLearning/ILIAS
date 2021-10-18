@@ -330,7 +330,7 @@ class ilLOUserResults
                 array_merge(
                     $this->findObjectiveIds(self::TYPE_INITIAL, self::STATUS_COMPLETED),
                     $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_COMPLETED)
-            )
+                )
             );
             $failed_final = (array) $this->findObjectiveIds(self::TYPE_QUALIFIED, self::STATUS_FAILED);
             

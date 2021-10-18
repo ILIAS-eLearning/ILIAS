@@ -151,7 +151,7 @@ class ilNavigationHistoryGUI
             
             $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", "");
             $ilCtrl->setParameterByClass("ilrepositorygui", "getlast", "true");
-            $ilCtrl->redirectByClass("ilrepositorygui", "frameset");
+            $ilCtrl->redirectByClass("ilrepositorygui", "");
         }
     }
     

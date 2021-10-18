@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,9 +6,9 @@
  */
 class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 {
-    public function testValidationSucceedsAndReturnsTrue()
+    public function testValidationSucceedsAndReturnsTrue() : void
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -17,7 +17,7 @@ class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 
         $accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
-        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -31,9 +31,9 @@ class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
         $this->assertTrue($result);
     }
 
-    public function testValidationReturnedFalseBecauseCertificateAreNotGloballyActivated()
+    public function testValidationReturnedFalseBecauseCertificateAreNotGloballyActivated() : void
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -43,7 +43,7 @@ class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 
         $accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
-        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -58,9 +58,9 @@ class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
         $this->assertFalse($result);
     }
 
-    public function testValidationReturnedFalseBecauseJavaServerIsNotActive()
+    public function testValidationReturnedFalseBecauseJavaServerIsNotActive() : void
     {
-        $userCertificateRepository = $this->getMockBuilder('ilUserCertificateRepository')
+        $userCertificateRepository = $this->getMockBuilder(ilUserCertificateRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -71,7 +71,7 @@ class ilCertificateDownloadValidatorTest extends ilCertificateBaseTestCase
 
         $accessValidator = new ilCertificateUserCertificateAccessValidator($userCertificateRepository);
 
-        $activeValidator = $this->getMockBuilder('ilCertificateActiveValidator')
+        $activeValidator = $this->getMockBuilder(ilCertificateActiveValidator::class)
             ->disableOriginalConstructor()
             ->getMock();
 

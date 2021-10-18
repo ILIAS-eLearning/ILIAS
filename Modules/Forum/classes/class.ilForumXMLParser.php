@@ -506,7 +506,7 @@ class ilForumXMLParser extends ilSaxParser
                     $media_objects_found = false;
                     foreach ($this->mediaObjects as $mob_attr) {
                         $importfile = $this->getImportDirectory() . '/' . $mob_attr['uri'];
-                        if (file_exists($importfile)) {
+                        if (is_file($importfile)) {
                             $mob = ilObjMediaObject::_saveTempFileAsMediaObject(
                                 basename($importfile),
                                 $importfile,

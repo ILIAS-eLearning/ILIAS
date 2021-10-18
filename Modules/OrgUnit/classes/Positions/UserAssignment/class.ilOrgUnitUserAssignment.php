@@ -88,7 +88,7 @@ class ilOrgUnitUserAssignment extends \ActiveRecord
         /**
          * @var $DIC Container
          */
-        if(!$DIC->offsetExists('ilAppEventHandler')) {
+        if (!$DIC->offsetExists('ilAppEventHandler')) {
             return;
         }
         $ilAppEventHandler = $DIC['ilAppEventHandler'];

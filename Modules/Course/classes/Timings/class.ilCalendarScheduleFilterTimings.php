@@ -218,7 +218,6 @@ class ilCalendarScheduleFilterTimings implements ilCalendarScheduleFilter
                 (
                     $entry->getContextId() == ilObjCourse::CAL_COURSE_TIMING_START ||
                     $entry->getContextId() == ilObjCourse::CAL_COURSE_TIMING_END
-
                 ) &&
                 $entry->getContextInfo() == $item_ref_id
             ) {

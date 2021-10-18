@@ -14,6 +14,7 @@
  */
 
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
+use ILIAS\Repository\StandardGUIRequest;
 
 /**
  * Class ilRepositoryGUI
@@ -58,6 +59,9 @@ class ilRepositoryGUI
     public string $mode = "";
     public ilCtrl $ctrl;
     private \ILIAS\HTTP\Services $http;
+    protected StandardGUIRequest $request;
+    protected bool $creation_mode;
+    protected ilObjectGUI $gui_obj;
 
     public function __construct()
     {
@@ -76,9 +80,6 @@ class ilRepositoryGUI
         $rbacsystem = $DIC->rbac()->system();
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
-        $ilLog = $DIC["ilLog"];
-        $ilUser = $DIC->user();
-        $ilSetting = $DIC->settings();
         $this->tool_context = $DIC->globalScreen()->tool()->context();
         $this->http = $DIC->http();
 
@@ -97,41 +98,27 @@ class ilRepositoryGUI
             $this->ctrl->setReturn($this, "");
         }
 
+        $this->request = $DIC->repository()->internal()->gui()->standardRequest();
+
         // determine current ref id and mode
-        if (!empty($_GET["ref_id"])) {
-            $this->cur_ref_id = $_GET["ref_id"];
-        } else {
-            //echo "1-".$_SESSION["il_rep_ref_id"]."-";
-            if (!empty($_SESSION["il_rep_ref_id"]) && !empty($_GET["getlast"])) {
-                $this->cur_ref_id = $_SESSION["il_rep_ref_id"];
-            //echo "2-".$this->cur_ref_id."-";
-            } else {
-                $this->cur_ref_id = $this->tree->getRootId();
-
-                // #10033
-                $_GET = array("baseClass" => "ilRepositoryGUI");
-                $_POST = array();
-                $this->ctrl->setCmd("");
-            }
-        }
+        $this->cur_ref_id = $this->request->getRefId();
         if (!$tree->isInTree($this->cur_ref_id)) {
-            $this->cur_ref_id = $this->tree->getRootId();
-
-            $_GET = array();
-            $_POST = array();
-            $this->ctrl->setCmd("");
+            $this->redirectToRoot();
         }
+    }
 
-        // store current ref id
-        if ($rbacsystem->checkAccess("read", $this->cur_ref_id)) {
-            $type = ilObject::_lookupType($this->cur_ref_id, true);
-            if ($type == "cat" || $type == "grp" || $type == "crs"
-                || $type == "root") {
-                $_SESSION["il_rep_ref_id"] = $this->cur_ref_id;
-            }
-        }
-        
-        $_GET["ref_id"] = $this->cur_ref_id;
+    protected function redirectToRoot()
+    {
+        $ctrl = $this->ctrl;
+        $ctrl->setParameterByClass(
+            self::class,
+            "ref_id",
+            $this->tree->getRootId()
+        );
+
+        // #10033
+        $_GET = array("baseClass" => "ilRepositoryGUI");
+        $ctrl->redirectByClass(self::class, "");
     }
 
     public function executeCommand() : void
@@ -154,12 +141,7 @@ class ilRepositoryGUI
 
         // check creation mode
         // determined by "new_type" parameter
-        $new_type = '';
-        if (isset($_POST["new_type"]) && is_string($_POST["new_type"]) && $_POST["new_type"] !== '') {
-            $new_type = $_POST["new_type"];
-        } elseif (isset($_GET["new_type"]) && is_string($_GET["new_type"]) && $_GET["new_type"] !== '') {
-            $new_type = $_GET["new_type"];
-        }
+        $new_type = $this->request->getNewType();
 
         if ($new_type != "" && $new_type != "sty") {
             $this->creation_mode = true;
@@ -230,22 +212,15 @@ class ilRepositoryGUI
                             $this->gui_obj = new $class_name("", 0, true, false);
                         }
                     }
-                    //$this->gui_obj = new $class_name("", $this->cur_ref_id, true, false);
-
-    
-                    $tabs_out = ($new_type == "")
-                        ? true
-                        : false;
                     $this->gui_obj->setCreationMode($this->creation_mode);
                     $this->ctrl->setReturn($this, "return");
 
                     $this->show();
                 } else {	//
-                    $cmd = $this->ctrl->getCmd("");
+                    $cmd = (string) $this->ctrl->getCmd("");
                     
                     // check read access for category
                     if ($this->cur_ref_id > 0 && !$rbacsystem->checkAccess("read", $this->cur_ref_id) && $cmd != "showRepTree") {
-                        $_SESSION["il_rep_ref_id"] = "";
                         $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
                         $this->tpl->printToStdout();
                     } else {

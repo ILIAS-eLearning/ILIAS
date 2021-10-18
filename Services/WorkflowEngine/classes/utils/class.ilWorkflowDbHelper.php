@@ -357,7 +357,7 @@ class ilWorkflowDbHelper
         require_once './Services/WorkflowEngine/classes/workflows/class.ilBaseWorkflow.php';
         $path = rtrim($workflow['workflow_location'], '/') . '/' . $workflow['workflow_class'];
 
-        if (file_exists($path) && $path != '/') {
+        if ($path !== '/' && is_file($path)) {
             require_once $path;
             $instance = unserialize($workflow['workflow_instance']);
         } else {

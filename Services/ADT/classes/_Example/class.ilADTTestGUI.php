@@ -1,6 +1,5 @@
 <?php
 
-include_once "Services/ADT/classes/_Example/class.ilADTBasedObjectGUI.php";
 
 /**
  * This is the GUI for the ADT-based example object
@@ -11,8 +10,7 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
 {
     protected function initObject()
     {
-        include_once "Services/ADT/classes/_Example/class.ilADTTest.php";
-        
+
         /*
         $test = new ilADTTest();
         $test->getName()->setText("2. Satz");

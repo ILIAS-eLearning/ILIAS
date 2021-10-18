@@ -205,7 +205,7 @@ class ilObjFileGUI extends ilObject2GUI
 
             default:
                 // in personal workspace use object2gui
-                if ((int)$this->id_type === self::WORKSPACE_NODE_ID) {
+                if ((int) $this->id_type === self::WORKSPACE_NODE_ID) {
                     $this->addHeaderAction();
 
                     // coming from goto we need default command
@@ -557,7 +557,6 @@ class ilObjFileGUI extends ilObject2GUI
         $form->addItem($title);
 
         if ($mode === 'create') {
-
             $file = new ilFileStandardDropzoneInputGUI($this->lng->txt('obj_file'), 'file');
             $file->setRequired(false);
             $form->addItem($file);
@@ -574,7 +573,6 @@ class ilObjFileGUI extends ilObject2GUI
             $group->addOption($keep);
 
             $file->addSubItem($group);
-
         } else {
             $o = new ilNonEditableValueGUI($this->lng->txt('upload_info'));
             $o->setValue($this->lng->txt('upload_info_desc'));
@@ -712,13 +710,15 @@ class ilObjFileGUI extends ilObject2GUI
         $info->addProperty($this->lng->txt("resource_id"), $this->object->getResourceId());
         $info->addProperty($this->lng->txt("storage_id"), $this->object->getStorageID());
 
-        $info->addProperty($this->lng->txt("size"),
-            ilUtil::formatSize(ilObjFileAccess::_lookupFileSize($this->object->getId()), 'long'));
+        $info->addProperty(
+            $this->lng->txt("size"),
+            ilUtil::formatSize(ilObjFileAccess::_lookupFileSize($this->object->getId()), 'long')
+        );
         $info->addProperty($this->lng->txt("version"), $this->object->getVersion());
 
         $version = $this->object->getVersions([$this->object->getVersion()]);
         $version = end($version);
-        if($version instanceof ilObjFileVersion) {
+        if ($version instanceof ilObjFileVersion) {
             $info->addProperty($this->lng->txt("version_uploaded"), (new ilDateTime($version->getDate(), IL_CAL_DATETIME))->get(IL_CAL_DATETIME));
         }
 

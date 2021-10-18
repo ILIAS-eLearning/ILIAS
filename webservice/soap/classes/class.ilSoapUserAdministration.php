@@ -267,7 +267,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         }
 
         if ($ilUser->getLoginByUserId($user_id)) {
-            $tmp_user =&ilObjectFactory::getInstanceByObjId($user_id);
+            $tmp_user = &ilObjectFactory::getInstanceByObjId($user_id);
             $usr_data = $this->__readUserData($tmp_user);
 
             return $usr_data;
@@ -313,7 +313,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
         }
         // Delete him
         $log->write('SOAP: deleteUser()');
-        $delete_user =&ilObjectFactory::getInstanceByObjId($user_id, false);
+        $delete_user = &ilObjectFactory::getInstanceByObjId($user_id, false);
         $delete_user->delete();
 
         return true;
@@ -403,7 +403,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $msg = array();
             if (is_array($error)) {
                 foreach ($error as $err) {
-                    $msg []= "(" . $err["line"] . "," . $err["col"] . "): " . $err["errormessage"];
+                    $msg [] = "(" . $err["line"] . "," . $err["col"] . "): " . $err["errormessage"];
                 }
             } else {
                 $msg[] = $error;
@@ -695,7 +695,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 $data = ilObjUser::_getUsersForFolder(USER_FOLDER_ID, $active);
                 break;
             case "cat":
-                $data =  ilObjUser::_getUsersForFolder($ref_id, $active);
+                $data = ilObjUser::_getUsersForFolder($ref_id, $active);
                 break;
             case "crs":
             {
@@ -800,7 +800,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
                 $access_granted = false;
             }
             if (!$access_granted || !count($rolfs)) {
-                return $this->__raiseError('Role access not permitted. ' . '(' . $role_id .')', 'Server');
+                return $this->__raiseError('Role access not permitted. ' . '(' . $role_id . ')', 'Server');
             }
         }
 
@@ -927,7 +927,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $this->__raiseError('At least one keyvalue is needed', 'Client');
         }
 
-        if (!strcasecmp($query_operator, "and")==0 || !strcasecmp($query_operator, "or") == 0) {
+        if (!strcasecmp($query_operator, "and") == 0 || !strcasecmp($query_operator, "or") == 0) {
             $this->__raiseError('Query operator must be either \'and\' or \'or\'', 'Client');
         }
 
@@ -998,7 +998,7 @@ class ilSoapUserAdministration extends ilSoapAdministration
             $field_query = array();
             foreach ($a_keyvalues as $keyvalue) {
                 if (strlen($keyvalue) >= 3) {
-                    $field_query []= $keyfield . " like '%" . $keyvalue . "%'";
+                    $field_query [] = $keyfield . " like '%" . $keyvalue . "%'";
                 }
             }
             if (count($field_query)) {
@@ -1081,11 +1081,11 @@ class ilSoapUserAdministration extends ilSoapAdministration
 
         $ilUser = $DIC['ilUser'];
 
-        if (ilMailGlobalServices::getNewMailsData((int) $ilUser->getId())['count'] > 0) {
+        if (ilMailGlobalServices::getNewMailsData($ilUser)['count'] > 0) {
             return true;
-        } else {
-            return false;
         }
+
+        return false;
     }
     
     public function getUserIdBySid($sid)

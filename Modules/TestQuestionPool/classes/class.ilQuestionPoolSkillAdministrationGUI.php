@@ -102,7 +102,6 @@ class ilQuestionPoolSkillAdministrationGUI
             'ilassquestionskillassignmentsgui',
             $this->lng->txt('qpl_skl_sub_tab_quest_assign'),
             $link
-
         );
         
         $link = $this->ctrl->getLinkTargetByClass(
@@ -113,7 +112,6 @@ class ilQuestionPoolSkillAdministrationGUI
             'ilassquestionskillusagestablegui',
             $this->lng->txt('qpl_skl_sub_tab_usages'),
             $link
-
         );
 
         $this->tabs->activateTab('qpl_tab_competences');

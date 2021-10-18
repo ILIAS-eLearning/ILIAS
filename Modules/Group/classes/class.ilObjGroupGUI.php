@@ -81,8 +81,8 @@ class ilObjGroupGUI extends ilContainerGUI
         }
 
         switch ($next_class) {
-            case 'ilreputilgui':
-                $ru = new \ilRepUtilGUI($this);
+            case strtolower(ilRepositoryTrashGUI::class):
+                $ru = new \ilRepositoryTrashGUI($this);
                 $this->ctrl->setReturn($this, 'trash');
                 $this->ctrl->forwardCommand($ru);
                 break;
@@ -420,15 +420,14 @@ class ilObjGroupGUI extends ilContainerGUI
     /**
     * Render group
     */
-    public function renderObject()
+    public function renderObject() : void
     {
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
         
         $ilTabs->activateTab("view_content");
-        $ret = parent::renderObject();
-        return $ret;
+        parent::renderObject();
     }
 
     /**
@@ -485,7 +484,6 @@ class ilObjGroupGUI extends ilContainerGUI
         }
         
         // Save sorting
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         $sort = new ilContainerSortingSettings($new_object->getId());
         $sort->setSortMode($sort_mode);
         $sort->update();
@@ -898,7 +896,7 @@ class ilObjGroupGUI extends ilContainerGUI
     public function readMemberData($ids, $selected_columns = null)
     {
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         
         include_once './Services/Tracking/classes/class.ilObjUserTracking.php';
         $this->show_tracking =
@@ -1395,7 +1393,7 @@ class ilObjGroupGUI extends ilContainerGUI
 
         // Confirmation
         include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         
         include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
         if ($privacy->groupConfirmationRequired() or ilCourseDefinedFieldDefinition::_getFields($this->object->getId()) or $privacy->enabledGroupExport()) {
@@ -1918,7 +1916,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
                 include_once('Modules/Course/classes/Export/class.ilCourseDefinedFieldDefinition.php');
                 // only show if export permission is granted
-                if (ilPrivacySettings::_getInstance()->checkExportAccess($this->object->getRefId()) or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) {
+                if (ilPrivacySettings::getInstance()->checkExportAccess($this->object->getRefId()) or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId())) {
                     $this->tabs_gui->addSubTabTarget(
                         'grp_custom_user_fields',
                         $this->ctrl->getLinkTargetByClass('ilobjectcustomuserfieldsgui'),
@@ -1980,14 +1978,11 @@ class ilObjGroupGUI extends ilContainerGUI
             return true;
         }
         
-        include_once './Services/Container/classes/class.ilMemberViewSettings.php';
         if (ilMemberViewSettings::getInstance()->isActive()) {
             return true;
         }
         
-        include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        include_once('Services/Membership/classes/class.ilMemberAgreement.php');
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         
         // Check agreement
         if (($privacy->groupConfirmationRequired() or ilCourseDefinedFieldDefinition::_hasFields($this->object->getId()))

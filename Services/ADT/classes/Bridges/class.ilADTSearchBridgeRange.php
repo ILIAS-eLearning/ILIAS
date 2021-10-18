@@ -58,7 +58,7 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
                 $tmp[] = $this->getLowerADT()->translateErrorCode($error_code);
             }
             if ($tmp) {
-                $field = $this->getForm()->getItemByPostvar($this->addToElementId("lower"));
+                $field = $this->getForm()->getItemByPostVar($this->addToElementId("lower"));
                 $field->setAlert(implode("<br />", $tmp));
             }
             
@@ -68,7 +68,7 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
                 $tmp[] = $this->getUpperADT()->translateErrorCode($error_code);
             }
             if ($tmp) {
-                $field = $this->getForm()->getItemByPostvar($this->addToElementId("upper"));
+                $field = $this->getForm()->getItemByPostVar($this->addToElementId("upper"));
                 $field->setAlert(implode("<br />", $tmp));
             }
             

@@ -1,97 +1,58 @@
-<?php
-
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-/**
- * Class ilContextSaml
- */
 class ilContextSaml implements ilContextTemplate
 {
-    /**
-     * @inheritdoc
-     */
-    public static function supportsRedirects()
+    public static function supportsRedirects() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function hasUser()
+    public static function hasUser() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function usesHTTP()
+    public static function usesHTTP() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function hasHTML()
+    public static function hasHTML() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function usesTemplate()
+    public static function usesTemplate() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function initClient()
+    public static function initClient() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function doAuthentication()
+    public static function doAuthentication() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function supportsPersistentSessions()
+    public static function supportsPersistentSessions() : bool
     {
         return true;
     }
 
-    /**
-     * Supports push messages
-     *
-     * @return bool
-     */
-    public static function supportsPushMessages()
+    public static function supportsPushMessages() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public static function isSessionMainContext()
+    public static function isSessionMainContext() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function modifyHttpPath(string $httpPath) : string
     {
         if (strpos($httpPath, '/Services/Saml/lib/') !== false && strpos($httpPath, '/metadata.php') === false) {

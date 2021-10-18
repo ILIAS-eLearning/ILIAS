@@ -9,11 +9,8 @@
  */
 class ilCOPageExporter extends ilXmlExporter
 {
-    private $ds;
-    /**
-     * @var ilCOPageExportConfig
-     */
-    protected $config;
+    private ilCOPageDataSet $ds;
+    protected ilExportConfig $config;
 
     /**
      * List of dependencies for page component plugins with an own exporter
@@ -35,7 +32,7 @@ class ilCOPageExporter extends ilXmlExporter
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         global $DIC;
         /** @var ilPluginAdmin $ilPluginAdmin */
@@ -67,13 +64,12 @@ class ilCOPageExporter extends ilXmlExporter
 
     /**
      * Get head dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
      * @return		array		array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         if ($a_entity == "pg") {
             // get all media objects and files of the page
@@ -122,13 +118,12 @@ class ilCOPageExporter extends ilXmlExporter
     
     /**
      * Get tail dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @return        array        array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         if ($a_entity == "pgtp") {
             $pg_ids = array();
@@ -155,13 +150,12 @@ class ilCOPageExporter extends ilXmlExporter
 
     /**
      * Get xml representation
-     *
      * @param string	entity
      * @param string	schema version
      * @param array		ids
      * @return string	xml
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         if ($a_entity == "pg") {
             $id = explode(":", $a_id);
@@ -197,7 +191,7 @@ class ilCOPageExporter extends ilXmlExporter
             return $xml;
         }
         if ($a_entity == "pgtp") {
-            return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+            return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
         }
     }
 
@@ -205,10 +199,9 @@ class ilCOPageExporter extends ilXmlExporter
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         if ($a_entity == "pg") {
             return array(

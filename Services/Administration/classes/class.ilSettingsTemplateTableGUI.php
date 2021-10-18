@@ -1,38 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Administration\SettingsTemplateGUIRequest;
 
 /**
  * Settings templates table
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSettingsTemplateTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilAccessHandler $access;
+    protected \ILIAS\DI\Container $dic;
+    protected ilRbacSystem $rbacsystem;
+    protected SettingsTemplateGUIRequest $request;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
-    /**
-     * @var
-     */
-    protected $rbacsystem;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_type)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        string $a_type
+    ) {
         global $DIC;
 
         $this->dic = $DIC;
@@ -42,8 +41,10 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
         $this->rbacsystem = $this->dic->rbac()->system();
         $ilCtrl = $this->dic->ctrl();
         $lng = $this->dic->language();
-        $ilAccess = $this->dic->access();
-        $lng = $this->dic->language();
+        $this->request = new SettingsTemplateGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
 
         $this->setId("admsettemp" . $a_type);
 
@@ -64,15 +65,12 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
             "Services/Administration"
         );
 
-        if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+        if ($this->rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $this->addMultiCommand("confirmSettingsTemplateDeletion", $lng->txt("delete"));
             //$this->addCommandButton("", $lng->txt(""));
         }
     }
 
-    /**
-     * Fill table row
-     */
     protected function fillRow($a_set)
     {
         $lng = $this->lng;
@@ -80,11 +78,9 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
 
         $ilCtrl->setParameter($this->parent_obj, "templ_id", $a_set["id"]);
         $this->tpl->setVariable("VAL_ID", $a_set["id"]);
-        // begin-patch lok
         $this->tpl->setVariable("VAL_TITLE", ilSettingsTemplate::translate($a_set["title"]));
         $this->tpl->setVariable("VAL_DESCRIPTION", ilSettingsTemplate::translate($a_set["description"]));
-        if ($this->rbacsystem->checkAccess('write', $_GET['ref_id'])) {
-            // end-patch lok
+        if ($this->rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $this->tpl->setVariable("TXT_EDIT", $lng->txt("edit"));
             $this->tpl->setVariable(
                 "HREF_EDIT",

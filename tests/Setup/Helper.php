@@ -15,7 +15,7 @@ trait Helper
 
         $consumer = $this
             ->getMockBuilder(Setup\Agent::class)
-            ->setMethods(["hasConfig", "getDefaultConfig", "getConfigInput", "getArrayToConfigTransformation", "getInstallObjective", "getUpdateObjective", "getBuildArtifactObjective", "getStatusObjective", "getMigrations", "getNamedObjective"])
+            ->onlyMethods(["hasConfig", "getArrayToConfigTransformation", "getInstallObjective", "getUpdateObjective", "getBuildArtifactObjective", "getStatusObjective", "getMigrations", "getNamedObjective"])
             ->setMockClassName("Mock_AgentNo" . ($no++))
             ->getMock();
 
@@ -28,7 +28,7 @@ trait Helper
 
         $goal = $this
             ->getMockBuilder(Setup\Objective::class)
-            ->setMethods(["getHash", "getLabel", "isNotable", "withResourcesFrom", "getPreconditions", "achieve", "isApplicable"])
+            ->onlyMethods(["getHash", "getLabel", "isNotable", "getPreconditions", "achieve", "isApplicable"])
             ->setMockClassName("Mock_ObjectiveNo" . ($no++))
             ->getMock();
 
@@ -45,7 +45,7 @@ trait Helper
 
         $input = $this
             ->getMockBuilder(Input::class)
-            ->setMethods([])
+            ->onlyMethods([])
             ->setMockClassName("Mock_InputNo" . ($no++))
             ->getMock();
 
@@ -58,7 +58,7 @@ trait Helper
 
         $config = $this
             ->getMockBuilder(Setup\Config::class)
-            ->setMethods([])
+            ->onlyMethods([])
             ->setMockClassName("Mock_ConfigNo" . ($no++))
             ->getMock();
 

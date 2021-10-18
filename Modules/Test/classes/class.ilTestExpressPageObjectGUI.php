@@ -66,7 +66,7 @@ class ilTestExpressPageObjectGUI extends ilAssQuestionPageGUI
         parent::__construct($a_id, $a_old_nr);
     }
 
-    public function executeCommand()
+    public function executeCommand() : string
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         $ilCtrl = $DIC['ilCtrl'];

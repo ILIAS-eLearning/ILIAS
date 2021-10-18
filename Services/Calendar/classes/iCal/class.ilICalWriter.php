@@ -52,7 +52,7 @@ class ilICalWriter
                 '\,',
                 ),
             $a_text
-            );
+        );
     }
     
     /**

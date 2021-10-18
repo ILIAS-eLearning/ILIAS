@@ -1,119 +1,105 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Confirmation screen class.
  *
- * @author	Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilConfirmationGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    private array $hidden_item = array();
+    private array $item = array();
+    private bool $use_images = false;
+    private array $buttons = array();
+    private string $form_name;
+    protected string $form_action;
+    protected string $headertext;
+    protected string $cancel_txt;
+    protected string $cancel_cmd;
+    protected string $cancel_id;
+    protected string $confirm_txt;
+    protected string $confirm_cmd;
+    protected string $confirm_id;
 
-    private $hidden_item = array();
-    private $item = array();
-    private $use_images = false;
-    private $buttons = array();
-    private $form_name;
-    
-    /**
-    * Constructor
-    *
-    */
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->lng = $DIC->language();
     }
 
-    final public function setFormAction($a_form_action)
+    final public function setFormAction(string $a_form_action) : void
     {
         $this->form_action = $a_form_action;
     }
     
-    final public function getFormAction()
+    final public function getFormAction() : string
     {
         return $this->form_action;
     }
 
-    /**
-    * Set Set header text.
-    *
-    * @param	string	$a_headertext	Set header text
-    */
-    public function setHeaderText($a_headertext)
+    public function setHeaderText(string $a_headertext) : void
     {
         $this->headertext = $a_headertext;
     }
 
-    /**
-    * Get Set header text.
-    *
-    * @return	string	Set header text
-    */
-    public function getHeaderText()
+    public function getHeaderText() : string
     {
         return $this->headertext;
     }
 
-    /**
-    * Set cancel button command and text
-    *
-    * @param	string		cancel text
-    * @param	string		cancel command
-    */
-    final public function addButton($a_txt, $a_cmd)
+    final public function addButton(string $a_txt, string $a_cmd) : void
     {
         $this->buttons[] = array(
             "txt" => $a_txt, "cmd" => $a_cmd);
     }
 
-    /**
-    * Set cancel button command and text
-    *
-    * @param	string		cancel text
-    * @param	string		cancel command
-    */
-    final public function setCancel($a_txt, $a_cmd, $a_id = "")
-    {
+    // Set cancel button command and text
+    final public function setCancel(
+        string $a_txt,
+        string $a_cmd,
+        string $a_id = ""
+    ) : void {
         $this->cancel_txt = $a_txt;
         $this->cancel_cmd = $a_cmd;
         $this->cancel_id = $a_id;
     }
 
-    /**
-    * Set confirmation button command and text
-    *
-    * @param	string		confirmation button text
-    * @param	string		confirmation button command
-    */
-    final public function setConfirm($a_txt, $a_cmd, $a_id = "")
-    {
+    final public function setConfirm(
+        string $a_txt,
+        string $a_cmd,
+        string $a_id = ""
+    ) : void {
         $this->confirm_txt = $a_txt;
         $this->confirm_cmd = $a_cmd;
         $this->confirm_id = $a_id;
     }
 
     /**
-    * Add row item.
-    *
-    * @param	string	name of post variable used for id (e.g. "id[]")
-    * @param	mixed	id value
-    * @param	string	item text
-    * @param	string	item image path
-    */
+     * Add row item.
+     */
     public function addItem(
-        $a_post_var,
-        $a_id,
-        $a_text,
-        $a_img = "",
-        $a_alt = ""
-    ) {
+        string $a_post_var,
+        string $a_id,
+        string $a_text,
+        string $a_img = "",
+        string $a_alt = ""
+    ) : void {
         $this->item[] = array("var" => $a_post_var, "id" => $a_id,
             "text" => $a_text, "img" => $a_img, "alt" => $a_alt);
         if ($a_img != "") {
@@ -121,23 +107,14 @@ class ilConfirmationGUI
         }
     }
     
-    /**
-     * Add hidden item.
-     *
-     * @param	string	name of post variable used for id (e.g. "id[]")
-     * @param	mixed	value
-     */
-    public function addHiddenItem($a_post_var, $a_value)
-    {
+    public function addHiddenItem(
+        string $a_post_var,
+        string $a_value
+    ) : void {
         $this->hidden_item[] = array("var" => $a_post_var, "value" => $a_value);
     }
 
-    /**
-    * Get confirmation screen HTML.
-    *
-    * @return	string		HTML code.
-    */
-    final public function getHTML()
+    final public function getHTML() : string
     {
         ilUtil::sendQuestion($this->getHeaderText());
         
@@ -190,12 +167,7 @@ class ilConfirmationGUI
         }
     }
     
-    /**
-     * Set form name
-     *
-     * @param string $a_name
-     */
-    public function setFormName($a_name)
+    public function setFormName(string $a_name) : void
     {
         $this->form_name = $a_name;
     }

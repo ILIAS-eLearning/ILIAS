@@ -82,7 +82,7 @@ class ilCertificateCron extends ilCronJob
         }
 
         if (null === $this->templateRepository) {
-            $this->templateRepository = new ilCertificateTemplateRepository($database, $this->logger);
+            $this->templateRepository = new ilCertificateTemplateDatabaseRepository($database, $this->logger);
         }
 
         if (null === $this->userRepository) {
@@ -199,7 +199,7 @@ class ilCertificateCron extends ilCronJob
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilInvalidCertificateException
-     * @throws ilObjectNotFoundException
+     * @throws ilObjectNotFoundException|JsonException
      */
     public function processEntry(int $entryCounter, ilCertificateQueueEntry $entry, array $succeededGenerations) : array
     {

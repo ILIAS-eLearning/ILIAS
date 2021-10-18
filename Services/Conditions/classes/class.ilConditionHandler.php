@@ -1215,7 +1215,6 @@ class ilConditionHandler
         }
 
         // @todo check this
-        include_once './Services/Container/classes/class.ilMemberViewSettings.php';
         if (ilMemberViewSettings::getInstance()->isActive()) {
             return true;
         }

@@ -95,7 +95,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
@@ -144,10 +144,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 }
             
                 // no break
-            case "ilpageobjectgui":
-                die("Deprecated. ilPortfolioPage gui forwarding to ilpageobject");
-                return;
-                
             default:
                 $this->setPresentationTitle($this->getPageObject()->getTitle());
                 return parent::executeCommand();

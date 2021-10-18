@@ -750,7 +750,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     {
         parent::read();
 
-        include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 
         $this->__readSettings();
@@ -1025,7 +1024,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         
         // clone certificate (#11085)
         $pathFactory = new ilCertificatePathFactory();
-        $templateRepository = new ilCertificateTemplateRepository($ilDB);
+        $templateRepository = new ilCertificateTemplateDatabaseRepository($ilDB);
 
         $cloneAction = new ilCertificateCloneAction(
             $ilDB,
@@ -1058,7 +1057,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         parent::cloneDependencies($a_target_id, $a_copy_id);
         
         // Clone course start objects
-        include_once('Services/Container/classes/class.ilContainerStartObjects.php');
         $start = new ilContainerStartObjects($this->getRefId(), $this->getId());
         $start->cloneDependencies($a_target_id, $a_copy_id);
 
@@ -1257,7 +1255,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
         $ilLog = $DIC->logger()->crs();
 
-        include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
         $sorting = new ilContainerSortingSettings($this->getId());
         $sorting->setSortMode($this->getOrderType());
         $sorting->update();
@@ -1478,7 +1475,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $res = $ilDB->manipulate($query);
         $this->__readSettings();
 
-        include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
         $sorting = new ilContainerSortingSettings($this->getId());
         $sorting->setSortMode(ilContainer::SORT_MANUAL);
         $sorting->update();
@@ -1518,7 +1514,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->setImportantInformation($row->important);
             $this->setShowMembers($row->show_members);
 
-            if (\ilPrivacySettings::_getInstance()->participantsListInCoursesEnabled()) {
+            if (\ilPrivacySettings::getInstance()->participantsListInCoursesEnabled()) {
                 $this->setShowMembersExport($row->show_members_export);
             } else {
                 $this->setShowMembersExport(false);

@@ -149,7 +149,6 @@ class ilTestSkillAdministrationGUI
             'ilassquestionskillassignmentsgui',
             $this->lng->txt('qpl_skl_sub_tab_quest_assign'),
             $link
-
         );
 
         $link = $this->ctrl->getLinkTargetByClass(

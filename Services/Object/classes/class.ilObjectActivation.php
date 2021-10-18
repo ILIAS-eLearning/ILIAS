@@ -14,20 +14,9 @@ class ilObjectActivation
     const ERR_SUG_START_END = 1;
 
 
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilErrorHandling $error;
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
 
     protected int $timing_type;
     protected int $timing_start;
@@ -39,8 +28,8 @@ class ilObjectActivation
     protected int $earliest_start_rel;
     protected int $earliest_start;
 
-    protected int $suggestion_start_rel;
-    protected int $suggestion_end_rel;
+    protected int $suggestion_start_rel = 0;
+    protected int $suggestion_end_rel = 0;
 
     protected static $preloaded_data = array();
     

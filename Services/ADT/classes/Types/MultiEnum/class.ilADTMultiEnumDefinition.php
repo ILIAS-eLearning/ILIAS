@@ -66,8 +66,6 @@ class ilADTMultiEnumDefinition extends ilADTDefinition
         } else {
             $class = "ilADTMultiEnumText";
         }
-        include_once "Services/ADT/classes/Types/MultiEnum/class.ilADTMultiEnum.php";
-        include_once "Services/ADT/classes/Types/MultiEnum/class." . $class . ".php";
-        return new $class($this);
+                        return new $class($this);
     }
 }

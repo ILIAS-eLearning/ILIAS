@@ -20,7 +20,6 @@ abstract class ilADTActiveRecordBridge
      * Constructor
      *
      * @param ilADT $a_adt
-     * @return self
      */
     public function __construct(ilADT $a_adt)
     {

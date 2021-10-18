@@ -29,12 +29,12 @@ class ilSkillTreeNode
     protected string $type;
     protected int $id;
     protected string $title;
-    protected string $description;
-    protected bool $self_eval;
+    protected string $description = "";
+    protected bool $self_eval = false;
     protected int $order_nr;
     protected string $import_id = "";
     protected string $creation_date;
-    protected int $status;
+    protected int $status = 0;
     protected array $data_record;
 
     public const STATUS_PUBLISH = 0;

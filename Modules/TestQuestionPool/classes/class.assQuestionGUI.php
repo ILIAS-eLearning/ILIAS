@@ -447,7 +447,7 @@ abstract class assQuestionGUI
 
         assQuestion::_includeClass($question_type, 1);
 
-        $question_type_gui = $question_type.'GUI';
+        $question_type_gui = $question_type . 'GUI';
         $question = new $question_type_gui();
 
         $feedbackObjectClassname = assQuestion::getFeedbackClassNameByQuestionType($question_type);
@@ -695,7 +695,7 @@ abstract class assQuestionGUI
                 $tree = $DIC['tree'];
                 $ilDB = $DIC['ilDB'];
                 $ilPluginAdmin = $DIC['ilPluginAdmin'];
-// TODO: Courier Antipattern!
+                // TODO: Courier Antipattern!
                 $_GET["ref_id"] = $_GET["test_ref_id"];
                 $test = new ilObjTest($_GET["test_ref_id"], true);
 
@@ -742,7 +742,7 @@ abstract class assQuestionGUI
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
-// TODO: Courier Antipattern!
+                    // TODO: Courier Antipattern!
                     $_GET["ref_id"] = $_GET["calling_test"];
                     $test = new ilObjTest($_GET["calling_test"], true);
                     $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
@@ -785,7 +785,7 @@ abstract class assQuestionGUI
                         $tree = $DIC['tree'];
                         $ilDB = $DIC['ilDB'];
                         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-// TODO: Courier Antipattern!
+                        // TODO: Courier Antipattern!
                         $test = new ilObjTest($_GET["ref_id"], true);
                         $testQuestionSetConfigFactory = new ilTestQuestionSetConfigFactory($tree, $ilDB, $ilPluginAdmin, $test);
                         $test->insertQuestion(
@@ -832,7 +832,7 @@ abstract class assQuestionGUI
                     $tree = $DIC['tree'];
                     $ilDB = $DIC['ilDB'];
                     $ilPluginAdmin = $DIC['ilPluginAdmin'];
-// TODO: Courier Antipattern!
+                    // TODO: Courier Antipattern!
                     $_GET["ref_id"] = $_GET["calling_test"];
                     $test = new ilObjTest($_GET["calling_test"], true);
 
@@ -997,7 +997,7 @@ abstract class assQuestionGUI
     * assessment: title, author, description, question, working time
     * @return	int	Default Nr of Tries
     */
-    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form) :int
+    public function addBasicQuestionFormProperties(ilPropertyFormGUI $form) : int
     {
         // title
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -1087,14 +1087,12 @@ abstract class assQuestionGUI
             $ni->setMaxLength(5);
             $form->addItem($ni);
         }
-        return  (int)$nr_tries;
+        return  (int) $nr_tries;
     }
     
     protected function saveTaxonomyAssignments() : void
     {
         if (count($this->getTaxonomyIds())) {
-
-            
             foreach ($this->getTaxonomyIds() as $taxonomyId) {
                 $postvar = "tax_node_assign_$taxonomyId";
                 
@@ -1647,8 +1645,8 @@ abstract class assQuestionGUI
         
     public static function getCommandsFromClassConstants(
         string $guiClassName,
-        string $cmdConstantNameBegin = 'CMD_') : array
-    {
+        string $cmdConstantNameBegin = 'CMD_'
+    ) : array {
         $reflectionClass = new ReflectionClass($guiClassName);
         
         $commands = null;
@@ -1671,7 +1669,7 @@ abstract class assQuestionGUI
         $this->ilTabs->clearTargets();
 
         $this->ctrl->setParameterByClass("ilAssQuestionPageGUI", "q_id", $_GET["q_id"]);
-         $q_type = $this->object->getQuestionType();
+        $q_type = $this->object->getQuestionType();
 
         if (strlen($q_type)) {
             $classname = $q_type . "GUI";
@@ -1779,7 +1777,6 @@ abstract class assQuestionGUI
     
     protected function addTab_QuestionHints(ilTabsGUI $tabs) : void
     {
-
         switch ($this->ctrl->getCmdClass()) {
             case 'ilassquestionhintsgui':
                 $tabCommands = self::getCommandsFromClassConstants('ilAssQuestionHintsGUI');
@@ -1868,8 +1865,7 @@ abstract class assQuestionGUI
         bool $is_question_postponed = false,
         bool $user_post_solutions = false,
         bool $show_specific_inline_feedback = false
-    ) : void
-    {
+    ) : void {
         $formaction = $this->completeTestOutputFormAction($formaction, $active_id, $pass);
         
         $test_output = $this->getTestOutput(
@@ -1964,7 +1960,7 @@ abstract class assQuestionGUI
 
     public function showHints() : void
     {
-       $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
+        $this->ctrl->redirectByClass('ilAssQuestionHintsGUI', ilAssQuestionHintsGUI::CMD_SHOW_LIST);
     }
 
     protected function buildEditForm() : ilPropertyFormGUI

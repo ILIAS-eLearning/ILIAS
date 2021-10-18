@@ -56,9 +56,9 @@ class ilHttpConfigStoredObjective implements Setup\Objective
 
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
-        $settings->set("proxy_status", (int) $this->config->isProxyEnabled());
-        $settings->set("proxy_host", $this->config->getProxyHost());
-        $settings->set("proxy_port", $this->config->getProxyPort());
+        $settings->set("proxy_status", (string) $this->config->isProxyEnabled());
+        $settings->set("proxy_host", (string) $this->config->getProxyHost());
+        $settings->set("proxy_port", (string) $this->config->getProxyPort());
 
         return $environment;
     }

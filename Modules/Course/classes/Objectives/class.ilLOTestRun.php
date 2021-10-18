@@ -40,9 +40,9 @@ class ilLOTestRun
     /**
      *
      * @global type $ilDB
-     * @param type $a_test_obj_id
-     * @param type $a_objective_id
-     * @param type $a_user_id
+     * @param int $a_test_obj_id
+     * @param int $a_objective_id
+     * @param int $a_user_id
      * @return boolean
      */
     public static function lookupRunExistsForObjective($a_test_id, $a_objective_id, $a_user_id)

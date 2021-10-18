@@ -63,8 +63,6 @@ class ilLTIProviderObjectSettingGUI
 
         $this->lng = $GLOBALS['DIC']->language();
         $this->lng->loadLanguageModule('lti');
-        
-        $this->checkLocalRole();
     }
     
     /**
@@ -91,6 +89,10 @@ class ilLTIProviderObjectSettingGUI
      */
     public function setCustomRolesForSelection($a_roles)
     {
+        if (empty($a_roles)) {
+            $this->checkLocalRole();
+            $a_roles = $GLOBALS['DIC']->rbac()->review()->getLocalRoles($this->ref_id);
+        }
         $this->custom_roles = $a_roles;
     }
     
@@ -304,7 +306,7 @@ class ilLTIProviderObjectSettingGUI
     {
         global $DIC;
         $a_global_role = ilObject::_getIdsForTitle("il_lti_global_role", "role", false);
-        if (is_array($a_global_role)) {
+        if (is_array($a_global_role) && !empty($a_global_role)) {
             $rbacreview = $DIC['rbacreview'];
             if (count($rbacreview->getRolesOfObject($this->ref_id, false)) == 0) {
                 $rbacadmin = $DIC['rbacadmin'];

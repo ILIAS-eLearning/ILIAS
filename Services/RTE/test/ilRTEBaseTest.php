@@ -11,9 +11,6 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilRTEBaseTest extends TestCase
 {
-    /**
-     * @inheritdoc
-     */
     protected function setUp() : void
     {
         $GLOBALS['DIC'] = new Container();
@@ -24,7 +21,7 @@ abstract class ilRTEBaseTest extends TestCase
 
     /**
      * @param string $name
-     * @param $value
+     * @param mixed $value
      */
     protected function setGlobalVariable(string $name, $value) : void
     {
@@ -33,18 +30,19 @@ abstract class ilRTEBaseTest extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = function ($c) use ($name) {
+        $DIC[$name] = static function ($c) use ($name) {
             return $GLOBALS[$name];
         };
     }
-    protected function setMocks()
+
+    protected function setMocks() : void
     {
         $tpl_mock = $this->getMockBuilder(\ilTemplate::class)->disableOriginalConstructor()->getMock();
         $this->setGlobalVariable('tpl', $tpl_mock);
         $lng = $this
             ->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
-            ->setMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
+            ->onlyMethods(['txt', 'getInstalledLanguages', 'loadLanguageModule'])
             ->getMock();
         $this->setGlobalVariable('lng', $lng);
         $this->setGlobalVariable(
@@ -61,7 +59,7 @@ abstract class ilRTEBaseTest extends TestCase
         );
         $this->setGlobalVariable(
             'ilUser',
-            $this->getMockBuilder(ilUser::class)->disableOriginalConstructor()->getMock()
+            $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock()
         );
     }
 }

@@ -309,7 +309,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             if (!$correction_feedback['feedback']) {
                 $correction_feedback['feedback'] = [];
             }
-            if($correction_feedback['finalized_evaluation'] == 1) {
+            if ($correction_feedback['finalized_evaluation'] == 1) {
                 $correction_feedback['finalized_evaluation'] = $this->lng->txt('yes');
             } else {
                 $correction_feedback['finalized_evaluation'] = $this->lng->txt('no');
@@ -357,7 +357,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
         $participant = $data->getParticipant($active_id);
         $question_gui = $this->object->createQuestionGUI('', $question_id);
         $tmp_tpl = new ilTemplate('tpl.il_as_tst_correct_solution_output.html', true, true, 'Modules/Test');
-        if($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
+        if ($question_gui instanceof assTextQuestionGUI && $this->object->getAutosave()) {
             $aresult_output = $question_gui->getAutoSavedSolutionOutput(
                 $active_id,
                 $pass,
@@ -510,6 +510,7 @@ class ilTestScoringByQuestionsGUI extends ilTestScoringGUI
             $form->addItem($hidden_points);
         }
 
+        $tmp_tpl->setVariable('TINYMCE_ACTIVE', ilObjAdvancedEditing::_getRichTextEditor());
         $text_area = new ilTextAreaInputGUI($this->lng->txt('set_manual_feedback'), 'm_feedback' . $post_var);
         $feedback_text = '';
         if (array_key_exists('feedback', $feedback)) {

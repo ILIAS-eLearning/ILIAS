@@ -7,6 +7,8 @@ module.exports = function(socket) {
 	socket.on('login', _getTask('Login'));
 	socket.on('enterRoom', _getTask('EnterRoom'));
 	socket.on('message', _getTask('SendMessage'));
+	socket.on('userStartedTyping', _getTask('UserStartedTypingInRoom'));
+	socket.on('userStoppedTyping', _getTask('UserStoppedTypingInRoom'));
 	socket.on('disconnect', _getTask('Disconnect'));
 };
 

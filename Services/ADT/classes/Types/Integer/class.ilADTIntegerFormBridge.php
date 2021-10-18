@@ -47,7 +47,7 @@ class ilADTIntegerFormBridge extends ilADTFormBridge
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setNumber($this->getForm()->getInput($this->getElementId()));
         
-        $field = $this->getForm()->getItemByPostvar($this->getElementId());
+        $field = $this->getForm()->getItemByPostVar($this->getElementId());
         $field->setValue($this->getADT()->getNumber());
     }
 }

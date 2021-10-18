@@ -152,16 +152,7 @@ class ilEvaluationAllTableGUITest extends ilTestBaseTestCase
 
     public function testGetSelectedColumns() : void
     {
-        $expected = [
-            "gender" => "gender",
-            "email" => "email",
-            "institution" => "institution",
-            "street" => "street",
-            "city" => "city",
-            "zipcode" => "zipcode",
-            "department" => "department",
-            "matriculation" => "matriculation"
-        ];
+        $expected = [];
         $this->assertEquals($expected, $this->tableGui->getSelectedColumns());
     }
 }

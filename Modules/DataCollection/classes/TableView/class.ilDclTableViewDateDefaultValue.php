@@ -102,8 +102,7 @@ class ilDclTableViewDateDefaultValue extends ilDclTableViewBaseDefaultValue
     }
 
 
-    function createDefaultValueRecord()
+    public function createDefaultValueRecord()
     {
-
     }
 }

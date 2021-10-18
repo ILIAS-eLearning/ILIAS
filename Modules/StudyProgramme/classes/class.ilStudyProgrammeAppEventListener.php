@@ -221,10 +221,8 @@ class ilStudyProgrammeAppEventListener
 
     private static function onServiceObjectDeleteOrToTrash($a_parameter)
     {
-        $node_ref_id = $a_parameter["ref_id"];
         $old_parent_ref_id = $a_parameter["old_parent_ref_id"];
 
-        $node_type = $a_parameter["type"];
         $old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
 
         if ($old_parent_type !== "prg") {

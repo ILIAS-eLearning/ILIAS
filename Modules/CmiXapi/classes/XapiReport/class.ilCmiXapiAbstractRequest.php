@@ -42,8 +42,7 @@ abstract class ilCmiXapiAbstractRequest
         try {
             $response = $client->sendAsync($request)->wait();
             return (string) $response->getBody();
-        }
-        catch(Exception $e) {
+        } catch (Exception $e) {
             throw new Exception("LRS Connection Problems");
         }
     }

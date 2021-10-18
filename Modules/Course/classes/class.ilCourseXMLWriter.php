@@ -106,7 +106,6 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->__buildWaitingList();
             
             $this->__buildSetting();
-            include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
             ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->course_obj->getId());
             ilContainer::_exportContainerSettings($this, $this->course_obj->getId());
             $this->__buildFooter();
@@ -115,7 +114,6 @@ class ilCourseXMLWriter extends ilXmlWriter
             $this->__buildMetaData();
             $this->__buildAdvancedMetaData();
             $this->__buildSetting();
-            include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
             ilContainerSortingSettings::_exportContainerSortingSettings($this, $this->course_obj->getId());
             ilContainer::_exportContainerSettings($this, $this->course_obj->getId());
             $this->__buildFooter();

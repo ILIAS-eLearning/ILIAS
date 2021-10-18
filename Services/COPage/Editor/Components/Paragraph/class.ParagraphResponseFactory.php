@@ -41,6 +41,7 @@ class ParagraphResponseFactory
                 $error = print_r($updated, true);
             }
         } else {
+            $page_gui->setDefaultLinkXml(); // fixes #31087
             $rendered_content = $this->getParagraphOutput($page_gui, $pcid);
             $last_change = $page_gui->getPageObject()->getLastChange();
         }

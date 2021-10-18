@@ -19,7 +19,7 @@
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 use ILIAS\GlobalScreen\ScreenContext\ContextServices;
 
 /**
@@ -39,10 +39,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     protected ilTabsGUI $tabs;
     protected Factory $ui_fac;
     protected Renderer $ui_ren;
-    /**
-     * @var ServerRequestInterface
-     */
-    protected $request;
+    protected SkillAdminGUIRequest $admin_gui_request;
     protected ContextServices $tool_context;
     protected ilPropertyFormGUI $form;
     protected ilSkillTree $skill_tree;
@@ -51,6 +48,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
     protected bool $requested_templates_tree;
     protected string $requested_skexpand;
     protected int $requested_tmpmode;
+    protected array $requested_titles;
+    protected array $requested_node_ids;
 
     /**
      * @param string|array $a_data
@@ -78,7 +77,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $this->user = $DIC->user();
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $ilCtrl = $DIC->ctrl();
 
         $this->tool_context = $DIC->globalScreen()->tool()->context();
@@ -92,12 +91,13 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         $ilCtrl->saveParameter($this, "obj_id");
 
-        $params = $this->request->getQueryParams();
-        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
-        $this->requested_tref_id = (int) ($params["tref_id"] ?? 0);
-        $this->requested_templates_tree = (bool) ($params["templates_tree"] ?? false);
-        $this->requested_skexpand = (string) ($params["skexpand"] ?? "");
-        $this->requested_tmpmode = (int) ($params["tmpmode"] ?? 0);
+        $this->requested_obj_id = $this->admin_gui_request->getObjId();
+        $this->requested_tref_id = $this->admin_gui_request->getTrefId();
+        $this->requested_templates_tree = $this->admin_gui_request->getTemplatesTree();
+        $this->requested_skexpand = $this->admin_gui_request->getSkillExpand();
+        $this->requested_tmpmode = $this->admin_gui_request->getTemplateMode();
+        $this->requested_titles = $this->admin_gui_request->getTitles();
+        $this->requested_node_ids = $this->admin_gui_request->getNodeIds();
     }
 
     public function executeCommand() : void
@@ -336,8 +336,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if (is_array($_POST["title"])) {
-            foreach ($_POST["title"] as $id => $title) {
+        if (!count($this->requested_titles) == 0) {
+            foreach ($this->requested_titles as $id => $title) {
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
                 if (is_object($node_obj)) {
                     // update title
@@ -356,8 +356,8 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if (is_array($_POST["title"])) {
-            foreach ($_POST["title"] as $id => $title) {
+        if (!count($this->requested_titles) == 0) {
+            foreach ($this->requested_titles as $id => $title) {
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
                 if (is_object($node_obj)) {
                     // update title
@@ -381,7 +381,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $n_arr = [];
         foreach ($stree as $n) {
             $n_arr[] = $n["child"];
-            $_SESSION["skexpand"] = $n_arr;
+            ilSession::set("skexpand", $n_arr);
         }
         $this->saveAllTitles(false);
     }
@@ -393,14 +393,14 @@ class ilObjSkillManagementGUI extends ilObjectGUI
             ? $this->requested_obj_id
             : $this->skill_tree->readRootId();
         $stree = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($n_id));
-        $old = $_SESSION["skexpand"];
+        $old = ilSession::get("skexpand");
         foreach ($stree as $n) {
             if (in_array($n["child"], $old) && $n["child"] != $n_id) {
                 $k = array_search($n["child"], $old);
                 unset($old[$k]);
             }
         }
-        $_SESSION["skexpand"] = $old;
+        ilSession::set("skexpand", $old);
         $this->saveAllTitles(false);
     }
 
@@ -412,7 +412,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
 
-        if (!isset($_POST["id"])) {
+        if (empty($this->requested_node_ids)) {
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
         }
 
@@ -421,7 +421,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         // check usages
         $mode = "";
         $cskill_ids = [];
-        foreach ($_POST["id"] as $id) {
+        foreach ($this->requested_node_ids as $id) {
             if (in_array(ilSkillTreeNode::_lookupType($id), array("skll", "scat", "sktr"))) {
                 if ($mode == "templates") {
                     $this->ilias->raiseError("Skill Deletion - type mismatch.", $this->ilias->error_obj->MESSAGE);
@@ -472,7 +472,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         }
         
         // SAVE POST VALUES
-        $_SESSION["saved_post"] = $_POST["id"];
+        ilSession::set("saved_post", $this->requested_node_ids);
 
         $confirmation_gui = new ilConfirmationGUI();
 
@@ -482,7 +482,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $confirmation_gui->setHeaderText($this->lng->txt("info_delete_sure"));
 
         // Add items to delete
-        foreach ($_POST["id"] as $id) {
+        foreach ($this->requested_node_ids as $id) {
             if ($id != IL_FIRST_NODE) {
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
                 $confirmation_gui->addItem(
@@ -510,7 +510,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
         $ilCtrl = $this->ctrl;
 
         // delete all selected objects
-        foreach ($_POST["id"] as $id) {
+        foreach ($this->requested_node_ids as $id) {
             if ($id != IL_FIRST_NODE) {
                 $obj = ilSkillTreeNodeFactory::getInstance($id);
                 $node_data = $this->skill_tree->getNodeData($id);
