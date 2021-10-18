@@ -14,23 +14,15 @@ require_once "./Services/VirusScanner/classes/class.ilVirusScanner.php";
 
 class ilVirusScannerICapRemote extends ilVirusScanner
 {
-    /** @var string */
-    private $host;
-    /** @var int */
-    private $port;
+    private string $host;
+    private int $port;
     /** @var resource */
     private $socket;
-    /** @var string */
-    public $userAgent = 'PHP-CLIENT/0.1.0';
+    public string $userAgent = 'PHP-CLIENT/0.1.0';
 
-    /**
-     * ilVirusScannerICap constructor.
-     * @param $a_scancommand
-     * @param $a_cleancommand
-     */
-    public function __construct($a_scancommand, $a_cleancommand)
+    public function __construct(string $scan_command, string $clean_command)
     {
-        parent::__construct($a_scancommand, $a_cleancommand);
+        parent::__construct($scan_command, $clean_command);
         $this->host = IL_ICAP_HOST;
         $this->port = IL_ICAP_PORT;
     }
@@ -39,7 +31,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * @param $service
      * @return array
      */
-    public function options($service)
+    public function options($service) : array
     {
         $request  = $this->getRequest('OPTIONS', $service);
         $response = $this->send($request);
@@ -56,7 +48,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * @param array $headers
      * @return string
      */
-    public function getRequest($method, $service, $body = [], $headers = [])
+    public function getRequest($method, $service, array $body = [], array $headers = []): string
     {
         if (!array_key_exists('Host', $headers)) {
             $headers['Host'] = $this->host;
@@ -112,7 +104,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * @param $request
      * @return string
      */
-    public function send($request)
+    public function send($request) : string
     {
         $response = '';
         try{
@@ -132,7 +124,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * @return bool
      * @throws ErrorException
      */
-    private function connect()
+    private function connect(): bool
     {
         $this->socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         try{
@@ -150,7 +142,7 @@ class ilVirusScannerICapRemote extends ilVirusScanner
      * Get last error code from socket object
      * @return int Socket error code
      */
-    public function getLastSocketError()
+    public function getLastSocketError(): int
     {
         return socket_last_error($this->socket);
     }

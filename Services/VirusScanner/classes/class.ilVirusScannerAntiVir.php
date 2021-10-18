@@ -13,42 +13,22 @@ require_once "Services/VirusScanner/classes/class.ilVirusScanner.php";
 
 class ilVirusScannerAntiVir extends ilVirusScanner
 {
-    /**
-     * Constructor
-     * @access    public
-     * @param    string virus scanner command
-     */
-    public function __construct($a_scancommand, $a_cleancommand)
+
+    public function __construct(string $scan_command, string $clean_command)
     {
-        parent::__construct($a_scancommand, $a_cleancommand);
+        parent::__construct($scan_command, $clean_command);
         $this->type = "antivir";
         $this->scanZipFiles = true;
     }
 
-    /**
-     * scan a file for viruses
-     * @param    string    path of file to check
-     * @param    string    original name of the file to ckeck
-     * @return   string  virus message (empty if not infected)
-     * @access    public
-     */
-    public function scanFile($a_filepath, $a_origname = "")
+    public function scanFile(string $file_path, string $org_name = ""): string
     {
-        // This function should:
-        // - call the external scanner for a_filepath
-        // - set scanFilePath to a_filepath
-        // - set scanFileOrigName to a_origname
-        // - set scanFileIsInfected according the scan result
-        // - set scanResult to the scanner output message
-        // - call logScanResult() if file is infected
-        // - return the scanResult, if file is infected
-        // - return an empty string, if file is not infected
 
-        $this->scanFilePath = $a_filepath;
-        $this->scanFileOrigName = $a_origname;
+        $this->scanFilePath = $file_path;
+        $this->scanFileOrigName = $org_name;
 
         // Call of antivir command
-        $cmd = $this->scanCommand . " " . $a_filepath . " ";
+        $cmd = $this->scanCommand . " " . $file_path . " ";
         exec($cmd, $out, $ret);
         $this->scanResult = implode("\n", $out);
 
@@ -62,9 +42,5 @@ class ilVirusScannerAntiVir extends ilVirusScanner
             return "";
         }
 
-        // antivir has failed (todo)
-        $this->log->write("ERROR (Virus Scanner failed): "
-            . $this->scanResult
-            . "; COMMAMD=" . $cmd);
     }
 }
