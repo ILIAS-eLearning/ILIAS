@@ -526,7 +526,7 @@ class ilTextInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilte
     /**
     * Get HTML for toolbar
     */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         $html = $this->render("toolbar");
         return $html;

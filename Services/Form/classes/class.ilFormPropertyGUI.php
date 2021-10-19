@@ -3,6 +3,8 @@
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use \Psr\Http\Message\RequestInterface;
+use ILIAS\HTTP;
+use ILIAS\Refinery;
 
 /**
  * This class represents a property in a property form.
@@ -27,7 +29,10 @@ class ilFormPropertyGUI
     protected bool $multi_addremove = true;
     protected $multi_values;
     protected RequestInterface $request;
-    
+    protected HTTP\Services $http;
+    protected Refinery\Factory $refinery;
+
+
     /**
     * Constructor
     *
@@ -36,7 +41,16 @@ class ilFormPropertyGUI
     */
     public function __construct($a_title = "", $a_postvar = "")
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
+        if (isset($DIC["http"])) {
+            $this->http = $DIC->http();
+        }
+
+        if (isset($DIC["refinery"])) {
+            $this->refinery = $DIC->refinery();
+        }
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -523,5 +537,121 @@ class ilFormPropertyGUI
     public function getFormLabelFor()
     {
         return $this->getFieldId();
+    }
+
+    // get integer parameter kindly
+    protected function int($key) : int
+    {
+        $t = $this->refinery->kindlyTo()->int();
+        return (int) ($this->getRequestParam($key, $t) ?? 0);
+    }
+
+    // get integer array kindly
+    protected function intArray($key) : array
+    {
+        if (!$this->isRequestParamArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            function ($arr) {
+                // keep keys(!), transform all values to int
+                return array_column(
+                    array_map(
+                        function ($k, $v) {
+                            return [$k, (int) $v];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->getRequestParam($key, $t) ?? []);
+    }
+
+    // get string parameter kindly
+    protected function str($key) : string
+    {
+        $t = $this->refinery->kindlyTo()->string();
+        return \ilUtil::stripSlashes((string) ($this->getRequestParam($key, $t) ?? ""));
+    }
+
+    // get string array kindly
+    protected function strArray($key) : array
+    {
+        if (!$this->isRequestParamArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            function ($arr) {
+                // keep keys(!), transform all values to string
+                return array_column(
+                    array_map(
+                        function ($k, $v) {
+                            return [$k, \ilUtil::stripSlashes((string) $v)];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->getRequestParam($key, $t) ?? []);
+    }
+
+    // get array of arrays kindly
+    protected function arrayArray($key) : array
+    {
+        if (!$this->isRequestParamArray($key)) {
+            return [];
+        }
+        $t = $this->refinery->custom()->transformation(
+            function ($arr) {
+                // keep keys(!), transform all values to string
+                return array_column(
+                    array_map(
+                        function ($k, $v) {
+                            return [$k, \ilUtil::stripSlashes((array) $v)];
+                        },
+                        array_keys($arr),
+                        $arr
+                    ),
+                    1,
+                    0
+                );
+            }
+        );
+        return (array) ($this->getRequestParam($key, $t) ?? []);
+    }
+
+    protected function isRequestParamArray(string $key) : bool
+    {
+        $no_transform = $this->refinery->custom()->transformation(function ($v) {
+            return $v;
+        });
+        $w = $this->http->wrapper();
+        if ($w->post()->has($key)) {
+            return is_array($w->post()->retrieve($key, $no_transform));
+        }
+        if ($w->query()->has($key)) {
+            return is_array($w->query()->retrieve($key, $no_transform));
+        }
+        return false;
+    }
+
+    protected function getRequestParam(string $key, Refinery\Transformation $t)
+    {
+        $w = $this->http->wrapper();
+        if ($w->post()->has($key)) {
+            return $w->post()->retrieve($key, $t);
+        }
+        if ($w->query()->has($key)) {
+            return $w->query()->retrieve($key, $t);
+        }
+        return null;
     }
 }

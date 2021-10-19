@@ -105,7 +105,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    protected function preloadChilds()
+    protected function preloadChilds() : void
     {
         $this->preloaded_children = [];
         $this->node_id_to_parent_node_id_map = [];
@@ -136,7 +136,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     /**
      * @return string
      */
-    public function getTreeLabel()
+    public function getTreeLabel() : string
     {
         return $this->lng->txt("frm_posts");
     }

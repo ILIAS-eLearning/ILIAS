@@ -82,7 +82,7 @@ class ilHiddenInputGUI extends ilFormPropertyGUI implements ilToolbarItem
     /**
      * Get HTML for toolbar
      */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         return "<input type=\"hidden\"" .
             " name=\"" . $this->getPostVar() . "\"" .

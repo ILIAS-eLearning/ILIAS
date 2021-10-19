@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,22 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * Class ilButtonToSplitButtonMenuItemAdapter
- * @author Michael Jansen <mjansen@databay.de>
+ * Exercise test suite
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilButtonToSplitButtonMenuItemAdapter implements ilSplitButtonMenuItem
+class ilServicesUIComponentSuite extends TestSuite
 {
-    protected ilButtonBase $button;
-
-    public function __construct(ilButtonBase $button)
+    public static function suite()
     {
-        $this->button = $button;
-    }
+        $suite = new self();
 
-    public function getContent() : string
-    {
-        $this->button->applyDefaultCss(false);
-        return $this->button->render();
+        require_once("./Services/UIComponent/test/UIHookPluginGUITest.php");
+        $suite->addTestSuite("UIHookPluginGUITest");
+
+        return $suite;
     }
 }

@@ -424,7 +424,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
     /**
     * Get HTML for toolbar
     */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         $html = $this->render("toolbar");
         return $html;

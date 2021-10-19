@@ -9,10 +9,6 @@
  */
 class ilWorkspaceExplorerGUI extends ilTreeExplorerGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
 
     /**
      * @var bool

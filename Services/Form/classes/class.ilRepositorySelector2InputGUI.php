@@ -73,11 +73,10 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
 
     /**
      * Get title for node id (needs to be overwritten, if explorer is not a tree eplorer
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function getTitleForNodeId($a_id)
+    public function getTitleForNodeId($a_id) : string
     {
         $c = $this->getTitleModifier();
         if (is_callable($c)) {
@@ -120,7 +119,7 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
     /**
      * Render item
      */
-    public function render($a_mode = "property_form")
+    public function render(string $a_mode = "property_form") : string
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->setParameterByClass("ilformpropertydispatchgui", "postvar", $this->postvar);

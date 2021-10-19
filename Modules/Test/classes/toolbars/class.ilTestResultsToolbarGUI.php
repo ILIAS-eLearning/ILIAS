@@ -23,11 +23,6 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
     public $tpl = null;
 
     /**
-     * @var ilLanguage
-     */
-    public $lng = null;
-
-    /**
      * @var string
      */
     private $pdfExportLinkTarget = null;

@@ -519,7 +519,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
     /**
     * Get HTML for toolbar
     */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         $html = $this->render("toolbar");
         return $html;

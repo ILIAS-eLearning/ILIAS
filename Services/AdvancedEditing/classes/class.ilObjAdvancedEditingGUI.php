@@ -750,8 +750,8 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $ilTabs->activateTab("adve_char_selector_settings");
                 
         $char_selector = new ilCharSelectorGUI(ilCharSelectorConfig::CONTEXT_ADMIN);
-        $char_selector->getConfig()->setAvailability($ilSetting->get('char_selector_availability'));
-        $char_selector->getConfig()->setDefinition($ilSetting->get('char_selector_definition'));
+        $char_selector->getConfig()->setAvailability((int) $ilSetting->get('char_selector_availability'));
+        $char_selector->getConfig()->setDefinition((string) $ilSetting->get('char_selector_definition'));
         $form = $this->initCharSelectorSettingsForm($char_selector);
         $char_selector->setFormValues($form);
         $tpl->setContent($form->getHTML());

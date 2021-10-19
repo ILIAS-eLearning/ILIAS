@@ -14,7 +14,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     private const NAME_AUTH_PROP_1 = 'key';
     private const NAME_AUTH_PROP_2 = 'secret';
 
-    private \ILIAS\HTTP\Services $http;
+    protected \ILIAS\HTTP\Services $http;
     /** @var string[]  */
     protected array $ctrl_path = [];
     protected int $size = 10;

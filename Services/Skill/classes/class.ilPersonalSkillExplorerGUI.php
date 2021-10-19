@@ -24,10 +24,6 @@
  */
 class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
 
     /**
      * @var object|string

@@ -189,7 +189,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
         return $this->render();
     }
     
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         return $this->render('toolbar');
     }

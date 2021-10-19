@@ -83,14 +83,14 @@ class ilWorkspaceFolderExplorer extends ilExplorer
     * @access	public
     * @param	integer		parent_node_id where to start from (default=0, 'root')
     * @param	integer		depth level where to start (default=1)
-    * @return	string
-    */
-    public function setOutput($a_parent, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false)
+    * @return    void
+     */
+    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
         $lng = $this->lng;
         static $counter = 0;
 
-        if ($objects = $this->tree->getChilds($a_parent, "type DESC,title")) {
+        if ($objects = $this->tree->getChilds($a_parent_id, "type DESC,title")) {
             $tab = ++$a_depth - 2;
 
             foreach ($objects as $key => $object) {
@@ -147,9 +147,9 @@ class ilWorkspaceFolderExplorer extends ilExplorer
     * @access	public
     * @param	integer obj_id
     * @param	integer array options
-    * @return	string
-    */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    * @return    void
+     */
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -180,7 +180,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
     * @access	private
     * @param	string		pipe-separated integer
     */
-    public function setExpand($a_node_id)
+    public function setExpand($a_node_id) : void
     {
         if ($a_node_id == "") {
             $a_node_id = $this->root_id;
@@ -205,7 +205,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
     * overwritten method from base class
     * get link target
     */
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         $ilCtrl = $this->ctrl;
         
@@ -219,14 +219,14 @@ class ilWorkspaceFolderExplorer extends ilExplorer
                 return $ilCtrl->getLinkTargetByClass("ilobjworkspacefoldergui", "");
             
             default:
-                return;
+                return "";
         }
     }
     /**
     * overwritten method from base class
     * buid link target
     */
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
     {
         return '';
     }
@@ -254,7 +254,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
     * overwritten method from base class
     * buid decription
     */
-    public function buildDescription($a_desc, $a_id, $a_type)
+    public function buildDescription(string $a_desc, $a_id, string $a_type) : string
     {
         if ($this->show_details == 'y' && !empty($a_desc)) {
             return $a_desc;
@@ -263,7 +263,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         }
     }
     
-    public function getImageAlt($a_def, $a_type = "", $a_obj_id = "")
+    public function getImageAlt(string $a_default_text, string $a_type = "", $a_obj_id = "") : string
     {
         $lng = $this->lng;
         
@@ -280,7 +280,7 @@ class ilWorkspaceFolderExplorer extends ilExplorer
         return $this->tree->getParentId($a_node_id);
     }
     
-    public function getOutput()
+    public function getOutput() : string
     {
         $tpl = $this->tpl;
         

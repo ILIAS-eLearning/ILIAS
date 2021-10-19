@@ -187,7 +187,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
     /**
     * Get HTML for toolbar
     */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
