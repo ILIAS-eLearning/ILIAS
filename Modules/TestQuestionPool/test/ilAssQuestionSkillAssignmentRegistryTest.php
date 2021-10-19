@@ -35,7 +35,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     public function testSkillAssignmentsCanBetStoredAndFetchedBySerializationStrategy($value, $chunkSize, callable $preCallback, callable $postCallback)
     {
         require_once 'Services/Administration/classes/class.ilSetting.php';
-        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get', 'delete'))->getMock();
+        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();
 
         $settingsMock->expects($this->any())->method('set')->will(
             $this->returnCallback(function ($key, $value) {
@@ -74,7 +74,7 @@ class ilAssQuestionSkillAssignmentRegistryTest extends assBaseTestCase
     public function testInvalidChunkSizeWillRaiseException()
     {
         require_once 'Services/Administration/classes/class.ilSetting.php';
-        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->setMethods(array('set', 'get', 'delete'))->getMock();
+        $settingsMock = $this->getMockBuilder('ilSetting')->disableOriginalConstructor()->onlyMethods(array('set', 'get', 'delete'))->getMock();
 
         try {
             $registry = new \ilAssQuestionSkillAssignmentRegistry($settingsMock);
