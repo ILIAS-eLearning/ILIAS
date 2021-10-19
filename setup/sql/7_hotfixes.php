@@ -1023,3 +1023,18 @@ $ilDB->manipulate(
     "UPDATE il_cert_cron_queue SET adapter_class = " . $ilDB->quote('ilExercisePlaceholderValues', 'text') . " WHERE adapter_class = " . $ilDB->quote('ilExercisePlaceHolderValues', 'text')
 );
 ?>
+<#54>
+<?php
+if (!$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'pool_ref_id')) {
+    $ilDB->addTableColumn(
+        'tst_rnd_quest_set_qpls',
+        'pool_ref_id',
+        [
+            'type' => ilDBConstants::T_INTEGER,
+            'length' => 8,
+            'notnull' => false,
+            'default' => null
+        ]
+    );
+}
+?>
