@@ -368,5 +368,13 @@ class Factory implements G\Factory
     public function filter(string $action = null) : G\Glyph
     {
         return new Glyph(G\Glyph::FILTER, "filter", $action);
+    }    
+
+    /**
+     * @inheritdoc
+     */
+    public function collapseHorizontal(string $action = null) : G\Glyph
+    {
+        return new Glyph(G\Glyph::COLLAPSE_HORIZONTAL, "collapse/back", $action);
     }
 }

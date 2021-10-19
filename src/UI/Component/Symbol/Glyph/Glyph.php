@@ -16,6 +16,7 @@ interface Glyph extends \ILIAS\UI\Component\Symbol\Symbol, Clickable
     public const SETTINGS = "settings";
     public const EXPAND = "expand";
     public const COLLAPSE = "collapse";
+    public const COLLAPSE_HORIZONTAL = "collapsehorizontal";
     public const ADD = "add";
     public const REMOVE = "remove";
     public const UP = "up";

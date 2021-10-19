@@ -252,7 +252,7 @@ class MainBarTest extends ILIAS_UI_TestBase
 
 					<div class="il-mainbar-close-slates">
 						<button class="btn btn-bulky" id="id_11" >
-						    <span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span>
+						    <span class="glyph" aria-label="collapse/back" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span>
 						    <span class="bulky-label">close</span></button>
 					</div>
 				</div>
