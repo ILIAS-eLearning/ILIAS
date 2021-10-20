@@ -16250,3 +16250,6 @@ cmix#:#type_generic#:#xAPI Standard Object###10 09 2021 new variable
 common#:#il_lti_learner#:#LTI Learner###10 09 2021 new variable
 common#:#il_lti_instructor#:#LTI Instructor###10 09 2021 new variable
 rbac#:#il_lti_global_role#:#LTI User###10 09 2021 new variable
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###20 10 2021 new variable
+common#:#msg_no_files_selected#:#No files selected###20 10 2021 new variable
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###20 10 2021 new variable
