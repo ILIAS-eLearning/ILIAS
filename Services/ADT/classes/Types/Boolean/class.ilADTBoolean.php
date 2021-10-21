@@ -3,24 +3,22 @@
 class ilADTBoolean extends ilADT
 {
     protected ?bool $value;
-    
-    
+
     // definition
-    
+
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return ($a_def instanceof ilADTBooleanDefinition);
     }
-    
+
     public function reset() : void
     {
         parent::reset();
         $this->value = null;
     }
-    
-    
+
     // properties
-    
+
     public function setStatus(bool $a_value = null) : void
     {
         if ($a_value !== null) {
@@ -28,15 +26,14 @@ class ilADTBoolean extends ilADT
         }
         $this->value = $a_value;
     }
-    
+
     public function getStatus() : ?bool
     {
         return $this->value;
     }
-    
-    
+
     // comparison
-    
+
     public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->isComparableTo($a_adt)) {
@@ -44,7 +41,7 @@ class ilADTBoolean extends ilADT
         }
         return null;
     }
-                
+
     public function isLarger(ilADT $a_adt) : ?bool
     {
         return null;
@@ -54,24 +51,21 @@ class ilADTBoolean extends ilADT
     {
         return null;
     }
-    
-    
+
     // null
-    
+
     public function isNull() : bool
     {
         return $this->getStatus() === null;
     }
-    
-    
+
     public function isValid() : bool
     {
         return true;
     }
-    
-    
+
     // check
-    
+
     public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
@@ -79,10 +73,9 @@ class ilADTBoolean extends ilADT
         }
         return null;
     }
-    
-    
+
     // stdClass
-    
+
     public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
@@ -92,7 +85,7 @@ class ilADTBoolean extends ilADT
         }
         return null;
     }
-    
+
     public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {

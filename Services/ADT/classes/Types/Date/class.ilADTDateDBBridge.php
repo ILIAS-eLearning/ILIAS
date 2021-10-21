@@ -1,15 +1,14 @@
 <?php declare(strict_types=1);
 
-
 class ilADTDateDBBridge extends ilADTDBBridge
 {
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTDate);
     }
-    
+
     // CRUD
-    
+
     public function readRecord(array $a_row) : void
     {
         $date = null;
@@ -18,7 +17,7 @@ class ilADTDateDBBridge extends ilADTDBBridge
         }
         $this->getADT()->setDate($date);
     }
-    
+
     public function prepareInsert(array &$a_fields) : void
     {
         $date = $this->getADT()->getDate();

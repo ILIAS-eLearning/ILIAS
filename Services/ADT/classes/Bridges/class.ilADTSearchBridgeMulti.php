@@ -14,6 +14,6 @@ abstract class ilADTSearchBridgeMulti extends ilADTSearchBridgeSingle
         }
         throw new InvalidArgumentException('ilADTSearchBridge type mismatch.');
     }
-    
+
     abstract protected function convertADTDefinitionToMulti(ilADTDefinition $a_adt_def) : ilADTDefinition;
 }

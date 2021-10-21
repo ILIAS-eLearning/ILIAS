@@ -1,6 +1,4 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTDBBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTEnumDBBridge extends ilADTDBBridge
 {
@@ -8,7 +6,7 @@ class ilADTEnumDBBridge extends ilADTDBBridge
     {
         return ($a_adt instanceof ilADTEnum);
     }
-    
+
     public function readRecord(array $a_row) : void
     {
         $this->getADT()->setSelection($a_row[$this->getElementId()]);

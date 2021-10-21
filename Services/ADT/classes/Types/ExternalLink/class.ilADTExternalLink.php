@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTExternalLink extends ilADT
 {
@@ -6,7 +6,6 @@ class ilADTExternalLink extends ilADT
 
     protected ?string $value;
     protected ?string $title;
-    
 
     /**
      * @param ilADTDefinition $a_def
@@ -26,7 +25,7 @@ class ilADTExternalLink extends ilADT
         $this->value = null;
         $this->title = null;
     }
-    
+
     /**
      * Set title
      * @param string|null $a_title
@@ -38,7 +37,7 @@ class ilADTExternalLink extends ilADT
         }
         $this->title = $a_title;
     }
-    
+
     /**
      * Get title
      * @return string|null
@@ -47,7 +46,7 @@ class ilADTExternalLink extends ilADT
     {
         return $this->title;
     }
-    
+
     /**
      * Set url
      * @param string|null $a_value
@@ -68,7 +67,6 @@ class ilADTExternalLink extends ilADT
     {
         return $this->value;
     }
-
 
     /**
      * @param ilADT $a_adt
@@ -104,7 +102,7 @@ class ilADTExternalLink extends ilADT
     {
         return (bool) !$this->getLength();
     }
-    
+
     /**
      * Get length
      * @return int
@@ -117,7 +115,6 @@ class ilADTExternalLink extends ilADT
             return strlen($this->getUrl() . $this->getTitle());
         }
     }
-    
 
     public function isValid() : bool
     {
@@ -143,7 +140,6 @@ class ilADTExternalLink extends ilADT
         return null;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -157,7 +153,6 @@ class ilADTExternalLink extends ilADT
         }
         return null;
     }
-
 
     /**
      * @inheritDoc

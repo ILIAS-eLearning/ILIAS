@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTDateTimePresentationBridge extends ilADTPresentationBridge
 {
@@ -6,7 +6,7 @@ class ilADTDateTimePresentationBridge extends ilADTPresentationBridge
     {
         return ($a_adt instanceof ilADTDateTime);
     }
-    
+
     public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
@@ -14,7 +14,7 @@ class ilADTDateTimePresentationBridge extends ilADTPresentationBridge
             return $this->decorate(ilDatePresentation::formatDate($this->getADT()->getDate()));
         }
     }
-    
+
     public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {

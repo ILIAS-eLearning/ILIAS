@@ -1,6 +1,4 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTDatePresentationBridge extends ilADTPresentationBridge
 {
@@ -8,16 +6,16 @@ class ilADTDatePresentationBridge extends ilADTPresentationBridge
     {
         return ($a_adt instanceof ilADTDate);
     }
-    
+
     public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: relative dates?
-            
+
             return $this->decorate(ilDatePresentation::formatDate($this->getADT()->getDate()));
         }
     }
-    
+
     public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {

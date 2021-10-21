@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
@@ -8,10 +8,9 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         return ($a_adt_def instanceof ilADTEnumDefinition);
     }
-    
-    
+
     // table2gui / filter
-    
+
     public function loadFilter() : void
     {
         $value = $this->readFilter();
@@ -26,33 +25,33 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
     }
 
     // form
-    
+
     public function addToForm() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $def = $this->getADT()->getCopyOfDefinition();
-        
+
         $options = $def->getOptions();
         asort($options); // ?
-        
+
         $lng->loadLanguageModule("search");
         $options = array("" => $lng->txt("search_any")) + $options;
-        
+
         $select = new ilSelectInputGUI($this->getTitle(), $this->getElementId());
         $select->setOptions($options);
-        
+
         $select->setValue($this->getADT()->getSelection());
-        
+
         $this->addToParentElement($select);
     }
-    
+
     public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
-                
+
         if ($post && $this->shouldBeImportedFromPost($post)) {
             if ($this->getForm() instanceof ilPropertyFormGUI) {
                 $item = $this->getForm()->getItemByPostVar($this->getElementId());
@@ -61,17 +60,16 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
                 $this->table_filter_fields[$this->getElementId()]->setValue($post);
                 $this->writeFilter($post);
             }
-            
+
             $this->getADT()->setSelection($post);
         } else {
             $this->writeFilter();
             $this->getADT()->setSelection();
         }
     }
-    
-    
+
     // db
-    
+
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         global $DIC;
@@ -84,24 +82,23 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
         }
         return '';
     }
-    
+
     public function isInCondition(ilADT $a_adt) : bool
     {
         assert($a_adt instanceof ilADTEnum);
-        
+
         return $this->getADT()->equals($a_adt);
     }
-    
-    
+
     //  import/export
-        
+
     public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getSelection()));
         }
     }
-    
+
     public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);

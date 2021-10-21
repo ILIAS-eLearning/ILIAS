@@ -1,6 +1,4 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTEnumPresentationBridge extends ilADTPresentationBridge
 {
@@ -8,7 +6,7 @@ class ilADTEnumPresentationBridge extends ilADTPresentationBridge
     {
         return ($a_adt instanceof ilADTEnum);
     }
-    
+
     public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
@@ -19,7 +17,7 @@ class ilADTEnumPresentationBridge extends ilADTPresentationBridge
             }
         }
     }
-    
+
     public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {

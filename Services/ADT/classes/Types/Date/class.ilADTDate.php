@@ -3,23 +3,21 @@
 class ilADTDate extends ilADT
 {
     protected ?ilDateTime $value;
-    
-    
+
     // definition
-    
+
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return ($a_def instanceof ilADTDateDefinition);
     }
-    
+
     public function reset() : void
     {
         parent::reset();
-        
+
         $this->value = null;
     }
-    
-    
+
     public function setDate(?ilDateTime $a_value = null) : void
     {
         if ($a_value && $a_value->isNull()) {
@@ -27,15 +25,14 @@ class ilADTDate extends ilADT
         }
         $this->value = $a_value;
     }
-    
+
     public function getDate() : ?ilDateTime
     {
         return $this->value;
     }
-    
-    
+
     // comparison
-    
+
     public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -48,7 +45,7 @@ class ilADTDate extends ilADT
         }
         return null;
     }
-                
+
     public function isLarger(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -72,18 +69,14 @@ class ilADTDate extends ilADT
         }
         return null;
     }
-    
-    
+
     // null
-    
+
     public function isNull() : bool
     {
         return !$this->value instanceof ilDate || $this->value->isNull();
     }
-    
-    
 
-    
     public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
@@ -91,10 +84,9 @@ class ilADTDate extends ilADT
         }
         return null;
     }
-    
-    
+
     // stdClass
-    
+
     public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
@@ -104,7 +96,7 @@ class ilADTDate extends ilADT
         }
         return null;
     }
-    
+
     public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {

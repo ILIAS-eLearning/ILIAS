@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilADTDateTimeSearchBridgeRange
@@ -9,10 +9,9 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
     {
         return ($a_adt_def instanceof ilADTDateTimeDefinition);
     }
-    
-    
+
     // table2gui / filter
-    
+
     public function loadFilter() : void
     {
         $value = $this->readFilter();
@@ -25,25 +24,24 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
             }
         }
     }
-    
-    
+
     // form
-    
+
     public function addToForm() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             // :TODO: use DateDurationInputGUI ?!
 
             $check = new ilCustomInputGUI($this->getTitle());
-            
+
             $date_from = new ilDateTimeInputGUI($lng->txt('from'), $this->addToElementId("lower"));
             $date_from->setShowTime(true);
             $check->addSubItem($date_from);
-            
+
             if ($this->getLowerADT()->getDate() && !$this->getLowerADT()->isNull()) {
                 $date_from->setDate($this->getLowerADT()->getDate());
                 $checked = true;
@@ -52,39 +50,39 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
             $date_until = new ilDateTimeInputGUI($lng->txt('until'), $this->addToElementId("upper"));
             $date_until->setShowTime(true);
             $check->addSubItem($date_until);
-            
+
             if ($this->getUpperADT()->getDate() && !$this->getUpperADT()->isNull()) {
                 $date_until->setDate($this->getUpperADT()->getDate());
                 $checked = true;
             }
-            
+
             $this->addToParentElement($check);
         } else {
             // see ilTable2GUI::addFilterItemByMetaType()
-                                    $item = new ilCombinationInputGUI($this->getTitle(), $this->getElementId());
-            
+            $item = new ilCombinationInputGUI($this->getTitle(), $this->getElementId());
+
             $lower = new ilDateTimeInputGUI("", $this->addToElementId("lower"));
             $lower->setShowTime(true);
             $item->addCombinationItem("lower", $lower, $lng->txt("from"));
-            
+
             if ($this->getLowerADT()->getDate() && !$this->getLowerADT()->isNull()) {
                 $lower->setDate($this->getLowerADT()->getDate());
             }
-            
+
             $upper = new ilDateTimeInputGUI("", $this->addToElementId("upper"));
             $upper->setShowTime(true);
             $item->addCombinationItem("upper", $upper, $lng->txt("to"));
-            
+
             if ($this->getUpperADT()->getDate() && !$this->getUpperADT()->isNull()) {
                 $upper->setDate($this->getUpperADT()->getDate());
             }
-            
+
             $item->setComparisonMode(ilCombinationInputGUI::COMPARISON_ASCENDING);
-            
+
             $this->addToParentElement($item);
         }
     }
-    
+
     protected function shouldBeImportedFromPost(mixed $a_post) : bool
     {
         if ($this->getForm() instanceof ilPropertyFormGUI &&
@@ -97,32 +95,32 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
     public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
-        
+
         if ($post && $this->shouldBeImportedFromPost($post)) {
-                        $start = ilCalendarUtil::parseIncomingDate($post["lower"], 1);
+            $start = ilCalendarUtil::parseIncomingDate($post["lower"], 1);
             $end = ilCalendarUtil::parseIncomingDate($post["upper"], 1);
-            
+
             if ($start && $end && $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX)) {
                 $tmp = $start;
                 $start = $end;
                 $end = $tmp;
             }
-            
+
             if ($this->getForm() instanceof ilPropertyFormGUI) {
                 $item = $this->getForm()->getItemByPostVar($this->getElementId() . "[lower]");
                 $item->setDate($start);
-                
+
                 $item = $this->getForm()->getItemByPostVar($this->getElementId() . "[upper]");
                 $item->setDate($end);
             } elseif (array_key_exists($this->getElementId(), $this->table_filter_fields)) {
                 $this->table_filter_fields[$this->getElementId()]->getCombinationItem("lower")->setDate($start);
                 $this->table_filter_fields[$this->getElementId()]->getCombinationItem("upper")->setDate($end);
                 $this->writeFilter(array(
-                    "lower" => (!$start || $start->isNull()) ? null: $start->get(IL_CAL_DATETIME),
+                    "lower" => (!$start || $start->isNull()) ? null : $start->get(IL_CAL_DATETIME),
                     "upper" => (!$end || $end->isNull()) ? null : $end->get(IL_CAL_DATETIME)
                 ));
             }
-            
+
             $this->getLowerADT()->setDate($start);
             $this->getUpperADT()->setDate($end);
         } else {
@@ -130,32 +128,33 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
             $this->getUpperADT()->setDate();
         }
     }
-    
-    
+
     // db
-    
+
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$this->isNull() && $this->isValid()) {
             $sql = array();
             if (!$this->getLowerADT()->isNull()) {
-                $sql[] = $a_element_id . " >= " . $ilDB->quote($this->getLowerADT()->getDate()->get(IL_CAL_DATETIME), "timestamp");
+                $sql[] = $a_element_id . " >= " . $ilDB->quote($this->getLowerADT()->getDate()->get(IL_CAL_DATETIME),
+                        "timestamp");
             }
             if (!$this->getUpperADT()->isNull()) {
-                $sql[] = $a_element_id . " <= " . $ilDB->quote($this->getUpperADT()->getDate()->get(IL_CAL_DATETIME), "timestamp");
+                $sql[] = $a_element_id . " <= " . $ilDB->quote($this->getUpperADT()->getDate()->get(IL_CAL_DATETIME),
+                        "timestamp");
             }
             return "(" . implode(" AND ", $sql) . ")";
         }
     }
-    
+
     public function isInCondition(ilADT $a_adt) : bool
     {
         assert($a_adt instanceof ilADTDateTime);
-        
+
         if (!$this->getLowerADT()->isNull() && !$this->getUpperADT()->isNull()) {
             return $a_adt->isInbetweenOrEqual($this->getLowerADT(), $this->getUpperADT());
         } elseif (!$this->getLowerADT()->isNull()) {
@@ -164,10 +163,9 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
             return $a_adt->isSmallerOrEqual($this->getUpperADT());
         }
     }
-    
-    
+
     //  import/export
-        
+
     public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
@@ -181,7 +179,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
             return serialize($res);
         }
     }
-    
+
     public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);

@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * external link form bridge
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesADT
  */
 class ilADTInternalLinkFormBridge extends ilADTFormBridge
@@ -27,7 +26,7 @@ class ilADTInternalLinkFormBridge extends ilADTFormBridge
     public function addToForm() : void
     {
         $def = $this->getADT()->getCopyOfDefinition();
-        
+
         $subitems = new ilRepositorySelector2InputGUI(
             $this->getTitle(),
             $this->getElementId(),

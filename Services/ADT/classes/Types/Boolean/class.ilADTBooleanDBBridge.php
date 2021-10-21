@@ -9,15 +9,14 @@ class ilADTBooleanDBBridge extends ilADTDBBridge
     {
         return ($a_adt instanceof ilADTBoolean);
     }
-    
-    
+
     // CRUD
-    
+
     public function readRecord(array $a_row) : void
     {
         $this->getADT()->setStatus($a_row[$this->getElementId()]);
     }
-    
+
     public function prepareInsert(array &$a_fields) : void
     {
         $a_fields[$this->getElementId()] = array("integer", $this->getADT()->getStatus());

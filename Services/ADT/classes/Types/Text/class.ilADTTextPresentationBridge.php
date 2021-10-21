@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTTextPresentationBridge extends ilADTPresentationBridge
 {
@@ -6,14 +6,14 @@ class ilADTTextPresentationBridge extends ilADTPresentationBridge
     {
         return ($a_adt instanceof ilADTText);
     }
-    
+
     public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
             return $this->decorate(nl2br($this->getADT()->getText()));
         }
     }
-    
+
     public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {

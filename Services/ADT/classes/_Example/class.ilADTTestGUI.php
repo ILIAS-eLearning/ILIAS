@@ -1,9 +1,7 @@
-<?php
-
+<?php declare(strict_types=1);
 
 /**
  * This is the GUI for the ADT-based example object
- *
  * It expects an existing record with Id 1 and doesn't do much
  */
 class ilADTTestGUI extends ilADTBasedObjectGUI
@@ -28,7 +26,7 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
             var_dump($test->getAllTranslatedErrors());
         }
         */
-                
+
         return new ilADTTest(1);
     }
 
@@ -37,28 +35,28 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         // :TODO:
         $a_adt_form->getForm()->setTitle($lng->txt("test_form_title"));
         $a_adt_form->setTitle($lng->txt("test_form_section_title"));
         $a_adt_form->setInfo($lng->txt("test_form_section_title_info"));
-        
+
         foreach ($a_adt_form->getElements() as $name => $element) {
             $element->setTitle($lng->txt("test_form_" . $name));
         }
-        
+
         $a_adt_form->getElement("name")->setRequired(true);
         $a_adt_form->getElement("lang")->setRequired(true);
         $a_adt_form->getElement("tags")->setRequired(true);
         // $a_adt_form->getElement("last_login")->setRequired(true);
-        
+
         $a_adt_form->getElement("lang")->forceRadio(true, array("en" => $lng->txt("lang_en_info")));
-        
+
         $a_adt_form->getElement("entry_date")->setParentElement("active");
         // $a_adt_form->getElement("entry_date")->setDisabled(true);
-        
+
         // $a_adt_form->getElement("last_login")->setParentElement(array("interests", ilADTTest::INTERESTS_LANGUAGES));
-        
+
         $a_adt_form->getElement("tags")->setParentElement(array("lang", "de"));
         $a_adt_form->getElement("tags")->setInfo($lng->txt("test_form_tags_info"));
     }

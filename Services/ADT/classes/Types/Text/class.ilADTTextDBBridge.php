@@ -1,6 +1,4 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTDBBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTTextDBBridge extends ilADTDBBridge
 {
@@ -8,14 +6,14 @@ class ilADTTextDBBridge extends ilADTDBBridge
     {
         return ($a_adt instanceof ilADTText);
     }
-    
+
     // CRUD
-    
+
     public function readRecord(array $a_row) : void
     {
         $this->getADT()->setText($a_row[$this->getElementId()]);
     }
-    
+
     public function prepareInsert(array &$a_fields) : void
     {
         $a_fields[$this->getElementId()] = array("text", $this->getADT()->getText());

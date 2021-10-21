@@ -1,6 +1,4 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTIntegerPresentationBridge extends ilADTPresentationBridge
 {
@@ -8,19 +6,19 @@ class ilADTIntegerPresentationBridge extends ilADTPresentationBridge
     {
         return ($a_adt instanceof ilADTInteger);
     }
-    
+
     public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
             $def = $this->getADT()->getCopyOfDefinition();
             $suffix = $def->getSuffix() ? " " . $def->getSuffix() : null;
-            
+
             $presentation_value = $this->getADT()->getNumber() . $suffix;
-            
+
             return $this->decorate($presentation_value);
         }
     }
-    
+
     public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {

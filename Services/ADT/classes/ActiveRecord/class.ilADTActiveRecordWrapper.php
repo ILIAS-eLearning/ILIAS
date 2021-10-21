@@ -25,7 +25,6 @@ class ilADTActiveRecordWrapper extends ActiveRecord
         $this->arConnector = new arConnectorDB();
     }
 
-
     protected function getActiveRecordFieldTypeFromMDB2(string $a_mdb2_type) : ?string
     {
         // currently they are all the same

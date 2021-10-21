@@ -3,23 +3,21 @@
 
 /**
  * ADT presentation bridge base class
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesADT
  */
 abstract class ilADTPresentationBridge
 {
     protected ilADT $adt;
     protected mixed $decorator;
-    
+
     public function __construct(ilADT $a_adt)
     {
         $this->setADT($a_adt);
     }
-    
-    
+
     abstract protected function isValidADT(ilADT $a_adt) : bool;
-    
+
     protected function setADT(ilADT $a_adt) : void
     {
         if (!$this->isValidADT($a_adt)) {
@@ -27,19 +25,19 @@ abstract class ilADTPresentationBridge
         }
         $this->adt = $a_adt;
     }
-    
+
     public function getADT() : ?ilADT
     {
         return $this->adt;
     }
-    
+
     public function getList() : string
     {
         return $this->getHTML();
     }
-        
+
     abstract public function getHTML() : string;
-    
+
     /**
      * Get sortable value presentation
      * @return mixed
@@ -54,7 +52,7 @@ abstract class ilADTPresentationBridge
     {
         $this->decorator = $a_callback;
     }
-    
+
     /**
      * Decorate value
      * @param mixed $a_value

@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * external link presentation bridge
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesADT
  */
 class ilADTInternalLinkPresentationBridge extends ilADTPresentationBridge
@@ -30,14 +29,14 @@ class ilADTInternalLinkPresentationBridge extends ilADTPresentationBridge
         if ($this->getADT()->isNull()) {
             return '';
         }
-        
+
         if (!$this->getADT()->isValid()) {
             return '';
         }
-        
+
         $access = $GLOBALS['DIC']->access();
         $user = $GLOBALS['DIC']->user();
-        
+
         if ($access->checkAccess('read', '', $this->getADT()->getTargetRefId())) {
             $title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getADT()->getTargetRefId()));
             $link = ilLink::_getLink($this->getADT()->getTargetRefId());

@@ -1,23 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTMultiText extends ilADT
 {
     protected ?array $values;
-    
+
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return $a_def instanceof ilADTMultiTextDefinition;
     }
-    
+
     public function reset() : void
     {
         parent::reset();
         $this->values = null;
     }
-    
-    
+
     // properties
-    
+
     public function setTextElements(?array $a_values = null) : void
     {
         if (is_array($a_values)) {
@@ -36,15 +35,14 @@ class ilADTMultiText extends ilADT
         }
         $this->values = $a_values;
     }
-    
+
     public function getTextElements() : ?array
     {
         return $this->values;
     }
-    
-    
+
     // comparison
-    
+
     public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -52,7 +50,7 @@ class ilADTMultiText extends ilADT
         }
         return null;
     }
-                
+
     public function isLarger(ilADT $a_adt) : ?bool
     {
         return null;
@@ -62,8 +60,8 @@ class ilADTMultiText extends ilADT
     {
         return null;
     }
-    
-    
+
+
     // null
 
     /**
@@ -74,10 +72,9 @@ class ilADTMultiText extends ilADT
         $all = $this->getTextElements();
         return (!is_array($all) || !count($all));
     }
-    
-    
+
     // validation
-    
+
     public function isValid() : bool
     {
         $valid = parent::isValid();
@@ -100,8 +97,7 @@ class ilADTMultiText extends ilADT
         }
         return $valid;
     }
-    
-    
+
     public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
@@ -111,10 +107,9 @@ class ilADTMultiText extends ilADT
         }
         return null;
     }
-    
-    
+
     // stdClass
-    
+
     public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
@@ -124,7 +119,7 @@ class ilADTMultiText extends ilADT
         }
         return null;
     }
-    
+
     public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {

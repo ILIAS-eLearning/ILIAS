@@ -6,7 +6,7 @@
 class ilADTBooleanDefinition extends ilADTDefinition
 {
     // comparison
-        
+
     public function isComparableTo(ilADT $a_adt) : bool
     {
         // has to be boolean-based

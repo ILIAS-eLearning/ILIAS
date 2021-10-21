@@ -1,25 +1,25 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 {
     protected $width;
     protected $height;
-    
+
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTLocation);
     }
-    
+
     public function setSize(int $a_width, int $a_height) : void
     {
         $this->width = $a_width;
         $this->height = $a_height;
     }
-    
+
     public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
-                        $map_gui = ilMapUtil::getMapGUI();
+            $map_gui = ilMapUtil::getMapGUI();
             $map_gui->setMapId("map_" . uniqid()) // :TODO: sufficient entropy?
                     ->setLatitude($this->getADT()->getLatitude())
                     ->setLongitude($this->getADT()->getLongitude())
@@ -28,18 +28,18 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
                     ->setEnableLargeMapControl(true)
                     ->setEnableUpdateListener(false)
                     ->setEnableCentralMarker(true);
-            
+
             if ($this->width) {
                 $map_gui->setWidth($this->width);
             }
             if ($this->height) {
                 $map_gui->setHeight($this->height);
             }
-            
+
             return $this->decorate($map_gui->getHtml());
         }
     }
-    
+
     public function getList() : string
     {
         if (!$this->getADT()->isNull()) {
@@ -47,7 +47,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
             return $this->getADT()->getLatitude() . "&deg;/" . $this->getADT()->getLongitude() . "&deg;";
         }
     }
-    
+
     public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {

@@ -1,17 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * external link search bridge
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesADT
  */
 class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
 
-    
     /**
      * Is valid type
      * @param ilADT $a_adt
@@ -21,7 +19,6 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         return $a_adt_def instanceof ilADTExternalLinkDefinition;
     }
-
 
     /**
      * Load from filter

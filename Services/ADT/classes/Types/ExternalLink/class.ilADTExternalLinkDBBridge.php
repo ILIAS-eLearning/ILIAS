@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Abstract external link db bridge
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesADT
  */
 class ilADTExternalLinkDBBridge extends ilADTDBBridge
@@ -19,7 +18,7 @@ class ilADTExternalLinkDBBridge extends ilADTDBBridge
     {
         return $a_adt instanceof ilADTExternalLink;
     }
-    
+
     /**
      * read record
      * @param array $a_row
@@ -29,15 +28,15 @@ class ilADTExternalLinkDBBridge extends ilADTDBBridge
         $this->getADT()->setUrl($a_row[$this->getElementId() . '_value']);
         $this->getADT()->setTitle($a_row[$this->getElementId() . '_title']);
     }
-    
+
     /**
      * prepare insert
      * @param array $a_fields
      */
     public function prepareInsert(array &$a_fields) : void
     {
-        $a_fields[$this->getElementId() . '_value'] = ["text",$this->getADT()->getUrl()];
-        $a_fields[$this->getElementId() . '_title'] = ['text',$this->getADT()->getTitle()];
+        $a_fields[$this->getElementId() . '_value'] = ["text", $this->getADT()->getUrl()];
+        $a_fields[$this->getElementId() . '_title'] = ['text', $this->getADT()->getTitle()];
     }
 
     /**

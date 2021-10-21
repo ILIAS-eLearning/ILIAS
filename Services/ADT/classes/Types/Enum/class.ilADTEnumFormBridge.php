@@ -1,23 +1,21 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTEnumFormBridge extends ilADTFormBridge
 {
     protected $force_radio; // [bool]
     protected $option_infos = []; // [array]
     protected $auto_sort = true; // [bool]
-    
+
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTEnum);
     }
-    
+
     public function setAutoSort($a_value)
     {
         $this->auto_sort = (bool) $a_value;
     }
-    
+
     public function forceRadio($a_value, array $a_info = null)
     {
         $this->force_radio = (bool) $a_value;
@@ -25,22 +23,22 @@ class ilADTEnumFormBridge extends ilADTFormBridge
             $this->option_infos = $a_info;
         }
     }
-    
+
     public function addToForm() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-                
+
         $def = $this->getADT()->getCopyOfDefinition();
         $selection = $this->getADT()->getSelection();
-        
+
         $options = $def->getOptions();
-        
+
         if ((bool) $this->auto_sort) {
             asort($options);
         }
-        
+
         if (!$this->isRequired()) {
             $options = array("" => "-") + $options;
         } elseif ($this->getADT()->isNull()) {
@@ -53,7 +51,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
             $select->setOptions($options);
         } else {
             $select = new ilRadioGroupInputGUI($this->getTitle(), $this->getElementId());
-            
+
             foreach ($options as $value => $caption) {
                 $option = new ilRadioOption($caption, $value);
                 if (is_array($this->option_infos) && array_key_exists($value, $this->option_infos)) {
@@ -62,23 +60,23 @@ class ilADTEnumFormBridge extends ilADTFormBridge
                 $select->addOption($option);
             }
         }
-        
+
         $this->addBasicFieldProperties($select, $def);
 
         $select->setValue($selection);
-        
+
         $this->addToParentElement($select);
     }
-    
+
     public function importFromPost() : void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setSelection($this->getForm()->getInput($this->getElementId()));
-    
+
         $field = $this->getForm()->getItemByPostVar($this->getElementId());
         $field->setValue($this->getADT()->getSelection());
     }
-    
+
     protected function isActiveForSubItems(mixed $a_parent_option = null) : bool
     {
         return ($this->getADT()->getSelection() == $a_parent_option);

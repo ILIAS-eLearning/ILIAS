@@ -1,11 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
  * ADT search bridge base class
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesADT
  */
 abstract class ilADTSearchBridge
@@ -23,61 +21,58 @@ abstract class ilADTSearchBridge
     protected string $id = '';
     protected $title = '';
     protected $info = '';
-    
+
     public function __construct(ilADTDefinition $a_adt_def)
     {
         $this->setDefinition($a_adt_def);
     }
-    
-    
+
     abstract protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool;
-    
+
     abstract protected function setDefinition(ilADTDefinition $a_adt_def) : void;
-    
+
     abstract public function isNull() : bool;
-    
+
     public function setForm(ilPropertyFormGUI $a_form) : void
     {
         $this->form = $a_form;
     }
-    
+
     public function getForm() : ?ilPropertyFormGUI
     {
         return $this->form;
     }
-    
+
     public function setElementId(string $a_value) : void
     {
         $this->id = $a_value;
     }
-    
+
     public function getElementId() : string
     {
         return $this->id;
     }
-    
+
     public function setTitle(string $a_value) : void
     {
         $this->title = trim($a_value);
     }
-    
+
     public function getTitle() : string
     {
         return $this->title;
     }
 
-
     public function getSearchColumn() : string
     {
         return self::DEFAULT_SEARCH_COLUMN;
     }
-    
-    
+
     public function setTableGUI(ilTable2GUI $a_table) : void
     {
         $this->table_gui = $a_table;
     }
-    
+
     /**
      * Get table gui
      * @return ilTable2GUI|null
@@ -86,7 +81,7 @@ abstract class ilADTSearchBridge
     {
         return $this->table_gui;
     }
-    
+
     /**
      * Write value(s) to filter store (in session)
      * @param mixed|null $a_value
@@ -117,7 +112,7 @@ abstract class ilADTSearchBridge
             return unserialize($value);
         }
     }
-    
+
     /**
      * Load filter value(s) into ADT
      */
@@ -125,7 +120,6 @@ abstract class ilADTSearchBridge
 
     /**
      * Add form field to parent element
-     *
      * @param ilFormPropertyGUI $a_field
      */
     protected function addToParentElement(ilFormPropertyGUI $a_field) : void
@@ -137,7 +131,7 @@ abstract class ilADTSearchBridge
             $this->getTableGUI()->addFilterItem($a_field);
         }
     }
-    
+
     /**
      * Add sub-element
      * @param string $a_add
@@ -147,7 +141,7 @@ abstract class ilADTSearchBridge
     {
         return $this->getElementId() . "[" . $a_add . "]";
     }
-    
+
     /**
      * Add ADT-specific fields to form
      */
@@ -162,7 +156,7 @@ abstract class ilADTSearchBridge
     {
         return true;
     }
-    
+
     /**
      * Extract data from (post) values
      * @param array $a_post
@@ -172,7 +166,7 @@ abstract class ilADTSearchBridge
     {
         $element_id = $this->getElementId();
         $multi = strpos($this->getElementId(), "[");
-        
+
         if (!$a_post) {
             $a_post = $_POST;
             if ($multi !== false) {
@@ -189,7 +183,7 @@ abstract class ilADTSearchBridge
         }
         return $post;
     }
-    
+
     /**
      * Import values from (search) form request POST data
      * @return bool
@@ -214,7 +208,11 @@ abstract class ilADTSearchBridge
      * @param array  $quotedWords
      * @return string
      */
-    abstract public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string;
+    abstract public function getSQLCondition(
+        string $a_element_id,
+        int $mode = self::SQL_LIKE,
+        array $quotedWords = []
+    ) : string;
 
     /**
      * Compare directly against ADT
@@ -225,12 +223,12 @@ abstract class ilADTSearchBridge
     {
         return false;
     }
-    
-    
+
+
     //
     //  import/export
     //
-    
+
     /**
      * Get current value(s) in serialized form (for easy persisting)
      * @return string
@@ -239,7 +237,6 @@ abstract class ilADTSearchBridge
 
     /**
      * Set current value(s) in serialized form (for easy persisting)
-     *
      * @param string
      */
     abstract public function setSerializedValue(string $a_value) : void;

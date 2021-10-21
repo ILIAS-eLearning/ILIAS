@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * external link search bridge
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesADT
  */
 class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
@@ -20,7 +19,6 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         return $a_adt_def instanceof ilADTInternalLinkDefinition;
     }
 
-
     /*
      * Add search property to form
      */
@@ -30,10 +28,6 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         $title->setSize(255);
         $this->addToParentElement($title);
     }
-    
-
-    /**
-
 
     /**
      * Load from filter
@@ -73,14 +67,14 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         $db = $GLOBALS['DIC']->database();
-        
+
         if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
                 return '';
             }
             $a_value = $this->getADT()->getTargetRefId();
         }
-        
+
         $subselect = $a_element_id . ' IN ' .
             '( select ref_id from object_reference obr join object_data obd on obr.obj_id = obd.obj_id ' .
             'where ' . $db->like('title', 'text', $a_value . '%') . ' ' .

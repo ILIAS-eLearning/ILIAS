@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTTextFormBridge extends ilADTFormBridge
 {
@@ -6,7 +6,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
     protected ?int $multi_rows;
     protected ?int $multi_cols;
 
-    private ilLanguage  $language;
+    private ilLanguage $language;
 
     public function __construct(ilADT $a_adt)
     {
@@ -16,7 +16,6 @@ class ilADTTextFormBridge extends ilADTFormBridge
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('meta');
     }
-
 
     public function setMulti(bool $a_value, ?int $a_cols = null, ?int $a_rows = null) : void
     {
@@ -40,8 +39,8 @@ class ilADTTextFormBridge extends ilADTFormBridge
         string $element_id,
         string $value,
         bool $is_translation = false,
-        string $language = '') : void
-    {
+        string $language = ''
+    ) : void {
         $def = $this->getADT()->getCopyOfDefinition();
 
         if (!$this->isMulti()) {

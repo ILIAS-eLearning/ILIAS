@@ -1,20 +1,17 @@
-<?php
-
+<?php declare(strict_types=1);
 
 class ilADTFloatDefinition extends ilADTIntegerDefinition
 {
     protected int $decimals;
-    
-    
+
     public function reset() : void
     {
         parent::reset();
         $this->setDecimals(1);
     }
-    
-    
+
     // properties
-    
+
     public function handleNumber(int $a_value) : int
     {
         if (!is_numeric($a_value)) {
@@ -25,12 +22,12 @@ class ilADTFloatDefinition extends ilADTIntegerDefinition
         }
         return $a_value;
     }
-    
+
     public function getDecimals() : int
     {
         return $this->decimals;
     }
-    
+
     public function setDecimals(int $a_value) : void
     {
         // max precision ?!

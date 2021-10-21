@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -11,8 +11,6 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
     {
         return 'adv_md_values_ltext';
     }
-
-
 
     /**
      * @inheritDoc
@@ -32,11 +30,11 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
         $language = $a_row[$this->getElementId() . '_language'];
 
         if (strcmp($language, $default_language) === 0) {
-            $this->getADT()->setText($a_row[$this->getElementId() . '_translation' ]);
-        } elseif(!strlen($default_language)) {
-            $this->getADT()->setText($a_row[$this->getElementId() . '_translation' ]);
+            $this->getADT()->setText($a_row[$this->getElementId() . '_translation']);
+        } elseif (!strlen($default_language)) {
+            $this->getADT()->setText($a_row[$this->getElementId() . '_translation']);
         }
-        if (in_array($language, $active_languages)){
+        if (in_array($language, $active_languages)) {
             $this->getADT()->setTranslation(
                 $language,
                 $a_row[$this->getElementId() . '_translation']
@@ -72,7 +70,6 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
         $this->insertTranslations();
     }
 
-
     /**
      * delete translations
      */
@@ -92,8 +89,8 @@ class ilADTLocalizedTextDBBridge extends ilADTDBBridge
     {
         foreach ($this->getADT()->getTranslations() as $language => $value) {
             $fields = $this->getPrimary();
-            $fields['value_index'] = [ilDBConstants::T_TEXT,$language];
-            $fields['value'] = [ilDBConstants::T_TEXT,$value];
+            $fields['value_index'] = [ilDBConstants::T_TEXT, $language];
+            $fields['value'] = [ilDBConstants::T_TEXT, $value];
             $this->db->insert($this->getTable(), $fields);
         }
     }

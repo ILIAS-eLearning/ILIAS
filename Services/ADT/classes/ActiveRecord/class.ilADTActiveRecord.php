@@ -27,8 +27,7 @@ class ilADTActiveRecord
 
     /**
      * Read record
-     *
-     * @return boolean
+     * @return bool
      */
     public function read() : bool
     {

@@ -1,6 +1,4 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
+<?php declare(strict_types=1);
 
 class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
@@ -8,10 +6,9 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         return ($a_adt_def instanceof ilADTIntegerDefinition);
     }
-    
-    
+
     // table2gui / filter
-    
+
     public function loadFilter() : void
     {
         $value = $this->readFilter();
@@ -19,81 +16,78 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
             $this->getADT()->setNumber($value);
         }
     }
-    
-    
+
     // form
-    
+
     public function addToForm() : void
     {
         $def = $this->getADT()->getCopyOfDefinition();
-        
+
         $number = new ilNumberInputGUI($this->getTitle(), $this->getElementId());
         $number->setSize(10);
-        
+
         $min = $def->getMin();
         if ($min !== null) {
             $number->setMinValue($min);
         }
-        
+
         $max = $def->getMax();
         if ($max !== null) {
             $number->setMaxValue($max);
-            
+
             $length = strlen($max);
             $number->setSize($length);
             $number->setMaxLength($length);
         }
-        
+
         $number->setValue($this->getADT()->getNumber());
-        
+
         $this->addToParentElement($number);
     }
-    
+
     public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
-                
+
         if ($post && $this->shouldBeImportedFromPost($post)) {
             $item = $this->getForm()->getItemByPostVar($this->getElementId());
             $item->setValue($post);
-            
+
             $this->getADT()->setNumber($post);
         } else {
             $this->getADT()->setNumber();
         }
     }
-    
-    
+
     // db
-    
+
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$this->isNull() && $this->isValid()) {
             return $a_element_id . " = " . $ilDB->quote($this->getADT()->getNumber(), "integer");
         }
     }
-    
+
     public function isInCondition(ilADT $a_adt) : bool
     {
         assert($a_adt instanceof ilADTInteger);
-        
+
         return $this->getADT()->equals($a_adt);
     }
-    
-    
+
     //  import/export
-        
+
     public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getNumber()));
         }
     }
-    
+
     public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);

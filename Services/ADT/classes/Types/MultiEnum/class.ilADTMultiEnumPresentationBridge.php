@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTMultiEnumPresentationBridge extends ilADTPresentationBridge
 {
@@ -6,23 +6,23 @@ class ilADTMultiEnumPresentationBridge extends ilADTPresentationBridge
     {
         return ($a_adt instanceof ilADTMultiEnum);
     }
-    
+
     public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
             $res = array();
-            
+
             $options = $this->getADT()->getCopyOfDefinition()->getOptions();
             foreach ($this->getADT()->getSelections() as $value) {
                 if (array_key_exists($value, $options)) {
                     $res[] = $this->decorate($options[$value]);
                 }
             }
-                        
+
             return implode(", ", $res);
         }
     }
-    
+
     public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {

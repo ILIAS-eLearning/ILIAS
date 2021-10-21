@@ -1,6 +1,4 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTDBBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTDateTimeDBBridge extends ilADTDBBridge
 {
@@ -8,9 +6,9 @@ class ilADTDateTimeDBBridge extends ilADTDBBridge
     {
         return ($a_adt instanceof ilADTDateTime);
     }
-    
+
     // CRUD
-    
+
     public function readRecord(array $a_row) : void
     {
         $date = null;
@@ -19,7 +17,7 @@ class ilADTDateTimeDBBridge extends ilADTDBBridge
         }
         $this->getADT()->setDate($date);
     }
-    
+
     public function prepareInsert(array &$a_fields) : void
     {
         $date = $this->getADT()->getDate();

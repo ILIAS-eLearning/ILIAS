@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
 {
@@ -6,12 +6,11 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
      * @var ilADTActiveRecordBridge[]
      */
     protected array $elements = [];
-    
+
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
-
 
     /**
      * @inheritDoc
@@ -21,7 +20,6 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
         // TODO: Implement getFieldValue() method.
     }
 
-
     /**
      * @inheritDoc
      */
@@ -30,26 +28,25 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
         // TODO: Implement setFieldValue() method.
     }
 
-
     // elements
-    
+
     protected function prepareElements() : void
     {
         if (sizeof($this->elements)) {
             return;
         }
-        
+
         $this->elements = array();
         $factory = ilADTFactory::getInstance();
-        
+
         // convert ADTs to ActiveRecord bridges
-        
+
         foreach ($this->getADT()->getElements() as $name => $element) {
             $this->elements[$name] = $factory->getActiveRecordBridgeForInstance($element);
             $this->elements[$name]->setElementId($name);
         }
     }
-    
+
     public function getElements() : array
     {
         $this->prepareElements();
@@ -62,7 +59,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
             return $this->elements[$a_element_id];
         }
     }
-    
+
     public function getActiveRecordFields() : array
     {
         $fields = array();

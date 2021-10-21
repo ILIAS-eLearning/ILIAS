@@ -1,28 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTGroupDBBridge extends ilADTDBBridge
 {
     protected array $elements = [];
-    
+
     protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
-    
-    
+
     // elements
-    
+
     protected function prepareElements() : void
     {
         if (count($this->elements)) {
             return;
         }
-        
+
         $this->elements = array();
         $factory = ilADTFactory::getInstance();
-        
+
         // convert ADTs to DB bridges
-        
+
         foreach ($this->getADT()->getElements() as $name => $element) {
             $this->elements[$name] = $factory->getDBBridgeForInstance($element);
             $this->elements[$name]->setElementId($name);
@@ -46,8 +45,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
             return $this->elements[$a_element_id];
         }
     }
-    
-    
+
     // properties
     public function setTable(string $a_table) : void
     {
@@ -58,28 +56,27 @@ class ilADTGroupDBBridge extends ilADTDBBridge
             }
         }
     }
-    
+
     public function setPrimary(array $a_value) : void
     {
         parent::setPrimary($a_value);
-        
+
         if (sizeof($this->elements)) {
             foreach (array_keys($this->getADT()->getElements()) as $name) {
                 $this->elements[$name]->setPrimary($this->getPrimary());
             }
         }
     }
-    
-    
+
     // CRUD
-    
+
     public function readRecord(array $a_row) : void
     {
         foreach ($this->getElements() as $element) {
             $element->readRecord($a_row);
         }
     }
-    
+
     public function prepareInsert(array &$a_fields) : void
     {
         foreach ($this->getElements() as $element) {
@@ -93,7 +90,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
             $element->afterInsert();
         }
     }
-    
+
     public function afterUpdate() : void
     {
         foreach ($this->getElements() as $element) {
@@ -116,14 +113,13 @@ class ilADTGroupDBBridge extends ilADTDBBridge
             array_merge(
                 $this->getPrimary(),
                 [
-                     $field_name => [$field_type,$field_id]
+                    $field_name => [$field_type, $field_id]
                 ]
             )
         );
         $element->setElementId($field_id);
         $element->afterUpdate();
     }
-
 
     public function afterDelete() : void
     {

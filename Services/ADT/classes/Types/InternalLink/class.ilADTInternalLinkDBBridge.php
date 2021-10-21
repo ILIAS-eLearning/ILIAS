@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Abstract internal link db bridge
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesADT
  */
 class ilADTInternalLinkDBBridge extends ilADTDBBridge
@@ -19,7 +18,7 @@ class ilADTInternalLinkDBBridge extends ilADTDBBridge
     {
         return $a_adt instanceof ilADTInternalLink;
     }
-    
+
     /**
      * read record
      * @param array $a_row
@@ -28,13 +27,13 @@ class ilADTInternalLinkDBBridge extends ilADTDBBridge
     {
         $this->getADT()->setTargetRefId($a_row[$this->getElementId()]);
     }
-    
+
     /**
      * prepare insert
      * @param array $a_fields
      */
     public function prepareInsert(array &$a_fields) : void
     {
-        $a_fields[$this->getElementId()] = ["integer",$this->getADT()->getTargetRefId()];
+        $a_fields[$this->getElementId()] = ["integer", $this->getADT()->getTargetRefId()];
     }
 }

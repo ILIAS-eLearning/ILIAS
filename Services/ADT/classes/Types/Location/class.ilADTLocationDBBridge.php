@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTLocationDBBridge extends ilADTDBBridge
 {
@@ -6,15 +6,14 @@ class ilADTLocationDBBridge extends ilADTDBBridge
     {
         return ($a_adt instanceof ilADTLocation);
     }
-    
-    
+
     public function readRecord(array $a_row) : void
     {
         $this->getADT()->setLongitude($a_row[$this->getElementId() . "_long"]);
         $this->getADT()->setLatitude($a_row[$this->getElementId() . "_lat"]);
         $this->getADT()->setZoom($a_row[$this->getElementId() . "_zoom"]);
     }
-    
+
     public function prepareInsert(array &$a_fields) : void
     {
         $a_fields[$this->getElementId() . "_long"] = array("float", $this->getADT()->getLongitude());

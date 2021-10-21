@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
@@ -6,10 +6,9 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         return ($a_adt_def instanceof ilADTDateTimeDefinition);
     }
-    
-    
+
     // table2gui / filter
-    
+
     public function loadFilter() : void
     {
         $value = $this->readFilter();
@@ -17,26 +16,25 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
             $this->getADT()->setDate(new ilDateTime($value, IL_CAL_DATETIME));
         }
     }
-            
-    
+
     // form
-    
+
     public function addToForm() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
-        
+
         $adt_date = $this->getADT()->getDate();
-        
+
         $date = new ilDateTimeInputGUI($this->getTitle(), $this->getElementId());
         $date->setShowTime(true);
-                        
+
         $date->setDate($adt_date);
-        
+
         $this->addToParentElement($date);
     }
-    
+
     protected function shouldBeImportedFromPost(mixed $a_post) : bool
     {
         // @todo check if this assumption is correct:
@@ -51,10 +49,10 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
     public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
-                
+
         if ($post && $this->shouldBeImportedFromPost($post)) {
-                        $date = ilCalendarUtil::parseIncomingDate($post, 1);
-            
+            $date = ilCalendarUtil::parseIncomingDate($post, 1);
+
             if ($this->getForm() instanceof ilPropertyFormGUI) {
                 $item = $this->getForm()->getItemByPostVar($this->getElementId());
                 $item->setDate($date);
@@ -62,45 +60,43 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
                 $this->table_filter_fields[$this->getElementId()]->setDate($date);
                 $this->writeFilter($date->get(IL_CAL_DATETIME));
             }
-                                
+
             $this->getADT()->setDate($date);
         } else {
             $this->writeFilter();
             $this->getADT()->setDate();
         }
     }
-    
-    
+
     // db
-    
+
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$this->isNull() && $this->isValid()) {
             return $a_element_id . " = " . $ilDB->quote($this->getADT()->getDate()->get(IL_CAL_DATETIME), "timestamp");
         }
     }
-    
+
     public function isInCondition(ilADT $a_adt) : bool
     {
         assert($a_adt instanceof ilADTDateTime);
-        
+
         return $this->getADT()->equals($a_adt);
     }
-    
-    
+
     //  import/export
-        
+
     public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getDate()->get(IL_CAL_DATETIME)));
         }
     }
-    
+
     public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);

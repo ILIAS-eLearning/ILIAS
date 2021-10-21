@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
 {
@@ -6,9 +6,9 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
     {
         return ($a_adt_def instanceof ilADTLocalizedTextDefinition);
     }
-    
+
     // table2gui / filter
-    
+
     public function loadFilter() : void
     {
         $value = $this->readFilter();
@@ -16,26 +16,25 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
             $this->getADT()->setText($value);
         }
     }
-    
-    
+
     // form
-    
+
     public function addToForm() : void
     {
         $text = new ilTextInputGUI($this->getTitle(), $this->getElementId());
         $text->setSize(20);
         $text->setMaxLength(512);
         $text->setSubmitFormOnEnter(true);
-        
+
         $text->setValue($this->getADT()->getText());
-        
+
         $this->addToParentElement($text);
     }
-    
+
     public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
-                
+
         if ($post && $this->shouldBeImportedFromPost($post)) {
             if ($this->getForm() instanceof ilPropertyFormGUI) {
                 $item = $this->getForm()->getItemByPostVar($this->getElementId());
@@ -44,28 +43,27 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
                 $this->table_filter_fields[$this->getElementId()]->setValue($post);
                 $this->writeFilter($post);
             }
-            
+
             $this->getADT()->setText($post);
         } else {
             $this->writeFilter();
             $this->getADT()->setText();
         }
     }
-    
-    
+
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
                 return '';
             }
             $quotedWords = $this->getADT()->getText();
         }
-                        
+
         switch ($mode) {
             case self::SQL_STRICT:
                 if (!is_array($quotedWords)) {
@@ -104,25 +102,24 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
                 break;
         }
     }
-    
+
     public function isInCondition(ilADT $a_adt) : bool
     {
         assert($a_adt instanceof ilADTText);
-        
+
         // :TODO: search mode (see above)
         return $this->getADT()->equals($a_adt);
     }
-    
-    
+
     //  import/export
-        
+
     public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getText()));
         }
     }
-    
+
     public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);

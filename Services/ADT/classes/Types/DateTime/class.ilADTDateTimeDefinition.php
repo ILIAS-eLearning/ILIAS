@@ -3,7 +3,7 @@
 class ilADTDateTimeDefinition extends ilADTDefinition
 {
     // comparison
-            
+
     public function isComparableTo(ilADT $a_adt) : bool
     {
         // has to be date-based

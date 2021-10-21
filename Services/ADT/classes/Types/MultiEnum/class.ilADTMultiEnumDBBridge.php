@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTMultiEnumDBBridge extends ilADTDBBridge
 {
@@ -24,17 +24,17 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
     {
         return ($a_adt instanceof ilADTMultiEnum);
     }
-    
+
     public function setFakeSingle(bool $a_status) : void
     {
         $this->fake_single = (bool) $a_status;
     }
-    
+
     protected function doSingleFake() : bool
     {
         return $this->fake_single;
     }
-    
+
     public function readRecord(array $a_row) : void
     {
         if (isset($a_row[$this->getElementId()])) {
@@ -68,11 +68,10 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
 
     protected function insertIndices() : void
     {
-        foreach ($this->getADT()->getSelections() as $index)
-        {
+        foreach ($this->getADT()->getSelections() as $index) {
             $fields = $this->getPrimary();
             $fields['value_index'] = [ilDBConstants::T_INTEGER, $index];
-            $num_row  = $this->db->insert($this->getTable(), $fields);
+            $num_row = $this->db->insert($this->getTable(), $fields);
         }
     }
 

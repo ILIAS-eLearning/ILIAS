@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTFloatPresentationBridge extends ilADTPresentationBridge
 {
@@ -6,26 +6,26 @@ class ilADTFloatPresentationBridge extends ilADTPresentationBridge
     {
         return ($a_adt instanceof ilADTFloat);
     }
-    
+
     public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
             $def = $this->getADT()->getCopyOfDefinition();
             $suffix = $def->getSuffix() ? " " . $def->getSuffix() : null;
-            
+
             // :TODO: language specific?
             $presentation_value = number_format(
-                $this->getADT()->getNumber(),
-                $this->getADT()->getCopyOfDefinition()->getDecimals(),
-                ",",
-                "."
-            ) .
+                    $this->getADT()->getNumber(),
+                    $this->getADT()->getCopyOfDefinition()->getDecimals(),
+                    ",",
+                    "."
+                ) .
                 $suffix;
-                        
+
             return $this->decorate($presentation_value);
         }
     }
-    
+
     public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {

@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTInternalLink extends ilADT
 {
     protected ?int $value;
-    
+
     /**
      * @param ilADTDefinition $a_def
      * @return bool
@@ -21,12 +21,12 @@ class ilADTInternalLink extends ilADT
         parent::reset();
         $this->value = null;
     }
-    
+
     public function setTargetRefId(int $a_value) : void
     {
         $this->value = $a_value;
     }
-    
+
     /**
      * @return int|null get target ref_id
      */
@@ -69,7 +69,6 @@ class ilADTInternalLink extends ilADT
     {
         return (bool) !$this->getTargetRefId();
     }
-    
 
     public function isValid() : bool
     {
@@ -108,7 +107,6 @@ class ilADTInternalLink extends ilADT
         }
         return null;
     }
-
 
     /**
      * @inheritDoc

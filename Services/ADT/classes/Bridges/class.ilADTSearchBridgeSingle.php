@@ -6,17 +6,17 @@
 abstract class ilADTSearchBridgeSingle extends ilADTSearchBridge
 {
     protected ilADT $adt;
-    
+
     protected function setDefinition(ilADTDefinition $a_adt_def) : void
     {
         if ($this->isValidADTDefinition($a_adt_def)) {
             $this->adt = ilADTFactory::getInstance()->getInstanceByDefinition($a_adt_def);
             return;
         }
-                
+
         throw new InvalidArgumentException('ilADTSearchBridge type mismatch.');
     }
-    
+
     /**
      * Get ADT
      * @return ilADT|null
@@ -25,17 +25,17 @@ abstract class ilADTSearchBridgeSingle extends ilADTSearchBridge
     {
         return $this->adt;
     }
-    
+
     public function isNull() : bool
     {
         return !$this->getADT() instanceof ilADT || $this->getADT()->isNull();
     }
-    
+
     public function isValid() : bool
     {
         return $this->getADT() instanceof ilADT && $this->getADT()->isValid();
     }
-    
+
     public function validate() : bool
     {
         if (!$this->getADT() instanceof ilADT) {
@@ -47,10 +47,10 @@ abstract class ilADTSearchBridgeSingle extends ilADTSearchBridge
             foreach ($mess as $error_code) {
                 $tmp[] = $this->getADT()->translateErrorCode($error_code);
             }
-            
+
             $field = $this->getForm()->getItemByPostVar($this->getElementId());
             $field->setAlert(implode("<br />", $tmp));
-            
+
             return false;
         }
         return true;

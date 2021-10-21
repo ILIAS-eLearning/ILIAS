@@ -7,7 +7,7 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
 {
     protected ilADT $adt_lower;
     protected ilADT $adt_upper;
-    
+
     protected function setDefinition(ilADTDefinition $a_adt_def) : void
     {
         if ($this->isValidADTDefinition($a_adt_def)) {
@@ -16,10 +16,10 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
             $this->adt_upper = $factory->getInstanceByDefinition($a_adt_def);
             return;
         }
-                
+
         throw new InvalidArgumentException('ilADTSearchBridge type mismatch.');
     }
-    
+
     /**
      * Get lower ADT
      * @return ilADT | null
@@ -28,7 +28,7 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
     {
         return $this->adt_lower;
     }
-    
+
     /**
      * Get upper ADT
      * @return ilADT | null
@@ -37,26 +37,26 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
     {
         return $this->adt_upper;
     }
-    
+
     public function isNull() : bool
     {
-        if (!$this->getLowerADT() instanceof  ilADT || !$this->getUpperADT() instanceof ilADT) {
+        if (!$this->getLowerADT() instanceof ilADT || !$this->getUpperADT() instanceof ilADT) {
             return false;
         }
         return ($this->getLowerADT()->isNull() && $this->getUpperADT()->isNull());
     }
-    
+
     public function isValid() : bool
     {
-        if (!$this->getLowerADT() instanceof  ilADT || !$this->getUpperADT() instanceof ilADT) {
+        if (!$this->getLowerADT() instanceof ilADT || !$this->getUpperADT() instanceof ilADT) {
             return false;
         }
         return ($this->getLowerADT()->isValid() && $this->getUpperADT()->isValid());
     }
-    
+
     public function validate() : bool
     {
-        if (!$this->getLowerADT() instanceof  ilADT || !$this->getUpperADT() instanceof ilADT) {
+        if (!$this->getLowerADT() instanceof ilADT || !$this->getUpperADT() instanceof ilADT) {
             return false;
         }
         if (!$this->isValid()) {
@@ -69,7 +69,7 @@ abstract class ilADTSearchBridgeRange extends ilADTSearchBridge
                 $field = $this->getForm()->getItemByPostVar($this->addToElementId("lower"));
                 $field->setAlert(implode("<br />", $tmp));
             }
-            
+
             $tmp = [];
             $mess = $this->getUpperADT()->getValidationErrors();
             foreach ($mess as $error_code) {

@@ -1,14 +1,11 @@
 <?php declare(strict_types=1);
 
-require_once "Services/ADT/classes/Bridges/class.ilADTDBBridge.php";
-
 abstract class ilADTMultiDBBridge extends ilADTDBBridge
 {
     // CRUD
-    
+
     /**
      * Build sub-table name
-     *
      * @return string
      */
     protected function getSubTableName()
@@ -16,7 +13,7 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
         // getElementId? => adv_md_values_enum_123
         return $this->getTable() . "_" . $this->getElementId();
     }
-    
+
     public function readRecord(array $a_row) : void
     {
         $sql = "SELECT " . $this->getElementId() .
@@ -25,10 +22,9 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
         $set = $this->db->query($sql);
         $this->readMultiRecord($set);
     }
-    
+
     /**
      * Import record-rows from sub-table
-     *
      * @param object $a_set
      */
     abstract protected function readMultiRecord(ilDBStatement $a_set) : void;
@@ -37,12 +33,12 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
     {
         // see afterUpdate()
     }
-    
+
     public function afterInsert() : void
     {
         $this->afterUpdate();
     }
-    
+
     public function afterUpdate() : void
     {
         global $DIC;
@@ -62,7 +58,7 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
         }
         */
     }
-        
+
     /**
      * Build insert-fields for each "value"
      */
