@@ -44,6 +44,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
         if (array_key_exists($a_element_id, $this->getElements())) {
             return $this->elements[$a_element_id];
         }
+        return null;
     }
 
     // properties
@@ -105,7 +106,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
      */
     public function afterUpdateElement(string $field_type, string $field_name, int $field_id)
     {
-        $element = $this->getElement($field_id);
+        $element = $this->getElement((string) $field_id);
         if (!$element) {
             return;
         }
@@ -117,7 +118,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
                 ]
             )
         );
-        $element->setElementId($field_id);
+        $element->setElementId((string) $field_id);
         $element->afterUpdate();
     }
 

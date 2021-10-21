@@ -3,6 +3,7 @@
 class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
     protected ?int $radius;
+    protected bool $force_valid = false;
 
     protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
     {
@@ -96,11 +97,12 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
             $this->getADT()->setZoom(null);
             $this->radius = null;
         }
+        return true;
     }
 
     public function isValid() : bool
     {
-        return (parent::isValid() && ((int) $this->radius || (bool) $this->force_valid));
+        return (parent::isValid() && ((int) $this->radius || $this->force_valid));
     }
 
 
@@ -150,6 +152,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 
             return "(" . implode(" AND ", $res) . ")";
         }
+        return '';
     }
 
     //  import/export
@@ -167,6 +170,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
                 "radius" => (int) $this->radius
             ));
         }
+        return '';
     }
 
     public function setSerializedValue(string $a_value) : void

@@ -18,6 +18,7 @@ class ilADTMultiTextPresentationBridge extends ilADTPresentationBridge
             }
             return implode(", ", $res);
         }
+        return '';
     }
 
     public function getSortable() : mixed
@@ -25,5 +26,6 @@ class ilADTMultiTextPresentationBridge extends ilADTPresentationBridge
         if (!$this->getADT()->isNull()) {
             return implode(";", $this->getADT()->getTextElements());
         }
+        return '';
     }
 }

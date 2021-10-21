@@ -14,6 +14,7 @@ class ilADTDatePresentationBridge extends ilADTPresentationBridge
 
             return $this->decorate(ilDatePresentation::formatDate($this->getADT()->getDate()));
         }
+        return '';
     }
 
     public function getSortable() : mixed
@@ -21,5 +22,6 @@ class ilADTDatePresentationBridge extends ilADTPresentationBridge
         if (!$this->getADT()->isNull()) {
             return (int) $this->getADT()->getDate()->get(IL_CAL_UNIX);
         }
+        return 0;
     }
 }

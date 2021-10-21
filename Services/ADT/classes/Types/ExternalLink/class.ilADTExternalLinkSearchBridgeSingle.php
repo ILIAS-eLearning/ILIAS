@@ -44,10 +44,6 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($url);
     }
 
-    /**
-     * Import from post
-     * @param array $a_post
-     */
     public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
@@ -59,6 +55,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         } else {
             $this->getADT()->setUrl();
         }
+        return true;
     }
 
     /**
@@ -86,7 +83,6 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
                 } else {
                     return $db->in($a_element_id, $quotedWords, "", "text");
                 }
-                break;
 
             case self::SQL_LIKE:
                 if (!is_array($quotedWords)) {
@@ -126,10 +122,10 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      */
     public function isInCondition(ilADT $a_adt) : bool
     {
-        if ($this->isValidADT($a_adt)) {
+        if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
             return $this->getADT()->equals($a_adt);
         }
-        // @todo throw exception
+        return false;
     }
 
     /**
@@ -141,6 +137,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getUrl()));
         }
+        return '';
     }
 
     /**

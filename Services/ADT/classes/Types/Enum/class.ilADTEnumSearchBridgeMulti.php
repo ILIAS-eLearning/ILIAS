@@ -14,7 +14,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 
     public function setSearchMode(int $a_mode) : void
     {
-        $this->search_mode = (int) $a_mode;
+        $this->search_mode = $a_mode;
     }
 
     public function getSearchColumn() : string
@@ -93,6 +93,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
         } else {
             $this->getADT()->setSelections();
         }
+        return true;
     }
 
     // db
@@ -111,6 +112,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
                 ilDBConstants::T_INTEGER
             );
         }
+        return '';
     }
 
     public function isInCondition(ilADT $a_adt) : bool
@@ -142,6 +144,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
         if (!$this->isNull() && $this->isValid()) {
             return serialize($this->getADT()->getSelections());
         }
+        return '';
     }
 
     public function setSerializedValue(string $a_value) : void

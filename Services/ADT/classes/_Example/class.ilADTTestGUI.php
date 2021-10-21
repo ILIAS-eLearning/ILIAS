@@ -6,7 +6,7 @@
  */
 class ilADTTestGUI extends ilADTBasedObjectGUI
 {
-    protected function initObject()
+    protected function initObject() : ilADTBasedObject
     {
 
         /*
@@ -30,7 +30,7 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
         return new ilADTTest(1);
     }
 
-    protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form)
+    protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form) : void
     {
         global $DIC;
 

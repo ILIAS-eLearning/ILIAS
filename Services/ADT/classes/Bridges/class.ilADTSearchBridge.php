@@ -111,6 +111,7 @@ abstract class ilADTSearchBridge
         if ($value) {
             return unserialize($value);
         }
+        return '';
     }
 
     /**
@@ -184,10 +185,6 @@ abstract class ilADTSearchBridge
         return $post;
     }
 
-    /**
-     * Import values from (search) form request POST data
-     * @return bool
-     */
     abstract public function importFromPost(array $a_post = null) : bool;
 
     /**

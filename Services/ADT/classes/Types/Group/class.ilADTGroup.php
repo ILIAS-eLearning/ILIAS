@@ -51,11 +51,12 @@ class ilADTGroup extends ilADT
         return array_key_exists($a_name, $this->elements);
     }
 
-    public function getElement(string $a_name) : ilADTDefinition
+    public function getElement(string $a_name) : ?ilADT
     {
         if ($this->hasElement($a_name)) {
             return $this->elements[$a_name];
         }
+        return null;
     }
 
     public function getElements() : array
@@ -90,7 +91,7 @@ class ilADTGroup extends ilADT
 
     public function getValidationErrorsByElements() : array
     {
-        return (array) $this->validation_errors;
+        return $this->validation_errors;
     }
 
     /**
@@ -98,12 +99,12 @@ class ilADTGroup extends ilADT
      */
     public function getValidationErrors() : array
     {
-        return array_keys((array) $this->validation_errors);
+        return array_keys($this->validation_errors);
     }
 
     protected function addElementValidationError(string $a_element_id, string $a_error_code) : void
     {
-        $this->validation_errors[(string) $a_error_code] = $a_element_id;
+        $this->validation_errors[$a_error_code] = $a_element_id;
     }
 
     public function isValid() : bool

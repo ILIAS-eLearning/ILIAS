@@ -12,6 +12,7 @@ class ilADTTextPresentationBridge extends ilADTPresentationBridge
         if (!$this->getADT()->isNull()) {
             return $this->decorate(nl2br($this->getADT()->getText()));
         }
+        return '';
     }
 
     public function getSortable() : mixed
@@ -19,5 +20,6 @@ class ilADTTextPresentationBridge extends ilADTPresentationBridge
         if (!$this->getADT()->isNull()) {
             return strtolower($this->getADT()->getText());
         }
+        return '';
     }
 }

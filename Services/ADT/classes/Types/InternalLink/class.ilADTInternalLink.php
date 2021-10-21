@@ -22,7 +22,7 @@ class ilADTInternalLink extends ilADT
         $this->value = null;
     }
 
-    public function setTargetRefId(int $a_value) : void
+    public function setTargetRefId(?int $a_value) : void
     {
         $this->value = $a_value;
     }
@@ -47,10 +47,6 @@ class ilADTInternalLink extends ilADT
         return null;
     }
 
-    /**
-     * Is larger
-     * @param ilADT $a_adt
-     */
     public function isLarger(ilADT $a_adt) : ?bool
     {
         return null;
@@ -67,7 +63,7 @@ class ilADTInternalLink extends ilADT
      */
     public function isNull() : bool
     {
-        return (bool) !$this->getTargetRefId();
+        return !$this->getTargetRefId();
     }
 
     public function isValid() : bool
@@ -79,7 +75,7 @@ class ilADTInternalLink extends ilADT
                 !$tree->isInTree($this->getTargetRefId()) ||
                 $tree->isDeleted($this->getTargetRefId())
             ) {
-                $this->valid = false;
+                $valid = false;
                 $this->addValidationError(self::ADT_VALIDATION_ERROR_INVALID_NODE);
             }
         }
@@ -89,7 +85,7 @@ class ilADTInternalLink extends ilADT
     public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
-            return md5($this->getTargetRefId());
+            return md5((string) $this->getTargetRefId());
         }
         return null;
     }

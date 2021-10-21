@@ -62,5 +62,6 @@ class ilADTInternalLinkPresentationBridge extends ilADTPresentationBridge
         if (!$this->getADT()->isNull()) {
             return $this->getADT()->getTargetRefId();
         }
+        return 0;
     }
 }

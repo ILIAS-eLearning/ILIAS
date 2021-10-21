@@ -43,6 +43,6 @@ class ilADTDateTimeFormBridge extends ilADTFormBridge
     public function validate() : bool
     {
         // :TODO: error handling is done by ilDateTimeInputGUI
-        return !(bool) $this->invalid_input;
+        return !$this->invalid_input;
     }
 }

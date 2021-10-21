@@ -66,6 +66,7 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
             $this->writeFilter();
             $this->getADT()->setSelection();
         }
+        return true;
     }
 
     // db
@@ -97,6 +98,7 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getSelection()));
         }
+        return '';
     }
 
     public function setSerializedValue(string $a_value) : void

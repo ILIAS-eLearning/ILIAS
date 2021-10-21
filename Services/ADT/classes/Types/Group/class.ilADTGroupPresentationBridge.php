@@ -36,6 +36,7 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
         if (sizeof($res)) {
             return implode($delimiter, $res);
         }
+        return '';
     }
 
     public function getSortable($delimiter = ";") : mixed
@@ -50,5 +51,6 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
         if (sizeof($res)) {
             return implode($delimiter, $res);
         }
+        return '';
     }
 }

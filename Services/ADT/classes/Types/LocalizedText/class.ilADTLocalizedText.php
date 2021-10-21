@@ -53,7 +53,7 @@ class ilADTLocalizedText extends ilADTText
         if (!$this->getDefinition()->isComparableTo($a_adt)) {
             return null;
         }
-        if (count($this->getTranslations() != count($a_adt->getTranslations()))) {
+        if ($this->getTranslations() != count($a_adt->getTranslations())) {
             return false;
         }
         foreach ($a_adt->getTranslations() as $key => $value) {

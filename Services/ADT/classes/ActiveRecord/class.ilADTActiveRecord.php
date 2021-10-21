@@ -49,7 +49,7 @@ class ilADTActiveRecord
     {
         $fields = $this->properties->getPrimary();
         $this->properties->prepareInsert($fields);
-        $this->insert($this->properties->getTable(), $fields);
+        $this->db->insert($this->properties->getTable(), $fields);
         $this->properties->afterInsert();
     }
 

@@ -45,6 +45,6 @@ class ilADTInternalLinkFormBridge extends ilADTFormBridge
      */
     public function importFromPost() : void
     {
-        $this->getADT()->setTargetRefId($this->getForm()->getInput($this->getElementId()));
+        $this->getADT()->setTargetRefId((int) $this->getForm()->getInput($this->getElementId()));
     }
 }

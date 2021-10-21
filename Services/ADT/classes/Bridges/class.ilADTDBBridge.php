@@ -44,7 +44,7 @@ abstract class ilADTDBBridge
 
     public function setTable(string $a_table) : void
     {
-        $this->table = (string) $a_table;
+        $this->table = $a_table;
     }
 
     public function getTable() : ?string

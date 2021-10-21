@@ -19,9 +19,9 @@ class ilADTTextFormBridge extends ilADTFormBridge
 
     public function setMulti(bool $a_value, ?int $a_cols = null, ?int $a_rows = null) : void
     {
-        $this->multi = (bool) $a_value;
-        $this->multi_rows = ($a_rows === null) ? null : (int) $a_rows;
-        $this->multi_cols = ($a_cols === null) ? null : (int) $a_cols;
+        $this->multi = $a_value;
+        $this->multi_rows = ($a_rows === null) ? null : $a_rows;
+        $this->multi_cols = ($a_cols === null) ? null : $a_cols;
     }
 
     public function isMulti() : bool
@@ -85,7 +85,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
         $this->addElementToForm(
             (string) $this->getADT()->getText(),
             (string) $this->getElementId(),
-            (string) $this->getTitle()
+            $this->getTitle()
         );
     }
 

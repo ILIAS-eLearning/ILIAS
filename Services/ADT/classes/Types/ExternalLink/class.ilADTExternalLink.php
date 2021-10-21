@@ -80,10 +80,6 @@ class ilADTExternalLink extends ilADT
         return null;
     }
 
-    /**
-     * Is larger
-     * @param ilADT $a_adt
-     */
     public function isLarger(ilADT $a_adt) : ?bool
     {
         return null;
@@ -100,7 +96,7 @@ class ilADTExternalLink extends ilADT
      */
     public function isNull() : bool
     {
-        return (bool) !$this->getLength();
+        return !$this->getLength();
     }
 
     /**

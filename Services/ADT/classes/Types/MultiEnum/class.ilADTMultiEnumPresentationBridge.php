@@ -21,6 +21,7 @@ class ilADTMultiEnumPresentationBridge extends ilADTPresentationBridge
 
             return implode(", ", $res);
         }
+        return '';
     }
 
     public function getSortable() : mixed
@@ -28,5 +29,6 @@ class ilADTMultiEnumPresentationBridge extends ilADTPresentationBridge
         if (!$this->getADT()->isNull()) {
             return implode(";", $this->getADT()->getSelections());
         }
+        return '';
     }
 }

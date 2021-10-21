@@ -38,6 +38,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 
             return $this->decorate($map_gui->getHtml());
         }
+        return '';
     }
 
     public function getList() : string
@@ -46,6 +47,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
             // :TODO: probably does not make much sense
             return $this->getADT()->getLatitude() . "&deg;/" . $this->getADT()->getLongitude() . "&deg;";
         }
+        return '';
     }
 
     public function getSortable() : mixed
@@ -54,5 +56,6 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
             // :TODO: probably does not make much sense
             return $this->getADT()->getLatitude() . ";" . $this->getADT()->getLongitude();
         }
+        return '';
     }
 }

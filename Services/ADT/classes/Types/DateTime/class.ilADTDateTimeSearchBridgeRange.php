@@ -85,8 +85,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
 
     protected function shouldBeImportedFromPost(mixed $a_post) : bool
     {
-        if ($this->getForm() instanceof ilPropertyFormGUI &&
-            !(bool) $this->text_input) {
+        if ($this->getForm() instanceof ilPropertyFormGUI) {
             return (bool) $a_post["tgl"];
         }
         return parent::shouldBeImportedFromPost($a_post);
@@ -127,6 +126,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
             $this->getLowerADT()->setDate();
             $this->getUpperADT()->setDate();
         }
+        return true;
     }
 
     // db
@@ -149,6 +149,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
             }
             return "(" . implode(" AND ", $sql) . ")";
         }
+        return '';
     }
 
     public function isInCondition(ilADT $a_adt) : bool
@@ -178,6 +179,7 @@ class ilADTDateTimeSearchBridgeRange extends ilADTSearchBridgeRange
             }
             return serialize($res);
         }
+        return '';
     }
 
     public function setSerializedValue(string $a_value) : void

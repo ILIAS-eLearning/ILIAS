@@ -54,6 +54,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
             $this->writeFilter();
             $this->getADT()->setText();
         }
+        return true;
     }
 
     // db
@@ -78,7 +79,6 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
                 } else {
                     return $ilDB->in($a_element_id, $quotedWords, "", "text");
                 }
-                break;
 
             case self::SQL_LIKE:
                 if (!is_array($quotedWords)) {
@@ -126,6 +126,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getText()));
         }
+        return '';
     }
 
     public function setSerializedValue(string $a_value) : void

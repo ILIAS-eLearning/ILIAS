@@ -80,6 +80,6 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
      */
     public function supportsTranslations() : bool
     {
-        return strlen($this->getDefaultLanguage()) > 0 ? true : false;
+        return strlen($this->getDefaultLanguage()) > 0;
     }
 }

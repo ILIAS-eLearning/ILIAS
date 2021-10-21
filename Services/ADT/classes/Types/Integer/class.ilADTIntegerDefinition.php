@@ -22,22 +22,22 @@ class ilADTIntegerDefinition extends ilADTDefinition
 
     public function getMin() : ?int
     {
-        return $this->min;
+        return $this->min_value;
     }
 
     public function setMin(int $a_value) : void
     {
-        $this->min = $this->handleNumber($a_value);
+        $this->min_value = $this->handleNumber($a_value);
     }
 
     public function getMax() : ?int
     {
-        return $this->max;
+        return $this->max_value;
     }
 
     public function setMax(int $a_value) : void
     {
-        $this->max = $this->handleNumber($a_value);
+        $this->max_value = $this->handleNumber($a_value);
     }
 
     public function getSuffix() : string

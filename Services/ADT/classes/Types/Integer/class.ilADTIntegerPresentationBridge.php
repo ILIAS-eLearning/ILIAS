@@ -17,6 +17,7 @@ class ilADTIntegerPresentationBridge extends ilADTPresentationBridge
 
             return $this->decorate($presentation_value);
         }
+        return '';
     }
 
     public function getSortable() : mixed
@@ -24,5 +25,6 @@ class ilADTIntegerPresentationBridge extends ilADTPresentationBridge
         if (!$this->getADT()->isNull()) {
             return $this->getADT()->getNumber();
         }
+        return 0;
     }
 }
