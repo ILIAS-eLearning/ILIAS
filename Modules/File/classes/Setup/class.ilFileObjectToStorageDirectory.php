@@ -45,15 +45,15 @@ class ilFileObjectToStorageDirectory
                 ),
                 RecursiveIteratorIterator::LEAVES_ONLY
             ),
-            '/.*\/file_[\d]*\/([\d]*)\/(.*)/',
+            '/.*(\/|\\\)file_[\d]*(\/|\\\)([\d]*)(\/|\\\)(.*)/',
             RegexIterator::GET_MATCH
         );
 
         $this->versions = [];
 
         foreach ($g as $item) {
-            $version = (int) $item[1];
-            $title = $history_data[$version]['filename'] ?? $item[2];
+            $version = (int) $item[3];
+            $title = $history_data[$version]['filename'] ?? $item[5];
             $action = $history_data[$version]['action'] ?? 'create';
             $owner = $history_data[$version]['owner_id'] ?? 13;
             $creation_date_timestamp = strtotime($history_data[$version]['date'] ?? '0');

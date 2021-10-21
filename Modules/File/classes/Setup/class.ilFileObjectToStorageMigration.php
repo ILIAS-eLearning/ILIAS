@@ -7,7 +7,7 @@ use ILIAS\Setup\Environment;
 
 class ilFileObjectToStorageMigration implements Setup\Migration
 {
-    private const FILE_PATH_REGEX = '/.*\/file_([\d]*)$/';
+    private const FILE_PATH_REGEX = '/.*(\/|\\\)file_([\d]*)$/';
     public const MIGRATION_LOG_CSV = "migration_log.csv";
 
     /**

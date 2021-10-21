@@ -53,6 +53,6 @@ class ilFileObjectToStorageMigrationHelper
         $item = $this->iterator->current();
         $this->iterator->next();
 
-        return new ilFileObjectToStorageDirectory((int) $item[1], $item[0]);
+        return new ilFileObjectToStorageDirectory((int) $item[2], $item[0]);
     }
 }
