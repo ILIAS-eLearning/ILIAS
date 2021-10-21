@@ -203,6 +203,7 @@ auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchron
 content#:#cont_lpe_openid_connect_login#:#OpenID-Connect-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 common#:#msg_to_many_files#:#Zu viele Dateien ausgewählt, erlaubte Anzahl Dateien:
+common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
 obj#:#obj_tool_setting_filter#:#Filter
 obj#:#obj_tool_setting_filter_info#:#Ein Filter wird im Reiter "Inhalte" angezeigt.
@@ -3070,6 +3071,7 @@ rbac#:#file_edit_permission#:#Rechteeinstellungen ändern
 common#:#file_info#:#Dateiinformation
 common#:#file_is_infected#:#Die Datei ist von einem Virus befallen.
 common#:#file_not_found#:#Datei nicht gefunden
+common#:#file_not_found_sec#:#Diese Datei wurde in ILIAS nicht gefunden oder wurde aus Sicherheitsgründen gesperrt.
 common#:#file_not_valid#:#Datei ist ungültig!
 common#:#file_notice#:#Maximal erlaubte Upload-Größe:
 rbac#:#file_read#:#Datei herunterladen
@@ -13818,7 +13820,7 @@ assessment#:#ass_competence_respect_level_ordering#:#Bitte beachten Sie, dass di
 common#:#grpr#:#Gruppenlink
 common#:#grpr_edit#:#Gruppenlink bearbeiten
 common#:#grpr_edit_info#:#Bitte wählen Sie die Gruppe aus, für die Sie einen Link erstellen möchten.
-common#:#grpr_new#:#Neue Gruppenlink anlegen
+common#:#grpr_new#:#Neuen Gruppenlink anlegen
 common#:#obj_grpr#:#Gruppenlink
 common#:#objs_grpr#:#Gruppenlinks
 rbac#:#grpr_copy#:#Gruppenlinks kopieren
@@ -13846,8 +13848,8 @@ badge#:#badge_obi_salt#:#Salt
 badge#:#badge_obi_salt_info#:#Geben Sie eine Kombination von Zahlen und Buchstaben ein, um Dritten später die Möglichkeit zu bieten, die Echtheit des Badges zu validieren. Bitte ändern Sie die Eingabe später nicht mehr.
 badge#:#badge_types#:#Typen
 badge#:#badge_image_templates#:#Bildvorlagen
-badge#:#badge_activity_badges#:#Activity Badges
-badge#:#badge_crs_merit#:#Verdienst
+badge#:#badge_activity_badges#:#Automatisch vergebenes Badge
+badge#:#badge_crs_merit#:#Händisch vergebenes Badge
 badge#:#badge_manual#:#Manuelle Vergabe
 badge#:#badge_user_profile#:#Benutzerprofil
 badge#:#badge_badge#:#Badge
@@ -13888,7 +13890,7 @@ badge#:#badge_remove_from_profile#:#Aus Profil entfernen
 badge#:#badge_criteria#:#Kriterien
 badge#:#badge_edit_with_published#:#%s Benutzer haben dieses Badge bereits zu ihrem Backpack hinzugefügt. Badge-Attribute zu verändern führt deshalb zu Inkonsistenzen. Evtl. wäre ein neues Badge sinnvoller.
 badge#:#badge_no_valid_types_for_obj#:#Es gibt aktuell keine aktiven Badge-Typen. Es können keine neuen Badges erstellt werden. Bitte wenden Sie sich an Ihren Administrator.
-badge#:#badge_course_lp#:#Course LP
+badge#:#badge_course_lp#:#Nach Leistung vergebenes Badge
 badge#:#badge_profile_more#:#Alle zeigen
 badge#:#badge_profile_less#:#Weniger zeigen
 badge#:#badge_backpack_gallery_info#:#Dies sind die veröffentlichten Badge-Kollektionen Ihres Mozilla Backpacks.
@@ -14807,7 +14809,7 @@ file#:#file_suffix_custom_white#:#Dateiendungen: Positivliste (Anpassungen)
 file#:#file_suffix_custom_white_info#:#Diese Dateiendungen werden der obigen Positivliste hinzugefügt.
 file#:#file_suffix_overall_white#:#Effektive Positivliste
 file#:#file_suffix_overall_white_info#:#Dies ist die endgültige Liste akzeptierter Dateiendungen.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert.
+file#:#file_upload_info_file_with_critical_extension#:#Die hochgeladene Datei enthält eine kritische oder unbekannte Dateiendung. Die Dateiendung wird bei jedem Download zu .sec geändert. Kontaktieren Sie gegebenfalls Ihren Administrator.
 common#:#settings_presentation_header#:#Darstellung
 common#:#obj_copa#:#Inhaltsseite
 common#:#objs_copa#:#Inhaltsseiten
@@ -16018,8 +16020,6 @@ prg#:#modal_categories_title#:#Zu überwachende Kategorie
 prg#:#category#:#Kategorie (RefId)
 common#:#obj_prgr#:#Link zum Studienprogramm
 common#:#obj_prgrs#:#Links zu Studienprogrammen
-prg#:#prgr_new#:#Neuer Link zum Studienprogramm
-prg#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
@@ -16264,3 +16264,5 @@ dateplaner#:#cal_recurrence_confirm_deletion#:#Bitte wählen Sie aus, ob Sie ein
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
 rbac#:#il_lti_global_role#:#LTI User
+prg#:#prgr_new#:#Create Study Programme Link###20 10 2021 new variable
+prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###20 10 2021 new variable

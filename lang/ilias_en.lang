@@ -245,6 +245,7 @@ auth#:#auth_oidc_update_role_info#:#Use only when logging in for the first time 
 content#:#cont_lpe_openid_connect_login#:#OpenID Connect Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
+common#:#msg_no_files_selected#:#No files selected
 obj#:#cont_filter_empty#:#Please use the filter to see any objects.
 obj#:#obj_tool_setting_filter#:#Filter
 obj#:#obj_tool_setting_filter_info#:#A filter will be displayed in the content tab.
@@ -2610,6 +2611,7 @@ common#:#file_edit#:#Edit File Information
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#The file is infected by a virus.
 common#:#file_not_found#:#File Not Found
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.
 common#:#file_not_valid#:#File not valid!
 common#:#file_notice#:#Maximum upload size:
 rbac#:#file_read#:#User can download file
@@ -14796,7 +14798,7 @@ file#:#file_suffix_custom_white#:#Custom Suffix Whitelist
 file#:#file_suffix_custom_white_info#:#These suffixes will be added to the default whitelist.
 file#:#file_suffix_overall_white#:#Overal Suffix Whitelist
 file#:#file_suffix_overall_white_info#:#Resulting overall list of accepted file suffixes.
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download.
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.
 common#:#settings_presentation_header#:#Presentation
 common#:#obj_copa#:#Content Page
 common#:#objs_copa#:#Content Pages

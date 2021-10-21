@@ -223,6 +223,7 @@ il.UI = il.UI || {};
                 messages: {
                     typeError: options.typeError,
                     tooManyItemsError: options.tooManyItemsError,
+                    noFilesError: options.noFilesError,
                 },
                 callbacks: {
                     onUpload: function (fileId, name) {
