@@ -137,7 +137,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getUrl()));
         }
-        return ''
+        return '';
     }
 
     /**
