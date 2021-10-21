@@ -28,11 +28,11 @@ class ilADTInternalLinkPresentationBridge extends ilADTPresentationBridge
     public function getHTML() : string
     {
         if ($this->getADT()->isNull()) {
-            return;
+            return '';
         }
         
         if (!$this->getADT()->isValid()) {
-            return;
+            return '';
         }
         
         $access = $GLOBALS['DIC']->access();
@@ -51,7 +51,7 @@ class ilADTInternalLinkPresentationBridge extends ilADTPresentationBridge
 
             return $this->decorate($title);
         }
-        return;
+        return '';
     }
 
     /**

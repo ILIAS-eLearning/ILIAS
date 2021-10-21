@@ -7,7 +7,7 @@ class ilADTFactory
 {
     public const TYPE_LOCALIZED_TEXT = 'LocalizedText';
 
-    protected static ilADTFactory $instance;
+    protected static ?ilADTFactory $instance = null;
 
     public static function getInstance() : ilADTFactory
     {

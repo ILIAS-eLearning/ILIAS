@@ -74,9 +74,9 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         $db = $GLOBALS['DIC']->database();
         
-        if (!$a_value) {
+        if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
-                return;
+                return '';
             }
             $a_value = $this->getADT()->getTargetRefId();
         }
@@ -98,7 +98,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         if ($this->isValidADT($a_adt)) {
             return $this->getADT()->equals($a_adt);
         }
-        // @todo throw exception
+        throw new InvalidArgumentException('Invalid argument given');
     }
 
     /**

@@ -68,7 +68,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
         
         if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
-                return;
+                return '';
             }
             $quotedWords = $this->getADT()->getText();
         }
@@ -110,6 +110,7 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
                 }
                 break;
         }
+        return '';
     }
     
     public function isInCondition(ilADT $a_adt) : bool
