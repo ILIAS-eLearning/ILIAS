@@ -59,8 +59,11 @@ class ilForumAppEventListener implements ilAppEventListener
                             $a_parameter['ref_id']
                         ));
 
-                        $provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'],
-                            new ilForumNotificationCache());
+                        $provider = new ilObjForumNotificationDataProvider(
+                            $post,
+                            $a_parameter['ref_id'],
+                            new ilForumNotificationCache()
+                        );
 
                         if ($immediate_notifications_enabled && $post->isActivated()) {
                             $logger->debug(
@@ -159,8 +162,11 @@ class ilForumAppEventListener implements ilAppEventListener
                         ));
 
                         if ($immediate_notifications_enabled && $post->isActivated()) {
-                            $provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'],
-                                new ilForumNotificationCache());
+                            $provider = new ilObjForumNotificationDataProvider(
+                                $post,
+                                $a_parameter['ref_id'],
+                                new ilForumNotificationCache()
+                            );
 
                             $logger->debug(
                                 'Immediate notification delivery is enabled, posting is already published: ' .
@@ -207,8 +213,11 @@ class ilForumAppEventListener implements ilAppEventListener
                             return;
                         }
 
-                        $provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'],
-                            new ilForumNotificationCache());
+                        $provider = new ilObjForumNotificationDataProvider(
+                            $post,
+                            $a_parameter['ref_id'],
+                            new ilForumNotificationCache()
+                        );
 
                         if ($immediate_notifications_enabled && $post->isActivated()) {
                             $logger->debug(
@@ -261,8 +270,11 @@ class ilForumAppEventListener implements ilAppEventListener
                         ));
 
                         if ($immediate_notifications_enabled) {
-                            $provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'],
-                                new ilForumNotificationCache());
+                            $provider = new ilObjForumNotificationDataProvider(
+                                $post,
+                                $a_parameter['ref_id'],
+                                new ilForumNotificationCache()
+                            );
                             if ($post->isCensored() && $post->isActivated()) {
                                 $logger->debug(
                                     'Immediate notification delivery is enabled, posting is already published and ' .
@@ -319,8 +331,11 @@ class ilForumAppEventListener implements ilAppEventListener
 
                         $thread_deleted = $a_parameter['thread_deleted'];
 
-                        $provider = new ilObjForumNotificationDataProvider($post, $a_parameter['ref_id'],
-                            new ilForumNotificationCache());
+                        $provider = new ilObjForumNotificationDataProvider(
+                            $post,
+                            $a_parameter['ref_id'],
+                            new ilForumNotificationCache()
+                        );
 
                         if ($post->isActivated()) {
                             if (ilCronManager::isJobActive('frm_notification')) {
@@ -459,8 +474,12 @@ class ilForumAppEventListener implements ilAppEventListener
     ) : void {
         switch ($notification_type) {
             case ilForumMailNotification::TYPE_POST_ACTIVATION:
-                self::sendNotification($provider, $logger, $notification_type,
-                    $provider->getPostActivationRecipients());
+                self::sendNotification(
+                    $provider,
+                    $logger,
+                    $notification_type,
+                    $provider->getPostActivationRecipients()
+                );
                 break;
 
             case ilForumMailNotification::TYPE_POST_ANSWERED:

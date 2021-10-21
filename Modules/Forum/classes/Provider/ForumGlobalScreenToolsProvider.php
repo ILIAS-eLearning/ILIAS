@@ -22,7 +22,8 @@ class ForumGlobalScreenToolsProvider extends AbstractDynamicToolProvider
         return $this->context_collection->main()->repository()->administration();
     }
 
-    public function getToolsForContextStack(\ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts
+    public function getToolsForContextStack(
+        \ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts $called_contexts
     ) : array {
         $iff = function (string $id) : IdentificationInterface {
             return $this->identification_provider->contextAwareIdentifier($id);

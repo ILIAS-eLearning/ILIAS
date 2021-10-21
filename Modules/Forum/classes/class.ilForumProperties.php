@@ -498,9 +498,9 @@ class ilForumProperties
     {
         global $DIC;
         return $DIC->settings()->get(
-                'file_upload_allowed_fora',
-                self::FILE_UPLOAD_GLOBALLY_ALLOWED
-            ) == self::FILE_UPLOAD_GLOBALLY_ALLOWED;
+            'file_upload_allowed_fora',
+            self::FILE_UPLOAD_GLOBALLY_ALLOWED
+        ) == self::FILE_UPLOAD_GLOBALLY_ALLOWED;
     }
 
     public static function isSendAttachmentsByMailEnabled() : bool

@@ -370,8 +370,10 @@ class ilFileDataForum extends ilFileData
         }
 
         $zip_file = null;
-        if (ilUtil::zip($tmp_dir,
-            $this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId() . '.zip')) {
+        if (ilUtil::zip(
+            $tmp_dir,
+            $this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId() . '.zip'
+        )) {
             $zip_file = $this->getForumPath() . '/zip/' . $this->getObjId() . '_' . $this->getPosId() . '.zip';
         }
 

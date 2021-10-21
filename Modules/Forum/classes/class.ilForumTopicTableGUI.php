@@ -181,8 +181,12 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
             if ($this->parent_obj->objProperties->isIsThreadRatingEnabled()) {
                 $rating = new ilRatingGUI();
-                $rating->setObject($this->parent_obj->object->getId(), $this->parent_obj->object->getType(),
-                    $thread->getId(), 'thread');
+                $rating->setObject(
+                    $this->parent_obj->object->getId(),
+                    $this->parent_obj->object->getType(),
+                    $thread->getId(),
+                    'thread'
+                );
                 $rating->setUserId($this->user->getId());
                 $this->tpl->setVariable('VAL_RATING', $rating->getHTML());
             }
@@ -216,14 +220,19 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $num_new = $thread->getNumNewPosts();
 
         $this->ctrl->setParameter($this->getParentObject(), 'page', 0);
-        $subject = '<div><a href="' . $this->ctrl->getLinkTarget($this->getParentObject(),
-                'viewThread') . '">' . $thread->getSubject() . '</a></div>' . $subject;
+        $subject = '<div><a href="' . $this->ctrl->getLinkTarget(
+            $this->getParentObject(),
+            'viewThread'
+        ) . '">' . $thread->getSubject() . '</a></div>' . $subject;
         $this->ctrl->setParameter($this->getParentObject(), 'page', null);
         $this->tpl->setVariable('VAL_SUBJECT', $subject);
 
         // Author
-        $this->ctrl->setParameter($this->getParentObject(), 'backurl',
-            urlencode($this->ctrl->getLinkTargetByClass("ilrepositorygui", "")));
+        $this->ctrl->setParameter(
+            $this->getParentObject(),
+            'backurl',
+            urlencode($this->ctrl->getLinkTargetByClass("ilrepositorygui", ""))
+        );
         $this->ctrl->setParameter($this->getParentObject(), 'user', $thread->getDisplayUserId());
 
         $authorinfo = new ilForumAuthorInformation(
@@ -252,8 +261,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_NUM_VISIT', $thread->getVisits());
         if ($this->is_post_draft_allowed) {
             $draft_statistics = ilForumPostDraft::getDraftsStatisticsByRefId($this->getRefId());
-            $this->tpl->setVariable('VAL_DRAFTS',
-                (int) isset($draft_statistics[$thread->getId()]) ? $draft_statistics[$thread->getId()] : 0);
+            $this->tpl->setVariable(
+                'VAL_DRAFTS',
+                (int) isset($draft_statistics[$thread->getId()]) ? $draft_statistics[$thread->getId()] : 0
+            );
         }
         // Last posting
         if ($num_posts > 0) {
@@ -273,8 +284,10 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
                 $this->tpl->setVariable(
                     'VAL_LP_DATE',
-                    '<div class="ilWhiteSpaceNowrap">' . ilDatePresentation::formatDate(new ilDateTime($objLastPost->getCreateDate(),
-                        IL_CAL_DATETIME)) . '</div>' .
+                    '<div class="ilWhiteSpaceNowrap">' . ilDatePresentation::formatDate(new ilDateTime(
+                        $objLastPost->getCreateDate(),
+                        IL_CAL_DATETIME
+                    )) . '</div>' .
                     '<div class="ilWhiteSpaceNowrap">' . $this->lng->txt('from') . ' ' . $authorinfo->getLinkedAuthorName() . '</div>'
                 );
             }
@@ -309,12 +322,20 @@ class ilForumTopicTableGUI extends ilTable2GUI
             'order_direction' => $this->getOrderDirection()
         ];
 
-        $data = $this->getMapper()->getAllThreads($this->topicData->getTopPk(), $params, (int) $this->getLimit(),
-            (int) $this->getOffset());
+        $data = $this->getMapper()->getAllThreads(
+            $this->topicData->getTopPk(),
+            $params,
+            (int) $this->getLimit(),
+            (int) $this->getOffset()
+        );
         if (!count($data['items']) && $this->getOffset() > 0) {
             $this->resetOffset();
-            $data = $this->getMapper()->getAllThreads($this->topicData->getTopPk(), $params, (int) $this->getLimit(),
-                (int) $this->getOffset());
+            $data = $this->getMapper()->getAllThreads(
+                $this->topicData->getTopPk(),
+                $params,
+                (int) $this->getLimit(),
+                (int) $this->getOffset()
+            );
         }
 
         $this->setMaxCount($data['cnt']);

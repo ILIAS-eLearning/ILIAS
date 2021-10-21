@@ -132,8 +132,10 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
             'anonymous_fora' => (bool) $this->settings->get('enable_anonymous_fora', false),
             'forum_notification' => (int) $this->settings->get('forum_notification') === 1 ? true : false,
             'activate_captcha_anonym' => ilCaptchaUtil::isActiveForForum(),
-            'file_upload_allowed_fora' => (int) $this->settings->get('file_upload_allowed_fora',
-                ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED),
+            'file_upload_allowed_fora' => (int) $this->settings->get(
+                'file_upload_allowed_fora',
+                ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED
+            ),
             'save_post_drafts' => (int) $this->settings->get('save_post_drafts', 0),
             'autosave_drafts' => (int) $this->settings->get('autosave_drafts', 0),
             'autosave_drafts_ival' => (int) $this->settings->get('autosave_drafts_ival', 30),
@@ -148,8 +150,10 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt('settings'));
 
         $frm_radio = new ilRadioGroupInputGUI($this->lng->txt('frm_displayed_infos'), 'forum_overview');
-        $frm_radio->addOption(new ilRadioOption($this->lng->txt('new') . ', ' . $this->lng->txt('is_read') . ', ' . $this->lng->txt('unread'),
-            '0'));
+        $frm_radio->addOption(new ilRadioOption(
+            $this->lng->txt('new') . ', ' . $this->lng->txt('is_read') . ', ' . $this->lng->txt('unread'),
+            '0'
+        ));
         $frm_radio->addOption(new ilRadioOption($this->lng->txt('is_read') . ', ' . $this->lng->txt('unread'), '1'));
         $frm_radio->setInfo($this->lng->txt('frm_disp_info_desc'));
         $form->addItem($frm_radio);
@@ -162,12 +166,18 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $check->setInfo($this->lng->txt('enable_anonymous_fora_desc'));
         $form->addItem($check);
 
-        $file_upload = new ilRadioGroupInputGUI($this->lng->txt('file_upload_allowed_fora'),
-            'file_upload_allowed_fora');
-        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_allow'),
-            ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED));
-        $file_upload->addOption(new ilRadioOption($this->lng->txt('file_upload_option_disallow'),
-            ilForumProperties::FILE_UPLOAD_INDIVIDUAL));
+        $file_upload = new ilRadioGroupInputGUI(
+            $this->lng->txt('file_upload_allowed_fora'),
+            'file_upload_allowed_fora'
+        );
+        $file_upload->addOption(new ilRadioOption(
+            $this->lng->txt('file_upload_option_allow'),
+            ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED
+        ));
+        $file_upload->addOption(new ilRadioOption(
+            $this->lng->txt('file_upload_option_disallow'),
+            ilForumProperties::FILE_UPLOAD_INDIVIDUAL
+        ));
         $file_upload->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
         $form->addItem($file_upload);
 

@@ -157,11 +157,9 @@ class ilForumPost
                 $this->post_activation_date = (string) $row->pos_activation_date;
 
                 $this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
-
             }
             $this->id = 0;
         }
-
     }
 
     public function isAnyParentDeactivated() : bool
@@ -633,7 +631,8 @@ class ilForumPost
 
         $res = $DIC->database()->queryF(
             'SELECT notify FROM frm_posts WHERE pos_pk = %s',
-            ['integer'], [$post_id]
+            ['integer'],
+            [$post_id]
         );
 
         $row = $DIC->database()->fetchAssoc($res);
@@ -645,9 +644,11 @@ class ilForumPost
         global $DIC;
         $ilDB = $DIC->database();
 
-        $res = $ilDB->queryf('
+        $res = $ilDB->queryf(
+            '
 			SELECT pos_message FROM frm_posts WHERE pos_pk = %s',
-            ['integer'], [$post_id]
+            ['integer'],
+            [$post_id]
         );
 
         if ($row = $ilDB->fetchObject($res)) {

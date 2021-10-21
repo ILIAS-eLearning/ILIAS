@@ -147,9 +147,9 @@ class ilForumExportGUI
 
         if (ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($this->retrieveRefId()))->getMarkModeratorPosts() === 1) {
             if ($post->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator(
-                    $this->retrieveRefId(),
-                    $post->getPosAuthorId()
-                )) {
+                $this->retrieveRefId(),
+                $post->getPosAuthorId()
+            )) {
                 $rowCol = 'ilModeratorPosting';
             } else {
                 if ($post->getIsAuthorModerator()) {
@@ -215,9 +215,9 @@ class ilForumExportGUI
 
         $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
         if ($authorinfo->getAuthor()->getId() && ilForum::_isModerator(
-                $this->retrieveRefId(),
-                $post->getPosAuthorId()
-            )) {
+            $this->retrieveRefId(),
+            $post->getPosAuthorId()
+        )) {
             if ($authorinfo->getAuthor()->getGender() === 'f') {
                 $tpl->setVariable('ROLE', $this->lng->txt('frm_moderator_f'));
             } else {

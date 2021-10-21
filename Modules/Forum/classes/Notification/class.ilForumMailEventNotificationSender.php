@@ -56,7 +56,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $this->logger->debug('Notification transport delegated');
     }
 
-    protected function setSubject(string $a_subject): string
+    protected function setSubject(string $a_subject) : string
     {
         $value = parent::setSubject($a_subject);
         $this->logger->debug(sprintf('Setting subject to: %s', $a_subject));
@@ -259,7 +259,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
     /**
      * @param int $a_usr_id
      */
-    protected function initLanguage(int $a_usr_id): void
+    protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->language->loadLanguageModule('forum');
@@ -294,14 +294,14 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         ));
 
         $posting_link = sprintf(
-                $language_text,
-                ilUtil::_getHttpPath() . "/goto.php?target=frm_" . $forum_parameters . '&client_id=' . CLIENT_ID
-            ) . "\n\n";
+            $language_text,
+            ilUtil::_getHttpPath() . "/goto.php?target=frm_" . $forum_parameters . '&client_id=' . CLIENT_ID
+        ) . "\n\n";
         $posting_link .= sprintf(
-                $this->getLanguageText("forums_notification_intro"),
-                $ilClientIniFile->readVariable("client", "name"),
-                ilUtil::_getHttpPath() . '/?client_id=' . CLIENT_ID
-            ) . "\n\n";
+            $this->getLanguageText("forums_notification_intro"),
+            $ilClientIniFile->readVariable("client", "name"),
+            ilUtil::_getHttpPath() . '/?client_id=' . CLIENT_ID
+        ) . "\n\n";
 
         $this->logger->debug(sprintf(
             'Link built: %s',

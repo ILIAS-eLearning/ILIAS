@@ -375,8 +375,12 @@ class ilForumPostDraft
     public function deleteDraftsByPostIds(array $post_ids = []) : void
     {
         $draft_ids = [];
-        $res = $this->db->query('SELECT draft_id FROM frm_posts_drafts WHERE ' . $this->db->in('post_id', $post_ids,
-                false, 'integer'));
+        $res = $this->db->query('SELECT draft_id FROM frm_posts_drafts WHERE ' . $this->db->in(
+            'post_id',
+            $post_ids,
+            false,
+            'integer'
+        ));
         while ($row = $this->db->fetchAssoc($res)) {
             $draft_ids[] = (int) $row['draft_id'];
         }
@@ -388,10 +392,18 @@ class ilForumPostDraft
             $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
             $objFileDataForumDrafts->delete();
         }
-        $this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in('draft_id', $draft_ids, false,
-                'integer'));
-        $this->db->manipulate('DELETE FROM frm_posts_drafts WHERE ' . $this->db->in('draft_id', $draft_ids, false,
-                'integer'));
+        $this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in(
+            'draft_id',
+            $draft_ids,
+            false,
+            'integer'
+        ));
+        $this->db->manipulate('DELETE FROM frm_posts_drafts WHERE ' . $this->db->in(
+            'draft_id',
+            $draft_ids,
+            false,
+            'integer'
+        ));
     }
 
     public function deleteDraftsByDraftIds(array $draft_ids = []) : void
@@ -403,10 +415,18 @@ class ilForumPostDraft
             $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
             $objFileDataForumDrafts->delete();
         }
-        $this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in('draft_id', $draft_ids, false,
-                'integer'));
-        $this->db->manipulate('DELETE FROM frm_posts_drafts WHERE ' . $this->db->in('draft_id', $draft_ids, false,
-                'integer'));
+        $this->db->manipulate('DELETE FROM frm_drafts_history WHERE ' . $this->db->in(
+            'draft_id',
+            $draft_ids,
+            false,
+            'integer'
+        ));
+        $this->db->manipulate('DELETE FROM frm_posts_drafts WHERE ' . $this->db->in(
+            'draft_id',
+            $draft_ids,
+            false,
+            'integer'
+        ));
     }
 
     public static function deleteDraftsByUserId(int $user_id) : void
@@ -433,8 +453,12 @@ class ilForumPostDraft
             $objFileDataForumDrafts->delete();
         }
 
-        $ilDB->manipulate('DELETE FROM frm_drafts_history WHERE ' . $ilDB->in('draft_id', $draft_ids, false,
-                'integer'));
+        $ilDB->manipulate('DELETE FROM frm_drafts_history WHERE ' . $ilDB->in(
+            'draft_id',
+            $draft_ids,
+            false,
+            'integer'
+        ));
         $ilDB->manipulateF(
             'DELETE FROM frm_posts_drafts WHERE post_author_id = %s',
             ['integer'],
@@ -461,8 +485,10 @@ class ilForumPostDraft
             global $DIC;
 
             self::$drafts_settings_cache['autosave_drafts'] = (bool) $DIC->settings()->get('autosave_drafts', false);
-            self::$drafts_settings_cache['autosave_drafts_ival'] = (int) $DIC->settings()->get('autosave_drafts_ival',
-                30);
+            self::$drafts_settings_cache['autosave_drafts_ival'] = (int) $DIC->settings()->get(
+                'autosave_drafts_ival',
+                30
+            );
         }
         return self::$drafts_settings_cache['autosave_drafts'];
     }

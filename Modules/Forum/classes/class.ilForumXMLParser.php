@@ -116,9 +116,9 @@ class ilForumXMLParser extends ilSaxParser
                 $query_num_posts = "SELECT COUNT(pos_pk) cnt
                     FROM frm_posts
                     WHERE pos_top_fk = " . $this->db->quote(
-                        $this->lastHandledForumId,
-                        'integer'
-                    );
+                    $this->lastHandledForumId,
+                    'integer'
+                );
 
                 $res_pos = $this->db->query($query_num_posts);
                 $data_pos = $this->db->fetchAssoc($res_pos);
@@ -127,9 +127,9 @@ class ilForumXMLParser extends ilSaxParser
                 $query_num_threads = "SELECT COUNT(thr_pk) cnt
                     FROM frm_threads
                     WHERE thr_top_fk = " . $this->db->quote(
-                        $this->lastHandledForumId,
-                        'integer'
-                    );
+                    $this->lastHandledForumId,
+                    'integer'
+                );
 
                 $res_thr = $this->db->query($query_num_threads);
                 $data_thr = $this->db->fetchAssoc($res_thr);
@@ -544,16 +544,16 @@ class ilForumXMLParser extends ilSaxParser
         $select = 'SELECT od.obj_id, ud.login FROM object_data od INNER JOIN usr_data ud ON od.obj_id = ud.usr_id';
         if ($param == 'import') {
             $where = ' WHERE od.import_id = ' . $this->db->quote(
-                    'il_' . $this->import_install_id . '_usr_' . $imp_usr_id,
-                    'text'
-                );
+                'il_' . $this->import_install_id . '_usr_' . $imp_usr_id,
+                'text'
+            );
         }
 
         if ($param == 'user') {
             $where = ' WHERE ud.usr_id = ' . $this->db->quote(
-                    $imp_usr_id,
-                    'integer'
-                );
+                $imp_usr_id,
+                'integer'
+            );
         }
 
         $query = $this->db->query($select . $where);
@@ -669,9 +669,9 @@ class ilForumXMLParser extends ilSaxParser
     private function getNewForumPk() : int
     {
         $query = "SELECT top_pk FROM frm_data WHERE top_frm_fk = " . $this->db->quote(
-                $this->forum->getId(),
-                'integer'
-            );
+            $this->forum->getId(),
+            'integer'
+        );
         $res = $this->db->query($query);
         $data = $this->db->fetchAssoc($res);
 

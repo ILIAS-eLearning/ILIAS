@@ -54,10 +54,14 @@ class ilForumNotificationTableGUI extends ilTable2GUI
 
     protected function getIcon(int $user_toggle_noti) : string
     {
-        $icon_ok = $this->ui_factory->symbol()->icon()->custom(\ilUtil::getImagePath("icon_ok.svg"),
-            $this->lng->txt("enabled"));
-        $icon_not_ok = $this->ui_factory->symbol()->icon()->custom(\ilUtil::getImagePath("icon_not_ok.svg"),
-            $this->lng->txt("disabled"));
+        $icon_ok = $this->ui_factory->symbol()->icon()->custom(
+            \ilUtil::getImagePath("icon_ok.svg"),
+            $this->lng->txt("enabled")
+        );
+        $icon_not_ok = $this->ui_factory->symbol()->icon()->custom(
+            \ilUtil::getImagePath("icon_not_ok.svg"),
+            $this->lng->txt("disabled")
+        );
         $icon = $user_toggle_noti === 0 ? $icon_ok : $icon_not_ok;
 
         return $this->ui_renderer->render($icon);
@@ -99,11 +103,11 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $event_values =
             [
                 'hidden_value' => json_encode($hidden_value),
-                'notify_modified' => $interested_events&ilForumNotificationEvents::UPDATED,
-                'notify_censored' => $interested_events&ilForumNotificationEvents::CENSORED,
-                'notify_uncensored' => $interested_events&ilForumNotificationEvents::UNCENSORED,
-                'notify_post_deleted' => $interested_events&ilForumNotificationEvents::POST_DELETED,
-                'notify_thread_deleted' => $interested_events&ilForumNotificationEvents::THREAD_DELETED,
+                'notify_modified' => $interested_events & ilForumNotificationEvents::UPDATED,
+                'notify_censored' => $interested_events & ilForumNotificationEvents::CENSORED,
+                'notify_uncensored' => $interested_events & ilForumNotificationEvents::UNCENSORED,
+                'notify_post_deleted' => $interested_events & ilForumNotificationEvents::POST_DELETED,
+                'notify_thread_deleted' => $interested_events & ilForumNotificationEvents::THREAD_DELETED,
             ];
         $form->setValuesByArray($event_values);
 

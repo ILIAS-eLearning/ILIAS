@@ -473,7 +473,6 @@ class ilForumNotification
                     'frm_notification',
                     ['thread_id' => ['integer', $merge_target_thread_id]],
                     ['thread_id' => ['integer', $merge_source_thread_id]]
-
                 );
             }
         }

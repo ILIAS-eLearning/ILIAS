@@ -181,8 +181,10 @@ class ilForumSettingsGUI
                 if ($this->access->checkAccess('write', '', $this->parent_obj->ref_id)) {
                     $cmd = '';
                     if ($this->dic->http()->wrapper()->query()->has('cmd')) {
-                        $cmd = $this->dic->http()->wrapper()->query()->retrieve('cmd',
-                            $this->dic->refinery()->string());
+                        $cmd = $this->dic->http()->wrapper()->query()->retrieve(
+                            'cmd',
+                            $this->dic->refinery()->string()
+                        );
                     }
 
                     $mem_active = ['showMembers', 'forums_notification_settings'];
@@ -289,23 +291,23 @@ class ilForumSettingsGUI
             $interested_events = $this->parent_obj->objProperties->getInterestedEvents();
 
             $form_events = [];
-            if ($interested_events&\ilForumNotificationEvents::UPDATED) {
+            if ($interested_events & \ilForumNotificationEvents::UPDATED) {
                 $form_events[] = \ilForumNotificationEvents::UPDATED;
             }
 
-            if ($interested_events&\ilForumNotificationEvents::CENSORED) {
+            if ($interested_events & \ilForumNotificationEvents::CENSORED) {
                 $form_events[] = \ilForumNotificationEvents::CENSORED;
             }
 
-            if ($interested_events&\ilForumNotificationEvents::UNCENSORED) {
+            if ($interested_events & \ilForumNotificationEvents::UNCENSORED) {
                 $form_events[] = \ilForumNotificationEvents::UNCENSORED;
             }
 
-            if ($interested_events&\ilForumNotificationEvents::POST_DELETED) {
+            if ($interested_events & \ilForumNotificationEvents::POST_DELETED) {
                 $form_events[] = \ilForumNotificationEvents::POST_DELETED;
             }
 
-            if ($interested_events&\ilForumNotificationEvents::THREAD_DELETED) {
+            if ($interested_events & \ilForumNotificationEvents::THREAD_DELETED) {
                 $form_events[] = \ilForumNotificationEvents::THREAD_DELETED;
             }
 
@@ -466,8 +468,10 @@ class ilForumSettingsGUI
 
         $user_ids = [];
         if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve('user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
+            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
+                'user_id',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+            );
         }
 
         if (count($user_ids) === 0) {
@@ -503,8 +507,10 @@ class ilForumSettingsGUI
 
         $user_ids = [];
         if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve('user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
+            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
+                'user_id',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+            );
         }
 
         if (count($user_ids) === 0) {
@@ -538,8 +544,10 @@ class ilForumSettingsGUI
 
         $user_ids = [];
         if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve('user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
+            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
+                'user_id',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+            );
         }
 
         if (count($user_ids) === 0) {
@@ -577,8 +585,10 @@ class ilForumSettingsGUI
 
         $user_ids = [];
         if ($this->dic->http()->wrapper()->post()->has('user_id')) {
-            $user_ids = $this->dic->http()->wrapper()->post()->retrieve('user_id',
-                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int()));
+            $user_ids = $this->dic->http()->wrapper()->post()->retrieve(
+                'user_id',
+                $this->dic->refinery()->kindlyTo()->listOf($this->dic->refinery()->kindlyTo()->int())
+            );
         }
 
         if (count($user_ids) === 0) {
@@ -706,13 +716,17 @@ class ilForumSettingsGUI
             $notify_uncensored->setValue(\ilForumNotificationEvents::UNCENSORED);
             $cb_grp->addOption($notify_uncensored);
 
-            $notify_post_deleted = new ilCheckboxInputGUI($this->lng->txt('notify_post_deleted'),
-                'notify_post_deleted');
+            $notify_post_deleted = new ilCheckboxInputGUI(
+                $this->lng->txt('notify_post_deleted'),
+                'notify_post_deleted'
+            );
             $notify_post_deleted->setValue(\ilForumNotificationEvents::POST_DELETED);
             $cb_grp->addOption($notify_post_deleted);
 
-            $notify_thread_deleted = new ilCheckboxInputGUI($this->lng->txt('notify_thread_deleted'),
-                'notify_thread_deleted');
+            $notify_thread_deleted = new ilCheckboxInputGUI(
+                $this->lng->txt('notify_thread_deleted'),
+                'notify_thread_deleted'
+            );
             $notify_thread_deleted->setValue(\ilForumNotificationEvents::THREAD_DELETED);
             $cb_grp->addOption($notify_thread_deleted);
             $opt_0->addSubItem($cb_grp);
@@ -745,8 +759,10 @@ class ilForumSettingsGUI
         if ($this->notificationSettingsForm->checkInput()) {
             $notification_type = '';
             if ($this->dic->http()->wrapper()->post()->has('notification_type')) {
-                $notification_type = $this->dic->http()->wrapper()->post()->retrieve('notification_type',
-                    $this->dic->refinery()->kindlyTo()->string());
+                $notification_type = $this->dic->http()->wrapper()->post()->retrieve(
+                    'notification_type',
+                    $this->dic->refinery()->kindlyTo()->string()
+                );
             }
 
             if (strlen($notification_type) && $notification_type === 'all_users') {

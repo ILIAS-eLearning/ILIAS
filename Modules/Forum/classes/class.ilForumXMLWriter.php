@@ -113,7 +113,6 @@ class ilForumXMLWriter extends ilXmlWriter
             $resPosts = $ilDB->query($query);
 
             while ($rowPost = $ilDB->fetchObject($resPosts)) {
-
                 $this->xmlStartTag("Post");
                 $this->xmlElement("Id", null, (int) $rowPost->pos_pk);
                 $this->xmlElement("UserId", null, (int) $rowPost->pos_display_user_id);

@@ -677,9 +677,9 @@ class ilForumTopic
         }
         if ($is_post_activation_enabled && !$this->is_moderator) {
             $query .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote(
-                    $this->user->getId(),
-                    'integer'
-                ) . ') ';
+                $this->user->getId(),
+                'integer'
+            ) . ') ';
         }
 
         if ($data && is_numeric($levels)) {
@@ -713,9 +713,9 @@ class ilForumTopic
 
         if ($is_post_activation_enabled && !$this->is_moderator) {
             $queryCounter .= ' AND (fp.pos_status = 1 OR fp.pos_status = 0 AND fp.pos_display_user_id = ' . $this->db->quote(
-                    $this->user->getId(),
-                    'integer'
-                ) . ') ';
+                $this->user->getId(),
+                'integer'
+            ) . ') ';
         }
         $queryCounter .= ' ORDER BY fpt.rgt DESC';
 

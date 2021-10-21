@@ -120,11 +120,15 @@ class ilForumCronNotification extends ilCronJob
         $cj_start_date = date('Y-m-d H:i:s');
 
         if ($last_run_datetime !== null &&
-            checkDate((int) date('m', strtotime($last_run_datetime)),
+            checkDate(
+                (int) date('m', strtotime($last_run_datetime)),
                 (int) date('d', strtotime($last_run_datetime)),
-                (int) date('Y', strtotime($last_run_datetime)))) {
-            $threshold = max(strtotime($last_run_datetime),
-                strtotime('-' . (int) $this->settings->get('max_notification_age', 30) . ' days', time()));
+                (int) date('Y', strtotime($last_run_datetime))
+            )) {
+            $threshold = max(
+                strtotime($last_run_datetime),
+                strtotime('-' . (int) $this->settings->get('max_notification_age', 30) . ' days', time())
+            );
         } else {
             $threshold = strtotime('-' . (int) $this->settings->get('max_notification_age', 30) . ' days', time());
         }
@@ -485,8 +489,12 @@ class ilForumCronNotification extends ilCronJob
             $this->logger->info(sprintf('Sending notifications for %s "%s" events ...', $numRows, $actionDescription));
             $this->sendCronForumNotification($res, $notificationType);
             if (count(self::$deleted_ids_cache) > 0) {
-                $this->ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE ' . $this->ilDB->in('deleted_id',
-                        self::$deleted_ids_cache, false, 'integer'));
+                $this->ilDB->manipulate('DELETE FROM frm_posts_deleted WHERE ' . $this->ilDB->in(
+                    'deleted_id',
+                    self::$deleted_ids_cache,
+                    false,
+                    'integer'
+                ));
                 $this->logger->info('Deleted obsolete entries of table "' . $action . '" ...');
             }
             $this->logger->info(sprintf('Sent notifications for %s ...', $actionDescription));

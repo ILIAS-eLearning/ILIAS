@@ -197,7 +197,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         return $this->getAuthorInformationByNode($a_node)->getProfilePicture();
     }
 
-    public function getNodeHref($a_node): string
+    public function getNodeHref($a_node) : string
     {
         if ((int) $this->root_node->getId() === (int) $a_node['pos_pk']) {
             return '';

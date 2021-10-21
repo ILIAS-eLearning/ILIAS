@@ -278,8 +278,12 @@ class ilForum
         if ($parent_pos === 0) {
             $this->addPostTree($objNewPost->getThreadId(), $objNewPost->getId(), $objNewPost->getCreateDate());
         } else {
-            $this->insertPostNode($objNewPost->getId(), $parent_pos, $objNewPost->getThreadId(),
-                $objNewPost->getCreateDate());
+            $this->insertPostNode(
+                $objNewPost->getId(),
+                $parent_pos,
+                $objNewPost->getThreadId(),
+                $objNewPost->getCreateDate()
+            );
         }
 
         // string last post
@@ -317,8 +321,10 @@ class ilForum
             $news_item->setContext($forum_obj->getId(), 'frm', $objNewPost->getId(), 'pos');
             $news_item->setPriority(NEWS_NOTICE);
             $news_item->setTitle($objNewPost->getSubject());
-            $news_item->setContent(ilRTE::_replaceMediaObjectImageSrc($this->prepareText($objNewPost->getMessage(), 0),
-                1));
+            $news_item->setContent(ilRTE::_replaceMediaObjectImageSrc(
+                $this->prepareText($objNewPost->getMessage(), 0),
+                1
+            ));
             if ($objNewPost->getMessage() != strip_tags($objNewPost->getMessage())) {
                 $news_item->setContentHtml(true);
             }
@@ -551,7 +557,6 @@ class ilForum
                 } else {
                     $news_item->setContentHtml(false);
                 }
-
             } else {                // revoke censorship
                 // get original message
                 $res = $this->db->queryf(
@@ -571,7 +576,6 @@ class ilForum
                 } else {
                     $news_item->setContentHtml(false);
                 }
-
             }
             $news_item->update();
         }
@@ -853,8 +857,10 @@ class ilForum
             $excluded_ids_condition = ' AND ' . $this->db->in('thr_pk', $params['excluded_ids'], true, 'integer') . ' ';
         }
 
-        if (!in_array(strtolower($params['order_column']),
-            ['lp_date', 'rating', 'thr_subject', 'num_posts', 'num_visit'])) {
+        if (!in_array(
+            strtolower($params['order_column']),
+            ['lp_date', 'rating', 'thr_subject', 'num_posts', 'num_visit']
+        )) {
             $params['order_column'] = 'post_date';
         }
         if (!in_array(strtolower($params['order_direction']), ['asc', 'desc'])) {
@@ -942,8 +948,10 @@ class ilForum
 						AND treenew.parent_pos != 0
 						AND (ipos.pos_update > iacc.access_old_ts
 							OR
-							(iacc.access_old IS NULL AND (ipos.pos_update > " . $this->db->quote(date('Y-m-d H:i:s',
-                        $this->settings->get('frm_new_deadline')), 'timestamp') . "))
+							(iacc.access_old IS NULL AND (ipos.pos_update > " . $this->db->quote(date(
+                    'Y-m-d H:i:s',
+                    $this->settings->get('frm_new_deadline')
+                ), 'timestamp') . "))
 							)
 						 
 						AND ipos.pos_author_id != %s

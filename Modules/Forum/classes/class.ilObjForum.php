@@ -84,8 +84,10 @@ class ilObjForum extends ilObject
 
     public function updateModeratorRole(int $role_id) : void
     {
-        $this->db->manipulate('UPDATE frm_data SET top_mods = ' . $this->db->quote($role_id,
-                'integer') . ' WHERE top_frm_fk = ' . $this->db->quote($this->getId(), 'integer'));
+        $this->db->manipulate('UPDATE frm_data SET top_mods = ' . $this->db->quote(
+            $role_id,
+            'integer'
+        ) . ' WHERE top_frm_fk = ' . $this->db->quote($this->getId(), 'integer'));
     }
 
     /**
@@ -163,7 +165,6 @@ class ilObjForum extends ilObject
             while ($row = $this->db->fetchObject($res)) {
                 $count_read = $row->count_read;
             }
-
         } else {
             $res = $this->db->queryf(
                 '
@@ -189,7 +190,6 @@ class ilObjForum extends ilObject
 
             $row = $this->db->fetchObject($res);
             $count_read = $row->count_read;
-
         }
         $unread = $num_posts - $count_read;
         $this->ilBench->stop("Forum", 'getCountRead');
@@ -346,7 +346,8 @@ class ilObjForum extends ilObject
                 $DIC->settings()->get('frm_store_new') :
                 8);
 
-        $ilDB->manipulateF('
+        $ilDB->manipulateF(
+            '
 			DELETE FROM frm_thread_access WHERE access_last < %s',
             ['integer'],
             [$new_deadline]
@@ -360,20 +361,23 @@ class ilObjForum extends ilObject
 
         $data = [$a_usr_id];
 
-        $ilDB->manipulateF('
+        $ilDB->manipulateF(
+            '
 			DELETE FROM frm_user_read WHERE usr_id = %s',
             ['integer'],
             $data
         );
 
-        $ilDB->manipulateF('
+        $ilDB->manipulateF(
+            '
 			DELETE FROM frm_thread_access WHERE usr_id = %s',
             ['integer'],
             $data
         );
 
         // delete notifications of deleted user
-        $ilDB->manipulateF('
+        $ilDB->manipulateF(
+            '
 			DELETE FROM frm_notification WHERE user_id = %s',
             ['integer'],
             $data
@@ -385,7 +389,8 @@ class ilObjForum extends ilObject
         global $DIC;
         $ilDB = $DIC->database();
 
-        $ilDB->manipulateF('
+        $ilDB->manipulateF(
+            '
 			DELETE FROM frm_user_read WHERE post_id = %s',
             ['integer'],
             [$a_post_id]
@@ -396,7 +401,8 @@ class ilObjForum extends ilObject
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $ilDB->manipulateF('
+        $ilDB->manipulateF(
+            '
 			DELETE FROM frm_thread_access WHERE thread_id = %s',
             ['integer'],
             [$a_thread_id]
@@ -529,8 +535,13 @@ class ilObjForum extends ilObject
         if (!$moderator || !$new_moderator || !$this->getRefId() || !$new_obj->getRefId()) {
             $this->logger->write(__METHOD__ . ' : Error cloning auto generated role: il_frm_moderator');
         }
-        $this->rbac->admin()->copyRolePermissions($moderator, $this->getRefId(), $new_obj->getRefId(), $new_moderator,
-            true);
+        $this->rbac->admin()->copyRolePermissions(
+            $moderator,
+            $this->getRefId(),
+            $new_obj->getRefId(),
+            $new_moderator,
+            true
+        );
         $this->logger->write(__METHOD__ . ' : Finished copying of role il_frm_moderator.');
 
         $obj_mods = new ilForumModerators($this->getRefId());
@@ -568,16 +579,28 @@ class ilObjForum extends ilObject
         }
 
         // delete tree
-        $this->db->manipulate('DELETE FROM frm_posts_tree WHERE ' . $this->db->in('thr_fk', $thread_ids_to_delete,
-                false, 'integer'));
+        $this->db->manipulate('DELETE FROM frm_posts_tree WHERE ' . $this->db->in(
+            'thr_fk',
+            $thread_ids_to_delete,
+            false,
+            'integer'
+        ));
 
         // delete posts
-        $this->db->manipulate('DELETE FROM frm_posts WHERE ' . $this->db->in('pos_thr_fk', $thread_ids_to_delete, false,
-                'integer'));
+        $this->db->manipulate('DELETE FROM frm_posts WHERE ' . $this->db->in(
+            'pos_thr_fk',
+            $thread_ids_to_delete,
+            false,
+            'integer'
+        ));
 
         // delete threads
-        $this->db->manipulate('DELETE FROM frm_threads WHERE ' . $this->db->in('thr_pk', $thread_ids_to_delete, false,
-                'integer'));
+        $this->db->manipulate('DELETE FROM frm_threads WHERE ' . $this->db->in(
+            'thr_pk',
+            $thread_ids_to_delete,
+            false,
+            'integer'
+        ));
 
         $obj_id = [$this->getId()];
         // delete forum
@@ -609,8 +632,12 @@ class ilObjForum extends ilObject
         );
 
         //delete thread notifications
-        $this->db->manipulate('DELETE FROM frm_notification WHERE ' . $this->db->in('thread_id', $thread_ids_to_delete,
-                false, 'integer'));
+        $this->db->manipulate('DELETE FROM frm_notification WHERE ' . $this->db->in(
+            'thread_id',
+            $thread_ids_to_delete,
+            false,
+            'integer'
+        ));
 
         //delete forum notifications
         $this->db->manipulateF('DELETE FROM frm_notification WHERE  frm_id = %s', ['integer'], $obj_id);
@@ -873,12 +900,16 @@ class ilObjForum extends ilObject
         $act_clause = '';
 
         if ($is_post_activation_enabled && !$ilAccess->checkAccess('moderate_frm', '', $ref_id)) {
-            $act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1,
-                    "integer") . " OR frm_posts.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+            $act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(
+                1,
+                "integer"
+            ) . " OR frm_posts.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
         }
 
-        $new_deadline = date('Y-m-d H:i:s',
-            time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new') ? $ilSetting->get('frm_store_new') : 8));
+        $new_deadline = date(
+            'Y-m-d H:i:s',
+            time() - 60 * 60 * 24 * 7 * ($ilSetting->get('frm_store_new') ? $ilSetting->get('frm_store_new') : 8)
+        );
 
         if (!$ilUser->isAnonymous()) {
             $query = "
@@ -997,8 +1028,10 @@ class ilObjForum extends ilObject
 
         $act_clause = '';
         if (!$ilAccess->checkAccess('moderate_frm', '', $ref_id)) {
-            $act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(1,
-                    "integer") . " OR frm_posts.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+            $act_clause .= " AND (frm_posts.pos_status = " . $ilDB->quote(
+                1,
+                "integer"
+            ) . " OR frm_posts.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
         }
 
         $ilDB->setLimit(1, 0);
@@ -1034,10 +1067,14 @@ class ilObjForum extends ilObject
         $act_clause = '';
         $act_inner_clause = '';
         if (!$ilAccess->checkAccess('moderate_frm', '', $ref_id)) {
-            $act_clause .= " AND (t1.pos_status = " . $ilDB->quote(1,
-                    "integer") . " OR t1.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
-            $act_inner_clause .= " AND (t3.pos_status = " . $ilDB->quote(1,
-                    "integer") . " OR t3.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+            $act_clause .= " AND (t1.pos_status = " . $ilDB->quote(
+                1,
+                "integer"
+            ) . " OR t1.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
+            $act_inner_clause .= " AND (t3.pos_status = " . $ilDB->quote(
+                1,
+                "integer"
+            ) . " OR t3.pos_author_id = " . $ilDB->quote($ilUser->getId(), "integer") . ") ";
         }
 
         $in = $ilDB->in("t1.pos_thr_fk", $thread_ids, false, 'integer');
