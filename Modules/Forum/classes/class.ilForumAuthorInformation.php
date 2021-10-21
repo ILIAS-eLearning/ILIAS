@@ -20,7 +20,6 @@ class ilForumAuthorInformation
     protected string $suffix = '';
     protected string $profilePicture;
     protected ?ilObjUser $author = null;
-    protected array $files = [];
     protected int $author_id;
     protected ?ilLanguage $lng;
     protected ilLanguage $globalLng;
@@ -65,7 +64,7 @@ class ilForumAuthorInformation
             $this->author = new ilObjUser();
             $this->author->setId(0);
             $this->author->setPref('public_profile', 'n');
-            $this->author->setGender('');
+            $this->author->setGender('n');
         }
     }
 
@@ -156,20 +155,20 @@ class ilForumAuthorInformation
                     $this->getAuthor()->getId()
                 );
             }
-        } elseif ($this->display_id > 0 && !$this->doesAuthorAccountExists() && strlen($this->alias)) {
+        } elseif ($this->display_id > 0 && $this->alias !== '' && !$this->doesAuthorAccountExists()) {
             // The author did use a pseudonym and the account does not exist anymore (deleted, lost on import etc.)
             $this->author_short_name = $this->author_name = $translationLanguage->txt('deleted');
             $this->is_deleted = true;
             $this->suffix = $translationLanguage->txt('deleted');
             $this->buildAuthorProfileLink(false);
             $this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
-        } elseif (strlen($this->import_name)) {
+        } elseif ($this->import_name !== '') {
             // We have no user instance,so we check the import name
             $this->author_short_name = $this->author_name = $this->import_name . ' (' . $translationLanguage->txt('imported') . ')';
             $this->suffix = $translationLanguage->txt('imported');
             $this->buildAuthorProfileLink(false);
             $this->profilePicture = $this->getAvatarImageSource($this->author_short_name);
-        } elseif (strlen($this->alias)) {
+        } elseif ($this->alias !== '') {
             // We have no import name,so we check the pseudonym
             $this->author_short_name = $this->author_name = $this->alias . ' (' . $translationLanguage->txt('frm_pseudonym') . ')';
             $this->suffix = $translationLanguage->txt('frm_pseudonym');
@@ -183,9 +182,9 @@ class ilForumAuthorInformation
         }
     }
 
-    protected function getUserImagePath(\ilObjUser $user) : string
+    protected function getUserImagePath(ilObjUser $user) : string
     {
-        if (!\ilContext::hasHTML()) {
+        if (ilContext::hasHTML()) {
             return '';
         }
 
@@ -196,7 +195,7 @@ class ilForumAuthorInformation
     {
         global $DIC;
 
-        if (!\ilContext::hasHTML()) {
+        if (!ilContext::hasHTML()) {
             return '';
         }
 
@@ -222,9 +221,9 @@ class ilForumAuthorInformation
     {
         if (!$without_short_name) {
             return $this->author_name;
-        } else {
-            return trim(preg_replace('/\(' . preg_quote($this->getAuthorShortName()) . '\)/', '', $this->author_name));
         }
+
+        return trim(preg_replace('/\(' . preg_quote($this->getAuthorShortName(), '/') . '\)/', '', $this->author_name));
     }
 
     public function getAuthorShortName() : string
@@ -242,9 +241,9 @@ class ilForumAuthorInformation
         return $this->linked_short_name;
     }
 
-    public function hasSuffix() : int
+    public function hasSuffix() : bool
     {
-        return strlen($this->suffix);
+        return $this->suffix !== '';
     }
 
     public function getSuffix() : string

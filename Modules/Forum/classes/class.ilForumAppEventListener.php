@@ -9,7 +9,8 @@
  */
 class ilForumAppEventListener implements ilAppEventListener
 {
-    protected static array $ref_ids = array();
+    /** @var array<int, int[]> */
+    protected static array $ref_ids = [];
     
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
@@ -37,6 +38,7 @@ class ilForumAppEventListener implements ilAppEventListener
                             $a_parameter['obj_id']
                         );
                         break;
+
                     case 'movedThreads':
                         ilLPStatusWrapper::_refreshStatus(
                             $a_parameter['source_frm_obj_id']
@@ -45,6 +47,7 @@ class ilForumAppEventListener implements ilAppEventListener
                             $a_parameter['target_frm_obj_id']
                         );
                         break;
+
                     case 'createdPost':
                         $post = $a_parameter['post'];
                         $forum = $a_parameter['object'];
@@ -376,6 +379,7 @@ class ilForumAppEventListener implements ilAppEventListener
                             );
                         }
                         break;
+
                     case 'afterPostDeletion':
                         $post = $a_parameter['post'];
 
@@ -384,6 +388,7 @@ class ilForumAppEventListener implements ilAppEventListener
                             $post->getPosAuthorId()
                         );
                         break;
+
                     case 'savedAsDraft':
                     case 'updatedDraft':
                     case 'deletedDraft':
@@ -396,6 +401,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         $historyObj->deleteHistoryByDraftIds([$draftObj->getDraftId()]);
 
                         break;
+
                     case 'publishedDraft':
                         /**
                          * var $draftObj ilForumPostDraft
@@ -410,6 +416,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
+
             case "Services/News":
                 switch ($a_event) {
                     case "readNews":
@@ -439,6 +446,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         }
 
                         break;
+
                     case 'deleteParticipant':
                         $ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
@@ -449,6 +457,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         break;
                 }
                 break;
+
             case 'Services/User':
                 switch ($a_event) {
                     case 'deleteUser':
@@ -459,18 +468,23 @@ class ilForumAppEventListener implements ilAppEventListener
         }
     }
 
+    /**
+     * @param int $obj_id
+     * @return int[]
+     */
     private static function getCachedReferences(int $obj_id) : array
     {
         if (!array_key_exists($obj_id, self::$ref_ids)) {
             self::$ref_ids[$obj_id] = ilObject::_getAllReferences($obj_id);
         }
+
         return self::$ref_ids[$obj_id];
     }
 
     private static function delegateNotification(
         ilObjForumNotificationDataProvider $provider,
         int $notification_type,
-        \ilLogger $logger
+        ilLogger $logger
     ) : void {
         switch ($notification_type) {
             case ilForumMailNotification::TYPE_POST_ACTIVATION:
@@ -502,9 +516,15 @@ class ilForumAppEventListener implements ilAppEventListener
         }
     }
 
+    /**
+     * @param ilObjForumNotificationDataProvider $provider
+     * @param ilLogger $logger
+     * @param int $notificationTypes
+     * @param int[] $recipients
+     */
     public static function sendNotification(
         ilObjForumNotificationDataProvider $provider,
-        \ilLogger $logger,
+        ilLogger $logger,
         int $notificationTypes,
         array $recipients
     ) : void {

@@ -7,11 +7,11 @@
  */
 class ilForumNotificationEventsFormGUI extends ilPropertyFormGUI
 {
-    protected $parent_object;
+    protected object $parent_object;
     protected int $ref_id;
     protected int $thread_id = 0;
 
-    public function __construct($parent_object, $ref_id, $thread_id = 0)
+    public function __construct(object $parent_object, int $ref_id, int $thread_id = 0)
     {
         $this->parent_object = $parent_object;
         $this->ref_id = $ref_id;
@@ -24,7 +24,7 @@ class ilForumNotificationEventsFormGUI extends ilPropertyFormGUI
 
     private function initForm() : void
     {
-        $this->setId(uniqid('frm_ntf_set_' . $this->ref_id));
+        $this->setId(uniqid('frm_ntf_set_' . $this->ref_id, true));
 
         if ($this->thread_id > 0) {
             $this->ctrl->setParameter($this->parent_object, 'thr_pk', $this->thread_id);

@@ -148,11 +148,6 @@ class ForumDto
         $this->top_usr_id = $top_usr_id;
     }
 
-    /**
-     * expects db record from frm_data
-     * @param array $record
-     * @return static
-     */
     public static function getInstanceFromArray(array $record) : self
     {
         $instance = new self;

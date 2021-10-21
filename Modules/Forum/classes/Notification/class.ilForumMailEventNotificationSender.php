@@ -6,30 +6,20 @@
  */
 class ilForumMailEventNotificationSender extends ilMailNotification
 {
-    const TYPE_THREAD_DELETED = 54;
-
-    const TYPE_POST_NEW = 60;
-
-    const TYPE_POST_ACTIVATION = 61;
-
-    const TYPE_POST_UPDATED = 62;
-
-    const TYPE_POST_CENSORED = 63;
-
-    const TYPE_POST_DELETED = 64;
-
-    const TYPE_POST_ANSWERED = 65;
-
-    const TYPE_POST_UNCENSORED = 66;
-
-    const PERMANENT_LINK_POST = 'PL_Post';
-
-    const PERMANENT_LINK_FORUM = 'PL_Forum';
-
-    protected bool $is_cronjob = false;
+    private const TYPE_THREAD_DELETED = 54;
+    private const TYPE_POST_NEW = 60;
+    private const TYPE_POST_ACTIVATION = 61;
+    private const TYPE_POST_UPDATED = 62;
+    private const TYPE_POST_CENSORED = 63;
+    private const TYPE_POST_DELETED = 64;
+    private const TYPE_POST_ANSWERED = 65;
+    private const TYPE_POST_UNCENSORED = 66;
+    private const PERMANENT_LINK_POST = 'PL_Post';
+    private const PERMANENT_LINK_FORUM = 'PL_Forum';
 
     protected ilForumNotificationMailData $provider;
     protected ilLogger $logger;
+    protected bool $is_cronjob = false;
 
     public function __construct(ilForumNotificationMailData $provider, ilLogger $logger)
     {
@@ -231,7 +221,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
                 break;
         }
 
-        $contextId = \ilMailFormCall::getContextId();
+        $contextId = ilMailFormCall::getContextId();
         if (null === $contextId) {
             $contextId = '';
         }
@@ -256,9 +246,6 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         return true;
     }
 
-    /**
-     * @param int $a_usr_id
-     */
     protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
@@ -267,12 +254,12 @@ class ilForumMailEventNotificationSender extends ilMailNotification
 
     public function isCronjob() : bool
     {
-        return (bool) $this->is_cronjob;
+        return $this->is_cronjob;
     }
 
-    public function setIsCronjob(bool $is_cronjob)
+    public function setIsCronjob(bool $is_cronjob) : void
     {
-        $this->is_cronjob = (bool) $is_cronjob;
+        $this->is_cronjob = $is_cronjob;
     }
 
     private function getPermanentLink(string $type = self::PERMANENT_LINK_POST) : string

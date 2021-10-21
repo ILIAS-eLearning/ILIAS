@@ -14,19 +14,18 @@ class ilFileDataForumDrafts extends ilFileData
     private $lng;
     private $error;
 
-    public function __construct($obj_id, $draft_id)
+    public function __construct(int $obj_id, int $draft_id)
     {
         global $DIC;
         $this->lng = $DIC->language();
         $this->error = $DIC['ilErr'];
 
-        $this->obj_id = (int) $obj_id;
-        $this->draft_id = (int) $draft_id;
+        $this->obj_id = $obj_id;
+        $this->draft_id = $draft_id;
 
         parent::__construct();
-        $this->drafts_path = parent::getPath() . "/forum/drafts";
+        $this->drafts_path = $this->getPath() . "/forum/drafts";
 
-        // IF DIRECTORY ISN'T CREATED CREATE IT
         if (!$this->checkForumDraftsPath()) {
             $this->initDirectory();
         }
@@ -37,7 +36,7 @@ class ilFileDataForumDrafts extends ilFileData
         return $this->obj_id;
     }
 
-    public function setObjId(int $obj_id)
+    public function setObjId(int $obj_id) : void
     {
         $this->obj_id = $obj_id;
     }
@@ -47,7 +46,7 @@ class ilFileDataForumDrafts extends ilFileData
         return $this->draft_id;
     }
 
-    public function setDraftId(int $draft_id)
+    public function setDraftId(int $draft_id) : void
     {
         $this->draft_id = $draft_id;
     }
@@ -57,15 +56,15 @@ class ilFileDataForumDrafts extends ilFileData
         return $this->drafts_path;
     }
 
+    /**
+     * @return array{path: string, md5: string, name: string, size: int, ctime: string}[]
+     */
     public function getFiles() : array
     {
         $files = [];
 
         foreach (new DirectoryIterator($this->getDraftsPath() . '/' . $this->getDraftId()) as $file) {
-            /**
-             * @var $file SplFileInfo
-             */
-
+            /** @var $file SplFileInfo */
             if ($file->isDir()) {
                 continue;
             }
@@ -82,6 +81,9 @@ class ilFileDataForumDrafts extends ilFileData
         return $files;
     }
 
+    /**
+     * @return array<string, array{path: string, md5: string, name: string, size: int, ctime: string}>
+     */
     public function getFilesOfPost() : array
     {
         $files = [];
@@ -107,14 +109,15 @@ class ilFileDataForumDrafts extends ilFileData
         return $files;
     }
 
-    public function moveFilesOfDraft($forum_path, $new_post_id) : bool
+    public function moveFilesOfDraft(string $forum_path, int $new_post_id) : bool
     {
         foreach ($this->getFilesOfPost() as $file) {
-            @copy(
+            copy(
                 $file['path'],
                 $forum_path . '/' . $this->obj_id . '_' . $new_post_id . '_' . $file['name']
             );
         }
+
         return true;
     }
 
@@ -128,15 +131,12 @@ class ilFileDataForumDrafts extends ilFileData
     {
         if (isset($files['name']) && is_array($files['name'])) {
             foreach ($files['name'] as $index => $name) {
-                // remove trailing '/'
-                while (substr($name, -1) == '/') {
-                    $name = substr($name, 0, -1);
-                }
+                $name = rtrim($name, '/');
                 $filename = ilUtil::_sanitizeFilemame($name);
                 $temp_name = $files['tmp_name'][$index];
                 $error = $files['error'][$index];
 
-                if (strlen($filename) && strlen($temp_name) && $error == 0) {
+                if ($filename !== '' && $temp_name !== '' && (int) $error === 0) {
                     $path = $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $filename;
 
                     $this->rotateFiles($path);
@@ -145,11 +145,10 @@ class ilFileDataForumDrafts extends ilFileData
             }
 
             return true;
-        } elseif (isset($files['name']) && is_string($files['name'])) {
-            // remove trailing '/'
-            while (substr($files['name'], -1) == '/') {
-                $files['name'] = substr($files['name'], 0, -1);
-            }
+        }
+
+        if (isset($files['name']) && is_string($files['name'])) {
+            $files['name'] = rtrim($files['name'], '/');
             $filename = ilUtil::_sanitizeFilemame($files['name']);
             $temp_name = $files['tmp_name'];
 
@@ -164,36 +163,24 @@ class ilFileDataForumDrafts extends ilFileData
         return false;
     }
 
-    public function unlinkFiles($a_filenames) : string
-    {
-        if (is_array($a_filenames)) {
-            foreach ($a_filenames as $file) {
-                if (!$this->unlinkFile($file)) {
-                    return $file;
-                }
-            }
-        }
-        return '';
-    }
-
-    public function unlinkFile($a_filename) : bool
+    public function unlinkFile(string $a_filename) : bool
     {
         if (is_file($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $a_filename)) {
             return unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $a_filename);
         }
+
         return false;
     }
 
-    public function getAbsolutePath($a_path)
-    {
-        return $this->getDraftsPath() . '/' . $this->getDraftId();
-    }
-
-    public function getFileDataByMD5Filename($a_md5_filename) : array
+    /**
+     * @param string md5 encrypted filename
+     * @return array{path: string, filename: string, clean_filename: string}|null
+     */
+    public function getFileDataByMD5Filename(string $a_md5_filename) : ?array
     {
         $files = ilUtil::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
         foreach ($files as $file) {
-            if ($file['type'] == 'file' && md5($file['entry']) == $a_md5_filename) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
                 return [
                     'path' => $this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry'],
                     'filename' => $file['entry'],
@@ -202,42 +189,29 @@ class ilFileDataForumDrafts extends ilFileData
             }
         }
 
-        return [];
+        return null;
     }
 
-    public function unlinkFilesByMD5Filenames($a_md5_filename) : bool
+    public function unlinkFilesByMD5Filenames(string $a_md5_filename) : bool
     {
         $files = ilUtil::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
         if (is_array($a_md5_filename)) {
             foreach ($files as $file) {
-                if ($file['type'] == 'file' && in_array(md5($file['entry']), $a_md5_filename)) {
+                if ($file['type'] === 'file' && in_array(md5($file['entry']), $a_md5_filename, true)) {
                     unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry']);
                 }
             }
 
             return true;
-        } else {
-            foreach ($files as $file) {
-                if ($file['type'] == 'file' && md5($file['entry']) == $a_md5_filename) {
-                    return unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry']);
-                }
+        }
+
+        foreach ($files as $file) {
+            if ($file['type'] === 'file' && md5($file['entry']) === $a_md5_filename) {
+                return unlink($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file['entry']);
             }
         }
 
         return false;
-    }
-
-    public function checkFilesExist($a_files) : bool
-    {
-        if ($a_files) {
-            foreach ($a_files as $file) {
-                if (!is_file($this->getDraftsPath() . '/' . $this->getDraftId() . '/' . $file)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return true;
     }
 
     public function checkForumDraftsPath() : bool
@@ -252,58 +226,58 @@ class ilFileDataForumDrafts extends ilFileData
 
     private function checkReadWrite() : void
     {
-        if (is_writable($this->getDraftsPath() . '/' . $this->getDraftId()) && is_readable($this->getDraftsPath() . '/' . $this->getDraftId())) {
-            return;
-        } else {
-            $this->error->raiseError("Forum directory is not readable/writable by webserver", $this->error->FATAL);
+        if (
+            !is_writable($this->getDraftsPath() . '/' . $this->getDraftId()) ||
+            !is_readable($this->getDraftsPath() . '/' . $this->getDraftId())
+        ) {
+            $this->error->raiseError('Forum directory is not readable/writable by webserver', $this->error->FATAL);
         }
     }
 
     private function initDirectory() : void
     {
         if (is_writable($this->getPath())) {
-            if (ilUtil::makeDirParents($this->getDraftsPath() . "/" . $this->getDraftId())) {
-                if (chmod($this->getDraftsPath() . "/" . $this->getDraftId(), 0755)) {
-                    return;
-                }
+            if (ilUtil::makeDirParents($this->getDraftsPath() . '/' . $this->getDraftId()) && chmod(
+                $this->getDraftsPath() . '/' . $this->getDraftId(),
+                0755
+            )) {
+                // Empty, whyever @nmatuschek?
             }
         }
     }
 
-    private function rotateFiles($a_path) : bool
+    private function rotateFiles(string $a_path) : void
     {
         if (is_file($a_path)) {
-            $this->rotateFiles($a_path . ".old");
-            return \ilFileUtils::rename($a_path, $a_path . '.old');
+            $this->rotateFiles($a_path . '.old');
+            ilFileUtils::rename($a_path, $a_path . '.old');
         }
-        return true;
     }
 
-    /**
-     * @param $file $_GET['file']
-     * @return bool|void
-     */
-    public function deliverFile($file)
+    public function deliverFile(string $file) : void
     {
-        if (!$path = $this->getFileDataByMD5Filename($file)) {
-            return ilUtil::sendFailure($this->lng->txt('error_reading_file'), true);
+        if (($path = $this->getFileDataByMD5Filename($file)) !== null) {
+            ilUtil::deliverFile($path['path'], $path['clean_filename']);
         } else {
-            return ilUtil::deliverFile($path['path'], $path['clean_filename']);
+            ilUtil::sendFailure($this->lng->txt('error_reading_file'), true);
         }
     }
 
     public function deliverZipFile()
     {
+        global $DIC;
+
         $zip_file = $this->createZipFile();
         if (!$zip_file) {
             ilUtil::sendFailure($this->lng->txt('error_reading_file'), true);
             return false;
-        } else {
-            $post = ilForumPostDraft::newInstanceByDraftId($this->getDraftId());
-            ilUtil::deliverFile($zip_file, $post->getPostSubject() . '.zip', '', false, true, false);
-            ilUtil::delDir($this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId());
-            exit();
         }
+
+        $post = ilForumPostDraft::newInstanceByDraftId($this->getDraftId());
+        ilUtil::deliverFile($zip_file, $post->getPostSubject() . '.zip', '', false, true, false);
+        ilUtil::delDir($this->getDraftsPath() . '/drafts_zip/' . $this->getDraftId());
+        $DIC->http()->close();
+        return true; // never
     }
 
     public function createZipFile() : ?string
@@ -316,7 +290,7 @@ class ilFileDataForumDrafts extends ilFileData
             ksort($filesOfDraft);
 
             foreach ($filesOfDraft as $file) {
-                @copy($file['path'], $tmp_dir . '/' . $file['name']);
+                copy($file['path'], $tmp_dir . '/' . $file['name']);
             }
         }
 

@@ -9,10 +9,16 @@
  */
 class ilForumAuthorInformationCache
 {
+    /** @var ilObjUser[] */
     protected static array $user_instances = [];
+    /** @var int[]  */
     protected static array $requested_usr_ids = [];
+    /** @var array<int, int>  */
     protected static array $requested_usr_ids_key_map = [];
 
+    /**
+     * @param int[] $usr_ids
+     */
     public static function preloadUserObjects(array $usr_ids) : void
     {
         global $DIC;
@@ -42,7 +48,7 @@ class ilForumAuthorInformationCache
 
             while ($row = $ilDB->fetchAssoc($res)) {
                 $user = new ilObjUser;
-                $user->setId($row['usr_id']);
+                $user->setId((int) $row['usr_id']);
                 $user->setLogin($row['login']);
                 $user->setGender($row['gender']);
                 $user->setTitle($row['title']);
@@ -53,7 +59,7 @@ class ilForumAuthorInformationCache
                 $user->setPref('public_gender', $row['public_gender']);
                 $user->setPref('public_upload', $row['public_upload']);
 
-                self::$user_instances[$row['usr_id']] = $user;
+                self::$user_instances[(int) $row['usr_id']] = $user;
             }
         }
     }
