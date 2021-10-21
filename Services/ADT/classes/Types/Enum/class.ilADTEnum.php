@@ -2,10 +2,8 @@
 
 abstract class ilADTEnum extends ilADT
 {
-    protected $value; // [string]
+    protected mixed $value;
     
-    
-    // definition
     
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
@@ -15,14 +13,13 @@ abstract class ilADTEnum extends ilADT
     public function reset() : void
     {
         parent::reset();
-        
         $this->value = null;
     }
     
     
     // properties
     
-    abstract protected function handleSelectionValue($a_value);
+    abstract protected function handleSelectionValue($a_value) : mixed;
     
     public function setSelection($a_value = null)
     {
@@ -35,12 +32,12 @@ abstract class ilADTEnum extends ilADT
         $this->value = $a_value;
     }
     
-    public function getSelection()
+    public function getSelection() : mixed
     {
         return $this->value;
     }
     
-    public function isValidOption($a_value)
+    public function isValidOption($a_value) : bool
     {
         $a_value = $this->handleSelectionValue($a_value);
         return array_key_exists($a_value, $this->getDefinition()->getOptions());

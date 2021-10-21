@@ -2,7 +2,7 @@
 
 class ilADTGroupDefinition extends ilADTDefinition
 {
-    protected $elements = []; // [array]
+    protected array $elements = [];
     
     public function __clone()
     {
@@ -16,34 +16,33 @@ class ilADTGroupDefinition extends ilADTDefinition
     
     // defaults
     
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
-        
         $this->elements = array();
     }
     
     
     // properties
     
-    public function addElement($a_name, ilADTDefinition $a_def)
+    public function addElement($a_name, ilADTDefinition $a_def) : void
     {
         $this->elements[$a_name] = $a_def;
     }
     
-    public function hasElement($a_name)
+    public function hasElement($a_name) : bool
     {
         return array_key_exists($a_name, $this->elements);
     }
     
-    public function getElement($a_name)
+    public function getElement(string $a_name) : ?ilADTDefinition
     {
         if ($this->hasElement($a_name)) {
             return $this->elements[$a_name];
         }
     }
     
-    public function getElements()
+    public function getElements() : array
     {
         return $this->elements;
     }
@@ -51,7 +50,7 @@ class ilADTGroupDefinition extends ilADTDefinition
     
     // comparison
         
-    public function isComparableTo(ilADT $a_adt)
+    public function isComparableTo(ilADT $a_adt) : bool
     {
         // has to be group-based
         return ($a_adt instanceof ilADTGroup);

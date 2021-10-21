@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
 
 class ilADTBooleanFormBridge extends ilADTFormBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTBoolean);
     }
     
-    public function addToForm()
+    public function addToForm() : void
     {
         $bool = new ilCheckboxInputGUI($this->getTitle(), $this->getElementId());
         $bool->setValue(1);
@@ -24,7 +24,7 @@ class ilADTBooleanFormBridge extends ilADTFormBridge
         $this->addToParentElement($bool);
     }
         
-    public function importFromPost()
+    public function importFromPost() : void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $incoming = $this->getForm()->getInput($this->getElementId());
@@ -38,12 +38,12 @@ class ilADTBooleanFormBridge extends ilADTFormBridge
         $field->setChecked($this->getADT()->getStatus());
     }
     
-    public function validate()
+    public function validate() : bool
     {
         return true;
     }
     
-    protected function isActiveForSubItems($a_parent_option = null)
+    protected function isActiveForSubItems(mixed $a_parent_option = null) : bool
     {
         return ($this->getADT()->getStatus() === true);
     }

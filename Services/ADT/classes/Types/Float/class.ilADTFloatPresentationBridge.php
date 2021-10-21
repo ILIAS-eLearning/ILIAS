@@ -1,15 +1,13 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
-
 class ilADTFloatPresentationBridge extends ilADTPresentationBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTFloat);
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
             $def = $this->getADT()->getCopyOfDefinition();
@@ -28,7 +26,7 @@ class ilADTFloatPresentationBridge extends ilADTPresentationBridge
         }
     }
     
-    public function getSortable()
+    public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {
             return $this->getADT()->getNumber();

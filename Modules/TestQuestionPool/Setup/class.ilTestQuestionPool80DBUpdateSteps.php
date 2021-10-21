@@ -17,7 +17,7 @@ class ilTestQuestionPool80DBUpdateSteps implements ilDatabaseUpdateSteps
     
     public function step_2() : void
     {
-        if (!this->db->tableColumnExists('tst_rnd_quest_set_qpls', 'pool_ref_id')) {
+        if (!$this->db->tableColumnExists('tst_rnd_quest_set_qpls', 'pool_ref_id')) {
             $this->db->addTableColumn(
                 'tst_rnd_quest_set_qpls',
                 'pool_ref_id',

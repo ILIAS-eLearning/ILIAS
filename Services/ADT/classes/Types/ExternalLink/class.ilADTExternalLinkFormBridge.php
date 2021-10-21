@@ -16,7 +16,7 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return $a_adt instanceof ilADTExternalLink;
     }
@@ -24,7 +24,7 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
     /**
      * Add element to form
      */
-    public function addToForm()
+    public function addToForm() : void
     {
         $lng = $GLOBALS['DIC']->language();
         
@@ -50,7 +50,7 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
     /**
      * Import from post
      */
-    public function importFromPost()
+    public function importFromPost() : void
     {
         $logger = $GLOBALS['DIC']->logger()->amet();
         

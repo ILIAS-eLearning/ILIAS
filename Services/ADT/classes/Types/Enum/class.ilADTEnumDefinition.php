@@ -2,10 +2,10 @@
 
 class ilADTEnumDefinition extends ilADTDefinition
 {
-    protected $options = []; // [array]
-    protected $numeric; // [bool]
+    protected array $options = [];
+    protected bool $numeric; // [bool]
     
-    public function getType()
+    public function getType() : string
     {
         return "Enum";
     }
@@ -13,7 +13,7 @@ class ilADTEnumDefinition extends ilADTDefinition
     
     // default
     
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
         
@@ -24,12 +24,12 @@ class ilADTEnumDefinition extends ilADTDefinition
     
     // properties
         
-    public function isNumeric()
+    public function isNumeric() : bool
     {
         return $this->numeric;
     }
     
-    public function setNumeric($a_value)
+    public function setNumeric(bool $a_value) : void
     {
         $this->numeric = $a_value;
     }
@@ -55,7 +55,7 @@ class ilADTEnumDefinition extends ilADTDefinition
     
     // comparison
         
-    public function isComparableTo(ilADT $a_adt)
+    public function isComparableTo(ilADT $a_adt) : bool
     {
         // has to be enum-based
         return ($a_adt instanceof ilADTEnum);

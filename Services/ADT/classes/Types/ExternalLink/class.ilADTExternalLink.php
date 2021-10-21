@@ -3,16 +3,9 @@
 class ilADTExternalLink extends ilADT
 {
     public const MAX_LENGTH = 500;
-    
-    /**
-     * @var string
-     */
-    protected $value;
-    
-    /**
-     * @var string
-     */
-    protected $title;
+
+    protected ?string $value;
+    protected ?string $title;
     
 
     /**
@@ -36,9 +29,9 @@ class ilADTExternalLink extends ilADT
     
     /**
      * Set title
-     * @param string $a_title
+     * @param string|null $a_title
      */
-    public function setTitle($a_title = null)
+    public function setTitle(?string $a_title = null) : void
     {
         if ($a_title !== null) {
             $a_title = trim($a_title);
@@ -47,19 +40,19 @@ class ilADTExternalLink extends ilADT
     }
     
     /**
-     * Getb title
-     * @return string
+     * Get title
+     * @return string|null
      */
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
     
     /**
      * Set url
-     * @param string $a_value
+     * @param string|null $a_value
      */
-    public function setUrl($a_value = null)
+    public function setUrl(?string $a_value = null) : void
     {
         if ($a_value !== null) {
             $a_value = trim($a_value);
@@ -69,9 +62,9 @@ class ilADTExternalLink extends ilADT
 
     /**
      * Get url
-     * @return string
+     * @return string|null
      */
-    public function getUrl()
+    public function getUrl() : ?string
     {
         return $this->value;
     }
@@ -116,7 +109,7 @@ class ilADTExternalLink extends ilADT
      * Get length
      * @return int
      */
-    public function getLength()
+    public function getLength() : int
     {
         if (function_exists("mb_strlen")) {
             return mb_strlen($this->getUrl() . $this->getTitle(), "UTF-8");

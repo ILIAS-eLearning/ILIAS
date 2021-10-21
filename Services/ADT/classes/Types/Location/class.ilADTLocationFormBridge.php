@@ -1,15 +1,13 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
-
 class ilADTLocationFormBridge extends ilADTFormBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTLocation);
     }
     
-    public function addToForm()
+    public function addToForm() : void
     {
         global $DIC;
 
@@ -20,12 +18,11 @@ class ilADTLocationFormBridge extends ilADTFormBridge
         $default = false;
         if ($adt->isNull()) {
             // see ilPersonalProfileGUI::addLocationToForm()
-            
             // use installation default
-                        $def = ilMapUtil::getDefaultSettings();
-            $adt->setLatitude($def["latitude"]);
-            $adt->setLongitude($def["longitude"]);
-            $adt->setZoom($def["zoom"]);
+            $def = ilMapUtil::getDefaultSettings();
+            $adt->setLatitude((float) $def["latitude"]);
+            $adt->setLongitude((float) $def["longitude"]);
+            $adt->setZoom((int) $def["zoom"]);
             
             $default = true;
         }
@@ -55,7 +52,7 @@ class ilADTLocationFormBridge extends ilADTFormBridge
         }
     }
     
-    public function importFromPost()
+    public function importFromPost() : void
     {
         $do_import = true;
         if (!$this->isRequired()) {
@@ -68,9 +65,9 @@ class ilADTLocationFormBridge extends ilADTFormBridge
         if ($do_import) {
             // ilPropertyFormGUI::checkInput() is pre-requisite
             $incoming = $this->getForm()->getInput($this->getElementId());
-            $this->getADT()->setLongitude($incoming["longitude"]);
-            $this->getADT()->setLatitude($incoming["latitude"]);
-            $this->getADT()->setZoom($incoming["zoom"]);
+            $this->getADT()->setLongitude((float) $incoming["longitude"]);
+            $this->getADT()->setLatitude((float) $incoming["latitude"]);
+            $this->getADT()->setZoom((int) $incoming["zoom"]);
         } else {
             $this->getADT()->setLongitude(null);
             $this->getADT()->setLatitude(null);

@@ -16,7 +16,7 @@ class ilADTInternalLinkFormBridge extends ilADTFormBridge
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return $a_adt instanceof ilADTInternalLink;
     }
@@ -24,7 +24,7 @@ class ilADTInternalLinkFormBridge extends ilADTFormBridge
     /**
      * Add element to form
      */
-    public function addToForm()
+    public function addToForm() : void
     {
         $def = $this->getADT()->getCopyOfDefinition();
         
@@ -44,7 +44,7 @@ class ilADTInternalLinkFormBridge extends ilADTFormBridge
     /**
      * Import from post
      */
-    public function importFromPost()
+    public function importFromPost() : void
     {
         $this->getADT()->setTargetRefId($this->getForm()->getInput($this->getElementId()));
     }

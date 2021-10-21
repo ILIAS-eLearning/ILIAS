@@ -2,7 +2,7 @@
 
 abstract class ilADTMultiEnum extends ilADT
 {
-    protected $values; // [array]
+    protected array $values;
         
     public function getType() : string
     {
@@ -27,9 +27,9 @@ abstract class ilADTMultiEnum extends ilADT
     
     // properties
     
-    abstract protected function handleSelectionValue($a_value);
+    abstract protected function handleSelectionValue(mixed $a_value) : mixed;
 
-    public function addSelection(int $value_index)
+    public function addSelection(int $value_index) : void
     {
         if (!$this->isValidOption($value_index)) {
             return;
@@ -38,7 +38,7 @@ abstract class ilADTMultiEnum extends ilADT
     }
 
 
-    public function setSelections(array $a_values = null)
+    public function setSelections(array $a_values = null) : void
     {
         if ($a_values === null) {
             return;
@@ -53,12 +53,12 @@ abstract class ilADTMultiEnum extends ilADT
         $this->values = count($checked_values) ? $checked_values : null;
     }
     
-    public function getSelections()
+    public function getSelections() : ?array
     {
         return $this->values;
     }
                 
-    public function isValidOption($a_value)
+    public function isValidOption(mixed $a_value) : bool
     {
         $a_value = $this->handleSelectionValue($a_value);
         return array_key_exists($a_value, $this->getDefinition()->getOptions());

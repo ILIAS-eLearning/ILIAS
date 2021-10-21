@@ -1,22 +1,20 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
-
 class ilADTTextPresentationBridge extends ilADTPresentationBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTText);
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
             return $this->decorate(nl2br($this->getADT()->getText()));
         }
     }
     
-    public function getSortable()
+    public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {
             return strtolower($this->getADT()->getText());

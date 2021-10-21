@@ -12,7 +12,7 @@ class ilADTLocalizedText extends ilADTText
      */
     private $translations = [];
 
-    public function getTextForLanguage(string $language)
+    public function getTextForLanguage(string $language) : string
     {
         if (strlen($this->getTranslations()[$language])) {
             return $this->getTranslations()[$language];
@@ -23,7 +23,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @return array
      */
-    public function getTranslations()
+    public function getTranslations() : array
     {
         return $this->translations;
     }
@@ -32,7 +32,7 @@ class ilADTLocalizedText extends ilADTText
      * @param string $language
      * @param string $translation
      */
-    public function setTranslation(string $language, string $translation)
+    public function setTranslation(string $language, string $translation) : void
     {
         $this->translations[$language] = $translation;
     }

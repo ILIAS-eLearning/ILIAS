@@ -4,12 +4,12 @@ require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
 
 class ilADTEnumPresentationBridge extends ilADTPresentationBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTEnum);
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
             $options = $this->getADT()->getCopyOfDefinition()->getOptions();
@@ -20,7 +20,7 @@ class ilADTEnumPresentationBridge extends ilADTPresentationBridge
         }
     }
     
-    public function getSortable()
+    public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {
             return $this->getADT()->getSelection();

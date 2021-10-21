@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -11,48 +11,30 @@
  */
 abstract class ilADTActiveRecordBridge
 {
-    protected $adt; // [ilADT]
-    protected $id; // [string]
-    protected $tabe; // [string]
-    protected $primary = []; // [array]
+    protected ilADT $adt;
+    protected ?string $id;
+    protected ?string $table;
+    protected array $primary = [];
     
-    /**
-     * Constructor
-     *
-     * @param ilADT $a_adt
-     */
     public function __construct(ilADT $a_adt)
     {
         $this->setADT($a_adt);
     }
     
     
-    //
-    // properties
-    //
-    
-    /**
-     * Check if given ADT is valid
-     *
-     * :TODO: This could be avoided with type-specifc constructors
-     * :TODO: bridge base class?
-     *
-     * @param ilADT $a_adt
-     */
-    abstract protected function isValidADT(ilADT $a_adt);
+    abstract protected function isValidADT(ilADT $a_adt) : bool;
     
     /**
      * Set ADT
      *
-     * @throws Exception
+     * @throws InvalidArgumentException
      * @param ilADT $a_adt
      */
-    protected function setADT(ilADT $a_adt)
+    protected function setADT(ilADT $a_adt) : void
     {
         if (!$this->isValidADT($a_adt)) {
-            throw new Exception('ADTActiveRecordBridge Type mismatch.');
+            throw new \InvalidArgumentException('ADTActiveRecordBridge Type mismatch.');
         }
-        
         $this->adt = $a_adt;
     }
     
@@ -61,27 +43,17 @@ abstract class ilADTActiveRecordBridge
      *
      * @return ilADT
      */
-    public function getADT()
+    public function getADT() : ilADT
     {
         return $this->adt;
     }
     
-    /**
-     * Set table name
-     *
-     * @param string $a_table
-     */
-    public function setTable($a_table)
+    public function setTable(string $a_table) : void
     {
-        $this->table = (string) $a_table;
+        $this->table = $a_table;
     }
     
-    /**
-     * Get table name
-     *
-     * @return string
-     */
-    public function getTable()
+    public function getTable() : ?string
     {
         return $this->table;
     }
@@ -91,17 +63,17 @@ abstract class ilADTActiveRecordBridge
      *
      * @param string $a_value
      */
-    public function setElementId($a_value)
+    public function setElementId(string $a_value) : void
     {
-        $this->id = (string) $a_value;
+        $this->id = $a_value;
     }
     
     /**
      * Get element id
      *
-     * @return string
+     * @return string | null
      */
-    public function getElementId()
+    public function getElementId() : ?string
     {
         return $this->id;
     }
@@ -109,9 +81,9 @@ abstract class ilADTActiveRecordBridge
     /**
      * Set primary fields (in MDB2 format)
      *
-     * @param array $a_value
+     * @param string[] $a_value
      */
-    public function setPrimary(array $a_value)
+    public function setPrimary(array $a_value) : void
     {
         $this->primary = $a_value;
     }
@@ -119,24 +91,20 @@ abstract class ilADTActiveRecordBridge
     /**
      * Get primary fields
      *
-     * @return array
+     * @return string[]
      */
-    public function getPrimary()
+    public function getPrimary() : array
     {
         return $this->primary;
     }
     
-    
-    //
-    // active record
-    //
     
     /**
      * Convert ADT to active record fields
      *
      * @return array
      */
-    abstract public function getActiveRecordFields();
+    abstract public function getActiveRecordFields() : array;
     
     
     /**
@@ -145,7 +113,7 @@ abstract class ilADTActiveRecordBridge
      * @param string $a_field_name
      * @return mixed
      */
-    abstract public function getFieldValue($a_field_name);
+    abstract public function getFieldValue(string $a_field_name) : mixed;
     
     /**
      * Set field value
@@ -153,5 +121,5 @@ abstract class ilADTActiveRecordBridge
      * @param string $a_field_name
      * @param mixed $a_field_value
      */
-    abstract public function setFieldValue($a_field_name, $a_field_value);
+    abstract public function setFieldValue(string $a_field_name,mixed $a_field_value) : void;
 }

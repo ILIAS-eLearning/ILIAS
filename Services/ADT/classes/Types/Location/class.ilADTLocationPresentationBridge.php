@@ -1,24 +1,22 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
-
 class ilADTLocationPresentationBridge extends ilADTPresentationBridge
 {
-    protected $width; // [mixed]
-    protected $height; // [mixed]
+    protected $width;
+    protected $height;
     
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTLocation);
     }
     
-    public function setSize($a_width, $a_height)
+    public function setSize(int $a_width, int $a_height) : void
     {
         $this->width = $a_width;
         $this->height = $a_height;
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         if (!$this->getADT()->isNull()) {
                         $map_gui = ilMapUtil::getMapGUI();
@@ -42,7 +40,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
         }
     }
     
-    public function getList()
+    public function getList() : string
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: probably does not make much sense
@@ -50,7 +48,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
         }
     }
     
-    public function getSortable()
+    public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: probably does not make much sense

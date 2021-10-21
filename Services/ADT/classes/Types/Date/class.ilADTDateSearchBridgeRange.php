@@ -1,10 +1,11 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeRange.php";
-
+/**
+ * Class ilADTDateSearchBridgeRange
+ */
 class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 {
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
     {
         return ($a_adt_def instanceof ilADTDateDefinition);
     }
@@ -12,7 +13,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
     
     // table2gui / filter
     
-    public function loadFilter()
+    public function loadFilter() : void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -28,7 +29,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
     
     // form
     
-    public function addToForm()
+    public function addToForm() : void
     {
         global $DIC;
 
@@ -80,7 +81,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         }
     }
 
-    protected function shouldBeImportedFromPost($a_post)
+    protected function shouldBeImportedFromPost(mixed $a_post) : bool
     {
         if ($this->getForm() instanceof ilPropertyFormGUI &&
             !(bool) $this->text_input) {
@@ -89,7 +90,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         return parent::shouldBeImportedFromPost($a_post);
     }
     
-    public function importFromPost(array $a_post = null)
+    public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
     
@@ -129,7 +130,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
     
     // db
     
-    public function getSQLCondition($a_element_id)
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         global $DIC;
 
@@ -147,7 +148,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         }
     }
     
-    public function isInCondition(ilADT $a_adt)
+    public function isInCondition(ilADT $a_adt) : bool
     {
         assert($a_adt instanceof ilADTDate);
         
@@ -163,7 +164,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
     
     //  import/export
         
-    public function getSerializedValue()
+    public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             $res = array();
@@ -177,7 +178,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         }
     }
     
-    public function setSerializedValue($a_value)
+    public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

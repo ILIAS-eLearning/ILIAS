@@ -2,9 +2,9 @@
 
 class ilADTLocation extends ilADT
 {
-    protected $longitude; // [float]
-    protected $latitude; // [float]
-    protected $zoom; // [int]
+    protected ?float $longitude;
+    protected ?float $latitude;
+    protected ?int $zoom;
 
     public const ADT_VALIDATION_ERROR_LONGITUDE = "loc1";
     public const ADT_VALIDATION_ERROR_LATITUDE = "loc2";
@@ -23,7 +23,6 @@ class ilADTLocation extends ilADT
     public function reset() : void
     {
         parent::reset();
-        
         $this->setZoom(9);
         $this->setLatitude();
         $this->setLongitude();
@@ -32,7 +31,7 @@ class ilADTLocation extends ilADT
     
     // properties
     
-    public function setLongitude($a_value = null)
+    public function setLongitude(float $a_value = null) : void
     {
         if ($a_value !== null) {
             $a_value = (float) $a_value;
@@ -40,12 +39,12 @@ class ilADTLocation extends ilADT
         $this->longitude = $a_value;
     }
     
-    public function getLongitude()
+    public function getLongitude() : ?float
     {
         return $this->longitude;
     }
     
-    public function setLatitude($a_value = null)
+    public function setLatitude(?float $a_value = null) : void
     {
         if ($a_value !== null) {
             $a_value = (float) $a_value;
@@ -53,17 +52,17 @@ class ilADTLocation extends ilADT
         $this->latitude = $a_value;
     }
     
-    public function getLatitude()
+    public function getLatitude() : ?float
     {
         return $this->latitude;
     }
     
-    public function getZoom()
+    public function getZoom() : ?int
     {
         return $this->zoom;
     }
     
-    public function setZoom($a_value)
+    public function setZoom($a_value) : int
     {
         $this->zoom = max(1, abs((int) $a_value));
     }

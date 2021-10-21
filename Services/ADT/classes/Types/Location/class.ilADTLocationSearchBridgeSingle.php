@@ -4,9 +4,9 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
 
 class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    protected $radius; // [int]
+    protected ?int $radius;
     
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
     {
         return ($a_adt_def instanceof ilADTLocationDefinition);
     }
@@ -14,7 +14,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     // table2gui / filter
     
-    public function loadFilter()
+    public function loadFilter() : void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -25,7 +25,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     // form
     
-    public function addToForm()
+    public function addToForm() : void
     {
         global $DIC;
 
@@ -68,12 +68,12 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($optional);
     }
     
-    protected function shouldBeImportedFromPost($a_post)
+    protected function shouldBeImportedFromPost(mixed $a_post) : bool
     {
         return (bool) $a_post["tgl"];
     }
     
-    public function importFromPost(array $a_post = null)
+    public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
                 
@@ -102,7 +102,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         }
     }
         
-    public function isValid()
+    public function isValid() : bool
     {
         return (parent::isValid() && ((int) $this->radius || (bool) $this->force_valid));
     }
@@ -112,13 +112,12 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     /**
      * Get bounding box for location circum search
-     *
      * @param float $a_latitude
      * @param float $a_longitude
-     * @param int $a_radius
+     * @param int   $a_radius
      * @return array
      */
-    protected function getBoundingBox($a_latitude, $a_longitude, $a_radius)
+    protected function getBoundingBox(float $a_latitude, float $a_longitude, int $a_radius):array
     {
         $earth_radius = 6371;
         
@@ -137,7 +136,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     // db
     
-    public function getSQLCondition($a_element_id)
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         global $DIC;
 
@@ -146,7 +145,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             $box = $this->getBoundingBox($this->getADT()->getLatitude(), $this->getADT()->getLongitude(), $this->radius);
                         
-            $res = array();
+            $res = [];
             $res[] = $a_element_id . "_lat >= " . $ilDB->quote($box["lat"]["min"], "float");
             $res[] = $a_element_id . "_lat <= " . $ilDB->quote($box["lat"]["max"], "float");
             $res[] = $a_element_id . "_long >= " . $ilDB->quote($box["long"]["min"], "float");
@@ -159,7 +158,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     //  import/export
         
-    public function getSerializedValue()
+    public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array(
@@ -171,7 +170,7 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
         }
     }
     
-    public function setSerializedValue($a_value)
+    public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

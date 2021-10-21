@@ -1,15 +1,13 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTMultiDBBridge.php";
-
 class ilADTMultiTextDBBridge extends ilADTMultiDBBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTMultiText);
     }
     
-    protected function readMultiRecord($a_set)
+    protected function readMultiRecord(ilDBStatement $a_set) : void
     {
         global $DIC;
 
@@ -24,10 +22,9 @@ class ilADTMultiTextDBBridge extends ilADTMultiDBBridge
         $this->getADT()->setTextElements($elements);
     }
     
-    protected function prepareMultiInsert()
+    protected function prepareMultiInsert() : array
     {
-        $res = array();
-        
+        $res = [];
         foreach ((array) $this->getADT()->getTextElements() as $element) {
             $res[] = array($this->getElementId() => array("text", $element));
         }

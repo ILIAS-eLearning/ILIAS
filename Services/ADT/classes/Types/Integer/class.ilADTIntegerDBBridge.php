@@ -1,10 +1,9 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTDBBridge.php";
 
 class ilADTIntegerDBBridge extends ilADTDBBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTInteger);
     }
@@ -12,12 +11,12 @@ class ilADTIntegerDBBridge extends ilADTDBBridge
     
     // CRUD
     
-    public function readRecord(array $a_row)
+    public function readRecord(array $a_row) : void
     {
         $this->getADT()->setNumber($a_row[$this->getElementId()]);
     }
     
-    public function prepareInsert(array &$a_fields)
+    public function prepareInsert(array &$a_fields) : void
     {
         $a_fields[$this->getElementId()] = array("integer", $this->getADT()->getNumber());
     }

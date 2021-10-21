@@ -1,17 +1,12 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
-
 class ilADTTextFormBridge extends ilADTFormBridge
 {
-    protected $multi; // [bool]
-    protected $multi_rows; // [int]
-    protected $multi_cols; // [int]
+    protected bool $multi = false;
+    protected ?int $multi_rows;
+    protected ?int $multi_cols;
 
-    /**
-     * @var ilLanguage|null
-     */
-    private $language = null;
+    private ilLanguage  $language;
 
     public function __construct(ilADT $a_adt)
     {
@@ -23,52 +18,29 @@ class ilADTTextFormBridge extends ilADTFormBridge
     }
 
 
-    //
-    // properties
-    //
-    
-    /**
-     * Set multi-line
-     *
-     * @param string $a_value
-     * @param int $a_cols
-     * @param int $a_rows
-     */
-    public function setMulti($a_value, $a_cols = null, $a_rows = null)
+    public function setMulti(bool $a_value, ?int $a_cols = null, ?int $a_rows = null) : void
     {
         $this->multi = (bool) $a_value;
         $this->multi_rows = ($a_rows === null) ? null : (int) $a_rows;
         $this->multi_cols = ($a_cols === null) ? null : (int) $a_cols;
     }
 
-    /**
-     * Is multi-line?
-     *
-     * @return bool
-     */
-    public function isMulti()
+    public function isMulti() : bool
     {
         return $this->multi;
     }
-    
-    
-    //
-    // form
-    //
-    
-    protected function isValidADT(ilADT $a_adt)
+
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTText);
     }
 
-    /**
-     * @param string $title
-     * @param string $element_id
-     * @param string $value
-     * @param bool   $is_translation
-     * @param string $language
-     */
-    protected function addElementToForm(string $title, string $element_id, string $value, bool $is_translation = false,  string $language = '')
+    protected function addElementToForm(
+        string $title,
+        string $element_id,
+        string $value,
+        bool $is_translation = false,
+        string $language = '') : void
     {
         $def = $this->getADT()->getCopyOfDefinition();
 
@@ -109,7 +81,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
         $this->addToParentElement($text);
     }
 
-    public function addToForm()
+    public function addToForm() : void
     {
         $this->addElementToForm(
             (string) $this->getADT()->getText(),
@@ -118,7 +90,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
         );
     }
 
-    public function importFromPost()
+    public function importFromPost() : void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setText($this->getForm()->getInput($this->getElementId()));

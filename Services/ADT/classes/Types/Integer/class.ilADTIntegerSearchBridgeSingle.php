@@ -4,7 +4,7 @@ require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
 
 class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
     {
         return ($a_adt_def instanceof ilADTIntegerDefinition);
     }
@@ -12,7 +12,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     // table2gui / filter
     
-    public function loadFilter()
+    public function loadFilter() : void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -23,7 +23,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     // form
     
-    public function addToForm()
+    public function addToForm() : void
     {
         $def = $this->getADT()->getCopyOfDefinition();
         
@@ -49,7 +49,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($number);
     }
     
-    public function importFromPost(array $a_post = null)
+    public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
                 
@@ -66,7 +66,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     // db
     
-    public function getSQLCondition($a_element_id)
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         global $DIC;
 
@@ -77,7 +77,7 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
         }
     }
     
-    public function isInCondition(ilADT $a_adt)
+    public function isInCondition(ilADT $a_adt) : bool
     {
         assert($a_adt instanceof ilADTInteger);
         
@@ -87,14 +87,14 @@ class ilADTIntegerSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     //  import/export
         
-    public function getSerializedValue()
+    public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getNumber()));
         }
     }
     
-    public function setSerializedValue($a_value)
+    public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

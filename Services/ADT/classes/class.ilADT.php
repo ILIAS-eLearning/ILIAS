@@ -9,7 +9,7 @@
  */
 abstract class ilADT
 {
-    protected \ilADTDefinition $definition;
+    protected ilADTDefinition $definition;
 
     protected array $validation_errors = []; // [array]
 

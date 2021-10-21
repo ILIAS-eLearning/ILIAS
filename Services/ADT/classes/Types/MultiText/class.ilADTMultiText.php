@@ -2,30 +2,26 @@
 
 class ilADTMultiText extends ilADT
 {
-    protected $values; // [array]
-    
-    
-    // definition
+    protected ?array $values;
     
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
-        return ($a_def instanceof ilADTMultiTextDefinition);
+        return $a_def instanceof ilADTMultiTextDefinition;
     }
     
     public function reset() : void
     {
         parent::reset();
-        
         $this->values = null;
     }
     
     
     // properties
     
-    public function setTextElements(array $a_values = null)
+    public function setTextElements(?array $a_values = null) : void
     {
         if (is_array($a_values)) {
-            if (sizeof($a_values)) {
+            if (count($a_values)) {
                 foreach ($a_values as $idx => $element) {
                     $a_values[$idx] = trim($element);
                     if (!$a_values[$idx]) {
@@ -34,14 +30,14 @@ class ilADTMultiText extends ilADT
                 }
                 $a_values = array_unique($a_values);
             }
-            if (!sizeof($a_values)) {
+            if (!count($a_values)) {
                 $a_values = null;
             }
         }
         $this->values = $a_values;
     }
     
-    public function getTextElements()
+    public function getTextElements() : ?array
     {
         return $this->values;
     }

@@ -1,10 +1,8 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTSearchBridgeSingle.php";
-
 class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    protected function isValidADTDefinition(ilADTDefinition $a_adt_def)
+    protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool
     {
         return ($a_adt_def instanceof ilADTDateTimeDefinition);
     }
@@ -12,7 +10,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     // table2gui / filter
     
-    public function loadFilter()
+    public function loadFilter() : void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -23,7 +21,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     // form
     
-    public function addToForm()
+    public function addToForm() : void
     {
         global $DIC;
 
@@ -39,15 +37,18 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
         $this->addToParentElement($date);
     }
     
-    protected function shouldBeImportedFromPost($a_post)
+    protected function shouldBeImportedFromPost(mixed $a_post) : bool
     {
-        if (!(bool) $this->text_input) {
-            return (bool) $a_post["tgl"];
-        }
-        return parent::shouldBeImportedFromPost($a_post);
+        // @todo check if this assumption is correct:
+        // text_input_mode is alway false
+        //if (!(bool) $this->text_input) {
+        //     return (bool) $a_post["tgl"];
+        //}
+        //return parent::shouldBeImportedFromPost($a_post);
+        return (bool) $a_post['tgl'];
     }
 
-    public function importFromPost(array $a_post = null)
+    public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
                 
@@ -72,7 +73,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     // db
     
-    public function getSQLCondition($a_element_id)
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         global $DIC;
 
@@ -83,7 +84,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
         }
     }
     
-    public function isInCondition(ilADT $a_adt)
+    public function isInCondition(ilADT $a_adt) : bool
     {
         assert($a_adt instanceof ilADTDateTime);
         
@@ -93,14 +94,14 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
     
     //  import/export
         
-    public function getSerializedValue()
+    public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getDate()->get(IL_CAL_DATETIME)));
         }
     }
     
-    public function setSerializedValue($a_value)
+    public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

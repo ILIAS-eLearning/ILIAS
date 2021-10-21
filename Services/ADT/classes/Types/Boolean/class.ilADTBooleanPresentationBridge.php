@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
 
 class ilADTBooleanPresentationBridge extends ilADTPresentationBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTBoolean);
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         global $DIC;
 
@@ -25,7 +25,7 @@ class ilADTBooleanPresentationBridge extends ilADTPresentationBridge
         }
     }
     
-    public function getSortable()
+    public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {
             // :TODO: cast to int ?

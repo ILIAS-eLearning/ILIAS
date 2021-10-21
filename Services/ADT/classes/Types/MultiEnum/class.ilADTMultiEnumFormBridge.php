@@ -1,35 +1,32 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
-
 class ilADTMultiEnumFormBridge extends ilADTFormBridge
 {
-    protected $option_infos = []; // [array]
-    protected $auto_sort = true; // [bool]
+    protected array $option_infos = [];
+    protected $auto_sort = true;
     
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTMultiEnum);
     }
     
-    public function setOptionInfos(array $a_info = null)
+    public function setOptionInfos(array $a_info = null) : void
     {
         $this->option_infos = $a_info;
     }
     
-    public function setAutoSort($a_value)
+    public function setAutoSort(bool $a_value) : void
     {
         $this->auto_sort = (bool) $a_value;
     }
     
-    public function addToForm()
+    public function addToForm() : void
     {
         global $DIC;
 
         $lng = $DIC['lng'];
                 
         $def = $this->getADT()->getCopyOfDefinition();
-        
         $options = $def->getOptions();
         
         if ($this->auto_sort) {
@@ -53,7 +50,7 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
         $this->addToParentElement($cbox);
     }
     
-    public function importFromPost()
+    public function importFromPost() : void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setSelections($this->getForm()->getInput($this->getElementId()));
@@ -62,7 +59,7 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
         $field->setValue($this->getADT()->getSelections());
     }
     
-    protected function isActiveForSubItems($a_parent_option = null)
+    protected function isActiveForSubItems(mixed $a_parent_option = null) : bool
     {
         $current = $this->getADT()->getSelections();
         return (is_array($current) && in_array($a_parent_option, $current));

@@ -2,10 +2,7 @@
 
 class ilADTInternalLink extends ilADT
 {
-    /**
-     * @var int
-     */
-    protected $value;
+    protected ?int $value;
     
     /**
      * @param ilADTDefinition $a_def
@@ -25,19 +22,15 @@ class ilADTInternalLink extends ilADT
         $this->value = null;
     }
     
-    /**
-     * Set id of target object
-     * @param type $a_value
-     */
-    public function setTargetRefId($a_value)
+    public function setTargetRefId(int $a_value) : void
     {
         $this->value = $a_value;
     }
     
     /**
-     * @return int get target ref_id
+     * @return int|null get target ref_id
      */
-    public function getTargetRefId()
+    public function getTargetRefId() : ?int
     {
         return $this->value;
     }

@@ -16,7 +16,7 @@ class ilADTExternalLinkPresentationBridge extends ilADTPresentationBridge
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return $a_adt instanceof ilADTExternalLink;
     }
@@ -25,10 +25,10 @@ class ilADTExternalLinkPresentationBridge extends ilADTPresentationBridge
      * Get html
      * @return string
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         if ($this->getADT()->isNull()) {
-            return;
+            return '';
         }
         if (!strlen($this->getADT()->getTitle())) {
             $presentation_value = $this->getADT()->getUrl();
@@ -43,9 +43,9 @@ class ilADTExternalLinkPresentationBridge extends ilADTPresentationBridge
 
     /**
      * Get soratable
-     * @return type
+     * @return mixed
      */
-    public function getSortable()
+    public function getSortable() : mixed
     {
         if (!$this->getADT()->isNull()) {
             return $this->getADT()->getUrl();

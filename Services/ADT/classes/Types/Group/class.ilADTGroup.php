@@ -2,7 +2,7 @@
 
 class ilADTGroup extends ilADT
 {
-    protected $elements; // [array]
+    protected array $elements = [];
         
     public function __clone()
     {
@@ -12,10 +12,7 @@ class ilADTGroup extends ilADT
             }
         }
     }
-    
-    
-    // definition
-    
+
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return ($a_def instanceof ilADTGroupDefinition);
@@ -33,8 +30,6 @@ class ilADTGroup extends ilADT
     }
     
     
-    // defaults
-    
     public function reset() : void
     {
         parent::reset();
@@ -48,34 +43,28 @@ class ilADTGroup extends ilADT
     }
     
     
-    // properties
-
-    protected function addElement($a_name, ilADTDefinition $a_def)
+    protected function addElement(string $a_name, ilADTDefinition $a_def) : void
     {
         $this->elements[$a_name] = ilADTFactory::getInstance()->getInstanceByDefinition($a_def);
     }
     
-    public function hasElement($a_name)
+    public function hasElement(string $a_name) : bool
     {
         return array_key_exists($a_name, $this->elements);
     }
     
-    public function getElement($a_name)
+    public function getElement(string $a_name) : ilADTDefinition
     {
         if ($this->hasElement($a_name)) {
             return $this->elements[$a_name];
         }
     }
-    
-    public function getElements()
+
+    public function getElements() : array
     {
         return $this->elements;
     }
-    
-    
-    
-    // comparison
-    
+
     public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -103,9 +92,7 @@ class ilADTGroup extends ilADT
     }
     
     
-    // validation
-    
-    public function getValidationErrorsByElements()
+    public function getValidationErrorsByElements() : array
     {
         return (array) $this->validation_errors;
     }
@@ -118,7 +105,7 @@ class ilADTGroup extends ilADT
         return array_keys((array) $this->validation_errors);
     }
     
-    protected function addElementValidationError($a_element_id, $a_error_code)
+    protected function addElementValidationError(string $a_element_id, string $a_error_code) : void
     {
         $this->validation_errors[(string) $a_error_code] = $a_element_id;
     }

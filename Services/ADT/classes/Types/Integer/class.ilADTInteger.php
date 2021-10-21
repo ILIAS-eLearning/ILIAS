@@ -2,7 +2,7 @@
 
 class ilADTInteger extends ilADT
 {
-    protected $value; // [int]
+    protected ?int $value;
 
     
     // definition
@@ -27,7 +27,7 @@ class ilADTInteger extends ilADT
         $this->value = $this->getDefinition()->handleNumber($a_value);
     }
     
-    public function getNumber()
+    public function getNumber() : ?int
     {
         return $this->value;
     }

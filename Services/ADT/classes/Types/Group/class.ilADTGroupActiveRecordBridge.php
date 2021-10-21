@@ -1,12 +1,13 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTActiveRecordBridge.php";
-
 class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
 {
-    protected $elements = []; // [array]
+    /**
+     * @var ilADTActiveRecordBridge[]
+     */
+    protected array $elements = [];
     
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
@@ -15,7 +16,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
     /**
      * @inheritDoc
      */
-    public function getFieldValue($a_field_name)
+    public function getFieldValue(string $a_field_name) : mixed
     {
         // TODO: Implement getFieldValue() method.
     }
@@ -24,7 +25,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
     /**
      * @inheritDoc
      */
-    public function setFieldValue($a_field_name, $a_field_value)
+    public function setFieldValue(string $a_field_name, mixed $a_field_value) : void
     {
         // TODO: Implement setFieldValue() method.
     }
@@ -32,7 +33,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
 
     // elements
     
-    protected function prepareElements()
+    protected function prepareElements() : void
     {
         if (sizeof($this->elements)) {
             return;
@@ -49,24 +50,20 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
         }
     }
     
-    public function getElements()
+    public function getElements() : array
     {
         $this->prepareElements();
         return $this->elements;
     }
 
-    public function getElement($a_element_id)
+    public function getElement(string $a_element_id) : ilADTActiveRecordBridge
     {
         if (array_key_exists($a_element_id, $this->getElements())) {
             return $this->elements[$a_element_id];
         }
     }
     
-    //
-    // active record
-    //
-    
-    public function getActiveRecordFields()
+    public function getActiveRecordFields() : array
     {
         $fields = array();
         foreach ($this->getElements() as $element_id => $element) {

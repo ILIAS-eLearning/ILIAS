@@ -1,7 +1,5 @@
 <?php
 
-require_once "Services/ADT/classes/Types/Integer/class.ilADTInteger.php";
-
 class ilADTFloat extends ilADTInteger
 {
     // definition

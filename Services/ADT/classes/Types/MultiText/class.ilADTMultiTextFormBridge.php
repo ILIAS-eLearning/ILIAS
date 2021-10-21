@@ -1,15 +1,13 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
-
 class ilADTMultiTextFormBridge extends ilADTFormBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTMultiText);
     }
     
-    public function addToForm()
+    public function addToForm() : void
     {
         $text = new ilTextInputGUI($this->getTitle(), $this->getElementId());
         $text->setMulti(true);
@@ -21,7 +19,7 @@ class ilADTMultiTextFormBridge extends ilADTFormBridge
         $this->addToParentElement($text);
     }
     
-    public function importFromPost()
+    public function importFromPost() : void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setTextElements($this->getForm()->getInput($this->getElementId()));

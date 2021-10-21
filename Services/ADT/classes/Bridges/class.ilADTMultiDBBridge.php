@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once "Services/ADT/classes/Bridges/class.ilADTDBBridge.php";
 
@@ -17,17 +17,12 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
         return $this->getTable() . "_" . $this->getElementId();
     }
     
-    public function readRecord(array $a_row)
+    public function readRecord(array $a_row) : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-                
         $sql = "SELECT " . $this->getElementId() .
             " FROM " . $this->getSubTableName() .
             " WHERE " . $this->buildPrimaryWhere();
-        $set = $ilDB->query($sql);
-        
+        $set = $this->db->query($sql);
         $this->readMultiRecord($set);
     }
     
@@ -36,24 +31,24 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
      *
      * @param object $a_set
      */
-    abstract protected function readMultiRecord($a_set);
+    abstract protected function readMultiRecord(ilDBStatement $a_set) : void;
 
-    public function prepareInsert(array &$a_fields)
+    public function prepareInsert(array &$a_fields) : void
     {
         // see afterUpdate()
     }
     
-    public function afterInsert()
+    public function afterInsert() : void
     {
         $this->afterUpdate();
     }
     
-    public function afterUpdate()
+    public function afterUpdate() : void
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         // :TODO: build diff, save difference
         // is this in use? Cannot
         /*
@@ -70,12 +65,10 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
         
     /**
      * Build insert-fields for each "value"
-     *
-     * @return array
      */
-    abstract protected function prepareMultiInsert();
-    
-    public function afterDelete()
+    abstract protected function prepareMultiInsert() : array;
+
+    public function afterDelete() : void
     {
         global $DIC;
 

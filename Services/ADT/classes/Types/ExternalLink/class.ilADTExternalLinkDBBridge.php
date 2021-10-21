@@ -15,7 +15,7 @@ class ilADTExternalLinkDBBridge extends ilADTDBBridge
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return $a_adt instanceof ilADTExternalLink;
     }
@@ -24,7 +24,7 @@ class ilADTExternalLinkDBBridge extends ilADTDBBridge
      * read record
      * @param array $a_row
      */
-    public function readRecord(array $a_row)
+    public function readRecord(array $a_row) : void
     {
         $this->getADT()->setUrl($a_row[$this->getElementId() . '_value']);
         $this->getADT()->setTitle($a_row[$this->getElementId() . '_title']);
@@ -34,7 +34,7 @@ class ilADTExternalLinkDBBridge extends ilADTDBBridge
      * prepare insert
      * @param array $a_fields
      */
-    public function prepareInsert(array &$a_fields)
+    public function prepareInsert(array &$a_fields) : void
     {
         $a_fields[$this->getElementId() . '_value'] = ["text",$this->getADT()->getUrl()];
         $a_fields[$this->getElementId() . '_title'] = ['text',$this->getADT()->getTitle()];

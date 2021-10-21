@@ -2,14 +2,14 @@
 
 class ilADTIntegerDefinition extends ilADTDefinition
 {
-    protected $min_value; // [int]
-    protected $max_value; // [int]
-    protected $suffix; // [string]
+    protected ?int $min_value;
+    protected ?int $max_value;
+    protected string $suffix = '';
     
     
     // properties
     
-    public function handleNumber($a_value)
+    public function handleNumber(int $a_value) : ?int
     {
         if (!is_numeric($a_value)) {
             $a_value = null;
@@ -21,40 +21,38 @@ class ilADTIntegerDefinition extends ilADTDefinition
         return $a_value;
     }
     
-    public function getMin()
+    public function getMin() : ?int
     {
         return $this->min;
     }
     
-    public function setMin($a_value)
+    public function setMin(int $a_value) : void
     {
         $this->min = $this->handleNumber($a_value);
     }
     
-    public function getMax()
+    public function getMax() : ?int
     {
         return $this->max;
     }
     
-    public function setMax($a_value)
+    public function setMax(int $a_value) : void
     {
         $this->max = $this->handleNumber($a_value);
     }
     
-    public function getSuffix()
+    public function getSuffix() : string
     {
         return $this->suffix;
     }
     
-    public function setSuffix($a_value)
+    public function setSuffix(string $a_value) : void
     {
         $this->suffix = trim($a_value);
     }
     
     
-    // comparison
-    
-    public function isComparableTo(ilADT $a_adt)
+    public function isComparableTo(ilADT $a_adt) : bool
     {
         // has to be number-based
         return ($a_adt instanceof ilADTInteger);

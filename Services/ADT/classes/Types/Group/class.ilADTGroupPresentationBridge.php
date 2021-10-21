@@ -1,19 +1,17 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTPresentationBridge.php";
-
 class ilADTGroupPresentationBridge extends ilADTPresentationBridge
 {
-    protected $elements = []; // [array]
+    protected array $elements = [];
     
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
     
-    protected function prepareElements()
+    protected function prepareElements() : void
     {
-        if (sizeof($this->elements)) {
+        if (count($this->elements)) {
             return;
         }
         
@@ -21,13 +19,12 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
         $factory = ilADTFactory::getInstance();
         
         // convert ADTs to presentation bridges
-        
         foreach ($this->getADT()->getElements() as $name => $element) {
             $this->elements[$name] = $factory->getPresentationBridgeForInstance($element);
         }
     }
     
-    public function getHTML($delimiter = "<br />")
+    public function getHTML($delimiter = "<br />") : string
     {
         $res = array();
         
@@ -41,7 +38,7 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
         }
     }
     
-    public function getSortable($delimiter = ";")
+    public function getSortable($delimiter = ";") : mixed
     {
         $res = array();
         

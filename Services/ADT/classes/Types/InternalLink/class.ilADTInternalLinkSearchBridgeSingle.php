@@ -10,18 +10,12 @@
  */
 class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    public const SQL_STRICT = 1;
-    public const SQL_LIKE = 2;
-    public const SQL_LIKE_END = 3;
-    public const SQL_LIKE_START = 4;
-
-    
     /**
      * Is valid type
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADTDefinition(\ilADTDefinition $a_adt_def)
+    protected function isValidADTDefinition(\ilADTDefinition $a_adt_def) : bool
     {
         return $a_adt_def instanceof ilADTInternalLinkDefinition;
     }
@@ -30,7 +24,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     /*
      * Add search property to form
      */
-    public function addToForm()
+    public function addToForm() : void
     {
         $title = new ilTextInputGUI($this->getTitle(), $this->getElementId());
         $title->setSize(255);
@@ -44,7 +38,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     /**
      * Load from filter
      */
-    public function loadFilter()
+    public function loadFilter() : void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -56,7 +50,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      * Import from post
      * @param array $a_post
      */
-    public function importFromPost(array $a_post = null)
+    public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -71,10 +65,12 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     /**
      * Get sql condition
-     * @param int $a_element_id
+     * @param string $a_element_id
+     * @param int    $mode
+     * @param array  $quotedWords
      * @return string
      */
-    public function getSQLCondition($a_element_id, $a_mode = self::SQL_LIKE, $a_value = null)
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
         $db = $GLOBALS['DIC']->database();
         
@@ -97,7 +93,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      * @param ilADT $a_adt
      * @return bool
      */
-    public function isInCondition(ilADT $a_adt)
+    public function isInCondition(ilADT $a_adt) : bool
     {
         if ($this->isValidADT($a_adt)) {
             return $this->getADT()->equals($a_adt);
@@ -109,7 +105,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      * get serialized value
      * @return string
      */
-    public function getSerializedValue()
+    public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getTargetRefId()));
@@ -120,7 +116,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      * Set serialized value
      * @param string $a_value
      */
-    public function setSerializedValue($a_value)
+    public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

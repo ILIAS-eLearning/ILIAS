@@ -1,19 +1,17 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
-
 class ilADTGroupFormBridge extends ilADTFormBridge
 {
-    protected $elements = []; // [array]
+    protected array $elements = [];
     
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTGroup);
     }
     
-    protected function prepareElements()
+    protected function prepareElements() : void
     {
-        if (sizeof($this->elements)) {
+        if (count($this->elements)) {
             return;
         }
         
@@ -29,13 +27,13 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
     
-    public function getElements()
+    public function getElements() : array
     {
         $this->prepareElements();
         return $this->elements;
     }
     
-    public function getElement($a_name)
+    public function getElement(string $a_name) : ilADTFormBridge
     {
         $this->prepareElements();
         if (array_key_exists($a_name, $this->elements)) {
@@ -43,7 +41,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
     
-    public function addToForm()
+    public function addToForm() : void
     {
         if ($this->getTitle()) {
             $section = new ilFormSectionHeaderGUI();
@@ -62,7 +60,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
     
-    public function addJS(ilGlobalTemplate $a_tpl)
+    public function addJS(ilGlobalTemplate $a_tpl) : void
     {
         $this->prepareElements();
         foreach ($this->elements as $element) {
@@ -70,7 +68,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
     
-    public function importFromPost()
+    public function importFromPost() : void
     {
         $this->prepareElements();
         foreach ($this->elements as $element) {
@@ -92,7 +90,7 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         }
     }
     
-    public function validate()
+    public function validate() : bool
     {
         global $DIC;
 

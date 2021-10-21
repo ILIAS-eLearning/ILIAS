@@ -8,7 +8,7 @@ class ilADTInternalLinkDefinition extends ilADTDefinition
      * @param ilADT $a_adt
      * @return bool
      */
-    public function isComparableTo(ilADT $a_adt)
+    public function isComparableTo(ilADT $a_adt) : bool
     {
         return $a_adt instanceof ilADTInternalLink;
     }

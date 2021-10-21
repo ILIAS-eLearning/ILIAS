@@ -11,7 +11,7 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
     /**
      * @inheritDoc
      */
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return $a_adt instanceof ilADTLocalizedText;
     }
@@ -19,7 +19,7 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
     /**
      * @inheritDoc
      */
-    public function addToForm()
+    public function addToForm() : void
     {
         $active_languages = $this->getADT()->getCopyOfDefinition()->getActiveLanguages();
 
@@ -53,7 +53,7 @@ class ilADTLocalizedTextFormBridge extends ilADTTextFormBridge
     /**
      * @inheritDoc
      */
-    public function importFromPost()
+    public function importFromPost() : void
     {
         if (!$this->getADT()->getCopyOfDefinition()->supportsTranslations()) {
             parent::importFromPost();

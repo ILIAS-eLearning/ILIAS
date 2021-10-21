@@ -1,15 +1,13 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
-
 class ilADTFloatFormBridge extends ilADTFormBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTFloat);
     }
     
-    public function addToForm()
+    public function addToForm() : void
     {
         $def = $this->getADT()->getCopyOfDefinition();
         
@@ -43,7 +41,7 @@ class ilADTFloatFormBridge extends ilADTFormBridge
         $this->addToParentElement($number);
     }
     
-    public function importFromPost()
+    public function importFromPost() : void
     {
         // ilPropertyFormGUI::checkInput() is pre-requisite
         $this->getADT()->setNumber($this->getForm()->getInput($this->getElementId()));

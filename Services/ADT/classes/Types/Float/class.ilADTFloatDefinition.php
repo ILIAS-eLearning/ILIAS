@@ -1,25 +1,21 @@
 <?php
 
-require_once "Services/ADT/classes/Types/Integer/class.ilADTIntegerDefinition.php";
 
 class ilADTFloatDefinition extends ilADTIntegerDefinition
 {
-    protected $decimals; // [float]
+    protected int $decimals;
     
     
-    // default
-    
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
-        
         $this->setDecimals(1);
     }
     
     
     // properties
     
-    public function handleNumber($a_value)
+    public function handleNumber(int $a_value) : int
     {
         if (!is_numeric($a_value)) {
             $a_value = null;
@@ -30,12 +26,12 @@ class ilADTFloatDefinition extends ilADTIntegerDefinition
         return $a_value;
     }
     
-    public function getDecimals()
+    public function getDecimals() : int
     {
         return $this->decimals;
     }
     
-    public function setDecimals($a_value)
+    public function setDecimals(int $a_value) : void
     {
         // max precision ?!
         $this->decimals = max(1, abs((int) $a_value));

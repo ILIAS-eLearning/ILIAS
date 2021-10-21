@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTDate extends ilADT
 {
-    protected $value; // [ilDateTime]
+    protected ?ilDateTime $value;
     
     
     // definition
@@ -20,9 +20,7 @@ class ilADTDate extends ilADT
     }
     
     
-    // properties
-    
-    public function setDate(ilDateTime $a_value = null)
+    public function setDate(?ilDateTime $a_value = null) : void
     {
         if ($a_value && $a_value->isNull()) {
             $a_value = null;
@@ -30,7 +28,7 @@ class ilADTDate extends ilADT
         $this->value = $a_value;
     }
     
-    public function getDate()
+    public function getDate() : ?ilDateTime
     {
         return $this->value;
     }

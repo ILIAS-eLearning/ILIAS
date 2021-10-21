@@ -1,22 +1,23 @@
 <?php
 
-require_once "Services/ADT/classes/Bridges/class.ilADTFormBridge.php";
-
+/**
+ * Class ilADTDateFormBridge
+ */
 class ilADTDateFormBridge extends ilADTFormBridge
 {
     protected $invalid_input; // [bool]
     
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTDate);
     }
     
-    protected function addToElementId($a_add)
+    protected function addToElementId($a_add) : string
     {
         return $this->getElementId() . "[" . $a_add . "]";
     }
     
-    public function addToForm()
+    public function addToForm() : void
     {
         $adt_date = $this->getADT()->getDate();
 
@@ -30,7 +31,7 @@ class ilADTDateFormBridge extends ilADTFormBridge
         $this->addToParentElement($date);
     }
     
-    public function importFromPost()
+    public function importFromPost() : void
     {
         $field = $this->getForm()->getItemByPostVar($this->getElementId());
         
@@ -45,7 +46,7 @@ class ilADTDateFormBridge extends ilADTFormBridge
         }
     }
     
-    public function validate()
+    public function validate() : bool
     {
         // :TODO: error handling is done by ilDateTimeInputGUI
         return !(bool) $this->invalid_input;

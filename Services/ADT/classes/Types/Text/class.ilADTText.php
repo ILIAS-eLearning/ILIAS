@@ -2,7 +2,7 @@
 
 class ilADTText extends ilADT
 {
-    protected $value; // [string]
+    protected ?string $value;
 
     
     // definition
@@ -21,7 +21,7 @@ class ilADTText extends ilADT
     
     // properties
     
-    public function setText($a_value = null)
+    public function setText(?string $a_value = null) : void
     {
         if ($a_value !== null) {
             $a_value = trim($a_value);
@@ -29,16 +29,13 @@ class ilADTText extends ilADT
         $this->value = $a_value;
     }
     
-    public function getText()
+    public function getText() : ?string
     {
         return $this->value;
     }
     
-    public function getLength()
+    public function getLength() : int
     {
-        // see ilStr::strLen();
-        // not using ilStr to reduce dependencies in this low-level code
-        
         if (function_exists("mb_strlen")) {
             return mb_strlen($this->getText(), "UTF-8");
         } else {

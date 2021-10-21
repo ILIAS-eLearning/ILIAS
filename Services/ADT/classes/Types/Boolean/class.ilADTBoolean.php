@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTBoolean extends ilADT
 {
-    protected $value; // [bool]
+    protected ?bool $value;
     
     
     // definition
@@ -21,7 +21,7 @@ class ilADTBoolean extends ilADT
     
     // properties
     
-    public function setStatus($a_value = null)
+    public function setStatus(bool $a_value = null) : void
     {
         if ($a_value !== null) {
             $a_value = (bool) $a_value;
@@ -29,7 +29,7 @@ class ilADTBoolean extends ilADT
         $this->value = $a_value;
     }
     
-    public function getStatus()
+    public function getStatus() : ?bool
     {
         return $this->value;
     }
@@ -96,7 +96,7 @@ class ilADTBoolean extends ilADT
     public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
-            $this->setStatus($a_std->value);
+            $this->setStatus((bool) $a_std->value);
         }
     }
 }

@@ -1,16 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * ADT definition base class
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  * @ingroup ServicesADT
  */
 abstract class ilADTDefinition
 {
-    protected $allow_null; // [bool]
+    protected bool $allow_null;
     
     public function __construct()
     {
@@ -19,10 +18,9 @@ abstract class ilADTDefinition
     
     /**
      * Get type (from class/instance)
-     *
      * @return string
      */
-    public function getType()
+    public function getType() : string
     {
         return substr(substr(get_class($this), 5), 0, -10);
     }
@@ -30,7 +28,7 @@ abstract class ilADTDefinition
     /**
      * Init property defaults
      */
-    public function reset()
+    public function reset() : void
     {
         $this->setAllowNull(true);
     }
@@ -42,20 +40,14 @@ abstract class ilADTDefinition
     
     /**
      * Toggle null allowed status
-     *
      * @param bool $a_value
      */
-    public function setAllowNull($a_value)
+    public function setAllowNull(bool $a_value) : void
     {
-        $this->allow_null = (bool) $a_value;
+        $this->allow_null = $a_value;
     }
     
-    /**
-     * Is null currently allowed
-     *
-     * @return bool
-     */
-    public function isNullAllowed()
+    public function isNullAllowed() : bool
     {
         return $this->allow_null;
     }
@@ -67,9 +59,8 @@ abstract class ilADTDefinition
     
     /**
      * Check if given ADT is comparable to self
-     *
      * @param ilADT $a_adt
      * @return bool
      */
-    abstract public function isComparableTo(ilADT $a_adt);
+    abstract public function isComparableTo(ilADT $a_adt) : bool;
 }

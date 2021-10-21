@@ -15,7 +15,7 @@ class ilADTInternalLinkDBBridge extends ilADTDBBridge
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return $a_adt instanceof ilADTInternalLink;
     }
@@ -24,7 +24,7 @@ class ilADTInternalLinkDBBridge extends ilADTDBBridge
      * read record
      * @param array $a_row
      */
-    public function readRecord(array $a_row)
+    public function readRecord(array $a_row) : void
     {
         $this->getADT()->setTargetRefId($a_row[$this->getElementId()]);
     }
@@ -33,7 +33,7 @@ class ilADTInternalLinkDBBridge extends ilADTDBBridge
      * prepare insert
      * @param array $a_fields
      */
-    public function prepareInsert(array &$a_fields)
+    public function prepareInsert(array &$a_fields) : void
     {
         $a_fields[$this->getElementId()] = ["integer",$this->getADT()->getTargetRefId()];
     }
