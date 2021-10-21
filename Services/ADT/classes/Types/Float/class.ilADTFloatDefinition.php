@@ -31,6 +31,6 @@ class ilADTFloatDefinition extends ilADTIntegerDefinition
     public function setDecimals(int $a_value) : void
     {
         // max precision ?!
-        $this->decimals = max(1, abs((int) $a_value));
+        $this->decimals = max(1, abs($a_value));
     }
 }

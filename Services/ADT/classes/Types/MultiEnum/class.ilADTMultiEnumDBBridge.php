@@ -27,7 +27,7 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
 
     public function setFakeSingle(bool $a_status) : void
     {
-        $this->fake_single = (bool) $a_status;
+        $this->fake_single = $a_status;
     }
 
     protected function doSingleFake() : bool

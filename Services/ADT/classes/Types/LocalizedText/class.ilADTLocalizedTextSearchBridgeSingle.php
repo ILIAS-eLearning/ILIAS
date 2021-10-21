@@ -49,6 +49,7 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
             $this->writeFilter();
             $this->getADT()->setText();
         }
+        return true;
     }
 
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
@@ -71,7 +72,6 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
                 } else {
                     return $ilDB->in($a_element_id, $quotedWords, "", "text");
                 }
-                break;
 
             case self::SQL_LIKE:
                 if (!is_array($quotedWords)) {
@@ -101,6 +101,7 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
                 }
                 break;
         }
+        return '';
     }
 
     public function isInCondition(ilADT $a_adt) : bool
@@ -118,6 +119,7 @@ class ilADTLocalizedTextSearchBridgeSingle extends ilADTTextSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getText()));
         }
+        return '';
     }
 
     public function setSerializedValue(string $a_value) : void

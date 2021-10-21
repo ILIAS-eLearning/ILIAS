@@ -21,9 +21,6 @@ class ilADTBoolean extends ilADT
 
     public function setStatus(bool $a_value = null) : void
     {
-        if ($a_value !== null) {
-            $a_value = (bool) $a_value;
-        }
         $this->value = $a_value;
     }
 
@@ -36,7 +33,7 @@ class ilADTBoolean extends ilADT
 
     public function equals(ilADT $a_adt) : ?bool
     {
-        if ($this->isComparableTo($a_adt)) {
+        if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getStatus() === $a_adt->getStatus());
         }
         return null;

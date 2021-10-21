@@ -21,6 +21,7 @@ class ilADTBooleanPresentationBridge extends ilADTPresentationBridge
                 : $lng->txt("no");
             return $this->decorate($presentation_value);
         }
+        return '';
     }
 
     public function getSortable() : mixed
@@ -29,5 +30,6 @@ class ilADTBooleanPresentationBridge extends ilADTPresentationBridge
             // :TODO: cast to int ?
             return $this->getADT()->getStatus() ? 1 : 0;
         }
+        return 0;
     }
 }

@@ -14,7 +14,6 @@ class ilADTMultiTextDefinition extends ilADTDefinition
 
     public function setMaxLength(int $a_value) : void
     {
-        $a_value = (int) $a_value;
         if ($a_value < 1) {
             $a_value = null;
         }
@@ -28,7 +27,6 @@ class ilADTMultiTextDefinition extends ilADTDefinition
 
     public function setMaxSize(int $a_value) : void
     {
-        $a_value = (int) $a_value;
         if ($a_value < 1) {
             $a_value = null;
         }

@@ -38,6 +38,7 @@ class ilADTGroupDefinition extends ilADTDefinition
         if ($this->hasElement($a_name)) {
             return $this->elements[$a_name];
         }
+        return null;
     }
 
     public function getElements() : array

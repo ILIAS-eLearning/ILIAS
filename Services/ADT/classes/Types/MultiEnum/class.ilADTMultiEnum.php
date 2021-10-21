@@ -2,7 +2,7 @@
 
 abstract class ilADTMultiEnum extends ilADT
 {
-    protected array $values;
+    protected ?array $values;
 
     public function getType() : string
     {
@@ -19,7 +19,6 @@ abstract class ilADTMultiEnum extends ilADT
     public function reset() : void
     {
         parent::reset();
-
         $this->values = null;
     }
 

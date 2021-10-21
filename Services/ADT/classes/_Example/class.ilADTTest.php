@@ -6,8 +6,8 @@
  */
 class ilADTTest extends ilADTBasedObject
 {
-    protected $id; // [int]
-    protected $properties; // [ilADTGroup]
+    protected int $id;
+    protected ilADT $properties;
 
     public const INTERESTS_NONE = 0;
     public const INTERESTS_LANGUAGES = 1;
@@ -15,7 +15,7 @@ class ilADTTest extends ilADTBasedObject
 
     // properties
 
-    protected function initProperties()
+    protected function initProperties() : ilADT
     {
         global $DIC;
 
@@ -90,23 +90,23 @@ class ilADTTest extends ilADTBasedObject
 
     // simple sequence example
 
-    protected function initDBBridge(ilADTGroupDBBridge $a_adt_db)
+    protected function initDBBridge(ilADTDBBridge $a_adt_db) : void
     {
         $a_adt_db->setTable("adt_test");
         $a_adt_db->setPrimary(array("id" => array("integer", $this->id)));
     }
 
-    protected function parsePrimary(array $a_args)
+    protected function parsePrimary(array $a_args) : void
     {
         $this->id = (int) $a_args[0];
     }
 
-    protected function hasPrimary()
+    protected function hasPrimary() : bool
     {
         return (bool) $this->id;
     }
 
-    protected function createPrimaryKey()
+    protected function createPrimaryKeyb() : bool
     {
         global $DIC;
 

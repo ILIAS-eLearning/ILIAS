@@ -40,10 +40,6 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         }
     }
 
-    /**
-     * Import from post
-     * @param array $a_post
-     */
     public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
@@ -55,6 +51,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         } else {
             $this->getADT()->setTargetRefId(null);
         }
+        return true;
     }
 
     /**
@@ -68,11 +65,17 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
     {
         $db = $GLOBALS['DIC']->database();
 
+        $a_value = '';
         if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
                 return '';
             }
             $a_value = $this->getADT()->getTargetRefId();
+        } elseif (count($quotedWords)) {
+            $a_value = $quotedWords[0];
+        }
+        if (!strlen($a_value)) {
+            return '';
         }
 
         $subselect = $a_element_id . ' IN ' .
@@ -89,7 +92,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      */
     public function isInCondition(ilADT $a_adt) : bool
     {
-        if ($this->isValidADT($a_adt)) {
+        if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
             return $this->getADT()->equals($a_adt);
         }
         throw new InvalidArgumentException('Invalid argument given');
@@ -104,6 +107,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getTargetRefId()));
         }
+        return '';
     }
 
     /**

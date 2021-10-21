@@ -27,6 +27,7 @@ class ilADTLocalizedTextPresentationBridge extends ilADTTextPresentationBridge
         if (!$this->getADT()->isNull()) {
             return $this->decorate(nl2br($this->getADT()->getTextForLanguage($this->lng->getLangKey())));
         }
+        return '';
     }
 
     public function getSortable() : mixed
@@ -34,5 +35,6 @@ class ilADTLocalizedTextPresentationBridge extends ilADTTextPresentationBridge
         if (!$this->getADT()->isNull()) {
             return strtolower($this->getADT()->getTextForLanguage($this->lng->getLangKey()));
         }
+        return '';
     }
 }

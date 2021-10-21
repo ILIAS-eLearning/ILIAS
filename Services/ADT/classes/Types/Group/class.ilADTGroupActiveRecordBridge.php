@@ -17,7 +17,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
      */
     public function getFieldValue(string $a_field_name) : mixed
     {
-        // TODO: Implement getFieldValue() method.
+        return '';
     }
 
     /**
@@ -25,7 +25,6 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
      */
     public function setFieldValue(string $a_field_name, mixed $a_field_value) : void
     {
-        // TODO: Implement setFieldValue() method.
     }
 
     // elements
@@ -53,11 +52,12 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
         return $this->elements;
     }
 
-    public function getElement(string $a_element_id) : ilADTActiveRecordBridge
+    public function getElement(string $a_element_id) : ?ilADTActiveRecordBridge
     {
         if (array_key_exists($a_element_id, $this->getElements())) {
             return $this->elements[$a_element_id];
         }
+        return null;
     }
 
     public function getActiveRecordFields() : array

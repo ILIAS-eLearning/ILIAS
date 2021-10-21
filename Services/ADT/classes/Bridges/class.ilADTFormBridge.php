@@ -125,7 +125,7 @@ abstract class ilADTFormBridge
 
     public function setRequired(bool $a_value) : void
     {
-        $this->required = (bool) $a_value;
+        $this->required = $a_value;
     }
 
     public function isRequired() : bool
@@ -140,7 +140,7 @@ abstract class ilADTFormBridge
      */
     protected function addBasicFieldProperties(ilFormPropertyGUI $a_field, ilADTDefinition $a_def) : void
     {
-        if ((bool) $this->isDisabled()) {
+        if ($this->isDisabled()) {
             $a_field->setDisabled(true);
         } elseif ($this->isRequired()) {
             $a_field->setRequired(true);
@@ -152,7 +152,7 @@ abstract class ilADTFormBridge
         }
     }
 
-    protected function findParentElementInForm() : ?ilPropertyFormGUI
+    protected function findParentElementInForm() : ?ilFormPropertyGUI
     {
         $parent_def = $this->getParentElement();
         $parent_option = '';
@@ -178,12 +178,13 @@ abstract class ilADTFormBridge
                 return $parent_field;
             }
         }
+        return null;
     }
 
     protected function addToParentElement(ilFormPropertyGUI $a_field) : void
     {
         $field = $this->findParentElementInForm();
-        if ($field instanceof ilPropertyFormGUI) {
+        if ($field instanceof ilSubEnabledFormPropertyGUI) {
             $field->addSubItem($a_field);
         } elseif ($this->getForm() instanceof ilPropertyFormGUI) {
             $this->getForm()->addItem($a_field);

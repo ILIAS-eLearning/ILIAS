@@ -33,10 +33,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     protected function shouldBeImportedFromPost(mixed $a_post) : bool
     {
-        if (!(bool) $this->text_input) {
-            return (bool) $a_post["tgl"];
-        }
-        return parent::shouldBeImportedFromPost($a_post);
+        return (bool) $a_post["tgl"];
     }
 
     public function importFromPost(array $a_post = null) : bool
@@ -59,6 +56,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
             $this->writeFilter();
             $this->getADT()->setDate();
         }
+        return true;
     }
 
     // db
@@ -72,6 +70,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return $a_element_id . " = " . $ilDB->quote($this->getADT()->getDate()->get(IL_CAL_DATE), "date");
         }
+        return '';
     }
 
     public function isInCondition(ilADT $a_adt) : bool
@@ -88,6 +87,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getDate()->get(IL_CAL_DATE)));
         }
+        return '';
     }
 
     public function setSerializedValue(string $a_value) : void

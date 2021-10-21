@@ -66,6 +66,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
             $this->writeFilter();
             $this->getADT()->setDate();
         }
+        return true;
     }
 
     // db
@@ -79,6 +80,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return $a_element_id . " = " . $ilDB->quote($this->getADT()->getDate()->get(IL_CAL_DATETIME), "timestamp");
         }
+        return '';
     }
 
     public function isInCondition(ilADT $a_adt) : bool
@@ -95,6 +97,7 @@ class ilADTDateTimeSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getDate()->get(IL_CAL_DATETIME)));
         }
+        return '';
     }
 
     public function setSerializedValue(string $a_value) : void

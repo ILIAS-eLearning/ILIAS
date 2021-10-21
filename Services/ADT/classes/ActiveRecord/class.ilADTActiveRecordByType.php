@@ -103,11 +103,6 @@ class ilADTActiveRecordByType
         return $res;
     }
 
-    /**
-     * process raw data for ADT import
-     * @param string $a_sub_table
-     * @return array
-     */
     protected function processTableRowForElement(string $a_sub_table, string $a_element_id, array $a_row)
     {
         switch ($a_sub_table) {
@@ -117,27 +112,23 @@ class ilADTActiveRecordByType
                     $a_element_id . "_long" => $a_row["loc_long"],
                     $a_element_id . "_zoom" => $a_row["loc_zoom"]
                 ];
-                break;
 
             case 'extlink':
                 return [
                     $a_element_id . '_value' => $a_row['value'],
                     $a_element_id . '_title' => $a_row['title']
                 ];
-                break;
 
             case 'ltext':
                 return [
                     $a_element_id . '_language' => $a_row['value_index'],
                     $a_element_id . '_translation' => $a_row['value']
                 ];
-                break;
 
             case 'enum':
                 return [
                     $a_element_id => $a_row['value_index']
                 ];
-                break;
 
             default:
                 if ($a_row[self::SINGLE_COLUMN_NAME] !== null) {
@@ -172,7 +163,7 @@ class ilADTActiveRecordByType
                     // match by primary key
                     foreach ($primary as $primary_field => $primary_value) {
                         if ($row[$primary_field] != $primary_value[1]) {
-                            continue(2);
+                            continue 2;
                         }
                     }
 

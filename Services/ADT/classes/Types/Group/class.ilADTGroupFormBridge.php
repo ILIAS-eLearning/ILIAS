@@ -33,12 +33,13 @@ class ilADTGroupFormBridge extends ilADTFormBridge
         return $this->elements;
     }
 
-    public function getElement(string $a_name) : ilADTFormBridge
+    public function getElement(string $a_name) : ?ilADTFormBridge
     {
         $this->prepareElements();
         if (array_key_exists($a_name, $this->elements)) {
             return $this->elements[$a_name];
         }
+        return null;
     }
 
     public function addToForm() : void

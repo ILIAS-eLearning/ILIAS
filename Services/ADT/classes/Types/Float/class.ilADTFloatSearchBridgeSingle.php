@@ -58,6 +58,7 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
         } else {
             $this->getADT()->setNumber();
         }
+        return true;
     }
 
     // db
@@ -71,6 +72,7 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return $a_element_id . " = " . $ilDB->quote($this->getADT()->getNumber(), "float");
         }
+        return '';
     }
 
     public function isInCondition(ilADT $a_adt) : bool
@@ -87,6 +89,7 @@ class ilADTFloatSearchBridgeSingle extends ilADTSearchBridgeSingle
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getNumber()));
         }
+        return '';
     }
 
     public function setSerializedValue(string $a_value) : void

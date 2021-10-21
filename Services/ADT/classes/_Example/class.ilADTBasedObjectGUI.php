@@ -9,7 +9,8 @@
  */
 abstract class ilADTBasedObjectGUI
 {
-    protected $object; // [ilADTBasedObject]
+    private ilObjectGUI $gui;
+    protected ?ilADTBasedObject $object = null;
 
     /**
      * Constructor
@@ -25,18 +26,14 @@ abstract class ilADTBasedObjectGUI
     /**
      * Init ADT-based object
      */
-    abstract protected function initObject();
+    abstract protected function initObject() : ilADTBasedObject;
 
 
     //
     // VERY BASIC EXAMPLE OF FORM HANDLING
     //
 
-    /**
-     * Edit object ADT properties
-     * @param ilADTGroupFormBridge $a_form
-     */
-    public function editAction(ilADTGroupFormBridge $a_form = null)
+    public function editAction(ilADTGroupFormBridge $a_form = null) : bool
     {
         global $DIC;
 
@@ -47,19 +44,20 @@ abstract class ilADTBasedObjectGUI
         }
 
         $tpl->setContent($a_form->getForm()->getHTML());
+        return true;
     }
 
     /**
      * Prepare/customize form elements
      * @param ilADTGroupFormBridge $a_adt_form
      */
-    abstract protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form);
+    abstract protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form) : void;
 
     /**
      * Init ADT-based form
      * @return ilADTFormBridge $a_form
      */
-    protected function initForm()
+    protected function initForm() : ilADTFormBridge
     {
         global $DIC;
 
@@ -74,6 +72,7 @@ abstract class ilADTBasedObjectGUI
         // has to be done BEFORE prepareFormElements() ...
         $adt_form->setForm($form);
 
+        /** @noinspection PhpParamsInspection */
         $this->prepareFormElements($adt_form);
 
         $adt_form->addToForm();
@@ -87,8 +86,9 @@ abstract class ilADTBasedObjectGUI
 
     /**
      * Parse incoming values and update if valid
+     * @noinspection PhpParamsInspection
      */
-    public function updateAction()
+    public function updateAction() : bool
     {
         global $DIC;
 
@@ -96,7 +96,7 @@ abstract class ilADTBasedObjectGUI
         $ilCtrl = $DIC['ilCtrl'];
 
         $adt_form = $this->initForm();
-        $valid = $adt_form->getForm()->checkInput(); // :TODO: return value is obsolete
+        $valid = $adt_form->getForm()->checkInput();
 
         $old_chksum = $this->object->getProperties()->getCheckSum();
 
@@ -130,5 +130,6 @@ abstract class ilADTBasedObjectGUI
         }
 
         $ilCtrl->redirect($this->gui, "edit");
+        return true;
     }
 }

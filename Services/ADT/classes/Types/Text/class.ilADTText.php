@@ -65,7 +65,7 @@ class ilADTText extends ilADT
 
     public function isNull() : bool
     {
-        return (bool) !$this->getLength();
+        return !$this->getLength();
     }
 
     // validation

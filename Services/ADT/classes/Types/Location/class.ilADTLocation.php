@@ -30,9 +30,6 @@ class ilADTLocation extends ilADT
 
     public function setLongitude(float $a_value = null) : void
     {
-        if ($a_value !== null) {
-            $a_value = (float) $a_value;
-        }
         $this->longitude = $a_value;
     }
 
@@ -43,9 +40,6 @@ class ilADTLocation extends ilADT
 
     public function setLatitude(?float $a_value = null) : void
     {
-        if ($a_value !== null) {
-            $a_value = (float) $a_value;
-        }
         $this->latitude = $a_value;
     }
 
@@ -59,7 +53,7 @@ class ilADTLocation extends ilADT
         return $this->zoom;
     }
 
-    public function setZoom($a_value) : int
+    public function setZoom($a_value) : void
     {
         $this->zoom = max(1, abs((int) $a_value));
     }

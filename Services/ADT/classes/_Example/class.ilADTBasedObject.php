@@ -5,13 +5,12 @@
  * ADT based-object base class
  * Currently "mixed" with ActiveRecord-pattern, could be splitted
  * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  * @ingroup ServicesADT
  */
 abstract class ilADTBasedObject
 {
-    protected $properties = array(); // [array]
-    protected $db_errors = array(); // [array]
+    protected ilADT $properties;
+    protected array $db_errors = [];
 
     /**
      * Constructor
@@ -35,13 +34,12 @@ abstract class ilADTBasedObject
      * Init properties (aka set ADT definition)
      * @return ilADT
      */
-    abstract protected function initProperties();
+    abstract protected function initProperties() : ilADT;
 
     /**
      * Get all properties
-     * @return array ilADT
      */
-    public function getProperties()
+    public function getProperties() : ilADT
     {
         return $this->properties;
     }
@@ -50,7 +48,7 @@ abstract class ilADTBasedObject
      * Validate
      * @return bool
      */
-    public function isValid()
+    public function isValid() : bool
     {
         return $this->properties->isValid();
     }
@@ -90,31 +88,31 @@ abstract class ilADTBasedObject
      * @param array $a_args
      * @see __construct()
      */
-    abstract protected function parsePrimary(array $a_args);
+    abstract protected function parsePrimary(array $a_args) : void;
 
     /**
      * Check if currently has primary
      * @return bool
      */
-    abstract protected function hasPrimary();
+    abstract protected function hasPrimary() : bool;
 
     /**
      * Create new primary key, e.g. sequence
      * @return bool
      */
-    abstract protected function createPrimaryKey();
+    abstract protected function createPrimaryKeyb() : bool;
 
     /**
      * Init (properties) DB bridge
-     * @param ilADTGroupDBBridge $a_adt_db
+     * @param ilADTDBBridge $a_adt_db
      */
-    abstract protected function initDBBridge(ilADTGroupDBBridge $a_adt_db);
+    abstract protected function initDBBridge(ilADTDBBridge $a_adt_db) : void;
 
     /**
      * Init active record helper for current table, primary and properties
      * @return ilADTActiveRecord
      */
-    protected function initActiveRecordInstance()
+    protected function initActiveRecordInstance() : ilADTActiveRecord
     {
         global $DIC;
 
@@ -125,20 +123,21 @@ abstract class ilADTBasedObject
         }
 
         $factory = ilADTFactory::getInstance();
-        $this->adt_db = $factory->getDBBridgeForInstance($this->properties);
-        $this->initDBBridge($this->adt_db);
+        $adt_db = $factory->getDBBridgeForInstance($this->properties);
+        $this->initDBBridge($adt_db);
 
         // use custom error handling
         $ilDB->exception = "ilADTDBException";
 
-        return $factory->getActiveRecordInstance($this->adt_db);
+        /** @noinspection PhpParamsInspection */
+        return $factory->getActiveRecordInstance($adt_db);
     }
 
     /**
      * Read record
      * @return bool
      */
-    public function read()
+    public function read() : bool
     {
         if ($this->hasPrimary()) {
             $rec = $this->initActiveRecordInstance();
@@ -151,14 +150,14 @@ abstract class ilADTBasedObject
      * Create record (only if valid)
      * @return bool
      */
-    public function create()
+    public function create() : bool
     {
         if ($this->hasPrimary()) {
             return $this->update();
         }
 
         if ($this->isValid()) {
-            if ($this->createPrimaryKey()) {
+            if ($this->createPrimaryKeyb()) {
                 try {
                     $rec = $this->initActiveRecordInstance();
                     $rec->create();
@@ -176,7 +175,7 @@ abstract class ilADTBasedObject
      * Update record (only if valid)
      * @return bool
      */
-    public function update()
+    public function update() : bool
     {
         if (!$this->hasPrimary()) {
             return $this->create();
@@ -199,7 +198,7 @@ abstract class ilADTBasedObject
      * Delete record
      * @return bool
      */
-    public function delete()
+    public function delete() : bool
     {
         if ($this->hasPrimary()) {
             $rec = $this->initActiveRecordInstance();
@@ -213,7 +212,7 @@ abstract class ilADTBasedObject
      * Get DB errors
      * @return array
      */
-    public function getDBErrors()
+    public function getDBErrors() : array
     {
         return $this->db_errors;
     }
@@ -223,7 +222,7 @@ abstract class ilADTBasedObject
      * @param array $a_codes
      * @return array
      */
-    public function translateDBErrorCodes(array $a_codes)
+    public function translateDBErrorCodes(array $a_codes) : array
     {
         global $DIC;
 
@@ -233,25 +232,20 @@ abstract class ilADTBasedObject
 
         foreach ($a_codes as $code) {
             switch ($code) {
-                case MDB2_ERROR_CONSTRAINT:
-                    $res[] = $lng->txt("adt_error_db_constraint");
-                    break;
-
                 default:
                     $res[] = "Unknown ADT error code " . $code;
                     break;
             }
         }
-
         return $res;
     }
 
     /**
      * Get translated error codes (DB, Validation)
-     * @param type $delimiter
+     * @param string $delimiter
      * @return string
      */
-    public function getAllTranslatedErrors($delimiter = "\n")
+    public function getAllTranslatedErrors(string $delimiter = "\n") : string
     {
         $tmp = array();
 
@@ -263,8 +257,9 @@ abstract class ilADTBasedObject
             $tmp[] = $element_id . " [db]: " . implode($delimiter, $this->translateDBErrorCodes($codes));
         }
 
-        if (sizeof($tmp)) {
+        if (count($tmp)) {
             return get_class($this) . $delimiter . implode($delimiter, $tmp);
         }
+        return '';
     }
 }

@@ -2,7 +2,7 @@
 
 class ilADTMultiEnumFormBridge extends ilADTFormBridge
 {
-    protected array $option_infos = [];
+    protected ?array $option_infos = [];
     protected $auto_sort = true;
 
     protected function isValidADT(ilADT $a_adt) : bool
@@ -17,7 +17,7 @@ class ilADTMultiEnumFormBridge extends ilADTFormBridge
 
     public function setAutoSort(bool $a_value) : void
     {
-        $this->auto_sort = (bool) $a_value;
+        $this->auto_sort = $a_value;
     }
 
     public function addToForm() : void
