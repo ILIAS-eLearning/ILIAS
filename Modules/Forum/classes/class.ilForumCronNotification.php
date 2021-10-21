@@ -8,34 +8,27 @@
  */
 class ilForumCronNotification extends ilCronJob
 {
-    const KEEP_ALIVE_CHUNK_SIZE = 25;
-    private $lng;
-
+    private const KEEP_ALIVE_CHUNK_SIZE = 25;
+    private ilLanguage $lng;
     protected ilSetting $settings;
     protected ilLogger $logger;
 
-    /**
-     * @var ilForumCronNotificationDataProvider[]
-     */
+    /** @var ilForumCronNotificationDataProvider[] */
     public static array $providerObject = [];
-
-    /**
-     * @var array frm_posts_deleted.deleted_id
-     */
+    /** @var int[]  */
     protected static array $deleted_ids_cache = [];
-
+    /** @var array<int, int[]> */
     protected static array $ref_ids_by_obj_id = [];
-
+    /** @var array<int, int[]> */
     protected static array $accessible_ref_ids_by_user = [];
-
     protected int $num_sent_messages = 0;
-
     private ilDBInterface $ilDB;
-    private ?ilForumNotificationCache $notificationCache;
+    private ilForumNotificationCache $notificationCache;
 
-    public function __construct(\ilDBInterface $database = null, \ilForumNotificationCache $notificationCache = null)
+    public function __construct(ilDBInterface $database = null, ilForumNotificationCache $notificationCache = null)
     {
         global $DIC;
+
         $this->settings = new ilSetting('frma');
         $this->lng = $DIC->language();
 
@@ -45,7 +38,7 @@ class ilForumCronNotification extends ilCronJob
         $this->ilDB = $DIC->database();
 
         if ($notificationCache === null) {
-            $notificationCache = new \ilForumNotificationCache();
+            $notificationCache = new ilForumNotificationCache();
         }
         $this->notificationCache = $notificationCache;
     }
@@ -93,7 +86,7 @@ class ilForumCronNotification extends ilCronJob
     public function keepAlive()
     {
         $this->logger->debug('Sending ping to cron manager ...');
-        \ilCronManager::ping($this->getId());
+        ilCronManager::ping($this->getId());
         $this->logger->debug(sprintf('Current memory usage: %s', memory_get_usage(true)));
     }
 
@@ -127,10 +120,10 @@ class ilForumCronNotification extends ilCronJob
             )) {
             $threshold = max(
                 strtotime($last_run_datetime),
-                strtotime('-' . (int) $this->settings->get('max_notification_age', 30) . ' days', time())
+                strtotime('-' . (int) $this->settings->get('max_notification_age') . ' days')
             );
         } else {
-            $threshold = strtotime('-' . (int) $this->settings->get('max_notification_age', 30) . ' days', time());
+            $threshold = strtotime('-' . (int) $this->settings->get('max_notification_age') . ' days');
         }
 
         $this->logger->info(sprintf('Threshold for forum event determination is: %s', date('Y-m-d H:i:s', $threshold)));
@@ -171,7 +164,7 @@ class ilForumCronNotification extends ilCronJob
             self::$ref_ids_by_obj_id[$a_obj_id] = ilObject::_getAllReferences($a_obj_id);
         }
 
-        return (array) self::$ref_ids_by_obj_id[$a_obj_id];
+        return self::$ref_ids_by_obj_id[$a_obj_id];
     }
 
     protected function getFirstAccessibleRefIdBUserAndObjId(int $a_user_id, int $a_obj_id) : int
@@ -197,7 +190,7 @@ class ilForumCronNotification extends ilCronJob
         return (int) self::$accessible_ref_ids_by_user[$a_user_id][$a_obj_id];
     }
 
-    public function sendCronForumNotification(ilPDOStatement $res, int $notification_type)
+    public function sendCronForumNotification(ilDBStatement $res, int $notification_type) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -282,7 +275,7 @@ class ilForumCronNotification extends ilCronJob
         return false;
     }
 
-    private function addProviderObject($row, int $notification_type)
+    private function addProviderObject(array $row, int $notification_type) : void
     {
         $tmp_provider = new ilForumCronNotificationDataProvider($row, $notification_type, $this->notificationCache);
         self::$providerObject[$row['pos_pk'] . '_' . $notification_type] = $tmp_provider;
@@ -296,44 +289,37 @@ class ilForumCronNotification extends ilCronJob
 
     public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
     {
-        global $DIC;
-        $lng = $DIC->language();
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_FORUM:
                 $a_fields['cron_forum_notification'] = $a_is_active ?
-                    $lng->txt('enabled') :
-                    $lng->txt('disabled');
+                    $this->lng->txt('enabled') :
+                    $this->lng->txt('disabled');
                 break;
         }
     }
 
     public function activationWasToggled(bool $a_currently_active) : void
     {
-        global $DIC;
-
         $value = 1;
         // propagate cron-job setting to object setting
         if ($a_currently_active) {
             $value = 2;
         }
-        $DIC->settings()->set('forum_notification', $value);
+        $this->settings->set('forum_notification', (string) $value);
     }
 
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
-        global $DIC;
-        $lng = $DIC->language();
+        $this->lng->loadLanguageModule('forum');
 
-        $lng->loadLanguageModule('forum');
-
-        $max_notification_age = new ilNumberInputGUI($lng->txt('frm_max_notification_age'), 'max_notification_age');
+        $max_notification_age = new ilNumberInputGUI($this->lng->txt('frm_max_notification_age'), 'max_notification_age');
         $max_notification_age->setSize(5);
-        $max_notification_age->setSuffix($lng->txt('frm_max_notification_age_unit'));
+        $max_notification_age->setSuffix($this->lng->txt('frm_max_notification_age_unit'));
         $max_notification_age->setRequired(true);
         $max_notification_age->allowDecimals(false);
         $max_notification_age->setMinValue(1);
-        $max_notification_age->setInfo($lng->txt('frm_max_notification_age_info'));
-        $max_notification_age->setValue($this->settings->get('max_notification_age', 30));
+        $max_notification_age->setInfo($this->lng->txt('frm_max_notification_age_info'));
+        $max_notification_age->setValue($this->settings->get('max_notification_age') ?? '');
 
         $a_form->addItem($max_notification_age);
     }
@@ -466,7 +452,7 @@ class ilForumCronNotification extends ilCronJob
         );
     }
 
-    private function sendNotification($res, string $actionName, int $notificationType) : void
+    private function sendNotification(ilDBStatement $res, string $actionName, int $notificationType) : void
     {
         $numRows = $this->ilDB->numRows($res);
         if ($numRows > 0) {
@@ -479,7 +465,7 @@ class ilForumCronNotification extends ilCronJob
     }
 
     private function sendDeleteNotifications(
-        $res,
+        ilDBStatement $res,
         string $action,
         string $actionDescription,
         int $notificationType
@@ -503,7 +489,7 @@ class ilForumCronNotification extends ilCronJob
         $this->keepAlive();
     }
 
-    private function createForumPostSql($condition) : string
+    private function createForumPostSql(string $condition) : string
     {
         return '
 			SELECT 	frm_threads.thr_subject thr_subject,
