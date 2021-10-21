@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateAction.php';
+
+
 
 /**
  * Factory for didactic template actions
@@ -20,15 +21,18 @@ class ilDidacticTemplateActionFactory
     {
         switch ($a_action_type) {
             case ilDidacticTemplateAction::TYPE_LOCAL_POLICY:
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalPolicyAction.php';
+                
+
                 return new ilDidacticTemplateLocalPolicyAction();
 
             case ilDidacticTemplateAction::TYPE_LOCAL_ROLE:
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalRoleAction.php';
+                
+
                 return new ilDidacticTemplateLocalRoleAction();
 
             case ilDidacticTemplateAction::TYPE_BLOCK_ROLE:
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateBlockRoleAction.php';
+                
+
                 return new ilDidacticTemplateBlockRoleAction();
         }
     }
@@ -44,15 +48,18 @@ class ilDidacticTemplateActionFactory
     {
         switch ($a_action_type) {
             case ilDidacticTemplateAction::TYPE_LOCAL_POLICY:
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalPolicyAction.php';
+                
+
                 return new ilDidacticTemplateLocalPolicyAction($a_action_id);
 
             case ilDidacticTemplateAction::TYPE_LOCAL_ROLE:
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalRoleAction.php';
+                
+
                 return new ilDidacticTemplateLocalRoleAction($a_action_id);
 
             case ilDidacticTemplateAction::TYPE_BLOCK_ROLE:
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateBlockRoleAction.php';
+                
+
                 return new ilDidacticTemplateBlockRoleAction($a_action_id);
         }
     }

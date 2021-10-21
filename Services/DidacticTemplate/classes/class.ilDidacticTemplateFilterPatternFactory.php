@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -28,15 +28,18 @@ class ilDidacticTemplateFilterPatternFactory
 
         $patterns = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPattern.php';
+            
+
             switch ($row->pattern_type) {
                 case ilDidacticTemplateFilterPattern::PATTERN_INCLUDE:
-                    include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateIncludeFilterPattern.php';
+                    
+
                     $patterns[] = new ilDidacticTemplateIncludeFilterPattern($row->pattern_id);
                     break;
 
                 case ilDidacticTemplateFilterPattern::PATTERN_EXCLUDE:
-                    include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateExcludeFilterPattern.php';
+                    
+
                     $patterns[] = new ilDidacticTemplateExcludeFilterPattern($row->pattern_id);
                     break;
             }

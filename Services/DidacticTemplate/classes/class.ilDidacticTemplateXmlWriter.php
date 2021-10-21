@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Xml/classes/class.ilXmlWriter.php';
+
+
 
 /**
  * Settings for a single didactic template
@@ -20,7 +21,8 @@ class ilDidacticTemplateXmlWriter extends ilXmlWriter
     {
         parent::__construct();
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+        
+
         $this->tpl = new ilDidacticTemplateSetting($a_tpl_id);
     }
 

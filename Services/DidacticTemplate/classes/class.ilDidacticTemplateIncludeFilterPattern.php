@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
-include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPattern.php';
+
+
 
 /**
  * Implementation of an include filter pattern for didactic template actions
@@ -26,7 +27,7 @@ class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPat
     /**
      * Check if patttern matches
      */
-    public function valid($a_source)
+    public function valid(string $a_source) : bool
     {
         $a_source = trim($a_source);
         
@@ -42,7 +43,7 @@ class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPat
      * Write xml
      * @param ilXmlWriter $writer
      */
-    public function toXml(ilXmlWriter $writer)
+    public function toXml(ilXmlWriter $writer) : string
     {
         switch ($this->getPatternSubType()) {
             case ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX:

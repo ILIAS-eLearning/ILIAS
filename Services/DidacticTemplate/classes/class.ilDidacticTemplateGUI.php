@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+
+
 
 /**
  * GUI class for didactic template settings inside repository objects
@@ -65,10 +66,12 @@ class ilDidacticTemplateGUI
 
     public function appendToolbarSwitch(ilToolbarGUI $toolbar, $a_obj_type, $a_ref_id)
     {
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettings.php';
+        
+
         $tpls = ilDidacticTemplateSettings::getInstanceByObjectType($a_obj_type)->getTemplates();
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+        
+
         $value = ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId());
 
         if (!count($tpls) && !$value) {
@@ -106,7 +109,8 @@ class ilDidacticTemplateGUI
             return false;
         }
 
-        include_once './Services/Form/classes/class.ilSelectInputGUI.php';
+        
+
         $tpl_selection = new ilSelectInputGUI(
             '',
             'tplid'
@@ -131,7 +135,8 @@ class ilDidacticTemplateGUI
         $ilTabs = $DIC['ilTabs'];
         $tpl = $DIC['tpl'];
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+        
+
 
         // Check if template is changed
         $new_tpl_id = $this->requested_template_id;
@@ -151,7 +156,8 @@ class ilDidacticTemplateGUI
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
 
         if ($new_tpl_id) {
-            include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+            
+
             $dtpl = new ilDidacticTemplateSetting($new_tpl_id);
 
             $confirm->addItem(
@@ -201,7 +207,8 @@ class ilDidacticTemplateGUI
         
         $new_tpl_id = $this->requested_template_id;
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateUtils.php';
+        
+
         ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->object->getRefId(), $new_tpl_id);
 
         ilUtil::sendSuccess($this->lng->txt('didactic_template_applied'), true);

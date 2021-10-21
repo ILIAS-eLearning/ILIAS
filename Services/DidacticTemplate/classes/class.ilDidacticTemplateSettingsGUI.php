@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use Psr\Http\Message\RequestInterface;
 
-include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+
+
 
 /**
  * Settings for a single didactic template
@@ -104,7 +105,8 @@ class ilDidacticTemplateSettingsGUI
                 }
                 //$this->tabs_gui->setTabActive('export');
                 $this->setEditTabs("settings_trans");
-                include_once("./Services/Multilingualism/classes/class.ilMultilingualismGUI.php");
+                
+
                 $transgui = new ilMultilingualismGUI($_REQUEST["tplid"], 'dtpl');
                 $defaultl = $this->object->getTranslationObject()->getDefaultLanguage();
 
@@ -220,7 +222,8 @@ class ilDidacticTemplateSettingsGUI
 
         $ilCtrl = $DIC['ilCtrl'];
 
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+        
+
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -442,7 +445,8 @@ class ilDidacticTemplateSettingsGUI
         $ilCtrl = $DIC['ilCtrl'];
         $objDefinition = $DIC['objDefinition'];
 
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+        
+
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
         $form->setFormAction($ilCtrl->getFormAction($this, 'updateTemplate'));
@@ -464,7 +468,8 @@ class ilDidacticTemplateSettingsGUI
             $def = $trans[0]; // default
 
             if (sizeof($trans) > 1) {
-                include_once('Services/MetaData/classes/class.ilMDLanguageItem.php');
+                
+
                 $languages = ilMDLanguageItem::_getLanguages();
                 $title->setInfo($this->lng->txt("language") . ": " . $languages[$def["lang_code"]] .
                     ' <a href="' . $ilCtrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations") .
@@ -539,7 +544,8 @@ class ilDidacticTemplateSettingsGUI
             $lokal_templates->setInfo($this->lng->txt("activate_local_didactic_template_info"));
 
             //effective from (multinode)
-            include_once("./Services/Form/classes/class.ilRepositorySelector2InputGUI.php");
+            
+
             $effrom = new ilRepositorySelector2InputGUI($this->lng->txt("effective_form"), "effective_from", true);
             //$effrom->setMulti(true);
             $definition = $GLOBALS['DIC']['objDefinition'];
@@ -588,7 +594,8 @@ class ilDidacticTemplateSettingsGUI
             return;
         }
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateCopier.php';
+        
+
 
         $copier = new ilDidacticTemplateCopier((int) $_REQUEST['tplid']);
         $copier->start();
@@ -613,7 +620,8 @@ class ilDidacticTemplateSettingsGUI
             return;
         }
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateXmlWriter.php';
+        
+
         $writer = new ilDidacticTemplateXmlWriter((int) $_REQUEST['tplid']);
         $writer->write();
 
@@ -823,7 +831,8 @@ class ilDidacticTemplateSettingsGUI
 
         $ilCtrl = $DIC['ilCtrl'];
 
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+        
+
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -851,7 +860,8 @@ class ilDidacticTemplateSettingsGUI
         $ilCtrl = $DIC['ilCtrl'];
         $tplid = $_REQUEST['tplid'];
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+        
+
         ilDidacticTemplateObjSettings::transferAutoGenerateStatus($tplid, $a_settings->getId());
 
         $assignments = ilDidacticTemplateObjSettings::getAssignmentsByTemplateID($tplid);

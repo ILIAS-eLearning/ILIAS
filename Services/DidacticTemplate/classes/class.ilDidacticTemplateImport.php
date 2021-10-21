@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/DidacticTemplate/exceptions/class.ilDidacticTemplateImportException.php';
+
+
 
 /**
  * Description of ilDidacticTemplateImport
@@ -93,7 +94,8 @@ class ilDidacticTemplateImport
         $icon = '';
 
         $ilSetting = $DIC['ilSetting'];
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSetting.php';
+        
+
         $setting = new ilDidacticTemplateSetting();
 
         foreach ($root->didacticTemplate as $tpl) {
@@ -140,7 +142,8 @@ class ilDidacticTemplateImport
             $setting->getIconHandler()->writeSvg($icon);
         }
 
-        include_once("./Services/Multilingualism/classes/class.ilMultilingualism.php");
+        
+
         $trans = ilMultilingualism::getInstance($setting->getId(), "dtpl");
 
         if (isset($root->didacticTemplate->translations)) {
@@ -169,7 +172,8 @@ class ilDidacticTemplateImport
      */
     protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions = null)
     {
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateActionFactory.php';
+        
+
 
         if ($actions === null) {
             return;
@@ -179,14 +183,16 @@ class ilDidacticTemplateImport
         // Local role action
         ///////////////////////////////////////////////
         foreach ($actions->localRoleAction as $ele) {
-            include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalRoleAction.php';
+            
+
             $act = new ilDidacticTemplateLocalRoleAction();
             $act->setTemplateId($set->getId());
 
             foreach ($ele->roleTemplate as $tpl) {
                 // extract role
                 foreach ($tpl->role as $roleDef) {
-                    include_once './Services/AccessControl/classes/class.ilRoleXmlImporter.php';
+                    
+
                     $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
                     $role_id = $rimporter->importSimpleXml($roleDef);
                     $act->setRoleTemplateId($role_id);
@@ -199,7 +205,8 @@ class ilDidacticTemplateImport
         // Block role action
         //////////////////////////////////////////////
         foreach ($actions->blockRoleAction as $ele) {
-            include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateBlockRoleAction.php';
+            
+
             $act = new ilDidacticTemplateBlockRoleAction();
             $act->setTemplateId($set->getId());
 
@@ -221,7 +228,8 @@ class ilDidacticTemplateImport
                 }
                 foreach ($rfi->includePattern as $pat) {
                     // @TODO other subtypes
-                    include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateIncludeFilterPattern.php';
+                    
+
                     $pattern = new ilDidacticTemplateIncludeFilterPattern();
                     $pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
                     $pattern->setPattern((string) $pat->attributes()->preg);
@@ -229,7 +237,8 @@ class ilDidacticTemplateImport
                 }
                 foreach ($rfi->excludePattern as $pat) {
                     // @TODO other subtypes
-                    include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateExcludeFilterPattern.php';
+                    
+
                     $pattern = new ilDidacticTemplateExcludeFilterPattern();
                     $pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
                     $pattern->setPattern((string) $pat->attributes()->preg);
@@ -246,7 +255,8 @@ class ilDidacticTemplateImport
         // Local policy action
         /////////////////////////////////////////////
         foreach ($actions->localPolicyAction as $ele) {
-            include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateLocalPolicyAction.php';
+            
+
             $act = new ilDidacticTemplateLocalPolicyAction();
             $act->setTemplateId($set->getId());
 
@@ -275,7 +285,8 @@ class ilDidacticTemplateImport
                 }
                 foreach ($rfi->includePattern as $pat) {
                     // @TODO other subtypes
-                    include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateIncludeFilterPattern.php';
+                    
+
                     $pattern = new ilDidacticTemplateIncludeFilterPattern();
                     $pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
                     $pattern->setPattern((string) $pat->attributes()->preg);
@@ -283,7 +294,8 @@ class ilDidacticTemplateImport
                 }
                 foreach ($rfi->excludePattern as $pat) {
                     // @TODO other subtypes
-                    include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateExcludeFilterPattern.php';
+                    
+
                     $pattern = new ilDidacticTemplateExcludeFilterPattern();
                     $pattern->setPatternSubType(ilDidacticTemplateFilterPattern::PATTERN_SUBTYPE_REGEX);
                     $pattern->setPattern((string) $pat->attributes()->preg);
@@ -309,7 +321,8 @@ class ilDidacticTemplateImport
 
                 // extract role
                 foreach ($lpo->role as $roleDef) {
-                    include_once './Services/AccessControl/classes/class.ilRoleXmlImporter.php';
+                    
+
                     $rimporter = new ilRoleXmlImporter(ROLE_FOLDER_ID);
                     $role_id = $rimporter->importSimpleXml($roleDef);
                     $act->setRoleTemplateId($role_id);

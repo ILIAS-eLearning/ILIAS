@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateAction.php';
+
+
 
 /**
  * Description of class
@@ -227,7 +228,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 // delete local role and change exiting objects
                 $rbacadmin->deleteLocalRole($role_id, $source->getRefId());
                 // Change existing object
-                include_once './Services/AccessControl/classes/class.ilObjRole.php';
+                
+
                 $role_obj = new ilObjRole($role_id);
                 
                 $protected = $rbacreview->isProtected($role['parent'], $role['rol_id']);
@@ -323,7 +325,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 break;
         }
 
-        include_once './Services/AccessControl/classes/class.ilRoleXmlExport.php';
+        
+
         $exp = new ilRoleXmlExport();
         $exp->setMode(ilRoleXmlExport::MODE_DTPL);
         $exp->addRole($this->getRoleTemplateId(), ROLE_FOLDER_ID);
@@ -369,7 +372,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         }
 
         // Read filter
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPatternFactory.php';
+        
+
         foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(), self::PATTERN_PARENT_TYPE) as $pattern) {
             $this->addFilterPattern($pattern);
         }
@@ -459,7 +463,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         }
 
         // Change existing object
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
+        
+
         $role_obj = new ilObjRole($role_data['obj_id']);
         $role_obj->changeExistingObjects(
             $source->getRefId(),
@@ -519,7 +524,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         );
 
         // Change existing object
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
+        
+
         $role_obj = new ilObjRole($role['obj_id']);
         $role_obj->changeExistingObjects(
             $source->getRefId(),

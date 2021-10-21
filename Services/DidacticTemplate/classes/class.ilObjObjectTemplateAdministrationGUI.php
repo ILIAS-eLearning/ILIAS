@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Object/classes/class.ilObjectGUI.php");
+
+
 
 /**
 * Didactic Template administration gui
@@ -53,7 +54,8 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
 
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+                
+
                 $perm_gui = new ilPermissionGUI($this);
                 $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
@@ -61,7 +63,8 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
             case 'ildidactictemplatesettingsgui':
 
                 $ilTabs->activateTab('didactic_adm_tab');
-                include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateSettingsGUI.php';
+                
+
                 $did = new ilDidacticTemplateSettingsGUI($this);
                 $this->ctrl->forwardCommand($did);
                 break;

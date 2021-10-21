@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateAction.php';
+
+
 
 /**
  * represents a creation of local roles action
@@ -65,7 +66,8 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 
         // Create role
         
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
+        
+
         $role = new ilObjRole();
         $role->setTitle(ilObject::_lookupTitle($this->getRoleTemplateId()) . '_' . $this->getRefId());
         $role->setDescription(ilObject::_lookupDescription($this->getRoleTemplateId()));
@@ -168,7 +170,8 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
             )
         );
 
-        include_once './Services/AccessControl/classes/class.ilRoleXmlExport.php';
+        
+
         $exp = new ilRoleXmlExport();
         $exp->setMode(ilRoleXmlExport::MODE_DTPL);
         $exp->addRole($this->getRoleTemplateId(), ROLE_FOLDER_ID);

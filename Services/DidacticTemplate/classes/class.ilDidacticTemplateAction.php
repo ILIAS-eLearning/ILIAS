@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -219,7 +219,8 @@ abstract class ilDidacticTemplateAction
      */
     protected function initSourceObject()
     {
-        include_once './Services/Object/classes/class.ilObjectFactory.php';
+        
+
         $s = ilObjectFactory::getInstanceByRefId($this->getRefId(), false);
         return $s;
     }
@@ -234,7 +235,8 @@ abstract class ilDidacticTemplateAction
 
         $rbacreview = $DIC['rbacreview'];
 
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPatternFactory.php';
+        
+
         $patterns = ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
             $this->getActionId(),
             self::PATTERN_PARENT_TYPE

@@ -1,7 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateAction.php';
+
+
 
 /**
  * Description of ilDidacticTemplateBlockRoleAction
@@ -205,7 +206,8 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         $rbacadmin->deleteLocalRole($a_role_id, $source->getRefId());
 
         // Change existing object
-        include_once './Services/AccessControl/classes/class.ilObjRole.php';
+        
+
         $role = new ilObjRole($a_role_id);
         $role->changeExistingObjects(
             $source->getRefId(),
@@ -299,7 +301,8 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         }
 
         // Read filter
-        include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateFilterPatternFactory.php';
+        
+
         foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(), self::PATTERN_PARENT_TYPE) as $pattern) {
             $this->addFilterPattern($pattern);
         }

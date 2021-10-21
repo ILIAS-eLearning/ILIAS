@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -10,20 +10,20 @@
  */
 abstract class ilDidacticTemplateFilterPattern
 {
-    const PATTERN_INCLUDE = 1;
-    const PATTERN_EXCLUDE = 2;
+    public const PATTERN_INCLUDE = 1;
+    public const PATTERN_EXCLUDE = 2;
 
-    const PATTERN_SUBTYPE_REGEX = 1;
+    public const PATTERN_SUBTYPE_REGEX = 1;
 
-    private $pattern_id = 0;
+    private int $pattern_id = 0;
 
-    private $parent_id = 0;
-    private $parent_type = '';
+    private int $parent_id = 0;
+    private string $parent_type = '';
 
-    private $pattern_type = 0;
-    private $pattern_sub_type = 0;
+    private int $pattern_type = 0;
+    private int $pattern_sub_type = 0;
 
-
+    protected ilDBInterface $db;
 
     /**
      * Constructor
@@ -31,6 +31,10 @@ abstract class ilDidacticTemplateFilterPattern
      */
     public function __construct($a_pattern_id = 0)
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
+
         $this->setPatternId($a_pattern_id);
         if ($this->getPatternId()) {
             $this->read();
@@ -38,10 +42,10 @@ abstract class ilDidacticTemplateFilterPattern
     }
 
     /**
-     * set pattern id
+     * Set pattern id
      * @param int $a_id
      */
-    public function setPatternId($a_id)
+    public function setPatternId($a_id) : void
     {
         $this->pattern_id = $a_id;
     }
@@ -50,7 +54,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Get pattern id
      * @return int
      */
-    public function getPatternId()
+    public function getPatternId() : int
     {
         return $this->pattern_id;
     }
@@ -59,7 +63,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Set parent id
      * @param int $a_id
      */
-    public function setParentId($a_id)
+    public function setParentId(int $a_id) : void
     {
         $this->parent_id = $a_id;
     }
@@ -68,7 +72,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Get parent id
      * @return int
      */
-    public function getParentId()
+    public function getParentId() : int
     {
         return $this->parent_id;
     }
@@ -77,7 +81,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Set parent type
      * @param string $a_type
      */
-    public function setParentType($a_type)
+    public function setParentType(string $a_type) : void
     {
         $this->parent_type = $a_type;
     }
@@ -86,7 +90,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Get parent type
      * @return string
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         return $this->parent_type;
     }
@@ -95,7 +99,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Set pattern type
      * @param int $a_type
      */
-    public function setPatternType($a_type)
+    public function setPatternType(int $a_type) : void
     {
         $this->pattern_type = $a_type;
     }
@@ -104,7 +108,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Get pattern type
      * @return int
      */
-    public function getPatterType()
+    public function getPatternType() : int
     {
         return $this->pattern_type;
     }
@@ -113,7 +117,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Set pattern sub type
      * @param int $a_subtype
      */
-    public function setPatternSubType($a_subtype)
+    public function setPatternSubType(int $a_subtype) : void
     {
         $this->pattern_sub_type = $a_subtype;
     }
@@ -122,7 +126,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Get pattern sub type
      * @return int
      */
-    public function getPatternSubType()
+    public function getPatternSubType() : int
     {
         return $this->pattern_sub_type;
     }
@@ -131,7 +135,7 @@ abstract class ilDidacticTemplateFilterPattern
      * Set pattern
      * @param string $a_pattern
      */
-    public function setPattern($a_pattern)
+    public function setPattern(string $a_pattern) : void
     {
         $this->pattern = $a_pattern;
     }
@@ -140,93 +144,78 @@ abstract class ilDidacticTemplateFilterPattern
      * Get pattern
      * @return string
      */
-    public function getPattern()
+    public function getPattern() : string
     {
         return $this->pattern;
     }
 
     /**
      * Check if pattern matches
-     *
      * @param mixed
      * @return bool
      */
-    abstract public function valid($a_source);
-
+    abstract public function valid(string $a_source):bool;
 
     /**
      * Get xml representation of pattern
      * @param ilXmlWriter $writer
-     * @return void
+     * @return string
      */
-    abstract public function toXml(ilXmlWriter $writer);
+    abstract public function toXml(ilXmlWriter $writer) : string;
 
 
     /**
      * Update pattern definition
      */
-    public function update()
+    public function update() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'UPDATE didactic_tpl_fp ' .
             'SET ' .
-            'pattern_type = ' . $ilDB->quote($this->getPatterType(), 'integer') . ', ' .
-            'pattern_sub_type = ' . $ilDB->quote($this->getPatternSubType(), 'integer') . ' ' .
-            'pattern = ' . $ilDB->quote($this->getPattern(), 'text') . ' ' .
-            'parent_id = ' . $ilDB->quote($this->getParentId(), 'integer') . ', ' .
-            'parent_type = ' . $ilDB->quote($this->getParentType(), 'text') . ', ' .
-            'WHERE pattern_id = ' . $ilDB->quote($this->getPatternId(), 'integer');
-        $res = $ilDB->manipulate($query);
-        return;
+            'pattern_type = ' . $this->db->quote($this->getPatternType(), 'integer') . ', ' .
+            'pattern_sub_type = ' . $this->db->quote($this->getPatternSubType(), 'integer') . ' ' .
+            'pattern = ' . $this->db->quote($this->getPattern(), 'text') . ' ' .
+            'parent_id = ' . $this->db->quote($this->getParentId(), 'integer') . ', ' .
+            'parent_type = ' . $this->db->quote($this->getParentType(), 'text') . ', ' .
+            'WHERE pattern_id = ' . $this->db->quote($this->getPatternId(), 'integer');
+        $res = $this->db->manipulate($query);
     }
 
     /**
      * Create new pattern
+     * Returns new pattern id
      * @return int
      */
-    public function save()
+    public function save() : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $this->setPatternId($ilDB->nextId('didactic_tpl_fp'));
+        $this->setPatternId($this->db->nextId('didactic_tpl_fp'));
         $query = 'INSERT INTO didactic_tpl_fp (pattern_id,pattern_type,pattern_sub_type,pattern,parent_id,parent_type) ' .
             'VALUES ( ' .
-            $ilDB->quote($this->getPatternId(), 'integer') . ', ' .
-            $ilDB->quote($this->getPatterType(), 'integer') . ', ' .
-            $ilDB->quote($this->getPatternSubType(), 'integer') . ', ' .
-            $ilDB->quote($this->getPattern(), 'text') . ', ' .
-            $ilDB->quote($this->getParentId(), 'integer') . ', ' .
-            $ilDB->quote($this->getParentType(), 'text') . ' ' .
+            $this->db->quote($this->getPatternId(), 'integer') . ', ' .
+            $this->db->quote($this->getPatternType(), 'integer') . ', ' .
+            $this->db->quote($this->getPatternSubType(), 'integer') . ', ' .
+            $this->db->quote($this->getPattern(), 'text') . ', ' .
+            $this->db->quote($this->getParentId(), 'integer') . ', ' .
+            $this->db->quote($this->getParentType(), 'text') . ' ' .
             ')';
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
         return $this->getPatternId();
     }
 
     /**
      * Delete pattern
-     * @return bool
+     * @return void
      */
-    public function delete()
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'DELETE FROM didactic_tpl_fp ' .
-            'WHERE pattern_id = ' . $ilDB->quote($this->getPatternId(), 'integer');
-        $ilDB->manipulate($query);
-        return true;
+            'WHERE pattern_id = ' . $this->db->quote($this->getPatternId(), 'integer');
+        $this->db->manipulate($query);
     }
 
     /**
      * Magic clone method
      */
-    public function __clone()
+    public function __clone() : void
     {
         $this->setParentId(0);
         $this->setPatternId(0);
@@ -237,15 +226,11 @@ abstract class ilDidacticTemplateFilterPattern
      * Read pattern definition from db
      * @return void
      */
-    protected function read()
+    protected function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT * FROM didactic_tpl_fp ' .
-            'WHERE pattern_id = ' . $ilDB->quote($this->getPatternId(), 'integer');
-        $res = $ilDB->query($query);
+            'WHERE pattern_id = ' . $this->db->quote($this->getPatternId(), 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setPatternType($row->pattern_type);
             $this->setPatternSubType($row->pattern_sub_type);
