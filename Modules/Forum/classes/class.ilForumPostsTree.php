@@ -113,6 +113,7 @@ class ilForumPostsTree
     public static function updateTargetRootRgt(int $root_node_id, int $rgt) : void
     {
         global $DIC;
+
         $ilDB = $DIC->database();
 
         $ilDB->update(

@@ -2,27 +2,24 @@
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * @author  Nadia Matuschek <nmatuschek@databay.de>
- * @version $Id$
+ * @author Nadia Matuschek <nmatuschek@databay.de>
  */
 class ilForumMailNotification extends ilMailNotification
 {
-    const TYPE_THREAD_DELETED = 54;
+    private const PERMANENT_LINK_POST = 'PL_Post';
+    private const PERMANENT_LINK_FORUM = 'PL_Forum';
+    public const TYPE_THREAD_DELETED = 54;
+    public const TYPE_POST_NEW = 60;
+    public const TYPE_POST_ACTIVATION = 61;
+    public const TYPE_POST_UPDATED = 62;
+    public const TYPE_POST_CENSORED = 63;
+    public const TYPE_POST_DELETED = 64;
+    public const TYPE_POST_ANSWERED = 65;
+    public const TYPE_POST_UNCENSORED = 66;
 
-    const TYPE_POST_NEW = 60;
-    const TYPE_POST_ACTIVATION = 61;
-    const TYPE_POST_UPDATED = 62;
-    const TYPE_POST_CENSORED = 63;
-    const TYPE_POST_DELETED = 64;
-    const TYPE_POST_ANSWERED = 65;
-    const TYPE_POST_UNCENSORED = 66;
-
-    const PERMANENT_LINK_POST = 'PL_Post';
-    const PERMANENT_LINK_FORUM = 'PL_Forum';
-
-    protected bool $is_cronjob = false;
-    protected ilForumNotificationMailData $provider;
-    protected ilLogger $logger;
+    private bool $is_cronjob = false;
+    private ilForumNotificationMailData $provider;
+    private ilLogger $logger;
 
     public function __construct(ilForumNotificationMailData $provider, \ilLogger $logger)
     {
@@ -73,7 +70,7 @@ class ilForumMailNotification extends ilMailNotification
         $ilSetting = $DIC->settings();
         $lng = $DIC->language();
 
-        if (!$ilSetting->get('forum_notification', 0)) {
+        if (!$ilSetting->get('forum_notification', '0')) {
             $this->logger->debug('Forum notifications are globally disabled');
             return false;
         }
@@ -221,7 +218,7 @@ class ilForumMailNotification extends ilMailNotification
 
     public function isCronjob() : bool
     {
-        return (bool) $this->is_cronjob;
+        return $this->is_cronjob;
     }
 
     public function setIsCronjob($is_cronjob) : void
@@ -229,9 +226,10 @@ class ilForumMailNotification extends ilMailNotification
         $this->is_cronjob = (bool) $is_cronjob;
     }
 
-    private function getPermanentLink($type = self::PERMANENT_LINK_POST) : string
+    private function getPermanentLink(string $type = self::PERMANENT_LINK_POST) : string
     {
         global $DIC;
+
         $ilClientIniFile = $DIC['ilClientIniFile'];
 
         if ($type === self::PERMANENT_LINK_FORUM) {
@@ -251,10 +249,7 @@ class ilForumMailNotification extends ilMailNotification
             $language_text,
             ilUtil::_getHttpPath() . "/goto.php?target=frm_" . $forum_parameters . '&client_id=' . CLIENT_ID
         ) . "\n\n";
-        $posting_link = sprintf(
-            $language_text,
-            ilUtil::_getHttpPath() . "/goto.php?target=frm_" . $forum_parameters . '&client_id=' . CLIENT_ID
-        ) . "\n\n";
+
         $posting_link .= sprintf(
             $this->getLanguageText("forums_notification_intro"),
             $ilClientIniFile->readVariable("client", "name"),
@@ -286,14 +281,6 @@ class ilForumMailNotification extends ilMailNotification
         return $pos_message;
     }
 
-    /**
-     * Add body and send mail with attachments
-     * @param string $subjectLanguageId - Language id of subject
-     * @param int    $userId            - id of the user recipient of the mail
-     * @param string $customText        - mail text after salutation
-     * @param string $action            - Language id of action
-     * @param string $date              - date to be added in mail
-     */
     private function sendMailWithAttachments(
         string $subjectLanguageId,
         int $userId,
@@ -307,40 +294,24 @@ class ilForumMailNotification extends ilMailNotification
         $this->sendMail([$userId]);
     }
 
-    /**
-     * Add body and send mail without attachments
-     * @param string      $subjectLanguageId - Language id of subject
-     * @param int         $userId            - id of the user recipient of the mail
-     * @param string      $customText        - mail text after salutation
-     * @param string      $action            - Language id of action
-     * @param string|null $date              - date to be added in mail
-     */
     private function sendMailWithoutAttachments(
         string $subjectLanguageId,
         int $userId,
         string $customText,
         string $action,
-        string $date = ''
+        ?string $date = null
     ) : void {
         $this->createMail($subjectLanguageId, $userId, $customText, $action, $date);
         $this->addLinkToMail();
         $this->sendMail([$userId]);
     }
 
-    /**
-     * @param string      $subject    - Language id of subject
-     * @param int         $userId     - id of the user recipient of the mail
-     * @param string      $customText - mail text after salutation
-     * @param string      $action     - Language id of action
-     * @param string|null $date       - date to be added in mail
-     * @internal
-     */
     private function createMail(
         string $subject,
         int $userId,
         string $customText,
         string $action,
-        string $date
+        ?string $date
     ) : void {
         $date = $this->createMailDate($date);
 
@@ -358,8 +329,10 @@ class ilForumMailNotification extends ilMailNotification
 
         $this->appendBody($this->getLanguageText('author') . ": " . $this->provider->getPostUserName($this->getLanguage()));
         $this->appendBody("\n");
-        $this->appendBody($this->getLanguageText('date') . ": " . $date);
-        $this->appendBody("\n");
+        if ($date) {
+            $this->appendBody($this->getLanguageText('date') . ": " . $date);
+            $this->appendBody("\n");
+        }
         $this->appendBody($this->getLanguageText('subject') . ": " . $this->provider->getPostTitle());
         $this->appendBody("\n");
         $this->appendBody($this->getLanguageText('frm_noti_message'));
@@ -367,7 +340,7 @@ class ilForumMailNotification extends ilMailNotification
 
         $message = strip_tags($this->getPostMessage());
 
-        if ($this->provider->getPostCensored() === 1) {
+        if ($this->provider->isPostCensored()) {
             $message = $this->provider->getCensorshipComment();
         }
 
@@ -375,7 +348,7 @@ class ilForumMailNotification extends ilMailNotification
         $this->appendBody("------------------------------------------------------------\n");
     }
 
-    private function addMailSubject(string $subject)
+    private function addMailSubject(string $subject) : void
     {
         $this->initMail();
 

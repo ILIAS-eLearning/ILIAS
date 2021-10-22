@@ -8,15 +8,16 @@
  */
 class ilFileDataForumDrafts extends ilFileData
 {
-    protected int $obj_id = 0;
-    protected int $draft_id = 0;
-    protected string $drafts_path = '';
-    private $lng;
-    private $error;
+    private int $obj_id = 0;
+    private int $draft_id = 0;
+    private string $drafts_path;
+    private ilLanguage $lng;
+    private ilErrorHandling $error;
 
     public function __construct(int $obj_id, int $draft_id)
     {
         global $DIC;
+
         $this->lng = $DIC->language();
         $this->error = $DIC['ilErr'];
 
@@ -24,7 +25,7 @@ class ilFileDataForumDrafts extends ilFileData
         $this->draft_id = $draft_id;
 
         parent::__construct();
-        $this->drafts_path = $this->getPath() . "/forum/drafts";
+        $this->drafts_path = $this->getPath() . '/forum/drafts';
 
         if (!$this->checkForumDraftsPath()) {
             $this->initDirectory();
@@ -192,7 +193,11 @@ class ilFileDataForumDrafts extends ilFileData
         return null;
     }
 
-    public function unlinkFilesByMD5Filenames(string $a_md5_filename) : bool
+    /**
+     * @param string|string[] $a_md5_filename
+     * @return bool
+     */
+    public function unlinkFilesByMD5Filenames($a_md5_filename) : bool
     {
         $files = ilUtil::getDir($this->getDraftsPath() . '/' . $this->getDraftId());
         if (is_array($a_md5_filename)) {

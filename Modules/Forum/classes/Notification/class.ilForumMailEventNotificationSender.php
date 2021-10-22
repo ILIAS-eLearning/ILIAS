@@ -60,7 +60,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
         $ilSetting = $DIC->settings();
         $lng = $DIC->language();
 
-        if (!$ilSetting->get('forum_notification', 0)) {
+        if (!$ilSetting->get('forum_notification', '0')) {
             $this->logger->debug('Forum notifications are globally disabled');
 
             return false;
@@ -436,7 +436,7 @@ class ilForumMailEventNotificationSender extends ilMailNotification
 
         $message = strip_tags($this->getPostMessage());
 
-        if ($this->provider->getPostCensored() === 1) {
+        if ($this->provider->isPostCensored()) {
             $message = $this->provider->getCensorshipComment();
         }
 

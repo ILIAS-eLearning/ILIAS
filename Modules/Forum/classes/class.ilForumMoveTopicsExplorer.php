@@ -9,14 +9,9 @@ class ilForumMoveTopicsExplorer extends ilRepositorySelectorExplorerGUI
 {
     protected int $current_frm_ref_id = 0;
 
-    public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_selection_gui = null,
-        $a_selection_cmd = "selectObject",
-        $a_selection_par = "sel_ref_id"
-    ) {
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_selection_gui, $a_selection_cmd, $a_selection_par);
+    public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd)
+    {
+        parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTypeWhiteList(['root', 'cat', 'fold', 'crs', 'grp', 'frm']);
         $this->setSelectMode('frm_ref_id');
     }

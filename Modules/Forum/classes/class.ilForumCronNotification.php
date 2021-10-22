@@ -9,19 +9,20 @@
 class ilForumCronNotification extends ilCronJob
 {
     private const KEEP_ALIVE_CHUNK_SIZE = 25;
-    private ilLanguage $lng;
-    protected ilSetting $settings;
-    protected ilLogger $logger;
 
     /** @var ilForumCronNotificationDataProvider[] */
-    public static array $providerObject = [];
+    private static array $providerObject = [];
     /** @var int[]  */
-    protected static array $deleted_ids_cache = [];
+    private static array $deleted_ids_cache = [];
     /** @var array<int, int[]> */
-    protected static array $ref_ids_by_obj_id = [];
+    private static array $ref_ids_by_obj_id = [];
     /** @var array<int, int[]> */
-    protected static array $accessible_ref_ids_by_user = [];
-    protected int $num_sent_messages = 0;
+    private static array $accessible_ref_ids_by_user = [];
+
+    private ilLanguage $lng;
+    private ilSetting $settings;
+    private ilLogger $logger;
+    private int $num_sent_messages = 0;
     private ilDBInterface $ilDB;
     private ilForumNotificationCache $notificationCache;
 
@@ -45,17 +46,17 @@ class ilForumCronNotification extends ilCronJob
 
     public function getId() : string
     {
-        return "frm_notification";
+        return 'frm_notification';
     }
 
     public function getTitle() : string
     {
-        return $this->lng->txt("cron_forum_notification");
+        return $this->lng->txt('cron_forum_notification');
     }
 
     public function getDescription() : string
     {
-        return $this->lng->txt("cron_forum_notification_crob_desc");
+        return $this->lng->txt('cron_forum_notification_crob_desc');
     }
 
     public function getDefaultScheduleType() : int

@@ -9,22 +9,22 @@
  */
 class ilForumAuthorInformation
 {
-    protected int $display_id;
-    protected string $alias;
-    protected string $import_name;
-    protected array $public_profile_link_attributes = [];
-    protected string $author_name;
-    protected string $author_short_name;
-    protected $linked_public_name;
-    protected string $linked_short_name;
-    protected string $suffix = '';
-    protected string $profilePicture;
-    protected ?ilObjUser $author = null;
-    protected int $author_id;
-    protected ?ilLanguage $lng;
-    protected ilLanguage $globalLng;
-    protected ilObjUser $globalUser;
-    protected bool $is_deleted = false;
+    private int $display_id;
+    private string $alias;
+    private string $import_name;
+    private array $public_profile_link_attributes = [];
+    private string $author_name;
+    private string $author_short_name;
+    private $linked_public_name;
+    private string $linked_short_name;
+    private string $suffix = '';
+    private string $profilePicture;
+    private ?ilObjUser $author = null;
+    private int $author_id;
+    private ?ilLanguage $lng;
+    private ilLanguage $globalLng;
+    private ilObjUser $globalUser;
+    private bool $is_deleted = false;
 
     public function __construct(
         int $author_id,

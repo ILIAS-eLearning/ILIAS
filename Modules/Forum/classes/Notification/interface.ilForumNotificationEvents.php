@@ -4,6 +4,7 @@
 
 interface ilForumNotificationEvents
 {
+    public const DEACTIVATED = 0;
     public const UPDATED = 1;
     public const CENSORED = 2;
     public const UNCENSORED = 4;

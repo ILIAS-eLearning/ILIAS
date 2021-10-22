@@ -7,8 +7,10 @@
  */
 class ilForumPostsDeleted
 {
+    private ilObjUser $user;
+    private ilDBInterface $db;
     protected int $deleted_id = 0;
-    protected $deleted_date = null;
+    protected string $deleted_date;
     protected string $deleted_by = '';
     protected string $forum_title = '';
     protected string $thread_title = '';
@@ -23,18 +25,18 @@ class ilForumPostsDeleted
     protected string $pos_usr_alias = '';
     protected bool $thread_deleted = false;
 
-    private $user;
-    private $db;
-
     public function __construct(ilObjForumNotificationDataProvider $provider = null)
     {
         global $DIC;
+
         $this->user = $DIC->user();
         $this->db = $DIC->database();
 
-        if (is_object($provider)) {
-            if ($provider->objPost->getUserAlias() && $provider->objPost->getDisplayUserId() == 0
-                && $provider->objPost->getPosAuthorId() === $DIC->user()->getId()) {
+        if ($provider !== null) {
+            if (
+                $provider->objPost->getUserAlias() && $provider->objPost->getDisplayUserId() === 0 &&
+                $provider->objPost->getPosAuthorId() === $DIC->user()->getId()
+            ) {
                 $this->setDeletedBy($provider->objPost->getUserAlias());
             } else {
                 $this->setDeletedBy($this->user->getLogin());
@@ -45,7 +47,7 @@ class ilForumPostsDeleted
             $this->setThreadTitle($provider->getThreadTitle());
             $this->setPostTitle($provider->getPostTitle());
 
-            if ($provider->getPostCensored() === 1) {
+            if ($provider->isPostCensored()) {
                 $this->setPostMessage($provider->getCensorshipComment());
             } else {
                 $this->setPostMessage($provider->getPostMessage());

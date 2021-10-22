@@ -13,11 +13,10 @@ class ilForumModeratorsGUI
     private ilGlobalTemplateInterface $tpl;
     private ilLanguage $lng;
     private ilTabsGUI $tabs;
-    private $error;
+    private ilErrorHandling $error;
     private ilObjUser $user;
     private ilToolbarGUI $toolbar;
     private ilForumModerators $oForumModerators;
-
     private int $ref_id = 0;
     private ilAccessHandler $access;
     private \ILIAS\HTTP\Wrapper\WrapperFactory $http_wrapper;
@@ -25,8 +24,9 @@ class ilForumModeratorsGUI
 
     public function __construct()
     {
-        global $DIC;
         /** @var $DIC ILIAS\DI\Container */
+        global $DIC;
+
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
@@ -60,8 +60,8 @@ class ilForumModeratorsGUI
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        switch ($next_class) {
-            case 'ilrepositorysearchgui':
+        switch (strtolower($next_class)) {
+            case strtolower(ilRepositorySearchGUI::class):
                 $rep_search = new ilRepositorySearchGUI();
                 $rep_search->setCallback($this, 'addModerator');
                 $this->ctrl->setReturn($this, 'showModerators');
@@ -167,16 +167,14 @@ class ilForumModeratorsGUI
                 $this->refinery->kindlyTo()->int()
             );
         }
-        $tbl = new ilForumModeratorsTableGUI($this, 'showModerators', '', (int) $this->ref_id);
+        $tbl = new ilForumModeratorsTableGUI($this, 'showModerators', $this->ref_id);
 
         $entries = $this->oForumModerators->getCurrentModerators();
         $num = count($entries);
         $result = [];
         $i = 0;
         foreach ($entries as $usr_id) {
-            /**
-             * @var $user ilObjUser
-             */
+            /** @var $user ilObjUser */
             $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
             // Bugfix/Fallback for #25640
             if (!$user) {

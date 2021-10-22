@@ -7,7 +7,7 @@ class ilObjForumSearchResultTableGUI extends ilRepositoryObjectSearchResultTable
     {
         global $DIC;
 
-        $valid_threads = ilForum::_getThreads($DIC['ilObjDataCache']->lookupObjId($this->ref_id));
+        $valid_threads = ilForum::getSortedThreadSubjects($DIC['ilObjDataCache']->lookupObjId($this->ref_id));
 
         $rows = [];
         foreach ($this->getResults()->getResults() as $result_set) {

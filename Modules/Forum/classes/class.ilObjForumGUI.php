@@ -62,7 +62,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
     public $ilHelp;
 
     private int $selectedSorting;
-    private ilForumSessionStorage $session_storage;
+    private ilForumThreadSettinsSessionStorage $session_storage;
     private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
@@ -151,7 +151,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             ilSession::set('frm', $forumValues);
         }
 
-        $this->session_storage = new ilForumSessionStorage('frm_selected_post');
+        $this->session_storage = new ilForumThreadSettinsSessionStorage('frm_selected_post');
     }
 
     private function retrieveRefId() : int
@@ -3520,16 +3520,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                     ilSession::set('threads2move', $thread_ids);
                     $this->moveThreadsObject();
                 }
-            } elseif ($selected_cmd === 'enable_notifications' && $this->settings->get('forum_notification') !== 0) {
-                for ($i = 0; $i < count($thread_ids); $i++) {
+            } elseif ($selected_cmd === 'enable_notifications' && (int) $this->settings->get('forum_notification', '0') !== 0) {
+                for ($i = 0, $num_thread_ids = count($thread_ids); $i < $num_thread_ids; $i++) {
                     $tmp_obj = new ilForumTopic($thread_ids[$i]);
                     $this->ensureThreadBelongsToForum($this->object->getId(), $tmp_obj);
                     $tmp_obj->enableNotification($this->user->getId());
                 }
 
                 $this->ctrl->redirect($this, 'showThreads');
-            } elseif ($selected_cmd === 'disable_notifications' && $this->settings->get('forum_notification') !== 0) {
-                for ($i = 0; $i < count($thread_ids); $i++) {
+            } elseif ($selected_cmd === 'disable_notifications' && (int) $this->settings->get('forum_notification', '0') !== 0) {
+                for ($i = 0, $num_thread_ids = count($thread_ids); $i < $num_thread_ids; $i++) {
                     $tmp_obj = new ilForumTopic($thread_ids[$i]);
                     $this->ensureThreadBelongsToForum($this->object->getId(), $tmp_obj);
                     $tmp_obj->disableNotification($this->user->getId());
@@ -3538,7 +3538,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->ctrl->redirect($this, 'showThreads');
             } elseif ($selected_cmd === 'close') {
                 if ($this->is_moderator) {
-                    for ($i = 0; $i < count($thread_ids); $i++) {
+                    for ($i = 0, $num_thread_ids = count($thread_ids); $i < $num_thread_ids; $i++) {
                         $tmp_obj = new ilForumTopic($thread_ids[$i]);
                         $this->ensureThreadBelongsToForum($this->object->getId(), $tmp_obj);
                         $tmp_obj->close();
@@ -3548,7 +3548,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $this->ctrl->redirect($this, 'showThreads');
             } elseif ($selected_cmd === 'reopen') {
                 if ($this->is_moderator) {
-                    for ($i = 0; $i < count($thread_ids); $i++) {
+                    for ($i = 0, $num_thread_ids = count($thread_ids); $i < $num_thread_ids; $i++) {
                         $tmp_obj = new ilForumTopic($thread_ids[$i]);
                         $this->ensureThreadBelongsToForum($this->object->getId(), $tmp_obj);
                         $tmp_obj->reopen();
@@ -3561,7 +3561,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 if ($this->is_moderator) {
                     $message = $this->lng->txt('sel_threads_make_sticky');
 
-                    for ($i = 0; $i < count($thread_ids); $i++) {
+                    for ($i = 0, $num_thread_ids = count($thread_ids); $i < $num_thread_ids; $i++) {
                         $tmp_obj = new ilForumTopic($thread_ids[$i]);
                         $this->ensureThreadBelongsToForum($this->object->getId(), $tmp_obj);
                         $makeSticky = $tmp_obj->makeSticky();
@@ -3578,7 +3578,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             } elseif ($selected_cmd === 'unmakesticky') {
                 if ($this->is_moderator) {
                     $message = $this->lng->txt('sel_threads_make_unsticky');
-                    for ($i = 0; $i < count($thread_ids); $i++) {
+                    for ($i = 0, $num_thread_ids = count($thread_ids); $i < $num_thread_ids; $i++) {
                         $tmp_obj = new ilForumTopic($thread_ids[$i]);
                         $this->ensureThreadBelongsToForum($this->object->getId(), $tmp_obj);
                         $unmakeSticky = $tmp_obj->unmakeSticky();
@@ -4313,7 +4313,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $lg->setContainerObject($container_obj);
         }
 
-        if (!($lg instanceof ilObjForumListGUI) || !$this->settings->get('forum_notification')) {
+        if (!($lg instanceof ilObjForumListGUI) || !((bool) $this->settings->get('forum_notification', '0'))) {
             return $lg;
         }
 

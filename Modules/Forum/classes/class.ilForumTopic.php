@@ -23,8 +23,6 @@ class ilForumTopic
     private int $is_sticky = 0;
     private int $is_closed = 0;
     private string $orderField = '';
-
-    /** @var null|ilForumPost */
     private ?ilForumPost $last_post = null;
     private $db;
     private bool $is_moderator = false;
@@ -182,7 +180,7 @@ class ilForumTopic
                 $this->subject = html_entity_decode($row->thr_subject);
                 $this->createdate = (string) $row->thr_date;
                 $this->changedate = (string) $row->thr_update;
-                $this->import_name = (string) $row->import_name ?? '';
+                $this->import_name = (string) ($row->import_name ?? '');
                 $this->num_posts = (int) $row->thr_num_posts;
                 $this->last_post_string = (string) $row->thr_last_post;
                 $this->visits = (int) $row->visits;
@@ -974,7 +972,7 @@ class ilForumTopic
 
     public function setChangeDate($a_changedate) : void
     {
-        if ($a_changedate == '0000-00-00 00:00:00') {
+        if ($a_changedate === '0000-00-00 00:00:00') {
             $this->changedate = null;
         } else {
             $this->changedate = $a_changedate;

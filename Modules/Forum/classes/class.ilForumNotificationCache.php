@@ -31,7 +31,7 @@ class ilForumNotificationCache
 
     /**
      * @param array $values
-     * @return string A MD5 encoded key based on the given arrays
+     * @return string An´ MD5 encoded key based on the given arrays
      */
     public function createKeyByValues(array $values) : string
     {

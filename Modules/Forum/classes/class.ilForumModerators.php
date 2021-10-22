@@ -9,19 +9,19 @@
 class ilForumModerators
 {
     private int $ref_id = 0;
-    private $rbac;
+    private \ILIAS\DI\RBACServices $rbac;
 
-    public function __construct($a_ref_id)
+    public function __construct(int $a_ref_id)
     {
         global $DIC;
 
         $this->rbac = $DIC->rbac();
-        $this->ref_id = (int) $a_ref_id;
+        $this->ref_id = $a_ref_id;
     }
 
-    public function setRefId($ref_id) : void
+    public function setRefId(int $ref_id) : void
     {
-        $this->ref_id = (int) $ref_id;
+        $this->ref_id = $ref_id;
     }
 
     public function getRefId() : int
@@ -29,18 +29,18 @@ class ilForumModerators
         return $this->ref_id;
     }
 
-    public function addModeratorRole($a_usr_id) : bool
+    public function addModeratorRole(int $a_usr_id) : bool
     {
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($role_list as $role) {
             if (strpos($role['title'], 'il_frm_moderator') !== false) {
-                $a_rol_id = $role['obj_id'];
+                $a_rol_id = (int) $role['obj_id'];
                 break;
             }
         }
 
-        if ((int) $a_rol_id) {
+        if ($a_rol_id !== null) {
             $this->rbac->admin()->assignUser($a_rol_id, $a_usr_id);
             return true;
         }
@@ -48,18 +48,18 @@ class ilForumModerators
         return false;
     }
 
-    public function detachModeratorRole($a_usr_id) : bool
+    public function detachModeratorRole(int $a_usr_id) : bool
     {
         $a_rol_id = null;
         $role_list = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($role_list as $role) {
             if (strpos($role['title'], 'il_frm_moderator') !== false) {
-                $a_rol_id = $role['obj_id'];
+                $a_rol_id = (int) $role['obj_id'];
                 break;
             }
         }
 
-        if ((int) $a_rol_id) {
+        if ($a_rol_id !== null) {
             $this->rbac->admin()->deassignUser($a_rol_id, $a_usr_id);
             return true;
         }
@@ -67,29 +67,37 @@ class ilForumModerators
         return false;
     }
 
+    /**
+     * @return int[]
+     */
     public function getCurrentModerators() : array
     {
         $assigned_users = [];
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($roles as $role) {
             if (strpos($role['title'], 'il_frm_moderator') !== false) {
-                $assigned_users = $this->rbac->review()->assignedUsers($role['rol_id']);
+                $assigned_users = array_map('intval', $this->rbac->review()->assignedUsers((int) $role['rol_id']));
                 break;
             }
         }
+
         return $assigned_users;
     }
 
+    /**
+     * @return int[]
+     */
     public function getUsers() : array
     {
         $assigned_users = [];
         $roles = $this->rbac->review()->getRoleListByObject($this->getRefId());
         foreach ($roles as $role) {
             if (strpos($role['title'], 'il_frm_moderator') !== false) {
-                $assigned_users = $this->rbac->review()->assignedUsers($role['rol_id']);
+                $assigned_users = array_map('intval', $this->rbac->review()->assignedUsers((int) $role['rol_id']));
                 break;
             }
         }
+
         return $assigned_users;
     }
 }

@@ -40,17 +40,17 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
     public function getRefId() : int
     {
-        return (int) $this->ref_id;
+        return $this->ref_id;
     }
 
     public function getObjId() : int
     {
-        return (int) $this->obj_id;
+        return $this->obj_id;
     }
 
     public function getThreadId() : int
     {
-        return (int) $this->objPost->getThreadId();
+        return $this->objPost->getThreadId();
     }
 
     public function getPostId() : int
@@ -60,7 +60,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
     public function getForumId() : int
     {
-        return (int) $this->forum_id;
+        return $this->forum_id;
     }
 
     public function getForumTitle() : string
@@ -85,7 +85,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
     public function getPosDisplayUserId() : int
     {
-        return (int) $this->objPost->getDisplayUserId();
+        return $this->objPost->getDisplayUserId();
     }
 
     public function getPostDate() : string
@@ -98,9 +98,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $this->objPost->getChangeDate();
     }
 
-    public function getPostCensored() : int
+    public function isPostCensored() : bool
     {
-        return (int) $this->objPost->isCensored();
+        return $this->objPost->isCensored();
     }
 
     public function getPostCensoredDate() : string
@@ -427,9 +427,9 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         if ($this->objPost->getUserAlias() && $this->objPost->getDisplayUserId() === 0
             && $this->objPost->getPosAuthorId() === $this->user->getId()) {
             return $this->objPost->getUserAlias();
-        } else {
-            return $this->user->getLogin();
         }
+
+        return $this->user->getLogin();
     }
 
     private function getEventType(int $notification_type) : int

@@ -9,7 +9,7 @@ class ilForumDraftsTableGUI extends ilTable2GUI
 {
     protected bool $mayEdit = false;
 
-    public function __construct($a_parent_obj, $a_parent_cmd, bool $mayEdit)
+    public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd, bool $mayEdit)
     {
         $this->mayEdit = $mayEdit;
         $this->setId('frm_drafts_' . substr(md5($a_parent_cmd), 0, 3) . '_' . $a_parent_obj->object->getId());
@@ -30,34 +30,35 @@ class ilForumDraftsTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('draft_ids');
     }
 
-    protected function fillRow($draft) : void
+    protected function fillRow($a_set) : void
     {
         global $DIC;
-        $draft_ids = [];
+
+        $selected_draft_ids = [];
         if ($DIC->http()->wrapper()->post()->has('draft_ids')) {
-            $draft_ids = $DIC->http()->wrapper()->post()->retrieve(
+            $selected_draft_ids = $DIC->http()->wrapper()->post()->retrieve(
                 'draft_ids',
                 $DIC->refinery()->kindlyTo()->listOf($DIC->refinery()->kindlyTo()->int())
             );
         }
 
         $this->tpl->setVariable('VAL_CHECK', ilUtil::formCheckbox(
-            isset($draft_ids) && in_array($draft['draft_id'], $draft_ids),
+            in_array($a_set['draft_id'], $selected_draft_ids, true),
             'draft_ids[]',
-            $draft['draft_id']
+            $a_set['draft_id']
         ));
 
         if ($this->mayEdit) {
-            $this->ctrl->setParameter($this->getParentObject(), 'draft_id', $draft['draft_id']);
+            $this->ctrl->setParameter($this->getParentObject(), 'draft_id', $a_set['draft_id']);
             $url = $this->ctrl->getLinkTarget($this->getParentObject(), 'editThreadDraft');
             $this->ctrl->setParameter($this->getParentObject(), 'draft_id', null);
             $this->tpl->setVariable('VAL_EDIT_URL', $url);
-            $this->tpl->setVariable('VAL_LINKED_SUBJECT', $draft['subject']);
+            $this->tpl->setVariable('VAL_LINKED_SUBJECT', $a_set['subject']);
         } else {
-            $this->tpl->setVariable('VAL_UNLINKED_SUBJECT', $draft['subject']);
+            $this->tpl->setVariable('VAL_UNLINKED_SUBJECT', $a_set['subject']);
         }
 
-        $date = ilDatePresentation::formatDate(new ilDateTime($draft['post_update'], IL_CAL_DATETIME));
+        $date = ilDatePresentation::formatDate(new ilDateTime($a_set['post_update'], IL_CAL_DATETIME));
         $this->tpl->setVariable('VAL_DATE', $date);
     }
 }

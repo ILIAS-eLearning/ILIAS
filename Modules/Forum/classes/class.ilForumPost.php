@@ -49,12 +49,6 @@ class ilForumPost
         }
     }
 
-    public function __destruct()
-    {
-        unset($this->db);
-        unset($this->objThread);
-    }
-
     public function insert() : void
     {
         if ($this->forum_id && $this->thread_id) {

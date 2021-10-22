@@ -10,15 +10,16 @@
 class ilFileDataForum extends ilFileData
 {
     private const FORUM_PATH = 'forum';
-    public int $obj_id;
-    public int $pos_id;
 
-    public string $forum_path;
-    private $error;
+    private int $obj_id;
+    private int $pos_id;
+    private string $forum_path;
+    private ilErrorHandling $error;
 
     public function __construct(int $a_obj_id = 0, int $a_pos_id = 0)
     {
         global $DIC;
+
         $this->error = $DIC['ilErr'];
 
         parent::__construct();
@@ -226,6 +227,7 @@ class ilFileDataForum extends ilFileData
 
     /**
      * @param string|string[] md5 encrypted filename or array of multiple md5 encrypted files
+     * @return bool
      */
     public function unlinkFilesByMD5Filenames($a_md5_filename) : bool
     {

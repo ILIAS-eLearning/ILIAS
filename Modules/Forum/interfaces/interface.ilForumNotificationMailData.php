@@ -41,7 +41,7 @@ interface ilForumNotificationMailData
 
     public function getPostUpdateUserName(ilLanguage $user_lang) : string;
 
-    public function getPostCensored() : int;
+    public function isPostCensored() : bool;
 
     public function getPostCensoredDate() : string;
 

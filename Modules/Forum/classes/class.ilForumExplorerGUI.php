@@ -2,7 +2,6 @@
 
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\UI\Component\Tree\Node\Node;
 use ILIAS\UI\Component\Tree\Tree;
 
 /**
@@ -11,18 +10,18 @@ use ILIAS\UI\Component\Tree\Tree;
  */
 class ilForumExplorerGUI extends ilTreeExplorerGUI
 {
-    protected ilForumTopic $thread;
-    protected ilForumPost $root_node;
-    protected array $node_id_to_parent_node_id_map = [];
-    protected int $max_entries = PHP_INT_MAX;
-    protected array $preloaded_children = [];
+    private ilForumTopic $thread;
+    private ilForumPost $root_node;
+    private int $max_entries;
+    /** @var array<int, array<int, array<string, mixed>>> */
+    private array $preloaded_children = [];
+    /** @var array<int, int> */
+    private array $node_id_to_parent_node_id_map = [];
 
-    /** @var ilForumAuthorInformation[] */
-    protected array $authorInformation = [];
-    protected int $currentPostingId = 0;
-
-    /** @var int */
-    private $currentPage = 0;
+    /** @var array<int, ilForumAuthorInformation> */
+    private array $authorInformation = [];
+    private int $currentPostingId = 0;
+    private int $currentPage = 0;
 
     public function __construct(
         string $a_expl_id,
@@ -87,7 +86,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
 
         $children = $this->thread->getNestedSetPostChildren($this->root_node->getId());
 
-        array_walk($children, function ($node, $key) {
+        array_walk($children, function ($node, $key) : void {
             $this->node_id_to_parent_node_id_map[(int) $node['pos_pk']] = (int) $node['parent_pos'];
 
             if (!array_key_exists((int) $node['pos_pk'], $this->preloaded_children)) {
@@ -126,9 +125,9 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ];
 
         $tree = $this->ui->factory()->tree()
-                         ->expandable($this->getTreeLabel(), $this)
-                         ->withData($rootNode)
-                         ->withHighlightOnNodeClick(false);
+            ->expandable($this->getTreeLabel(), $this)
+            ->withData($rootNode)
+            ->withHighlightOnNodeClick(false);
 
         return $tree;
     }
@@ -164,8 +163,8 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     protected function getNodeStateToggleCmdClasses($record) : array
     {
         return [
-            'ilRepositoryGUI',
-            'ilObjForumGUI',
+            ilRepositoryGUI::class,
+            ilObjForumGUI::class,
         ];
     }
 
