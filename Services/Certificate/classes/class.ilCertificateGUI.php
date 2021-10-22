@@ -598,7 +598,7 @@ class ilCertificateGUI
     private function createFormatArray(ilCertificateTemplate $certificateTemplate) : array
     {
         if ('' === $certificateTemplate->getCertificateHash()) {
-            $format = $this->settings->get('pageformat');
+            $format = $this->settings->get('pageformat', '');
             $formats = $this->pageFormats->fetchPageFormats();
 
             $formFieldArray = [
