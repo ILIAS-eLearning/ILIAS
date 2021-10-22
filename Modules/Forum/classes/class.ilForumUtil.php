@@ -7,7 +7,7 @@
  */
 class ilForumUtil
 {
-    public static function getPublicUserAlias(string $user_alias = '', bool $is_anonymized = false) : string
+    public static function getPublicUserAlias(string $user_alias, bool $is_anonymized) : string
     {
         global $DIC;
 
