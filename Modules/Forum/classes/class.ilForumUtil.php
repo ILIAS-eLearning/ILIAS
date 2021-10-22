@@ -10,16 +10,18 @@ class ilForumUtil
     public static function getPublicUserAlias(string $user_alias = '', bool $is_anonymized = false) : string
     {
         global $DIC;
+
         $ilUser = $DIC->user();
         $lng = $DIC->language();
 
         if ($is_anonymized) {
-            if (!strlen($user_alias)) {
+            if ($user_alias === '') {
                 $user_alias = $lng->txt('forums_anonymous');
             }
 
             return $user_alias;
         }
+
         return $ilUser->getLogin();
     }
 
@@ -35,8 +37,7 @@ class ilForumUtil
         $myMediaObjects = ilObjMediaObject::_getMobsOfObject($source_type, $source_id);
         foreach ($mediaObjects as $mob) {
             foreach ($myMediaObjects as $myMob) {
-                if ($mob == $myMob) {
-                    // change usage
+                if ($mob === $myMob) {
                     ilObjMediaObject::_removeUsage($mob, $source_type, $source_id);
                     break;
                 }
