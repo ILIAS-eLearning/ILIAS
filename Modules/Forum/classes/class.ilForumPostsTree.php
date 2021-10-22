@@ -7,16 +7,20 @@
  */
 class ilForumPostsTree
 {
+    private ilDBInterface $db;
     private int $pos_fk = 0;
     private int $parent_pos = 0;
     private int $lft = 0;
     private int $rgt = 0;
     private int $depth = 0;
-
     private int $source_thread_id = 0;
     private int $target_thread_id = 0;
 
-    private $db;
+    public function __construct()
+    {
+        global $DIC;
+        $this->db = $DIC->database();
+    }
 
     public function setDepth(int $depth) : void
     {
@@ -86,12 +90,6 @@ class ilForumPostsTree
     public function getTargetThreadId() : int
     {
         return $this->target_thread_id;
-    }
-
-    public function __construct()
-    {
-        global $DIC;
-        $this->db = $DIC->database();
     }
 
     public function merge() : void
