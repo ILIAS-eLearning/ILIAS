@@ -32,31 +32,31 @@ class ilObjTermsOfService extends ilObject2
         $in = $this->db->in('usr_id', [ANONYMOUS_USER_ID, SYSTEM_USER_ID], true, 'integer');
         $this->db->manipulate("UPDATE usr_data SET agree_date = NULL WHERE $in");
 
-        $this->settings->set('tos_last_reset', time());
+        $this->settings->set('tos_last_reset', (string) time());
     }
 
     public function getLastResetDate() : ilDateTime
     {
-        return new ilDateTime($this->settings->get('tos_last_reset'), IL_CAL_UNIX);
+        return new ilDateTime((int) $this->settings->get('tos_last_reset', '0'), IL_CAL_UNIX);
     }
 
     public function saveStatus(bool $status) : void
     {
-        $this->settings->set('tos_status', (int) $status);
+        $this->settings->set('tos_status', (string) ((int) $status));
     }
 
     public function getStatus() : bool
     {
-        return (bool) $this->settings->get('tos_status');
+        return (bool) $this->settings->get('tos_status', '0');
     }
 
     public function setReevaluateOnLogin(bool $status) : void
     {
-        $this->settings->set('tos_reevaluate_on_login', (int) $status);
+        $this->settings->set('tos_reevaluate_on_login', (string) ((int) $status));
     }
     
     public function shouldReevaluateOnLogin() : bool
     {
-        return (bool) $this->settings->get('tos_reevaluate_on_login');
+        return (bool) $this->settings->get('tos_reevaluate_on_login', '0');
     }
 }
