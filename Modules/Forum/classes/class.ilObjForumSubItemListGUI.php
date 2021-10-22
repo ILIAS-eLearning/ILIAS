@@ -14,10 +14,10 @@ class ilObjForumSubItemListGUI extends ilSubItemListGUI
         global $DIC;
 
         foreach ($this->getSubItemIds(true) as $sub_item) {
-            if (is_object($this->getHighlighter()) and strlen($this->getHighlighter()->getContent(
+            if (is_object($this->getHighlighter()) && $this->getHighlighter()->getContent(
                 $this->getObjId(),
                 $sub_item
-            ))) {
+            ) !== '') {
                 $this->tpl->setCurrentBlock('sea_fragment');
                 $this->tpl->setVariable(
                     'TXT_FRAGMENT',
