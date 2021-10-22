@@ -227,17 +227,17 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
 
         $form_settings->set(
-            "pageformat",
-            $this->httpWrapper->post()->retrieve("pageformat", $this->refinery->kindlyTo()->string())
+            'pageformat',
+            $this->httpWrapper->post()->retrieve('pageformat', $this->refinery->kindlyTo()->string())
         );
         $form_settings->set(
-            "active",
-            $this->httpWrapper->post()->has("active") && $this->httpWrapper->post()->retrieve(
-                "active",
+            'active',
+            (string) ($this->httpWrapper->post()->has('active') && $this->httpWrapper->post()->retrieve(
+                'active',
                 $this->refinery->kindlyTo()->bool()
-            )
+            ))
         );
-        $form_settings->set("persistent_certificate_mode", $mode);
+        $form_settings->set('persistent_certificate_mode', $mode);
 
         ilUtil::sendSuccess($this->lng->txt("settings_saved"));
         $this->settings();
