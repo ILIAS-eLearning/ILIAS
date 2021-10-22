@@ -3,18 +3,17 @@
 
 /**
  * Class ilForumModeratorsTableGUI
- * @author	Michael Jansen <mjansen@databay.de>
- * @version	$Id$
+ * @author    Michael Jansen <mjansen@databay.de>
  * @ingroup ModulesForum
  */
 class ilForumModeratorsTableGUI extends ilTable2GUI
 {
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_template_context = "", $ref_id = 0)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, int $ref_id)
     {
         global $DIC;
 
         $this->setId('frm_show_mods_tbl_' . $ref_id);
-        parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
+        parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setFormAction($DIC->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
         $this->setTitle($this->lng->txt('frm_moderators'));
