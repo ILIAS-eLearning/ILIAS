@@ -8,17 +8,12 @@
  */
 class ilForumNotificationTableGUI extends ilTable2GUI
 {
-    protected ilTemplate $mainTemplate;
+    private ilGlobalTemplateInterface $mainTemplate;
+    private array $notification_modals = [];
+    private \ILIAS\UI\Factory $ui_factory;
+    private ILIAS\UI\Renderer $ui_renderer;
+    private int $ref_id;
 
-    protected array $notification_modals = [];
-
-    protected $ui_factory;
-    protected $ui_renderer;
-    protected $user;
-    protected $settings;
-
-    private $ref_id;
-    
     public function __construct(ilForumSettingsGUI $cmd_class_instance, string $cmd, string $type)
     {
         global $DIC;
@@ -29,8 +24,6 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->mainTemplate = $DIC->ui()->mainTemplate();
-        $this->user = $DIC->user();
-        $this->settings = $DIC->settings();
         $this->ref_id = $this->parent_obj->ref_id;
         $this->setId('frmevents_' . $this->ref_id . '_' . $type);
 
@@ -39,7 +32,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt(strtolower($type)));
         $this->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
         $this->setFormAction($this->ctrl->getFormAction($cmd_class_instance, 'showMembers'));
-    
+
         $this->addColumn('', '', '1%', true);
         $this->addColumn($this->lng->txt('login'), '', '20%');
         $this->addColumn($this->lng->txt('firstname'), '', '20%');
@@ -52,15 +45,15 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->addMultiCommand('disableHideUserToggleNoti', $this->lng->txt('disable_hide_user_toggle'));
     }
 
-    protected function getIcon(int $user_toggle_noti) : string
+    private function getIcon(int $user_toggle_noti) : string
     {
         $icon_ok = $this->ui_factory->symbol()->icon()->custom(
-            \ilUtil::getImagePath("icon_ok.svg"),
-            $this->lng->txt("enabled")
+            ilUtil::getImagePath('icon_ok.svg'),
+            $this->lng->txt('enabled')
         );
         $icon_not_ok = $this->ui_factory->symbol()->icon()->custom(
-            \ilUtil::getImagePath("icon_not_ok.svg"),
-            $this->lng->txt("disabled")
+            ilUtil::getImagePath('icon_not_ok.svg'),
+            $this->lng->txt('disabled')
         );
         $icon = $user_toggle_noti === 0 ? $icon_ok : $icon_not_ok;
 
@@ -84,7 +77,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
     {
         $form = new ilForumNotificationEventsFormGUI($this->parent_obj, $this->ref_id, 0);
         $form->setFormAction($this->ctrl->getFormAction($this->parent_obj, 'saveEventsForUser'));
-        $form->setId(uniqid('frm_ntf_usr_set_' . $row['login']));
+        $form->setId(uniqid('frm_ntf_usr_set_' . $row['login'], true));
 
         return $form;
     }
@@ -100,15 +93,14 @@ class ilForumNotificationTableGUI extends ilTable2GUI
             'forum_id' => $row['forum_id'],
         ];
 
-        $event_values =
-            [
-                'hidden_value' => json_encode($hidden_value),
-                'notify_modified' => $interested_events & ilForumNotificationEvents::UPDATED,
-                'notify_censored' => $interested_events & ilForumNotificationEvents::CENSORED,
-                'notify_uncensored' => $interested_events & ilForumNotificationEvents::UNCENSORED,
-                'notify_post_deleted' => $interested_events & ilForumNotificationEvents::POST_DELETED,
-                'notify_thread_deleted' => $interested_events & ilForumNotificationEvents::THREAD_DELETED,
-            ];
+        $event_values = [
+            'hidden_value' => json_encode($hidden_value, JSON_THROW_ON_ERROR),
+            'notify_modified' => $interested_events & ilForumNotificationEvents::UPDATED,
+            'notify_censored' => $interested_events & ilForumNotificationEvents::CENSORED,
+            'notify_uncensored' => $interested_events & ilForumNotificationEvents::UNCENSORED,
+            'notify_post_deleted' => $interested_events & ilForumNotificationEvents::POST_DELETED,
+            'notify_thread_deleted' => $interested_events & ilForumNotificationEvents::THREAD_DELETED,
+        ];
         $form->setValuesByArray($event_values);
 
         $notificationsModal = $this->ui_factory->modal()->roundtrip(
@@ -116,17 +108,17 @@ class ilForumNotificationTableGUI extends ilTable2GUI
             $this->ui_factory->legacy($form->getHTML())
         )->withActionButtons([
             $this->ui_factory->button()
-                             ->primary($this->lng->txt('save'), '#')
-                             ->withOnLoadCode(function ($id) use ($form) {
-                                 return "$('#{$id}').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
-                             })
+                ->primary($this->lng->txt('save'), '#')
+                ->withOnLoadCode(function ($id) use ($form) {
+                    return "$('#{$id}').click(function() { $('#form_{$form->getId()}').submit(); return false; });";
+                })
         ]);
 
         $showNotificationSettingsBtn = $this->ui_factory->button()
-                                                        ->shy($this->lng->txt('notification_settings'), '#')
-                                                        ->withOnClick(
-                                                            $notificationsModal->getShowSignal()
-                                                        );
+            ->shy($this->lng->txt('notification_settings'), '#')
+            ->withOnClick(
+                $notificationsModal->getShowSignal()
+            );
 
         $this->notification_modals[] = $notificationsModal;
 
@@ -135,9 +127,9 @@ class ilForumNotificationTableGUI extends ilTable2GUI
 
     public function render() : string
     {
-        $url = $this->ctrl->getLinkTarget($this->parent_obj, "saveEventsForUser", "", true, false);
+        $url = $this->ctrl->getLinkTarget($this->parent_obj, 'saveEventsForUser', '', true, false);
 
-        $this->mainTemplate->addJavaScript("Modules/Forum/js/ilFrmEvents.js");
+        $this->mainTemplate->addJavaScript('Modules/Forum/js/ilFrmEvents.js');
         $this->mainTemplate->addOnLoadCode('il.FrmEvents.init("' . $url . '");');
 
         return parent::render() . $this->ui_renderer->render($this->notification_modals);
