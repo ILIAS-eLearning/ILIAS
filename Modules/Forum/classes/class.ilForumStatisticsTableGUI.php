@@ -3,15 +3,17 @@
 
 /**
  * Class ilForumStatisticsTableGUI
- * @author     Michael Jansen <mjansen@databay.de>
- * @version    $Id$
- * @ingroup    ModulesForum
+ * @author Michael Jansen <mjansen@databay.de>
+ * @ingroup ModulesForum
  */
 class ilForumStatisticsTableGUI extends ilTable2GUI
 {
     private bool $hasActiveLp = false;
+    /** @var int[] */
     private array $completed = [];
+    /** @var int[] */
     private array $failed = [];
+    /** @var int[] */
     private array $in_progress = [];
 
     public function __construct(ilObjForumGUI $a_parent_obj, string $a_parent_cmd, ilObjForum $forum)
