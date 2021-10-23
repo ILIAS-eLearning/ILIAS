@@ -60,7 +60,7 @@ class ilOnScreenChatGUI
     {
         global $DIC;
 
-        return $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc') && $DIC->user() && !$DIC->user()->isAnonymous();
+        return $chatSettings->get('chat_enabled', '0') && $chatSettings->get('enable_osc', '0') && $DIC->user() && !$DIC->user()->isAnonymous();
     }
 
     /**
@@ -294,7 +294,7 @@ class ilOnScreenChatGUI
                 'locale' => $DIC->language()->getLangKey(),
                 'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
-                    $clientSettings->get('enable_browser_notifications', false) &&
+                    $clientSettings->get('enable_browser_notifications', '0') &&
                     ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
                 ),
                 'broadcast_typing' => (
@@ -359,12 +359,12 @@ class ilOnScreenChatGUI
             $page->addOnLoadCode("il.OnScreenChat.setConfig(" . json_encode($guiConfig) . ");");
             $page->addOnLoadCode("il.OnScreenChat.init();");
             $page->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
-                'conversationIdleTimeThreshold' => max(
-                    1,
-                    (int) $clientSettings->get('conversation_idle_state_in_minutes', 1)
-                ),
-                'logLevel' => $DIC['ilLoggerFactory']->getSettings()->getLevelByComponent('osch'),
-            ]) . ');');
+                    'conversationIdleTimeThreshold' => max(
+                        1,
+                        (int) $clientSettings->get('conversation_idle_state_in_minutes', '1')
+                    ),
+                    'logLevel' => $DIC['ilLoggerFactory']->getSettings()->getLevelByComponent('osch'),
+                ], JSON_THROW_ON_ERROR) . ');');
 
             self::$frontend_initialized = true;
         }

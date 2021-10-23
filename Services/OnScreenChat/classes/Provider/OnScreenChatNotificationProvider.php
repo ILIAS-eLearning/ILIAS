@@ -60,7 +60,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         }
 
         $chatSettings = new \ilSetting('chatroom');
-        $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
+        $isEnabled = $chatSettings->get('chat_enabled', '0') && $chatSettings->get('enable_osc', '0');
         if (!$isEnabled) {
             return [];
         }
@@ -68,9 +68,9 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $factory = $this->globalScreen()->notifications()->factory();
 
         $showAcceptMessageChange = (
-            !\ilUtil::yn2tf($this->dic->user()->getPref('chat_osc_accept_msg')) &&
-            !(bool) $this->dic->settings()->get('usr_settings_hide_chat_osc_accept_msg', false) &&
-            !(bool) $this->dic->settings()->get('usr_settings_disable_chat_osc_accept_msg', false)
+            !ilUtil::yn2tf($this->dic->user()->getPref('chat_osc_accept_msg')) &&
+            !(bool) $this->dic->settings()->get('usr_settings_hide_chat_osc_accept_msg', '0') &&
+            !(bool) $this->dic->settings()->get('usr_settings_disable_chat_osc_accept_msg', '0')
         );
 
         $description = $this->dic->language()->txt('chat_osc_nc_no_conv');
