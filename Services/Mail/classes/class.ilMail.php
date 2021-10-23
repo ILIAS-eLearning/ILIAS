@@ -1392,7 +1392,7 @@ class ilMail
     {
         global $DIC;
 
-        $signature = $DIC->settings()->get('mail_system_sys_signature');
+        $signature = $DIC->settings()->get('mail_system_sys_signature', '');
 
         $clientUrl = ilUtil::_getHttpPath();
         $clientdirs = glob(ILIAS_WEB_DIR . '/*', GLOB_ONLYDIR);
