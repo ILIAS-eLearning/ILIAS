@@ -87,12 +87,12 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
         $form->setFormAction($this->ctrl->getFormAction($this, 'saveConfigurationForm'));
 
         $enabled = new ilCheckboxInputGUI($this->lng->txt('buddy_enable'), 'enable');
-        $enabled->setValue(1);
+        $enabled->setValue('1');
         $enabled->setInfo($this->lng->txt('buddy_enable_info'));
         $enabled->setDisabled(!$this->checkPermissionBool('write'));
 
         $notification = new ilCheckboxInputGUI($this->lng->txt('buddy_use_osd'), 'use_osd');
-        $notification->setValue(1);
+        $notification->setValue('1');
         $notification->setInfo($this->lng->txt('buddy_use_osd_info'));
         $notification->setDisabled(!$this->checkPermissionBool('write'));
         $enabled->addSubItem($notification);
