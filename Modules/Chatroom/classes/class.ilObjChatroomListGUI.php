@@ -58,7 +58,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
 
             if (self::$chat_enabled === null) {
                 $chatSetting = new ilSetting('chatroom');
-                self::$chat_enabled = (bool) $chatSetting->get('chat_enabled');
+                self::$chat_enabled = (bool) $chatSetting->get('chat_enabled', '0');
             }
 
             if (!self::$chat_enabled) {
