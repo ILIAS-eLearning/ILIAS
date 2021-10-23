@@ -117,7 +117,7 @@ class ilChatroomFormFactory
         $form->addItem($dur);
 
         $visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'access_visibility');
-        $visible->setValue(1);
+        $visible->setValue('1');
         $visible->setInfo($this->lng->txt('chtr_activation_limited_visibility_info'));
         $dur->addSubItem($visible);
 
@@ -240,7 +240,7 @@ class ilChatroomFormFactory
             'enable_browser_notifications'
         );
         $oscBrowserNotificationStatus->setInfo($this->lng->txt('osc_adm_browser_noti_info'));
-        $oscBrowserNotificationStatus->setValue(1);
+        $oscBrowserNotificationStatus->setValue('1');
         $enable_osc->addSubItem($oscBrowserNotificationStatus);
 
         $oscBrowserNotificationIdleTime = new ilNumberInputGUI(
