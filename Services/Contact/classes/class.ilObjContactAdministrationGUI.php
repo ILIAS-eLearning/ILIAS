@@ -118,7 +118,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
 
             $form = $this->getConfigurationForm();
             $form->setValuesByArray([
-                'enable' => (bool) ilBuddySystem::getInstance()->getSetting('enabled', false),
+                'enable' => (bool) ilBuddySystem::getInstance()->getSetting('enabled', '0'),
                 'use_osd' => isset($cfg['buddysystem_request']) && in_array('osd', $cfg['buddysystem_request'], true)
             ]);
         }
@@ -138,7 +138,7 @@ class ilObjContactAdministrationGUI extends ilObject2GUI
             return;
         }
 
-        ilBuddySystem::getInstance()->setSetting('enabled', $form->getInput('enable') ? 1 : 0);
+        ilBuddySystem::getInstance()->setSetting('enabled', (string) ($form->getInput('enable') ? 1 : 0));
 
         $cfg = ilNotificationDatabaseHandler::loadUserConfig(-1);
 
