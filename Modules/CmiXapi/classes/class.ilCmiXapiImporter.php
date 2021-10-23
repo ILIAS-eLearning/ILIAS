@@ -221,8 +221,8 @@ class ilCmiXapiImporter extends ilXmlImporter
         $this->_cmixObj->setLaunchMode($this->_moduleProperties['LaunchMode']);
         $this->_cmixObj->setMasteryScore($this->_moduleProperties['MasteryScore']);
         $this->_cmixObj->setKeepLpStatusEnabled($this->_moduleProperties['KeepLp']);
-        $this->_cmixObj->setUserIdent($this->_moduleProperties['UsrIdent']);
-        $this->_cmixObj->setUserName($this->_moduleProperties['UsrName']);
+        $this->_cmixObj->setPrivacyIdent($this->_moduleProperties['PrivacyIdent']);
+        $this->_cmixObj->setPrivacyName($this->_moduleProperties['PrivacyName']);
         $this->_cmixObj->setUserPrivacyComment($this->_moduleProperties['UsrPrivacyComment']);
         $this->_cmixObj->setStatementsReportEnabled($this->_moduleProperties['ShowStatements']);
         $this->_cmixObj->setXmlManifest($this->_moduleProperties['XmlManifest']);

@@ -24,8 +24,8 @@ class ilCmiXapiLaunchGUI
      * @var ilCmiXapiUser
      */
     protected $cmixUser;
-    
-    /**
+
+        /**
      * @var plugin
      */
     protected $plugin = false;
@@ -155,7 +155,8 @@ class ilCmiXapiLaunchGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $name = ilCmiXapiUser::getName($this->object->getUserName(), $DIC->user());
+        $name = ilCmiXapiUser::getName($this->object->getPrivacyName(), $DIC->user());
+
         return json_encode([
             'mbox' => $this->cmixUser->getUsrIdent(),
             'name' => $name,
@@ -166,12 +167,12 @@ class ilCmiXapiLaunchGUI
             ]
         ]);
     }
-    
+
     protected function buildAgentParameter()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $name = ilCmiXapiUser::getName($this->object->getUserName(), $DIC->user());
+        $name = ilCmiXapiUser::getName($this->object->getPrivacyName(), $DIC->user());
 
         return json_encode([
             'objectType' => 'Agent',
@@ -179,7 +180,7 @@ class ilCmiXapiLaunchGUI
             'name' => $name
         ]);
     }
-
+    
     protected function getValidToken()
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
@@ -199,17 +200,22 @@ class ilCmiXapiLaunchGUI
         
         $doLpUpdate = false;
         
-        if (!ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId())) {
-            $doLpUpdate = true;
-        }
+        // if (!ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId())) {
+            // $doLpUpdate = true;
+        // }
         
-        $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId());
-        $this->cmixUser->setUsrIdent(ilCmiXapiUser::getIdent($this->object->getUserIdent(), $DIC->user()));
-        $this->cmixUser->save();
-        
-        if ($doLpUpdate) {
+        $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
+        $user_ident = $this->cmixUser->getUsrIdent();
+        if ($user_ident == '' || $user_ident == null) {
+			$user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $DIC->user());
+			$this->cmixUser->setUsrIdent($user_ident);
+			$this->cmixUser->save();
             ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
-        }
+		}
+        
+        // if ($doLpUpdate) {
+            // ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
+        // }
     }
 
     protected function getLaunchData()

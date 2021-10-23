@@ -108,7 +108,7 @@ class ilLTIConsumerResult
      */
     public function save()
     {
-        global $DIC;
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
         if (!isset($this->usr_id) or !isset($this->obj_id)) {
             return false;
@@ -168,7 +168,7 @@ class ilLTIConsumerResult
      */
     public static function getResultsForObject($objId)
     {
-        global $DIC;
+        global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $query = 'SELECT * FROM lti_consumer_results'
             . ' WHERE obj_id = ' . $DIC->database()->quote($objId, 'integer');

@@ -133,8 +133,12 @@ class ilLTIConsumerEmbeddedContentGUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId());
-        $this->cmixUser->setUsrIdent(ilCmiXapiUser::getIdent($this->object->getProvider()->getUserIdent(), $DIC->user()));
-        $this->cmixUser->save();
+        $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getProvider()->getPrivacyIdent());
+        $user_ident = $this->cmixUser->getUsrIdent();
+        if ($user_ident == '' || $user_ident == null) {
+			$user_ident = ilCmiXapiUser::getIdent($this->object->getProvider()->getPrivacyIdent(), $DIC->user());
+			$this->cmixUser->setUsrIdent($user_ident);
+			$this->cmixUser->save();
+		}
     }
 }

@@ -117,7 +117,7 @@ class ilCmiXapiStatementsGUI
                 $usrId = ilObjUser::getUserIdByLogin($actor);
                 
                 if ($usrId) {
-                    $filter->setActor(new ilCmiXapiUser($this->object->getId(), $usrId));
+                    $filter->setActor(new ilCmiXapiUser($this->object->getId(), $usrId, $this->object->getPrivacyIdent()));
                 } else {
                     throw new ilCmiXapiInvalidStatementsFilterException(
                         "given actor ({$actor}) is not a valid actor for object ({$this->object->getId()})"
@@ -125,7 +125,7 @@ class ilCmiXapiStatementsGUI
                 }
             }
         } else {
-            $filter->setActor(new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId()));
+            $filter->setActor(new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent()));
         }
     }
     
