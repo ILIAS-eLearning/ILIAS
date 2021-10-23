@@ -1038,3 +1038,115 @@ if (!$ilDB->tableColumnExists('tst_rnd_quest_set_qpls', 'pool_ref_id')) {
     );
 }
 ?>
+<#55>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_users', 'registration') ) {
+    $ilDB->addTableColumn('cmix_users', 'registration', array(
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+if ( !$ilDB->tableColumnExists('cmix_settings', 'publisher_id') ) {
+    $ilDB->addTableColumn('cmix_settings', 'publisher_id', array(
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+if ( !$ilDB->tableColumnExists('cmix_settings', 'anonymous_homepage') ) {
+    $ilDB->addTableColumn('cmix_settings', 'anonymous_homepage', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+    ));
+}
+?>
+<#56>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_settings', 'moveon') ) {
+    $ilDB->addTableColumn('cmix_settings', 'moveon', array(
+        'type' => 'text',
+        'length' => 32,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+?>
+<#57>
+<?php
+if (!$ilDB->tableColumnExists('cmix_token','cmi5_session')) {
+    $ilDB->addTableColumn("cmix_token", "cmi5_session", [
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ]);
+}
+?>
+<#58>
+<?php
+if (!$ilDB->tableColumnExists('cmix_token','returned_for_cmi5_session')) {
+    $ilDB->addTableColumn("cmix_token", "returned_for_cmi5_session", [
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ]);
+}
+?>
+<#59>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_settings', 'launch_parameters') ) {
+    $ilDB->addTableColumn('cmix_settings', 'launch_parameters', array(
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+?>
+<#60>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_settings', 'entitlement_key') ) {
+    $ilDB->addTableColumn('cmix_settings', 'entitlement_key', array(
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+?>
+<#61>
+<?php
+if (!$ilDB->tableColumnExists('cmix_token','cmi5_session_data')) {
+    $ilDB->addTableColumn("cmix_token", "cmi5_session_data", [
+        'type' => 'clob'
+    ]);
+}
+?>
+<#62>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_users', 'satisfied') ) {
+    $ilDB->addTableColumn('cmix_users', 'satisfied', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+    ));
+}
+?>
+<#63>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_settings', 'switch_to_review') ) {
+    $ilDB->addTableColumn('cmix_settings', 'switch_to_review', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+    ));
+}
+?>

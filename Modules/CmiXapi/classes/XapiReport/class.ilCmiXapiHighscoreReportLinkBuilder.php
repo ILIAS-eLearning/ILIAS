@@ -23,16 +23,27 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         
         $pipeline[] = $this->buildFilterStage();
         $pipeline[] = $this->buildOrderStage();
+
         
+        $obj = $this->getObj();
+        $id = null;
+        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC)
+        {
+            $id = '$statement.actor.mbox';
+        }
+        if ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$obj->isMixedContentType())
+        {
+            $id = '$statement.actor.account.name';
+        }
         $pipeline[] = ['$group' => [
-            '_id' => '$statement.actor.mbox',
+            '_id' => $id,
             'mbox' => [ '$last' => '$statement.actor.mbox' ],
+            'account' => [ '$last' => '$statement.actor.account.name'],
             'username' => [ '$last' => '$statement.actor.name' ],
             'timestamp' => [ '$last' => '$statement.timestamp' ],
             'duration' => [ '$push' => '$statement.result.duration' ],
             'score' => [ '$last' => '$statement.result.score' ]
         ]];
-        
         return $pipeline;
     }
     
@@ -41,15 +52,19 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         $stage = array();
         
         $stage['statement.object.objectType'] = 'Activity';
+        $stage['statement.actor.objectType'] = 'Agent';
+
         $stage['statement.object.id'] = $this->filter->getActivityId();
         
         $stage['statement.result.score.scaled'] = [
             '$exists' => 1
         ];
         
-        $stage['statement.actor.objectType'] = 'Agent';
-        
-        $stage['$or'] = $this->getUsersStack();
+        $obj = $this->getObj();
+        if (($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_GENERIC) || $obj->isMixedContentType())
+        {
+            $stage['$or'] = $this->getUsersStack();
+        }
         
         return [
             '$match' => $stage
@@ -63,16 +78,28 @@ class ilCmiXapiHighscoreReportLinkBuilder extends ilCmiXapiAbstractReportLinkBui
         ]];
     }
     
+    // not used in cmi5 see above
     protected function getUsersStack()
     {
         $users = [];
-        
-        foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) {
-            $users[] = [
-                'statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"
-            ];
+        $obj = $this->getObj();
+        if ($obj->isMixedContentType())
+        {
+            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) 
+            {
+                $users[] = ['statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"];
+                $users[] = ['statement.actor.account.name' => "{$cmixUser->getUsrIdent()}"];
+            }
         }
-        
+        else
+        {
+            foreach (ilCmiXapiUser::getUsersForObject($this->getObjId()) as $cmixUser) 
+            {
+                $users[] = [
+                    'statement.actor.mbox' => "mailto:{$cmixUser->getUsrIdent()}"
+                ];
+            }
+        }
         return $users;
     }
     

@@ -14,10 +14,15 @@
  */
 class ilCmiXapiLP extends ilObjectLP
 {
+    const MOVEON_COMPLETED = 'Completed';
+    const MOVEON_PASSED = 'Passed';
+    const MOVEON_COMPLETED_OR_PASSED = 'CompletedOrPassed';
+    const MOVEON_COMPLETED_AND_PASSED = 'CompletedAndPassed';
+    const MOVEON_NOT_APPLICABLE = 'NotApplicable';
+
     public function initModeOptions(ilRadioGroupInputGUI $modeRadio)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
         $modeCompleted = new ilRadioOption(
             $DIC->language()->txt('cmix_lp_mode_deactivated'),
             ilLPObjSettings::LP_MODE_DEACTIVATED
