@@ -675,12 +675,16 @@ class ilObjCmiXapiGUI extends ilObject2GUI
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         if (!$this->object->getOfflineStatus() && $this->object->getLrsType()->isAvailable()) {
-            $cmixUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId());
+            // TODO : check if this is the correct query
+            // p.e. switched to another privacyIdent before: user exists but not with the new privacyIdent
+            // re_check for isSourceTypeExternal
+            //$cmixUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId());
             
             if ($this->object->isSourceTypeExternal()) {
+                $extCmiUserExists = ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId());
                 $registerButton = ilLinkButton::getInstance();
                 
-                if ($cmixUserExists) {
+                if ($extCmiUserExists) {
                     $registerButton->setCaption('change_registration');
                 } else {
                     $registerButton->setPrimary(true);
@@ -708,8 +712,14 @@ class ilObjCmiXapiGUI extends ilObject2GUI
                 $DIC->toolbar()->addButtonInstance($launchButton);
             }
             
-            
-            if ($cmixUserExists) {
+            /**
+             * beware: ilCmiXapiUser::exists($this->object->getId(),$DIC->user()->getId());
+             * this is not a valid query because if you switched privacyIdent mode before you will get 
+             * an existing user without launched data like proxySuccess
+             */
+            $cmiUserExists = ilCmiXapiUser::exists($this->object->getId(),$DIC->user()->getId(),$this->object->getPrivacyIdent());
+
+            if ($cmiUserExists) {
                 $cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
                 
                 if ($this->isFetchXapiStatementsRequired($cmixUser)) {
@@ -740,6 +750,7 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     
     protected function isFetchXapiStatementsRequired(ilCmiXapiUser $cmixUser)
     {
+        global $DIC;
         if ($this->object->getLaunchMode() != ilObjCmiXapi::LAUNCH_MODE_NORMAL) {
             return false;
         }

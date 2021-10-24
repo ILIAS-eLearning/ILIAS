@@ -187,14 +187,15 @@
         
         private function handleStatementEvaluation($xapiStatement)
         {
+            global $DIC;
             if ($this->plugin) {
                 require_once __DIR__.'/../class.ilObjXapiCmi5.php';
+                // ToDo: handle terminate -> delete session
                 $this->setStatus($xapiStatement);
             }
             else {
                 /* @var ilObjCmiXapi $object */
                 $object = \ilObjectFactory::getInstanceByObjId($this->authToken->getObjId());
-
                 if( (string)$object->getLaunchMode() === (string)\ilObjCmiXapi::LAUNCH_MODE_NORMAL ) {
                     // ToDo: check function hasContextActivitiesParentNotEqualToObject!
                     $statementEvaluation = new \ilXapiStatementEvaluation($this->log(), $object);
@@ -204,6 +205,10 @@
                         $this->authToken->getObjId(),
                         $this->authToken->getUsrId()
                     );
+                }
+                if ($xapiStatement->verb->id == self::TERMINATED_VERB) {
+                    // ToDo : only cmi5 or also xapi? authToken object still used after that?
+                    $this->authToken->delete();
                 }
             }
         }

@@ -31,7 +31,7 @@
                     $this->xapiproxy->log()->debug($this->msg("handleStatementsRequest"));
                     $this->handleStatementsRequest($request);
                 } else {
-                    $this->xapiproxy->log()->info($this->msg("Not handled xApi Query: " . $cmdParts[3]));
+                    $this->xapiproxy->log()->debug($this->msg("Not handled xApi Query: " . $cmdParts[3]));
                     $this->handleProxy($request);
                 }
             } else {
@@ -104,8 +104,8 @@
             }
             
             $req_opts = array(
-                RequestOptions::VERIFY => false,
-                RequestOptions::CONNECT_TIMEOUT => 5,
+                RequestOptions::VERIFY => true,
+                RequestOptions::CONNECT_TIMEOUT => 10,
                 RequestOptions::HTTP_ERRORS => false
             );
             $cmd = $this->xapiproxy->cmdParts()[2];
