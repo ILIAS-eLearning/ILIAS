@@ -15890,6 +15890,10 @@ cmix#:#conf_bypass_proxy#:#Erkennung des Lernfortschritts
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy, um sofort Daten zu erhalten.
 cmix#:#conf_bypass_proxy_enabled#:#CronJob zur Abfrage des Learning Record Store
 cmix#:#conf_bypass_proxy_info#:#In den meisten Fällen wird empfohlen, den xAPI-Proxy zu verwenden. Verwenden Sie den CronJob bei Einschränkungen hinsichtlich Ressourcen oder Server.
+cmix#:#conf_switch_to_review#:#In den Review-Modus wechseln
+cmix#:#conf_switch_to_review_info#:#Nachdem das cmi5 Lernmodul erfolgreich bearbeitet wurde (Status satisfied), wird das Lernmodul beim nächsten Aufruf im Review-Modus gestartet.
+cmix#:#conf_mastery_score#:#Mastery Score
+cmix#:#conf_mastery_score_info#:#Dieser Wert wird zur Bestimmung der für das Bestehen erforderlichen Punkte dem cmi5 Lernmodul beim Start übergeben. Wird ein höherer (oder gleicher) Wert erzielt, soll das Lernmodul den Status 'passed' übermitteln.
 cmix#:#cron_xapi_results_evaluation#:#xAPI/cmi5 Ergebnisse holen
 cmix#:#cron_xapi_results_evaluation_desc#:#Fordert alle xAPI-Ergebnisse aus dem Learning Record Store für Objekte an, die den ILIAS xAPI-Proxy nicht unterstützen.
 cmix#:#fetch_xapi_statements#:#Ergebnisse aus dem Learning Record Store holen

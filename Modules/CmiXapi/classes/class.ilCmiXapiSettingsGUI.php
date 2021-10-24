@@ -213,21 +213,42 @@ class ilCmiXapiSettingsGUI
             $optReview = new ilRadioOption($DIC->language()->txt('conf_launch_mode_review'), ilObjCmiXapi::LAUNCH_MODE_REVIEW);
             $launchMode->addOption($optReview);
             $form->addItem($launchMode);
+        }
             
-            $lpDeterioration = new ilCheckboxInputGUI($DIC->language()->txt('conf_keep_lp'), 'avoid_lp_deterioration');
-            $lpDeterioration->setInfo($DIC->language()->txt('conf_keep_lp_info'));
-            if ($this->object->isKeepLpStatusEnabled()) {
-                $lpDeterioration->setChecked(true);
-            }
+        $lpDeterioration = new ilCheckboxInputGUI($DIC->language()->txt('conf_keep_lp'), 'avoid_lp_deterioration');
+        $lpDeterioration->setInfo($DIC->language()->txt('conf_keep_lp_info'));
+        if ($this->object->isKeepLpStatusEnabled()) {
+            $lpDeterioration->setChecked(true);
+        }
+        if (!$this->object->isSourceTypeExternal()) {
             $optNormal->addSubItem($lpDeterioration);
-            if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
-                $switchMode = new ilCheckboxInputGUI($DIC->language()->txt('switch_to_review'), 'switch_to_review');
-                $switchMode->setInfo($DIC->language()->txt("use_switch_to_review"));
-                if ($this->object->isSwitchToReviewEnabled()) {
-                    $switchMode->setChecked(true);
-                }
-                $optNormal->addSubItem($switchMode);
+        } else {
+            $form->addItem($lpDeterioration);
+        }
+
+        if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+            $switchMode = new ilCheckboxInputGUI($DIC->language()->txt('conf_switch_to_review'), 'switch_to_review');
+            $switchMode->setInfo($DIC->language()->txt("conf_switch_to_review_info"));
+            if ($this->object->isSwitchToReviewEnabled()) {
+                $switchMode->setChecked(true);
             }
+            $optNormal->addSubItem($switchMode);
+            
+            $masteryScore = new ilNumberInputGUI($DIC->language()->txt('conf_mastery_score'), 'mastery_score');
+            $masteryScore->setInfo($DIC->language()->txt('conf_mastery_score_info'));
+            $masteryScore->setSuffix('%');
+            $masteryScore->allowDecimals(true);
+            $masteryScore->setDecimals(2);
+            $masteryScore->setMinvalueShouldBeGreater(false);
+            $masteryScore->setMinValue(0);
+            $masteryScore->setMaxvalueShouldBeLess(false);
+            $masteryScore->setMaxValue(100);
+            $masteryScore->setSize(4);
+            if (empty($this->object->getMasteryScore())) {
+                $this->object->setMasteryScorePercent(ilObjCmiXapi::LMS_MASTERY_SCORE);
+            }
+            $masteryScore->setValue($this->object->getMasteryScorePercent());
+            $optNormal->addSubItem($masteryScore);
         }
         
         if (!$this->object->isSourceTypeExternal()) {
@@ -247,21 +268,7 @@ class ilCmiXapiSettingsGUI
                     $bypassProxy->setDisabled(true);
                 }
             }
-            $masteryScore = new ilNumberInputGUI('Mastery Score', 'mastery_score');
-            $masteryScore->setInfo('Percentage above which the status is set to passed.');
-            $masteryScore->setSuffix('%');
-            $masteryScore->allowDecimals(true);
-            $masteryScore->setDecimals(2);
-            $masteryScore->setMinvalueShouldBeGreater(false);
-            $masteryScore->setMinValue(0);
-            $masteryScore->setMaxvalueShouldBeLess(false);
-            $masteryScore->setMaxValue(100);
-            $masteryScore->setSize(4);
-            $masteryScore->setValue($this->object->getMasteryScorePercent());
-            $optNormal->addSubItem($masteryScore);
-        }
-        
-        if (!$this->object->isSourceTypeExternal()) {
+
             $item = new ilFormSectionHeaderGUI();
             $item->setTitle($DIC->language()->txt("privacy_options"));
             $form->addItem($item);
@@ -491,16 +498,15 @@ class ilCmiXapiSettingsGUI
             $this->object->setLaunchMode($form->getInput('launch_mode'));
             
             if ($this->object->getLaunchMode() == ilObjCmiXapi::LAUNCH_MODE_NORMAL) {
-                $this->object->setMasteryScorePercent($form->getInput('mastery_score'));
+                if ($this->object->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5) {
+                    $this->object->setMasteryScorePercent($form->getInput('mastery_score'));
+                }
                 $this->object->setKeepLpStatusEnabled((bool) $form->getInput('avoid_lp_deterioration'));
                 $this->object->setSwitchToReviewEnabled((bool) $form->getInput('switch_to_review'));
             }
             else {
-                if (empty($this->object->getMasteryScore())) {
-                    $this->object->setMasteryScorePercent(ilObjCmiXapi::LMS_MASTERY_SCORE);
-                }
                 $this->object->setKeepLpStatusEnabled(true);
-                $this->object->setSwitchToReviewEnabled(true);
+                $this->object->setSwitchToReviewEnabled(false);
             }
 
             if ($this->object->isSourceTypeRemote()) {
@@ -545,6 +551,9 @@ class ilCmiXapiSettingsGUI
                 $this->object->setDuration((bool)$form->getInput("duration"));
                 $this->object->setNoSubstatements((bool)$form->getInput("no_substatements"));
             }
+        } else { //SourceTypeExternal
+            $this->object->setBypassProxyEnabled(true);
+            $this->object->setKeepLpStatusEnabled((bool) $form->getInput('avoid_lp_deterioration'));
         }
         
         $this->object->setStatementsReportEnabled((bool) $form->getInput('show_debug'));
