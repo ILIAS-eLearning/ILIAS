@@ -15943,8 +15943,11 @@ cmix#:#type_cmi5#:#cmi5 Lernmodul
 cmix#:#type_generic#:#xAPI Standardobjekt
 cmix#:#conf_launch_mode#:#Startmodus
 cmix#:#conf_launch_mode_normal#:#Normal
-cmix#:#conf_launch_mode_browse#:#Nur Vorschau / Preview ('browse') ohne Speicherung des Lernfortschritts
-cmix#:#conf_launch_mode_review#:#Review-Modus ohne Speicherung des Lernfortschritts
+cmix#:#conf_launch_mode_normal_info#:#Daten bezogen auf den Lernerfolg sollen erfasst werden.
+cmix#:#conf_launch_mode_browse#:#Browse
+cmix#:#conf_launch_mode_browse_info#:#Diese Option soll es dem Benutzer ermöglichen, sich ohne Bewertung "umzusehen".
+cmix#:#conf_launch_mode_review#:#Review
+cmix#:#conf_launch_mode_review_info#:#Diese Option soll es dem Benutzer ermöglichen, bereits abgeschlossenes Material "erneut zu besuchen / zu überprüfen".
 cmix#:#conf_keep_lp#:#Verschlechterung des Lernfortschritts vermeiden
 cmix#:#conf_keep_lp_info#:#Der Status 'bearbeitet' des ILIAS-Lernfortschritts wird eingefroren.
 cmix#:#conf_external_lrs#:#Externer LRS

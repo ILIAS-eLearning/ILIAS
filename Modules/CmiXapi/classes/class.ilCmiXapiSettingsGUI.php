@@ -207,10 +207,13 @@ class ilCmiXapiSettingsGUI
             $launchMode->setRequired(true);
             $launchMode->setValue($this->object->getLaunchMode());
             $optNormal = new ilRadioOption($DIC->language()->txt('conf_launch_mode_normal'), ilObjCmiXapi::LAUNCH_MODE_NORMAL);
+            $optNormal->setInfo($DIC->language()->txt('conf_launch_mode_normal_info'));
             $launchMode->addOption($optNormal);
             $optBrowse = new ilRadioOption($DIC->language()->txt('conf_launch_mode_browse'), ilObjCmiXapi::LAUNCH_MODE_BROWSE);
+            $optBrowse->setInfo($DIC->language()->txt('conf_launch_mode_browse_info'));
             $launchMode->addOption($optBrowse);
             $optReview = new ilRadioOption($DIC->language()->txt('conf_launch_mode_review'), ilObjCmiXapi::LAUNCH_MODE_REVIEW);
+            $optReview->setInfo($DIC->language()->txt('conf_launch_mode_review_info'));
             $launchMode->addOption($optReview);
             $form->addItem($launchMode);
         }

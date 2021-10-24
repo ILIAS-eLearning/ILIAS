@@ -15945,8 +15945,11 @@ cmix#:#type_cmi5#:#cmi5 Learning Module
 cmix#:#type_generic#:#xAPI Standard Object
 cmix#:#conf_launch_mode#:#Launch Mode
 cmix#:#conf_launch_mode_normal#:#Normal
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.
 cmix#:#conf_launch_mode_browse#:#Browse
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.
 cmix#:#conf_launch_mode_review#:#Review
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.
 cmix#:#conf_keep_lp#:#Keep Learning Progress
 cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.
 cmix#:#conf_external_lrs#:#External LRS
