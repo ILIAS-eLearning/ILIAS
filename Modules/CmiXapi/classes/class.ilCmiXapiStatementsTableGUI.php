@@ -110,7 +110,6 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
-        $DIC->logger()->root()->log("fillrow");
         $r = $DIC->ui()->renderer();
         
         $data['rowkey'] = md5(serialize($data));
