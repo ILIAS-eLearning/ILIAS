@@ -288,7 +288,7 @@ class ilCmiXapiUser
         $DIC->database()->update(
             'cmix_users',
             array(
-                'proxy_success' => array('integer', (int) true)
+                'proxy_success' => array('integer', 1)
             ),
             array(
                 'obj_id' => array('integer', (int) $objId),
