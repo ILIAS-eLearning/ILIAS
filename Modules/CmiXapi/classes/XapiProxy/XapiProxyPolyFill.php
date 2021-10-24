@@ -83,12 +83,7 @@
                     exit;
                 }
                 $this->authToken = $authToken;
-                if ($this->statementReducer) {
-                    $this->getLrsType();
-                }
-                else {
-                    $this->getLrsTypeWithoutStatementReducer();
-                }
+                $this->getLrsType();
             }
         }
 
@@ -124,29 +119,6 @@
             }
         }
 
-        private function getLrsTypeWithoutStatementReducer() { // Core old < 7
-            try {
-                $lrsType = new \ilCmiXapiLrsType($this->authToken->getLrsTypeId());
-                $objId = $this->authToken->getObjId();
-                $this->objId = $objId;
-                $this->defaultLrsEndpoint = $lrsType->getLrsEndpoint();
-                $this->defaultLrsKey = $lrsType->getLrsKey();
-                $this->defaultLrsSecret = $lrsType->getLrsSecret();
-                $this->lrsType = $lrsType;
-                if (!$lrsType->isAvailable()) {
-                    throw new \ilCmiXapiException(
-                        'lrs endpoint (id=' . $this->authToken->getLrsTypeId() . ') unavailable (responded 401-unauthorized)'
-                    );
-                }
-                \ilCmiXapiUser::saveProxySuccess($this->authToken->getObjId(), $this->authToken->getUsrId(),$this->lrsType->getPrivacyIdent());
-            } catch (\ilCmiXapiException $e) {
-                $this->log()->error($this->msg($e->getMessage()));
-                header('Access-Control-Allow-Origin: '.$_SERVER["HTTP_ORIGIN"]);
-                header('Access-Control-Allow-Credentials: true');
-                header('HTTP/1.1 401 Unauthorized');
-                exit;
-            }
-        }
 
         private function getLrsType() { // Core new > 6
             try {
