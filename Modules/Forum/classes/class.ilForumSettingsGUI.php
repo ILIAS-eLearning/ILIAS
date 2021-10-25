@@ -402,9 +402,7 @@ class ilForumSettingsGUI
             'tutors' => $tutors,
             'members' => $members
         ]) as $type => $data) {
-            $tbl = new ilForumNotificationTableGUI($this, 'showMembers');
-            $tbl->setTitle($this->lng->txt(strtolower($type)));
-            $tbl->setId('tbl_id_mod');
+            $tbl = new ilForumNotificationTableGUI($this, 'showMembers', $type);
             $tbl->setData($data);
 
             $this->tpl->setCurrentBlock(strtolower($type) . '_table');
