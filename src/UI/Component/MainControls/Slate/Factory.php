@@ -125,4 +125,44 @@ interface Factory
      * @return \ILIAS\UI\Component\MainControls\Slate\Notification
      */
     public function notification(string $name, array $notification_items) : Notification;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Drilldown Slates provide further menu structure in a slate.
+     *     Only one level of the (contained) menu tree is visible at a time.
+     *   composition: >
+     *     A Drilldown Slate contains exactly one Drilldown Menu.
+     *   effect: >
+     *     Same as Drilldown Menu: Clicking on a Button containing lower levels,
+     *     the Drilldown will display those.
+     *     Clicking on a leaf-Button will trigger its action.
+     *   rivals:
+     *      Combined Slates: >
+     *          Combined Slates can hold other slates and buttons, which might
+     *          give the impression of a menu; Drilldown Slates contain an actual Menu.
+     *          Therefore, they are less heterogeneous than Combined Slates but
+     *          clear and dedicated in their nature of providing a navigational
+     *          menu structure.
+     *
+     * context:
+     *   - The Drilldown Slate is used in the Main Bar.
+     *
+     * rules:
+     *   usage:
+     *     1: >
+     *       Drilldowns in Slates MUST use this component.
+     *
+     * ----
+     * @param string $name
+     * @param \ILIAS\UI\Component\Symbol\Symbol $symbol
+     * @return \ILIAS\UI\Component\MainControls\Slate\Drilldown
+     */
+    public function drilldown(
+        string $name,
+        \ILIAS\UI\Component\Symbol\Symbol $symbol,
+        \ILIAS\UI\Component\Menu\Drilldown $drilldown
+    ) : Drilldown;
 }

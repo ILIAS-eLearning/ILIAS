@@ -6,6 +6,8 @@ use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticMainMenuProvider;
 use ILIAS\MyStaff\ilMyStaffAccess;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\TopParentItemDrilldownRenderer;
+use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Information\TypeInformation;
 
 /**
  * Class StandardTopItemsProvider
@@ -158,7 +160,8 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withAvailableCallable(
                 static function () : bool {
                     return (bool) ilMyStaffAccess::getInstance()->hasCurrentUserAccessToMyStaff();
-                });
+                }
+            );
 
         $title = $f("mm_administration");
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard("adm", $title)->withIsOutlined(true);
@@ -171,6 +174,12 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             ->withPosition(70)
             ->withVisibilityCallable($this->basic_access_helper->hasAdministrationAccess());
 
+        $dd_renderer = new TopParentItemDrilldownRenderer();
+        $ti = new TypeInformation(get_class($administration), get_class($administration));
+        $ti->setRenderer($dd_renderer);
+        $administration = $administration->setTypeInformation($ti);
+
+
         return [
             $dashboard,
             $repository,
@@ -178,7 +187,7 @@ class StandardTopItemsProvider extends AbstractStaticMainMenuProvider
             $achievements,
             $communication,
             $organisation,
-            $administration,
+            $administration
         ];
     }
 

@@ -33,7 +33,7 @@ var ddmapping = function() {
             },
             getLabelForList = function(list) {
                 var btn = list.parentElement.querySelector(classes.BUTTON); 
-                return btn.innerText;   
+                return btn.childNodes[0].nodeValue;     
             },
             getParentIdOfList = function(list) {
                 var parent = list.parentElement.parentElement;
@@ -69,12 +69,16 @@ var ddmapping = function() {
             }
             elements.levels[id].parentElement.querySelector(classes.BUTTON)
                 .classList.add(classes.ACTIVE);
-            //focus first entry            
-            lower = elements.levels[id].children[0].children[0]
-            lower.focus();
+            
+             try { //cannot access children in mocha/jsdom
+                lower = elements.levels[id].children[0].children[0]
+                lower.focus();
+            }
+            catch (e) {
+            }
         },
         setHeaderTitle : function(title) {
-            elements.header_title.innerText = title;
+            elements.header_title.innerHTML = title;
         },
         setHeaderBacknav : function(status) {
             if(status) {
