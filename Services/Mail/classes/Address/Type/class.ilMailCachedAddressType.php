@@ -18,6 +18,12 @@ class ilMailCachedAddressType implements ilMailAddressType
         $this->inner = $inner;
         $this->useCache = $useCache;
     }
+    
+    public static function clearCache() : void
+    {
+        self::$isValidCache = [];
+        self::$usrIdsByAddressCache = [];
+    }
 
     private function getCacheKey() : string
     {
