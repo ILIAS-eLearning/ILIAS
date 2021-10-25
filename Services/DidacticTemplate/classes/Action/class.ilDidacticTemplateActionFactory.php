@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+namespace ILIAS\DidacticTemplate\Action;
 
-
+use ILIAS\DidacticTemplate\Action\ilDidacticTemplateAction;
 
 /**
  * Factory for didactic template actions
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateActionFactory
 {
@@ -17,23 +17,20 @@ class ilDidacticTemplateActionFactory
      * @param string $a_action_type
      * @return ilDidacticTemplateAction
      */
-    public static function factoryByType($a_action_type)
+    public static function factoryByType($a_action_type) : ilDidacticTemplateAction
     {
         switch ($a_action_type) {
             case ilDidacticTemplateAction::TYPE_LOCAL_POLICY:
-                
-
                 return new ilDidacticTemplateLocalPolicyAction();
 
             case ilDidacticTemplateAction::TYPE_LOCAL_ROLE:
-                
-
                 return new ilDidacticTemplateLocalRoleAction();
 
             case ilDidacticTemplateAction::TYPE_BLOCK_ROLE:
-                
-
                 return new ilDidacticTemplateBlockRoleAction();
+
+            default:
+                throw new \InvalidArgumentException('Unknown action type given: ' . $a_action_type);
         }
     }
     
@@ -44,23 +41,20 @@ class ilDidacticTemplateActionFactory
      * @param int $a_actions_type
      * @return ilDidacticTemplateAction
      */
-    public static function factoryByTypeAndId($a_action_id, $a_action_type)
+    public static function factoryByTypeAndId(int $a_action_id, int $a_action_type) : ilDidacticTemplateAction
     {
         switch ($a_action_type) {
             case ilDidacticTemplateAction::TYPE_LOCAL_POLICY:
-                
-
                 return new ilDidacticTemplateLocalPolicyAction($a_action_id);
 
             case ilDidacticTemplateAction::TYPE_LOCAL_ROLE:
-                
-
                 return new ilDidacticTemplateLocalRoleAction($a_action_id);
 
             case ilDidacticTemplateAction::TYPE_BLOCK_ROLE:
-                
-
                 return new ilDidacticTemplateBlockRoleAction($a_action_id);
+
+            default:
+                throw new \InvalidArgumentException('Unknown action type given: ' . $a_action_type);
         }
     }
 
@@ -68,21 +62,22 @@ class ilDidacticTemplateActionFactory
     /**
      * Get actions of one template
      * @param int $a_tpl_id
+     * @return array
      */
-    public static function getActionsByTemplateId($a_tpl_id)
+    public static function getActionsByTemplateId(int $a_tpl_id) : array
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT id, type_id FROM didactic_tpl_a ' .
-            'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, 'integer');
+            'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, \ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
 
-        $actions = array();
+        $actions = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $actions[] = self::factoryByTypeAndId($row->id, $row->type_id);
         }
-        return (array) $actions;
+        return $actions;
     }
 }

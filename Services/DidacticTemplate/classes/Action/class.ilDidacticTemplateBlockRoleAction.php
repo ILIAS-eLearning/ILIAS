@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+namespace ILIAS\DidacticTemplate\Action;
+
 
 
 
@@ -12,13 +14,6 @@
  */
 class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 {
-    const FILTER_SOURCE_TITLE = 1;
-    const FILTER_SOURCE_OBJ_ID = 2;
-    const FILTER_PARENT_ROLES = 3;
-
-    const PATTERN_PARENT_TYPE = 'action';
-
-
     private $pattern = array();
     private $filter_type = self::FILTER_SOURCE_TITLE;
 
