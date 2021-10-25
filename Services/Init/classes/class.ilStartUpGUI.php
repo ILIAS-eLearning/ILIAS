@@ -2097,10 +2097,8 @@ class ilStartUpGUI
                         $idp->getEntityId()
                     ));
 
-                    // Maybe we'll have to workaround this with ILIAS 8, $_GET cannot be mutated
-                    $_GET['idpentityid'] = $idp->getEntityId();
-                    $_GET['saml_idp_id'] = $idp->getIdpId();
-
+                    $DIC->ctrl()->setParameter($this, 'idpentityid', $idp->getEntityId());
+                    $DIC->ctrl()->setParameter($this, 'saml_idp_id', $idp->getIdpId());
                     $DIC->ctrl()->setTargetScript('saml.php');
                     $DIC->ctrl()->redirect($this, 'doSamlAuthentication');
                 } elseif ($activeIdps === []) {
