@@ -3,9 +3,6 @@
 
 namespace ILIAS\DidacticTemplate\Action;
 
-
-
-
 /**
  * Description of ilDidacticTemplateBlockRoleAction
  *
@@ -14,19 +11,19 @@ namespace ILIAS\DidacticTemplate\Action;
  */
 class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 {
-    private $pattern = array();
-    private $filter_type = self::FILTER_SOURCE_TITLE;
+    private array $pattern = array();
+    private int $filter_type = self::FILTER_SOURCE_TITLE;
 
     /**
      * Constructor
      * @param int $action_id
      */
-    public function __construct($action_id = 0)
+    public function __construct(int $action_id = 0)
     {
         parent::__construct($action_id);
     }
 
-    public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern)
+    public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern) : void
     {
         $this->pattern[] = $pattern;
     }
@@ -35,7 +32,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
      * Set filter patterns
      * @param array $patterns
      */
-    public function setFilterPatterns(array $patterns)
+    public function setFilterPatterns(array $patterns) : void
     {
         $this->pattern = $patterns;
     }
@@ -44,7 +41,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
      * Get filter pattern
      * @return array
      */
-    public function getFilterPattern()
+    public function getFilterPattern() : array
     {
         return $this->pattern;
     }
@@ -53,7 +50,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
      * Set filter type
      * @param int $a_type
      */
-    public function setFilterType($a_type)
+    public function setFilterType(int $a_type) : void
     {
         $this->filter_type = $a_type;
     }
@@ -62,7 +59,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
      * Get filter type
      * @return int
      */
-    public function getFilterType()
+    public function getFilterType() : int
     {
         return $this->filter_type;
     }
@@ -70,20 +67,16 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
     /**
      * Save action
      */
-    public function save()
+    public function save() : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         parent::save();
 
         $query = 'INSERT INTO didactic_tpl_abr (action_id,filter_type) ' .
             'VALUES( ' .
-            $ilDB->quote($this->getActionId(), 'integer') . ', ' .
-            $ilDB->quote($this->getFilterType(), 'integer') . ' ' .
+            $this->db->quote($this->getActionId(), \ilDBConstants::T_INTEGER) . ', ' .
+            $this->db->quote($this->getFilterType(), \ilDBConstants::T_INTEGER) . ' ' .
             ')';
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
 
         foreach ($this->getFilterPattern() as $pattern) {
             /* @var ilDidacticTemplateFilterPattern $pattern */
@@ -95,24 +88,18 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
     /**
      * delete action filter
-     * @return bool
+     * @return void
      */
-    public function delete()
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         parent::delete();
-
         $query = 'DELETE FROM didactic_tpl_abr ' .
-            'WHERE action_id  = ' . $ilDB->quote($this->getActionId(), 'integer');
-        $ilDB->manipulate($query);
+            'WHERE action_id  = ' . $this->db->quote($this->getActionId(), 'integer');
+        $this->db->manipulate($query);
 
         foreach ($this->getFilterPattern() as $pattern) {
             $pattern->delete();
         }
-        return true;
     }
 
 
@@ -121,7 +108,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
     /**
      * Apply action
      */
-    public function apply()
+    public function apply() : bool
     {
         $source = $this->initSourceObject();
         $roles = $this->filterRoles($source);
@@ -134,27 +121,22 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
     }
 
     /**
-     * Blo k role
-     * @param int $a_role_id
+     * Block role
+     * @param int      $a_role_id
      * @param ilObject $source
      */
-    protected function blockRole($a_role_id, $source)
+    protected function blockRole(int $a_role_id, ilObject $source) : bool
     {
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
-        
         // Set assign to 'y' only if it is a local role
-        $assign = $rbacreview->isAssignable($a_role_id, $source->getRefId()) ? 'y' : 'n';
+        $assign = $this->review->isAssignable($a_role_id, $source->getRefId()) ? 'y' : 'n';
 
         // Delete permissions
-        $rbacadmin->revokeSubtreePermissions($source->getRefId(), $a_role_id);
+        $this->admin->revokeSubtreePermissions($source->getRefId(), $a_role_id);
 
         // Delete template permissions
-        $rbacadmin->deleteSubtreeTemplates($source->getRefId(), $a_role_id);
+        $this->admin->deleteSubtreeTemplates($source->getRefId(), $a_role_id);
 
-        $rbacadmin->assignRoleToFolder(
+        $this->admin->assignRoleToFolder(
             $a_role_id,
             $source->getRefId(),
             $assign
@@ -165,7 +147,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
     /**
      * Revert action
      */
-    public function revert()
+    public function revert() : bool
     {
         $source = $this->initSourceObject();
         $roles = $this->filterRoles($source);
@@ -179,37 +161,28 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
     /**
      * Delete local policy
-     *
-     * @param int $a_role_id
+     * @param int      $a_role_id
      * @param ilObject $source
      */
-    protected function deleteLocalPolicy($a_role_id, $source)
+    protected function deleteLocalPolicy(int $a_role_id, ilObject $source) : bool
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $rbacadmin = $DIC['rbacadmin'];
-
         // Create role folder if it does not exist
         //$rolf = $rbacreview->getRoleFolderIdOfObject($source->getRefId());
 
-        if ($rbacreview->getRoleFolderOfRole($a_role_id) == $source->getRefId()) {
-            ilLoggerFactory::getLogger('otpl')->debug('Ignoring local role: ' . ilObject::_lookupTitle($a_role_id));
+        if ($this->review->getRoleFolderOfRole($a_role_id) == $source->getRefId()) {
+            $this->logger->debug('Ignoring local role: ' . ilObject::_lookupTitle($a_role_id));
             return false;
         }
 
-        $rbacadmin->deleteLocalRole($a_role_id, $source->getRefId());
+        $this->admin->deleteLocalRole($a_role_id, $source->getRefId());
 
         // Change existing object
-        
-
         $role = new ilObjRole($a_role_id);
         $role->changeExistingObjects(
             $source->getRefId(),
             ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
-            array('all')
+            ['all']
         );
-        
         return true;
     }
 
@@ -218,7 +191,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
      * Get action type
      * @return int
      */
-    public function getType()
+    public function getType() : int
     {
         return self::TYPE_BLOCK_ROLE;
     }
@@ -228,7 +201,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
      * @param ilXmlWriter $writer
      * @return void
      */
-    public function toXml(ilXmlWriter $writer)
+    public function toXml(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('blockRoleAction');
 
@@ -256,13 +229,12 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         }
         $writer->xmlEndTag('roleFilter');
         $writer->xmlEndTag('blockRoleAction');
-        return;
     }
 
     /**
      *  clone method
      */
-    public function __clone()
+    public function __clone() : void
     {
         parent::__clone();
 
@@ -276,31 +248,24 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
 
     /**
      * read action data
-     * @return bool
+     * @return void
      */
-    public function read()
+    public function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!parent::read()) {
-            return false;
+            return;
         }
 
         $query = 'SELECT * FROM didactic_tpl_abr ' .
-            'WHERE action_id = ' . $ilDB->quote($this->getActionId());
-        $res = $ilDB->query($query);
+            'WHERE action_id = ' . $this->db->quote($this->getActionId());
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setFilterType($row->filter_type);
         }
 
         // Read filter
-        
-
         foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(), self::PATTERN_PARENT_TYPE) as $pattern) {
             $this->addFilterPattern($pattern);
         }
-        return true;
     }
 }

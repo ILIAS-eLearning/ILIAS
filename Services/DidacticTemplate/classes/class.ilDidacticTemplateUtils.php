@@ -18,11 +18,11 @@ class ilDidacticTemplateUtils
             $a_ref_id
         );
         
-        ilLoggerFactory::getLogger('dtpl')->debug('Current template id: ' . $current_tpl_id);
+        $this->logger->debug('Current template id: ' . $current_tpl_id);
 
         // Revert current template
         if ($current_tpl_id) {
-            ilLoggerFactory::getLogger('dtpl')->debug('Reverting template with id: ' . $current_tpl_id);
+            $this->logger->debug('Reverting template with id: ' . $current_tpl_id);
             
             
 

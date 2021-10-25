@@ -306,7 +306,7 @@ class ilDidacticTemplateSettingsGUI
                 }
             }
         } catch (ilDidacticTemplateImportException $e) {
-            ilLoggerFactory::getLogger('otpl')->error('Import failed with message: ' . $e->getMessage());
+            $this->logger->error('Import failed with message: ' . $e->getMessage());
             ilUtil::sendFailure($this->lng->txt('didactic_import_failed') . ': ' . $e->getMessage());
         }
 

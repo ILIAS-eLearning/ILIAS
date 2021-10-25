@@ -141,7 +141,7 @@ class ilDidacticTemplateGUI
         // Check if template is changed
         $new_tpl_id = $this->requested_template_id;
         if ($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId())) {
-            ilLoggerFactory::getLogger('otpl')->debug('Template id: ' . $new_tpl_id);
+            $this->logger->debug('Template id: ' . $new_tpl_id);
             ilUtil::sendInfo($this->lng->txt('didactic_not_changed'), true);
             $ilCtrl->returnToParent($this);
         }

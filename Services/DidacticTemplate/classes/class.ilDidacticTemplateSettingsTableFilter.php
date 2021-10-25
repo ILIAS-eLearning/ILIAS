@@ -168,16 +168,16 @@ class ilDidacticTemplateSettingsTableFilter
 
         $value = $this->getFilterValue(self::FILTER_NAME_ICON);
         if ($value) {
-            if ($value == self::FILTER_ON && !strlen($setting->getIconHandler()->getAbsolutePath())) {
+            if ($value == self::FILTER_ON && !strlen((string) $setting->getIconHandler()->getAbsolutePath())) {
                 return true;
             }
-            if ($value == self::FILTER_OFF && strlen($setting->getIconHandler()->getAbsolutePath())) {
+            if ($value == self::FILTER_OFF && strlen((string) $setting->getIconHandler()->getAbsolutePath())) {
                 return true;
             }
         }
 
-        $value = $this->getFilterValue(self::FILTER_NAME_TITLE);
-        if (strlen($value)) {
+        $value = (string) $this->getFilterValue(self::FILTER_NAME_TITLE);
+        if (strlen((string) $value)) {
             $title_string = ($setting->getPresentationTitle() . ' ' . $setting->getPresentationDescription());
             $title_string .= (' ' . $setting->getInfo());
             if (ilStr::strIPos($title_string, $value) === false) {
@@ -185,7 +185,7 @@ class ilDidacticTemplateSettingsTableFilter
             }
         }
 
-        $value = $this->getFilterValue(self::FILTER_NAME_TYPE);
+        $value = (string) $this->getFilterValue(self::FILTER_NAME_TYPE);
         if (strlen($value)) {
             $assigned = $setting->getAssignments();
             if (!in_array($value, $assigned)) {
@@ -193,7 +193,7 @@ class ilDidacticTemplateSettingsTableFilter
             }
         }
 
-        $value = $this->getFilterValue(self::FILTER_NAME_SCOPE);
+        $value = (string) $this->getFilterValue(self::FILTER_NAME_SCOPE);
         if ($value) {
             $is_local = (bool) count($setting->getEffectiveFrom());
 
@@ -206,7 +206,7 @@ class ilDidacticTemplateSettingsTableFilter
             }
         }
 
-        $value = $this->getFilterValue(self::FILTER_NAME_ACTIVE);
+        $value = (string) $this->getFilterValue(self::FILTER_NAME_ACTIVE);
         if ($value) {
             if ($value == self::FILTER_ON && !$setting->isEnabled()) {
                 return true;

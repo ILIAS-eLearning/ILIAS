@@ -3,9 +3,6 @@
 
 namespace ILIAS\DidacticTemplate\Action;
 
-
-
-
 /**
  * Description of class
  *
@@ -14,51 +11,56 @@ namespace ILIAS\DidacticTemplate\Action;
  */
 class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 {
-    const TPL_ACTION_OVERWRITE = 1;
-    const TPL_ACTION_INTERSECT = 2;
-    const TPL_ACTION_ADD = 3;
-    const TPL_ACTION_SUBTRACT = 4;
-    const TPL_ACTION_UNION = 5;
+    public const TPL_ACTION_OVERWRITE = 1;
+    public const TPL_ACTION_INTERSECT = 2;
+    public const TPL_ACTION_ADD = 3;
+    public const TPL_ACTION_SUBTRACT = 4;
+    public const TPL_ACTION_UNION = 5;
 
 
-    private $pattern = array();
-    private $filter_type = self::FILTER_SOURCE_TITLE;
-    private $role_template_type = self::TPL_ACTION_OVERWRITE;
-    private $role_template_id = 0;
+    private array $pattern = [];
+    private int $filter_type = self::FILTER_SOURCE_TITLE;
+    private int $role_template_type = self::TPL_ACTION_OVERWRITE;
+    private int $role_template_id = 0;
+
+    private ilTree $tree;
 
 
     /**
      * Constructor
      * @param int $action_id
      */
-    public function __construct($action_id = 0)
+    public function __construct(int $action_id = 0)
     {
+        global $DIC;
+
         parent::__construct($action_id);
+        $this->tree = $DIC->repositoryTree();
     }
 
     /**
      * Add filter
      * @param ilDidacticTemplateFilterPattern $pattern
      */
-    public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern)
+    public function addFilterPattern(ilDidacticTemplateFilterPattern $pattern) : void
     {
         $this->pattern[] = $pattern;
     }
 
     /**
      * Set filter patterns
-     * @param array $patterns
+     * @param ilDidacticTemplateExcludeFilterPattern[] $patterns
      */
-    public function setFilterPatterns(array $patterns)
+    public function setFilterPatterns(array $patterns) : void
     {
         $this->pattern = $patterns;
     }
 
     /**
      * Get filter pattern
-     * @return array
+     * @return ilDidacticTemplateFilterPattern[]
      */
-    public function getFilterPattern()
+    public function getFilterPattern() : array
     {
         return $this->pattern;
     }
@@ -67,7 +69,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
      * Set filter type
      * @param int $a_type
      */
-    public function setFilterType($a_type)
+    public function setFilterType(int $a_type) : void
     {
         $this->filter_type = $a_type;
     }
@@ -76,7 +78,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
      * Get filter type
      * @return int
      */
-    public function getFilterType()
+    public function getFilterType() : int
     {
         return $this->filter_type;
     }
@@ -85,7 +87,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
      * Set Role template type
      * @param int $a_tpl_type
      */
-    public function setRoleTemplateType($a_tpl_type)
+    public function setRoleTemplateType(int $a_tpl_type) : void
     {
         $this->role_template_type = $a_tpl_type;
     }
@@ -93,7 +95,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     /**
      * Get role template type
      */
-    public function getRoleTemplateType()
+    public function getRoleTemplateType() : int
     {
         return $this->role_template_type;
     }
@@ -102,7 +104,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
      * Set role template id
      * @param int $a_id
      */
-    public function setRoleTemplateId($a_id)
+    public function setRoleTemplateId(int $a_id) : void
     {
         $this->role_template_id = $a_id;
     }
@@ -111,7 +113,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
      * Get role template id
      * @return int
      */
-    public function getRoleTemplateId()
+    public function getRoleTemplateId() : int
     {
         return $this->role_template_id;
     }
@@ -119,22 +121,20 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     /**
      * Save action
      */
-    public function save()
+    public function save() : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        parent::save();
+        if (!parent::save()) {
+            return 0;
+        }
 
         $query = 'INSERT INTO didactic_tpl_alp (action_id,filter_type,template_type,template_id) ' .
             'VALUES( ' .
-            $ilDB->quote($this->getActionId(), 'integer') . ', ' .
-            $ilDB->quote($this->getFilterType(), 'integer') . ', ' .
-            $ilDB->quote($this->getRoleTemplateType(), 'integer') . ', ' .
-            $ilDB->quote($this->getRoleTemplateId(), 'integer') . ' ' .
+            $this->db->quote($this->getActionId(), 'integer') . ', ' .
+            $this->db->quote($this->getFilterType(), 'integer') . ', ' .
+            $this->db->quote($this->getRoleTemplateType(), 'integer') . ', ' .
+            $this->db->quote($this->getRoleTemplateId(), 'integer') . ' ' .
             ')';
-        $ilDB->manipulate($query);
+        $this->db->manipulate($query);
 
         foreach ($this->getFilterPattern() as $pattern) {
             /* @var ilDidacticTemplateFilterPattern $pattern */
@@ -142,28 +142,23 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             $pattern->setParentType(self::PATTERN_PARENT_TYPE);
             $pattern->save();
         }
+        return $this->getActionId();
     }
 
     /**
      * delete action filter
-     * @return bool
+     * @return void
      */
-    public function delete()
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         parent::delete();
-
         $query = 'DELETE FROM didactic_tpl_alp ' .
-            'WHERE action_id  = ' . $ilDB->quote($this->getActionId(), 'integer');
-        $ilDB->manipulate($query);
+            'WHERE action_id  = ' . $this->db->quote($this->getActionId(), 'integer');
+        $this->db->manipulate($query);
 
         foreach ($this->getFilterPattern() as $pattern) {
             $pattern->delete();
         }
-        return true;
     }
 
 
@@ -172,13 +167,10 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     /**
      * Apply action
      */
-    public function apply()
+    public function apply() : bool
     {
-        $rbacreview = $GLOBALS['DIC']->rbac()->review();
-
         $source = $this->initSourceObject();
         // Create a role folder for the new local policies
-
         $roles = $this->filterRoles($source);
 
         // Create local policy for filtered roles
@@ -189,7 +181,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
             // No local policies for protected roles of higher context
             if (
-                $rbacreview->isProtected($role['parent'], $role_id) &&
+                $this->review->isProtected($role['parent'], $role_id) &&
                 $role['parent'] != $source->getRefId()
             ) {
                 $this->getLogger()->debug('Ignoring protected role.');
@@ -203,56 +195,44 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     /**
      * Revert action
      *
-     * @global ilRbacReview
      */
-    public function revert()
+    public function revert() : bool
     {
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-        $tree = $DIC['tree'];
-        $rbacreview = $GLOBALS['DIC']->rbac()->review();
-
         $source = $this->initSourceObject();
         $roles = $this->filterRoles($source);
 
         // Delete local policy for filtered roles
         foreach ($roles as $role_id => $role) {
             // Do not delete local policies of auto generated roles
-            if (!$rbacreview->isGlobalRole($role['obj_id']) and
-                $rbacreview->isAssignable($role['obj_id'], $source->getRefId()) and
-                $rbacreview->isSystemGeneratedRole($role['obj_id'])) {
+            if (!$this->review->isGlobalRole($role['obj_id']) and
+                $this->review->isAssignable($role['obj_id'], $source->getRefId()) and
+                $this->review->isSystemGeneratedRole($role['obj_id'])) {
                 $this->getLogger()->debug('Reverting local policy of auto generated role: ' . $role['title']);
                 $this->revertLocalPolicy($source, $role);
             } else {
                 $this->getLogger()->debug('Reverting local policy and deleting local role: ' . $role['title']);
 
                 // delete local role and change exiting objects
-                $rbacadmin->deleteLocalRole($role_id, $source->getRefId());
-                // Change existing object
-                
+                $this->admin->deleteLocalRole($role_id, $source->getRefId());
 
+                // Change existing object
                 $role_obj = new ilObjRole($role_id);
                 
-                $protected = $rbacreview->isProtected($role['parent'], $role['rol_id']);
+                $protected = $this->review->isProtected($role['parent'], $role['rol_id']);
                 
                 $role_obj->changeExistingObjects(
                     $source->getRefId(),
                     $protected ?
                         ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES :
                         ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
-                    array('all')
+                    ['all']
                 );
             }
         }
         return true;
     }
 
-    /**
-     * Get action type
-     * @return int
-     */
-    public function getType()
+    public function getType() : int
     {
         return self::TYPE_LOCAL_POLICY;
     }
@@ -262,7 +242,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
      * @param ilXmlWriter $writer
      * @return void
      */
-    public function toXml(ilXmlWriter $writer)
+    public function toXml(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('localPolicyAction');
 
@@ -336,13 +316,12 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         $writer->appendXML($exp->xmlDumpMem(false));
         $writer->xmlEndTag('localPolicyTemplate');
         $writer->xmlEndTag('localPolicyAction');
-        return;
     }
 
     /**
      *  clone method
      */
-    public function __clone()
+    public function __clone() : void
     {
         parent::__clone();
 
@@ -354,58 +333,38 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         $this->setFilterPatterns($clones);
     }
 
-    public function read()
+    public function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!parent::read()) {
-            return false;
+            return;
         }
 
         $query = 'SELECT * FROM didactic_tpl_alp ' .
-            'WHERE action_id = ' . $ilDB->quote($this->getActionId());
-        $res = $ilDB->query($query);
+            'WHERE action_id = ' . $this->db->quote($this->getActionId());
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setFilterType($row->filter_type);
             $this->setRoleTemplateType($row->template_type);
             $this->setRoleTemplateId($row->template_id);
         }
-
         // Read filter
-        
-
         foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(), self::PATTERN_PARENT_TYPE) as $pattern) {
             $this->addFilterPattern($pattern);
         }
-        return true;
     }
 
-
-    /**
-     * Create local policy
-     * @param ilObject $source
-     * @param array $role
-     * @return bool
-     */
-    protected function createLocalPolicy(ilObject $source, $role)
+    protected function createLocalPolicy(ilObject $source, array $role) : bool
     {
-        global $DIC;
-
-        $rbacreview = $DIC->rbac()->review();
-        $rbacadmin = $DIC->rbac()->admin();
-        
         // fetch role information
         $role_data = array();
-        foreach ($rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $tmp_role) {
+        foreach ($this->review->getParentRoleIds($source->getRefId()) as $role_id => $tmp_role) {
             if ($role_id == $role['obj_id']) {
                 $role_data = $tmp_role;
             }
         }
         
         // Add local policy
-        if (!$rbacreview->isRoleAssignedToObject($role['obj_id'], $source->getRefId())) {
+        if (!$this->review->isRoleAssignedToObject($role['obj_id'], $source->getRefId())) {
             $GLOBALS['DIC']->rbac()->admin()->assignRoleToFolder(
                 $role['obj_id'],
                 $source->getRefId(),
@@ -416,18 +375,18 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
         // do nothing if role is protected in higher context
         if (
-            $rbacreview->isProtected($source->getRefId(),$role['obj_id']) &&
+            $this->review->isProtected($source->getRefId(),$role['obj_id']) &&
             $role['parent'] != $source->getRefId()
         ) {
             $this->getLogger()->info('Ignoring protected role: ' . $role['title']);
-            return true;
+            return false;
         }
 
         switch ($this->getRoleTemplateType()) {
             case self::TPL_ACTION_UNION:
 
-                ilLoggerFactory::getLogger('otpl')->info('Using ilRbacAdmin::copyRolePermissionUnion()');
-                $rbacadmin->copyRolePermissionUnion(
+                $this->logger->info('Using ilRbacAdmin::copyRolePermissionUnion()');
+                $this->admin->copyRolePermissionUnion(
                     $role_data['obj_id'],
                     $role_data['parent'],
                     $this->getRoleTemplateId(),
@@ -439,8 +398,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
             case self::TPL_ACTION_OVERWRITE:
 
-                ilLoggerFactory::getLogger('otpl')->info('Using ilRbacAdmin::copyRoleTemplatePermission()');
-                $rbacadmin->copyRoleTemplatePermissions(
+                $this->logger->info('Using ilRbacAdmin::copyRoleTemplatePermission()');
+                $this->admin->copyRoleTemplatePermissions(
                     $this->getRoleTemplateId(),
                     ROLE_FOLDER_ID,
                     $source->getRefId(),
@@ -451,8 +410,8 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
             case self::TPL_ACTION_INTERSECT:
 
-                ilLoggerFactory::getLogger('otpl')->info('Using ilRbacAdmin::copyRolePermissionIntersection()' . $this->getRoleTemplateId());
-                $rbacadmin->copyRolePermissionIntersection(
+                $this->logger->info('Using ilRbacAdmin::copyRolePermissionIntersection()' . $this->getRoleTemplateId());
+                $this->admin->copyRolePermissionIntersection(
                     $role_data['obj_id'],
                     $role_data['parent'],
                     $this->getRoleTemplateId(),
@@ -463,39 +422,29 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 break;
 
         }
-
         // Change existing object
-        
-
         $role_obj = new ilObjRole($role_data['obj_id']);
         $role_obj->changeExistingObjects(
             $source->getRefId(),
             $role_data['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
             array('all')
         );
-
         return true;
     }
 
-    protected function revertLocalPolicy(ilObject $source, $role)
+    protected function revertLocalPolicy(ilObject $source, $role) : bool
     {
-        global $DIC;
-
-        $rbacadmin = $DIC['rbacadmin'];
-        $rbacreview = $DIC['rbacreview'];
-        $ilDB = $DIC['ilDB'];
-
-        ilLoggerFactory::getLogger('otpl')->info('Reverting policy for role ' . $role['title']);
+        $this->logger->info('Reverting policy for role ' . $role['title']);
         // Local policies can only be reverted for auto generated roles. Otherwise the
         // original role settings are unknown
         if (substr($role['title'], 0, 3) != 'il_') {
-            ilLoggerFactory::getLogger('otpl')->warning('Cannot revert local policy for role ' . $role['title']);
+            $this->logger->warning('Cannot revert local policy for role ' . $role['title']);
             return false;
         }
 
 
         // No local policies
-        if (!$rbacreview->getLocalPolicies($source->getRefId())) {
+        if (!$this->review->getLocalPolicies($source->getRefId())) {
             return false;
         }
 
@@ -504,9 +453,9 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
         // Lookup role template
         $query = 'SELECT obj_id FROM object_data ' .
-            'WHERE title = ' . $ilDB->quote($rolt_title, 'text') . ' ' .
-            'AND type = ' . $ilDB->quote('rolt', 'text');
-        $res = $ilDB->query($query);
+            'WHERE title = ' . $this->db->quote($rolt_title, 'text') . ' ' .
+            'AND type = ' . $this->db->quote('rolt', 'text');
+        $res = $this->db->query($query);
         $rolt_id = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $rolt_id = $row->obj_id;
@@ -517,7 +466,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             return false;
         }
 
-        $rbacadmin->copyRoleTemplatePermissions(
+        $this->admin->copyRoleTemplatePermissions(
             $rolt_id,
             ROLE_FOLDER_ID,
             $source->getRefId(),
@@ -526,13 +475,11 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         );
 
         // Change existing object
-        
-
         $role_obj = new ilObjRole($role['obj_id']);
         $role_obj->changeExistingObjects(
             $source->getRefId(),
             $role['protected'] ? ilObjRole::MODE_PROTECTED_DELETE_LOCAL_POLICIES : ilObjRole::MODE_UNPROTECTED_DELETE_LOCAL_POLICIES,
-            array('all')
+            ['all']
         );
         return true;
     }

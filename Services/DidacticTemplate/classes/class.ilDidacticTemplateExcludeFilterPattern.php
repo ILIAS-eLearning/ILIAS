@@ -32,7 +32,7 @@ class ilDidacticTemplateExcludeFilterPattern extends ilDidacticTemplateFilterPat
         
         switch ($this->getPatternSubType()) {
             case self::PATTERN_SUBTYPE_REGEX:
-                ilLoggerFactory::getLogger('otpl')->debug('Checking exclude pattern with ' . $a_source . ' against ' . $this->getPattern());
+                $this->logger->debug('Checking exclude pattern with ' . $a_source . ' against ' . $this->getPattern());
                 return preg_match('/' . $this->getPattern() . '/', $a_source) !== 1;
         }
         return true;

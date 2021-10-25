@@ -11,13 +11,13 @@ namespace ILIAS\DidacticTemplate\Action;
  */
 class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 {
-    private $role_template_id = 0;
+    private int $role_template_id = 0;
 
     /**
      * Constructor
      * @param int $a_action_id
      */
-    public function __construct($a_action_id = 0)
+    public function __construct(int $a_action_id = 0)
     {
         parent::__construct($a_action_id);
     }
@@ -26,16 +26,12 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
      * Get action type
      * @return int
      */
-    public function getType()
+    public function getType() : int
     {
         return self::TYPE_LOCAL_ROLE;
     }
 
-    /**
-     * Set role template id
-     * @param int $a_role_template_id
-     */
-    public function setRoleTemplateId($a_role_template_id)
+    public function setRoleTemplateId(int $a_role_template_id) : void
     {
         $this->role_template_id = $a_role_template_id;
     }
@@ -44,7 +40,7 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
      * get role template id
      * @return int
      */
-    public function getRoleTemplateId()
+    public function getRoleTemplateId() : int
     {
         return $this->role_template_id;
     }
@@ -52,32 +48,20 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
     /**
      * Apply action
      */
-    public function apply()
+    public function apply() : bool
     {
-        global $DIC;
-
-        $rbacreview = $DIC['rbacreview'];
-        $rbacadmin = $DIC['rbacadmin'];
-
         $source = $this->initSourceObject();
-
-        // Check if role folder already exists
-
-        // Create role
-        
-        
 
         $role = new ilObjRole();
         $role->setTitle(ilObject::_lookupTitle($this->getRoleTemplateId()) . '_' . $this->getRefId());
         $role->setDescription(ilObject::_lookupDescription($this->getRoleTemplateId()));
         $role->create();
-        $rbacadmin->assignRoleToFolder($role->getId(), $source->getRefId(), "y");
-
-        ilLoggerFactory::getLogger('otpl')->info('Using rolt: ' . $this->getRoleTemplateId() . ' with title "' . ilObject::_lookupTitle($this->getRoleTemplateId() . '". '));
+        $this->admin->assignRoleToFolder($role->getId(), $source->getRefId(), "y");
+        $this->logger->info('Using rolt: ' . $this->getRoleTemplateId() . ' with title "' . ilObject::_lookupTitle($this->getRoleTemplateId() . '". '));
 
         // Copy template permissions
         
-        ilLoggerFactory::getLogger('otpl')->debug(
+        $this->logger->debug(
             'Copy role template permissions ' .
                 'tpl_id: ' . $this->getRoleTemplateId() . ' ' .
                 'parent: ' . ROLE_FOLDER_ID . ' ' .
@@ -86,76 +70,66 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         );
         
         
-        $rbacadmin->copyRoleTemplatePermissions(
+        $this->admin->copyRoleTemplatePermissions(
             $this->getRoleTemplateId(),
             ROLE_FOLDER_ID,
             $source->getRefId(),
             $role->getId(),
             true
         );
-
         // Set permissions
-        $ops = $rbacreview->getOperationsOfRole($role->getId(), $source->getType(), $source->getRefId());
-        $rbacadmin->grantPermission($role->getId(), $ops, $source->getRefId());
-
+        $ops = $this->review->getOperationsOfRole($role->getId(), $source->getType(), $source->getRefId());
+        $this->admin->grantPermission($role->getId(), $ops, $source->getRefId());
         return true;
     }
 
     /**
      * Revert action
      */
-    public function revert()
+    public function revert() : bool
     {
         // @todo: revert could delete the generated local role. But on the other hand all users
         // assigned to this local role would be deassigned. E.g. if course or group membership
         // is handled by didactic templates, all members would get lost.
+        return false;
     }
 
     /**
      * Create new action
      */
-    public function save()
+    public function save() : int
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        parent::save();
+        if (!parent::save()) {
+            return 0;
+        }
 
         $query = 'INSERT INTO didactic_tpl_alr (action_id,role_template_id) ' .
             'VALUES ( ' .
-            $ilDB->quote($this->getActionId(), 'integer') . ', ' .
-            $ilDB->quote($this->getRoleTemplateId(), 'integer') . ' ' .
+            $this->db->quote($this->getActionId(), 'integer') . ', ' .
+            $this->db->quote($this->getRoleTemplateId(), 'integer') . ' ' .
             ') ';
-        $res = $ilDB->manipulate($query);
-
-        return true;
+        $res = $this->db->manipulate($query);
+        return $this->getActionId();
     }
 
     /**
      * Delete
-     * @return bool
+     * @return void
      */
-    public function delete()
+    public function delete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         parent::delete();
 
         $query = 'DELETE FROM didactic_tpl_alr ' .
-            'WHERE action_id = ' . $ilDB->quote($this->getActionId(), 'integer');
-        $ilDB->manipulate($query);
-
-        return true;
+            'WHERE action_id = ' . $this->db->quote($this->getActionId(), 'integer');
+        $this->db->manipulate($query);
     }
 
     /**
      * Write xml of template action
      * @param ilXmlWriter $writer
      */
-    public function toXml(ilXmlWriter $writer)
+    public function toXml(ilXmlWriter $writer) : void
     {
         $writer->xmlStartTag('localRoleAction');
 
@@ -182,22 +156,16 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
 
     /**
      * Read db entry
-     * @return bool
+     * @return void
      */
-    public function read()
+    public function read() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         parent::read();
-        
         $query = 'SELECT * FROM didactic_tpl_alr ' .
-            'WHERE action_id = ' . $ilDB->quote($this->getActionId(), 'integer');
-        $res = $ilDB->query($query);
+            'WHERE action_id = ' . $this->db->quote($this->getActionId(), 'integer');
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->setRoleTemplateId($row->role_template_id);
         }
-        return true;
     }
 }
