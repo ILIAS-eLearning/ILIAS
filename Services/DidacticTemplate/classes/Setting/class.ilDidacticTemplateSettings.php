@@ -1,29 +1,25 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
+namespace ILIAS\DidacticTemplate\Setting;
 
 /**
  * Didactical template settings
- *
  * @author Stefan Meyer <meyer@leifos.com>
  * @defgroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateSettings
 {
-    private static $instance = null;
-    private static $instances = [];
+    private static ?ilDidacticTemplateSettings  $instance = null;
+    private static array $instances = [];
 
 
-    private $templates = array();
-    private $obj_type = '';
+    private array $templates = [];
+    private string $obj_type = '';
 
-    /**
-     * Constructor
-     * @param int $a_id
-     */
-    private function __construct($a_obj_type = '')
+    private ilDBInterface $db;
+
+    private function __construct(string $a_obj_type = '')
     {
         $this->obj_type = $a_obj_type;
         $this->read();
@@ -33,7 +29,7 @@ class ilDidacticTemplateSettings
      * Get singelton instance
      * @return ilDidacticTemplateSettings
      */
-    public static function getInstance()
+    public static function getInstance() : ilDidacticTemplateSettings
     {
         if (self::$instance) {
             return self::$instance;
@@ -46,7 +42,7 @@ class ilDidacticTemplateSettings
      * @param string $a_obj_type
      * @return ilDidacticTemplateSettings
      */
-    public static function getInstanceByObjectType($a_obj_type)
+    public static function getInstanceByObjectType(string $a_obj_type) : ilDidacticTemplateSettings
     {
         if (isset(self::$instances[$a_obj_type])) {
             return self::$instances[$a_obj_type];
@@ -77,7 +73,7 @@ class ilDidacticTemplateSettings
      * Get templates
      * @return ilDidacticTemplateSetting[]
      */
-    public function getTemplates()
+    public function getTemplates() : array
     {
         return (array) $this->templates;
     }
@@ -86,7 +82,7 @@ class ilDidacticTemplateSettings
      * Get object type
      * @return string
      */
-    public function getObjectType()
+    public function getObjectType() : string
     {
         return $this->obj_type;
     }
@@ -94,24 +90,20 @@ class ilDidacticTemplateSettings
     /**
      * Read disabled templates
      */
-    public function readInactive()
+    public function readInactive() : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT dtpl.id FROM didactic_tpl_settings dtpl ';
 
         if ($this->getObjectType()) {
             $query .= 'JOIN didactic_tpl_sa tplsa ON dtpl.id = tplsa.id ';
         }
-        $query .= 'WHERE enabled = ' . $ilDB->quote(0, 'integer') . ' ';
+        $query .= 'WHERE enabled = ' . $this->db->quote(0, 'integer') . ' ';
 
         if ($this->getObjectType()) {
-            $query .= 'AND obj_type = ' . $ilDB->quote($this->getObjectType(), 'text');
+            $query .= 'AND obj_type = ' . $this->db->quote($this->getObjectType(), 'text');
         }
 
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->templates[$row->id] = new ilDidacticTemplateSetting($row->id);
         }
@@ -122,24 +114,19 @@ class ilDidacticTemplateSettings
      * Read active didactic templates
      * @return bool
      */
-    protected function read()
+    protected function read() : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $query = 'SELECT dtpl.id FROM didactic_tpl_settings dtpl ';
-
         if ($this->getObjectType()) {
             $query .= 'JOIN didactic_tpl_sa tplsa ON dtpl.id = tplsa.id ';
         }
-        $query .= 'WHERE enabled = ' . $ilDB->quote(1, 'integer') . ' ';
+        $query .= 'WHERE enabled = ' . $this->db->quote(1, 'integer') . ' ';
 
         if ($this->getObjectType()) {
-            $query .= 'AND obj_type = ' . $ilDB->quote($this->getObjectType(), 'text');
+            $query .= 'AND obj_type = ' . $this->db->quote($this->getObjectType(), 'text');
         }
 
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->templates[$row->id] = new ilDidacticTemplateSetting($row->id);
         }

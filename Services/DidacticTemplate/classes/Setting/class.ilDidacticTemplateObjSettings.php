@@ -1,6 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+namespace ILIAS\DidacticTemplate\Setting;
+
+
 /**
  * Stores the applied template id for objects
  *
@@ -15,7 +18,7 @@ class ilDidacticTemplateObjSettings
      * @param int $a_ref_id
      * @return int
      */
-    public static function lookupTemplateId($a_ref_id)
+    public static function lookupTemplateId(int $a_ref_id) : int
     {
         global $DIC;
 
@@ -34,9 +37,9 @@ class ilDidacticTemplateObjSettings
     /**
      * Delete by obj id
      * @param int $a_obj_id
-     * @return bool
+     * @return void
      */
-    public static function deleteByObjId($a_obj_id)
+    public static function deleteByObjId(int $a_obj_id) : void
     {
         global $DIC;
 
@@ -45,15 +48,14 @@ class ilDidacticTemplateObjSettings
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
         $ilDB->manipulate($query);
-        return true;
     }
 
     /**
      * Delete by template id
      * @param int $a_tpl_id
-     * @return bool
+     * @return void
      */
-    public static function deleteByTemplateId($a_tpl_id)
+    public static function deleteByTemplateId(int $a_tpl_id) : void
     {
         global $DIC;
 
@@ -62,14 +64,13 @@ class ilDidacticTemplateObjSettings
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, 'integer');
         $ilDB->manipulate($query);
-        return true;
     }
 
     /**
      * Delete by ref_id
      * @param int $a_ref_id
      */
-    public static function deleteByRefId($a_ref_id)
+    public static function deleteByRefId(int $a_ref_id) : void
     {
         global $DIC;
 
@@ -84,9 +85,9 @@ class ilDidacticTemplateObjSettings
      * Assign template to object
      * @param int $a_obj_id
      * @param int $a_tpl_id
-     * @return bool
+     * @return void
      */
-    public static function assignTemplate($a_ref_id, $a_obj_id, $a_tpl_id)
+    public static function assignTemplate(int $a_ref_id, int $a_obj_id, int $a_tpl_id) : void
     {
         global $DIC;
 
@@ -101,14 +102,13 @@ class ilDidacticTemplateObjSettings
             $ilDB->quote($a_tpl_id, 'integer') . ' ' .
             ')';
         $ilDB->manipulate($query);
-        return true;
     }
     /**
      * Lookup template id
      * @param int $a_tpl_id
      * @return array[]
      */
-    public static function getAssignmentsByTemplateID($a_tpl_id)
+    public static function getAssignmentsByTemplateID(int $a_tpl_id) : array
     {
         global $DIC;
 
@@ -147,12 +147,11 @@ class ilDidacticTemplateObjSettings
 
     /**
      * transfer auto generated flag if source is auto generated
-     *
      * @param int $a_src
      * @param int $a_dest
      * @return bool
      */
-    public static function transferAutoGenerateStatus($a_src, $a_dest)
+    public static function transferAutoGenerateStatus(int $a_src, int $a_dest) : bool
     {
         global $DIC;
 

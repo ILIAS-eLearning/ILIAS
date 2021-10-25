@@ -1,5 +1,7 @@
 <?php declare(strict_types=1);
 
+namespace ILIAS\DidacticTemplate\Setting;
+
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
