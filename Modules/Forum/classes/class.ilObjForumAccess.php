@@ -77,7 +77,7 @@ class ilObjForumAccess extends ilObjectAccess
         return $text;
     }
 
-    public static function _preloadData($obj_ids, $ref_ids)
+    public static function _preloadData($obj_ids, $ref_ids) : void
     {
         /*
         We are only able to preload the top_pk values for the forum ref_ids.

@@ -395,7 +395,7 @@ class ilForumTopic
      * Fetches and returns an array of posts from the post tree, starting with the node object passed by
      * the first paramter.
      * @param ilForumPost $a_post_node node-object of a post
-     * @return    array        array of post objects
+     * @return ilForumPost[] Array of post objects
      */
     public function getPostTree(ilForumPost $a_post_node) : array
     {
