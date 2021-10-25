@@ -14,6 +14,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
     protected function setUp() : void
     {
         parent::setUp();
+        ilMailCachedAddressType::clearCache();
     }
 
     /**
