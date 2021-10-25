@@ -176,12 +176,12 @@ class ilForum
         int $display_user_id,
         string $message,
         int $parent_pos,
-        int $notify,
+        bool $notify,
         string $subject = '',
         string $alias = '',
         string $date = '',
-        int $status = 1,
-        int $send_activation_mail = 0
+        bool $status = true,
+        bool $send_activation_mail = false
     ) : int {
         $objNewPost = new ilForumPost();
         $objNewPost->setForumId($forum_id);
@@ -206,7 +206,7 @@ class ilForum
             $objNewPost->setCreateDate($date);
         }
 
-        if ($status === 1) {
+        if ($status) {
             $objNewPost->setPostActivationDate($objNewPost->getCreateDate());
         }
 
@@ -267,9 +267,9 @@ class ilForum
     public function generateThread(
         ilForumTopic $thread,
         string $message,
-        int $notify,
-        int $notify_posts,
-        int $status = 1,
+        bool $notify,
+        bool $notify_posts,
+        bool $status = true,
         bool $withFirstVisibleEntry = true
     ) : int {
         if (!$thread->getCreateDate()) {
@@ -279,7 +279,7 @@ class ilForum
         $thread->setImportName($this->getImportName());
         $thread->insert();
 
-        if ($notify_posts === 1) {
+        if ($notify_posts) {
             $thread->enableNotification($thread->getThrAuthorId());
         }
 
@@ -296,12 +296,12 @@ class ilForum
             $thread->getDisplayUserId(),
             '',
             0,
-            0,
+            false,
             $thread->getSubject(),
             $thread->getUserAlias(),
             $thread->getCreateDate(),
-            1,
-            0
+            true,
+            false
         );
 
         if (!$withFirstVisibleEntry) {
@@ -320,7 +320,7 @@ class ilForum
             $thread->getUserAlias(),
             $thread->getCreateDate(),
             $status,
-            0
+            false
         );
 
         return $rootNodeId;

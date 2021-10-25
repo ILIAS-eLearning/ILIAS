@@ -410,10 +410,10 @@ class ilObjForum extends ilObject
 
             $newPostId = $new_frm->generateThread(
                 $newThread,
-                ilForumPost::_lookupPostMessage($old_post_id),
-                ilForumPost::lookupNotifyByPostId($old_post_id),
-                0,
-                1,
+                ilForumPost::lookupPostMessage($old_post_id),
+                ilForumPost::lookupNotificationStatusByPostId($old_post_id),
+                false,
+                true,
                 false
             );
 

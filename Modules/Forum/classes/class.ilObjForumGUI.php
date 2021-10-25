@@ -1051,9 +1051,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $rowCol = 'ilPostingNeedsActivation';
         } elseif ($this->objProperties->getMarkModeratorPosts()) {
             $isAuthorModerator = ilForum::_isModerator($this->object->getRefId(), $node->getPosAuthorId());
-            if ($isAuthorModerator && $node->getIsAuthorModerator() === null) {
+            if ($isAuthorModerator && $node->isAuthorModerator() === null) {
                 $rowCol = 'ilModeratorPosting';
-            } elseif ($node->getIsAuthorModerator()) {
+            } elseif ($node->isAuthorModerator()) {
                 $rowCol = 'ilModeratorPosting';
             }
         }
@@ -2501,15 +2501,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 }
 
                 // reply: new post
-                $status = 1;
-                $send_activation_mail = 0;
+                $status = true;
+                $send_activation_mail = false;
 
                 if ($this->objProperties->isPostActivationEnabled()) {
                     if (!$this->is_moderator) {
-                        $status = 0;
-                        $send_activation_mail = 1;
+                        $status = false;
+                        $send_activation_mail = true;
                     } elseif ($this->objCurrentPost->isAnyParentDeactivated()) {
-                        $status = 0;
+                        $status = false;
                     }
                 }
 
@@ -2532,7 +2532,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                     $display_user_id,
                     ilRTE::_replaceMediaObjectImageSrc($oReplyEditForm->getInput('message'), 0),
                     $this->objCurrentPost->getId(),
-                    (int) $oReplyEditForm->getInput('notify'),
+                    (bool) $oReplyEditForm->getInput('notify'),
                     $this->handleFormInput($oReplyEditForm->getInput('subject'), false),
                     $user_alias,
                     '',
@@ -3906,12 +3906,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $userIdForDisplayPurposes = 0;
             }
 
-            $status = 1;
+            $status = true;
             if (
                 ($this->objProperties->isPostActivationEnabled() && !$this->is_moderator) ||
                 $this->objCurrentPost->isAnyParentDeactivated()
             ) {
-                $status = 0;
+                $status = false;
             }
 
             if ($createFromDraft) {
@@ -3944,8 +3944,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $newPost = $frm->generateThread(
                     $newThread,
                     ilRTE::_replaceMediaObjectImageSrc($form->getInput('message'), 0),
-                    $form->getItemByPostVar('notify') ? (int) $form->getInput('notify') : 0,
-                    0, // #19980
+                    $form->getItemByPostVar('notify') ? (bool) $form->getInput('notify') : false,
+                    false, // #19980
                     $status
                 );
             }
@@ -4043,12 +4043,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $userIdForDisplayPurposes = 0;
             }
 
-            $status = 1;
+            $status = true;
             if (
                 ($this->objProperties->isPostActivationEnabled() && !$this->is_moderator) ||
                 $this->objCurrentPost->isAnyParentDeactivated()
             ) {
-                $status = 0;
+                $status = false;
             }
 
             $userAlias = ilForumUtil::getPublicUserAlias(
@@ -4065,8 +4065,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $newPost = $frm->generateThread(
                 $newThread,
                 '',
-                0,
-                0, // #19980
+                false,
+                false, // #19980
                 $status,
                 false
             );

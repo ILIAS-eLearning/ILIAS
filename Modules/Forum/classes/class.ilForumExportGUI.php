@@ -100,12 +100,12 @@ class ilForumExportGUI
         $tpl->setCurrentBlock('posts_row');
 
         if (ilForumProperties::getInstance($this->ilObjDataCache->lookupObjId($this->ref_id))->getMarkModeratorPosts()) {
-            if ($post->getIsAuthorModerator() === null && $is_moderator = ilForum::_isModerator(
+            if ($post->isAuthorModerator() === null && $is_moderator = ilForum::_isModerator(
                 $this->ref_id,
                 $post->getPosAuthorId()
             )) {
                 $rowCol = 'ilModeratorPosting';
-            } elseif ($post->getIsAuthorModerator()) {
+            } elseif ($post->isAuthorModerator()) {
                 $rowCol = 'ilModeratorPosting';
             } else {
                 $rowCol = ilUtil::switchColor($counter, 'tblrow1', 'tblrow2');
