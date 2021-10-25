@@ -3,6 +3,9 @@
 
 require_once __DIR__ . "/assBaseTestCase.php";
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Effect\Effect;
+
 /**
 * Unit tests
 *
@@ -54,10 +57,14 @@ class assClozeSelectGapTest extends assBaseTestCase
         // Arrange
         require_once './Modules/TestQuestionPool/classes/class.assClozeSelectGap.php';
         $instance = new assClozeSelectGap(1); // 1 - select gap
-        $expected = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
+        $expected = ['shfksdfs', 'sfsdf', 'sdfsdfdf'];
 
-        $actual = $instance->getItems(new ilArrayElementShuffler());
-        $this->assertNotEquals($expected, $actual);
+        $mockEffect = $this->getMockBuilder(Effect::class)->getMock();
+        $mockEffect->expects(self::once())->method('value')->willReturn($expected);
+        $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
+        $transformationMock->expects(self::once())->method('transform')->willReturn($mockEffect);
+        $actual = $instance->getItems($transformationMock);
+        $this->assertEquals($expected, $actual);
     }
 
     public function test_getItemswithShuffle_shouldReturnShuffledItems()
@@ -89,11 +96,13 @@ class assClozeSelectGapTest extends assBaseTestCase
         $sequence = [$item1, $item3, $item2, $item4, $item5, $item6, $item7, $item8];
         $expectedSequence = array_reverse($sequence);
 
-        $randomElmProvider = $this->getMockBuilder(ilRandomArrayElementProvider::class)->getMock();
+        $mockEffect = $this->getMockBuilder(Effect::class)->getMock();
+        $mockEffect->expects(self::once())->method('value')->willReturn($expectedSequence);
+        $randomElmProvider = $this->getMockBuilder(Transformation::class)->getMock();
         $randomElmProvider->expects($this->once())
-                          ->method('shuffle')
+                          ->method('transform')
                           ->with($sequence)
-                          ->willReturn($expectedSequence);
+                          ->willReturn($mockEffect);
 
         $actual = $instance->getItems($randomElmProvider);
         $this->assertEquals($actual, $expectedSequence);
@@ -118,7 +127,14 @@ class assClozeSelectGapTest extends assBaseTestCase
         $instance->setType(false);
 
         $expected = array($item1, $item2, $item3, $item4);
-        $actual = $instance->getItems(new ilDeterministicArrayElementProvider());
+        $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
+        $transformationMock->expects(self::once())->method('transform')->willReturnCallback(function ($value) {
+            $mockEffect = $this->getMockBuilder(Effect::class)->getMock();
+            $mockEffect->expects(self::once())->method('value')->willReturn($value);
+
+            return $mockEffect;
+        });
+        $actual = $instance->getItems($transformationMock);
 
         $this->assertEquals($expected, $actual);
     }

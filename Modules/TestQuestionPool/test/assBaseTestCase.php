@@ -2,6 +2,8 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
+use ILIAS\Refinery\Factory as RefineryFactory;
+use ILIAS\Refinery\Random\Group as RandomGroup;
 
 /**
  * Class assBaseTestCase
@@ -47,6 +49,10 @@ abstract class assBaseTestCase extends TestCase
         $rbacsystem_mock = $this->createMock('ilRbacSystem', array(), array(), '', false);
         $DIC['rbacsystem'] = $rbacsystem_mock;
         $GLOBALS['rbacsystem'] = $rbacsystem_mock;
+
+        $refineryMock = $this->getMockBuilder(RefineryFactory::class)->disableOriginalConstructor()->getMock();
+        $refineryMock->expects(self::any())->method('random')->willReturn($this->getMockBuilder(RandomGroup::class)->getMock());
+        $DIC['refinery'] = $refineryMock;
 
         parent::setUp();
     }

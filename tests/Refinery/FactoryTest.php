@@ -97,7 +97,7 @@ class FactoryTest extends TestCase
         $this->assertInstanceOf(\ILIAS\Refinery\DateTime\Group::class, $group);
     }
 
-    public function testCreateUriGrouo()
+    public function testCreateUriGroup()
     {
         $group = $this->basicFactory->uri();
         $this->assertInstanceOf(\ILIAS\Refinery\URI\Group::class, $group);
@@ -110,5 +110,11 @@ class FactoryTest extends TestCase
             $this->basicFactory->string()
         ]);
         $this->assertInstanceOf(\ILIAS\Refinery\ByTrying::class, $instance);
+    }
+
+    public function testRandomGroup()
+    {
+        $instance = $this->basicFactory->random();
+        $this->assertInstanceOf(\ILIAS\Refinery\Random\Group::class, $instance);
     }
 }

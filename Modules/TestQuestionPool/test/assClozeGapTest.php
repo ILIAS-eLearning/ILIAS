@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\Effect\Effect;
+
 /**
 * Unit tests
 *
@@ -25,7 +28,6 @@ class assClozeGapTest extends assBaseTestCase
         parent::setUp();
 
         require_once './Services/Utilities/classes/class.ilUtil.php';
-        require_once './Services/Randomization/classes/class.ilArrayElementShuffler.php';
         $util_mock = $this->createMock('ilUtil', array('stripSlashes'), array(), '', false);
         $util_mock->expects($this->any())->method('stripSlashes')->will($this->returnArgument(0));
         $this->setGlobalVariable('ilUtils', $util_mock);
@@ -99,11 +101,16 @@ class assClozeGapTest extends assBaseTestCase
             'Meyer', 'Jansen', 'Heyser', 'Becker');
         $instance->items = $the_unexpected;
         $instance->setShuffle(true);
-        
-        $actual = $instance->getItems(new ilArrayElementShuffler);
+        $theExpected = ['hua', 'haaa', 'some random values'];
+
+        $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
+        $mockEffect = $this->getMockBuilder(Effect::class)->getMock();
+        $mockEffect->expects(self::once())->method('value')->willReturn($theExpected);
+        $transformationMock->expects(self::once())->method('transform')->with($the_unexpected)->willReturn($mockEffect);
+        $actual = $instance->getItems($transformationMock);
 
         // Assert
-        $this->assertNotEquals($the_unexpected, $actual);
+        $this->assertEquals($theExpected, $actual);
     }
     
     public function test_addGetItem_shouldReturnValueUnchanged()
@@ -201,7 +208,9 @@ class assClozeGapTest extends assBaseTestCase
         $instance->addItem($item2);
         $instance->addItem($item3);
         $instance->addItem($item4);
-        $actual = $instance->getItems(new ilArrayElementShuffler);
+        $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
+        $transformationMock->expects(self::never())->method('transform');
+        $actual = $instance->getItems($transformationMock);
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -214,38 +223,33 @@ class assClozeGapTest extends assBaseTestCase
         $instance = new assClozeGap(0); // 0 - text gap
         $instance->setShuffle(true);
         require_once './Modules/TestQuestionPool/classes/class.assAnswerCloze.php';
-        $item1 = new assAnswerCloze('Bert', 1.0, 0);
-        $item2 = new assAnswerCloze('Fred', 1.0, 1);
-        $item3 = new assAnswerCloze('Karl', 1.0, 2);
-        $item4 = new assAnswerCloze('Esther', 1.0, 3);
-        $item5 = new assAnswerCloze('Herbert', 1.0, 4);
-        $item6 = new assAnswerCloze('Karina', 1.0, 5);
-        $item7 = new assAnswerCloze('Helmut', 1.0, 6);
-        $item8 = new assAnswerCloze('Kerstin', 1.0, 7);
-        $expected = array($item1, $item2, $item3, $item4, $item5, $item6, $item7, $item8);
+        $expected = [
+            new assAnswerCloze('Bert', 1.0, 0),
+            new assAnswerCloze('Fred', 1.0, 1),
+            new assAnswerCloze('Karl', 1.0, 2),
+            new assAnswerCloze('Esther', 1.0, 3),
+            new assAnswerCloze('Herbert', 1.0, 4),
+            new assAnswerCloze('Karina', 1.0, 5),
+            new assAnswerCloze('Helmut', 1.0, 6),
+            new assAnswerCloze('Kerstin', 1.0, 7),
+        ];
+
+        $shuffledArray = ['some shuffled array', 'these values dont matter'];
 
         // Act
-        $instance->addItem($item1);
-        $instance->addItem($item2);
-        $instance->addItem($item3);
-        $instance->addItem($item4);
-        $instance->addItem($item5);
-        $instance->addItem($item6);
-        $instance->addItem($item7);
-        $instance->addItem($item8);
-        $actual = $instance->getItems(new ilArrayElementShuffler);
+        foreach ($expected as $item) {
+            $instance->addItem($item);
+        }
+
+        $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
+        $mockEffect = $this->getMockBuilder(Effect::class)->getMock();
+        $mockEffect->expects(self::once())->method('value')->willReturn($shuffledArray);
+        $transformationMock->expects(self::once())->method('transform')->with($expected)->willReturn($mockEffect);
+        $actual = $instance->getItems($transformationMock);
 
         // Assert
-        $this->assertTrue(is_array($actual));
-        $this->assertTrue(in_array($item1, $actual));
-        $this->assertTrue(in_array($item2, $actual));
-        $this->assertTrue(in_array($item3, $actual));
-        $this->assertTrue(in_array($item4, $actual));
-        $this->assertTrue(in_array($item5, $actual));
-        $this->assertTrue(in_array($item6, $actual));
-        $this->assertTrue(in_array($item7, $actual));
-        $this->assertTrue(in_array($item8, $actual));
-        $this->assertNotEquals($expected, $actual);
+
+        $this->assertEquals($shuffledArray, $actual);
     }
 
     public function test_getItemsRaw_shouldReturnItemsAdded()
@@ -527,7 +531,7 @@ class assClozeGapTest extends assBaseTestCase
         $expected = 'Esther';
 
         // Act
-        $actual = $instance->getBestSolutionOutput(new ilArrayElementShuffler);
+        $actual = $instance->getBestSolutionOutput($this->getDummyTransformationMock());
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -563,7 +567,7 @@ class assClozeGapTest extends assBaseTestCase
         $expected2 = 'Esther or Karl';
 
         // Act
-        $actual = $instance->getBestSolutionOutput(new ilArrayElementShuffler);
+        $actual = $instance->getBestSolutionOutput($this->getDummyTransformationMock());
 
         // Assert
         $this->assertTrue(($actual == $expected1) || ($actual == $expected2));
@@ -597,7 +601,7 @@ class assClozeGapTest extends assBaseTestCase
         $expected = 100;
 
         // Act
-        $actual = $instance->getBestSolutionOutput(new ilArrayElementShuffler);
+        $actual = $instance->getBestSolutionOutput($this->getDummyTransformationMock());
 
         // Assert
         $this->assertEquals($expected, $actual);
@@ -631,9 +635,24 @@ class assClozeGapTest extends assBaseTestCase
         $expected = '';
 
         // Act
-        $actual = $instance->getBestSolutionOutput(new ilArrayElementShuffler);
+        $actual = $instance->getBestSolutionOutput($this->getDummyTransformationMock());
 
         // Assert
         $this->assertEquals($expected, $actual);
+    }
+
+    private function getDummyTransformationMock() : Transformation
+    {
+
+        $callback = function (array $array) : Effect {
+            $mockEffect = $this->getMockBuilder(Effect::class)->getMock();
+            $mockEffect->expects(self::once())->method('value')->willReturn($array);
+
+            return $mockEffect;
+        };
+        $transformationMock = $this->getMockBuilder(Transformation::class)->getMock();
+        $transformationMock->expects(self::any())->method('transform')->willReturnCallback($callback);
+
+        return $transformationMock;
     }
 }

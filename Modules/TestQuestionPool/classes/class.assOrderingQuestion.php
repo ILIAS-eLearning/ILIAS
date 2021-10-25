@@ -544,9 +544,9 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      */
     public function getShuffledOrderingElementList()
     {
-        $shuffledRandomIdentifierIndex = $this->getShuffler()->shuffle(
+        $shuffledRandomIdentifierIndex = $this->getShuffler()->transform(
             $this->getOrderingElementList()->getRandomIdentifierIndex()
-        );
+        )->value();
         
         $shuffledElementList = $this->getOrderingElementList()->getClone();
         $shuffledElementList->reorderByRandomIdentifiers($shuffledRandomIdentifierIndex);
@@ -1163,7 +1163,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
             $answers[$counter] = $orderingElement->getContent();
             $counter++;
         }
-        $answers = $this->getShuffler()->shuffle($answers);
+        $answers = $this->getShuffler()->transform($answers)->value();
         $arr = array();
         foreach ($answers as $order => $answer) {
             array_push($arr, array(
