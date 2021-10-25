@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+namespace ILIAS\DidacticTemplate\Pattern;
 
 /**
  * Represents a filter pattern for didactic template actions
@@ -154,14 +155,14 @@ abstract class ilDidacticTemplateFilterPattern
      * @param mixed
      * @return bool
      */
-    abstract public function valid(string $a_source):bool;
+    abstract public function valid(string $a_source) : bool;
 
     /**
      * Get xml representation of pattern
      * @param ilXmlWriter $writer
      * @return string
      */
-    abstract public function toXml(ilXmlWriter $writer) : string;
+    abstract public function toXml(ilXmlWriter $writer) : void;
 
 
     /**

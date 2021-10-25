@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+namespace ILIAS\DidacticTemplate\Pattern;
 
 /**
  * Factory for didactic template filter patterns
@@ -13,9 +14,9 @@ class ilDidacticTemplateFilterPatternFactory
     /**
      * Get patterns by template id
      * @param int $a_tpl_id
-     * @param array Array of ilDidacticTemplateFilterPattern
+     * @param ilDidacticTemplateFilterPattern[]
      */
-    public static function lookupPatternsByParentId($a_parent_id, $a_parent_type)
+    public static function lookupPatternsByParentId(int $a_parent_id, string $a_parent_type) : array
     {
         global $DIC;
 
@@ -26,7 +27,7 @@ class ilDidacticTemplateFilterPatternFactory
             'AND parent_type = ' . $ilDB->quote($a_parent_type, 'text');
         $res = $ilDB->query($query);
 
-        $patterns = array();
+        $patterns = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             
 
