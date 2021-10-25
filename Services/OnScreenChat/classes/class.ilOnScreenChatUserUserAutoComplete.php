@@ -9,10 +9,7 @@ require_once 'Services/User/classes/class.ilUserAutoComplete.php';
  */
 class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
 {
-    /**
-     * @inheritDoc
-     */
-    protected function getFromPart()
+    protected function getFromPart() : string
     {
         global $DIC;
 
@@ -26,10 +23,7 @@ class ilOnScreenChatUserUserAutoComplete extends ilUserAutoComplete
         return $from_part;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function getWherePart(array $search_query)
+    protected function getWherePart(array $search_query) : string
     {
         global $DIC;
 

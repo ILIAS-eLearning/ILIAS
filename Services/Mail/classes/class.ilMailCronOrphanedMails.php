@@ -101,7 +101,7 @@ class ilMailCronOrphanedMails extends ilCronJob
         $threshold->allowDecimals(false);
         $threshold->setSuffix($this->lng->txt('days'));
         $threshold->setMinValue(1);
-        $threshold->setValue($this->settings->get('mail_threshold'));
+        $threshold->setValue($this->settings->get('mail_threshold', ''));
 
         $a_form->addItem($threshold);
         
@@ -110,7 +110,7 @@ class ilMailCronOrphanedMails extends ilCronJob
             'mail_only_inbox_trash'
         );
         $mail_folder->setInfo($this->lng->txt('only_inbox_trash_info'));
-        $mail_folder->setChecked($this->settings->get('mail_only_inbox_trash'));
+        $mail_folder->setChecked((bool) $this->settings->get('mail_only_inbox_trash', '0'));
         $a_form->addItem($mail_folder);
         
         $notification = new ilNumberInputGUI(
@@ -132,18 +132,18 @@ class ilMailCronOrphanedMails extends ilCronJob
         }
         $maxvalue = $mail_threshold - 1;
         $notification->setMaxValue($maxvalue);
-        $notification->setValue($this->settings->get('mail_notify_orphaned'));
+        $notification->setValue($this->settings->get('mail_notify_orphaned', ''));
         $a_form->addItem($notification);
     }
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->init();
-        $this->settings->set('mail_threshold', (int) $a_form->getInput('mail_threshold'));
-        $this->settings->set('mail_only_inbox_trash', (int) $a_form->getInput('mail_only_inbox_trash'));
-        $this->settings->set('mail_notify_orphaned', (int) $a_form->getInput('mail_notify_orphaned'));
+        $this->settings->set('mail_threshold', (string) ((int) $a_form->getInput('mail_threshold')));
+        $this->settings->set('mail_only_inbox_trash', (string) ((int) $a_form->getInput('mail_only_inbox_trash')));
+        $this->settings->set('mail_notify_orphaned', (string) ((int) $a_form->getInput('mail_notify_orphaned')));
 
-        if ($this->settings->get('mail_notify_orphaned') == 0) {
+        if ((int) $this->settings->get('mail_notify_orphaned', '0') === 0) {
             //delete all mail_cron_orphaned-table entries!
             $this->db->manipulate('DELETE FROM mail_cron_orphaned');
 
@@ -161,18 +161,18 @@ class ilMailCronOrphanedMails extends ilCronJob
     public function run() : ilCronJobResult
     {
         $this->init();
-        $mail_threshold = (int) $this->settings->get('mail_threshold');
+        $mail_threshold = (int) $this->settings->get('mail_threshold', '0');
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             'Started mail deletion job with threshold: %s day(s)',
             var_export($mail_threshold, true)
         ));
 
-        if ($mail_threshold >= 1 && (int) $this->settings->get('mail_notify_orphaned') >= 1) {
+        if ($mail_threshold >= 1 && (int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
             $this->processNotification();
         }
 
-        if ($mail_threshold >= 1 && (int) $this->settings->get('last_cronjob_start_ts', time())) {
+        if ($mail_threshold >= 1 && (int) $this->settings->get('last_cronjob_start_ts', (string) time())) {
             $this->processDeletion();
         }
 
@@ -195,8 +195,8 @@ class ilMailCronOrphanedMails extends ilCronJob
 
         $notifier = new ilMailCronOrphanedMailsNotifier(
             $collector,
-            (int) $this->settings->get('mail_threshold'),
-            (int) $this->settings->get('mail_notify_orphaned')
+            (int) $this->settings->get('mail_threshold', '0'),
+            (int) $this->settings->get('mail_notify_orphaned', '0')
         );
         $notifier->processNotification();
     }

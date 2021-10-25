@@ -351,7 +351,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 break;
 
             case strtolower(ilObjectCustomIconConfigurationGUI::class):
-                if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons')) {
+                if (!$this->checkPermissionBool('write') || !$this->settings->get('custom_icons', '0')) {
                     $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
                 }
 
@@ -439,7 +439,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->ctrl->getLinkTarget($this, self::UI_CMD_EDIT)
             );
 
-            if ($this->settings->get('custom_icons')) {
+            if ($this->settings->get('custom_icons', '0')) {
                 $this->tabs_gui->addSubTab(
                     self::UI_TAB_ID_ICON,
                     $this->lng->txt('icon_settings'),
@@ -632,8 +632,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     {
         $form = new ilPropertyFormGUI();
 
-        $fixedStyle = (int) $this->settings->get('fixed_content_style_id');
-        $defaultStyle = (int) $this->settings->get('default_content_style_id');
+        $fixedStyle = (int) $this->settings->get('fixed_content_style_id', '0');
+        $defaultStyle = (int) $this->settings->get('default_content_style_id', '0');
         $styleId = $this->object->getStyleSheetId();
 
         if ($fixedStyle > 0) {
@@ -703,7 +703,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->checkPermission('write');
 
         if (
-            $this->settings->get('fixed_content_style_id') <= 0 &&
+            (int) $this->settings->get('fixed_content_style_id', '0') <= 0 &&
             (
                 ilObjStyleSheet::_lookupStandard(
                     $this->object->getStyleSheetId()

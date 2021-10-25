@@ -9,58 +9,40 @@ namespace ILIAS\OnScreenChat\DTO;
  */
 class ConversationDto
 {
-    /** @var string */
-    private $id = '';
-    /** @var bool */
-    private $isGroup = false;
-    /** @var array */
-    private $subscriberUsrIds = [];
-    /** @var MessageDto */
-    private $lastMessage;
+    private string $id;
+    private bool $isGroup = false;
+    /** @var int[] */
+    private array $subscriberUsrIds = [];
+    private MessageDto $lastMessage;
 
-    /**
-     * ConversationDto constructor.
-     * @param string $id
-     */
     public function __construct(string $id)
     {
         $this->id = $id;
+        $this->lastMessage = new MessageDto('', $this);
     }
 
-    /**
-     * @return string
-     */
     public function getId() : string
     {
         return $this->id;
     }
 
-    /**
-     * @param string $id
-     */
     public function setId(string $id) : void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return bool
-     */
     public function isGroup() : bool
     {
         return $this->isGroup;
     }
 
-    /**
-     * @param bool $isGroup
-     */
     public function setIsGroup(bool $isGroup) : void
     {
         $this->isGroup = $isGroup;
     }
 
     /**
-     * @return array
+     * @return int[]
      */
     public function getSubscriberUsrIds() : array
     {
@@ -68,24 +50,18 @@ class ConversationDto
     }
 
     /**
-     * @param array $subscriberUsrIds
+     * @param int[] $subscriberUsrIds
      */
     public function setSubscriberUsrIds(array $subscriberUsrIds) : void
     {
         $this->subscriberUsrIds = $subscriberUsrIds;
     }
 
-    /**
-     * @return MessageDto
-     */
     public function getLastMessage() : MessageDto
     {
         return $this->lastMessage;
     }
 
-    /**
-     * @param MessageDto $lastMessage
-     */
     public function setLastMessage(MessageDto $lastMessage) : void
     {
         $this->lastMessage = $lastMessage;

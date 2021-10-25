@@ -38,7 +38,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
         );
 
         $chatSettings = new ilSetting('chatroom');
-        $this->isChatEnabled = (bool) $chatSettings->get('chat_enabled');
+        $this->isChatEnabled = (bool) $chatSettings->get('chat_enabled', '0');
 
         $this->setDefaultOrderDirection('ASC');
         $this->setDefaultOrderField('public_name');

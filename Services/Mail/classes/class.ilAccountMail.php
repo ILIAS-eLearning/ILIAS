@@ -23,14 +23,9 @@ class ilAccountMail
     private ilMailMimeSenderFactory $senderFactory;
     public string $u_password = '';
     public ?ilObjUser $user;
-    /**
-     * repository item target (e.g. "crs_123")
-     */
     public string $target = '';
     private bool $lang_variables_as_fallback = false;
-    /**
-     * @var string[]
-     */
+    /** @var string[] */
     private array $attachments = [];
     private bool $attachConfiguredFiles = false;
     private array $amail = [];
@@ -175,16 +170,16 @@ class ilAccountMail
         $amail = $this->readAccountMail($user->getLanguage());
         $lang = $user->getLanguage();
         if ($amail['body'] === '' || $amail['subject'] === '') {
-            $amail = $this->readAccountMail($this->settings->get('language'));
-            $lang = $this->settings->get('language');
+            $fallback_language = 'en';
+            $amail = $this->readAccountMail($this->settings->get('language', $fallback_language));
+            $lang = $this->settings->get('language', $fallback_language);
         }
 
         // fallback if mail data is still not given
-        if ($this->areLangVariablesUsedAsFallback() && ($amail['body'] === '' || $amail['subject'] === '')) {
+        if (($amail['body'] === '' || $amail['subject'] === '') && $this->areLangVariablesUsedAsFallback()) {
             $lang = $user->getLanguage();
             $tmp_lang = new ilLanguage($lang);
 
-            // mail subject
             $mail_subject = $tmp_lang->txt('reg_mail_subject');
 
             $timelimit = "";
@@ -223,7 +218,7 @@ class ilAccountMail
         $mmail->Body($mail_body);
 
         foreach ($this->attachments as $filename => $display_name) {
-            $mmail->Attach($filename, "", "attachment", $display_name);
+            $mmail->Attach($filename, '', 'attachment', $display_name);
         }
 
         $mmail->Send();
@@ -266,7 +261,7 @@ class ilAccountMail
                 $this->getUserPassword(),
                 ILIAS_HTTP_PATH . '/login.php?client_id=' . CLIENT_ID,
                 CLIENT_NAME,
-                $this->settings->get('admin_email'),
+                $this->settings->get('admin_email', ''),
             ],
             $a_string
         );

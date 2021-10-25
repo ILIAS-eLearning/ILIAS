@@ -56,7 +56,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
         }
 
         $chatSettings = new ilSetting('chatroom');
-        if (!$chatSettings->get('chat_enabled')) {
+        if (!$chatSettings->get('chat_enabled', '0')) {
             ilUtil::sendInfo($this->ilLng->txt('server_disabled'), true);
         }
 
