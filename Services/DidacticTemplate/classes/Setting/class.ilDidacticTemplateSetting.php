@@ -641,7 +641,7 @@ class ilDidacticTemplateSetting
     /**
      * Implemented clone method
      */
-    public function __clone() : void
+    public function __clone()
     {
         $this->setId(0);
         

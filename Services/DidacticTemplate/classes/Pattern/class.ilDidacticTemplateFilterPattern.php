@@ -216,7 +216,7 @@ abstract class ilDidacticTemplateFilterPattern
     /**
      * Magic clone method
      */
-    public function __clone() : void
+    public function __clone()
     {
         $this->setParentId(0);
         $this->setPatternId(0);

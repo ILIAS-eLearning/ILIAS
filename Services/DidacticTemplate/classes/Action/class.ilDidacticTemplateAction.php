@@ -175,7 +175,7 @@ abstract class ilDidacticTemplateAction
     /**
      * Clone method
      */
-    public function __clone() : void
+    public function __clone()
     {
         $this->setActionId(0);
     }

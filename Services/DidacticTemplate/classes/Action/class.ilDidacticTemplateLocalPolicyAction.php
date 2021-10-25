@@ -321,7 +321,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     /**
      *  clone method
      */
-    public function __clone() : void
+    public function __clone()
     {
         parent::__clone();
 
