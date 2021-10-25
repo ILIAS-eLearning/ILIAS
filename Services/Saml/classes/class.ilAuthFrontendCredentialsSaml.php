@@ -1,28 +1,32 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Class ilAuthFrontendCredentialsSaml
  * @author Michael Jansen <mjansen@databay.de>
  */
 class ilAuthFrontendCredentialsSaml extends ilAuthFrontendCredentials
 {
-    protected ilSamlAuth $auth;
-    protected string $return_to = '';
-    protected array $attributes = [];
+    private ilSamlAuth $auth;
+    private ServerRequestInterface $request;
+    private string $return_to = '';
+    private array $attributes = [];
 
-    public function __construct(ilSamlAuth $auth)
+    public function __construct(ilSamlAuth $auth, ServerRequestInterface $request)
     {
         parent::__construct();
 
         $this->auth = $auth;
+        $this->request = $request;
 
         $this->setAttributes($this->auth->getAttributes());
     }
 
     public function initFromRequest() : void
     {
-        $this->setReturnTo((string) ($_GET['target'] ?? ''));
+        $this->setReturnTo((string) ($this->request->getQueryParams()['target'] ?? ''));
     }
 
     public function setAttributes(array $attributes) : void
