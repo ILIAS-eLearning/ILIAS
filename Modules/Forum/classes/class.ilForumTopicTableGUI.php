@@ -43,7 +43,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setRefId($ref_id);
         $this->setTopicData($topicData);
 
-        // Call this immediately in constructor
         $id = 'frm_tt_' . substr(md5($this->parent_cmd), 0, 3) . '_' . $this->getRefId();
         $this->setId($id);
 
@@ -95,7 +94,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
         if ($this->parent_cmd === 'sortThreads') {
             $this->addCommandButton('saveThreadSorting', $this->lng->txt('save'));
         } else {
-            // Multi commands
             $this->addMultiCommand('', $this->lng->txt('please_choose'));
             if ($this->settings->get('forum_notification') > 0 && !$this->user->isAnonymous()) {
                 $this->addMultiCommand('enable_notifications', $this->lng->txt('forums_enable_notification'));
@@ -203,7 +201,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
         if (!$this->user->isAnonymous() &&
             (int) $this->settings->get('forum_notification', '0') !== 0 &&
-            $a_set->getUserNotificationEnabled()
+            $a_set->isUserNotificationEnabled()
         ) {
             $subject .= '<span class="light">[' . $this->lng->txt('forums_notification_enabled') . ']</span> ';
         }
@@ -220,7 +218,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->ctrl->setParameter($this->getParentObject(), 'page', null);
         $this->tpl->setVariable('VAL_SUBJECT', $subject);
 
-        // Author
         $this->ctrl->setParameter(
             $this->getParentObject(),
             'backurl',
@@ -259,7 +256,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
                 (int) isset($draft_statistics[$a_set->getId()]) ? $draft_statistics[$a_set->getId()] : 0
             );
         }
-        // Last posting
+
         if ($num_posts > 0 && $a_set->getLastPostForThreadOverview() instanceof ilForumPost) {
             $objLastPost = $a_set->getLastPostForThreadOverview();
 
@@ -284,7 +281,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
             );
         }
 
-        // Row style
         $css_row = $this->css_row;
         if ($a_set->isSticky()) {
             $css_row = $css_row === 'tblrow1' ? 'tblstickyrow1' : 'tblstickyrow2';
@@ -332,7 +328,6 @@ class ilForumTopicTableGUI extends ilTable2GUI
         $this->setMaxCount($data['cnt']);
         $this->setData($data['items']);
 
-        // Collect user ids for preloading user objects
         $thread_ids = [];
         $user_ids = [];
         foreach ($data['items'] as $thread) {

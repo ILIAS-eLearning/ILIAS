@@ -1683,7 +1683,7 @@ class ilForum
             $targetThreadForMerge->close();
         }
 
-        $allSourcePostings = $sourceThreadForMerge->getAllPosts();
+        $allSourcePostings = $sourceThreadForMerge->getAllPostIds();
         $sourceThreadRootNode = $sourceThreadForMerge->getFirstPostNode();
         $targetThreadRootNode = $targetThreadForMerge->getFirstPostNode();
 
@@ -1713,7 +1713,7 @@ class ilForum
 
             // get source post tree and update posts tree
             foreach ($allSourcePostings as $pos_pk) {
-                $post_obj = new ilForumPost((int) $pos_pk);
+                $post_obj = new ilForumPost($pos_pk);
 
                 if ($post_obj->getId() === $sourceThreadRootNode->getId()) {
                     // Ignore the source root node (MUST be deleted later)
@@ -1721,7 +1721,7 @@ class ilForum
                 }
 
                 $tree = new ilForumPostsTree();
-                $tree->setPosFk((int) $pos_pk);
+                $tree->setPosFk($pos_pk);
 
                 if ($post_obj->getParentId() === $sourceThreadRootNode->getId()) {
                     $tree->setParentPos($targetRootNodeId);

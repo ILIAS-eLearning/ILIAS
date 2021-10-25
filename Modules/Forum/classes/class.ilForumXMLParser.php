@@ -328,8 +328,8 @@ class ilForumXMLParser extends ilSaxParser
                     $this->forumThread->setId((int) $this->threadArray['Id']);
                     $this->forumThread->setForumId((int) $this->lastHandledForumId);
                     $this->forumThread->setSubject($this->threadArray['Subject']);
-                    $this->forumThread->setSticky($this->threadArray['Sticky']);
-                    $this->forumThread->setClosed($this->threadArray['Closed']);
+                    $this->forumThread->setSticky((bool) $this->threadArray['Sticky']);
+                    $this->forumThread->setClosed((bool) $this->threadArray['Closed']);
                     $this->forumThread->setCreateDate($this->threadArray['CreateDate']);
                     $this->forumThread->setChangeDate($this->threadArray['UpdateDate']);
                     $this->forumThread->setImportName($this->threadArray['ImportName']);

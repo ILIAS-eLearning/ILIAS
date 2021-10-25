@@ -4599,7 +4599,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             return;
         }
 
-        if (ilForumTopic::_lookupDate($sourceThreadId) < ilForumTopic::_lookupDate($targetThreadId)) {
+        if (ilForumTopic::lookupCreationDate($sourceThreadId) < ilForumTopic::lookupCreationDate($targetThreadId)) {
             ilUtil::sendInfo($this->lng->txt('switch_threads_for_merge'));
         }
 
@@ -4616,12 +4616,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         $c_gui->addItem(
             'thread_ids[]',
             (string) $sourceThreadId,
-            sprintf($this->lng->txt('frm_merge_src'), ilForumTopic::_lookupTitle($sourceThreadId))
+            sprintf($this->lng->txt('frm_merge_src'), ilForumTopic::lookupTitle($sourceThreadId))
         );
         $c_gui->addItem(
             'thread_ids[]',
             (string) $targetThreadId,
-            sprintf($this->lng->txt('frm_merge_target'), ilForumTopic::_lookupTitle($targetThreadId))
+            sprintf($this->lng->txt('frm_merge_target'), ilForumTopic::lookupTitle($targetThreadId))
         );
         $this->tpl->setContent($c_gui->getHTML());
     }

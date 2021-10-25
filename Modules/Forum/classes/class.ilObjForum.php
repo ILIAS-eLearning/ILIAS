@@ -400,7 +400,7 @@ class ilObjForum extends ilObject
             $old_post_id = $this->Forum->getRootPostIdByThread($old_thread->getId());
 
             $newThread = new ilForumTopic(0, true, true);
-            $newThread->setSticky($old_thread->getSticky());
+            $newThread->setSticky($old_thread->isSticky());
             $newThread->setForumId($new_topic->getTopPk());
             $newThread->setThrAuthorId($old_thread->getThrAuthorId());
             $newThread->setDisplayUserId($old_thread->getDisplayUserId());
