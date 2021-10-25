@@ -22,7 +22,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
     
     private $ref_id;
     
-    public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
+    public function __construct(ilForumSettingsGUI $cmd_class_instance, string $cmd, string $type)
     {
         global $DIC;
 
@@ -35,12 +35,13 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         $this->user = $DIC->user();
         $this->settings = $DIC->settings();
         $this->ref_id = $this->parent_obj->ref_id;
-        $this->parent_cmd = $a_parent_cmd;
-        $this->setId('frmevents_' . $this->ref_id . '_' . uniqid());
+        $this->setId('frmevents_' . $this->ref_id . '_' . $type);
         
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct($cmd_class_instance, $cmd);
+
+        $this->setTitle($this->lng->txt(strtolower($type)));
         $this->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj, 'showMembers'));
+        $this->setFormAction($this->ctrl->getFormAction($cmd_class_instance, 'showMembers'));
     
         $this->addColumn('', '', '1%', true);
         $this->addColumn($this->lng->txt('login'), '', '20%');
