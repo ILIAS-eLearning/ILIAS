@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-declare(strict_types=1);
+namespace ILIAS\DidacticTemplate\Icon;
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\IOException;
@@ -20,33 +20,30 @@ use ILIAS\FileUpload\Location;
 
 class ilDidacticTemplateIconFactory
 {
-    private static $instance = null;
+    private static ?ilDidacticTemplateIconFactory  $instance = null;
 
     /**
      * @var ilObjectDefinition
      */
-    private $definition;
+    private ilObjectDefinition $definition;
 
     /**
      * @var ilDidacticTemplateSettings
      */
-    private $settings;
+    private ilDidacticTemplateSettings $settings;
 
     /**
      * @var string[]
      */
-    private $icon_types = [];
+    private array $icon_types = [];
 
     /**
      * @var array
      */
-    private $assignments = [];
+    private array $assignments = [];
 
-    private $logger;
+    private ilLogger $logger;
 
-    /**
-     * ilDidacticTemplateIconFactory constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -59,7 +56,7 @@ class ilDidacticTemplateIconFactory
     /**
      * @return ilDidacticTemplateIconFactory
      */
-    public static function getInstance()
+    public static function getInstance() : ilDidacticTemplateIconFactory
     {
         if (!isset(self::$instance)) {
             self::$instance = new self();
