@@ -91,7 +91,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     /**
     * Get Screen Mode for current command.
     */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         global $DIC;
 
@@ -131,27 +131,6 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
         $ilCtrl->setParameter($this, "block_id", $this->feed_block->getId());
     }
 
-
-
-    /**
-     * Set GuiObject.
-     *
-     * @param	object	$a_gui_object	GUI object
-     */
-    public function setGuiObject(&$a_gui_object)
-    {
-        $this->gui_object = $a_gui_object;
-    }
-
-    /**
-     * Get GuiObject.
-     *
-     * @return	object	GUI object
-     */
-    public function getGuiObject()
-    {
-        return $this->gui_object;
-    }
 
     /**
      * Set FormEditMode.
@@ -287,7 +266,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     /**
     * Fill data section
     */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         if ($this->getDynamic()) {
             $this->setDataSection($this->getDynamicReload());
@@ -301,7 +280,7 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     /**
     * Get block HTML code.
     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -436,17 +415,17 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     /**
     * Fill feed item row
     */
-    public function fillRow($item)
+    public function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
 
         if ($this->isRepositoryObject() && !$ilAccess->checkAccess("read", "", $this->getRefId())) {
-            $this->tpl->setVariable("TXT_TITLE", $item->getTitle());
+            $this->tpl->setVariable("TXT_TITLE", $a_set->getTitle());
         } else {
-            $ilCtrl->setParameter($this, "feed_item_id", $item->getId());
+            $ilCtrl->setParameter($this, "feed_item_id", $a_set->getId());
             $this->tpl->setCurrentBlock("feed_link");
-            $this->tpl->setVariable("VAL_TITLE", $item->getTitle());
+            $this->tpl->setVariable("VAL_TITLE", $a_set->getTitle());
             $this->tpl->setVariable(
                 "HREF_SHOW",
                 $ilCtrl->getLinkTarget($this, "showFeedItem")

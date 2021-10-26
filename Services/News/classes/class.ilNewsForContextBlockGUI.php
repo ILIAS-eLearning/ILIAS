@@ -173,7 +173,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     /**
     * Get Screen Mode for current command.
     */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         global $DIC;
 
@@ -224,29 +224,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     }
 
     /**
-    * Set EnableEdit.
-    *
-    * @param	boolean	$a_enable_edit	Edit mode on/off
-    */
-    public function setEnableEdit($a_enable_edit = 0)
-    {
-        $this->enable_edit = $a_enable_edit;
-    }
-
-    /**
-    * Get EnableEdit.
-    *
-    * @return	boolean	Edit mode on/off
-    */
-    public function getEnableEdit()
-    {
-        return $this->enable_edit;
-    }
-
-    /**
     * Fill data section
     */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         if ($this->dynamic) {
             $this->setDataSection($this->getDynamicReload());
@@ -260,7 +240,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     /**
     * Get bloch HTML code.
     */
-    public function getHTML()
+    public function getHTML() : string
     {
         global $DIC;
 
@@ -425,9 +405,9 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
     /**
     * get flat list for personal desktop
     */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $info = $this->getInfoForData($data);
+        $info = $this->getInfoForData($a_set);
 
         $this->tpl->setCurrentBlock("long");
         $this->tpl->setVariable("VAL_CREATION_DATE", $info["creation_date"]);

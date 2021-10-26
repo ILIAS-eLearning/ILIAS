@@ -2139,7 +2139,7 @@ class ilObjectGUI
     /**
      * @inheritDoc
      */
-    public function addToDeskObject()
+    public function addToDeskObject() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -2153,7 +2153,7 @@ class ilObjectGUI
     /**
      * @inheritDoc
      */
-    public function removeFromDeskObject()
+    public function removeFromDeskObject() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;

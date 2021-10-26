@@ -1,44 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Achivements GUI
- *
  * @ilCtrl_Calls ilAchievementsGUI: ilLearningProgressGUI, ilPersonalSkillsGUI, ilBadgeProfileGUI, ilLearningHistoryGUI
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilAchievementsGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilAchievements $achievements;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
+    private ilGlobalTemplateInterface $main_tpl;
 
-    /**
-     * @var ilAchievements
-     */
-    protected $achievements;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilGlobalTemplate
-     */
-    private $main_tpl;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -50,7 +36,6 @@ class ilAchievementsGUI
     }
 
     /**
-     * Execute command
      * @throws ilCtrlException
      */
     public function executeCommand() : void
@@ -128,10 +113,7 @@ class ilAchievementsGUI
         }
     }
 
-    /**
-     * Set tabs
-     */
-    protected function setTabs($activate) : void
+    protected function setTabs(string $activate) : void
     {
         $tabs = $this->tabs;
         $links = $this->getLinks();
@@ -143,7 +125,6 @@ class ilAchievementsGUI
     }
 
     /**
-     * Get link
      * @return array[]
      */
     protected function getLinks() : array
@@ -185,14 +166,12 @@ class ilAchievementsGUI
      */
     protected function getGUIClasses() : array
     {
-        $gui_classes = [
-            ilAchievements::SERV_LEARNING_HISTORY => "ilLearningHistoryGUI",
-            ilAchievements::SERV_COMPETENCES => "ilpersonalskillsgui",
-            ilAchievements::SERV_LEARNING_PROGRESS => "illearningprogressgui",
-            ilAchievements::SERV_BADGES => "ilbadgeprofilegui",
-            ilAchievements::SERV_CERTIFICATES => "ilusercertificategui"
+        return [
+            ilAchievements::SERV_LEARNING_HISTORY => strtolower(ilLearningHistoryGUI::class),
+            ilAchievements::SERV_COMPETENCES => strtolower(ilPersonalSkillsGUI::class),
+            ilAchievements::SERV_LEARNING_PROGRESS => strtolower(ilLearningProgressGUI::class),
+            ilAchievements::SERV_BADGES => strtolower(ilBadgeProfileGUI::class),
+            ilAchievements::SERV_CERTIFICATES => strtolower(ilUserCertificateGUI::class)
         ];
-
-        return $gui_classes;
     }
 }

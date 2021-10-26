@@ -1,39 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Memberships block
- *
- * @author Alex Killing <killing@leifos.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPDMembershipBlockGUI: ilCommonActionDispatcherGUI
  */
 class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
 {
-    /** @var string */
-    public static $block_type = 'pdmem';
+    public static string $block_type = 'pdmem';
 
-    /**
-     * Is block displayed on membership overview?
-     */
-    protected $on_mem_overview;
+    // Is block displayed on membership overview?
+    protected bool $on_mem_overview;
 
-    /**
-     * ilPDSelectedItemsBlockGUI constructor.
-     */
-    public function __construct($on_mem_overview = false)
-    {
+    public function __construct(
+        bool $on_mem_overview = false
+    ) {
         parent::__construct();
         $this->lng->loadLanguageModule("dash");
         $this->lng->loadLanguageModule("mmbr");
         $this->on_mem_overview = $on_mem_overview;
     }
 
-    /**
-     * Evaluates the view settings of this block
-     */
-    protected function initViewSettings()
+    protected function initViewSettings() : void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
@@ -46,10 +47,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
     }
 
-    /**
-     * Return to context
-     */
-    protected function returnToContext()
+    protected function returnToContext() : void
     {
         if ($this->on_mem_overview) {
             $this->ctrl->redirectByClass('ilmembershipoverviewgui', '');
@@ -57,11 +55,7 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
         parent::returnToContext();
     }
 
-    /**
-     * Get view title
-     * @return string
-     */
-    protected function getViewTitle()
+    protected function getViewTitle() : string
     {
         if ($this->on_mem_overview) {
             return $this->lng->txt("mmbr_memberships");
@@ -69,12 +63,6 @@ class ilPDMembershipBlockGUI extends ilPDSelectedItemsBlockGUI
         return parent::getViewTitle();
     }
 
-
-    /**
-     * No item entry
-     *
-     * @return string
-     */
     public function getNoItemFoundContent() : string
     {
         $txt = $this->lng->txt("rep_mo_mem_dash");

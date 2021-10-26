@@ -129,7 +129,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
     /**
     * Get Screen Mode for current command.
     */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         global $DIC;
 
@@ -171,7 +171,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
     /**
     * Fill data section
     */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         if ($this->dynamic) {
             $this->setDataSection($this->getDynamicReload());
@@ -186,7 +186,7 @@ class ilPDNewsBlockGUI extends ilNewsForContextBlockGUI
     /**
     * Get bloch HTML code.
     */
-    public function getHTML()
+    public function getHTML() : string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

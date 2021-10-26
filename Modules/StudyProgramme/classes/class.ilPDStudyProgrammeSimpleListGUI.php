@@ -88,7 +88,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         $this->setTitle($this->il_lng->txt("objs_prg"));
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         // TODO: This should be determined from somewhere up in the hierarchy, as
         // this will lead to problems, when e.g. a command changes. But i don't see
@@ -141,7 +141,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return false;
     }
     
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         assert($this->userHasReadableStudyProgrammes()); // We should not get here.
         $this->tpl->setVariable("BLOCK_ROW", $this->getDataSectionContent());
