@@ -77,13 +77,13 @@ class ilObjForumAccess extends ilObjectAccess
         return $text;
     }
 
-    public static function _preloadData($obj_ids, $ref_ids) : void
+    public static function _preloadData($a_obj_ids, $a_ref_ids) : void
     {
         /*
         We are only able to preload the top_pk values for the forum ref_ids.
         Other data like statistics and last posts require permission checks per reference, so there is no added value for using an SQL IN() function in the queries
         */
-        ilObjForum::preloadForumIdsByRefIds((array) $ref_ids);
+        ilObjForum::preloadForumIdsByRefIds((array) $a_ref_ids);
     }
 
     public static function getLastPostByRefId(int $ref_id) : array

@@ -8,7 +8,7 @@
  */
 class ilForumModerators
 {
-    private int $ref_id = 0;
+    private int $ref_id;
     private \ILIAS\DI\RBACServices $rbac;
 
     public function __construct(int $a_ref_id)

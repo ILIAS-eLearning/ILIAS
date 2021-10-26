@@ -129,8 +129,8 @@ class ilForum
         $query = 'SELECT * FROM frm_data WHERE ';
         if ($this->getMDB2Query() !== '' && $this->getMDB2DataType() !== [] && $this->getMDB2DataValue() !== []) {
             $query .= ' ' . $this->getMDB2Query() . ' ';
-            $data_type = $data_type + $this->getMDB2DataType();
-            $data_value = $data_value + $this->getMDB2DataValue();
+            $data_type += $this->getMDB2DataType();
+            $data_value += $this->getMDB2DataValue();
         } else {
             $query .= '1 = 1';
         }
@@ -153,8 +153,8 @@ class ilForum
         $query = 'SELECT * FROM frm_threads WHERE ';
         if ($this->getMDB2Query() !== '' && $this->getMDB2DataType() !== [] && $this->getMDB2DataValue() !== []) {
             $query .= ' ' . $this->getMDB2Query() . ' ';
-            $data_type = $data_type + $this->getMDB2DataType();
-            $data_value = $data_value + $this->getMDB2DataValue();
+            $data_type += $this->getMDB2DataType();
+            $data_value += $this->getMDB2DataValue();
         } else {
             $query .= '1 = 1';
         }
@@ -1403,8 +1403,8 @@ class ilForum
 
             if ($this->getMDB2Query() !== '' && $this->getMDB2DataType() !== [] && $this->getMDB2DataValue() !== []) {
                 $query .= $this->getMDB2Query();
-                $data_type = $data_type + $this->getMDB2DataType();
-                $data_value = $data_value + $this->getMDB2DataValue();
+                $data_type += $this->getMDB2DataType();
+                $data_value += $this->getMDB2DataValue();
 
                 $this->db->manipulateF($query, $data_type, $data_value);
             }

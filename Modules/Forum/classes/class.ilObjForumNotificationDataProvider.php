@@ -135,7 +135,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
 
     public function getPostUpdateUserId() : int
     {
-        return (int) $this->objPost->getUpdateUserId();
+        return $this->objPost->getUpdateUserId();
     }
 
     public function getPostUserName(\ilLanguage $user_lang) : string
@@ -193,14 +193,14 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         return $public_name;
     }
 
-    protected function read()
+    protected function read() : void
     {
         $this->readForumData();
         $this->readThreadTitle();
         $this->readAttachments();
     }
 
-    private function readThreadTitle()
+    private function readThreadTitle() : void
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
             'thread_title',
@@ -224,7 +224,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $this->thread_title = $row['thr_subject'];
     }
 
-    private function readForumData()
+    private function readForumData() : void
     {
         $cacheKey = $this->notificationCache->createKeyByValues([
             'forum_data',
@@ -252,7 +252,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         $this->is_anonymized = (bool) $row['anonymized'];
     }
 
-    private function readAttachments()
+    private function readAttachments() : void
     {
         if (ilForumProperties::isSendAttachmentsByMailEnabled()) {
             $fileDataForum = new ilFileDataForum($this->getObjId(), $this->objPost->getId());
@@ -400,7 +400,7 @@ class ilObjForumNotificationDataProvider implements ilForumNotificationMailData
         ]);
 
         if (!$this->notificationCache->exists($cacheKey)) {
-            $this->notificationCache->store($cacheKey, (array) ilObject::_getAllReferences($objId));
+            $this->notificationCache->store($cacheKey, ilObject::_getAllReferences($objId));
         }
 
         return $this->notificationCache->fetch($cacheKey);

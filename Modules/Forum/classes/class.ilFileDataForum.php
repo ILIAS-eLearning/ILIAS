@@ -270,13 +270,11 @@ class ilFileDataForum extends ilFileData
 
     private function initDirectory() : void
     {
-        if (is_writable($this->getPath())) {
-            if (mkdir($this->getPath() . '/' . self::FORUM_PATH) && chmod(
-                $this->getPath() . '/' . self::FORUM_PATH,
-                0755
-            )) {
-                $this->forum_path = $this->getPath() . '/' . self::FORUM_PATH;
-            }
+        if (is_writable($this->getPath()) && mkdir($this->getPath() . '/' . self::FORUM_PATH) && chmod(
+            $this->getPath() . '/' . self::FORUM_PATH,
+            0755
+        )) {
+            $this->forum_path = $this->getPath() . '/' . self::FORUM_PATH;
         }
     }
 

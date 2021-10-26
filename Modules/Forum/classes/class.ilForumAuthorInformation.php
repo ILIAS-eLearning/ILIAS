@@ -12,16 +12,16 @@ class ilForumAuthorInformation
     private int $display_id;
     private string $alias;
     private string $import_name;
-    private array $public_profile_link_attributes = [];
+    private array $public_profile_link_attributes;
     private string $author_name;
     private string $author_short_name;
     private $linked_public_name;
     private string $linked_short_name;
     private string $suffix = '';
     private string $profilePicture;
-    private ?ilObjUser $author = null;
+    private ilObjUser $author;
     private int $author_id;
-    private ?ilLanguage $lng;
+    private ?ilLanguage $lng = null;
     private ilLanguage $globalLng;
     private ilObjUser $globalUser;
     private bool $is_deleted = false;
@@ -32,7 +32,7 @@ class ilForumAuthorInformation
         string $alias,
         string $import_name,
         array $public_profile_link_attributes = [],
-        ilLanguage $lng = null
+        ?ilLanguage $lng = null
     ) {
         global $DIC;
 

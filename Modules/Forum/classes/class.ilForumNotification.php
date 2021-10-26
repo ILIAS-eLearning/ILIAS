@@ -320,11 +320,7 @@ class ilForumNotification
         $parent_ref_id = $DIC->repositoryTree()->getParentId($a_ref_id);
         $parent_obj = ilObjectFactory::getInstanceByRefId($parent_ref_id);
 
-        if ($parent_obj->getType() === 'crs' || $parent_obj->getType() === 'grp') {
-            return true;
-        }
-
-        return false;
+        return $parent_obj->getType() === 'crs' || $parent_obj->getType() === 'grp';
     }
 
     public static function _clearForcedForumNotifications(array $move_tree_event) : void

@@ -8,8 +8,8 @@
  */
 class ilFileDataForumDrafts extends ilFileData
 {
-    private int $obj_id = 0;
-    private int $draft_id = 0;
+    private int $obj_id;
+    private int $draft_id;
     private string $drafts_path;
     private ilLanguage $lng;
     private ilErrorHandling $error;
@@ -241,13 +241,11 @@ class ilFileDataForumDrafts extends ilFileData
 
     private function initDirectory() : void
     {
-        if (is_writable($this->getPath())) {
-            if (ilUtil::makeDirParents($this->getDraftsPath() . '/' . $this->getDraftId()) && chmod(
-                $this->getDraftsPath() . '/' . $this->getDraftId(),
-                0755
-            )) {
-                // Empty, whyever @nmatuschek?
-            }
+        if (is_writable($this->getPath()) && ilUtil::makeDirParents($this->getDraftsPath() . '/' . $this->getDraftId()) && chmod(
+            $this->getDraftsPath() . '/' . $this->getDraftId(),
+            0755
+        )) {
+            // Empty, whyever @nmatuschek?
         }
     }
 
@@ -268,7 +266,7 @@ class ilFileDataForumDrafts extends ilFileData
         }
     }
 
-    public function deliverZipFile()
+    public function deliverZipFile() : bool
     {
         global $DIC;
 

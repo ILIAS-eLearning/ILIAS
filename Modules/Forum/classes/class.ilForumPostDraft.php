@@ -7,25 +7,42 @@
  */
 class ilForumPostDraft
 {
-    const MEDIAOBJECT_TYPE = 'frm~d:html';
-    protected int $draft_id = 0;
-    protected int $post_id = 0;
-    protected int $forum_id = 0;
-    protected int $thread_id = 0;
-    protected string $post_subject = '';
-    protected string $post_message = '';
-    protected string $post_date = '0000-00-00 00:00:00';
-    protected string $post_update = '0000-00-00 00:00:00';
-    protected int $update_user_id = 0;
-    protected string $post_user_alias = '';
-    protected int $post_author_id = 0;
-    protected int $post_display_user_id = 0;
-    protected int $notify = 0;
-    protected int $post_notify = 0;
+    public const MEDIAOBJECT_TYPE = 'frm~d:html';
+
+    /** @var self[] */
     private static array $instances = [];
-    protected static array $forum_statistics_cache = [];
-    protected static array $drafts_settings_cache = [];
-    private $db;
+    private static array $forum_statistics_cache = [];
+    private static array $drafts_settings_cache = [];
+
+    private ilDBInterface $db;
+    private int $draft_id = 0;
+    private int $post_id = 0;
+    private int $forum_id = 0;
+    private int $thread_id = 0;
+    private string $post_subject = '';
+    private string $post_message = '';
+    private string $post_date = '0000-00-00 00:00:00';
+    private string $post_update = '0000-00-00 00:00:00';
+    private int $update_user_id = 0;
+    private string $post_user_alias = '';
+    private int $post_author_id = 0;
+    private int $post_display_user_id = 0;
+    private bool $notify = false;
+    private bool $post_notify = false;
+
+    public function __construct(int $user_id = 0, int $post_id = 0, int $draft_id = 0)
+    {
+        global $DIC;
+
+        $this->db = $DIC->database();
+
+        if ($user_id && $post_id && $draft_id) {
+            $this->setPostAuthorId($user_id);
+            $this->setPostId($post_id);
+            $this->setDraftId($draft_id);
+            $this->readDraft();
+        }
+    }
 
     protected static function populateWithDatabaseRecord(ilForumPostDraft $draft, array $row) : void
     {
@@ -41,18 +58,28 @@ class ilForumPostDraft
         $draft->setPostDate((string) $row['post_date']);
         $draft->setPostUpdate((string) $row['post_update']);
         $draft->setPostUserAlias((string) $row['post_user_alias']);
-        $draft->setNotify((int) $row['notify']);
-        $draft->setPostNotify((int) $row['post_notify']);
+        $draft->setNotificationStatus((bool) $row['notify']);
+        $draft->setPostNotificationStatus((bool) $row['post_notify']);
     }
 
-    public function getPostNotify() : int
+    public function isPostNotificationEnabled() : bool
     {
-        return (int) $this->post_notify;
+        return $this->post_notify;
     }
 
-    public function setPostNotify(int $post_notify) : void
+    public function setPostNotificationStatus(bool $post_notify) : void
     {
-        $this->post_notify = (int) $post_notify;
+        $this->post_notify = $post_notify;
+    }
+
+    public function isNotificationEnabled() : bool
+    {
+        return $this->notify;
+    }
+
+    public function setNotificationStatus(bool $notify) : void
+    {
+        $this->notify = $notify;
     }
 
     public function getDraftId() : int
@@ -173,30 +200,6 @@ class ilForumPostDraft
     public function setPostDisplayUserId(int $post_display_user_id) : void
     {
         $this->post_display_user_id = $post_display_user_id;
-    }
-
-    public function getNotify() : int
-    {
-        return $this->notify;
-    }
-
-    public function setNotify(int $notify) : void
-    {
-        $this->notify = (int) $notify;
-    }
-
-    public function __construct(int $user_id = 0, int $post_id = 0, int $draft_id = 0)
-    {
-        global $DIC;
-
-        $this->db = $DIC->database();
-
-        if ($user_id && $post_id && $draft_id) {
-            $this->setPostAuthorId($user_id);
-            $this->setPostId($post_id);
-            $this->setDraftId($draft_id);
-            $this->readDraft();
-        }
     }
 
     protected function readDraft() : void
@@ -323,11 +326,10 @@ class ilForumPostDraft
             'post_author_id' => ['integer', $this->getPostAuthorId()],
             'post_subject' => ['text', $this->getPostSubject()],
             'post_message' => ['clob', $this->getPostMessage()],
-            'notify' => ['integer', $this->getNotify()],
-            'post_notify' => ['integer', $this->getPostNotify()],
+            'notify' => ['integer', (int) $this->isNotificationEnabled()],
+            'post_notify' => ['integer', (int) $this->isPostNotificationEnabled()],
             'post_date' => ['timestamp', $post_date],
             'post_update' => ['timestamp', $post_date],
-            //			'update_user_id' => ['integer', $this->getUpdateUserId()],
             'post_user_alias' => ['text', $this->getPostUserAlias()],
             'pos_display_usr_id' => ['integer', $this->getPostDisplayUserId()]
         ]);
@@ -361,7 +363,6 @@ class ilForumPostDraft
 
     public static function deleteMobsOfDraft(int $draft_id) : void
     {
-        // delete mobs of draft
         $oldMediaObjects = ilObjMediaObject::_getMobsOfObject('frm~d:html', $draft_id);
         foreach ($oldMediaObjects as $oldMob) {
             if (ilObjMediaObject::_exists($oldMob)) {
@@ -372,6 +373,9 @@ class ilForumPostDraft
         }
     }
 
+    /**
+     * @param int[] $post_ids
+     */
     public function deleteDraftsByPostIds(array $post_ids = []) : void
     {
         $draft_ids = [];
@@ -388,7 +392,6 @@ class ilForumPostDraft
         foreach ($draft_ids as $draft_id) {
             self::deleteMobsOfDraft($draft_id);
 
-            // delete attachments of draft
             $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
             $objFileDataForumDrafts->delete();
         }
@@ -406,12 +409,14 @@ class ilForumPostDraft
         ));
     }
 
+    /**
+     * @param int[] $draft_ids
+     */
     public function deleteDraftsByDraftIds(array $draft_ids = []) : void
     {
         foreach ($draft_ids as $draft_id) {
-            self::deleteMobsOfDraft((int) $draft_id);
+            self::deleteMobsOfDraft($draft_id);
 
-            // delete attachments of draft
             $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
             $objFileDataForumDrafts->delete();
         }
@@ -446,9 +451,8 @@ class ilForumPostDraft
         }
 
         foreach ($draft_ids as $draft_id) {
-            self::deleteMobsOfDraft((int) $draft_id);
+            self::deleteMobsOfDraft($draft_id);
 
-            // delete attachments of draft
             $objFileDataForumDrafts = new ilFileDataForumDrafts(0, $draft_id);
             $objFileDataForumDrafts->delete();
         }
@@ -470,26 +474,28 @@ class ilForumPostDraft
     {
         if (!isset(self::$drafts_settings_cache['save_post_drafts'])) {
             global $DIC;
-            self::$drafts_settings_cache['save_post_drafts'] = (bool) $DIC->settings()->get('save_post_drafts', false);
+            self::$drafts_settings_cache['save_post_drafts'] = (bool) $DIC->settings()->get('save_post_drafts', '0');
         }
+
         return self::$drafts_settings_cache['save_post_drafts'];
     }
 
     public static function isAutoSavePostDraftAllowed() : bool
     {
         if (!self::isSavePostDraftAllowed()) {
-            // feature is globally deactivated
             return false;
         }
+
         if (!isset(self::$drafts_settings_cache['autosave_drafts'])) {
             global $DIC;
 
-            self::$drafts_settings_cache['autosave_drafts'] = (bool) $DIC->settings()->get('autosave_drafts', false);
+            self::$drafts_settings_cache['autosave_drafts'] = (bool) $DIC->settings()->get('autosave_drafts', '0');
             self::$drafts_settings_cache['autosave_drafts_ival'] = (int) $DIC->settings()->get(
                 'autosave_drafts_ival',
-                30
+                '30'
             );
         }
+
         return self::$drafts_settings_cache['autosave_drafts'];
     }
 
@@ -523,7 +529,7 @@ class ilForumPostDraft
 
             while ($row = $ilDB->fetchAssoc($res)) {
                 $num_drafts_total += $row['num_drafts'];
-                self::$forum_statistics_cache[$ref_id][$ilUser->getId()][$row['thread_id']] = $row['num_drafts'];
+                self::$forum_statistics_cache[$ref_id][$ilUser->getId()][(int) $row['thread_id']] = (int) $row['num_drafts'];
             }
 
             self::$forum_statistics_cache[$ref_id][$ilUser->getId()]['total'] = $num_drafts_total;
@@ -597,11 +603,11 @@ class ilForumPostDraft
         $res = $ilDB->queryF(
             'SELECT * FROM frm_posts_drafts WHERE draft_id = %s',
             ['integer'],
-            [(int) $draft_id]
+            [$draft_id]
         );
 
+        $tmp_obj = new self;
         while ($row = $ilDB->fetchAssoc($res)) {
-            $tmp_obj = new self;
             self::populateWithDatabaseRecord($tmp_obj, $row);
         }
 

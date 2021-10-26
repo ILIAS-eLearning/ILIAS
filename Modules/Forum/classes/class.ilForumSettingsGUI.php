@@ -185,7 +185,10 @@ class ilForumSettingsGUI
                     }
 
                     $mem_active = ['showMembers', 'forums_notification_settings'];
-                    (in_array($cmd, $mem_active)) ? $force_mem_active = true : $force_mem_active = false;
+                    $force_mem_active = false;
+                    if (in_array($cmd, $mem_active, true)) {
+                        $force_mem_active = true;
+                    }
 
                     $this->tabs->addSubTabTarget(
                         'notifications',

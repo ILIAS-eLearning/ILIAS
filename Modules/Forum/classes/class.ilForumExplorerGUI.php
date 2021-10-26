@@ -51,7 +51,12 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->setNodeOpen($this->root_node->getId());
     }
 
-    protected function initPosting() : void
+    private function getRootNodeId() : int
+    {
+        return (int) $this->root_node->getId();
+    }
+
+    private function initPosting() : void
     {
         $postingId = (int) ($this->httpRequest->getParsedBody()['pos_pk'] ?? 0);
         if (0 === $postingId) {
@@ -61,14 +66,20 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $this->currentPostingId = $postingId;
     }
 
+    private function getAuthorInformationByNode(array $node) : ilForumAuthorInformation
+    {
+        return $this->authorInformation[(int) $node['pos_pk']] ?? ($this->authorInformation[(int) $node['pos_pk']] = new ilForumAuthorInformation(
+            (int) ($node['pos_author_id'] ?? 0),
+            (int) $node['pos_display_user_id'],
+            (string) $node['pos_usr_alias'],
+            (string) $node['import_name']
+        ));
+    }
+
     public function getChildsOfNode($a_parent_node_id) : array
     {
         if ($this->preloaded) {
-            if (isset($this->preloaded_children[$a_parent_node_id])) {
-                return $this->preloaded_children[$a_parent_node_id];
-            }
-
-            return [];
+            return $this->preloaded_children[$a_parent_node_id] ?? [];
         }
 
         return $this->thread->getNestedSetPostChildren($a_parent_node_id, 1);
@@ -139,7 +150,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         $nodeIconPath = $this->getNodeIcon($record);
 
         $icon = null;
-        if (is_string($nodeIconPath) && strlen($nodeIconPath) > 0) {
+        if (is_string($nodeIconPath) && $nodeIconPath !== '') {
             $icon = $this->ui
                 ->factory()
                 ->symbol()
@@ -168,20 +179,6 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
         ];
     }
 
-    private function getAuthorInformationByNode(array $node) : ilForumAuthorInformation
-    {
-        if (isset($this->authorInformation[(int) $node['pos_pk']])) {
-            return $this->authorInformation[(int) $node['pos_pk']];
-        }
-
-        return $this->authorInformation[(int) $node['pos_pk']] = new ilForumAuthorInformation(
-            (int) ($node['pos_author_id'] ?? 0),
-            (int) $node['pos_display_user_id'],
-            (string) $node['pos_usr_alias'],
-            (string) $node['import_name']
-        );
-    }
-
     public function getNodeId($a_node) : int
     {
         return (isset($a_node['pos_pk']) ? (int) $a_node['pos_pk'] : 0);
@@ -189,7 +186,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
 
     public function getNodeIcon($a_node) : string
     {
-        if ((int) $this->root_node->getId() === (int) $a_node['pos_pk']) {
+        if ($this->getRootNodeId() === (int) $a_node['pos_pk']) {
             return ilObject::_getIcon(0, 'tiny', 'frm');
         }
 
@@ -198,7 +195,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
 
     public function getNodeHref($a_node) : string
     {
-        if ((int) $this->root_node->getId() === (int) $a_node['pos_pk']) {
+        if ($this->getRootNodeId() === (int) $a_node['pos_pk']) {
             return '';
         }
 

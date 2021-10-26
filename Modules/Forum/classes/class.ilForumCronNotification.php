@@ -84,7 +84,7 @@ class ilForumCronNotification extends ilCronJob
         return true;
     }
 
-    public function keepAlive()
+    public function keepAlive() : void
     {
         $this->logger->debug('Sending ping to cron manager ...');
         ilCronManager::ping($this->getId());

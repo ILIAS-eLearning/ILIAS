@@ -134,14 +134,12 @@ class ilForumModeratorsGUI
         foreach ($usr_ids as $usr_id) {
             $this->oForumModerators->detachModeratorRole((int) $usr_id);
 
-            if ($isCrsGrp && $frm_noti_type !== 'default') {
-                if (!ilParticipants::_isParticipant($this->ref_id, $usr_id)) {
-                    $tmp_frm_noti = new ilForumNotification($this->ref_id);
-                    $tmp_frm_noti->setUserId((int) $usr_id);
-                    $tmp_frm_noti->setForumId(ilObject::_lookupObjId($this->ref_id));
+            if ($isCrsGrp && $frm_noti_type !== 'default' && !ilParticipants::_isParticipant($this->ref_id, $usr_id)) {
+                $tmp_frm_noti = new ilForumNotification($this->ref_id);
+                $tmp_frm_noti->setUserId((int) $usr_id);
+                $tmp_frm_noti->setForumId(ilObject::_lookupObjId($this->ref_id));
 
-                    $tmp_frm_noti->deleteAdminForce();
-                }
+                $tmp_frm_noti->deleteAdminForce();
             }
         }
 
@@ -178,7 +176,7 @@ class ilForumModeratorsGUI
             $user = ilObjectFactory::getInstanceByObjId($usr_id, false);
             // Bugfix/Fallback for #25640
             if (!$user) {
-                $this->oForumModerators->detachModeratorRole((int) $usr_id);
+                $this->oForumModerators->detachModeratorRole($usr_id);
                 continue;
             }
 

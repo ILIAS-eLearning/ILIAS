@@ -102,7 +102,7 @@ class ilForumPostsDeleted
         $this->deleted_id = $deleted_id;
     }
 
-    public function getDeletedDate()
+    public function getDeletedDate() : string
     {
         return $this->deleted_date;
     }

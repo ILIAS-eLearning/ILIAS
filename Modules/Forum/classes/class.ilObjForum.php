@@ -69,12 +69,12 @@ class ilObjForum extends ilObject
         return $id;
     }
 
-    public function setPermissions($a_ref_id) : void
+    public function setPermissions($a_parent_ref) : void
     {
-        parent::setPermissions($a_ref_id);
+        parent::setPermissions($a_parent_ref);
 
         $roles = [self::_lookupModeratorRole($this->getRefId())];
-        $this->rbac->admin()->assignUser($roles[0], $this->getOwner(), 'n');
+        $this->rbac->admin()->assignUser($roles[0], $this->getOwner());
         $this->updateModeratorRole($roles[0]);
     }
 

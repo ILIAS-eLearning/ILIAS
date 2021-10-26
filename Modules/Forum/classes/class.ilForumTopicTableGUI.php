@@ -17,7 +17,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
     private ForumDto $topicData;
     private ?ilForumTopic $merge_thread_obj = null;
     private int $position = 1;
-    private bool $is_post_draft_allowed = false;
+    private bool $is_post_draft_allowed;
     private ilGlobalTemplateInterface $mainTemplate;
     private ilObjUser $user;
     private ilSetting $settings;
@@ -184,7 +184,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
         } else {
             if ($a_set->isSticky()) {
                 $this->tpl->setVariable('VAL_SORTING_NAME', 'thread_sorting[' . $a_set->getId() . ']');
-                $this->tpl->setVariable('VAL_SORTING', (int) $this->position * 10);
+                $this->tpl->setVariable('VAL_SORTING', $this->position * 10);
             } else {
                 $this->tpl->setVariable('VAL_CHECK', '');
             }
@@ -372,7 +372,7 @@ class ilForumTopicTableGUI extends ilTable2GUI
 
     public function setOverviewSetting(int $overview_setting) : self
     {
-        $this->overview_setting = (int) $overview_setting;
+        $this->overview_setting = $overview_setting;
         return $this;
     }
 
