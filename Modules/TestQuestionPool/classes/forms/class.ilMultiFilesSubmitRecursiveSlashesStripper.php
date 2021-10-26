@@ -32,7 +32,7 @@ class ilMultiFilesSubmitRecursiveSlashesStripper implements ilFormValuesManipula
      * @param array $inputValues
      * @return array $inputValues
      */
-    public function manipulateFormInputValues($inputValues)
+    public function manipulateFormInputValues(array $inputValues) : array
     {
         return $inputValues;
     }
@@ -41,7 +41,7 @@ class ilMultiFilesSubmitRecursiveSlashesStripper implements ilFormValuesManipula
      * @param array $submitValues
      * @return array $submitValues
      */
-    public function manipulateFormSubmitValues($submitValues)
+    public function manipulateFormSubmitValues(array $submitValues) : array
     {
         $this->manipulateFileSubmitValues();
         return $submitValues;

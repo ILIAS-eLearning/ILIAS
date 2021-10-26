@@ -128,7 +128,7 @@ trait BaseGUIRequest
                 return array_column(
                     array_map(
                         function ($k, $v) {
-                            return [$k, \ilUtil::stripSlashes((array) $v)];
+                            return [$k, (array) $v];
                         },
                         array_keys($arr),
                         $arr

@@ -80,7 +80,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
      *
      * @return bool
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $result = parent::checkInput();
         $this->has_errors = $result;
@@ -198,7 +198,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
      *
      * @return string
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         self::addJavaScript($this->isAsync());
 
@@ -225,7 +225,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
      *
      * @param string $a_formaction
      */
-    public function setFormAction($a_formaction)
+    public function setFormAction(string $a_formaction) : void
     {
         if ($this->isAsync()) {
             $a_formaction .= "&cmdMode=asynch";
@@ -279,7 +279,7 @@ class ilAsyncPropertyFormGUI extends ilPropertyFormGUI
     /**
      * @param string $a_name
      */
-    public function setName($a_name)
+    public function setName(string $a_name) : void
     {
         self::$default_from_name = $a_name;
 

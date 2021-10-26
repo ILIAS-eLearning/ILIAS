@@ -13,6 +13,7 @@
  */
 class ilPublicUserProfileGUI
 {
+    private $offline = false;
     protected $userid; // [int]
     protected $portfolioid; // [int]
     protected $backurl; // [string]
@@ -614,8 +615,7 @@ class ilPublicUserProfileGUI
         }
         
         // additional defined user data fields
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = ilUserDefinedFields::_getInstance();
         $user_defined_data = $user->getUserDefinedData();
         foreach ($this->user_defined_fields->getVisibleDefinitions() as $field_id => $definition) {
             // public setting

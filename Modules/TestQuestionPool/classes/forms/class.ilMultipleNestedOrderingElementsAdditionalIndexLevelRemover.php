@@ -7,12 +7,12 @@
  */
 class ilMultipleNestedOrderingElementsAdditionalIndexLevelRemover implements ilFormValuesManipulator
 {
-    public function manipulateFormInputValues($inputValues)
+    public function manipulateFormInputValues(array $inputValues) : array
     {
         return $inputValues;
     }
     
-    public function manipulateFormSubmitValues($submitValues)
+    public function manipulateFormSubmitValues(array $submitValues) : array
     {
         return $this->fetchIndentationsFromSubmitValues($submitValues);
     }

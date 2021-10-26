@@ -28,7 +28,7 @@ class ilCharSelectorRadioGroupInputGUI extends ilRadioGroupInputGUI
         $this->lng = $DIC->language();
     }
 
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         if (!parent::checkInput()) {

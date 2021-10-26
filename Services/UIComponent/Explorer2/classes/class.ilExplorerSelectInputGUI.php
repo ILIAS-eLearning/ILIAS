@@ -26,7 +26,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
     protected $value;
     protected bool $multi_nodes;
     protected ilExplorerBaseGUI $explorer_gui;
-    protected $disabled = false;
+    protected bool $disabled = false;
 
     public function __construct(
         string $a_title,
@@ -110,10 +110,9 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
 
     /**
      * Check input, strip slashes etc. set alert, if input is not ok.
-     *
      * @return    bool        Input ok, true/false
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
@@ -234,7 +233,7 @@ abstract class ilExplorerSelectInputGUI extends ilFormPropertyGUI implements ilT
     /**
      * Get HTML for table filter
      */
-    public function getTableFilterHTML()
+    public function getTableFilterHTML() : string
     {
         $html = $this->render("table_filter");
         return $html;

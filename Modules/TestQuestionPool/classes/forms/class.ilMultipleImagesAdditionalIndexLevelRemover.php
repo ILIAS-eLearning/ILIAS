@@ -27,12 +27,12 @@ class ilMultipleImagesAdditionalIndexLevelRemover implements ilFormValuesManipul
     {
         return $this->filesSubmissionProperties;
     }
-    public function manipulateFormInputValues($inputValues)
+    public function manipulateFormInputValues(array $inputValues) : array
     {
         return $inputValues;
     }
     
-    public function manipulateFormSubmitValues($submitValues)
+    public function manipulateFormSubmitValues(array $submitValues) : array
     {
         $submitValues = $this->removeAdditionalSubFieldsLevelFromSubmitValues($submitValues);
 

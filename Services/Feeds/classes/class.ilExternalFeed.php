@@ -207,11 +207,9 @@ class ilExternalFeed
     }
     
     /**
-    * Determine Feed Url
-    *
-    * @param	$a_url	URL that
-    */
-    public static function _determineFeedUrl($a_url)
+     * Determine Feed Url
+     */
+    public static function _determineFeedUrl(string $a_url)
     {
         if (!defined('IL_FEED_PROXY_HOST')) {
             if (ilProxySettings::_getInstance()->isActive()) {

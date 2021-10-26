@@ -12,7 +12,7 @@
  */
 class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
 {
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if (is_array($a_value) && is_array($a_value['correctness'])) {
             foreach ($this->values as $index => $value) {
@@ -25,7 +25,7 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
         }
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -55,7 +55,7 @@ class ilKprimChoiceCorrectionsInputGUI extends ilKprimChoiceWizardInputGUI
         return $this->checkSubItemsInput();
     }
     
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = new ilTemplate("tpl.prop_kprimchoicecorrection_input.html", true, true, "Modules/TestQuestionPool");
         

@@ -1,8 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-use \Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\RequestInterface;
 use ILIAS\HTTP;
 use ILIAS\Refinery;
 
@@ -13,34 +24,31 @@ use ILIAS\Refinery;
  */
 class ilFormPropertyGUI
 {
+    protected ?ilTable2GUI $parent_table = null;
+    protected ilFormPropertyGUI $parent_gui;
     protected ilCtrl $ctrl;
-    protected $lng;
+    protected ilLanguage $lng;
     protected string $type = "";
     protected string $title = "";
     protected string $postvar = "";
     protected string $info = "";
-    protected $alert = "";
+    protected string $alert = "";
     protected bool $required = false;
-    protected $parentgui;
-    protected $parentform;
+    protected ?ilPropertyFormGUI $parentform = null;
     protected string $hidden_title = "";
     protected bool $multi = false;
     protected bool $multi_sortable = false;
     protected bool $multi_addremove = true;
-    protected $multi_values;
+    protected array $multi_values = [];
     protected RequestInterface $request;
     protected HTTP\Services $http;
-    protected Refinery\Factory $refinery;
+    protected ?Refinery\Factory $refinery = null;
+    protected bool $disabled = false;
 
-
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
@@ -63,285 +71,158 @@ class ilFormPropertyGUI
     }
 
     /**
-    * Execute command.
-    */
+     * @return mixed
+     */
     public function executeCommand()
     {
-        $ilCtrl = $this->ctrl;
-        
-        $next_class = $ilCtrl->getNextClass($this);
-        $cmd = $ilCtrl->getCmd();
-        
+        $cmd = $this->ctrl->getCmd();
         return $this->$cmd();
     }
 
-    /**
-    * Set Type.
-    *
-    * @param	string	$a_type	Type
-    */
-    protected function setType($a_type)
+    protected function setType(string $a_type) : void
     {
         $this->type = $a_type;
     }
 
-    /**
-    * Get Type.
-    *
-    * @return	string	Type
-    */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-    * Set Title.
-    *
-    * @param	string	$a_title	Title
-    */
-    public function setTitle($a_title)
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-    * Get Title.
-    *
-    * @return	string	Title
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-    * Set Post Variable.
-    *
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function setPostVar($a_postvar)
+    public function setPostVar(string $a_postvar) : void
     {
         $this->postvar = $a_postvar;
     }
 
-    /**
-    * Get Post Variable.
-    *
-    * @return	string	Post Variable
-    */
-    public function getPostVar()
+    public function getPostVar() : string
     {
         return $this->postvar;
     }
 
-    /**
-    * Get Post Variable.
-    *
-    * @return	string	Post Variable
-    */
-    public function getFieldId()
+    public function getFieldId() : string
     {
         $id = str_replace("[", "__", $this->getPostVar());
         $id = str_replace("]", "__", $id);
-        
         return $id;
     }
 
-    /**
-    * Set Information Text.
-    *
-    * @param	string	$a_info	Information Text
-    */
-    public function setInfo($a_info)
+    public function setInfo(string $a_info) : void
     {
         $this->info = $a_info;
     }
 
-    /**
-    * Get Information Text.
-    *
-    * @return	string	Information Text
-    */
-    public function getInfo()
+    public function getInfo() : string
     {
         return $this->info;
     }
 
-    /**
-    * Set Alert Text.
-    *
-    * @param	string	$a_alert	Alert Text
-    */
-    public function setAlert($a_alert)
+    public function setAlert(string $a_alert) : void
     {
         $this->alert = $a_alert;
     }
 
-    /**
-    * Get Alert Text.
-    *
-    * @return	string	Alert Text
-    */
-    public function getAlert()
+    public function getAlert() : string
     {
         return $this->alert;
     }
 
-    /**
-    * Set Required.
-    *
-    * @param	boolean	$a_required	Required
-    */
-    public function setRequired($a_required)
+    public function setRequired(bool $a_required) : void
     {
         $this->required = $a_required;
     }
 
-    /**
-    * Get Required.
-    *
-    * @return	boolean	Required
-    */
-    public function getRequired()
+    public function getRequired() : bool
     {
         return $this->required;
     }
     
-    /**
-    * Set Disabled.
-    *
-    * @param	boolean	$a_disabled	Disabled
-    */
-    public function setDisabled($a_disabled)
+    public function setDisabled(bool $a_disabled) : void
     {
         $this->disabled = $a_disabled;
     }
 
-    /**
-    * Get Disabled.
-    *
-    * @return	boolean	Disabled
-    */
-    public function getDisabled()
+    public function getDisabled() : bool
     {
         return $this->disabled;
     }
     
     /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+     * Check input, strip slashes etc. set alert, if input is not ok.
+     */
+    public function checkInput() : bool
     {
         return false;		// please overwrite
     }
 
-    /**
-    * Set Parent Form.
-    *
-    * @param	object	$a_parentform	Parent Form
-    */
-    public function setParentForm($a_parentform)
+    public function setParentForm(ilPropertyFormGUI $a_parentform) : void
     {
-        $this->setParent($a_parentform);
+        $this->parentform = $a_parentform;
     }
 
-    /**
-    * Get Parent Form.
-    *
-    * @return	object	Parent Form
-    */
-    public function getParentForm()
+    public function getParentForm() : ?ilPropertyFormGUI
     {
-        return $this->getParent();
+        return $this->parentform;
     }
 
-    /**
-    * Set Parent GUI object.
-    *
-    * @param	object	parent gui object
-    */
-    public function setParent($a_val)
+    // Set Parent GUI object.
+    public function setParent(ilFormPropertyGUI $a_val) : void
     {
         $this->parent_gui = $a_val;
     }
     
-    /**
-    * Get  Parent GUI object.
-    *
-    * @return	object	parent gui object
-    */
-    public function getParent()
+    public function getParent() : ilFormPropertyGUI
     {
         return $this->parent_gui;
     }
 
-    /**
-    * Get sub form html
-    *
-    */
-    public function getSubForm()
+    public function getSubForm() : ?ilPropertyFormGUI
     {
-        return "";
+        return null;
     }
 
-    /**
-    * Sub form hidden on init?
-    *
-    */
-    public function hideSubForm()
+    public function hideSubForm() : bool
     {
         return false;
     }
 
-    /**
-    * Set hidden title (for screenreaders)
-    *
-    * @param	string	hidden title
-    */
-    public function setHiddenTitle($a_val)
+    // Set hidden title (for screenreaders)
+    public function setHiddenTitle(string $a_val) : void
     {
         $this->hidden_title = $a_val;
     }
     
-    /**
-    * Get hidden title
-    *
-    * @return	string	hidden title
-    */
-    public function getHiddenTitle()
+    public function getHiddenTitle() : string
     {
         return $this->hidden_title;
     }
     
     /**
-    * Get item by post var
-    *
-    * @return	mixed	false or item object
-    */
-    public function getItemByPostVar($a_post_var)
+     * Get item by post var
+     */
+    public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
     {
         if ($this->getPostVar() == $a_post_var) {
             return $this;
         }
-        
-        return false;
+        return null;
     }
     
-    /**
-    * serialize data
-    */
-    public function serializeData()
+    public function serializeData() : string
     {
         return serialize($this->getValue());
     }
     
-    /**
-    * unserialize data
-    */
-    public function unserializeData($a_data)
+    public function unserializeData(string $a_data) : void
     {
         $data = unserialize($a_data);
 
@@ -351,59 +232,86 @@ class ilFormPropertyGUI
             $this->setValue(false);
         }
     }
-    
-    /**
-    * Write to session
-    */
-    public function writeToSession()
-    {
-        $parent = $this->getParent();
-        if (!is_object($parent)) {
-            die("You must set parent for " . get_class($this) . " to use serialize feature.");
-        }
-        $_SESSION["form_" . $parent->getId()][$this->getFieldId()] =
-            $this->serializeData();
-    }
 
     /**
-    * Clear session value
-    */
-    public function clearFromSession()
-    {
-        $parent = $this->getParent();
-        if (!is_object($parent)) {
-            die("You must set parent for " . get_class($this) . " to use serialize feature.");
-        }
-        $_SESSION["form_" . $parent->getId()][$this->getFieldId()] = false;
-    }
-
-    /**
-    * Read from session
-    */
-    public function readFromSession()
-    {
-        $parent = $this->getParent();
-        if (!is_object($parent)) {
-            die("You must set parent for " . get_class($this) . " to use serialize feature.");
-        }
-        $this->unserializeData($_SESSION["form_" . $parent->getId()][$this->getFieldId()] ?? null);
-    }
-    
-    /**
-     * Get hidden tag (used for disabled properties)
+     * Set parent table
+     * @param ilTable2GUI $a_val table object
      */
-    public function getHiddenTag($a_post_var, $a_value)
+    public function setParentTable($a_val) : void
     {
+        $this->parent_table = $a_val;
+    }
+
+    /**
+     * Get parent table
+     * @return ilTable2GUI table object
+     */
+    public function getParentTable() : ?ilTable2GUI
+    {
+        return $this->parent_table;
+    }
+
+    protected function checkParentFormTable() : void
+    {
+        $parent = $this->getParentForm();
+        $parent_table = $this->getParentTable();
+        if (!is_object($parent) && !isset($parent_table)) {
+            throw new Exception("Parent form/table not set for " . get_class($this) . " to use serialize feature.");
+        }
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function writeToSession() : void
+    {
+        $this->checkParentFormTable();
+        ilSession::set($this->getSessionKey(), $this->serializeData());
+    }
+
+    protected function getSessionKey() : string
+    {
+        $parent = $this->getParentForm();
+        if (!is_object($parent)) {
+            $parent = $this->getParentTable();
+        }
+        return "form_" . $parent->getId() . "_" . $this->getFieldId();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function clearFromSession() : void
+    {
+        $this->checkParentFormTable();
+        ilSession::clear($this->getSessionKey());
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function readFromSession() : void
+    {
+        $this->checkParentFormTable();
+        if (ilSession::has($this->getSessionKey())) {
+            $this->unserializeData(ilSession::get($this->getSessionKey()));
+        } else {
+            $this->unserializeData("");
+        }
+    }
+    
+    public function getHiddenTag(
+        string $a_post_var,
+        string $a_value
+    ) : string {
         return '<input type="hidden" name="' . $a_post_var . '" value="' . ilUtil::prepareFormOutput($a_value) . '" />';
     }
     
-    /**
-     * Set Multi
-     *
-     * @param	bool	$a_multi	Multi
-     */
-    public function setMulti($a_multi, $a_sortable = false, $a_addremove = true)
-    {
+    public function setMulti(
+        bool $a_multi,
+        bool $a_sortable = false,
+        bool $a_addremove = true
+    ) : void {
         if (!$this instanceof ilMultiValuesItem) {
             throw new ilFormException(sprintf(
                 "%s not supported for form property type %s",
@@ -412,48 +320,28 @@ class ilFormPropertyGUI
             ));
         }
         
-        $this->multi = (bool) $a_multi;
-        $this->multi_sortable = (bool) $a_sortable;
-        $this->multi_addremove = (bool) $a_addremove;
+        $this->multi = $a_multi;
+        $this->multi_sortable = $a_sortable;
+        $this->multi_addremove = $a_addremove;
     }
 
-    /**
-     * Get Multi
-     *
-     * @return	bool	Multi
-     */
-    public function getMulti()
+    public function getMulti() : bool
     {
         return $this->multi;
     }
-    
-    /**
-     * Set multi values
-     *
-     * @param array $a_values
-     */
-    public function setMultiValues(array $a_values)
+
+    public function setMultiValues(array $a_values) : void
     {
         $this->multi_values = array_unique($a_values);
     }
     
-    /**
-     * Get multi values
-     *
-     * @return array
-     */
-    public function getMultiValues()
+    public function getMultiValues() : array
     {
         return $this->multi_values;
     }
     
-    /**
-     * Get HTML for multiple value icons
-     *
-     * @param bool $a_sortable
-     * @return string;
-     */
-    protected function getMultiIconsHTML()
+    // Get HTML for multiple value icons
+    protected function getMultiIconsHTML() : string
     {
         $lng = $this->lng;
         
@@ -487,32 +375,25 @@ class ilFormPropertyGUI
     
     /**
      * Get content that has to reside outside of the parent form tag, e.g. panels/layers
-     *
-     * @return string
      */
-    public function getContentOutsideFormTag()
+    public function getContentOutsideFormTag() : string
     {
+        return "";
     }
 
     /**
      * Remove prohibited characters
      * see #19159
-     *
-     * @param string $a_text
-     * @return string
      */
-    public static function removeProhibitedCharacters($a_text)
+    public static function removeProhibitedCharacters(string $a_text) : string
     {
         return str_replace("\x0B", "", $a_text);
     }
 
     /**
      * Strip slashes with add space fallback, see https://www.ilias.de/mantis/view.php?id=19727
-     *
-     * @param string $a_str string
-     * @return string
      */
-    public function stripSlashesAddSpaceFallback($a_str)
+    public function stripSlashesAddSpaceFallback(string $a_str) : string
     {
         $str = ilUtil::stripSlashes($a_str);
         if ($str != $a_str) {
@@ -523,18 +404,16 @@ class ilFormPropertyGUI
 
     /**
      * Get label "for" attribute value for filter
-     * @return string
      */
-    public function getTableFilterLabelFor()
+    public function getTableFilterLabelFor() : string
     {
         return $this->getFieldId();
     }
 
     /**
      * Get label "for" attribute value for form
-     * @return string
      */
-    public function getFormLabelFor()
+    public function getFormLabelFor() : string
     {
         return $this->getFieldId();
     }
@@ -542,6 +421,9 @@ class ilFormPropertyGUI
     // get integer parameter kindly
     protected function int($key) : int
     {
+        if (is_null($this->refinery)) {
+            return 0;
+        }
         $t = $this->refinery->kindlyTo()->int();
         return (int) ($this->getRequestParam($key, $t) ?? 0);
     }
@@ -574,8 +456,22 @@ class ilFormPropertyGUI
     // get string parameter kindly
     protected function str($key) : string
     {
+        if (is_null($this->refinery)) {
+            return "";
+        }
         $t = $this->refinery->kindlyTo()->string();
-        return \ilUtil::stripSlashes((string) ($this->getRequestParam($key, $t) ?? ""));
+        return $this->stripSlashesAddSpaceFallback(
+            (string) ($this->getRequestParam($key, $t) ?? "")
+        );
+    }
+
+    // get raw parameter
+    protected function raw($key)
+    {
+        $t = $this->refinery->custom()->transformation(function ($v) {
+            return $v;
+        });
+        return $this->getRequestParam($key, $t);
     }
 
     // get string array kindly
@@ -590,7 +486,7 @@ class ilFormPropertyGUI
                 return array_column(
                     array_map(
                         function ($k, $v) {
-                            return [$k, \ilUtil::stripSlashes((string) $v)];
+                            return [$k, $this->stripSlashesAddSpaceFallback((string) $v)];
                         },
                         array_keys($arr),
                         $arr
@@ -615,7 +511,7 @@ class ilFormPropertyGUI
                 return array_column(
                     array_map(
                         function ($k, $v) {
-                            return [$k, \ilUtil::stripSlashes((array) $v)];
+                            return [$k, (array) $v];
                         },
                         array_keys($arr),
                         $arr
@@ -643,6 +539,9 @@ class ilFormPropertyGUI
         return false;
     }
 
+    /**
+     * @return mixed|null
+     */
     protected function getRequestParam(string $key, Refinery\Transformation $t)
     {
         $w = $this->http->wrapper();

@@ -41,7 +41,7 @@ class ilLuceneQueryInputGUI extends ilTextInputGUI
         parent::__construct($a_title, $a_postvar);
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
 

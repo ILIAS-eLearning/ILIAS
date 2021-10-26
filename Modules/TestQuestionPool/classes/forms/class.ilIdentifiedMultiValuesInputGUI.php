@@ -82,7 +82,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     
-    public function setValue($value)
+    public function setValue($value) : void
     {
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
@@ -92,12 +92,12 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     
-    public function setMultiValues(array $values)
+    public function setMultiValues(array $values) : void
     {
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
     
-    public function getMultiValues()
+    public function getMultiValues() : array
     {
         throw new ilFormException('setter unsupported, use setIdentifiedMultiValues() instead!');
     }
@@ -193,7 +193,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         return $elemSubmitVar;
     }
     
-    final public function setValueByArray($a_values)
+    final public function setValueByArray(array $a_values) : void
     {
         if (!is_array($a_values[$this->getPostVar()])) {
             $a_values[$this->getPostVar()] = array();
@@ -211,7 +211,7 @@ abstract class ilIdentifiedMultiValuesInputGUI extends ilTextInputGUI implements
         $this->identified_multi_values = $a_values[$this->getPostVar()];
     }
     
-    final public function checkInput()
+    final public function checkInput() : bool
     {
         if (!is_array($_POST[$this->getPostVar()])) {
             $_POST[$this->getPostVar()] = array();

@@ -440,7 +440,7 @@ abstract class ilMultipleNestedOrderingElementsInputGUI extends ilIdentifiedMult
         return $jsTpl->get();
     }
     
-    public function render($a_mode = "")
+    public function render(string $a_mode = "") : string
     {
         if ($this->isStylingEnabled()) {
             $this->getGlobalTpl()->addCss('Services/Form/css/nested_ordering.css');

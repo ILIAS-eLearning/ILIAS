@@ -19,13 +19,13 @@ class ilIdentifiedMultiFilesJsPositionIndexRemover extends ilIdentifiedMultiValu
         $this->postVar = $postVar;
     }
     
-    public function manipulateFormInputValues($inputValues)
+    public function manipulateFormInputValues(array $inputValues) : array
     {
         // KEEP THIS INTERFACE METHOD OVERWRITTEN THIS LIKE (!)
         return $inputValues;
     }
 
-    public function manipulateFormSubmitValues($values)
+    public function manipulateFormSubmitValues(array $values) : array
     {
         if ($this->isFileSubmitAvailable()) {
             $this->prepareFileSubmit();

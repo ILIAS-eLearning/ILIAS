@@ -95,7 +95,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
 

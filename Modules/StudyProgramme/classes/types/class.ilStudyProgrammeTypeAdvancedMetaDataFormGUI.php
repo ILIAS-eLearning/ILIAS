@@ -17,21 +17,6 @@ class ilStudyProgrammeTypeAdvancedMetaDataFormGUI extends ilPropertyFormGUI
     protected $type_repository;
 
     /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var
      */
     protected $parent_gui;

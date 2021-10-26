@@ -130,7 +130,7 @@ class ilLSLocalDI extends Container
                 $c["player.urlbuilder"],
                 $dic["lng"],
                 $c["globalsetttings"]
-             );
+            );
         };
 
         $this["player.kioskrenderer"] = function ($c) use ($dic) : ilKioskPageRenderer {

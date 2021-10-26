@@ -49,10 +49,9 @@ class ilGloAdvColSortInputGUI extends ilFormPropertyGUI
     
     /**
      * Input should always be valid, since we sort only
-     *
      * @return boolean
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
         if (is_array($_POST[$this->getPostVar()])) {
             foreach ($_POST[$this->getPostVar()] as $k => $v) {
