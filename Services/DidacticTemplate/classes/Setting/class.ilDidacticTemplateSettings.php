@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\DidacticTemplate\Setting;
+
 
 /**
  * Didactical template settings
@@ -21,7 +21,10 @@ class ilDidacticTemplateSettings
 
     private function __construct(string $a_obj_type = '')
     {
+        global $DIC;
+
         $this->obj_type = $a_obj_type;
+        $this->db = $DIC->database();
         $this->read();
     }
 
@@ -128,7 +131,7 @@ class ilDidacticTemplateSettings
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->templates[$row->id] = new ilDidacticTemplateSetting($row->id);
+            $this->templates[$row->id] = new ilDidacticTemplateSetting((int) $row->id);
         }
         return true;
     }

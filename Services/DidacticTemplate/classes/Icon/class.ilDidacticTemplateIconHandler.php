@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\DidacticTemplate\Icon;
+
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\IOException;
@@ -10,7 +10,6 @@ use ILIAS\Filesystem\Exception\IllegalStateException;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\Location;
-use ilDidacticTemplateSetting;
 
 /**
  * Icon handler for didactic template custom icons
