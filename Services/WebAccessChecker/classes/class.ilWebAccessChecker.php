@@ -187,15 +187,18 @@ class ilWebAccessChecker
         $cookie = $this->cookieFactory->create('ilClientId', $this->getPathObject()->getClient())
                                       ->withPath('/')
                                       ->withExpires(0);
-
         $response = $this->http->cookieJar()
                                ->with($cookie)
                                ->renderIntoResponseHeader($this->http->response());
 
         $this->http->saveResponse($response);
-
         ilContext::init(ilContext::CONTEXT_WAC);
         try {
+            global $DIC;
+            $DIC->offsetUnset('http.response_factory');
+            $DIC->offsetUnset('http.cookie_jar_factory');
+            $DIC->offsetUnset('http.response_sender_strategy');
+            $DIC->offsetUnset('http');
             ilInitialisation::initILIAS();
             $this->checkUser();
             $this->checkPublicSection();
