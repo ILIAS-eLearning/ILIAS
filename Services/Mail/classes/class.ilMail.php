@@ -27,7 +27,7 @@ class ilMail
     private ilAppEventHandler $eventHandler;
     private ilMailAddressTypeFactory $mailAddressTypeFactory;
     private ilMailRfc822AddressParserFactory $mailAddressParserFactory;
-    protected $contextId;
+    protected ?string $contextId;
     protected array $contextParameters = [];
     protected ilLogger $logger;
     /** @var array<int, ilMailOptions> */
@@ -444,7 +444,7 @@ class ilMail
             [
                 'folder_id' => ['integer', $a_folder_id],
                 'attachments' => ['clob', serialize($a_attachments)],
-                'send_time' => ['timestamp', date('Y-m-d H:i:s', time())],
+                'send_time' => ['timestamp', date('Y-m-d H:i:s')],
                 'rcp_to' => ['clob', $a_rcp_to],
                 'rcp_cc' => ['clob', $a_rcp_cc],
                 'rcp_bcc' => ['clob', $a_rcp_bcc],
@@ -483,7 +483,7 @@ class ilMail
         if ($usePlaceholders) {
             $message = $this->replacePlaceholders($message, $usrId);
         }
-        $message = $this->formatLinebreakMessage((string) $message);
+        $message = $this->formatLinebreakMessage($message);
         $message = str_ireplace(["<br />", "<br>", "<br/>"], "\n", $message);
 
         $nextId = $this->db->nextId($this->table_mail);
@@ -493,7 +493,7 @@ class ilMail
             'folder_id' => ['integer', $folderId],
             'sender_id' => ['integer', $senderUsrId],
             'attachments' => ['clob', serialize($attachments)],
-            'send_time' => ['timestamp', date('Y-m-d H:i:s', time())],
+            'send_time' => ['timestamp', date('Y-m-d H:i:s')],
             'rcp_to' => ['clob', $to],
             'rcp_cc' => ['clob', $cc],
             'rcp_bcc' => ['clob', $bcc],
@@ -501,7 +501,7 @@ class ilMail
             'm_subject' => ['text', $subject],
             'm_message' => ['clob', $message],
             'tpl_ctx_id' => ['text', $templateContextId],
-            'tpl_ctx_params' => ['blob', json_encode((array) $templateContextParameters, JSON_THROW_ON_ERROR)],
+            'tpl_ctx_params' => ['blob', json_encode($templateContextParameters, JSON_THROW_ON_ERROR)],
         ]);
 
         $raiseEvent = $usrId !== $this->mailbox->getUsrId();
@@ -512,13 +512,13 @@ class ilMail
         if ($raiseEvent) {
             $this->eventHandler->raise('Services/Mail', 'sentInternalMail', [
                 'id' => $nextId,
-                'subject' => (string) $subject,
+                'subject' => $subject,
                 'body' => (string) $message,
-                'from_usr_id' => (int) $senderUsrId,
+                'from_usr_id' => $senderUsrId,
                 'to_usr_id' => $usrId,
-                'rcp_to' => (string) $to,
-                'rcp_cc' => (string) $cc,
-                'rcp_bcc' => (string) $bcc,
+                'rcp_to' => $to,
+                'rcp_cc' => $cc,
+                'rcp_bcc' => $bcc,
             ]);
         }
 
