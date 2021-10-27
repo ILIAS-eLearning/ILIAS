@@ -30,8 +30,10 @@ if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
 }
 
 global $DIC;
-
-$DIC = new Container();
+if (null === $DIC) {
+    // Don't remove this, intellisense autocompletion does not work in PhpStorm without a top level assignment
+    $DIC = new Container();
+}
 
 include_once "Services/Context/classes/class.ilContext.php";
 
@@ -1107,6 +1109,7 @@ class ilInitialisation
             return;
         }
 
+        $GLOBALS["DIC"] = new Container();
         $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
             return ilLoggerFactory::getInstance();
         };
