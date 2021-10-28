@@ -241,7 +241,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                     $styleId = $ret;
                     $this->object->setStyleSheetId((int) $styleId);
                     $this->object->update();
-                    $this->ctrl->redirectByClass('ilobjstylesheetgui', 'edit');
+                    $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
                 }
                 break;
 
@@ -441,7 +441,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs_gui->addSubTab(
                     self::UI_TAB_ID_ICON,
                     $this->lng->txt('icon_settings'),
-                    $this->ctrl->getLinkTargetByClass('ilObjectCustomIconConfigurationGUI')
+                    $this->ctrl->getLinkTargetByClass(ilObjectCustomIconConfigurationGUI::class)
                 );
             }
 
@@ -476,7 +476,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     public function infoScreen() : void
     {
         $this->ctrl->setCmd('showSummary');
-        $this->ctrl->setCmdClass('ilinfoscreengui');
+        $this->ctrl->setCmdClass(ilInfoScreenGUI::class);
 
         $this->infoScreenForward();
     }
@@ -510,7 +510,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs->addSubTab(
                     'page_editor',
                     $this->lng->txt('cntr_text_media_editor'),
-                    $this->ctrl->getLinkTargetByClass('ilContentPagePageGUI', 'edit')
+                    $this->ctrl->getLinkTargetByClass(ilContentPagePageGUI::class, 'edit')
                 );
             }
         }
@@ -529,12 +529,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             $this->initStyleSheets();
 
             $forwarder = new ilContentPagePageCommandForwarder(
-                $this->request,
+                $this->http,
                 $this->ctrl,
                 $this->tabs,
                 $this->lng,
                 $this->object,
-                $this->user
+                $this->user,
+                $this->refinery
             );
             $forwarder->setPresentationMode(ilContentPagePageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
 
@@ -681,17 +682,17 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     protected function createStyle() : void
     {
-        $this->ctrl->redirectByClass('ilobjstylesheetgui', 'create');
+        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'create');
     }
 
     protected function editStyle() : void
     {
-        $this->ctrl->redirectByClass('ilobjstylesheetgui', 'edit');
+        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
     }
 
     protected function deleteStyle() : void
     {
-        $this->ctrl->redirectByClass('ilobjstylesheetgui', 'delete');
+        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'delete');
     }
 
     protected function saveStyleSettings() : void
