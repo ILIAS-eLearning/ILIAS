@@ -26,7 +26,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
     protected bool $showtime = false;
     protected bool $showseconds = false;
     protected int $minute_step_size = 5;
-    protected string $startyear = '';
+    protected ?int $startyear = null;
     protected string $invalid_input = '';
     protected bool $side_by_side = true;
     protected bool $valid = false;
@@ -77,7 +77,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
         $this->startyear = $a_year;
     }
     
-    public function getStartYear() : int
+    public function getStartYear() : ?int
     {
         return $this->startyear;
     }

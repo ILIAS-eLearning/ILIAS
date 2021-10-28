@@ -1,5 +1,17 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\BooleanValue;
@@ -13,24 +25,10 @@ use ILIAS\BackgroundTasks\Types\SingleType;
  */
 class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
 {
+    private ?ilLogger $logger = null;
+    protected ilSetting $settings; // [ilSetting]
+    protected ilWorkspaceTree $tree;
 
-    /**
-     * @var |null
-     */
-    private $logger = null;
-    /**
-     * @var ilSetting
-     */
-    protected $settings; // [ilSetting]
-
-    /**
-     * @var ilWorkspaceTree
-     */
-    protected $tree;
-
-    /**
-     * Construct
-     */
     public function __construct()
     {
         global $DIC;
@@ -42,11 +40,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
         $this->tree = new ilWorkspaceTree($user->getId());
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return
             [
@@ -54,29 +48,16 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
             ];
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getOutputType()
+    public function getOutputType() : SingleType
     {
         return new SingleType(ilWorkspaceCopyDefinition::class);
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function isStateless()
+    public function isStateless() : bool
     {
         return true;
     }
 
-
-    /**
-     * @inheritDoc
-     * @todo use filesystem service
-     */
     public function run(array $input, \ILIAS\BackgroundTasks\Observer $observer)
     {
         $this->logger->debug('Start checking adherence to maxsize!');
@@ -108,13 +89,11 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
 
     /**
      * Calculates the number and size of the files being downloaded recursively.
-     *
-     * @param array $a_ref_ids
-     * @param int & $a_file_count
-     * @param int & $a_file_size
      */
-    protected function calculateRecursive($object_wps_ids, &$a_file_size)
-    {
+    protected function calculateRecursive(
+        array $object_wps_ids,
+        int &$a_file_size
+    ) : void {
         global $DIC;
         $tree = $DIC['tree'];
 
@@ -132,7 +111,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
                     // get child objects
                     $subtree = $tree->getChildsByTypeFilter($object_wps_id, array("wfld", "file"));
                     if (count($subtree) > 0) {
-                        $child_ref_ids = array();
+                        $child_wsp_ids = array();
                         foreach ($subtree as $child) {
                             $child_wsp_ids[] = $child["child"];
                         }
@@ -147,15 +126,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
         }
     }
 
-
-    /**
-     * Check file access
-     *
-     * @param int $wsp_id
-     *
-     * @return boolean
-     */
-    protected function validateAccess($wsp_id)
+    protected function validateAccess(int $wsp_id) : bool
     {
         $ilAccess = new ilWorkspaceAccessHandler($this->tree);
 
@@ -166,11 +137,7 @@ class ilCheckSumOfWorkspaceFileSizesJob extends AbstractJob
         return true;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }

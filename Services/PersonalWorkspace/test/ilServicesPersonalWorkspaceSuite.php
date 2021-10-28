@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,11 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * Personal Workspace settings access
- *
+ * Personal workspace test suite
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjPersonalWorkspaceSettingsAccess extends ilObjectAccess
+class ilServicesPersonalWorkspaceSuite extends TestSuite
 {
+    public static function suite()
+    {
+        $suite = new self();
+
+        require_once("./Services/PersonalWorkspace/test/PWspStandardGUIRequestTest.php");
+        $suite->addTestSuite("PWspStandardGUIRequestTest");
+
+        return $suite;
+    }
 }

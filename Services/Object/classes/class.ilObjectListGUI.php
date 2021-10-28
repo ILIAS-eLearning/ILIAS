@@ -20,6 +20,7 @@ define("IL_LIST_FULL", "full");
  */
 class ilObjectListGUI
 {
+    private array $access_cache;
     /**
      * @var ilAccessHandler
      */
@@ -1061,7 +1062,7 @@ class ilObjectListGUI
         $cache_prefix = null;
         if ($this->context == self::CONTEXT_WORKSPACE || $this->context == self::CONTEXT_WORKSPACE_SHARING) {
             $cache_prefix = "wsp";
-            if (!$this->ws_access) {
+            if (!isset($this->ws_access)) {
                 $this->ws_access = new ilWorkspaceAccessHandler();
             }
         }
@@ -2025,14 +2026,18 @@ class ilObjectListGUI
             return;
         }
 
-        if ($this->condition_target) {
+        if ($this->context == self::CONTEXT_WORKSPACE) {
+            return;
+        }
+
+        if (isset($this->condition_target)) {
             $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget(
                 $this->condition_target['ref_id'],
                 $this->condition_target['obj_id'],
                 $this->condition_target['target_type']
             );
         } else {
-            $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($this->ref_id, $this->obj_id);
+            $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget((int) $this->ref_id, (int) $this->obj_id);
         }
         
         if (sizeof($conditions)) {

@@ -22,15 +22,15 @@
 abstract class ilButtonBase implements ilToolbarItem
 {
     protected ilLanguage $lng;
-    protected int $type; // [int]
-    protected string $id; // [string]
-    protected string $caption; // [string]
-    protected bool $caption_is_lng_id; // [bool]
-    protected bool $primary; // [bool]
-    protected bool $omit_prevent_double_submission; // [bool]
-    protected string $onclick; // [string]
-    protected string $acc_key; // [string]
-    protected bool $disabled; // [bool]
+    protected int $type = 0; // [int]
+    protected string $id = ""; // [string]
+    protected string $caption = ""; // [string]
+    protected bool $caption_is_lng_id = false; // [bool]
+    protected bool $primary = false; // [bool]
+    protected bool $omit_prevent_double_submission = false; // [bool]
+    protected string $onclick = ""; // [string]
+    protected string $acc_key = ""; // [string]
+    protected bool $disabled = false; // [bool]
     protected array $css = array(); // [array]
     protected bool $apply_default_css = true;
 

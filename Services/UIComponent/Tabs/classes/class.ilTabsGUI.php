@@ -36,7 +36,7 @@ class ilTabsGUI
     protected bool $sub_tabs;
     protected string $temp_var;
     protected string $back_title;
-    protected string $back_target;
+    public string $back_target;
     protected string $back_2_target;
     protected string $back_2_title;
     protected string $back_2_frame;

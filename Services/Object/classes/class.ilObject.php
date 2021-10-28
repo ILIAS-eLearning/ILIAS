@@ -272,7 +272,7 @@ class ilObject
         }
         
         $this->type = $obj["type"];
-        $this->title = $obj["title"];
+        $this->title = (string) $obj["title"];
         // BEGIN WebDAV: WebDAV needs to access the untranslated title of an object
         $this->untranslatedTitle = $obj["title"];
         // END WebDAV: WebDAV needs to access the untranslated title of an object
@@ -309,7 +309,7 @@ class ilObject
             $r = $ilDB->query($q);
             $row = $r->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
             if ($row) {
-                $this->title = $row->title;
+                $this->title = (string) $row->title;
                 $this->setDescription($row->description);
                 #$this->desc = $row->description;
             }

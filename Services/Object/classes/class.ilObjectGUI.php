@@ -19,6 +19,7 @@ class ilObjectGUI
 
     protected const UPLOAD_TYPE_LOCAL = 1;
     protected const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
+    protected bool $creation_mode = false;
 
     /**
      * @var ilErrorHandling
