@@ -212,7 +212,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         );
 
         while ($row = $this->db->fetchAssoc($res)) {
-            $pageObjIds[] = $row['page_id'];
+            $pageObjIds[] = (int) $row['page_id'];
         }
 
         return $pageObjIds;
