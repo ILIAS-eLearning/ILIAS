@@ -7,18 +7,11 @@ use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\CouldNotFindPageMetrics;
 use ILIAS\ContentPage\PageMetrics\Command\GetPageMetricsCommand;
 
-/**
- * Class ilObjContentPageListGUI
- */
 class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageObjectConstants
 {
     private PageMetricsService $pageMetricsService;
 
-    /**
-     * ilObjContentPageListGUI constructor.
-     * @param int $a_context
-     */
-    public function __construct($a_context = self::CONTEXT_REPOSITORY)
+    public function __construct(int $a_context = self::CONTEXT_REPOSITORY)
     {
         global $DIC;
 
@@ -29,10 +22,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         );
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function init() : void
     {
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
@@ -49,10 +39,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         $this->lng->loadLanguageModule('copa');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getInfoScreenStatus()
+    public function getInfoScreenStatus() : bool
     {
         if (ilContainer::_lookupContainerSetting(
             (int) $this->obj_id,
@@ -65,10 +52,7 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getProperties()
+    public function getProperties() : array
     {
         $properties = [];
 
@@ -111,9 +95,6 @@ class ilObjContentPageListGUI extends ilObjectListGUI implements ilContentPageOb
         return $properties;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function checkInfoPageOnAsynchronousRendering() : bool
     {
         return true;

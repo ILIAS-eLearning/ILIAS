@@ -5,17 +5,11 @@ use ILIAS\ContentPage\PageMetrics\PageMetricsService;
 use ILIAS\ContentPage\PageMetrics\PageMetricsRepositoryImp;
 use ILIAS\ContentPage\PageMetrics\Command\StorePageMetricsCommand;
 
-/**
- * Class ilContentPageImporter
- */
 class ilContentPageImporter extends ilXmlImporter implements ilContentPageObjectConstants
 {
     protected ilContentPageDataSet $ds;
     private PageMetricsService $pageMetricsService;
 
-    /**
-     * @inheritdoc
-     */
     public function init() : void
     {
         global $DIC;
@@ -30,17 +24,11 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
         );
     }
 
-    /**
-     * @inheritdoc
-     */
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $parser = new ilDataSetImportParser($a_entity, $this->getSchemaVersion(), $a_xml, $this->ds, $a_mapping);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         parent::finalProcessing($a_mapping);

@@ -1,15 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * Class ilContentPagePageConfig
- */
 class ilContentPagePageConfig extends ilPageConfig
 {
-    /**
-     * @inheritdoc
-     */
-    public function init()
+    public function init() : void
     {
         $this->setEnableInternalLinks(true);
         $this->setIntLinkHelpDefaultType('RepositoryItem');

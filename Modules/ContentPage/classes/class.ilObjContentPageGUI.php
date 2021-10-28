@@ -124,12 +124,12 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $DIC['ilErr']->raiseError($DIC->language()->txt('msg_no_perm_read'), $DIC['ilErr']->FATAL);
     }
 
-    public function getType()
+    public function getType() : string
     {
         return self::OBJ_TYPE;
     }
 
-    protected function setTabs()
+    protected function setTabs() : void
     {
         $this->help->setScreenIdComponent($this->object->getType());
 
@@ -282,7 +282,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $forwarder->addUpdateListener(function (PageUpdatedEvent $event) : void {
                     $this->pageMetricsService->store(
                         new StorePageMetricsCommand(
-                            (int) $this->object->getId(),
+                            $this->object->getId(),
                             $event->page()->getLanguage()
                         )
                     );
@@ -392,14 +392,12 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
 
     public function addToNavigationHistory() : void
     {
-        if (!$this->getCreationMode()) {
-            if ($this->checkPermissionBool('read')) {
-                $this->navHistory->addItem(
-                    $this->object->getRefId(),
-                    ilLink::_getLink($this->object->getRefId(), $this->object->getType()),
-                    $this->object->getType()
-                );
-            }
+        if (!$this->getCreationMode() && $this->checkPermissionBool('read')) {
+            $this->navHistory->addItem(
+                $this->object->getRefId(),
+                ilLink::_getLink($this->object->getRefId(), $this->object->getType()),
+                $this->object->getType()
+            );
         }
     }
 
@@ -526,7 +524,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     public function getContent(string $ctrlLink = '') : string
     {
         if ($this->checkPermissionBool('read')) {
-            $this->object->trackProgress((int) $this->user->getId());
+            $this->object->trackProgress($this->user->getId());
 
             $this->initStyleSheets();
 
@@ -656,15 +654,13 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
             }
             ksort($st_styles);
 
-            if ($styleId > 0) {
-                if (!ilObjStyleSheet::_lookupStandard($styleId)) {
-                    $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
-                    $st->setValue(ilObject::_lookupTitle($styleId));
-                    $form->addItem($st);
+            if ($styleId > 0 && !ilObjStyleSheet::_lookupStandard($styleId)) {
+                $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
+                $st->setValue(ilObject::_lookupTitle($styleId));
+                $form->addItem($st);
 
-                    $form->addCommandButton('editStyle', $this->lng->txt('cont_edit_style'));
-                    $form->addCommandButton('deleteStyle', $this->lng->txt('cont_delete_style'));
-                }
+                $form->addCommandButton('editStyle', $this->lng->txt('cont_edit_style'));
+                $form->addCommandButton('deleteStyle', $this->lng->txt('cont_delete_style'));
             }
 
             if ($styleId <= 0 || ilObjStyleSheet::_lookupStandard($styleId)) {
