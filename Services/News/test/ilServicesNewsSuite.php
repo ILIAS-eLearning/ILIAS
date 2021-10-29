@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,22 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * Interface for timeline items
- *
+ * News test suite
  * @author Alexander Killing <killing@leifos.de>
  */
-interface ilTimelineItemInt
+class ilServicesNewsSuite extends TestSuite
 {
-    /**
-     * Render item
-     * @return string html
-     */
-    public function render() : string;
+    public static function suite()
+    {
+        $suite = new self();
 
-    /**
-     * Get datetime
-     * @return ilDateTime timestamp
-     */
-    public function getDateTime() : ilDateTime;
+        require_once("./Services/News/test/NewsContextTest.php");
+        $suite->addTestSuite("NewsContextTest");
+
+        return $suite;
+    }
 }

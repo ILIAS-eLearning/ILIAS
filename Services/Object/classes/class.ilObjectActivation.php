@@ -18,15 +18,15 @@ class ilObjectActivation
     protected ilLanguage $lng;
     protected ilDBInterface $db;
 
-    protected int $timing_type;
-    protected int $timing_start;
-    protected int $timing_end;
-    protected int $suggestion_start;
-    protected int $suggestion_end;
-    protected int $visible;
-    protected int $changeable;
-    protected int $earliest_start_rel;
-    protected int $earliest_start;
+    protected int $timing_type = 0;
+    protected int $timing_start = 0;
+    protected int $timing_end = 0;
+    protected int $suggestion_start = 0;
+    protected int $suggestion_end = 0;
+    protected int $visible = 0;
+    protected int $changeable = 0;
+    protected int $earliest_start_rel = 0;
+    protected int $earliest_start = 0;
 
     protected int $suggestion_start_rel = 0;
     protected int $suggestion_end_rel = 0;

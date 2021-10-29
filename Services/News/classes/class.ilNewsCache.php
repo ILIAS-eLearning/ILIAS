@@ -43,7 +43,7 @@ class ilNewsCache extends ilCache
         return self::$disabled or parent::isDisabled();
     }
     
-    public function readEntry(string $a_id) : bool
+    protected function readEntry(string $a_id) : bool
     {
         if (!$this->isDisabled()) {
             return parent::readEntry($a_id);

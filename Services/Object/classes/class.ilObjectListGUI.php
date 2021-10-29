@@ -2030,7 +2030,7 @@ class ilObjectListGUI
             return;
         }
 
-        if (isset($this->condition_target)) {
+        if (isset($this->condition_target) && is_array(isset($this->condition_target))) {
             $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget(
                 $this->condition_target['ref_id'],
                 $this->condition_target['obj_id'],

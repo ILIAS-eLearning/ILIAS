@@ -21,7 +21,7 @@
 class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableFilterItem, ilToolbarItem
 {
     protected ilObjUser $user;
-    protected ?ilDateTime $date;
+    protected ?ilDateTime $date = null;
     protected string $time = "00:00:00";
     protected bool $showtime = false;
     protected bool $showseconds = false;
