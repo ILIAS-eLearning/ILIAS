@@ -9,7 +9,8 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"php setup/cli.php build-artifacts --yes"
+			"php setup/cli.php build-artifacts --yes",
+			"libs/composer/vendor/bin/captainhook install -f"
 		],
 		"post-install-cmd": [
 			"php libs/composer/rmdirs.php"
