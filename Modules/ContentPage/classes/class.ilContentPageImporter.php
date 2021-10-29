@@ -35,15 +35,15 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
 
         $copaMap = $a_mapping->getMappingsOfEntity('Services/COPage', 'pg');
         foreach ($copaMap as $oldCopaId => $newCopaId) {
-            $newCopaId = substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
+            $newCopaId = (int) substr($newCopaId, strlen(self::OBJ_TYPE) + 1);
 
-            ilContentPagePage::_writeParentId(self::OBJ_TYPE, $newCopaId, $newCopaId);
+            ilContentPagePage::_writeParentId(self::OBJ_TYPE, (int) $newCopaId, $newCopaId);
 
             $translations = ilContentPagePage::lookupTranslations(self::OBJ_TYPE, $newCopaId);
             foreach ($translations as $language) {
                 $this->pageMetricsService->store(
                     new StorePageMetricsCommand(
-                        (int) $newCopaId,
+                        $newCopaId,
                         $language
                     )
                 );
@@ -54,7 +54,7 @@ class ilContentPageImporter extends ilXmlImporter implements ilContentPageObject
         foreach ($styleMapping as $newCopaId => $oldStyleId) {
             $newStyleId = (int) $a_mapping->getMapping('Services/Style', 'sty', $oldStyleId);
             if ($newCopaId > 0 && $newStyleId > 0) {
-                $copa = ilObjectFactory::getInstanceByObjId($newCopaId, false);
+                $copa = ilObjectFactory::getInstanceByObjId((int) $newCopaId, false);
                 if (!$copa || !($copa instanceof ilObjContentPage)) {
                     continue;
                 }

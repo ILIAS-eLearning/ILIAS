@@ -61,7 +61,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                 foreach ($ids as $objId) {
                     if (ilObject::_lookupType($objId) === self::OBJ_TYPE) {
                         /** @var ilObjContentPage $obj */
-                        $obj = ilObjectFactory::getInstanceByObjId($objId);
+                        $obj = ilObjectFactory::getInstanceByObjId((int) $objId);
 
                         $this->data[] = [
                             'id' => $obj->getId(),
@@ -132,17 +132,5 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                 );
                 break;
         }
-    }
-
-    /**
-     * This method is an implicit interface method. The types of the arguments may vary.
-     */
-    protected function getDependencies(
-        string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
     }
 }
