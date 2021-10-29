@@ -12,17 +12,17 @@ class ilForumPost
     private int $forum_id = 0;
     private int $thread_id = 0;
     private int $display_user_id = 0;
-    private string $user_alias = '';
+    private ?string $user_alias = null;
     private string $subject = '';
     private string $message = '';
-    private string $createdate = '0000-00-00 00:00:00';
-    private ?string $changedate = '0000-00-00 00:00:00';
+    private ?string $createdate = null;
+    private ?string $changedate = null;
     private int $user_id_update = 0;
     private bool $censored = false;
-    private ?string $censorship_comment = '';
-    private ?string $censored_date = '0000-00-00 00:00:00';
+    private ?string $censorship_comment = null;
+    private ?string $censored_date = null;
     private bool $notification = false;
-    private string $import_name = '';
+    private ?string $import_name = null;
     private bool $status = true;
     private int $tree_id = 0;
     private int $parent_id = 0;
@@ -32,7 +32,7 @@ class ilForumPost
     private ?ilForumTopic $objThread = null;
     private ilDBInterface $db;
     private bool $is_moderator = false;
-    private bool $is_author_moderator = false;
+    private ?bool $is_author_moderator = false;
     private bool $post_read = false;
     private int $pos_author_id = 0;
     private ?string $post_activation_date = null;
@@ -70,7 +70,7 @@ class ilForumPost
                 'import_name' => ['text', $this->import_name],
                 'pos_status' => ['integer', (int) $this->status],
                 'pos_author_id' => ['integer', $this->pos_author_id],
-                'is_author_moderator' => ['integer', (int) $this->is_author_moderator],
+                'is_author_moderator' => ['integer', $this->is_author_moderator],
                 'pos_activation_date' => ['timestamp', $this->createdate]
             ]);
         }
@@ -129,17 +129,17 @@ class ilForumPost
                 $this->forum_id = (int) $row->pos_top_fk;
                 $this->thread_id = (int) $row->pos_thr_fk;
                 $this->display_user_id = (int) $row->pos_display_user_id;
-                $this->user_alias = (string) $row->pos_usr_alias;
+                $this->user_alias = $row->pos_usr_alias;
                 $this->subject = (string) $row->pos_subject;
                 $this->message = (string) $row->pos_message;
-                $this->createdate = (string) $row->pos_date;
-                $this->changedate = (string) ($row->pos_update ?? '');
+                $this->createdate = $row->pos_date;
+                $this->changedate = $row->pos_update;
                 $this->user_id_update = (int) $row->update_user;
                 $this->censored = (bool) $row->pos_cens;
-                $this->censored_date = (string) ($row->pos_cens_date ?? '');
-                $this->censorship_comment = (string) ($row->pos_cens_com ?? '');
+                $this->censored_date = $row->pos_cens_date;
+                $this->censorship_comment = $row->pos_cens_com;
                 $this->notification = (bool) $row->notify;
-                $this->import_name = (string) $row->import_name;
+                $this->import_name = $row->import_name;
                 $this->status = (bool) $row->pos_status;
                 $this->tree_id = (int) $row->fpt_pk;
                 $this->parent_id = (int) $row->parent_pos;
@@ -147,8 +147,8 @@ class ilForumPost
                 $this->rgt = (int) $row->rgt;
                 $this->depth = (int) $row->depth;
                 $this->pos_author_id = (int) $row->pos_author_id;
-                $this->is_author_moderator = (bool) $row->is_author_moderator;
-                $this->post_activation_date = (string) $row->pos_activation_date;
+                $this->is_author_moderator = $row->is_author_moderator;
+                $this->post_activation_date = $row->pos_activation_date;
 
                 $this->objThread = new ilForumTopic($this->thread_id, $this->is_moderator);
             }
@@ -347,12 +347,12 @@ class ilForumPost
         return $this->display_user_id;
     }
 
-    public function setUserAlias(string $a_user_alias) : void
+    public function setUserAlias(?string $a_user_alias) : void
     {
         $this->user_alias = $a_user_alias;
     }
 
-    public function getUserAlias() : string
+    public function getUserAlias() : ?string
     {
         return $this->user_alias;
     }
@@ -377,22 +377,22 @@ class ilForumPost
         return $this->message;
     }
 
-    public function setCreateDate(string $a_createdate) : void
+    public function setCreateDate(?string $a_createdate) : void
     {
         $this->createdate = $a_createdate;
     }
 
-    public function getCreateDate() : string
+    public function getCreateDate() : ?string
     {
         return $this->createdate;
     }
 
-    public function setChangeDate(string $a_changedate) : void
+    public function setChangeDate(?string $a_changedate) : void
     {
         $this->changedate = $a_changedate;
     }
 
-    public function getChangeDate() : string
+    public function getChangeDate() : ?string
     {
         return $this->changedate;
     }
@@ -417,12 +417,12 @@ class ilForumPost
         return $this->censored;
     }
 
-    public function setCensorshipComment(string $a_comment) : void
+    public function setCensorshipComment(?string $a_comment) : void
     {
         $this->censorship_comment = $a_comment;
     }
 
-    public function getCensorshipComment() : string
+    public function getCensorshipComment() : ?string
     {
         return $this->censorship_comment;
     }
@@ -437,12 +437,12 @@ class ilForumPost
         return $this->notification;
     }
 
-    public function setImportName(string $a_import_name) : void
+    public function setImportName(?string $a_import_name) : void
     {
         $this->import_name = $a_import_name;
     }
 
-    public function getImportName() : string
+    public function getImportName() : ?string
     {
         return $this->import_name;
     }
@@ -537,17 +537,17 @@ class ilForumPost
         return $this->pos_author_id;
     }
 
-    public function isAuthorModerator() : bool
+    public function isAuthorModerator() : ?bool
     {
         return $this->is_author_moderator;
     }
 
-    public function setIsAuthorModerator(bool $is_author_moderator) : void
+    public function setIsAuthorModerator(?bool $is_author_moderator) : void
     {
         $this->is_author_moderator = $is_author_moderator;
     }
 
-    public function getCensoredDate() : string
+    public function getCensoredDate() : ?string
     {
         return $this->censored_date;
     }
@@ -557,12 +557,12 @@ class ilForumPost
         return $this->post_activation_date;
     }
 
-    public function setPostActivationDate(string $post_activation_date) : void
+    public function setPostActivationDate(?string $post_activation_date) : void
     {
         $this->post_activation_date = $post_activation_date;
     }
 
-    public function setCensoredDate(string $censored_date) : void
+    public function setCensoredDate(?string $censored_date) : void
     {
         $this->censored_date = $censored_date;
     }
@@ -571,17 +571,17 @@ class ilForumPost
     {
         $this->setUserAlias((string) $row['pos_usr_alias']);
         $this->setSubject((string) $row['pos_subject']);
-        $this->setCreateDate((string) $row['pos_date']);
+        $this->setCreateDate($row['pos_date']);
         $this->setMessage((string) $row['pos_message']);
         $this->setForumId((int) $row['pos_top_fk']);
         $this->setThreadId((int) $row['pos_thr_fk']);
-        $this->setChangeDate((string) $row['pos_update']);
+        $this->setChangeDate($row['pos_update']);
         $this->setUpdateUserId((int) $row['update_user']);
         $this->setCensorship((bool) $row['pos_cens']);
-        $this->setCensoredDate(isset($row['pos_cens_date']) ? (string) $row['pos_cens_date'] : '');
+        $this->setCensoredDate($row['pos_cens_date']);
         $this->setCensorshipComment($row['pos_cens_com']);
         $this->setNotification((bool) $row['notify']);
-        $this->setImportName((string) $row['import_name']);
+        $this->setImportName($row['import_name']);
         $this->setStatus((bool) $row['pos_status']);
         $this->setTreeId((int) $row['fpt_pk']);
         $this->setParentId((int) $row['parent_pos']);
@@ -591,7 +591,7 @@ class ilForumPost
         $this->setIsRead((bool) (isset($row['post_read']) && (int) $row['post_read'] ?? 1));
         $this->setDisplayUserId((int) $row['pos_display_user_id']);
         $this->setPosAuthorId((int) $row['pos_author_id']);
-        $this->setIsAuthorModerator((bool) $row['is_author_moderator']);
+        $this->setIsAuthorModerator($row['is_author_moderator']);
     }
 
     /**

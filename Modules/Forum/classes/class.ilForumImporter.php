@@ -11,10 +11,9 @@ class ilForumImporter extends ilXmlImporter
 {
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
-        // case i container
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
-            $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-        } else {    // case ii, non container
+            $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
+        } else {
             $newObj = new ilObjForum();
             $newObj->setType('frm');
             $newObj->create();
@@ -26,6 +25,6 @@ class ilForumImporter extends ilXmlImporter
         $parser->setSchemaVersion($this->getSchemaVersion());
         $parser->startParsing();
 
-        $a_mapping->addMapping("Modules/Forum", "frm", $a_id, $newObj->getId());
+        $a_mapping->addMapping('Modules/Forum', 'frm', $a_id, (string) $newObj->getId());
     }
 }

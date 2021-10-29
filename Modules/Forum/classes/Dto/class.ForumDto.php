@@ -10,9 +10,9 @@ class ForumDto
     private string $top_description;
     private int $top_num_posts;
     private int $top_num_threads;
-    private string $top_last_post;
+    private ?string $top_last_post = null;
     private int $top_mods;
-    private string $top_date;
+    private ?string $top_date = null;
     private int $visits;
     private ?string $top_update = null;
     private int $update_user;
@@ -78,12 +78,12 @@ class ForumDto
         $this->top_num_threads = $top_num_threads;
     }
 
-    public function getTopLastPost() : string
+    public function getTopLastPost() : ?string
     {
         return $this->top_last_post;
     }
 
-    public function setTopLastPost(string $top_last_post) : void
+    public function setTopLastPost(?string $top_last_post) : void
     {
         $this->top_last_post = $top_last_post;
     }
@@ -98,12 +98,12 @@ class ForumDto
         $this->top_mods = $top_mods;
     }
 
-    public function getTopDate() : string
+    public function getTopDate() : ?string
     {
         return $this->top_date;
     }
 
-    public function setTopDate(string $top_date) : void
+    public function setTopDate(?string $top_date) : void
     {
         $this->top_date = $top_date;
     }
@@ -158,11 +158,11 @@ class ForumDto
         $instance->setTopDescription((string) $record['top_description']);
         $instance->setTopNumPosts((int) $record['top_num_posts']);
         $instance->setTopNumThreads((int) $record['top_num_threads']);
-        $instance->setTopLastPost((string) $record['top_last_post']);
+        $instance->setTopLastPost($record['top_last_post']);
         $instance->setTopMods((int) $record['top_mods']);
-        $instance->setTopDate((string) $record['top_date']);
+        $instance->setTopDate($record['top_date']);
         $instance->setVisits((int) $record['visits']);
-        $instance->setTopUpdate((string) $record['top_update']);
+        $instance->setTopUpdate($record['top_update']);
         $instance->setUpdateUser((int) $record['update_user']);
         $instance->setTopUsrId((int) $record['top_usr_id']);
 

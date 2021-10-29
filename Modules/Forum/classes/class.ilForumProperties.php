@@ -16,6 +16,8 @@ class ilForumProperties
     public const FORUM_OVERVIEW_NO_NEW_POSTS = 1;
     public const FILE_UPLOAD_GLOBALLY_ALLOWED = 0;
     public const FILE_UPLOAD_INDIVIDUAL = 1;
+    public const THREAD_SORTING_DEFAULT = 0;
+    public const THREAD_SORTING_MANUAL = 1;
 
     /** @var array<int, ilForumProperties> */
     private static array $instances = [];
@@ -42,12 +44,7 @@ class ilForumProperties
     /** Add 'Re: ' to subject on reply */
     private bool $add_re_subject = false;
     private bool $mark_mod_posts = false;
-    /**
-     * sorting type for threads (manual sorting)
-     * 0 = default
-     * 1 = manual
-     */
-    private int $thread_sorting = 0;
+    private int $thread_sorting = self::THREAD_SORTING_DEFAULT;
     private bool $is_thread_rating_enabled = false;
     private bool $file_upload_allowed = false;
     private bool $exists = false;

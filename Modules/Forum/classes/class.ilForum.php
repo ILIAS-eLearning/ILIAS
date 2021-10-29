@@ -161,7 +161,7 @@ class ilForum
 
         $sql_res = $this->db->queryF($query, $data_type, $data_value);
         $result = $this->db->fetchAssoc($sql_res);
-        $result['thr_subject'] = trim($result['thr_subject']);
+        $result['thr_subject'] = trim((string) ($result['thr_subject'] ?? ''));
 
         $thread_obj = new ilForumTopic();
         $thread_obj->assignData($result);
@@ -1754,8 +1754,12 @@ class ilForum
         $lastPostString = $targetThreadForMerge->getLastPostString();
         $exp = explode('#', $lastPostString);
         if (array_key_exists(2, $exp)) {
-            $exp[2] = $targetThreadForMerge->getLastPost()->getId();
-            $lastPostString = implode('#', $exp);
+            try {
+                $exp[2] = $targetThreadForMerge->getLastPost()->getId();
+                $lastPostString = implode('#', $exp);
+            } catch (OutOfBoundsException $e) {
+                $lastPostString = null;
+            }
         }
 
         $frm_topic_obj = new ilForumTopic(0, false, true);

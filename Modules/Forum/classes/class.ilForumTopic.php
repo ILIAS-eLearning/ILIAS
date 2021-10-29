@@ -12,14 +12,14 @@ class ilForumTopic
     private int $forum_id = 0;
     private int $frm_obj_id = 0;
     private int $display_user_id = 0;
-    private string $user_alias = '';
+    private ?string $user_alias = null;
     private string $subject = '';
     private ?string $createdate = null;
     private ?string $changedate = null;
     private int $num_posts = 0;
-    private string $last_post_string = '';
+    private ?string $last_post_string = null;
     private int $visits = 0;
-    private string $import_name = '';
+    private ?string $import_name = null;
     private bool $is_sticky = false;
     private bool $is_closed = false;
     private string $orderField = '';
@@ -27,13 +27,13 @@ class ilForumTopic
     private ilDBInterface $db;
     private bool $is_moderator;
     private int $thr_author_id = 0;
-    private ?float $average_rating = 0.0;
+    private float $average_rating = 0.0;
     private string $orderDirection = 'DESC';
     protected static array $possibleOrderDirections = ['ASC', 'DESC'];
     private $user;
-    private ?int $num_new_posts = 0;
-    private ?int $num_unread_posts = 0;
-    private bool $user_notification_enabled;
+    private int $num_new_posts = 0;
+    private int $num_unread_posts = 0;
+    private bool $user_notification_enabled = false;
 
     /**
      * Returns an object of a forum topic. The constructor calls the private method read()
@@ -63,11 +63,11 @@ class ilForumTopic
         $this->setSubject($data['thr_subject']);
         $this->setDisplayUserId((int) $data['thr_display_user_id']);
         $this->setUserAlias($data['thr_usr_alias']);
-        $this->setLastPostString((string) $data['thr_last_post']);
+        $this->setLastPostString($data['thr_last_post']);
         $this->setCreateDate($data['thr_date']);
         $this->setChangeDate($data['thr_update']);
         $this->setVisits((int) $data['visits']);
-        $this->setImportName((string) $data['import_name']);
+        $this->setImportName($data['import_name']);
         $this->setSticky((bool) $data['is_sticky']);
         $this->setClosed((bool) $data['is_closed']);
         $this->setAverageRating(isset($data['avg_rating']) ? (float) $data['avg_rating'] : 0);
@@ -108,7 +108,7 @@ class ilForumTopic
                     'import_name' => ['text', $this->import_name],
                     'is_sticky' => ['integer', (int) $this->is_sticky],
                     'is_closed' => ['integer', (int) $this->is_closed],
-                    'avg_rating' => ['text', (string) ((float) $this->average_rating)],
+                    'avg_rating' => ['text', (string) $this->average_rating],
                     'thr_author_id' => ['integer', $this->thr_author_id]
                 ]
             );
@@ -141,7 +141,7 @@ class ilForumTopic
                     date('Y-m-d H:i:s'),
                     $this->num_posts,
                     $this->last_post_string,
-                    (string) ((float) $this->average_rating),
+                    (string) $this->average_rating,
                     $this->id
                 ]
             );
@@ -170,13 +170,13 @@ class ilForumTopic
             if (is_object($row)) {
                 $this->forum_id = (int) $row->thr_top_fk;
                 $this->display_user_id = (int) $row->thr_display_user_id;
-                $this->user_alias = (string) $row->thr_usr_alias;
-                $this->subject = html_entity_decode($row->thr_subject);
-                $this->createdate = (string) $row->thr_date;
-                $this->changedate = (string) $row->thr_update;
-                $this->import_name = (string) ($row->import_name ?? '');
+                $this->user_alias = $row->thr_usr_alias;
+                $this->subject = html_entity_decode((string) $row->thr_subject);
+                $this->createdate = $row->thr_date;
+                $this->changedate = $row->thr_update;
+                $this->import_name = $row->import_name;
                 $this->num_posts = (int) $row->thr_num_posts;
-                $this->last_post_string = (string) $row->thr_last_post;
+                $this->last_post_string = $row->thr_last_post;
                 $this->visits = (int) $row->visits;
                 $this->is_sticky = (bool) $row->is_sticky;
                 $this->is_closed = (bool) $row->is_closed;
@@ -787,7 +787,7 @@ class ilForumTopic
 
     public function getAverageRating() : float
     {
-        return (float) $this->average_rating;
+        return $this->average_rating;
     }
 
     public function setAverageRating(float $average_rating) : void
@@ -825,12 +825,12 @@ class ilForumTopic
         return $this->display_user_id;
     }
 
-    public function setUserAlias($a_user_alias) : void
+    public function setUserAlias(?string $a_user_alias) : void
     {
         $this->user_alias = $a_user_alias;
     }
 
-    public function getUserAlias() : string
+    public function getUserAlias() : ?string
     {
         return $this->user_alias;
     }
@@ -852,7 +852,7 @@ class ilForumTopic
 
     public function getCreateDate() : string
     {
-        return $this->createdate ?: '';
+        return $this->createdate;
     }
 
     public function setChangeDate(?string $a_changedate) : void
@@ -860,27 +860,27 @@ class ilForumTopic
         $this->changedate = $a_changedate;
     }
 
-    public function getChangeDate() : string
+    public function getChangeDate() : ?string
     {
-        return $this->changedate ?: '';
+        return $this->changedate;
     }
 
-    public function setImportName(string $a_import_name) : void
+    public function setImportName(?string $a_import_name) : void
     {
         $this->import_name = $a_import_name;
     }
 
-    public function getImportName() : string
+    public function getImportName() : ?string
     {
         return $this->import_name;
     }
 
-    public function setLastPostString(string $a_last_post) : void
+    public function setLastPostString(?string $a_last_post) : void
     {
         $this->last_post_string = $a_last_post;
     }
 
-    public function getLastPostString() : string
+    public function getLastPostString() : ?string
     {
         return $this->last_post_string;
     }
@@ -1060,7 +1060,7 @@ class ilForumTopic
         );
     }
 
-    public static function lookupCreationDate(int $thread_id) : string
+    public static function lookupCreationDate(int $thread_id) : ?string
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1071,9 +1071,13 @@ class ilForumTopic
             [$thread_id]
         );
 
+        $date = null;
         $row = $ilDB->fetchAssoc($res);
+        if (is_array($row)) {
+            $date = $row['thr_date'];
+        }
 
-        return $row['thr_date'] ?: '0000-00-00 00:00:00';
+        return $date;
     }
 
     public function getLastPostForThreadOverview() : ?ilForumPost

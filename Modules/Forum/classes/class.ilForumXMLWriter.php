@@ -31,8 +31,8 @@ class ilForumXMLWriter extends ilXmlWriter
 
     public function setFileTargetDirectories(string $a_rel, string $a_abs) : void
     {
-        $this->target_dir_relative = (string) $a_rel;
-        $this->target_dir_absolute = (string) $a_abs;
+        $this->target_dir_relative = $a_rel;
+        $this->target_dir_absolute = $a_abs;
     }
 
     public function start() : bool

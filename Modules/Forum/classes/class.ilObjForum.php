@@ -324,9 +324,9 @@ class ilObjForum extends ilObject
         $DIC->database()->manipulateF('DELETE FROM frm_thread_access WHERE thread_id = %s', ['integer'], [$a_thread_id]);
     }
 
-    public function update($a_update_user_id = 0) : bool
+    public function update(int $a_update_user_id = 0) : bool
     {
-        if (!$a_update_user_id) {
+        if ($a_update_user_id === 0) {
             $a_update_user_id = $this->user->getId();
         }
 
@@ -344,7 +344,7 @@ class ilObjForum extends ilObject
                     $this->getTitle(),
                     $this->getDescription(),
                     date("Y-m-d H:i:s"),
-                    (int) $a_update_user_id,
+                    $a_update_user_id,
                     $this->getId()
                 ]
             );

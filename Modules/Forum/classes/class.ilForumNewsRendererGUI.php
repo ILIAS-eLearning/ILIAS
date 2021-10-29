@@ -13,6 +13,7 @@ class ilForumNewsRendererGUI extends ilNewsDefaultRendererGUI
     {
         $link_target_suffix = '';
         $news = $this->getNewsItem();
+        // TODO PHP 8 Since cannot work
         if ($news->getContextSubObjType() === 'pos' && $news->getContextSubObjId() > 0) {
             $pos = $news->getContextSubObjId();
             $thread = ilObjForumAccess::_getThreadForPosting($pos);
