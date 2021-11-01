@@ -1,8 +1,14 @@
-<?php
+<?php declare(strict_types = 1);
 
-use ILIAS\Setup;
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Agent;
+use ILIAS\Setup\Config;
 
 /**
  * Class ilUICoreSetupAgent
@@ -10,7 +16,7 @@ use ILIAS\Setup\ObjectiveCollection;
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-final class ilUICoreSetupAgent implements Setup\Agent
+final class ilUICoreSetupAgent implements Agent
 {
     /**
      * @inheritdoc
@@ -25,44 +31,47 @@ final class ilUICoreSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Transformation
     {
-        throw new \LogicException(self::class . " has no Config.");
+        throw new LogicException(self::class . " has no Config.");
     }
 
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Config $config = null) : Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Config $config = null) : Objective
     {
-        return new Setup\Objective\NullObjective();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getBuildArtifactObjective() : Setup\Objective
-    {
-        return new ObjectiveCollection(
-            'buildIlCtrlArtifacts',
-            false,
-            new \ilCtrlStructureArtifactObjective(),
-            new \ilCtrlBaseClassArtifactObjective()
+        return new ilDatabaseUpdateStepsExecutedObjective(
+            new ilCtrlDatabaseUpdateSteps()
         );
     }
 
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getBuildArtifactObjective() : Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ObjectiveCollection(
+            'buildIlCtrlArtifacts',
+            false,
+            new ilCtrlStructureArtifactObjective(),
+            new ilCtrlBaseClassArtifactObjective(),
+            new ilCtrlSecurityArtifactObjective(),
+        );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getStatusObjective(Storage $storage) : Objective
+    {
+        return new NullObjective();
     }
 
     /**
@@ -76,14 +85,17 @@ final class ilUICoreSetupAgent implements Setup\Agent
     /**
      * @inheritDoc
      */
-    public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
+    public function getNamedObjective(string $name, Config $config = null) : Objective
     {
         switch ($name) {
             case 'buildIlCtrlArtifacts':
                 return $this->getBuildArtifactObjective();
 
+            case 'updateIlCtrlDatabase':
+                return $this->getUpdateObjective();
+
             default:
-                throw new \InvalidArgumentException("There is no named objective '$name'");
+                throw new InvalidArgumentException("There is no named objective '$name'");
         }
     }
 }

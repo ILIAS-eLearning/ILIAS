@@ -165,7 +165,6 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         }
     }
 
-
     /**
      * Set the values in a property form based on the configuration
      */
@@ -175,7 +174,6 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $a_form->getItemByPostVar('char_selector_blocks')->setValue($this->config->getAddedBlocks());
         $a_form->getItemByPostVar('char_selector_custom_items')->setValue($this->config->getCustomItems());
     }
-
 
     /**
      * Set the configuration based on the values of a property form

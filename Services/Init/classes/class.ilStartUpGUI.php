@@ -14,7 +14,7 @@ use ILIAS\UICore\PageContentProvider;
 *
 * @ingroup ServicesInit
 */
-class ilStartUpGUI implements ilCtrlSecurityInterface, ilCtrlBaseClassInterface
+class ilStartUpGUI implements ilCtrlBaseClassInterface
 {
     const ACCOUNT_MIGRATION_MIGRATE = 1;
     const ACCOUNT_MIGRATION_NEW = 2;
@@ -87,20 +87,6 @@ class ilStartUpGUI implements ilCtrlSecurityInterface, ilCtrlBaseClassInterface
         $this->ctrl->saveParameter($this, array("rep_ref_id", "lang", "target", "client_id"));
 
         $this->user->setLanguage($this->lng->getLangKey());
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSafeCommands() : array
-    {
-        return [
-            'force_login',
-            'doLogout',
-            'processIndexPHP',
-            'showLoginPage',
-            'showLoginPageOrStartupPage',
-        ];
     }
 
     /**

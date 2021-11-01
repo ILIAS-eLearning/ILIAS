@@ -1,9 +1,14 @@
 <?php
 
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+
 /**
- * Interface ilCtrlPathInterface
+ * Interface ilCtrlPathInterface is responsible for holding and
+ * manipulating a valid ilCtrl class-path (abbreviated by CID).
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ *
+ * A CID-path or class-path is a
  */
 interface ilCtrlPathInterface
 {

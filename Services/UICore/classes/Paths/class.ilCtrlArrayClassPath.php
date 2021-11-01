@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilCtrlArrayClassPath
@@ -29,7 +31,6 @@ class ilCtrlArrayClassPath extends ilCtrlAbstractPath
             $this->cid_path = $this->getCidPathByArray($target_classes);
         } catch (ilCtrlException $exception) {
             $this->exception = $exception;
-            $this->cid_path  = null;
         }
     }
 

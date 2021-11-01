@@ -1,5 +1,7 @@
 <?php
 
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+
 /**
  * Class ilCtrl provides processing control methods. A global
  * instance is available through $DIC->ctrl() or $ilCtrl.
@@ -267,7 +269,7 @@ interface ilCtrlInterface
      * Returns a form action link for the given information.
      *
      * @param string|string[] $a_class
-     * @param string|null     $a_cmd
+     * @param string|null     $a_fallback_cmd
      * @param string|null     $a_anchor
      * @param bool            $is_async
      * @param bool            $has_xml_style
@@ -276,7 +278,7 @@ interface ilCtrlInterface
      */
     public function getFormActionByClass(
         $a_class,
-        string $a_cmd = null,
+        string $a_fallback_cmd = null,
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false

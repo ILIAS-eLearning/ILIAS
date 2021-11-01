@@ -1,9 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup\Artifact\BuildArtifactObjective;
-use ILIAS\Setup;
+use ILIAS\Setup\Artifact\ArrayArtifact;
+use ILIAS\Setup\Artifact;
 
 /**
  * Class ilCtrlStructureArtifactObjective
@@ -29,9 +30,9 @@ final class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
     /**
      * @inheritDoc
      */
-    public function build() : Setup\Artifact
+    public function build() : Artifact
     {
-        return new Setup\Artifact\ArrayArtifact(
+        return new ArrayArtifact(
             (new ilCtrlStructureReader())->readStructure()
         );
     }

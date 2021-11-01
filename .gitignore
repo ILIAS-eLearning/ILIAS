@@ -30,6 +30,7 @@
 /Services/Style/System/data/data.php
 /Services/UICore/artifacts/ctrl_structure.php
 /Services/UICore/artifacts/ctrl_base_classes.php
+/Services/UICore/artifacts/ctrl_security.php
 
 # Directories
 /data

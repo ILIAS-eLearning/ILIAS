@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
 use ILIAS\HTTP\Services as HttpService;
@@ -104,7 +106,7 @@ class ilCtrl implements ilCtrlInterface
             $this->context->setBaseClass($a_base_class);
         }
 
-        // no null-check needed because
+        // no null-check needed because isBaseClass() was true.
         $obj_name = $this->structure->getObjNameByName(
             $this->context->getBaseClass()
         );
@@ -206,7 +208,7 @@ class ilCtrl implements ilCtrlInterface
             }
         }
 
-        return $fallback_command;
+        return $fallback_command ?? '';
     }
 
     /**
@@ -224,9 +226,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function getCmdClass() : ?string
     {
-        // @TODO: remove null coalescing operator before release
-        //        and inform developers that null-check is needed.
-        return $this->context->getCmdClass();
+        return $this->context->getCmdClass() ?? '';
     }
 
     /**
@@ -245,11 +245,11 @@ class ilCtrl implements ilCtrlInterface
     public function getNextClass($a_gui_class = null) : ?string
     {
         if (null === $a_gui_class && null === $this->exec_object) {
-            return null;
+            return '';
         }
 
         if (null === $this->context->getPath()) {
-            return null;
+            return '';
         }
 
         $next_cid = $this->context->getPath()->getNextCid(
@@ -257,10 +257,10 @@ class ilCtrl implements ilCtrlInterface
         );
 
         if (null !== $next_cid) {
-            return $this->structure->getClassNameByCid($next_cid);
+            return $this->structure->getClassNameByCid($next_cid) ?? '';
         }
 
-        return null;
+        return '';
     }
 
     /**
@@ -529,17 +529,15 @@ class ilCtrl implements ilCtrlInterface
             $this->http->sendResponse();
         } catch (ResponseSendingException $e) {
             header("Location: $target_url");
-            echo json_encode(
-                $response->getBody()->getContents(),
-                JSON_THROW_ON_ERROR
-            );
-        } catch (Throwable $exception) {
-            echo "
-                {
-                    success: false,
-                    message: {$exception->getMessage()}
-                }
-            ";
+            if ('application/json' === $this->http->request()->getHeaderLine('Accept')) {
+                echo json_encode(
+                    $response->getBody()->getContents(),
+                    JSON_THROW_ON_ERROR
+                );
+            }
+        } catch (Throwable $t) {
+            header("Location: $target_url");
+            echo $t->getMessage();
         }
 
         exit;
@@ -725,21 +723,6 @@ class ilCtrl implements ilCtrlInterface
         }
 
         return $class_paths;
-    }
-
-    /**
-     * Returns the baseclass of the current ilCtrl instance.
-     *
-     * This method prioritises a baseclass passed by $_GET over
-     * the baseclass ilCtrl was initialized with.
-     *
-     * @return string|null
-     */
-    private function getBaseClass() : ?string
-    {
-        // target information will never be found in $_POST,
-        // therefore only query-params are fetched.
-        return $this->getQueryParam(self::PARAM_BASE_CLASS) ?? $this->context->getBaseClass();
     }
 
     /**
@@ -932,8 +915,6 @@ class ilCtrl implements ilCtrlInterface
      * This helper function wraps the deprecated UI functionality that
      * modifies a URL target and "hacks into" existing HTML.
      *
-     * (Tbh I don't really get that mechanism, but it stays for now.)
-     *
      * @param string $target_url
      * @return string
      */
@@ -956,7 +937,7 @@ class ilCtrl implements ilCtrlInterface
                     )
                 ;
 
-                if (ilUIHookPluginGUI::KEEP === $html['mode']) {
+                if (ilUIHookPluginGUI::KEEP !== $html['mode']) {
                     $target_url = $plugin_instance
                         ->getUIClassInstance()
                         ->modifyHTML(
@@ -1001,24 +982,9 @@ class ilCtrl implements ilCtrlInterface
             return true;
         }
 
-        if (null !== $this->exec_object && $obj_name === get_class($this->exec_object)) {
-            $obj = $this->exec_object;
-        } else {
-            try {
-                // it's crucial to use reflection class and instantiate
-                // the object without calling the constructor, as there
-                // are cases this method is reached from there,what
-                // leads to infinite loops.
-                $ref = new ReflectionClass($obj_name);
-                $obj = $ref->newInstanceWithoutConstructor();
-            } catch (ReflectionException $exception) {
-                return false;
-            }
-        }
-
-        // check if the command is within the provided
-        // safe command's list.
-        return in_array($cmd, $obj->getSafeCommands(), true);
+        // if the command is not contained in the list of unsafe
+        // commands, the command is considered secure.
+        return !in_array($cmd, $this->structure->getUnsafeCommandsByName($cmd_class), true);
     }
 
     /**

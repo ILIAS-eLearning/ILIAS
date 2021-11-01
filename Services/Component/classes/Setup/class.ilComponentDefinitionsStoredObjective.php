@@ -123,7 +123,6 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilPDFGenerationDefinitionProcessor($db),
             new \ilSystemCheckDefinitionProcessor($db),
             new \ilSecurePathDefinitionProcessor($db),
-            new \ilCtrlBaseclassDefinitionProcessor($db)
         );
         $reader->purge();
         $reader->readComponentDefinitions();

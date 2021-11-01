@@ -918,7 +918,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($rbacsystem->checkAccess('edit_permission', $this->ref_id)) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array($_GET['baseClass'], get_class($this), 'ilpermissiongui'), "perm"),
+                $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], "perm"),
                 array("perm", "info", "owner"),
                 'ilpermissiongui'
             );

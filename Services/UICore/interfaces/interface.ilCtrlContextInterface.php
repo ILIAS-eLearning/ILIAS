@@ -1,15 +1,22 @@
 <?php
 
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+
 /**
- * Interface ilCtrlContextInterface
+ * Interface ilCtrlContextInterface holds the current ilCtrl context
+ * information.
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
 interface ilCtrlContextInterface
 {
     /**
-     * Adopts context properties from the according ones
-     * delivered by the current request.
+     * Adopts context properties from the according ones delivered by
+     * the current request.
+     *
+     * Note that this method should only be called when initializing
+     * ilCtrl, as methods may override delivered values on purpose
+     * later on.
      */
     public function adoptRequestParameters() : void;
 

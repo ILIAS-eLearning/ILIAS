@@ -1,10 +1,14 @@
-<?php
+<?php declare(strict_types = 1);
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup\Artifact\BuildArtifactObjective;
-use ILIAS\Setup;
+use ILIAS\Setup\ImplementationOfInterfaceFinder;
+use ILIAS\Setup\Artifact\ArrayArtifact;
+use ILIAS\Setup\Artifact;
 
 /**
- * Class ilCtrlBaseClassArtifactObjective
+ * Class ilCtrlSecurityArtifactObjective
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
@@ -26,15 +30,15 @@ final class ilCtrlBaseClassArtifactObjective extends BuildArtifactObjective
     /**
      * @inheritDoc
      */
-    public function build() : Setup\Artifact
+    public function build() : Artifact
     {
-        $finder = new Setup\ImplementationOfInterfaceFinder();
+        $finder = new ImplementationOfInterfaceFinder();
 
         $base_classes = [];
         foreach ($finder->getMatchingClassNames(ilCtrlBaseClassInterface::class) as $base_class) {
             $base_classes[] = strtolower($base_class);
         }
 
-        return new Setup\Artifact\ArrayArtifact($base_classes);
+        return new ArrayArtifact($base_classes);
     }
 }

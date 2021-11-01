@@ -53,7 +53,7 @@ class ilMainMenuSearchGUI
         }
         */
     }
-    
+
     public function getHTML()
     {
         global $DIC;
@@ -97,21 +97,24 @@ class ilMainMenuSearchGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        // temporary fix until $ilCtrl functions flawlessly.
-        $token = new ilCtrlToken(
-            $DIC->database(),
-            $DIC->user()
+        $this->tpl->setVariable('FORMACTION',
+            $ilCtrl->getFormActionByClass(
+                ilSearchController::class,
+                'remoteSearch'
+            )
         );
-
-        // @TODO: user $ilCtrl->getFormAction() instead.
-        $this->tpl->setVariable('FORMACTION', 'ilias.php?base_class=ilSearchController&cmd=post' .
-            '&csrf_token=' . $token->getToken() . '&cmd_fallback=remoteSearch');
 
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
-        // @TODO: user $ilCtrl->getFormAction() instead.
-        $this->tpl->setVariable('AC_DATASOURCE', "ilias.php?base_class=ilSearchController&cmd=autoComplete");
-        
+        $this->tpl->setVariable('FORMACTION',
+            $ilCtrl->getLinkTargetByClass(
+                ilSearchController::class,
+                'autoComplete',
+                null,
+                true
+            )
+        );
+
         $this->tpl->setVariable('IMG_MM_SEARCH', ilUtil::img(
             ilUtil::getImagePath("icon_seas.svg"),
             $lng->txt("search")

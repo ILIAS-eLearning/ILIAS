@@ -1,5 +1,7 @@
 <?php
 
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+
 /**
  * ilCtrlStructureInterface
  *
@@ -16,6 +18,7 @@ interface ilCtrlStructureInterface
     public const KEY_CLASS_CID_PATHS = 'cid_paths';
     public const KEY_CLASS_PARENTS   = 'parents';
     public const KEY_CLASS_CHILDREN  = 'children';
+    public const KEY_UNSAFE_COMMANDS = 'unsafe_commands';
 
     /**
      * Returns whether the given class is registered as a valid
@@ -43,6 +46,22 @@ interface ilCtrlStructureInterface
      * @return string|null
      */
     public function getObjNameByCid(string $cid) : ?string;
+
+    /**
+     * Returns all safe commands for a given cid.
+     *
+     * @param string $cid
+     * @return array
+     */
+    public function getUnsafeCommandsByCid(string $cid) : array;
+
+    /**
+     * Returns all safe commands for a given classname.
+     *
+     * @param string $class_name
+     * @return array
+     */
+    public function getUnsafeCommandsByName(string $class_name) : array;
 
     /**
      * Returns the lower-cased name of a class for the given CID.

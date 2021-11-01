@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilCtrlAbstractPath
@@ -20,7 +22,7 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     /**
      * @var string|null
      */
-    protected ?string $cid_path;
+    protected ?string $cid_path = null;
 
     /**
      * ilCtrlAbstractPath Constructor

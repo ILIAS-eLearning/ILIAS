@@ -7,7 +7,7 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilBlogPostingGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMediaPoolTargetSelector
+ * @ilCtrl_Calls ilBlogPostingGUI: ilPageEditorGUI, ilEditClipboardGUI
  * @ilCtrl_Calls ilBlogPostingGUI: ilRatingGUI, ilPublicUserProfileGUI, ilPageObjectGUI, ilNoteGUI
  */
 class ilBlogPostingGUI extends ilPageObjectGUI

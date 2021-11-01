@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilCtrlStructure holds the currently read control
@@ -52,6 +54,13 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     private array $base_classes;
 
     /**
+     * Holds the stored ilCtrlSecurityInterface information.
+     *
+     * @var array<string, mixed>
+     */
+    private array $security;
+
+    /**
      * Holds the control structure mapped by other identifiers than
      * the classname (primarily CID).
      *
@@ -69,6 +78,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
         try {
             $this->structure    = require ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
             $this->base_classes = require ilCtrlBaseClassArtifactObjective::ARTIFACT_PATH;
+            $this->security     = require ilCtrlSecurityArtifactObjective::ARTIFACT_PATH;
         } catch (Throwable $t) {
             throw new ilCtrlException("Could not include ilCtrl artifacts: " . $t->getMessage());
         }
@@ -99,6 +109,27 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     public function getObjNameByCid(string $cid) : ?string
     {
         return $this->getValueForKeyByCid(self::KEY_CLASS_NAME, $cid);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUnsafeCommandsByCid(string $cid) : array
+    {
+        $class_name = $this->getClassNameByCid($cid);
+        if (null !== $class_name) {
+            return $this->getUnsafeCommandsByName($class_name);
+        }
+
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUnsafeCommandsByName(string $class_name) : array
+    {
+        return $this->security[$this->lowercase($class_name)][self::KEY_UNSAFE_COMMANDS] ?? [];
     }
 
     /**

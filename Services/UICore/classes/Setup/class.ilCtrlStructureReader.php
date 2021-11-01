@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 require_once "./libs/composer/vendor/autoload.php";
 
@@ -116,9 +118,7 @@ final class ilCtrlStructureReader
                 continue;
             }
 
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->generateCid();
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
+            $this->addClassEntry($class_name, $path);
         }
 
         // loops through all references and creates vise-versa
@@ -143,13 +143,36 @@ final class ilCtrlStructureReader
         // to happen in a separate loop, as the vise-versa
         // mappings are not yet finished the previous loop.
         foreach ($this->references as $class_name => $data) {
-            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS];
-            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN];
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = array_map(
+                'strtolower',
+                $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS]
+            );
+
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = array_map(
+                'strtolower',
+                $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN]
+            );
         }
 
         self::$is_executed = true;
 
         return $this->structure;
+    }
+
+    /**
+     * @param string      $class_name
+     * @param string|null $path
+     */
+    private function addClassEntry(string $class_name, string $path = null) : void
+    {
+        if (isset($this->class_map[$class_name])) {
+            $path = $path ?? $this->class_map[$class_name];
+
+            $array_key = strtolower($class_name);
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->generateCid();
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
+        }
     }
 
     /**
@@ -163,13 +186,17 @@ final class ilCtrlStructureReader
      */
     private function addViseVersaMapping(string $class_name, string $key_ref_from, string $key_ref_to) : void
     {
-        if (!empty($this->references[$class_name][$key_ref_from])) {
-            foreach ($this->references[$class_name][$key_ref_from] as $reference) {
+        $array_key = strtolower($class_name);
+        if (!empty($this->references[$array_key][$key_ref_from])) {
+            foreach ($this->references[$array_key][$key_ref_from] as $reference) {
+                $ref_array_key = strtolower($reference);
+                if (!isset($this->references[$ref_array_key])) {
+                    $this->addClassEntry($reference);
+                }
+
                 // only add vise-versa mapping if it doesn't already exist.
-                if (isset($this->references[$reference]) &&
-                    !in_array($class_name, $this->references[$reference][$key_ref_to], true)
-                ) {
-                    $this->references[$reference][$key_ref_to][] = $class_name;
+                if (isset($this->references[$ref_array_key]) && !in_array($class_name, $this->references[$ref_array_key][$key_ref_to], true)) {
+                    $this->references[$ref_array_key][$key_ref_to][] = $class_name;
                 }
             }
         }
@@ -215,8 +242,7 @@ final class ilCtrlStructureReader
                         // throw new LogicException("Class '{$reflection->getName()}' referenced '$class_name' which is not a valid mapping.");
                     }
 
-                    // NOTE that all references are lowercase.
-                    $referenced_classes[] = strtolower($class_name);
+                    $referenced_classes[] =$class_name;
                 }
             }
         }
