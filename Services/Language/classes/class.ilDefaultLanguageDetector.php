@@ -1,5 +1,5 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/** Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE **/
 
 require_once 'Services/Language/interfaces/interface.ilLanguageDetector.php';
 
@@ -10,14 +10,8 @@ require_once 'Services/Language/interfaces/interface.ilLanguageDetector.php';
  */
 class ilDefaultLanguageDetector implements ilLanguageDetector
 {
-    /**
-     * @var ilIniFile
-     */
     protected $ini;
 
-    /**
-     * @param $ini ilIniFile
-     */
     public function __construct(ilIniFile $ini)
     {
         $this->ini = $ini;
@@ -25,9 +19,8 @@ class ilDefaultLanguageDetector implements ilLanguageDetector
 
     /**
      * Returns the detected ISO2 language code
-     * @return string
      */
-    public function getIso2LanguageCode()
+    public function getIso2LanguageCode(): string
     {
         return $this->ini->readVariable('language', 'default');
     }
