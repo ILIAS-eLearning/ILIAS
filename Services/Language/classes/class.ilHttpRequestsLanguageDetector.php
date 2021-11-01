@@ -1,7 +1,7 @@
 <?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/** Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE **/
 
-require_once 'Services/Language/interfaces/interface.ilLanguageDetector.php';
+require_once "Services/Language/interfaces/interface.ilLanguageDetector.php";
 
 /**
  * Class ilHttpRequestsLanguageDetector
@@ -10,15 +10,9 @@ require_once 'Services/Language/interfaces/interface.ilLanguageDetector.php';
  */
 class ilHttpRequestsLanguageDetector implements ilLanguageDetector
 {
-    /**
-     * @var string
-     */
     protected $header_value;
 
-    /**
-     * @param array $header_value
-     */
-    public function __construct($header_value)
+    public function __construct(string $header_value)
     {
         $this->header_value = $header_value;
     }
@@ -26,9 +20,8 @@ class ilHttpRequestsLanguageDetector implements ilLanguageDetector
     /**
      * Returns the detected ISO2 language code
      * @throws ilLanguageException
-     * @return string
      */
-    public function getIso2LanguageCode()
+    public function getIso2LanguageCode(): string
     {
         if (strlen($this->header_value)) {
             $matches = array();
@@ -41,7 +34,6 @@ class ilHttpRequestsLanguageDetector implements ilLanguageDetector
                         $langs[$lang] = 1;
                     }
                 }
-
                 arsort($langs, SORT_NUMERIC);
 
                 $keys = array_keys($langs);
@@ -51,7 +43,7 @@ class ilHttpRequestsLanguageDetector implements ilLanguageDetector
             }
         }
 
-        require_once 'Services/Language/exceptions/class.ilLanguageException.php';
-        throw new ilLanguageException('Could not extract any language information from request.');
+        require_once "Services/Language/exceptions/class.ilLanguageException.php";
+        throw new ilLanguageException("Could not extract any language information from request.");
     }
 }
