@@ -1,0 +1,39 @@
+{
+"common" : {
+"client_id" : "iliastrunk",
+"master_password" : "12345Abcde",
+"server_timezone" : "Europe/Berlin"
+},
+"database" : {
+"type" : "innodb",
+"host" : "localhost",
+"database" : "iliastrunk",
+"user" : "ilias",
+"password" : "12345Abcde",
+"create_database" : true
+},
+"filesystem" : {
+"data_dir" : "/opt/iliasdata/iliastrunk/"
+},
+"http" : {
+"path" : "refactoring.local"
+},
+"systemfolder" : {
+"contact" : {
+"firstname" : "Ioanna",
+"lastname" : "Mitroulaki",
+"email" : "ioanna.mitroulaki@kroepelin-projekte.de"
+}
+},
+"logging" : {
+"enable" : true,
+"path_to_logfile" : "/opt/iliasdata/iliastrunk/ilias.log",
+"errorlog_dir" : "/opt/iliasdata/iliastrunk/logs"
+},
+"preview": {
+"path_to_ghostscript" : "/opt/iliasdata/iliastrunk/gs"
+},
+"mediaobject" : {
+"path_to_ffmpeg" : "/opt/iliasdata/iliastrunk/ffmpeg"
+}
+}
