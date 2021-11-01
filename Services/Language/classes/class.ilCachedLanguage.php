@@ -11,23 +11,10 @@ require_once "./Services/GlobalCache/classes/class.ilGlobalCache.php";
 class ilCachedLanguage
 {
     protected $global_cache;
-    /**
-     * @var bool
-     */
     protected $loaded = false;
-    /**
-     * @var string
-     */
     protected $language_key = 'en';
-    /**
-     * @var array
-     */
     protected $translations = array();
-    /**
-     * @var ilCachedLanguage[]
-     */
     protected static $instances = array();
-
 
     /**
      * ilCachedLanguage constructor.
@@ -44,11 +31,13 @@ class ilCachedLanguage
         }
     }
 
+    /**
+     * Return status (active or not) of global cache
+     */
     public function isActive(): bool
     {
         return $this->global_cache->isActive();
     }
-
 
     protected function readFromCache(): void
     {
@@ -61,7 +50,9 @@ class ilCachedLanguage
         }
     }
 
-
+    /**
+     * Write to global cache
+     */
     public function writeToCache(): void
     {
         if ($this->global_cache->isActive()) {
@@ -124,11 +115,17 @@ class ilCachedLanguage
         $this->writeToCache();
     }
 
+    /**
+     * Set language key
+     */
     public function setLanguageKey(string $language_key): void
     {
         $this->language_key = $language_key;
     }
 
+    /**
+     * Return language key
+     */
     public function getLanguageKey(): string
     {
         return $this->language_key;
@@ -144,11 +141,17 @@ class ilCachedLanguage
         return $this->loaded;
     }
 
+    /**
+     * Set translations
+     */
     public function setTranslations(array $translations): void
     {
         $this->translations = $translations;
     }
 
+    /**
+     * Return translations as array
+     */
     public function getTranslations(): array
     {
         return $this->translations;
