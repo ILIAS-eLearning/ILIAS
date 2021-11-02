@@ -66,6 +66,8 @@ class ilSetupLanguage extends ilLanguage
      * gets the text for a given topic
      *
      * if the topic is not in the list, the topic itself with "-" will be returned
+     *
+     * $a_topic    topic
      */
     public function txt(string $a_topic, string $a_default_lang_fallback_mod = ''): string
     {
@@ -96,7 +98,7 @@ class ilSetupLanguage extends ilLanguage
     /**
      * install languages
      *
-     * $a_lang_keys is array with lang_keys of languages to install
+     * $a_lang_keys    array with lang_keys of languages to install
      */
     public function installLanguages(array $a_lang_keys, array $a_local_keys): array
     {
@@ -260,6 +262,7 @@ class ilSetupLanguage extends ilLanguage
      *
      * $a_lang_key     international language key (2 digits)
      * $scope          empty (global) or "local"
+     * $info_text      message about results of check OR "1" if all checks successfully passed
      */
     protected function checkLanguage(string $a_lang_key, string $scope = ''): bool
     {
@@ -319,8 +322,9 @@ class ilSetupLanguage extends ilLanguage
      * If found it returns the plain language information; otherwise returns false.
      *
      * $content    expect an ILIAS lang-file
+     *
      */
-    protected function cut_header(array $content): array
+    protected function cut_header(array $content)
     {
         foreach ($content as $key => $val) {
             if (trim($val) == "<!-- language file start -->") {

@@ -25,71 +25,19 @@
  */
 class ilLanguage
 {
-    /**
-     * ilias object
-     */
+
     protected $ilias;
-
-    /**
-     * text elements
-     */
     protected $text;
-
-    /**
-     * indicator for the system language
-     * this language must not be deleted
-     */
     protected $lang_default;
-
-    /**
-     * language that is in use
-     * by current user
-     * this language must not be deleted
-     */
     protected $lang_user;
-
-    /**
-     * path to language files
-     * relative path is taken from ini file
-     * and added to absolute path of ilias
-     */
     protected $lang_path;
-
-    /**
-     * language key in use by current user
-     */
     protected $lang_key;
-
-    /**
-     * language full name in that language current in use
-     */
     protected $lang_name;
-
-    /**
-     * separator value between module,identivier & value
-     */
     protected $separator = "#:#";
-    
-    /**
-     * separator value between the content and the comment of the lang entry
-     */
     protected $comment_separator = "###";
-
-    /**
-     * array of loaded languages
-     */
     protected $loaded_modules;
-
-    /**
-     * array of used topics
-     */
     protected static $used_topics = array();
-
-    /**
-     * array of used modules
-     */
     protected static $used_modules = array();
-
     protected $cached_modules = array();
     protected $map_modules_txt = array();
     protected $usage_log_enabled = false;
@@ -101,7 +49,7 @@ class ilLanguage
      * the text array is two-dimensional. First dimension is the language.
      * Second dimension is the languagetopic. Content is the translation.
      *
-     * $a_lang_key		languagecode (two characters), e.g. "de", "en", "in"
+     * $a_lang_key		language code (two characters), e.g. "de", "en", "in"
      * Return false if reading failed, otherwise true
      */
     public function __construct(string $a_lang_key)
@@ -484,7 +432,7 @@ class ilLanguage
      * Transfer text to Javascript
      *
      * @param $a_lang_key language key or array of language keys
-     * @param $a_tpl template
+     * @param $a_tpl ilGlobalTemplateInterface
      */
     public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null): void
     {
@@ -510,7 +458,7 @@ class ilLanguage
      * Transfer text to Javascript
      *
      * @param $a_map array of key value pairs (key is text string, value is content)
-     * @param $a_tpl template
+     * @param $a_tpl ilGlobalTemplateInterface
      */
     public function toJSMap(array $a_map, ilGlobalTemplateInterface $a_tpl = null): void
     {

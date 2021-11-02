@@ -32,13 +32,16 @@ class ilCachedLanguage
     }
 
     /**
-     * Return status (active or not) of global cache
+     * Return whether the global cache is active
      */
     public function isActive(): bool
     {
         return $this->global_cache->isActive();
     }
 
+    /**
+     * Read from cache
+     */
     protected function readFromCache(): void
     {
         if ($this->global_cache->isActive()) {
@@ -74,6 +77,9 @@ class ilCachedLanguage
 		}
 	}
 
+    /**
+     * Read data from table lng_module from DB
+     */
 	protected function readFromDB(): void
     {
         global $DIC;
@@ -91,12 +97,6 @@ class ilCachedLanguage
         $this->setTranslations($translations);
     }
 
-
-    /**
-     * @param $key
-     *
-     * @return ilCachedLanguage
-     */
     public static function getInstance($key): self
     {
         if (!isset(self::$instances[$key])) {
