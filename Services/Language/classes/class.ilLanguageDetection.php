@@ -11,23 +11,19 @@ require_once 'Services/Language/classes/class.ilLanguageDetectorFactory.php';
  */
 class ilLanguageDetection
 {
-    /**
-     * @var ilLanguageDetectorFactory
-     */
+
     protected $factory;
 
-    /**
-     *
-     */
+
     public function __construct()
     {
         $this->factory = new ilLanguageDetectorFactory();
     }
 
     /**
-     * @return string
+     * Return detected language
      */
-    public function detect()
+    public function detect(): string
     {
         global $DIC;
         $ilLog = $DIC->logger()->lang();
