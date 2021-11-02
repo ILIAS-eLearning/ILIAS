@@ -55,7 +55,7 @@ class ComponentEntry extends AbstractEntryPart implements JsonSerializable
         if (array_key_exists('description', $entry_data)) {
             $this->setDescription(new ComponentEntryDescription($entry_data['description']));
         }
-        if (array_key_exists('rules', $entry_data)) {
+        if (array_key_exists('rules', $entry_data) && is_array($entry_data['rules'])) {
             $this->setRules(new ComponentEntryRules($entry_data['rules']));
         }
 

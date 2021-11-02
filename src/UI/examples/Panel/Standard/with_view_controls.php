@@ -26,7 +26,7 @@ function with_view_controls()
     $sortation = $factory->viewControl()->sortation($sort_options)->withTargetURL($url, "");
 
     $parameter_name = 'page';
-    $current_page = (int) (array_key_exists($parameter_name, $_GET) ? $_GET[$parameter_name] : 0);
+    $current_page = (int) (array_key_exists($parameter_name, array($_GET)) ? $_GET[$parameter_name] : 0);
 
     $pagination = $factory->viewControl()->pagination()
         ->withTargetURL($url, $parameter_name)

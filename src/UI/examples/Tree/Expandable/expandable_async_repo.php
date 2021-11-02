@@ -2,7 +2,7 @@
 
 namespace ILIAS\UI\examples\Tree\Expandable;
 
-if (key_exists('async_ref', $_GET) && $_GET['async_ref']) {
+if (key_exists('async_ref', array($_GET)) && $_GET['async_ref']) {
     $ref = (int) $_GET['async_ref'];
     expandable_async_repo($ref);
     exit();
