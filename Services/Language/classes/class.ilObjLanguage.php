@@ -25,7 +25,6 @@ class ilObjLanguage extends ilObject
     public $lang_default;
     public $lang_user;
     public $lang_path;
-
     public $key;
     public $status;
 

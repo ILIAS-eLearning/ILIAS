@@ -17,7 +17,7 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Constructor
     */
-    public function __construct($a_id = 0, $a_call_by_reference = false)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = false)
     {
         parent::__construct($a_id, $a_call_by_reference);
     }
@@ -35,9 +35,9 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Set the local status of the language
     *
-    * @param   boolean       local status (true/false)
+    * $a_local       local status (true/false)
     */
-    public function setLocal($a_local = true)
+    public function setLocal(bool $a_local = true): void
     {
         if ($this->isInstalled()) {
             if ($a_local == true) {
@@ -53,7 +53,7 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Get the full language description
     *
-    * @return   string       description
+    * Return       description
     */
     public function getLongDescription() : string
     {
@@ -62,10 +62,9 @@ class ilObjLanguageExt extends ilObjLanguage
 
 
     /**
-     * Get the path for language data written by ILIAS
-     * @return string
+     * Return the path for language data written by ILIAS
      */
-    public function getDataPath()
+    public function getDataPath(): string
     {
         if (!is_dir(CLIENT_DATA_DIR . '/lang_data')) {
             ilUtil::makeDir(CLIENT_DATA_DIR . '/lang_data');
@@ -76,9 +75,9 @@ class ilObjLanguageExt extends ilObjLanguage
     /**
     * Get the language files path
     *
-    * @return   string       path of language files folder
+    * Return path of language files folder
     */
-    public function getLangPath()
+    public function getLangPath(): string
     {
         return $this->lang_path;
     }
