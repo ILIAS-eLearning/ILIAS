@@ -1,14 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/** Copyright (c) 2020 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE **/
 
 use ILIAS\Setup;
 
 class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    /**
-     * @var \ilSetupLanguage
-     */
     protected $il_setup_language;
 
     public function __construct(
@@ -18,8 +15,10 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         parent::__construct($storage);
         $this->il_setup_language = $il_setup_language;
     }
-        
 
+    /**
+     * @inheritDoc
+     */
     public function getTentativePreconditions(Setup\Environment $environment) : array
     {
         return [
@@ -28,6 +27,9 @@ class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function collectFrom(Setup\Environment $environment, Setup\Metrics\Storage $storage) : void
     {
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
