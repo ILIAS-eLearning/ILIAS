@@ -336,8 +336,7 @@ class ilForumXMLParser extends ilSaxParser
             case 'Closed':
                 $propertyValue['Closed'] = $this->cdata;
 
-                if ($this->entity === 'thread' && $this->lastHandledForumId && $this->threadArray !== []
-                ) {
+                if ($this->entity === 'thread' && $this->lastHandledForumId && $this->threadArray !== []) {
                     $this->forumThread = new ilForumTopic();
                     $this->forumThread->setId((int) ($this->threadArray['Id'] ?? 0));
                     $this->forumThread->setForumId($this->lastHandledForumId);
@@ -623,79 +622,79 @@ class ilForumXMLParser extends ilSaxParser
      */
     private function getUserIdAndAlias(int $imp_usr_id, string $imp_usr_alias = '') : array
     {
-        if ($imp_usr_id > 0) {
-            $newUsrId = -1;
-
-            if ($this->import_install_id != IL_INST_ID && IL_INST_ID > 0) {
-                // Different installations
-                if (isset($this->user_id_mapping[$imp_usr_id])) {
-                    return $this->user_id_mapping[$imp_usr_id];
-                } else {
-                    $res = $this->getIdAndAliasArray($imp_usr_id, 'import');
-
-                    if ($res !== []) {
-                        $this->user_id_mapping[$imp_usr_id] = $res;
-
-                        return $res;
-                    } else {
-                        $return_value = $this->getAnonymousArray();
-                        $this->user_id_mapping[$imp_usr_id] = $return_value;
-
-                        return $return_value;
-                    }
-                }
-            } elseif ($this->import_install_id == IL_INST_ID && IL_INST_ID == 0) {
-                // Eventually different installations. We cannot determine it.
-                if (isset($this->user_id_mapping[$imp_usr_id])) {
-                    return $this->user_id_mapping[$imp_usr_id];
-                } else {
-                    $res = $this->getIdAndAliasArray($imp_usr_id, 'import');
-
-                    if ($res) {
-                        $this->user_id_mapping[$imp_usr_id] = $res;
-
-                        return $res;
-                    } elseif (isset($this->user_id_mapping[$imp_usr_id])) {
-                        // Same installation
-                        return $this->user_id_mapping[$imp_usr_id];
-                    } else {
-                        // Same installation
-                        $res = $this->getIdAndAliasArray($imp_usr_id, 'user');
-                        if ($res !== []) {
-                            $this->user_id_mapping[$imp_usr_id] = $res;
-
-                            return $res;
-                        } else {
-                            $return_value = $this->getAnonymousArray();
-                            $this->user_id_mapping[$imp_usr_id] = $return_value;
-
-                            return $return_value;
-                        }
-                    }
-                }
-            } elseif (isset($this->user_id_mapping[$imp_usr_id])) {
-                // Same installation
-                return $this->user_id_mapping[$imp_usr_id];
-            } else {
-                // Same installation
-                $res = $this->getIdAndAliasArray($imp_usr_id, 'user');
-                if ($res !== []) {
-                    $this->user_id_mapping[$imp_usr_id] = $res;
-
-                    return $res;
-                } else {
-                    $return_value = $this->getAnonymousArray();
-                    $this->user_id_mapping[$imp_usr_id] = $return_value;
-
-                    return $return_value;
-                }
-            }
-        } else {
+        if (!($imp_usr_id > 0)) {
             return [
                 'usr_id' => $imp_usr_id,
                 'usr_alias' => $imp_usr_alias
             ];
         }
+
+        $newUsrId = -1;
+
+        if ($this->import_install_id != IL_INST_ID && IL_INST_ID > 0) {
+            // Different installations
+            if (isset($this->user_id_mapping[$imp_usr_id])) {
+                return $this->user_id_mapping[$imp_usr_id];
+            }
+
+            $res = $this->getIdAndAliasArray($imp_usr_id, 'import');
+            if ($res !== []) {
+                $this->user_id_mapping[$imp_usr_id] = $res;
+
+                return $res;
+            }
+
+            $return_value = $this->getAnonymousArray();
+            $this->user_id_mapping[$imp_usr_id] = $return_value;
+
+            return $return_value;
+        }
+
+        if ($this->import_install_id == IL_INST_ID && IL_INST_ID == 0) {
+            // Eventually different installations. We cannot determine it.
+            if (isset($this->user_id_mapping[$imp_usr_id])) {
+                return $this->user_id_mapping[$imp_usr_id];
+            }
+
+            $res = $this->getIdAndAliasArray($imp_usr_id, 'import');
+            if ($res !== []) {
+                $this->user_id_mapping[$imp_usr_id] = $res;
+
+                return $res;
+            }
+
+            if (isset($this->user_id_mapping[$imp_usr_id])) {
+                return $this->user_id_mapping[$imp_usr_id];
+            }
+
+            $res = $this->getIdAndAliasArray($imp_usr_id, 'user');
+            if ($res !== []) {
+                $this->user_id_mapping[$imp_usr_id] = $res;
+
+                return $res;
+            }
+
+            $return_value = $this->getAnonymousArray();
+            $this->user_id_mapping[$imp_usr_id] = $return_value;
+
+            return $return_value;
+        }
+
+        if (isset($this->user_id_mapping[$imp_usr_id])) {
+            return $this->user_id_mapping[$imp_usr_id];
+        }
+
+        $res = $this->getIdAndAliasArray($imp_usr_id, 'user');
+        if ($res !== []) {
+            $this->user_id_mapping[$imp_usr_id] = $res;
+
+            return $res;
+        }
+
+        $return_value = $this->getAnonymousArray();
+        $this->user_id_mapping[$imp_usr_id] = $return_value;
+
+        return $return_value;
     }
 
     public function setImportInstallId($id) : void
