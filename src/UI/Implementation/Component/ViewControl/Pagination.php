@@ -277,8 +277,11 @@ class Pagination implements PaginationInterface
         return self::DEFAULT_DROPDOWN_LABEL;
     }
 
-    public function getRange() : Range
+    public function getRange() : ?Range
     {
+        if ($this->getPageLength() < 1) {
+            return null;
+        }
         $f = new \ILIAS\Data\Factory();
         return $f->range($this->getOffset(), $this->getPageLength());
     }

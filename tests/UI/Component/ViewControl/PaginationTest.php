@@ -292,4 +292,18 @@ EOT;
         $html = $this->getDefaultRenderer()->render($p);
         $this->assertHTMLEquals($expected_html, $html);
     }
+
+    public function testGetRangeOnNull()
+    {
+        $page_size = 0;
+        $current_page = 1;
+        $range = null;
+
+        $pagination = $this->getFactory()->pagination()
+            ->withCurrentPage($current_page)
+            ->withPageSize($page_size);
+
+        $this->assertNull($pagination->getRange());
+        $this->assertEquals($range, $pagination->getRange());
+    }
 }
