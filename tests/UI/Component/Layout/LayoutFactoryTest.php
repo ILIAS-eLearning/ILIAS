@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once 'tests/UI/AbstractFactoryTest.php';
-
-use \ILIAS\UI\Component as C;
 
 /**
  * Tests on factory implementation for layout
@@ -11,11 +9,11 @@ use \ILIAS\UI\Component as C;
  */
 class LayoutFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array(
-            "page" => array(
-                    "context" => false,
-                    "rules" => false
-            )
-    );
-    public $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';
+    public array $kitchensink_info_settings = [
+        "page" => [
+                "context" => false,
+                "rules" => false
+        ]
+    ];
+    public string $factory_title = 'ILIAS\\UI\\Component\\Layout\\Factory';
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -8,6 +8,7 @@ require_once(__DIR__ . "/InputTest.php");
 
 use ILIAS\Data;
 use ILIAS\UI\Component\Input\Field;
+use ILIAS\UI\Implementation\Component as I;
 use ILIAS\UI\Implementation\Component\Input\Field\FieldRendererFactory;
 use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\UI\Implementation\Component\Symbol\Glyph\GlyphRendererFactory;
@@ -16,19 +17,18 @@ use ILIAS\UI\Implementation\Render\FSLoader;
 use ILIAS\UI\Implementation\Render\JavaScriptBinding;
 use ILIAS\UI\Implementation\Render\LoaderCachingWrapper;
 use ILIAS\UI\Implementation\Render\LoaderResourceRegistryWrapper;
+use ILIAS\UI\Component\Button\Factory;
 
 class WithSomeButtonNoUIFactory extends NoUIFactory
 {
-    protected $button_factory;
+    protected Factory $button_factory;
 
-
-    public function __construct($button_factory)
+    public function __construct(Factory $button_factory)
     {
         $this->button_factory = $button_factory;
     }
 
-
-    public function button()
+    public function button() : Factory
     {
         return $this->button_factory;
     }
@@ -36,18 +36,20 @@ class WithSomeButtonNoUIFactory extends NoUIFactory
 
 class FileInputTest extends ILIAS_UI_TestBase
 {
+    protected DefNamesource $name_source;
+
     public function setUp() : void
     {
         $this->name_source = new DefNamesource();
     }
 
 
-    protected function buildFactory()
+    protected function buildFactory() : I\Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
+        $language = $this->createMock(ilLanguage::class);
 
-        return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+        return new I\Input\Field\Factory(
             new SignalGenerator(),
             $df,
             new ILIAS\Refinery\Factory($df, $language),
@@ -64,18 +66,15 @@ class FileInputTest extends ILIAS_UI_TestBase
                 return 'file_id';
             }
 
-
             public function getUploadURL() : string
             {
                 return 'uploadurl';
             }
 
-
             public function getFileRemovalURL() : string
             {
                 return 'removalurl';
             }
-
 
             /**
              * @inheritDoc
@@ -84,7 +83,6 @@ class FileInputTest extends ILIAS_UI_TestBase
             {
                 return 'infourl';
             }
-
 
             /**
              * @inheritDoc
@@ -97,7 +95,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->buildFactory();
 
@@ -108,12 +106,11 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render()
+    public function test_render() : void
     {
         $f = $this->buildFactory();
         $label = "label";
         $byline = "byline";
-        $name = "name_0";
         $text = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
@@ -148,12 +145,11 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_error()
+    public function test_render_error() : void
     {
         $f = $this->buildFactory();
         $label = "label";
         $byline = "byline";
-        $name = "name_0";
         $error = "an_error";
         $text = $f->file($this->getUploadHandler(), $label, $byline)->withNameFrom($this->name_source)->withError($error);
 
@@ -194,11 +190,10 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_no_byline()
+    public function test_render_no_byline() : void
     {
         $f = $this->buildFactory();
         $label = "label";
-        $name = "name_0";
         $text = $f->file($this->getUploadHandler(), $label)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
@@ -236,12 +231,11 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_value()
+    public function test_render_value() : void
     {
         $f = $this->buildFactory();
         $label = "label";
         $value = ["value"];
-        $name = "name_0";
         $text = $f->file($this->getUploadHandler(), $label)->withValue($value)->withNameFrom($this->name_source);
 
         $r = $this->getDefaultRenderer();
@@ -279,7 +273,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_required()
+    public function test_render_required() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -320,7 +314,7 @@ class FileInputTest extends ILIAS_UI_TestBase
     }
 
 
-    public function test_render_disabled()
+    public function test_render_disabled() : void
     {
         $f = $this->buildFactory();
         $label = "label";
@@ -361,19 +355,21 @@ class FileInputTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    protected function buildButtonFactory()
+    protected function buildButtonFactory() : I\Button\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Button\Factory;
+        return new I\Button\Factory;
     }
 
 
-    public function getUIFactory()
+    public function getUIFactory() : WithSomeButtonNoUIFactory
     {
         return new WithSomeButtonNoUIFactory($this->buildButtonFactory());
     }
 
-    public function getDefaultRenderer(JavaScriptBinding $js_binding = null, $with_stub_renderings = [])
-    {
+    public function getDefaultRenderer(
+        JavaScriptBinding $js_binding = null,
+        array $with_stub_renderings = []
+    ) : TestDefaultRenderer {
         $ui_factory = $this->getUIFactory();
         $tpl_factory = $this->getTemplateFactory();
         $resource_registry = $this->getResourceRegistry();

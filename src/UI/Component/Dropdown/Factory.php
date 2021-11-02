@@ -1,8 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Dropdown;
+
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Divider\Horizontal;
+use ILIAS\UI\Component\Link\Standard;
 
 interface Factory
 {
@@ -21,8 +25,8 @@ interface Factory
      *          Standard Dropdown MUST be used if there is no good reason using
      *          another instance.
      * ---
-     * @param array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal|\ILIAS\UI\Component\Link\Standard> array of action items
+     * @param array<Shy|Horizontal|Standard> array of action items
      * @return \ILIAS\UI\Component\Dropdown\Standard
      */
-    public function standard($items);
+    public function standard(array $items) : \ILIAS\UI\Component\Dropdown\Standard;
 }

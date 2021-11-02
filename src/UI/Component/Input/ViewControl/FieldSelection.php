@@ -5,6 +5,8 @@
 namespace ILIAS\UI\Component\Input\ViewControl;
 
 use ILIAS\UI\Component\Input\ViewControl\ViewControl as BaseControl;
+use ILIAS\UI\Component\Input\Field\Input;
+use ILIAS\UI\Component\Signal;
 
 /**
  * This describes a Field Selection View Control
@@ -16,11 +18,11 @@ interface FieldSelection extends BaseControl
 
     public function getDropdownLabel() : string;
     public function getButtonLabel() : string;
-    public function getInput() : \ILIAS\UI\Component\Input\Field\Input;
+    public function getInput() : Input;
 
     /**
      * This is an internal signal, used to submit the current choice
      */
-    public function getSubmissionTrigger() : \ILIAS\UI\Component\Signal;
+    public function getSubmissionTrigger() : Signal;
     public function withResetSignals() : FieldSelection;
 }

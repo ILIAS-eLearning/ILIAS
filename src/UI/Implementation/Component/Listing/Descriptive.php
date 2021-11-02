@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -15,14 +15,8 @@ class Descriptive implements C\Listing\Descriptive
 {
     use ComponentHelper;
 
-    /**
-     * @var	array
-     */
-    private $items;
+    private array $items;
 
-    /**
-     * @inheritdoc
-     */
     public function __construct(array $items)
     {
         $this->checkArgList(
@@ -42,7 +36,7 @@ class Descriptive implements C\Listing\Descriptive
     /**
      * @inheritdoc
      */
-    public function withItems(array $items)
+    public function withItems(array $items) : C\Listing\Descriptive
     {
         $this->checkArgList(
             "Descriptive List items",
@@ -63,7 +57,7 @@ class Descriptive implements C\Listing\Descriptive
     /**
      * @inheritdoc
      */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }

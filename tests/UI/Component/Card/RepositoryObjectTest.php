@@ -1,12 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation\Component\Card\Factory;
 
 /**
  * Test on Repository Object card implementation.
@@ -14,7 +15,7 @@ use \ILIAS\UI\Implementation as I;
 class RepositoryObjectTest extends ILIAS_UI_TestBase
 {
     /**
-     * @return \ILIAS\UI\Implementation\Factory
+     * @return NoUIFactory
      */
     public function getFactory()
     {
@@ -27,16 +28,16 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
             {
                 $this->mocks = $mocks;
             }
-            public function legacy($content)
+            public function legacy($content) : C\Legacy\Legacy
             {
                 $f = new I\Component\Legacy\Factory(new I\Component\SignalGenerator());
                 return $f->legacy($content);
             }
-            public function button()
+            public function button() : C\Button\Factory
             {
                 return $this->mocks['button'];
             }
-            public function divider()
+            public function divider() : C\Divider\Factory
             {
                 return $this->mocks['divider'];
             }
@@ -44,19 +45,20 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
             {
                 return new I\Component\Symbol\Factory(
                     new I\Component\Symbol\Icon\Factory(),
-                    new I\Component\Symbol\Glyph\Factory()
+                    new I\Component\Symbol\Glyph\Factory(),
+                    new I\Component\Symbol\Avatar\Factory()
                 );
             }
         };
         return $factory;
     }
 
-    private function getCardFactory()
+    private function getCardFactory() : Factory
     {
-        return new \ILIAS\UI\Implementation\Component\Card\Factory();
+        return new Factory();
     }
 
-    private function getBaseCard()
+    private function getBaseCard() : C\Card\RepositoryObject
     {
         $cf = $this->getCardFactory();
         $image = new I\Component\Image\Image("standard", "src", "alt");
@@ -64,12 +66,12 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         return $cf->repositoryObject("Card Title", $image);
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Card\\RepositoryObject", $this->getBaseCard());
     }
 
-    public function test_with_object_icon()
+    public function test_with_object_icon() : void
     {
         $icon = new I\Component\Symbol\Icon\Standard("crs", 'Course', 'medium', false);
         $card = $this->getBaseCard();
@@ -78,7 +80,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $this->assertEquals($card->getObjectIcon(), $icon);
     }
 
-    public function test_with_progress()
+    public function test_with_progress() : void
     {
         $progressmeter = new I\Component\Chart\ProgressMeter\Mini(100, 70);
         $card = $this->getBaseCard();
@@ -88,7 +90,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $this->assertEquals($progressmeter, $card->getProgress());
     }
 
-    public function test_with_certificate_icon()
+    public function test_with_certificate_icon() : void
     {
         $card = $this->getBaseCard();
         $card_with_cert_true = $card->withCertificateIcon(true);
@@ -99,7 +101,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $this->assertFalse($card_with_cert_false->getCertificateIcon());
     }
 
-    public function test_with_actions()
+    public function test_with_actions() : void
     {
         $f = $this->getFactory();
         $items = array(
@@ -117,7 +119,7 @@ class RepositoryObjectTest extends ILIAS_UI_TestBase
         $this->assertEquals($card->getActions(), $dropdown);
     }
 
-    public function test_render_with_object_icon()
+    public function test_render_with_object_icon() : void
     {
         $r = $this->getDefaultRenderer();
 
@@ -153,7 +155,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_certificate_icon()
+    public function test_render_with_certificate_icon() : void
     {
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();
@@ -189,7 +191,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_progressmeter()
+    public function test_render_with_progressmeter() : void
     {
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();
@@ -235,7 +237,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_actions()
+    public function test_render_with_actions() : void
     {
         $r = $this->getDefaultRenderer();
         $c = $this->getBaseCard();

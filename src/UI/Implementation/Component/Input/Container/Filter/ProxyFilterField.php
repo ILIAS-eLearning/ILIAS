@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Thomas Famula <famula@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -23,7 +23,7 @@ class ProxyFilterField implements C\Component, C\JavaScriptBindable, C\Clickable
     /**
      * @inheritdoc
      */
-    public function withOnClick(Signal $signal)
+    public function withOnClick(Signal $signal) : C\Clickable
     {
         return $this->withTriggeredSignal($signal, 'click');
     }
@@ -31,7 +31,7 @@ class ProxyFilterField implements C\Component, C\JavaScriptBindable, C\Clickable
     /**
      * @inheritdoc
      */
-    public function appendOnClick(Signal $signal)
+    public function appendOnClick(Signal $signal) : C\Clickable
     {
         return $this->appendTriggeredSignal($signal, 'click');
     }

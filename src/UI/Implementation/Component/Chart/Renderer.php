@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -13,7 +13,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
@@ -24,7 +24,7 @@ class Renderer extends AbstractComponentRenderer
             return "";
         }
 
-        $width = str_replace(",", ".", round(100 / count($items), 5));
+        $width = str_replace(",", ".", (string) round(100 / count($items), 5));
 
         foreach ($component->getItems() as $txt => $active) {
             if ($active) {
@@ -46,7 +46,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(Component\Chart\ScaleBar::class);
     }

@@ -1,4 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+
+namespace ILIAS\UI\Component\Dropzone;
+
 /**
  * Interface Factory
  *
@@ -8,12 +11,8 @@
  *
  * @package ILIAS\UI\Component\Dropzone
  */
-
-namespace ILIAS\UI\Component\Dropzone;
-
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -34,8 +33,7 @@ interface Factory
      *       There MUST be alternative ways in the system to upload the files due to
      *       the limited accessibility of file dropzones.
      * ---
-     *
      * @return \ILIAS\UI\Component\Dropzone\File\Factory
      **/
-    public function file();
+    public function file() : File\Factory;
 }

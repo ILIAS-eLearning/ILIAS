@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -16,10 +16,9 @@ class Report extends Panel implements C\Panel\Report
     use ComponentHelper;
 
     /**
-     * @param string $title
-     * @param C\Panel\Sub[] | C\Panel\Sub $content
+     * @param C\Panel\Sub[]|C\Panel\Sub $content
      */
-    public function __construct($title, $content)
+    public function __construct(string $title, $content)
     {
         $types = [C\Panel\Sub::class];
         $content = $this->toArray($content);

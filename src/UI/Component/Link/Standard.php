@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -11,8 +11,6 @@ interface Standard extends Link
 {
     /**
      * Get the label of the link
-     *
-     * @return	string
      */
-    public function getLabel();
+    public function getLabel() : string;
 }

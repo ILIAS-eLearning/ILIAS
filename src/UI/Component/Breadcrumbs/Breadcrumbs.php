@@ -1,27 +1,27 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Breadcrumbs;
+
+use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Link\Standard;
 
 /**
  * Interface for Breadcrumbs
  * @package ILIAS\UI\Component\Breadcrumbs
  */
-interface Breadcrumbs extends \ILIAS\UI\Component\Component
+interface Breadcrumbs extends Component
 {
-
     /**
      * Get all crumbs.
      *
-     * @return 	\ILIAS\UI\Component\Link\Standard[]
+     * @return 	Standard[]
      */
-    public function getItems();
+    public function getItems() : array;
 
     /**
-     * Append an crumb-entry to the bar.
-     *
-     * @param 	\ILIAS\UI\Component\Link\Standard 	$crumb
-     * @return 	Breadcrumbs
+     * Append a crumb-entry to the bar.
      */
-    public function withAppendedItem($crumb);
+    public function withAppendedItem(Standard $crumb) : Breadcrumbs;
 }
