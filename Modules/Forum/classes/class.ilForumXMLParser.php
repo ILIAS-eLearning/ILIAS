@@ -629,8 +629,6 @@ class ilForumXMLParser extends ilSaxParser
             ];
         }
 
-        $newUsrId = -1;
-
         if ($this->import_install_id != IL_INST_ID && IL_INST_ID > 0) {
             // Different installations
             if (isset($this->user_id_mapping[$imp_usr_id])) {
