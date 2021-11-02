@@ -1,5 +1,5 @@
-<?php
-/** Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE **/
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "Services/Language/interfaces/interface.ilLanguageDetector.php";
 

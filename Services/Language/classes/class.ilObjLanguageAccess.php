@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-20014 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -16,10 +16,6 @@
 */
 class ilObjLanguageAccess
 {
-    /**
-     * Cached result of permission check for page translation
-     * @var bool
-     */
     protected static $cached_check_translate;
 
 
@@ -31,9 +27,9 @@ class ilObjLanguageAccess
     * - The user must have read and write permissions to the language folder
     *
     * @access   static
-    * @return   boolean     translation possible (true/false)
+    * Return whether translation is possible (true/false)
     */
-    public static function _checkTranslate()
+    public static function _checkTranslate(): bool
     {
         global $DIC;
         $lng = $DIC->language();
@@ -65,9 +61,9 @@ class ilObjLanguageAccess
     * - The user must have read and write permissions to the language folder
     *
     * @access   static
-    * @return   boolean     maintenance possible (true/false)
+    * Return whether maintenance is possible (true/false)
     */
-    public static function _checkMaintenance()
+    public static function _checkMaintenance(): bool
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -85,9 +81,9 @@ class ilObjLanguageAccess
     /**
     * Lookup the ref_id of the global language folder
     *
-    * @return   int     	language folder ref_id
+    * Return language folder ref_id
     */
-    public static function _lookupLangFolderRefId()
+    public static function _lookupLangFolderRefId(): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -103,10 +99,10 @@ class ilObjLanguageAccess
     /**
     * Lookup the object ID for a language key
     *
-    * @param    string      language key
-    * @param    integer     language object id
+    * $a_key     language key
+    * Return     language object id
     */
-    public static function _lookupId($a_key)
+    public static function _lookupId(string $a_key): int
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -123,9 +119,9 @@ class ilObjLanguageAccess
     /**
      * Get the link to translate the current page
      *
-     * @return  string  translation link
+     * Return translation link
      */
-    public static function _getTranslationLink()
+    public static function _getTranslationLink(): string
     {
         // ref id must be given to prevent params being deleted by ilAdministrtionGUI
         return "ilias.php"
@@ -157,7 +153,7 @@ class ilObjLanguageAccess
      * Store the collected language variable usages in the user session
      * This should be called as late as possible in a request
      */
-    public static function _saveUsages()
+    public static function _saveUsages(): void
     {
         global $DIC;
         $lng = $DIC->language();
@@ -171,9 +167,9 @@ class ilObjLanguageAccess
     /**
      * Get the stored modules from the user session
      *
-     * @return array    list of module names
+     * Return list of module names
      */
-    public static function _getSavedModules()
+    public static function _getSavedModules(): array
     {
         $saved = $_SESSION['lang_ext_maintenance']['used_modules'];
         return is_array($saved) ? $saved : array();
@@ -182,9 +178,9 @@ class ilObjLanguageAccess
     /**
      * Get the stored topics from the user session
      *
-     * @return array    list of module names
+     * Return list of module names
      */
-    public static function _getSavedTopics()
+    public static function _getSavedTopics(): array
     {
         $saved = $_SESSION['lang_ext_maintenance']['used_topics'];
         return is_array($saved) ? $saved : array();

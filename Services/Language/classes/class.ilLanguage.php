@@ -1,5 +1,5 @@
-<?php
-/** Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE **/
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
 /**
@@ -25,17 +25,16 @@
  */
 class ilLanguage
 {
-
-    protected $ilias;
-    protected $text;
-    protected $lang_default;
-    protected $lang_user;
-    protected $lang_path;
-    protected $lang_key;
-    protected $lang_name;
-    protected $separator = "#:#";
-    protected $comment_separator = "###";
-    protected $loaded_modules;
+    public $ilias;
+    public $text;
+    public $lang_default;
+    public $lang_user;
+    public $lang_path;
+    public $lang_key;
+    public $lang_name;
+    public $separator = "#:#";
+    public $comment_separator = "###";
+    public $loaded_modules;
     protected static $used_topics = array();
     protected static $used_modules = array();
     protected $cached_modules = array();

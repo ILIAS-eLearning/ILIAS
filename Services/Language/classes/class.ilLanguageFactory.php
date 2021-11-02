@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -38,10 +38,8 @@ class ilLanguageFactory
      *
      * @access public
      * @static
-     * @param string $a_lang_key
-     * @return ilLanguage
      */
-    public static function _getLanguage($a_lang_key = '')
+    public static function _getLanguage(string $a_lang_key = ''): ilLanguage
     {
         global $DIC;
         $lng = $DIC->language();
@@ -61,11 +59,9 @@ class ilLanguageFactory
     
     /**
      * Get language object of user
-     * @param int $a_usr_id
-     * @return ilLanguage
      * @static
      */
-    public static function _getLanguageOfUser($a_usr_id)
+    public static function _getLanguageOfUser(int $a_usr_id): ilLanguage
     {
         return self::_getLanguage(ilObjUser::_lookupLanguage($a_usr_id));
     }

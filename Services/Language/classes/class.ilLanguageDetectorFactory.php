@@ -11,24 +11,11 @@ class ilLanguageDetectorFactory
     const DEFAULT_DETECTOR = 1;
     const HTTP_REQUEST_DETECTOR = 2;
 
-    /**
-     * @var ilIniFile
-     */
+
     protected $client_ini;
-
-    /**
-     * @var array
-     */
     protected $request_information = array();
-
-    /**
-     * @var $ilSettings
-     */
     protected $settings;
 
-    /**
-     *
-     */
     public function __construct()
     {
         global $DIC;
@@ -38,9 +25,6 @@ class ilLanguageDetectorFactory
         $this->settings = $DIC->settings();
     }
 
-    /**
-     * @return ilLanguageDetector[]
-     */
     public function getValidInstances()
     {
         $detectors = array(
@@ -58,11 +42,9 @@ class ilLanguageDetectorFactory
     }
 
     /**
-     * @param int $type
      * @throws ilLanguageException
-     * @return ilLanguageDetector
      */
-    public function createDetectorByType($type)
+    public function createDetectorByType(int $type)
     {
         switch ($type) {
             case self::HTTP_REQUEST_DETECTOR:
