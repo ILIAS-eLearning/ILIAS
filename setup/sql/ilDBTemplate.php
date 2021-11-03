@@ -5616,6 +5616,48 @@ $fields = array (
 		,"default" => "0"
 		,"type" => "integer"
 	)
+	,"publisher_id" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"anonymous_homepage" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "1"
+		,"type" => "integer"
+	)
+	,"moveon" => array (
+		"notnull" => true
+		,"length" => 32
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"launch_parameters" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"entitlement_key" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"switch_to_review" => array (
+		"notnull" => true
+		,"length" => 1
+		,"unsigned" => false
+		,"default" => "1"
+		,"type" => "integer"
+	)
 );
 $ilDB->createTable("cmix_settings", $fields);
 
@@ -5666,6 +5708,24 @@ $fields = array (
 		,"unsigned" => false
 		,"default" => "0"
 		,"type" => "integer"
+	)
+	,"cmi5_session" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"returned_for_cmi5_session" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"cmi5_session_data" => array (
+		"notnull" => false
+		,"type" => "clob"
 	)
 );
 $ilDB->createTable("cmix_token", $fields);
@@ -5718,6 +5778,20 @@ $fields = array (
 	,"privacy_ident" => array (
 		"notnull" => true
 		,"length" => 2
+		,"unsigned" => false
+		,"default" => "0"
+		,"type" => "integer"
+	)
+	,"registration" => array (
+		"notnull" => true
+		,"length" => 255
+		,"default" => ""
+		,"fixed" => false
+		,"type" => "text"
+	)
+	,"satisfied" => array (
+		"notnull" => true
+		,"length" => 1
 		,"unsigned" => false
 		,"default" => "0"
 		,"type" => "integer"
@@ -48651,7 +48725,7 @@ $ilDB->insert("settings", array(
 'module' => array('text', 'common'), 'keyword' => array('text', 'inst_id'), 'value' => array('clob', '0')));
 
 $ilDB->insert("settings", array(
-'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '53')));
+'module' => array('text', 'common'), 'keyword' => array('text', 'db_hotfixes_7'), 'value' => array('clob', '63')));
 
 $ilDB->insert("settings", array(
 'module' => array('text', 'adve'), 'keyword' => array('text', 'autosave'), 'value' => array('clob', '30')));
@@ -54568,6 +54642,12 @@ $fields = array (
 		,"length" => 250
 		,"fixed" => false
 		,"type" => "text"
+	)
+	,"pool_ref_id" => array (
+		"notnull" => false
+		,"length" => 8
+		,"unsigned" => false
+		,"type" => "integer"
 	)
 );
 $ilDB->createTable("tst_rnd_quest_set_qpls", $fields);
