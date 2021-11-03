@@ -66,10 +66,10 @@ class ilObjLanguageExt extends ilObjLanguage
      */
     public function getDataPath(): string
     {
-        if (!is_dir(CLIENT_DATA_DIR . '/lang_data')) {
-            ilUtil::makeDir(CLIENT_DATA_DIR . '/lang_data');
+        if (!is_dir(CLIENT_DATA_DIR . "/lang_data")) {
+            ilUtil::makeDir(CLIENT_DATA_DIR . "/lang_data");
         }
-        return CLIENT_DATA_DIR . '/lang_data';
+        return CLIENT_DATA_DIR . "/lang_data";
     }
     
     /**
@@ -110,7 +110,7 @@ class ilObjLanguageExt extends ilObjLanguage
     * @param    array       list of topics
     * @return   array       module.separator.topic => value
     */
-    public function getAllValues($a_modules = array(), $a_pattern = '', $a_topics = array())
+    public function getAllValues($a_modules = array(), $a_pattern = "", $a_topics = array())
     {
         return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern);
     }
@@ -125,9 +125,9 @@ class ilObjLanguageExt extends ilObjLanguage
     * @param    array       list of topics
     * @return   array       module.separator.topic => value
     */
-    public function getChangedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
+    public function getChangedValues($a_modules = array(), $a_pattern = "", $a_topics = array())
     {
-        return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, 'changed');
+        return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, "changed");
     }
 
 
@@ -140,9 +140,9 @@ class ilObjLanguageExt extends ilObjLanguage
     * @param    array       list of topics
     * @return   array       module.separator.topic => value
     */
-    public function getUnchangedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
+    public function getUnchangedValues($a_modules = array(), $a_pattern = "", $a_topics = array())
     {
-        return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, 'unchanged');
+        return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, "unchanged");
     }
 
     /**
@@ -174,7 +174,7 @@ class ilObjLanguageExt extends ilObjLanguage
     * @param    array       list of topics
     * @return   array       module.separator.topic => value
     */
-    public function getCommentedValues($a_modules = array(), $a_pattern = '', $a_topics = array())
+    public function getCommentedValues($a_modules = array(), $a_pattern = "", $a_topics = array())
     {
         $global_file_obj = $this->getGlobalLanguageFile();
         $global_comments = $global_file_obj->getAllComments();
@@ -234,12 +234,12 @@ class ilObjLanguageExt extends ilObjLanguage
     * @param    string  	handling of existing values
     *						('keepall','keepnew','replace','delete')
     */
-    public function importLanguageFile($a_file, $a_mode_existing = 'keepnew')
+    public function importLanguageFile($a_file, $a_mode_existing = "keepnew")
     {
         global $DIC;
         $ilDB = $DIC->database();
         /** @var ilErrorHandling $ilErr */
-        $ilErr = $DIC['ilErr'];
+        $ilErr = $DIC["ilErr"];
 
         // read the new language file
         require_once "./Services/Language/classes/class.ilLanguageFile.php";
@@ -250,22 +250,22 @@ class ilObjLanguageExt extends ilObjLanguage
 
         switch ($a_mode_existing) {
             // keep all existing entries
-            case 'keepall':
+            case "keepall":
                 $to_keep = $this->getAllValues();
                 break;
 
             // keep existing online changes
-            case 'keepnew':
+            case "keepnew":
                 $to_keep = $this->getChangedValues();
                 break;
 
             // replace all existing definitions
-            case 'replace':
+            case "replace":
                 $to_keep = array();
                 break;
 
            // delete all existing entries
-            case 'delete':
+            case "delete":
                 ilObjLanguage::_deleteLangData($this->key, false);
                 $ilDB->manipulate("DELETE FROM lng_modules WHERE lang_key = " .
                     $ilDB->quote($this->key, "text"));
@@ -468,7 +468,7 @@ class ilObjLanguageExt extends ilObjLanguage
         }
 
 
-        require_once('class.ilCachedLanguage.php');
+        require_once("class.ilCachedLanguage.php");
         ilCachedLanguage::getInstance($a_lang_key)->flush();
     }
 

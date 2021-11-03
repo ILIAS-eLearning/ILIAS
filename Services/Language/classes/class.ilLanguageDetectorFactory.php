@@ -32,7 +32,7 @@ class ilLanguageDetectorFactory
         );
 
         if (
-            $this->settings->get('lang_detection') &&
+            $this->settings->get("lang_detection") &&
             ilContext::usesHTTP()
         ) {
             $detectors[] = $this->createDetectorByType(self::HTTP_REQUEST_DETECTOR);
@@ -48,15 +48,15 @@ class ilLanguageDetectorFactory
     {
         switch ($type) {
             case self::HTTP_REQUEST_DETECTOR:
-                require_once 'Services/Language/classes/class.ilHttpRequestsLanguageDetector.php';
-                return new ilHttpRequestsLanguageDetector($this->request_information['HTTP_ACCEPT_LANGUAGE']);
+                require_once "Services/Language/classes/class.ilHttpRequestsLanguageDetector.php";
+                return new ilHttpRequestsLanguageDetector($this->request_information["HTTP_ACCEPT_LANGUAGE"]);
 
             case self::DEFAULT_DETECTOR:
-                require_once 'Services/Language/classes/class.ilDefaultLanguageDetector.php';
+                require_once "Services/Language/classes/class.ilDefaultLanguageDetector.php";
                 return new ilDefaultLanguageDetector($this->client_ini);
         }
 
-        require_once 'Services/Language/exceptions/class.ilLanguageException.php';
-        throw new ilLanguageException(__METHOD__ . sprintf('Cannot create language detector instance for type %s!', $type));
+        require_once "Services/Language/exceptions/class.ilLanguageException.php";
+        throw new ilLanguageException(__METHOD__ . sprintf("Cannot create language detector instance for type %s!", $type));
     }
 }

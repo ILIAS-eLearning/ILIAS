@@ -25,7 +25,7 @@ class ilLanguagesUpdatedObjective implements Setup\Objective
     /**
      * Return installed languages as string
      */
-	protected function getInstalledLanguagesAsString()
+	protected function getInstalledLanguagesAsString(): string
 	{
 		return implode(", ", $this->il_setup_language->getInstalledLanguages());
 	}

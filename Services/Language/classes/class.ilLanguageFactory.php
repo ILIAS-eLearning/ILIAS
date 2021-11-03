@@ -48,7 +48,7 @@ class ilLanguageFactory
             if (is_object($lng)) {
                 $a_lang_key = $lng->getDefaultLanguage();
             } else {
-                $a_lang_key = 'en';
+                $a_lang_key = "en";
             }
         }
         if (isset(self::$languages[$a_lang_key])) {

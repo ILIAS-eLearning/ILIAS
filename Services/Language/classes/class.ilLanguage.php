@@ -110,7 +110,7 @@ class ilLanguage
      */
     public function getDefaultLanguage(): string
     {
-        return $this->lang_default ? $this->lang_default : 'en';
+        return $this->lang_default ? $this->lang_default : "en";
     }
 
     /**
@@ -118,11 +118,11 @@ class ilLanguage
      */
     public function getTextDirection(): string
     {
-        $rtl = array('ar', 'fa', 'ur', 'he');
+        $rtl = array("ar", "fa", "ur", "he");
         if (in_array($this->getContentLanguage(), $rtl)) {
-            return 'rtl';
+            return "rtl";
         }
-        return 'ltr';
+        return "ltr";
     }
 
     /**
@@ -328,9 +328,9 @@ class ilLanguage
         global $DIC;
         $ilDB = $DIC->database();
 
-        $query = 'SELECT obj_id FROM object_data ' . ' ' .
-        'WHERE title = ' . $ilDB->quote($a_lang_key, 'text') . ' ' .
-            'AND type = ' . $ilDB->quote('lng', 'text');
+        $query = "SELECT obj_id FROM object_data " . " " .
+        "WHERE title = " . $ilDB->quote($a_lang_key, "text") . " " .
+            "AND type = " . $ilDB->quote("lng", "text");
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -370,7 +370,7 @@ class ilLanguage
      */
     public static function getFallbackInstance()
     {
-        return new self('en');
+        return new self("en");
     }
 
     /**
@@ -380,26 +380,26 @@ class ilLanguage
     {
         global $DIC;
         $ilSetting = $DIC->settings();
-        if ($DIC->offsetExists('ilUser')) {
+        if ($DIC->offsetExists("ilUser")) {
             $ilUser = $DIC->user();
         }
 
-        if (!ilSession::get('lang') && empty($_GET['lang'])) {
+        if (!ilSession::get("lang") && empty($_GET["lang"])) {
             if (
                 $ilUser instanceof ilObjUser &&
                 (!$ilUser->getId() || $ilUser->isAnonymous())
             ) {
-                require_once 'Services/Language/classes/class.ilLanguageDetection.php';
+                require_once "Services/Language/classes/class.ilLanguageDetection.php";
                 $language_detection = new ilLanguageDetection();
                 $language = $language_detection->detect();
 
-                $ilUser->setPref('language', $language);
-                $_GET['lang'] = $language;
+                $ilUser->setPref("language", $language);
+                $_GET["lang"] = $language;
             }
         }
 
-        if (isset($_POST['change_lang_to']) && $_POST['change_lang_to'] != "") {
-            $_GET['lang'] = ilUtil::stripSlashes($_POST['change_lang_to']);
+        if (isset($_POST["change_lang_to"]) && $_POST["change_lang_to"] != "") {
+            $_GET["lang"] = ilUtil::stripSlashes($_POST["change_lang_to"]);
         }
 
         // prefer personal setting when coming from login screen
@@ -408,35 +408,34 @@ class ilLanguage
             $ilUser instanceof ilObjUser &&
             ($ilUser->getId() && !$ilUser->isAnonymous())
         ) {
-            ilSession::set('lang', $ilUser->getPref('language'));
+            ilSession::set("lang", $ilUser->getPref("language"));
         }
 
-        ilSession::set('lang', (isset($_GET['lang']) && $_GET['lang']) ? $_GET['lang'] : ilSession::get('lang'));
+        ilSession::set("lang", (isset($_GET["lang"]) && $_GET["lang"]) ? $_GET["lang"] : ilSession::get("lang"));
 
         // check whether lang selection is valid
         $langs = self::_getInstalledLanguages();
-        if (!in_array(ilSession::get('lang'), $langs)) {
-            if ($ilSetting instanceof ilSetting && $ilSetting->get('language') != '') {
-                ilSession::set('lang', $ilSetting->get('language'));
+        if (!in_array(ilSession::get("lang"), $langs)) {
+            if ($ilSetting instanceof ilSetting && $ilSetting->get("language") != "") {
+                ilSession::set("lang", $ilSetting->get("language"));
             } else {
-                ilSession::set('lang', $langs[0]);
+                ilSession::set("lang", $langs[0]);
             }
         }
-        $_GET['lang'] = ilSession::get('lang');
+        $_GET["lang"] = ilSession::get("lang");
 
-        return new self(ilSession::get('lang'));
+        return new self(ilSession::get("lang"));
     }
 
     /**
      * Transfer text to Javascript
      *
-     * @param $a_lang_key language key or array of language keys
-     * @param $a_tpl ilGlobalTemplateInterface
+     * $a_lang_key language key or array of language keys
      */
-    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null): void
+    public function toJS(string|array $a_lang_key, ilGlobalTemplateInterface $a_tpl = null): void
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
+        $tpl = $DIC["tpl"];
 
         if (!is_object($a_tpl)) {
             $a_tpl = $tpl;
@@ -456,13 +455,12 @@ class ilLanguage
     /**
      * Transfer text to Javascript
      *
-     * @param $a_map array of key value pairs (key is text string, value is content)
-     * @param $a_tpl ilGlobalTemplateInterface
+     * $a_map array of key value pairs (key is text string, value is content)
      */
     public function toJSMap(array $a_map, ilGlobalTemplateInterface $a_tpl = null): void
     {
         global $DIC;
-        $tpl = $DIC['tpl'];
+        $tpl = $DIC["tpl"];
 
         if (!is_object($a_tpl)) {
             $a_tpl = $tpl;
@@ -510,8 +508,8 @@ class ilLanguage
             return true;
         }
 
-        if (!$ilClientIniFile->variableExists('system', 'LANGUAGE_LOG')) {
-            return $ilClientIniFile->readVariable('system', 'LANGUAGE_LOG') == 1;
+        if (!$ilClientIniFile->variableExists("system", "LANGUAGE_LOG")) {
+            return $ilClientIniFile->readVariable("system", "LANGUAGE_LOG") == 1;
         }
         return false;
     }
@@ -531,11 +529,11 @@ class ilLanguage
         $ilDB = $DIC->database();
 
         foreach ((array) self::$lng_log as $identifier => $module) {
-            $wave[] = '(' . $ilDB->quote($module, 'text') . ', ' . $ilDB->quote($identifier, 'text') . ')';
+            $wave[] = "(" . $ilDB->quote($module, "text") . ', ' . $ilDB->quote($identifier, "text") . ")";
             unset(self::$lng_log[$identifier]);
 
             if (count($wave) == 150 || (count(self::$lng_log) == 0 && count($wave) > 0)) {
-                $query = 'REPLACE INTO lng_log (module, identifier) VALUES ' . implode(', ', $wave);
+                $query = "REPLACE INTO lng_log (module, identifier) VALUES " . implode(", ", $wave);
                 $ilDB->manipulate($query);
 
                 $wave = array();

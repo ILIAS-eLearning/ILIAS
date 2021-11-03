@@ -15,6 +15,7 @@ class ilLanguageTableGUI extends ilTable2GUI
 {
     /** @var ilObjLanguageFolder */
     protected $folder;
+
     /**
     * Constructor
     */
@@ -28,7 +29,7 @@ class ilLanguageTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setLimit(9999);
 
-        if ($ilAccess->checkAccess('write', '', $this->folder->getRefId())) {
+        if ($ilAccess->checkAccess("write", "", $this->folder->getRefId())) {
             $this->addColumn("", "", "1", 1);
         }
         $this->addColumn($this->lng->txt("language"));
@@ -43,7 +44,7 @@ class ilLanguageTableGUI extends ilTable2GUI
         $this->disable("footer");
         $this->setEnableTitle(true);
 
-        if ($ilAccess->checkAccess('write', '', $this->folder->getRefId())) {
+        if ($ilAccess->checkAccess("write", "", $this->folder->getRefId())) {
             $this->setSelectAllCheckbox("id[]");
             $this->addMultiCommand("confirmRefreshSelected", $this->lng->txt("refresh"));
             $this->addMultiCommand("install", $this->lng->txt("install"));
@@ -69,8 +70,8 @@ class ilLanguageTableGUI extends ilTable2GUI
         }
 
         // sort alphabetically but shoe installed languages first
-        $data = ilUtil::stableSortArray($data, 'name', 'asc', false);
-        $data = ilUtil::stableSortArray($data, 'desc', 'asc', false);
+        $data = ilUtil::stableSortArray($data, "name", "asc", false);
+        $data = ilUtil::stableSortArray($data, "desc", "asc", false);
 
         $this->setData($data);
     }
@@ -104,9 +105,9 @@ class ilLanguageTableGUI extends ilTable2GUI
         }
         
         // show page translation
-        if ($ilSetting->get("lang_translate_" . $a_set['key'], false)) {
+        if ($ilSetting->get("lang_translate_" . $a_set["key"], false)) {
             $remark .= $remark ? '<br />' : '';
-            $remark .= "<span class=\"smallgreen\"> " . $this->lng->txt('language_translation_enabled') . "</span>";
+            $remark .= "<span class=\"smallgreen\"> " . $this->lng->txt("language_translation_enabled") . "</span>";
         }
 
         if ($a_set["desc"] != "not_installed") {
@@ -115,7 +116,7 @@ class ilLanguageTableGUI extends ilTable2GUI
                 ilDatePresentation::formatDate(new ilDateTime($a_set["last_update"], IL_CAL_DATETIME))
             );
 
-            $last_change = ilObjLanguage::_getLastLocalChange($a_set['key']);
+            $last_change = ilObjLanguage::_getLastLocalChange($a_set["key"]);
             $this->tpl->setVariable(
                 "LAST_CHANGE",
                 ilDatePresentation::formatDate(new ilDateTime($last_change, IL_CAL_DATETIME))
@@ -136,7 +137,7 @@ class ilLanguageTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VAL_LANGUAGE", $a_set["name"] . $status);
         $this->tpl->setVariable("VAL_STATUS", $this->lng->txt($a_set["desc"]) . "<br/>" . $remark);
 
-        if ($ilAccess->checkAccess('write', '', $this->folder->getRefId())) {
+        if ($ilAccess->checkAccess("write", '', $this->folder->getRefId())) {
             $this->tpl->setVariable("OBJ_ID", $a_set["obj_id"]);
         }
     }

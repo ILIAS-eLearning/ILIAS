@@ -156,13 +156,13 @@ class ilObjLanguage extends ilObject
      * @return	string	installed language key
      * @param   string  $scope  empty (global) or "local"
      */
-    public function install($scope = '')
+    public function install($scope = "")
     {
         if (!empty($scope)) {
-            if ($scope == 'global') {
-                $scope = '';
+            if ($scope == "global") {
+                $scope = "";
             } else {
-                $scopeExtension = '.' . $scope;
+                $scopeExtension = "." . $scope;
             }
         }
 
@@ -171,7 +171,7 @@ class ilObjLanguage extends ilObject
             if ($this->check($scope)) {
                 // lang-file is ok. Flush data in db and...
                 if (empty($scope)) {
-                    $this->flush('keep_local');
+                    $this->flush("keep_local");
                 }
 
                 // ...re-insert data from lang-file
@@ -179,9 +179,9 @@ class ilObjLanguage extends ilObject
 
                 // update information in db-table about available/installed languages
                 if (empty($scope)) {
-                    $newDesc = 'installed';
-                } elseif ($scope == 'local') {
-                    $newDesc = 'installed_local';
+                    $newDesc = "installed";
+                } elseif ($scope == "local") {
+                    $newDesc = "installed_local";
                 }
                 $this->setDescription($newDesc);
                 $this->update();
@@ -220,15 +220,15 @@ class ilObjLanguage extends ilObject
     {
         if ($this->isInstalled() == true) {
             if ($this->check()) {
-                $this->flush('keep_local');
+                $this->flush("keep_local");
                 $this->insert();
                 $this->setTitle($this->getKey());
                 $this->setDescription($this->getStatus());
                 $this->update();
 
                 if ($this->isLocal() == true) {
-                    if ($this->check('local')) {
-                        $this->insert('local');
+                    if ($this->check("local")) {
+                        $this->insert("local");
                         $this->setTitle($this->getKey());
                         $this->setDescription($this->getStatus());
                         $this->update();
@@ -267,7 +267,7 @@ class ilObjLanguage extends ilObject
     public static function refreshPlugins($a_lang_keys = null)
     {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $ilPluginAdmin = $DIC["ilPluginAdmin"];
 
         // refresh languages of activated plugins
         include_once("./Services/Component/classes/class.ilPluginSlot.php");
@@ -318,14 +318,14 @@ class ilObjLanguage extends ilObject
      * remove language data from database
      * @param   string     "all" or "keep_local"
      */
-    public function flush($a_mode = 'all')
+    public function flush($a_mode = "all")
     {
         global $DIC;
         $ilDB = $DIC->database();
         
-        ilObjLanguage::_deleteLangData($this->key, ($a_mode == 'keep_local'));
+        ilObjLanguage::_deleteLangData($this->key, ($a_mode == "keep_local"));
 
-        if ($a_mode == 'all') {
+        if ($a_mode == "all") {
             $ilDB->manipulate("DELETE FROM lng_modules WHERE lang_key = " .
                 $ilDB->quote($this->key, "text"));
         }
@@ -385,7 +385,7 @@ class ilObjLanguage extends ilObject
         $result = $ilDB->query($q);
 
         if ($row = $result->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
-            return $row['last_change'];
+            return $row["last_change"];
         } else {
             return "";
         }
@@ -406,12 +406,12 @@ class ilObjLanguage extends ilObject
         $changes = array();
         $result = $ilDB->queryF(
             "SELECT * FROM lng_data WHERE lang_key = %s AND module = %s AND local_change IS NOT NULL",
-            array('text', 'text'),
+            array("text", "text"),
             array($a_key, $a_module)
         );
 
         while ($row = $ilDB->fetchAssoc($result)) {
-            $changes[$row['identifier']] = $row['value'];
+            $changes[$row["identifier"]] = $row["value"];
         }
         return $changes;
     }
@@ -422,16 +422,16 @@ class ilObjLanguage extends ilObject
      *
      * @param   string  $scope  empty (global) or "local"
      */
-    public function insert($scope = '')
+    public function insert($scope = "")
     {
         global $DIC;
         $ilDB = $DIC->database();
         
         if (!empty($scope)) {
-            if ($scope == 'global') {
-                $scope = '';
+            if ($scope == "global") {
+                $scope = "";
             } else {
-                $scopeExtension = '.' . $scope;
+                $scopeExtension = "." . $scope;
             }
         }
         
@@ -454,7 +454,7 @@ class ilObjLanguage extends ilObject
                     // get all local changes for a global file
                     $change_date = null;
                     $local_changes = $this->getLocalChanges();
-                } elseif ($scope == 'local') {
+                } elseif ($scope == "local") {
                     // set the change date to import time for a local file
                     // get the modification date of the local file
                     // get the newer local changes for a local file
@@ -508,7 +508,7 @@ class ilObjLanguage extends ilObject
 
                             $lang_array[$separated[0]][$separated[1]] = $separated[2];
                         }
-                    } elseif ($scope == 'local') {
+                    } elseif ($scope == "local") {
                         // import of a local language file
 
                         if ($local_value != "") {
@@ -535,7 +535,7 @@ class ilObjLanguage extends ilObject
                 $ld = "";
                 if (empty($scope)) {
                     $ld = "installed";
-                } elseif ($scope == 'local') {
+                } elseif ($scope == "local") {
                     $ld = "installed_local";
                 }
                 if ($ld) {
@@ -596,15 +596,15 @@ class ilObjLanguage extends ilObject
         // see mantis #20046 and #19140
         $result = $ilDB->queryF(
             "SELECT lang_array FROM lng_modules WHERE lang_key = %s AND module = %s",
-            array('text','text'),
+            array("text","text"),
             array($a_key, $a_module)
         );
         $row = $ilDB->fetchAssoc($result);
 
-        $unserialied = unserialize($row['lang_array']);
+        $unserialied = unserialize($row["lang_array"]);
         if (!is_array($unserialied)) {
             /** @var ilErrorHandling $ilErr */
-            $ilErr = $DIC['ilErr'];
+            $ilErr = $DIC["ilErr"];
             $ilErr->raiseError(
                 "Data for module '" . $a_module . "' of  language '" . $a_key . "' is not correctly saved. " .
                 "Please check the collation of your database tables lng_data and lng_modules. It must be utf8_unicode_ci.",
@@ -645,34 +645,19 @@ class ilObjLanguage extends ilObject
         }
 
         $ilDB->replace(
-            'lng_data',
+            "lng_data",
             array(
-                'module' => array('text',$a_module),
-                'identifier' => array('text',$a_identifier),
-                'lang_key' => array('text',$a_lang_key)
+                "module" => array("text",$a_module),
+                "identifier" => array("text",$a_identifier),
+                "lang_key" => array("text",$a_lang_key)
                 ),
             array(
-                'value' => array('text',$a_value),
-                'local_change' => array('timestamp',$a_local_change),
-                'remarks' => array('text', $a_remarks)
+                "value" => array("text",$a_value),
+                "local_change" => array("timestamp",$a_local_change),
+                "remarks" => array("text", $a_remarks)
             )
         );
         return true;
-        
-        /*
-        $ilDB->manipulate(sprintf("DELETE FROM lng_data WHERE module = %s AND ".
-            "identifier = %s AND lang_key = %s",
-            $ilDB->quote($a_module, "text"), $ilDB->quote($a_identifier, "text"),
-            $ilDB->quote($a_lang_key, "text")));
-
-
-        $ilDB->manipulate(sprintf("INSERT INTO lng_data " .
-            "(module, identifier, lang_key, value, local_change) " .
-            "VALUES (%s,%s,%s,%s,%s)",
-            $ilDB->quote($a_module, "text"), $ilDB->quote($a_identifier, "text"),
-            $ilDB->quote($a_lang_key, "text"), $ilDB->quote($a_value, "text"),
-            $ilDB->quote($a_local_change, "timestamp")));
-        */
     }
     
     /**
@@ -692,14 +677,14 @@ class ilObjLanguage extends ilObject
         if (isset($a_remarks)) {
             $a_remarks = substr($a_remarks, 0, 250);
         }
-        if ($a_remarks == '') {
+        if ($a_remarks == "") {
             unset($a_remarks);
         }
 
         if (isset($a_value)) {
             $a_value = substr($a_value, 0, 4000);
         }
-        if ($a_value == '') {
+        if ($a_value == "") {
             unset($a_value);
         }
 
@@ -795,15 +780,15 @@ class ilObjLanguage extends ilObject
      * @return	string	system message
      * @param   string  $scope  empty (global) or "local"
      */
-    public function check($scope = '')
+    public function check($scope = "")
     {
         include_once("./Services/Utilities/classes/class.ilStr.php");
         
         if (!empty($scope)) {
-            if ($scope == 'global') {
-                $scope = '';
+            if ($scope == "global") {
+                $scope = "";
             } else {
-                $scopeExtension = '.' . $scope;
+                $scopeExtension = "." . $scope;
             }
         }
 

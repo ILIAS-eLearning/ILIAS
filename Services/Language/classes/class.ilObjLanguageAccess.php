@@ -92,7 +92,7 @@ class ilObjLanguageAccess
         " WHERE r.obj_id = d.obj_id AND d.type = " . $ilDB->quote("lngf", "text");
         $set = $ilDB->query($q);
         $row = $ilDB->fetchAssoc($set);
-        return $row['ref_id'];
+        return $row["ref_id"];
     }
     
 
@@ -112,7 +112,7 @@ class ilObjLanguageAccess
         " AND title = " . $ilDB->quote($a_key, "text");
         $set = $ilDB->query($q);
         $row = $ilDB->fetchAssoc($set);
-        return $row['obj_id'];
+        return $row["obj_id"];
     }
 
 
@@ -144,8 +144,8 @@ class ilObjLanguageAccess
      */
     public static function _isPageTranslation()
     {
-        $cmdClass = $_GET['cmdClass'] ?? "";
-        return (strtolower($cmdClass == 'ilobjlanguageextgui') and $_GET['view_mode'] == "translate");
+        $cmdClass = $_GET["cmdClass"] ?? "";
+        return (strtolower($cmdClass == "ilobjlanguageextgui") and $_GET["view_mode"] == "translate");
     }
 
 
@@ -159,8 +159,8 @@ class ilObjLanguageAccess
         $lng = $DIC->language();
 
         if (self::_checkTranslate() and !self::_isPageTranslation()) {
-            $_SESSION['lang_ext_maintenance']['used_modules'] = array_keys($lng->getUsedModules());
-            $_SESSION['lang_ext_maintenance']['used_topics'] = array_keys($lng->getUsedTopics());
+            $_SESSION["lang_ext_maintenance"]["used_modules"] = array_keys($lng->getUsedModules());
+            $_SESSION["lang_ext_maintenance"]["used_topics"] = array_keys($lng->getUsedTopics());
         }
     }
 
@@ -171,7 +171,7 @@ class ilObjLanguageAccess
      */
     public static function _getSavedModules(): array
     {
-        $saved = $_SESSION['lang_ext_maintenance']['used_modules'];
+        $saved = $_SESSION["lang_ext_maintenance"]["used_modules"];
         return is_array($saved) ? $saved : array();
     }
 
@@ -182,7 +182,7 @@ class ilObjLanguageAccess
      */
     public static function _getSavedTopics(): array
     {
-        $saved = $_SESSION['lang_ext_maintenance']['used_topics'];
+        $saved = $_SESSION["lang_ext_maintenance"]["used_topics"];
         return is_array($saved) ? $saved : array();
     }
 }

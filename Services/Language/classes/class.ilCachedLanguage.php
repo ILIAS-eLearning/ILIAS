@@ -12,7 +12,7 @@ class ilCachedLanguage
 {
     protected $global_cache;
     protected $loaded = false;
-    protected $language_key = 'en';
+    protected $language_key = "en";
     protected $translations = array();
     protected static $instances = array();
 
@@ -45,7 +45,7 @@ class ilCachedLanguage
     protected function readFromCache(): void
     {
         if ($this->global_cache->isActive()) {
-            $translations = $this->global_cache->get('translations_' . $this->getLanguageKey());
+            $translations = $this->global_cache->get("translations_" . $this->getLanguageKey());
             if (is_array($translations)) {
                 $this->setTranslations($translations);
                 $this->setLoaded(true);
@@ -59,7 +59,7 @@ class ilCachedLanguage
     public function writeToCache(): void
     {
         if ($this->global_cache->isActive()) {
-            $this->global_cache->set('translations_' . $this->getLanguageKey(), $this->getTranslations());
+            $this->global_cache->set("translations_" . $this->getLanguageKey(), $this->getTranslations());
         }
     }
 
@@ -72,7 +72,7 @@ class ilCachedLanguage
 	public function deleteInCache(): void
     {
 		if ($this->global_cache->isActive()) {
-			$this->global_cache->delete('translations_' . $this->getLanguageKey());
+			$this->global_cache->delete("translations_" . $this->getLanguageKey());
 			$this->setLoaded(false);
 		}
 	}
@@ -86,7 +86,7 @@ class ilCachedLanguage
         $ilDB = $DIC->database();
 
         $q = 'SELECT module, lang_array FROM lng_modules WHERE lang_key = %s';
-        $res = $ilDB->queryF($q, array( 'text' ), array( $this->getLanguageKey() ));
+        $res = $ilDB->queryF($q, array( "text" ), array( $this->getLanguageKey() ));
         $translations = array();
         while ($set = $ilDB->fetchObject($res)) {
             $lang_array = unserialize($set->lang_array);

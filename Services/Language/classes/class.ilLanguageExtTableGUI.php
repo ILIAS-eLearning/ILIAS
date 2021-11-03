@@ -18,7 +18,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         // allow a different sorting/paging for admin and translation tables
         $this->params = $a_params;
-        $this->setId("lang_ext_" . (ilObjLanguageAccess::_isPageTranslation() ? 'trans' : 'admin'));
+        $this->setId("lang_ext_" . (ilObjLanguageAccess::_isPageTranslation() ? "trans" : "admin"));
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -29,8 +29,8 @@ class ilLanguageExtTableGUI extends ilTable2GUI
         $this->initFilter();
 
         // set the compare language
-        $compare = $this->getFilterItemByPostVar('compare')->getValue();
-        if ($compare == $this->params['lang_key']) {
+        $compare = $this->getFilterItemByPostVar("compare")->getValue();
+        if ($compare == $this->params["lang_key"]) {
             $compare_note = " " . $lng->txt("language_default_entries");
         }
 
@@ -38,7 +38,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
         $this->addColumn(ucfirst($lng->txt("identifier")), "topic", "10em");
         $this->addColumn($lng->txt("meta_l_" . $this->params['lang_key']), "translation");
         $this->addColumn($lng->txt("meta_l_" . $compare) . $compare_note, "default");
-        $this->addCommandButton('save', $lng->txt('save'));
+        $this->addCommandButton("save", $lng->txt("save"));
     }
 
 
@@ -54,20 +54,20 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         // mantis #25237
         // @see https://php.net/manual/en/language.variables.external.php
-        $data['name'] = str_replace('.', '_POSTDOT_', $data['name']);
-        $data['name'] = str_replace(' ', '_POSTSPACE_', $data['name']);
+        $data["name"] = str_replace(".", "_POSTDOT_", $data["name"]);
+        $data["name"] = str_replace(" ", "_POSTSPACE_", $data["name"]);
 
-        if ($this->params['langmode']) {
-            $this->tpl->setCurrentBlock('comment');
+        if ($this->params["langmode"]) {
+            $this->tpl->setCurrentBlock("comment");
             $this->tpl->setVariable("COM_ID", ilUtil::prepareFormOutput($data["name"] . $lng->separator . "comment"));
             $this->tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($data["name"] . $lng->separator . "comment"));
             $this->tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($data["comment"]));
             $this->tpl->setVariable("COM_SIZE", $this->commentsize);
             $this->tpl->setVariable("COM_MAX", 250);
-            $this->tpl->setVariable("TXT_COMMENT", $lng->txt('comment'));
+            $this->tpl->setVariable("TXT_COMMENT", $lng->txt("comment"));
             $this->tpl->parseCurrentBlock();
         } else {
-            $this->tpl->setCurrentBlock('hidden_comment');
+            $this->tpl->setCurrentBlock("hidden_comment");
             $this->tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($data["name"] . $lng->separator . "comment"));
             $this->tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($data["comment"]));
             $this->tpl->parseCurrentBlock();
@@ -119,7 +119,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             $this->addFilterItem($si);
             $si->readFromSession();
             if (!$si->getValue()) {
-                $si->setValue('administration');
+                $si->setValue("administration");
             }
 
             // identifier
@@ -154,7 +154,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
             $this->addFilterItem($si);
             $si->readFromSession();
             if (!$si->getValue()) {
-                $si->setValue('all');
+                $si->setValue("all");
             }
         }
 

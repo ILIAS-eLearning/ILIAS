@@ -53,7 +53,7 @@ class ilLanguageFile
     * $a_key      (optional) language key
     * $a_scope      (optional) scope ('global', 'local' or 'unchanged')
     */
-    public function __construct(string $a_file, string $a_key = "", string $a_scope = 'global')
+    public function __construct(string $a_file, string $a_key = "", string $a_scope = "global")
     {
         global $DIC;
         $lng = $DIC->language();
@@ -180,7 +180,7 @@ class ilLanguageFile
     *
     * $a_header      (optional) fixed header for the new file
     */
-    public function write(string $a_header = ''): void
+    public function write(string $a_header = ""): void
     {
         $fp = fopen($this->lang_file, "w");
         fwrite($fp, $this->build($a_header));
@@ -203,10 +203,10 @@ class ilLanguageFile
             $content = $a_header;
         } else {
             // set default params
-            $lng->loadLanguageModule('meta');
-            $lang_name = $lng->txtlng('meta', 'meta_l_' . $this->lang_key, 'en');
+            $lng->loadLanguageModule("meta");
+            $lang_name = $lng->txtlng("meta", "meta_l_" . $this->lang_key, "en");
             $this->params["module"] = "language file " . $lang_name;
-            $this->params["created"] = date('Y-m-d H:i:s');
+            $this->params["created"] = date("Y-m-d H:i:s");
             $this->params["created_by"] = $ilUser->getFullname() . " <" . $ilUser->getEmail() . ">";
 
             // build the header
@@ -215,14 +215,14 @@ class ilLanguageFile
                 $tabs = ceil((20 - 3 - strlen($name)) / 4);
                 $tabs = $tabs > 0 ? $tabs : 1;
 
-                $tpl->setCurrentBlock('param');
-                $tpl->setVariable('PAR_NAME', $name);
-                $tpl->setVariable('PAR_SPACE', str_repeat("\t", $tabs));
-                $tpl->setVariable('PAR_VALUE', $value);
+                $tpl->setCurrentBlock("param");
+                $tpl->setVariable("PAR_NAME", $name);
+                $tpl->setVariable("PAR_SPACE", str_repeat("\t", $tabs));
+                $tpl->setVariable("PAR_VALUE", $value);
                 $tpl->parseCurrentBlock();
             }
-            $txt_scope = $lng->txtlng('administration', 'language_scope_' . $this->scope, 'en');
-            $tpl->setVariable('SCOPE', $txt_scope);
+            $txt_scope = $lng->txtlng("administration", "language_scope_" . $this->scope, "en");
+            $tpl->setVariable("SCOPE", $txt_scope);
 
             $content = $tpl->get();
         }
@@ -388,7 +388,7 @@ class ilLanguageFile
             $file_object = new ilLanguageFile(
                 $lng->lang_path . "/ilias_" . $a_lang_key . ".lang",
                 $a_lang_key,
-                'global'
+                "global"
             );
             $file_object->read();
             

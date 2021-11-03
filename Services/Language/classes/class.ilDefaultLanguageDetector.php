@@ -22,6 +22,6 @@ class ilDefaultLanguageDetector implements ilLanguageDetector
      */
     public function getIso2LanguageCode(): string
     {
-        return $this->ini->readVariable('language', 'default');
+        return $this->ini->readVariable("language", "default");
     }
 }
