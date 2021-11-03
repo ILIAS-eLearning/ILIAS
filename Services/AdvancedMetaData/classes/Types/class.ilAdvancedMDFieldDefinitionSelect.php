@@ -131,25 +131,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
      */
     protected function importFieldDefinition(array $a_def)
     {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        $query = 'select * from adv_mdf_enum ' .
-            'where field_id = ' . $db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .
-            'order by idx';
-        $res = $db->query($query);
-        $options = [];
-        $default = [];
-        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->lang_code == $record->getDefaultLanguage()) {
-                $default[$row->idx] = $row->value;
-        }
-            $options[$row->lang_code][$row->idx] = $row->value;
-        }
-        $this->setOptions($default);
-        $this->setOptionTranslations($options);
+        // options (field_values from adv_mdf_field_definitions are not used)
+        $this->setOptions([]);
     }
 
     /**
@@ -158,10 +141,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     protected function getFieldDefinition()
     {
         return [];
-        return [
-            'options' => (array) $this->getOptions(),
-            'option_translations' => (array) $this->getOptionTranslations()
-        ];
     }
     
     public function getFieldDefinitionForTableGUI(string $content_language)
@@ -697,5 +676,29 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         assert($a_enum instanceof ilADTEnumFormBridge);
         
         $a_enum->setAutoSort(false);
+    }
+
+    protected function import(array $db_data)
+    {
+        global $DIC;
+
+        parent::import($db_data);
+
+        $db = $DIC->database();
+        $query = 'select * from adv_mdf_enum ' .
+            'where field_id = ' . $db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .
+            'order by idx';
+        $res = $db->query($query);
+        $options = [];
+        $default = [];
+        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            if ($row->lang_code == $record->getDefaultLanguage()) {
+                $default[$row->idx] = $row->value;
+            }
+            $options[$row->lang_code][$row->idx] = $row->value;
+        }
+        $this->setOptions($default);
+        $this->setOptionTranslations($options);
     }
 }
