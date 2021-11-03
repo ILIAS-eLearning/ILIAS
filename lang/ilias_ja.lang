@@ -16615,3 +16615,10 @@ content#:#cont_sur_block_format#:#Surrounding Section###24 09 2021 new variable
 ui#:#datetime_required#:#Time/Date required###24 09 2021 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###24 09 2021 new variable
 forum#:#sticky_threads_sorting#:#Sticky Threads Sorting###24 09 2021 new variable
+cmix#:#conf_switch_to_review#:#Switch to Review Mode###03 11 2021 new variable
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###03 11 2021 new variable
+cmix#:#conf_mastery_score#:#Mastery Score###03 11 2021 new variable
+cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.###03 11 2021 new variable
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###03 11 2021 new variable
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
