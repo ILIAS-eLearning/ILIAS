@@ -1,39 +1,42 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilPCSourcecodeGUI
  *
  * User Interface for Paragraph Editing
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCSourceCodeGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
 
-    
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -43,17 +46,12 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
-    /**
-    * edit paragraph form
-    */
-    public function edit()
+    public function edit() : void
     {
         $form = $this->initPropertyForm($this->lng->txt("cont_edit_src"), "update", "cancelCreate");
 
@@ -74,7 +72,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             $form->getItemByPostVar("par_subcharacteristic")->setValue($this->content_obj->getSubCharacteristic());
             $form->getItemByPostVar("par_downloadtitle")->setValue($this->content_obj->getDownloadTitle());
             $form->getItemByPostVar("par_showlinenumbers")->setChecked(
-                $this->content_obj->getShowLineNumbers() == "y"?true:false
+                $this->content_obj->getShowLineNumbers() == "y"
             );
             //			$form->getItemByPostVar("par_autoindent")->setChecked(
             //				$this->content_obj->getAutoIndent()=="y"?true:false);
@@ -92,10 +90,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $this->tpl->setContent($form->getHTML());
     }
     
-    /**
-    * insert paragraph form
-    */
-    public function insert()
+    public function insert() : void
     {
         $ilUser = $this->user;
 
@@ -129,11 +124,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-
-    /**
-    * update paragraph in dom and update page in db
-    */
-    public function update()
+    public function update() : void
     {
         $this->upload_source();
 
@@ -173,18 +164,12 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         }
     }
     
-    /**
-    * cancel update
-    */
-    public function cancelUpdate()
+    public function cancelUpdate() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
 
-    /**
-    * create new paragraph in dom and update page in db
-    */
-    public function create()
+    public function create() : void
     {
         $this->content_obj = new ilPCSourceCode($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
@@ -217,22 +202,19 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         
         $this->updated = $this->pg_obj->update();
 
-        if ($this->updated === true && !$uploaded) {
+        if ($this->updated === true) {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         } else {
             $this->insert();
         }
     }
     
-    /**
-    * cancel creating paragraph
-    */
-    public function cancelCreate()
+    public function cancelCreate() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
         
-    public function upload_source()
+    public function upload_source() : bool
     {
         if (isset($_FILES['userfile']['name'])) {
             $userfile = $_FILES['userfile']['tmp_name'];
@@ -255,10 +237,9 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
     /**
      * Get selectable programming languages
-     *
      * @return string[]
      */
-    public function getProgLangOptions()
+    public function getProgLangOptions() : array
     {
         $prog_langs = array(
             "" => "other");
@@ -268,16 +249,11 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         return $prog_langs;
     }
 
-    /**
-     * initiates property form GUI class
-     *
-     * @param string $a_title
-     * @param string $a_cmd
-     * @param string $a_cmd_cancel
-     * @return ilPropertyFormGUI form class
-     */
-    public function initPropertyForm($a_title, $a_cmd, $a_cmd_cancel)
-    {
+    public function initPropertyForm(
+        string $a_title,
+        string $a_cmd,
+        string $a_cmd_cancel
+    ) : ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setTitle($a_title);
         $form->setFormAction($this->ctrl->getFormAction($this, $a_cmd));

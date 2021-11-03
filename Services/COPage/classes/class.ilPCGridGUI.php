@@ -1,32 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Responsive Grid UI class
  *
- * @author Alex Killing <killing@leifos.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCGridGUI extends ilPageContentGUI
 {
-    const TEMPLATE_MANUAL = 0;
-    const TEMPLATE_TWO_COLUMN = 1;
-    const TEMPLATE_THREE_COLUMN = 2;
-    const TEMPLATE_MAIN_SIDE = 3;
-    const TEMPLATE_TWO_BY_TWO = 4;
+    public const TEMPLATE_MANUAL = 0;
+    public const TEMPLATE_TWO_COLUMN = 1;
+    public const TEMPLATE_THREE_COLUMN = 2;
+    public const TEMPLATE_MAIN_SIDE = 3;
+    public const TEMPLATE_TWO_BY_TWO = 4;
 
-    protected $toolbar;
-    protected $tabs;
+    protected ilToolbarGUI $toolbar;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * Constructor
-     * @param $a_pg_obj
-     * @param $a_content_obj
-     * @param $a_hier_id
-     * @param string $a_pc_id
-     */
-    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -38,10 +46,7 @@ class ilPCGridGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
     
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -51,17 +56,12 @@ class ilPCGridGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
-    /**
-     * Insert new grid
-     */
-    public function insert()
+    public function insert() : void
     {
         $this->displayValidationError();
         $form = $this->initCreationForm();
@@ -71,25 +71,22 @@ class ilPCGridGUI extends ilPageContentGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Edit grid cells
-     */
-    public function editProperties()
+    /*
+    public function editProperties() : void
     {
         $this->displayValidationError();
         $this->setTabs();
-        
+
         $form = $this->initForm();
         $this->getFormValues($form);
         $html = $form->getHTML();
         $this->tpl->setContent($html);
-    }
+    }*/
 
     /**
      * Init creation form
-     * @return ilPropertyFormGUI
      */
-    public function initCreationForm()
+    public function initCreationForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
 
@@ -146,7 +143,7 @@ class ilPCGridGUI extends ilPageContentGUI
     /**
      * Create new grid element
      */
-    public function create()
+    public function create() : void
     {
         $form = $this->initCreationForm();
         if ($form->checkInput()) {
@@ -175,10 +172,7 @@ class ilPCGridGUI extends ilPageContentGUI
         }
     }
     
-    /**
-     * After creation processing
-     */
-    public function afterCreation()
+    public function afterCreation() : void
     {
         $this->pg_obj->stripHierIDs();
         $this->pg_obj->addHierIDs();
@@ -186,7 +180,7 @@ class ilPCGridGUI extends ilPageContentGUI
         $this->ctrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
         $this->content_obj->setHierId($this->content_obj->readHierId());
         $this->setHierId($this->content_obj->readHierId());
-        $this->content_obj->setPCId($this->content_obj->readPCId());
+        $this->content_obj->setPcId($this->content_obj->readPCId());
         $this->edit();
     }
 
@@ -196,9 +190,9 @@ class ilPCGridGUI extends ilPageContentGUI
     //
     
     /**
-    * List all cells
-    */
-    public function edit()
+     * List all cells
+     */
+    public function edit() : void
     {
         $this->toolbar->addButton(
             $this->lng->txt("cont_add_cell"),
@@ -207,14 +201,16 @@ class ilPCGridGUI extends ilPageContentGUI
 
         $this->setTabs();
         $this->tabs->activateTab("settings");
-        $table_gui = new ilPCGridCellTableGUI($this, "edit", $this->content_obj);
+        /** @var ilPCGrid $grid */
+        $grid = $this->content_obj;
+        $table_gui = new ilPCGridCellTableGUI($this, "edit", $grid);
         $this->tpl->setContent($table_gui->getHTML());
     }
     
     /**
      * Save cell properties
      */
-    public function saveCells()
+    public function saveCells() : void
     {
         if (is_array($_POST["position"])) {
             $positions = ilUtil::stripSlashesArray($_POST["position"]);
@@ -228,9 +224,9 @@ class ilPCGridGUI extends ilPageContentGUI
     /**
      * Add cell
      */
-    public function addCell()
+    public function addCell() : void
     {
-        $this->content_obj->addCell("", "", "", "");
+        $this->content_obj->addCell();
         $this->updated = $this->pg_obj->update();
 
         ilUtil::sendSuccess($this->lng->txt("cont_added_cell"), true);
@@ -240,7 +236,7 @@ class ilPCGridGUI extends ilPageContentGUI
     /**
      * Confirm cell deletion
      */
-    public function confirmCellDeletion()
+    public function confirmCellDeletion() : void
     {
         $this->setTabs();
 
@@ -267,7 +263,7 @@ class ilPCGridGUI extends ilPageContentGUI
     /**
      * Cancel cell deletion
      */
-    public function cancelCellDeletion()
+    public function cancelCellDeletion() : void
     {
         $this->ctrl->redirect($this, "edit");
     }
@@ -275,7 +271,7 @@ class ilPCGridGUI extends ilPageContentGUI
     /**
      * Delete Cells
      */
-    public function deleteCells()
+    public function deleteCells() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -290,11 +286,7 @@ class ilPCGridGUI extends ilPageContentGUI
         $ilCtrl->redirect($this, "edit");
     }
     
-    
-    /**
-     * Set tabs
-     */
-    public function setTabs()
+    public function setTabs() : void
     {
         $this->tabs->setBackTarget(
             $this->lng->txt("pg"),
@@ -311,7 +303,7 @@ class ilPCGridGUI extends ilPageContentGUI
     /**
      * Save tabs properties in db and return to page edit screen
      */
-    public function saveCellData()
+    public function saveCellData() : void
     {
         $width_s = ilUtil::stripSlashesArray($_POST["width_s"]);
         $width_m = ilUtil::stripSlashesArray($_POST["width_m"]);

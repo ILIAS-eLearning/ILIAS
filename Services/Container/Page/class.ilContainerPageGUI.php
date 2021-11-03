@@ -52,7 +52,7 @@ class ilContainerPageGUI extends ilPageObjectGUI
         return $link;
     }
 
-    public function finishEditing()
+    public function finishEditing() : void
     {
         $this->ctrl->returnToParent($this);
     }

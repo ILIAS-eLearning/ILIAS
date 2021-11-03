@@ -1,34 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilPCTableGUI
- *
  * User Interface for Data Table Editing
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCDataTableGUI extends ilPCTableGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilGlobalTemplateInterface $main_tpl;
 
-
-    /**
-     * @var \ilTemplate
-     */
-    protected $main_tpl;
-
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->main_tpl = $DIC->ui()->mainTemplate();
@@ -41,11 +40,12 @@ class ilPCDataTableGUI extends ilPCTableGUI
     }
 
     /**
-    * execute command
-    */
+     * execute command
+     * @return mixed
+     */
     public function executeCommand()
     {
-        $this->getCharacteristicsOfCurrentStyle("table");	// scorm-2004
+        $this->getCharacteristicsOfCurrentStyle(["table"]);	// scorm-2004
         
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -70,12 +70,10 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
     * Edit data of table. (classic version)
     */
-    public function editDataCl()
+    public function editDataCl() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        //var_dump($_GET);
-        //var_dump($_POST);
 
         $this->setTabs();
 
@@ -89,8 +87,8 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         ilYuiUtil::initDragDrop();
         ilYuiUtil::initConnection();
-        $this->tpl->addJavascript("./Services/COPage/phpBB/3_0_5/editor.js");
-        $this->tpl->addJavascript("./Services/COPage/js/paragraph_editing.js");
+        $this->tpl->addJavaScript("./Services/COPage/phpBB/3_0_5/editor.js");
+        $this->tpl->addJavaScript("./Services/COPage/js/paragraph_editing.js");
 
         // get all rows
         $xpc = xpath_new_context($this->dom);
@@ -243,7 +241,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Update table data in dom and update page in db
      */
-    public function update($a_redirect = true)
+    public function update(bool $a_redirect = true) : void
     {
         $lng = $this->lng;
 
@@ -283,7 +281,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
     /**
      * Update via JavaScript
      */
-    public function updateJS()
+    public function updateJS() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -367,17 +365,17 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
 
     /**
-    * Get new table object
-    */
-    public function getNewTableObject()
+     * Get new table object
+     */
+    public function getNewTableObject() : ilPCDataTable
     {
         return new ilPCDataTable($this->getPage());
     }
     
     /**
-    * After creation processing
-    */
-    public function afterCreation()
+     * After creation processing
+     */
+    public function afterCreation() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -389,9 +387,9 @@ class ilPCDataTableGUI extends ilPCTableGUI
     }
     
     /**
-    * Perform operation on table (adding, moving, deleting rows/cols)
-    */
-    public function tableAction()
+     * Perform operation on table (adding, moving, deleting rows/cols)
+     */
+    public function tableAction() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -411,13 +409,10 @@ class ilPCDataTableGUI extends ilPCTableGUI
     }
     
     /**
-    * Set tabs
-    */
-    public function setTabs($data_tab_txt_key = "")
+     * Set tabs
+     */
+    public function setTabs(string $data_tab_txt_key = "") : void
     {
-        $ilCtrl = $this->ctrl;
-        $ilTabs = $this->tabs;
-        
         parent::setTabs("cont_ed_edit_data");
     }
 }

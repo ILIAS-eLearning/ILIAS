@@ -14,18 +14,10 @@
  */
 
 /**
- * Container page object
+ * Base exception class for copage service
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilContainerPage extends ilPageObject
+class ilCOPagePCEditException extends ilCOPageException
 {
-    /**
-     * Get parent type
-     * @return string parent type
-     */
-    public function getParentType() : string
-    {
-        return "cont";
-    }
 }

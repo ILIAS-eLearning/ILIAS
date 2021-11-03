@@ -19,7 +19,7 @@
 
 class ilContentPagePageCollector implements ilCOPageCollectorInterface, ilContentPageObjectConstants
 {
-    public function getAllPageIds($obj_id) : array
+    public function getAllPageIds(int $obj_id) : array
     {
         $pages = [];
 

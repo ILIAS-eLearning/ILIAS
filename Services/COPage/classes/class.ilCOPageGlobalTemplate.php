@@ -1,14 +1,44 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * special template class to simplify handling of ITX/PEAR
  * @author	Stefan Kesseler <skesseler@databay.de>
  * @author	Sascha Hofmann <shofmann@databay.de>
+ * @deprecated
  */
 class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 {
+    protected string $tree_flat_mode;
+    protected string $tplIdentifier = "";
+    protected string $login_target_par = "";
+    protected string $right_content = "";
+    protected string $left_nav_content = "";
+    protected string $left_content = "";
+    protected string $main_content = "";
+    protected bool $enable_fileupload = false;
+    protected string $icon_path;
+    /**
+     * @var mixed|string
+     */
+    protected string $icon_desc;
+    /**
+     * @var mixed|string
+     */
+    protected string $body_class;
+    protected array $on_load_code;
     protected $tree_flat_link = "";
     protected $page_form_action = "";
     protected $permanent_link = false;
@@ -23,11 +53,11 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 
     /**
     * constructor
-    * @param	string	$file 		templatefile (mit oder ohne pfad)
-    * @param	boolean	$flag1 		remove unknown variables
-    * @param	boolean	$flag2 		remove empty blocks
-    * @param	boolean	$in_module	should be set to true, if template file is in module subdirectory
-    * @param	array	$vars 		variables to replace
+    * @param	string $file      templatefile (mit oder ohne pfad)
+    * @param bool      $flag1     remove unknown variables
+    * @param bool      $flag2     remove empty blocks
+    * @param bool      $in_module should be set to true, if template file is in module subdirectory
+    * @param	array  $vars      variables to replace
     * @access	public
     */
     public function __construct(
@@ -206,13 +236,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
             }
         }
 
-        // BEGIN Usability: Non-Delos Skins can display the elapsed time in the footer
-        $ftpl->setVariable(
-            "ELAPSED_TIME",
-            ", " . number_format($ilBench->getMeasuredTime("Core", "ElapsedTimeUntilFooter"), 1) . ' seconds'
-        );
-        // END Usability: Non-Delos Skins can display the elapsed time in the footer
-
         $this->setVariable("FOOTER", $ftpl->get());
     }
 
@@ -280,10 +303,10 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    const MESSAGE_TYPE_FAILURE = 'failure';
-    const MESSAGE_TYPE_INFO = "info";
-    const MESSAGE_TYPE_SUCCESS = "success";
-    const MESSAGE_TYPE_QUESTION = "question";
+    public const MESSAGE_TYPE_FAILURE = 'failure';
+    public const MESSAGE_TYPE_INFO = "info";
+    public const MESSAGE_TYPE_SUCCESS = "success";
+    public const MESSAGE_TYPE_QUESTION = "question";
 
     /**
      * @var array  available Types for Messages
@@ -448,6 +471,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
                 $js .
                 '</script>' . "\n";
         }
+        return "";
     }
 
     // REMOVAL CANDIDATE
@@ -474,7 +498,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
         global $DIC;
 
         $ilSetting = $DIC->settings();
-
+        $vers = "";
         if (is_object($ilSetting)) {		// maybe this one can be removed
             $vers = "vers=" . str_replace(array(".", " "), "-", $ilSetting->get("ilias_version"));
 
@@ -584,8 +608,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     //    - ilStartUpGUI
     /**
      * Fill in the css file tags
-     *
-     * @param boolean $a_force
+     * @param bool $a_force
      */
     public function fillCssFiles($a_force = false)
     {
@@ -640,8 +663,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 
     /**
      * Fill in the inline css
-     *
-     * @param boolean $a_force
+     * @param bool $a_force
      */
     private function fillInlineCss()
     {
@@ -804,6 +826,8 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 
         $lng = $DIC->language();
 
+        $header = false;
+
         $icon = false;
         if ($this->icon_path != "") {
             $icon = true;
@@ -844,7 +868,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
             $this->touchBlock("head_action");
         }
 
-        if (count((array) $this->title_alerts)) {
+        if (count($this->title_alerts)) {
             foreach ($this->title_alerts as $alert) {
                 $this->setCurrentBlock('header_alert');
                 if (!($alert['propertyNameVisible'] === false)) {
@@ -1111,7 +1135,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
         global $DIC;
 
         $ilToolbar = $DIC["ilToolbar"];
-        ;
 
         $thtml = $ilToolbar->getHTML();
         if ($thtml != "") {
@@ -1222,8 +1245,14 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     // Also this seems to be somehow similar to the stuff going on in printToStdout.
     // Maybe we could unify them.
     /**
-     * @param	string
-     * @return	string
+     * @param string
+     * @param bool $add_error_mess
+     * @param bool $handle_referer
+     * @param bool $add_ilias_footer
+     * @param bool $add_standard_elements
+     * @param bool $a_main_menu
+     * @param bool $a_tabs
+     * @return    string
      */
     public function getSpecial(
         $part = "DEFAULT",
@@ -1444,17 +1473,18 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     */
     private function handleReferer()
     {
+        $str = "";
         if (((substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "error.php")
             && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "adm_menu.php")
             && (substr(strrchr($_SERVER["PHP_SELF"], "/"), 1) != "chat.php"))) {
             // referer is modified if query string contains cmd=gateway and $_POST is not empty.
             // this is a workaround to display formular again in case of error and if the referer points to another page
-            $url_parts = @parse_url($_SERVER["REQUEST_URI"]);
+            $url_parts = parse_url($_SERVER["REQUEST_URI"]);
             if (!$url_parts) {
                 $protocol = (isset($_SERVER['HTTPS']) ? 'https' : 'http') . '://';
                 $host = $_SERVER['HTTP_HOST'];
                 $path = $_SERVER['REQUEST_URI'];
-                $url_parts = @parse_url($protocol . $host . $path);
+                $url_parts = parse_url($protocol . $host . $path);
             }
 
             if (isset($url_parts["query"]) && preg_match("/cmd=gateway/", $url_parts["query"]) && (isset($_POST["cmd"]["create"]))) {
@@ -1530,20 +1560,9 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 
             $this->setCurrentBlock("tree_mode");
             $this->setVariable("LINK_MODE", $this->tree_flat_link);
+            $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
             if ($ilSetting->get("tree_frame") == "right") {
-                if ($this->tree_flat_mode == "tree") {
-                    $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
-                    $this->setVariable("RIGHT", "Right");
-                } else {
-                    $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
-                    $this->setVariable("RIGHT", "Right");
-                }
-            } else {
-                if ($this->tree_flat_mode == "tree") {
-                    $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
-                } else {
-                    $this->setVariable("IMG_TREE", ilUtil::getImagePath("icon_sidebar_on.svg"));
-                }
+                $this->setVariable("RIGHT", "Right");
             }
             $this->setVariable("ALT_TREE", $lng->txt($this->tree_flat_mode . "view"));
             $this->setVariable("TARGET_TREE", ilFrameTargetInfo::_getFrame("MainContent"));
@@ -1563,7 +1582,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     /**
     * set tree/flat icon
     * @param	string		link target
-    * @param	strong		mode ("tree" | "flat")
+    * @param	string		mode ("tree" | "flat")
     */
     public function setTreeFlatIcon($a_link, $a_mode)
     {
@@ -1582,9 +1601,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 
     /**
      * Fill lightbox content
-     *
-     * @param
-     * @return
      */
     private function fillLightbox()
     {
@@ -1609,9 +1625,9 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 
     /**
      * Add admin panel commands as toolbar
-     *
      * @param ilToolbarGUI $toolb
-     * @param bool $a_top_only
+     * @param bool         $a_bottom_panel
+     * @param bool         $a_arrow
      */
     public function addAdminPanelToolbar(ilToolbarGUI $toolb, $a_bottom_panel = true, $a_arrow = false)
     {
@@ -1635,7 +1651,6 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
         }
 
         $toolb = $this->admin_panel_commands_toolbar;
-        assert($toolbar instanceof \ilToolbarGUI);
 
         // Add arrow if desired.
         if ($this->admin_panel_arrow) {
@@ -1733,7 +1748,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
 
     public function setVariable($variable, $value = '')
     {
-        return $this->template->setVariable($variable, $value);
+        $this->template->setVariable($variable, $value);
     }
 
     private function variableExists($a_variablename)
@@ -1778,10 +1793,10 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     * @access	public
     * @param	string
     * @param	string
-    * @param	string		$tplname		template name
-    * @param	boolean		$in_module		should be set to true, if template file is in module subdirectory
-    * @return	boolean/string
-    */
+    * @param	string		$tplname template name
+    * @param	bool		$in_module should be set to true, if template file is in module subdirectory
+    * @return	bool/string
+     */
     public function addBlockFile($var, $block, $tplname, $in_module = false)
     {
         return $this->template->addBlockFile($var, $block, $tplname, $in_module);
@@ -1791,7 +1806,7 @@ class ilCOPageGlobalTemplate implements ilGlobalTemplateInterface
     * check if block exists in actual template
     * @access	private
     * @param string blockname
-    * @return	boolean
+    * @return	bool
     */
     public function blockExists($a_blockname)
     {

@@ -13,46 +13,33 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\COPage\Editor\Components;
+
 use ILIAS\COPage\Editor\Server\UIWrapper;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCParagraphEditorGUI implements \ILIAS\COPage\Editor\Components\PageComponentEditor
+interface PageComponentEditor
 {
+    /**
+     * Get rendered editor elements
+     */
     public function getEditorElements(
         UIWrapper $ui_wrapper,
         string $page_type,
-        ilPageObjectGUI $page_gui,
+        \ilPageObjectGUI $page_gui,
         int $style_id
-    ) : array {
-        $cfg = $page_gui->getPageConfig();
-        $menu = ilPageObjectGUI::getTinyMenu(
-            $page_type,
-            $cfg->getEnableInternalLinks(),
-            $cfg->getEnableWikiLinks(),
-            $cfg->getEnableKeywords(),
-            $style_id,
-            true,
-            true,
-            $cfg->getEnableAnchors(),
-            true,
-            $cfg->getEnableUserLinks(),
-            $ui_wrapper
-        );
+    ) : array;
 
-        return [
-            "menu" => $menu
-        ];
-    }
-
+    /**
+     * Get rendered editor elements
+     */
     public function getEditComponentForm(
         UIWrapper $ui_wrapper,
         string $page_type,
         \ilPageObjectGUI $page_gui,
         int $style_id,
         string $pcid
-    ) : string {
-        return "";
-    }
+    ) : string;
 }

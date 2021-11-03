@@ -178,7 +178,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
     /**
     * Show the page
     */
-    public function showPage($a_mode = "preview")
+    public function showPage($a_mode = "preview") : string
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -195,7 +195,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
     /**
      * Set standard link xml (currently only glossaries)
      */
-    public function setDefaultLinkXml()
+    public function setDefaultLinkXml() : void
     {
         $int_links = $this->getPageObject()->getInternalLinks(true);
         $this->glossary_links = $int_links;
@@ -255,7 +255,7 @@ class ilSCORM2004PageGUI extends ilPageObjectGUI
      * Post output processing:
      * - Add glossary divs
      */
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         if ($this->scorm_mode != "export") {
             $tpl = new ilTemplate("tpl.glossary_entries.html", true, true, "Modules/Scorm2004");

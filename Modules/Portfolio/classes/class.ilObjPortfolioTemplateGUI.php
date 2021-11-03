@@ -465,7 +465,7 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             $page = $this->getPageInstance();
             $page->setType(ilPortfolioTemplatePage::TYPE_BLOG_TEMPLATE);
             $page->setTitle($form->getInput("blog"));
-            $page->create();
+            $page->create(false);
 
             ilUtil::sendSuccess($this->lng->txt("prtf_blog_page_created"), true);
             $this->ctrl->redirect($this, "view");

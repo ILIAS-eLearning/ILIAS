@@ -11,28 +11,17 @@
  */
 class ilPCMyCourses extends ilPageContent
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected php4DOMElement $mcrs_node;
+    protected ilObjUser $user;
 
-    public $dom;
-
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         global $DIC;
         $this->user = $DIC->user();
         $this->setType("mcrs");
     }
     
-    /**
-     * Get lang vars needed for editing
-     * @return array array of lang var keys
-     */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("ed_insert_my_courses", "pc_mcrs");
     }
@@ -40,10 +29,10 @@ class ilPCMyCourses extends ilPageContent
     /**
     * Set node
     */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
-        $this->mcrs_node = &$a_node->first_child();		// this is the courses node
+        $this->mcrs_node = $a_node->first_child();		// this is the courses node
     }
 
     /**

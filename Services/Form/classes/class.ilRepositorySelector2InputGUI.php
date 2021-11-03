@@ -34,9 +34,8 @@ class ilRepositorySelector2InputGUI extends ilExplorerSelectInputGUI
         $this->ctrl = $DIC->ctrl();
         $this->multi_nodes = $a_multi;
         $this->postvar = $a_postvar;
-
         $this->explorer_gui = new ilRepositorySelectorExplorerGUI(
-            [$form, ilFormPropertyDispatchGUI::class, ilRepositorySelector2InputGUI::class],
+            [get_class($form), ilFormPropertyDispatchGUI::class, ilRepositorySelector2InputGUI::class],
             $this->getExplHandleCmd(),
             $this,
             "selectRepositoryItem",

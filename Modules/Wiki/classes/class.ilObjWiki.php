@@ -371,7 +371,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page = new ilWikiPage();
             $start_page->setWikiId($this->getId());
             $start_page->setTitle($this->getStartPage());
-            $start_page->create();
+            $start_page->create(false);
         }
 
         if (((int) $this->getStyleSheetId()) > 0) {
@@ -418,7 +418,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $start_page = new ilWikiPage();
             $start_page->setWikiId($this->getId());
             $start_page->setTitle($this->getStartPage());
-            $start_page->create();
+            $start_page->create(false);
         }
 
         ilObjStyleSheet::writeStyleUsage($this->getId(), $this->getStyleSheetId());
@@ -942,7 +942,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             $new_page->setBlocked($page->getBlocked());
             $new_page->setRating($page->getRating());
             $new_page->hideAdvancedMetadata($page->isAdvancedMetadataHidden());
-            $new_page->create();
+            $new_page->create(false);
 
             $page->copy($new_page->getId(), "", 0, true);
             //$new_page->setXMLContent($page->copyXMLContent(true));
@@ -1017,7 +1017,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
 
         // needed for notification
         $page->setWikiRefId($this->getRefId());
-        $page->create();
+        $page->create(false);
 
         // copy template into new page
         if ($a_template_page > 0) {

@@ -1,35 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * User interface class for page content map editor
  *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPCImageMapEditorGUI: ilInternalLinkGUI
  */
 class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 {
+    protected ilMediaAliasItem $std_alias_item;
+    protected ilPageObject $page;
     /**
-     * @var ilLanguage
+     * @var ilPCInteractiveImage|ilPCMediaObject
      */
-    protected $lng;
+    protected $content_obj;
 
     /**
-     * @var ilCtrl
+     * @param ilPCMediaObject|ilPCInteractiveImage $a_content_obj
      */
-    protected $ctrl;
-
-    /**
-    * Constructor
-    */
-    public function __construct($a_content_obj, $a_page)
-    {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
+    public function __construct(
+        $a_content_obj,
+        ilPageObject $a_page
+    ) {
         $this->content_obj = $a_content_obj;
         $this->page = $a_page;
         parent::__construct($a_content_obj->getMediaObject());
@@ -38,25 +43,17 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             $this->content_obj->dom,
             $this->content_obj->hier_id,
             "Standard",
-            $this->content_obj->getPcId(),
+            $this->content_obj->getPCId(),
             $this->getParentNodeName()
         );
     }
-    
-    /**
-     * Get parent node name
-     *
-     * @return string name of parent node
-     */
-    public function getParentNodeName()
+
+    public function getParentNodeName() : string
     {
         return "MediaObject";
     }
 
-    /**
-    * Get table HTML
-    */
-    public function getImageMapTableHTML()
+    public function getImageMapTableHTML() : string
     {
         $image_map_table = new ilPCImageMapTableGUI(
             $this,
@@ -68,9 +65,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     }
 
     /**
-    * Save new or updated map area
-    */
-    public function saveArea()
+     * Save new or updated map area
+     */
+    public function saveArea() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -99,7 +96,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                         ilUtil::stripSlashes($_POST["area_link_ext"])
                     );
                 }
-                $this->updated = $this->page->update();
+                $this->page->update();
                 break;
 
             // save edited shape
@@ -111,7 +108,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                     $_SESSION["il_map_edit_area_type"],
                     $_SESSION["il_map_edit_coords"]
                 );
-                $this->updated = $this->page->update();
+                $this->page->update();
                 break;
 
             // save new area
@@ -147,10 +144,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                     $area_type,
                     $coords,
                     ilUtil::stripSlashes($_POST["area_name"]),
-                    $link
+                    []
                 );
-                $this->updated = $this->page->update();
-
+                $this->page->update();
                 break;
         }
 
@@ -160,9 +156,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     }
 
     /**
-    * Delete map areas
-    */
-    public function deleteAreas()
+     * Delete map areas
+     */
+    public function deleteAreas() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -181,7 +177,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             foreach ($_POST["area"] as $area_nr) {
                 $this->std_alias_item->deleteMapArea($area_nr);
             }
-            $this->updated = $this->page->update();
+            $this->page->update();
             ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
         }
 
@@ -189,59 +185,49 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     }
 
     /**
-    * Get Link Type of Area
-    */
-    public function getLinkTypeOfArea($a_nr)
+     * Get Link Type of Area
+     */
+    public function getLinkTypeOfArea(int $a_nr) : string
     {
-        //		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-        //			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
         return $this->std_alias_item->getLinkTypeOfArea($a_nr);
     }
 
     /**
-    * Get Type of Area (only internal link)
-    */
-    public function getTypeOfArea($a_nr)
+     * Get Type of Area (only internal link)
+     */
+    public function getTypeOfArea(int $a_nr) : string
     {
-        //		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-        //			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
         return $this->std_alias_item->getTypeOfArea($a_nr);
     }
 
     /**
-    * Get Target of Area (only internal link)
-    */
-    public function getTargetOfArea($a_nr)
+     * Get Target of Area (only internal link)
+     */
+    public function getTargetOfArea(int $a_nr) : string
     {
-        //		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-        //			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
         return $this->std_alias_item->getTargetOfArea($a_nr);
     }
 
     /**
-    * Get TargetFrame of Area (only internal link)
-    */
-    public function getTargetFrameOfArea($a_nr)
+     * Get TargetFrame of Area (only internal link)
+     */
+    public function getTargetFrameOfArea(int $a_nr) : string
     {
-        //		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-        //			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
         return $this->std_alias_item->getTargetFrameOfArea($a_nr);
     }
 
     /**
-    * Get Href of Area (only external link)
-    */
-    public function getHrefOfArea($a_nr)
+     * Get Href of Area (only external link)
+     */
+    public function getHrefOfArea(int $a_nr) : string
     {
-        //		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-        //			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
         return $this->std_alias_item->getHrefOfArea($a_nr);
     }
 
     /**
-    * Update map areas
-    */
-    public function updateAreas()
+     * Update map areas
+     */
+    public function updateAreas() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -275,15 +261,15 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     }
     
     /**
-    * Make work file for editing
-    */
+     * Make work file for editing
+     */
     public function makeMapWorkCopy(
-        $a_edit_property = "",
-        $a_area_nr = 0,
-        $a_output_new_area = false,
-        $a_area_type = "",
-        $a_coords = ""
-    ) {
+        string $a_edit_property = "",
+        int $a_area_nr = 0,
+        bool $a_output_new_area = false,
+        string $a_area_type = "",
+        string $a_coords = ""
+    ) : void {
         // old for pc media object
         //		$media_object = $this->media_object->getMediaItem("Standard");
         $media_object = $this->content_obj->getMediaObject();
@@ -294,7 +280,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             $this->content_obj->dom,
             $this->content_obj->hier_id,
             "Standard",
-            $this->content_obj->getPcId(),
+            $this->content_obj->getPCId(),
             $this->getParentNodeName()
         );
 
@@ -319,7 +305,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         }
     }
 
-    public function getAliasXML()
+    public function getAliasXML() : string
     {
         return $this->content_obj->dumpXML();
     }

@@ -63,7 +63,6 @@ abstract class ilExplorerBaseGUI
     ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
-
         $this->log = $DIC["ilLog"];
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC["tpl"];
@@ -531,7 +530,6 @@ abstract class ilExplorerBaseGUI
                 $open_nodes[] = $dnode;
             }
         }
-
         // ilias config options
         $url = "";
         if (!$this->getOfflineMode()) {

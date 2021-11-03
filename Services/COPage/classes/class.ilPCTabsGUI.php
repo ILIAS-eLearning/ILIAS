@@ -1,35 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * User Interface for Tabbed Content
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCTabsGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilPropertyFormGUI $form;
+    protected ilDBInterface $db;
+    protected ilTabsGUI $tabs;
+    protected ilToolbarGUI $toolbar;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -41,10 +41,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -54,18 +51,17 @@ class ilPCTabsGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
     /**
-    * Insert new tabs
-    */
-    public function insert($a_omit_form_init = false)
-    {
+     * Insert new tabs
+     */
+    public function insert(
+        bool $a_omit_form_init = false
+    ) : void {
         $tpl = $this->tpl;
         
         $this->displayValidationError();
@@ -77,13 +73,8 @@ class ilPCTabsGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    /**
-    * Edit tabs
-    */
-    public function editProperties()
+    public function editProperties() : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
         $tpl = $this->tpl;
         
         $this->displayValidationError();
@@ -95,11 +86,9 @@ class ilPCTabsGUI extends ilPageContentGUI
         $tpl->setContent($html);
     }
 
-    /**
-    * Insert tabs form.
-    */
-    public function initForm($a_mode = "edit")
-    {
+    public function initForm(
+        string $a_mode = "edit"
+    ) : void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
@@ -272,10 +261,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         }
     }
 
-    /**
-    * Get form values
-    */
-    public function getFormValues()
+    public function getFormValues() : void
     {
         $values["type"] = $this->content_obj->getTabType();
         $values["content_width"] = $this->content_obj->getContentWidth();
@@ -313,12 +299,8 @@ class ilPCTabsGUI extends ilPageContentGUI
         }
     }
 
-    /**
-    * Create new tabs in dom and update page in db
-    */
-    public function create()
+    public function create() : void
     {
-        $ilDB = $this->db;
         $lng = $this->lng;
         
         $this->initForm("create");
@@ -336,21 +318,16 @@ class ilPCTabsGUI extends ilPageContentGUI
 
             if ($this->updated === true) {
                 $this->afterCreation();
-            //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
             } else {
                 $this->insert();
             }
         } else {
             $this->form->setValuesByPost();
             $this->insert(true);
-            //			return $this->form->getHtml();
         }
     }
     
-    /**
-     * After creation processing
-     */
-    public function afterCreation()
+    public function afterCreation() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -360,17 +337,11 @@ class ilPCTabsGUI extends ilPageContentGUI
         $ilCtrl->setParameter($this, "pc_id", $this->content_obj->readPCId());
         $this->content_obj->setHierId($this->content_obj->readHierId());
         $this->setHierId($this->content_obj->readHierId());
-        $this->content_obj->setPCId($this->content_obj->readPCId());
+        $this->content_obj->setPcId($this->content_obj->readPCId());
         $this->edit();
     }
 
-    /**
-     * Set properties by post
-     *
-     * @param
-     * @return
-     */
-    public function setPropertiesByForm()
+    public function setPropertiesByForm() : void
     {
         $c = $this->content_obj;
         $f = $this->form;
@@ -404,11 +375,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         }
     }
 
-
-    /**
-    * Save tabs properties in db and return to page edit screen
-    */
-    public function update()
+    public function update() : void
     {
         $this->initForm();
         $this->updated = false;
@@ -419,22 +386,13 @@ class ilPCTabsGUI extends ilPageContentGUI
         if ($this->updated === true) {
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
             $this->ctrl->redirect($this, "editProperties");
-        //$this->ctrl->returnToParent($this, "jump".$this->hier_id);
         } else {
             $this->pg_obj->addHierIDs();
             $this->editProperties();
         }
     }
     
-    //
-    // Edit Tabs
-    //
-    
-    
-    /**
-    * List all tabs
-    */
-    public function edit()
+    public function edit() : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -449,14 +407,16 @@ class ilPCTabsGUI extends ilPageContentGUI
 
         $this->setTabs();
         $ilTabs->activateTab("cont_tabs");
-        $table_gui = new ilPCTabsTableGUI($this, "edit", $this->content_obj);
+        /** @var ilPCTabs $tabs */
+        $tabs = $this->content_obj;
+        $table_gui = new ilPCTabsTableGUI($this, "edit", $tabs);
         $tpl->setContent($table_gui->getHTML());
     }
     
     /**
-    * Save tabs properties in db and return to page edit screen
-    */
-    public function saveTabs()
+     * Save tabs properties in db and return to page edit screen
+     */
+    public function saveTabs() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -475,9 +435,9 @@ class ilPCTabsGUI extends ilPageContentGUI
     }
 
     /**
-    * Save tabs properties in db and return to page edit screen
-    */
-    public function addTab()
+     * Save tabs properties in db and return to page edit screen
+     */
+    public function addTab() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -489,10 +449,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $ilCtrl->redirect($this, "edit");
     }
     
-    /**
-    * Confirm tabs deletion
-    */
-    public function confirmTabsDeletion()
+    public function confirmTabsDeletion() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -523,19 +480,13 @@ class ilPCTabsGUI extends ilPageContentGUI
         }
     }
     
-    /**
-    * Cancel tab deletion
-    */
-    public function cancelTabDeletion()
+    public function cancelTabDeletion() : void
     {
         $ilCtrl = $this->ctrl;
         $ilCtrl->redirect($this, "edit");
     }
     
-    /**
-    * Delete Tabs
-    */
-    public function deleteTabs()
+    public function deleteTabs() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -550,11 +501,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $ilCtrl->redirect($this, "edit");
     }
     
-    
-    /**
-    * Set tabs
-    */
-    public function setTabs()
+    public function setTabs() : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;

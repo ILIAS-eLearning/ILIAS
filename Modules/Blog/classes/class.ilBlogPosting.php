@@ -19,10 +19,9 @@ class ilBlogPosting extends ilPageObject
 
     /**
      * Get parent type
-     *
      * @return string parent type
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         return "blp";
     }
@@ -148,8 +147,9 @@ class ilBlogPosting extends ilPageObject
 
     /**
      * Create new blog posting
+     * @param bool $a_import
      */
-    public function create($a_import = false)
+    public function create(bool $a_import = false) : void
     {
         $ilDB = $this->db;
 
@@ -176,22 +176,17 @@ class ilBlogPosting extends ilPageObject
         $ilDB->manipulate($query);
 
         if (!$a_import) {
-            parent::create();
+            parent::create($a_import);
             // $this->saveInternalLinks($this->getXMLContent());
         }
     }
 
-    /**
-     * Update blog posting
-     *
-     * @param bool $a_validate
-     * @param bool $a_no_history
-     * @param bool $a_notify
-     * @param string $a_notify_action
-     * @return bool
-     */
-    public function update($a_validate = true, $a_no_history = false, $a_notify = true, $a_notify_action = "update") : bool
-    {
+    public function update(
+        bool $a_validate = true,
+        bool $a_no_history = false,
+        $a_notify = true,
+        $a_notify_action = "update"
+    ) : bool {
         $ilDB = $this->db;
 
         // blog_id, author and created cannot be changed
@@ -216,7 +211,7 @@ class ilBlogPosting extends ilPageObject
     /**
      * Read blog posting
      */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -250,10 +245,9 @@ class ilBlogPosting extends ilPageObject
 
     /**
      * Delete blog posting and all related data
-     *
-     * @return bool
+     * @return void
      */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
 
@@ -269,8 +263,6 @@ class ilBlogPosting extends ilPageObject
         $ilDB->manipulate($query);
         
         parent::delete();
-
-        return true;
     }
 
     /**

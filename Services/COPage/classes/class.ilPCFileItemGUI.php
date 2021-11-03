@@ -1,43 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilPCFileItemGUI
- *
  * Handles user commands on items of file lists
- *
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCFileItemGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
+    protected ilObjFile $file_object;
+    protected ilTabsGUI $tabs;
+    protected ilObjUser $user;
+    protected ilTree $tree;
+    protected ilSetting $settings;
 
 
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -50,10 +45,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -62,17 +54,15 @@ class ilPCFileItemGUI extends ilPageContentGUI
         $cmd = $this->ctrl->getCmd();
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
     /**
-    * insert new file item
-    */
-    public function newFileItem()
+     * insert new file item
+     */
+    public function newFileItem() : bool
     {
         $lng = $this->lng;
         
@@ -114,7 +104,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     /**
      * insert new list item after current one
      */
-    public function newItemAfter()
+    public function newItemAfter() : void
     {
         $ilTabs = $this->tabs;
         
@@ -151,25 +141,6 @@ class ilPCFileItemGUI extends ilPageContentGUI
                 $this->displayValidationError();
                 $form = $this->initAddFileForm(false);
                 $this->tpl->setContent($form->getHTML());
-break;
-
-                // new file list form
-                $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", "Services/COPage");
-                $this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_item"));
-                $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        
-                $this->displayValidationError();
-        
-                // file
-                $this->tpl->setVariable("TXT_FILE", $this->lng->txt("file"));
-        
-                $this->tpl->parseCurrentBlock();
-        
-                // operations
-                $this->tpl->setCurrentBlock("commands");
-                $this->tpl->setVariable("BTN_NAME", "insertNewItemAfter");
-                $this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-                $this->tpl->parseCurrentBlock();
                 break;
         }
     }
@@ -177,7 +148,7 @@ break;
     /**
      * Init add file form
      */
-    public function initAddFileForm($a_before = true)
+    public function initAddFileForm(bool $a_before = true) : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -205,9 +176,9 @@ break;
 
     
     /**
-    * Insert file from repository
-    */
-    public function insertFromRepository($a_cmd)
+     * Insert file from repository
+     */
+    public function insertFromRepository(string $a_cmd) : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -230,9 +201,9 @@ break;
     }
     
     /**
-    * Insert file from personal workspace
-    */
-    public function insertFromWorkspace($a_cmd = "insert")
+     * Insert file from personal workspace
+     */
+    public function insertFromWorkspace(string $a_cmd = "insert") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -254,9 +225,9 @@ break;
     }
 
     /**
-    * insert new file item after another item
-    */
-    public function insertNewItemAfter($a_file_ref_id = 0)
+     * insert new file item after another item
+     */
+    public function insertNewItemAfter(int $a_file_ref_id = 0) : void
     {
         $ilUser = $this->user;
         
@@ -289,9 +260,9 @@ break;
     }
 
     /**
-    * insert new list item before current one
-    */
-    public function newItemBefore()
+     * insert new list item before current one
+     */
+    public function newItemBefore() : void
     {
         $ilTabs = $this->tabs;
         
@@ -328,33 +299,13 @@ break;
                 $this->displayValidationError();
                 $form = $this->initAddFileForm(true);
                 $this->tpl->setContent($form->getHTML());
-break;
-                
-                // new file list form
-                $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.file_item_edit.html", "Services/COPage");
-                $this->tpl->setVariable("TXT_ACTION", $this->lng->txt("cont_insert_file_item"));
-                $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
-        
-                $this->displayValidationError();
-        
-                // file
-                $this->tpl->setVariable("TXT_FILE", $this->lng->txt("file"));
-        
-                $this->tpl->parseCurrentBlock();
-        
-                // operations
-                $this->tpl->setCurrentBlock("commands");
-                $this->tpl->setVariable("BTN_NAME", "insertNewItemBefore");
-                $this->tpl->setVariable("BTN_TEXT", $this->lng->txt("save"));
-                $this->tpl->parseCurrentBlock();
-                break;
         }
     }
 
     /**
-    * insert new list item before current one
-    */
-    public function insertNewItemBefore($a_file_ref_id = 0)
+     * insert new list item before current one
+     */
+    public function insertNewItemBefore(int $a_file_ref_id = 0) : void
     {
         $ilUser = $this->user;
         
@@ -387,9 +338,9 @@ break;
     }
 
     /**
-    * delete a list item
-    */
-    public function deleteItem()
+     * delete a list item
+     */
+    public function deleteItem() : void
     {
         $this->content_obj->deleteItem();
         $_SESSION["il_pg_error"] = $this->pg_obj->update();
@@ -397,9 +348,9 @@ break;
     }
 
     /**
-    * output tabs
-    */
-    public function setTabs($a_cmd = "")
+     * output tabs
+     */
+    public function setTabs(string $a_cmd = "") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -442,9 +393,9 @@ break;
     }
 
     /**
-    * move list item down
-    */
-    public function moveItemDown()
+     * move list item down
+     */
+    public function moveItemDown() : void
     {
         $this->content_obj->moveItemDown();
         $_SESSION["il_pg_error"] = $this->pg_obj->update();
@@ -452,9 +403,9 @@ break;
     }
 
     /**
-    * move list item up
-    */
-    public function moveItemUp()
+     * move list item up
+     */
+    public function moveItemUp() : void
     {
         $this->content_obj->moveItemUp();
         $_SESSION["il_pg_error"] = $this->pg_obj->update();
@@ -464,7 +415,7 @@ break;
     /**
      * Cancel adding a file
      */
-    public function cancelAddFile()
+    public function cancelAddFile() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }

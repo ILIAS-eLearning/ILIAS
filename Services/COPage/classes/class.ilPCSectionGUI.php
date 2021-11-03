@@ -1,22 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * User Interface for Section Editing
- *
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilPCSectionGUI: ilPropertyFormGUI
  */
 class ilPCSectionGUI extends ilPageContentGUI
 {
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ?ilPageContent $a_content_obj = null,
+        string $a_hier_id = "",
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -27,17 +36,12 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->setCharacteristics(ilPCSectionGUI::_getStandardCharacteristics());
     }
 
-    /**
-     * Get HTML
-     * @param array $params
-     * @return string
-     */
-    public function getHTML(array $params)
+    public function getHTML(array $params) : string
     {
-        $this->getCharacteristicsOfCurrentStyle("section");
+        $this->getCharacteristicsOfCurrentStyle(["section"]);
 
         if ($params["form"] == true) {
-            $insert = (bool) !($this->content_obj);
+            $insert = !($this->content_obj);
             $form = $this->initForm($insert);
             $form->setShowTopButtons(false);
 
@@ -72,10 +76,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         return "";
     }
 
-    /**
-    * Get standard characteristics
-    */
-    public static function _getStandardCharacteristics()
+    public static function _getStandardCharacteristics() : array
     {
         global $DIC;
 
@@ -103,10 +104,7 @@ class ilPCSectionGUI extends ilPageContentGUI
             "AdvancedKnowledge" => $lng->txt("cont_AdvancedKnowledge"));
     }
     
-    /**
-    * Get characteristics
-    */
-    public static function _getCharacteristics($a_style_id)
+    public static function _getCharacteristics(string $a_style_id) : array
     {
         $chars = ilPCSectionGUI::_getStandardCharacteristics();
 
@@ -129,11 +127,14 @@ class ilPCSectionGUI extends ilPageContentGUI
     }
 
     /**
-    * execute command
-    */
+     * @return mixed
+     * @throws ilCtrlException
+     */
     public function executeCommand()
     {
-        $this->getCharacteristicsOfCurrentStyle("section");	// scorm-2004
+        $ret = "";
+
+        $this->getCharacteristicsOfCurrentStyle(["section"]);	// scorm-2004
 
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -155,19 +156,15 @@ class ilPCSectionGUI extends ilPageContentGUI
         return $ret;
     }
 
-    /**
-    * Insert new section form.
-    */
-    public function insert(ilPropertyFormGUI $a_form = null)
+    public function insert(ilPropertyFormGUI $a_form = null) : void
     {
         $this->edit(true, $a_form);
     }
 
-    /**
-    * Edit section form.
-    */
-    public function edit($a_insert = false, ilPropertyFormGUI $a_form = null)
-    {
+    public function edit(
+        bool $a_insert = false,
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $tpl = $this->tpl;
         
         $this->displayValidationError();
@@ -179,13 +176,12 @@ class ilPCSectionGUI extends ilPageContentGUI
         $tpl->setContent($a_form->getHTML());
     }
 
-    /**
-     * Init editing form
-     */
-    public function initForm($a_insert = false)
-    {
+    public function initForm(
+        bool $a_insert = false
+    ) : ilPropertyFormGUI {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $a_seleted_value = "";
 
         // edit form
         $form = new ilPropertyFormGUI();
@@ -273,8 +269,9 @@ class ilPCSectionGUI extends ilPageContentGUI
 
         // rep selector
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
-            $rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id");
-            $rs->setParent($this);
+            $rs = new ilRepositorySelector2InputGUI($lng->txt("cont_permission_object"), "permission_ref_id", false, $form);
+            //$rs->setParent($this);
+            $rs->setParentForm($form);
             $form->addItem($rs);
 
             // permission
@@ -306,11 +303,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         return $form;
     }
 
-
-    /**
-    * Create new Section.
-    */
-    public function create()
+    public function create() : void
     {
         $form = $this->initForm(true);
         if ($form->checkInput()) {
@@ -328,10 +321,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->insert($form);
     }
 
-    /**
-    * Update Section.
-    */
-    public function update()
+    public function update() : void
     {
         $form = $this->initForm(false);
         if ($form->checkInput()) {
@@ -347,12 +337,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         $this->edit(false, $form);
     }
 
-    /**
-     * Set values from form
-     *
-     * @param object $form form object
-     */
-    public function setValuesFromForm($form)
+    public function setValuesFromForm(ilPropertyFormGUI $form) : void
     {
         $this->content_obj->setCharacteristic($_POST["characteristic"]);
 
@@ -378,11 +363,7 @@ class ilPCSectionGUI extends ilPageContentGUI
         if ($_POST["link_mode"] == "ext" && $_POST["link"] != "") {
             $this->content_obj->setExtLink($_POST["link"]);
         } elseif ($_POST["link_mode"] == "int" && $_POST["link"] != "") {
-            // $_POST["link"] is "crs|96", "chap|2", "term|1", "wpage|1"
-            //			var_dump($_POST);
             $la = $form->getItemByPostVar("link")->getIntLinkAttributes();
-            //			echo "<br>";
-            //			var_dump($la); exit;
             if ($la["Type"] != "") {
                 $this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"]);
             }

@@ -14,7 +14,7 @@ class ilLMPageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init()
+    public function init() : void
     {
         $lm_set = new ilSetting("lm");
         

@@ -11,25 +11,11 @@
  */
 class ilImageMapEditorGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilToolbarGUI $toolbar;
 
     /**
     * Constructor
@@ -39,7 +25,7 @@ class ilImageMapEditorGUI
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->tpl = $DIC["tpl"];
+        $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
         $this->toolbar = $DIC->toolbar();
         $this->media_object = $a_media_object;
@@ -51,8 +37,7 @@ class ilImageMapEditorGUI
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd();
 
@@ -89,9 +74,7 @@ class ilImageMapEditorGUI
     public function editMapAreas()
     {
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilToolbar = $this->toolbar;
-        
+
         $_SESSION["il_map_edit_target_script"] = $ilCtrl->getLinkTarget(
             $this,
             "addArea",
@@ -127,8 +110,7 @@ class ilImageMapEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $tpl = $this->tpl;
-        
+
         // toolbar
         $tb = new ilToolbarGUI();
         $tb->setFormAction($ilCtrl->getFormAction($this));
@@ -382,12 +364,12 @@ class ilImageMapEditorGUI
     * @param	string		$a_edit_property			"" | "link" | "shape"
     */
     public function editMapArea(
-        $a_get_next_coordinate = false,
-        $a_output_new_area = false,
-        $a_save_form = false,
-        $a_edit_property = "",
-        $a_area_nr = 0
-    ) {
+        bool $a_get_next_coordinate = false,
+        bool $a_output_new_area = false,
+        bool $a_save_form = false,
+        string $a_edit_property = "",
+        int $a_area_nr = 0
+    ) : string {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
@@ -477,11 +459,10 @@ class ilImageMapEditorGUI
     
     /**
      * Init area editing form.
-     *
-     * @param        int        $a_mode        Edit Mode
      */
-    public function initAreaEditingForm($a_edit_property)
-    {
+    public function initAreaEditingForm(
+        string $a_edit_property
+    ) : ilPropertyFormGUI {
         $lng = $this->lng;
 
         $form = new ilPropertyFormGUI();
@@ -571,12 +552,12 @@ class ilImageMapEditorGUI
     * Make work file for editing
     */
     public function makeMapWorkCopy(
-        $a_edit_property = "",
-        $a_area_nr = 0,
-        $a_output_new_area = false,
-        $a_area_type = "",
-        $a_coords = ""
-    ) {
+        string $a_edit_property = "",
+        int $a_area_nr = 0,
+        bool $a_output_new_area = false,
+        string $a_area_type = "",
+        string $a_coords = ""
+    ) : void {
         // create/update imagemap work copy
         $st_item = $this->media_object->getMediaItem("Standard");
 
@@ -647,11 +628,10 @@ class ilImageMapEditorGUI
     
     /**
      * Output post processing
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function outputPostProcessing($a_output)
+    public function outputPostProcessing(string $a_output) : string
     {
         return $a_output;
     }
@@ -894,7 +874,7 @@ class ilImageMapEditorGUI
     /**
     * Get Link Type of Area
     */
-    public function getLinkTypeOfArea($a_nr)
+    public function getLinkTypeOfArea(int $a_nr) : string
     {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);
@@ -904,7 +884,7 @@ class ilImageMapEditorGUI
     /**
     * Get Type of Area (only internal link)
     */
-    public function getTypeOfArea($a_nr)
+    public function getTypeOfArea(int $a_nr) : string
     {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);
@@ -914,7 +894,7 @@ class ilImageMapEditorGUI
     /**
     * Get Target of Area (only internal link)
     */
-    public function getTargetOfArea($a_nr)
+    public function getTargetOfArea(int $a_nr) : string
     {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);
@@ -924,7 +904,7 @@ class ilImageMapEditorGUI
     /**
     * Get TargetFrame of Area (only internal link)
     */
-    public function getTargetFrameOfArea($a_nr)
+    public function getTargetFrameOfArea(int $a_nr) : string
     {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);
@@ -934,7 +914,7 @@ class ilImageMapEditorGUI
     /**
     * Get Href of Area (only external link)
     */
-    public function getHrefOfArea($a_nr)
+    public function getHrefOfArea(int $a_nr) : string
     {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);

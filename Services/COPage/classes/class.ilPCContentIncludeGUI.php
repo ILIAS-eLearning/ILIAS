@@ -1,33 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilPCContentIncludeGUI
- *
  * User Interface for Content Includes (Snippets) Editing
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCContentIncludeGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
+    protected ilAccessHandler $access;
+    protected ilTabsGUI $tabs;
 
 
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -38,10 +41,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -51,17 +51,15 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
     /**
-    * Insert new resources component form.
-    */
-    public function insert()
+     * Insert new resources component form.
+     */
+    public function insert() : void
     {
         switch ($_GET["subCmd"]) {
             case "selectPool":
@@ -73,19 +71,18 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
                 break;
 
             default:
-                $this->insertFromPool($a_post_cmd, $a_submit_cmd);
+                $this->insertFromPool();
                 break;
         }
     }
     
     /**
-    * Insert page snippet from media pool
-    */
-    public function insertFromPool($a_post_cmd = "edpost", $a_submit_cmd = "create_mob")
+     * Insert page snippet from media pool
+     */
+    public function insertFromPool() : void
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
-        $ilTabs = $this->tabs;
         $tpl = $this->tpl;
         $lng = $this->lng;
         
@@ -126,9 +123,9 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     }
 
     /**
-    * Pool Selection
-    */
-    public function poolSelection()
+     * Pool Selection
+     */
+    public function poolSelection() : void
     {
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
@@ -146,9 +143,9 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     }
 
     /**
-    * create new content include in dom and update page in db
-    */
-    public function create()
+     * create new content include in dom and update page in db
+     */
+    public function create() : void
     {
         if (is_array($_POST["id"])) {
             for ($i = count($_POST["id"]) - 1; $i >= 0; $i--) {
@@ -168,9 +165,9 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     }
 
     /**
-    * Select concrete pool
-    */
-    public function selectPool()
+     * Select concrete pool
+     */
+    public function selectPool() : void
     {
         $ilCtrl = $this->ctrl;
         

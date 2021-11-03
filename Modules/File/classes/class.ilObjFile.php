@@ -308,7 +308,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
 
     /**
-     * @param $a_mode self::MODE_FILELIST or self::MODE_OBJECT
+     * @param string $a_mode self::MODE_FILELIST or self::MODE_OBJECT
      */
     public function setMode($a_mode)
     {

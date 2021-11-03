@@ -1,48 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilPCListGUI
  *
  * User Interface for LM List Editing
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCFileListGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected ilTabsGUI $tabs;
+    protected ilTree $tree;
+    protected ilToolbarGUI $toolbar;
+    protected ilSetting $settings;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
@@ -58,33 +48,30 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
 
     /**
-    * execute command
-    */
-    public function executeCommand()
+     * execute command
+     */
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
         
-        $this->getCharacteristicsOfCurrentStyle("flist_li");	// scorm-2004
+        $this->getCharacteristicsOfCurrentStyle(["flist_li"]);	// scorm-2004
 
         // get current command
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
     /**
-    * insert new file list form
-    */
-    public function insert($a_form = null)
+     * insert new file list form
+     */
+    public function insert(ilPropertyFormGUI $a_form = null) : void
     {
-        $ilUser = $this->user;
         $ilTabs = $this->tabs;
 
         if ($_GET["subCmd"] == "insertNew") {
@@ -147,9 +134,9 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
     
     /**
-    * Insert file from repository
-    */
-    public function insertFromRepository($a_cmd = "insert")
+     * Insert file from repository
+     */
+    public function insertFromRepository(string $a_cmd = "insert") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -177,12 +164,12 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
     
     /**
-    * Insert file from personal workspace
-    */
-    public function insertFromWorkspace($a_cmd = "insert")
-    {
+     * Insert file from personal workspace
+     */
+    public function insertFromWorkspace(
+        string $a_cmd = "insert"
+    ) : void {
         $ilTabs = $this->tabs;
-        $tree = $this->tree;
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $ilUser = $this->user;
@@ -208,9 +195,9 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
     
     /**
-    * create new file list in dom and update page in db
-    */
-    public function create()
+     * create new file list in dom and update page in db
+     */
+    public function create() : void
     {
         global $DIC;
 
@@ -278,9 +265,9 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
 
     /**
-    * edit properties form
-    */
-    public function edit()
+     * edit properties form
+     */
+    public function edit() : void
     {
         $this->setTabs(false);
         
@@ -290,15 +277,15 @@ class ilPCFileListGUI extends ilPageContentGUI
 
     /**
      * Init edit form
-     *
-     * @param        int        $a_mode        Edit Mode
      */
-    public function initEditForm($a_mode = "edit")
+    public function initEditForm(string $a_mode = "edit") : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
-    
+
+        $ti = null;
+        $si = null;
         $form = new ilPropertyFormGUI();
         
         if ($a_mode != "add_file") {
@@ -391,9 +378,9 @@ class ilPCFileListGUI extends ilPageContentGUI
     
 
     /**
-    * save table properties in db and return to page edit screen
-    */
-    public function saveProperties()
+     * save table properties in db and return to page edit screen
+     */
+    public function saveProperties() : void
     {
         $this->content_obj->setListTitle(
             ilUtil::stripSlashes($_POST["flst_title"]),
@@ -409,9 +396,9 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
 
     /**
-    * Edit Files
-    */
-    public function editFiles()
+     * Edit Files
+     */
+    public function editFiles() : void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -424,15 +411,17 @@ class ilPCFileListGUI extends ilPageContentGUI
             $lng->txt("cont_add_file"),
             $ilCtrl->getLinkTarget($this, "addFileItem")
         );
-        
-        $table_gui = new ilPCFileListTableGUI($this, "editFiles", $this->content_obj);
+
+        /** @var ilPCFileList $fl */
+        $fl = $this->content_obj;
+        $table_gui = new ilPCFileListTableGUI($this, "editFiles", $fl);
         $tpl->setContent($table_gui->getHTML());
     }
 
     /**
-    * Set Tabs
-    */
-    public function setTabs($a_create = true)
+     * Set Tabs
+     */
+    public function setTabs(bool $a_create = true) : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -490,10 +479,10 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
 
     /**
-    * Add file item. This function is called from file list table and calls
-    * newItemAfter function.
-    */
-    public function addFileItem()
+     * Add file item. This function is called from file list table and calls
+     * newItemAfter function.
+     */
+    public function addFileItem() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -517,9 +506,9 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
     
     /**
-    * Delete file items from list
-    */
-    public function deleteFileItem()
+     * Delete file items from list
+     */
+    public function deleteFileItem() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -535,9 +524,9 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
     
     /**
-    * Save positions of file items
-    */
-    public function savePositions()
+     * Save positions of file items
+     */
+    public function savePositions() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -549,9 +538,9 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
 
     /**
-    * Save positions of file items and style classes
-    */
-    public function savePositionsAndClasses()
+     * Save positions of file items and style classes
+     */
+    public function savePositionsAndClasses() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -566,9 +555,9 @@ class ilPCFileListGUI extends ilPageContentGUI
     }
 
     /**
-    * Checks whether style selection shoudl be available or not
-    */
-    public function checkStyleSelection()
+     * Checks whether style selection shoudl be available or not
+     */
+    public function checkStyleSelection() : bool
     {
         // check whether there is more than one style class
         $chars = $this->getCharacteristics();
@@ -593,11 +582,8 @@ class ilPCFileListGUI extends ilPageContentGUI
 
     /**
      * New file item (called, if there is no file item in an existing)
-     *
-     * @param
-     * @return
      */
-    public function newFileItem()
+    public function newFileItem() : void
     {
         $ilTabs = $this->tabs;
 
@@ -642,7 +628,7 @@ class ilPCFileListGUI extends ilPageContentGUI
     /**
      * insert new file item after another item
      */
-    public function insertNewFileItem($a_file_ref_id = 0)
+    public function insertNewFileItem(int $a_file_ref_id = 0) : void
     {
         $ilUser = $this->user;
         
@@ -682,7 +668,7 @@ class ilPCFileListGUI extends ilPageContentGUI
     /**
      * insert new file item
      */
-    public function createFileItem()
+    public function createFileItem() : ?ilObjFile
     {
         global $DIC;
 
@@ -691,7 +677,7 @@ class ilPCFileListGUI extends ilPageContentGUI
         if ($_FILES["file"]["name"] == "") {
             $_GET["subCmd"] = "-";
             ilUtil::sendFailure($lng->txt("upload_error_file_not_found"));
-            return false;
+            return null;
         }
 
         $form = $this->initEditForm();
@@ -727,7 +713,7 @@ class ilPCFileListGUI extends ilPageContentGUI
     /**
      * output tabs
      */
-    public function setItemTabs($a_cmd = "")
+    public function setItemTabs(string $a_cmd = "") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
