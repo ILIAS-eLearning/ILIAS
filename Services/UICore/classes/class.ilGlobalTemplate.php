@@ -980,7 +980,6 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
             $this->setCurrentBlock("head_action_inner");
             $this->setVariable("HEAD_ACTION", $header);
             $this->parseCurrentBlock();
-            $this->touchBlock("head_action");
         }
 
         if (count((array) $this->title_alerts)) {
