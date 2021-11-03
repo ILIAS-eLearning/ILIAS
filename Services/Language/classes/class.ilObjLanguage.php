@@ -471,7 +471,7 @@ class ilObjLanguage extends ilObject
                     // [3]:	comment (optional)
                     $separated = explode($this->separator, trim($val));
                     $pos = strpos($separated[2], $this->comment_separator);
-                    if ($pos !== false) {
+                    if (str_contains($separated[2], $this->comment_separator)) {
                         $separated[3] = substr($separated[2], $pos + strlen($this->comment_separator));
                         $separated[2] = substr($separated[2], 0, $pos);
                     }

@@ -118,11 +118,11 @@ class ilLanguageFile
                     // get header params
                     $pos_par = strpos($line, "* @");
 
-                    if ($pos_par !== false) {
+                    if (str_contains($line, "* @")) {
                         $pos_par += 3;
                         $pos_space = strpos($line, " ", $pos_par);
                         $pos_tab = strpos($line, "\t", $pos_par);
-                        if ($pos_space !== false and $pos_tab !== false) {
+                        if ($pos_space !== false && $pos_tab !== false) {
                             $pos_white = min($pos_space, $pos_tab);
                         } elseif ($pos_space !== false) {
                             $pos_white = $pos_space;
@@ -156,7 +156,7 @@ class ilLanguageFile
 
                     // cut off comment
                     $pos = strpos($value, $this->comment_separator);
-                    if ($pos !== false) {
+                    if (str_contains($value, $this->comment_separator)) {
                         $this->comments[$key]
                             = substr($value, $pos + strlen($this->comment_separator));
                             
