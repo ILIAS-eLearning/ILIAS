@@ -408,7 +408,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 	    $changesSuccessBool = 1;
 
         // view the list
-        $this->viewObject(changesSuccessBool);
+        $this->viewObject($changesSuccessBool);
     }
 
 
