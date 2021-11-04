@@ -433,7 +433,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         switch ($next_class) {
             case "ilpermissiongui":
-                include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
+                include_once "Services/AccessControl/classes/class.ilPermissionGUI.php";
                 $perm_gui = new ilPermissionGUI($this);
                 $this->tabs_gui->activateTab("perm_settings");
                 $this->ctrl->forwardCommand($perm_gui);
@@ -600,7 +600,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $button->setUrl($this->ctrl->getLinkTarget($this, "downloadDeprecated"));
         $this->toolbar->addButtonInstance($button);
 
-        include_once("./Services/Language/classes/class.ilLangDeprecated.php");
+        include_once "./Services/Language/classes/class.ilLangDeprecated.php";
 
         $d = new ilLangDeprecated();
         $res = "";
@@ -616,7 +616,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
      */
     public function downloadDeprecatedObject()
     {
-        include_once("./Services/Language/classes/class.ilLangDeprecated.php");
+        include_once "./Services/Language/classes/class.ilLangDeprecated.php";
         $d = new ilLangDeprecated();
         $res = "";
         foreach ($d->getDeprecatedLangVars() as $key => $mod) {

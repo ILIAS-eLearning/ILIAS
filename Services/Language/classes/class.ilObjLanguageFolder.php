@@ -189,7 +189,7 @@ class ilObjLanguageFolder extends ilObject
         if (count($a_languages) > 0) {
             foreach ($a_languages as $lang_key => $lang_data) {
                 if ($lang_data["info"] == "new_language") {
-                    include_once("./Services/Language/classes/class.ilObjLanguage.php");
+                    include_once "./Services/Language/classes/class.ilObjLanguage.php";
                     $lngObj = new ilObjLanguage();
                     $lngObj->setTitle($lang_key);
                     $lngObj->setDescription("not_installed");

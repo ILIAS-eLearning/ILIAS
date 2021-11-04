@@ -270,7 +270,7 @@ class ilObjLanguage extends ilObject
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
 
         // refresh languages of activated plugins
-        include_once("./Services/Component/classes/class.ilPluginSlot.php");
+        include_once "./Services/Component/classes/class.ilPluginSlot.php";
         $slots = ilPluginSlot::getAllSlots();
         foreach ($slots as $slot) {
             $act_plugins = $ilPluginAdmin->getActivePluginsForSlot(
@@ -279,7 +279,7 @@ class ilObjLanguage extends ilObject
                 $slot["slot_id"]
             );
             foreach ($act_plugins as $plugin) {
-                include_once("./Services/Component/classes/class.ilPlugin.php");
+                include_once "./Services/Component/classes/class.ilPlugin.php";
                 $pl = ilPlugin::getPluginObject(
                     $slot["component_type"],
                     $slot["component_name"],
@@ -782,7 +782,7 @@ class ilObjLanguage extends ilObject
      */
     public function check($scope = "")
     {
-        include_once("./Services/Utilities/classes/class.ilStr.php");
+        include_once "./Services/Utilities/classes/class.ilStr.php";
         
         if (!empty($scope)) {
             if ($scope == "global") {

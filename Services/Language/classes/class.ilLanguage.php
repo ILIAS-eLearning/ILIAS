@@ -278,7 +278,7 @@ class ilLanguage
      */
     public static function _getInstalledLanguages(): array
     {
-        include_once("./Services/Object/classes/class.ilObject.php");
+        include_once "./Services/Object/classes/class.ilObject.php";
         $langlist = ilObject::_getObjectsByType("lng");
 
         $languages = [];
@@ -472,7 +472,7 @@ class ilLanguage
 
         foreach ($a_map as $k => $v) {
             if ($v != "") {
-                include_once("./Services/JSON/classes/class.ilJsonUtil.php");
+                include_once "./Services/JSON/classes/class.ilJsonUtil.php";
                 $a_tpl->addOnloadCode("il.Language.setLangVar('" . $k . "', " . ilJsonUtil::encode($v) . ");");
             }
         }
