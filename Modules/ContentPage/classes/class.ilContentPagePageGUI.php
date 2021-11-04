@@ -70,4 +70,9 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
             }
         }
     }
+
+    public function finishEditing() : void
+    {
+        $this->ctrl->redirectByClass(ilObjContentPageGUI::class, 'view');
+    }
 }
