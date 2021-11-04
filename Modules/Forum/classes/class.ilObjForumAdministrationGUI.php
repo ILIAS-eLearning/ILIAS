@@ -172,11 +172,11 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         );
         $file_upload->addOption(new ilRadioOption(
             $this->lng->txt('file_upload_option_allow'),
-            ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED
+            (string) ilForumProperties::FILE_UPLOAD_GLOBALLY_ALLOWED
         ));
         $file_upload->addOption(new ilRadioOption(
             $this->lng->txt('file_upload_option_disallow'),
-            ilForumProperties::FILE_UPLOAD_INDIVIDUAL
+            (string) ilForumProperties::FILE_UPLOAD_INDIVIDUAL
         ));
         $file_upload->setInfo($this->lng->txt('file_upload_allowed_fora_desc'));
         $form->addItem($file_upload);

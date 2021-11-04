@@ -130,7 +130,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         if ($this->allowNotification) {
             $notifyOnAnswer = new ilCheckboxInputGUI($this->lng->txt('forum_direct_notification'), 'notify');
             $notifyOnAnswer->setInfo($this->lng->txt('forum_notify_me'));
-            $notifyOnAnswer->setValue(1);
+            $notifyOnAnswer->setValue('1');
             $this->addItem($notifyOnAnswer);
         }
     }

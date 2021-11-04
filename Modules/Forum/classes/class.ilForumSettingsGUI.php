@@ -78,14 +78,14 @@ class ilForumSettingsGUI
         $this->obj_service->commonSettings()->legacyForm($a_form, $this->parent_obj->object)->addTileImage();
 
         $rg_pro = new ilRadioGroupInputGUI($this->lng->txt('frm_default_view'), 'default_view');
-        $rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), ilForumProperties::VIEW_TREE));
+        $rg_pro->addOption(new ilRadioOption($this->lng->txt('sort_by_posts'), (string) ilForumProperties::VIEW_TREE));
         $view_desc = new ilRadioOption(
             $this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('descending_order') . ')',
-            ilForumProperties::VIEW_DATE_DESC
+            (string) ilForumProperties::VIEW_DATE_DESC
         );
         $view_asc = new ilRadioOption(
             $this->lng->txt('sort_by_date') . ' (' . $this->lng->txt('ascending_order') . ')',
-            ilForumProperties::VIEW_DATE_ASC
+            (string) ilForumProperties::VIEW_DATE_ASC
         );
         $rg_pro->addOption($view_desc);
         $rg_pro->addOption($view_asc);
@@ -102,13 +102,13 @@ class ilForumSettingsGUI
         $a_form->addItem($frm_subject);
 
         $cb_prop = new ilCheckboxInputGUI($this->lng->txt('enable_thread_ratings'), 'thread_rating');
-        $cb_prop->setValue(1);
+        $cb_prop->setValue('1');
         $cb_prop->setInfo($this->lng->txt('enable_thread_ratings_info'));
         $a_form->addItem($cb_prop);
 
         if (!ilForumProperties::isFileUploadGloballyAllowed()) {
             $frm_upload = new ilCheckboxInputGUI($this->lng->txt('file_upload_allowed'), 'file_upload_allowed');
-            $frm_upload->setValue(1);
+            $frm_upload->setValue('1');
             $frm_upload->setInfo($this->lng->txt('allow_file_upload_desc'));
             $a_form->addItem($frm_upload);
         }
@@ -118,21 +118,21 @@ class ilForumSettingsGUI
         $a_form->addItem($moderatorFunctionsHeader);
 
         $cb_prop = new ilCheckboxInputGUI($this->lng->txt('activate_new_posts'), 'post_activation');
-        $cb_prop->setValue(1);
+        $cb_prop->setValue('1');
         $cb_prop->setInfo($this->lng->txt('post_activation_desc'));
         $a_form->addItem($cb_prop);
 
         $cb_prop = new ilCheckboxInputGUI($this->lng->txt('mark_moderator_posts'), 'mark_mod_posts');
-        $cb_prop->setValue(1);
+        $cb_prop->setValue('1');
         $cb_prop->setInfo($this->lng->txt('mark_moderator_posts_desc'));
         $a_form->addItem($cb_prop);
 
         $stickyThreadSorting = new ilRadioGroupInputGUI($this->lng->txt('sorting_manual_sticky'), 'thread_sorting');
-        $latestAtTop = new ilRadioOption($this->lng->txt('frm_sticky_threads_latest_at_top'), 0);
+        $latestAtTop = new ilRadioOption($this->lng->txt('frm_sticky_threads_latest_at_top'), '0');
         $latestAtTop->setInfo($this->lng->txt('frm_sticky_threads_latest_at_top_info'));
-        $latestAtTop->setValue(0);
+        $latestAtTop->setValue('1');
         $stickyThreadSorting->addOption($latestAtTop);
-        $manualSorting = new ilRadioOption($this->lng->txt('frm_sticky_threads_manual_sorting'), 1);
+        $manualSorting = new ilRadioOption($this->lng->txt('frm_sticky_threads_manual_sorting'), '1');
         $manualSorting->setInfo($this->lng->txt('frm_sticky_threads_manual_sorting_info'));
         $stickyThreadSorting->addOption($manualSorting);
         $a_form->addItem($stickyThreadSorting);
@@ -145,14 +145,14 @@ class ilForumSettingsGUI
 
         if ($this->settings->get('enable_fora_statistics')) {
             $cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_statistics_enabled'), 'statistics_enabled');
-            $cb_prop->setValue(1);
+            $cb_prop->setValue('1');
             $cb_prop->setInfo($this->lng->txt('frm_statistics_enabled_desc'));
             $a_form->addItem($cb_prop);
         }
 
         if ($this->settings->get('enable_anonymous_fora') || $this->parent_obj->objProperties->isAnonymized()) {
             $cb_prop = new ilCheckboxInputGUI($this->lng->txt('frm_anonymous_posting'), 'anonymized');
-            $cb_prop->setValue(1);
+            $cb_prop->setValue('1');
             $cb_prop->setInfo($this->lng->txt('frm_anonymous_posting_desc'));
             $a_form->addItem($cb_prop);
         }

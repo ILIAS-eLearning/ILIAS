@@ -2183,7 +2183,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         $hidden_draft_id = new ilHiddenInputGUI('draft_id');
         $auto_save_draft_id = $this->retrieveDraftId();
 
-        $hidden_draft_id->setValue($auto_save_draft_id);
+        $hidden_draft_id->setValue((string) $auto_save_draft_id);
         $this->replyEditForm->addItem($hidden_draft_id);
 
         if (in_array($this->requestAction, ['showreply', 'ready_showreply', 'editdraft'])) {
@@ -4414,7 +4414,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         $form = $this->initUserNotificationForm();
 
         if ($form->checkInput()) {
-            $interested_events = 0;
+            $interested_events = ilForumNotificationEvents::DEACTIVATED;
 
             $interested_events += (int) $form->getInput('notify_modified');
             $interested_events += (int) $form->getInput('notify_censored');

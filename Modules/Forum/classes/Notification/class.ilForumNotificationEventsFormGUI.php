@@ -33,29 +33,29 @@ class ilForumNotificationEventsFormGUI extends ilPropertyFormGUI
         $this->setFormAction($this->ctrl->getFormAction($this->parent_object, 'saveUserNotificationSettings'));
 
         $notify_modified = new ilCheckboxInputGUI($this->lng->txt('notify_modified'), 'notify_modified');
-        $notify_modified->setValue(ilForumNotificationEvents::UPDATED);
+        $notify_modified->setValue((string) ilForumNotificationEvents::UPDATED);
         $this->addItem($notify_modified);
 
         $notify_censored = new ilCheckboxInputGUI($this->lng->txt('notify_censored'), 'notify_censored');
-        $notify_censored->setValue(ilForumNotificationEvents::CENSORED);
+        $notify_censored->setValue((string) ilForumNotificationEvents::CENSORED);
         $this->addItem($notify_censored);
 
         $notify_uncensored = new ilCheckboxInputGUI($this->lng->txt('notify_uncensored'), 'notify_uncensored');
-        $notify_uncensored->setValue(ilForumNotificationEvents::UNCENSORED);
+        $notify_uncensored->setValue((string) ilForumNotificationEvents::UNCENSORED);
         $this->addItem($notify_uncensored);
 
         $notify_post_deleted = new ilCheckboxInputGUI(
             $this->lng->txt('notify_post_deleted'),
             'notify_post_deleted'
         );
-        $notify_post_deleted->setValue(ilForumNotificationEvents::POST_DELETED);
+        $notify_post_deleted->setValue((string) ilForumNotificationEvents::POST_DELETED);
         $this->addItem($notify_post_deleted);
 
         $notify_thread_deleted = new ilCheckboxInputGUI(
             $this->lng->txt('notify_thread_deleted'),
             'notify_thread_deleted'
         );
-        $notify_thread_deleted->setValue(ilForumNotificationEvents::THREAD_DELETED);
+        $notify_thread_deleted->setValue((string) ilForumNotificationEvents::THREAD_DELETED);
         $this->addItem($notify_thread_deleted);
 
         $hidden_value = new ilHiddenInputGUI('hidden_value');
