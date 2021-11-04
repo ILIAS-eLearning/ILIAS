@@ -82,6 +82,6 @@ class ilLanguagesUpdatedObjective implements Setup\Objective
 	 */
 	public function isApplicable(Setup\Environment $environment) : bool
 	{
-		return true;
+        return true;
 	}
 }

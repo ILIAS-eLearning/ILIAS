@@ -76,7 +76,6 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
 
         return
             $settings->get("language") !== $this->config->getDefaultLanguage() ||
-            $client_ini->readVariable("language", "default") !== $this->config->getDefaultLanguage()
-        ;
+            $client_ini->readVariable("language", "default") !== $this->config->getDefaultLanguage();
     }
 }

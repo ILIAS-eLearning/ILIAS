@@ -64,7 +64,6 @@ class ilLanguageConfigStoredObjective extends ilLanguageObjective
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
         return
-            $client_ini->readVariable("language", "default") !== $this->config->getDefaultLanguage()
-        ;
+            $client_ini->readVariable("language", "default") !== $this->config->getDefaultLanguage();
     }
 }
