@@ -418,7 +418,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
 
         if ($this->checkPermissionBool("edit_permission")) {
-            $this->tabs_gui->addTab("perm_settings", $this->lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass(array(get_class($this),"ilpermissiongui"), "perm"));
+            $this->tabs_gui->addTab("perm_settings", $this->lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass(array($this::class,"ilpermissiongui"), "perm"));
         }
     }
     
