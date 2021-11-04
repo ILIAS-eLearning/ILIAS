@@ -545,7 +545,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
                 $this->tabs->addSubTab(
                     'page_editor',
                     $this->lng->txt('cntr_text_media_editor'),
-                    $this->ctrl->getLinkTargetByClass('ilContentPagePageGUI', 'preview')
+                    $this->ctrl->getLinkTargetByClass('ilContentPagePageGUI', 'edit')
                 );
             }
         }
