@@ -12,9 +12,9 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
     public const FILE_UPLOAD_INPUT = 'file_upload';
     public const ALLOW_NOTIFICATION_INPUT = 'allow_notification';
     public const CAPTCHA_INPUT = 'captcha';
-    
+
     /** @var string[] */
-    private $input_items = [];
+    private array $input_items = [];
     private ilObjForumGUI $delegatingGui;
     private ilForumProperties $properties;
     private bool $allowPseudonyms;
@@ -53,7 +53,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         }
         $this->addItem($alias);
     }
-    
+
     private function addSubjectInput() : void
     {
         $subject = new ilTextInputGUI($this->lng->txt('forums_thread'), 'subject');
@@ -62,7 +62,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $subject->setRequired(true);
         $this->addItem($subject);
     }
-    
+
     private function addMessageInput() : void
     {
         $message = new ilTextAreaInputGUI($this->lng->txt('forums_the_post'), 'message');
@@ -96,17 +96,17 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         $message->setPurifier(ilHtmlPurifierFactory::getInstanceByType('frm_post'));
         $this->addItem($message);
     }
-    
+
     private function addFileUploadInput() : void
     {
         if ($this->properties->isFileUploadAllowed()) {
             $files = new ilFileWizardInputGUI($this->lng->txt('forums_attachments_add'), 'userfile');
             $files->setFilenames([0 => '']);
             $this->addItem($files);
-            
+
             if ($this->isDraftContext && $this->draftId > 0) {
                 $threadDraft = ilForumPostDraft::newInstanceByDraftId($this->draftId);
-                if ((int) $threadDraft->getDraftId() > 0) {
+                if ($threadDraft->getDraftId() > 0) {
                     $draftFileData = new ilFileDataForumDrafts(0, $threadDraft->getDraftId());
                     if (count($draftFileData->getFilesOfPost()) > 0) {
                         $existingFileSelection = new ilCheckboxGroupInputGUI(
@@ -124,7 +124,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             }
         }
     }
-    
+
     private function addAllowNotificationInput() : void
     {
         if ($this->allowNotification) {
@@ -134,7 +134,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             $this->addItem($notifyOnAnswer);
         }
     }
-    
+
     private function addCaptchaInput() : void
     {
         if ($this->user->isAnonymous() && !$this->user->isCaptchaVerified() && ilCaptchaUtil::isActiveForForum()) {
@@ -143,7 +143,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
             $this->addItem($captcha);
         }
     }
-    
+
     private function generateInputItems() : void
     {
         $this->setTitleIcon(ilUtil::getImagePath('icon_frm.svg'));
@@ -152,7 +152,7 @@ class ilForumThreadFormGUI extends ilPropertyFormGUI
         if ($this->isDraftContext) {
             $this->setTitle($this->lng->txt('edit_thread_draft'));
         }
-        
+
         foreach ($this->input_items as $input_item) {
             switch ($input_item) {
                 case self::ALIAS_INPUT:

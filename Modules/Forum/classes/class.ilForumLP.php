@@ -46,8 +46,8 @@ class ilForumLP extends ilObjectLP
             $modeChanged = true;
         }
     }
-  
-    public static function getDefaultModes($a_lp_active)
+
+    public static function getDefaultModes($a_lp_active) : array
     {
         if (true === $a_lp_active) {
             return [
@@ -61,12 +61,12 @@ class ilForumLP extends ilObjectLP
         ];
     }
 
-    public function getDefaultMode()
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
-    public function getValidModes()
+    public function getValidModes() : array
     {
         return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,
