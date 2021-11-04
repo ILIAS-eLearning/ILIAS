@@ -671,8 +671,28 @@ class ilForumTopic
             }
 
             $row['counter'] = $counter[$row['pos_pk']];
-            // TODO: PHP 8 Case field values
-            $children[] = $row;
+            $casted_row = [];
+            $casted_row['depth'] = (int) $row['depth'];
+            $casted_row['rgt'] = (int) $row['rgt'];
+            $casted_row['parent_pos'] = (int) $row['parent_pos'];
+            $casted_row['pos_pk'] = (int) $row['pos_pk'];
+            $casted_row['pos_subject'] = (string) $row['pos_subject'];
+            $casted_row['pos_usr_alias'] = (string) $row['pos_usr_alias'];
+            $casted_row['pos_date'] = (string) $row['pos_date'];
+            $casted_row['pos_update'] = (string) $row['pos_update'];
+            $casted_row['pos_status'] = (int) $row['pos_status'];
+            $casted_row['pos_display_user_id'] = (int) $row['pos_display_user_id'];
+            $casted_row['import_name'] = (string) $row['import_name'];
+            $casted_row['pos_author_id'] = (int) $row['pos_author_id'];
+            $casted_row['is_author_moderator'] = (int) $row['is_author_moderator'];
+            $casted_row['post_id'] = (int) $row['post_id'];
+            $casted_row['post_read'] = (int) $row['post_read'];
+            $casted_row['children'] = (int) $row['children'];
+            $casted_row['rgt'] = (int) $row['rgt'];
+            $casted_row['rgt'] = (int) $row['rgt'];
+            $casted_row['rgt'] = (int) $row['rgt'];
+
+            $children[] = $casted_row;
         }
 
         ilForumAuthorInformationCache::preloadUserObjects(array_unique($usr_ids));

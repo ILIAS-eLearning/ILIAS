@@ -381,8 +381,13 @@ class ilForumNotification
 
         $res = $this->db->queryF('SELECT * FROM frm_notification WHERE frm_id = %s', ['integer'], [$this->getForumId()]);
         while ($row = $this->db->fetchAssoc($res)) {
-            // TODO PHP 8 Cast values
-            $result[(int) $row['user_id']] = $row;
+            $result[(int) $row['user_id']]['notification_id'] = (int) $row['notification_id'];
+            $result[(int) $row['user_id']]['user_id'] = (int) $row['user_id'];
+            $result[(int) $row['user_id']]['frm_id'] = (int) $row['frm_id'];
+            $result[(int) $row['user_id']]['thread_id'] = (int) $row['thread_id'];
+            $result[(int) $row['user_id']]['admin_force_noti'] = (int) $row['admin_force_noti'];
+            $result[(int) $row['user_id']]['user_toggle_noti'] = (int) $row['user_toggle_noti'];
+            $result[(int) $row['user_id']]['interested_events'] = (int) $row['interested_events'];
         }
 
         return $result;

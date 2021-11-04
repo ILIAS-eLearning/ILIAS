@@ -944,8 +944,28 @@ class ilObjForum extends ilObject
 
         $data = $ilDB->fetchAssoc($res);
 
-        // TODO PHP 8: Cast values
-        self::$forum_last_post_cache[$ref_id] = is_array($data) ? $data : [];
+        $casted_data = [];
+        $casted_data['pos_pk'] = (int) $data['pos_pk'];
+        $casted_data['pos_top_fk'] = (int) $data['pos_top_fk'];
+        $casted_data['pos_thr_fk'] = (int) $data['pos_thr_fk'];
+        $casted_data['pos_usr_alias'] = (string) $data['pos_usr_alias'];
+        $casted_data['pos_subject'] = (string) $data['pos_subject'];
+        $casted_data['pos_date'] = (string) $data['pos_date'];
+        $casted_data['pos_update'] = (string) $data['pos_update'];
+        $casted_data['update_user'] = (int) $data['update_user'];
+        $casted_data['pos_cens'] = (int) $data['pos_cens'];
+        $casted_data['pos_cens_com'] = (string) $data['pos_cens_com'];
+        $casted_data['notify'] = (int) $data['notify'];
+        $casted_data['import_name'] = (string) $data['import_name'];
+        $casted_data['pos_status'] = (int) $data['pos_status'];
+        $casted_data['pos_message'] = (string) $data['pos_message'];
+        $casted_data['pos_author_id'] = (int) $data['pos_author_id'];
+        $casted_data['pos_display_user_id'] = (int) $data['pos_display_user_id'];
+        $casted_data['is_author_moderator'] = (int) $data['is_author_moderator'];
+        $casted_data['pos_cens_date'] = (string) $data['pos_cens_date'];
+        $casted_data['pos_activation_date'] = (string) $data['pos_activation_date'];
+
+        self::$forum_last_post_cache[$ref_id] = is_array($casted_data) ? $casted_data : [];
 
         return self::$forum_last_post_cache[$ref_id];
     }
