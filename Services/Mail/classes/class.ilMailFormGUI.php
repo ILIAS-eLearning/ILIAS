@@ -728,21 +728,18 @@ class ilMailFormGUI
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_to'] ?? ''));
         $inp->setDataSource($dsDataLink, ',');
-        $inp->setMaxLength(null);
         $form_gui->addItem($inp);
 
         $inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_cc'] ?? ''));
         $inp->setDataSource($dsDataLink, ',');
-        $inp->setMaxLength(null);
         $form_gui->addItem($inp);
 
         $inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_bcc'] ?? ''));
         $inp->setDataSource($dsDataLink, ',');
-        $inp->setMaxLength(null);
         $form_gui->addItem($inp);
 
         $inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
