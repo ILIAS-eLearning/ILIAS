@@ -3,6 +3,16 @@
 	<Document type="default">
 		<xi:include href="../../Services/Object/LuceneDataSource.xml" />
 		<xi:include href="../../Services/Tagging/LuceneDataSource.xml" />
+		<DataSource type="JDBC" action="append">
+			<Query>
+				SELECT content FROM page_object
+				WHERE page_id = ? AND parent_id = page_id AND parent_type = 'frm'
+			</Query>
+			<Param format="list" type="int" value="objId" />
+			<Field store="YES" index="ANALYZED" column="content" type="text" name="content">
+				<Transformer name="ContentObjectTransformer" />
+			</Field>
+		</DataSource>
 	</Document>
 	<Document type="subItem">
 		<DataSource type="JDBC" action="create">
