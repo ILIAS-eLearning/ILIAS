@@ -5,7 +5,6 @@
 * Class ilObjObjectTemplateAdministration
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id:$
 *
 * @package ServicesDidacticTemplate
 */

@@ -14,48 +14,35 @@ class ilDidacticTemplateImport
 {
     const IMPORT_FILE = 1;
 
-    private $type = 0;
-    private $xmlfile = '';
+    private int $type = 0;
+    private string $xmlfile = '';
 
-    /**
-     * @var null | \ilLogger
-     */
-    private $logger = null;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $objDefinition;
+    private ilLogger $logger;
+    protected ilObjectDefinition $objDefinition;
+    protected ilSetting $settings;
 
 
-    public function __construct($a_type)
+    public function __construct(int $a_type)
     {
         global $DIC;
 
         $this->logger = $DIC->logger()->otpl();
         $this->type = $a_type;
         $this->objDefinition = $DIC['objDefinition'];
+        $this->settings = $DIC->settings();
     }
 
-    /**
-     * Set input file
-     * @param string $a_file
-     */
-    public function setInputFile($a_file)
+    public function setInputFile(string $a_file) : string
     {
         $this->xmlfile = $a_file;
     }
 
-    public function getInputFile()
+    public function getInputFile() : string
     {
         return $this->xmlfile;
     }
 
-    /**
-     * Get input type
-     * @return string
-     */
-    public function getInputType()
+    public function getInputType() : int
     {
         return $this->type;
     }
@@ -63,7 +50,7 @@ class ilDidacticTemplateImport
     /**
      * Do import
      */
-    public function import($a_dtpl_id = 0)
+    public function import(int $a_dtpl_id = 0) : ilDidacticTemplateSetting
     {
         $root = null;
         libxml_use_internal_errors(true);
@@ -84,20 +71,11 @@ class ilDidacticTemplateImport
 
     /**
      * Parse settings
-     * @param SimpleXMLElement $el
-     * @return ilDidacticTemplateSetting
      */
-    protected function parseSettings(SimpleXMLElement $root)
+    protected function parseSettings(SimpleXMLElement $root) : ilDidacticTemplateSetting
     {
-        global $DIC;
-
         $icon = '';
-
-        $ilSetting = $DIC['ilSetting'];
-        
-
         $setting = new ilDidacticTemplateSetting();
-
         foreach ($root->didacticTemplate as $tpl) {
             switch ((string) $tpl->attributes()->type) {
                 case 'creation':
@@ -119,7 +97,7 @@ class ilDidacticTemplateImport
             }
             $setting->setInfo($info);
 
-            if (isset($tpl->effectiveFrom) && (string) $tpl->effectiveFrom["nic_id"] == $ilSetting->get('inst_id')) {
+            if (isset($tpl->effectiveFrom) && (string) $tpl->effectiveFrom["nic_id"] == $this->settings->get('inst_id')) {
                 $node = array();
                 foreach ($tpl->effectiveFrom->node as $element) {
                     $node[] = (int) $element;
@@ -141,16 +119,11 @@ class ilDidacticTemplateImport
         if (strlen($icon) && $this->canUseIcons($setting)) {
             $setting->getIconHandler()->writeSvg($icon);
         }
-
-        
-
         $trans = ilMultilingualism::getInstance($setting->getId(), "dtpl");
-
         if (isset($root->didacticTemplate->translations)) {
             $trans->fromXML($root->didacticTemplate->translations);
         }
         $trans->save();
-        
         return $setting;
     }
 
@@ -166,19 +139,12 @@ class ilDidacticTemplateImport
 
     /**
      * Parse template action from xml
-     * @param ilDidacticTemplateSetting $set
-     * @param SimpleXMLElement $root
-     * @return void
      */
-    protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions = null)
+    protected function parseActions(ilDidacticTemplateSetting $set, SimpleXMLElement $actions = null) : void
     {
-        
-
-
         if ($actions === null) {
             return;
         }
-
         ////////////////////////////////////////////////
         // Local role action
         ///////////////////////////////////////////////
@@ -336,10 +302,8 @@ class ilDidacticTemplateImport
 
     /**
      * Parse xml errors from libxml_get_errors
-     *
-     * @return string
      */
-    protected function parseXmlErrors()
+    protected function parseXmlErrors() : string
     {
         $errors = '';
         foreach (libxml_get_errors() as $err) {
