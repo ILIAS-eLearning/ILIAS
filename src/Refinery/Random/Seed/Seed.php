@@ -8,5 +8,4 @@ namespace ILIAS\Refinery\Random\Seed;
 interface Seed
 {
     public function seedRandomGenerator() : void;
-    public function getSeed() : int;
 }

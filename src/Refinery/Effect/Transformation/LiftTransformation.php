@@ -7,15 +7,23 @@ use ILIAS\Refinery\Effect\IdentityEffect;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\Effect\Effect;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
 
+/**
+ * "Lifts" a value to an Effect (T => Effect<T>).
+ * Creates a parameterized type (in this case Effect<T>) from another type (T).
+ * @see https://wiki.haskell.org/Lifting
+ */
 class LiftTransformation implements Transformation
 {
+    use DeriveInvokeFromTransform;
+
     /**
      * Same as transform but returns a Result instead of an exception.
      *
      * @return Result<Effect>
      */
-    public function transformResult($from) : Result
+    private function transformResult($from) : Result
     {
         return $this->validate($from)->map([$this, 'createEffect']);
     }
@@ -34,15 +42,9 @@ class LiftTransformation implements Transformation
      */
     public function applyTo(Result $result) : Result
     {
-        return $result->then([$this, 'transformResult']);
-    }
-
-    /**
-     * @return Result<Effect>
-     */
-    public function __invoke($from)
-    {
-        return $this->transform($from);
+        return $result->then(function ($from) {
+            return $this->transformResult($from);
+        });
     }
 
     /**

@@ -18,9 +18,4 @@ class GivenSeed implements Seed
     {
         mt_srand($this->seed);
     }
-
-    public function getSeed() : int
-    {
-        return $this->seed();
-    }
 }
