@@ -128,7 +128,7 @@ class ilObjLanguage extends ilObject
      */
     public function isInstalled()
     {
-        if (substr($this->getStatus(), 0, 9) == "installed") {
+        if (str_starts_with($this->getStatus(), "installed")) {
             return true;
         } else {
             return false;
@@ -199,7 +199,7 @@ class ilObjLanguage extends ilObject
      */
     public function uninstall()
     {
-        if ((substr($this->status, 0, 9) == "installed") && ($this->key != $this->lang_default) && ($this->key != $this->lang_user)) {
+        if ((str_starts_with($this->status, "installed")) && ($this->key != $this->lang_default) && ($this->key != $this->lang_user)) {
             $this->flush('all');
             $this->setTitle($this->key);
             $this->setDescription("not_installed");

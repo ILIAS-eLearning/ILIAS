@@ -228,7 +228,7 @@ class ilLanguageFile
         }
 
         // fault tolerant check for adding newline
-        $add_newline = (substr($content, strlen($content) - 1, 1) != "\n");
+        $add_newline = str_ends_with($content, "\n");
 
         // build the content
         foreach ($this->values as $key => $value) {
