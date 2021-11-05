@@ -32,7 +32,7 @@ class ilDidacticTemplateImport
         $this->settings = $DIC->settings();
     }
 
-    public function setInputFile(string $a_file) : string
+    public function setInputFile(string $a_file) : void
     {
         $this->xmlfile = $a_file;
     }

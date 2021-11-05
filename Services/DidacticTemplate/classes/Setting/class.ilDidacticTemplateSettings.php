@@ -108,7 +108,7 @@ class ilDidacticTemplateSettings
 
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->templates[$row->id] = new ilDidacticTemplateSetting($row->id);
+            $this->templates[$row->id] = new ilDidacticTemplateSetting((int) $row->id);
         }
         return true;
     }

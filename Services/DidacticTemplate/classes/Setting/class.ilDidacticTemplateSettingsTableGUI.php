@@ -183,7 +183,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             
 
             $actions = new ilAdvancedSelectionListGUI();
-            $actions->setId($set['id']);
+            $actions->setId((string) $set['id']);
             $actions->setListTitle($this->lng->txt("actions"));
             // Edit
             $actions->addItem(

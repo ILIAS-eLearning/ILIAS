@@ -335,10 +335,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
     public function read() : void
     {
-        if (!parent::read()) {
-            return;
-        }
-
+        parent::read();
         $query = 'SELECT * FROM didactic_tpl_alp ' .
             'WHERE action_id = ' . $this->db->quote($this->getActionId());
         $res = $this->db->query($query);
@@ -348,7 +345,9 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             $this->setRoleTemplateId($row->template_id);
         }
         // Read filter
-        foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(), self::PATTERN_PARENT_TYPE) as $pattern) {
+        foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
+            $this->getActionId(),
+            self::PATTERN_PARENT_TYPE) as $pattern) {
             $this->addFilterPattern($pattern);
         }
     }

@@ -222,7 +222,7 @@ class ilDidacticTemplateSettingsTableFilter
      * @param string $name
      * @return void
      */
-    protected function getFilterValue(string $name) : mixed
+    protected function getFilterValue(string $name)
     {
         if (isset($this->filter_values[$name])) {
             return $this->filter_values[$name];
@@ -232,7 +232,6 @@ class ilDidacticTemplateSettingsTableFilter
 
     protected function loadFilterValues() : void
     {
-
         foreach ($this->filter->getInputs() as $name => $input) {
             $this->filter_values[$name] = $input->getValue();
         }

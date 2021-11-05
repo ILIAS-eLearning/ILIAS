@@ -70,7 +70,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
     public function save() : int
     {
         parent::save();
-
         $query = 'INSERT INTO didactic_tpl_abr (action_id,filter_type) ' .
             'VALUES( ' .
             $this->db->quote($this->getActionId(), \ilDBConstants::T_INTEGER) . ', ' .
@@ -84,6 +83,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
             $pattern->setParentType(self::PATTERN_PARENT_TYPE);
             $pattern->save();
         }
+        return $this->getActionId();
     }
 
     /**
@@ -252,10 +252,7 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
      */
     public function read() : void
     {
-        if (!parent::read()) {
-            return;
-        }
-
+        parent::read();
         $query = 'SELECT * FROM didactic_tpl_abr ' .
             'WHERE action_id = ' . $this->db->quote($this->getActionId());
         $res = $this->db->query($query);
@@ -264,7 +261,9 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         }
 
         // Read filter
-        foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId($this->getActionId(), self::PATTERN_PARENT_TYPE) as $pattern) {
+        foreach (ilDidacticTemplateFilterPatternFactory::lookupPatternsByParentId(
+            $this->getActionId(),
+            self::PATTERN_PARENT_TYPE) as $pattern) {
             $this->addFilterPattern($pattern);
         }
     }

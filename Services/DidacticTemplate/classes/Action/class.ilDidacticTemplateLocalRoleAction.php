@@ -57,7 +57,13 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         $role->setDescription(ilObject::_lookupDescription($this->getRoleTemplateId()));
         $role->create();
         $this->admin->assignRoleToFolder($role->getId(), $source->getRefId(), "y");
-        $this->logger->info('Using rolt: ' . $this->getRoleTemplateId() . ' with title "' . ilObject::_lookupTitle($this->getRoleTemplateId() . '". '));
+        $this->logger->info(
+            'Using rolt: ' .
+            $this->getRoleTemplateId() .
+            ' with title "' .
+            ilObject::_lookupTitle($this->getRoleTemplateId()) .
+            '". '
+        );
 
         // Copy template permissions
         

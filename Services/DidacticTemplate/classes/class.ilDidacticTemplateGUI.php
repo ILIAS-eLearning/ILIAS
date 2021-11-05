@@ -17,7 +17,7 @@ class ilDidacticTemplateGUI
     private ilLanguage $lng;
     private ilCtrl $ctrl;
     private ilTabsGUI $tabs;
-    private ilTemplate $tpl;
+    private ilGlobalTemplateInterface $tpl;
     protected int $requested_template_id = 0;
 
     /**

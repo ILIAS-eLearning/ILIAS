@@ -3,7 +3,6 @@
 
 
 
-use ILIAS\DidacticTemplate\Action\ilDidacticTemplateAction;
 
 /**
  * Factory for didactic template actions
