@@ -14,7 +14,7 @@ class ilDBUpdate
     public ?int $currentVersion = null;
     public ?int $fileVersion = null;
     public string $updateMsg;
-    protected ?ilIniFile $client_ini;
+    protected ?ilIniFile $client_ini = null;
     protected ?int $custom_updates_current_version = 0;
     protected ?int $custom_updates_file_version = null;
     protected ?bool $custom_updates_info_read = null;
@@ -33,6 +33,7 @@ class ilDBUpdate
     protected int $hotfix_file_version;
     protected ilSetting $custom_updates_setting;
     protected array $custom_updates_content;
+    protected Iterator $ctrl_structure_iterator;
 
     public function __construct(ilDBInterface $a_db_handler, ilIniFile $client_ini = null)
     {
@@ -57,6 +58,9 @@ class ilDBUpdate
         $this->readDBUpdateFile();
         $this->readLastUpdateFile();
         $this->readFileVersion();
+
+        $class_map = require ILIAS_ABSOLUTE_PATH . '/libs/composer/vendor/composer/autoload_classmap.php';
+        $this->ctrl_structure_iterator = new ilCtrlArrayIterator($class_map);
     }
 
     /**
@@ -253,7 +257,7 @@ class ilDBUpdate
         } elseif ($DIC->offsetExists('ilCtrlStructureReader')) {
             $ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
         } else {
-            $ilCtrlStructureReader = new ilCtrlStructureReader();
+            $ilCtrlStructureReader = new ilCtrlStructureReader($this->ctrl_structure_iterator);
             $DIC->offsetSet('ilCtrlStructureReader', $ilCtrlStructureReader);
         }
 

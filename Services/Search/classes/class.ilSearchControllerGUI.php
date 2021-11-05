@@ -10,12 +10,12 @@
 *
 * @package ilias-search
 *
-* @ilCtrl_Calls ilSearchController: ilSearchGUI, ilAdvancedSearchGUI
-* @ilCtrl_Calls ilSearchController: ilLuceneSearchGUI, ilLuceneAdvancedSearchGUI, ilLuceneUserSearchGUI
+* @ilCtrl_Calls ilSearchControllerGUI: ilSearchGUI, ilAdvancedSearchGUI
+* @ilCtrl_Calls ilSearchControllerGUI: ilLuceneSearchGUI, ilLuceneAdvancedSearchGUI, ilLuceneUserSearchGUI
 *
 */
 
-class ilSearchController implements ilCtrlBaseClassInterface
+class ilSearchControllerGUI implements ilCtrlBaseClassInterface
 {
     const TYPE_USER_SEARCH = -1;
     

@@ -99,16 +99,16 @@ class ilMainMenuSearchGUI
 
         $this->tpl->setVariable('FORMACTION',
             $ilCtrl->getFormActionByClass(
-                ilSearchController::class,
+                ilSearchControllerGUI::class,
                 'remoteSearch'
             )
         );
 
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
-        $this->tpl->setVariable('FORMACTION',
+        $this->tpl->setVariable('AC_DATASOURCE',
             $ilCtrl->getLinkTargetByClass(
-                ilSearchController::class,
+                ilSearchControllerGUI::class,
                 'autoComplete',
                 null,
                 true
@@ -121,7 +121,7 @@ class ilMainMenuSearchGUI
         ));
 
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
-            $this->tpl->setVariable('HREF_SEARCH_LINK', "ilias.php?baseClass=ilSearchController");
+            $this->tpl->setVariable('HREF_SEARCH_LINK', "ilias.php?baseClass=ilSearchControllerGUI");
             $this->tpl->setVariable('TXT_SEARCH_LINK', $lng->txt("last_search_result"));
         }
         

@@ -17,7 +17,7 @@ use ILIAS\Container\Content\ViewManager;
 *
 * @package ilias-search
 *
-* @ilCtrl_IsCalledBy ilSearchBaseGUI: ilSearchController
+* @ilCtrl_IsCalledBy ilSearchBaseGUI: ilSearchControllerGUI
 *
 *
 */

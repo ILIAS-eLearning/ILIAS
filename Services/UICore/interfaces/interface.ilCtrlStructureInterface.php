@@ -19,6 +19,7 @@ interface ilCtrlStructureInterface
     public const KEY_CLASS_PARENTS   = 'parents';
     public const KEY_CLASS_CHILDREN  = 'children';
     public const KEY_UNSAFE_COMMANDS = 'unsafe_commands';
+    public const KEY_SAFE_COMMANDS   = 'safe_commands';
 
     /**
      * Returns whether the given class is registered as a valid
@@ -48,7 +49,7 @@ interface ilCtrlStructureInterface
     public function getObjNameByCid(string $cid) : ?string;
 
     /**
-     * Returns all safe commands for a given cid.
+     * Returns all unsafe GET commands for a given cid.
      *
      * @param string $cid
      * @return array
@@ -56,12 +57,28 @@ interface ilCtrlStructureInterface
     public function getUnsafeCommandsByCid(string $cid) : array;
 
     /**
-     * Returns all safe commands for a given classname.
+     * Returns all unsafe GET commands for a given classname.
      *
      * @param string $class_name
      * @return array
      */
     public function getUnsafeCommandsByName(string $class_name) : array;
+
+    /**
+     * Returns all safe POST commands for a given cid.
+     *
+     * @param string $cid
+     * @return array
+     */
+    public function getSafeCommandsByCid(string $cid) : array;
+
+    /**
+     * Returns all safe POST commands for a given classname.
+     *
+     * @param string $class_name
+     * @return array
+     */
+    public function getSafeCommandsByName(string $class_name) : array;
 
     /**
      * Returns the lower-cased name of a class for the given CID.

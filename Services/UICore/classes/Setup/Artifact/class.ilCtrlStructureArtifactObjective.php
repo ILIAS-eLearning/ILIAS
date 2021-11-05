@@ -15,9 +15,9 @@ use ILIAS\Setup\Artifact;
 final class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
 {
     /**
-     * @var string absolute path to the php artifact file.
+     * @var string relative path to the php artifact file.
      */
-    public const ARTIFACT_PATH = "Services/UICore/artifacts/ctrl_structure.php";
+    public const ARTIFACT_PATH = "./Services/UICore/artifacts/ctrl_structure.php";
 
     /**
      * @inheritDoc
@@ -32,8 +32,14 @@ final class ilCtrlStructureArtifactObjective extends BuildArtifactObjective
      */
     public function build() : Artifact
     {
+        $ilias_path = dirname(__FILE__, 6);
+        $class_map  = require $ilias_path . "/libs/composer/vendor/composer/autoload_classmap.php";
+
         return new ArrayArtifact(
-            (new ilCtrlStructureReader())->readStructure()
+            (new ilCtrlStructureReader(
+                new ilCtrlArrayIterator($class_map),
+                new ilCtrlStructureCidGenerator()
+            ))->readStructure()
         );
     }
 }

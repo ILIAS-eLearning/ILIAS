@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-require_once "./libs/composer/vendor/autoload.php";
+require_once __DIR__ . "/../../../../../libs/composer/vendor/autoload.php";
 
 use ILIAS\Setup\Artifact\BuildArtifactObjective;
 use ILIAS\Setup\ImplementationOfInterfaceFinder;
@@ -17,9 +17,9 @@ use ILIAS\Setup\Artifact;
 final class ilCtrlSecurityArtifactObjective extends BuildArtifactObjective
 {
     /**
-     * @var string absolute path to the php artifact file.
+     * @var string relative path to the php artifact file.
      */
-    public const ARTIFACT_PATH = "Services/UICore/artifacts/ctrl_security.php";
+    public const ARTIFACT_PATH = "./Services/UICore/artifacts/ctrl_security.php";
 
     /**
      * @inheritDoc
@@ -45,7 +45,8 @@ final class ilCtrlSecurityArtifactObjective extends BuildArtifactObjective
                 $gui_object = $reflection->newInstanceWithoutConstructor();
 
                 $security_information[strtolower($class)] = [
-                    ilCtrlStructureInterface::KEY_UNSAFE_COMMANDS => $gui_object->getUnsafeCommands(),
+                    ilCtrlStructureInterface::KEY_UNSAFE_COMMANDS => $gui_object->getUnsafeGetCommands(),
+                    ilCtrlStructureInterface::KEY_SAFE_COMMANDS   => $gui_object->getSafePostCommands(),
                 ];
             } catch (ReflectionException $e) {
                 continue;

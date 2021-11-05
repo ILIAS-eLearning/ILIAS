@@ -21,7 +21,7 @@ final class ilCtrlContext implements ilCtrlContextInterface
     /**
      * @var RequestWrapper
      */
-    private RequestWrapper $request;
+    private RequestWrapper $request_wrapper;
 
     /**
      * @var Refinery
@@ -39,6 +39,11 @@ final class ilCtrlContext implements ilCtrlContextInterface
     private bool $is_async = false;
 
     /**
+     * @var string
+     */
+    private string $target_script = 'ilias.php';
+
+    /**
      * @var string|null
      */
     private ?string $cmd_mode = null;
@@ -47,11 +52,6 @@ final class ilCtrlContext implements ilCtrlContextInterface
      * @var string|null
      */
     private ?string $redirect = null;
-
-    /**
-     * @var string
-     */
-    private string $target_script = 'ilias.php';
 
     /**
      * @var string|null
@@ -82,14 +82,14 @@ final class ilCtrlContext implements ilCtrlContextInterface
      * ilCtrlContext Constructor
      *
      * @param ilCtrlPathFactory $path_factory
-     * @param RequestWrapper    $request
+     * @param RequestWrapper    $request_wrapper
      * @param Refinery          $refinery
      */
-    public function __construct(ilCtrlPathFactory $path_factory, RequestWrapper $request, Refinery $refinery)
+    public function __construct(ilCtrlPathFactory $path_factory, RequestWrapper $request_wrapper, Refinery $refinery)
     {
-        $this->path_factory = $path_factory;
-        $this->request      = $request;
-        $this->refinery     = $refinery;
+        $this->path_factory    = $path_factory;
+        $this->request_wrapper = $request_wrapper;
+        $this->refinery        = $refinery;
 
         // initialize null-path per default.
         $this->path = $path_factory->null();
@@ -276,8 +276,8 @@ final class ilCtrlContext implements ilCtrlContextInterface
      */
     private function getQueryParam(string $parameter_name) : ?string
     {
-        if ($this->request->has($parameter_name)) {
-            return $this->request->retrieve(
+        if ($this->request_wrapper->has($parameter_name)) {
+            return $this->request_wrapper->retrieve(
                 $parameter_name,
                 $this->refinery->to()->string()
             );

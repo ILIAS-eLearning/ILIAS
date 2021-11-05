@@ -248,9 +248,8 @@ interface ilCtrlInterface
 
     /**
      * Returns a form action link for the given information.
-     *
      * @param object      $a_gui_obj
-     * @param string|null $a_cmd
+     * @param string|null $a_fallback_cmd
      * @param string|null $a_anchor
      * @param bool        $is_async
      * @param bool        $has_xml_style
@@ -259,7 +258,7 @@ interface ilCtrlInterface
      */
     public function getFormAction(
         object $a_gui_obj,
-        string $a_cmd = null,
+        string $a_fallback_cmd = null,
         string $a_anchor = null,
         bool $is_async = false,
         bool $has_xml_style = false

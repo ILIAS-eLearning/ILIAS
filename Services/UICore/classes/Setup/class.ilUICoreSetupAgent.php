@@ -61,6 +61,7 @@ final class ilUICoreSetupAgent implements Agent
             'buildIlCtrlArtifacts',
             false,
             new ilCtrlStructureArtifactObjective(),
+            new ilCtrlPluginStructureArtifactObjective(),
             new ilCtrlBaseClassArtifactObjective(),
             new ilCtrlSecurityArtifactObjective(),
         );

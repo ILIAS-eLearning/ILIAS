@@ -15,9 +15,9 @@ use ILIAS\Setup\Artifact;
 final class ilCtrlBaseClassArtifactObjective extends BuildArtifactObjective
 {
     /**
-     * @var string absolute path to the php artifact file.
+     * @var string relative path to the php artifact file.
      */
-    public const ARTIFACT_PATH = "Services/UICore/artifacts/ctrl_base_classes.php";
+    public const ARTIFACT_PATH = "./Services/UICore/artifacts/ctrl_base_classes.php";
 
     /**
      * @inheritDoc

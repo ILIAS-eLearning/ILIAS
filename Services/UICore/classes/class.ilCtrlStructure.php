@@ -71,17 +71,23 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * ilCtrlStructure Constructor
      *
-     * @throws ilCtrlException if the artifacts cannot be included.
+     * @param array $ctrl_structure
+     * @param array $plugin_structure
+     * @param array $base_classes
+     * @param array $security_info
      */
-    public function __construct()
-    {
-        try {
-            $this->structure    = require ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
-            $this->base_classes = require ilCtrlBaseClassArtifactObjective::ARTIFACT_PATH;
-            $this->security     = require ilCtrlSecurityArtifactObjective::ARTIFACT_PATH;
-        } catch (Throwable $t) {
-            throw new ilCtrlException("Could not include ilCtrl artifacts: " . $t->getMessage());
-        }
+    public function __construct(
+        array $ctrl_structure,
+        array $plugin_structure,
+        array $base_classes,
+        array $security_info
+    ) {
+        $this->base_classes = $base_classes;
+        $this->security = $security_info;
+        $this->structure = $this->createStructure(
+            $ctrl_structure,
+            $plugin_structure
+        );
     }
 
     /**
@@ -130,6 +136,27 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     public function getUnsafeCommandsByName(string $class_name) : array
     {
         return $this->security[$this->lowercase($class_name)][self::KEY_UNSAFE_COMMANDS] ?? [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafeCommandsByCid(string $cid) : array
+    {
+        $class_name = $this->getClassNameByCid($cid);
+        if (null !== $class_name) {
+            return $this->getUnsafeCommandsByName($class_name);
+        }
+
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafeCommandsByName(string $class_name) : array
+    {
+        return $this->security[$this->lowercase($class_name)][self::KEY_SAFE_COMMANDS] ?? [];
     }
 
     /**
@@ -244,7 +271,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
         $this->temporary_parameters[$this->lowercase($class_name)][$parameter_name] = $value;
     }
 
-    /**ilCtrlTarget
+    /**
      * @inheritDoc
      */
     public function removeParametersByClass(string $class_name) : void
@@ -334,6 +361,30 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
         }
 
         return null;
+    }
+
+    /**
+     * Returns the ctrl structure merged with the plugin structure.
+     *
+     * @param array $ctrl_structure
+     * @param array $plugin_structure
+     * @return array
+     */
+    private function createStructure(array $ctrl_structure, array $plugin_structure) : array
+    {
+        if (empty($plugin_structure)) {
+            return $ctrl_structure;
+        }
+
+        foreach ($plugin_structure as $structure) {
+            if (!empty($structure)) {
+                foreach ($structure as $class_name => $data) {
+                    $ctrl_structure[$class_name] = $data;
+                }
+            }
+        }
+
+        return $ctrl_structure;
     }
 
     /**

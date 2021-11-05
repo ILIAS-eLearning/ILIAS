@@ -15,17 +15,28 @@
 interface ilCtrlSecurityInterface
 {
     /**
-     * This method must return a list of commands (strings) which
-     * are considered unsafe.
+     * This method must return a list of unsafe GET commands.
      *
-     * When building link-targets with ilCtrl to a class implementing
-     * this interface, an ilCtrlToken will be automatically appended
-     * when the action or command is one of these.
+     * Unsafe get commands returned by this method will now be CSRF
+     * protected, which means an ilCtrlToken is appended each time
+     * a link-target is generated to the class implementing this
+     * interface with a command from that list.
      *
-     * When retrieving them with @see ilCtrl::getCmd() the current
-     * request needs to pass a CSRF validation.
+     * Tokens will be validated in @see ilCtrlInterface::getCmd(),
+     * whereas the fallback command will be used if the CSRF
+     * validation fails.
      *
      * @return string[]
      */
-    public function getUnsafeCommands() : array;
+    public function getUnsafeGetCommands() : array;
+
+    /**
+     * This method must return a list of safe POST commands.
+     *
+     * Safe post commands returned by this method will no longer be
+     * CSRF protected and will NOT be appended by an ilCtrlToken.
+     *
+     * @return string[]
+     */
+    public function getSafePostCommands() : array;
 }

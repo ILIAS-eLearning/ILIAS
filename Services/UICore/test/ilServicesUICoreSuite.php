@@ -1,28 +1,25 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types = 1);
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestSuite;
 
+/**
+ * Class ilServicesUICoreSuite
+ *
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ */
 class ilServicesUICoreSuite extends TestSuite
 {
-    public static function suite()
+    /**
+     * @return self
+     */
+    public static function suite() : self
     {
-        if (defined('ILIAS_PHPUNIT_CONTEXT')) {
-            include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-            ilUnitUtil::performInitialisation();
-        } else {
-            chdir(dirname(__FILE__));
-            chdir('../../../');
-        }
+        $suite = new self();
 
-        $suite = new ilServicesUICoreSuite();
-    
-        include_once("./Services/UICore/test/ilTemplateTest.php");
-        $suite->addTestSuite("ilTemplateTest");
-        include_once("./Services/UICore/test/ilCtrlStructureReaderTest.php");
-        $suite->addTestSuite("ilCtrlStructureReaderTest");
-        include_once("./Services/UICore/test/ilCtrlStructureTest.php");
-        $suite->addTestSuite("ilCtrlStructureTest");
+        require_once __DIR__ . '/Setup/ilCtrlSetupSuite.php';
+        $suite->addTestSuite(ilCtrlSetupSuite::class);
 
         return $suite;
     }

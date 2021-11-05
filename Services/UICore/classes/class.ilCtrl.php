@@ -3,10 +3,12 @@
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\Response\Sender\ResponseSendingException;
-use ILIAS\HTTP\Services as HttpService;
+use ILIAS\HTTP\Response\Sender\ResponseSenderStrategy;
 use ILIAS\Refinery\Factory as Refinery;
-use ILIAS\Data\Factory as DataFactory;
+use ILIAS\HTTP\Wrapper\RequestWrapper;
 use ILIAS\Filesystem\Stream\Streams;
+use Psr\Http\Message\ServerRequestInterface;
+use GuzzleHttp\Psr7\Response;
 
 /**
  * Class ilCtrl provides processing control methods. A global
@@ -14,14 +16,35 @@ use ILIAS\Filesystem\Stream\Streams;
  *
  * @author Thibeau Fuhrer <thf@studer.raimann.ch>
  */
-class ilCtrl implements ilCtrlInterface
+final class ilCtrl implements ilCtrlInterface
 {
     /**
-     * Holds an instance of the HTTP service.
+     * Holds an instance of the http service's response sender.
      *
-     * @var HttpService
+     * @var ResponseSenderStrategy
      */
-    private HttpService $http;
+    private ResponseSenderStrategy $response_sender;
+
+    /**
+     * Holds an instance of the current server request.
+     *
+     * @var ServerRequestInterface
+     */
+    private ServerRequestInterface $server_request;
+
+    /**
+     * Holds the current requests $_POST parameters.
+     *
+     * @var RequestWrapper
+     */
+    private RequestWrapper $post_parameters;
+
+    /**
+     * Holds the current requests $_GET parameters.
+     *
+     * @var RequestWrapper
+     */
+    private RequestWrapper $get_parameters;
 
     /**
      * Holds an instance of the refinery factory.
@@ -56,7 +79,7 @@ class ilCtrl implements ilCtrlInterface
      *
      * @var array<int, string[]>
      */
-    private array $stacktrace;
+    private array $stacktrace = [];
 
     /**
      * Holds an instance of the object that is currently executed.
@@ -67,22 +90,35 @@ class ilCtrl implements ilCtrlInterface
 
     /**
      * ilCtrl Constructor
+     *
+     * @param ilCtrlStructureInterface $structure
+     * @param ResponseSenderStrategy   $response_sender
+     * @param ServerRequestInterface   $server_request
+     * @param RequestWrapper           $post_parameters
+     * @param RequestWrapper           $get_parameters
+     * @param Refinery                 $refinery
      */
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->stacktrace   = [];
-        $this->http         = $DIC->http();
-        $this->structure    = new ilCtrlStructure();
-        $this->path_factory = new ilCtrlPathFactory($this->structure);
-        $this->refinery     = new Refinery(new DataFactory(), $DIC->language());
+    public function __construct(
+        ilCtrlStructureInterface $structure,
+        ResponseSenderStrategy $response_sender,
+        ServerRequestInterface $server_request,
+        RequestWrapper $post_parameters,
+        RequestWrapper $get_parameters,
+        Refinery $refinery
+    ) {
+        $this->structure       = $structure;
+        $this->response_sender = $response_sender;
+        $this->server_request  = $server_request;
+        $this->post_parameters = $post_parameters;
+        $this->get_parameters  = $get_parameters;
+        $this->refinery        = $refinery;
+        $this->path_factory    = new ilCtrlPathFactory($this->structure);
 
         // initialize the context without adopting
         // any values.
         $this->context = new ilCtrlContext(
             $this->path_factory,
-            $this->http->wrapper()->query(),
+            $this->get_parameters,
             $this->refinery
         );
     }
@@ -191,7 +227,7 @@ class ilCtrl implements ilCtrlInterface
             // if the command is for post requests, or the command
             // is not considered safe, the csrf-validation must pass.
             $cmd_class = $this->context->getCmdClass();
-            if ($is_post || (null !== $cmd_class && !$this->isCmdSecure($cmd_class, $command))) {
+            if (null !== $cmd_class && !$this->isCmdSecure($is_post, $cmd_class, $command)) {
                 global $DIC;
 
                 $stored_token = new ilCtrlToken(
@@ -314,7 +350,7 @@ class ilCtrl implements ilCtrlInterface
     /**
      * @inheritDoc
      */
-    public function getParameterArrayByClass(string $a_class, string $a_cmd = null) : array
+    public function getParameterArrayByClass(string $a_class) : array
     {
         if (null === $this->structure->getClassCidByName($a_class)) {
             throw new ilCtrlException("Cannot find provided class '$a_class' in the control structure.");
@@ -495,9 +531,12 @@ class ilCtrl implements ilCtrlInterface
         // it keeps the functionality of UI plugin hooks alive.
         $target_url = $this->modifyUrlWithPluginHooks($target_url);
 
+        // initialize http response object
+        $response = new Response();
+
         // there's an exceptional case for asynchronous file uploads
         // where a json response is delivered.
-        if ('application/json' === $this->http->request()->getHeaderLine('Accept')) {
+        if ('application/json' === $this->server_request->getHeaderLine('Accept')) {
             try {
                 $body = Streams::ofString(
                     json_encode(
@@ -513,12 +552,10 @@ class ilCtrl implements ilCtrlInterface
                 $body = Streams::ofString($exception->getMessage());
             }
 
-            $response = $this->http->response()->withBody($body);
+            $response = $response->withBody($body);
         } else {
-            $response = $this->http->response()->withAddedHeader('Location', $target_url);
+            $response = $response->withAddedHeader('Location', $target_url);
         }
-
-        $this->http->saveResponse($response);
 
         // manually trigger session_write_close() due to exceptions stored
         // in the ILIAS database, otherwise this method is called by exit()
@@ -526,14 +563,16 @@ class ilCtrl implements ilCtrlInterface
         session_write_close();
 
         try {
-            $this->http->sendResponse();
+            $this->response_sender->sendResponse($response);
         } catch (ResponseSendingException $e) {
             header("Location: $target_url");
-            if ('application/json' === $this->http->request()->getHeaderLine('Accept')) {
-                echo json_encode(
-                    $response->getBody()->getContents(),
-                    JSON_THROW_ON_ERROR
-                );
+            if ('application/json' === $this->server_request->getHeaderLine('Accept')) {
+                $content = (null !== $response->getBody()) ?
+                    $response->getBody()->getContents() :
+                    []
+                ;
+
+                echo json_encode($content, JSON_THROW_ON_ERROR);
             }
         } catch (Throwable $t) {
             header("Location: $target_url");
@@ -734,8 +773,8 @@ class ilCtrl implements ilCtrlInterface
      */
     private function getQueryParam(string $parameter_name) : ?string
     {
-        if ($this->http->wrapper()->query()->has($parameter_name)) {
-            return $this->http->wrapper()->query()->retrieve(
+        if ($this->get_parameters->has($parameter_name)) {
+            return $this->get_parameters->retrieve(
                 $parameter_name,
                 $this->refinery->to()->string()
             );
@@ -751,8 +790,8 @@ class ilCtrl implements ilCtrlInterface
      */
     private function getPostCommand() : ?string
     {
-        if ($this->http->wrapper()->post()->has(self::PARAM_CMD)) {
-            return $this->http->wrapper()->post()->retrieve(
+        if ($this->post_parameters->has(self::PARAM_CMD)) {
+            return $this->post_parameters->retrieve(
                 self::PARAM_CMD,
                 $this->refinery->custom()->transformation(
                     static function ($value) {
@@ -867,19 +906,24 @@ class ilCtrl implements ilCtrlInterface
             );
         }
 
-        // collect all set parameters from the structure and
-        // append them to the target url.
-        if ($is_array) {
-            foreach ($a_class as $current_class) {
-                $target_url = $this->appendParameterStringsByClass($current_class, $target_url, $is_escaped);
+        // collect all parameters of classes within the current
+        // targets path and append them to the target url.
+        foreach ($path->getCidArray(SORT_ASC) as $cid) {
+            $class_name = $this->structure->getClassNameByCid($cid);
+            if (null === $class_name) {
+                throw new ilCtrlException("Classname for cid '$cid' in current path cannot be found.");
             }
-        } else {
-            $target_url = $this->appendParameterStringsByClass($a_class, $target_url, $is_escaped);
+
+            $target_url = $this->appendParameterStringsByClass(
+                $class_name,
+                $target_url,
+                $is_escaped
+            );
         }
 
         // append a csrf token if the command is considered
         // unsafe or the link is for form actions.
-        if ($is_post || !$this->isCmdSecure($cmd_class, $a_cmd)) {
+        if (!$this->isCmdSecure($is_post, $cmd_class, $a_cmd)) {
             global $DIC;
 
             $token = new ilCtrlToken(
@@ -955,11 +999,12 @@ class ilCtrl implements ilCtrlInterface
     /**
      * Returns whether a given command is considered safe or not.
      *
+     * @param bool        $is_post
      * @param string      $cmd_class
      * @param string|null $cmd
      * @return bool
      */
-    private function isCmdSecure(string $cmd_class, string $cmd = null) : bool
+    private function isCmdSecure(bool $is_post, string $cmd_class, string $cmd = null) : bool
     {
         // if no specified command is executed, the command
         // is considered safe per default.
@@ -977,13 +1022,19 @@ class ilCtrl implements ilCtrlInterface
 
         // if the command class does not yet implement the
         // ilCtrlSecurityInterface, the command is considered
-        // safe per default as well.
+        // safe if it's not a POST command.
         if (!is_a($obj_name, ilCtrlSecurityInterface::class, true)) {
-            return true;
+            return !$is_post;
         }
 
-        // if the command is not contained in the list of unsafe
-        // commands, the command is considered secure.
+        // the post command is considered safe if it's contained
+        // in the list of safe post commands.
+        if ($is_post) {
+            return in_array($cmd, $this->structure->getSafeCommandsByName($cmd_class), true);
+        }
+
+        // the get command is considered safe if it's not
+        // contained in the list of unsafe get commands.
         return !in_array($cmd, $this->structure->getUnsafeCommandsByName($cmd_class), true);
     }
 

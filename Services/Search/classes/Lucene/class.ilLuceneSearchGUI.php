@@ -32,7 +32,7 @@ include_once './Services/Administration/interfaces/interface.ilAdministrationCom
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$
 *
-* @ilCtrl_IsCalledBy ilLuceneSearchGUI: ilSearchController
+* @ilCtrl_IsCalledBy ilLuceneSearchGUI: ilSearchControllerGUI
 * @ilCtrl_Calls ilLuceneSearchGUI: ilPropertyFormGUI
 * @ilCtrl_Calls ilLuceneSearchGUI: ilObjectGUI, ilContainerGUI
 * @ilCtrl_Calls ilLuceneSearchGUI: ilObjCategoryGUI, ilObjCourseGUI, ilObjFolderGUI, ilObjGroupGUI

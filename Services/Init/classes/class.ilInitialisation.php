@@ -1140,8 +1140,12 @@ class ilInitialisation
             if (ilContext::hasHTML()) {
                 self::initHTML();
             }
-            self::initRefinery($GLOBALS['DIC']);
         }
+
+        // this MUST happen after everything else is initialized,
+        // because this leads to rather unexpected behaviour which
+        // is super hard to track down to this.
+        self::replaceSuperGlobals($GLOBALS['DIC']);
     }
 
     /**
@@ -1304,13 +1308,11 @@ class ilInitialisation
         self::initGlobal("tree", $tree);
         unset($tree);
 
-        self::initGlobal(
-            "ilCtrl",
-            "ilCtrl",
-            "./Services/UICore/classes/class.ilCtrl.php"
-        );
-
         self::setSessionCookieParams();
+        self::initRefinery($DIC);
+
+        require_once './Services/Init/classes/Dependencies/InitCtrlService.php';
+        (new InitCtrlService())->init($DIC);
 
         // Init GlobalScreen
         self::initGlobalScreen($DIC);
@@ -1470,7 +1472,13 @@ class ilInitialisation
 
             return new \ILIAS\Refinery\Factory($dataFactory, $language);
         };
+    }
 
+    /**
+     * @param Container $container
+     */
+    protected static function replaceSuperGlobals(\ILIAS\DI\Container $container) : void
+    {
         $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
         $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
         $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);

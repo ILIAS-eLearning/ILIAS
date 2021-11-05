@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-require_once "./libs/composer/vendor/autoload.php";
+require_once __DIR__ . '/../../../../../libs/composer/vendor/autoload.php';
 
 /**
  * Class ilCtrlStructureReader is responsible for reading
@@ -17,7 +17,7 @@ final class ilCtrlStructureReader
      * @var string regex pattern for ILIAS GUI classes. Filename
      *             must be 'class.<classname>GUI.php'.
      */
-    private const REGEX_GUI_CLASS_NAME = '/^class\.([A-z0-9]*(GUI))\.php$/';
+    public const REGEX_GUI_CLASS_NAME = '/^class\.([A-z0-9]*(GUI))\.php$/';
 
     /**
      * @var string regex pattern that matches classes listed behind
@@ -40,18 +40,24 @@ final class ilCtrlStructureReader
     private static bool $is_executed = false;
 
     /**
+     * Holds an instance of the cid generator.
+     * @var ilCtrlStructureCidGenerator
+     */
+    private ilCtrlStructureCidGenerator $cid_generator;
+
+    /**
+     * Holds the structure-reader's iterator or datasource.
+     *
+     * @var ilCtrlIteratorInterface
+     */
+    private ilCtrlIteratorInterface $iterator;
+
+    /**
      * Holds the ILIAS absolute path (without ending '/').
      *
      * @var string
      */
     private string $ilias_path;
-
-    /**
-     * Holds the composer generated class map.
-     *
-     * @var array
-     */
-    private array $class_map;
 
     /**
      * Holds the currently read references mapped by classname.
@@ -68,19 +74,18 @@ final class ilCtrlStructureReader
     private array $structure = [];
 
     /**
-     * Holds the current cid count.
-     *
-     * @var int
-     */
-    private int $cid_count = 0;
-
-    /**
      * ilCtrlStructureReader Constructor
      */
-    public function __construct()
+    public function __construct(ilCtrlIteratorInterface $iterator, ilCtrlStructureCidGenerator $cid_generator)
     {
-        $this->class_map  = include "./libs/composer/vendor/composer/autoload_classmap.php";
-        $this->ilias_path = rtrim(dirname(__FILE__, 5), '/');
+        $this->ilias_path = rtrim(
+            (defined('ILIAS_ABSOLUTE_PATH')) ?
+                ILIAS_ABSOLUTE_PATH : dirname(__FILE__, 6),
+            '/'
+        );
+
+        $this->cid_generator = $cid_generator;
+        $this->iterator = $iterator;
     }
 
     /**
@@ -100,17 +105,18 @@ final class ilCtrlStructureReader
      */
     public function readStructure() : array
     {
-        // loops through all classes of the composer generated
-        // class-map and gathers their information.
-        foreach ($this->class_map as $class_name => $path) {
-            // skip iteration if class doesn't meet ILIAS
-            // GUI class criteria.
+        foreach ($this->iterator as $class_name => $path) {
+            // skip iteration if class doesn't meet ILIAS GUI class criteria.
             if (!$this->isGuiClass($path)) {
                 continue;
             }
 
             $array_key = strtolower($class_name);
             try {
+                // the classes need to be required manually, because
+                // auto-loading breaks when testing.
+                require_once $path;
+
                 $reflection = new ReflectionClass($class_name);
                 $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
                 $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
@@ -118,7 +124,9 @@ final class ilCtrlStructureReader
                 continue;
             }
 
-            $this->addClassEntry($class_name, $path);
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->cid_generator->getCid();
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
+            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
         }
 
         // loops through all references and creates vise-versa
@@ -141,65 +149,15 @@ final class ilCtrlStructureReader
         // loops again through all references in order to
         // add this data to the actual output. This needs
         // to happen in a separate loop, as the vise-versa
-        // mappings are not yet finished the previous loop.
+        // mappings are not yet finished in the previous loop.
         foreach ($this->references as $class_name => $data) {
-            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = array_map(
-                'strtolower',
-                $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS]
-            );
-
-            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = array_map(
-                'strtolower',
-                $this->references[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN]
-            );
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS] = $data[ilCtrlStructureInterface::KEY_CLASS_PARENTS];
+            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $data[ilCtrlStructureInterface::KEY_CLASS_CHILDREN];
         }
 
         self::$is_executed = true;
 
         return $this->structure;
-    }
-
-    /**
-     * @param string      $class_name
-     * @param string|null $path
-     */
-    private function addClassEntry(string $class_name, string $path = null) : void
-    {
-        if (isset($this->class_map[$class_name])) {
-            $path = $path ?? $this->class_map[$class_name];
-
-            $array_key = strtolower($class_name);
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->generateCid();
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
-        }
-    }
-
-    /**
-     * If a class has referenced another one as child or parent,
-     * this method adds a vise-versa mapping if it doesn't already
-     * exist.
-     *
-     * @param string $class_name
-     * @param string $key_ref_from
-     * @param string $key_ref_to
-     */
-    private function addViseVersaMapping(string $class_name, string $key_ref_from, string $key_ref_to) : void
-    {
-        $array_key = strtolower($class_name);
-        if (!empty($this->references[$array_key][$key_ref_from])) {
-            foreach ($this->references[$array_key][$key_ref_from] as $reference) {
-                $ref_array_key = strtolower($reference);
-                if (!isset($this->references[$ref_array_key])) {
-                    $this->addClassEntry($reference);
-                }
-
-                // only add vise-versa mapping if it doesn't already exist.
-                if (isset($this->references[$ref_array_key]) && !in_array($class_name, $this->references[$ref_array_key][$key_ref_to], true)) {
-                    $this->references[$ref_array_key][$key_ref_to][] = $class_name;
-                }
-            }
-        }
     }
 
     /**
@@ -234,20 +192,33 @@ final class ilCtrlStructureReader
             foreach (explode(',', $class_list) as $class) {
                 $class_name = $this->stripWhitespaces($class);
                 if (!empty($class_name)) {
-                    /**
-                     * @TODO: uncomment exception and inform developers they need
-                     *        to clean up ilCtrl call statements before release.
-                     */
-                    if (!isset($this->class_map[$class_name])) {
-                        // throw new LogicException("Class '{$reflection->getName()}' referenced '$class_name' which is not a valid mapping.");
-                    }
-
-                    $referenced_classes[] =$class_name;
+                    $referenced_classes[] = strtolower($class_name);
                 }
             }
         }
 
         return $referenced_classes;
+    }
+
+    /**
+     * If a class has referenced another one as child or parent,
+     * this method adds a vise-versa mapping if it doesn't already
+     * exist.
+     *
+     * @param string $class_name
+     * @param string $key_ref_from
+     * @param string $key_ref_to
+     */
+    private function addViseVersaMapping(string $class_name, string $key_ref_from, string $key_ref_to) : void
+    {
+        if (!empty($this->references[$class_name][$key_ref_from])) {
+            foreach ($this->references[$class_name][$key_ref_from] as $reference) {
+                // only add vise-versa mapping if it doesn't already exist.
+                if (isset($this->references[$reference]) && !in_array($class_name, $this->references[$reference][$key_ref_to], true)) {
+                    $this->references[$reference][$key_ref_to][] = $class_name;
+                }
+            }
+        }
     }
 
     /**
@@ -281,7 +252,7 @@ final class ilCtrlStructureReader
      */
     private function stripWhitespaces(string $string) : string
     {
-        return preg_replace('/\s+/', '', $string);
+        return (string) preg_replace('/\s+/', '', $string);
     }
 
     /**
@@ -292,6 +263,11 @@ final class ilCtrlStructureReader
      */
     private function getRelativePath(string $absolute_path) : string
     {
+        // some paths might contain syntax like '../../../' etc.
+        // and realpath() resolves that in order to cut off the
+        // ilias installation path properly.
+        $absolute_path = realpath($absolute_path);
+
         return '.' . str_replace($this->ilias_path, '', $absolute_path);
     }
 
@@ -303,18 +279,6 @@ final class ilCtrlStructureReader
      */
     private function isGuiClass(string $path) : bool
     {
-        return preg_match(self::REGEX_GUI_CLASS_NAME, basename($path));
-    }
-
-    /**
-     * Returns an incremented base 36 class id.
-     *
-     * @return string
-     */
-    private function generateCid() : string
-    {
-        $this->cid_count++;
-
-        return base_convert((string) $this->cid_count, 10, 36);
+        return (bool) preg_match(self::REGEX_GUI_CLASS_NAME, basename($path));
     }
 }
