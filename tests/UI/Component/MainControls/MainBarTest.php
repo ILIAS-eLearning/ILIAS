@@ -218,16 +218,25 @@ class MainBarTest extends ILIAS_UI_TestBase
                     )
             );
 
+        $toolslate = $sf->legacy('Help', $icon, new I\Legacy\Legacy('Help', new I\SignalGenerator()));
+
         $mb = $this->factory->mainBar()
             ->withAdditionalEntry('test1', $this->getButton())
             ->withAdditionalEntry('test2', $this->getButton())
-            ->withAdditionalEntry('slate', $slate);
+            ->withAdditionalEntry('slate', $slate)
+            ->withToolsButton($this->getButton())
+            ->withAdditionalToolEntry('tool1', $toolslate);
 
         $html = $r->render($mb);
 
         $expected = <<<EOT
-			<div class="il-maincontrols-mainbar" id="id_12">
+			<div class="il-maincontrols-mainbar" id="id_16">
 				<nav class="il-mainbar" aria-label="mainbar_aria_label">
+
+					<div class="il-mainbar-tools-button">
+						<button class="btn btn-bulky" id="id_14" role="menuitem"><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button>
+					</div>
+
 					<div class="il-mainbar-triggers">
 						<ul class="il-mainbar-entries" role="menubar" style="visibility: hidden">
 							<li role="none"><button class="btn btn-bulky" data-action="#" id="id_1" role="menuitem" ><img class="icon custom small" src="" alt=""/><span class="bulky-label">TestEntry</span></button></li>
@@ -240,7 +249,11 @@ class MainBarTest extends ILIAS_UI_TestBase
 
 				<div class="il-mainbar-slates">
 					<div class="il-mainbar-tools-entries">
-						<div class="il-mainbar-tools-entries-bg"></div>
+						<ul class="il-mainbar-tools-entries-bg" role="menubar">
+							<li class="il-mainbar-tool-trigger-item" role="none">
+								<button class="btn btn-bulky" id="id_11" role="menuitem"><img class="icon custom small" src="" alt=""/><span class="bulky-label">Help</span></button>
+							</li>
+						</ul>
 					</div>
 					<div class="il-maincontrols-slate disengaged" id="id_8" data-depth-level="1" role="menu">
 						<div class="il-maincontrols-slate-content" data-replace-marker="content">
@@ -262,11 +275,16 @@ class MainBarTest extends ILIAS_UI_TestBase
 					<div class="il-maincontrols-slate disengaged" id="id_10" data-depth-level="1" role="menu">
 						<div class="il-maincontrols-slate-content" data-replace-marker="content"></div>
 					</div>
+					
+					<div class="il-maincontrols-slate disengaged" id="id_13" data-depth-level="1" role="menu">
+						<div class="il-maincontrols-slate-content" data-replace-marker="content">Help</div>
+					</div>
+
 
 					<div class="il-mainbar-close-slates">
-						<button class="btn btn-bulky" id="id_11" >
-						    <span class="glyph" aria-label="collapse/back" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span>
-						    <span class="bulky-label">close</span></button>
+						<button class="btn btn-bulky" id="id_15" >
+							<span class="glyph" aria-label="collapse/back" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span>
+							<span class="bulky-label">close</span></button>
 					</div>
 				</div>
 			</div>
