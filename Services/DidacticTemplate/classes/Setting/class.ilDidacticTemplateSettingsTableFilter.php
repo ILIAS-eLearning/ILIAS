@@ -1,7 +1,5 @@
 <?php declare(strict_types=1);
 
-
-
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
@@ -20,7 +18,7 @@ class ilDidacticTemplateSettingsTableFilter
     protected const FILTER_GLOBAL = 1;
     protected const FILTER_LOCAL = 2;
 
-    private $input_activation_config = [
+    private array $input_activation_config = [
         self::FILTER_NAME_ICON => false,
         self::FILTER_NAME_TITLE => true,
         self::FILTER_NAME_TYPE => true,
@@ -31,27 +29,27 @@ class ilDidacticTemplateSettingsTableFilter
     /**
      * @var ilLanguage
      */
-    private $lng;
+    private ilLanguage $lng;
 
     /**
      * @var Factory
      */
-    private $ui_factory;
+    private Factory $ui_factory;
 
     /**
      * @var Renderer
      */
-    private $ui_renderer;
+    private Renderer $ui_renderer;
 
     /**
      * @var ilUIService
      */
-    private $ui_service;
+    private ilUIService $ui_service;
 
     /**
      * @var string
      */
-    private $target_url;
+    private string $target_url;
 
     /**
      * @var ILIAS\UI\Component\
@@ -78,7 +76,7 @@ class ilDidacticTemplateSettingsTableFilter
     /**
      * Init Filter
      */
-    public function init()
+    public function init() : void
     {
         $inputs[self::FILTER_NAME_ICON] = $this->ui_factory->input()->field()->select(
             $this->lng->txt('icon'),
@@ -222,9 +220,9 @@ class ilDidacticTemplateSettingsTableFilter
 
     /**
      * @param string $name
-     * @return mixed
+     * @return void
      */
-    protected function getFilterValue(string $name)
+    protected function getFilterValue(string $name) : mixed
     {
         if (isset($this->filter_values[$name])) {
             return $this->filter_values[$name];
@@ -232,7 +230,7 @@ class ilDidacticTemplateSettingsTableFilter
         return null;
     }
 
-    protected function loadFilterValues()
+    protected function loadFilterValues() : void
     {
 
         foreach ($this->filter->getInputs() as $name => $input) {
