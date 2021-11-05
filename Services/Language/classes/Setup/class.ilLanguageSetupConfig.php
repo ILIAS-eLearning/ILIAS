@@ -7,9 +7,9 @@ use ILIAS\Setup;
 class ilLanguageSetupConfig implements Setup\Config
 {
 
-    protected $default_language;
-    protected $install_languages;
-    protected $install_local_languages;
+    protected string $default_language;
+    protected array $install_languages;
+    protected array $install_local_languages;
 
     public function __construct(
         string $default_language,

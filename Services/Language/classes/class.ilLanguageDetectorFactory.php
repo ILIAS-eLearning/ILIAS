@@ -13,7 +13,7 @@ class ilLanguageDetectorFactory
 
 
     protected $client_ini;
-    protected $request_information = array();
+    protected array $request_information;
     protected $settings;
 
     public function __construct()

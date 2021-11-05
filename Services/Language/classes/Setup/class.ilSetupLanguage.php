@@ -47,12 +47,12 @@
 class ilSetupLanguage extends ilLanguage
 {
 
-    public $text = array();
-    public $lang_default = "en";
-    public $lang_path;
-    public $lang_key;
-    public $separator = "#:#";
-    public $comment_separator = "###";
+    public array $text;
+    public string $lang_default = "en";
+    public string $lang_path;
+    public string $lang_key;
+    public string $separator = "#:#";
+    public string $comment_separator = "###";
 
     public function __construct(string $a_lang_key)
     {

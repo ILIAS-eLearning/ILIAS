@@ -11,10 +11,10 @@ require_once "./Services/GlobalCache/classes/class.ilGlobalCache.php";
 class ilCachedLanguage
 {
     protected $global_cache;
-    protected $loaded = false;
-    protected $language_key = "en";
-    protected $translations = array();
-    protected static $instances = array();
+    protected bool $loaded = false;
+    protected string $language_key = "en";
+    protected array $translations;
+    protected static array $instances;
 
     /**
      * ilCachedLanguage constructor.

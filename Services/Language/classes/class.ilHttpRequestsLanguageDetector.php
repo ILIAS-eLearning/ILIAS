@@ -10,7 +10,7 @@ require_once "Services/Language/interfaces/interface.ilLanguageDetector.php";
  */
 class ilHttpRequestsLanguageDetector implements ilLanguageDetector
 {
-    protected $header_value;
+    protected string $header_value;
 
     public function __construct(string $header_value)
     {

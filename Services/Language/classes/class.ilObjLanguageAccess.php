@@ -16,7 +16,7 @@
 */
 class ilObjLanguageAccess
 {
-    protected static $cached_check_translate;
+    protected static bool $cached_check_translate;
 
 
     /**
@@ -145,7 +145,7 @@ class ilObjLanguageAccess
     public static function _isPageTranslation()
     {
         $cmdClass = $_GET["cmdClass"] ?? "";
-        return (strtolower($cmdClass == "ilobjlanguageextgui") and $_GET["view_mode"] == "translate");
+        return (strtolower($cmdClass == "ilobjlanguageextgui") && $_GET["view_mode"] == "translate");
     }
 
 

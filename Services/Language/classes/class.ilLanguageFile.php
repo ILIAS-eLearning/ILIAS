@@ -35,17 +35,17 @@
 class ilLanguageFile
 {
     private static $global_file_objects = array();
-    private $lang_file;
-    private $lang_key;
-    private $scope;
+    private string $lang_file;
+    private string $lang_key;
+    private string $scope;
     private $header;
-    private $file_start = "<!-- language file start -->";
-    private $separator;
-    private $comment_separator;
-    private $params = array();
-    private $values = array();
-    private $comments = array();
-    private $error_message = "";
+    private string $file_start = "<!-- language file start -->";
+    private string $separator;
+    private string $comment_separator;
+    private array $params;
+    private array $values;
+    private array $comments;
+    private string $error_message = "";
     
     /**
     * Constructor

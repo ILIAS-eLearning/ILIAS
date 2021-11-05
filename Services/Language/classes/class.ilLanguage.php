@@ -26,21 +26,22 @@
 class ilLanguage
 {
     public $ilias;
-    public $text;
-    public $lang_default;
+    public array $text;
+    public string $lang_default;
     public $lang_user;
-    public $lang_path;
-    public $lang_key;
+    public string $lang_path;
+    public string $lang_key;
     public $lang_name;
-    public $separator = "#:#";
-    public $comment_separator = "###";
-    public $loaded_modules;
-    protected static $used_topics = array();
-    protected static $used_modules = array();
-    protected $cached_modules = array();
-    protected $map_modules_txt = array();
-    protected $usage_log_enabled = false;
-    protected static $lng_log = array();
+    public string $separator = "#:#";
+    public string $comment_separator = "###";
+    public array $loaded_modules;
+    protected static array $used_topics;
+    protected static array $used_modules;
+    protected array $cached_modules;
+    protected array $map_modules_txt;
+    protected bool $usage_log_enabled = false;
+    protected static array $lng_log;
+    private string $cust_lang_path;
 
     /**
      * Constructor
@@ -59,9 +60,6 @@ class ilLanguage
         $this->log = $DIC->logger()->lang();
 
         $this->lang_key = $a_lang_key;
-        
-        $this->text = array();
-        $this->loaded_modules = array();
 
         $this->usage_log_enabled = self::isUsageLogEnabled();
 

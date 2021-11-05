@@ -31,7 +31,7 @@
 */
 class ilLanguageFactory
 {
-    private static $languages = array();
+    private static array $languages;
     
     /**
      * Get langauge object

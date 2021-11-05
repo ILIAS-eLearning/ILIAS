@@ -13,7 +13,6 @@ require_once "./Services/Language/classes/class.ilObjLanguage.php";
 */
 class ilObjLanguageExt extends ilObjLanguage
 {
-    
     /**
     * Constructor
     */

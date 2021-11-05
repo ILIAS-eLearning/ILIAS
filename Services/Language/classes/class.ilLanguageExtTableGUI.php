@@ -6,9 +6,9 @@ require_once "./Services/Table/classes/class.ilTable2GUI.php";
 class ilLanguageExtTableGUI extends ilTable2GUI
 {
 
-    private $inputsize = 40;
-    private $commentsize = 30;
-    private $params = array();
+    private int $inputsize = 40;
+    private int $commentsize = 30;
+    private array $params;
 
     public function __construct($a_parent_obj, $a_parent_cmd, $a_params = array())
     {

@@ -12,7 +12,7 @@ class ilLangDeprecated
 {
     const ILIAS_CLASS_FILE_RE = "class\..*\.php$";
 
-    protected $candidates = array();
+    protected array $candidates;
     private $db;
 
     /**
