@@ -472,7 +472,7 @@ class ilMailFormGUI
                     ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                     ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
                         'm_subject' => $template->getSubject(),
-                        'm_message' => $template->getMessage(),
+                        'm_message' => $template->getMessage() . $this->umail->appendSignature(),
                     ], JSON_THROW_ON_ERROR)))
             );
         } catch (Exception $e) {
@@ -795,7 +795,7 @@ class ilMailFormGUI
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
                             $template_chb->setValue($template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
-                            $mailData['m_message'] = $template->getMessage();
+                            $mailData['m_message'] = $template->getMessage() . $this->umail->appendSignature();
                         }
                     }
                     if (isset($mailData['template_id'])) {

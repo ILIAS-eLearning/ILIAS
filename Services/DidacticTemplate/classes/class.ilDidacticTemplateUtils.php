@@ -10,7 +10,7 @@
  */
 class ilDidacticTemplateUtils
 {
-    public static function switchTemplate($a_ref_id, $a_new_tpl_id)
+    public static function switchTemplate(int $a_ref_id, int $a_new_tpl_id) : bool
     {
         global $DIC;
 
@@ -18,9 +18,7 @@ class ilDidacticTemplateUtils
         $current_tpl_id = ilDidacticTemplateObjSettings::lookupTemplateId(
             $a_ref_id
         );
-        
         $logger->debug('Current template id: ' . $current_tpl_id);
-
         // Revert current template
         if ($current_tpl_id) {
             $logger->debug('Reverting template with id: ' . $current_tpl_id);

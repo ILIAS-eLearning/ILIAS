@@ -26,7 +26,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -53,21 +53,17 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 
             $this->setSelectAllCheckbox('tpls');
         }
-
-
-
         $this->setRowTemplate('tpl.didactic_template_overview_row.html', 'Services/DidacticTemplate');
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
         $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
-
     }
 
 
     /**
      * Parse didactic templates
      */
-    public function parse(ilDidacticTemplateSettingsTableFilter $filter)
+    public function parse(ilDidacticTemplateSettingsTableFilter $filter) : void
     {
         $tpls = ilDidacticTemplateSettings::getInstance();
         $tpls->readInactive();

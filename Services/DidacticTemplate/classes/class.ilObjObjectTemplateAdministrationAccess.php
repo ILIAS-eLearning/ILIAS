@@ -8,7 +8,6 @@
 * Class ilObjObjectTemplateAdministrationAccess
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ingroup ServicesDidacticTemplate
 */
