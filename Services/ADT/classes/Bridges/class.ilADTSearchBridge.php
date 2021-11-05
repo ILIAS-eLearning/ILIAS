@@ -22,9 +22,16 @@ abstract class ilADTSearchBridge
     protected $title = '';
     protected $info = '';
 
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+
     public function __construct(ilADTDefinition $a_adt_def)
     {
+        global $DIC;
         $this->setDefinition($a_adt_def);
+
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
     }
 
     abstract protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool;

@@ -54,10 +54,6 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 
     public function addToForm() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $def = $this->getADT()->getCopyOfDefinition();
 
         $options = $def->getOptions();
@@ -100,15 +96,11 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC->database();
-
         if (!$this->isNull() && $this->isValid()) {
-            return $ilDB->in(
+            return $this->db->in(
                 $this->getSearchColumn(),
                 $this->getADT()->getSelections(),
-                '',
+                false,
                 ilDBConstants::T_INTEGER
             );
         }

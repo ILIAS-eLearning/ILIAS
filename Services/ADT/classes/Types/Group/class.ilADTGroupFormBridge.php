@@ -93,17 +93,13 @@ class ilADTGroupFormBridge extends ilADTFormBridge
 
     public function validate() : bool
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $valid = true;
 
         // ilADTFormBridge->isRequired() != ilADT->allowNull()
         foreach ($this->getElements() as $element_id => $element) {
             if ($element->isRequired() && $element->getADT()->isNull()) {
                 $field = $this->getForm()->getItemByPostVar($element_id);
-                $field->setAlert($lng->txt("msg_input_is_required"));
+                $field->setAlert($this->lng->txt("msg_input_is_required"));
                 $valid = false;
             } // #17232 - date time input GUI special case
             elseif (!$element->validate()) {

@@ -116,15 +116,12 @@ class ilADTLocation extends ilADT
      */
     public function translateErrorCode(string $a_code) : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
         switch ($a_code) {
             case self::ADT_VALIDATION_ERROR_LONGITUDE:
-                return $lng->txt("adt_error_longitude");
+                return $this->lng->txt("adt_error_longitude");
 
             case self::ADT_VALIDATION_ERROR_LATITUDE:
-                return $lng->txt("adt_error_latitude");
+                return $this->lng->txt("adt_error_latitude");
 
             default:
                 return parent::translateErrorCode($a_code);

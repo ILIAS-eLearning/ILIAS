@@ -9,40 +9,17 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
     protected function initObject() : ilADTBasedObject
     {
 
-        /*
-        $test = new ilADTTest();
-        $test->getName()->setText("2. Satz");
-        $test->getLang()->setSelection("en");
-        $home = $test->getHome();
-        $home->setLatitude(1);
-        $home->setLongitude(2);
-        $test->getLastLogin()->setDate(new ilDateTime(time(), IL_CAL_UNIX));
-        if(!$test->isValid())
-        {
-            var_dump($test->getAllTranslatedErrors());
-        }
-        else if(!$test->create())
-        {
-            var_dump($test->getAllTranslatedErrors());
-        }
-        */
-
         return new ilADTTest(1);
     }
 
     protected function prepareFormElements(ilADTGroupFormBridge $a_adt_form) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
-        // :TODO:
-        $a_adt_form->getForm()->setTitle($lng->txt("test_form_title"));
-        $a_adt_form->setTitle($lng->txt("test_form_section_title"));
-        $a_adt_form->setInfo($lng->txt("test_form_section_title_info"));
+        $a_adt_form->getForm()->setTitle($this->lng->txt("test_form_title"));
+        $a_adt_form->setTitle($this->lng->txt("test_form_section_title"));
+        $a_adt_form->setInfo($this->lng->txt("test_form_section_title_info"));
 
         foreach ($a_adt_form->getElements() as $name => $element) {
-            $element->setTitle($lng->txt("test_form_" . $name));
+            $element->setTitle($this->lng->txt("test_form_" . $name));
         }
 
         $a_adt_form->getElement("name")->setRequired(true);
@@ -50,7 +27,7 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
         $a_adt_form->getElement("tags")->setRequired(true);
         // $a_adt_form->getElement("last_login")->setRequired(true);
 
-        $a_adt_form->getElement("lang")->forceRadio(true, array("en" => $lng->txt("lang_en_info")));
+        $a_adt_form->getElement("lang")->forceRadio(true, array("en" => $this->lng->txt("lang_en_info")));
 
         $a_adt_form->getElement("entry_date")->setParentElement("active");
         // $a_adt_form->getElement("entry_date")->setDisabled(true);
@@ -58,6 +35,6 @@ class ilADTTestGUI extends ilADTBasedObjectGUI
         // $a_adt_form->getElement("last_login")->setParentElement(array("interests", ilADTTest::INTERESTS_LANGUAGES));
 
         $a_adt_form->getElement("tags")->setParentElement(array("lang", "de"));
-        $a_adt_form->getElement("tags")->setInfo($lng->txt("test_form_tags_info"));
+        $a_adt_form->getElement("tags")->setInfo($this->lng->txt("test_form_tags_info"));
     }
 }

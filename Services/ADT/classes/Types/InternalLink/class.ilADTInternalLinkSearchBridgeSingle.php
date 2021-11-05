@@ -63,8 +63,6 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      */
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-        $db = $GLOBALS['DIC']->database();
-
         $a_value = '';
         if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
@@ -80,7 +78,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 
         $subselect = $a_element_id . ' IN ' .
             '( select ref_id from object_reference obr join object_data obd on obr.obj_id = obd.obj_id ' .
-            'where ' . $db->like('title', 'text', $a_value . '%') . ' ' .
+            'where ' . $this->db->like('title', 'text', $a_value . '%') . ' ' .
             ')';
         return $subselect;
     }

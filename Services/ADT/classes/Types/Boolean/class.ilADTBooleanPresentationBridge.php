@@ -9,16 +9,12 @@ class ilADTBooleanPresentationBridge extends ilADTPresentationBridge
 
     public function getHTML() : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         if (!$this->getADT()->isNull()) {
             // :TODO: force icon?
 
             $presentation_value = $this->getADT()->getStatus()
-                ? $lng->txt("yes")
-                : $lng->txt("no");
+                ? $this->lng->txt("yes")
+                : $this->lng->txt("no");
             return $this->decorate($presentation_value);
         }
         return '';

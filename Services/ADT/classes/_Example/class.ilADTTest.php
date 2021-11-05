@@ -17,10 +17,6 @@ class ilADTTest extends ilADTBasedObject
 
     protected function initProperties() : ilADT
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         // this could be generated from XML or code comments or whatever
 
         $factory = ilADTFactory::getInstance();
@@ -35,10 +31,10 @@ class ilADTTest extends ilADTBasedObject
         $properties_def->addElement("active", $status);
 
         // example options from ilLanguage
-        $lng->loadLanguageModule("meta");
+        $this->lng->loadLanguageModule("meta");
         $options = array();
-        foreach ($lng->getInstalledLanguages() as $lang) {
-            $options[$lang] = $lng->txt("meta_l_" . $lang);
+        foreach ($this->lng->getInstalledLanguages() as $lang) {
+            $options[$lang] = $this->lng->txt("meta_l_" . $lang);
         }
 
         $lang = $factory->getDefinitionInstanceByType("Enum");
@@ -66,9 +62,9 @@ class ilADTTest extends ilADTBasedObject
         $properties_def->addElement("tags", $tags);
 
         $options = array(
-            self::INTERESTS_NONE => $lng->txt("test_interests_none"),
-            self::INTERESTS_LANGUAGES => $lng->txt("test_interests_languages"),
-            self::INTERESTS_IT => $lng->txt("test_interests_it")
+            self::INTERESTS_NONE => $this->lng->txt("test_interests_none"),
+            self::INTERESTS_LANGUAGES => $this->lng->txt("test_interests_languages"),
+            self::INTERESTS_IT => $this->lng->txt("test_interests_it")
         );
 
         $intr = $factory->getDefinitionInstanceByType("MultiEnum");
@@ -108,11 +104,7 @@ class ilADTTest extends ilADTBasedObject
 
     protected function createPrimaryKeyb() : bool
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
-        $this->id = $ilDB->nextId("adt_test");
+        $this->id = $this->db->nextId("adt_test");
 
         // INSERT is only done if createPrimaryKey() returns TRUE!
         return true;

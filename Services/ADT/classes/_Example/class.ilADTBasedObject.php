@@ -12,12 +12,18 @@ abstract class ilADTBasedObject
     protected ilADT $properties;
     protected array $db_errors = [];
 
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
+
     /**
      * Constructor
      * Tries to read record from DB, in accordance to current ILIAS behaviour
      */
     public function __construct()
     {
+        global $DIC;
+        $this->db = $DIC->database();
+        $this->lng = $DIC->language();
         $this->properties = $this->initProperties();
 
         // :TODO: to keep constructor "open" we COULD use func_get_args()
@@ -114,10 +120,6 @@ abstract class ilADTBasedObject
      */
     protected function initActiveRecordInstance() : ilADTActiveRecord
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->hasPrimary()) {
             throw new Exception("ilADTBasedObject no primary");
         }
@@ -127,7 +129,8 @@ abstract class ilADTBasedObject
         $this->initDBBridge($adt_db);
 
         // use custom error handling
-        $ilDB->exception = "ilADTDBException";
+        //FIXME
+        //$this->db->exception = "ilADTDBException";
 
         /** @noinspection PhpParamsInspection */
         return $factory->getActiveRecordInstance($adt_db);
@@ -224,10 +227,6 @@ abstract class ilADTBasedObject
      */
     public function translateDBErrorCodes(array $a_codes) : array
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $res = array();
 
         foreach ($a_codes as $code) {

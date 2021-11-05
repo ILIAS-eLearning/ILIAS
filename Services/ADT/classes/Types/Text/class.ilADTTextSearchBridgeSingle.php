@@ -61,10 +61,6 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
                 return '';
@@ -75,19 +71,19 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
         switch ($mode) {
             case self::SQL_STRICT:
                 if (!is_array($quotedWords)) {
-                    return $a_element_id . " = " . $ilDB->quote($quotedWords, "text");
+                    return $a_element_id . " = " . $this->db->quote($quotedWords, "text");
                 } else {
-                    return $ilDB->in($a_element_id, $quotedWords, "", "text");
+                    return $this->db->in($a_element_id, $quotedWords, false, "text");
                 }
 
             case self::SQL_LIKE:
                 if (!is_array($quotedWords)) {
-                    return $ilDB->like($a_element_id, "text", "%" . $quotedWords . "%");
+                    return $this->db->like($a_element_id, "text", "%" . $quotedWords . "%");
                 } else {
                     $tmp = array();
                     foreach ($quotedWords as $word) {
                         if ($word) {
-                            $tmp[] = $ilDB->like($a_element_id, "text", "%" . $word . "%");
+                            $tmp[] = $this->db->like($a_element_id, "text", "%" . $word . "%");
                         }
                     }
                     if (count($tmp)) {
@@ -98,13 +94,13 @@ class ilADTTextSearchBridgeSingle extends ilADTSearchBridgeSingle
 
             case self::SQL_LIKE_END:
                 if (!is_array($quotedWords)) {
-                    return $ilDB->like($a_element_id, "text", $quotedWords . "%");
+                    return $this->db->like($a_element_id, "text", $quotedWords . "%");
                 }
                 break;
 
             case self::SQL_LIKE_START:
                 if (!is_array($quotedWords)) {
-                    return $ilDB->like($a_element_id, "text", "%" . $quotedWords);
+                    return $this->db->like($a_element_id, "text", "%" . $quotedWords);
                 }
                 break;
         }

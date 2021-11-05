@@ -12,6 +12,10 @@ abstract class ilADTBasedObjectGUI
     private ilObjectGUI $gui;
     protected ?ilADTBasedObject $object = null;
 
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+
     /**
      * Constructor
      * Parent GUI is just needed for testing (ilCtrl)
@@ -19,6 +23,11 @@ abstract class ilADTBasedObjectGUI
      */
     public function __construct(ilObjectGUI $a_parent_gui)
     {
+        global $DIC;
+        $this->tpl  = $DIC->ui()->mainTemplate();
+        $this->lng  = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+
         $this->gui = $a_parent_gui;
         $this->object = $this->initObject();
     }
@@ -35,15 +44,11 @@ abstract class ilADTBasedObjectGUI
 
     public function editAction(ilADTGroupFormBridge $a_form = null) : bool
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-
         if (!$a_form) {
             $a_form = $this->initForm();
         }
 
-        $tpl->setContent($a_form->getForm()->getHTML());
+        $this->tpl->setContent($a_form->getForm()->getHTML());
         return true;
     }
 
@@ -59,13 +64,8 @@ abstract class ilADTBasedObjectGUI
      */
     protected function initForm() : ilADTFormBridge
     {
-        global $DIC;
-
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
         $form = new ilPropertyFormGUI();
-        $form->setFormAction($ilCtrl->getFormAction($this->gui, "updateAction"));
+        $form->setFormAction($this->ctrl->getFormAction($this->gui, "updateAction"));
 
         $adt_form = ilADTFactory::getInstance()->getFormBridgeForInstance($this->object->getProperties());
 
@@ -76,10 +76,10 @@ abstract class ilADTBasedObjectGUI
         $this->prepareFormElements($adt_form);
 
         $adt_form->addToForm();
-        $adt_form->addJS($tpl);
+        $adt_form->addJS($this->tpl);
 
         // :TODO:
-        $form->addCommandButton("updateAction", $lng->txt("save"));
+        $form->addCommandButton("updateAction", $this->lng->txt("save"));
 
         return $adt_form;
     }
@@ -90,11 +90,6 @@ abstract class ilADTBasedObjectGUI
      */
     public function updateAction() : bool
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $adt_form = $this->initForm();
         $valid = $adt_form->getForm()->checkInput();
 
@@ -107,14 +102,14 @@ abstract class ilADTBasedObjectGUI
 
         // validation errors have top priority
         if (!$valid) {
-            ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+            ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
             return $this->editAction($adt_form);
         }
 
         // :TODO: experimental, update only if necessary
         if ($changed) {
             if ($this->object->update()) {
-                ilUtil::sendSuccess($lng->txt("settings_saved"), true);
+                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
             } else {
                 // error occured in db-layer (primary/unique)
                 foreach ($this->object->getDBErrors() as $element_id => $codes) {
@@ -124,12 +119,12 @@ abstract class ilADTBasedObjectGUI
                     }
                 }
 
-                ilUtil::sendFailure($lng->txt("form_input_not_valid"));
+                ilUtil::sendFailure($this->lng->txt("form_input_not_valid"));
                 return $this->editAction($adt_form);
             }
         }
 
-        $ilCtrl->redirect($this->gui, "edit");
+        $this->ctrl->redirect($this->gui, "edit");
         return true;
     }
 }

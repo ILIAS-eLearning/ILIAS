@@ -9,10 +9,6 @@ class ilADTLocationFormBridge extends ilADTFormBridge
 
     public function addToForm() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $adt = $this->getADT();
 
         $default = false;
@@ -30,7 +26,7 @@ class ilADTLocationFormBridge extends ilADTFormBridge
         // :TODO: title?
         $title = $this->isRequired()
             ? $this->getTitle()
-            : $lng->txt("location");
+            : $this->lng->txt("location");
 
         $loc = new ilLocationInputGUI($title, $this->getElementId());
         $loc->setLongitude($adt->getLongitude());

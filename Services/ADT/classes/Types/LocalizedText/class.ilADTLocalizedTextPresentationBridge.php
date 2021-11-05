@@ -7,13 +7,8 @@
  */
 class ilADTLocalizedTextPresentationBridge extends ilADTTextPresentationBridge
 {
-    private ilLanguage $lng;
-
     public function __construct(ilADT $a_adt)
     {
-        global $DIC;
-
-        $this->lng = $DIC->language();
         parent::__construct($a_adt);
     }
 

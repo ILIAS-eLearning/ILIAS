@@ -63,12 +63,8 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->isNull() && $this->isValid()) {
-            return $a_element_id . " = " . $ilDB->quote($this->getADT()->getDate()->get(IL_CAL_DATE), "date");
+            return $a_element_id . " = " . $this->db->quote($this->getADT()->getDate()->get(IL_CAL_DATE), "date");
         }
         return '';
     }

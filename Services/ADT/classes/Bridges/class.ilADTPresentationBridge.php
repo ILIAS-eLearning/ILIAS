@@ -10,9 +10,14 @@ abstract class ilADTPresentationBridge
 {
     protected ilADT $adt;
     protected mixed $decorator;
+    protected ilLanguage $lng;
 
     public function __construct(ilADT $a_adt)
     {
+        global $DIC;
+
+        $this->lng = $DIC->language();
+
         $this->setADT($a_adt);
     }
 

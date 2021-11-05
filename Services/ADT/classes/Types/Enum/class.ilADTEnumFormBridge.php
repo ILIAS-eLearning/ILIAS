@@ -26,10 +26,6 @@ class ilADTEnumFormBridge extends ilADTFormBridge
 
     public function addToForm() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $def = $this->getADT()->getCopyOfDefinition();
         $selection = $this->getADT()->getSelection();
 
@@ -42,7 +38,7 @@ class ilADTEnumFormBridge extends ilADTFormBridge
         if (!$this->isRequired()) {
             $options = array("" => "-") + $options;
         } elseif ($this->getADT()->isNull()) {
-            $options = array("" => $lng->txt("please_select")) + $options;
+            $options = array("" => $this->lng->txt("please_select")) + $options;
         }
 
         if (!(bool) $this->force_radio) {

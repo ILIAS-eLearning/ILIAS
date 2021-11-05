@@ -29,14 +29,10 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 
     public function addToForm() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             $check = new ilCustomInputGUI($this->getTitle());
 
-            $date_from = new ilDateTimeInputGUI($lng->txt('from'), $this->addToElementId("lower"));
+            $date_from = new ilDateTimeInputGUI($this->lng->txt('from'), $this->addToElementId("lower"));
             $date_from->setShowTime(false);
             $check->addSubItem($date_from);
 
@@ -45,7 +41,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
                 $checked = true;
             }
 
-            $date_until = new ilDateTimeInputGUI($lng->txt('until'), $this->addToElementId("upper"));
+            $date_until = new ilDateTimeInputGUI($this->lng->txt('until'), $this->addToElementId("upper"));
             $date_until->setShowTime(false);
             $check->addSubItem($date_until);
 
@@ -60,14 +56,14 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
             $item = new ilCombinationInputGUI($this->getTitle(), $this->getElementId());
 
             $lower = new ilDateTimeInputGUI("", $this->addToElementId("lower"));
-            $item->addCombinationItem("lower", $lower, $lng->txt("from"));
+            $item->addCombinationItem("lower", $lower, $this->lng->txt("from"));
 
             if ($this->getLowerADT()->getDate() && !$this->getLowerADT()->isNull()) {
                 $lower->setDate($this->getLowerADT()->getDate());
             }
 
             $upper = new ilDateTimeInputGUI("", $this->addToElementId("upper"));
-            $item->addCombinationItem("upper", $upper, $lng->txt("to"));
+            $item->addCombinationItem("upper", $upper, $this->lng->txt("to"));
 
             if ($this->getUpperADT()->getDate() && !$this->getUpperADT()->isNull()) {
                 $upper->setDate($this->getUpperADT()->getDate());
@@ -129,18 +125,14 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
 
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->isNull() && $this->isValid()) {
             $sql = array();
             if (!$this->getLowerADT()->isNull()) {
-                $sql[] = $a_element_id . " >= " . $ilDB->quote($this->getLowerADT()->getDate()->get(IL_CAL_DATE),
+                $sql[] = $a_element_id . " >= " . $this->db->quote($this->getLowerADT()->getDate()->get(IL_CAL_DATE),
                         "date");
             }
             if (!$this->getUpperADT()->isNull()) {
-                $sql[] = $a_element_id . " <= " . $ilDB->quote($this->getUpperADT()->getDate()->get(IL_CAL_DATE),
+                $sql[] = $a_element_id . " <= " . $this->db->quote($this->getUpperADT()->getDate()->get(IL_CAL_DATE),
                         "date");
             }
             return "(" . implode(" AND ", $sql) . ")";

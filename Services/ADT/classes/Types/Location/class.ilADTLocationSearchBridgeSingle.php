@@ -24,10 +24,6 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     public function addToForm() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $adt = $this->getADT();
 
         $default = false;
@@ -136,19 +132,15 @@ class ilADTLocationSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         if (!$this->isNull() && $this->isValid()) {
             $box = $this->getBoundingBox($this->getADT()->getLatitude(), $this->getADT()->getLongitude(),
                 $this->radius);
 
             $res = [];
-            $res[] = $a_element_id . "_lat >= " . $ilDB->quote($box["lat"]["min"], "float");
-            $res[] = $a_element_id . "_lat <= " . $ilDB->quote($box["lat"]["max"], "float");
-            $res[] = $a_element_id . "_long >= " . $ilDB->quote($box["long"]["min"], "float");
-            $res[] = $a_element_id . "_long <= " . $ilDB->quote($box["long"]["max"], "float");
+            $res[] = $a_element_id . "_lat >= " . $this->db->quote($box["lat"]["min"], "float");
+            $res[] = $a_element_id . "_lat <= " . $this->db->quote($box["lat"]["max"], "float");
+            $res[] = $a_element_id . "_long >= " . $this->db->quote($box["long"]["min"], "float");
+            $res[] = $a_element_id . "_long <= " . $this->db->quote($box["long"]["max"], "float");
 
             return "(" . implode(" AND ", $res) . ")";
         }

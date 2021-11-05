@@ -334,7 +334,7 @@ class ilADTActiveRecordByType
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = [];
         foreach ($a_primary as $field => $def) {
@@ -354,7 +354,7 @@ class ilADTActiveRecordByType
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = self::buildPartialPrimaryWhere($a_primary);
         if (!$where) {
@@ -388,7 +388,7 @@ class ilADTActiveRecordByType
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = self::buildPartialPrimaryWhere($a_primary);
         if (!$where) {
@@ -436,7 +436,7 @@ class ilADTActiveRecordByType
     ) : bool {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = self::buildPartialPrimaryWhere($a_source_primary);
         if (!$where) {
@@ -512,7 +512,7 @@ class ilADTActiveRecordByType
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $where = self::buildPartialPrimaryWhere($a_primary);
         if (!$where) {
@@ -597,7 +597,7 @@ class ilADTActiveRecordByType
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         $where = self::buildPartialPrimaryWhere($a_primary);
         if (!$where) {
             return;
@@ -642,7 +642,7 @@ class ilADTActiveRecordByType
     ) : ?array {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         // type-specific table
         $found = null;
         foreach (self::getTablesMap() as $table => $types) {

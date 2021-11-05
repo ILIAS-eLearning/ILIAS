@@ -10,6 +10,16 @@
 class ilADTExternalLinkFormBridge extends ilADTFormBridge
 {
 
+    protected ilLogger $logger;
+
+    public function __construct(ilADT $a_adt)
+    {
+        global $DIC;
+        parent::__construct($a_adt);
+
+        $this->logger = $DIC->logger()->amet();
+    }
+
     /**
      * Is valid type
      * @param ilADT $a_adt
@@ -25,8 +35,6 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
      */
     public function addToForm() : void
     {
-        $lng = $GLOBALS['DIC']->language();
-
         $def = $this->getADT()->getCopyOfDefinition();
 
         $both = new ilCombinationInputGUI($this->getTitle(), $this->getElementId());
@@ -35,12 +43,12 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
         $title = new ilTextInputGUI('', $this->getElementId() . '_title');
         $title->setMaxLength(250);
         $title->setValue($this->getADT()->getTitle());
-        $both->addCombinationItem('title', $title, $lng->txt('title'));
+        $both->addCombinationItem('title', $title, $this->lng->txt('title'));
 
         $url = new ilTextInputGUI('', $this->getElementId() . '_url');
         $url->setSize(250);
         $url->setValue($this->getADT()->getUrl());
-        $both->addCombinationItem('url', $url, $lng->txt('url'));
+        $both->addCombinationItem('url', $url, $this->lng->txt('url'));
 
         $this->addToParentElement($both);
     }
@@ -50,14 +58,12 @@ class ilADTExternalLinkFormBridge extends ilADTFormBridge
      */
     public function importFromPost() : void
     {
-        $logger = $GLOBALS['DIC']->logger()->amet();
-
         $this->getADT()->setUrl($this->getForm()->getInput($this->getElementId() . '_url'));
         $this->getADT()->setTitle($this->getForm()->getInput($this->getElementId() . '_title'));
 
         $combination = $this->getForm()->getItemByPostVar($this->getElementId());
         if (!$combination instanceof ilCombinationInputGUI) {
-            $logger->warning('Cannot find combination input gui');
+            $this->logger->warning('Cannot find combination input gui');
             return;
         }
 

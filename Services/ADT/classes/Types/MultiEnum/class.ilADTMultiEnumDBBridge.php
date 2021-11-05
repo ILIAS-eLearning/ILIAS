@@ -7,14 +7,6 @@ class ilADTMultiEnumDBBridge extends ilADTDBBridge
 
     protected bool $fake_single = false;
 
-    public function __construct(ilADT $a_adt)
-    {
-        global $DIC;
-
-        $this->db = $DIC->database();
-        parent::__construct($a_adt);
-    }
-
     public function getTable() : ?string
     {
         return self::TABLE_NAME;

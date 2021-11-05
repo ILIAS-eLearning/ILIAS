@@ -10,6 +10,8 @@ abstract class ilADT
 {
     protected ilADTDefinition $definition;
 
+    protected ilLanguage $lng;
+
     protected array $validation_errors = []; // [array]
 
     public const ADT_VALIDATION_ERROR_NULL_NOT_ALLOWED = "adt1";
@@ -32,8 +34,11 @@ abstract class ilADT
 
     public function __construct(ilADTDefinition $a_def)
     {
+        global $DIC;
         $this->setDefinition($a_def);
         $this->reset();
+
+        $this->lng = $DIC->language();
     }
 
     /**
@@ -241,28 +246,25 @@ abstract class ilADT
      */
     public function translateErrorCode(string $a_code) : string
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
         switch ($a_code) {
             case self::ADT_VALIDATION_ERROR_NULL_NOT_ALLOWED:
-                return $lng->txt("msg_input_is_required");
+                return $this->lng->txt("msg_input_is_required");
 
             case self::ADT_VALIDATION_ERROR_MAX_LENGTH:
-                return $lng->txt("adt_error_max_length");
+                return $this->lng->txt("adt_error_max_length");
 
             case self::ADT_VALIDATION_ERROR_MAX_SIZE:
-                return $lng->txt("adt_error_max_size");
+                return $this->lng->txt("adt_error_max_size");
 
             case self::ADT_VALIDATION_ERROR_MIN:
-                return $lng->txt("form_msg_value_too_low");
+                return $this->lng->txt("form_msg_value_too_low");
 
             case self::ADT_VALIDATION_ERROR_MAX:
-                return $lng->txt("form_msg_value_too_high");
+                return $this->lng->txt("form_msg_value_too_high");
 
             // :TODO: currently not used - see ilDateTimeInputGUI
             case self::ADT_VALIDATION_DATE:
-                return $lng->txt("exc_date_not_valid");
+                return $this->lng->txt("exc_date_not_valid");
 
         }
         throw new Exception("ADT unknown error code");

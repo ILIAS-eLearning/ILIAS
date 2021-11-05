@@ -6,15 +6,11 @@ class ilADTTextFormBridge extends ilADTFormBridge
     protected ?int $multi_rows;
     protected ?int $multi_cols;
 
-    private ilLanguage $language;
-
     public function __construct(ilADT $a_adt)
     {
-        global $DIC;
 
         parent::__construct($a_adt);
-        $this->language = $DIC->language();
-        $this->language->loadLanguageModule('meta');
+        $this->lng->loadLanguageModule('meta');
     }
 
     public function setMulti(bool $a_value, ?int $a_cols = null, ?int $a_rows = null) : void
@@ -73,7 +69,7 @@ class ilADTTextFormBridge extends ilADTFormBridge
         $this->addBasicFieldProperties($text, $def);
 
         if ($is_translation) {
-            $text->setInfo($this->language->txt('md_adv_int_translation_info') . ' ' . $this->language->txt('meta_l_' . $language));
+            $text->setInfo($this->lng->txt('md_adv_int_translation_info') . ' ' . $this->lng->txt('meta_l_' . $language));
             $text->setRequired(false);
         }
         $text->setValue($value);

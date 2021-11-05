@@ -4,6 +4,16 @@ class ilADTInternalLink extends ilADT
 {
     protected ?int $value;
 
+    protected ilTree $tree;
+
+    public function __construct(ilADTDefinition $a_def)
+    {
+        global $DIC;
+        parent::__construct($a_def);
+
+        $this->tree = $DIC->repositoryTree();
+    }
+
     /**
      * @param ilADTDefinition $a_def
      * @return bool
@@ -70,10 +80,9 @@ class ilADTInternalLink extends ilADT
     {
         $valid = parent::isValid();
         if (!$this->isNull()) {
-            $tree = $GLOBALS['DIC']->repositoryTree();
             if (
-                !$tree->isInTree($this->getTargetRefId()) ||
-                $tree->isDeleted($this->getTargetRefId())
+                !$this->tree->isInTree($this->getTargetRefId()) ||
+                $this->tree->isDeleted($this->getTargetRefId())
             ) {
                 $valid = false;
                 $this->addValidationError(self::ADT_VALIDATION_ERROR_INVALID_NODE);

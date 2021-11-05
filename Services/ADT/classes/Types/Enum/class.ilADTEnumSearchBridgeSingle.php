@@ -28,17 +28,13 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     public function addToForm() : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-
         $def = $this->getADT()->getCopyOfDefinition();
 
         $options = $def->getOptions();
         asort($options); // ?
 
-        $lng->loadLanguageModule("search");
-        $options = array("" => $lng->txt("search_any")) + $options;
+        $this->lng->loadLanguageModule("search");
+        $options = array("" => $this->lng->txt("search_any")) + $options;
 
         $select = new ilSelectInputGUI($this->getTitle(), $this->getElementId());
         $select->setOptions($options);
@@ -73,13 +69,9 @@ class ilADTEnumSearchBridgeSingle extends ilADTSearchBridgeSingle
 
     public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         $search_column = $this->getSearchColumn();
         if (!$this->isNull() && $this->isValid()) {
-            return $search_column . ' = ' . $ilDB->quote($this->getADT()->getSelection(), ilDBConstants::T_TEXT);
+            return $search_column . ' = ' . $this->db->quote($this->getADT()->getSelection(), ilDBConstants::T_TEXT);
         }
         return '';
     }

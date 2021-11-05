@@ -41,10 +41,6 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
 
     public function afterUpdate() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         // :TODO: build diff, save difference
         // is this in use? Cannot
         /*
@@ -66,10 +62,6 @@ abstract class ilADTMultiDBBridge extends ilADTDBBridge
 
     public function afterDelete() : void
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         // is this in use? Cannot
         /*
         $ilDB->manipulate("DELETE FROM " . $this->getSubTableName() .

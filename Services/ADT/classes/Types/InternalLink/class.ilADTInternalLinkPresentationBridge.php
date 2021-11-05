@@ -9,6 +9,18 @@
  */
 class ilADTInternalLinkPresentationBridge extends ilADTPresentationBridge
 {
+    protected ilAccessHandler $access;
+
+    protected ilObjUser $user;
+
+    public function __construct(ilADT $a_adt)
+    {
+        global $DIC;
+        parent::__construct($a_adt);
+
+        $this->access = $DIC->access();
+        $this->user = $DIC->user();
+    }
 
     /**
      * Is valid type
@@ -34,10 +46,7 @@ class ilADTInternalLinkPresentationBridge extends ilADTPresentationBridge
             return '';
         }
 
-        $access = $GLOBALS['DIC']->access();
-        $user = $GLOBALS['DIC']->user();
-
-        if ($access->checkAccess('read', '', $this->getADT()->getTargetRefId())) {
+        if ($this->access->checkAccess('read', '', $this->getADT()->getTargetRefId())) {
             $title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getADT()->getTargetRefId()));
             $link = ilLink::_getLink($this->getADT()->getTargetRefId());
 
@@ -45,7 +54,7 @@ class ilADTInternalLinkPresentationBridge extends ilADTPresentationBridge
                 '<a href="' . $link . '">' . $title . '</a>'
             );
         }
-        if ($access->checkAccess('visible', '', $this->getADT()->getTargetRefId())) {
+        if ($this->access->checkAccess('visible', '', $this->getADT()->getTargetRefId())) {
             $title = ilObject::_lookupTitle(ilObject::_lookupObjId($this->getADT()->getTargetRefId()));
 
             return $this->decorate($title);
