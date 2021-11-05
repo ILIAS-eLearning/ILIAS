@@ -82,7 +82,7 @@ class ilDidacticTemplateGUI
 
         foreach ($tpls as $tpl) {
             //just add if template is effective except template is already applied to this object
-            if ($tpl->isEffective($_GET['ref_id'])) {
+            if ($tpl->isEffective($a_ref_id)) {
                 $options[$tpl->getId()] = $tpl->getPresentationTitle();
 
                 if ($tpl->isExclusive()) {
