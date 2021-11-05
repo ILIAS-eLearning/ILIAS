@@ -709,7 +709,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $other = array_unique($other);
         sort($other, SORT_LOCALE_STRING);
 
-        $input_tag = $ui_factory->input()->field()->tag($this->lng->txt("blog_keywords"), $other, $this->lng->txt("blog_keyword_enter"));
+        $input_tag = $ui_factory->input()->field()->tag($this->lng->txt("blog_keywords"), $other, $this->lng->txt("blog_keyword_enter"))->withUserCreatedTagsAllowed(true);
         if (count($keywords) > 0) {
             $input_tag = $input_tag->withValue($keywords);
         }
