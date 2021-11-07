@@ -21,6 +21,8 @@
  */
 class ilPCBlogGUI extends ilPageContentGUI
 {
+    protected int $requested_blog;
+    protected int $requested_blog_id;
     protected ilObjUser $user;
 
     public function __construct(
@@ -36,6 +38,10 @@ class ilPCBlogGUI extends ilPageContentGUI
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
+
+        // ... not sure why different ids are used for this...
+        $this->requested_blog_id = $this->request->getInt("blog_id");
+        $this->requested_blog = $this->request->getInt("blog");
     }
 
     /**
@@ -125,17 +131,17 @@ class ilPCBlogGUI extends ilPageContentGUI
      */
     public function create() : void
     {
-        if (!$_POST["blog_id"]) {
+        if ($this->requested_blog_id == 0) {
             $form = $this->initForm(true);
             if ($form->checkInput()) {
-                $this->insertPosting($_POST["blog"]);
+                $this->insertPosting($this->requested_blog);
                 return;
             }
             
             $form->setValuesByPost();
             $this->insert($form);
         } else {
-            $form = $this->initPostingForm($_POST["blog_id"], true);
+            $form = $this->initPostingForm($this->requested_blog_id, true);
             if ($form->checkInput()) {
                 $this->content_obj = new ilPCBlog($this->getPage());
                 $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
@@ -147,7 +153,7 @@ class ilPCBlogGUI extends ilPageContentGUI
             }
             
             $form->setValuesByPost();
-            $this->insertPosting($_POST["blog_id"], $form);
+            $this->insertPosting($this->requested_blog_id, $form);
         }
     }
 
@@ -156,10 +162,10 @@ class ilPCBlogGUI extends ilPageContentGUI
      */
     public function update() : void
     {
-        if (!$_POST["blog_id"]) {
+        if ($this->requested_blog_id == 0) {
             $form = $this->initForm();
             if ($form->checkInput()) {
-                $this->editPosting($_POST["blog"]);
+                $this->editPosting($this->requested_blog);
                 return;
             }
             
@@ -167,7 +173,7 @@ class ilPCBlogGUI extends ilPageContentGUI
             $form->setValuesByPost();
             $this->edit($form);
         } else {
-            $form = $this->initPostingForm($_POST["blog_id"]);
+            $form = $this->initPostingForm($this->requested_blog_id);
             if ($form->checkInput()) {
                 $this->content_obj->setData($form->getInput("blog_id"), $form->getInput("posting"));
                 $this->updated = $this->pg_obj->update();
@@ -178,7 +184,7 @@ class ilPCBlogGUI extends ilPageContentGUI
             
             $this->pg_obj->addHierIDs();
             $form->setValuesByPost();
-            $this->editPosting($_POST["blog_id"], $form);
+            $this->editPosting($this->requested_blog_id, $form);
         }
     }
     

@@ -13,6 +13,9 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\COPage\Editor\EditSessionRepository;
+use ILIAS\COPage\Page\EditGUIRequest;
+
 /**
  * Class ilPageObjectGUI
  *
@@ -31,12 +34,19 @@ class ilPageObjectGUI
     public const PREVIEW = "preview";
     public const OFFLINE = "offline";
     public const PRINTING = "print";
+    protected int $requested_ref_id;
+    protected int $requested_pg_id;
+    protected int $requested_file_id;
+    protected string $requested_transl;
+    protected int $requested_old_nr;
+    protected EditGUIRequest $request;
+    protected EditSessionRepository $edit_repo;
     protected string $exp_target_script;
     protected string $exp_id;
     protected string $exp_frame;
     protected string $act_meth;
     protected object $act_obj;
-    protected string $page_back_title;
+    public string $page_back_title;
     protected int $notes_parent_id;
     protected ilPropertyFormGUI $form;
     protected int $styleid;
@@ -139,15 +149,28 @@ class ilPageObjectGUI
         $this->ui = $DIC->ui();
         $this->toolbar = $DIC->toolbar();
 
+        $this->request = $DIC
+            ->copage()
+            ->internal()
+            ->gui()
+            ->page()
+            ->editRequest();
+
+        $this->requested_old_nr = $this->request->getInt("old_nr");
+        $this->requested_transl = $this->request->getString("transl");
+        $this->requested_file_id = $this->request->getInt("file_id");
+        $this->requested_ref_id = $this->request->getInt("ref_id");
+        $this->requested_pg_id = $this->request->getInt("pg_id");
+
         $this->setParentType($a_parent_type);
         $this->setId($a_id);
-        if ($a_old_nr == 0 && !$a_prevent_get_id && isset($_GET["old_nr"]) && $_GET["old_nr"] > 0) {
-            $a_old_nr = $_GET["old_nr"];
+        if ($a_old_nr == 0 && !$a_prevent_get_id && $this->requested_old_nr > 0) {
+            $a_old_nr = $this->requested_old_nr;
         }
         $this->setOldNr($a_old_nr);
         
-        if ($a_lang == "" && isset($_GET["transl"]) && is_string($_GET["transl"]) && $_GET["transl"] !== '') {
-            $this->setLanguage($_GET["transl"]);
+        if ($a_lang == "" && $this->requested_transl != '') {
+            $this->setLanguage($this->requested_transl);
         } else {
             if ($a_lang == "") {
                 $a_lang = "-";
@@ -177,10 +200,17 @@ class ilPageObjectGUI
 
         $this->ctrl->saveParameter($this, "transl");
 
-        $this->requested_user_id = (int) ($_GET["user"] ?? 0);
-        $this->requested_q_id = (int) ($_GET['q_id'] ?? 0);
-        $this->requested_history_mode = (int) ($_GET["history_mode"] ?? 0);
-        
+
+        $this->requested_user_id = $this->request->getInt("user");
+        $this->requested_q_id = $this->request->getInt("q_id");
+        $this->requested_history_mode = $this->request->getInt("history_mode");
+
+        $this->edit_repo = $DIC
+            ->copage()
+            ->internal()
+            ->repo()
+            ->edit();
+
         $this->afterConstructor();
     }
     
@@ -1213,7 +1243,8 @@ class ilPageObjectGUI
             }
         }
 
-        if (isset($_GET["reloadTree"]) && $_GET["reloadTree"] == "y") {
+        $reload_tree = $this->request->getString("reloadTree");
+        if ($reload_tree == "y") {
             $tpl->setCurrentBlock("reload_tree");
             $tpl->setVariable(
                 "LINK_TREE",
@@ -1332,9 +1363,9 @@ class ilPageObjectGUI
         if ($builded !== true) {
             $this->displayValidationError($builded);
         } else {
-            $this->displayValidationError((string) ilSession::get("il_pg_error"));
+            $this->displayValidationError((string) $this->edit_repo->getPageError());
         }
-        unset($_SESSION["il_pg_error"]);
+        $this->edit_repo->clearPageError();
 
         // get title
         $pg_title = $this->getPresentationTitle();
@@ -1574,8 +1605,9 @@ class ilPageObjectGUI
         if ($this->ctrl->isAsynch() && !$this->getRawPageContent() &&
             $this->getOutputMode() == "edit") {
             // e.g. ###3:110dad8bad6df8620071a0a693a2d328###
-            if ($_GET["updated_pc_id_str"] != "") {
-                echo $_GET["updated_pc_id_str"];
+            $up_pc = $this->request->getString("updated_pc_id_str");
+            if ($up_pc != "") {
+                echo $up_pc;
             }
             $tpl->setVariable($this->getTemplateOutputVar(), $output);
             $tpl->setCurrentBlock("edit_page");
@@ -1632,22 +1664,25 @@ class ilPageObjectGUI
      */
     public function setEditMode() : void
     {
-        if ($_GET["media_mode"] != "") {
-            if ($_GET["media_mode"] == "disable") {
+        $media_mode = $this->request->getString("media_mode");
+        $html_mode = $this->request->getString("html_mode");
+        $js_mode = $this->request->getString("js_mode");
+        if ($media_mode != "") {
+            if ($media_mode == "disable") {
                 $this->user->writePref("ilPageEditor_MediaMode", "disable");
             } else {
                 $this->user->writePref("ilPageEditor_MediaMode", "");
             }
         }
-        if ($_GET["html_mode"] != "") {
-            if ($_GET["html_mode"] == "disable") {
+        if ($html_mode != "") {
+            if ($html_mode == "disable") {
                 $this->user->writePref("ilPageEditor_HTMLMode", "disable");
             } else {
                 $this->user->writePref("ilPageEditor_HTMLMode", "");
             }
         }
-        if ($_GET["js_mode"] != "") {
-            if ($_GET["js_mode"] == "disable") {
+        if ($js_mode != "") {
+            if ($js_mode == "disable") {
                 $this->user->writePref("ilPageEditor_JavaScript", "disable");
             } else {
                 $this->user->writePref("ilPageEditor_JavaScript", "");
@@ -1930,15 +1965,16 @@ class ilPageObjectGUI
         $pg_obj = $this->getPageObject();
         $pg_obj->buildDom();
         $int_links = $pg_obj->getInternalLinks();
+        $req_file_id = $this->requested_file_id;
         foreach ($int_links as $il) {
-            if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"])) {
-                $file = explode("_", $_GET["file_id"]);
+            if ($il["Target"] == str_replace("_file_", "_dfile_", $req_file_id)) {
+                $file = explode("_", $req_file_id);
                 $file_id = (int) $file[count($file) - 1];
                 $download_ok = true;
             }
         }
-        if (in_array($_GET["file_id"], $pg_obj->getAllFileObjIds())) {
-            $file = explode("_", $_GET["file_id"]);
+        if (in_array($req_file_id, $pg_obj->getAllFileObjIds())) {
+            $file = explode("_", $req_file_id);
             $file_id = (int) $file[count($file) - 1];
             $download_ok = true;
         }
@@ -1946,7 +1982,7 @@ class ilPageObjectGUI
         $pcs = ilPageContentUsage::getUsagesOfPage($pg_obj->getId(), $pg_obj->getParentType() . ":pg", 0, false);
         foreach ($pcs as $pc) {
             $files = ilObjFile::_getFilesOfObject("mep:pg", $pc["id"], 0);
-            $file = explode("_", $_GET["file_id"]);
+            $file = explode("_", $req_file_id);
             $file_id = (int) $file[count($file) - 1];
             if (in_array($file_id, $files)) {
                 $download_ok = true;
@@ -1967,22 +2003,23 @@ class ilPageObjectGUI
 
     public function displayMedia($a_fullscreen = false) : void
     {
-        $tpl = new ilCOPageGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+        //$tpl = new ilCOPageGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
+        $tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
         $tpl->setCurrentBlock("ilMedia");
 
         //$int_links = $page_object->getInternalLinks();
-        $med_links = ilMediaItem::_getMapAreasIntLinks($_GET["mob_id"]);
+        $med_links = ilMediaItem::_getMapAreasIntLinks($this->request->getMobId());
         
         // @todo
         $link_xml = $this->page_linker->getLinkXML($med_links);
         
-        $media_obj = new ilObjMediaObject($_GET["mob_id"]);
+        $media_obj = new ilObjMediaObject($this->request->getMobId());
         $pg_obj = $this->getPageObject();
         $pg_obj->buildDom();
 
         $xml = "<dummy>";
-        if (!empty($_GET["pg_id"])) {
-            $xml .= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+        if ($this->requested_pg_id > 0) {
+            $xml .= $pg_obj->getMediaAliasElement($this->request->getMobId());
         } else {
             $xml .= $media_obj->getXML(IL_MODE_ALIAS);
         }
@@ -2004,27 +2041,24 @@ class ilPageObjectGUI
         $wb_path = ilUtil::getWebspaceDir("output") . "/";
         $enlarge_path = ilUtil::getImagePath("enlarge.svg");
         $params = array('mode' => $mode, 'enlarge_path' => $enlarge_path,
-            'link_params' => "ref_id=" . $_GET["ref_id"],'fullscreen_link' => "",
-            'ref_id' => $_GET["ref_id"], 'webspace_path' => $wb_path);
+            'link_params' => "ref_id=" . $this->requested_ref_id,'fullscreen_link' => "",
+            'ref_id' => $this->requested_ref_id, 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
         //echo "<br><br>".htmlentities($output);
         //echo xslt_error($xh);
         xslt_free($xh);
 
         // unmask user html
-        $tpl->setVariable(
-            "LOCATION_CONTENT_STYLESHEET",
-            ilObjStyleSheet::getContentStylePath(0)
-        );
-        $tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
+        $tpl->addCss(ilUtil::getStyleSheetLocation());
+        $tpl->addCss(ilObjStyleSheet::getContentStylePath(0));
         $tpl->setVariable("MEDIA_CONTENT", $output);
 
         // add js
         ilObjMediaObjectGUI::includePresentationJS($tpl);
-        $tpl->fillJavaScriptFiles();
-        $tpl->fillCssFiles();
+        //$tpl->fillJavaScriptFiles();
+        //$tpl->fillCssFiles();
 
-        echo $tpl->get();
+        $this->tpl->printToStdout();
         exit;
     }
 
@@ -2034,7 +2068,10 @@ class ilPageObjectGUI
     public function download_paragraph() : void
     {
         $pg_obj = $this->getPageObject();
-        $pg_obj->send_paragraph($_GET["par_id"], $_GET["downloadtitle"]);
+        $pg_obj->send_paragraph(
+            $this->request->getString("par_id"),
+            $this->request->getString("downloadtitle")
+        );
     }
 
     public function insertPageToc(string $a_output) : string
@@ -2235,8 +2272,8 @@ class ilPageObjectGUI
 
         // not so nive workaround for container pages, bug #0015831
         $ptype = $this->getParentType();
-        if ($ptype == "cont" && $_GET["ref_id"] > 0) {
-            $ptype = ilObject::_lookupType((int) $_GET["ref_id"], true);
+        if ($ptype == "cont" && $this->requested_ref_id > 0) {
+            $ptype = ilObject::_lookupType($this->requested_ref_id, true);
         }
         $this->help->setScreenId("edit_" . $ptype);
 
@@ -2298,14 +2335,10 @@ class ilPageObjectGUI
 
     public function insertJSAtPlaceholder() : string
     {
-        if ($_GET["pl_hier_id"] == "") {
-            $this->obj->buildDom();
-            $this->obj->addHierIDs();
-            $hid = $this->obj->getHierIdsForPCIds(array($_GET["pl_pc_id"]));
-            $_GET["pl_hier_id"] = $hid[$_GET["pl_pc_id"]];
-        }
-        
-        $this->setOpenPlaceHolder($_GET["pl_pc_id"]);
+        $pl_pc_id = $this->request->getPlaceholderPCId();
+        $this->obj->buildDom();
+        $this->obj->addHierIDs();
+        $this->setOpenPlaceHolder($pl_pc_id);
         return $this->edit();
     }
     
@@ -2332,19 +2365,22 @@ class ilPageObjectGUI
         $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", 0);
         $this->tpl->parseCurrentBlock();
 
-        $this->tpl->setVariable("PAGETITLE", " - " . ilObject::_lookupTitle($_GET["mob_id"]));
+        $this->tpl->setVariable(
+            "PAGETITLE",
+            " - " . ilObject::_lookupTitle($this->request->getMobId())
+        );
         $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         $this->tpl->setCurrentBlock("ilMedia");
 
-        $media_obj = new ilObjMediaObject($_GET["mob_id"]);
-        if (!empty($_GET["pg_id"])) {
-            $pg_obj = ilPageObjectFactory::getInstance($this->obj->getParentType(), $_GET["pg_id"]);
+        $media_obj = new ilObjMediaObject($this->request->getMobId());
+        if ($this->requested_pg_id > 0) {
+            $pg_obj = ilPageObjectFactory::getInstance($this->obj->getParentType(), $this->requested_pg_id);
             $pg_obj->buildDom();
 
             $xml = "<dummy>";
             // todo: we get always the first alias now (problem if mob is used multiple
             // times in page)
-            $xml .= $pg_obj->getMediaAliasElement($_GET["mob_id"]);
+            $xml .= $pg_obj->getMediaAliasElement($this->request->getMobId());
         } else {
             $xml = "<dummy>";
             $xml .= $media_obj->getXML(IL_MODE_ALIAS);
@@ -2358,9 +2394,6 @@ class ilPageObjectGUI
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
         $xh = xslt_create();
 
-        //echo "<b>XML:</b>".htmlentities($xml);
-        // determine target frames for internal links
-        //$pg_frame = $_GET["frame"];
         $wb_path = ilUtil::getWebspaceDir("output") . "/";
         $mode = "fullscreen";
         $params = array('mode' => $mode, 'webspace_path' => $wb_path);
@@ -2428,17 +2461,17 @@ class ilPageObjectGUI
         $c_gui = new ilConfirmationGUI();
         
         // set confirm/cancel commands
-        $this->ctrl->setParameter($this, "rollback_nr", $_GET["old_nr"]);
+        $this->ctrl->setParameter($this, "rollback_nr", $this->requested_old_nr);
         $c_gui->setFormAction($this->ctrl->getFormAction($this, "rollback"));
         $c_gui->setHeaderText($this->lng->txt("cont_rollback_confirmation"));
         $c_gui->setCancel($this->lng->txt("cancel"), "history");
         $c_gui->setConfirm($this->lng->txt("confirm"), "rollback");
 
-        $hentry = $this->obj->getHistoryEntry($_GET["old_nr"]);
+        $hentry = $this->obj->getHistoryEntry($this->requested_old_nr);
             
         $c_gui->addItem(
             "id[]",
-            $_GET["old_nr"],
+            $this->requested_old_nr,
             ilDatePresentation::formatDate(new ilDateTime($hentry["hdate"], IL_CAL_DATETIME))
         );
         
@@ -2454,7 +2487,9 @@ class ilPageObjectGUI
             return;
         }
 
-        $hentry = $this->obj->getHistoryEntry($_GET["rollback_nr"]);
+        $hentry = $this->obj->getHistoryEntry(
+            $this->request->getString("rollback_nr")
+        );
 
         if ($hentry["content"] != "") {
             $this->obj->setXMLContent($hentry["content"]);
@@ -2551,7 +2586,10 @@ class ilPageObjectGUI
         }
 
         $tpl = new ilTemplate("tpl.page_compare.html", true, true, "Services/COPage");
-        $compare = $this->obj->compareVersion((int) $_POST["left"], (int) $_POST["right"]);
+        $compare = $this->obj->compareVersion(
+            $this->request->getInt("left"),
+            $this->request->getInt("right")
+        );
         
         // left page
         $lpage = $compare["l_page"];
@@ -2696,11 +2734,14 @@ class ilPageObjectGUI
             $this->getPageObject()->setActive(true);
             $this->getPageObject()->setActivationStart(null);
             $this->getPageObject()->setActivationEnd(null);
-            $this->getPageObject()->setShowActivationInfo($_POST["show_activation_info"]);
-            if ($_POST["activation"] == "deactivated") {
+            $this->getPageObject()->setShowActivationInfo(
+                $this->request->getString("show_activation_info")
+            );
+            $activation = $this->request->getString("activation");
+            if ($activation == "deactivated") {
                 $this->getPageObject()->setActive(false);
             }
-            if ($_POST["activation"] == "scheduled") {
+            if ($activation == "scheduled") {
                 $this->getPageObject()->setActive(false);
                 $this->getPageObject()->setActivationStart(
                     $this->form->getItemByPostVar("start")->getDate()->get(IL_CAL_DATETIME)
@@ -2781,9 +2822,9 @@ class ilPageObjectGUI
     public function processAnswer() : void
     {
         ilPageQuestionProcessor::saveQuestionAnswer(
-            ilUtil::stripSlashes($_POST["type"]),
-            ilUtil::stripSlashes($_POST["id"]),
-            ilUtil::stripSlashes($_POST["answer"])
+            $this->request->getString("type"),
+            $this->request->getString("id"),
+            $this->request->getString("answer")
         );
     }
 
@@ -2831,9 +2872,9 @@ class ilPageObjectGUI
     public function saveInitialOpenedContent() : void
     {
         $this->obj->saveInitialOpenedContent(
-            ilUtil::stripSlashes($_POST["opened_content_ajax_type"]),
-            ilUtil::stripSlashes($_POST["opened_content_ajax_id"]),
-            ilUtil::stripSlashes($_POST["opened_content_ajax_target"])
+            $this->request->getString("opened_content_ajax_type"),
+            $this->request->getString("opened_content_ajax_id"),
+            $this->request->getString("opened_content_ajax_target")
         );
         
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
@@ -2850,13 +2891,13 @@ class ilPageObjectGUI
      */
     public function switchToLanguage() : void
     {
-        $l = ilUtil::stripSlashes($_GET["totransl"]);
+        $l = $this->request->getString("totransl");
         $p = $this->getPageObject();
         if (!ilPageObject::_exists($p->getParentType(), $p->getId(), $l)) {
             $this->confirmPageTranslationCreation();
             return;
         }
-        $this->ctrl->setParameter($this, "transl", $_GET["totransl"]);
+        $this->ctrl->setParameter($this, "transl", $l);
         $this->ctrl->redirect($this, "edit");
     }
     
@@ -2865,7 +2906,7 @@ class ilPageObjectGUI
      */
     public function confirmPageTranslationCreation() : void
     {
-        $l = ilUtil::stripSlashes($_GET["totransl"]);
+        $l = $this->request->getString("totransl");
         $this->ctrl->setParameter($this, "totransl", $l);
         $this->lng->loadLanguageModule("meta");
         
@@ -2892,7 +2933,7 @@ class ilPageObjectGUI
      */
     public function createPageTranslation() : void
     {
-        $l = ilUtil::stripSlashes($_GET["totransl"]);
+        $l = $this->request->getString("totransl");
 
         $p = ilPageObjectFactory::getInstance(
             $this->getPageObject()->getParentType(),

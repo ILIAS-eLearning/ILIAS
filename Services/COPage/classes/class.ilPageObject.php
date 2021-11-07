@@ -694,19 +694,10 @@ abstract class ilPageObject
 
         // media extra handling (@todo: get rid of it)
         if ($node_name == "MediaObject") {
-            if ($_GET["pgEdMediaMode"] != "") {
-                throw new ilCOPagePCEditException("ilPageObject::error media");
-            }
-
             $mal_node = $child_node->first_child();
             //echo "ilPageObject::getContentObject:nodename:".$mal_node->node_name().":<br>";
             $id_arr = explode("_", $mal_node->get_attribute("OriginId"));
             $mob_id = $id_arr[count($id_arr) - 1];
-
-            // allow deletion of non-existing media objects
-            if (!ilObject::_exists($mob_id) && in_array("delete", $_POST)) {
-                $mob_id = 0;
-            }
 
             //$mob = new ilObjMediaObject($mob_id);
             $mob = new ilPCMediaObject($this);

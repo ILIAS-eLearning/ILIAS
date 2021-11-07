@@ -51,26 +51,33 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $ilCtrl = $DIC->ctrl();
         $this->ui = $DIC->ui();
 
+        $request = $DIC
+            ->copage()
+            ->internal()
+            ->gui()
+            ->pc()
+            ->editRequest();
+
         $this->media_type = new ILIAS\MediaObjects\MediaType\MediaType();
 
-        if ($_GET["pcid"] != "" && $a_hier_id == "") {
-            $hier_ids = $a_pg_obj->getHierIdsForPCIds([$_GET["pcid"]]);
-            $a_hier_id = $hier_ids[$_GET["pcid"]];
+        $pc_id = $request->getPCId();
+        if ($pc_id != "" && $a_hier_id == "") {
+            $hier_ids = $a_pg_obj->getHierIdsForPCIds([$pc_id]);
+            $a_hier_id = $hier_ids[$pc_id];
             $ilCtrl->setParameter($this, "hier_id", $a_hier_id);
         }
 
         $this->pool_view = "folder";
-        if (in_array($_GET["pool_view"], array("folder", "all"))) {
-            $this->pool_view = $_GET["pool_view"];
+
+        $pv = $request->getString("pool_view");
+        if (in_array($pv, array("folder", "all"))) {
+            $this->pool_view = $pv;
         }
 
         $this->ctrl = $ilCtrl;
 
         $this->ctrl->saveParameter($this, ["pool_view", "pcid"]);
 
-        //		var_dump($_POST);
-        //ilUtil::printBacktrace(10); exit;
-        //echo "constructor target:".$_SESSION["il_map_il_target"].":<br>";
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         
         $this->setCharacteristics(self::_getStandardCharacteristics());
@@ -165,7 +172,8 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
                 $pc_med = $this->content_obj;
                 $image_map_edit = new ilPCImageMapEditorGUI(
                     $pc_med,
-                    $this->pg_obj
+                    $this->pg_obj,
+                    $this->request
                 );
                 $ret = $this->ctrl->forwardCommand($image_map_edit);
                 $tpl->setContent($ret);
@@ -189,19 +197,18 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        if ($_GET["subCmd"] == "insertNew") {
-            $_SESSION["cont_media_insert"] = "insertNew";
+
+        $sub_command = $this->sub_command;
+
+        if (in_array($sub_command, ["insertNew", "insertFromPool"])) {
+            $this->edit_repo->setSubCmd($sub_command);
         }
-        if ($_GET["subCmd"] == "insertFromPool") {
-            $_SESSION["cont_media_insert"] = "insertFromPool";
+
+        if (($sub_command == "") && $this->edit_repo->getSubCmd() != "") {
+            $sub_command = $this->edit_repo->getSubCmd();
         }
-        
-        if (($_GET["subCmd"] == "") && $_SESSION["cont_media_insert"] != "") {
-            $_GET["subCmd"] = $_SESSION["cont_media_insert"];
-        }
-        
-        switch ($_GET["subCmd"]) {
+
+        switch ($sub_command) {
             case "insertFromPool":
                 $this->insertFromPool();
                 break;
@@ -247,19 +254,18 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        if ($_GET["subCmd"] == "insertNew") {
-            $_SESSION["cont_media_insert"] = "insertNew";
+
+        $sub_command = $this->sub_command;
+
+        if (in_array($sub_command, ["insertNew", "insertFromPool"])) {
+            $this->edit_repo->setSubCmd($sub_command);
         }
-        if ($_GET["subCmd"] == "insertFromPool") {
-            $_SESSION["cont_media_insert"] = "insertFromPool";
+
+        if (($sub_command == "") && $this->edit_repo->getSubCmd() != "") {
+            $sub_command = $this->edit_repo->getSubCmd();
         }
-        
-        if (($_GET["subCmd"] == "") && $_SESSION["cont_media_insert"] != "") {
-            $_GET["subCmd"] = $_SESSION["cont_media_insert"];
-        }
-        
-        switch ($_GET["subCmd"]) {
+
+        switch ($sub_command) {
             case "insertFromPool":
                 $this->insertFromPool(true);
                 break;
@@ -322,9 +328,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $lng = $this->lng;
         $ui = $this->ui;
 
-        if ($_SESSION["cont_media_pool"] != "" &&
-            $ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
-            && ilObject::_lookupType(ilObject::_lookupObjId($_SESSION["cont_media_pool"])) == "mep") {
+        if ($this->edit_repo->getMediaPool() > 0 &&
+            $ilAccess->checkAccess("write", "", $this->edit_repo->getMediaPool())
+            && ilObject::_lookupType(ilObject::_lookupObjId($this->edit_repo->getMediaPool())) == "mep") {
             $html = "";
             $tb = new ilToolbarGUI();
 
@@ -365,7 +371,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
             $this->getTabs(true, $a_change_obj_ref);
             $ilTabs->setSubTabActive("cont_mob_from_media_pool");
 
-            $pool = new ilObjMediaPool($_SESSION["cont_media_pool"]);
+            $pool = new ilObjMediaPool($this->edit_repo->getMediaPool());
             $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
             $tcmd = ($a_change_obj_ref)
                 ? "changeObjectReference"
@@ -424,7 +430,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     ) : void {
         $ilCtrl = $this->ctrl;
         
-        $_SESSION["cont_media_pool"] = $_GET["pool_ref_id"];
+        $this->edit_repo->setMediaPool($this->request->getInt("pool_ref_id"));
         $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
         if ($a_change_obj_ref) {
             $ilCtrl->redirect($this, "changeObjectReference");
@@ -480,8 +486,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        if (is_array($_POST["id"]) && count($_POST["id"]) == 1) {
-            $fid = ilMediaPoolItem::lookupForeignId($_POST["id"][0]);
+        $ids = $this->request->getIntArray("id");
+        if (count($ids) == 1) {
+            $fid = ilMediaPoolItem::lookupForeignId($ids[0]);
             $this->content_obj->readMediaObject($fid);
             $this->content_obj->updateObjectReference();
             $this->updated = $this->pg_obj->update();
@@ -502,18 +509,21 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
-        if ($_GET["subCmd"] == "insertFromPool") {
-            if (is_array($_POST["id"])) {
-                for ($i = count($_POST["id"]) - 1; $i >= 0; $i--) {
-                    $fid = ilMediaPoolItem::lookupForeignId($_POST["id"][$i]);
-                    $this->content_obj = new ilPCMediaObject($this->getPage());
-                    $this->content_obj->readMediaObject($fid);
-                    $this->content_obj->createAlias($this->pg_obj, $_GET["hier_id"], $this->pc_id);
-                }
-                $this->updated = $this->pg_obj->update();
+        if ($this->sub_command == "insertFromPool") {
+            $ids = $this->request->getIntArray("id");
+            for ($i = count($ids) - 1; $i >= 0; $i--) {
+                $fid = ilMediaPoolItem::lookupForeignId($ids[$i]);
+                $this->content_obj = new ilPCMediaObject($this->getPage());
+                $this->content_obj->readMediaObject($fid);
+                $this->content_obj->createAlias(
+                    $this->pg_obj,
+                    $this->request->getHierId(),
+                    $this->pc_id
+                );
             }
+            $this->updated = $this->pg_obj->update();
 
-            $this->redirectToParent($_GET["hier_id"]);
+            $this->redirectToParent($this->request->getHierId());
         }
         
         // check form input
@@ -985,96 +995,100 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     */
     public function saveAliasProperties()
     {
+        $this->initAliasForm();
+        $form = $this->form_gui;
+        $form->checkInput();
+
         $std_alias_item = $this->content_obj->getStandardMediaAliasItem();
         $full_alias_item = $this->content_obj->getFullscreenMediaAliasItem();
         $std_item = $this->content_obj->getMediaObject()->getMediaItem("Standard");
         $full_item = $this->content_obj->getMediaObject()->getMediaItem("Fullscreen");
 
         // standard size
-        if ($_POST["st_derive_size"] == "y") {
+        if ($form->getInput("st_derive_size") == "y") {
             $std_alias_item->deriveSize();
         } else {
-            $std_alias_item->setWidth(ilUtil::stripSlashes($_POST["st_width_height"]["width"]));
-            $std_alias_item->setHeight(ilUtil::stripSlashes($_POST["st_width_height"]["height"]));
+            $size = $this->request->getStringArray("st_width_height");
+            $std_alias_item->setWidth($size["width"]);
+            $std_alias_item->setHeight($size["height"]);
         }
 
         // standard caption
-        if ($_POST["st_derive_caption"] == "y") {
+        if ($form->getInput("st_derive_caption") == "y") {
             $std_alias_item->deriveCaption();
         } else {
-            $std_alias_item->setCaption(ilUtil::stripSlashes($_POST["st_caption"]));
+            $std_alias_item->setCaption($form->getInput("st_caption"));
         }
 
         // text representation
-        if ($_POST["st_derive_text_representation"] == "y") {
+        if ($form->getInput("st_derive_text_representation") == "y") {
             $std_alias_item->deriveTextRepresentation();
         } else {
-            $std_alias_item->setTextRepresentation(ilUtil::stripSlashes($_POST["st_text_representation"]));
+            $std_alias_item->setTextRepresentation(
+                $form->getInput("st_text_representation")
+            );
         }
 
         // standard parameters
-        if ($_POST["st_derive_parameters"] == "y") {
+        if ($form->getInput("st_derive_parameters") == "y") {
             $std_alias_item->deriveParameters();
         } else {
             if ($this->media_type->usesAutoStartParameterOnly(
                 $std_item->getLocation(),
                 $std_item->getFormat()
             )) {	// autostart
-                /*
-                if ($_POST["st_autostart"]) {
-                    $std_alias_item->setParameters(ilUtil::extractParameterString('autostart="true"'));
-                } else {
-                    $std_alias_item->setParameters(ilUtil::extractParameterString('autostart="false"'));
-                }*/
+                //
             } else {				// parameters
-                $std_alias_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["st_parameters"]))));
+                $std_alias_item->setParameters(
+                    ilUtil::extractParameterString(
+                        utf8_decode($form->getInput("st_parameters"))
+                    )
+                );
             }
         }
 
         if ($this->content_obj->getMediaObject()->hasFullscreenItem()) {
-            if ($_POST["fullscreen"] == "y") {
+            if ($form->getInput("fullscreen") == "y") {
                 if (!$full_alias_item->exists()) {
                     $full_alias_item->insert();
                 }
 
                 // fullscreen size
-                if ($_POST["full_derive_size"] == "y") {
+                if ($form->getInput("full_derive_size") == "y") {
                     $full_alias_item->deriveSize();
                 } else {
-                    $full_alias_item->setWidth(ilUtil::stripSlashes($_POST["full_width_height"]["width"]));
-                    $full_alias_item->setHeight(ilUtil::stripSlashes($_POST["full_width_height"]["height"]));
+                    $full_size = $this->request->getStringArray("full_width_height");
+                    $full_alias_item->setWidth($full_size["width"]);
+                    $full_alias_item->setHeight($full_size["height"]);
                 }
 
                 // fullscreen caption
-                if ($_POST["full_derive_caption"] == "y") {
+                if ($form->getInput("full_derive_caption") == "y") {
                     $full_alias_item->deriveCaption();
                 } else {
-                    $full_alias_item->setCaption(ilUtil::stripSlashes($_POST["full_caption"]));
+                    $full_alias_item->setCaption($form->getInput("full_caption"));
                 }
 
                 // fullscreen text representation
-                if ($_POST["full_derive_text_representation"] == "y") {
+                if ($form->getInput("full_derive_text_representation") == "y") {
                     $full_alias_item->deriveTextRepresentation();
                 } else {
-                    $full_alias_item->setTextRepresentation(ilUtil::stripSlashes($_POST["full_text_representation"]));
+                    $full_alias_item->setTextRepresentation(
+                        $form->getInput("full_text_representation")
+                    );
                 }
 
                 // fullscreen parameters
-                if ($_POST["full_derive_parameters"] == "y") {
+                if ($form->getInput("full_derive_parameters") == "y") {
                     $full_alias_item->deriveParameters();
                 } else {
                     if ($this->media_type->usesAutoStartParameterOnly(
                         $full_item->getLocation(),
                         $full_item->getFormat()
                     )) {	// autostart
-                        /*
-                        if ($_POST["full_autostart"]) {
-                            $full_alias_item->setParameters(ilUtil::extractParameterString('autostart="true"'));
-                        } else {
-                            $full_alias_item->setParameters(ilUtil::extractParameterString('autostart="false"'));
-                        }*/
+                        //
                     } else {
-                        $full_alias_item->setParameters(ilUtil::extractParameterString(ilUtil::stripSlashes(utf8_decode($_POST["full_parameters"]))));
+                        $full_alias_item->setParameters(ilUtil::extractParameterString(utf8_decode($form->getInput("full_parameters"))));
                     }
                 }
             } else {
@@ -1114,8 +1128,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     {
         $std_alias_item = $this->content_obj->getStandardMediaAliasItem();
         $std_alias_item->setHorizontalAlign("Center");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -1125,8 +1138,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     {
         $std_alias_item = $this->content_obj->getStandardMediaAliasItem();
         $std_alias_item->setHorizontalAlign("Left");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -1136,8 +1148,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     {
         $std_alias_item = $this->content_obj->getStandardMediaAliasItem();
         $std_alias_item->setHorizontalAlign("Right");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -1147,8 +1158,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     {
         $std_alias_item = $this->content_obj->getStandardMediaAliasItem();
         $std_alias_item->setHorizontalAlign("LeftFloat");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -1158,8 +1168,7 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
     {
         $std_alias_item = $this->content_obj->getStandardMediaAliasItem();
         $std_alias_item->setHorizontalAlign("RightFloat");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -1271,7 +1280,9 @@ class ilPCMediaObjectGUI extends ilPageContentGUI
      */
     public function saveStyle() : void
     {
-        $this->content_obj->setClass($_POST["characteristic"]);
+        $this->content_obj->setClass(
+            $this->request->getString("characteristic")
+        );
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);

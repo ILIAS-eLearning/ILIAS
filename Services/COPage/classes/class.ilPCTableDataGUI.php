@@ -48,70 +48,60 @@ class ilPCTableDataGUI extends ilPageContentGUI
     public function newRowAfter() : void
     {
         $this->content_obj->newRowAfter();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function newRowBefore() : void
     {
         $this->content_obj->newRowBefore();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function deleteRow() : void
     {
         $this->content_obj->deleteRow();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function newColAfter() : void
     {
         $this->content_obj->newColAfter();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function newColBefore() : void
     {
         $this->content_obj->newColBefore();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function deleteCol() : void
     {
         $this->content_obj->deleteCol();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function moveRowDown() : void
     {
         $this->content_obj->moveRowDown();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function moveRowUp() : void
     {
         $this->content_obj->moveRowUp();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function moveColRight() : void
     {
         $this->content_obj->moveColRight();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function moveColLeft() : void
     {
         $this->content_obj->moveColLeft();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 }

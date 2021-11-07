@@ -109,8 +109,12 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
     {
         $this->content_obj = new ilPCQuestionOverview($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-        $this->content_obj->setShortMessage(ilUtil::stripSlashes($_POST["short"]));
-        $this->content_obj->setListWrongQuestions(ilUtil::stripSlashes($_POST["wrong_questions"]));
+        $this->content_obj->setShortMessage(
+            $this->request->getString("short")
+        );
+        $this->content_obj->setListWrongQuestions(
+            $this->request->getString("wrong_questions")
+        );
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -124,8 +128,12 @@ class ilPCQuestionOverviewGUI extends ilPageContentGUI
      */
     public function update() : void
     {
-        $this->content_obj->setShortMessage(ilUtil::stripSlashes($_POST["short"]));
-        $this->content_obj->setListWrongQuestions(ilUtil::stripSlashes($_POST["wrong_questions"]));
+        $this->content_obj->setShortMessage(
+            $this->request->getString("short")
+        );
+        $this->content_obj->setListWrongQuestions(
+            $this->request->getString("wrong_questions")
+        );
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);

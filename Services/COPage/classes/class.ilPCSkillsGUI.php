@@ -149,7 +149,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
         
         // template mode: get skills from global skill tree
         if ($this->getPageConfig()->getEnablePCType("PlaceHolder")) {
-            $data = (int) $_GET["skill_id"];
+            $data = $this->request->getInt("skill_id");
             $valid = true;
         }
         // editor mode: use personal skills
@@ -183,7 +183,7 @@ class ilPCSkillsGUI extends ilPageContentGUI
 
         // template mode: get skills from global skill tree
         if ($this->getPageConfig()->getEnablePCType("PlaceHolder")) {
-            $data = (int) $_GET["skill_id"];
+            $data = $this->request->getInt("skill_id");
             $valid = true;
         }
         // editor mode: use personal skills

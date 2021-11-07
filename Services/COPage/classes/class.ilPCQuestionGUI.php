@@ -64,8 +64,8 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 //set tabs
                 if ($cmd != "insert") {
                     $this->setTabs();
-                } elseif ($_GET["subCmd"] != "") {
-                    $cmd = $_GET["subCmd"];
+                } elseif ($this->sub_command != "") {
+                    $cmd = $this->sub_command;
                 }
                 
                 $ret = $this->$cmd();
@@ -193,21 +193,18 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $this->updated = $this->pg_obj->update();
 
         if ($this->updated) {
-            // create question pool, if necessary
-            /*			if ($_POST["qpool_ref_id"] <= 0)
-                        {
-                            $pool_ref_id = $this->createQuestionPool($_POST["qpool_title"]);
-                        }
-                        else
-                        {
-                            $pool_ref_id = $_POST["qpool_ref_id"];
-                        }*/
-            
             $this->pg_obj->stripHierIDs();
             $this->pg_obj->addHierIDs();
-            $hier_id = $this->content_obj->lookupHierId();
-            $ilCtrl->setParameter($this, "q_type", $_POST["q_type"]);
-            $ilCtrl->setParameter($this, "add_quest_cont_edit_mode", $_POST["add_quest_cont_edit_mode"]);
+            $ilCtrl->setParameter(
+                $this,
+                "q_type",
+                $this->request->getString("q_type")
+            );
+            $ilCtrl->setParameter(
+                $this,
+                "add_quest_cont_edit_mode",
+                $this->request->getString("add_quest_cont_edit_mode")
+            );
             //			$ilCtrl->setParameter($this, "qpool_ref_id", $pool_ref_id);
             //$ilCtrl->setParameter($this, "hier_id", $hier_id);
             $ilCtrl->setParameter($this, "hier_id", $this->content_obj->readHierId());
@@ -251,9 +248,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 }
             }
             
-            $q_type = ($_POST["q_type"] != "")
-                ? $_POST["q_type"]
-                : $_GET["q_type"];
+            $q_type = $this->request->getString("q_type");
             $ilCtrl->setParameter($this, "q_type", $q_type);
             
             if ($q_id == "" && $q_type == "") {
@@ -266,9 +261,10 @@ class ilPCQuestionGUI extends ilPageContentGUI
                 $q_gui = assQuestionGUI::_getQuestionGUI($q_type);
 
                 // feedback editing mode
+                $add_quest_cont_edit_mode = $this->request->getString("add_quest_cont_edit_mode");
                 if (ilObjAssessmentFolder::isAdditionalQuestionContentEditingModePageObjectEnabled()
-                    && $_REQUEST['add_quest_cont_edit_mode'] != "") {
-                    $addContEditMode = $_GET['add_quest_cont_edit_mode'];
+                    && $add_quest_cont_edit_mode != "") {
+                    $addContEditMode = $add_quest_cont_edit_mode;
                 } else {
                     $addContEditMode = assQuestion::ADDITIONAL_CONTENT_EDITING_MODE_DEFAULT;
                 }
@@ -284,7 +280,10 @@ class ilPCQuestionGUI extends ilPageContentGUI
             $ilCtrl->setParameterByClass("ilQuestionEditGUI", "q_id", $q_id);
             $ilCtrl->redirectByClass(array(get_class($this->pg_obj) . "GUI", "ilQuestionEditGUI"), "editQuestion");
         } else {	// behaviour in question pool
-            $q_gui = assQuestionGUI::_getQuestionGUI("", $_GET["q_id"]);
+            $q_gui = assQuestionGUI::_getQuestionGUI(
+                "",
+                $this->request->getInt("q_id")
+            );
             $this->ctrl->redirectByClass(array("ilobjquestionpoolgui", get_class($q_gui)), "editQuestion");
         }
     }
@@ -331,7 +330,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
     public function createQuestionPool(string $name = "Dummy") : int
     {
         $tree = $this->tree;
-        $parent_ref = $tree->getParentId($_GET["ref_id"]);
+        $parent_ref = $tree->getParentId($this->requested_ref_id);
         $qpl = new ilObjQuestionPool();
         $qpl->setType("qpl");
         $qpl->setTitle($name);
@@ -402,9 +401,9 @@ class ilPCQuestionGUI extends ilPageContentGUI
     public function insertFromPool() : void
     {
         $ilAccess = $this->access;
-        if ($_SESSION["cont_qst_pool"] != "" &&
-            $ilAccess->checkAccess("write", "", $_SESSION["cont_qst_pool"])
-            && ilObject::_lookupType(ilObject::_lookupObjId($_SESSION["cont_qst_pool"])) == "qpl") {
+        if ($this->edit_repo->getQuestionPool() > 0 &&
+            $ilAccess->checkAccess("write", "", $this->edit_repo->getQuestionPool())
+            && ilObject::_lookupType(ilObject::_lookupObjId($this->edit_repo->getQuestionPool())) == "qpl") {
             $this->listPoolQuestions();
         } else {
             $this->poolSelection();
@@ -434,7 +433,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $_SESSION["cont_qst_pool"] = $_GET["pool_ref_id"];
+        $this->edit_repo->setQuestionPool($this->request->getInt("pool_ref_id"));
         $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
         $ilCtrl->redirect($this, "insert");
     }
@@ -461,7 +460,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $table_gui = new ilCopySelfAssQuestionTableGUI(
             $this,
             'insert',
-            $_SESSION["cont_qst_pool"]
+            $this->edit_repo->getQuestionPool()
         );
 
         $tpl->setContent($table_gui->getHTML());
@@ -472,11 +471,14 @@ class ilPCQuestionGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         
         $this->content_obj = new ilPCQuestion($this->getPage());
-        $this->content_obj->create($this->pg_obj, $_GET["hier_id"]);
+        $this->content_obj->create(
+            $this->pg_obj,
+            $this->request->getHierId()
+        );
         
         $this->content_obj->copyPoolQuestionIntoPage(
-            (int) $_GET["q_id"],
-            $_GET["hier_id"]
+            $this->request->getInt("q_id"),
+            $this->request->getHierId()
         );
         
         $this->updated = $this->pg_obj->update();

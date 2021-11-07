@@ -70,16 +70,19 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
     
     protected function create() : void
     {
-        if ($_POST["plach_height"] == "" ||
-            !preg_match("/[0-9]+/", $_POST["plach_height"])) {
+        $plach_height = $this->request->getString("plach_height");
+        if ($plach_height == "" ||
+            !preg_match("/[0-9]+/", $plach_height)) {
             $this->insert();
             return;
         }
         
         $this->content_obj = new ilPCPlaceHolder($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-        $this->content_obj->setHeight($_POST["plach_height"] . "px");
-        $this->content_obj->setContentClass($_POST['plach_type']);
+        $this->content_obj->setHeight($plach_height . "px");
+        $this->content_obj->setContentClass(
+            $this->request->getString("plach_type")
+        );
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -159,14 +162,15 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
      */
     protected function saveProperties() : void
     {
-        if ($_POST["plach_height"] == "" ||
-            !preg_match("/[0-9]+/", $_POST["plach_height"])) {
+        $plach_height = $this->request->getString("plach_height");
+        if ($plach_height == "" ||
+            !preg_match("/[0-9]+/", $plach_height)) {
             $this->edit_object();
             return;
         }
             
-        $this->content_obj->setContentClass($_POST['plach_type']);
-        $this->content_obj->setHeight($_POST["plach_height"] . "px");
+        $this->content_obj->setContentClass($this->request->getString("plach_type"));
+        $this->content_obj->setHeight($plach_height . "px");
         
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
@@ -246,7 +250,7 @@ class ilPCPlaceHolderGUI extends ilPageContentGUI
      */
     protected function insertPCText() : void
     {
-        switch ($_POST['pctext_type']) {
+        switch ($this->request->getString("pctext_type")) {
             case 0:  //Paragraph / Text
                 
                 $ret_class = $this->ctrl->getReturnClass($this);

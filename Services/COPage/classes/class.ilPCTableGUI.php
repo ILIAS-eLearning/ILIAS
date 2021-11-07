@@ -349,8 +349,8 @@ class ilPCTableGUI extends ilPageContentGUI
         }
         
         // language
-        if ($_SESSION["il_text_lang_" . $_GET["ref_id"]] != "") {
-            $s_lang = $_SESSION["il_text_lang_" . $_GET["ref_id"]];
+        if ($this->getCurrentTextLang() != "") {
+            $s_lang = $this->getCurrentTextLang();
         } else {
             $s_lang = $ilUser->getLanguage();
         }
@@ -699,14 +699,15 @@ class ilPCTableGUI extends ilPageContentGUI
     public function setStyles() : void
     {
         $lng = $this->lng;
-        
-        if (is_array($_POST["target"])) {
-            foreach ($_POST["target"] as $k => $value) {
+
+        $target = $this->request->getStringArray("target");
+        if (count($target)) {
+            foreach ($target as $k => $value) {
                 if ($value > 0) {
                     $cid = explode(":", $k);
                     $this->content_obj->setTDClass(
                         ilUtil::stripSlashes($cid[0]),
-                        ilUtil::stripSlashes($_POST["style"]),
+                        $this->request->getString("style"),
                         ilUtil::stripSlashes($cid[1])
                     );
                 }
@@ -723,9 +724,10 @@ class ilPCTableGUI extends ilPageContentGUI
     public function setWidths() : void
     {
         $lng = $this->lng;
-        
-        if (is_array($_POST["width"])) {
-            foreach ($_POST["width"] as $k => $width) {
+
+        $widths = $this->request->getStringArray("width");
+        if (count($widths) > 0) {
+            foreach ($widths as $k => $width) {
                 $cid = explode(":", $k);
                 $this->content_obj->setTDWidth(
                     ilUtil::stripSlashes($cid[0]),
@@ -745,13 +747,17 @@ class ilPCTableGUI extends ilPageContentGUI
     public function setSpans() : void
     {
         $lng = $this->lng;
-        
-        if (is_array($_POST["colspan"])) {
-            foreach ($_POST["colspan"] as $k => $span) {
-                $_POST["colspan"][$k] = ilUtil::stripSlashes($span);
-                $_POST["rowspan"][$k] = ilUtil::stripSlashes($_POST["rowspan"][$k]);
+
+        $colspans = $this->request->getStringArray("colspan");
+        $rowspans = $this->request->getStringArray("rowspan");
+        $cs = [];
+        $rs = [];
+        if (count($colspans) > 0) {
+            foreach ($colspans as $k => $span) {
+                $cs[$k] = $span;
+                $rs[$k] = $rowspans[$k];
             }
-            $this->content_obj->setTDSpans($_POST["colspan"], $_POST["rowspan"]);
+            $this->content_obj->setTDSpans($cs, $rs);
         }
         $this->updated = $this->pg_obj->update();
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -764,32 +770,32 @@ class ilPCTableGUI extends ilPageContentGUI
     public function setProperties() : void
     {
         // mask html
-        $caption = ilUtil::stripSlashes($_POST["caption"]);
+        $caption = $this->form->getInput("caption");
         $caption = str_replace("&", "&amp;", $caption);
         $caption = str_replace("<", "&lt;", $caption);
         $caption = str_replace(">", "&gt;", $caption);
 
-        $this->content_obj->setLanguage(ilUtil::stripSlashes($_POST["language"]));
-        $this->content_obj->setWidth(ilUtil::stripSlashes($_POST["width"]));
-        $this->content_obj->setBorder(ilUtil::stripSlashes($_POST["border"]));
-        $this->content_obj->setCellSpacing(ilUtil::stripSlashes($_POST["spacing"]));
-        $this->content_obj->setCellPadding(ilUtil::stripSlashes($_POST["padding"]));
-        $this->content_obj->setHorizontalAlign(ilUtil::stripSlashes($_POST["align"]));
-        $this->content_obj->setHeaderRows(ilUtil::stripSlashes($_POST["row_header"]));
-        $this->content_obj->setHeaderCols(ilUtil::stripSlashes($_POST["col_header"]));
-        $this->content_obj->setFooterRows(ilUtil::stripSlashes($_POST["row_footer"]));
-        $this->content_obj->setFooterCols(ilUtil::stripSlashes($_POST["col_footer"]));
-        if (strpos($_POST["characteristic"], ":") > 0) {
-            $t = explode(":", $_POST["characteristic"]);
-            $this->content_obj->setTemplate(ilUtil::stripSlashes($t[2]));
+        $this->content_obj->setLanguage($this->form->getInput("language"));
+        $this->content_obj->setWidth($this->form->getInput("width"));
+        $this->content_obj->setBorder($this->form->getInput("border"));
+        $this->content_obj->setCellSpacing($this->form->getInput("spacing"));
+        $this->content_obj->setCellPadding($this->form->getInput("padding"));
+        $this->content_obj->setHorizontalAlign($this->form->getInput("align"));
+        $this->content_obj->setHeaderRows($this->form->getInput("row_header"));
+        $this->content_obj->setHeaderCols($this->form->getInput("col_header"));
+        $this->content_obj->setFooterRows($this->form->getInput("row_footer"));
+        $this->content_obj->setFooterCols($this->form->getInput("col_footer"));
+        if (strpos($this->form->getInput("characteristic"), ":") > 0) {
+            $t = explode(":", $this->form->getInput("characteristic"));
+            $this->content_obj->setTemplate($t[2]);
             $this->content_obj->setClass("");
         } else {
-            $this->content_obj->setClass(ilUtil::stripSlashes($_POST["characteristic"]));
+            $this->content_obj->setClass($this->form->getInput("characteristic"));
             $this->content_obj->setTemplate("");
         }
         $this->content_obj->setCaption(
             $caption,
-            ilUtil::stripSlashes($_POST["cap_align"])
+            $this->form->getInput("cap_align")
         );
     }
     
@@ -812,36 +818,31 @@ class ilPCTableGUI extends ilPageContentGUI
     public function rightAlign() : void
     {
         $this->content_obj->setHorizontalAlign("Right");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function leftAlign() : void
     {
         $this->content_obj->setHorizontalAlign("Left");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function centerAlign() : void
     {
         $this->content_obj->setHorizontalAlign("Center");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function leftFloatAlign() : void
     {
         $this->content_obj->setHorizontalAlign("LeftFloat");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function rightFloatAlign() : void
     {
         $this->content_obj->setHorizontalAlign("RightFloat");
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function insert() : void
@@ -866,14 +867,22 @@ class ilPCTableGUI extends ilPageContentGUI
     {
         $this->content_obj = $this->getNewTableObject();
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-        $import_table = trim($_POST["import_table"]);
+
+        $this->initPropertiesForm("create");
+
+        $import_table = trim($this->form->getInput("import_table"));
         
         // import xhtml or spreadsheet table
         if (!empty($import_table)) {
-            switch ($_POST["import_type"]) {
+            switch ($this->form->getInput("import_type")) {
                 // xhtml import
                 case "html":
-                    if (!$this->content_obj->importHtml($_POST["language"], $import_table)) {
+                    $res = $this->content_obj->importHtml(
+                        $this->form->getInput("language"),
+                        $import_table
+                    );
+                    if ($res !== true) {
+                        ilUtil::sendFailure($res);
                         $this->insert();
                         return;
                     }
@@ -881,19 +890,19 @@ class ilPCTableGUI extends ilPageContentGUI
                     
                 // spreadsheet
                 case "spreadsheet":
-                    $this->content_obj->importSpreadsheet($_POST["language"], $import_table);
+                    $this->content_obj->importSpreadsheet($this->form->getInput("language"), $import_table);
                     break;
             }
         } else {
             $this->content_obj->addRows(
-                ilUtil::stripSlashes($_POST["nr_rows"]),
-                ilUtil::stripSlashes($_POST["nr_cols"])
+                $this->form->getInput("nr_rows"),
+                $this->form->getInput("nr_cols")
             );
         }
         
         $this->setProperties();
         
-        $frtype = ilUtil::stripSlashes($_POST["first_row_style"]);
+        $frtype = $this->form->getInput("first_row_style");
         if ($frtype != "") {
             $this->content_obj->setFirstRowStyle($frtype);
         }
@@ -963,13 +972,14 @@ class ilPCTableGUI extends ilPageContentGUI
     {
         $lng = $this->lng;
 
-        if (is_array($_POST["target"])) {
-            foreach ($_POST["target"] as $k => $value) {
+        $targets = $this->request->getStringArray("target");
+        if (count($targets) > 0) {
+            foreach ($targets as $k => $value) {
                 if ($value > 0) {
                     $cid = explode(":", $k);
                     $this->content_obj->setTDAlignment(
                         ilUtil::stripSlashes($cid[0]),
-                        ilUtil::stripSlashes($_POST["alignment"]),
+                        $this->request->getString("alignment"),
                         ilUtil::stripSlashes($cid[1])
                     );
                 }
@@ -1100,7 +1110,8 @@ class ilPCTableGUI extends ilPageContentGUI
 
                     $dtpl->setCurrentBlock("cell");
 
-                    if (isset($_POST["cmd"]) && is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
+                    $cmd = $this->ctrl->getCmd();
+                    if ($cmd == "update") {
                         $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
                     } else {
                         $s_text = ilPCParagraph::xml2output(

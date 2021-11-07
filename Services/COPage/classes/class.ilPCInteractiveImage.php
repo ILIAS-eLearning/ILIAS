@@ -514,7 +514,7 @@ class ilPCInteractiveImage extends ilPageContent
                 );
                 $this->setExtLinkTitle(
                     $tr_node->get_attribute("Nr"),
-                    $a_titles["" . $tr_node->get_attribute("Nr")]
+                    $a_titles[(string) $tr_node->get_attribute("Nr")]
                 );
             }
         }

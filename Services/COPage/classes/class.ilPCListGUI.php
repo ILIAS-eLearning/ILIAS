@@ -76,15 +76,26 @@ class ilPCListGUI extends ilPageContentGUI
         if ($this->form->checkInput()) {
             $this->content_obj = new ilPCList($this->getPage());
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-            $this->content_obj->addItems($_POST["nr_items"]);
-            $this->content_obj->setStartValue($_POST["start_value"]);
-            $this->content_obj->setListType($_POST["list_type"]);
-            if ($_POST["list_type"] == "Unordered") {
+            $this->content_obj->addItems($this->form->getInput("nr_items"));
+            $this->content_obj->setStartValue(
+                $this->form->getInput("start_value")
+            );
+            $list_type = $this->form->getInput("list_type");
+            $this->content_obj->setListType(
+                $list_type
+            );
+            if ($list_type == "Unordered") {
                 $this->content_obj->setNumberingType("");
-                $this->content_obj->setStyleClass($_POST["bullet_style"]);
+                $this->content_obj->setStyleClass(
+                    $this->form->getInput("bullet_style")
+                );
             } else {
-                $this->content_obj->setNumberingType($_POST["numbering_type"]);
-                $this->content_obj->setStyleClass($_POST["number_style"]);
+                $this->content_obj->setNumberingType(
+                    $this->form->getInput("numbering_type")
+                );
+                $this->content_obj->setStyleClass(
+                    $this->form->getInput("number_style")
+                );
             }
             $this->updated = $this->pg_obj->update();
             if ($this->updated === true) {
@@ -115,14 +126,25 @@ class ilPCListGUI extends ilPageContentGUI
         
         $this->initListForm("edit");
         if ($this->form->checkInput()) {
-            $this->content_obj->setStartValue($_POST["start_value"]);
-            $this->content_obj->setListType($_POST["list_type"]);
-            if ($_POST["list_type"] == "Unordered") {
+            $this->content_obj->setStartValue(
+                $this->form->getInput("start_value")
+            );
+            $list_type = $this->form->getInput("list_type");
+            $this->content_obj->setListType(
+                $list_type
+            );
+            if ($list_type == "Unordered") {
                 $this->content_obj->setNumberingType("");
-                $this->content_obj->setStyleClass($_POST["bullet_style"]);
+                $this->content_obj->setStyleClass(
+                    $this->form->getInput("bullet_style")
+                );
             } else {
-                $this->content_obj->setNumberingType($_POST["numbering_type"]);
-                $this->content_obj->setStyleClass($_POST["number_style"]);
+                $this->content_obj->setNumberingType(
+                    $this->form->getInput("numbering_type")
+                );
+                $this->content_obj->setStyleClass(
+                    $this->form->getInput("number_style")
+                );
             }
             
             $this->updated = $this->pg_obj->update();

@@ -157,8 +157,9 @@ class ilPCDataTableGUI extends ilPCTableGUI
                 // cell
                 if ($res2->nodeset[$j]->get_attribute("Hidden") != "Y") {
                     $dtpl->setCurrentBlock("cell");
-                    
-                    if (is_array($_POST["cmd"]) && key($_POST["cmd"]) == "update") {
+
+                    $cmd = $ilCtrl->getCmd();
+                    if ($cmd == "update") {
                         $s_text = ilUtil::stripSlashes("cell_" . $i . "_" . $j, false);
                     } else {
                         $s_text = ilPCParagraph::xml2output($this->content_obj->getCellText($i, $j));
@@ -247,10 +248,9 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         // handle input data
         $data = array();
-        //var_dump($_POST["cell"]);
-        //var_dump($_GET);
-        if (is_array($_POST["cell"])) {
-            foreach ($_POST["cell"] as $i => $row) {
+        $cell = $this->request->getArrayArray("cell");
+        if (is_array($cell)) {
+            foreach ($cell as $i => $row) {
                 if (is_array($row)) {
                     foreach ($row as $j => $cell) {
                         $data[$i][$j] =
@@ -286,7 +286,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
                 
-        if ($_POST["cancel_update"]) {
+        if ($this->request->getString("cancel_update") != "") {
             //			$this->ctrl->redirect($this, "editData");
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         }
@@ -332,18 +332,20 @@ class ilPCDataTableGUI extends ilPCTableGUI
 
         $this->updated = $this->pg_obj->update();
 
-        
+        $tab_cmd_id = $this->request->getInt("tab_cmd_id");
+        $tab_cmd_type = $this->request->getString("tab_cmd_type");
+        $tab_cmd = $this->request->getString("tab_cmd");
+
         // perform table action? (move...?)
         //$this->update(false);
         $this->pg_obj->addHierIDs();
         $failed = false;
-        if ($_POST["tab_cmd"] != "") {
-            $cell_hier_id = ($_POST["tab_cmd_type"] == "col")
-                ? $this->hier_id . "_1_" . ($_POST["tab_cmd_id"] + 1)
-                : $this->hier_id . "_" . ($_POST["tab_cmd_id"] + 1) . "_1";
+        if ($tab_cmd != "") {
+            $cell_hier_id = ($tab_cmd_type == "col")
+                ? $this->hier_id . "_1_" . ($tab_cmd_id + 1)
+                : $this->hier_id . "_" . ($tab_cmd_id + 1) . "_1";
             $cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
             if (is_object($cell_obj)) {
-                $tab_cmd = $_POST["tab_cmd"];
                 $cell_obj->$tab_cmd();
                 $ret = $this->pg_obj->update();
                 if ($ret !== true) {
@@ -356,7 +358,7 @@ class ilPCDataTableGUI extends ilPCTableGUI
         if (!$failed) {
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         }
-        if ($_POST["save_return"]) {
+        if ($this->request->getString("save_return") != "") {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
         } else {
             $this->ctrl->redirect($this, "editData");
@@ -396,14 +398,17 @@ class ilPCDataTableGUI extends ilPCTableGUI
         $this->update(false);
         $this->pg_obj->addHierIDs();
 
-        $cell_hier_id = ($_POST["type"] == "col")
-            ? $this->hier_id . "_1_" . ($_POST["id"] + 1)
-            : $this->hier_id . "_" . ($_POST["id"] + 1) . "_1";
+        $type = $this->request->getString("type");
+        $action = $this->request->getString("action");
+        $id = $this->request->getInt("id");
+
+        $cell_hier_id = ($type == "col")
+            ? $this->hier_id . "_1_" . ($id + 1)
+            : $this->hier_id . "_" . ($id + 1) . "_1";
         $cell_obj = $this->pg_obj->getContentObject($cell_hier_id);
         if (is_object($cell_obj)) {
-            $action = (string) ($_POST["action"]);
             $cell_obj->$action();
-            $_SESSION["il_pg_error"] = $this->pg_obj->update();
+            $this->edit_repo->setPageError($this->pg_obj->update());
         }
         $ilCtrl->redirect($this, "editData");
     }

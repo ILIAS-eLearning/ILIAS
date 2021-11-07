@@ -67,9 +67,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
         $lng = $this->lng;
         
         if ($_FILES["file"]["name"] == "") {
-            $_GET["subCmd"] = "-";
-            ilUtil::sendFailure($lng->txt("upload_error_file_not_found"));
-            return false;
+            throw new ilCOPageFileHandlingException($lng->txt("upload_error_file_not_found"));
         }
 
         $form = $this->initAddFileForm();
@@ -107,21 +105,18 @@ class ilPCFileItemGUI extends ilPageContentGUI
     public function newItemAfter() : void
     {
         $ilTabs = $this->tabs;
-        
-        if ($_GET["subCmd"] == "insertNew") {
-            $_SESSION["cont_file_insert"] = "insertNew";
-        }
-        if ($_GET["subCmd"] == "insertFromRepository") {
-            $_SESSION["cont_file_insert"] = "insertFromRepository";
-        }
-        if ($_GET["subCmd"] == "insertFromWorkspace") {
-            $_SESSION["cont_file_insert"] = "insertFromWorkspace";
-        }
-        if (($_GET["subCmd"] == "") && $_SESSION["cont_file_insert"] != "") {
-            $_GET["subCmd"] = $_SESSION["cont_file_insert"];
+
+        $sub_command = $this->sub_command;
+
+        if (in_array($sub_command, ["insertNew", "insertFromRepository", "insertFromWorkspace"])) {
+            $this->edit_repo->setSubCmd($sub_command);
         }
 
-        switch ($_GET["subCmd"]) {
+        if (($sub_command == "") && $this->edit_repo->getSubCmd() != "") {
+            $sub_command = $this->edit_repo->getSubCmd();
+        }
+
+        switch ($sub_command) {
             case "insertFromWorkspace":
                 $this->insertFromWorkspace("newItemAfter");
                 break;
@@ -131,7 +126,9 @@ class ilPCFileItemGUI extends ilPageContentGUI
                 break;
                 
             case "selectFile":
-                $this->insertNewItemAfter($_GET["file_ref_id"]);
+                $this->insertNewItemAfter(
+                    $this->request->getInt("file_ref_id")
+                );
                 break;
                 
             default:
@@ -230,12 +227,14 @@ class ilPCFileItemGUI extends ilPageContentGUI
     public function insertNewItemAfter(int $a_file_ref_id = 0) : void
     {
         $ilUser = $this->user;
-        
+
+        $fl_wsp_id = $this->request->getInt("fl_wsp_id");
+
         $res = true;
-        if (isset($_GET["fl_wsp_id"])) {
+        if ($fl_wsp_id > 0) {
             // we need the object id for the instance
             $tree = new ilWorkspaceTree($ilUser->getId());
-            $node = $tree->getNodeData($_GET["fl_wsp_id"]);
+            $node = $tree->getNodeData($fl_wsp_id);
             
             $this->file_object = new ilObjFile($node["obj_id"], false);
         } elseif ($a_file_ref_id == 0) {
@@ -255,7 +254,6 @@ class ilPCFileItemGUI extends ilPageContentGUI
             }
         }
         
-        $_GET["subCmd"] = "-";
         $this->newItemAfter();
     }
 
@@ -265,21 +263,18 @@ class ilPCFileItemGUI extends ilPageContentGUI
     public function newItemBefore() : void
     {
         $ilTabs = $this->tabs;
-        
-        if ($_GET["subCmd"] == "insertNew") {
-            $_SESSION["cont_file_insert"] = "insertNew";
-        }
-        if ($_GET["subCmd"] == "insertFromRepository") {
-            $_SESSION["cont_file_insert"] = "insertFromRepository";
-        }
-        if ($_GET["subCmd"] == "insertFromWorkspace") {
-            $_SESSION["cont_file_insert"] = "insertFromWorkspace";
-        }
-        if (($_GET["subCmd"] == "") && $_SESSION["cont_file_insert"] != "") {
-            $_GET["subCmd"] = $_SESSION["cont_file_insert"];
+
+        $sub_command = $this->sub_command;
+
+        if (in_array($sub_command, ["insertNew", "insertFromRepository", "insertFromWorkspace"])) {
+            $this->edit_repo->setSubCmd($sub_command);
         }
 
-        switch ($_GET["subCmd"]) {
+        if (($sub_command == "") && $this->edit_repo->getSubCmd() != "") {
+            $sub_command = $this->edit_repo->getSubCmd();
+        }
+
+        switch ($sub_command) {
             case "insertFromWorkspace":
                 $this->insertFromWorkspace("newItemBefore");
                 break;
@@ -289,7 +284,9 @@ class ilPCFileItemGUI extends ilPageContentGUI
                 break;
                 
             case "selectFile":
-                $this->insertNewItemBefore($_GET["file_ref_id"]);
+                $this->insertNewItemBefore(
+                    $this->request->getInt("file_ref_id")
+                );
                 break;
                 
             default:
@@ -310,10 +307,12 @@ class ilPCFileItemGUI extends ilPageContentGUI
         $ilUser = $this->user;
         
         $res = true;
-        if (isset($_GET["fl_wsp_id"])) {
+
+        $fl_wsp_id = $this->request->getInt("fl_wsp_id");
+        if ($fl_wsp_id > 0) {
             // we need the object id for the instance
             $tree = new ilWorkspaceTree($ilUser->getId());
-            $node = $tree->getNodeData($_GET["fl_wsp_id"]);
+            $node = $tree->getNodeData($fl_wsp_id);
             
             $this->file_object = new ilObjFile($node["obj_id"], false);
         } elseif ($a_file_ref_id == 0) {
@@ -333,7 +332,6 @@ class ilPCFileItemGUI extends ilPageContentGUI
             }
         }
 
-        $_GET["subCmd"] = "-";
         $this->newItemBefore();
     }
 
@@ -343,8 +341,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     public function deleteItem() : void
     {
         $this->content_obj->deleteItem();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -398,8 +395,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     public function moveItemDown() : void
     {
         $this->content_obj->moveItemDown();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -408,8 +404,7 @@ class ilPCFileItemGUI extends ilPageContentGUI
     public function moveItemUp() : void
     {
         $this->content_obj->moveItemUp();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**

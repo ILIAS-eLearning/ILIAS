@@ -13,6 +13,9 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\COPage\PC\EditGUIRequest;
+use ILIAS\COPage\PC\MapEditorSessionRepository;
+
 /**
  * User interface class for page content map editor
  *
@@ -21,22 +24,28 @@
  */
 class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 {
+    protected MapEditorSessionRepository $map_repo;
     protected ilMediaAliasItem $std_alias_item;
     protected ilPageObject $page;
     /**
      * @var ilPCInteractiveImage|ilPCMediaObject
      */
     protected $content_obj;
+    protected EditGUIRequest $request;
 
     /**
      * @param ilPCMediaObject|ilPCInteractiveImage $a_content_obj
      */
     public function __construct(
         $a_content_obj,
-        ilPageObject $a_page
+        ilPageObject $a_page,
+        EditGUIRequest $request
     ) {
+        global $DIC;
+
         $this->content_obj = $a_content_obj;
         $this->page = $a_page;
+        $this->request = $request;
         parent::__construct($a_content_obj->getMediaObject());
                 
         $this->std_alias_item = new ilMediaAliasItem(
@@ -46,6 +55,12 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             $this->content_obj->getPCId(),
             $this->getParentNodeName()
         );
+        $this->map_repo = $DIC
+            ->copage()
+            ->internal()
+            ->repo()
+            ->pc()
+            ->mediaMap();
     }
 
     public function getParentNodeName() : string
@@ -72,28 +87,29 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
-        switch ($_SESSION["il_map_edit_mode"]) {
+        switch ($this->map_repo->getMode()) {
             // save edited link
             case "edit_link":
 //				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
 //					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
 
-                if ($_POST["area_link_type"] == IL_INT_LINK) {
+                $area_link_type = $this->request->getString("area_link_type");
+                if ($area_link_type == IL_INT_LINK) {
                     $this->std_alias_item->setAreaIntLink(
-                        $_SESSION["il_map_area_nr"],
-                        $_SESSION["il_map_il_type"],
-                        $_SESSION["il_map_il_target"],
-                        $_SESSION["il_map_il_targetframe"]
+                        $this->map_repo->getAreaNr(),
+                        $this->map_repo->getLinkType(),
+                        $this->map_repo->getLinkTarget(),
+                        $this->map_repo->getLinkFrame()
                     );
-                } elseif ($_POST["area_link_type"] == IL_NO_LINK) {
+                } elseif ($area_link_type == IL_NO_LINK) {
                     $this->std_alias_item->setAreaExtLink(
-                        $_SESSION["il_map_area_nr"],
+                        $this->map_repo->getAreaNr(),
                         ""
                     );
                 } else {
                     $this->std_alias_item->setAreaExtLink(
-                        $_SESSION["il_map_area_nr"],
-                        ilUtil::stripSlashes($_POST["area_link_ext"])
+                        $this->map_repo->getAreaNr(),
+                        $this->request->getString("area_link_ext")
                     );
                 }
                 $this->page->update();
@@ -101,26 +117,25 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
 
             // save edited shape
             case "edit_shape":
-//				$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
-//					$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
                 $this->std_alias_item->setShape(
-                    $_SESSION["il_map_area_nr"],
-                    $_SESSION["il_map_edit_area_type"],
-                    $_SESSION["il_map_edit_coords"]
+                    $this->map_repo->getAreaNr(),
+                    $this->map_repo->getAreaType(),
+                    $this->map_repo->getCoords()
                 );
                 $this->page->update();
                 break;
 
             // save new area
             default:
-                $area_type = $_SESSION["il_map_edit_area_type"];
-                $coords = $_SESSION["il_map_edit_coords"];
+                $area_type = $this->map_repo->getAreaType();
+                $coords = $this->map_repo->getCoords();
 
-                switch ($_POST["area_link_type"]) {
+                $area_link_type = $this->request->getString("area_link_type");
+                switch ($area_link_type) {
                     case IL_EXT_LINK:
                         $link = array(
                             "LinkType" => IL_EXT_LINK,
-                            "Href" => ilUtil::stripSlashes($_POST["area_link_ext"]));
+                            "Href" => $this->request->getString("area_link_ext"));
                         break;
 
                     case IL_NO_LINK:
@@ -132,9 +147,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                     case IL_INT_LINK:
                         $link = array(
                             "LinkType" => IL_INT_LINK,
-                            "Type" => $_SESSION["il_map_il_type"],
-                            "Target" => $_SESSION["il_map_il_target"],
-                            "TargetFrame" => $_SESSION["il_map_il_targetframe"]);
+                            "Type" => $this->map_repo->getLinkType(),
+                            "Target" => $this->map_repo->getLinkTarget(),
+                            "TargetFrame" => $this->map_repo->getLinkFrame());
                         break;
                 }
 
@@ -143,7 +158,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
                 $this->std_alias_item->addMapArea(
                     $area_type,
                     $coords,
-                    ilUtil::stripSlashes($_POST["area_name"]),
+                    $this->request->getString("area_name"),
                     []
                 );
                 $this->page->update();
@@ -162,8 +177,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        if (!isset($_POST["area"])) {
+
+        $areas = $this->request->getStringArray("area");
+        if (count($areas) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         }
@@ -171,15 +187,13 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         //		$std_alias_item = new ilMediaAliasItem($this->content_obj->dom,
         //			$this->content_obj->hier_id, "Standard", $this->content_obj->getPcId());
 
-        if (count($_POST["area"]) > 0) {
-            $i = 0;
-            arsort($_POST["area"]);
-            foreach ($_POST["area"] as $area_nr) {
-                $this->std_alias_item->deleteMapArea($area_nr);
-            }
-            $this->page->update();
-            ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
+        $i = 0;
+        arsort($areas);
+        foreach ($areas as $area_nr) {
+            $this->std_alias_item->deleteMapArea($area_nr);
         }
+        $this->page->update();
+        ilUtil::sendSuccess($lng->txt("cont_areas_deleted"), true);
 
         $ilCtrl->redirect($this, "editMapAreas");
     }
@@ -237,7 +251,9 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         $areas = $this->std_alias_item->getMapAreas();
         foreach ($areas as $area) {
             // fix #26032 empty values lead to "empty text node" errors on page update
-            $name = ilUtil::stripSlashes($_POST["name_" . $area["Nr"]]);
+            $name = $this->request->getString("name_" . $area["Nr"]);
+            $hl_mode = $this->request->getString("hl_mode_" . $area["Nr"]);
+            $hl_class = $this->request->getString("hl_class_" . $area["Nr"]);
             if ($name == "") {
                 $name = " ";
             }
@@ -247,11 +263,11 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
             );
             $this->std_alias_item->setAreaHighlightMode(
                 $area["Nr"],
-                ilUtil::stripSlashes($_POST["hl_mode_" . $area["Nr"]])
+                $hl_mode
             );
             $this->std_alias_item->setAreaHighlightClass(
                 $area["Nr"],
-                ilUtil::stripSlashes($_POST["hl_class_" . $area["Nr"]])
+                $hl_class
             );
         }
         $this->page->update();

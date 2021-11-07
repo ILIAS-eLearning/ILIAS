@@ -83,7 +83,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
         }
         
         // count number of existing objects per type and collect item groups
-        $ref_id = (int) $_GET["ref_id"];
+        $ref_id = $this->requested_ref_id;
         $childs = $this->rep_tree->getChilds($ref_id);
         $type_counts = array();
         $item_groups = array();
@@ -120,7 +120,7 @@ class ilPCResourcesGUI extends ilPageContentGUI
             $this->lng->txt("cont_type"),
             "type"
         );
-        $obj_id = ilObject::_lookupObjId($_GET["ref_id"]);
+        $obj_id = ilObject::_lookupObjId($this->requested_ref_id);
         $obj_type = ilObject::_lookupType($obj_id);
         $sub_objs = $objDefinition->getGroupedRepositoryObjectTypes($obj_type);
         $types = array();
@@ -173,11 +173,15 @@ class ilPCResourcesGUI extends ilPageContentGUI
     {
         $this->content_obj = new ilPCResources($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-        
-        if ($_POST["res_type"] != "itgr") {
-            $this->content_obj->setResourceListType(ilUtil::stripSlashes($_POST["type"]));
+
+        if ($this->request->getString("res_type") != "itgr") {
+            $this->content_obj->setResourceListType(
+                $this->request->getString("type")
+            );
         } else {
-            $this->content_obj->setItemGroupRefId(ilUtil::stripSlashes($_POST["itgr"]));
+            $this->content_obj->setItemGroupRefId(
+                $this->request->getString("itgr")
+            );
         }
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
@@ -189,10 +193,14 @@ class ilPCResourcesGUI extends ilPageContentGUI
 
     public function update() : void
     {
-        if ($_POST["res_type"] != "itgr") {
-            $this->content_obj->setResourceListType(ilUtil::stripSlashes($_POST["type"]));
+        if ($this->request->getString("res_type") != "itgr") {
+            $this->content_obj->setResourceListType(
+                $this->request->getString("type")
+            );
         } else {
-            $this->content_obj->setItemGroupRefId(ilUtil::stripSlashes($_POST["itgr"]));
+            $this->content_obj->setItemGroupRefId(
+                $this->request->getString("itgr")
+            );
         }
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
@@ -215,7 +223,13 @@ class ilPCResourcesGUI extends ilPageContentGUI
         $tree = $DIC->repositoryTree();
         $lng = $DIC->language();
 
-        $ref_id = (int) $_GET["ref_id"];
+        $ref_id = $DIC
+            ->copage()
+            ->internal()
+            ->gui()
+            ->pc()
+            ->editRequest()
+            ->getRefId();
         $obj_id = ilObject::_lookupObjId($ref_id);
         $obj_type = ilObject::_lookupType($obj_id);
         

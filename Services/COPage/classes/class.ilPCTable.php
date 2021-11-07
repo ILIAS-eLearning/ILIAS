@@ -729,12 +729,14 @@ class ilPCTable extends ilPageContent
         return $output;
     }
 
+    /**
+     * @return bool|string
+     */
     public function importHtml(
         string $lng,
         string $htmlTable
-    ) : bool {
+    ) {
         $dummy = ilUtil::stripSlashes($htmlTable, false);
-        //echo htmlentities($dummy);
         $dom = domxml_open_mem($dummy, DOMXML_LOAD_PARSING, $error);
 
         if ($dom) {
@@ -778,8 +780,7 @@ class ilPCTable extends ilPageContent
             return true;
         }
         
-        $_SESSION["message"] = $errmsg;
-        return false;
+        return $errmsg;
     }
     
     public function setFirstRowStyle(

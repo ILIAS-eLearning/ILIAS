@@ -339,7 +339,7 @@ class ilPCSectionGUI extends ilPageContentGUI
 
     public function setValuesFromForm(ilPropertyFormGUI $form) : void
     {
-        $this->content_obj->setCharacteristic($_POST["characteristic"]);
+        $this->content_obj->setCharacteristic($form->getInput("characteristic"));
 
         $from = $form->getItemByPostVar("active_from")->getDate();
         if ($from) {
@@ -356,13 +356,13 @@ class ilPCSectionGUI extends ilPageContentGUI
         }
 
         if ($this->getPageConfig()->getEnablePermissionChecks()) {
-            $this->content_obj->setPermissionRefId($_POST["permission_ref_id"]);
-            $this->content_obj->setPermission($_POST["permission"]);
+            $this->content_obj->setPermissionRefId($form->getInput("permission_ref_id"));
+            $this->content_obj->setPermission($form->getInput("permission"));
         }
 
-        if ($_POST["link_mode"] == "ext" && $_POST["link"] != "") {
-            $this->content_obj->setExtLink($_POST["link"]);
-        } elseif ($_POST["link_mode"] == "int" && $_POST["link"] != "") {
+        if ($form->getInput("link_mode") == "ext" && $form->getInput("link") != "") {
+            $this->content_obj->setExtLink($form->getInput("link"));
+        } elseif ($form->getInput("link_mode") == "int" && $form->getInput("link") != "") {
             $la = $form->getItemByPostVar("link")->getIntLinkAttributes();
             if ($la["Type"] != "") {
                 $this->content_obj->setIntLink($la["Type"], $la["Target"], $la["TargetFrame"]);

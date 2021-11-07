@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\COPage\PC\EditGUIRequest;
+
 /**
  * User interface class for page content map editor
  *
@@ -23,10 +25,11 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
 {
     public function __construct(
         ilPCInteractiveImage $a_content_obj,
-        ilPageObject $a_page
+        ilPageObject $a_page,
+        EditGUIRequest $request
     ) {
         iljQueryUtil::initjQueryUI();
-        parent::__construct($a_content_obj, $a_page);
+        parent::__construct($a_content_obj, $a_page, $request);
 
         $this->main_tpl->addJavaScript("./Services/COPage/js/ilCOPagePres.js");
         $this->main_tpl->addJavaScript("./Services/COPage/js/ilCOPagePCInteractiveImage.js");
@@ -103,7 +106,7 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
-        if ($_POST["shape"] == "Marker") {
+        if ($this->request->getString("shape") == "Marker") {
             $this->content_obj->addTriggerMarker();
             $this->page->update();
             ilUtil::sendSuccess($lng->txt("cont_saved_map_data"), true);
@@ -153,26 +156,26 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
-        switch ($_SESSION["il_map_edit_mode"]) {
+        switch ($this->map_repo->getMode()) {
             // save edited shape
             case "edit_shape":
                 $this->std_alias_item->setShape(
-                    $_SESSION["il_map_area_nr"],
-                    $_SESSION["il_map_edit_area_type"],
-                    $_SESSION["il_map_edit_coords"]
+                    $this->map_repo->getAreaNr(),
+                    $this->map_repo->getAreaType(),
+                    $this->map_repo->getCoords()
                 );
                 $this->page->update();
                 break;
 
             // save new area
             default:
-                $area_type = $_SESSION["il_map_edit_area_type"];
-                $coords = $_SESSION["il_map_edit_coords"];
+                $area_type = $this->map_repo->getAreaType();
+                $coords = $this->map_repo->getCoords();
                 $this->content_obj->addTriggerArea(
                     $this->std_alias_item,
                     $area_type,
                     $coords,
-                    ilUtil::stripSlashes($_POST["area_name"])
+                    $this->request->getString("area_name")
                 );
                 $this->page->update();
                 break;
@@ -190,14 +193,28 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        $this->content_obj->setTriggerOverlays($_POST["ov"]);
-        $this->content_obj->setTriggerPopups($_POST["pop"]);
-        $this->content_obj->setTriggerOverlayPositions($_POST["ovpos"]);
-        $this->content_obj->setTriggerMarkerPositions($_POST["markpos"]);
-        $this->content_obj->setTriggerPopupPositions($_POST["poppos"]);
-        $this->content_obj->setTriggerPopupSize($_POST["popsize"]);
-        $this->content_obj->setTriggerTitles($_POST["title"]);
+
+        $this->content_obj->setTriggerOverlays(
+            $this->request->getStringArray("ov")
+        );
+        $this->content_obj->setTriggerPopups(
+            $this->request->getStringArray("pop")
+        );
+        $this->content_obj->setTriggerOverlayPositions(
+            $this->request->getStringArray("ovpos")
+        );
+        $this->content_obj->setTriggerMarkerPositions(
+            $this->request->getStringArray("markpos")
+        );
+        $this->content_obj->setTriggerPopupPositions(
+            $this->request->getStringArray("poppos")
+        );
+        $this->content_obj->setTriggerPopupSize(
+            $this->request->getStringArray("popsize")
+        );
+        $this->content_obj->setTriggerTitles(
+            $this->request->getStringArray("title")
+        );
         $this->page->update();
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         $ilCtrl->redirect($this, "editMapAreas");
@@ -212,7 +229,10 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
         $main_tpl = $this->main_tpl;
         $lng = $this->lng;
 
-        if (!is_array($_POST["tr"]) || count($_POST["tr"]) == 0) {
+        $trigger = $this->request->getStringArray("tr");
+        $titles = $this->request->getStringArray("title");
+
+        if (count($trigger) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "editMapAreas");
         } else {
@@ -222,8 +242,8 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
             $cgui->setCancel($lng->txt("cancel"), "editMapAreas");
             $cgui->setConfirm($lng->txt("delete"), "deleteTrigger");
             
-            foreach ($_POST["tr"] as $i) {
-                $cgui->addItem("tr[]", $i, $_POST["title"][$i]);
+            foreach ($trigger as $i) {
+                $cgui->addItem("tr[]", $i, $titles[$i]);
             }
             $main_tpl->setContent($cgui->getHTML());
         }
@@ -237,9 +257,11 @@ class ilPCIIMTriggerEditorGUI extends ilPCImageMapEditorGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        if (is_array($_POST["tr"]) && count($_POST["tr"]) > 0) {
-            foreach ($_POST["tr"] as $tr_nr) {
+
+        $trigger = $this->request->getStringArray("tr");
+
+        if (count($trigger) > 0) {
+            foreach ($trigger as $tr_nr) {
                 $this->content_obj->deleteTrigger($this->std_alias_item, $tr_nr);
             }
             $this->page->update();

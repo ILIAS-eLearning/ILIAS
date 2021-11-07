@@ -128,8 +128,12 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
     {
         $this->content_obj = new ilPCLoginPageElement($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-        $this->content_obj->setLoginPageElementType($_POST["type"]);
-        $this->content_obj->setAlignment($_POST['horizontal_align']);
+        $this->content_obj->setLoginPageElementType(
+            $this->request->getString("type")
+        );
+        $this->content_obj->setAlignment(
+            $this->request->getString("horizontal_align")
+        );
 
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
@@ -144,8 +148,12 @@ class ilPCLoginPageElementGUI extends ilPageContentGUI
      */
     public function update() : void
     {
-        $this->content_obj->setLoginPageElementType($_POST["type"]);
-        $this->content_obj->setAlignment($_POST['horizontal_align']);
+        $this->content_obj->setLoginPageElementType(
+            $this->request->getString("type")
+        );
+        $this->content_obj->setAlignment(
+            $this->request->getString("horizontal_align")
+        );
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
             $this->ctrl->returnToParent($this, "jump" . $this->hier_id);

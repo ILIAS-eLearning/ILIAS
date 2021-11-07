@@ -22,6 +22,11 @@
  */
 class ilPCSourceCodeGUI extends ilPageContentGUI
 {
+    /**
+     * @var mixed
+     */
+    protected string $requested_par_downloadtitle;
+    protected string $requested_par_content;
     protected ilObjUser $user;
 
     public function __construct(
@@ -65,7 +70,8 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
         $this->displayValidationError();
 
-        if (key($_POST["cmd"]) == "update") {
+        $cmd = $this->ctrl->getCmd();
+        if ($cmd == "update") {
             $form->setValuesByPost();
         } else {
             $form->getItemByPostVar("par_language")->setValue($this->content_obj->getLanguage());
@@ -106,11 +112,12 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
         $this->displayValidationError();
 
-        if (key($_POST["cmd"]) == "create_src") {
+        $cmd = $this->ctrl->getCmd();
+        if ($cmd == "create_src") {
             $form->setValuesByPost();
         } else {
-            if ($_SESSION["il_text_lang_" . $_GET["ref_id"]] != "") {
-                $form->getItemByPostVar("par_language")->setValue($_SESSION["il_text_lang_" . $_GET["ref_id"]]);
+            if ($this->getCurrentTextLang() != "") {
+                $form->getItemByPostVar("par_language")->setValue($this->getCurrentTextLang());
             } else {
                 $form->getItemByPostVar("par_language")->setValue($ilUser->getLanguage());
             }
@@ -126,27 +133,32 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
 
     public function update() : void
     {
+        $this->requested_par_content = $this->request->getRaw("par_content");
+        $this->requested_par_downloadtitle = str_replace('"', '', $this->request->getString("par_downloadtitle"));
+
         $this->upload_source();
 
         // set language and characteristic
         
-        $this->content_obj->setLanguage($_POST["par_language"]);
-        $this->content_obj->setCharacteristic($_POST["par_characteristic"]);
+        $this->content_obj->setLanguage(
+            $this->request->getString("par_language")
+        );
+        $this->content_obj->setCharacteristic($this->request->getString("par_characteristic"));
 
-        //echo "PARupdate:".htmlentities($this->content_obj->input2xml($_POST["par_content"])).":<br>"; exit;
-
-         
         // set language and characteristic
-        $this->content_obj->setLanguage($_POST["par_language"]);
-        $this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
-        $this->content_obj->setDownloadTitle(str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
-        $this->content_obj->setShowLineNumbers($_POST["par_showlinenumbers"]?"y":"n");
-        //$this->content_obj->setAutoIndent($_POST["par_autoindent"]?"y":"n");
-        $this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
+        $this->content_obj->setLanguage($this->request->getString("par_language"));
+        $this->content_obj->setSubCharacteristic($this->request->getString("par_subcharacteristic"));
+        $this->content_obj->setDownloadTitle(
+            str_replace('"', '', $this->requested_par_downloadtitle)
+        );
+        $this->content_obj->setShowLineNumbers(
+            $this->request->getString("par_showlinenumbers") ? "y" : "n"
+        );
+        $this->content_obj->setSubCharacteristic($this->request->getString("par_subcharacteristic"));
         $this->content_obj->setCharacteristic("Code");
 
         $this->updated = $this->content_obj->setText(
-            $this->content_obj->input2xml($_POST["par_content"], 0, false)
+            $this->content_obj->input2xml($this->requested_par_content, 0, false)
         );
 
         if ($this->updated !== true) {
@@ -173,18 +185,26 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
     {
         $this->content_obj = new ilPCSourceCode($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-        $this->content_obj->setLanguage($_POST["par_language"]);
+        $this->content_obj->setLanguage($this->request->getString("par_language"));
 
-        $_SESSION["il_text_lang_" . $_GET["ref_id"]] = $_POST["par_language"];
+        $this->setCurrentTextLang($this->request->getString("par_language"));
+
+        $this->requested_par_content = $this->request->getRaw("par_content");
+        $this->requested_par_downloadtitle = str_replace('"', '', $this->request->getString("par_downloadtitle"));
 
         $uploaded = $this->upload_source();
                 
-        $this->content_obj->setCharacteristic($_POST["par_characteristic"]);
-        $this->content_obj->setSubCharacteristic($_POST["par_subcharacteristic"]);
-        $this->content_obj->setDownloadTitle(str_replace('"', '', ilUtil::stripSlashes($_POST["par_downloadtitle"])));
-        $this->content_obj->setShowLineNumbers($_POST["par_showlinenumbers"]?'y':'n');
+        $this->content_obj->setCharacteristic(
+            $this->request->getString("par_characteristic")
+        );
+        $this->content_obj->setSubCharacteristic(
+            $this->request->getString("par_subcharacteristic")
+        );
+        $this->content_obj->setDownloadTitle(str_replace('"', '', $this->requested_par_downloadtitle));
+        $this->content_obj->setShowLineNumbers(
+            $this->request->getString("par_showlinenumbers") ? 'y' : 'n'
+        );
         $this->content_obj->setCharacteristic('Code');
-        //$this->content_obj->setAutoIndent   	($_POST["par_autoindent"]?'y':'n');
 
         if ($uploaded) {
             $this->insert();
@@ -192,7 +212,7 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
         }
         
         $this->updated = $this->content_obj->setText(
-            $this->content_obj->input2xml($_POST["par_content"], 0, false)
+            $this->content_obj->input2xml($this->requested_par_content, 0, false)
         );
         
         if ($this->updated !== true) {
@@ -222,12 +242,18 @@ class ilPCSourceCodeGUI extends ilPageContentGUI
             if ($userfile == "" || !is_uploaded_file($userfile)) {
                 $error_str = "<b>Error(s):</b><br>Upload error: file name must not be empty!";
                 $this->tpl->setVariable("MESSAGE", $error_str);
-                $this->content_obj->setText($this->content_obj->input2xml(stripslashes($_POST["par_content"]), 0, false));
+                $this->content_obj->setText(
+                    $this->content_obj->input2xml(
+                        $this->request->getRaw("par_content"),
+                        0,
+                        false
+                    )
+                );
                 return false;
             }
 
-            $_POST["par_content"] = file_get_contents($userfile);
-            $_POST["par_downloadtitle"] = $_FILES['userfile']['name'];
+            $this->requested_par_content = file_get_contents($userfile);
+            $this->requested_par_downloadtitle = $_FILES['userfile']['name'];
             return true;
         }
         

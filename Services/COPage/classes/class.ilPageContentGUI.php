@@ -13,6 +13,9 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\COPage\PC\EditGUIRequest;
+use ILIAS\COPage\Editor\EditSessionRepository;
+
 /**
  * User Interface for Editing of Page Content Objects (Paragraphs, Tables, ...)
  *
@@ -20,6 +23,7 @@
  */
 class ilPageContentGUI
 {
+    protected EditSessionRepository $edit_repo;
     protected string $pc_id = "";
     protected array $chars;
     protected ?ilObjStyleSheet $style = null;
@@ -37,6 +41,9 @@ class ilPageContentGUI
     public ?ilPageConfig $page_config = null;
     protected ilLogger $log;
     protected int $styleid = 0;
+    protected EditGUIRequest $request;
+    protected string $sub_command = "";
+    protected int $requested_ref_id = 0;
 
     public static string $style_selector_reset = "margin-top:2px; margin-bottom:2px; text-indent:0px; position:static; float:none; width: auto;";
 
@@ -67,6 +74,16 @@ class ilPageContentGUI
         $this->pg_obj = $a_pg_obj;
         $this->ctrl = $ilCtrl;
         $this->content_obj = $a_content_obj;
+        $service = $DIC->copage()->internal();
+        $this->request = $service
+            ->gui()
+            ->pc()
+            ->editRequest();
+        $this->edit_repo = $service
+            ->repo()
+            ->edit();
+        $this->sub_command = $this->request->getSubCmd();
+        $this->requested_ref_id = $this->request->getRefId();
 
         if ($a_hier_id !== "0") {
             $this->hier_id = $a_hier_id;
@@ -277,9 +294,9 @@ class ilPageContentGUI
     {
         $updated = $this->pg_obj->deleteContent($this->hier_id);
         if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
+            $this->edit_repo->setPageError($updated);
         } else {
-            unset($_SESSION["il_pg_error"]);
+            $this->edit_repo->clearPageError();
         }
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -290,21 +307,22 @@ class ilPageContentGUI
      */
     public function moveAfter() : void
     {
+        $target = $this->request->getStringArray("target");
         // check if a target is selected
-        if (!isset($_POST["target"])) {
+        if (count($target) == 0) {
             throw new ilCOPagePCEditException(
                 $this->lng->txt("no_checkbox")
             );
         }
 
         // check if only one target is selected
-        if (count($_POST["target"]) > 1) {
+        if (count($target) > 1) {
             throw new ilCOPagePCEditException(
                 $this->lng->txt("only_one_target")
             );
         }
 
-        $a_hid = explode(":", $_POST["target"][0]);
+        $a_hid = explode(":", $target[0]);
         //echo "-".$a_hid[0]."-".$a_hid[1]."-";
 
         // check if target is within source
@@ -334,9 +352,9 @@ class ilPageContentGUI
             $a_hid[1]
         );
         if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
+            $this->edit_repo->setPageError($updated);
         } else {
-            unset($_SESSION["il_pg_error"]);
+            $this->edit_repo->clearPageError();
         }
         $this->log->debug("return to parent jump" . $this->hier_id);
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
@@ -348,17 +366,18 @@ class ilPageContentGUI
      */
     public function moveBefore() : void
     {
+        $target = $this->request->getStringArray("target");
         // check if a target is selected
-        if (!isset($_POST["target"])) {
+        if (count($target) == 0) {
             throw new ilCOPagePCEditException($this->lng->txt("no_checkbox"));
         }
 
         // check if target is within source
-        if (count($_POST["target"]) > 1) {
+        if (count($target) > 1) {
             throw new ilCOPagePCEditException($this->lng->txt("only_one_target"));
         }
 
-        $a_hid = explode(":", $_POST["target"][0]);
+        $a_hid = explode(":", $target[0]);
         
         // check if target is within source
         if ($this->hier_id == substr($a_hid[0], 0, strlen($this->hier_id))) {
@@ -387,9 +406,9 @@ class ilPageContentGUI
             $a_hid[1]
         );
         if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
+            $this->edit_repo->setPageError($updated);
         } else {
-            unset($_SESSION["il_pg_error"]);
+            $this->edit_repo->clearPageError();
         }
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }
@@ -498,15 +517,7 @@ class ilPageContentGUI
         } else {
             $obj->enable();
         }
-        
-        $updated = $this->pg_obj->update($this->hier_id);
-        if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
-        } else {
-            unset($_SESSION["il_pg_error"]);
-        }
-    
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -516,9 +527,9 @@ class ilPageContentGUI
     {
         $updated = $this->pg_obj->cutContents(array($this->hier_id . ":" . $this->pc_id));
         if ($updated !== true) {
-            $_SESSION["il_pg_error"] = $updated;
+            $this->edit_repo->setPageError($updated);
         } else {
-            unset($_SESSION["il_pg_error"]);
+            $this->edit_repo->clearPageError();
         }
     
         $this->log->debug("return to parent jump" . $this->hier_id);
@@ -571,5 +582,26 @@ class ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $pcid = $this->pg_obj->getPCIdForHierId($hier_id);
         return $ilCtrl->getParentReturn($this) . "#add" . $pcid;
+    }
+
+    protected function updateAndReturn()
+    {
+        $up = $this->pg_obj->update();
+        if ($up === true) {
+            $this->edit_repo->clearPageError();
+        } else {
+            $this->edit_repo->setPageError($this->pg_obj->update());
+        }
+        $this->redirectToParent();
+    }
+
+    protected function setCurrentTextLang(string $lang_key) : void
+    {
+        $this->edit_repo->setTextLang($this->requested_ref_id, $lang_key);
+    }
+
+    protected function getCurrentTextLang() : string
+    {
+        return $this->edit_repo->getTextLang($this->requested_ref_id);
     }
 }

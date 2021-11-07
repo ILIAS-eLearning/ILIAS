@@ -310,7 +310,7 @@ class ilPCTabsGUI extends ilPageContentGUI
 
             $this->setPropertiesByForm();
 
-            for ($i = 0; $i < (int) $_POST["nr"]; $i++) {
+            for ($i = 0; $i < $this->request->getInt("nr"); $i++) {
                 $this->content_obj->addTab($lng->txt("cont_new_tab"));
             }
 
@@ -351,7 +351,7 @@ class ilPCTabsGUI extends ilPageContentGUI
         $c->setContentWidth($f->getInput("content_width"));
         $c->setContentHeight($f->getInput("content_height"));
         $c->setTemplate("");
-        switch ($_POST["type"]) {
+        switch ($this->request->getString("type")) {
             case ilPCTabs::ACCORDION_VER:
                 $t = explode(":", $f->getInput("vaccord_templ"));
                 $c->setTemplate($t[2]);
@@ -421,12 +421,12 @@ class ilPCTabsGUI extends ilPageContentGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if (is_array($_POST["caption"])) {
-            $captions = ilUtil::stripSlashesArray($_POST["caption"]);
+        $captions = $this->request->getStringArray("caption");
+        $positions = $this->request->getStringArray("position");
+        if (count($captions) > 0) {
             $this->content_obj->saveCaptions($captions);
         }
-        if (is_array($_POST["position"])) {
-            $positions = ilUtil::stripSlashesArray($_POST["position"]);
+        if (count($positions)) {
             $this->content_obj->savePositions($positions);
         }
         $this->updated = $this->pg_obj->update();
@@ -457,7 +457,8 @@ class ilPCTabsGUI extends ilPageContentGUI
 
         $this->setTabs();
 
-        if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0) {
+        $tids = $this->request->getStringArray("tid");
+        if (count($tids) == 0) {
             ilUtil::sendInfo($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "edit");
         } else {
@@ -467,7 +468,7 @@ class ilPCTabsGUI extends ilPageContentGUI
             $cgui->setCancel($lng->txt("cancel"), "cancelTabDeletion");
             $cgui->setConfirm($lng->txt("delete"), "deleteTabs");
             
-            foreach ($_POST["tid"] as $k => $i) {
+            foreach ($tids as $k => $i) {
                 $id = explode(":", $k);
                 $cgui->addItem(
                     "tid[]",
@@ -489,12 +490,11 @@ class ilPCTabsGUI extends ilPageContentGUI
     public function deleteTabs() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["tid"])) {
-            foreach ($_POST["tid"] as $tid) {
-                $ids = explode(":", $tid);
-                $this->content_obj->deleteTab($ids[0], $ids[1]);
-            }
+
+        $tids = $this->request->getStringArray("tid");
+        foreach ($tids as $tid) {
+            $ids = explode(":", $tid);
+            $this->content_obj->deleteTab($ids[0], $ids[1]);
         }
         $this->updated = $this->pg_obj->update();
         

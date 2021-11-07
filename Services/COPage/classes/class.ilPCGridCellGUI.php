@@ -47,21 +47,18 @@ class ilPCGridCellGUI extends ilPageContentGUI
     public function deleteCell() : void
     {
         $this->content_obj->deleteCell();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function moveCellRight() : void
     {
         $this->content_obj->moveCellRight();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     public function moveCellLeft() : void
     {
         $this->content_obj->moveCellLeft();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 }

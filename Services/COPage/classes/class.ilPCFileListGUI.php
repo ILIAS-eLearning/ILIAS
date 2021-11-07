@@ -21,6 +21,7 @@
  */
 class ilPCFileListGUI extends ilPageContentGUI
 {
+    protected int $requested_file_ref_id;
     protected ilObjUser $user;
     protected ilTabsGUI $tabs;
     protected ilTree $tree;
@@ -45,6 +46,7 @@ class ilPCFileListGUI extends ilPageContentGUI
         $this->settings = $DIC->settings();
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
         $this->setCharacteristics(array("FileListItem" => $this->lng->txt("cont_FileListItem")));
+        $this->requested_file_ref_id = $this->request->getString("file_ref_id");
     }
 
     /**
@@ -74,20 +76,17 @@ class ilPCFileListGUI extends ilPageContentGUI
     {
         $ilTabs = $this->tabs;
 
-        if ($_GET["subCmd"] == "insertNew") {
-            $_SESSION["cont_file_insert"] = "insertNew";
+        $sub_command = $this->sub_command;
+
+        if (in_array($sub_command, ["insertNew", "insertFromRepository", "insertFromWorkspace"])) {
+            $this->edit_repo->setSubCmd($sub_command);
         }
-        if ($_GET["subCmd"] == "insertFromRepository") {
-            $_SESSION["cont_file_insert"] = "insertFromRepository";
+
+        if (($sub_command == "") && $this->edit_repo->getSubCmd() != "") {
+            $sub_command = $this->edit_repo->getSubCmd();
         }
-        if ($_GET["subCmd"] == "insertFromWorkspace") {
-            $_SESSION["cont_file_insert"] = "insertFromWorkspace";
-        }
-        if (($_GET["subCmd"] == "") && $_SESSION["cont_file_insert"] != "") {
-            $_GET["subCmd"] = $_SESSION["cont_file_insert"];
-        }
-    
-        switch ($_GET["subCmd"]) {
+
+        switch ($sub_command) {
             case "insertFromWorkspace":
                 $this->insertFromWorkspace();
                 break;
@@ -201,7 +200,7 @@ class ilPCFileListGUI extends ilPageContentGUI
     {
         global $DIC;
 
-        $mode = ($_POST["file_ref_id"] != "")
+        $mode = ($this->requested_file_ref_id != "")
             ? "select_file"
             : "create";
         $form = $this->initEditForm($mode);
@@ -212,11 +211,11 @@ class ilPCFileListGUI extends ilPageContentGUI
         }
 
         // from personal workspace
-        if (substr($_POST["file_ref_id"], 0, 4) == "wsp_") {
-            $fileObj = new ilObjFile(substr($_POST["file_ref_id"], 4), false);
+        if (substr($this->requested_file_ref_id, 0, 4) == "wsp_") {
+            $fileObj = new ilObjFile(substr($this->requested_file_ref_id, 4), false);
         }
         // upload
-        elseif ($_POST["file_ref_id"] == 0) {
+        elseif ($this->requested_file_ref_id == "") {
             $fileObj = new ilObjFile();
             $fileObj->setType("file");
             $fileObj->setTitle($_FILES["file"]["name"]);
@@ -242,14 +241,17 @@ class ilPCFileListGUI extends ilPageContentGUI
         }
         // from repository
         else {
-            $fileObj = new ilObjFile($_POST["file_ref_id"]);
+            $fileObj = new ilObjFile($this->requested_file_ref_id);
         }
-        $_SESSION["il_text_lang_" . $_GET["ref_id"]] = $_POST["flst_language"];
+        $this->setCurrentTextLang($form->getInput("flst_language"));
 
         //echo "::".is_object($this->dom).":";
         $this->content_obj = new ilPCFileList($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
-        $this->content_obj->setListTitle(ilUtil::stripSlashes($_POST["flst_title"]), $_POST["flst_language"]);
+        $this->content_obj->setListTitle(
+            $form->getInput("flst_title"),
+            $form->getInput("flst_language")
+        );
         $this->content_obj->appendItem(
             $fileObj->getId(),
             $fileObj->getFileName(),
@@ -310,21 +312,24 @@ class ilPCFileListGUI extends ilPageContentGUI
         } elseif (in_array($a_mode, array("select_file"))) {
             // file
             $ne = new ilNonEditableValueGUI($lng->txt("file"), "");
-            
-            if (isset($_GET["file_ref_id"])) {
-                $file_obj = new ilObjFile((int) $_GET["file_ref_id"]);
+
+            $file_ref_id = $this->requested_file_ref_id;
+            $fl_wsp_id = $this->request->getInt("fl_wsp_id");
+
+            if ($file_ref_id > 0) {
+                $file_obj = new ilObjFile($file_ref_id);
                 if (is_object($file_obj)) {
                     // ref id as hidden input
                     $hi = new ilHiddenInputGUI("file_ref_id");
-                    $hi->setValue((int) $_GET["file_ref_id"]);
+                    $hi->setValue($file_ref_id);
                     $form->addItem($hi);
                     
                     $ne->setValue($file_obj->getTitle());
                 }
-            } elseif (isset($_GET["fl_wsp_id"])) {
+            } elseif ($fl_wsp_id > 0) {
                 // we need the object id for the instance
                 $tree = new ilWorkspaceTree($ilUser->getId());
-                $node = $tree->getNodeData((int) $_GET["fl_wsp_id"]);
+                $node = $tree->getNodeData($fl_wsp_id);
                 
                 $file_obj = new ilObjFile($node["obj_id"], false);
                 if (is_object($file_obj)) {
@@ -353,8 +358,8 @@ class ilPCFileListGUI extends ilPageContentGUI
                 
             case "create":
             case "select_file":
-                if ($_SESSION["il_text_lang_" . $_GET["ref_id"]] != "") {
-                    $s_lang = $_SESSION["il_text_lang_" . $_GET["ref_id"]];
+                if ($this->getCurrentTextLang() != "") {
+                    $s_lang = $this->getCurrentTextLang();
                 } else {
                     $s_lang = $ilUser->getLanguage();
                 }
@@ -382,9 +387,11 @@ class ilPCFileListGUI extends ilPageContentGUI
      */
     public function saveProperties() : void
     {
+        $form = $this->initEditForm("edit");
+        $form->checkInput();
         $this->content_obj->setListTitle(
-            ilUtil::stripSlashes($_POST["flst_title"]),
-            ilUtil::stripSlashes($_POST["flst_language"])
+            $form->getInput("flst_title"),
+            $form->getInput("flst_language")
         );
         $this->updated = $this->pg_obj->update();
         if ($this->updated === true) {
@@ -511,13 +518,10 @@ class ilPCFileListGUI extends ilPageContentGUI
     public function deleteFileItem() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["fid"])) {
-            $ids = array();
-            foreach ($_POST["fid"] as $k => $v) {
-                $ids[] = $k;
-            }
-            $this->content_obj->deleteFileItems($ids);
+
+        $fid = $this->request->getIntArray("fid");
+        if (count($fid) > 0) {
+            $this->content_obj->deleteFileItems(array_keys($fid));
         }
         $this->updated = $this->pg_obj->update();
         $ilCtrl->redirect($this, "editFiles");
@@ -529,9 +533,10 @@ class ilPCFileListGUI extends ilPageContentGUI
     public function savePositions() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["position"])) {
-            $this->content_obj->savePositions($_POST["position"]);
+
+        $pos = $this->request->getIntArray("position");
+        if (count($pos) > 0) {
+            $this->content_obj->savePositions($pos);
         }
         $this->updated = $this->pg_obj->update();
         $ilCtrl->redirect($this, "editFiles");
@@ -543,12 +548,14 @@ class ilPCFileListGUI extends ilPageContentGUI
     public function savePositionsAndClasses() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["position"])) {
-            $this->content_obj->savePositions($_POST["position"]);
+
+        $pos = $this->request->getIntArray("position");
+        $class = $this->request->getStringArray("class");
+        if (count($pos) > 0) {
+            $this->content_obj->savePositions($pos);
         }
-        if (is_array($_POST["class"])) {
-            $this->content_obj->saveStyleClasses($_POST["class"]);
+        if (count($class) > 0) {
+            $this->content_obj->saveStyleClasses($class);
         }
         $this->updated = $this->pg_obj->update();
         $ilCtrl->redirect($this, "editFiles");
@@ -587,20 +594,16 @@ class ilPCFileListGUI extends ilPageContentGUI
     {
         $ilTabs = $this->tabs;
 
-        if ($_GET["subCmd"] == "insertNew") {
-            $_SESSION["cont_file_insert"] = "insertNew";
-        }
-        if ($_GET["subCmd"] == "insertFromRepository") {
-            $_SESSION["cont_file_insert"] = "insertFromRepository";
-        }
-        if ($_GET["subCmd"] == "insertFromWorkspace") {
-            $_SESSION["cont_file_insert"] = "insertFromWorkspace";
-        }
-        if (($_GET["subCmd"] == "") && $_SESSION["cont_file_insert"] != "") {
-            $_GET["subCmd"] = $_SESSION["cont_file_insert"];
+        $sub_command = $this->sub_command;
+        if (in_array($sub_command, ["insertNew", "insertFromRepository", "insertFromWorkspace"])) {
+            $this->edit_repo->setSubCmd($sub_command);
         }
 
-        switch ($_GET["subCmd"]) {
+        if (($sub_command == "") && $this->edit_repo->getSubCmd() != "") {
+            $sub_command = $this->edit_repo->getSubCmd();
+        }
+
+        switch ($sub_command) {
             case "insertFromWorkspace":
                 $this->insertFromWorkspace("newFileItem");
                 break;
@@ -610,7 +613,7 @@ class ilPCFileListGUI extends ilPageContentGUI
                 break;
 
             case "selectFile":
-                $this->insertNewFileItem($_GET["file_ref_id"]);
+                $this->insertNewFileItem($this->requested_file_ref_id);
                 break;
 
             default:
@@ -631,12 +634,14 @@ class ilPCFileListGUI extends ilPageContentGUI
     public function insertNewFileItem(int $a_file_ref_id = 0) : void
     {
         $ilUser = $this->user;
-        
+
+        $fl_wsp_id = $this->request->getInt("fl_wsp_id");
+
         // from personal workspace
-        if (isset($_GET["fl_wsp_id"])) {
+        if ($fl_wsp_id > 0) {
             // we need the object id for the instance
             $tree = new ilWorkspaceTree($ilUser->getId());
-            $node = $tree->getNodeData($_GET["fl_wsp_id"]);
+            $node = $tree->getNodeData($fl_wsp_id);
             
             $file_obj = new ilObjFile($node["obj_id"], false);
         }
@@ -661,7 +666,6 @@ class ilPCFileListGUI extends ilPageContentGUI
             }
         }
 
-        $_GET["subCmd"] = "-";
         $this->newFileItem();
     }
 
@@ -675,9 +679,7 @@ class ilPCFileListGUI extends ilPageContentGUI
         $lng = $this->lng;
 
         if ($_FILES["file"]["name"] == "") {
-            $_GET["subCmd"] = "-";
-            ilUtil::sendFailure($lng->txt("upload_error_file_not_found"));
-            return null;
+            throw new ilCOPageFileHandlingException($lng->txt("upload_error_file_not_found"));
         }
 
         $form = $this->initEditForm();

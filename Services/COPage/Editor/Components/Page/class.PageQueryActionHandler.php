@@ -367,7 +367,7 @@ class PageQueryActionHandler implements Server\QueryActionHandler
                             $lng->txt("meta_l_" . $al),
                             $ctrl->getLinkTarget($this->page_gui, "switchToLanguage")
                         );
-                        $ctrl->setParameter($this->page_gui, "totransl", $_GET["totransl"]);
+                        $ctrl->setParameter($this->page_gui, "totransl", "");
                     }
                 }
             }

@@ -167,7 +167,7 @@ class ParagraphCommandActionHandler implements Server\CommandActionHandler
         $page = $this->page_gui->getPageObject();
 
         $pcid = ":" . $body["data"]["pcid"];
-        $insert_id = null;
+        $insert_id = "";
         if ($body["data"]["insert_mode"]) {
             $insert_id = $this->getFullIdForPCId($page, $body["data"]["after_pcid"]);
         }

@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\COPage\Layout\AdministrationGUIRequest;
+
 /**
  * Administration for page layouts
  *
@@ -21,6 +23,7 @@
  */
 class ilPageLayoutAdministrationGUI
 {
+    protected AdministrationGUIRequest $admin_request;
     protected ?int $pg_id = null;
     protected ilContentStyleSettings $settings;
     protected ilTabsGUI $tabs;
@@ -42,10 +45,16 @@ class ilPageLayoutAdministrationGUI
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
-        $this->ref_id = (int) $_GET["ref_id"];
         $this->tabs = $DIC->tabs();
 
         $this->settings = new ilContentStyleSettings();
+        $this->admin_request = $DIC
+            ->copage()
+            ->internal()
+            ->gui()
+            ->layout()
+            ->adminRequest();
+        $this->ref_id = $this->admin_request->getRefId();
     }
 
     public function executeCommand() : void
@@ -71,7 +80,10 @@ class ilPageLayoutAdministrationGUI
                 if ($this->pg_id != null) {
                     $layout_gui = new ilPageLayoutGUI("stys", $this->pg_id);
                 } else {
-                    $layout_gui = new ilPageLayoutGUI("stys", $_GET["obj_id"]);
+                    $layout_gui = new ilPageLayoutGUI(
+                        "stys",
+                        $this->admin_request->getObjId()
+                    );
                 }
                 $layout_gui->setTabs();
                 $layout_gui->setEditPreview(true);
@@ -132,11 +144,12 @@ class ilPageLayoutAdministrationGUI
     public function activate(
         bool $a_activate = true
     ) : void {
-        if (!isset($_POST["pglayout"])) {
+        $ids = $this->admin_request->getLayoutIds();
+        if (count($ids) == 0) {
             ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
         } else {
             ilUtil::sendSuccess($this->lng->txt("sty_opt_saved"), true);
-            foreach ($_POST["pglayout"] as $item) {
+            foreach ($ids as $item) {
                 $pg_layout = new ilPageLayout($item);
                 $pg_layout->activate($a_activate);
             }
@@ -154,7 +167,8 @@ class ilPageLayoutAdministrationGUI
      */
     public function deletePgl() : void
     {
-        if (!isset($_POST["pglayout"])) {
+        $ids = $this->admin_request->getLayoutIds();
+        if (count($ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "listLayouts");
         }
@@ -168,7 +182,7 @@ class ilPageLayoutAdministrationGUI
         $cgui->setCancel($this->lng->txt("cancel"), "cancelDeletePg");
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDeletePg");
 
-        foreach ($_POST["pglayout"] as $id) {
+        foreach ($ids as $id) {
             $pg_obj = new ilPageLayout($id);
             $pg_obj->readObject();
 
@@ -195,7 +209,8 @@ class ilPageLayoutAdministrationGUI
      */
     public function confirmedDeletePg() : void
     {
-        foreach ($_POST["pglayout"] as $id) {
+        $ids = $this->admin_request->getLayoutIds();
+        foreach ($ids as $id) {
             $pg_obj = new ilPageLayout($id);
             $pg_obj->delete();
         }
@@ -340,21 +355,22 @@ class ilPageLayoutAdministrationGUI
      */
     public function savePageLayoutTypes() : void
     {
-        if (is_array($_POST["type"])) {
-            foreach ($_POST["type"] as $id => $t) {
+        $types = $this->admin_request->getLayoutTypes();
+        $modules = $this->admin_request->getLayoutModules();
+        if (count($types) > 0) {
+            foreach ($types as $id => $t) {
                 if ($id > 0) {
                     $l = new ilPageLayout($id);
                     $l->readObject();
                     $l->setSpecialPage($t);
-                    if (is_array($_POST["module"][$id])) {
-                        $l->setModules(array_keys($_POST["module"][$id]));
+                    if (isset($modules[$id])) {
+                        $l->setModules(array_keys($modules[$id]));
                     } else {
                         $l->setModules();
                     }
                     $l->update();
                 }
             }
-
             ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"));
         }
 
@@ -374,7 +390,7 @@ class ilPageLayoutAdministrationGUI
 
         $succ = $exp->exportEntity(
             "pgtp",
-            (int) $_GET["layout_id"],
+            $this->admin_request->getLayoutId(),
             "4.2.0",
             "Services/COPage",
             "Title",

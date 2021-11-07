@@ -51,8 +51,7 @@ class ilPCListItemGUI extends ilPageContentGUI
     public function newItemAfter() : void
     {
         $this->content_obj->newItemAfter();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -61,8 +60,7 @@ class ilPCListItemGUI extends ilPageContentGUI
     public function newItemBefore() : void
     {
         $this->content_obj->newItemBefore();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -71,8 +69,7 @@ class ilPCListItemGUI extends ilPageContentGUI
     public function deleteItem() : void
     {
         $this->content_obj->deleteItem();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -81,8 +78,7 @@ class ilPCListItemGUI extends ilPageContentGUI
     public function moveItemDown() : void
     {
         $this->content_obj->moveItemDown();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 
     /**
@@ -91,7 +87,6 @@ class ilPCListItemGUI extends ilPageContentGUI
     public function moveItemUp() : void
     {
         $this->content_obj->moveItemUp();
-        $_SESSION["il_pg_error"] = $this->pg_obj->update();
-        $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
+        $this->updateAndReturn();
     }
 }

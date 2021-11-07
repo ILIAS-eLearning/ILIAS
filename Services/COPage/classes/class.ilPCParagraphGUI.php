@@ -197,18 +197,19 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
         // language and characteristic selection
         $s_char = $this->determineCharacteristic($a_insert);
+        $cmd = $this->ctrl->getCmd();
         if (!$a_insert) {
-            if (key($_POST["cmd"]) == "update") {
-                $s_lang = $_POST["par_language"];
+            if ($cmd == "update") {
+                $s_lang = $this->request->getString("par_language");
             } else {
                 $s_lang = $this->content_obj->getLanguage();
             }
         } else {
-            if (key($_POST["cmd"]) == "create_par") {
-                $s_lang = $_POST["par_language"];
+            if ($cmd == "create_par") {
+                $s_lang = $this->request->getString("par_language");
             } else {
-                if ($_SESSION["il_text_lang_" . $_GET["ref_id"]] != "") {
-                    $s_lang = $_SESSION["il_text_lang_" . $_GET["ref_id"]];
+                if ($this->getCurrentTextLang()) {
+                    $s_lang = $this->getCurrentTextLang();
                 } else {
                     $s_lang = $ilUser->getLanguage();
                 }
@@ -238,8 +239,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
         
         $tpl->setVariable("TXT_CHARACTERISTIC", $this->lng->txt("cont_characteristic"));
 
-        if (key($_POST["cmd"]) == "update" || key($_POST["cmd"]) == "create_par") {
-            $s_text = ilUtil::stripSlashes($_POST["par_content"], false);
+        if ($cmd == "update" || $cmd == "create_par") {
+            $s_text = $this->request->getRaw("par_content");
             // prevent curly brackets from being swallowed up by template engine
             $s_text = str_replace("{", "&#123;", $s_text);
             $s_text = str_replace("}", "&#125;", $s_text);
@@ -260,10 +261,11 @@ class ilPCParagraphGUI extends ilPageContentGUI
      */
     public function determineCharacteristic(bool $a_insert = false) : string
     {
+        $cmd = $this->ctrl->getCmd();
         // language and characteristic selection
         if (!$a_insert) {
-            if (key($_POST["cmd"]) == "update") {
-                $s_char = $_POST["par_characteristic"];
+            if ($cmd == "update") {
+                $s_char = $this->request->getString("par_characteristic");
             } else {
                 $s_char = $this->content_obj->getCharacteristic();
                 if ($s_char == "") {
@@ -271,8 +273,8 @@ class ilPCParagraphGUI extends ilPageContentGUI
                 }
             }
         } else {
-            if (key($_POST["cmd"]) == "create_par") {
-                $s_char = $_POST["par_characteristic"];
+            if ($cmd == "create_par") {
+                $s_char = $this->request->getString("par_characteristic");
             } else {
                 $s_char = "Standard";
 
@@ -420,14 +422,14 @@ class ilPCParagraphGUI extends ilPageContentGUI
 
         $this->updated = $this->content_obj->saveJS(
             $this->pg_obj,
-            $_POST["ajaxform_content"],
-            ilUtil::stripSlashes($_POST["ajaxform_char"]),
-            ilUtil::stripSlashes($_POST["pc_id_str"])
+            $this->request->getRaw("ajaxform_content"),
+            $this->request->getString("ajaxform_char"),
+            $this->request->getString("pc_id_str")
         );
 
         $this->log->debug("ilPCParagraphGUI, saveJS: got updated value " . $this->updated);
 
-        if ($_POST["quick_save"]) {
+        if ($this->request->getString("quick_save")) {
             if ($this->updated === true) {
                 $a_pc_id_str = $this->content_obj->getLastSavedPCId($this->pg_obj, true);
                 $this->log->debug("ilPCParagraphGUI, saveJS: echoing pc_id_str " . $a_pc_id_str . " (and exit)");
@@ -718,13 +720,17 @@ class ilPCParagraphGUI extends ilPageContentGUI
         $this->log->debug("ilPCParagraphGUI, update(): start");
 
         // set language and characteristic
-        $this->content_obj->setLanguage($_POST["par_language"]);
-        $this->content_obj->setCharacteristic($_POST["par_characteristic"]);
+        $this->content_obj->setLanguage(
+            $this->request->getString("par_language")
+        );
+        $this->content_obj->setCharacteristic(
+            $this->request->getString("par_characteristic")
+        );
 
         $this->updated = $this->content_obj->setText(
             $this->content_obj->input2xml(
-                $_POST["par_content"],
-                $_POST["usedwsiwygeditor"]
+                $this->request->getRaw("par_content"),
+                $this->request->getString("usedwsiwygeditor")
             ),
             true
         );
@@ -752,7 +758,7 @@ class ilPCParagraphGUI extends ilPageContentGUI
     {
         $this->log->debug("ilPCParagraphGUI, create(): start.");
 
-        if ($_POST["ajaxform_hier_id"] != "") {
+        if ($this->request->getString("ajaxform_hier_id") != "") {
             $this->createJS();
             return;
         }
@@ -761,14 +767,18 @@ class ilPCParagraphGUI extends ilPageContentGUI
         //echo "+".$this->pc_id."+";
         $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
 
-        $this->content_obj->setLanguage($_POST["par_language"]);
-        $_SESSION["il_text_lang_" . $_GET["ref_id"]] = $_POST["par_language"];
-        $this->content_obj->setCharacteristic($_POST["par_characteristic"]);
+        $this->content_obj->setLanguage(
+            $this->request->getString("par_language")
+        );
+        $this->setCurrentTextLang($this->request->getString("par_language"));
+        $this->content_obj->setCharacteristic(
+            $this->request->getString("par_characteristic")
+        );
 
         $this->updated = $this->content_obj->setText(
             $this->content_obj->input2xml(
-                $_POST["par_content"],
-                $_POST["usedwsiwygeditor"]
+                $this->request->getRaw("par_content"),
+                $this->request->getString("usedwsiwygeditor")
             ),
             true
         );
@@ -798,12 +808,12 @@ class ilPCParagraphGUI extends ilPageContentGUI
         $this->content_obj = new ilPCParagraph($this->getPage());
         $this->updated = $this->content_obj->saveJS(
             $this->pg_obj,
-            $_POST["ajaxform_content"],
-            ilUtil::stripSlashes($_POST["ajaxform_char"]),
-            ilUtil::stripSlashes($_POST["pc_id_str"]),
-            $_POST["insert_at_id"]
+            $this->request->getRaw("ajaxform_content"),
+            $this->request->getString("ajaxform_char"),
+            $this->request->getString("pc_id_str"),
+            $this->request->getString("insert_at_id")
         );
-        if ($_POST["quick_save"]) {
+        if ($this->request->getString("quick_save")) {
             if ($this->updated) {
                 $a_pc_id_str = $this->content_obj->getLastSavedPCId($this->pg_obj, true);
                 echo $a_pc_id_str;

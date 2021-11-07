@@ -61,7 +61,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
      */
     public function insert() : void
     {
-        switch ($_GET["subCmd"]) {
+        switch ($this->sub_command) {
             case "selectPool":
                 $this->selectPool();
                 break;
@@ -85,12 +85,10 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
         $ilAccess = $this->access;
         $tpl = $this->tpl;
         $lng = $this->lng;
-        
 
-        if ($_SESSION["cont_media_pool"] != "" &&
-            $ilAccess->checkAccess("write", "", $_SESSION["cont_media_pool"])
-            && ilObject::_lookupType(ilObject::_lookupObjId($_SESSION["cont_media_pool"])) == "mep") {
-            $html = "";
+        if ($this->edit_repo->getMediaPool() > 0 &&
+            $ilAccess->checkAccess("write", "", $this->edit_repo->getMediaPool())
+            && ilObject::_lookupType(ilObject::_lookupObjId($this->edit_repo->getMediaPool())) == "mep") {
             $tb = new ilToolbarGUI();
 
             $ilCtrl->setParameter($this, "subCmd", "poolSelection");
@@ -103,7 +101,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
 
             $ilCtrl->setParameter($this, "subCmd", "");
 
-            $pool = new ilObjMediaPool($_SESSION["cont_media_pool"]);
+            $pool = new ilObjMediaPool($this->edit_repo->getMediaPool());
             $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
             $mpool_table = new ilMediaPoolTableGUI(
                 $this,
@@ -147,13 +145,18 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
      */
     public function create() : void
     {
-        if (is_array($_POST["id"])) {
-            for ($i = count($_POST["id"]) - 1; $i >= 0; $i--) {
+        $ids = $this->request->getIntArray("id");
+        if (count($ids) > 0) {
+            for ($i = count($ids) - 1; $i >= 0; $i--) {
                 // similar code in ilpageeditorgui::insertFromClipboard
                 $this->content_obj = new ilPCContentInclude($this->getPage());
-                $this->content_obj->create($this->pg_obj, $_GET["hier_id"], $this->pc_id);
+                $this->content_obj->create(
+                    $this->pg_obj,
+                    $this->request->getHierId(),
+                    $this->pc_id
+                );
                 $this->content_obj->setContentType("mep");
-                $this->content_obj->setContentId($_POST["id"][$i]);
+                $this->content_obj->setContentId($ids[$i]);
             }
             $this->updated = $this->pg_obj->update();
         }
@@ -171,7 +174,7 @@ class ilPCContentIncludeGUI extends ilPageContentGUI
     {
         $ilCtrl = $this->ctrl;
         
-        $_SESSION["cont_media_pool"] = $_GET["pool_ref_id"];
+        $this->edit_repo->setMediaPool($this->request->getInt("pool_ref_id"));
         $ilCtrl->setParameter($this, "subCmd", "insertFromPool");
         $ilCtrl->redirect($this, "insert");
     }

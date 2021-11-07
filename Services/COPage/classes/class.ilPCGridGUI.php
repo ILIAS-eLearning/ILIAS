@@ -147,16 +147,16 @@ class ilPCGridGUI extends ilPageContentGUI
     {
         $form = $this->initCreationForm();
         if ($form->checkInput()) {
-            $post_layout_template = (int) $_POST["layout_template"];
+            $post_layout_template = (int) $form->getInput("layout_template");
             $this->content_obj = new ilPCGrid($this->getPage());
             $this->content_obj->create($this->pg_obj, $this->hier_id, $this->pc_id);
             $this->content_obj->applyTemplate(
                 $post_layout_template,
-                (int) $_POST["number_of_cells"],
-                $_POST["s"],
-                $_POST["m"],
-                $_POST["l"],
-                $_POST["xl"]
+                (int) $form->getInput("number_of_cells"),
+                $form->getInput("s"),
+                $form->getInput("m"),
+                $form->getInput("l"),
+                $form->getInput("xl")
             );
             $this->updated = $this->pg_obj->update();
 
@@ -212,9 +212,9 @@ class ilPCGridGUI extends ilPageContentGUI
      */
     public function saveCells() : void
     {
-        if (is_array($_POST["position"])) {
-            $positions = ilUtil::stripSlashesArray($_POST["position"]);
-            $this->content_obj->savePositions($positions);
+        $pos = $this->request->getStringArray("position");
+        if (count($pos) > 0) {
+            $this->content_obj->savePositions($pos);
         }
         $this->updated = $this->pg_obj->update();
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -240,7 +240,8 @@ class ilPCGridGUI extends ilPageContentGUI
     {
         $this->setTabs();
 
-        if (!is_array($_POST["tid"]) || count($_POST["tid"]) == 0) {
+        $tid = $this->request->getStringArray("tid");
+        if (count($tid) == 0) {
             ilUtil::sendInfo($this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "edit");
         } else {
@@ -250,7 +251,7 @@ class ilPCGridGUI extends ilPageContentGUI
             $cgui->setCancel($this->lng->txt("cancel"), "cancelCellDeletion");
             $cgui->setConfirm($this->lng->txt("delete"), "deleteCells");
             
-            foreach ($_POST["tid"] as $k => $i) {
+            foreach ($tid as $k => $i) {
                 $id = explode(":", $k);
                 $id = explode("_", $id[0]);
                 $cgui->addItem("tid[]", $k, $this->lng->txt("cont_grid_cell") . " " . $id[count($id) - 1]);
@@ -274,12 +275,11 @@ class ilPCGridGUI extends ilPageContentGUI
     public function deleteCells() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        if (is_array($_POST["tid"])) {
-            foreach ($_POST["tid"] as $tid) {
-                $ids = explode(":", $tid);
-                $this->content_obj->deleteGridCell($ids[0], $ids[1]);
-            }
+
+        $tids = $this->request->getStringArray("tid");
+        foreach ($tids as $tid) {
+            $ids = explode(":", $tid);
+            $this->content_obj->deleteGridCell($ids[0], $ids[1]);
         }
         $this->updated = $this->pg_obj->update();
         
@@ -305,15 +305,15 @@ class ilPCGridGUI extends ilPageContentGUI
      */
     public function saveCellData() : void
     {
-        $width_s = ilUtil::stripSlashesArray($_POST["width_s"]);
-        $width_m = ilUtil::stripSlashesArray($_POST["width_m"]);
-        $width_l = ilUtil::stripSlashesArray($_POST["width_l"]);
-        $width_xl = ilUtil::stripSlashesArray($_POST["width_xl"]);
+        $width_s = $this->request->getStringArray("width_s");
+        $width_m = $this->request->getStringArray("width_m");
+        $width_l = $this->request->getStringArray("width_l");
+        $width_xl = $this->request->getStringArray("width_xl");
         $this->content_obj->saveWidths($width_s, $width_m, $width_l, $width_xl);
 
-        if (is_array($_POST["position"])) {
-            $positions = ilUtil::stripSlashesArray($_POST["position"]);
-            $this->content_obj->savePositions($positions);
+        $pos = $this->request->getStringArray("position");
+        if (count($pos) > 0) {
+            $this->content_obj->savePositions($pos);
         }
         $this->updated = $this->pg_obj->update();
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

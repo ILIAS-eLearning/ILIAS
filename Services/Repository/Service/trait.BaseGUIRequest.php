@@ -168,6 +168,19 @@ trait BaseGUIRequest
     }
 
     /**
+     * @return mixed|null
+     */
+    protected function raw($key)
+    {
+        $no_transform = $this->refinery->custom()->transformation(function ($v) {
+            return $v;
+        });
+        return $this->get($key, $no_transform);
+    }
+
+
+
+    /**
      * Get passed parameter, if not data passed, get key from http request
      * @param string                  $key
      * @param Refinery\Transformation $t
