@@ -17,11 +17,26 @@ use PHPUnit\Framework\MockObject\MockObject;
  */
 class MainBarTest extends ILIAS_UI_TestBase
 {
-    protected I\Button\Factory $button_factory;
-    protected I\Link\Factory $link_factory;
-    protected I\Symbol\Icon\Factory $icon_factory;
-    protected I\MainControls\Factory $factory;
-    protected C\MainControls\MainBar $mainbar;
+    /**
+     * @var I\Button\Factory
+     */
+    protected $button_factory;
+    /**
+     * @var I\Link\Factory
+     */
+    protected $link_factory;
+    /**
+     * @var I\Symbol\Icon\Factory
+     */
+    protected $icon_factory;
+    /**
+     * @var I\MainControls\Factory
+     */
+    protected $factory;
+    /**
+     * @var C\MainControls\MainBar
+     */
+    protected $mainbar;
 
     public function setUp() : void
     {
@@ -168,7 +183,10 @@ class MainBarTest extends ILIAS_UI_TestBase
     public function getUIFactory() : NoUIFactory
     {
         $factory = new class extends NoUIFactory {
-            public C\Button\Factory $button_factory;
+            /**
+             * @var C\Button\Factory
+             */
+            public $button_factory;
 
             public function button() : C\Button\Factory
             {
