@@ -6184,13 +6184,6 @@ class ilObjSurvey extends ilObject
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
         $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");
 
-        /*
-        $log->debug("calling phantom for ref_id: " . $this->getRefId());
-
-        $pdf = $gui->callPdfGeneration($url, "pdf", true, true);
-
-        $log->debug("phantom called : " . $pdf);*/
-        
         if (!$pdf ||
             !file_exists($pdf)) {
             return false;
