@@ -18,7 +18,6 @@ class ilObjLanguageAccess
 {
     protected static bool $cached_check_translate;
 
-
     /**
     * Permission check for translations
     *

@@ -40,8 +40,6 @@ class ilLangDeprecated
      */
     protected function getCandidates(): void
     {
-        $this->candidates = array();
-
         $log = array();
         $set = $this->db->query("SELECT module, identifier FROM lng_log ");
         while ($rec = $this->db->fetchAssoc($set)) {
