@@ -166,23 +166,6 @@ interface Factory
     /**
      * ---
      * description:
-     *   purpose: The minimize button triggers the minimizing of a collection or an overlay.
-     *   composition: The minimize button is displayed as a simple icon without any further decoration.
-     *   effect: Clicking the minimize button minimize the related content into a target location.
-     * rules:
-     *   ordering:
-     *       1: The minimize button MUST always be positioned in the top right of its related content.
-     *       2: The minimize button MUST always be positioned left to a close button of the same related content if given.
-     *   accessibility:
-     *       1: The functionality of the minimize button MUST be indicated for screen readers by an aria-label.
-     * ---
-     * @return  \ILIAS\UI\Component\Button\Minimize
-     */
-    public function minimize() : Minimize;
-
-    /**
-     * ---
-     * description:
      *   purpose: >
      *       Shy buttons are used in contexts that need a less obtrusive presentation
      *       than usual buttons have, e.g. in UI collections like Dropdowns.
