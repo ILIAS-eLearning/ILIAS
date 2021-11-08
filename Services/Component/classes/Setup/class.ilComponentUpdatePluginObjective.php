@@ -150,33 +150,19 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
             public static function getRootLogger()
             {
-                return new class() extends ilLogger {
-                    public function __construct()
-                    {
-                    }
-                    public function write($m, $l = ilLogLevel::INFO)
-                    {
-                    }
-                };
+                return $GLOBALS["DIC"]["ilLog"];
             }
             public static function getLogger($a)
             {
-                return new class() extends ilLogger {
-                    public function __construct()
-                    {
-                    }
-                    public function write($m, $l = ilLogLevel::INFO)
-                    {
-                    }
-                };
+                return $GLOBALS["DIC"]["ilLog"];
             }
         };
+        $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
         $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
         $GLOBALS["DIC"]["ilCtrl"] = new ilCtrl();
         $GLOBALS["DIC"]["ilias"] = null;
-        $GLOBALS["DIC"]["ilLog"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
         $GLOBALS["DIC"]["tree"] = new class() extends ilTree {
             public function __construct()

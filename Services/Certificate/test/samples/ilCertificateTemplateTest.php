@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,7 +6,7 @@
  */
 class ilCertificateTemplateTest extends ilCertificateBaseTestCase
 {
-    public function testCreateCertificateTemplate()
+    public function testCreateCertificateTemplate() : void
     {
         $time = time();
 
@@ -16,7 +16,7 @@ class ilCertificateTemplateTest extends ilCertificateBaseTestCase
             '<xml>crs</xml>',
             md5('<xml>crs</xml>'),
             '[]',
-            '1',
+            1,
             'v5.4.0',
             $time,
             true,

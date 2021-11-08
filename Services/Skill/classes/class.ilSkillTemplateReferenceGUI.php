@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skill template reference GUI class
@@ -11,11 +26,7 @@
  */
 class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
 {
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_tref_id = 0)
+    public function __construct(int $a_tref_id = 0)
     {
         global $DIC;
 
@@ -37,18 +48,12 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         }
     }
 
-    /**
-     * Get Node Type
-     */
-    public function getType()
+    public function getType() : string
     {
         return "sktr";
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -65,11 +70,8 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
                 break;
         }
     }
-    
-    /**
-     * output tabs
-     */
-    public function setTabs($a_tab = "")
+
+    public function setTabs($a_tab = "") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -128,10 +130,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         }
     }
 
-    /**
-     * Insert
-     */
-    public function insert()
+    public function insert() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -141,12 +140,8 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->initForm("create");
         $tpl->setContent($this->form->getHTML());
     }
-    
-    
-    /**
-     * Edit properties
-     */
-    public function editProperties()
+
+    public function editProperties() : void
     {
         $tpl = $this->tpl;
 
@@ -157,12 +152,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Init form.
-     *
-     * @param        int        $a_mode        Edit Mode
-     */
-    public function initForm($a_mode = "edit")
+    public function initForm(string $a_mode = "edit") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -230,12 +220,9 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    /**
-     * Get current values for from
-     */
-    public function getValues()
+    public function getValues() : void
     {
-        $values = array();
+        $values = [];
         $values["skill_template_id"] = $this->node_object->getSkillTemplateId();
         $values["title"] = $this->node_object->getTitle();
         $values["description"] = $this->node_object->getDescription();
@@ -244,10 +231,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->form->setValuesByArray($values);
     }
 
-    /**
-     * Save item
-     */
-    public function saveItem()
+    public function saveItem() : void
     {
         if (!$this->checkPermissionBool("write")) {
             return;
@@ -256,21 +240,18 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $tree = new ilSkillTree();
 
         $sktr = new ilSkillTemplateReference();
-        $sktr->setTitle($_POST["title"]);
-        $sktr->setDescription($_POST["description"]);
-        $sktr->setSkillTemplateId($_POST["skill_template_id"]);
-        $sktr->setSelfEvaluation($_POST["selectable"]);
+        $sktr->setTitle($this->form->getInput("title"));
+        $sktr->setDescription($this->form->getInput("description"));
+        $sktr->setSkillTemplateId($this->form->getInput("skill_template_id"));
+        $sktr->setSelfEvaluation((bool) $this->form->getInput("selectable"));
         $sktr->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
-        $sktr->setStatus($_POST["status"]);
+        $sktr->setStatus($this->form->getInput("status"));
         $sktr->create();
         ilSkillTreeNode::putInTree($sktr, $this->requested_obj_id, IL_LAST_NODE);
         $this->node_object = $sktr;
     }
 
-    /**
-     * After saving
-     */
-    public function afterSave()
+    public function afterSave() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -287,10 +268,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $ilCtrl->redirectByClass("ilskilltemplatereferencegui", "listItems");
     }
 
-    /**
-     * Update form
-     */
-    public function updateSkillTemplateReference()
+    public function updateSkillTemplateReference() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -303,11 +281,10 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->initForm("edit");
         if ($this->form->checkInput()) {
             // perform update
-            //			$this->node_object->setSkillTemplateId($_POST["skill_template_id"]);
-            $this->node_object->setTitle($_POST["title"]);
-            $this->node_object->setDescription($_POST["description"]);
-            $this->node_object->setSelfEvaluation($_POST["selectable"]);
-            $this->node_object->setStatus($_POST["status"]);
+            $this->node_object->setTitle($this->form->getInput("title"));
+            $this->node_object->setDescription($this->form->getInput("description"));
+            $this->node_object->setSelfEvaluation((bool) $this->form->getInput("selectable"));
+            $this->node_object->setStatus($this->form->getInput("status"));
             $this->node_object->update();
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -318,20 +295,14 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Cancel
-     */
-    public function cancel()
+    public function cancel() : void
     {
         $ilCtrl = $this->ctrl;
 
         $ilCtrl->redirectByClass("ilobjskillmanagementgui", "editSkills");
     }
-    
-    /**
-     * List items
-     */
-    public function listItems()
+
+    public function listItems() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -360,10 +331,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         }
     }
 
-    /**
-     * Show assigned objects
-     */
-    public function showObjects()
+    public function showObjects() : void
     {
         $tpl = $this->tpl;
 

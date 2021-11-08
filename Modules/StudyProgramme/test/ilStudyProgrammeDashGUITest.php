@@ -29,7 +29,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
         $this->gui = new mockSPRGDashGUI();
         $this->prg = $this->getMockBuilder(ilObjStudyProgramme::class)
             ->disableOriginalConstructor()
-            ->setMethods([
+            ->onlyMethods([
                 'hasLPChildren',
                 'getAllPrgChildren',
                 'getPoints'
@@ -94,7 +94,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
     {
         $node = $this->getMockBuilder(ilObjStudyProgramme::class)
             ->disableOriginalConstructor()
-            ->setMethods(['getPoints'])
+            ->onlyMethods(['getPoints'])
             ->getMock();
 
         $node1 = clone $node;

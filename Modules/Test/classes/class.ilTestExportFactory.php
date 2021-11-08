@@ -26,6 +26,7 @@ class ilTestExportFactory
      */
     public function getExporter($mode = "xml")
     {
+        $t = $this->testOBJ->getQuestionSetType();
         switch ($this->testOBJ->getQuestionSetType()) {
             case ilObjTest::QUESTION_SET_TYPE_FIXED:
                 

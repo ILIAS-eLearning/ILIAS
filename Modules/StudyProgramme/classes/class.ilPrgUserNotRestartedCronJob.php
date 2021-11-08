@@ -4,20 +4,32 @@
 
 declare(strict_types=1);
 
-
+/**
+ * Inform a user, that her qualification is about to expire
+ */
 class ilPrgUserNotRestartedCronJob extends ilCronJob
 {
     const ID = 'prg_user_not_restarted';
 
     /**
-     * @var ilStudyProgrammeAssignmentDBRepository
+     * @var ilStudyProgrammeSettingsRepository
      */
-    protected $user_assignments_db;
+    protected $programme_settings_db;
 
     /**
-     * @var ilLog
+     * @var ilStudyProgrammeProgressRepository
      */
-    protected $log;
+    protected $user_progress_db;
+
+    /**
+     * @var ilStudyProgrammeEvents
+     */
+    protected $events;
+    
+    /**
+     * @var Pimple\Container;
+     */
+    protected $dic;
 
     /**
      * @var ilLanguage
@@ -27,115 +39,118 @@ class ilPrgUserNotRestartedCronJob extends ilCronJob
     public function __construct()
     {
         global $DIC;
-
-        $this->user_assignments_db = ilStudyProgrammeDIC::dic()['ilStudyProgrammeUserAssignmentDB'];
-        $this->events = ilStudyProgrammeDIC::dic()['ilStudyProgrammeEvents'];
         $this->log = $DIC['ilLog'];
         $this->lng = $DIC['lng'];
+        $this->lng->loadLanguageModule('prg');
+
+        $this->dic = ilStudyProgrammeDIC::dic();
     }
 
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('prg_user_not_restarted_title');
     }
 
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->lng->txt('prg_user_not_restarted_desc');
     }
 
-    /**
-     * Get id
-     *
-     * @return string
-     */
-    public function getId()
+    public function getId() : string
     {
         return self::ID;
     }
 
-    /**
-     * Is to be activated on "installation"
-     *
-     * @return boolean
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
-
-    /**
-     * Can the schedule be configured?
-     *
-     * @return boolean
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
-
-    /**
-     * Get schedule type
-     *
-     * @return int
-     */
-    public function getDefaultScheduleType()
+    
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_IN_DAYS;
     }
-
-    /**
-     * Get schedule value
-     *
-     * @return int|array
-     */
-    public function getDefaultScheduleValue()
+    
+    public function getDefaultScheduleValue() : ?int
     {
         return 1;
     }
 
-    /**
-     * Run job
-     *
-     * @return ilCronJobResult
-     * @throws Exception
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         $result = new ilCronJobResult();
-        $result->setStatus(ilCronJobResult::STATUS_OK);
-        foreach ($this->user_assignments_db->getDueToRestartAndMail() as $assignment) {
-            try {
-                $prg = ilObjStudyProgramme::getInstanceByObjId($assignment->getRootId());
-                $validity_of_qualification = $prg->getValidityOfQualificationSettings();
-                $auto_re_assign = $validity_of_qualification->getRestartPeriod();
-                if ($auto_re_assign == -1) {
-                    continue;
-                }
+        $result->setStatus(ilCronJobResult::STATUS_NO_ACTION);
 
-                $auto_mail_settings = $prg->getAutoMailSettings();
-                $inform_by_days = $auto_mail_settings->getReminderNotRestartedByUserDays();
-                if (is_null($inform_by_days)) {
-                    continue;
-                }
-                $restart_date = $assignment->getRestartDate();
-                $restart_date->sub(new DateInterval(('P' . $inform_by_days . 'D')));
+        $programmes_to_send = $this->getSettingsRepository()
+            ->getProgrammeIdsWithMailsForExpiringValidity();
 
-                $this->events->informUserByMailToRestart($assignment);
-            } catch (ilException $e) {
-                $this->log->write('an error occured: ' . $e->getMessage());
-            }
+        if (count($programmes_to_send) == 0) {
+            return $result;
         }
+
+        $today = $this->getNow();
+        $programmes_and_due = [];
+        foreach ($programmes_to_send as $programme_obj_id => $days_offset_mail) {
+            $interval = new DateInterval('P' . $days_offset_mail . 'D');
+            $due = $today->add($interval);
+            $programmes_and_due[$programme_obj_id] = $due;
+        }
+
+        $progresses = $this->getProgressRepository()
+            ->getAboutToExpire($programmes_and_due, true);
+        
+        if (count($progresses) == 0) {
+            return $result;
+        }
+
+        $events = $this->getEvents();
+        foreach ($progresses as $progress) {
+            $this->log(
+                sprintf(
+                    'PRG, UserNotRestarted: user %s\'s qualification is about to expire at progress %s (prg obj_id %s)',
+                    $progress->getUserId(),
+                    $progress->getId(),
+                    $progress->getNodeId()
+                )
+            );
+
+            $events->informUserByMailToRestart($progress);
+        }
+        $result->setStatus(ilCronJobResult::STATUS_OK);
         return $result;
+    }
+
+    protected function getNow() : \DateTimeImmutable
+    {
+        return new DateTimeImmutable();
+    }
+
+    protected function getSettingsRepository() : ilStudyProgrammeSettingsDBRepository
+    {
+        return $this->dic['model.Settings.ilStudyProgrammeSettingsRepository'];
+    }
+
+    protected function getProgressRepository() : ilStudyProgrammeProgressDBRepository
+    {
+        return $this->dic['ilStudyProgrammeUserProgressDB'];
+    }
+
+    protected function getAssignmentRepository() : ilStudyProgrammeAssignmentDBRepository
+    {
+        return $this->dic['ilStudyProgrammeUserAssignmentDB'];
+    }
+    
+    protected function getEvents()
+    {
+        return $this->dic['ilStudyProgrammeEvents'];
+    }
+
+    protected function log(string $msg) : void
+    {
+        $this->log->write($msg);
     }
 }

@@ -88,12 +88,12 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         return $time_difference;
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "user_inactive";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
@@ -102,7 +102,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         return $lng->txt("delete_inactive_user_accounts");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
@@ -111,32 +111,32 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         return $lng->txt("delete_inactive_user_accounts_desc");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
     
-    public function hasCustomSettings()
+    public function hasCustomSettings() : bool
     {
         return true;
     }
     
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 
@@ -216,7 +216,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         return time() + $date_for_deletion + $time_difference;
     }
     
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         global $DIC;
 
@@ -279,7 +279,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $a_form->addItem($sub_period);
     }
 
-    public function saveCustomSettings(ilPropertyFormGUI $a_form)
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         global $DIC;
 

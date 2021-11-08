@@ -1,88 +1,42 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\Filesystem\Exception\FileAlreadyExistsException;
+use ILIAS\Filesystem\Exception\FileNotFoundException;
+use ILIAS\Filesystem\Exception\IOException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
 class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepository
 {
-    /**
-     * @var ilLanguage
-     */
-    private $language;
+    private ilLanguage $language;
+    private ilCertificateSettingsFormRepository $settingsFromFactory;
+    private ilObjCourse $object;
+    private ilObjectLP $learningProgressObject;
+    private ilCertificateObjUserTrackingHelper $trackingHelper;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateObjectLPHelper $lpHelper;
+    private ilTree $tree;
+    private ilSetting $setting;
 
-    /**
-     * @var ilCertificateSettingsFormRepository
-     */
-    private $settingsFromFactory;
-
-    /**
-     * @var \ilObjCourse
-     */
-    private $object;
-
-    /**
-     * @var ilObjectLP|mixed
-     */
-    private $learningProgressObject;
-
-    /**
-     * @var ilCertificateObjUserTrackingHelper|null
-     */
-    private $trackingHelper;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateObjectLPHelper
-     */
-    private $lpHelper;
-
-    /**
-     * @var ilTree|mixed|null
-     */
-    private $tree;
-
-    /**
-     * @var ilSetting|null
-     */
-    private $setting;
-
-    /**
-     * @param ilObject $object
-     * @param string $certificatePath
-     * @param ilLanguage $language
-     * @param ilCtrl $controller
-     * @param ilAccess $access
-     * @param ilToolbarGUI $toolbar
-     * @param ilCertificatePlaceholderDescription $placeholderDescriptionObject
-     * @param ilObjectLP|null $learningProgressObject
-     * @param ilCertificateSettingsFormRepository|null $settingsFromFactory
-     * @param ilCertificateObjUserTrackingHelper|null $trackingHelper
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateObjectLPHelper|null $lpHelper
-     * @param ilTree|null $tree
-     * @param ilSetting|null $setting
-     */
     public function __construct(
-        \ilObject $object,
+        ilObject $object,
         string $certificatePath,
         bool $hasAdditionalElements,
         ilLanguage $language,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         ilAccess $access,
         ilToolbarGUI $toolbar,
         ilCertificatePlaceholderDescription $placeholderDescriptionObject,
-        ilObjectLP $learningProgressObject = null,
-        ilCertificateSettingsFormRepository $settingsFromFactory = null,
-        ilCertificateObjUserTrackingHelper $trackingHelper = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateObjectLPHelper $lpHelper = null,
-        ilTree $tree = null,
-        ilSetting $setting = null
+        ?ilObjectLP $learningProgressObject = null,
+        ?ilCertificateSettingsFormRepository $settingsFromFactory = null,
+        ?ilCertificateObjUserTrackingHelper $trackingHelper = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateObjectLPHelper $lpHelper = null,
+        ?ilTree $tree = null,
+        ?ilSetting $setting = null
     ) {
         $this->object = $object;
 
@@ -94,7 +48,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
                 $certificatePath,
                 $hasAdditionalElements,
                 $language,
-                $controller,
+                $ctrl,
                 $access,
                 $toolbar,
                 $placeholderDescriptionObject
@@ -137,14 +91,14 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     /**
      * @param ilCertificateGUI $certificateGUI
      * @return ilPropertyFormGUI
-     * @throws \ILIAS\Filesystem\Exception\FileAlreadyExistsException
-     * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
-     * @throws \ILIAS\Filesystem\Exception\IOException
+     * @throws FileAlreadyExistsException
+     * @throws FileNotFoundException
+     * @throws IOException
      * @throws ilDatabaseException
      * @throws ilException
      * @throws ilWACException
      */
-    public function createForm(ilCertificateGUI $certificateGUI)
+    public function createForm(ilCertificateGUI $certificateGUI) : ilPropertyFormGUI
     {
         $form = $this->settingsFromFactory->createForm($certificateGUI);
 
@@ -154,7 +108,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
         if (!$this->trackingHelper->enabledLearningProgress() || $mode == ilLPObjSettings::LP_MODE_DEACTIVATED) {
             $subitems = new ilRepositorySelector2InputGUI($this->language->txt('objects'), 'subitems', true);
 
-            $formSection = new \ilFormSectionHeaderGUI();
+            $formSection = new ilFormSectionHeaderGUI();
             $formSection->setTitle($this->language->txt('cert_form_sec_add_features'));
             $form->addItem($formSection);
 
@@ -176,7 +130,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
                 $mode = $olp->getModeText($olp->getCurrentMode());
 
-                if (in_array($olp->getCurrentMode(), $invalid_modes)) {
+                if (in_array($olp->getCurrentMode(), $invalid_modes, true)) {
                     $mode = '<strong>' . $mode . '</strong>';
                 }
                 return $objectHelper->lookupTitle($obj_id) . ' (' . $mode . ')';
@@ -191,56 +145,55 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
     /**
      * @param array $formFields
+     * @throws ilException|JsonException
      */
-    public function save(array $formFields)
+    public function save(array $formFields) : void
     {
         $invalidModes = $this->getInvalidLPModes();
 
-        $titlesOfObjectsWithInvalidModes = array();
-        $refIds = array();
-        if (isset($formFields['subitems'])) {
-            $refIds = $formFields['subitems'];
-        }
+        $titlesOfObjectsWithInvalidModes = [];
+        $refIds = $formFields['subitems'] ?? [];
 
         foreach ($refIds as $refId) {
             $objectId = $this->objectHelper->lookupObjId((int) $refId);
             $learningProgressObject = $this->lpHelper->getInstance($objectId);
             $currentMode = $learningProgressObject->getCurrentMode();
-            if (in_array($currentMode, $invalidModes)) {
+            if (in_array($currentMode, $invalidModes, true)) {
                 $titlesOfObjectsWithInvalidModes[] = $this->objectHelper->lookupTitle($objectId);
             }
         }
 
-        if (sizeof($titlesOfObjectsWithInvalidModes)) {
-            $message = sprintf($this->language->txt('certificate_learning_progress_must_be_active'), implode(', ', $titlesOfObjectsWithInvalidModes));
+        if (count($titlesOfObjectsWithInvalidModes) > 0) {
+            $message = sprintf(
+                $this->language->txt('certificate_learning_progress_must_be_active'),
+                implode(', ', $titlesOfObjectsWithInvalidModes)
+            );
             throw new ilException($message);
         }
 
-        $this->setting->set('cert_subitems_' . $this->object->getId(), json_encode($formFields['subitems']));
+        $this->setting->set(
+            'cert_subitems_' . $this->object->getId(),
+            json_encode($formFields['subitems'], JSON_THROW_ON_ERROR)
+        );
     }
 
-    /**
-     * @param string $content
-     * @return array|mixed
-     */
-    public function fetchFormFieldData(string $content)
+    public function fetchFormFieldData(string $content) : array
     {
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
 
-        $formFields['subitems'] = json_decode($this->setting->get('cert_subitems_' . $this->object->getId(), json_encode(array())));
+        $formFields['subitems'] = json_decode($this->setting->get(
+            'cert_subitems_' . $this->object->getId(),
+            json_encode([], JSON_THROW_ON_ERROR)
+        ), true, 512, JSON_THROW_ON_ERROR);
         if ($formFields['subitems'] === 'null' || $formFields['subitems'] === null) {
-            $formFields['subitems'] = array();
+            $formFields['subitems'] = [];
         }
         return $formFields;
     }
 
-    /**
-     * @param int $a_parent_ref_id
-     * @return array
-     */
     private function getLPTypes(int $a_parent_ref_id) : array
     {
-        $result = array();
+        $result = [];
 
         $root = $this->tree->getNodeData($a_parent_ref_id);
         $sub_items = $this->tree->getSubTree($root);
@@ -251,7 +204,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
                 $class = $this->lpHelper->getTypeClass($node['type']);
                 $modes = $class::getDefaultModes($this->trackingHelper->enabledLearningProgress());
 
-                if (sizeof($modes) > 1) {
+                if (count($modes) > 1) {
                     $result[] = $node['type'];
                 }
             }
@@ -261,14 +214,14 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
     }
 
     /**
-     * @return array
+     * @return int[]
      */
-    private function getInvalidLPModes()
+    private function getInvalidLPModes() : array
     {
-        $invalid_modes = array(
+        $invalid_modes = [
             ilLPObjSettings::LP_MODE_DEACTIVATED,
             ilLPObjSettings::LP_MODE_UNDEFINED
-        );
+        ];
 
         // without active LP the following modes cannot be supported
         if (!$this->trackingHelper->enabledLearningProgress()) {

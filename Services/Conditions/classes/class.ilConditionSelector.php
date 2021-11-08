@@ -13,7 +13,6 @@ include_once "./Services/Repository/classes/class.ilRepositorySelectorExplorerGU
 class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 {
     protected $highlighted_parent = null;
-    protected $clickable_types = array();
     protected $ref_id = null;
 
     /**
@@ -45,11 +44,10 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 
     /**
      * Is node visible
-     *
      * @param array $a_node node data
      * @return bool visible true/false
      */
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         global $DIC;
 
@@ -69,11 +67,10 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 
     /**
      * Is node clickable?
-     *
      * @param array $a_node node data
      * @return boolean node clickable true/false
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         if (!parent::isNodeClickable($a_node)) {
             return false;
@@ -119,11 +116,10 @@ class ilConditionSelector extends ilRepositorySelectorExplorerGUI
 
     /**
      * Is node highlighted?
-     *
      * @param mixed $a_node node object/array
      * @return boolean node visible true/false
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         //highlight parent if target object cant be highlighted
         if ($this->highlighted_parent == $a_node["child"]) {

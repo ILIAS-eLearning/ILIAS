@@ -67,9 +67,9 @@ class Factory
     /**
      * Represents the size of some data.
      *
-     * @param	string|int	$size	string might be a string like "126 MB"
-     * @throw	\InvalidArgumentException if first argument is int and second is not a valid unit.
-     * @throw	\InvalidArgumentException if string size can't be interpreted
+     * @param   string|int  $size   string might be a string like "126 MB"
+     * @throw   \InvalidArgumentException if first argument is int and second is not a valid unit.
+     * @throw   \InvalidArgumentException if string size can't be interpreted
      */
     public function dataSize($size, string $unit = null) : DataSize
     {
@@ -148,5 +148,10 @@ class Factory
     public function version(string $version) : Version
     {
         return new Version($version);
+    }
+
+    public function link(string $label, URI $url) : Link
+    {
+        return new Link($label, $url);
     }
 }

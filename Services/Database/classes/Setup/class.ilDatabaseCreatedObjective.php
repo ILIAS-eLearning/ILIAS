@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -26,6 +26,9 @@ class ilDatabaseCreatedObjective extends ilDatabaseObjective
         return true;
     }
 
+    /**
+     * @return \ilDatabaseServerIsConnectableObjective[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
@@ -58,11 +61,6 @@ class ilDatabaseCreatedObjective extends ilDatabaseObjective
         $db->initFromIniFile($c->toMockIniFile());
 
         $connect = $db->connect(true);
-
-        if ($connect) {
-            return false;
-        }
-
-        return true;
+        return !$connect;
     }
 }

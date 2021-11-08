@@ -309,7 +309,7 @@ class ilMDEditorGUI
                 $this->md_section->getStatus(),
                 "lif_status",
                 array(0 => $this->lng->txt('meta_please_select'))
-        ));
+            ));
         }
 
         // Rights...
@@ -1638,7 +1638,7 @@ class ilMDEditorGUI
                     $md_loc->getLocationType(),
                     "met_location[" . $id . "][Type]",
                     array(0 => $this->lng->txt('meta_please_select'))
-                                    )
+                )
             );
             $this->tpl->parseCurrentBlock();
         }
@@ -1668,7 +1668,7 @@ class ilMDEditorGUI
                     $md_re->getOperatingSystemName(),
                     "met_re[" . $id . "][os][name]",
                     array(0 => $this->lng->txt('meta_please_select'))
-                                    )
+                )
             );
             $this->tpl->setVariable(
                 "REQUIREMENT_SEL_BROWSER_NAME",
@@ -1676,7 +1676,7 @@ class ilMDEditorGUI
                     $md_re->getBrowserName(),
                     "met_re[" . $id . "][browser][name]",
                     array(0 => $this->lng->txt('meta_please_select'))
-                                    )
+                )
             );
 
             $this->tpl->setVariable(
@@ -1728,7 +1728,7 @@ class ilMDEditorGUI
                         $md_re->getOperatingSystemName(),
                         "met_re[" . $id . "][os][name]",
                         array(0 => $this->lng->txt('meta_please_select'))
-                                        )
+                    )
                 );
                 $this->tpl->setVariable(
                     "ORREQUIREMENT_SEL_BROWSER_NAME",
@@ -1736,7 +1736,7 @@ class ilMDEditorGUI
                         $md_re->getBrowserName(),
                         "met_re[" . $id . "][browser][name]",
                         array(0 => $this->lng->txt('meta_please_select'))
-                                        )
+                    )
                 );
 
                 $this->tpl->setVariable(
@@ -1782,7 +1782,7 @@ class ilMDEditorGUI
             $this->__showLanguageSelect(
                 'inst_language',
                 $this->md_section->getInstallationRemarksLanguageCode()
-                                )
+            )
         );
 
         // Other platform requirement
@@ -1801,7 +1801,7 @@ class ilMDEditorGUI
             $this->__showLanguageSelect(
                 'opr_language',
                 $this->md_section->getOtherPlatformRequirementsLanguageCode()
-                                )
+            )
         );
 
         // Duration
@@ -2201,7 +2201,7 @@ class ilMDEditorGUI
                 $this->__showLanguageSelect(
                     'rights[DescriptionLanguage]',
                     $this->md_section->getDescriptionLanguageCode()
-            )
+                )
             );
 
             $this->tpl->setVariable("TXT_SAVE", $this->lng->txt("save"));

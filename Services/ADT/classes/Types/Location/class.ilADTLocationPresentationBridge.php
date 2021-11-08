@@ -21,8 +21,7 @@ class ilADTLocationPresentationBridge extends ilADTPresentationBridge
     public function getHTML()
     {
         if (!$this->getADT()->isNull()) {
-            include_once("./Services/Maps/classes/class.ilMapUtil.php");
-            $map_gui = ilMapUtil::getMapGUI();
+                        $map_gui = ilMapUtil::getMapGUI();
             $map_gui->setMapId("map_" . uniqid()) // :TODO: sufficient entropy?
                     ->setLatitude($this->getADT()->getLatitude())
                     ->setLongitude($this->getADT()->getLongitude())

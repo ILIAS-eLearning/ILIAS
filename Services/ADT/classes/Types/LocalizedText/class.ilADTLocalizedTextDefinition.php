@@ -76,7 +76,7 @@ class ilADTLocalizedTextDefinition extends ilADTDefinition
     }
 
     /**
-     * @return int
+     * @return bool
      */
     public function supportsTranslations()
     {

@@ -12,11 +12,10 @@ class ilForumImporter extends ilXmlImporter
 {
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         // case i container
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {

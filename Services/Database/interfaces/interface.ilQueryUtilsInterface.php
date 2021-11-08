@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Interface ilQueryUtilsInterface
@@ -9,73 +9,46 @@ interface ilQueryUtilsInterface
 {
 
     /**
-     * @param string $field
      * @param string[] $values
-     * @param bool $negate
-     * @param string $type
-     * @return string
      */
-    public function in($field, $values, $negate = false, $type = "");
+    public function in(string $field, array $values, bool $negate = false, string $type = "") : string;
 
 
     /**
-     * @param mixed $value
-     * @param null $type
-     * @return string
+     * @param mixed       $value
+     * @param string|null $type
      */
-    public function quote($value, $type = null);
+    public function quote($value, string $type = null) : string;
 
 
-    /**
-     * @param array $values
-     * @param bool $allow_null
-     * @return string
-     */
-    public function concat(array $values, $allow_null = true);
+    public function concat(array $values, bool $allow_null = true) : string;
 
 
     /**
      * @param $a_needle
      * @param $a_string
-     * @param int $a_start_pos
-     * @return string
      */
-    public function locate($a_needle, $a_string, $a_start_pos = 1);
+    public function locate($a_needle, $a_string, int $a_start_pos = 1) : string;
+
+
+    public function free(ilPDOStatement $statement) : bool;
+
+
+    public function quoteIdentifier(string $identifier) : string;
 
 
     /**
-     * @param \ilPDOStatement $statement
-     * @return bool
-     */
-    public function free(ilPDOStatement $statement);
-
-
-    /**
-     * @param $identifier
-     * @return string
-     */
-    public function quoteIdentifier($identifier);
-
-
-    /**
-     * @param $name
-     * @param $fields
-     * @param array $options
-     * @return string
      * @throws \ilDatabaseException
      */
-    public function createTable($name, $fields, $options = array());
+    public function createTable(string $name, array $fields, array $options = []) : string;
 
 
     /**
      * @param $column
      * @param $type
-     * @param string $value
-     * @param bool $case_insensitive
-     * @return string
      * @throws \ilDatabaseException
      */
-    public function like($column, $type, $value = "?", $case_insensitive = true);
+    public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true):string;
 
 
     /**
@@ -85,7 +58,6 @@ interface ilQueryUtilsInterface
 
 
     /**
-     * @param array $tables
      * @return string
      */
     public function lock(array $tables);
@@ -99,27 +71,21 @@ interface ilQueryUtilsInterface
 
     /**
      * @param $a_name
-     * @param string $a_charset
-     * @param string $a_collation
      * @return mixed
      */
-    public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "");
-    
-    
+    public function createDatabase($a_name, string $a_charset = "utf8", string $a_collation = "");
+
+
     /**
      *
-     * @param string $a_field_name
-     * @param string $a_seperator
-     * @param string $a_order
      * @return string
      */
-    public function groupConcat($a_field_name, $a_seperator = ",", $a_order = null);
+    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null);
 
 
     /**
-     * @param string $a_field_name
      * @param mixed $a_dest_type
      * @return string
      */
-    public function cast($a_field_name, $a_dest_type);
+    public function cast(string $a_field_name, $a_dest_type);
 }

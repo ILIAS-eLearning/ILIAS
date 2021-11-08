@@ -745,12 +745,20 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         if ($entered_values) {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng(
+                    "assessment",
+                    "log_user_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()
+                ), $active_id, $this->getId());
             }
         } else {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values", ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng(
+                    "assessment",
+                    "log_user_not_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()
+                ), $active_id, $this->getId());
             }
         }
         
@@ -790,7 +798,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         parent::removeIntermediateSolution($active_id, $pass);
 
         $test_id = $this->lookupTestId($active_id);
-        if($test_id !==-1) {
+        if ($test_id !== -1) {
             $this->deleteUnusedFiles($test_id, $active_id, $pass);
         }
     }

@@ -16,7 +16,7 @@ class ilNewsImporter extends ilXmlImporter
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         include_once("./Services/News/classes/class.ilNewsDataSet.php");
         $this->ds = new ilNewsDataSet();
@@ -26,11 +26,10 @@ class ilNewsImporter extends ilXmlImporter
 
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         include_once("./Services/DataSet/classes/class.ilDataSetImportParser.php");
         $parser = new ilDataSetImportParser(

@@ -331,7 +331,7 @@ $obj_type             = 'crs';
 $certificateContent   = '<xls-fo>...</xls-fo>'
 $certificateHash      = md5($certificateHash);
 $templateValues       = json_encode(array('ID' => 'DESCRIPTION'));
-$version              = '2';
+$version              = 2;
 $iliasVerion          = 'v5.4.0';
 $createdTimestamp     = time();
 $currentlyActive      = true;
@@ -350,7 +350,7 @@ $template = new ilCertificateTemplate(
 	$backgroundImagePath
 );
 
-$repository = new ilCertificateTemplateRepository($database);
+$repository = new ilCertificateTemplateDatabaseRepository($database);
 $repository->save($template);
 ```
 

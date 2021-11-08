@@ -1,8 +1,9 @@
-<?php
-chdir(dirname(__FILE__));
+<?php declare(strict_types=1);
+
+chdir(__DIR__);
 chdir('..');
 
-include_once './Services/Cron/classes/class.ilCronStartUp.php';
+require_once './Services/Cron/classes/class.ilCronStartUp.php';
 
 if ($_SERVER['argc'] < 4) {
     echo "Usage: cron.php username password client\n";

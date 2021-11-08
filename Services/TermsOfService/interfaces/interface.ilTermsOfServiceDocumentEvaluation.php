@@ -21,9 +21,6 @@ interface ilTermsOfServiceDocumentEvaluation
      */
     public function document() : ilTermsOfServiceSignableDocument;
 
-    /**
-     * @return bool
-     */
     public function hasDocument() : bool;
 
     /**

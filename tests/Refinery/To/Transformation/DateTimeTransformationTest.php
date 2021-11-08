@@ -17,7 +17,7 @@ use ILIAS\Data\Result;
 class DateTimeTransformationTest extends TestCase
 {
     /**
-     * @var Refinery\To\Transformations\DateTimeTransformation
+     * @var DateTimeTransformation
      */
     private $trans;
 
@@ -40,7 +40,7 @@ class DateTimeTransformationTest extends TestCase
 
     public function testInvalidTransform()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(\UnexpectedValueException::class);
         $this->trans->transform('erroneous');
     }
 

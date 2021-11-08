@@ -10,8 +10,8 @@ namespace ILIAS\Tests\Refinery\To\Transformation;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\To\Transformation\DictionaryTransformation;
 use ILIAS\Refinery\To\Transformation\StringTransformation;
-use ILIAS\Refinery\ConstraintViolationException;
 use ILIAS\Tests\Refinery\TestCase;
+use UnexpectedValueException;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -37,7 +37,7 @@ class DictionaryTransformationTest extends TestCase
 
         try {
             $result = $transformation->transform(array('world'));
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -52,7 +52,7 @@ class DictionaryTransformationTest extends TestCase
 
         try {
             $result = $transformation->transform(array('hello' => 1));
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 
@@ -67,7 +67,7 @@ class DictionaryTransformationTest extends TestCase
 
         try {
             $result = $transformation->transform(1);
-        } catch (ConstraintViolationException $exception) {
+        } catch (UnexpectedValueException $exception) {
             return;
         }
 

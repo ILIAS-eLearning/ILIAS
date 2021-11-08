@@ -1,34 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Favourites UI
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilFavouritesListGUI
 {
-    /**
-     * @var ilPDSelectedItemsBlockViewGUI
-     */
-    protected $block_view;
+    protected ilPDSelectedItemsBlockViewGUI $block_view;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($user = null)
+    public function __construct(?ilObjUser $user = null)
     {
         global $DIC;
 
@@ -45,12 +42,7 @@ class ilFavouritesListGUI
         $this->lng->loadLanguageModule("rep");
     }
 
-    /**
-     * Render
-     *
-     * @return string
-     */
-    public function render()
+    public function render() : string
     {
         $f = $this->ui->factory();
         $item_groups = [];
@@ -63,7 +55,7 @@ class ilFavouritesListGUI
                 )->withLeadIcon($f->symbol()->icon()->custom(ilObject::_getIcon($item["obj_id"]), $item["title"]));
             }
             if (count($items) > 0) {
-                $item_groups[] = $f->item()->group((string) $group->getLabel(), $items);
+                $item_groups[] = $f->item()->group($group->getLabel(), $items);
             }
         }
         if (count($item_groups) > 0) {

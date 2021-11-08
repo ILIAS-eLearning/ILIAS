@@ -11,7 +11,6 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
 {
     /**
      * @return MockObject|ilObjUser
-     * @throws ReflectionException
      */
     protected function getUserMock() : ilObjUser
     {
@@ -22,12 +21,10 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
             ->getMock();
 
         $user
-            ->expects($this->any())
             ->method('getId')
             ->willReturn(-1);
 
         $user
-            ->expects($this->any())
             ->method('getLogin')
             ->willReturn('phpunit');
 
@@ -36,7 +33,6 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
 
     /**
      * @return MockObject|ilLogger
-     * @throws ReflectionException
      */
     protected function getLogMock() : ilLogger
     {
@@ -50,7 +46,6 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
 
     /**
      * @return MockObject|ilTermsOfServiceDocumentCriteriaEvaluation
-     * @throws ReflectionException
      */
     protected function getEvaluatorMock() : ilTermsOfServiceDocumentCriteriaEvaluation
     {
@@ -64,7 +59,6 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
 
     /**
      * @return MockObject|ilTermsOfServiceCriterionTypeFactoryInterface
-     * @throws ReflectionException
      */
     protected function getCriterionTypeFactoryMock() : ilTermsOfServiceCriterionTypeFactoryInterface
     {
@@ -78,7 +72,6 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     /**
      * @param string $typeIdent
      * @return MockObject|ilTermsOfServiceCriterionType
-     * @throws ReflectionException
      */
     protected function getCriterionTypeMock(string $typeIdent) : ilTermsOfServiceCriterionType
     {
@@ -87,7 +80,6 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
             ->getMock();
 
         $criterionType
-            ->expects($this->any())
             ->method('getTypeIdent')
             ->willReturn($typeIdent);
 
@@ -97,7 +89,6 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
     /**
      * @param ilTermsOfServiceCriterionType $criterionType
      * @return MockObject|ilTermsOfServiceEvaluableCriterion
-     * @throws ReflectionException
      */
     protected function getCriterionAssignmentMock(
         ilTermsOfServiceCriterionType $criterionType
@@ -107,7 +98,6 @@ abstract class ilTermsOfServiceEvaluationBaseTest extends ilTermsOfServiceBaseTe
             ->getMock();
 
         $criterionAssignment
-            ->expects($this->any())
             ->method('getCriterionId')
             ->willReturn($criterionType->getTypeIdent());
 

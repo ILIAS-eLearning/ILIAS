@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Update skill from Services/Tracking events
@@ -10,13 +25,9 @@
 class ilSkillAppEventListener implements ilAppEventListener
 {
     /**
-    * Handle an event in a listener.
-    *
-    * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-    * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-    * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
-    */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+     * @inheritDoc
+     */
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         switch ($a_component) {
             case 'Services/Tracking':
@@ -56,7 +67,5 @@ class ilSkillAppEventListener implements ilAppEventListener
                 break;
 
         }
-        
-        return true;
     }
 }

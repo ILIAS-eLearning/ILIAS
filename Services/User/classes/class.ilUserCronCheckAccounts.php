@@ -15,12 +15,12 @@ class ilUserCronCheckAccounts extends ilCronJob
 {
     protected $counter = 0; // [int]
     
-    public function getId()
+    public function getId() : string
     {
         return "user_check_accounts";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
@@ -29,7 +29,7 @@ class ilUserCronCheckAccounts extends ilCronJob
         return $lng->txt("check_user_accounts");
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
@@ -37,28 +37,28 @@ class ilUserCronCheckAccounts extends ilCronJob
         
         return $lng->txt("check_user_accounts_desc");
     }
-    
-    public function getDefaultScheduleType()
+
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
-    {
-        return false;
-    }
-    
-    public function hasFlexibleSchedule()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function run()
+    public function hasFlexibleSchedule() : bool
+    {
+        return false;
+    }
+    
+    public function run() : ilCronJobResult
     {
         global $DIC;
 

@@ -11,7 +11,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
 {
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd = "",
+        $a_parent_cmd,
         $a_wiki_id
     ) {
         global $DIC;

@@ -120,7 +120,7 @@ abstract class ilPageObject
     protected string $renderedcontent = "";
     protected string $renderedtime = "";
     protected string $lastchange = "";
-    protected int $last_change_user = 0;
+    public int $last_change_user = 0;
     protected bool $contains_question = false;
     protected array $hier_ids = [];
     protected array $first_row_ids = [];
@@ -3444,6 +3444,9 @@ abstract class ilPageObject
      */
     public function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "", bool $remove_placeholder = true)
     {
+        if ($a_pcid == "" && $a_pos == "") {
+            $a_pos = "pg";
+        }
         // move mode into container elements is always INSERT_CHILD
         $curr_node = $this->getContentNode($a_pos, $a_pcid);
         $curr_name = $curr_node->node_name();
@@ -5220,7 +5223,7 @@ abstract class ilPageObject
     /**
      * Assign characteristic
      */
-    public function assignCharacteristic($targets, $char_par, $char_sec)
+    public function assignCharacteristic($targets, $char_par, $char_sec, $char_med)
     {
         if (is_array($targets)) {
             foreach ($targets as $t) {
@@ -5231,6 +5234,9 @@ abstract class ilPageObject
                 }
                 if (is_object($cont_obj) && $cont_obj->getType() == "sec") {
                     $cont_obj->setCharacteristic($char_sec);
+                }
+                if (is_object($cont_obj) && $cont_obj->getType() == "media") {
+                    $cont_obj->setClass($char_med);
                 }
             }
             return $this->update();

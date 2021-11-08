@@ -127,4 +127,35 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $tz = 'NOT/aValidTZ';
         $datetime->withTimeZone($tz);
     }
+
+    public function test_render()
+    {
+        $datetime = $this->factory->duration('label', 'byline');
+        $r = $this->getDefaultRenderer();
+        $html = $this->brutallyTrimHTML($r->render($datetime));
+
+        $expected = $this->brutallyTrimHTML('
+<div class="form-group row">
+   <label for="id_1" class="control-label col-sm-3">label</label>
+   <div class="col-sm-9">
+      <div class="il-input-duration" id="id_1">
+         <div class="form-group row">
+            <label for="id_2" class="control-label col-sm-3">start</label>
+            <div class="col-sm-9">
+               <div class="input-group date il-input-datetime" id="id_2"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
+            </div>
+         </div>
+         <div class="form-group row">
+            <label for="id_3" class="control-label col-sm-3">end</label>
+            <div class="col-sm-9">
+               <div class="input-group date il-input-datetime" id="id_3"><input type="text" name="" placeholder="YYYY-MM-DD" class="form-control form-control-sm" /><span class="input-group-addon"><a class="glyph" href="#" aria-label="calendar"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></a></span></div>
+            </div>
+         </div>
+      </div>
+      <div class="help-block">byline</div>
+   </div>
+</div>
+');
+        $this->assertEquals($expected, $html);
+    }
 }

@@ -690,7 +690,7 @@ class ilSCORMTrackingItems
     public static function userDataHeaderForExport()
     {
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
         $returnData = array();
         if ($allowExportPrivacy == true) {

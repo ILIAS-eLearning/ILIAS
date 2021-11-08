@@ -1,6 +1,5 @@
 <?php
 
-include_once "Services/ADT/classes/_Example/class.ilADTBasedObject.php";
 
 /**
  * This is a ADT-based example object
@@ -11,10 +10,10 @@ class ilADTTest extends ilADTBasedObject
 {
     protected $id; // [int]
     protected $properties; // [ilADTGroup]
-    
-    const INTERESTS_NONE = 0;
-    const INTERESTS_LANGUAGES = 1;
-    const INTERESTS_IT = 2;
+
+    public const INTERESTS_NONE = 0;
+    public const INTERESTS_LANGUAGES = 1;
+    public const INTERESTS_IT = 2;
         
     
     // properties
@@ -24,12 +23,11 @@ class ilADTTest extends ilADTBasedObject
         global $DIC;
 
         $lng = $DIC['lng'];
-                
+
         // this could be generated from XML or code comments or whatever
-        
-        include_once "Services/ADT/classes/class.ilADTFactory.php";
+
         $factory = ilADTFactory::getInstance();
-        
+
         $properties_def = $factory->getDefinitionInstanceByType("Group");
         
         $name = $factory->getDefinitionInstanceByType("Text");

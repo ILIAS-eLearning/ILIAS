@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,23 +6,13 @@
  */
 class ilCertificateLPStatusHelper
 {
-    /**
-     * @param int $objId
-     * @param int $userId
-     * @return mixed
-     */
-    public function lookupStatusChanged(int $objId, int $userId)
+    public function lookupStatusChanged(int $objId, int $userId) : string
     {
-        return ilLPStatus::_lookupStatusChanged($objId, $userId);
+        return (string) ilLPStatus::_lookupStatusChanged($objId, $userId);
     }
 
-    /**
-     * @param $objectId
-     * @param $userId
-     * @return mixed
-     */
-    public function lookUpStatus($objectId, $userId)
+    public function lookUpStatus(int $objectId, int $userId) : int
     {
-        return ilLPStatus::_lookupStatus($objectId, $userId);
+        return (int) ilLPStatus::_lookupStatus($objectId, $userId);
     }
 }

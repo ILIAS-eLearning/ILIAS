@@ -10,45 +10,22 @@ use ILIAS\UI\Renderer;
  */
 class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
 {
-    /** @var ILIAS\UI\Factory */
-    protected $uiFactory;
-
-    /** @var ILIAS\UI\Renderer */
-    protected $uiRenderer;
-
-    /** @var $bool */
-    protected $isEditable = false;
-
-    /** @var int */
-    protected $factor = 10;
-
-    /** @var int */
-    protected $i = 1;
-
-    /** @var int */
-    protected $numRenderedCriteria = 0;
-
-    /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
-
+    protected Factory $uiFactory;
+    protected Renderer $uiRenderer;
+    protected bool $isEditable = false;
+    protected int $factor = 10;
+    protected int $i = 1;
+    protected int $numRenderedCriteria = 0;
+    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
     /** @var ILIAS\UI\Component\Component[] */
-    protected $uiComponents = [];
+    protected array $uiComponents = [];
 
-    /**
-     * ilTermsOfServiceDocumentTableGUI constructor.
-     * @param ilTermsOfServiceControllerEnabled             $a_parent_obj
-     * @param string                                        $command
-     * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param Factory                             $uiFactory
-     * @param Renderer                            $uiRenderer
-     * @param bool                                          $isEditable
-     */
     public function __construct(
         ilTermsOfServiceControllerEnabled $a_parent_obj,
         string $command,
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
-        ILIAS\UI\Factory $uiFactory,
-        ILIAS\UI\Renderer $uiRenderer,
+        Factory $uiFactory,
+        Renderer $uiRenderer,
         bool $isEditable = false
     ) {
         $this->criterionTypeFactory = $criterionTypeFactory;
@@ -79,9 +56,6 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getColumnDefinition() : array
     {
         $i = 0;
@@ -156,9 +130,6 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $columns;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function preProcessData(array &$data) : void
     {
         foreach ($data['items'] as $key => $document) {
@@ -176,11 +147,6 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         }
     }
 
-    /**
-     * @inheritdoc
-     * @throws ilDateTimeException
-     * @throws ilTermsOfServiceCriterionTypeNotFoundException
-     */
     protected function formatCellValue(string $column, array $row) : string
     {
         if (in_array($column, ['creation_ts', 'modification_ts'])) {
@@ -200,11 +166,6 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return parent::formatCellValue($column, $row);
     }
 
-    /**
-     * @param string $column
-     * @param array  $row
-     * @return string
-     */
     protected function formatActionsDropDown(string $column, array $row) : string
     {
         if (!$this->isEditable) {
@@ -252,12 +213,6 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$dropDown]);
     }
 
-    /**
-     * @param string $column
-     * @param array  $row
-     * @return string
-     * @throws ilTermsOfServiceCriterionTypeNotFoundException
-     */
     protected function formatCriterionAssignments(string $column, array $row) : string
     {
         $items = [];
@@ -329,11 +284,6 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         ]);
     }
 
-    /**
-     * @param string $column
-     * @param array  $row
-     * @return string
-     */
     protected function formatTitle(string $column, array $row) : string
     {
         $modal = $this->uiFactory
@@ -348,10 +298,6 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    /**
-     * @param array $row
-     * @return string
-     */
     protected function formatSorting(array $row) : string
     {
         $value = ($this->i++) * $this->factor;
@@ -367,10 +313,7 @@ class ilTermsOfServiceDocumentTableGUI extends ilTermsOfServiceTableGUI
         return $sortingField->render();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

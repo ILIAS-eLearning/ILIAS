@@ -2,16 +2,16 @@
 
 package de.ilias.services.lucene.index.file.path;
 
-import de.ilias.services.db.DBFactory;
+import java.io.File;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.apache.log4j.Logger;
+
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-import java.io.File;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -23,13 +23,6 @@ public class FileObjectPathCreator7  implements PathCreator
 	
 	protected String basePath = "storage";
 	protected static final String BIN_NAME = "data";
-
-	/**
-	 * Default constructor
-	 */
-	public FileObjectPathCreator7() {
-
-	}
 	
 	/**
 	 * Set bas path
@@ -58,11 +51,6 @@ public class FileObjectPathCreator7  implements PathCreator
 	public File buildFile(CommandQueueElement el, ResultSet res)
 			throws PathCreatorException {
 
-		
-		int objId = el.getObjId();
-		
-		
-		
 		StringBuilder fullPath = new StringBuilder();
 		StringBuilder versionPath = new StringBuilder();
 		
@@ -74,8 +62,6 @@ public class FileObjectPathCreator7  implements PathCreator
 			if (resVersion > 0) {
 				versionCode = resVersion;
 			}
-			String rid = res.getString("rid");
-			String resourcePath = "";
 
 			fullPath.append(ClientSettings.getInstance(LocalSettings.getClientKey()).getDataDirectory().getAbsolutePath());
 			fullPath.append(System.getProperty("file.separator"));
@@ -83,8 +69,7 @@ public class FileObjectPathCreator7  implements PathCreator
 			fullPath.append(System.getProperty("file.separator"));
 			fullPath.append(getBasePath());
 			fullPath.append(System.getProperty("file.separator"));
-			fullPath.append(rid.replaceAll("-", System.getProperty("file.separator")));
-			
+			fullPath.append(res.getString("resource_path"));
 			versionPath.append(fullPath);
 			versionPath.append(System.getProperty("file.separator"));
 			versionPath.append(String.valueOf(versionCode));
@@ -94,20 +79,19 @@ public class FileObjectPathCreator7  implements PathCreator
 			logger.info("Detected file object path is: " + versionPath.toString());
 
 			file = new File(versionPath.toString());
-			if(file.exists() && file.canRead()) {
-				return file;
+			if (!file.exists()) {
+			  throw new PathCreatorException("Cannot find file: " + fullPath.toString());
 			}
-			return null;
+
+			if (!file.canRead()) {
+			  throw new PathCreatorException("Cannot read file: " + fullPath.toString());
+			}
+
+			return file;
 		} 
-		catch (ConfigurationException e) {
+		catch (ConfigurationException | SQLException | NullPointerException e) {
 			throw new PathCreatorException(e);
 		}
-		catch (SQLException e) {
-			throw new PathCreatorException(e);
-		}
-		catch (NullPointerException e) {
-			throw new PathCreatorException(e);
-		} 
 	}
 
 	/**

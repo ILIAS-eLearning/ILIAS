@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * TableGUI class for
@@ -13,62 +30,31 @@ class ilSkillCatTableGUI extends ilTable2GUI
      * @var ilCtrl
      */
     protected $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilAccessHandler $access;
+    protected int $tref_id;
+    protected int $mode;
+    protected ilSkillTree $skill_tree;
+    protected int $obj_id;
+    protected SkillAdminGUIRequest $admin_gui_request;
+    protected int $requested_obj_id;
+    protected int $requested_tref_id;
 
     public const MODE_SCAT = 0;
     public const MODE_SCTP = 1;
-    protected $tref_id = 0;
 
-    /**
-     * @var int
-     */
-    protected $mode;
-
-    /**
-     * @var ilSkillTree
-     */
-    protected $skill_tree;
-
-    /**
-     * @var int
-     */
-    protected $obj_id;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_obj_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_tref_id;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
-        $a_obj_id,
-        $a_mode = self::MODE_SCAT,
-        $a_tref_id = 0
+        string $a_parent_cmd,
+        int $a_obj_id,
+        int $a_mode = self::MODE_SCAT,
+        int $a_tref_id = 0
     ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -76,9 +62,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->tref_id = $a_tref_id;
         $ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
 
-        $params = $this->request->getQueryParams();
-        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
-        $this->requested_tref_id = (int) ($params["tref_id"] ?? 0);
+        $this->requested_obj_id = $this->admin_gui_request->getObjId();
+        $this->requested_tref_id = $this->admin_gui_request->getTrefId();
         
         $this->mode = $a_mode;
         $this->skill_tree = new ilSkillTree();
@@ -129,11 +114,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
             $this->addCommandButton("saveOrder", $lng->txt("skmg_save_order"));
         }
     }
-    
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

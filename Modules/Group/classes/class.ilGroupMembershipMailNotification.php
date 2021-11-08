@@ -360,7 +360,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
                             $this->getLanguageText('grp_mail_wl_bod'),
                             $this->getObjectTitle(),
                             $info['position']
-                            )
+                        )
                     );
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));
@@ -404,7 +404,7 @@ class ilGroupMembershipMailNotification extends ilMailNotification
      * @param object $a_usr_id
      * @return
      */
-    protected function initLanguage($a_usr_id)
+    protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('grp');

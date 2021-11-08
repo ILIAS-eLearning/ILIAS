@@ -323,9 +323,7 @@ class ilDclRecordEditGUI
                     }
                 }
                 $this->form->addItem($item);
-
             }
-
         }
 
         $this->tpl->addInlineCss($inline_css);
@@ -594,7 +592,7 @@ class ilDclRecordEditGUI
             foreach ($all_fields as $field) {
                 $field_setting = $field->getViewSetting($this->tableview_id);
 
-                if ($field_setting->isVisibleInForm($create_mode) && 
+                if ($field_setting->isVisibleInForm($create_mode) &&
                     (!$field_setting->isLocked($create_mode) || ilObjDataCollectionAccess::hasWriteAccess($this->parent_obj->ref_id))) {
                     // set all visible fields
                     $record_obj->setRecordFieldValueFromForm($field->getId(), $this->form);
@@ -759,7 +757,7 @@ class ilDclRecordEditGUI
         $dest = $_POST['dest'];
         $html = "";
         $query_parser = new ilQueryParser($search);
-        $query_parser->setMinWordLength(1, true);
+        $query_parser->setMinWordLength(1);
         $query_parser->setCombination(QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {

@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skill root GUI class
@@ -10,36 +25,13 @@
  */
 class ilSkillRootGUI extends ilSkillTreeNodeGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTabsGUI $tabs;
+    protected ilToolbarGUI $toolbar;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_node_id = 0)
+    public function __construct(int $a_node_id = 0)
     {
         global $DIC;
 
@@ -55,18 +47,12 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         parent::__construct($a_node_id);
     }
 
-    /**
-     * Get Node Type
-     */
-    public function getType()
+    public function getType() : string
     {
         return "skrt";
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -81,11 +67,8 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
                 break;
         }
     }
-    
-    /**
-     * List templates
-     */
-    public function listTemplates()
+
+    public function listTemplates() : void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -116,10 +99,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($table->getHTML());
     }
 
-    /**
-     * List skills
-     */
-    public function listSkills()
+    public function listSkills() : void
     {
         $tpl = $this->tpl;
         $ilToolbar = $this->toolbar;
@@ -149,11 +129,8 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         
         $tpl->setContent($table->getHTML());
     }
-    
-    /**
-     * cancel delete
-     */
-    public function cancelDelete()
+
+    public function cancelDelete() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -164,10 +141,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         }
     }
 
-    /**
-     * Show import form
-     */
-    public function showImportForm()
+    public function showImportForm() : void
     {
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
@@ -176,10 +150,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($this->initInputForm()->getHTML());
     }
 
-    /**
-     * Init input form.
-     */
-    public function initInputForm()
+    public function initInputForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -201,10 +172,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         return $form;
     }
 
-    /**
-     * Import skills
-     */
-    public function importSkills()
+    public function importSkills() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;

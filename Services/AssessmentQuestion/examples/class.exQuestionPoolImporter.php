@@ -13,12 +13,12 @@
 class exQuestionPoolImporter extends ilXmlImporter
 {
     /**
-     * @param string $a_entity
-     * @param int $a_id
-     * @param string $a_xml
-     * @param array $a_mapping
+     * @param string          $a_entity
+     * @param string          $a_id
+     * @param string          $a_xml
+     * @param ilImportMapping $a_mapping
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         /**
          * here consumers can regularly process their own import stuff.
@@ -31,11 +31,10 @@ class exQuestionPoolImporter extends ilXmlImporter
     
     /**
      * Final processing
-     *
      * @param ilImportMapping $a_mapping
-     * @return
+     * @return void
      */
-    public function finalProcessing($a_mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         

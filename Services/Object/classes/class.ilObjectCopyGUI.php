@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Repository\Clipboard\ClipboardManager;
+
 /**
  * GUI class for the workflow of copying objects
  *
@@ -108,6 +110,7 @@ class ilObjectCopyGUI
      */
     private $log = null;
 
+    protected ClipboardManager $clipboard;
 
     /**
      * Constructor
@@ -130,7 +133,6 @@ class ilObjectCopyGUI
         $this->user = $DIC->user();
         $this->rbacreview = $DIC->rbac()->review();
         $this->log = $DIC["ilLog"];
-        $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         
         $this->lng = $lng;
@@ -140,6 +142,11 @@ class ilObjectCopyGUI
         $this->parent_obj = $a_parent_gui;
         
         $this->log = ilLoggerFactory::getLogger('obj');
+        $this->clipboard = $DIC
+            ->repository()
+            ->internal()
+            ->domain()
+            ->clipboard();
     }
     
     /**
@@ -755,8 +762,8 @@ class ilObjectCopyGUI
     {
         ilUtil::sendSuccess($this->lng->txt("obj_inserted_clipboard"), true);
         $ilCtrl = $this->ctrl;
-        $_SESSION['clipboard']['cmd'] = "copy";
-        $_SESSION['clipboard']['ref_ids'] = $this->getSources();
+        $this->clipboard->setCmd("copy");
+        $this->clipboard->setRefIds($this->getSources());
         $ilCtrl->returnToParent($this);
     }
 
@@ -790,7 +797,7 @@ class ilObjectCopyGUI
         }
         
         $query_parser = new ilQueryParser($this->form->getInput('tit'));
-        $query_parser->setMinWordLength(1, true);
+        $query_parser->setMinWordLength(1);
         $query_parser->setCombination(QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
@@ -1039,8 +1046,7 @@ class ilObjectCopyGUI
             }
         }
 
-        unset($_SESSION["clipboard"]["ref_ids"]);
-        unset($_SESSION["clipboard"]["cmd"]);
+        $this->clipboard->clear();
 
         if (count($a_sources) == 1) {
             ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
@@ -1081,10 +1087,9 @@ class ilObjectCopyGUI
             $result = $this->copyContainer($target_ref_id);
             $last_target = $target_ref_id;
         }
-        
-        unset($_SESSION["clipboard"]["ref_ids"]);
-        unset($_SESSION["clipboard"]["cmd"]);
-        
+
+        $this->clipboard->clear();
+
         if (ilCopyWizardOptions::_isFinished($result['copy_id'])) {
             ilLoggerFactory::getLogger('obj')->info('Object copy completed.');
             ilUtil::sendSuccess($this->lng->txt("object_duplicated"), true);

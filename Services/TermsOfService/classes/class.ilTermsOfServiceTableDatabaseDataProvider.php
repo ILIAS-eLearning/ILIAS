@@ -7,13 +7,8 @@
  */
 abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfServiceTableDataProvider
 {
-    /** @var ilDBInterface */
-    protected $db;
+    protected ilDBInterface $db;
 
-    /**
-     * ilTermsOfServiceTableDatabaseDataProvider constructor.
-     * @param ilDBInterface $db
-     */
     public function __construct(ilDBInterface $db)
     {
         $this->db = $db;
@@ -96,19 +91,19 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
             $this->db->setLimit($params['limit'], $params['offset']);
         }
 
-        $where = strlen($where) ? 'WHERE ' . $where : '';
-        $query = "SELECT {$select} FROM {$from} {$where}";
+        $where = $where !== '' ? 'WHERE ' . $where : '';
+        $query = "SELECT $select FROM $from $where";
 
-        if (strlen($group)) {
-            $query .= " GROUP BY {$group}";
+        if ($group !== '') {
+            $query .= " GROUP BY $group";
         }
 
-        if (strlen($having)) {
-            $query .= " HAVING {$having}";
+        if ($having !== '') {
+            $query .= " HAVING $having";
         }
 
-        if (strlen($order)) {
-            $query .= " ORDER BY {$order}";
+        if ($order !== '') {
+            $query .= " ORDER BY $order";
         }
 
         $res = $this->db->query($query);
@@ -117,7 +112,7 @@ abstract class ilTermsOfServiceTableDatabaseDataProvider implements ilTermsOfSer
         }
 
         if (isset($params['limit'])) {
-            $cnt_sql = "SELECT COUNT(*) cnt FROM ({$query}) subquery";
+            $cnt_sql = "SELECT COUNT(*) cnt FROM ($query) subquery";
             $row_cnt = $this->db->fetchAssoc($this->db->query($cnt_sql));
             $data['cnt'] = $row_cnt['cnt'];
         }

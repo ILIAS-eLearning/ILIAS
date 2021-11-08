@@ -13,13 +13,8 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilTermsOfServiceBaseTest extends TestCase
 {
-    /** @var Container */
-    protected $dic;
+    protected Container $dic;
 
-    /**
-     * @inheritdoc
-     * @throws ReflectionException
-     */
     protected function setUp() : void
     {
         $this->dic = new Container();
@@ -36,7 +31,6 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
 
     /**
      * @return MockObject|ilLanguage
-     * @throws ReflectionException
      */
     protected function getLanguageMock() : ilLanguage
     {
@@ -58,14 +52,14 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
             ->getMockBuilder(Factory::class)
             ->getMock();
 
-        $ui->expects($this->any())->method('legacy')->will($this->returnCallback(function ($content) {
+        $ui->method('legacy')->willReturnCallback(function ($content) {
             $legacyMock = $this
                 ->getMockBuilder(Legacy::class)
                 ->getMock();
-            $legacyMock->expects($this->any())->method('getContent')->willReturn($content);
+            $legacyMock->method('getContent')->willReturn($content);
 
             return $legacyMock;
-        }));
+        });
 
         return $ui;
     }
@@ -81,7 +75,7 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = function ($c) use ($name) {
+        $DIC[$name] = static function ($c) use ($name) {
             return $GLOBALS[$name];
         };
     }
@@ -99,12 +93,11 @@ abstract class ilTermsOfServiceBaseTest extends TestCase
         return new ilTermsOfServiceCriterionConfig($value);
     }
 
-    protected function initLangMock()
+    protected function initLangMock() : void
     {
         $lng = $this->getLanguageMock();
 
         $lng
-            ->expects($this->any())
             ->method('txt')
             ->willReturn('translation');
 

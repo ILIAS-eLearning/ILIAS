@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,54 +21,34 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once("./Services/Object/classes/class.ilObjectAccess.php");
-
 /**
-* Class ilObjCertificateSettingsAccess
-*
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-* @version $Id$
-*
-*/
+ * Class ilObjCertificateSettingsAccess
+ * @author  Helmut Schottmüller <ilias@aurealis.de>
+ * @version $Id$
+ */
 class ilObjCertificateSettingsAccess extends ilObjectAccess
 {
-    /**
-    * Returns wheather or not a default background image exists
-    *
-    * @return boolean TRUE if a background image exists, FALSE otherwise
-    */
-    public static function hasBackgroundImage()
+    public static function hasBackgroundImage() : bool
     {
-        if (@file_exists(ilObjCertificateSettingsAccess::getBackgroundImagePath()) && (@filesize(ilObjCertificateSettingsAccess::getBackgroundImagePath()) > 0)) {
+        if (is_file(self::getBackgroundImagePath()) && filesize(self::getBackgroundImagePath()) > 0) {
             return true;
         }
         return false;
     }
 
-    /**
-    * Returns the filesystem path for the default background image
-    *
-    * @return string The filesystem path of the background image
-    */
-    public static function getBackgroundImageDefaultFolder()
+    public static function getBackgroundImageDefaultFolder() : string
     {
         return CLIENT_WEB_DIR . "/certificates/default/";
     }
 
-    /**
-    * Returns the filesystem path of the background image
-    * @param bool $asRelative
-    * @return string The filesystem path of the background image
-    */
-    public static function getBackgroundImagePath($asRelative = false)
+    public static function getBackgroundImagePath(bool $asRelative = false) : string
     {
-        $imagePath = ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName();
+        $imagePath = self::getBackgroundImageDefaultFolder() . self::getBackgroundImageName();
 
         if ($asRelative) {
             return str_replace(
-                array(CLIENT_WEB_DIR, '//'),
-                array('[CLIENT_WEB_DIR]', '/'),
+                [CLIENT_WEB_DIR, '//'],
+                ['[CLIENT_WEB_DIR]', '/'],
                 $imagePath
             );
         }
@@ -76,40 +56,24 @@ class ilObjCertificateSettingsAccess extends ilObjectAccess
         return $imagePath;
     }
 
-    /**
-    * Returns the filename of the background image
-    *
-    * @return string The filename of the background image
-    */
-    public static function getBackgroundImageName()
+    public static function getBackgroundImageName() : string
     {
         return "background.jpg";
     }
 
-    /**
-    * Returns the filesystem path of the background image thumbnail
-    *
-    * @return string The filesystem path of the background image thumbnail
-    */
-    public static function getBackgroundImageThumbPath()
+    public static function getBackgroundImageThumbPath() : string
     {
-        return ilObjCertificateSettingsAccess::getBackgroundImageDefaultFolder() . ilObjCertificateSettingsAccess::getBackgroundImageName() . ".thumb.jpg";
+        return self::getBackgroundImageDefaultFolder() . self::getBackgroundImageName() . ".thumb.jpg";
     }
 
-
-    /**
-    * Returns the web path of the background image thumbnail
-    *
-    * @return string The web path of the background image thumbnail
-    */
-    public static function getBackgroundImageThumbPathWeb()
+    public static function getBackgroundImageThumbPathWeb() : string
     {
         return str_replace(
             ilUtil::removeTrailingPathSeparators(
                 ILIAS_ABSOLUTE_PATH
-        ),
+            ),
             ilUtil::removeTrailingPathSeparators(ILIAS_HTTP_PATH),
-            ilObjCertificateSettingsAccess::getBackgroundImageThumbPath()
+            self::getBackgroundImageThumbPath()
         );
     }
 }

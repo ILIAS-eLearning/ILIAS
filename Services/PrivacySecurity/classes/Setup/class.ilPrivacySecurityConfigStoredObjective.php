@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
 /* Copyright (c) 2020 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use ILIAS\Setup;
@@ -11,7 +12,7 @@ use ILIAS\Setup;
 class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
 {
     /**
-     * @var	\ilPrivacySecuritySetupConfig
+     * @var    \ilPrivacySecuritySetupConfig
      */
     protected $config;
 
@@ -37,9 +38,8 @@ class ilPrivacySecurityConfigStoredObjective implements Setup\Objective
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
-        $common_config = $environment->getConfigFor("common");
         return [
-            new \ilIniFilesPopulatedObjective($common_config),
+            new \ilIniFilesPopulatedObjective(),
             new \ilSettingsFactoryExistsObjective()
         ];
     }

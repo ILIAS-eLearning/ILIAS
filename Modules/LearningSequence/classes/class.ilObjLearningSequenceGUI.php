@@ -16,7 +16,6 @@ use ILIAS\Data;
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilColumnGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjectCopyGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilExportGUI
- * @ilCtrl_Calls ilObjLearningSequenceGUI: ilContainerLinkListGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceSettingsGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceContentGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjLearningSequenceLearnerGUI
@@ -83,6 +82,9 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
     const MAIL_ALLOWED_ALL = 1;
     const MAIL_ALLOWED_TUTORS = 2;
 
+    const ACCESS_READ = 'read';
+    const ACCESS_VISIBLE = 'visible';
+
     protected string $obj_type;
     protected ilNavigationHistory $navigation_history;
     protected ilObjectService $obj_service;
@@ -97,12 +99,75 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
     {
         global $DIC;
 
+        $request = $DIC->http()->request();
+        $lng = $DIC->language();
+        $err = $DIC['ilErr'];
+
+        $targetParameters = explode('_', $target);
+        $id = (int) $targetParameters[0];
+
+        if (!self::isAccessible($id)) {
+            $err->raiseError($lng->txt('msg_no_perm_read'), $err->FATAL);
+        }
+
+        if (self::hasAccess(self::ACCESS_READ, $id)) {
+            $params = ['ref_id' => $id];
+
+            if (isset($request->getQueryParams()['gotolp'])) {
+                $params['gotolp'] = 1;
+            }
+
+            self::forwardByClass(
+                ilRepositoryGUI::class,
+                [ilRepositoryGUI::class, ilObjLearningSequenceGUI::class],
+                $params,
+                self::CMD_VIEW
+            );
+        }
+
+        if (self::hasAccess(self::ACCESS_VISIBLE, $id)) {
+            ilObjectGUI::_gotoRepositoryNode($target, 'infoScreen');
+        }
+
+        if (self::hasAccess(self::ACCESS_READ, ROOT_FOLDER_ID)) {
+            ilUtil::sendInfo(sprintf(
+                $lng->txt('msg_no_perm_read_item'),
+                ilObject::_lookupTitle(ilObject::_lookupObjId($id))
+            ), true);
+
+            self::forwardByClass(ilRepositoryGUI::class, [ilRepositoryGUI::class], ['ref_id' => ROOT_FOLDER_ID]);
+        }
+    }
+
+    protected static function isAccessible(int $id) : bool
+    {
+        return $id > 0 && (
+            self::hasAccess(self::ACCESS_READ, $id) ||
+                self::hasAccess(self::ACCESS_VISIBLE, $id) ||
+                self::hasAccess(self::ACCESS_READ, ROOT_FOLDER_ID)
+        );
+    }
+
+    protected static function hasAccess(string $mode, int $id) : bool
+    {
+        global $DIC;
+        return $DIC->access()->checkAccess($mode, '', $id);
+    }
+
+    protected static function forwardByClass(string $base_class, array $classes, array $params, string $cmd = '')
+    {
+        global $DIC;
         $ctrl = $DIC->ctrl();
-        $id = explode("_", $target);
-        $ctrl->setTargetScript("ilias.php");
-        $ctrl->initBaseClass("ilRepositoryGUI");
-        $ctrl->setParameterByClass("ilobjlearningsequencegui", "ref_id", $id[0]);
-        $ctrl->redirectByClass(array( "ilRepositoryGUI", "ilobjlearningsequencegui" ), self::CMD_VIEW);
+        $target_class = end($classes);
+
+        $ctrl->setTargetScript('ilias.php');
+        $ctrl->initBaseClass($base_class);
+
+        foreach ($params as $key => $value) {
+            $ctrl->setParameterByClass($target_class, $key, $value);
+        }
+
+        $ctrl->redirectByClass($classes, $cmd);
     }
 
     public function __construct()
@@ -136,7 +201,6 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         $this->help->setScreenIdComponent($this->obj_type);
         $this->lng->loadLanguageModule($this->obj_type);
 
-        $this->object = $this->getObject();
         $this->data_factory = new Data\Factory();
     }
 
@@ -408,7 +472,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
             $this,
             $this->getObject(),
             $this->getTrackingObject(),
-            ilPrivacySettings::_getInstance(),
+            ilPrivacySettings::getInstance(),
             $this->rbac_review,
             $this->settings,
             $this->toolbar
@@ -572,7 +636,7 @@ class ilObjLearningSequenceGUI extends ilContainerGUI
         }
     }
 
-    public function renderObject()
+    public function renderObject() : void
     {
         // disables this method in ilContainerGUI
     }

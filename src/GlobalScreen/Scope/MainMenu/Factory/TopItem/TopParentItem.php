@@ -6,19 +6,25 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasSymbolTrait;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\hasTitle;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\isTopItem;
 use ILIAS\GlobalScreen\Scope\MainMenu\Factory\SymbolDecoratorTrait;
+use ILIAS\GlobalScreen\Scope\MainMenu\Factory\supportsAsynchronousLoading;
 
 /**
  * Class TopParentItem
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, hasSymbol
+class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, hasSymbol, supportsAsynchronousLoading
 {
     use SymbolDecoratorTrait;
     use hasSymbolTrait;
+
     /**
      * @var string
      */
     protected $title = '';
+    /**
+     * @var bool
+     */
+    protected $supports_async_loading = false;
 
     /**
      * @param string $title
@@ -39,4 +45,18 @@ class TopParentItem extends AbstractParentItem implements isTopItem, hasTitle, h
     {
         return $this->title;
     }
+
+    public function withSupportsAsynchronousLoading(bool $supported) : supportsAsynchronousLoading
+    {
+        $clone = clone($this);
+        $clone->supports_async_loading = $supported;
+
+        return $clone;
+    }
+
+    public function supportsAsynchronousLoading() : bool
+    {
+        return $this->supports_async_loading;
+    }
+
 }

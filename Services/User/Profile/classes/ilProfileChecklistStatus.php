@@ -54,11 +54,24 @@ class ilProfileChecklistStatus
     private function areOnScreenChatOptionsVisible() : bool
     {
         $chatSettings = new ilSetting('chatroom');
-        $notificationSettings = new ilSetting('notifications');
 
         return (
+            $chatSettings->get('chat_enabled', false) &&
             $chatSettings->get('enable_osc', false) &&
-            !(bool) $notificationSettings->get('usr_settings_hide_chat_osc_accept_msg', false)
+            !(bool) $this->settings->get('usr_settings_hide_chat_osc_accept_msg', false)
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    private function areChatTypingBroadcastOptionsVisible() : bool
+    {
+        $chatSettings = new ilSetting('chatroom');
+
+        return (
+            $chatSettings->get('chat_enabled', false) &&
+            !(bool) $this->settings->get('usr_settings_hide_chat_broadcast_typing', false)
         );
     }
 
@@ -94,7 +107,8 @@ class ilProfileChecklistStatus
         if (
             $awrn_set->get("awrn_enabled", false) ||
             ilBuddySystem::getInstance()->isEnabled() ||
-            $this->areOnScreenChatOptionsVisible()
+            $this->areOnScreenChatOptionsVisible() ||
+            $this->areChatTypingBroadcastOptionsVisible()
         ) {
             return true;
         }
@@ -182,7 +196,7 @@ class ilProfileChecklistStatus
                             : $lng->txt("show_own_online_status");
                     }
                     if (ilBuddySystem::getInstance()->isEnabled()) {
-                        $status[] = ($user->getPref("bs_allow_to_contact_me") != "y")
+                        $status[] = ($user->getPref("bs_allow_to_contact_me") !== "y")
                             ? $lng->txt("buddy_allow_to_contact_me_no")
                             : $lng->txt("buddy_allow_to_contact_me_yes");
                     }
@@ -190,6 +204,11 @@ class ilProfileChecklistStatus
                         $status[] = ilUtil::yn2tf($this->user->getPref('chat_osc_accept_msg'))
                             ? $lng->txt("chat_use_osc")
                             : $lng->txt("chat_not_use_osc");
+                    }
+                    if ($this->areChatTypingBroadcastOptionsVisible()) {
+                        $status[] = ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'))
+                            ? $lng->txt("chat_use_typing_broadcast")
+                            : $lng->txt("chat_no_use_typing_broadcast");
                     }
                     $details = implode(",<br>", $status);
                 } else {

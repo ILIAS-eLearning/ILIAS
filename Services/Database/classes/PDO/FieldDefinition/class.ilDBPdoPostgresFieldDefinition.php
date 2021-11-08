@@ -1,37 +1,30 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilDBPdoPostgresFieldDefinition
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
 {
 
-    /**
-     * @var array
-     */
-    protected $options = array(
+    protected array $options = array(
         'default_text_field_length' => 4096,
         'decimal_places' => 2,
     );
 
     /**
      * @param $field
-     * @return string
      */
-    public function getTypeDeclaration($field)
+    public function getTypeDeclaration($field) : string
     {
-        $db = $this->getDBInstance();
-
         switch ($field['type']) {
             case 'text':
-                $length = !empty($field['length']) ? $field['length'] : $this->options['default_text_field_length'];
-                $fixed = !empty($field['fixed']) ? $field['fixed'] : false;
+                $length = empty($field['length']) ? $this->options['default_text_field_length'] : $field['length'];
                 $fixed = false; // FSX we do not want to have fixed lengths
-
-                return $fixed ? ($length ? 'CHAR(' . $length . ')' : 'CHAR(' . $this->options['default_text_field_length']
-                                                                     . ')') : ($length ? 'VARCHAR(' . $length . ')' : 'TEXT');
+                if ($fixed) {
+                    return $length ? 'CHAR(' . $length . ')' : 'CHAR(' . $this->options['default_text_field_length'] . ')';
+                }
+                return $length ? 'VARCHAR(' . $length . ')' : 'TEXT';
             case 'clob':
                 return 'TEXT';
             case 'blob':
@@ -51,9 +44,13 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
                     $length = $field['length'];
                     if ($length <= 2) {
                         return 'SMALLINT';
-                    } elseif ($length == 3 || $length == 4) {
+                    }
+
+                    if ($length === 3 || $length === 4) {
                         return 'INT';
-                    } elseif ($length > 4) {
+                    }
+
+                    if ($length > 4) {
                         return 'BIGINT';
                     }
                 }
@@ -70,27 +67,23 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
             case 'float':
                 return 'FLOAT8';
             case 'decimal':
-                $length = !empty($field['length']) ? $field['length'] : 18;
-                $scale = !empty($field['scale']) ? $field['scale'] : $this->options['decimal_places'];
+                $length = empty($field['length']) ? 18 : $field['length'];
+                $scale = empty($field['scale']) ? $this->options['decimal_places'] : $field['scale'];
 
                 return 'NUMERIC(' . $length . ',' . $scale . ')';
         }
+        return '';
     }
-
 
     /**
      * @param $name
      * @param $field
-     * @return string
      * @throws \ilDatabaseException
      */
-    protected function getIntegerDeclaration($name, $field)
+    protected function getIntegerDeclaration($name, $field) : string
     {
         $db = $this->getDBInstance();
 
-        if (!empty($field['unsigned'])) {
-            $db->warnings[] = "unsigned integer field \"$name\" is being declared as signed integer";
-        }
         if (!empty($field['autoincrement'])) {
             $name = $db->quoteIdentifier($name, true);
 
@@ -112,13 +105,12 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
         return $name . ' ' . $this->getTypeDeclaration($field) . $default . $notnull;
     }
 
-
     /**
      * @param $field
-     * @return array
+     * @return mixed[]
      * @throws \ilDatabaseException
      */
-    protected function mapNativeDatatypeInternal($field)
+    protected function mapNativeDatatypeInternal($field) : array
     {
         $db_type = strtolower($field['type']);
         $length = $field['length'];
@@ -162,17 +154,17 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
             case 'text':
             case 'varchar':
                 $fixed = false;
-                // no break
+            // no break
             case 'unknown':
             case 'char':
             case 'bpchar':
                 $type[] = 'text';
-                if ($length == '1') {
+                if ($length === '1') {
                     $type[] = 'boolean';
                     if (preg_match('/^(is|has)/', $field['name'])) {
                         $type = array_reverse($type);
                     }
-                } elseif (strstr($db_type, 'text')) {
+                } elseif (strpos($db_type, 'text') !== false) {
                     $type[] = 'clob';
                 }
                 if ($fixed !== false) {
@@ -232,6 +224,6 @@ class ilDBPdoPostgresFieldDefinition extends ilDBPdoFieldDefinition
             $length = null;
         }
 
-        return array( $type, $length, $unsigned, $fixed );
+        return array($type, $length, $unsigned, $fixed);
     }
 }

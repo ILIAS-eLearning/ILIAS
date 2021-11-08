@@ -1543,7 +1543,7 @@ class ilCalendarCategoryGUI
             "invitations",
             $lng->txt("cal_shared_calendars"),
             $ilCtrl->getLinkTarget($this, "invitations")
-            );
+        );
 
         $ilTabs->activateSubTab($a_active);
     }

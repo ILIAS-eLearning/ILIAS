@@ -61,7 +61,8 @@ final class ilBibliographicStorageMigration implements Setup\Migration
 
         $this->helper->getDatabase()->manipulateF(
             'UPDATE `il_bibl_data` SET `rid` = %s WHERE `id` = %s;',
-            ['text', 'integer'], [
+            ['text', 'integer'],
+            [
                 $identification->serialize(),
                 $d->id,
             ]
@@ -78,5 +79,4 @@ final class ilBibliographicStorageMigration implements Setup\Migration
 
         return (int) $d->amount;
     }
-
 }

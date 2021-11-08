@@ -36,12 +36,11 @@ class ilECSAppEventListener implements ilAppEventListener
 {
     /**
     * Handle an event in a listener.
-    *
-    * @param	string	$a_component	component, e.g. "Modules/Forum" or "Services/User"
-    * @param	string	$a_event		event e.g. "createUser", "updateUser", "deleteUser", ...
-    * @param	array	$a_parameter	parameter array (assoc), array("name" => ..., "phone_office" => ...)
+    * @param	string $a_component component, e.g. "Modules/Forum" or "Services/User"
+    * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
+    * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
     */
-    public static function handleEvent($a_component, $a_event, $a_parameter)
+    public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         global $DIC;
 
@@ -70,7 +69,7 @@ class ilECSAppEventListener implements ilAppEventListener
                         if (ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs') {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
                                 $log->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
-                                return true;
+                                return;
                             }
                             
                             $settings = self::initServer($a_parameter['usr_id']);
@@ -85,7 +84,7 @@ class ilECSAppEventListener implements ilAppEventListener
                         if (ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs') {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
                                 $log->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
-                                return true;
+                                return;
                             }
                             include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
                             self::updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED);
@@ -96,7 +95,7 @@ class ilECSAppEventListener implements ilAppEventListener
                         if ((ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs')) {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
                                 $log->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
-                                return true;
+                                return;
                             }
                             
                             $settings = self::initServer($user->getId());
@@ -125,7 +124,7 @@ class ilECSAppEventListener implements ilAppEventListener
                         if (ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs') {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
                                 $log->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
-                                return true;
+                                return;
                             }
                             
                             $settings = self::initServer($a_parameter['usr_id']);
@@ -141,7 +140,7 @@ class ilECSAppEventListener implements ilAppEventListener
                         if (ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs') {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
                                 $log->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
-                                return true;
+                                return;
                             }
                             include_once './Services/WebServices/ECS/classes/Connectors/class.ilECSEnrolmentStatus.php';
                             self::updateEnrolmentStatus($a_parameter['obj_id'], $user, ilECSEnrolmentStatus::STATUS_UNSUBSCRIBED);
@@ -153,7 +152,7 @@ class ilECSAppEventListener implements ilAppEventListener
                         if ((ilObjUser::_lookupAuthMode($a_parameter['usr_id']) == 'ecs')) {
                             if (!$user = ilObjectFactory::getInstanceByObjId($a_parameter['usr_id'])) {
                                 $log->info('No valid user found for usr_id ' . $a_parameter['usr_id']);
-                                return true;
+                                return;
                             }
                             
                             $settings = self::initServer($user->getId());
@@ -245,15 +244,26 @@ class ilECSAppEventListener implements ilAppEventListener
             );
             if ($user->getAuthMode() == $msettings->getAuthMode()) {
                 $log->info('Adding user ' . $assignment->getUid() . ' to course/group: ' . $assignment->getObjId());
-                include_once './Services/Membership/classes/class.ilParticipants.php';
-                
-                if (
-                    ilObject::_lookupType($assignment->getObjId()) == 'crs' ||
-                    ilObject::_lookupType($assignment->getObjId()) == 'grp'
-                ) {
-                    include_once './Modules/Course/classes/class.ilCourseConstants.php';
-                    $part = ilParticipants::getInstanceByObjId($assignment->getObjId());
-                    $part->add($user->getId(), ilCourseConstants::CRS_MEMBER);
+                $obj_type = ilObject::_lookupType($assignment->getObjId());
+                if ($obj_type !== 'crs' && $obj_type !== 'grp') {
+                    $log->error('Invalid assignment type: ' . $obj_type);
+                    $log->logStack(ilLogLevel::ERROR);
+                    continue;
+                }
+                $refs = ilObject::_getAllReferences($assignment->getObjId());
+                $ref_id = end($refs);
+
+                try {
+                    $part = ilParticipants::getInstance((int) $ref_id);
+                    if ($obj_type === 'crs') {
+                        $part->add($user->getId(), ilCourseConstants::CRS_MEMBER);
+                    } elseif ($obj_type === 'grp') {
+                        $part->add($user->getId(), IL_GRP_MEMBER);
+                    }
+                } catch (InvalidArgumentException $e) {
+                    $log->error('Invalid ref_id given: ' . (int) $ref_id);
+                    $log->logStack(ilLogLevel::ERROR);
+                    continue;
                 }
             } else {
                 $log->notice('Auth mode of user: ' . $user->getAuthMode() . ' conflicts ' . $msettings->getAuthMode());

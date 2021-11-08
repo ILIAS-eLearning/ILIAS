@@ -11,7 +11,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilContentPageDataSet();
         $this->ds->setDSPrefix('ds');
@@ -20,18 +20,18 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
     /**
      * @inheritdoc
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, '', true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);
     }
 
     /**
      * @inheritdoc
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return [
             '5.4.0' => [
@@ -47,7 +47,7 @@ class ilContentPageExporter extends ilXmlExporter implements ilContentPageObject
     /**
      * @inheritdoc
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $pageObjectIds = [];
         $styleIds = [];

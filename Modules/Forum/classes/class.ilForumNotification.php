@@ -562,7 +562,8 @@ class ilForumNotification
      */
     public function readAllForcedEvents()
     {
-        $res = $this->db->queryF( '
+        $res = $this->db->queryF(
+            '
         SELECT * FROM frm_notification
         WHERE admin_force_noti = %s
         AND frm_id = %s',
@@ -570,7 +571,7 @@ class ilForumNotification
             array(1, $this->forum_id)
         );
         
-        while($row = $this->db->fetchAssoc($res)) {
+        while ($row = $this->db->fetchAssoc($res)) {
             $tmpObj = new self($this->ref_id);
             $tmpObj->setNotificationId($row['notification_id']);
             $tmpObj->setUserId($row['user_id']);
@@ -592,8 +593,8 @@ class ilForumNotification
      */
     public function getForcedEventsObjectByUserId($user_id)
     {
-        if(!isset(self::$forced_events_cache[$user_id])) {
-           $this->readAllForcedEvents();
+        if (!isset(self::$forced_events_cache[$user_id])) {
+            $this->readAllForcedEvents();
         }
         
         return self::$forced_events_cache[$user_id];

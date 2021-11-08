@@ -26,74 +26,47 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         $this->error_settings = ilLoggingErrorSettings::getInstance();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getId()
+    public function getId() : string
     {
         return "log_error_file_cleanup";
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt("log_error_file_cleanup_title");
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->lng->txt("log_error_file_cleanup_info");
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_IN_DAYS;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : int
     {
         return 10;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasCustomSettings()
+    public function hasCustomSettings() : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         $result = new ilCronJobResult();
         $folder = $this->error_settings->folder();
@@ -144,10 +117,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         unlink($path);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form)
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         $offset = $this->settings->get('clear_older_then');
         if (!$offset) {
@@ -162,11 +132,7 @@ class ilLoggerCronCleanErrorFiles extends ilCronJob
         $a_form->addItem($clear_older_then);
     }
 
-    /**
-     * @param ilPropertyFormGUI $a_form
-     * @return bool
-     */
-    public function saveCustomSettings(ilPropertyFormGUI $a_form)
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->settings->set('clear_older_then', $a_form->getInput('clear_older_then'));
         return true;

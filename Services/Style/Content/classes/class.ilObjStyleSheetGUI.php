@@ -2300,6 +2300,10 @@ class ilObjStyleSheetGUI extends ilObjectGUI
         // preview
         if ($a_type == "table") {
             $p_content = '<PageContent><Table DataTable="y"';
+            $t["row_head"] = $t["row_head"] ?? "";
+            $t["row_foot"] = $t["row_foot"] ?? "";
+            $t["col_head"] = $t["col_head"] ?? "";
+            $t["col_foot"] = $t["col_foot"] ?? "";
             if ($t["row_head"] != "") {
                 $p_content .= ' HeaderRows="1"';
             }

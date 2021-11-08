@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -17,23 +17,12 @@ class ilDBWrapperFactory
 {
 
     /**
-     * @param $a_type
-     *
-     * @return ilDBInterface
+     * @param string $a_type
+     * @return ilDBPdoInterface
      * @throws ilDatabaseException
      */
-    public static function getWrapper($a_type)
+    public static function getWrapper(string $a_type): \ilDBPdoInterface
     {
-        if ($a_type == "") {
-            if (isset($GLOBALS["DIC"])
-            && $GLOBALS["DIC"]->offsetExists("ilClientIniFile")
-            && $GLOBALS["DIC"]["ilClientIniFile"] instanceof \ilIniFile) {
-                $a_type = $GLOBALS["DIC"]["ilClientIniFile"]->readVariable("db", "type");
-            } else {
-                $a_type = ilDBConstants::TYPE_INNODB;
-            }
-        }
-
         switch ($a_type) {
             case ilDBConstants::TYPE_POSTGRES:
             case ilDBConstants::TYPE_PDO_POSTGRE:
@@ -42,10 +31,6 @@ class ilDBWrapperFactory
             case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
             case ilDBConstants::TYPE_INNODB:
                 $ilDB = new ilDBPdoMySQLInnoDB();
-                break;
-            case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
-            case ilDBConstants::TYPE_MYSQL:
-                $ilDB = new ilDBPdoMySQLMyISAM();
                 break;
             case ilDBConstants::TYPE_GALERA:
                 $ilDB = new ilDBPdoMySQLGalera();

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,7 +6,7 @@
  */
 class ilUserCertificateTest extends ilCertificateBaseTestCase
 {
-    public function testCreateUserCertificate()
+    public function testCreateUserCertificate() : void
     {
         $userCertificate = new ilUserCertificate(
             1,
@@ -18,7 +18,7 @@ class ilUserCertificateTest extends ilCertificateBaseTestCase
             '<xml>Some Content</xml>',
             '[]',
             null,
-            '1',
+            1,
             'v5.4.0',
             true,
             '/some/where/background.jpg',

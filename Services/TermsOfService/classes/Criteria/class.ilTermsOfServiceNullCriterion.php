@@ -10,74 +10,45 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceNullCriterion implements ilTermsOfServiceCriterionType
 {
-    /**
-     * @inheritdoc
-     */
     public function getTypeIdent() : string
     {
         return 'null';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function evaluate(ilObjUser $user, ilTermsOfServiceCriterionConfig $config) : bool
     {
         return true;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function hasUniqueNature() : bool
     {
         return false;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function ui(ilLanguage $lng) : ilTermsOfServiceCriterionTypeGUI
     {
         return new class($lng) implements ilTermsOfServiceCriterionTypeGUI {
-            /** @var ilLanguage */
-            protected $lng;
+            protected ilLanguage $lng;
 
-            /**
-             *  constructor.
-             * @param ilLanguage $lng
-             */
             public function __construct(ilLanguage $lng)
             {
                 $this->lng = $lng;
             }
 
-            /**
-             * @inheritdoc
-             */
             public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
             {
             }
 
-            /**
-             * @inheritdoc
-             */
             public function getConfigByForm(ilPropertyFormGUI $form) : ilTermsOfServiceCriterionConfig
             {
                 return new ilTermsOfServiceCriterionConfig();
             }
 
-            /**
-             * @inheritdoc
-             */
             public function getIdentPresentation() : string
             {
                 return $this->lng->txt('deleted');
             }
 
-            /**
-             * @inheritdoc
-             */
             public function getValuePresentation(
                 ilTermsOfServiceCriterionConfig $config,
                 Factory $uiFactory

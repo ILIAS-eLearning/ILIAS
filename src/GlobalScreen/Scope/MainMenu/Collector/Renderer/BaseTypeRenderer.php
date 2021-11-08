@@ -63,7 +63,7 @@ class BaseTypeRenderer implements TypeRenderer
         if (!$this->supportsAsyncContent($item)) {
             return $this->getComponentWithContent($item);
         }
-        $content = $this->ui_factory->legacy("...");
+        $content = $this->ui_factory->legacy('...');
         $name    = $item instanceof hasTitle ? $item->getTitle() : "-";
         $slate   = $this->ui_factory->mainControls()->slate()->legacy($name, $this->getStandardSymbol($item), $content);
         $slate   = $this->addAsyncLoadingCode($slate, $item);

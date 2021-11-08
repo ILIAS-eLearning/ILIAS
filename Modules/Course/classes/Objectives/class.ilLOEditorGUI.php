@@ -87,7 +87,6 @@ class ilLOEditorGUI
             
             case 'ilcontainerstartobjectsgui':
                 
-                include_once './Services/Container/classes/class.ilContainerStartObjectsGUI.php';
                 $stgui = new ilContainerStartObjectsGUI($this->getParentObject());
                 $ret = $this->ctrl->forwardCommand($stgui);
                 
@@ -429,13 +428,13 @@ class ilLOEditorGUI
             new ilRadioOption(
                 $this->lng->txt('crs_loc_settings_passed_mode_hide'),
                 ilLOSettings::HIDE_PASSED_OBJECTIVE_QST
-                )
+            )
         );
         $passed_mode->addOption(
             new ilRadioOption(
                 $this->lng->txt('crs_loc_settings_passed_mode_mark'),
                 ilLOSettings::MARK_PASSED_OBJECTIVE_QST
-                )
+            )
         );
         $type_qa->addSubItem($passed_mode);
         
@@ -699,7 +698,6 @@ class ilLOEditorGUI
             $assignment->delete();
             
             // finally delete start object assignment
-            include_once './Services/Container/classes/class.ilContainerStartObjects.php';
             $start = new ilContainerStartObjects(
                 $this->getParentObject()->getRefId(),
                 $this->getParentObject()->getId()
@@ -748,7 +746,6 @@ class ilLOEditorGUI
             $settings->update();
             
             // finally delete start object assignment
-            include_once './Services/Container/classes/class.ilContainerStartObjects.php';
             $start = new ilContainerStartObjects(
                 $this->getParentObject()->getRefId(),
                 $this->getParentObject()->getId()
@@ -878,7 +875,6 @@ class ilLOEditorGUI
      */
     protected function updateStartObjects()
     {
-        include_once './Services/Container/classes/class.ilContainerStartObjects.php';
         $start = new ilContainerStartObjects(0, $this->getParentObject()->getId());
         $this->getSettings()->updateStartObjects($start);
         return true;

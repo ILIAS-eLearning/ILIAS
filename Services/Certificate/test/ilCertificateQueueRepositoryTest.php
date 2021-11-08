@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,12 +6,12 @@
  */
 class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testEntryCanBeAddedToQueue()
+    public function testEntryCanBeAddedToQueue() : void
     {
-        $databaseMock = $this->getMockBuilder('ilDBInterface')
+        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
-        $loggerMock = $this->getMockBuilder('ilLogger')
+        $loggerMock = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -56,12 +56,12 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
         $repository->addToQueue($queueEntry);
     }
 
-    public function testRemoveFromQueue()
+    public function testRemoveFromQueue() : void
     {
-        $databaseMock = $this->getMockBuilder('ilDBInterface')
+        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
-        $loggerMock = $this->getMockBuilder('ilLogger')
+        $loggerMock = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -71,7 +71,7 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
         $databaseMock->expects($this->once())
             ->method('quote')
             ->with(30, 'integer')
-            ->willReturn(30);
+            ->willReturn('30');
 
         $databaseMock->expects($this->once())
             ->method('manipulate')
@@ -82,12 +82,12 @@ class ilCertificateQueueRepositoryTest extends ilCertificateBaseTestCase
         $repository->removeFromQueue(30);
     }
 
-    public function testFetchAllEntriesFromQueue()
+    public function testFetchAllEntriesFromQueue() : void
     {
-        $databaseMock = $this->getMockBuilder('ilDBInterface')
+        $databaseMock = $this->getMockBuilder(ilDBInterface::class)
             ->getMock();
 
-        $loggerMock = $this->getMockBuilder('ilLogger')
+        $loggerMock = $this->getMockBuilder(ilLogger::class)
             ->disableOriginalConstructor()
             ->getMock();
 

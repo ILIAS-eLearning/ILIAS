@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilAtomQueryTransaction
@@ -15,7 +15,7 @@ class ilAtomQueryTransaction extends ilAtomQueryBase implements ilAtomQuery
      *
      * @throws \ilAtomQueryException
      */
-    public function run()
+    public function run() : void
     {
         $this->checkBeforeRun();
         $this->runWithTransactions();
@@ -25,7 +25,7 @@ class ilAtomQueryTransaction extends ilAtomQueryBase implements ilAtomQuery
     /**
      * @throws \ilAtomQueryException
      */
-    protected function runWithTransactions()
+    protected function runWithTransactions(): void
     {
         $i = 0;
         do {

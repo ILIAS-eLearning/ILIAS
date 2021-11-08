@@ -459,8 +459,7 @@ class ilSoapAdministration
 
         // build dsn of database connection and connect
         $ilDB = ilDBWrapperFactory::getWrapper(
-            $ilClientIniFile->readVariable("db", "type"),
-            $ilClientIniFile->readVariable("db", "inactive_mysqli")
+            $ilClientIniFile->readVariable("db", "type")
         );
         $ilDB->initFromIniFile($ilClientIniFile);
         if ($ilDB->connect(true)) {

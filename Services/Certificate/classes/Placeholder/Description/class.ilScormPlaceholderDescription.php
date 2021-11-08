@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,44 +6,18 @@
  */
 class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var ilDefaultPlaceholderDescription
-     */
-    private $defaultPlaceHolderDescriptionObject;
+    private ilDefaultPlaceholderDescription $defaultPlaceHolderDescriptionObject;
+    private ilLanguage $language;
+    private array $placeholder;
+    private ilObject $object;
+    private ilObjectLP $learningProgressObject;
 
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
-
-    /**
-     * @var array
-     */
-    private $placeholder;
-
-    /**
-     * @var ilObject
-     */
-    private $object;
-
-    /**
-     * @var ilObjectLP|mixed|null
-     */
-    private $learningProgressObject;
-
-    /**
-     * @param ilObject $object
-     * @param ilDefaultPlaceholderDescription|null $defaultPlaceholderDescriptionObject
-     * @param ilLanguage|null $language
-     * @param ilObjectLP|null $learningProgressObject
-     * @param ilUserDefinedFieldsPlaceholderDescription|null $userDefinedFieldPlaceHolderDescriptionObject
-     */
     public function __construct(
         ilObject $object,
-        ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
-        ilLanguage $language = null,
-        ilObjectLP $learningProgressObject = null,
-        ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
+        ?ilDefaultPlaceholderDescription $defaultPlaceholderDescriptionObject = null,
+        ?ilLanguage $language = null,
+        ?ilObjectLP $learningProgressObject = null,
+        ?ilUserDefinedFieldsPlaceholderDescription $userDefinedFieldPlaceHolderDescriptionObject = null
     ) {
         global $DIC;
 
@@ -56,7 +30,10 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         $this->language = $language;
 
         if (null === $defaultPlaceholderDescriptionObject) {
-            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription($language, $userDefinedFieldPlaceHolderDescriptionObject);
+            $defaultPlaceholderDescriptionObject = new ilDefaultPlaceholderDescription(
+                $language,
+                $userDefinedFieldPlaceHolderDescriptionObject
+            );
         }
         $this->defaultPlaceHolderDescriptionObject = $defaultPlaceholderDescriptionObject;
 
@@ -77,9 +54,8 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
     /**
      * This methods MUST return an array containing an array with
      * the the description as array value.
-     *
      * @param ilTemplate|null $template
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return string - [PLACEHOLDER] => 'description'
      */
     public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
     {
@@ -98,15 +74,12 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
         $template->setVariable('PH_INTRODUCTION', $this->language->txt('certificate_ph_introduction'));
 
         $collection = $this->learningProgressObject->getCollectionInstance();
+        $items = [];
         if ($collection) {
             $items = $collection->getPossibleItems();
         }
 
-        if (!$items) {
-            $template->setCurrentBlock('NO_SCO');
-            $template->setVariable('PH_NO_SCO', $this->language->txt('certificate_ph_no_sco'));
-            $template->parseCurrentBlock();
-        } else {
+        if ($items) {
             $template->setCurrentBlock('SCOS');
             $template->setVariable('PH_SCOS', $this->language->txt('certificate_ph_scos'));
             $template->parseCurrentBlock();
@@ -116,8 +89,11 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
             $template->setVariable('PH_SCO_POINTS_RAW', $this->language->txt('certificate_ph_sco_points_raw'));
             $template->setVariable('PH_SCO_POINTS_MAX', $this->language->txt('certificate_ph_sco_points_max'));
             $template->setVariable('PH_SCO_POINTS_SCALED', $this->language->txt('certificate_ph_sco_points_scaled'));
-            $template->parseCurrentBlock();
+        } else {
+            $template->setCurrentBlock('NO_SCO');
+            $template->setVariable('PH_NO_SCO', $this->language->txt('certificate_ph_no_sco'));
         }
+        $template->parseCurrentBlock();
 
         if ($collection) {
             $counter = 0;
@@ -141,8 +117,7 @@ class ilScormPlaceholderDescription implements ilCertificatePlaceholderDescripti
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
-     * @return mixed - [PLACEHOLDER] => 'description'
+     * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array
     {

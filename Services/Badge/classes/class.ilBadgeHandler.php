@@ -64,12 +64,12 @@ class ilBadgeHandler
     
     public function isActive()
     {
-        return $this->settings->get("active", false);
+        return (bool) $this->settings->get("active", null);
     }
     
-    public function setActive($a_value)
+    public function setActive(bool $a_value)
     {
-        $this->settings->set("active", (bool) $a_value);
+        $this->settings->set("active", (string) $a_value);
     }
     
     public function isObiActive()
@@ -132,7 +132,7 @@ class ilBadgeHandler
         }
         $this->settings->set("components", $a_components !== null
             ? serialize(array_unique($a_components))
-            : null);
+            : "");
     }
             
     

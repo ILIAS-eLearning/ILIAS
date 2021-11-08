@@ -57,9 +57,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
             
             $this->addToParentElement($check);
         } else {
-            include_once("./Services/Form/classes/class.ilCombinationInputGUI.php");
-            include_once("./Services/Form/classes/class.ilDateTimeInputGUI.php");
-            
+                                    
             $item = new ilCombinationInputGUI($this->getTitle(), $this->getElementId());
             
             $lower = new ilDateTimeInputGUI("", $this->addToElementId("lower"));
@@ -96,8 +94,7 @@ class ilADTDateSearchBridgeRange extends ilADTSearchBridgeRange
         $post = $this->extractPostValues($a_post);
     
         if ($post && $this->shouldBeImportedFromPost($post)) {
-            include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-            $start = ilCalendarUtil::parseIncomingDate($post["lower"]);
+                        $start = ilCalendarUtil::parseIncomingDate($post["lower"]);
             $end = ilCalendarUtil::parseIncomingDate($post["upper"]);
             
             if ($start && $end && $start->get(IL_CAL_UNIX) > $end->get(IL_CAL_UNIX)) {

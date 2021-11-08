@@ -28,7 +28,6 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
 
         $this->logger = $DIC->logger()->user();
-
     }
 
     /**
@@ -38,18 +37,18 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
     {
         $this->lng->loadLanguageModule('usr');
         $this->setFormName(self::USER_EXPORT_FORM_NAME);
-        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(),$this->getParentCmd()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
 
-        $this->addColumn('','');
-        $this->addColumn($this->lng->txt('userfolder_export_file'),'file', '50%');
-        $this->addColumn($this->lng->txt('userfolder_export_file_size'),'size_sort','25%');
-        $this->addColumn($this->lng->txt('date'),'dt_sort','25%');
+        $this->addColumn('', '');
+        $this->addColumn($this->lng->txt('userfolder_export_file'), 'file', '50%');
+        $this->addColumn($this->lng->txt('userfolder_export_file_size'), 'size_sort', '25%');
+        $this->addColumn($this->lng->txt('date'), 'dt_sort', '25%');
 
 
         $this->setDefaultOrderField('dt');
         $this->setDefaultOrderDirection('desc');
 
-        $this->setRowTemplate('tpl.usr_export_file_row.html','Services/User');
+        $this->setRowTemplate('tpl.usr_export_file_row.html', 'Services/User');
         $this->determineOffsetAndOrder();
 
         $this->addMultiCommand(
@@ -98,13 +97,12 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $files = [];
         $counter = 0;
         foreach ($export_files as $num => $file_info) {
-
             $this->logger->dump($file_info, \ilLogLevel::NOTICE);
 
             $file_info_parts = explode('_', $file_info['filename']);
             $dt = $file_info_parts[0];
 
-            $dt_obj = new \ilDateTime($dt,IL_CAL_UNIX);
+            $dt_obj = new \ilDateTime($dt, IL_CAL_UNIX);
 
             $files[$counter]['file'] = $file_info['filename'];
             $files[$counter]['size'] = $file_info['filesize'];
@@ -117,5 +115,4 @@ class ilUserExportFileTableGUI extends \ilTable2GUI
         $this->logger->dump($files, \ilLogLevel::NOTICE);
         $this->setData($files);
     }
-
 }

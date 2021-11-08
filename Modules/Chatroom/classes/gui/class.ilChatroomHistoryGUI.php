@@ -36,7 +36,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $messages = [];
         $psessions = [];
-        $submit_request = strtolower($this->httpServices->request()->getServerParams()['REQUEST_METHOD']) === 'post';
+        $submit_request = strtolower($this->http->request()->getServerParams()['REQUEST_METHOD']) === 'post';
         $from = null;
         $to = null;
 
@@ -48,7 +48,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                     $from = $period->getStart(),
                     $to = $period->getEnd(),
                     $chat_user->getUserId(),
-                    $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('scope', 0))
+                    $this->getRequestValue('scope', $this->refinery->kindlyTo()->int(), 0)
                 );
 
                 $psessions = $room->getPrivateRoomSessions(
@@ -90,7 +90,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
 
         $scopes = [];
         $isScopeRequest = $this->hasRequestValue('scope');
-        $requestScope = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('scope', 0));
+        $requestScope = $this->getRequestValue('scope', $this->refinery->kindlyTo()->int(), 0);
 
         if ($export) {
             ilDatePresentation::setUseRelativeDates(false);
@@ -251,8 +251,8 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             $this->ilCtrl->getFormAction($this->gui, 'history-bySession')
         );
 
-        if (strtolower($this->httpServices->request()->getServerParams()['REQUEST_METHOD']) === 'post') {
-            $session = $this->refinery->kindlyTo()->string()->transform($this->getRequestValue('session'));
+        if (strtolower($this->http->request()->getServerParams()['REQUEST_METHOD']) === 'post') {
+            $session = $this->getRequestValue('session', $this->refinery->kindlyTo()->string());
             $durationForm->checkInput();
             $postVals = explode(',', $session);
             $durationForm->setValuesByArray([
@@ -263,7 +263,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                 $from = new ilDateTime($postVals[0], IL_CAL_UNIX),
                 $to = new ilDateTime($postVals[1], IL_CAL_UNIX),
                 $chat_user->getUserId(),
-                $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('scope', 0))
+                $this->getRequestValue('scope', $this->refinery->kindlyTo()->int(), 0)
             );
         } else {
             $last_session = $room->getLastSession($chat_user);
@@ -280,7 +280,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                 $from,
                 $to,
                 $chat_user->getUserId(),
-                $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('scope', 0))
+                $this->getRequestValue('scope', $this->refinery->kindlyTo()->int(), 0)
             );
         }
 

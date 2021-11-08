@@ -21,12 +21,12 @@ class ilLDAPCronSynchronization extends ilCronJob
     private $ldap_to_ilias = null;
     private $counter = 0;
     
-    public function getId()
+    public function getId() : string
     {
         return "ldap_sync";
     }
     
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
 
@@ -36,7 +36,7 @@ class ilLDAPCronSynchronization extends ilCronJob
         return $lng->txt('ldap_user_sync_cron');
     }
     
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
 
@@ -46,27 +46,27 @@ class ilLDAPCronSynchronization extends ilCronJob
         return $lng->txt("ldap_user_sync_cron_info");
     }
     
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
     
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
     
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
     
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return false;
     }
 
-    public function run()
+    public function run() : ilCronJobResult
     {
         global $DIC;
 
@@ -160,7 +160,7 @@ class ilLDAPCronSynchronization extends ilCronJob
         }
     }
 
-    public function addToExternalSettingsForm($a_form_id, array &$a_fields, $a_is_active)
+    public function addToExternalSettingsForm(int $a_form_id, array &$a_fields, bool $a_is_active) : void
     {
         global $DIC;
 

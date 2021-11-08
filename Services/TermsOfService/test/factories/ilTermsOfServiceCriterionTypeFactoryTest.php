@@ -7,10 +7,6 @@
  */
 class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 {
-    /**
-     * @return ilTermsOfServiceCriterionTypeFactory
-     * @throws ReflectionException
-     */
     public function testInstanceCanBeCreated() : ilTermsOfServiceCriterionTypeFactory
     {
         $dataCache = $this
@@ -55,7 +51,7 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
 
         $this->assertEquals(
             array_keys($criteria),
-            array_values(array_map(function (ilTermsOfServiceCriterionType $criterion) {
+            array_values(array_map(static function (ilTermsOfServiceCriterionType $criterion) : string {
                 return $criterion->getTypeIdent();
             }, $criteria))
         );
@@ -64,11 +60,10 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
     /**
      * @depends testInstanceCanBeCreated
      * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-     * @throws ilTermsOfServiceCriterionTypeNotFoundException
      */
     public function testCriterionIsReturnedIfRequestedByTypeIdent(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-    ) {
+    ) : void {
         foreach ($criterionTypeFactory->getTypesByIdentMap() as $criterion) {
             $this->assertEquals($criterion, $criterionTypeFactory->findByTypeIdent($criterion->getTypeIdent()));
         }
@@ -77,7 +72,6 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
     /**
      * @depends testInstanceCanBeCreated
      * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-     * @throws ilTermsOfServiceCriterionTypeNotFoundException
      */
     public function testExceptionIsRaisedIfUnsupportedCriterionIsRequested(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
@@ -90,7 +84,6 @@ class ilTermsOfServiceCriterionTypeFactoryTest extends ilTermsOfServiceBaseTest
     /**
      * @depends testInstanceCanBeCreated
      * @param ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory
-     * @throws ilTermsOfServiceCriterionTypeNotFoundException
      */
     public function testNullCriterionIsReturnedAsFallbackIfUnsupportedCriterionIsRequested(
         ilTermsOfServiceCriterionTypeFactory $criterionTypeFactory

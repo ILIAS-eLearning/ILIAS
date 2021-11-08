@@ -12,10 +12,6 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilServicesTermsOfServiceSuite extends TestSuite
 {
-    /**
-     * @return self
-     * @throws ReflectionException
-     */
     public static function suite() : self
     {
         $suite = new self();

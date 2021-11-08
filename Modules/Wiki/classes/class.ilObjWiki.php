@@ -1129,7 +1129,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
     public function isCommentsExportPossible()
     {
         $setting = $this->setting;
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         if ($setting->get("disable_comments")) {
             return false;
         }

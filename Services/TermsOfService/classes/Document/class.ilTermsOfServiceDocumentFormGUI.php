@@ -13,51 +13,18 @@ use ILIAS\FileUpload\Location;
  */
 class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
 {
-    /** @var ilTermsOfServiceDocument */
-    protected $document;
+    protected ilTermsOfServiceDocument $document;
+    protected ilObjUser $actor;
+    protected FileUpload $fileUpload;
+    protected Filesystem $tmpFileSystem;
+    protected string $formAction;
+    protected string $saveCommand;
+    protected string $cancelCommand;
+    protected bool $isEditable = false;
+    protected string $translatedError = '';
+    protected string $translatedInfo = '';
+    protected ilHtmlPurifierInterface $documentPurifier;
 
-    /** @var ilObjUser */
-    protected $actor;
-
-    /** @var FileUpload */
-    protected $fileUpload;
-
-    /** @var Filesystem */
-    protected $tmpFileSystem;
-
-    /** @var string */
-    protected $formAction;
-
-    /** @var string */
-    protected $saveCommand;
-
-    /** @var string */
-    protected $cancelCommand;
-
-    /** @var $bool */
-    protected $isEditable = false;
-
-    /** @var string */
-    protected $translatedError = '';
-
-    /** @var string */
-    protected $translatedInfo = '';
-
-    /** @var ilHtmlPurifierInterface */
-    protected $documentPurifier;
-
-    /**
-     * ilTermsOfServiceDocumentFormGUI constructor.
-     * @param ilTermsOfServiceDocument $document
-     * @param ilHtmlPurifierInterface  $documentPurifier
-     * @param ilObjUser                $actor
-     * @param Filesystem               $tmpFileSystem
-     * @param FileUpload               $fileUpload
-     * @param string                   $formAction
-     * @param string                   $saveCommand
-     * @param string                   $cancelCommand
-     * @param bool                     $isEditable
-     */
     public function __construct(
         ilTermsOfServiceDocument $document,
         ilHtmlPurifierInterface $documentPurifier,
@@ -84,17 +51,11 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         $this->initForm();
     }
 
-    /**
-     * @param bool $status
-     */
     public function setCheckInputCalled(bool $status) : void
     {
         $this->check_input_called = $status;
     }
 
-    /**
-     *
-     */
     protected function initForm() : void
     {
         if ($this->document->getId() > 0) {
@@ -136,41 +97,26 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         $this->addCommandButton($this->cancelCommand, $this->lng->txt('cancel'));
     }
 
-    /**
-     * @return bool
-     */
     public function hasTranslatedError() : bool
     {
-        return strlen($this->translatedError) > 0;
+        return $this->translatedError !== '';
     }
 
-    /**
-     * @return string
-     */
     public function getTranslatedError() : string
     {
         return $this->translatedError;
     }
 
-    /**
-     * @return bool
-     */
     public function hasTranslatedInfo() : bool
     {
-        return strlen($this->translatedInfo) > 0;
+        return $this->translatedInfo !== '';
     }
 
-    /**
-     * @return string
-     */
     public function getTranslatedInfo() : string
     {
         return $this->translatedInfo;
     }
 
-    /**
-     * @return bool
-     */
     public function saveObject() : bool
     {
         if (!$this->fillObject()) {
@@ -183,9 +129,6 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
         return true;
     }
 
-    /**
-     *
-     */
     protected function fillObject() : bool
     {
         if (!$this->checkInput()) {

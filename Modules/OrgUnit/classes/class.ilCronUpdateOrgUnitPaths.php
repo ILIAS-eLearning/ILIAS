@@ -23,19 +23,12 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
     protected $tree;
 
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId() : string
     {
         return self::ID;
     }
 
-
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -43,11 +36,7 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
         return $lng->txt("update_orgunits");
     }
 
-
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -55,47 +44,27 @@ class ilCronUpdateOrgUnitPaths extends ilCronJob
         return $lng->txt("update_orgunits_desc");
     }
 
-
-    /**
-     * @return bool
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
 
-
-    /**
-     * @return bool
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return true;
     }
 
-
-    /**
-     * @return int
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-
-    /**
-     *
-     */
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
 
-
-    /**
-     * @return ilCronJobResult
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         foreach (ilOrgUnitPathStorage::getAllOrguRefIds() as $ref_id) {
             ilOrgUnitPathStorage::writePathByRefId($ref_id);

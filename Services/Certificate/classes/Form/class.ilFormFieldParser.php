@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,15 +6,9 @@
  */
 class ilFormFieldParser
 {
-    /**
-     * @var ilCertificateXlstProcess
-     */
-    private $xlstProcess;
+    private ilCertificateXlstProcess $xlstProcess;
 
-    /**
-     * @param ilCertificateXlstProcess|null $xlstProcess
-     */
-    public function __construct(ilCertificateXlstProcess $xlstProcess = null)
+    public function __construct(?ilCertificateXlstProcess $xlstProcess = null)
     {
         if (null === $xlstProcess) {
             $xlstProcess = new ilCertificateXlstProcess();
@@ -22,10 +16,6 @@ class ilFormFieldParser
         $this->xlstProcess = $xlstProcess;
     }
 
-    /**
-     * @param string $content
-     * @return array
-     */
     public function fetchDefaultFormFields(string $content) : array
     {
         $pagewidth = "21cm";
@@ -82,22 +72,21 @@ class ilFormFieldParser
         }
 
         $xsl = file_get_contents("./Services/Certificate/xml/fo2xhtml.xsl");
-        if ((strlen($content)) && (strlen($xsl))) {
-            $args = array(
+        if ($content !== '' && (is_string($xsl) && $xsl !== '')) {
+            $args = [
                 '/_xml' => $content,
                 '/_xsl' => $xsl
-            );
+            ];
 
-            $content = $this->xlstProcess->process($args, array());
+            $content = $this->xlstProcess->process($args, []);
         }
 
         $content = preg_replace("/<\?xml[^>]+?>/", "", $content);
         // dirty hack: the php xslt processing seems not to recognize the following
         // replacements, so we do it in the code as well
-        $content = str_replace("&#xA0;", "<br />", $content);
-        $content = str_replace("&#160;", "<br />", $content);
+        $content = str_replace(["&#xA0;", "&#160;"], "<br />", $content);
 
-        $formFields = array(
+        $formFields = [
             'pageformat' => $pagesize,
             'pagewidth' => $pagewidth,
             'pageheight' => $pageheight,
@@ -106,7 +95,7 @@ class ilFormFieldParser
             'margin_body_bottom' => $marginBody_bottom,
             'margin_body_left' => $marginBody_left,
             'certificate_text' => $content
-        );
+        ];
 
         return $formFields;
     }

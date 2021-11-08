@@ -1,31 +1,21 @@
-<?php
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
+/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePlaceholderDescription
 {
-    /**
-     * @var array
-     */
-    private $placeholder;
+    private array $placeholder;
+    private int $objectId;
 
-    /**
-     * @var int
-     */
-    private $objectId;
-
-    /**
-     * @param int $objectId
-     */
     public function __construct(int $objectId)
     {
-        $this->placeholder = array();
-        $this->objectId    = $objectId;
+        $this->placeholder = [];
+        $this->objectId = $objectId;
 
         $this->initPlaceholders();
     }
 
-    private function initPlaceholders()
+    private function initPlaceholders() : void
     {
         $courseDefinedFields = ilCourseDefinedFieldDefinition::_getFields($this->objectId);
 
@@ -41,7 +31,6 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return array - [PLACEHOLDER] => 'description'
      */
     public function getPlaceholderDescriptions() : array
@@ -49,9 +38,6 @@ class ilObjectCustomUserFieldsPlaceholderDescription implements ilCertificatePla
         return $this->placeholder;
     }
 
-    /**
-     * @return string - HTML that can used to be displayed in the GUI
-     */
     public function createPlaceholderHtmlDescription() : string
     {
         $template = new ilTemplate(

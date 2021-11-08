@@ -47,7 +47,7 @@ class ilSCORMTrackingItemsTableGUI extends ilTable2GUI
         // $this->setLimit(9999); //#23582
 
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         $this->allowExportPrivacy = $privacy->enabledExportSCORM();
 
 

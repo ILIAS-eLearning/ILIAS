@@ -51,42 +51,42 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
 
     }
 
-    public function getId()
+    public function getId() : string
     {
         return "file_system_clean_temp_dir";
     }
 
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->language->txt('file_system_clean_temp_dir_cron');
     }
 
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->language->txt("file_system_clean_temp_dir_cron_info");
     }
 
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return true;
     }
 
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return false;
     }
 
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
         return;
     }
 
-    public function run()
+    public function run() : ilCronJobResult
     {
         $this->initDependencies();
         // only delete files and folders older than one day to prevent issues with ongoing processes (e.g. zipping a folder)

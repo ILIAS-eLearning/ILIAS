@@ -46,7 +46,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
@@ -145,7 +145,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
 
         $subcompl = new ilCheckboxInputGUI($this->lng->txt(
             'ass_completion_by_submission'
-                                           ), 'completion_by_submission');
+        ), 'completion_by_submission');
         $subcompl->setInfo($this->lng->txt('ass_completion_by_submission_info'));
         $subcompl->setValue(1);
         $subcompl->setChecked($this->object->isCompletionBySubmissionEnabled());
@@ -300,7 +300,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         }
         $questionoutput = $template->get();
         $solutiontemplate = new ilTemplate("tpl.il_as_tst_solution_output.html", true, true, "Modules/TestQuestionPool");
-        $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getAnswerFeedbackOutput($active_id, $pass) : "";
+        $feedback = ($show_feedback && !$this->isTestPresentationContext()) ? $this->getGenericFeedbackOutput($active_id, $pass) : "";
         if (strlen($feedback)) {
             $cssClass = (
                 $this->hasCorrectSolution($active_id, $pass) ?
@@ -419,7 +419,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
      *
      * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -508,7 +508,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
         }
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         $output = "";
         return $this->object->prepareTextareaOutput($output, true);
@@ -584,28 +584,28 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     // hey.
     
     // hey: prevPassSolutions - overwrite common prevPassSolution-Checkbox
-    protected function getPreviousSolutionProvidedMessage()
+    protected function getPreviousSolutionProvidedMessage() : string
     {
         return $this->lng->txt('use_previous_solution_advice_file_upload');
     }
     
-    protected function getPreviousSolutionConfirmationCheckboxHtml()
+    protected function getPreviousSolutionConfirmationCheckboxHtml() : string
     {
         return '';
     }
     // hey.
     
-    public function getFormEncodingType()
+    public function getFormEncodingType() : string
     {
         return self::FORM_ENCODING_MULTIPART;
     }
     
-    public function isAnswerFreuqencyStatisticSupported()
+    public function isAnswerFreuqencyStatisticSupported() : bool
     {
         return false;
     }
     
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         // points
         $points = new ilNumberInputGUI($this->lng->txt("points"), "points");
@@ -632,7 +632,7 @@ class assFileUploadGUI extends assQuestionGUI implements ilGuiQuestionScoringAdj
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $this->object->setPoints((float) $form->getInput('points'));
         $this->object->setCompletionBySubmission((bool) $form->getInput('completion_by_submission'));

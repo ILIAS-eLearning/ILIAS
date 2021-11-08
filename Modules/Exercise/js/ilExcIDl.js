@@ -41,9 +41,9 @@ il.ExcIDl = {
 						cmd = field.value;
 					}					
 					// extract user/team ids
-					if(field.name.substr(0, 6) == "member")
+					if(field.name.substr(0, 12) == "sel_part_ids")
 					{
-						sel.push(field.name.substr(7, field.name.length-8));
+						sel.push(field.name.substr(13, field.name.length-14));
 					}
 					else if(field.name.substr(0, 3) == "ass")
 					{

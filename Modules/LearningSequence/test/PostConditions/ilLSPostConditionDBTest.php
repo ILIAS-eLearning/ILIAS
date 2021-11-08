@@ -41,16 +41,17 @@ class ilLSPostConditionDBTest extends TestCase
             . "WHERE ref_id IN (20,22)" . PHP_EOL
         ;
 
+        $return = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db
             ->expects($this->once())
             ->method('query')
             ->with($sql)
-            ->willReturn([])
+            ->willReturn($return)
         ;
         $this->db
             ->expects($this->once())
             ->method('fetchAssoc')
-            ->with([])
+            ->with($return)
             ->willReturn([])
         ;
 
@@ -88,16 +89,17 @@ class ilLSPostConditionDBTest extends TestCase
             null
         ];
 
+        $return_statement = $this->getMockBuilder(ilDBStatement::class)->getMock();
         $this->db
             ->expects($this->once())
             ->method('query')
             ->with($sql)
-            ->willReturn($rows)
+            ->willReturn($return_statement)
         ;
         $this->db
             ->expects($this->any())
             ->method('fetchAssoc')
-            ->with($rows)
+            ->with($return_statement)
             ->willReturnOnConsecutiveCalls(...$rows)
         ;
 

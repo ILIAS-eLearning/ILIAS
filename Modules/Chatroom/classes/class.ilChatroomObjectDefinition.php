@@ -82,7 +82,7 @@ class ilChatroomObjectDefinition
      */
     public function hasGUI(string $gui) : bool
     {
-        return file_exists($this->getGUIPath($gui));
+        return is_file($this->getGUIPath($gui));
     }
 
     /**

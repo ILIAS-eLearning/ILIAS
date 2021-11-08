@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,9 +6,9 @@
  */
 class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testSaveSettings()
+    public function testSaveSettings() : void
     {
-        $object = $this->getMockBuilder('ilObject')
+        $object = $this->getMockBuilder(ilObjCourse::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -17,47 +17,47 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->method('getId')
             ->willReturn(100);
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder('ilAccess')
+        $access = $this->getMockBuilder(ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $toolbar = $this->getMockBuilder('ilToolbarGUI')
+        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $placeholderDescriptionObject = $this->getMockBuilder('ilCertificatePlaceholderDescription')
+        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $leaningProgressObject = $this->getMockBuilder('ilObjectLP')
+        $leaningProgressObject = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settingsFormFactory = $this->getMockBuilder('ilCertificateSettingsFormRepository')
+        $settingsFormFactory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $trackingHelper = $this->getMockBuilder('ilCertificateObjUserTrackingHelper')
+        $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $lpHelper = $this->getMockBuilder('ilCertificateObjectLPHelper')
+        $lpHelper = $this->getMockBuilder(ilCertificateObjectLPHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $lpMock = $this->getMockBuilder('ilObjectLP')
+        $lpMock = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -66,11 +66,11 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
 
         $lpHelper->method('getInstance')->willReturn($lpMock);
 
-        $tree = $this->getMockBuilder('ilTree')
+        $tree = $this->getMockBuilder(ilTree::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $setting = $this->getMockBuilder('ilSetting')
+        $setting = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -99,9 +99,9 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
         $repository->save(array('subitems' => array(1, 2, 3)));
     }
 
-    public function testFetchFormFieldData()
+    public function testFetchFormFieldData() : void
     {
-        $object = $this->getMockBuilder('ilObject')
+        $object = $this->getMockBuilder(ilObjCourse::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -110,31 +110,31 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
             ->method('getId')
             ->willReturn(100);
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder('ilAccess')
+        $access = $this->getMockBuilder(ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $toolbar = $this->getMockBuilder('ilToolbarGUI')
+        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $placeholderDescriptionObject = $this->getMockBuilder('ilCertificatePlaceholderDescription')
+        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $leaningProgressObject = $this->getMockBuilder('ilObjectLP')
+        $leaningProgressObject = $this->getMockBuilder(ilObjectLP::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settingsFormFactory = $this->getMockBuilder('ilCertificateSettingsFormRepository')
+        $settingsFormFactory = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -148,23 +148,23 @@ class ilCertificateSettingsCourseFormRepositoryTest extends ilCertificateBaseTes
                 )
             );
 
-        $trackingHelper = $this->getMockBuilder('ilCertificateObjUserTrackingHelper')
+        $trackingHelper = $this->getMockBuilder(ilCertificateObjUserTrackingHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $objectHelper = $this->getMockBuilder('ilCertificateObjectHelper')
+        $objectHelper = $this->getMockBuilder(ilCertificateObjectHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $lpHelper = $this->getMockBuilder('ilCertificateObjectLPHelper')
+        $lpHelper = $this->getMockBuilder(ilCertificateObjectLPHelper::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $tree = $this->getMockBuilder('ilTree')
+        $tree = $this->getMockBuilder(ilTree::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $setting = $this->getMockBuilder('ilSetting')
+        $setting = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 

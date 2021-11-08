@@ -134,7 +134,7 @@ class ilCourseDefinedFieldDefinition
      * @access public
      * @static
      * @param int container obj_id
-     * @return ilCourseDefinedFieldDefinitions[]
+     * @return ilCourseDefinedFieldDefinition[]
      */
     public static function _getFields($a_container_id, $a_sort = IL_CDF_SORT_NAME)
     {

@@ -7,9 +7,6 @@
  */
 class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEvaluationBaseTest
 {
-    /**
-     * @throws ReflectionException
-     */
     public function testLogicalAndEvaluatorReturnsTrueIfNoCriterionIsAttachedToADocumentAtAll() : void
     {
         $user = $this->getUserMock();
@@ -30,9 +27,6 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
         $this->assertTrue($evaluator->evaluate($doc));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testLogicalAndEvaluatorReturnsTrueIfAllCriteriaAttachedToADocumentMatch() : void
     {
         $user = $this->getUserMock();
@@ -94,9 +88,6 @@ class ilTermsOfServiceDocumentCriteriaEvaluationTest extends ilTermsOfServiceEva
         $this->assertTrue($evaluator->evaluate($doc));
     }
 
-    /**
-     * @throws ReflectionException
-     */
     public function testLogicalAndEvaluatorReturnsFalseIfAnyCriteriaAttachedToADocumentDoesNotMatch() : void
     {
         $user = $this->getUserMock();

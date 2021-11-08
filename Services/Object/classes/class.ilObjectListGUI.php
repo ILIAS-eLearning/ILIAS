@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Repository\Clipboard\ClipboardManager;
+
 define("IL_LIST_AS_TRIGGER", "trigger");
 define("IL_LIST_FULL", "full");
 
@@ -235,6 +237,7 @@ class ilObjectListGUI
     protected $header_icons;
 
     protected ?object $container_obj = null;
+    protected ClipboardManager $clipboard;
 
     /**
     * constructor
@@ -280,6 +283,11 @@ class ilObjectListGUI
         $this->requested_ref_id = (int) ($params["ref_id"] ?? null);
         $this->requested_cmd = (string) ($params["cmd"] ?? null);
         $this->requested_base_class = (string) ($params["baseClass"] ?? null);
+        $this->clipboard = $DIC
+            ->repository()
+            ->internal()
+            ->domain()
+            ->clipboard();
     }
 
 
@@ -1341,7 +1349,7 @@ class ilObjectListGUI
     {
         $alert = array();
         foreach ((array) $this->getProperties() as $prop) {
-            if ($prop['alert'] == true) {
+            if (isset($prop['alert']) && $prop['alert'] == true) {
                 $alert[] = $prop;
             }
         }
@@ -1383,7 +1391,7 @@ class ilObjectListGUI
     
     /**
      * Force visible access only.
-     * @param type $a_stat
+     * @param bool $a_stat
      */
     public function forceVisibleOnly($a_stat)
     {
@@ -1392,7 +1400,7 @@ class ilObjectListGUI
 
     /**
      * Force unreadable
-     * @return type
+     * @return bool
      */
     public function isVisibleOnlyForced()
     {
@@ -1575,7 +1583,7 @@ class ilObjectListGUI
                 }
                 $this->tpl->setCurrentBlock("item_title_linked");
                 $this->tpl->setVariable("PREVIEW_STATUS_CLASS", $preview_status_class);
-                $this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png", "Services/Preview"));
+                $this->tpl->setVariable("SRC_PREVIEW_ICON", ilUtil::getImagePath("preview.png"));
                 $this->tpl->setVariable("ALT_PREVIEW_ICON", $this->lng->txt($preview_text_topic));
                 $this->tpl->setVariable("TXT_PREVIEW", $this->lng->txt($preview_text_topic));
                 $this->tpl->setVariable("SCRIPT_PREVIEW_CLICK", $preview->getJSCall($this->getUniqueItemId(true)));
@@ -2302,7 +2310,7 @@ class ilObjectListGUI
         
         if (is_object($this->getContainerObject()) and
             $this->getContainerObject() instanceof ilAdministrationCommandHandling and
-            isset($_SESSION['clipboard'])) {
+            $this->clipboard->hasEntries()) {
             $this->ctrl->setParameter($this->getContainerObject(), 'item_ref_id', $this->getCommandId());
             $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "paste");
             $this->insertCommand($cmd_link, $this->lng->txt("paste"));
@@ -2819,7 +2827,8 @@ class ilObjectListGUI
         $ilAccess = $this->access;
         
         // TODO: delegate to list object class!
-        if (!$this->getContainerObject()->isActiveAdministrationPanel() || $_SESSION["clipboard"]) {
+        if (!$this->getContainerObject()->isActiveAdministrationPanel() ||
+            $this->clipboard->hasEntries()) {
             if (in_array($this->type, array("file", "fold")) &&
                 $ilAccess->checkAccess("read", "", $a_ref_id, $this->type)) {
                 $this->download_checkbox_state = self::DOWNLOAD_CHECKBOX_ENABLED;

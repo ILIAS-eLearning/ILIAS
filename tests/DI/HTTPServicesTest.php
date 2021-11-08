@@ -57,10 +57,10 @@ class HTTPServicesTest extends PHPUnitTestCase
     {
         parent::setUp();
         // $this->mockRequestFactory = \Mockery::mock('alias:' . RequestFactory::class);
-        $this->mockRequestFactory = $this->getMockBuilder(RequestFactory::class)->setMethods(['create'])->getMock();
+        $this->mockRequestFactory = $this->getMockBuilder(RequestFactory::class)->getMock();
 
         // $this->mockResponseFactory = \Mockery::mock('alias:' . ResponseFactory::class);
-        $this->mockResponseFactory = $this->getMockBuilder(ResponseFactory::class)->setMethods(['create'])->getMock();
+        $this->mockResponseFactory = $this->getMockBuilder(ResponseFactory::class)->getMock();
 
         // $this->mockSenderStrategy = \Mockery::mock('alias:' . ResponseSenderStrategy::class);
         $this->mockSenderStrategy = $this->getMockBuilder(ResponseSenderStrategy::class)->getMock();

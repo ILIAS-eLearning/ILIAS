@@ -33,7 +33,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, ilBiblAdminFactoryFacadeInterface $facade)
     {
-        $this->facade     = $facade;
+        $this->facade = $facade;
         $this->parent_obj = $a_parent_obj;
 
         $this->setId(self::TBL_ID);

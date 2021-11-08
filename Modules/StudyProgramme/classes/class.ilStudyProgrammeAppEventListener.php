@@ -221,10 +221,8 @@ class ilStudyProgrammeAppEventListener
 
     private static function onServiceObjectDeleteOrToTrash($a_parameter)
     {
-        $node_ref_id = $a_parameter["ref_id"];
         $old_parent_ref_id = $a_parameter["old_parent_ref_id"];
 
-        $node_type = $a_parameter["type"];
         $old_parent_type = ilObject::_lookupType($old_parent_ref_id, true);
 
         if ($old_parent_type !== "prg") {
@@ -300,19 +298,14 @@ class ilStudyProgrammeAppEventListener
     {
         $usr_id = $params['usr_id'];
         $ref_id = $params['root_prg_ref_id'];
-
         ilObjStudyProgramme::sendReAssignedMail($ref_id, $usr_id);
     }
 
-    /**
-     * @throws ilException
-     */
     private static function sendInformToReAssignMail(array $params) : void
     {
         $usr_id = $params['usr_id'];
-        $assignment_id = $params['ass_id'];
-
-        ilObjStudyProgramme::sendInformToReAssignMail($assignment_id, $usr_id);
+        $progress_id = $params['progress_id'];
+        ilObjStudyProgramme::sendInformToReAssignMail($progress_id, $usr_id);
     }
 
     /**
@@ -322,7 +315,6 @@ class ilStudyProgrammeAppEventListener
     {
         $usr_id = $params['usr_id'];
         $progress_id = $params['progress_id'];
-
-        ilStudyProgrammeUserProgress::sendRiskyToFailMail($progress_id, $usr_id);
+        ilObjStudyProgramme::sendRiskyToFailMail($progress_id, $usr_id);
     }
 }

@@ -11,7 +11,7 @@ use ILIAS\UI\Renderer;
  * @ilCtrl_Calls ilObjForumGUI: ilPermissionGUI, ilForumExportGUI, ilInfoScreenGUI
  * @ilCtrl_Calls ilObjForumGUI: ilColumnGUI, ilPublicUserProfileGUI, ilForumModeratorsGUI, ilRepositoryObjectSearchGUI
  * @ilCtrl_Calls ilObjForumGUI: ilObjectCopyGUI, ilExportGUI, ilCommonActionDispatcherGUI, ilRatingGUI
- * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI
+ * @ilCtrl_Calls ilObjForumGUI: ilForumSettingsGUI, ilContainerNewsSettingsGUI, ilLearningProgressGUI
  * @ingroup      ModulesForum
  */
 class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
@@ -359,6 +359,28 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         switch ($next_class) {
+            case 'illearningprogressgui':
+                if (!ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+                    $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
+                }
+
+                $this->tabs->activateTab('learning_progress');
+
+                $usrId = $this->user->getId();
+                if (
+                    isset($this->request->getQueryParams()['user_id']) &&
+                    is_numeric($this->request->getQueryParams()['user_id'])
+                ) {
+                    $usrId = (int) $this->request->getQueryParams()['user_id'];
+                }
+
+                $this->ctrl->forwardCommand(new ilLearningProgressGUI(
+                    ilLearningProgressGUI::LP_CONTEXT_REPOSITORY,
+                    $this->object->getRefId(),
+                    $usrId
+                ));
+                break;
+
             case 'ilforumsettingsgui':
                 $forum_settings_gui = new ilForumSettingsGUI($this);
                 $this->ctrl->forwardCommand($forum_settings_gui);
@@ -662,14 +684,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 '',
                 $subtab == 'showThreads' ? true : false
             );
-            $this->tabs->addSubTabTarget(
-                'sorting_header',
-                $this->ctrl->getLinkTarget($this, 'sortThreads'),
-                'sortThreads',
-                get_class($this),
-                '',
-                $subtab == 'sortThreads' ? true : false
-            );
+    
+            if ($this->object->getNumStickyThreads() > 1) {
+                $this->tabs->addSubTabTarget(
+                    'sticky_threads_sorting',
+                    $this->ctrl->getLinkTarget($this, 'sortThreads'),
+                    'sortThreads',
+                    '',
+                    $subtab == 'sortThreads' ? true : false
+                );
+            }
         }
     }
 
@@ -734,10 +758,16 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         // Import information: Topic (variable $topicData) means frm object, not thread
         $topicData = $frm->getOneTopic();
         if ($topicData) {
-            // Visit-Counter
             $frm->setDbTable('frm_data');
             $frm->setMDB2WhereCondition('top_pk = %s ', array('integer'), array($topicData['top_pk']));
             $frm->updateVisits($topicData['top_pk']);
+
+            ilChangeEvent::_recordReadEvent(
+                $this->object->getType(),
+                $this->object->getRefId(),
+                $this->object->getId(),
+                $this->user->getId()
+            );
 
             if (!in_array($cmd, array('showThreads', 'sortThreads'))) {
                 $cmd = 'showThreads';
@@ -1303,6 +1333,14 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             );
         }
 
+        if (ilLearningProgressAccess::checkAccess($this->object->getRefId())) {
+            $this->tabs->addTab(
+                'learning_progress',
+                $this->lng->txt('learning_progress'),
+                $this->ctrl->getLinkTargetByClass(ilLearningProgressGUI::class)
+            );
+        }
+
         if ($this->settings->get('enable_fora_statistics', false)) {
             $hasStatisticsAccess = $this->access->checkAccess('write', '', $this->ref_id);
             if (!$hasStatisticsAccess) {
@@ -1339,22 +1377,18 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
     }
 
-    public function showStatisticsObject()
+    public function showStatisticsObject() : void
     {
-        /// if globally deactivated, skip!!! intrusion detected
         if (!$this->settings->get('enable_fora_statistics', false)) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        // if no read access -> intrusion detected
-        if (!$this->access->checkAccess('read', '', (int) $_GET['ref_id'])) {
+        if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
-        // if read access and statistics disabled -> intrusion detected
         if (!$this->objProperties->isStatisticEnabled()) {
-            // if write access and statistics disabled -> ok, for forum admin
-            if ($this->access->checkAccess('write', '', (int) $_GET['ref_id'])) {
+            if ($this->access->checkAccess('write', '', $this->object->getRefId())) {
                 ilUtil::sendInfo($this->lng->txt('frm_statistics_disabled_for_participants'));
             } else {
                 $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -1363,22 +1397,23 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $this->object->Forum->setForumId($this->object->getId());
 
-        $tbl = new ilForumStatisticsTableGUI($this, 'showStatistics');
-        $tbl->setId('il_frm_statistic_table_' . (int) $_GET['ref_id']);
+        $tbl = new ilForumStatisticsTableGUI($this, 'showStatistics', $this->object);
+        $tbl->setId('il_frm_statistic_table_' . $this->object->getRefId());
         $tbl->setTitle(
             $this->lng->txt('statistic'),
             'icon_usr.svg',
             $this->lng->txt('obj_' . $this->object->getType())
         );
 
-        $data = $this->object->Forum->getUserStatistic($this->is_moderator);
-        $result = array();
+        $data = $this->object->Forum->getUserStatistics((bool) $this->objProperties->isPostActivationEnabled());
+        $result = [];
         $counter = 0;
         foreach ($data as $row) {
-            $result[$counter]['ranking'] = $row[0];
-            $result[$counter]['login'] = $row[1];
-            $result[$counter]['lastname'] = $row[2];
-            $result[$counter]['firstname'] = $row[3];
+            $result[$counter]['usr_id'] = $row['usr_id'];
+            $result[$counter]['ranking'] = $row['num_postings'];
+            $result[$counter]['login'] = $row['login'];
+            $result[$counter]['lastname'] = $row['lastname'];
+            $result[$counter]['firstname'] = $row['firstname'];
 
             ++$counter;
         }
@@ -1616,10 +1651,11 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         $GLOBALS['ilAppEventHandler']->raise(
             'Modules/Forum',
             'activatedPost',
-            array(
+            [
+                'object' => $this->object,
                 'ref_id' => $this->object->getRefId(),
                 'post' => $this->objCurrentPost
-            )
+            ]
         );
         ilUtil::sendInfo($this->lng->txt('forums_post_was_activated'), true);
 
@@ -1707,10 +1743,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $frm = $oForumObjects['frm'];
 
             if ($wasRevoked) {
-                $frm->postCensorship($message, $this->objCurrentPost->getId());
+                $frm->postCensorship($this->object, $message, $this->objCurrentPost->getId());
                 ilUtil::sendSuccess($this->lng->txt('frm_censorship_revoked'));
             } else {
-                $frm->postCensorship($message, $this->objCurrentPost->getId(), 1);
+                $frm->postCensorship($this->object, $message, $this->objCurrentPost->getId(), 1);
                 ilUtil::sendSuccess($this->lng->txt('frm_censorship_applied'));
             }
 
@@ -2343,11 +2379,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
             $GLOBALS['ilAppEventHandler']->raise(
                 'Modules/Forum',
                 'createdPost',
-                array(
+                [
+                    'object' => $this->object,
                     'ref_id' => $this->object->getRefId(),
                     'post' => new ilForumPost($newPost),
                     'notify_moderators' => (bool) $send_activation_mail
-                )
+                ]
             );
 
             $message = '';
@@ -2501,11 +2538,12 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 $GLOBALS['ilAppEventHandler']->raise(
                     'Modules/Forum',
                     'createdPost',
-                    array(
+                    [
+                        'object' => $this->object,
                         'ref_id' => $this->object->getRefId(),
                         'post' => new ilForumPost($newPost),
                         'notify_moderators' => (bool) $send_activation_mail
-                    )
+                    ]
                 );
 
                 $message = '';
@@ -2909,6 +2947,13 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         // get forum- and thread-data
         $frm->setMDB2WhereCondition('top_frm_fk = %s ', array('integer'), array($frm->getForumId()));
+
+        ilChangeEvent::_recordReadEvent(
+            $this->object->getType(),
+            $this->object->getRefId(),
+            $this->object->getId(),
+            $this->user->getId()
+        );
 
         if ($firstNodeInThread) {
             $this->objCurrentTopic->updateVisits();
@@ -3491,17 +3536,15 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         if (isset($_POST['frm_ref_id']) && (int) $_POST['frm_ref_id']) {
             $errorMessages = $this->object->Forum->moveThreads(
-                (array) $_SESSION['threads2move'],
-                $this->object->getRefId(),
-                $this->ilObjDataCache->lookupObjId($_POST['frm_ref_id'])
+                (array) ($_SESSION['threads2move'] ?? []),
+                $this->object,
+                (int) $this->ilObjDataCache->lookupObjId($_POST['frm_ref_id'])
             );
 
-            if (array() !== $errorMessages) {
-                ilUtil::sendFailure(
-                    implode("<br><br>", $errorMessages),
-                    true
-                );
-                return $this->ctrl->redirectByClass('ilObjForumGUI', 'showThreads');
+            if ([] !== $errorMessages) {
+                ilUtil::sendFailure(implode("<br><br>", $errorMessages), true);
+                $this->ctrl->redirect($this, 'showThreads');
+                return;
             }
 
             unset($_SESSION['threads2move']);
@@ -3846,6 +3889,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
                 'Modules/Forum',
                 'createdPost',
                 [
+                    'object' => $this->object,
                     'ref_id' => $this->object->getRefId(),
                 'post' => new ilForumPost($newPost),
                     'notify_moderators' => !$status
@@ -4035,7 +4079,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
     /**
      * @inheritdoc
      */
-    protected function setColumnSettings(ilColumnGUI $column_gui)
+    public function setColumnSettings(ilColumnGUI $column_gui)
     {
         $column_gui->setBlockProperty('news', 'title', $this->lng->txt('frm_latest_postings'));
         $column_gui->setBlockProperty('news', 'prevent_aggregation', true);
@@ -4515,7 +4559,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
         }
 
         $threadIds = array_values(
-            array_filter(array_map('intval', (array) $this->httpRequest->getParsedBody()['thread_ids'] ?? []))
+            array_filter(array_map('intval', (array) ($this->httpRequest->getParsedBody()['thread_ids'] ?? [])))
         );
         if (2 !== count($threadIds)) {
             ilUtil::sendFailure($this->lng->txt('select_one'));

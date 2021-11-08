@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,50 +6,23 @@
  */
 class ilUserCertificateTableProvider
 {
-    /**
-     * @var
-     */
-    private $database;
+    private ilDBInterface $database;
+    private ilLogger $logger;
+    private ilCtrl $ctrl;
+    private ilCertificateObjectHelper $objectHelper;
+    private string $defaultTitle;
 
-    /**
-     * @var ilLogger
-     */
-    private $logger;
-
-    /**
-     * @var ilCtrl
-     */
-    private $controller;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var string
-     */
-    private $defaultTitle;
-
-    /**
-     * @param ilDBInterface $database
-     * @param ilLogger $logger
-     * @param ilCtrl $controller
-     * @param string $defaultTitle
-     * @param ilCertificateObjectHelper|null $objectHelper
-     */
     public function __construct(
         ilDBInterface $database,
         ilLogger $logger,
-        ilCtrl $controller,
+        ilCtrl $ctrl,
         string $defaultTitle,
         ilCertificateObjectHelper $objectHelper = null
     ) {
         $this->database = $database;
         $this->logger = $logger;
-        $this->controller = $controller;
+        $this->ctrl = $ctrl;
         $this->defaultTitle = $defaultTitle;
-        ;
 
         if (null === $objectHelper) {
             $objectHelper = new ilCertificateObjectHelper();
@@ -58,12 +31,13 @@ class ilUserCertificateTableProvider
     }
 
     /**
-     * @param $userId
-     * @param $params
-     * @param $filter
-     * @return array
+     * @param int                  $userId
+     * @param array<string, mixed> $params
+     * @param array<string, mixed> $filter
+     * @return array{cnt: int, items: array<int, array>}
+     * @throws JsonException
      */
-    public function fetchDataSet($userId, $params, $filter)
+    public function fetchDataSet(int $userId, array $params, array $filter) : array
     {
         $this->logger->debug(sprintf('START - Fetching all active certificates for user: "%s"', $userId));
 
@@ -97,8 +71,7 @@ LEFT JOIN object_data_del ON object_data_del.obj_id = il_cert_user_cert.obj_id
 LEFT JOIN usr_data ON usr_data.usr_id = il_cert_user_cert.user_id
 WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently_active = 1';
 
-
-        if (array() !== $params) {
+        if ([] !== $params) {
             $sql .= $this->getOrderByPart($params, $filter);
         }
 
@@ -109,10 +82,8 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
             if (!isset($params['offset'])) {
                 $params['offset'] = 0;
-            } else {
-                if (!is_numeric($params['offset'])) {
-                    throw new InvalidArgumentException('Please provide a valid numerical offset.');
-                }
+            } elseif (!is_numeric($params['offset'])) {
+                throw new InvalidArgumentException('Please provide a valid numerical offset.');
             }
 
             $this->database->setLimit($params['limit'], $params['offset']);
@@ -128,7 +99,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
         while ($row = $this->database->fetchAssoc($query)) {
             $title = $row['title'];
 
-            $data['items'][] = array(
+            $data['items'][] = [
                 'id' => $row['id'],
                 'title' => $title,
                 'obj_id' => $row['obj_id'],
@@ -138,7 +109,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
                 'description' => $row['description'],
                 'firstname' => $row['firstname'],
                 'lastname' => $row['lastname'],
-            );
+            ];
         }
 
         if (isset($params['limit'])) {
@@ -160,24 +131,19 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
             $data['cnt'] = count($data['items']);
         }
 
-        $this->logger->debug(sprintf('END - Actual results: "%s"', json_encode($data)));
+        $this->logger->debug(sprintf('END - Actual results: "%s"', json_encode($data, JSON_THROW_ON_ERROR)));
 
         return $data;
     }
 
-    /**
-     * @param array $params
-     * @param array $filter
-     * @return string
-     */
-    protected function getOrderByPart(array $params, array $filter)
+    protected function getOrderByPart(array $params, array $filter) : string
     {
         if (isset($params['order_field'])) {
             if (!is_string($params['order_field'])) {
                 throw new InvalidArgumentException('Please provide a valid order field.');
             }
 
-            if (!in_array($params['order_field'], array('date', 'id', 'title'))) {
+            if (!in_array($params['order_field'], ['date', 'id', 'title'])) {
                 throw new InvalidArgumentException('Please provide a valid order field.');
             }
 
@@ -187,7 +153,7 @@ WHERE user_id = ' . $this->database->quote($userId, 'integer') . ' AND currently
 
             if (!isset($params['order_direction'])) {
                 $params['order_direction'] = 'ASC';
-            } elseif (!in_array(strtolower($params['order_direction']), array('asc', 'desc'))) {
+            } elseif (!in_array(strtolower($params['order_direction']), ['asc', 'desc'])) {
                 throw new InvalidArgumentException('Please provide a valid order direction.');
             }
 

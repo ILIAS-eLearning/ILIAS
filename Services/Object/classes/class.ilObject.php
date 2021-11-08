@@ -74,7 +74,7 @@ class ilObject
     public $id;	// true object_id!!!!
     public $ref_id;// reference_id
     public $type;
-    public $title;
+    public string $title = "";
 
     /**
      * Check if object is offline
@@ -425,7 +425,7 @@ class ilObject
      */
     final public function getDescription() : string
     {
-        return $this->desc;
+        return (string) $this->desc;
     }
 
     /**
@@ -978,7 +978,7 @@ class ilObject
     /**
      * get all reference ids for object ID
      * @param int $a_id
-     * @return array
+     * @return array<int, int>
      */
     final public static function _getAllReferences(int $a_id) : array
     {
@@ -992,7 +992,7 @@ class ilObject
         $res = $ilDB->query($query);
         $ref = array();
         while ($obj_rec = $ilDB->fetchAssoc($res)) {
-            $ref[$obj_rec["ref_id"]] = $obj_rec["ref_id"];
+            $ref[(int) $obj_rec["ref_id"]] = (int) $obj_rec["ref_id"];
         }
 
         return $ref;
@@ -1068,7 +1068,7 @@ class ilObject
         
         $object_ids = [];
         while ($row = $ilDB->fetchAssoc($result)) {
-            $object_ids[] = $row['obj_id'];
+            $object_ids[] = (int) $row['obj_id'];
         }
         
         return $object_ids;
@@ -1281,7 +1281,7 @@ class ilObject
     * @param	string	$a_import_id		import id
     * @access	public
     */
-    final public static function _writeImportId($a_obj_id, $a_import_id)
+    final public static function _writeImportId($a_obj_id, $a_import_id) : void
     {
         global $DIC;
 
@@ -1301,7 +1301,7 @@ class ilObject
     *
     * @param	int		$a_id		object id
     */
-    final public static function _lookupType($a_id, $a_reference = false)
+    final public static function _lookupType($a_id, bool $a_reference = false) : string
     {
         global $DIC;
 
@@ -1310,13 +1310,14 @@ class ilObject
         if ($a_reference) {
             return $ilObjDataCache->lookupType($ilObjDataCache->lookupObjId($a_id));
         }
+
         return $ilObjDataCache->lookupType($a_id);
     }
 
     /**
     * checks wether object is in trash
     */
-    final public static function _isInTrash($a_ref_id)
+    final public static function _isInTrash($a_ref_id) : bool
     {
         global $DIC;
 
@@ -1328,7 +1329,7 @@ class ilObject
     /**
     * checks wether an object has at least one reference that is not in trash
     */
-    final public static function _hasUntrashedReference($a_obj_id)
+    final public static function _hasUntrashedReference($a_obj_id) : bool
     {
         $ref_ids = ilObject::_getAllReferences($a_obj_id);
         foreach ($ref_ids as $ref_id) {
@@ -1345,7 +1346,7 @@ class ilObject
     * @static
     * @param	int		$a_id		object id
     */
-    final public static function _lookupObjectId($a_ref_id)
+    final public static function _lookupObjectId($a_ref_id) : int
     {
         global $DIC;
 

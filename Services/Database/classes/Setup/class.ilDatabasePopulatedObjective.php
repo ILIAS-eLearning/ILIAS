@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -28,6 +28,9 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
         return true;
     }
 
+    /**
+     * @return \ilDatabaseExistsObjective[]
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         if ($environment->getResource(Setup\Environment::RESOURCE_DATABASE)) {
@@ -54,14 +57,13 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
         switch ($default) {
             case 'innodb':
-            case 'myisam':
                 $io->text("reading dump file, this may take a while...");
                 $this->readDumpFile($db);
                 break;
 
             default:
                 throw new Setup\UnachievableException(
-                    "Cannot determine database default engine, must be InnoDB or MyISAM"
+                    "Cannot determine database default engine, must be InnoDB"
                 );
         }
 
@@ -91,7 +93,6 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
     }
 
     /**
-     * @param ilDBInterface $db
      * @throws ilDatabaseException
      */
     private function readDumpFile(ilDBInterface $db) : void
@@ -111,6 +112,7 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
 
     /**
      * @param ilDBInterface|null $db
+     * @noRector
      */
     private function setDefaultEngine(ilDBInterface $db) : void
     {
@@ -118,20 +120,13 @@ class ilDatabasePopulatedObjective extends \ilDatabaseObjective
             case ilDBConstants::TYPE_PDO_MYSQL_INNODB:
             case ilDBConstants::TYPE_INNODB:
             case ilDBConstants::TYPE_GALERA:
-                $db->manipulate('SET default_storage_engine=InnoDB;');
-                break;
             case ilDBConstants::TYPE_PDO_MYSQL_MYISAM:
             case ilDBConstants::TYPE_MYSQL:
-                $db->manipulate('SET default_storage_engine=MyISAM;');
+                $db->manipulate('SET default_storage_engine=InnoDB;');
                 break;
-
         }
     }
 
-    /**
-     * @param ilDBInterface $db
-     * @return string
-     */
     private function getDefaultEngine(ilDBInterface $db) : string
     {
         try {

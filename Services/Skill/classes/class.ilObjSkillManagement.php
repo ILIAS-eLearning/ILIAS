@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skill management main application class
@@ -9,14 +24,7 @@
  */
 class ilObjSkillManagement extends ilObject
 {
-    
-    /**
-     * Constructor
-     * @access	public
-     * @param	int	reference_id or object_id
-     * @param	bool	treat the id as reference_id (true) or object_id (false)
-     */
-    public function __construct($a_id = 0, $a_call_by_reference = true)
+    public function __construct(int $a_id = 0, bool $a_call_by_reference = true)
     {
         global $DIC;
 
@@ -25,13 +33,7 @@ class ilObjSkillManagement extends ilObject
         parent::__construct($a_id, $a_call_by_reference);
     }
 
-    /**
-    * update object data
-    *
-    * @access	public
-    * @return	bool
-    */
-    public function update()
+    public function update() : bool
     {
         $ilDB = $this->db;
         
@@ -45,7 +47,7 @@ class ilObjSkillManagement extends ilObject
     /**
     * read style folder data
     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
 
@@ -55,10 +57,9 @@ class ilObjSkillManagement extends ilObject
     /**
     * delete object and all related data
     *
-    * @access	public
     * @return	bool	true if all object data were removed; false if only a references were removed
     */
-    public function delete()
+    public function delete() : bool
     {
         // always call parent delete function first!!
         if (!parent::delete()) {
@@ -73,13 +74,19 @@ class ilObjSkillManagement extends ilObject
     /**
      * Execute Drag Drop Action
      *
-     * @param	string	$source_id		Source element ID
-     * @param	string	$target_id		Target element ID
-     * @param	string	$first_child	Insert as first child of target
+     * @param	int		$source_id		Source element ID
+     * @param	int		$target_id		Target element ID
+     * @param	bool	$first_child	Insert as first child of target
+     * @param	bool	$as_subitem 	Insert as last child of target
      * @param	string	$movecopy		Position ("move" | "copy")
      */
-    public function executeDragDrop($source_id, $target_id, $first_child, $as_subitem = false, $movecopy = "move")
-    {
+    public function executeDragDrop(
+        int $source_id,
+        int $target_id,
+        bool $first_child,
+        bool $as_subitem = false,
+        string $movecopy = "move"
+    ) : void {
         $tree = new ilSkillTree();
 
         $source_obj = ilSkillTreeNodeFactory::getInstance($source_id);

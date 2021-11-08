@@ -20,7 +20,7 @@ class ilWikiExportOrderTableGUI extends ilTable2GUI
      * @param array &$a_all_pages
      * @param array $a_page_ids
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "", $a_pdf_export, array &$a_all_pages, array $a_page_ids)
+    public function __construct($a_parent_obj, $a_parent_cmd, $a_pdf_export, array &$a_all_pages, array $a_page_ids)
     {
         global $DIC;
 

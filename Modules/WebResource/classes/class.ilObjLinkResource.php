@@ -186,13 +186,11 @@ class ilObjLinkResource extends ilObject
         $writer->xmlStartTag('WebLinks', $attribs);
                 
         // LOM MetaData
-        include_once 'Services/MetaData/classes/class.ilMD2XML.php';
         $md2xml = new ilMD2XML($this->getId(), $this->getId(), 'webr');
         $md2xml->startExport();
         $writer->appendXML($md2xml->getXML());
 
         // Sorting
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         switch (ilContainerSortingSettings::_lookupSortMode($this->getId())) {
             case ilContainer::SORT_MANUAL:
                 $writer->xmlElement(

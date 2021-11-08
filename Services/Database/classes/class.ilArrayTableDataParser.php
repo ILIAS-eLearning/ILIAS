@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection AutoloadingIssuesInspection */
+declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,26 +8,29 @@
  */
 class ilArrayTableDataParser
 {
-    protected $dir = null;
-    
-    protected $value = '';
-    
+    protected $dir;
+
+    protected string $value = '';
+
     public function __construct($data_dir)
     {
         $this->dir = $data_dir;
     }
-    
+
+    /**
+     * @return bool|void
+     */
     public function startParsing()
     {
         global $DIC;
         $ilDB = $DIC->database();
         $ilLogger = $DIC->logger()->root();
-        
+
         if (!$dp = opendir($this->dir)) {
             $ilLogger->error(__METHOD__ . ': Cannot open data directory: ' . $this->dir);
             return false;
         }
-    
+
         $ilLogger->log(__METHOD__ . ': Reading table data from: ' . $this->dir);
         while (false !== ($file = readdir($dp))) {
             $ilLogger->log(__METHOD__ . ': Handling file: ' . $file);
@@ -34,10 +38,11 @@ class ilArrayTableDataParser
                 $ilLogger->log(__METHOD__ . ': Ignoring file: ' . $file);
                 continue;
             }
-            
+
             $content = file_get_contents($this->dir . DIRECTORY_SEPARATOR . $file);
 
             $ilLogger->log(__METHOD__ . ': Reading inserts of ' . $this->dir . '/' . $file);
+            /** @noinspection UnserializeExploitsInspection */
             $content = unserialize($content);
 
             if (!is_array($content)) {

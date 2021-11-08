@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 
 /**
@@ -10,17 +25,10 @@
  */
 class ilSkillExporter extends ilXmlExporter
 {
-    private $ds;
+    private ilSkillDataSet $ds;
+    protected ilExportConfig $config;
 
-    /**
-     * @var object
-     */
-    protected $config;
-
-    /**
-     * Initialisation
-     */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilSkillDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -30,56 +38,19 @@ class ilSkillExporter extends ilXmlExporter
         $this->ds->setSelectedProfiles($this->config->getSelectedProfiles());
         $this->ds->setMode($this->config->getMode());
     }
-
-
-    /**
-     * Get tail dependencies
-     *
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
-     */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
-    {
-        $deps = array();
-        /*$deps = array (
-            array(
-                "component" => "Services/COPage",
-                "entity" => "pg",
-                "ids" => $pg_ids),
-            array(
-                "component" => "Services/Rating",
-                "entity" => "rating_category",
-                "ids" => $a_ids
-                )
-            );*/
-
-        return $deps;
-    }
     
     /**
-     * Get xml representation
-     *
-     * @param	string		entity
-     * @param	string		target release
-     * @param	string		id
-     * @return	string		xml string
+     * @inheritdoc
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     *
-     * @param string $a_entity
-     * @return array
+     * @inheritdoc
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "7.0" => array(

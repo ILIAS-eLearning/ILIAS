@@ -599,7 +599,7 @@ class ilSAHSPresentationGUI
         }
         if ($DIC->access()->checkAccess("edit_learning_progress", "", $_GET["ref_id"]) || $DIC->access()->checkAccess("read_learning_progress", "", $_GET["ref_id"])) {
             include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-            $privacy = ilPrivacySettings::_getInstance();
+            $privacy = ilPrivacySettings::getInstance();
             if ($privacy->enabledSahsProtocolData()) {
                 include_once "./Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php";
                 $obj_id = ilObject::_lookupObjectId($_GET['ref_id']);

@@ -2,6 +2,9 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Exercise\InternalService;
+use ILIAS\Exercise\Assignment\Mandatory;
+
 /**
  * Exercise participant table
  *
@@ -9,8 +12,8 @@
  */
 class ilExGradesTableGUI extends ilTable2GUI
 {
-    protected ilExerciseInternalService $service;
-    protected ilExcRandomAssignmentManager $random_ass_manager;
+    protected InternalService $service;
+    protected Mandatory\RandomAssignmentsManager $random_ass_manager;
     protected ?ilObjExercise $exc;
     protected int $exc_id;
     protected ilExerciseMembers $mem_obj;
@@ -25,7 +28,7 @@ class ilExGradesTableGUI extends ilTable2GUI
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
-        ilExerciseInternalService $service,
+        InternalService $service,
         ilExerciseMembers $a_mem_obj
     ) {
         global $DIC;
@@ -34,11 +37,11 @@ class ilExGradesTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $request = $DIC->exercise()->internal()->request();
+        $request = $DIC->exercise()->internal()->gui()->request();
         
-        $this->exc = $request->getRequestedExercise();
+        $this->exc = $request->getExercise();
         $this->service = $service;
-        $this->random_ass_manager = $service->getRandomAssignmentManager($this->exc);
+        $this->random_ass_manager = $service->domain()->assignment()->randomAssignments($this->exc);
 
         $this->exc_id = $this->exc->getId();
         

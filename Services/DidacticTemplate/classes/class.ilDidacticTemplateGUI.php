@@ -14,11 +14,12 @@ class ilDidacticTemplateGUI
 {
     private $parent_object;
     private $lng;
+    protected int $requested_template_id = 0;
 
     /**
      * Constructor
      */
-    public function __construct($a_parent_obj)
+    public function __construct($a_parent_obj, $requested_template_id = 0)
     {
         global $DIC;
 
@@ -27,6 +28,10 @@ class ilDidacticTemplateGUI
         $this->parent_object = $a_parent_obj;
         $this->lng = $lng;
         $this->lng->loadLanguageModule('didactic');
+        $this->requested_template_id = (int) ($_REQUEST['tplid'] ?? 0);
+        if ($requested_template_id > 0) {
+            $this->requested_template_id = $requested_template_id;
+        }
     }
 
     public function getParentObject()
@@ -129,7 +134,7 @@ class ilDidacticTemplateGUI
         include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
 
         // Check if template is changed
-        $new_tpl_id = (int) $_REQUEST['tplid'];
+        $new_tpl_id = $this->requested_template_id;
         if ($new_tpl_id == ilDidacticTemplateObjSettings::lookupTemplateId($this->getParentObject()->object->getRefId())) {
             ilLoggerFactory::getLogger('otpl')->debug('Template id: ' . $new_tpl_id);
             ilUtil::sendInfo($this->lng->txt('didactic_not_changed'), true);
@@ -194,7 +199,7 @@ class ilDidacticTemplateGUI
 
         $ilCtrl = $DIC['ilCtrl'];
         
-        $new_tpl_id = (int) $_REQUEST['tplid'];
+        $new_tpl_id = $this->requested_template_id;
 
         include_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateUtils.php';
         ilDidacticTemplateUtils::switchTemplate($this->getParentObject()->object->getRefId(), $new_tpl_id);

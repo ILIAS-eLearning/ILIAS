@@ -7,34 +7,20 @@
  */
 class ilTermsOfServiceHistorizedCriterion implements ilTermsOfServiceEvaluableCriterion
 {
-    /** @var string */
-    private $id;
-    /** @var array */
-    private $config;
+    private string $id;
+    private array $config;
 
-    /**
-     * ilTermsOfServiceHistorizedCriterion constructor.
-     * @param string $id
-     * @param array $config
-     */
     public function __construct(string $id, array $config)
     {
         $this->id = $id;
         $this->config = $config;
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getCriterionValue() : ilTermsOfServiceCriterionConfig
     {
         return new ilTermsOfServiceCriterionConfig($this->config);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getCriterionId() : string
     {
         return $this->id;

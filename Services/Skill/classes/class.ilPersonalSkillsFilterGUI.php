@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\Skill\Service\SkillPersonalGUIRequest;
 
 /**
  * Filter for personal skills
@@ -10,24 +27,23 @@
  */
 class ilPersonalSkillsFilterGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected SkillPersonalGUIRequest $personal_gui_request;
+    protected int $requested_formation_type;
+    protected bool $requested_target_level;
+    protected bool $requested_materials_resources;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
         $this->lng = $DIC->language();
+        $this->personal_gui_request = $DIC->skills()->internal()->gui()->personal_request();
+        $this->requested_formation_type = $this->personal_gui_request->getTypeOfFormation();
+        $this->requested_target_level = $this->personal_gui_request->getShowTargetLevel();
+        $this->requested_materials_resources = $this->personal_gui_request->getShowMaterialsResources();
     }
 
-    /**
-     * Add to toolbar
-     */
-    public function addToToolbar(ilToolbarGUI $toolbar, $a_include_target = true)
+    public function addToToolbar(ilToolbarGUI $toolbar, bool $a_include_target = true) : void
     {
         $lng = $this->lng;
 
@@ -83,7 +99,7 @@ class ilPersonalSkillsFilterGUI
     /**
      * Save filter values to session
      */
-    public function save()
+    public function save() : void
     {
         $from = new ilDateTimeInputGUI("", "from");
         $from->checkInput();
@@ -95,20 +111,14 @@ class ilPersonalSkillsFilterGUI
         $t = (is_null($to->getDate()))
             ? ""
             : $to->getDate()->get(IL_CAL_DATETIME);
-        ilSession::set("skmg_pf_type_of_formation", ilUtil::stripSlashes($_POST["type_of_formation"]));
-        ilSession::set("skmg_pf_target_level", ilUtil::stripSlashes($_POST["target_level"]));
-        ilSession::set("skmg_pf_mat_res", ilUtil::stripSlashes($_POST["mat_res"]));
+        ilSession::set("skmg_pf_type_of_formation", $this->requested_formation_type);
+        ilSession::set("skmg_pf_target_level", $this->requested_target_level);
+        ilSession::set("skmg_pf_mat_res", $this->requested_materials_resources);
         ilSession::set("skmg_pf_from", $f);
         ilSession::set("skmg_pf_to", $t);
     }
 
-    /**
-     * Is entry in range?
-     * @param array $level_data
-     * @param array $level_entry
-     * @return bool
-     */
-    public function isInRange($level_data, $level_entry)
+    public function isInRange(array $level_data, array $level_entry) : bool
     {
         // from
         if (ilSession::get("skmg_pf_from") != "") {
@@ -136,27 +146,16 @@ class ilPersonalSkillsFilterGUI
             return false;
         }
 
-
-        //var_dump($level_data);
-        //var_dump($level_entry); exit;
         return true;
     }
 
-    /**
-     * Show target level?
-     * @return int
-     */
-    public function showTargetLevel()
+    public function showTargetLevel() : bool
     {
-        return (int) !ilSession::get("skmg_pf_target_level");
+        return !ilSession::get("skmg_pf_target_level");
     }
 
-    /**
-     * Show materials and ressources?
-     * @return int
-     */
-    public function showMaterialsRessources()
+    public function showMaterialsRessources() : bool
     {
-        return (int) !ilSession::get("skmg_pf_mat_res");
+        return !ilSession::get("skmg_pf_mat_res");
     }
 }

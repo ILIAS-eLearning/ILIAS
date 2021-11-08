@@ -31,7 +31,7 @@ class assTextSubsetGUITest extends assBaseTestCase
 
             require_once './Services/Language/classes/class.ilLanguage.php';
             $lng_mock = $this->createMock('ilLanguage', array('txt'), array(), '', false);
-            //$lng_mock->expects( $this->once() )->method( 'txt' )->will( $this->returnValue('Test') );
+            $lng_mock->expects($this->any())->method('txt')->will($this->returnValue('Test'));
             $this->setGlobalVariable('lng', $lng_mock);
 
             $this->setGlobalVariable('ilias', $this->getIliasMock());

@@ -4,31 +4,55 @@
 
 namespace ILIAS\Refinery\To\Transformation;
 
-use ILIAS\Data\Result;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
-use ILIAS\Refinery\Transformation;
-use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Refinery\Constraint;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\ProblemBuilder;
+use UnexpectedValueException;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
  */
-class BooleanTransformation implements Transformation
+class BooleanTransformation implements Constraint
 {
     use DeriveApplyToFromTransform;
     use DeriveInvokeFromTransform;
+    use ProblemBuilder;
 
     /**
      * @inheritdoc
      */
     public function transform($from)
     {
-        if (false === is_bool($from)) {
-            throw new ConstraintViolationException(
-                'The value MUST be of type boolean',
-                'not_boolean'
-            );
-        }
+        $this->check($from);
         return (bool) $from;
+    }
+
+    public function getError()
+    {
+        return 'The value MUST be of type boolean.';
+    }
+
+    public function check($value)
+    {
+        if (!$this->accepts($value)) {
+            throw new UnexpectedValueException($this->getErrorMessage($value));
+        }
+
+        return null;
+    }
+
+    public function accepts($value) : bool
+    {
+        return is_bool($value);
+    }
+
+    public function problemWith($value) : ?string
+    {
+        if (!$this->accepts($value)) {
+            return $this->getErrorMessage($value);
+        }
+
+        return null;
     }
 }

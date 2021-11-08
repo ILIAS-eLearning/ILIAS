@@ -49,6 +49,7 @@ class Glyph implements C\Symbol\Glyph\Glyph
 
     private static $types = array(self::SETTINGS
         , self::COLLAPSE
+        , self::COLLAPSE_HORIZONTAL
         , self::EXPAND
         , self::ADD
         , self::REMOVE

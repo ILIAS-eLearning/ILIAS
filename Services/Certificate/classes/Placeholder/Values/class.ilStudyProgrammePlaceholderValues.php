@@ -1,47 +1,21 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    /**
-     * @var ilDefaultPlaceholderValues
-     */
-    private $defaultPlaceHolderValuesObject;
+    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
+    private ilLanguage $language;
+    private ilCertificateObjectHelper $objectHelper;
+    private ilCertificateParticipantsHelper $participantsHelper;
+    private ilCertificateUtilHelper $ilUtilHelper;
 
-    /**
-     * @var ilLanguage|null
-     */
-    private $language;
-
-    /**
-     * @var ilCertificateObjectHelper|null
-     */
-    private $objectHelper;
-
-    /**
-     * @var ilCertificateParticipantsHelper|null
-     */
-    private $participantsHelper;
-
-    /**
-     * @var ilCertificateUtilHelper
-     */
-    private $ilUtilHelper;
-
-    /**
-     * @param ilDefaultPlaceholderValues $defaultPlaceholderValues
-     * @param ilLanguage|null $language
-     * @param ilCertificateObjectHelper|null $objectHelper
-     * @param ilCertificateParticipantsHelper|null $participantsHelper
-     * @param ilCertificateUtilHelper $ilUtilHelper
-     * @param ilCertificateDateHelper|null $ilDateHelper
-     */
     public function __construct(
-        ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
-        ilLanguage $language = null,
-        ilCertificateObjectHelper $objectHelper = null,
-        ilCertificateParticipantsHelper $participantsHelper = null,
-        ilCertificateUtilHelper $ilUtilHelper = null
+        ?ilDefaultPlaceholderValues $defaultPlaceholderValues = null,
+        ?ilLanguage $language = null,
+        ?ilCertificateObjectHelper $objectHelper = null,
+        ?ilCertificateParticipantsHelper $participantsHelper = null,
+        ?ilCertificateUtilHelper $ilUtilHelper = null
     ) {
         if (null === $language) {
             global $DIC;
@@ -69,35 +43,35 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
         }
         $this->ilUtilHelper = $ilUtilHelper;
 
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
     }
 
     /**
      * This method MUST return an array that contains the
      * actual data for the given user of the given object.
-     *
      * ilInvalidCertificateException MUST be thrown if the
      * data could not be determined or the user did NOT
      * achieve the certificate.
-     *
-     * @param $userId
-     * @param $objId
-     * @return mixed - [PLACEHOLDER] => 'actual value'
+     * @param int $userId
+     * @param int $objId
+     * @return array - [PLACEHOLDER] => 'actual value'
+     * @throws ilDatabaseException
      * @throws ilException
+     * @throws ilObjectNotFoundException
      */
     public function getPlaceholderValues(int $userId, int $objId) : array
     {
         $object = $this->objectHelper->getInstanceByObjId($objId);
 
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
         $latest_progress = array_reduce(
             $object->getProgressesOf($userId),
-            function ($one, $other) {
+            static function ($one, $other) {
                 if ($one !== null && $one->isSuccessful() && $other !== null && $other->isSuccessful()) {
                     return
                         $one->getCompletionDate()->format('Y-m-d H:i:s') > $other->getCompletionDate()->format('Y-m-d H:i:s') ?
-                        $one :
-                        $other;
+                            $one :
+                            $other;
                 }
                 if ($one !== null && $one->isSuccessful()) {
                     return $one;
@@ -108,13 +82,18 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
                 return null;
             }
         );
+
+        if (!$latest_progress) {
+            throw new \ilInvalidCertificateException('PRG: no valid progress for user ' . $userId . ' while generating certificate');
+        }
+
         $type = $object->getSubType();
         $placeholders['PRG_TITLE'] = ilUtil::prepareFormOutput($object->getTitle());
         $placeholders['PRG_DESCRIPTION'] = ilUtil::prepareFormOutput($object->getDescription());
         $placeholders['PRG_TYPE'] = ilUtil::prepareFormOutput($type ? $type->getTitle() : '');
         $placeholders['PRG_POINTS'] = ilUtil::prepareFormOutput($object->getPoints());
-        $placeholders['PRG_COMPLETION_DATE'] = ilUtil::prepareFormOutput($latest_progress->getCompletionDate() instanceof \DateTime ? $latest_progress->getCompletionDate()->format('d.m.Y') : '');
-        $placeholders['PRG_EXPIRES_AT'] = ilUtil::prepareFormOutput($latest_progress->getValidityOfQualification() instanceof \DateTime ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : '');
+        $placeholders['PRG_COMPLETION_DATE'] = ilUtil::prepareFormOutput($latest_progress->getCompletionDate() instanceof \DateTimeImmutable ? $latest_progress->getCompletionDate()->format('d.m.Y') : '');
+        $placeholders['PRG_EXPIRES_AT'] = ilUtil::prepareFormOutput($latest_progress->getValidityOfQualification() instanceof \DateTimeImmutable ? $latest_progress->getValidityOfQualification()->format('d.m.Y') : '');
         return $placeholders;
     }
 
@@ -122,14 +101,13 @@ class ilStudyProgrammePlaceholderValues implements ilCertificatePlaceholderValue
      * This method is different then the 'getPlaceholderValues' method, this
      * method is used to create a placeholder value array containing dummy values
      * that is used to create a preview certificate.
-     *
      * @param int $userId
      * @param int $objId
-     * @return mixed
+     * @return array
      */
-    public function getPlaceholderValuesForPreview(int $userId, int $objId)
+    public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $object = $this->objectHelper->getInstanceByObjId($objId);
         $type = $object->getSubType();

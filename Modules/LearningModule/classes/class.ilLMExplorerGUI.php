@@ -72,7 +72,7 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
     /**
      * Before rendering
      */
-    public function beforeRendering()
+    public function beforeRendering() : void
     {
         if ($this->cnt_lmobj > 200 && !$this->getOfflineMode()) {
             $class = (is_object($this->parent_obj))
@@ -86,11 +86,10 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Get node content
-     *
      * @param array $a_node node array
      * @return string node content
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             return $this->lm->getTitle();
@@ -112,11 +111,10 @@ class ilLMExplorerGUI extends ilTreeExplorerGUI
     
     /**
      * Is node highlighted?
-     *
      * @param mixed $a_node node object/array
      * @return boolean node visible true/false
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($a_node["child"] == $this->obj_id ||
             ($this->obj_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {

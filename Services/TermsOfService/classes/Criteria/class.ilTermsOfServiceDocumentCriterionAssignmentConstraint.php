@@ -10,19 +10,9 @@ use ILIAS\Refinery\Custom\Constraint;
  */
 class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
 {
-    /** @var ilTermsOfServiceCriterionTypeFactoryInterface */
-    protected $criterionTypeFactory;
+    protected ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory;
+    protected ilTermsOfServiceDocument $document;
 
-    /** @var ilTermsOfServiceDocument */
-    protected $document;
-
-    /**
-     * ilTermsOfServiceDocumentCriterionAssignmentConstraint constructor.
-     * @param ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory
-     * @param ilTermsOfServiceDocument                      $document
-     * @param Factory                                       $dataFactory
-     * @param ilLanguage                                    $lng
-     */
     public function __construct(
         ilTermsOfServiceCriterionTypeFactoryInterface $criterionTypeFactory,
         ilTermsOfServiceDocument $document,
@@ -69,9 +59,7 @@ class ilTermsOfServiceDocumentCriterionAssignmentConstraint extends Constraint
                     return true;
                 }
 
-                $valuesHaveSameNature = $this->haveSameNature($value, $otherValue);
-
-                return $valuesHaveSameNature;
+                return $this->haveSameNature($value, $otherValue);
             }
         );
     }

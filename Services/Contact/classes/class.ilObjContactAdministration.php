@@ -1,7 +1,5 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'Services/Object/classes/class.ilObject2.php';
 
 /**
  * Class ilObjContactAdministration
@@ -9,10 +7,7 @@ require_once 'Services/Object/classes/class.ilObject2.php';
  */
 class ilObjContactAdministration extends ilObject2
 {
-    /**
-     *
-     */
-    protected function initType()
+    protected function initType() : void
     {
         $this->type = 'cadm';
     }

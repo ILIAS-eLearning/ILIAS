@@ -690,8 +690,8 @@ class ilObjBlog extends ilObject2
         if ($abstract) {
             $ntf->addAdditionalInfo('content', $abstract, true);
         }
-                
-        $notified = $ntf->sendMail(
+
+        $notified = $ntf->sendMailAndReturnRecipients(
             $users,
             "_" . $a_posting_id,
             ($admin_only ? "write" : "read")

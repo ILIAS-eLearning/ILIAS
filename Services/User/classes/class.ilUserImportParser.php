@@ -1123,6 +1123,10 @@ class ilUserImportParser extends ilSaxParser
                             if (count($this->udf_data)) {
                                 $this->userObj->setUserDefinedData($this->udf_data);
                             }
+
+                            if (!$this->userObj->getLanguage()) {
+                                $this->userObj->setLanguage($this->lng->getDefaultLanguage());
+                            }
                             
                             $this->userObj->setProfileIncomplete($this->checkProfileIncomplete($this->userObj));
                             $this->userObj->create();
@@ -1147,6 +1151,9 @@ class ilUserImportParser extends ilSaxParser
 
                             if (!is_array($this->prefs) || array_search('chat_osc_accept_msg', $this->prefs) === false) {
                                 $this->userObj->setPref('chat_osc_accept_msg', $ilSetting->get('chat_osc_accept_msg', 'n'));
+                            }
+                            if (!is_array($this->prefs) || array_search('chat_broadcast_typing', $this->prefs) === false) {
+                                $this->userObj->setPref('chat_broadcast_typing', $ilSetting->get('chat_broadcast_typing', 'n'));
                             }
                             if (!is_array($this->prefs) || array_search('bs_allow_to_contact_me', $this->prefs) === false) {
                                 $this->userObj->setPref('bs_allow_to_contact_me', $ilSetting->get('bs_allow_to_contact_me', 'n'));
@@ -2308,17 +2315,10 @@ class ilUserImportParser extends ilSaxParser
             case 'public_interests_help_offered':
             case 'public_interests_help_looking':
             case 'send_info_mails':
-            case 'hide_own_online_status':
-                if (!in_array($value, array('y', 'n'))) {
-                    $this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");
-                }
-                break;
             case 'bs_allow_to_contact_me':
-                if (!in_array($value, array('y', 'n'))) {
-                    $this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");
-                }
-                break;
             case 'chat_osc_accept_msg':
+            case 'chat_broadcast_typing':
+            case 'hide_own_online_status':
                 if (!in_array($value, array('y', 'n'))) {
                     $this->logFailure("---", "Wrong value '$value': Value 'y' or 'n' expected for preference $key.");
                 }

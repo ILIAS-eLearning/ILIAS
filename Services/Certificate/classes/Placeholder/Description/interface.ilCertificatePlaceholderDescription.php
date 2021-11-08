@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,7 +9,6 @@ interface ilCertificatePlaceholderDescription
     /**
      * This method MUST return an array containing an array with
      * the the description as array value.
-     *
      * @return array<string, string> A [PLACEHOLDER] => 'description' map
      */
     public function getPlaceholderDescriptions() : array;

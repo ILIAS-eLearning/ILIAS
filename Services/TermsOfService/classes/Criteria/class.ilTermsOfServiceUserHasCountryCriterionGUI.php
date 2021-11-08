@@ -10,14 +10,10 @@ use ILIAS\UI\Factory;
  */
 class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCriterionTypeGUI
 {
-    /** @var ilTermsOfServiceUserHasCountryCriterion */
-    protected $type;
-
-    /** @var ilLanguage */
-    protected $lng;
-
+    protected ilTermsOfServiceUserHasCountryCriterion $type;
+    protected ilLanguage $lng;
     /** @var string[] */
-    protected $countryCodes = [];
+    protected array $countryCodes = [];
 
     /**
      * ilTermsOfServiceUserHasLanguageCriterionGUI constructor.
@@ -35,9 +31,6 @@ class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCrit
         $this->countryCodes = $countryCodes;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function appendOption(ilRadioGroupInputGUI $group, ilTermsOfServiceCriterionConfig $config) : void
     {
         $option = new ilRadioOption($this->getIdentPresentation(), $this->type->getTypeIdent());
@@ -63,9 +56,6 @@ class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCrit
         $group->addOption($option);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getConfigByForm(ilPropertyFormGUI $form) : ilTermsOfServiceCriterionConfig
     {
         $config = new ilTermsOfServiceCriterionConfig([
@@ -75,17 +65,11 @@ class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCrit
         return $config;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getIdentPresentation() : string
     {
         return $this->lng->txt('tos_crit_type_usr_country');
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getValuePresentation(ilTermsOfServiceCriterionConfig $config, Factory $uiFactory) : Component
     {
         $country = $config['country'] ?? '';
@@ -94,6 +78,6 @@ class ilTermsOfServiceUserHasCountryCriterionGUI implements ilTermsOfServiceCrit
             return $uiFactory->legacy('');
         }
 
-        return $uiFactory->legacy($this->lng->txt('meta_c_' . strtoupper((string) $country)));
+        return $uiFactory->legacy($this->lng->txt('meta_c_' . strtoupper($country)));
     }
 }

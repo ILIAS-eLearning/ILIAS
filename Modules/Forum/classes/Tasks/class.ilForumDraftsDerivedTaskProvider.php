@@ -97,6 +97,6 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
      */
     public function isActive() : bool
     {
-        return (bool) $this->settings->get('save_post_drafts', false);
+        return (bool) $this->settings->get('save_post_drafts', null);
     }
 }

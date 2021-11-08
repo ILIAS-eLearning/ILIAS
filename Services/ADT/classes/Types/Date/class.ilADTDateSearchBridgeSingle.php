@@ -48,8 +48,7 @@ class ilADTDateSearchBridgeSingle extends ilADTSearchBridgeSingle
         $post = $this->extractPostValues($a_post);
     
         if ($post && $this->shouldBeImportedFromPost($post)) {
-            include_once "Services/Calendar/classes/class.ilCalendarUtil.php";
-            $date = ilCalendarUtil::parseIncomingDate($post);
+                        $date = ilCalendarUtil::parseIncomingDate($post);
             
             if ($this->getForm() instanceof ilPropertyFormGUI) {
                 $item = $this->getForm()->getItemByPostVar($this->getElementId());

@@ -7,21 +7,13 @@
  */
 class ilTermsOfServiceDocumentsContainsHtmlValidator
 {
-    /** @var string */
-    private $text;
+    private string $text;
 
-    /**
-     * ilTermsOfServiceDocumentsContainsHtmlValidator constructor.
-     * @param string $text
-     */
     public function __construct(string $text)
     {
         $this->text = $text;
     }
 
-    /**
-     * @return bool
-     */
     public function isValid() : bool
     {
         if (!preg_match('/<[^>]+?>/', $this->text)) {
@@ -40,7 +32,7 @@ class ilTermsOfServiceDocumentsContainsHtmlValidator
             );
             foreach ($iter as $element) {
                 /** @var DOMNode $element */
-                if (in_array(strtolower($element->nodeName), ['body'])) {
+                if (strtolower($element->nodeName) === 'body') {
                     continue;
                 }
 

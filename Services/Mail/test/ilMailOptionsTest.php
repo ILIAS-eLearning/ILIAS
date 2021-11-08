@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailOptionsTest
@@ -30,16 +30,15 @@ class ilMailOptionsTest extends ilMailBaseTest
         $object->email = 'test@test.com';
         $object->second_email = 'ilias@ilias.com';
 
-
         $database->expects($this->once())->method('fetchObject')->willReturn($object);
         $database->expects($this->once())->method('queryF')->willReturn($queryMock);
-        $database->method('replace')->willReturn(0);
+        $database->method('replace');
 
         $this->setGlobalVariable('ilDB', $database);
 
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
-            'get'
+            'get',
         ])->getMock();
         $this->setGlobalVariable('ilSetting', $settings);
 

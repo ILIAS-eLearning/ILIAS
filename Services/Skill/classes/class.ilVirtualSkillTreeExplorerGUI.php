@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Virtual skill tree explorer
@@ -9,28 +24,13 @@
  */
 class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilVirtualSkillTree $vtree;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected bool $show_draft_nodes = false;
+    protected bool $show_outdated_nodes = false;
 
-    /**
-     * @var ilVirtualSkillTree
-     */
-    protected $vtree;
-
-    protected $show_draft_nodes = false;
-    protected $show_outdated_nodes = false;
-    
-    /**
-     * Constructor
-     */
-    public function __construct($a_id, $a_parent_obj, $a_parent_cmd)
+    public function __construct(string $a_id, $a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
@@ -43,66 +43,39 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         $this->setSkipRootNode(false);
         $this->setAjax(false);
     }
-    
-    /**
-     * Set show draft nodes
-     *
-     * @param bool $a_val show draft nodes
-     */
-    public function setShowDraftNodes($a_val)
+
+    public function setShowDraftNodes(bool $a_val) : void
     {
         $this->show_draft_nodes = $a_val;
         $this->vtree->setIncludeDrafts($a_val);
     }
 
-    /**
-     * Get show draft nodes
-     *
-     * @return bool show draft nodes
-     */
-    public function getShowDraftNodes()
+    public function getShowDraftNodes() : bool
     {
         return $this->show_draft_nodes;
     }
 
-    /**
-     * Set show outdated nodes
-     *
-     * @param bool $a_val show outdated notes
-     */
-    public function setShowOutdatedNodes($a_val)
+    public function setShowOutdatedNodes(bool $a_val) : void
     {
         $this->show_outdated_nodes = $a_val;
         $this->vtree->setIncludeOutdated($a_val);
     }
 
-    /**
-     * Get show outdated nodes
-     *
-     * @return bool show outdated notes
-     */
-    public function getShowOutdatedNodes()
+    public function getShowOutdatedNodes() : bool
     {
         return $this->show_outdated_nodes;
     }
-    
-    /**
-     * Get root node
-     *
-     * @return array root node data
-     */
-    public function getRootNode()
+
+    public function getRootNode() : array
     {
         return $this->vtree->getRootNode();
     }
-    
+
     /**
-     * Get node id
-     *
-     * @param array $a_node node data
-     * @return string node id
+     * @param array|object $a_node
+     * @return string
      */
-    public function getNodeId($a_node)
+    public function getNodeId($a_node) : string
     {
         return $a_node["id"];
     }
@@ -110,7 +83,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getDomNodeIdForNodeId($a_node_id)
+    public function getDomNodeIdForNodeId($a_node_id) : string
     {
         return parent::getDomNodeIdForNodeId(str_replace(":", "_", $a_node_id));
     }
@@ -118,31 +91,26 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeIdForDomNodeId($a_dom_node_id)
+    public function getNodeIdForDomNodeId($a_dom_node_id) : string
     {
         $id = parent::getNodeIdForDomNodeId($a_dom_node_id);
         return str_replace("_", ":", $id);
     }
 
-
     /**
-     * Get childs of node
-     *
-     * @param int $a_parent_node_id parent id
-     * @return array childs
+     * @param string $a_parent_node_id
+     * @return array
      */
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         return $this->vtree->getChildsOfNode($a_parent_node_id);
     }
 
     /**
-     * Get node content
-     *
-     * @param array
-     * @return
+     * @param array|object $a_node
+     * @return string
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
 
@@ -162,14 +130,12 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
         
         return $title;
     }
-    
+
     /**
-     * Get node icon
-     *
-     * @param array
-     * @return
+     * @param array|object $a_node
+     * @return string
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $a_id_parts = explode(":", $a_node["id"]);
         $a_skl_template_tree_id = $a_id_parts[1];
@@ -195,12 +161,10 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     }
 
     /**
-     * Get href for node
-     *
-     * @param mixed $a_node node object/array
-     * @return string href attribute
+     * @param array|object $a_node
+     * @return string
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
         
@@ -219,23 +183,19 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
     }
 
     /**
-     * Is clickable
-     *
-     * @param
-     * @return
+     * @param array|object $a_node
+     * @return bool
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         return false;
     }
 
     /**
-     * Get node icon alt attribute
-     *
-     * @param mixed $a_node node object/array
-     * @return string image alt attribute
+     * @param array|object $a_node
+     * @return string
      */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
@@ -245,5 +205,4 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 
         return $lng->txt($a_node["type"]);
     }
-
 }

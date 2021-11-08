@@ -14,19 +14,21 @@ class ilExerciseHandlerGUI
     protected ilAccessHandler $access;
     protected ilGlobalTemplateInterface $tpl;
     protected ilNavigationHistory $nav_history;
+    protected int $requested_ref_id;
 
     public function __construct()
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
+        $request = $DIC->exercise()->internal()->gui()->request();
+        $this->requested_ref_id = $request->getRefId();
 
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->tpl = $DIC["tpl"];
         $this->nav_history = $DIC["ilNavigationHistory"];
-        $ilCtrl = $DIC->ctrl();
-
-        // initialisation stuff
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC->ctrl();
     }
 
     /**
@@ -46,17 +48,17 @@ class ilExerciseHandlerGUI
         }
 
         // add entry to navigation history
-        if ($ilAccess->checkAccess("read", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
             $ilNavigationHistory->addItem(
-                $_GET["ref_id"],
-                "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=showOverview&ref_id=" . $_GET["ref_id"],
+                $this->requested_ref_id,
+                "ilias.php?baseClass=ilExerciseHandlerGUI&cmd=showOverview&ref_id=" . $this->requested_ref_id,
                 "exc"
             );
         }
 
         switch ($next_class) {
             case 'ilobjexercisegui':
-                $ex_gui = new ilObjExerciseGUI("", (int) $_GET["ref_id"], true);
+                $ex_gui = new ilObjExerciseGUI("", $this->requested_ref_id, true);
                 $this->ctrl->forwardCommand($ex_gui);
                 break;
         }

@@ -81,17 +81,17 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getChildsOfNode($parentNodeId)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         if ($this->preloaded) {
-            if (isset($this->preloaded_children[$parentNodeId])) {
-                return $this->preloaded_children[$parentNodeId];
+            if (isset($this->preloaded_children[$a_parent_node_id])) {
+                return $this->preloaded_children[$a_parent_node_id];
             }
 
             return [];
         }
 
-        return $this->thread->getNestedSetPostChildren($parentNodeId, 1);
+        return $this->thread->getNestedSetPostChildren($a_parent_node_id, 1);
     }
 
     /**
@@ -238,37 +238,37 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeIcon($node)
+    public function getNodeIcon($a_node) : string
     {
-        if ((int) $this->root_node->getId() === (int) $node['pos_pk']) {
+        if ((int) $this->root_node->getId() === (int) $a_node['pos_pk']) {
             return ilObject::_getIcon(0, 'tiny', 'frm');
         }
 
-        return $this->getAuthorInformationByNode($node)->getProfilePicture();
+        return $this->getAuthorInformationByNode($a_node)->getProfilePicture();
     }
 
     /**
      * @inheritDoc
      */
-    public function getNodeHref($node)
+    public function getNodeHref($a_node) : string
     {
-        if ((int) $this->root_node->getId() === (int) $node['pos_pk']) {
+        if ((int) $this->root_node->getId() === (int) $a_node['pos_pk']) {
             return '';
         }
 
         $this->ctrl->setParameter($this->parent_obj, 'backurl', null);
 
-        if (isset($node['counter']) && $node['counter'] > 0) {
-            $page = (int) floor(($node['counter'] - 1) / $this->max_entries);
+        if (isset($a_node['counter']) && $a_node['counter'] > 0) {
+            $page = (int) floor(($a_node['counter'] - 1) / $this->max_entries);
             $this->ctrl->setParameter($this->parent_obj, 'page', $page);
         }
 
-        if (isset($node['post_read']) && $node['post_read']) {
+        if (isset($a_node['post_read']) && $a_node['post_read']) {
             $this->ctrl->setParameter($this->parent_obj, 'pos_pk', null);
-            $url = $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, $node['pos_pk'], false, false);
+            $url = $this->ctrl->getLinkTarget($this->parent_obj, $this->parent_cmd, $a_node['pos_pk'], false, false);
         } else {
-            $this->ctrl->setParameter($this->parent_obj, 'pos_pk', $node['pos_pk']);
-            $url = $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', $node['pos_pk'], false, false);
+            $this->ctrl->setParameter($this->parent_obj, 'pos_pk', $a_node['pos_pk']);
+            $url = $this->ctrl->getLinkTarget($this->parent_obj, 'markPostRead', $a_node['pos_pk'], false, false);
             $this->ctrl->setParameter($this->parent_obj, 'pos_pk', null);
         }
 
@@ -280,7 +280,7 @@ class ilForumExplorerGUI extends ilTreeExplorerGUI
     /**
      * @inheritDoc
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         return $a_node['pos_subject'];
     }

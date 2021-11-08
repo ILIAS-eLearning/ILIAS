@@ -609,4 +609,64 @@ interface Factory
      * @return \ILIAS\UI\Component\Input\Field\File
      */
     public function file(UploadHandler $handler, string $label, string $byline = null) : File;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      The URL Input is intended for entering a single URL.
+     *   composition: >
+     *      URL Inputs will render an input-tag with type="url".
+     *   effect: >
+     *      URL Inputs are restricted to a single URL without a label.
+     *      A URI check will ensure a correct URL format (e.g. 'https://www.ilias.de/') is
+     *      inserted.
+     *   rivals:
+     *      Text Input: use a Text Input if users should input texts.
+     *      Link Input: use a Link Input if users may also set a label for the URL
+     *
+     * context:
+     *   - The single URL Input is used in UI-forms.
+     *
+     * rules:
+     *   usage:
+     *      1: The URL Input MUST NOT be used if a URL label has to be set.
+     *
+     * ---
+     * @param string $label
+     * @param string|null $byline
+     *
+     * @return \ILIAS\UI\Component\Input\Field\Url
+     */
+    public function url(string $label, string $byline = null) : Url;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      Link Inputs are used to enter URLs in conjunction with a label.
+     *   composition: >
+     *      Link Inputs are Input Groups consiting of a Text- and an Url Input.
+     *   effect: >
+     *      Two Text Inputs are rendered, of which the first one will accept all kinds of text
+     *      while the second one will be restricted to URLs.
+     *   rivals:
+     *      Url Input: use a Url Input if users should input a URL only (without a label or similar)
+     *
+     * context:
+     *   - The Link Input is used in UI-forms.
+     *
+     * rules:
+     *   usage:
+     *      1: >
+     *        The URL Input MUST be used if a URL is to be entered together with an assigned label
+     *
+     * ---
+     * @param string $label
+     * @param string|null $byline
+     *
+     * @return \ILIAS\UI\Component\Input\Field\Link
+     */
+    public function link(string $label, string $byline = null) : Link;
 }

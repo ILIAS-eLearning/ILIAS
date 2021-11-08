@@ -9,7 +9,7 @@ class ilMailAutoCompleteBuddyRecipientsProvider extends ilMailAutoCompleteUserPr
     /**
      * @return string
      */
-    protected function getFromPart()
+    protected function getFromPart() : string
     {
         $joins = [];
 

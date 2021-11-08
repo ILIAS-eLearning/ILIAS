@@ -24,9 +24,9 @@ class ilRatingExporter extends ilXmlExporter
     /**
      * @inheritDoc
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     /**
@@ -36,7 +36,7 @@ class ilRatingExporter extends ilXmlExporter
      *
      * @inheritDoc
      */
-    public function getValidSchemaVersions($a_entity) : array
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.3.0" => array(

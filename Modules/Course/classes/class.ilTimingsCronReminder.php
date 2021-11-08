@@ -75,71 +75,47 @@ class ilTimingsCronReminder extends ilCronJob
         $this->now = time();
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId() : string
     {
         return 'crs_timings_reminder';
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->lng->txt('timings_reminder_notifications');
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->lng->txt('timings_reminder_notifications_info');
     }
 
-    /**
-     * @return int
-     */
-    public function getDefaultScheduleType()
+    public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_DAILY;
     }
 
-    public function getDefaultScheduleValue()
+    public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasAutoActivation()
+    public function hasAutoActivation() : bool
     {
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasFlexibleSchedule()
+    public function hasFlexibleSchedule() : bool
     {
         return false;
     }
 
-    /**
-     * @return bool
-     */
-    public function hasCustomSettings()
+    public function hasCustomSettings() : bool
     {
         return false;
     }
 
-    /**
-     * @return ilCronJobResult
-     */
-    public function run()
+    public function run() : ilCronJobResult
     {
         $this->log->debug('Start.');
 

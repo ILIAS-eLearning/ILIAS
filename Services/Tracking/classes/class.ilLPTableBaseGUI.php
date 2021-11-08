@@ -1,9 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
-include_once  './Services/Search/classes/class.ilSearchSettings.php';
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
 
 /**
 * TableGUI class for learning progress
@@ -393,6 +390,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
         $options['prg'] = $lng->txt('objs_prg');
         $options['iass'] = $lng->txt('objs_iass');
         $options['copa'] = $lng->txt('objs_copa');
+        $options['frm'] = $lng->txt('objs_frm');
         $options['cmix'] = $lng->txt('objs_cmix');
         $options['lti'] = $lng->txt('objs_lti');
         $options['lso'] = $lng->txt('objs_lso');
@@ -929,7 +927,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
             ($a_in_course || $a_in_group)) {
             // only show if export permission is granted
             include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-            if (ilPrivacySettings::_getInstance()->checkExportAccess($this->ref_id)) {
+            if (ilPrivacySettings::getInstance()->checkExportAccess($this->ref_id)) {
                 // other user profile fields
                 foreach ($ufs as $f => $fd) {
                     if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"]) {

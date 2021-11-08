@@ -45,7 +45,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $hasErrors = (!$always) ? $this->editQuestion(true) : false;
         if (!$hasErrors) {
@@ -387,7 +387,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
      *
      * @todo:	MOVE THIS STEPS TO COMMON QUESTION CLASS assQuestionGUI
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
@@ -461,7 +461,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $this->addBackTab($ilTabs);
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         $selection = $this->object->getBestSelection(false);
 
@@ -576,7 +576,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return $html;
     }
     
-    public function getAnswersFrequency($relevantAnswers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         $answersByActiveAndPass = array();
         
@@ -612,7 +612,7 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         return array_values($answers);
     }
     
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         // error terms
         include_once "./Modules/TestQuestionPool/classes/forms/class.ilAssErrorTextCorrectionsInputGUI.php";
@@ -632,14 +632,12 @@ class assErrorTextGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         $points_wrong->setSize(6);
         $points_wrong->setRequired(true);
         $form->addItem($points_wrong);
-
-        return $form;
     }
     
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $this->object->flushErrorData();
         foreach ($form->getItemByPostVar('errordata')->getValues() as $idx => $errAnswer) {

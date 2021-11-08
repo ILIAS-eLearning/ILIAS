@@ -19,11 +19,10 @@ class ilTestImporter extends ilXmlImporter
     
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         // Container import => test object already created
         include_once "./Modules/Test/classes/class.ilObjTest.php";
@@ -56,11 +55,11 @@ class ilTestImporter extends ilXmlImporter
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if (!@file_exists($xml_file)) {
             $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
-            return false;
+            return;
         }
         if (!@file_exists($qti_file)) {
             $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $qti_file);
-            return false;
+            return;
         }
         
         /* @var ilObjTest $newObj */
@@ -140,11 +139,10 @@ class ilTestImporter extends ilXmlImporter
 
     /**
      * Final processing
-     *
      * @param ilImportMapping $a_mapping
-     * @return
+     * @return void
      */
-    public function finalProcessing($a_mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         $maps = $a_mapping->getMappingsOfEntity("Modules/Test", "tst");
         

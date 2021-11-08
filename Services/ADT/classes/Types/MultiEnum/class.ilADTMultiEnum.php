@@ -4,7 +4,7 @@ abstract class ilADTMultiEnum extends ilADT
 {
     protected $values; // [array]
         
-    public function getType()
+    public function getType() : string
     {
         return "MultiEnum";
     }
@@ -12,12 +12,12 @@ abstract class ilADTMultiEnum extends ilADT
     
     // definition
     
-    protected function isValidDefinition(ilADTDefinition $a_def)
+    protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
-        return ($a_def instanceof ilADTMultiEnumDefinition);
+        return $a_def instanceof ilADTMultiEnumDefinition;
     }
     
-    public function reset()
+    public function reset() : void
     {
         parent::reset();
         
@@ -67,56 +67,57 @@ abstract class ilADTMultiEnum extends ilADT
     
     // comparison
     
-    public function equals(ilADT $a_adt)
+    public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
             return ($this->getCheckSum() === $a_adt->getCheckSum());
         }
+        return null;
     }
                 
-    public function isLarger(ilADT $a_adt)
+    public function isLarger(ilADT $a_adt) : ?bool
     {
-        // return null?
+        return null;
     }
 
-    public function isSmaller(ilADT $a_adt)
+    public function isSmaller(ilADT $a_adt) : ?bool
     {
-        // return null?
+        return null;
     }
     
     
     // null
     
-    public function isNull()
+    public function isNull() : bool
     {
-        return ($this->getSelections() === null);
+        return $this->getSelections() === null;
     }
         
     
-    // check
-    
-    public function getCheckSum()
+    public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
             $current = $this->getSelections();
             sort($current);
             return md5(implode(",", $current));
         }
+        return null;
     }
     
     
     // stdClass
     
-    public function exportStdClass()
+    public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
             $obj = new stdClass();
             $obj->value = $this->getSelections();
             return $obj;
         }
+        return null;
     }
     
-    public function importStdClass($a_std)
+    public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {
             $this->setSelections($a_std->value);

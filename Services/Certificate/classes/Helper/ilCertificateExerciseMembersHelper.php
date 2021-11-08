@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,12 +6,7 @@
  */
 class ilCertificateExerciseMembersHelper
 {
-    /**
-     * @param int $objectId
-     * @param int $userId
-     * @return mixed
-     */
-    public function lookUpStatus(int $objectId, int $userId)
+    public function lookUpStatus(int $objectId, int $userId) : ?string
     {
         return ilExerciseMembers::_lookupStatus($objectId, $userId);
     }

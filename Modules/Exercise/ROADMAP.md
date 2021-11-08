@@ -8,10 +8,6 @@ Note: Some of the rules listed in this roadmap may be superseded by general ILIA
 
 - Assignment Types will get a supportsWebDirAccess()
 
-### Stronger Typisation
-
-- All methods/properties should get a strong typisation with PHP 7.4 minimum support.
-
 ### More robust request handling
 
 - GET/POST/SESSION request should move to the request service. Parameters should be stronger typed and checked for validity.
@@ -20,19 +16,27 @@ Note: Some of the rules listed in this roadmap may be superseded by general ILIA
 
 - The business logic of the different assignment phases (assignment member state) should be separated more strongly and put under unit tests.
 
+### Add PRIVACY.md
+
+- Add a PRIVACY.md file.
+
 ## Mid Term
 
-### Split up large classes
+### Fix ilExcCriteria
+
+The ilExcCriteria class does stuff on application and gui level and should be divided into multiple interfaces.
+
+### Split up large classes (ongoing)
 
 - Especially ilExAssignment should be split up in several repository / manager classes.
 
-### Directory structure
+### Directory structure (Mostly done)
 
 Subdirectories for domain concepts SHOULD be located directly under the `Exercise` main directory. The main `classes` subdirectory SHOULD only contain code has to be located in this directory due to rules of other components (e.g. the Object service).
 
 ### Introduce stronger Tutor Concept
 
-### Introduce Repository Pattern
+### Introduce Repository Pattern (ongoing)
 
 The Repository Pattern should be introduced to decouple the persistence layer.
 
@@ -40,18 +44,15 @@ The Repository Pattern should be introduced to decouple the persistence layer.
 
 Data objects should usually be returned by the repository layer. Factories for these objects should be made available through a service object of the component.
 
-### Introduce Action Layer
+### Move to Data, Repo, Domain, GUI architecture (ongoing)
 
-Action interfaces/classes should implement Frontend independent process / application logic. This should be extracted from current GUI controllers or "ilObject"-like classes. Intefaces and class should get an `Action` suffix. This layer should
+- Layers should separate responsibilities. Structure should be integrated into an internal service managing dependecies.
+- Domain layer should implement business logic without UI dependencies (including permission checks).
 
-- Perform permission checks consistently
-- Make use of repository layer to change state
+### Dependency Management / Interfaces
 
-Currently the top Frontend layer will be reponsible to inject these dependencies.
-
-### UI controller
-
-All business logic should be removed from GUI classes to the action layer. These tasks should be forwarded to the Action Layer instead. Permission checks should only be made for UI decisions here.
+- Move more dependencies from implementation to interface dependencies.
+- Move instantiation upwards in the service factory chain.
 
 ### Refactor filesystem access
 

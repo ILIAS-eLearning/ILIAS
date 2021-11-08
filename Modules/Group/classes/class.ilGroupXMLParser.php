@@ -532,7 +532,6 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
             $this->group_obj->enableUnlimitedRegistration(false);
             $this->group_obj->setRegistrationStart($registration_start);
             $this->group_obj->setRegistrationEnd($registration_end);
-
         } else {
             $this->group_obj->enableUnlimitedRegistration(true);
         }
@@ -676,7 +675,6 @@ class ilGroupXMLParser extends ilMDSaxParser implements ilSaxSubsetParser
 
     public function __initContainerSorting($a_attribs, $a_group_id)
     {
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         ilContainerSortingSettings::_importContainerSortingSettings($a_attribs, $a_group_id);
     }
 }

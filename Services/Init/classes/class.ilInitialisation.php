@@ -493,7 +493,7 @@ class ilInitialisation
         define("ROOT_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
         define("SYSTEM_FOLDER_ID", $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
         define("ROLE_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
-        define("MAIL_SETTINGS_ID", $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
+        define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
         define("ERROR_HANDLER", $error_handler ? $error_handler : "PRETTY_PAGE");
 
@@ -512,11 +512,11 @@ class ilInitialisation
         define("CLIENT_WEB_DIR", ILIAS_ABSOLUTE_PATH . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID);
         define("CLIENT_NAME", $ilClientIniFile->readVariable('client', 'name')); // Change SS
 
-        $val = $ilClientIniFile->readVariable("db", "type");
-        if ($val == "") {
-            define("IL_DB_TYPE", "mysql");
+        $db_type = $ilClientIniFile->readVariable("db", "type");
+        if ($db_type === "") {
+            define("IL_DB_TYPE", ilDBConstants::TYPE_PDO_MYSQL_INNODB);
         } else {
-            define("IL_DB_TYPE", $val);
+            define("IL_DB_TYPE", $db_type);
         }
 
         $ilGlobalCacheSettings = new ilGlobalCacheSettings();
@@ -770,14 +770,14 @@ class ilInitialisation
         }
 
         // set anonymous user & role id and system role id
-        define("ANONYMOUS_USER_ID", $ilSetting->get("anonymous_user_id"));
-        define("ANONYMOUS_ROLE_ID", $ilSetting->get("anonymous_role_id"));
-        define("SYSTEM_USER_ID", $ilSetting->get("system_user_id"));
-        define("SYSTEM_ROLE_ID", $ilSetting->get("system_role_id"));
+        define("ANONYMOUS_USER_ID", (int) $ilSetting->get("anonymous_user_id"));
+        define("ANONYMOUS_ROLE_ID", (int) $ilSetting->get("anonymous_role_id"));
+        define("SYSTEM_USER_ID", (int) $ilSetting->get("system_user_id"));
+        define("SYSTEM_ROLE_ID", (int) $ilSetting->get("system_role_id"));
         define("USER_FOLDER_ID", 7);
 
         // recovery folder
-        define("RECOVERY_FOLDER_ID", $ilSetting->get("recovery_folder_id"));
+        define("RECOVERY_FOLDER_ID", (int) $ilSetting->get("recovery_folder_id"));
 
         // installation id
         define("IL_INST_ID", $ilSetting->get("inst_id", 0));
@@ -926,7 +926,7 @@ class ilInitialisation
 
         // we do not know if ref_id of request is accesible, so redirecting to root
         $_GET["ref_id"] = ROOT_FOLDER_ID;
-        $_GET["cmd"] = "frameset";
+        $_GET["cmd"] = "";
         self::redirect(
             "ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=" .
             $_GET["cmd"] . "&ref_id=" . $_GET["ref_id"]
@@ -1104,7 +1104,6 @@ class ilInitialisation
         if (self::$already_initialized) {
             return;
         }
-
         $GLOBALS["DIC"] = new \ILIAS\DI\Container();
         $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
             return ilLoggerFactory::getInstance();

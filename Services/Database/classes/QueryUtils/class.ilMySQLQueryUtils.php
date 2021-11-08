@@ -1,21 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilMySQLQueryUtils
- *
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class ilMySQLQueryUtils extends ilQueryUtils
 {
 
     /**
-     * @param string $field
      * @param string[] $values
-     * @param bool $negate
-     * @param string $type
-     * @return string
      */
-    public function in($field, $values, $negate = false, $type = "")
+    public function in(string $field, array $values, bool $negate = false, string $type = "") : string
     {
         if (!is_array($values) || count($values) == 0) {
             // BEGIN fixed mantis #0014191:
@@ -38,26 +33,18 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $str;
     }
 
-
     /**
-     * @param mixed $value
-     * @param null $type
-     * @return string
+     * @param mixed       $value
+     * @param string|null $type
      */
-    public function quote($value, $type = null)
+    public function quote($value, string $type = null) : string
     {
         return $this->db_instance->quote($value, $type);
     }
 
-
-    /**
-     * @param array $values
-     * @param bool $allow_null
-     * @return string
-     */
-    public function concat(array $values, $allow_null = true)
+    public function concat(array $values, bool $allow_null = true) : string
     {
-        if (!count($values)) {
+        if (count($values) === 0) {
             return ' ';
         }
 
@@ -82,19 +69,15 @@ class ilMySQLQueryUtils extends ilQueryUtils
 
             $first = false;
         }
-        $concat .= ') ';
 
-        return $concat;
+        return $concat . ') ';
     }
-
 
     /**
      * @param $a_needle
      * @param $a_string
-     * @param int $a_start_pos
-     * @return string
      */
-    public function locate($a_needle, $a_string, $a_start_pos = 1)
+    public function locate($a_needle, $a_string, int $a_start_pos = 1) : string
     {
         $locate = ' LOCATE( ';
         $locate .= $a_needle;
@@ -107,39 +90,24 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $locate;
     }
 
-
-    /**
-     * @param \ilPDOStatement $statement
-     * @return bool
-     */
-    public function free(ilPDOStatement $statement)
+    public function free(ilPDOStatement $statement) : bool
     {
         $statement->closeCursor();
 
         return true;
     }
 
-
-    /**
-     * @param $identifier
-     * @return string
-     */
-    public function quoteIdentifier($identifier)
+    public function quoteIdentifier(string $identifier) : string
     {
         return $this->db_instance->quoteIdentifier($identifier);
     }
 
-
     /**
-     * @param $name
-     * @param $fields
-     * @param array $options
-     * @return string
      * @throws \ilDatabaseException
      */
-    public function createTable($name, $fields, $options = array())
+    public function createTable(string $name, array $fields, array $options = []) : string
     {
-        if (!$name) {
+        if ($name === '') {
             throw new ilDatabaseException('no valid table name specified');
         }
         if (empty($fields)) {
@@ -147,7 +115,8 @@ class ilMySQLQueryUtils extends ilQueryUtils
         }
         $query_fields_array = array();
         foreach ($fields as $field_name => $field) {
-            $query_fields_array[] = $this->db_instance->getFieldDefinition()->getDeclaration($field['type'], $field_name, $field);
+            $query_fields_array[] = $this->db_instance->getFieldDefinition()->getDeclaration($field['type'],
+                $field_name, $field);
         }
 
         $query_fields = implode(', ', $query_fields_array);
@@ -186,42 +155,38 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $query;
     }
 
-
     /**
      * @param $column
      * @param $type
-     * @param string $value
-     * @param bool $case_insensitive
-     * @return string
+     * @return string|void
      * @throws \ilDatabaseException
      */
-    public function like($column, $type, $value = "?", $case_insensitive = true)
+    public function like(string $column, string $type, string $value = "?", bool $case_insensitive = true) : string
     {
         if (!in_array($type, array(
             ilDBConstants::T_TEXT,
             ilDBConstants::T_CLOB,
             "blob",
-        ))
+        ), true)
         ) {
             throw new ilDatabaseException("Like: Invalid column type '" . $type . "'.");
         }
-        if ($value == "?") {
+        if ($value === "?") {
             if ($case_insensitive) {
                 return "UPPER(" . $column . ") LIKE(UPPER(?))";
-            } else {
-                return $column . " LIKE(?)";
             }
-        } else {
-            if ($case_insensitive) {
-                // Always quote as text
-                return " UPPER(" . $column . ") LIKE(UPPER(" . $this->quote($value, 'text') . "))";
-            } else {
-                // Always quote as text
-                return " " . $column . " LIKE(" . $this->quote($value, 'text') . ")";
-            }
-        }
-    }
 
+            return $column . " LIKE(?)";
+        }
+
+        if ($case_insensitive) {
+            // Always quote as text
+            return " UPPER(" . $column . ") LIKE(UPPER(" . $this->quote($value, 'text') . "))";
+        }
+
+        // Always quote as text
+        return " " . $column . " LIKE(" . $this->quote($value, 'text') . ")";
+    }
 
     /**
      * @return string
@@ -231,9 +196,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return "NOW()";
     }
 
-
     /**
-     * @param array $tables
      * @return string
      */
     public function lock(array $tables)
@@ -242,7 +205,7 @@ class ilMySQLQueryUtils extends ilQueryUtils
 
         $counter = 0;
         foreach ($tables as $table) {
-            if ($counter++) {
+            if ($counter++ !== 0) {
                 $lock .= ', ';
             }
 
@@ -272,7 +235,6 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return $lock;
     }
 
-
     /**
      * @return string
      */
@@ -281,14 +243,11 @@ class ilMySQLQueryUtils extends ilQueryUtils
         return 'UNLOCK TABLES';
     }
 
-
     /**
      * @param $a_name
-     * @param string $a_charset
-     * @param string $a_collation
-     * @return mixed
+     * @return string
      */
-    public function createDatabase($a_name, $a_charset = "utf8", $a_collation = "")
+    public function createDatabase($a_name, string $a_charset = "utf8", string $a_collation = "")
     {
         if ($a_collation != "") {
             $sql = "CREATE DATABASE `" . $a_name . "` CHARACTER SET " . $a_charset . " COLLATE " . $a_collation;
@@ -298,30 +257,25 @@ class ilMySQLQueryUtils extends ilQueryUtils
 
         return $sql;
     }
-    
 
     /**
-     *
-     * @param string $a_field_name
-     * @param string $a_seperator
-     * @param string $a_order
      * @return string
      */
-    public function groupConcat($a_field_name, $a_seperator = ",", $a_order = null)
+    public function groupConcat(string $a_field_name, string $a_seperator = ",", string $a_order = null)
     {
         if ($a_order === null) {
             $sql = "GROUP_CONCAT(" . $a_field_name . " SEPARATOR " . $this->quote($a_seperator, "text") . ")";
         } else {
-            $sql = "GROUP_CONCAT(" . $a_field_name . " ORDER BY " . $a_order . " SEPARATOR " . $this->quote($a_seperator, "text") . ")";
+            $sql = "GROUP_CONCAT(" . $a_field_name . " ORDER BY " . $a_order . " SEPARATOR " . $this->quote($a_seperator,
+                    "text") . ")";
         }
         return $sql;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function cast($a_field_name, $a_dest_type)
+    public function cast(string $a_field_name, $a_dest_type)
     {
         return $a_field_name;
     }

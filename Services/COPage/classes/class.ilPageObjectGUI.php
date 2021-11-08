@@ -1064,7 +1064,7 @@ class ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $this->ctrl->setReturn($this, "edit");
 
@@ -1335,7 +1335,6 @@ class ilPageObjectGUI
             $this->log->debug("ilPageObjectGUI, showPage() in edit mode.");
 
             $tpl = new ilTemplate("tpl.page_edit_wysiwyg.html", true, true, "Services/COPage");
-
             // to do: status dependent class
             $tpl->setVariable("CLASS_PAGE_TD", "ilc_Page");
 
@@ -2239,7 +2238,7 @@ class ilPageObjectGUI
         // block styles
         $sel = new \ILIAS\COPage\Editor\Components\Section\SectionStyleSelector($ui_wrapper, $a_style_id);
         $dd = $sel->getStyleSelector("", $type = "par-action", $action = "sec.class", $attr = "class", true);
-        $btpl->setVariable("TXT_BLOCK", $lng->txt("cont_block_format"));
+        $btpl->setVariable("TXT_BLOCK", $lng->txt("cont_sur_block_format"));
         $btpl->setVariable("BLOCK_STYLE_SELECTOR", $ui->renderer()->render($dd));
 
 

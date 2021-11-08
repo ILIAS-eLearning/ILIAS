@@ -8,6 +8,7 @@ use ILIAS\DI\Exceptions\Exception;
 use ILIAS\COPage\Editor\Server;
 use ILIAS\COPage\Editor\Components\Paragraph\ParagraphStyleSelector;
 use ILIAS\COPage\Editor\Components\Section\SectionStyleSelector;
+use ILIAS\COPage\Editor\Components\MediaObject\MediaObjectStyleSelector;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -510,12 +511,16 @@ class PageQueryActionHandler implements Server\QueryActionHandler
         $tpl = new \ilTemplate("tpl.format_selection.html", true, true, "Services/COPage/Editor");
         $tpl->setVariable("TXT_PAR", $lng->txt("cont_choose_characteristic_text"));
         $tpl->setVariable("TXT_SECTION", $lng->txt("cont_choose_characteristic_section"));
+        $tpl->setVariable("TXT_MEDIA", $lng->txt("cont_media"));
 
-        $par_sel = new ParagraphStyleSelector($this->ui_wrapper, (int) $this->page_gui->getStyleId());
+        $par_sel = new ParagraphStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
         $tpl->setVariable("PAR_SELECTOR", $ui->renderer()->renderAsync($par_sel->getStyleSelector("", "format", "format.paragraph", "format")));
 
-        $sec_sel = new SectionStyleSelector($this->ui_wrapper, (int) $this->page_gui->getStyleId());
+        $sec_sel = new SectionStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
         $tpl->setVariable("SEC_SELECTOR", $ui->renderer()->renderAsync($sec_sel->getStyleSelector("", "format", "format.section", "format")));
+
+        $med_sel = new MediaObjectStyleSelector($this->ui_wrapper, $this->page_gui->getStyleId());
+        $tpl->setVariable("MEDIA_SELECTOR", $ui->renderer()->renderAsync($med_sel->getStyleSelector("", "format", "format.media", "format")));
 
         $tpl->setVariable(
             "SAVE_BUTTON",

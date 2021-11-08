@@ -7,21 +7,14 @@
  */
 class ilTermsOfServiceDataGatewayFactory
 {
-    /** @var ilDBInterface|null */
-    protected $db;
+    protected ?ilDBInterface $db = null;
 
-    /**
-     * @param ilDBInterface|null $db
-     */
     public function setDatabaseAdapter(?ilDBInterface $db) : void
     {
         $this->db = $db;
     }
 
-    /**
-     * @return ilDBInterface|null
-     */
-    public function getDatabaseAdapter() : ? ilDBInterface
+    public function getDatabaseAdapter() : ?ilDBInterface
     {
         return $this->db;
     }

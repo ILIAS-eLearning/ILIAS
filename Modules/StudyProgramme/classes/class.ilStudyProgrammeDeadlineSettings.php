@@ -89,8 +89,8 @@ class ilStudyProgrammeDeadlineSettings
                     $lng->txt('prg_deadline_date_desc')
                 )
                 ->withFormat($format)
-                ->withMinValue(new DateTimeImmutable())
                 ->withValue($this->getDeadlineDate() !== null ? $this->getDeadlineDate()->format('d.m.Y') : '')
+                ->withRequired(true)
             ],
             $lng->txt('prg_deadline_date')
         );
@@ -117,19 +117,21 @@ class ilStudyProgrammeDeadlineSettings
             ['prg_deadline' => $sg->withValue($deadline)],
             $lng->txt('prg_deadline_settings')
         )
-        ->withAdditionalTransformation($refinery->custom()->transformation(function ($vals) {
-            $period = null;
-            $date = null;
+        ->withAdditionalTransformation($refinery->custom()->transformation(
+            function ($vals) {
+                $period = null;
+                $date = null;
 
-            if (isset($vals['prg_deadline'][1]['deadline_period'])) {
-                $period = (int) $vals['prg_deadline'][1]['deadline_period'];
+                if (isset($vals['prg_deadline'][1]['deadline_period'])) {
+                    $period = (int) $vals['prg_deadline'][1]['deadline_period'];
+                }
+
+                if (isset($vals['prg_deadline'][1]['deadline_date'])) {
+                    $date = new DateTime($vals['prg_deadline'][1]['deadline_date']);
+                }
+
+                return new ilStudyProgrammeDeadlineSettings($period, $date);
             }
-
-            if (isset($vals['prg_deadline'][1]['deadline_date'])) {
-                $date = new DateTime($vals['prg_deadline'][1]['deadline_date']);
-            }
-
-            return new ilStudyProgrammeDeadlineSettings($period, $date);
-        }));
+        ));
     }
 }

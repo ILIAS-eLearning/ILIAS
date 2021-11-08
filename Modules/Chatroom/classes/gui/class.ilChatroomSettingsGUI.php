@@ -35,7 +35,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
             $this->gui->object->update();
             $this->obj_service->commonSettings()->legacyForm($settingsForm, $this->gui->object)->saveTileImage();
             // @todo: Do not rely on raw post data
-            $settings = $this->httpServices->request()->getParsedBody();
+            $settings = $this->http->request()->getParsedBody();
             $room = ilChatRoom::byObjectId($this->gui->object->getId());
             if (!$room) {
                 $room = new ilChatRoom();

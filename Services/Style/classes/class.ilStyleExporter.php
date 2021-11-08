@@ -9,19 +9,21 @@
  */
 class ilStyleExporter extends ilXmlExporter
 {
-    public function init()
+    protected ilStyleDataSet $ds;
+
+    public function init() : void
     {
         $this->ds = new ilStyleDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
         $this->ds->setDSPrefix("ds");
     }
     
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         if ($a_schema_version == "5.1.0") {
             ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
             $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-            return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+            return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
         }
         if ($a_schema_version == "5.0.0") {
             if ($a_entity == "sty") {
@@ -42,7 +44,7 @@ class ilStyleExporter extends ilXmlExporter
         }
     }
 
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "5.1.0" => array(
