@@ -83,7 +83,7 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
 
     public function getDefaultScheduleValue() : ?int
     {
-        return;
+        return null;
     }
 
     public function run() : ilCronJobResult
