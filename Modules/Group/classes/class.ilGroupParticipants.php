@@ -128,7 +128,7 @@ class ilGroupParticipants extends ilParticipants
                     'obj_id' => $this->getObjId(),
                     'usr_id' => $a_usr_id
                 )
-            );
+        );
     }
     
         

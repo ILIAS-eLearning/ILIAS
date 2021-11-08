@@ -15,10 +15,10 @@ class ilSamlMappedUserAttributeValueParserTest extends TestCase
         $rule = $this->getMockBuilder(ilExternalAuthUserAttributeMappingRule::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $rule->expects($this->any())
+        $rule
             ->method('getExternalAttribute')
             ->willReturn($externalAttributeReference);
-        $rule->expects($this->any())
+        $rule
             ->method('getAttribute')
             ->willReturn($externalAttributeReference);
 

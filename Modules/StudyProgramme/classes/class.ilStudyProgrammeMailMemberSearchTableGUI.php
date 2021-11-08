@@ -45,7 +45,7 @@ class ilStudyProgrammeMailMemberSearchTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('user_ids[]');
         $this->setShowRowsSelector(true);
 
-        $this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mail_members'));
+        $this->addMultiCommand('sendMailToSelectedUsers', $this->lng->txt('mail_assignments'));
         $this->addCommandButton('cancel', $this->lng->txt('cancel'));
     }
 

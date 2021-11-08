@@ -115,7 +115,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         global $DIC;
 
@@ -280,11 +280,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
         return $path;
     }
 
-    
-    /**
-    * Fill data section
-    */
-    public function fillDataSection()
+    public function getLegacyContent() : string
     {
         global $DIC;
 
@@ -444,7 +440,7 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     /**
      * Get block HTML code.
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         $this->getCalendars();
         return parent::getHTML();
@@ -455,14 +451,6 @@ class ilCalendarSelectionBlockGUI extends ilBlockGUI
     //
 
     protected $new_rendering = true;
-
-    /**
-     * @inheritdoc
-     */
-    protected function getLegacyContent() : string
-    {
-        return $this->fillDataSection();
-    }
 
     /**
      * @inheritdoc

@@ -145,7 +145,7 @@ class ilCertificateSettingsCourseFormRepository implements ilCertificateFormRepo
 
     /**
      * @param array $formFields
-     * @throws ilException
+     * @throws ilException|JsonException
      */
     public function save(array $formFields) : void
     {

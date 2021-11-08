@@ -15,24 +15,13 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ilOnScreenChatGUI
 {
-    /**
-     * Boolean to track whether this service has already been initialized.
-     * @var bool
-     */
-    protected static $frontend_initialized = false;
+    protected static bool $frontend_initialized = false;
 
-    /** @var \ILIAS\DI\Container */
-    private $dic;
-    /** @var \ILIAS\HTTP\Services */
-    private $http;
-    /** @var ilCtrl */
-    private $ctrl;
-    /** @var \ilObjUser */
-    private $actor;
+    private ILIAS\DI\Container $dic;
+    private ILIAS\HTTP\Services $http;
+    private ilCtrl $ctrl;
+    private ilObjUser $actor;
 
-    /**
-     * ilOnScreenChatGUI constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -43,48 +32,41 @@ class ilOnScreenChatGUI
         $this->actor = $DIC->user();
     }
 
-    /**
-     * @param string $body
-     * @return ResponseInterface
-     */
     private function getResponseWithText(string $body) : ResponseInterface
     {
         return $this->dic->http()->response()->withBody(Streams::ofString($body));
     }
 
-    /**
-     * @param ilSetting $chatSettings
-     * @return bool
-     */
     protected static function isOnScreenChatAccessible(ilSetting $chatSettings) : bool
     {
         global $DIC;
 
-        return $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc') && $DIC->user() && !$DIC->user()->isAnonymous();
+        return (
+            $chatSettings->get('chat_enabled', '0') &&
+            $chatSettings->get('enable_osc', '0') &&
+            $DIC->user() && !$DIC->user()->isAnonymous()
+        );
     }
 
     /**
      * @param ilChatroomServerSettings $chatSettings
-     * @return array
+     * @return array<string, string>
      */
     protected static function getEmoticons(ilChatroomServerSettings $chatSettings) : array
     {
-        $smileys = array();
+        $smileys = [];
 
         if ($chatSettings->getSmiliesEnabled()) {
-            require_once 'Modules/Chatroom/classes/class.ilChatroomSmilies.php';
-            ;
-
             $smileys_array = ilChatroomSmilies::_getSmilies();
             foreach ($smileys_array as $smiley_array) {
                 $new_keys = array();
                 $new_val = '';
                 foreach ($smiley_array as $key => $value) {
-                    if ($key == 'smiley_keywords') {
+                    if ($key === 'smiley_keywords') {
                         $new_keys = explode("\n", $value);
                     }
 
-                    if ($key == 'smiley_fullpath') {
+                    if ($key === 'smiley_fullpath') {
                         $new_val = $value;
                     }
                 }
@@ -140,31 +122,23 @@ class ilOnScreenChatGUI
         if ($this->ctrl->isAsynch()) {
             $this->http->saveResponse($response);
             $this->http->sendResponse();
-            exit();
+            $this->http->close();
         }
     }
 
-    /**
-     * Checks if a user is logged in. If not, this function should cause an redirect, to disallow chatting while not logged
-     * into ILIAS.
-     * @return ResponseInterface
-     */
     private function verifyLogin() : ResponseInterface
     {
         ilSession::enableWebAccessWithoutSession(true);
 
         return $this->getResponseWithText(json_encode([
             'loggedIn' => $this->actor->getId() && !$this->actor->isAnonymous()
-        ]));
+        ], JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * @return ResponseInterface
-     */
     private function getUserList() : ResponseInterface
     {
         if (!$this->actor->getId() || $this->actor->isAnonymous()) {
-            return $this->getResponseWithText(json_encode([]));
+            return $this->getResponseWithText(json_encode([], JSON_THROW_ON_ERROR));
         }
 
         $auto = new ilOnScreenChatUserUserAutoComplete();
@@ -181,19 +155,15 @@ class ilOnScreenChatGUI
         return $this->getResponseWithText($auto->getList($this->http->request()->getQueryParams()['term'] ?? ''));
     }
 
-    /**
-     * @return ResponseInterface
-     * @throws ilWACException
-     */
     private function getUserProfileData() : ResponseInterface
     {
         if (!$this->actor->getId() || $this->actor->isAnonymous()) {
-            return $this->getResponseWithText(json_encode([]));
+            return $this->getResponseWithText(json_encode([], JSON_THROW_ON_ERROR));
         }
 
         $usrIds = (string) ($this->http->request()->getQueryParams()['usr_ids'] ?? '');
         if ($usrIds === '') {
-            return $this->getResponseWithText(json_encode([]));
+            return $this->getResponseWithText(json_encode([], JSON_THROW_ON_ERROR));
         }
 
         $this->dic->language()->loadLanguageModule('user');
@@ -202,15 +172,9 @@ class ilOnScreenChatGUI
 
         ilSession::enableWebAccessWithoutSession(true);
 
-        return $this->getResponseWithText(json_encode($data));
+        return $this->getResponseWithText(json_encode($data, JSON_THROW_ON_ERROR));
     }
 
-    /**
-     * Initialize frontend and delivers required javascript files and configuration to the global template.
-     * @param ilGlobalTemplateInterface $page
-     * @throws ilTemplateException
-     * @throws ilWACException
-     */
     public static function initializeFrontend(ilGlobalTemplateInterface $page) : void
     {
         global $DIC;
@@ -294,18 +258,21 @@ class ilOnScreenChatGUI
                 'locale' => $DIC->language()->getLangKey(),
                 'initialUserData' => $subscriberRepo->getInitialUserProfileData(),
                 'enabledBrowserNotifications' => (
-                    $clientSettings->get('enable_browser_notifications', false) &&
-                    (bool) ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
+                    $clientSettings->get('enable_browser_notifications', '0') &&
+                    ilUtil::yn2tf($DIC->user()->getPref('chat_osc_browser_notifications'))
                 ),
-                'notificationIconPath' => \ilUtil::getImagePath('icon_chta.png'),
+                'broadcast_typing' => (
+                    ilUtil::yn2tf($DIC->user()->getPref('chat_broadcast_typing'))
+                ),
+                'notificationIconPath' => ilUtil::getImagePath('icon_chta.png'),
             );
 
-            $chatConfig = array(
+            $chatConfig = [
                 'url' => $settings->generateClientUrl() . '/' . $settings->getInstance() . '-im',
                 'subDirectory' => $settings->getSubDirectory() . '/socket.io',
                 'userId' => $DIC->user()->getId(),
                 'username' => $DIC->user()->getLogin(),
-            );
+            ];
 
             $DIC->language()->toJS([
                 'chat_osc_no_usr_found',
@@ -332,6 +299,8 @@ class ilOnScreenChatGUI
                 'chat_osc_nc_conv_x_p',
                 'chat_osc_nc_conv_x_s',
                 'chat_osc_nc_no_conv',
+                'chat_user_x_is_typing',
+                'chat_users_are_typing',
                 'today',
                 'yesterday',
             ], $page);
@@ -350,16 +319,16 @@ class ilOnScreenChatGUI
             $page->addJavascript('./Modules/Chatroom/chat/node_modules/socket.io-client/dist/socket.io.js');
             $page->addJavascript('./Services/OnScreenChat/js/chat.js');
             $page->addJavascript('./Services/OnScreenChat/js/onscreenchat.js');
-            $page->addOnLoadCode("il.Chat.setConfig(" . json_encode($chatConfig) . ");");
-            $page->addOnLoadCode("il.OnScreenChat.setConfig(" . json_encode($guiConfig) . ");");
+            $page->addOnLoadCode("il.Chat.setConfig(" . json_encode($chatConfig, JSON_THROW_ON_ERROR) . ");");
+            $page->addOnLoadCode("il.OnScreenChat.setConfig(" . json_encode($guiConfig, JSON_THROW_ON_ERROR) . ");");
             $page->addOnLoadCode("il.OnScreenChat.init();");
             $page->addOnLoadCode('il.OnScreenChatNotifications.init(' . json_encode([
                 'conversationIdleTimeThreshold' => max(
                     1,
-                    (int) $clientSettings->get('conversation_idle_state_in_minutes', 1)
+                    (int) $clientSettings->get('conversation_idle_state_in_minutes', '1')
                 ),
                 'logLevel' => $DIC['ilLoggerFactory']->getSettings()->getLevelByComponent('osch'),
-            ]) . ');');
+            ], JSON_THROW_ON_ERROR) . ');');
 
             self::$frontend_initialized = true;
         }

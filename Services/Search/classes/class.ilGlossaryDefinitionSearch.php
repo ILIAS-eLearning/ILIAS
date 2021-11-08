@@ -24,7 +24,7 @@
 /**
 * Class ilLMContentSearch
 *
-* Abstract class for glossary definitions. Should be inherited by ilFulltextGlossaryDefinitionSearch
+* Abstract class for glossary definitions.
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$

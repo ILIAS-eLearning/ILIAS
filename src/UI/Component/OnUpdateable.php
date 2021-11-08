@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component;
 
 /**
@@ -10,13 +11,11 @@ namespace ILIAS\UI\Component;
  */
 interface OnUpdateable extends Triggerer
 {
-
     /**
      * Trigger a signal of another component on update
      *
      * @param Signal $signal A signal of another component
-     *
-     * @return $this
+     * @return static
      */
     public function withOnUpdate(Signal $signal);
 
@@ -24,9 +23,7 @@ interface OnUpdateable extends Triggerer
      * Get a component like this, triggering a signal of another component on update.
      * In contrast to withOnUpdate, the signal is appended to existing signals for the on update event.
      *
-     * @param Signal $signal
-     *
-     * @return $this
+     * @return static
      */
     public function appendOnUpdate(Signal $signal);
 }

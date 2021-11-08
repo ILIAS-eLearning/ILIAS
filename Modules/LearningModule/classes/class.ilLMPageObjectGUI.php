@@ -359,7 +359,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         ilHistory::_createEntry(
             $this->obj->getId(),
             "update",
-            "",
+            [],
             $this->content_object->getType() . ":pg",
             "",
             true

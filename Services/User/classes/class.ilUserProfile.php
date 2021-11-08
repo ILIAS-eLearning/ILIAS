@@ -342,6 +342,20 @@ class ilUserProfile
                 "y" => "chat_osc_accepts_messages_yes"
             )
         ),
+        "chat_broadcast_typing" => array(
+            "input" => "selection",
+            "lang_var" => "chat_broadcast_typing",
+            "required_hide" => true,
+            "visib_reg_hide" => true,
+            "course_export_hide" => true,
+            "group_export_hide" => true,
+            "group" => "settings",
+            "default" => "y",
+            "options" => array(
+                "n" => "chat_broadcast_typing_no",
+                "y" => "chat_broadcast_typing_yes"
+            )
+        ),
         "preferences" => array(
                         "visible_fix_value" => 1,
                         "changeable_fix_value" => 1,
@@ -523,7 +537,7 @@ class ilUserProfile
                         if ($a_user) {
                             $val->setValue($a_user->getLogin());
                         }
-                        $val->setMaxLength($p['maxlength']);
+                        $val->setMaxLength((int) $p['maxlength']);
                         $val->setSize(255);
                         $val->setRequired(true);
                     } else {
@@ -544,9 +558,9 @@ class ilUserProfile
                         }
                         $ti->setMaxLength($p["maxlength"]);
                         $ti->setSize($p["size"]);
-                        $ti->setRequired($ilSetting->get("require_" . $f));
+                        $ti->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$ti->getRequired() || $ti->getValue()) {
-                            $ti->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                            $ti->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                         }
                         $a_form->addItem($ti);
                     }
@@ -558,9 +572,9 @@ class ilUserProfile
                         if ($a_user) {
                             $ci->setValue($a_user->$m());
                         }
-                        $ci->setRequired($ilSetting->get("require_" . $f));
+                        $ci->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$ci->getRequired() || $ci->getValue()) {
-                            $ci->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                            $ci->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                         }
                         $a_form->addItem($ci);
                     }
@@ -575,9 +589,9 @@ class ilUserProfile
                             $date = new ilDateTime($a_user->$m(), IL_CAL_DATE);
                             $bi->setDate($date);
                         }
-                        $bi->setRequired($ilSetting->get("require_" . $f));
+                        $bi->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$bi->getRequired() || $date) {
-                            $bi->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                            $bi->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                         }
                         $a_form->addItem($bi);
                     }
@@ -593,9 +607,9 @@ class ilUserProfile
                             $op = new ilRadioOption($lng->txt($v), $k);
                             $rg->addOption($op);
                         }
-                        $rg->setRequired($ilSetting->get("require_" . $f));
+                        $rg->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$rg->getRequired() || $rg->getValue()) {
-                            $rg->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                            $rg->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                         }
                         $a_form->addItem($rg);
                     }
@@ -604,10 +618,10 @@ class ilUserProfile
                 case "picture":
                     if (ilUserProfile::userSettingVisible("upload") && $a_user) {
                         $ii = new ilImageFileInputGUI($lng->txt("personal_picture"), "userfile");
-                        $ii->setDisabled($ilSetting->get("usr_settings_disable_upload"));
+                        $ii->setDisabled((bool) $ilSetting->get("usr_settings_disable_upload"));
                         
                         $upload = $a_form->getFileUpload("userfile");
-                        if ($upload["name"]) {
+                        if ($upload["name"] ?? false) {
                             $ii->setPending($upload["name"]);
                         } else {
                             $im = ilObjUser::_getPersonalPicturePath(
@@ -627,6 +641,7 @@ class ilUserProfile
                     break;
                     
                 case "roles":
+                    $role_names = "";
                     if (self::$mode == self::MODE_DESKTOP) {
                         if (ilUserProfile::userSettingVisible("roles")) {
                             $global_roles = $rbacreview->getGlobalRoles();
@@ -653,9 +668,9 @@ class ilUserProfile
                                 if (sizeof($options) > 1) {
                                     $ta = new ilSelectInputGUI($lng->txt('default_role'), "usr_" . $f);
                                     $ta->setOptions($options);
-                                    $ta->setRequired($ilSetting->get("require_" . $f));
+                                    $ta->setRequired((bool) $ilSetting->get("require_" . $f));
                                     if (!$ta->getRequired()) {
-                                        $ta->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                                        $ta->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                                     }
                                 }
                                 // no need for select if only 1 option
@@ -675,9 +690,9 @@ class ilUserProfile
                         if ($a_user) {
                             $em->setValue($a_user->$m());
                         }
-                        $em->setRequired($ilSetting->get("require_" . $f));
+                        $em->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$em->getRequired() || $em->getValue()) {
-                            $em->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                            $em->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                         }
                         if (self::MODE_REGISTRATION == self::$mode) {
                             $em->setRetype(true);
@@ -691,9 +706,9 @@ class ilUserProfile
                         if ($a_user) {
                             $em->setValue($a_user->$m());
                         }
-                        $em->setRequired($ilSetting->get("require_" . $f));
+                        $em->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$em->getRequired() || $em->getValue()) {
-                            $em->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                            $em->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                         }
                         if (self::MODE_REGISTRATION == self::$mode) {
                             $em->setRetype(true);
@@ -709,9 +724,9 @@ class ilUserProfile
                         }
                         $ta->setRows($p["rows"]);
                         $ta->setCols($p["cols"]);
-                        $ta->setRequired($ilSetting->get("require_" . $f));
+                        $ta->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$ta->getRequired() || $ta->getValue()) {
-                            $ta->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                            $ta->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                         }
                         $a_form->addItem($ta);
                     }
@@ -746,9 +761,9 @@ class ilUserProfile
                         }
                         asort($options); // #9728
                         $ta->setOptions($options);
-                        $ta->setRequired($ilSetting->get("require_" . $f));
+                        $ta->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$ta->getRequired() || $ta->getValue()) {
-                            $ta->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                            $ta->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                         }
                         $a_form->addItem($ta);
                     }
@@ -763,9 +778,9 @@ class ilUserProfile
                         }
                         $ti->setMaxLength($p["maxlength"]);
                         $ti->setSize($p["size"]);
-                        $ti->setRequired($ilSetting->get("require_" . $f));
+                        $ti->setRequired((bool) $ilSetting->get("require_" . $f));
                         if (!$ti->getRequired() || $ti->getValue()) {
-                            $ti->setDisabled($ilSetting->get("usr_settings_disable_" . $f));
+                            $ti->setDisabled((bool) $ilSetting->get("usr_settings_disable_" . $f));
                         }
                         if ($this->ajax_href) {
                             // add field to ajax call

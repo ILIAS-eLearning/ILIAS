@@ -10,6 +10,8 @@
 class ilExportFileParser extends ilSaxParser
 {
     protected $item_xml = "";
+    protected bool $in_export_item = false;
+    protected string $chr_data = "";
     
     /**
      * Constructor
@@ -71,8 +73,9 @@ class ilExportFileParser extends ilSaxParser
                 $this->export_item_writer = new ilXmlWriter();
 
                 $this->item_xml = "";
-                $this->expfiles[] = array("component" => $a_attribs["Component"],
-                    "path" => $a_attribs["Path"]);
+                $this->expfiles[] = array(
+                    "component" => $a_attribs["Component"] ?? null,
+                    "path" => $a_attribs["Path"] ?? null);
                 break;
         }
     }

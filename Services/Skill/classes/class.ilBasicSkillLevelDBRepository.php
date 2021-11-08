@@ -1,14 +1,28 @@
 <?php
 
 /**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+/**
  * Class ilBasicSkillLevelDBRepository
  */
 class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
 
     public function __construct(ilDBInterface $db = null)
     {
@@ -18,22 +32,17 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
             ?: $DIC->database();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function deleteLevelsOfSkill(int $skill_id)
+    public function deleteLevelsOfSkill(int $skill_id) : void
     {
         $ilDB = $this->db;
 
-        $ilDB->manipulate("DELETE FROM skl_level WHERE "
+        $ilDB->manipulate(
+            "DELETE FROM skl_level WHERE "
             . " skill_id = " . $ilDB->quote($skill_id, "integer")
         );
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function addLevel(int $skill_id, string $a_title, string $a_description, string $a_import_id = "")
+    public function addLevel(int $skill_id, string $a_title, string $a_description, string $a_import_id = "") : void
     {
         $ilDB = $this->db;
 
@@ -48,27 +57,20 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
             "import_id" => array("text", $a_import_id),
             "creation_date" => array("timestamp", ilUtil::now())
         ));
-
     }
 
-    /**
-     * Get maximum level nr
-     * @return    int        maximum level nr of skill
-     */
     protected function getMaxLevelNr(int $skill_id) : int
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query("SELECT MAX(nr) mnr FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT MAX(nr) mnr FROM skl_level WHERE " .
             " skill_id = " . $ilDB->quote($skill_id, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
         return (int) $rec["mnr"];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getLevelData(int $skill_id, int $a_id = 0) : array
     {
         $ilDB = $this->db;
@@ -78,12 +80,13 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
             $and = " AND id = " . $ilDB->quote($a_id, "integer");
         }
 
-        $set = $ilDB->query("SELECT * FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT * FROM skl_level WHERE " .
             " skill_id = " . $ilDB->quote($skill_id, "integer") .
             $and .
             " ORDER BY nr"
         );
-        $levels = array();
+        $levels = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             if ($a_id > 0) {
                 return $rec;
@@ -93,55 +96,34 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         return $levels;
     }
 
-    /**
-     * Lookup level property
-     * @param int    $a_id level id
-     * @param string $a_prop
-     * @return mixed    property value
-     */
     protected function lookupLevelProperty(int $a_id, string $a_prop)
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query("SELECT $a_prop FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT $a_prop FROM skl_level WHERE " .
             " id = " . $ilDB->quote($a_id, "integer")
         );
         $rec = $ilDB->fetchAssoc($set);
         return $rec[$a_prop];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function lookupLevelTitle(int $a_id) : string
     {
         return $this->lookupLevelProperty($a_id, "title");
     }
 
-    /**
-     * @inheritDoc
-     */
     public function lookupLevelDescription(int $a_id) : string
     {
         return $this->lookupLevelProperty($a_id, "description");
     }
 
-    /**
-     * @inheritDoc
-     */
     public function lookupLevelSkillId(int $a_id) : int
     {
         return $this->lookupLevelProperty($a_id, "skill_id");
     }
 
-    /**
-     * Write level property
-     * @param int    $a_id
-     * @param string $a_prop
-     * @param        $a_value
-     * @param string $a_type
-     */
-    protected function writeLevelProperty(int $a_id, string $a_prop, $a_value, string $a_type)
+    protected function writeLevelProperty(int $a_id, string $a_prop, $a_value, string $a_type) : void
     {
         $ilDB = $this->db;
 
@@ -152,32 +134,24 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         ));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function writeLevelTitle(int $a_id, string $a_title)
+    public function writeLevelTitle(int $a_id, string $a_title) : void
     {
         $this->writeLevelProperty($a_id, "title", $a_title, "text");
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function writeLevelDescription(int $a_id, string $a_description)
+    public function writeLevelDescription(int $a_id, string $a_description) : void
     {
         $this->writeLevelProperty($a_id, "description", $a_description, "clob");
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function updateLevelOrder(array $order)
+    public function updateLevelOrder(array $order) : void
     {
         $ilDB = $this->db;
 
         $cnt = 1;
         foreach ($order as $id => $o) {
-            $ilDB->manipulate("UPDATE skl_level SET " .
+            $ilDB->manipulate(
+                "UPDATE skl_level SET " .
                 " nr = " . $ilDB->quote($cnt, "integer") .
                 " WHERE id = " . $ilDB->quote($id, "integer")
             );
@@ -185,33 +159,29 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function deleteLevel(int $a_id)
+    public function deleteLevel(int $a_id) : void
     {
         $ilDB = $this->db;
 
-        $ilDB->manipulate("DELETE FROM skl_level WHERE "
+        $ilDB->manipulate(
+            "DELETE FROM skl_level WHERE "
             . " id = " . $ilDB->quote($a_id, "integer")
         );
-
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function fixLevelNumbering(int $skill_id)
+    public function fixLevelNumbering(int $skill_id) : void
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query("SELECT id, nr FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT id, nr FROM skl_level WHERE " .
             " skill_id = " . $ilDB->quote($skill_id, "integer") .
             " ORDER BY nr ASC"
         );
         $cnt = 1;
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $ilDB->manipulate("UPDATE skl_level SET " .
+            $ilDB->manipulate(
+                "UPDATE skl_level SET " .
                 " nr = " . $ilDB->quote($cnt, "integer") .
                 " WHERE id = " . $ilDB->quote($rec["id"], "integer")
             );
@@ -219,14 +189,12 @@ class ilBasicSkillLevelDBRepository implements ilBasicSkillLevelRepository
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getSkillForLevelId(int $a_level_id)
+    public function getSkillForLevelId(int $a_level_id) : ?ilBasicSkill
     {
         $ilDB = $this->db;
 
-        $set = $ilDB->query("SELECT * FROM skl_level WHERE " .
+        $set = $ilDB->query(
+            "SELECT * FROM skl_level WHERE " .
             " id = " . $ilDB->quote($a_level_id, "integer")
         );
         $skill = null;

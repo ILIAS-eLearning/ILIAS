@@ -119,7 +119,7 @@ class ilWorkflowEngine
             $ilLocalSetting = new ilSetting('wfe');
             $mappers = json_decode($ilLocalSetting->get('custom_mapper', json_encode(array())), true);
             foreach ((array) $mappers as $mapper) {
-                if (!file_exists($mapper['location'])) {
+                if (!is_file($mapper['location'])) {
                     continue;
                 }
 
@@ -168,7 +168,7 @@ class ilWorkflowEngine
             /** @noinspection PhpIncludeInspection */
             require_once './Services/WorkflowEngine/classes/class.ilObjWorkflowEngine.php';
 
-            if (!file_exists(ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php')) {
+            if (!is_file(ilObjWorkflowEngine::getRepositoryDir() . $workflow['workflow'] . '.php')) {
                 continue;
             }
 

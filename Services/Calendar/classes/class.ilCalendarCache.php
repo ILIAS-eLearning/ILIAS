@@ -42,26 +42,26 @@ class ilCalendarCache extends ilCache
      * @param object $a_entry_id
      * @return
      */
-    public function readEntry($a_entry_id)
+    public function readEntry(string $a_entry_id) : bool
     {
         if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
-            return null;
+            return false;
         }
         return parent::readEntry($a_entry_id);
     }
     
-    /**
-     * Store an entry
-     * @param object $a_entry_id
-     * @param object $a_value
-     * @return
-     */
-    public function storeEntry($a_entry_id, $a_value, $a_key1 = 0, $a_key2 = 0, $a_key3 = '', $a_key4 = '')
-    {
+    public function storeEntry(
+        string $a_id,
+        string $a_value,
+        ?int $a_int_key1 = null,
+        ?int $a_int_key2 = null,
+        ?string $a_text_key1 = null,
+        ?string $a_text_key2 = null
+    ) : void {
         if (!ilCalendarSettings::_getInstance()->isCacheUsed()) {
-            return null;
+            return;
         }
-        parent::storeEntry($a_entry_id, $a_value, $a_key1, $a_key2, $a_key3, $a_key4);
+        parent::storeEntry($a_id, $a_value, $a_int_key1, $a_int_key2, $a_text_key1, $a_text_key2);
     }
     
     /**

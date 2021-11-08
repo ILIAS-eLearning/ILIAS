@@ -8,6 +8,7 @@ use ILIAS\FileUpload\FileUpload;
 use ILIAS\GlobalScreen\Services;
 use ILIAS\Refinery\Factory;
 use ILIAS\Skill\Service\SkillService;
+use ILIAS\Repository;
 
 /**
  * Customizing of pimple-DIC for ILIAS.
@@ -326,6 +327,41 @@ class Container extends \Pimple\Container
     public function resourceStorage() : \ILIAS\ResourceStorage\Services
     {
         return $this['resource_storage'];
+    }
+
+    public function repository() : Repository\Service
+    {
+        return new Repository\Service($this);
+    }
+
+    public function container() : \ILIAS\Container\Service
+    {
+        return new \ILIAS\Container\Service($this);
+    }
+
+    public function containerReference() : \ILIAS\ContainerReference\Service
+    {
+        return new \ILIAS\ContainerReference\Service($this);
+    }
+
+    public function category() : \ILIAS\Category\Service
+    {
+        return new \ILIAS\Category\Service($this);
+    }
+
+    public function folder() : \ILIAS\Folder\Service
+    {
+        return new \ILIAS\Folder\Service($this);
+    }
+
+    public function rootFolder() : \ILIAS\RootFolder\Service
+    {
+        return new \ILIAS\RootFolder\Service($this);
+    }
+
+    public function copage() : \ILIAS\COPage\Service
+    {
+        return new \ILIAS\COPage\Service($this);
     }
 
 

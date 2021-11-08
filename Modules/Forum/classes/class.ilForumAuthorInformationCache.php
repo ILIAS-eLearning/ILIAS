@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -9,29 +9,17 @@
  */
 class ilForumAuthorInformationCache
 {
-    /**
-     * @var array
-     * @static
-     */
-    protected static $user_instances = array();
+    /** @var ilObjUser[] */
+    protected static array $user_instances = [];
+    /** @var int[]  */
+    protected static array $requested_usr_ids = [];
+    /** @var array<int, int>  */
+    protected static array $requested_usr_ids_key_map = [];
 
     /**
-     * @var array
-     * @static
+     * @param int[] $usr_ids
      */
-    protected static $requested_usr_ids = array();
-
-    /**
-     * @var array
-     * @static
-     */
-    protected static $requested_usr_ids_key_map = array();
-
-    /**
-     * @static
-     * @param array $usr_ids
-     */
-    public static function preloadUserObjects(array $usr_ids)
+    public static function preloadUserObjects(array $usr_ids) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -54,13 +42,13 @@ class ilForumAuthorInformationCache
 
             $res = $ilDB->queryF(
                 $query,
-                array('text', 'text', 'text'),
-                array('public_profile', 'public_gender', 'public_upload')
+                ['text', 'text', 'text'],
+                ['public_profile', 'public_gender', 'public_upload']
             );
 
             while ($row = $ilDB->fetchAssoc($res)) {
                 $user = new ilObjUser;
-                $user->setId($row['usr_id']);
+                $user->setId((int) $row['usr_id']);
                 $user->setLogin($row['login']);
                 $user->setGender($row['gender']);
                 $user->setTitle($row['title']);
@@ -71,26 +59,21 @@ class ilForumAuthorInformationCache
                 $user->setPref('public_gender', $row['public_gender']);
                 $user->setPref('public_upload', $row['public_upload']);
 
-                self::$user_instances[$row['usr_id']] = $user;
+                self::$user_instances[(int) $row['usr_id']] = $user;
             }
         }
     }
 
-    /**
-     * @static
-     * @param int $usr_id
-     * @return ilObjUser|null
-     */
-    public static function getUserObjectById($usr_id)
+    public static function getUserObjectById(int $usr_id) : ?ilObjUser
     {
         if (!$usr_id) {
             return null;
         }
 
         if (!isset(self::$requested_usr_ids_key_map[$usr_id])) {
-            self::preloadUserObjects(array($usr_id));
+            self::preloadUserObjects([$usr_id]);
         }
 
-        return isset(self::$user_instances[$usr_id]) ? self::$user_instances[$usr_id] : null;
+        return self::$user_instances[$usr_id] ?? null;
     }
 }

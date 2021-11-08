@@ -9,17 +9,10 @@
  */
 class ilImageMapTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected array $highl_classes;
+    protected array $highl_modes;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    
     /**
     * Constructor
     */

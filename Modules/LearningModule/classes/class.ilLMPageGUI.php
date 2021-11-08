@@ -38,7 +38,7 @@ class ilLMPageGUI extends ilPageObjectGUI
     /**
      * On feedback editing forwarding
      */
-    public function onFeedbackEditingForwarding()
+    public function onFeedbackEditingForwarding() : void
     {
         $lng = $this->lng;
 
@@ -54,13 +54,12 @@ class ilLMPageGUI extends ilPageObjectGUI
     /**
      * Process answer
      */
-    public function processAnswer()
+    public function processAnswer() : void
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
         $lng = $this->lng;
         $ilPluginAdmin = $this->plugin_admin;
-        $ilLog = $this->log;
 
         parent::processAnswer();
 

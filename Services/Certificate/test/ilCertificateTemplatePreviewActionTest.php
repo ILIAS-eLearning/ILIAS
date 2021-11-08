@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,11 +6,9 @@
  */
 class ilCertificateTemplatePreviewActionTest extends ilCertificateBaseTestCase
 {
-    public function testA()
+    public function testA() : void
     {
-        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)
-            ->disableOriginalConstructor()
-            ->getMock();
+        $templateRepository = $this->getMockBuilder(ilCertificateTemplateRepository::class)->getMock();
 
         $placeholderValuesObject = $this->getMockBuilder(ilCertificatePlaceholderValues::class)
             ->disableOriginalConstructor()

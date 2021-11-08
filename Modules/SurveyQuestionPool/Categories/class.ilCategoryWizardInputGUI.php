@@ -104,10 +104,9 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
     /**
     * Set Value.
-    *
-    * @param	string	$a_value	Value
+    * @param    $a_value Value
     */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->values = new SurveyCategories();
         if (is_array($a_value)) {
@@ -204,10 +203,9 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         if (is_array($_POST[$this->getPostVar()])) {
@@ -270,10 +268,9 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
 
     /**
     * Insert property html
-    *
-    * @return	int	Size
+    * @return	void	Size
     */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $lng = $this->lng;
         

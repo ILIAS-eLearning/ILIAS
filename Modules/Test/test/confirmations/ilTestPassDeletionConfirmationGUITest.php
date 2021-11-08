@@ -33,8 +33,11 @@ class ilTestPassDeletionConfirmationGUITest extends ilTestBaseTestCase
 
     public function test_instantiateObject_shouldReturnInstance() : void
     {
-        $instance = new ilTestPassDeletionConfirmationGUI($this->ctrl_mock, $this->lng_mock,
-            $this->testEvaluationGUI_mock);
+        $instance = new ilTestPassDeletionConfirmationGUI(
+            $this->ctrl_mock,
+            $this->lng_mock,
+            $this->testEvaluationGUI_mock
+        );
 
         $this->assertInstanceOf(ilTestPassDeletionConfirmationGUI::class, $instance);
     }

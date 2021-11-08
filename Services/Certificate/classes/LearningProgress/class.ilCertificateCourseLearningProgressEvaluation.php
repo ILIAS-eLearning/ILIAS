@@ -45,32 +45,23 @@ class ilCertificateCourseLearningProgressEvaluation
      * @param int $refId
      * @param int $userId
      * @return ilCertificateTemplate[]
+     * @throws JsonException
      */
     public function evaluate(int $refId, int $userId) : array
     {
-        $courseTemplates = $this->templateRepository->fetchActiveTemplatesByType('crs');
-
-        $enabledGlobalLearningProgress = $this->trackingHelper->enabledLearningProgress();
+        $courseTemplates = $this->templateRepository
+            ->fetchActiveCertificateTemplatesForCoursesWithDisabledLearningProgress(
+                $this->trackingHelper->enabledLearningProgress()
+            );
 
         $templatesOfCompletedCourses = [];
         foreach ($courseTemplates as $courseTemplate) {
             $courseObjectId = $courseTemplate->getObjId();
 
-            if ($enabledGlobalLearningProgress) {
-                $objectLearningProgressSettings = new ilLPObjSettings($courseObjectId);
-                $mode = $objectLearningProgressSettings->getMode();
-
-                if (ilLPObjSettings::LP_MODE_DEACTIVATED != $mode) {
-                    continue;
-                }
-            }
-
-            $subItems = $this->setting->get('cert_subitems_' . $courseObjectId, false);
-
-            if (false === $subItems || $subItems === null) {
+            $subItems = $this->setting->get('cert_subitems_' . $courseObjectId, null);
+            if ($subItems === null) {
                 continue;
             }
-
             $subItems = json_decode($subItems, true, 512, JSON_THROW_ON_ERROR);
             if (!is_array($subItems)) {
                 continue;

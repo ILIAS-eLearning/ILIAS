@@ -672,7 +672,7 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
         return "feedback_answer_{$gapIndex}_{$answerIndex}";
     }
     
-    protected function getSpecificAnswerFeedbackFormValue(int $gapIndex,int $answerIndex) : string
+    protected function getSpecificAnswerFeedbackFormValue(int $gapIndex, int $answerIndex) : string
     {
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $pageObjectId = $this->getSpecificAnswerFeedbackPageObjectId(
@@ -839,9 +839,9 @@ class ilAssClozeTestFeedback extends ilAssMultiOptionQuestionFeedback
 
                 if ($solutionValue == $preciseValue) {
                     return self::FB_NUMERIC_GAP_VALUE_HIT_INDEX;
-                } else if ($solutionValue >= $lowerBound && $solutionValue <= $upperBound) {
+                } elseif ($solutionValue >= $lowerBound && $solutionValue <= $upperBound) {
                     return self::FB_NUMERIC_GAP_RANGE_HIT_INDEX;
-                } else if ($solutionValue < $lowerBound) {
+                } elseif ($solutionValue < $lowerBound) {
                     return self::FB_NUMERIC_GAP_TOO_LOW_INDEX;
                 }
 

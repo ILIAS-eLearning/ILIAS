@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailDiffAddressList
@@ -7,27 +7,15 @@
  */
 class ilMailDiffAddressList implements ilMailAddressList
 {
-    /** @var ilMailAddressList */
-    protected $left;
+    protected ilMailAddressList $left;
+    protected ilMailAddressList $right;
 
-    /** @var ilMailAddressList */
-    protected $right;
-
-    /**
-     * ilMailDiffAddressList constructor.
-     * @param ilMailAddressList $left
-     * @param ilMailAddressList $right
-     */
     public function __construct(ilMailAddressList $left, ilMailAddressList $right)
     {
         $this->left = $left;
         $this->right = $right;
     }
 
-
-    /**
-     * @inheritdoc
-     */
     public function value() : array
     {
         $leftAddresses = $this->left->value();

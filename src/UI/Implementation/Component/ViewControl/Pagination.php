@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\ViewControl;
@@ -18,55 +19,16 @@ class Pagination implements PaginationInterface
     use JavaScriptBindable;
     use Triggerer;
 
-    /**
-     * @var int
-     */
-    protected $total_entries = 0;
-
-    /**
-     * @var int
-     */
-    protected $page_size;
-
-    /**
-     * @var int
-     */
-    protected $current_page = 0;
-
-    /**
-     * @var Signal
-     */
-    protected $internal_signal;
-
-    /**
-     * @var string | null
-     */
-    protected $target_url;
-
-    /**
-     * @var string
-     */
-    protected $parameter_name = "pagination_offset";
-
-    /**
-     * @var int | null
-     */
-    protected $max_pages_shown;
-
-    /**
-     * @var int | null
-     */
-    protected $dd_threshold;
-
-    /**
-     * @var string
-     */
-    protected $dropdown_label;
-
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
+    protected int $total_entries = 0;
+    protected int $page_size;
+    protected int $current_page = 0;
+    protected Signal $internal_signal;
+    protected ?string $target_url = null;
+    protected string $parameter_name = "pagination_offset";
+    protected ?int $max_pages_shown = null;
+    protected ?int $dd_threshold = null;
+    protected string $dropdown_label;
+    protected SignalGeneratorInterface $signal_generator;
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
@@ -78,7 +40,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function withResetSignals()
+    public function withResetSignals() : PaginationInterface
     {
         $clone = clone $this;
         $clone->initSignals();
@@ -87,10 +49,8 @@ class Pagination implements PaginationInterface
 
     /**
      * Set the internal signals for this component
-     *
-     * @return void
      */
-    protected function initSignals()
+    protected function initSignals() : void
     {
         $this->internal_signal = $this->signal_generator->create();
     }
@@ -108,8 +68,6 @@ class Pagination implements PaginationInterface
      */
     public function withTargetURL(string $url, string $parameter_name) : PaginationInterface
     {
-        $this->checkStringArg("url", $url);
-        $this->checkStringArg("parameter_name", $parameter_name);
         $clone = clone $this;
         $clone->target_url = $url;
         $clone->parameter_name = $parameter_name;
@@ -119,7 +77,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getTargetURL()
+    public function getTargetURL() : ?string
     {
         return $this->target_url;
     }
@@ -137,7 +95,6 @@ class Pagination implements PaginationInterface
      */
     public function withTotalEntries(int $total) : PaginationInterface
     {
-        $this->checkIntArg("total", $total);
         $clone = clone $this;
         $clone->total_entries = $total;
         return $clone;
@@ -148,7 +105,6 @@ class Pagination implements PaginationInterface
      */
     public function withPageSize(int $size) : PaginationInterface
     {
-        $this->checkIntArg("size", $size);
         //raise, if size < 1
         $clone = clone $this;
         $clone->page_size = $size;
@@ -168,7 +124,6 @@ class Pagination implements PaginationInterface
      */
     public function withCurrentPage(int $page) : PaginationInterface
     {
-        $this->checkIntArg("page", $page);
         $clone = clone $this;
         $clone->current_page = $page;
         return $clone;
@@ -184,8 +139,7 @@ class Pagination implements PaginationInterface
 
     protected function getOffset() : int
     {
-        $offset = $this->page_size * $this->current_page;
-        return $offset;
+        return $this->page_size * $this->current_page;
     }
 
     /**
@@ -210,7 +164,6 @@ class Pagination implements PaginationInterface
      */
     public function withMaxPaginationButtons(int $amount) : PaginationInterface
     {
-        $this->checkIntArg("amount", $amount);
         $clone = clone $this;
         $clone->max_pages_shown = $amount;
         return $clone;
@@ -219,7 +172,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getMaxPaginationButtons()
+    public function getMaxPaginationButtons() : ?int
     {
         return $this->max_pages_shown;
     }
@@ -237,7 +190,6 @@ class Pagination implements PaginationInterface
      */
     public function withDropdownAt(int $amount) : PaginationInterface
     {
-        $this->checkIntArg("amount", $amount);
         $clone = clone $this;
         $clone->dd_threshold = $amount;
         return $clone;
@@ -246,7 +198,7 @@ class Pagination implements PaginationInterface
     /**
      * @inheritdoc
      */
-    public function getDropdownAt()
+    public function getDropdownAt() : ?int
     {
         return $this->dd_threshold;
     }
@@ -277,8 +229,11 @@ class Pagination implements PaginationInterface
         return self::DEFAULT_DROPDOWN_LABEL;
     }
 
-    public function getRange() : Range
+    public function getRange() : ?Range
     {
+        if ($this->getPageLength() < 1) {
+            return null;
+        }
         $f = new \ILIAS\Data\Factory();
         return $f->range($this->getOffset(), $this->getPageLength());
     }

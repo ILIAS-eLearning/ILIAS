@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Input\Field\SwitchableGroup;
 
 /**
@@ -12,12 +12,14 @@ function base()
     $ui = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
     $request = $DIC->http()->request();
+    $data = new \ILIAS\Data\Factory();
 
     //Step 1: Define the groups (with their fields and a label each)
     $group1 = $ui->input()->field()->group(
         [
             "field_1_1" => $ui->input()->field()->text("Item 1.1", "Just some field"),
-            "field_1_2" => $ui->input()->field()->text("Item 1.2", "Just some other field")
+            "field_1_2" => $ui->input()->field()->text("Item 1.2", "Just some other field"),
+            "field_1_3" => $ui->input()->field()->datetime("Item 1.3", "a date")->withFormat($data->dateFormat()->germanShort())
         ],
         "Switchable Group number one (with numeric key)"
     );
@@ -45,12 +47,11 @@ function base()
         '#',
         [
             'switchable_group' => $sg,
-            //A group like the first, with different Label and Byline and
-            //g2 selected by default.
-            'switchable_group2' => $sg->withValue("g2")
+            'switchable_group_required' => $sg->withRequired(true),
+            'switchable_group_preset' => $sg->withValue("g2")
                                       ->withLabel("Again, Pick One")
                                       ->withByline("... or the other. 
-                                      Note, the second option is selected by default here.")
+                                      Second option is selected by default here.")
         ]
     );
 

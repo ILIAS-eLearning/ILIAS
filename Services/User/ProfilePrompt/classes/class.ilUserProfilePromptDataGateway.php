@@ -96,7 +96,7 @@ class ilUserProfilePromptDataGateway
             " WHERE usr_id = %s ",
             array("integer"),
             array($user_id)
-            );
+        );
         if ($rec = $db->fetchAssoc($set)) {
             return new ilProfileUserPrompt($user_id, $rec["last_profile_prompt"], $rec["first_login"]);
         }

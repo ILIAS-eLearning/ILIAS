@@ -1,58 +1,29 @@
-<?php
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/FileSystem/classes/class.ilFileSystemStorage.php');
 /**
-*
-* @author Michael Jansen <mjansen@databay.de>
-* @version $Id$
-*
-*
-* @ingroup ServicesMail
-*/
+ * @author Michael Jansen <mjansen@databay.de>
+ */
 class ilFSStorageMail extends ilFileSystemStorage
 {
-    private $usr_id = 0;
-    
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param int object id of container (e.g file_id or mob_id)
-     *
-     */
-    public function __construct($a_container_id, $a_usr_id)
+    public function __construct(int $a_container_id, int $a_usr_id)
     {
-        $this->usr_id = $a_usr_id;
-        
         parent::__construct(self::STORAGE_DATA, true, $a_container_id);
     
-        $this->appendToPath('_' . $this->usr_id);
+        $this->appendToPath('_' . $a_usr_id);
     }
-    
-    /**
-     * Implementation of abstract method
-     *
-     * @access protected
-     *
-     */
-    protected function getPathPostfix()
+
+    protected function getPathPostfix() : string
+    {
+        return 'mail';
+    }
+
+    protected function getPathPrefix() : string
     {
         return 'mail';
     }
     
-    /**
-     * Implementation of abstract method
-     *
-     * @access protected
-     *
-     */
-    protected function getPathPrefix()
-    {
-        return 'mail';
-    }
-    
-    public function getRelativePathExMailDirectory()
+    public function getRelativePathExMailDirectory() : string
     {
         $path = '';
         switch ($this->getStorageType()) {
@@ -67,7 +38,6 @@ class ilFSStorageMail extends ilFileSystemStorage
         $path = ilUtil::removeTrailingPathSeparators($path);
         $path .= '/';
         
-        // Append path prefix
         $path .= ($this->getPathPrefix() . '/');
         
         return str_replace($path, '', $this->getAbsolutePath());

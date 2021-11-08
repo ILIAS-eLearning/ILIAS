@@ -128,7 +128,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
         $ilLocator = $this->locator;
@@ -207,7 +207,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     /**
      * Preview blog posting
      */
-    public function preview($a_mode = null)
+    public function preview($a_mode = null) : string
     {
         global $DIC;
         $ilCtrl = $this->ctrl;
@@ -293,10 +293,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     /**
      * Embedded posting in portfolio
-     *
      * @return string
      */
-    public function showPage($a_title = "")
+    public function showPage($a_title = "") : string
     {
         $this->setTemplateOutput(false);
 
@@ -329,11 +328,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     /**
      * Finalizing output processing
-     *
      * @param string $a_output
      * @return string
      */
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         // #8626/#9370
         if (($this->getOutputMode() == "preview" || $this->getOutputMode() == "offline")
@@ -373,10 +371,9 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     /**
      * Get tabs
-     *
      * @param string $a_activate
      */
-    public function getTabs($a_activate = "")
+    public function getTabs(string $a_activate = "") : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -606,7 +603,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         ilObjBlog::sendNotification("comment", $this->isInWorkspace(), $this->node_id, $a_posting_id, $note);
     }
     
-    public function getActivationCaptions()
+    public function getActivationCaptions() : array
     {
         $lng = $this->lng;
         
@@ -619,7 +616,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->deactivatePage(true);
     }
     
-    public function deactivatePage($a_to_list = false)
+    public function deactivatePage($a_to_list = false) : void
     {
         if ($this->checkAccess("write") || $this->checkAccess("contribute")) {
             $this->getBlogPosting()->unpublish();
@@ -638,7 +635,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $this->activatePage(true);
     }
     
-    public function activatePage($a_to_list = false)
+    public function activatePage($a_to_list = false) : void
     {
         // send notifications
         ilObjBlog::sendNotification("new", $this->isInWorkspace(), $this->node_id, $this->getBlogPosting()->getId());
@@ -712,7 +709,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         $other = array_unique($other);
         sort($other, SORT_LOCALE_STRING);
 
-        $input_tag = $ui_factory->input()->field()->tag($this->lng->txt("blog_keywords"), $other, $this->lng->txt("blog_keyword_enter"));
+        $input_tag = $ui_factory->input()->field()->tag($this->lng->txt("blog_keywords"), $other, $this->lng->txt("blog_keyword_enter"))->withUserCreatedTagsAllowed(true);
         if (count($keywords) > 0) {
             $input_tag = $input_tag->withValue($keywords);
         }
@@ -873,11 +870,10 @@ class ilBlogPostingGUI extends ilPageObjectGUI
 
     /**
      * Get disabled text
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function getDisabledText()
+    public function getDisabledText() : string
     {
         return $this->lng->txt("blog_draft_text");
     }
@@ -900,11 +896,11 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     /**
      * Show edit toolbar
      */
-    protected function showEditToolbar()
+    protected function showEditToolbar() : void
     {
     }
 
-    public function finishEditing()
+    public function finishEditing() : void
     {
         $this->ctrl->redirectByClass("ilobjbloggui", "");
     }

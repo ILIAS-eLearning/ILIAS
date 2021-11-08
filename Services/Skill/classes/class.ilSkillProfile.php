@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skill profile
@@ -9,33 +24,17 @@
  */
 class ilSkillProfile implements ilSkillUsageInfo
 {
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
+    protected ilRbacReview $review;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected int $id;
+    protected string $title;
+    protected string $description;
+    protected int $ref_id = 0;
+    protected array $skill_level = [];
 
-    /**
-     * @var ilRbacReview
-     */
-    protected $review;
-
-    protected $id;
-    protected $title;
-    protected $description;
-    protected $ref_id = 0;
-    protected $skill_level = array();
-    
-    /**
-     * Constructor
-     *
-     * @param int $a_id profile id
-     */
-    public function __construct($a_id = 0)
+    public function __construct(int $a_id = 0)
     {
         global $DIC;
 
@@ -47,94 +46,49 @@ class ilSkillProfile implements ilSkillUsageInfo
             $this->read();
         }
     }
-    
-    /**
-     * Set id
-     *
-     * @param int $a_val id
-     */
-    public function setId($a_val)
+
+    public function setId(int $a_val) : void
     {
         $this->id = $a_val;
     }
-    
-    /**
-     * Get id
-     *
-     * @return int id
-     */
-    public function getId()
+
+    public function getId() : int
     {
         return $this->id;
     }
-    
-    /**
-     * Set title
-     *
-     * @param string $a_val title
-     */
-    public function setTitle($a_val)
+
+    public function setTitle(string $a_val) : void
     {
         $this->title = $a_val;
     }
-    
-    /**
-     * Get title
-     *
-     * @return string title
-     */
-    public function getTitle()
+
+    public function getTitle() : string
     {
         return $this->title;
     }
-    
-    /**
-     * Set description
-     *
-     * @param string $a_val description
-     */
-    public function setDescription($a_val)
+
+    public function setDescription(string $a_val) : void
     {
         $this->description = $a_val;
     }
-    
-    /**
-     * Get description
-     *
-     * @return string description
-     */
-    public function getDescription()
+
+    public function getDescription() : string
     {
         return $this->description;
     }
 
-    /**
-     * @param int $a_val ref id
-     */
-    public function setRefId($a_val)
+    public function setRefId(int $a_val) : void
     {
         $this->ref_id = $a_val;
     }
 
-    /**
-     * @return int ref id
-     */
-    public function getRefId()
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
-    
-    /**
-     * Add skill level
-     *
-     * @param int $a_base_skill_id
-     * @param int $a_tref_id
-     * @param int $a_level_id
-     * @param int $a_order_nr
-     */
-    public function addSkillLevel($a_base_skill_id, $a_tref_id, $a_level_id, $a_order_nr)
+
+    public function addSkillLevel(int $a_base_skill_id, int $a_tref_id, int $a_level_id, int $a_order_nr) : void
     {
-        //echo "-".$a_base_skill_id."-";
         $this->skill_level[] = array(
             "base_skill_id" => $a_base_skill_id,
             "tref_id" => $a_tref_id,
@@ -142,53 +96,36 @@ class ilSkillProfile implements ilSkillUsageInfo
             "order_nr" => $a_order_nr
             );
     }
-    
-    /**
-     * Remove skill level
-     *
-     * @param int $a_base_skill_id
-     * @param int $a_tref_id
-     * @param int $a_level_id
-     * @param int $a_order_nr
-     */
-    public function removeSkillLevel($a_base_skill_id, $a_tref_id, $a_level_id, $a_order_nr)
+
+    public function removeSkillLevel(int $a_base_skill_id, int $a_tref_id, int $a_level_id, int $a_order_nr) : void
     {
         foreach ($this->skill_level as $k => $sl) {
-            if ((int) $sl["base_skill_id"] == (int) $a_base_skill_id &&
-                (int) $sl["tref_id"] == (int) $a_tref_id &&
-                (int) $sl["level_id"] == (int) $a_level_id &&
-                (int) $sl["order_nr"] == (int) $a_order_nr) {
+            if ((int) $sl["base_skill_id"] == $a_base_skill_id &&
+                (int) $sl["tref_id"] == $a_tref_id &&
+                (int) $sl["level_id"] == $a_level_id &&
+                (int) $sl["order_nr"] == $a_order_nr) {
                 unset($this->skill_level[$k]);
             }
         }
     }
 
-    /**
-     * Get skill levels
-     *
-     * @param
-     * @return
-     */
-    public function getSkillLevels()
+    public function getSkillLevels() : array
     {
-        usort($this->skill_level, function($level_a, $level_b) {
+        usort($this->skill_level, function ($level_a, $level_b) {
             return $level_a['order_nr'] <=> $level_b['order_nr'];
         });
 
         return $this->skill_level;
     }
-    
-    /**
-     * Read skill profile from db
-     */
-    public function read()
+
+    public function read() : void
     {
         $ilDB = $this->db;
         
         $set = $ilDB->query(
             "SELECT * FROM skl_profile " .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
@@ -197,7 +134,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_level " .
             " WHERE profile_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $this->addSkillLevel(
                 (int) $rec["base_skill_id"],
@@ -207,11 +144,8 @@ class ilSkillProfile implements ilSkillUsageInfo
             );
         }
     }
-    
-    /**
-     * Create skill profile
-     */
-    public function create()
+
+    public function create() : void
     {
         $ilDB = $this->db;
         
@@ -236,14 +170,11 @@ class ilSkillProfile implements ilSkillUsageInfo
                 array("order_nr" => array("integer", (int) $level["order_nr"]),
                     "level_id" => array("integer", (int) $level["level_id"])
                     )
-                );
+            );
         }
     }
-    
-    /**
-     * Update skill profile
-     */
-    public function update()
+
+    public function update() : void
     {
         $ilDB = $this->db;
         
@@ -254,13 +185,13 @@ class ilSkillProfile implements ilSkillUsageInfo
             " description = " . $ilDB->quote($this->getDescription(), "text") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
             " AND ref_id = " . $ilDB->quote($this->getRefId(), "integer")
-            );
+        );
         
         // profile levels
         $ilDB->manipulate(
             "DELETE FROM skl_profile_level WHERE " .
             " profile_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
         foreach ($this->skill_level as $level) {
             $ilDB->replace(
                 "skl_profile_level",
@@ -271,7 +202,7 @@ class ilSkillProfile implements ilSkillUsageInfo
                 array("order_nr" => array("integer", (int) $level["order_nr"]),
                       "level_id" => array("integer", (int) $level["level_id"])
                 )
-                );
+            );
             
             /*$ilDB->manipulate("INSERT INTO skl_profile_level ".
                 "(profile_id, base_skill_id, tref_id, level_id) VALUES (".
@@ -282,11 +213,8 @@ class ilSkillProfile implements ilSkillUsageInfo
                 ")");*/
         }
     }
-    
-    /**
-     * Delete skill profile
-     */
-    public function delete()
+
+    public function delete() : void
     {
         $ilDB = $this->db;
 
@@ -296,7 +224,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $ilDB->manipulate(
             "DELETE FROM skl_profile_level WHERE " .
             " profile_id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
 
         // profile users
         $ilDB->manipulate(
@@ -314,10 +242,10 @@ class ilSkillProfile implements ilSkillUsageInfo
         $ilDB->manipulate(
             "DELETE FROM skl_profile WHERE " .
             " id = " . $ilDB->quote($this->getId(), "integer")
-            );
+        );
     }
 
-    public static function deleteProfilesFromObject(int $a_ref_id)
+    public static function deleteProfilesFromObject(int $a_ref_id) : void
     {
         global $DIC;
 
@@ -329,12 +257,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
     }
 
-    /**
-     * Update skill order
-     *
-     * @param array $order
-     */
-    public function updateSkillOrder(array $order)
+    public function updateSkillOrder(array $order) : void
     {
         $ilDB = $this->db;
 
@@ -354,10 +277,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         }
     }
 
-    /**
-     * Fix skill order numbering
-     */
-    public function fixSkillOrderNumbering()
+    public function fixSkillOrderNumbering() : void
     {
         $ilDB = $this->db;
 
@@ -379,12 +299,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         }
     }
 
-    /**
-     * Get maximum order number of levels
-     *
-     * @return int
-     */
-    public function getMaxLevelOrderNr()
+    public function getMaxLevelOrderNr() : int
     {
         $ilDB = $this->db;
 
@@ -395,14 +310,8 @@ class ilSkillProfile implements ilSkillUsageInfo
         $rec = $ilDB->fetchAssoc($set);
         return (int) $rec["mnr"];
     }
-    
-    /**
-     * Get profiles
-     *
-     * @param
-     * @return
-     */
-    public static function getProfiles()
+
+    public static function getProfiles() : array
     {
         global $DIC;
 
@@ -411,8 +320,8 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_profile " .
             " ORDER BY title "
-            );
-        $profiles = array();
+        );
+        $profiles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $profiles[$rec["id"]] = $rec;
         }
@@ -420,12 +329,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $profiles;
     }
 
-    /**
-     * Get global profiles
-     *
-     * @return array
-     */
-    public static function getGlobalProfiles()
+    public static function getGlobalProfiles() : array
     {
         global $DIC;
 
@@ -436,7 +340,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " WHERE ref_id = 0 " .
             " ORDER BY title "
         );
-        $profiles = array();
+        $profiles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $profiles[$rec["id"]] = $rec;
         }
@@ -446,11 +350,8 @@ class ilSkillProfile implements ilSkillUsageInfo
 
     /**
      * Get local profiles of object
-     *
-     * @param int $a_ref_id
-     * @return array
      */
-    public static function getLocalProfiles(int $a_ref_id)
+    public static function getLocalProfiles(int $a_ref_id) : array
     {
         global $DIC;
 
@@ -461,7 +362,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             " WHERE ref_id = " . $a_ref_id .
             " ORDER BY title "
         );
-        $profiles = array();
+        $profiles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $profiles[$rec["id"]] = $rec;
         }
@@ -470,13 +371,9 @@ class ilSkillProfile implements ilSkillUsageInfo
     }
     
     /**
-     * Lookup
-     *
-     * @param int $a_id
-     * @param string $a_field
      * @return mixed
      */
-    protected static function lookup($a_id, $a_field)
+    protected static function lookup(int $a_id, string $a_field)
     {
         global $DIC;
 
@@ -485,33 +382,25 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT " . $a_field . " FROM skl_profile " .
             " WHERE id = " . $ilDB->quote($a_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return $rec[$a_field];
     }
-    
-    /**
-     * Lookup title
-     *
-     * @param
-     * @return
-     */
-    public static function lookupTitle($a_id)
+
+    public static function lookupTitle(int $a_id) : string
     {
         return self::lookup($a_id, "title");
     }
 
-    public static function lookupRefId($a_id)
+    public static function lookupRefId(int $a_id) : int
     {
         return self::lookup($a_id, "ref_id");
     }
 
     /**
      * Update the old ref id with the new ref id after import
-     *
-     * @param int $a_new_ref_id
      */
-    public function updateRefIdAfterImport(int $a_new_ref_id)
+    public function updateRefIdAfterImport(int $a_new_ref_id) : void
     {
         $ilDB = $this->db;
 
@@ -531,9 +420,9 @@ class ilSkillProfile implements ilSkillUsageInfo
     /**
      * Get all assignments (users and roles)
      */
-    public function getAssignments()
+    public function getAssignments() : array
     {
-        $assignments = array();
+        $assignments = [];
 
         $users = $this->getAssignedUsers();
         $roles = $this->getAssignedRoles();
@@ -543,10 +432,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $assignments;
     }
 
-    /**
-     * Get assigned users
-     */
-    public function getAssignedUsers()
+    public function getAssignedUsers() : array
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -554,44 +440,35 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT * FROM skl_profile_user " .
             " WHERE profile_id = " . $ilDB->quote($this->getId(), "integer")
-            );
-        $users = array();
+        );
+        $users = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $name = ilUserUtil::getNamePresentation($rec["user_id"]);
             $type = $lng->txt("user");
             $users[$rec["user_id"]] = array(
                 "type" => $type,
                 "name" => $name,
-                "id" => $rec["user_id"]
+                "id" => $rec["user_id"],
+                "object_title" => "",
                 );
         }
         return $users;
     }
-    
-    /**
-     * Add user to profile
-     *
-     * @param int $a_user_id user id
-     */
-    public function addUserToProfile($a_user_id)
+
+    public function addUserToProfile(int $a_user_id) : void
     {
         $ilDB = $this->db;
         
         $ilDB->replace(
             "skl_profile_user",
             array("profile_id" => array("integer", $this->getId()),
-                "user_id" => array("integer", (int) $a_user_id),
+                "user_id" => array("integer", $a_user_id),
                 ),
-            array()
-            );
+            []
+        );
     }
-    
-    /**
-     * Remove user from profile
-     *
-     * @param int $a_user_id user id
-     */
-    public function removeUserFromProfile($a_user_id)
+
+    public function removeUserFromProfile(int $a_user_id) : void
     {
         $ilDB = $this->db;
         
@@ -599,15 +476,10 @@ class ilSkillProfile implements ilSkillUsageInfo
             "DELETE FROM skl_profile_user WHERE " .
             " profile_id = " . $ilDB->quote($this->getId(), "integer") .
             " AND user_id = " . $ilDB->quote($a_user_id, "integer")
-            );
+        );
     }
 
-    /**
-     * Remove user from all profiles
-     *
-     * @param int $a_user_id
-     */
-    public static function removeUserFromAllProfiles($a_user_id)
+    public static function removeUserFromAllProfiles(int $a_user_id) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -618,36 +490,29 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
     }
 
-
-    /**
-     * Get profiles of a user
-     *
-     * @param int $a_user_id user id
-     * @return array
-     */
-    public static function getProfilesOfUser($a_user_id)
+    public static function getProfilesOfUser(int $a_user_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
         $rbacreview = $DIC->rbac()->review();
 
-        $all_profiles = array();
+        $all_profiles = [];
 
         // competence profiles coming from user assignments
-        $user_profiles = array();
+        $user_profiles = [];
         $set = $ilDB->query(
             "SELECT p.id, p.title FROM skl_profile_user u JOIN skl_profile p " .
             " ON (u.profile_id = p.id) " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
             " ORDER BY p.title ASC"
-            );
+        );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $user_profiles[] = $rec;
         }
 
         // competence profiles coming from role assignments
-        $role_profiles = array();
+        $role_profiles = [];
         $user_roles = $rbacreview->assignedRoles($a_user_id);
         foreach ($user_roles as $role) {
             $profiles = self::getGlobalProfilesOfRole($role);
@@ -658,7 +523,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 
         // merge competence profiles and remove multiple occurrences
         $all_profiles = array_merge($user_profiles, $role_profiles);
-        $temp_profiles = array();
+        $temp_profiles = [];
         foreach ($all_profiles as &$v) {
             if (!isset($temp_profiles[$v["id"]])) {
                 $temp_profiles[$v["id"]] = &$v;
@@ -668,10 +533,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $all_profiles;
     }
 
-    /**
-     * Get assigned users
-     */
-    public static function countUsers($a_profile_id)
+    public static function countUsers(int $a_profile_id) : int
     {
         global $DIC;
 
@@ -680,17 +542,12 @@ class ilSkillProfile implements ilSkillUsageInfo
         $set = $ilDB->query(
             "SELECT count(*) ucnt FROM skl_profile_user " .
             " WHERE profile_id = " . $ilDB->quote($a_profile_id, "integer")
-            );
+        );
         $rec = $ilDB->fetchAssoc($set);
         return (int) $rec["ucnt"];
     }
 
-    /**
-     * Get assigned roles
-     *
-     * @return array
-     */
-    public function getAssignedRoles()
+    public function getAssignedRoles() : array
     {
         $ilDB = $this->db;
         $lng = $this->lng;
@@ -700,7 +557,7 @@ class ilSkillProfile implements ilSkillUsageInfo
             "SELECT * FROM skl_profile_role " .
             " WHERE profile_id = " . $ilDB->quote($this->getId(), "integer")
         );
-        $roles = array();
+        $roles = [];
         while ($rec = $ilDB->fetchAssoc($set)) {
             $name = ilObjRole::_getTranslation(ilObjRole::_lookupTitle($rec["role_id"]));
             $type = $lng->txt("role");
@@ -727,12 +584,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $roles;
     }
 
-    /**
-     * Add role to profile
-     *
-     * @param int $a_role_id role id
-     */
-    public function addRoleToProfile(int $a_role_id)
+    public function addRoleToProfile(int $a_role_id) : void
     {
         $ilDB = $this->db;
 
@@ -741,16 +593,11 @@ class ilSkillProfile implements ilSkillUsageInfo
             array("profile_id" => array("integer", $this->getId()),
                   "role_id" => array("integer", $a_role_id),
             ),
-            array()
+            []
         );
     }
 
-    /**
-     * Remove role from profile
-     *
-     * @param int $a_role_id role id
-     */
-    public function removeRoleFromProfile(int $a_role_id)
+    public function removeRoleFromProfile(int $a_role_id) : void
     {
         $ilDB = $this->db;
 
@@ -761,12 +608,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         );
     }
 
-    /**
-     * Remove role from all profiles
-     *
-     * @param int $a_role_id
-     */
-    public static function removeRoleFromAllProfiles(int $a_role_id)
+    public static function removeRoleFromAllProfiles(int $a_role_id) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -779,17 +621,14 @@ class ilSkillProfile implements ilSkillUsageInfo
 
     /**
      * Get global and local profiles of a role
-     *
-     * @param int $a_role_id role id
-     * @return array
      */
-    public static function getAllProfilesOfRole(int $a_role_id)
+    public static function getAllProfilesOfRole(int $a_role_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
-        $profiles = array();
+        $profiles = [];
         $set = $ilDB->query(
             "SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p " .
             " ON (r.profile_id = p.id) " .
@@ -802,19 +641,13 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $profiles;
     }
 
-    /**
-     * Get global profiles of a role
-     *
-     * @param int $a_role_id role id
-     * @return array
-     */
-    public static function getGlobalProfilesOfRole(int $a_role_id)
+    public static function getGlobalProfilesOfRole(int $a_role_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
-        $profiles = array();
+        $profiles = [];
         $set = $ilDB->query(
             "SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p " .
             " ON (r.profile_id = p.id) " .
@@ -828,20 +661,13 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $profiles;
     }
 
-    /**
-     * Get local profiles of a role
-     *
-     * @param int $a_role_id role id
-     * @param int $a_ref_id ref id
-     * @return array
-     */
-    public static function getLocalProfilesOfRole(int $a_role_id, int $a_ref_id)
+    public static function getLocalProfilesOfRole(int $a_role_id, int $a_ref_id) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
 
-        $profiles = array();
+        $profiles = [];
         $set = $ilDB->query(
             "SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p " .
             " ON (r.profile_id = p.id) " .
@@ -855,13 +681,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $profiles;
     }
 
-    /**
-     * Count assigned roles of a profile
-     *
-     * @param int $a_profile_id
-     * @return int
-     */
-    public static function countRoles(int $a_profile_id)
+    public static function countRoles(int $a_profile_id) : int
     {
         global $DIC;
 
@@ -874,17 +694,9 @@ class ilSkillProfile implements ilSkillUsageInfo
         $rec = $ilDB->fetchAssoc($set);
         return (int) $rec["rcnt"];
     }
-    
-    /**
-     * Get usage info
-     *
-     * @param array $a_cskill_ids
-     * @param array $a_usages
-     */
-    public static function getUsageInfo($a_cskill_ids, &$a_usages)
-    {
-        global $DIC;
 
+    public static function getUsageInfo(array $a_cskill_ids, array &$a_usages) : void
+    {
         ilSkillUsage::getUsageInfoGeneric(
             $a_cskill_ids,
             $a_usages,

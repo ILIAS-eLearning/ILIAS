@@ -578,7 +578,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
     * @param array $import_mapping An array containing references to included ILIAS objects
     * @access public
     */
-    public function fromXML($item, int $questionpool_id,  int $tst_id, $tst_object, int $question_counter,  array $import_mapping) : void
+    public function fromXML($item, int $questionpool_id, int $tst_id, $tst_object, int $question_counter, array $import_mapping) : void
     {
         include_once "./Modules/TestQuestionPool/classes/import/qti12/class.assFlashQuestionImport.php";
         $import = new assFlashQuestionImport($this);
@@ -740,7 +740,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
      * @return ilTestQuestionConfig
      */
     // hey: refactored identifiers
-    public function buildTestPresentationConfig()  : ilTestQuestionConfig
+    public function buildTestPresentationConfig() : ilTestQuestionConfig
     // hey.
     {
         // hey: refactored identifiers

@@ -27,9 +27,9 @@ class ilExtractorFactory
 
         $transition_fullpath = './Services/WorkflowEngine/classes/extractors/class.' . $extractor_class_name . '.php';
 
-        if (file_exists($final_fullpath)) {
+        if (is_file($final_fullpath)) {
             require_once $final_fullpath;
-        } elseif (file_exists($transition_fullpath)) {
+        } elseif (is_file($transition_fullpath)) {
             require_once $transition_fullpath;
         }
 

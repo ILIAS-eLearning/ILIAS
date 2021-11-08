@@ -28,18 +28,18 @@ class ilMaterialExplorer extends ilTreeExplorerGUI
         $this->setAjax(true);
     }
     
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         return $a_node["title"];
     }
     
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
     
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -47,7 +47,7 @@ class ilMaterialExplorer extends ilTreeExplorerGUI
         return $ilCtrl->getLinkTarget($this->parent_obj, 'linkChilds');
     }
         
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         return ($a_node["type"] == $this->current_type);
     }

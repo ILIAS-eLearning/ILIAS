@@ -77,11 +77,6 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         
         $this->checkPermission("read");
 
-        // goto link to portfolio page
-        if ($_GET["gtp"]) {
-            $_GET["user_page"] = $_GET["gtp"];
-        }
-        
         $this->setTitleAndDescription();
         
         $next_class = $this->ctrl->getNextClass($this);
@@ -509,7 +504,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             $page->setType(ilPortfolioPage::TYPE_BLOG);
             $page->setTitle($_POST["blog"]);
         }
-        $page->create();
+        $page->create(false);
 
         ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
         $this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
@@ -734,7 +729,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $page = $this->getPageInstance();
                 $page->setType(ilPortfolioPage::TYPE_BLOG);
                 $page->setTitle($form->getInput("blog"));
-                $page->create();
+                $page->create(false);
             } else {
                 $blog = new ilObjBlog();
                 $blog->setTitle($form->getInput("title"));
@@ -755,7 +750,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
                 $page = $this->getPageInstance();
                 $page->setType(ilPortfolioPage::TYPE_BLOG);
                 $page->setTitle($blog->getId());
-                $page->create();
+                $page->create(false);
             }
 
             ilUtil::sendSuccess($this->lng->txt("prtf_blog_page_created"), true);
@@ -1021,16 +1016,19 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
     public static function _goto($a_target)
     {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        $ctrl = $DIC->ctrl();
+
         $id = explode("_", $a_target);
         
         $_GET["baseClass"] = "ilsharedresourceGUI";
-        $_GET["prt_id"] = $id[0];
+        $ctrl->setParameterByClass("ilobjportfoliogui", "prt_id", $id[0]);
         if (sizeof($id) == 2) {
-            $_GET["gtp"] = $id[1];
+            $ctrl->setParameterByClass("ilobjportfoliogui", "user_page", $id[1]);
         }
-        
-        include("ilias.php");
-        exit;
+        $ctrl->redirectByClass(["ilsharedresourceGUI", "ilobjportfoliogui"], "preview");
     }
 
     public function createPortfolioFromAssignment()

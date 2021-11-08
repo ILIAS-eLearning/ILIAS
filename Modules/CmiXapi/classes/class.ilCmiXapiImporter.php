@@ -67,21 +67,21 @@ class ilCmiXapiImporter extends ilXmlImporter
 
     /**
      * Init the object creation from import
-     * @param $a_entity
-     * @param $a_id
-     * @param $a_import_dirname
-     * @param $a_mapping
-     * @return string|void
+     * @param string          $a_entity
+     * @param string          $a_id
+     * @param string          $a_xml
+     * @param ilImportMapping $a_mapping
+     * @return void
      * @throws \ILIAS\Filesystem\Exception\FileNotFoundException
      * @throws \ILIAS\Filesystem\Exception\IOException
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_import_dirname, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         global $DIC;
         /** @var \ILIAS\DI\Container $DIC */
         $this->_entity = $a_entity;
         $this->_import_objId = $a_id;
-        $this->_import_dirname = $a_import_dirname;
+        $this->_import_dirname = $a_xml;
         $this->_mapping = $a_mapping;
 
         if (false === ($this->_newId = $a_mapping->getMapping('Services/Container', 'objs', $this->_import_objId))) {
@@ -284,7 +284,7 @@ class ilCmiXapiImporter extends ilXmlImporter
     }
 
     /**  */
-    public function init()
+    public function init() : void
     {
     }
 

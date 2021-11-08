@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Table;
@@ -11,12 +12,8 @@ use ILIAS\UI\Implementation\Component\ComponentHelper;
 abstract class Table implements T\Table
 {
     use ComponentHelper;
-    //use HasViewControls;
 
-    /**
-     * @var string
-     */
-    protected $title;
+    protected string $title;
 
     /**
      * @inheritdoc

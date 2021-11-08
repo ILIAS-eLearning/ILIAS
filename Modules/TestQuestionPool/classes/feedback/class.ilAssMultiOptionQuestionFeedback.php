@@ -122,7 +122,7 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
         $feedbackContent = '';
 
-        if($this->db->numRows($res) > 0) {
+        if ($this->db->numRows($res) > 0) {
             $row = $this->db->fetchAssoc($res);
             $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
         }
@@ -277,9 +277,9 @@ abstract class ilAssMultiOptionQuestionFeedback extends ilAssQuestionFeedback
 
         $feedbackId = -1;
 
-        if($this->db->numRows($res) > 0){
+        if ($this->db->numRows($res) > 0) {
             $row = $this->db->fetchAssoc($res);
-            $feedbackId = (int)$row['feedback_id'];
+            $feedbackId = (int) $row['feedback_id'];
         }
         
         return $feedbackId;

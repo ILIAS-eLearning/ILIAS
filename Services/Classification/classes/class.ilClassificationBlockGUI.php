@@ -99,14 +99,14 @@ class ilClassificationBlockGUI extends ilBlockGUI
         }
     }
     
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
         
         if ($ilCtrl->isAsynch()) {
-            return;
+            return "";
         }
                 
         switch ($ilCtrl->getCmd()) {
@@ -115,7 +115,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         }
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         $tpl = $this->main_tpl;
         $ilCtrl = $this->ctrl;
@@ -147,7 +147,7 @@ class ilClassificationBlockGUI extends ilBlockGUI
         exit();
     }
     
-    public function fillDataSection()
+    public function getLegacyContent() : string
     {
         $tpl = $this->main_tpl;
 
@@ -401,14 +401,6 @@ class ilClassificationBlockGUI extends ilBlockGUI
     protected $new_rendering = true;
 
 
-
-    /**
-     * @inheritdoc
-     */
-    protected function getLegacyContent() : string
-    {
-        return $this->fillDataSection();
-    }
 
     /**
      * Get sub item ids depending on container type that match the preselected

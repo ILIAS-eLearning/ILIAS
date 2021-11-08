@@ -20,7 +20,7 @@ class ilAssFileUploadFileTableReuseButton extends ilAssFileUploadFileTableComman
         $this->setCaption($this->lng()->txt('ass_file_upload_reuse_btn'), false);
     }
     
-    public static function getInstance()
+    public static function getInstance() : self
     {
         return new self(self::TYPE_SUBMIT);
     }

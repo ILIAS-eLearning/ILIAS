@@ -4,6 +4,7 @@ namespace ILIAS\UI\Component\Table;
 
 use ILIAS\Data\Range;
 use ILIAS\Data\Order;
+use Generator;
 
 interface DataRetrieval
 {
@@ -17,5 +18,5 @@ interface DataRetrieval
         Order $order,
         array $visible_column_ids,
         array $additional_parameters
-    ) : \Generator;
+    ) : Generator;
 }

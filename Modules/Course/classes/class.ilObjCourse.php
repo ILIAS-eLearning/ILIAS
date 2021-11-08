@@ -503,16 +503,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     
     /**
      * Get subitems of container
-     * @param bool $a_admin_panel_enabled[optional]
-     * @param bool $a_include_side_block[optional]
+     * @param bool $a_admin_panel_enabled [optional]
+     * @param bool $a_include_side_block  [optional]
      * @return array
      */
     public function getSubItems(
-        $a_admin_panel_enabled = false,
-        $a_include_side_block = false,
-        $a_get_single = 0,
+        bool $a_admin_panel_enabled = false,
+        bool $a_include_side_block = false,
+        int $a_get_single = 0,
         \ilContainerUserFilter $container_user_filter = null
-    ) {
+    ) : array {
         // Caching
         if (isset($this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block])) {
             return $this->items[(int) $a_admin_panel_enabled][(int) $a_include_side_block];
@@ -543,7 +543,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     {
         $this->view_mode = $a_mode;
     }
-    public function getViewMode()
+    public function getViewMode() : int
     {
         return $this->view_mode;
     }
@@ -750,7 +750,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     {
         parent::read();
 
-        include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
         $this->setOrderType(ilContainerSortingSettings::_lookupSortMode($this->getId()));
 
         $this->__readSettings();
@@ -1025,7 +1024,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         
         // clone certificate (#11085)
         $pathFactory = new ilCertificatePathFactory();
-        $templateRepository = new ilCertificateTemplateRepository($ilDB);
+        $templateRepository = new ilCertificateTemplateDatabaseRepository($ilDB);
 
         $cloneAction = new ilCertificateCloneAction(
             $ilDB,
@@ -1058,7 +1057,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         parent::cloneDependencies($a_target_id, $a_copy_id);
         
         // Clone course start objects
-        include_once('Services/Container/classes/class.ilContainerStartObjects.php');
         $start = new ilContainerStartObjects($this->getRefId(), $this->getId());
         $start->cloneDependencies($a_target_id, $a_copy_id);
 
@@ -1257,7 +1255,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $ilAppEventHandler = $DIC['ilAppEventHandler'];
         $ilLog = $DIC->logger()->crs();
 
-        include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
         $sorting = new ilContainerSortingSettings($this->getId());
         $sorting->setSortMode($this->getOrderType());
         $sorting->update();
@@ -1478,7 +1475,6 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         $res = $ilDB->manipulate($query);
         $this->__readSettings();
 
-        include_once('./Services/Container/classes/class.ilContainerSortingSettings.php');
         $sorting = new ilContainerSortingSettings($this->getId());
         $sorting->setSortMode(ilContainer::SORT_MANUAL);
         $sorting->update();
@@ -1518,7 +1514,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->setImportantInformation($row->important);
             $this->setShowMembers($row->show_members);
 
-            if (\ilPrivacySettings::_getInstance()->participantsListInCoursesEnabled()) {
+            if (\ilPrivacySettings::getInstance()->participantsListInCoursesEnabled()) {
                 $this->setShowMembersExport($row->show_members_export);
             } else {
                 $this->setShowMembersExport(false);
@@ -1916,10 +1912,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
     * Add additional information to sub item, e.g. used in
     * courses for timings information etc.
     */
-    public function addAdditionalSubItemInformation(&$a_item_data)
+    public function addAdditionalSubItemInformation(array &$object) : void
     {
         include_once './Services/Object/classes/class.ilObjectActivation.php';
-        ilObjectActivation::addAdditionalSubItemInformation($a_item_data);
+        ilObjectActivation::addAdditionalSubItemInformation($object);
     }
     
     /**
@@ -2223,7 +2219,7 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
         }
     }
     
-    public function getOrderType()
+    public function getOrderType() : int
     {
         if ($this->enabledObjectiveView()) {
             return ilContainer::SORT_MANUAL;

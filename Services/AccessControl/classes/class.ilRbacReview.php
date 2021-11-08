@@ -1478,8 +1478,6 @@ class ilRbacReview
      */
     protected function __setProtectedStatus($a_parent_roles, $a_role_hierarchy, $a_ref_id)
     {
-        //vd('refId',$a_ref_id,'parent roles',$a_parent_roles,'role-hierarchy',$a_role_hierarchy);
-        
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
@@ -1491,7 +1489,6 @@ class ilRbacReview
         } else {
             $leveladmin = false;
         }
-        #vd("RoleHierarchy",$a_role_hierarchy);
         foreach ($a_role_hierarchy as $role_id => $rolf_id) {
             //$log->write("ilRBACreview::__setProtectedStatus(), 0");
             #echo "<br/>ROLF: ".$rolf_id." ROLE_ID: ".$role_id." (".$a_parent_roles[$role_id]['title'].") ";
@@ -1504,9 +1501,7 @@ class ilRbacReview
                 
             if ($a_parent_roles[$role_id]['protected'] == true) {
                 $arr_lvl_roles_user = array_intersect($this->assignedRoles($ilUser->getId()), array_keys($a_role_hierarchy, $rolf_id));
-                
-                #vd("intersection",$arr_lvl_roles_user);
-                
+
                 foreach ($arr_lvl_roles_user as $lvl_role_id) {
                     #echo "<br/>level_role: ".$lvl_role_id;
                     #echo "<br/>a_ref_id: ".$a_ref_id;

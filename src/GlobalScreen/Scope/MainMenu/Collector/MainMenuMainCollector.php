@@ -86,6 +86,10 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
             if ($async_only && !$item instanceof supportsAsynchronousLoading) {
                 return false;
             }
+            if (!$item->isAvailable()) {
+                return false;
+            }
+
             // make parent available if one child is always available
             if ($item instanceof isParent) {
                 foreach ($item->getChildren() as $child) {

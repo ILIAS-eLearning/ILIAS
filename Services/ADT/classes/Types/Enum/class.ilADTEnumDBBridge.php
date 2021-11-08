@@ -1,20 +1,18 @@
-<?php
-
-require_once "Services/ADT/classes/Bridges/class.ilADTDBBridge.php";
+<?php declare(strict_types=1);
 
 class ilADTEnumDBBridge extends ilADTDBBridge
 {
-    protected function isValidADT(ilADT $a_adt)
+    protected function isValidADT(ilADT $a_adt) : bool
     {
         return ($a_adt instanceof ilADTEnum);
     }
-    
-    public function readRecord(array $a_row)
+
+    public function readRecord(array $a_row) : void
     {
         $this->getADT()->setSelection($a_row[$this->getElementId()]);
     }
 
-    public function prepareInsert(array &$a_fields)
+    public function prepareInsert(array &$a_fields) : void
     {
         $a_fields[$this->getElementId()] = [
             ilDBConstants::T_INTEGER,

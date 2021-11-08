@@ -1,12 +1,10 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\ContentPage\PageMetrics\Event\PageUpdatedEvent;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
 
-/**
- * Class ilContentPagePageCommandForwarder
- */
 class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
 {
     /**
@@ -33,24 +31,35 @@ class ilContentPagePageCommandForwarder implements ilContentPageObjectConstants
     protected ilObjUser $actor;
     /** @var callable[] */
     protected array $updateListeners = [];
+    protected GlobalHttpState $http;
+    protected Refinery $refinery;
 
     public function __construct(
-        ServerRequestInterface $request,
+        GlobalHttpState $http,
         ilCtrl $ctrl,
         ilTabsGUI $tabs,
         ilLanguage $lng,
         ilObjContentPage $parentObject,
-        ilObjUser $actor
+        ilObjUser $actor,
+        Refinery $refinery
     ) {
+        $this->http = $http;
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
         $this->lng = $lng;
         $this->parentObject = $parentObject;
         $this->actor = $actor;
+        $this->refinery = $refinery;
 
         $this->lng->loadLanguageModule('content');
 
-        $this->backUrl = $request->getQueryParams()['backurl'] ?? '';
+        $this->backUrl = '';
+        if ($this->http->wrapper()->query()->has('backurl')) {
+            $this->backUrl = $this->http->wrapper()->query()->retrieve(
+                'backurl',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
 
         if ($this->backUrl !== '') {
             $this->ctrl->setParameterByClass(ilContentPagePageGUI::class, 'backurl', rawurlencode($this->backUrl));

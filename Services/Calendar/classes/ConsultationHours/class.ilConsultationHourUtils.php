@@ -27,7 +27,6 @@ class ilConsultationHourUtils
         $now = new \ilDateTime(time(), IL_CAL_UNIX);
         $links = [];
         foreach ($users as $user_id) {
-
             $next_entry = null;
             $appointments = \ilConsultationHourAppointments::getAppointments($user_id);
             foreach ($appointments as $entry) {
@@ -79,7 +78,7 @@ class ilConsultationHourUtils
 
         $query = 'select ce.cal_id from cal_entries ce ' .
             'join cal_cat_assignments cca on ce.cal_id = cca.cal_id ' .
-            'join cal_categories cc on cca.cat_id = cc.cat_id '.
+            'join cal_categories cc on cca.cat_id = cc.cat_id ' .
             'where context_id = ' . $db->quote($booking->getId(), 'integer') . ' ' .
             'and starta = ' . $db->quote($start->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC), \ilDBConstants::T_TIMESTAMP) . ' ' .
             'and enda = ' . $db->quote($end->get(IL_CAL_DATETIME, '', \ilTimeZone::UTC), \ilDBConstants::T_TIMESTAMP) . ' ' .

@@ -153,11 +153,11 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
         $this->form_gui = new ilPropertyFormGUI();
 
-        if (isset($this->httpServices->request()->getQueryParams()['_table_nav'])) {
+        if ($this->http->wrapper()->query()->has('_table_nav')) {
             $this->ilCtrl->setParameter(
                 $this->gui,
                 '_table_nav',
-                $this->httpServices->request()->getQueryParams()['_table_nav']
+                $this->http->wrapper()->query()->retrieve('_table_nav', $this->refinery->kindlyTo()->string())
             );
         }
         $this->form_gui->setFormAction($this->ilCtrl->getFormAction($this->gui, 'smiley-uploadSmileyObject'));
@@ -212,7 +212,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             );
         }
 
-        $smileyId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('smiley_id'));
+        $smileyId = $this->getRequestValue('smiley_id', $this->refinery->kindlyTo()->int());
 
         if (null === $this->form_gui) {
             $this->form_gui = $this->initSmiliesEditForm($this->getSmileyFormDataById($smileyId));
@@ -252,11 +252,11 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setValuesByArray($form_data);
 
-        if (isset($this->httpServices->request()->getQueryParams()['_table_nav'])) {
+        if ($this->http->wrapper()->query()->has('_table_nav')) {
             $this->ilCtrl->setParameter(
                 $this->gui,
                 '_table_nav',
-                $this->httpServices->request()->getQueryParams()['_table_nav']
+                $this->http->wrapper()->query()->retrieve('_table_nav', $this->refinery->kindlyTo()->string())
             );
         }
 
@@ -324,7 +324,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             );
         }
 
-        $smileyId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('smiley_id'));
+        $smileyId = $this->getRequestValue('smiley_id', $this->refinery->kindlyTo()->int());
 
         $smiley = ilChatroomSmilies::_getSmiley($smileyId);
 
@@ -354,7 +354,10 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             );
         }
 
-        $smileyId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('chatroom_smiley_id'));
+        $smileyId = $this->getRequestValue(
+            'chatroom_smiley_id',
+            $this->refinery->kindlyTo()->int()
+        );
 
         ilChatroomSmilies::_deleteSmiley($smileyId);
 
@@ -375,12 +378,12 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             );
         }
 
-        $smileyId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('smiley_id'));
+        $smileyId = $this->getRequestValue('smiley_id', $this->refinery->kindlyTo()->int());
 
         $this->initSmiliesEditForm($this->getSmileyFormDataById($smileyId));
 
         $keywords = ilChatroomSmilies::_prepareKeywords(ilUtil::stripSlashes(
-            $this->refinery->kindlyTo()->string()->transform($this->getRequestValue('chatroom_smiley_keywords'))
+            $this->getRequestValue('chatroom_smiley_keywords', $this->refinery->kindlyTo()->string(), '')
         ));
 
         $atLeastOneKeywordGiven = count($keywords) > 0;
@@ -441,9 +444,13 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             );
         }
 
-        $ids = $this->refinery->kindlyTo()->listOf(
-            $this->refinery->kindlyTo()->int()
-        )->transform($this->getRequestValue('smiley_id', []));
+        $ids = $this->getRequestValue(
+            'smiley_id',
+            $this->refinery->kindlyTo()->listOf(
+                $this->refinery->kindlyTo()->int()
+            ),
+            []
+        );
         if ($ids === []) {
             ilUtil::sendInfo($this->ilLng->txt('select_one'), true);
             $this->ilCtrl->redirect($this->gui, 'smiley');
@@ -484,9 +491,13 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             );
         }
 
-        $ids = $this->refinery->kindlyTo()->listOf(
-            $this->refinery->kindlyTo()->int()
-        )->transform($this->getRequestValue('sel_ids', []));
+        $ids = $this->getRequestValue(
+            'sel_ids',
+            $this->refinery->kindlyTo()->listOf(
+                $this->refinery->kindlyTo()->int()
+            ),
+            []
+        );
 
         if ($ids === []) {
             $this->ilCtrl->redirect($this->gui, 'smiley');
@@ -513,7 +524,11 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $this->initSmiliesForm();
 
         $keywords = ilChatroomSmilies::_prepareKeywords(ilUtil::stripSlashes(
-            $this->refinery->kindlyTo()->string()->transform($this->getRequestValue('chatroom_smiley_keywords'))
+            $this->getRequestValue(
+                'chatroom_smiley_keywords',
+                $this->refinery->kindlyTo()->string(),
+                ''
+            )
         ));
 
         $atLeastOneKeywordGiven = count($keywords) > 0;

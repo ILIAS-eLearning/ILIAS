@@ -19,17 +19,12 @@ class ilTestPassDeletionConfirmationGUI extends ilConfirmationGUI
      */
     protected $ctrl;
     
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
     public function __construct(ilCtrl $ctrl, ilLanguage $lng, $parentGUI)
     {
         $this->ctrl = $ctrl;
         $this->lng = $lng;
 
-        $this->setFormAction($this->ctrl->getFormAction($parentGUI));
+        $this->setFormAction((string) $this->ctrl->getFormAction($parentGUI));
     }
     
     public function build($activeId, $pass, $context)

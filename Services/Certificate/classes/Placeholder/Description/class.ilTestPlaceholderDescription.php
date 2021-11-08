@@ -50,7 +50,7 @@ class ilTestPlaceholderDescription implements ilCertificatePlaceholderDescriptio
      * @param ilTemplate|null $template
      * @return string
      */
-    public function createPlaceholderHtmlDescription(ilTemplate $template = null) : string
+    public function createPlaceholderHtmlDescription(?ilTemplate $template = null) : string
     {
         if (null === $template) {
             $template = new ilTemplate('tpl.default_description.html', true, true, 'Services/Certificate');

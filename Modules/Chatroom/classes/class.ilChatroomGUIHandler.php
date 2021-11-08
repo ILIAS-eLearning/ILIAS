@@ -1,7 +1,15 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Stream\Streams;
+use ILIAS\FileUpload\FileUpload;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\HTTP\Response\ResponseHeader;
+use ILIAS\Refinery\Factory as Refinery;
+use ILIAS\Refinery\Transformation;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\UI\Renderer as UIRenderer;
 
 /**
  * Class ilChatroomGUIHandler
@@ -15,19 +23,19 @@ abstract class ilChatroomGUIHandler
     protected ilObjUser $ilUser;
     protected ilCtrl $ilCtrl;
     protected ilLanguage $ilLng;
-    protected \ILIAS\Filesystem\Filesystem $webDirectory;
+    protected Filesystem $webDirectory;
     protected ilObjectService $obj_service;
-    protected \ILIAS\FileUpload\FileUpload $upload;
+    protected FileUpload $upload;
     protected ilRbacSystem $rbacsystem;
     protected ilGlobalTemplateInterface $mainTpl;
     protected ILIAS $ilias;
     protected ilNavigationHistory $navigationHistory;
     protected ilTree $tree;
     protected ilTabsGUI $tabs;
-    protected \ILIAS\UI\Factory $uiFactory;
-    protected \ILIAS\UI\Renderer $uiRenderer;
-    protected \ILIAS\HTTP\Services $httpServices;
-    protected \ILIAS\Refinery\Factory $refinery;
+    protected UIFactory $uiFactory;
+    protected UIRenderer $uiRenderer;
+    protected GlobalHttpState $http;
+    protected Refinery $refinery;
 
     /**
      * @param ilChatroomObjectGUI $gui
@@ -52,35 +60,36 @@ abstract class ilChatroomGUIHandler
         $this->tree = $DIC['tree'];
         $this->uiFactory = $DIC->ui()->factory();
         $this->uiRenderer = $DIC->ui()->renderer();
-        $this->httpServices = $DIC->http();
+        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
     }
 
     /**
      * @param string $key
+     * @param Transformation $trafo
      * @param mixed $default
      * @return mixed|null
      */
-    protected function getRequestValue(string $key, $default = null)
+    protected function getRequestValue(string $key, Transformation $trafo, $default = null)
     {
-        if (isset($this->httpServices->request()->getQueryParams()[$key])) {
-            return $this->httpServices->request()->getQueryParams()[$key];
+        if ($this->http->wrapper()->query()->has($key)) {
+            return $this->http->wrapper()->query()->retrieve($key, $trafo);
         }
 
-        if (isset($this->httpServices->request()->getParsedBody()[$key])) {
-            return $this->httpServices->request()->getParsedBody()[$key];
+        if ($this->http->wrapper()->post()->has($key)) {
+            return $this->http->wrapper()->post()->retrieve($key, $trafo);
         }
 
-        return $default ?? null;
+        return $default;
     }
 
     protected function hasRequestValue(string $key) : bool
     {
-        if (isset($this->httpServices->request()->getQueryParams()[$key])) {
+        if ($this->http->wrapper()->query()->has($key)) {
             return true;
         }
 
-        return isset($this->httpServices->request()->getParsedBody()[$key]) ? true : false;
+        return $this->http->wrapper()->post()->has($key);
     }
 
     /**
@@ -156,13 +165,13 @@ abstract class ilChatroomGUIHandler
      */
     public function sendResponse($response, bool $isJson = false) : void
     {
-        $this->httpServices->saveResponse(
-            $this->httpServices->response()
-                ->withHeader('Content-Type', 'application/json')
+        $this->http->saveResponse(
+            $this->http->response()
+                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                 ->withBody(Streams::ofString($isJson ? $response : json_encode($response, JSON_THROW_ON_ERROR)))
         );
-        $this->httpServices->sendResponse();
-        $this->httpServices->close();
+        $this->http->sendResponse();
+        $this->http->close();
     }
 
     /**

@@ -12,22 +12,22 @@
  */
 class ilAssessmentQuestionExporter extends ilXmlExporter
 {
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         /* export schema versions code */
     }
     
-    public function init()
+    public function init() : void
     {
         /* assessment question init code */
     }
     
     /**
      * @param string $a_entity
-     * @param array $a_schema_version
-     * @param int $a_id
+     * @param string $a_schema_version
+     * @param string $a_id
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         /**
          * the assessment question export does simply get the id an returns

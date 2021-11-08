@@ -117,14 +117,13 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
         if (is_array($file_data)) {
-
-            if($file_data['rid'] === null && parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type)) {
+            if ($file_data['rid'] === null && parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type)) {
                 $props[] = array(
                     "alert" => true,
                     "property" => $DIC->language()->txt("migrated"),
                     "value" => $DIC->language()->txt("not_yet_migrated"),
                     "propertyNameVisible" => false,
-                    "newline"=>true
+                    "newline" => true
                 );
             }
 

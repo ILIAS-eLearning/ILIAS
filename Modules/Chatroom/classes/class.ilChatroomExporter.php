@@ -6,11 +6,11 @@
  */
 class ilChatroomExporter extends ilXmlExporter
 {
-    public function init()
+    public function init() : void
     {
     }
 
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         $chat = ilObjectFactory::getInstanceByObjId($a_id, false);
         if (!($chat instanceof ilObjChatroom)) {
@@ -26,7 +26,7 @@ class ilChatroomExporter extends ilXmlExporter
         return $writer->getXml();
     }
 
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $deps = [];
 
@@ -41,7 +41,7 @@ class ilChatroomExporter extends ilXmlExporter
         return $deps;
     }
 
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return [
             '5.3.0' => [

@@ -7042,6 +7042,35 @@ if (!$ilDB->tableExists(ilDBStepExecutionDB::TABLE_NAME)) {
 
 ?>
 
+<#5807>
+<?php
+
+if ($ilDB->tableExists(\ilDBStepExecutionDB::TABLE_NAME)
+&& $ilDB->tableColumnExists(ilDBStepExecutionDB::TABLE_NAME, ilDBStepExecutionDB::FIELD_STARTED)
+) {
+    $ilDB->modifyTableColumn(ilDBStepExecutionDB::TABLE_NAME, ilDBStepExecutionDB::FIELD_STARTED, [
+        'length' => 26,
+        'type' => ilDBConstants::T_TEXT,
+        'notnull' => false
+    ]);
+}
+
+?>
+
+<#5808>
+<?php
+
+if ($ilDB->tableExists(ilDBStepExecutionDB::TABLE_NAME)
+&& $ilDB->tableColumnExists(ilDBStepExecutionDB::TABLE_NAME, ilDBStepExecutionDB::FIELD_FINISHED)
+) {
+    $ilDB->modifyTableColumn(ilDBStepExecutionDB::TABLE_NAME, ilDBStepExecutionDB::FIELD_FINISHED, [
+        'length' => 26,
+        'type' => ilDBConstants::T_TEXT,
+        'notnull' => false
+    ]);
+}
+
+?>
 
 <?php
 // Dear colleague!

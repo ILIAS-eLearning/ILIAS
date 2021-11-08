@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,12 +6,11 @@ namespace ILIAS\UI\Implementation\Crawler\Exception;
 
 class Factory
 {
-
     /**
      * Those assertions are used to wrap the throwing of exception to make to code more readable.
      * @return CrawlerAssertion
      */
-    public function assertion()
+    public function assertion() : CrawlerAssertion
     {
         return new CrawlerAssertion();
     }
@@ -22,7 +21,7 @@ class Factory
      * @param string $info
      * @return CrawlerException
      */
-    public function exception($type = -1, $info = "")
+    public function exception(int $type = -1, string $info = "") : CrawlerException
     {
         return new CrawlerException($type, $info);
     }

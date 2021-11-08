@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
@@ -8,38 +21,22 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Types\ListType;
 use ILIAS\BackgroundTasks\Types\TupleType;
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 /**
  * Description of class class
  *
- * @author killing@leifos.de
- *
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
 {
-    /**
-     * @var ilLogger
-     */
-    private $logger = null;
+    private ?ilLogger $logger = null;
+    protected string $target_directory;
 
-    /**
-     * @var string
-     */
-    protected $target_directory;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->logger = ilLoggerFactory::getLogger("pwsp");
     }
 
-    /**
-     */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return
             [
@@ -47,25 +44,16 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
             ];
     }
 
-    /**
-     * @todo output should be file type
-     * @return SingleType
-     */
-    public function getOutputType()
+    public function getOutputType() : SingleType
     {
         return new SingleType(StringValue::class);
     }
 
-    public function isStateless()
+    public function isStateless() : bool
     {
         return true;
     }
 
-    /**
-     * run the job
-     * @param Value $input
-     * @param Observer $observer
-     */
     public function run(array $input, Observer $observer)
     {
         $definition = $input[0];
@@ -93,11 +81,10 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
     }
 
     /**
-     * @todo refactor to new file system access
      * Create unique temp directory
      * @return string absolute path to new temp directory
      */
-    protected function createUniqueTempDirectory()
+    protected function createUniqueTempDirectory() : string
     {
         $tmpdir = ilUtil::ilTempnam();
         ilUtil::makeDirParents($tmpdir);
@@ -105,7 +92,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
         return $tmpdir;
     }
 
-    protected function createTargetDirectory($a_tmpdir)
+    protected function createTargetDirectory(string $a_tmpdir) : string
     {
         $final_dir = $a_tmpdir . "/" . $this->target_directory;
         ilUtil::makeDirParents($final_dir);
@@ -113,14 +100,10 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
         return $final_dir;
     }
 
-    /**
-     * Copy files
-     *
-     * @param string           $tmpdir
-     * @param ilWorkspaceCopyDefinition $definition
-     */
-    protected function copyFiles($tmpdir, ilWorkspaceCopyDefinition $definition)
-    {
+    protected function copyFiles(
+        string $tmpdir,
+        ilWorkspaceCopyDefinition $definition
+    ) : void {
         foreach ($definition->getCopyDefinitions() as $copy_task) {
             if (!file_exists($copy_task[ilWorkspaceCopyDefinition::COPY_SOURCE_DIR])) {
                 // if the "file" to be copied is an empty folder the directory has to be created so it will be contained in the download zip
@@ -150,13 +133,9 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
                 $tmpdir . '/' . $copy_task[ilWorkspaceCopyDefinition::COPY_TARGET_DIR]
             );
         }
-        return;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 30;
     }

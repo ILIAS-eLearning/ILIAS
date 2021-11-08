@@ -177,7 +177,7 @@ class ilCalendarSettings
             $a_obj_id,
             'cont_activation_calendar',
             $gl_activated
-            );
+        );
     }
     
     /**

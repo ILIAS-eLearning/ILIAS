@@ -1,33 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 
 /**
  * Test scale bar charts.
  */
 class ChartScaleBarTest extends ILIAS_UI_TestBase
 {
-    protected function getFactory()
+    protected function getFactory() : C\Chart\Factory
     {
         return new I\Component\Chart\Factory(
             $this->createMock(C\Chart\ProgressMeter\Factory::class)
         );
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getFactory();
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Chart\\ScaleBar", $f->scaleBar(array("1" => false)));
     }
 
-    public function test_get_items()
+    public function test_get_items() : void
     {
         $f = $this->getFactory();
 
@@ -43,7 +43,7 @@ class ChartScaleBarTest extends ILIAS_UI_TestBase
         $this->assertEquals($c->getItems(), $items);
     }
 
-    public function test_render()
+    public function test_render() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

@@ -24,13 +24,13 @@ class ilCertificateActiveValidator
 
     public function validate() : bool
     {
-        $globalCertificateActive = (bool) $this->setting->get('active');
+        $globalCertificateActive = (bool) $this->setting->get('active', '0');
 
         if (false === $globalCertificateActive) {
             return false;
         }
 
-        $serverActive = (bool) $this->rpcSettings->isEnabled();
+        $serverActive = $this->rpcSettings->isEnabled();
 
         if (false === $serverActive) {
             return false;

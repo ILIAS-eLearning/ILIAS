@@ -1,23 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilPCMapGUI
- *
  * User Interface for Map Editing
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCMapGUI extends ilPageContentGUI
 {
+    protected ilPropertyFormGUI $form;
 
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -26,10 +36,7 @@ class ilPCMapGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         // get next class that processes or forwards current command
         $next_class = $this->ctrl->getNextClass($this);
@@ -39,17 +46,12 @@ class ilPCMapGUI extends ilPageContentGUI
 
         switch ($next_class) {
             default:
-                $ret = $this->$cmd();
+                $this->$cmd();
                 break;
         }
-
-        return $ret;
     }
 
-    /**
-    * Insert new map form.
-    */
-    public function insert()
+    public function insert() : void
     {
         $tpl = $this->tpl;
         
@@ -58,26 +60,15 @@ class ilPCMapGUI extends ilPageContentGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-    * Edit map form.
-    */
-    public function edit($a_insert = false)
+    public function edit() : void
     {
-        $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        $lng = $this->lng;
-        
         $this->displayValidationError();
         $this->initForm("update");
         $this->getValues();
         $tpl->setContent($this->form->getHTML());
-
-        return $ret;
     }
 
-    /**
-    * Get values from object into form
-    */
     public function getValues()
     {
         $values = array();
@@ -93,9 +84,6 @@ class ilPCMapGUI extends ilPageContentGUI
         $this->form->setValuesByArray($values);
     }
     
-    /**
-    * Init map creation/update form
-    */
     public function initForm($a_mode)
     {
         $ilCtrl = $this->ctrl;
@@ -172,10 +160,7 @@ class ilPCMapGUI extends ilPageContentGUI
         //$html = $form->getHTML();
     }
 
-    /**
-    * Create new Map.
-    */
-    public function create()
+    public function create() : void
     {
         $tpl = $this->tpl;
         
@@ -206,10 +191,7 @@ class ilPCMapGUI extends ilPageContentGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-    * Update Map.
-    */
-    public function update()
+    public function update() : void
     {
         $tpl = $this->tpl;
         

@@ -67,7 +67,7 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
      * @return ilOrgUnitExtensionPlugin
      * @throws ilPluginException
      */
-    protected function getPlugin()
+    protected function getPlugin() : ilPlugin
     {
         if (!$this->plugin) {
             $this->plugin = ilPlugin::getPluginObject(IL_COMP_MODULE, "OrgUnit", "orguext", ilPlugin::lookupNameForId(IL_COMP_MODULE, "OrgUnit", "orguext", $this->getType()));

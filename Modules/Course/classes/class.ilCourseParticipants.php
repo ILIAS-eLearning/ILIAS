@@ -37,8 +37,8 @@ class ilCourseParticipants extends ilParticipants
     const COMPONENT_NAME = 'Modules/Course';
     
     protected static $instances = array();
-    
-    
+    public int $NOTIFY_UNSUBSCRIBE;
+
     /**
      * Singleton constructor
      *
@@ -141,7 +141,7 @@ class ilCourseParticipants extends ilParticipants
                     'obj_id' => $this->getObjId(),
                     'usr_id' => $a_usr_id
                 )
-            );
+        );
     }
 
     /**

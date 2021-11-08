@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +11,7 @@ class Factory implements D\Factory
     /**
      * @inheritdoc
      */
-    public function horizontal()
+    public function horizontal() : D\Horizontal
     {
         return new Horizontal();
     }
@@ -19,7 +19,7 @@ class Factory implements D\Factory
     /**
      * @inheritdoc
      */
-    public function vertical()
+    public function vertical() : D\Vertical
     {
         return new Vertical();
     }

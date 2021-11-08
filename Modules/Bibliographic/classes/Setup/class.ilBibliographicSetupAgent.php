@@ -87,5 +87,4 @@ final class ilBibliographicSetupAgent implements Setup\Agent
             new ilBibliographicStorageMigration(),
         ];
     }
-
 }

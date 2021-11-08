@@ -92,7 +92,7 @@ class ilAdvancedMDFieldTranslations
     /**
      * @return string
      */
-    public function getDefaultLanguage() :string
+    public function getDefaultLanguage() : string
     {
         return $this->default_language;
     }
@@ -100,8 +100,7 @@ class ilAdvancedMDFieldTranslations
     public function getActivatedLanguages(int $field_id, bool $with_default = true)
     {
         $activated = [];
-        foreach ($this->getTranslations($field_id) as $language => $translation)
-        {
+        foreach ($this->getTranslations($field_id) as $language => $translation) {
             if ($language == self::getDefaultLanguage() && !$with_default) {
                 continue;
             }
@@ -129,7 +128,7 @@ class ilAdvancedMDFieldTranslations
      * @param string $lang_key
      * @return ilAdvancedMDRecordTranslation|null
      */
-    public function getTranslation(int $field_id, string $lang_key) :? ilAdvancedMDFieldTranslation
+    public function getTranslation(int $field_id, string $lang_key) : ? ilAdvancedMDFieldTranslation
     {
         if (!$this->isConfigured($field_id, $lang_key)) {
             return null;
@@ -201,7 +200,7 @@ class ilAdvancedMDFieldTranslations
         }
 
         $txt = '';
-        $txt = $this->lng->txt('md_adv_int_current'). ' ' . $this->lng->txt('meta_l_' . $active_language);
+        $txt = $this->lng->txt('md_adv_int_current') . ' ' . $this->lng->txt('meta_l_' . $active_language);
         $txt .= ', ';
         foreach ($this->getTranslations($field_id) as $translation) {
             if ($translation->getLangKey() == $this->getDefaultLanguage()) {

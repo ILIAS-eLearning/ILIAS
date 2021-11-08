@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once(__DIR__ . '/ModalBase.php');
 
@@ -9,13 +9,13 @@ require_once(__DIR__ . '/ModalBase.php');
  */
 class RoundTripTest extends ModalBase
 {
-    public function test_get_title()
+    public function test_get_title() : void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
         $this->assertEquals('myTitle', $roundtrip->getTitle());
     }
 
-    public function test_get_content()
+    public function test_get_content() : void
     {
         $content = $this->getDummyComponent();
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $content);
@@ -25,7 +25,7 @@ class RoundTripTest extends ModalBase
         $this->assertEquals($content, $roundtrip->getContent());
     }
 
-    public function test_get_action_buttons()
+    public function test_get_action_buttons() : void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
         $action_buttons = [
@@ -36,7 +36,7 @@ class RoundTripTest extends ModalBase
         $this->assertEquals($action_buttons, $roundtrip->getActionButtons());
     }
 
-    public function test_with_action_buttons()
+    public function test_with_action_buttons() : void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('myTitle', $this->getDummyComponent());
         $action_buttons = [
@@ -44,13 +44,12 @@ class RoundTripTest extends ModalBase
             $this->getButtonFactory()->standard('Action 2', ''),
         ];
         $roundtrip2 = $roundtrip->withActionButtons($action_buttons);
-        $this->assertEquals(0, count($roundtrip->getActionButtons()));
-        $this->assertEquals(2, count($roundtrip2->getActionButtons()));
+        $this->assertCount(0, $roundtrip->getActionButtons());
+        $this->assertCount(2, $roundtrip2->getActionButtons());
         $this->assertEquals($action_buttons, $roundtrip2->getActionButtons());
     }
 
-
-    public function test_simple_rendering()
+    public function test_simple_rendering() : void
     {
         $roundtrip = $this->getModalFactory()->roundtrip('Title', $this->getUIFactory()->legacy('Content'))
             ->withActionButtons([
@@ -62,10 +61,9 @@ class RoundTripTest extends ModalBase
         $this->assertHTMLEquals($expected, $actual);
     }
 
-
-    protected function getExpectedHTML()
+    protected function getExpectedHTML() : string
     {
-        $expected = <<<EOT
+        return <<<EOT
 <div class="modal fade il-modal-roundtrip" tabindex="-1" role="dialog" id="id_1">
    <div class="modal-dialog" role="document" data-replace-marker="component">
       <div class="modal-content">
@@ -80,6 +78,5 @@ class RoundTripTest extends ModalBase
    </div>
 </div>
 EOT;
-        return $expected;
     }
 }

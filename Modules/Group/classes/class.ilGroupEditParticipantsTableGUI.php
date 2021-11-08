@@ -62,7 +62,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
         $this->rep_object = $rep_object;
         
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $this->privacy = ilPrivacySettings::_getInstance();
+        $this->privacy = ilPrivacySettings::getInstance();
         
         $this->participants = ilGroupParticipants::_getInstanceByObjId($this->rep_object->getId());
         

@@ -86,8 +86,7 @@ class ilScheduleInputGUI extends ilFormPropertyGUI
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return bool		Input ok, true/false
+    * @return bool        Input ok, true/false
     */
     public function checkInput() : bool
     {

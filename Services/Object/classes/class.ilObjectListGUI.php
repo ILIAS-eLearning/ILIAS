@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Repository\Clipboard\ClipboardManager;
+
 define("IL_LIST_AS_TRIGGER", "trigger");
 define("IL_LIST_FULL", "full");
 
@@ -18,6 +20,7 @@ define("IL_LIST_FULL", "full");
  */
 class ilObjectListGUI
 {
+    private array $access_cache;
     /**
      * @var ilAccessHandler
      */
@@ -235,6 +238,7 @@ class ilObjectListGUI
     protected $header_icons;
 
     protected ?object $container_obj = null;
+    protected ClipboardManager $clipboard;
 
     /**
     * constructor
@@ -280,6 +284,11 @@ class ilObjectListGUI
         $this->requested_ref_id = (int) ($params["ref_id"] ?? null);
         $this->requested_cmd = (string) ($params["cmd"] ?? null);
         $this->requested_base_class = (string) ($params["baseClass"] ?? null);
+        $this->clipboard = $DIC
+            ->repository()
+            ->internal()
+            ->domain()
+            ->clipboard();
     }
 
 
@@ -1053,7 +1062,7 @@ class ilObjectListGUI
         $cache_prefix = null;
         if ($this->context == self::CONTEXT_WORKSPACE || $this->context == self::CONTEXT_WORKSPACE_SHARING) {
             $cache_prefix = "wsp";
-            if (!$this->ws_access) {
+            if (!isset($this->ws_access)) {
                 $this->ws_access = new ilWorkspaceAccessHandler();
             }
         }
@@ -1383,7 +1392,7 @@ class ilObjectListGUI
     
     /**
      * Force visible access only.
-     * @param type $a_stat
+     * @param bool $a_stat
      */
     public function forceVisibleOnly($a_stat)
     {
@@ -1392,7 +1401,7 @@ class ilObjectListGUI
 
     /**
      * Force unreadable
-     * @return type
+     * @return bool
      */
     public function isVisibleOnlyForced()
     {
@@ -2017,14 +2026,18 @@ class ilObjectListGUI
             return;
         }
 
-        if ($this->condition_target) {
+        if ($this->context == self::CONTEXT_WORKSPACE) {
+            return;
+        }
+
+        if (isset($this->condition_target) && is_array(isset($this->condition_target))) {
             $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget(
                 $this->condition_target['ref_id'],
                 $this->condition_target['obj_id'],
                 $this->condition_target['target_type']
             );
         } else {
-            $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget($this->ref_id, $this->obj_id);
+            $conditions = ilConditionHandler::_getEffectiveConditionsOfTarget((int) $this->ref_id, (int) $this->obj_id);
         }
         
         if (sizeof($conditions)) {
@@ -2302,7 +2315,7 @@ class ilObjectListGUI
         
         if (is_object($this->getContainerObject()) and
             $this->getContainerObject() instanceof ilAdministrationCommandHandling and
-            isset($_SESSION['clipboard'])) {
+            $this->clipboard->hasEntries()) {
             $this->ctrl->setParameter($this->getContainerObject(), 'item_ref_id', $this->getCommandId());
             $cmd_link = $this->ctrl->getLinkTarget($this->getContainerObject(), "paste");
             $this->insertCommand($cmd_link, $this->lng->txt("paste"));
@@ -2819,7 +2832,8 @@ class ilObjectListGUI
         $ilAccess = $this->access;
         
         // TODO: delegate to list object class!
-        if (!$this->getContainerObject()->isActiveAdministrationPanel() || $_SESSION["clipboard"]) {
+        if (!$this->getContainerObject()->isActiveAdministrationPanel() ||
+            $this->clipboard->hasEntries()) {
             if (in_array($this->type, array("file", "fold")) &&
                 $ilAccess->checkAccess("read", "", $a_ref_id, $this->type)) {
                 $this->download_checkbox_state = self::DOWNLOAD_CHECKBOX_ENABLED;

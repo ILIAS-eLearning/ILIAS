@@ -4,8 +4,6 @@
 
 namespace ILIAS\UI\Component\Table\Column;
 
-use ILIAS\Refinery\Transformation;
-
 /**
  * A Column describes the form of presentation for a certain aspect of data,
  * i.e. a field of a record within a table.
@@ -13,14 +11,18 @@ use ILIAS\Refinery\Transformation;
 interface Column
 {
     public function getTitle() : string;
+
     public function getType() : string;
 
     public function withIsSortable(bool $flag) : Column;
+
     public function isSortable() : bool;
 
     public function withIsOptional(bool $flag) : Column;
+
     public function isOptional() : bool;
 
     public function withIsInitiallyVisible(bool $flag) : Column;
+
     public function isInitiallyVisible() : bool;
 }

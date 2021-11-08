@@ -47,7 +47,6 @@ interface Factory
      *   wording:
      *     1: The alt-text MUST state the represented object-type.
      * ---
-     *
      * @return \ILIAS\UI\Component\Symbol\Icon\Factory
      **/
     public function icon() : Icon\Factory;
@@ -102,13 +101,12 @@ interface Factory
      */
     public function glyph() : Glyph\Factory;
 
-
     /**
      * ---
      * description:
      *   purpose: >
      *     Avatars are graphical representations of a user. They contain a
-     *     user-defined picture, a deputy-picture or an abbreviation for it's username.
+     *     user-defined picture, a deputy-picture or an abbreviation for its username.
      *     Avatars are used in places where there is a direct reference to a user
      *     (-account), such as the entries in the Metabar entry "user", a members
      *     gallery the of a course or the avatar in a forum-post.
@@ -145,10 +143,10 @@ interface Factory
      *       If the Avatar is accompanied by the name of the user shown in the image
      *       (e.g. in the Members Gallery), the alternative text attribute MUST be "User Avatar".
      *     3:  >
-     *       If the Avatar is not or might not (due to some setting) be accompaniedby the
+     *       If the Avatar is not or might not (due to some setting) be accompanied by the
      *       name of the user shown in the image, the alternative text MUST be "User Avatar of NameOfUser".
      *     4:  >
-     *       Avatars that show the currently logged in user outside some list with other users,
+     *       Avatars that show the currently logged-in user outside some list with other users,
      *       the alternative text MUST be "Your user avatar".
      *   responsiveness:
      *     1: the avatar MUST adjust it's size to the parent container.

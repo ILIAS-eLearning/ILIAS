@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Jesús López <lopez@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -11,47 +11,34 @@ class Mode implements C\ViewControl\Mode
 {
     use ComponentHelper;
 
-    /**
-     * @var array
-     */
-    protected $labeled_actions;
+    protected array $labeled_actions;
+    protected string $aria_label;
+    protected ?string $active = null;
 
-    /**
-     * @var	string
-     */
-    protected $aria_label;
-
-    /**
-     * @var string
-     */
-    protected $active;
-
-    public function __construct($labelled_actions, $aria_label)
+    public function __construct($labelled_actions, string $aria_label)
     {
         $this->labeled_actions = $this->toArray($labelled_actions);
-        $this->checkStringArg("string", $aria_label);
         $this->aria_label = $aria_label;
     }
 
-    public function withActive($label)
+    public function withActive(string $label) : C\ViewControl\Mode
     {
-        $this->checkStringArg("label", $label);
         $clone = clone $this;
         $clone->active = $label;
         return $clone;
     }
 
-    public function getActive()
+    public function getActive() : ?string
     {
         return $this->active;
     }
 
-    public function getLabelledActions()
+    public function getLabelledActions() : array
     {
         return $this->labeled_actions;
     }
 
-    public function getAriaLabel()
+    public function getAriaLabel() : string
     {
         return $this->aria_label;
     }

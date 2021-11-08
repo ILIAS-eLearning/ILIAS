@@ -14,7 +14,7 @@ class ilStyleImporter extends ilXmlImporter
      */
     protected $log;
 
-    public function init()
+    public function init() : void
     {
         $this->log = ilLoggerFactory::getLogger('styl');
 
@@ -25,7 +25,7 @@ class ilStyleImporter extends ilXmlImporter
         $this->log->debug("initialized");
     }
 
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         $this->log->debug("import xml " . $a_entity);
 

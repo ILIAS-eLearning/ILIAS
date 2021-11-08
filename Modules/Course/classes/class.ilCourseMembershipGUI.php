@@ -371,7 +371,7 @@ class ilCourseMembershipGUI extends ilMembershipGUI
 
         $is_admin = true;
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
 
         if ($privacy->enabledCourseAccessTimes()) {
             include_once('./Services/Tracking/classes/class.ilLearningProgress.php');

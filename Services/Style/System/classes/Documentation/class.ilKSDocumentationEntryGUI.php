@@ -121,7 +121,7 @@ class ilKSDocumentationEntryGUI
             );
         }
 
-        if ($this->entry->getRules()->hasRules()) {
+        if ($this->entry->getRules() && $this->entry->getRules()->hasRules()) {
             $rule_listings = array();
             foreach ($this->entry->getRulesAsArray() as $categoery => $category_rules) {
                 $rule_listings[ucfirst($categoery)] = $this->f->listing()->ordered($category_rules);
@@ -142,9 +142,9 @@ class ilKSDocumentationEntryGUI
                 $title = "Example " . $nr . ": " . ucfirst(str_replace("_", " ", $name));
                 $nr++;
                 $examples_function_name = $this->entry->getExamplesNamespace() . "\\" . $name;
-                try{
+                try {
                     $example = "<div class='well'>" . $examples_function_name() . "</div>"; //Executes function loaded in file indicated by 'path'
-                }catch(\ILIAS\UI\NotImplementedException $e){
+                } catch (\ILIAS\UI\NotImplementedException $e) {
                     $example = "<div class='well'>This component is not yet fully implemented.</div>";
                 }
                 $content_part_1 = $this->f->legacy($example);

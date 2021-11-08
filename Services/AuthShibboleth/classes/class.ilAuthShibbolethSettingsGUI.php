@@ -615,7 +615,7 @@ class ilAuthShibbolethSettingsGUI
             include_once './Services/Search/classes/class.ilQueryParser.php';
             $parser = new ilQueryParser($this->form->getInput('role_search'));
             // TODO: Handle minWordLength
-            $parser->setMinWordLength(1, true);
+            $parser->setMinWordLength(1);
             $parser->setCombination(QP_COMBINATION_AND);
             $parser->parse();
             include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
@@ -699,7 +699,7 @@ class ilAuthShibbolethSettingsGUI
         $this->tabs_gui->setSubTabActive('shib_role_assignment');
         include_once './Services/Search/classes/class.ilQueryParser.php';
         $parser = new ilQueryParser($_SESSION['shib_role_ass']['search']);
-        $parser->setMinWordLength(1, true);
+        $parser->setMinWordLength(1);
         $parser->setCombination(QP_COMBINATION_AND);
         $parser->parse();
         include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';

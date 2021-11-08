@@ -10,19 +10,19 @@ class ilModulesTestSuite extends TestSuite
 {
     public static function suite()
     {
-        if(!defined("ILIAS_HTTP_PATH")) {
+        if (!defined("ILIAS_HTTP_PATH")) {
             define("ILIAS_HTTP_PATH", "some_path");
         }
 
-        if(!defined("DEBUG")) {
+        if (!defined("DEBUG")) {
             define("DEBUG", false);
         }
 
-        if(!defined("ILIAS_LOG_ENABLED")) {
+        if (!defined("ILIAS_LOG_ENABLED")) {
             define("ILIAS_LOG_ENABLED", false);
         }
 
-        if(!defined("ROOT_FOLDER_ID")) {
+        if (!defined("ROOT_FOLDER_ID")) {
             define("ROOT_FOLDER_ID", 1);
         }
 
@@ -33,7 +33,7 @@ class ilModulesTestSuite extends TestSuite
             define("CLIENT_DATA_DIR", "/tmp");
         }
 
-        if(!defined("CLIENT_ID")) {
+        if (!defined("CLIENT_ID")) {
             define("CLIENT_ID", 1);
         }
 
@@ -52,23 +52,23 @@ class ilModulesTestSuite extends TestSuite
         $suite = new ilModulesTestSuite();
 
         foreach (new RegExIterator(
-                     new RecursiveIteratorIterator(
-                         new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                         RecursiveIteratorIterator::LEAVES_ONLY
-                     ),
-                     '/BaseTest\.php$/'
-                 ) as $file) {
+            new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::LEAVES_ONLY
+            ),
+            '/BaseTest\.php$/'
+        ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
         }
 
         foreach (new RegExIterator(
-                     new RecursiveIteratorIterator(
-                         new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
-                         RecursiveIteratorIterator::LEAVES_ONLY
-                     ),
-                     '/(?<!Base)Test\.php$/'
-                 ) as $file) {
+            new RecursiveIteratorIterator(
+                new RecursiveDirectoryIterator(__DIR__, FilesystemIterator::SKIP_DOTS),
+                RecursiveIteratorIterator::LEAVES_ONLY
+            ),
+            '/(?<!Base)Test\.php$/'
+        ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
 

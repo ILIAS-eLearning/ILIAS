@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\MainControls;
 
@@ -13,7 +13,6 @@ use ILIAS\UI\Component\Component;
 interface ModeInfo extends Component
 {
     public function getModeTitle() : string;
-
 
     public function getCloseAction() : URI;
 }

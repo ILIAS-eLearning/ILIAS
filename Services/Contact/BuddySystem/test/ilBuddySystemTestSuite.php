@@ -13,9 +13,6 @@ require_once __DIR__ . '/bootstrap.php';
  */
 class ilBuddySystemTestSuite extends TestSuite
 {
-    /**
-     * @return self
-     */
     public static function suite() : self
     {
         if (!defined('ANONYMOUS_USER_ID')) {
@@ -44,8 +41,7 @@ class ilBuddySystemTestSuite extends TestSuite
                 RecursiveIteratorIterator::LEAVES_ONLY
             ),
             '/(?<!Base)Test\.php$/'
-        ) as $file
-        ) {
+        ) as $file) {
             /** @var SplFileInfo $file */
             require_once $file->getPathname();
 

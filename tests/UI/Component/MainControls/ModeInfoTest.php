@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\Data\URI;
 use ILIAS\UI\Implementation\Component\MainControls\ModeInfo;
@@ -15,11 +15,7 @@ require_once(__DIR__ . "/../../Base.php");
  */
 class ModeInfoTest extends ILIAS_UI_TestBase
 {
-
-    /**
-     * @var SignalGenerator
-     */
-    private $sig_gen;
+    private SignalGenerator $sig_gen;
 
 
     public function setUp() : void
@@ -28,8 +24,7 @@ class ModeInfoTest extends ILIAS_UI_TestBase
         $this->sig_gen = new SignalGenerator();
     }
 
-
-    public function testRendering()
+    public function testRendering() : void
     {
         $mode_title = 'That\'s one small step for [a] man';
         $uri_string = 'http://one_giant_leap?for=mankind';
@@ -51,8 +46,7 @@ EOT;
         );
     }
 
-
-    public function testData()
+    public function testData() : void
     {
         $mode_title = 'That\'s one small step for [a] man';
         $uri_string = 'http://one_giant_leap?for=mankind';
@@ -61,22 +55,21 @@ EOT;
 
         $this->assertInstanceOf(\ILIAS\UI\Component\MainControls\ModeInfo::class, $mode_info);
         $this->assertEquals($mode_title, $mode_info->getModeTitle());
-        $this->assertEquals($uri_string, $mode_info->getCloseAction()->getBaseURI() . '?' . $mode_info->getCloseAction()->getQuery());
+        $this->assertEquals(
+            $uri_string,
+            $mode_info->getCloseAction()->getBaseURI() . '?' . $mode_info->getCloseAction()->getQuery()
+        );
     }
 
-
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         $factory = new class() extends NoUIFactory {
+            public SignalGenerator $sig_gen;
 
-            /**
-             * @inheritDoc
-             */
             public function __construct()
             {
                 $this->sig_gen = new SignalGenerator();
             }
-
 
             public function symbol() : ILIAS\UI\Component\Symbol\Factory
             {
@@ -86,7 +79,6 @@ EOT;
                     new \ILIAS\UI\Implementation\Component\Symbol\Avatar\Factory()
                 );
             }
-
 
             public function mainControls() : \ILIAS\UI\Component\MainControls\Factory
             {

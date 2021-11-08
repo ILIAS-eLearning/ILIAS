@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailAddressTypesTest
@@ -13,11 +13,8 @@ class ilMailAddressTypesTest extends ilMailBaseTest
      */
     protected function setUp() : void
     {
-        if (!defined('ANONYMOUS_USER_ID')) {
-            define('ANONYMOUS_USER_ID', 13);
-        }
-
         parent::setUp();
+        ilMailCachedAddressType::clearCache();
     }
 
     /**
@@ -34,7 +31,6 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
     /**
      * @param $groupNameValidatorMock
-     * @return ilMailAddressTypeFactory
      * @throws ReflectionException
      */
     private function getAddressTypeFactory($groupNameValidatorMock) : ilMailAddressTypeFactory
@@ -60,8 +56,6 @@ class ilMailAddressTypesTest extends ilMailBaseTest
     }
 
     /**
-     * @param ilMailAddressType $type
-     * @return ilMailAddressType
      * @throws ReflectionException
      */
     private function getWrappedAddressType(ilMailAddressType $type) : ilMailAddressType
@@ -287,9 +281,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
             0
         );
 
-        $addressTypeHelper->expects($this->any())->method('receivesInternalMailsOnly')->willReturnOnConsecutiveCalls(
-            true
-        );
+        $addressTypeHelper->method('receivesInternalMailsOnly')->willReturn(true);
 
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->getMock();
         $rbacsystem->expects($this->exactly(2))->method('checkAccessOfUser')->willReturnOnConsecutiveCalls(
@@ -418,7 +410,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $addressTypeHelper = $this->getMockBuilder(ilMailAddressTypeHelper::class)->getMock();
 
         $list = $this->getMockBuilder(ilMailingList::class)->disableOriginalConstructor()->onlyMethods([
-            'getAssignedEntries'
+            'getAssignedEntries',
         ])->getMock();
         $list->expects($this->exactly(2))->method('getAssignedEntries')->willReturnOnConsecutiveCalls(
             [['usr_id' => 1], ['usr_id' => 2], ['usr_id' => 3]],
@@ -427,7 +419,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
 
         $lists = $this->getMockBuilder(ilMailingLists::class)->disableOriginalConstructor()->onlyMethods([
             'mailingListExists',
-            'getCurrentMailingList'
+            'getCurrentMailingList',
         ])->getMock();
         $lists->expects($this->exactly(3))->method('mailingListExists')->with('#il_ml_4711')->willReturnOnConsecutiveCalls(
             true,
@@ -462,7 +454,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
     public function testMailingListAddressCanBeValidated() : void
     {
         $lists = $this->getMockBuilder(ilMailingLists::class)->disableOriginalConstructor()->onlyMethods([
-            'mailingListExists'
+            'mailingListExists',
         ])->getMock();
         $lists->expects($this->exactly(2))->method('mailingListExists')->with('#il_ml_4711')->willReturnOnConsecutiveCalls(
             true,

@@ -12,11 +12,6 @@ require_once 'Services/UIComponent/Button/classes/class.ilSubmitButton.php';
 class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    
-    /**
      * @var string
      */
     protected $action;
@@ -60,7 +55,7 @@ class ilAssFileUploadFileTableCommandButton extends ilSubmitButton
         $this->action = $action;
     }
     
-    public function renderAttributes(array $a_additional_attr = null)
+    public function renderAttributes(array $a_additional_attr = null) : string
     {
         if (is_array($a_additional_attr) && isset($a_additional_attr['name'])) {
             $a_additional_attr['name'] .= "[{$this->getAction()}]";

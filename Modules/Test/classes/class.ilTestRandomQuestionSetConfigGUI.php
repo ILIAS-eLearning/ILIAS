@@ -575,7 +575,6 @@ class ilTestRandomQuestionSetConfigGUI
     {
         $this->questionSetConfig->loadFromDb();
         
-        require_once 'Services/Repository/classes/class.ilTestQuestionPoolSelectorExplorer.php';
         $selector = new ilTestQuestionPoolSelectorExplorer(
             $this,
             self::CMD_SHOW_POOL_SELECTOR_EXPLORER,
@@ -816,6 +815,7 @@ class ilTestRandomQuestionSetConfigGUI
             $originalPoolData = $availablePools[$poolId];
 
             $originalPoolData['qpl_path'] = $this->questionSetConfig->getQuestionPoolPathString($poolId);
+            $originalPoolData['qpl_ref_id'] = $this->questionSetConfig->getFirstQuestionPoolRefIdByObjId($poolId);
 
             return $this->sourcePoolDefinitionFactory->getSourcePoolDefinitionByOriginalPoolData($originalPoolData);
         }
@@ -891,6 +891,7 @@ class ilTestRandomQuestionSetConfigGUI
                 $srcPoolDefinition = $this->sourcePoolDefinitionList->getDefinitionBySourcePoolId($newPool->getId());
                 $srcPoolDefinition->setPoolTitle($newPool->getTitle());
                 $srcPoolDefinition->setPoolPath($this->questionSetConfig->getQuestionPoolPathString($newPool->getId()));
+                $srcPoolDefinition->setPoolRefId($this->questionSetConfig->getFirstQuestionPoolRefIdByObjId((int) $newPool->getId()));
                 $srcPoolDefinition->saveToDb();
                 
                 ilTestRandomQuestionSetStagingPoolQuestionList::updateSourceQuestionPoolId(

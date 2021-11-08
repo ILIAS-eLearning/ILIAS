@@ -51,9 +51,9 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
         $obj = new ilObjBibliographic($this->obj_id);
         if (!$obj->isMigrated()) {
             $props[] = [
-                "alert"    => true,
+                "alert" => true,
                 "property" => $lng->txt("migrated"),
-                "value"    => $lng->txt("not_yet_migrated"),
+                "value" => $lng->txt("not_yet_migrated"),
                 "propertyNameVisible" => false,
             ];
         }

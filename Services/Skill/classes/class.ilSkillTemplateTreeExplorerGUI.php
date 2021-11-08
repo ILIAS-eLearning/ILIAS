@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
@@ -9,54 +26,26 @@
  */
 class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected SkillAdminGUIRequest $admin_gui_request;
+    protected int $requested_obj_id;
+    protected array $parent;
+    protected array $draft;
 
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_obj_id;
-
-    /**
-     * @var array
-     */
-    protected $parent;
-
-    /**
-     * @var array
-     */
-    protected $draft;
-
-    /**
-     * Constructor
-     *
      * @param object|string[] $a_parent_obj parent gui object(s)
      * @param string          $a_parent_cmd parent command
      */
-    public function __construct($a_parent_obj, $a_parent_cmd)
+    public function __construct($a_parent_obj, string $a_parent_cmd)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $tree = new ilSkillTree();
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
-        $params = $this->request->getQueryParams();
-        $this->requested_obj_id = (int) ($params["obj_id"] ?? 0);
+        $this->requested_obj_id = $this->admin_gui_request->getObjId();
 
         $this->setTypeWhiteList(array("skrt", "sktp", "sctp"));
         
@@ -64,25 +53,17 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
         $this->setAjax(true);
         $this->setOrderField("order_nr");
     }
-    
-    /**
-     * Get root node
-     *
-     * @return array node data
-     */
-    public function getRootNode()
+
+    public function getRootNode() : array
     {
         $path = $this->getTree()->getPathId($this->requested_obj_id);
         return $this->getTree()->getNodeData($path[1]);
     }
 
     /**
-     * Get childs of node
-     *
-     * @param int $a_parent_node_id parent id
-     * @return array childs
+     * @inheritdoc
      */
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $childs = parent::getChildsOfNode($a_parent_node_id);
 
@@ -98,12 +79,9 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
-     * Get node content
-     *
-     * @param array
-     * @return
+     * @inheritdoc
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
         
@@ -127,12 +105,9 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     }
     
     /**
-     * Get node content
-     *
-     * @param array
-     * @return
+     * @inheritdoc
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         // root?
         if ($a_node["type"] == "skrt") {
@@ -152,12 +127,9 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     }
 
     /**
-     * Is node highlighted?
-     *
-     * @param mixed $a_node node object/array
-     * @return bool node visible true/false
+     * @inheritdoc
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($a_node["child"] == $this->requested_obj_id ||
             ($this->requested_obj_id == "" && $a_node["type"] == "skrt")) {
@@ -167,12 +139,9 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     }
     
     /**
-     * Get href for node
-     *
-     * @param mixed $a_node node object/array
-     * @return string href attribute
+     * @inheritdoc
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -213,12 +182,9 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
     }
     
     /**
-     * Get node icon alt attribute
-     *
-     * @param mixed $a_node node object/array
-     * @return string image alt attribute
+     * @inheritdoc
      */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 

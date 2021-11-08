@@ -130,7 +130,6 @@ class ilAppointmentPresentationSessionGUI extends ilAppointmentPresentationGUI i
         $event_items = new ilEventItems($this->getObjIdForAppointment());
         $others = [];
         foreach ($event_items->getItems() as $ref_id) {
-
             $type = ilObject::_lookupType($ref_id, true);
             if ($type == 'file') {
                 continue;

@@ -241,7 +241,7 @@ class ilLinkResourceItems
             ilHistory::_createEntry(
                 $this->getLinkResourceId(),
                 "delete",
-                $item['title']
+                [$item['title']]
             );
         }
 
@@ -278,7 +278,7 @@ class ilLinkResourceItems
             ilHistory::_createEntry(
                 $this->getLinkResourceId(),
                 "update",
-                $this->getTitle()
+                [$this->getTitle()]
             );
         }
 
@@ -417,7 +417,7 @@ class ilLinkResourceItems
             ilHistory::_createEntry(
                 $this->getLinkResourceId(),
                 "add",
-                $this->getTitle()
+                [$this->getTitle()]
             );
         }
 
@@ -530,8 +530,6 @@ class ilLinkResourceItems
      */
     public function sortItems($a_items)
     {
-        include_once './Services/Container/classes/class.ilContainer.php';
-        include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
         $mode = ilContainerSortingSettings::_lookupSortMode($this->getLinkResourceId());
         
         if ($mode == ilContainer::SORT_TITLE) {
@@ -541,7 +539,6 @@ class ilLinkResourceItems
     
     
         if ($mode == ilContainer::SORT_MANUAL) {
-            include_once './Services/Container/classes/class.ilContainerSorting.php';
             $pos = ilContainerSorting::lookupPositions($this->getLinkResourceId());
             foreach ($a_items as $link_id => $item) {
                 if (isset($pos[$link_id])) {

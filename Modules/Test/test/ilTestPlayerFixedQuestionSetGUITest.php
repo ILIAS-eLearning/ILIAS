@@ -14,6 +14,8 @@ class ilTestPlayerFixedQuestionSetGUITest extends ilTestBaseTestCase
     {
         parent::setUp();
 
+        $_GET["ref_id"] = 0;
+
         $this->addGlobal_lng();
         $this->addGlobal_tpl();
         $this->addGlobal_ilCtrl();

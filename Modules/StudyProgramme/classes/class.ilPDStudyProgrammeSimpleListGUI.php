@@ -74,11 +74,11 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
             return;
         }
 
-        $this->readUsersAssignments();
+        $this->getUsersAssignments();
         //check which kind of option is selected in settings
-        $this->readVisibleOnPDMode();
+        $this->getVisibleOnPDMode();
         //check to display info message if option "read" is selected
-        $this->readToShowInfoMessage();
+        $this->getToShowInfoMessage();
         
         // As this won't be visible we don't have to initialize this.
         if (!$this->userHasReadableStudyProgrammes()) {
@@ -88,7 +88,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         $this->setTitle($this->il_lng->txt("objs_prg"));
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         // TODO: This should be determined from somewhere up in the hierarchy, as
         // this will lead to problems, when e.g. a command changes. But i don't see
@@ -141,7 +141,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return false;
     }
     
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         assert($this->userHasReadableStudyProgrammes()); // We should not get here.
         $this->tpl->setVariable("BLOCK_ROW", $this->getDataSectionContent());
@@ -174,7 +174,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return false;
     }
     
-    protected function readVisibleOnPDMode()
+    protected function getVisibleOnPDMode()
     {
         $this->visible_on_pd_mode = $this->il_setting->get(ilObjStudyProgrammeAdmin::SETTING_VISIBLE_ON_PD);
     }
@@ -185,7 +185,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
         return $this->il_access->checkAccess($permission, "", $prg->getRefId(), "prg", $prg->getId());
     }
 
-    protected function readToShowInfoMessage()
+    protected function getToShowInfoMessage()
     {
         $viewSettings = new ilPDSelectedItemsBlockViewSettings($GLOBALS['DIC']->user(), (int) $_GET['view']);
         $this->show_info_message = $viewSettings->isStudyProgrammeViewActive();
@@ -214,7 +214,7 @@ class ilPDStudyProgrammeSimpleListGUI extends ilBlockGUI
             ) && !$_GET["expand"];
     }
     
-    protected function readUsersAssignments()
+    protected function getUsersAssignments()
     {
         $this->users_assignments = $this->sp_user_assignment_db->getInstancesOfUser($this->il_user->getId());
     }

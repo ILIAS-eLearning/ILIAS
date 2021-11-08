@@ -1,37 +1,26 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * @author Niels Theen <ntheen@databay.de>
- * @version $Id$
  */
 class ilMailTransportSettings
 {
-    /** @var ilMailOptions */
-    private $mailOptions;
+    private ilMailOptions $mailOptions;
 
-    /**
-     * ilMailTransportSettings constructor.
-     * @param ilMailOptions $mailOptions
-     */
     public function __construct(ilMailOptions $mailOptions)
     {
         $this->mailOptions = $mailOptions;
     }
 
-    /**
-     * Validates the current instance settings and eventually adjusts these
-     * @param string $firstMail
-     * @param string $secondMail
-     */
     public function adjust(string $firstMail, string $secondMail) : void
     {
         if ($this->mailOptions->getIncomingType() === ilMailOptions::INCOMING_LOCAL) {
             return;
         }
 
-        $hasFirstEmail = strlen($firstMail) > 0;
-        $hasSecondEmail = strlen($secondMail) > 0;
+        $hasFirstEmail = $firstMail !== '';
+        $hasSecondEmail = $secondMail !== '';
 
         if (!$hasFirstEmail && !$hasSecondEmail) {
             $this->mailOptions->setIncomingType(ilMailOptions::INCOMING_LOCAL);

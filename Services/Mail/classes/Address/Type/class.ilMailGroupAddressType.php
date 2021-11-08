@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailGroupAddressType
@@ -7,17 +7,11 @@
  */
 class ilMailGroupAddressType extends ilBaseMailAddressType
 {
-    /**
-     * @inheritdoc
-     */
     protected function isValid(int $senderId) : bool
     {
         return $this->typeHelper->doesGroupNameExists(substr($this->address->getMailbox(), 1));
     }
 
-    /**
-     * @inheritdoc
-     */
     public function resolve() : array
     {
         $usrIds = [];

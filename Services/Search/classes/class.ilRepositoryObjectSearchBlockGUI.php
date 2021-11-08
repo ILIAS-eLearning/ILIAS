@@ -54,7 +54,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         return IL_SCREEN_SIDE;
     }
@@ -78,7 +78,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     /**
      * Get bloch HTML code.
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         return parent::getHTML();
     }
@@ -86,7 +86,7 @@ class ilRepositoryObjectSearchBlockGUI extends ilBlockGUI
     /**
      * Fill data section
      */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         $this->setDataSection($this->getLegacyContent());
     }

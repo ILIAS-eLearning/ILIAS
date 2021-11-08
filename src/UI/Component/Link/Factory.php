@@ -1,12 +1,11 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Link;
 
 use ILIAS\UI\Component\Symbol\Symbol;
+use ILIAS\Data\URI;
 
 /**
  * Link factory
@@ -77,5 +76,5 @@ interface Factory
      * @param	\ILIAS\Data\URI		$target
      * @return  \ILIAS\UI\Component\Link\Bulky
      */
-    public function bulky(Symbol $symbol, string $label, \ILIAS\Data\URI $target) : Bulky;
+    public function bulky(Symbol $symbol, string $label, URI $target) : Bulky;
 }

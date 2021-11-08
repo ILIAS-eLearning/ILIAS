@@ -77,11 +77,6 @@ class ilStudyProgrammeChangeDeadlineGUI
     protected $data_factory;
 
     /**
-     * @var ilStudyProgrammeUserProgressDB
-     */
-    protected $user_progress_db;
-
-    /**
      * @var array
      */
     protected $progress_ids;
@@ -96,6 +91,11 @@ class ilStudyProgrammeChangeDeadlineGUI
      */
     protected $object;
 
+    /**
+     * @var ilPRGMessages
+     */
+    protected $messages;
+    
     public function __construct(
         ilCtrl $ctrl,
         ilGlobalTemplateInterface $tpl,
@@ -107,7 +107,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         ServerRequest $request,
         \ILIAS\Refinery\Factory $refinery_factory,
         \ILIAS\Data\Factory $data_factory,
-        ilStudyProgrammeUserProgressDB $user_progress_db
+        ilPRGMessagePrinter $messages
     ) {
         $this->ctrl = $ctrl;
         $this->tpl = $tpl;
@@ -119,7 +119,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         $this->request = $request;
         $this->refinery_factory = $refinery_factory;
         $this->data_factory = $data_factory;
-        $this->user_progress_db = $user_progress_db;
+        $this->messages = $messages;
     }
 
     public function executeCommand() : void
@@ -187,12 +187,11 @@ class ilStudyProgrammeChangeDeadlineGUI
         };
 
         $option = ilObjStudyProgrammeSettingsGUI::OPT_NO_DEADLINE;
-        $deadline_date = $prg->getDeadlineSettings()->getDeadlineDate();
+        $deadline_date = $prg->getSettings()->getDeadlineSettings()->getDeadlineDate();
         $format = $this->data_factory->dateFormat()->germanShort();
         $deadline_date_sub_form = $ff
             ->dateTime('', $txt('prg_deadline_date_desc'))
             ->withFormat($format)
-            ->withMinValue(new DateTimeImmutable())
         ;
 
         if ($deadline_date !== null) {
@@ -241,32 +240,33 @@ class ilStudyProgrammeChangeDeadlineGUI
 
         $result = $form->getInputGroup()->getContent();
 
+        $msg_collection = $this->messages->getMessageCollection('msg_change_deadline_date');
+
         if ($result->isOK()) {
             $values = $result->value();
-            foreach ($this->getProgressIds() as $prgs_id) {
-                /** @var ilStudyProgrammeUserProgress $prgs */
-                $progress = $this->user_progress_db->getInstanceById($prgs_id);
-                $deadline_data = $values[0][self::PROP_DEADLINE];
-                $deadline_type = $deadline_data[0];
+            $programme = $this->getObject();
+            $acting_usr_id = $this->user->getId();
 
-                switch ($deadline_type) {
-                    case ilObjStudyProgrammeSettingsGUI::OPT_NO_DEADLINE:
-                        $progress->setDeadline(null);
-                        break;
-                    case ilObjStudyProgrammeSettingsGUI::OPT_DEADLINE_DATE:
-                        $progress->setDeadline(DateTime::createFromFormat(
-                            'd.m.Y',
-                            array_shift($deadline_data[1])
-                        ));
-                        break;
+            $deadline_data = $values[0][self::PROP_DEADLINE];
+            $deadline_type = $deadline_data[0];
+            $deadline = null;
+            if ($deadline_type === ilObjStudyProgrammeSettingsGUI::OPT_DEADLINE_DATE) {
+                $deadline = DateTimeImmutable::createFromFormat(
+                    'd.m.Y',
+                    array_shift($deadline_data[1])
+                );
+
+                if (!$deadline) {
+                    ilUtil::sendFailure($this->lng->txt('error_updating_deadline'), true);
+                    $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_DEADLINE_CONFIG);
                 }
-
-
-                $progress->updateProgress($this->user->getId());
-                $progress->updateFromProgramNode();
             }
 
-            ilUtil::sendSuccess($this->lng->txt('update_deadline'), true);
+            foreach ($this->getProgressIds() as $progress_id) {
+                $programme->changeProgressDeadline($progress_id, $acting_usr_id, $msg_collection, $deadline);
+            }
+
+            $this->messages->showMessages($msg_collection);
             $this->ctrl->redirectByClass('ilObjStudyProgrammeMembersGUI', 'view');
         }
 
@@ -291,7 +291,7 @@ class ilStudyProgrammeChangeDeadlineGUI
 
     public function setProgressIds(array $progress_ids) : void
     {
-        $this->progress_ids = $progress_ids;
+        $this->progress_ids = array_map('intval', $progress_ids);
     }
 
     protected function getRefId() : int

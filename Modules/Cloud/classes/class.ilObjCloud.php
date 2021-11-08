@@ -1,7 +1,6 @@
 <?php
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Repository/classes/class.ilObjectPlugin.php");
 include_once("class.ilCloudUtil.php");
 include_once("class.ilCloudConnector.php");
 

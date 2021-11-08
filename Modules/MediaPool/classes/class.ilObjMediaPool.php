@@ -295,7 +295,7 @@ class ilObjMediaPool extends ilObject
     /**
     * Get media objects
     */
-    public function getMediaObjects($a_title_filter = "", $a_format_filter = "", $a_keyword_filter = '', $a_caption_filter)
+    public function getMediaObjects($a_title_filter = "", $a_format_filter = "", $a_keyword_filter = '', $a_caption_filter = "")
     {
         $ilDB = $this->db;
 
@@ -598,7 +598,7 @@ class ilObjMediaPool extends ilObject
                     $new_page = new ilMediaPoolPage();
                     $new_page->setParentId($a_new_obj->getId());
                     $new_page->setId($item->getId());
-                    $new_page->create();
+                    $new_page->create(false);
                     
                     // copy page
                     $page->copy($new_page->getId(), $new_page->getParentType(), $new_page->getParentId(), true);

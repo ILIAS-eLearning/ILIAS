@@ -198,7 +198,8 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         }
         
         $this->tpl->setVariable(
-            $this->getContentBlockName(), $html
+            $this->getContentBlockName(),
+            $html
         );
     }
     

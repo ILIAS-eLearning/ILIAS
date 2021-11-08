@@ -14,30 +14,13 @@
  */
 class ilWikiPageGUI extends ilPageObjectGUI
 {
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    protected ilTabsGUI $tabs;
+    protected ilSetting $settings;
 
     /**
      * @var ilObjWiki
      */
     protected $wiki;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
 
     /**
     * Constructor
@@ -79,7 +62,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
      * @param
      * @return
      */
-    public function setScreenIdComponent()
+    public function setScreenIdComponent() : void
     {
         $ilHelp = $this->help;
         
@@ -119,7 +102,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
@@ -365,7 +348,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     /**
     * View wiki page.
     */
-    public function preview()
+    public function preview() : string
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -373,7 +356,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $tpl = $this->tpl;
         $ilUser = $this->user;
         $ilSetting = $this->settings;
-        $ui = $this->ui;
+        $append = "";
+        $message = "";
 
 
         // block/unblock
@@ -466,7 +450,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         return $message . $wtpl->get();
     }
     
-    public function showPage()
+    public function showPage() : string
     {
         // content style
         $this->setTemplateOutput(false);
@@ -501,7 +485,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
     /**
     * Finalizing output processing.
     */
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -546,7 +530,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
         $tpl->setContent($table_gui->getHTML());
     }
 
-    public function getTabs($a_activate = "")
+    public function getTabs(string $a_activate = "") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -1146,11 +1130,10 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
     /**
      * Edit
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function edit()
+    public function edit() : string
     {
         $tpl = $this->tpl;
         $lng = $this->lng;

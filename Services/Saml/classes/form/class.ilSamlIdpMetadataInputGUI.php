@@ -20,7 +20,7 @@ class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
         return $this->idpMetadataParser;
     }
 
-    public function checkInput()
+    public function checkInput() : bool
     {
         $valid = parent::checkInput();
         if (!$valid) {

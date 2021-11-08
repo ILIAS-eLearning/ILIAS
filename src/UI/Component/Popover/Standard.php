@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Popover;
 
@@ -11,11 +11,10 @@ use ILIAS\UI\Component\Component;
  */
 interface Standard extends Popover
 {
-
     /**
      * Get the components representing the content of the popover.
      *
      * @return Component[]
      */
-    public function getContent();
+    public function getContent() : array;
 }

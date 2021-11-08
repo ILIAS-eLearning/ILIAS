@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
@@ -10,33 +27,26 @@
 class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var object|string
      */
     protected $select_gui;
+    protected string $select_cmd;
+    protected string $select_par;
+    protected bool $select_multi = false;
+    protected SkillAdminGUIRequest $admin_gui_request;
+    protected array $requested_selected_ids;
 
-    /**
-     * @var string
-     */
-    protected $select_cmd;
-
-    /**
-     * @var string
-     */
-    protected $select_par;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_select_gui, $a_select_cmd, $a_select_par = "selected_skill")
-    {
+    public function __construct(
+        $a_parent_obj,
+        string $a_parent_cmd,
+        $a_select_gui,
+        string $a_select_cmd,
+        string $a_select_par = "selected_skill"
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         parent::__construct("skill_sel", $a_parent_obj, $a_parent_cmd);
         $this->select_gui = (is_object($a_select_gui))
             ? strtolower(get_class($a_select_gui))
@@ -44,26 +54,19 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
         $this->select_cmd = $a_select_cmd;
         $this->select_par = $a_select_par;
         $this->setSkipRootNode(true);
+        $this->requested_selected_ids = $this->admin_gui_request->getSelectedIds($this->select_postvar);
     }
 
-    /**
-     * Set skill to be opened
-     *
-     * @param
-     */
-    public function setSkillSelected($a_id)
+    public function setSkillSelected(string $a_id) : void
     {
         $this->setNodeSelected($this->vtree->getCSkillIdForVTreeId($a_id));
     }
 
-    /**
-     * Get selected skills (from POST)
-     */
-    public function getSelectedSkills()
+    public function getSelectedSkills() : array
     {
-        $skills = array();
-        $pa = $_POST[$this->select_postvar];
-        if (is_array($pa)) {
+        $skills = [];
+        $pa = $this->requested_selected_ids;
+        if (!empty($pa)) {
             foreach ($pa as $p) {
                 $skills[] = $this->vtree->getCSkillIdForVTreeId($p);
             }
@@ -72,12 +75,9 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     }
     
     /**
-     * Get href for node
-     *
-     * @param mixed $a_node node object/array
-     * @return string href attribute
+     * @inheritdoc
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         if ($this->select_multi) {
             return "#";
@@ -105,22 +105,26 @@ class ilSkillSelectorGUI extends ilVirtualSkillTreeExplorerGUI
     }
 
     /**
-     * Is clickable
-     *
-     * @param
-     * @return
+     * @inheritdoc
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         return $this->nodeHasAction($a_node);
     }
-    
-    protected function isNodeSelectable($a_node)
+
+    /**
+     * @inheritdoc
+     */
+    protected function isNodeSelectable($a_node) : bool
     {
         return $this->nodeHasAction($a_node);
     }
-    
-    private function nodeHasAction($a_node)
+
+    /**
+     * @param array|object $a_node
+     * @return bool
+     */
+    private function nodeHasAction($a_node) : bool
     {
         if (in_array($a_node["type"], array("skll", "sktp"))) {
             return true;

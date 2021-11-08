@@ -1,69 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Recommended content configuration for roles
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilRecommendedContentRoleConfigGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    /** @var int[] */
+    protected array $requested_item_ref_ids;
+    protected ilRbacSystem $rbacsystem;
+    protected ilRbacReview $rbacreview;
+    protected ilLanguage $lng;
+    protected int $role_id;
+    protected int $node_ref_id;
+    protected ilCtrl $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected ilRecommendedContentManager $manager;
+    protected int $requested_item_ref_id;
 
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var int
-     */
-    protected $role_id;
-
-    /**
-     * @var int
-     */
-    protected $node_ref_id;
-
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var \ilTemplate
-     */
-    protected $main_tpl;
-
-    /**
-     * @var ilRecommendedContentManager
-     */
-    protected $manager;
-
-    /**
-     * @var int
-     */
-    protected $requested_item_ref_id;
-
-    /**
-     * Constructor
-     */
     public function __construct(int $role_id, int $node_ref_id)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->role_id = $role_id;
@@ -75,18 +47,12 @@ class ilRecommendedContentRoleConfigGUI
         $this->toolbar = $DIC->toolbar();
         $this->main_tpl = $DIC->ui()->mainTemplate();
         $this->manager = new ilRecommendedContentManager();
-        $this->requested_item_ref_id = (int) $_GET['item_ref_id'];
-        $this->requested_item_ref_ids = is_array($_POST["item_ref_id"])
-            ? array_map(function ($i) {
-                return (int) $i;
-            }, $_POST["item_ref_id"])
-            : [];
+        $request = $DIC->repository()->internal()->gui()->standardRequest();
+        $this->requested_item_ref_id = $request->getItemRefId();
+        $this->requested_item_ref_ids = $request->getItemRefIds();
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -102,10 +68,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    /**
-     * List items
-     */
-    public function listItems()
+    public function listItems() : void
     {
         $rbacreview = $this->rbacreview;
         $rbacsystem = $this->rbacsystem;
@@ -134,10 +97,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    /**
-     * Remove items confirmation
-     */
-    public function confirmRemoveItems()
+    public function confirmRemoveItems() : void
     {
         $this->checkPushPermission();
 
@@ -166,10 +126,7 @@ class ilRecommendedContentRoleConfigGUI
         $main_tpl->setContent($confirmation_gui->getHTML());
     }
 
-    /**
-     * Remove items
-     */
-    public function removeItems()
+    public function removeItems() : void
     {
         $this->checkPushPermission();
 
@@ -182,10 +139,7 @@ class ilRecommendedContentRoleConfigGUI
         $this->listItems();
     }
 
-    /**
-     * Check permission to push recommended content
-     */
-    protected function checkPushPermission()
+    protected function checkPushPermission() : void
     {
         $ctrl = $this->ctrl;
         $rbacsystem = $this->rbacsystem;
@@ -197,10 +151,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    /**
-     * Select recommended content
-     */
-    protected function selectItem()
+    protected function selectItem() : void
     {
         $this->checkPushPermission();
 
@@ -217,10 +168,7 @@ class ilRecommendedContentRoleConfigGUI
         }
     }
 
-    /**
-     * Assign item
-     */
-    protected function assignItem()
+    protected function assignItem() : void
     {
         $ctrl = $this->ctrl;
         $this->checkPushPermission();

@@ -12,6 +12,15 @@ https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html
 - Adapt to PLR layout, make use of tool slate.
 - Increase usability, reduce clicks, auto-save.
 
+### Increase Robustness of Link Handling / User Input Processing
+
+Link formattings lead to subtle issues (e.g. #30906) sometimes, since they are not part of the DOM structure on the client side and added later via PHP. This may result in invalid XML. There are different possible ways to handle this, e.g. make links part of DOM already on the client side will allow Tiny to tidy up the structure. In PHP the replacement of [xln] ans similar tags could be improved, by processing pairs of opening and closing tags and check their inner content for validity before replacing them with XML counterparts.
+
+In general the old string manipulations should be replaced by DOM manipulations whenever possible when transforming the client side data.
+
+### Remove remaining hardcoded styles from code
+
+E.g. style_selector_reset and similar places.
 
 ## Mid Term
 
@@ -20,7 +29,11 @@ https://docu.ilias.de/goto_docu_wiki_wpage_6254_1357.html
 Large pages, especially with a high number of elements, e.g. data tables with lots of cells decrease the performance. This is mainly due to the way the model is retrieved in the "all" command ($o->pcModel = $this->getPCModel()). An alternative would be to use an xml -> xslt -> json approach at least for paragraphs and to "bulk-query" them.
 See https://mantis.ilias.de/view.php?id=29680
 
-### Lower Cyclomatic Complexity (should also be done with ILIAS 7)
+### Replace or refactor mediawiki word-level-diff code
+
+This code is copied from an older mediawiki version. I compares two versions of page HTML outputs and marks differences. The code should either be replaced by a lib that provides the same functionality, refactored and integrated into own code or at least replaced by an up-to-date code excerpt from mediawiki.
+
+### Lower Cyclomatic Complexity
 
 This component suffers from record high cyclomatic complexity numbers. Refactorings should target and split up methods and classes to gain better maintainability.
 

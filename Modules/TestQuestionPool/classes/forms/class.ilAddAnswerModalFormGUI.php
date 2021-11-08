@@ -40,7 +40,7 @@ class ilAddAnswerModalFormGUI extends ilPropertyFormGUI
         parent::__construct();
     }
     
-    public function setValuesByArray($a_values, $a_restrict_to_value_keys = false)
+    public function setValuesByArray(array $a_values, bool $a_restrict_to_value_keys = false) : void
     {
         $this->getItemByPostVar('answer_presentation')->setValue($a_values['answer']);
         parent::setValuesByArray($a_values, $a_restrict_to_value_keys);

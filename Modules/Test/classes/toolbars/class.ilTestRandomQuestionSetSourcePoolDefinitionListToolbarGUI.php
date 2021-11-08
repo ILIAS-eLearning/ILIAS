@@ -21,13 +21,6 @@ class ilTestRandomQuestionSetSourcePoolDefinitionListToolbarGUI extends ilToolba
     /**
      * global $lng object
      *
-     * @var ilLanguage
-     */
-    public $lng = null;
-    
-    /**
-     * global $lng object
-     *
      * @var ilTestRandomQuestionSetConfigGUI
      */
     public $questionSetConfigGUI = null;

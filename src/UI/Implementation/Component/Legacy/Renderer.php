@@ -1,14 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Legacy;
 
-use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Legacy\Legacy;
 
 /**
  * Class Renderer
@@ -19,7 +17,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         /**
          * @var Legacy $component
@@ -34,16 +32,12 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return [Component\Legacy\Legacy::class];
     }
 
-    /**
-     * @param Legacy $component
-     * @return \ILIAS\UI\Implementation\Component\JavaScriptBindable
-     */
-    protected function registerSignals(Legacy $component)
+    protected function registerSignals(Legacy $component) : Component\JavaScriptBindable
     {
         $custom_signals = $component->getAllCustomSignals();
 

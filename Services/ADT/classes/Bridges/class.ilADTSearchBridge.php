@@ -1,163 +1,99 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
 
 /**
  * ADT search bridge base class
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesADT
  */
 abstract class ilADTSearchBridge
 {
-    const DEFAULT_SEARCH_COLUMN = 'value';
+    public const SQL_STRICT = 1;
+    public const SQL_LIKE = 2;
+    public const SQL_LIKE_END = 3;
+    public const SQL_LIKE_START = 4;
 
-    protected $form; // [ilPropertyFormGUI]
-    protected $table_gui; // [ilTable2GUI]
-    protected $table_filter_fields = []; // [array]
-    protected $id; // [string]
-    protected $title; // [string]
-    protected $info; // [string]
-    
-    /**
-     * Constructor
-     *
-     * @param ilADT $a_adt_def
-     * @return self
-     */
+    public const DEFAULT_SEARCH_COLUMN = 'value';
+
+    protected ilPropertyFormGUI $form;
+    protected ilTable2GUI $table_gui;
+    protected array $table_filter_fields = []; // [array]
+    protected string $id = '';
+    protected $title = '';
+    protected $info = '';
+
+    protected ilLanguage $lng;
+    protected ilDBInterface $db;
+
     public function __construct(ilADTDefinition $a_adt_def)
     {
+        global $DIC;
         $this->setDefinition($a_adt_def);
+
+        $this->lng = $DIC->language();
+        $this->db = $DIC->database();
     }
-    
-    
-    //
-    // properties
-    //
-    
-    /**
-     * Check if given ADT definition is valid
-     *
-     * :TODO: This could be avoided with type-specifc constructors
-     * :TODO: bridge base class?
-     *
-     * @param ilADTDefinition $a_adt_def
-     */
-    abstract protected function isValidADTDefinition(ilADTDefinition $a_adt_def);
-    
-    /**
-     * Set ADT definition
-     *
-     * @param ilADTDefinition $a_adt_def
-     */
-    abstract protected function setDefinition(ilADTDefinition $a_adt_def);
-    
-    /**
-     * Is null ?
-     *
-     * @return bool
-     */
-    abstract public function isNull();
-    
-    /**
-     * Set form
-     *
-     * @param ilPropertyFormGUI $a_form
-     */
-    public function setForm(ilPropertyFormGUI $a_form)
+
+    abstract protected function isValidADTDefinition(ilADTDefinition $a_adt_def) : bool;
+
+    abstract protected function setDefinition(ilADTDefinition $a_adt_def) : void;
+
+    abstract public function isNull() : bool;
+
+    public function setForm(ilPropertyFormGUI $a_form) : void
     {
         $this->form = $a_form;
     }
-    
-    /**
-     * Get form
-     *
-     * @return ilPropertyFormGUI
-     */
-    public function getForm()
+
+    public function getForm() : ?ilPropertyFormGUI
     {
         return $this->form;
     }
-    
-    /**
-     * Set element id (aka form field)
-     *
-     * @param string $a_value
-     */
-    public function setElementId($a_value)
+
+    public function setElementId(string $a_value) : void
     {
-        $this->id = (string) $a_value;
+        $this->id = $a_value;
     }
-    
-    /**
-     * Get element id
-     *
-     * @return string
-     */
-    public function getElementId()
+
+    public function getElementId() : string
     {
         return $this->id;
     }
-    
-    /**
-     * Set title (aka form field caption)
-     *
-     * @param string $a_value
-     */
-    public function setTitle($a_value)
+
+    public function setTitle(string $a_value) : void
     {
         $this->title = trim($a_value);
     }
-    
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
+
+    public function getTitle() : string
     {
         return $this->title;
     }
-
 
     public function getSearchColumn() : string
     {
         return self::DEFAULT_SEARCH_COLUMN;
     }
-    
-    
-    //
-    // table2gui / filter
-    //
-    
-    /**
-     * Set table gui (for filter mode)
-     *
-     * @param ilTable2GUI $a_table
-     */
-    public function setTableGUI(ilTable2GUI $a_table)
+
+    public function setTableGUI(ilTable2GUI $a_table) : void
     {
         $this->table_gui = $a_table;
     }
-    
+
     /**
      * Get table gui
-     *
-     * @return ilTable2GUI
+     * @return ilTable2GUI|null
      */
-    public function getTableGUI()
+    public function getTableGUI() : ?ilTable2GUI
     {
         return $this->table_gui;
     }
-    
+
     /**
      * Write value(s) to filter store (in session)
-     *
-     * @param mixed  $a_value
+     * @param mixed|null $a_value
      */
-    protected function writeFilter($a_value = null)
+    protected function writeFilter(mixed $a_value = null) : void
     {
         if (!$this->table_gui instanceof ilTable2GUI) {
             return;
@@ -168,95 +104,77 @@ abstract class ilADTSearchBridge
             unset($_SESSION["form_" . $this->table_gui->getId()][$this->getElementId()]);
         }
     }
-    
+
     /**
      * Load value(s) from filter store (in session)
-     *
-     * @param string $a_element_id
+     * @return mixed
      */
-    protected function readFilter()
+    protected function readFilter() : mixed
     {
         if (!$this->table_gui instanceof ilTable2GUI) {
-            return;
+            return null;
         }
         $value = $_SESSION["form_" . $this->table_gui->getId()][$this->getElementId()];
         if ($value) {
             return unserialize($value);
         }
+        return '';
     }
-    
+
     /**
      * Load filter value(s) into ADT
      */
-    abstract public function loadFilter();
-    
-    
-    //
-    // form
-    //
-    
+    abstract public function loadFilter() : void;
+
     /**
      * Add form field to parent element
-     *
      * @param ilFormPropertyGUI $a_field
      */
-    protected function addToParentElement(ilFormPropertyGUI $a_field)
+    protected function addToParentElement(ilFormPropertyGUI $a_field) : void
     {
         if ($this->getForm() instanceof ilPropertyFormGUI) {
             $this->getForm()->addItem($a_field);
         } elseif ($this->getTableGUI() instanceof ilTable2GUI) {
             $this->table_filter_fields[$a_field->getFieldId()] = $a_field;
             $this->getTableGUI()->addFilterItem($a_field);
-            
-            // :TODO:
-            // $a_field->readFromSession();
-            // $this->getTableGUI()->filter[$this->getElementId()] = $a_field->getValue();
         }
     }
-    
+
     /**
      * Add sub-element
-     *
      * @param string $a_add
      * @return string
      */
-    protected function addToElementId($a_add)
+    protected function addToElementId(string $a_add) : string
     {
         return $this->getElementId() . "[" . $a_add . "]";
     }
-    
+
     /**
      * Add ADT-specific fields to form
      */
-    abstract public function addToForm();
-    
-    
-    //
-    // post data
-    //
-    
+    abstract public function addToForm() : void;
+
     /**
      * Check if incoming values should be imported at all
-     *
      * @param mixed $a_post
      * @return bool
      */
-    protected function shouldBeImportedFromPost($a_post)
+    protected function shouldBeImportedFromPost(mixed $a_post) : bool
     {
         return true;
     }
-    
+
     /**
      * Extract data from (post) values
-     *
      * @param array $a_post
      * @return mixed
      */
-    protected function extractPostValues(array $a_post = null)
+    protected function extractPostValues(array $a_post = null) : mixed
     {
         $element_id = $this->getElementId();
         $multi = strpos($this->getElementId(), "[");
-        
+
         if (!$a_post) {
             $a_post = $_POST;
             if ($multi !== false) {
@@ -271,64 +189,59 @@ abstract class ilADTSearchBridge
                 $post = $a_post[$element_id];
             }
         }
-        
         return $post;
     }
-    
-    /**
-     * Import values from (search) form request POST data
-     *
-     * @return bool
-     */
-    abstract public function importFromPost(array $a_post = null);
-    
+
+    abstract public function importFromPost(array $a_post = null) : bool;
+
     /**
      * Validate current data
-     *
      * @return bool
      */
-    abstract public function validate();
-        
-    
+    abstract public function validate() : bool;
+
+
     //
     // DB
     //
-    
+
     /**
      * Get SQL condition for current value(s)
-     *
      * @param string $a_element_id
+     * @param int    $mode
+     * @param array  $quotedWords
      * @return string
      */
-    abstract public function getSQLCondition($a_element_id);
-    
+    abstract public function getSQLCondition(
+        string $a_element_id,
+        int $mode = self::SQL_LIKE,
+        array $quotedWords = []
+    ) : string;
+
     /**
      * Compare directly against ADT
-     *
      * @param ilADT $a_adt
-     * @return boolean
+     * @return bool
      */
-    public function isInCondition(ilADT $a_adt)
+    public function isInCondition(ilADT $a_adt) : bool
     {
         return false;
     }
-    
-    
+
+
     //
     //  import/export
     //
-    
+
     /**
      * Get current value(s) in serialized form (for easy persisting)
-     *
      * @return string
      */
-    abstract public function getSerializedValue();
-    
+    abstract public function getSerializedValue() : string;
+
     /**
      * Set current value(s) in serialized form (for easy persisting)
-     *
      * @param string
      */
-    abstract public function setSerializedValue($a_value);
+    abstract public function setSerializedValue(string $a_value) : void;
 }

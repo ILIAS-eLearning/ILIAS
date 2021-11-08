@@ -1,19 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
+use ILIAS\COPage\Editor\Components\PageComponentEditor;
+use ILIAS\COPage\Editor\Server\UIWrapper;
 
 /**
- *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageComponentEditor
+class ilPCMediaObjectEditorGUI implements PageComponentEditor
 {
-    /**
-     * @inheritDoc
-     */
-    public function getEditorElements(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, ilPageObjectGUI $page_gui, int $style_id) : array
-    {
+    public function getEditorElements(
+        UIWrapper $ui_wrapper,
+        string $page_type,
+        ilPageObjectGUI $page_gui,
+        int $style_id
+    ) : array {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -31,11 +44,13 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getEditComponentForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, string $page_type, \ilPageObjectGUI $page_gui, int $style_id, $pcid) : string
-    {
+    public function getEditComponentForm(
+        UIWrapper $ui_wrapper,
+        string $page_type,
+        \ilPageObjectGUI $page_gui,
+        int $style_id,
+        string $pcid
+    ) : string {
         global $DIC;
         $lng = $DIC->language();
         $lng->loadLanguageModule("content");
@@ -56,7 +71,7 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
             $page_gui->getPageObject()->getHierIdForPcId($pcid),
             $pcid
         );
-        $pc_media_gui->getCharacteristicsOfCurrentStyle("media_cont");
+        $pc_media_gui->getCharacteristicsOfCurrentStyle(["media_cont"]);
 
         $media = $pc_media->getMediaObject()->getMediaItem("Standard");
 
@@ -121,13 +136,10 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         return $html . $link;
     }
 
-    /**
-     * Get upload form
-     * @param
-     * @return
-     */
-    protected function getRenderedUploadForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, $lng)
-    {
+    protected function getRenderedUploadForm(
+        UIWrapper $ui_wrapper,
+        $lng
+    ) : string {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -161,13 +173,10 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         return $html;
     }
 
-    /**
-     * Get upload form
-     * @param
-     * @return
-     */
-    protected function getRenderedUrlForm(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, $lng)
-    {
+    protected function getRenderedUrlForm(
+        UIWrapper $ui_wrapper,
+        ilLanguage $lng
+    ) : string {
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
 
@@ -201,13 +210,10 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         return $html;
     }
 
-    /**
-     * Get pool link
-     * @param
-     * @return
-     */
-    protected function getRenderedPoolBar(\ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper, $lng)
-    {
+    protected function getRenderedPoolBar(
+        UIWrapper $ui_wrapper,
+        ilLanguage $lng
+    ) : string {
         global $DIC;
 
         $ui = $DIC->ui();
@@ -239,18 +245,11 @@ class ilPCMediaObjectEditorGUI implements \ILIAS\COPage\Editor\Components\PageCo
         return $ui_wrapper->getRenderedFormFooter($buttons);
     }
 
-    /**
-     * Get pool link
-     * @param \ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper
-     * @param                                       $lng
-     * @param                                       $page_gui
-     * @return string
-     */
     protected function getRenderedClipboardBar(
-        \ILIAS\COPage\Editor\Server\UIWrapper $ui_wrapper,
-        $lng,
-        $page_gui
-    ) {
+        UIWrapper $ui_wrapper,
+        ilLanguage $lng,
+        ilPageObjectGUI $page_gui
+    ) : string {
         global $DIC;
 
         $ctrl = $DIC->ctrl();

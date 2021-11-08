@@ -30,6 +30,12 @@ if (!isset($GLOBALS['ilGlobalStartTime']) || !$GLOBALS['ilGlobalStartTime']) {
     $GLOBALS['ilGlobalStartTime'] = microtime();
 }
 
+global $DIC;
+if (null === $DIC) {
+    // Don't remove this, intellisense autocompletion does not work in PhpStorm without a top level assignment
+    $DIC = new Container();
+}
+
 include_once "Services/Context/classes/class.ilContext.php";
 
 /** @defgroup ServicesInit Services/Init
@@ -493,7 +499,7 @@ class ilInitialisation
         define("ROOT_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
         define("SYSTEM_FOLDER_ID", $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
         define("ROLE_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
-        define("MAIL_SETTINGS_ID", $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
+        define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
         $error_handler = $ilClientIniFile->readVariable('system', 'ERROR_HANDLER');
         define("ERROR_HANDLER", $error_handler ? $error_handler : "PRETTY_PAGE");
 
@@ -926,7 +932,7 @@ class ilInitialisation
 
         // we do not know if ref_id of request is accesible, so redirecting to root
         $_GET["ref_id"] = ROOT_FOLDER_ID;
-        $_GET["cmd"] = "frameset";
+        $_GET["cmd"] = "";
         self::redirect(
             "ilias.php?baseClass=ilrepositorygui&reloadpublic=1&cmd=" .
             $_GET["cmd"] . "&ref_id=" . $_GET["ref_id"]
@@ -1105,7 +1111,7 @@ class ilInitialisation
             return;
         }
 
-        $GLOBALS["DIC"] = new \ILIAS\DI\Container();
+        $GLOBALS["DIC"] = new Container();
         $GLOBALS["DIC"]["ilLoggerFactory"] = function ($c) {
             return ilLoggerFactory::getInstance();
         };
@@ -1773,32 +1779,28 @@ class ilInitialisation
         }
     }
 
-    /**
-     * Requires valid authenticated user
-     */
-    public static function redirectToStartingPage()
+    public static function redirectToStartingPage(string $target = '') : bool
     {
-        /**
-         * @var $ilUser ilObjUser
-         */
-        global $ilUser;
+        global $DIC;
 
         // fallback, should never happen
-        if ($ilUser->getId() == ANONYMOUS_USER_ID) {
-            ilInitialisation::goToPublicSection();
+        if ($DIC->user()->getId() === ANONYMOUS_USER_ID) {
+            self::goToPublicSection();
             return true;
+        }
+
+        if ($target === '') {
+            $target = (string) ($_GET['target'] ?? '');
         }
 
         // for password change and incomplete profile
         // see ilDashboardGUI
-        if (!isset($_GET["target"])) {
+        if ($target === '') {
             ilLoggerFactory::getLogger('init')->debug('Redirect to default starting page');
-            // Redirect here to switch back to http if desired
-            include_once './Services/User/classes/class.ilUserUtil.php';
-            ilUtil::redirect(ilUserUtil::getStartingPointAsUrl());
+            $DIC->ctrl()->redirectToURL(ilUserUtil::getStartingPointAsUrl());
         } else {
-            ilLoggerFactory::getLogger('init')->debug('Redirect to target: ' . $_GET['target']);
-            ilUtil::redirect("goto.php?target=" . $_GET["target"]);
+            ilLoggerFactory::getLogger('init')->debug('Redirect to target: ' . $target);
+            $DIC->ctrl()->redirectToURL("goto.php?target=" . $target);
         }
     }
 

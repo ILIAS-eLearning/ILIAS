@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Component;
 
 /**
@@ -10,14 +11,12 @@ namespace ILIAS\UI\Component;
  */
 interface Clickable extends Triggerer
 {
-
     /**
      * Get a component like this, triggering a signal of another component on click.
      * Note: Any previous signals registered on click are replaced.
      *
      * @param Signal $signal A signal of another component
-     *
-     * @return $this
+     * @return static
      */
     public function withOnClick(Signal $signal);
 
@@ -25,9 +24,7 @@ interface Clickable extends Triggerer
      * Get a component like this, triggering a signal of another component on click.
      * In contrast to withOnClick, the signal is appended to existing signals for the click event.
      *
-     * @param Signal $signal
-     *
-     * @return $this
+     * @return static
      */
     public function appendOnClick(Signal $signal);
 }

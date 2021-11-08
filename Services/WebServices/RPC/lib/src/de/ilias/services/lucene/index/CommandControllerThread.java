@@ -27,6 +27,9 @@ import org.apache.log4j.Logger;
 import de.ilias.services.db.DBFactory;
 import de.ilias.services.settings.LocalSettings;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 /**
  * 
  *
@@ -87,7 +90,10 @@ public class CommandControllerThread extends Thread {
 			controller.start();
 		} 
 		catch (Exception e) {
-			logger.error("Cannot start indexer thread: " + e);
+			StringWriter writer = new StringWriter();
+			e.printStackTrace(new PrintWriter(writer));
+			logger.error(writer.toString());
+			logger.error("Cannot start indexer thread: " + e.getMessage());
 			this.interrupt();
 		}
 		finally {

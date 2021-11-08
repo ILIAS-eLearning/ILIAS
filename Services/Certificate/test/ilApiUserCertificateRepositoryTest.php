@@ -1,5 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -7,45 +9,38 @@
 class ilApiUserCertificateRepositoryTest extends ilCertificateBaseTestCase
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
     private $database;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
     private $logger;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject
+     * @var MockObject
      */
     private $controller;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
-        $this->database = $this->getMockBuilder('ilDBInterface')
+        $this->database = $this->getMockBuilder(ilDBInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->controller = $this->getMockBuilder('ilCtrl')
+        $this->controller = $this->getMockBuilder(ilCtrl::class)
                                ->disableOriginalConstructor()
                                ->getMock();
 
-        $this->logger = $this->getMockBuilder('ilLogger')
+        $this->logger = $this->getMockBuilder(ilLogger::class)
                          ->disableOriginalConstructor()
                          ->getMock();
     }
 
-    public function testGetUserData()
+    public function testGetUserData() : void
     {
-        $filter = new \Certificate\API\Filter\UserDataFilter(
-            array(1, 2, 3),
-            'test',
-            100,
-            1234567890,
-            2000,
-            300
-        );
+        $filter = new \Certificate\API\Filter\UserDataFilter();
 
         $this->database
             ->method('fetchAssoc')

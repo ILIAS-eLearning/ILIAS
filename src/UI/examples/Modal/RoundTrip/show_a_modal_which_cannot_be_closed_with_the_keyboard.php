@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Modal\RoundTrip;
 
 function show_a_modal_which_cannot_be_closed_with_the_keyboard()

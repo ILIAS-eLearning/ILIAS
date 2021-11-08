@@ -191,6 +191,11 @@ class ilCalendarExport
             $this->logger->notice('Cannot create appointment for app_id: ' . $app->getEntryId());
             return false;
         }
+        $test_date = $app->getStart()->get(IL_CAL_FKT_DATE, 'Ymd');
+        if (!strlen($test_date)) {
+            return false;
+        }
+
 
         $this->writer->addLine('BEGIN:VEVENT');
 
@@ -286,7 +291,10 @@ class ilCalendarExport
             foreach (ilCalendarRecurrenceExclusions::getExclusionDates($app->getEntryId()) as $excl) {
                 $this->writer->addLine($excl->toICal());
             }
-            $this->writer->addLine($rec->toICal($ilUser->getId()));
+            $recurrence_ical = $rec->toICal($ilUser->getId());
+            if (strlen($recurrence_ical)) {
+                $this->writer->addLine($recurrence_ical);
+            }
         }
     }
     

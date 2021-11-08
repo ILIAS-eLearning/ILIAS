@@ -499,7 +499,7 @@ class ilAccess implements ilAccessHandler
                 '%s::doRBACCheck(): No operations given! $a_ref_id: %s',
                 get_class($this),
                 $a_ref_id
-                );
+            );
             $ilLog->write($message, $ilLog->FATAL);
             $ilErr->raiseError($message, $ilErr->MESSAGE);
         }

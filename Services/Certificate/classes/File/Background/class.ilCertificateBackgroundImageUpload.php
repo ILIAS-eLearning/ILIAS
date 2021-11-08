@@ -124,15 +124,13 @@ class ilCertificateBackgroundImageUpload
 
         $convert_filename = self::BACKGROUND_IMAGE_NAME;
 
-        if (!$this->fileSystem->has($backgroundImagePath)) {
-            // something went wrong converting the file. use the original file and hope, that PDF can work with it
-            if (!ilUtil::moveUploadedFile(
-                $backgroundImageTempFilePath,
-                $convert_filename,
-                $this->rootDirectory . $backgroundImagePath
-            )) {
-                throw new ilException('Unable to convert the file and the original file');
-            }
+        // something went wrong converting the file. use the original file and hope, that PDF can work with it
+        if (!$this->fileSystem->has($backgroundImagePath) && !ilUtil::moveUploadedFile(
+            $backgroundImageTempFilePath,
+            $convert_filename,
+            $this->rootDirectory . $backgroundImagePath
+        )) {
+            throw new ilException('Unable to convert the file and the original file');
         }
 
         $this->fileSystem->delete($this->certificatePath . self::BACKGROUND_TEMPORARY_FILENAME);

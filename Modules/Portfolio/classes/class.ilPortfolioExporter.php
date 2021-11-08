@@ -11,15 +11,15 @@
  */
 class ilPortfolioExporter extends ilXmlExporter
 {
-    protected $ds;
+    protected ilPortfolioDataSet $ds;
     
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilPortfolioDataSet();
         $this->ds->setDSPrefix("ds");
     }
     
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $pg_ids = array();
         foreach ($a_ids as $id) {
@@ -47,13 +47,13 @@ class ilPortfolioExporter extends ilXmlExporter
         return $deps;
     }
     
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
     
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
                 "4.4.0" => array(

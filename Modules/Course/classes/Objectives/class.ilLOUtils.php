@@ -144,7 +144,7 @@ class ilLOUtils
             new ilTestRandomQuestionSetSourcePoolDefinitionFactory(
                 $GLOBALS['DIC']['ilDB'],
                 $tst
-                )
+            )
         );
                 
         $list->loadDefinitions();

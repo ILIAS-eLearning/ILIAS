@@ -39,7 +39,7 @@ class ilImprintGUI extends ilPageObjectGUI
         if (!ilImprint::_exists("impr", 1)) {
             $page = new ilImprint("impr");
             $page->setId(1);
-            $page->create();
+            $page->create(false);
         }
 
         // there is only 1 imprint page
@@ -64,7 +64,7 @@ class ilImprintGUI extends ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
         $ilLocator = $this->locator;
@@ -79,10 +79,7 @@ class ilImprintGUI extends ilPageObjectGUI
         $title = $lng->txt("adm_imprint");
         
         switch ($next_class) {
-            case "ilpageobjectgui":
-                die("Deprecated. ilImprintGUI gui forwarding to ilpageobject");
-                return;
-                
+
             default:
                 $this->setPresentationTitle($title);
 
@@ -95,7 +92,7 @@ class ilImprintGUI extends ilPageObjectGUI
         }
     }
     
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         $lng = $this->lng;
         

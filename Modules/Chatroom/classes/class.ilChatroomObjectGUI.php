@@ -1,21 +1,26 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory as Refinery;
+
 /**
  * @author jposselt@databay.de
  */
 abstract class ilChatroomObjectGUI extends ilObjectGUI
 {
-    protected \ILIAS\HTTP\Services $httpServices;
+    protected GlobalHttpState $http;
     protected ilTree $repositoryTree;
+    protected Refinery $refinery;
 
     public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
     {
         /** @var $DIC \ILIAS\DI\Container */
         global $DIC;
 
-        $this->httpServices = $DIC->http();
+        $this->http = $DIC->http();
         $this->repositoryTree = $DIC->repositoryTree();
+        $this->refinery = $DIC->refinery();
 
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
     }
@@ -54,8 +59,11 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
     public function getAdminTabs()
     {
         if (
-            isset($this->httpServices->request()->getQueryParams()['admin_mode']) &&
-            $this->httpServices->request()->getQueryParams()['admin_mode'] === 'repository'
+            $this->http->wrapper()->query()->has('admin_mode') &&
+            $this->http->wrapper()->query()->retrieve(
+                'admin_mode',
+                $this->refinery->kindlyTo()->string()
+            ) === 'repository'
         ) {
             $this->ctrl->setParameterByClass(ilAdministrationGUI::class, 'admin_mode', 'settings');
             $this->tabs_gui->setBackTarget(
