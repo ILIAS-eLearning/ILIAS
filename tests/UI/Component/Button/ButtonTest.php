@@ -201,6 +201,20 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
+    public function test_render_minimize_button()
+    {
+        $f = $this->getButtonFactory();
+        $r = $this->getDefaultRenderer();
+        $b = $f->minimize();
+
+        $html = $this->normalizeHTML($r->render($b));
+
+        $expected = "<button type=\"button\" class=\"minimize\" aria-label=\"minimize\">" .
+            "	<span aria-hidden=\"true\">−</span>" .
+            "</button>";
+        $this->assertEquals($expected, $html);
+    }
+
     /**
      * @dataProvider button_type_provider
      */

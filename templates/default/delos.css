@@ -5966,32 +5966,6 @@ button.list-group-item-danger.active:focus {
   padding: 9px;
   border-radius: 0px;
 }
-.close {
-  float: right;
-  font-size: 21px;
-  font-weight: bold;
-  line-height: 1;
-  color: #000;
-  text-shadow: 0 1px 0 #fff;
-  opacity: 0.2;
-  filter: alpha(opacity=20);
-}
-.close:hover,
-.close:focus {
-  color: #000;
-  text-decoration: none;
-  cursor: pointer;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-}
-button.close {
-  padding: 0;
-  cursor: pointer;
-  background: transparent;
-  border: 0;
-  -webkit-appearance: none;
-  appearance: none;
-}
 .breadcrumb {
   padding: 0 15px;
   margin-bottom: 20px;
@@ -7521,14 +7495,29 @@ a fieldset[disabled] .active {
   background-position: right center;
   padding-right: 18px;
 }
+.minimize,
 .close {
+  font-size: 21px;
+  font-weight: bold;
+  line-height: 1;
   color: #757575;
-  opacity: 1;
 }
+.minimize:hover,
 .close:hover,
+.minimize:focus,
 .close:focus {
   color: #434343;
-  opacity: 1;
+  text-decoration: none;
+}
+button.minimize,
+button.close {
+  padding: 0;
+  background: transparent;
+  border: 0;
+  -webkit-appearance: none;
+}
+.close {
+  float: right;
 }
 .btn-tag {
   display: inline-block;

@@ -40,7 +40,7 @@ class Factory implements B\Factory
      */
     public function minimize() : B\Minimize
     {
-        throw new NotImplementedException();
+        return new Minimize();
     }
 
     /**
