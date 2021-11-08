@@ -285,7 +285,7 @@ class ilMailGUI
         );
         $this->ctrl->clearParametersByClass(ilContactGUI::class);
 
-        if ($DIC->settings()->get('show_mail_settings')) {
+        if ($DIC->settings()->get('show_mail_settings', '0')) {
             $this->ctrl->setParameterByClass(
                 ilMailOptionsGUI::class,
                 'mobj_id',

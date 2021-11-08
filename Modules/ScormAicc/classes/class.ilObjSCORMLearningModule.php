@@ -572,7 +572,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
         include_once('./Modules/ScormAicc/classes/class.ilSCORMTrackingItems.php');
         include_once("./Services/Tracking/classes/class.ilLearningProgressBaseGUI.php");
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
 
         $csv = "";

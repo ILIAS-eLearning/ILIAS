@@ -1,25 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Render;
+
+use ilGlobalTemplateInterface;
+use ilTemplate;
 
 /**
  * Wraps an ilTemplate to only provide smaller interface.
  */
 class ilTemplateWrapper implements Template
 {
-    /**
-     * @var	\ilGlobalTemplate
-     */
-    protected $global_tpl;
+    protected ilGlobalTemplateInterface $global_tpl;
+    private ilTemplate $tpl;
 
-    /**
-     * @var	\ilTemplate
-     */
-    private $tpl;
-
-    final public function __construct(\ilGlobalTemplateInterface $global_tpl, \ilTemplate $tpl)
+    final public function __construct(ilGlobalTemplateInterface $global_tpl, ilTemplate $tpl)
     {
         $this->global_tpl = $global_tpl;
         $this->tpl = $tpl;

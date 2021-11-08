@@ -896,7 +896,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         $form = $this->initSettingsForm();
         if ($form->checkInput()) {
             include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-            $privacy = ilPrivacySettings::_getInstance();
+            $privacy = ilPrivacySettings::getInstance();
             $privacy->enableRbacLog((int) $_POST['rbac_log']);
             $privacy->setRbacLogAge((int) $_POST['rbac_log_age']);
             $privacy->save();
@@ -927,7 +927,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
         
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
         include_once('./Services/PrivacySecurity/classes/class.ilSecuritySettings.php');
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         $security = ilSecuritySettings::_getInstance();
         
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
@@ -977,7 +977,7 @@ class ilObjRoleFolderGUI extends ilObjectGUI
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
                 
                 include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-                $privacy = ilPrivacySettings::_getInstance();
+                $privacy = ilPrivacySettings::getInstance();
                 
                 $subitems = null;
                 if ((bool) $privacy->enabledRbacLog()) {

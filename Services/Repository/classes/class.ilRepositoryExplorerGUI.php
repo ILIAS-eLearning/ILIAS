@@ -114,7 +114,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $root_node;
     }
 
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
         
@@ -134,13 +134,13 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $title;
     }
     
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
@@ -156,7 +156,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $lng->txt("obj_" . $a_node["type"]) . ": " . $this->getNodeContent($a_node);
     }
     
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($a_node["child"] == $this->cur_ref_id ||
             ($this->cur_ref_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
@@ -165,7 +165,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return false;
     }
     
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -216,7 +216,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         }
     }
 
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         $ilAccess = $this->access;
         $tree = $this->tree;
@@ -264,7 +264,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
     }
     
     
-    public function sortChilds($a_childs, $a_parent_node_id)
+    public function sortChilds(array $a_childs, $a_parent_node_id) : array
     {
         $objDefinition = $this->obj_definition;
         $ilAccess = $this->access;
@@ -411,7 +411,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $rbacsystem = $this->rbacsystem;
         
@@ -434,7 +434,7 @@ class ilRepositoryExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
     
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         $rbacsystem = $this->rbacsystem;
         $ilDB = $this->db;

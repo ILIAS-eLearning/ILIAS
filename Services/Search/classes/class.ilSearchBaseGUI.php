@@ -254,7 +254,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     /**
      * Interface methods
      */
-    public function addToDeskObject()
+    public function addToDeskObject() : void
     {
         $this->favourites->add($this->user->getId(), (int) $_GET["item_ref_id"]);
         $this->showSavedResults();
@@ -263,7 +263,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     /**
      * Remove from dektop
      */
-    public function removeFromDeskObject()
+    public function removeFromDeskObject() : void
     {
         $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
         $this->showSavedResults();
@@ -272,7 +272,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     /**
      * Show deletion screen
      */
-    public function delete()
+    public function delete() : void
     {
         $admin = new ilAdministrationCommandGUI($this);
         $admin->delete();
@@ -281,12 +281,12 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     /**
      * Cancel delete
      */
-    public function cancelDelete()
+    public function cancelDelete() : void
     {
         $this->showSavedResults();
     }
     
-    public function cancelMoveLinkObject()
+    public function cancelMoveLinkObject() : void
     {
         $this->showSavedResults();
     }
@@ -294,7 +294,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     /**
      * Delete objects
      */
-    public function performDelete()
+    public function performDelete() : void
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
         $admin = new ilAdministrationCommandGUI($this);
@@ -304,7 +304,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     /**
      * Interface ilAdministrationCommandHandler
      */
-    public function cut()
+    public function cut() : void
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
         $admin = new ilAdministrationCommandGUI($this);
@@ -321,47 +321,47 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
         $admin->link();
     }
          
-    public function paste()
+    public function paste() : void
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
         $admin = new ilAdministrationCommandGUI($this);
         $admin->paste();
     }
     
-    public function showLinkIntoMultipleObjectsTree()
+    public function showLinkIntoMultipleObjectsTree() : void
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
         $admin = new ilAdministrationCommandGUI($this);
         $admin->showLinkIntoMultipleObjectsTree();
     }
 
-    public function showMoveIntoObjectTree()
+    public function showMoveIntoObjectTree() : void
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
         $admin = new ilAdministrationCommandGUI($this);
         $admin->showMoveIntoObjectTree();
     }
     
-    public function performPasteIntoMultipleObjects()
+    public function performPasteIntoMultipleObjects() : void
     {
         include_once './Services/Administration/classes/class.ilAdministrationCommandGUI.php';
         $admin = new ilAdministrationCommandGUI($this);
         $admin->performPasteIntoMultipleObjects();
     }
 
-    public function clear()
+    public function clear() : void
     {
         $this->clipboard->clear();
         $this->ctrl->redirect($this);
     }
 
-    public function enableAdministrationPanel()
+    public function enableAdministrationPanel() : void
     {
         $this->container_view_manager->setAdminView();
         $this->ctrl->redirect($this);
     }
     
-    public function disableAdministrationPanel()
+    public function disableAdministrationPanel() : void
     {
         $this->container_view_manager->setContentView();
         $this->ctrl->redirect($this);
@@ -370,7 +370,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     /**
      * @inheritdoc
      */
-    public function keepObjectsInClipboardObject()
+    public function keepObjectsInClipboardObject() : void
     {
         $this->ctrl->redirect($this);
     }

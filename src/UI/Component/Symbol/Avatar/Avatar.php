@@ -2,10 +2,12 @@
 
 namespace ILIAS\UI\Component\Symbol\Avatar;
 
+use ILIAS\UI\Component\Symbol\Symbol;
+
 /**
  * This describes how a letter or a picture avatar could be modified during construction of UI.
  */
-interface Avatar extends \ILIAS\UI\Component\Symbol\Symbol
+interface Avatar extends Symbol
 {
     public function getUsername() : string;
 

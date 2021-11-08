@@ -142,10 +142,9 @@ class ilSuggestedSolutionSelectorGUI extends ilSubEnabledFormPropertyGUI
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];

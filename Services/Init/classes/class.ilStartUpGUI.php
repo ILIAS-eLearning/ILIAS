@@ -203,10 +203,9 @@ class ilStartUpGUI
      * Show login page
      * @param \ilPropertyFormGUI|null $form
      */
-    protected function showLoginPage(ilPropertyFormGUI $form = null)
+    protected function showLoginPage(ilPropertyFormGUI $form = null) : void
     {
         global $tpl, $ilSetting;
-
 
         $this->getLogger()->debug('Showing login page');
 
@@ -219,18 +218,14 @@ class ilStartUpGUI
             $soapPw = $_GET['soap_pw'];
         }
 
-        require_once 'Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsSoap.php';
         $credentials = new ilAuthFrontendCredentialsSoap($GLOBALS['DIC']->http()->request(), $this->ctrl, $ilSetting);
         $credentials->setUsername(ilUtil::stripSlashes($extUid));
         $credentials->setPassword(ilUtil::stripSlashes($soapPw));
         $credentials->tryAuthenticationOnLoginPage();
-        
-        // try apache auth
-        include_once './Services/Authentication/classes/Frontend/class.ilAuthFrontendCredentialsApache.php';
+
         $frontend = new ilAuthFrontendCredentialsApache($this->httpRequest, $this->ctrl);
         $frontend->tryAuthenticationOnLoginPage();
 
-        // Instantiate login template
         $tpl = self::initStartUpTemplate("tpl.login.html");
 
         $this->mainTemplate->addCss(ilObjStyleSheet::getContentStylePath(0));
@@ -245,7 +240,6 @@ class ilStartUpGUI
         $page_editor_html = $this->showSamlLoginForm($page_editor_html);
         $page_editor_html = $this->showRegistrationLinks($page_editor_html);
         $page_editor_html = $this->showTermsOfServiceLink($page_editor_html);
-
         $page_editor_html = $this->purgePlaceholders($page_editor_html);
 
         // check expired session and send message
@@ -253,7 +247,7 @@ class ilStartUpGUI
             ilUtil::sendFailure($GLOBALS['lng']->txt('auth_err_expired'));
         }
 
-        if (strlen($page_editor_html)) {
+        if ($page_editor_html !== '') {
             $tpl->setVariable('LPE', $page_editor_html);
         }
 
@@ -415,7 +409,6 @@ class ilStartUpGUI
 
         include_once './Services/Authentication/classes/class.ilAuthModeDetermination.php';
         $det = ilAuthModeDetermination::_getInstance();
-
         if (ilAuthUtils::_hasMultipleAuthenticationMethods() and $det->isManualSelection()) {
             $visible_auth_methods = array();
             $radg = new ilRadioGroupInputGUI($this->lng->txt("auth_selection"), "auth_mode");
@@ -2066,24 +2059,20 @@ class ilStartUpGUI
         return false;
     }
 
-
-    /**
-     * @return bool
-     */
-    protected function doSamlAuthentication()
+    protected function doSamlAuthentication() : bool
     {
         global $DIC;
 
         $this->getLogger()->debug('Trying saml authentication');
 
-        $request = $DIC->http()->request();
+        $request = $this->httpRequest;
         $params = $request->getQueryParams();
 
         $factory = new ilSamlAuthFactory();
         $auth = $factory->auth();
 
-        if (isset($params['action']) && $params['action'] == 'logout') {
-            $auth->logout(isset($params['logout_url']) ? $params['logout_url'] : '');
+        if (isset($params['action']) && $params['action'] === 'logout') {
+            $auth->logout($params['logout_url'] ?? '');
         }
 
         if (isset($params['target']) && !isset($params['returnTo'])) {
@@ -2097,29 +2086,32 @@ class ilStartUpGUI
 
         if (!$auth->isAuthenticated()) {
             ilLoggerFactory::getLogger('auth')->debug('User is not authenticated, yet');
-            if (!isset($_GET['idpentityid']) || !isset($_GET['saml_idp_id'])) {
+            if (!isset($request->getQueryParams()['idpentityid'], $request->getQueryParams()['saml_idp_id'])) {
                 $activeIdps = ilSamlIdp::getActiveIdpList();
-                if (1 == count($activeIdps)) {
+                if (1 === count($activeIdps)) {
                     $idp = current($activeIdps);
-                    $_GET['idpentityid'] = $idp->getEntityId();
-                    $_GET['saml_idp_id'] = $idp->getIdpId();
 
                     ilLoggerFactory::getLogger('auth')->debug(sprintf(
                         'Found exactly one active IDP with id %s: %s',
                         $idp->getIdpId(),
                         $idp->getEntityId()
                     ));
-                } elseif (0 == count($activeIdps)) {
+
+                    $DIC->ctrl()->setParameter($this, 'idpentityid', $idp->getEntityId());
+                    $DIC->ctrl()->setParameter($this, 'saml_idp_id', $idp->getIdpId());
+                    $DIC->ctrl()->setTargetScript('saml.php');
+                    $DIC->ctrl()->redirect($this, 'doSamlAuthentication');
+                } elseif ($activeIdps === []) {
                     ilLoggerFactory::getLogger('auth')->debug('Did not find any active IDP, skipp authentication process');
                     $GLOBALS['DIC']->ctrl()->redirect($this, 'showLoginPage');
                 } else {
                     ilLoggerFactory::getLogger('auth')->debug('Found multiple active IPDs, presenting IDP selection...');
                     $this->showSamlIdpSelection($auth, $activeIdps);
-                    return;
+                    return false;
                 }
             }
 
-            $auth->storeParam('idpId', (int) $_GET['saml_idp_id']);
+            $auth->storeParam('idpId', (int) $request->getQueryParams()['saml_idp_id']);
             ilLoggerFactory::getLogger('auth')->debug(sprintf(
                 'Stored relevant IDP id in session: %s',
                 (string) $auth->getParam('idpId')
@@ -2162,15 +2154,16 @@ class ilStartUpGUI
                 );
             }
         }
-        $_GET['target'] = $auth->popParam('target');
 
-        $_POST['auth_mode'] = AUTH_SAML . '_' . $idpId;
+        $target = $auth->popParam('target');
 
-        $credentials = new ilAuthFrontendCredentialsSaml($auth);
+        $credentials = new ilAuthFrontendCredentialsSaml($auth, $request);
         $credentials->initFromRequest();
 
         $provider_factory = new ilAuthProviderFactory();
-        $provider = $provider_factory->getProviderByAuthMode($credentials, ilUtil::stripSlashes($_POST['auth_mode']));
+        $provider = $provider_factory->getProviderByAuthMode($credentials, ilUtil::stripSlashes(
+            AUTH_SAML . '_' . $idpId
+        ));
 
         $status = ilAuthStatus::getInstance();
 
@@ -2180,7 +2173,7 @@ class ilStartUpGUI
             $GLOBALS['DIC']['ilAuthSession'],
             $status,
             $credentials,
-            array($provider)
+            [$provider]
         );
 
         $frontend->authenticate();
@@ -2188,7 +2181,7 @@ class ilStartUpGUI
         switch ($status->getStatus()) {
             case ilAuthStatus::STATUS_AUTHENTICATED:
                 ilLoggerFactory::getLogger('auth')->debug('Authentication successful; Redirecting to starting page.');
-                return ilInitialisation::redirectToStartingPage();
+                return ilInitialisation::redirectToStartingPage($target);
 
             case ilAuthStatus::STATUS_ACCOUNT_MIGRATION_REQUIRED:
                 return $GLOBALS['DIC']->ctrl()->redirect($this, 'showAccountMigration');
@@ -2206,10 +2199,10 @@ class ilStartUpGUI
     }
 
     /**
-     * @param \ilSamlAuth  $auth
-     * @param \ilSamlIdp[] $idps
+     * @param ilSamlAuth $auth
+     * @param ilSamlIdp[] $idps
      */
-    protected function showSamlIdpSelection(\ilSamlAuth $auth, array $idps)
+    protected function showSamlIdpSelection(ilSamlAuth $auth, array $idps) : void
     {
         global $DIC;
 
@@ -2229,7 +2222,12 @@ class ilStartUpGUI
             $DIC->ctrl()->setParameter($this, 'idpentityid', urlencode($idp->getEntityId()));
 
             $items[] = [
-                'idp_link' => $renderer->render($factory->link()->standard($idp->getEntityId(), $DIC->ctrl()->getLinkTarget($this, 'doSamlAuthentication')))
+                'idp_link' => $renderer->render(
+                    $factory->link()->standard(
+                        $idp->getEntityId(),
+                        $this->ctrl->getLinkTarget($this, 'doSamlAuthentication')
+                    )
+                )
             ];
         }
 

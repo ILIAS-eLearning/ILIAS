@@ -11,16 +11,10 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilPDMailBlockGUI extends ilBlockGUI
 {
-    public static $block_type = 'pdmail';
+    public static string $block_type = 'pdmail';
     private GlobalHttpState $http;
     private Refinery $refinery;
     private int $requestMailObjId = 0;
-    /** @var ilLanguage */
-    protected $lng;
-    /** @var ilObjUser */
-    protected $user;
-    /** @var ilCtrl */
-    protected $ctrl;
     protected ilRbacSystem $rbacsystem;
     protected ilSetting $setting;
     /** @var string[] */
@@ -117,7 +111,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         }
     }
 
-    public function fillRow($a_set) : void
+    public function fillRow(array $a_set) : void
     {
         $user = ilMailUserCache::getUserObjectById((int) $a_set['sender_id']);
         

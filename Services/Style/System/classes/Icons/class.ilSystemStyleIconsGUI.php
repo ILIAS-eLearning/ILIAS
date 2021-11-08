@@ -458,9 +458,9 @@ class ilSystemStyleIconsGUI
                 $upload = $DIC->upload();
                 $upload->process();
                 $old_icon = $this->getIconFolder()->getIconByName($icon_name);
-
+                $result = $upload->getResults();
                 $upload->moveOneFileTo(
-                    array_pop($upload->getResults()),
+                    array_pop($result),
                     $old_icon->getDirRelToCustomizing(),
                     Location::CUSTOMIZING,
                     $old_icon->getName(),

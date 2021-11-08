@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * This class represents a hidden form property in a property form.
@@ -9,67 +20,41 @@
  */
 class ilHiddenInputGUI extends ilFormPropertyGUI implements ilToolbarItem
 {
-    protected $value;
+    protected string $value = "";
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_postvar)
-    {
+    public function __construct(
+        string $a_postvar
+    ) {
         parent::__construct("", $a_postvar);
         $this->setType("hidden");
     }
 
-    /**
-    * Set Value.
-    *
-    * @param	string	$a_value	Value
-    */
-    public function setValue($a_value)
+    public function setValue(string $a_value) : void
     {
         $this->value = $a_value;
     }
 
-    /**
-    * Get Value.
-    *
-    * @return	string	Value
-    */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
     
-    
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    *
-    * @return	boolean		Input ok, true/false
-    */
-    public function checkInput()
+    public function checkInput() : bool
     {
         return true;		// please overwrite
     }
+
+    public function getInput() : string
+    {
+        return $this->str($this->getPostVar());
+    }
     
-    /**
-    * Set value by array
-    *
-    * @param	array	$a_values	value array
-    */
-    public function setValueByArray($a_values)
+    public function setValueByArray(array $a_values) : void
     {
         $this->setValue($a_values[$this->getPostVar()]);
     }
     
-    /**
-    * Insert property html
-    *
-    * @return	int	Size
-    */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $a_tpl->setCurrentBlock("hidden");
         $a_tpl->setVariable('PROP_INPUT_TYPE', 'hidden');
@@ -79,10 +64,7 @@ class ilHiddenInputGUI extends ilFormPropertyGUI implements ilToolbarItem
         $a_tpl->parseCurrentBlock();
     }
 
-    /**
-     * Get HTML for toolbar
-     */
-    public function getToolbarHTML()
+    public function getToolbarHTML() : string
     {
         return "<input type=\"hidden\"" .
             " name=\"" . $this->getPostVar() . "\"" .

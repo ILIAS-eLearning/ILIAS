@@ -25,8 +25,6 @@ class ilSurveySkillExplorer extends ilExplorer
      * @access private
      */
     public $root_id;
-    public $slm_obj;
-    public $output;
 
     /**
     * Constructor
@@ -113,12 +111,10 @@ class ilSurveySkillExplorer extends ilExplorer
     
     /**
     * check if links for certain object type are activated
-    *
-    * @param	string		$a_type			object type
-    *
+    * @param	string $a_type object type
     * @return	boolean		true if linking is activated
     */
-    public function isClickable($a_type, $a_obj_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         $ilUser = $this->user;
         if ($a_type == "skll") {
@@ -130,7 +126,7 @@ class ilSurveySkillExplorer extends ilExplorer
     /**
     * build link target
     */
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -144,7 +140,7 @@ class ilSurveySkillExplorer extends ilExplorer
     /**
      * standard implementation for title, may be overwritten by derived classes
      */
-    public function buildTitle($a_title, $a_id, $a_type)
+    public function buildTitle(string $a_title, $a_id, string $a_type) : string
     {
         $lng = $this->lng;
         
@@ -158,7 +154,7 @@ class ilSurveySkillExplorer extends ilExplorer
     /**
     * force expansion of node
     */
-    public function forceExpanded($a_obj_id)
+    public function forceExpanded($a_obj_id) : bool
     {
         if (in_array($a_obj_id, $this->force_open_path)) {
             return true;
@@ -169,7 +165,7 @@ class ilSurveySkillExplorer extends ilExplorer
     /**
      * Get frame target
      */
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
     {
         return "";
     }
@@ -221,7 +217,7 @@ class ilSurveySkillExplorer extends ilExplorer
     /**
      * get image path (may be overwritten by derived classes)
      */
-    public function getImage($a_name, $a_type = "", $a_obj_id = "")
+    public function getImage(string $a_name, string $a_type = "", $a_obj_id = "") : string
     {
         if (in_array($a_type, array("sktr"))) {
             return ilUtil::getImagePath("icon_skll_s.gif");

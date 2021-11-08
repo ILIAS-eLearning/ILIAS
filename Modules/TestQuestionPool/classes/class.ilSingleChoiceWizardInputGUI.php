@@ -36,10 +36,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
     /**
     * Set Value.
-    *
-    * @param	string	$a_value	Value
+    * @param    $a_value Value
     */
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         $this->values = array();
         if (is_array($a_value)) {
@@ -175,10 +174,9 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
 
     /**
     * Check input, strip slashes etc. set alert, if input is not ok.
-    *
     * @return	boolean		Input ok, true/false
     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -313,7 +311,7 @@ class ilSingleChoiceWizardInputGUI extends ilTextInputGUI
     /**
      * @param $a_tpl ilTemplate
      */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

@@ -46,29 +46,27 @@ class ilLinkTargetObjectExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * Get onclick attribute
      */
-    public function getNodeOnClick($a_node)
+    public function getNodeOnClick($a_node) : string
     {
         return "il.IntLink.selectLinkTargetObject('" . $a_node["type"] . "','" . $a_node["child"] . "','" . $this->link_type . "'); return(false);";
     }
 
     /**
      * Get href for node
-     *
      * @param mixed $a_node node object/array
      * @return string href attribute
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         return "#";
     }
 
     /**
      * Is node clickable?
-     *
      * @param array $a_node node data
      * @return boolean node clickable true/false
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         if ($a_node["type"] == $this->getClickableType()) {
             return true;

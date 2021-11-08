@@ -1,20 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Button;
 
-use ILIAS\UI\Implementation\Component\Signal;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ILIAS\UI\Implementation\Render\Template;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
@@ -25,7 +26,7 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Component\Button\Toggle) {
             return $this->renderToggle($component);
         } elseif ($component instanceof Component\Button\Month) {
-            return $this->renderMonth($component, $default_renderer);
+            return $this->renderMonth($component);
         } else {
             /**
              * @var $component Component\Button\Button
@@ -34,14 +35,7 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-
-    /**
-     * @param \ILIAS\UI\Component\Button\Button $component
-     * @param \ILIAS\UI\Renderer                $default_renderer
-     *
-     * @return string
-     */
-    protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer)
+    protected function renderButton(Component\Button\Button $component, RendererInterface $default_renderer) : string
     {
         $tpl_name = "";
         if ($component instanceof Component\Button\Primary) {
@@ -83,7 +77,7 @@ class Renderer extends AbstractComponentRenderer
                     $action = str_replace("&amp;", "&", $action);
 
                     return "$('#$id').on('click', function(event) {
-							window.location = '{$action}';
+							window.location = '$action';
 							return false;
 					});";
                 });
@@ -138,7 +132,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
+    public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Button/button.js');
@@ -146,7 +140,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register("./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js");
     }
 
-    protected function renderClose($component)
+    protected function renderClose(Component\Button\Close $component) : string
     {
         $tpl = $this->getTemplate("tpl.close.html", true, true);
         // This is required as the rendering seems to only create any output at all
@@ -165,7 +159,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderToggle(Component\Button\Toggle $component)
+    protected function renderToggle(Component\Button\Toggle $component) : string
     {
         $tpl = $this->getTemplate("tpl.toggle.html", true, true);
 
@@ -199,12 +193,10 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->isActive()) {
             $component = $component->withAdditionalOnLoadCode(function ($id) use ($on_url, $off_url, $signals) {
-                $code = "$('#$id').on('click', function(event) {
+                return "$('#$id').on('click', function(event) {
 						il.UI.button.handleToggleClick(event, '$id', '$on_url', '$off_url', $signals);
 						return false; // stop event propagation
 				});";
-                //var_dump($code); exit;
-                return $code;
             });
             $tpl->setCurrentBlock("with_on_off_label");
             $tpl->setVariable("ON_LABEL", $this->txt("toggle_on"));
@@ -233,7 +225,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function maybeRenderId(Component\JavaScriptBindable $component, $tpl)
+    protected function maybeRenderId(Component\JavaScriptBindable $component, Template $tpl)
     {
         $id = $this->bindJavaScript($component);
         if ($id !== null) {
@@ -243,12 +235,12 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderMonth(Component\Button\Month $component, RendererInterface $default_renderer)
+    protected function renderMonth(Component\Button\Month $component) : string
     {
         $def = $component->getDefault();
 
         for ($i = 1; $i <= 12; $i++) {
-            $this->toJS(array("month_" . str_pad($i, 2, "0", STR_PAD_LEFT) . "_short"));
+            $this->toJS(array("month_" . str_pad((string) $i, 2, "0", STR_PAD_LEFT) . "_short"));
         }
 
         $tpl = $this->getTemplate("tpl.month.html", true, true);
@@ -266,7 +258,7 @@ class Renderer extends AbstractComponentRenderer
         }
         $tpl->setVariable("LANG", $lang_key);
 
-        $component = $component->withAdditionalOnLoadCode(fn($id) => "il.UI.button.initMonth('$id');");
+        $component = $component->withAdditionalOnLoadCode(fn ($id) => "il.UI.button.initMonth('$id');");
         $id = $this->bindJavaScript($component);
 
         $tpl->setVariable("ID", $id);
@@ -274,7 +266,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function additionalRenderTag(Component\Button\Tag $component, $tpl)
+    protected function additionalRenderTag(Component\Button\Tag $component, Template $tpl) : void
     {
         $tpl->touchBlock('rel_' . $component->getRelevance());
 
@@ -293,8 +285,11 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function additionalRenderBulky(Component\Button\Button $component, RendererInterface $default_renderer, $tpl)
-    {
+    protected function additionalRenderBulky(
+        Component\Button\Button $component,
+        RendererInterface $default_renderer,
+        Template $tpl
+    ) : void {
         $renderer = $default_renderer->withAdditionalContext($component);
         $tpl->setVariable("ICON_OR_GLYPH", $renderer->render($component->getIconOrGlyph()));
         $label = $component->getLabel();
@@ -327,7 +322,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(Component\Button\Primary::class
         , Component\Button\Standard::class

@@ -11,17 +11,12 @@
  */
 class ilPCConsultationHours extends ilPageContent
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    public $dom;
+    protected ilObjUser $user;
 
     /**
     * Init page content component.
     */
-    public function init()
+    public function init() : void
     {
         global $DIC;
         $this->user = $DIC->user();
@@ -32,7 +27,7 @@ class ilPCConsultationHours extends ilPageContent
      * Get lang vars needed for editing
      * @return array array of lang var keys
      */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("ed_insert_consultation_hours", "pc_cach");
     }
@@ -40,10 +35,10 @@ class ilPCConsultationHours extends ilPageContent
     /**
     * Set node
     */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
-        $this->cach_node = &$a_node->first_child();		// this is the consultation hours node
+        $this->cach_node = $a_node->first_child();		// this is the consultation hours node
     }
 
     /**

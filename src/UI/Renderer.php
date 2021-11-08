@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,16 +13,13 @@ use ILIAS\UI\Component\Component;
  */
 interface Renderer
 {
-
     /**
      * Render given component. If an array of components is passed, this method returns a concatenated output of
      * each rendered component, in the same order as given in the array
      *
      * @param Component|Component[] $component
-     *
-     * @return string
      */
-    public function render($component);
+    public function render($component) : string;
 
     /**
      * Same as render, except that this version also returns any javascript code bound to the on load event,
@@ -30,9 +27,8 @@ interface Renderer
      * so it will not be rendered twice if render async is called multiple times.
      *
      * @param Component|Component[] $component
-     * @return string
      */
-    public function renderAsync($component);
+    public function renderAsync($component) : string;
 
     /**
      * Get a new renderer with an additional context.
@@ -47,9 +43,6 @@ interface Renderer
      * If a component wants to render itself differently in different contexts, it must
      * implement a RendererFactory. The class \ILIAS\UI\Implementation\Render\FSLoader
      * contains directions how to do that.
-     *
-     * @param  Component	$context
-     * @return Renderer
      */
-    public function withAdditionalContext(Component $context);
+    public function withAdditionalContext(Component $context) : Renderer;
 }

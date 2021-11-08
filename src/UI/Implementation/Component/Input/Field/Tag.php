@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -8,6 +7,11 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Signal;
 use ILIAS\UI\Implementation\Component\Input\InputData;
+use stdClass;
+use ILIAS\Refinery\Constraint;
+use InvalidArgumentException;
+use Closure;
+use LogicException;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\Triggerer;
 
@@ -18,55 +22,26 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  */
 class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
 {
+    use JavaScriptBindable;
+    use Triggerer;
+
     public const EVENT_ITEM_ADDED = 'itemAdded';
     public const EVENT_BEFORE_ITEM_REMOVE = 'beforeItemRemove';
     public const EVENT_BEFORE_ITEM_ADD = 'beforeItemAdd';
     public const EVENT_ITEM_REMOVED = 'itemRemoved';
     public const INFINITE = 0;
 
-    use JavaScriptBindable;
-    use Triggerer;
+    protected int $max_tags = self::INFINITE;
+    protected int $tag_max_length = self::INFINITE;
+    protected bool $extendable = true;
+    protected int $suggestion_starts_with = 1;
+    protected array $tags = [];
 
-    /**
-     * @var int
-     */
-    protected $max_tags = self::INFINITE;
-    /**
-     * @var int
-     */
-    protected $tag_max_length = self::INFINITE;
-    /**
-     * @var bool
-     */
-    protected $extendable = true;
-    /**
-     * @var int
-     */
-    protected $suggestion_starts_with = 1;
-    /**
-     * @var array
-     */
-    protected $tags = [];
-    /**
-     * @var array
-     */
-    protected $value = [];
-
-
-    /**
-     * TagInput constructor.
-     *
-     * @param \ILIAS\Data\Factory           $data_factory
-     * @param \ILIAS\Refinery\Factory $refinery
-     * @param string                        $label
-     * @param string                        $byline
-     * @param array                         $tags
-     */
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        $label,
-        $byline,
+        string $label,
+        ?string $byline,
         array $tags
     ) {
         parent::__construct($data_factory, $refinery, $label, $byline);
@@ -86,10 +61,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         }));
     }
 
-    /**
-     * @return \stdClass
-     */
-    public function getConfiguration() : \stdClass
+    public function getConfiguration() : stdClass
     {
         $options = array_map(
             function ($tag) {
@@ -102,7 +74,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
             $this->getTags()
         );
 
-        $configuration = new \stdClass();
+        $configuration = new stdClass();
         $configuration->id = null;
         $configuration->options = $options;
         $configuration->selectedOptions = $this->getValue();
@@ -110,7 +82,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         $configuration->dropdownMaxItems = 200;
         $configuration->dropdownCloseOnSelect = false;
         $configuration->readonly = $this->isDisabled();
-        $configuration->extendable = $this->areUserCreatedTagsAllowed();
+        $configuration->userInput = $this->areUserCreatedTagsAllowed();
         $configuration->dropdownSuggestionsStartAfter = $this->getSuggestionsStartAfter();
         $configuration->suggestionStarts = $this->getSuggestionsStartAfter();
         $configuration->maxChars = 2000;
@@ -119,17 +91,17 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         $configuration->allowDuplicates = false;
         $configuration->highlight = true;
         $configuration->tagClass = "input-tag";
+        $configuration->tagTextProp = "displayValue";
 
         return $configuration;
     }
 
-
     /**
      * @inheritDoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
-        $constraint = $this->refinery->custom()->constraint(
+        return $this->refinery->custom()->constraint(
             function ($value) {
                 $valueIsAString = $this->refinery
                     ->to()
@@ -141,10 +113,7 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
             },
             "No string"
         );
-
-        return $constraint;
     }
-
 
     /**
      * @inheritDoc
@@ -212,23 +181,8 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     {
         $clone = clone $this;
         $clone->extendable = $extendable;
-        /**
-         * @var $with_constraint C\Input\Field\Tag
-         */
-        $with_constraint = $clone->withAdditionalTransformation(
-            $this->refinery->custom()->constraint(
-                function ($value) use ($clone) {
-                    return (0 == count(array_diff($value, $clone->getTags())));
-                },
-                function ($txt, $value) use ($clone) {
-                    return "user created tags are not allowed: " . implode(", ", array_diff($value, $clone->getTags()));
-                }
-            )
-        );
-
-        return $with_constraint;
+        return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -238,21 +192,19 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         return $this->extendable;
     }
 
-
     /**
      * @inheritDoc
      */
     public function withSuggestionsStartAfter(int $characters) : C\Input\Field\Tag
     {
         if ($characters < 1) {
-            throw new \InvalidArgumentException("The amount of characters must be at least 1, {$characters} given.");
+            throw new InvalidArgumentException("The amount of characters must be at least 1, $characters given.");
         }
         $clone = clone $this;
         $clone->suggestion_starts_with = $characters;
 
         return $clone;
     }
-
 
     /**
      * @inheritDoc
@@ -261,7 +213,6 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     {
         return $this->suggestion_starts_with;
     }
-
 
     /**
      * @inheritDoc
@@ -274,7 +225,6 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -282,7 +232,6 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     {
         return $this->tag_max_length;
     }
-
 
     /**
      * @inheritDoc
@@ -295,7 +244,6 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         return $clone;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -304,16 +252,15 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
         return $this->max_tags;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function withInput(InputData $input)
+    public function withInput(InputData $input) : C\Input\Field\Input
     {
         // ATTENTION: This is a slightly modified copy of parent::withInput, which
         // fixes #27909 but makes the Tag Input unusable in Filter Containers.
         if ($this->getName() === null) {
-            throw new \LogicException("Can only collect if input has a name.");
+            throw new LogicException("Can only collect if input has a name.");
         }
 
         $clone = clone $this;
@@ -332,18 +279,11 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     }
 
     // Events
-    /**
-     * @inheritDoc
-     */
     public function withAdditionalOnTagAdded(Signal $signal) : C\Input\Field\Tag
     {
         return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_ADDED);
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function withAdditionalOnTagRemoved(Signal $signal) : C\Input\Field\Tag
     {
         return $this->appendTriggeredSignal($signal, self::EVENT_ITEM_REMOVED);
@@ -352,17 +292,16 @@ class Tag extends Input implements FormInputInternal, C\Input\Field\Tag
     /**
      * @inheritdoc
      */
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
         return function ($id) {
-            $code = "$('#$id').on('add', function(event) {
+            return "$('#$id').on('add', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			$('#$id').on('remove', function(event) {
 				il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());
 			});
 			il.UI.input.onFieldUpdate(event, '$id', $('#$id').val());";
-            return $code;
         };
     }
 }

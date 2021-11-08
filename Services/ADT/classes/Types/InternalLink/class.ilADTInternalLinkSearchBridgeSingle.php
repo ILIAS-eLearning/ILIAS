@@ -1,50 +1,38 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * external link search bridge
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesADT
  */
 class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
 {
-    const SQL_STRICT = 1;
-    const SQL_LIKE = 2;
-    const SQL_LIKE_END = 3;
-    const SQL_LIKE_START = 4;
-
-    
     /**
      * Is valid type
      * @param ilADT $a_adt
      * @return bool
      */
-    protected function isValidADTDefinition(\ilADTDefinition $a_adt_def)
+    protected function isValidADTDefinition(\ilADTDefinition $a_adt_def) : bool
     {
         return $a_adt_def instanceof ilADTInternalLinkDefinition;
     }
 
-
     /*
      * Add search property to form
      */
-    public function addToForm()
+    public function addToForm() : void
     {
         $title = new ilTextInputGUI($this->getTitle(), $this->getElementId());
         $title->setSize(255);
         $this->addToParentElement($title);
     }
-    
-
-    /**
-
 
     /**
      * Load from filter
      */
-    public function loadFilter()
+    public function loadFilter() : void
     {
         $value = $this->readFilter();
         if ($value !== null) {
@@ -52,11 +40,7 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         }
     }
 
-    /**
-     * Import from post
-     * @param array $a_post
-     */
-    public function importFromPost(array $a_post = null)
+    public function importFromPost(array $a_post = null) : bool
     {
         $post = $this->extractPostValues($a_post);
 
@@ -67,27 +51,34 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
         } else {
             $this->getADT()->setTargetRefId(null);
         }
+        return true;
     }
 
     /**
      * Get sql condition
-     * @param int $a_element_id
+     * @param string $a_element_id
+     * @param int    $mode
+     * @param array  $quotedWords
      * @return string
      */
-    public function getSQLCondition($a_element_id, $a_mode = self::SQL_LIKE, $a_value = null)
+    public function getSQLCondition(string $a_element_id, int $mode = self::SQL_LIKE, array $quotedWords = []) : string
     {
-        $db = $GLOBALS['DIC']->database();
-        
-        if (!$a_value) {
+        $a_value = '';
+        if (!$quotedWords) {
             if ($this->isNull() || !$this->isValid()) {
-                return;
+                return '';
             }
             $a_value = $this->getADT()->getTargetRefId();
+        } elseif (count($quotedWords)) {
+            $a_value = $quotedWords[0];
         }
-        
+        if (!strlen($a_value)) {
+            return '';
+        }
+
         $subselect = $a_element_id . ' IN ' .
             '( select ref_id from object_reference obr join object_data obd on obr.obj_id = obd.obj_id ' .
-            'where ' . $db->like('title', 'text', $a_value . '%') . ' ' .
+            'where ' . $this->db->like('title', 'text', $a_value . '%') . ' ' .
             ')';
         return $subselect;
     }
@@ -97,30 +88,31 @@ class ilADTInternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
      * @param ilADT $a_adt
      * @return bool
      */
-    public function isInCondition(ilADT $a_adt)
+    public function isInCondition(ilADT $a_adt) : bool
     {
-        if ($this->isValidADT($a_adt)) {
+        if ($this->getADT()->getCopyOfDefinition()->isComparableTo($a_adt)) {
             return $this->getADT()->equals($a_adt);
         }
-        // @todo throw exception
+        throw new InvalidArgumentException('Invalid argument given');
     }
 
     /**
      * get serialized value
-     * @return type
+     * @return string
      */
-    public function getSerializedValue()
+    public function getSerializedValue() : string
     {
         if (!$this->isNull() && $this->isValid()) {
             return serialize(array($this->getADT()->getTargetRefId()));
         }
+        return '';
     }
 
     /**
      * Set serialized value
      * @param string $a_value
      */
-    public function setSerializedValue($a_value)
+    public function setSerializedValue(string $a_value) : void
     {
         $a_value = unserialize($a_value);
         if (is_array($a_value)) {

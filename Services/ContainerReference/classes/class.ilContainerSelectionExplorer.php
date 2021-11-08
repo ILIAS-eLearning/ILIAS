@@ -15,6 +15,7 @@
 
 /**
  * @author Stefan Meyer <meyer@leifos.com>
+ * @deprecated
  */
 class ilContainerSelectionExplorer extends ilExplorer
 {
@@ -60,7 +61,7 @@ class ilContainerSelectionExplorer extends ilExplorer
         return $this->target_type;
     }
     
-    public function isClickable($a_type, $a_ref_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         $ilAccess = $this->access;
         
@@ -72,14 +73,14 @@ class ilContainerSelectionExplorer extends ilExplorer
         return false;
     }
 
-    public function isVisible($a_ref_id, $a_type)
+    public function isVisible($a_ref_id, string $a_type) : bool
     {
         $ilAccess = $this->access;
         
         return $ilAccess->checkAccess('visible', '', $a_ref_id);
     }
     
-    public function formatHeader($a_tpl, $a_obj_id, $a_option)
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         $lng = $this->lng;
 

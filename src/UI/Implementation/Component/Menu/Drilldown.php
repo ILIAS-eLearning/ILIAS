@@ -22,7 +22,7 @@ class Drilldown extends Menu implements IMenu\Drilldown
     protected $signal;
 
     /**
-     * @param array <Sub | Component\Clickable | Component\Divider\Horizontal> $items
+     * @param array <Sub|Component\Clickable|Component\Divider\Horizontal> $items
      */
     public function __construct(
         SignalGeneratorInterface $signal_generator,

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,15 +13,12 @@ class LoaderCachingWrapper implements Loader
 {
     use LoaderHelper;
 
-    /**
-     * @var Loader
-     */
-    private $loader;
+    private Loader $loader;
 
     /**
      * @var	array<string, ComponentRenderer>
      */
-    private $cache = array();
+    private array $cache = array();
 
     public function __construct(Loader $loader)
     {
@@ -31,7 +28,7 @@ class LoaderCachingWrapper implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFor(Component $component, array $contexts)
+    public function getRendererFor(Component $component, array $contexts) : ComponentRenderer
     {
         $key = $this->getCacheKey($component, $contexts);
         if (isset($this->cache[$key])) {
@@ -45,11 +42,9 @@ class LoaderCachingWrapper implements Loader
     /**
      * Get a key for the cache.
      *
-     * @param	Component	$component
      * @param	Component[]	$contexts
-     * @return 	string
      */
-    protected function getCacheKey(Component $component, array $contexts)
+    protected function getCacheKey(Component $component, array $contexts) : string
     {
         return $component->getCanonicalName() . " " . implode("_", $this->getContextNames($contexts));
     }
@@ -57,7 +52,7 @@ class LoaderCachingWrapper implements Loader
     /**
      * @inheritdocs
      */
-    public function getRendererFactoryFor(Component $component)
+    public function getRendererFactoryFor(Component $component) : RendererFactory
     {
         return $this->loader->getRendererFactoryFor($component);
     }

@@ -48,7 +48,7 @@ class ilIncomingMailInputGUI extends ilRadioGroupInputGUI
         return parent::render();
     }
 
-    public function getItemByPostVar($a_post_var)
+    public function getItemByPostVar(string $a_post_var) : ?ilFormPropertyGUI
     {
         $this->initializeOptions();
         return parent::getItemByPostVar($a_post_var);

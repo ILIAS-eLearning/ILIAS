@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilObjExternalToolsSettingsGUI
@@ -10,27 +21,12 @@
  */
 class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-    * Constructor
-    * @access public
-    */
-    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -54,12 +50,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         $this->getTabs();
     }
     
-    /**
-    * get tabs
-    * @access	public
-    * @param	object	tabs gui object
-    */
-    public function getTabs()
+    protected function getTabs()
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -89,18 +80,22 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     /**
      * Configure MathJax settings
      */
-    public function editMathJaxObject()
+    public function editMathJaxObject() : void
+    {
+        $tpl = $this->tpl;
+        $this->__initSubTabs("editMathJax");
+        $form = $this->getMathJaxForm();
+        $tpl->setContent($form->getHTML());
+    }
+
+    protected function getMathJaxForm() : ilPropertyFormGUI
     {
         $ilAccess = $this->access;
-        $rbacreview = $this->rbacreview;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        
+
         $mathJaxSetting = new ilSetting("MathJax");
         $path_to_mathjax = $mathJaxSetting->get("path_to_mathjax");
-        
-        $this->__initSubTabs("editMathJax");
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
@@ -109,7 +104,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         // Enable MathJax
         $enable = new ilCheckboxInputGUI($lng->txt("mathjax_enable_client"), "enable");
         $enable->setChecked($mathJaxSetting->get("enable"));
-        $enable->setInfo($lng->txt("mathjax_enable_mathjax_info") . " <a target='blank' href='http://www.mathjax.org/'>"
+        $enable->setInfo($lng->txt("mathjax_enable_mathjax_info") . " <a target='blank' href='https://www.mathjax.org/'>"
             . $lng->txt("mathjax_home_link") . "</a>");
         $form->addItem($enable);
 
@@ -197,38 +192,39 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
             $form->addCommandButton("saveMathJax", $lng->txt("save"));
         }
-                
-        $tpl->setVariable("ADM_CONTENT", $form->getHTML());
+
+        return $form;
     }
 
     /**
-     * Save MathJax Setttings
+     * Save MathJax Settings
      */
-    public function saveMathJaxObject()
+    public function saveMathJaxObject() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilAccess = $this->access;
-        
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
+        $form = $this->getMathJaxForm();
+        if ($ilAccess->checkAccess("write", "", $this->object->getRefId()) &&
+            $form->checkInput()) {
             $mathJaxSetting = new ilSetting("MathJax");
             // Client settings
-            $path_to_mathjax = ilUtil::stripSlashes($_POST["path_to_mathjax"]);
-            if ($_POST["enable"]) {
+            $path_to_mathjax = $form->getInput("path_to_mathjax");
+            if ($form->getInput("enable")) {
                 $mathJaxSetting->set("path_to_mathjax", $path_to_mathjax);
-                $mathJaxSetting->set("limiter", (int) $_POST["limiter"]);
+                $mathJaxSetting->set("limiter", (int) $form->getInput("limiter"));
             }
-            $mathJaxSetting->set("enable", ilUtil::stripSlashes($_POST["enable"]));
+            $mathJaxSetting->set("enable", $form->getInput("enable"));
 
             // Server settings
-            if ($_POST["enable_server"]) {
-                $mathJaxSetting->set("server_address", ilUtil::stripSlashes($_POST["server_address"]));
-                $mathJaxSetting->set("server_timeout", (int) ilUtil::stripSlashes($_POST["server_timeout"]));
-                $mathJaxSetting->set("server_for_browser", (bool) ilUtil::stripSlashes($_POST["server_for_browser"]));
-                $mathJaxSetting->set("server_for_export", (bool) ilUtil::stripSlashes($_POST["server_for_export"]));
-                $mathJaxSetting->set("server_for_pdf", (bool) ilUtil::stripSlashes($_POST["server_for_pdf"]));
+            if ($form->getInput("enable_server")) {
+                $mathJaxSetting->set("server_address", $form->getInput("server_address"));
+                $mathJaxSetting->set("server_timeout", (int) $form->getInput("server_timeout"));
+                $mathJaxSetting->set("server_for_browser", (bool) $form->getInput("server_for_browser"));
+                $mathJaxSetting->set("server_for_export", (bool) $form->getInput("server_for_export"));
+                $mathJaxSetting->set("server_for_pdf", (bool) $form->getInput("server_for_pdf"));
             }
-            $mathJaxSetting->set("enable_server", (bool) ilUtil::stripSlashes($_POST["enable_server"]));
+            $mathJaxSetting->set("enable_server", (bool) $form->getInput("enable_server"));
 
             ilUtil::sendInfo($lng->txt("msg_obj_modified"));
         }
@@ -238,7 +234,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     /**
      * Clear the directory with cached LaTeX graphics
      */
-    public function clearMathJaxCacheObject()
+    public function clearMathJaxCacheObject() : void
     {
         $lng = $this->lng;
 
@@ -249,23 +245,29 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
     }
 
     /**
-    * Configure maps settings
-    *
-    * @access	public
-    */
-    public function editMapsObject()
+     * Configure maps settings
+     */
+    public function editMapsObject() : void
+    {
+        $tpl = $this->tpl;
+
+        $this->__initSubTabs("editMaps");
+        $form = $this->getMapsForm();
+        $tpl->setContent($form->getHTML());
+    }
+
+    /**
+     * Configure maps settings
+     */
+    public function getMapsForm() : ilPropertyFormGUI
     {
         $ilAccess = $this->access;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        $tpl = $this->tpl;
-        
-        $this->__initSubTabs("editMaps");
-        $std_latitude = ilMapUtil::getStdLatitude();
-        $std_longitude = ilMapUtil::getStdLongitude();
+        $std_latitude = (float) ilMapUtil::getStdLatitude();
+        $std_longitude = (float) ilMapUtil::getStdLongitude();
         $std_zoom = ilMapUtil::getStdZoom();
         $type = ilMapUtil::getType();
-        
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("maps_settings"));
@@ -317,36 +319,42 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
             $form->addCommandButton("view", $lng->txt("cancel"));
         }
         
-        $tpl->setVariable("ADM_CONTENT", $form->getHTML());
+        return $form;
     }
 
-
     /**
-    * Save Maps Setttings
-    */
-    public function saveMapsObject()
+     * Save Maps Settings
+     */
+    public function saveMapsObject() : void
     {
         $ilCtrl = $this->ctrl;
-        if (ilUtil::stripSlashes($_POST["type"]) == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
-            ilMapUtil::setStdTileServers(ilUtil::stripSlashes($_POST["tile"]));
-            ilMapUtil::setStdGeolocationServer(ilUtil::stripSlashes($_POST["geolocation"]));
-        } else {
-            ilMapUtil::setApiKey(ilUtil::stripSlashes(trim($_POST["api_key"])));
-        }
 
-        ilMapUtil::setActivated(ilUtil::stripSlashes($_POST["enable"]) == "1");
-        ilMapUtil::setType(ilUtil::stripSlashes($_POST["type"]));
-        ilMapUtil::setStdLatitude(ilUtil::stripSlashes($_POST["std_location"]["latitude"]));
-        ilMapUtil::setStdLongitude(ilUtil::stripSlashes($_POST["std_location"]["longitude"]));
-        ilMapUtil::setStdZoom(ilUtil::stripSlashes($_POST["std_location"]["zoom"]));
+        $form = $this->getMapsForm();
+        if ($form->checkInput()) {
+            if ($form->getInput("type") == 'openlayers' && 'openlayers' == ilMapUtil::getType()) {
+                ilMapUtil::setStdTileServers($form->getInput("title"));
+                ilMapUtil::setStdGeolocationServer(
+                    $form->getInput("geolocation")
+                );
+            } else {
+                ilMapUtil::setApiKey($form->getInput("api_key"));
+            }
+
+            ilMapUtil::setActivated($form->getInput("enable") == "1");
+            ilMapUtil::setType($form->getInput("type"));
+            $location = $form->getInput("std_location");
+            ilMapUtil::setStdLatitude($location["latitude"]);
+            ilMapUtil::setStdLongitude($location["longitude"]);
+            ilMapUtil::setStdZoom($location["zoom"]);
+        }
         $ilCtrl->redirect($this, "editMaps");
     }
     
     // init sub tabs
-    public function __initSubTabs($a_cmd)
+    public function __initSubTabs(string $a_cmd) : void
     {
-        $maps = ($a_cmd == 'editMaps') ? true : false;
-        $mathjax = ($a_cmd == 'editMathJax') ? true : false;
+        $maps = $a_cmd == 'editMaps';
+        $mathjax = $a_cmd == 'editMathJax';
 
         $this->tabs_gui->addSubTabTarget(
             "maps_extt_maps",
@@ -366,10 +374,8 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
         );
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $ilAccess = $this->access;
-        
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
         $this->prepareOutput();
@@ -386,7 +392,7 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
             
             case 'ilpermissiongui':
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 $this->tabs_gui->setTabActive('perm_settings');
                 break;
 
@@ -400,6 +406,5 @@ class ilObjExternalToolsSettingsGUI extends ilObjectGUI
 
                 break;
         }
-        return true;
     }
-} // END class.ilObjExternalToolsSettingsGUI
+}

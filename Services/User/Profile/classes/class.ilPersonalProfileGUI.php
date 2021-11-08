@@ -86,8 +86,7 @@ class ilPersonalProfileGUI
         }
         $this->termsOfServiceHelper = $termsOfServiceHelper;
 
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
-        $this->user_defined_fields = &ilUserDefinedFields::_getInstance();
+        $this->user_defined_fields = ilUserDefinedFields::_getInstance();
 
         $this->lng->loadLanguageModule("jsmath");
         $this->lng->loadLanguageModule("pd");
@@ -892,11 +891,9 @@ class ilPersonalProfileGUI
     {
         global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
-        $styleDefinition = $DIC['styleDefinition'];
-        $rbacreview = $DIC['rbacreview'];
+        $input = [];
 
         include_once("Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->form = new ilPropertyFormGUI();
@@ -916,7 +913,7 @@ class ilPersonalProfileGUI
                 $value
             );
             if ($fprop instanceof ilFormPropertyGUI) {
-                $this->input['udf_' . $definition['field_id']] = $fprop;
+                $input['udf_' . $definition['field_id']] = $fprop;
             }
         }
         
@@ -932,7 +929,7 @@ class ilPersonalProfileGUI
         );
         
         // standard fields
-        $up->addStandardFieldsToForm($this->form, $ilUser, $this->input);
+        $up->addStandardFieldsToForm($this->form, $ilUser, $input);
         
         $this->addLocationToForm($this->form, $ilUser);
 
@@ -1178,10 +1175,10 @@ class ilPersonalProfileGUI
             $this->showPublicProfileFields($this->form, $ilUser->prefs);
         }
 
-        if (is_object($op2)) {
+        if (isset($op2)) {
             $this->showPublicProfileFields($this->form, $ilUser->prefs, $op2, false, "-1");
         }
-        if (is_object($op3)) {
+        if (isset($op3)) {
             $this->showPublicProfileFields($this->form, $ilUser->prefs, $op3, false, "-2");
         }
         $this->form->setForceTopButtons(true);
@@ -1216,6 +1213,7 @@ class ilPersonalProfileGUI
             $gender = $this->lng->txt("gender_" . $gender);
         }
 
+        $txt_sel_country = "";
         if ($ilUser->getSelectedCountry() != "") {
             $this->lng->loadLanguageModule("meta");
             $txt_sel_country = $this->lng->txt("meta_c_" . $ilUser->getSelectedCountry());
@@ -1388,7 +1386,7 @@ class ilPersonalProfileGUI
             // set public profile preferences
             $checked_values = $this->getCheckedValues();
             foreach ($val_array as $key => $value) {
-                if (($checked_values["chk_" . $value])) {
+                if ($checked_values["chk_" . $value] ?? false) {
                     $ilUser->setPref("public_" . $value, "y");
                 } else {
                     $ilUser->setPref("public_" . $value, "n");
@@ -1441,7 +1439,7 @@ class ilPersonalProfileGUI
                 $target = ilSession::get('orig_request_target');
                 ilSession::set('orig_request_target', '');
                 ilUtil::redirect($target);
-            } elseif ($redirect = $_SESSION['profile_complete_redirect']) {
+            } elseif ($redirect = ($_SESSION['profile_complete_redirect'] ?? false)) {
                 unset($_SESSION['profile_complete_redirect']);
                 ilUtil::redirect($redirect);
             } else {

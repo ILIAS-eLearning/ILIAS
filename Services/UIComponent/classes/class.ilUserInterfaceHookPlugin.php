@@ -1,47 +1,42 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilUserInterfaceHookPlugin
  *
- * @author  Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @author  Fabian Schmid <fs@studer-raimann.ch>
  */
 abstract class ilUserInterfaceHookPlugin extends ilPlugin
 {
-
-    /**
-     * @return string
-     */
-    final public function getComponentType()
+    final public function getComponentType() : string
     {
         return IL_COMP_SERVICE;
     }
 
-
-    /**
-     * @return string
-     */
-    final public function getComponentName()
+    final public function getComponentName() : string
     {
         return "UIComponent";
     }
 
-
-    /**
-     * @return string
-     */
-    final public function getSlot()
+    final public function getSlot() : string
     {
         return "UserInterfaceHook";
     }
 
-
-    /**
-     * @return string
-     */
-    final public function getSlotId()
+    final public function getSlotId() : string
     {
         return "uihk";
     }
@@ -50,15 +45,11 @@ abstract class ilUserInterfaceHookPlugin extends ilPlugin
     /**
      * Object initialization done by slot.
      */
-    final protected function slotInit()
+    final protected function slotInit() : void
     {
         // nothing to do here
     }
 
-
-    /**
-     * @return ilUIHookPluginGUI
-     */
     public function getUIClassInstance() : ilUIHookPluginGUI
     {
         /**

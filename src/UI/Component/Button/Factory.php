@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Button;
 
 use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This is how a factory for buttons looks like.
@@ -60,7 +61,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Standard
      */
-    public function standard($label, $action);
+    public function standard(string $label, $action) : Standard;
 
     /**
      * ---
@@ -118,7 +119,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Primary
      */
-    public function primary($label, $action);
+    public function primary(string $label, $action) : Primary;
 
     /**
      * ---
@@ -143,7 +144,7 @@ interface Factory
      * ---
      * @return  \ILIAS\UI\Component\Button\Close
      */
-    public function close();
+    public function close() : Close;
 
     /**
      * ---
@@ -183,7 +184,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Shy
      */
-    public function shy($label, $action);
+    public function shy(string $label, $action) : Shy;
 
     /**
      * ---
@@ -210,7 +211,7 @@ interface Factory
      * @param string $default Initial value, use format "mm-yyyy".
      * @return  \ILIAS\UI\Component\Button\Month
      */
-    public function month($default);
+    public function month(string $default) : Month;
 
     /**
      * ---
@@ -246,7 +247,7 @@ interface Factory
      * @param	string|Signal		$action		will be triggered on click
      * @return  \ILIAS\UI\Component\Button\Tag
      */
-    public function tag($label, $action);
+    public function tag(string $label, $action) : Tag;
 
     /**
      * ---
@@ -305,7 +306,7 @@ interface Factory
      * @param	string		$action
      * @return  \ILIAS\UI\Component\Button\Bulky
      */
-    public function bulky($icon_or_glyph, $label, $action);
+    public function bulky(Symbol $icon_or_glyph, string $label, string $action) : Bulky;
 
     /**
      * ---
@@ -331,7 +332,6 @@ interface Factory
      *     Mode View Control: >
      *       Mode View Controls enable the switching between different aspects of some data. Toggle Buttons
      *       activate/deactivate some control, but do not change or switch the control which the user see currently.
-     *
      * rules:
      *   usage:
      *       1: >
@@ -357,5 +357,11 @@ interface Factory
      * @param	Signal|null		$click_signal action performed when button is clicked
      * @return  \ILIAS\UI\Component\Button\Toggle
      */
-    public function toggle(string $label, $on_action, $off_action, bool $is_on = false, Signal $click_signal = null) : \ILIAS\UI\Component\Button\Toggle;
+    public function toggle(
+        string $label,
+        $on_action,
+        $off_action,
+        bool $is_on = false,
+        Signal $click_signal = null
+    ) : Toggle;
 }

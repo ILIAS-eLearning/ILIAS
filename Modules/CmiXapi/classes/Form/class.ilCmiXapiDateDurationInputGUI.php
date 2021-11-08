@@ -14,7 +14,7 @@
  */
 class ilCmiXapiDateDurationInputGUI extends ilDateDurationInputGUI
 {
-    public function getValue()
+    public function getValue() : array
     {
         $duration = array();
         

@@ -173,7 +173,6 @@ class ilObjRole extends ilObject
         $res = $ilDB->query($query);
         if ($res->numRows() > 0) {
             $data = $ilDB->fetchAssoc($res);
-
             // fill member vars in one shot
             $this->assignData($data);
         } else {
@@ -190,8 +189,8 @@ class ilObjRole extends ilObject
     */
     public function assignData($a_data)
     {
-        $this->setTitle(ilUtil::stripSlashes($a_data["title"]));
-        $this->setDescription(ilUtil::stripslashes($a_data["desc"]));
+        $this->setTitle(ilUtil::stripSlashes($a_data["title"] ?? ""));
+        $this->setDescription(ilUtil::stripslashes($a_data["desc"] ?? ""));
         $this->setAllowRegister($a_data["allow_register"]);
         $this->toggleAssignUsersStatus($a_data['assign_users']);
     }

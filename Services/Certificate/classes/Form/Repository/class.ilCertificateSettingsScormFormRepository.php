@@ -82,8 +82,8 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
 
     public function save(array $formFields) : void
     {
-        $this->setting->set('certificate_' . $this->object->getId(), $formFields['certificate_enabled_scorm']);
-        $this->setting->set('certificate_short_name_' . $this->object->getId(), $formFields['short_name']);
+        $this->setting->set('certificate_' . $this->object->getId(), (string) $formFields['certificate_enabled_scorm']);
+        $this->setting->set('certificate_short_name_' . $this->object->getId(), (string) $formFields['short_name']);
     }
 
     public function fetchFormFieldData(string $content) : array
@@ -91,11 +91,11 @@ class ilCertificateSettingsScormFormRepository implements ilCertificateFormRepos
         $formFields = $this->settingsFromFactory->fetchFormFieldData($content);
         $formFields['certificate_enabled_scorm'] = $this->setting->get(
             'certificate_' . $this->object->getId(),
-            $formFields['certificate_enabled_scorm']
+            (string) $formFields['certificate_enabled_scorm']
         );
         $formFields['short_name'] = $this->setting->get(
             'certificate_short_name_' . $this->object->getId(),
-            $formFields['short_name']
+            (string) $formFields['short_name']
         );
 
         return $formFields;

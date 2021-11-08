@@ -927,7 +927,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
             ($a_in_course || $a_in_group)) {
             // only show if export permission is granted
             include_once('Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-            if (ilPrivacySettings::_getInstance()->checkExportAccess($this->ref_id)) {
+            if (ilPrivacySettings::getInstance()->checkExportAccess($this->ref_id)) {
                 // other user profile fields
                 foreach ($ufs as $f => $fd) {
                     if (!isset($cols[$f]) && $f != "username" && !$fd["lists_hide"]) {

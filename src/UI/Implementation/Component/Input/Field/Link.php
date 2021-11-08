@@ -6,8 +6,9 @@ namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Component as C;
 use ILIAS\Data\Factory as DataFactory;
-use ILIAS\Refinery as Refinery;
 use ILIAS\Data\URI;
+use ILIAS\Refinery\Constraint;
+use ilLanguage;
 
 /**
  * This implements the link input group.
@@ -17,7 +18,7 @@ class Link extends Group implements C\Input\Field\Link
     public function __construct(
         DataFactory $data_factory,
         \ILIAS\Refinery\Factory $refinery,
-        \ilLanguage $lng,
+        ilLanguage $lng,
         Factory $field_factory,
         string $label,
         string $byline
@@ -32,7 +33,7 @@ class Link extends Group implements C\Input\Field\Link
         $this->addTransformation();
     }
 
-    protected function addValidation()
+    protected function addValidation() : void
     {
         $txt_id = 'label_cannot_be_empty_if_url_is_set';
         $error = function (callable $txt, $value) use ($txt_id) {
@@ -40,7 +41,7 @@ class Link extends Group implements C\Input\Field\Link
         };
         $is_ok = function ($v) {
             list($label, $url) = $v;
-            $ok = (
+            return (
                 (is_null($label) || $label === '') &&
                 is_null($url)
             ) || (
@@ -48,7 +49,6 @@ class Link extends Group implements C\Input\Field\Link
                 && strlen($label) > 0
                 && is_a($url, URI::class)
             );
-            return $ok;
         };
 
         $label_is_set_for_url = $this->refinery->custom()->constraint($is_ok, $error);
@@ -77,7 +77,7 @@ class Link extends Group implements C\Input\Field\Link
     /**
      * @inheritdoc
      */
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
         return null;
     }

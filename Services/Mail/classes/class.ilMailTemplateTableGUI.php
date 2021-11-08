@@ -19,7 +19,7 @@ class ilMailTemplateTableGUI extends ilTable2GUI
     protected array $uiComponents = [];
 
     public function __construct(
-        object $a_parent_obj,
+        ilMailTemplateGUI $a_parent_obj,
         string $a_parent_cmd,
         Factory $uiFactory,
         Renderer $uiRenderer,

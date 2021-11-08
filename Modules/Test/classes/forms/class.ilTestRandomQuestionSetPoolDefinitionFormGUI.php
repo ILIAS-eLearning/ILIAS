@@ -15,20 +15,7 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilTestRandomQuestionSetPoolDefinitionFormGUI extends ilPropertyFormGUI
 {
-    /**
-     * global $ilCtrl object
-     *
-     * @var ilCtrl
-     */
-    public $ctrl = null;
-    
-    /**
-     * global $lng object
-     *
-     * @var ilLanguage
-     */
-    public $lng = null;
-    
+
     /**
      * object instance for current test
      *

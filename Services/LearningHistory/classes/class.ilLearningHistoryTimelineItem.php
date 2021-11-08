@@ -57,7 +57,7 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
     /**
      * @inheritdoc
      */
-    public function getDatetime()
+    public function getDatetime() : ilDateTime
     {
         return new ilDateTime($this->lh_entry->getTimestamp(), IL_CAL_UNIX);
     }
@@ -65,7 +65,7 @@ class ilLearningHistoryTimelineItem implements ilTimelineItemInt
     /**
      * @inheritdoc
      */
-    public function render()
+    public function render() : string
     {
         $access = $this->access;
 

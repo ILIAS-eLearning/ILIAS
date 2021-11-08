@@ -26,15 +26,6 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
  */
 class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_obj_id;
     protected array $parent;

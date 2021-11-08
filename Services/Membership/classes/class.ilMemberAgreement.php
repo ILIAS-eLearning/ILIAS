@@ -62,7 +62,7 @@ class ilMemberAgreement
         $this->obj_id = $a_obj_id;
         $this->type = ilObject::_lookupType($this->obj_id);
         
-        $this->privacy = ilPrivacySettings::_getInstance();
+        $this->privacy = ilPrivacySettings::getInstance();
         
         if ($this->privacy->confirmationRequired($this->type) or ilCourseDefinedFieldDefinition::_hasFields($this->obj_id)) {
             $this->read();

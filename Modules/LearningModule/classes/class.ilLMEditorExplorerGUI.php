@@ -26,11 +26,10 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 
     /**
      * Get node icon
-     *
      * @param array $a_node node array
      * @return string icon path
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("icon_lm.svg");
@@ -72,11 +71,10 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
 
     /**
      * Get node icon alt text
-     *
      * @param array $a_node node array
      * @return string alt text
      */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
         
@@ -109,11 +107,10 @@ class ilLMEditorExplorerGUI extends ilLMExplorerGUI
     
     /**
      * Get href for node
-     *
      * @param mixed $a_node node object/array
      * @return string href attribute
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
         

@@ -8,7 +8,6 @@ class ilLearningSequenceActivationTest extends TestCase
 {
     public function testCreateObjectMinimal() : void
     {
-      
         $obj = new ilLearningSequenceActivation(22);
 
         $this->assertInstanceOf(ilLearningSequenceActivation::class, $obj);

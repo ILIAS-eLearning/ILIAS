@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component;
 
 /**
@@ -14,17 +15,13 @@ class SignalGenerator implements SignalGeneratorInterface
     /**
      * @inheritdoc
      */
-    public function create($class = '')
+    public function create(string $class = '') : Signal
     {
         $id = $this->createId();
-        $instance = ($class) ? new $class($id) : new Signal($id);
-        return $instance;
+        return ($class) ? new $class($id) : new Signal($id);
     }
 
-    /**
-     * @return string
-     */
-    protected function createId()
+    protected function createId() : string
     {
         return str_replace(".", "_", uniqid(self::PREFIX, true));
     }

@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 class ilLPStatusWrapperStub extends ilLPStatusWrapper
 {
-
     public static function _refreshStatus($a_obj_id, $a_users = null)
     {
         throw new \Exception('Do not use ilLPStatusWrapper::_refreshStatus here; use _updateStatus instead');

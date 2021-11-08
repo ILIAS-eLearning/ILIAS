@@ -24,15 +24,6 @@
  */
 class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
 
     /**
      * @var object|string
@@ -126,7 +117,6 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Get childs of node (selectable tree)
-     *
      * @param int $a_parent_node_id parent id
      * @return array childs
      */
@@ -197,7 +187,6 @@ class ilPersonalSkillExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * get image path (may be overwritten by derived classes)
-     *
      * @param object|array $a_node
      * @return string
      */

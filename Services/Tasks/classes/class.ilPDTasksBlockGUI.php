@@ -55,7 +55,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         return IL_SCREEN_SIDE;
     }
@@ -118,7 +118,7 @@ class ilPDTasksBlockGUI extends ilBlockGUI
     /**
      * get flat list for personal desktop
      */
-    public function fillRow($a_set) : void
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

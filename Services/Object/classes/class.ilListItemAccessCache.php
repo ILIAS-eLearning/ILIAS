@@ -31,9 +31,9 @@ class ilListItemAccessCache extends ilCache
     
     /**
      * Check if cache is disabled
-     * @return
+     * @return bool
      */
-    public function isDisabled()
+    public function isDisabled() : bool
     {
         return self::$disabled or parent::isDisabled();
     }
@@ -42,7 +42,7 @@ class ilListItemAccessCache extends ilCache
     /**
      * Read an entry
      */
-    protected function readEntry($a_id)
+    protected function readEntry(string $a_id) : bool
     {
         if (!$this->isDisabled()) {
             return parent::readEntry($a_id);
@@ -55,13 +55,13 @@ class ilListItemAccessCache extends ilCache
      * Id is user_id:ref_id, we store ref_if additionally
      */
     public function storeEntry(
-        $a_id,
-        $a_value,
-        $a_int_key1 = 0,
-        $a_int_key2 = null,
-        $a_text_key1 = null,
-        $a_text_key2 = null
-    ) {
+        string $a_id,
+        string $a_value,
+        ?int $a_int_key1 = null,
+        ?int $a_int_key2 = null,
+        ?string $a_text_key1 = null,
+        ?string $a_text_key2 = null
+    ) : void {
         if (!$this->isDisabled()) {
             parent::storeEntry($a_id, $a_value, $a_int_key1);
         }

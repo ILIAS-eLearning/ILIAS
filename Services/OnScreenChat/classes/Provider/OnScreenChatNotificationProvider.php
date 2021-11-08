@@ -3,6 +3,8 @@
 
 namespace ILIAS\OnScreenChat\Provider;
 
+use ilDatePresentation;
+use ilDateTime;
 use ILIAS\DI\Container;
 use ILIAS\GlobalScreen\Identification\IdentificationInterface;
 use ILIAS\GlobalScreen\Scope\Notification\Provider\AbstractNotificationProvider;
@@ -12,6 +14,9 @@ use ILIAS\OnScreenChat\Repository\Conversation;
 use ILIAS\OnScreenChat\Repository\Subscriber;
 use ILIAS\UI\Component\Item\Notification;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
+use ilSetting;
+use ilUtil;
+use stdClass;
 
 /**
  * Class OnScreenChatNotificationProvider
@@ -19,17 +24,9 @@ use ILIAS\UI\Component\Symbol\Icon\Standard;
  */
 class OnScreenChatNotificationProvider extends AbstractNotificationProvider implements NotificationProvider
 {
-    /** @var Conversation */
-    private $conversationRepo;
-    /** @var Subscriber */
-    private $subscriberRepo;
+    private Conversation $conversationRepo;
+    private Subscriber $subscriberRepo;
 
-    /**
-     * OnScreenChatNotificationProvider constructor.
-     * @param Container $dic
-     * @param Conversation|null $conversationRepo
-     * @param Subscriber|null $subscriberRepo
-     */
     public function __construct(Container $dic, Conversation $conversationRepo = null, Subscriber $subscriberRepo = null)
     {
         parent::__construct($dic);
@@ -46,21 +43,18 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $this->subscriberRepo = $subscriberRepo;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getNotifications() : array
     {
         $id = function (string $id) : IdentificationInterface {
             return $this->if->identifier($id);
         };
 
-        if (0 === (int) $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
+        if (0 === $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
             return [];
         }
 
-        $chatSettings = new \ilSetting('chatroom');
-        $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
+        $chatSettings = new ilSetting('chatroom');
+        $isEnabled = $chatSettings->get('chat_enabled', '0') && $chatSettings->get('enable_osc', '0');
         if (!$isEnabled) {
             return [];
         }
@@ -68,9 +62,9 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $factory = $this->globalScreen()->notifications()->factory();
 
         $showAcceptMessageChange = (
-            !\ilUtil::yn2tf($this->dic->user()->getPref('chat_osc_accept_msg')) &&
-            !(bool) $this->dic->settings()->get('usr_settings_hide_chat_osc_accept_msg', false) &&
-            !(bool) $this->dic->settings()->get('usr_settings_disable_chat_osc_accept_msg', false)
+            !ilUtil::yn2tf($this->dic->user()->getPref('chat_osc_accept_msg')) &&
+            !(bool) $this->dic->settings()->get('usr_settings_hide_chat_osc_accept_msg', '0') &&
+            !(bool) $this->dic->settings()->get('usr_settings_disable_chat_osc_accept_msg', '0')
         );
 
         $description = $this->dic->language()->txt('chat_osc_nc_no_conv');
@@ -109,7 +103,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         } else {
             $notificationItem = $notificationItem
                 ->withAdditionalOnLoadCode(
-                    function ($id) {
+                    static function (string $id) : string {
                         return "
                             il.OnScreenChat.setNotificationItemId('$id');
                         ";
@@ -159,8 +153,8 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             ->notification($title, $icon)
             ->withDescription($this->dic->language()->txt('chat_osc_nc_no_conv'))
             ->withAdditionalOnLoadCode(
-                function ($id) {
-                    $tsInfo = json_encode(new \stdClass());
+                static function (string $id) : string {
+                    $tsInfo = json_encode(new stdClass(), JSON_THROW_ON_ERROR);
                     return "
                         il.OnScreenChat.setConversationMessageTimes($tsInfo);
                         il.OnScreenChat.setNotificationItemId('$id');
@@ -182,7 +176,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         }
 
         $allUsrIds = [];
-        array_walk($conversations, function (ConversationDto $conversation) use (&$allUsrIds) {
+        array_walk($conversations, static function (ConversationDto $conversation) use (&$allUsrIds) : void {
             $allUsrIds = array_unique(array_merge($conversation->getSubscriberUsrIds(), $allUsrIds));
         });
         $allUsrData = $this->subscriberRepo->getDataByUserIds($allUsrIds);
@@ -192,11 +186,11 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
         $aggregatedItems = [];
         $latestMessageTimeStamp = null;
         foreach ($conversations as $conversation) {
-            $convUsrData = array_filter($allUsrData, function ($key) use ($conversation) {
-                return in_array($key, $conversation->getSubscriberUsrIds());
+            $convUsrData = array_filter($allUsrData, static function (int $key) use ($conversation) : bool {
+                return in_array($key, $conversation->getSubscriberUsrIds(), true);
             }, ARRAY_FILTER_USE_KEY);
 
-            $convUsrNames = array_map(function ($value) {
+            $convUsrNames = array_map(static function (array $value) : string {
                 return $value['public_name'];
             }, $convUsrData);
 
@@ -217,7 +211,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                     ''
                 ) // Important: Do not pass any action here, otherwise there will be onClick/return false;
                 ->withAdditionalOnLoadCode(
-                    function ($id) use ($conversation) {
+                    static function (string $id) use ($conversation) : string {
                         return "
                              $('#$id').attr('data-onscreenchat-menu-item', '');
                              $('#$id').attr('data-onscreenchat-conversation', '{$conversation->getId()}');
@@ -229,7 +223,7 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
                 ->notification($aggregateTitle, $icon)
                 ->withDescription($message)
                 ->withAdditionalOnLoadCode(
-                    function ($id) use ($conversation) {
+                    static function (string $id) use ($conversation) : string {
                         return "
                             il.OnScreenChat.addConversationToUiIdMapping('{$conversation->getId()}', '$id');
 
@@ -263,16 +257,16 @@ class OnScreenChatNotificationProvider extends AbstractNotificationProvider impl
             ->withAggregateNotifications($aggregatedItems)
             ->withDescription($description)
             ->withAdditionalOnLoadCode(
-                function ($id) use ($messageTimesByConversation) {
-                    $tsInfo = json_encode($messageTimesByConversation);
+                static function (string $id) use ($messageTimesByConversation) : string {
+                    $tsInfo = json_encode($messageTimesByConversation, JSON_THROW_ON_ERROR);
                     return "
                         il.OnScreenChat.setConversationMessageTimes($tsInfo);
                     ";
                 }
             )
             ->withProperties([
-                $this->dic->language()->txt('chat_osc_nc_prop_time') => \ilDatePresentation::formatDate(
-                    new \ilDateTime($latestMessageTimeStamp, IL_CAL_UNIX)
+                $this->dic->language()->txt('chat_osc_nc_prop_time') => ilDatePresentation::formatDate(
+                    new ilDateTime($latestMessageTimeStamp, IL_CAL_UNIX)
                 )
             ]);
 

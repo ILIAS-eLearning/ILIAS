@@ -1,15 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * Class ilContentPageLP
- */
 class ilContentPageLP extends ilObjectLP
 {
-    /**
-     * @ineritdoc
-     */
-    public static function getDefaultModes($a_lp_active)
+    public static function getDefaultModes($a_lp_active) : array
     {
         if (true === $a_lp_active) {
             return [
@@ -25,18 +19,12 @@ class ilContentPageLP extends ilObjectLP
         ];
     }
     
-    /**
-     * @inheritdoc
-     */
-    public function getDefaultMode()
+    public function getDefaultMode() : int
     {
         return ilLPObjSettings::LP_MODE_MANUAL;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getValidModes()
+    public function getValidModes() : array
     {
         return [
             ilLPObjSettings::LP_MODE_DEACTIVATED,

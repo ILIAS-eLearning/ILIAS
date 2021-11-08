@@ -9,7 +9,9 @@ class ilMailUserCache
 {
     /** @var ilObjUser[] */
     protected static array $user_instances = [];
+    /** @var int[] */
     protected static array $requested_usr_ids = [];
+    /** @var array<int, int> */
     protected static array $requested_usr_ids_key_map = [];
 
     /**

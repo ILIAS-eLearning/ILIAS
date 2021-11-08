@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -11,14 +11,11 @@ require_once("./Services/UICore/classes/class.ilTemplate.php");
 
 class ilIndependentGlobalTemplate extends ilGlobalTemplate implements \ILIAS\UI\Implementation\Render\Template
 {
-    // This makes PHP happy, baseclass needs that
-    protected $blockparents = null;
-
     public function __construct(
         $file,
         $flag1,
         $flag2,
-        $in_module = false,
+        $in_module = '',
         $vars = "DEFAULT",
         $plugin = false,
         $a_use_cache = true
@@ -36,7 +33,7 @@ class ilIndependentGlobalTemplate extends ilGlobalTemplate implements \ILIAS\UI\
         $add_standard_elements = false,
         $a_main_menu = true,
         $a_tabs = true
-    ) {
+    ) : string {
         return $this->template->get($part);
     }
 }

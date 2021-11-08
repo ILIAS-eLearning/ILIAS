@@ -55,11 +55,10 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 
     /**
      * Get child info
-     *
      * @param array $a_child node array
      * @return string node title
      */
-    public function getChildInfo($a_child)
+    public function getChildInfo(array $a_child) : string
     {
         if ($this->lang != "-") {
             return $a_child["title"];
@@ -70,7 +69,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     /**
     * Get menu items
     */
-    public function getMenuItems($a_node, $a_depth, $a_first_child = false, $a_next_sibling = null, $a_childs = null)
+    public function getMenuItems(array $a_node, int $a_depth, bool $a_first_child = false, ?array $a_next_sibling = null, ?array $a_childs = null) : array
     {
         $lng = $this->lng;
         $ilUser = $this->user;
@@ -156,7 +155,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     /**
     * Which nodes allow child nodes?
     */
-    public function nodeAllowsChilds($a_node)
+    public function nodeAllowsChilds(array $a_node) : bool
     {
         if ($a_node["type"] == "pg") {
             return false;
@@ -166,10 +165,9 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
 
     /**
     * Makes nodes drag and drop content and targets.
-    *
-    * @param	object	$a_node		node array
+    * @param	array $a_node node array
     */
-    public function manageDragAndDrop($a_node, $a_depth, $a_first_child_drop_area = false, $a_next_sibling = null, $a_childs = null)
+    public function manageDragAndDrop(array $a_node, int $a_depth, bool $a_first_child = false, ?array $a_next_sibling = null, ?array $a_childs = null) : void
     {
         $lng = $this->lng;
         
@@ -179,13 +177,13 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
             $a_childs = [];
         }
 
-        if (!$a_first_child_drop_area) {
+        if (!$a_first_child) {
             if ($a_node["type"] == "pg" || ($a_node["type"] == "st" && count($a_childs) == 0 && $this->getMaxDepth() != 0)) {
                 if ($a_node["type"] == "st") {
                     $this->makeDragTarget(
                         $a_node["node_id"],
                         "grp_pg",
-                        $a_first_child_drop_area,
+                        $a_first_child,
                         true,
                         ""
                     );
@@ -193,7 +191,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     $this->makeDragTarget(
                         $a_node["node_id"],
                         "grp_pg",
-                        $a_first_child_drop_area,
+                        $a_first_child,
                         false,
                         ""
                     );
@@ -204,7 +202,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_st",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     true,
                     $lng->txt("cont_insert_as_subchapter")
                 );
@@ -216,7 +214,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                     $this->makeDragTarget(
                         $a_node["node_id"],
                         "grp_st",
-                        $a_first_child_drop_area,
+                        $a_first_child,
                         false,
                         $lng->txt("cont_insert_as_chapter")
                     );
@@ -227,7 +225,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_pg",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     true
                 );
             }
@@ -235,7 +233,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
                 $this->makeDragTarget(
                     $a_node["node_id"],
                     "grp_st",
-                    $a_first_child_drop_area,
+                    $a_first_child,
                     true
                 );
             }
@@ -248,7 +246,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     * @param	array		itema array
     * @return	string		icon path
     */
-    public function getChildIcon($a_item)
+    public function getChildIcon(array $a_item) : string
     {
         $img = "icon_" . $a_item["type"] . ".svg";
         
@@ -289,7 +287,7 @@ class ilChapterHierarchyFormGUI extends ilHierarchyFormGUI
     * @param	array		itema array
     * @return	string		icon alt text
     */
-    public function getChildIconAlt($a_item)
+    public function getChildIconAlt(array $a_item) : string
     {
         $lng = $this->lng;
         

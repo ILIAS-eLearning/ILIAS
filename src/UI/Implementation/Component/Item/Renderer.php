@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -8,14 +8,17 @@ use ILIAS\UI\Implementation\Component\Button\Close;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Item\Notification;
+use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Link\Link;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
@@ -26,9 +29,10 @@ class Renderer extends AbstractComponentRenderer
         } elseif ($component instanceof Component\Item\Standard) {
             return $this->renderStandard($component, $default_renderer);
         }
+        return "";
     }
 
-    protected function renderGroup(Component\Item\Group $component, RendererInterface $default_renderer)
+    protected function renderGroup(Component\Item\Group $component, RendererInterface $default_renderer) : string
     {
         $tpl = $this->getTemplate("tpl.group.html", true, true);
         $title = $component->getTitle();
@@ -55,17 +59,15 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ACTIONS", "");
         }
 
-
-
         return $tpl->get();
     }
 
-    protected function renderStandard(Component\Item\Item $component, RendererInterface $default_renderer)
+    protected function renderStandard(Component\Item\Item $component, RendererInterface $default_renderer) : string
     {
         $tpl = $this->getTemplate("tpl.item_standard.html", true, true);
 
         $this->renderTitle($component, $default_renderer, $tpl);
-        $this->renderDescription($component, $default_renderer, $tpl);
+        $this->renderDescription($component, $tpl);
         $this->renderProperties($component, $default_renderer, $tpl);
         // color
         $color = $component->getColor();
@@ -85,8 +87,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
                 if ($progress != null) {
                     $tpl->touchBlock("item_with_lead_and_progress");
-                }
-                else {
+                } else {
                     $tpl->touchBlock("item_with_lead");
                 }
             }
@@ -96,8 +97,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->parseCurrentBlock();
                 if ($progress != null) {
                     $tpl->touchBlock("item_with_lead_and_progress");
-                }
-                else {
+                } else {
                     $tpl->touchBlock("item_with_lead");
                 }
             }
@@ -133,14 +133,15 @@ class Renderer extends AbstractComponentRenderer
         if ($actions !== null) {
             $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
         }
+
         return $tpl->get();
     }
 
-    protected function renderNotification(Notification $component, RendererInterface $default_renderer)
+    protected function renderNotification(Notification $component, RendererInterface $default_renderer) : string
     {
         $tpl = $this->getTemplate("tpl.item_notification.html", true, true);
         $this->renderTitle($component, $default_renderer, $tpl);
-        $this->renderDescription($component, $default_renderer, $tpl);
+        $this->renderDescription($component, $tpl);
         $this->renderProperties($component, $default_renderer, $tpl);
         $tpl->setVariable("LEAD_ICON", $default_renderer->render($component->getLeadIcon()));
 
@@ -156,8 +157,6 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("ADDITIONAL_CONTENT", $default_renderer->render($component->getAdditionalContent()));
             $tpl->parseCurrentBlock();
         }
-
-        $aggregates_html = "";
 
         // aggregate notification
         $title = $this->getUIFactory()->button()->bulky($this->getUIFactory()->symbol()->glyph()->back(), $this->txt("back"), "");
@@ -205,17 +204,16 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable('ID', $item_id);
         $tpl->parseCurrentBlock();
 
-
         return $tpl->get();
     }
 
     protected function renderTitle(
         Component\Item\Item $component,
         RendererInterface $default_renderer,
-        \ILIAS\UI\Implementation\Render\Template $tpl
-    ) {
+        Template $tpl
+    ) : void {
         $title = $component->getTitle();
-        if ($title instanceof \ILIAS\UI\Component\Button\Shy || $title instanceof \ILIAS\UI\Component\Link\Link) {
+        if ($title instanceof Shy || $title instanceof Link) {
             $title = $default_renderer->render($title);
         }
         $tpl->setVariable("TITLE", $title);
@@ -223,12 +221,11 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderDescription(
         Component\Item\Item $component,
-        RendererInterface $default_renderer,
-        \ILIAS\UI\Implementation\Render\Template $tpl
-    ) {
+        Template $tpl
+    ) : void {
         // description
         $desc = $component->getDescription();
-        if (trim($desc) != "") {
+        if (!is_null($desc) && trim($desc) != "") {
             $tpl->setCurrentBlock("desc");
             $tpl->setVariable("DESC", $desc);
             $tpl->parseCurrentBlock();
@@ -238,14 +235,14 @@ class Renderer extends AbstractComponentRenderer
     protected function renderProperties(
         Component\Item\Item $component,
         RendererInterface $default_renderer,
-        \ILIAS\UI\Implementation\Render\Template $tpl
-    ) {
+        Template $tpl
+    ) : void {
         // properties
         $props = $component->getProperties();
         if (count($props) > 0) {
             $cnt = 0;
             foreach ($props as $name => $value) {
-                if ($value instanceof \ILIAS\UI\Component\Button\Shy) {
+                if ($value instanceof Shy) {
                     $value = $default_renderer->render($value);
                 }
                 $cnt++;
@@ -270,7 +267,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
+    public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Item/notification.js');
@@ -279,12 +276,12 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
-        return array(
+        return [
             Component\Item\Standard::class,
             Component\Item\Group::class,
             Component\Item\Notification::class
-        );
+        ];
     }
 }

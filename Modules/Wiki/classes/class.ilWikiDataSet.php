@@ -381,7 +381,7 @@ class ilWikiDataSet extends ilDataSet
                     $wpage->setRating($a_rec["Rating"]);
                 }
                 
-                $wpage->create(true);
+                $wpage->create(false, true);
 
                 if (isset($a_rec["TemplateNewPages"]) || isset($a_rec["TemplateAddToPage"])) {
                     $wtpl = new ilWikiPageTemplate($wiki_id);

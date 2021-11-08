@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -18,8 +18,6 @@ interface FilterInput extends FormInput
 {
     /**
      * Is this input complex and must be rendered in a Popover when using it in a Filter?
-     *
-     * @return bool
      */
-    public function isComplex();
+    public function isComplex() : bool;
 }

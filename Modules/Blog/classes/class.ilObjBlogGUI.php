@@ -975,7 +975,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             $posting->setBlogId($this->object->getId());
             $posting->setActive(false);
             $posting->setAuthor($ilUser->getId());
-            $posting->create();
+            $posting->create(false);
             
             // switch month list to current month (will include new posting)
             $ilCtrl->setParameter($this, "bmn", date("Y-m"));

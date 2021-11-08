@@ -24,10 +24,6 @@
  */
 class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilLanguage $lng;
     protected ilVirtualSkillTree $vtree;
 

@@ -9,7 +9,7 @@
  */
 class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 {
-    public function init()
+    public function init() : void
     {
         global $DIC;
 

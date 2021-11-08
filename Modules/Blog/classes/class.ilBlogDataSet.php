@@ -334,7 +334,7 @@ class ilBlogDataSet extends ilDataSet
                     $author = $this->parseObjectExportId($a_rec["Author"], -1);
                     $newObj->setAuthor($author["id"]);
                     
-                    $newObj->create(true);
+                    $newObj->create(false, true);
                     
                     // keywords
                     $keywords = array();

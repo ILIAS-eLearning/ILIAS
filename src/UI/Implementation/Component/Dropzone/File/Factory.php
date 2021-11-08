@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
+
+use ILIAS\UI\Component\Dropzone\File as F;
 
 /**
  * Class Factory
@@ -9,13 +11,13 @@ namespace ILIAS\UI\Implementation\Component\Dropzone\File;
  *
  * @package ILIAS\UI\Implementation\Component\Dropzone\File
  */
-class Factory implements \ILIAS\UI\Component\Dropzone\File\Factory
+class Factory implements F\Factory
 {
 
     /**
      * @inheritdoc
      */
-    public function standard($url)
+    public function standard(string $url) : F\Standard
     {
         return new Standard($url);
     }
@@ -23,7 +25,7 @@ class Factory implements \ILIAS\UI\Component\Dropzone\File\Factory
     /**
      * @inheritdoc
      */
-    public function wrapper($url, $content)
+    public function wrapper(string $url, $content) : F\Wrapper
     {
         return new Wrapper($url, $content);
     }

@@ -75,7 +75,7 @@ class ilCertificateLearningHistoryProvider extends ilAbstractLearningHistoryProv
 
     public function isActive() : bool
     {
-        return (bool) $this->certificateSettings->get('active');
+        return (bool) $this->certificateSettings->get('active', '0');
     }
 
     /**

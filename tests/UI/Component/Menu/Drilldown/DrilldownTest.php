@@ -1,33 +1,39 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use \ILIAS\UI\Implementation\Component\Menu;
-use \ILIAS\UI\Implementation\Component as I;
-use \ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\Menu;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component as C;
 
 /**
  * Tests for the Drilldown.
  */
 class DrilldownTest extends ILIAS_UI_TestBase
 {
-    public function getUIFactory()
+    protected C\Symbol\Icon\Standard $icon;
+    protected C\Symbol\Glyph\Glyph $glyph;
+    protected C\Button\Standard $button;
+    protected C\Divider\Horizontal $divider;
+    protected C\Legacy\Legacy $legacy;
+
+    public function getUIFactory() : NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
+        return new class extends NoUIFactory {
             public function menu() : C\Menu\Factory
             {
                 return new Menu\Factory(
                     new I\SignalGenerator()
                 );
             }
-            public function button()
+            public function button() : C\Button\Factory
             {
                 return new I\Button\Factory();
             }
-            public function legacy($content)
+            public function legacy(string $content) : C\Legacy\Legacy
             {
                 return new I\Legacy\Legacy(
                     $content,
@@ -43,7 +49,6 @@ class DrilldownTest extends ILIAS_UI_TestBase
                 );
             }
         };
-        return $factory;
     }
 
     public function setUp() : void
@@ -59,7 +64,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         $this->legacy = $this->getUIFactory()->legacy('');
     }
 
-    public function testConstruction()
+    public function testConstruction() : C\Menu\Drilldown
     {
         $f = $this->getUIFactory();
         $menu = $f->menu()->drilldown('root', []);
@@ -78,7 +83,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testGetLabel($menu)
+    public function testGetLabel(C\Menu\Drilldown $menu) : void
     {
         $this->assertEquals(
             'root',
@@ -97,7 +102,7 @@ class DrilldownTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithEntries()
+    public function testWithEntries() : C\Menu\Drilldown
     {
         $f = $this->getUIFactory();
         $items = array(
@@ -118,15 +123,15 @@ class DrilldownTest extends ILIAS_UI_TestBase
 
     public function testWithWrongEntry()
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $f = $this->getUIFactory();
-        $menu = $f->menu()->drilldown('label', [$this->legacy]);
+        $f->menu()->drilldown('label', [$this->legacy]);
     }
 
     /**
      * @depends testWithEntries
      */
-    public function testRendering($menu)
+    public function testRendering(C\Menu\Drilldown $menu) : void
     {
         $r = $this->getDefaultRenderer();
         $html = $r->render($menu);
@@ -135,15 +140,15 @@ class DrilldownTest extends ILIAS_UI_TestBase
     <header class="show-title show-backnav"> 
         <h2>root</h2> 
         <div class="backnav">
-            <button class="btn btn-bulky" id="id_1" ><span class="glyph" aria-label="back" role="img"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span></span><span class="bulky-label"></span></button>
+            <button class="btn btn-bulky" id="id_1" ><span class="glyph" aria-label="collapse/back" role="img"><span class="glyphicon glyphicon-triangle-left" aria-hidden="true"></span></span><span class="bulky-label"></span></button>
         </div> 
     </header>
     <ul> 
         <li> 
-            <button class="menulevel" aria-expanded="false">root</button>
+            <button class="menulevel" aria-expanded="false">root<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>
             <ul>
                 <li> 
-                    <button class="menulevel" aria-expanded="false">sub</button>
+                    <button class="menulevel" aria-expanded="false">sub<span class="glyphicon glyphicon-triangle-right" aria-hidden="true"></span></button>
                     <ul>
                         <li>
                             <button class="btn btn-default" data-action=""></button>

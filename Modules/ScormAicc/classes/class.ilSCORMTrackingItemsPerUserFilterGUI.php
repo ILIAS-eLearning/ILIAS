@@ -37,7 +37,7 @@ class ilSCORMTrackingItemsPerUserFilterGUI extends ilPropertyFormGUI
         $users = ilTrQuery::getParticipantsForObject($this->parent_obj->object->ref_id);
 
         include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         $allowExportPrivacy = $privacy->enabledExportSCORM();
 
         if ($users && count($users) > 0) {

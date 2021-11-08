@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -22,12 +22,9 @@ interface Factory
      *   effect: >
      *     The items will be presented underneath, whereby each items' label and value
      *     will be presented side by side.
-     *
      * ----
-     *
      * @param array $items string => string
-     *
      * @return \ILIAS\UI\Component\Listing\CharacteristicValue\Text
      */
-    public function text(array $items) : \ILIAS\UI\Component\Listing\CharacteristicValue\Text;
+    public function text(array $items) : Text;
 }

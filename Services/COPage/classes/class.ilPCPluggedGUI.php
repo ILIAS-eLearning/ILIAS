@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * User Interface for plugged page component
@@ -9,24 +20,18 @@
  */
 class ilPCPluggedGUI extends ilPageContentGUI
 {
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    protected $current_plugin = null;
+    protected string $pluginname = "";
+    protected ilPluginAdmin $plugin_admin;
+    protected ilTabsGUI $tabs;
+    protected ?ilPageComponentPlugin $current_plugin = null;
     
-    /**
-    * Constructor
-    * @access	public
-    */
-    public function __construct(&$a_pg_obj, &$a_content_obj, $a_hier_id, $a_plugin_name = "", $a_pc_id = "")
-    {
+    public function __construct(
+        ilPageObject $a_pg_obj,
+        ilPageContent $a_content_obj,
+        string $a_hier_id,
+        string $a_plugin_name = "",
+        string $a_pc_id = ""
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -39,35 +44,27 @@ class ilPCPluggedGUI extends ilPageContentGUI
         parent::__construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id);
     }
 
-    /**
-    * Set PluginName.
-    *
-    * @param	string	$a_pluginname	PluginName
-    */
-    public function setPluginName($a_pluginname)
+    public function setPluginName(string $a_pluginname) : void
     {
         $this->pluginname = $a_pluginname;
     }
 
-    /**
-    * Get PluginName.
-    *
-    * @return	string	PluginName
-    */
-    public function getPluginName()
+    public function getPluginName() : string
     {
         return $this->pluginname;
     }
 
     /**
-    * execute command
-    */
+     * @return mixed
+     * @throws ilCtrlException
+     */
     public function executeCommand()
     {
         $ilPluginAdmin = $this->plugin_admin;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+        $ret = "";
         
         $ilTabs->setBackTarget($lng->txt("pg"), $ilCtrl->getLinkTarget($this, "returnToParent"));
         
@@ -108,23 +105,17 @@ class ilPCPluggedGUI extends ilPageContentGUI
         return $ret;
     }
 
-    /**
-    * Insert new section form.
-    */
-    public function insert()
+    public function insert() : void
     {
         $this->edit(true);
     }
 
-    /**
-     * Edit section form.
-     */
-    public function edit($a_insert = false)
+    public function edit(bool $a_insert = false) : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
-        $lng = $this->lng;
         $ilPluginAdmin = $this->plugin_admin;
+        $html = "";
         
         $this->displayValidationError();
         
@@ -157,11 +148,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         }
     }
 
-
-    /**
-     * Create new element
-     */
-    public function createElement(array $a_properties)
+    public function createElement(array $a_properties) : bool
     {
         $this->content_obj = new ilPCPlugged($this->getPage());
         $this->content_obj->create(
@@ -179,10 +166,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         return false;
     }
 
-    /**
-     * Update element
-     */
-    public function updateElement(array $a_properties)
+    public function updateElement(array $a_properties) : bool
     {
         $this->content_obj->setProperties($a_properties);
         $this->content_obj->setPluginVersion($this->current_plugin->getVersion());
@@ -193,10 +177,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         return false;
     }
     
-    /**
-     * Return to parent
-     */
-    public function returnToParent()
+    public function returnToParent() : void
     {
         $this->ctrl->returnToParent($this, "jump" . $this->hier_id);
     }

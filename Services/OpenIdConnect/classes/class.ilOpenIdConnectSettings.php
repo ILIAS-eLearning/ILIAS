@@ -395,7 +395,8 @@ class ilOpenIdConnectSettings
     /**
      * @return array
      */
-    public function getAllScopes() : array {
+    public function getAllScopes() : array
+    {
         $scopes = $this->additional_scopes;
         array_unshift($scopes, self::DEFAULT_SCOPE);
 
@@ -485,7 +486,8 @@ class ilOpenIdConnectSettings
         return '';
     }
 
-    public function validateScopes(string $provider, array $custom_scopes) {
+    public function validateScopes(string $provider, array $custom_scopes)
+    {
         try {
             $curl = new ilCurlConnection($provider . '/.well-known/openid-configuration');
             $curl->init();
@@ -494,9 +496,9 @@ class ilOpenIdConnectSettings
             $curl->setOpt(CURLOPT_RETURNTRANSFER, true);
             $curl->setOpt(CURLOPT_TIMEOUT, 4);
 
-            $response =  json_decode($curl->exec());
+            $response = json_decode($curl->exec());
 
-            if($curl->getInfo(CURLINFO_RESPONSE_CODE) !== 200) {
+            if ($curl->getInfo(CURLINFO_RESPONSE_CODE) !== 200) {
                 return array();
             }
 
@@ -504,9 +506,7 @@ class ilOpenIdConnectSettings
             array_unshift($custom_scopes, self::DEFAULT_SCOPE);
 
             $result = array_diff($custom_scopes, $available_scopes);
-
-
-        } catch (ilCurlConnectionException $e){
+        } catch (ilCurlConnectionException $e) {
             throw $e;
         } finally {
             $curl->close();
@@ -559,8 +559,8 @@ class ilOpenIdConnectSettings
         $this->setSecret($this->storage->get('secret', ''));
         $this->setAdditionalScopes((array) unserialize($this->storage->get('scopes', serialize([]))));
         $this->setLoginElementImage($this->storage->get('le_img', ''));
-        $this->setLoginElementText($this->storage->get('le_text'));
-        $this->setLoginElementType($this->storage->get('le_type'));
+        $this->setLoginElementText((string) $this->storage->get('le_text'));
+        $this->setLoginElementType((int) $this->storage->get('le_type'));
         $this->setLoginPromptType((int) $this->storage->get('prompt_type', self::LOGIN_ENFORCE));
         $this->setLogoutScope((int) $this->storage->get('logout_scope', self::LOGOUT_SCOPE_GLOBAL));
         $this->useCustomSession((bool) $this->storage->get('custom_session'), false);

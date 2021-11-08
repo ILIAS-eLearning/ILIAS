@@ -718,7 +718,7 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
         if ($rbacsystem->checkAccess("read_learning_progress", $this->object->getRefId()) || $rbacsystem->checkAccess("edit_learning_progress", $this->object->getRefId())) {
             if ($this->object->getSubType() == "scorm2004" || $this->object->getSubType() == "scorm") {
                 include_once('./Services/PrivacySecurity/classes/class.ilPrivacySettings.php');
-                $privacy = ilPrivacySettings::_getInstance();
+                $privacy = ilPrivacySettings::getInstance();
                 if ($privacy->enabledSahsProtocolData()) {
                     $this->tabs_gui->addTarget(
                         "cont_tracking_data",

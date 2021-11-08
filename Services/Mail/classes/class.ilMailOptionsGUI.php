@@ -49,7 +49,7 @@ class ilMailOptionsGUI
 
     public function executeCommand() : void
     {
-        if (!$this->settings->get('show_mail_settings')) {
+        if (!$this->settings->get('show_mail_settings', '0')) {
             $referrer = '';
             if ($this->http->wrapper()->query()->has('referrer')) {
                 $referrer = $this->http->wrapper()->query()->retrieve(
