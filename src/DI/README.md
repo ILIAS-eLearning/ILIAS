@@ -1,7 +1,7 @@
 # Dependency Injection for ILIAS
 
 This namespace provides a Dependency Injection Container (DIC) for ILIAS, which is 
-a small adjustment of the [Pimple DIC](http://pimple.sensiolabs.org) to fit ILIAS.
+a small adjustment of the [Pimple DIC](https://github.com/silexphp/Pimple) to fit ILIAS.
 
 As a first step to the introduction of Dependency Injection the [Jour Fixe
 deprecated all globals besides the `$DIC` global on 2015-08-03](http://www.ilias.de/docu/goto.php?target=wiki_1357_JourFixe-2015-08-03)

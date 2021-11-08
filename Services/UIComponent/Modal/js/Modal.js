@@ -46,7 +46,7 @@
 		if ($.fn.modal === undefined) {
 			throw new Error(
 				"$.fn.modal is not defined; please double check you have included " +
-				"the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ " +
+				"the Bootstrap JavaScript library. See https://getbootstrap.com/javascript/ " +
 				"for more details."
 			);
 		}

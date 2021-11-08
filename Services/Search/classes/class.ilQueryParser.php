@@ -149,7 +149,7 @@ class ilQueryParser
         return $this->words ? $this->words : array();
     }
 
-    public function getQuotedWords($with_quotation = false)
+    public function getQuotedWords($with_quotation = false) : array
     {
         if ($with_quotation) {
             return $this->quoted_words ? $this->quoted_words : array();

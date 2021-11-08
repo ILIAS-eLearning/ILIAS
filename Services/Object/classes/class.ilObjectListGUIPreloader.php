@@ -93,7 +93,7 @@ class ilObjectListGUIPreloader
         foreach ($this->types as $type) {
             $this->obj_ids_by_type[$type] = array_unique($this->obj_ids_by_type[$type]);
             
-            if (is_array($this->ref_ids_by_type[$type])) {
+            if (isset($this->ref_ids_by_type[$type])) {
                 $this->ref_ids_by_type[$type] = array_unique($this->ref_ids_by_type[$type]);
             }
 
@@ -114,8 +114,8 @@ class ilObjectListGUIPreloader
                 if (class_exists($full_class)) {
                     call_user_func(
                         array($full_class, "_preloadData"),
-                        $this->obj_ids_by_type[$type],
-                        $this->ref_ids_by_type[$type]
+                        $this->obj_ids_by_type[$type] ?? [],
+                        $this->ref_ids_by_type[$type] ?? []
                     );
                 }
             }

@@ -1,187 +1,77 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
-define("IL_FM_POSITIVE", 1);
-define("IL_FM_NEGATIVE", 2);
+const IL_FM_POSITIVE = 1;
+const IL_FM_NEGATIVE = 2;
 
 /**
  * class for explorer view in admin frame
  *
  * @author Stefan Meyer <meyer@leifos.com>
+ * @deprecated
  */
 class ilExplorer
 {
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public $id;
-
-    /**
-    * output
-    * @var string
-    * @access public
-    */
-    public $output;
-
-    /**
-    * contains format options
-    * @var array
-    * @access public
-    */
-    public $format_options;
-
-    /**
-    * tree
-    * @var object Tree
-    * @access public
-    */
-    public $tree;
-
-    /**
-    * target
-    * @var string
-    * @access public
-    */
-    public $target;
-
-    /**
-    * target get parameter
-    * @var string
-    * @access public
-    */
-    public $target_get;
-
-    /**
-    * additional get parameter
-    * @var string
-    * @access public
-    */
-    public $params_get;
-
-    /**
-    * expanded
-    * @var array
-    * @access public
-    */
-    public $expanded;
-
-    /**
-    * order column
-    * @var string
-    * @access private
-    */
-    public $order_column;
-
-    /**
-    * order direction
-    * @var string
-    * @access private
-    */
-    public $order_direction = "asc";
-
-    /**
-    * target script for expand icon links
-    * @var string
-    * @access private
-    */
-    public $expand_target;
-
-    /**
-    * rbac check true/false (default true)
-    * @var boolean
-    * @access private
-    */
-    public $rbac_check;
-
-
-    /**
-    * output icons true/false (default true)
-    * @var boolean
-    * @access private
-    */
-    public $output_icons;
-
-    /**
-    * name of session expand variable
-    * @var boolean
-    * @access private
-    */
-    public $expand_variable;
-
-    /**
-    * array ($type => clickable (empty means true, "n" means false)
-    * @var array
-    * @access private
-    */
-    public $is_clickable;
-
-    /**
-    * process post sorting true/false
-    * @var boolean
-    * @access private
-    */
-    public $post_sort;
-
-    /**
-    * set object type filter true/false
-    * @var boolean
-    * @access private
-    */
-    public $filtered = false;
-
-    /**
-    * set filter mode
-    * @var boolean
-    * @access private
-    */
-    public $filter_mode;
-
-    /**
-    * expand entire tree regardless of values in $expanded
-    * @var boolean
-    * @access private
-    */
-    public $expand_all = false;
-    
-    /**
-    * Root id. One can set it using setRoot
-    * @var boolean
-    * @access private
-    */
+    protected ilObjectDefinition $obj_definition;
+    protected ilErrorHandling $error;
+    protected ilRbacSystem $rbacsystem;
+    protected ilTemplate $tpl;
+    protected ilLanguage $lng;
+    public string $id;
+    public string $output;
+    public array $format_options;
+    public ilTree $tree;
+    public string $target;
+    public string $target_get;
+    public string $params_get;
+    public array $expanded;
+    public string $order_column;
+    public string $order_direction = "asc";
+    public string $expand_target;
+    public bool $rbac_check;
+    public bool $output_icons;
+    public string $expand_variable;
+    // array ($type => clickable (empty means true, "n" means false)
+    public array $is_clickable;
+    public bool $post_sort;
+    public bool $filtered = false;
+    public bool $filter_mode;
+    // expand entire tree regardless of values in $expanded
+    public bool$expand_all = false;
     public $root_id = null;
-    
-    public $use_standard_frame = false;
+    public bool $use_standard_frame = false;
+    protected string $highlighted = "";
+    protected bool $show_minus = true;
+    protected int $counter = 0;
+    protected bool $asnch_expanding = false;
+    protected int $textwidth = 0;
+    protected string $title = "";
+    protected string $up_frame;
+    protected string $a_up_script;
+    protected string $up_params;
+    protected string $frame_target = "";
+    protected string $up_script = "";
+    protected string $tree_lead = "";
+    protected array $iconList = [];
 
-    /**
-    * Constructor
-    * @access	public
-    * @param	string	scriptname
-    */
-    public function __construct($a_target)
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
+
+    public function __construct(string $a_target)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->obj_definition = $DIC["objDefinition"];
@@ -208,8 +98,6 @@ class ilExplorer
             }
         }
 
-        $this->ilias = $DIC["ilias"];
-        $this->output = array();
         $this->expanded = array();
         $this->target = $a_target;
         $this->target_get = 'ref_id';
@@ -228,66 +116,48 @@ class ilExplorer
         $this->show_minus = true;
         $this->counter = 0;
         $this->asnch_expanding = false;
+        $this->refinery = $DIC->refinery();
+        $this->wrapper = $DIC->http()->wrapper();
     }
 
-    /**
-     * Set id
-     *
-     * @param string $a_val id
-     */
-    public function setId($a_val)
+    protected function requestStr(string $key) : string
+    {
+        $str = $this->refinery->kindlyTo()->string();
+        if ($this->wrapper->post()->has($key)) {
+            return $this->wrapper->post()->retrieve($key, $str);
+        }
+        if ($this->wrapper->query()->has($key)) {
+            return $this->wrapper->query()->retrieve($key, $str);
+        }
+        return "";
+    }
+
+    public function setId(string $a_val) : void
     {
         $this->id = $a_val;
     }
     
-    /**
-     * Get id
-     *
-     * @return string id
-     */
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
     
-    /**
-     * Set asynch expanding
-     *
-     * @param boolean
-     */
-    public function setAsynchExpanding($a_val)
+    public function setAsynchExpanding(bool $a_val) : void
     {
         $this->asnch_expanding = $a_val;
     }
 
-    /**
-     * Get asynch expanding
-     *
-     * @return boolean
-     */
-    public function getAsynchExpanding()
+    public function getAsynchExpanding() : bool
     {
         return $this->asnch_expanding;
     }
 
-    /**
-     * Init item counter
-     *
-     * @access public
-     * @param int number
-     *
-     */
-    public function initItemCounter($a_number)
+    public function initItemCounter(int $a_number) : void
     {
         $this->counter = $a_number;
     }
     
-    /**
-    * Set title
-    *
-    * @param	title
-    */
-    public function setTitle($a_val)
+    public function setTitle(string $a_val) : void
     {
         $this->title = $a_val;
     }
@@ -297,45 +167,22 @@ class ilExplorer
         $this->textwidth = $a_length;
     }
     
-    /**
-     * Get max title length
-     * @return
-     */
-    public function getTitleLength()
+    public function getTitleLength() : int
     {
         return $this->textwidth;
     }
     
-    /**
-    * Get title
-    *
-    * @return	title
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
     
-    /**
-     * Set root node
-     *
-     * @access public
-     * @param int ref id of root node
-     *
-     */
     public function setRoot($a_root_id)
     {
         #$this->tree = new ilTree(ROOT_FOLDER_ID,$a_root_id);
         $this->root_id = $a_root_id;
     }
     
-    /**
-     * get root id
-     *
-     * @access public
-     * @param
-     *
-     */
     public function getRoot()
     {
         return $this->root_id == null ?
@@ -343,22 +190,12 @@ class ilExplorer
             $this->root_id;
     }
 
-    /**
-    * set the order column
-    * @access	public
-    * @param	string		name of order column
-    */
-    public function setOrderColumn($a_column)
+    public function setOrderColumn(string $a_column) : void
     {
         $this->order_column = $a_column;
     }
 
-    /**
-    * set the order direction
-    * @access	public
-    * @param	string		name of order column
-    */
-    public function setOrderDirection($a_direction)
+    public function setOrderDirection(string $a_direction) : void
     {
         if ($a_direction == "desc") {
             $this->order_direction = $a_direction;
@@ -368,11 +205,9 @@ class ilExplorer
     }
 
     /**
-    * set the varname in Get-string
-    * @access	public
-    * @param	string		varname containing Ids to be used in GET-string
-    */
-    public function setTargetGet($a_target_get)
+     * @param string $a_target_get varname containing Ids to be used in GET-string
+     */
+    public function setTargetGet(string $a_target_get) : void
     {
         $ilErr = $this->error;
 
@@ -383,12 +218,7 @@ class ilExplorer
         $this->target_get = $a_target_get;
     }
 
-    /**
-    * set additional params to be passed in Get-string
-    * @access	public
-    * @param	array
-    */
-    public function setParamsGet($a_params_get)
+    public function setParamsGet(array $a_params_get) : void
     {
         $ilErr = $this->error;
 
@@ -405,75 +235,47 @@ class ilExplorer
 
 
     /**
-    * target script for expand icons
-    *
-    * @param	string		$a_exp_target	script name of target script(may include parameters)
-    *										initially set to $_SERVER["PATH_INFO"]
-    */
-    public function setExpandTarget($a_exp_target)
+     * target script for expand icons
+     * @param	string		$a_exp_target	script name of target script(may include parameters)
+     *										initially set to $_SERVER["PATH_INFO"]
+     */
+    public function setExpandTarget(string $a_exp_target) : void
     {
         $this->expand_target = $a_exp_target;
     }
     
-    /**
-    * Set Explorer Updater
-    *
-    * @param	object	$a_tree	Tree Object
-    */
-    public function setFrameUpdater($a_up_frame, $a_up_script, $a_params = "")
-    {
+    public function setFrameUpdater(
+        string $a_up_frame,
+        string $a_up_script,
+        string $a_params = ""
+    ) : void {
         $this->up_frame = $a_up_frame;
         $this->up_script = $a_up_script;
         $this->up_params = $a_params;
     }
 
     
-    /**
-    * set highlighted node
-    */
-    public function highlightNode($a_id)
+    public function highlightNode(string $a_id) : void
     {
         $this->highlighted = $a_id;
     }
 
-    /**
-    * check permissions via rbac
-    *
-    * @param	boolean		$a_check		check true/false
-    */
-    public function checkPermissions($a_check)
+    public function checkPermissions(bool $a_check) : void
     {
         $this->rbac_check = $a_check;
     }
 
-    /**
-    * set name of expand session variable
-    *
-    * @param	string		$a_var_name		variable name
-    */
-    public function setSessionExpandVariable($a_var_name = "expand")
+    public function setSessionExpandVariable(string $a_var_name = "expand") : void
     {
         $this->expand_variable = $a_var_name;
     }
 
-    /**
-    * output icons
-    *
-    * @param	boolean		$a_icons		output icons true/false
-    */
-    public function outputIcons($a_icons)
+    public function outputIcons(bool $a_icons) : void
     {
         $this->output_icons = $a_icons;
     }
 
-
-    /**
-    * (de-)activates links for a certain object type
-    *
-    * @param	string		$a_type			object type
-    * @param	boolean		$a_clickable	true/false
-    */
-    public function setClickable($a_type, $a_clickable)
+    public function setClickable(string $a_type, bool $a_clickable) : void
     {
         if ($a_clickable) {
             $this->is_clickable[$a_type] = "";
@@ -482,8 +284,10 @@ class ilExplorer
         }
     }
 
-    public function isVisible($a_ref_id, $a_type)
-    {
+    public function isVisible(
+        $a_ref_id,
+        string $a_type
+    ) : bool {
         $rbacsystem = $this->rbacsystem;
         
         if (!$this->rbac_check) {
@@ -495,35 +299,22 @@ class ilExplorer
         return $visible;
     }
 
-    /**
-     * Set tree leading content
-     *
-     * @param	string	$a_val	tree leading content
-     */
-    public function setTreeLead($a_val)
+    // Set tree leading content
+    public function setTreeLead(string $a_val) : void
     {
         $this->tree_lead = $a_val;
     }
 
-    /**
-     * Get tree leading content
-     *
-     * @return	string	tree leading content
-     */
-    public function getTreeLead()
+    public function getTreeLead() : string
     {
         return $this->tree_lead;
     }
 
-    /**
-    * check if links for certain object type are activated
-    *
-    * @param	string		$a_type			object type
-    *
-    * @return	boolean		true if linking is activated
-    */
-    public function isClickable($a_type, $a_ref_id = 0)
-    {
+    //  check if links for certain object type are activated
+    public function isClickable(
+        string $a_type,
+        $a_ref_id = 0
+    ) : bool {
         // in this standard implementation
         // only the type determines, wether an object should be clickable or not
         // but this method can be overwritten and make $exp->setFilterMode(IL_FM_NEGATIVE);use of the ref id
@@ -535,85 +326,63 @@ class ilExplorer
         }
     }
 
-    /**
-    * process post sorting
-    * @param	boolean		$a_sort		true / false
-    */
-    public function setPostSort($a_sort)
+    public function setPostSort(bool $a_sort) : void
     {
         $this->post_sort = $a_sort;
     }
 
-    /**
-    * set filter mode
-    *
-    * @param	int		$a_mode		filter mode IL_FM_NEGATIVE | IL_FM_NEGATIVE
-    */
-    public function setFilterMode($a_mode = IL_FM_NEGATIVE)
+    public function setFilterMode(int $a_mode = IL_FM_NEGATIVE) : void
     {
         $this->filter_mode = $a_mode;
     }
 
     /**
-    * get filter mode
-    *
-    * @return	int		filter mode IL_FM_NEGATIVE | IL_FM_NEGATIVE
-    */
-    public function getFilterMode()
+     * @return	int		filter mode IL_FM_NEGATIVE | IL_FM_NEGATIVE
+     */
+    public function getFilterMode() : int
     {
         return $this->filter_mode;
     }
 
     /**
-    * Set use standard frame. If true, the standard
-    * explorer frame (like in the repository) is put around the tree.
-    *
-    * @param	boolean		use standard explorer frame
-    */
-    public function setUseStandardFrame($a_val)
+     * Set use standard frame. If true, the standard
+     * explorer frame (like in the repository) is put around the tree.
+     */
+    public function setUseStandardFrame(bool $a_val) : void
     {
         $this->use_standard_frame = $a_val;
     }
     
-    /**
-    * Get use standard explorer frame
-    *
-    * @return	boolean		use standard explorer frame
-    */
-    public function getUseStandardFrame()
+    public function getUseStandardFrame() : bool
     {
         return $this->use_standard_frame;
     }
     
-    /**
-     * Get childs of node
-     *
-     * @param int $a_parent_id parent id
-     * @return array childs
-     */
-    public function getChildsOfNode($a_parent_id)
+    public function getChildsOfNode($a_parent_id) : array
     {
         return $this->tree->getChilds($a_parent_id, $this->order_column);
     }
     
     
     /**
-    * Creates output for explorer view in admin menue
-    * recursive method
-    * @access	public
-    * @param	integer		parent_node_id where to start from (default=0, 'root')
-    * @param	integer		depth level where to start (default=1)
-    * @return	string
-    */
-    public function setOutput($a_parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false)
-    {
+     * Creates output for explorer view in admin menue
+     * recursive method
+     */
+    public function setOutput(
+        $a_parent_id,
+        int $a_depth = 1,
+        int $a_obj_id = 0,
+        bool $a_highlighted_subtree = false
+    ) : void {
         $ilErr = $this->error;
+
+        $parent_index = 0;
 
         if (!isset($a_parent_id)) {
             $ilErr->raiseError(get_class($this) . "::setOutput(): No node_id given!", $ilErr->WARNING);
         }
 
-        if ($this->showChilds($a_parent_id, $a_obj_id)) {
+        if ($this->showChilds($a_parent_id)) {
             $objects = $this->getChildsOfNode($a_parent_id);
         } else {
             $objects = array();
@@ -706,10 +475,8 @@ class ilExplorer
                         // stop recursion if 2. level beyond expanded nodes is reached
                         if ($this->expand_all or in_array($object["parent"], $this->expanded) or ($object["parent"] == 0)
                             or $this->forceExpanded($object["child"])) {
-                            $highlighted_subtree = ($a_highlighted_subtree ||
-                                ($object["child"] == $this->highlighted))
-                                ? true
-                                : false;
+                            $highlighted_subtree = $a_highlighted_subtree ||
+                                ($object["child"] == $this->highlighted);
                             
                             // recursive
                             $this->setOutput($object["child"], $a_depth, $object['obj_id'], $highlighted_subtree);
@@ -720,48 +487,39 @@ class ilExplorer
         } //if
     } //function
 
-    public function modifyChilds($a_parent_id, $a_objects)
-    {
+    public function modifyChilds(
+        $a_parent_id,
+        array $a_objects
+    ) : array {
         return $a_objects;
     }
 
     /**
-    * determines wether the childs of an object should be shown or not
-    * note: this standard implementation always returns true
-    * but it could be overwritten by derived classes (e.g. ilRepositoryExplorerGUI)
-    */
-    public function showChilds($a_parent_id)
+     * determines wether the childs of an object should be shown or not
+     * note: this standard implementation always returns true
+     * but it could be overwritten by derived classes (e.g. ilRepositoryExplorerGUI)
+     */
+    public function showChilds($a_parent_id) : bool
     {
         return true;
     }
 
     /**
-    * force expansion of node
-    */
-    public function forceExpanded($a_obj_id)
+     * force expansion of node
+     */
+    public function forceExpanded($a_obj_id) : bool
     {
         return false;
     }
 
-    /**
-     * Get maximum tree depth
-     *
-     * @param
-     * @return
-     */
-    public function getMaximumTreeDepth()
+    public function getMaximumTreeDepth() : int
     {
         $this->tree->getMaximumDepth();
+        return 0;   // seems to not return the value...
     }
     
     
-    /**
-    * Creates output
-    * recursive method
-    * @access	public
-    * @return	string
-    */
-    public function getOutput()
+    public function getOutput() : string
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -784,7 +542,9 @@ class ilExplorer
         $tpl_tree = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
         
         // updater
-        if (($_GET["ict"] || $_POST["collapseAll"] != "" || $_POST["expandAll"] != "") && $this->up_frame != "") {
+        if (($this->requestStr("ict") != "" ||
+            $this->requestStr("collapseAll") != "" ||
+            $this->requestStr("expandAll") != "") && $this->up_frame != "") {
             $tpl_tree->setCurrentBlock("updater");
             $tpl_tree->setVariable("UPDATE_FRAME", $this->up_frame);
             $tpl_tree->setVariable("UPDATE_SCRIPT", $this->up_script);
@@ -861,10 +621,13 @@ class ilExplorer
     
     
     /**
-    * handle list end tags (</li> and </ul>)
-    */
-    public function handleListEndTags(&$a_tpl_tree, $a_cur_depth, $a_item_depth)
-    {
+     * handle list end tags (</li> and </ul>)
+     */
+    public function handleListEndTags(
+        ilTemplate $a_tpl_tree,
+        int $a_cur_depth,
+        int $a_item_depth
+    ) : void {
         if ($a_item_depth < $a_cur_depth) {
             // </li></ul> for ending lists
             for ($i = 0; $i < ($a_cur_depth - $a_item_depth); $i++) {
@@ -882,10 +645,13 @@ class ilExplorer
     }
     
     /**
-    * handle list start tags (<ul> and <li>)
-    */
-    public function handleListStartTags(&$a_tpl_tree, $a_cur_depth, $a_item_depth)
-    {
+     * handle list start tags (<ul> and <li>)
+     */
+    public function handleListStartTags(
+        ilTemplate $a_tpl_tree,
+        int $a_cur_depth,
+        int $a_item_depth
+    ) : void {
         // start tags
         if ($a_item_depth > $a_cur_depth) {
             // <ul><li> for new lists
@@ -895,38 +661,24 @@ class ilExplorer
                 $a_tpl_tree->touchBlock("start_list_no_indent");
             }
             $a_tpl_tree->touchBlock("element");
-            
-            $a_tpl_tree->touchBlock("start_list_item");
-            $a_tpl_tree->touchBlock("element");
-        } else {
-            // <li> items
-            $a_tpl_tree->touchBlock("start_list_item");
-            $a_tpl_tree->touchBlock("element");
         }
+        $a_tpl_tree->touchBlock("start_list_item");
+        $a_tpl_tree->touchBlock("element");
     }
 
-    /**
-    * Creates output for header
-    * (is empty here but can be overwritten in derived classes)
-    *
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
-    {
+    public function formatHeader(
+        ilTemplate $tpl,
+        $a_obj_id,
+        array $a_option
+    ) : void {
     }
 
-    /**
-    * Creates output
-    * recursive method
-    * @access	private
-    * @param	integer
-    * @param	array
-    * @return	string
-    */
-    public function formatObject($tpl, $a_node_id, $a_option, $a_obj_id = 0)
-    {
+    public function formatObject(
+        ilTemplate $tpl,
+        $a_node_id,
+        array $a_option,
+        $a_obj_id = 0
+    ) {
         $lng = $this->lng;
         $ilErr = $this->error;
 
@@ -1008,7 +760,7 @@ class ilExplorer
             $tpl->parseCurrentBlock();
         }
 
-        if ($this->isClickable($a_option["type"], $a_node_id, $a_obj_id)) {	// output link
+        if ($this->isClickable($a_option["type"], $a_node_id)) {	// output link
             $tpl->setCurrentBlock("link");
             //$target = (strpos($this->target, "?") === false) ?
             //	$this->target."?" : $this->target."&";
@@ -1040,7 +792,6 @@ class ilExplorer
             if ($frame_target != "") {
                 $tpl->setVariable("TARGET", " target=\"" . $frame_target . "\"");
             }
-            $tpl->parseCurrentBlock();
         } else {			// output text only
             $tpl->setCurrentBlock("text");
             $tpl->setVariable("OBJ_TITLE", ilUtil::shortenText(
@@ -1053,103 +804,97 @@ class ilExplorer
                 $this->textwidth,
                 true
             ));
-            $tpl->parseCurrentBlock();
         }
+        $tpl->parseCurrentBlock();
 
         $tpl->setCurrentBlock("list_item");
         $tpl->parseCurrentBlock();
         $tpl->touchBlock("element");
     }
 
-    /**
-    * get image path (may be overwritten by derived classes)
-    */
-    public function getImage($a_name, $a_type = "", $a_obj_id = "")
-    {
+    public function getImage(
+        string $a_name,
+        string $a_type = "",
+        $a_obj_id = ""
+    ) : string {
         return ilUtil::getImagePath($a_name);
     }
     
-    /**
-    * get image alt text
-    */
-    public function getImageAlt($a_default_text, $a_type = "", $a_obj_id = "")
-    {
+    public function getImageAlt(
+        string $a_default_text,
+        string $a_type = "",
+        $a_obj_id = ""
+    ) : string {
         return $a_default_text;
     }
     
-    /**
-    * get style class for node
-    */
-    public function getNodeStyleClass($a_id, $a_type)
-    {
+    public function getNodeStyleClass(
+        $a_id,
+        string $a_type
+    ) : string {
         if ($a_id == $this->highlighted) {
             return "il_HighlightedNode";
         }
         return "";
     }
 
-    /**
-    * get link target (may be overwritten by derived classes)
-    */
-    public function buildLinkTarget($a_node_id, $a_type)
-    {
+    public function buildLinkTarget(
+        $a_node_id,
+        string $a_type
+    ) : string {
         $target = (strpos($this->target, "?") === false)
             ? $this->target . "?"
             : $this->target . "&";
         return $target . $this->target_get . "=" . $a_node_id . $this->params_get;
     }
 
-    /**
-    * get onclick event handling (may be overwritten by derived classes)
-    */
-    public function buildOnClick($a_node_id, $a_type, $a_title)
-    {
+    public function buildOnClick(
+        $a_node_id,
+        string $a_type,
+        string $a_title
+    ) : string {
         return "";
     }
 
-    /**
-    * standard implementation for title, may be overwritten by derived classes
-    */
-    public function buildTitle($a_title, $a_id, $a_type)
-    {
+    public function buildTitle(
+        string $a_title,
+        $a_id,
+        string $a_type
+    ) : string {
         return $a_title;
     }
 
-    /**
-    * standard implementation for description, may be overwritten by derived classes
-    */
-    public function buildDescription($a_desc, $a_id, $a_type)
-    {
+    public function buildDescription(
+        string $a_desc,
+        $a_id,
+        string $a_type
+    ) : string {
         return "";
     }
     
     /**
-    * standard implementation for adding an option select box between image and title
-    */
-    public function buildSelect($a_node_id, $a_type)
+     * standard implementation for adding an option select box between image and title
+     */
+    public function buildSelect($a_node_id, string $a_type) : string
     {
         return "";
     }
     
-
-    /**
-    * get frame target (may be overwritten by derived classes)
-    */
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
-    {
+    public function buildFrameTarget(
+        string $a_type,
+        $a_child = 0,
+        $a_obj_id = 0
+    ) : string {
         return $this->frame_target;
     }
 
 
-    /**
-    * Creates Get Parameter
-    * @access	private
-    * @param	string
-    * @param	integer
-    * @return	string
-    */
-    public function createTarget($a_type, $a_node_id, $a_highlighted_subtree = false, $a_append_anch = true)
-    {
+    public function createTarget(
+        string $a_type,
+        $a_node_id,
+        bool $a_highlighted_subtree = false,
+        bool $a_append_anch = true
+    ) : string {
         $ilErr = $this->error;
 
         if (!isset($a_type) or !is_string($a_type) or !isset($a_node_id)) {
@@ -1180,23 +925,12 @@ class ilExplorer
         }
     }
 
-    /**
-    * set target
-    * frame or not frame?
-    * @param	string
-    * @access	public
-    */
-    public function setFrameTarget($a_target)
+    public function setFrameTarget(string $a_target) : void
     {
         $this->frame_target = $a_target;
     }
 
-    /**
-    * Creates lines for explorer view
-    * @access	private
-    * @param	integer
-    */
-    public function createLines($a_depth)
+    public function createLines(int $a_depth) : void
     {
         for ($i = 0; $i < count($this->format_options); ++$i) {
             if ($this->format_options[$i]["depth"] == $a_depth + 1
@@ -1221,15 +955,10 @@ class ilExplorer
         }
     }
 
-    /**
-    * DESCRIPTION MISSING
-    * @access	private
-    * @param	integer
-    * @param	integer
-    * @return	boolean
-    */
-    public function is_in_array($a_start, $a_depth)
-    {
+    public function is_in_array(
+        int $a_start,
+        int $a_depth
+    ) : bool {
         for ($i = $a_start;$i < count($this->format_options);++$i) {
             if ($this->format_options[$i]["depth"] < $a_depth) {
                 break;
@@ -1242,13 +971,8 @@ class ilExplorer
         return false;
     }
 
-    /**
-    * get index of format_options array from specific ref_id,parent_id
-    * @access	private
-    * @param	array		object data
-    * @return	integer		index
-    **/
-    public function getIndex($a_data)
+    // get index of format_options array from specific ref_id,parent_id
+    public function getIndex(array $a_data) : int
     {
         if (!is_array($this->format_options)) {
             return -1;
@@ -1263,43 +987,26 @@ class ilExplorer
         return -1;
     }
 
-    /**
-    * adds item to the filter
-    * @access	public
-    * @param	string		object type to add
-    * @return	boolean
-    */
-    public function addFilter($a_item)
+    public function addFilter(string $a_item) : bool
     {
-        $ispresent = 0;
-
         if (is_array($this->filter)) {
             //run through filter
             foreach ($this->filter as $item) {
                 if ($item == $a_item) {
-                    $is_present = 1;
-
                     return false;
                 }
             }
         } else {
             $this->filter = array();
         }
-        if ($is_present == 0) {
-            $this->filter[] = $a_item;
-        }
+        $this->filter[] = $a_item;
 
         return true;
     }
 
-    /**
-    * removes item from the filter
-    * @access	public
-    * @param	string		object type to remove
-    * @return	boolean
-    */
-    public function delFilter($a_item)
+    public function delFilter(string $a_item) : bool
     {
+        $deleted = 0;
         //check if a filter exists
         if (is_array($this->filter)) {
             //build copy of the existing filter without the given item
@@ -1326,60 +1033,50 @@ class ilExplorer
     }
 
     /**
-    * set the expand option
-    * this value is stored in a SESSION variable to save it different view (lo view, frm view,...)
-    * @access	private
-    * @param	string		pipe-separated integer
-    */
-    public function setExpand($a_node_id)
+     * set the expand option
+     * this value is stored in a SESSION variable to save it different view (lo view, frm view,...)
+     */
+    public function setExpand($a_node_id) : void
     {
         // IF ISN'T SET CREATE SESSION VARIABLE
-        if (!is_array($_SESSION[$this->expand_variable])) {
-            $_SESSION[$this->expand_variable] = array($this->getRoot());
+        if (!is_array(ilSession::get($this->expand_variable))) {
+            ilSession::set($this->expand_variable, [$this->getRoot()]);
         }
         // IF $_GET["expand"] is positive => expand this node
-        if ($a_node_id > 0 && !in_array($a_node_id, $_SESSION[$this->expand_variable])) {
-            array_push($_SESSION[$this->expand_variable], $a_node_id);
+        if ($a_node_id > 0 && !in_array($a_node_id, ilSession::get($this->expand_variable))) {
+            $exp = ilSession::get($this->expand_variable);
+            $exp[] = $a_node_id;
+            ilSession::set($this->expand_variable, $exp);
         }
         // IF $_GET["expand"] is negative => compress this node
         if ($a_node_id < 0) {
-            $key = array_keys($_SESSION[$this->expand_variable], -(int) $a_node_id);
-            unset($_SESSION[$this->expand_variable][$key[0]]);
+            $key = array_keys(ilSession::get($this->expand_variable), -(int) $a_node_id);
+            $exp = ilSession::get($this->expand_variable);
+            unset($exp[$key[0]]);
+            ilSession::set($this->expand_variable, $exp);
         }
-        $this->expanded = $_SESSION[$this->expand_variable];
+        $this->expanded = (array) ilSession::get($this->expand_variable);
     }
 
     /**
-    * force expandAll. if true all nodes are expanded regardless of the values
-    * in $expanded (default: false)
-    * @access	public
-    * @param	boolean
-    */
-    public function forceExpandAll($a_mode, $a_show_minus = true)
-    {
-        $this->expand_all = (bool) $a_mode;
+     * force expandAll. if true all nodes are expanded regardless of the values
+     * in $expanded (default: false)
+     */
+    public function forceExpandAll(
+        bool $a_mode,
+        bool $a_show_minus = true
+    ) : void {
+        $this->expand_all = $a_mode;
         $this->show_minus = $a_show_minus;
     }
 
-    /**
-    * active/deactivate the filter
-    * @access	public
-    * @param	boolean
-    * @return	boolean
-    */
-    public function setFiltered($a_bool)
+    public function setFiltered(bool $a_bool) : bool
     {
         $this->filtered = $a_bool;
         return true;
     }
 
-    /**
-    * check if item is in filter
-    * @access	private
-    * @param	string
-    * @return	integer
-    */
-    public function checkFilter($a_item)
+    public function checkFilter(string $a_item) : bool
     {
         if (is_array($this->filter)) {
             if (in_array($a_item, $this->filter)) {
@@ -1399,13 +1096,11 @@ class ilExplorer
     }
 
     /**
-    * sort nodes and put adm object to the end of sorted array
-    * @access	private
-    * @param	array	node list as returned by iltree::getChilds();
-    * @return	array	sorted nodes
-    */
-    public function sortNodes($a_nodes, $a_parent_obj_id)
+     * sort nodes and put adm object to the end of sorted array
+     */
+    public function sortNodes(array $a_nodes, $a_parent_obj_id) : array
     {
+        $adm_node = null;
         foreach ($a_nodes as $key => $node) {
             if ($node["type"] == "adm") {
                 $match = $key;
@@ -1415,13 +1110,17 @@ class ilExplorer
         }
 
         // cut off adm node
-        isset($match) ? array_splice($a_nodes, $match, 1) : "";
+        if (isset($match)) {
+            array_splice($a_nodes, $match, 1);
+        }
 
         $a_nodes = ilUtil::sortArray($a_nodes, $this->order_column, $this->order_direction);
 
         // append adm node to end of list
-        isset($match) ? array_push($a_nodes, $adm_node) : "";
+        if (isset($match)) {
+            array_push($a_nodes, $adm_node);
+        }
 
         return $a_nodes;
     }
-} // END class.ilExplorer
+}

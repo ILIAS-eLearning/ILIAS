@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Image\Standard;
 
 /**
@@ -12,7 +12,7 @@ function decorative()
     $f = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
 
-    //Genarating and rendering the image
+    //Generating and rendering the image
     $image = $f->image()->standard(
         "src/UI/examples/Image/HeaderIconLarge.svg",
         ""

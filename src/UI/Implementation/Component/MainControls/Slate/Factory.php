@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -13,20 +13,9 @@ use ILIAS\UI\Component\Symbol\Factory as SymbolFactory;
 
 class Factory implements ISlate\Factory
 {
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
-
-    /**
-     * @var CounterFactory
-     */
-    protected $counter_factory;
-
-    /**
-     * @var SymbolFactory
-     */
-    protected $symbol_factory;
+    protected SignalGeneratorInterface $signal_generator;
+    protected CounterFactory $counter_factory;
+    protected SymbolFactory $symbol_factory;
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,

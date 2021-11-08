@@ -1,56 +1,39 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Component\MainControls\MetaBar;
-use \ILIAS\UI\Component\MainControls\MainBar;
-use \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
-use \ILIAS\UI\Component\Image\Image;
-use \ILIAS\UI\Implementation\Component\Layout\Page;
-use \ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use ILIAS\UI\Component\MainControls\MetaBar;
+use ILIAS\UI\Component\MainControls\MainBar;
+use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
+use ILIAS\UI\Component\Image\Image;
+use ILIAS\UI\Implementation\Component\Layout\Page;
+use ILIAS\UI\Implementation\Component\Legacy\Legacy;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 /**
  * Tests for the Standard Page
  */
 class StandardPageTest extends ILIAS_UI_TestBase
 {
-    /**
-     * @var Page\Standard
-     */
-    protected $stdpage;
+    protected Page\Standard $stdpage;
+    protected Page\Factory $factory;
+    protected MainBar $mainbar;
+    protected MetaBar $metabar;
+    protected Breadcrumbs $crumbs;
+    protected Image $logo;
+    protected string $title;
 
     /**
-     * @var Page\Factory
+     * @var Legacy[]
      */
-    protected $factory;
-
-    /**
-     * @var MainBar
-     */
-    protected $mainbar;
-
-    /**
-     * @var MetaBar
-     */
-    protected $metabar;
-
-    /**
-     * @var Breadcrumbs
-     */
-    protected $crumbs;
-
-    /**
-     * @var Image
-     */
-    protected $logo;
+    protected array $contents;
 
     public function setUp() : void
     {
-        $sig_gen = new \ILIAS\UI\Implementation\Component\SignalGenerator();
+        $sig_gen = new SignalGenerator();
         $this->metabar = $this->createMock(MetaBar::class);
         $this->metabar->method("getCanonicalName")->willReturn("MetaBar Stub");
         $this->mainbar = $this->createMock(MainBar::class);
@@ -74,7 +57,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testConstruction()
+    public function testConstruction() : void
     {
         $this->assertInstanceOf(
             "ILIAS\\UI\\Component\\Layout\\Page\\Standard",
@@ -82,7 +65,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetContent()
+    public function testGetContent() : void
     {
         $this->assertEquals(
             $this->contents,
@@ -90,7 +73,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMetabar()
+    public function testGetMetabar() : void
     {
         $this->assertEquals(
             $this->metabar,
@@ -98,7 +81,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetMainbar()
+    public function testGetMainbar() : void
     {
         $this->assertEquals(
             $this->mainbar,
@@ -106,7 +89,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetBreadcrumbs()
+    public function testGetBreadcrumbs() : void
     {
         $this->assertEquals(
             $this->crumbs,
@@ -114,7 +97,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetLogo()
+    public function testGetLogo() : void
     {
         $this->assertEquals(
             $this->logo,
@@ -122,7 +105,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithWrongContents()
+    public function testWithWrongContents() : void
     {
         $this->expectException(TypeError::class);
         $this->stdpage = $this->factory->standard(
@@ -134,7 +117,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testGetTitle()
+    public function testGetTitle() : void
     {
         $this->assertEquals(
             $this->title,
@@ -142,7 +125,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithTitle()
+    public function testWithTitle() : void
     {
         $title = 'some title';
         $this->assertEquals(
@@ -150,7 +133,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withTitle($title)->getTitle()
         );
     }
-    public function testWithShortTitle()
+    public function testWithShortTitle() : void
     {
         $title = 'some short title';
         $this->assertEquals(
@@ -158,7 +141,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
             $this->stdpage->withShortTitle($title)->getShortTitle()
         );
     }
-    public function testWithViewTitle()
+    public function testWithViewTitle() : void
     {
         $title = 'some view title';
         $this->assertEquals(
@@ -167,7 +150,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testWithTextDirection()
+    public function testWithTextDirection() : void
     {
         $this->assertEquals("ltr", $this->stdpage->getTextDirection());
         $this->assertEquals(
@@ -178,7 +161,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testRenderingWithTitle()
+    public function testRenderingWithTitle() : void
     {
         $this->stdpage = $this->stdpage
             ->withTitle("Title")
@@ -218,7 +201,7 @@ class StandardPageTest extends ILIAS_UI_TestBase
         $this->assertEquals($exptected, $html);
     }
 
-    public function testRenderingWithRtlLanguage()
+    public function testRenderingWithRtlLanguage() : void
     {
         $this->stdpage = $this->stdpage->withTextDirection($this->stdpage::RTL);
 

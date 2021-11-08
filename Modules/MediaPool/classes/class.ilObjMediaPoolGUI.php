@@ -963,7 +963,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                             $page = new ilMediaPoolPage();
                             $page->setId($item->getId());
                             $page->setParentId($this->object->getId());
-                            $page->create();
+                            $page->create(false);
                             
                             // copy content
                             $original->copy($page->getId(), $page->getParentType(), $page->getParentId(), true);
@@ -1298,7 +1298,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
                 $page = new ilMediaPoolPage();
                 $page->setId($item->getId());
                 $page->setParentId($this->object->getId());
-                $page->create();
+                $page->create(false);
                 
                 $ilCtrl->setParameterByClass("ilmediapoolpagegui", "mepitem_id", $item->getId());
                 $ilCtrl->redirectByClass("ilmediapoolpagegui", "edit");

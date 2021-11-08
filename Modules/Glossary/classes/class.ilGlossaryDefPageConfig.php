@@ -12,7 +12,7 @@ class ilGlossaryDefPageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init()
+    public function init() : void
     {
         $this->setEnableKeywords(true);
         $this->setEnableInternalLinks(true);

@@ -7,14 +7,10 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements IMenu\Factory
 {
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
+    protected SignalGeneratorInterface $signal_generator;
 
-    public function __construct(
-        SignalGeneratorInterface $signal_generator
-    ) {
+    public function __construct(SignalGeneratorInterface $signal_generator)
+    {
         $this->signal_generator = $signal_generator;
     }
 

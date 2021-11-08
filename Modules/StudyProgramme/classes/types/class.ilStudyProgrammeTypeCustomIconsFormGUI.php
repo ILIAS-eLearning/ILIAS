@@ -16,18 +16,6 @@ class ilStudyProgrammeTypeCustomIconsFormGUI extends ilPropertyFormGUI
      */
     protected $type_repo;
     /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
      * @var
      */
     protected $parent_gui;

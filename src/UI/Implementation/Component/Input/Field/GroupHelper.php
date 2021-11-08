@@ -1,14 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see
-docs/LICENSE */
+/* Copyright (c) 2017 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\UI\Component as Component;
 use ILIAS\UI\Implementation\Component\Input\InputData;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\Data\Factory as DataFactory;
+use InvalidArgumentException;
 
 /**
  * The code of Group is used in Checkbox, e.g., but a checkbox is not a group.
@@ -24,24 +22,20 @@ trait GroupHelper
      *
      * @var    Input[]
      */
-    protected $inputs = [];
-
+    protected array $inputs = [];
 
     /**
-     * @inheritdoc
+     * @param mixed $value
      */
-    protected function isClientSideValueOk($value)
+    protected function isClientSideValueOk($value) : bool
     {
         return true;
     }
 
-
     /**
      * Get the value that is displayed in the groups input as Generator instance.
-     *
-     * @return array
      */
-    public function getGroupValues()
+    public function getGroupValues() : array
     {
         $values = [];
         foreach ($this->getInputs() as $key => $input) {
@@ -51,17 +45,14 @@ trait GroupHelper
         return $values;
     }
 
-
     /**
      * Get an input like this with children with other values displayed on the
      * client side. Note that the number of values passed must match the number of inputs.
      *
-     * @param    array
-     *
-     * @throws  \InvalidArgumentException    if value does not fit client side input
-     * @return Input|Group|GroupHelper
+     * @throws InvalidArgumentException    if value does not fit client side input
+     * @return static
      */
-    public function withGroupValues($values)
+    public function withGroupValues(array $values)
     {
         $clone = clone $this;
         $clone->checkArg("value", $clone->isClientSideValueOk($values), "Values given do not match given inputs in group.");
@@ -77,15 +68,12 @@ trait GroupHelper
         return $clone;
     }
 
-
     /**
-     * Default implementation for groups. May be overriden if more specific checks are needed.
+     * Default implementation for groups. May be overridden if more specific checks are needed.
      *
      * @param    mixed $value
-     *
-     * @return    bool
      */
-    protected function isClientGroupSideValueOk($value)
+    protected function isClientGroupSideValueOk($value) : bool
     {
         if (!is_array($value)) {
             return false;
@@ -103,14 +91,11 @@ trait GroupHelper
         return true;
     }
 
-
     /**
      * Collects the input, applies trafos and forwards the input to its children and returns
-     * a new input group reflecting the inputs with data that was putted in.
-     *
-     * @inheritdoc
+     * a new input group reflecting the inputs with data that was put in.
      */
-    public function withInput(InputData $post_input)
+    public function withInput(InputData $post_input) : self
     {
         $clone = clone $this;
         $clone = $clone::withInput($post_input);
@@ -124,13 +109,7 @@ trait GroupHelper
         return $clone->withGroupInput($post_input);
     }
 
-
-    /**
-     * @param InputData $post_input
-     *
-     * @return Group|Input|GroupHelper
-     */
-    protected function withGroupInput(InputData $post_input)
+    protected function withGroupInput(InputData $post_input) : self
     {
         /**
          * @var $clone Group|Input|GroupHelper
@@ -146,9 +125,6 @@ trait GroupHelper
         $error = false;
         foreach ($this->getInputs() as $key => $input) {
             $filled = $input->withInput($post_input);
-            /**
-             * @var $filled Input
-             */
             //Todo: Is this correct here or should it be getValue? Design decision...
             $content = $filled->getContent();
             if ($content->isOK()) {
@@ -187,15 +163,8 @@ trait GroupHelper
         return $clone;
     }
 
-
-    /**
-     * @inheritdoc
-     */
-    public function withNameFrom(NameSource $source)
+    public function withNameFrom(NameSource $source) : self
     {
-        /**
-         * @var $clone Group
-         */
         $clone = clone $this;
         $clone = $clone::withNameFrom($source);
 
@@ -209,18 +178,14 @@ trait GroupHelper
         return $clone;
     }
 
-
     /**
      * @return Input[]
      */
-    public function getInputs()
+    public function getInputs() : array
     {
         return $this->inputs;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getConstraintForRequirement()
     {
         return null;

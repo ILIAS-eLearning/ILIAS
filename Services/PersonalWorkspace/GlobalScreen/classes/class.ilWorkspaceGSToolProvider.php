@@ -7,25 +7,17 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 /**
  * Workspace GS tool provider
  *
- * @author Alex Killing <killing@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWorkspaceGSToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_WS_TREE = 'show_ws_tree';
+    public const SHOW_WS_TREE = 'show_ws_tree';
 
-
-    /**
-     * @inheritDoc
-     */
     public function isInterestedInContexts() : ContextCollection
     {
         return $this->context_collection->main()->desktop();
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getToolsForContextStack(CalledContexts $called_contexts) : array
     {
         $tools = [];
@@ -54,12 +46,6 @@ class ilWorkspaceGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-
-    /**
-     * @param int $ref_id
-     *
-     * @return string
-     */
     private function getTree() : string
     {
         global $DIC;

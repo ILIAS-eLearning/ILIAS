@@ -12,12 +12,12 @@
  */
 class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
 {
-    public function getParentType()
+    public function getParentType() : string
     {
         return "prtt";
     }
     
-    protected function getPageContentUserId($a_user_id)
+    protected function getPageContentUserId(int $a_user_id) : int
     {
         $ilUser = $this->user;
         
@@ -31,10 +31,10 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
         }
     }
     
-    public function showPage()
+    public function showPage() : string
     {
         if (!$this->getPageObject()) {
-            return;
+            return "";
         }
         
         switch ($this->getPageObject()->getType()) {
@@ -94,7 +94,7 @@ class ilPortfolioTemplatePageGUI extends ilPortfolioPageGUI
         return $ctrl->getFormActionByClass("ilobjportfoliotemplategui", "preview");
     }
 
-    public function finishEditing()
+    public function finishEditing() : void
     {
         $this->ctrl->redirectByClass("ilObjPortfolioTemplateGUI", "view");
     }

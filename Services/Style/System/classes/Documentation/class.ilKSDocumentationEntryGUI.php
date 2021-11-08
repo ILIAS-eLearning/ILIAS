@@ -121,7 +121,7 @@ class ilKSDocumentationEntryGUI
             );
         }
 
-        if ($this->entry->getRules()->hasRules()) {
+        if ($this->entry->getRules() && $this->entry->getRules()->hasRules()) {
             $rule_listings = array();
             foreach ($this->entry->getRulesAsArray() as $categoery => $category_rules) {
                 $rule_listings[ucfirst($categoery)] = $this->f->listing()->ordered($category_rules);

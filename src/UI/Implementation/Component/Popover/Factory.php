@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Popover;
 
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component as C;
 
 /**
  * Class Factory
@@ -10,37 +11,27 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
  * @package ILIAS\UI\Implementation\Component\Popover
  */
-class Factory implements \ILIAS\UI\Component\Popover\Factory
+class Factory implements C\Popover\Factory
 {
+    protected SignalGeneratorInterface $signal_generator;
 
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
-
-
-    /**
-     * @param SignalGeneratorInterface $signal_generator
-     */
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
         $this->signal_generator = $signal_generator;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function standard($content)
+    public function standard($content) : C\Popover\Standard
     {
         return new Standard($content, $this->signal_generator);
     }
 
-
     /**
      * @inheritdoc
      */
-    public function listing($items)
+    public function listing($items) : C\Popover\Listing
     {
         return new Listing($items, $this->signal_generator);
     }

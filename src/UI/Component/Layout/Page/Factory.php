@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Layout\Page;
 
@@ -61,13 +61,14 @@ interface Factory
      *        the Footer is nested in the HTML element "main", the HTML element of the
      *        Footer MUST additionally be declared with the ARIA role "Contentinfo".
      * ----
-     *
      * @param  \ILIAS\UI\Component\Component[] $content
      * @param  \ILIAS\UI\Component\MainControls\MetaBar $Metabar
      * @param  \ILIAS\UI\Component\MainControls\MetaBar $mainbar
      * @param  \ILIAS\UI\Component\Breadcrumbs\Breadcrumbs $locator
      * @param  \ILIAS\UI\Component\MainControls\Footer $footer
      * @param  string $title
+     * @param  string $short_title
+     * @param  string $view_title
      * @return \ILIAS\UI\Component\Layout\Page\Standard
      */
     public function standard(

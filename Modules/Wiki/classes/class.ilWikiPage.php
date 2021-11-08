@@ -15,21 +15,19 @@ class ilWikiPage extends ilPageObject
 
     /**
      * Get parent type
-     *
      * @return string parent type
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         return "wpg";
     }
 
     /**
      * After constructor
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function afterConstructor()
+    public function afterConstructor() : void
     {
         $this->getPageConfig()->configureByObjectId($this->getParentId());
     }
@@ -157,7 +155,7 @@ class ilWikiPage extends ilPageObject
     /**
      * Create page from xml
      */
-    public function createFromXML()
+    public function createFromXML() : void
     {
         $ilDB = $this->db;
 
@@ -179,8 +177,9 @@ class ilWikiPage extends ilPageObject
 
     /**
     * Create new wiki page
-    */
-    public function create($a_prevent_page_creation = false)
+     * @param bool $a_import
+     */
+    public function create(bool $a_import = false, $a_prevent_page_creation = false) : void
     {
         $ilDB = $this->db;
 
@@ -205,7 +204,7 @@ class ilWikiPage extends ilPageObject
 
         // create page object
         if (!$a_prevent_page_creation) {
-            parent::create();
+            parent::create($a_import);
             $this->saveInternalLinks($this->getDomDoc());
 
             ilWikiStat::handleEvent(ilWikiStat::EVENT_PAGE_CREATED, $this);
@@ -215,7 +214,7 @@ class ilWikiPage extends ilPageObject
         $this->updateNews();
     }
     
-    public function afterUpdate($a_domdoc = null, $a_xml = "")
+    public function afterUpdate(DOMDocument $domdoc, string $xml, $a_domdoc = null, $a_xml = "") : void
     {
         // internal == wiki links
         $int_links = sizeof(ilWikiUtil::collectInternalLinks($a_xml, $this->getWikiId(), true));
@@ -253,7 +252,7 @@ class ilWikiPage extends ilPageObject
     * @access	public
     * @return	boolean
     */
-    public function update($a_validate = true, $a_no_history = false)
+    public function update(bool $a_validate = true, bool $a_no_history = false)
     {
         $ilDB = $this->db;
         
@@ -282,7 +281,7 @@ class ilWikiPage extends ilPageObject
     /**
     * Read wiki data
     */
-    public function read($a_omit_page_read = false)
+    public function read($a_omit_page_read = false) : void
     {
         $ilDB = $this->db;
         
@@ -309,7 +308,7 @@ class ilWikiPage extends ilPageObject
     *
     * @access	public
     */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
         
@@ -353,8 +352,6 @@ class ilWikiPage extends ilPageObject
                 array($this->getWikiId(), $lp["id"], $this->getTitle())
             );
         }
-
-        return true;
     }
 
     /**
@@ -648,7 +645,7 @@ class ilWikiPage extends ilPageObject
     *
     * @param	string		xml page code
     */
-    public function saveInternalLinks($a_domdoc)
+    public function saveInternalLinks(DOMDocument $a_domdoc) : void
     {
         $ilDB = $this->db;
         
@@ -1055,10 +1052,9 @@ class ilWikiPage extends ilPageObject
 
     /**
      * Get content templates
-     *
      * @return array array of arrays with "id" => page id (int), "parent_type" => parent type (string), "title" => title (string)
      */
-    public function getContentTemplates()
+    public function getContentTemplates() : array
     {
         $wt = new ilWikiPageTemplate($this->getWikiId());
         $templates = array();

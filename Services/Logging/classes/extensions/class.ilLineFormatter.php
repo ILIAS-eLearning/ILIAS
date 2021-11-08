@@ -14,7 +14,7 @@ class ilLineFormatter extends \Monolog\Formatter\LineFormatter
     /**
      * {@inheritdoc}
      */
-    public function format(array $record)
+    public function format(array $record) : string
     {
         if (isset($record["extra"]["trace"])) {
             $record["message"] = $record["extra"]["trace"] . " " . $record["message"];

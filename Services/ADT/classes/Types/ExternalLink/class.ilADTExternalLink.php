@@ -1,19 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTExternalLink extends ilADT
 {
     public const MAX_LENGTH = 500;
-    
-    /**
-     * @var string
-     */
-    protected $value;
-    
-    /**
-     * @var string
-     */
-    protected $title;
-    
+
+    protected ?string $value;
+    protected ?string $title;
 
     /**
      * @param ilADTDefinition $a_def
@@ -33,33 +25,33 @@ class ilADTExternalLink extends ilADT
         $this->value = null;
         $this->title = null;
     }
-    
+
     /**
      * Set title
-     * @param string $a_title
+     * @param string|null $a_title
      */
-    public function setTitle($a_title = null)
+    public function setTitle(?string $a_title = null) : void
     {
         if ($a_title !== null) {
             $a_title = trim($a_title);
         }
         $this->title = $a_title;
     }
-    
+
     /**
-     * Getb title
-     * @return string
+     * Get title
+     * @return string|null
      */
-    public function getTitle()
+    public function getTitle() : ?string
     {
         return $this->title;
     }
-    
+
     /**
      * Set url
-     * @param string $a_value
+     * @param string|null $a_value
      */
-    public function setUrl($a_value = null)
+    public function setUrl(?string $a_value = null) : void
     {
         if ($a_value !== null) {
             $a_value = trim($a_value);
@@ -69,13 +61,12 @@ class ilADTExternalLink extends ilADT
 
     /**
      * Get url
-     * @return string
+     * @return string|null
      */
-    public function getUrl()
+    public function getUrl() : ?string
     {
         return $this->value;
     }
-
 
     /**
      * @param ilADT $a_adt
@@ -89,10 +80,6 @@ class ilADTExternalLink extends ilADT
         return null;
     }
 
-    /**
-     * Is larger
-     * @param ilADT $a_adt
-     */
     public function isLarger(ilADT $a_adt) : ?bool
     {
         return null;
@@ -109,14 +96,14 @@ class ilADTExternalLink extends ilADT
      */
     public function isNull() : bool
     {
-        return (bool) !$this->getLength();
+        return !$this->getLength();
     }
-    
+
     /**
      * Get length
      * @return int
      */
-    public function getLength()
+    public function getLength() : int
     {
         if (function_exists("mb_strlen")) {
             return mb_strlen($this->getUrl() . $this->getTitle(), "UTF-8");
@@ -124,7 +111,6 @@ class ilADTExternalLink extends ilADT
             return strlen($this->getUrl() . $this->getTitle());
         }
     }
-    
 
     public function isValid() : bool
     {
@@ -150,7 +136,6 @@ class ilADTExternalLink extends ilADT
         return null;
     }
 
-
     /**
      * @inheritDoc
      */
@@ -164,7 +149,6 @@ class ilADTExternalLink extends ilADT
         }
         return null;
     }
-
 
     /**
      * @inheritDoc

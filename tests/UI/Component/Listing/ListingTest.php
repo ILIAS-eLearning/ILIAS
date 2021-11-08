@@ -1,28 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component\Listing\Factory;
 
 /**
  * Test on button implementation.
  */
 class ListingTest extends ILIAS_UI_TestBase
 {
-
-    /**
-     * @return \ILIAS\UI\Implementation\Component\Listing\Factory
-     */
-    public function getListingFactory()
+    public function getListingFactory() : C\Listing\Factory
     {
-        return new \ILIAS\UI\Implementation\Component\Listing\Factory();
+        return new Factory();
     }
 
-
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getListingFactory();
 
@@ -46,8 +42,7 @@ class ListingTest extends ILIAS_UI_TestBase
         );
     }
 
-
-    public function test_ordered_get_items()
+    public function test_ordered_get_items() : void
     {
         $f = $this->getListingFactory();
         $l = $f->ordered(array("1","2"));
@@ -56,7 +51,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_unordered_get_items()
+    public function test_unordered_get_items() : void
     {
         $f = $this->getListingFactory();
         $l = $f->unordered(array("1","2"));
@@ -65,7 +60,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_descriptive_get_items()
+    public function test_descriptive_get_items() : void
     {
         $f = $this->getListingFactory();
         $l = $f->descriptive(array("k1" => "c1","k2" => "c2"));
@@ -74,7 +69,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_ordered_with_items()
+    public function test_ordered_with_items() : void
     {
         $f = $this->getListingFactory();
         $l = $f->ordered(array())->withItems(array("1","2"));
@@ -83,7 +78,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_unordered_with_items()
+    public function test_unordered_with_items() : void
     {
         $f = $this->getListingFactory();
         $l = $f->unordered(array())->withItems(array("1","2"));
@@ -92,7 +87,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-    public function test_descriptive_with_items()
+    public function test_descriptive_with_items() : void
     {
         $f = $this->getListingFactory();
         $l = $f->descriptive(array())->withItems(array("k1" => "c1","k2" => "c2"));
@@ -101,8 +96,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($l->getItems(), $items);
     }
 
-
-    public function test_render_ordered_listing()
+    public function test_render_ordered_listing() : void
     {
         $f = $this->getListingFactory();
         $r = $this->getDefaultRenderer();
@@ -118,30 +112,29 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_descriptive_invalid_items2()
+    public function test_descriptive_invalid_items2() : void
     {
         $f = $this->getListingFactory();
 
         try {
             $f->descriptive(array("1"));
         } catch (InvalidArgumentException $e) {
-            $this->assertEquals(get_class($e), "InvalidArgumentException");
+            $this->assertEquals("InvalidArgumentException", get_class($e));
         }
     }
 
-    public function test_descriptive_invalid_items3()
+    public function test_descriptive_invalid_items3() : void
     {
         $f = $this->getListingFactory();
 
         try {
             $f->descriptive(array("1","1"));
         } catch (InvalidArgumentException $e) {
-            $this->assertEquals(get_class($e), "InvalidArgumentException");
+            $this->assertEquals("InvalidArgumentException", get_class($e));
         }
     }
 
-
-    public function test_render_unordered_listing()
+    public function test_render_unordered_listing() : void
     {
         $f = $this->getListingFactory();
         $r = $this->getDefaultRenderer();
@@ -157,7 +150,7 @@ class ListingTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-    public function test_render_descriptive_listing()
+    public function test_render_descriptive_listing() : void
     {
         $f = $this->getListingFactory();
         $r = $this->getDefaultRenderer();

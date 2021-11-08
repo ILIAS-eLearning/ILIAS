@@ -54,7 +54,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
     /**
     * Get Screen Mode for current command.
     */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         return IL_SCREEN_SIDE;
     }
@@ -78,7 +78,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
     /**
     * Get bloch HTML code.
     */
-    public function getHTML($a_export = false)
+    public function getHTML($a_export = false) : string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -98,7 +98,7 @@ class ilWikiImportantPagesBlockGUI extends ilBlockGUI
     /**
      * Fill data section
      */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         $this->setDataSection($this->getLegacyContent());
     }

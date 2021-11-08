@@ -11,22 +11,13 @@
  */
 class ilPCAMDPageList extends ilPageContent
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public $dom;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
 
     /**
     * Init page content component.
     */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -44,7 +35,7 @@ class ilPCAMDPageList extends ilPageContent
      * Get lang vars needed for editing
      * @return array array of lang var keys
      */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("ed_insert_amd_page_list", "pc_amdpl");
     }
@@ -52,7 +43,7 @@ class ilPCAMDPageList extends ilPageContent
     /**
     * Set node
     */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->amdpl_node = $a_node->first_child();		// this is the courses node
@@ -136,7 +127,7 @@ class ilPCAMDPageList extends ilPageContent
         return $res;
     }
     
-    public static function handleCopiedContent(DOMDocument $a_domdoc, $a_self_ass = true, $a_clone_mobs = false)
+    public static function handleCopiedContent(DOMDocument $a_domdoc, bool $a_self_ass = true, bool $a_clone_mobs = false) : void
     {
         global $DIC;
 
@@ -217,24 +208,24 @@ class ilPCAMDPageList extends ilPageContent
     /**
      * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
+    public function modifyPageContentPostXsl(string $a_output, string $a_mode, bool $a_abstract_only = false) : string
     {
         $lng = $this->lng;
         
         if ($this->getPage()->getParentType() != "wpg") {
-            return $a_html;
+            return $a_output;
         }
                             
         $wiki_id = $this->getPage()->getWikiId();
         
         $c_pos = 0;
-        $start = strpos($a_html, "[[[[[AMDPageList;");
+        $start = strpos($a_output, "[[[[[AMDPageList;");
         if (is_int($start)) {
-            $end = strpos($a_html, "]]]]]", $start);
+            $end = strpos($a_output, "]]]]]", $start);
         }
         $i = 1;
         while ($end > 0) {
-            $parts = explode(";", substr($a_html, $start + 17, $end - $start - 17));
+            $parts = explode(";", substr($a_output, $start + 17, $end - $start - 17));
             
             $list_id = (int) $parts[0];
             $list_mode = (sizeof($parts) == 2)
@@ -261,18 +252,18 @@ class ilPCAMDPageList extends ilPageContent
             
             $ltpl->setVariable("LIST_MODE", $list_mode ? "ol" : "ul");
                                             
-            $a_html = substr($a_html, 0, $start) .
+            $a_output = substr($a_output, 0, $start) .
                 $ltpl->get() .
-                substr($a_html, $end + 5);
+                substr($a_output, $end + 5);
             
-            $start = strpos($a_html, "[[[[[AMDPageList;", $start + 5);
+            $start = strpos($a_output, "[[[[[AMDPageList;", $start + 5);
             $end = 0;
             if (is_int($start)) {
-                $end = strpos($a_html, "]]]]]", $start);
+                $end = strpos($a_output, "]]]]]", $start);
             }
         }
                 
-        return $a_html;
+        return $a_output;
     }
     
     /**

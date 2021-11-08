@@ -1,26 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTDateTime extends ilADT
 {
-    protected $value; // [ilDateTime]
+    protected ?ilDateTime $value;
 
-    
     // definition
-    
+
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return $a_def instanceof ilADTDateTimeDefinition;
     }
-    
+
     public function reset() : void
     {
         parent::reset();
         $this->value = null;
     }
-    
-    
+
     // properties
-    
+
     public function setDate(ilDateTime $a_value = null)
     {
         if ($a_value && $a_value->isNull()) {
@@ -28,15 +26,14 @@ class ilADTDateTime extends ilADT
         }
         $this->value = $a_value;
     }
-    
-    public function getDate()
+
+    public function getDate() : ?ilDateTime
     {
         return $this->value;
     }
-    
-    
+
     // comparison
-    
+
     public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -49,7 +46,7 @@ class ilADTDateTime extends ilADT
         }
         return null;
     }
-                
+
     public function isLarger(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -73,10 +70,9 @@ class ilADTDateTime extends ilADT
         }
         return null;
     }
-    
-    
+
     // null
-    
+
     public function isNull() : bool
     {
         return !$this->value instanceof ilDateTime || $this->value->isNull();
@@ -89,10 +85,9 @@ class ilADTDateTime extends ilADT
         }
         return null;
     }
-    
-    
+
     // stdClass
-    
+
     public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
@@ -102,7 +97,7 @@ class ilADTDateTime extends ilADT
         }
         return null;
     }
-    
+
     public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {

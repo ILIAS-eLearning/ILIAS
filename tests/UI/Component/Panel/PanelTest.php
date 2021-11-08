@@ -1,21 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
-use \ILIAS\UI\Implementation\Component\SignalGenerator;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 class ComponentDummy implements C\Component
 {
+    protected string $id;
+
     public function __construct($id = "")
     {
         $this->id = $id;
     }
-    public function getCanonicalName()
+    public function getCanonicalName() : string
     {
         return "Component Dummy";
     }
@@ -26,22 +28,22 @@ class ComponentDummy implements C\Component
  */
 class PanelTest extends ILIAS_UI_TestBase
 {
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function panelSecondary()
+        return new class extends NoUIFactory {
+            public function panelSecondary() : I\Component\Panel\Secondary\Factory
             {
                 return new I\Component\Panel\Secondary\Factory();
             }
-            public function dropdown()
+            public function dropdown() : I\Component\Dropdown\Factory
             {
                 return new I\Component\Dropdown\Factory();
             }
-            public function viewControl()
+            public function viewControl() : I\Component\ViewControl\Factory
             {
                 return new I\Component\ViewControl\Factory(new SignalGenerator());
             }
-            public function button()
+            public function button() : I\Component\Button\Factory
             {
                 return new I\Component\Button\Factory();
             }
@@ -54,20 +56,16 @@ class PanelTest extends ILIAS_UI_TestBase
                 );
             }
         };
-        return $factory;
     }
 
-    /**
-     * @return \ILIAS\UI\Implementation\Component\Panel\Factory
-     */
-    public function getPanelFactory()
+    public function getPanelFactory() : I\Component\Panel\Factory
     {
         return new I\Component\Panel\Factory(
             $this->createMock(C\Panel\Listing\Factory::class)
         );
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getPanelFactory();
 
@@ -86,15 +84,15 @@ class PanelTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_standard_get_title()
+    public function test_standard_get_title() : void
     {
         $f = $this->getPanelFactory();
         $p = $f->standard("Title", array(new ComponentDummy()));
 
-        $this->assertEquals($p->getTitle(), "Title");
+        $this->assertEquals("Title", $p->getTitle());
     }
 
-    public function test_standard_get_content()
+    public function test_standard_get_content() : void
     {
         $f = $this->getPanelFactory();
         $c = new ComponentDummy();
@@ -103,7 +101,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getContent(), array($c));
     }
 
-    public function test_standard_with_actions()
+    public function test_standard_with_actions() : void
     {
         $fp = $this->getPanelFactory();
 
@@ -119,7 +117,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getActions(), $actions);
     }
 
-    public function test_sub_with_actions()
+    public function test_sub_with_actions() : void
     {
         $fp = $this->getPanelFactory();
 
@@ -135,7 +133,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getActions(), $actions);
     }
 
-    public function test_sub_with_card()
+    public function test_sub_with_card() : void
     {
         $fp = $this->getPanelFactory();
 
@@ -148,7 +146,7 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getFurtherInformation(), $card);
     }
 
-    public function test_sub_with_secondary_panel()
+    public function test_sub_with_secondary_panel() : void
     {
         $fp = $this->getPanelFactory();
 
@@ -162,24 +160,24 @@ class PanelTest extends ILIAS_UI_TestBase
         $this->assertEquals($p->getFurtherInformation(), $secondary);
     }
 
-    public function test_report_get_title()
+    public function test_report_get_title() : void
     {
         $f = $this->getPanelFactory();
         $sub = $f->sub("Title", array(new ComponentDummy()));
         $p = $f->report("Title", array($sub));
 
-        $this->assertEquals($p->getTitle(), "Title");
+        $this->assertEquals("Title", $p->getTitle());
     }
 
-    public function test_report_get_content()
+    public function test_report_get_content() : void
     {
         $f = $this->getPanelFactory();
         $sub = $f->sub("Title", array(new ComponentDummy()));
-        $p = $f->report("Title", $sub);
+        $p = $f->report("Title", [$sub]);
 
         $this->assertEquals($p->getContent(), array($sub));
     }
-    public function test_render_standard()
+    public function test_render_standard() : void
     {
         $f = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
@@ -210,7 +208,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_sub()
+    public function test_render_sub() : void
     {
         $fp = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
@@ -255,7 +253,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_sub_with_secondary_panel()
+    public function test_render_sub_with_secondary_panel() : void
     {
         $fp = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
@@ -293,7 +291,7 @@ EOT;
         );
     }
 
-    public function test_render_report()
+    public function test_render_report() : void
     {
         $fp = $this->getPanelFactory();
         $r = $this->getDefaultRenderer();
@@ -334,7 +332,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_with_view_controls()
+    public function test_with_view_controls() : void
     {
         $sort_options = [
             'a' => 'A',
@@ -343,7 +341,7 @@ EOT;
         $sortation = $this->getUIFactory()->viewControl()->sortation($sort_options);
         $f = $this->getPanelFactory();
         $p = $f->standard("Title", [])
-            ->withViewControls([$sortation]);
+            ->withViewControls([$sortation])
         ;
 
         $this->assertEquals($p->getViewControls(), [$sortation]);
@@ -388,7 +386,7 @@ EOT;
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_pagination()
+    public function test_render_with_pagination() : void
     {
         $pagination = $this->getUIFactory()->viewControl()->pagination()
             ->withTargetURL('http://ilias.de', 'page')

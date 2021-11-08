@@ -105,7 +105,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     /**
      * @inheritDoc
      */
-    public function setOffline($offline = true)
+    public function setOffline(bool $offline = true) : void
     {
         $this->offline = $offline;
     }
@@ -331,7 +331,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     /**
      * get xml for links
      */
-    public function getLinkXML($a_int_links) : string
+    public function getLinkXML(array $int_links) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -345,7 +345,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             $a_layoutframes = array();
         }
         $link_info = "<IntLinkInfos>";
-        foreach ($a_int_links as $int_link) {
+        foreach ($int_links as $int_link) {
             $target = $int_link["Target"];
             if (substr($target, 0, 4) == "il__") {
                 $target_arr = explode("_", $target);

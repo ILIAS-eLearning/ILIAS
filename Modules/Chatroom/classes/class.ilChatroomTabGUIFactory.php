@@ -49,7 +49,7 @@ class ilChatroomTabGUIFactory
         }
 
         $settings = new ilSetting('chatroom');
-        $public_room_ref = (int) $settings->get('public_room_ref');
+        $public_room_ref = (int) $settings->get('public_room_ref', '0');
 
         $objIds = ilObject::_getObjectsByType('chta');
         $firstObjId = (int) current(array_keys($objIds));

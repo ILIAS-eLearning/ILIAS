@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Workspace content renderer
@@ -9,59 +20,24 @@
  */
 class ilWorkspaceContentGUI
 {
-    /**
-     * @var int
-     */
-    protected $current_node;
-
-    /**
-     * @var bool
-     */
-    protected $admin;
-
-    /**
-     * @var object
-     */
-    protected $access_handler;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilWorkspaceFolderSorting
-     */
+    private object $object_gui;
+    private ilWorkspaceFolderUserSettings $user_folder_settings;
+    private array $shared_objects;
+    protected int $current_node;
+    protected bool $admin;
+    protected ilWorkspaceAccessHandler $access_handler;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilLanguage $lng;
+    protected ilObjUser $user;
+    protected ilObjectDefinition $obj_definition;
+    protected ilCtrl $ctrl;
     protected $folder_sorting;
 
-    /**
-     * Constructor
-     */
     public function __construct(
-        $object_gui,
+        object $object_gui,
         int $node_id,
         bool $admin,
-        $access_handler,
+        ilWorkspaceAccessHandler $access_handler,
         \ILIAS\DI\UIServices $ui,
         ilLanguage $lng,
         ilObjUser $user,
@@ -83,10 +59,7 @@ class ilWorkspaceContentGUI
         $this->folder_sorting = new ilWorkspaceFolderSorting();
     }
 
-    /**
-     * Render
-     */
-    public function render()
+    public function render() : string
     {
         $html = "";
         $first = true;
@@ -137,10 +110,7 @@ class ilWorkspaceContentGUI
         return $this->ui->renderer()->render($panel);
     }
 
-    /**
-     *
-     */
-    protected function getItems()
+    protected function getItems() : array
     {
         $user = $this->user;
 
@@ -163,13 +133,7 @@ class ilWorkspaceContentGUI
         return $nodes;
     }
 
-    /**
-     * Get item HTML
-     *
-     * @param
-     * @return
-     */
-    protected function getItemHTML($node)
+    protected function getItemHTML(array $node) : string
     {
         $objDefinition = $this->obj_definition;
         $ilCtrl = $this->ctrl;

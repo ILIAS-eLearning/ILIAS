@@ -129,7 +129,7 @@ class ilUserCertificateGUI
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        if (!$this->certificateSettings->get('active')) {
+        if (!$this->certificateSettings->get('active', '0')) {
             $this->ctrl->returnToParent($this);
         }
 
@@ -154,7 +154,7 @@ class ilUserCertificateGUI
     {
         global $DIC;
 
-        if (!$this->certificateSettings->get('active')) {
+        if (!$this->certificateSettings->get('active', '0')) {
             $this->ctrl->redirect($this);
             return;
         }

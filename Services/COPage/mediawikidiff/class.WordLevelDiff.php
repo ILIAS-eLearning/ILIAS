@@ -1213,7 +1213,6 @@ class _DiffEngine
 
             // Find the end of this run of changes.
             while (++$i < $len && $changed[$i]) {
-                continue;
             }
 
             do {
@@ -1236,7 +1235,6 @@ class _DiffEngine
                     }
                     USE_ASSERTS && assert($j > 0);
                     while ($other_changed[--$j]) {
-                        continue;
                     }
                     USE_ASSERTS && assert($j >= 0 && !$other_changed[$j]);
                 }
@@ -1282,7 +1280,6 @@ class _DiffEngine
                 $changed[--$i] = 0;
                 USE_ASSERTS && assert($j > 0);
                 while ($other_changed[--$j]) {
-                    continue;
                 }
                 USE_ASSERTS && assert($j >= 0 && !$other_changed[$j]);
             }
@@ -1615,7 +1612,7 @@ class DiffFormatter
         return $end;
     }
 
-    public function _block($xbeg, $xlen, $ybeg, $ylen, &$edits)
+    public function _block($xbeg, $xlen, $ybeg, $ylen, $edits)
     {
         $fname = 'DiffFormatter::_block';
         //wfProfileIn( $fname );

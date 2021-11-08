@@ -56,14 +56,14 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
 
     protected string $listtitle;
     protected string $aria_listtitle = "";
-    protected bool $useimages;
+    protected bool $useimages = false;
     protected string $itemlinkclass = '';
-    protected string $mode;
-    protected array $links_mode;
-    protected string $selectionheaderclass;
-    protected string $headericon;
-    protected string $nojslinkclass;
-    protected string $on_click;
+    protected string $mode = "";
+    protected array $links_mode = [];
+    protected string $selectionheaderclass = "";
+    protected string $headericon = "";
+    protected string $nojslinkclass = "";
+    protected string $on_click = "";
 
     /** @var array<string, mixed>  */
     protected array $form_mode = [
@@ -703,9 +703,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
             $cfg["select_callback"] = $this->getSelectCallback();
         }
         $cfg["anchor_id"] = "ilAdvSelListAnchorElement_" . $this->getId();
-        $cfg["asynch"] = $this->getAsynch()
-            ? true
-            : false;
+        $cfg["asynch"] = $this->getAsynch();
         $cfg["asynch_url"] = $this->getAsynchUrl();
         $toggle = $this->getAdditionalToggleElement();
         if (is_array($toggle)) {
@@ -720,8 +718,7 @@ class ilAdvancedSelectionListGUI implements ilToolbarItem
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
         if ($this->getListTitle() == "" || $this->getAriaListTitle() != "") {
             $aria_title = ($this->getAriaListTitle() != "")
-                ? $this->getAriaListTitle() != ""
-                : $this->lng->txt("actions");
+                ?: $this->lng->txt("actions");
             $tpl->setVariable("TXT_ARIA_TOP", $aria_title);
         }
         $tpl->setVariable("ID", $this->getId());

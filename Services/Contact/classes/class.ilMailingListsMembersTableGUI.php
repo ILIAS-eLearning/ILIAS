@@ -7,7 +7,6 @@
  */
 class ilMailingListsMembersTableGUI extends ilTable2GUI
 {
-
     public function __construct(ilMailingListsGUI $a_parent_obj, string $a_parent_cmd, ilMailingList $mailing_list)
     {
         $this->setId('show_mlng_mmbrs_list_tbl_' . $mailing_list->getId());

@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\ViewControl\Sortation;
 
 //Base example, show-casing how this control is used if firing leads to some

@@ -1627,7 +1627,7 @@ class ilNoteGUI
      *
      * @param string|array $a_callback
      */
-    public function addObserver($a_callback)
+    public function addObserver(callable $a_callback)
     {
         $this->observer[] = $a_callback;
     }

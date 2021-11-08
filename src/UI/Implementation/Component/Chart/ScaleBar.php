@@ -1,5 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+
 namespace ILIAS\UI\Implementation\Component\Chart;
 
 use ILIAS\UI\Component as C;
@@ -13,14 +15,8 @@ class ScaleBar implements C\Chart\ScaleBar
 {
     use ComponentHelper;
 
-    /**
-     * @var array
-     */
-    protected $items;
+    protected array $items;
 
-    /**
-     * @inheritdoc
-     */
     public function __construct($items)
     {
         $this->items = $items;
@@ -29,7 +25,7 @@ class ScaleBar implements C\Chart\ScaleBar
     /**
      * @inheritdoc
      */
-    public function withItems(array $items)
+    public function withItems(array $items) : C\Chart\ScaleBar
     {
         $clone = clone $this;
         $clone->items = $items;
@@ -39,7 +35,7 @@ class ScaleBar implements C\Chart\ScaleBar
     /**
      * @inheritdoc
      */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->items;
     }

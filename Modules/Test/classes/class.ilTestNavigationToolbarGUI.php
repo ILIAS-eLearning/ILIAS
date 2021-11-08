@@ -18,11 +18,6 @@ class ilTestNavigationToolbarGUI extends ilToolbarGUI
     protected $ctrl;
 
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilTestPlayerAbstractGUI
      */
     protected $playerGUI;

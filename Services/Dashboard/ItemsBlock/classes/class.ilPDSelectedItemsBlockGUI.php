@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * BlockGUI class for Selected Items on Personal Desktop
@@ -12,66 +23,24 @@
  */
 class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandling
 {
-    /** @var ilRbacSystem */
-    protected $rbacsystem;
+    private int $requested_item_ref_id;
+    protected ilRbacSystem $rbacsystem;
+    protected ilSetting $settings;
+    protected ilObjectDefinition $obj_definition;
+    public static string $block_type = 'pditems';
+    protected ilPDSelectedItemsBlockViewSettings $viewSettings;
+    protected ilPDSelectedItemsBlockViewGUI $blockView;
+    protected bool $manage = false;
+    protected string $content = '';
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+    protected \ILIAS\HTTP\Services $http;
+    protected ilObjectService $objectService;
+    protected ilFavouritesManager $favourites;
+    protected ilTree $tree;
+    protected ilPDSelectedItemsBlockListGUIFactory $list_factory;
 
-    /** @var ilSetting */
-    protected $settings;
-
-    /** @var ilObjectDefinition */
-    protected $obj_definition;
-
-    /** @var string */
-    public static $block_type = 'pditems';
-
-    /** @var ilPDSelectedItemsBlockViewSettings */
-    protected $viewSettings;
-
-    /** @var ilPDSelectedItemsBlockViewGUI */
-    protected $blockView;
-
-    /** @var bool */
-    protected $manage = false;
-
-    /** @var string */
-    protected $content = '';
-
-    /** @var ilLanguage */
-    protected $lng;
-
-    /** @var ilCtrl */
-    protected $ctrl;
-
-    /** @var ilObjUser */
-    protected $user;
-
-    /** @var \ILIAS\DI\UIServices */
-    protected $ui;
-
-    /** @var \ILIAS\HTTP\Services */
-    protected $http;
-
-    /** @var \ilObjectService */
-    protected $objectService;
-
-    /**
-     * @var ilFavouritesManager
-     */
-    protected $favourites;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilPDSelectedItemsBlockListGUIFactory
-     */
-    protected $list_factory;
-
-    /**
-     * ilPDSelectedItemsBlockGUI constructor.
-     */
     public function __construct()
     {
         /** @var ILIAS\DI\Container $DIC */
@@ -113,10 +82,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->requested_item_ref_id = (int) ($params["item_ref_id"] ?? 0);
     }
 
-    /**
-     * Evaluates the view settings of this block
-     */
-    protected function initViewSettings()
+    protected function initViewSettings() : void
     {
         $this->viewSettings = new ilPDSelectedItemsBlockViewSettings(
             $this->user,
@@ -130,46 +96,25 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
     }
 
-    /**
-     * @return ilPDSelectedItemsBlockViewSettings
-     */
     public function getViewSettings() : ilPDSelectedItemsBlockViewSettings
     {
         return $this->viewSettings;
     }
 
-    /**
-     * @inheritdoc
-     */
-    /*
-    public function fillDetailRow()
-    {
-        parent::fillDetailRow();
-    }*/
-
-    /**
-     * @inheritdoc
-     */
-    public function addToDeskObject()
+    public function addToDeskObject() : void
     {
         $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
         ilUtil::sendSuccess($this->lng->txt("rep_added_to_favourites"), true);
         $this->returnToContext();
     }
 
-    /**
-     * Return to context
-     */
-    protected function returnToContext()
+    protected function returnToContext() : void
     {
         $this->ctrl->setParameterByClass('ildashboardgui', 'view', $this->viewSettings->getCurrentView());
         $this->ctrl->redirectByClass('ildashboardgui', 'show');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function removeFromDeskObject()
+    public function removeFromDeskObject() : void
     {
         $this->lng->loadLanguageModule("rep");
         $this->favourites->remove($this->user->getId(), $this->requested_item_ref_id);
@@ -177,35 +122,22 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->returnToContext();
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBlockType() : string
     {
         return static::$block_type;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isRepositoryObject() : bool
     {
         return false;
     }
 
-    /**
-     * Get view title
-     * @return string
-     */
-    protected function getViewTitle()
+    protected function getViewTitle() : string
     {
         return $this->blockView->getTitle();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getHTML()
+    public function getHTML() : string
     {
         global $DIC;
 
@@ -225,9 +157,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return parent::getHTML();
     }
 
-    /**
-     *
-     */
     public function executeCommand() : string
     {
         $next_class = $this->ctrl->getNextClass();
@@ -249,26 +178,17 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return "";
     }
 
-    /**
-     * @return string
-     */
     protected function getContent() : string
     {
         return $this->content;
     }
 
-    /**
-     * @param string $a_content
-     */
-    protected function setContent(string $a_content)
+    protected function setContent(string $a_content) : void
     {
         $this->content = $a_content;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         if ($this->getContent() == '') {
             $this->setDataSection($this->blockView->getIntroductionHtml());
@@ -277,11 +197,9 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         }
     }
 
-    /**
-     * @return array
-     */
-    protected function getGroupedCommandsForView($manage = false) : array
-    {
+    protected function getGroupedCommandsForView(
+        bool $manage = false
+    ) : array {
         $commandGroups = [];
 
         $sortingCommands = [];
@@ -340,38 +258,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return $commandGroups;
     }
         
-
-    /**
-     *
-     */
-    /* not neede anymore?
-    protected function setFooterLinks() : void
-    {
-        if ('' === $this->getContent()) {
-            $this->setEnableNumInfo(false);
-            return;
-        }
-
-        if ($this->blockView->isInManageMode()) {
-            return;
-        }
-
-        // @todo: handle $command['active']
-        $groupedCommands = $this->getGroupedCommandsForView();
-        foreach ($groupedCommands as $group) {
-            foreach ($group as $command) {
-                $this->addBlockCommand(
-                    $command['url'],
-                    $command['txt'],
-                    $command['asyncUrl']
-                );
-            }
-        }
-    }*/
-
-    /**
-     * Called if the user interacted with the provided sorting options
-     */
     public function changePDItemPresentation() : void
     {
         $this->viewSettings->storeActorPresentationMode(
@@ -380,9 +266,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->initAndShow();
     }
 
-    /**
-     * Called if the user interacted with the provided presentation options
-     */
     public function changePDItemSorting() : void
     {
         $this->viewSettings->storeActorSortingMode(
@@ -392,9 +275,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->initAndShow();
     }
 
-    /**
-     *
-     */
     protected function initAndShow() : void
     {
         $this->initViewSettings();
@@ -407,9 +287,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         $this->returnToContext();
     }
 
-    /**
-     * @return string
-     */
     public function manageObject() : string
     {
         $this->main_tpl->setTitle($this->lng->txt("dash_favourites"));
@@ -439,17 +316,11 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return $top_tb->getHTML() . $this->renderManageList() . $bot_tb->getHTML();
     }
 
-    /**
-     * Cancel
-     */
     protected function cancel() : void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-     * @return string
-     */
     public function confirmRemoveObject() : string
     {
         $this->ctrl->setParameter($this, 'view', $this->viewSettings->getCurrentView());
@@ -491,7 +362,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
         return $cgui->getHTML();
     }
-
 
     public function confirmedRemove() : void
     {
@@ -619,10 +489,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return $item_groups;
     }
 
-
-    /**
-     * @inheritdoc
-     */
     protected function getListItemForData(array $data) : ?\ILIAS\UI\Component\Item\Item
     {
         $listFactory = $this->list_factory;
@@ -642,9 +508,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return $list_item;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getCardForData(array $item) : \ILIAS\UI\Component\Card\RepositoryObject
     {
         $listFactory = $this->list_factory;
@@ -664,9 +527,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return $card;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getLegacyContent() : string
     {
         $renderer = $this->ui->renderer();
@@ -748,11 +608,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return $renderer->render($grouped_items);
     }
 
-    /**
-     * No item entry
-     *
-     * @return string
-     */
     public function getNoItemFoundContent() : string
     {
         $txt = $this->lng->txt("rep_fav_intro1") . "<br>";
@@ -766,9 +621,6 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         return $this->ui->renderer()->render($mbox);
     }
 
-    /**
-     * @return string
-     */
     protected function getRepositoryTitle() : string
     {
         $nd = $this->tree->getNodeData($this->tree->getRootId());

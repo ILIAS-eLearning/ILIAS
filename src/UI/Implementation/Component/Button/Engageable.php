@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Button;
-
-use ILIAS\UI\Component\Button\Engageable as EngageableInterface;
 
 /**
  * Trait Engageable.
@@ -13,15 +11,8 @@ use ILIAS\UI\Component\Button\Engageable as EngageableInterface;
  */
 trait Engageable
 {
-    /**
-     * @var	bool
-     */
-    protected $is_engageable = false;
-
-    /**
-     * @var	bool
-     */
-    protected $engaged = false;
+    protected bool $is_engageable = false;
+    protected bool $engaged = false;
 
     /**
      * @inheritdoc
@@ -33,12 +24,10 @@ trait Engageable
 
     /**
      * @inheritdoc
+     * @return static
      */
-    public function withEngagedState(bool $state) : EngageableInterface
+    public function withEngagedState(bool $state)
     {
-        /**
-         * @var $clone EngageableInterface
-         */
         $clone = clone $this;
         $clone->is_engageable = true;
         $clone->engaged = $state;

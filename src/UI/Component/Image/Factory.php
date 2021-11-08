@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -19,7 +19,7 @@ interface Factory
      * @param string $alt
      * @return  \ILIAS\UI\Component\Image\Image
      */
-    public function standard($src, $alt);
+    public function standard(string $src, string $alt) : Image;
 
     /**
      * ---
@@ -29,11 +29,10 @@ interface Factory
      *     amount of space available.
      *   composition: >
      *     Responsive images scale nicely to the parent element.
-     *
      * ----
      * @param string $src
      * @param string $alt
      * @return  \ILIAS\UI\Component\Image\Image
      */
-    public function responsive($src, $alt);
+    public function responsive(string $src, string $alt) : Image;
 }

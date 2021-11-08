@@ -12,7 +12,7 @@ class ilSCORM2004PageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init()
+    public function init() : void
     {
         $this->setEnablePCType("Map", false);
         $this->setEnablePCType("QuestionOverview", true);

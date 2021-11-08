@@ -19,6 +19,7 @@ class ilObjectGUI
 
     protected const UPLOAD_TYPE_LOCAL = 1;
     protected const UPLOAD_TYPE_UPLOAD_DIRECTORY = 2;
+    protected bool $creation_mode = false;
 
     /**
      * @var ilErrorHandling
@@ -2139,7 +2140,7 @@ class ilObjectGUI
     /**
      * @inheritDoc
      */
-    public function addToDeskObject()
+    public function addToDeskObject() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;
@@ -2153,7 +2154,7 @@ class ilObjectGUI
     /**
      * @inheritDoc
      */
-    public function removeFromDeskObject()
+    public function removeFromDeskObject() : void
     {
         $lng = $this->lng;
         $ctrl = $this->ctrl;

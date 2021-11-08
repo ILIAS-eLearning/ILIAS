@@ -184,6 +184,7 @@ class ilLoggerFactory
         // standard stream handler
         $stream_handler = new StreamHandler(
             $this->getSettings()->getLogDir() . '/' . $this->getSettings()->getLogFile(),
+            Logger::DEBUG, // default minimum level, will be overwritten by component log level
             true
         );
         

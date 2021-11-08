@@ -2,7 +2,6 @@
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilContentPagePageGUI
  * @ilCtrl_Calls ilContentPagePageGUI: ilPageEditorGUI, ilEditClipboardGUI, ilMDEditorGUI
  * @ilCtrl_Calls ilContentPagePageGUI: ilPublicUserProfileGUI, ilNoteGUI
  * @ilCtrl_Calls ilContentPagePageGUI: ilPropertyFormGUI, ilInternalLinkGUI, ilPageMultiLangGUI
@@ -27,10 +26,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         $this->isEmbeddedMode = $isEmbeddedMode;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getProfileBackUrl()
+    public function getProfileBackUrl() : string
     {
         if ($this->isEmbeddedMode) {
             return '';
@@ -39,10 +35,7 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
         return parent::getProfileBackUrl();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function setDefaultLinkXml()
+    public function setDefaultLinkXml() : void
     {
         parent::setDefaultLinkXml();
 
@@ -75,7 +68,11 @@ class ilContentPagePageGUI extends ilPageObjectGUI implements ilContentPageObjec
                     $e->getMessage()
                 ));
             }
-            return;
         }
+    }
+
+    public function finishEditing() : void
+    {
+        $this->ctrl->redirectByClass(ilObjContentPageGUI::class, 'view');
     }
 }

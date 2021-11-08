@@ -9,9 +9,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     /** @var int[] */
     protected array $newMobIds = [];
 
-    /**
-     * @inheritdoc
-     */
     public function getSupportedVersions() : array
     {
         return [
@@ -19,17 +16,11 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
         ];
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return 'http://www.ilias.de/xml/Modules/ContentPage/' . $a_entity;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         switch ($a_entity) {
@@ -47,9 +38,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
         }
     }
 
-    /**
-     * @inheritdoc
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $this->data = [];
@@ -73,7 +61,7 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                 foreach ($ids as $objId) {
                     if (ilObject::_lookupType($objId) === self::OBJ_TYPE) {
                         /** @var ilObjContentPage $obj */
-                        $obj = ilObjectFactory::getInstanceByObjId($objId);
+                        $obj = ilObjectFactory::getInstanceByObjId((int) $objId);
 
                         $this->data[] = [
                             'id' => $obj->getId(),
@@ -95,13 +83,6 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
         }
     }
 
-    /**
-     * @param string $a_entity
-     * @param array $a_types
-     * @param array $a_rec
-     * @param ilImportMapping $a_mapping
-     * @param string $a_schema_version
-     */
     public function importRecord(
         string $a_entity,
         array $a_types,
@@ -111,8 +92,8 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
     ) : void {
         switch ($a_entity) {
             case self::OBJ_TYPE:
-                if ($newObjId = $a_mapping->getMapping('Services/Container', 'objs', $a_rec['id'])) {
-                    $newObject = ilObjectFactory::getInstanceByObjId($newObjId, false);
+                if ($newObjId = $a_mapping->getMapping('Services/Container', 'objs', (string) $a_rec['id'])) {
+                    $newObject = ilObjectFactory::getInstanceByObjId((int) $newObjId, false);
                 } else {
                     $newObject = new ilObjContentPage();
                 }
@@ -131,8 +112,18 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                     (string) ((bool) $a_rec['info-tab'])
                 );
 
-                $a_mapping->addMapping('Modules/ContentPage', self::OBJ_TYPE, $a_rec['id'], $newObject->getId());
-                $a_mapping->addMapping('Modules/ContentPage', 'style', $newObject->getId(), $newObject->getStyleSheetId());
+                $a_mapping->addMapping(
+                    'Modules/ContentPage',
+                    self::OBJ_TYPE,
+                    (string) $a_rec['id'],
+                    (string) $newObject->getId()
+                );
+                $a_mapping->addMapping(
+                    'Modules/ContentPage',
+                    'style',
+                    (string) $newObject->getId(),
+                    (string) $newObject->getStyleSheetId()
+                );
                 $a_mapping->addMapping(
                     'Services/COPage',
                     'pg',
@@ -141,17 +132,5 @@ class ilContentPageDataSet extends ilDataSet implements ilContentPageObjectConst
                 );
                 break;
         }
-    }
-
-    /**
-     * This method is an implicit interface method. The types of the arguments may vary.
-     */
-    protected function getDependencies(
-        string $a_entity,
-        string $a_version,
-        ?array $a_rec = null,
-        ?array $a_ids = null
-    ) : array {
-        return [];
     }
 }
