@@ -9379,6 +9379,10 @@ footer {
 .il-maincontrols-slate .link-bulky.disengaged:after {
   content: " \e606";
 }
+.il-maincontrols-slate .btn-bulky:focus,
+.il-maincontrols-slate .link-bulky:focus {
+  color: inherit;
+}
 .il-maincontrols-slate .btn-bulky:hover,
 .il-maincontrols-slate .link-bulky:hover,
 .il-maincontrols-slate .btn-bulky.engaged,
