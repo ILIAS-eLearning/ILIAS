@@ -159,7 +159,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderToggle(Component\Button\Toggle $component) : string
+    protected function renderToggle(Component\Button\Toggle $component)
     {
         $tpl = $this->getTemplate("tpl.toggle.html", true, true);
 

@@ -215,7 +215,6 @@ class ButtonTest extends ILIAS_UI_TestBase
         $this->assertEquals($expected, $html);
     }
 
-
     /**
      * @dataProvider button_type_provider
      */

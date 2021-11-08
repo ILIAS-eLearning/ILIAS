@@ -1,7 +1,5 @@
 <?php
 
-/* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
