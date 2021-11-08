@@ -1,7 +1,19 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Repository\StandardGUIRequest;
 
 /**
  * Explorer for selecting repository items.
@@ -10,83 +22,46 @@ include_once("./Services/UIComponent/Explorer2/classes/class.ilTreeExplorerGUI.p
  * Clicking items triggers a "selection" command.
  * However ajax/checkbox/radio and use in an inputgui class should be implemented in the future, too.
  *
- * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ServicesRepository
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 {
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
+    protected ilObjectDefinition $obj_definition;
+    protected array $type_grps = [];
+    protected array $session_materials = [];
+    protected ?string $highlighted_node = null;
+    protected array $clickable_types = [];
+    protected array $selectable_types = [];
+    protected ilAccessHandler $access;
+    protected ?Closure $nc_modifier = null;
+    protected ?string $selection_gui = null;
+    protected string $selection_par;
+    protected string $selection_cmd;
+    protected StandardGUIRequest $request;
+    protected int $cur_ref_id;
 
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $type_grps = array();
-    protected $session_materials = array();
-    protected $highlighted_node = null;
-    protected $clickable_types = array();
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var callable
-     */
-    protected $nc_modifier = null;
-
-    /**
-     * @var object
-     */
-    protected $selection_gui = null;
-
-    /**
-     * @var string
-     */
-    protected $selection_par;
-
-    /**
-     * @var string
-     */
-    protected $selection_cmd;
-
-    /**
-     * Constructor
-     *
-     * @param object $a_parent_obj parent gui object
-     * @param string $a_parent_cmd parent cmd that renders the explorer
-     * @param object/string $a_selection_gui gui class that should be called for the selection command
-     * @param string $a_selection_cmd selection command
-     * @param string $a_selection_par selection parameter
+     * @param object|array $a_parent_obj parent gui class or class array
+     * @param object|string $a_selection_gui gui class that should be called for the selection command
      */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
+        string $a_parent_cmd,
         $a_selection_gui = null,
-        $a_selection_cmd = "selectObject",
-        $a_selection_par = "sel_ref_id",
-        $a_id = "rep_exp_sel"
+        string $a_selection_cmd = "selectObject",
+        string $a_selection_par = "sel_ref_id",
+        string $a_id = "rep_exp_sel"
     ) {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
-
         $this->tree = $DIC->repositoryTree();
         $this->obj_definition = $DIC["objDefinition"];
         $this->lng = $DIC->language();
         $tree = $DIC->repositoryTree();
         $ilSetting = $DIC->settings();
         $objDefinition = $DIC["objDefinition"];
+        $this->request = $DIC->repository()->internal()->gui()->standardRequest();
+        $this->cur_ref_id = $this->request->getRefId();
 
         $this->access = $DIC->access();
         $this->ctrl = $DIC->ctrl();
@@ -117,39 +92,23 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
 
         // always open the path to the current ref id
         $this->setPathOpen((int) $this->tree->readRootId());
-        if ((int) $_GET["ref_id"] > 0) {
-            $this->setPathOpen((int) $_GET["ref_id"]);
+        if ($this->cur_ref_id > 0) {
+            $this->setPathOpen($this->cur_ref_id);
         }
         $this->setChildLimit((int) $ilSetting->get("rep_tree_limit_number"));
     }
 
-    /**
-     * Set node content modifier
-     *
-     * @param callable $a_val
-     */
-    public function setNodeContentModifier(callable $a_val)
+    public function setNodeContentModifier(Closure $a_val) : void
     {
         $this->nc_modifier = $a_val;
     }
 
-    /**
-     * Get node content modifier
-     *
-     * @return callable
-     */
-    public function getNodeContentModifier()
+    public function getNodeContentModifier() : ?Closure
     {
         return $this->nc_modifier;
     }
 
-    /**
-     * Get node content
-     *
-     * @param array $a_node node data
-     * @return string content
-     */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
 
@@ -168,25 +127,13 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $title;
     }
 
-    /**
-     * Get node icon
-     *
-     * @param array $a_node node data
-     * @return string icon path
-     */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $obj_id = ilObject::_lookupObjId($a_node["child"]);
         return ilObject::_getIcon($obj_id, "tiny", $a_node["type"]);
     }
 
-    /**
-     * Get node icon alt text
-     *
-     * @param array $a_node node data
-     * @return string alt text
-     */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
@@ -202,13 +149,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return parent::getNodeIconAlt($a_node);
     }
 
-    /**
-     * Is node highlighted?
-     *
-     * @param mixed $a_node node object/array
-     * @return boolean node visible true/false
-     */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($this->getHighlightedNode()) {
             if ($this->getHighlightedNode() == $a_node["child"]) {
@@ -217,20 +158,14 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
             return false;
         }
 
-        if ($a_node["child"] == $_GET["ref_id"] ||
-            ($_GET["ref_id"] == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
+        if ($a_node["child"] == $this->cur_ref_id ||
+            ($this->cur_ref_id == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
             return true;
         }
         return false;
     }
 
-    /**
-     * Get href for node
-     *
-     * @param mixed $a_node node object/array
-     * @return string href attribute
-     */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -245,13 +180,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $link;
     }
 
-    /**
-     * Is node visible
-     *
-     * @param array $a_node node data
-     * @return bool visible true/false
-     */
-    public function isNodeVisible($a_node)
+    public function isNodeVisible($a_node) : bool
     {
         $ilAccess = $this->access;
 
@@ -262,14 +191,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return true;
     }
 
-    /**
-     * Sort childs
-     *
-     * @param array $a_childs array of child nodes
-     * @param int $a_parent_node_id parent node id
-     * @return array array of childs nodes
-     */
-    public function sortChilds($a_childs, $a_parent_node_id)
+    public function sortChilds(array $a_childs, $a_parent_node_id) : array
     {
         $objDefinition = $this->obj_definition;
 
@@ -306,8 +228,6 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         foreach ($this->type_grps[$parent_type] as $t => $g) {
             if (is_array($group[$t])) {
                 // do we have to sort this group??
-                include_once("./Services/Container/classes/class.ilContainer.php");
-                include_once("./Services/Container/classes/class.ilContainerSorting.php");
                 $sort = ilContainerSorting::_getInstance($parent_obj_id);
                 $group = $sort->sortItems($group);
 
@@ -324,13 +244,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return $childs;
     }
 
-    /**
-     * Get childs of node
-     *
-     * @param int $a_parent_node_id node id
-     * @return array childs array
-     */
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $ilAccess = $this->access;
 
@@ -341,13 +255,7 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return parent::getChildsOfNode($a_parent_node_id);
     }
 
-    /**
-     * Is node clickable?
-     *
-     * @param array $a_node node data
-     * @return boolean node clickable true/false
-     */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         $ilAccess = $this->access;
 
@@ -366,104 +274,37 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
         return true;
     }
 
-    /**
-     * set an alternate highlighted node if $_GET["ref_id"] is not set or wrong
-     *
-     * @param int $a_value ref_id
-     */
-    public function setHighlightedNode($a_value)
+    public function setHighlightedNode(string $a_value) : void
     {
         $this->highlighted_node = $a_value;
     }
 
-    /**
-     * get an alternate highlighted node if $_GET["ref_id"] is not set or wrong
-     * Returns null if not set
-     *
-     * @return mixed ref_id
-     */
-    public function getHighlightedNode()
+    public function getHighlightedNode() : string
     {
         return $this->highlighted_node;
     }
 
-    /**
-     * set Whitelist for clickable items
-     *
-     * @param array/string $a_types array type
-     */
-    public function setClickableTypes($a_types)
+    public function setClickableTypes(array $a_types) : void
     {
-        if (!is_array($a_types)) {
-            $a_types = array($a_types);
-        }
         $this->clickable_types = $a_types;
     }
 
-    /**
-     * get whitelist for clickable items
-     *
-     * @return array types
-     */
-    public function getClickableTypes()
+    public function getClickableTypes() : array
     {
-        return (array) $this->clickable_types;
+        return $this->clickable_types;
     }
 
-    /**
-     * Get HTML
-     *
-     * @param
-     * @return
-     */
-    /*	function getHTML()
-        {
-            global $ilCtrl, $tpl;
-
-            $add = "";
-            if ($ilCtrl->isAsynch())
-            {
-                $add = $this->getOnLoadCode();
-            }
-            else
-            {
-                $tpl->addOnloadCode($this->getOnLoadCode());
-            }
-
-            return parent::getHTML().$add;
-        }
-    */
-
-    /**
-     * set Whitelist for clickable items
-     *
-     * @param array/string $a_types array type
-     */
-    public function setSelectableTypes($a_types)
+    public function setSelectableTypes(array $a_types) : void
     {
-        if (!is_array($a_types)) {
-            $a_types = array($a_types);
-        }
         $this->selectable_types = $a_types;
     }
 
-    /**
-     * get whitelist for clickable items
-     *
-     * @return array types
-     */
-    public function getSelectableTypes()
+    public function getSelectableTypes() : array
     {
-        return (array) $this->selectable_types;
+        return $this->selectable_types;
     }
 
-    /**
-     * Is node selectable?
-     *
-     * @param mixed $a_node node object/array
-     * @return boolean node selectable true/false
-     */
-    protected function isNodeSelectable($a_node)
+    protected function isNodeSelectable($a_node) : bool
     {
         if (count($this->getSelectableTypes())) {
             return in_array($a_node['type'], $this->getSelectableTypes());

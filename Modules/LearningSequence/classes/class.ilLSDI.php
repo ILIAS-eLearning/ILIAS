@@ -9,10 +9,6 @@ class ilLSDI extends Container
 {
     public function init(ArrayAccess $dic) : void
     {
-        foreach ($dic->keys() as $key) {
-            $this[$key] = $dic[$key];
-        }
-
         $this["db.filesystem"] = function ($c) : ilLearningSequenceFilesystem {
             return new ilLearningSequenceFilesystem();
         };

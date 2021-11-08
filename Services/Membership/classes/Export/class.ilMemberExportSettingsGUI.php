@@ -138,7 +138,7 @@ class ilMemberExportSettingsGUI
         
         
         include_once './Services/PrivacySecurity/classes/class.ilPrivacySettings.php';
-        $privacy = ilPrivacySettings::_getInstance();
+        $privacy = ilPrivacySettings::getInstance();
         if ($this->parent_type == 'crs') {
             if ($privacy->enabledCourseAccessTimes()) {
                 $ufields->addOption(new ilCheckboxOption($GLOBALS['DIC']['lng']->txt('last_access'), 'access'));

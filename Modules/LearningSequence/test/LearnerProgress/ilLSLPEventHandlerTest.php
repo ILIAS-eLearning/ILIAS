@@ -8,6 +8,11 @@ class ilLPStatusWrapperStub extends ilLPStatusWrapper
 {
     public static function _refreshStatus($a_obj_id, $a_users = null)
     {
+        throw new \Exception('Do not use ilLPStatusWrapper::_refreshStatus here; use _updateStatus instead');
+    }
+
+    public static function _updateStatus($a_obj_id, $a_usr_id, $a_obj = null, $a_percentage = false, $a_force_raise = false)
+    {
     }
 }
 
@@ -47,21 +52,20 @@ class ilLSLPEventHandlerTest extends TestCase
             'usr_id' => 101
         ];
 
-        $path = [
-            [
-                'type' => 'lso',
-                'obj_id' => 43
-            ]
-        ];
+        $obj_id = 43;
 
         $this->tree
-            ->expects($this->atLeast(2))
-            ->method('getPathFull')
-            ->withConsecutive([14], [20])
-            ->willReturn($path)
+            ->expects($this->exactly(2))
+            ->method('getParentNodeData')
+            ->willReturn([
+                "type" => "lso",
+                "obj_id" => $obj_id
+            ])
         ;
 
         $obj = new ilLSLPEventHandlerStub($this->tree, $this->lp_status);
+        $obj->updateLPForChildEvent($values);
+        //do not call getParentNodeData again!
         $obj->updateLPForChildEvent($values);
     }
 }

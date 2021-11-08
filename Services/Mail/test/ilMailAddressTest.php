@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilMailAddressTest
@@ -8,12 +8,9 @@
  */
 class ilMailAddressTest extends ilMailBaseTest
 {
-    const LOCAL_PART = 'phpunit';
-    const DOMAIN_PART = 'ilias.de';
+    private const LOCAL_PART = 'phpunit';
+    private const DOMAIN_PART = 'ilias.de';
 
-    /**
-     * @return ilMailAddress
-     */
     public function testInstanceCanBeCreated() : ilMailAddress
     {
         $address = new ilMailAddress(self::LOCAL_PART, self::DOMAIN_PART);
@@ -25,7 +22,6 @@ class ilMailAddressTest extends ilMailBaseTest
 
     /**
      * @depends testInstanceCanBeCreated
-     * @param ilMailAddress $address
      */
     public function testAddressShouldReturnMailboxAndHost(ilMailAddress $address) : void
     {

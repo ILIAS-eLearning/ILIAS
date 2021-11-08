@@ -1,46 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilUIHookProcessor
  *
- * @author  Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilUIHookProcessor
 {
+    private bool $replaced = false;
+    protected ilPluginAdmin $plugin_admin;
+    protected array $append = [];
+    protected array $prepend = [];
+    protected string $replace = '';
 
-    /**
-     * @var bool
-     */
-    private $replaced = false;
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-    /**
-     * @var array
-     */
-    protected $append = [];
-    /**
-     * @var array
-     */
-    protected $prepend = [];
-    /**
-     * @var string
-     */
-    protected $replace = '';
-
-
-    /**
-     * ilUIHookProcessor constructor.
-     *
-     * @param $a_comp
-     * @param $a_part
-     * @param $a_pars
-     */
-    public function __construct($a_comp, $a_part, $a_pars)
-    {
+    public function __construct(
+        string $a_comp,
+        string $a_part,
+        array $a_pars
+    ) {
         global $DIC;
 
         $this->plugin_admin = $DIC["ilPluginAdmin"];
@@ -82,18 +72,12 @@ class ilUIHookProcessor
     /**
      * @return bool Should HTML be replaced completely?
      */
-    public function replaced()
+    public function replaced() : bool
     {
         return $this->replaced;
     }
 
-
-    /**
-     * @param string $html
-     *
-     * @return string
-     */
-    public function getHTML($html)
+    public function getHTML(string $html) : string
     {
         if ($this->replaced) {
             $html = $this->replace;

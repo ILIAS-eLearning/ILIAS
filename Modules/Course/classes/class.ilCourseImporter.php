@@ -22,17 +22,16 @@ class ilCourseImporter extends ilXmlImporter
     private $final_processing_info = array();
     
 
-    public function init()
+    public function init() : void
     {
     }
     
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         include_once './Modules/Course/classes/class.ilCourseXMLParser.php';
         include_once './Modules/Course/classes/class.ilObjCourse.php';
@@ -83,10 +82,9 @@ class ilCourseImporter extends ilXmlImporter
     
 
     /**
-     *
      * @param \ilImportMapping $mapping
      */
-    public function afterContainerImportProcessing(\ilImportMapping $mapping)
+    public function afterContainerImportProcessing(\ilImportMapping $mapping) : void
     {
         foreach ($this->final_processing_info as $info) {
             // import learning objectives

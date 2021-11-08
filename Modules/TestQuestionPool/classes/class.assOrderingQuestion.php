@@ -1581,7 +1581,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
      * @return ilTestQuestionConfig
      */
     // hey: refactored identifiers
-    public function buildTestPresentationConfig()  : ilTestQuestionConfig
+    public function buildTestPresentationConfig() : ilTestQuestionConfig
     // hey.
     {
         // hey: refactored identifiers

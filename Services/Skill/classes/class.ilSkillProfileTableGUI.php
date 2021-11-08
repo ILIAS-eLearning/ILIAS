@@ -1,6 +1,23 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
+
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
 
 /**
  * TableGUI class for skill profiles
@@ -13,36 +30,13 @@ class ilSkillProfileTableGUI extends ilTable2GUI
      * @var ilCtrl
      */
     protected $ctrl;
+    protected ilAccessHandler $access;
+    protected ilRbacSystem $rbacsystem;
+    protected SkillAdminGUIRequest $admin_gui_request;
+    protected int $requested_ref_id;
+    protected int $requested_sprof_id;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var \Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var int
-     */
-    protected $requested_ref_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_sprof_id;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_write_permission = false)
+    public function __construct($a_parent_obj, string $a_parent_cmd, bool $a_write_permission = false)
     {
         global $DIC;
 
@@ -50,13 +44,12 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->request = $DIC->http()->request();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        $params = $this->request->getQueryParams();
-        $this->requested_ref_id = (int) ($params["ref_id"] ?? 0);
-        $this->requested_sprof_id = (int) ($params["sprof_id"] ?? 0);
+        $this->requested_ref_id = $this->admin_gui_request->getRefId();
+        $this->requested_sprof_id = $this->admin_gui_request->getSkillProfileId();
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getProfiles());
@@ -79,21 +72,12 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    /**
-     * Get profiles
-     *
-     * @return array array of skill profiles
-     */
-    public function getProfiles()
+    public function getProfiles() : array
     {
         return ilSkillProfile::getProfiles();
     }
 
-
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

@@ -4,6 +4,8 @@ namespace ILIAS\UI\Implementation\Component\Table;
 
 use ILIAS\UI\Component\Table as T;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\NotImplementedException;
+use Closure;
 
 /**
  * Implementation of factory for tables
@@ -12,15 +14,8 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  */
 class Factory implements T\Factory
 {
+    protected SignalGeneratorInterface $signal_generator;
 
-    /**
-     * @var SignalGeneratorInterface
-     */
-    protected $signal_generator;
-
-    /**
-     * @param SignalGeneratorInterface $signal_generator
-     */
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
         $this->signal_generator = $signal_generator;
@@ -29,7 +24,7 @@ class Factory implements T\Factory
     /**
      * @inheritdoc
      */
-    public function presentation($title, array $view_controls, \Closure $row_mapping) : T\Presentation
+    public function presentation(string $title, array $view_controls, Closure $row_mapping) : T\Presentation
     {
         return new Presentation($title, $view_controls, $row_mapping, $this->signal_generator);
     }
@@ -39,7 +34,7 @@ class Factory implements T\Factory
      */
     public function data(string $title, ?int $page_size = 50) : T\Data
     {
-        throw new \ILIAS\UI\NotImplementedException('NYI');
+        throw new NotImplementedException('NYI');
     }
 
     /**

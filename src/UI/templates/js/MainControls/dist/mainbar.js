@@ -94,6 +94,9 @@ var mainbar = function() {
                         state = mb.model.getState();
                         if(id in state.tools) {
                             mb.model.actions.engageTool(id);
+                            after_render = function() {
+                                mb.renderer.focusSubentry(id);
+                            };
                         }
                         if(id in state.entries) { //toggle
                             if(state.entries[id].engaged) {
@@ -691,10 +694,16 @@ var renderer = function($) {
             return $('#' + this.html_id);
         },
         engage: function() {
-            this.getElement().addClass(css.engaged);
-            this.getElement().removeClass(css.disengaged);
-            this.getElement().trigger('in_view'); //this is most important for async loading of slates,
-                                                  //it triggers the GlobalScreen-Service.
+            var element = this.getElement(),
+                loaded = element.hasClass(css.engaged);
+
+            element.addClass(css.engaged);
+            element.removeClass(css.disengaged);
+
+            if(! loaded) {
+                element.trigger('in_view'); //this is most important for async loading of slates,
+                                            //it triggers the GlobalScreen-Service.
+            }
             if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
                 il.UI.maincontrols.metabar.disengageAll();
             }
@@ -871,7 +880,9 @@ var renderer = function($) {
             if(model_state.any_tools_visible()) { max_buttons--;}
             for(i = max_buttons; i < root_entries_length; i++) {
                 btn = parts.triggerer.withHtmlId(dom_references[root_entries[i].id].triggerer);
+                list = btn.getElement().parent();
                 btn.getElement().appendTo(more_slate.getElement().children('.il-maincontrols-slate-content'));
+                list.remove();
             }
         },
         render: function (model_state) {
@@ -881,7 +892,13 @@ var renderer = function($) {
                 more_button = parts.triggerer.withHtmlId(dom_references[more_entry.id].triggerer),
                 more_slate = parts.slate.withHtmlId(dom_references[more_entry.id].slate);
                 //reset
-                more_slate.getElement().find('.btn-bulky, .link-bulky').insertBefore(more_button.getElement());
+                btns = more_slate.getElement().find('.btn-bulky, .link-bulky');
+                for(var i = 0; i < btns.length; i = i + 1) {
+                    li = document.createElement('li');
+                    li.appendChild(btns[i]);
+                    li.setAttribute('role', 'none');
+                    $(li).insertBefore(more_button.getElement().parent());
+                }
 
             if(model_state.more_available) {
                 actions.moveToplevelTriggerersToMore(model_state);
@@ -914,10 +931,15 @@ var renderer = function($) {
         },
         focusSubentry: function(triggered_entry_id) {
             var dom_id = dom_references[triggered_entry_id],
-                first = $('#' + dom_id.slate)
+                someting_to_focus_on = $('#' + dom_id.slate)
                     .children().first()
                     .children().first();
-            first[0].focus();
+            if(someting_to_focus_on[0]){
+                if(!someting_to_focus_on.attr('tabindex')) { //cannot focus w/o index
+                    someting_to_focus_on.attr('tabindex', '-1');
+                }
+                someting_to_focus_on[0].focus();
+            }
         },
         focusTopentry: function(top_entry_id) {
             var  triggerer = dom_references[top_entry_id];

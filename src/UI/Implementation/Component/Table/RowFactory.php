@@ -9,9 +9,9 @@ use ILIAS\UI\Component\Table as T;
 class RowFactory implements T\RowFactory
 {
     /**
-     * @var array <id, Tranformation>
+     * @var array <id, Transformation>
      */
-    protected $cell_transformations;
+    protected array $cell_transformations;
 
     public function __construct(array $cell_transformations)
     {

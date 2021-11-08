@@ -19,7 +19,6 @@ class ilLMMenuObjectSelector extends ilExplorer
      * @access private
      */
     public $root_id;
-    public $output;
     public $ctrl;
     public $selectable_type;
     public $ref_id;
@@ -63,7 +62,7 @@ class ilLMMenuObjectSelector extends ilExplorer
     }
     
 
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         if (in_array($a_type, $this->selectable_types)) {
             $this->ctrl->setParameter($this->gui_obj, 'link_ref_id', $a_node_id);
@@ -75,25 +74,25 @@ class ilLMMenuObjectSelector extends ilExplorer
         }
     }
 
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
     {
         return '';
     }
 
-    public function isClickable($a_type, $a_ref_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {//return true;
         return in_array($a_type, $this->selectable_types) and $a_ref_id != $this->ref_id;
     }
 
-    public function showChilds($a_ref_id)
+    public function showChilds($a_parent_id) : bool
     {
         $rbacsystem = $this->rbacsystem;
 
-        if ($a_ref_id == 0) {
+        if ($a_parent_id == 0) {
             return true;
         }
 
-        if ($rbacsystem->checkAccess("read", $a_ref_id)) {
+        if ($rbacsystem->checkAccess("read", $a_parent_id)) {
             return true;
         } else {
             return false;
@@ -106,9 +105,9 @@ class ilLMMenuObjectSelector extends ilExplorer
     * @access	public
     * @param	integer obj_id
     * @param	integer array options
-    * @return	string
-    */
-    public function formatHeader($a_tpl, $a_obj_id, $a_option)
+    * @return    void
+     */
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         $lng = $this->lng;
 

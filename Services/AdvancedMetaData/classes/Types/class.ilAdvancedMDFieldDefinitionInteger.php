@@ -291,7 +291,7 @@ class ilAdvancedMDFieldDefinitionInteger extends ilAdvancedMDFieldDefinition
             return;
         }
 
-        $parts = explode('_',$a_key);
+        $parts = explode('_', $a_key);
         if (isset($parts[0]) && $parts[0] == 'suffix') {
             $this->setSuffixTranslation($parts[1], $a_value);
         }

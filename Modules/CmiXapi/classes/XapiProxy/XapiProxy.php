@@ -1,99 +1,120 @@
 <?php
     namespace XapiProxy;
 
-    require_once __DIR__.'/XapiProxyPolyFill.php';
+    require_once __DIR__ . '/XapiProxyPolyFill.php';
 
-    class XapiProxy extends XapiProxyPolyFill {
-
+    class XapiProxy extends XapiProxyPolyFill
+    {
         private $xapiProxyRequest;
         private $xapiProxyResponse;
 
-        public function __construct($client, $token, $plugin=false) {
+        public function __construct($client, $token, $plugin = false)
+        {
             parent::__construct($client, $token, $plugin);
-            $this->log()->debug($this->msg('proxy initialized '. (($plugin) ? 'in Plugin ' : '') . (($this->statementReducer) ? 'with StatementReducer' : '')));
+            $this->log()->debug($this->msg('proxy initialized ' . (($plugin) ? 'in Plugin ' : '') . (($this->statementReducer) ? 'with StatementReducer' : '')));
         }
 
-        public function setRequestParams($request) {
+        public function setRequestParams($request)
+        {
             preg_match(self::PARTS_REG, $request->getUri(), $this->cmdParts);
         }
 
-        public function token() {
+        public function token()
+        {
             return $this->token;
         }
 
-        public function client() {
+        public function client()
+        {
             return $this->client;
         }
 
-        public function lrsType() {
+        public function lrsType()
+        {
             return $this->lrsType;
         }
 
-        public function replacedValues() {
+        public function replacedValues()
+        {
             return $this->replacedValues;
         }
 
-        public function specificAllowedStatements() {
+        public function specificAllowedStatements()
+        {
             return $this->specificAllowedStatements;
         }
 
-        public function blockSubStatements() {
+        public function blockSubStatements()
+        {
             return $this->blockSubStatements;
         }
 
-        public function cmdParts() {
+        public function cmdParts()
+        {
             return $this->cmdParts;
         }
 
-        public function method() {
+        public function method()
+        {
             return $this->method;
         }
 
-        public function getDefaultLrsEndpoint() {
+        public function getDefaultLrsEndpoint()
+        {
             return $this->defaultLrsEndpoint;
         }
 
-        public function getDefaultLrsKey() {
+        public function getDefaultLrsKey()
+        {
             return $this->defaultLrsKey;
         }
 
-        public function getDefaultLrsSecret() {
+        public function getDefaultLrsSecret()
+        {
             return $this->defaultLrsSecret;
         }
 
-        public function getFallbackLrsEndpoint() {
+        public function getFallbackLrsEndpoint()
+        {
             return $this->fallbackLrsEndpoint;
         }
 
-        public function getFallbackLrsKey() {
+        public function getFallbackLrsKey()
+        {
             return $this->fallbackLrsKey;
         }
 
-        public function getFallbackLrsSecret() {
+        public function getFallbackLrsSecret()
+        {
             return $this->fallbackLrsSecret;
         }
 
-        public function setXapiProxyRequest($xapiProxyRequest) {
+        public function setXapiProxyRequest($xapiProxyRequest)
+        {
             $this->xapiProxyRequest = $xapiProxyRequest;
         }
 
-        public function getXapiProxyRequest() {
+        public function getXapiProxyRequest()
+        {
             return $this->xapiProxyRequest;
         }
 
-        public function setXapiProxyResponse($xapiProxyResponse) {
+        public function setXapiProxyResponse($xapiProxyResponse)
+        {
             $this->xapiProxyResponse = $xapiProxyResponse;
         }
 
-        public function getXapiProxyResponse() {
+        public function getXapiProxyResponse()
+        {
             return $this->xapiProxyResponse;
         }
 
-        public function processStatements($request, $body) {
+        public function processStatements($request, $body)
+        {
             // everything is allowed
             if (!is_array($this->specificAllowedStatements) && !$this->blockSubStatements) {
                 $this->log()->debug($this->msg("all statement are allowed"));
-                return NULL;
+                return null;
             }
             $obj = json_decode($body, false);
             // single statement object
@@ -103,19 +124,18 @@
                 $verb = $obj->verb->id;
                 if ($this->blockSubStatements && $isSubStatement) {
                     $this->log()->debug($this->msg("sub-statement is NOT allowed, fake response - " . $verb));
-                    $this->xapiProxyResponse->fakeResponseBlocked(NULL);
+                    $this->xapiProxyResponse->fakeResponseBlocked(null);
                 }
                 // $specificAllowedStatements
                 if (!is_array($this->specificAllowedStatements)) {
-                    return NULL;
+                    return null;
                 }
-                if (in_array($verb,$this->specificAllowedStatements)) {
+                if (in_array($verb, $this->specificAllowedStatements)) {
                     $this->log()->debug($this->msg("statement is allowed, do nothing - " . $verb));
-                    return NULL;
-                }
-                else {
+                    return null;
+                } else {
                     $this->log()->debug($this->msg("statement is NOT allowed, fake response - " . $verb));
-                    $this->xapiProxyResponse->fakeResponseBlocked(NULL);
+                    $this->xapiProxyResponse->fakeResponseBlocked(null);
                 }
             }
             // array of statement objects
@@ -123,31 +143,28 @@
                 $this->log()->debug($this->msg("json is array of statements"));
                 $ret = array();
                 $up = array();
-                for ($i=0; $i<count($obj); $i++) {
-                    array_push($ret,$obj[$i]->id); // push every statementid for fakePostResponse
+                for ($i = 0; $i < count($obj); $i++) {
+                    array_push($ret, $obj[$i]->id); // push every statementid for fakePostResponse
                     $isSubStatement = $this->isSubStatementCheck($obj[$i]);
                     $verb = $obj[$i]->verb->id;
                     if ($this->blockSubStatements && $isSubStatement) {
-                        $this->log()->debug($this->msg("sub-statement is NOT allowed - " .$verb));
-                    }
-                    else {
-                        if (!is_array($this->specificAllowedStatements) || (is_array($this->specificAllowedStatements) && in_array($verb,$this->specificAllowedStatements))) {
+                        $this->log()->debug($this->msg("sub-statement is NOT allowed - " . $verb));
+                    } else {
+                        if (!is_array($this->specificAllowedStatements) || (is_array($this->specificAllowedStatements) && in_array($verb, $this->specificAllowedStatements))) {
                             $this->log()->debug($this->msg("statement is allowed - " . $verb));
-                            array_push($up,$obj[$i]);
+                            array_push($up, $obj[$i]);
                         }
                     }
                 }
                 if (count($up) === 0) { // nothing allowed
                     $this->log()->debug($this->msg("no allowed statements in array - fake response..."));
                     $this->xapiProxyResponse->fakeResponseBlocked($ret);
-                }
-                elseif (count($up) !== count($ret)) { // mixed request with allowed and not allowed statements
+                } elseif (count($up) !== count($ret)) { // mixed request with allowed and not allowed statements
                     $this->log()->debug($this->msg("mixed with allowed and unallowed statements"));
                     return array($up,$ret);
-                }
-                else {
+                } else {
                     // just return nothing
-                    return NULL;
+                    return null;
                 }
             }
         }
@@ -166,7 +183,7 @@
             if (is_object($obj)) {
                 if (is_array($this->replacedValues)) {
                     foreach ($this->replacedValues as $key => $value) {
-                        $this->setValue($obj,$key,$value);
+                        $this->setValue($obj, $key, $value);
                     }
                 }
                 $this->handleStatementEvaluation($obj); // ToDo
@@ -176,7 +193,7 @@
                 for ($i = 0; $i < count($obj); $i++) {
                     if (is_array($this->replacedValues)) {
                         foreach ($this->replacedValues as $key => $value) {
-                            $this->setValue($obj[$i],$key,$value);
+                            $this->setValue($obj[$i], $key, $value);
                         }
                     }
                     $this->handleStatementEvaluation($obj[$i]); // ToDo
@@ -188,14 +205,13 @@
         private function handleStatementEvaluation($xapiStatement)
         {
             if ($this->plugin) {
-                require_once __DIR__.'/../class.ilObjXapiCmi5.php';
+                require_once __DIR__ . '/../class.ilObjXapiCmi5.php';
                 $this->setStatus($xapiStatement);
-            }
-            else {
+            } else {
                 /* @var ilObjCmiXapi $object */
                 $object = \ilObjectFactory::getInstanceByObjId($this->authToken->getObjId());
 
-                if( (string)$object->getLaunchMode() === (string)\ilObjCmiXapi::LAUNCH_MODE_NORMAL ) {
+                if ((string) $object->getLaunchMode() === (string) \ilObjCmiXapi::LAUNCH_MODE_NORMAL) {
                     // ToDo: check function hasContextActivitiesParentNotEqualToObject!
                     $statementEvaluation = new \ilXapiStatementEvaluation($this->log(), $object);
                     $statementEvaluation->evaluateStatement($xapiStatement, $this->authToken->getUsrId());
@@ -208,21 +224,22 @@
             }
         }
 
-        private function setValue(&$obj, $path, $value) {
+        private function setValue(&$obj, $path, $value)
+        {
             $path_components = explode('.', $path);
             if (count($path_components) == 1) {
-                if (property_exists($obj,$path_components[0])) {
+                if (property_exists($obj, $path_components[0])) {
                     $obj->{$path_components[0]} = $value;
                 }
-            }
-            else {
+            } else {
                 if (property_exists($obj, $path_components[0])) {
                     $this->setValue($obj->{array_shift($path_components)}, implode('.', $path_components), $value);
                 }
             }
         }
 
-        private function setStatus($obj) {
+        private function setStatus($obj)
+        {
             if (isset($obj->verb) && isset($obj->actor) && isset($obj->object)) {
                 $verb = $obj->verb->id;
                 $score = 'NOT_SET';
@@ -241,7 +258,8 @@
             }
         }
 
-        private function isSubStatementCheck($obj) {
+        private function isSubStatementCheck($obj)
+        {
             if (
                 isset($obj->context) &&
                 isset($obj->context->contextActivities) &&
@@ -249,11 +267,9 @@
             ) {
                 $this->log()->debug($this->msg("is Substatement"));
                 return true;
-            }
-            else {
+            } else {
                 $this->log()->debug($this->msg("is not Substatement"));
                 return false;
             }
         }
-     }
-?>
+    }

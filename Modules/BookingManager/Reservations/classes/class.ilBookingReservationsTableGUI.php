@@ -529,6 +529,12 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 }
             }
 
+            // see ilCourseParticipantsTableGUI
+            $user_columns = array_diff(
+                $user_columns,
+                ['consultation_hour', 'prtf', 'roles', 'org_units']
+            );
+
             // user data fields
             $query = new ilUserQuery();
             $query->setLimit(9999);
@@ -554,8 +560,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $parent_obj_type = ilObject::_lookupType($parent_obj_id);
 
                 $confirmation_required = ($parent_obj_type == 'crs')
-                    ? ilPrivacySettings::_getInstance()->courseConfirmationRequired()
-                    : ilPrivacySettings::_getInstance()->groupConfirmationRequired();
+                    ? ilPrivacySettings::getInstance()->courseConfirmationRequired()
+                    : ilPrivacySettings::getInstance()->groupConfirmationRequired();
                 if ($confirmation_required) {
                     $user_ids = array_diff($user_ids, ilMemberAgreement::lookupAcceptedAgreements($parent_obj_id));
                 }

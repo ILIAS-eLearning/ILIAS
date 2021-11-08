@@ -55,7 +55,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 
         if (self::$chat_enabled === null) {
             $chatSetting = new ilSetting('chatroom');
-            self::$chat_enabled = (bool) $chatSetting->get('chat_enabled');
+            self::$chat_enabled = (bool) $chatSetting->get('chat_enabled', '0');
         }
 
         if ($DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {

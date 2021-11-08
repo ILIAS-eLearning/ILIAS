@@ -121,7 +121,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
      * @param array  $translations
      * @param string $language
      */
-    public function setOptionTranslationsForLanguage(array  $translations, string $language)
+    public function setOptionTranslationsForLanguage(array $translations, string $language)
     {
         $this->option_translations[$language] = $translations;
     }
@@ -131,25 +131,8 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
      */
     protected function importFieldDefinition(array $a_def)
     {
-        global $DIC;
-
-        $db = $DIC->database();
-
-        $query = 'select * from adv_mdf_enum ' .
-            'where field_id = ' . $db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .
-            'order by idx';
-        $res = $db->query($query);
-        $options = [];
-        $default = [];
-        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            if ($row->lang_code == $record->getDefaultLanguage()) {
-                $default[$row->idx] = $row->value;
-        }
-            $options[$row->lang_code][$row->idx] = $row->value;
-        }
-        $this->setOptions($default);
-        $this->setOptionTranslations($options);
+        // options (field_values from adv_mdf_field_definitions are not used)
+        $this->setOptions([]);
     }
 
     /**
@@ -158,10 +141,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     protected function getFieldDefinition()
     {
         return [];
-        return [
-            'options' => (array) $this->getOptions(),
-            'option_translations' => (array) $this->getOptionTranslations()
-        ];
     }
     
     public function getFieldDefinitionForTableGUI(string $content_language)
@@ -231,8 +210,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $translation = $this->getOptionTranslation($language);
 
         $first = true;
-        foreach ($this->getOptions() as $index => $option)
-        {
+        foreach ($this->getOptions() as $index => $option) {
             $title = '';
             if ($first) {
                 $title = $lng->txt("meta_advmd_select_options");
@@ -338,14 +316,13 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                 foreach ($missing as $missing_idx => $missing_value) {
                     $in_use = $this->findBySingleValue($search, $missing_idx);
                     if (is_array($in_use)) {
-                    foreach ($in_use as $item) {
+                        foreach ($in_use as $item) {
                             $this->confirm_objects[$missing_idx][] = $item;
                             $this->confirm_objects_values[$missing_idx] = $old[$missing_idx];
+                        }
                     }
                 }
-
             }
-        }
         }
         $this->old_options = $old;
         $this->setOptionTranslationsForLanguage($new, $language);
@@ -548,7 +525,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     $db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ', ' .
                     $db->quote($lang_key, ilDBConstants::T_TEXT) . ', ' .
                     $db->quote($idx, ilDBConstants::T_INTEGER) . ', ' .
-                    $db->quote($option, ilDBConstants::T_TEXT).
+                    $db->quote($option, ilDBConstants::T_TEXT) .
                     ')' ;
                 $db->manipulate($query);
             }
@@ -597,8 +574,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                         //$old_idx = array_keys($old_value, $old_option);
                         $old_idx = $old_value;
                         if (isset($old_idx)) {
-                    
-                        $primary = array(
+                            $primary = array(
                             "obj_id" => array("integer", $obj_id),
                             "sub_type" => array("text", $sub_type),
                             "sub_id" => array("integer", $sub_id),
@@ -610,7 +586,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                                 [
                                     'value_index' => [ilDBConstants::T_INTEGER, $old_idx]
                                 ]
-                        );
+                            );
                             $index_new = array_merge(
                                 $primary,
                                 [
@@ -666,7 +642,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
     public function importXMLProperty($a_key, $a_value)
     {
         if (!$a_key) {
-        $this->options[] = $a_value;
+            $this->options[] = $a_value;
         } else {
             $this->option_translations[$a_key][] = $a_value;
         }
@@ -697,5 +673,29 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         assert($a_enum instanceof ilADTEnumFormBridge);
         
         $a_enum->setAutoSort(false);
+    }
+
+    protected function import(array $db_data)
+    {
+        global $DIC;
+
+        parent::import($db_data);
+
+        $db = $DIC->database();
+        $query = 'select * from adv_mdf_enum ' .
+            'where field_id = ' . $db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .
+            'order by idx';
+        $res = $db->query($query);
+        $options = [];
+        $default = [];
+        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            if ($row->lang_code == $record->getDefaultLanguage()) {
+                $default[$row->idx] = $row->value;
+            }
+            $options[$row->lang_code][$row->idx] = $row->value;
+        }
+        $this->setOptions($default);
+        $this->setOptionTranslations($options);
     }
 }

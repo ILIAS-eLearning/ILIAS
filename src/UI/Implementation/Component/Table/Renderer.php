@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts.and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -8,13 +8,14 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
         if ($component instanceof Component\Table\Presentation) {
@@ -23,15 +24,13 @@ class Renderer extends AbstractComponentRenderer
         if ($component instanceof Component\Table\PresentationRow) {
             return $this->renderPresentationRow($component, $default_renderer);
         }
+        throw new LogicException("Cannot render: " . get_class($component));
     }
 
-    /**
-     * @param Component\Table\Presentation $component
-     * @param RendererInterface $default_renderer
-     * @return mixed
-     */
-    protected function renderPresentationTable(Component\Table\Presentation $component, RendererInterface $default_renderer)
-    {
+    protected function renderPresentationTable(
+        Component\Table\Presentation $component,
+        RendererInterface $default_renderer
+    ) : string {
         $tpl = $this->getTemplate("tpl.presentationtable.html", true, true);
 
         $tpl->setVariable("TITLE", $component->getTitle());
@@ -64,13 +63,10 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    /**
-     * @param Component\Table\Presentation $component
-     * @param RendererInterface $default_renderer
-     * @return mixed
-     */
-    protected function renderPresentationRow(Component\Table\PresentationRow $component, RendererInterface $default_renderer)
-    {
+    protected function renderPresentationRow(
+        Component\Table\PresentationRow $component,
+        RendererInterface $default_renderer
+    ) : string {
         $f = $this->getUIFactory();
         $tpl = $this->getTemplate("tpl.presentationrow.html", true, true);
 
@@ -134,33 +130,29 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(ResourceRegistry $registry)
+    public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Table/presentation.js');
     }
 
-    /**
-     * @param Component\Table\PresentationRow $component
-     */
-    protected function registerSignals(Component\Table\PresentationRow $component)
+    protected function registerSignals(Component\Table\PresentationRow $component) : Component\JavaScriptBindable
     {
         $show = $component->getShowSignal();
         $close = $component->getCloseSignal();
         $toggle = $component->getToggleSignal();
         return $component->withAdditionalOnLoadCode(function ($id) use ($show, $close, $toggle) {
             return
-                "$(document).on('{$show}', function() { il.UI.table.presentation.expandRow('{$id}'); return false; });" .
-                "$(document).on('{$close}', function() { il.UI.table.presentation.collapseRow('{$id}'); return false; });" .
-                "$(document).on('{$toggle}', function() { il.UI.table.presentation.toggleRow('{$id}'); return false; });";
+                "$(document).on('$show', function() { il.UI.table.presentation.expandRow('$id'); return false; });" .
+                "$(document).on('$close', function() { il.UI.table.presentation.collapseRow('$id'); return false; });" .
+                "$(document).on('$toggle', function() { il.UI.table.presentation.toggleRow('$id'); return false; });";
         });
     }
-
 
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(
             Component\Table\PresentationRow::class,

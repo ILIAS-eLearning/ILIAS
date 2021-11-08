@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
@@ -17,26 +17,12 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
     use ComponentHelper;
     use HasViewControls;
 
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var \ILIAS\UI\Component\Dropdown\Standard
-     */
-    protected $actions = null;
-
-
-    /**
-     * @var null|\ILIAS\UI\Component\Button\Shy
-     */
-    protected $footer_component = null;
+    protected string $title;
+    protected ?C\Dropdown\Standard $actions = null;
+    protected ?C\Button\Shy $footer_component = null;
 
     /**
      * Gets the secondary panel title
-     *
-     * @return string
      */
     public function getTitle() : string
     {
@@ -45,8 +31,6 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 
     /**
      * Sets the action drop down to be displayed on the right of the title
-     * @param C\Dropdown\Standard $actions
-     * @return Secondary
      */
     public function withActions(C\Dropdown\Standard $actions) : C\Panel\Secondary\Secondary
     {
@@ -57,7 +41,6 @@ abstract class Secondary implements C\Panel\Secondary\Secondary
 
     /**
      * Gets the action drop down to be displayed on the right of the title
-     * @return C\Dropdown\Standard | null
      */
     public function getActions() : ?C\Dropdown\Standard
     {

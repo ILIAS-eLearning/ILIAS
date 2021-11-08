@@ -40,7 +40,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
@@ -90,7 +90,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
     /**
     * View media pool page.
     */
-    public function preview()
+    public function preview() : string
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -102,7 +102,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
     /**
      * Show page
      */
-    public function showPage($a_no_title = false)
+    public function showPage($a_no_title = false) : string
     {
         $tpl = $this->tpl;
 
@@ -125,7 +125,7 @@ class ilMediaPoolPageGUI extends ilPageObjectGUI
         return $output;
     }
 
-    public function getTabs($a_activate = "")
+    public function getTabs(string $a_activate = "") : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;

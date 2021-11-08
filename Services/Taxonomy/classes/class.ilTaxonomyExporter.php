@@ -23,13 +23,12 @@ class ilTaxonomyExporter extends ilXmlExporter
 
     /**
      * Get head dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
      * @return		array		array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids) : array
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         return array();
     }
@@ -37,38 +36,35 @@ class ilTaxonomyExporter extends ilXmlExporter
 
     /**
      * Get tail dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @return        array        array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids) : array
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         return array();
     }
 
     /**
      * Get xml representation
-     *
      * @param	string		entity
      * @param	string		schema version
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id) : string
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array
      */
-    public function getValidSchemaVersions($a_entity) : array
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "4.3.0" => array(

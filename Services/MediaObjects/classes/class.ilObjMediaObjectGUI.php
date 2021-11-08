@@ -191,7 +191,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
     * Get form
     *
-    * @return	object	form gui class
+    * @return	ilPropertyFormGUI	form gui class
     */
     public function getForm()
     {

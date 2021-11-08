@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Crawler\Exception;
 
 /**
@@ -6,12 +7,8 @@ namespace ILIAS\UI\Implementation\Crawler\Exception;
  */
 interface CrawlerExceptionHandler
 {
-
     /**
      * Handle an exception request.
-     *
-     * @param	int	$exception_code
-     * @param	string	$exception_info
      */
-    public function handleException(CrawlerException $ex);
+    public function handleException(CrawlerException $ex) : void;
 }

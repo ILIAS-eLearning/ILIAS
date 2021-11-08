@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts.and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -7,28 +7,36 @@ namespace ILIAS\UI\Implementation\Component\Layout\Page;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Render\ilTemplateWrapper as UITemplateWrapper;
-use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Component\Image\Image;
+use ilGlobalPageTemplate;
+use ILIAS\UI\Implementation\Render\Template;
+use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use iljQueryUtil;
+use ilUIFramework;
+use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
     public const COOKIE_NAME_SLATES_ENGAGED = 'il_mb_slates';
+
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
         if ($component instanceof Component\Layout\Page\Standard) {
             return $this->renderStandardPage($component, $default_renderer);
         }
+
+        throw new LogicException("Cannot render: " . get_class($component));
     }
 
 
-    protected function renderStandardPage(Component\Layout\Page\Standard $component, RendererInterface $default_renderer)
-    {
+    protected function renderStandardPage(
+        Component\Layout\Page\Standard $component,
+        RendererInterface $default_renderer
+    ) : string {
         $tpl = $this->getTemplate("tpl.standardpage.html", true, true);
 
         if ($component->hasMetabar()) {
@@ -100,16 +108,11 @@ class Renderer extends AbstractComponentRenderer
 
     /**
      * When rendering the whole page, all resources must be included.
-     * This is for now and the page-demo to work, lateron this must be replaced
+     * This is for now and the page-demo to work, later on this must be replaced
      * with resources set as properties at the page or similar mechanisms.
      * Please also see ROADMAP.md, "Page-Layout and ilTemplate, CSS/JS Header".
-     *
-     * @param \ilGlobalPageTemplate $tpl
-     *
-     * @return \ilGlobalPageTemplate
-     * @throws \ILIAS\UI\NotImplementedException
      */
-    protected function setHeaderVars($tpl, bool $for_ui_demo = false)
+    protected function setHeaderVars(Template $tpl, bool $for_ui_demo = false) : Template
     {
         global $DIC;
         $il_tpl = $DIC["tpl"] ?? null;
@@ -119,7 +122,7 @@ class Renderer extends AbstractComponentRenderer
         $css_files = [];
         $css_inline = [];
 
-        if ($il_tpl instanceof \ilGlobalPageTemplate) {
+        if ($il_tpl instanceof ilGlobalPageTemplate) {
             $layout = $DIC->globalScreen()->layout();
             foreach ($layout->meta()->getJs()->getItemsInOrderOfDelivery() as $js) {
                 $js_files[] = $js->getContent();
@@ -141,14 +144,12 @@ class Renderer extends AbstractComponentRenderer
 
             array_unshift($js_files, './Services/JavaScript/js/Basic.js');
 
-            include_once("./Services/UICore/classes/class.ilUIFramework.php");
-            foreach (\ilUIFramework::getJSFiles() as $il_js_file) {
+            foreach (ilUIFramework::getJSFiles() as $il_js_file) {
                 array_unshift($js_files, $il_js_file);
             }
 
-            include_once("./Services/jQuery/classes/class.iljQueryUtil.php");
             array_unshift($js_files, './libs/bower/bower_components/jquery-migrate/jquery-migrate.min.js');
-            array_unshift($js_files, \iljQueryUtil::getLocaljQueryPath());
+            array_unshift($js_files, iljQueryUtil::getLocaljQueryPath());
             $css_files[] = ['file' => './templates/default/delos.css'];
         }
 
@@ -173,7 +174,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function registerResources(\ILIAS\UI\Implementation\Render\ResourceRegistry $registry)
+    public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
         $registry->register('./src/UI/templates/js/Page/stdpage.js');
@@ -182,7 +183,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(
             Component\Layout\Page\Standard::class

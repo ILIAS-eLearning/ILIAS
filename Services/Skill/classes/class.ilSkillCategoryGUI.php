@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Skill category GUI class
@@ -11,36 +26,13 @@
  */
 class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTabsGUI $tabs;
+    protected ilLanguage $lng;
+    protected ilHelpGUI $help;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_node_id = 0)
+    public function __construct(int $a_node_id = 0)
     {
         global $DIC;
 
@@ -56,18 +48,12 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         parent::__construct($a_node_id);
     }
 
-    /**
-     * Get Node Type
-     */
-    public function getType()
+    public function getType() : string
     {
         return "scat";
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -84,11 +70,8 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
                 break;
         }
     }
-    
-    /**
-     * output tabs
-     */
-    public function setTabs($a_tab)
+
+    public function setTabs(string $a_tab) : void
     {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
@@ -142,10 +125,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $ilTabs->activateTab($a_tab);
     }
 
-    /**
-     * Edit properties
-     */
-    public function editProperties()
+    public function editProperties() : void
     {
         $tpl = $this->tpl;
         
@@ -153,22 +133,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         parent::editProperties();
     }
 
-    /**
-     * Perform drag and drop action
-     */
-    public function proceedDragDrop()
-    {
-        $ilCtrl = $this->ctrl;
-
-        //		$this->slm_object->executeDragDrop($_POST["il_hform_source_id"], $_POST["il_hform_target_id"],
-//			$_POST["il_hform_fc"], $_POST["il_hform_as_subitem"]);
-//		$ilCtrl->redirect($this, "showOrganization");
-    }
-
-    /**
-     * Edit
-     */
-    public function edit()
+    public function edit() : void
     {
         $tpl = $this->tpl;
 
@@ -177,12 +142,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $tpl->setContent($this->form->getHTML());
     }
 
-    /**
-     * Init form.
-     *
-     * @param        int        $a_mode        Edit Mode
-     */
-    public function initForm($a_mode = "edit")
+    public function initForm(string $a_mode = "edit") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -225,10 +185,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    /**
-     * Save item
-     */
-    public function saveItem()
+    public function saveItem() : void
     {
         if (!$this->checkPermissionBool("write")) {
             return;
@@ -240,8 +197,8 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getInput("description"));
         $it->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
-        $it->setSelfEvaluation($_POST["self_eval"]);
-        $it->setStatus($_POST["status"]);
+        $it->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
+        $it->setStatus($this->form->getInput("status"));
         $it->create();
         ilSkillTreeNode::putInTree($it, $this->requested_obj_id, IL_LAST_NODE);
     }
@@ -249,9 +206,9 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     /**
      * Get current values for from
      */
-    public function getValues()
+    public function getValues() : void
     {
-        $values = array();
+        $values = [];
         $values["title"] = $this->node_object->getTitle();
         $values["description"] = $this->node_object->getDescription();
         $values["self_eval"] = $this->node_object->getSelfEvaluation();
@@ -259,10 +216,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $this->form->setValuesByArray($values);
     }
 
-    /**
-     * Update item
-     */
-    public function updateItem()
+    public function updateItem() : void
     {
         if (!$this->checkPermissionBool("write")) {
             return;
@@ -270,37 +224,12 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
 
         $this->node_object->setTitle($this->form->getInput("title"));
         $this->node_object->setDescription($this->form->getInput("description"));
-        $this->node_object->setSelfEvaluation($_POST["self_eval"]);
-        $this->node_object->setStatus($_POST["status"]);
+        $this->node_object->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
+        $this->node_object->setStatus($this->form->getInput("status"));
         $this->node_object->update();
     }
 
-    /**
-     * Update form
-     */
-    /*	function updateSkillCategory()
-        {
-            global $lng, $ilCtrl, $tpl;
-
-            $this->initForm("edit");
-            if ($this->form->checkInput())
-            {
-                // perform update
-                $this->node_object->setSelfEvaluation($_POST["self_eval"]);
-                $this->node_object->update();
-
-                ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
-                $ilCtrl->redirect($this, "edit");
-            }
-
-            $this->form->setValuesByPost();
-            $tpl->setContent($this->form->getHtml());
-        }*/
-
-    /**
-     * List items
-     */
-    public function listItems()
+    public function listItems() : void
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -323,11 +252,8 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         
         $tpl->setContent($table->getHTML());
     }
-    
-    /**
-     * Add creation buttons
-     */
-    public static function addCreationButtons()
+
+    public static function addCreationButtons() : void
     {
         global $DIC;
 
@@ -335,9 +261,9 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $lng = $DIC->language();
         $ilToolbar = $DIC->toolbar();
         $ilUser = $DIC->user();
-        $params = $DIC->http()->request()->getQueryParams();
+        $admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
 
-        $requested_obj_id = (int) ($params["obj_id"] ?? 0);
+        $requested_obj_id = $admin_gui_request->getObjId();
 
         // skill
         $ilCtrl->setParameterByClass(
@@ -414,10 +340,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         );
     }
 
-    /**
-     * Cancel
-     */
-    public function cancel()
+    public function cancel() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -426,10 +349,8 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
     
     /**
      * Redirect to parent (identified by current obj_id)
-     *
-     * @param
      */
-    public function redirectToParent($a_tmp_mode = false)
+    public function redirectToParent(bool $a_tmp_mode = false) : void
     {
         $ilCtrl = $this->ctrl;
         

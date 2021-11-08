@@ -74,5 +74,4 @@ class ilUserSetupAgent implements Setup\Agent
     {
         return [];
     }
-
 }

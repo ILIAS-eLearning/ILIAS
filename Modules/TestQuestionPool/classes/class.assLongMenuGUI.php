@@ -16,7 +16,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
 {
     private $rbacsystem;
     private $ilTabs;
-    public $lng;
 
     public function __construct($id = -1)
     {
@@ -69,7 +68,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     /**
      * {@inheritdoc}
      */
-    protected function writePostData($always = false)
+    protected function writePostData(bool $always = false) : int
     {
         $form = $this->buildEditForm();
         $form->setValuesByPost();
@@ -114,7 +113,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     /**
      * @return ilPropertyFormGUI
      */
-    protected function buildEditForm()
+    protected function buildEditForm() : ilPropertyFormGUI
     {
         $form = $this->buildBasicEditFormObject();
 
@@ -225,7 +224,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable('MISSING_VALUE', $this->lng->txt('msg_input_is_required'));
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
-        require_once("Services/Form/classes/class.ilTagInputGUI.php");
         $tag_input = new ilTagInputGUI();
         $tag_input->setTypeAhead(true);
         $tag_input->setPostVar('taggable');
@@ -388,7 +386,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
      * @access public
      *
      */
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         $this->ilTabs->clearTargets();
 
@@ -466,7 +464,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $this->addBackTab($this->ilTabs);
     }
 
-    public function getSpecificFeedbackOutput($userSolution)
+    public function getSpecificFeedbackOutput(array $userSolution) : string
     {
         if (!$this->object->feedbackOBJ->getSpecificAnswerFeedbackTestPresentation($this->object->getId(), 0, 0)) {
             return '';
@@ -485,7 +483,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
                 $this->object->getId(),
                 0,
                 $index
-                ) . '</td> </tr>';
+            ) . '</td> </tr>';
         }
         $feedback .= '</tbody></table>';
         return $this->object->prepareTextareaOutput($feedback, true);
@@ -639,16 +637,16 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $tpl->get();
     }
     
-    public function getSubQuestionsIndex()
+    public function getSubQuestionsIndex() : array
     {
         return array_keys($this->object->getAnswers());
     }
     
-    public function getAnswersFrequency($relevant_answers, $questionIndex)
+    public function getAnswersFrequency($relevantAnswers, $questionIndex) : array
     {
         $answers = array();
         
-        foreach ($relevant_answers as $row) {
+        foreach ($relevantAnswers as $row) {
             if ($row['value1'] != $questionIndex) {
                 continue;
             }
@@ -667,7 +665,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $answers;
     }
     
-    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex)
+    public function getAnswerFrequencyTableGUI($parentGui, $parentCmd, $relevantAnswers, $questionIndex) : ilAnswerFrequencyStatisticTableGUI
     {
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         
@@ -686,7 +684,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         return $table;
     }
     
-    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function populateCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $correctAnswers = $this->object->getCorrectAnswers();
         
@@ -728,7 +726,7 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
     /**
      * @param ilPropertyFormGUI $form
      */
-    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form)
+    public function saveCorrectionsFormProperties(ilPropertyFormGUI $form) : void
     {
         $correctAnswers = $this->object->getCorrectAnswers();
         

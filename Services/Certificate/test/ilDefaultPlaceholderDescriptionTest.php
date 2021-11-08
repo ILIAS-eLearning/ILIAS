@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,21 +6,21 @@
  */
 class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
 {
-    public function testCreateHtmlDescription()
+    public function testCreateHtmlDescription() : void
     {
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
 
-        $templateMock = $this->getMockBuilder('ilTemplate')
+        $templateMock = $this->getMockBuilder(ilTemplate::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $templateMock->method('get')
             ->willReturn('');
 
-        $userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -37,9 +37,9 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
         $this->assertEquals('', $html);
     }
 
-    public function testPlaceholderDescription()
+    public function testPlaceholderDescription() : void
     {
-        $languageMock = $this->getMockBuilder('ilLanguage')
+        $languageMock = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->onlyMethods(['txt', 'loadLanguageModule'])
             ->getMock();
@@ -48,7 +48,7 @@ class ilDefaultPlaceholderDescriptionTest extends ilCertificateBaseTestCase
             ->method('txt')
             ->willReturn('Something translated');
 
-        $userDefinePlaceholderMock = $this->getMockBuilder('ilUserDefinedFieldsPlaceholderDescription')
+        $userDefinePlaceholderMock = $this->getMockBuilder(ilUserDefinedFieldsPlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 

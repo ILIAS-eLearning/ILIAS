@@ -109,7 +109,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
             );
 
             // Modals and actions
-            $ditem = $this->ui->factory()->modal()->interruptiveItem($notification->getId(), $notification->getTitle());
+            $ditem = $this->ui->factory()->modal()->interruptiveItem((string) $notification->getId(), $notification->getTitle());
             $delete_modal = $this->modal($ditem, ilADNNotificationGUI::CMD_DELETE);
             $items[] = $this->ui->factory()->button()->shy($this->lng->txt('btn_' . ilADNNotificationGUI::CMD_DELETE), "")
                                 ->withOnClick($delete_modal->getShowSignal());

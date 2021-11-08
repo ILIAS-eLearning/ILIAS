@@ -189,7 +189,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
 
             case 'Sorting':
                 
-                include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
                 $sort = new ilContainerSortingSettings($this->getWebLink()->getId());
                 $sort->delete();
                 
@@ -268,7 +267,6 @@ class ilWebLinkXmlParser extends ilMDSaxParser
                 $this->getWebLink()->update();
                 
                 // save sorting
-                include_once './Services/Container/classes/class.ilContainerSorting.php';
                 $sorting = ilContainerSorting::_getInstance($this->getWebLink()->getId());
                 $sorting->savePost($this->sorting_positions);
                 ilLoggerFactory::getLogger('webr')->dump($this->sorting_positions);

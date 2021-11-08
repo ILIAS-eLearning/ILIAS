@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Dropzone\File\Standard;
 
 function with_usage_in_legacy_form()

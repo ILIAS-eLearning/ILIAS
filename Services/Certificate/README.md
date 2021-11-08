@@ -350,7 +350,7 @@ $template = new ilCertificateTemplate(
 	$backgroundImagePath
 );
 
-$repository = new ilCertificateTemplateRepository($database);
+$repository = new ilCertificateTemplateDatabaseRepository($database);
 $repository->save($template);
 ```
 

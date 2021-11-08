@@ -90,16 +90,6 @@ With ILIAS 7 or later versions, FileInput (or specific variants thereof) can hav
 - Preview of uploaded images
 - Crop functionality for images
 
-### PHP 7 Typehints (beginner, ~2h)
-
-ILIAS supported PHP 5.6 when the UI-Framework was first introduced. In the meantime
-the PHP 5.6 support was dropped and ILIAS now supports PHP 7.0 and 7.1. This means
-that we can take full advantage of PHP 7 typehints, i.e. hinting for internal types
-and return types. The types are already documented in the docstrings, these should
-be transformed to type hints where possible. Also the docstrings should be deleted
-if they do not convey additional information, like some description, besides the
-type.
-
 ### Examples on Main Page (beginner, ~4h)
 
 We want to have examples on the main pages of some components family of the 
@@ -256,8 +246,32 @@ through the various pages.
 * The template file of the lightbox contains a script tag, which is not allowed as
 of Dicto Rule `IliasTemplateFiles cannot contain text: "<script"`.
 
+### Adjust FactoriesCrawler (beginner, 2h)
+
+At the moment the FactoriesCrawler class get there method infos only by the
+docstrings of the different factories.
+This should be done with information gathering by typehints where possible,
+so the docstrings then can be deleted.
+
+### Refactor return types on withXYZ methods in interfaces (beginner, 4h)
+
+If PHP7.4 is no longer supported by ILIAS we should hint the return type for mutator-methods
+like withXYZ in interfaces to static related to this documentation `https://wiki.php.net/rfc/static_return_type`.
+This should be already documented in most of the docstrings of these methods.
 
 ## Long Term
+
+### Make Constraint in Tag Input Field work again
+
+In the commit where this entry was added, a check in Tag Input Field was removed.
+Currently, the Tag Input Field won't check if the Tags supplied by a user are
+indeed allowed. For Tag Input Fields where user created tags are not allowed, we
+would need to check if the supplied tags are indeed contained in the available options.
+If user created tags are allowed, we would not need to do so. However, since we currently
+cannot remove transformations and the default is that user created tags are not allowed,
+we could not remove that check when a consumer allows user created tags. Fixing this would
+require some rework of the form processing internals, so this is a reminder to look into
+the tags again after such a rework.
 
 ### All UI-Elements Step 2
 
@@ -379,7 +393,6 @@ laying (too much) work on the shoulders of Global Screen, Notification Slate and
 However, just building such a UI Component, would not do the trick. This needs
 to go hand in hand with a proper discussion on what a Notification Center should be
 and do for us. Current state, see: [FR: Notification Center](https://docu.ilias.de/goto_docu_wiki_wpage_5118_1357.html).
-
 
 ## Ideas and Food for Thought
 

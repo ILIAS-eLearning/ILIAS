@@ -22,7 +22,6 @@ class ilSolutionExplorer extends ilExplorer
  * @access private
  */
     public $root_id;
-    public $output;
     public $ctrl;
 
     public $selectable_type;
@@ -95,7 +94,7 @@ class ilSolutionExplorer extends ilExplorer
     }
     
 
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         if ($a_type == $this->selectable_type) {
             $this->ctrl->setParameterByClass($this->target_class, 'source_id', $a_node_id);
@@ -106,26 +105,26 @@ class ilSolutionExplorer extends ilExplorer
         }
     }
 
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
     {
         return '';
     }
 
-    public function isClickable($a_type, $a_ref_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         return $a_type == $this->selectable_type and $a_ref_id != $this->ref_id;
     }
 
-    public function showChilds($a_ref_id)
+    public function showChilds($a_parent_id) : bool
     {
         global $DIC;
         $rbacsystem = $DIC['rbacsystem'];
 
-        if ($a_ref_id == 0) {
+        if ($a_parent_id == 0) {
             return true;
         }
 
-        if ($rbacsystem->checkAccess("read", $a_ref_id)) {
+        if ($rbacsystem->checkAccess("read", $a_parent_id)) {
             return true;
         } else {
             return false;

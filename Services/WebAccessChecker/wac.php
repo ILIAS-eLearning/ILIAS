@@ -30,12 +30,7 @@ $container['http.response_sender_strategy'] = function ($c) {
 };
 
 $container['http'] = function ($c) {
-    return new \ILIAS\HTTP\Services(
-        $c['http.response_sender_strategy'],
-        $c['http.cookie_jar_factory'],
-        $c['http.request_factory'],
-        $c['http.response_factory']
-    );
+    return new \ILIAS\HTTP\Services($c);
 };
 
 $GLOBALS["DIC"] = $container;

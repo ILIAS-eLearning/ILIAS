@@ -25,7 +25,7 @@ class ilChatroomInfoGUI extends ilChatroomGUIHandler
 
         $info->enablePrivateNotes();
         
-        $refId = $this->refinery->kindlyTo()->int()->transform($this->getRequestValue('ref_id'));
+        $refId = $this->getRequestValue('ref_id', $this->refinery->kindlyTo()->int());
         if (ilChatroom::checkUserPermissions('read', $refId, false)) {
             $info->enableNews();
         }

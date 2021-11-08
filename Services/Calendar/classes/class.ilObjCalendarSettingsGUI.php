@@ -326,7 +326,7 @@ class ilObjCalendarSettingsGUI extends ilObjectGUI
 
         $list_views = new ilSelectInputGUI($this->lng->txt("cal_list"), "default_period");
         $list_views->setOptions([
-            ilCalendarAgendaListGUI::PERIOD_DAY  => "1 " . $this->lng->txt("day"),
+            ilCalendarAgendaListGUI::PERIOD_DAY => "1 " . $this->lng->txt("day"),
             ilCalendarAgendaListGUI::PERIOD_WEEK => "1 " . $this->lng->txt("week"),
             ilCalendarAgendaListGUI::PERIOD_MONTH => "1 " . $this->lng->txt("month"),
             ilCalendarAgendaListGUI::PERIOD_HALF_YEAR => "6 " . $this->lng->txt("months")

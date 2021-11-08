@@ -2471,7 +2471,7 @@
 
 			<object>
 				<xsl:attribute name="classid">clsid:D27CDB6E-AE6D-11cf-96B8-444553540000</xsl:attribute>
-				<xsl:attribute name="codebase">http://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0</xsl:attribute>
+				<xsl:attribute name="codebase">https://active.macromedia.com/flash2/cabs/swflash.cab#version=4,0,0,0</xsl:attribute>
 				<xsl:attribute name="ID"><xsl:value-of select="$data"/></xsl:attribute>
 				<xsl:if test="$width != ''">
 					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
@@ -2505,7 +2505,7 @@
 						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
 					</xsl:if>
 					<xsl:attribute name="type">application/x-shockwave-flash</xsl:attribute>
-					<xsl:attribute name="pluginspage">http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash</xsl:attribute>
+					<xsl:attribute name="pluginspage">https://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash</xsl:attribute>
 					<xsl:attribute name="base"><xsl:value-of select="$base"/></xsl:attribute>
 					<xsl:call-template name="MOBParams">
 						<xsl:with-param name="curPurpose" select="$curPurpose" />

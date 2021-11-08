@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\Implementation\Component\Modal;
 
 use ILIAS\UI\Component as Component;
@@ -10,12 +11,10 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
  */
 class Lightbox extends Modal implements Component\Modal\Lightbox
 {
-
     /**
      * @var LightboxPage[]
      */
-    protected $pages;
-
+    protected array $pages;
 
     /**
      * @param LightboxPage|LightboxPage[] $pages
@@ -33,7 +32,7 @@ class Lightbox extends Modal implements Component\Modal\Lightbox
     /**
      * @inheritdoc
      */
-    public function getPages()
+    public function getPages() : array
     {
         return $this->pages;
     }

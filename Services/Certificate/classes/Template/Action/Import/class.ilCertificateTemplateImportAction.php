@@ -49,7 +49,7 @@ class ilCertificateTemplateImportAction
         $this->placeholderDescriptionObject = $placeholderDescriptionObject;
 
         if (null === $templateRepository) {
-            $templateRepository = new ilCertificateTemplateRepository($database, $logger);
+            $templateRepository = new ilCertificateTemplateDatabaseRepository($database, $logger);
         }
         $this->templateRepository = $templateRepository;
 
@@ -83,7 +83,7 @@ class ilCertificateTemplateImportAction
      * @throws FileNotFoundException
      * @throws IOException
      * @throws ilDatabaseException
-     * @throws ilException
+     * @throws ilException|JsonException
      */
     public function import(
         string $zipFile,
@@ -146,13 +146,13 @@ class ilCertificateTemplateImportAction
                     // to add the complete path to every url
                     $xsl = preg_replace_callback(
                         "/url\([']{0,1}(.*?)[']{0,1}\)/",
-                        function (array $matches) use ($rootDir) {
+                        function (array $matches) use ($rootDir) : string {
                             $basePath = rtrim(dirname($this->fileService->getBackgroundImageDirectory($rootDir)), '/');
                             $fileName = basename($matches[1]);
 
                             if ('[BACKGROUND_IMAGE]' === $fileName) {
                                 $basePath = '';
-                            } elseif (strlen($basePath) > 0) {
+                            } elseif ($basePath !== '') {
                                 $basePath .= '/';
                             }
 

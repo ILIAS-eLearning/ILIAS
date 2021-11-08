@@ -22,7 +22,7 @@
 */
 
 /**
-* Class ilFulltextGlossarydefinitionSearch
+* Class ilLikeGlossaryDefinitionSearch
 *
 * class for searching media pool folders and titles of mob's
 *

@@ -9,31 +9,15 @@
  */
 class ilContainerFilterTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilContainerFilterService $container_filter_service;
+    protected int $ref_id;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilContainerFilterService
-     */
-    protected $container_filter_service;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * Constructor
-     */
-    public function __construct(ilContainerFilterAdminGUI $a_parent_obj, string $a_parent_cmd, ilContainerFilterService $container_filter_service, ilObjCategory $cat)
-    {
+    public function __construct(
+        ilContainerFilterAdminGUI $a_parent_obj,
+        string $a_parent_cmd,
+        ilContainerFilterService $container_filter_service,
+        ilObjCategory $cat
+    ) {
         global $DIC;
 
         $this->id = "t";
@@ -49,21 +33,11 @@ class ilContainerFilterTableGUI extends ilTable2GUI
 
         $this->addColumn($this->lng->txt("cont_filter_record"));
         $this->addColumn($this->lng->txt("cont_filter_field"));
-        //$this->addColumn($this->lng->txt("actions"));
-
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.cont_filter_row.html", "Services/Container/Filter");
-
-        //$this->addMultiCommand("", $this->lng->txt(""));
-        //$this->addCommandButton("", $this->lng->txt(""));
     }
 
-    /**
-     * Get items
-     *
-     * @return array[]
-     */
-    protected function getItems()
+    protected function getItems() : array
     {
         $service = $this->container_filter_service;
 
@@ -78,9 +52,6 @@ class ilContainerFilterTableGUI extends ilTable2GUI
         return $items;
     }
 
-    /**
-     * Fill table row
-     */
     protected function fillRow($a_set)
     {
         $tpl = $this->tpl;

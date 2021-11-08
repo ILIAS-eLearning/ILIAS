@@ -22,9 +22,8 @@ interface Factory
      * description:
      *   purpose: >
      *       The Number Column is used for numeric values.
-     *
      * ---
      * @return \ILIAS\UI\Component\Table\Column\Number
      */
-    public function number(string $title) : \ILIAS\UI\Component\Table\Column\Number;
+    public function number(string $title) : Number;
 }

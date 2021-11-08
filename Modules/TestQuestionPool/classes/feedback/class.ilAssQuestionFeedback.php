@@ -72,6 +72,9 @@ abstract class ilAssQuestionFeedback
      */
     public function getGenericFeedbackTestPresentation(int $questionId, bool $solutionCompleted) : string
     {
+        if ($this->page_obj_output_mode == "edit") {
+            return "";
+        }
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $genericFeedbackTestPresentationHTML = $this->getPageObjectContent(
                 $this->getGenericFeedbackPageObjectType(),
@@ -249,23 +252,23 @@ abstract class ilAssQuestionFeedback
         $res = $this->db->queryF(
             "SELECT * FROM {$this->getGenericFeedbackTableName()} WHERE question_fi = %s AND correctness = %s",
             array('integer', 'text'),
-            array($questionId, (int)$solutionCompleted)
+            array($questionId, (int) $solutionCompleted)
         );
 
         $feedbackContent = '';
 
-        if($this->db->numRows($res) > 0) {
+        if ($this->db->numRows($res) > 0) {
             $row = $this->db->fetchAssoc($res);
             $feedbackContent = ilRTE::_replaceMediaObjectImageSrc($row['feedback'], 1);
         }
         return $feedbackContent;
     }
 
-    abstract public function getSpecificAnswerFeedbackContent(int $questionId, int $questionIndex, int $answerIndex): string;
+    abstract public function getSpecificAnswerFeedbackContent(int $questionId, int $questionIndex, int $answerIndex) : string;
 
     abstract public function getAllSpecificAnswerFeedbackContents(int $questionId) : string;
     
-    public function isSpecificAnswerFeedbackAvailable(int$questionId) : bool
+    public function isSpecificAnswerFeedbackAvailable(int $questionId) : bool
     {
         return (bool) strlen($this->getAllSpecificAnswerFeedbackContents($questionId));
     }
@@ -302,7 +305,7 @@ abstract class ilAssQuestionFeedback
             $this->db->insert($this->getGenericFeedbackTableName(), array(
                 'feedback_id' => array('integer', $feedbackId),
                 'question_fi' => array('integer', $questionId),
-                'correctness' => array('text', (int)$solutionCompleted), // text ?
+                'correctness' => array('text', (int) $solutionCompleted), // text ?
                 'feedback' => array('clob', $feedbackContent),
                 'tstamp' => array('integer', time())
             ));
@@ -440,9 +443,9 @@ abstract class ilAssQuestionFeedback
         );
         
         $feedbackId = -1;
-        if($this->db->numRows($res)){
+        if ($this->db->numRows($res)) {
             $row = $this->db->fetchAssoc($res);
-            $feedbackId = (int)$row['feedback_id'];
+            $feedbackId = (int) $row['feedback_id'];
         }
 
         return $feedbackId;
@@ -458,10 +461,10 @@ abstract class ilAssQuestionFeedback
         ));
         
         
-        return (bool)$row['cnt'];
+        return (bool) $row['cnt'];
     }
     
-    abstract protected function isSpecificAnswerFeedbackId(int $feedbackId): bool;
+    abstract protected function isSpecificAnswerFeedbackId(int $feedbackId) : bool;
     
     final public function checkFeedbackParent(int $feedbackId) : bool
     {

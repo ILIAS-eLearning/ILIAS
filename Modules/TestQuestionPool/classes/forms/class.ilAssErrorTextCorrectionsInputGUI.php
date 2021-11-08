@@ -12,7 +12,7 @@
  */
 class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
 {
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if (is_array($a_value)) {
             include_once "./Modules/TestQuestionPool/classes/class.assAnswerErrorText.php";
@@ -26,7 +26,7 @@ class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
         }
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -68,7 +68,7 @@ class ilAssErrorTextCorrectionsInputGUI extends ilErrorTextWizardInputGUI
         return $this->checkSubItemsInput();
     }
     
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

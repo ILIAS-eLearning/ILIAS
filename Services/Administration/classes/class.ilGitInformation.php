@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class ilGitInformation
@@ -8,22 +19,16 @@
  */
 class ilGitInformation implements ilVersionControlInformation
 {
-    /**
-     * @var string
-     */
-    private static $revision_information = null;
+    private static ?array $revision_information = null;
 
-    /**
-     *
-     */
-    private static function detect()
+    private static function detect() : void
     {
         global $DIC;
 
         $lng = $DIC->language();
 
         if (null !== self::$revision_information) {
-            return self::$revision_information;
+            return;
         }
 
         $info = array();
@@ -85,10 +90,7 @@ class ilGitInformation implements ilVersionControlInformation
         self::$revision_information = $info;
     }
 
-    /**
-     * @return string
-     */
-    public function getInformationAsHtml()
+    public function getInformationAsHtml() : string
     {
         self::detect();
 

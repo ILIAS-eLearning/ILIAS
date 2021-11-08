@@ -13,14 +13,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
 {
 
     /**
-     * @var ilDclCreateViewDefinition
-     */
-    public $obj;
-    /**
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
      * @var ilDclTableView
      */
     public $tableview;
@@ -51,7 +43,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
             $viewdef->setId($tableview_id);
             $viewdef->setParentId(ilObject2::_lookupObjectId($_GET['ref_id']));
             $viewdef->setActive(false);
-            $viewdef->create();
+            $viewdef->create(false);
         }
 
         parent::__construct("dclf", $tableview_id);
@@ -59,14 +51,13 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
         $table = new ilDclCreateViewTableGUI($this);
         $this->table_gui = $table;
         $this->tpl->setContent($table->getHTML());
-
     }
 
 
     /**
      * execute command
      */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         global $DIC;
         $ilLocator = $DIC['ilLocator'];
@@ -178,7 +169,7 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
      * Release page lock
      * overwrite to redirect properly
      */
-    public function releasePageLock()
+    public function releasePageLock() : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];
@@ -192,12 +183,10 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
 
     /**
      * Finalizing output processing
-     *
      * @param string $a_output
-     *
      * @return string
      */
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         // You can use this to parse placeholders and the like before outputting
 
@@ -232,7 +221,8 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
     /**
      * Save table entries
      */
-    public function saveTable() {
+    public function saveTable()
+    {
         $f = new ilDclDefaultValueFactory();
         foreach ($_POST as $key => $value) {
             if (strpos($key, "default_") === 0) {
@@ -271,7 +261,6 @@ class ilDclCreateViewDefinitionGUI extends ilPageObjectGUI
          * @var ilDclTableViewFieldSetting $setting
          */
         foreach ($this->tableview->getFieldSettings() as $setting) {
-
             if (!$setting->getFieldObject()->isStandardField()) {
 
                 // Radio Inputs

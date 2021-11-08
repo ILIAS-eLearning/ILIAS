@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
+use ILIAS\Container\Content\ViewManager;
+
 /**
  * BlockGUI class for polls.
  *
@@ -15,6 +17,8 @@ class ilPollBlockGUI extends ilBlockGUI
     protected $poll_block; // [ilPollBlock]
 
     public static $js_init = false;
+
+    protected ViewManager $container_view_manager;
 
     /**
      * Constructor
@@ -33,6 +37,13 @@ class ilPollBlockGUI extends ilBlockGUI
 
         $lng->loadLanguageModule("poll");
         $this->setRowTemplate("tpl.block.html", "Modules/Poll");
+
+        $this->container_view_manager = $DIC
+            ->container()
+            ->internal()
+            ->domain()
+            ->content()
+            ->view();
     }
 
     /**
@@ -64,7 +75,7 @@ class ilPollBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         return IL_SCREEN_SIDE;
     }
@@ -92,7 +103,7 @@ class ilPollBlockGUI extends ilBlockGUI
         }
     }
 
-    public function fillRow($a_poll)
+    public function fillRow(array $a_set) : void
     {
         // handle messages
 
@@ -104,7 +115,7 @@ class ilPollBlockGUI extends ilBlockGUI
 
 
         // nested form problem
-        if (!ilSession::get('il_cont_admin_panel')) {
+        if (!$this->container_view_manager->isAdminView()) {
             // vote
 
             if ($this->poll_block->mayVote($this->user->getId())) {
@@ -140,7 +151,7 @@ class ilPollBlockGUI extends ilBlockGUI
                 }
 
                 $this->tpl->setCurrentBlock("answer");
-                foreach ($a_poll->getAnswers() as $item) {
+                foreach ($a_set->getAnswers() as $item) {
                     $id = (int) ($item['id'] ?? 0);
                     $answer = (string) ($item['answer'] ?? 0);
                     if (!$is_multi_answer) {
@@ -170,7 +181,7 @@ class ilPollBlockGUI extends ilBlockGUI
                 );
                 $this->ctrl->clearParametersByClass($this->getRepositoryObjectGUIName());
 
-                $url .= "#poll" . $a_poll->getID();
+                $url .= "#poll" . $a_set->getID();
 
                 $this->tpl->setVariable("URL_FORM", $url);
                 $this->tpl->setVariable("CMD_FORM", "vote");
@@ -192,7 +203,7 @@ class ilPollBlockGUI extends ilBlockGUI
             if ($this->poll_block->maySeeResults($this->user->getId())) {
                 if (!$this->poll_block->mayNotResultsYet($this->user->getId())) {
                     $answers = array();
-                    foreach ($a_poll->getAnswers() as $item) {
+                    foreach ($a_set->getAnswers() as $item) {
                         $id = (int) ($item['id'] ?? 0);
                         $answers[$id] = (string) ($item['answer'] ?? 0);
                     }
@@ -289,19 +300,19 @@ class ilPollBlockGUI extends ilBlockGUI
                 );
             }
         } else {
-            $this->tpl->setVariable("TXT_QUESTION", nl2br(trim($a_poll->getQuestion())));
+            $this->tpl->setVariable("TXT_QUESTION", nl2br(trim($a_set->getQuestion())));
 
-            $img = $a_poll->getImageFullPath();
+            $img = $a_set->getImageFullPath();
             if ($img) {
                 $this->tpl->setVariable("URL_IMAGE", ilWACSignedPath::signFile($img));
             }
         }
 
 
-        $this->tpl->setVariable("ANCHOR_ID", $a_poll->getID());
+        $this->tpl->setVariable("ANCHOR_ID", $a_set->getID());
         //$this->tpl->setVariable("TXT_QUESTION", nl2br(trim($a_poll->getQuestion())));
 
-        $desc = trim($a_poll->getDescription());
+        $desc = trim($a_set->getDescription());
         if ($desc) {
             $this->tpl->setVariable("TXT_DESC", nl2br($desc));
         }
@@ -338,7 +349,7 @@ class ilPollBlockGUI extends ilBlockGUI
     /**
      * Get block HTML code.
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         $this->poll_block->setRefId($this->getRefId());
         $this->may_write = $this->access->checkAccess("write", "", $this->getRefId());
@@ -469,7 +480,7 @@ class ilPollBlockGUI extends ilBlockGUI
     /**
      * Fill data section
      */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         $this->setDataSection($this->getLegacyContent());
     }

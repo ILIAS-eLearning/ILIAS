@@ -59,14 +59,14 @@ class ilScormAiccDataSet extends ilDataSet
     /**
      * Read data
      * @param
-     * @return
+     * @return void
      */
-    public function readData($a_entity, $a_version, $a_id, $a_field = "")
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
 
-        $obj_id = $a_id;
+        $obj_id = $a_ids;
         $columns = [];
         foreach ($this->properties as $property) {
             array_push($columns, $property["db_col"]);
@@ -296,12 +296,11 @@ class ilScormAiccDataSet extends ilDataSet
 
     /**
      * Get field types for entity
-     *
-     * @param string $a_entity entity
+     * @param string $a_entity  entity
      * @param string $a_version version number
      * @return array types array
      */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "sahs") {
             switch ($a_version) {
@@ -319,19 +318,23 @@ class ilScormAiccDataSet extends ilDataSet
     /**
      * Get xml namespace
      * @param
-     * @return
+     * @return string
      */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Modules/ScormAicc/" . $a_entity;
     }
-    
-    public function getDependencies()
-    {
-        return null;
+
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
+        return [];
     }
 
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return ["5.1.0"];
     }

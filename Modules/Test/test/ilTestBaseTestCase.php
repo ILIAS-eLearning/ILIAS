@@ -40,7 +40,9 @@ class ilTestBaseTestCase extends TestCase
         $GLOBALS[$name] = $value;
 
         unset($DIC[$name]);
-        $DIC[$name] = $GLOBALS[$name];
+        $DIC[$name] = static function (\ILIAS\DI\Container $c) use ($value) {
+            return $value;
+        };
     }
 
     /**

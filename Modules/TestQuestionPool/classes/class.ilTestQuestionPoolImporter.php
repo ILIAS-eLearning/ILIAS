@@ -20,11 +20,10 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
     
     /**
      * Import XML
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function importXmlRepresentation($a_entity, $a_id, $a_xml, $a_mapping)
+    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         /* @var ilObjQuestionPool $newObj */
         
@@ -45,7 +44,7 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
             // Shouldn't happen
             global $DIC; /* @var ILIAS\DI\Container $DIC */
             $DIC['ilLog']->write(__METHOD__ . ': non container and no tax mapping, perhaps old qpl export');
-            return false;
+            return;
         }
 
         
@@ -55,11 +54,11 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
         global $DIC; /* @var ILIAS\DI\Container $DIC */
         if (!@file_exists($xml_file)) {
             $DIC['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
-            return false;
+            return;
         }
         if (!@file_exists($qti_file)) {
             $DIC['ilLog']->write(__METHOD__ . ': Cannot find qti definition: ' . $qti_file);
-            return false;
+            return;
         }
         
         $this->poolOBJ = $newObj;
@@ -138,11 +137,10 @@ class ilTestQuestionPoolImporter extends ilXmlImporter
 
     /**
      * Final processing
-     *
      * @param ilImportMapping $a_mapping
-     * @return
+     * @return void
      */
-    public function finalProcessing($a_mapping)
+    public function finalProcessing(ilImportMapping $a_mapping) : void
     {
         //echo "<pre>".print_r($a_mapping, true)."</pre>"; exit;
         // get all glossaries of the import

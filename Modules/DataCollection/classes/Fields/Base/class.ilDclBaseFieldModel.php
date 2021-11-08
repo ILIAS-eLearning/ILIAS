@@ -467,7 +467,7 @@ class ilDclBaseFieldModel
         $ilDB->update(
             "il_dcl_field",
             array(
-                "table_id"    => array(
+                "table_id" => array(
                     "integer",
                     $this->getTableId(),
                 ),
@@ -475,7 +475,7 @@ class ilDclBaseFieldModel
                     "text",
                     $this->getDatatypeId(),
                 ),
-                "title"       => array(
+                "title" => array(
                     "text",
                     $this->getTitle(),
                 ),
@@ -483,7 +483,7 @@ class ilDclBaseFieldModel
                     "text",
                     $this->getDescription(),
                 ),
-                "is_unique"   => array(
+                "is_unique" => array(
                     "integer",
                     $this->isUnique(),
                 ),
@@ -974,12 +974,12 @@ class ilDclBaseFieldModel
     public function fillPropertiesForm(ilPropertyFormGUI &$form)
     {
         $values = array(
-            'table_id'      => $this->getTableId(),
-            'field_id'      => $this->getId(),
-            'title'         => $this->getTitle(),
-            'datatype'      => $this->getDatatypeId(),
-            'description'   => $this->getDescription(),
-            'unique'        => $this->isUnique(),
+            'table_id' => $this->getTableId(),
+            'field_id' => $this->getId(),
+            'title' => $this->getTitle(),
+            'datatype' => $this->getDatatypeId(),
+            'description' => $this->getDescription(),
+            'unique' => $this->isUnique(),
         );
 
         $properties = $this->getValidFieldProperties();

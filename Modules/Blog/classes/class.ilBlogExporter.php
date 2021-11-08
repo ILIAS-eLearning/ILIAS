@@ -9,15 +9,15 @@
  */
 class ilBlogExporter extends ilXmlExporter
 {
-    protected $ds;
+    protected ilBlogDataSet $ds;
     
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilBlogDataSet();
         $this->ds->setDSPrefix("ds");
     }
     
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $res = array();
         
@@ -62,13 +62,13 @@ class ilBlogExporter extends ilXmlExporter
         return $res;
     }
     
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
     
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
                 "4.3.0" => array(

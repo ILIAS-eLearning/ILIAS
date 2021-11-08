@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
@@ -6,8 +6,8 @@ use ILIAS\Data\Factory as DataFactory;
 use ILIAS\Refinery\Factory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\Input\InputData;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Implementation\Component\Triggerer;
+use ILIAS\Refinery\Constraint;
+use Closure;
 
 /**
  * Class File
@@ -16,36 +16,24 @@ use ILIAS\UI\Implementation\Component\Triggerer;
  */
 class File extends Input implements C\Input\Field\File
 {
-    use JavaScriptBindable;
-    use Triggerer;
-
-    /**
-     * @var array
-     */
-    private $accepted_mime_types = [];
-    /**
-     * @var int
-     */
-    private $max_file_size;
-    /**
-     * @var C\Input\Field\UploadHandler
-     */
-    private $upload_handler;
+    private array $accepted_mime_types = [];
+    private int $max_file_size;
+    private C\Input\Field\UploadHandler $upload_handler;
 
     public function __construct(
         DataFactory $data_factory,
         Factory $refinery,
         C\Input\Field\UploadHandler $handler,
-        $label,
-        $byline
+        string $label,
+        ?string $byline
     ) {
         $this->upload_handler = $handler;
         parent::__construct($data_factory, $refinery, $label, $byline);
     }
 
-    protected function getConstraintForRequirement()
+    protected function getConstraintForRequirement() : ?Constraint
     {
-        return $this->refinery->string();
+        return $this->refinery->to()->string();
     }
 
     protected function isClientSideValueOk($value) : bool
@@ -65,9 +53,9 @@ class File extends Input implements C\Input\Field\File
         return true;
     }
 
-    public function getUpdateOnLoadCode() : \Closure
+    public function getUpdateOnLoadCode() : Closure
     {
-        return function ($id) {
+        return function () {
             return '';
         };
     }
@@ -80,12 +68,12 @@ class File extends Input implements C\Input\Field\File
         return $clone;
     }
 
-    public function getMaxFileFize() : int
+    public function getMaxFileSize() : int
     {
         return $this->max_file_size;
     }
 
-    public function withInput(InputData $input)
+    public function withInput(InputData $input) : C\Input\Field\Input
     {
         $value = $input->getOr($this->getName(), null);
         if ($value === null) {
@@ -100,7 +88,7 @@ class File extends Input implements C\Input\Field\File
         return $this->upload_handler;
     }
 
-    public function withAcceptedMimeTypes(array $mime_types) : \ILIAS\UI\Component\Input\Field\File
+    public function withAcceptedMimeTypes(array $mime_types) : C\Input\Field\File
     {
         $clone = clone $this;
         $clone->accepted_mime_types = $mime_types;

@@ -9910,6 +9910,8 @@ footer {
   display: flex;
   height: 80px;
   width: 100%;
+  padding: 0;
+  margin: 0;
 }
 .il-mainbar-remove-tool {
   display: none;
@@ -10238,8 +10240,11 @@ footer {
   position: relative;
   display: flex;
   align-items: center;
+  min-height: 48px;
   margin-bottom: 2px;
-  padding: 10px 40px 15px 10px;
+  padding: 6px 12px;
+  padding-left: 0;
+  z-index: initial;
 }
 .il-drilldown header h2 {
   margin: 0;
@@ -10255,17 +10260,8 @@ footer {
 .il-drilldown header .backnav .btn-bulky {
   height: 100%;
 }
-.il-drilldown header .backnav .btn-bulky .glyphicon {
-  display: none;
-}
-.il-drilldown header .backnav .btn-bulky:before {
-  content: " \e605";
-  display: block;
-  font-family: "il-icons";
-  font-size: 1.5rem;
-}
 .il-drilldown header.show-backnav {
-  padding-left: 4rem;
+  padding-left: 39px;
 }
 .il-drilldown header.show-backnav .backnav {
   display: block;
@@ -10287,18 +10283,18 @@ footer {
 .il-drilldown .menulevel,
 .il-drilldown .btn-bulky,
 .il-drilldown .link-bulky {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 10px 40px 15px 10px;
+  min-height: 48px;
+  padding: 6px 12px;
   margin-bottom: 2px;
   font-size: 1.5rem;
   line-height: 1.7rem;
 }
 .il-drilldown hr {
-  margin: 10px 0;
+  margin: 6px 0;
 }
 .il-drilldown .menulevel {
   background-color: #f2f2f2;
@@ -10307,11 +10303,8 @@ footer {
   background-color: rgba(76, 101, 134, 0.3);
   color: inherit;
 }
-.il-drilldown .menulevel:after {
-  content: " \e606";
-  font-family: "il-icons";
-  font-size: 1.7rem;
-  margin-left: 6px;
+.il-drilldown .menulevel .glyphicon-triangle-right:before {
+  margin-left: 12px;
 }
 .il-drilldown .btn-bulky,
 .il-drilldown .link-bulky {
@@ -10324,9 +10317,7 @@ footer {
 }
 .il-drilldown .btn-bulky .icon,
 .il-drilldown .link-bulky .icon {
-  align-self: flex-start;
-  margin-top: 3px;
-  margin-right: 5px;
+  margin-right: 12px;
   filter: invert(50%);
 }
 .il-drilldown .btn-bulky .bulky-label,
@@ -10568,6 +10559,10 @@ footer {
 .glyphicon-filter:before {
   font-family: il-icons;
   content: "\e904";
+}
+.glyphicon-triangle-left:before {
+  font-family: il-icons;
+  content: "\e605";
 }
 .glyphicon-user:before {
   font-family: il-icons;
@@ -15181,6 +15176,12 @@ img.ilPollQuestionImage {
 #ilMMSearch ul li label {
   font-weight: normal;
 }
+#ilMMSearchMenu legend {
+  margin-bottom: 0;
+  margin-top: 20px;
+  font-size: 16px;
+  border-bottom: 0;
+}
 #ilMMSearchMenu p {
   white-space: nowrap;
 }
@@ -15659,7 +15660,7 @@ li.smallPad {
 }
 #chat_messages {
   height: 300px;
-  padding: 2px;
+  padding: 2px 2px 0 2px;
   overflow-y: scroll;
   overflow-x: hidden;
   overflow-wrap: break-word;
@@ -15672,8 +15673,28 @@ li.smallPad {
   -webkit-hyphens: auto;
   hyphens: auto;
   width: 100%;
-  min-height: 200px;
   background-color: #f9f9f9;
+  position: relative;
+}
+#chat_messages .messageContainer {
+  min-height: 250px;
+}
+#chat_messages .fader {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 100%);
+}
+#chat_messages .fader .typing-info {
+  font-size: 0.6em;
+  position: absolute;
+  bottom: 0;
+  padding: 2px 5px;
+  text-align: left;
+  width: 100%;
 }
 #message-controls .msg-control {
   display: inline-block;
@@ -17393,6 +17414,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   list-style: none;
   margin: 0;
   padding: 0;
+  min-height: calc(100% - 50px);
 }
 #onscreenchat-container .chat-window-wrapper .chat li.separator:not(:first-child) {
   margin-top: 10px;
@@ -17476,9 +17498,17 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   position: sticky;
   bottom: 0;
   width: 100%;
-  height: 30px;
+  height: 50px;
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, 0)), to(#fff));
   background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, #fff 100%);
+}
+#onscreenchat-container .chat-window-wrapper .panel .panel-body .fader .typing-info {
+  font-size: 0.6em;
+  position: absolute;
+  bottom: 0;
+  padding: 2px 5px;
+  text-align: right;
+  width: 100%;
 }
 #onscreenchat-container .chat-window-wrapper .panel .panel-footer {
   position: relative;

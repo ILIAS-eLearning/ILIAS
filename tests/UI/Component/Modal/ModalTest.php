@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
+
+use ILIAS\UI\Implementation\Component\Modal\Modal;
 
 require_once(__DIR__ . '/ModalBase.php');
-
-use \ILIAS\UI\Component as C;
 
 /**
  * Tests on abstract base class for modals
@@ -11,7 +11,7 @@ use \ILIAS\UI\Component as C;
  */
 class ModalTest extends ModalBase
 {
-    public function test_with_close_with_keyboard()
+    public function test_with_close_with_keyboard() : void
     {
         $modal = $this->getModal();
         $this->assertEquals(true, $modal->getCloseWithKeyboard());
@@ -19,13 +19,13 @@ class ModalTest extends ModalBase
         $this->assertEquals(false, $modal->getCloseWithKeyboard());
     }
 
-    public function test_with_async_rendered_url()
+    public function test_with_async_rendered_url() : void
     {
         $modal = $this->getModal()->withAsyncRenderUrl('/fake/async/url');
         $this->assertEquals('/fake/async/url', $modal->getAsyncRenderUrl());
     }
 
-    public function test_get_signals()
+    public function test_get_signals() : void
     {
         $modal = $this->getModal();
         $show = $modal->getShowSignal();
@@ -39,7 +39,7 @@ class ModalTest extends ModalBase
         $this->assertEquals('signal_2', "$close");
     }
 
-    public function test_with_reset_signals()
+    public function test_with_reset_signals() : void
     {
         $modal = $this->getModal();
         $modal2 = $modal->withResetSignals();
@@ -49,15 +49,15 @@ class ModalTest extends ModalBase
         $this->assertEquals('signal_4', "$close");
     }
 
-    protected function getModal()
+    protected function getModal() : ModalMock
     {
         return new ModalMock(new IncrementalSignalGenerator());
     }
 }
 
-class ModalMock extends \ILIAS\UI\Implementation\Component\Modal\Modal
+class ModalMock extends Modal
 {
-    public function getCanonicalName()
+    public function getCanonicalName() : string
     {
         return "Modal Mock";
     }

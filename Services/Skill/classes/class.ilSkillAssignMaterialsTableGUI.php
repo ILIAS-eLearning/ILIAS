@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * Assign materials to skill levels table
@@ -10,55 +25,23 @@
 class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
      * @var ilCtrl
      */
     protected $ctrl;
+    protected ilObjUser $user;
+    protected ilWorkspaceTree $ws_tree;
+    protected ilWorkspaceAccessHandler $ws_access;
+    protected int $top_skill_id;
+    protected int $tref_id;
+    protected int $basic_skill_id;
+    protected ilSkillTreeNode $skill;
 
-    /**
-     * @var ilWorkspaceTree
-     */
-    protected $ws_tree;
-
-    /**
-     * @var ilWorkspaceAccessHandler
-     */
-    protected $ws_access;
-
-    /**
-     * @var int
-     */
-    protected $top_skill_id;
-
-    /**
-     * @var int
-     */
-    protected $tref_id;
-
-    /**
-     * @var int
-     */
-    protected $basic_skill_id;
-
-    /**
-     * @var object
-     */
-    protected $skill;
-
-    
-    /**
-     * Constructor
-     */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
-        $a_top_skill_id,
-        $a_tref_id,
-        $a_basic_skill_id
+        string $a_parent_cmd,
+        int $a_top_skill_id,
+        int $a_tref_id,
+        int $a_basic_skill_id
     ) {
         global $DIC;
 
@@ -74,7 +57,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $this->ws_access = new ilWorkspaceAccessHandler();
 
         $this->top_skill_id = $a_top_skill_id;
-        $this->tref_id = (int) $a_tref_id;
+        $this->tref_id = $a_tref_id;
         $this->basic_skill_id = $a_basic_skill_id;
 
 
@@ -109,13 +92,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 //		$this->addCommandButton("", $lng->txt(""));
     }
 
-    /**
-     * Get levels
-     *
-     * @param
-     * @return
-     */
-    public function getLevels()
+    public function getLevels() : array
     {
         $this->skill = ilSkillTreeNodeFactory::getInstance($this->basic_skill_id);
         $levels = [];
@@ -125,11 +102,8 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 
         return $levels;
     }
-    
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

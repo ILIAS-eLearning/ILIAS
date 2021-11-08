@@ -129,7 +129,7 @@ class ilUserCertificateGUI
         $nextClass = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
-        if (!$this->certificateSettings->get('active')) {
+        if (!$this->certificateSettings->get('active', '0')) {
             $this->ctrl->returnToParent($this);
         }
 
@@ -148,13 +148,13 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilDateTimeException
-     * @throws ilWACException
+     * @throws ilWACException|JsonException
      */
     public function listCertificates() : void
     {
         global $DIC;
 
-        if (!$this->certificateSettings->get('active')) {
+        if (!$this->certificateSettings->get('active', '0')) {
             $this->ctrl->redirect($this);
             return;
         }
@@ -211,7 +211,7 @@ class ilUserCertificateGUI
 
                 $sections = [];
 
-                if (strlen($certificateData['description']) > 0) {
+                if ($certificateData['description'] !== '') {
                     $sections[] = $this->uiFactory->listing()->descriptive([
                         $this->language->txt('cert_description_label') => $certificateData['description']
                     ]);
@@ -290,7 +290,7 @@ class ilUserCertificateGUI
 
     /**
      * @throws ilWACException
-     * @throws ilDateTimeException
+     * @throws ilDateTimeException|JsonException
      */
     protected function applySortation() : void
     {
@@ -304,7 +304,7 @@ class ilUserCertificateGUI
     }
 
     /**
-     * @throws ilException
+     * @throws ilException|JsonException
      */
     public function download() : void
     {

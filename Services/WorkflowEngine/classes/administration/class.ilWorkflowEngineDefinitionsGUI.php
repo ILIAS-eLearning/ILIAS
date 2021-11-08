@@ -241,7 +241,7 @@ class ilWorkflowEngineDefinitionsGUI
         $absRepositoryDirectory = ilObjWorkflowEngine::getRepositoryDir();
         $sourceFile = $absRepositoryDirectory . str_replace('.', '', 'wfd.' . $repo_name) . '.sec';
         $targetFile = $absRepositoryDirectory . 'wfd.' . $repo_name;
-        if (file_exists($sourceFile)) {
+        if (is_file($sourceFile)) {
             rename($sourceFile, $targetFile);
         }
 
@@ -466,10 +466,10 @@ class ilWorkflowEngineDefinitionsGUI
         $pathToProcessPhpFile = ilObjWorkflowEngine::getRepositoryDir() . '/' . $processId . '.php';
         $pathToProcessBpmn2File = ilObjWorkflowEngine::getRepositoryDir() . '/' . $processId . '.bpmn2';
 
-        if (file_exists($pathToProcessPhpFile)) {
+        if (is_file($pathToProcessPhpFile)) {
             unlink($pathToProcessPhpFile);
         }
-        if (file_exists($pathToProcessBpmn2File)) {
+        if (is_file($pathToProcessBpmn2File)) {
             unlink($pathToProcessBpmn2File);
         }
 

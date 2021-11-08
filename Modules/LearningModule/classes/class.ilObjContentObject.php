@@ -1473,7 +1473,7 @@ class ilObjContentObject extends ilObject
                 $lm_page = new ilLMPage();
                 $lm_page->setId($rec["obj_id"]);
                 $lm_page->setParentId($this->getId());
-                $lm_page->create();
+                $lm_page->create(false);
             }
         }
     }
@@ -2029,6 +2029,7 @@ class ilObjContentObject extends ilObject
     */
     public function exportFO(&$a_xml_writer, $a_target_dir)
     {
+        throw new ilException("Export FO is deprecated.");
         // fo:root (start)
         $attrs = array();
         $attrs["xmlns:fo"] = "http://www.w3.org/1999/XSL/Format";

@@ -58,7 +58,8 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
                     "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%,$filter_value,%", 'text') . " OR " .
                     "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%[$filter_value,%", 'text') . " OR " .
                     "filter_stloc_{$this->getId()}.value LIKE " . $ilDB->quote("%,$filter_value]%", 'text') .
-                    ") ";;
+                    ") ";
+                ;
             } else {
                 $where_str .= "filter_stloc_{$this->getId()}.value = "
                     . $ilDB->quote($filter_value, 'integer');
@@ -127,7 +128,7 @@ abstract class ilDclSelectionFieldModel extends ilDclBaseFieldModel
             'title' => $this->getTitle(),
             'datatype' => $this->getDatatypeId(),
             'description' => $this->getDescription(),
-            'unique'      => $this->isUnique(),
+            'unique' => $this->isUnique(),
         );
 
         $properties = $this->getValidFieldProperties();

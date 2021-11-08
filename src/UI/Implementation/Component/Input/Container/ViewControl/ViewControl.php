@@ -12,10 +12,7 @@ class ViewControl implements I\ViewControl
 {
     use ComponentHelper;
 
-    /**
-     * @var array
-     */
-    protected $controls;
+    protected array $controls;
 
     public function __construct(array $controls)
     {
@@ -27,7 +24,7 @@ class ViewControl implements I\ViewControl
         return [];
     }
 
-    public function withRequest(ServerRequestInterface $request) : I\ViewControl
+    public function withRequest(ServerRequestInterface $request)
     {
         return $this;
     }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,37 +6,37 @@
  */
 class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTestCase
 {
-    public function testSave()
+    public function testSave() : void
     {
-        $object = $this->getMockBuilder('ilObject')
+        $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder('ilAccess')
+        $access = $this->getMockBuilder(ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $toolbar = $this->getMockBuilder('ilToolbarGUI')
+        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $placeholderDescriptionObject = $this->getMockBuilder('ilCertificatePlaceholderDescription')
+        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settingFormRepository = $this->getMockBuilder('ilCertificateSettingsFormRepository')
+        $settingFormRepository = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $setting = $this->getMockBuilder('ilSetting')
+        $setting = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -65,33 +65,33 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
         );
     }
 
-    public function testFetchFormFieldData()
+    public function testFetchFormFieldData() : void
     {
-        $object = $this->getMockBuilder('ilObject')
+        $object = $this->getMockBuilder(ilObject::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $language = $this->getMockBuilder('ilLanguage')
+        $language = $this->getMockBuilder(ilLanguage::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $controller = $this->getMockBuilder('ilCtrl')
+        $controller = $this->getMockBuilder(ilCtrl::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $access = $this->getMockBuilder('ilAccess')
+        $access = $this->getMockBuilder(ilAccess::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $toolbar = $this->getMockBuilder('ilToolbarGUI')
+        $toolbar = $this->getMockBuilder(ilToolbarGUI::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $placeholderDescriptionObject = $this->getMockBuilder('ilCertificatePlaceholderDescription')
+        $placeholderDescriptionObject = $this->getMockBuilder(ilCertificatePlaceholderDescription::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $settingFormRepository = $this->getMockBuilder('ilCertificateSettingsFormRepository')
+        $settingFormRepository = $this->getMockBuilder(ilCertificateSettingsFormRepository::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -105,7 +105,7 @@ class ilCertificateSettingsScormFormRepositoryTest extends ilCertificateBaseTest
                 )
             );
 
-        $setting = $this->getMockBuilder('ilSetting')
+        $setting = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 

@@ -224,8 +224,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         
         if ($settings->enabledLucene()) {
             $type->setValue(ilSearchSettings::LUCENE_SEARCH);
-        } elseif ($settings->enabledIndex()) {
-            $type->setValue(ilSearchSettings::INDEX_SEARCH);
         } else {
             $type->setValue(ilSearchSettings::LIKE_SEARCH);
         }
@@ -285,12 +283,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         
         $direct = new ilRadioOption($this->lng->txt('search_direct'), ilSearchSettings::LIKE_SEARCH, $this->lng->txt('search_like_info'));
         $type->addOption($direct);
-        
-        if ($ilDB->supportsFulltext()) {
-            $index = new ilRadioOption($this->lng->txt('search_index'), ilSearchSettings::INDEX_SEARCH, $this->lng->txt('search_full_info'));
-            $type->addOption($index);
-        }
-        
         $lucene = new ilRadioOption($this->lng->txt('search_lucene'), ilSearchSettings::LUCENE_SEARCH, $this->lng->txt('java_server_info'));
         $type->addOption($lucene);
 
@@ -346,15 +338,10 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         
         switch ((int) $_POST['search_type']) {
             case ilSearchSettings::LIKE_SEARCH:
-                $settings->enableIndex(false);
                 $settings->enableLucene(false);
                 break;
-            case ilSearchSettings::INDEX_SEARCH:
-                $settings->enableIndex(true);
-                $settings->enableLucene(false);
-                break;
+
             case ilSearchSettings::LUCENE_SEARCH:
-                $settings->enableIndex(false);
                 $settings->enableLucene(true);
                 break;
         }

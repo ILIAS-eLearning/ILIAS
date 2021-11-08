@@ -1,5 +1,4 @@
-<?php
-
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Implementation\Component\Legacy;
 
@@ -7,7 +6,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 
 class Factory implements \ILIAS\UI\Component\Legacy\Factory
 {
-    protected $signal_generator;
+    protected SignalGeneratorInterface $signal_generator;
 
     public function __construct(SignalGeneratorInterface $signal_generator)
     {
@@ -17,7 +16,7 @@ class Factory implements \ILIAS\UI\Component\Legacy\Factory
     /**
      * @inheritdoc
      */
-    public function legacy($content)
+    public function legacy(string $content) : \ILIAS\UI\Component\Legacy\Legacy
     {
         return new Legacy($content, $this->signal_generator);
     }

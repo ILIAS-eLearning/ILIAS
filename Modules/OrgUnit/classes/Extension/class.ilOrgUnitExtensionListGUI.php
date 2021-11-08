@@ -12,7 +12,7 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
     /**
      * @return ilOrgUnitExtensionPlugin
      */
-    protected function getPlugin()
+    protected function getPlugin() : ?ilObjectPlugin
     {
         if (!$this->plugin) {
             $this->plugin = ilPlugin::getPluginObject(
@@ -32,7 +32,7 @@ abstract class ilOrgUnitExtensionListGUI extends ilObjectPluginListGUI
     }
 
 
-    protected function initListActions()
+    protected function initListActions() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;

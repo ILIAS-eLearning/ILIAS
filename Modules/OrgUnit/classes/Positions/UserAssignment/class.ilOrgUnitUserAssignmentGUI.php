@@ -79,9 +79,11 @@ class ilOrgUnitUserAssignmentGUI extends BaseCommands
         $html = '';
         foreach (ilOrgUnitPosition::getActiveForPosition($this->getParentRefId()) as $ilOrgUnitPosition) {
             $ilOrgUnitRecursiveUserAssignmentTableGUI =
-                new ilOrgUnitRecursiveUserAssignmentTableGUI($this,
+                new ilOrgUnitRecursiveUserAssignmentTableGUI(
+                    $this,
                     self::CMD_ASSIGNMENTS_RECURSIVE,
-                    $ilOrgUnitPosition);
+                    $ilOrgUnitPosition
+                );
             $html .= $ilOrgUnitRecursiveUserAssignmentTableGUI->getHTML();
         }
         $this->setContent($html);

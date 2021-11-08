@@ -83,7 +83,7 @@ class ilSCORMExplorer extends ilExplorer
     * @param	integer obj_id
     * @param	integer array options
     */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -105,27 +105,27 @@ class ilSCORMExplorer extends ilExplorer
     * @access	private
     * @param	string
     * @param	integer
-    * @return	string
+    * @return    string
     */
-    public function createTarget($a_type, $a_child, $a_highlighted_subtree = false, $a_append_anch = true)
+    public function createTarget(string $a_type, $a_node_id, bool $a_highlighted_subtree = false, bool $a_append_anch = true) : string
     {
         // SET expand parameter:
         //     positive if object is expanded
         //     negative if object is compressed
-        $a_child = ($a_type == '+')
-            ? $a_child
-            : -(int) $a_child;
+        $a_node_id = ($a_type == '+')
+            ? $a_node_id
+            : -(int) $a_node_id;
 
-        return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_child;
+        return $_SERVER["PATH_INFO"] . "?cmd=explorer&ref_id=" . $this->slm_obj->getRefId() . "&scexpand=" . $a_node_id;
     }
 
     /**
      * possible output array is set
-     * @param int 	$parent_id
+     * @param int $a_parent_id
      */
-    public function setOutput($parent_id, $a_depth = 1, $a_obj_id = 0, $a_highlighted_subtree = false)
+    public function setOutput($a_parent_id, int $a_depth = 1, int $a_obj_id = 0, bool $a_highlighted_subtree = false) : void
     {
-        $this->format_options = $this->createOutputArray($parent_id);
+        $this->format_options = $this->createOutputArray($a_parent_id);
     }
 
     /**
@@ -176,7 +176,7 @@ class ilSCORMExplorer extends ilExplorer
     /**
      * @inheritdoc
      */
-    public function isVisible($a_id, $a_type)
+    public function isVisible($a_ref_id, string $a_type) : bool
     {
         if ($a_type == "sre") {
             return false;
@@ -187,12 +187,10 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * Creates output template
-     *
      * @access	public
-     *
      * @return	string
      */
-    public function getOutput($jsApi = false)
+    public function getOutput($jsApi = false) : string
     {
         $output = $this->createOutput($this->format_options, $jsApi);
 
@@ -232,13 +230,11 @@ class ilSCORMExplorer extends ilExplorer
 
     /**
      * can i click on the module name
-     * @param string 	$a_type
-     * @param int 		$a_id
-     * @param int 		$a_obj
-     *
+     * @param string $a_type
+     * @param int    $a_ref_id
      * @return bool
      */
-    public function isClickable($a_type, $a_id = 0, $a_obj = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         if ($a_type != "sit") {
             return false;
@@ -246,7 +242,7 @@ class ilSCORMExplorer extends ilExplorer
             if (is_object($a_obj)) {
                 $sc_object = $a_obj;
             } else {
-                $sc_object = new ilSCORMItem($a_id);
+                $sc_object = new ilSCORMItem($a_ref_id);
             }
             if ($sc_object->getIdentifierRef() != "") {
                 return true;
@@ -341,7 +337,7 @@ class ilSCORMExplorer extends ilExplorer
             $a_node_id,
             0,
             $this->slm_obj->getId()
-            );
+        );
 
         // status
         $status = ($trdata["cmi.core.lesson_status"] == "")

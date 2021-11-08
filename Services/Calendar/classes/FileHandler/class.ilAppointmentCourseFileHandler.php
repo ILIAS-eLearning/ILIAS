@@ -28,7 +28,6 @@ class ilAppointmentCourseFileHandler extends ilAppointmentBaseFileHandler implem
         if ($this->access->checkAccessOfUser($this->user->getId(), "read", "", $crs_ref_id)) {
             $course_files = ilCourseFile::_readFilesByCourse($cat_info['obj_id']);
             foreach ($course_files as $course_file) {
-
                 $file_property = new ilFileProperty();
                 $file_property->setAbsolutePath($course_file->getAbsolutePath());
                 $file_property->setFileName($course_file->getFileName());

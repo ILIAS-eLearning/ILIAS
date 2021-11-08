@@ -46,7 +46,7 @@ class ilContextCron implements ilContextTemplate
      */
     public static function hasHTML()
     {
-        return false;
+        return true;
     }
     
     /**
@@ -56,7 +56,7 @@ class ilContextCron implements ilContextTemplate
      */
     public static function usesTemplate()
     {
-        return false;
+        return true;
     }
     
     /**

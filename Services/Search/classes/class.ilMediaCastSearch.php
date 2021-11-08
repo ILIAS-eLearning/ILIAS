@@ -24,7 +24,7 @@
 /**
 * Class ilMediaCastSearch
 *
-* Abstract class for mediacast definitions. Should be inherited by ilFulltextMediaCastSearch
+* Abstract class for mediacast definitions.
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id: class.ilMediaCastSearch.php 7785 2005-06-06 13:38:15Z smeyer $

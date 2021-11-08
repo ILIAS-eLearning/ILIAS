@@ -25,29 +25,13 @@ class ilFrameTargetInfo
             default:
                 switch ($a_class) {
                     case 'RepositoryContent':
-                        if ($_SESSION['il_rep_mode'] == 'flat' or !isset($_SESSION['il_rep_mode'])) {
-                            //return 'bottom';
-                            // LTI
-                            if ($ltiview->isActive()) {
-                                return '_self';
-                            } else {
-                                return '_top';
-                            }
-                        } else {
-                            return 'rep_content';
-                        }
-
-                        // no break
                     case 'MainContent':
-                        //return 'bottom';
                         // LTI
                         if ($ltiview->isActive()) {
                             return '_self';
-                        } else {
-                            return '_top';
                         }
+                        return '_top';
 
-                        // no break
                     case 'ExternalContent':
                         return '_blank';
                 }

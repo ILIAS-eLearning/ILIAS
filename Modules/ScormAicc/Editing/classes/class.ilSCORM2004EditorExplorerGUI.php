@@ -45,11 +45,10 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Get node content
-     *
      * @param array
-     * @return
+     * @return string
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lng = $this->lng;
 
@@ -62,11 +61,10 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
     
     /**
      * Get node icon
-     *
      * @param array
-     * @return
+     * @return string
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("icon_sahs.svg");
@@ -79,11 +77,10 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Get node icon alt text
-     *
      * @param array node array
      * @return string alt text
      */
-    public function getNodeIconAlt($a_node)
+    public function getNodeIconAlt($a_node) : string
     {
         $lng = $this->lng;
 
@@ -96,11 +93,10 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
     
     /**
      * Is node highlighted?
-     *
      * @param mixed $a_node node object/array
      * @return boolean node visible true/false
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         if ($a_node["child"] == $_GET["obj_id"] ||
             ($_GET["obj_id"] == "" && $a_node["child"] == $this->getNodeId($this->getRootNode()))) {
@@ -111,11 +107,10 @@ class ilSCORM2004EditorExplorerGUI extends ilTreeExplorerGUI
     
     /**
      * Get href for node
-     *
      * @param mixed $a_node node object/array
      * @return string href attribute
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         $ilCtrl = $this->ctrl;
 

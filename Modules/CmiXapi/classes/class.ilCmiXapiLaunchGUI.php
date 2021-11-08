@@ -25,7 +25,7 @@ class ilCmiXapiLaunchGUI
      */
     protected $cmixUser;
 
-        /**
+    /**
      * @var plugin
      */
     protected $plugin = false;
@@ -60,7 +60,7 @@ class ilCmiXapiLaunchGUI
         if ($this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_REMOTE) {
             $launchLink = $this->object->getLaunchUrl();
         } elseif ($this->object->getSourceType() == ilObjCmiXapi::SRC_TYPE_LOCAL) {
-            if (preg_match("/^(https?:\/\/)/",$this->object->getLaunchUrl()) == 1) {
+            if (preg_match("/^(https?:\/\/)/", $this->object->getLaunchUrl()) == 1) {
                 $launchLink = $this->object->getLaunchUrl();
             } else {
                 $launchLink = implode('/', [
@@ -176,7 +176,7 @@ class ilCmiXapiLaunchGUI
 
         return json_encode([
             'objectType' => 'Agent',
-            'mbox' => 'mailto:'.$this->cmixUser->getUsrIdent(),
+            'mbox' => 'mailto:' . $this->cmixUser->getUsrIdent(),
             'name' => $name
         ]);
     }
@@ -201,17 +201,17 @@ class ilCmiXapiLaunchGUI
         $doLpUpdate = false;
         
         // if (!ilCmiXapiUser::exists($this->object->getId(), $DIC->user()->getId())) {
-            // $doLpUpdate = true;
+        // $doLpUpdate = true;
         // }
         
         $this->cmixUser = new ilCmiXapiUser($this->object->getId(), $DIC->user()->getId(), $this->object->getPrivacyIdent());
         $user_ident = $this->cmixUser->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
-			$user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $DIC->user());
-			$this->cmixUser->setUsrIdent($user_ident);
-			$this->cmixUser->save();
+            $user_ident = ilCmiXapiUser::getIdent($this->object->getPrivacyIdent(), $DIC->user());
+            $this->cmixUser->setUsrIdent($user_ident);
+            $this->cmixUser->save();
             ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
-		}
+        }
         
         // if ($doLpUpdate) {
             // ilLPStatusWrapper::_updateStatus($this->object->getId(), $DIC->user()->getId());
@@ -266,7 +266,7 @@ class ilCmiXapiLaunchGUI
         return json_encode($ctxTemplate);
     }
 
-    protected function getCmi5LearnerPreferences() 
+    protected function getCmi5LearnerPreferences()
     {
         global $DIC;
         $language = $DIC->user()->getLanguage();
@@ -327,7 +327,7 @@ class ilCmiXapiLaunchGUI
         $launchDataParams['stateId'] = 'LMS.LaunchData';
         $defaultLaunchDataUrl = $defaultStateUrl . '?' . $this->buildQuery($launchDataParams);
         
-        $this->log()->log($defaultLaunchDataUrl); 
+        $this->log()->log($defaultLaunchDataUrl);
         
         $cmi5LearnerPreferences = $this->getCmi5LearnerPreferences();
         $launchData = $this->getLaunchData();
@@ -350,37 +350,33 @@ class ilCmiXapiLaunchGUI
         $promises['defaultProfile'] = $client->sendAsync($defaultProfileRequest);
         $promises['defaultLaunchData'] = $client->sendAsync($defaultLaunchDataRequest);
 
-        try 
-        {
+        try {
             $responses = GuzzleHttp\Promise\settle($promises)->wait();
-        }
-        catch(Exception $e) 
-        {
+        } catch (Exception $e) {
             $this->log()->error('error:' . $e->getMessage());
         }
     }
 
-    private function checkResponse($response) 
+    private function checkResponse($response)
     {
         global $DIC;
         if ($response['state'] === 'fulfilled') {
             $status = $response['value']->getStatusCode();
             if ($status === 204) {
                 return true;
-            }
-            else {
-                $this->log()->error($this->msg("Could not get valid response status_code: " . $status .  " from "));
+            } else {
+                $this->log()->error($this->msg("Could not get valid response status_code: " . $status . " from "));
                 return false;
             }
-        }
-        else {
+        } else {
             $this->log()->error($this->msg("Could not fulfill request to "));
             return false;
         }
         return false;
     }
 
-    private function guidv4($data = null) {
+    private function guidv4($data = null)
+    {
         // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
         $data = $data ?? random_bytes(16);
         assert(strlen($data) == 16);
@@ -435,12 +431,12 @@ class ilCmiXapiLaunchGUI
         return $qs ? (string) substr($qs, 0, -1) : '';
     }
 
-    private function log() {
+    private function log()
+    {
         global $log;
         if ($this->plugin) {
             return $log;
-        }
-        else {
+        } else {
             return \ilLoggerFactory::getLogger('cmix');
         }
     }

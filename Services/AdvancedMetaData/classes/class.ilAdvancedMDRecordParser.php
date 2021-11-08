@@ -485,7 +485,6 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 (string) $translation_info['description']
             );
         }
-
     }
     
     public function setContext($a_obj_id, $a_obj_type, $a_sub_type = null)

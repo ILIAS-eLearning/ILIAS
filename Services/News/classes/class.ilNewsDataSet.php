@@ -1,46 +1,35 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * News data set class
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ServicesNews
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNewsDataSet extends ilDataSet
 {
-    /**
-     * Get supported versions
-     *
-     * @param
-     * @return
-     */
-    public function getSupportedVersions()
+    public function getSupportedVersions() : array
     {
         return array("5.4.0", "4.1.0");
     }
     
-    /**
-     * Get xml namespace
-     *
-     * @param
-     * @return
-     */
-    public function getXmlNamespace($a_entity, $a_schema_version)
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Services/News/" . $a_entity;
+        return "https://www.ilias.de/xml/Services/News/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     *
-     * @param
-     * @return
-     */
-    protected function getTypes($a_entity, $a_version)
+    protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "news") {
             switch ($a_version) {
@@ -78,15 +67,10 @@ class ilNewsDataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     *
-     * @param
-     * @return
-     */
-    public function readData($a_entity, $a_version, $a_ids, $a_field = "")
+    public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
 
@@ -128,19 +112,16 @@ class ilNewsDataSet extends ilDataSet
     /**
      * Determine the dependent sets of data
      */
-    protected function getDependencies($a_entity, $a_version, $a_rec, $a_ids)
-    {
-        return false;
+    protected function getDependencies(
+        string $a_entity,
+        string $a_version,
+        ?array $a_rec = null,
+        ?array $a_ids = null
+    ) : array {
+        return [];
     }
     
-    
-    /**
-     * Import record
-     *
-     * @param
-     * @return
-     */
-    public function importRecord($a_entity, $a_types, $a_rec, $a_mapping, $a_schema_version)
+    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
     {
         //echo $a_entity;
         //var_dump($a_rec);
@@ -157,7 +138,6 @@ class ilNewsDataSet extends ilDataSet
                 $context = explode(":", $context);
 //var_dump($c);
 //var_dump($a_mapping->mappings["Services/News"]["news_context"]);
-                include_once("./Services/News/classes/class.ilNewsItem.php");
                 $newObj = new ilNewsItem();
                 $newObj->setTitle($a_rec["Title"]);
                 $newObj->setContent($a_rec["Content"]);

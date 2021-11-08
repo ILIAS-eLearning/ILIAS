@@ -62,11 +62,10 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
     }
 
     /**
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         return "#";
     }
@@ -74,7 +73,7 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
     /**
      * Get onclick attribute
      */
-    public function getNodeOnClick($a_node)
+    public function getNodeOnClick($a_node) : string
     {
         if ($this->select_parent) {
             $this->ctrl->setParameter($this->parent_obj, "grp_act_par_ref_id", $a_node["child"]);
@@ -88,11 +87,10 @@ class ilGroupActionTargetExplorerGUI extends ilRepositorySelectorExplorerGUI
 
     /**
      * Is node clickable?
-     *
      * @param array $a_node node data
      * @return boolean node clickable true/false
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         if ($this->select_parent) {
             if ($this->access->checkAccess("create", "", $a_node["child"], "grp")) {

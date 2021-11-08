@@ -445,7 +445,7 @@ class ilTestCorrectionsGUI
             $this->DIC->ctrl()->getLinkTarget($this, 'showSolution')
         );
         
-        if ($questionGUI->isAnswerFreuqencyStatisticSupported()) {
+        if ($questionGUI->isAnswerFrequencyStatisticSupported()) {
             $this->DIC->tabs()->addTab(
                 'answers',
                 $this->DIC->language()->txt('tst_corrections_tab_statistics'),

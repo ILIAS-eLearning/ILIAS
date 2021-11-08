@@ -240,7 +240,7 @@ class ilGlossaryDefinition
             $this->page_object = new ilGlossaryDefPage();
             $this->page_object->setId($this->getId());
             $this->page_object->setParentId($term->getGlossaryId());
-            $this->page_object->create();
+            $this->page_object->create(false);
         }
     }
 

@@ -25,8 +25,8 @@ class ilFileObjectToStorageMigrationHelper
         $this->iterator = new RecursiveDirectoryIterator(
             $base_path,
             FilesystemIterator::KEY_AS_PATHNAME
-            |FilesystemIterator::CURRENT_AS_FILEINFO
-            |FilesystemIterator::SKIP_DOTS
+            | FilesystemIterator::CURRENT_AS_FILEINFO
+            | FilesystemIterator::SKIP_DOTS
         );
         $this->iterator = new RecursiveIteratorIterator($this->iterator, RecursiveIteratorIterator::SELF_FIRST);
         $this->iterator = new RegexIterator($this->iterator, $regex, RegexIterator::GET_MATCH);
@@ -55,5 +55,4 @@ class ilFileObjectToStorageMigrationHelper
 
         return new ilFileObjectToStorageDirectory((int) $item[1], $item[0]);
     }
-
 }

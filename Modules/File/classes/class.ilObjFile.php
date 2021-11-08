@@ -44,7 +44,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     protected $log;
 
-// ABSTRACT
+    // ABSTRACT
     /**
      * @var string
      */
@@ -69,7 +69,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      * @var string
      */
     protected $action;
-// ABSTRACT
+    // ABSTRACT
 
     /**
      * @var string|null
@@ -135,7 +135,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     private function updateObjectFromRevision(Revision $r, bool $create_previews = true) : void
     {
         $this->setTitle($r->getTitle());
-        $this->setFileName($r->getTitle());
+        $this->setFileName($r->getInformation()->getTitle());
         $this->setVersion($r->getVersionNumber());
         $this->setMaxVersion($r->getVersionNumber());
         $this->setFileSize($r->getInformation()->getSize());
@@ -146,11 +146,21 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         }
     }
 
+    private function appendSuffixToTitle(string $title, string $filename) : string
+    {
+        // bugfix mantis 0026160 && 0030391
+        $uploaded_suffix = pathinfo($filename, PATHINFO_EXTENSION);
+        $input_title = pathinfo($title, PATHINFO_FILENAME) . '.' . $uploaded_suffix;
+
+        return $input_title;
+    }
+
     /**
      * @throws FileNamePolicyException
      */
     public function appendStream(FileStream $stream, string $title) : int
     {
+        // $title = $this->appendSuffixToTitle($title, $stream->getMetadata(['uri']));
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevisionFromStream($i, $stream, $this->stakeholder, $title);
         } else {
@@ -169,6 +179,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function appendUpload(UploadResult $result, string $title) : int
     {
+        $title = $this->appendSuffixToTitle($title, $result->getName());
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->appendNewRevision($i, $result, $this->stakeholder, $title);
         } else {
@@ -205,6 +216,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
      */
     public function replaceWithUpload(UploadResult $result, string $title) : int
     {
+        $title = $this->appendSuffixToTitle($title, $result->getName());
         if ($this->getResourceId() && $i = $this->manager->find($this->getResourceId())) {
             $revision = $this->manager->replaceWithUpload($i, $result, $this->stakeholder, $title);
         } else {
@@ -296,7 +308,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
 
     /**
-     * @param $a_mode self::MODE_FILELIST or self::MODE_OBJECT
+     * @param string $a_mode self::MODE_FILELIST or self::MODE_OBJECT
      */
     public function setMode($a_mode)
     {
@@ -459,6 +471,8 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             $new_object->setResourceId($new_resource_identification->serialize());
             $new_object->initImplementation();
             $new_object->updateObjectFromRevision($new_current_revision, false); // Previews are already copied in 453
+            $new_object->setTitle($this->getTitle()); // see https://mantis.ilias.de/view.php?id=31375
+            $new_object->update();
         } else {
             // migrate
             global $DIC;
@@ -759,5 +773,4 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     {
         return $this->implementation->getFileExtension();
     }
-
 }

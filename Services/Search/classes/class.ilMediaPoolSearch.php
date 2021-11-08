@@ -4,7 +4,7 @@
 /**
 * Class ilMediaPoolSearch
 *
-* Abstract class for test search. Should be inherited by ilFulltextMediaPoolSearch
+* Abstract class for test search.
 *
 * @author Stefan Meyer <meyer@leifos.com>
 * @version $Id$

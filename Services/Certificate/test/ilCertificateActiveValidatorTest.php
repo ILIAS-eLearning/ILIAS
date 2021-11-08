@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -6,17 +6,17 @@
  */
 class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
 {
-    public function testCertificatesAreActiveAndJavaServerIsActive()
+    public function testCertificatesAreActiveAndJavaServerIsActive() : void
     {
-        $settings = $this->getMockBuilder('ilSetting')
+        $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $settings->method('get')
             ->with('active')
-            ->willReturn(true);
+            ->willReturn('1');
 
-        $rpcSettings = $this->getMockBuilder('ilRPCServerSettings')
+        $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -30,17 +30,17 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($result);
     }
 
-    public function testValidationReturnFalseBecauseGlobalCertificatesAreInactive()
+    public function testValidationReturnFalseBecauseGlobalCertificatesAreInactive() : void
     {
-        $settings = $this->getMockBuilder('ilSetting')
+        $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $settings->method('get')
             ->with('active')
-            ->willReturn(false);
+            ->willReturn((string) false);
 
-        $rpcSettings = $this->getMockBuilder('ilRPCServerSettings')
+        $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -56,17 +56,17 @@ class ilCertificateActiveValidatorTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($result);
     }
 
-    public function testValidationReturnFalseBecauseJavaServerIsInactive()
+    public function testValidationReturnFalseBecauseJavaServerIsInactive() : void
     {
-        $settings = $this->getMockBuilder('ilSetting')
+        $settings = $this->getMockBuilder(ilSetting::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $settings->method('get')
             ->with('active')
-            ->willReturn(true);
+            ->willReturn('1');
 
-        $rpcSettings = $this->getMockBuilder('ilRPCServerSettings')
+        $rpcSettings = $this->getMockBuilder(ilRPCServerSettings::class)
             ->disableOriginalConstructor()
             ->getMock();
 

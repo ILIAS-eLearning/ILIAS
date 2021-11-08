@@ -1,37 +1,33 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 
 /**
  * Test on deck implementation.
  */
 class DeckTest extends ILIAS_UI_TestBase
 {
-    /**
-     * @return \ILIAS\UI\Implementation\Factory
-     */
-    public function getFactory()
+    public function getFactory() : NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function card()
+        return new class extends NoUIFactory {
+            public function card() : C\Card\Factory
             {
                 return new I\Component\Card\Factory();
             }
-            public function deck(array $cards)
+            public function deck(array $cards) : C\Deck\Deck
             {
-                return new I\Component\Deck\Deck($cards, I\Component\Deck\Deck::SIZE_S);
+                return new I\Component\Deck\Deck($cards, C\Deck\Deck::SIZE_S);
             }
         };
-        return $factory;
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getFactory();
 
@@ -40,7 +36,7 @@ class DeckTest extends ILIAS_UI_TestBase
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Deck\\Deck", $f->deck(array($c)));
     }
 
-    public function test_get_cards()
+    public function test_get_cards() : void
     {
         $f = $this->getFactory();
         $c = $f->card()->standard("Card Title");
@@ -49,7 +45,7 @@ class DeckTest extends ILIAS_UI_TestBase
         $this->assertEquals($d->getCards(), array($c));
     }
 
-    public function test_with_cards()
+    public function test_with_cards() : void
     {
         $f = $this->getFactory();
         $c = $f->card()->standard("Card Title");
@@ -59,17 +55,17 @@ class DeckTest extends ILIAS_UI_TestBase
         $this->assertEquals($d->getCards(), array($c,$c));
     }
 
-    public function test_get_size()
+    public function test_get_size() : void
     {
         $f = $this->getFactory();
 
         $c = $f->card()->standard("Card Title");
         $d = $f->deck(array($c));
 
-        $this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_S);
+        $this->assertEquals(C\Deck\Deck::SIZE_S, $d->getCardsSize());
     }
 
-    public function test_with_size()
+    public function test_with_size() : void
     {
         $f = $this->getFactory();
 
@@ -77,25 +73,25 @@ class DeckTest extends ILIAS_UI_TestBase
         $d = $f->deck(array($c));
 
         $d = $d->withExtraSmallCardsSize();
-        $this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_XS);
+        $this->assertEquals(C\Deck\Deck::SIZE_XS, $d->getCardsSize());
 
         $d = $d->withSmallCardsSize();
-        $this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_S);
+        $this->assertEquals(C\Deck\Deck::SIZE_S, $d->getCardsSize());
 
         $d = $d->withNormalCardsSize();
-        $this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_M);
+        $this->assertEquals(C\Deck\Deck::SIZE_M, $d->getCardsSize());
 
         $d = $d->withLargeCardsSize();
-        $this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_L);
+        $this->assertEquals(C\Deck\Deck::SIZE_L, $d->getCardsSize());
 
         $d = $d->withExtraLargeCardsSize();
-        $this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_XL);
+        $this->assertEquals(C\Deck\Deck::SIZE_XL, $d->getCardsSize());
 
         $d = $d->withFullSizedCardsSize();
-        $this->assertEquals($d->getCardsSize(), C\Deck\Deck::SIZE_FULL);
+        $this->assertEquals(C\Deck\Deck::SIZE_FULL, $d->getCardsSize());
     }
 
-    public function test_render_content()
+    public function test_render_content() : void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();

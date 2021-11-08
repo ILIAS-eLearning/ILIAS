@@ -13,6 +13,8 @@ include_once "Services/Object/classes/class.ilObjectLP.php";
  */
 class ilScormLP extends ilObjectLP
 {
+    protected ?bool $precondition_cache = null;
+
     public static function getDefaultModes($a_lp_active)
     {
         return array(
@@ -74,14 +76,19 @@ class ilScormLP extends ilObjectLP
         }
         return parent::getCurrentMode();
     }
-    
-    protected function checkSCORMPreconditions()
+
+    protected function checkSCORMPreconditions() : bool
     {
-        include_once('./Services/Conditions/classes/class.ilConditionHandler.php');
-        if (count(ilConditionHandler::_getPersistedConditionsOfTrigger('sahs', $this->obj_id))) {
-            return true;
+        if (is_bool($this->precondition_cache)) {
+            return $this->precondition_cache;
         }
-        return false;
+
+        $this->precondition_cache = ilConditionHandler::getNumberOfConditionsOfTrigger(
+            'sahs',
+            $this->obj_id
+        ) > 0;
+
+        return $this->precondition_cache;
     }
     
     protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)

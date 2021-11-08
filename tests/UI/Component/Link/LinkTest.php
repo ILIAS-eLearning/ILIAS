@@ -1,23 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alex Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
 require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation\Component as I;
 
 /**
  * Test on link implementation.
  */
 class LinkTest extends ILIAS_UI_TestBase
 {
-    public function getLinkFactory()
+    public function getLinkFactory() : I\Link\Factory
     {
-        return new \ILIAS\UI\Implementation\Component\Link\Factory();
+        return new I\Link\Factory();
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getLinkFactory();
 
@@ -28,23 +28,23 @@ class LinkTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function test_get_label()
+    public function test_get_label() : void
     {
         $f = $this->getLinkFactory();
         $c = $f->standard("label", "http://www.ilias.de");
 
-        $this->assertEquals($c->getLabel(), "label");
+        $this->assertEquals("label", $c->getLabel());
     }
 
-    public function test_get_action()
+    public function test_get_action() : void
     {
         $f = $this->getLinkFactory();
         $c = $f->standard("label", "http://www.ilias.de");
 
-        $this->assertEquals($c->getAction(), "http://www.ilias.de");
+        $this->assertEquals("http://www.ilias.de", $c->getAction());
     }
 
-    public function test_render_link()
+    public function test_render_link() : void
     {
         $f = $this->getLinkFactory();
         $r = $this->getDefaultRenderer();
@@ -59,7 +59,7 @@ class LinkTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected_html, $html);
     }
 
-    public function test_render_with_new_viewport()
+    public function test_render_with_new_viewport() : void
     {
         $f = $this->getLinkFactory();
         $r = $this->getDefaultRenderer();

@@ -1,5 +1,6 @@
-<?php
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
+/* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * Class ilAbstractMailMemberRoles
  * @author Nadia Matuschek <nmatuschek@databay.de>
@@ -8,21 +9,14 @@ abstract class ilAbstractMailMemberRoles
 {
     /**
      * @param int $ref_id
-     * @return array
+     * @return array{role_id: int, mailbox: string, form_option_title: string, default_checked: bool}[]
      */
-    abstract public function getMailRoles($ref_id);
-    
-    /**
-     * @return string
-     */
-    abstract public function getRadioOptionTitle();
+    abstract public function getMailRoles(int $ref_id) : array;
 
-    /**
-     * @param int $role_id
-     * @return String
-     */
-    final public function getMailboxRoleAddress($role_id)
+    abstract public function getRadioOptionTitle() : string;
+
+    final public function getMailboxRoleAddress(int $role_id) : string
     {
-        return (new \ilRoleMailboxAddress($role_id))->value();
+        return (new ilRoleMailboxAddress($role_id))->value();
     }
 }

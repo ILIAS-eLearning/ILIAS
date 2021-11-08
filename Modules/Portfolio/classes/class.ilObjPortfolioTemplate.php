@@ -85,7 +85,7 @@ class ilObjPortfolioTemplate extends ilObjPortfolioBase
             $new_page->setTitle($page->getTitle());
             $new_page->setType($page->getType());
             $new_page->setOrderNr($page->getOrderNr());
-            $new_page->create();
+            $new_page->create(false);
             
             $page->copy($new_page->getId(), "", 0, true);
         }

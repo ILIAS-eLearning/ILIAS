@@ -418,7 +418,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                             $this->getLanguageText('crs_subscribe_wl_body'),
                             $this->getObjectTitle(),
                             $info['position']
-                            )
+                        )
                     );
                     $this->getMail()->appendInstallationSignature(true);
                     $this->sendMail(array($rcp));
@@ -430,10 +430,9 @@ class ilCourseMembershipMailNotification extends ilMailNotification
     
     /**
      * Add language module crs
-     * @param object $a_usr_id
      * @return
      */
-    protected function initLanguage($a_usr_id)
+    protected function initLanguage(int $a_usr_id) : void
     {
         parent::initLanguage($a_usr_id);
         $this->getLanguage()->loadLanguageModule('crs');

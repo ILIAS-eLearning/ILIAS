@@ -444,6 +444,11 @@ class ilSession
         return $_SESSION[$a_var] ?? null;
     }
 
+    public static function has($a_var) : bool
+    {
+        return isset($_SESSION[$a_var]);
+    }
+
     /**
      * @param string $a_var
      */

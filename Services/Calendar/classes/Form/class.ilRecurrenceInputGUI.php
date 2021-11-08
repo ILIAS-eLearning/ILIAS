@@ -39,8 +39,6 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     const REC_LIMITED = 2;
     const REC_UNLIMITED = 1;
     
-    protected $lng;
-    
     protected $recurrence;
     protected $user_settings;
     
@@ -80,12 +78,11 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
     
     /**
      * check input
-     *
      * @access public
      * @param
-     * @return
+     * @return bool
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
 
@@ -288,7 +285,7 @@ class ilRecurrenceInputGUI extends ilCustomInputGUI
      * @param
      * @return
      */
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         $tpl = new ilTemplate('tpl.recurrence_input.html', true, true, 'Services/Calendar');
         

@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\HTTP\Response\ResponseHeader;
+
 /**
  * Class ilChatroomAuthInputGUI
  * @author            Michael Jansen <mjansen@databay.de>
@@ -12,7 +14,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     private const NAME_AUTH_PROP_1 = 'key';
     private const NAME_AUTH_PROP_2 = 'secret';
 
-    private \ILIAS\HTTP\Services $http;
+    protected \ILIAS\HTTP\Services $http;
     /** @var string[]  */
     protected array $ctrl_path = [];
     protected int $size = 10;
@@ -44,7 +46,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         $this->http->saveResponse(
             $this->http->response()
                 ->withBody($responseStream)
-                ->withHeader('Content-Type', 'application/json')
+                ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
         );
         $this->http->sendResponse();
         $this->http->close();
@@ -93,7 +95,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         }
     }
 
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
 

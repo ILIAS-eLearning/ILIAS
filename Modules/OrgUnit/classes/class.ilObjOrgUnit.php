@@ -531,7 +531,7 @@ class ilObjOrgUnit extends ilContainer
     /**
      * remove all Translations of current OrgUnit
      */
-    public function removeTranslations()
+    public function removeTranslations() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -543,10 +543,9 @@ class ilObjOrgUnit extends ilContainer
 
     /**
      * remove translations of current OrgUnit
-     *
      * @param $a_lang string en|de|...
      */
-    public function deleteTranslation($a_lang)
+    public function deleteTranslation(string $a_lang) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -559,15 +558,13 @@ class ilObjOrgUnit extends ilContainer
 
     /**
      * add a new translation to current OrgUnit
-     *
-     * @param $a_title
-     * @param $a_desc
-     * @param $a_lang
-     * @param $a_lang_default
-     *
-     * @return bool
+     * @param string $a_title
+     * @param string $a_desc
+     * @param string $a_lang
+     * @param string $a_lang_default
+     * @return void
      */
-    public function addTranslation($a_title, $a_desc, $a_lang, $a_lang_default)
+    public function addTranslation(string $a_title, string $a_desc, string $a_lang, string $a_lang_default) : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -579,9 +576,7 @@ class ilObjOrgUnit extends ilContainer
         $query = "INSERT INTO object_translation " . "(obj_id,title,description,lang_code,lang_default) " . "VALUES " . "("
             . $ilDB->quote($this->getId(), 'integer') . "," . $ilDB->quote($a_title, 'text') . "," . $ilDB->quote($a_desc, 'text') . ","
             . $ilDB->quote($a_lang, 'text') . "," . $ilDB->quote($a_lang_default, 'integer') . ")";
-        $res = $ilDB->manipulate($query);
-
-        return true;
+        $ilDB->manipulate($query);
     }
 
 

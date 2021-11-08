@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -7,21 +7,22 @@ require_once(__DIR__ . "/../../../../Base.php");
 require_once(__DIR__ . "/FormTest.php");
 
 use ILIAS\UI\Implementation\Component\SignalGenerator;
-use \ILIAS\Data;
-use function PHPUnit\Framework\assertNull;
+use ILIAS\Data;
+use ILIAS\UI\Component\Button\Factory;
+use ILIAS\UI\Implementation\Component as I;
 
 class WithButtonNoUIFactory extends NoUIFactory
 {
-    protected $button_factory;
+    protected Factory $button_factory;
 
 
-    public function __construct($button_factory)
+    public function __construct(Factory $button_factory)
     {
         $this->button_factory = $button_factory;
     }
 
 
-    public function button()
+    public function button() : Factory
     {
         return $this->button_factory;
     }
@@ -32,17 +33,16 @@ class WithButtonNoUIFactory extends NoUIFactory
  */
 class StandardFormTest extends ILIAS_UI_TestBase
 {
-    protected function buildFactory()
+    protected function buildFactory() : I\Input\Container\Form\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Input\Container\Form\Factory($this->buildInputFactory());
+        return new I\Input\Container\Form\Factory($this->buildInputFactory());
     }
 
-
-    protected function buildInputFactory()
+    protected function buildInputFactory() : I\Input\Field\Factory
     {
         $df = new Data\Factory();
-        $language = $this->createMock(\ilLanguage::class);
-        return new ILIAS\UI\Implementation\Component\Input\Field\Factory(
+        $language = $this->createMock(ilLanguage::class);
+        return new I\Input\Field\Factory(
             new SignalGenerator(),
             $df,
             new \ILIAS\Refinery\Factory($df, $language),
@@ -50,19 +50,17 @@ class StandardFormTest extends ILIAS_UI_TestBase
         );
     }
 
-    protected function buildButtonFactory()
+    protected function buildButtonFactory() : I\Button\Factory
     {
-        return new ILIAS\UI\Implementation\Component\Button\Factory;
+        return new I\Button\Factory;
     }
 
-
-    public function getUIFactory()
+    public function getUIFactory() : WithButtonNoUIFactory
     {
         return new WithButtonNoUIFactory($this->buildButtonFactory());
     }
 
-
-    public function test_getPostURL()
+    public function test_getPostURL() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -71,8 +69,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertEquals($url, $form->getPostURL());
     }
 
-
-    public function test_render()
+    public function test_render() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -105,7 +102,8 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_submit_caption() {
+    public function test_submit_caption() : void
+    {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
 
@@ -122,7 +120,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertEquals($caption, $form->getSubmitCaption());
     }
 
-    public function test_submit_caption_render()
+    public function test_submit_caption_render() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();
@@ -155,7 +153,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $html);
     }
 
-    public function test_render_no_url()
+    public function test_render_no_url() : void
     {
         $f = $this->buildFactory();
         $if = $this->buildInputFactory();

@@ -3,17 +3,19 @@
 include_once("./Services/Export/classes/class.ilXmlExporter.php");
 class ilScormAiccExporter extends ilXmlExporter
 {
+    protected ilScormAiccDataSet $dataset;
+
     public function __construct()
     {
         include_once("./Modules/ScormAicc/classes/class.ilScormAiccDataSet.php");
         $this->dataset = new ilScormAiccDataSet();
     }
 
-    public function init()
+    public function init() : void
     {
     }
 
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         include_once './Modules/ScormAicc/classes/class.ilObjSAHSLearningModule.php';
         $lm = new ilObjSAHSLearningModule($a_id, false);
@@ -22,7 +24,7 @@ class ilScormAiccExporter extends ilXmlExporter
             $dataset = new ilScorm2004DataSet();
             $dataset->setDSPrefix("ds");
             $dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
-            $dataset->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+            $dataset->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
         } else {
             $this->dataset->setExportDirectories($this->dir_relative, $this->dir_absolute);
             //using own getXmlRepresentation function in ilScormAiccDataSet
@@ -31,7 +33,7 @@ class ilScormAiccExporter extends ilXmlExporter
     }
 
     //todo:check if xsd files must be provided
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "5.1.0" => array(

@@ -17,13 +17,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
     /** @var string */
     private const WRONG_PASSWORD = 'wrong_password';
 
-    private function skipIfPhpVersionIsNotSupported() : void
-    {
-        if (version_compare(PHP_VERSION, '5.5.0', '<')) {
-            $this->markTestSkipped('Requires PHP >= 5.5.0');
-        }
-    }
-
     /**
      * @return array<string, string>
      */
@@ -39,8 +32,6 @@ class ilBcryptPhpPasswordEncoderTest extends ilPasswordBaseTest
 
     public function testInstanceCanBeCreated() : ilBcryptPhpPasswordEncoder
     {
-        $this->skipIfPhpVersionIsNotSupported();
-
         $default_costs_encoder = new ilBcryptPhpPasswordEncoder();
         $this->assertTrue((int) $default_costs_encoder->getCosts() > 4 && (int) $default_costs_encoder->getCosts() < 32);
 

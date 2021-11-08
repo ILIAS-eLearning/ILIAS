@@ -26,8 +26,7 @@ class ilAssQuestionSkillAssignmentPropertyFormGUI extends ilPropertyFormGUI
         ilGlobalTemplateInterface $pageTemplate,
         ilCtrl $ctrl,
         ilLanguage $lng,
-        ilAssQuestionSkillAssignmentsGUI
-        $parentGUI
+        ilAssQuestionSkillAssignmentsGUI $parentGUI
     ) {
         global $DIC;
 

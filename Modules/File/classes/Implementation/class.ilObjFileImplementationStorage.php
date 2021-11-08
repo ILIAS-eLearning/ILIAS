@@ -20,6 +20,10 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
      * @var Services
      */
     protected $storage;
+    /**
+     * @var bool
+     */
+    protected $download_with_uploaded_filename;
 
     /**
      * ilObjFileImplementationStorage constructor.
@@ -33,7 +37,10 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
          */
         $this->resource = $resource;
         $this->storage = $DIC->resourceStorage();
-//        $this->debug();
+        $this->download_with_uploaded_filename = (bool) $DIC->clientIni()->readVariable(
+            'file_access',
+            'download_with_uploaded_filename'
+        );
     }
 
     private function debug() : void
@@ -97,21 +104,41 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
      */
     public function sendFile($a_hist_entry_id = null)
     {
-        global $DIC;
+        if ($this->isInline($a_hist_entry_id)) {
+            $consumer = $this->storage->consume()->inline($this->resource->getIdentification());
+        } else {
+            $consumer = $this->storage->consume()->download($this->resource->getIdentification());
+        }
 
-        $storage = $DIC->resourceStorage();
-
-//        if ($this->isInline()) { // FSX
-//            $consumer = $storage->consume()->inline($this->resource->getIdentification());
-//        } else {
-        $consumer = $storage->consume()->download($this->resource->getIdentification());
-//        }
 
         if ($a_hist_entry_id) {
+            $revision = $this->resource->getSpecificRevision($a_hist_entry_id);
             $consumer->setRevisionNumber($a_hist_entry_id);
+        } else {
+            $revision = $this->resource->getCurrentRevision();
         }
-        $consumer->run();
 
+        if (!$this->download_with_uploaded_filename) {
+            $consumer->overrideFileName($revision->getTitle());
+        }
+
+        $consumer->run();
+    }
+
+    /**
+     * @param null $a_hist_entry_id
+     * @return bool
+     */
+    private function isInline($a_hist_entry_id = null)
+    {
+        try {
+            $revision = $a_hist_entry_id ?
+                $this->resource->getSpecificRevision($a_hist_entry_id) :
+                $this->resource->getCurrentRevision();
+            return \ilObjFileAccess::_isFileInline($revision->getTitle());
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -131,7 +158,7 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
      */
     public function getFileExtension()
     {
-        throw new NotImplementedException();
+        return $this->resource->getCurrentRevision()->getInformation()->getSuffix();
     }
 
     /**
@@ -170,5 +197,4 @@ class ilObjFileImplementationStorage extends ilObjFileImplementationAbstract imp
     {
         return $this->resource->getStorageID();
     }
-
 }

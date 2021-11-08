@@ -9,21 +9,21 @@
  */
 class ilPollExporter extends ilXmlExporter
 {
-    protected $ds;
+    protected ilPollDataSet $ds;
     
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilPollDataSet();
         $this->ds->setDSPrefix("ds");
     }
     
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
     
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
                 "4.3.0" => array(

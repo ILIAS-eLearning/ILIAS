@@ -153,6 +153,9 @@ class StandardPagePartProvider implements PagePartProvider
         $f      = $this->ui->factory();
         $crumbs = [];
         foreach ($DIC['ilLocator']->getItems() as $item) {
+            if (empty($item['title']) || empty($item['link'])) {
+                continue;
+            }
             $crumbs[] = $f->link()->standard($item['title'], $item["link"]);
         }
 

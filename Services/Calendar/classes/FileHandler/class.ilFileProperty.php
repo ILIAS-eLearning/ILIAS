@@ -21,7 +21,6 @@ class ilFileProperty
 
     public function __construct()
     {
-
     }
 
     /**

@@ -34,10 +34,7 @@ class BasicTaskManagerTest extends TestCase
         $this->taskManager = new SyncTaskManager($persistence);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
-    public function testBasicTaskManager()
+    public function testBasicTaskManager() : void
     {
         $dic = new Container();
 

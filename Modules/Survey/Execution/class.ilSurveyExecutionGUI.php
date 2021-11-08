@@ -486,7 +486,7 @@ class ilSurveyExecutionGUI
             foreach ($page as $k => $data) {
                 $page[$k]["compressed"] = false;
                 $page[$k]["compressed_first"] = false;
-                if ($this->compressQuestion($previous_page, $data)) {
+                if ($compress_view && $this->compressQuestion($previous_page, $data)) {
                     $page[$k]["compressed"] = true;
                     if ($previous_key !== null && $page[$previous_key]["compressed"] == false) {
                         $page[$previous_key]["compressed_first"] = true;
@@ -823,7 +823,7 @@ class ilSurveyExecutionGUI
     *
     * @access public
     */
-    public function outNavigationButtons($navigationblock = "top", $page, $stpl)
+    public function outNavigationButtons($navigationblock, $page, $stpl)
     {
         $prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
         $stpl->setCurrentBlock($navigationblock . "_prev");

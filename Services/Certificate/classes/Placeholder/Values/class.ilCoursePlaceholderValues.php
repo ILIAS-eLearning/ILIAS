@@ -6,7 +6,7 @@
  */
 class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
 {
-    private ilDefaultPlaceholderValues $defaultPlaceHolderValuesObject;
+    private ilDefaultPlaceholderValues $defaultPlaceholderValuesObject;
     private ilObjectCustomUserFieldsPlaceholderValues $customUserFieldsPlaceholderValuesObject;
     private ilLanguage $language;
     private ilCertificateObjectHelper $objectHelper;
@@ -66,7 +66,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
         $this->lpStatusHelper = $lpStatusHelper;
 
         $this->customUserFieldsPlaceholderValuesObject = $customUserFieldsPlaceholderValues;
-        $this->defaultPlaceHolderValuesObject = $defaultPlaceholderValues;
+        $this->defaultPlaceholderValuesObject = $defaultPlaceholderValues;
     }
 
     /**
@@ -101,7 +101,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
     {
         $courseObject = $this->objectHelper->getInstanceByObjId($objId);
 
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValues($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValues($userId, $objId);
 
         $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValues(
             $userId,
@@ -139,7 +139,7 @@ class ilCoursePlaceholderValues implements ilCertificatePlaceholderValues
      */
     public function getPlaceholderValuesForPreview(int $userId, int $objId) : array
     {
-        $placeholders = $this->defaultPlaceHolderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
+        $placeholders = $this->defaultPlaceholderValuesObject->getPlaceholderValuesForPreview($userId, $objId);
 
         $customUserFieldsPlaceholders = $this->customUserFieldsPlaceholderValuesObject->getPlaceholderValuesForPreview(
             $userId,

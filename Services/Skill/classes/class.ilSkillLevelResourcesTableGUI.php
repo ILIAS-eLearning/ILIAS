@@ -1,6 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ *
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ *
+ ********************************************************************
+ */
 
 /**
  * TableGUI class for skill level resources
@@ -13,37 +28,18 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
      * @var ilCtrl
      */
     protected $ctrl;
+    protected ilAccessHandler $access;
+    protected ilTree $tree;
+    protected int $level_id;
+    protected ilSkillResources $resources;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var int
-     */
-    protected $level_id;
-
-    /**
-     * @var ilSkillResources
-     */
-    protected $resources;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
-        $a_skill_id,
-        $a_tref_id,
-        $a_level_id,
-        $a_write_permission = false
+        string $a_parent_cmd,
+        int $a_skill_id,
+        int $a_tref_id,
+        int $a_level_id,
+        bool $a_write_permission = false
     ) {
         global $DIC;
 
@@ -60,7 +56,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         $this->resources = new ilSkillResources($a_skill_id, $a_tref_id);
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
-        $this->setData($this->resources->getResourcesOfLevel($a_level_id));
+        $this->setData($this->resources->getResourcesOfLevel($this->level_id));
         $this->setTitle($lng->txt("resources"));
         
         $this->addColumn("", "", "1px", true);
@@ -78,11 +74,8 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
             $this->addCommandButton("saveResourceSettings", $lng->txt("skmg_save_settings"));
         }
     }
-    
-    /**
-     * Fill table row
-     */
-    protected function fillRow($a_set)
+
+    protected function fillRow($a_set) : void
     {
         $lng = $this->lng;
         $tree = $this->tree;
@@ -109,7 +102,7 @@ class ilSkillLevelResourcesTableGUI extends ilTable2GUI
         $this->tpl->setVariable("ID", $ref_id);
         
         $path = $tree->getPathFull($ref_id);
-        $path_items = array();
+        $path_items = [];
         foreach ($path as $p) {
             if ($p["type"] != "root" && $p["child"] != $ref_id) {
                 $path_items[] = $p["title"];

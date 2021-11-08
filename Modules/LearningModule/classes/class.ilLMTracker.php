@@ -63,7 +63,7 @@ class ilLMTracker
      *
      * @param ilObjLearningModule $a_lm learning module
      */
-    private function __construct($a_id, $a_by_obj_id = false, $a_user_id)
+    private function __construct($a_id, $a_by_obj_id = false, $a_user_id = 0)
     {
         global $DIC;
 

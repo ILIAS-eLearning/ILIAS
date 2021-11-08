@@ -178,7 +178,7 @@ class ilStudyProgrammeType
      */
     public function updateAssignedStudyProgrammesIcons()
     {
-        $obj_ids = $this->type_repo->readStudyProgrammeIdsByTypeId($this->getId());
+        $obj_ids = $this->type_repo->getStudyProgrammeIdsByTypeId($this->getId());
 
         foreach ($obj_ids as $id) {
             $ref_id = ilObject::_getAllReferences($id);
@@ -200,9 +200,9 @@ class ilStudyProgrammeType
      */
     public function assignAdvancedMDRecord(int $record_id)
     {
-        $assigned_amd_records = $this->type_repo->readAssignedAMDRecordIdsByType($this->getId());
+        $assigned_amd_records = $this->type_repo->getAssignedAMDRecordIdsByType($this->getId());
         if (!in_array($record_id, $assigned_amd_records)) {
-            if (!in_array($record_id, $this->type_repo->readAllAMDRecordIds())) {
+            if (!in_array($record_id, $this->type_repo->getAllAMDRecordIds())) {
                 throw new ilStudyProgrammeTypeException("AdvancedMDRecord with ID {$record_id} cannot be assigned to StudyProgramme types");
             }
             /** @var ilStudyProgrammeTypeHookPlugin $plugin */
@@ -221,7 +221,7 @@ class ilStudyProgrammeType
             $record_ids = $assigned_amd_records;
             $record_ids[] = $record_id;
 
-            $exists = array_shift($this->type_repo->readAMDRecordsByTypeIdAndRecordId($this->getId(), $record_id));
+            $exists = array_shift($this->type_repo->getAMDRecordsByTypeIdAndRecordId($this->getId(), $record_id));
 
             if (!$exists) {
                 $advanced_meta = $this->type_repo->createAMDRecord();
@@ -231,7 +231,7 @@ class ilStudyProgrammeType
             }
 
             // We need to update each StudyProgramme from this type and map the selected records to object_id
-            foreach ($this->type_repo->readAssignedAMDRecordIdsByType($this->getId()) as $prg_id) {
+            foreach ($this->type_repo->getAssignedAMDRecordIdsByType($this->getId()) as $prg_id) {
                 ilAdvancedMDRecord::saveObjRecSelection($prg_id, 'prg_type', $record_ids);
             }
             $this->amd_records_assigned = null; // Force reload of assigned objects
@@ -248,7 +248,7 @@ class ilStudyProgrammeType
      */
     public function deassignAdvancedMdRecord(int $record_id)
     {
-        $record_ids = $this->type_repo->readAssignedAMDRecordIdsByType($this->getId());
+        $record_ids = $this->type_repo->getAssignedAMDRecordIdsByType($this->getId());
         $key = array_search($record_id, $record_ids);
         if ($key !== false) {
             /** @var ilStudyProgrammeTypeHookPlugin $plugin */
@@ -266,12 +266,12 @@ class ilStudyProgrammeType
             }
             unset($record_ids[$key]);
 
-            foreach ($this->type_repo->readAMDRecordsByTypeIdAndRecordId($this->getId(), $record_id) as $amd_record) {
+            foreach ($this->type_repo->getAMDRecordsByTypeIdAndRecordId($this->getId(), $record_id) as $amd_record) {
                 $this->type_repo->deleteAMDRecord($amd_record);
             }
 
             // We need to update each StudyProgramme from this type and map the selected records to object_id
-            foreach ($this->type_repo->readStudyProgrammeIdsByTypeId($this->getId()) as $prg_id) {
+            foreach ($this->type_repo->getStudyProgrammeIdsByTypeId($this->getId()) as $prg_id) {
                 ilAdvancedMDRecord::saveObjRecSelection($prg_id, 'prg_type', $record_ids);
             }
             $this->amd_records_assigned = null; // Force reload of assigned objects
@@ -375,7 +375,7 @@ class ilStudyProgrammeType
         if (isset($this->translations[$lang_code])) {
             return $this->translations[$lang_code];
         } else {
-            $trans_array = $this->type_repo->readTranslationsByTypeAndLang($this->getId(), $lang_code);
+            $trans_array = $this->type_repo->getTranslationsByTypeAndLang($this->getId(), $lang_code);
 
             //ilStudyProgrammeTypeTranslation::where(array('prg_type_id'=>$this->getId(), 'lang'=>$a_lang_code))->getArray('member', 'value');
             if (count($trans_array)) {
@@ -453,7 +453,7 @@ class ilStudyProgrammeType
             $msg = sprintf($this->lng->txt('prg_type_msg_setting_member_prevented'), $a_value, implode(', ', $titles));
             throw new ilStudyProgrammeTypePluginException($msg, $disallowed);
         }
-        $trans_obj = $this->type_repo->readTranslationByTypeIdMemberLang(
+        $trans_obj = $this->type_repo->getTranslationByTypeIdMemberLang(
             $this->getId(),
             $a_member,
             $a_lang_code

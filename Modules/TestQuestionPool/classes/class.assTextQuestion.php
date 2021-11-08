@@ -638,14 +638,20 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         if ($entered_values) {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng(
+                    "assessment",
+                    "log_user_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()
+                ), $active_id, $this->getId());
             }
         } else {
             include_once("./Modules/Test/classes/class.ilObjAssessmentFolder.php");
             if (ilObjAssessmentFolder::_enabledAssessmentLogging()) {
-                assQuestion::logAction($this->lng->txtlng("assessment", "log_user_not_entered_values",
-                    ilObjAssessmentFolder::_getLogLanguage()), $active_id, $this->getId());
+                assQuestion::logAction($this->lng->txtlng(
+                    "assessment",
+                    "log_user_not_entered_values",
+                    ilObjAssessmentFolder::_getLogLanguage()
+                ), $active_id, $this->getId());
             }
         }
         
@@ -1082,7 +1088,8 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
         $question_fi = $this->getId();
 
         // Do we have an unauthorized result?
-        $cntresult = $this->db->query('
+        $cntresult = $this->db->query(
+            '
             SELECT count(solution_id) cnt
             FROM tst_solutions 
             WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '
@@ -1090,8 +1097,9 @@ class assTextQuestion extends assQuestion implements ilObjQuestionScoringAdjusta
             AND authorized = ' . $this->db->quote(0, 'int')
         );
         $row = $this->db->fetchAssoc($cntresult);
-        if($row['cnt'] > 0 ) {
-            $tresult = $this->db->query('
+        if ($row['cnt'] > 0) {
+            $tresult = $this->db->query(
+                '
             SELECT value1
             FROM tst_solutions 
             WHERE active_fi = ' . $this->db->quote($active_id, 'int') . '

@@ -23,7 +23,7 @@ class ilCronDeleteInactiveUserReminderMailNotification extends ilMimeMailNotific
     /**
      * @param string $a_code
      */
-    protected function initLanguageByIso2Code($a_code = '')
+    protected function initLanguageByIso2Code(string $a_code = '') : void
     {
         parent::initLanguageByIso2Code($a_code);
         $this->getLanguage()->loadLanguageModule('user');

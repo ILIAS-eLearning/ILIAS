@@ -79,7 +79,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getChildsOfNode($a_parent_node_id)
+    public function getChildsOfNode($a_parent_node_id) : array
     {
         $parent_node = $this->nodes[$a_parent_node_id];
         return (array) $parent_node['childs'];
@@ -88,7 +88,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         return $a_node['label'];
     }
@@ -96,7 +96,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         $state = $a_node['state'] ?? TOCBuilder::LP_NOT_STARTED;
         return static::NODE_ICONS[$state];
@@ -113,7 +113,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function getNodeHref($a_node)
+    public function getNodeHref($a_node) : string
     {
         return $this->url_builder->getHref($a_node['command'], $a_node['parameter']);
     }
@@ -121,7 +121,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         return !is_null($a_node['parameter']);
     }
@@ -129,7 +129,7 @@ class ilLSTOCGUI extends ilExplorerBaseGUI
     /**
      * @inheritdoc
      */
-    public function isNodeHighlighted($a_node)
+    public function isNodeHighlighted($a_node) : bool
     {
         return $a_node['current'];
     }

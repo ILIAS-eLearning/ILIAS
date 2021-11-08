@@ -19,7 +19,7 @@ class ilDataCollectionExporter extends ilXmlExporter
     protected $db;
 
 
-    public function init()
+    public function init() : void
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -31,10 +31,9 @@ class ilDataCollectionExporter extends ilXmlExporter
 
     /**
      * @param string $a_entity
-     *
      * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             '4.5.0' => array(
@@ -48,26 +47,24 @@ class ilDataCollectionExporter extends ilXmlExporter
     }
 
 
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         ilUtil::makeDirParents($this->getAbsoluteExportDirectory());
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
 
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, '', true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], '', true, true);
     }
 
 
     /**
      * MOB/File fieldtypes objects are head dependencies
      * They must be exported and imported first, so the new DC has the new IDs of those objects available
-     *
-     * @param $a_entity
-     * @param $a_target_release
-     * @param $a_ids
-     *
+     * @param string $a_entity
+     * @param string $a_target_release
+     * @param array  $a_ids
      * @return array
      */
-    public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $dependencies = array(
             ilDclDatatype::INPUTFORMAT_FILE => array(
@@ -110,13 +107,12 @@ class ilDataCollectionExporter extends ilXmlExporter
 
 
     /**
-     * @param $a_entity
-     * @param $a_target_release
-     * @param $a_ids
-     *
+     * @param string $a_entity
+     * @param string $a_target_release
+     * @param array  $a_ids
      * @return array
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $page_object_ids = array();
         foreach ($a_ids as $dcl_obj_id) {

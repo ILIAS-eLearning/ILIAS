@@ -12,11 +12,6 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
 {
 
     /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
      * @var array additional js config
      */
     protected static $js_conf;
@@ -56,14 +51,12 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
 
     /**
      * Creates the onclick function call
-     *
      * @param $a_node_id
-     * @param $a_type
-     * @param $a_title
-     *
+     * @param string $a_type
+     * @param string $a_title
      * @return string
      */
-    public function buildOnClick($a_node_id, $a_type, $a_title)
+    public function buildOnClick($a_node_id, string $a_type, string $a_title) : string
     {
         $ref_id = (int) $_GET['ref_id'];
         if ($ref_id) {
@@ -74,13 +67,11 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
 
     /**
      * Sets the href-value to a void js call
-     *
      * @param $a_node_id
-     * @param $a_type
-     *
+     * @param string $a_type
      * @return string
      */
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         return "javascript:void(0);";
     }
@@ -88,10 +79,9 @@ class ilAsyncContainerSelectionExplorer extends ilContainerSelectionExplorer
 
     /**
      * Returns the explorer html and adds the javascripts to the template
-     *
      * @return string
      */
-    public function getOutput()
+    public function getOutput() : string
     {
         self::initJs();
 

@@ -160,14 +160,8 @@ class ilCourseContentGUI
 
     public function showStartObjects()
     {
-        include_once './Modules/Course/classes/class.ilCourseLMHistory.php';
-        include_once './Services/Repository/classes/class.ilRepositoryExplorer.php';
-        include_once './Services/Link/classes/class.ilLink.php';
-
         global $DIC;
 
-        $rbacsystem = $DIC['rbacsystem'];
-        $ilias = $DIC['ilias'];
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
         $ilObjDataCache = $DIC['ilObjDataCache'];
@@ -194,8 +188,7 @@ class ilCourseContentGUI
             $conditions_ok = ilConditionHandler::_checkAllConditionsOfTarget($ref_id, $obj_id);
 
             $obj_link = ilLink::_getLink($ref_id, $type);
-            $obj_frame = ilRepositoryExplorer::buildFrameTarget($type, $ref_id, $obj_id);
-            $obj_frame = $obj_frame ? $obj_frame : '';
+            $obj_frame = '';
 
             // Tmp fix for tests
             $obj_frame = $type == 'tst' ? '' : $obj_frame;

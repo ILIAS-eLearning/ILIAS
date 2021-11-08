@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Item\Notification;
 
 function closable()
@@ -18,7 +18,7 @@ function closable()
     $renderer = $DIC->ui()->renderer();
 
     $mail_icon = $f->symbol()->icon()->standard("mail", "mail");
-    $mail_title = $f->link()->standard("Inbox", "link_to_inbox");
+    $mail_title = $f->link()->standard("Inbox", "#");
     $mail_notification_item = $f->item()->notification($mail_title, $mail_icon)
                                 ->withDescription("You have 23 unread mails in your inbox")
                                 ->withProperties(["Time" => "3 days ago"])

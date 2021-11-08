@@ -1,8 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Render;
+
+use ilGlobalTemplateInterface;
+use InvalidArgumentException;
 
 /**
  * Plumbing for ILIAS, tries to guess
@@ -10,12 +13,9 @@ namespace ILIAS\UI\Implementation\Render;
  */
 class ilResourceRegistry implements ResourceRegistry
 {
-    /**
-     * @var	\ilGlobalTemplate
-     */
-    protected $il_template;
+    protected ilGlobalTemplateInterface $il_template;
 
-    public function __construct(\ilGlobalTemplateInterface $il_template)
+    public function __construct(ilGlobalTemplateInterface $il_template)
     {
         $this->il_template = $il_template;
     }
@@ -23,7 +23,7 @@ class ilResourceRegistry implements ResourceRegistry
     /**
      * @inheritdoc
      */
-    public function register($name)
+    public function register(string $name) : void
     {
         $path_parts = pathinfo($name);
         switch ($path_parts["extension"]) {
@@ -37,7 +37,7 @@ class ilResourceRegistry implements ResourceRegistry
                 // Can be ignored, should be compiled into css
                 break;
             default:
-                throw new \InvalidArgumentException("Can't handle resource '$name'");
+                throw new InvalidArgumentException("Can't handle resource '$name'");
         }
     }
 }

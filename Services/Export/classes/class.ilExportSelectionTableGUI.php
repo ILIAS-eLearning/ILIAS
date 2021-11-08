@@ -57,6 +57,11 @@ class ilExportSelectionTableGUI extends ilTable2GUI
     
     public function fillRow($s)
     {
+        $s['copy'] = $s['copy'] ?? false;
+        $s['perm_copy'] = $s['perm_copy'] ?? false;
+        $s['link'] = $s['link'] ?? false;
+        $s['perm_export'] = $s['perm_export'] ?? false;
+
         // set selected radio button
         if ((!$s['copy'] or !$s['perm_copy']) and (!$s['link'])) {
             $selected = "OMIT";

@@ -211,7 +211,6 @@ class ilObjPollGUI extends ilObject2GUI
 
     public function setTabs()
     {
-
         $this->help->setScreenIdComponent("poll");
 
         if ($this->checkPermissionBool("write")) {
@@ -428,7 +427,6 @@ class ilObjPollGUI extends ilObject2GUI
     
     protected function setParticipantsSubTabs($a_active)
     {
-        
         if (!$this->object->getNonAnonymous()) {
             return;
         }
@@ -583,7 +581,7 @@ class ilObjPollGUI extends ilObject2GUI
         $ntf->setGotoLangId('poll_vote_notification_link');
         $ntf->setReasonLangId('poll_vote_notification_reason');
                 
-        $notified = $ntf->sendMail($users, null, "read");
+        $notified = $ntf->sendMailAndReturnRecipients($users, null, "read");
 
         ilNotification::updateNotificationTime(ilNotification::TYPE_POLL, $this->object->getId(), $notified);
     }

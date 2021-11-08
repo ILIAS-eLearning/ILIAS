@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once(__DIR__ . '/CharacteristicValueTest.php');
 
 class CharacteristicValueTextTest extends CharacteristicValueTest
 {
-    public function test_getItems()
+    public function test_getItems() : void
     {
         $f = $this->getCharacteristicValueFactory();
 
@@ -13,7 +13,7 @@ class CharacteristicValueTextTest extends CharacteristicValueTest
         $this->assertEquals($items, $textListing->getItems());
     }
 
-    public function test_validation()
+    public function test_validation() : void
     {
         $f = $this->getCharacteristicValueFactory();
 
@@ -30,7 +30,7 @@ class CharacteristicValueTextTest extends CharacteristicValueTest
         }
     }
 
-    public function test_rendered()
+    public function test_rendered() : void
     {
         $f = $this->getCharacteristicValueFactory();
         $r = $this->getDefaultRenderer();

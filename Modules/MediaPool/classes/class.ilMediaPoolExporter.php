@@ -9,16 +9,13 @@
  */
 class ilMediaPoolExporter extends ilXmlExporter
 {
-    private $ds;
-    /**
-     * @var ilMediaPoolExportConfig
-     */
-    private $config;
+    private ilMediaPoolDataSet $ds;
+    private ilExportConfig $config;
 
     /**
      * Initialisation
      */
-    public function init()
+    public function init() : void
     {
         $this->ds = new ilMediaPoolDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -33,13 +30,12 @@ class ilMediaPoolExporter extends ilXmlExporter
 
     /**
      * Get head dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
      * @return		array		array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportHeadDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $pg_ids = array();
         $mob_ids = array();
@@ -66,13 +62,12 @@ class ilMediaPoolExporter extends ilXmlExporter
 
     /**
      * Get tail dependencies
-     *
      * @param		string		entity
      * @param		string		target release
      * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
+     * @return        array        array of array with keys "component", entity", "ids"
      */
-    public function getXmlExportTailDependencies($a_entity, $a_target_release, $a_ids)
+    public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         $pg_ids = array();
         $mob_ids = array();
@@ -108,25 +103,23 @@ class ilMediaPoolExporter extends ilXmlExporter
 
     /**
      * Get xml representation
-     *
      * @param	string		entity
      * @param	string		schema version
      * @param	string		id
      * @return	string		xml string
      */
-    public function getXmlRepresentation($a_entity, $a_schema_version, $a_id)
+    public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, $a_id, "", true, true);
+        return $this->ds->getXmlRepresentation($a_entity, $a_schema_version, [$a_id], "", true, true);
     }
 
     /**
      * Returns schema versions that the component can export to.
      * ILIAS chooses the first one, that has min/max constraints which
      * fit to the target release. Please put the newest on top.
-     *
-     * @return
+     * @return array
      */
-    public function getValidSchemaVersions($a_entity)
+    public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
             "5.1.0" => array(

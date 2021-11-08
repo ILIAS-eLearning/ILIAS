@@ -32,11 +32,10 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * get node content
-     *
      * @param mixed $a_node
      * @return string note name
      */
-    public function getNodeContent($a_node)
+    public function getNodeContent($a_node) : string
     {
         $lang = ($_GET["transl"] != "")
             ? $_GET["transl"]
@@ -54,11 +53,10 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Get node icon
-     *
      * @param array $a_node node array
      * @return string icon path
      */
-    public function getNodeIcon($a_node)
+    public function getNodeIcon($a_node) : string
     {
         if ($a_node["child"] == $this->getNodeId($this->getRootNode())) {
             $icon = ilUtil::getImagePath("icon_lm.svg");
@@ -101,7 +99,7 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
     /**
      * select public pages and open public chapter
      */
-    public function beforeRendering()
+    public function beforeRendering() : void
     {
         //select public pages and open public chapters
         foreach ($this->getAllNodes() as $node) {
@@ -140,11 +138,10 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 
     /**
      * Is not clickable?
-     *
      * @param array $a_node node array
      * @return bool
      */
-    public function isNodeClickable($a_node)
+    public function isNodeClickable($a_node) : bool
     {
         if ($a_node["type"] == "pg") {
             return true;

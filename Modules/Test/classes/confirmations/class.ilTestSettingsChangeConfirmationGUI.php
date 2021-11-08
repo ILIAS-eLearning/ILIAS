@@ -13,11 +13,6 @@
 class ilTestSettingsChangeConfirmationGUI extends ilConfirmationGUI
 {
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilObjTest
      */
     protected $testOBJ;

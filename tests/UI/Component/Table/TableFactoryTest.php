@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 class TableFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array(
+    public array $kitchensink_info_settings = [
         "presentation" => [
             "context" => false,
             "rules" => true
@@ -12,7 +12,7 @@ class TableFactoryTest extends AbstractFactoryTest
         "data" => [
             "context" => false
         ]
-    );
+    ];
 
-    public $factory_title = 'ILIAS\\UI\\Component\\Table\\Factory';
+    public string $factory_title = 'ILIAS\\UI\\Component\\Table\\Factory';
 }

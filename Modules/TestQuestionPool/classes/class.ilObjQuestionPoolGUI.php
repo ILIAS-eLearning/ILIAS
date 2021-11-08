@@ -233,7 +233,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
                 
             case 'ilobjectcopygui':
@@ -312,7 +312,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
 
                 // set context tabs
                 require_once 'Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
-                $questionGUI = assQuestionGUI::_getQuestionGUI($q_type, $this->fetchAuthoringQuestionIdParamater());
+                $questionGUI = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType($this->object->getId()), $this->fetchAuthoringQuestionIdParamater());
                 $questionGUI->object->setObjId($this->object->getId());
                 $questionGUI->setQuestionTabs();
                 global $DIC;
@@ -390,7 +390,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             default:
                 $this->ctrl->setReturn($this, "questions");
                 include_once "./Modules/TestQuestionPool/classes/class.assQuestionGUI.php";
-                $q_gui = assQuestionGUI::_getQuestionGUI($q_type, $this->fetchAuthoringQuestionIdParamater());
+                $q_gui = assQuestionGUI::_getQuestionGUI(assQuestion::_getQuestionType($this->object->getId()), $this->fetchAuthoringQuestionIdParamater());
                 $q_gui->setEditContext(assQuestionGUI::EDIT_CONTEXT_AUTHORING);
                 $q_gui->object->setObjId($this->object->getId());
                 if ($this->object->getType() == 'qpl') {
@@ -1470,7 +1470,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 }
             }
         }
-        if (array_key_exists("imagemap_x", $_POST)) {
+        if (isset($_POST['imagemap_x'])) {
             $force_active = true;
         }
         if (!$force_active) {

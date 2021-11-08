@@ -29,12 +29,16 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
      * @var ZipArchive
      */
     protected $zip;
+    /**
+     * @var array
+     */
+    protected $uploaded_suffixes = [];
 
     /**
      * ilObjFileAbstractZipDelegate constructor.
      * @param ilAccess|ilWorkspaceAccessHandler $access_checker
-     * @param int      $node_type
-     * @param ilTree   $tree
+     * @param int                               $node_type
+     * @param ilTree                            $tree
      */
     public function __construct(object $access_checker, int $node_type, ilTree $tree)
     {
@@ -85,6 +89,8 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
             $obj->setRefId($node_id);
         }
 
+        $this->uploaded_suffixes[] = $obj->getFileExtension();
+
         return $obj;
     }
 
@@ -102,4 +108,8 @@ abstract class ilObjFileAbstractZipDelegate implements ilObjUploadDelegateInterf
         }
     }
 
+    public function getUploadedSuffixes() : array
+    {
+        return $this->uploaded_suffixes;
+    }
 }

@@ -12,7 +12,7 @@ class ilWikiPageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init()
+    public function init() : void
     {
         $this->setEnablePCType("Map", true);
         $this->setEnablePCType("Tabs", true);

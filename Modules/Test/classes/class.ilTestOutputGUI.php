@@ -655,7 +655,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             }
         }
 
-        if ($this->saveResult == false || (!$questionOBJ->validateSolutionSubmit() && $questionOBJ->savePartial()) ) {
+        if ($this->saveResult == false || (!$questionOBJ->validateSolutionSubmit() && $questionOBJ->savePartial())) {
             $this->ctrl->setParameter($this, "save_error", "1");
             $_SESSION["previouspost"] = $_POST;
         }
@@ -676,6 +676,9 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             } else {
                 $this->ctrl->redirect($this, ilTestPlayerCommands::SHOW_QUESTION);
             }
+            $this->testSequence->setQuestionChecked($questionId);
+            $this->testSequence->saveToDb();
+        } else if ($this->object->isForceInstantFeedbackEnabled()) {
             $this->testSequence->setQuestionChecked($questionId);
             $this->testSequence->saveToDb();
         }

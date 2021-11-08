@@ -1490,7 +1490,7 @@ class ilObjSurvey extends ilObject
     * @access public
     * @see $start_date
     */
-    public function setStartDateAndTime($start_date = "", $start_time)
+    public function setStartDateAndTime($start_date, $start_time)
     {
         $y = '';
         $m = '';
@@ -1543,7 +1543,7 @@ class ilObjSurvey extends ilObject
     * @access public
     * @see $start_date
     */
-    public function setEndDateAndTime($end_date = "", $end_time)
+    public function setEndDateAndTime($end_date, $end_time)
     {
         $y = '';
         $m = '';
@@ -3914,7 +3914,7 @@ class ilObjSurvey extends ilObject
         }
     }
     
-    public function saveHeading($heading = "", $insertbefore)
+    public function saveHeading($heading, $insertbefore)
     {
         $ilDB = $this->db;
         if ($heading) {
