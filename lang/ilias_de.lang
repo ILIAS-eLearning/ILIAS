@@ -6631,7 +6631,7 @@ crs#:#crs_cancel_subscription#:#Austritt aus Kurs "%s"
 crs#:#crs_cancel_subscription_body#:#die Teilnehmerin/der Teilnehmer %s ist aus dem Kurs "%s" ausgetreten.
 crs#:#crs_cancel_subscription_body2#:#Eventuell sind Teilnehmende in die Warteliste dieses Kurses eingetragen. Um die Liste der Teilnehmenden anzuzeigen, rufen Sie bitte folgenden Link auf:
 crs#:#crs_cancellation_end#:#Spätester Kursaustritt
-crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Kursmitgliedschaft beenden.
+crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Kursmitgliedschaft beenden.
 crs#:#crs_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus dem Kurs ist jetzt nicht mehr möglich.
 crs#:#crs_cannot_find_role#:#Rolle konnte nicht gefunden werden.
 crs#:#crs_cdf_edit_member#:#Kursspezifische Benutzerdaten bearbeiten
@@ -6936,12 +6936,12 @@ crs#:#crs_period#:#Veranstaltungszeitraum
 crs#:#crs_period_info#:#Information zum Start und Ende der Veranstaltung, die mit dem Kurs unterstützt werden soll.
 crs#:#crs_presentation_type#:#Ansicht
 crs#:#crs_print_list#:#Liste erstellen
-crs#:#crs_reg#:#Selbständiger Beitritt durch Benutzer
+crs#:#crs_reg#:#Selbstständiger Beitritt durch Benutzer
 crs#:#crs_reg_code#:#Beitritt per Link
 crs#:#crs_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren und den Kursrechten ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
 crs#:#crs_reg_code_link#:#Link für direkten Beitritt
-crs#:#crs_reg_max_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbständiger Beitritt nicht mehr möglich.
-crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt
+crs#:#crs_reg_max_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
+crs#:#crs_reg_no_selfreg#:#Kein selbstständiger Beitritt
 crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Kurs beitreten zu können.
 crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
@@ -8456,8 +8456,8 @@ exc#:#exc_team_assignment_adopt_user#:#Team aus Übungseinheit übernehmen
 exc#:#exc_team_at_least_one#:#Es muss mindestens ein Team-Mitglied geben.
 exc#:#exc_team_by_assignment#:#Übernahme von Übungseinheit
 exc#:#exc_team_by_assignment_info#:#Die Teams werden von einer bestehender Übungseinheit übernommen.
-exc#:#exc_team_by_participants#:#Teilnehmer organisieren die Teams selbständig
-exc#:#exc_team_by_participants_info#:#Teilnehmer gründen selbständig Teams und wählen die Mitglieder des Teams selber aus.
+exc#:#exc_team_by_participants#:#Teilnehmer organisieren die Teams selbstständig
+exc#:#exc_team_by_participants_info#:#Teilnehmer gründen selbstständig Teams und wählen die Mitglieder des Teams selber aus.
 exc#:#exc_team_by_random#:#Teams werden zufällig und automatisch zusammengestellt.
 exc#:#exc_team_by_random_info#:#ILIAS weist die Teilnehmer einer festgelegten Anzahl von Teams zu.
 exc#:#exc_team_by_tutors#:#Teams werden von Tutoren zusammengestellt
@@ -8509,7 +8509,7 @@ exc#:#exc_with_template_info#:#Ein leeres Portfolio wird automatisch aus einer b
 exc#:#exc_with_wiki_template#:#Mit Vorlage
 exc#:#exc_with_wiki_template_info#:#Neue Wikis der Teilnehmer werden durch Kopie der Vorlage erstellt.
 exc#:#exc_without_template#:#Ohne Portfoliovorlage
-exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbständig ohne Vorlage.
+exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbstständig ohne Vorlage.
 exc#:#exc_without_wiki_template#:#Ohne Vorlage
 exc#:#exc_without_wiki_template_info#:#Teilnehmer starten mit leerem Wiki.
 exc#:#exc_work_instructions#:#Arbeitsanweisung
@@ -8906,7 +8906,7 @@ grp#:#grp_already_assigned#:#Sie haben bereits einen Aufnahmeantrag für diese G
 grp#:#grp_at_least_one_admin#:#Dieser Gruppe muss mindestens ein Administrator zugeordnet sein.
 grp#:#grp_cancel_subscr_request#:#Aufnahmeantrag zurückziehen
 grp#:#grp_cancellation_end#:#Spätester Gruppenaustritt
-grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Gruppenmitgliedschaft beenden.
+grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Gruppenmitgliedschaft beenden.
 grp#:#grp_cancellation_end_rbac_info#:#Das Stornierungsende wurde am %s erreicht. Ein Austritt aus der Gruppe ist jetzt nicht mehr möglich.
 grp#:#grp_cdf_edit_member#:#Gruppenspezifische Benutzerdaten bearbeiten
 grp#:#grp_cdf_tbl_last_edit#:#Aktualisiert (Gruppenspezifische Daten)
@@ -9006,8 +9006,8 @@ grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
 grp#:#grp_reg_disabled#:#Zur Zeit ist kein Beitritt möglich.
 grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Benutzer in die Gruppe aufnehmen.
 grp#:#grp_reg_limited#:#Zeitlich begrenzter Beitritt
-grp#:#grp_reg_max_members_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbständiger Beitritt nicht mehr möglich.
-grp#:#grp_reg_no_selfreg#:#Kein selbständiger Beitritt
+grp#:#grp_reg_max_members_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
+grp#:#grp_reg_no_selfreg#:#Kein selbstständiger Beitritt
 grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
 grp#:#grp_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um der Gruppe beitreten zu können.
 grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sobald ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt.
@@ -9020,7 +9020,7 @@ grp#:#grp_search_users#:#Benutzer suchen
 grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
 grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie werden dann von der Gruppenleitung benachrichtigt, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
 grp#:#grp_setting_header_presentation#:#Darstellung
-grp#:#grp_setting_header_registration#:#Selbständiger Beitritt durch Benutzer
+grp#:#grp_setting_header_registration#:#Selbstständiger Beitritt durch Benutzer
 grp#:#grp_settings#:#Gruppeneinstellungen
 grp#:#grp_show_members#:#Mitgliedergalerie
 grp#:#grp_show_members_info#:#Alle Mitglieder können im Reiter "Mitglieder" die Mitgliedergalerie einsehen.
