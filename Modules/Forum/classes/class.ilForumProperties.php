@@ -215,6 +215,11 @@ class ilForumProperties
         return false;
     }
 
+    public function getStyleSheetId() : int
+    {
+        return $this->styleId;
+    }
+
     /**
      * Note: A typehint cannot be be used here, because the consumer passes a string
      * @param int $styleId
