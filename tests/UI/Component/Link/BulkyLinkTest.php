@@ -38,6 +38,28 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
         $this->expectException(\TypeError::class);
         $link = $this->factory->bulky('wrong param', "label", $this->target);
     }
+    
+    public function testWithAriaRole()
+    {
+        try {
+            $b = $this->factory->bulky($this->glyph, "label", $this->target)
+            ->withAriaRole(I\Button\Bulky::MENUITEM);
+            $this->assertEquals("menuitem", $b->getAriaRole());
+        } catch (\InvalidArgumentException $e) {
+            $this->assertFalse("This should not happen");
+        }
+    }
+    
+    public function testWithAriaRoleIncorrect()
+    {
+        try {
+            $this->factory->bulky($this->glyph, "label", $this->target)
+            ->withAriaRole("loremipsum");
+            $this->assertFalse("This should not happen");
+        } catch (\InvalidArgumentException $e) {
+            $this->assertTrue(true);
+        }
+    }
 
     public function testGetLabell()
     {
@@ -124,6 +146,24 @@ class BulkyLinkTest extends ILIAS_UI_TestBase
             . ' <span class="bulky-label">label</span>'
             . '</a>';
 
+        $this->assertHTMLEquals(
+            $expected,
+            $r->render($b)
+        );
+    }
+        
+    public function testRenderWithAriaRoleMenuitem()
+    {
+        $r = $this->getDefaultRenderer();
+        $b = $this->factory->bulky($this->icon, "label", $this->target)
+        ->withAriaRole(I\Button\Bulky::MENUITEM);
+        
+        $expected = ''
+        . '<a class="il-link link-bulky" href="http://www.ilias.de" role="menuitem">'
+        . '<img class="icon someExample small" src="./templates/default/images/icon_default.svg" alt="Example"/>'
+        . ' <span class="bulky-label">label</span>'
+        . '</a>';
+                        
         $this->assertHTMLEquals(
             $expected,
             $r->render($b)

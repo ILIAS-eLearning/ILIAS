@@ -244,7 +244,7 @@ interface Factory
      *     or not possible to display all available options, e.g. because the amount is too high
      *     when the options are "all users" or "all tags.
      *     Besides the tags to choose from, the user can provide own tags by typing them
-     *     into the Input (@see Tag::withOptionsAreExtendable ).
+     *     into the Input (@see Tag::withUserCreatedTagsAllowed).
      *   composition: >
      *     The Input is presented as a text-input and prepended by already selected tags
      *     presented as texts including a close-button.  (e.g. [ Amsterdam X ] )

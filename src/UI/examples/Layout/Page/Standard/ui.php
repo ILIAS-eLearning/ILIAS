@@ -395,7 +395,17 @@ function getDemoEntryTools($f)
     $slate = $f->maincontrols()->slate()->legacy(
         'Help',
         $symbol,
-        $f->legacy('<h2>tool 1</h2><p>Some Text for Tool 1 entry</p>')
+        $f->legacy('
+            <h2>Help</h2>
+            <p>
+                Some Text for help entry
+            </p>
+            <p>
+                <button onclick="alert(\'helo - tool 1 \');">Some Dummybutton</button>
+                <br>
+                <button onclick="alert(\'helo - tool 1, button 2 \');">some other dummybutton</button>
+            </p>
+        ')
     );
     $tools['tool1'] = $slate;
 
@@ -405,7 +415,16 @@ function getDemoEntryTools($f)
     $slate = $f->maincontrols()->slate()->legacy(
         'Editor',
         $symbol,
-        $f->legacy('<h2>tool 2</h2><p>Some Text for Tool 1 entry</p>')
+        $f->legacy('
+            <h2>Editor</h2>
+            <p>
+                Some Text for editor entry
+                <br><br>
+                <button onclick="alert(\'helo\');">Some Dummybutton</button>
+                <br><br>
+                end of tool.
+            </p>
+        ')
     );
     $tools['tool2'] = $slate;
 
