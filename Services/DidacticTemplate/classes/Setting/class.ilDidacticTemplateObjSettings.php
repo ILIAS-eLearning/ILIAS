@@ -22,7 +22,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT tpl_id FROM didactic_tpl_objs ' .
             'WHERE ref_id = ' . $ilDB->quote($a_ref_id, 'integer');
@@ -43,7 +43,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
@@ -59,7 +59,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, 'integer');
@@ -74,7 +74,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE ref_id = ' . $ilDB->quote($a_ref_id, 'integer');
@@ -91,7 +91,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         self::deleteByRefId($a_ref_id);
 
@@ -112,7 +112,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT * FROM didactic_tpl_objs ' .
             'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, 'integer');
@@ -155,7 +155,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT auto_generated FROM didactic_tpl_settings ' .
             'WHERE id = ' . $ilDB->quote($a_src, 'integer');

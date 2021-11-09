@@ -20,7 +20,7 @@ class ilDidacticTemplateFilterPatternFactory
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $query = 'SELECT pattern_id,pattern_type FROM didactic_tpl_fp ' .
             'WHERE parent_id = ' . $ilDB->quote($a_parent_id) . ' ' .
