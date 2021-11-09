@@ -11,14 +11,16 @@
  */
 class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 {
+    private $ref_id;
 
     /**
      * Constructor
      * @param object $a_parent_obj
      * @param string $a_parent_cmd
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    public function __construct($a_parent_obj, $a_parent_cmd = "", int $ref_id)
     {
+        $this->ref_id = $ref_id;
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setId('tbl_didactic_tpl_settings');
     }
@@ -46,7 +48,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 
         $this->setTitle($this->lng->txt('didactic_available_templates'));
 
-        if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
+        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             $this->addMultiCommand('activateTemplates', $this->lng->txt('activate'));
             $this->addMultiCommand('deactivateTemplates', $this->lng->txt('deactivate'));
             $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
@@ -106,7 +108,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $ilCtrl = $DIC['ilCtrl'];
         $ilAccess = $DIC['ilAccess'];
 
-        if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
+        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setVariable('VAL_ID', $set['id']);
         }
 
@@ -179,7 +181,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         }
         
 
-        if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
+        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             
 
             $actions = new ilAdvancedSelectionListGUI();

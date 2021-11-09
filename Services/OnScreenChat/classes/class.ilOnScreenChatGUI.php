@@ -202,8 +202,8 @@ class ilOnScreenChatGUI
             $chatWindowTemplate->setVariable('ADD_ACTION', $renderer->render(
                 $factory->symbol()->glyph()->add('addUser')
             ));
-            $chatWindowTemplate->setVariable('CLOSE_ACTION', $renderer->render(
-                $factory->button()->close()
+            $chatWindowTemplate->setVariable('MINIMIZE_ACTION', $renderer->render(
+                $factory->button()->minimize()
             ));
             $chatWindowTemplate->setVariable('CONVERSATION_ICON', ilUtil::img(ilUtil::getImagePath('outlined/icon_pcht.svg')));
 
