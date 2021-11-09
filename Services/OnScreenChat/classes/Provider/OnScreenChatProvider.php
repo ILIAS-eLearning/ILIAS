@@ -15,7 +15,7 @@ use ILIAS\OnScreenChat\Repository\Subscriber;
 use ILIAS\UI\Component\Item\Notification;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ilSetting;
-use ilWACException;
+use JsonException;
 use stdClass;
 
 /**
@@ -86,13 +86,11 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
      * @param bool   $withAggregates
      *
      * @return Notification[]
+     * @throws JsonException
      * @throws ilDateTimeException
-     * @throws ilWACException
      */
-    public function getAsyncItem(
-        string $conversationIds,
-        bool $withAggregates
-    ) : array {
+    public function getAsyncItem(string $conversationIds, bool $withAggregates) : array
+    {
         $conversationIds = array_filter(explode(',', $conversationIds));
 
         $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(
