@@ -1113,7 +1113,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $tpl->setVariable('USR_IMAGE', $authorinfo->getProfilePicture());
         $tpl->setVariable('USR_ICON_ALT', ilUtil::prepareFormOutput($authorinfo->getAuthorShortName()));
-        $isModerator = ilForum::_isModerator($authorinfo->getAuthor()->getId(), $node->getPosAuthorId());
+        $isModerator = ilForum::_isModerator($this->ref_id, $node->getPosAuthorId());
         if ($isModerator && $authorinfo->getAuthor()->getId()) {
             $authorRole = $this->lng->txt('frm_moderator_n');
             if (is_string($authorinfo->getAuthor()->getGender()) && $authorinfo->getAuthor()->getGender() !== '') {
