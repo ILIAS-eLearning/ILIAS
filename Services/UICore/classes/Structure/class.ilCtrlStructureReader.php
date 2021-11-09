@@ -2,7 +2,7 @@
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
-require_once __DIR__ . '/../../../../../libs/composer/vendor/autoload.php';
+require_once __DIR__ . '/../../../../libs/composer/vendor/autoload.php';
 
 /**
  * Class ilCtrlStructureReader is responsible for reading
@@ -33,14 +33,8 @@ final class ilCtrlStructureReader
     private const REGEX_PHPDOC_CALLED_BYS = '/(((?i)@ilctrl_iscalledby)\s*({CLASS_NAME}(:\s*|\s*:\s*))\K)([A-z0-9,\s])*/';
 
     /**
-     * Holds whether the structure reader was already executed or not.
-     *
-     * @var bool
-     */
-    private static bool $is_executed = false;
-
-    /**
      * Holds an instance of the cid generator.
+     *
      * @var ilCtrlStructureCidGenerator
      */
     private ilCtrlStructureCidGenerator $cid_generator;
@@ -53,6 +47,13 @@ final class ilCtrlStructureReader
     private ilCtrlIteratorInterface $iterator;
 
     /**
+     * Holds whether the structure reader was already executed or not.
+     *
+     * @var bool
+     */
+    private bool $is_executed = false;
+
+    /**
      * Holds the ILIAS absolute path (without ending '/').
      *
      * @var string
@@ -60,27 +61,16 @@ final class ilCtrlStructureReader
     private string $ilias_path;
 
     /**
-     * Holds the currently read references mapped by classname.
-     *
-     * @var array
-     */
-    private array $references = [];
-
-    /**
-     * Holds the currently read control structure.
-     *
-     * @var array
-     */
-    private array $structure = [];
-
-    /**
      * ilCtrlStructureReader Constructor
+     *
+     * @param ilCtrlIteratorInterface     $iterator
+     * @param ilCtrlStructureCidGenerator $cid_generator
      */
     public function __construct(ilCtrlIteratorInterface $iterator, ilCtrlStructureCidGenerator $cid_generator)
     {
         $this->ilias_path = rtrim(
             (defined('ILIAS_ABSOLUTE_PATH')) ?
-                ILIAS_ABSOLUTE_PATH : dirname(__FILE__, 6),
+                ILIAS_ABSOLUTE_PATH : dirname(__FILE__, 5),
             '/'
         );
 
@@ -95,7 +85,7 @@ final class ilCtrlStructureReader
      */
     public function isExecuted() : bool
     {
-        return self::$is_executed;
+        return $this->is_executed;
     }
 
     /**
@@ -105,6 +95,7 @@ final class ilCtrlStructureReader
      */
     public function readStructure() : array
     {
+        $structure = [];
         foreach ($this->iterator as $class_name => $path) {
             // skip iteration if class doesn't meet ILIAS GUI class criteria.
             if (!$this->isGuiClass($path)) {
@@ -114,50 +105,32 @@ final class ilCtrlStructureReader
             $array_key = strtolower($class_name);
             try {
                 // the classes need to be required manually, because
-                // auto-loading breaks when testing.
+                // the autoload classmap might not include the plugin
+                // classes when an update is triggered (small structure
+                // reload).
                 require_once $path;
 
                 $reflection = new ReflectionClass($class_name);
-                $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
-                $this->references[$array_key][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
+
+                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
+                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
             } catch (ReflectionException $e) {
                 continue;
             }
 
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->cid_generator->getCid();
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
-            $this->structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
+            $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->cid_generator->getCid();
+            $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
+            $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
         }
 
-        // loops through all references and creates vise-versa
-        // entries for them, e.g. if a class has children, the
-        // class is added to all children as their parent.
-        foreach ($this->references as $class_name => $data) {
-            $this->addViseVersaMapping(
-                $class_name,
-                ilCtrlStructureInterface::KEY_CLASS_CHILDREN,
-                ilCtrlStructureInterface::KEY_CLASS_PARENTS
-            );
+        $mapped_structure = (new ilCtrlStructureHelper($structure))
+            ->mapStructureReferences()
+            ->getStructure()
+        ;
 
-            $this->addViseVersaMapping(
-                $class_name,
-                ilCtrlStructureInterface::KEY_CLASS_PARENTS,
-                ilCtrlStructureInterface::KEY_CLASS_CHILDREN
-            );
-        }
+        $this->is_executed = true;
 
-        // loops again through all references in order to
-        // add this data to the actual output. This needs
-        // to happen in a separate loop, as the vise-versa
-        // mappings are not yet finished in the previous loop.
-        foreach ($this->references as $class_name => $data) {
-            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS] = $data[ilCtrlStructureInterface::KEY_CLASS_PARENTS];
-            $this->structure[$class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $data[ilCtrlStructureInterface::KEY_CLASS_CHILDREN];
-        }
-
-        self::$is_executed = true;
-
-        return $this->structure;
+        return $mapped_structure;
     }
 
     /**
@@ -201,24 +174,19 @@ final class ilCtrlStructureReader
     }
 
     /**
-     * If a class has referenced another one as child or parent,
-     * this method adds a vise-versa mapping if it doesn't already
-     * exist.
+     * Returns a given path relative to the ILIAS absolute path.
      *
-     * @param string $class_name
-     * @param string $key_ref_from
-     * @param string $key_ref_to
+     * @param string $absolute_path
+     * @return string
      */
-    private function addViseVersaMapping(string $class_name, string $key_ref_from, string $key_ref_to) : void
+    private function getRelativePath(string $absolute_path) : string
     {
-        if (!empty($this->references[$class_name][$key_ref_from])) {
-            foreach ($this->references[$class_name][$key_ref_from] as $reference) {
-                // only add vise-versa mapping if it doesn't already exist.
-                if (isset($this->references[$reference]) && !in_array($class_name, $this->references[$reference][$key_ref_to], true)) {
-                    $this->references[$reference][$key_ref_to][] = $class_name;
-                }
-            }
-        }
+        // some paths might contain syntax like '../../../' etc.
+        // and realpath() resolves that in order to cut off the
+        // ilias installation path properly.
+        $absolute_path = realpath($absolute_path);
+
+        return '.' . str_replace($this->ilias_path, '', $absolute_path);
     }
 
     /**
@@ -253,22 +221,6 @@ final class ilCtrlStructureReader
     private function stripWhitespaces(string $string) : string
     {
         return (string) preg_replace('/\s+/', '', $string);
-    }
-
-    /**
-     * Returns a given path relative to the ILIAS absolute path.
-     *
-     * @param string $absolute_path
-     * @return string
-     */
-    private function getRelativePath(string $absolute_path) : string
-    {
-        // some paths might contain syntax like '../../../' etc.
-        // and realpath() resolves that in order to cut off the
-        // ilias installation path properly.
-        $absolute_path = realpath($absolute_path);
-
-        return '.' . str_replace($this->ilias_path, '', $absolute_path);
     }
 
     /**

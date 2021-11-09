@@ -84,10 +84,12 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     ) {
         $this->base_classes = $base_classes;
         $this->security = $security_info;
-        $this->structure = $this->createStructure(
-            $ctrl_structure,
-            $plugin_structure
-        );
+
+        $this->structure = (new ilCtrlStructureHelper($ctrl_structure, $plugin_structure))
+            ->mergePluginStructure()
+            ->mapStructureReferences()
+            ->getStructure()
+        ;
     }
 
     /**
@@ -361,30 +363,6 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
         }
 
         return null;
-    }
-
-    /**
-     * Returns the ctrl structure merged with the plugin structure.
-     *
-     * @param array $ctrl_structure
-     * @param array $plugin_structure
-     * @return array
-     */
-    private function createStructure(array $ctrl_structure, array $plugin_structure) : array
-    {
-        if (empty($plugin_structure)) {
-            return $ctrl_structure;
-        }
-
-        foreach ($plugin_structure as $structure) {
-            if (!empty($structure)) {
-                foreach ($structure as $class_name => $data) {
-                    $ctrl_structure[$class_name] = $data;
-                }
-            }
-        }
-
-        return $ctrl_structure;
     }
 
     /**

@@ -26,12 +26,15 @@ final class InitCtrlService
      */
     public function init(Container $dic) : void
     {
+        $this->abortIfMissingDependencies($dic);
+        $ilias_path = dirname(__FILE__, 5) . '/';
+
         try {
             $ctrl_structure = new ilCtrlStructure(
-                require ilCtrlStructureArtifactObjective::ARTIFACT_PATH,
-                require ilCtrlPluginStructureArtifactObjective::ARTIFACT_PATH,
-                require ilCtrlBaseClassArtifactObjective::ARTIFACT_PATH,
-                require ilCtrlSecurityArtifactObjective::ARTIFACT_PATH
+                require $ilias_path . ilCtrlStructureArtifactObjective::ARTIFACT_PATH,
+                require $ilias_path . ilCtrlPluginStructureArtifactObjective::ARTIFACT_PATH,
+                require $ilias_path . ilCtrlBaseClassArtifactObjective::ARTIFACT_PATH,
+                require $ilias_path . ilCtrlSecurityArtifactObjective::ARTIFACT_PATH
             );
         } catch (Throwable $t) {
             throw new ilCtrlException(self::class . " could not require artifacts, try `composer du` first.");
@@ -52,5 +55,24 @@ final class InitCtrlService
         $dic['ilCtrl'] = static function () {
             return $GLOBALS['ilCtrl'];
         };
+    }
+
+    /**
+     * Aborts if another dependency required by the ctrl service
+     * is not yet available.
+     *
+     * @param Container $dic
+     * @throws ilCtrlException if a necessary dependency is not yet
+     *                         initialized.
+     */
+    private function abortIfMissingDependencies(Container $dic) : void
+    {
+        if (!$dic->offsetExists('http')) {
+            throw new ilCtrlException("Cannot initialize ilCtrl if HTTP Services are not yet available.");
+        }
+
+        if (!$dic->offsetExists('refinery')) {
+            throw new ilCtrlException("Cannot initialize ilCtrl if Refinery Factory is not yet available.");
+        }
     }
 }

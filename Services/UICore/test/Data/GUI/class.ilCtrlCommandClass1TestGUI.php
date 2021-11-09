@@ -1,4 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilCtrlCommandClass1TestGUI
@@ -24,9 +26,15 @@ final class ilCtrlCommandClass1TestGUI implements ilCtrlSecurityInterface
      */
     public function getUnsafeGetCommands() : array
     {
-        return [
-            'index',
-        ];
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafePostCommands() : array
+    {
+        return [];
     }
 
     public function executeCommand() : string

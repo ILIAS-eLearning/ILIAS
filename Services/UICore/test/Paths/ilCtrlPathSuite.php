@@ -13,11 +13,7 @@ class ilCtrlPathSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once __DIR__ . '/ilCtrlArrayClassPathTest.php';
-        $suite->addTestSuite(ilCtrlArrayClassPathTest::class);
 
-        require_once __DIR__ . '/ilCtrlSingleClassPathTest.php';
-        $suite->addTestSuite(ilCtrlSingleClassPathTest::class);
 
         return $suite;
     }

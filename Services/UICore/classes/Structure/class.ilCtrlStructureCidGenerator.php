@@ -32,6 +32,13 @@ final class ilCtrlStructureCidGenerator
      */
     public function getIndexByCid(string $cid) : int
     {
+        if (str_starts_with($cid, '-')) {
+            $inverted_cid = str_replace('-', '', $cid);
+            $index = (int) base_convert($inverted_cid, 36, 10);
+
+            return $this->invertIndex($index);
+        }
+
         return (int) base_convert($cid, 36, 10);
     }
 
@@ -43,6 +50,10 @@ final class ilCtrlStructureCidGenerator
      */
     public function getCidByIndex(int $index) : string
     {
+        if (0 > $index) {
+            return '-' . base_convert((string) $this->invertIndex($index), 10, 36);
+        }
+
         return base_convert((string) $index, 10, 36);
     }
 
@@ -54,5 +65,16 @@ final class ilCtrlStructureCidGenerator
     public function getCid() : string
     {
         return $this->getCidByIndex($this->index++);
+    }
+
+    /**
+     * Helper function that inverts an integer value.
+     *
+     * @param int $index
+     * @return int
+     */
+    private function invertIndex(int $index) : int
+    {
+        return (-1 * $index);
     }
 }

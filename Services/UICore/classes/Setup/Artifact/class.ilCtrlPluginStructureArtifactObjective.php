@@ -29,12 +29,6 @@ final class ilCtrlPluginStructureArtifactObjective extends BuildArtifactObjectiv
     public const ARTIFACT_PATH = "./Services/UICore/artifacts/ctrl_plugin_structure.php";
 
     /**
-     * Holds an instance of the cid generator.
-     * @var ilCtrlStructureCidGenerator
-     */
-    private ilCtrlStructureCidGenerator $cid_generator;
-
-    /**
      * Holds the currently read plugin structure if it exists.
      *
      * @var array
@@ -42,21 +36,22 @@ final class ilCtrlPluginStructureArtifactObjective extends BuildArtifactObjectiv
     private array $plugin_structure;
 
     /**
-     * Holds the absolute ILIAS installation path.
+     * Holds the currently read ctrl structure.
      *
-     * @var string
+     * @var array
      */
-    private string $ilias_path;
+    private array $ctrl_structure;
 
     /**
      * ilCtrlPluginStructureArtifactObjective Constructor
      */
     public function __construct()
     {
-        $this->cid_generator = new ilCtrlStructureCidGenerator();
-        $this->ilias_path = dirname(__FILE__, 6) . '/';
+        $ilias_path = dirname(__FILE__, 6) . '/';
 
-        $absolute_artifact_path = $this->ilias_path . self::ARTIFACT_PATH;
+        $this->ctrl_structure = require $ilias_path . ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
+
+        $absolute_artifact_path = $ilias_path . self::ARTIFACT_PATH;
         if (file_exists($absolute_artifact_path)) {
             $this->plugin_structure = require $absolute_artifact_path;
         } else {
@@ -127,7 +122,7 @@ final class ilCtrlPluginStructureArtifactObjective extends BuildArtifactObjectiv
 
         if (ilCtrlPluginArtifactConfig::PLUGIN_STATUS_UNINSTALL === $config->getStatus()) {
             return new ArrayArtifact(
-                $this->reindexPluginStructure($this->plugin_structure)
+                $this->reindexPluginStructure()
             );
         }
 
@@ -138,38 +133,38 @@ final class ilCtrlPluginStructureArtifactObjective extends BuildArtifactObjectiv
             )
         ))->readStructure();
 
-        return new ArrayArtifact($this->plugin_structure);
+        return new ArrayArtifact(
+            $this->reindexPluginStructure()
+        );
     }
 
     /**
-     * Returns the re-indexed plugin structure continued from the
-     * last ctrl structure index.
+     * Returns the current plugins structure re-indexed from the
+     * last possible ctrl structure index.
      *
-     * @param array $plugin_structure
-     * @return array
+     * @return array<string, mixed>
      */
-    public function reindexPluginStructure(array $plugin_structure) : array
+    private function reindexPluginStructure() : array
     {
-        if (empty($plugin_structure)) {
+        if (empty($this->plugin_structure)) {
             return [];
         }
 
-        $cid_generator = new ilCtrlStructureCidGenerator($this->getNextStructureIndex());
-        foreach ($plugin_structure as $plugin_id => $structure) {
-            foreach ($structure as $class_name => $data) {
-                $plugin_structure[$plugin_id][$class_name][ilCtrlStructureInterface::KEY_CLASS_CID] = $cid_generator->getCid();
+        $generator = new ilCtrlStructureCidGenerator($this->getNextStructureIndex());
+        foreach ($this->plugin_structure as $plugin_id => $plugin_data) {
+            if (!empty($plugin_data)) {
+                foreach ($plugin_data as $class_name => $data) {
+                    $this->plugin_structure[$plugin_id][$class_name][ilCtrlStructureInterface::KEY_CLASS_CID] = $generator->getCid();
+                }
             }
         }
 
-        return $plugin_structure;
+        return $this->plugin_structure;
     }
 
     /**
-     * Returns the next cid of the currently read plugin structure.
-     *
-     * Note that this method assumes the existing plugin structure
-     * artifact was built correctly - continues the CIDs from the
-     * last one of the ctrl structure artifact.
+     * Returns the next index that can be used from the current
+     * plugin structure.
      *
      * @return int
      */
@@ -180,25 +175,25 @@ final class ilCtrlPluginStructureArtifactObjective extends BuildArtifactObjectiv
             $last_array_entry = $last_plugin_entry[array_key_last($last_plugin_entry)];
             $last_cid = $last_array_entry[ilCtrlStructureInterface::KEY_CLASS_CID];
 
-            return $this->cid_generator->getIndexByCid($last_cid) + 1;
+            return (new ilCtrlStructureCidGenerator())->getIndexByCid($last_cid) + 1;
         }
 
         return $this->getNextStructureIndex();
     }
 
     /**
-     * Returns the next cid of the currently read ctrl structure.
+     * Returns the next index that can be used from the current
+     * ctrl structure.
      *
      * @return int
      */
     private function getNextStructureIndex() : int
     {
-        $structure = require $this->ilias_path . ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
-        if (!empty($structure)) {
-            $last_array_entry = $structure[array_key_last($structure)];
-            $last_cid  = $last_array_entry[ilCtrlStructureInterface::KEY_CLASS_CID];
+        if (!empty($this->ctrl_structure)) {
+            $last_array_entry = $this->ctrl_structure[array_key_last($this->ctrl_structure)];
+            $last_cid = $last_array_entry[ilCtrlStructureInterface::KEY_CLASS_CID];
 
-            return $this->cid_generator->getIndexByCid($last_cid) + 1;
+            return (new ilCtrlStructureCidGenerator())->getIndexByCid($last_cid) + 1;
         }
 
         return 0;

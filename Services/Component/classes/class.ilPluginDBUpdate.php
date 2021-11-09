@@ -76,7 +76,7 @@ class ilPluginDBUpdate extends ilDBUpdate
                 $this->pname
             );
 
-        $this->ctrl_structure_iterator = new ilCtrlDirectoryIterator(
+        $this->ctrl_structure_iterator = new ilCtrlDirectoryIteratorTest(
             ILIAS_ABSOLUTE_PATH . '/' . ilPlugin::_getDirectory(
                 $this->ctype,
                 $this->cname,

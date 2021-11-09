@@ -9,10 +9,26 @@ use PHPUnit\Framework\TestCase;
  */
 class ilCtrlArrayClassPathTest extends TestCase
 {
+    private ilCtrlStructureInterface $structure;
+
     protected function setUp() : void
     {
+        $structure_artifact  = require __DIR__ . '/../Data/Structure/test_ctrl_structure.php';
+        $plugin_artifact     = require __DIR__ . '/../Data/Structure/test_plugin_ctrl_structure.php';
+        $base_class_artifact = require __DIR__ . '/../Data/Structure/test_base_classes.php';
+    }
 
+    public function testArrayClassPathWithValidControlFlow() : void
+    {
+        $context = $this->createMock(ilCtrlContextInterface::class);
+        $structure = require __DIR__ . '/../Data/Structure/test_ctrl_structure.php';
+        $structure = new ilCtrlStructure(
+            $structure,
+            [],
+            ['ilctrlbaseclasstestgui'],
+            []
+        );
 
-        parent::setUp();
+        $array_path = new ilCtrlArrayClassPath($structure, $context, []);
     }
 }

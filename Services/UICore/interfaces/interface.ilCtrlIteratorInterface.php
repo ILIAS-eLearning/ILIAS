@@ -12,8 +12,7 @@
  *
  * This means, that Iterators implementing this interface have
  * rather complex valid() methods, as they need to check if
- * the current data and key provided by the source are strings,
- * otherwise TypeErrors will be thrown.
+ * the current data and key provided by the source are strings.
  */
 interface ilCtrlIteratorInterface extends Iterator
 {
@@ -22,12 +21,12 @@ interface ilCtrlIteratorInterface extends Iterator
      *
      * @return string
      */
-    public function current() : string;
+    public function current() : ?string;
 
     /**
      * @inheritDoc
      *
      * @return string
      */
-    public function key() : string;
+    public function key() : ?string;
 }

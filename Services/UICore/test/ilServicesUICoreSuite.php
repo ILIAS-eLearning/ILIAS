@@ -21,6 +21,9 @@ class ilServicesUICoreSuite extends TestSuite
         require_once __DIR__ . '/Setup/ilCtrlSetupSuite.php';
         $suite->addTestSuite(ilCtrlSetupSuite::class);
 
+        require_once __DIR__ . '/Paths/ilCtrlPathSuite.php';
+        $suite->addTestSuite(ilCtrlPathSuite::class);
+
         return $suite;
     }
 }

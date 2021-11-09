@@ -17,7 +17,7 @@ final class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     /**
      * ilCtrlArrayIterator Constructor
      *
-     * @param array $data
+     * @param string[]
      */
     public function __construct(array $data)
     {
@@ -27,9 +27,13 @@ final class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     /**
      * @inheritDoc
      */
-    public function current() : string
+    public function current() : ?string
     {
-        return current($this->data);
+        if ($this->valid()) {
+            return current($this->data);
+        }
+
+        return null;
     }
 
     /**
@@ -43,9 +47,13 @@ final class ilCtrlArrayIterator implements ilCtrlIteratorInterface
     /**
      * @inheritDoc
      */
-    public function key() : string
+    public function key() : ?string
     {
-        return key($this->data);
+        if ($this->valid()) {
+            return key($this->data);
+        }
+
+        return null;
     }
 
     /**
@@ -53,12 +61,14 @@ final class ilCtrlArrayIterator implements ilCtrlIteratorInterface
      */
     public function valid() : bool
     {
-        $key = key($this->data);
+        $value = current($this->data);
+        $key   = key($this->data);
+
         if (null === $key) {
             return false;
         }
 
-        if (!is_string($key) && !is_string($this->current())) {
+        if (!is_string($value) || !is_string($key)) {
             $this->next();
             return $this->valid();
         }

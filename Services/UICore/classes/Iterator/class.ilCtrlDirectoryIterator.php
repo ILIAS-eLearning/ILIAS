@@ -3,7 +3,7 @@
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilCtrlDirectoryIterator
+ * Class ilCtrlDirectoryIteratorTest
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
@@ -17,36 +17,44 @@ final class ilCtrlDirectoryIterator implements ilCtrlIteratorInterface
     private const CLASS_NAME_REGEX = '/(?<=\.)(.*)(?=\.)/';
 
     /**
-     * @var Iterator
+     * @var array<string, SplFileInfo>
      */
-    private Iterator $iterator;
+    private array $data;
 
     /**
-     * ilCtrlDirectoryIterator Constructor
+     * ilCtrlDirectoryIteratorTest Constructor
      *
      * @param string $directory_path
      */
     public function __construct(string $directory_path)
     {
-        $this->iterator = new RecursiveDirectoryIterator(
-            $directory_path,
-             FilesystemIterator::KEY_AS_PATHNAME |
-            FilesystemIterator::CURRENT_AS_FILEINFO |
-            FilesystemIterator::SKIP_DOTS
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(
+                $directory_path,
+                FilesystemIterator::KEY_AS_PATHNAME |
+                FilesystemIterator::CURRENT_AS_FILEINFO |
+                FilesystemIterator::SKIP_DOTS
+            )
         );
 
-        $this->iterator = new RecursiveIteratorIterator(
-            $this->iterator,
-            RecursiveIteratorIterator::SELF_FIRST
-        );
+        // we do this in order to sort the files alphabetically,
+        // if we were to iterate over the recursive iterator the
+        // order would be (rather) arbitrary.
+        $this->data = iterator_to_array($iterator);
+        ksort($this->data);
     }
 
     /**
      * @inheritDoc
      */
-    public function current() : string
+    public function current() : ?string
     {
-        return $this->iterator->key();
+        $value = current($this->data);
+        if ($value instanceof SplFileInfo) {
+            return $value->getRealPath();
+        }
+
+        return null;
     }
 
     /**
@@ -54,19 +62,20 @@ final class ilCtrlDirectoryIterator implements ilCtrlIteratorInterface
      */
     public function next() : void
     {
-        $this->iterator->next();
+        next($this->data);
     }
 
     /**
      * @inheritDoc
      */
-    public function key() : string
+    public function key() : ?string
     {
-        // at this point, the current filename already passed the
-        // ILIAS naming-convention check, therefore the following
-        // statements will return the proper object name.
-        preg_match(self::CLASS_NAME_REGEX, $this->getCurrentFileName(), $matches);
-        return $matches[0];
+        if ($this->valid()) {
+            preg_match(self::CLASS_NAME_REGEX, $this->getCurrentFileName(), $matches);
+            return $matches[0] ?? null;
+        }
+
+        return null;
     }
 
     /**
@@ -77,12 +86,17 @@ final class ilCtrlDirectoryIterator implements ilCtrlIteratorInterface
      */
     public function valid() : bool
     {
+        // if the current key is null the iterator is finished.
+        if (null === key($this->data)) {
+            return false;
+        }
+
         $file_name = $this->getCurrentFileName();
         if (!preg_match(ilCtrlStructureReader::REGEX_GUI_CLASS_NAME, $file_name)) {
             // advance iterator and recursively check the filename
             // if the iterator is still valid.
             $this->next();
-            if ($this->iterator->valid()) {
+            if (null !== key($this->data)) {
                 return $this->valid();
             }
 
@@ -97,7 +111,7 @@ final class ilCtrlDirectoryIterator implements ilCtrlIteratorInterface
      */
     public function rewind() : void
     {
-        $this->iterator->rewind();
+        reset($this->data);
     }
 
     /**
@@ -109,7 +123,7 @@ final class ilCtrlDirectoryIterator implements ilCtrlIteratorInterface
     private function getCurrentFileName() : string
     {
         /** @var $file_info SplFileInfo */
-        $file_info = $this->iterator->current();
+        $file_info = current($this->data);
         return $file_info->getFilename();
     }
 }
