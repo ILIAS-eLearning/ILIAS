@@ -403,6 +403,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
                     $this->tabs,
                     $this->lng,
                     $this->object,
+                    $this->objProperties,
                     $this->user
                 );
 
@@ -863,6 +864,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->tabs,
             $this->lng,
             $this->object,
+            $this->objProperties,
             $this->user
         );
         $forwarder->setPresentationMode(ilForumPageCommandForwarder::PRESENTATION_MODE_PRESENTATION);
