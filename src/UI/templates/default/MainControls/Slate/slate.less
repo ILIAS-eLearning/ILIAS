@@ -43,7 +43,6 @@
 		    color: inherit;
 		}
 		.icon {
-			margin-top: @padding-small-vertical;
 			margin-right: @il-slate-bulky-glyph-margin-right;
 			filter: invert(50%);
 
@@ -56,7 +55,7 @@
 		}
 		.bulky-label {
 			font-size: @il-slate-bulky-label-size;
-			line-height: @il-slate-bulky-label-size * 1.133333333333333;
+			line-height: @il-slate-bulky-label-size * 1.3;
 			text-align: left;
 			word-break: normal;
 		}
@@ -69,6 +68,7 @@
 		.il-maincontrols-slate-notification-title{
 			text-transform: uppercase;
 			padding: @padding-large-horizontal;
+			background: @il-slate-bulky-level2-bg-color;
 			.btn-bulky{
 				.glyph{
 					:before{
@@ -78,16 +78,8 @@
 						margin-right: 10px;
 					}
 				}
-				margin: -@padding-large-horizontal;
-				border: none;
-				border-right: solid 3px;
-				border-right-color: @il-main-dark-bg;;
-				padding: @padding-large-horizontal;
-
-				background-color: transparent;
-				text-transform: uppercase;
-
-				width: 50%;
+				padding: 0;
+				background: transparent;
 			}
 		}
 	}
@@ -119,19 +111,16 @@
 // see Mantis #26107
 .il-maincontrols-slate.engaged {
 	&[data-depth-level="2"] {
-		.btn-bulky:not(:hover),
 		.link-bulky:not(:hover) {
 			background-color: @il-slate-bulky-level2-bg-color;
 		}
 	}
 	&[data-depth-level="3"] {
-		.btn-bulky:not(:hover),
 		.link-bulky:not(:hover) {
 			background-color: fade(@il-slate-bulky-level2-bg-color, 15%);
 		}
 	}
 	&[data-depth-level="4"] {
-		.btn-bulky:not(:hover),
 		.link-bulky:not(:hover) {
 			background-color: fade(@il-slate-bulky-level2-bg-color, 10%);
 		}

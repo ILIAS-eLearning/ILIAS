@@ -9347,10 +9347,10 @@ footer {
   display: none;
 }
 .il-maincontrols-slate .btn-bulky {
-  padding: 10px 40px 15px 10px;
+  padding: 15px 40px 15px 10px;
 }
 .il-maincontrols-slate .link-bulky {
-  padding: 10px 10px 15px 10px;
+  padding: 15px 10px 15px 10px;
 }
 .il-maincontrols-slate .btn-bulky,
 .il-maincontrols-slate .link-bulky {
@@ -9392,7 +9392,6 @@ footer {
 }
 .il-maincontrols-slate .btn-bulky .icon,
 .il-maincontrols-slate .link-bulky .icon {
-  margin-top: 3px;
   margin-right: 5px;
   filter: invert(50%);
 }
@@ -9407,7 +9406,7 @@ footer {
 .il-maincontrols-slate .btn-bulky .bulky-label,
 .il-maincontrols-slate .link-bulky .bulky-label {
   font-size: 1.5rem;
-  line-height: 1.7rem;
+  line-height: 1.95rem;
   text-align: left;
   word-break: normal;
 }
@@ -9417,16 +9416,10 @@ footer {
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title {
   text-transform: uppercase;
   padding: 12px;
+  background: #f9f9f9;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky {
-  margin: -12px;
-  border: none;
-  border-right: solid 3px;
-  border-right-color: #f9f9f9;
-  padding: 12px;
-  background-color: transparent;
-  text-transform: uppercase;
-  width: 50%;
+  padding: 0;
 }
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky .glyph :before {
   content: " \e605";
@@ -9451,15 +9444,12 @@ footer {
 .il-maincontrols-slate #ilHelpPanel .btn-bulky .bulky-label {
   margin-top: 3px;
 }
-.il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky:not(:hover) {
   background-color: #f9f9f9;
 }
-.il-maincontrols-slate.engaged[data-depth-level="3"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="3"] .link-bulky:not(:hover) {
   background-color: rgba(249, 249, 249, 0.15);
 }
-.il-maincontrols-slate.engaged[data-depth-level="4"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="4"] .link-bulky:not(:hover) {
   background-color: rgba(249, 249, 249, 0.1);
 }
@@ -9707,7 +9697,6 @@ footer {
 .il-maincontrols-mainbar .bulky-label,
 .il-maincontrols-metabar .bulky-label {
   white-space: normal;
-  margin-top: 5px;
   display: block;
 }
 .il-maincontrols-mainbar .btn:active,
