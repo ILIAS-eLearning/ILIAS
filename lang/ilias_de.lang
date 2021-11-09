@@ -322,6 +322,7 @@ forum#:#adm_autosave_drafts#:#Entwürfe automatisch speichern
 forum#:#adm_autosave_ival#:#Speicherintervall
 forum#:#adm_autosave_drafts_desc#:#Wenn aktiviert, werden Entwürfe während des Editierens automatisch gespeichert.
 forum#:#frm_task_publishing_draft_title#:#Veröffentlichen des Entwurfs "%s"
+adve#:#adve_grp_frm#:#Foren
 itgr#:#itgr_show_title#:#Titel anzeigen
 itgr#:#itgr_show_title_info#:#Der Titel des Objektblocks wird in der Präsentation für Lerner angezeigt.
 itgr#:#itgr_behaviour#:#Verhalten
