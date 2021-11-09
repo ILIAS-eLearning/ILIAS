@@ -27,7 +27,7 @@ The expression for mocha to run the files which contain the tests are listed in 
 }
 ```
 
-Note that it might be good practise to keep the tests cloze to the source an only symlink the files to the above
+Note that it might be good practise to keep the tests close to the source an only symlink the files to the above
 directories.
 
 
