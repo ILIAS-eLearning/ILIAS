@@ -41,15 +41,15 @@ class ilDidacticTemplateSetting
     {
         global $DIC;
 
-        $this->setId($a_id);
-        $this->read();
-        $this->iconHandler = new ilDidacticTemplateIconHandler($this);
-
         $this->lng      = $DIC->language();
         $this->user     = $DIC->user();
         $this->db       = $DIC->database();
         $this->setting  = $DIC->settings();
         $this->tree     = $DIC->repositoryTree();
+
+        $this->setId($a_id);
+        $this->read();
+        $this->iconHandler = new ilDidacticTemplateIconHandler($this);
     }
 
     /**

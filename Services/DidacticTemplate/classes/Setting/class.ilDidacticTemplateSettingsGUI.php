@@ -7,6 +7,7 @@ use Psr\Http\Message\RequestInterface;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\FileUpload\FileUpload;
 
 /**
  * Settings for a single didactic template
@@ -33,7 +34,7 @@ class ilDidacticTemplateSettingsGUI
     private Factory $refinery;
     private ilGlobalTemplateInterface $tpl;
     private ilTabsGUI $tabs;
-    private \ILIAS\FileUpload\FileUpload $upload;
+    private FileUpload $upload;
 
     private int $ref_id;
 
