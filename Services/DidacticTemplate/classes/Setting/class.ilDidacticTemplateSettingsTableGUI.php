@@ -13,6 +13,8 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 {
     private $ref_id;
 
+    private ilAccessHandler $access;
+
     /**
      * Constructor
      * @param object $a_parent_obj
@@ -20,9 +22,12 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd = "", int $ref_id)
     {
+        global $DIC;
         $this->ref_id = $ref_id;
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setId('tbl_didactic_tpl_settings');
+
+        $this->access = $DIC->access();
     }
 
     /**
@@ -30,15 +35,9 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
      */
     public function init() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-
         $this->addColumn('', 'f', '1px');
-        $lng->loadLanguageModule('search');
-        $lng->loadLanguageModule('meta');
+        $this->lng->loadLanguageModule('search');
+        $this->lng->loadLanguageModule('meta');
         $this->addColumn($this->lng->txt('icon'), '', '5%');
         $this->addColumn($this->lng->txt('search_title_description'), 'title', '30%');
         $this->addColumn($this->lng->txt('didactic_applicable_for'), 'applicable', '20%');
@@ -48,7 +47,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
 
         $this->setTitle($this->lng->txt('didactic_available_templates'));
 
-        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $this->addMultiCommand('activateTemplates', $this->lng->txt('activate'));
             $this->addMultiCommand('deactivateTemplates', $this->lng->txt('deactivate'));
             $this->addMultiCommand('confirmDelete', $this->lng->txt('delete'));
@@ -58,7 +57,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.didactic_template_overview_row.html', 'Services/DidacticTemplate');
         $this->setDefaultOrderField('title');
         $this->setDefaultOrderDirection('asc');
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 
 
@@ -103,12 +102,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
      */
     public function fillRow($set)
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
             $this->tpl->setVariable('VAL_ID', $set['id']);
         }
 
@@ -157,7 +151,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable('VAL_APPLICABLE', $atxt);
 
-        $ilCtrl->setParameterByClass(
+        $this->ctrl->setParameterByClass(
             get_class($this->getParentObject()),
             'tplid',
             $set['id']
@@ -181,7 +175,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         }
         
 
-        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
             
 
             $actions = new ilAdvancedSelectionListGUI();
@@ -191,21 +185,21 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             $actions->addItem(
                 $this->lng->txt('settings'),
                 '',
-                $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editTemplate')
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'editTemplate')
             );
 
             // Copy
             $actions->addItem(
                 $this->lng->txt('copy'),
                 '',
-                $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'copyTemplate')
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'copyTemplate')
             );
 
             // Export
             $actions->addItem(
                 $this->lng->txt('didactic_do_export'),
                 '',
-                $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
             );
             $this->tpl->setVariable('ACTION_DROPDOWN', $actions->getHTML());
         } else {
@@ -214,7 +208,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('action_link');
             $this->tpl->setVariable(
                 'A_LINK',
-                $ilCtrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
+                $this->ctrl->getLinkTargetByClass(get_class($this->getParentObject()), 'exportTemplate')
             );
             $this->tpl->setVariable('A_TEXT', $this->lng->txt('didactic_do_export'));
             $this->tpl->parseCurrentBlock();

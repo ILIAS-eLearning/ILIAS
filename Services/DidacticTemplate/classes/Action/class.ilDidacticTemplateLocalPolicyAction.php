@@ -23,8 +23,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     private int $role_template_type = self::TPL_ACTION_OVERWRITE;
     private int $role_template_id = 0;
 
-    private ilTree $tree;
-
 
     /**
      * Constructor
@@ -35,7 +33,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         global $DIC;
 
         parent::__construct($action_id);
-        $this->tree = $DIC->repositoryTree();
     }
 
     /**
@@ -364,7 +361,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         
         // Add local policy
         if (!$this->review->isRoleAssignedToObject($role['obj_id'], $source->getRefId())) {
-            $GLOBALS['DIC']->rbac()->admin()->assignRoleToFolder(
+            $this->admin->assignRoleToFolder(
                 $role['obj_id'],
                 $source->getRefId(),
                 'n'
