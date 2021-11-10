@@ -6,7 +6,7 @@ use ILIAS\Setup;
 
 class ilLanguageMetricsCollectedObjective extends Setup\Metrics\CollectedObjective
 {
-    protected $il_setup_language;
+    protected \ilSetupLanguage $il_setup_language;
 
     public function __construct(
         Setup\Metrics\Storage $storage,
