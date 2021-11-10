@@ -75,6 +75,8 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
     private $session_prev = -1;
     private $session_next = -1;
 
+    protected $start_time_indication;
+
     /**
      * @var ?\ilDateTime
      */
@@ -820,9 +822,12 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             return false;
         }
 
+        /*
         if (!$a_upload) {
             $this->createMetaData();
         }
+        */
+        $this->createMetaData();
 
 
         $query = "INSERT INTO grp_settings (obj_id,information,grp_type,registration_type,registration_enabled," .
@@ -1452,7 +1457,7 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
 
             foreach ($role_arr as $role_id) {
                 if ($rbacreview->isAssignable($role_id, $this->getRefId()) == true) {
-                    $role_Obj = &$this->ilias->obj_factory->getInstanceByObjId($role_id);
+                    $role_Obj = $this->ilias->obj_factory->getInstanceByObjId($role_id);
 
                     if ($a_translate) {
                         $role_name = ilObjRole::_getTranslation($role_Obj->getTitle());
