@@ -303,7 +303,7 @@ class ilChatroom
     public function getDescription() : string
     {
         if (!$this->object) {
-            $this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
+            $this->object = ilObjectFactory::getInstanceByObjId((int) $this->getSetting('object_id'));
         }
 
         return $this->object->getDescription();
@@ -936,7 +936,7 @@ class ilChatroom
     public function getTitle() : string
     {
         if (!$this->object) {
-            $this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
+            $this->object = ilObjectFactory::getInstanceByObjId((int) $this->getSetting('object_id'));
         }
 
         return $this->object->getTitle();

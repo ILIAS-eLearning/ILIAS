@@ -12,7 +12,7 @@ class ilChatroomExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        $chat = ilObjectFactory::getInstanceByObjId($a_id, false);
+        $chat = ilObjectFactory::getInstanceByObjId((int) $a_id, false);
         if (!($chat instanceof ilObjChatroom)) {
             $GLOBALS['DIC']->logger()->root()->warning(
                 $a_id . ' is not id of chatroom instance. Skipped generation of export XML.'
