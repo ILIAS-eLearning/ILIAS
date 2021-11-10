@@ -33,7 +33,7 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
             $res[] = $this->decorate($element->getHTML());
         }
 
-        if (sizeof($res)) {
+        if (count($res)) {
             return implode($delimiter, $res);
         }
         return '';
@@ -48,7 +48,7 @@ class ilADTGroupPresentationBridge extends ilADTPresentationBridge
             $res[] = $element->getSortable();
         }
 
-        if (sizeof($res)) {
+        if (count($res)) {
             return implode($delimiter, $res);
         }
         return '';
