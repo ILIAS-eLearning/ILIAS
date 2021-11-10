@@ -29,13 +29,13 @@ class ilTree
 
     protected ilDBInterface $db;
 
-
     /**
-    * Logger object
-    * @var		ilLogger
-    * @access	private
-    */
-    public $log;
+     * Use "your" component logger in derived classes 
+     * @access private
+     */
+    protected $logger;
+    
+    
 
     /**
     * points to root node (may be a subtree)
@@ -136,20 +136,18 @@ class ilTree
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->logger = $DIC->logger()->tree();
 
         $this->lang_code = "en";
 
-        // CREATE LOGGER INSTANCE
-        $this->log = ilLoggerFactory::getLogger('tree');
-
         if (!isset($a_tree_id) or (func_num_args() == 0)) {
-            $this->log->error("No tree_id given!");
-            $this->log->logStack(ilLogLevel::DEBUG);
+            $this->logger->error("No tree_id given!");
+            $this->logger->logStack(ilLogLevel::DEBUG);
             throw new InvalidArgumentException("No tree_id given!");
         }
 
         if (func_num_args() > 2) {
-            $this->log->error("Wrong parameter count!");
+            $this->logger->error("Wrong parameter count!");
             throw new InvalidArgumentException("Wrong parameter count!");
         }
 
@@ -364,7 +362,7 @@ class ilTree
         if (!isset($a_table_tree) or !isset($a_table_obj_data)) {
             $message = "Missing parameter! " .
                                 "tree table: " . $a_table_tree . " object data table: " . $a_table_obj_data;
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -388,7 +386,7 @@ class ilTree
     {
         if (!isset($a_column_name)) {
             $message = "No column name given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -407,7 +405,7 @@ class ilTree
     {
         if (!isset($a_column_name)) {
             $message = "No column name given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -426,7 +424,7 @@ class ilTree
     {
         if (!isset($a_column_name)) {
             $message = "No column name given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -515,7 +513,7 @@ class ilTree
         
         if (!isset($a_node_id)) {
             $message = "No node_id given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -617,7 +615,7 @@ class ilTree
 
         if (!isset($a_node_id) or !isset($a_type)) {
             $message = "Missing parameter! node_id:" . $a_node_id . " type:" . $a_type;
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -673,7 +671,7 @@ class ilTree
     {
         if (!isset($a_node_id) or !$a_types) {
             $message = "Missing parameter! node_id:" . $a_node_id . " type:" . $a_types;
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
     
@@ -762,14 +760,14 @@ class ilTree
                     $a_node_id,
                     $a_parent_id
                 );
-                $this->log->logStack(ilLogLevel::ERROR, $message);
+                $this->logger->logStack(ilLogLevel::ERROR, $message);
                 throw new InvalidArgumentException($message);
             }
         }
 
 
         if (!isset($a_node_id) or !isset($a_parent_id)) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException("Missing parameter! " .
                 "node_id: " . $a_node_id . " parent_id: " . $a_parent_id);
         }
@@ -856,7 +854,7 @@ class ilTree
     public function getSubTree($a_node, $a_with_data = true, $a_type = "")
     {
         if (!is_array($a_node)) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException(__METHOD__ . ': wrong datatype for node data given');
         }
 
@@ -919,20 +917,20 @@ class ilTree
      */
     public function deleteTree($a_node)
     {
-        $this->log->debug('Delete tree with node ' . $a_node);
+        $this->logger->debug('Delete tree with node ' . $a_node);
         
         if (!is_array($a_node)) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException(__METHOD__ . ': Wrong datatype for node data!');
         }
         
-        $this->log->debug($this->tree_pk);
+        $this->logger->debug($this->tree_pk);
         
         if ($this->__isMainTree()) {
             // @todo normally this part is not executed, since the subtree is first
             // moved to trash and then deleted.
             if (!$this->__checkDelete($a_node)) {
-                $this->log->logStack(ilLogLevel::ERROR);
+                $this->logger->logStack(ilLogLevel::ERROR);
                 throw new ilInvalidTreeStructureException('Deletion canceled due to invalid tree structure.' . print_r($a_node, true));
             }
         }
@@ -1040,7 +1038,7 @@ class ilTree
     public function getPathId($a_endnode_id, $a_startnode_id = 0)
     {
         if (!$a_endnode_id) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException(__METHOD__ . ': No endnode given!');
         }
         
@@ -1253,7 +1251,7 @@ class ilTree
         if (count($all) != count($uni)) {
             $message = 'Tree is corrupted!';
 
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new ilInvalidTreeStructureException($message);
         }
 
@@ -1278,7 +1276,7 @@ class ilTree
             //echo "tree:".$row[$this->tree_pk].":lft:".$row["lft"].":rgt:".$row["rgt"].":child:".$row["child"].":<br>";
             if (($row["child"] == 0) && $a_no_zero_child) {
                 $message = "Tree contains child with ID 0!";
-                $this->log->error($message);
+                $this->logger->error($message);
                 throw new ilInvalidTreeStructureException($message);
             }
 
@@ -1290,12 +1288,12 @@ class ilTree
                 //echo "num_childs:".$r2->numRows().":<br>";
                 if ($r2->numRows() == 0) {
                     $message = "No Object-to-Reference entry found for ID " . $row["child"] . "!";
-                    $this->log->error($message);
+                    $this->logger->error($message);
                     throw new ilInvalidTreeStructureException($message);
                 }
                 if ($r2->numRows() > 1) {
                     $message = "More Object-to-Reference entries found for ID " . $row["child"] . "!";
-                    $this->log->error($message);
+                    $this->logger->error($message);
                     throw new ilInvalidTreeStructureException($message);
                 }
 
@@ -1306,12 +1304,12 @@ class ilTree
                 $r3 = $this->db->queryF($query, array('integer'), array($obj_ref[$this->obj_pk]));
                 if ($r3->numRows() == 0) {
                     $message = " No child found for ID " . $obj_ref[$this->obj_pk] . "!";
-                    $this->log->error($message);
+                    $this->logger->error($message);
                     throw new ilInvalidTreeStructureException($message);
                 }
                 if ($r3->numRows() > 1) {
                     $message = "More childs found for ID " . $obj_ref[$this->obj_pk] . "!";
-                    $this->log->error($message);
+                    $this->logger->error($message);
                     throw new ilInvalidTreeStructureException($message);
                 }
             } else {
@@ -1321,12 +1319,12 @@ class ilTree
                 //echo "num_childs:".$r2->numRows().":<br>";
                 if ($r2->numRows() == 0) {
                     $message = "No child found for ID " . $row["child"] . "!";
-                    $this->log->error($message);
+                    $this->logger->error($message);
                     throw new ilInvalidTreeStructureException($message);
                 }
                 if ($r2->numRows() > 1) {
                     $message = "More childs found for ID " . $row["child"] . "!";
-                    $this->log->error($message);
+                    $this->logger->error($message);
                     throw new ilInvalidTreeStructureException($message);
                 }
             }
@@ -1393,7 +1391,7 @@ class ilTree
         global $DIC;
 
         if (!$a_node_id) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException('Missing or empty parameter $a_node_id: ' . $a_node_id);
         }
         
@@ -1423,14 +1421,14 @@ class ilTree
         global $DIC;
 
         if (!isset($a_node_id)) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException("No node_id given!");
         }
         if ($this->__isMainTree()) {
             if ($a_node_id < 1) {
                 $message = 'No valid parameter given! $a_node_id: %s' . $a_node_id;
 
-                $this->log->error($message);
+                $this->logger->error($message);
                 throw new InvalidArgumentException($message);
             }
         }
@@ -1681,13 +1679,13 @@ class ilTree
                 $a_tree_id,
                 $a_node_id
             );
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
         if (!isset($a_tree_id)) {
             $message = "No tree_id given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -1724,7 +1722,7 @@ class ilTree
         global $DIC;
 
         if (!isset($a_type) or (!is_string($a_type))) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException('Type not given or wrong datatype');
         }
 
@@ -1756,11 +1754,11 @@ class ilTree
 
         // OPERATION NOT ALLOWED ON MAIN TREE
         if ($this->__isMainTree()) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException('Operation not allowed on main tree');
         }
         if (!$a_tree_id) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException('Missing parameter tree id');
         }
 
@@ -1788,7 +1786,7 @@ class ilTree
         }
 
         if (!$a_node_id) {
-            $this->log->logStack(ilLogLevel::ERROR);
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException('No valid parameter given! $a_node_id: ' . $a_node_id);
         }
 
@@ -1903,7 +1901,7 @@ class ilTree
 
         if (!isset($a_parent_id)) {
             $message = "No node_id given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -1958,7 +1956,7 @@ class ilTree
 
         if (!isset($a_node_id)) {
             $message = "No node_id given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -1996,7 +1994,7 @@ class ilTree
 
         if (!isset($a_node_id)) {
             $message = "No node_id given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -2021,7 +2019,7 @@ class ilTree
     {
         if (!isset($a_node)) {
             $message = "No node_id given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
         
@@ -2119,7 +2117,7 @@ class ilTree
     {
         if (!isset($a_node_id)) {
             $message = "No node_id given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -2176,7 +2174,7 @@ class ilTree
     {
         if (!isset($a_node_id)) {
             $message = "No node_id given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 
@@ -2439,7 +2437,7 @@ class ilTree
     public function __checkDelete($a_node)
     {
         $query = $this->getTreeImplementation()->getSubTreeQuery($a_node, array(), false);
-        $this->log->debug($query);
+        $this->logger->debug($query);
         $res = $this->db->query($query);
         
         $counter = (int) $lft_childs = array();
@@ -2452,7 +2450,7 @@ class ilTree
         if ($counter != count($lft_childs)) {
             $message = 'Duplicate entries for "child" in maintree! $a_node_id: ' . $a_node['child'];
 
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new ilInvalidTreeStructureException($message);
         }
 
@@ -2492,7 +2490,7 @@ class ilTree
         if ($counter > 1) {
             $message = 'Multiple entries in maintree! $a_node_id: ' . $a_node_id;
 
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new ilInvalidTreeStructureException($message);
         }
 
@@ -2521,12 +2519,12 @@ class ilTree
         ksort($lft_childs);
         ksort($parent_childs);
 
-        $this->log->debug('left childs ' . print_r($lft_childs, true));
-        $this->log->debug('parent childs ' . print_r($parent_childs, true));
+        $this->logger->debug('left childs ' . print_r($lft_childs, true));
+        $this->logger->debug('parent childs ' . print_r($parent_childs, true));
 
         if (count($lft_childs) != count($parent_childs)) {
             $message = '(COUNT) Tree is corrupted! Left/Right subtree does not comply with parent relation';
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new ilInvalidTreeStructureException($message);
         }
         
@@ -2534,12 +2532,12 @@ class ilTree
         foreach ($lft_childs as $key => $value) {
             if ($parent_childs[$key] != $value) {
                 $message = '(COMPARE) Tree is corrupted! Left/Right subtree does not comply with parent relation';
-                $this->log->error($message);
+                $this->logger->error($message);
                 throw new ilInvalidTreeStructureException($message);
             }
             if ($key == ROOT_FOLDER_ID) {
                 $message = '(ROOT_FOLDER) Tree is corrupted! Tried to delete root folder';
-                $this->log->error($message);
+                $this->logger->error($message);
                 throw new ilInvalidTreeStructureException($message);
             }
         }
