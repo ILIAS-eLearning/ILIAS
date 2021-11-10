@@ -1,90 +1,52 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- *
- *
- * @author killing@leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMNavigationRendererGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected string $requested_frame;
+    protected int $requested_back_pg;
+    protected int $requested_obj_id;
+    protected ilLMPresentationLinker $linker;
+    protected bool $deactivated_page;
+    protected bool $chapter_has_no_active_page;
+    protected ilObjUser $user;
+    protected ?int $current_page;
+    protected ilObjLearningModule $lm;
+    protected ilLanguage $lng;
+    protected bool $offline;
+    protected ilLMTracker $tracker;
+    protected ilLMTree $lm_tree;
+    protected ilLMPresentationGUI $parent_gui;
+    protected ilSetting $lm_set;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected string $lang;
+    protected ilLMNavigationStatus $navigation_status;
 
-    /**
-     * @var int
-     */
-    protected $current_page;
-
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var bool
-     */
-    protected $offline;
-
-    /**
-     * @var ilLMTracker
-     */
-    protected $tracker;
-
-    /**
-     * @var ilLMTree
-     */
-    protected $lm_tree;
-
-    /**
-     * @var ilLMPresentationGUI
-     */
-    protected $parent_gui;
-
-    /**
-     * @var ilSetting
-     */
-    protected $lm_set;
-
-    /**
-     * @var ilGlobalPageTemplate
-     */
-    protected $main_tpl;
-
-    /**
-     * @var string
-     */
-    protected $lang;
-
-    /**
-     * @var ilLMNavigationStatus
-     */
-    protected $navigation_status;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilLMPresentationService $service,
         ilLMPresentationGUI $parent_gui,
         ilLanguage $lng,
         ilObjUser $user,
-        ilGlobalPageTemplate $main_tpl,
+        ilGlobalTemplateInterface $main_tpl,
         int $requested_obj_id,
         string $requested_back_pg,
         string $requested_frame
     ) {
-        global $DIC;
-
         $this->user = $user;
         $this->lm_tree = $service->getLMTree();
         $this->current_page = $service->getNavigationStatus()->getCurrentPage();
@@ -106,36 +68,18 @@ class ilLMNavigationRendererGUI
         $this->lang = $service->getPresentationStatus()->getLang();
     }
 
-    /**
-     * Render top
-     *
-     * @return string
-     */
-    public function renderTop()
+    public function renderTop() : string
     {
         return $this->render();
     }
 
-    /**
-     * Render bottom
-     *
-     * @return string
-     */
-    public function renderBottom()
+    public function renderBottom() : string
     {
         return $this->render(false);
     }
 
-
-    /**
-     * Render
-     *
-     * @return string
-     */
-    protected function render($top = true)
+    protected function render(bool $top = true) : string
     {
-        $ilUser = $this->user;
-
         $page_id = $this->current_page;
 
         $tpl = new ilTemplate("tpl.lm_navigation.html", true, true, "Modules/LearningModule/Presentation");

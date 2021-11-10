@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Checks current navigation request status
@@ -8,76 +19,22 @@
  * - determines if all pages of a chapter are deactivated
  * - determines if the current page is deactivated
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMNavigationStatus
 {
+    protected ?int $current_page_id = null;
+    protected bool $chapter_has_no_active_page = false;
+    protected bool $deactivated_page = false;
+    protected ilObjLearningModule $lm;
+    protected ilLMTree $lm_tree;
+    protected ilObjUser $user;
+    protected ilSetting $lm_set;
+    protected int $requested_back_page;
+    protected string $cmd;
+    protected int $focus_id;
+    protected int $requested_obj_id;
 
-    /**
-     * @var int?
-     */
-    protected $current_page_id = null;
-
-    /**
-     * @var bool
-     */
-    protected $chapter_has_no_active_page = false;
-
-    /**
-     * @var bool
-     */
-    protected $deactivated_page = false;
-
-    /**
-     * @var ilLMTree
-     */
-    protected $lm;
-
-    /**
-     * @var ilLMTree
-     */
-    protected $lm_tree;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilSetting
-     */
-    protected $lm_set;
-
-    /**
-     * @var int
-     */
-    protected $requested_back_page;
-
-    /**
-     * @var string
-     */
-    protected $cmd;
-
-    /**
-     * @var int
-     */
-    protected $focus_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_obj_id;
-
-    /**
-     * Constructor
-     * @param ilObjUser           $user
-     * @param                     $request_obj_id
-     * @param ilLMTree            $lm_tree
-     * @param ilObjLearningModule $lm
-     * @param ilSetting           $lm_set
-     * @param string              $cmd
-     * @param int                 $focus_id
-     */
     public function __construct(
         ilObjUser $user,
         int $request_obj_id,
@@ -89,7 +46,7 @@ class ilLMNavigationStatus
         int $focus_id
     ) {
         $this->user = $user;
-        $this->requested_obj_id = (int) $request_obj_id;
+        $this->requested_obj_id = $request_obj_id;
         $this->lm_tree = $lm_tree;
         $this->lm = $lm;
         $this->lm_set = $lm_set;
@@ -101,40 +58,24 @@ class ilLMNavigationStatus
     }
 
     /**
-     * Has current chapter no avtive page?
-     *
-     * @return bool
+     * Has current chapter no active page?
      */
-    public function isChapterWithoutActivePage()
+    public function isChapterWithoutActivePage() : bool
     {
         return $this->chapter_has_no_active_page;
     }
 
-    /**
-     * Has current chapter no avtive page?
-     *
-     * @return bool
-     */
-    public function isDeactivatedPage()
+    public function isDeactivatedPage() : bool
     {
         return $this->deactivated_page;
     }
 
-    /**
-     * Has current chapter no avtive page?
-     *
-     * @return int
-     */
-    public function getCurrentPage()
+    public function getCurrentPage() : bool
     {
         return $this->current_page_id;
     }
 
-
-    /**
-     * Determine status
-     */
-    protected function determineStatus()
+    protected function determineStatus() : void
     {
         $user = $this->user;
 
@@ -146,7 +87,7 @@ class ilLMNavigationStatus
             $obj_id = $this->lm_tree->getRootId();
 
             if ($this->cmd == "resume") {
-                if ($user->getId() != ANONYMOUS_USER_ID && ((int) $this->focus_id == 0)) {
+                if ($user->getId() != ANONYMOUS_USER_ID && ($this->focus_id == 0)) {
                     $last_accessed_page = ilObjLearningModuleAccess::_getLastAccessedPage($this->lm->getRefId(), $user->getId());
                     // if last accessed page was final page do nothing, start over
                     if ($last_accessed_page &&
@@ -172,7 +113,7 @@ class ilLMNavigationStatus
         // obj_id not in tree -> it is a unassigned page -> return page id
         if (!$this->lm_tree->isInTree($obj_id)) {
             $this->current_page_id = $obj_id;
-            return null;
+            return;
         }
 
         $curr_node = $this->lm_tree->getNodeData($obj_id);
@@ -203,7 +144,7 @@ class ilLMNavigationStatus
             if ($succ_node["type"] != "pg") {
                 $this->chapter_has_no_active_page = true;
                 $this->current_page_id = 0;
-                return null;
+                return;
             }
 
             // if public access get first public page in chapter
@@ -230,10 +171,6 @@ class ilLMNavigationStatus
         $this->current_page_id = $page_id;
     }
 
-    /**
-     * Get back link page id
-     * @return int
-     */
     public function getBackPageId() : int
     {
         $page_id = $this->current_page_id;
@@ -245,19 +182,14 @@ class ilLMNavigationStatus
         $back_pg = $this->requested_back_page;
 
         // process navigation for free page
-        if (!$this->lm_tree->isInTree($page_id)) {
-            return $back_pg;
-        }
         return $back_pg;
     }
 
-    /**
-     * @return int
-     */
     public function getSuccessorPageId() : int
     {
         $page_id = $this->current_page_id;
         $user_id = $this->user->getId();
+        $succ_node = null;
 
         // determine successor page_id
         $found = false;
@@ -312,14 +244,11 @@ class ilLMNavigationStatus
         return 0;
     }
 
-    /**
-     * Get predecessor page id
-     * @return int
-     */
     public function getPredecessorPageId() : int
     {
         $page_id = $this->current_page_id;
         $user_id = $this->user->getId();
+        $pre_node = null;
 
         // determine predecessor page id
         $found = false;

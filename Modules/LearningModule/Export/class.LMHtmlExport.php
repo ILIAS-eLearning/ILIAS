@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\LearningModule\Export;
 
@@ -9,84 +20,36 @@ use ILIAS\COPage\PageLinker;
 /**
  * LM HTML Export
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class LMHtmlExport
 {
-    /**
-     * @var \ilTemplate
-     */
-    protected $main_tpl;
+    protected \ILIAS\Services\Export\HTML\Util $export_util;
+    protected \ilLogger $log;
+    protected string $target_dir;
+    protected string $sub_dir;
+    protected string $export_dir;
+    protected \ilObjLearningModule $lm;
+    protected \ilGlobalTemplateInterface $main_tpl;
+    protected \ilObjUser $user;
+    protected \ilLocatorGUI $locator;
+    protected \ilCOPageHTMLExport $co_page_html_export;
+    protected string $export_format;
+    protected \ilLMPresentationGUI $lm_gui;
+    protected \ilObjectTranslation $obj_transl;
+    protected string $lang;
+    protected \ilSetting $lm_settings;
+    protected array $offline_files = [];
+    protected string $initial_user_language;
+    protected string $initial_current_user_language;
+    protected \ILIAS\GlobalScreen\Services $global_screen;
 
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ilLocatorGUI
-     */
-    protected $locator;
-
-    /**
-     * @var \ilCOPageHTMLExport
-     */
-    protected $co_page_html_export;
-
-    /**
-     * @var string
-     */
-    protected $export_format;
-
-    /**
-     * @var \ilLMPresentationGUI
-     */
-    protected $lm_gui;
-
-    /**
-     * @var \ilObjectTranslation
-     */
-    protected $obj_transl;
-
-    /**
-     * @var string
-     */
-    protected $lang;
-
-    /**
-     * @var \ilSetting
-     */
-    protected $lm_settings;
-
-    /**
-     * @var array
-     */
-    protected $offline_files = [];
-
-    /**
-     * @var string
-     */
-    protected $initial_user_language;
-
-    /**
-     * @var string
-     */
-    protected $initial_current_user_language;
-
-    /**
-     * @var \ILIAS\GlobalScreen\Services
-     */
-    protected $global_screen;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         \ilObjLearningModule $lm,
-        $export_dir,
-        $sub_dir,
-        $export_format = "html",
-        $lang = ""
+        string $export_dir,
+        string $sub_dir,
+        string $export_format = "html",
+        string $lang = ""
     ) {
         global $DIC;
 
@@ -121,12 +84,6 @@ class LMHtmlExport
         $this->setAdditionalContextData(\ilLMEditGSToolProvider::SHOW_TREE, false);
     }
 
-    /**
-     * Get linker
-     *
-     * @param
-     * @return
-     */
     protected function getLinker() : PageLinker
     {
         return new \ilLMPresentationLinker(
@@ -143,14 +100,10 @@ class LMHtmlExport
         );
     }
 
-
     /**
-     * Set additional context data
-     *
-     * @param $key
-     * @param $data
+     * @param mixed $data
      */
-    protected function setAdditionalContextData($key, $data)
+    protected function setAdditionalContextData(string $key, $data) : void
     {
         $additional_data = $this->global_screen->tool()->context()->current()->getAdditionalData();
         if ($additional_data->exists($key)) {
@@ -160,11 +113,7 @@ class LMHtmlExport
         }
     }
 
-
-    /**
-     * Reset user language
-     */
-    protected function resetUserLanguage()
+    protected function resetUserLanguage() : void
     {
         $this->user->setLanguage($this->initial_user_language);
         $this->user->setCurrentLanguage($this->initial_current_user_language);
@@ -174,7 +123,7 @@ class LMHtmlExport
     /**
      * Initialize directories
      */
-    protected function initDirectories()
+    protected function initDirectories() : void
     {
         // initialize temporary target directory
         \ilUtil::delDir($this->target_dir);
@@ -185,32 +134,17 @@ class LMHtmlExport
         }
     }
 
-
-    /**
-     * Get language Iterator
-     *
-     * @param
-     * @return
-     */
     protected function getLanguageIterator() : \Iterator
     {
         return new class($this->lang, $this->obj_transl) implements \Iterator {
-            /**
-             * @var int
-             */
-            private $position = 0;
+            private int $position = 0;
+            /** @var string[] */
+            private array $langs = [];
 
-            /**
-             * @var string[]
-             */
-            private $langs = [];
-
-            /**
-             * @param string $lang
-             * @param \ilObjectTranslation $obj_transl
-             */
-            public function __construct(string $lang, \ilObjectTranslation $obj_transl)
-            {
+            public function __construct(
+                string $lang,
+                \ilObjectTranslation $obj_transl
+            ) {
                 $this->position = 0;
                 if ($lang != "all") {
                     $this->langs = [$lang];
@@ -221,42 +155,38 @@ class LMHtmlExport
                 }
             }
 
-            public function rewind()
+            public function rewind() : void
             {
                 $this->position = 0;
             }
 
-            public function current()
+            public function current() : string
             {
                 return $this->langs[$this->position];
             }
 
-            public function key()
+            public function key() : int
             {
                 return $this->position;
             }
 
-            public function next()
+            public function next() : void
             {
                 ++$this->position;
             }
 
-            public function valid()
+            public function valid() : bool
             {
                 return isset($this->langs[$this->position]);
             }
         };
     }
 
-    /**
-     * Init language
-     *
-     * @param \ilObjUser $user
-     * @param \ilLMPresentationGUI $lm_gui
-     * @param string $lang
-     */
-    protected function initLanguage(\ilObjUser $user, \ilLMPresentationGUI $lm_gui, string $lang)
-    {
+    protected function initLanguage(
+        \ilObjUser $user,
+        \ilLMPresentationGUI $lm_gui,
+        string $lang
+    ) : void {
         $user_lang = $user->getLanguage();
 
         if ($lang != "") {
@@ -276,10 +206,7 @@ class LMHtmlExport
         }
     }
 
-    /**
-     * Init global screen
-     */
-    protected function initGlobalScreen()
+    protected function initGlobalScreen() : void
     {
         // set global
         $this->global_screen->tool()->context()->current()->addAdditionalData(
@@ -290,10 +217,9 @@ class LMHtmlExport
 
 
     /**
-     * export html package
-     * @param bool $zip
+     * @param bool $zip perform a zip at the end
      */
-    public function exportHTML($zip = true)
+    public function exportHTML(bool $zip = true) : void
     {
         $this->initGlobalScreen();
         $this->initDirectories();
@@ -309,7 +235,7 @@ class LMHtmlExport
             $this->exportHTMLPages();
         }
 
-        // export flv/mp3 player
+        // keep this for some time for reference...
         /*
         $services_dir = $a_target_dir."/Services";
         ilUtil::makeDir($services_dir);
@@ -358,9 +284,10 @@ class LMHtmlExport
     }
     
     /**
-     * Zip everything
+     * Zip everything, zip file will be in
+     * $this->export_dir, $this->target_dir (sub-dir in export dir) will be deleted
      */
-    protected function zipPackage()
+    protected function zipPackage() : void
     {
         if ($this->lang == "") {
             $zip_target_dir = $this->lm->getExportDirectory("html");
@@ -381,7 +308,7 @@ class LMHtmlExport
     /**
      * Add supplying export files
      */
-    protected function addSupplyingExportFiles()
+    protected function addSupplyingExportFiles() : void
     {
         foreach ($this->getSupplyingExportFiles() as $f) {
             if ($f["type"] == "js") {
@@ -393,14 +320,10 @@ class LMHtmlExport
         }
     }
 
-
     /**
-     * Get supplying export files
-     *
-     * @param string $a_target_dir
-     * @return array
+     * @todo modularize!
      */
-    protected function getSupplyingExportFiles($a_target_dir = ".")
+    protected function getSupplyingExportFiles(string $a_target_dir = ".") : array
     {
         $scripts = array(
             array("source" => \ilYuiUtil::getLocalPath('yahoo/yahoo-min.js'),
@@ -496,7 +419,7 @@ class LMHtmlExport
     /**
      * export all pages of learning module to html file
      */
-    public function exportHTMLPages()
+    public function exportHTMLPages() : void
     {
         $lm = $this->lm;
         $lm_gui = $this->lm_gui;
@@ -544,11 +467,6 @@ class LMHtmlExport
         }
     }
 
-
-    /**
-     * Get initialised template
-     * @return \ilGlobalPageTemplate
-     */
     protected function getInitialisedTemplate() : \ilGlobalPageTemplate
     {
         global $DIC;
@@ -566,12 +484,12 @@ class LMHtmlExport
 
 
     /**
-     * Init page
-     * @param int $lm_page_id
-     * @param string $frame
+     * Init global screen and learning module presentation gui for page
      */
-    protected function initScreen(int $lm_page_id, string $frame)
-    {
+    protected function initScreen(
+        int $lm_page_id,
+        string $frame
+    ) : void {
         $this->global_screen->layout()->meta()->reset();
 
         // load style sheet depending on user's settings
@@ -600,17 +518,15 @@ class LMHtmlExport
 
 
     /**
-     * export page html
+     * export single page to file
      */
     public function exportPageHTML(
-        $lm_page_id,
-        $is_first = false,
-        $lang = "-",
-        $frame = "",
-        $exp_id_map = []
-    ) {
-        global $DIC;
-
+        int $lm_page_id,
+        bool $is_first = false,
+        string $lang = "-",
+        string $frame = "",
+        array $exp_id_map = []
+    ) : void {
         $target_dir = $this->target_dir;
 
         $lang_suffix = "";
@@ -637,14 +553,14 @@ class LMHtmlExport
         }
 
         // return if file is already existing
-        if (@is_file($file)) {
+        if (is_file($file)) {
             return;
         }
 
         $content = $this->lm_gui->layout("main.xml", false);
 
         // write xml data into the file
-        $fp = @fopen($file, "w+");
+        $fp = fopen($file, "w+");
         fwrite($fp, $content);
 
         // close file

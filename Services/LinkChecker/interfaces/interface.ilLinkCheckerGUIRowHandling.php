@@ -11,11 +11,9 @@
 interface ilLinkCheckerGUIRowHandling
 {
     /**
-     *
      * @param	array Unformatted array
      * @return	array Formatted array
      * @access	public
-     *
      */
-    public function formatInvalidLinkArray(array $row);
+    public function formatInvalidLinkArray(array $row) : array;
 }

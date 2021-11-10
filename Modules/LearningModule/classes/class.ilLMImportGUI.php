@@ -1,37 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Import related features for learning modules
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMImportGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilObjLearningModule $lm;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    protected $lm;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_lm)
+    public function __construct(ilObjLearningModule $a_lm)
     {
         global $DIC;
 
@@ -41,10 +34,7 @@ class ilLMImportGUI
         $this->lm = $a_lm;
     }
     
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -55,13 +45,7 @@ class ilLMImportGUI
         }
     }
     
-    /**
-     * Translation import
-     *
-     * @param
-     * @return
-     */
-    public function showTranslationImportForm()
+    public function showTranslationImportForm() : void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
@@ -71,13 +55,12 @@ class ilLMImportGUI
         $tpl->setContent($form->getHTML());
     }
 
-    /**
-     * Init translation input form.
-     */
-    public function initTranslationImportForm()
+    public function initTranslationImportForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+
+        $options = [];
 
         $lng->loadLanguageModule("meta");
 
@@ -107,10 +90,7 @@ class ilLMImportGUI
         return $form;
     }
 
-    /**
-     * Import translation
-     */
-    public function importTranslation()
+    public function importTranslation() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

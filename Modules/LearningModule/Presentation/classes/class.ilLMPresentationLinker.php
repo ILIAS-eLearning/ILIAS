@@ -1,74 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Learning module presentation linker
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 {
-    const TARGET_GUI = "illmpresentationgui";
+    public const TARGET_GUI = "illmpresentationgui";
+    protected int $requested_ref_id;
 
-    /**
-     * @var bool
-     */
-    protected $offline;
+    protected bool $offline;
+    protected bool $embed_mode;
+    protected ilCtrl $ctrl;
+    protected ilLMTree $lm_tree;
+    protected ilObjLearningModule $lm;
+    protected int $current_page;
+    protected string $back_pg;
+    protected string $from_page;
+    protected bool $export_all_languages;
+    protected string $lang;
+    protected string $export_format;
 
-    /**
-     * @var bool
-     */
-    protected $embed_mode;
-
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLMTree
-     */
-    protected $lm_tree;
-
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * @var int
-     */
-    protected $current_page;
-
-    /**
-     * @var string
-     */
-    protected $back_pg;
-
-    /**
-     * @var string
-     */
-    protected $from_page;
-
-    /**
-     * @var bool
-     */
-    protected $export_all_languages;
-
-    /**
-     * @var string
-     */
-    protected $lang;
-
-    /**
-     * @var string
-     */
-    protected $export_format;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilObjLearningModule $lm,
         ilLMTree $lm_tree,
@@ -81,7 +46,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         string $export_format,
         bool $export_all_languages,
         ilCtrl $ctrl = null,
-        $embed_mode = false
+        bool $embed_mode = false
     ) {
         global $DIC;
 
@@ -102,11 +67,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         $this->embed_mode = $embed_mode;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function setOffline(bool $offline = true) : void
-    {
+    public function setOffline(
+        bool $offline = true
+    ) : void {
         $this->offline = $offline;
     }
 
@@ -114,17 +77,19 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
      * handles links for learning module presentation
      */
     public function getLink(
-        $a_cmd = "",
-        $a_obj_id = "",
-        $a_frame = "",
-        $a_type = "",
-        $a_back_link = "append",
-        $a_anchor = "",
-        $a_srcstring = ""
-    ) {
+        string $a_cmd = "",
+        int $a_obj_id = 0,
+        string $a_frame = "",
+        string $a_type = "",
+        string $a_back_link = "append",
+        string $a_anchor = "",
+        string $a_srcstring = ""
+    ) : string {
         if ($a_cmd == "") {
             $a_cmd = "layout";
         }
+
+        $link = "";
 
         // handling of free pages
         $cur_page_id = $this->current_page;
@@ -198,7 +163,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     break;
 
                 default:
-
+                    $link = "";
                     if ($back_pg != "") {
                         $this->ctrl->setParameterByClass(self::TARGET_GUI, "back_pg", $back_pg);
                     }
@@ -243,8 +208,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
             }
 
             switch ($a_cmd) {
-                case "downloadFile":
-                    break;
 
                 case "fullscreen":
                     $link = "fullscreen.html";		// id is handled by xslt
@@ -285,6 +248,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                     $link = "media_" . $a_obj_id . ".html";
                     break;
 
+                case "downloadFile":
                 default:
                     break;
             }
@@ -318,7 +282,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     /**
      * Get XMl for Link Targets
      */
-    public function getLinkTargetsXML()
+    public function getLinkTargetsXML() : string
     {
         $link_info = "<LinkTargets>";
         foreach ($this->getLayoutLinkTargets() as $k => $t) {
@@ -331,8 +295,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
     /**
      * get xml for links
      */
-    public function getLinkXML(array $int_links) : string
-    {
+    public function getLinkXML(
+        array $int_links
+    ) : string {
         $ilCtrl = $this->ctrl;
 
         $a_layoutframes = $this->getLayoutLinkTargets();
@@ -346,6 +311,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         }
         $link_info = "<IntLinkInfos>";
         foreach ($int_links as $int_link) {
+            $back = "";
+            $href = "";
+            $ltarget = "";
             $target = $int_link["Target"];
             if (substr($target, 0, 4) == "il__") {
                 $target_arr = explode("_", $target);
@@ -549,9 +517,6 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         return $link_info;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getFullscreenLink() : string
     {
         return $this->getLink("fullscreen");

@@ -1,28 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Main service init and factory
- *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMPresentationService
 {
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
+    protected ilLMPresentationLinker $linker;
+    protected ilLMNavigationStatus $navigation_status;
+    protected ilLMPresentationStatus $presentation_status;
+    protected ilLMTree $lm_tree;
+    protected ilObjLearningModuleGUI $lm_gui;
+    protected ilSetting $lm_set;
+    protected int $ref_id;
+    protected ilObjUser $user;
+    protected ilLMPresentationRequest $request;
+    protected ilObjLearningModule $lm;
+    protected ilLMTracker $tracker;
 
-    /**
-     * @var ilLMTracker
-     */
-    protected $tracker;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilObjUser $user,
         array $query_params,
@@ -43,7 +51,9 @@ class ilLMPresentationService
         $this->ref_id = $this->request->getRequestedRefId();
         $this->lm_set = new ilSetting("lm");
         $this->lm_gui = new ilObjLearningModuleGUI([], $this->ref_id, true, false);
-        $this->lm = $this->lm_gui->object;
+        /** @var ilObjLearningModule $lm */
+        $lm = $this->lm_gui->object;
+        $this->lm = $lm;
         $this->lm_tree = ilLMTree::getInstance($this->lm->getId());
         $this->presentation_status = new ilLMPresentationStatus(
             $user,
@@ -52,7 +62,7 @@ class ilLMPresentationService
             $this->request->getRequestedTranslation(),
             $this->request->getRequestedFocusId(),
             $this->request->getRequestedFocusReturn(),
-            (string) $this->request->getRequestedSearchString(),
+            $this->request->getRequestedSearchString(),
             $offline,
             $export_all_languages,
             $export_format
@@ -60,13 +70,13 @@ class ilLMPresentationService
 
         $this->navigation_status = new ilLMNavigationStatus(
             $user,
-            (int) $this->request->getRequestedObjId(),
+            $this->request->getRequestedObjId(),
             $this->lm_tree,
             $this->lm,
             $this->lm_set,
             $this->request->getRequestedBackPage(),
             $this->request->getRequestedCmd(),
-            (int) $this->request->getRequestedFocusId()
+            $this->request->getRequestedFocusId()
         );
 
         $this->tracker = ilLMTracker::getInstance($this->lm->getRefId());
@@ -90,80 +100,48 @@ class ilLMPresentationService
 
     /**
      * Get learning module settings
-     *
-     * @return ilSetting
      */
     public function getSettings() : ilSetting
     {
         return $this->lm_set;
     }
 
-    /**
-     * @return ilObjLearningModuleGUI
-     */
     public function getLearningModuleGUI() : ilObjLearningModuleGUI
     {
         return $this->lm_gui;
     }
 
-    /**
-     * @return ilObjLearningModule
-     */
     public function getLearningModule() : ilObjLearningModule
     {
         return $this->lm;
     }
 
-    /**
-     * @return ilLMTree
-     */
     public function getLMTree() : ilLMTree
     {
         return $this->lm_tree;
     }
 
-    /**
-     * @return ilLMPresentationStatus
-     */
     public function getPresentationStatus() : ilLMPresentationStatus
     {
         return $this->presentation_status;
     }
 
-    /**
-     * @return ilLMNavigationStatus
-     */
     public function getNavigationStatus() : ilLMNavigationStatus
     {
         return $this->navigation_status;
     }
 
-    /**
-     * Get tracker
-     *
-     * @return ilLMTracker
-     */
-    public function getTracker()
+    public function getTracker() : ilLMTracker
     {
         return $this->tracker;
     }
 
-    /**
-     * Get request
-     *
-     * @return ilLMPresentationRequest
-     */
-    public function getRequest()
+    public function getRequest() : ilLMPresentationRequest
     {
         return $this->request;
     }
 
-    /**
-     * Get linker
-     *
-     * @return ilLMPresentationLinker
-     */
-    public function getLinker()
+    public function getLinker() : ilLMPresentationLinker
     {
         return $this->linker;
     }

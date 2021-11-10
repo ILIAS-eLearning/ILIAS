@@ -102,7 +102,7 @@ class ilPageObjectGUI
     public string $pl_start = "{{{{{";
     public string $pl_end = "}}}}}";
     protected \ILIAS\DI\UIServices $ui;
-    protected ilPageLinker $page_linker;
+    protected \ILIAS\COPage\PageLinker $page_linker;
     protected string $abstract_pcid = "";   // pcid of single paragraph
     protected ilToolbarGUI $toolbar;
     protected string $open_place_holder = "";
@@ -375,7 +375,7 @@ class ilPageObjectGUI
         return $this->link_frame;
     }
 
-    public function setPageLinker(ilPageLinker $page_linker) : void
+    public function setPageLinker(\ILIAS\COPage\PageLinker $page_linker) : void
     {
         $this->page_linker = $page_linker;
     }

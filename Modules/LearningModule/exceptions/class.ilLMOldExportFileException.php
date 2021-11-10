@@ -14,27 +14,8 @@
  */
 
 /**
- * Edit request
- *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilLMEditRequest
+class ilLMOldExportFileException extends ilLMException
 {
-    protected int $requested_ref_id;
-
-    /**
-     * Constructor
-     */
-    public function __construct(array $query_params)
-    {
-        $this->requested_ref_id = (int) $query_params["ref_id"];
-    }
-
-    /**
-     * @return int
-     */
-    public function getRequestedRefId() : int
-    {
-        return $this->requested_ref_id;
-    }
 }

@@ -1,93 +1,46 @@
 <?php
 
-/* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * GUI class for learning module editor
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilLMEditorGUI: ilObjLearningModuleGUI
- *
- * @ingroup ModulesIliasLearningModule
  */
 class ilLMEditorGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $objDefinition;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm_obj;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var int
-     */
-    protected $obj_id;
-
+    protected \ILIAS\GlobalScreen\ScreenContext\ContextServices $tool_context;
+    protected ilCtrl $ctrl;
+    protected ilRbacSystem $rbacsystem;
+    protected ilNavigationHistory $nav_history;
+    protected ilHelpGUI $help;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilObjectDefinition $objDefinition;
+    protected int $ref_id;
+    protected ilObjLearningModule $lm_obj;
+    protected ilLMTree $tree;
+    protected int $obj_id;
     protected int $requested_active_node = 0;
     protected bool $to_page = false;
 
-    /**
-    * Constructor
-    * @access	public
-    */
     public function __construct()
     {
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
         $this->nav_history = $DIC["ilNavigationHistory"];
-        $this->error = $DIC["ilErr"];
         $this->help = $DIC["ilHelp"];
         $tpl = $DIC["tpl"];
         $lng = $DIC->language();
@@ -95,8 +48,7 @@ class ilLMEditorGUI
         $ilCtrl = $DIC->ctrl();
         $rbacsystem = $DIC->rbac()->system();
         $ilNavigationHistory = $DIC["ilNavigationHistory"];
-        $ilErr = $DIC["ilErr"];
-        
+
         $lng->loadLanguageModule("content");
         $lng->loadLanguageModule("lm");
 
@@ -105,7 +57,7 @@ class ilLMEditorGUI
 
         // check write permission
         if (!$rbacsystem->checkAccess("write", $this->ref_id)) {
-            $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->MESSAGE);
+            throw new ilPermissionException($lng->txt("permission_denied"));
         }
 
         $this->ctrl = $ilCtrl;
@@ -118,11 +70,10 @@ class ilLMEditorGUI
         $this->lng = $lng;
         $this->objDefinition = $objDefinition;
 
-        $this->lm_obj = ilObjectFactory::getInstanceByRefId($this->ref_id);
-        $this->tree = new ilTree($this->lm_obj->getId());
-        $this->tree->setTableNames('lm_tree', 'lm_data');
-        $this->tree->setTreeTablePK("lm_id");
-
+        /** @var ilObjLearningModule $lm_obj */
+        $lm_obj = ilObjectFactory::getInstanceByRefId($this->ref_id);
+        $this->lm_obj = $lm_obj;
+        $this->tree = new ilLMTree($this->lm_obj->getId());
 
         $ilNavigationHistory->addItem(
             $this->ref_id,
@@ -141,7 +92,7 @@ class ilLMEditorGUI
      * @throws ilCtrlException
      * @throws ilException
      */
-    protected function checkRequestParameters()
+    protected function checkRequestParameters() : void
     {
         $forwards_to_role = $this->ctrl->checkCurrentPathForClass("ilobjrolegui");
 
@@ -158,7 +109,7 @@ class ilLMEditorGUI
      * @throws ilCtrlException
      * @throws ilException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         global $DIC;
 
@@ -185,13 +136,11 @@ class ilLMEditorGUI
         }
 
         // show footer
-        $show_footer = ($cmd == "explorer")
-            ? false
-            : true;
+        $show_footer = !(($cmd == "explorer"));
             
         switch ($next_class) {
             case "ilobjlearningmodulegui":
-                $this->main_header($this->lm_obj->getType());
+                $this->main_header();
                 $lm_gui = new ilObjLearningModuleGUI("", $this->ref_id, true, false);
 
                 $ret = $this->ctrl->forwardCommand($lm_gui);
@@ -220,7 +169,7 @@ class ilLMEditorGUI
     /**
      * Show tree
      */
-    public function showTree()
+    public function showTree() : void
     {
         $tpl = $this->tpl;
 
@@ -235,7 +184,7 @@ class ilLMEditorGUI
     /**
      * output main header (title and locator)
      */
-    public function main_header()
+    public function main_header() : void
     {
         $this->tpl->loadStandardTemplate();
 
@@ -260,7 +209,7 @@ class ilLMEditorGUI
     /**
      * Display locator
      */
-    public function displayLocator()
+    public function displayLocator() : void
     {
         $this->tpl->setLocator();
     }

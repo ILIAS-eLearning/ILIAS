@@ -101,51 +101,7 @@ class ilObjHelpSettings extends ilObject2
 
             self::writeHelpModuleLmId($id, $newObj->getId());
         } catch (ilManifestFileNotFoundImportException $e) {
-            // old import
-            $t = $imp->getTemporaryImportDir();
-
-            // create and insert object in objecttree
-            $newObj = new ilObjContentObject();
-            $newObj->setType("lm");
-            $newObj->setTitle("Help Module");
-            $newObj->create(true);
-            $newObj->createLMTree();
-
-            $mess = $newObj->importFromDirectory($t, false);
-
-            // this should only be true for help modules
-            // search the zip file
-            $dir = $t;
-            $files = ilUtil::getDir($dir);
-            foreach ($files as $file) {
-                if (is_int(strpos($file["entry"], "__help_")) &&
-                    is_int(strpos($file["entry"], ".zip"))) {
-                    $imp = new ilImport();
-                    $imp->getMapping()->addMapping('Services/Help', 'help_module', 0, $id);
-                    $chaps = ilLMObject::getObjectList($newObj->getId(), "st");
-                    foreach ($chaps as $chap) {
-                        $chap_arr = explode("_", $chap["import_id"]);
-                        $imp->getMapping()->addMapping(
-                            'Services/Help',
-                            'help_chap',
-                            $chap_arr[count($chap_arr) - 1],
-                            $chap["obj_id"]
-                        );
-                    }
-                    $imp->importEntity(
-                        $dir . "/" . $file["entry"],
-                        $file["entry"],
-                        "help",
-                        "Services/Help",
-                        true
-                    );
-                }
-            }
-
-            // delete import directory
-            ilUtil::delDir($t);
-
-            self::writeHelpModuleLmId($id, $newObj->getId());
+            throw new ilLMOldExportFileException("This file seems to be from ILIAS version 5.0.x or lower. Import is not supported anymore.");
         }
 
 
