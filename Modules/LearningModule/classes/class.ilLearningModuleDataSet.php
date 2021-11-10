@@ -501,7 +501,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             $st_obj->setShortTitle($a_rec["ShortTitle"]);
                             $st_obj->setImportId($a_rec["ImportId"]);
                             $st_obj->create(true);
-                            ilLMObject::putInTree($st_obj, $parent, IL_LAST_NODE);
+                            ilLMObject::putInTree($st_obj, $parent, ilTree::POS_LAST_NODE);
                             $a_mapping->addMapping(
                                 "Modules/LearningModule",
                                 "lm_tree",
@@ -525,7 +525,7 @@ class ilLearningModuleDataSet extends ilDataSet
                             $pg_obj->setShortTitle($a_rec["ShortTitle"]);
                             $pg_obj->setImportId($a_rec["ImportId"]);
                             $pg_obj->create(true, true);
-                            ilLMObject::putInTree($pg_obj, $parent, IL_LAST_NODE);
+                            ilLMObject::putInTree($pg_obj, $parent, ilTree::POS_LAST_NODE);
                             $a_mapping->addMapping(
                                 "Modules/LearningModule",
                                 "lm_tree",

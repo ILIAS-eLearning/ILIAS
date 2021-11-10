@@ -371,7 +371,7 @@ class ilObjContentObject extends ilObject
         $chap->setTitle($lng->txt("cont_new_chap"));
         $chap->setLMId($this->getId());
         $chap->create();
-        ilLMObject::putInTree($chap, $root_id, IL_FIRST_NODE);
+        ilLMObject::putInTree($chap, $root_id, ilTree::POS_FIRST_NODE);
 
         // page
         $page = new ilLMPageObject($this);
@@ -379,7 +379,7 @@ class ilObjContentObject extends ilObject
         $page->setTitle($lng->txt("cont_new_page"));
         $page->setLMId($this->getId());
         $page->create();
-        ilLMObject::putInTree($page, $chap->getId(), IL_FIRST_NODE);
+        ilLMObject::putInTree($page, $chap->getId(), ilTree::POS_FIRST_NODE);
     }
     
     /**
@@ -2181,11 +2181,11 @@ class ilObjContentObject extends ilObject
                 // paste page
                 if (!$lmtree->isInTree($source_obj->getId())) {
                     if ($first_child) {			// as first child
-                        $target_pos = IL_FIRST_NODE;
+                        $target_pos = ilTree::POS_FIRST_NODE;
                         $parent = $target_id;
                     } elseif ($as_subitem) {		// as last child
                         $parent = $target_id;
-                        $target_pos = IL_FIRST_NODE;
+                        $target_pos = ilTree::POS_FIRST_NODE;
                         $pg_childs = $lmtree->getChildsByType($parent, "pg");
                         if (count($pg_childs) != 0) {
                             $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
@@ -2238,7 +2238,7 @@ class ilObjContentObject extends ilObject
             $target_pos = $target_id;
 
             if ($first_child) {		// as first subchapter
-                $target_pos = IL_FIRST_NODE;
+                $target_pos = ilTree::POS_FIRST_NODE;
                 $target_parent = $target_id;
                 
                 $pg_childs = $lmtree->getChildsByType($target_parent, "pg");
@@ -2247,7 +2247,7 @@ class ilObjContentObject extends ilObject
                 }
             } elseif ($as_subitem) {		// as last subchapter
                 $target_parent = $target_id;
-                $target_pos = IL_FIRST_NODE;
+                $target_pos = ilTree::POS_FIRST_NODE;
                 $childs = $lmtree->getChilds($target_parent);
                 if (count($childs) != 0) {
                     $target_pos = $childs[count($childs) - 1]["obj_id"];
@@ -2259,10 +2259,10 @@ class ilObjContentObject extends ilObject
                         if ($position == "into")
                         {
                             $target_parent = $target_id;
-                            $target_pos = IL_FIRST_NODE;
+                            $target_pos = ilTree::POS_FIRST_NODE;
 
                             // if target_pos is still first node we must skip all pages
-                            if ($target_pos == IL_FIRST_NODE)
+                            if ($target_pos == ilTree::POS_FIRST_NODE)
                             {
                                 $pg_childs =& $lmtree->getChildsByType($target_parent, "pg");
                                 if (count($pg_childs) != 0)
@@ -2601,7 +2601,7 @@ class ilObjContentObject extends ilObject
                 $a_target_obj,
                 $chap["child"],
                 $parent_id,
-                IL_LAST_NODE,
+                ilTree::POS_LAST_NODE,
                 $time,
                 $copied_nodes,
                 true,

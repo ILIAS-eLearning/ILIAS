@@ -1490,7 +1490,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $ilErr->raiseError($this->lng->txt("no_checkbox"), $ilErr->MESSAGE);
         }
 
-        if (count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE) {
+        if (count($_POST["id"]) == 1 && $_POST["id"][0] == ilTree::POS_FIRST_NODE) {
             $ilErr->raiseError($this->lng->txt("cont_select_item"), $ilErr->MESSAGE);
         }
 
@@ -1515,7 +1515,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmedDelete");
         
         foreach ($_POST["id"] as $id) {
-            if ($id != IL_FIRST_NODE) {
+            if ($id != ilTree::POS_FIRST_NODE) {
                 $obj = new ilLMObject($this->object, $id);
                 $caption = ilUtil::getImageTagByType($obj->getType(), $this->tpl->tplPath) .
                     " " . $obj->getTitle();
@@ -1557,7 +1557,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
 
         // delete all selected objects
         foreach ($_POST["id"] as $id) {
-            if ($id != IL_FIRST_NODE) {
+            if ($id != ilTree::POS_FIRST_NODE) {
                 $obj = ilLMObjectFactory::getInstance($this->object, $id, false);
                 $node_data = $tree->getNodeData($id);
                 if (is_object($obj)) {
@@ -1682,7 +1682,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $ilErr->raiseError($this->lng->txt("cont_select_max_one_item"), $ilErr->MESSAGE);
         }
 
-        if (count($_POST["id"]) == 1 && $_POST["id"][0] == IL_FIRST_NODE) {
+        if (count($_POST["id"]) == 1 && $_POST["id"][0] == ilTree::POS_FIRST_NODE) {
             $ilErr->raiseError($this->lng->txt("cont_select_item"), $ilErr->MESSAGE);
         }
 
@@ -3188,7 +3188,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         for ($i = 1; $i <= $num; $i++) {
@@ -3223,7 +3223,7 @@ class ilObjContentObjectGUI extends ilObjectGUI implements ilLinkCheckerGUIRowHa
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
         
         // copy and paste

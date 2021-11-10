@@ -300,7 +300,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $this->ctrl->setParameter($this, "backcmd", "subchap");
         $this->tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
         $this->tpl->setVariable("HEADER_TEXT", $this->lng->txt("cont_subchapters"));
-        $this->tpl->setVariable("CHECKBOX_TOP", IL_FIRST_NODE);
+        $this->tpl->setVariable("CHECKBOX_TOP", ilTree::POS_FIRST_NODE);
 
         $cnt = 0;
         $childs = $this->tree->getChilds($this->obj->getId());
@@ -418,7 +418,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         // chapters should be behind pages in the tree
         // so if target is first node, the target is substituted with
         // the last child of type pg
-        if ($target == IL_FIRST_NODE) {
+        if ($target == ilTree::POS_FIRST_NODE) {
             $tree = new ilTree($this->content_object->getId());
             $tree->setTableNames('lm_tree', 'lm_data');
             $tree->setTreeTablePK("lm_id");
@@ -434,7 +434,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             }
         }
         if ($target == "") {
-            $target = IL_LAST_NODE;
+            $target = ilTree::POS_LAST_NODE;
         }
 
         parent::putInTree($target);
@@ -710,7 +710,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 $target = $node_id;
             } else {													// insert as first child
                 $parent_id = $node_id;
-                $target = IL_FIRST_NODE;
+                $target = ilTree::POS_FIRST_NODE;
             }
         }
         for ($i = 1; $i <= $num; $i++) {
@@ -764,7 +764,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 $target = $node_id;
             } else {													// insert as first child
                 $parent_id = $node_id;
-                $target = IL_FIRST_NODE;
+                $target = ilTree::POS_FIRST_NODE;
                 
                 // do not move a chapter in front of a page
                 $childs = $this->tree->getChildsByType($parent_id, "pg");
@@ -829,7 +829,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         for ($i = 1; $i <= $num; $i++) {
@@ -860,7 +860,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         // cut and paste

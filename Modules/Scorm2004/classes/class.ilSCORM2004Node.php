@@ -570,7 +570,7 @@ class ilSCORM2004Node
             $childs = $tree->getChilds($parent_id);
 
             if (count($childs) == 0) {
-                $target = IL_FIRST_NODE;
+                $target = ilTree::POS_FIRST_NODE;
             } else {
                 $target = $childs[count($childs) - 1]["obj_id"];
             }
@@ -725,7 +725,7 @@ class ilSCORM2004Node
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         // cut and paste
@@ -785,7 +785,7 @@ class ilSCORM2004Node
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         // cut and paste
@@ -851,7 +851,7 @@ class ilSCORM2004Node
                 $target = $node_id;
             } else {													// insert as first child
                 $parent_id = $node_id;
-                $target = IL_FIRST_NODE;
+                $target = ilTree::POS_FIRST_NODE;
                 
                 // do not move a chapter in front of a sco (maybe never needed)
                 $childs = $tree->getChildsByType($parent_id, "sco");
@@ -1009,7 +1009,7 @@ class ilSCORM2004Node
                 $a_target_slm,
                 $child_id,
                 $target_item->getId(),
-                IL_LAST_NODE,
+                ilTree::POS_LAST_NODE,
                 $a_insert_time,
                 $a_copied_nodes,
                 $a_as_copy,

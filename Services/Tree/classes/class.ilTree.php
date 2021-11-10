@@ -1,15 +1,6 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-define("IL_LAST_NODE", -2);
-define("IL_FIRST_NODE", -1);
-
-include_once './Services/Tree/exceptions/class.ilInvalidTreeStructureException.php';
-
-/**
- *  @defgroup ServicesTree Services/Tree
- */
-
 /**
 * Tree class
 * data representation in hierachical trees using the Nested Set Model with Gaps
@@ -17,7 +8,6 @@ include_once './Services/Tree/exceptions/class.ilInvalidTreeStructureException.p
 *
 * @author Sascha Hofmann <saschahofmann@gmx.de>
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @ingroup ServicesTree
 */
@@ -754,7 +744,7 @@ class ilTree
      *
      * @throws InvalidArgumentException
      */
-    public function insertNodeFromTrash($a_source_id, $a_target_id, $a_tree_id, $a_pos = IL_LAST_NODE, $a_reset_deleted_date = false)
+    public function insertNodeFromTrash($a_source_id, $a_target_id, $a_tree_id, $a_pos = self::POS_LAST_NODE, $a_reset_deleted_date = false)
     {
         global $DIC;
 
@@ -781,7 +771,7 @@ class ilTree
                 'AND child = ' . $ilDB->quote($a_source_id, 'integer');
         $ilDB->manipulate($query);
         
-        $this->insertNode($a_source_id, $a_target_id, IL_LAST_NODE, $a_reset_deleted_date);
+        $this->insertNode($a_source_id, $a_target_id, self::POS_LAST_NODE, $a_reset_deleted_date);
     }
     
     
@@ -790,10 +780,10 @@ class ilTree
     * @access	public
     * @param	integer		node_id
     * @param	integer		parent_id
-    * @param	integer		IL_LAST_NODE | IL_FIRST_NODE | node id of preceding child
+    * @param	integer		ilTree::POS_LAST_NODE | ilTree::POS_FIRST_NODE | node id of preceding child
     * @throws InvalidArgumentException
     */
-    public function insertNode($a_node_id, $a_parent_id, $a_pos = IL_LAST_NODE, $a_reset_deletion_date = false)
+    public function insertNode($a_node_id, $a_parent_id, $a_pos = self::POS_LAST_NODE, $a_reset_deletion_date = false)
     {
         global $DIC;
 
@@ -1000,7 +990,7 @@ class ilTree
      * Validate parent relations of tree
      * @return int[] array of failure nodes
      */
-    public function validateParentRelations()
+    public function validateParentRelations() : array
     {
         return $this->getTreeImplementation()->validateParentRelations();
     }
@@ -2685,7 +2675,7 @@ class ilTree
      * @access	public
      * @param int source ref_id
      * @param int target ref_id
-     * @param int location IL_LAST_NODE or IL_FIRST_NODE (IL_FIRST_NODE not implemented yet)
+     * @param int location ilTree::POS_LAST_NODE or ilTree::POS_FIRST_NODE
      * @return bool
      */
     public function moveTree($a_source_id, $a_target_id, $a_location = self::POS_LAST_NODE)

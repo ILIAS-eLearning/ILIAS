@@ -142,7 +142,7 @@ class ilLMObjectGUI
             // determine last child of current type
             $childs = $tree->getChildsByType($parent_id, $this->obj->getType());
             if (count($childs) == 0) {
-                $target = IL_FIRST_NODE;
+                $target = ilTree::POS_FIRST_NODE;
             } else {
                 $target = $childs[count($childs) - 1]["obj_id"];
             }

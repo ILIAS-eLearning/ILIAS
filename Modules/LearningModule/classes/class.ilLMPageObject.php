@@ -694,7 +694,7 @@ class ilLMPageObject extends ilLMObject
             $target = $node_id;
         } else {           // insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         $page_ids = array();

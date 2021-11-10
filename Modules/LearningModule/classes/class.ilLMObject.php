@@ -829,7 +829,7 @@ class ilLMObject
             }
 
             if (count($childs) == 0) {
-                $target = IL_FIRST_NODE;
+                $target = ilTree::POS_FIRST_NODE;
             } else {
                 $target = $childs[count($childs) - 1]["obj_id"];
             }
@@ -1027,7 +1027,7 @@ class ilLMObject
                 $a_target_lm,
                 $child["id"],
                 $target_item->getId(),
-                IL_LAST_NODE,
+                ilTree::POS_LAST_NODE,
                 $a_insert_time,
                 $a_copied_nodes,
                 $a_as_copy,
