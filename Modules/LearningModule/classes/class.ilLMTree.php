@@ -18,7 +18,6 @@
  */
 class ilLMTree extends ilTree
 {
-    protected ilDBInterface $db;
     public static array $instances = array();
     protected array $complete_tree;
 
@@ -27,7 +26,6 @@ class ilLMTree extends ilTree
     ) {
         global $DIC;
 
-        $this->db = $DIC->database();
         parent::__construct($a_tree_id);
         $this->setTableNames('lm_tree', 'lm_data');
         $this->setTreeTablePK("lm_id");
