@@ -26,7 +26,7 @@ class ilForumSettingsGUI implements ilForumObjectConstants
     private \ILIAS\DI\Container $dic;
     private ilForumProperties $properties;
 
-    public function __construct(ilObjForumGUI $parent_obj, , ilForumProperties $properties)
+    public function __construct(ilObjForumGUI $parent_obj, ilForumProperties $properties)
     {
         global $DIC;
 
