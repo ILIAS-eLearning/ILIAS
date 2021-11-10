@@ -1,37 +1,39 @@
 <?php
 
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-* Class ilLMObject
-*
-* Base class for ilStructureObjects and ilPageObjects (see ILIAS DTD)
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * Base class for ilStructureObjects and ilPageObjects (see ILIAS DTD)
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilLMObjectGUI
 {
-    public $tpl;
-    public $lng;
-    public $obj;
-    public $ctrl;
-    public $content_object;
+    public ilGlobalTemplateInterface $tpl;
+    public ilLanguage $lng;
+    public ilLMObject $obj;
+    public ilCtrl $ctrl;
+    public ilObjLearningModule $content_object;
     public $actions;
 
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
+    protected \ILIAS\DI\UIServices $ui;
     protected int $requested_obj_id;
     protected string $requested_totransl = "";
     protected string $requested_transl = "";
     protected string $requested_target;
     protected string $requested_new_type;
+    protected array $target_frame;
 
     /**
     * constructor
@@ -60,46 +62,43 @@ class ilLMObjectGUI
 
 
     /**
-    * build action array
-    *
-    * @param	array		$a_actions		action array (key = action key,
-    *										value = action language string)
-    * @access	private
-    */
-    public function setActions($a_actions = "")
+     * @param ?array $a_actions action array (key = action key, value = action language string)
+     */
+    public function setActions(?array $a_actions = null) : void
     {
         if (is_array($a_actions)) {
             foreach ($a_actions as $name => $lng) {
                 $this->actions[$name] = array("name" => $name, "lng" => $lng);
             }
         } else {
-            $this->actions = "";
+            $this->actions = [];
         }
     }
 
 
     /**
-    * get target frame for command (command is method name without "Object", e.g. "perm")
-    * @param	string		$a_cmd			command
-    * @param	string		$a_target_frame	default target frame (is returned, if no special
-    *										target frame was set)
-    * @access	public
-    */
-    public function getTargetFrame($a_cmd, $a_target_frame = "")
-    {
+     * get target frame for command (command is method name without "Object", e.g. "perm")
+     * @param	string		$a_cmd			command
+     * @param	string		$a_target_frame	default target frame (is returned, if no special
+     *										target frame was set)
+     */
+    public function getTargetFrame(
+        string $a_cmd,
+        string $a_target_frame = ""
+    ) : string {
         if ($this->target_frame[$a_cmd] != "") {
             return $this->target_frame[$a_cmd];
         } elseif (!empty($a_target_frame)) {
             return "target=\"" . $a_target_frame . "\"";
         } else {
-            return;
+            return "";
         }
     }
 
     /**
-    * structure / page object creation form
-    */
-    public function create()
+     * structure / page object creation form
+     */
+    public function create() : void
     {
         $new_type = $this->requested_new_type;
 
@@ -109,7 +108,6 @@ class ilLMObjectGUI
         $form->setTitle($this->lng->txt($new_type . "_new"));
         
         $title = new ilTextInputGUI($this->lng->txt("title"), "Fobject[title]");
-        //$title->setRequired(true);
         $form->addItem($title);
         
         $desc = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject[desc]");
@@ -123,11 +121,11 @@ class ilLMObjectGUI
 
 
     /**
-    * put this object into content object tree
-    */
-    public function putInTree($target = "")
+     * put this object into content object tree
+     */
+    public function putInTree(?int $target = 0) : void
     {
-        if ($target == "") {
+        if ($target == 0) {
             $target = $this->requested_target;
         }
         $tree = new ilTree($this->content_object->getId());
@@ -154,9 +152,9 @@ class ilLMObjectGUI
 
 
     /**
-    * Confirm deletion screen (delete page or structure objects)
-    */
-    public function delete()
+     * Confirm deletion screen (delete page or structure objects)
+     */
+    public function delete() : void
     {
         $this->setTabs();
 
@@ -171,9 +169,9 @@ class ilLMObjectGUI
 
 
     /**
-    * cancel deletion of page/structure objects
-    */
-    public function cancelDelete()
+     * cancel deletion of page/structure objects
+     */
+    public function cancelDelete() : void
     {
         ilSession::clear("saved_post");
         $this->ctrl->redirect($this, $_GET["backcmd"]);
@@ -181,9 +179,9 @@ class ilLMObjectGUI
 
 
     /**
-    * page and structure object deletion
-    */
-    public function confirmedDelete()
+     * page and structure object deletion
+     */
+    public function confirmedDelete() : void
     {
         $cont_obj_gui = new ilObjContentObjectGUI(
             "",
@@ -195,43 +193,17 @@ class ilLMObjectGUI
         $this->ctrl->redirect($this, $_GET["backcmd"]);
     }
 
-
     /**
-    * output a cell in object list
-    */
-    public function add_cell($val, $link = "")
+     * show possible action (form buttons)
+     */
+    public function showActions(array $a_actions) : void
     {
-        if (!empty($link)) {
-            $this->tpl->setCurrentBlock("begin_link");
-            $this->tpl->setVariable("LINK_TARGET", $link);
-            $this->tpl->parseCurrentBlock();
-            $this->tpl->touchBlock("end_link");
-        }
-
-        $this->tpl->setCurrentBlock("text");
-        $this->tpl->setVariable("TEXT_CONTENT", $val);
-        $this->tpl->parseCurrentBlock();
-        $this->tpl->setCurrentBlock("table_cell");
-        $this->tpl->parseCurrentBlock();
-    }
-
-
-    /**
-    * show possible action (form buttons)
-    *
-    * @access	public
-    */
-    public function showActions($a_actions)
-    {
+        $d = [];
         foreach ($a_actions as $name => $lng) {
             $d[$name] = array("name" => $name, "lng" => $lng);
         }
 
-        $notoperations = array();
-        $operations = array();
-
         $operations = $d;
-
         if (count($operations) > 0) {
             foreach ($operations as $val) {
                 $this->tpl->setCurrentBlock("operation_btn");
@@ -247,9 +219,9 @@ class ilLMObjectGUI
     }
 
     /**
-    * check the content object tree
-    */
-    public function checkTree()
+     * check the content object tree
+     */
+    public function checkTree() : void
     {
         $this->content_object->checkTree();
     }

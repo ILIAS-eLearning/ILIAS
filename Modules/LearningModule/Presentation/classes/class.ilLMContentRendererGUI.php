@@ -1,104 +1,55 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- *
- *
- * @author killing@leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMContentRendererGUI
 {
-    const STATUS_ACCESS = 0;
-    const STATUS_NO_ACCESS = 1;
-    const STATUS_NO_PUBLIC_ACCESS = 2;
-    const STATUS_FAILED_PRECONDITIONS = 3;
-    const STATUS_CORRECT_ANSWER_MISSING = 4;
-    const STATUS_NO_PAGE_IN_CHAPTER = 5;
-    const STATUS_DEACTIVATED_PAGE = 6;
-    const STATUS_NO_PAGE_FOUND = 7;
+    public const STATUS_ACCESS = 0;
+    public const STATUS_NO_ACCESS = 1;
+    public const STATUS_NO_PUBLIC_ACCESS = 2;
+    public const STATUS_FAILED_PRECONDITIONS = 3;
+    public const STATUS_CORRECT_ANSWER_MISSING = 4;
+    public const STATUS_NO_PAGE_IN_CHAPTER = 5;
+    public const STATUS_DEACTIVATED_PAGE = 6;
+    public const STATUS_NO_PAGE_FOUND = 7;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var int
-     */
-    protected $current_page;
-
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var bool
-     */
-    protected $offline;
-
-    /**
-     * @var ilLMTracker
-     */
-    protected $tracker;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLMTree
-     */
-    protected $lm_tree;
-
-    /**
-     * @var ilLMPresentationGUI
-     */
-    protected $parent_gui;
-
-    /**
-     * @var ilSetting
-     */
-    protected $lm_set;
-
-    /**
-     * @var string
-     */
-    protected $lang;
-
-    /**
-     * @var ilLMPresentationLinker
-     */
-    protected $linker;
-
+    protected ?int $requested_focus_return;
+    protected int $requested_obj_id = 0;
+    protected ?string $search_string;
+    protected ?int $focus_id;
+    protected bool $deactivated_page;
+    protected bool $chapter_has_no_active_page;
+    protected ilAccessHandler $access;
+    protected ilObjUser $user;
+    protected ilHelpGUI $help;
+    protected ?int $current_page = null;
+    protected ilObjLearningModule $lm;
+    protected ilLanguage $lng;
+    protected bool $offline;
+    protected ilLMTracker $tracker;
+    protected ilCtrl $ctrl;
+    protected ilLMTree $lm_tree;
+    protected ilLMPresentationGUI $parent_gui;
+    protected ilSetting $lm_set;
+    protected string $lang;
+    protected ilLMPresentationLinker $linker;
     protected string $requested_frame;
+    protected ilObjectTranslation $ot;
 
-    /**
-     * @var ilObjectTranslation
-     */
-    protected $ot;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilLMPresentationService $service,
         ilLMPresentationGUI $parent_gui,
@@ -107,10 +58,8 @@ class ilLMContentRendererGUI
         ilAccessHandler $access,
         ilObjUser $user,
         ilHelpGUI $help,
-        $requested_obj_id
+        int $requested_obj_id
     ) {
-        global $DIC;
-
         $this->access = $access;
         $this->user = $user;
         $this->help = $help;
@@ -128,19 +77,14 @@ class ilLMContentRendererGUI
         $this->chapter_has_no_active_page = $service->getNavigationStatus()->isChapterWithoutActivePage();
         $this->deactivated_page = $service->getNavigationStatus()->isDeactivatedPage();
         $this->focus_id = $service->getPresentationStatus()->getFocusId();
-
         $this->search_string = $service->getPresentationStatus()->getSearchString();
         $this->requested_obj_id = $requested_obj_id;
         $this->requested_focus_return = $service->getPresentationStatus()->getFocusReturn();
         $this->requested_frame = $service->getRequest()->getRequestedFrame();
-
         $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
-    /**
-     * Init help
-     */
-    protected function initHelp()
+    protected function initHelp() : void
     {
         $ilHelp = $this->help;
         $ilHelp->setScreenIdComponent("lm");
@@ -148,13 +92,7 @@ class ilLMContentRendererGUI
         $ilHelp->setSubScreenId("content");
     }
 
-    /**
-     * Determine Status (should be factored out later to something like LMPageAccessStatus)
-     *
-     * @param
-     * @return int
-     */
-    protected function determineStatus()
+    protected function determineStatus() : int
     {
         $user = $this->user;
 
@@ -204,14 +142,10 @@ class ilLMContentRendererGUI
             $status = self::STATUS_NO_PAGE_FOUND;
         }
 
-
         return $status;
     }
     
-    /**
-     * Init search highlighting
-     */
-    protected function initSearchHighlighting()
+    protected function initSearchHighlighting() : void
     {
         $user = $this->user;
 
@@ -237,18 +171,12 @@ class ilLMContentRendererGUI
         }
     }
 
-
-    /**
-     * Render lm content
-     *
-     * @param int $a_head_foot_page_id
-     * @return string
-     */
-    public function render($a_head_foot_page_id = 0)
-    {
+    public function render(
+        int $a_head_foot_page_id = 0
+    ) : string {
         $ilUser = $this->user;
 
-        $head = $focus_mess = $foot = "";
+        $head = $foot = "";
 
         $this->initHelp();
 
@@ -363,13 +291,7 @@ class ilLMContentRendererGUI
         return $head . $focus_mess . $ret . $foot;
     }
 
-    /**
-     * Get lm page gui object
-     *
-     * @param
-     * @return
-     */
-    public function getLMPageGUI($a_id)
+    public function getLMPageGUI(int $a_id) : ilLMPageGUI
     {
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             $page_gui = new ilLMPageGUI($a_id, 0, false, $this->lang);
@@ -386,15 +308,7 @@ class ilLMContentRendererGUI
         return $page_gui;
     }
 
-
-
-    /**
-     * Render focus message
-     *
-     * @param
-     * @return string
-     */
-    protected function renderFocusMessage()
+    protected function renderFocusMessage() : string
     {
         $focus_mess = "";
         if ($this->focus_id > 0) {
@@ -465,21 +379,17 @@ class ilLMContentRendererGUI
 
 
     /**
-     * Show info message, if page is not accessible in public area
-     * @return string
+     * Render info message, if page is not accessible in public area
      */
-    protected function renderNoPageAccess()
+    protected function renderNoPageAccess() : string
     {
         return $this->renderMessageScreen($this->lng->txt("msg_no_page_access"));
     }
 
     /**
-     * Show message screen
-     *
-     * @param string content
-     * @return string
+     * Render message screen
      */
-    protected function renderMessageScreen($a_content)
+    protected function renderMessageScreen(string $a_content) : string
     {
         // content style
         $tpl = new ilTemplate("tpl.page_message_screen.html", true, true, "Modules/LearningModule");
@@ -489,29 +399,26 @@ class ilLMContentRendererGUI
     }
 
     /**
-     * Show info message, if page is not accessible in public area
-     * @return string
+     * Render info message, if page is not accessible in public area
      */
-    protected function renderNoPublicAccess()
+    protected function renderNoPublicAccess() : string
     {
         return $this->renderMessageScreen($this->lng->txt("msg_page_no_public_access"));
     }
 
     /**
-     * Show message if navigation to page is not allowed due to unanswered
+     * Render message if navigation to page is not allowed due to unanswered
      * questions.
-     * @return string
      */
-    protected function renderNavRestrictionDueToQuestions()
+    protected function renderNavRestrictionDueToQuestions() : string
     {
         return $this->renderMessageScreen($this->lng->txt("cont_no_page_access_unansw_q"));
     }
 
     /**
      * Render no page in chapter message
-     * @return string
      */
-    protected function renderNoPageInChapterMessage()
+    protected function renderNoPageInChapterMessage() : string
     {
         $mtpl = new ilTemplate(
             "tpl.no_content_message.html",
@@ -529,20 +436,13 @@ class ilLMContentRendererGUI
 
     /**
      * Render no page found message
-     * @return string
      */
-    protected function renderNoPageFoundMessage()
+    protected function renderNoPageFoundMessage() : string
     {
         return $this->renderMessageScreen($this->lng->txt("cont_no_page"));
     }
 
-
-    /**
-     * Render deactivated page message
-     *
-     * @return string
-     */
-    protected function renderDeactivatedPageMessage()
+    protected function renderDeactivatedPageMessage() : string
     {
         $mtpl = new ilTemplate(
             "tpl.no_content_message.html",
@@ -572,10 +472,11 @@ class ilLMContentRendererGUI
 
 
     /**
-     * show preconditions of the page
+     * Render preconditions of the page
      */
-    public function renderPreconditionsOfPage()
+    public function renderPreconditionsOfPage() : string
     {
+        $succ_node = "";
         $conds = ilObjContentObject::_getMissingPreconditionsOfPage($this->lm->getRefId(), $this->lm->getId(), $this->current_page);
         $topchap = ilObjContentObject::_getMissingPreconditionsTopChapter($this->lm->getRefId(), $this->lm->getId(), $this->current_page);
 
@@ -629,14 +530,7 @@ class ilLMContentRendererGUI
         return $ptpl->get();
     }
 
-
-    /**
-     * Get successor page
-     *
-     * @param
-     * @return
-     */
-    public function getSuccessorPage()
+    public function getSuccessorPage() : int
     {
         $ilUser = $this->user;
 
@@ -660,6 +554,7 @@ class ilLMContentRendererGUI
                 $c_id = $page_id;
             }
         }
+        $succ_node = [];
         while (!$found) {
             $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
             $c_id = $succ_node["obj_id"];
@@ -689,9 +584,6 @@ class ilLMContentRendererGUI
             }
         }
 
-        if ($found) {
-            return $succ_node["obj_id"];
-        }
-        return 0;
+        return (int) ($succ_node["obj_id"] ?? 0);
     }
 }

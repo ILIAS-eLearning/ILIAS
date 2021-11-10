@@ -1,37 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-* Learning Resources Settings.
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilObjLearningResourcesSettingsGUI: ilPermissionGUI
-* @ilCtrl_IsCalledBy ilObjLearningResourcesSettingsGUI: ilAdministrationGUI
-*
-* @ingroup ModulesLearningModule
-*/
+ * Learning Resources Settings.
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ *
+ * @ilCtrl_Calls ilObjLearningResourcesSettingsGUI: ilPermissionGUI
+ * @ilCtrl_IsCalledBy ilObjLearningResourcesSettingsGUI: ilAdministrationGUI
+ */
 class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
 {
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    private static $ERROR_MESSAGE;
-    /**
-     * Contructor
-     *
-     * @access public
-     */
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id,
+        bool $a_call_by_reference = true,
+        bool $a_prepare_output = true
+    ) {
         global $DIC;
 
-        $this->error = $DIC["ilErr"];
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
         $this->ctrl = $DIC->ctrl();
@@ -42,23 +41,15 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $this->lng->loadLanguageModule('content');
     }
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $ilErr = $this->error;
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
         $this->prepareOutput();
 
         if (!$this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
-            $ilErr->raiseError($this->lng->txt('no_permission'), $ilErr->WARNING);
+            throw new ilPermissionException($this->lng->txt('no_permission'));
         }
 
         switch ($next_class) {
@@ -72,20 +63,12 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
                 if (!$cmd || $cmd == 'view') {
                     $cmd = "editSettings";
                 }
-
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * Get tabs
-     *
-     * @access public
-     *
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         $rbacsystem = $this->rbacsystem;
 
@@ -107,14 +90,10 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         }
     }
 
-    /**
-    * Edit learning resources settings.
-    */
-    public function editSettings()
+    public function editSettings() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        $ilSetting = $this->settings;
 
         $lm_set = new ilSetting("lm");
         $lng->loadLanguageModule("scormdebug");
@@ -221,13 +200,9 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-    * Save learning resources settings
-    */
-    public function saveSettings()
+    public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
-        $ilSetting = $this->settings;
 
         $this->checkPermission("write");
         
@@ -283,7 +258,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "view");
     }
     
-    public function addToExternalSettingsForm($a_form_id)
+    public function addToExternalSettingsForm(int $a_form_id) : array
     {
         switch ($a_form_id) {
             case ilAdministrationSettingsFormHandler::FORM_PRIVACY:
@@ -294,5 +269,6 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
                 
                 return array(array("editSettings", $fields));
         }
+        return [];
     }
 }

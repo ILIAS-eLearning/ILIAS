@@ -1,19 +1,44 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Learning module presentation request
- *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMPresentationRequest
 {
-    /**
-     * Constructor
-     */
-    public function __construct(array $query_params)
-    {
+    protected int $requested_pg_id;
+    protected int $requested_embed_mode;
+    protected string $requested_obj_type;
+    protected int $requested_focus_return;
+    protected string $requested_frame;
+    protected int $requested_obj_id;
+    protected string $requested_transl;
+    protected int $requested_ntf;
+    protected string $requested_pg_type;
+    protected string $requested_cmd;
+    protected int $requested_mob_id;
+    protected string $requested_from_page;
+    protected string $requested_search_string;
+    protected string $requested_back_pg;
+    protected int $requested_focus_id;
+    protected int $requested_ref_id;
+
+    public function __construct(
+        array $query_params
+    ) {
         $this->requested_ref_id = (int) ($query_params["ref_id"] ?? 0);
         $this->requested_transl = (string) ($query_params["transl"] ?? "");     // handled by presentation status
         $this->requested_focus_id = (int) ($query_params["focus_id"] ?? 0);    // handled by presentation status
@@ -33,129 +58,81 @@ class ilLMPresentationRequest
         $this->requested_ntf = (int) ($query_params["ntf"] ?? 0);
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedRefId() : int
     {
         return $this->requested_ref_id;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedObjId() : int
     {
         return $this->requested_obj_id;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedObjType() : string
     {
         return $this->requested_obj_type;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedTranslation() : string
     {
         return $this->requested_transl;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedFocusId() : int
     {
         return $this->requested_focus_id;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedFocusReturn() : int
     {
         return $this->requested_focus_return;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedBackPage() : string
     {
         return $this->requested_back_pg;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedSearchString() : string
     {
         return $this->requested_search_string;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedFrame() : string
     {
         return $this->requested_frame;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedFromPage() : string
     {
         return $this->requested_from_page;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedMobId() : int
     {
         return $this->requested_mob_id;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedEmbedMode() : int
     {
         return $this->requested_embed_mode;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedCmd() : string
     {
         return $this->requested_cmd;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedPgId() : int
     {
         return $this->requested_pg_id;
     }
 
-    /**
-     * @return string
-     */
     public function getRequestedPgType() : string
     {
         return $this->requested_pg_type;
     }
 
-    /**
-     * @return int
-     */
     public function getRequestedNotificationSwitch() : int
     {
         return $this->requested_ntf;

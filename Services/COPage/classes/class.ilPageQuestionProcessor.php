@@ -275,8 +275,11 @@ class ilPageQuestionProcessor
         return (int) $points;
     }
 
+    /**
+     * @param int|array $a_q_id
+     */
     public static function getAnswerStatus(
-        int $a_q_id,
+        $a_q_id,
         int $a_user_id = 0
     ) : array {
         global $DIC;

@@ -1,187 +1,74 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-* Class ilLMPresentationGUI
-*
-* GUI class for learning module presentation
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
-* @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
-* @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
-* @ilCtrl_Calls ilLMPresentationGUI: ilRatingGUI
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * GUI class for learning module presentation
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilLMPresentationGUI: ilNoteGUI, ilInfoScreenGUI
+ * @ilCtrl_Calls ilLMPresentationGUI: ilLMPageGUI, ilGlossaryDefPageGUI, ilCommonActionDispatcherGUI
+ * @ilCtrl_Calls ilLMPresentationGUI: ilLearningProgressGUI, ilAssGenFeedbackPageGUI
+ * @ilCtrl_Calls ilLMPresentationGUI: ilRatingGUI
+ */
 class ilLMPresentationGUI
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilMainMenuGUI
-     */
-    protected $main_menu;
-
-    /**
-     * @var ilLocatorGUI
-     */
-    protected $locator;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-
-    public $lng;
-    public $layout_doc;
-    public $offline;
-    public $offline_directory;
-
-    protected $embed_mode = false;
-
-    /**
-     * @var int
-     */
-    protected $current_page_id = 0;
-
-    /**
-     * @var int
-     */
-    protected $focus_id = 0;		// focus id is set e.g. from learning objectives course, we focus on a chapter/page
-
-    /**
-     * @var bool
-     */
-    protected $export_all_languages = false;
-
-    /**
-     * @var bool
-     */
-    public $chapter_has_no_active_page = false;
-
-    /**
-     * @var bool
-     */
-    public $deactivated_page = false;
-
-    /**
-     * @var string
-     */
-    protected $requested_back_pg;
-
-    /**
-     * @var string
-     */
-    protected $requested_search_string;
-
-    /**
-     * @var
-     */
-    protected $requested_focus_return;
-
-    /**
-     * @var int
-     */
-    protected $requested_ref_id;
-
-    /**
-     * @var int
-     */
-    protected $requested_obj_id;
-
-    /**
-     * @var string
-     */
-    protected $requested_obj_type;
-
-    /**
-     * @var string
-     */
-    protected $requested_transl;
-
-    /**
-     * @var string
-     */
-    protected $requested_frame;
-
-    /**
-     * @var \ilLMPresentationLinker
-     */
-    protected $linker;
-
-    /**
-     * @var ilLMPresentationService
-     */
-    protected $service;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var string[]
-     */
-    protected $additional_content = [];
-
+    protected ilLMTracker $tracker;
+    protected ilTabsGUI $tabs;
+    protected ilNestedListInputGUI $nl;
+    protected ilSetting $lm_set;
+    protected ilObjLearningModuleGUI $lm_gui;
+    protected bool $fill_on_load_code;
+    protected ilLMTree $lm_tree;
+    protected array $frames;
+    protected string $export_format;
+    public string $lang;
+    protected ilPropertyFormGUI $form;
+    protected ilObjUser $user;
+    protected ilRbacSystem $rbacsystem;
+    protected ilCtrl $ctrl;
+    protected ilNavigationHistory $nav_history;
+    protected ilAccessHandler $access;
+    protected ilSetting $settings;
+    protected ilLocatorGUI $locator;
+    protected ilTree $tree;
+    protected ilHelpGUI $help;
+    protected ilObjLearningModule $lm;
+    public ilGlobalTemplateInterface $tpl;
+    public ilLanguage $lng;
+    public php4DOMDocument $layout_doc;
+    public bool $offline;
+    public string $offline_directory;
+    protected bool $embed_mode = false;
+    protected int $current_page_id = 0;
+    protected ?int $focus_id = 0;		// focus id is set e.g. from learning objectives course, we focus on a chapter/page
+    protected bool $export_all_languages = false;
+    public bool $chapter_has_no_active_page = false;
+    public bool $deactivated_page = false;
+    protected string $requested_back_pg;
+    protected string $requested_search_string;
+    protected string $requested_focus_return;
+    protected int $requested_ref_id;
+    protected int $requested_obj_id;
+    protected string $requested_obj_type;
+    protected string $requested_transl;
+    protected string $requested_frame;
+    protected ilLMPresentationLinker $linker;
+    protected ilLMPresentationService $service;
+    protected \ILIAS\DI\UIServices $ui;
+    protected ilToolbarGUI $toolbar;
+    protected array $additional_content = [];
     protected string $requested_cmd = "";
     protected int $requested_pg_id = 0;
     protected string $requested_pg_type = "";
@@ -191,14 +78,13 @@ class ilLMPresentationGUI
     protected ilObjectTranslation $ot;
 
     public function __construct(
-        $a_export_format = "",
-        $a_all_languages = false,
-        $a_export_dir = "",
+        string $a_export_format = "",
+        bool $a_all_languages = false,
+        string $a_export_dir = "",
         bool $claim_repo_context = true,
-        $query_params = null,
-        $embed_mode = false
+        array $query_params = null,
+        bool $embed_mode = false
     ) {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->offline = ($a_export_format != "");
@@ -210,7 +96,6 @@ class ilLMPresentationGUI
         $this->toolbar = $DIC->toolbar();
         $this->user = $DIC->user();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->error = $DIC["ilErr"];
         $this->nav_history = $DIC["ilNavigationHistory"];
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
@@ -277,11 +162,12 @@ class ilLMPresentationGUI
      *
      * The request params are usually retrieved by HTTP request, but
      * also adjusted during HTML exports, this is, why this method needs to be public.
-     *
      * @param array $query_params request query params
      */
-    public function initByRequest($query_params, bool $embed_mode = false)
-    {
+    public function initByRequest(
+        array $query_params,
+        bool $embed_mode = false
+    ) : void {
         $this->service = new ilLMPresentationService(
             $this->user,
             $query_params,
@@ -326,31 +212,17 @@ class ilLMPresentationGUI
         $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
-    /**
-     * Get service
-     * @return ilLMPresentationService
-     */
     public function getService() : \ilLMPresentationService
     {
         return $this->service;
     }
 
-    /**
-     * Inject template
-     *
-     * @param
-     * @return
-     */
-    public function injectTemplate($tpl)
+    public function injectTemplate(ilGlobalTemplateInterface $tpl) : void
     {
         $this->tpl = $tpl;
     }
 
-    /**
-     * Get tracker
-     * @return ilLMTracker
-     */
-    protected function getTracker()
+    protected function getTracker() : ilLMTracker
     {
         return $this->service->getTracker();
     }
@@ -358,8 +230,9 @@ class ilLMPresentationGUI
     /**
      * @throws ilCtrlException
      * @throws ilLMPresentationException
+     * @throws ilPermissionException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilNavigationHistory = $this->nav_history;
         $ilAccess = $this->access;
@@ -372,7 +245,7 @@ class ilLMPresentationGUI
         if (!$ilAccess->checkAccess("read", "", $this->requested_ref_id) &&
             (!(($this->ctrl->getCmd() == "infoScreen" || $this->ctrl->getNextClass() == "ilinfoscreengui")
             && $ilAccess->checkAccess("visible", "", $this->requested_ref_id)))) {
-            $ilErr->raiseError($lng->txt("permission_denied"), $ilErr->WARNING);
+            throw new ilPermissionException($lng->txt("permission_denied"));
         }
         
         $next_class = $this->ctrl->getNextClass($this);
@@ -456,32 +329,26 @@ class ilLMPresentationGUI
 
     
     /**
-    * checks wether offline content generation is activated
-    */
-    public function offlineMode()
+     * checks whether offline content generation is activated
+     */
+    public function offlineMode() : bool
     {
         return $this->offline;
     }
     
-
-    /**
-    * get export format
-    *
-    * @return	string		export format
-    */
-    public function getExportFormat()
+    public function getExportFormat() : string
     {
         return $this->export_format;
     }
 
     /**
-    * this dummy function is needed for offline package creation
-    */
-    public function nop()
+     * this dummy function is needed for offline package creation
+     */
+    public function nop() : void
     {
     }
 
-    public function attrib2arr($a_attributes)
+    public function attrib2arr(?array $a_attributes) : array
     {
         $attr = array();
         if (!is_array($a_attributes)) {
@@ -494,34 +361,34 @@ class ilLMPresentationGUI
     }
 
     /**
-    * get frames of current frame set
-    */
-    public function getCurrentFrameSet()
+     * get frames of current frame set
+     */
+    public function getCurrentFrameSet() : array
     {
         return $this->frames;
     }
     
     /**
      * Determine layout
-     * @return string
      */
     public function determineLayout() : string
     {
         return "standard";
     }
-    
-    public function resume()
+
+    /**
+     * @throws ilLMPresentationException
+     */
+    public function resume() : void
     {
         $this->layout();
     }
         
-    /**
-    * generates frame layout
-    */
-    public function layout($a_xml = "main.xml", $doShow = true)
-    {
-        global $DIC;
-
+    public function layout(
+        string $a_xml = "main.xml",
+        bool $doShow = true
+    ) : string {
+        $content = "";
         $tpl = $this->tpl;
         $ilUser = $this->user;
         $layout = $this->determineLayout();
@@ -607,15 +474,6 @@ class ilLMPresentationGUI
             $child_attr = $this->attrib2arr($child->attributes());
 
             switch ($child->node_name()) {
-                    case "ilMainMenu":
-                        // @todo 6.0
-//						$this->ilMainMenu();
-                        break;
-
-                    case "ilTOC":
-                        // @todo 6.0
-//						$this->ilTOC($child_attr["target_frame"]);
-                        break;
 
                     case "ilPage":
                         $this->renderPageTitle();
@@ -629,7 +487,7 @@ class ilLMPresentationGUI
                         break;
 
                     case "ilGlossary":
-                        $content = $this->ilGlossary($child);
+                        $this->ilGlossary();
                         break;
 
                     case "ilLMNavigation":
@@ -672,49 +530,18 @@ class ilLMPresentationGUI
                 }
         }
 
-        // TODO: Very dirty hack to force the import of JavaScripts in learning content in the FAQ frame (e.g. if jsMath is in the content)
-        // Unfortunately there is no standardized way to do this somewhere else. Calling fillJavaScripts always in ilTemplate causes multiple additions of the the js files.
-        // 19.7.2014: outcommented, since fillJavaScriptFiles is called in the next blocks, and the
-        // following lines would add the js files two times
-        //			if (strcmp($this->requested_frame, "topright") == 0) $this->tpl->fillJavaScriptFiles();
-        //			if (strcmp($this->requested_frame, "right") == 0) $this->tpl->fillJavaScriptFiles();
-        //			if (strcmp($this->requested_frame, "botright") == 0) $this->tpl->fillJavaScriptFiles();
-
         $this->addResourceFiles();
 
         if ($doShow) {
-            // (horrible) workaround for preventing template engine
-            // from hiding paragraph text that is enclosed
-            // in curly brackets (e.g. "{a}", see ilPageObjectGUI::showPage())
-
-            // @todo 6.0
-            /*$this->tpl->fillTabs();
-            if ($this->fill_on_load_code)
-            {
-                $this->tpl->fillOnLoadCode();
-            }
-            $content =  $this->tpl->get();
-            $content = str_replace("&#123;", "{", $content);
-            $content = str_replace("&#125;", "}", $content);
-
-            header('Content-type: text/html; charset=UTF-8');
-            echo $content;*/
             $tpl->printToStdout();
         } else {
-            /*$tpl->printToStdout();
-            $this->tpl->fillLeftNav();
-            $this->tpl->fillOnLoadCode();*/
-
             $content = $tpl->printToString();
         }
 
         return($content);
     }
 
-    /**
-     * Add resource files
-     */
-    protected function addResourceFiles()
+    protected function addResourceFiles() : void
     {
         iljQueryUtil::initjQuery($this->tpl);
         iljQueryUtil::initjQueryUI($this->tpl);
@@ -724,7 +551,7 @@ class ilLMPresentationGUI
             ilAccordionGUI::addJavaScript();
             ilAccordionGUI::addCss();
 
-            $this->tpl->addJavascript("./Modules/LearningModule/js/LearningModule.js");
+            $this->tpl->addJavaScript("./Modules/LearningModule/js/LearningModule.js");
             $close_call = "il.LearningModule.setCloseHTML('" . ilGlyphGUI::get(ilGlyphGUI::CLOSE) . "');";
             $this->tpl->addOnLoadCode($close_call);
 
@@ -751,41 +578,26 @@ class ilLMPresentationGUI
 
             // from main menu
             //				$this->tpl->addJavascript("./Services/JavaScript/js/Basic.js");
-            $this->tpl->addJavascript("./Services/Navigation/js/ServiceNavigation.js");
+            $this->tpl->addJavaScript("./Services/Navigation/js/ServiceNavigation.js");
             ilYuiUtil::initConnection($this->tpl);
         }
     }
 
-    /**
-     * Save frame url
-     *
-     * @param
-     * @return
-     */
-    public function saveFrameUrl()
+    public function saveFrameUrl() : void
     {
         $store = new ilSessionIStorage("lm");
-        if ($_GET["url"] != "") {
-            $store->set("cf_" . $this->lm->getId(), $_GET["url"]);
-        } else {
-            $store->set("cf_" . $this->lm->getId(), $_GET["url"]);
-        }
+        $store->set("cf_" . $this->lm->getId(), $_GET["url"]);
     }
     
 
-    public function fullscreen()
+    public function fullscreen() : string
     {
         return $this->media();
     }
 
-    /**
-     * @return string
-     * @throws ilException
-     */
-    public function media()
+    public function media() : string
     {
         $this->tpl = new ilGlobalTemplate("tpl.fullscreen.html", true, true, "Modules/LearningModule");
-        //$GLOBALS["tpl"] = $this->tpl;
 
         // set style sheets
         $this->setContentStyles();
@@ -800,14 +612,9 @@ class ilLMPresentationGUI
         return "";
     }
 
-    /**
-     * @return string
-     * @throws ilException
-     */
-    public function glossary()
+    public function glossary() : string
     {
         $this->tpl = new ilGlobalTemplate("tpl.glossary_term_output.html", true, true, "Modules/LearningModule");
-        //$GLOBALS["tpl"] = $this->tpl;
         $this->renderPageTitle();
 
         // set style sheets
@@ -824,18 +631,9 @@ class ilLMPresentationGUI
         return "";
     }
 
-    public function page()
+    public function page() : string
     {
-        global $DIC;
-
         $ilUser = $this->user;
-
-        //if ($this->requested_frame != "_blank")
-        //{
-        //	$this->layout();
-        //}
-        //else
-        //{
         $this->tpl = new ilGlobalTemplate("tpl.page_fullscreen.html", true, true, "Modules/LearningModule");
         $GLOBALS["tpl"] = $this->tpl;
         $this->renderPageTitle();
@@ -847,7 +645,6 @@ class ilLMPresentationGUI
             $this->tpl->setVariable("LOCATION_STYLESHEET", ilUtil::getStyleSheetLocation());
         } else {
             $style_name = $ilUser->getPref("style") . ".css";
-            ;
             $this->tpl->setVariable("LOCATION_STYLESHEET", "./style/" . $style_name);
         }
 
@@ -857,48 +654,13 @@ class ilLMPresentationGUI
         } else {
             return $this->tpl->get();
         }
-        //}
+        return "";
     }
 
     /**
-    * output main menu
-    */
-    public function ilMainMenu()
-    {
-        // LTI
-        global $DIC;
-        $ltiview = $DIC["lti"];
-        if ($ltiview->isActive()) {
-            $ilMainMenu = new LTI\ilMainMenuGUI("_top", false, $this->tpl);
-        } else {
-            $ilMainMenu = new ilMainMenuGUI("_top", false, $this->tpl);
-        }
-
-        if ($this->offlineMode()) {
-            $this->tpl->touchBlock("pg_intro");
-            $this->tpl->touchBlock("pg_outro");
-            return;
-        }
-
-        $page_id = $this->getCurrentPageId();
-        if ($page_id > 0) {
-            $ilMainMenu->setLoginTargetPar("pg_" . $page_id . "_" . $this->lm->getRefId());
-        }
-
-        //$this->tpl->touchBlock("mm_intro");
-        //$this->tpl->touchBlock("mm_outro");
-        $this->tpl->touchBlock("pg_intro");
-        $this->tpl->touchBlock("pg_outro");
-        $this->tpl->setBodyClass("std");
-        $this->tpl->setVariable("MAINMENU", $ilMainMenu->getHTML());
-        // LTI
-        $this->tpl->setVariable("MAINMENU_SPACER", $ilMainMenu->getSpacerClass());
-    }
-
-    /**
-    * table of contents
-    */
-    public function ilTOC($a_get_explorer = false)
+     * table of contents
+     */
+    public function ilTOC() : ilLMTOCExplorerGUI
     {
         $fac = new ilLMTOCExplorerGUIFactory();
         $exp = $fac->getExplorer($this->service, "ilTOC");
@@ -906,42 +668,27 @@ class ilLMPresentationGUI
         return $exp;
     }
 
-    /**
-     * Get lm presentationtitle
-     *
-     * @param
-     * @return
-     */
-    public function getLMPresentationTitle()
+    public function getLMPresentationTitle() : string
     {
         return $this->service->getPresentationStatus()->getLMPresentationTitle();
     }
 
 
-    /**
-    * output learning module menu
-    */
-    public function ilLMMenu()
+    public function ilLMMenu() : void
     {
         $this->renderTabs("content", $this->getCurrentPageId());
-        /*$this->tpl->setVariable("MENU", $this->lm_gui->setilLMMenu($this->offlineMode()
-            ,$this->getExportFormat(), "content", false, true, $this->getCurrentPageId(),
-            $this->lang, $this->export_all_languages));*/
     }
 
-    /**
-    * output lm header
-    */
-    public function setHeader()
+    public function setHeader() : void
     {
         $this->tpl->setTitle($this->getLMPresentationTitle());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
     }
 
     /**
-    * output learning module submenu
-    */
-    public function ilLMSubMenu()
+     * output learning module submenu
+     */
+    public function ilLMSubMenu() : void
     {
         $rbacsystem = $this->rbacsystem;
         if ($this->abstract) {
@@ -985,31 +732,22 @@ class ilLMPresentationGUI
         $this->tpl->setVariable("SUBMENU", $tpl_menu->get());
     }
 
-
-    /**
-     * Redraw header action
-     */
-    public function redrawHeaderAction()
+    public function redrawHeaderAction() : void
     {
         echo $this->getHeaderAction(true);
         exit;
     }
 
-    /**
-     * Add header action
-     */
-    public function addHeaderAction()
+    public function addHeaderAction() : void
     {
         $this->tpl->setVariable("HEAD_ACTION", $this->getHeaderAction());
     }
 
-    /**
-     * Add header action
-     */
-    public function getHeaderAction($a_redraw = false)
-    {
+    public function getHeaderAction(
+        bool $a_redraw = false
+    ) : string {
         if ($this->offline) {
-            return;
+            return "";
         }
         $ilAccess = $this->access;
         $ilSetting = $this->settings;
@@ -1032,7 +770,7 @@ class ilLMPresentationGUI
         $this->ctrl->setParameter($this, "embed_mode", $this->embed_mode);
         $this->ctrl->setParameterByClass("ilnotegui", "embed_mode", $this->embed_mode);
         $this->ctrl->setParameterByClass("iltagginggui", "embed_mode", $this->embed_mode);
-        ilObjectListGUI::prepareJSLinks(
+        ilObjectListGUI::prepareJsLinks(
             $this->ctrl->getLinkTarget($this, "redrawHeaderAction", "", true),
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "ilnotegui"), "", "", true, false),
             $this->ctrl->getLinkTargetByClass(array("ilcommonactiondispatchergui", "iltagginggui"), "", "", true, false),
@@ -1119,8 +857,8 @@ class ilLMPresentationGUI
     }
 
     /**
-    * output notes of page
-    */
+     * output notes of page
+     */
     public function ilLMNotes() : string
     {
         $ilAccess = $this->access;
@@ -1173,17 +911,11 @@ class ilLMPresentationGUI
         return $html;
     }
 
-
-    /**
-    * locator
-    */
-    public function ilLocator($a_std_templ_loaded = false)
+    public function ilLocator() : void
     {
         global $DIC;
         $ltiview = $DIC["lti"];
         $ilLocator = $this->locator;
-        $tree = $this->tree;
-        $ilCtrl = $this->ctrl;
 
         if (empty($this->requested_obj_id)) {
             $a_id = $this->lm_tree->getRootId();
@@ -1209,16 +941,6 @@ class ilLMPresentationGUI
                 // Do nothing, its complicated...
             } else {
                 $ilLocator->addRepositoryItems();
-                //$ilLocator->addItem("...", "");
-
-                /*
-                $par_id = $tree->getParentId($this->requested_ref_id);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $par_id);
-                $ilLocator->addItem(
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($par_id)),
-                    $ilCtrl->getLinkTargetByClass("ilrepositorygui", "frameset"),
-                    ilFrameTargetInfo::_getFrame("MainContent"), $par_id);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->requested_ref_id);*/
             }
         } else {
             $ilLocator->setOffline(true);
@@ -1234,7 +956,7 @@ class ilLMPresentationGUI
                             ilUtil::shortenText(
                                 ilStructureObject::_getPresentationTitle(
                                     $row["child"],
-                                    ilLMOBject::CHAPTER_TITLE,
+                                    ilLMObject::CHAPTER_TITLE,
                                     $this->lm->isActiveNumbering(),
                                     $this->lm_set->get("time_scheduled_page_activation"),
                                     false,
@@ -1277,186 +999,37 @@ class ilLMPresentationGUI
 
     /**
      * Get the current page id
-     *
-     * @return bool|int current page id
      */
-    public function getCurrentPageId()
+    public function getCurrentPageId() : ?int
     {
         return $this->service->getNavigationStatus()->getCurrentPage();
-
-        $ilUser = $this->user;
-
-        if (!$this->offlineMode() && $this->current_page_id !== false) {
-            return $this->current_page_id;
-        }
-
-        $this->chapter_has_no_active_page = false;
-        $this->deactivated_page = false;
-        
-        // determine object id
-        if (empty($this->requested_obj_id)) {
-            $obj_id = $this->lm_tree->getRootId();
-        } else {
-            $obj_id = $this->requested_obj_id;
-            $active = ilLMPage::_lookupActive(
-                $obj_id,
-                $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
-            );
-
-            if (!$active &&
-                ilLMPageObject::_lookupType($obj_id) == "pg") {
-                $this->deactivated_page = true;
-            }
-        }
-
-        // obj_id not in tree -> it is a unassigned page -> return page id
-        if (!$this->lm_tree->isInTree($obj_id)) {
-            return $obj_id;
-        }
-
-        $curr_node = $this->lm_tree->getNodeData($obj_id);
-        
-        $active = ilLMPage::_lookupActive(
-            $obj_id,
-            $this->lm->getType(),
-            $this->lm_set->get("time_scheduled_page_activation")
-        );
-
-        if ($curr_node["type"] == "pg" &&
-            $active) {		// page in tree -> return page id
-            $page_id = $curr_node["obj_id"];
-        } else { 		// no page -> search for next page and return its id
-            $succ_node = true;
-            $active = false;
-            $page_id = $obj_id;
-            while ($succ_node && !$active) {
-                $succ_node = $this->lm_tree->fetchSuccessorNode($page_id, "pg");
-                $page_id = $succ_node["obj_id"];
-                $active = ilLMPage::_lookupActive(
-                    $page_id,
-                    $this->lm->getType(),
-                    $this->lm_set->get("time_scheduled_page_activation")
-                );
-            }
-
-            if ($succ_node["type"] != "pg") {
-                $this->chapter_has_no_active_page = true;
-                return 0;
-            }
-
-            // if public access get first public page in chapter
-            if ($ilUser->getId() == ANONYMOUS_USER_ID &&
-               $this->lm_gui->object->getPublicAccessMode() == 'selected') {
-                $public = ilLMObject::_isPagePublic($page_id);
-
-                while ($public === false && $page_id > 0) {
-                    $succ_node = $this->lm_tree->fetchSuccessorNode($page_id, 'pg');
-                    $page_id = $succ_node['obj_id'];
-                    $public = ilLMObject::_isPagePublic($page_id);
-                }
-            }
-            
-            // check whether page found is within "clicked" chapter
-            if ($this->lm_tree->isInTree($page_id)) {
-                $path = $this->lm_tree->getPathId($page_id);
-                if (!in_array($this->requested_obj_id, $path)) {
-                    $this->chapter_has_no_active_page = true;
-                }
-            }
-        }
-
-        $this->current_page_id = $page_id;
-        return $page_id;
-    }
-
-
-    public function getLayoutLinkTargets()
-    {
-        if (!is_object($this->layout_doc)) {
-            return array();
-        }
-
-        $xpc = xpath_new_context($this->layout_doc);
-
-        $path = "/ilLayout/ilLinkTargets/LinkTarget";
-        $res = xpath_eval($xpc, $path);
-        $targets = array();
-        for ($i = 0; $i < count($res->nodeset); $i++) {
-            $type = $res->nodeset[$i]->get_attribute("Type");
-            $frame = $res->nodeset[$i]->get_attribute("Frame");
-            $onclick = $res->nodeset[$i]->get_attribute("OnClick");
-            $targets[$type] = array("Type" => $type, "Frame" => $frame, "OnClick" => $onclick);
-        }
-        var_dump($targets);
-        exit;
-        return $targets;
     }
 
     /**
      * Set content style
      */
-    protected function setContentStyles()
+    protected function setContentStyles() : void
     {
         // content style
-
         $this->tpl->addCss(ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
         $this->tpl->addCss(ilObjStyleSheet::getSyntaxStylePath());
-
-        /*
-        $this->tpl->setCurrentBlock("ContentStyle");
-        if (!$this->offlineMode())
-        {
-            $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET",
-                ilObjStyleSheet::getContentStylePath($this->lm->getStyleSheetId()));
-        }
-        else
-        {
-            $this->tpl->setVariable("LOCATION_CONTENT_STYLESHEET", "content_style/content.css");
-        }
-        $this->tpl->parseCurrentBlock();
-
-        // syntax style
-        $this->tpl->setCurrentBlock("SyntaxStyle");
-        if (!$this->offlineMode())
-        {
-            $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-                ilObjStyleSheet::getSyntaxStylePath());
-        }
-        else
-        {
-            $this->tpl->setVariable("LOCATION_SYNTAX_STYLESHEET",
-                "syntaxhighlight.css");
-        }
-        $this->tpl->parseCurrentBlock();*/
     }
 
     /**
      * Set system style
      */
-    protected function setSystemStyle()
+    protected function setSystemStyle() : void
     {
         $this->tpl->addCss(ilUtil::getStyleSheetLocation());
     }
 
-
-
-
-    /**
-     * process <ilPage> content tag
-     *
-     * @param $a_page_node page node
-     * @param int $a_page_id header / footer page id
-     * @return string
-     */
-    public function getContent($skip_nav = false)
-    {
+    public function getContent(
+        bool $skip_nav = false
+    ) : string {
         $this->fill_on_load_code = true;
         $this->setContentStyles();
 
         $tpl = new ilTemplate("tpl.lm_content.html", true, true, "Modules/LearningModule/Presentation");
-
-        // call ilLMContentRendererGUI
 
         $navigation_renderer = new ilLMNavigationRendererGUI(
             $this->service,
@@ -1481,10 +1054,7 @@ class ilLMPresentationGUI
         return $tpl->get();
     }
 
-    /**
-     * Get page content
-     */
-    protected function getPageContent()
+    protected function getPageContent() : string
     {
         $content_renderer = new ilLMContentRendererGUI(
             $this->service,
@@ -1500,12 +1070,7 @@ class ilLMPresentationGUI
         return $content_renderer->render();
     }
 
-    /**
-     * Render rating
-     *
-     * @return string
-     */
-    protected function renderRating()
+    protected function renderRating() : string
     {
         // rating
         $rating = "";
@@ -1514,11 +1079,6 @@ class ilLMPresentationGUI
             $rating_gui->setObject($this->lm->getId(), "lm", $this->getCurrentPageId(), "lm");
             $rating_gui->setYourRatingText($this->lng->txt("lm_rate_page"));
 
-            /*
-                $this->tpl->setVariable("VAL_RATING", $rating->getHTML(false, true,
-                    "il.ExcPeerReview.saveComments(".$a_set["peer_id"].", %rating%)"));
-            */
-
             $this->ctrl->setParameter($this, "pgid", $this->getCurrentPageId());
             $this->tpl->addOnLoadCode("il.LearningModule.setRatingUrl('" .
                 $this->ctrl->getLinkTarget($this, "updatePageRating", "", true, false) .
@@ -1526,15 +1086,14 @@ class ilLMPresentationGUI
             $this->ctrl->setParameter($this, "pgid", "");
 
             $rating = '<div id="ilrtrpg" style="text-align:right">' .
-                $rating_gui->getHtml(true, true, "il.LearningModule.saveRating(%rating%);") .
+                $rating_gui->getHTML(true, true, "il.LearningModule.saveRating(%rating%);") .
                 "</div>";
         }
         return $rating;
     }
 
 
-    
-    public function updatePageRating()
+    public function updatePageRating() : void
     {
         $ilUser = $this->user;
         
@@ -1564,22 +1123,16 @@ class ilLMPresentationGUI
         }
         
         $rating = new ilRatingGUI();
-        $rating->setObject($this->lm->getId(), "lm", $pg_id, "lm", $ilUser->getId());
+        $rating->setObject($this->lm->getId(), "lm", $pg_id, "lm");
         $rating->setYourRatingText($this->lng->txt("lm_rate_page"));
         
-        echo $rating->getHtml(true, true, "il.LearningModule.saveRating(%rating%);");
+        echo $rating->getHTML(true, true, "il.LearningModule.saveRating(%rating%);");
         
         echo $this->tpl->getOnLoadCodeForAsynch();
         exit();
     }
 
-    /**
-     * Basic page gui initialisation
-     *
-     * @param
-     * @return
-     */
-    public function basicPageGuiInit(\ilLMPageGUI $a_page_gui)
+    public function basicPageGuiInit(\ilPageObjectGUI $a_page_gui) : void
     {
         $a_page_gui->setStyleId(ilObjStyleSheet::getEffectiveContentStyleId(
             $this->lm->getStyleSheetId(),
@@ -1609,10 +1162,7 @@ class ilLMPresentationGUI
     }
 
 
-    /**
-    * show glossary term
-    */
-    public function ilGlossary()
+    public function ilGlossary() : void
     {
         $ilCtrl = $this->ctrl;
 
@@ -1629,17 +1179,14 @@ class ilLMPresentationGUI
         }
         $term_gui->output($this->offlineMode(), $this->tpl);
 
-
         if (!$this->offlineMode()) {
             $ilCtrl->setParameter($this, "pg_type", "");
         }
     }
 
-    /**
-    * output media
-    */
-    public function ilMedia()
+    public function ilMedia() : void
     {
+        $pg_frame = "";
         $this->setContentStyles();
 
         $this->renderPageTitle();
@@ -1658,19 +1205,15 @@ class ilLMPresentationGUI
             // todo: we get always the first alias now (problem if mob is used multiple
             // times in page)
             $xml .= $pg_obj->getMediaAliasElement($this->requested_mob_id);
-            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml .= $link_xml;
-            $xml .= "</dummy>";
         } else {
             $xml = "<dummy>";
             // todo: we get always the first alias now (problem if mob is used multiple
             // times in page)
             $xml .= $media_obj->getXML(IL_MODE_ALIAS);
-            $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
-            $xml .= $link_xml;
-            $xml .= "</dummy>";
         }
-
+        $xml .= $media_obj->getXML(IL_MODE_OUTPUT);
+        $xml .= $link_xml;
+        $xml .= "</dummy>";
 
         $xsl = file_get_contents("./Services/COPage/xsl/page.xsl");
         $args = array( '/_xml' => $xml, '/_xsl' => $xsl );
@@ -1693,7 +1236,6 @@ class ilLMPresentationGUI
             'ref_id' => $this->lm->getRefId(), 'pg_frame' => $pg_frame, 'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
 
-        echo xslt_error($xh);
         xslt_free($xh);
 
         // unmask user html
@@ -1703,11 +1245,11 @@ class ilLMPresentationGUI
         ilObjMediaObjectGUI::includePresentationJS($this->tpl);
     }
 
-    /**
-    * Puts JS into template
-    */
-    public function ilJavaScript($a_inline = "", $a_file = "", $a_location = "")
-    {
+    public function ilJavaScript(
+        string $a_inline = "",
+        string $a_file = "",
+        string $a_location = ""
+    ) : void {
         if ($a_inline != "") {
             $js_tpl = new ilTemplate($a_inline, true, false, $a_location);
             $js = $js_tpl->get();
@@ -1716,172 +1258,11 @@ class ilLMPresentationGUI
     }
 
     /**
-     * Get successor page
-     *
-     * @param
-     * @return
+     * this one is called from the info button in the repository
+     * not very nice to set cmdClass/Cmd manually, if everything
+     * works through ilCtrl in the future this may be changed
      */
-    public function getSuccessorPage()
-    {
-        $ilUser = $this->user;
-
-        $page_id = $this->getCurrentPageId();
-
-        if (empty($page_id)) {
-            return 0;
-        }
-
-        // determine successor page_id
-        $found = false;
-
-        // empty chapter
-        if ($this->chapter_has_no_active_page &&
-            ilLMObject::_lookupType($this->requested_obj_id) == "st") {
-            $c_id = $this->requested_obj_id;
-        } else {
-            if ($this->deactivated_page) {
-                $c_id = $this->requested_obj_id;
-            } else {
-                $c_id = $page_id;
-            }
-        }
-        while (!$found) {
-            $succ_node = $this->lm_tree->fetchSuccessorNode($c_id, "pg");
-            $c_id = $succ_node["obj_id"];
-
-            $active = ilLMPage::_lookupActive(
-                $c_id,
-                $this->lm->getType(),
-                $this->lm_set->get("time_scheduled_page_activation")
-            );
-
-            if ($succ_node["obj_id"] > 0 &&
-                $ilUser->getId() == ANONYMOUS_USER_ID &&
-                ($this->lm->getPublicAccessMode() == "selected" &&
-                    !ilLMObject::_isPagePublic($succ_node["obj_id"]))) {
-                $found = false;
-            } elseif ($succ_node["obj_id"] > 0 && !$active) {
-                // look, whether activation data should be shown
-                $act_data = ilLMPage::_lookupActivationData((int) $succ_node["obj_id"], $this->lm->getType());
-                if ($act_data["show_activation_info"] &&
-                    (ilUtil::now() < $act_data["activation_start"])) {
-                    $found = true;
-                } else {
-                    $found = false;
-                }
-            } else {
-                $found = true;
-            }
-        }
-
-        if ($found) {
-            return $succ_node["obj_id"];
-        }
-        return 0;
-    }
-
-
-    public function processNodes(&$a_content, &$a_node)
-    {
-        $child_nodes = $a_node->child_nodes();
-        foreach ($child_nodes as $child) {
-            if ($child->node_name() == "ilFrame") {
-                $attributes = $this->attrib2arr($child->attributes());
-                // node is frameset, if it has cols or rows attribute
-                if ((!empty($attributes["rows"])) || (!empty($attrubtes["cols"]))) {
-                    // if framset has name, another http request is necessary
-                    // (html framesets don't have names, so we need a wrapper frame)
-                    if (!empty($attributes["name"])) {
-                        unset($attributes["template"]);
-                        unset($attributes["template_location"]);
-                        $attributes["src"] =
-                            $this->linker->getLink(
-                                "layout",
-                                $this->requested_obj_id,
-                                $attributes["name"],
-                                "",
-                                "keep",
-                                "",
-                                $_GET["srcstring"]
-                            );
-                        $attributes["title"] = $this->lng->txt("cont_frame_" . $attributes["name"]);
-                        $a_content .= $this->buildTag("", "frame", $attributes);
-                        $this->frames[$attributes["name"]] = $attributes["name"];
-                    //echo "<br>processNodes:add1 ".$attributes["name"];
-                    } else {	// ok, no name means that we can easily output the frameset tag
-                        $a_content .= $this->buildTag("start", "frameset", $attributes);
-                        $this->processNodes($a_content, $child);
-                        $a_content .= $this->buildTag("end", "frameset");
-                    }
-                } else {	// frame with
-                    unset($attributes["template"]);
-                    unset($attributes["template_location"]);
-                    $attributes["src"] =
-                        $this->linker->getLink(
-                            "layout",
-                            $this->requested_obj_id,
-                            $attributes["name"],
-                            "",
-                            "keep",
-                            "",
-                            $_GET["srcstring"]
-                        );
-                    $attributes["title"] = $this->lng->txt("cont_frame_" . $attributes["name"]);
-                    if ($attributes["name"] == "toc") {
-                        $attributes["src"] .= "#" . $this->requested_obj_id;
-                    } else {
-                        // Handle Anchors
-                        if ($_GET["anchor"] != "") {
-                            $attributes["src"] .= "#" . rawurlencode($_GET["anchor"]);
-                        }
-                    }
-                    $a_content .= $this->buildTag("", "frame", $attributes);
-                    $this->frames[$attributes["name"]] = $attributes["name"];
-                }
-            }
-        }
-    }
-
-    /**
-    * generate a tag with given name and attributes
-    *
-    * @param	string		"start" | "end" | "" for starting or ending tag or complete tag
-    * @param	string		element/tag name
-    * @param	array		array of attributes
-    */
-    public function buildTag($type, $name, $attr = "")
-    {
-        $tag = "<";
-
-        if ($type == "end") {
-            $tag .= "/";
-        }
-
-        $tag .= $name;
-
-        if (is_array($attr)) {
-            foreach ($attr as $k => $v) {
-                $tag .= " " . $k . "=\"$v\"";
-            }
-        }
-
-        if ($type == "") {
-            $tag .= "/";
-        }
-
-        $tag .= ">\n";
-
-        return $tag;
-    }
-
-
-
-    /**
-    * this one is called from the info button in the repository
-    * not very nice to set cmdClass/Cmd manually, if everything
-    * works through ilCtrl in the future this may be changed
-    */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -1889,45 +1270,30 @@ class ilLMPresentationGUI
     }
 
     /**
-    * info screen call from inside learning module
-    */
-    public function showInfoScreen()
+     * info screen call from inside learning module
+     */
+    public function showInfoScreen() : void
     {
-        $this->outputInfoScreen(true);
+        $this->outputInfoScreen();
     }
     
-    protected function initScreenHead($a_active_tab = "info")
-    {
+    protected function initScreenHead(
+        string $a_active_tab = "info"
+    ) : void {
         $ilAccess = $this->access;
         $ilLocator = $this->locator;
-        $ilUser = $this->user;
-        
+
         $this->renderPageTitle();
         
-        // set style sheets
-        /*
-        if (!$this->offlineMode())
-        {
-            $this->tpl->setStyleSheetLocation(ilUtil::getStyleSheetLocation());
-        }
-        else
-        {
-            $style_name = $ilUser->getPref("style").".css";;
-            $this->tpl->setStyleSheetLocation("./".$style_name);
-        }*/
-
         $this->tpl->loadStandardTemplate();
         $this->tpl->setTitle($this->getLMPresentationTitle());
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
         $this->renderTabs($a_active_tab, 0);
-        /*$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-            ,$this->getExportFormat(), $a_active_tab, true, false, 0,
-            $this->lang, $this->export_all_languages));*/
-        
+
         // Full locator, if read permission is given
         if ($ilAccess->checkAccess("read", "", $this->requested_ref_id)) {
-            $this->ilLocator(true);
+            $this->ilLocator();
         } else {
             $ilLocator->addRepositoryItems();
             $this->tpl->setLocator();
@@ -1935,9 +1301,9 @@ class ilLMPresentationGUI
     }
 
     /**
-    * info screen
-    */
-    public function outputInfoScreen($a_standard_locator = false)
+     * info screen
+     */
+    public function outputInfoScreen() : string
     {
         $ilAccess = $this->access;
 
@@ -1960,24 +1326,7 @@ class ilLMPresentationGUI
                 $info->setBlockProperty("news", "settings", true);
             }
         }
-        
-        // add read / back button
-        /*
-        if ($ilAccess->checkAccess("read", "", $this->requested_ref_id))
-        {
-            if ($this->requested_obj_id > 0)
-            {
-                $this->ctrl->setParameter($this, "obj_id", $this->requested_obj_id);
-                $info->addButton($this->lng->txt("back"),
-                    $this->ctrl->getLinkTarget($this, "layout"));
-            }
-            else
-            {
-                $info->addButton($this->lng->txt("view"),
-                    $this->ctrl->getLinkTarget($this, "layout"));
-            }
-        }*/
-        
+
         // show standard meta data section
         $info->addMetaDataSections($this->lm->getId(), 0, $this->lm->getType());
 
@@ -1990,12 +1339,13 @@ class ilLMPresentationGUI
             //$this->tpl->setContent("aa");
             $this->tpl->printToStdout();
         }
+        return "";
     }
 
     /**
-    * show selection screen for print view
-    */
-    public function showPrintViewSelection()
+     * show selection screen for print view
+     */
+    public function showPrintViewSelection() : void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -2004,42 +1354,15 @@ class ilLMPresentationGUI
             return;
         }
 
-
-
-//        $this->setContentStyles();
-//        $this->renderPageTitle();
-
-//        $this->tpl->loadStandardTemplate();
-
-//        $this->renderTabs("print", 0);
-        /*$this->tpl->setVariable("TABS", $this->lm_gui->setilLMMenu($this->offlineMode()
-            ,$this->getExportFormat(), "print", true,false, 0,
-            $this->lang, $this->export_all_languages));*/
-
+        $disabled = false;
+        $img_alt = "";
 
         $tpl = new ilTemplate("tpl.lm_print_selection.html", true, true, "Modules/LearningModule");
 
-//        $this->ilLocator(true);
-        /*        $this->tpl->addBlockFile(
-                    "ADM_CONTENT",
-                    "adm_content",
-                    "tpl.lm_print_selection.html",
-                    "Modules/LearningModule"
-                );*/
-
-        // set title header
-//        $this->tpl->setTitle($this->getLMPresentationTitle());
-//        $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
-
-        /*$this->tpl->setVariable("TXT_BACK", $this->lng->txt("back"));
         $this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-        $this->tpl->setVariable("LINK_BACK",
-            $this->ctrl->getLinkTargetByClass("illmpresentationgui", ""));*/
+        $tpl->setVariable("FORMACTION", $this->ctrl->getFormAction($this));
 
-        $this->ctrl->setParameterByClass("illmpresentationgui", "obj_id", $this->requested_obj_id);
-        $tpl->setVariable("FORMACTION", $this->ctrl->getFormaction($this));
-
-        $nodes = $this->lm_tree->getSubtree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
+        $nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
         $nodes = $this->filterNonAccessibleNode($nodes);
 
         if (!is_array($_POST["item"])) {
@@ -2053,6 +1376,9 @@ class ilLMPresentationGUI
         $this->initPrintViewSelectionForm();
 
         foreach ($nodes as $node) {
+            $img_src = "";
+            $disabled = false;
+            $img_alt = "";
 
             // check page activation
             $active = ilLMPage::_lookupActive(
@@ -2066,8 +1392,8 @@ class ilLMPresentationGUI
                 continue;
             }
 
-            $text = $img_scr = $img_alt = "";
-            $disabled = false;
+            $text = "";
+            $img_alt = "";
             $checked = false;
 
             switch ($node["type"]) {
@@ -2107,7 +1433,7 @@ class ilLMPresentationGUI
                     $text =
                         ilStructureObject::_getPresentationTitle(
                             $node["obj_id"],
-                            ilLMOBject::CHAPTER_TITLE,
+                            ilLMObject::CHAPTER_TITLE,
                             $this->lm->isActiveNumbering(),
                             $this->lm_set->get("time_scheduled_page_activation"),
                             false,
@@ -2180,13 +1506,7 @@ class ilLMPresentationGUI
 
         $f = $this->form->getHTML();
 
-        // submit toolbar
-//        $tb = new ilToolbarGUI();
-//        $tb->addFormButton($lng->txt("cont_show_print_view"), "showPrintView");
-//        $tpl->setVariable("TOOLBAR", $tb->getHTML());
-
         $tpl->setVariable("ITEM_SELECTION", $f);
-//        $this->tpl->printToStdout();
 
         $modal = $this->ui->factory()->modal()->roundtrip(
             $this->lng->txt("cont_print_view"),
@@ -2196,12 +1516,9 @@ class ilLMPresentationGUI
         exit();
     }
 
-    /**
-     * @param array $nodes
-     * @return array
-     */
-    protected function filterNonAccessibleNode($nodes)
-    {
+    protected function filterNonAccessibleNode(
+        array $nodes
+    ) : array {
         $tracker = $this->getTracker();
         // if navigation is restricted based on correct answered questions
         // check if we have preceeding pages including unsanswered/incorrect answered questions
@@ -2215,11 +1532,7 @@ class ilLMPresentationGUI
         return $nodes;
     }
 
-
-    /**
-     * Init print view selection form.
-     */
-    public function initPrintViewSelectionForm()
+    public function initPrintViewSelectionForm() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -2252,15 +1565,17 @@ class ilLMPresentationGUI
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
-    /**
-    * show print view
-    */
-    public function showPrintView()
+    public function showPrintView() : void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $tabs = $this->tabs;
+        $header_page_content = "";
+        $footer_page_content = "";
+        $chapter_title = "";
+        $did_chap_page_header = false;
+        $description = "";
 
         if (!$this->lm->isActivePrintView() || !$this->lm->isActiveLMMenu()) {
             return;
@@ -2295,7 +1610,7 @@ class ilLMPresentationGUI
         // set title header
         $this->tpl->setTitle($this->getLMPresentationTitle());
 
-        $nodes = $this->lm_tree->getSubtree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
+        $nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
 
         $act_level = 99999;
         $activated = false;
@@ -2320,7 +1635,7 @@ class ilLMPresentationGUI
                 $page_object_gui->setPresentationTitle("");
                 $page_object_gui->setFileDownloadLink("#");
                 $page_object_gui->setFullscreenLink("#");
-                $page_object_gui->setSourceCodeDownloadScript("#");
+                $page_object_gui->setSourcecodeDownloadScript("#");
                 $footer_page_content = $page_object_gui->showPage();
             }
         }
@@ -2339,7 +1654,7 @@ class ilLMPresentationGUI
                 $page_object_gui->setPresentationTitle("");
                 $page_object_gui->setFileDownloadLink("#");
                 $page_object_gui->setFullscreenLink("#");
-                $page_object_gui->setSourceCodeDownloadScript("#");
+                $page_object_gui->setSourcecodeDownloadScript("#");
                 $header_page_content = $page_object_gui->showPage();
             }
         }
@@ -2416,7 +1731,7 @@ class ilLMPresentationGUI
                         $chapter_title
                     );
                         
-                    if ($this->lm->getPageHeader() == ilLMOBject::CHAPTER_TITLE) {
+                    if ($this->lm->getPageHeader() == ilLMObject::CHAPTER_TITLE) {
                         if ($nodes[$node_key + 1]["type"] == "pg") {
                             $tpl->setVariable(
                                 "CHAP_HEADER",
@@ -2490,7 +1805,7 @@ class ilLMPresentationGUI
                     $hcont = $header_page_content;
                     $fcont = $footer_page_content;
 
-                    if ($this->lm->getPageHeader() == ilLMOBject::CHAPTER_TITLE) {
+                    if ($this->lm->getPageHeader() == ilLMObject::CHAPTER_TITLE) {
                         if ($did_chap_page_header) {
                             $hcont = "";
                         }
@@ -2503,7 +1818,7 @@ class ilLMPresentationGUI
                     
                     $page_object_gui->setFileDownloadLink("#");
                     $page_object_gui->setFullscreenLink("#");
-                    $page_object_gui->setSourceCodeDownloadScript("#");
+                    $page_object_gui->setSourcecodeDownloadScript("#");
                     $page_content = $page_object_gui->showPage();
                     if ($this->lm->getPageHeader() != ilLMObject::PAGE_TITLE) {
                         $tpl->setVariable(
@@ -2597,7 +1912,7 @@ class ilLMPresentationGUI
                     $tpl->setCurrentBlock("definition");
                     $page_gui->setFileDownloadLink("#");
                     $page_gui->setFullscreenLink("#");
-                    $page_gui->setSourceCodeDownloadScript("#");
+                    $page_gui->setSourcecodeDownloadScript("#");
                     $output = $page_gui->showPage();
                     $tpl->setVariable("VAL_DEFINITION", $output);
                     $tpl->parseCurrentBlock();
@@ -2706,7 +2021,7 @@ class ilLMPresentationGUI
                         "TXT_TOC_TITLE",
                         ilStructureObject::_getPresentationTitle(
                             $node2["obj_id"],
-                            ilLMOBject::CHAPTER_TITLE,
+                            ilLMObject::CHAPTER_TITLE,
                             $this->lm->isActiveNumbering(),
                             $this->lm_set->get("time_scheduled_page_activation"),
                             false,
@@ -2779,37 +2094,23 @@ class ilLMPresentationGUI
     }
 
     /**
-    * download file of file lists
-    */
-    public function downloadFile()
+     * download file of file lists
+     */
+    public function downloadFile() : void
     {
         $page_gui = $this->getLMPageGUI($this->getCurrentPageId());
         $page_gui->downloadFile();
     }
 
     /**
-    * show download list
-    */
-    public function showDownloadList()
+     * show download list
+     */
+    public function showDownloadList() : void
     {
         if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu()) {
             return;
         }
-
-        //$this->setContentStyles();
-        //$this->renderPageTitle();
-
-        //$this->tpl->loadStandardTemplate();
-
-        //$this->renderTabs("download", 0);
-
-        //$this->ilLocator(true);
-        //$this->tpl->stopTitleFloating();
         $tpl = new ilTemplate("tpl.lm_download_list.html", true, true, "Modules/LearningModule");
-
-        // set title header
-        //$this->tpl->setTitle($this->getLMPresentationTitle());
-        //$this->tpl->setTitleIcon(ilUtil::getImagePath("icon_lm.svg"));
 
         // output copyright information
         $md = new ilMD($this->lm->getId(), 0, $this->lm->getType());
@@ -2841,9 +2142,9 @@ class ilLMPresentationGUI
 
     
     /**
-    * send download file (xml/html)
-    */
-    public function downloadExportFile()
+     * send download file (xml/html)
+     */
+    public function downloadExportFile() : void
     {
         if (!$this->lm->isActiveDownloads() || !$this->lm->isActiveLMMenu()) {
             return;
@@ -2863,27 +2164,22 @@ class ilLMPresentationGUI
 
     /**
      * Get focused link (used in learning objectives courses)
-     *
      * @param int $a_ref_id reference id of learning module
      * @param int $a_obj_id chapter or page id
      * @param int $a_return_ref_id return ref id
-     *
-     * @return string link
      */
-    public function getFocusLink($a_ref_id, $a_obj_id, $a_return_ref_id)
-    {
+    public function getFocusLink(
+        int $a_ref_id,
+        int $a_obj_id,
+        int $a_return_ref_id
+    ) : string {
         return "ilias.php?baseClass=ilLMPresentationGUI&amp;ref_id=" . $a_ref_id . "&amp;obj_id=" . $a_obj_id . "&amp;focus_id=" .
             $a_obj_id . "&amp;focus_return=" . $a_return_ref_id;
     }
 
-    /**
-     * Show message screen
-     *
-     * @param
-     * @return
-     */
-    public function showMessageScreen($a_content)
-    {
+    public function showMessageScreen(
+        string $a_content
+    ) : void {
         // content style
         $this->setContentStyles();
 
@@ -2893,11 +2189,10 @@ class ilLMPresentationGUI
         $this->tpl->setVariable("PAGE_CONTENT", $tpl->get());
     }
 
-
     /**
      * Show info message, if page is not accessible in public area
      */
-    public function showNoPublicAccess()
+    public function showNoPublicAccess() : void
     {
         $this->showMessageScreen($this->lng->txt("msg_page_no_public_access"));
     }
@@ -2905,7 +2200,7 @@ class ilLMPresentationGUI
     /**
      * Show info message, if page is not accessible in public area
      */
-    public function showNoPageAccess()
+    public function showNoPageAccess() : void
     {
         $this->showMessageScreen($this->lng->txt("msg_no_page_access"));
     }
@@ -2914,33 +2209,22 @@ class ilLMPresentationGUI
      * Show message if navigation to page is not allowed due to unanswered
      * questions.
      */
-    public function showNavRestrictionDueToQuestions()
+    public function showNavRestrictionDueToQuestions() : void
     {
         $this->showMessageScreen($this->lng->txt("cont_no_page_access_unansw_q"));
     }
 
     
-    public function getSourcecodeDownloadLink()
+    public function getSourcecodeDownloadLink() : string
     {
         if (!$this->offlineMode()) {
-            //$this->ctrl->setParameter($this, session_name(), session_id());
-            $target = $this->ctrl->getLinkTarget($this, "");
-            $target = ilUtil::appendUrlParameterString($target, session_name() . "=" . session_id());
             return $this->ctrl->getLinkTarget($this, "");
         } else {
             return "";
         }
     }
 
-
-    
-    /**
-     * get offline directory
-     * @return directory where to store offline files
-     *
-     * current used in code paragraph
-     */
-    public function getOfflineDirectory()
+    public function getOfflineDirectory() : string
     {
         return $this->offline_directory;
     }
@@ -2949,12 +2233,16 @@ class ilLMPresentationGUI
      * store paragraph into file directory
      * files/codefile_$pg_id_$paragraph_id/downloadtitle
      */
-    public function handleCodeParagraph($page_id, $paragraph_id, $title, $text)
-    {
+    public function handleCodeParagraph(
+        int $page_id,
+        int $paragraph_id,
+        string $title,
+        string $text
+    ) : void {
         $directory = $this->getOfflineDirectory() . "/codefiles/" . $page_id . "/" . $paragraph_id;
         ilUtil::makeDirParents($directory);
         $file = $directory . "/" . $title;
-        if (!($fp = @fopen($file, "w+"))) {
+        if (!($fp = fopen($file, "w+"))) {
             die("<b>Error</b>: Could not open \"" . $file . "\" for writing" .
                 " in <b>" . __FILE__ . "</b> on line <b>" . __LINE__ . "</b><br />");
         }
@@ -2964,22 +2252,12 @@ class ilLMPresentationGUI
     }
     
     // #8613
-    protected function renderPageTitle()
+    protected function renderPageTitle() : void
     {
         $this->tpl->setHeaderPageTitle($this->getLMPresentationTitle());
-        // @todo 6.0
-//		$this->tpl->fillWindowTitle();
-//		$this->tpl->fillContentLanguage();
     }
     
-
-    /**
-     * Get lm page gui object
-     *
-     * @param
-     * @return
-     */
-    public function getLMPageGUI($a_id)
+    public function getLMPageGUI(int $a_id) : ilLMPageGUI
     {
         if ($this->lang != "-" && ilPageObject::_exists("lm", $a_id, $this->lang)) {
             return new ilLMPageGUI($a_id, 0, false, $this->lang);
@@ -2990,14 +2268,10 @@ class ilLMPresentationGUI
         return new ilLMPageGUI($a_id);
     }
 
-    /**
-     * Get lm page object
-     *
-     * @param
-     * @return
-     */
-    public function getLMPage($a_id, $a_type = "")
-    {
+    public function getLMPage(
+        int $a_id,
+        string $a_type = ""
+    ) : ilPageObject {
         $type = ($a_type == "mep")
             ? "mep"
             : "lm";
@@ -3021,9 +2295,9 @@ class ilLMPresentationGUI
     /**
      * Refresh toc (called if questions have been answered correctly)
      */
-    public function refreshToc()
+    public function refreshToc() : void
     {
-        $exp = $this->ilTOC(true);
+        $exp = $this->ilTOC();
 
         echo $exp->getHTML() .
             "<script>" . $exp->getOnLoadCode() . "</script>";
@@ -3031,15 +2305,16 @@ class ilLMPresentationGUI
     }
 
     /**
-     * Generate new ilNote and send Notifications to the users informing that there are new comments in the LM
-     * @param $a_lm_id
-     * @param $a_page_id
-     * @param $a_type
-     * @param $a_action
-     * @param $a_note_id
+     * Generate new ilNote and send Notifications to the users informing
+     * that there are new comments in the LM.
      */
-    public function observeNoteAction($a_lm_id, $a_page_id, $a_type, $a_action, $a_note_id)
-    {
+    public function observeNoteAction(
+        int $a_lm_id,
+        int $a_page_id,
+        string $a_type,
+        string $a_action,
+        int $a_note_id
+    ) : void {
         $note = new ilNote($a_note_id);
         $note = $note->getText();
 
@@ -3054,14 +2329,11 @@ class ilLMPresentationGUI
         $notification->send();
     }
 
-    /**
-     * Render tabs
-     *
-     * @param $active_tab
-     * @param $current_page_id
-     */
-    protected function renderTabs($active_tab, $current_page_id)
-    {
+    // render menu
+    protected function renderTabs(
+        string $active_tab,
+        int $current_page_id
+    ) : void {
         $menu_editor = new ilLMMenuEditor();
         $menu_editor->setObjId($this->lm->getId());
 
@@ -3071,7 +2343,7 @@ class ilLMPresentationGUI
             $this->toolbar,
             $current_page_id,
             $active_tab,
-            (string) $this->getExportFormat(),
+            $this->getExportFormat(),
             $this->export_all_languages,
             $this->lm,
             $this->offlineMode(),
@@ -3090,12 +2362,9 @@ class ilLMPresentationGUI
     }
 
     /**
-     * Get HTML (called by kios mode through ilCtrl)
-     * @param $pars
-     * @return string|void
-     * @throws ilLMPresentationException
+     * Get HTML (called by kiosk mode through ilCtrl)
      */
-    public function getHTML($pars)
+    public function getHTML(array $pars) : string
     {
         $this->addResourceFiles();
         switch ($pars["cmd"]) {

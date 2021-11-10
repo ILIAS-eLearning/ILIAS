@@ -1,28 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Main service init and factory
- *
- * @author @leifos.de
- * @ingroup
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMEditService
 {
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
+    protected int $ref_id;
+    protected ilObjLearningModule $lm;
+    protected ilLMEditRequest $request;
 
-    /**
-     * @var ilLMEditRequest
-     */
-    protected $request;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         array $query_params
     ) {
@@ -31,19 +31,11 @@ class ilLMEditService
         $this->lm = new ilObjLearningModule($this->ref_id);
     }
 
-    /**
-     * @return ilObjLearningModule
-     */
     public function getLearningModule() : ilObjLearningModule
     {
         return $this->lm;
     }
 
-    /**
-     * Get request
-     *
-     * @return ilLMEditRequest
-     */
     public function getRequest() : ilLMEditRequest
     {
         return $this->request;

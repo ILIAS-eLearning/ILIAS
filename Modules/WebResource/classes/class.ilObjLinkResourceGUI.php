@@ -1284,14 +1284,12 @@ class ilObjLinkResourceGUI extends ilObject2GUI implements ilLinkCheckerGUIRowHa
     }
     
     /**
-     *
-     * @see		ilLinkCheckerGUIRowHandling::formatInvalidLinkArray()
      * @param	array Unformatted array
      * @return	array Formatted array
      * @access	public
-     *
+     *@see		ilLinkCheckerGUIRowHandling::formatInvalidLinkArray()
      */
-    public function formatInvalidLinkArray(array $row)
+    public function formatInvalidLinkArray(array $row) : array
     {
         $this->object->items_obj->readItem($row['page_id']);
         $row['title'] = $this->object->items_obj->getTitle();

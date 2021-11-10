@@ -1,77 +1,49 @@
 <?php
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * LM presentation (left frame) explorer GUI class
  *
- * @author	Alex Killing <alex.killing@gmx.de>
- * @version	$Id$
- *
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 {
-    protected $lang;
+    protected string $lang;
     protected $highlight_node;
-    protected $export_all_languages;
-
-    /**
-     * @var ilPageActivationDBRepository
-     */
-    protected $activation_repo;
-
-    /**
-     * @var array
-     */
-    protected $complete_tree;
-
-    /**
-     * @var array
-     */
-    protected $activation_data;
-
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * @var ilSetting
-     */
-    protected $lm_set;
-
-    /**
-     * @var ilLMPresentationLinker
-     */
-    protected $linker;
-
-    protected $focus_id;
-
-    /**
-     * @var ilLMPresentationService
-     */
-    protected $service;
-
-    /**
-     * @var ilLMTracker
-     */
-    protected $tracker;
+    protected bool $export_all_languages;
+    protected ilPageActivationDBRepository $activation_repo;
+    protected array $complete_tree;
+    protected array $activation_data;
+    protected ilObjLearningModule $lm;
+    protected ilSetting $lm_set;
+    protected ilLMPresentationLinker $linker;
+    protected int $focus_id;
+    protected ilLMPresentationService $service;
+    protected ilLMTracker $tracker;
 
     /**
      * Constructor
-     *
      * @param object|string $a_parent_obj parent gui object
-     * @param string $a_parent_cmd parent cmd
-     * @param ilLMPresentationService $service
-     * @param string $a_lang language
      */
     public function __construct(
         $a_parent_obj,
-        $a_parent_cmd,
+        string $a_parent_cmd,
         ilLMPresentationService $service,
-        $a_lang = "-",
-        $a_focus_id = 0,
-        $export_all_languages = false
+        string $a_lang = "-",
+        int $a_focus_id = 0,
+        bool $export_all_languages = false
     ) {
         global $DIC;
 
@@ -101,12 +73,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         $this->initTreeData();
     }
 
-    /**
-     * Init tree data
-     * @param
-     * @return
-     */
-    protected function initTreeData()
+    protected function initTreeData() : void
     {
         $nodes = $this->tree->getCompleteTree();
         foreach ($nodes as $node) {
@@ -125,12 +92,9 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         $this->initVisibilityData($this->tree->readRootId());
     }
 
-    /**
-     * Init visibility data
-     * @param int $node_id
-     */
-    protected function initVisibilityData($node_id)
-    {
+    protected function initVisibilityData(
+        int $node_id
+    ) : void {
         $current_node = $this->complete_tree["nodes"][$node_id];
 
         if (is_array($this->complete_tree["childs"][$node_id])) {
@@ -160,10 +124,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         }
     }
 
-    /**
-     * Get root node
-     */
-    public function getRootNode()
+    public function getRootNode() : array
     {
         $root_id = $this->getTree()->readRootId();
         if ($this->focus_id > 0 && $this->getTree()->isInTree($this->focus_id) &&
@@ -173,50 +134,28 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         return $this->getTree()->getNodeData($root_id);
     }
 
-    /**
-     * Set tracker
-     *
-     * @param ilLMTracker $a_val tracker object
-     */
-    public function setTracker($a_val)
+    public function setTracker(ilLMTracker $a_val) : void
     {
         $this->tracker = $a_val;
     }
 
-    /**
-     * Get tracker
-     *
-     * @return ilLMTracker tracker object
-     */
-    public function getTracker()
+    public function getTracker() : ilLMTracker
     {
         return $this->tracker;
     }
 
-    /**
-     * Set highlighted node
-     *
-     * @param int $a_val node id
-     */
-    public function setHighlightNode($a_val)
+    public function setHighlightNode(int $a_val) : void
     {
         $this->highlight_node = $a_val;
     }
 
-    /**
-     * Get highlighted node
-     *
-     * @return int node id
-     */
-    public function getHighlightNode()
+    public function getHighlightNode() : int
     {
         return $this->highlight_node;
     }
 
     /**
-     * Is node highlighted?
-     * @param mixed $a_node node object/array
-     * @return boolean node visible true/false
+     * @param object|array $a_node
      */
     public function isNodeHighlighted($a_node) : bool
     {
@@ -227,9 +166,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     }
 
     /**
-     * Get node content
-     * @param array $a_node node array
-     * @return string node content
+     * @param array|object $a_node
      */
     public function getNodeContent($a_node) : string
     {
@@ -240,7 +177,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
         if ($a_node["type"] == "st") {
             return ilStructureObject::_getPresentationTitle(
                 $a_node["child"],
-                ilLMOBject::CHAPTER_TITLE,
+                ilLMObject::CHAPTER_TITLE,
                 $this->lm->isActiveNumbering(),
                 false,
                 false,
@@ -268,9 +205,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
 
     /**
-     * Get node icon
-     * @param array $a_node node array
-     * @return string icon path
+     * @param array|object $a_node
      */
     public function getNodeIcon($a_node) : string
     {
@@ -317,9 +252,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     }
 
     /**
-     * Is node clickable
-     * @param array $a_node node array
-     * @return bool clickable?
+     * @param array|object $a_node
      */
     public function isNodeClickable($a_node) : bool
     {
@@ -392,18 +325,15 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
 
 
     /**
-     * Get node icon alt text
-     * @param array $a_node node array
-     * @return string alt text
+     * @param array|object $a_node
      */
     public function getNodeIconAlt($a_node) : string
     {
+        return "";
     }
-    
+
     /**
-     * Get href for node
-     * @param mixed $a_node node object/array
-     * @return string href attribute
+     * @param array|object $a_node
      */
     public function getNodeHref($a_node) : string
     {
@@ -445,9 +375,7 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     }
 
     /**
-     * Is node visible?
-     * @param mixed $a_node node object/array
-     * @return boolean node visible true/false
+     * @param array|object $a_node
      */
     public function isNodeVisible($a_node) : bool
     {
@@ -458,34 +386,11 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     // Learning Sequence TOC
     //
 
-    /**
-     * Render into ls toc
-     * @param
-     * @return
-     */
     public function renderLSToc(\LSTOCBuilder $toc)
     {
         $this->renderLSTocNode($toc, null);
-
-        /*$toc->node('node1')
-        ->item('item1.1', 1)
-        ->item('item1.2', 11)
-        ->end();
-        $toc->item('item2', 111);
-        $toc->node('node3', 1111)
-        ->item('item3.1', 2)
-        ->node('node3.2')
-        ->item('item3.2.1', 122)
-        ->end()
-        ->end()
-        ->end();*/
     }
 
-    /**
-     * Render node
-     * @param ilLSTOCGUI $toc
-     * @param null       $current_node
-     */
     protected function renderLSTocNode(\LSTOCBuilder $toc, $current_node = null)
     {
         $root = false;

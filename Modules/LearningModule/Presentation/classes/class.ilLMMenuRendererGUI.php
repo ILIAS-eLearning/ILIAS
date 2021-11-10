@@ -1,98 +1,46 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Menu / Tabs renderer
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMMenuRendererGUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected ilLanguage $lng;
+    protected bool $export_all;
+    protected int $requested_ref_id;
+    protected int $requested_obj_id;
+    protected ilAccessHandler $access;
+    protected ilObjUser $user;
+    protected int $current_page;
+    protected ilObjLearningModule $lm;
+    protected bool $offline;
+    protected ilCtrl $ctrl;
+    protected string $lang;
+    protected string $active_tab;
+    protected string $export_format;
+    protected ilTabsGUI $tabs;
+    protected ilToolbarGUI $toolbar;
+    protected ilLMMenuEditor $menu_editor;
+    protected ilLMPresentationService $lm_pres_service;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected \ILIAS\UI\Factory $ui_factory;
+    protected Closure $additional_content_collector;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var int
-     */
-    protected $current_page;
-
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * @var bool
-     */
-    protected $offline;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-
-    /**
-     * @var string
-     */
-    protected $lang;
-
-    /**
-     * @var string
-     */
-    protected $active_tab;
-
-    /**
-     * @var string
-     */
-    protected $export_format;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLMMenuEditor
-     */
-    protected $menu_editor;
-
-    /**
-     * @var \ilLMPresentationService
-     */
-    protected $lm_pres_service;
-
-    /**
-     * @var \ilGlobalTemplateInterface
-     */
-    protected $main_tpl;
-
-    /**
-     * @var \ILIAS\UI\Factory
-     */
-    protected $ui_factory;
-
-    /**
-     * @var closure
-     */
-    protected $additional_content_collector;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         \ilLMPresentationService $lm_pres_service,
         ilTabsGUI $tabs,
@@ -110,7 +58,7 @@ class ilLMMenuRendererGUI
         ilObjUser $user,
         ilLanguage $lng,
         $main_tpl,
-        closure $additional_content_collector
+        Closure $additional_content_collector
     ) {
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
@@ -125,9 +73,7 @@ class ilLMMenuRendererGUI
         $this->lm_pres_service = $lm_pres_service;
         $this->toolbar = $toolbar;
         $this->main_tpl = $main_tpl;
-
         $this->additional_content_collector = $additional_content_collector;
-
         $this->access = $access;
         $this->user = $user;
         $this->ctrl = $ctrl;
@@ -135,19 +81,12 @@ class ilLMMenuRendererGUI
         $this->current_page = $current_page;
         $this->lm = $lm;
         $this->offline = $offline;
-
         $request = $lm_pres_service->getRequest();
-
         $this->requested_obj_id = $request->getRequestedObjId();
         $this->requested_ref_id = $request->getRequestedRefId();
     }
 
-    /**
-     * Render
-     *
-     * @return string
-     */
-    public function render()
+    public function render() : string
     {
         $ilCtrl = $this->ctrl;
         $ilAccess = $this->access;
@@ -181,7 +120,7 @@ class ilLMMenuRendererGUI
         }
 
         if (!$active["content"]) {
-            return;
+            return "";
         }
 
         // info button
