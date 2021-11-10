@@ -1,18 +1,15 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Didactical template settings
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author   Stefan Meyer <meyer@leifos.com>
  * @defgroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateSettings
 {
-    private static ?ilDidacticTemplateSettings  $instance = null;
+    private static ?ilDidacticTemplateSettings $instance = null;
     private static array $instances = [];
-
 
     private array $templates = [];
     private string $obj_type = '';

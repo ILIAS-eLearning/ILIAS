@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Description of class
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplates
  */
 class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
@@ -17,12 +14,10 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
     public const TPL_ACTION_SUBTRACT = 4;
     public const TPL_ACTION_UNION = 5;
 
-
     private array $pattern = [];
     private int $filter_type = self::FILTER_SOURCE_TITLE;
     private int $role_template_type = self::TPL_ACTION_OVERWRITE;
     private int $role_template_id = 0;
-
 
     /**
      * Constructor
@@ -158,9 +153,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
         }
     }
 
-
-
-
     /**
      * Apply action
      */
@@ -191,7 +183,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
     /**
      * Revert action
-     *
      */
     public function revert() : bool
     {
@@ -214,9 +205,9 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
 
                 // Change existing object
                 $role_obj = new ilObjRole($role_id);
-                
+
                 $protected = $this->review->isProtected($role['parent'], $role['rol_id']);
-                
+
                 $role_obj->changeExistingObjects(
                     $source->getRefId(),
                     $protected ?
@@ -304,8 +295,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 break;
         }
 
-        
-
         $exp = new ilRoleXmlExport();
         $exp->setMode(ilRoleXmlExport::MODE_DTPL);
         $exp->addRole($this->getRoleTemplateId(), ROLE_FOLDER_ID);
@@ -358,7 +347,7 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
                 $role_data = $tmp_role;
             }
         }
-        
+
         // Add local policy
         if (!$this->review->isRoleAssignedToObject($role['obj_id'], $source->getRefId())) {
             $this->admin->assignRoleToFolder(
@@ -368,10 +357,9 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             );
         }
 
-
         // do nothing if role is protected in higher context
         if (
-            $this->review->isProtected($source->getRefId(),$role['obj_id']) &&
+            $this->review->isProtected($source->getRefId(), $role['obj_id']) &&
             $role['parent'] != $source->getRefId()
         ) {
             $this->getLogger()->info('Ignoring protected role: ' . $role['title']);
@@ -437,7 +425,6 @@ class ilDidacticTemplateLocalPolicyAction extends ilDidacticTemplateAction
             $this->logger->warning('Cannot revert local policy for role ' . $role['title']);
             return false;
         }
-
 
         // No local policies
         if (!$this->review->getLocalPolicies($source->getRefId())) {

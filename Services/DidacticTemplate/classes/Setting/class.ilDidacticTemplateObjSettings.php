@@ -1,13 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
-
 /**
  * Stores the applied template id for objects
- *
- * @author Stefan Meyer <meyer@ilias@gmx.de>
+ * @author  Stefan Meyer <meyer@ilias@gmx.de>
  * @ingroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateObjSettings
@@ -32,7 +28,6 @@ class ilDidacticTemplateObjSettings
         }
         return 0;
     }
-
 
     /**
      * Delete by obj id
@@ -103,6 +98,7 @@ class ilDidacticTemplateObjSettings
             ')';
         $ilDB->manipulate($query);
     }
+
     /**
      * Lookup template id
      * @param int $a_tpl_id
@@ -143,7 +139,6 @@ class ilDidacticTemplateObjSettings
         }
         return $assignments;
     }
-
 
     /**
      * transfer auto generated flag if source is auto generated

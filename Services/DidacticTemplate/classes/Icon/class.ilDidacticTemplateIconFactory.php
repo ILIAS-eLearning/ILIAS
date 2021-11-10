@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\IOException;
@@ -13,14 +12,12 @@ use ILIAS\FileUpload\Location;
 
 /**
  * Icon factory for didactic template custom icons
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  */
-
 class ilDidacticTemplateIconFactory
 {
-    private static ?ilDidacticTemplateIconFactory  $instance = null;
+    private static ?ilDidacticTemplateIconFactory $instance = null;
 
     /**
      * @var ilObjectDefinition
@@ -135,7 +132,7 @@ class ilDidacticTemplateIconFactory
     {
         return in_array($type, $this->icon_types);
     }
-    
+
     private function initTemplates()
     {
         $this->settings = ilDidacticTemplateSettings::getInstance();

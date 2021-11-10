@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Represents a filter pattern for didactic template actions
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  */
 abstract class ilDidacticTemplateFilterPattern
@@ -164,7 +161,6 @@ abstract class ilDidacticTemplateFilterPattern
      */
     abstract public function toXml(ilXmlWriter $writer) : void;
 
-
     /**
      * Update pattern definition
      */
@@ -221,7 +217,6 @@ abstract class ilDidacticTemplateFilterPattern
         $this->setParentId(0);
         $this->setPatternId(0);
     }
-
 
     /**
      * Read pattern definition from db

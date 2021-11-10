@@ -3,8 +3,7 @@
 
 /**
  * Settings for a single didactic template
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author   Stefan Meyer <meyer@leifos.com>
  * @defgroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateXmlWriter extends ilXmlWriter

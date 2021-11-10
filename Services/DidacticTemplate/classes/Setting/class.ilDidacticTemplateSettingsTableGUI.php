@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Description of ilDidacticTemplateSettingsTableGUI
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplates
  */
 class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
@@ -60,7 +57,6 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 
-
     /**
      * Parse didactic templates
      */
@@ -81,7 +77,7 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             $data[$counter]['info'] = $tpl->getInfo();
             $data[$counter]['enabled'] = (int) $tpl->isEnabled();
             $data[$counter]['assignments'] = $tpl->getAssignments();
-            
+
             $atxt = '';
             foreach ($tpl->getAssignments() as $obj_type) {
                 $atxt .= ($this->lng->txt('objs_' . $obj_type) . '<br/>');
@@ -130,20 +126,18 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             $this->tpl->setVariable("VAL_AUTOMATIC_GENERATED", $this->lng->txt("didactic_auto_generated"));
         }
 
-
         $this->tpl->setVariable(
             'VAL_IMAGE',
             $set['enabled'] ?
-            ilUtil::getImagePath('icon_ok.svg') :
-            ilUtil::getImagePath('icon_not_ok.svg')
+                ilUtil::getImagePath('icon_ok.svg') :
+                ilUtil::getImagePath('icon_not_ok.svg')
         );
         $this->tpl->setVariable(
             'VAL_ENABLED_TXT',
             $set['enabled'] ?
-            $this->lng->txt('active') :
-            $this->lng->txt('inactive')
+                $this->lng->txt('active') :
+                $this->lng->txt('inactive')
         );
-
 
         $atxt = '';
         foreach ((array) $set['assignments'] as $obj_type) {
@@ -156,12 +150,12 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             'tplid',
             $set['id']
         );
-        
+
         if (count($set['scope'])) {
             $this->tpl->setCurrentBlock('scope_txt');
             $this->tpl->setVariable('LOCAL_OR_GLOBAL', $this->lng->txt('didactic_scope_list_header'));
             $this->tpl->parseCurrentBlock();
-            
+
             foreach ($set['scope'] as $ref_id) {
                 $this->tpl->setCurrentBlock('scope_entry');
                 $this->tpl->setVariable('LINK_HREF', ilLink::_getLink($ref_id));
@@ -170,13 +164,13 @@ class ilDidacticTemplateSettingsTableGUI extends ilTable2GUI
             }
         } else {
             $this->tpl->setCurrentBlock('scope_txt');
-            $this->tpl->setVariable('LOCAL_OR_GLOBAL', $set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global'));
+            $this->tpl->setVariable('LOCAL_OR_GLOBAL',
+                $set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global'));
             $this->tpl->parseCurrentBlock();
         }
-        
 
         if ($this->access->checkAccess('write', '', $this->ref_id)) {
-            
+
 
             $actions = new ilAdvancedSelectionListGUI();
             $actions->setId((string) $set['id']);

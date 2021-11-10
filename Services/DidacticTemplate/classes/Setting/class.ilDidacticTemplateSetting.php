@@ -3,13 +3,12 @@
 
 /**
  * Settings for a single didactic template
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author   Stefan Meyer <meyer@leifos.com>
  * @defgroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateSetting
 {
-    const TYPE_CREATION = 1;
-
+    public const TYPE_CREATION = 1;
 
     private int $id = 0;
     private bool $enabled = false;
@@ -31,8 +30,6 @@ class ilDidacticTemplateSetting
     private ilSetting $setting;
     private ilTree $tree;
 
-
-
     /**
      * Constructor
      * @param int $a_id
@@ -41,11 +38,11 @@ class ilDidacticTemplateSetting
     {
         global $DIC;
 
-        $this->lng      = $DIC->language();
-        $this->user     = $DIC->user();
-        $this->db       = $DIC->database();
-        $this->setting  = $DIC->settings();
-        $this->tree     = $DIC->repositoryTree();
+        $this->lng = $DIC->language();
+        $this->user = $DIC->user();
+        $this->db = $DIC->database();
+        $this->setting = $DIC->settings();
+        $this->tree = $DIC->repositoryTree();
 
         $this->setId($a_id);
         $this->read();
@@ -209,7 +206,7 @@ class ilDidacticTemplateSetting
         }
         return true;
     }
-    
+
     /**
      * Set assignments
      * @param array $a_ass
@@ -276,7 +273,7 @@ class ilDidacticTemplateSetting
     }
 
     /**
-     * @param boolean $exclusive
+     * @param bool $exclusive
      */
     public function setExclusive(bool $exclusive) : void
     {
@@ -295,8 +292,8 @@ class ilDidacticTemplateSetting
 
     /**
      * get all translations from this object
-     * @access	public
-     * @return	array
+     * @access    public
+     * @return    array
      */
     public function getTranslations() : array
     {
@@ -332,7 +329,7 @@ class ilDidacticTemplateSetting
         }
 
         if (isset($lang[$a_lng][$a_value])) {
-            return $lang[$a_lng][$a_value] ;
+            return $lang[$a_lng][$a_value];
         } else {
             return $lang[$a_lng][$this->getTranslationObject()->getDefaultLanguage()];
         }
@@ -438,15 +435,15 @@ class ilDidacticTemplateSetting
             $values[] = '( ' .
                 $this->db->quote($this->getId(), 'integer') . ', ' .
                 $this->db->quote($node, 'integer') .
-            ')';
+                ')';
         }
-        
+
         $query = 'INSERT INTO didactic_tpl_en (id,node) ' .
             'VALUES ' . implode(', ', $values);
 
         $this->db->manipulate($query);
     }
-    
+
     protected function deleteEffectiveNodes() : bool
     {
         $query = 'DELETE FROM didactic_tpl_en ' .
@@ -454,18 +451,18 @@ class ilDidacticTemplateSetting
         $this->db->manipulate($query);
         return true;
     }
-    
+
     protected function readEffectiveNodes() : void
     {
         $effective_nodes = array();
-        
+
         $query = 'SELECT * FROM didactic_tpl_en ' .
             'WHERE id = ' . $this->db->quote($this->getId(), 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $effective_nodes[] = $row->node;
         }
-        
+
         $this->setEffectiveFrom($effective_nodes);
     }
 
@@ -607,7 +604,6 @@ class ilDidacticTemplateSetting
     public function __clone()
     {
         $this->setId(0);
-        
 
         $this->setTitle(ilDidacticTemplateCopier::appendCopyInfo($this->getTitle()));
         $this->enable(false);
@@ -632,7 +628,7 @@ class ilDidacticTemplateSetting
         if (!count($this->getEffectiveFrom()) || in_array($a_node_id, $this->getEffectiveFrom())) {
             return true;
         }
-        
+
         foreach ($this->getEffectiveFrom() as $node) {
             if ($this->tree->isGrandChild($node, $a_node_id)) {
                 return true;

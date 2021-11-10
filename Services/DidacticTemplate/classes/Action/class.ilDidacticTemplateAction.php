@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Abstract class for template actions
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  */
 abstract class ilDidacticTemplateAction
@@ -21,18 +18,15 @@ abstract class ilDidacticTemplateAction
     public const FILTER_LOCAL_ROLES = 4;
 
     public const PATTERN_PARENT_TYPE = 'action';
-    
+
     protected ilLogger $logger;
     protected ilDBInterface $db;
     protected ilRbacReview $review;
     protected ilRbacAdmin $admin;
 
-
-
     private int $action_id = 0;
     private int $tpl_id = 0;
     private int $type = 0;
-
 
     private int $ref_id = 0;
 
@@ -44,11 +38,11 @@ abstract class ilDidacticTemplateAction
         $this->db = $DIC->database();
         $this->review = $DIC->rbac()->review();
         $this->admin = $DIC->rbac()->admin();
-        
+
         $this->setActionId($action_id);
         $this->read();
     }
-    
+
     /**
      * Get logger
      * @return ilLogger
@@ -162,15 +156,13 @@ abstract class ilDidacticTemplateAction
      * Apply action
      * @return bool
      */
-    abstract public function apply():bool;
+    abstract public function apply() : bool;
 
     /**
      * Implement everthing that is necessary to revert a didactic template
-     *
      * return bool
      */
     abstract public function revert() : bool;
-
 
     /**
      * Clone method
@@ -180,18 +172,16 @@ abstract class ilDidacticTemplateAction
         $this->setActionId(0);
     }
 
-
     /**
      * Write xml for export
      */
     abstract public function toXml(ilXmlWriter $writer) : void;
 
-
     /**
      * Init the source object
      * @return ilObject $obj
      */
-    protected function initSourceObject():ilObject
+    protected function initSourceObject() : ilObject
     {
         $s = ilObjectFactory::getInstanceByRefId($this->getRefId(), false);
         return $s;
@@ -212,7 +202,7 @@ abstract class ilDidacticTemplateAction
         foreach ($this->rbacreview->getParentRoleIds($source->getRefId()) as $role_id => $role) {
             switch ($this->getFilterType()) {
                 case self::FILTER_PARENT_ROLES:
-                    
+
                     $this->logger->dump($role);
                     if (
                         ($role['parent'] == $source->getRefId()) &&
@@ -245,7 +235,7 @@ abstract class ilDidacticTemplateAction
                         }
                     }
                     break;
-                
+
                 default:
                 case self::FILTER_SOURCE_TITLE:
                     foreach ($patterns as $pattern) {

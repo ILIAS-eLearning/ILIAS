@@ -1,12 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
-
 /**
  * Factory for didactic template actions
- *
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilDidacticTemplateActionFactory
@@ -32,7 +28,6 @@ class ilDidacticTemplateActionFactory
                 throw new \InvalidArgumentException('Unknown action type given: ' . $a_action_type);
         }
     }
-    
 
     /**
      * Get instance by id and type
@@ -56,7 +51,6 @@ class ilDidacticTemplateActionFactory
                 throw new \InvalidArgumentException('Unknown action type given: ' . $a_action_type);
         }
     }
-
 
     /**
      * Get actions of one template

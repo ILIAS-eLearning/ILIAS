@@ -3,8 +3,7 @@
 
 /**
  * Copy a didactic template and all subitems
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateCopier
@@ -19,16 +18,16 @@ class ilDidacticTemplateCopier
     {
         $this->tpl_id = $a_tpl_id;
     }
-    
+
     public static function appendCopyInfo(string $a_orig_title) : string
     {
         global $DIC;
 
         $db = $DIC->database();
         $lng = $DIC->language();
-        
+
         $query = 'SELECT title FROM didactic_tpl_settings ' .
-                'WHERE title = ' . $db->quote($a_orig_title, 'text');
+            'WHERE title = ' . $db->quote($a_orig_title, 'text');
         $res = $db->query($query);
         $num = 0;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -42,7 +41,6 @@ class ilDidacticTemplateCopier
         }
         return $a_orig_title . ' ' . sprintf($lng->txt('copy_n_of_suffix'), $num);
     }
-    
 
     public function getTemplateId() : int
     {

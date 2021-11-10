@@ -4,9 +4,7 @@
 
 /**
  * Utilities for didactic templates
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilDidacticTemplateUtils
 {

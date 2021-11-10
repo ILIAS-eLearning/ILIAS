@@ -2,20 +2,16 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Didactic Template administration gui
-*
-* @author Stefan Meyer <smeyer.ilias@gmx.de>
-*
-* @ilCtrl_Calls ilObjObjectTemplateAdministrationGUI: ilPermissionGUI, ilDidacticTemplateSettingsGUI
-* @ilCtrl_IsCalledBy ilObjObjectTemplateAdministrationGUI: ilAdministrationGUI
-*
-* @ingroup ServicesPortfolio
-*/
+ * Didactic Template administration gui
+ * @author            Stefan Meyer <smeyer.ilias@gmx.de>
+ * @ilCtrl_Calls      ilObjObjectTemplateAdministrationGUI: ilPermissionGUI, ilDidacticTemplateSettingsGUI
+ * @ilCtrl_IsCalledBy ilObjObjectTemplateAdministrationGUI: ilAdministrationGUI
+ * @ingroup           ServicesPortfolio
+ */
 class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
 {
     /**
      * Contructor
-     *
      * @access public
      */
     public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
@@ -28,9 +24,7 @@ class ilObjObjectTemplateAdministrationGUI extends ilObjectGUI
 
     /**
      * Execute command
-     *
      * @access public
-     *
      */
     public function executeCommand()
     {

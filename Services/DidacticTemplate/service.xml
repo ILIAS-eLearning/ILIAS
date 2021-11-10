@@ -1,9 +1,10 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <service xmlns="http://www.w3.org" version="$Id$" id="otpl">
-	<objects>
-		<object id="otpl" class_name="ObjectTemplateAdministration" dir="classes" checkbox="0" inherit="0" translate="sys" rbac="1" system="1" administration="1">
-			<parent id="adm" max="1">adm</parent>
-		</object>
-	</objects>
-	<logging />
+    <objects>
+        <object id="otpl" class_name="ObjectTemplateAdministration" dir="classes" checkbox="0" inherit="0"
+                translate="sys" rbac="1" system="1" administration="1">
+            <parent id="adm" max="1">adm</parent>
+        </object>
+    </objects>
+    <logging/>
 </service>

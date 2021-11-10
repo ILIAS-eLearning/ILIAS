@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Description of ilDidacticTemplateBlockRoleAction
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
@@ -102,9 +99,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         }
     }
 
-
-
-
     /**
      * Apply action
      */
@@ -185,7 +179,6 @@ class ilDidacticTemplateBlockRoleAction extends ilDidacticTemplateAction
         );
         return true;
     }
-
 
     /**
      * Get action type
