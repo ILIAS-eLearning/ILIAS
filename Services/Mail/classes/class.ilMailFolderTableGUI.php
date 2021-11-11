@@ -689,6 +689,15 @@ class ilMailFolderTableGUI extends ilTable2GUI
             $this->addFilterItem($onlyUnread);
             $onlyUnread->readFromSession();
             $this->filter['mail_filter_only_unread'] = (int) $onlyUnread->getChecked();
+
+            $onlyUserMails = new ilCheckboxInputGUI(
+                $this->lng->txt('mail_filter_only_user_mails'),
+                'mail_filter_only_user_mails'
+            );
+            $onlyUserMails->setValue('1');
+            $this->addFilterItem($onlyUserMails);
+            $onlyUserMails->readFromSession();
+            $this->filter['mail_filter_only_user_mails'] = (int) $onlyUserMails->getChecked();
         }
 
         if (!$this->isDraftFolder()) {
