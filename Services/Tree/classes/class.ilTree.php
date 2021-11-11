@@ -33,7 +33,7 @@ class ilTree
      * Use "your" component logger in derived classes 
      * @access private
      */
-    protected $logger;
+    protected ilLogger $logger;
     
     
 
@@ -123,41 +123,32 @@ class ilTree
     
     private ?ilTreeImplementation $tree_impl = null;
 
-
     /**
-    * Constructor
-    * @access	public
-    * @param int $a_tree_id tree_id
-    * @param int $a_root_id root_id (optional)
-    * @throws InvalidArgumentException
-    */
+     * @throws InvalidArgumentException
+     */
     public function __construct(int $a_tree_id, int $a_root_id = 0)
     {
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->logger = $DIC->logger()->tree();
+        //$this->logger = $DIC->logger()->tree();
+        $this->logger = ilLoggerFactory::getLogger('tree');
 
         $this->lang_code = "en";
 
-        if (!isset($a_tree_id) or (func_num_args() == 0)) {
-            $this->logger->error("No tree_id given!");
-            $this->logger->logStack(ilLogLevel::DEBUG);
-            throw new InvalidArgumentException("No tree_id given!");
-        }
-
         if (func_num_args() > 2) {
             $this->logger->error("Wrong parameter count!");
+            $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException("Wrong parameter count!");
         }
 
-        //init variables
-        if (empty($a_root_id)) {
-            $a_root_id = ROOT_FOLDER_ID;
+        if (!$a_root_id) {
+            $this->root_id = $a_root_id;
+        } else {
+            $this->root_id = ROOT_FOLDER_ID;
         }
 
         $this->tree_id = $a_tree_id;
-        $this->root_id = $a_root_id;
         $this->table_tree = 'tree';
         $this->table_obj_data = 'object_data';
         $this->table_obj_reference = 'object_reference';
@@ -2679,8 +2670,6 @@ class ilTree
 
     /**
      * Lookup object types in trash
-     * @global type $this->db
-     * @return type
      */
     public function lookupTrashedObjectTypes()
     {
