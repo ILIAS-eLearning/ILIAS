@@ -21,19 +21,22 @@
 class ilConfirmationGUI
 {
     protected ilLanguage $lng;
+    /** @var array{var: string, value: string}[] */
     private array $hidden_item = [];
+    /** @var array{var: string, id: string, text: string, img: string, alt: string}[] */
     private array $item = [];
-    private bool $use_images = false;
+    /** @var array{txt: string, cmd: string}[] */
     private array $buttons = [];
-    private ?string $form_name = null;
-    protected ?string $form_action = null;
-    protected ?string $headertext = null;
-    protected ?string $cancel_txt = null;
-    protected ?string $cancel_cmd = null;
-    protected ?string $cancel_id = null;
-    protected ?string $confirm_txt = null;
-    protected ?string $confirm_cmd = null;
-    protected ?string $confirm_id = null;
+    private bool $use_images = false;
+    private string $form_name = '';
+    protected string $form_action = '';
+    protected string $headertext = '';
+    protected string $cancel_txt = '';
+    protected string $cancel_cmd = '';
+    protected string $cancel_id = '';
+    protected string $confirm_txt = '';
+    protected string $confirm_cmd = '';
+    protected string $confirm_id = '';
 
     public function __construct()
     {
@@ -48,7 +51,7 @@ class ilConfirmationGUI
         $this->form_action = $a_form_action;
     }
     
-    final public function getFormAction() : ?string
+    final public function getFormAction() : string
     {
         return $this->form_action;
     }
@@ -58,22 +61,28 @@ class ilConfirmationGUI
         $this->headertext = $a_headertext;
     }
 
-    public function getHeaderText() : ?string
+    public function getHeaderText() : string
     {
         return $this->headertext;
     }
 
-    final public function addButton(string $a_txt, string $a_cmd) : void
+    public function setFormName(string $a_name) : void
     {
-        $this->buttons[] = array(
-            "txt" => $a_txt, "cmd" => $a_cmd);
+        $this->form_name = $a_name;
     }
 
-    // Set cancel button command and text
+    final public function addButton(string $a_txt, string $a_cmd) : void
+    {
+        $this->buttons[] = [
+            'txt' => $a_txt,
+            'cmd' => $a_cmd
+        ];
+    }
+
     final public function setCancel(
         string $a_txt,
         string $a_cmd,
-        string $a_id = ""
+        string $a_id = ''
     ) : void {
         $this->cancel_txt = $a_txt;
         $this->cancel_cmd = $a_cmd;
@@ -83,26 +92,29 @@ class ilConfirmationGUI
     final public function setConfirm(
         string $a_txt,
         string $a_cmd,
-        string $a_id = ""
+        string $a_id = ''
     ) : void {
         $this->confirm_txt = $a_txt;
         $this->confirm_cmd = $a_cmd;
         $this->confirm_id = $a_id;
     }
 
-    /**
-     * Add row item.
-     */
     public function addItem(
         string $a_post_var,
         string $a_id,
         string $a_text,
-        string $a_img = "",
-        string $a_alt = ""
+        string $a_img = '',
+        string $a_alt = ''
     ) : void {
-        $this->item[] = array("var" => $a_post_var, "id" => $a_id,
-            "text" => $a_text, "img" => $a_img, "alt" => $a_alt);
-        if ($a_img !== "") {
+        $this->item[] = [
+            'var' => $a_post_var,
+            'id' => $a_id,
+            'text' => $a_text,
+            'img' => $a_img,
+            'alt' => $a_alt
+        ];
+
+        if ($a_img !== '') {
             $this->use_images = true;
         }
     }
@@ -111,24 +123,27 @@ class ilConfirmationGUI
         string $a_post_var,
         string $a_value
     ) : void {
-        $this->hidden_item[] = array("var" => $a_post_var, "value" => $a_value);
+        $this->hidden_item[] = [
+            'var' => $a_post_var,
+            'value' => $a_value
+        ];
     }
 
     final public function getHTML() : string
     {
-        if ($this->headertext === null || $this->headertext === '') {
+        if ($this->headertext === '') {
             throw new RuntimeException('Please provide a header text before rendering the confirmation dialogue');
         }
 
-        if ($this->form_action === null || $this->form_action === '') {
+        if ($this->form_action === '') {
             throw new RuntimeException('Please provide a form action before rendering the confirmation dialogue');
         }
 
-        if ($this->confirm_txt === null || $this->confirm_cmd === null || $this->confirm_txt === '' || $this->confirm_cmd === '') {
-            throw new RuntimeException('Please provide a confirmation button label and command before rendering  the confirmation dialogue');
+        if ($this->confirm_txt === '' || $this->confirm_cmd === '') {
+            throw new RuntimeException('Please provide a confirmation button label and command before rendering the confirmation dialogue');
         }
 
-        if ($this->cancel_txt === null || $this->cancel_cmd === null || $this->cancel_txt === '' || $this->cancel_cmd === '') {
+        if ($this->cancel_txt === '' || $this->cancel_cmd === '') {
             throw new RuntimeException('Please provide a cancel button label and command before rendering the confirmation dialogue');
         }
         
@@ -149,7 +164,7 @@ class ilConfirmationGUI
                 $ctab->addHiddenInput($hidden_item["var"], $hidden_item["value"]);
             }
             
-            if (!is_null($this->form_name)) {
+            if ($this->form_name !== '') {
                 $ctab->setFormName($this->form_name);
             }
             
@@ -184,10 +199,5 @@ class ilConfirmationGUI
         $tb->addStickyItem($cancel);
 
         return $tb->getHTML();
-    }
-    
-    public function setFormName(string $a_name) : void
-    {
-        $this->form_name = $a_name;
     }
 }
