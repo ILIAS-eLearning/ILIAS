@@ -37,10 +37,11 @@ class ilMailGUI
 
         $this->mbox = new ilMailbox($this->user->getId());
         $this->umail = new ilMail($this->user->getId());
-        if (!$DIC->rbac()->system()->checkAccess(
-            'internal_mail',
-            $this->umail->getMailObjectReferenceId()
-        )
+        if (
+            !$DIC->rbac()->system()->checkAccess(
+                'internal_mail',
+                $this->umail->getMailObjectReferenceId()
+            )
         ) {
             $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->WARNING);
         }

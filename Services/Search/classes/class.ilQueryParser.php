@@ -64,7 +64,9 @@ class ilQueryParser
 
         $lng = $DIC['lng'];
 
-        define('MIN_WORD_LENGTH', self::MIN_WORD_LENGTH);
+        if (!defined('MIN_WORD_LENGTH')) {
+            define('MIN_WORD_LENGTH', self::MIN_WORD_LENGTH);
+        }
 
         $this->lng = $lng;
 

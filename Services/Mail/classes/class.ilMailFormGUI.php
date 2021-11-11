@@ -535,19 +535,25 @@ class ilMailFormGUI
 
                 if (ilSession::get('mail_search_results_to')) {
                     $mailData = $this->umail->appendSearchResult(
-                        $this->refinery->kindlyTo()->string()->transform(ilSession::get('mail_search_results_to')),
+                        $this->refinery->kindlyTo()->listOf(
+                            $this->refinery->kindlyTo()->string()
+                        )->transform(ilSession::get('mail_search_results_to')),
                         'to'
                     );
                 }
                 if (ilSession::get('mail_search_results_cc')) {
                     $mailData = $this->umail->appendSearchResult(
-                        $this->refinery->kindlyTo()->string()->transform(ilSession::get('mail_search_results_cc')),
+                        $this->refinery->kindlyTo()->listOf(
+                            $this->refinery->kindlyTo()->string()
+                        )->transform(ilSession::get('mail_search_results_cc')),
                         'cc'
                     );
                 }
                 if (ilSession::get('mail_search_results_bcc')) {
                     $mailData = $this->umail->appendSearchResult(
-                        $this->refinery->kindlyTo()->string()->transform(ilSession::get('mail_search_results_bcc')),
+                        $this->refinery->kindlyTo()->listOf(
+                            $this->refinery->kindlyTo()->string()
+                        )->transform(ilSession::get('mail_search_results_bcc')),
                         'bc'
                     );
                 }

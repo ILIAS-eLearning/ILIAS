@@ -817,7 +817,8 @@ class ilObjUser extends ilObject
     }
 
     /**
-     * Lookup id by login
+     * @param string|string[] $a_user_str
+     * @return int|null|int[]
      */
     public static function _lookupId($a_user_str)
     {
@@ -831,19 +832,26 @@ class ilObjUser extends ilObject
                 array("text"),
                 array($a_user_str)
             );
+
             $user_rec = $ilDB->fetchAssoc($res);
-            return $user_rec["usr_id"] ?? null;
-        } else {
-            $set = $ilDB->query(
-                "SELECT usr_id FROM usr_data " .
-                " WHERE " . $ilDB->in("login", $a_user_str, false, "text")
-            );
-            $ids = array();
-            while ($rec = $ilDB->fetchAssoc($set)) {
-                $ids[] = ($rec["usr_id"] ?? null);
+            if (is_array($user_rec)) {
+                return (int) $user_rec["usr_id"];
             }
-            return $ids;
+
+            return null;
         }
+
+        $set = $ilDB->query(
+            "SELECT usr_id FROM usr_data " .
+            " WHERE " . $ilDB->in("login", $a_user_str, false, "text")
+        );
+
+        $ids = [];
+        while ($rec = $ilDB->fetchAssoc($set)) {
+            $ids[] = (int) $rec['usr_id'];
+        }
+
+        return $ids;
     }
 
     /**
@@ -4778,19 +4786,18 @@ class ilObjUser extends ilObject
     /**
      * Get ids of all users that have been inactive for at least the given period
      * @param int $periodInDays
-     * @param bool $includeNeverLoggedIn
-     * @return array
-     * @throws \ilException
+     * @return int[]
+     * @throws ilException
      */
     public static function getUserIdsByInactivityPeriod(int $periodInDays) : array
     {
         global $DIC;
 
-        if (!is_numeric($periodInDays) && $periodInDays < 1) {
-            throw new \ilException('Invalid period given');
+        if ($periodInDays < 1) {
+            throw new ilException('Invalid period given');
         }
 
-        $date = date('Y-m-d H:i:s', (time() - ((int) $periodInDays * 24 * 60 * 60)));
+        $date = date('Y-m-d H:i:s', (time() - ($periodInDays * 24 * 60 * 60)));
 
         $query = "SELECT usr_id FROM usr_data WHERE last_login IS NOT NULL AND last_login < %s";
 
@@ -4801,7 +4808,7 @@ class ilObjUser extends ilObject
 
         $res = $DIC->database()->queryF($query, $types, $values);
         while ($row = $DIC->database()->fetchAssoc($res)) {
-            $ids[] = $row['usr_id'];
+            $ids[] = (int) $row['usr_id'];
         }
 
         return $ids;
@@ -4810,7 +4817,7 @@ class ilObjUser extends ilObject
     /**
      * Get ids of all users that have never logged in
      * @param int $thresholdInDays
-     * @return array
+     * @return int[]
      */
     public static function getUserIdsNeverLoggedIn(int $thresholdInDays) : array
     {
@@ -4827,7 +4834,7 @@ class ilObjUser extends ilObject
 
         $res = $DIC->database()->queryF($query, $types, $values);
         while ($row = $DIC->database()->fetchAssoc($res)) {
-            $ids[] = $row['usr_id'];
+            $ids[] = (int) $row['usr_id'];
         }
 
         return $ids;

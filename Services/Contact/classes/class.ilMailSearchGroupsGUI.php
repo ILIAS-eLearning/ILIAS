@@ -20,4 +20,13 @@ class ilMailSearchGroupsGUI extends ilMailSearchObjectGUI
             'il_grp_admin_',
         ];
     }
+
+    protected function doesExposeMembers(ilObject $object) : bool
+    {
+        $showMemberListEnabled = (bool) $object->getShowMembers();
+        $hasUntrashedReferences = ilObject::_hasUntrashedReference($object->getId());
+        $isPrivilegedUser = $this->rbacsystem->checkAccess('write', $object->getRefId());
+
+        return $hasUntrashedReferences && ($showMemberListEnabled || $isPrivilegedUser);
+    }
 }

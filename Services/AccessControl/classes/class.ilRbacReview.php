@@ -296,7 +296,7 @@ class ilRbacReview
      * @return	array	set ids
      * @todo refactor rolf => Find a better name; reduce sql fields
      */
-    public function getAssignableChildRoles($a_ref_id)
+    public function getAssignableChildRoles($a_ref_id) : array
     {
         global $DIC;
 
@@ -310,10 +310,15 @@ class ilRbacReview
             ;
         
         $res = $ilDB->query($query);
+        $roles_data = [];
         while ($row = $ilDB->fetchAssoc($res)) {
+            $row['rol_id'] = (int) $row['rol_id'];
+            $row['obj_id'] = (int) $row['obj_id'];
+            
             $roles_data[] = $row;
         }
-        return $roles_data ? $roles_data : array();
+
+        return $roles_data;
     }
     
     /**

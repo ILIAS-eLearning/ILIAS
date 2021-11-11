@@ -1,25 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Services/User/Gallery/classes/class.ilAbstractUsersGalleryCollectionProvider.php';
 
 /**
  * Class ilUsersGalleryParticipants
  */
 class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvider
 {
-    /**
-     * @var ilParticipants
-     */
-    protected $participants;
+    protected ilParticipants $participants;
+    /** @var array<int, bool> */
+    protected array $users = [];
 
-    /**
-     * @var array
-     */
-    protected $users = array();
-
-    /**
-     * @param ilParticipants $participants
-     */
     public function __construct(ilParticipants $participants)
     {
         $this->participants = $participants;
@@ -27,9 +17,9 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
 
     /**
      * @param int[] $usr_ids
-     * @return ilObjUser[]
+     * @return array<int, ilObjUser>
      */
-    protected function getUsers(array $usr_ids)
+    protected function getUsers(array $usr_ids) : array
     {
         $users = [];
 
@@ -38,9 +28,7 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
                 continue;
             }
 
-            /**
-             * @var $user ilObjUser
-             */
+            /** @var $user ilObjUser */
             if (!($user = ilObjectFactory::getInstanceByObjId($usr_id, false))) {
                 continue;
             }
@@ -56,10 +44,7 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
         return $users;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getGroupedCollections()
+    public function getGroupedCollections() : array
     {
         /**
          * @var $DIC ILIAS\DI\Container
@@ -69,10 +54,10 @@ class ilUsersGalleryParticipants extends ilAbstractUsersGalleryCollectionProvide
         $groups = [];
 
         foreach ([
-            array($this->participants->getContacts(), true, $DIC->language()->txt('crs_mem_contact')),
-            array($this->participants->getAdmins()  , false, ''),
-            array($this->participants->getTutors()  , false, ''),
-            array($this->participants->getMembers() , false, '')
+            [$this->participants->getContacts(), true, $DIC->language()->txt('crs_mem_contact')],
+            [$this->participants->getAdmins()  , false, ''],
+            [$this->participants->getTutors()  , false, ''],
+            [$this->participants->getMembers() , false, '']
         ] as $users) {
             $group = $this->getPopulatedGroup($this->getUsers($users[0]));
             $group->setHighlighted($users[1]);
