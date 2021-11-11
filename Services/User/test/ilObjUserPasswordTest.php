@@ -19,10 +19,7 @@ require_once 'Services/User/test/ilUserBaseTest.php';
  */
 class ilObjUserPasswordTest extends ilUserBaseTest
 {
-    /** @var string */
     private const PASSWORD = 'password';
-
-    /** @var string */
     private const ENCODED_PASSWORD = 'encoded';
 
     protected vfs\vfsStreamDirectory  $testDirectory;
