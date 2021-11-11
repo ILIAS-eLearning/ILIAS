@@ -34,7 +34,7 @@ class ilUIHookPluginGUI
         $this->plugin_object = $a_val;
     }
 
-    final public function getPluginObject() : ilUserInterfaceHookPlugin
+    final public function getPluginObject() : ?ilUserInterfaceHookPlugin
     {
         return $this->plugin_object;
     }
