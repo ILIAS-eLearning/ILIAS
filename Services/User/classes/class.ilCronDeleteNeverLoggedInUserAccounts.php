@@ -55,11 +55,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
     {
         $number = (string) $number;
 
-        if (strpos($number, ',') !== false || strpos($number, '.') !== false) {
-            return true;
-        }
-
-        return false;
+        return strpos($number, ',') !== false || strpos($number, '.') !== false;
     }
 
     public function getId() : string
