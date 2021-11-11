@@ -3,7 +3,7 @@
 namespace ILIAS\UI\Component\Chart;
 
 /**
- * This is how a factory for glyphs looks like.
+ * This is how a factory for charts looks like.
  */
 interface Factory
 {
@@ -58,4 +58,47 @@ interface Factory
      * @return \ILIAS\UI\Component\Chart\ProgressMeter\Factory
      */
     public function progressMeter() : ProgressMeter\Factory;
+
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *      Bar Charts presents categorical data with rectangular bars at heights or lengths
+     *      proportional to the values they represent. They are usually used to make
+     *      comparisons between different categories or items.
+     *   composition: >
+     *      Bar Charts are composed of a title, a legend and the chart itself. The title
+     *      and the legend can be hidden. One bar within the chart draws a
+     *      measurement-item-value-pair. The composition of the axes in a Bar Chart depends
+     *      on whether it is a Vertical Bar Chart or Horizontal Bar Chart. The legend
+     *      comprises the label and color of each key. The keys represent the
+     *      dimensions of the bars displayed.
+     *   effect: >
+     *      Hovering over a bar within the Bar Chart triggers a tooltip displaying its
+     *      measurement-item-value-pair and its dimension.
+     *      Clicking on a key in the legend hides the bars of that dimension.
+     *      Clicking again on it will show the respective bars.
+     * context:
+     *     - Bar Charts are to be used to visualize competence records.
+     * rules:
+     *   composition:
+     *     1: >
+     *        Especially when multiple dimensions are used, Bar Charts SHOULD
+     *        display a legend, which shows the label and color of the keys.
+     *   style:
+     *     1: >
+     *        Bars of different dimensions SHOULD have different colors to be
+     *        distinguishable.
+     *   responsiveness:
+     *     1: >
+     *        On smaller screens, the Bar Chart MUST shrink until it reaches its minimum size.
+     *   accessibility:
+     *     1: >
+     *        For each dimension, the measurement-item-value-pairs MUST be presented
+     *        in a textual form, which MUST be accessible for screen readers.
+     * ---
+     * @return \ILIAS\UI\Component\Chart\Bar\Factory
+     */
+    public function bar() : \ILIAS\UI\Component\Chart\Bar\Factory;
 }

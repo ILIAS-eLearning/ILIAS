@@ -8158,6 +8158,17 @@ ul.dropdown-menu > li > .btn:focus {
 .il-chart-progressmeter-box.il-chart-progressmeter-mini .il-chart-progressmeter-container .il-chart-progressmeter-viewbox .il-chart-progressmeter-needle.no-needle {
   stroke: transparent;
 }
+/*****************/
+/* Bar Chart */
+/*****************/
+.il-chart-bar-horizontal {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.il-chart-bar-vertical {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
 .il-standard-form {
   background-color: white;
   margin-top: 6px;
