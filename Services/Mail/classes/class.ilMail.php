@@ -37,6 +37,7 @@ class ilMail
     protected $usrIdByLoginCallable;
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
+    protected ilObjUser $actor;
 
     public function __construct(
         int $a_user_id,
@@ -68,6 +69,7 @@ class ilMail
             return (int) ilObjUser::_lookupId($login);
         };
         $this->user_id = $a_user_id;
+        $this->actor = $DIC->user();
         $this->mail_obj_ref_id = $mailAdminNodeRefId;
         if (null === $this->mail_obj_ref_id) {
             $this->readMailObjectReferenceId();
@@ -135,8 +137,6 @@ class ilMail
 
     public function formatNamesForOutput(string $recipients) : string
     {
-        global $DIC;
-
         $recipients = trim($recipients);
         if ($recipients === '') {
             return $this->lng->txt('not_available');
@@ -149,7 +149,7 @@ class ilMail
             $usrId = ilObjUser::_lookupId($recipient);
             if ($usrId > 0) {
                 $pp = ilObjUser::_lookupPref($usrId, 'public_profile');
-                if ($pp === 'g' || ($pp === 'y' && !$DIC->user()->isAnonymous())) {
+                if ($pp === 'g' || ($pp === 'y' && !$this->actor->isAnonymous())) {
                     $user = $this->getUserInstanceById($usrId);
                     $names[] = $user->getFullname() . ' [' . $recipient . ']';
                     continue;
