@@ -58,9 +58,6 @@ class ilMainMenuSearchGUI
     {
         global $DIC;
 
-        /**
-         * @var $ilCtrl ilCtrlInterface
-         */
         $ilCtrl = $DIC['ilCtrl'];
         $tpl = $DIC['tpl'];
         $lng = $DIC['lng'];
@@ -70,6 +67,7 @@ class ilMainMenuSearchGUI
         iljQueryUtil::initjQuery();
         iljQueryUtil::initjQueryUI();
         $this->tpl = new ilTemplate('tpl.main_menu_search.html', true, true, 'Services/Search');
+        $tpl->addJavascript('Services/Search/js/SearchMainMenu.js');
         
         if ($ilUser->getId() != ANONYMOUS_USER_ID) {
             $this->tpl->setVariable('LABEL_SEARCH_OPTIONS', $lng->txt("label_search_options"));
@@ -97,7 +95,8 @@ class ilMainMenuSearchGUI
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable('FORMACTION',
+        $this->tpl->setVariable(
+            'FORMACTION',
             $ilCtrl->getFormActionByClass(
                 ilSearchControllerGUI::class,
                 'remoteSearch'
@@ -106,7 +105,9 @@ class ilMainMenuSearchGUI
 
         $this->tpl->setVariable('BTN_SEARCH', $this->lng->txt('search'));
         $this->tpl->setVariable('SEARCH_INPUT_LABEL', $this->lng->txt('search_field'));
-        $this->tpl->setVariable('AC_DATASOURCE',
+
+        $this->tpl->setVariable(
+            'AC_DATASOURCE',
             $ilCtrl->getLinkTargetByClass(
                 ilSearchControllerGUI::class,
                 'autoComplete',
