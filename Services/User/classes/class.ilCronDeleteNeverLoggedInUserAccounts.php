@@ -1,37 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * Class ilCronDeleteNeverLoggedInUserAccounts
- */
 class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
 {
-    const DEFAULT_CREATION_THRESHOLD = 365;
+    private const DEFAULT_CREATION_THRESHOLD = 365;
 
-    /** @var string */
-    private $roleIdWhiteliste = '';
-    
-    /** @var int */
-    private $thresholdInDays = self::DEFAULT_CREATION_THRESHOLD;
+    private string $roleIdWhiteliste = '';
+    private int $thresholdInDays = self::DEFAULT_CREATION_THRESHOLD;
+    private ilLanguage $lng;
+    private ilSetting $settings;
+    private ilRbacReview $rbacreview;
+    private ilObjectDataCache $objectDataCache;
+    private \Psr\Http\Message\ServerRequestInterface $request;
 
-    /** @var \ilLanguage */
-    protected $lng;
-
-    /** @var \ilSetting */
-    protected $settings;
-
-    /** @var \ilRbacReview */
-    protected $rbacreview;
-
-    /** @var \ilObjectDataCache */
-    protected $objectDataCache;
-    
-    /** @var \Psr\Http\Message\ServerRequestInterface */
-    protected $request;
-
-    /**
-     * ilCronDeleteNeverLoggedInUserAccounts constructor.
-     */
     public function __construct()
     {
         global $DIC;
@@ -47,7 +28,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
 
                 $this->thresholdInDays = (int) $this->settings->get(
                     'cron_users_without_login_delete_threshold',
-                    self::DEFAULT_CREATION_THRESHOLD
+                    (string) self::DEFAULT_CREATION_THRESHOLD
                 );
             }
 
@@ -68,6 +49,17 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
                 $this->request = $DIC->http()->request();
             }
         }
+    }
+
+    protected function hasDecimals($number) : bool
+    {
+        $number = (string) $number;
+
+        if (strpos($number, ',') !== false || strpos($number, '.') !== false) {
+            return true;
+        }
+
+        return false;
     }
 
     public function getId() : string
@@ -118,9 +110,9 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
     {
         global $DIC;
 
-        $result = new \ilCronJobResult();
+        $result = new ilCronJobResult();
 
-        $status = \ilCronJobResult::STATUS_NO_ACTION;
+        $status = ilCronJobResult::STATUS_NO_ACTION;
         $message = 'No user deleted';
 
         $userIds = ilObjUser::getUserIdsNeverLoggedIn(
@@ -131,19 +123,19 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
 
         $counter = 0;
         foreach ($userIds as $userId) {
-            if ($userId == ANONYMOUS_USER_ID || $userId == SYSTEM_USER_ID) {
+            if ($userId === ANONYMOUS_USER_ID || $userId === SYSTEM_USER_ID) {
                 continue;
             }
 
             $user = ilObjectFactory::getInstanceByObjId($userId, false);
-            if (!$user || !($user instanceof \ilObjUser)) {
+            if (!$user || !($user instanceof ilObjUser)) {
                 continue;
             }
 
             $ignoreUser = true;
 
             if (count($roleIdWhitelist) > 0) {
-                $assignedRoleIds = array_filter(array_map('intval', (array) $this->rbacreview->assignedRoles($userId)));
+                $assignedRoleIds = array_filter(array_map('intval', $this->rbacreview->assignedRoles($userId)));
 
                 $respectedRolesToInclude = array_intersect($assignedRoleIds, $roleIdWhitelist);
                 if (count($respectedRolesToInclude) > 0) {
@@ -166,7 +158,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         }
 
         if ($counter) {
-            $status = \ilCronJobResult::STATUS_OK;
+            $status = ilCronJobResult::STATUS_OK;
             $message = sprintf('%s user(s) deleted', $counter);
         }
 
@@ -176,7 +168,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         return $result;
     }
 
-    public function addCustomSettingsToForm(\ilPropertyFormGUI $a_form) : void
+    public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         $roleWhiteList = new ilMultiSelectInputGUI(
             $this->lng->txt('cron_users_without_login_del_role_whitelist'),
@@ -185,7 +177,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         $roleWhiteList->setInfo($this->lng->txt('cron_users_without_login_del_role_whitelist_info'));
         $roles = array();
         foreach ($this->rbacreview->getGlobalRoles() as $role_id) {
-            if ($role_id != ANONYMOUS_ROLE_ID) {
+            if ($role_id !== ANONYMOUS_ROLE_ID) {
                 $roles[$role_id] = $this->objectDataCache->lookupTitle($role_id);
             }
         }
@@ -199,7 +191,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
             'threshold'
         );
         $threshold->setInfo($this->lng->txt('cron_users_without_login_del_create_date_thr_info'));
-        $threshold->setValue($this->thresholdInDays);
+        $threshold->setValue((string) $this->thresholdInDays);
         $threshold->setSuffix($this->lng->txt('days'));
         $threshold->setSize(4);
         $threshold->setMaxLength(4);
@@ -207,7 +199,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         $a_form->addItem($threshold);
     }
 
-    public function saveCustomSettings(\ilPropertyFormGUI $a_form) : bool
+    public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $valid = true;
 
@@ -224,29 +216,16 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
         if ($valid) {
             $this->settings->set(
                 'cron_users_without_login_delete_incl_roles',
-                (string) $this->roleIdWhiteliste
+                $this->roleIdWhiteliste
             );
             $this->settings->set(
                 'cron_users_without_login_delete_threshold',
-                (int) $this->thresholdInDays
+                (string) $this->thresholdInDays
             );
             return true;
-        } else {
-            \ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
-            return false;
-        }
-    }
-
-    /**
-     * @param mixed $number
-     * @return bool
-     */
-    protected function hasDecimals($number) : bool
-    {
-        if (strpos($number, ',') !== false || strpos($number, '.') !== false) {
-            return true;
         }
 
+        ilUtil::sendFailure($this->lng->txt('form_input_not_valid'));
         return false;
     }
 }
