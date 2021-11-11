@@ -81,7 +81,10 @@ class InitUIFramework
             );
         };
         $c["ui.factory.chart"] = function ($c) {
-            return new ILIAS\UI\Implementation\Component\Chart\Factory($c["ui.factory.progressmeter"]);
+            return new ILIAS\UI\Implementation\Component\Chart\Factory(
+                $c["ui.factory.progressmeter"],
+                $c["ui.factory.bar"]
+            );
         };
         $c["ui.factory.input"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Input\Factory(
@@ -139,6 +142,9 @@ class InitUIFramework
         };
         $c["ui.factory.progressmeter"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Chart\ProgressMeter\Factory();
+        };
+        $c["ui.factory.bar"] = function ($c) {
+            return new ILIAS\UI\Implementation\Component\Chart\Bar\Factory();
         };
         $c["ui.factory.dropzone.file"] = function ($c) {
             return new ILIAS\UI\Implementation\Component\Dropzone\File\Factory();
