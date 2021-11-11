@@ -52,7 +52,8 @@ class ilMail
         ilMailbox $mailBox = null,
         ilMailMimeSenderFactory $senderFactory = null,
         callable $usrIdByLoginCallable = null,
-        int $mailAdminNodeRefId = null
+        int $mailAdminNodeRefId = null,
+        ilObjUser $actor = null
     ) {
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
@@ -61,6 +62,7 @@ class ilMail
         $this->eventHandler = $eventHandler ?? $DIC->event();
         $this->db = $db ?? $DIC->database();
         $this->lng = $lng ?? $DIC->language();
+        $this->actor = $actor ?? $DIC->user();
         $this->mfile = $mailFileData ?? new ilFileDataMail($a_user_id);
         $this->mail_options = $mailOptions ?? new ilMailOptions($a_user_id);
         $this->mailbox = $mailBox ?? new ilMailbox($a_user_id);
@@ -69,7 +71,6 @@ class ilMail
             return (int) ilObjUser::_lookupId($login);
         };
         $this->user_id = $a_user_id;
-        $this->actor = $DIC->user();
         $this->mail_obj_ref_id = $mailAdminNodeRefId;
         if (null === $this->mail_obj_ref_id) {
             $this->readMailObjectReferenceId();
