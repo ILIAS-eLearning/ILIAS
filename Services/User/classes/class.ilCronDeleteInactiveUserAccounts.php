@@ -16,18 +16,19 @@ include_once 'Services/User/classes/class.ilCronDeleteInactiveUserReminderMail.p
  */
 class ilCronDeleteInactiveUserAccounts extends ilCronJob
 {
-    const DEFAULT_INACTIVITY_PERIOD = 365;
-    const DEFAULT_REMINDER_PERIOD = 0;
+    private const DEFAULT_INACTIVITY_PERIOD = 365;
+    private const DEFAULT_REMINDER_PERIOD = 0;
 
-    private $period = null;
-    private $reminderTimer = null;
-    private $include_roles = null;
+    private int $period;
+    private int $reminderTimer;
+    /** @var int[]|null */
+    private ?array $include_roles = null;
     
     public function __construct()
     {
         global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
 
         if (is_object($ilSetting)) {
             $this->include_roles = $ilSetting->get(
@@ -35,30 +36,33 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
                 null
             );
             if ($this->include_roles === null) {
-                $this->include_roles = array();
+                $this->include_roles = [];
             } else {
-                $this->include_roles = explode(',', $this->include_roles);
+                $this->include_roles = array_filter(array_map('intval', explode(',', $this->include_roles)));
             }
 
-            $this->period = $ilSetting->get(
+            $this->period = (int) $ilSetting->get(
                 'cron_inactive_user_delete_period',
-                self::DEFAULT_INACTIVITY_PERIOD
+                (string) self::DEFAULT_INACTIVITY_PERIOD
             );
-            $this->reminderTimer = $ilSetting->get(
+            $this->reminderTimer = (int) $ilSetting->get(
                 'cron_inactive_user_reminder_period',
-                self::DEFAULT_REMINDER_PERIOD
+                (string) self::DEFAULT_REMINDER_PERIOD
             );
         }
     }
 
-    /**
-     * @param $schedule_time
-     * @param $multiplier
-     * @return int
-     */
-    protected function getTimeDifferenceBySchedule($schedule_time, $multiplier)
+    protected function isDecimal($number) : bool
+    {
+        $number = (string) $number;
+
+        return strpos($number, ',') || strpos($number, '.');
+    }
+
+    protected function getTimeDifferenceBySchedule(int $schedule_time, int $multiplier) : int
     {
         $time_difference = 0;
+
         switch ($schedule_time) {
             case ilCronJob::SCHEDULE_TYPE_DAILY:
                 $time_difference = 86400;
@@ -85,6 +89,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
                 $time_difference = 31556926;
                 break;
         }
+
         return $time_difference;
     }
 
@@ -140,18 +145,18 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     {
         global $DIC;
 
-        $rbacreview = $DIC['rbacreview'];
+        $rbacreview = $DIC->rbac()->review();
         $ilLog = $DIC['ilLog'];
-        
+
         $status = ilCronJobResult::STATUS_NO_ACTION;
-        $reminder_time = (int) $this->reminderTimer;
-        $checkMail = (int) $this->period - $reminder_time;
+        $reminder_time = $this->reminderTimer;
+        $checkMail = $this->period - $reminder_time;
         $usr_ids = ilObjUser::getUserIdsByInactivityPeriod($checkMail);
         $counter = 0;
         $userDeleted = 0;
         $userMailsDelivered = 0;
         foreach ($usr_ids as $usr_id) {
-            if ($usr_id == ANONYMOUS_USER_ID || $usr_id == SYSTEM_USER_ID) {
+            if ($usr_id === ANONYMOUS_USER_ID || $usr_id === SYSTEM_USER_ID) {
                 continue;
             }
 
@@ -162,24 +167,26 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
                     break;
                 }
             }
+
             if ($continue) {
                 continue;
             }
 
-            /**
-             * @var $user ilObjUser
-             */
-
+            /** @var $user ilObjUser */
             $user = ilObjectFactory::getInstanceByObjId($usr_id);
             $timestamp_last_login = strtotime($user->getLastLogin());
-            $grace_period_over = time() - ((int) $this->period * 24 * 60 * 60);
+            $grace_period_over = time() - ($this->period * 24 * 60 * 60);
             if ($timestamp_last_login < $grace_period_over) {
                 $user->delete();
                 $userDeleted++;
             } elseif ($reminder_time > 0) {
                 $timestamp_for_deletion = $timestamp_last_login - $grace_period_over;
                 $account_will_be_deleted_on = $this->calculateDeletionData($timestamp_for_deletion);
-                $mailSent = ilCronDeleteInactiveUserReminderMail::checkIfReminderMailShouldBeSend($user, $reminder_time, $account_will_be_deleted_on);
+                $mailSent = ilCronDeleteInactiveUserReminderMail::checkIfReminderMailShouldBeSend(
+                    $user,
+                    $reminder_time,
+                    $account_will_be_deleted_on
+                );
                 if ($mailSent) {
                     $userMailsDelivered++;
                 }
@@ -190,14 +197,20 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         if ($counter) {
             $status = ilCronJobResult::STATUS_OK;
         }
+
         ilCronDeleteInactiveUserReminderMail::removeEntriesFromTableIfLastLoginIsNewer();
-        $ilLog->write("CRON - ilCronDeleteInactiveUserAccounts::run(), deleted => $userDeleted User(s), sent reminder mail to $userMailsDelivered User(s)");
+        $ilLog->write(
+            "CRON - ilCronDeleteInactiveUserAccounts::run(), deleted " .
+            "=> $userDeleted User(s), sent reminder mail to $userMailsDelivered User(s)"
+        );
+
         $result = new ilCronJobResult();
         $result->setStatus($status);
+
         return $result;
     }
     
-    protected function calculateDeletionData($date_for_deletion)
+    protected function calculateDeletionData(int $date_for_deletion) : int
     {
         $cron_timing = ilCronManager::getCronJobData($this->getId());
         $time_difference = 0;
@@ -220,17 +233,16 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $rbacreview = $DIC['rbacreview'];
+        $lng = $DIC->language();
+        $rbacreview = $DIC->rbac()->review();
         $ilObjDataCache = $DIC['ilObjDataCache'];
-        $ilSetting = $DIC['ilSetting'];
+        $ilSetting = $DIC->settings();
         $lng->loadLanguageModule("user");
             
         $schedule = $a_form->getItemByPostVar('type');
         $schedule->setTitle($lng->txt('delete_inactive_user_accounts_frequency'));
         $schedule->setInfo($lng->txt('delete_inactive_user_accounts_frequency_desc'));
 
-        include_once('Services/Form/classes/class.ilMultiSelectInputGUI.php');
         $sub_mlist = new ilMultiSelectInputGUI(
             $lng->txt('delete_inactive_user_accounts_include_roles'),
             'cron_inactive_user_delete_include_roles'
@@ -238,7 +250,7 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         $sub_mlist->setInfo($lng->txt('delete_inactive_user_accounts_include_roles_desc'));
         $roles = array();
         foreach ($rbacreview->getGlobalRoles() as $role_id) {
-            if ($role_id != ANONYMOUS_ROLE_ID) {
+            if ($role_id !== ANONYMOUS_ROLE_ID) {
                 $roles[$role_id] = $ilObjDataCache->lookupTitle($role_id);
             }
         }
@@ -283,9 +295,11 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
     {
         global $DIC;
 
-        $ilSetting = $DIC['ilSetting'];
-        $lng = $DIC['lng'];
+        $ilSetting = $DIC->settings();
+        $lng = $DIC->language();
+
         $lng->loadLanguageModule("user");
+
         $setting = implode(',', $_POST['cron_inactive_user_delete_include_roles']);
         if (!strlen($setting)) {
             $setting = null;
@@ -353,13 +367,5 @@ class ilCronDeleteInactiveUserAccounts extends ilCronJob
         }
 
         return true;
-    }
-
-    protected function isDecimal($number)
-    {
-        if (strpos($number, ',') || strpos($number, '.')) {
-            return true;
-        }
-        return false;
     }
 }
