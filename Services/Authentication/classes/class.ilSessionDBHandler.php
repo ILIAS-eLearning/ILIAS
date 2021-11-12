@@ -18,12 +18,10 @@ class ilSessionDBHandler implements SessionHandlerInterface
             return true;
         }
 
-        session_set_save_handler(
+        return session_set_save_handler(
             $this,
             true // Registers session_write_close() as a register_shutdown_function() function.
         );
-
-        return true;
     }
 
     /**
@@ -81,9 +79,10 @@ class ilSessionDBHandler implements SessionHandlerInterface
 
     /**
      * Removes sessions that weren't updated for more than gc_maxlifetime seconds
-     * @param int $max_lifetime Maximum lifetime in seconds
+     * @param int $max_lifetime Sessions that have not updated for the last max_lifetime seconds will be removed.
+     * @return int|bool
      */
-    public function gc($max_lifetime) : bool
+    public function gc($max_lifetime)
     {
         return ilSession::_destroyExpiredSessions();
     }

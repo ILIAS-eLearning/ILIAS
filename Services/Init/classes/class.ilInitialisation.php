@@ -574,7 +574,7 @@ class ilInitialisation
     {
         $db_session_handler = new ilSessionDBHandler();
         if (!$db_session_handler->setSaveHandler()) {
-            self::abortAndDie("Please set session.save_handler to \"user\" in your php.ini");
+            self::abortAndDie("Cannot start session handling.");
         }
 
         // Do not accept external session ids
