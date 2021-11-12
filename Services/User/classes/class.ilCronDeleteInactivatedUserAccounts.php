@@ -15,6 +15,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
     /** @var int[] */
     private array $include_roles;
     private ilSetting $settings;
+    private ilLanguage $lng;
     private ilRbacReview $rbacReview;
     private ilObjectDataCache $objectDataCache;
     private \ILIAS\HTTP\GlobalHttpState $http;
