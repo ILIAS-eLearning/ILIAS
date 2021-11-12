@@ -22,6 +22,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
     /** @var string[]  */
     protected array $ctrl_path = [];
     protected int $size = 10;
+    /** @var array{key: string, secret: string} */
     protected array $values = self::DEFAULT_SHAPE;
     protected bool $isReadOnly = false;
 
@@ -108,6 +109,9 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         return $this->checkSubItemsInput();
     }
 
+    /**
+     * @return array{key: string, secret: string}
+     */
     public function getInput() : array
     {
         $input = self::DEFAULT_SHAPE;
