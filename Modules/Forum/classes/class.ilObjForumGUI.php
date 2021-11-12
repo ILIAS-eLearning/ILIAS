@@ -1585,6 +1585,10 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public function performDeleteThreadsObject() : void
     {
         $thread_ids = $this->retrieveThreadIds();
+        if ($thread_ids === []) {
+            ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'), true);
+            $this->ctrl->redirect($this, 'showThreads');
+        }
 
         if (!$this->is_moderator) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
@@ -1592,11 +1596,6 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
 
         if (!$this->access->checkAccess('read', '', $this->object->getRefId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
-        }
-
-        if (!isset($thread_ids) || !is_array($thread_ids)) {
-            ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'), true);
-            $this->ctrl->redirect($this, 'showThreads');
         }
 
         $forumObj = new ilObjForum($this->object->getRefId());
@@ -3561,7 +3560,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $message = null;
-        if (isset($thread_ids) && is_array($thread_ids)) {
+        if ($thread_ids !== []) {
             if (isset($selected_cmd) && $selected_cmd === 'move') {
                 if ($this->is_moderator) {
                     ilSession::set('threads2move', $thread_ids);
