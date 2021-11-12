@@ -49,6 +49,7 @@ class ilPropertyFormGUI extends ilFormGUI
     protected HTTP\Services $http;
     protected ?Refinery\Factory $refinery = null;
 
+    protected ilGlobalPageTemplate $global_tpl;
 
     public function __construct()
     {
@@ -83,6 +84,8 @@ class ilPropertyFormGUI extends ilFormGUI
         if (isset($DIC["refinery"])) {
             $this->refinery = $DIC->refinery();
         }
+
+        $this->global_tpl = $DIC['tpl'];
     }
 
     /**
@@ -757,13 +760,13 @@ class ilPropertyFormGUI extends ilFormGUI
             if ($item->getType() != "non_editable_value" or 1) {
                 $sf = $item->getSubForm();
                 if ($item->hideSubForm() && is_object($sf)) {
-                    $this->tpl->setCurrentBlock("sub_form_hide");
-                    $this->tpl->setVariable("DSFID", $item->getFieldId());
-                    $this->tpl->parseCurrentBlock();
+                    $dsfid = $item->getFieldId();
+                    $this->global_tpl->addOnloadCode(
+                        "il.Form.hideSubForm('subform_$dsfid');"
+                    );
                 }
             }
             
-
             $sf_content = "";
             if (is_object($sf)) {
                 $sf_content = $sf->getContent();
