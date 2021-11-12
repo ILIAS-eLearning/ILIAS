@@ -161,7 +161,7 @@ class ilCmiXapiContentUploadImporter
             if (isset($results[$uploadFilePath])) {
                 $result = $results[$uploadFilePath];
                 
-                if ($result->getStatus() == FileUploadProcessingStatus::OK) {
+                if ($result->isOK()) {
                     return $result;
                 }
                 
