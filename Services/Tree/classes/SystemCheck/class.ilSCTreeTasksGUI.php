@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
  * Handles tree tasks
@@ -19,6 +20,8 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     const TYPE_STRUCTURE = 'structure';
 
     protected ilTree $tree;
+    protected GlobalHttpState $http;
+    protected Factory $refinery;
 
     public function __construct(ilSCTask $task = null)
     {
@@ -26,6 +29,19 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         parent::__construct($task);
 
         $this->tree = $DIC->repositoryTree();
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+    }
+
+    protected function getDuplicateIdFromRequest() : int
+    {
+        if ($this->http->wrapper()->query()->has('duplicate_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'duplicate_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
     }
 
     public function getGroupTitle() : string
@@ -294,7 +310,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     
     protected function deleteDuplicatesFromRepository() : void
     {
-        ilSCTreeTasks::deleteDuplicateFromTree((int) $_REQUEST['duplicate_id'], false);
+        ilSCTreeTasks::deleteDuplicateFromTree($this->getDuplicateIdFromRequest(), false);
 
         $tasks = new ilSCTreeTasks($this->getTask());
         if ($tasks->checkDuplicates()) {
@@ -307,7 +323,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     
     protected function deleteDuplicatesFromTrash() : void
     {
-        ilSCTreeTasks::deleteDuplicateFromTree((int) $_REQUEST['duplicate_id'], true);
+        ilSCTreeTasks::deleteDuplicateFromTree($this->getDuplicateIdFromRequest(), true);
         
 
         $tasks = new ilSCTreeTasks($this->getTask());
