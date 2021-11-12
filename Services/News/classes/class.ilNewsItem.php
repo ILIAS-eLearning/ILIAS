@@ -48,7 +48,7 @@ class ilNewsItem
     protected int $id = 0;
     protected string $title = "";
     protected string $content = "";
-    protected string $content_html = "";
+    protected bool $content_html = false;
     protected int $context_obj_id = 0;
     protected string $context_obj_type = "";
     protected int $context_sub_obj_id = 0;
@@ -320,12 +320,12 @@ class ilNewsItem
         return $this->mob_cnt_download;
     }
 
-    public function setContentHtml(string $a_val) : void
+    public function setContentHtml(bool $a_val) : void
     {
         $this->content_html = $a_val;
     }
 
-    public function getContentHtml() : string
+    public function getContentHtml() : bool
     {
         return $this->content_html;
     }
@@ -363,7 +363,7 @@ class ilNewsItem
         $this->setPlaytime($rec["playtime"]);
         $this->setMobPlayCounter($rec["mob_cnt_play"]);
         $this->setMobDownloadCounter($rec["mob_cnt_download"]);
-        $this->setContentHtml($rec["content_html"]);
+        $this->setContentHtml((bool) $rec["content_html"]);
     }
 
     /**
