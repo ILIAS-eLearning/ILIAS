@@ -205,7 +205,7 @@ class ilAdministrationSettingsFormHandler
     }
     
     protected static function parseFieldDefinition(
-        int $a_type,
+        string $a_type,
         ilPropertyFormGUI $a_form,
         ilObjectGUI $a_gui,
         $a_data
