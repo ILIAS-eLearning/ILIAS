@@ -356,7 +356,7 @@ class ilSetupLanguage extends ilLanguage
     *
     * $a_lang_key		lang key
     */
-    public static function _deleteLangData(string $a_lang_key, $a_keep_local_change): void
+    public static function _deleteLangData(string $a_lang_key, bool $a_keep_local_change): void
     {
         global $ilDB;
         

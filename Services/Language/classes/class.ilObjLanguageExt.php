@@ -86,7 +86,7 @@ class ilObjLanguageExt extends ilObjLanguage
     *
     * @return   string       path of customized language files folder
     */
-    public function getCustLangPath()
+    public function getCustLangPath(): string
     {
         return $this->cust_lang_path;
     }
@@ -96,7 +96,7 @@ class ilObjLanguageExt extends ilObjLanguage
     *
     * @return   array       module.separator.topic => remark
     */
-    public function getAllRemarks()
+    public function getAllRemarks(): array
     {
         return self::_getRemarks($this->key);
     }
@@ -109,7 +109,7 @@ class ilObjLanguageExt extends ilObjLanguage
     * @param    array       list of topics
     * @return   array       module.separator.topic => value
     */
-    public function getAllValues($a_modules = array(), $a_pattern = "", $a_topics = array())
+    public function getAllValues($a_modules = array(), string $a_pattern = "", $a_topics = array())
     {
         return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern);
     }
@@ -124,7 +124,7 @@ class ilObjLanguageExt extends ilObjLanguage
     * @param    array       list of topics
     * @return   array       module.separator.topic => value
     */
-    public function getChangedValues($a_modules = array(), $a_pattern = "", $a_topics = array())
+    public function getChangedValues($a_modules = array(), string $a_pattern = "", $a_topics = array())
     {
         return self::_getValues($this->key, $a_modules, $a_topics, $a_pattern, "changed");
     }
