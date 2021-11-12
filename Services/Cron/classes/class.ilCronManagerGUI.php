@@ -273,7 +273,7 @@ class ilCronManagerGUI
 
                 $option = new ilRadioOption(
                     $this->getScheduleTypeFormElementName($typeId),
-                    $typeId
+                    (string) $typeId
                 );
                 $type->addOption($option);
 
