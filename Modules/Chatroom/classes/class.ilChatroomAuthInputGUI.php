@@ -13,15 +13,16 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 {
     private const NAME_AUTH_PROP_1 = 'key';
     private const NAME_AUTH_PROP_2 = 'secret';
+    private const DEFAULT_SHAPE = [
+        self::NAME_AUTH_PROP_1 => '',
+        self::NAME_AUTH_PROP_2 => ''
+    ];
 
     protected \ILIAS\HTTP\Services $http;
     /** @var string[]  */
     protected array $ctrl_path = [];
     protected int $size = 10;
-    protected array $values = [
-        self::NAME_AUTH_PROP_1 => '',
-        self::NAME_AUTH_PROP_2 => ''
-    ];
+    protected array $values = self::DEFAULT_SHAPE;
     protected bool $isReadOnly = false;
 
     public function __construct(string $title, string $httpPostVariableName, \ILIAS\HTTP\Services $http)
@@ -42,7 +43,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
         $response->{self::NAME_AUTH_PROP_1} = $this->uuidV4();
         $response->{self::NAME_AUTH_PROP_2} = $this->uuidV4();
 
-        $responseStream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode($response));
+        $responseStream = \ILIAS\Filesystem\Stream\Streams::ofString(json_encode($response, JSON_THROW_ON_ERROR));
         $this->http->saveResponse(
             $this->http->response()
                 ->withBody($responseStream)
@@ -85,10 +86,10 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function setValueByArray(array $a_values) : void
     {
-        $this->values = array(
+        $this->values = [
             self::NAME_AUTH_PROP_1 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_1],
             self::NAME_AUTH_PROP_2 => $a_values[$this->getPostVar()][self::NAME_AUTH_PROP_2]
-        );
+        ];
 
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
@@ -97,22 +98,54 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function checkInput() : bool
     {
-        global $DIC;
-
-        $_POST[$this->getPostVar()][self::NAME_AUTH_PROP_1] = ilUtil::stripSlashes($_POST[$this->getPostVar()][self::NAME_AUTH_PROP_1]);
-        $_POST[$this->getPostVar()][self::NAME_AUTH_PROP_2] = ilUtil::stripSlashes($_POST[$this->getPostVar()][self::NAME_AUTH_PROP_2]);
-
-        $post = $_POST[$this->getPostVar()];
+        $post = $this->http->request()->getParsedBody()[$this->getPostVar()] ?? [];
 
         if ($this->getRequired() && 2 > count(array_filter(array_map('trim', $post)))) {
-            $this->setAlert($DIC->language()->txt('msg_input_is_required'));
+            $this->setAlert($this->lng->txt('msg_input_is_required'));
             return false;
         }
 
         return $this->checkSubItemsInput();
     }
 
-    public function insert(ilTemplate $a_tpl)
+    public function getInput() : array
+    {
+        $input = self::DEFAULT_SHAPE;
+
+        $as_sanizited_string = $this->refinery->custom()->transformation(function (string $value) : string {
+            return $this->stripSlashesAddSpaceFallback($value);
+        });
+
+        $null_to_empty_string = $this->refinery->custom()->transformation(static function ($value) : string {
+            if ($value === null) {
+                return '';
+            }
+            
+            throw new ilException('Expected null in transformation');
+        });
+
+        $sanizite_as_string = $this->refinery->in()->series([
+            $this->refinery->byTrying([
+                $this->refinery->kindlyTo()->string(),
+                $null_to_empty_string
+            ]),
+            $as_sanizited_string
+        ]);
+
+        if ($this->http->wrapper()->post()->has($this->getPostVar())) {
+            $input = $this->http->wrapper()->post()->retrieve(
+                $this->getPostVar(),
+                $this->refinery->kindlyTo()->recordOf([
+                    self::NAME_AUTH_PROP_1 => $sanizite_as_string,
+                    self::NAME_AUTH_PROP_2 => $sanizite_as_string
+                ])
+            );
+        }
+        
+        return $input;
+    }
+
+    public function insert(ilTemplate $a_tpl) : void
     {
         $a_tpl->setCurrentBlock('prop_generic');
         $a_tpl->setVariable('PROP_GENERIC', $this->render());
