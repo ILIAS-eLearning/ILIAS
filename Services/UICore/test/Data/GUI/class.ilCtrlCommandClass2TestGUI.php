@@ -9,7 +9,7 @@
  *
  * @ilCtrl_IsCalledBy ilCtrlCommandClass2TestGUI: ilCtrlCommandClass1TestGUI
  */
-final class ilCtrlCommandClass2TestGUI
+class ilCtrlCommandClass2TestGUI
 {
     private ilCtrlInterface $ctrl;
 

@@ -39,7 +39,13 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      */
     public function getCidPath() : ?string
     {
-        return $this->cid_path;
+        // cannot use empty(), since '0' would be considered
+        // empty and that's an actual cid.
+        if (null !== $this->cid_path && '' !== $this->cid_path) {
+            return $this->cid_path;
+        }
+
+        return null;
     }
 
     /**
@@ -47,9 +53,13 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      */
     public function getCurrentCid() : ?string
     {
-        $cid_array = $this->getCidArray();
+        if (null !== $this->getCidPath()) {
+            // use default order (command- to baseclass) and
+            // retrieve the last command class (index 0).
+            return $this->getCidArray()[0];
+        }
 
-        return $cid_array[count($cid_array) - 1];
+        return null;
     }
 
     /**
@@ -75,8 +85,12 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      */
     public function getCidPaths(int $order = SORT_DESC) : array
     {
+        if (null === $this->getCidPath()) {
+            return [];
+        }
+
         // cid array must be ascending, because the
-        // paths should begin at the baseclass.
+        // paths should always begin at the baseclass.
         $cid_array = $this->getCidArray(SORT_ASC);
         $cid_paths = [];
 
@@ -99,6 +113,10 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      */
     public function getCidArray(int $order = SORT_DESC) : array
     {
+        if (null === $this->getCidPath()) {
+            return [];
+        }
+
         $cid_array = explode(self::CID_PATH_SEPARATOR, $this->cid_path);
         if (SORT_DESC === $order) {
             $cid_array = array_reverse($cid_array);
@@ -132,6 +150,32 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
     }
 
     /**
+     * Returns the path to a class within the given contexts current path
+     * that has a relation to the given target.
+     *
+     * @param ilCtrlContextInterface $context
+     * @param string                 $target_class
+     * @return string|null
+     */
+    protected function getPathToRelatedClassInContext(ilCtrlContextInterface $context, string $target_class) : ?string
+    {
+        if (null !== $context->getPath()->getCidPath()) {
+            foreach ($context->getPath()->getCidArray() as $index => $cid) {
+                $current_class = $this->structure->getClassNameByCid($cid);
+                if (null !== $current_class && $this->isClassChildOf($target_class, $current_class)) {
+                    $cid_paths = $context->getPath()->getCidPaths();
+
+                    // return the path to the class related to the
+                    // target class.
+                    return $cid_paths[$index];
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Returns whether the given target class is a child of the
      * other given class.
      *
@@ -141,7 +185,12 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      */
     protected function isClassChildOf(string $child_class, string $parent_class) : bool
     {
-        return in_array(strtolower($child_class), $this->structure->getChildrenByName($parent_class), true);
+        $children = $this->structure->getChildrenByName($parent_class);
+        if (null !== $children) {
+            return in_array(strtolower($child_class), $children, true);
+        }
+
+        return false;
     }
 
     /**
@@ -154,7 +203,12 @@ abstract class ilCtrlAbstractPath implements ilCtrlPathInterface
      */
     protected function isClassParentOf(string $parent_class, string $child_class) : bool
     {
-        return in_array(strtolower($parent_class), $this->structure->getParentsByName($child_class), true);
+        $parents = $this->structure->getParentsByName($child_class);
+        if (null !== $parents) {
+            return in_array(strtolower($parent_class), $parents, true);
+        }
+
+        return false;
     }
 
     /**

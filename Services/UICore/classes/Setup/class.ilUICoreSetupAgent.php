@@ -16,7 +16,7 @@ use ILIAS\Setup\Config;
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-final class ilUICoreSetupAgent implements Agent
+class ilUICoreSetupAgent implements Agent
 {
     /**
      * @inheritdoc

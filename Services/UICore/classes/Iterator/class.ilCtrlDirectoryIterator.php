@@ -7,7 +7,7 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlDirectoryIterator implements ilCtrlIteratorInterface
+class ilCtrlDirectoryIterator implements ilCtrlIteratorInterface
 {
     /**
      * @var string regex pattern that matches the name between

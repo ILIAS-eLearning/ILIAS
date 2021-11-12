@@ -8,7 +8,7 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
+class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
 {
     /**
      * @var ilDBInterface|null

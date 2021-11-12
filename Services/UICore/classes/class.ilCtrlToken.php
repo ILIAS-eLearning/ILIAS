@@ -19,7 +19,7 @@
  *
  * @TODO: implement cron-job that removes old tokens (<12h).
  */
-final class ilCtrlToken implements ilCtrlTokenInterface
+class ilCtrlToken implements ilCtrlTokenInterface
 {
     /**
      * Holds the current session id.
@@ -46,21 +46,22 @@ final class ilCtrlToken implements ilCtrlTokenInterface
     /**
      * Holds a temporarily generated token.
      *
-     * @var string
+     * @var string|null
      */
-    private static string $token;
+    private ?string $token = null;
 
     /**
      * ilCtrlToken Constructor
      *
      * @param ilDBInterface $database
      * @param ilObjUser     $user
+     * @param string        $sid
      */
-    public function __construct(ilDBInterface $database, ilObjUser $user)
+    public function __construct(ilDBInterface $database, ilObjUser $user, string $sid)
     {
         $this->user     = $user;
         $this->database = $database;
-        $this->sid      = session_id();
+        $this->sid      = $sid;
     }
 
     /**
@@ -68,11 +69,11 @@ final class ilCtrlToken implements ilCtrlTokenInterface
      */
     public function getToken() : string
     {
-        if (!isset(self::$token)) {
-            self::$token = $this->fetchToken() ?? $this->generateToken();
+        if (null === $this->token) {
+            $this->token = $this->fetchToken() ?? $this->generateToken();
         }
 
-        return self::$token;
+        return $this->token;
     }
 
     /**
@@ -81,6 +82,17 @@ final class ilCtrlToken implements ilCtrlTokenInterface
     public function verifyWith(string $token) : bool
     {
         return ($token === $this->getToken());
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function destroyToken() : void
+    {
+        if (null !== $this->token) {
+            $this->deleteToken($this->token);
+            $this->token = null;
+        }
     }
 
     /**
@@ -115,8 +127,6 @@ final class ilCtrlToken implements ilCtrlTokenInterface
     {
         $query_result = $this->database->fetchAssoc(
             $this->database->queryF(
-                // @TODO: figure out, if ' AND stamp < {timestamp_before_12h};' or
-                //        similar is needed.
                 "SELECT token FROM il_request_token WHERE user_id = %s AND session_id = %s;",
                 [
                     'integer',
@@ -124,7 +134,7 @@ final class ilCtrlToken implements ilCtrlTokenInterface
                 ],
                 [
                     $this->user->getId(),
-                    ($this->sid) ?: '',
+                    $this->sid,
                 ]
             )
         );
@@ -150,7 +160,29 @@ final class ilCtrlToken implements ilCtrlTokenInterface
             [
                 $this->user->getId(),
                 $this->database->now(),
-                ($this->sid) ?: '',
+                $this->sid,
+                $token,
+            ]
+        );
+    }
+
+    /**
+     * Deletes the given token from the database.
+     *
+     * @param string $token
+     */
+    private function deleteToken(string $token) : void
+    {
+        $this->database->manipulateF(
+            "DELETE FROM il_request_token WHERE user_id = %s AND session_id = %s AND token = %s;",
+            [
+                'integer',
+                'text',
+                'text',
+            ],
+            [
+                $this->user->getId(),
+                $this->sid,
                 $token,
             ]
         );

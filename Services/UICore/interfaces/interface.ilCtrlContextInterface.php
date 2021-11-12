@@ -11,16 +11,6 @@
 interface ilCtrlContextInterface
 {
     /**
-     * Adopts context properties from the according ones delivered by
-     * the current request.
-     *
-     * Note that this method should only be called when initializing
-     * ilCtrl, as methods may override delivered values on purpose
-     * later on.
-     */
-    public function adoptRequestParameters() : void;
-
-    /**
      * Returns whether this context is asynchronous or not.
      *
      * @return bool

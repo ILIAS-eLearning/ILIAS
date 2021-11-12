@@ -11,7 +11,7 @@ require_once __DIR__ . '/../../../../libs/composer/vendor/autoload.php';
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlStructureReader
+class ilCtrlStructureReader
 {
     /**
      * @var string regex pattern for ILIAS GUI classes. Filename
@@ -112,15 +112,14 @@ final class ilCtrlStructureReader
 
                 $reflection = new ReflectionClass($class_name);
 
+                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]      = $this->cid_generator->getCid();
+                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME]     = $class_name;
+                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH]     = $this->getRelativePath($path);
                 $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
                 $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
             } catch (ReflectionException $e) {
                 continue;
             }
-
-            $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]  = $this->cid_generator->getCid();
-            $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME] = $class_name;
-            $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH] = $this->getRelativePath($path);
         }
 
         $mapped_structure = (new ilCtrlStructureHelper($structure))

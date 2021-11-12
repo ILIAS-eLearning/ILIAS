@@ -7,7 +7,7 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlStructureCidGenerator
+class ilCtrlStructureCidGenerator
 {
     /**
      * @var int

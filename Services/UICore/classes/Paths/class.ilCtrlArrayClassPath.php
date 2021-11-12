@@ -47,6 +47,7 @@ class ilCtrlArrayClassPath extends ilCtrlAbstractPath
      */
     private function getCidPathByArray(array $target_classes) : string
     {
+        // abort if the provided targets are empty.
         if (empty($target_classes)) {
             throw new ilCtrlException(__METHOD__ . " must be provided with a list of classes.");
         }
@@ -80,24 +81,13 @@ class ilCtrlArrayClassPath extends ilCtrlAbstractPath
             return $cid_path;
         }
 
-        // if the first provided class is not a baseclass,
-        // the current context is checked for a relation
-        // that leads to the context's baseclass.
-        if (!$this->structure->isBaseClass($first_array_class) && null !== $this->context->getPath()->getCidPath()) {
-            foreach ($this->context->getPath()->getCidArray() as $index => $cid) {
-                $current_class = $this->structure->getClassNameByCid($cid);
-
-                // if one of the existing classes from the context's
-                // current path is related to the first provided class
-                // the generated path from above can be appended to
-                // the context's existing one.
-                if (null !== $current_class && $this->isClassParentOf($current_class, $first_array_class)) {
-                    $paths = $this->context->getPath()->getCidPaths();
-                    return $this->appendCid($cid_path, $paths[$index]);
-                }
-            }
+        // check if the first command class is related to one
+        // of the current context.
+        $related_class_path = $this->getPathToRelatedClassInContext($this->context, $first_array_class);
+        if (null === $related_class_path) {
+            throw new ilCtrlException("Class '$first_array_class' is not a baseclass and the current context doesn't have one either.");
         }
 
-        throw new ilCtrlException("Class '$first_array_class' is not a baseclass and the current context doesn't have one either.");
+        return $this->appendCid($cid_path, $related_class_path);
     }
 }

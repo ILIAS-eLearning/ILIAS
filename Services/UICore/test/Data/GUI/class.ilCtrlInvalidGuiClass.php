@@ -7,7 +7,7 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  *
- * @ilCtrl_IsCalledBy ilCtrlInvalidGuiClass: ilCtrlBaseClassTestGUI
+ * @ilCtrl_IsCalledBy ilCtrlInvalidGuiClass: ilCtrlBaseClass1TestGUI
  */
 class ilCtrlInvalidGuiClass
 {

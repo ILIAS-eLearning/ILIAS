@@ -31,15 +31,6 @@ interface ilCtrlStructureInterface
     public function isBaseClass(string $class_name) : bool;
 
     /**
-     * Returns the qualified object name of a given class,
-     * which can be used to instantiate the object.
-     *
-     * @param string $class_name
-     * @return string|null
-     */
-    public function getObjNameByName(string $class_name) : ?string;
-
-    /**
      * Returns the qualified object name of a class for the given CID,
      * which can be used to instantiate the object.
      *
@@ -49,36 +40,13 @@ interface ilCtrlStructureInterface
     public function getObjNameByCid(string $cid) : ?string;
 
     /**
-     * Returns all unsafe GET commands for a given cid.
-     *
-     * @param string $cid
-     * @return array
-     */
-    public function getUnsafeCommandsByCid(string $cid) : array;
-
-    /**
-     * Returns all unsafe GET commands for a given classname.
+     * Returns the qualified object name of a given class,
+     * which can be used to instantiate the object.
      *
      * @param string $class_name
-     * @return array
+     * @return string|null
      */
-    public function getUnsafeCommandsByName(string $class_name) : array;
-
-    /**
-     * Returns all safe POST commands for a given cid.
-     *
-     * @param string $cid
-     * @return array
-     */
-    public function getSafeCommandsByCid(string $cid) : array;
-
-    /**
-     * Returns all safe POST commands for a given classname.
-     *
-     * @param string $class_name
-     * @return array
-     */
-    public function getSafeCommandsByName(string $class_name) : array;
+    public function getObjNameByName(string $class_name) : ?string;
 
     /**
      * Returns the lower-cased name of a class for the given CID.
@@ -152,14 +120,14 @@ interface ilCtrlStructureInterface
      * @param string $parameter_name
      * @throws ilCtrlException if an invalid parameter name is provided.
      */
-    public function saveParameterByClass(string $class_name, string $parameter_name) : void;
+    public function setPermanentParameterByClass(string $class_name, string $parameter_name) : void;
 
     /**
      * Removes all permanent parameters for the given class.
      *
      * @param string $class_name
      */
-    public function removeSavedParametersByClass(string $class_name) : void;
+    public function removePermanentParametersByClass(string $class_name) : void;
 
     /**
      * Returns all permanent parameters for the given class.
@@ -167,7 +135,7 @@ interface ilCtrlStructureInterface
      * @param string $class_name
      * @return array|null
      */
-    public function getSavedParametersByClass(string $class_name) : ?array;
+    public function getPermanentParametersByClass(string $class_name) : ?array;
 
     /**
      * Sets a parameter => value pair for the given class which will be appended
@@ -178,22 +146,22 @@ interface ilCtrlStructureInterface
      * @param mixed  $value
      * @throws ilCtrlException if an invalid parameter name is provided.
      */
-    public function setParameterByClass(string $class_name, string $parameter_name, $value) : void;
+    public function setTemporaryParameterByClass(string $class_name, string $parameter_name, $value) : void;
 
     /**
      * Removes all temporarily set parameter => value pairs for the given class.
      *
      * @param string $class_name
      */
-    public function removeParametersByClass(string $class_name) : void;
+    public function removeTemporaryParametersByClass(string $class_name) : void;
 
     /**
-     * Returns all parameters currently set for a given class.
+     * Returns all temporary parameters currently set for a given class.
      *
      * @param string $class_name
      * @return array|null
      */
-    public function getParametersByClass(string $class_name) : ?array;
+    public function getTemporaryParametersByClass(string $class_name) : ?array;
 
     /**
      * Removes a specific permanent or temporary parameter for the given class.
@@ -218,4 +186,36 @@ interface ilCtrlStructureInterface
      * @return string|null
      */
     public function getReturnTargetByClass(string $class_name) : ?string;
+
+    /**
+     * Returns all unsafe GET commands for a given cid.
+     *
+     * @param string $cid
+     * @return array
+     */
+    public function getUnsafeCommandsByCid(string $cid) : array;
+
+    /**
+     * Returns all unsafe GET commands for a given classname.
+     *
+     * @param string $class_name
+     * @return array
+     */
+    public function getUnsafeCommandsByName(string $class_name) : array;
+
+    /**
+     * Returns all safe POST commands for a given cid.
+     *
+     * @param string $cid
+     * @return array
+     */
+    public function getSafeCommandsByCid(string $cid) : array;
+
+    /**
+     * Returns all safe POST commands for a given classname.
+     *
+     * @param string $class_name
+     * @return array
+     */
+    public function getSafeCommandsByName(string $class_name) : array;
 }

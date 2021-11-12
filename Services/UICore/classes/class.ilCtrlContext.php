@@ -11,72 +11,72 @@ use ILIAS\HTTP\Wrapper\RequestWrapper;
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlContext implements ilCtrlContextInterface
+class ilCtrlContext implements ilCtrlContextInterface
 {
     /**
      * @var ilCtrlPathFactory
      */
-    private ilCtrlPathFactory $path_factory;
+    protected ilCtrlPathFactory $path_factory;
 
     /**
      * @var RequestWrapper
      */
-    private RequestWrapper $request_wrapper;
+    protected RequestWrapper $request_wrapper;
 
     /**
      * @var Refinery
      */
-    private Refinery $refinery;
+    protected Refinery $refinery;
 
     /**
      * @var ilCtrlPathInterface
      */
-    private ilCtrlPathInterface $path;
+    protected ilCtrlPathInterface $path;
 
     /**
      * @var bool
      */
-    private bool $is_async = false;
+    protected bool $is_async = false;
 
     /**
      * @var string
      */
-    private string $target_script = 'ilias.php';
+    protected string $target_script = 'ilias.php';
 
     /**
      * @var string|null
      */
-    private ?string $cmd_mode = null;
+    protected ?string $cmd_mode = null;
 
     /**
      * @var string|null
      */
-    private ?string $redirect = null;
+    protected ?string $redirect = null;
 
     /**
      * @var string|null
      */
-    private ?string $base_class = null;
+    protected ?string $base_class = null;
 
     /**
      * @var string|null
      */
-    private ?string $cmd_class = null;
+    protected ?string $cmd_class = null;
 
     /**
      * @var string|null
      */
-    private ?string $cmd = null;
+    protected ?string $cmd = null;
 
     /**
      * @var string|null
      */
-    private ?string $obj_type = null;
+    protected ?string $obj_type = null;
 
     /**
      * @var int|null
      */
-    private ?int $obj_id = null;
+    protected ?int $obj_id = null;
 
     /**
      * ilCtrlContext Constructor
@@ -88,37 +88,11 @@ final class ilCtrlContext implements ilCtrlContextInterface
     public function __construct(ilCtrlPathFactory $path_factory, RequestWrapper $request_wrapper, Refinery $refinery)
     {
         $this->path_factory    = $path_factory;
+        $this->path            = $path_factory->null();
         $this->request_wrapper = $request_wrapper;
         $this->refinery        = $refinery;
 
-        // initialize null-path per default.
-        $this->path = $path_factory->null();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function adoptRequestParameters() : void
-    {
-        $this->is_async   = (ilCtrlInterface::CMD_MODE_ASYNC === $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE));
-
-        // if the query parameter is not provided, the currently
-        // set value must be used instead, otherwise the values
-        // are overwritten by null.
-        $this->redirect   = $this->getQueryParam(ilCtrlInterface::PARAM_REDIRECT) ?? $this->redirect;
-        $this->base_class = $this->getQueryParam(ilCtrlInterface::PARAM_BASE_CLASS) ?? $this->base_class;
-        $this->cmd_class  = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS) ?? $this->cmd_class;
-        $this->cmd_mode   = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE) ?? $this->cmd_mode;
-        $this->cmd        = $this->getQueryParam(ilCtrlInterface::PARAM_CMD) ?? $this->cmd;
-
-        $existing_path = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
-        if (null !== $existing_path) {
-            $this->path = $this->path_factory->existing($existing_path);
-        } elseif (null !== $this->base_class) {
-            $this->path = $this->path_factory->find($this, $this->base_class);
-        } else {
-            $this->path = $this->path_factory->null();
-        }
+        $this->adoptRequestParameters();
     }
 
     /**
@@ -167,8 +141,14 @@ final class ilCtrlContext implements ilCtrlContextInterface
      */
     public function setBaseClass(string $base_class) : ilCtrlContextInterface
     {
-        $this->base_class = $base_class;
-        $this->path = $this->path_factory->find($this, $base_class);
+        $path = $this->path_factory->find($this, $base_class);
+
+        // only set baseclass if it's a valid target.
+        if (null !== $path->getCidPath()) {
+            $this->base_class = $base_class;
+            $this->path = $path;
+        }
+
         return $this;
     }
 
@@ -202,8 +182,14 @@ final class ilCtrlContext implements ilCtrlContextInterface
      */
     public function setCmdClass(string $cmd_class) : ilCtrlContextInterface
     {
-        $this->cmd_class = $cmd_class;
-        $this->path = $this->path_factory->find($this, $cmd_class);
+        $path = $this->path_factory->find($this, $cmd_class);
+
+        // only set command class if it's a valid target.
+        if (null !== $path->getCidPath()) {
+            $this->cmd_class = $cmd_class;
+            $this->path = $path;
+        }
+
         return $this;
     }
 
@@ -269,12 +255,53 @@ final class ilCtrlContext implements ilCtrlContextInterface
     }
 
     /**
+     * Adopts context properties from the according ones delivered by
+     * the current request.
+     *
+     * Note that this method should only be called when initializing
+     * ilCtrl, as methods may override delivered values on purpose
+     * later on.
+     */
+    protected function adoptRequestParameters() : void
+    {
+        $this->redirect = $this->getQueryParam(ilCtrlInterface::PARAM_REDIRECT);
+        $this->cmd_mode = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_MODE);
+        $this->cmd      = $this->getQueryParam(ilCtrlInterface::PARAM_CMD);
+
+        // the context is considered asynchronous if
+        // the command mode is 'async'.
+        if (ilCtrlInterface::CMD_MODE_ASYNC === $this->cmd_mode) {
+            $this->is_async = true;
+        }
+
+        // if an existing path is provided use it by default.
+        $existing_path = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
+        if (null !== $existing_path) {
+            $this->path = $this->path_factory->existing($existing_path);
+        }
+
+        // set the provided baseclass, which might override the
+        // previously set existing path.
+        $base_class = $this->getQueryParam(ilCtrlInterface::PARAM_BASE_CLASS);
+        if (null !== $base_class) {
+            $this->setBaseClass($base_class);
+        }
+
+        // set or append the provided command class, which might
+        // override the previously set path again.
+        $cmd_class = $this->getQueryParam(ilCtrlInterface::PARAM_CMD_CLASS);
+        if (null !== $cmd_class) {
+            $this->setCmdClass($cmd_class);
+        }
+    }
+
+    /**
      * Helper function to retrieve request parameter values by name.
      *
      * @param string $parameter_name
      * @return string|null
      */
-    private function getQueryParam(string $parameter_name) : ?string
+    protected function getQueryParam(string $parameter_name) : ?string
     {
         if ($this->request_wrapper->has($parameter_name)) {
             return $this->request_wrapper->retrieve(

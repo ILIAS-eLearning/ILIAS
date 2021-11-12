@@ -5,10 +5,20 @@
 require_once __DIR__ . '/../../../interfaces/interface.ilCtrlStructureInterface.php';
 
 return [
-    'ilctrlbaseclasstestgui' => [
+    'ilctrlbaseclass1testgui' => [
         ilCtrlStructureInterface::KEY_CLASS_CID      => '0',
-        ilCtrlStructureInterface::KEY_CLASS_NAME     => 'ilCtrlBaseClassTestGUI',
-        ilCtrlStructureInterface::KEY_CLASS_PATH     => './Services/UICore/test/Data/GUI/class.ilCtrlBaseClassTestGUI.php',
+        ilCtrlStructureInterface::KEY_CLASS_NAME     => 'ilCtrlBaseClass1TestGUI',
+        ilCtrlStructureInterface::KEY_CLASS_PATH     => './Services/UICore/test/Data/GUI/class.ilCtrlBaseClass1TestGUI.php',
+        ilCtrlStructureInterface::KEY_CLASS_PARENTS  => [],
+        ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [
+            'ilctrlcommandclass1testgui',
+        ],
+    ],
+
+    'ilctrlbaseclass2testgui' => [
+        ilCtrlStructureInterface::KEY_CLASS_CID      => '1',
+        ilCtrlStructureInterface::KEY_CLASS_NAME     => 'ilCtrlBaseClass2TestGUI',
+        ilCtrlStructureInterface::KEY_CLASS_PATH     => './Services/UICore/test/Data/GUI/class.ilCtrlBaseClass2TestGUI.php',
         ilCtrlStructureInterface::KEY_CLASS_PARENTS  => [],
         ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [
             'ilctrlcommandclass1testgui',
@@ -16,11 +26,12 @@ return [
     ],
 
     'ilctrlcommandclass1testgui' => [
-        ilCtrlStructureInterface::KEY_CLASS_CID      => '1',
+        ilCtrlStructureInterface::KEY_CLASS_CID      => '2',
         ilCtrlStructureInterface::KEY_CLASS_NAME     => 'ilCtrlCommandClass1TestGUI',
         ilCtrlStructureInterface::KEY_CLASS_PATH     => './Services/UICore/test/Data/GUI/class.ilCtrlCommandClass1TestGUI.php',
         ilCtrlStructureInterface::KEY_CLASS_PARENTS  => [
-            'ilctrlbaseclasstestgui',
+            'ilctrlbaseclass1testgui',
+            'ilctrlbaseclass2testgui',
         ],
         ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [
             'ilctrlcommandclass2testgui',
@@ -28,7 +39,7 @@ return [
     ],
 
     'ilctrlcommandclass2testgui' => [
-        ilCtrlStructureInterface::KEY_CLASS_CID      => '2',
+        ilCtrlStructureInterface::KEY_CLASS_CID      => '3',
         ilCtrlStructureInterface::KEY_CLASS_NAME     => 'ilCtrlCommandClass2TestGUI',
         ilCtrlStructureInterface::KEY_CLASS_PATH     => './Services/UICore/test/Data/GUI/class.ilCtrlCommandClass2TestGUI.php',
         ilCtrlStructureInterface::KEY_CLASS_PARENTS  => [

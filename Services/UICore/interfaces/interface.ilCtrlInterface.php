@@ -441,6 +441,8 @@ interface ilCtrlInterface
     /**
      * Redirects to next parent class set with setReturn().
      *
+     * @deprecated @see ilCtrlInterface::getParentReturn().
+     *
      * @param object      $a_gui_obj
      * @param string|null $a_anchor
      * @throws ilCtrlException if the object was not yet provided with a return target.

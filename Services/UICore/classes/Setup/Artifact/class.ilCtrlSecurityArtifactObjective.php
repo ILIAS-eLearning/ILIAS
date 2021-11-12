@@ -14,7 +14,7 @@ use ILIAS\Setup\Artifact;
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlSecurityArtifactObjective extends BuildArtifactObjective
+class ilCtrlSecurityArtifactObjective extends BuildArtifactObjective
 {
     /**
      * @var string relative path to the php artifact file.

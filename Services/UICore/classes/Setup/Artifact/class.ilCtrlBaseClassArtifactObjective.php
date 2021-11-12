@@ -12,7 +12,7 @@ use ILIAS\Setup\Artifact;
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlBaseClassArtifactObjective extends BuildArtifactObjective
+class ilCtrlBaseClassArtifactObjective extends BuildArtifactObjective
 {
     /**
      * @var string relative path to the php artifact file.

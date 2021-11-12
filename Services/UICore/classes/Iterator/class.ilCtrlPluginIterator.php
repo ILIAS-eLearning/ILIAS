@@ -7,7 +7,7 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlPluginIterator implements Iterator
+class ilCtrlPluginIterator implements Iterator
 {
     /**
      * @var string absolute path to the ILIAS plugin directory.

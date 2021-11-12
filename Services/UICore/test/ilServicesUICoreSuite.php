@@ -18,11 +18,23 @@ class ilServicesUICoreSuite extends TestSuite
     {
         $suite = new self();
 
-        require_once __DIR__ . '/Setup/ilCtrlSetupSuite.php';
-        $suite->addTestSuite(ilCtrlSetupSuite::class);
+        require_once __DIR__ . '/Iterator/ilCtrlIteratorSuite.php';
+        $suite->addTestSuite(ilCtrlIteratorSuite::class);
 
         require_once __DIR__ . '/Paths/ilCtrlPathSuite.php';
         $suite->addTestSuite(ilCtrlPathSuite::class);
+
+        require_once __DIR__ . '/Setup/ilCtrlSetupSuite.php';
+        $suite->addTestSuite(ilCtrlSetupSuite::class);
+
+        require_once __DIR__ . '/Structure/ilCtrlStructureSuite.php';
+        $suite->addTestSuite(ilCtrlStructureSuite::class);
+
+        require_once __DIR__ . '/ilCtrlContextTest.php';
+        $suite->addTestSuite(ilCtrlContextTest::class);
+
+        require_once __DIR__ . '/ilCtrlTokenTest.php';
+        $suite->addTestSuite(ilCtrlTokenTest::class);
 
         return $suite;
     }

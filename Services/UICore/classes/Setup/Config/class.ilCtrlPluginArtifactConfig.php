@@ -9,7 +9,7 @@ use ILIAS\Setup\Config;
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlPluginArtifactConfig implements Config
+class ilCtrlPluginArtifactConfig implements Config
 {
     public const PLUGIN_STATUS_INSTALL   = 0;
     public const PLUGIN_STATUS_UNINSTALL = 1;

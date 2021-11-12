@@ -8,7 +8,7 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlStructure implements ilCtrlStructureInterface
+class ilCtrlStructure implements ilCtrlStructureInterface
 {
     /**
      * @var string regex for the validation of $_GET parameter names.
@@ -66,7 +66,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      *
      * @var array<string, string|string[]>
      */
-    private static array $mapped_structure = [];
+    private array $mapped_structure = [];
 
     /**
      * ilCtrlStructure Constructor
@@ -97,18 +97,12 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function isBaseClass(string $class_name) : bool
     {
+        // baseclass must be contained within the current structure
+        // and within the current baseclass array.
         return
             null !== $this->getClassCidByName($class_name) &&
             in_array($this->lowercase($class_name), $this->base_classes, true)
         ;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getObjNameByName(string $class_name) : ?string
-    {
-        return $this->getValueForKeyByName(self::KEY_CLASS_NAME, $class_name);
     }
 
     /**
@@ -122,43 +116,9 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getUnsafeCommandsByCid(string $cid) : array
+    public function getObjNameByName(string $class_name) : ?string
     {
-        $class_name = $this->getClassNameByCid($cid);
-        if (null !== $class_name) {
-            return $this->getUnsafeCommandsByName($class_name);
-        }
-
-        return [];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getUnsafeCommandsByName(string $class_name) : array
-    {
-        return $this->security[$this->lowercase($class_name)][self::KEY_UNSAFE_COMMANDS] ?? [];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSafeCommandsByCid(string $cid) : array
-    {
-        $class_name = $this->getClassNameByCid($cid);
-        if (null !== $class_name) {
-            return $this->getUnsafeCommandsByName($class_name);
-        }
-
-        return [];
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSafeCommandsByName(string $class_name) : array
-    {
-        return $this->security[$this->lowercase($class_name)][self::KEY_SAFE_COMMANDS] ?? [];
+        return $this->getValueForKeyByName(self::KEY_CLASS_NAME, $class_name);
     }
 
     /**
@@ -203,7 +163,12 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getChildrenByCid(string $cid) : ?array
     {
-        return $this->getValueForKeyByCid(self::KEY_CLASS_CHILDREN, $cid);
+        $children = $this->getValueForKeyByCid(self::KEY_CLASS_CHILDREN, $cid);
+        if (empty($children)) {
+            return null;
+        }
+
+        return $children;
     }
 
     /**
@@ -211,7 +176,12 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getChildrenByName(string $class_name) : ?array
     {
-        return $this->getValueForKeyByName(self::KEY_CLASS_CHILDREN, $class_name);
+        $children = $this->getValueForKeyByName(self::KEY_CLASS_CHILDREN, $class_name);
+        if (empty($children)) {
+            return null;
+        }
+
+        return $children;
     }
 
     /**
@@ -219,7 +189,12 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getParentsByCid(string $cid) : ?array
     {
-        return $this->getValueForKeyByCid(self::KEY_CLASS_PARENTS, $cid);
+        $parents = $this->getValueForKeyByCid(self::KEY_CLASS_PARENTS, $cid);
+        if (empty($parents)) {
+            return null;
+        }
+
+        return $parents;
     }
 
     /**
@@ -227,13 +202,18 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     public function getParentsByName(string $class_name) : ?array
     {
-        return $this->getValueForKeyByName(self::KEY_CLASS_PARENTS, $class_name);
+        $parents = $this->getValueForKeyByName(self::KEY_CLASS_PARENTS, $class_name);
+        if (empty($parents)) {
+            return null;
+        }
+
+        return $parents;
     }
 
     /**
      * @inheritDoc
      */
-    public function saveParameterByClass(string $class_name, string $parameter_name) : void
+    public function setPermanentParameterByClass(string $class_name, string $parameter_name) : void
     {
         if (!preg_match(self::PARAM_NAME_REGEX, $parameter_name)) {
             throw new ilCtrlException("Cannot save parameter '$parameter_name', as it contains invalid characters.");
@@ -245,7 +225,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function removeSavedParametersByClass(string $class_name) : void
+    public function removePermanentParametersByClass(string $class_name) : void
     {
         $class_name = $this->lowercase($class_name);
         if (isset($this->permanent_parameters[$class_name])) {
@@ -256,7 +236,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getSavedParametersByClass(string $class_name) : ?array
+    public function getPermanentParametersByClass(string $class_name) : ?array
     {
         return $this->permanent_parameters[$this->lowercase($class_name)] ?? null;
     }
@@ -264,10 +244,10 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function setParameterByClass(string $class_name, string $parameter_name, $value) : void
+    public function setTemporaryParameterByClass(string $class_name, string $parameter_name, $value) : void
     {
         if (!preg_match(self::PARAM_NAME_REGEX, $parameter_name)) {
-            throw new ilCtrlException("Cannot set parameter '$parameter_name', as it contains invalid characters.");
+            throw new ilCtrlException("Cannot save parameter '$parameter_name', as it contains invalid characters.");
         }
 
         $this->temporary_parameters[$this->lowercase($class_name)][$parameter_name] = $value;
@@ -276,7 +256,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function removeParametersByClass(string $class_name) : void
+    public function removeTemporaryParametersByClass(string $class_name) : void
     {
         $class_name = $this->lowercase($class_name);
         if (isset($this->temporary_parameters[$class_name])) {
@@ -287,7 +267,7 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * @inheritDoc
      */
-    public function getParametersByClass(string $class_name) : ?array
+    public function getTemporaryParametersByClass(string $class_name) : ?array
     {
         return $this->temporary_parameters[$this->lowercase($class_name)] ?? null;
     }
@@ -298,11 +278,26 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     public function removeSingleParameterByClass(string $class_name, string $parameter_name) : void
     {
         $class_name = $this->lowercase($class_name);
-        if (isset($this->permanent_parameters[$class_name][$parameter_name])) {
-            unset($this->permanent_parameters[$class_name][$parameter_name]);
+
+        // permanent parameters are lists of parameter names
+        // mapped to the classname, therefore the index is
+        // unknown and has to be figured out.
+        if (!empty($this->permanent_parameters[$class_name])) {
+            foreach ($this->permanent_parameters[$class_name] as $index => $permanent_parameter) {
+                if ($parameter_name === $permanent_parameter) {
+                    unset($this->permanent_parameters[$class_name][$index]);
+
+                    // reindex the array values.
+                    $permanent_parameters =& $this->permanent_parameters[$class_name];
+                    $permanent_parameters =  array_values($permanent_parameters);
+                }
+            }
         }
 
-        if (isset($this->temporary_parameters[$class_name][$parameter_name])) {
+        // the temporary parameters are key => value pairs mapped
+        // to the classname, whereas key is the parameter name.
+        // The index is therefore known and can be unset directly.
+        if (isset($this->temporary_parameters[$class_name])) {
             unset($this->temporary_parameters[$class_name][$parameter_name]);
         }
     }
@@ -324,6 +319,48 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getUnsafeCommandsByCid(string $cid) : array
+    {
+        $class_name = $this->getClassNameByCid($cid);
+        if (null !== $class_name) {
+            return $this->getUnsafeCommandsByName($class_name);
+        }
+
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getUnsafeCommandsByName(string $class_name) : array
+    {
+        return $this->security[$this->lowercase($class_name)][self::KEY_UNSAFE_COMMANDS] ?? [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafeCommandsByCid(string $cid) : array
+    {
+        $class_name = $this->getClassNameByCid($cid);
+        if (null !== $class_name) {
+            return $this->getSafeCommandsByName($class_name);
+        }
+
+        return [];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getSafeCommandsByName(string $class_name) : array
+    {
+        return $this->security[$this->lowercase($class_name)][self::KEY_SAFE_COMMANDS] ?? [];
+    }
+
+    /**
      * Returns a stored structure value of the given key from the
      * corresponding class mapped by CID.
      *
@@ -333,13 +370,13 @@ final class ilCtrlStructure implements ilCtrlStructureInterface
      */
     private function getValueForKeyByCid(string $identifier_key, string $cid)
     {
-        if (isset(self::$mapped_structure[$cid][$identifier_key])) {
-            return self::$mapped_structure[$cid][$identifier_key];
+        if (isset($this->mapped_structure[$cid][$identifier_key])) {
+            return $this->mapped_structure[$cid][$identifier_key];
         }
 
         foreach ($this->structure as $class_info) {
             if (isset($class_info[$identifier_key]) && $class_info[self::KEY_CLASS_CID] === $cid) {
-                self::$mapped_structure[$cid] = $class_info;
+                $this->mapped_structure[$cid] = $class_info;
                 return $class_info[$identifier_key];
             }
         }

@@ -7,7 +7,7 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlArrayIterator implements ilCtrlIteratorInterface
+class ilCtrlArrayIterator implements ilCtrlIteratorInterface
 {
     /**
      * @var array

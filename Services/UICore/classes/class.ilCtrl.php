@@ -16,7 +16,7 @@ use GuzzleHttp\Psr7\Response;
  *
  * @author Thibeau Fuhrer <thf@studer.raimann.ch>
  */
-final class ilCtrl implements ilCtrlInterface
+class ilCtrl implements ilCtrlInterface
 {
     /**
      * Holds an instance of the http service's response sender.
@@ -112,10 +112,8 @@ final class ilCtrl implements ilCtrlInterface
         $this->post_parameters = $post_parameters;
         $this->get_parameters  = $get_parameters;
         $this->refinery        = $refinery;
-        $this->path_factory    = new ilCtrlPathFactory($this->structure);
 
-        // initialize the context without adopting
-        // any values.
+        $this->path_factory = new ilCtrlPathFactory($this->structure);
         $this->context = new ilCtrlContext(
             $this->path_factory,
             $this->get_parameters,
@@ -128,25 +126,25 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function callBaseClass(string $a_base_class = null) : void
     {
-        $this->context->adoptRequestParameters();
+        // prioritise the context's baseclass over the given one.
+        $a_base_class = $this->context->getBaseClass() ?? $a_base_class;
 
-        if (null === $a_base_class && null === $this->context->getBaseClass()) {
-            throw new ilCtrlException(__METHOD__ . " was not given a baseclass an the request doesn't include one either.");
+        // abort if no baseclass was provided.
+        if (null === $a_base_class) {
+            throw new ilCtrlException(__METHOD__ . " was not given a baseclass and the request doesn't include one either.");
         }
 
-        if (null !== $a_base_class && null === $this->context->getBaseClass()) {
-            if (!$this->structure->isBaseClass($a_base_class)) {
-                throw new ilCtrlException("Provided class '$a_base_class' is not a baseclass in " . __METHOD__);
-            }
-
-            $this->context->setBaseClass($a_base_class);
+        // abort if the provided baseclass is unknown.
+        if (!$this->structure->isBaseClass($a_base_class)) {
+            throw new ilCtrlException("Provided class '$a_base_class' is not a baseclass");
         }
 
-        // no null-check needed because isBaseClass() was true.
-        $obj_name = $this->structure->getObjNameByName(
-            $this->context->getBaseClass()
-        );
+        // in case the baseclass was given by argument,
+        // set the context's baseclass.
+        $this->context->setBaseClass($a_base_class);
 
+        // no null-check needed as previous isBaseClass() was true.
+        $obj_name = $this->structure->getObjNameByName($a_base_class);
         $this->forwardCommand(new $obj_name());
     }
 
@@ -232,7 +230,8 @@ final class ilCtrl implements ilCtrlInterface
 
                 $stored_token = new ilCtrlToken(
                     $DIC->database(),
-                    $DIC->user()
+                    $DIC->user(),
+                    session_id()
                 );
 
                 $sent_token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
@@ -315,10 +314,10 @@ final class ilCtrl implements ilCtrlInterface
         if (!empty($a_parameter)) {
             if (is_array($a_parameter)) {
                 foreach ($a_parameter as $parameter) {
-                    $this->structure->saveParameterByClass($a_class, $parameter);
+                    $this->structure->setPermanentParameterByClass($a_class, $parameter);
                 }
             } else {
-                $this->structure->saveParameterByClass($a_class, $a_parameter);
+                $this->structure->setPermanentParameterByClass($a_class, $a_parameter);
             }
         }
     }
@@ -336,7 +335,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function setParameterByClass(string $a_class, string $a_parameter, $a_value) : void
     {
-        $this->structure->setParameterByClass($a_class, $a_parameter, $a_value);
+        $this->structure->setTemporaryParameterByClass($a_class, $a_parameter, $a_value);
     }
 
     /**
@@ -357,14 +356,14 @@ final class ilCtrl implements ilCtrlInterface
         }
 
         $parameters = [];
-        $permanent_parameters = $this->structure->getSavedParametersByClass($a_class);
+        $permanent_parameters = $this->structure->getPermanentParametersByClass($a_class);
         if (null !== $permanent_parameters) {
             foreach ($permanent_parameters as $parameter) {
                 $parameters[$parameter] = $this->getQueryParam($parameter);
             }
         }
 
-        $temporary_parameters = $this->structure->getParametersByClass($a_class);
+        $temporary_parameters = $this->structure->getTemporaryParametersByClass($a_class);
         if (null !== $temporary_parameters) {
             // override existing ones, as temporary parameters
             // are prioritised over fetched ones.
@@ -389,8 +388,8 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function clearParametersByClass(string $a_class) : void
     {
-        $this->structure->removeSavedParametersByClass($a_class);
-        $this->structure->removeParametersByClass($a_class);
+        $this->structure->removePermanentParametersByClass($a_class);
+        $this->structure->removeTemporaryParametersByClass($a_class);
     }
 
     /**
@@ -686,15 +685,23 @@ final class ilCtrl implements ilCtrlInterface
     {
         $class_name = $this->getClassByObject($a_gui_obj);
         $target_url = $this->getParentReturnByClass($class_name);
+
+        // abort if no parent has set a return target yet.
         if (null === $target_url) {
             throw new ilCtrlException("ilCtrl was not yet provided with a return-target for class '$class_name'");
         }
 
+        // append redirect source to target url.
         $target_url = $this->appendParameterString(
             $target_url,
             self::PARAM_REDIRECT,
             $class_name
         );
+
+        // append the provided anchor if necessary.
+        if (null !== $a_anchor) {
+            $target_url .= "#$a_anchor";
+        }
 
         $this->redirectToURL($target_url);
     }
@@ -712,7 +719,18 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getParentReturnByClass(string $a_class) : ?string
     {
-        return $this->structure->getReturnTargetByClass($a_class);
+        $path = $this->path_factory->find($this->context, $a_class);
+        if (null !== $path->getCidPath()) {
+            foreach ($path->getCidArray() as $cid) {
+                $current_class = $this->structure->getClassNameByCid($cid);
+                $return_target = $this->structure->getReturnTargetByClass($current_class);
+                if (null !== $return_target) {
+                    return $return_target;
+                }
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -752,7 +770,7 @@ final class ilCtrl implements ilCtrlInterface
      */
     public function getCurrentClassPath() : array
     {
-        if (null === $this->context->getPath()) {
+        if (null === $this->context->getPath()->getCidPath()) {
             return [];
         }
 
@@ -928,7 +946,8 @@ final class ilCtrl implements ilCtrlInterface
 
             $token = new ilCtrlToken(
                 $DIC->database(),
-                $DIC->user()
+                $DIC->user(),
+                session_id()
             );
 
             $target_url = $this->appendParameterString(
@@ -1006,10 +1025,10 @@ final class ilCtrl implements ilCtrlInterface
      */
     private function isCmdSecure(bool $is_post, string $cmd_class, string $cmd = null) : bool
     {
-        // if no specified command is executed, the command
-        // is considered safe per default.
+        // if no command is specified, the command is
+        // considered safe if it's not a POST command.
         if (null === $cmd) {
-            return true;
+            return !$is_post;
         }
 
         // if the given command class doesn't exist, the

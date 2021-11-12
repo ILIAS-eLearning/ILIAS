@@ -7,7 +7,7 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-final class ilCtrlStructureHelper
+class ilCtrlStructureHelper
 {
     /**
      * @var array<string, mixed>
@@ -64,10 +64,12 @@ final class ilCtrlStructureHelper
             return $this;
         }
 
-        foreach ($this->plugin_structure as $plugin_data) {
-            if (!empty($plugin_data)) {
-                foreach ($this->plugin_structure as $class_name => $data) {
-                    $this->ctrl_structure[$class_name] = $data;
+        foreach ($this->plugin_structure as $plugin_id => $plugin_data) {
+            if (!empty($plugin_data) && is_string($plugin_id) && is_array($plugin_data)) {
+                foreach ($plugin_data as $class_name => $data) {
+                    if (is_string($class_name) && is_array($data)) {
+                        $this->ctrl_structure[$class_name] = $data;
+                    }
                 }
             }
         }

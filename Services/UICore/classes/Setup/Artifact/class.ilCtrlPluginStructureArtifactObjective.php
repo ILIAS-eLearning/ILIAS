@@ -21,7 +21,7 @@ use ILIAS\Setup\Artifact;
  * contained in the ctrl structure artifact. To resolve this problem a
  * `composer du` is needed.
  */
-final class ilCtrlPluginStructureArtifactObjective extends BuildArtifactObjective
+class ilCtrlPluginStructureArtifactObjective extends BuildArtifactObjective
 {
     /**
      * @var string relative path to the php artifact file.

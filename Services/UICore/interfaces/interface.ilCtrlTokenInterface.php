@@ -27,4 +27,10 @@ interface ilCtrlTokenInterface
      * @return bool
      */
     public function verifyWith(string $token) : bool;
+
+    /**
+     * Destroys the token that has been stored for the user of this
+     * instance.
+     */
+    public function destroyToken() : void;
 }
