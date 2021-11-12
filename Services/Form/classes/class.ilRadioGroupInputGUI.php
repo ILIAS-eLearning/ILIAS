@@ -118,10 +118,12 @@ class ilRadioGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilTabl
             if (count($option->getSubItems()) > 0) {
                 if ($option->getValue() != $this->getValue()) {
                     // #10930
-                    $hop_id = $this->getFieldId() . "_" . $option->getValue();
-                    $this->global_tpl->addOnloadCode(
-                        "il.Form.hideSubForm('subform_$hop_id');"
-                    );
+                    if ($this->global_tpl) {
+                        $hop_id = $this->getFieldId() . "_" . $option->getValue();
+                        $this->global_tpl->addOnloadCode(
+                            "il.Form.hideSubForm('subform_$hop_id');"
+                        );
+                    }
                 }
                 $tpl->setCurrentBlock("radio_option_subform");
                 $pf = new ilPropertyFormGUI();

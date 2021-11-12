@@ -45,7 +45,7 @@ class ilFormPropertyGUI
     protected ?Refinery\Factory $refinery = null;
     protected bool $disabled = false;
 
-    protected ilGlobalPageTemplate $global_tpl;
+    protected ?ilGlobalTemplateInterface $global_tpl = null;
 
     public function __construct(
         string $a_title = "",
@@ -70,7 +70,9 @@ class ilFormPropertyGUI
         if (isset($DIC["http"])) {      // some unit tests will fail otherwise
             $this->request = $DIC->http()->request();
         }
-        $this->global_tpl = $DIC['tpl'];
+        if (isset($DIC["tpl"])) {      // some unit tests will fail otherwise
+            $this->global_tpl = $DIC['tpl'];
+        }
     }
 
     /**
