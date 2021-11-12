@@ -1637,8 +1637,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
     public function confirmDeleteThreads() : void
     {
         $thread_ids = $this->retrieveThreadIds();
-
-        if (!isset($thread_ids) || !is_array($thread_ids)) {
+        if ($thread_ids === []) {
             ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'));
             $this->ctrl->redirect($this, 'showThreads');
         }
@@ -1651,8 +1650,9 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
+        /** @var ilForumTopic[] $threads */
         $threads = [];
-        array_walk($thread_ids, function ($threadId) use (&$threads) {
+        array_walk($thread_ids, function ($threadId) use (&$threads) : void {
             $thread = new ilForumTopic($threadId);
             $this->ensureThreadBelongsToForum($this->object->getId(), $thread);
 
@@ -1667,7 +1667,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $c_gui->setConfirm($this->lng->txt('confirm'), 'performDeleteThreads');
 
         foreach ($threads as $thread) {
-            $c_gui->addItem('thread_ids[]', $thread->getId(), $thread->getSubject());
+            $c_gui->addItem('thread_ids[]', (string) $thread->getId(), $thread->getSubject());
         }
 
         $this->confirmation_gui_html = $c_gui->getHTML();
@@ -1683,7 +1683,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         }
 
         $draftIds = array_filter((array) ($this->httpRequest->getParsedBody()['draft_ids'] ?? []));
-        if (0 === count($draftIds)) {
+        if ($draftIds === []) {
             ilUtil::sendInfo($this->lng->txt('select_at_least_one_thread'));
             $this->showThreadsObject();
             return;
@@ -1697,7 +1697,7 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
         $instances = ilForumPostDraft::getDraftInstancesByUserId($this->user->getId());
         foreach ($draftIds as $draftId) {
             if (array_key_exists($draftId, $instances)) {
-                $confirmation->addItem('draft_ids[]', $draftId, $instances[$draftId]->getPostSubject());
+                $confirmation->addItem('draft_ids[]', (string) $draftId, $instances[$draftId]->getPostSubject());
             }
         }
 
