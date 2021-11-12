@@ -41,7 +41,7 @@ class ilCronDeleteInactivatedUserAccounts extends ilCronJob
             if (isset($DIC['ilObjDataCache'])) {
                 $this->objectDataCache = $DIC['ilObjDataCache'];
             }
-            
+
             if (isset($DIC['rbacreview'])) {
                 $this->rbacReview = $DIC->rbac()->review();
             }
