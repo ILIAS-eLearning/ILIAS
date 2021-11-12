@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\ConstraintViolationException;
+
 class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
 {
     private const DEFAULT_CREATION_THRESHOLD = 365;
@@ -11,7 +13,8 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
     private ilSetting $settings;
     private ilRbacReview $rbacreview;
     private ilObjectDataCache $objectDataCache;
-    private \Psr\Http\Message\ServerRequestInterface $request;
+    private \ILIAS\HTTP\GlobalHttpState $http;
+    private \ILIAS\Refinery\Factory $refinery;
 
     public function __construct()
     {
@@ -46,16 +49,13 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
             }
 
             if (isset($DIC['http'])) {
-                $this->request = $DIC->http()->request();
+                $this->http = $DIC->http();
+            }
+
+            if (isset($DIC['refinery'])) {
+                $this->refinery = $DIC->refinery();
             }
         }
-    }
-
-    protected function hasDecimals($number) : bool
-    {
-        $number = (string) $number;
-
-        return strpos($number, ',') !== false || strpos($number, '.') !== false;
     }
 
     public function getId() : string
@@ -186,6 +186,7 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
             $this->lng->txt('cron_users_without_login_del_create_date_thr'),
             'threshold'
         );
+        $threshold->allowDecimals(false);
         $threshold->setInfo($this->lng->txt('cron_users_without_login_del_create_date_thr_info'));
         $threshold->setValue((string) $this->thresholdInDays);
         $threshold->setSuffix($this->lng->txt('days'));
@@ -199,12 +200,17 @@ class ilCronDeleteNeverLoggedInUserAccounts extends \ilCronJob
     {
         $valid = true;
 
-        $roleIdWhitelist = $this->request->getParsedBody()['role_whitelist'] ?? [];
-        $this->roleIdWhiteliste = implode(',', array_map('intval', (is_array($roleIdWhitelist) ? $roleIdWhitelist : [])));
+        $this->roleIdWhiteliste = implode(',', $this->http->wrapper()->post()->retrieve(
+            'role_whitelist',
+            $this->refinery->kindlyTo()->listOf($this->refinery->kindlyTo()->int())
+        ));
 
-        $this->thresholdInDays = $this->request->getParsedBody()['threshold'] ?? '';
-
-        if (!is_numeric($this->thresholdInDays) || $this->hasDecimals($this->thresholdInDays)) {
+        try {
+            $this->thresholdInDays = $this->http->wrapper()->post()->retrieve(
+                'threshold',
+                $this->refinery->kindlyTo()->int()
+            );
+        } catch (ConstraintViolationException $e) {
             $valid = false;
             $a_form->getItemByPostVar('threshold')->setAlert($this->lng->txt('user_never_logged_in_info_threshold_err_num'));
         }
