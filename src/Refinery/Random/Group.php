@@ -18,7 +18,7 @@ class Group
      *
      * The transformation will be shuffled with the given $seed.
      *
-     * !! BEWARE OF THE SIDE EFFECT. This Transformation is not SIde Effect free !!
+     * !! BEWARE OF THE SIDE EFFECT. This Transformation is not Side Effect free !!
      */
     public function shuffleArray(Seed $seed) : Transformation
     {
