@@ -554,7 +554,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
             /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
             $result = array_values($this->upload->getResults())[0];
-            if ($result && $result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+            if ($result && $result->isOK()) {
                 $this->upload->moveOneFileTo(
                     $result,
                     ilChatroomSmilies::getSmiliesBasePath(),
