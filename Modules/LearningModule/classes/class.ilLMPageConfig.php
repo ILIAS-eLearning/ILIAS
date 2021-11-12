@@ -22,13 +22,22 @@ class ilLMPageConfig extends ilPageConfig
 {
     public function init() : void
     {
+        global $DIC;
+
+        $req = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request();
+
         $lm_set = new ilSetting("lm");
         
         $this->setPreventHTMLUnmasking(false);
         $this->setPreventRteUsage(true);
         $this->setUseAttachedContent(true);
         $this->setIntLinkHelpDefaultType("StructureObject");
-        $this->setIntLinkHelpDefaultId($_GET["ref_id"]);
+        $this->setIntLinkHelpDefaultId($req->getRefId());
         $this->removeIntLinkFilter("File");
         $this->setEnableActivation(true);
         $this->setEnableSelfAssessment(true, false);

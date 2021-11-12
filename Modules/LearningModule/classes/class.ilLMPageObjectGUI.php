@@ -102,7 +102,7 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                 }
                 $page_gui->setViewPageLink(
                     ILIAS_HTTP_PATH . "/goto.php?target=pg_" . $this->obj->getId() .
-                    "_" . $_GET["ref_id"],
+                    "_" . $this->requested_ref_id,
                     $view_frame
                 );
 
@@ -117,10 +117,10 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                 $page_gui->setLinkXml($link_xml);
 
                 $page_gui->enableChangeComments($this->content_object->isActiveHistoryUserComments());
-                $page_gui->setFileDownloadLink("ilias.php?cmd=downloadFile&ref_id=" . $_GET["ref_id"] . "&baseClass=ilLMPresentationGUI");
-                $page_gui->setFullscreenLink("ilias.php?cmd=fullscreen&ref_id=" . $_GET["ref_id"] . "&baseClass=ilLMPresentationGUI");
+                $page_gui->setFileDownloadLink("ilias.php?cmd=downloadFile&ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
+                $page_gui->setFullscreenLink("ilias.php?cmd=fullscreen&ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
                 $page_gui->setLinkParams("ref_id=" . $this->content_object->getRefId());
-                $page_gui->setSourcecodeDownloadScript("ilias.php?ref_id=" . $_GET["ref_id"] . "&baseClass=ilLMPresentationGUI");
+                $page_gui->setSourcecodeDownloadScript("ilias.php?ref_id=" . $this->requested_ref_id . "&baseClass=ilLMPresentationGUI");
                 $page_gui->setPresentationTitle(
                     ilLMPageObject::_getPresentationTitle(
                         $this->obj->getId(),
@@ -261,13 +261,13 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
                     case "GlossaryItem":
                         $ltarget = $nframe = "_blank";
                         $href = "ilias.php?cmdClass=illmpresentationgui&amp;baseClass=ilLMPresentationGUI&amp;" .
-                            "obj_type=$type&amp;cmd=glossary&amp;ref_id=" . $_GET["ref_id"] .
+                            "obj_type=$type&amp;cmd=glossary&amp;ref_id=" . $this->requested_ref_id .
                             "&amp;obj_id=" . $target_id . "&amp;frame=$nframe";
                         break;
 
                     case "MediaObject":
                         $ltarget = $nframe = "_blank";
-                        $href = "ilias.php?cmdClass=illmpresentationgui&amp;baseClass=ilLMPresentationGUI&amp;obj_type=$type&amp;cmd=media&amp;ref_id=" . $_GET["ref_id"] .
+                        $href = "ilias.php?cmdClass=illmpresentationgui&amp;baseClass=ilLMPresentationGUI&amp;obj_type=$type&amp;cmd=media&amp;ref_id=" . $this->requested_ref_id .
                             "&amp;mob_id=" . $target_id . "&amp;frame=$nframe";
                         break;
                         
@@ -521,8 +521,12 @@ class ilLMPageObjectGUI extends ilLMObjectGUI
         $pg_obj->buildDom();
         $int_links = $pg_obj->getInternalLinks();
         foreach ($int_links as $il) {
-            if ($il["Target"] == str_replace("_file_", "_dfile_", $_GET["file_id"])) {
-                $file = explode("_", $_GET["file_id"]);
+            if ($il["Target"] == str_replace(
+                "_file_",
+                "_dfile_",
+                $this->request->getFileId()
+            )) {
+                $file = explode("_", $this->request->getFileId());
                 $file_id = (int) $file[count($file) - 1];
                 $fileObj = new ilObjFile($file_id, false);
                 $fileObj->sendFile();

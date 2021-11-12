@@ -82,8 +82,8 @@ class ilLMMenuRendererGUI
         $this->lm = $lm;
         $this->offline = $offline;
         $request = $lm_pres_service->getRequest();
-        $this->requested_obj_id = $request->getRequestedObjId();
-        $this->requested_ref_id = $request->getRequestedRefId();
+        $this->requested_obj_id = $request->getObjId();
+        $this->requested_ref_id = $request->getRefId();
     }
 
     public function render() : string

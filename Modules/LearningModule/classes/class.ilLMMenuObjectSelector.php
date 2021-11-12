@@ -23,10 +23,12 @@ class ilLMMenuObjectSelector extends ilExplorer
     public array $selectable_types;
     public int $ref_id;
     protected object $gui_obj;
+    protected int $menu_entry;
 
     public function __construct(
         string $a_target,
-        object $a_gui_obj
+        object $a_gui_obj,
+        int $menu_entry
     ) {
         global $DIC;
 
@@ -34,6 +36,7 @@ class ilLMMenuObjectSelector extends ilExplorer
         $this->lng = $DIC->language();
         $tree = $DIC->repositoryTree();
         $ilCtrl = $DIC->ctrl();
+        $this->menu_entry = $menu_entry;
 
         $this->ctrl = $ilCtrl;
         
@@ -65,7 +68,7 @@ class ilLMMenuObjectSelector extends ilExplorer
     {
         if (in_array($a_type, $this->selectable_types)) {
             $this->ctrl->setParameter($this->gui_obj, 'link_ref_id', $a_node_id);
-            if ($_GET["menu_entry"] > 0) {
+            if ($this->menu_entry > 0) {
                 return $this->ctrl->getLinkTarget($this->gui_obj, 'editMenuEntry');
             } else {
                 return $this->ctrl->getLinkTarget($this->gui_obj, 'addMenuEntry');

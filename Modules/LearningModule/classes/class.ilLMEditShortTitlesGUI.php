@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\LearningModule\Editing\EditingGUIRequest;
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -21,11 +23,20 @@ class ilLMEditShortTitlesGUI
     protected ilObjLearningModuleGUI $lm_gui;
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
+    protected EditingGUIRequest $request;
 
     public function __construct(
-        ilObjLearningModuleGUI $a_lm_gui
+        ilObjLearningModuleGUI $a_lm_gui,
+        string $requested_transl
     ) {
         global $DIC;
+
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
 
         $this->ctrl = $DIC->ctrl();
         /** @var ilObjLearningModule $lm */
@@ -35,9 +46,9 @@ class ilLMEditShortTitlesGUI
         $this->tpl = $DIC["tpl"];
         $this->lng = $DIC->language();
 
-        $this->lang = ($_GET["transl"] == "")
+        $this->lang = ($requested_transl == "")
             ? "-"
-            : $_GET["transl"];
+            : $requested_transl;
     }
 
     public function executeCommand()
@@ -63,11 +74,11 @@ class ilLMEditShortTitlesGUI
 
     public function save() : void
     {
-        if (is_array($_POST["short_title"])) {
-            foreach ($_POST["short_title"] as $id => $title) {
-                if (ilLMObject::_lookupContObjID($id) == $this->lm->getId()) {
-                    ilLMObject::writeShortTitle($id, ilUtil::stripSlashes($title), $this->lang);
-                }
+        $short_titles = $this->request->getShortTitles();
+
+        foreach ($short_titles as $id => $title) {
+            if (ilLMObject::_lookupContObjID($id) == $this->lm->getId()) {
+                ilLMObject::writeShortTitle($id, ilUtil::stripSlashes($title), $this->lang);
             }
         }
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

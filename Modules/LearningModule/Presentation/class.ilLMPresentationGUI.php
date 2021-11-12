@@ -24,6 +24,8 @@
  */
 class ilLMPresentationGUI
 {
+    protected string $requested_url;
+    protected string $requested_type;
     protected ilLMTracker $tracker;
     protected ilTabsGUI $tabs;
     protected ilNestedListInputGUI $nl;
@@ -120,9 +122,6 @@ class ilLMPresentationGUI
 
         // note: using $DIC->http()->request()->getQueryParams() here will
         // fail, since the goto magic currently relies on setting $_GET
-        if (!is_array($query_params)) {
-            $query_params = $_GET;
-        }
         $this->initByRequest($query_params, $embed_mode);
 
         // check, if learning module is online
@@ -165,9 +164,11 @@ class ilLMPresentationGUI
      * @param array $query_params request query params
      */
     public function initByRequest(
-        array $query_params,
+        ?array $query_params = null,
         bool $embed_mode = false
     ) : void {
+        global $DIC;
+
         $this->service = new ilLMPresentationService(
             $this->user,
             $query_params,
@@ -178,21 +179,34 @@ class ilLMPresentationGUI
             $embed_mode
         );
 
-        $request = $this->service->getRequest();
+        $post = is_null($query_params)
+            ? null
+            : [];
 
-        $this->requested_obj_type = $request->getRequestedObjType();
-        $this->requested_ref_id = $request->getRequestedRefId();
-        $this->requested_transl = $request->getRequestedTranslation();      // handled by presentation status
-        $this->requested_obj_id = $request->getRequestedObjId();            // handled by navigation status
-        $this->requested_back_pg = $request->getRequestedBackPage();
-        $this->requested_frame = $request->getRequestedFrame();
-        $this->requested_search_string = $request->getRequestedSearchString();
-        $this->requested_focus_return = $request->getRequestedFocusReturn();
-        $this->requested_mob_id = $request->getRequestedMobId();
-        $this->requested_cmd = $request->getRequestedCmd();
-        $this->requested_pg_id = $request->getRequestedPgId();
-        $this->requested_pg_type = $request->getRequestedPgType();
-        $this->requested_notification_switch = $request->getRequestedNotificationSwitch();
+        $request = $DIC->learningModule()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request(
+                $query_params,
+                $post
+            );
+
+        $this->requested_obj_type = $request->getObjType();
+        $this->requested_ref_id = $request->getRefId();
+        $this->requested_transl = $request->getTranslation();      // handled by presentation status
+        $this->requested_obj_id = $request->getObjId();            // handled by navigation status
+        $this->requested_back_pg = $request->getBackPage();
+        $this->requested_frame = $request->getFrame();
+        $this->requested_search_string = $request->getSearchString();
+        $this->requested_focus_return = $request->getFocusReturn();
+        $this->requested_mob_id = $request->getMobId();
+        $this->requested_cmd = $request->getCmd();
+        $this->requested_pg_id = $request->getPgId();
+        $this->requested_pg_type = $request->getPgType();
+        $this->requested_notification_switch = $request->getNotificationSwitch();
+        $this->requested_type = $request->getType();
+        $this->requested_url = $request->getUrl();
 
         $this->lm_set = $this->service->getSettings();
         $this->lm_gui = $this->service->getLearningModuleGUI();
@@ -200,7 +214,7 @@ class ilLMPresentationGUI
         $this->tracker = $this->service->getTracker();
         $this->linker = $this->service->getLinker();
         $this->embed_mode = $embed_mode;
-        if ($request->getRequestedEmbedMode()) {
+        if ($request->getEmbedMode()) {
             $this->embed_mode = true;
         }
 
@@ -586,7 +600,7 @@ class ilLMPresentationGUI
     public function saveFrameUrl() : void
     {
         $store = new ilSessionIStorage("lm");
-        $store->set("cf_" . $this->lm->getId(), $_GET["url"]);
+        $store->set("cf_" . $this->lm->getId(), $this->requested_url);
     }
     
 
@@ -972,7 +986,7 @@ class ilLMPresentationGUI
                     } else {
                         $ilLocator->addItem(
                             ilUtil::shortenText($this->getLMPresentationTitle(), 50, true),
-                            $this->linker->getLink("layout", "", $frame_param),
+                            $this->linker->getLink("layout", 0, $frame_param),
                             $frame_target,
                             $this->requested_ref_id
                         );
@@ -1097,12 +1111,12 @@ class ilLMPresentationGUI
     {
         $ilUser = $this->user;
         
-        $pg_id = $_GET["pgid"];
+        $pg_id = $this->requested_pg_id;
         if (!$this->ctrl->isAsynch() || !$pg_id) {
             exit();
         }
                 
-        $rating = (int) $_POST["rating"];
+        $rating = $this->service->getRequest()->getRating();
         if ($rating) {
             ilRating::writeRatingForUserAndObject(
                 $this->lm->getId(),
@@ -1110,7 +1124,7 @@ class ilLMPresentationGUI
                 $pg_id,
                 "lm",
                 $ilUser->getId(),
-                $_POST["rating"]
+                $rating
             );
         } else {
             ilRating::resetRatingForUserAndObject(
@@ -1365,13 +1379,15 @@ class ilLMPresentationGUI
         $nodes = $this->lm_tree->getSubTree($this->lm_tree->getNodeData($this->lm_tree->getRootId()));
         $nodes = $this->filterNonAccessibleNode($nodes);
 
-        if (!is_array($_POST["item"])) {
+        /* this was written to _POST["item"] before, but never used?
+        $items = $this->service->getRequest()->getItems();
+        if (count($items) == 0) {
             if ($this->requested_obj_id != "") {
-                $_POST["item"][$this->requested_obj_id] = "y";
+                $items[$this->requested_obj_id] = "y";
             } else {
-                $_POST["item"][1] = "y";
+                $items[1] = "y";
             }
-        }
+        }*/
 
         $this->initPrintViewSelectionForm();
 
@@ -1590,16 +1606,18 @@ class ilLMPresentationGUI
         
         $c_obj_id = $this->getCurrentPageId();
         // set values according to selection
-        if ($_POST["sel_type"] == "page") {
-            if (!is_array($_POST["obj_id"]) || !in_array($c_obj_id, $_POST["obj_id"])) {
-                $_POST["obj_id"][] = $c_obj_id;
+        $sel_type = $this->service->getRequest()->getSelectedType();
+        $sel_obj_ids = $this->service->getRequest()->getSelectedObjIds();
+        if ($sel_type == "page") {
+            if (!in_array($c_obj_id, $sel_obj_ids)) {
+                $sel_obj_ids[] = $c_obj_id;
             }
         }
-        if ($_POST["sel_type"] == "chapter" && $c_obj_id > 0) {
+        if ($sel_type == "chapter" && $c_obj_id > 0) {
             $path = $this->lm_tree->getPathFull($c_obj_id);
             $chap_id = $path[1]["child"];
             if ($chap_id > 0) {
-                $_POST["obj_id"][] = $chap_id;
+                $sel_obj_ids[] = $chap_id;
             }
         }
         
@@ -1660,8 +1678,8 @@ class ilLMPresentationGUI
         }
 
         // add free selected pages
-        if (is_array($_POST["obj_id"])) {
-            foreach ($_POST["obj_id"] as $k) {
+        if (is_array($sel_obj_ids)) {
+            foreach ($sel_obj_ids as $k) {
                 if ($k > 0 && !$this->lm_tree->isInTree($k)) {
                     if (ilLMObject::_lookupType($k) == "pg") {
                         $nodes[] = array("obj_id" => $k, "type" => "pg", "free" => true);
@@ -1687,7 +1705,7 @@ class ilLMPresentationGUI
             // print all subchapters/subpages if higher chapter
             // has been selected
             if ($node["depth"] <= $act_level) {
-                if (is_array($_POST["obj_id"]) && in_array($node["obj_id"], $_POST["obj_id"])) {
+                if (in_array($node["obj_id"], $sel_obj_ids)) {
                     $act_level = $node["depth"];
                     $activated = true;
                 } else {
@@ -1811,7 +1829,7 @@ class ilLMPresentationGUI
                         }
                         if ($nodes[$node_key + 1]["type"] == "pg" &&
                             !($nodes[$node_key + 1]["depth"] <= $act_level
-                             && !in_array($nodes[$node_key + 1]["obj_id"], $_POST["obj_id"]))) {
+                             && !in_array($nodes[$node_key + 1]["obj_id"], $sel_obj_ids))) {
                             $fcont = "";
                         }
                     }
@@ -2150,11 +2168,12 @@ class ilLMPresentationGUI
             return;
         }
 
-        $base_type = explode("_", $_GET["type"]);
+        $type = $this->requested_type;
+        $base_type = explode("_", $type);
         $base_type = $base_type[0];
         $file = $this->lm->getPublicExportFile($base_type);
         if ($this->lm->getPublicExportFile($base_type) != "") {
-            $dir = $this->lm->getExportDirectory($_GET["type"]);
+            $dir = $this->lm->getExportDirectory($type);
             if (is_file($dir . "/" . $file)) {
                 ilUtil::deliverFile($dir . "/" . $file, $file);
                 exit;

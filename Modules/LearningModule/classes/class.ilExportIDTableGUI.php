@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\LearningModule\Editing\EditingGUIRequest;
+
 /**
  * Export IDs table
  *
@@ -25,6 +27,7 @@ class ilExportIDTableGUI extends ilTable2GUI
     protected bool $validation = false;
     protected ilAccessHandler $access;
     public bool $online_help_mode = false;
+    protected EditingGUIRequest $request;
     
     public function __construct(
         object $a_parent_obj,
@@ -37,6 +40,13 @@ class ilExportIDTableGUI extends ilTable2GUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
+
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
 
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
@@ -96,10 +106,11 @@ class ilExportIDTableGUI extends ilTable2GUI
             $a_set["type"]
         );
 
+        $req_export_ids = $this->request->getExportIds();
         if ($this->validation) {
             if (!preg_match(
                 "/^[a-zA-Z_]*$/",
-                trim($_POST["exportid"][$a_set["obj_id"]])
+                trim($req_export_ids[$a_set["obj_id"]])
             )) {
                 // @todo: move to style
                 $this->tpl->setVariable(
@@ -117,7 +128,7 @@ class ilExportIDTableGUI extends ilTable2GUI
             $this->tpl->setVariable(
                 "EXPORT_ID",
                 ilUtil::prepareFormOutput(
-                    ilUtil::stripSlashes($_POST["exportid"][$a_set["obj_id"]])
+                    ilUtil::stripSlashes($req_export_ids[$a_set["obj_id"]])
                 )
             );
         } else {

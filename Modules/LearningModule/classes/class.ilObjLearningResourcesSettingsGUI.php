@@ -90,7 +90,15 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         }
     }
 
-    public function editSettings() : void
+    public function editSettings(?ilPropertyFormGUI $form = null) : void
+    {
+        if (is_null($form)) {
+            $form = $this->getSettingsForm();
+        }
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    public function getSettingsForm() : ilPropertyFormGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -101,7 +109,7 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this));
         $form->setTitle($lng->txt("cont_lrs_settings"));
-        
+
         // Page History
         $cb_prop = new ilCheckboxInputGUI(
             $lng->txt("cont_enable_page_history"),
@@ -196,66 +204,71 @@ class ilObjLearningResourcesSettingsGUI extends ilObjectGUI
             $form->addCommandButton("saveSettings", $lng->txt("save"));
             $form->addCommandButton("view", $lng->txt("cancel"));
         }
-
-        $this->tpl->setContent($form->getHTML());
+        return $form;
     }
 
     public function saveSettings() : void
     {
         $ilCtrl = $this->ctrl;
 
+        $form = $this->getSettingsForm();
+
         $this->checkPermission("write");
-        
-        $lm_set = new ilSetting("lm");
-        $lm_set->set(
-            "time_scheduled_page_activation",
-            ilUtil::stripSlashes($_POST["time_scheduled_page_activation"])
-        );
-        $lm_set->set(
-            "lm_starting_point",
-            ilUtil::stripSlashes($_POST["lm_starting_point"])
-        );
-        $lm_set->set(
-            "page_history",
-            (int) ilUtil::stripSlashes($_POST["page_history"])
-        );
-        $lm_set->set(
-            "replace_mob_feature",
-            ilUtil::stripSlashes($_POST["replace_mob_feature"])
-        );
-        $lm_set->set(
-            "html_export_ids",
-            ilUtil::stripSlashes($_POST["html_export_ids"])
-        );
-        $lm_set->setScormDebug(
-            "scormdebug_global_activate",
-            ilUtil::stripSlashes($_POST["scormdebug_global_activate"])
-        );
-        $lm_set->set(
-            "scorm_login_as_learner_id",
-            ilUtil::stripSlashes($_POST["scorm_login_as_learner_id"])
-        );
-        $lm_set->set(
-            "scormdebug_disable_cache",
-            ilUtil::stripSlashes($_POST["scormdebug_disable_cache"])
-        );
-        $lm_set->set(
-            "scorm_without_session",
-            ilUtil::stripSlashes($_POST["scorm_without_session"])
-        );
-        $lm_set->set(
-            "scorm_lp_auto_activate",
-            ilUtil::stripSlashes($_POST["scorm_lp_auto_activate"])
-        );
 
-        $privacy = ilPrivacySettings::getInstance();
-        $privacy->enableSahsProtocolData((int) $_POST['enable_sahs_pd']);
-        $privacy->enableExportSCORM((int) $_POST['export_scorm']);
-        $privacy->save();
+        if ($form->checkInput()) {
+            $lm_set = new ilSetting("lm");
+            $lm_set->set(
+                "time_scheduled_page_activation",
+                $form->getInput("time_scheduled_page_activation")
+            );
+            $lm_set->set(
+                "lm_starting_point",
+                $form->getInput("lm_starting_point")
+            );
+            $lm_set->set(
+                "page_history",
+                $form->getInput("page_history")
+            );
+            $lm_set->set(
+                "replace_mob_feature",
+                $form->getInput("replace_mob_feature")
+            );
+            $lm_set->set(
+                "html_export_ids",
+                $form->getInput("html_export_ids")
+            );
+            $lm_set->setScormDebug(
+                "scormdebug_global_activate",
+                $form->getInput("scormdebug_global_activate")
+            );
+            $lm_set->set(
+                "scorm_login_as_learner_id",
+                $form->getInput("scorm_login_as_learner_id")
+            );
+            $lm_set->set(
+                "scormdebug_disable_cache",
+                $form->getInput("scormdebug_disable_cache")
+            );
+            $lm_set->set(
+                "scorm_without_session",
+                $form->getInput("scorm_without_session")
+            );
+            $lm_set->set(
+                "scorm_lp_auto_activate",
+                $form->getInput("scorm_lp_auto_activate")
+            );
 
-        ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $privacy = ilPrivacySettings::getInstance();
+            $privacy->enableSahsProtocolData((int) $form->getInput('enable_sahs_pd'));
+            $privacy->enableExportSCORM((int) $form->getInput('export_scorm'));
+            $privacy->save();
 
-        $ilCtrl->redirect($this, "view");
+            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
+            $ilCtrl->redirect($this, "view");
+        } else {
+            $form->setValuesByPost();
+            $this->editSettings($form);
+        }
     }
     
     public function addToExternalSettingsForm(int $a_form_id) : array

@@ -32,7 +32,7 @@ class ilLMPresentationStatus
     protected ilObjectTranslation $ot;
     protected ilObjLearningModule $lm;
     protected string $lang;
-    protected ?int $focus_id = null;
+    protected int $focus_id = 0;
 
     public function __construct(
         ilObjUser $user,

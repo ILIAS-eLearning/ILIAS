@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,28 +13,27 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\LearningModule;
+
+use ILIAS\DI\Container;
+
 /**
- * Edit request
- *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilLMEditRequest
+class Service
 {
-    protected int $requested_ref_id;
+    protected Container $DIC;
 
-    /**
-     * Constructor
-     */
-    public function __construct(array $query_params)
+    public function __construct(Container $DIC)
     {
-        $this->requested_ref_id = (int) $query_params["ref_id"];
+        $this->DIC = $DIC;
     }
 
     /**
-     * @return int
+     * Internal service, do not use in other components
      */
-    public function getRequestedRefId() : int
+    public function internal() : InternalService
     {
-        return $this->requested_ref_id;
+        return new InternalService($this->DIC);
     }
 }

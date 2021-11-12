@@ -70,7 +70,7 @@ class ilLMNavigationStatus
         return $this->deactivated_page;
     }
 
-    public function getCurrentPage() : bool
+    public function getCurrentPage() : int
     {
         return $this->current_page_id;
     }
@@ -81,7 +81,6 @@ class ilLMNavigationStatus
 
         $this->chapter_has_no_active_page = false;
         $this->deactivated_page = false;
-
         // determine object id
         if ($this->requested_obj_id == 0) {
             $obj_id = $this->lm_tree->getRootId();
@@ -109,7 +108,6 @@ class ilLMNavigationStatus
                 $this->deactivated_page = true;
             }
         }
-
         // obj_id not in tree -> it is a unassigned page -> return page id
         if (!$this->lm_tree->isInTree($obj_id)) {
             $this->current_page_id = $obj_id;

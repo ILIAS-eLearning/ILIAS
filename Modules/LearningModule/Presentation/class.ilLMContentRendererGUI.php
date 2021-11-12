@@ -80,7 +80,7 @@ class ilLMContentRendererGUI
         $this->search_string = $service->getPresentationStatus()->getSearchString();
         $this->requested_obj_id = $requested_obj_id;
         $this->requested_focus_return = $service->getPresentationStatus()->getFocusReturn();
-        $this->requested_frame = $service->getRequest()->getRequestedFrame();
+        $this->requested_frame = $service->getRequest()->getFrame();
         $this->ot = ilObjectTranslation::getInstance($this->lm->getId());
     }
 
@@ -97,7 +97,6 @@ class ilLMContentRendererGUI
         $user = $this->user;
 
         $status = self::STATUS_ACCESS;
-
         // check page id
         $requested_page_lm = ilLMPage::lookupParentId($this->current_page, "lm");
         if ($requested_page_lm != $this->lm->getId()) {
