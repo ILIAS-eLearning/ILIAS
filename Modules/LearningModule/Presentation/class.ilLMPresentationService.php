@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
+
 /**
  * Main service init and factory
  * @author Alexander Killing <killing@leifos.de>
@@ -27,13 +29,13 @@ class ilLMPresentationService
     protected ilSetting $lm_set;
     protected int $ref_id;
     protected ilObjUser $user;
-    protected ilLMPresentationRequest $request;
+    protected PresentationGUIRequest $request;
     protected ilObjLearningModule $lm;
     protected ilLMTracker $tracker;
 
     public function __construct(
         ilObjUser $user,
-        array $query_params,
+        ?array $query_params,
         bool $offline = false,
         bool $export_all_languages = false,
         string $export_format = "",
@@ -46,9 +48,21 @@ class ilLMPresentationService
             ? $DIC->ctrl()
             : $ctrl;
 
-        $this->request = new ilLMPresentationRequest($query_params);
+        $post = is_null($query_params)
+            ? null
+            : [];
+
+        $this->request = $DIC->learningModule()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request(
+                $query_params,
+                $post
+            );
+
         $this->user = $user;
-        $this->ref_id = $this->request->getRequestedRefId();
+        $this->ref_id = $this->request->getRefId();
         $this->lm_set = new ilSetting("lm");
         $this->lm_gui = new ilObjLearningModuleGUI([], $this->ref_id, true, false);
         /** @var ilObjLearningModule $lm */
@@ -59,10 +73,10 @@ class ilLMPresentationService
             $user,
             $this->lm,
             $this->lm_tree,
-            $this->request->getRequestedTranslation(),
-            $this->request->getRequestedFocusId(),
-            $this->request->getRequestedFocusReturn(),
-            $this->request->getRequestedSearchString(),
+            $this->request->getTranslation(),
+            $this->request->getFocusId(),
+            $this->request->getFocusReturn(),
+            $this->request->getSearchString(),
             $offline,
             $export_all_languages,
             $export_format
@@ -70,13 +84,13 @@ class ilLMPresentationService
 
         $this->navigation_status = new ilLMNavigationStatus(
             $user,
-            $this->request->getRequestedObjId(),
+            $this->request->getObjId(),
             $this->lm_tree,
             $this->lm,
             $this->lm_set,
-            $this->request->getRequestedBackPage(),
-            $this->request->getRequestedCmd(),
-            $this->request->getRequestedFocusId()
+            $this->request->getBackPage(),
+            $this->request->getCmd(),
+            $this->request->getFocusId()
         );
 
         $this->tracker = ilLMTracker::getInstance($this->lm->getRefId());
@@ -86,15 +100,17 @@ class ilLMPresentationService
             $this->lm,
             $this->lm_tree,
             $this->navigation_status->getCurrentPage(),
-            $this->request->getRequestedRefId(),
+            $this->request->getRefId(),
             $this->presentation_status->getLang(),
-            $this->request->getRequestedBackPage(),
-            $this->request->getRequestedFromPage(),
+            $this->request->getBackPage(),
+            $this->request->getFromPage(),
             $this->presentation_status->offline(),
             $this->presentation_status->getExportFormat(),
             $this->presentation_status->exportAllLanguages(),
             $ctrl,
-            $embed_mode
+            $embed_mode,
+            $this->request->getFrame(),
+            $this->request->getObjId()
         );
     }
 
@@ -136,7 +152,7 @@ class ilLMPresentationService
         return $this->tracker;
     }
 
-    public function getRequest() : ilLMPresentationRequest
+    public function getRequest() : PresentationGUIRequest
     {
         return $this->request;
     }

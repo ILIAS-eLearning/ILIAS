@@ -195,7 +195,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         $offline = $additional_data->is(self::LM_OFFLINE, true);
 
         if (!is_array($params)) {
-            $params = $_GET;
+            $params = null;
         }
         try {
             $service = new ilLMPresentationService($DIC->user(), $params, $offline);

@@ -24,12 +24,12 @@ class ilLMTOCExplorerGUI extends ilLMExplorerGUI
     protected $highlight_node;
     protected bool $export_all_languages;
     protected ilPageActivationDBRepository $activation_repo;
-    protected array $complete_tree;
-    protected array $activation_data;
+    protected array $complete_tree = [];
+    protected array $activation_data = [];
     protected ilObjLearningModule $lm;
     protected ilSetting $lm_set;
     protected ilLMPresentationLinker $linker;
-    protected int $focus_id;
+    protected int $focus_id = 0;
     protected ilLMPresentationService $service;
     protected ilLMTracker $tracker;
 

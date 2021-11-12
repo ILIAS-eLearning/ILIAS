@@ -39,7 +39,7 @@ class ilLMTOCExplorerGUIFactory
         $export_all_languages = $service->getPresentationStatus()->exportAllLanguages();
         $current_page = $service->getNavigationStatus()->getCurrentPage();
         $deactivated_page = $service->getNavigationStatus()->isDeactivatedPage();
-        $requested_obj_id = $service->getRequest()->getRequestedObjId();
+        $requested_obj_id = $service->getRequest()->getObjId();
         $lm = $service->getLearningModule();
         $lm_tree = $service->getLMTree();
         $offline = $service->getPresentationStatus()->offline();

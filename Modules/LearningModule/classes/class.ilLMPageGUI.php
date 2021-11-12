@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
+
 /**
  * Extension of ilPageObjectGUI for learning modules
  *
@@ -23,6 +25,7 @@
 class ilLMPageGUI extends ilPageObjectGUI
 {
     protected ilDBInterface $db;
+    protected PresentationGUIRequest $pres_request;
 
     public function __construct(
         int $a_id = 0,
@@ -38,6 +41,12 @@ class ilLMPageGUI extends ilPageObjectGUI
         $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->log = $DIC["ilLog"];
         parent::__construct("lm", $a_id, $a_old_nr, $a_prevent_get_id, $a_lang);
+        $this->pres_request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request();
 
         $this->getPageConfig()->setUseStoredQuestionTries(ilObjContentObject::_lookupStoreTries($this->getPageObject()->getParentId()));
     }
@@ -49,7 +58,7 @@ class ilLMPageGUI extends ilPageObjectGUI
     {
         $lng = $this->lng;
 
-        if (strtolower($_GET["cmdClass"]) == "ilassquestionfeedbackeditinggui") {
+        if (strtolower($this->ctrl->getCmdClass()) == "ilassquestionfeedbackeditinggui") {
             if (ilObjContentObject::_lookupDisableDefaultFeedback($this->getPageObject()->getParentId())) {
                 ilUtil::sendInfo($lng->txt("cont_def_feedb_deactivated"));
             } else {
@@ -74,12 +83,15 @@ class ilLMPageGUI extends ilPageObjectGUI
         // Send notifications to authors that want to be informed on blocked users
         //
 
-        $parent_id = ilPageObject::lookupParentId((int) $_GET["page_id"], "lm");
+        $parent_id = ilPageObject::lookupParentId(
+            $this->pres_request->getQuestionPageId(),
+            "lm"
+        );
 
         // is restriction mode set?
         if (ilObjContentObject::_lookupRestrictForwardNavigation($parent_id)) {
             // check if user is blocked
-            $id = ilUtil::stripSlashes($_POST["id"]);
+            $id = ilUtil::stripSlashes($this->pres_request->getQuestionId());
 
             $as = ilPageQuestionProcessor::getAnswerStatus($id, $ilUser->getId());
             // get question information
@@ -97,7 +109,7 @@ class ilLMPageGUI extends ilPageObjectGUI
                     $not = new ilLMMailNotification();
                     $not->setType(ilLMMailNotification::TYPE_USER_BLOCKED);
                     $not->setQuestionId($id);
-                    $not->setRefId((int) $_GET["ref_id"]);
+                    $not->setRefId($this->pres_request->getRefId());
                     $not->setRecipients($users);
                     $not->send();
                 }

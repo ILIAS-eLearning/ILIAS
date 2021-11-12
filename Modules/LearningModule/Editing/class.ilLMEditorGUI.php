@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\LearningModule\Editing\EditingGUIRequest;
+
 /**
  * GUI class for learning module editor
  * @author Alexander Killing <killing@leifos.de>
@@ -34,15 +36,15 @@ class ilLMEditorGUI
     protected int $obj_id;
     protected int $requested_active_node = 0;
     protected bool $to_page = false;
+    protected EditingGUIRequest $request;
 
     public function __construct()
     {
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->nav_history = $DIC["ilNavigationHistory"];
-        $this->help = $DIC["ilHelp"];
-        $tpl = $DIC["tpl"];
+        $this->help = $DIC->help();
+        $tpl = $DIC->ui()->mainTemplate();
         $lng = $DIC->language();
         $objDefinition = $DIC["objDefinition"];
         $ilCtrl = $DIC->ctrl();
@@ -52,8 +54,15 @@ class ilLMEditorGUI
         $lng->loadLanguageModule("content");
         $lng->loadLanguageModule("lm");
 
-        $this->ref_id = (int) ($_GET["ref_id"] ?? 0);
-        $this->obj_id = (int) ($_GET["obj_id"] ?? 0);
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
+        $this->ref_id = $this->request->getRefId();
+        $this->obj_id = $this->request->getObjId();
 
         // check write permission
         if (!$rbacsystem->checkAccess("write", $this->ref_id)) {
@@ -81,8 +90,8 @@ class ilLMEditorGUI
             "lm"
         );
 
-        $this->requested_active_node = (int) ($_REQUEST["active_node"] ?? 0);
-        $this->to_page = (bool) ($_GET["to_page"] ?? false);
+        $this->requested_active_node = $this->request->getActiveNode();
+        $this->to_page = $this->request->getToPage();
 
         $this->checkRequestParameters();
     }

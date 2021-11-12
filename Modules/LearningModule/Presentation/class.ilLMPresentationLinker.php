@@ -20,6 +20,11 @@
 class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
 {
     public const TARGET_GUI = "illmpresentationgui";
+    /**
+     * @var int|string
+     */
+    protected int $obj_id;
+    protected string $frame;
     protected int $requested_ref_id;
 
     protected bool $offline;
@@ -46,7 +51,9 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         string $export_format,
         bool $export_all_languages,
         ilCtrl $ctrl = null,
-        bool $embed_mode = false
+        bool $embed_mode = false,
+        string $frame = "",
+        int $obj_id = 0
     ) {
         global $DIC;
 
@@ -65,6 +72,8 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
         $this->offline = $offline;
         $this->export_format = $export_format;
         $this->embed_mode = $embed_mode;
+        $this->frame = $frame;
+        $this->obj_id = $obj_id;
     }
 
     public function setOffline(
@@ -336,7 +345,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         $lm_id = ilLMObject::_lookupContObjID($target_id);
                         if ($lm_id == $this->lm->getId() ||
                             ($targetframe != "None" && $targetframe != "New")) {
-                            $ltarget = $a_layoutframes[$targetframe]["Frame"];
+                            $ltarget = $a_layoutframes[$targetframe]["Frame"] ?? "";
                             $nframe = ($ltarget == "")
                                 ? ""
                                 : $ltarget;
@@ -397,18 +406,18 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                         if ($targetframe == "None") {
                             $targetframe = "Glossary";
                         }
-                        $ltarget = $a_layoutframes[$targetframe]["Frame"];
+                        $ltarget = $a_layoutframes[$targetframe]["Frame"] ?? "";
                         $nframe = ($ltarget == "")
-                            ? $_GET["frame"]
+                            ? $this->frame
                             : $ltarget;
                         $href =
                             $this->getLink($a_cmd = "glossary", $target_id, $nframe, $type);
                         break;
 
                     case "MediaObject":
-                        $ltarget = $a_layoutframes[$targetframe]["Frame"];
+                        $ltarget = $a_layoutframes[$targetframe]["Frame"] ?? "";
                         $nframe = ($ltarget == "")
-                            ? $_GET["frame"]
+                            ? $this->frame
                             : $ltarget;
                         $href =
                             $this->getLink($a_cmd = "media", $target_id, $nframe, $type);
@@ -461,7 +470,7 @@ class ilLMPresentationLinker implements \ILIAS\COPage\PageLinker
                                 true
                             );
                             $ilCtrl->setParameterByClass(self::TARGET_GUI, "file_id", "");
-                            $ilCtrl->setParameterByClass(self::TARGET_GUI, "obj_id", $_GET["obj_id"]);
+                            $ilCtrl->setParameterByClass(self::TARGET_GUI, "obj_id", $this->obj_id);
                         }
                         break;
 
