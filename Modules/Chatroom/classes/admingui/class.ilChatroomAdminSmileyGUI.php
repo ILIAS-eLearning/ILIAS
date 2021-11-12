@@ -331,11 +331,11 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ilCtrl->getFormAction($this->gui, 'smiley'));
         $confirmation->setHeaderText($this->ilLng->txt('chatroom_confirm_delete_smiley'));
-        $confirmation->addButton($this->ilLng->txt('confirm'), 'smiley-deleteSmileyObject');
-        $confirmation->addButton($this->ilLng->txt('cancel'), 'smiley');
+        $confirmation->setConfirm($this->ilLng->txt('confirm'), 'smiley-deleteSmileyObject');
+        $confirmation->setCancel($this->ilLng->txt('cancel'), 'smiley');
         $confirmation->addItem(
             'chatroom_smiley_id',
-            $smiley['smiley_id'],
+            (string) $smiley['smiley_id'],
             ilUtil::img($smiley['smiley_fullpath'], $smiley['smiley_keywords']) . ' ' . $smiley['smiley_keywords']
         );
 
@@ -465,13 +465,13 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $confirmation = new ilConfirmationGUI();
         $confirmation->setFormAction($this->ilCtrl->getFormAction($this->gui, 'smiley'));
         $confirmation->setHeaderText($this->ilLng->txt('chatroom_confirm_delete_smiley'));
-        $confirmation->addButton($this->ilLng->txt('confirm'), 'smiley-confirmedDeleteMultipleObject');
-        $confirmation->addButton($this->ilLng->txt('cancel'), 'smiley');
+        $confirmation->setConfirm($this->ilLng->txt('confirm'), 'smiley-confirmedDeleteMultipleObject');
+        $confirmation->setCancel($this->ilLng->txt('cancel'), 'smiley');
 
         foreach ($smilies as $s) {
             $confirmation->addItem(
                 'sel_ids[]',
-                $s['smiley_id'],
+                (string) $s['smiley_id'],
                 ilUtil::img($s['smiley_fullpath'], $s['smiley_keywords']) . ' ' . $s['smiley_keywords']
             );
         }
