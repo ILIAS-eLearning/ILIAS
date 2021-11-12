@@ -498,7 +498,7 @@ class ilCertificateGUI
                         $cardThumbnailFileName = 'card_thumbnail_image_' . $nextVersion . '.svg';
                         if (isset($uploadResults[$temporaryFileName])) {
                             $result = $uploadResults[$temporaryFileName];
-                            if ($result->getStatus() == ProcessingStatus::OK) {
+                            if ($result->isOK()) {
                                 $this->fileUpload->moveOneFileTo(
                                     $result,
                                     $this->certificatePath,
