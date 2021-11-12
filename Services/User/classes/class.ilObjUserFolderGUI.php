@@ -1760,7 +1760,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
             $parts = pathinfo($file_name);
 
             //check if upload status is ok
-            if ($single_file_upload->getStatus() != \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+            if (!$single_file_upload->isOK()) {
                 $filesystem->deleteDir($import_dir);
                 $this->ilias->raiseError(
                     $this->lng->txt("no_import_file_found"),
