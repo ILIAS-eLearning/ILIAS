@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,11 +7,8 @@
 class ilSCTreeDumpTask extends ilSCTask
 {
 
-    /**
-     * Check if task is active
-     * @return bool
-     */
-    public function isActive()
+
+    public function isActive() : bool
     {
         global $DIC;
 

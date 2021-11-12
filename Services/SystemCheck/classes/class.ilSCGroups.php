@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/SystemCheck/classes/class.ilSCGroup.php';
+
 
 /**
  * Description of class
@@ -12,38 +12,33 @@ include_once './Services/SystemCheck/classes/class.ilSCGroup.php';
 class ilSCGroups
 {
 
-    /**
-     * @var ilSCGroup
-     */
-    private static $instance = null;
+
+    private static ilSCGroups $instance;
     
-    private $groups = array();
+    private array $groups = array();
+
+    protected ilDBInterface $db;
     
-    /**
-     * Singleton constructor
-     */
+
     private function __construct()
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
         $this->read();
     }
     
-    /**
-     * Get singleton instance
-     * @return ilSCGroups
-     */
-    public static function getInstance()
+
+    public static function getInstance() : ilSCGroups
     {
-        if (self::$instance == null) {
+        if (self::$instance instanceof ilSCGroups) {
             return self::$instance = new self();
         }
         return self::$instance;
     }
     
-    /**
-     * Update from component definition reader
-     * @param type $a_component_id
-     */
-    public function updateFromComponentDefinition($a_component_id)
+
+    public function updateFromComponentDefinition(string $a_component_id) : int
     {
         foreach ($this->getGroups() as $group) {
             if ($group->getComponentId() == $a_component_id) {
@@ -58,18 +53,13 @@ class ilSCGroups
         return $component_group->getId();
     }
     
-    /**
-     *
-     */
-    public function lookupGroupByComponentId($a_component_id)
-    {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+    public function lookupGroupByComponentId(string $a_component_id) : int
+    {
         
         $query = 'SELECT id FROM sysc_groups ' .
-                'WHERE component = ' . $ilDB->quote($a_component_id, 'text');
-        $res = $ilDB->query($query);
+                'WHERE component = ' . $this->db->quote($a_component_id, ilDBConstants::T_TEXT);
+        $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->id;
         }
@@ -78,26 +68,20 @@ class ilSCGroups
     
     
     /**
-     * Get groups
      * @return ilSCGroup[]
      */
-    public function getGroups()
+    public function getGroups() : array
     {
-        return (array) $this->groups;
+        return $this->groups;
     }
     
-    /**
-     * read groups
-     */
+
     protected function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $query = 'SELECT id FROM sysc_groups ' .
                 'ORDER BY id ';
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         
         $this->groups = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

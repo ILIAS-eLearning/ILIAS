@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/SystemCheck/classes/class.ilSCTask.php';
+
 
 /**
  * Description of class
@@ -12,28 +12,26 @@ include_once './Services/SystemCheck/classes/class.ilSCTask.php';
 class ilSCTasks
 {
 
-    /**
-     * @var ilSCGroup
-     */
-    private static $instances = array();
+
+    private static array $instances = array();
     
-    private $grp_id = 0;
-    private $tasks = array();
+    private int $grp_id = 0;
+    private array $tasks = array();
+
+    protected ilDBInterface $db;
     
-    /**
-     * Singleton constructor
-     */
-    private function __construct($a_grp_id)
+
+    private function __construct(int $a_grp_id)
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
         $this->grp_id = $a_grp_id;
         $this->read();
     }
     
-    /**
-     * Get singleton instance
-     * @return ilSCTasks
-     */
-    public static function getInstanceByGroupId($a_group_id)
+
+    public static function getInstanceByGroupId(int $a_group_id) : ilSCTasks
     {
         if (!array_key_exists($a_group_id, self::$instances)) {
             return self::$instances[$a_group_id] = new self($a_group_id);
@@ -42,17 +40,15 @@ class ilSCTasks
     }
 
     /**
-     * @param int $a_task_id
-     * @return string
      * @throws \ilDatabaseException
      */
-    public static function lookupIdentifierForTask($a_task_id)
+    public static function lookupIdentifierForTask(int $a_task_id) : string
     {
         global $DIC;
 
         $db = $DIC->database();
         $query = 'select identifier from sysc_tasks ' .
-            'where id = ' . $db->quote($a_task_id, 'integer');
+            'where id = ' . $db->quote($a_task_id, ilDBConstants::T_INTEGER);
         $res = $db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->identifier;
@@ -61,16 +57,12 @@ class ilSCTasks
     }
 
 
-    /**
-     * Update from module/service reader
-     * @param type $a_identifier
-     * @return boolean
-     */
-    public function updateFromComponentDefinition($a_identifier)
+
+    public function updateFromComponentDefinition(string $a_identifier) : int
     {
         foreach ($this->getTasks() as $task) {
             if ($task->getIdentifier() == $a_identifier) {
-                return true;
+                return 1;
             }
         }
         
@@ -84,20 +76,15 @@ class ilSCTasks
     
     
     
-    /**
-     * Lookup group id by task id
-     * @global type $ilDB
-     * @param type $a_task_id
-     * @return int
-     */
-    public static function lookupGroupId($a_task_id)
+
+    public static function lookupGroupId(int $a_task_id) : int
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $query = 'SELECT grp_id FROM sysc_tasks ' .
-                'WHERE id = ' . $ilDB->quote($a_task_id, 'integer');
+                'WHERE id = ' . $ilDB->quote($a_task_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             return $row->grp_id;
@@ -105,9 +92,8 @@ class ilSCTasks
         return 0;
     }
     
-    /**
-     */
-    public static function lookupCompleted($a_grp_id)
+
+    public static function lookupCompleted(int $a_grp_id)
     {
         $tasks = self::getInstanceByGroupId($a_grp_id);
 
@@ -123,9 +109,8 @@ class ilSCTasks
         return $num_completed;
     }
     
-    /**
-     */
-    public static function lookupFailed($a_grp_id)
+
+    public static function lookupFailed(int $a_grp_id) : int
     {
         $tasks = self::getInstanceByGroupId($a_grp_id);
 
@@ -142,21 +127,16 @@ class ilSCTasks
         return $num_failed;
     }
     
-    /**
-     * Lookup last update of group tasks
-     * @global type $ilDB
-     * @param type $a_grp_id
-     * @return \ilDateTime
-     */
-    public static function lookupLastUpdate($a_grp_id)
+
+    public static function lookupLastUpdate(int $a_grp_id) : ilDateTime
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
         
         $query = 'SELECT MAX(last_update) last_update FROM sysc_tasks ' .
-                'WHERE status = ' . $ilDB->quote(ilSCTask::STATUS_FAILED, 'integer') . ' ' .
-                'AND grp_id = ' . $ilDB->quote($a_grp_id, 'integer');
+                'WHERE status = ' . $ilDB->quote(ilSCTask::STATUS_FAILED, ilDBConstants::T_INTEGER) . ' ' .
+                'AND grp_id = ' . $ilDB->quote($a_grp_id, ilDBConstants::T_INTEGER);
         $res = $ilDB->query($query);
         
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -171,26 +151,20 @@ class ilSCTasks
     }
 
     /**
-     * Get groups
      * @return ilSCTask[]
      */
-    public function getTasks()
+    public function getTasks() : array
     {
-        return (array) $this->tasks;
+        return $this->tasks;
     }
     
-    /**
-     * read groups
-     */
+
     protected function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $query = 'SELECT id, grp_id FROM sysc_tasks ' .
                 'ORDER BY id ';
-        $res = $ilDB->query($query);
+        $res = $this->db->query($query);
         
         $this->tasks = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

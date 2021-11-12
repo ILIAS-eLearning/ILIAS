@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/SystemCheck/classes/class.ilSCComponentTaskGUI.php';
+
 
 /**
  * Handles tree tasks
@@ -17,22 +17,29 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     const TYPE_MISSING = 'missing_reference';
     const TYPE_MISSING_TREE = 'missing_tree';
     const TYPE_STRUCTURE = 'structure';
-    
-    
-    public function getGroupTitle()
+
+    protected ilTree $tree;
+
+    public function __construct(ilSCTask $task = null)
+    {
+        global $DIC;
+        parent::__construct($task);
+
+        $this->tree = $DIC->repositoryTree();
+    }
+
+    public function getGroupTitle() : string
     {
         return $this->getLang()->txt('sysc_grp_tree');
     }
     
-    public function getGroupDescription()
+    public function getGroupDescription() : string
     {
         return $this->getLang()->txt('sysc_grp_tree_desc');
     }
     
-    /**
-     * Get title of task
-     */
-    public function getTitle()
+
+    public function getTitle() : string
     {
         switch ($this->getTask()->getIdentifier()) {
             case self::TYPE_DUMP:
@@ -50,12 +57,11 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
             case self::TYPE_STRUCTURE:
                 return $this->getLang()->txt('sysc_task_structure');
         }
+        return '';
     }
     
-    /**
-     * Get title of task
-     */
-    public function getDescription()
+
+    public function getDescription() : string
     {
         switch ($this->getTask()->getIdentifier()) {
             case self::TYPE_DUMP:
@@ -73,12 +79,11 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
             case self::TYPE_STRUCTURE:
                 return $this->getLang()->txt('sysc_task_structure_desc');
         }
+        return '';
     }
 
-    /**
-     * get actions for table gui
-     */
-    public function getActions()
+
+    public function getActions() : array
     {
         $repair = false;
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {
@@ -167,12 +172,10 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         return $actions;
     }
     
-    /**
-     * Analyze tree structure
-     */
+
     public function analyzeStructure()
     {
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->validateStructure();
         
@@ -186,32 +189,27 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     }
     
     
-    /**
-     * Show repair missing confirmation
-     * @return type
-     */
-    protected function confirmRepairStructure()
+
+    protected function confirmRepairStructure() : void
     {
-        return $this->showSimpleConfirmation(
+         $this->showSimpleConfirmation(
             $this->getLang()->txt('sysc_message_tree_structure_confirm'),
             $this->getLang()->txt('sysc_btn_tree_structure'),
             'repairStructure'
         );
     }
     
-    /**
-     * Repair structure
-     */
-    protected function repairStructure()
+
+    protected function repairStructure() : void
     {
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+
         $tasks = new ilSCTreeTasks($this->getTask());
         
         
-        if ($GLOBALS['DIC']['tree']->getTreeImplementation() instanceof ilMaterializedPathTree) {
+        if ($this->tree->getTreeImplementation() instanceof ilMaterializedPathTree) {
             ilMaterializedPathTree::createFromParentReleation();
-        } elseif ($GLOBALS['DIC']['tree']->getTreeImplementation() instanceof ilNestedSetTree) {
-            $GLOBALS['DIC']['tree']->renumber(ROOT_FOLDER_ID);
+        } elseif ($this->tree->getTreeImplementation() instanceof ilNestedSetTree) {
+            $this->tree->renumber(ROOT_FOLDER_ID);
         }
         
         $this->getTask()->setStatus(ilSCTask::STATUS_COMPLETED);
@@ -226,16 +224,13 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     
     
 
-    /**
-     * List tree
-     */
-    public function listTree()
+
+    public function listTree() : void
     {
         $validator = new ilValidator(true);
         $errors_count = $validator->dumpTree();
         
-        
-        $GLOBALS['DIC']['ilLog']->write(print_r($this->getTask(), true));
+
         
         if ($errors_count) {
             $this->getTask()->setStatus(ilSCTask::STATUS_FAILED);
@@ -251,28 +246,23 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    /**
-     * Show already scanned tree
-     */
-    public function showTree()
+
+    public function showTree() : void
     {
         $validator = new ilValidator();
         $scan_log = $validator->readScanLog();
 
         if (is_array($scan_log)) {
             $scan_log = '<pre>' . implode("", $scan_log) . '</pre>';
-            $GLOBALS['DIC']['tpl']->setContent($scan_log);
+            $this->tpl->setContent($scan_log);
         }
     }
     
     
-    /**
-     * start task
-     * @param type $a_task_identifier
-     */
-    public function validateDuplicates()
+
+    public function validateDuplicates() : void
     {
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->validateDuplicates();
         
@@ -287,28 +277,23 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     
     
     
-    /**
-     * repair
-     * @param type $a_task_identifier
-     */
-    protected function repairDuplicates()
+
+    protected function repairDuplicates() : void
     {
-        // repair duplicates
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+
+
         $deepest_duplicate = ilSCTreeTasks::findDeepestDuplicate();
         
-        include_once './Services/Tree/classes/class.ilSCTreeDuplicatesTableGUI.php';
+
         $table = new ilSCTreeDuplicatesTableGUI($this, 'repairTask');
         $table->init();
         $table->parse($deepest_duplicate);
         
-        $GLOBALS['DIC']['tpl']->setContent($table->getHTML());
+        $this->tpl->setContent($table->getHTML());
     }
     
-    protected function deleteDuplicatesFromRepository()
+    protected function deleteDuplicatesFromRepository() : void
     {
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Removing from repository: ' . $_REQUEST['duplicate_id']);
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
         ilSCTreeTasks::deleteDuplicateFromTree((int) $_REQUEST['duplicate_id'], false);
 
         $tasks = new ilSCTreeTasks($this->getTask());
@@ -320,10 +305,8 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
     
-    protected function deleteDuplicatesFromTrash()
+    protected function deleteDuplicatesFromTrash() : void
     {
-        $GLOBALS['DIC']['ilLog']->write(__METHOD__ . ': Removing from repository: ' . $_REQUEST['duplicate_id']);
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
         ilSCTreeTasks::deleteDuplicateFromTree((int) $_REQUEST['duplicate_id'], true);
         
 
@@ -336,12 +319,10 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
 
-    /**
-     * find missing objects
-     */
-    protected function findMissing()
+
+    protected function findMissing() : void
     {
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->findMissing();
         
@@ -356,25 +337,20 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     
     
     
-    /**
-     * Show repair missing confirmation
-     * @return type
-     */
-    protected function confirmRepairMissing()
+
+    protected function confirmRepairMissing() : void
     {
-        return $this->showSimpleConfirmation(
+        $this->showSimpleConfirmation(
             $this->getLang()->txt('sysc_message_tree_missing_confirm'),
             $this->getLang()->txt('sysc_btn_tree_missing'),
             'repairMissing'
         );
     }
 
-    /**
-     * Repair missing objects
-     */
-    protected function repairMissing()
+
+    protected function repairMissing() : void
     {
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+
         $tasks = new ilSCTreeTasks($this->getTask());
         $tasks->repairMissing();
         
@@ -387,12 +363,10 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
     
-    /**
-     * find missing objects
-     */
+
     protected function findMissingTreeEntries()
     {
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+
         $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->findMissingTreeEntries();
         
@@ -405,25 +379,20 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         $this->getCtrl()->returnToParent($this);
     }
     
-    /**
-     * Show repair missing confirmation
-     * @return type
-     */
-    protected function confirmRepairMissingTreeEntries()
+
+    protected function confirmRepairMissingTreeEntries() : void
     {
-        return $this->showSimpleConfirmation(
+         $this->showSimpleConfirmation(
             $this->getLang()->txt('sysc_message_tree_missing_confirm'),
             $this->getLang()->txt('sysc_btn_tree_missing'),
             'repairMissingTreeEntries'
         );
     }
     
-    /**
-     * Repair missing objects
-     */
-    protected function repairMissingTreeEntries()
+
+    protected function repairMissingTreeEntries() : void
     {
-        include_once './Services/Tree/classes/class.ilSCTreeTasks.php';
+
         $tasks = new ilSCTreeTasks($this->getTask());
         $tasks->repairMissingTreeEntries();
         

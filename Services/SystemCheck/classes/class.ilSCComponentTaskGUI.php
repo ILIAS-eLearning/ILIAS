@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,85 +10,65 @@
  */
 abstract class ilSCComponentTaskGUI
 {
-    protected $ctrl;
-    protected $lng;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
     
-    protected $task = null;
+    protected ?ilSCTask $task;
     
     
-    /**
-     *
-     */
+
     public function __construct(ilSCTask $task = null)
     {
+        global $DIC;
         $this->task = $task;
         
-        $this->ctrl = $GLOBALS['DIC']['ilCtrl'];
-        $this->lng = $GLOBALS['DIC']['lng'];
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
+        $this->tpl = $DIC->ui()->mainTemplate();
     }
     
     /**
-     * Get actions for task table gui
      * array(
      *	'txt' => $lng->txt('sysc_action_repair')
      *	'command' => 'repairTask'
      * );
-     *
-     * @return array
      */
-    abstract public function getActions();
+    abstract public function getActions() : array;
     
-    /**
-     * Get title of task
-     */
-    abstract public function getTitle();
+
+    abstract public function getTitle() : string;
     
-    /**
-     * get description of task
-     */
-    abstract public function getDescription();
+
+    abstract public function getDescription() : string;
     
     
-    /**
-     * Get title of group
-     */
-    abstract public function getGroupTitle();
+
+    abstract public function getGroupTitle() : string;
     
-    /**
-     * Get description of group
-     */
-    abstract public function getGroupDescription();
+
+    abstract public function getGroupDescription() : string;
     
-    /**
-     * Get language
-     * @return ilLanguage
-     */
-    protected function getLang()
+
+    protected function getLang() : ilLanguage
     {
         return $this->lng;
     }
     
-    /**
-     * Get ctrl
-     * @return ilCtrl
-     */
-    protected function getCtrl()
+
+    protected function getCtrl() : ilCtrl
     {
         return $this->ctrl;
     }
     
-    /**
-     * @return ilSCTask
-     */
-    public function getTask()
+
+    public function getTask() : ilSCTask
     {
         return $this->task;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+
+    public function executeCommand() : void
     {
         $next_class = $this->getCtrl()->getNextClass($this);
         $cmd = $this->getCtrl()->getCmd();
@@ -100,10 +80,8 @@ abstract class ilSCComponentTaskGUI
         }
     }
     
-    /**
-     * Show simple confirmation
-     */
-    protected function showSimpleConfirmation($a_text, $a_btn_text, $a_cmd)
+
+    protected function showSimpleConfirmation(string $a_text, string $a_btn_text, string $a_cmd) : void
     {
         $confirm = new ilConfirmationGUI();
         $confirm->setFormAction($this->getCtrl()->getFormAction($this));
@@ -111,13 +89,11 @@ abstract class ilSCComponentTaskGUI
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
         $confirm->setHeaderText($a_text);
         
-        $GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
+        $this->tpl->setContent($confirm->getHTML());
     }
     
-    /**
-     * Cancel and return to task list
-     */
-    protected function cancel()
+
+    protected function cancel() : void
     {
         $this->getCtrl()->returnToParent($this);
     }
