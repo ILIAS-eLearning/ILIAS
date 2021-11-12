@@ -29,7 +29,7 @@ abstract class ilButtonBase implements ilToolbarItem
     protected bool $primary = false; // [bool]
     protected bool $omit_prevent_double_submission = false; // [bool]
     protected string $onclick = ""; // [string]
-    protected string $acc_key = ""; // [string]
+    protected int $acc_key = 0;
     protected bool $disabled = false; // [bool]
     protected array $css = array(); // [array]
     protected bool $apply_default_css = true;
@@ -131,12 +131,12 @@ abstract class ilButtonBase implements ilToolbarItem
         return $this->onclick;
     }
     
-    public function setAccessKey(string $a_value) : void
+    public function setAccessKey(int $a_value) : void
     {
-        $this->acc_key = trim($a_value);
+        $this->acc_key = $a_value;
     }
     
-    public function getAccessKey() : string
+    public function getAccessKey() : int
     {
         return $this->acc_key;
     }

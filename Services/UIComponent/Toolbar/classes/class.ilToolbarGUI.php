@@ -114,7 +114,7 @@ class ilToolbarGUI
         string $a_txt,
         string $a_cmd,
         string $a_target = "",
-        string $a_acc_key = "",
+        ?int $a_acc_key = null,
         string $a_additional_attrs = '',
         string $a_id = "",
         string $a_class = 'submit'
@@ -130,7 +130,7 @@ class ilToolbarGUI
     public function addFormButton(
         string $a_txt,
         string $a_cmd,
-        string $a_acc_key = "",
+        ?int $a_acc_key = null,
         bool $a_primary = false,
         ?string $a_class = null
     ) : void {
@@ -139,7 +139,9 @@ class ilToolbarGUI
             $button->setPrimary(true);
             $button->setCaption($a_txt, false);
             $button->setCommand($a_cmd);
-            $button->setAccessKey($a_acc_key);
+            if ($a_acc_key !== null) {
+                $button->setAccessKey($a_acc_key);
+            }
             $this->addStickyItem($button);
         } else {
             $this->items[] = array("type" => "fbutton", "txt" => $a_txt, "cmd" => $a_cmd,
@@ -337,7 +339,7 @@ class ilToolbarGUI
                             if ($item["id"] != "") {
                                 $tpl_items->setVariable("BID", 'id="' . $item["id"] . '"');
                             }
-                            if ($item["acc_key"] != "") {
+                            if ($item["acc_key"] > 0) {
                                 $tpl_items->setVariable(
                                     "BTN_ACC_KEY",
                                     ilAccessKeyGUI::getAttribute($item["acc_key"])
@@ -508,8 +510,8 @@ class ilToolbarGUI
      */
     protected function applyAutoStickyToSingleElement() : void
     {
-        if (count($this->items) == 1 && count($this->sticky_items) == 0) {
-            $supported_types = array('button', 'fbutton', 'button_obj');
+        if (count($this->items) === 1 && count($this->sticky_items) === 0) {
+            $supported_types = ['button', 'fbutton', 'button_obj'];
             $item = $this->items[0];
             if (!in_array($item['type'], $supported_types)) {
                 return;
@@ -524,7 +526,9 @@ class ilToolbarGUI
                     $button->setPrimary($item['primary']);
                     $button->setCaption($item['txt'], false);
                     $button->setCommand($item['cmd']);
-                    $button->setAccessKey($item['acc_key']);
+                    if ($item['acc_key'] !== null) {
+                        $button->setAccessKey($item['acc_key']);
+                    }
                     break;
                 case 'button':
                     $button = ilLinkButton::getInstance();
@@ -532,11 +536,13 @@ class ilToolbarGUI
                     $button->setUrl($item['cmd']);
                     $button->setTarget($item['target']);
                     $button->setId($item['id']);
-                    $button->setAccessKey($item['acc_key']);
+                    if ($item['acc_key'] !== null) {
+                        $button->setAccessKey($item['acc_key']);
+                    }
                     break;
             }
             $this->addStickyItem($button);
-            $this->items = array();
+            $this->items = [];
         }
     }
 }
