@@ -92,8 +92,8 @@ abstract class ilPageObject
     protected array $first_col_ids = [];
     protected array $list_item_ids = [];
     protected array $file_item_ids = [];
-    protected ?string $activationstart;      // IL_CAL_DATETIME format
-    protected ?string $activationend;        // IL_CAL_DATETIME format
+    protected ?string $activationstart = null;      // IL_CAL_DATETIME format
+    protected ?string $activationend = null;        // IL_CAL_DATETIME format
 
     final public function __construct(
         int $a_id = 0,
