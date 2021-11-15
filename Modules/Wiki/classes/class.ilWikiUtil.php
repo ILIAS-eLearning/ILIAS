@@ -73,6 +73,7 @@ class ilWikiUtil
     
     /**
      * Process internal links
+     * (internal)
      * @return array|false|string
      */
     public static function processInternalLinks(
