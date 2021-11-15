@@ -217,6 +217,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $this->jsconfig->pages = $this->config->getCharPages();
         $this->jsconfig->ajax_url = $ilCtrl->getLinkTargetByClass("ilcharselectorgui", "saveState", "", true);
 <<<<<<< HEAD
+<<<<<<< HEAD
         $this->jsconfig->open = (int) $_SESSION['char_selector_open'];
         $this->jsconfig->current_page = (int) $_SESSION['char_selector_current_page'];
         $this->jsconfig->current_subpage = (int) $_SESSION['char_selector_current_subpage'];
@@ -227,6 +228,12 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $this->jsconfig->current_subpage = (int) ilSession::get('char_selector_current_subpage');
 
 >>>>>>> trunk
+=======
+        $this->jsconfig->open = (int) ilSession::get('char_selector_open');
+        $this->jsconfig->current_page = (int) ilSession::get('char_selector_current_page');
+        $this->jsconfig->current_subpage = (int) ilSession::get('char_selector_current_subpage');
+
+>>>>>>> af00c9de139ef14b639d80821a082f9d0a5d275a
         // provide texts to be dynamically rendered in the js script
         $this->jstexts = new stdClass();
         $this->jstexts->page = $lng->txt('page');
@@ -282,10 +289,13 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
     public function saveState() : void
     {
 <<<<<<< HEAD
+<<<<<<< HEAD
         $_SESSION['char_selector_open'] = (int) $_GET['open'];
         $_SESSION['char_selector_current_page'] = (int) $_GET['current_page'];
         $_SESSION['char_selector_current_subpage'] = (int) $_GET['current_subpage'];
 =======
+=======
+>>>>>>> af00c9de139ef14b639d80821a082f9d0a5d275a
         $int = $this->refinery->kindlyTo()->int();
         ilSession::set(
             'char_selector_open',
@@ -299,7 +309,10 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
             'char_selector_current_subpage',
             $this->wrapper->query()->retrieve("current_subpage", $int)
         );
+<<<<<<< HEAD
 >>>>>>> trunk
+=======
+>>>>>>> af00c9de139ef14b639d80821a082f9d0a5d275a
 
         // debugging output (normally ignored by the js part)
         echo json_encode(array(
