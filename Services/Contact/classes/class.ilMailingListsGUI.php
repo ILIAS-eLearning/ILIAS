@@ -97,7 +97,7 @@ class ilMailingListsGUI
 
         $entries = $this->mlists->getSelected($ml_ids);
         foreach ($entries as $entry) {
-            $c_gui->addItem('ml_id[]', $entry->getId(), $entry->getTitle());
+            $c_gui->addItem('ml_id[]', (string) $entry->getId(), $entry->getTitle());
         }
 
         $this->tpl->setTitle($this->lng->txt('mail_addressbook'));
@@ -464,7 +464,7 @@ class ilMailingListsGUI
 
         foreach ($assigned_entries as $entry) {
             if (in_array($entry['a_id'], $this->httpRequest->getParsedBody()['a_id'], true)) {
-                $c_gui->addItem('a_id[]', $entry['a_id'], $names[$entry['usr_id']]);
+                $c_gui->addItem('a_id[]', (string) $entry['a_id'], $names[$entry['usr_id']]);
             }
         }
 

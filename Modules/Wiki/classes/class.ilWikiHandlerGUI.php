@@ -1,40 +1,30 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Handles user interface for wikis
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilWikiHandlerGUI: ilObjWikiGUI
  */
 class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilAccessHandler $access;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilNavigationHistory $nav_history;
 
     public function __construct()
     {
@@ -53,17 +43,12 @@ class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
         $DIC->globalScreen()->tool()->context()->claim()->repository();
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        $lng = $this->lng;
         $ilAccess = $this->access;
         $tpl = $this->tpl;
         $ilNavigationHistory = $this->nav_history;
         
-        $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
             $this->ctrl->setCmdClass("ilobjwikigui");

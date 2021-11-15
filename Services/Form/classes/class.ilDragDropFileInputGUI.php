@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * This class represents a file input property where multiple files can be dopped in a property form.
@@ -9,63 +20,48 @@
  */
 class ilDragDropFileInputGUI extends ilFileInputGUI
 {
-    private $uniqueId = 0;
-    private $archive_suffixes = array();
-    private $submit_button_name = null;
-    private $cancel_button_name = null;
-    
-    private static $uniqueInc = 1;
-    
-    private static function getNextUniqueId()
-    {
-        return self::$uniqueInc++;
-    }
-    
-    /**
-     * Constructor
-     *
-     * @param	string	$a_title	Title
-     * @param	string	$a_postvar	Post Variable
-     */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    private int $uniqueId = 0;
+    private array $archive_suffixes = array();
+    private ?string $submit_button_name = null;
+    private ?string $cancel_button_name = null;
+    private static int $uniqueInc = 1;
+
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
         parent::__construct($a_title, $a_postvar);
         $this->uniqueId = self::getNextUniqueId();
     }
-    
-    /**
-    * Set accepted archive suffixes.
-    *
-    * @param	array	$a_suffixes	Accepted archive suffixes.
-    */
-    public function setArchiveSuffixes($a_suffixes)
+
+    private static function getNextUniqueId() : int
+    {
+        return self::$uniqueInc++;
+    }
+
+    // Set accepted archive suffixes.
+    public function setArchiveSuffixes(array $a_suffixes) : void
     {
         $this->archive_suffixes = $a_suffixes;
     }
 
-    /**
-    * Get accepted archive suffixes.
-    *
-    * @return	array	Accepted archive suffixes.
-    */
-    public function getArchiveSuffixes()
+    public function getArchiveSuffixes() : array
     {
         return $this->archive_suffixes;
     }
     
-    public function setCommandButtonNames($a_submit_name, $a_cancel_name)
-    {
+    public function setCommandButtonNames(
+        string $a_submit_name,
+        string $a_cancel_name
+    ) : void {
         $this->submit_button_name = $a_submit_name;
         $this->cancel_button_name = $a_cancel_name;
     }
     
-    /**
-     * Render html
-     */
-    public function render($a_mode = "")
+    public function render($a_mode = "") : string
     {
         $lng = $this->lng;
 
@@ -76,28 +72,28 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         ilFileUploadGUI::initFileUpload();
         
         // load template
-        $this->tpl = new ilTemplate("tpl.prop_dndfiles.html", true, true, "Services/Form");
+        $tpl = new ilTemplate("tpl.prop_dndfiles.html", true, true, "Services/Form");
         
         // general variables
-        $this->tpl->setVariable("UPLOAD_ID", $this->uniqueId);
+        $tpl->setVariable("UPLOAD_ID", $this->uniqueId);
         
         // input
-        $this->tpl->setVariable("FILE_SELECT_ICON", ilObject::_getIcon("", "", "fold"));
-        $this->tpl->setVariable("TXT_SHOW_ALL_DETAILS", $lng->txt('show_all_details'));
-        $this->tpl->setVariable("TXT_HIDE_ALL_DETAILS", $lng->txt('hide_all_details'));
-        $this->tpl->setVariable("TXT_SELECTED_FILES", $lng->txt('selected_files'));
-        $this->tpl->setVariable("TXT_DRAG_FILES_HERE", $lng->txt('drag_files_here'));
-        $this->tpl->setVariable("TXT_NUM_OF_SELECTED_FILES", $lng->txt('num_of_selected_files'));
-        $this->tpl->setVariable("TXT_SELECT_FILES_FROM_COMPUTER", $lng->txt('select_files_from_computer'));
-        $this->tpl->setVariable("TXT_OR", $lng->txt('logic_or'));
-        $this->tpl->setVariable("INPUT_ACCEPT_SUFFIXES", $this->getInputAcceptSuffixes($this->getSuffixes()));
+        $tpl->setVariable("FILE_SELECT_ICON", ilObject::_getIcon("", "", "fold"));
+        $tpl->setVariable("TXT_SHOW_ALL_DETAILS", $lng->txt('show_all_details'));
+        $tpl->setVariable("TXT_HIDE_ALL_DETAILS", $lng->txt('hide_all_details'));
+        $tpl->setVariable("TXT_SELECTED_FILES", $lng->txt('selected_files'));
+        $tpl->setVariable("TXT_DRAG_FILES_HERE", $lng->txt('drag_files_here'));
+        $tpl->setVariable("TXT_NUM_OF_SELECTED_FILES", $lng->txt('num_of_selected_files'));
+        $tpl->setVariable("TXT_SELECT_FILES_FROM_COMPUTER", $lng->txt('select_files_from_computer'));
+        $tpl->setVariable("TXT_OR", $lng->txt('logic_or'));
+        $tpl->setVariable("INPUT_ACCEPT_SUFFIXES", $this->getInputAcceptSuffixes($this->getSuffixes()));
 
         // info
-        $this->tpl->setCurrentBlock("max_size");
-        $this->tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " . $this->getMaxFileSizeString());
-        $this->tpl->parseCurrentBlock();
+        $tpl->setCurrentBlock("max_size");
+        $tpl->setVariable("TXT_MAX_SIZE", $lng->txt("file_notice") . " " . $this->getMaxFileSizeString());
+        $tpl->parseCurrentBlock();
         
-        $this->outputSuffixes($this->tpl);
+        $this->outputSuffixes($tpl);
         
         // create file upload object
         $upload = new ilFileUploadGUI("ilFileUploadDropZone_" . $this->uniqueId, $this->uniqueId, false);
@@ -106,17 +102,12 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         $upload->setFileListId("ilFileUploadList_" . $this->uniqueId);
         $upload->setFileSelectButtonId("ilFileUploadFileSelect_" . $this->uniqueId);
         
-        $this->tpl->setVariable("FILE_UPLOAD", $upload->getHTML());
+        $tpl->setVariable("FILE_UPLOAD", $upload->getHTML());
         
-        return $this->tpl->get();
+        return $tpl->get();
     }
     
-    /**
-     * Check input, strip slashes etc. set alert, if input is not ok.
-     *
-     * @return	boolean		Input ok, true/false
-     */
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         
@@ -136,21 +127,20 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         // call base
         $inputValid = parent::checkInput();
         
-        // set additionally sent input on post array
-        if ($inputValid) {
-            $_POST[$this->getPostVar()]["extract"] = isset($_POST["extract"]) ? (bool) $_POST["extract"] : false;
-            $_POST[$this->getPostVar()]["title"] = isset($_POST["title"]) ? $_POST["title"] : "";
-            $_POST[$this->getPostVar()]["description"] = isset($_POST["description"]) ? $_POST["description"] : "";
-            $_POST[$this->getPostVar()]["keep_structure"] = isset($_POST["keep_structure"]) ? (bool) $_POST["keep_structure"] : true;
-
-            $_POST[$this->getPostVar()]["name"] = ilStr::normalizeUtf8String($_POST[$this->getPostVar()]["name"]);
-            $_POST[$this->getPostVar()]["title"] = ilStr::normalizeUtf8String($_POST[$this->getPostVar()]["title"]);
-        }
-        
         return $inputValid;
     }
+
+    public function getInput() : array
+    {
+        $val = $this->strArray($this->getPostVar());
+        $val["extract"] = (bool) $val["extract"];
+        $val["keep_structure"] = (bool) $val["keep_structure"];
+        $val["name"] = ilStr::normalizeUtf8String($val["name"]);
+        $val["title"] = ilStr::normalizeUtf8String($val["title"]);
+        return $val;
+    }
     
-    protected function getInputAcceptSuffixes($suffixes)
+    protected function getInputAcceptSuffixes(?array $suffixes) : string
     {
         $list = $delim = "";
         
@@ -164,7 +154,7 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         return $list;
     }
     
-    protected function buildSuffixList($suffixes)
+    protected function buildSuffixList(?array $suffixes) : string
     {
         $list = $delim = "";
         
@@ -178,7 +168,7 @@ class ilDragDropFileInputGUI extends ilFileInputGUI
         return $list;
     }
     
-    protected function getMaxFileSize()
+    protected function getMaxFileSize() : int
     {
         // get the value for the maximal uploadable filesize from the php.ini (if available)
         $umf = ini_get("upload_max_filesize");

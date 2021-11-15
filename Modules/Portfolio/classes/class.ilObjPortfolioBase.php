@@ -581,7 +581,7 @@ abstract class ilObjPortfolioBase extends ilObject2
                 
                 $target_page->setType($page_type);
                 $target_page->setTitle($page_title);
-                $target_page->create();
+                $target_page->create(false);
 
                 if ($page_type == ilPortfolioPage::TYPE_PAGE) {
                     $target_page->update();	// handle mob usages!

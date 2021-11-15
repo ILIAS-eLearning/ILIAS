@@ -1,43 +1,49 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\UI\Component\Tree\Tree;
 
 /**
  * Explorer class that works on tree objects (Services/Tree)
  *
- * @author	Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\Component\Tree\TreeRecursion
 {
-    /** @var ilLanguage */
-    protected $lng;
-
-    /** @var \Psr\Http\Message\ServerRequestInterface */
-    protected $httpRequest;
-
-    protected $tree = null;
-    protected $tree_label = "";
-    protected $order_field = "";
-    protected $order_field_numeric = false;
-    protected $type_white_list = array();
-    protected $type_black_list = array();
-    protected $childs = array();			// preloaded childs
-    protected $preloaded = false;
-    protected $preload_childs = false;
-    protected $root_node_data = null;
-    protected $all_childs = array();
+    protected ilLanguage $lng;
+    protected \Psr\Http\Message\ServerRequestInterface $httpRequest;
+    protected ?ilTree $tree = null;
+    protected string $tree_label = "";
+    protected string $order_field = "";
+    protected bool $order_field_numeric = false;
+    protected array $type_white_list = array();
+    protected array $type_black_list = array();
+    protected array $childs = array();			// preloaded childs
+    protected bool $preloaded = false;
+    protected bool $preload_childs = false;
+    protected ?array $root_node_data = null;
+    protected array $all_childs = array();
     protected $root_id = 0;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
+    protected \ILIAS\DI\UIServices $ui;
     
-    /**
-     * Constructor
-     */
-    public function __construct($a_expl_id, $a_parent_obj, $a_parent_cmd, $a_tree)
-    {
+    public function __construct(
+        string $a_expl_id,
+        $a_parent_obj,
+        string $a_parent_cmd,
+        ilTree $a_tree
+    ) {
         global $DIC;
 
         $this->httpRequest = $DIC->http()->request();
@@ -47,101 +53,71 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         $this->tree = $a_tree;
     }
     
-    /**
-     * Get tree
-     *
-     * @return object tree object
-     */
-    public function getTree()
+    public function getTree() : ilTree
     {
         return $this->tree;
     }
     
-    /**
-     * Set order field
-     *
-     * @param string $a_val order field key
-     */
-    public function setOrderField($a_val, $a_numeric = false)
-    {
+    public function setOrderField(
+        string $a_val,
+        bool $a_numeric = false
+    ) : void {
         $this->order_field = $a_val;
         $this->order_field_numeric = $a_numeric;
     }
     
-    /**
-     * Get order field
-     *
-     * @return string order field key
-     */
-    public function getOrderField()
+    public function getOrderField() : string
     {
         return $this->order_field;
     }
     
     /**
      * Set type white list
-     *
      * @param array $a_val array of strings of node types that should be retrieved
      */
-    public function setTypeWhiteList($a_val)
+    public function setTypeWhiteList(array $a_val) : void
     {
         $this->type_white_list = $a_val;
     }
     
     /**
      * Get type white list
-     *
      * @return array array of strings of node types that should be retrieved
      */
-    public function getTypeWhiteList()
+    public function getTypeWhiteList() : array
     {
         return $this->type_white_list;
     }
     
     /**
      * Set type black list
-     *
      * @param array $a_val array of strings of node types that should be filtered out
      */
-    public function setTypeBlackList($a_val)
+    public function setTypeBlackList(array $a_val) : void
     {
         $this->type_black_list = $a_val;
     }
     
     /**
      * Get type black list
-     *
      * @return array array of strings of node types that should be filtered out
      */
-    public function getTypeBlackList()
+    public function getTypeBlackList() : array
     {
         return $this->type_black_list;
     }
 
-    /**
-     * Set preload childs
-     *
-     * @param boolean $a_val preload childs
-     */
-    public function setPreloadChilds($a_val)
+    public function setPreloadChilds(bool $a_val) : void
     {
         $this->preload_childs = $a_val;
     }
 
-    /**
-     * Get preload childs
-     *
-     * @return boolean preload childs
-     */
-    public function getPreloadChilds()
+    public function getPreloadChilds() : bool
     {
         return $this->preload_childs;
     }
 
-    /**
-     * Preload childs
-     */
-    protected function preloadChilds()
+    protected function preloadChilds() : void
     {
         $subtree = $this->tree->getSubTree($this->getRootNode());
         foreach ($subtree as $s) {
@@ -186,12 +162,13 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
     /**
      * Get successor node (currently only(!) based on lft/rgt tree values)
      *
-     * @param integer $a_node_id node id
-     * @param string $a_type node type
+     * @param int|string $a_node_id node id
      * @return mixed node id or false
      */
-    public function getSuccessorNode($a_node_id, $a_type = "")
-    {
+    public function getSuccessorNode(
+        $a_node_id,
+        string $a_type = ""
+    ) {
         if ($this->order_field != "") {
             die("ilTreeExplorerGUI::getSuccessorNode not implemented for order field " . $this->order_field);
         }
@@ -212,7 +189,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 
     /**
      * Get childs of node
-     * @param int $a_parent_node_id parent id
+     * @param int|string $a_parent_node_id parent id
      * @return array childs
      */
     public function getChildsOfNode($a_parent_node_id) : array
@@ -254,8 +231,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 
     /**
      * Does a node match a search term (or is search term empty)
-     *
-     * @param array
+     * @param object|array $node
      * @return bool
      */
     protected function matches($node) : bool
@@ -271,7 +247,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
     /**
      * Get id for node
      *
-     * @param mixed $a_node node object/array
+     * @param object|array $a_node
      * @return string id
      */
     public function getNodeId($a_node)
@@ -281,7 +257,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 
     /**
      * Get node icon alt attribute
-     * @param mixed $a_node node object/array
+     * @param object|array $a_node node
      * @return string image alt attribute
      */
     public function getNodeIconAlt($a_node) : string
@@ -294,7 +270,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
     /**
      * Get root node
      *
-     * @return mixed node object/array
+     * @return object|array node
      */
     public function getRootNode()
     {
@@ -303,17 +279,22 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         }
         return $this->root_node_data;
     }
-    
+
+    /**
+     * @param int|string $a_root
+     */
     public function setRootId($a_root)
     {
         $this->root_id = $a_root;
     }
-    
+
+    /**
+     * @return int
+     */
     protected function getRootId()
     {
         return $this->root_id
-            ? $this->root_id
-            : $this->getTree()->readRootId();
+            ?: $this->getTree()->readRootId();
     }
     
     /**
@@ -321,7 +302,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
      *
      * @param string $a_id node id
      */
-    public function setPathOpen($a_id)
+    public function setPathOpen($a_id) : void
     {
         $path = $this->getTree()->getPathId($a_id);
         foreach ($path as $id) {
@@ -347,12 +328,9 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
 
     // New implementation
 
-    /**
-     * @inheritdoc
-     */
-    public function getChildren($node, $environment = null) : array
+    public function getChildren($record, $environment = null) : array
     {
-        return $this->getChildsOfNode($node["child"]);
+        return $this->getChildsOfNode($record["child"]);
     }
 
     /**
@@ -387,9 +365,6 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         return [];
     }
 
-    /**
-     * @inheritdoc
-     */
     public function build(
         \ILIAS\UI\Component\Tree\Node\Factory $factory,
         $record,
@@ -426,20 +401,12 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         return $node;
     }
 
-    /**
-     * @return string
-     */
-    public function getTreeLabel()
+    public function getTreeLabel() : string
     {
         return $this->tree_label;
     }
 
-    /**
-     * Get Tree UI
-     *
-     * @return \ILIAS\UI\Component\Tree\Tree|object
-     */
-    public function getTreeComponent()
+    public function getTreeComponent() : Tree
     {
         $f = $this->ui->factory();
         $tree = $this->getTree();
@@ -481,12 +448,7 @@ abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\
         exit();
     }
 
-    /**
-     * Render tree
-     *
-     * @return string
-     */
-    protected function render()
+    protected function render() : string
     {
         $r = $this->ui->renderer();
 

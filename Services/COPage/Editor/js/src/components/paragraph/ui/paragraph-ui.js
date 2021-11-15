@@ -384,7 +384,7 @@ export default class ParagraphUI {
 
   cmdExtLink()
   {
-    this.addBBCode('[xln url="http://"]', '[/xln]');
+    this.addBBCode('[xln url="https://"]', '[/xln]');
   }
 
   cmdUserLink()

@@ -1,25 +1,26 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation\Component\Table\PresentationRow;
 
 /**
  * Tests for Presentation Table.
  */
 class PresentationTest extends ILIAS_UI_TestBase
 {
-    private function getFactory()
+    private function getFactory() : I\Component\Table\Factory
     {
         return new I\Component\Table\Factory(
             new I\Component\SignalGenerator()
         );
     }
 
-    public function testTableConstruction()
+    public function testTableConstruction() : void
     {
         $f = $this->getFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\Factory", $f);
@@ -30,7 +31,7 @@ class PresentationTest extends ILIAS_UI_TestBase
 
         $this->assertEquals("title", $pt->getTitle());
         $this->assertEquals(array(), $pt->getViewControls());
-        $this->assertInstanceOf(\Closure::class, $pt->getRowMapping());
+        $this->assertInstanceOf(Closure::class, $pt->getRowMapping());
 
         $pt = $pt
             ->withEnvironment(array('k' => 'v'))
@@ -39,7 +40,7 @@ class PresentationTest extends ILIAS_UI_TestBase
         $this->assertEquals(array('dk' => 'dv'), $pt->getData());
     }
 
-    public function testBareTableRendering()
+    public function testBareTableRendering() : void
     {
         $r = $this->getDefaultRenderer();
         $f = $this->getFactory();
@@ -53,12 +54,12 @@ class PresentationTest extends ILIAS_UI_TestBase
         $this->assertHTMLEquals($expected, $r->render($pt->withData([])));
     }
 
-    public function testRowConstruction()
+    public function testRowConstruction() : void
     {
         $f = $this->getFactory();
         $pt = $f->presentation('title', array(), function () {
         });
-        $row = new \ILIAS\UI\Implementation\Component\Table\PresentationRow($pt->getSignalGenerator());
+        $row = new PresentationRow($pt->getSignalGenerator());
 
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Table\\PresentationRow", $row);
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Signal", $row->getShowSignal());

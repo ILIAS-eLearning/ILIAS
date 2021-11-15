@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once(__DIR__ . '/ModalBase.php');
-
-use \ILIAS\UI\Component as C;
 
 /**
  * Tests on factory implementation for modals
@@ -11,7 +9,7 @@ use \ILIAS\UI\Component as C;
  */
 class ModalFactoryTest extends ModalBase
 {
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $factory = $this->getModalFactory();
         $this->assertInstanceOf("ILIAS\\UI\\Component\\Modal\\Factory", $factory);

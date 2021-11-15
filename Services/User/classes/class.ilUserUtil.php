@@ -151,7 +151,7 @@ class ilUserUtil
         }
 
         foreach ($a_user_id as $id) {
-            if (!$names[$id]) {
+            if (!isset($names[$id]) || !$names[$id]) {
                 $names[$id] = $lng->txt('usr_name_undisclosed');
             }
         }

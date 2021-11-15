@@ -224,7 +224,6 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
         $tpl->setVariable('MISSING_VALUE', $this->lng->txt('msg_input_is_required'));
         $tpl->setVariable('SAVE', $this->lng->txt('save'));
         $tpl->setVariable('CANCEL', $this->lng->txt('cancel'));
-        require_once("Services/Form/classes/class.ilTagInputGUI.php");
         $tag_input = new ilTagInputGUI();
         $tag_input->setTypeAhead(true);
         $tag_input->setPostVar('taggable');

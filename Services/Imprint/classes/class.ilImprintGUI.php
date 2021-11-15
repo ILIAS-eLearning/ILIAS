@@ -39,7 +39,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         if (!ilImprint::_exists("impr", 1)) {
             $page = new ilImprint("impr");
             $page->setId(1);
-            $page->create();
+            $page->create(false);
         }
 
         // there is only 1 imprint page
@@ -92,7 +92,7 @@ class ilImprintGUI extends ilPageObjectGUI implements ilCtrlBaseClassInterface
         }
     }
     
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         $lng = $this->lng;
         

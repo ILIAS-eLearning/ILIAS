@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
@@ -11,21 +11,10 @@ use ILIAS\UI\Component as C;
  */
 class Legacy extends Secondary implements C\Panel\Secondary\Legacy
 {
-
-    /**
-     * @var string
-     */
-    protected $title;
-
-    /**
-     * @var \ILIAS\UI\Component\Legacy\Legacy
-     */
-    protected $legacy;
+    protected C\Legacy\Legacy $legacy;
 
     public function __construct(string $title, C\Legacy\Legacy $legacy)
     {
-        $this->checkStringArg("title", $title);
-
         $this->title = $title;
         $this->legacy = $legacy;
     }

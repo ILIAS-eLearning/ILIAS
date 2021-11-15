@@ -3,20 +3,19 @@
 namespace ILIAS\UI\Implementation\Component\Symbol\Avatar;
 
 use ILIAS\UI\Component;
-use ILIAS\UI\Implementation\Component\Symbol\Avatar\Avatar;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 
 class Renderer extends AbstractComponentRenderer
 {
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
         $tpl = null;
 
-        $alternetive_text = $component->getAlternativeText();
-        if ($alternetive_text == "") {
-            $alternetive_text = $this->txt("user_avatar");
+        $alternative_text = $component->getAlternativeText();
+        if ($alternative_text == "") {
+            $alternative_text = $this->txt("user_avatar");
         }
 
         /**
@@ -24,23 +23,21 @@ class Renderer extends AbstractComponentRenderer
          */
         if ($component instanceof Component\Symbol\Avatar\Letter) {
             $tpl = $this->getTemplate('tpl.avatar_letter.html', true, true);
-            $tpl->setVariable('ARIA_LABEL', $alternetive_text);
+            $tpl->setVariable('ARIA_LABEL', $alternative_text);
             $tpl->setVariable('MODE', 'letter');
             $tpl->setVariable('TEXT', $component->getAbbreviation());
             $tpl->setVariable('COLOR', (string) $component->getBackgroundColorVariant());
         } elseif ($component instanceof Component\Symbol\Avatar\Picture) {
             $tpl = $this->getTemplate('tpl.avatar_picture.html', true, true);
-            $tpl->setVariable('ARIA_LABEL', $alternetive_text);
+            $tpl->setVariable('ARIA_LABEL', $alternative_text);
             $tpl->setVariable('MODE', 'picture');
             $tpl->setVariable('CUSTOMIMAGE', $component->getPicturePath());
         }
 
-        $str = $tpl->get();
-
-        return $str;
+        return $tpl->get();
     }
 
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(
             Component\Symbol\Avatar\Letter::class,

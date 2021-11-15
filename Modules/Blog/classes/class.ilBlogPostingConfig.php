@@ -12,7 +12,7 @@ class ilBlogPostingConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init()
+    public function init() : void
     {
         $this->setEnablePCType("Map", true);
         $this->setEnableInternalLinks((bool) $_GET["ref_id"]); // #15668

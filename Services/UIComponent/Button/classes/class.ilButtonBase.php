@@ -22,15 +22,15 @@
 abstract class ilButtonBase implements ilToolbarItem
 {
     protected ilLanguage $lng;
-    protected int $type; // [int]
-    protected string $id; // [string]
-    protected string $caption; // [string]
-    protected bool $caption_is_lng_id; // [bool]
-    protected bool $primary; // [bool]
-    protected bool $omit_prevent_double_submission; // [bool]
-    protected string $onclick; // [string]
-    protected string $acc_key; // [string]
-    protected bool $disabled; // [bool]
+    protected int $type = 0; // [int]
+    protected string $id = ""; // [string]
+    protected string $caption = ""; // [string]
+    protected bool $caption_is_lng_id = false; // [bool]
+    protected bool $primary = false; // [bool]
+    protected bool $omit_prevent_double_submission = false; // [bool]
+    protected string $onclick = ""; // [string]
+    protected int $acc_key = 0;
+    protected bool $disabled = false; // [bool]
     protected array $css = array(); // [array]
     protected bool $apply_default_css = true;
 
@@ -81,7 +81,7 @@ abstract class ilButtonBase implements ilToolbarItem
     public function setCaption(string $a_value, bool $a_is_lng_id = true) : void
     {
         $this->caption = $a_value;
-        $this->caption_is_lng_id = (bool) $a_is_lng_id;
+        $this->caption_is_lng_id = $a_is_lng_id;
     }
     
     public function getCaption(bool $a_translate = true) : string
@@ -91,7 +91,7 @@ abstract class ilButtonBase implements ilToolbarItem
         $caption = $this->caption;
         
         if ($this->caption_is_lng_id &&
-            (bool) $a_translate) {
+            $a_translate) {
             $caption = $lng->txt($caption);
         }
     
@@ -100,7 +100,7 @@ abstract class ilButtonBase implements ilToolbarItem
 
     public function setPrimary(bool $a_value) : void
     {
-        $this->primary = (bool) $a_value;
+        $this->primary = $a_value;
     }
     
     public function isPrimary() : bool
@@ -113,7 +113,7 @@ abstract class ilButtonBase implements ilToolbarItem
      */
     public function setOmitPreventDoubleSubmission(bool $a_value) : void
     {
-        $this->omit_prevent_double_submission = (bool) $a_value;
+        $this->omit_prevent_double_submission = $a_value;
     }
     
     public function getOmitPreventDoubleSubmission() : bool
@@ -131,19 +131,19 @@ abstract class ilButtonBase implements ilToolbarItem
         return $this->onclick;
     }
     
-    public function setAccessKey(string $a_value) : void
+    public function setAccessKey(int $a_value) : void
     {
-        $this->acc_key = trim($a_value);
+        $this->acc_key = $a_value;
     }
     
-    public function getAccessKey() : string
+    public function getAccessKey() : int
     {
         return $this->acc_key;
     }
     
     public function setDisabled(bool $a_value) : void
     {
-        $this->disabled = (bool) $a_value;
+        $this->disabled = $a_value;
     }
     
     public function isDisabled() : bool
@@ -236,6 +236,7 @@ abstract class ilButtonBase implements ilToolbarItem
         }
         
         $this->apply_default_css = $apply_default_css;
+        return false;
     }
      
     abstract public function render() : string;

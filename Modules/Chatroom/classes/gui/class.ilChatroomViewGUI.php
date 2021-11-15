@@ -442,7 +442,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $this->setupTemplate();
 
         $chatSettings = new ilSetting('chatroom');
-        if (!$chatSettings->get('chat_enabled')) {
+        if (!$chatSettings->get('chat_enabled', '0')) {
             $this->ilCtrl->redirect($this->gui, 'settings-general');
             exit;
         }
@@ -472,7 +472,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
     public function invitePD() : void
     {
         $chatSettings = new ilSetting('chatroom');
-        if (!$chatSettings->get('chat_enabled')) {
+        if (!$chatSettings->get('chat_enabled', '0')) {
             $this->ilCtrl->redirect($this->gui, 'settings-general');
         }
 

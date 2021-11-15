@@ -202,7 +202,7 @@ class ilPortfolioDataSet extends ilDataSet
                     $newObj->setTitle($a_rec["Title"]);
                     $newObj->setType($a_rec["Type"]);
                     $newObj->setOrderNr($a_rec["OrderNr"]);
-                    $newObj->create(true);
+                    $newObj->create(false, true);
                     
                     $a_mapping->addMapping("Services/COPage", "pg", "prtt:" . $a_rec["Id"], "prtt:" . $newObj->getId());
                 }

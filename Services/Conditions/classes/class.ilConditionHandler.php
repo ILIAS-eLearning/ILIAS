@@ -812,6 +812,10 @@ class ilConditionHandler
     {
         global $DIC;
 
+        if ($a_target_ref_id == 0) {
+            return [];
+        }
+
         $obj_definition = $DIC["objDefinition"];
         $tree = $DIC->repositoryTree();
 

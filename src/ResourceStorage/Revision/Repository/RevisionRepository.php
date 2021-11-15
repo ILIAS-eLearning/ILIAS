@@ -13,13 +13,14 @@ use ILIAS\ResourceStorage\Lock\LockingRepository;
 use ILIAS\ResourceStorage\Revision\CloneRevision;
 use ILIAS\ResourceStorage\Revision\FileRevision;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
+use ILIAS\ResourceStorage\Preloader\PreloadableRepository;
 
 /**
  * Class RevisionARRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @internal
  */
-interface RevisionRepository extends LockingRepository
+interface RevisionRepository extends LockingRepository, PreloadableRepository
 {
 
     public function blankFromUpload(

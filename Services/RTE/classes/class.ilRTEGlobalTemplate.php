@@ -107,7 +107,7 @@ class ilRTEGlobalTemplate implements ilGlobalTemplateInterface
 
         $vers = '';
         if (is_object($ilSetting)) {
-            $vers = 'vers=' . str_replace(['.', ' '], '-', $ilSetting->get('ilias_version'));
+            $vers = 'vers=' . str_replace(['.', ' '], '-', $ilSetting->get('ilias_version', ''));
 
             if (DEVMODE) {
                 $vers .= '-' . time();

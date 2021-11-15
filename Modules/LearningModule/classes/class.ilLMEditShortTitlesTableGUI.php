@@ -1,42 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for lm short titles
- *
- * @author Alex Killing <killing@leifos.de>
- *
- * @ingroup ModulesLearningModule
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMEditShortTitlesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
+    protected string $lang;
     protected $ctrl;
+    protected ilObjLearningModule $lm;
 
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_lm, $a_lang)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjLearningModule $a_lm,
+        string $a_lang
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -58,12 +50,8 @@ class ilLMEditShortTitlesTableGUI extends ilTable2GUI
         $this->setRowTemplate("tpl.short_title_row.html", "Modules/LearningModule");
 
         $this->addCommandButton("save", $this->lng->txt("save"));
-        //$this->setMaxCount(9999);
     }
     
-    /**
-     * Fill table row
-     */
     protected function fillRow($a_set)
     {
         $this->tpl->setVariable("TITLE", $a_set["title"]);

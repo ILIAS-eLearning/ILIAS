@@ -40,54 +40,7 @@ class ilGlossaryImporter extends ilXmlImporter
 
             // old school import
             if (file_exists($xml_file)) {
-                if (!is_object($newObj)) {
-                    // create and insert object in objecttree
-                    $newObj = new ilObjGlossary();
-                    $newObj->setType("glo");
-                    $newObj->setTitle(basename($this->getImportDirectory()));
-                    $newObj->create(true);
-                }
-
-                $contParser = new ilContObjParser(
-                    $newObj,
-                    $xml_file,
-                    basename($this->getImportDirectory())
-                );
-
-                $contParser->startParsing();
-
-                ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());
-
-                // write term map for taxonomies to mapping object
-                $term_map = $contParser->getGlossaryTermMap();
-                foreach ($term_map as $k => $v) {
-                    $a_mapping->addMapping(
-                        "Services/Taxonomy",
-                        "tax_item",
-                        "glo:term:" . $k,
-                        $v
-                    );
-
-                    // this is since 4.3 does not export these ids but 4.4 tax node assignment needs it
-                    $a_mapping->addMapping(
-                        "Services/Taxonomy",
-                        "tax_item_obj_id",
-                        "glo:term:" . $k,
-                        $newObj->getId()
-                    );
-
-                    $a_mapping->addMapping(
-                        "Services/AdvancedMetaData",
-                        "advmd_sub_item",
-                        "advmd:term:" . $k,
-                        $v
-                    );
-                }
-
-                $a_mapping->addMapping("Modules/Glossary", "glo", $a_id, $newObj->getId());
-                $a_mapping->addMapping("Services/AdvancedMetaData", "parent", $a_id, $newObj->getId());
-
-                $this->current_glo = $newObj;
+                throw new ilGlossaryOldImportException("This glossary seems to be from ILIAS version 5.0.x or lower. Import is not supported anymore.");
             } else {
                 // necessary?
                 // ilObject::_writeImportId($newObj->getId(), $newObj->getImportId());

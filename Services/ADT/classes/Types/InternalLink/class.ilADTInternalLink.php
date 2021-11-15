@@ -1,12 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTInternalLink extends ilADT
 {
-    /**
-     * @var int
-     */
-    protected $value;
-    
+    protected ?int $value;
+
+    protected ilTree $tree;
+
+    public function __construct(ilADTDefinition $a_def)
+    {
+        global $DIC;
+        parent::__construct($a_def);
+
+        $this->tree = $DIC->repositoryTree();
+    }
+
     /**
      * @param ilADTDefinition $a_def
      * @return bool
@@ -24,20 +31,16 @@ class ilADTInternalLink extends ilADT
         parent::reset();
         $this->value = null;
     }
-    
-    /**
-     * Set id of target object
-     * @param type $a_value
-     */
-    public function setTargetRefId($a_value)
+
+    public function setTargetRefId(?int $a_value) : void
     {
         $this->value = $a_value;
     }
-    
+
     /**
-     * @return int get target ref_id
+     * @return int|null get target ref_id
      */
-    public function getTargetRefId()
+    public function getTargetRefId() : ?int
     {
         return $this->value;
     }
@@ -54,10 +57,6 @@ class ilADTInternalLink extends ilADT
         return null;
     }
 
-    /**
-     * Is larger
-     * @param ilADT $a_adt
-     */
     public function isLarger(ilADT $a_adt) : ?bool
     {
         return null;
@@ -74,20 +73,18 @@ class ilADTInternalLink extends ilADT
      */
     public function isNull() : bool
     {
-        return (bool) !$this->getTargetRefId();
+        return !$this->getTargetRefId();
     }
-    
 
     public function isValid() : bool
     {
         $valid = parent::isValid();
         if (!$this->isNull()) {
-            $tree = $GLOBALS['DIC']->repositoryTree();
             if (
-                !$tree->isInTree($this->getTargetRefId()) ||
-                $tree->isDeleted($this->getTargetRefId())
+                !$this->tree->isInTree($this->getTargetRefId()) ||
+                $this->tree->isDeleted($this->getTargetRefId())
             ) {
-                $this->valid = false;
+                $valid = false;
                 $this->addValidationError(self::ADT_VALIDATION_ERROR_INVALID_NODE);
             }
         }
@@ -97,7 +94,7 @@ class ilADTInternalLink extends ilADT
     public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
-            return md5($this->getTargetRefId());
+            return md5((string) $this->getTargetRefId());
         }
         return null;
     }
@@ -115,7 +112,6 @@ class ilADTInternalLink extends ilADT
         }
         return null;
     }
-
 
     /**
      * @inheritDoc

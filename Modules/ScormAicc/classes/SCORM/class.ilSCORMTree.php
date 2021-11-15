@@ -63,7 +63,7 @@ class ilSCORMTree extends ilTree
         
         if (!isset($a_node_id)) {
             $message = "No node_id given!";
-            $this->log->error($message);
+            $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
 

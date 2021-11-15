@@ -33,7 +33,7 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
         $this->hidePointsEnabled = $hidePointsEnabled;
     }
     
-    public function setValue($a_value)
+    public function setValue($a_value) : void
     {
         if (is_array($a_value)) {
             if (is_array($a_value['points'])) {
@@ -44,7 +44,7 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
         }
     }
     
-    public function checkInput()
+    public function checkInput() : bool
     {
         global $DIC;
         $lng = $DIC['lng'];
@@ -98,7 +98,7 @@ class ilAssAnswerCorrectionsInputGUI extends ilAnswerWizardInputGUI
         return $this->checkSubItemsInput();
     }
     
-    public function insert($a_tpl)
+    public function insert(ilTemplate $a_tpl) : void
     {
         global $DIC;
         $lng = $DIC['lng'];

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -15,40 +15,40 @@ interface Template
     /**
      * Set the block to work on.
      *
-     * @param	string	$name
-     * @return	null
+     * @param string	$name
+     * @return bool
      */
     public function setCurrentBlock($name);
 
     /**
      * Parse the block that is currently worked on.
      *
-     * @return 	null
+     * @return string
      */
     public function parseCurrentBlock();
 
     /**
      * Touch a block without working further on it.
      *
-     * @param	string	$name
-     * @return 	null
+     * @param string $name
+     * @return bool
      */
     public function touchBlock($name);
 
     /**
      * Set a variable in the current block.
      *
-     * @param	string	$name
-     * @param	mixed	$value	should be coercible to string
-     * @return 	null
+     * @param string $name
+     * @param mixed	$value	should be coercible to string
+     * @return void
      */
     public function setVariable($name, $value);
 
     /**
      * Get the rendered template or a specific block.
      *
-     * @param	string|null		$block
-     * @return	string
+     * @param string|null $block
+     * @return string
      */
     public function get($block = null);
 
@@ -57,6 +57,9 @@ interface Template
      *
      * TODO: This seems to be no rendering, but a javascript concern. We should
      * revise this when introducing patterns for javascript.
+     *
+     * @param string $code
+     * @return void
      */
     public function addOnLoadCode($code);
 }

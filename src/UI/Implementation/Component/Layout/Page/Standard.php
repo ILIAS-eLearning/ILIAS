@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Layout\Page;
@@ -13,93 +14,43 @@ use ILIAS\UI\Component\MainControls\ModeInfo;
 use ILIAS\UI\Component\MainControls\SystemInfo;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Component;
 
-/**
- * Page
- */
 class Standard implements Page\Standard
 {
     use ComponentHelper;
     use JavaScriptBindable;
 
     /**
-     * @var ModeInfo|null
-     */
-    private $mode_info;
-    /**
      * @var mixed
      */
     private $content;
-    /**
-     * @var MetaBar|null
-     */
-    private $metabar;
-    /**
-     * @var    MainBar|null
-     */
-    private $mainbar;
-    /**
-     * @var    Breadcrumbs|null
-     */
-    private $breadcrumbs;
-    /**
-     * @var Image|null
-     */
-    private $logo;
-    /**
-     * @var    footer|null
-     */
-    private $footer;
-    /**
-     * @var string
-     */
-    private $short_title;
-    /**
-     * @var string
-     */
-    private $view_title;
-    /**
-     * @var    string
-     */
-    private $title;
-    /**
-     * @var    bool
-     */
-    private $with_headers = true;
-    /**
-     * @var    bool
-     */
-    private $ui_demo = false;
-    /**
-     * @var array
-     */
-    protected $system_infos = [];
-    /**
-     * @var string
-     */
-    protected $text_direction = "ltr";
+    private ?ModeInfo $mode_info = null;
+    private ?MetaBar $metabar;
+    private ?MainBar $mainbar;
+    private ?Breadcrumbs $breadcrumbs;
+    private ?Image $logo;
+    private ?Footer $footer;
+    private string $short_title;
+    private string $view_title;
+    private string $title;
+    private bool $with_headers = true;
+    private bool $ui_demo = false;
+    protected array $system_infos = [];
+    protected string $text_direction = "ltr";
 
-    /**
-     * Standard constructor.
-     * @param array            $content
-     * @param MetaBar|null     $metabar
-     * @param MainBar|null     $mainbar
-     * @param Breadcrumbs|null $locator
-     * @param Image|null       $logo
-     * @param Footer|null      $footer
-     */
     public function __construct(
         array $content,
-        MetaBar $metabar = null,
-        MainBar $mainbar = null,
-        Breadcrumbs $locator = null,
-        Image $logo = null,
-        Footer $footer = null,
+        ?MetaBar $metabar = null,
+        ?MainBar $mainbar = null,
+        ?Breadcrumbs $locator = null,
+        ?Image $logo = null,
+        ?Footer $footer = null,
         string $title = '',
         string $short_title = '',
         string $view_title = ''
     ) {
-        $allowed = [\ILIAS\UI\Component\Component::class];
+        $allowed = [Component::class];
         $this->checkArgListElements("content", $content, $allowed);
 
         $this->content = $content;
@@ -188,7 +139,7 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getContent()
+    public function getContent() : array
     {
         return $this->content;
     }
@@ -196,7 +147,7 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getMetabar()
+    public function getMetabar() : ?MetaBar
     {
         return $this->metabar;
     }
@@ -204,7 +155,7 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getMainbar()
+    public function getMainbar() : ?MainBar
     {
         return $this->mainbar;
     }
@@ -212,7 +163,7 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getBreadcrumbs()
+    public function getBreadcrumbs() : ?Breadcrumbs
     {
         return $this->breadcrumbs;
     }
@@ -220,7 +171,7 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getLogo()
+    public function getLogo() : ?Image
     {
         return $this->logo;
     }
@@ -228,42 +179,29 @@ class Standard implements Page\Standard
     /**
      * @inheritdoc
      */
-    public function getFooter()
+    public function getFooter() : ?Footer
     {
         return $this->footer;
     }
 
-    /**
-     * @param bool $use_headers
-     * @return    Page\Standard
-     */
-    public function withHeaders($use_headers) : Page\Standard
+    public function withHeaders(bool $use_headers) : Page\Standard
     {
         $clone = clone $this;
         $clone->with_headers = $use_headers;
         return $clone;
     }
 
-    /**
-     * @return    bool
-     */
-    public function getWithHeaders()
+    public function getWithHeaders() : bool
     {
         return $this->with_headers;
     }
 
-    /**
-     * @return    bool
-     */
     public function getIsUIDemo() : bool
     {
         return $this->ui_demo;
     }
 
-    /**
-     * @return    bool
-     */
-    public function withUIDemo(bool $switch = true) : Standard
+    public function withUIDemo(bool $switch = true) : Page\Standard
     {
         $clone = clone $this;
         $clone->ui_demo = $switch;
@@ -306,7 +244,7 @@ class Standard implements Page\Standard
         return $this->view_title;
     }
 
-    public function withModeInfo(ModeInfo $mode_info) : \ILIAS\UI\Component\Layout\Page\Standard
+    public function withModeInfo(ModeInfo $mode_info) : Page\Standard
     {
         $clone = clone $this;
         $clone->mode_info = $mode_info;
@@ -323,14 +261,14 @@ class Standard implements Page\Standard
         return $this->mode_info instanceof ModeInfo;
     }
 
-    public function withNoFooter() : Standard
+    public function withNoFooter() : Page\Standard
     {
         $clone = clone $this;
         $clone->footer = null;
         return $clone;
     }
 
-    public function withSystemInfos(array $system_infos) : \ILIAS\UI\Component\Layout\Page\Standard
+    public function withSystemInfos(array $system_infos) : Page\Standard
     {
         $this->checkArgListElements("system_infos", $system_infos, [SystemInfo::class]);
         $clone = clone $this;
@@ -349,7 +287,7 @@ class Standard implements Page\Standard
     }
 
 
-    public function withTextDirection(string $text_direction) : \ILIAS\UI\Component\Layout\Page\Standard
+    public function withTextDirection(string $text_direction) : Page\Standard
     {
         $this->checkArgIsElement(
             "Text Direction",

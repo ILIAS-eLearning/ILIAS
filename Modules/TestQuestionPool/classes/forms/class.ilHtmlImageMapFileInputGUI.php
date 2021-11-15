@@ -17,7 +17,7 @@ class ilHtmlImageMapFileInputGUI extends ilFileInputGUI
     /**
      * {@inheritdoc}
      */
-    public function checkInput()
+    public function checkInput() : bool
     {
         /**
          * @var $lng ilLanguage

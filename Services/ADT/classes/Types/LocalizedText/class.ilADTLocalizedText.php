@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -12,7 +12,7 @@ class ilADTLocalizedText extends ilADTText
      */
     private $translations = [];
 
-    public function getTextForLanguage(string $language)
+    public function getTextForLanguage(string $language) : string
     {
         if (strlen($this->getTranslations()[$language])) {
             return $this->getTranslations()[$language];
@@ -23,7 +23,7 @@ class ilADTLocalizedText extends ilADTText
     /**
      * @return array
      */
-    public function getTranslations()
+    public function getTranslations() : array
     {
         return $this->translations;
     }
@@ -32,7 +32,7 @@ class ilADTLocalizedText extends ilADTText
      * @param string $language
      * @param string $translation
      */
-    public function setTranslation(string $language, string $translation)
+    public function setTranslation(string $language, string $translation) : void
     {
         $this->translations[$language] = $translation;
     }
@@ -53,7 +53,7 @@ class ilADTLocalizedText extends ilADTText
         if (!$this->getDefinition()->isComparableTo($a_adt)) {
             return null;
         }
-        if (count($this->getTranslations() != count($a_adt->getTranslations()))) {
+        if ($this->getTranslations() != count($a_adt->getTranslations())) {
             return false;
         }
         foreach ($a_adt->getTranslations() as $key => $value) {

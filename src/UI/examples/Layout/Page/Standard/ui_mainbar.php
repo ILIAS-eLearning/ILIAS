@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\Layout\Page\Standard;
 
 function ui_mainbar()
@@ -114,7 +114,11 @@ EOT;
 function getUIContent($f, $request)
 {
     $params = $request->getQueryParams();
-    $cidx = $params['c'];
+    $cidx = -1;
+    if (array_key_exists('c', $params)) {
+        $cidx = $params['c'];
+    }
+
 
     switch ($cidx) {
         case 1:

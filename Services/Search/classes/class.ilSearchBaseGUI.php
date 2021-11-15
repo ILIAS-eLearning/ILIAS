@@ -254,7 +254,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     /**
      * Interface methods
      */
-    public function addToDeskObject()
+    public function addToDeskObject() : void
     {
         $this->favourites->add($this->user->getId(), (int) $_GET["item_ref_id"]);
         $this->showSavedResults();
@@ -263,7 +263,7 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     /**
      * Remove from dektop
      */
-    public function removeFromDeskObject()
+    public function removeFromDeskObject() : void
     {
         $this->favourites->remove($this->user->getId(), (int) $_GET["item_ref_id"]);
         $this->showSavedResults();

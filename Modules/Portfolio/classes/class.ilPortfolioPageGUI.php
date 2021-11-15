@@ -13,28 +13,17 @@
  */
 class ilPortfolioPageGUI extends ilPageObjectGUI
 {
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_definition;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    protected bool $embedded = false;
+    protected ilObjectDefinition $obj_definition;
+    protected ilTree $tree;
 
     const EMBEDDED_NO_OUTPUT = -99;
     
-    protected $js_onload_code = array();
-    protected $additional = array();
-    protected $export_material = array("js" => array(), "images" => array(), "files" => array());
-    
-    protected static $initialized = 0;
-
-    /**
-     * @var int
-     */
-    protected $requested_ppage;
+    protected array $js_onload_code = array();
+    protected array $additional = array();
+    protected array $export_material = array("js" => array(), "images" => array(), "files" => array());
+    protected static int $initialized = 0;
+    protected int $requested_ppage;
     
     /**
      * Constructor
@@ -81,12 +70,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         $this->requested_ppage = (int) $_GET["ppage"];
     }
     
-    public function getParentType()
+    public function getParentType() : string
     {
         return "prtf";
     }
     
-    protected function getPageContentUserId($a_user_id)
+    protected function getPageContentUserId(int $a_user_id) : int
     {
         // user id from content-xml
         return $a_user_id;
@@ -116,8 +105,6 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
                 return $ilCtrl->forwardCommand($blog_gui);
                 
             case "ilcalendarmonthgui":
-                
-                
                 // booking action
                 if ($cmd && $cmd != "preview") {
                     $categories = ilCalendarCategories::_getInstance();
@@ -152,15 +139,14 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
     
     /**
      * Show page
-     *
      * @return	string	page output
      */
-    public function showPage()
+    public function showPage() : string
     {
         $ilUser = $this->user;
         
         if (!$this->getPageObject()) {
-            return;
+            return "";
         }
         
         switch ($this->getPageObject()->getType()) {
@@ -178,11 +164,10 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
 
     /**
      * Set all tabs
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function getTabs($a_activate = "")
+    public function getTabs(string $a_activate = "") : void
     {
         if (!$this->embedded) {
             parent::getTabs($a_activate);
@@ -224,7 +209,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return $this->js_onload_code;
     }
     
-    public function postOutputProcessing($a_output)
+    public function postOutputProcessing(string $a_output) : string
     {
         $parts = array(
             "Profile" => array("0-9", "a-z", "0-9a-z_;\W"), // user, mode, fields
@@ -1159,24 +1144,12 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return $ctrl->getLinkTargetByClass("ilobjportfoliogui", "preview");
     }
 
-    /**
-     * Get view page link
-     *
-     * @param
-     * @return
-     */
-    public function getViewPageText()
+    public function getViewPageText() : string
     {
         return $this->lng->txt("preview");
     }
 
-    /**
-     * Get page perma link
-     *
-     * @param
-     * @return
-     */
-    public function getPagePermaLink()
+    public function getPagePermaLink() : string
     {
         $pid = ilPortfolioPage::findPortfolioForPage($this->getId());
         $href = ilLink::_getStaticLink($pid, "prtf", true, "_" . $this->getId());
@@ -1215,7 +1188,7 @@ class ilPortfolioPageGUI extends ilPageObjectGUI
         return  $notes_gui->getNotesHTML();
     }
 
-    public function finishEditing()
+    public function finishEditing() : void
     {
         $this->ctrl->redirectByClass("ilObjPortfolioGUI", "view");
     }

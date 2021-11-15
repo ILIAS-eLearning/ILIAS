@@ -13,10 +13,9 @@ class ilPortfolioTemplatePage extends ilPortfolioPage
     
     /**
      * Get parent type
-     *
      * @return string parent type
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         return "prtt";
     }

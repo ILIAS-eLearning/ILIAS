@@ -308,7 +308,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
     }
 
     /**
-     * @param $a_mode self::MODE_FILELIST or self::MODE_OBJECT
+     * @param string $a_mode self::MODE_FILELIST or self::MODE_OBJECT
      */
     public function setMode($a_mode)
     {
@@ -583,7 +583,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             'f_mode' => ['text', $this->getMode()],
             'page_count' => ['text', $this->getPageCount()],
             'rating' => ['integer', $this->hasRating()],
-            'rid' => ['text', $this->resource_id],
+            'rid' => ['text', $this->resource_id ?? ''],
         ];
     }
 

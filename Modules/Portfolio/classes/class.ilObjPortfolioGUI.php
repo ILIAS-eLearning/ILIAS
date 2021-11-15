@@ -504,7 +504,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI implements ilCtrlBaseClass
             $page->setType(ilPortfolioPage::TYPE_BLOG);
             $page->setTitle($_POST["blog"]);
         }
-        $page->create();
+        $page->create(false);
 
         ilUtil::sendSuccess($this->lng->txt("prtf_portfolio_created"), true);
         $this->ctrl->setParameter($this, "prt_id", $a_new_object->getId());
@@ -729,7 +729,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI implements ilCtrlBaseClass
                 $page = $this->getPageInstance();
                 $page->setType(ilPortfolioPage::TYPE_BLOG);
                 $page->setTitle($form->getInput("blog"));
-                $page->create();
+                $page->create(false);
             } else {
                 $blog = new ilObjBlog();
                 $blog->setTitle($form->getInput("title"));
@@ -750,7 +750,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI implements ilCtrlBaseClass
                 $page = $this->getPageInstance();
                 $page->setType(ilPortfolioPage::TYPE_BLOG);
                 $page->setTitle($blog->getId());
-                $page->create();
+                $page->create(false);
             }
 
             ilUtil::sendSuccess($this->lng->txt("prtf_blog_page_created"), true);

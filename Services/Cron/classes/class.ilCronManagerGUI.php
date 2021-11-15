@@ -274,7 +274,7 @@ class ilCronManagerGUI // implements ilCtrlBaseClassInterface
 
                 $option = new ilRadioOption(
                     $this->getScheduleTypeFormElementName($typeId),
-                    $typeId
+                    (string) $typeId
                 );
                 $type->addOption($option);
 

@@ -130,11 +130,26 @@ a[disabled], a fieldset[disabled] & {
 	padding-right: 18px;
 }
 
-.close{
+.minimize, .close {
+  font-size: (@font-size-base * 1.5);
+  font-weight: @close-font-weight;
+  line-height: 1;
   color: @il-neutral-light-color;
-  opacity: 1;
-  &:hover, &:focus{
+
+  &:hover,
+  &:focus {
     color: @il-neutral-color;
-    opacity: 1;
+    text-decoration: none;
   }
+
+  button& {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+  }
+}
+
+.close{
+  float: right;
 }

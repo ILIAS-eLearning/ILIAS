@@ -88,7 +88,7 @@ class ilMailCronNotification extends ilCronJob
             'mail_notification_message'
         );
         $cb->setInfo($this->lng->txt('cron_mail_notification_message_info'));
-        $cb->setChecked($this->settings->get('mail_notification_message'));
+        $cb->setChecked((bool) $this->settings->get('mail_notification_message', '0'));
         $a_form->addItem($cb);
     }
 
@@ -97,7 +97,7 @@ class ilMailCronNotification extends ilCronJob
         $this->init();
         $this->settings->set(
             'mail_notification_message',
-            $this->http->wrapper()->post()->has('mail_notification_message') ? 1 : 0
+            (string) ($this->http->wrapper()->post()->has('mail_notification_message') ? 1 : 0)
         );
         return true;
     }
@@ -105,6 +105,6 @@ class ilMailCronNotification extends ilCronJob
     public function activationWasToggled(bool $a_currently_active) : void
     {
         $this->init();
-        $this->settings->set('mail_notification', $a_currently_active);
+        $this->settings->set('mail_notification', (string) ((int) $a_currently_active));
     }
 }

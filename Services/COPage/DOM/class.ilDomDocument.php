@@ -1,15 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Dom document wrapper.
  * @author Alexander Killing <killing@leifos.de>
+ * @deprecated
  */
 class ilDomDocument
 {
-    private $doc;
-    private $errors = array();
+    private DOMDocument $doc;
+    private array $errors = array();
 
     /**
      * Constructor
@@ -20,10 +32,7 @@ class ilDomDocument
         $this->doc = new DOMDocument();
     }
 
-    /**
-     * Call
-     */
-    public function __call($a_method, $a_args)
+    public function __call(string $a_method, array $a_args)
     {
         if (in_array($a_method, array("validate", "loadXML"))) {
             set_error_handler(array($this, "handleError"));
@@ -38,7 +47,7 @@ class ilDomDocument
     /**
      * Get
      */
-    public function __get($a_mem)
+    public function __get(string $a_mem)
     {
         if ($a_mem == "errors") {
             return $this->errors;
@@ -50,7 +59,7 @@ class ilDomDocument
     /**
      *  Set
      */
-    public function __set($a_mem, $a_val)
+    public function __set(string $a_mem, $a_val) : void
     {
         $this->_delegate->$a_mem = $a_val;
     }
@@ -58,8 +67,13 @@ class ilDomDocument
     /**
      * Handle error
      */
-    public function handleError($a_no, $a_string, $a_file = null, $a_line = null, $a_context = null)
-    {
+    public function handleError(
+        int $a_no,
+        string $a_string,
+        string $a_file = null,
+        int $a_line = null,
+        array $a_context = null
+    ) {
         $pos = strpos($a_string, "]:");
         $err = trim(substr($a_string, $pos + 2));
         $this->errors[] = $err;

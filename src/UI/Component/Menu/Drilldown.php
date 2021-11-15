@@ -4,7 +4,6 @@
 
 namespace ILIAS\UI\Component\Menu;
 
-use \ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\JavaScriptBindable;
 
 /**

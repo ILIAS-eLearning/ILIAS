@@ -54,7 +54,6 @@ class ilRepositorySelectorExplorerGUI extends ilTreeExplorerGUI
     ) {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
-
         $this->tree = $DIC->repositoryTree();
         $this->obj_definition = $DIC["objDefinition"];
         $this->lng = $DIC->language();

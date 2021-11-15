@@ -28,16 +28,16 @@ class ilCharSelectorRadioGroupInputGUI extends ilRadioGroupInputGUI
         $this->lng = $DIC->language();
     }
 
-    public function checkInput()
+    public function checkInput() : bool
     {
         $lng = $this->lng;
         if (!parent::checkInput()) {
             return false;
         }
 
-        if ($_POST['char_selector_availability'] == ilCharSelectorConfig::ENABLED
-            and trim(implode("", $_POST['char_selector_blocks'])) == ""
-            and trim($_POST['char_selector_custom_items']) == '') {
+        if ($this->int('char_selector_availability') == ilCharSelectorConfig::ENABLED
+            and trim(implode("", $this->strArray('char_selector_blocks'))) == ""
+            and trim($this->str('char_selector_custom_items')) == '') {
             $this->setAlert($lng->txt("char_selector_msg_blocks_or_custom_needed"));
             return false;
         } else {

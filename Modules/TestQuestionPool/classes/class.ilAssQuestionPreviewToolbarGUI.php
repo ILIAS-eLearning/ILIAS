@@ -11,11 +11,6 @@ require_once 'Services/UIComponent/Toolbar/classes/class.ilToolbarGUI.php';
  */
 class ilAssQuestionPreviewToolbarGUI extends ilToolbarGUI
 {
-    /**
-     * @var ilLanguage
-     */
-    public $lng = null;
-
     private $resetPreviewCmd;
 
     public function __construct(ilLanguage $lng)

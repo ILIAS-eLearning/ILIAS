@@ -120,7 +120,7 @@ class ilObjectTileImage implements ilObjectTileImageInterface
                 $result = $results[$tmpname];
                 $this->ext = pathinfo($result->getName(), PATHINFO_EXTENSION);
                 $file_name = $this->getRelativePath();
-                if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+                if ($result->isOK()) {
                     $this->upload->moveOneFileTo(
                         $result,
                         $this->getRelativeDirectory(),

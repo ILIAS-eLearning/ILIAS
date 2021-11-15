@@ -1784,7 +1784,7 @@ abstract class assQuestion
         $this->page->setXMLContent("<PageObject><PageContent>" .
             "<Question QRef=\"il__qst_" . $this->getId() . "\"/>" .
             "</PageContent></PageObject>");
-        $this->page->create();
+        $this->page->create(false);
     }
 
     public function copyPageOfQuestion(int $a_q_id) : void

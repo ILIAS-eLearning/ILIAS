@@ -15,9 +15,10 @@ include_once './Services/Tree/interfaces/interface.ilTreeImplementation.php';
  */
 class ilMaterializedPathTree implements ilTreeImplementation
 {
-    private $maximum_possible_depth = 100;
-    private $tree = null;
-    
+    private const MAXIMUM_POSSIBLE_DEPTH = 100;
+
+    protected ilTree $tree;
+
     /**
      * Constructor
      * @param ilTree $a_tree
@@ -30,11 +31,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
     
     /**
      * Get maximum possible depth
-     * @return int
      */
-    protected function getMaximumPossibleDepth()
+    protected function getMaximumPossibleDepth() : int
     {
-        return $this->maximum_possible_depth;
+        return self::MAXIMUM_POSSIBLE_DEPTH;
     }
 
     /**
@@ -48,10 +48,10 @@ class ilMaterializedPathTree implements ilTreeImplementation
     
     /**
      * Get subtree ids
-     * @param type $a_node_id
+     * @param int $a_node_id
      * @return array
      */
-    public function getSubTreeIds($a_node_id)
+    public function getSubTreeIds(int $a_node_id) : array
     {
         global $DIC;
 
@@ -614,7 +614,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      * Validaate parent relations
      * @return int[] array of failure nodes
      */
-    public function validateParentRelations()
+    public function validateParentRelations() : array
     {
         global $DIC;
 

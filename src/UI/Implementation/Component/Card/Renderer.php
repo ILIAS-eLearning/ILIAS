@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -8,13 +8,14 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Standard as StandardIcon;
+use ILIAS\UI\Component\Button\Shy;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         /**
          * @var Component\Card\Card $component
@@ -43,7 +44,7 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->setVariable("HREF", $component->getTitleAction());
                 $tpl->setVariable("ID", $id);
                 $tpl->parseCurrentBlock();
-            } elseif ($title instanceof \ILIAS\UI\Component\Button\Shy) {
+            } elseif ($title instanceof Shy) {
                 $title = $default_renderer->render($title);
             }
             if (is_array($component->getTitleAction())) {
@@ -101,7 +102,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return array(Component\Card\Card::class);
     }

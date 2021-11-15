@@ -304,6 +304,7 @@ class ilUserPrivacySettingsGUI
             ->withValue($val)
             ->withRequired(true)
             ->withDisabled(
+                (bool)
                 $this->settings->get("usr_settings_disable_hide_own_online_status")
             );
 
@@ -328,6 +329,7 @@ class ilUserPrivacySettingsGUI
             )
             ->withValue($this->user->prefs['bs_allow_to_contact_me'] == 'y')
             ->withDisabled(
+                (bool)
                 $this->settings->get('usr_settings_disable_bs_allow_to_contact_me')
             );
 

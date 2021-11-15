@@ -43,11 +43,6 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
     protected $ctrl;
 
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilPluginAdmin
      */
     protected $pluginAdmin;
@@ -247,39 +242,44 @@ class ilTestInfoScreenToolbarGUI extends ilToolbarGUI
         $this->failureMessages[] = $failureMessage;
     }
 
-    public function setFormAction($formAction, $isMultipart = false, $target = '')
-    {
+    public function setFormAction(
+        string $a_val,
+        bool $a_multipart = false,
+        string $a_target = ""
+    ) : void {
         if ($this->globalToolbar instanceof parent) {
-            $this->globalToolbar->setFormAction($formAction, $isMultipart, $target);
+            $this->globalToolbar->setFormAction($a_val, $a_multipart, $a_target);
         } else {
-            parent::setFormAction($formAction, $isMultipart, $target);
+            parent::setFormAction($a_val, $a_multipart, $a_target);
         }
     }
-    
-    public function addButtonInstance(ilButtonBase $btnInstance)
+
+    public function addButtonInstance(ilButtonBase $a_button) : void
     {
         if ($this->globalToolbar instanceof parent) {
-            $this->globalToolbar->addButtonInstance($btnInstance);
+            $this->globalToolbar->addButtonInstance($a_button);
         } else {
-            parent::addButtonInstance($btnInstance);
+            parent::addButtonInstance($a_button);
         }
     }
-    
-    public function setCloseFormTag($enabled)
+
+    public function setCloseFormTag(bool $a_val) : void
     {
         if ($this->globalToolbar instanceof parent) {
-            $this->globalToolbar->setCloseFormTag($enabled);
+            $this->globalToolbar->setCloseFormTag($a_val);
         } else {
-            parent::setCloseFormTag($enabled);
+            parent::setCloseFormTag($a_val);
         }
     }
-    
-    public function addInputItem(ilToolbarItem $inputItem, $outputLabel = false)
-    {
+
+    public function addInputItem(
+        ilToolbarItem $a_item,
+        bool $a_output_label = false
+    ) : void {
         if ($this->globalToolbar instanceof parent) {
-            $this->globalToolbar->addInputItem($inputItem, $outputLabel);
+            $this->globalToolbar->addInputItem($a_item, $a_output_label);
         } else {
-            parent::addInputItem($inputItem, $outputLabel);
+            parent::addInputItem($a_item, $a_output_label);
         }
     }
     

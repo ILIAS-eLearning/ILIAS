@@ -7,7 +7,7 @@
  */
 class ilMailQuickFilterInputGUI extends ilTextInputGUI
 {
-    protected \ILIAS\Refinery\Factory $refinery;
+    protected ?\ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\HTTP\GlobalHttpState $httpState;
 
     public function __construct($a_title, $a_postvar)
@@ -46,7 +46,7 @@ class ilMailQuickFilterInputGUI extends ilTextInputGUI
         }
     }
 
-    public function render($a_mode = '') : string
+    public function render(string $a_mode = '') : string
     {
         $tpl = new ilTemplate(
             'tpl.prop_mail_quick_filter_input.html',

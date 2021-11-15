@@ -222,7 +222,7 @@ class ilMailFolderGUI
             $confirmationGui = new ilConfirmationGUI();
             $confirmationGui->setHeaderText($this->lng->txt('mail_sure_delete'));
             foreach ($this->getMailIdsFromRequest() as $mailId) {
-                $confirmationGui->addHiddenItem('mail_id[]', $mailId);
+                $confirmationGui->addHiddenItem('mail_id[]', (string) $mailId);
             }
             $this->ctrl->setParameter($this, 'mobj_id', $this->currentFolderId);
             $confirmationGui->setFormAction($this->ctrl->getFormAction($this, 'showFolder'));

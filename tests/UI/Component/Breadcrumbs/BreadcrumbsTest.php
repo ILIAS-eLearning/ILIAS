@@ -1,32 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
 
 /**
  * Tests for the Breadcrumbs-component
  */
 class BreadcrumbsTest extends ILIAS_UI_TestBase
 {
-    public function getFactory()
+    public function getFactory() : NoUIFactory
     {
         return new class extends NoUIFactory {
-            public function breadcrumbs(array $crumbs)
+            public function breadcrumbs(array $crumbs) : C\Breadcrumbs\Breadcrumbs
             {
                 return new I\Component\Breadcrumbs\Breadcrumbs($crumbs);
             }
         };
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->getFactory();
-        $c = $f->breadcrumbs(array());
 
         $this->assertInstanceOf("ILIAS\\UI\\Factory", $f);
         $this->assertInstanceOf(
@@ -35,7 +34,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
         );
     }
 
-    public function testCrumbs()
+    public function testCrumbs() : void
     {
         $f = $this->getFactory();
         $crumbs = array(
@@ -47,7 +46,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
         $this->assertEquals($crumbs, $c->getItems());
     }
 
-    public function testAppending()
+    public function testAppending() : void
     {
         $f = $this->getFactory();
         $crumb = new I\Component\Link\Standard("label2", '#');
@@ -57,7 +56,7 @@ class BreadcrumbsTest extends ILIAS_UI_TestBase
         $this->assertEquals(array($crumb), $c->getItems());
     }
 
-    public function testRendering()
+    public function testRendering() : void
     {
         $f = $this->getFactory();
         $r = $this->getDefaultRenderer();

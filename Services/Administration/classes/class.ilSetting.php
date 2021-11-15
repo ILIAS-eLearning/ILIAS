@@ -18,7 +18,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilSetting
+class ilSetting implements \ILIAS\Administration\Setting
 {
     protected ilDBInterface $db;
 

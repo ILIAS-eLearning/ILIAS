@@ -121,7 +121,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         $form->setTitle($this->lng->txt('certificate_settings'));
 
         $active = new ilCheckboxInputGUI($this->lng->txt("active"), "active");
-        $active->setChecked($form_settings->get("active"));
+        $active->setChecked((bool) $form_settings->get("active", '0'));
         $form->addItem($active);
 
         $info = new ilNonEditableValueGUI($this->lng->txt("info"), "info");
@@ -154,7 +154,7 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
             "letterlandscape" => $this->lng->txt("certificate_letter_landscape") // (11 inch x 8.5 inch)
         ];
         $format->setOptions($defaultformats);
-        $format->setValue($form_settings->get("pageformat"));
+        $format->setValue($form_settings->get("pageformat", ''));
         $format->setInfo($this->lng->txt("certificate_page_format_info"));
         $form->addItem($format);
 
@@ -227,17 +227,17 @@ class ilObjCertificateSettingsGUI extends ilObjectGUI
         }
 
         $form_settings->set(
-            "pageformat",
-            $this->httpWrapper->post()->retrieve("pageformat", $this->refinery->kindlyTo()->string())
+            'pageformat',
+            $this->httpWrapper->post()->retrieve('pageformat', $this->refinery->kindlyTo()->string())
         );
         $form_settings->set(
-            "active",
-            $this->httpWrapper->post()->has("active") && $this->httpWrapper->post()->retrieve(
-                "active",
+            'active',
+            (string) ($this->httpWrapper->post()->has('active') && $this->httpWrapper->post()->retrieve(
+                'active',
                 $this->refinery->kindlyTo()->bool()
-            )
+            ))
         );
-        $form_settings->set("persistent_certificate_mode", $mode);
+        $form_settings->set('persistent_certificate_mode', $mode);
 
         ilUtil::sendSuccess($this->lng->txt("settings_saved"));
         $this->settings();

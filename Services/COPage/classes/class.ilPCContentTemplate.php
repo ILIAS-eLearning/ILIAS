@@ -1,19 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Content templates are not existing in the page. Once they are inserted into a page
  * all content elements of the template are inserted instead.
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilPCContentTemplate extends ilPageContent
 {
-    /**
-    * Init page content component.
-    */
-    public function init()
+    public function init() : void
     {
         $this->setType("templ");
     }
@@ -21,7 +29,7 @@ class ilPCContentTemplate extends ilPageContent
     /**
      * Set node (in fact this will never be called, since these types of nodes do not exist
      */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
     }
@@ -39,7 +47,7 @@ class ilPCContentTemplate extends ilPageContent
         $source_id = explode(":", $a_page_templ);
         $source_page = ilPageObjectFactory::getInstance($source_id[1], $source_id[0]);
         $source_page->buildDom();
-        $source_page->addHierIds();
+        $source_page->addHierIDs();
         $hier_ids = $source_page->getHierIds();
 
         $copy_ids = array();

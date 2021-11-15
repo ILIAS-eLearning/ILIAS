@@ -15,20 +15,7 @@ require_once 'Services/Form/classes/class.ilPropertyFormGUI.php';
  */
 class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
 {
-    /**
-     * global $ilCtrl object
-     *
-     * @var ilCtrl
-     */
-    public $ctrl = null;
-    
-    /**
-     * global $lng object
-     *
-     * @var ilLanguage
-     */
-    public $lng = null;
-    
+
     /**
      * object instance for current test
      *
@@ -91,7 +78,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
     
     public function build()
     {
-        $this->setFormAction($this->ctrl->getFormAction($this->questionSetConfigGUI));
+        $this->setFormAction((string) $this->ctrl->getFormAction($this->questionSetConfigGUI));
         
         $this->setTitle($this->lng->txt('tst_rnd_quest_set_cfg_general_form'));
         $this->setId('tstRndQuestSetCfgGeneralForm');
@@ -113,6 +100,7 @@ class ilTestRandomQuestionSetGeneralConfigFormGUI extends ilPropertyFormGUI
         );
         
         $requirePoolsQuestionsHomoScored->setChecked(
+            (bool)
             $this->questionSetConfig->arePoolsWithHomogeneousScoredQuestionsRequired()
         );
         

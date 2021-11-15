@@ -165,6 +165,7 @@ class ilAbstractSearch
         }
 
         $counter = 0;
+        $locate = '';
         foreach ($this->query_parser->getQuotedWords() as $word) {
             $locate .= ',';
             $locate .= $ilDB->locate($ilDB->quote($word, 'text'), $complete_str);
@@ -183,11 +184,12 @@ class ilAbstractSearch
             return array();
         }
         $counter = 0;
+        $found = [];
         foreach ($this->query_parser->getQuotedWords() as $word) {
             $res_found = "found" . $counter++;
             $found[] = $row->$res_found;
         }
-        return $found ? $found : array();
+        return $found;
     }
 
     public function performSearch()

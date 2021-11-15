@@ -9,7 +9,7 @@ class ilChatroomImporter extends ilXmlImporter
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
         if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
-            $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
+            $newObj = ilObjectFactory::getInstanceByObjId((int) $new_id, false);
         } else {
             $newObj = new ilObjChatroom();
             $newObj->setTitle('');
@@ -22,6 +22,6 @@ class ilChatroomImporter extends ilXmlImporter
         $parser->setImportInstallId($this->getInstallId());
         $parser->startParsing();
 
-        $a_mapping->addMapping('Modules/Chatroom', 'chtr', $a_id, $newObj->getId());
+        $a_mapping->addMapping('Modules/Chatroom', 'chtr', $a_id, (string) $newObj->getId());
     }
 }

@@ -19,10 +19,6 @@ include_once './Services/Calendar/classes/class.ilCalendarCategories.php';
 */
 class ilCalendarBlockGUI extends ilBlockGUI
 {
-    /**
-     * @var ilCtrl|null
-     */
-    public $ctrl = null;
     protected $mode;
     protected $display_mode;
 
@@ -40,11 +36,6 @@ class ilCalendarBlockGUI extends ilBlockGUI
     protected $obj_data_cache;
 
     protected $parent_gui = "ilcolumngui";
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
 
     protected $force_month_view = false;
 
@@ -198,7 +189,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     /**
      * Get Screen Mode for current command.
      */
-    public static function getScreenMode()
+    public static function getScreenMode() : string
     {
         global $DIC;
 
@@ -268,27 +259,9 @@ class ilCalendarBlockGUI extends ilBlockGUI
     }
 
     /**
-     * Set EnableEdit.
-     * @param boolean $a_enable_edit Edit mode on/off
-     */
-    public function setEnableEdit($a_enable_edit = 0)
-    {
-        $this->enable_edit = $a_enable_edit;
-    }
-
-    /**
-     * Get EnableEdit.
-     * @return    boolean    Edit mode on/off
-     */
-    public function getEnableEdit()
-    {
-        return $this->enable_edit;
-    }
-
-    /**
      * Fill data section
      */
-    public function fillDataSection()
+    public function fillDataSection() : void
     {
         if ($this->display_mode != "mmon") {
             $this->setRowTemplate("tpl.pd_event_list.html", "Services/Calendar");
@@ -521,7 +494,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
     /**
      * Get bloch HTML code.
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         $this->initCategories();
         $lng = $this->lng;
@@ -718,7 +691,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         $ilCtrl->returnToParent($this);
     }
 
-    public function fillFooter()
+    public function fillFooter() : void
     {
         // @todo: check this
         return;
@@ -740,7 +713,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         }
     }
 
-    public function initCommands()
+    public function initCommands() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -828,7 +801,7 @@ class ilCalendarBlockGUI extends ilBlockGUI
         return ($ev);
     }
 
-    public function getData()
+    public function getData() : array
     {
         $lng = $this->lng;
         $ui = $this->ui;

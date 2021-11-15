@@ -41,7 +41,6 @@ class ilSearchRootSelector extends ilExplorer
      * @access private
      */
     public $root_id;
-    public $output;
     public $ctrl;
 
     public $selectable_type;
@@ -87,7 +86,7 @@ class ilSearchRootSelector extends ilExplorer
         $this->clickable_types = $a_types;
     }
     
-    public function isClickable($a_type, $a_ref_id = 0)
+    public function isClickable(string $a_type, $a_ref_id = 0) : bool
     {
         if (in_array($a_type, $this->clickable_types)) {
             return true;
@@ -122,29 +121,29 @@ class ilSearchRootSelector extends ilExplorer
     }
     
 
-    public function buildLinkTarget($a_node_id, $a_type)
+    public function buildLinkTarget($a_node_id, string $a_type) : string
     {
         $this->ctrl->setParameterByClass($this->getTargetClass(), "root_id", $a_node_id);
         
         return $this->ctrl->getLinkTargetByClass($this->getTargetClass(), $this->getCmd());
     }
 
-    public function buildFrameTarget($a_type, $a_child = 0, $a_obj_id = 0)
+    public function buildFrameTarget(string $a_type, $a_child = 0, $a_obj_id = 0) : string
     {
         return '';
     }
 
-    public function showChilds($a_ref_id)
+    public function showChilds($a_parent_id) : bool
     {
         global $DIC;
 
         $rbacsystem = $DIC['rbacsystem'];
 
-        if ($a_ref_id == 0) {
+        if ($a_parent_id == 0) {
             return true;
         }
 
-        if ($rbacsystem->checkAccess("read", $a_ref_id)) {
+        if ($rbacsystem->checkAccess("read", $a_parent_id)) {
             return true;
         } else {
             return false;
@@ -157,9 +156,9 @@ class ilSearchRootSelector extends ilExplorer
     * @access	public
     * @param	integer obj_id
     * @param	integer array options
-    * @return	string
-    */
-    public function formatHeader($tpl, $a_obj_id, $a_option)
+    * @return    void
+     */
+    public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
         global $DIC;
 
@@ -178,9 +177,5 @@ class ilSearchRootSelector extends ilExplorer
             
             $tpl->parseCurrentBlock();
         }
-
-        #$this->output[] = $tpl->get();
-
-        return true;
     }
-} // END class ilRepositoryExplorer
+}

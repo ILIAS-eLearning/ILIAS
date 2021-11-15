@@ -1,5 +1,5 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
+
 namespace ILIAS\UI\examples\ViewControl\Sortation;
 
 //Async example show-casing how this control can be used, without reloading the page

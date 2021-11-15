@@ -12,10 +12,9 @@ class ilMediaPoolPage extends ilPageObject
 {
     /**
      * Get parent type
-     *
      * @return string parent type
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         return "mep";
     }
@@ -26,7 +25,7 @@ class ilMediaPoolPage extends ilPageObject
     * @access	public
     * @return	boolean
     */
-    public function update($a_validate = true, $a_no_history = false)
+    public function update(bool $a_validate = true, bool $a_no_history = false)
     {
         $ilDB = $this->db;
         parent::update($a_validate, $a_no_history);
@@ -37,33 +36,12 @@ class ilMediaPoolPage extends ilPageObject
     /**
     * Read media_pool data
     */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
         // get co page
         parent::read();
-    }
-
-
-    /**
-    * delete media_pool page and al related data
-    *
-    * @access	public
-    */
-    public function delete()
-    {
-        $ilDB = $this->db;
-        
-
-        // delete internal links information to this page
-        //		ilInternalLink::_deleteAllLinksToTarget("mep", $this->getId());
-                
-        
-        // delete co page
-        parent::delete();
-
-        return true;
     }
 
     /**

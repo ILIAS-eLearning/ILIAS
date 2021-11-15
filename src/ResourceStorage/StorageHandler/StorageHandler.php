@@ -20,7 +20,7 @@ interface StorageHandler
 {
 
     /**
-     * @return string
+     * @return string not longer than 8 characters
      */
     public function getID() : string;
 

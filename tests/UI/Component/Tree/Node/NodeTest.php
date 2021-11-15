@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,8 +6,10 @@ require_once("libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "../../../../Base.php");
 
 use ILIAS\Data\URI;
-use \ILIAS\UI\Implementation\Component\Tree\Node\Node;
-use \ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component\Tree\Node\Node;
+use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Component\Clickable;
+use ILIAS\Refinery\URI\StringTransformation;
 
 /**
  * Dummy-implementation for testing
@@ -21,8 +23,6 @@ class TestingNode extends Node
 
     /**
      * Create a new node object with an URI that will be added to the UI
-     * @param URI $link
-     * @return Node
      */
     public function withLink(URI $link) : \ILIAS\UI\Component\Tree\Node\Node
     {
@@ -38,13 +38,10 @@ class TestingNode extends Node
  */
 class NodeTest extends ILIAS_UI_TestBase
 {
-    public function testConstruction()
+    public function testConstruction() : TestingNode
     {
         $node = new TestingNode("");
-        $this->assertInstanceOf(
-            "ILIAS\\UI\\Component\\Tree\\Node\\Node",
-            $node
-        );
+        $this->assertInstanceOf("ILIAS\\UI\\Component\\Tree\\Node\\Node", $node);
 
         return $node;
     }
@@ -52,7 +49,7 @@ class NodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testDefaults($node)
+    public function testDefaults(TestingNode $node) : void
     {
         $this->assertFalse($node->isExpanded());
         $this->assertFalse($node->isHighlighted());
@@ -62,7 +59,7 @@ class NodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testWithExpanded($node)
+    public function testWithExpanded(TestingNode $node) : void
     {
         $this->assertTrue(
             $node->withExpanded(true)->isExpanded()
@@ -72,7 +69,7 @@ class NodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testWithHighlighted($node)
+    public function testWithHighlighted(TestingNode $node) : void
     {
         $this->assertTrue(
             $node->withHighlighted(true)->isHighlighted()
@@ -82,7 +79,7 @@ class NodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testConstruction
      */
-    public function testWithOnClick($node)
+    public function testWithOnClick(TestingNode $node) : Clickable
     {
         $sig_gen = new I\SignalGenerator();
         $sig = $sig_gen->create();
@@ -96,7 +93,7 @@ class NodeTest extends ILIAS_UI_TestBase
     /**
      * @depends testWithOnClick
      */
-    public function testWithAppendOnClick($node)
+    public function testWithAppendOnClick(Clickable $node) : void
     {
         $sig_gen = new I\SignalGenerator();
         $sig = $sig_gen->create();
@@ -107,16 +104,15 @@ class NodeTest extends ILIAS_UI_TestBase
     }
 
     /**
-     * @param Node $node
      * @depends testWithOnClick
      */
-    public function testWithURI($node)
+    public function testWithURI(Clickable $node) : void
     {
         $uri = new URI('http://google.de:8080');
 
         $node = $node->withLink($uri);
 
-        $stringTransformation = new \ILIAS\Refinery\URI\StringTransformation();
+        $stringTransformation = new StringTransformation();
 
         $this->assertEquals('http://google.de:8080', $stringTransformation->transform($node->getLink()));
     }
