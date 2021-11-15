@@ -33,19 +33,19 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $lng = $DIC['lng'];
 
         $this->user_settings_config = new ilUserSettingsConfig();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setTitle($lng->txt("usr_settings_header_profile"));
         $this->setDescription($lng->txt("usr_settings_explanation_profile"));
         $this->setLimit(9999);
-        
+
         //$this->addColumn($this->lng->txt("usrs_group"), "");
         //$this->addColumn("", "");
         $this->addColumn($this->lng->txt("user_field"), "");
         $this->addColumn($this->lng->txt("access"), "");
         $this->addColumn($this->lng->txt("export") . " / " . $this->lng->txt("search"), "");
         $this->addColumn($this->lng->txt("default"), "");
-        
+
         $this->setEnableHeader(true);
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.std_fields_settings_row.html", "Services/User");
@@ -62,7 +62,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $this->setData($fds);
         $this->addCommandButton("saveGlobalUserSettings", $lng->txt("save"));
     }
-    
+
     /**
     * Fill table row
     */
@@ -73,25 +73,12 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
         $lng = $DIC['lng'];
         $ilSetting = $DIC['ilSetting'];
         $user_settings_config = $this->user_settings_config;
-        
+
         $field = $a_set["key"];
-        
-        $props = array(
-            "visible" => "user_visible_in_profile",
-            "changeable" => "changeable",
-            "searchable" => "header_searchable",
-            "required" => "required_field",
-            "export" => "export",
-            "course_export" => "course_export",
-            'group_export' => 'group_export',
-            "visib_reg" => "header_visible_registration",
-            'visib_lua' => 'usr_settings_visib_lua',
-            'changeable_lua' => 'usr_settings_changeable_lua'
-        );
-        
-        foreach ($props as $prop => $lv) {
+
+        foreach (ilObjUserFolderGUI::USER_FIELD_TRANSLATION_MAPPING as $prop => $lv) {
             $up_prop = strtoupper($prop);
-            
+
             if (($prop != "searchable" && $a_set[$prop . "_hide"] != true) ||
                 ($prop == "searchable" && ilUserSearchOptions::_isSearchable($field))) {
                 $this->tpl->setCurrentBlock($prop);
@@ -100,7 +87,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                     $lng->txt($lv)
                 );
                 $this->tpl->setVariable("PROFILE_OPTION_" . $up_prop, $prop . "_" . $field);
-                
+
                 // determine checked status
                 $checked = false;
                 if ($prop == "visible" && $user_settings_config->isVisible($field)) {
@@ -130,11 +117,11 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                 if ($prop == "visib_lua" && (int) $ilSetting->get('usr_settings_visib_lua_' . $field, '1')) {
                     $checked = true;
                 }
-                
+
                 if ($prop == "changeable_lua" && (int) $ilSetting->get('usr_settings_changeable_lua_' . $field, '1')) {
                     $checked = true;
                 }
-                
+
 
                 if ($this->confirm_change == 1) {	// confirm value
                     $checked = $_POST["chb"][$prop . "_" . $field];
@@ -142,17 +129,23 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
                 if (isset($a_set[$prop . "_fix_value"])) {	// fix values overwrite everything
                     $checked = $a_set[$prop . "_fix_value"];
                 }
-    
+
                 if ($checked) {
                     $this->tpl->setVariable("CHECKED_" . $up_prop, " checked=\"checked\"");
+                    if (!isset($a_set["{$prop}_fix_value"])) {
+                        $this->tpl->setVariable("CURRENT_OPTION_VISIBLE", "1");
+                    }
+                } else {
+                    $this->tpl->setVariable("CURRENT_OPTION_VISIBLE", "0");
                 }
+
                 if (isset($a_set[$prop . "_fix_value"])) {
                     $this->tpl->setVariable("DISABLE_" . $up_prop, " disabled=\"disabled\"");
                 }
                 $this->tpl->parseCurrentBlock();
             }
         }
-        
+
         // default
         if ($a_set["default"] != "") {
             switch ($a_set["input"]) {
@@ -191,7 +184,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
         // group name
         $this->tpl->setVariable("TXT_GROUP", $lng->txt($a_set["group"]));
-        
+
         // field name
         $lv = ($a_set["lang_var"] == "")
             ? $a_set["key"]
@@ -205,7 +198,7 @@ class ilUserFieldSettingsTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable("TXT_FIELD", $lng->txt($lv));
     }
-    
+
     public function setConfirmChange()
     {
         $this->confirm_change = true;
