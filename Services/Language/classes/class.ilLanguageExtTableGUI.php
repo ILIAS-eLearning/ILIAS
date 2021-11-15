@@ -9,7 +9,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     private int $commentsize = 30;
     private array $params;
 
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_params = array())
+    public function __construct($a_parent_obj, string $a_parent_cmd, array $a_params = array())
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -44,7 +44,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow($data)
+    protected function fillRow(array $data): void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -87,7 +87,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     /**
      * Init filter
     */
-    public function initFilter()
+    public function initFilter(): void
     {
         global $DIC;
         $lng = $DIC->language();

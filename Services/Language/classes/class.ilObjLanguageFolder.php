@@ -20,53 +20,39 @@ class ilObjLanguageFolder extends ilObject
     /**
     * indicator for the system language
     * this language must not be deleted
-    * @var		string
-    * @access	private
     */
-    public $lang_default;
+    public string $lang_default;
 
     /**
     * language that is in use
     * by current user
     * this language must not be deleted
-    *
-    * @var		string
-    * @access	private
     */
-    public $lang_user;
+    public string $lang_user;
 
     /**
     * path to language files
     * relative path is taken from ini file
     * and added to absolute path of ilias
-    *
-    * @var		string
-    * @access	private
     */
-    public $lang_path;
+    public string $lang_path;
 
     /**
     * separator value between module,identivier & value
-    * @var		string
-    * @access	private
     */
-    public $separator;
+    public string $separator;
 
     /**
     * contians all informations about languages
-    *
-    * @var		array
-    * @access	public
     */
-    public $languages;
+    public array $languages;
 
     /**
     * Constructor
-    * @access	public
-    * @param	integer	reference_id or object_id
-    * @param	boolean	treat the id as reference_id (true) or object_id (false)
+    * $a_id  	                reference_id or object_id
+    * $a_call_by_reference  	treat the id as reference_id (true) or object_id (false)
     */
-    public function __construct($a_id, $a_call_by_reference = true)
+    public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
         global $DIC;
         $lng = $DIC->language();
@@ -92,9 +78,9 @@ class ilObjLanguageFolder extends ilObject
     * update:		int			contains the timestamp of last db-modification
     * info:			string		optional information. valid is: 'notfound','new'
     *
-    * @return	array	$languages	status information about available languages
+    * Returns	$languages	status information about available languages
     */
-    public function getLanguages()
+    public function getLanguages(): array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -179,12 +165,8 @@ class ilObjLanguageFolder extends ilObject
     *
     * This functions checks in $languages for languages with the attribute 'new'
     * and insert these languages in db-table 'languages'
-    *
-    * @param	array	$languages		expect $languages
-    *
-    * @return	boolean					true: language array is not empty, otherwise false
     */
-    public function addNewLanguages($a_languages)
+    public function addNewLanguages(array $a_languages): array
     {
         if (count($a_languages) > 0) {
             foreach ($a_languages as $lang_key => $lang_data) {
@@ -220,11 +202,9 @@ class ilObjLanguageFolder extends ilObject
     * This function removes only the entry in db-table 'languages' and
     * in the array $languages. Does not uninstall a language (see: function flushLanguage())
     *
-    * @access	public
-    * @param	array	$languages
-    * @return	array	$languages	updated status information about available languages
+    * Return 	$languages	updated status information about available languages
     */
-    public function removeLanguages($a_languages)
+    public function removeLanguages(array $a_languages): array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -251,9 +231,9 @@ class ilObjLanguageFolder extends ilObject
     * This function is similar to function checkLanguage() (see below) but checks for all
     * lang-files and outputs more helpful information.
     *
-    * @return	string	system message
+    * Return	system message
     */
-    public function checkAllLanguages()
+    public function checkAllLanguages(): string
     {
         global $DIC;
         // TODO: lng object should not be used in this class
@@ -267,6 +247,7 @@ class ilObjLanguageFolder extends ilObject
         // for giving a message when no lang-file was found
         $found = false;
 
+        $output = '';
         // get available lang-files
         while ($entry = $d->read()) {
             if (is_file($entry) && (preg_match("~(^ilias_.{2}\.lang$)~", $entry))) {

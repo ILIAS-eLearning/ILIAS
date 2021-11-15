@@ -34,10 +34,7 @@ class ilLanguageFactory
     private static array $languages;
     
     /**
-     * Get langauge object
-     *
-     * @access public
-     * @static
+     * Get language object
      */
     public static function _getLanguage(string $a_lang_key = ''): ilLanguage
     {

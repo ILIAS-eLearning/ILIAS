@@ -6,7 +6,7 @@ use ILIAS\Setup;
 
 class ilLanguagesUpdatedObjective implements Setup\Objective
 {
-	protected $il_setup_language;
+	protected \ilSetupLanguage $il_setup_language;
 
 	public function __construct(
 		\ilSetupLanguage $il_setup_language

@@ -24,6 +24,9 @@ class ilLanguageDetectorFactory
         $this->settings = $DIC->settings();
     }
 
+    /**
+     * @throws ilLanguageException
+     */
     public function getValidInstances()
     {
         $detectors = array(

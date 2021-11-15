@@ -6,7 +6,7 @@ use ILIAS\Setup;
 
 class ilLanguagesInstalledAndUpdatedObjective extends ilLanguageObjective
 {
-    protected $il_setup_language;
+    protected \ilSetupLanguage $il_setup_language;
 
     public function __construct(
         ?\ilLanguageSetupConfig $config,

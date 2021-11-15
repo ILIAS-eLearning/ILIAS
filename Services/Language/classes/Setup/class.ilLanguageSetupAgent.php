@@ -11,7 +11,7 @@ class ilLanguageSetupAgent implements Setup\Agent
     use Setup\Agent\HasNoNamedObjective;
 
     protected $refinery;
-    protected $il_setup_language;
+    protected \ilSetupLanguage $il_setup_language;
 
     public function __construct(
         Refinery\Factory $refinery,

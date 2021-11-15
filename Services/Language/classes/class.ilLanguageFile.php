@@ -34,11 +34,11 @@
 */
 class ilLanguageFile
 {
-    private static $global_file_objects = array();
+    private static array $global_file_objects;
     private string $lang_file;
     private string $lang_key;
     private string $scope;
-    private $header;
+    private string $header;
     private string $file_start = "<!-- language file start -->";
     private string $separator;
     private string $comment_separator;

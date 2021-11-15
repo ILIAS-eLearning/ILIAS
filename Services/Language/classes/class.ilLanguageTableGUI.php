@@ -19,7 +19,7 @@ class ilLanguageTableGUI extends ilTable2GUI
     /**
     * Constructor
     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_folder)
+    public function __construct($a_parent_obj, string $a_parent_cmd, $a_folder)
     {
         global $DIC;
         $ilAccess = $DIC->access();
@@ -61,7 +61,7 @@ class ilLanguageTableGUI extends ilTable2GUI
     /**
     * Get language data
     */
-    public function getItems()
+    public function getItems(): void
     {
         $languages = $this->folder->getLanguages();
         $data = array();
@@ -80,7 +80,7 @@ class ilLanguageTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set): void
     {
         global $DIC;
         $ilSetting = $DIC->settings();

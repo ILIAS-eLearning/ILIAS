@@ -25,7 +25,6 @@ class ilObjLanguageAccess
     * - The page translation of the current language must be turned on
     * - The user must have read and write permissions to the language folder
     *
-    * @access   static
     * Return whether translation is possible (true/false)
     */
     public static function _checkTranslate(): bool
@@ -59,7 +58,6 @@ class ilObjLanguageAccess
     * Permission check for language maintenance (import/export)
     * - The user must have read and write permissions to the language folder
     *
-    * @access   static
     * Return whether maintenance is possible (true/false)
     */
     public static function _checkMaintenance(): bool
