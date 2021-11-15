@@ -19,7 +19,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
     }
     
 
-    public function init()
+    public function init() : void
     {
 
         $this->lng->loadLanguageModule('sysc');
@@ -82,7 +82,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
 
 
 
-    public function parse()
+    public function parse() : void
     {
         $data = array();
 

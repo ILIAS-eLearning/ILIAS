@@ -76,7 +76,7 @@ class ilSCGroups
     }
     
 
-    protected function read()
+    protected function read() : void
     {
         
         $query = 'SELECT id FROM sysc_groups ' .

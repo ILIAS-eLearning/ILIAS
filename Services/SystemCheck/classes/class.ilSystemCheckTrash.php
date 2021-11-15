@@ -30,7 +30,7 @@ class ilSystemCheckTrash
         $this->limit_age = new ilDate(0, IL_CAL_UNIX);
     }
     
-    public function setNumberLimit(int $a_limit)
+    public function setNumberLimit(int $a_limit) : void
     {
         $this->limit_number = $a_limit;
     }
@@ -40,7 +40,7 @@ class ilSystemCheckTrash
         return $this->limit_number;
     }
     
-    public function setAgeLimit(ilDateTime $dt)
+    public function setAgeLimit(ilDateTime $dt) : void
     {
         $this->limit_age = $dt;
     }
@@ -51,7 +51,7 @@ class ilSystemCheckTrash
         return $this->limit_age;
     }
     
-    public function setTypesLimit(array $a_types)
+    public function setTypesLimit(array $a_types) : void
     {
         $this->limit_types = $a_types;
     }
@@ -61,7 +61,7 @@ class ilSystemCheckTrash
         return $this->limit_types;
     }
     
-    public function setMode(int $a_mode)
+    public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
@@ -71,7 +71,7 @@ class ilSystemCheckTrash
         return $this->mode;
     }
     
-    public function start()
+    public function start() : bool
     {
         $this->logger->info('Handling delete');
         switch ($this->getMode()) {
@@ -94,7 +94,7 @@ class ilSystemCheckTrash
     }
 
 
-    protected function restore()
+    protected function restore() : void
     {
         $deleted = $this->readDeleted();
 
@@ -122,7 +122,7 @@ class ilSystemCheckTrash
     }
     
 
-    protected function removeSelectedFromSystem()
+    protected function removeSelectedFromSystem() : void
     {
         $factory = new ilObjectFactory();
 
@@ -143,7 +143,7 @@ class ilSystemCheckTrash
     }
     
 
-    protected function readSelectedDeleted()
+    protected function readSelectedDeleted() : array
     {
         
         $and_types = '';

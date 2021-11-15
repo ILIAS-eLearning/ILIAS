@@ -50,7 +50,7 @@ class ilSCGroup
     }
     
     
-    public function setComponentId(string $a_comp)
+    public function setComponentId(string $a_comp) : void
     {
         $this->component_id = $a_comp;
     }
@@ -62,7 +62,7 @@ class ilSCGroup
     }
     
     
-    public function setLastUpdate(ilDateTime $a_update)
+    public function setLastUpdate(ilDateTime $a_update) : void
     {
         $this->last_update = $a_update;
     }
@@ -76,7 +76,7 @@ class ilSCGroup
         return $this->last_update;
     }
     
-    public function setStatus(int $a_status)
+    public function setStatus(int $a_status) : void
     {
         $this->status = $a_status;
     }
@@ -108,7 +108,7 @@ class ilSCGroup
     }
     
 
-    public function create()
+    public function create() : int
     {
 
         

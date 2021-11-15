@@ -18,11 +18,11 @@ class ilSCTask
     
     
     
-    private $id = 0;
-    private $grp_id = 0;
-    private $last_update = null;
-    private $status = 0;
-    private $identifier = '';
+    private int $id = 0;
+    private int $grp_id = 0;
+    private ?ilDateTime $last_update = null;
+    private int $status = 0;
+    private string $identifier = '';
 
     protected ilDBInterface $db;
     
@@ -42,7 +42,7 @@ class ilSCTask
         return $this->id;
     }
     
-    public function setGroupId(int $a_id)
+    public function setGroupId(int $a_id) : void
     {
         $this->grp_id = $a_id;
     }
@@ -52,7 +52,7 @@ class ilSCTask
         return $this->grp_id;
     }
     
-    public function setIdentifier(string $a_ide)
+    public function setIdentifier(string $a_ide) : void
     {
         $this->identifier = $a_ide;
     }
@@ -63,7 +63,7 @@ class ilSCTask
     }
     
     
-    public function setLastUpdate(ilDateTime $a_update)
+    public function setLastUpdate(ilDateTime $a_update) : void
     {
         $this->last_update = $a_update;
     }
@@ -77,7 +77,7 @@ class ilSCTask
         return $this->last_update;
     }
     
-    public function setStatus(int $a_status)
+    public function setStatus(int $a_status) : void
     {
         $this->status = $a_status;
     }
@@ -116,7 +116,7 @@ class ilSCTask
     }
     
 
-    public function create()
+    public function create() : int
     {
 
         
@@ -134,7 +134,7 @@ class ilSCTask
     }
     
 
-    public function update()
+    public function update() : void
     {
         
         $query = 'UPDATE sysc_tasks SET ' .

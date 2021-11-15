@@ -36,7 +36,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
     
     
 
-    public function init()
+    public function init() : void
     {
 
         $this->lng->loadLanguageModule('sysc');

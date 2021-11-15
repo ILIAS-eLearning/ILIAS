@@ -189,7 +189,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     }
     
 
-    public function analyzeStructure()
+    public function analyzeStructure() : void
     {
 
         $tasks = new ilSCTreeTasks($this->getTask());
@@ -380,7 +380,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     }
     
 
-    protected function findMissingTreeEntries()
+    protected function findMissingTreeEntries() : void
     {
 
         $tasks = new ilSCTreeTasks($this->getTask());

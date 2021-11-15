@@ -93,7 +93,7 @@ class ilSCTasks
     }
     
 
-    public static function lookupCompleted(int $a_grp_id)
+    public static function lookupCompleted(int $a_grp_id) : int
     {
         $tasks = self::getInstanceByGroupId($a_grp_id);
 
@@ -145,7 +145,7 @@ class ilSCTasks
         return new ilDateTime(time(), IL_CAL_UNIX);
     }
     
-    public function getGroupId()
+    public function getGroupId() : int
     {
         return $this->grp_id;
     }
@@ -159,7 +159,7 @@ class ilSCTasks
     }
     
 
-    protected function read()
+    protected function read() : void
     {
         
         $query = 'SELECT id, grp_id FROM sysc_tasks ' .
