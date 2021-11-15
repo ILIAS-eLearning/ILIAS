@@ -146,7 +146,11 @@ class ilCtrlContext implements ilCtrlContextInterface
         // only set baseclass if it's a valid target.
         if (null !== $path->getCidPath()) {
             $this->base_class = $base_class;
-            $this->path = $this->path ?? $path;
+
+            // only update the path if the current one is null.
+            if (null === $this->path->getCidPath()) {
+                $this->path = $path;
+            }
         }
 
         return $this;
@@ -187,7 +191,7 @@ class ilCtrlContext implements ilCtrlContextInterface
         // only set command class if it's a valid target.
         if (null !== $path->getCidPath()) {
             $this->cmd_class = $cmd_class;
-            $this->path = $this->path ?? $path;
+            $this->path = $path;
         }
 
         return $this;
@@ -274,17 +278,17 @@ class ilCtrlContext implements ilCtrlContextInterface
             $this->is_async = true;
         }
 
+        // if an existing path is provided use it by default.
+        $existing_path = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
+        if (null !== $existing_path) {
+            $this->path = $this->path_factory->existing($existing_path);
+        }
+
         // set the provided baseclass, which might override the
         // previously set existing path.
         $base_class = $this->getQueryParam(ilCtrlInterface::PARAM_BASE_CLASS);
         if (null !== $base_class) {
             $this->setBaseClass($base_class);
-        }
-
-        // if an existing path is provided use it by default.
-        $existing_path = $this->getQueryParam(ilCtrlInterface::PARAM_CID_PATH);
-        if (null !== $existing_path) {
-            $this->path = $this->path_factory->existing($existing_path);
         }
 
         // set or append the provided command class, which might
