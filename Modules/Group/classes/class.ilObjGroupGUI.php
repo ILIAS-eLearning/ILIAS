@@ -120,11 +120,11 @@ class ilObjGroupGUI extends ilContainerGUI
                 $this->tabs_gui->activateTab('perm_settings');
                 include_once("Services/AccessControl/classes/class.ilPermissionGUI.php");
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             case "ilinfoscreengui":
-                $ret = &$this->infoScreen();
+                $ret = $this->infoScreen();
                 break;
 
             case "illearningprogressgui":
@@ -292,7 +292,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 include_once("./Services/News/classes/class.ilNewsTimelineGUI.php");
                 $t = ilNewsTimelineGUI::getInstance($this->object->getRefId(), $this->object->getNewsTimelineAutoENtries());
                 $t->setUserEditAll($ilAccess->checkAccess('write', '', $this->object->getRefId(), 'grp'));
-                $this->showPermanentLink($tpl);
+                $this->showPermanentLink();
                 $this->ctrl->forwardCommand($t);
                 include_once 'Services/Tracking/classes/class.ilLearningProgress.php';
                 ilLearningProgress::_tracProgress(
@@ -451,7 +451,6 @@ class ilObjGroupGUI extends ilContainerGUI
                 $a_item_list_gui,
                 'ilcoursecontentgui',
                 $a_item_data,
-                $a_show_path,
                 ilObjCourse::_lookupAboStatus($course_obj_id),
                 $course_ref_id,
                 $course_obj_id,
@@ -520,7 +519,6 @@ class ilObjGroupGUI extends ilContainerGUI
         if (!$a_form) {
             $a_form = $this->initForm('edit');
         }
-
         $this->tpl->setVariable('ADM_CONTENT', $a_form->getHTML());
     }
     
