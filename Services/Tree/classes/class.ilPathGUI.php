@@ -32,20 +32,16 @@
 */
 class ilPathGUI
 {
-    private $startnode = ROOT_FOLDER_ID;
-    private $endnode = ROOT_FOLDER_ID;
+    private int $startnode = ROOT_FOLDER_ID;
+    private int $endnode = ROOT_FOLDER_ID;
     
-    private $textOnly = true;
-    private $useImages = false;
-    private $hide_leaf = true;
-    private $display_cut = false;
+    private bool $textOnly = true;
+    private bool $useImages = false;
+    private bool $hide_leaf = true;
+    private bool $display_cut = false;
     
-    protected $lng = null;
-
-    /**
-     * @var \ilTree
-     */
-    protected $tree = null;
+    protected ilLanguage $lng;
+    protected ilTree $tree;
     
     /**
      * Constructor
@@ -54,20 +50,17 @@ class ilPathGUI
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $lng = $DIC['lng'];
-        
-        $this->tree = $tree;
-        $this->lng = $lng;
+        $this->tree = $DIC->repositoryTree();
+        $this->lng = $DIC->language();
     }
     
     /**
      * get path
-     * @param int	$a_startnode	ref_id of startnode
-     * @param int	$a_endnode		ref_id of endnode
+     * @param int $a_startnode ref_id of startnode
+     * @param int $a_endnode   ref_id of endnode
      * @return string html
      */
-    public function getPath($a_startnode, $a_endnode)
+    public function getPath(int $a_startnode, int $a_endnode) : string
     {
         $this->startnode = $a_startnode;
         $this->endnode = $a_endnode;

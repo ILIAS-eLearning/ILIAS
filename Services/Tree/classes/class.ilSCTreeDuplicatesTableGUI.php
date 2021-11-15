@@ -77,7 +77,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
                 $path = new ilPathGUI();
                 $path->enableHideLeaf(true);
                 $path->enableTextOnly(false);
-                $this->tpl->setVariable('PATH', $path->getPath(ROOT_FOLDER_ID, $node['child']));
+                $this->tpl->setVariable('PATH', $path->getPath(ROOT_FOLDER_ID, (int) $node['child']));
                 
                 
                 foreach ($childs as $child) {

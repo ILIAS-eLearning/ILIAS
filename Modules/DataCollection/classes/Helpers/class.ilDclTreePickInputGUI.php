@@ -85,7 +85,7 @@ class ilDclTreePickInputGUI extends ilCustomInputGUI
         $path = new ilPathGUI();
         $reference = $value[$this->getPostVar()];
         if ($reference) {
-            $pathString = $path->getPath(ROOT_FOLDER_ID, $reference);
+            $pathString = $path->getPath(ROOT_FOLDER_ID, (int) $reference);
             $id = ilObject::_lookupObjId($reference);
             $this->title_input->setValue($pathString . " > " . ilObject::_lookupTitle($id));
             $this->hidden_input->setValue($reference);
