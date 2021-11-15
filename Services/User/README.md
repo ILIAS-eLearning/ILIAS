@@ -18,9 +18,9 @@ fields: `ilUserProfile::$user_field`.
 ```php
 private static $user_field = [
     // ...
-    "second_email" => [
+    'second_email' => [
         // ...
-        "change_listeners" => [
+        'change_listeners' => [
             ilMailUserFieldChangeListener::class,
         ]]
     // ...
@@ -28,6 +28,25 @@ private static $user_field = [
 ```
 
 Each change listener MUST extend the abstract `UserFieldAttributesChangeListener` class.
+
+```php
+class MyChangeListener extends UserFieldAttributesChangeListener
+{
+    public function getDescriptionForField(string $fieldName, string $attribute) : ?string
+    {
+        if ($fieldName === 'second_email' && $attribute === 'visible_second_email') {
+            return 'Dear administration, changed this will lead to ...';
+        }
+
+        return null;
+    }
+
+    public function getComponentName() : string
+    {
+        return 'Services/MyComponent';
+    }
+}
+```
 
 If a privledged actor changes one or more attributes of one or more global user fields and at least one listener is
 interested in this change, a confirmation dialogue will be presented to the user. After confirming the change and the
