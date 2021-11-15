@@ -12,11 +12,11 @@ use ILIAS\Refinery\Factory;
  */
 class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 {
-    const TYPE_DUPLICATES = 'duplicates';
-    const TYPE_DUMP = 'dump';
-    const TYPE_MISSING = 'missing_reference';
-    const TYPE_MISSING_TREE = 'missing_tree';
-    const TYPE_STRUCTURE = 'structure';
+    protected const TYPE_DUPLICATES = 'duplicates';
+    public const TYPE_DUMP = 'dump';
+    protected const TYPE_MISSING = 'missing_reference';
+    protected const TYPE_MISSING_TREE = 'missing_tree';
+    protected const TYPE_STRUCTURE = 'structure';
 
     protected ilTree $tree;
     protected GlobalHttpState $http;

@@ -5,8 +5,8 @@
  */
 class ilSystemCheckTrash
 {
-    const MODE_TRASH_RESTORE = 1;
-    const MODE_TRASH_REMOVE = 2;
+    public const MODE_TRASH_RESTORE = 1;
+    public const MODE_TRASH_REMOVE = 2;
 
     private int $limit_number = 0;
     private ilDateTime $limit_age;

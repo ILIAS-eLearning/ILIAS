@@ -8,10 +8,10 @@
  */
 class ilSCTask
 {
-    const STATUS_NOT_ATTEMPTED = 0;
-    const STATUS_IN_PROGRESS = 1;
-    const STATUS_COMPLETED = 2;
-    const STATUS_FAILED = 3;
+    public const STATUS_NOT_ATTEMPTED = 0;
+    public const STATUS_IN_PROGRESS = 1;
+    public const STATUS_COMPLETED = 2;
+    public const STATUS_FAILED = 3;
 
     private int $id = 0;
     private int $grp_id = 0;

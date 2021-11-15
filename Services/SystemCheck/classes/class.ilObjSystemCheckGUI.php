@@ -12,8 +12,8 @@ use ILIAS\Refinery\Factory;
  */
 class ilObjSystemCheckGUI extends ilObjectGUI
 {
-    const SECTION_MAIN = 'main';
-    const SECTION_GROUP = 'group';
+    protected const SECTION_MAIN = 'main';
+    protected const SECTION_GROUP = 'group';
 
     protected GlobalHttpState $http;
     protected Factory $refinery;
