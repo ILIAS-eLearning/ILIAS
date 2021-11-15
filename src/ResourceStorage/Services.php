@@ -15,6 +15,8 @@ use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderRepository;
 use ILIAS\ResourceStorage\Lock\LockHandler;
 use ILIAS\ResourceStorage\Policy\FileNamePolicy;
 use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
+use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
+use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
 /**
  * Class Services
@@ -32,6 +34,11 @@ class Services
      * @var Consumers
      */
     protected $consumers;
+    /**
+     * @var RepositoryPreloader
+     */
+    protected $preloader;
+
 
     /**
      * Services constructor.
@@ -50,7 +57,8 @@ class Services
         InformationRepository $information_repository,
         StakeholderRepository $stakeholder_repository,
         LockHandler $lock_handler,
-        FileNamePolicy $file_name_policy
+        FileNamePolicy $file_name_policy,
+        RepositoryPreloader $preloader = null
     ) {
         $file_name_policy_stack = new FileNamePolicyStack();
         $file_name_policy_stack->addPolicy($file_name_policy);
@@ -64,7 +72,14 @@ class Services
             $lock_handler,
             $file_name_policy_stack
         );
-        $this->manager = new Manager($b);
+        $this->preloader = $preloader ?? new StandardRepositoryPreloader(
+                $resource_repository,
+                $revision_repository,
+                $information_repository,
+                $stakeholder_repository
+            );
+
+        $this->manager = new Manager($b, $this->preloader);
         $this->consumers = new Consumers(
             new ConsumerFactory(
                 $storage_handler_factory,
@@ -82,6 +97,11 @@ class Services
     public function consume() : Consumers
     {
         return $this->consumers;
+    }
+
+    public function preload(array $identification_strings) : void
+    {
+        $this->preloader->preload($identification_strings);
     }
 
 }

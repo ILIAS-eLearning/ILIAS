@@ -3,9 +3,9 @@
 namespace ILIAS\ResourceStorage\Revision;
 
 use ILIAS\ResourceStorage\AbstractBaseTest;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
 use ILIAS\ResourceStorage\Resource\StorableFileResource;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
 
 /**
  * Class ResourceBuilderTest
@@ -37,7 +37,7 @@ class RevisionRepositoryTest extends AbstractBaseTest
                             ->method('getNextVersionNumber')
                             ->willReturn(100);
 
-        $ar_revision_repo = new RevisionARRepository();
+        $ar_revision_repo = new RevisionDBRepository($this->db_mock);
         $revision = $ar_revision_repo->blankFromUpload(
             $this->info_resolver,
             $this->resource,
@@ -56,7 +56,7 @@ class RevisionRepositoryTest extends AbstractBaseTest
                             ->method('getNextVersionNumber')
                             ->willReturn($i);
 
-        $ar_revision_repo = new RevisionARRepository();
+        $ar_revision_repo = new RevisionDBRepository($this->db_mock);
         $revision = $ar_revision_repo->blankFromStream(
             $this->info_resolver,
             $this->resource,
@@ -77,7 +77,7 @@ class RevisionRepositoryTest extends AbstractBaseTest
                             ->method('getNextVersionNumber')
                             ->willReturn($i);
 
-        $ar_revision_repo = new RevisionARRepository();
+        $ar_revision_repo = new RevisionDBRepository($this->db_mock);
         $revision = $ar_revision_repo->blankFromClone(
             $this->info_resolver,
             $this->resource,
