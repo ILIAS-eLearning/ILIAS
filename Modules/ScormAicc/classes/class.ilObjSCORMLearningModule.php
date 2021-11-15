@@ -508,7 +508,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
 	        AND sco_id = %s',
             array('integer','integer'),
             array($this->getId(),$a_sco_id)
-            );
+        );
 
         $data = array();
         while ($user_rec = $ilDB->fetchAssoc($user_set)) {
@@ -528,7 +528,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
                     "cmi.core.lesson_status",
                     "cmi.core.total_time",
                     "cmi.core.score.raw")
-                );
+            );
                 
             $score = $time = $status = "";
                   
@@ -786,7 +786,7 @@ class ilObjSCORMLearningModule extends ilObjSAHSLearningModule
             'SELECT * FROM sahs_user WHERE obj_id = %s AND user_id = %s',
             array('integer','integer'),
             array($this->getID(),$user_id)
-                        );
+        );
         if ($ilDB->numRows($statement) > 0) {
             $ilDB->update(
                 'sahs_user',
