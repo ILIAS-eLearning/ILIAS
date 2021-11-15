@@ -51,7 +51,7 @@ class ilNestedList
 
     public function getListClass(int $a_depth = 0) : string
     {
-        return $this->list_class[$a_depth];
+        return $this->list_class[$a_depth] ?? "";
     }
 
     public function addListNode(

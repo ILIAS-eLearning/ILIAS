@@ -293,6 +293,13 @@ class ilWikiUtil
     ) : string {
         global $DIC;
 
+        $request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
         $ilCtrl = $DIC->ctrl();
 
         if (!is_object($nt)) {
@@ -337,7 +344,11 @@ class ilWikiUtil
                     $retVal = '<a ' . $wiki_link_class . ' href="' .
                         $ilCtrl->getLinkTargetByClass("ilobjwikigui", "gotoPage") . $anc .
                         '">' . $text . '</a>' . $trail;
-                    $ilCtrl->setParameterByClass("ilobjwikigui", "page", $_GET["page"]);
+                    $ilCtrl->setParameterByClass(
+                        "ilobjwikigui",
+                        "page",
+                        $request->getPage()
+                    );
                 } else {
                     $retVal = '<a ' . $wiki_link_class . ' href="' .
                         $anc .
