@@ -15,9 +15,7 @@ class ilMailAppEventListener implements ilAppEventListener
 
     protected string $component = '';
     protected string $event = '';
-    /**
-     * @var ChangedUserFieldAttribute[]
-     */
+    /** @var ChangedUserFieldAttribute[] */
     protected array $parameters = [];
 
     public function __construct()
@@ -55,16 +53,16 @@ class ilMailAppEventListener implements ilAppEventListener
 
     private function isRelevantEvent() : bool
     {
-        return $this->component === "Services/User"
-            && $this->event === "onUserFieldAttributesChanged";
+        return $this->component === 'Services/User'
+            && $this->event === 'onUserFieldAttributesChanged';
     }
 
     public function handle() : void
     {
         if ($this->isRelevantEvent()
-            && isset($this->parameters["visible_second_email"])
-            && !(bool) $this->parameters["visible_second_email"]->getNewValue()) {
-            switch ((int) ($this->dic->settings()->get("mail_address_option") ?? ilMailOptions::FIRST_EMAIL)) {
+            && isset($this->parameters['visible_second_email'])
+            && !(bool) $this->parameters['visible_second_email']->getNewValue()) {
+            switch ((int) ($this->dic->settings()->get('mail_address_option') ?? ilMailOptions::FIRST_EMAIL)) {
                 case ilMailOptions::SECOND_EMAIL:
                 case ilMailOptions::BOTH_EMAIL:
                     $globalAddressSettingsChangedCommand = new ilMailGlobalAddressSettingsChangedCommand(

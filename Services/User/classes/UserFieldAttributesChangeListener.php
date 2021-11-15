@@ -19,8 +19,8 @@ abstract class UserFieldAttributesChangeListener
     }
 
     /**
-     * Should return a description for a user profile field.
-     * Returning null or an empty string will skip the listener
+     * Should return a description for a user profile field if the listener is interested in a change of a field attribute.
+     * Returning null or an empty string will skip the listener.
      * @param string $fieldName
      * @param string $attribute
      * @return string|null
