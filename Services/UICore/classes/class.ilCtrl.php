@@ -1106,7 +1106,7 @@ class ilCtrl implements ilCtrlInterface
             if (preg_match("/($ampersand|\?)$parameter_name(=|$)/", $url)) {
                 // replace the value appended to the given parameter
                 // name by the provided one.
-                $url = preg_replace("/(?<=($parameter_name=))([^&]*|$)/", $value, $url);
+                $url = preg_replace("/(?<=($parameter_name=))([^&]*|$)/", (string) $value, $url);
             } else {
                 // append the parameter key => value pair and prepend
                 // a question mark or ampersand, determined by whether

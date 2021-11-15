@@ -49,7 +49,12 @@ class ilCtrlPluginStructureArtifactObjective extends BuildArtifactObjective
     {
         $ilias_path = dirname(__FILE__, 6) . '/';
 
-        $this->ctrl_structure = require $ilias_path . ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
+        $absolute_structure_path = $ilias_path . ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
+        if (file_exists($absolute_structure_path)) {
+            $this->ctrl_structure = require $ilias_path . ilCtrlStructureArtifactObjective::ARTIFACT_PATH;
+        } else {
+            $this->ctrl_structure = [];
+        }
 
         $absolute_artifact_path = $ilias_path . self::ARTIFACT_PATH;
         if (file_exists($absolute_artifact_path)) {
