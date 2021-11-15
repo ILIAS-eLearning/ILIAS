@@ -17,7 +17,7 @@
  * This shows a character selector
  * @deprecated needs to be moved to KS
  */
-class ilCharSelectorGUI implements ilCtrlBaseClassInterface
+class ilCharSelectorGUI
 {
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
@@ -36,17 +36,17 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         'ilObjTestSettingsGeneralGUI',
         'ilTestScoringGUI'
     );
-
+    
     // instance used for the current selector
     private static ilCharSelectorGUI $current_gui;
     private ?ilCharSelectorConfig $config = null;
-
+        
     // selector is already added to the page
     private bool $added_to_page = false;
 
     protected \ILIAS\Refinery\Factory $refinery;
     protected \ILIAS\HTTP\Wrapper\WrapperFactory $wrapper;
-
+    
     /**
      * @param string $a_context configuration context
      */
@@ -72,7 +72,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
-
+        
         // get the command class
         // with correct case for checking parent classes
         $class = false;
@@ -105,17 +105,17 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         }
         return self::$current_gui;
     }
-
+    
     public function setConfig(ilCharSelectorConfig $a_config) : void
     {
         $this->config = $a_config;
     }
-
+    
     public function getConfig() : ilCharSelectorConfig
     {
         return $this->config;
     }
-
+    
     /**
      * add the configuration elements to a property form
      */
@@ -155,7 +155,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $tpl->setVariable('6b', $lng->txt('char_selector_custom_items_info6b'));
         $custom_items->setInfo($tpl->get());
         $enabled->addSubItem($custom_items);
-
+        
         switch ($this->config->getContext()) {
             case ilCharSelectorConfig::CONTEXT_ADMIN:
                 $availability->addOption($inactive);
@@ -163,7 +163,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
                 $availability->addOption($disabled);
                 $a_form->addItem($availability);
                 break;
-
+            
             case ilCharSelectorConfig::CONTEXT_USER:
             case ilCharSelectorConfig::CONTEXT_TEST:
                 $availability->addOption($inherit);
@@ -173,7 +173,8 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
                 break;
         }
     }
-
+    
+    
     /**
      * Set the values in a property form based on the configuration
      */
@@ -183,7 +184,8 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $a_form->getItemByPostVar('char_selector_blocks')->setValue($this->config->getAddedBlocks());
         $a_form->getItemByPostVar('char_selector_custom_items')->setValue($this->config->getCustomItems());
     }
-
+    
+    
     /**
      * Set the configuration based on the values of a property form
      */
@@ -193,7 +195,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $this->config->setAddedBlocks($a_form->getInput('char_selector_blocks'));
         $this->config->setCustomItems($a_form->getInput('char_selector_custom_items'));
     }
-
+    
     /**
      * Adds the the character selector to the ilias page
      * Initializes the selector according to the state saved in the user session
@@ -204,36 +206,22 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
         $lng = $this->lng;
-
+        
         // don't add the panel twice
         if ($this->added_to_page) {
             return;
         }
-
+        
         $lng->loadLanguageModule('adve');
-
+        
         // prepare the configuration for the js script
         $this->jsconfig = new stdClass();
         $this->jsconfig->pages = $this->config->getCharPages();
         $this->jsconfig->ajax_url = $ilCtrl->getLinkTargetByClass("ilcharselectorgui", "saveState", "", true);
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->jsconfig->open = (int) $_SESSION['char_selector_open'];
-        $this->jsconfig->current_page = (int) $_SESSION['char_selector_current_page'];
-        $this->jsconfig->current_subpage = (int) $_SESSION['char_selector_current_subpage'];
-
-=======
         $this->jsconfig->open = (int) ilSession::get('char_selector_open');
         $this->jsconfig->current_page = (int) ilSession::get('char_selector_current_page');
         $this->jsconfig->current_subpage = (int) ilSession::get('char_selector_current_subpage');
-
->>>>>>> trunk
-=======
-        $this->jsconfig->open = (int) ilSession::get('char_selector_open');
-        $this->jsconfig->current_page = (int) ilSession::get('char_selector_current_page');
-        $this->jsconfig->current_subpage = (int) ilSession::get('char_selector_current_subpage');
-
->>>>>>> af00c9de139ef14b639d80821a082f9d0a5d275a
+        
         // provide texts to be dynamically rendered in the js script
         $this->jstexts = new stdClass();
         $this->jstexts->page = $lng->txt('page');
@@ -252,7 +240,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         $tpl->addOnLoadCode('il.CharSelector.init(' . json_encode($this->jsconfig) . ',' . json_encode($this->jstexts) . ')');
         $this->added_to_page = true;
     }
-
+    
     /**
      * Get the HTML code of the selector panel
      */
@@ -260,7 +248,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
     {
         $lng = $this->lng;
         $tpl = new ilTemplate("tpl.char_selector_panel.html", true, true, "Services/UIComponent/CharSelector");
-
+        
         if (count($this->jsconfig->pages) > 1) {
             $index = 0;
             foreach ($this->jsconfig->pages as $page) {
@@ -280,7 +268,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         return '<script type="text/html" id="ilCharSelectorTemplate">' . $tpl->get() . '</script>';
     }
 
-
+    
     /**
      * Save the selector panel state in the user session
      * (This keeps the panel state between page moves)
@@ -288,14 +276,6 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
      */
     public function saveState() : void
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $_SESSION['char_selector_open'] = (int) $_GET['open'];
-        $_SESSION['char_selector_current_page'] = (int) $_GET['current_page'];
-        $_SESSION['char_selector_current_subpage'] = (int) $_GET['current_subpage'];
-=======
-=======
->>>>>>> af00c9de139ef14b639d80821a082f9d0a5d275a
         $int = $this->refinery->kindlyTo()->int();
         ilSession::set(
             'char_selector_open',
@@ -309,10 +289,6 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
             'char_selector_current_subpage',
             $this->wrapper->query()->retrieve("current_subpage", $int)
         );
-<<<<<<< HEAD
->>>>>>> trunk
-=======
->>>>>>> af00c9de139ef14b639d80821a082f9d0a5d275a
 
         // debugging output (normally ignored by the js part)
         echo json_encode(array(
@@ -322,7 +298,7 @@ class ilCharSelectorGUI implements ilCtrlBaseClassInterface
         ));
         exit;
     }
-
+    
     public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
