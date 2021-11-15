@@ -217,7 +217,7 @@ class ilCtrl implements ilCtrlInterface
         ;
 
         // if no command was found, check the current context.
-        if (null === $command && null !== $this->context->getCmd()) {
+        if (null !== $this->context->getCmd() && self::CMD_POST !== $this->context->getCmd()) {
             $command = $this->context->getCmd();
         }
 
@@ -251,9 +251,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function setCmd(string $a_cmd) : void
     {
-        if (!empty($a_cmd)) {
-            $this->context->setCmd($a_cmd);
-        }
+        $this->context->setCmd($a_cmd);
     }
 
     /**
