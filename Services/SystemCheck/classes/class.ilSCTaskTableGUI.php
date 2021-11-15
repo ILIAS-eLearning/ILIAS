@@ -2,11 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Table GUI for system check task overview
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilSCTaskTableGUI extends ilTable2GUI
@@ -14,9 +11,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
     private int $group_id = 0;
     private $component_task_handler = null;
 
-
     private ilAccess $access;
-    
 
     public function __construct(int $a_group_id, object $a_parent_obj, string $a_parent_cmd = '')
     {
@@ -24,17 +19,14 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $this->group_id = $a_group_id;
         $this->setId('sc_groups');
         $this->access = $DIC->access();
-        
+
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
-    
 
     public function getGroupId() : int
     {
         return $this->group_id;
     }
-    
-    
 
     public function init() : void
     {
@@ -59,37 +51,35 @@ class ilSCTaskTableGUI extends ilTable2GUI
         $this->tpl->setVariable('VAL_TITLE', (string) ($row['title'] ?? ''));
         $this->tpl->setVariable('VAL_DESC', (string) ($row['description'] ?? ''));
 
-
         $status = (int) ($row['status'] ?? 0);
-        $text = ilSCUtils::taskStatus2Text($status);
+        $text   = ilSCUtils::taskStatus2Text($status);
         switch ($status) {
             case ilSCTask::STATUS_COMPLETED:
                 $this->tpl->setVariable('VAL_STATUS_SUCCESS', $text);
                 break;
-            
+
             case ilSCTask::STATUS_FAILED:
                 $this->tpl->setCurrentBlock('warning');
                 $this->tpl->setVariable('VAL_STATUS_WARNING', $text);
                 $this->tpl->parseCurrentBlock();
                 break;
-            
+
             default:
                 $this->tpl->setVariable('VAL_STATUS_STANDARD', $text);
                 break;
         }
 
         $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($row['last_update'] ?? ''));
-        
+
         // Actions
         if ($this->access->checkAccess('write', '', $this->parent_obj->object->getRefId())) {
 
-            $id = (int) ($row['id'] ?? 0);
+            $id   = (int) ($row['id'] ?? 0);
             $list = new ilAdvancedSelectionListGUI();
             $list->setSelectionHeaderClass('small');
             $list->setItemLinkClass('small');
             $list->setId('sysc_' . $id);
             $list->setListTitle($this->lng->txt('actions'));
-
 
             $task_handler = ilSCComponentTaskFactory::getComponentTask($id);
 
@@ -101,15 +91,13 @@ class ilSCTaskTableGUI extends ilTable2GUI
                     $this->ctrl->getLinkTargetByClass(
                         get_class($task_handler),
                         (string) ($actions['command'] ?? '')
-                        )
+                    )
                 );
             }
 
             $this->tpl->setVariable('ACTIONS', $list->getHTML());
         }
     }
-
-
 
     public function parse() : void
     {
@@ -123,17 +111,17 @@ class ilSCTaskTableGUI extends ilTable2GUI
                 continue;
             }
 
-            $item = array();
-            $item['id'] = $task->getId();
-            $item['title'] = $task_handler->getTitle();
-            $item['description'] = $task_handler->getDescription();
-            $item['last_update'] = ilDatePresentation::formatDate($task->getLastUpdate());
+            $item                     = array();
+            $item['id']               = $task->getId();
+            $item['title']            = $task_handler->getTitle();
+            $item['description']      = $task_handler->getDescription();
+            $item['last_update']      = ilDatePresentation::formatDate($task->getLastUpdate());
             $item['last_update_sort'] = $task->getLastUpdate()->get(IL_CAL_UNIX);
-            $item['status'] = $task->getStatus();
-            
+            $item['status']           = $task->getStatus();
+
             $data[] = $item;
         }
-        
+
         $this->setData($data);
     }
 }

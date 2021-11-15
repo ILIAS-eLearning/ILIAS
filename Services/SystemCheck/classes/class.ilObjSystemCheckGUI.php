@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
 
 /**
- * @author  Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author            Stefan Meyer <smeyer.ilias@gmx.de>
  * @ilCtrl_Calls      ilObjSystemCheckGUI: ilPermissionGUI, ilObjectOwnershipManagementGUI, ilObjSystemFolderGUI, ilSCComponentTasksGUI
  * @ilCtrl_isCalledBy ilObjSystemCheckGUI: ilAdministrationGUI
  */
@@ -15,17 +15,15 @@ class ilObjSystemCheckGUI extends ilObjectGUI
     const SECTION_MAIN = 'main';
     const SECTION_GROUP = 'group';
 
-
     protected GlobalHttpState $http;
     protected Factory $refinery;
-
 
     public function __construct(array $a_data, int $a_id, bool $a_call_by_reference, bool $a_prepare_output = true)
     {
         global $DIC;
-        $this->http = $DIC->http();
+        $this->http     = $DIC->http();
         $this->refinery = $DIC->refinery();
-        $this->type = 'sysc';
+        $this->type     = 'sysc';
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule('sysc');
     }
@@ -52,17 +50,15 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return 0;
     }
 
-
     public function getLang() : ilLanguage
     {
         return $this->lng;
     }
-    
 
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
-        $cmd = $this->ctrl->getCmd();
+        $cmd        = $this->ctrl->getCmd();
         $this->prepareOutput();
 
         switch ($next_class) {
@@ -72,17 +68,17 @@ class ilObjSystemCheckGUI extends ilObjectGUI
                 $gui = new ilObjectOwnershipManagementGUI(0);
                 $this->ctrl->forwardCommand($gui);
                 break;
-            
+
             case 'ilobjsystemfoldergui':
 
                 $sys_folder = new ilObjSystemFolderGUI('', SYSTEM_FOLDER_ID, true);
                 $this->ctrl->forwardCommand($sys_folder);
-                
+
                 $this->tabs_gui->clearTargets();
-                
+
                 $this->setSubTabs(self::SECTION_MAIN, 'sc');
                 break;
-            
+
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
 
@@ -97,7 +93,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
                 }
                 $this->$cmd();
                 break;
-                
+
             default:
                 // Forward to task handler
 
@@ -109,11 +105,9 @@ class ilObjSystemCheckGUI extends ilObjectGUI
                 $handler = ilSCComponentTaskFactory::getComponentTask($this->getTaskIdFromRequest());
                 $this->ctrl->forwardCommand($handler);
                 break;
-                
-                
+
         }
     }
-
 
     public function getAdminTabs() : void
     {
@@ -125,46 +119,34 @@ class ilObjSystemCheckGUI extends ilObjectGUI
             $this->tabs_gui->addTarget('perm_settings', $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), 'perm'), array('perm', 'info', 'owner'), 'ilpermissiongui');
         }
     }
-    
 
     protected function overview() : bool
     {
         $this->getLang()->loadLanguageModule('sysc');
-        
-        
-        $this->setSubTabs(self::SECTION_MAIN, 'overview');
-        
-        
 
-        
+        $this->setSubTabs(self::SECTION_MAIN, 'overview');
+
         $table = new ilSCGroupTableGUI($this, 'overview');
         $table->init();
         $table->parse();
-        
+
         $this->tpl->setContent($table->getHTML());
         return true;
     }
-    
 
     protected function showGroup() : bool
     {
         $this->setSubTabs(self::SECTION_GROUP, '');
-        
 
         $this->ctrl->saveParameter($this, 'grp_id');
-        
 
         $table = new ilSCTaskTableGUI($this->getGrpIdFromRequest(), $this, 'showGroup');
         $table->init();
         $table->parse();
-        
+
         $this->tpl->setContent($table->getHTML());
         return true;
     }
-    
-    
-    
-
 
     protected function trash(ilPropertyFormGUI $form = null) : void
     {
@@ -174,47 +156,46 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         }
         $this->tpl->setContent($form->getHTML());
     }
-    
 
     protected function initFormTrash() : ilPropertyFormGUI
     {
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
-        
+
         $form->setTitle($this->lng->txt('sysc_administrate_deleted'));
-        
+
         $action = new ilRadioGroupInputGUI($this->lng->txt('sysc_trash_action'), 'type');
         $action->setRequired(true);
-        
+
         // Restore
         $restore = new ilRadioOption($this->lng->txt('sysc_trash_restore'), (string) ilSystemCheckTrash::MODE_TRASH_RESTORE);
         $restore->setInfo($this->lng->txt('sysc_trash_restore_info'));
         $action->addOption($restore);
-        
+
         // Remove
         $remove = new ilRadioOption($this->lng->txt('sysc_trash_remove'), (string) ilSystemCheckTrash::MODE_TRASH_REMOVE);
         $remove->setInfo($this->lng->txt('sysc_trash_remove_info'));
         $action->addOption($remove);
-        
+
         // limit number
         $num = new ilNumberInputGUI($this->lng->txt('sysc_trash_limit_num'), 'number');
         $num->setInfo($this->lng->txt('purge_count_limit_desc'));
         $num->setSize(10);
         $num->setMinValue(1);
         $remove->addSubItem($num);
-        
+
         $age = new ilDateTimeInputGUI($this->lng->txt('sysc_trash_limit_age'), 'age');
         $age->setInfo($this->lng->txt('purge_age_limit_desc'));
         $age->setMinuteStepSize(15);
         $remove->addSubItem($age);
-        
+
         // limit types
         $types = new ilSelectInputGUI($this->lng->txt('sysc_trash_limit_type'), 'types');
 
         $sub_objects = $this->tree->lookupTrashedObjectTypes();
-        
-        $options = array();
+
+        $options    = array();
         $options[0] = '';
         foreach ($sub_objects as $obj_type) {
             if (!$this->objDefinition->isRBACObject($obj_type) or !$this->objDefinition->isAllowedInRepository($obj_type)) {
@@ -222,21 +203,19 @@ class ilObjSystemCheckGUI extends ilObjectGUI
             }
             $options[$obj_type] = $this->lng->txt('obj_' . $obj_type);
         }
-        
+
         asort($options);
-        
+
         $types->setOptions($options);
         $remove->addSubItem($types);
-        
+
         $form->addItem($action);
-        
-        
+
         $form->addCommandButton('handleTrashAction', $this->lng->txt('start_scan'));
         $form->addCommandButton('', $this->lng->txt('cancel'));
-        
+
         return $form;
     }
-    
 
     protected function handleTrashAction() : bool
     {
@@ -249,26 +228,24 @@ class ilObjSystemCheckGUI extends ilObjectGUI
                 $trash->setAgeLimit($dt);
             }
             $trash->setNumberLimit($form->getInput('number'));
-            
+
             if ($form->getInput('types')) {
                 $trash->setTypesLimit((array) $form->getInput('types'));
             }
             $trash->setMode($form->getInput('type'));
             $trash->start();
-            
+
             ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
             $form->setValuesByPost();
             $this->trash($form);
             return true;
         }
-        
+
         ilUtil::sendFailure($this->lng->txt('err_check_input'));
         $form->setValuesByPost();
         $this->trash($form);
         return false;
     }
-
-        
 
     protected function setSubTabs(string $a_section, string $a_active) : void
     {
@@ -290,7 +267,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
                     $this->ctrl->getLinkTargetByClass('ilobjectownershipmanagementgui')
                 );
                 break;
-            
+
             case self::SECTION_GROUP:
                 $this->tabs_gui->clearTargets();
                 $this->tabs_gui->setBackTarget(

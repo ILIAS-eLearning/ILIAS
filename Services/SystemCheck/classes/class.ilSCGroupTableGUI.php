@@ -2,11 +2,8 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Table GUI for system check groups overview
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilSCGroupTableGUI extends ilTable2GUI
@@ -17,7 +14,6 @@ class ilSCGroupTableGUI extends ilTable2GUI
         $this->setId('sc_groups');
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
-    
 
     public function init() : void
     {
@@ -35,7 +31,6 @@ class ilSCGroupTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 
-
     public function fillRow($row)
     {
         $this->tpl->setVariable('VAL_TITLE', (string) ($row['title'] ?? ''));
@@ -46,12 +41,12 @@ class ilSCGroupTableGUI extends ilTable2GUI
             'VAL_LINK',
             $this->ctrl->getLinkTarget($this->getParentObject(), 'showGroup')
         );
-        
+
         $this->tpl->setVariable('VAL_DESC', (string) ($row['description'] ?? 0));
         $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($row['last_update'] ?? ''));
         $this->tpl->setVariable('VAL_COMPLETED', (int) ($row['completed'] ?? 0));
         $this->tpl->setVariable('VAL_FAILED', (int) ($row['failed'] ?? 0));
-        
+
         switch ($row['status']) {
             case ilSCTask::STATUS_COMPLETED:
                 $this->tpl->setVariable('STATUS_CLASS', 'smallgreen');
@@ -59,10 +54,9 @@ class ilSCGroupTableGUI extends ilTable2GUI
             case ilSCTask::STATUS_FAILED:
                 $this->tpl->setVariable('STATUS_CLASS', 'warning');
                 break;
-                
+
         }
-        
-        
+
         // Actions
 
         $list = new ilAdvancedSelectionListGUI();
@@ -80,35 +74,29 @@ class ilSCGroupTableGUI extends ilTable2GUI
         $this->tpl->setVariable('ACTIONS', $list->getHTML());
     }
 
-
-
     public function parse() : void
     {
         $data = array();
 
         foreach (ilSCGroups::getInstance()->getGroups() as $group) {
-            $item = array();
+            $item       = array();
             $item['id'] = $group->getId();
-            
-            
 
             $task_gui = ilSCComponentTaskFactory::getComponentTaskGUIForGroup($group->getId());
-            
-            
-            $item['title'] = $task_gui->getGroupTitle();
+
+            $item['title']       = $task_gui->getGroupTitle();
             $item['description'] = $task_gui->getGroupDescription();
-            $item['status'] = $group->getStatus();
-            
+            $item['status']      = $group->getStatus();
 
             $item['completed'] = ilSCTasks::lookupCompleted($group->getId());
-            $item['failed'] = ilSCTasks::lookupFailed($group->getId());
-            
-            $last_update = ilSCTasks::lookupLastUpdate($group->getId());
-            $item['last_update'] = ilDatePresentation::formatDate($last_update);
+            $item['failed']    = ilSCTasks::lookupFailed($group->getId());
+
+            $last_update              = ilSCTasks::lookupLastUpdate($group->getId());
+            $item['last_update']      = ilDatePresentation::formatDate($last_update);
             $item['last_update_sort'] = $last_update->get(IL_CAL_UNIX);
-            $data[] = $item;
+            $data[]                   = $item;
         }
-        
+
         $this->setData($data);
     }
 }

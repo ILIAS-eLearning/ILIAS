@@ -1,57 +1,47 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Defines a system check task
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
 {
-
 
     public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
         $this->setId('sysc_tree_duplicates');
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
-    
 
     public function init() : void
     {
         $this->setExternalSorting(true);
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
-        
+
         $this->setDisableFilterHiding(true);
         $this->setRowTemplate('tpl.sc_tree_duplicates_row.html', 'Services/Tree');
 
         $this->addColumn($this->lng->txt('sysc_duplicates_repository'), '');
         $this->addColumn($this->lng->txt('sysc_duplicates_trash'), '');
-        
+
         $this->addCommandButton('deleteDuplicatesFromRepository', $this->lng->txt('sysc_delete_duplicates_from_repository'));
         $this->addCommandButton('deleteDuplicatesFromTrash', $this->lng->txt('sysc_delete_duplicates_from_trash'));
     }
-    
 
     public function parse(int $a_duplicate_id) : void
     {
         $this->setData(array(array('id' => $a_duplicate_id)));
     }
-    
-    
 
     public function fillRow($a_set)
     {
 
-        $id = (int) ($a_set['id'] ?? 0);
+        $id         = (int) ($a_set['id'] ?? 0);
         $duplicates = ilSCTreeTasks::findDuplicates($id);
-        
-        $this->tpl->setVariable('DUP_ID', $id);
-        
 
-        
+        $this->tpl->setVariable('DUP_ID', $id);
+
         foreach ($duplicates as $a_id => $node) {
 
             $child_id = (int) ($node['child'] ?? 0);
@@ -59,18 +49,15 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
 
                 $childs = ilSCTreeTasks::getChilds($node['tree'], $child_id);
 
-
                 $start_depth = (int) ($node['depth'] ?? 0);
 
                 $this->fillObjectRow($node['tree'], $child_id, $start_depth, '');
-                
 
                 $path = new ilPathGUI();
                 $path->enableHideLeaf(true);
                 $path->enableTextOnly(false);
                 $this->tpl->setVariable('PATH', $path->getPath(ROOT_FOLDER_ID, $child_id));
-                
-                
+
                 foreach ($childs as $child) {
                     $this->fillObjectRow($node['tree'], $child, $start_depth, '');
                 }
@@ -79,24 +66,21 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
 
                 $childs = ilSCTreeTasks::getChilds($node['tree'], $child_id);
 
-
                 $start_depth = (int) ($node['depth'] ?? 0);
 
                 $this->fillObjectRow($node['tree'], $child_id, $start_depth, 'b');
-                
+
                 foreach ($childs as $child) {
                     $this->fillObjectRow($node['tree'], $child, $start_depth, 'b');
                 }
             }
         }
     }
-    
 
     protected function fillObjectRow(int $a_tree_id, int $a_ref_id, int $a_start_depth, string $a_prefix) : void
     {
 
         $child_data = ilSCTreeTasks::getNodeInfo($a_tree_id, $a_ref_id);
-
 
         $depth = (int) ($child_data['depth'] ?? 0);
         for ($i = $a_start_depth; $i <= $depth; $i++) {

@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /**
  * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  */
@@ -6,7 +7,7 @@ class ilSystemCheckTrash
 {
     const MODE_TRASH_RESTORE = 1;
     const MODE_TRASH_REMOVE = 2;
-    
+
     private int $limit_number = 0;
     private ilDateTime $limit_age;
     private array $limit_types = array();
@@ -16,61 +17,59 @@ class ilSystemCheckTrash
     protected ilDBInterface $db;
     protected ilTree $tree;
     protected ilRbacAdmin $admin;
-    
-    
+
     public function __construct()
     {
         global $DIC;
 
         $this->logger = $DIC->logger()->sysc();
-        $this->db = $DIC->database();
-        $this->tree = $DIC->repositoryTree();
-        $this->admin = $DIC->rbac()->admin();
+        $this->db     = $DIC->database();
+        $this->tree   = $DIC->repositoryTree();
+        $this->admin  = $DIC->rbac()->admin();
 
         $this->limit_age = new ilDate(0, IL_CAL_UNIX);
     }
-    
+
     public function setNumberLimit(int $a_limit) : void
     {
         $this->limit_number = $a_limit;
     }
-    
+
     public function getNumberLimit() : int
     {
         return $this->limit_number;
     }
-    
+
     public function setAgeLimit(ilDateTime $dt) : void
     {
         $this->limit_age = $dt;
     }
-    
 
     public function getAgeLimit() : ilDateTime
     {
         return $this->limit_age;
     }
-    
+
     public function setTypesLimit(array $a_types) : void
     {
         $this->limit_types = $a_types;
     }
-    
+
     public function getTypesLimit() : array
     {
         return $this->limit_types;
     }
-    
+
     public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
-    
+
     public function getMode() : int
     {
         return $this->mode;
     }
-    
+
     public function start() : bool
     {
         $this->logger->info('Handling delete');
@@ -80,7 +79,7 @@ class ilSystemCheckTrash
                 $this->restore();
                 return true;
                 break;
-                
+
             case self::MODE_TRASH_REMOVE:
                 $this->logger->info('Remove selected from system.');
                 $this->logger->info('Type limit: ' . print_r($this->getTypesLimit(), true));
@@ -93,25 +92,24 @@ class ilSystemCheckTrash
         return false;
     }
 
-
     protected function restore() : void
     {
         $deleted = $this->readDeleted();
 
         $this->logger->info('Found deleted : ' . print_r($deleted, true));
-        
+
         $factory = new ilObjectFactory();
-        
+
         foreach ($deleted as $tmp_num => $deleted_info) {
             $child_id = (int) ($deleted_info['child'] ?? 0);
-            $ref_obj = $factory->getInstanceByRefId($child_id, false);
+            $ref_obj  = $factory->getInstanceByRefId($child_id, false);
             if (!$ref_obj instanceof ilObject) {
                 continue;
             }
 
             $this->tree->deleteNode((int) ($deleted_info['tree'] ?? 0), $child_id);
             $this->logger->info('Object tree entry deleted');
-            
+
             if ($ref_obj->getType() != 'rolf') {
                 $this->admin->revokePermission($child_id);
                 $ref_obj->putInTree(RECOVERY_FOLDER_ID);
@@ -120,7 +118,6 @@ class ilSystemCheckTrash
             }
         }
     }
-    
 
     protected function removeSelectedFromSystem() : void
     {
@@ -129,26 +126,25 @@ class ilSystemCheckTrash
         $deleted = $this->readSelectedDeleted();
         foreach ($deleted as $tmp_num => $deleted_info) {
             $sub_nodes = $this->readDeleted((int) ($deleted_info['tree'] ?? 0));
-            
+
             foreach ($sub_nodes as $tmp_num => $subnode_info) {
                 $ref_obj = $factory->getInstanceByRefId((int) ($subnode_info['child'] ?? 0), false);
                 if (!$ref_obj instanceof ilObject) {
                     continue;
                 }
-                
+
                 $ref_obj->delete();
                 ilTree::_removeEntry((int) ($subnode_info['tree'] ?? 0), (int) ($subnode_info['child'] ?? 0));
             }
         }
     }
-    
 
     protected function readSelectedDeleted() : array
     {
-        
+
         $and_types = '';
         $this->logger->dump($this->getTypesLimit());
-        
+
         $types = array();
         foreach ($this->getTypesLimit() as $id => $type) {
             if ($type) {
@@ -158,8 +154,8 @@ class ilSystemCheckTrash
         if (count($types)) {
             $and_types = 'AND ' . $this->db->in('o.type', $this->getTypesLimit(), false, ilDBConstants::T_TEXT) . ' ';
         }
-        
-        $and_age = '';
+
+        $and_age   = '';
         $age_limit = $this->getAgeLimit()->get(IL_CAL_UNIX);
         if ($age_limit > 0) {
             $and_age = 'AND r.deleted < ' . $this->db->quote($this->getAgeLimit()->get(IL_CAL_DATETIME)) . ' ';
@@ -168,47 +164,43 @@ class ilSystemCheckTrash
         if ($this->getNumberLimit()) {
             $limit = 'LIMIT ' . $this->getNumberLimit();
         }
-        
+
         $query = 'SELECT child,tree FROM tree t JOIN object_reference r ON child = r.ref_id ' .
-                'JOIN object_data o on r.obj_id = o.obj_id ' .
-                'WHERE tree < ' . $this->db->quote(0, ilDBConstants::T_INTEGER) . ' ' .
-                'AND child = -tree ';
-        
+            'JOIN object_data o on r.obj_id = o.obj_id ' .
+            'WHERE tree < ' . $this->db->quote(0, ilDBConstants::T_INTEGER) . ' ' .
+            'AND child = -tree ';
+
         $query .= $and_age;
         $query .= $and_types;
         $query .= 'ORDER BY depth desc ';
         $query .= $limit;
 
         $this->logger->info($query);
-        
+
         $deleted = array();
-        $res = $this->db->query($query);
+        $res     = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $deleted[] = array(
-                'tree' => $row->tree,
+                'tree'  => $row->tree,
                 'child' => $row->child
             );
         }
         return $deleted;
     }
 
-
-
-
-
     protected function readDeleted(int $tree_id = 0) : array
     {
-        
+
         $query = 'SELECT child,tree FROM tree t JOIN object_reference r ON child = r.ref_id ' .
-                    'JOIN object_data o on r.obj_id = o.obj_id WHERE tree = ' .
-                    $this->db->quote($tree_id, ilDBConstants::T_INTEGER) . ' ORDER BY depth desc';
-        
+            'JOIN object_data o on r.obj_id = o.obj_id WHERE tree = ' .
+            $this->db->quote($tree_id, ilDBConstants::T_INTEGER) . ' ORDER BY depth desc';
+
         $res = $this->db->query($query);
-        
+
         $deleted = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $deleted[] = array(
-                'tree' => $row->tree,
+                'tree'  => $row->tree,
                 'child' => $row->child
             );
         }

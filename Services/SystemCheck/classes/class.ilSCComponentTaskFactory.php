@@ -2,16 +2,12 @@
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Factory for component tasks
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilSCComponentTaskFactory
 {
-
 
     public static function getComponentTaskGUIForGroup(int $a_group_id, ?int $a_task_id = null) : ?ilSCTreeTasksGUI
     {
@@ -22,7 +18,7 @@ class ilSCComponentTaskFactory
         if ($a_task_id) {
             $task = self::getTask($a_group_id, $a_task_id);
         }
-        
+
         // this switch should not be used
         // find class by naming convention and component service
         switch ($component_id) {
@@ -32,7 +28,6 @@ class ilSCComponentTaskFactory
         }
         return null;
     }
-
 
     public static function getTask(int $a_group_id, int $a_task_id) : ilSCTask
     {
@@ -46,15 +41,11 @@ class ilSCComponentTaskFactory
         return new ilSCTask($a_task_id);
     }
 
-
-    
-    
-
     public static function getComponentTask(int $a_task_id) : ilSCTreeTasksGUI
     {
 
         $group_id = ilSCTasks::lookupGroupId($a_task_id);
-        
+
         return self::getComponentTaskGUIForGroup($group_id, $a_task_id);
     }
 }

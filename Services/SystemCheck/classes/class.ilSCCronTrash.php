@@ -1,11 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Purge trash by cron
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilSCCronTrash extends ilCronJob
@@ -14,11 +11,12 @@ class ilSCCronTrash extends ilCronJob
     protected ilTree $tree;
     protected ilObjectDefinition $objdefinition;
 
-    public function __construct() {
+    public function __construct()
+    {
         global $DIC;
 
-        $this->lng = $DIC->language();
-        $this->tree = $DIC->repositoryTree();
+        $this->lng           = $DIC->language();
+        $this->tree          = $DIC->repositoryTree();
         $this->objdefinition = $DIC['objDefinition'];
     }
 
@@ -26,7 +24,7 @@ class ilSCCronTrash extends ilCronJob
     {
         return 'sysc_trash';
     }
-    
+
     public function getTitle() : string
     {
 
@@ -34,7 +32,7 @@ class ilSCCronTrash extends ilCronJob
         $this->lng->loadLanguageModule('sysc');
         return $this->lng->txt('sysc_cron_empty_trash');
     }
-    
+
     public function getDescription() : string
     {
 
@@ -42,12 +40,12 @@ class ilSCCronTrash extends ilCronJob
         $this->lng->loadLanguageModule('sysc');
         return $this->lng->txt('sysc_cron_empty_trash_desc');
     }
-    
+
     public function getDefaultScheduleType() : int
     {
         return self::SCHEDULE_TYPE_WEEKLY;
     }
-    
+
     public function getValidScheduleTypes() : array
     {
         return array(
@@ -58,18 +56,17 @@ class ilSCCronTrash extends ilCronJob
             self::SCHEDULE_TYPE_YEARLY
         );
     }
-    
-    
+
     public function getDefaultScheduleValue() : ?int
     {
         return 1;
     }
-    
+
     public function hasAutoActivation() : bool
     {
         return false;
     }
-    
+
     public function hasFlexibleSchedule() : bool
     {
         return true;
@@ -84,7 +81,6 @@ class ilSCCronTrash extends ilCronJob
     {
 
         $this->lng->loadLanguageModule('sysc');
-        
 
         $settings = new ilSetting('sysc');
 
@@ -95,24 +91,24 @@ class ilSCCronTrash extends ilCronJob
         $num->setMinValue(1);
         $num->setValue($settings->get('num', ''));
         $form->addItem($num);
-        
+
         $age = new ilNumberInputGUI($this->lng->txt('sysc_trash_limit_age'), 'age');
         $age->setInfo($this->lng->txt('purge_age_limit_desc'));
         $age->setSize(4);
         $age->setMinValue(1);
         $age->setMaxLength(4);
-        
+
         if ($settings->get('age', '')) {
             $age->setValue($settings->get('age', ''));
         }
-        
+
         $form->addItem($age);
-        
+
         // limit types
-        $types = new ilSelectInputGUI($this->lng->txt('sysc_trash_limit_type'), 'types');
+        $types       = new ilSelectInputGUI($this->lng->txt('sysc_trash_limit_type'), 'types');
         $sub_objects = $this->tree->lookupTrashedObjectTypes();
-        
-        $options = array();
+
+        $options    = array();
         $options[0] = '';
         foreach ($sub_objects as $obj_type) {
             if (!$this->objdefinition->isRBACObject($obj_type) or !$this->objdefinition->isAllowedInRepository($obj_type)) {
@@ -130,11 +126,11 @@ class ilSCCronTrash extends ilCronJob
     {
 
         $settings = new ilSetting('sysc');
-        
+
         $settings->set('num', $a_form->getInput('number'));
         $settings->set('age', $a_form->getInput('age'));
         $settings->set('types', $a_form->getInput('types'));
-        
+
         return true; // #18579
     }
 
@@ -143,13 +139,12 @@ class ilSCCronTrash extends ilCronJob
 
         $trash = new ilSystemCheckTrash();
         $trash->setMode(ilSystemCheckTrash::MODE_TRASH_REMOVE);
-            
 
         $settings = new ilSetting('sysc');
-        
+
         $trash->setNumberLimit((int) $settings->get('num', '0'));
         $trash->setTypesLimit((array) $settings->get('types'));
-        
+
         $age = (int) $settings->get('age', '0');
         if ($age) {
             $date = new ilDateTime(time(), IL_CAL_UNIX);
@@ -157,8 +152,6 @@ class ilSCCronTrash extends ilCronJob
             $trash->setAgeLimit($date);
         }
         $trash->start();
-
-
 
         $result = new ilCronJobResult();
         $result->setStatus(ilCronJobResult::STATUS_OK);

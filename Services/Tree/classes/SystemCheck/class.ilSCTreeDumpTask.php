@@ -7,7 +7,6 @@
 class ilSCTreeDumpTask extends ilSCTask
 {
 
-
     public function isActive() : bool
     {
         global $DIC;
