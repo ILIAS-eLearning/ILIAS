@@ -5,6 +5,7 @@ use ILIAS\Setup\Agent;
 use ILIAS\Setup\Config;
 use ILIAS\Setup\Metrics;
 use ILIAS\Setup\Objective;
+use ILIAS\Setup\ObjectiveCollection;
 
 /**
  * Class ilResourceStorageSetupAgent
@@ -26,12 +27,26 @@ class ilResourceStorageSetupAgent implements Agent
 
     public function getInstallObjective(Config $config = null) : Objective
     {
-        return new ilStorageContainersExistingObjective();
+        return new ObjectiveCollection(
+            'IRSS Installation',
+            false,
+            new ilStorageContainersExistingObjective(),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilResourceStorageDB80()
+            )
+        );
     }
 
     public function getUpdateObjective(Config $config = null) : Objective
     {
-        return new ilStorageContainersExistingObjective();
+        return new ObjectiveCollection(
+            'IRSS Update',
+            false,
+            new ilStorageContainersExistingObjective(),
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new ilResourceStorageDB80()
+            )
+        );
     }
 
     public function getBuildArtifactObjective() : Objective
