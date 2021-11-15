@@ -12,15 +12,16 @@ use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
 use ILIAS\GlobalScreen\Services;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
+use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
+use ILIAS\ResourceStorage\Preloader\DBRepositoryPreloader;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -211,17 +212,28 @@ class ilInitialisation
         global $DIC;
 
         $DIC['resource_storage'] = static function (Container $c) : \ILIAS\ResourceStorage\Services {
+            $revision_repository = new RevisionDBRepository($c->database());
+            $resource_repository = new ResourceDBRepository($c->database());
+            $information_repository = new InformationDBRepository($c->database());
+            $stakeholder_repository = new StakeholderDBRepository($c->database());
             return new \ILIAS\ResourceStorage\Services(
                 new StorageHandlerFactory([
                     new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
                     new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
                 ]),
-                new RevisionARRepository(),
-                new ResourceARRepository(),
-                new InformationARRepository(),
-                new StakeholderARRepository(),
+                $revision_repository,
+                $resource_repository,
+                $information_repository,
+                $stakeholder_repository,
                 new LockHandlerilDB($c->database()),
-                new WhiteAndBlacklistedFileNamePolicy([], [])
+                new WhiteAndBlacklistedFileNamePolicy([], []),
+                new DBRepositoryPreloader(
+                    $c->database(),
+                    $resource_repository,
+                    $revision_repository,
+                    $information_repository,
+                    $stakeholder_repository
+                )
             );
         };
     }

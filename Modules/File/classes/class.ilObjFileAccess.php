@@ -437,17 +437,24 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
         $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in('file_id',
                 $a_obj_ids, false,
                 'integer'));
+        $rids = [];
         while ($row = $DIC->database()->fetchObject($res)) {
-            if ($id = $DIC->resourceStorage()->manage()->find($row->rid)) {
+            $rids[$row->file_id] = $row->rid;
+        }
+        $DIC->resourceStorage()->preload($rids);
+
+        foreach ($rids as $file_id => $rid) {
+            if ($id = $DIC->resourceStorage()->manage()->find($rid)) {
                 $max = $DIC->resourceStorage()->manage()->getResource($id)->getCurrentRevision();
-                self::$preload_list_gui_data[$row->file_id]["version"] = $max->getVersionNumber();
-                self::$preload_list_gui_data[$row->file_id]["size"] = $max->getInformation()->getSize();
-                self::$preload_list_gui_data[$row->file_id]["date"] = $max->getInformation()->getCreationDate()->format(DATE_ATOM);
+                self::$preload_list_gui_data[$file_id]["version"] = $max->getVersionNumber();
+                self::$preload_list_gui_data[$file_id]["size"] = $max->getInformation()->getSize();
+                self::$preload_list_gui_data[$file_id]["date"] = $max->getInformation()->getCreationDate()->format(DATE_ATOM);
             }
         }
 
 
     }
+
 
     /**
      * @param $a_obj_id
