@@ -61,7 +61,8 @@ class ilCtrlDirectoryIteratorTest extends TestCase
         $not_existing_dir = __DIR__ . '/not_existing_dir';
 
         $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage("RecursiveDirectoryIterator::__construct($not_existing_dir): failed to open dir: No such file or directory");
+        // exception messages differ in PHP7.4 and PHP8 - therefore we only assert the expected exception.
+        // $this->expectExceptionMessage("RecursiveDirectoryIterator::__construct($not_existing_dir): failed to open dir: No such file or directory");
         $iterator = new ilCtrlDirectoryIterator($not_existing_dir);
     }
 }
