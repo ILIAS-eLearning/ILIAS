@@ -142,7 +142,7 @@ class ilTree
             throw new InvalidArgumentException("Wrong parameter count!");
         }
 
-        if (!$a_root_id) {
+        if ($a_root_id > 0) {
             $this->root_id = $a_root_id;
         } else {
             $this->root_id = ROOT_FOLDER_ID;
