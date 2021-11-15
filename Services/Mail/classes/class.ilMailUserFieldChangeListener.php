@@ -15,14 +15,14 @@ class ilMailUserFieldChangeListener extends UserFieldAttributesChangeListener
     public function __construct(Container $dic)
     {
         parent::__construct($dic);
-        $this->lng->loadLanguageModule("mail");
+        $this->lng->loadLanguageModule('mail');
     }
 
     public function getDescriptionForField(string $fieldName, string $attribute) : ?string
     {
-        if ($fieldName === "second_email" && $attribute === "visible_second_email") {
+        if ($fieldName === 'second_email' && $attribute === 'visible_second_email') {
             return sprintf(
-                $this->dic->language()->txt("usrFieldChange_second_mail_visible_in_personal_data"),
+                $this->dic->language()->txt('usrFieldChange_second_mail_visible_in_personal_data'),
                 $attribute,
                 $fieldName
             );
@@ -33,6 +33,6 @@ class ilMailUserFieldChangeListener extends UserFieldAttributesChangeListener
 
     public function getComponentName() : string
     {
-        return "Services/Mail";
+        return 'Services/Mail';
     }
 }

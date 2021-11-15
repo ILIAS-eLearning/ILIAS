@@ -3191,6 +3191,7 @@ class ilObjUserFolderGUI extends ilObjectGUI
                 return true;
             }
         }
+
         return false;
     }
 
