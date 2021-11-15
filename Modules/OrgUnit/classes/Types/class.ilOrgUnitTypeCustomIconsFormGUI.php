@@ -14,18 +14,6 @@ class ilOrgUnitTypeCustomIconsFormGUI extends ilPropertyFormGUI
      */
     protected $type;
     /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-    /**
-     * @var
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
      * @var
      */
     protected $parent_gui;

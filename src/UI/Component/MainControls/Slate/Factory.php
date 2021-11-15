@@ -1,6 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\MainControls\Slate;
+
+use ILIAS\UI\Component\Symbol\Symbol;
 
 /**
  * This is what a factory for slates looks like.
@@ -25,7 +27,6 @@ interface Factory
      *       generated using other UI Components.
      *
      * ----
-     *
      * @param string $name
      * @param \ILIAS\UI\Component\Symbol\Symbol $symbol
      * @param \ILIAS\UI\Component\Legacy\Legacy $content
@@ -33,7 +34,7 @@ interface Factory
      */
     public function legacy(
         string $name,
-        \ILIAS\UI\Component\Symbol\Symbol $symbol,
+        Symbol $symbol,
         \ILIAS\UI\Component\Legacy\Legacy $content
     ) : Legacy;
 
@@ -63,7 +64,7 @@ interface Factory
      */
     public function combined(
         string $name,
-        \ILIAS\UI\Component\Symbol\Symbol $symbol
+        Symbol $symbol
     ) : Combined;
 
     /**

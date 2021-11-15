@@ -11,7 +11,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 {
     private static ?bool $chat_enabled = null;
 
-    public static function _getCommands()
+    public static function _getCommands() : array
     {
         $commands = [];
         $commands[] = ['permission' => 'read', 'cmd' => 'view', 'lang_var' => 'enter', 'default' => true];
@@ -20,7 +20,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return $commands;
     }
 
-    public static function _checkGoto($a_target)
+    public static function _checkGoto($a_target) : bool
     {
         if (is_string($a_target)) {
             $t_arr = explode('_', $a_target);
@@ -40,7 +40,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return false;
     }
 
-    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
+    public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
     {
         if (!$a_user_id) {
             $a_user_id = $GLOBALS['DIC']->user()->getId();
@@ -55,7 +55,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
 
         if (self::$chat_enabled === null) {
             $chatSetting = new ilSetting('chatroom');
-            self::$chat_enabled = (bool) $chatSetting->get('chat_enabled');
+            self::$chat_enabled = (bool) $chatSetting->get('chat_enabled', '0');
         }
 
         if ($DIC->rbac()->system()->checkAccessOfUser($a_user_id, 'write', $a_ref_id)) {

@@ -1,32 +1,33 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2017 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Breadcrumbs;
 
 use ILIAS\UI\Component\Breadcrumbs as B;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Link\Standard;
 
 class Breadcrumbs implements B\Breadcrumbs
 {
     use ComponentHelper;
 
     /**
-     * @var \ILIAS\UI\Component\Link\Standard[]     list of links
+     * @var Standard[]     list of links
      */
-    protected $crumbs;
+    protected array $crumbs;
 
     public function __construct(array $crumbs)
     {
-        $types = array(\ILIAS\UI\Component\Link\Standard::class);
+        $types = array(Standard::class);
         $this->checkArgListElements("crumbs", $crumbs, $types);
         $this->crumbs = $crumbs;
     }
 
-
     /**
      * @inheritdoc
      */
-    public function getItems()
+    public function getItems() : array
     {
         return $this->crumbs;
     }
@@ -34,9 +35,8 @@ class Breadcrumbs implements B\Breadcrumbs
     /**
      * @inheritdoc
      */
-    public function withAppendedItem($crumb)
+    public function withAppendedItem(Standard $crumb) : B\Breadcrumbs
     {
-        $this->checkArgInstanceOf("crumb", $crumb, \ILIAS\UI\Component\Link\Standard::class);
         $clone = clone $this;
         $clone->crumbs[] = $crumb;
         return $clone;

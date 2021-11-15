@@ -1,10 +1,12 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Listing\CharacteristicValue;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use InvalidArgumentException;
 
 /**
  * Class Text
@@ -14,28 +16,21 @@ class Text implements C\Listing\CharacteristicValue\Text
 {
     use ComponentHelper;
 
-    /**
-     * @var	array
-     */
-    protected $items;
+    protected array $items;
 
-    /**
-     * @inheritdoc
-     */
     public function __construct(array $items)
     {
         $this->validateItems($items);
         $this->items = $items;
     }
 
-
     /**
      * @param array $items
      */
-    private function validateItems(array $items)
+    private function validateItems(array $items) : void
     {
         if (!count($items)) {
-            throw new \InvalidArgumentException('expected non empty array, got empty array');
+            throw new InvalidArgumentException('expected non empty array, got empty array');
         }
 
         $this->checkArgList(

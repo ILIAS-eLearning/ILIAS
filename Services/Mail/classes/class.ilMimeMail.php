@@ -218,7 +218,7 @@ class ilMimeMail
         $this->finalBody = '';
         $this->images = [];
 
-        if ($DIC->settings()->get('mail_send_html', "0")) {
+        if ($DIC->settings()->get('mail_send_html', '0')) {
             $skin = $DIC['ilClientIniFile']->readVariable('layout', 'skin');
 
             $this->buildBodyMultiParts($skin);

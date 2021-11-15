@@ -1081,10 +1081,12 @@ class ilObjMediaObject extends ilObject
             }
                 
             if (!$skip) {
-                $ret[] = array("type" => $us_rec["usage_type"],
+                $ret[] = array(
+                    "type" => $us_rec["usage_type"],
                     "id" => $us_rec["usage_id"],
                     "lang" => $us_rec["usage_lang"],
-                    "hist_nr" => $us_rec["usage_hist_nr"]);
+                    "hist_nr" => ($us_rec["usage_hist_nr"] ?? 0)
+                );
             }
         }
 

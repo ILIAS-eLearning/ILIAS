@@ -119,6 +119,7 @@ class ilMailTest extends ilMailBaseTest
         $mailFileData = $this->getMockBuilder(ilFileDataMail::class)->disableOriginalConstructor()->getMock();
         $mailOptions = $this->getMockBuilder(ilMailOptions::class)->disableOriginalConstructor()->getMock();
         $mailBox = $this->getMockBuilder(ilMailbox::class)->disableOriginalConstructor()->getMock();
+        $actor = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->getMock();
 
         $mailService = new ilMail(
             $senderUsrId,
@@ -135,7 +136,8 @@ class ilMailTest extends ilMailBaseTest
             static function (string $login) use ($loginToIdMap) : int {
                 return $loginToIdMap[$login] ?? 0;
             },
-            4711
+            4711,
+            $actor
         );
 
         $oldTransport = ilMimeMail::getDefaultTransport();

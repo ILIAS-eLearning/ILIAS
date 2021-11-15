@@ -47,7 +47,7 @@ class ilLSLPEventHandler
     {
         $parent_nd = $this->tree->getParentNodeData($child_ref_id);
         if ($parent_nd['type'] === 'lso') {
-            return (int)$parent_nd['obj_id'];
+            return (int) $parent_nd['obj_id'];
         }
         return null;
     }

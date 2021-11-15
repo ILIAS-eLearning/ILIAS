@@ -627,9 +627,9 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 'mail_filter_recipients'
             );
             $subFilterInRecipients->setOptionTitle($this->lng->txt('mail_filter_recipients'));
-            $subFilterInRecipients->setValue(1);
+            $subFilterInRecipients->setValue('1');
             $quickFilter->addSubItem($subFilterInRecipients);
-            $subFilterInRecipients->setParent($this);
+            $subFilterInRecipients->setParentTable($this);
             $subFilterInRecipients->readFromSession();
             $this->filter['mail_filter_recipients'] = (int) $subFilterInRecipients->getChecked();
         } else {
@@ -638,9 +638,9 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 'mail_filter_sender'
             );
             $subFilterInSender->setOptionTitle($this->lng->txt('mail_filter_sender'));
-            $subFilterInSender->setValue(1);
+            $subFilterInSender->setValue('1');
             $quickFilter->addSubItem($subFilterInSender);
-            $subFilterInSender->setParent($this);
+            $subFilterInSender->setParentTable($this);
             $subFilterInSender->readFromSession();
             $this->filter['mail_filter_sender'] = (int) $subFilterInSender->getChecked();
         }
@@ -650,9 +650,9 @@ class ilMailFolderTableGUI extends ilTable2GUI
             'mail_filter_subject'
         );
         $subFilterInSubject->setOptionTitle($this->lng->txt('mail_filter_subject'));
-        $subFilterInSubject->setValue(1);
+        $subFilterInSubject->setValue('1');
         $quickFilter->addSubItem($subFilterInSubject);
-        $subFilterInSubject->setParent($this);
+        $subFilterInSubject->setParentTable($this);
         $subFilterInSubject->readFromSession();
         $this->filter['mail_filter_subject'] = (int) $subFilterInSubject->getChecked();
 
@@ -661,9 +661,9 @@ class ilMailFolderTableGUI extends ilTable2GUI
             'mail_filter_body'
         );
         $subFilterInBody->setOptionTitle($this->lng->txt('mail_filter_body'));
-        $subFilterInBody->setValue(1);
+        $subFilterInBody->setValue('1');
         $quickFilter->addSubItem($subFilterInBody);
-        $subFilterInBody->setParent($this);
+        $subFilterInBody->setParentTable($this);
         $subFilterInBody->readFromSession();
         $this->filter['mail_filter_body'] = (int) $subFilterInBody->getChecked();
 
@@ -673,9 +673,9 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 'mail_filter_attach'
             );
             $subFilterInAttachments->setOptionTitle($this->lng->txt('mail_filter_attach'));
-            $subFilterInAttachments->setValue(1);
+            $subFilterInAttachments->setValue('1');
             $quickFilter->addSubItem($subFilterInAttachments);
-            $subFilterInAttachments->setParent($this);
+            $subFilterInAttachments->setParentTable($this);
             $subFilterInAttachments->readFromSession();
             $this->filter['mail_filter_attach'] = (int) $subFilterInAttachments->getChecked();
         }
@@ -685,7 +685,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 $this->lng->txt('mail_filter_only_unread'),
                 'mail_filter_only_unread'
             );
-            $onlyUnread->setValue(1);
+            $onlyUnread->setValue('1');
             $this->addFilterItem($onlyUnread);
             $onlyUnread->readFromSession();
             $this->filter['mail_filter_only_unread'] = (int) $onlyUnread->getChecked();
@@ -696,7 +696,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
                 $this->lng->txt('mail_filter_only_with_attachments'),
                 'mail_filter_only_with_attachments'
             );
-            $onlyWithAttachments->setValue(1);
+            $onlyWithAttachments->setValue('1');
             $this->addFilterItem($onlyWithAttachments);
             $onlyWithAttachments->readFromSession();
             $this->filter['mail_filter_only_with_attachments'] = (int) $onlyWithAttachments->getChecked();

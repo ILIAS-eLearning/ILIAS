@@ -1,35 +1,32 @@
-<?php
+<?php declare(strict_types=1);
 
 abstract class ilADTMultiEnum extends ilADT
 {
-    protected $values; // [array]
-        
+    protected ?array $values;
+
     public function getType() : string
     {
         return "MultiEnum";
     }
-    
-    
+
     // definition
-    
+
     protected function isValidDefinition(ilADTDefinition $a_def) : bool
     {
         return $a_def instanceof ilADTMultiEnumDefinition;
     }
-    
+
     public function reset() : void
     {
         parent::reset();
-        
         $this->values = null;
     }
-    
-    
-    // properties
-    
-    abstract protected function handleSelectionValue($a_value);
 
-    public function addSelection(int $value_index)
+    // properties
+
+    abstract protected function handleSelectionValue(mixed $a_value) : mixed;
+
+    public function addSelection(int $value_index) : void
     {
         if (!$this->isValidOption($value_index)) {
             return;
@@ -37,8 +34,7 @@ abstract class ilADTMultiEnum extends ilADT
         $this->values[] = $value_index;
     }
 
-
-    public function setSelections(array $a_values = null)
+    public function setSelections(array $a_values = null) : void
     {
         if ($a_values === null) {
             return;
@@ -52,21 +48,20 @@ abstract class ilADTMultiEnum extends ilADT
         }
         $this->values = count($checked_values) ? $checked_values : null;
     }
-    
-    public function getSelections()
+
+    public function getSelections() : ?array
     {
         return $this->values;
     }
-                
-    public function isValidOption($a_value)
+
+    public function isValidOption(mixed $a_value) : bool
     {
         $a_value = $this->handleSelectionValue($a_value);
         return array_key_exists($a_value, $this->getDefinition()->getOptions());
     }
-    
-    
+
     // comparison
-    
+
     public function equals(ilADT $a_adt) : ?bool
     {
         if ($this->getDefinition()->isComparableTo($a_adt)) {
@@ -74,7 +69,7 @@ abstract class ilADTMultiEnum extends ilADT
         }
         return null;
     }
-                
+
     public function isLarger(ilADT $a_adt) : ?bool
     {
         return null;
@@ -84,16 +79,14 @@ abstract class ilADTMultiEnum extends ilADT
     {
         return null;
     }
-    
-    
+
     // null
-    
+
     public function isNull() : bool
     {
         return $this->getSelections() === null;
     }
-        
-    
+
     public function getCheckSum() : ?string
     {
         if (!$this->isNull()) {
@@ -103,10 +96,9 @@ abstract class ilADTMultiEnum extends ilADT
         }
         return null;
     }
-    
-    
+
     // stdClass
-    
+
     public function exportStdClass() : ?stdClass
     {
         if (!$this->isNull()) {
@@ -116,7 +108,7 @@ abstract class ilADTMultiEnum extends ilADT
         }
         return null;
     }
-    
+
     public function importStdClass(?stdClass $a_std) : void
     {
         if (is_object($a_std)) {

@@ -296,7 +296,7 @@ class ilSamlSettingsGUI
 
         $update_automatically = new ilCheckboxInputGUI('', $field_name . '_update');
         $update_automatically->setOptionTitle($this->lng->txt('auth_saml_update_field_info'));
-        $update_automatically->setValue(1);
+        $update_automatically->setValue('1');
         $form->addItem($update_automatically);
     }
 
@@ -364,7 +364,7 @@ class ilSamlSettingsGUI
 
         $show_login_form = new ilCheckboxInputGUI($this->lng->txt('auth_saml_login_form'), 'login_form');
         $show_login_form->setInfo($this->lng->txt('auth_saml_login_form_info'));
-        $show_login_form->setValue(1);
+        $show_login_form->setValue('1');
         $form->addItem($show_login_form);
 
         if (!$this->access->checkAccess('write', '', $this->getRefId())) {
@@ -435,7 +435,7 @@ class ilSamlSettingsGUI
         $this->addMetadataElement($form);
 
         $local = new ilCheckboxInputGUI($this->lng->txt('auth_allow_local'), 'allow_local_auth');
-        $local->setValue(1);
+        $local->setValue('1');
         $local->setInfo($this->lng->txt('auth_allow_local_info'));
         $form->addItem($local);
 
@@ -446,7 +446,7 @@ class ilSamlSettingsGUI
 
         $sync = new ilCheckboxInputGUI($this->lng->txt('auth_saml_sync'), 'sync_status');
         $sync->setInfo($this->lng->txt('auth_saml_sync_info'));
-        $sync->setValue(1);
+        $sync->setValue('1');
 
         $username_claim = new ilTextInputGUI($this->lng->txt('auth_saml_username_claim'), 'login_claim');
         $username_claim->setInfo($this->lng->txt('auth_saml_username_claim_info'));
@@ -460,7 +460,7 @@ class ilSamlSettingsGUI
 
         $migr = new ilCheckboxInputGUI($this->lng->txt('auth_saml_migration'), 'account_migr_status');
         $migr->setInfo($this->lng->txt('auth_saml_migration_info'));
-        $migr->setValue(1);
+        $migr->setValue('1');
         $sync->addSubItem($migr);
         $form->addItem($sync);
 
@@ -600,7 +600,7 @@ class ilSamlSettingsGUI
         $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteIdp');
         $confirmation->setCancel($this->lng->txt('cancel'), self::DEFAULT_CMD);
         $confirmation->setHeaderText($this->lng->txt('auth_saml_sure_delete_idp'));
-        $confirmation->addItem('saml_idp_ids', $this->idp->getIdpId(), $this->idp->getEntityId());
+        $confirmation->addItem('saml_idp_ids', (string) $this->idp->getIdpId(), $this->idp->getEntityId());
 
         $this->tpl->setContent($confirmation->getHTML());
     }

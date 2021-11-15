@@ -359,6 +359,16 @@ class Container extends \Pimple\Container
         return new \ILIAS\RootFolder\Service($this);
     }
 
+    public function copage() : \ILIAS\COPage\Service
+    {
+        return new \ILIAS\COPage\Service($this);
+    }
+
+    public function learningModule() : \ILIAS\LearningModule\Service
+    {
+        return new \ILIAS\LearningModule\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
-
 
 namespace ILIAS\UI\Implementation\Component\Listing;
 
@@ -18,7 +17,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdocs
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         /**
          * @var Component\Listing\Listing $component
@@ -32,13 +31,10 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    /**
-     * @param Component\Listing\descriptive $component
-     * @param RendererInterface $default_renderer
-     * @return string
-     */
-    protected function render_descriptive(Component\Listing\Descriptive $component, RendererInterface $default_renderer)
-    {
+    protected function render_descriptive(
+        Component\Listing\Descriptive $component,
+        RendererInterface $default_renderer
+    ) : string {
         $tpl = $this->getTemplate("tpl.descriptive.html", true, true);
 
         foreach ($component->getItems() as $key => $item) {
@@ -58,12 +54,7 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    /**
-     * @param Component\Listing\Listing $component
-     * @param RendererInterface $default_renderer
-     * @return mixed
-     */
-    protected function render_simple(Component\Listing\Listing $component, RendererInterface $default_renderer)
+    protected function render_simple(Component\Listing\Listing $component, RendererInterface $default_renderer) : string
     {
         $tpl_name = "";
 
@@ -90,11 +81,10 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-
     /**
      * @inheritdocs
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return [Component\Listing\Listing::class];
     }

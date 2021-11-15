@@ -1140,7 +1140,7 @@ class ilObjCourseGUI extends ilContainerGUI
 
         $visible = new ilCheckboxInputGUI($this->lng->txt('rep_activation_limited_visibility'), 'activation_visibility');
         $visible->setInfo($this->lng->txt('crs_activation_limited_visibility_info'));
-        $visible->setChecked($this->object->getActivationVisibility());
+        $visible->setChecked((bool) $this->object->getActivationVisibility());
         $dur->addSubItem($visible);
                 
         

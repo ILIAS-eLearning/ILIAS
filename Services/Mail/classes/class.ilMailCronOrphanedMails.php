@@ -14,13 +14,13 @@ class ilMailCronOrphanedMails extends ilCronJob
 {
     private GlobalHttpState $http;
     private Refinery $refinery;
-    protected ilLanguage $lng;
-    protected ilSetting $settings;
-    protected ilDBInterface $db;
-    protected ilObjUser $user;
-    protected bool $initDone = false;
+    private ilLanguage $lng;
+    private ilSetting $settings;
+    private ilDBInterface $db;
+    private ilObjUser $user;
+    private bool $initDone = false;
 
-    protected function init() : void
+    private function init() : void
     {
         global $DIC;
 
@@ -94,6 +94,7 @@ class ilMailCronOrphanedMails extends ilCronJob
     public function addCustomSettingsToForm(ilPropertyFormGUI $a_form) : void
     {
         $this->init();
+
         parent::addCustomSettingsToForm($a_form);
 
         $threshold = new ilNumberInputGUI($this->lng->txt('mail_threshold'), 'mail_threshold');
@@ -101,7 +102,8 @@ class ilMailCronOrphanedMails extends ilCronJob
         $threshold->allowDecimals(false);
         $threshold->setSuffix($this->lng->txt('days'));
         $threshold->setMinValue(1);
-        $threshold->setValue($this->settings->get('mail_threshold'));
+        $threshold->setSize(4);
+        $threshold->setValue($this->settings->get('mail_threshold', ''));
 
         $a_form->addItem($threshold);
         
@@ -109,8 +111,9 @@ class ilMailCronOrphanedMails extends ilCronJob
             $this->lng->txt('only_inbox_trash'),
             'mail_only_inbox_trash'
         );
+        $mail_folder->setValue('1');
         $mail_folder->setInfo($this->lng->txt('only_inbox_trash_info'));
-        $mail_folder->setChecked($this->settings->get('mail_only_inbox_trash'));
+        $mail_folder->setChecked((bool) $this->settings->get('mail_only_inbox_trash', '0'));
         $a_form->addItem($mail_folder);
         
         $notification = new ilNumberInputGUI(
@@ -119,31 +122,39 @@ class ilMailCronOrphanedMails extends ilCronJob
         );
         $notification->setInfo($this->lng->txt('mail_notify_orphaned_info'));
         $notification->allowDecimals(false);
+        $notification->setSize(4);
         $notification->setSuffix($this->lng->txt('days'));
         $notification->setMinValue(0);
 
         if ($this->http->wrapper()->post()->has('mail_threshold')) {
-            $mail_threshold = $this->http->wrapper()->post()->retrieve(
+            $mail_threshold = (int) $this->http->wrapper()->post()->retrieve(
                 'mail_threshold',
-                $this->refinery->kindlyTo()->int()
+                $this->emptyStringOrFloatOrIntToEmptyOrIntegerString()
             );
         } else {
             $mail_threshold = (int) $this->settings->get('mail_threshold');
         }
         $maxvalue = $mail_threshold - 1;
         $notification->setMaxValue($maxvalue);
-        $notification->setValue($this->settings->get('mail_notify_orphaned'));
+        $notification->setValue($this->settings->get('mail_notify_orphaned', ''));
         $a_form->addItem($notification);
     }
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
         $this->init();
-        $this->settings->set('mail_threshold', (int) $a_form->getInput('mail_threshold'));
-        $this->settings->set('mail_only_inbox_trash', (int) $a_form->getInput('mail_only_inbox_trash'));
-        $this->settings->set('mail_notify_orphaned', (int) $a_form->getInput('mail_notify_orphaned'));
 
-        if ($this->settings->get('mail_notify_orphaned') == 0) {
+        $this->settings->set('mail_only_inbox_trash', (string) ((int) $a_form->getInput('mail_only_inbox_trash')));
+        $this->settings->set(
+            'mail_threshold',
+            $this->emptyStringOrFloatOrIntToEmptyOrIntegerString()->transform($a_form->getInput('mail_threshold'))
+        );
+        $this->settings->set(
+            'mail_notify_orphaned',
+            $this->emptyStringOrFloatOrIntToEmptyOrIntegerString()->transform($a_form->getInput('mail_notify_orphaned'))
+        );
+
+        if ((int) $this->settings->get('mail_notify_orphaned', '0') === 0) {
             //delete all mail_cron_orphaned-table entries!
             $this->db->manipulate('DELETE FROM mail_cron_orphaned');
 
@@ -161,18 +172,19 @@ class ilMailCronOrphanedMails extends ilCronJob
     public function run() : ilCronJobResult
     {
         $this->init();
-        $mail_threshold = (int) $this->settings->get('mail_threshold');
+
+        $mail_threshold = (int) $this->settings->get('mail_threshold', '0');
 
         ilLoggerFactory::getLogger('mail')->info(sprintf(
             'Started mail deletion job with threshold: %s day(s)',
             var_export($mail_threshold, true)
         ));
 
-        if ($mail_threshold >= 1 && (int) $this->settings->get('mail_notify_orphaned') >= 1) {
+        if ($mail_threshold >= 1 && (int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
             $this->processNotification();
         }
 
-        if ($mail_threshold >= 1 && (int) $this->settings->get('last_cronjob_start_ts', time())) {
+        if ($mail_threshold >= 1 && (int) $this->settings->get('last_cronjob_start_ts', (string) time())) {
             $this->processDeletion();
         }
 
@@ -191,12 +203,13 @@ class ilMailCronOrphanedMails extends ilCronJob
     private function processNotification() : void
     {
         $this->init();
+
         $collector = new ilMailCronOrphanedMailsNotificationCollector();
 
         $notifier = new ilMailCronOrphanedMailsNotifier(
             $collector,
-            (int) $this->settings->get('mail_threshold'),
-            (int) $this->settings->get('mail_notify_orphaned')
+            (int) $this->settings->get('mail_threshold', '0'),
+            (int) $this->settings->get('mail_notify_orphaned', '0')
         );
         $notifier->processNotification();
     }
@@ -204,8 +217,32 @@ class ilMailCronOrphanedMails extends ilCronJob
     private function processDeletion() : void
     {
         $this->init();
+
         $collector = new ilMailCronOrphanedMailsDeletionCollector();
         $processor = new ilMailCronOrphanedMailsDeletionProcessor($collector);
         $processor->processDeletion();
+    }
+    
+    private function emptyStringOrFloatOrIntToEmptyOrIntegerString() : \ILIAS\Refinery\Transformation
+    {
+        $empty_string_or_null_to_stirng_trafo = $this->refinery->custom()->transformation(static function ($value) : string {
+            if ($value === '' || null === $value) {
+                return '';
+            }
+
+            throw new Exception('The value to be transformed is not an empty string');
+        });
+
+        return $this->refinery->in()->series([
+            $this->refinery->byTrying([
+                $empty_string_or_null_to_stirng_trafo,
+                $this->refinery->kindlyTo()->int(),
+                $this->refinery->in()->series([
+                    $this->refinery->kindlyTo()->float(),
+                    $this->refinery->kindlyTo()->int()
+                ])
+            ]),
+            $this->refinery->kindlyTo()->string()
+        ]);
     }
 }

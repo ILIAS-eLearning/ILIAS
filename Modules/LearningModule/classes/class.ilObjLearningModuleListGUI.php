@@ -1,25 +1,32 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
 
 /**
-* Class ilObjLearningModuleListGUI
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* $Id$
-*
-* @ingroup ModulesIliasLearningModule
-*/
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilObjLearningModuleListGUI extends ilObjectListGUI
 {
-    private $child_id;
-    /**
-    * initialisation
-    *
-    * this method should be overwritten by derived classes
-    */
+    protected PresentationGUIRequest $request;
+    private int $child_id = 0;
+
     public function init()
     {
+        global $DIC;
+
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -29,29 +36,28 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = "lm";
         $this->gui_class_name = "ilobjlearningmodulegui";
-        
+
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request();
+
         // general commands array
         $this->commands = ilObjLearningModuleAccess::_getCommands();
     }
 
-    public function setChildId($a_child_id)
+    public function setChildId(int $a_child_id) : void
     {
         $this->child_id = $a_child_id;
     }
-    public function getChildId()
+
+    public function getChildId() : int
     {
         return $this->child_id;
     }
 
-    /**
-    * Overwrite this method, if link target is not build by ctrl class
-    * (e.g. "forum.php"). This is the case
-    * for all links now, but bringing everything to ilCtrl should
-    * be realised in the future.
-    *
-    * @param	string		$a_cmd			command
-    *
-    */
     public function getCommandLink($a_cmd)
     {
         $ilCtrl = $this->ctrl;
@@ -93,36 +99,22 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->request->getRefId());
                 break;
         }
 
         return $cmd_link;
     }
 
-
-    /**
-    * Get command target frame
-    *
-    * @param	string		$a_cmd			command
-    *
-    * @return	string		command target frame
-    */
     public function getCommandFrame($a_cmd)
     {
         switch ($a_cmd) {
             case "view":
             case "continue":
-            case 'list':
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-
-            case "edit":
             case "properties":
-                $frame = ilFrameTargetInfo::_getFrame("MainContent");
-                break;
-                
             case "infoScreen":
+            case "edit":
+            case 'list':
                 $frame = ilFrameTargetInfo::_getFrame("MainContent");
                 break;
 
@@ -134,15 +126,6 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $frame;
     }
 
-
-    /**
-    * Get item properties
-    *
-    * @return	array		array of property arrays:
-    *						"alert" (boolean) => display as an alert property (usually in red)
-    *						"property" (string) => property name
-    *						"value" (string) => property value
-    */
     public function getProperties()
     {
         $lng = $this->lng;
@@ -158,9 +141,6 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         return $props;
     }
 
-    /**
-    * Get command icon image
-    */
     public function getCommandImage($a_cmd)
     {
         switch ($a_cmd) {
@@ -168,4 +148,4 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
                 return "";
         }
     }
-} // END class.ilObjCategoryGUI
+}

@@ -10,10 +10,9 @@ class ilBlogNewsRendererGUI extends ilNewsDefaultRendererGUI
 {
     /**
      * Get object link
-     *
      * @return string link href url
      */
-    public function getObjectLink()
+    public function getObjectLink() : string
     {
         $n = $this->getNewsItem();
         $add = "";

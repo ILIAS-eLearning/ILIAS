@@ -128,7 +128,7 @@ trait BaseGUIRequest
                 return array_column(
                     array_map(
                         function ($k, $v) {
-                            return [$k, \ilUtil::stripSlashes((array) $v)];
+                            return [$k, (array) $v];
                         },
                         array_keys($arr),
                         $arr
@@ -166,6 +166,19 @@ trait BaseGUIRequest
         }
         return false;
     }
+
+    /**
+     * @return mixed|null
+     */
+    protected function raw($key)
+    {
+        $no_transform = $this->refinery->custom()->transformation(function ($v) {
+            return $v;
+        });
+        return $this->get($key, $no_transform);
+    }
+
+
 
     /**
      * Get passed parameter, if not data passed, get key from http request

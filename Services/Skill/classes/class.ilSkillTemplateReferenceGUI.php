@@ -247,7 +247,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $sktr->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
         $sktr->setStatus($this->form->getInput("status"));
         $sktr->create();
-        ilSkillTreeNode::putInTree($sktr, $this->requested_obj_id, IL_LAST_NODE);
+        ilSkillTreeNode::putInTree($sktr, $this->requested_obj_id, ilTree::POS_LAST_NODE);
         $this->node_object = $sktr;
     }
 

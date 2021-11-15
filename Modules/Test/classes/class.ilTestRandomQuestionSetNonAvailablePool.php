@@ -23,6 +23,9 @@ class ilTestRandomQuestionSetNonAvailablePool
      */
     protected $id;
 
+    /** @var int|null */
+    protected $ref_id = null;
+
     /**
      * @var string
      */
@@ -97,6 +100,16 @@ class ilTestRandomQuestionSetNonAvailablePool
         $this->unavailabilityStatus = $unavailabilityStatus;
     }
 
+    public function getRefId() : ?int
+    {
+        return $this->ref_id;
+    }
+
+    public function setRefId(?int $ref_id) : void
+    {
+        $this->ref_id = $ref_id;
+    }
+
     /**
      * @param array $row
      */
@@ -105,6 +118,7 @@ class ilTestRandomQuestionSetNonAvailablePool
         foreach ($row as $field => $value) {
             switch ($field) {
                 case 'pool_fi': $this->setId($value); break;
+                case 'pool_ref_id': $this->setRefId($value ? (int) $value : null); break;
                 case 'pool_title': $this->setTitle($value); break;
                 case 'pool_path': $this->setPath($value); break;
             }

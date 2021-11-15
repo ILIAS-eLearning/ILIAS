@@ -9,6 +9,7 @@
  */
 class ilExport
 {
+    public $export_run_dir;
     /**
      * @var ilLogger
      */

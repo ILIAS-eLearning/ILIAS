@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -11,7 +11,7 @@ class Factory implements C\Counter\Factory
     /**
      * @inheritdoc
      */
-    public function status($number)
+    public function status(int $number) : C\Counter\Counter
     {
         return new Counter(C\Counter\Counter::STATUS, $number);
     }
@@ -19,7 +19,7 @@ class Factory implements C\Counter\Factory
     /**
      * @inheritdoc
      */
-    public function novelty($number)
+    public function novelty(int $number) : C\Counter\Counter
     {
         return new Counter(C\Counter\Counter::NOVELTY, $number);
     }

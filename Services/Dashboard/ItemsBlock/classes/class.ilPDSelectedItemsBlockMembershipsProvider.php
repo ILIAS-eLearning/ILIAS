@@ -1,31 +1,24 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
 /**
- * Class ilPDSelectedItemsBlockMembershipsProvider
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
+
 class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBlockProvider
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $actor;
+    protected ilObjUser $actor;
+    protected ilTree $tree;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * ilPDSelectedItemsBlockSelectedItemsProvider constructor.
-     * @param ilObjUser $actor
-     */
     public function __construct(ilObjUser $actor)
     {
         global $DIC;
@@ -37,11 +30,10 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
 
     /**
      * Gets all objects the current user is member of
-     * @param array $types
-     * @return array array of objects
      */
-    protected function getObjectsByMembership($types = array()) : array
-    {
+    protected function getObjectsByMembership(
+        array $types = []
+    ) : array {
         $items = array();
 
         if (is_array($types) && count($types)) {
@@ -100,10 +92,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         return $references;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getItems($object_type_white_list = array()) : array
+    public function getItems(array $object_type_white_list = array()) : array
     {
         return $this->getObjectsByMembership($object_type_white_list);
     }

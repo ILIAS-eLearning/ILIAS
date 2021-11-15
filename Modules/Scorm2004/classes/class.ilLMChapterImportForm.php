@@ -80,7 +80,7 @@ class ilLMChapterImportForm
         $ilUser = $this->user;
 
         $target = ($this->first_child)
-            ? IL_FIRST_NODE
+            ? ilTree::POS_FIRST_NODE
             : $this->node_id;
 
         // get chapters

@@ -1,9 +1,11 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2019 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Item;
 
-use \ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Legacy\Legacy;
+use ILIAS\UI\Component\Symbol\Icon\Icon;
 
 /**
  * Interface Notification
@@ -53,11 +55,11 @@ interface Notification extends Item
     /**
      * Set icon as lead
      */
-    public function withLeadIcon(\ILIAS\UI\Component\Symbol\Icon\Icon $lead) : Notification;
+    public function withLeadIcon(Icon $lead) : Notification;
 
     /**
      * Get icon as lead. Note that Notifications only accept Icons as lead,
      * this is different from the standard Item.
      */
-    public function getLeadIcon() : \ILIAS\UI\Component\Symbol\Icon\Icon;
+    public function getLeadIcon() : Icon;
 }

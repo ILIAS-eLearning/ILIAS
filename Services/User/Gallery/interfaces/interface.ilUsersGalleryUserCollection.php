@@ -1,40 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * Interface ilUsersGalleryUserCollection
- */
 interface ilUsersGalleryUserCollection extends Iterator, Countable
 {
-    /**
-     * Set whether or not this group is highlighted
-     * @param boolean $status
-     */
-    public function setHighlighted($status);
+    public function setHighlighted(bool $status) : void;
+
+    public function isHighlighted() : bool;
+
+    public function getLabel() : string;
+
+    public function setLabel(string $label);
 
     /**
-     * Returns whether or not it is a highlighted group
-     * @return boolean
+     * @param ilUsersGalleryUser[] $items
      */
-    public function isHighlighted();
+    public function setItems(array $items) : void;
 
     /**
-     * @return string
+     * @return ilUsersGalleryUser[]
      */
-    public function getLabel();
-
-    /**
-     * @param $label string
-     */
-    public function setLabel($label);
-
-    /**
-     * @param array $items
-     */
-    public function setItems(array $items);
-
-    /**
-     * @return array
-     */
-    public function getItems();
+    public function getItems() : array;
 }

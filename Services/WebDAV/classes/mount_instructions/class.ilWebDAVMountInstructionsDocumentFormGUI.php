@@ -241,7 +241,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         }
 
         // Exit on failed file upload
-        if (!$document_already_exists && $upload_result->getStatus()->getCode() != ProcessingStatus::OK) {
+        if (!$document_already_exists && !$upload_result->isOK()) {
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }
 
@@ -313,7 +313,7 @@ class ilWebDAVMountInstructionsDocumentFormGUI extends ilPropertyFormGUI
         }
 
         // Check status
-        if ($upload_result->getStatus()->getCode() != ProcessingStatus::OK) {
+        if (!$upload_result->isOK()) {
             $this->getItemByPostVar('document')->setAlert($upload_result->getStatus()->getMessage());
             throw new InvalidArgumentException($this->lng->txt('form_input_not_valid'));
         }

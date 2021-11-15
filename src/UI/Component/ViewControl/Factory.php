@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
 
@@ -6,13 +6,13 @@ namespace ILIAS\UI\Component\ViewControl;
 
 use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\Button\Month;
 
 /**
  * This is how the factory for UI elements looks.
  */
 interface Factory
 {
-
     /**
      * ---
      * description:
@@ -37,7 +37,7 @@ interface Factory
      * @param string $aria_label Defines the functionality.
      * @return \ILIAS\UI\Component\ViewControl\Mode
      */
-    public function mode($labelled_actions, $aria_label);
+    public function mode(array $labelled_actions, string $aria_label) : Mode;
 
     /**
      * ---
@@ -52,16 +52,13 @@ interface Factory
      *   effect: >
      *      Clicking on the Buttons left or right changes the selection of the displayed data by a fixed interval. Clicking
      *      the Button in the middle opens the sections hinted by the label of the button (e.g. "Today").
-     *
      * ---
-     *
      * @param   \ILIAS\UI\Component\Button\Button $previous_action Button to be placed in the left.
      * @param   \ILIAS\UI\Component\Button\Button|\ILIAS\UI\Component\Button\Month $button Button to be placed in the middle (Month Button or Default Button).
      * @param   \ILIAS\UI\Component\Button\Button $next_action Button to be placed in the right.
-     *
      * @return \ILIAS\UI\Component\ViewControl\Section
      */
-    public function section(Button $previous_action, \ILIAS\UI\Component\Component $button, Button $next_action);
+    public function section(Button $previous_action, Component $button, Button $next_action) : Section;
 
     /**
      * ---
@@ -87,10 +84,9 @@ interface Factory
      *
      * ---
      * @param array<string,string>  $options 	a dictionary with value=>title
-     *
      * @return \ILIAS\UI\Component\ViewControl\Sortation
      */
-    public function sortation(array $options);
+    public function sortation(array $options) : Sortation;
 
     /**
      * ---
@@ -105,7 +101,7 @@ interface Factory
      *      When used with the "DropdownAt" option, a dropdown is rendered if
      *      the number of chunks exceeds the option's value.
      *   effect: >
-     *      A click on an chunk-option will change the offset of the displayed data-list,
+     *      A click on a chunk-option will change the offset of the displayed data-list,
      *      thus displaying the respective chunk of entries.
      *      The active option is rendered as an unavailable shy-button.
      *      Clicking the next/back-glyphs, the previous (respectively: the next)
@@ -129,9 +125,7 @@ interface Factory
      *      1: Pagination MUST be operable via keyboard only.
      *
      * ---
-     * @param
-     *
      * @return \ILIAS\UI\Component\ViewControl\Pagination
      */
-    public function pagination();
+    public function pagination() : Pagination;
 }

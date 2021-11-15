@@ -1,35 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Wiki page template gui class
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiPageTemplateGUI
 {
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    protected ilObjWiki $wiki;
+    protected ilToolbarGUI$toolbar;
+    protected ilLanguage $lng;
+    protected ilObjWikiGUI $wiki_gui;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $wiki_gui;
-    protected $ctrl;
-    protected $tpl;
-
-    /**
-     * Constructor
-     *
-     * @param ilObjWikiGUI $a_wiki_gui wiki gui object
-     */
-    public function __construct(ilObjWikiGUI $a_wiki_gui)
-    {
+    public function __construct(
+        ilObjWikiGUI $a_wiki_gui
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
@@ -38,17 +38,16 @@ class ilWikiPageTemplateGUI
         $lng = $DIC->language();
 
         $this->wiki_gui = $a_wiki_gui;
-        $this->wiki = $this->wiki_gui->object;
+        /** @var ilObjWiki $wiki */
+        $wiki = $this->wiki_gui->object;
+        $this->wiki = $wiki;
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->toolbar = $ilToolbar;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $nc = $this->ctrl->getNextClass();
 
@@ -62,10 +61,7 @@ class ilWikiPageTemplateGUI
         }
     }
 
-    /**
-     * List templates
-     */
-    public function listTemplates()
+    public function listTemplates() : void
     {
         // list pages
         $pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
@@ -101,10 +97,7 @@ class ilWikiPageTemplateGUI
         $this->tpl->setContent($tab->getHTML());
     }
 
-    /**
-     * Add page as template page
-     */
-    public function add()
+    public function add() : void
     {
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
         $wpt->save((int) $_POST["templ_page_id"]);
@@ -112,10 +105,7 @@ class ilWikiPageTemplateGUI
         $this->ctrl->redirect($this, "listTemplates");
     }
 
-    /**
-     * Remove
-     */
-    public function remove()
+    public function remove() : void
     {
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
 
@@ -129,10 +119,7 @@ class ilWikiPageTemplateGUI
         $this->ctrl->redirect($this, "listTemplates");
     }
 
-    /**
-     * Save template settings
-     */
-    public function saveTemplateSettings()
+    public function saveTemplateSettings() : void
     {
         if (is_array($_POST["all_ids"])) {
             foreach ($_POST["all_ids"] as $id) {
@@ -153,7 +140,7 @@ class ilWikiPageTemplateGUI
     // PAGE ACTIONS
     //
     
-    public function removePageTemplateFromPageAction()
+    public function removePageTemplateFromPageAction() : void
     {
         $page_id = (int) $_GET["wpg_id"];
         if ($page_id) {

@@ -64,7 +64,9 @@ class ilQueryParser
 
         $lng = $DIC['lng'];
 
-        define('MIN_WORD_LENGTH', self::MIN_WORD_LENGTH);
+        if (!defined('MIN_WORD_LENGTH')) {
+            define('MIN_WORD_LENGTH', self::MIN_WORD_LENGTH);
+        }
 
         $this->lng = $lng;
 
@@ -149,7 +151,7 @@ class ilQueryParser
         return $this->words ? $this->words : array();
     }
 
-    public function getQuotedWords($with_quotation = false)
+    public function getQuotedWords($with_quotation = false) : array
     {
         if ($with_quotation) {
             return $this->quoted_words ? $this->quoted_words : array();

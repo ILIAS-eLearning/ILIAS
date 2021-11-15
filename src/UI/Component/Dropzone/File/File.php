@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
@@ -20,94 +20,67 @@ interface File extends Component, Droppable
 
     /**
      * Get a dropzone like this where the files are uploaded to the given URL.
-     *
-     * @param string $url
-     * @return $this
      */
-    public function withUploadUrl($url);
+    public function withUploadUrl(string $url) : File;
 
     /**
      * Get the upload URL where the files are uploaded.
-     *
-     * @return string
      */
-    public function getUploadUrl();
+    public function getUploadUrl() : string;
 
     /**
      * Get a dropzone like this only accepting the submitted file types for uploading, e.g.
      * ['jpg', 'png', 'gif'] to allow some image formats.
-     *
-     * @param array $types
-     * @return $this
      */
-    public function withAllowedFileTypes(array $types);
+    public function withAllowedFileTypes(array $types) : File;
 
-    /**
-     * @return array
-     */
-    public function getAllowedFileTypes();
+    public function getAllowedFileTypes() : array;
 
     /**
      * Get a dropzone like this, restricting the max number of files that can be uploaded.
-     *
-     * @param int $max
-     * @return $this
      */
-    public function withMaxFiles($max);
+    public function withMaxFiles(int $max) : File;
 
     /**
      * Get the max number of files that can be uploaded.
-     *
-     * @return int
      */
-    public function getMaxFiles();
+    public function getMaxFiles() : int;
 
     /**
      * Get a dropzone like this, restricting the max file size of the files to the given limit.
-     *
-     * @param DataSize $limit
-     * @return $this
      */
-    public function withFileSizeLimit(DataSize $limit);
+    public function withFileSizeLimit(DataSize $limit) : File;
 
     /**
      * Get the max file size.
-     *
-     * @return DataSize
      */
-    public function getFileSizeLimit();
+    public function getFileSizeLimit() : ?DataSize;
 
     /**
      * Get a dropzone like this, allowing to set the filename for each file being uploaded.
      * The custom file name is sent as POST parameter along with the uploaded file.
      *
      * @param bool $state True to enable custom file names
-     * @return $this
      */
-    public function withUserDefinedFileNamesEnabled($state);
+    public function withUserDefinedFileNamesEnabled(bool $state) : File;
 
     /**
      * Check if the dropzone supports to enter custom file names for each file being uploaded.
-     *
-     * @return bool
      */
-    public function allowsUserDefinedFileNames();
+    public function allowsUserDefinedFileNames() : bool;
 
     /**
      * Get a dropzone like this, allowing to set a description for each file being uploaded.
      * The description is sent as POST parameter along with the uploaded file.
      *
      * @param bool $state True to enable file descriptions
-     * @return $this
      */
-    public function withUserDefinedDescriptionEnabled($state);
+    public function withUserDefinedDescriptionEnabled(bool $state) : File;
 
     /**
      * Check if the dropzone supports to enter file descriptions for each file being uploaded.
-     *
-     * @return bool
      */
-    public function allowsUserDefinedFileDescriptions();
+    public function allowsUserDefinedFileDescriptions() : bool;
 
     /**
      * Get a dropzone like this where each uploaded file is identified over a given identifier.
@@ -116,17 +89,11 @@ interface File extends Component, Droppable
      *
      * Note: If you use multiple file dropzones on the same page, you MUST use identifier in
      * order to identify an uploaded file. The default identifier is 'files'.
-     *
-     * @param string $parameter_name
-     *
-     * @return $this
      */
-    public function withParameterName($parameter_name);
+    public function withParameterName(string $parameter_name) : File;
 
     /**
      * Get the identifier used to retrieve and identify an uploaded file server side.
-     *
-     * @return string
      */
-    public function getParametername();
+    public function getParameterName() : string;
 }

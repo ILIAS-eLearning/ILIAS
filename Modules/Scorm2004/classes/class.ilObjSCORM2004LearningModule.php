@@ -1155,11 +1155,11 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 // paste page
                 if (!$this->slm_tree->isInTree($source_obj->getId())) {
                     if ($first_child) {			// as first child
-                        $target_pos = IL_FIRST_NODE;
+                        $target_pos = ilTree::POS_FIRST_NODE;
                         $parent = $target_id;
                     } elseif ($as_subitem) {		// as last child
                         $parent = $target_id;
-                        $target_pos = IL_FIRST_NODE;
+                        $target_pos = ilTree::POS_FIRST_NODE;
                         $pg_childs = $this->slm_tree->getChildsByType($parent, "page");
                         if (count($pg_childs) != 0) {
                             $target_pos = $pg_childs[count($pg_childs) - 1]["obj_id"];
@@ -1195,7 +1195,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $target_pos = $target_id;
 
             if ($first_child) {		// as first sco
-                $target_pos = IL_FIRST_NODE;
+                $target_pos = ilTree::POS_FIRST_NODE;
                 $target_parent = $target_id;
                 
                 $pg_childs = $this->slm_tree->getChildsByType($target_parent, "page");
@@ -1204,7 +1204,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 }
             } elseif ($as_subitem) {		// as last sco
                 $target_parent = $target_id;
-                $target_pos = IL_FIRST_NODE;
+                $target_pos = ilTree::POS_FIRST_NODE;
                 $childs = $this->slm_tree->getChilds($target_parent);
                 if (count($childs) != 0) {
                     $target_pos = $childs[count($childs) - 1]["obj_id"];
@@ -1255,7 +1255,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             $target_pos = $target_id;
 
             if ($first_child) {		// as first chapter
-                $target_pos = IL_FIRST_NODE;
+                $target_pos = ilTree::POS_FIRST_NODE;
                 $target_parent = $target_id;
                 
             //$sco_childs = $this->slm_tree->getChildsByType($target_parent, "sco");
@@ -1265,7 +1265,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 //}
             } elseif ($as_subitem) {		// as last chapter
                 $target_parent = $target_id;
-                $target_pos = IL_FIRST_NODE;
+                $target_pos = ilTree::POS_FIRST_NODE;
                 $childs = $this->slm_tree->getChilds($target_parent);
                 if (count($childs) != 0) {
                     $target_pos = $childs[count($childs) - 1]["obj_id"];
@@ -1863,7 +1863,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
                 $a_new_obj,
                 $c["child"],
                 $target_tree_root_id,
-                IL_LAST_NODE,
+                ilTree::POS_LAST_NODE,
                 "",
                 $a_copied_nodes,
                 true,

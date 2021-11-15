@@ -1,74 +1,45 @@
 <?php
 
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\News\StandardGUIRequest;
 
 /**
  * Single news timeline item
- * @author  Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesNews
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNewsTimelineItemGUI implements ilTimelineItemInt
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilLanguage $lng;
+    protected ilNewsItem $news_item;
+    protected ilObjectDefinition $obj_def;
+    protected ilObjUser $user;
+    protected bool $user_edit_all;
+    protected int $news_item_ref_id;
+    protected int $ref_id;
+    protected ilCtrl $ctrl;
+    protected \ilLikeGUI $like_gui;
+    protected StandardGUIRequest $std_request;
 
-    /**
-     * @var ilNewsItem
-     */
-    protected $news_item;
-
-    /**
-     * @var ilObjectDefinition
-     */
-    protected $obj_def;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var bool
-     */
-    protected $user_edit_all;
-
-    /**
-     * Ref ID of news item
-     * @var int
-     */
-    protected $news_item_ref_id;
-
-    /**
-     * Ref id of timeline container
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \ilLikeGUI
-     */
-    protected $like_gui;
-
-    /**
-     * Constructor
-     * @param ilNewsItem $a_news_item
-     * @param            $a_news_ref_id
-     * @param ilLikeGUI  $a_like_gui
-     */
-    protected function __construct(ilNewsItem $a_news_item, $a_news_ref_id, \ilLikeGUI $a_like_gui)
-    {
+    protected function __construct(
+        ilNewsItem $a_news_item,
+        int $a_news_ref_id,
+        \ilLikeGUI $a_like_gui
+    ) {
         global $DIC;
 
         $this->like_gui = $a_like_gui;
-
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->setNewsItem($a_news_item);
@@ -76,73 +47,58 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         $this->obj_def = $DIC["objDefinition"];
         $this->news_item_ref_id = $a_news_ref_id;
 
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->std_request = new StandardGUIRequest(
+            $DIC->http(),
+            $DIC->refinery()
+        );
+        $this->ref_id = $this->std_request->getRefId();
     }
 
-    /**
-     * Get instance
-     * @param ilNewsItem $a_news_item news item
-     * @return ilNewsTimelineItemGUI
-     */
-    public static function getInstance(ilNewsItem $a_news_item, $a_news_ref_id, \ilLikeGUI $a_like_gui)
-    {
+    public static function getInstance(
+        ilNewsItem $a_news_item,
+        int $a_news_ref_id,
+        \ilLikeGUI $a_like_gui
+    ) : self {
         return new self($a_news_item, $a_news_ref_id, $a_like_gui);
     }
 
-    /**
-     * Set news item
-     * @param ilNewsItem $a_val news item
-     */
-    public function setNewsItem(ilNewsItem $a_val)
+    public function setNewsItem(ilNewsItem $a_val) : void
     {
         $this->news_item = $a_val;
     }
 
-    /**
-     * Get news item
-     * @return ilNewsItem news item
-     */
-    public function getNewsItem()
+    public function getNewsItem() : ilNewsItem
     {
         return $this->news_item;
     }
 
     /**
      * Set user can edit other users postings
-     * @param bool $a_val user can edit all postings
      */
-    public function setUserEditAll($a_val)
+    public function setUserEditAll(bool $a_val) : void
     {
         $this->user_edit_all = $a_val;
     }
 
     /**
      * Get user can edit other users postings
-     * @return bool user can edit all postings
      */
-    public function getUserEditAll()
+    public function getUserEditAll() : bool
     {
         return $this->user_edit_all;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDateTime()
+    public function getDateTime() : ilDateTime
     {
         $i = $this->getNewsItem();
         return new ilDateTime($i->getCreationDate(), IL_CAL_DATETIME);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function render()
+    public function render() : string
     {
         $i = $this->getNewsItem();
         $tpl = new ilTemplate("tpl.timeline_item.html", true, true, "Services/News");
 
-        include_once("./Services/News/classes/class.ilNewsRendererFactory.php");
         $news_renderer = ilNewsRendererFactory::getRenderer($i->getContextObjType());
         $news_renderer->setLanguage($this->lng->getLangKey());
         $news_renderer->setNewsItem($i, $this->news_item_ref_id);
@@ -155,7 +111,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $update_date = new ilDateTime($i->getUpdateDate(), IL_CAL_DATETIME);
             $tpl->setVariable("TXT_EDITED", $this->lng->txt("cont_news_edited"));
             if ($i->getUpdateUserId() > 0 && ($i->getUpdateUserId() != $i->getUserId())) {
-                include_once("./Services/User/classes/class.ilUserUtil.php");
                 $tpl->setVariable("TXT_USR_EDITED", ilUserUtil::getNamePresentation(
                     $i->getUpdateUserId(),
                     false,
@@ -163,13 +118,11 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
                     $this->ctrl->getLinkTargetByClass("ilnewstimelinegui")
                 ) . " - ");
             }
-            include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
             $tpl->setVariable("TIME_EDITED", ilDatePresentation::formatDate($update_date));
             $tpl->parseCurrentBlock();
         }
 
         // context object link
-        include_once("./Services/Link/classes/class.ilLink.php");
         if ($this->news_item_ref_id > 0 && $this->ref_id != $this->news_item_ref_id) {
             $tpl->setCurrentBlock("object");
             $tpl->setVariable("OBJ_TITLE", ilObject::_lookupTitle($obj_id));
@@ -195,7 +148,6 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         // content
         $tpl->setVariable("CONTENT", $news_renderer->getTimelineContent());
 
-        include_once("./Services/User/classes/class.ilUserUtil.php");
         $tpl->setVariable("TXT_USR", ilUserUtil::getNamePresentation(
             $i->getUserId(),
             false,
@@ -203,11 +155,9 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
             $this->ctrl->getLinkTargetByClass("ilnewstimelinegui")
         ));
 
-        include_once("./Services/Calendar/classes/class.ilDatePresentation.php");
         $tpl->setVariable("TIME", ilDatePresentation::formatDate($this->getDateTime()));
 
         // actions
-        include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $list = new ilAdvancedSelectionListGUI();
         $list->setListTitle("");
         $list->setId("news_tl_act_" . $i->getId());
@@ -249,12 +199,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $tpl->get();
     }
 
-    /**
-     * Render media
-     * @param
-     * @return
-     */
-    protected function renderMedia(ilNewsItem $i)
+    protected function renderMedia(ilNewsItem $i) : string
     {
         global $DIC;
 
@@ -285,12 +230,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $html;
     }
 
-    /**
-     * Render media
-     * @param ilNewsItem
-     * @return string
-     */
-    protected function renderMediaModal(ilNewsItem $i)
+    protected function renderMediaModal(ilNewsItem $i) : string
     {
         global $DIC;
 
@@ -316,11 +256,7 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         return $modal_html;
     }
 
-    /**
-     * Render footer
-     * @throws ilCtrlException
-     */
-    public function renderFooter()
+    public function renderFooter() : string
     {
         $i = $this->getNewsItem();
 
@@ -351,21 +287,15 @@ class ilNewsTimelineItemGUI implements ilTimelineItemInt
         //ilNoteGUI::getListCommentsJSCall($this->ajax_hash, $redraw_js)
         $html .= $this->ctrl->getHTML($note_gui);
 
-        $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $_GET["news_id"]);
+        $this->ctrl->setParameterByClass("ilnewstimelinegui", "news_id", $this->std_request->getNewsId());
 
         return $html . $this->renderMediaModal($i);
     }
 
-    /**
-     * @param ilNewsItem $i
-     * @return string
-     */
-    protected function getMediaPath(ilNewsItem $i)
+    protected function getMediaPath(ilNewsItem $i) : string
     {
         $media_path = "";
         if ($i->getMobId() > 0) {
-            include_once("./Services/MediaObjects/classes/class.ilObjMediaObject.php");
-            include_once("./Services/MediaObjects/classes/class.ilMediaPlayerGUI.php");
             $mob = new ilObjMediaObject($i->getMobId());
             $med = $mob->getMediaItem("Standard");
             if (strcasecmp("Reference", $med->getLocationType()) == 0) {

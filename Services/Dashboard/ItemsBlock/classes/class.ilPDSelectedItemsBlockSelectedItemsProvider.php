@@ -1,31 +1,24 @@
 <?php
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
-
 
 /**
- * Class ilPDSelectedItemsBlockMembershipsProvider
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
  */
+
 class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBlockProvider
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $actor;
+    protected ilObjUser $actor;
+    protected ilFavouritesManager $fav_manager;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilFavouritesManager
-     */
-    protected $fav_manager;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * ilPDSelectedItemsBlockSelectedItemsProvider constructor.
-     * @param ilObjUser $actor
-     */
     public function __construct(ilObjUser $actor)
     {
         global $DIC;
@@ -35,10 +28,7 @@ class ilPDSelectedItemsBlockSelectedItemsProvider implements ilPDSelectedItemsBl
         $this->access = $DIC->access();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getItems($object_type_white_list = array()) : array
+    public function getItems(array $object_type_white_list = array()) : array
     {
         $favourites = $this->fav_manager->getFavouritesOfUser(
             $this->actor->getId(),

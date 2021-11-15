@@ -1,12 +1,13 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\Data\DataSize;
 
 require_once(__DIR__ . "/../../../../../libs/composer/vendor/autoload.php");
 require_once(__DIR__ . "/../../../Base.php");
 
-use \ILIAS\UI\Component as C;
-use \ILIAS\UI\Implementation as I;
+use ILIAS\UI\Component as C;
+use ILIAS\UI\Implementation as I;
+use ILIAS\UI\Implementation\Component\SignalGenerator;
 
 /**
  * Class FileDropzoneRendererTest
@@ -18,15 +19,15 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
     const STANDARD = "ILIAS\\UI\\Component\\Dropzone\\File\\Standard";
     const WRAPPER = "ILIAS\\UI\\Component\\Dropzone\\File\\Wrapper";
 
-
+    protected I\Component\Legacy\Factory $legacy_factory;
 
     public function setUp() : void
     {
-        $sig_gen = new \ILIAS\UI\Implementation\Component\SignalGenerator();
+        $sig_gen = new SignalGenerator();
         $this->legacy_factory = new I\Component\Legacy\Factory($sig_gen);
     }
 
-    public function test_implements_factory_interface()
+    public function test_implements_factory_interface() : void
     {
         $f = $this->dropzone();
         $this->assertInstanceOf(self::STANDARD, $f->standard(''));
@@ -38,7 +39,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
      * should be rendered with the css class .standard and no content inside
      * the dropzone div.
      */
-    public function testRenderStandardDropzone()
+    public function testRenderStandardDropzone() : void
     {
 
         // setup expected objects
@@ -110,7 +111,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
      * should be rendered with the css class .standard and a span-tag with the passed in message
      * inside the dropzone div.
      */
-    public function testRenderStandardDropzoneWithMessage()
+    public function testRenderStandardDropzoneWithMessage() : void
     {
 
         // setup expected objects
@@ -133,7 +134,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
      * should be rendered with the css class .wrapper and all passed in ILIAS UI components inside
      * the div.
      */
-    public function testRenderWrapperDropzone()
+    public function testRenderWrapperDropzone() : void
     {
         // setup expected objects
         $expectedHtml = $this->brutallyTrimHTML('
@@ -212,7 +213,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
     }
 
 
-    public function testRenderMetadata()
+    public function testRenderMetadata() : void
     {
         $with_user_defined_names_html = $this->brutallyTrimHTML('<div id="id_1" class="il-dropzone-base">
    <div class="clearfix hidden-sm-up"></div>
@@ -424,7 +425,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
     }
 
 
-    public function testWithButton()
+    public function testWithButton() : void
     {
         $expected_html = $this->brutallyTrimHTML('
         <div id="id_1" class="il-dropzone-base">
@@ -489,7 +490,7 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
     }
 
 
-    public function testModifiers()
+    public function testModifiers() : void
     {
         $url = 'https://ilias.de/123?test=8&lorem=ipsum';
         $message = 'Everything\'s fine here, just drop some files...';
@@ -515,24 +516,24 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
         $this->assertEquals($allowed_files, $dropzone->getMaxFiles());
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
-        $factory = new class extends NoUIFactory {
-            public function button()
+        return new class extends NoUIFactory {
+            public function button() : C\Button\Factory
             {
-                return new I\Component\Button\Factory(new I\Component\SignalGenerator());
+                return new I\Component\Button\Factory();
             }
-            public function modal()
+            public function modal() : C\Modal\Factory
             {
-                return new I\Component\Modal\Factory(new I\Component\SignalGenerator());
+                return new I\Component\Modal\Factory(new SignalGenerator());
             }
-            public function link()
+            public function link() : C\Link\Factory
             {
-                return new I\Component\Link\Factory(new I\Component\SignalGenerator());
+                return new I\Component\Link\Factory();
             }
-            public function dropdown()
+            public function dropdown() : C\Dropdown\Factory
             {
-                return new I\Component\Dropdown\Factory(new I\Component\SignalGenerator());
+                return new I\Component\Dropdown\Factory();
             }
             public function symbol() : C\Symbol\Factory
             {
@@ -542,15 +543,14 @@ class DropzoneRendererTest extends ILIAS_UI_TestBase
                     new I\Component\Symbol\Avatar\Factory()
                 );
             }
-            public function legacy($content)
+            public function legacy(string $content) : C\Legacy\Legacy
             {
-                return new I\Component\Legacy\Legacy($content, new I\Component\SignalGenerator());
+                return new I\Component\Legacy\Legacy($content, new SignalGenerator());
             }
         };
-        return $factory;
     }
 
-    protected function dropzone()
+    protected function dropzone() : I\Component\Dropzone\File\Factory
     {
         return new I\Component\Dropzone\File\Factory();
     }

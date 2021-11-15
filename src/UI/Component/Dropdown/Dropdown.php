@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -8,6 +8,9 @@ use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Hoverable;
 use ILIAS\UI\Component\JavaScriptBindable;
+use ILIAS\UI\Component\Button\Shy;
+use ILIAS\UI\Component\Divider\Horizontal;
+use ILIAS\UI\Component\Link\Standard;
 
 /**
  * This describes commonalities between all types of Dropdowns
@@ -17,38 +20,27 @@ interface Dropdown extends Component, JavaScriptBindable, Clickable, Hoverable
 
     /**
      * Get the items of the Dropdown.
-     *
-     * @return	array<\ILIAS\UI\Component\Button\Shy|\ILIAS\UI\Component\Divider\Horizontal|\ILIAS\UI\Component\Link\Standard>
+     * @return	array<Shy|Horizontal|Standard>
      */
-    public function getItems();
+    public function getItems() : array;
 
     /**
      * Get the label of the Dropdown.
-     *
-     * @return	string
      */
-    public function getLabel();
+    public function getLabel() : ?string;
 
     /**
      * Get the aria-label of the Dropdown.
-     *
-     * @return	string
      */
-    public function getAriaLabel();
+    public function getAriaLabel() : ?string;
 
     /**
      * Get a Dropdown like this, but with an additional/replaced label.
-     *
-     * @param	string	$label
-     * @return	Dropdown
      */
-    public function withLabel($label);
+    public function withLabel(string $label) : Dropdown;
 
     /**
      * Get a Dropdown like this, but with an additional/replaced aria-label.
-     *
-     * @param	string	$label
-     * @return	Dropdown
      */
-    public function withAriaLabel($label);
+    public function withAriaLabel(string $label) : Dropdown;
 }

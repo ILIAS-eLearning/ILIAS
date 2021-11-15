@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2017 Alexander Killing <killing@leifos.de> Extended GPL, see docs/LICENSE */
 
@@ -10,22 +8,24 @@ use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Component;
+use LogicException;
 
 class Renderer extends AbstractComponentRenderer
 {
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer)
+    public function render(Component\Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
         if ($component instanceof Component\Link\Standard) {
-            return $this->renderStandard($component, $default_renderer);
+            return $this->renderStandard($component);
         }
         if ($component instanceof Component\Link\Bulky) {
             return $this->renderBulky($component, $default_renderer);
         }
+        throw new LogicException("Cannot render: " . get_class($component));
     }
 
     protected function setStandardVars(
@@ -44,8 +44,7 @@ class Renderer extends AbstractComponentRenderer
     }
 
     protected function renderStandard(
-        Component\Link\Standard $component,
-        RendererInterface $default_renderer
+        Component\Link\Standard $component
     ) : string {
         $tpl_name = "tpl.standard.html";
         $tpl = $this->setStandardVars($tpl_name, $component);
@@ -77,7 +76,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    protected function getComponentInterfaceName()
+    protected function getComponentInterfaceName() : array
     {
         return [
             Component\Link\Standard::class,

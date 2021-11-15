@@ -29,9 +29,6 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
         $this->lng->loadLanguageModule('forum');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getTasks(int $user_id) : array
     {
         $tasks = [];
@@ -58,7 +55,7 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
             );
 
             $isThread = false;
-            if (0 === (int) $draft->getThreadId()) {
+            if (0 === $draft->getThreadId()) {
                 $isThread = true;
             }
 
@@ -85,16 +82,13 @@ class ilForumDraftsDerivedTaskProvider implements \ilDerivedTaskProvider
     {
         foreach (ilObject::_getAllReferences($objId) as $refId) {
             if ($this->accessHandler->checkAccessOfUser($userId, $operation, '', $refId)) {
-                return (int) $refId;
+                return $refId;
             }
         }
 
         return 0;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isActive() : bool
     {
         return (bool) $this->settings->get('save_post_drafts', null);

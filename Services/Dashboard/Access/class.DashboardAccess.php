@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Dashboard\Access;
 
@@ -11,24 +22,10 @@ namespace ILIAS\Dashboard\Access;
  */
 class DashboardAccess
 {
-    /**
-     * @var \ilRbacSystem
-     */
-    protected $rbac_system;
+    protected \ilRbacSystem $rbac_system;
+    protected \ilDBInterface $db;
+    protected static int $setting_ref_id = 0;
 
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var int
-     */
-    protected static $setting_ref_id = 0;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -58,9 +55,6 @@ class DashboardAccess
         return self::$setting_ref_id;
     }
 
-    /**
-     * @param int $user_id
-     */
     public function canChangePresentation(int $user_id) : bool
     {
         return $this->rbac_system->checkAccessOfUser($user_id, "change_presentation", $this->getSettingsRefId());

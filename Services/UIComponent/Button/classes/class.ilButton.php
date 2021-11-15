@@ -126,7 +126,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    public function isFormNovalidate() : bool
+    public function isFormNovalidate() : ?bool
     {
         return $this->form_novalidate;
     }
@@ -140,7 +140,7 @@ class ilButton extends ilButtonBase
     {
         if (!is_bool($form_novalidate)) {
             throw new InvalidArgumentException(
-                sprintf("Please pass a value of type 'boolean' to specify whether the form is not to be validated when it is submitted")
+                "Please pass a value of type 'boolean' to specify whether the form is not to be validated when it is submitted"
             );
         }
 
@@ -148,7 +148,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormTarget() : string
+    public function getFormTarget() : ?string
     {
         return $this->form_target;
     }
@@ -175,7 +175,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormMethod() : string
+    public function getFormMethod() : ?string
     {
         return $this->form_method;
     }
@@ -199,7 +199,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormEncType() : string
+    public function getFormEncType() : ?string
     {
         return $this->form_enc_type;
     }
@@ -223,7 +223,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormAction() : string
+    public function getFormAction() : ?string
     {
         return $this->form_action;
     }
@@ -237,7 +237,7 @@ class ilButton extends ilButtonBase
     {
         if (!is_string($form_action)) {
             throw new InvalidArgumentException(
-                sprintf("The form action must be of type 'string'")
+                "The form action must be of type 'string'"
             );
         }
 
@@ -262,7 +262,7 @@ class ilButton extends ilButtonBase
     {
         if (!is_string($form)) {
             throw new InvalidArgumentException(
-                sprintf("The form id must be of type 'string'")
+                "The form id must be of type 'string'"
             );
         }
 
@@ -270,7 +270,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getValue() : string
+    public function getValue() : ?string
     {
         return $this->value;
     }
@@ -283,7 +283,7 @@ class ilButton extends ilButtonBase
     {
         if (!is_string($value)) {
             throw new InvalidArgumentException(
-                sprintf("The initial value of the button must be of type 'string'")
+                "The initial value of the button must be of type 'string'"
             );
         }
 
@@ -291,7 +291,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getName() : string
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -305,7 +305,7 @@ class ilButton extends ilButtonBase
     {
         if (!is_string($name)) {
             throw new InvalidArgumentException(
-                sprintf("The name of the button must be of type 'string'")
+                "The name of the button must be of type 'string'"
             );
         }
 
@@ -340,15 +340,15 @@ class ilButton extends ilButtonBase
     {
         $this->prepareRender();
 
-        $attr = array();
-        $attr['type'] = $this->getButtonType();
-        $attr['name'] = $this->getName();
-        $attr['value'] = $this->getValue();
-        $attr['form'] = $this->getForm();
-        $attr['formaction'] = $this->getFormAction();
-        $attr['formmethod'] = $this->getFormMethod();
-        $attr['formenctype'] = $this->getFormEncType();
-        $attr['formtarget'] = $this->getFormTarget();
+        $attr = [];
+        $attr['type'] = $this->getButtonType() ?? '';
+        $attr['name'] = $this->getName() ?? '';
+        $attr['value'] = $this->getValue() ?? '';
+        $attr['form'] = $this->getForm() ?? '';
+        $attr['formaction'] = $this->getFormAction() ?? '';
+        $attr['formmethod'] = $this->getFormMethod() ?? '';
+        $attr['formenctype'] = $this->getFormEncType() ?? '';
+        $attr['formtarget'] = $this->getFormTarget() ?? '';
         $attr['formnovalidate'] = $this->isFormNovalidate() ? var_export($this->isFormNovalidate(), 1) : null;
 
         if (self::FORM_TARGET_BLANK === $this->getFormTarget()) {

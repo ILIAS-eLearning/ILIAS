@@ -9,6 +9,7 @@
  */
 class ilPortfolioPage extends ilPageObject
 {
+    public int $create_user = 0;
     protected $portfolio_id;
     protected $type = 1;
     protected $title;
@@ -19,10 +20,9 @@ class ilPortfolioPage extends ilPageObject
 
     /**
      * Get parent type
-     *
      * @return string parent type
      */
-    public function getParentType()
+    public function getParentType() : string
     {
         return "prtf";
     }
@@ -151,8 +151,9 @@ class ilPortfolioPage extends ilPageObject
 
     /**
      * Create new portfolio page
+     * @param bool $a_import
      */
-    public function create($a_import = false)
+    public function create(bool $a_import = false) : void
     {
         $ilDB = $this->db;
 
@@ -169,7 +170,7 @@ class ilPortfolioPage extends ilPageObject
         $ilDB->insert("usr_portfolio_page", $fields);
 
         if (!$a_import) {
-            parent::create();
+            parent::create($a_import);
             // $this->saveInternalLinks($this->getDomDoc());
         }
     }
@@ -179,7 +180,7 @@ class ilPortfolioPage extends ilPageObject
      *
      * @return    boolean
      */
-    public function update($a_validate = true, $a_no_history = false)
+    public function update(bool $a_validate = true, bool $a_no_history = false)
     {
         $ilDB = $this->db;
 
@@ -201,7 +202,7 @@ class ilPortfolioPage extends ilPageObject
     /**
      * Read page data
      */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
 
@@ -222,7 +223,7 @@ class ilPortfolioPage extends ilPageObject
     /**
      * delete portfolio page and all related data
      */
-    public function delete()
+    public function delete() : void
     {
         $ilDB = $this->db;
 

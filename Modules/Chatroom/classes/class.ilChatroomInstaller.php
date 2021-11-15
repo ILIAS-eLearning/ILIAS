@@ -192,7 +192,7 @@ class ilChatroomInstaller
         self::convertChatObjects();
 
         $notificationSettings = new ilSetting('notifications');
-        $notificationSettings->set('enable_osd', true);
+        $notificationSettings->set('enable_osd', '1');
     }
 
     /**
@@ -462,7 +462,7 @@ class ilChatroomInstaller
             );
 
             $settings = new ilSetting('chatroom');
-            $settings->set('public_room_ref', $ref_id);
+            $settings->set('public_room_ref', (string) $ref_id);
         }
     }
 

@@ -472,7 +472,7 @@ class ilMailFormGUI
                     ->withHeader(ResponseHeader::CONTENT_TYPE, 'application/json')
                     ->withBody(\ILIAS\Filesystem\Stream\Streams::ofString(json_encode([
                         'm_subject' => $template->getSubject(),
-                        'm_message' => $template->getMessage(),
+                        'm_message' => $template->getMessage() . $this->umail->appendSignature(),
                     ], JSON_THROW_ON_ERROR)))
             );
         } catch (Exception $e) {
@@ -535,19 +535,25 @@ class ilMailFormGUI
 
                 if (ilSession::get('mail_search_results_to')) {
                     $mailData = $this->umail->appendSearchResult(
-                        $this->refinery->kindlyTo()->string()->transform(ilSession::get('mail_search_results_to')),
+                        $this->refinery->kindlyTo()->listOf(
+                            $this->refinery->kindlyTo()->string()
+                        )->transform(ilSession::get('mail_search_results_to')),
                         'to'
                     );
                 }
                 if (ilSession::get('mail_search_results_cc')) {
                     $mailData = $this->umail->appendSearchResult(
-                        $this->refinery->kindlyTo()->string()->transform(ilSession::get('mail_search_results_cc')),
+                        $this->refinery->kindlyTo()->listOf(
+                            $this->refinery->kindlyTo()->string()
+                        )->transform(ilSession::get('mail_search_results_cc')),
                         'cc'
                     );
                 }
                 if (ilSession::get('mail_search_results_bcc')) {
                     $mailData = $this->umail->appendSearchResult(
-                        $this->refinery->kindlyTo()->string()->transform(ilSession::get('mail_search_results_bcc')),
+                        $this->refinery->kindlyTo()->listOf(
+                            $this->refinery->kindlyTo()->string()
+                        )->transform(ilSession::get('mail_search_results_bcc')),
                         'bc'
                     );
                 }
@@ -728,21 +734,18 @@ class ilMailFormGUI
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_to'] ?? ''));
         $inp->setDataSource($dsDataLink, ',');
-        $inp->setMaxLength(null);
         $form_gui->addItem($inp);
 
         $inp = new ilTextInputGUI($this->lng->txt('cc'), 'rcp_cc');
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_cc'] ?? ''));
         $inp->setDataSource($dsDataLink, ',');
-        $inp->setMaxLength(null);
         $form_gui->addItem($inp);
 
         $inp = new ilTextInputGUI($this->lng->txt('bc'), 'rcp_bcc');
         $inp->setSize(50);
         $inp->setValue((string) ($mailData['rcp_bcc'] ?? ''));
         $inp->setDataSource($dsDataLink, ',');
-        $inp->setMaxLength(null);
         $form_gui->addItem($inp);
 
         $inp = new ilTextInputGUI($this->lng->txt('subject'), 'm_subject');
@@ -798,7 +801,7 @@ class ilMailFormGUI
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
                             $template_chb->setValue($template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
-                            $mailData['m_message'] = $template->getMessage();
+                            $mailData['m_message'] = $template->getMessage() . $this->umail->appendSignature();
                         }
                     }
                     if (isset($mailData['template_id'])) {

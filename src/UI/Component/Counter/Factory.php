@@ -1,5 +1,7 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 2015, 2016 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+
 namespace ILIAS\UI\Component\Counter;
 
 /**
@@ -16,10 +18,9 @@ interface Factory
      *       total number of some items like users active on the system or total
      *       number of comments.
      *   composition: >
-     *       The Status Counter is a non-obstrusive Counter.
+     *       The Status Counter is a non-obtrusive Counter.
      *   effect: >
      *       Status Counters convey information, they are not interactive.
-     *
      * context:
      *   - The Status Counter is used in the ‘Who is online?’ Tool.
      * rules:
@@ -28,14 +29,13 @@ interface Factory
      *          The Status Counter MUST be displayed on the lower right of the item
      *          it accompanies.
      *       2: >
-     *          The Status Counter SHOULD have a non-obstrusive background color,
+     *          The Status Counter SHOULD have a non-obtrusive background color,
      *          such as grey.
      * ---
-     *
      * @param   int         $number
      * @return  \ILIAS\UI\Component\Counter\Counter
      */
-    public function status($number);
+    public function status(int $number) : Counter;
 
     /**
      * ---
@@ -75,9 +75,8 @@ interface Factory
      *          The Novelty Counter SHOULD have an obstrusive background color,
      *          such as red or orange.
      * ---
-     *
      * @param   int         $number
      * @return  \ILIAS\UI\Component\Counter\Counter
      */
-    public function novelty($number);
+    public function novelty(int $number) : Counter;
 }

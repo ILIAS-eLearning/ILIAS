@@ -1,38 +1,36 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Wiki settings gui class
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  *
  * @ilCtrl_Calls ilObjWikiSettingsGUI: ilPermissionGUI
  * @ilCtrl_isCalledBy ilObjWikiSettingsGUI: ilAdministrationGUI
  */
 class ilObjWikiSettingsGUI extends ilObject2GUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilErrorHandling $error;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
-    {
+    public function __construct(
+        int $a_id = 0,
+        int $a_id_type = self::REPOSITORY_NODE_ID,
+        int $a_parent_node_id = 0
+    ) {
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
         global $DIC;
 
@@ -46,29 +44,14 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         $this->tpl = $DIC["tpl"];
     }
 
-    
-    /**
-     * Get type
-     *
-     * @param
-     * @return
-     */
     public function getType()
     {
         return "wiks";
     }
-    
 
-    /**
-     * Execute command
-     *
-     * @access public
-     *
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilErr = $this->error;
-        $ilAccess = $this->access;
         $lng = $this->lng;
         
         $lng->loadLanguageModule("wiki");
@@ -86,29 +69,21 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = $this->ctrl->forwardCommand($perm_gui);
+                $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
                 if (!$cmd || $cmd == 'view') {
                     $cmd = "editSettings";
                 }
-
                 $this->$cmd();
                 break;
         }
-        return true;
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    protected function editSettings(ilPropertyFormGUI $form = null)
+    protected function editSettings(ilPropertyFormGUI $form = null) : void
     {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
         $ilTabs = $this->tabs;
-        $ilToolbar = $this->toolbar;
         $tpl = $this->tpl;
         
         $ilTabs->activateTab("settings");
@@ -122,21 +97,12 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    protected function populateWithCurrentSettings(ilPropertyFormGUI $form)
+    protected function populateWithCurrentSettings(ilPropertyFormGUI $form) : void
     {
-        $form->setValuesByArray(array(
-            'activate_captcha_anonym' => ilCaptchaUtil::isActiveForWiki()
-        ));
+        $form->setValuesByArray([]);
     }
 
-    /**
-     * @param string $a_mode
-     * @return ilPropertyFormGUI
-     */
-    public function initForm($a_mode = "edit")
+    public function initForm() : ilPropertyFormGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -161,15 +127,8 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         return $form;
     }
     
-    /**
-     * Save settings
-     */
-    protected function saveSettings()
+    protected function saveSettings() : void
     {
-        /**
-         * @var $lng ilLanguage
-         * @var $ilCtrl ilCtrl
-         */
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
@@ -185,16 +144,11 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
             return;
         }
 
-        ilCaptchaUtil::setActiveForWiki((bool) $form->getInput('activate_captcha_anonym'));
-
         ilUtil::sendSuccess($lng->txt('msg_obj_modified'), true);
         $ilCtrl->redirect($this, 'editSettings');
     }
 
-    /**
-     * administration tabs show only permissions and trash folder
-     */
-    public function getAdminTabs()
+    public function getAdminTabs() : void
     {
         if ($this->checkPermissionBool("visible,read")) {
             $this->tabs_gui->addTab(
@@ -213,19 +167,8 @@ class ilObjWikiSettingsGUI extends ilObject2GUI
         }
     }
 
-    /**
-     * @param string $a_form_id
-     * @return array
-     */
-    public function addToExternalSettingsForm($a_form_id)
+    public function addToExternalSettingsForm(int $a_form_id) : ?array
     {
-        switch ($a_form_id) {
-            case ilAdministrationSettingsFormHandler::FORM_ACCESSIBILITY:
-                $fields = array(
-                    'adm_captcha_anonymous_short' => array(ilCaptchaUtil::isActiveForWiki(), ilAdministrationSettingsFormHandler::VALUE_BOOL)
-                );
-
-                return array('obj_wiks' => array('editSettings', $fields));
-        }
+        return null;
     }
 }

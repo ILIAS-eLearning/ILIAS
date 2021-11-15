@@ -1878,8 +1878,6 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
         }
 
         $ilCtrl->setParameter($this, "active_node", $_GET["obj_id"]);
-        //		$form_gui->setExplorerUpdater("tree", "tree_div",
-        //			$ilCtrl->getLinkTarget($this, "showTree", "", true));
         $sc_tpl = new ilTemplate("tpl.scormeditor_orga_screen.html", true, true, "Modules/Scorm2004");
         $sc_tpl->setVariable("ORGANIZATION", $form_gui->getHTML());
         $sc_tpl->setVariable("NOTES", $this->getNotesHTML());
@@ -1943,7 +1941,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
         $chap_ids = array();
         for ($i = 1; $i <= $num; $i++) {
@@ -1984,7 +1982,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         $sco_ids = array();
@@ -2026,7 +2024,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         $ass_ids = array();
@@ -2068,7 +2066,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $target = $node_id;
         } else {													// insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         $page_ids = array();
@@ -2179,7 +2177,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $target = $node_id;
         } else {     // insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         $template = new ilSCORM2004SeqTemplate($_POST["identifier"]);
@@ -2302,7 +2300,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
             $target = $node_id;
         } else {           // insert as first child
             $parent_id = $node_id;
-            $target = IL_FIRST_NODE;
+            $target = ilTree::POS_FIRST_NODE;
         }
 
         $page_ids = array();
@@ -2427,7 +2425,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         // Add items to delete
         foreach ($_POST["id"] as $id) {
-            if ($id != IL_FIRST_NODE) {
+            if ($id != ilTree::POS_FIRST_NODE) {
                 $node_obj = ilSCORM2004NodeFactory::getInstance($this->object, $id, false);
                 $confirmation_gui->addItem(
                     "id[]",
@@ -2465,7 +2463,7 @@ class ilObjSCORM2004LearningModuleGUI extends ilObjSCORMLearningModuleGUI
 
         // delete all selected objects
         foreach ($_POST["id"] as $id) {
-            if ($id != IL_FIRST_NODE) {
+            if ($id != ilTree::POS_FIRST_NODE) {
                 $obj = ilSCORM2004NodeFactory::getInstance($this->object, $id, false);
                 $node_data = $tree->getNodeData($id);
                 if (is_object($obj)) {

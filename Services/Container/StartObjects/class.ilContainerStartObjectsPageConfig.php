@@ -23,7 +23,7 @@ class ilContainerStartObjectsPageConfig extends ilPageConfig
     /**
      * Init
      */
-    public function init()
+    public function init() : void
     {
         $this->setEnableInternalLinks(true);
         $this->setIntLinkHelpDefaultType("RepositoryItem");

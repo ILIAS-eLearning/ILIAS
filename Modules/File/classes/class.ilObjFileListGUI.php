@@ -1,8 +1,9 @@
 <?php
 
+/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * Class ilObjFileListGUI
- *
  * @author        Alex Killing <alex.killing@gmx.de>
  * @author        Stefan Born <stefan.born@phzh.ch>
  * @author        Fabian Schmid <fs@studer-raimann.ch>
@@ -28,12 +29,9 @@ class ilObjFileListGUI extends ilObjectListGUI
         $this->commands = ilObjFileAccess::_getCommands();
     }
 
-
     /**
      * Get command target frame
-     *
      * @param string $a_cmd command
-     *
      * @return    string        command target frame
      */
     public function getCommandFrame($a_cmd)
@@ -55,7 +53,6 @@ class ilObjFileListGUI extends ilObjectListGUI
         return $frame;
     }
 
-
     /**
      * Returns the icon image type.
      * For most objects, this is same as the object type, e.g. 'cat','fold'.
@@ -68,10 +65,8 @@ class ilObjFileListGUI extends ilObjectListGUI
         return ilObjFileAccess::_isFileInline($this->title) ? $this->type . '_inline' : $this->type;
     }
 
-
     /**
      * getTitle overwritten in class.ilObjLinkResourceList.php
-     *
      * @return string title
      */
     public function getTitle()
@@ -80,10 +75,8 @@ class ilObjFileListGUI extends ilObjectListGUI
         return preg_replace('/\\.[a-z0-9]+\\z/i', '', $this->title);
     }
 
-
     /**
      * Get item properties
-     *
      * @return    array        array of property arrays:
      *                        "alert" (boolean) => display as an alert property (usually in red)
      *                        "property" (string) => property name
@@ -117,7 +110,8 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
         if (is_array($file_data)) {
-            if ($file_data['rid'] === null && parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type)) {
+            if (empty($file_data['rid']) && parent::checkCommandAccess("write", "versions", $this->ref_id,
+                    $this->type)) {
                 $props[] = array(
                     "alert" => true,
                     "property" => $DIC->language()->txt("migrated"),
@@ -126,7 +120,6 @@ class ilObjFileListGUI extends ilObjectListGUI
                     "newline" => true
                 );
             }
-
 
             $props[] = array(
                 "alert" => false,
@@ -151,7 +144,6 @@ class ilObjFileListGUI extends ilObjectListGUI
                 );
             }
 
-
             // #6040
             if ($file_data["date"]) {
                 $props[] = array(
@@ -175,7 +167,6 @@ class ilObjFileListGUI extends ilObjectListGUI
         return $props;
     }
 
-
     /**
      * Get command icon image
      */
@@ -187,12 +178,9 @@ class ilObjFileListGUI extends ilObjectListGUI
         }
     }
 
-
     /**
      * Get command link url.
-     *
      * @param string $a_cmd The command to get the link for.
-     *
      * @return string The command link.
      */
     public function getCommandLink($a_cmd)
@@ -207,4 +195,4 @@ class ilObjFileListGUI extends ilObjectListGUI
 
         return parent::getCommandLink($a_cmd);
     }
-} // END class.ilObjFileListGUI
+}

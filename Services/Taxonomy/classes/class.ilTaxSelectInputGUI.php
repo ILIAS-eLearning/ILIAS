@@ -11,7 +11,6 @@
 class ilTaxSelectInputGUI extends ilExplorerSelectInputGUI
 {
     protected bool $multi_nodes;
-    protected ilTaxonomyExplorerGUI $explorer_gui;
     protected ilObjTaxonomy $tax;
     protected int $taxononmy_id;
 

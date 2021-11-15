@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,6 +6,7 @@ namespace ILIAS\UI\Implementation\Component\Listing\Workflow;
 
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
+use ILIAS\UI\Component\Signal;
 
 /**
  * Class Step
@@ -15,15 +16,8 @@ class Step implements C\Listing\Workflow\Step
 {
     use ComponentHelper;
 
-    /**
-     * @var	string
-     */
-    private $label;
-
-    /**
-     * @var	string
-     */
-    private $description;
+    private string $label;
+    private string $description;
 
     /**
      * @var	mixed
@@ -40,17 +34,11 @@ class Step implements C\Listing\Workflow\Step
      */
     private $status;
 
-    /**
-     * @param string 	$label
-     * @param string 	$description
-     */
-    public function __construct($label, $description = '', $action = null)
+    public function __construct(string $label, string $description = '', $action = null)
     {
-        $this->checkStringArg("string", $label);
-        $this->checkStringArg("string", $description);
         $this->checkArg(
             "action",
-            is_null($action) || is_string($action) || $action instanceof \ILIAS\UI\Component\Signal,
+            is_null($action) || is_string($action) || $action instanceof Signal,
             $this->wrongTypeMessage("string or Signal", gettype($action))
         );
 
@@ -64,7 +52,7 @@ class Step implements C\Listing\Workflow\Step
     /**
      * @inheritdoc
      */
-    public function getLabel()
+    public function getLabel() : string
     {
         return $this->label;
     }
@@ -72,7 +60,7 @@ class Step implements C\Listing\Workflow\Step
     /**
      * @inheritdoc
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
@@ -88,7 +76,7 @@ class Step implements C\Listing\Workflow\Step
     /**
      * @inheritdoc
      */
-    public function withAvailability($status)
+    public function withAvailability($status) : C\Listing\Workflow\Step
     {
         $valid = [
             static::AVAILABLE,
@@ -113,7 +101,7 @@ class Step implements C\Listing\Workflow\Step
     /**
      * @inheritdoc
      */
-    public function withStatus($status)
+    public function withStatus($status) : C\Listing\Workflow\Step
     {
         $valid = [
             static::NOT_STARTED,

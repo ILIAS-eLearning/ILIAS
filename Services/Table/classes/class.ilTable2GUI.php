@@ -342,7 +342,6 @@ class ilTable2GUI extends ilTableGUI
                     $this->selected_column[$k] = true;
                 }
             }
-
         }
 
         if ($old_sel != serialize($this->selected_column) && $set) {
@@ -672,7 +671,7 @@ class ilTable2GUI extends ilTableGUI
     */
     final public function addFilterItem($a_input_item, $a_optional = false)
     {
-        $a_input_item->setParent($this);
+        $a_input_item->setParentTable($this);
         if (!$a_optional) {
             $this->filters[] = $a_input_item;
         } else {

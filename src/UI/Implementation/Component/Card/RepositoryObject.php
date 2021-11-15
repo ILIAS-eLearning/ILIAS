@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Jesús López <lopez@leifos.com> Extended GPL, see docs/LICENSE */
 
@@ -11,32 +11,12 @@ use ILIAS\UI\Component\Dropdown\Dropdown;
 
 class RepositoryObject extends Card implements C\RepositoryObject
 {
+    protected ?Icon $object_icon = null;
+    protected ?ProgressMeter $progress = null;
+    protected ?bool $certificate = null;
+    protected ?Dropdown $actions = null;
 
-    /**
-     * @var Icon
-     */
-    protected $object_icon;
-
-    /**
-     * @var ProgressMeter
-     */
-    protected $progress;
-
-    /**
-     * @var bool
-     */
-    protected $certificate;
-
-    /**
-     * @var Dropdown
-     */
-    protected $actions;
-
-    /**
-     * @param Icon $icon
-     * @return RepositoryObject
-     */
-    public function withObjectIcon(Icon $icon)
+    public function withObjectIcon(Icon $icon) : C\RepositoryObject
     {
         $icon = $icon->withSize("medium");		// ensure same size
         $clone = clone $this;
@@ -44,67 +24,46 @@ class RepositoryObject extends Card implements C\RepositoryObject
         return $clone;
     }
 
-    public function getObjectIcon()
+    public function getObjectIcon() : ?Icon
     {
         return $this->object_icon;
     }
 
-    /**
-     * @param ProgressMeter $a_progressmeter
-     * @return RepositoryObject
-     */
-    public function withProgress(ProgressMeter $a_progressmeter)
+    public function withProgress(ProgressMeter $progress_meter) : C\RepositoryObject
     {
         $clone = clone $this;
-        $clone->progress = $a_progressmeter;
+        $clone->progress = $progress_meter;
         return $clone;
     }
 
     /**
-     * Get the progressmeter
-     * @return ProgressMeter
+     * Get the ProgressMeter
      */
-    public function getProgress()
+    public function getProgress() : ?ProgressMeter
     {
         return $this->progress;
     }
 
-    /**
-     * @param $a_certificate bool
-     * @return RepositoryObject
-     */
-    public function withCertificateIcon($a_certificate) : RepositoryObject
+    public function withCertificateIcon(bool $certificate_icon) : C\RepositoryObject
     {
         $clone = clone $this;
-        $clone->certificate = $a_certificate;
+        $clone->certificate = $certificate_icon;
         return $clone;
     }
 
-    /**
-     * Get the certificated icon
-     * @return bool
-     */
-    public function getCertificateIcon()
+    public function getCertificateIcon() : ?bool
     {
         return $this->certificate;
     }
 
-    /**
-     * @param \ILIAS\UI\Component\Dropdown\Dropdown $dropdown
-     * @return RepositoryObject
-     */
-    public function withActions($dropdown) : RepositoryObject
+    public function withActions(Dropdown $dropdown) : C\RepositoryObject
     {
         $clone = clone $this;
         $clone->actions = $dropdown;
         return $clone;
     }
 
-    /**
-     * Get dropdown with different actions.
-     * @return Dropdown
-     */
-    public function getActions()
+    public function getActions() : ?Dropdown
     {
         return $this->actions;
     }

@@ -296,7 +296,7 @@ class ilRbacReview
      * @return	array	set ids
      * @todo refactor rolf => Find a better name; reduce sql fields
      */
-    public function getAssignableChildRoles($a_ref_id)
+    public function getAssignableChildRoles($a_ref_id) : array
     {
         global $DIC;
 
@@ -310,10 +310,15 @@ class ilRbacReview
             ;
         
         $res = $ilDB->query($query);
+        $roles_data = [];
         while ($row = $ilDB->fetchAssoc($res)) {
+            $row['rol_id'] = (int) $row['rol_id'];
+            $row['obj_id'] = (int) $row['obj_id'];
+            
             $roles_data[] = $row;
         }
-        return $roles_data ? $roles_data : array();
+
+        return $roles_data;
     }
     
     /**
@@ -678,12 +683,12 @@ class ilRbacReview
      * returns an array with role ids
      * @access	public
      * @param	integer		ref_id of object
-     * @param	boolean		if false only get true local roles
-     * @return	array		Array with rol_ids
+     * @param	bool		if false only get true local roles
+     * @return	int[] Array with rol_ids
      * @deprecated since version 4.5.0
      * @todo refactor rolf => RENAME
      */
-    public function getRolesOfRoleFolder($a_ref_id, $a_nonassignable = true)
+    public function getRolesOfRoleFolder($a_ref_id, bool $a_nonassignable = true) : array
     {
         global $DIC;
 
@@ -709,7 +714,7 @@ class ilRbacReview
         $res = $ilDB->query($query);
         $rol_id = [];
         while ($row = $ilDB->fetchObject($res)) {
-            $rol_id[] = $row->rol_id;
+            $rol_id[] = (int) $row->rol_id;
         }
 
         $ilBench->stop("RBAC", "review_getRolesOfRoleFolder");

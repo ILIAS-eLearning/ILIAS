@@ -1,18 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * Interface ilUsersGalleryCollectionProvider
- */
 interface ilUsersGalleryCollectionProvider
 {
     /**
      * @return ilUsersGalleryUserCollection[]
      */
-    public function getGroupedCollections();
+    public function getGroupedCollections() : array;
 
-    /**
-     * @return boolean
-     */
-    public function hasRemovableUsers();
+    public function hasRemovableUsers() : bool;
 }

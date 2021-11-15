@@ -1,18 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 class ilADTTextDefinition extends ilADTDefinition
 {
-    protected $max_length; // [int]
-    
-    
+    protected ?int $max_length;
+
     // properties
-    
-    public function getMaxLength()
+
+    public function getMaxLength() : ?int
     {
         return $this->max_length;
     }
-    
-    public function setMaxLength($a_value)
+
+    public function setMaxLength(?int $a_value) : void
     {
         $a_value = (int) $a_value;
         if ($a_value < 1) {
@@ -20,11 +19,10 @@ class ilADTTextDefinition extends ilADTDefinition
         }
         $this->max_length = $a_value;
     }
-    
-    
+
     // comparison
-        
-    public function isComparableTo(ilADT $a_adt)
+
+    public function isComparableTo(ilADT $a_adt) : bool
     {
         // has to be text-based
         return ($a_adt instanceof ilADTText);

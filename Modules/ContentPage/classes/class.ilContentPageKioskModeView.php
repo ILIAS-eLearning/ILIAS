@@ -11,9 +11,6 @@ use ILIAS\UI\Renderer;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory as Refinery;
 
-/**
- * Class ilContentPageKioskModeView
- */
 class ilContentPageKioskModeView extends ilKioskModeView
 {
     private const CMD_LP_TO_COMPLETED = 'lp_completed';

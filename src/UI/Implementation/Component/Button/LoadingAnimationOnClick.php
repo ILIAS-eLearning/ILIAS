@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,14 +10,11 @@ namespace ILIAS\UI\Implementation\Component\Button;
  */
 trait LoadingAnimationOnClick
 {
-
-    /**
-     * @var bool
-     */
-    protected $loading_animation_on_click = false;
+    protected bool $loading_animation_on_click = false;
 
     /**
      * @inheritdoc
+     * @return static
      */
     public function withLoadingAnimationOnClick(bool $loading_animation_on_click = true)
     {

@@ -147,7 +147,7 @@ class ilTermsOfServiceDocumentFormGUI extends ilPropertyFormGUI
                 }
 
                 if (!$this->document->getId() || $uploadResult->getName() !== '') {
-                    if ($uploadResult->getStatus()->getCode() != ProcessingStatus::OK) {
+                    if (!$uploadResult->isOK()) {
                         $this->getItemByPostVar('document')->setAlert($uploadResult->getStatus()->getMessage());
                         throw new ilException($this->lng->txt('form_input_not_valid'));
                     }

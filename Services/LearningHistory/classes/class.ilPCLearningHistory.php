@@ -12,17 +12,12 @@
  */
 class ilPCLearningHistory extends ilPageContent
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    public $dom;
+    protected ilObjUser $user;
 
     /**
      * Init page content component.
      */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -33,7 +28,7 @@ class ilPCLearningHistory extends ilPageContent
     /**
      * Set node
      */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->lhist_node = $a_node->first_child();		// this is the skill node
@@ -133,34 +128,31 @@ class ilPCLearningHistory extends ilPageContent
 
     /**
      * After page has been updated (or created)
-     *
-     * @param object $a_page page object
-     * @param DOMDocument $a_domdoc dom document
-     * @param string $a_xml xml
-     * @param bool $a_creation true on creation, otherwise false
+     * @param ilPageObject $a_page     page object
+     * @param DOMDocument  $a_domdoc   dom document
+     * @param string       $a_xml      xml
+     * @param bool         $a_creation true on creation, otherwise false
      */
-    public static function afterPageUpdate($a_page, DOMDocument $a_domdoc, $a_xml, $a_creation)
+    public static function afterPageUpdate(ilPageObject $a_page, DOMDocument $a_domdoc, string $a_xml, bool $a_creation) : void
     {
     }
     
     /**
      * Before page is being deleted
-     *
-     * @param object $a_page page object
+     * @param ilPageObject $a_page page object
      */
-    public static function beforePageDelete($a_page)
+    public static function beforePageDelete(ilPageObject $a_page) : void
     {
     }
 
     /**
      * After page history entry has been created
-     *
-     * @param object $a_page page object
-     * @param DOMDocument $a_old_domdoc old dom document
-     * @param string $a_old_xml old xml
-     * @param integer $a_old_nr history number
+     * @param ilPageObject $a_page       page object
+     * @param DOMDocument  $a_old_domdoc old dom document
+     * @param string       $a_old_xml    old xml
+     * @param integer      $a_old_nr     history number
      */
-    public static function afterPageHistoryEntry($a_page, DOMDocument $a_old_domdoc, $a_old_xml, $a_old_nr)
+    public static function afterPageHistoryEntry(ilPageObject $a_page, DOMDocument $a_old_domdoc, string $a_old_xml, int $a_old_nr) : void
     {
     }
 
@@ -168,7 +160,7 @@ class ilPCLearningHistory extends ilPageContent
      * Get lang vars needed for editing
      * @return array array of lang var keys
      */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("ed_insert_learning_history", "pc_learning_history");
     }
@@ -176,16 +168,16 @@ class ilPCLearningHistory extends ilPageContent
     /**
      * @inheritDoc
      */
-    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
+    public function modifyPageContentPostXsl(string $a_output, string $a_mode, bool $a_abstract_only = false) : string
     {
-        $start = strpos($a_html, "{{{{{LearningHistory");
+        $start = strpos($a_output, "{{{{{LearningHistory");
         $end = 0;
         if (is_int($start)) {
-            $end = strpos($a_html, "}}}}}", $start);
+            $end = strpos($a_output, "}}}}}", $start);
         }
 
         while ($end > 0) {
-            $param = substr($a_html, $start + 5, $end - $start - 5);
+            $param = substr($a_output, $start + 5, $end - $start - 5);
             $param = str_replace(' xmlns:xhtml="http://www.w3.org/1999/xhtml"', "", $param);
             $param = explode("#", $param);
             $from = $param[1];
@@ -196,22 +188,22 @@ class ilPCLearningHistory extends ilPageContent
             }, $classes);
 
 
-            $a_html = substr($a_html, 0, $start) .
+            $a_output = substr($a_output, 0, $start) .
                 $this->getPresentation($from, $to, $classes, $a_mode) .
-                substr($a_html, $end + 5);
+                substr($a_output, $end + 5);
 
-            if (strlen($a_html) > $start + 5) {
-                $start = strpos($a_html, "{{{{{LearningHistory", $start + 5);
+            if (strlen($a_output) > $start + 5) {
+                $start = strpos($a_output, "{{{{{LearningHistory", $start + 5);
             } else {
                 $start = false;
             }
             $end = 0;
             if (is_int($start)) {
-                $end = strpos($a_html, "}}}}}", $start);
+                $end = strpos($a_output, "}}}}}", $start);
             }
         }
 
-        return $a_html;
+        return $a_output;
     }
 
     /**

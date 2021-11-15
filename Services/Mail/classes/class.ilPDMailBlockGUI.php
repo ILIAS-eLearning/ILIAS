@@ -111,7 +111,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
         }
     }
 
-    public function fillRow($a_set) : void
+    public function fillRow(array $a_set) : void
     {
         $user = ilMailUserCache::getUserObjectById((int) $a_set['sender_id']);
 

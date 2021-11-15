@@ -1,32 +1,32 @@
-<?php
+<?php declare(strict_types=1);
 
 require_once 'tests/UI/AbstractFactoryTest.php';
 
 class ListingFactoryTest extends AbstractFactoryTest
 {
-    public $kitchensink_info_settings = array(
-            "ordered" => array(
-                    "context" => false,
-                    "rules" => false
-            ),
-            "unordered" => array(
-                    "context" => false,
-                    "rules" => false
-            ),
-            "descriptive" => array(
-                    "context" => false,
-                    "rules" => false
-            ),
-            "workflow" => array(
-                    "context" => false,
-                    "rules" => false
-            ),
-            "characteristicValue" => array(
+    public array $kitchensink_info_settings = [
+        "ordered" => [
                 "context" => false,
                 "rules" => false
-            )
-    );
+        ],
+        "unordered" => [
+                "context" => false,
+                "rules" => false
+        ],
+        "descriptive" => [
+                "context" => false,
+                "rules" => false
+        ],
+        "workflow" => [
+                "context" => false,
+                "rules" => false
+        ],
+        "characteristicValue" => [
+            "context" => false,
+            "rules" => false
+        ]
+    ];
 
 
-    public $factory_title = 'ILIAS\\UI\\Component\\Listing\\Factory';
+    public string $factory_title = 'ILIAS\\UI\\Component\\Listing\\Factory';
 }

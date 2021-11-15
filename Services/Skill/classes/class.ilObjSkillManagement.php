@@ -109,11 +109,11 @@ class ilObjSkillManagement extends ilObject
                 // paste page
                 if (!$tree->isInTree($source_obj->getId())) {
                     if ($first_child) {			// as first child
-                        $target_pos = IL_FIRST_NODE;
+                        $target_pos = ilTree::POS_FIRST_NODE;
                         $parent = $target_id;
                     } elseif ($as_subitem) {		// as last child
                         $parent = $target_id;
-                        $target_pos = IL_FIRST_NODE;
+                        $target_pos = ilTree::POS_FIRST_NODE;
                         $childs = $tree->getChildsByType($parent, array("skll", "scat"));
                         if (count($childs) != 0) {
                             $target_pos = $childs[count($childs) - 1]["obj_id"];
@@ -147,11 +147,11 @@ class ilObjSkillManagement extends ilObject
             $target_pos = $target_id;
 
             if ($first_child) {		// as first node
-                $target_pos = IL_FIRST_NODE;
+                $target_pos = ilTree::POS_FIRST_NODE;
                 $target_parent = $target_id;
             } elseif ($as_subitem) {		// as last node
                 $target_parent = $target_id;
-                $target_pos = IL_FIRST_NODE;
+                $target_pos = ilTree::POS_FIRST_NODE;
                 $childs = $tree->getChilds($target_parent);
                 if (count($childs) != 0) {
                     $target_pos = $childs[count($childs) - 1]["obj_id"];

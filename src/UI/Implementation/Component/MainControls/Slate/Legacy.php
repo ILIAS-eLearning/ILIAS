@@ -1,14 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2018 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
-use ILIAS\UI\Component\Clickable;
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Component\Legacy\Legacy as ILegacy;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
+use ILIAS\UI\Component\Component;
 
 /**
  * Legacy Slate
@@ -16,9 +16,9 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 class Legacy extends Slate implements ISlate\Legacy
 {
     /**
-     * @var \ILIAS\UI\Component\Component []
+     * @var Component[]
      */
-    protected $contents = [];
+    protected array $contents = [];
 
     public function __construct(
         SignalGeneratorInterface $signal_generator,
@@ -35,7 +35,7 @@ class Legacy extends Slate implements ISlate\Legacy
         return $this->contents;
     }
 
-    public function withMappedSubNodes(callable $f)
+    public function withMappedSubNodes(callable $f) : ISlate\Legacy
     {
         return $this;
     }

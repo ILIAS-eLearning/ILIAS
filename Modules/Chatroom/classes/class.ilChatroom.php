@@ -259,51 +259,10 @@ class ilChatroom
         return $rooms;
     }
 
-    public static function getUntrashedChatReferences($filter = []) : array
-    {
-        global $DIC;
-
-        // Check for parent because of an invalid parent node for the old public chat (thx @ jposselt ;-)).
-        // We cannot find this old public chat and clean this automatically
-        $query = '
-			SELECT od.obj_id, od.title, ore.ref_id, od.type, odp.title parent_title
-			FROM object_data od
-			INNER JOIN object_reference ore ON ore.obj_id = od.obj_id
-			INNER JOIN tree t ON t.child = ore.ref_id
-			INNER JOIN tree p ON p.child = t.parent
-			INNER JOIN object_reference orep ON orep.ref_id = p.child
-			INNER JOIN object_data odp ON odp.obj_id = orep.obj_id
-			INNER JOIN object_reference pre ON pre.ref_id = t.parent
-			INNER JOIN object_data pod ON pod.obj_id = pre.obj_id
-		';
-
-        if (isset($filter['last_activity'])) {
-            $threshold = $DIC->database()->quote($filter['last_activity'], 'integer');
-            $query .= "
-				INNER JOIN chatroom_settings ON chatroom_settings.object_id = od.obj_id
-				INNER JOIN chatroom_history ON chatroom_history.room_id = chatroom_settings.room_id AND chatroom_history.timestamp > $threshold
-			";
-        }
-
-        $query .= '
-			WHERE od.type = %s AND t.tree > 0 AND ore.deleted IS NULL
-			GROUP BY od.obj_id, od.title, ore.ref_id, od.type, odp.title
-			ORDER BY od.title
-		';
-        $res = $DIC->database()->queryF($query, ['text'], ['chtr']);
-
-        $chats = array();
-        while ($row = $DIC->database()->fetchAssoc($res)) {
-            $chats[] = $row;
-        }
-
-        return $chats;
-    }
-
     public function getDescription() : string
     {
         if (!$this->object) {
-            $this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
+            $this->object = ilObjectFactory::getInstanceByObjId((int) $this->getSetting('object_id'));
         }
 
         return $this->object->getDescription();
@@ -936,7 +895,7 @@ class ilChatroom
     public function getTitle() : string
     {
         if (!$this->object) {
-            $this->object = ilObjectFactory::getInstanceByObjId($this->getSetting('object_id'));
+            $this->object = ilObjectFactory::getInstanceByObjId((int) $this->getSetting('object_id'));
         }
 
         return $this->object->getTitle();

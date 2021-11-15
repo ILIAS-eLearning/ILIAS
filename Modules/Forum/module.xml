@@ -38,4 +38,7 @@
 	<gsproviders>
 		<gsprovider purpose="tools" class_name="ilForumGlobalScreenToolsProvider" />
 	</gsproviders>
+	<copage>
+		<pageobject parent_type="frm" class_name="ilForumPage" directory="classes/CoPage"/>
+	</copage>
 </module>

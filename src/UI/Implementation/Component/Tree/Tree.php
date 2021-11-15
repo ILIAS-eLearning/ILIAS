@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -25,25 +24,10 @@ abstract class Tree implements ITree\Tree
      */
     protected $data;
 
-    /**
-     * @var string
-     */
-    protected $label;
-
-    /**
-     * @var ITree\TreeRecursion
-     */
-    protected $recursion;
-
-    /**
-     * @var bool
-     */
-    protected $highlight_nodes_on_click = false;
-
-    /**
-     * @var bool
-     */
-    protected $is_sub = false;
+    protected string $label;
+    protected ITree\TreeRecursion $recursion;
+    protected bool $highlight_nodes_on_click = false;
+    protected bool $is_sub = false;
 
 
     public function __construct(string $label, ITree\TreeRecursion $recursion)
@@ -103,7 +87,6 @@ abstract class Tree implements ITree\Tree
     {
         return $this->recursion;
     }
-
 
     /**
      * @inheritdoc

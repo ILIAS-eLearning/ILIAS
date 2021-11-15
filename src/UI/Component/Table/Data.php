@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * This describes a Data Table.
  */
-interface Data extends \ILIAS\UI\Component\Table\Table
+interface Data extends Table
 {
     public function getNumberOfRows() : ?int;
 
@@ -21,7 +21,7 @@ interface Data extends \ILIAS\UI\Component\Table\Table
      * influence the way data is being retrieved. E.g., it is usually a good idea
      * to delegate sorting to the database, or limit records to the amount of
      * actually shown rows.
-     * Those parameters are beeing provided to DataRetrieval::getRows.
+     * Those parameters are being provided to DataRetrieval::getRows.
      */
     public function withData(DataRetrieval $data_retrieval) : Data;
 
@@ -43,7 +43,7 @@ interface Data extends \ILIAS\UI\Component\Table\Table
      * need more Controls than those, or configure View Controls to their special
      * needs.
      * Since there must be but one View Control of a kind, e.g. a Pagination added here
-     * will substitue the default one.
+     * will substitute the default one.
      */
     public function withAdditionalViewControl(ViewControl $view_control) : Data;
 
@@ -58,5 +58,5 @@ interface Data extends \ILIAS\UI\Component\Table\Table
      * and parameters will already influence e.g. the presentation of
      * column-titles (think of ordering...).
      */
-    public function withRequest(ServerRequestInterface $request) : Data;
+    public function withRequest(ServerRequestInterface $request);
 }

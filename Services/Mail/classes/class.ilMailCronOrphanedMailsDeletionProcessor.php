@@ -110,7 +110,7 @@ class ilMailCronOrphanedMailsDeletionProcessor
 
     private function deleteMarkedAsNotified() : void
     {
-        if ((int) $this->settings->get('mail_notify_orphaned') >= 1) {
+        if ((int) $this->settings->get('mail_notify_orphaned', '0') >= 1) {
             $this->db->manipulate(
                 'DELETE FROM mail_cron_orphaned WHERE ' .
                 $this->db->in('mail_id', $this->collector->getMailIdsToDelete(), false, 'integer')

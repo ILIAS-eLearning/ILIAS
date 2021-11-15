@@ -12,7 +12,7 @@ interface ResourceStakeholder
 {
 
     /**
-     * @return string
+     * @return string not longer than 64 characters
      */
     public function getId() : string;
 
@@ -22,7 +22,7 @@ interface ResourceStakeholder
     public function getConsumerNameForPresentation() : string;
 
     /**
-     * @return string
+     * @return string not longer than 250 characters
      */
     public function getFullyQualifiedClassName() : string;
 

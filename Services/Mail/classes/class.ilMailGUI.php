@@ -37,10 +37,11 @@ class ilMailGUI implements ilCtrlBaseClassInterface
 
         $this->mbox = new ilMailbox($this->user->getId());
         $this->umail = new ilMail($this->user->getId());
-        if (!$DIC->rbac()->system()->checkAccess(
-            'internal_mail',
-            $this->umail->getMailObjectReferenceId()
-        )
+        if (
+            !$DIC->rbac()->system()->checkAccess(
+                'internal_mail',
+                $this->umail->getMailObjectReferenceId()
+            )
         ) {
             $DIC['ilErr']->raiseError($this->lng->txt('permission_denied'), $DIC['ilErr']->WARNING);
         }
@@ -285,7 +286,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
         );
         $this->ctrl->clearParametersByClass(ilContactGUI::class);
 
-        if ($DIC->settings()->get('show_mail_settings')) {
+        if ($DIC->settings()->get('show_mail_settings', '0')) {
             $this->ctrl->setParameterByClass(
                 ilMailOptionsGUI::class,
                 'mobj_id',
