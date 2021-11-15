@@ -12,15 +12,6 @@
  */
 class ilCtrlCommandClass1TestGUI implements ilCtrlSecurityInterface
 {
-    private ilCtrlInterface $ctrl;
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-    }
-
     /**
      * @inheritDoc
      */
@@ -39,18 +30,6 @@ class ilCtrlCommandClass1TestGUI implements ilCtrlSecurityInterface
 
     public function executeCommand() : string
     {
-        switch ($this->ctrl->getNextClass($this)) {
-            case strtolower(ilCtrlCommandClass2TestGUI::class):
-                return $this->ctrl->forwardCommand(new ilCtrlCommandClass2TestGUI());
-
-            default:
-                $cmd = $this->ctrl->getCmd();
-                return $this->{$cmd}();
-        }
-    }
-
-    private function index() : string
-    {
-        return "Hello World!";
+        return self::class;
     }
 }

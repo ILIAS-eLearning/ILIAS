@@ -15,25 +15,6 @@ use ILIAS\Refinery\Factory as Refinery;
  */
 class ilCtrlTest extends TestCase
 {
-    private ilCtrlStructureInterface $structure;
-
-    /**
-     * @inheritDoc
-     */
-    protected function setUp() : void
-    {
-        $structure_artifact  = require __DIR__ . '/Data/Structure/test_ctrl_structure.php';
-        $plugin_artifact     = require __DIR__ . '/Data/Structure/test_plugin_ctrl_structure.php';
-        $base_class_artifact = require __DIR__ . '/Data/Structure/test_base_classes.php';
-
-        $this->structure = new ilCtrlStructure(
-            $structure_artifact,
-            $plugin_artifact,
-            $base_class_artifact,
-            []
-        );
-    }
-
     public function testCallBaseClassWithoutBaseClass() : void
     {
         $ctrl = new ilCtrl(
@@ -52,16 +33,6 @@ class ilCtrlTest extends TestCase
 
     public function testCallBaseClassWithInvalidProvidedBaseClass() : void
     {
-        // mocked get request that returns ilCtrlBaseClass1TestGUI
-        // when context is created.
-        $get_request = $this->createMock(RequestWrapper::class);
-        $get_request
-            ->method('retrieve')
-            ->willReturn(static function ($key) {
-                return (ilCtrlInterface::PARAM_BASE_CLASS === $key) ? ilCtrlInvalidGuiClass::class : null;
-            })
-        ;
-
         $structure = $this->createMock(ilCtrlStructureInterface::class);
         $structure
             ->method('isBaseClass')
@@ -73,36 +44,192 @@ class ilCtrlTest extends TestCase
             $this->createMock(ResponseSenderStrategy::class),
             $this->createMock(ServerRequestInterface::class),
             $this->createMock(RequestWrapper::class),
-            $get_request,
+            $this->createMock(RequestWrapper::class),
             $this->createMock(Refinery::class),
         );
+
+        $invalid_baseclass = ilCtrlInvalidGuiClass::class;
+
+        $this->expectException(ilCtrlException::class);
+        $this->expectExceptionMessage("Provided class '$invalid_baseclass' is not a baseclass");
+        $ctrl->callBaseClass($invalid_baseclass);
     }
 
-    public function testCallBaseClassWithValidProvidedBaseClass() : void
+    public function testForwardCommandWithInvalidObject() : void
     {
-        // mocked get request that returns ilCtrlBaseClass1TestGUI
-        // when context is created.
-        $get_request = $this->createMock(RequestWrapper::class);
-        $get_request
-            ->method('retrieve')
-            ->willReturn(static function ($key) {
-                return (ilCtrlInterface::PARAM_BASE_CLASS === $key) ? ilCtrlBaseClass1TestGUI::class : null;
-            })
-        ;
-
-        $structure = $this->createMock(ilCtrlStructureInterface::class);
-        $structure
-            ->method('isBaseClass')
-            ->willReturn(false)
-        ;
-
         $ctrl = new ilCtrl(
-            $structure,
+            $this->createMock(ilCtrlStructureInterface::class),
             $this->createMock(ResponseSenderStrategy::class),
             $this->createMock(ServerRequestInterface::class),
             $this->createMock(RequestWrapper::class),
-            $get_request,
+            $this->createMock(RequestWrapper::class),
             $this->createMock(Refinery::class),
         );
+
+        require_once __DIR__ . '/Data/GUI/class.ilCtrlInvalidGuiClass.php';
+
+        $this->expectException(ilCtrlException::class);
+        $this->expectExceptionMessage(ilCtrlInvalidGuiClass::class . " doesn't implement executeCommand().");
+        $ctrl->forwardCommand(new ilCtrlInvalidGuiClass());
     }
+
+    public function testForwardCommandWithValidObject() : void
+    {
+        $ctrl = new ilCtrl(
+            $this->createMock(ilCtrlStructureInterface::class),
+            $this->createMock(ResponseSenderStrategy::class),
+            $this->createMock(ServerRequestInterface::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(Refinery::class),
+        );
+
+        require_once __DIR__ . '/Data/GUI/class.ilCtrlCommandClass1TestGUI.php';
+
+        $this->assertEquals(
+            ilCtrlCommandClass1TestGUI::class,
+            $ctrl->forwardCommand(new ilCtrlCommandClass1TestGUI())
+        );
+    }
+
+    public function testGetHtmlWithInvalidObject() : void
+    {
+        $ctrl = new ilCtrl(
+            $this->createMock(ilCtrlStructureInterface::class),
+            $this->createMock(ResponseSenderStrategy::class),
+            $this->createMock(ServerRequestInterface::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(Refinery::class),
+        );
+
+        require_once __DIR__ . '/Data/GUI/class.ilCtrlInvalidGuiClass.php';
+
+        $this->expectException(ilCtrlException::class);
+        $this->expectExceptionMessage(ilCtrlInvalidGuiClass::class . " doesn't implement getHTML().");
+        $ctrl->getHTML(new ilCtrlInvalidGuiClass());
+    }
+
+    public function testGetHtmlWithValidObject() : void
+    {
+        $ctrl = new ilCtrl(
+            $this->createMock(ilCtrlStructureInterface::class),
+            $this->createMock(ResponseSenderStrategy::class),
+            $this->createMock(ServerRequestInterface::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(Refinery::class),
+        );
+
+        require_once __DIR__ . '/Data/GUI/class.ilCtrlCommandClass2TestGUI.php';
+
+        $this->assertEquals('foo', $ctrl->getHTML(new ilCtrlCommandClass2TestGUI()));
+    }
+
+    public function testGetHtmlWithValidObjectAndParameters() : void
+    {
+        $ctrl = new ilCtrl(
+            $this->createMock(ilCtrlStructureInterface::class),
+            $this->createMock(ResponseSenderStrategy::class),
+            $this->createMock(ServerRequestInterface::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(Refinery::class),
+        );
+
+        require_once __DIR__ . '/Data/GUI/class.ilCtrlCommandClass2TestGUI.php';
+
+        $this->assertEquals('bar', $ctrl->getHTML(new ilCtrlCommandClass2TestGUI(), ['bar']));
+    }
+
+    public function testGetCmdWithoutProvidedCmd() : void
+    {
+        $ctrl = new ilCtrl(
+            $this->createMock(ilCtrlStructureInterface::class),
+            $this->createMock(ResponseSenderStrategy::class),
+            $this->createMock(ServerRequestInterface::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(Refinery::class),
+        );
+
+        // @TODO: change this to assertNull() once null coalescing operators are removed.
+        $this->assertEmpty($ctrl->getCmd());
+    }
+
+    public function testGetCmdWithoutProvidedCmdAndFallback() : void
+    {
+        $ctrl = new ilCtrl(
+            $this->createMock(ilCtrlStructureInterface::class),
+            $this->createMock(ResponseSenderStrategy::class),
+            $this->createMock(ServerRequestInterface::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(Refinery::class),
+        );
+
+        $fallback_cmd = 'fallback_cmd_test';
+
+        $this->assertEquals(
+            $fallback_cmd,
+            $ctrl->getCmd($fallback_cmd)
+        );
+    }
+
+/*
+    public function testGetCmdWithUnsafePostCmd() : void
+    {
+
+    }
+
+    public function testGetCmdWithSafePostCmd() : void
+    {
+
+    }
+
+    public function testGetCmdWithUnsafeGetCmd() : void
+    {
+
+    }
+
+    public function testGetCmdWithSafeGetCmd() : void
+    {
+
+    }
+
+    public function testGetCmdWithValidCsrfToken() : void
+    {
+
+    }
+
+    public function testGetCmdWithInvalidCsrfToken() : void
+    {
+
+    }
+
+    public function testGetNextClass() : void
+    {
+
+    }
+
+    public function testGetParameterArrayByClass() : void
+    {
+
+    }
+
+    public function testGetLinkTargetByClass() : void
+    {
+
+    }
+
+    public function testGetFormActionByClass() : void
+    {
+
+    }
+
+    public function testGetParentReturnByClass() : void
+    {
+
+    }
+*/
 }

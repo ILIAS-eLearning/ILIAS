@@ -11,26 +11,8 @@
  */
 class ilCtrlBaseClass2TestGUI implements ilCtrlBaseClassInterface
 {
-    private ilCtrlInterface $ctrl;
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-    }
-
     public function executeCommand() : string
     {
-        switch ($this->ctrl->getNextClass($this)) {
-            default:
-                $cmd = $this->ctrl->getCmd();
-                return $this->{$cmd}();
-        }
-    }
-
-    private function index() : string
-    {
-        return "Hello World!";
+        return self::class;
     }
 }

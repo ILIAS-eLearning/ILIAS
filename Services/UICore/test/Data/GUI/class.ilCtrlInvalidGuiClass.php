@@ -11,8 +11,5 @@
  */
 class ilCtrlInvalidGuiClass
 {
-    public function executeCommand() : string
-    {
-        return '';
-    }
+
 }

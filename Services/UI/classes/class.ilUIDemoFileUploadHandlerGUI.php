@@ -19,8 +19,6 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getUploadURL() : string
     {
-        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
-
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_UPLOAD);
     }
 
@@ -30,8 +28,6 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getExistingFileInfoURL() : string
     {
-        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
-
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_INFO);
     }
 
@@ -41,8 +37,6 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getFileRemovalURL() : string
     {
-        $this->ctrl->initBaseClass(ilUIPluginRouterGUI::class);
-
         return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_REMOVE);
     }
 

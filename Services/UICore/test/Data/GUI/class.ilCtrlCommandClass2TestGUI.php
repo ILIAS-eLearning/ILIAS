@@ -11,23 +11,17 @@
  */
 class ilCtrlCommandClass2TestGUI
 {
-    private ilCtrlInterface $ctrl;
-
-    public function __construct()
-    {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-    }
-
     public function executeCommand() : string
     {
-        $cmd = $this->ctrl->getCmd();
-        return $this->{$cmd}();
+        return self::class;
     }
 
-    private function index() : string
+    public function getHTML(array $args = null) : string
     {
-        return "Hello World!";
+        if (!empty($args)) {
+            return $args[array_key_first($args)];
+        }
+
+        return 'foo';
     }
 }
