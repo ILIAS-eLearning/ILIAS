@@ -1,12 +1,21 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * User interface class for map editor
- *
- * @author Alex Killing <alex.killing@gmx.de>
- *
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilImageMapEditorGUI: ilInternalLinkGUI
  */
 class ilImageMapEditorGUI
@@ -17,11 +26,9 @@ class ilImageMapEditorGUI
     protected ilLanguage $lng;
     protected ilToolbarGUI $toolbar;
 
-    /**
-    * Constructor
-    */
-    public function __construct($a_media_object)
-    {
+    public function __construct(
+        ilObjMediaObject $a_media_object
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -30,10 +37,11 @@ class ilImageMapEditorGUI
         $this->toolbar = $DIC->toolbar();
         $this->media_object = $a_media_object;
     }
-    
+
     /**
-    * Execute current command
-    */
+     * @return mixed
+     * @throws ilCtrlException
+     */
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
@@ -64,14 +72,10 @@ class ilImageMapEditorGUI
                 $ret = $this->$cmd();
                 break;
         }
-        
         return $ret;
     }
         
-    /**
-    * Show map areas
-    */
-    public function editMapAreas()
+    public function editMapAreas() : string
     {
         $ilCtrl = $this->ctrl;
 
@@ -101,12 +105,7 @@ class ilImageMapEditorGUI
         return $this->tpl->get();
     }
 
-    /**
-     * Get toolbar
-     *
-     * @return object toolbar
-     */
-    public function getToolbar()
+    public function getToolbar() : ilToolbarGUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -125,55 +124,23 @@ class ilImageMapEditorGUI
         $tb->addInputItem($si, true);
         $tb->addFormButton($lng->txt("cont_add_area"), "addNewArea");
         
-        
-        // highlight mode
-        /*		if (strtolower(get_class($this)) == "ilimagemapeditorgui")
-                {
-                    $st_item = $this->media_object->getMediaItem("Standard");
-                    $tb->addSeparator();
-                    $options = ilMapArea::getAllHighlightModes();
-                    $hl = new ilSelectInputGUI($lng->txt("cont_highlight_mode"), "highlight_mode");
-                    $hl->setOptions($options);
-        //			$hl->setValue($st_item->getHighlightMode());
-                    $tb->addInputItem($hl, true);
-                    $options = ilMapArea::getAllHighlightClasses();
-                    $hc = new ilSelectInputGUI($lng->txt("cont_highlight_class"), "highlight_class");
-                    $hc->setOptions($options);
-        //			$hc->setValue($st_item->getHighlightClass());
-                    $tb->addInputItem($hc, false);
-                    $tb->addFormButton($lng->txt("cont_set"), "setHighlight");
-                }*/
-        
         return $tb;
     }
     
-    
-    /**
-     * Get editor title
-     *
-     * @return string editor title
-     */
-    public function getEditorTitle()
+    public function getEditorTitle() : string
     {
         $lng = $this->lng;
-        
         return $lng->txt("cont_imagemap");
     }
     
     
-    /**
-    * Get table HTML
-    */
-    public function getImageMapTableHTML()
+    public function getImageMapTableHTML() : string
     {
         $image_map_table = new ilImageMapTableGUI($this, "editMapAreas", $this->media_object);
         return $image_map_table->getHTML();
     }
     
-    /**
-    * handle parameter during map area editing (storing to session)
-    */
-    public function handleMapParameters()
+    public function handleMapParameters() : void
     {
         if ($_GET["ref_id"] != "") {
             $_SESSION["il_map_edit_ref_id"] = $_GET["ref_id"];
@@ -192,19 +159,13 @@ class ilImageMapEditorGUI
         }
     }
 
-    /**
-    * show image map
-    */
-    public function showImageMap()
+    public function showImageMap() : void
     {
         $item = new ilMediaItem($_GET["item_id"]);
         $item->outputMapWorkCopy();
     }
 
-    /**
-    * Update map areas
-    */
-    public function updateAreas()
+    public function updateAreas() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -223,10 +184,7 @@ class ilImageMapEditorGUI
         $ilCtrl->redirect($this, "editMapAreas");
     }
 
-    /**
-     * Add area
-     */
-    public function addNewArea()
+    public function addNewArea() : string
     {
         switch ($_POST["shape"]) {
             case "WholePicture": return $this->linkWholePicture();
@@ -234,13 +192,10 @@ class ilImageMapEditorGUI
             case "Circle": return $this->addCircle();
             case "Poly": return $this->addPolygon();
         }
+        return "";
     }
     
-    
-    /**
-     * Link the whole picture
-     */
-    public function linkWholePicture()
+    public function linkWholePicture() : string
     {
         $this->clearSessionVars();
         $_SESSION["il_map_edit_area_type"] = "WholePicture";
@@ -248,40 +203,28 @@ class ilImageMapEditorGUI
         return $this->editMapArea(false, false, true);
     }
 
-    /**
-     * Add a new rectangle
-     */
-    public function addRectangle()
+    public function addRectangle() : string
     {
         $this->clearSessionVars();
         $_SESSION["il_map_edit_area_type"] = "Rect";
         return $this->addArea(false);
     }
 
-    /**
-     * Add a new circle
-     */
-    public function addCircle()
+    public function addCircle() : string
     {
         $this->clearSessionVars();
         $_SESSION["il_map_edit_area_type"] = "Circle";
         return $this->addArea(false);
     }
 
-    /**
-     * Add a new polygon
-     */
-    public function addPolygon()
+    public function addPolygon() : string
     {
         $this->clearSessionVars();
         $_SESSION["il_map_edit_area_type"] = "Poly";
         return $this->addArea(false);
     }
 
-    /**
-    * Clear Session Vars
-    */
-    public function clearSessionVars()
+    public function clearSessionVars() : void
     {
         $_SESSION["il_map_area_nr"] = "";
         $_SESSION["il_map_edit_coords"] = "";
@@ -294,11 +237,9 @@ class ilImageMapEditorGUI
         $_SESSION["il_map_edit_area_type"] = "";
     }
     
-    /**
-    * Handle adding new area process
-    */
-    public function addArea($a_handle = true)
-    {
+    public function addArea(
+        bool $a_handle = true
+    ) : string {
 
         // handle map parameters
         if ($a_handle) {
@@ -353,16 +294,18 @@ class ilImageMapEditorGUI
                 return $this->editMapArea(false, false, true);
                 break;
         }
+        return "";
     }
 
     /**
-    * Edit a single map area
-    *
-    * @param	boolean		$a_get_next_coordinate		enable next coordinate input
-    * @param	boolean		$a_output_new_area			output the new area
-    * @param	boolean		$a_save_from				output save form
-    * @param	string		$a_edit_property			"" | "link" | "shape"
-    */
+     * Edit a single map area
+     * @param bool   $a_get_next_coordinate enable next coordinate input
+     * @param bool   $a_output_new_area     output the new area
+     * @param bool   $a_save_form           output save form
+     * @param string $a_edit_property       "" | "link" | "shape"
+     * @param int    $a_area_nr
+     * @return string
+     */
     public function editMapArea(
         bool $a_get_next_coordinate = false,
         bool $a_output_new_area = false,
@@ -457,9 +400,6 @@ class ilImageMapEditorGUI
         return $this->tpl->get();
     }
     
-    /**
-     * Init area editing form.
-     */
     public function initAreaEditingForm(
         string $a_edit_property
     ) : ilPropertyFormGUI {
@@ -549,8 +489,8 @@ class ilImageMapEditorGUI
     }
     
     /**
-    * Make work file for editing
-    */
+     * Make work file for editing
+     */
     public function makeMapWorkCopy(
         string $a_edit_property = "",
         int $a_area_nr = 0,
@@ -573,10 +513,11 @@ class ilImageMapEditorGUI
     }
     
     /**
-    * Render the image map.
-    */
-    public function getImageMapOutput($a_map_edit_mode = "")
-    {
+     * Render the image map.
+     */
+    public function getImageMapOutput(
+        string $a_map_edit_mode = ""
+    ) : string {
         $ilCtrl = $this->ctrl;
         
         $st_item = $this->media_object->getMediaItem("Standard");
@@ -618,40 +559,35 @@ class ilImageMapEditorGUI
     
     /**
      * Get additional page xml (to be overwritten)
-     *
      * @return string additional page xml
      */
-    public function getAdditionalPageXML()
+    public function getAdditionalPageXML() : string
     {
         return "";
     }
     
-    /**
-     * Output post processing
-     * @param
-     * @return string
-     */
-    public function outputPostProcessing(string $a_output) : string
-    {
+    public function outputPostProcessing(
+        string $a_output
+    ) : string {
         return $a_output;
     }
 
-    public function getAliasXML()
+    public function getAliasXML() : string
     {
         return $this->media_object->getXML(IL_MODE_ALIAS);
     }
 
     /**
-    * Get text name of internal link
-    *
-    * @param	string		$a_target		target object link id
-    * @param	string		$a_type			type
-    * @param	string		$a_frame		target frame
-    *
-    * @access	private
-    */
-    public function getMapAreaLinkString($a_target, $a_type, $a_frame)
-    {
+     * Get text name of internal link
+     * @param	string		$a_target		target object link id
+     * @param	string		$a_type			type
+     * @param	string		$a_frame		target frame
+     */
+    public function getMapAreaLinkString(
+        string $a_target,
+        string $a_type,
+        string $a_frame
+    ) : string {
         $lng = $this->lng;
         
         $t_arr = explode("_", $a_target);
@@ -696,9 +632,9 @@ class ilImageMapEditorGUI
     }
 
     /**
-    * Get image map coordinates.
-    */
-    public function editImagemapForward()
+     * Get image map coordinates.
+     */
+    public function editImagemapForward() : void
     {
         ilImageMapEditorGUI::_recoverParameters();
 
@@ -714,9 +650,9 @@ class ilImageMapEditorGUI
     }
 
     /**
-    * Recover parameters from session variables (static)
-    */
-    public static function _recoverParameters()
+     * Recover parameters from session variables (static)
+     */
+    public static function _recoverParameters() : void
     {
         $_GET["ref_id"] = $_SESSION["il_map_edit_ref_id"];
         $_GET["obj_id"] = $_SESSION["il_map_edit_obj_id"];
@@ -725,9 +661,9 @@ class ilImageMapEditorGUI
     }
 
     /**
-    * Save new or updated map area
-    */
-    public function saveArea()
+     * Save new or updated map area
+     */
+    public function saveArea() : string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -804,12 +740,10 @@ class ilImageMapEditorGUI
         //$this->initMapParameters();
         ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
         $ilCtrl->redirect($this, "editMapAreas");
+        return "";
     }
 
-    /**
-    * Set internal link
-    */
-    public function setInternalLink()
+    public function setInternalLink() : string
     {
         $_SESSION["il_map_il_type"] = $_GET["linktype"];
         $_SESSION["il_map_il_ltype"] = "int";
@@ -820,19 +754,15 @@ class ilImageMapEditorGUI
         switch ($_SESSION["il_map_edit_mode"]) {
             case "edit_link":
                 return $this->setLink();
-                break;
 
             default:
                 return $this->addArea();
-                break;
         }
     }
     
-    /**
-    * Set link
-    */
-    public function setLink($a_handle = true)
-    {
+    public function setLink(
+        bool $a_handle = true
+    ) : string {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
@@ -871,60 +801,62 @@ class ilImageMapEditorGUI
         return $this->editMapArea(false, false, true, "link", $_POST["area"][0]);
     }
 
-    /**
-    * Get Link Type of Area
-    */
-    public function getLinkTypeOfArea(int $a_nr) : string
-    {
+    public function getLinkTypeOfArea(
+        int $a_nr
+    ) : string {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);
         return $area->getLinkType();
     }
 
     /**
-    * Get Type of Area (only internal link)
-    */
-    public function getTypeOfArea(int $a_nr) : string
-    {
+     * Get Type of Area (only internal link)
+     */
+    public function getTypeOfArea(
+        int $a_nr
+    ) : string {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);
         return $area->getType();
     }
 
     /**
-    * Get Target of Area (only internal link)
-    */
-    public function getTargetOfArea(int $a_nr) : string
-    {
+     * Get Target of Area (only internal link)
+     */
+    public function getTargetOfArea(
+        int $a_nr
+    ) : string {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);
         return $area->getTarget();
     }
 
     /**
-    * Get TargetFrame of Area (only internal link)
-    */
-    public function getTargetFrameOfArea(int $a_nr) : string
-    {
+     * Get TargetFrame of Area (only internal link)
+     */
+    public function getTargetFrameOfArea(
+        int $a_nr
+    ) : string {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);
         return $area->getTargetFrame();
     }
 
     /**
-    * Get Href of Area (only external link)
-    */
-    public function getHrefOfArea(int $a_nr) : string
-    {
+     * Get Href of Area (only external link)
+     */
+    public function getHrefOfArea(
+        int $a_nr
+    ) : string {
         $st_item = $this->media_object->getMediaItem("Standard");
         $area = $st_item->getMapArea($a_nr);
         return $area->getHref();
     }
 
     /**
-    * Delete map areas
-    */
-    public function deleteAreas()
+     * Delete map areas
+     */
+    public function deleteAreas() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -953,9 +885,9 @@ class ilImageMapEditorGUI
     }
 
     /**
-    * Edit existing link
-    */
-    public function editLink()
+     * Edit existing link
+     */
+    public function editLink() : string
     {
         $_SESSION["il_map_edit_coords"] = "";
         $_SESSION["il_map_edit_mode"] = "";
@@ -971,7 +903,7 @@ class ilImageMapEditorGUI
     /**
      * Edit an existing shape (make it a whole picture link)
      */
-    public function editShapeWholePicture()
+    public function editShapeWholePicture() : string
     {
         $this->clearSessionVars();
         $_SESSION["il_map_edit_area_type"] = "WholePicture";
@@ -981,7 +913,7 @@ class ilImageMapEditorGUI
     /**
      * Edit an existing shape (make it a rectangle)
      */
-    public function editShapeRectangle()
+    public function editShapeRectangle() : string
     {
         $this->clearSessionVars();
         $_SESSION["il_map_edit_area_type"] = "Rect";
@@ -991,7 +923,7 @@ class ilImageMapEditorGUI
     /**
      * Edit an existing shape (make it a circle)
      */
-    public function editShapeCircle()
+    public function editShapeCircle() : string
     {
         $this->clearSessionVars();
         $_SESSION["il_map_edit_area_type"] = "Circle";
@@ -1001,7 +933,7 @@ class ilImageMapEditorGUI
     /**
      * Edit an existing shape (make it a polygon)
      */
-    public function editShapePolygon()
+    public function editShapePolygon() : string
     {
         $this->clearSessionVars();
         $_SESSION["il_map_edit_area_type"] = "Poly";
@@ -1009,10 +941,11 @@ class ilImageMapEditorGUI
     }
 
     /**
-    * edit shape of existing map area
-    */
-    public function setShape($a_handle = true)
-    {
+     * edit shape of existing map area
+     */
+    public function setShape(
+        bool $a_handle = true
+    ) : string {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
@@ -1087,16 +1020,14 @@ class ilImageMapEditorGUI
             // Whole Picture
             case "WholePicture":
                 return $this->saveArea();
-            }
+        }
+        return "";
     }
 
     /**
      * Set highlight settings
-     *
-     * @param
-     * @return
      */
-    public function setHighlight()
+    public function setHighlight() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
