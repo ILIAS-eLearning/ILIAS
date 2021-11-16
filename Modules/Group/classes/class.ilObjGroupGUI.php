@@ -88,7 +88,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 break;
 
             case 'illtiproviderobjectsettinggui':
-                $this->setSubTabs('properties');
+                $this->setSubTabs('settings');
                 $this->tabs_gui->activateTab('settings');
                 $this->tabs_gui->activateSubTab('lti_provider');
                 $lti_gui = new ilLTIProviderObjectSettingGUI($this->object->getRefId());
@@ -206,6 +206,7 @@ class ilObjGroupGUI extends ilContainerGUI
                 $cdf_gui = new ilObjectCustomUserFieldsGUI($this->object->getId());
                 $this->setSubTabs('settings');
                 $this->tabs_gui->setTabActive('settings');
+                $this->tabs_gui->activateSubTab('grp_custom_user_fields');
                 $this->ctrl->forwardCommand($cdf_gui);
                 break;
                 
@@ -278,6 +279,7 @@ class ilObjGroupGUI extends ilContainerGUI
             case "ilcontainernewssettingsgui":
                 $this->setSubTabs("settings");
                 $this->tabs_gui->setTabActive('settings');
+                $this->tabs_gui->activateSubTab('obj_news_settings');
                 include_once("./Services/Container/classes/class.ilContainerNewsSettingsGUI.php");
                 $news_set_gui = new ilContainerNewsSettingsGUI($this);
                 $news_set_gui->setTimeline(true);
