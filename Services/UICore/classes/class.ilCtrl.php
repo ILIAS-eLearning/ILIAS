@@ -61,6 +61,13 @@ class ilCtrl implements ilCtrlInterface
     private ilCtrlStructureInterface $structure;
 
     /**
+     * Holds an instance of the token repository.
+     *
+     * @var ilCtrlTokenRepositoryInterface
+     */
+    private ilCtrlTokenRepositoryInterface $token_repository;
+
+    /**
      * Holds the current context information.
      *
      * @var ilCtrlContextInterface
@@ -91,27 +98,30 @@ class ilCtrl implements ilCtrlInterface
     /**
      * ilCtrl Constructor
      *
-     * @param ilCtrlStructureInterface $structure
-     * @param ResponseSenderStrategy   $response_sender
-     * @param ServerRequestInterface   $server_request
-     * @param RequestWrapper           $post_parameters
-     * @param RequestWrapper           $get_parameters
-     * @param Refinery                 $refinery
+     * @param ilCtrlStructureInterface       $structure
+     * @param ilCtrlTokenRepositoryInterface $token_repository
+     * @param ResponseSenderStrategy         $response_sender
+     * @param ServerRequestInterface         $server_request
+     * @param RequestWrapper                 $post_parameters
+     * @param RequestWrapper                 $get_parameters
+     * @param Refinery                       $refinery
      */
     public function __construct(
         ilCtrlStructureInterface $structure,
+        ilCtrlTokenRepositoryInterface $token_repository,
         ResponseSenderStrategy $response_sender,
         ServerRequestInterface $server_request,
         RequestWrapper $post_parameters,
         RequestWrapper $get_parameters,
         Refinery $refinery
     ) {
-        $this->structure       = $structure;
-        $this->response_sender = $response_sender;
-        $this->server_request  = $server_request;
-        $this->post_parameters = $post_parameters;
-        $this->get_parameters  = $get_parameters;
-        $this->refinery        = $refinery;
+        $this->structure        = $structure;
+        $this->token_repository = $token_repository;
+        $this->response_sender  = $response_sender;
+        $this->server_request   = $server_request;
+        $this->post_parameters  = $post_parameters;
+        $this->get_parameters   = $get_parameters;
+        $this->refinery         = $refinery;
 
         $this->path_factory = new ilCtrlPathFactory($this->structure);
         $this->context = new ilCtrlContext(
@@ -216,9 +226,11 @@ class ilCtrl implements ilCtrlInterface
             $get_command
         ;
 
-        // if no command was found, check the current context.
-        if (null === $command && null !== $this->context->getCmd()) {
-            $command = $this->context->getCmd();
+        // override the command that has been set during a
+        // request via ilCtrl::setCmd().
+        $context_command = $this->context->getCmd();
+        if (null !== $context_command && self::CMD_POST !== $context_command) {
+            $command = $context_command;
         }
 
         if (null !== $command) {
@@ -226,15 +238,9 @@ class ilCtrl implements ilCtrlInterface
             // is not considered safe, the csrf-validation must pass.
             $cmd_class = $this->context->getCmdClass();
             if (null !== $cmd_class && !$this->isCmdSecure($is_post, $cmd_class, $command)) {
-                global $DIC;
+                $stored_token = $this->token_repository->getToken();
+                $sent_token   = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
 
-                $stored_token = new ilCtrlToken(
-                    $DIC->database(),
-                    $DIC->user(),
-                    session_id()
-                );
-
-                $sent_token = $this->getQueryParam(self::PARAM_CSRF_TOKEN);
                 if (null !== $sent_token && $stored_token->verifyWith($sent_token)) {
                     return $command;
                 }
@@ -251,9 +257,7 @@ class ilCtrl implements ilCtrlInterface
      */
     public function setCmd(string $a_cmd) : void
     {
-        if (!empty($a_cmd)) {
-            $this->context->setCmd($a_cmd);
-        }
+        $this->context->setCmd($a_cmd);
     }
 
     /**
@@ -942,14 +946,7 @@ class ilCtrl implements ilCtrlInterface
         // append a csrf token if the command is considered
         // unsafe or the link is for form actions.
         if (!$this->isCmdSecure($is_post, $cmd_class, $a_cmd)) {
-            global $DIC;
-
-            $token = new ilCtrlToken(
-                $DIC->database(),
-                $DIC->user(),
-                session_id()
-            );
-
+            $token = $this->token_repository->getToken();
             $target_url = $this->appendParameterString(
                 $target_url,
                 self::PARAM_CSRF_TOKEN,

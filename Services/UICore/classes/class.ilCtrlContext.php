@@ -213,6 +213,7 @@ class ilCtrlContext implements ilCtrlContextInterface
     public function setCmd(string $cmd) : ilCtrlContextInterface
     {
         $this->cmd = $cmd;
+
         return $this;
     }
 

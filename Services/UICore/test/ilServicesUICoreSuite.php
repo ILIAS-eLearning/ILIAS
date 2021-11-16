@@ -30,11 +30,11 @@ class ilServicesUICoreSuite extends TestSuite
         require_once __DIR__ . '/Structure/ilCtrlStructureSuite.php';
         $suite->addTestSuite(ilCtrlStructureSuite::class);
 
+        require_once __DIR__ . '/Token/ilCtrlTokenSuite.php';
+        $suite->addTestSuite(ilCtrlTokenSuite::class);
+
         require_once __DIR__ . '/ilCtrlContextTest.php';
         $suite->addTestSuite(ilCtrlContextTest::class);
-
-        require_once __DIR__ . '/ilCtrlTokenTest.php';
-        $suite->addTestSuite(ilCtrlTokenTest::class);
 
         require_once __DIR__ . '/ilCtrlTest.php';
         $suite->addTestSuite(ilCtrlTest::class);

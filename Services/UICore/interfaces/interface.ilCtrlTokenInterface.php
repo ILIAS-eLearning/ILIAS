@@ -10,18 +10,7 @@
 interface ilCtrlTokenInterface
 {
     /**
-     * Returns a unique token for the user of this instance.
-     *
-     * If the token isn't already stored in the database it will be
-     * generated and done so.
-     *
-     * @return string
-     */
-    public function getToken() : string;
-
-    /**
-     * Compares the given token to the one of generated or stored for
-     * the user of this instance.
+     * Compares the given token to the stored one of the given user.
      *
      * @param string $token
      * @return bool
@@ -29,8 +18,9 @@ interface ilCtrlTokenInterface
     public function verifyWith(string $token) : bool;
 
     /**
-     * Destroys the token that has been stored for the user of this
-     * instance.
+     * Returns the token string of this instance.
+     *
+     * @return string
      */
-    public function destroyToken() : void;
+    public function getToken() : string;
 }

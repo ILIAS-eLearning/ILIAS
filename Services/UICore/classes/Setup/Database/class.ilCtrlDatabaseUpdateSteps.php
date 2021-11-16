@@ -60,6 +60,18 @@ class ilCtrlDatabaseUpdateSteps implements ilDatabaseUpdateSteps
     }
 
     /**
+     * Deletes the table 'il_request_token' from the database, since tokens
+     * are now stored in the ILIAS session.
+     */
+    public function step_4() : void
+    {
+        $this->abortIfNotPrepared();
+        if ($this->database->tableExists('il_request_token')) {
+            $this->database->dropTable('il_request_token');
+        }
+    }
+
+    /**
      * Halts the execution of these update steps if no database was
      * provided.
      *

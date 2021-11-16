@@ -43,6 +43,7 @@ final class InitCtrlService
         // create global instance of ilCtrl
         $GLOBALS['ilCtrl'] = new ilCtrl(
             $ctrl_structure,
+            new ilCtrlTokenRepository(),
             $dic["http.response_sender_strategy"],
             $dic->http()->request(),
             $dic->http()->wrapper()->post(),
@@ -74,5 +75,9 @@ final class InitCtrlService
         if (!$dic->offsetExists('refinery')) {
             throw new ilCtrlException("Cannot initialize ilCtrl if Refinery Factory is not yet available.");
         }
+
+        // if (!$dic->offsetExists('ilDB')) {
+        //     throw new ilCtrlException("Cannot initialize ilCtrl if Database is not yet available.");
+        // }
     }
 }

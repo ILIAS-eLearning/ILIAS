@@ -19,6 +19,7 @@ final class InitCtrlServiceTest extends TestCase
     public function testCtrlServiceInitializationWithoutRefinery() : void
     {
         $dic = new Container();
+        // $dic['ilDB'] = $this->createMock(ilDBInterface::class);
         $dic['http'] = $this->createMock(HttpService::class);
 
         $this->expectException(ilCtrlException::class);
@@ -29,6 +30,7 @@ final class InitCtrlServiceTest extends TestCase
     public function testCtrlServiceInitializationWithoutHttpServices() : void
     {
         $dic = new Container();
+        // $dic['ilDB'] = $this->createMock(ilDBInterface::class);
         $dic['refinery'] = $this->createMock(Refinery::class);
 
         $this->expectException(ilCtrlException::class);
@@ -36,10 +38,22 @@ final class InitCtrlServiceTest extends TestCase
         (new InitCtrlService())->init($dic);
     }
 
+    // public function testCtrlServiceInitializationWithoutDatabase() : void
+    // {
+    //     $dic = new Container();
+    //     $dic['refinery'] = $this->createMock(Refinery::class);
+    //     $dic['http'] = $this->createMock(HttpService::class);
+    //
+    //     $this->expectException(ilCtrlException::class);
+    //     $this->expectExceptionMessage("Cannot initialize ilCtrl if Database is not yet available.");
+    //     (new InitCtrlService())->init($dic);
+    // }
+
     public function testCtrlServiceInitializationSuccess() : void
     {
         $dic = new Container();
         $dic['refinery'] = $this->createMock(Refinery::class);
+        // $dic['ilDB'] = $this->createMock(ilDBInterface::class);
         $dic['http.response_sender_strategy'] = $this->createMock(DefaultResponseSenderStrategy::class);
         $dic['http'] = $this->createMock(HttpService::class);
         $dic['http']

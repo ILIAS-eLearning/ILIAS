@@ -17,14 +17,7 @@ class ilCtrlTest extends TestCase
 {
     public function testCallBaseClassWithoutBaseClass() : void
     {
-        $ctrl = new ilCtrl(
-            $this->createMock(ilCtrlStructureInterface::class),
-            $this->createMock(ResponseSenderStrategy::class),
-            $this->createMock(ServerRequestInterface::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(Refinery::class),
-        );
+        $ctrl = $this->getMockedCtrl();
 
         $this->expectException(ilCtrlException::class);
         $this->expectExceptionMessage(ilCtrl::class . "::callBaseClass was not given a baseclass and the request doesn't include one either.");
@@ -41,6 +34,7 @@ class ilCtrlTest extends TestCase
 
         $ctrl = new ilCtrl(
             $structure,
+            $this->createMock(ilCtrlTokenRepositoryInterface::class),
             $this->createMock(ResponseSenderStrategy::class),
             $this->createMock(ServerRequestInterface::class),
             $this->createMock(RequestWrapper::class),
@@ -57,14 +51,7 @@ class ilCtrlTest extends TestCase
 
     public function testForwardCommandWithInvalidObject() : void
     {
-        $ctrl = new ilCtrl(
-            $this->createMock(ilCtrlStructureInterface::class),
-            $this->createMock(ResponseSenderStrategy::class),
-            $this->createMock(ServerRequestInterface::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(Refinery::class),
-        );
+        $ctrl = $this->getMockedCtrl();
 
         require_once __DIR__ . '/Data/GUI/class.ilCtrlInvalidGuiClass.php';
 
@@ -75,14 +62,7 @@ class ilCtrlTest extends TestCase
 
     public function testForwardCommandWithValidObject() : void
     {
-        $ctrl = new ilCtrl(
-            $this->createMock(ilCtrlStructureInterface::class),
-            $this->createMock(ResponseSenderStrategy::class),
-            $this->createMock(ServerRequestInterface::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(Refinery::class),
-        );
+        $ctrl = $this->getMockedCtrl();
 
         require_once __DIR__ . '/Data/GUI/class.ilCtrlCommandClass1TestGUI.php';
 
@@ -94,14 +74,7 @@ class ilCtrlTest extends TestCase
 
     public function testGetHtmlWithInvalidObject() : void
     {
-        $ctrl = new ilCtrl(
-            $this->createMock(ilCtrlStructureInterface::class),
-            $this->createMock(ResponseSenderStrategy::class),
-            $this->createMock(ServerRequestInterface::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(Refinery::class),
-        );
+        $ctrl = $this->getMockedCtrl();
 
         require_once __DIR__ . '/Data/GUI/class.ilCtrlInvalidGuiClass.php';
 
@@ -112,14 +85,7 @@ class ilCtrlTest extends TestCase
 
     public function testGetHtmlWithValidObject() : void
     {
-        $ctrl = new ilCtrl(
-            $this->createMock(ilCtrlStructureInterface::class),
-            $this->createMock(ResponseSenderStrategy::class),
-            $this->createMock(ServerRequestInterface::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(Refinery::class),
-        );
+        $ctrl = $this->getMockedCtrl();
 
         require_once __DIR__ . '/Data/GUI/class.ilCtrlCommandClass2TestGUI.php';
 
@@ -128,14 +94,7 @@ class ilCtrlTest extends TestCase
 
     public function testGetHtmlWithValidObjectAndParameters() : void
     {
-        $ctrl = new ilCtrl(
-            $this->createMock(ilCtrlStructureInterface::class),
-            $this->createMock(ResponseSenderStrategy::class),
-            $this->createMock(ServerRequestInterface::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(Refinery::class),
-        );
+        $ctrl = $this->getMockedCtrl();
 
         require_once __DIR__ . '/Data/GUI/class.ilCtrlCommandClass2TestGUI.php';
 
@@ -144,14 +103,7 @@ class ilCtrlTest extends TestCase
 
     public function testGetCmdWithoutProvidedCmd() : void
     {
-        $ctrl = new ilCtrl(
-            $this->createMock(ilCtrlStructureInterface::class),
-            $this->createMock(ResponseSenderStrategy::class),
-            $this->createMock(ServerRequestInterface::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(RequestWrapper::class),
-            $this->createMock(Refinery::class),
-        );
+        $ctrl = $this->getMockedCtrl();
 
         // @TODO: change this to assertNull() once null coalescing operators are removed.
         $this->assertEmpty($ctrl->getCmd());
@@ -161,6 +113,7 @@ class ilCtrlTest extends TestCase
     {
         $ctrl = new ilCtrl(
             $this->createMock(ilCtrlStructureInterface::class),
+            $this->createMock(ilCtrlTokenRepositoryInterface::class),
             $this->createMock(ResponseSenderStrategy::class),
             $this->createMock(ServerRequestInterface::class),
             $this->createMock(RequestWrapper::class),
@@ -176,7 +129,6 @@ class ilCtrlTest extends TestCase
         );
     }
 
-/*
     public function testGetCmdWithUnsafePostCmd() : void
     {
 
@@ -231,5 +183,23 @@ class ilCtrlTest extends TestCase
     {
 
     }
-*/
+
+    /**
+     * Helper function that returns an ilCtrl instance with mocked
+     * dependencies.
+     *
+     * @return ilCtrlInterface
+     */
+    private function getMockedCtrl() : ilCtrlInterface
+    {
+        return new ilCtrl(
+            $this->createMock(ilCtrlStructureInterface::class),
+            $this->createMock(ilCtrlTokenRepositoryInterface::class),
+            $this->createMock(ResponseSenderStrategy::class),
+            $this->createMock(ServerRequestInterface::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(RequestWrapper::class),
+            $this->createMock(Refinery::class),
+        );
+    }
 }
