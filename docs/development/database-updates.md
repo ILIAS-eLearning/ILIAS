@@ -102,7 +102,7 @@ A few words of warning:
 
 * Make sure to understand, that this mechanism really is about schema updates.
 Do not perform other kinds of updates (e.g. the migrations, creating files, ...)
-with this. There is a more general mechanism (the [`Objectives`]) (src/Setup/README.md#on-objective)
+with this. There is a more general mechanism (the [`Objectives`](src/Setup/README.md#on-objective))
 to do this.
 * Only use the provided `\ilDBInterface` in the methods. Do not use other things from
 the environment or the globals, they might not be there if you need them.
