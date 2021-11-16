@@ -701,4 +701,34 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $this->setOptions($default);
         $this->setOptionTranslations($options);
     }
+
+    /**
+     * @param int $a_new_record_id
+     * @return ilAdvancedMDFieldDefinition
+     */
+    public function _clone($a_new_record_id)
+    {
+        global $DIC;
+
+        $db = $DIC->database();
+
+        $obj = parent::_clone($a_new_record_id);
+        $query = 'select * from adv_mdf_enum ' .
+            'where field_id = ' . $db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .
+            'order by idx';
+        $res = $db->query($query);
+        $options = [];
+        $default = [];
+        $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
+        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
+            if ($row->lang_code == $record->getDefaultLanguage()) {
+                $default[$row->idx] = $row->value;
+            }
+            $options[$row->lang_code][$row->idx] = $row->value;
+        }
+        $obj->setOptions($default);
+        $obj->setOptionTranslations($options);
+        $obj->update();
+        return $obj;
+    }
 }

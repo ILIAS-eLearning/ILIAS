@@ -1036,6 +1036,7 @@ class ilAdvancedMDRecord
             ? $a_parent_obj_id
             : $this->getParentObject());
         $new_obj->setAssignedObjectTypes($this->getAssignedObjectTypes());
+        $new_obj->setDefaultLanguage($this->getDefaultLanguage());
         $new_obj->save();
         
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
