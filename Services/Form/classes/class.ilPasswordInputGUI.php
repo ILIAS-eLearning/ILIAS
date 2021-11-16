@@ -31,7 +31,7 @@ class ilPasswordInputGUI extends ilSubEnabledFormPropertyGUI
      * @var bool Flag whether the html autocomplete attribute should be set to "off" or not
      */
     protected bool $autocomplete_disabled = true;
-    protected string $retypevalue;
+    protected string $retypevalue = "";
     protected bool $retype;
 
     public function __construct(
