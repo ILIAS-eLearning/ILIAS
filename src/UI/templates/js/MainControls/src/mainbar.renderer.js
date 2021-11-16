@@ -14,6 +14,8 @@ var renderer = function($) {
     },
 
     dom_references = {},
+    dom_ref_to_element = {},
+    thrown_for = {},
     dom_element = {
         withHtmlId: function (html_id) {
             return Object.assign({}, this, {html_id: html_id});
@@ -23,16 +25,11 @@ var renderer = function($) {
             return $('#' + this.html_id);
         },
         engage: function() {
-            var element = this.getElement(),
-                loaded = element.hasClass(css.engaged);
+            var element = this.getElement();
 
             element.addClass(css.engaged);
             element.removeClass(css.disengaged);
 
-            if(! loaded) {
-                element.trigger('in_view'); //this is most important for async loading of slates,
-                                            //it triggers the GlobalScreen-Service.
-            }
             if(il.UI.page.isSmallScreen() && il.UI.maincontrols.metabar) {
                 il.UI.maincontrols.metabar.disengageAll();
             }
@@ -75,12 +72,27 @@ var renderer = function($) {
             mb_hide: null,
             mb_show: null,
             additional_engage: function(){
-                this.getElement().attr('aria-expanded', true);
-                this.getElement().attr('aria-hidden', false);
+                var element = this.getElement(),
+                    entry_id = dom_ref_to_element[this.html_id],
+                    isInView = il.UI.maincontrols.mainbar.model.isInView(entry_id),
+                    thrown = thrown_for[entry_id];
+                
+                element.attr('aria-expanded', true);
+                element.attr('aria-hidden', false);
                 //https://www.w3.org/TR/wai-aria-practices-1.1/examples/accordion/accordion.html
-                this.getElement().attr('role', 'region');
+                element.attr('role', 'region');
+                if(isInView && !thrown) {
+                    element.trigger('in_view'); //this is most important for async loading of slates,
+                                                //it triggers the GlobalScreen-Service.
+                    thrown_for[entry_id] = true;
+                }
+                if(!isInView) {
+                    thrown_for[entry_id] = false;
+                }
             },
             additional_disengage: function(){
+                var entry_id = dom_ref_to_element[this.html_id];
+                thrown_for[entry_id] = false;
                 this.getElement().attr('aria-expanded', false);
                 this.getElement().attr('aria-hidden', true);
                 this.getElement().removeAttr('role', 'region');
@@ -164,6 +176,8 @@ var renderer = function($) {
         addEntry: function (entry_id, part, html_id) {
             dom_references[entry_id] = dom_references[entry_id] || {};
             dom_references[entry_id][part] = html_id;
+            dom_ref_to_element[html_id] = entry_id;
+            thrown_for[entry_id] = false;
         },
         renderEntry: function (entry, is_tool) {
             if(!dom_references[entry.id]){
