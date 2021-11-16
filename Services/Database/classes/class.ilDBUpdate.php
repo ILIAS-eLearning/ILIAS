@@ -125,7 +125,7 @@ class ilDBUpdate
     public function setCurrentVersion(int $a_version) : void
     {
         $set = new ilSetting("common", true);
-        $set->set("db_version", $a_version);
+        $set->set("db_version", (string) $a_version);
         $this->currentVersion = $a_version;
     }
 
@@ -136,7 +136,7 @@ class ilDBUpdate
     public function setRunningStatus(int $a_nr) : void
     {
         $set = new ilSetting("common", true);
-        $set->set("db_update_running", $a_nr);
+        $set->set("db_update_running", (string) $a_nr);
         $this->db_update_running = $a_nr;
     }
 
@@ -158,7 +158,7 @@ class ilDBUpdate
     public function clearRunningStatus() : void
     {
         $set = new ilSetting("common", true);
-        $set->set("db_update_running", 0);
+        $set->set("db_update_running", "0");
         $this->db_update_running = 0;
     }
 
@@ -607,7 +607,7 @@ class ilDBUpdate
     public function setCustomUpdatesCurrentVersion(?int $a_version) : bool
     {
         $this->readCustomUpdatesInfo();
-        $this->custom_updates_setting->set('db_version_custom', $a_version);
+        $this->custom_updates_setting->set('db_version_custom', (string) $a_version);
         $this->custom_updates_current_version = $a_version;
 
         return true;
