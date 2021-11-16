@@ -85,7 +85,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
         $this->base_classes = $base_classes;
         $this->security = $security_info;
 
-        $this->structure = (new ilCtrlStructureHelper($ctrl_structure, $plugin_structure))
+        $this->structure = (new ilCtrlStructureHelper($base_classes, $ctrl_structure, $plugin_structure))
             ->mergePluginStructure()
             ->mapStructureReferences()
             ->getStructure()

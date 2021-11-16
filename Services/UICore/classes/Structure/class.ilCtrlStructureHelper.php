@@ -20,15 +20,22 @@ class ilCtrlStructureHelper
     private array $plugin_structure;
 
     /**
+     * @var string[]
+     */
+    private array $base_classes;
+
+    /**
      * ilCtrlStructureHelper Constructor
      *
+     * @param array      $base_classes
      * @param array      $ctrl_structure
      * @param array|null $plugin_structure
      */
-    public function __construct(array $ctrl_structure, array $plugin_structure = null)
+    public function __construct(array $base_classes, array $ctrl_structure, array $plugin_structure = null)
     {
         $this->plugin_structure = $plugin_structure ?? [];
         $this->ctrl_structure   = $ctrl_structure;
+        $this->base_classes     = $base_classes;
     }
 
     /**
@@ -48,6 +55,35 @@ class ilCtrlStructureHelper
         $this->ctrl_structure = (new ilCtrlStructureMapper(
             $this->ctrl_structure
         ))->getStructure();
+
+        return $this;
+    }
+
+    /**
+     * Fluent filter method that removes structure entries, whose
+     * parent- and child-references are empty. That means these
+     * classes are not considered necessary GUI classes.
+     *
+     * Such structure entries can be safely removed, because if they
+     * have neither children nor parents, they will never be called
+     * unless they are a baseclass itself.
+     *
+     * @return self
+     */
+    public function filterUnnecessaryEntries() : self
+    {
+        $this->ctrl_structure = array_filter(
+            $this->ctrl_structure,
+            function(array $value, string $key) : bool {
+                // if the entry is not a baseclass and has no
+                // references, the entry will be removed.
+                return !(
+                    !in_array($key, $this->base_classes, true) &&
+                    empty($value[ilCtrlStructureInterface::KEY_CLASS_CHILDREN]) &&
+                    empty($value[ilCtrlStructureInterface::KEY_CLASS_PARENTS])
+                );
+            },
+            ARRAY_FILTER_USE_BOTH);
 
         return $this;
     }

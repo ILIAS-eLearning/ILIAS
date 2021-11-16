@@ -95,14 +95,14 @@ class ilCtrlStructureReader
      */
     public function readStructure() : array
     {
-        $structure = [];
+        $base_classes = $structure = [];
         foreach ($this->iterator as $class_name => $path) {
             // skip iteration if class doesn't meet ILIAS GUI class criteria.
             if (!$this->isGuiClass($path)) {
                 continue;
             }
 
-            $array_key = strtolower($class_name);
+            $lower_class_name = strtolower($class_name);
             try {
                 // the classes need to be required manually, because
                 // the autoload classmap might not include the plugin
@@ -112,18 +112,25 @@ class ilCtrlStructureReader
 
                 $reflection = new ReflectionClass($class_name);
 
-                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CID]      = $this->cid_generator->getCid();
-                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_NAME]     = $class_name;
-                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PATH]     = $this->getRelativePath($path);
-                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
-                $structure[$array_key][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CID]      = $this->cid_generator->getCid();
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_NAME]     = $class_name;
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PATH]     = $this->getRelativePath($path);
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_CHILDREN] = $this->getChildren($reflection);
+                $structure[$lower_class_name][ilCtrlStructureInterface::KEY_CLASS_PARENTS]  = $this->getParents($reflection);
+
+                // temporarily store base classes in order to filer the
+                // structure afterwards.
+                if (in_array(ilCtrlBaseClassInterface::class, $reflection->getInterfaceNames(), true)) {
+                    $base_classes[] = $lower_class_name;
+                }
             } catch (ReflectionException $e) {
                 continue;
             }
         }
 
-        $mapped_structure = (new ilCtrlStructureHelper($structure))
+        $mapped_structure = (new ilCtrlStructureHelper($base_classes, $structure))
             ->mapStructureReferences()
+            ->filterUnnecessaryEntries()
             ->getStructure()
         ;
 

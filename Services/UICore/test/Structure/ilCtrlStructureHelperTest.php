@@ -13,7 +13,7 @@ class ilCtrlStructureHelperTest extends TestCase
 {
     public function testStructureHelperWithEmptyArrays() : void
     {
-        $helper = new ilCtrlStructureHelper([]);
+        $helper = new ilCtrlStructureHelper([], []);
 
         $this->assertEmpty($helper->getStructure());
         $this->assertEmpty($helper->getPluginStructure());
@@ -27,7 +27,7 @@ class ilCtrlStructureHelperTest extends TestCase
     public function testStructureHelperWithCtrlStructure() : void
     {
         $expected_value = ['entry0'];
-        $helper = new ilCtrlStructureHelper($expected_value);
+        $helper = new ilCtrlStructureHelper([], $expected_value);
 
         $this->assertEquals($expected_value, $helper->getStructure());
         $this->assertEmpty($helper->getPluginStructure());
@@ -37,7 +37,7 @@ class ilCtrlStructureHelperTest extends TestCase
     {
         $expected_ctrl_structure = ['entry0'];
         $expected_plugin_structure = ['entry1'];
-        $helper = new ilCtrlStructureHelper($expected_ctrl_structure, $expected_plugin_structure);
+        $helper = new ilCtrlStructureHelper([], $expected_ctrl_structure, $expected_plugin_structure);
 
         $this->assertEquals($expected_ctrl_structure, $helper->getStructure());
         $this->assertEquals($expected_plugin_structure, $helper->getPluginStructure());
@@ -50,6 +50,7 @@ class ilCtrlStructureHelperTest extends TestCase
         ];
 
         $helper = new ilCtrlStructureHelper(
+            [],
             $expected_ctrl_structure, [
                 'class2',
             ],
@@ -63,17 +64,19 @@ class ilCtrlStructureHelperTest extends TestCase
 
     public function testStructureHelperPluginMergingWithValidPluginStructure() : void
     {
-        $helper = new ilCtrlStructureHelper([
-            'class1' => [],
-            'class2' => [],
-        ], [
-            'plugin1' => [
-                'class3' => [],
-            ],
-            'plugin2' => [
-                'class4' => [],
-            ],
-        ]);
+        $helper = new ilCtrlStructureHelper(
+            [], [
+                'class1' => [],
+                'class2' => [],
+            ], [
+                'plugin1' => [
+                    'class3' => [],
+                ],
+                'plugin2' => [
+                    'class4' => [],
+                ],
+            ]
+        );
 
         $this->assertEquals(
             [
@@ -88,20 +91,22 @@ class ilCtrlStructureHelperTest extends TestCase
 
     public function testStructureHelperPluginMergingWithMixedPluginStructure() : void
     {
-        $helper = new ilCtrlStructureHelper([
-            'class1' => [],
-            'class2' => [],
-        ], [
-            'plugin1' => [
-                'class3' => null,
-            ],
-            'plugin2' => [
-                'class4' => [],
-            ],
-            3 => [
-                'class5' => []
-            ],
-        ]);
+        $helper = new ilCtrlStructureHelper(
+            [], [
+                'class1' => [],
+                'class2' => [],
+            ], [
+                'plugin1' => [
+                    'class3' => null,
+                ],
+                'plugin2' => [
+                    'class4' => [],
+                ],
+                3 => [
+                    'class5' => []
+                ],
+            ]
+        );
 
         $this->assertEquals(
             [
@@ -115,25 +120,27 @@ class ilCtrlStructureHelperTest extends TestCase
 
     public function testStructureHelperReferencesMappingWithValidArray() : void
     {
-        $helper = new ilCtrlStructureHelper([
-            'class1' => [],
-            'class2' => [],
-        ], [
-            'plugin1' => [
-                'class3' => [
-                    ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
-                        'class2',
+        $helper = new ilCtrlStructureHelper(
+            [], [
+                'class1' => [],
+                'class2' => [],
+            ], [
+                'plugin1' => [
+                    'class3' => [
+                        ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
+                            'class2',
+                        ],
                     ],
                 ],
-            ],
-            'plugin2' => [
-                'class4' => [
-                    ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [
-                        'class1',
+                'plugin2' => [
+                    'class4' => [
+                        ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [
+                            'class1',
+                        ],
                     ],
-                ],
+                ]
             ]
-        ]);
+        );
 
         $this->assertEquals(
             [
@@ -164,27 +171,29 @@ class ilCtrlStructureHelperTest extends TestCase
 
     public function testStructureHelperReferencesMappingWithMixedArray() : void
     {
-        $helper = new ilCtrlStructureHelper([
-            'class1' => [],
-            'class2' => false,
-        ], [
-            'plugin1' => [
-                'class3' => [
-                    ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
-                        'class2',
+        $helper = new ilCtrlStructureHelper(
+            [], [
+                'class1' => [],
+                'class2' => false,
+            ], [
+                'plugin1' => [
+                    'class3' => [
+                        ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
+                            'class2',
+                        ],
                     ],
                 ],
-            ],
-            'plugin2' => [
-                'class4' => [
-                    ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [
-                        'class1',
+                'plugin2' => [
+                    'class4' => [
+                        ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [
+                            'class1',
+                        ],
                     ],
+                    1 => false,
                 ],
-                1 => false,
-            ],
-            3 => [],
-        ]);
+                3 => [],
+            ]
+        );
 
         $this->assertEquals(
             [
@@ -203,6 +212,41 @@ class ilCtrlStructureHelperTest extends TestCase
                 ],
             ],
             $helper->mergePluginStructure()->mapStructureReferences()->getStructure()
+        );
+    }
+
+    public function testStructureHelperUnnecessaryEntryFilter() : void
+    {
+        $helper = new ilCtrlStructureHelper(
+            [
+                'baseclass1',
+            ], [
+                'baseclass1' => [],
+                'unnecessary_class1' => [],
+                'unnecessary_class2' => [
+                    ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [],
+                    ilCtrlStructureInterface::KEY_CLASS_PARENTS => [],
+                ],
+                'command_class_1' => [
+                    ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [],
+                    ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
+                        'baseclass1',
+                    ],
+                ],
+            ]
+        );
+
+        $this->assertEquals(
+            [
+                'baseclass1' => [],
+                'command_class_1' => [
+                    ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [],
+                    ilCtrlStructureInterface::KEY_CLASS_PARENTS => [
+                        'baseclass1',
+                    ],
+                ],
+            ],
+            $helper->filterUnnecessaryEntries()->getStructure()
         );
     }
 }

@@ -60,9 +60,9 @@ class ilUICoreSetupAgent implements Agent
         return new ObjectiveCollection(
             'buildIlCtrlArtifacts',
             false,
+            new ilCtrlBaseClassArtifactObjective(),
             new ilCtrlStructureArtifactObjective(),
             new ilCtrlPluginStructureArtifactObjective(),
-            new ilCtrlBaseClassArtifactObjective(),
             new ilCtrlSecurityArtifactObjective(),
         );
     }
