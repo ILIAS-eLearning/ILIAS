@@ -89,7 +89,7 @@ class ilSystemStyleIconFolderTest extends TestCase
     public function testReadRecursiveCount()
     {
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
-        $this->assertEquals(4, count($folder->getIcons()));
+        $this->assertEquals(5, count($folder->getIcons()));
     }
 
     public function testFolderDoesNotExist()
@@ -102,14 +102,24 @@ class ilSystemStyleIconFolderTest extends TestCase
         }
     }
 
-    public function testFolderGetIcon()
+    public function testFolderGetIconByName()
     {
         $style_path = $this->container->getImagesSkinPath($this->style->getId());
 
         $path1 = $style_path . "/test_image_1.svg";
         $icon1 = new ilSystemStyleIcon("test_image_1.svg", $path1, "svg");
-        $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
+        $folder = new ilSystemStyleIconFolder($style_path);
         $this->assertEquals($icon1, $folder->getIconByName("test_image_1.svg"));
+    }
+
+    public function testFolderGetIconByPath()
+    {
+        $style_path = $this->container->getImagesSkinPath($this->style->getId());
+
+        $path1 = $style_path . "/test_image_1.svg";
+        $icon1 = new ilSystemStyleIcon("test_image_1.svg", $path1, "svg");
+        $folder = new ilSystemStyleIconFolder($style_path);
+        $this->assertEquals($icon1, $folder->getIconByPath($path1));
     }
 
     public function testIconDoesNotExist()
@@ -140,7 +150,10 @@ class ilSystemStyleIconFolderTest extends TestCase
         $path4 = $style_path . "/nonsvg.png";
         $icon4 = new ilSystemStyleIcon("nonsvg.png", $path4, "png");
 
-        $expected_icons = [$icon2,$icon3,$icon1,$icon4];
+        $path5 = $style_path . "/icon_accs.svg";
+        $icon5 = new ilSystemStyleIcon("icon_accs.svg", $path5, "svg");
+
+        $expected_icons = [$icon5,$icon2,$icon3,$icon1,$icon4];
 
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
         $this->assertEquals($expected_icons, $folder->getIcons());
@@ -162,8 +175,11 @@ class ilSystemStyleIconFolderTest extends TestCase
         $path4 = $style_path . "/nonsvg.png";
         $icon4 = new ilSystemStyleIcon("nonsvg.png", $path4, "png");
 
+        $path5 = $style_path . "/icon_accs.svg";
+        $icon5 = new ilSystemStyleIcon("icon_accs.svg", $path5, "svg");
+
         $expected_icons = [
-                $style_path => [$icon1,$icon4],
+                $style_path => [$icon5,$icon1,$icon4],
                 $style_path . "/image_subfolder" => [$icon2,$icon3],
         ];
 
@@ -182,6 +198,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $color4 = new ilSystemStyleIconColor("id_8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
         $color5 = new ilSystemStyleIconColor("id_303030", "303030", "303030", "303030");
         $color6 = new ilSystemStyleIconColor("id_404040", "404040", "404040", "404040");
+        $color7 = new ilSystemStyleIconColor("id_000", "000", "000", "000");
 
         $expected_color_set->addColor($color1);
         $expected_color_set->addColor($color2);
@@ -189,6 +206,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $expected_color_set->addColor($color4);
         $expected_color_set->addColor($color5);
         $expected_color_set->addColor($color6);
+        $expected_color_set->addColor($color7);
 
         $this->assertEquals($expected_color_set, $folder->getColorSet());
     }
@@ -207,6 +225,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $color4 = new ilSystemStyleIconColor("id_8C8C8C", "8C8C8C", "8C8C8C", "8C8C8C");
         $color5 = new ilSystemStyleIconColor("id_303030", "303030", "303030", "303030");
         $color6 = new ilSystemStyleIconColor("id_404040", "404040", "404040", "404040");
+        $color7 = new ilSystemStyleIconColor("id_000", "000", "000", "000");
 
         $expected_color_set->addColor($color2);
         $expected_color_set->addColor($color3);
@@ -214,6 +233,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $expected_color_set->addColor($color5);
         $expected_color_set->addColor($color6);
         $expected_color_set->addColor($color1);
+        $expected_color_set->addColor($color7);
 
         $this->assertEquals($expected_color_set, $folder2->getColorSet());
     }
