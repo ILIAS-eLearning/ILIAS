@@ -129,6 +129,7 @@ class ilCtrlTest extends TestCase
         );
     }
 
+    /*
     public function testGetCmdWithUnsafePostCmd() : void
     {
 
@@ -183,6 +184,7 @@ class ilCtrlTest extends TestCase
     {
 
     }
+    */
 
     /**
      * Helper function that returns an ilCtrl instance with mocked
