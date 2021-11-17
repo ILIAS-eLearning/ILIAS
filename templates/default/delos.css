@@ -8203,9 +8203,11 @@ ul.dropdown-menu > li > .btn:focus {
 .il-standard-form textarea {
   height: 76px;
 }
-.il-filter .col-md-4 {
+.il-filter .col-md-4,
+.il-filter .col-md-6 {
   padding-top: 6px;
   padding-bottom: 6px;
+  padding-right: 0px;
 }
 .il-filter .glyphicon-ok {
   font-size: unset;
@@ -8238,6 +8240,9 @@ ul.dropdown-menu > li > .btn:focus {
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 10%;
+}
+.il-filter .rightaddon .glyphicon {
+  top: 0;
 }
 .il-filter-bar {
   display: flex;
@@ -8289,6 +8294,7 @@ ul.dropdown-menu > li > .btn:focus {
   border-top: 1px solid #dddddd;
   position: relative;
   padding-bottom: 40px;
+  padding-right: 12px;
   margin: 0;
 }
 .il-filter-input-section .il-input-multiselect {
