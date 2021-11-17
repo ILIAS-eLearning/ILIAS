@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory;
+
 /**
  * Class ilMailMimeTest
  * @author Michael Jansen <mjansen@databay.de>
@@ -23,7 +25,7 @@ class ilMailMimeTest extends ilMailBaseTest
      */
     public function testMimMailDelegatesEmailDeliveryToThePassedTransporter() : void
     {
-        $defaultTransport = $this->getMockBuilder(ilMailMimeTransport::class)->getMock();
+        $defaultTransport = $this->getMockBuilder(ilMailMimeTransport::class)->disableOriginalConstructor()->getMock();
         $defaultTransport->expects($this->never())->method('send');
 
         $transport = $this->getMockBuilder(ilMailMimeTransport::class)->getMock();
@@ -32,6 +34,10 @@ class ilMailMimeTest extends ilMailBaseTest
         $transportFactory = $this->getMockBuilder(ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
         $transportFactory->method('getTransport')->willReturn($defaultTransport);
         $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
+
+        $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        $refineryMock->expects(self::once())->method('string');
+        $this->setGlobalVariable('refinery', $refineryMock);
 
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
@@ -54,6 +60,10 @@ class ilMailMimeTest extends ilMailBaseTest
         $transportFactory = $this->getMockBuilder(ilMailMimeTransportFactory::class)->disableOriginalConstructor()->getMock();
         $transportFactory->method('getTransport')->willReturn($defaultTransport);
         $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
+
+        $refineryMock = $this->getMockBuilder(Factory::class)->getMock();
+        $refineryMock->expects(self::once())->method('string');
+        $this->setGlobalVariable('refinery', $refineryMock);
 
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
             'set',
