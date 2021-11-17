@@ -36,7 +36,6 @@ class ilMailMimeTest extends ilMailBaseTest
         $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
 
         $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
-        $refineryMock->expects(self::once())->method('string');
         $this->setGlobalVariable('refinery', $refineryMock);
 
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([
@@ -61,8 +60,7 @@ class ilMailMimeTest extends ilMailBaseTest
         $transportFactory->method('getTransport')->willReturn($defaultTransport);
         $this->setGlobalVariable('mail.mime.transport.factory', $transportFactory);
 
-        $refineryMock = $this->getMockBuilder(Factory::class)->getMock();
-        $refineryMock->expects(self::once())->method('string');
+        $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
         $this->setGlobalVariable('refinery', $refineryMock);
 
         $settings = $this->getMockBuilder(ilSetting::class)->disableOriginalConstructor()->onlyMethods([

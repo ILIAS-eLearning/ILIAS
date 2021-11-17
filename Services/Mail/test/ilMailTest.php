@@ -24,7 +24,6 @@ class ilMailTest extends ilMailBaseTest
     public function testExternalMailDeliveryToLocalRecipientsWorksAsExpected() : void
     {
         $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
-        $refineryMock->expects(self::once())->method('string');
         $this->setGlobalVariable('refinery', $refineryMock);
 
         $senderUsrId = 666;
