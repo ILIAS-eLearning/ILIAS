@@ -155,6 +155,21 @@ class ilSystemStyleIconFolder
     }
 
     /**
+     * @param $path
+     * @return ilSystemStyleIcon
+     * @throws ilSystemStyleIconException
+     */
+    public function getIconByPath($path)
+    {
+        foreach ($this->icons as $icon) {
+            if ($icon->getPath() == $path) {
+                return $icon;
+            }
+        }
+        throw new ilSystemStyleIconException(ilSystemStyleIconException::ICON_DOES_NOT_EXIST, $path);
+    }
+
+    /**
      * Sorts all icons by their occurrence in folders
      *
      * @return array array(folder_path_name => [$icons])
