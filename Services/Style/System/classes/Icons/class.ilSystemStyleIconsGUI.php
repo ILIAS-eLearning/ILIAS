@@ -306,9 +306,8 @@ class ilSystemStyleIconsGUI
         $this->addSelectIconToolbar($icon_name);
 
         if ($icon_name) {
-            $icon = $this->getIconFolder()->getIconByName($icon_name);
+            $icon = $this->getIconFolder()->getIconByPath($icon_name);
             $form = $this->initByIconForm($icon);
-            $this->getByIconValues($form, $icon);
             $this->tpl->setContent($form->getHTML() . $this->renderIconPreview($icon));
         }
     }
@@ -327,7 +326,7 @@ class ilSystemStyleIconsGUI
         $options = array();
         foreach ($this->getIconFolder()->getIcons() as $icon) {
             if ($icon->getType() == "svg") {
-                $options[$icon->getName()] = $icon->getName();
+                $options[$icon->getPath()] = $icon->getPath();
             }
         }
 
@@ -356,34 +355,26 @@ class ilSystemStyleIconsGUI
 
         $color_set = [];
 
-        if ($this->getIconFolder()) {
-            try {
-                $color_set = $icon->getColorSet()->getColorsSortedAsArray();
-            } catch (ilSystemStyleExceptionBase $e) {
-                ilUtil::sendFailure($e->getMessage());
-            }
-        }
-
-        foreach ($color_set as $type => $colors) {
-            $title = $this->lng->txt("color");
-
-            foreach ($colors as $id => $color) {
-                /**
-                 * @var ilSystemStyleIconColor $color
-                 */
-                $input = new ilColorPickerInputGUI($title . " " . ($id + 1), $color->getId());
-                $input->setRequired(true);
-                $form->addItem($input);
-            }
+        $title = $this->lng->txt("color");
+        $id = 1;
+        foreach ($icon->getColorSet()->getColors() as $color) {
+            /**
+             * @var ilSystemStyleIconColor $color
+             */
+            $input = new ilColorPickerInputGUI($title . " " . $id, $color->getId());
+            $input->setRequired(true);
+            $input->setValue($color->getColor());
+            $form->addItem($input);
+            $id++;
         }
 
         $upload = new ilFileInputGUI($this->lng->txt("change_icon"), "changed_icon");
         $upload->setSuffixes(["svg"]);
         $form->addItem($upload);
 
-        $hidden_name = new ilHiddenInputGUI("selected_icon");
-
-        $form->addItem($hidden_name);
+        $hidden_path = new ilHiddenInputGUI("selected_icon");
+        $hidden_path->setValue($icon->getPath());
+        $form->addItem($hidden_path);
 
         if ($this->getIconFolder() && count($this->getIconFolder()->getIcons()) > 0) {
             $form->addCommandButton("updateIcon", $this->lng->txt("update_icon"));
@@ -404,16 +395,10 @@ class ilSystemStyleIconsGUI
     {
         $values = [];
 
-        $colors = $this->getIconFolder()->getColorSet()->getColors();
-        foreach ($icon-> getColorSet()->getColors()  as $color) {
-            $id = $color->getId();
-            if ($colors[$color->getId()]) {
-                $values[$id] = $colors[$color->getId()]->getColor();
-            } else {
-                $values[$id] = $color->getColor();
-            }
+        foreach ($this->getIconFolder()->getColorSet()->getColors()  as $color) {
+            $values[$color->getId()] = $color->getColor();
         }
-        $values["selected_icon"] = $icon->getName();
+        $values["selected_icon"] = $icon->getPath();
 
         $form->setValuesByArray($values);
     }
@@ -423,8 +408,8 @@ class ilSystemStyleIconsGUI
         global $DIC;
 
 
-        $icon_name = $_POST['selected_icon'];
-        $icon = $this->getIconFolder()->getIconByName($icon_name);
+        $icon_path = $_POST['selected_icon'];
+        $icon = $this->getIconFolder()->getIconByPath($icon_path);
 
         $form = $this->initByIconForm($icon);
 
@@ -457,7 +442,7 @@ class ilSystemStyleIconsGUI
                  */
                 $upload = $DIC->upload();
                 $upload->process();
-                $old_icon = $this->getIconFolder()->getIconByName($icon_name);
+                $old_icon = $this->getIconFolder()->getIconByPath($icon_path);
 
                 $upload->moveOneFileTo(
                     array_pop($upload->getResults()),
@@ -479,7 +464,7 @@ class ilSystemStyleIconsGUI
                 }
             }
             $message_stack->sendMessages(true);
-            $this->ctrl->setParameter($this, "selected_icon", $icon->getName());
+            $this->ctrl->setParameter($this, "selected_icon", $icon->getPath());
             $this->ctrl->redirect($this, "editIcon");
         }
         $form->setValuesByPost();
