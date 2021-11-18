@@ -54,7 +54,8 @@
 		"ramsey/uuid": "^3.8",
 		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
-		"simplesamlphp/simplesamlphp": "^1.18"
+		"simplesamlphp/simplesamlphp": "^1.18",
+		"seld/jsonlint": "^1.8"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -396,6 +397,16 @@
 			"last_update_by" : "Alex Killing <killing@leifos.de>",
 			"approved-by": "see security issue 20339",
 			"approved-date": "2017-04-05"
+		},
+		"seld/jsonlint" : {
+			"source" : "https://github.com/Seldaek/jsonlint",
+			"used_version" : "v1.8.3",
+			"wrapped_by" : null,
+			"added_by" : "Daniel Weise <daniel.weise@concepts-and-training.de>",
+			"last_update" : "2021-11-18",
+			"last_update_by" : "Daniel Weise <daniel.weise@concepts-and-training.de>",
+			"approved-by": "Jour Fix",
+			"approved-date": "2021-11-29"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {
