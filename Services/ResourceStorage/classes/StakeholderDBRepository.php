@@ -119,7 +119,7 @@ class StakeholderDBRepository implements StakeholderRepository
             $d['rid'] = $rid;
             $this->populateFromArray($d);
         }
-        return $this->cache[$rid];
+        return $this->cache[$rid] ?? [];
     }
 
     public function preload(array $identification_strings) : void

@@ -434,7 +434,7 @@ class ilObjFileAccess extends ilObjectAccess implements ilWACCheckingClass
             self::$preload_list_gui_data[$row["file_id"]]["rid"] = $row["rid"];
         }
 
-        $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND " . $DIC->database()->in('file_id',
+        $res = $DIC->database()->query("SELECT rid, file_id  FROM file_data WHERE rid IS NOT NULL AND rid !='' AND " . $DIC->database()->in('file_id',
                 $a_obj_ids, false,
                 'integer'));
         $rids = [];
