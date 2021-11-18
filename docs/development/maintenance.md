@@ -14,87 +14,108 @@ modules of ILIAS.
 
 # Maintainers
 We highly appreciate to get new developers but we have to guarantee the sustainability and the quality of the ILIAS 
-source code. The system is complex for new developers and they need to know the concepts of ILIAS that are described 
-in the development guide.
+source code. The system is complex for new developers, and they need to know the concepts of ILIAS that are described 
+in the development guide. 
  
 Communication among developers that are working on a specific component needs to be assured. Final decision about 
-getting write access to the ILIAS development system (Github) is handled by the product manager.
- 
-ILIAS is currently maintained by three types of Maintainerships:
+getting write access to the ILIAS development system (Github) is handled by the product manager. A maintainer must be
+responsive to queries of the PM and Technical Board. If Maintainers are unresponsive for an extended period of time, 
+the Technical Board along with the Product Manager will take according measures.
 
-- First Component Maintainer
-- Second Component Maintainer
-- [Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md) 
- 
-The following rules must be respected for everyone involved in the programming of ILIAS for all components having a 
-listed component maintainer (see below):
+## Competencies
+There is a set of competencies that attaches to role maintainer to a developer if she or he claims one of them for a 
+specific components. Those competencies come without duties and responsibilities other than being responsive towards the
+Product Manager and the Technical Board. Maintainers can not be forced into taking action, they provide contributions as
+a voluntary contribution towards the sustainability and the quality of the ILIAS source code. 
 
-1. Decisions on new features or feature removals are made by the responsible first maintainer and the product manager 
-in the Jour Fixe meetings after an open discussion.
-2. All components have a first and second maintainer. Code changes are usually done by the first maintainer. The first 
-maintainer may forward new implementations to the second maintainer.
+The following competencies must be claimed by at least one maintainer, otherwise the component can not be sustained in 
+future versions of ILIAS:
+* Merge and Close PRs
+* Relable, Reassign, Close, Reopen Mantis Tickets.
 
-Responsibilities of a component maintainer:
+It is possible that a specific component only features a maintainer for these two sets of competencies. In this case
+not feature can be added to the component. Maintainers willing to claim further competencies in this component must
+contact the Product Manager.
 
-- Component maintainer must assure maintenance of their component for at least three years (approx. three ILIAS major 
-releases).
-- Component maintainers must agree to coordinate the development of their component with the product manager.
-- Component maintainer are responsible for bug fixing of their component and get assigned related bugs automatically 
-by the [Issue-Tracker](https://mantis.ilias.de).
-- Component maintainers are responsible for Pull Requests to their component and get assigned related Pull Requests 
-by the Technical Board according to the [Rules for Maintainers and Coordinators assigned to PRs[(Rules for Maintainers and Coordinators assigned to PRs)
+The following competencies must be claimed by at least one maintainer if future features should be added to a component:
+* Decision upon new Features with PM in JF
+* Approve New Test Cases
+* Distribute Competencies for a Component
 
+If at least one maintainer for each competencies is listed, new features can be introduced according the development
+process.
+
+There are further competencies that can be freely assigned by the maintainer that has the according distribution claim:
+* Commit Changes to Repo in Component
 
 ## Becoming a Maintainer
 
-Applications for maintainerships can be handed in to the product manager. The product manager together with the 
-technical board decide on who becomes a maintainer. Maintainerships are listed with the name of the maintainer. In 
-addition the company the maintainer is working for can be listed, too. In this second case, the company has the right to 
-propose an alternative maintainer at any time. In particular, if the maintainer resigns from his maintenance, a proposal
-for a new maintainer by the company of the old maintainer will be preferred, if the company recently invested 
+Applications for maintainerships, meaning claiming one competencies for one of the above component directly be sent to 
+the maintainer listed as claiming the competencies to "Distribute Competencies for a Component". If no maintainer is listed
+for this competency, then to the application can be handed in to the product manager. The product manager together with 
+the technical board decide on who becomes a maintainer claiming a specific competency. 
+
+Maintainerships are listed with the name of the maintainer for a specific competency in a specific module. In
+addition the company the maintainer is working for can be listed, too. In this second case, the company has the right to
+propose an alternative maintainer at any time. In particular, if the maintainer resigns from his claim for a specific 
+competency, a proposal for a new maintainer by the company of the old maintainer will be preferred, if the company recently invested
 substantially in the general condition of the component and the proposed maintainer meets the criteria.
 
-## Implicit Maintainers
-If a component is currently unmaintained a developer can take responsibility for it without agreeing to give full support. 
-An implicit maintainer will get assigned related bugs automatically and will keep the compontent working through the update cycle. 
-S/he will not implement new features or develop the component further. If enhancements of the component are wanted, an
-explicit maintainer or coordinator must be assigned.
+## Maintenance Models
+The listing of maintainers for specific competencies generates a great amount of flexibilities and allows people to perform
+work in their area of expertise but might be somewhat overwhelming for newcomers. For this reason we encourage maintainers
+to use and list one of the following models of how this competencies can be used and distributed. 
 
-## Additional Competences
-A maintainer can pass certain of her/his competences to other people in the community. Currently these are:
+### Classic Model
+This is the classical way of handling a component. Also referred to as "Component Maintainer" Model. 
+One maintainer claims all the competencies for a specific component. In most cases a second maintainer is listed for 
+each competency except "Distribute Competencies for a Component", who can take responsibility in case of absence of the 
+first maintainer. All PRs, Mantis Issue, JF decisions and extensions are primarily handled by the first and second maintainer. 
+See:"[Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers)" for
+a detailed description.
 
-* The **competence to handle pull requests** including the rights to merge or close them.
-* The **competence to handle issues in Mantis** including the rights to relable, reassign, close, or reopen them.
+### Coordinator Model
+One or multiple coordinator share the competencies listed above but focus their processes towards contributions from
+other developers. See "[Coordinator Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md) ""
+for a detailed description.
 
-If nobody is fullfilling the responsibilities of the component maintainer the Product Manager together with the Technical Board 
-can look for members of the community and assign these competences to them.
+### Stay Alive Model
+Formally referred to as "Implicit Maintainer". In this model at least one maintainer claims to competencies involved for 
+handling bugs and handling mantis issues. It merely allows the component to stay alive in future version but prevents 
+any future extension.
+
+### Custom
+Some custom distribution of competencies around maintainers allowing to adapt for specific needs. Maintainers choosing
+this model are encourage to list their specific workflows and ways to contribute in some readme of the component.
+
 
 ## Tracking Maintainerships
 Maintainerships are tracked in maintenance.json files placed in the root of the corresponding components of ILIAS. The 
-file containes the following fields:
+file contains the following fields:
 
-* **maintenance_model**: Currently there are two possible entries for this field
-	* "[Classic](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers)"
-	* "[Coordinator](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md#coordinator-model)".
-* **"first_maintainer"**: One entry in the form "<username> (<userid>)" pointing to a valid user on 
-	https://docu.ilias.de. Only relevant if **the maintenance_model** is set to "Classic".
-* **"second_maintainer"**: One entry in the form "<username> (<userid>)" pointing to a valid user on https://docu.ilias.de. 
-	Only relevant if **the maintenance_model** is set to "Classic".
-* **"[implicit_maintainers](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#implicit-maintainers)"**: 
-    An array in the form [ "<username> (<userid>)" ] pointing to valid users on https://docu.ilias.de. Only relevant if 
-    **the maintenance_model** is set to "Classic" **and** neither a first nor a second maintainers is set.
-* **"coordinator"**: An array in the form [ "<username> (<userid>)" ] pointing to valid users on https://docu.ilias.de.
-	Only relevant if **the maintenance_model** is set to "Coordinator".
-* **"[pr_management](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#additional-competences)"** : 
-    An array in the form [ "<username> (<userid>)" ] pointing to valid users on https://docu.ilias.de.
-* **"[issue_management](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#additional-competences)"** : 
-    An array in the form [ "<username> (<userid>)" ] pointing to valid users on https://docu.ilias.de.
+* **maintenance_model**: Currently there are the above for mentioned models possible entries for this field
+	* [Classic Model](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers)
+	* [Coordinator](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md#coordinator-model)
+	* Stay Alive
+	* Custom
+* **"Distribute Competencies for a Component"**: One entry in the form "\<username> (\<userid>)" pointing to a valid user on
+  https://docu.ilias.de.
+* **"Merge and Close PRs"**: One or multiple entries in the form "\<username> (\<userid>)" pointing to a valid user on 
+	https://docu.ilias.de. 
+* **"Relable, Reassign, Close, Reopen Mantis Tickets"**: One or multiple entries in the form "\<username> (\<userid>)" pointing to a valid user on
+	  https://docu.ilias.de.
+* **"Decision upon new Features with PM in JF"**: One or multiple entries in the form "\<username> (\<userid>)" pointing to a valid user on
+  https://docu.ilias.de.
+* **"Approve New Test Cases"**: One or multiple entries in the form "\<username> (\<userid>)" pointing to a valid user on
+  https://docu.ilias.de.
+* **"Commit Changes to Repo in Component"**: One or multiple entries in the form "\<username> (\<userid>)" pointing to a valid user on
+  https://docu.ilias.de.
 * **"tester"**: One entry in the form "<username> (<userid>)" pointing to a valid user on 
 	https://docu.ilias.de.
 * **"testcase_writer"**: One entry in the form "<username> (<userid>)" pointing to a valid user on 
 	https://docu.ilias.de.
 
-## Current Maintainerships
+## Current Maintainerships (Todo)
 
 * **ActiveRecord**
 	* 1st Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
