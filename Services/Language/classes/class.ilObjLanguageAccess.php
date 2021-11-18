@@ -139,12 +139,11 @@ class ilObjLanguageAccess
      *
      * @return   bool      page translation (true or false)
      */
-    public static function _isPageTranslation()
+    public static function _isPageTranslation(): bool
     {
         $cmdClass = $_GET["cmdClass"] ?? "";
         return (strtolower($cmdClass == "ilobjlanguageextgui") && $_GET["view_mode"] == "translate");
     }
-
 
     /**
      * Store the collected language variable usages in the user session

@@ -19,7 +19,7 @@ class ilLanguageTableGUI extends ilTable2GUI
     /**
     * Constructor
     */
-    public function __construct($a_parent_obj, string $a_parent_cmd, $a_folder)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, $a_folder)
     {
         global $DIC;
         $ilAccess = $DIC->access();

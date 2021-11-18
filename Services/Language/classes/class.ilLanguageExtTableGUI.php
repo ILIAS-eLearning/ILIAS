@@ -9,7 +9,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     private int $commentsize = 30;
     private array $params;
 
-    public function __construct($a_parent_obj, string $a_parent_cmd, array $a_params = array())
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, array $a_params = array())
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();

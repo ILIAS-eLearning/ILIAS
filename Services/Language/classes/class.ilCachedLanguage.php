@@ -10,7 +10,7 @@ require_once "./Services/GlobalCache/classes/class.ilGlobalCache.php";
  */
 class ilCachedLanguage
 {
-    protected \ilGlobalCacheService $global_cache;
+    protected \ilGlobalCache $global_cache;
     protected bool $loaded = false;
     protected string $language_key = "en";
     protected array $translations;

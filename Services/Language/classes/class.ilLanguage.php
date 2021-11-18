@@ -28,10 +28,10 @@ class ilLanguage
     public $ilias;
     public array $text;
     public string $lang_default;
-    public $lang_user;
+    public string $lang_user;
     public string $lang_path;
     public string $lang_key;
-    public $lang_name;
+    public string $lang_name;
     public string $separator = "#:#";
     public string $comment_separator = "###";
     public array $loaded_modules;

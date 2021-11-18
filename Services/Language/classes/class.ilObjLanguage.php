@@ -21,10 +21,10 @@ class ilObjLanguage extends ilObject
     public string $comment_separator;
     public string $lang_default;
     public string $lang_user;
-    public $lang_path;
+    public string $lang_path;
     public string $key;
     public string $status;
-
+    public string $cust_lang_path;
 
     /**
      * Constructor
@@ -455,7 +455,7 @@ class ilObjLanguage extends ilObject
                     $min_date = date("Y-m-d H:i:s", filemtime($lang_file));
                     $local_changes = $this->getLocalChanges($min_date);
                 }
-                
+                $double_checker = [];
                 foreach ($content as $key => $val) {
                     // split the line of the language file
                     // [0]:	module
@@ -776,7 +776,7 @@ class ilObjLanguage extends ilObject
     public function check(string $scope = ""): bool
     {
         include_once "./Services/Utilities/classes/class.ilStr.php";
-        
+
         if (!empty($scope)) {
             if ($scope == "global") {
                 $scope = "";

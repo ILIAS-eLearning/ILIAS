@@ -712,7 +712,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
         // save and get the page translation setting
         if (!empty($_POST)) {
-            $ilSetting->set($translate_key, (bool) $_POST["translation"]);
+            $ilSetting->set($translate_key, $_POST["translation"]);
             ilUtil::sendSuccess($this->lng->txt("settings_saved"));
         }
         $translate = $ilSetting->get($translate_key, false);
@@ -927,7 +927,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $tpl->setContent($a_form->getHTML());
     }
     
-    protected function initAddNewEntryForm($a_id = null)
+    protected function initAddNewEntryForm(string $a_id = null)
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
