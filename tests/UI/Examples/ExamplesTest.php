@@ -58,13 +58,9 @@ class ExamplesTest extends ILIAS_UI_TestBase
             "type" => "crs"
         ]);
 
-        $this->dic["ilPluginAdmin"] = Mockery::mock("\ilPluginAdmin");
-
-        $empty_plugin_slot = $this->createMock(ilPluginSlotInfo::class);
-        $empty_plugin_slot->method("getActivePlugins")->willReturn(new EmptyIterator);
-        $component_data_db = $this->createMock(ilComponentDataDB::class);
-        $component_data_db->method("getPluginSlotById")->willReturn($empty_plugin_slot);
-        $this->dic["component.db"] = $component_data_db;
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
+        $this->dic["component.factory"] = $component_factory;
 
         (new InitHttpServices())->init($this->dic);
     }
