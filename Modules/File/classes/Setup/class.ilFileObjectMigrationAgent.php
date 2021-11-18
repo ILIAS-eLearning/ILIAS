@@ -68,7 +68,7 @@ class ilFileObjectMigrationAgent implements Setup\Agent
     public function getMigrations() : array
     {
         return [
-            new ilFileObjectToStorageMigration()
+//            new ilFileObjectToStorageMigration()
         ];
     }
 }
