@@ -98,7 +98,6 @@
 
 		init: function() {
 			$(window).on('resize', $scope.il.OnScreenChat.resizeWindow).resize();
-
 			$('body')
 				.on('click', '[data-onscreenchat-userid]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
 				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation)
@@ -114,12 +113,10 @@
 				.on('keyup click', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageInput)
 				.on('keyup', '[data-onscreenchat-message]', $scope.il.OnScreenChatJQueryTriggers.triggers.messageKeyUpEvent)
 				.on('focusout', '[data-onscreenchat-window]', $scope.il.OnScreenChatJQueryTriggers.triggers.focusOut)
-				.on('click', '[data-onscreenchat-emoticon]', $scope.il.OnScreenChatJQueryTriggers.triggers.emoticonClicked)
-				// Notification center events
-				.on('click', '[data-onscreenchat-menu-item]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
-				.on('click', '[data-onscreenchat-menu-remove-conversation]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
+				.on('click', '[data-onscreenchat-emoticon]', $scope.il.OnScreenChatJQueryTriggers.triggers.emoticonClicked);
 		}
 	};
+
 
 	$scope.il.OnScreenChat = {
 		config: {},
@@ -273,8 +270,13 @@
 			e.stopPropagation();
 
 			let link = $(this),
-				conversationId = $(link).attr('data-onscreenchat-conversation'),
-				conversation = getModule().storage.get(conversationId);
+				conversationId = $(link).attr('data-onscreenchat-conversation');
+
+			if (!conversationId) {
+				conversationId = this.closest('[data-id]').dataset.id;
+			}
+
+			let conversation = getModule().storage.get(conversationId);
 
 			if (conversation == null) {
 				let participant = {
@@ -463,18 +465,27 @@
 			}
 
 			try {
-				let $notificationRoot = $("#" + getModule().notificationItemId);
-				let	menuContainer = il.UI.item.notification.getNotificationItemObject($notificationRoot);
-
 				getModule().notificationItemsAdded = conversations.length;
 				if (withServerSideRendering) {
+
 					let conversationIds = conversations.map(function (conversation) {
 						return conversation.id;
 					}).join(",");
 
-					menuContainer.replaceByAsyncItem(getConfig().renderNotificationItemsURL, {
-						"ids": conversationIds
-					});
+					let xhr = new XMLHttpRequest();
+					xhr.open('GET', getConfig().renderNotificationItemsURL + '&ids=' + conversationIds);
+					xhr.onload = function () {
+						if (xhr.status === 200) {
+							getModule().menuCollector.innerHTML = xhr.responseText;
+							$(getModule().menuCollector)
+								.on('click', '[data-id] .user', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
+								.on('click', '[data-id] .close', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
+						} else {
+							il.OnScreenChat.menuCollector.innerHTML = '';
+							console.error(xhr.status + ': ' + xhr.responseText);
+						}
+					};
+					xhr.send();
 				} else if (getModule().conversationToUiIdMap.hasOwnProperty(conversation.id)) {
 					try {
 						let $aggregateItem = $("#" + getModule().conversationToUiIdMap[conversation.id]),
@@ -486,35 +497,6 @@
 						if (getModule().conversationMessageTimes.hasOwnProperty(conversation.id)) {
 							delete getModule().conversationMessageTimes[conversation.id];
 						}
-
-						menuContainer.setItemDescription(function() {
-							if (0 === getModule().notificationItemsAdded) {
-								return il.Language.txt("chat_osc_nc_no_conv");
-							} else if (1 === getModule().notificationItemsAdded) {
-								return il.Language.txt("chat_osc_nc_conv_x_s");
-							}
-
-							return il.Language.txt("chat_osc_nc_conv_x_p", getModule().notificationItemsAdded);
-						}());
-
-						if (0 === conversations.length) {
-							menuContainer.removeItemProperties();
-						} else {
-							let latestTimestamp = Math.max(
-								Object
-									.keys(getModule().conversationMessageTimes)
-									.map(key => getModule().conversationMessageTimes[key].ts)
-							), formattedTimestamps = (function(obj, f) {
-								return Object
-									.keys(obj)
-									.filter(key => !f(obj[key]))
-									.map(key => obj[key].formatted);
-							})(getModule().conversationMessageTimes, e => e.ts !== latestTimestamp);
-
-							if (formattedTimestamps.length > 0) {
-								menuContainer.setItemPropertyValueAtPosition(formattedTimestamps[0], 1);
-							}
-						}
 					} catch (e) {
 						console.error(e);
 					}
@@ -522,6 +504,10 @@
 			} catch (e) {
 				console.error(e);
 			}
+		},
+
+		removeMenuEntry: () => {
+			event.target.closest('[data-id]').remove();
 		},
 
 		/**
@@ -534,10 +520,11 @@
 			conversationWindow.find("[aria-live]").attr("aria-live", "off")
 			conversationWindow.hide();
 
-			// Remove conversation/notification from notification center
+			// Remove conversation
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
+			il.OnScreenChat.menuCollector.querySelector('[data-id="' + conversation.id + '"]').remove();
 			getModule().rerenderNotifications(conversation, false);
 		},
 
@@ -551,7 +538,7 @@
 			conversationWindow.find("[aria-live]").attr("aria-live", "off")
 			conversationWindow.hide();
 
-			// Add or update conversation/notification to notification center
+			// Add or update conversation
 			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				getModule().notificationCenterConversationItems[conversation.id] = conversation;
 			}
@@ -567,10 +554,11 @@
 		onOpenConversation: function(conversation) {
 			getModule().open(conversation);
 
-			// Remove conversation/notification from notification center
+			// Remove conversation
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
+			il.OnScreenChat.menuCollector.querySelector('[data-id="' + conversation.id + '"]').remove();
 			getModule().rerenderNotifications(conversation, false);
 		},
 
@@ -823,6 +811,10 @@
 
 			if (!conversationId) {
 				conversationId = $trigger.closest('[data-onscreenchat-conversation]').data('onscreenchat-conversation');
+			}
+
+			if (!conversationId) {
+				conversationId = this.closest('[data-id]').dataset.id;
 			}
 
 			if (!conversationId) {

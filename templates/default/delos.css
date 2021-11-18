@@ -7681,22 +7681,6 @@ ul.dropdown-menu > li > .btn:focus {
   position: relative;
   padding: 12px;
 }
-.il-item:before,
-.il-item:after {
-  display: table;
-  content: " ";
-}
-.il-item:after {
-  clear: both;
-}
-.il-item:before,
-.il-item:after {
-  display: table;
-  content: " ";
-}
-.il-item:after {
-  clear: both;
-}
 .il-item .il-item-title {
   font-size: 14px;
   display: inline-block;
@@ -7786,6 +7770,31 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-notification-item .dropdown {
   margin-top: -20px;
+}
+.il-contribution-item {
+  display: flex;
+  gap: 10px;
+}
+.il-contribution-item .contribution {
+  width: 100%;
+  display: grid;
+  grid-template-areas: "user close" "description description" "datetime datetime";
+  grid-auto-columns: auto 12px;
+  gap: 10px;
+}
+.il-contribution-item .contribution .user {
+  grid-area: user;
+}
+.il-contribution-item .contribution .close {
+  grid-area: close;
+}
+.il-contribution-item .contribution .description {
+  grid-area: description;
+}
+.il-contribution-item .contribution .datetime {
+  padding-top: 10px;
+  border-top: 1px dashed lightgrey;
+  grid-area: datetime;
 }
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
@@ -9417,16 +9426,6 @@ footer {
   text-transform: uppercase;
   padding: 12px;
   background: #f9f9f9;
-}
-.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky {
-  padding: 0;
-  background: transparent;
-}
-.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky .glyph :before {
-  content: " \e605";
-  font-family: "il-icons";
-  font-size: 1.7rem;
-  margin-right: 10px;
 }
 .il-maincontrols-slate #il-tag-slate-container .btn-bulky,
 .il-maincontrols-slate #ilHelpPanel .btn-bulky {

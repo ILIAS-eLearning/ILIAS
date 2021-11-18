@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\MainControls\Slate;
 
 use ILIAS\UI\Component\Divider\Horizontal;
+use ILIAS\UI\Component\Item\Contribution;
 use ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Component\Button\Bulky as IBulkyButton;
 use ILIAS\UI\Component\Link\Bulky as IBulkyLink;
@@ -31,7 +32,8 @@ class Combined extends Slate implements ISlate\Combined
             IBulkyButton::class,
             IBulkyLink::class,
             ISlate\Slate::class,
-            Horizontal::class
+            Horizontal::class,
+            Contribution::class
         ];
         $check = [$entry];
         $this->checkArgListElements("Slate, Bulky -Button or -Link", $check, $classes);
