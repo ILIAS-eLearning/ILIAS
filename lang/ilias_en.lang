@@ -845,7 +845,7 @@ assessment#:#end_tag#:#End Tag
 assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
 assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#enlarge#:#Enlarge
-assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
+assessment#:#enter_anonymous_code#:#Enter access code to continue your already started test:
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.
 assessment#:#err_no_numeric_value#:#Please enter a numeric value
@@ -1335,7 +1335,7 @@ assessment#:#thumb_size#:#Thumbnail Size
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!
 assessment#:#true#:#True
-assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
+assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!
 assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants

@@ -895,7 +895,7 @@ assessment#:#end_tag#:#Endmarkierung
 assessment#:#tst_settings_conflict_message#:#Es wurden Kombinationen von Einstellungen gewählt, die nicht erlaubt sind.
 assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit einer anderen Einstellung.
 assessment#:#enlarge#:#vergrößern
-assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
+assessment#:#enter_anonymous_code#:#Zugangsschlüssel eingeben, um bereits gestarteten Tests fortzuführen:
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
 assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erzielen. Bitte geben Sie eine positive Punktezahl für das Auswählen einer Antwort ein.
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
@@ -1416,7 +1416,7 @@ assessment#:#thumb_size_info#:#Wenn Sie eine Vorschaugröße angeben, werden hoc
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielposition auswählen!
 assessment#:#true#:#Wahr
-assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
+assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
 assessment#:#tst_allowed_users#:#Anzahl gleichzeitiger Teilnehmer begrenzen
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
