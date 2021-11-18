@@ -26,8 +26,8 @@ class ilRepositoryObjectPluginSlot
         global $DIC;
 
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $component_data_db = $DIC["component.db"];
-        $plugins = $component_data_db->getPluginSlotById("robj")->getActivePlugins();
+        $component_repository = $DIC["component.repository"];
+        $plugins = $component_repository->getPluginSlotById("robj")->getActivePlugins();
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
             $a_obj_array[$pl_id] = array("name" => $pl_id, "lng" => $pl_id, "plugin" => true);
@@ -43,9 +43,9 @@ class ilRepositoryObjectPluginSlot
     ) : bool {
         global $DIC;
 
-        $component_data_db = $DIC["component.db"];
+        $component_repository = $DIC["component.repository"];
 
-        if (!$component_data_db->hasPluginId($a_type)) {
+        if (!$component_repository->hasPluginId($a_type)) {
             return false;
         }
 
@@ -53,7 +53,7 @@ class ilRepositoryObjectPluginSlot
             return true;
         }
 
-        $plugin = $component_data_db->getPluginById($a_type);
+        $plugin = $component_repository->getPluginById($a_type);
         return $plugin->isActive();
     }
     
@@ -63,7 +63,7 @@ class ilRepositoryObjectPluginSlot
         bool $a_active_status = true
     ) : bool {
         global $DIC;
-        $component_data_db = $DIC["component.db"];
+        $component_repository = $DIC["component.repository"];
         $ilPluginAdmin = $DIC["ilPluginAdmin"];
         
         $pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
@@ -71,7 +71,7 @@ class ilRepositoryObjectPluginSlot
             return false;
         }
 
-        $slot = $component_data_db->getPluginSlotById("robj");
+        $slot = $component_repository->getPluginSlotById("robj");
         if ($slot->hasPluginName($pname)) {
             $plugin = $slot->getPluginByName($pname);
             if (!$a_active_status || $plugin->isActive()) {

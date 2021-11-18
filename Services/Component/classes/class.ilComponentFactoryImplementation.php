@@ -22,18 +22,18 @@
  */
 class ilComponentFactoryImplementation implements ilComponentFactory
 {
-    protected \ilComponentDataDBWrite $component_data_db;
+    protected \ilComponentRepositoryWrite $component_repository;
     protected \ilDBInterface $db;
 
     protected array $plugins = [];
 
     public function __construct(
-        \ilComponentDataDBWrite $component_data_db,
+        \ilComponentRepositoryWrite $component_repository,
 
         // These are only required to pass on to the created objects.
         \ilDBInterface $db
     ) {
-        $this->component_data_db = $component_data_db;
+        $this->component_repository = $component_repository;
 
         // These are only required to pass on to the created objects.
         $this->db = $db;
@@ -42,9 +42,9 @@ class ilComponentFactoryImplementation implements ilComponentFactory
     public function getPlugin(string $id) : ilPlugin
     {
         if (!isset($this->plugins[$id])) {
-            $plugin_info = $this->component_data_db->getPluginById($id);
+            $plugin_info = $this->component_repository->getPluginById($id);
             $class_name = $plugin_info->getClassName();
-            $plugin = new $class_name($this->db, $this->component_data_db, $id);
+            $plugin = new $class_name($this->db, $this->component_repository, $id);
             $this->plugins[$id] = $plugin;
         }
 
@@ -53,7 +53,7 @@ class ilComponentFactoryImplementation implements ilComponentFactory
 
     public function getActivePluginsInSlot(string $slot_id) : Generator
     {
-        $ps = $this->component_data_db->getPluginSlotById($slot_id)->getActivePlugins();
+        $ps = $this->component_repository->getPluginSlotById($slot_id)->getActivePlugins();
         foreach ($ps as $p) {
             yield $this->getPlugin($p->getId());
         }

@@ -190,7 +190,7 @@ class ilCronManager implements \ilCronManagerInterface
         global $DIC;
 
         $ilLog = $DIC->logger()->root();
-        $component_data_db = $DIC['component.db'];
+        $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
 
         // plugin
@@ -199,7 +199,7 @@ class ilCronManager implements \ilCronManagerInterface
             $pl_name = $parts[1];
             $job_id = $parts[2];
 
-            foreach ($component_data_db->getPlugins() as $pl) {
+            foreach ($component_repository->getPlugins() as $pl) {
                 if ($pl->getName() !== $pl_name || !$pl->isActive()) {
                     continue;
                 }
@@ -422,12 +422,12 @@ class ilCronManager implements \ilCronManagerInterface
     {
         global $DIC;
 
-        $component_data_db = $DIC['component.db'];
+        $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
 
         $res = [];
 
-        foreach ($component_data_db->getPlugins() as $pl) {
+        foreach ($component_repository->getPlugins() as $pl) {
             if (!$pl->isActive()) {
                 continue;
             }

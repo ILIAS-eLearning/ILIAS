@@ -27,8 +27,8 @@ class ilServicesComponentSuite extends TestSuite
         require_once("./Services/Component/test/Setup/ilComponentBuildPluginInfoObjectiveTest.php");
         $suite->addTestSuite(ilComponentBuildPluginInfoObjectiveTest::class);
 
-        require_once("./Services/Component/test/ilArtifactComponentDataDBTest.php");
-        $suite->addTestSuite(ilArtifactComponentDataDBTest::class);
+        require_once("./Services/Component/test/ilArtifactComponentRepositoryTest.php");
+        $suite->addTestSuite(ilArtifactComponentRepositoryTest::class);
 
         require_once("./Services/Component/test/ilPluginStateDBOverIlDBInterfaceTest.php");
         $suite->addTestSuite(ilPluginStateDBOverIlDBInterfaceTest::class);

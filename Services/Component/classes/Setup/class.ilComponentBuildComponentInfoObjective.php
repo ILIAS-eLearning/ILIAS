@@ -6,7 +6,7 @@ class ilComponentBuildComponentInfoObjective extends Setup\Artifact\BuildArtifac
 {
     public function getArtifactPath() : string
     {
-        return \ilArtifactComponentDataDB::COMPONENT_DATA_PATH;
+        return \ilArtifactComponentRepository::COMPONENT_DATA_PATH;
     }
 
 

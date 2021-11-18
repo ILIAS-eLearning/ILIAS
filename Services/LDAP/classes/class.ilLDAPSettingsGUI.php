@@ -36,7 +36,7 @@ class ilLDAPSettingsGUI
     private $server = null;
     private $dic;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     
     public function __construct($a_auth_ref_id)
     {
@@ -47,7 +47,7 @@ class ilLDAPSettingsGUI
         $this->tabs_gui = $this->dic->tabs();
         $this->lng = $this->dic->language();
         $this->lng->loadLanguageModule('ldap');
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         
         $this->tpl = $this->dic['tpl'];
 
@@ -1298,7 +1298,7 @@ class ilLDAPSettingsGUI
         $group->addOption($radio_attribute);
         
         // Option by Plugin
-        $pl_active = $this->component_data_db->getPluginSlotById("ldaphk")->hasActivePlugins();
+        $pl_active = $this->component_repository->getPluginSlotById("ldaphk")->hasActivePlugins();
         $pl = new ilRadioOption($this->lng->txt('ldap_plugin'), 3);
         $pl->setInfo($this->lng->txt('ldap_plugin_info'));
         $pl->setDisabled(!$pl_active);

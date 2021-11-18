@@ -268,10 +268,10 @@ class ilObjLanguage extends ilObject
     public static function refreshPlugins($a_lang_keys = null)
     {
         global $DIC;
-        $component_data_db = $DIC["component.db"];
+        $component_repository = $DIC["component.repository"];
         $component_factory = $DIC["component.factory"];
 
-        foreach ($component_data_db->getPluginSlots() as $slot) {
+        foreach ($component_repository->getPluginSlots() as $slot) {
             foreach ($component_factory->getActivePluginsInSlot($slot->getId() as $plugin) {
                 $plugin->updateLanguages($a_lang_keys);
             }

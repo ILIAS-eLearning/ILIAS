@@ -9,11 +9,11 @@ class ilPluginRawReader
 
     public function getPluginNames() : ?\Iterator
     {
-        if (!@is_dir(ilComponentDataDB::PLUGIN_BASE_PATH)) {
-            throw new LogicException('Path not found: ' . ilComponentDataDB::PLUGIN_BASE_PATH);
+        if (!@is_dir(ilComponentRepository::PLUGIN_BASE_PATH)) {
+            throw new LogicException('Path not found: ' . ilComponentRepository::PLUGIN_BASE_PATH);
         }
 
-        $it = new RecursiveDirectoryIterator(ilComponentDataDB::PLUGIN_BASE_PATH);
+        $it = new RecursiveDirectoryIterator(ilComponentRepository::PLUGIN_BASE_PATH);
         foreach (new RecursiveIteratorIterator($it) as $file) {
             $path = $file->getPathName();
             if (is_file($path) && basename($path) === self::SEARCH_PATTERN) {

@@ -5,7 +5,7 @@ use ILIAS\Data;
 /**
  * Repository for component data implemented over artifacts.
  */
-class ilArtifactComponentDataDB implements ilComponentDataDBWrite
+class ilArtifactComponentRepository implements ilComponentRepositoryWrite
 {
     public const COMPONENT_DATA_PATH = "Services/Component/artifacts/component_data.php";
     public const PLUGIN_DATA_PATH = "Services/Component/artifacts/plugin_data.php";

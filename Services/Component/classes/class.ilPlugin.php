@@ -32,7 +32,7 @@ use ILIAS\Data\Version;
 abstract class ilPlugin
 {
     protected ilDBInterface $db;
-    protected ilComponentDataDBWrite $component_data_db;
+    protected ilComponentRepositoryWrite $component_repository;
     protected string $id;
 
     /**
@@ -51,11 +51,11 @@ abstract class ilPlugin
 
     public function __construct(
         \ilDBInterface $db,
-        \ilComponentDataDBWrite $component_data_db,
+        \ilComponentRepositoryWrite $component_repository,
         string $id
     )
     {
-        if (!$this->component_data_db->hasPluginId($id)) {
+        if (!$this->component_repository->hasPluginId($id)) {
             throw new \LogicException(
                 "You tried to instantiate a plugin with an inexisting id '$id'." .
                 "This is odd... Please use ilComponentFactory to instantiate plugins."
@@ -63,7 +63,7 @@ abstract class ilPlugin
         }
 
         $this->db = $db;
-        $this->component_data_db = $component_data_db;
+        $this->component_repository = $component_repository;
         $this->id = $id;
 
         $this->provider_collection = new PluginProviderCollection();
@@ -77,7 +77,7 @@ abstract class ilPlugin
 
     protected function getPluginInfo() : ilPluginInfo
     {
-        return $this->component_data_db
+        return $this->component_repository
             ->getPluginByName(
                 $this->getPluginName()
             );
@@ -488,7 +488,7 @@ abstract class ilPlugin
         }
         if ($result === true) {
             $result = $this->beforeActivation();
-            $this->component_data_db->setActivation($this->getId(), true);
+            $this->component_repository->setActivation($this->getId(), true);
             $this->afterActivation();
         }
 
@@ -531,7 +531,7 @@ abstract class ilPlugin
      */
     public function deactivate()
     {
-        $this->component_data_db->setActivation($this->getId(), false);
+        $this->component_repository->setActivation($this->getId(), false);
         $this->afterDeactivation();
 
         return $result;
@@ -576,7 +576,7 @@ abstract class ilPlugin
 
             $this->clearEventListening();
 
-            $this->component_data_db->removeStateInformationOf($this->getId());
+            $this->component_repository->removeStateInformationOf($this->getId());
 
             $ilDB->manipulateF('DELETE FROM ctrl_classfile WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
             $ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
@@ -621,9 +621,11 @@ abstract class ilPlugin
 
         $this->readEventListening();
 
+        $this->readEventListening();
+
         // set last update version to current version
         if ($result === true) {
-            $this->component_data_db->setCurrentPluginVersion(
+            $this->component_repository->setCurrentPluginVersion(
                 $this->getPluginInfo()->getId(),
                 $this->getPluginInfo()->getAvailableVersion(),
                 $db_version
@@ -711,7 +713,7 @@ abstract class ilPlugin
     {
         global $DIC;
         try {
-            return $DIC["component.db"]->getPluginById($a_plugin_id)->getName();
+            return $DIC["component.repository"]->getPluginById($a_plugin_id)->getName();
         } catch (\InvalidArgumentException $e) {
             return null;
         }
@@ -729,7 +731,7 @@ abstract class ilPlugin
     {
         global $DIC;
         try {
-            return $DIC["component.db"]->getPluginByName($a_plugin_name)->getName();
+            return $DIC["component.repository"]->getPluginByName($a_plugin_name)->getName();
         } catch (\InvalidArgumentException $e) {
             return null;
         }

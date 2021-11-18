@@ -1392,7 +1392,7 @@ class ilObjQuestionPool extends ilObject
                     $types[$lng->txt($row["type_tag"])] = $row;
                 } else {
                     $component_factory = $DIC['component.factory'];
-                    $plugins = $component_data_db->getPluginSlotById("qst")->getActivePlugins();
+                    $plugins = $component_repository->getPluginSlotById("qst")->getActivePlugins();
                     foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
                         if (strcmp($pl->getQuestionType(), $row["type_tag"]) == 0) {
                             $types[$pl->getQuestionTypeTranslation()] = $row;

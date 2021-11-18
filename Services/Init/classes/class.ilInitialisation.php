@@ -1458,9 +1458,9 @@ class ilInitialisation
         $init_ui = new InitUIFramework();
         $init_ui->init($c);
 
-        $component_data_db = $c["component.db"];
+        $component_repository = $c["component.repository"];
         $component_factory = $c["component.factory"];
-        foreach ($component_data_db->getPlugins() as $pl) {
+        foreach ($component_repository->getPlugins() as $pl) {
             if (!$pl->isActive()) {
                 continue;
             }

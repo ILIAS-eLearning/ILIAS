@@ -256,7 +256,7 @@ class ilLDAPRoleAssignmentRules
         }
         
         if (self::$active_plugins == null) {
-            self::$active_plugins = $component_data_db->getPluginSlotById('ldaphk')->getActivePlugins();
+            self::$active_plugins = $component_repository->getPluginSlotById('ldaphk')->getActivePlugins();
 
             $attributes[] = $plugin->getAdditionalAttributeNames();
         }

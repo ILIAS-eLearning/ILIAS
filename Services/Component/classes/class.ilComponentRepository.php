@@ -3,7 +3,7 @@
 /**
  * Writeable part of repository interface to ilComponenDataDB.
  */
-interface ilComponentDataDB
+interface ilComponentRepository
 {
     public const PLUGIN_BASE_PATH = "Customizing/global/plugins";
 

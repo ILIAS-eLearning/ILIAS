@@ -347,7 +347,7 @@ class ilTabsGUI
         if (isset($DIC["ilPluginAdmin"])) {
             $ilPluginAdmin = $DIC["ilPluginAdmin"];
         }
-        if (isset($DIC["component.db"])) {
+        if (isset($DIC["component.repository"])) {
             $component_factory = $DIC["component.factory"];
         }
 

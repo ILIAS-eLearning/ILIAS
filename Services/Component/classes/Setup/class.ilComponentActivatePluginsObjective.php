@@ -61,9 +61,9 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $component_data_db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
         $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
-        $info = $component_data_db->getPluginByName($this->plugin_name);
+        $info = $component_repository->getPluginByName($this->plugin_name);
 
         if (!$info->supportsCLISetup()) {
             throw new \RuntimeException(
@@ -90,8 +90,8 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $component_data_db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $plugin = $component_data_db->getPluginByName($this->plugin_name);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $plugin = $component_repository->getPluginByName($this->plugin_name);
 
         return $plugin->isActivationPossible($environment);
     }

@@ -5,7 +5,7 @@ use ILIAS\Data\Version;
 /**
  * Writeable part of repository interface to ilComponenDataDB.
  */
-interface ilComponentDataDBWrite extends ilComponentDataDB
+interface ilComponentRepositoryWrite extends ilComponentRepository
 {
     public function setCurrentPluginVersion(string $plugin_id, Version $version, int $db_version);
 

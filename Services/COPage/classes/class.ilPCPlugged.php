@@ -24,7 +24,7 @@ class ilPCPlugged extends ilPageContent
     protected ilLanguage $lng;
     protected ilPluginAdmin $plugin_admin;
     public php4DOMElement $plug_node;
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
 
     public function init() : void
@@ -33,7 +33,7 @@ class ilPCPlugged extends ilPageContent
 
         $this->lng = $DIC->language();
         $this->setType("plug");
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];
     }
 
@@ -154,7 +154,7 @@ class ilPCPlugged extends ilPageContent
         DOMDocument $a_domdoc
     ) : void {
         global $DIC;
-        $component_data_db = $DIC['component.db'];
+        $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
 
         $xpath = new DOMXPath($a_domdoc);
@@ -165,7 +165,7 @@ class ilPCPlugged extends ilPageContent
             $plugin_name = $node->getAttribute('PluginName');
             $plugin_version = $node->getAttribute('PluginVersion');
 
-            $plugin_info = $component_data_db->getPluginByName($plugin_name);
+            $plugin_info = $component_repository->getPluginByName($plugin_name);
             if ($plugin_info->isActive()) {
                 /** @var ilPageComponentPlugin $plugin_obj */
                 $plugin_obj = $component_factory->getPlugin($plugin_info->getId());
@@ -202,13 +202,13 @@ class ilPCPlugged extends ilPageContent
         DOMNode $a_node
     ) : void {
         global $DIC;
-        $component_data_db = $DIC['component.db'];
+        $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
 
         $plugin_name = $a_node->getAttribute('PluginName');
         $plugin_version = $a_node->getAttribute('PluginVersion');
 
-        $plugin_info = $component_data_db->getPluginByName($plugin_name);
+        $plugin_info = $component_repository->getPluginByName($plugin_name);
         if ($plugin_info->isActive()) {
             /** @var ilPageComponentPlugin $plugin_obj */
             $plugin_obj = $component_factory->getPlugin($plugin_info->getId());
@@ -257,7 +257,7 @@ class ilPCPlugged extends ilPageContent
                 $plugin_html = '<div class="ilBox">' . $lng->txt("content_plugin_not_activated") . " (" . $plugin_name . ")</div>";
             }
 
-            $plugin_info = $this->component_data_db->getPluginByName($plugin_name);
+            $plugin_info = $this->component_repository->getPluginByName($plugin_name);
             if ($plugin_info->isActive()) {
                 $plugin_obj = $this->component_factory->getPlugin($plugin_info->getId());
                 $plugin_obj->setPageObj($this->getPage());

@@ -28,7 +28,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
     protected ilRbacAdmin $rbacadmin;
     protected ilTabsGUI $tabs;
     protected StandardGUIRequest $std_request;
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
 
     public function __construct(
         $a_data,
@@ -46,7 +46,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $this->settings = $DIC->settings();
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
 
         $this->type = "adve";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -580,7 +580,7 @@ class ilObjAdvancedEditingGUI extends ilObjectGUI
         $sh->setInfo($lng->txt("copg_allow_html_info"));
         $form->addItem($sh);
 
-        $comps = iterator_to_array($this->component_data_db->getComponents());
+        $comps = iterator_to_array($this->component_repository->getComponents());
         $comps_per_dir = array_column(array_map(function ($k, $c) {
             return [$c->getType() . "/" . $c->getName(), $c];
         }, array_keys($comps), $comps), 1, 0);

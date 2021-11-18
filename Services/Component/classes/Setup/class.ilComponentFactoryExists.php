@@ -68,7 +68,7 @@ class ilComponentFactoryExistsObjective  implements Setup\Objective
         $component_db = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_DATABASE);
 
         $component_factory = new ilComponentFactoryImplementation(
-            $component_data_db,
+            $component_repository,
             $db
         );
 

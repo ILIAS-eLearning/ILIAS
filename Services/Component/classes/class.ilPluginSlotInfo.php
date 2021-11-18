@@ -47,7 +47,7 @@ class ilPluginSlotInfo
 
     public function getPath() : string
     {
-        return ilComponentDataDB::PLUGIN_BASE_PATH . "/" . $this->getQualifiedName();
+        return ilComponentRepository::PLUGIN_BASE_PATH . "/" . $this->getQualifiedName();
     }
 
     /**

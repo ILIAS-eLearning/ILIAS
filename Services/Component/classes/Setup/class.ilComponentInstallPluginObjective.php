@@ -63,9 +63,9 @@ class ilComponentInstallPluginObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $component_data_db = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_DATABASE);
         $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
-        $info = $component_data_db->getPluginByName($this->plugin_name);
+        $info = $component_repository->getPluginByName($this->plugin_name);
 
         if (!$info->supportsCLISetup()) {
             throw new \RuntimeException(
@@ -80,7 +80,7 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         }
 
         $ORIG_DIC = $this->initEnvironment($environment);
-        $plugin = $component_data_db->getPlugin($info->getId());
+        $plugin = $component_repository->getPlugin($info->getId());
         $plugin->install();
         $GLOBALS["DIC"] = $ORIG_DIC;
 
@@ -92,8 +92,8 @@ class ilComponentInstallPluginObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $component_data_db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $plugin = $component_data_db->getPluginByName($this->plugin_name);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $plugin = $component_repository->getPluginByName($this->plugin_name);
 
         return !$plugin->isInstalled();
     }

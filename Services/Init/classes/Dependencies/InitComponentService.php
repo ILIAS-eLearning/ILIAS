@@ -8,7 +8,7 @@ class InitComponentService
     {
         $int = $this->initInternal($c);
 
-        $c["component.db"] = fn ($c) : \ilComponentDataDB =>
+        $c["component.repository"] = fn ($c) : \ilComponentRepository =>
             $int["db_write"];
 
         $c["component.factory"] = fn ($c) : \ilComponentFactory =>
@@ -29,8 +29,8 @@ class InitComponentService
                 $c["ilDB"]
             );
 
-        $int["db_write"] = fn ($int) : \ilComponentDataDBWrite =>
-            new ilArtifactComponentDataDB(
+        $int["db_write"] = fn ($int) : \ilComponentRepositoryWrite =>
+            new ilArtifactComponentRepository(
                 $data_factory,
                 $int["plugin_state_db"],
                 $c["ilias.version"]

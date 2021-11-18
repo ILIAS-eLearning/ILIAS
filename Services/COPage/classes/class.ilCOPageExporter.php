@@ -47,8 +47,8 @@ class ilCOPageExporter extends ilXmlExporter
         global $DIC;
         /** @var ilPluginAdmin $ilPluginAdmin */
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        /** @var ilComponentDataDB $component_data_db */
-        $component_data_db = $DIC["component.db"];
+        /** @var ilComponentRepository $component_repository */
+        $component_repository = $DIC["component.repository"];
 
         $this->ds = new ilCOPageDataSet();
         $this->ds->setExportDirectories($this->dir_relative, $this->dir_absolute);
@@ -59,7 +59,7 @@ class ilCOPageExporter extends ilXmlExporter
         }
 
         // collect all page component plugins that have their own exporter
-        foreach ($component_data_db->getPluginSlotById("pgcp")->getActivePlugins() as $plugin) {
+        foreach ($component_repository->getPluginSlotById("pgcp")->getActivePlugins() as $plugin) {
             $plugin_name = $plugin->getName();
             if ($plugin->supportsExport()) {
                 require_once('Customizing/global/plugins/Services/COPage/PageComponent/'

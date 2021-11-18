@@ -28,7 +28,7 @@ class ilCustomUserFieldsHelper
      */
     private $logger = null;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
     
     public function __construct()
@@ -37,8 +37,8 @@ class ilCustomUserFieldsHelper
         
         $this->lng = $DIC->language();
         $this->logger = $DIC->logger()->usr();
-        $this->component_data_db = $DIC['component.db'];
-        $this->component_data_db = $DIC['component.factory'];
+        $this->component_repository = $DIC['component.repository'];
+        $this->component_repository = $DIC['component.factory'];
     }
     
     /**

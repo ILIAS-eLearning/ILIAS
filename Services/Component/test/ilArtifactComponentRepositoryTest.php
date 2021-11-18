@@ -5,7 +5,7 @@
 use PHPUnit\Framework\TestCase;
 use ILIAS\Data;
 
-class ilArtifactComponentDataDBTest extends TestCase
+class ilArtifactComponentRepositoryTest extends TestCase
 {
     public static array $component_data = [
         "mod1" => ["Modules", "Module1", [
@@ -81,14 +81,14 @@ class ilArtifactComponentDataDBTest extends TestCase
             }
         };
 
-        $this->db = new class($this->data_factory, $this->plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+        $this->db = new class($this->data_factory, $this->plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData() : array
             {
-                return ilArtifactComponentDataDBTest::$component_data;
+                return ilArtifactComponentRepositoryTest::$component_data;
             }
             protected function readPluginData() : array
             {
-                return ilArtifactComponentDataDBTest::$plugin_data;
+                return ilArtifactComponentRepositoryTest::$plugin_data;
             }
             public function _buildDatabase()
             {
@@ -305,7 +305,7 @@ class ilArtifactComponentDataDBTest extends TestCase
 
     public function testNoPluginSlot()
     {
-        $db = new class($this->data_factory, $this->plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory, $this->plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData() : array
             {
                 return ["mod2" => ["Modules", "Module2", []]];
@@ -369,7 +369,7 @@ class ilArtifactComponentDataDBTest extends TestCase
             ->with("plg1")
             ->willReturn(42);
 
-        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData() : array
             {
                 return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
@@ -436,7 +436,7 @@ class ilArtifactComponentDataDBTest extends TestCase
             ->method("setCurrentPluginVersion")
             ->with("plg1", $VERSION, $DB_VERSION);
 
-        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData() : array
             {
                 return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
@@ -471,7 +471,7 @@ class ilArtifactComponentDataDBTest extends TestCase
         $DB_VERSION = 1000;
 
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
-        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             public int $build_called = 0;
             protected function buildDatabase()
             {
@@ -525,7 +525,7 @@ class ilArtifactComponentDataDBTest extends TestCase
     {
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
 
-        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData() : array
             {
                 return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
@@ -561,7 +561,7 @@ class ilArtifactComponentDataDBTest extends TestCase
     public function testSetActivationTriggersRebuild()
     {
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
-        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             public int $build_called = 0;
             protected function buildDatabase()
             {
@@ -604,7 +604,7 @@ class ilArtifactComponentDataDBTest extends TestCase
     {
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
 
-        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             protected function readComponentData() : array
             {
                 return ["mod1" => ["Modules", "Module1", [["slt1", "Slot1"]]]];
@@ -640,7 +640,7 @@ class ilArtifactComponentDataDBTest extends TestCase
     public function testRemoveStateInformationOfTriggersRebuild()
     {
         $plugin_state_db = $this->createMock(ilPluginStateDB::class);
-        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentDataDB {
+        $db = new class($this->data_factory, $plugin_state_db, $this->ilias_version) extends ilArtifactComponentRepository {
             public int $build_called = 0;
             protected function buildDatabase()
             {

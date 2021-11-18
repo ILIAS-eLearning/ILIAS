@@ -33,7 +33,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected ilDBInterface $db;
     protected ilLogger $log;
     protected \ILIAS\DI\UIServices $ui;
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
 
     protected bool $to_props = false;
     protected int $requested_obj_id = 0;
@@ -83,7 +83,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $this->ctrl = $ilCtrl;
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         $lng->loadLanguageModule("content");
         $lng->loadLanguageModule("obj");
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
