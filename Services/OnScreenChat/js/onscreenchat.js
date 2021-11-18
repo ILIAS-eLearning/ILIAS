@@ -137,7 +137,6 @@
 		notificationCenterConversationItems: {},
 		conversationMessageTimes: {},
 		conversationToUiIdMap: {},
-		notificationItemsAdded: 0,
 
 		setConversationMessageTimes: function(timeInfo) {
 			getModule().conversationMessageTimes = timeInfo;
@@ -451,56 +450,32 @@
 
 			return $template;
 		},
-		rerenderNotifications: function(conversation, withServerSideRendering = true) {
-			let currentNotificationItemsAdded = getModule().notificationItemsAdded;
-
+		rerenderNotifications: function(conversation) {
 			let conversations = Object.values(getModule().notificationCenterConversationItems).filter(function(conversation) {
 				return conversation.latestMessage !== null && (conversation.open === false || conversation.open === undefined);
 			}).sort(function(a, b) {
 				return b.latestMessage.timestamp - a.latestMessage.timestamp;
 			});
 
-			if (0 === currentNotificationItemsAdded && 0 === conversations.length) {
-				return;
-			}
-
 			try {
-				getModule().notificationItemsAdded = conversations.length;
-				if (withServerSideRendering) {
+				let conversationIds = conversations.map(function (conversation) {
+					return conversation.id;
+				}).join(",");
 
-					let conversationIds = conversations.map(function (conversation) {
-						return conversation.id;
-					}).join(",");
-
-					let xhr = new XMLHttpRequest();
-					xhr.open('GET', getConfig().renderNotificationItemsURL + '&ids=' + conversationIds);
-					xhr.onload = function () {
-						if (xhr.status === 200) {
-							getModule().menuCollector.innerHTML = xhr.responseText;
-							$(getModule().menuCollector)
-								.on('click', '[data-id] .user', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
-								.on('click', '[data-id] .close', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
-						} else {
-							il.OnScreenChat.menuCollector.innerHTML = '';
-							console.error(xhr.status + ': ' + xhr.responseText);
-						}
-					};
-					xhr.send();
-				} else if (getModule().conversationToUiIdMap.hasOwnProperty(conversation.id)) {
-					try {
-						let $aggregateItem = $("#" + getModule().conversationToUiIdMap[conversation.id]),
-							aggregateNotificationItem = il.UI.item.notification.getNotificationItemObject(
-								$aggregateItem
-							);
-
-						aggregateNotificationItem.closeItem();
-						if (getModule().conversationMessageTimes.hasOwnProperty(conversation.id)) {
-							delete getModule().conversationMessageTimes[conversation.id];
-						}
-					} catch (e) {
-						console.error(e);
+				let xhr = new XMLHttpRequest();
+				xhr.open('GET', getConfig().renderNotificationItemsURL + '&ids=' + conversationIds);
+				xhr.onload = function () {
+					if (xhr.status === 200) {
+						getModule().menuCollector.innerHTML = xhr.responseText;
+						$(getModule().menuCollector)
+							.on('click', '[data-id] .user', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
+							.on('click', '[data-id] .close', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
+					} else {
+						il.OnScreenChat.menuCollector.innerHTML = '';
+						console.error(xhr.status + ': ' + xhr.responseText);
 					}
-				}
+				};
+				xhr.send();
 			} catch (e) {
 				console.error(e);
 			}
@@ -524,8 +499,8 @@
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
-			il.OnScreenChat.menuCollector.querySelector('[data-id="' + conversation.id + '"]').remove();
-			getModule().rerenderNotifications(conversation, false);
+			//getModule().menuCollector.querySelector('[data-id="' + conversation.id + '"]').remove();
+			getModule().rerenderNotifications(conversation);
 		},
 
 		/**
@@ -555,11 +530,14 @@
 			getModule().open(conversation);
 
 			// Remove conversation
+			console.log(getModule().notificationCenterConversationItems);
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
-			il.OnScreenChat.menuCollector.querySelector('[data-id="' + conversation.id + '"]').remove();
-			getModule().rerenderNotifications(conversation, false);
+			console.log(getModule().notificationCenterConversationItems);
+
+			//getModule().menuCollector.querySelector('[data-id="' + conversation.id + '"]').remove();
+			getModule().rerenderNotifications(conversation);
 		},
 
 		/**
