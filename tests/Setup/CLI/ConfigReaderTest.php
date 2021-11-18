@@ -6,6 +6,7 @@ namespace ILIAS\Tests\Setup\CLI;
 
 use ILIAS\Setup;
 use PHPUnit\Framework\TestCase;
+use Seld\JsonLint\JsonParser;
 
 class ConfigReaderTest extends TestCase
 {
@@ -18,8 +19,7 @@ class ConfigReaderTest extends TestCase
             ]
         ];
         file_put_contents($filename, json_encode($expected));
-
-        $obj = new Setup\CLI\ConfigReader();
+        $obj = new Setup\CLI\ConfigReader(new JsonParser());
 
         $config = $obj->readConfigFile($filename);
 
@@ -36,7 +36,7 @@ class ConfigReaderTest extends TestCase
         ];
         file_put_contents($filename, json_encode($expected));
 
-        $obj = new Setup\CLI\ConfigReader("/tmp");
+        $obj = new Setup\CLI\ConfigReader(new JsonParser(), "/tmp");
 
         $config = $obj->readConfigFile(basename($filename));
 
@@ -53,7 +53,7 @@ class ConfigReaderTest extends TestCase
         ];
         file_put_contents($filename, json_encode($expected));
 
-        $obj = new Setup\CLI\ConfigReader("/foo");
+        $obj = new Setup\CLI\ConfigReader(new JsonParser(), "/foo");
 
         $config = $obj->readConfigFile($filename);
 
@@ -62,7 +62,7 @@ class ConfigReaderTest extends TestCase
 
     public function testApplyOverwrites() : void
     {
-        $cr = new class() extends Setup\CLI\ConfigReader {
+        $cr = new class(new JsonParser()) extends Setup\CLI\ConfigReader {
             public function _applyOverwrites($j, $o)
             {
                 return $this->applyOverwrites($j, $o);
@@ -98,7 +98,7 @@ class ConfigReaderTest extends TestCase
 
     public function testApplyOverwritesToUnsetField() : void
     {
-        $cr = new class() extends Setup\CLI\ConfigReader {
+        $cr = new class(new JsonParser()) extends Setup\CLI\ConfigReader {
             public function _applyOverwrites($j, $o)
             {
                 return $this->applyOverwrites($j, $o);
