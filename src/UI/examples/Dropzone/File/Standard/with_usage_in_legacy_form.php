@@ -29,7 +29,9 @@ function with_usage_in_legacy_form()
 
     // Check for submission
     global $DIC;
-    if (isset($_POST['submitted']) && $_POST['submitted']) {
+    $refinery = $DIC->refinery();
+    $post_wrapper = $DIC->http()->wrapper()->post();
+    if ($post_wrapper->has('submitted') && $post_wrapper->retrieve('submitted', $refinery->kindlyTo()->bool())) {
         if ($form->checkInput()) {
             // We might also want to process and save other form data here
             $upload = $DIC->upload();
