@@ -10,7 +10,7 @@ class ilComponentBuildPluginInfoObjective extends Setup\Artifact\BuildArtifactOb
 
     public function getArtifactPath() : string
     {
-        return \ilArtifactComponentDataDB::PLUGIN_DATA_PATH;
+        return \ilArtifactComponentRepository::PLUGIN_DATA_PATH;
     }
 
 

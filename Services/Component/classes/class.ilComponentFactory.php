@@ -34,7 +34,7 @@ interface ilComponentFactory
      * for a given id in one process, so the instance might be shared among various
      * components.
      *
-     * @return \Generator <ilPlugin>
+     * @return \Iterator <ilPlugin>
      */
-    public function getActivePluginsInSlot(string $slot_id) : Generator; 
+    public function getActivePluginsInSlot(string $slot_id) : \Iterator; 
 }

@@ -263,7 +263,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     {
         global $DIC;
 
-        $component_factory = $DIC['component.db'];
+        $component_factory = $DIC['component.repository'];
         return $component_factory->getActivePluginsInSlot("amdc");
     }
 

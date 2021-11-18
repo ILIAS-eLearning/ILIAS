@@ -19,7 +19,7 @@ abstract class ilDclBaseFieldRepresentation
      */
     protected $ctrl;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
 
 
@@ -31,7 +31,7 @@ abstract class ilDclBaseFieldRepresentation
         $this->field = $field;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];
     }
 

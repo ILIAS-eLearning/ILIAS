@@ -130,7 +130,7 @@ class ilPluginSlotInfoTest extends TestCase
     public function testGetPath()
     {
         $this->assertEquals(
-            ilComponentDataDB::PLUGIN_BASE_PATH . "/" . "Modules/Module1/Slot1",
+            ilComponentRepository::PLUGIN_BASE_PATH . "/" . "Modules/Module1/Slot1",
             $this->pluginslot->getPath()
         );
     }

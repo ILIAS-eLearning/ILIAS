@@ -17,7 +17,7 @@ class ilComponentDatabaseExistsObjective  implements Setup\Objective
      */
     public function getLabel() : string
     {
-        return "ilComponentDataDB is initialized and stored into the environment.";
+        return "ilComponentRepository is initialized and stored into the environment.";
     }
 
     /**
@@ -46,7 +46,7 @@ class ilComponentDatabaseExistsObjective  implements Setup\Objective
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
     
         $data_factory = new ILIAS\Data\Factory();
-        $component_data_db = new ilArtifactComponentDataDB(
+        $component_repository = new ilArtifactComponentRepository(
             $data_factory,
             new ilPluginStateDBOverIlDBInterface(
                 $data_factory,
@@ -56,7 +56,7 @@ class ilComponentDatabaseExistsObjective  implements Setup\Objective
 
         return $environment->withResource(
             Setup\Environment::RESOURCE_COMPONENT_DATABASE,
-            $component_data_db
+            $component_repository
         );
     }
 

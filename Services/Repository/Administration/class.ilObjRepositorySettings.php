@@ -177,7 +177,7 @@ class ilObjRepositorySettings extends ilObject
     {
         global $DIC;
 
-        $component_data_db = $DIC["component.db"];
+        $component_repository = $DIC["component.repository"];
         $objDefinition = $DIC["objDefinition"];
         
         $res = array();
@@ -204,7 +204,7 @@ class ilObjRepositorySettings extends ilObject
         }
         
         // parse plugins
-        $pl_names = $component_data_db->getPluginSlotById("robj")->getActivePlugins();
+        $pl_names = $component_repository->getPluginSlotById("robj")->getActivePlugins();
         foreach ($pl_names as $plugin) {
             $res[] = $plugin->getId();
         }

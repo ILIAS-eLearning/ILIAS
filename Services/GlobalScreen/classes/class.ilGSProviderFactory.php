@@ -39,7 +39,7 @@ class ilGSProviderFactory implements ProviderFactory
      */
     protected $all_providers;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
 
     /**
@@ -50,7 +50,7 @@ class ilGSProviderFactory implements ProviderFactory
         $this->dic                        = $dic;
         $this->main_menu_item_information = new ilMMItemInformation();
         $this->class_loader               = include "Services/GlobalScreen/artifacts/global_screen_providers.php";
-        $this->component_data_db          = $dic["component.db"];
+        $this->component_repository          = $dic["component.repository"];
         $this->component_factory          = $dic["component.factory"];
     }
 
@@ -58,7 +58,7 @@ class ilGSProviderFactory implements ProviderFactory
     {
         if (!is_array($this->plugin_provider_collections)) {
             $this->plugin_provider_collections = [];
-            foreach ($this->component_data_db->getPlugins() as $plugin) {
+            foreach ($this->component_repository->getPlugins() as $plugin) {
                 if (!$plugin->isActive()) {
                     continue;
                 } 
@@ -216,7 +216,7 @@ class ilGSProviderFactory implements ProviderFactory
     private function getGlobalScreenProvidersFromActivePlugins() : array
     {
         $providers = array();
-        foreach ($this->component_data_db->getPlugins() as $plugin) {
+        foreach ($this->component_repository->getPlugins() as $plugin) {
             if (!$plugin->isActive()) {
                 continue;
             }

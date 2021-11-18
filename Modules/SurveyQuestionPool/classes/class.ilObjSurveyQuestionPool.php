@@ -21,7 +21,7 @@ class ilObjSurveyQuestionPool extends ilObject
     */
     public $online;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     
     /**
     * Constructor
@@ -36,7 +36,7 @@ class ilObjSurveyQuestionPool extends ilObject
         $this->log = $DIC["ilLog"];
         $this->db = $DIC->database();
         $this->user = $DIC->user();
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         $this->type = "spl";
         parent::__construct($a_id, $a_call_by_reference);
     }
@@ -924,7 +924,7 @@ class ilObjSurveyQuestionPool extends ilObject
     */
     public function isPluginActive($a_pname)
     {
-        return $this->component_data_db->getPluginByName($a_pname)->isActive();
+        return $this->component_repository->getPluginByName($a_pname)->isActive();
     }
     
     /**

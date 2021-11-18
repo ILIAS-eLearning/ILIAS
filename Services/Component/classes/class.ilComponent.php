@@ -57,9 +57,9 @@ abstract class ilComponent
     public function __construct()
     {
         global $DIC;
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
 
-        $this->component = $this->component_data_db->getComponentByTypeAndName(
+        $this->component = $this->component_repository->getComponentByTypeAndName(
             $this->getComponentType(),
             $this->getName()
         );
@@ -104,9 +104,9 @@ abstract class ilComponent
     final public static function getComponentObject($a_ctype, $a_cname)
     {
         global $DIC;
-        $component_data_db = $DIC["component.db"];
+        $component_repository = $DIC["component.repository"];
 
-        if (!$component_data_db->hasComponent($a_ctype, $a_cname)) {
+        if (!$component_repository->hasComponent($a_ctype, $a_cname)) {
             return null;
         }
         
@@ -186,8 +186,8 @@ abstract class ilComponent
     public static function lookupId($a_type, $a_name)
     {
         global $DIC;
-        $component_data_db = $DIC["component.db"];
-        return $component_data_db->getComponentByTypeAndName($a_type, $a_name)->getId();
+        $component_repository = $DIC["component.repository"];
+        return $component_repository->getComponentByTypeAndName($a_type, $a_name)->getId();
     }
 
     /**
@@ -199,10 +199,10 @@ abstract class ilComponent
     public static function lookupComponentName($a_component_id)
     {
         global $DIC;
-        $component_data_db = $DIC["component.db"];
-        if (!$component_data_db->hasComponent($a_component_id)) {
+        $component_repository = $DIC["component.repository"];
+        if (!$component_repository->hasComponent($a_component_id)) {
             return null;
         }
-        return $component_data_db->getComponentById($a_component_id)->getName();
+        return $component_repository->getComponentById($a_component_id)->getName();
     }
 }

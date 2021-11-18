@@ -48,7 +48,7 @@ class ilAppEventHandler
     protected ilDBInterface $db;
     protected array $listener; // [array]
     protected ilLogger $logger;
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
 
     /**
@@ -60,7 +60,7 @@ class ilAppEventHandler
         global $DIC;
 
         $this->db = $DIC->database();
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];
         $this->initListeners();
 
@@ -142,7 +142,7 @@ class ilAppEventHandler
                     $name = substr($listener, $last_slash + 1);
 
 
-                    foreach ($this->component_data_db->getPlugins() as $pl) {
+                    foreach ($this->component_repository->getPlugins() as $pl) {
                         if ($pl->getName() !== $name || !$pl->isActive()) {
                             continue;
                         }

@@ -5604,7 +5604,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function getAvailableQuestions($arrFilter, $completeonly = 0)
     {
         global $DIC;
-        $component_data_db = $DIC['component.db'];
+        $component_repository = $DIC['component.repository'];
         $component_factory = $DIC['component.factory'];
         $lng = $DIC['lng'];
         $ilUser = $DIC['ilUser'];
@@ -5671,7 +5671,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     continue;
                 }
                 
-                $plugin = $component_data_db->getPluginByName($row['plugin_name']);
+                $plugin = $component_repository->getPluginByName($row['plugin_name']);
                 if (!$plugin->isActive()) {
                     continue;
                 }

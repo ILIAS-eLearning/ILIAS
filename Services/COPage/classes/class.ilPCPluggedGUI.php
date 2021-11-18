@@ -24,7 +24,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
     protected ilPluginAdmin $plugin_admin;
     protected ilTabsGUI $tabs;
     protected ?ilPageComponentPlugin $current_plugin = null;
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
     
     public function __construct(
@@ -37,7 +37,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC->language();
@@ -76,7 +76,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
 
         // get all plugins and check, whether next class belongs to one
         // of them, then forward
-        $plugins = $this->component_data_db->getPluginSlotById("pgcp")->getActivePlugins();
+        $plugins = $this->component_repository->getPluginSlotById("pgcp")->getActivePlugins();
         foreach ($plugins as $pl) {
             $pl_name = $pl->getName();
             if ($next_class == strtolower("il" . $pl_name . "plugingui")) {
@@ -120,7 +120,7 @@ class ilPCPluggedGUI extends ilPageContentGUI
         } else {
             $plugin_name = $this->content_obj->getPluginName();
         }
-        $plugin = $this->component_data_db->getPluginByName($plugin_name);
+        $plugin = $this->component_repository->getPluginByName($plugin_name);
         if ($plugin->isActive()) {
             $plugin_obj = $this->component_factory->getPlugin($plugin->getId());
             $plugin_obj->setPageObj($this->getPage());

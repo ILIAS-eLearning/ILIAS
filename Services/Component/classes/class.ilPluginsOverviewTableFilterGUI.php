@@ -36,10 +36,10 @@ class ilPluginsOverviewTableFilterGUI
             return $DIC->language()->txt($id);
         };
 
-        $component_data_db = $DIC["component.db"];
+        $component_repository = $DIC["component.repository"];
         $slots = [];
         $components = [];
-        foreach ($component_data_db->getPluginSlots() as $slot) {
+        foreach ($component_repository->getPluginSlots() as $slot) {
             $slots[$slot->getName()] = $slot->getName();
             $component = $slot->getComponent();
             $components[$component->getQualifiedName()] = $component->getQualifiedName();

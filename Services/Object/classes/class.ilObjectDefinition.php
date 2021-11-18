@@ -45,7 +45,7 @@ class ilObjectDefinition // extends ilSaxParser
     
     public $sub_types = array();
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
 
     const MODE_REPOSITORY = 1;
     const MODE_WORKSPACE = 2;
@@ -59,7 +59,7 @@ class ilObjectDefinition // extends ilSaxParser
         global $DIC;
 
         $this->plugin_admin = $DIC["ilPluginAdmin"];
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         $this->settings = $DIC->settings();
         $this->readDefinitionData();
     }
@@ -220,8 +220,8 @@ class ilObjectDefinition // extends ilSaxParser
     {
         global $DIC;
 
-        $component_data_db = $DIC["component.db"];
-        $plugins = $component_data_db->getPluginSlotById($slotId)->getActivePlugins();
+        $component_repository = $DIC["component.repository"];
+        $plugins = $component_repository->getPluginSlotById($slotId)->getActivePlugins();
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
             if (!isset($grouped_obj[$pl_id])) {
@@ -1176,7 +1176,7 @@ class ilObjectDefinition // extends ilSaxParser
      */
     protected function parsePluginData($component, $slotName, $slotId, $isInAdministration)
     {
-        $plugins = $this->component_data_db->getPluginSlotById($slotId)->getActivePlugins();
+        $plugins = $this->component_repository->getPluginSlotById($slotId)->getActivePlugins();
         foreach ($plugins as $plugin) {
             $pl_id = $plugin->getId();
             if ($pl_id != "" && !isset($this->obj_data[$pl_id])) {

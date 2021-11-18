@@ -52,12 +52,12 @@ class ilComponentsTableGUI extends ilTable2GUI
     public function getComponents()
     {
         global $DIC;
-        $component_data_db = $DIC["component.db"];
+        $component_repository = $DIC["component.repository"];
         $data = array();
 
         include_once("./Services/Component/classes/class.ilService.php");
         foreach (ilService::getAvailableCoreServices() as $obj) {
-            foreach ($component_data_db->getComponentByTypeAndName(IL_COMP_SERVICE, $obj["subdir"])->getPluginSlots() as $slot) {
+            foreach ($component_repository->getComponentByTypeAndName(IL_COMP_SERVICE, $obj["subdir"])->getPluginSlots() as $slot) {
                 $data[] = array(
                     "subdir" => $obj["subdir"],
                     "id" => $slot->getId(),
@@ -71,7 +71,7 @@ class ilComponentsTableGUI extends ilTable2GUI
 
         include_once("./Services/Component/classes/class.ilModule.php");
         foreach (ilModule::getAvailableCoreModules() as $obj) {
-            foreach ($component_data_db->getComponentByTypeAndName(IL_COMP_MODULE, $obj["subdir"])->getPluginSlots() as $slot) {
+            foreach ($component_repository->getComponentByTypeAndName(IL_COMP_MODULE, $obj["subdir"])->getPluginSlots() as $slot) {
                 $data[] = array(
                     "subdir" => $obj["subdir"],
                     "id" => $slot->getId(),

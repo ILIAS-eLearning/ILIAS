@@ -25,7 +25,7 @@ class ilModulesTableGUI extends ilTable2GUI
     protected ilPluginAdmin $plugin_admin;
     protected array $pos_group_options;
     protected int $old_grp_id;
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     
     public function __construct(
         object $a_parent_obj,
@@ -39,7 +39,7 @@ class ilModulesTableGUI extends ilTable2GUI
         $this->obj_definition = $DIC["objDefinition"];
         $this->settings = $DIC->settings();
         $this->plugin_admin = $DIC["ilPluginAdmin"];
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
                 
@@ -234,7 +234,7 @@ class ilModulesTableGUI extends ilTable2GUI
         string $slotId
     ) : array {
         $lng = $this->lng;
-        $plugins = $this->component_data_db->getPluginSlotById($slotId)->getActivePlugins();
+        $plugins = $this->component_repository->getPluginSlotById($slotId)->getActivePlugins();
         foreach ($plugins as $plugin) {
             $obj_types[$plugin->getId()] = array(
                 "object" => $plugin->getName(),

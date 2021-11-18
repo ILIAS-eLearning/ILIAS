@@ -37,8 +37,8 @@ class ilBadgeHandler
     {
         global $DIC;
 
-        if (isset($DIC["component.db"])) {
-            $this->component_data_db = $DIC["component.db"];
+        if (isset($DIC["component.repository"])) {
+            $this->component_repository = $DIC["component.repository"];
         }
         $this->db = $DIC->database();
         if (isset($DIC["tree"])) {
@@ -145,10 +145,10 @@ class ilBadgeHandler
     
     protected function getComponent($a_id)
     {
-        if (!$this->component_data_db->hasComponentId($a_id)) {
+        if (!$this->component_repository->hasComponentId($a_id)) {
             return null;
         }
-        $component = $this->component_data_db->getComponentById($a_id);
+        $component = $this->component_repository->getComponentById($a_id);
         return [
             "type" => $component->getType(),
             "name" => $component->getName()

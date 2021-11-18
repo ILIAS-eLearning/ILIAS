@@ -37,7 +37,7 @@ class ilAuthShibbolethSettingsGUI
      */
     private $ref_id;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
 
 
     /**
@@ -62,7 +62,7 @@ class ilAuthShibbolethSettingsGUI
         $this->tpl = $tpl;
         $this->ref_id = $a_auth_ref_id;
         $this->obj_id = ilObject::_lookupObjId($this->ref_id);
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
     }
 
 
@@ -494,7 +494,7 @@ class ilAuthShibbolethSettingsGUI
         $value->setSize(32);
         $attr->addSubItem($value);
         $kind->addOption($attr);
-        $pl_active = $this->component_data_db->getPluginSlotById('shibhk')->hasActivePlugins();
+        $pl_active = $this->component_repository->getPluginSlotById('shibhk')->hasActivePlugins();
         $pl = new ilRadioOption($this->lng->txt('shib_plugin'), 2);
         $pl->setInfo($this->lng->txt('shib_plugin_info'));
         $pl->setDisabled(!$pl_active);

@@ -18,7 +18,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
      */
     protected $filter_data;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
 
     public function __construct(ilObjComponentSettingsGUI $a_parent_obj, array $filter_data, string $a_parent_cmd = "")
     {
@@ -26,7 +26,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->filter_data = $filter_data;
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
@@ -55,7 +55,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
     {
         $plugins = [];
 
-        foreach ($this->component_data_db->getPlugins() as $id => $plugin) {
+        foreach ($this->component_repository->getPlugins() as $id => $plugin) {
             $plugins[] = $plugin;
         }
 

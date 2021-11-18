@@ -48,7 +48,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
      */
     protected $db;
 
-    protected ilComponentDataDB $component_data_db;
+    protected ilComponentRepository $component_repository;
     protected ilComponentFactory $component_factory;
 
     /**
@@ -66,7 +66,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->rbac_system = $DIC->rbac()->system();
         $this->db = $DIC->database();
         $this->type = self::TYPE;
-        $this->component_data_db = $DIC["component.db"];
+        $this->component_repository = $DIC["component.repository"];
         $this->component_factory = $DIC["component.factory"];
         parent::__construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output);
         $this->lng->loadLanguageModule(self::TYPE);
@@ -75,7 +75,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected function getPlugin() : ilPlugin
     {
         return $this->component_factory->getPlugin(
-            $this->component_data_db->getPluginByName($_GET[self::P_PLUGIN_NAME])
+            $this->component_repository->getPluginByName($_GET[self::P_PLUGIN_NAME])
         );
     }
 
@@ -271,7 +271,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         }
 
         try {
-            $plugin = $this->component_data_db
+            $plugin = $this->component_repository
                 ->getComponentByTypeAndName(
                     $_GET[self::P_CTYPE],
                     $_GET[self::P_CNAME]
@@ -541,7 +541,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
         $pl = $this->getPlugin();
 
-        $pl_info = $this->component_data_db
+        $pl_info = $this->component_repository
             ->getComponentByTypeAndName(
                 $_GET[self::P_CTYPE],
                 $_GET[self::P_CNAME]
