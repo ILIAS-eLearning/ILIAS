@@ -82,7 +82,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
     /**
      * Save new or updated map area
      */
-    public function saveArea() : void
+    public function saveArea() : string
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -168,6 +168,7 @@ class ilPCImageMapEditorGUI extends ilImageMapEditorGUI
         //$this->initMapParameters();
         ilUtil::sendSuccess($lng->txt("cont_saved_map_area"), true);
         $ilCtrl->redirect($this, "editMapAreas");
+        return "";
     }
 
     /**

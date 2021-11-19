@@ -1,13 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-/**
- * Class ilStudyProgrammeIndividualPlanTableGUI
- *
- * @author: Richard Klees <richard.klees@concepts-and-training.de>
- *
- */
 
 class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 {
@@ -15,32 +8,30 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
     const SEL_COLUMN_DEADLINE = "prg_deadline";
     const SEL_COLUMN_ASSIGNMENT_DATE = "assignment_date";
 
-    protected $assignment;
-    /**
-     * @var ilStudyProgrammeProgressDB
-     */
-    protected $sp_user_progress_db;
+    protected ilDBInterface $db;
+
+    protected ilStudyProgrammeAssignment $assignment;
+    protected ilStudyProgrammeProgressRepository $sp_user_progress_db;
+    protected string $possible_image;
+    protected string $not_possible_image;
 
     public function __construct(
-        ilObjStudyProgrammeIndividualPlanGUI $a_parent_obj,
-        ilStudyProgrammeAssignment $a_ass,
+        ilObjStudyProgrammeIndividualPlanGUI $parent_obj,
+        ilStudyProgrammeAssignment $ass,
         ilStudyProgrammeProgressRepository $sp_user_progress_db
     ) {
         $this->setId("manage_indiv");
 
         $this->sp_user_progress_db = $sp_user_progress_db;
 
-        parent::__construct($a_parent_obj, 'manage');
+        parent::__construct($parent_obj, 'manage');
 
         global $DIC;
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilDB = $DIC['ilDB'];
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
-        $this->db = $ilDB;
+        $this->ctrl = $DIC['ilCtrl'];
+        $this->lng = $DIC['lng'];
+        $this->db = $DIC['ilDB'];
 
-        $this->assignment = $a_ass;
+        $this->assignment = $ass;
 
         $this->setEnableTitle(true);
         $this->setTopCommands(false);
@@ -53,22 +44,23 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
 
         $this->getParentObject()->appendIndividualPlanActions($this);
 
-        $columns = array( "status"
-                        , "title"
-                        , "prg_points_current"
-                        , "prg_points_required"
-                        , "prg_manual_status"
-                        , "prg_possible"
-                        , "prg_changed_by"
-                        , "prg_completion_by"
-                        );
+        $columns = [
+            "status",
+            "title",
+            "prg_points_current",
+            "prg_points_required",
+            "prg_manual_status",
+            "prg_possible",
+            "prg_changed_by",
+            "prg_completion_by"
+        ];
 
         foreach ($this->getSelectedColumns() as $column) {
             $columns[] = $column;
         }
 
         foreach ($columns as $lng_var) {
-            $this->addColumn($lng->txt($lng_var));
+            $this->addColumn($this->lng->txt($lng_var));
         }
 
         $plan = $this->fetchData();
@@ -83,55 +75,53 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         $this->not_possible_image = "<img src='" . ilUtil::getImagePath("icon_not_ok.svg") . "' alt='not ok'>";
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow($set) : void
     {
-        $this->tpl->setVariable("STATUS", $a_set['status_repr']);
+        $this->tpl->setVariable("STATUS", $set['status_repr']);
 
-        $title = $a_set["title"];
-        if ($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_DRAFT) {
+        $title = $set["title"];
+        if ($set["program_status"] == ilStudyProgrammeSettings::STATUS_DRAFT) {
             $title .= " (" . $this->lng->txt("prg_status_draft") . ")";
-        } elseif ($a_set["program_status"] == ilStudyProgrammeSettings::STATUS_OUTDATED) {
+        } elseif ($set["program_status"] == ilStudyProgrammeSettings::STATUS_OUTDATED) {
             $title .= " (" . $this->lng->txt("prg_status_outdated") . ")";
         }
 
         $this->tpl->setVariable("TITLE", $title);
-        $this->tpl->setVariable("POINTS_CURRENT", $a_set["points_current"]);
-        $this->tpl->setVariable("POINTS_REQUIRED", $this->getRequiredPointsInput($a_set["progress_id"], $a_set["status"], $a_set["points_required"]));
+        $this->tpl->setVariable("POINTS_CURRENT", $set["points_current"]);
+        $this->tpl->setVariable(
+            "POINTS_REQUIRED",
+            $this->getRequiredPointsInput($set["progress_id"], $set["status"], $set["points_required"])
+        );
         $this->tpl->setVariable("MANUAL_STATUS", $this->getManualStatusSelect(
-            $a_set["progress_id"],
-            $a_set["status"]
+            $set["progress_id"],
+            (int) $set["status"]
         ));
-        $this->tpl->setVariable("POSSIBLE", $a_set["possible"] ? $this->possible_image : $this->not_possible_image);
-        $this->tpl->setVariable("CHANGED_BY", $a_set["changed_by"]);
-        $this->tpl->setVariable("COMPLETION_BY", $a_set["completion_by"]);
+        $this->tpl->setVariable("POSSIBLE", $set["possible"] ? $this->possible_image : $this->not_possible_image);
+        $this->tpl->setVariable("CHANGED_BY", $set["changed_by"]);
+        $this->tpl->setVariable("COMPLETION_BY", $set["completion_by"]);
 
         foreach ($this->getSelectedColumns() as $column) {
             switch ($column) {
                 case self::SEL_COLUMN_ASSIGNMENT_DATE:
                     $this->tpl->setCurrentBlock("assignment_date");
-                    $this->tpl->setVariable("ASSIGNMENT_DATE", $a_set["assignment_date"]);
+                    $this->tpl->setVariable("ASSIGNMENT_DATE", $set["assignment_date"]);
                     $this->tpl->parseCurrentBlock("assignment_date");
                     break;
                 case self::SEL_COLUMN_DEADLINE:
                     $this->tpl->setCurrentBlock("deadline");
-                    $this->tpl->setVariable("DEADLINE", $this->getDeadlineInput($a_set["progress_id"], $a_set["deadline"]));
+                    $this->tpl->setVariable("DEADLINE", $this->getDeadlineInput($set["progress_id"], $set["deadline"]));
                     $this->tpl->parseCurrentBlock("deadline");
                     break;
                 case self::SEL_COLUMN_COMPLETION_DATE:
                     $this->tpl->setCurrentBlock("completion_date");
-                    $this->tpl->setVariable("COMPLETION_DATE", $a_set["completion_date"]);
+                    $this->tpl->setVariable("COMPLETION_DATE", $set["completion_date"]);
                     $this->tpl->parseCurrentBlock("completion_date");
                     break;
             }
         }
     }
 
-    /**
-     * Get selectable columns
-     *
-     * @return array[] 	$cols
-     */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $cols = array();
 
@@ -144,17 +134,16 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    protected function fetchData()
+    protected function fetchData() : array
     {
         $prg_id = $this->assignment->getRootId();
         $prg = ilObjStudyProgramme::getInstanceByObjId($prg_id);
 
         $ass_id = $this->assignment->getId();
-        $usr_id = $this->assignment->getUserId();
         $plan = array();
         
         $prg->applyToSubTreeNodes(
-            function ($node) use ($prg_id, $ass_id, $usr_id, &$plan, $prg) {
+            function ($node) use ($prg_id, $ass_id, &$plan, $prg) {
                 $progress = $this->sp_user_progress_db->getByIds($node->getId(), $ass_id);
                 $completion_by_id = $progress->getCompletionBy();
 
@@ -177,30 +166,29 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
                 }
 
                 $programme = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
-                $plan[] = array( "status" => $progress->getStatus()
-                               , "status_repr" => $programme->statusToRepr($progress->getStatus())
-                               , "title" => $node->getTitle()
-                               , "points_current" => $progress->getCurrentAmountOfPoints()
-                               , "points_required" => $progress->getAmountOfPoints()
-                               , "possible" => $progress->isSuccessful()
-                                    || $programme->canBeCompleted($progress)
-                                    || !$progress->isRelevant()
-                               , "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy())
-                               , "completion_by" => $completion_by
-                               , "progress_id" => $progress->getId()
-                                //draft/active/outdated
-                               , "program_status" => $programme->getStatus()
-                               , "assignment_date" => $progress->getAssignmentDate()->format('d.m.Y')
-                               , "deadline" => $progress->getDeadline()
-                               , "completion_date" => $progress->getCompletionDate() ? $progress->getCompletionDate()->format('d.m.Y') : ''
-                               );
+                $plan[] = [
+                    "status" => $progress->getStatus(),
+                    "status_repr" => $programme->statusToRepr($progress->getStatus()),
+                    "title" => $node->getTitle(),
+                    "points_current" => $progress->getCurrentAmountOfPoints(),
+                    "points_required" => $progress->getAmountOfPoints(),
+                    "possible" => $progress->isSuccessful() || $programme->canBeCompleted($progress) || !$progress->isRelevant(),
+                    "changed_by" => ilObjUser::_lookupLogin($progress->getLastChangeBy()),
+                    "completion_by" => $completion_by,
+                    "progress_id" => $progress->getId(),
+                    //draft/active/outdated
+                    "program_status" => $programme->getStatus(),
+                    "assignment_date" => $progress->getAssignmentDate()->format('d.m.Y'),
+                    "deadline" => $progress->getDeadline(),
+                    "completion_date" => $progress->getCompletionDate() ? $progress->getCompletionDate()->format('d.m.Y') : ''
+                ];
             },
             true
         );
         return $plan;
     }
 
-    protected function getManualStatusSelect($a_progress_id, $a_status)
+    protected function getManualStatusSelect(string $progress_id, int $status) : string
     {
         $parent = $this->getParentObject();
         $options = [
@@ -211,7 +199,7 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
             //COMPLETED/FAILED are not to be set manually.
         ];
 
-        $allowed = ilStudyProgrammeProgress::getAllowedTargetStatusFor($a_status);
+        $allowed = ilStudyProgrammeProgress::getAllowedTargetStatusFor($status);
 
         $options = array_filter(
             $options,
@@ -221,30 +209,30 @@ class ilStudyProgrammeIndividualPlanTableGUI extends ilTable2GUI
             ARRAY_FILTER_USE_KEY
         );
 
-        $select = new ilSelectInputGUI("", $parent::POST_VAR_STATUS . "[$a_progress_id]");
+        $select = new ilSelectInputGUI("", $parent::POST_VAR_STATUS . "[$progress_id]");
         $select->setOptions($options);
         $select->setValue($parent::MANUAL_STATUS_NONE);
 
         return $select->render();
     }
 
-    protected function getRequiredPointsInput($a_progress_id, $a_status, $a_points_required)
+    protected function getRequiredPointsInput(string $progress_id, int $status, string $points_required) : string
     {
-        if ($a_status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
-            return $a_points_required;
+        if ($status != ilStudyProgrammeProgress::STATUS_IN_PROGRESS) {
+            return $points_required;
         }
 
         $parent = $this->getParentObject();
-        $input = new ilNumberInputGUI("", $parent::POST_VAR_REQUIRED_POINTS . "[$a_progress_id]");
-        $input->setValue($a_points_required);
+        $input = new ilNumberInputGUI("", $parent::POST_VAR_REQUIRED_POINTS . "[$progress_id]");
+        $input->setValue($points_required);
         $input->setSize(5);
         return $input->render();
     }
 
-    protected function getDeadlineInput($a_progress_id, $deadline)
+    protected function getDeadlineInput(string $progress_id, $deadline) : string
     {
         $parent = $this->getParentObject();
-        $gui = new ilDateTimeInputGUI("", $parent::POST_VAR_DEADLINE . "[$a_progress_id]");
+        $gui = new ilDateTimeInputGUI("", $parent::POST_VAR_DEADLINE . "[$progress_id]");
         $gui->setDate($deadline ? new ilDateTime($deadline->format('Y-m-d H:i:s'), IL_CAL_DATETIME) : null);
         return $gui->render();
     }

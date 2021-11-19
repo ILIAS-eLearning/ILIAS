@@ -3,6 +3,7 @@
 /* Copyright (c) 2020 Nils Haagen <nils.haagen@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
 use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /**
  * Encapsulation of GUI
@@ -13,7 +14,7 @@ class mockSPRGDashGUI extends ilStudyProgrammeDashboardViewGUI
     {
     }
 
-    public function mockCalculatePercent($prg, int $current_points)
+    public function mockCalculatePercent(ilObjStudyProgramme $prg, int $current_points) : array
     {
         return $this->calculatePercent($prg, $current_points);
     }
@@ -24,6 +25,12 @@ class mockSPRGDashGUI extends ilStudyProgrammeDashboardViewGUI
  */
 class ilStudyProgrammeDashGUITest extends TestCase
 {
+    private mockSPRGDashGUI $gui;
+    /**
+     * @var ilObjStudyProgramme|mixed|MockObject
+     */
+    private $prg;
+
     protected function setUp() : void
     {
         $this->gui = new mockSPRGDashGUI();
@@ -37,7 +44,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
             ->getMock();
     }
 
-    public function userPointsDataProvider()
+    public function userPointsDataProvider() : array
     {
         return [
             'zero' => [0, 0],
@@ -53,7 +60,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
     /**
      * @dataProvider userPointsDataProvider
      */
-    public function testPercentageWithoutChildren(int $current_user_points)
+    public function testPercentageWithoutChildren(int $current_user_points) : void
     {
         $this->prg->method('hasLPChildren')
             ->willReturn(false);
@@ -70,7 +77,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
     /**
      * @dataProvider userPointsDataProvider
      */
-    public function testPercentageWithCoursesAtTopLevel(int $current_user_points)
+    public function testPercentageWithCoursesAtTopLevel(int $current_user_points) : void
     {
         $this->prg->method('hasLPChildren')
             ->willReturn(true);
@@ -90,7 +97,7 @@ class ilStudyProgrammeDashGUITest extends TestCase
     /**
      * @dataProvider userPointsDataProvider
      */
-    public function testPercentageWithPrograms(int $current_user_points, float $expected)
+    public function testPercentageWithPrograms(int $current_user_points, float $expected) : void
     {
         $node = $this->getMockBuilder(ilObjStudyProgramme::class)
             ->disableOriginalConstructor()

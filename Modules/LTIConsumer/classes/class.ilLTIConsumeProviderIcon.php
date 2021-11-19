@@ -180,7 +180,7 @@ class ilLTIConsumeProviderIcon
             if (isset($results[$uploadFile])) {
                 $result = $results[$uploadFile];
                 
-                if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+                if ($result->isOK()) {
                     $fileExtentsion = pathinfo($result->getName(), PATHINFO_EXTENSION);
                     $this->setFilename($this->buildFilename($fileExtentsion));
                     

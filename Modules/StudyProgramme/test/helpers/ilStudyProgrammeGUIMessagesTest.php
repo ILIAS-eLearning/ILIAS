@@ -1,14 +1,18 @@
 <?php declare(strict_types=1);
 
-require_once(__DIR__ . "/../../../../libs/composer/vendor/autoload.php");
+use PHPUnit\Framework\TestCase;
 
-class ilStudyProgrammeGUIMessagesTest extends \PHPUnit\Framework\TestCase
+class ilStudyProgrammeGUIMessagesTest extends TestCase
 {
+    protected ilPRGMessagePrinter $messages;
+    protected string $topic;
+
     public function setUp() : void
     {
         $collection = new ilPRGMessageCollection();
         $lng = $this->createMock(ilLanguage::class);
-        $this->messages = new ilPRGMessagePrinter($collection, $lng);
+        $tpl = $this->createMock(ilGlobalTemplateInterface::class);
+        $this->messages = new ilPRGMessagePrinter($collection, $lng, $tpl);
         $this->topic = 'a test topic';
     }
 
@@ -38,7 +42,6 @@ class ilStudyProgrammeGUIMessagesTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([], $collection->getSuccess());
         
         $this->assertFalse($collection->hasAnyMessages());
-        return $collection;
     }
 
     /**
@@ -65,7 +68,7 @@ class ilStudyProgrammeGUIMessagesTest extends \PHPUnit\Framework\TestCase
     /**
      * @depends testMessageFactory
      */
-    public function testAddErrorMessages(ilPRGMessageCollection $collection) : ilPRGMessageCollection
+    public function testAddErrorMessages(ilPRGMessageCollection $collection)
     {
         $message = 'looks bad';
         $id = 'some record';
@@ -87,6 +90,5 @@ class ilStudyProgrammeGUIMessagesTest extends \PHPUnit\Framework\TestCase
         
         $this->assertEquals([], $collection->getSuccess());
         $this->assertFalse($collection->hasSuccess());
-        return $collection;
     }
 }

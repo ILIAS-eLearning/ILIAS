@@ -14,7 +14,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
     private \ILIAS\DI\RBACServices $rbac;
     private ilErrorHandling $error;
 
-    public function __construct($a_data, $a_id, $a_call_by_reference = true, $a_prepare_output = true)
+    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference = true, bool $a_prepare_output = true)
     {
         /**
          * @var $DIC \ILIAS\DI\Container
@@ -54,6 +54,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
                 $this->$cmd();
                 break;
         }
+
         return true;
     }
 
@@ -220,6 +221,7 @@ class ilObjForumAdministrationGUI extends ilObjectGUI
         $autosave_interval->setMinValue(30);
         $autosave_interval->setMaxValue(60 * 60);
         $autosave_interval->setSize(10);
+        $autosave_interval->setRequired(true);
         $autosave_interval->setSuffix($this->lng->txt('seconds'));
         $autosave_drafts->addSubItem($autosave_interval);
         $drafts->addSubItem($autosave_drafts);

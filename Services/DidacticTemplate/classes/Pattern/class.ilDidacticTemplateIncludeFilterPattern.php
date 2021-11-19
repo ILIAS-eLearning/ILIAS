@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * Implementation of an include filter pattern for didactic template actions
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateIncludeFilterPattern extends ilDidacticTemplateFilterPattern

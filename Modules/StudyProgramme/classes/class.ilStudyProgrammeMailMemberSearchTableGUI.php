@@ -1,39 +1,27 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 class ilStudyProgrammeMailMemberSearchTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @inheritdoc
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    public function __construct(ilStudyProgrammeMailMemberSearchGUI $parent_obj, string $parent_cmd = "")
     {
         global $DIC;
 
         $this->ctrl = $DIC['ilCtrl'];
         $this->lng = $DIC['lng'];
 
-        $obj_id = ilObject::_lookupObjectId($a_parent_obj->ref_id);
+        $obj_id = ilObject::_lookupObjectId($parent_obj->ref_id);
         $this->setId('mmsearch_' . $obj_id);
-        parent::__construct($a_parent_obj, $a_parent_cmd);
+        parent::__construct($parent_obj, $parent_cmd);
         $this->lng->loadLanguageModule('prg');
         $this->setTitle($this->lng->txt('members'));
 
-        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
-        $this->ctrl->clearParameters($a_parent_obj);
+        $this->setFormAction($this->ctrl->getFormAction($parent_obj));
+        $this->ctrl->clearParameters($parent_obj);
 
         $this->setRowTemplate('tpl.mail_member_search_row.html', 'Modules/StudyProgramme');
 
@@ -50,11 +38,11 @@ class ilStudyProgrammeMailMemberSearchTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $a_set
+     * @param array $set
      */
-    public function fillRow($a_set)
+    public function fillRow($set) : void
     {
-        foreach ($a_set as $key => $value) {
+        foreach ($set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);
         }
     }

@@ -49,7 +49,7 @@ class ilRepositoryObjectSearchGUI
     
     /**
      * Get standar search block html
-     * @param type $a_title
+     * @param string $a_title
      * @return string
      */
     public static function getSearchBlockHTML($a_title)

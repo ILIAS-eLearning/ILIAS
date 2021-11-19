@@ -708,7 +708,7 @@ class ilNoteGUI
             ilDatePresentation::setUseRelativeDates(false);
             
             if (sizeof($notes) && !$this->only_latest && $this->enable_sorting) {
-                if ((int) $_SESSION["comments_sort_asc"] == 1) {
+                if ((int) ($_SESSION["comments_sort_asc"] ?? 0) == 1) {
                     $sort_txt = $lng->txt("notes_sort_desc");
                     $sort_cmd = "listSortDesc";
                 } else {

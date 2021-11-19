@@ -401,7 +401,7 @@ class ilSkillTreeNode
             $childs = $skill_tree->getChilds($parent_id);
 
             if (count($childs) == 0) {
-                $target = IL_FIRST_NODE;
+                $target = ilTree::POS_FIRST_NODE;
             } else {
                 $target = $childs[count($childs) - 1]["obj_id"];
             }
@@ -540,7 +540,7 @@ class ilSkillTreeNode
         // @todo: move this to a service since it can be used here, too
 
         $parent_id = $a_obj_id;
-        $target = IL_LAST_NODE;
+        $target = ilTree::POS_LAST_NODE;
 
         // cut and paste
         $skills = $ilUser->getClipboardObjects($a_type);  // this will get all skills _regardless_ of level
@@ -652,7 +652,7 @@ class ilSkillTreeNode
             ilSkillTreeNode::pasteTree(
                 $child["id"],
                 $target_item->getId(),
-                IL_LAST_NODE,
+                ilTree::POS_LAST_NODE,
                 $a_insert_time,
                 $a_copied_nodes,
                 $a_as_copy

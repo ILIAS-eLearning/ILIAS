@@ -1,10 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-/**
- * Class ilObjStudyProgrammeMembersTableGUI
- */
+use ILIAS\Data;
+
 class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 {
     const COLUMNS = [
@@ -32,70 +31,28 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     const VALIDITY_OPTION_VALID = 1;
     const VALIDITY_OPTION_INVALID = 3;
 
-    /**
-     * @var int
-     */
-    protected $prg_obj_id;
-
-    /**
-     * @var int
-     */
-    protected $prg_ref_id;
-
-    /**
-     * @var bool
-     */
-    protected $prg_has_lp_children;
-
-    /**
-     * @var ilDBInterface
-     */
-    protected $db;
-
-    /**
-     * @var mixed
-     */
-    protected $ui_factory;
-
-    /**
-     * @var mixed
-     */
-    protected $ui_renderer;
-
-    /**
-     * @var ilStudyProgrammeProgressRepository
-     */
-    protected $sp_user_progress_db;
-
-    /**
-     * @var ilObjStudyProgramme
-     */
-    protected $prg;
-
-    /**
-     * @var ilPRGPermissionsHelper
-     */
-    protected $permissions;
-
-    /**
-     * @var bool
-     */
-    protected $may_edit_anything;
-    
-    /**
-     * @var array
-     */
-    protected $user_ids_viewer_may_read_learning_progress_of;
+    protected int $prg_obj_id;
+    protected int $prg_ref_id;
+    protected Data\Factory $data_factory;
+    protected bool $prg_has_lp_children;
+    protected ilDBInterface $db;
+    protected ILIAS\UI\Factory $ui_factory;
+    protected ILIAS\UI\Renderer $ui_renderer;
+    protected ilStudyProgrammeProgressRepository $sp_user_progress_db;
+    protected ilObjStudyProgramme $prg;
+    protected ilPRGPermissionsHelper $permissions;
+    protected bool $may_edit_anything;
+    protected array $user_ids_viewer_may_read_learning_progress_of;
     
     public function __construct(
         int $prg_obj_id,
         int $prg_ref_id,
         ilObjStudyProgrammeMembersGUI $parent_obj,
-        string $parent_cmd = '',
-        string $template_context = '',
         ilStudyProgrammeProgressRepository $sp_user_progress_db,
         ilPRGPermissionsHelper $permissions,
-        \ILIAS\Data\Factory $data_factory
+        Data\Factory $data_factory,
+        string $parent_cmd = '',
+        string $template_context = ''
     ) {
         $this->setId("sp_member_list");
         parent::__construct($parent_obj, $parent_cmd, $template_context);
@@ -156,7 +113,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
         $members_list = $this->fetchData(
             $prg_obj_id,
-            $this->getLimit(),
+            (int) $this->getLimit(),
             $this->getOffset(),
             $filter_values
         );
@@ -192,7 +149,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         'prg_completion_date' => 'completion_date',
     ];
 
-    protected function postOrder(array $list, \ILIAS\Data\Order $order) : array
+    protected function postOrder(array $list, Data\Order $order) : array
     {
         list($aspect, $direction) = $order->join('', function ($i, $k, $v) {
             return  [$k, $v];
@@ -215,7 +172,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         return $list;
     }
 
-    protected function getOrdering() : \ILIAS\Data\Order
+    protected function getOrdering() : Data\Order
     {
         $field = $this->getOrderField();
         if (!$field) {
@@ -250,7 +207,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             "STATUS",
             $this->getValueOrEmptyString(
                 in_array($usr_id, $this->user_ids_viewer_may_read_learning_progress_of),
-                $this->prg->statusToRepr($a_set["status"])
+                $this->prg->statusToRepr((int) $a_set["status"])
             )
         );
         $this->tpl->setVariable("ASSIGN_DATE", $a_set["prg_assign_date"]);
@@ -361,14 +318,13 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             "ACTIONS",
             $this->buildActionDropDown(
                 $a_set["actions"],
-                $a_set["prgrs_id"],
-                $a_set["assignment_id"],
-                $usr_id
+                (int) $a_set["prgrs_id"],
+                (int) $a_set["assignment_id"]
             )
         );
     }
 
-    protected function getValueOrEmptyString(string $condition, string $value) : string
+    protected function getValueOrEmptyString(bool $condition, string $value) : string
     {
         if ($condition) {
             return $value;
@@ -383,10 +339,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     protected function buildActionDropDown(
         array $actions,
         int $prgrs_id,
-        int $ass_id,
-        int $usr_id
+        int $ass_id
     ) : string {
-        $parent = $this->getParentObject();
         $l = new ilAdvancedSelectionListGUI();
 
         $view_individual_plan = $this->permissions->may(ilOrgUnitOperation::OP_VIEW_INDIVIDUAL_PLAN);
@@ -439,7 +393,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             $url = ilLink::_getStaticLink($target_ref_id, "crs");
             $link = $this->ui_renderer->render($this->ui_factory->link()->standard($title, $url));
         } else {
-            $del_data = \ilObjectDataDeletionLog::get($target_obj_id);
+            $del_data = ilObjectDataDeletionLog::get($target_obj_id);
             if ($del_data) {
                 $link = $del_data['title'];
             }
@@ -513,8 +467,8 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
 
             $rec["actions"] = $this->getPossibleActions(
                 $prg_id,
-                $rec["root_prg_id"],
-                $rec["status"]
+                (int) $rec["root_prg_id"],
+                (int) $rec["status"]
             );
 
             $prg = ilObjStudyProgramme::getInstanceByObjId($progress->getNodeId());
@@ -610,7 +564,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
         $res = $this->db->query($query);
         $rec = $this->db->fetchAssoc($res);
 
-        return $rec["cnt"];
+        return (int) $rec["cnt"];
     }
 
     protected function getFrom() : string
@@ -658,7 +612,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     {
         $cols = [];
         foreach (self::COLUMNS as $column) {
-            list($col, $lng_var, $optional, $lp, $no_lp) = $column;
+            list($col, $lng_var, $optional, , ) = $column;
             if ($optional) {
                 $cols[$col] = ["txt" => $this->lng->txt($lng_var)];
             }
@@ -678,7 +632,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
     }
 
     /**
-     * Get possible multicommnds
+     * Get possible multicommands
      *
      * @return string[]
      */
@@ -856,15 +810,7 @@ class ilStudyProgrammeMembersTableGUI extends ilTable2GUI
             . ')';
         }
 
-        $conditions = implode(PHP_EOL, $buf);
-
-        return $conditions;
-    }
-
-
-    protected function isPermissionControlledByOrguPosition()
-    {
-        return $this->prg->getPositionSettingsIsActiveForPrg();
+        return implode(PHP_EOL, $buf);
     }
 
     protected function getOrguValidUsersFilter() : string

@@ -1,17 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Services/User/Gallery/classes/class.ilAbstractUsersGalleryCollectionProvider.php';
-require_once 'Services/Contact/BuddySystem/classes/class.ilBuddyList.php';
 
-/**
- * Class ilUsersGalleryUsers
- */
 class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
 {
     /**
-     * @return array
+     * @return ilBuddySystemRelationCollection[]
      */
-    protected function getRelationSequence()
+    protected function getRelationSequence() : array
     {
         $requested_for_me = ilBuddyList::getInstanceByGlobalUser()->getRequestRelationsForOwner()->toArray();
         $linked = ilBuddyList::getInstanceByGlobalUser()->getLinkedRelations()->toArray();
@@ -22,10 +17,7 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
         return [$requested_for_me, $linked, $requested_by_me + $me_ignored,  $ignored];
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getGroupedCollections($ignore_myself = false)
+    public function getGroupedCollections(bool $ignore_myself = false) : array
     {
         global $DIC;
 
@@ -45,7 +37,7 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
                     continue;
                 }
 
-                if ($ignore_myself && $user->getId() == $DIC->user()->getId()) {
+                if ($ignore_myself && $user->getId() === $DIC->user()->getId()) {
                     continue;
                 }
 
@@ -58,10 +50,7 @@ class ilUsersGalleryContacts extends ilAbstractUsersGalleryCollectionProvider
         return $groups;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function hasRemovableUsers()
+    public function hasRemovableUsers() : bool
     {
         return true;
     }

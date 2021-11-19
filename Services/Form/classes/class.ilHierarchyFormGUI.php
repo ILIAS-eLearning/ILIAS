@@ -31,10 +31,10 @@ class ilHierarchyFormGUI extends ilFormGUI
     protected ilCtrl $ctrl;
     protected string $expand_variable = "";
     protected ?array $white_list = null;
-    protected ?array $highlighted_nodes = null;
+    protected array $highlighted_nodes = [];
     protected string $focus_id = "";
     protected string $exp_frame = "";
-    protected string $triggered_update_command;
+    protected string $triggered_update_command = "";
     protected array $drag_target = [];
     protected array $drag_content = [];
     protected object $parent_obj;
@@ -408,11 +408,11 @@ class ilHierarchyFormGUI extends ilFormGUI
         $ttpl = new ilTemplate("tpl.hierarchy_form.html", true, true, "Services/Form");
         $ttpl->setVariable("TXT_SAVING", $lng->txt("saving"));
         $top_node_data = $this->getTree()->getNodeData($this->getCurrentTopNodeId());
-        $top_node = array("node_id" => $top_node_data["child"],
-                "title" => $top_node_data["title"],
-                "type" => $top_node_data["type"]);
+        $top_node = array("node_id" => $top_node_data["child"] ?? 0,
+                "title" => $top_node_data["title"] ?? "",
+                "type" => $top_node_data["type"] ?? "");
 
-        $childs = null;
+        $childs = [];
         $nodes_html = $this->getLevelHTML($top_node, 0, $childs);
 
 
@@ -749,7 +749,7 @@ class ilHierarchyFormGUI extends ilFormGUI
         $a_tpl->setVariable("VAL_TITLE", ilUtil::prepareFormOutput($this->getChildTitle($a_child)));
         $a_tpl->setVariable("TNODE_ID", $a_child["node_id"]);
         $a_tpl->parseCurrentBlock();
-        $grandchilds = null;
+        $grandchilds = [];
         $grandchilds_html = $this->getLevelHTML($a_child, $a_depth + 1, $grandchilds);
         
         // focus

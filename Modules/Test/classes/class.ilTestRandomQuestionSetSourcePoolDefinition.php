@@ -500,7 +500,7 @@ class ilTestRandomQuestionSetSourcePoolDefinition
         if (is_int($this->getPoolRefId()) && ilObject::_lookupObjId($this->getPoolRefId())) {
             $path = new ilPathGUI();
             $path->enableTextOnly(true);
-            $pool_path = $path->getPath(ROOT_FOLDER_ID, $this->getPoolRefId());
+            $pool_path = $path->getPath(ROOT_FOLDER_ID, (int) $this->getPoolRefId());
         }
 
         $poolInfoLabel = sprintf(

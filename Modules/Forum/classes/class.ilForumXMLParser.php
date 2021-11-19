@@ -33,8 +33,9 @@ class ilForumXMLParser extends ilSaxParser
     ];
     private array $user_id_mapping = [];
     private array $mediaObjects = [];
+    private ilImportMapping $importMapping;
 
-    public function __construct(ilObjForum $forum, string $a_xml_data)
+    public function __construct(ilObjForum $forum, string $a_xml_data, ilImportMapping $importMapping)
     {
         global $DIC;
 
@@ -42,6 +43,7 @@ class ilForumXMLParser extends ilSaxParser
         $this->aobject = new ilObjUser(ANONYMOUS_USER_ID);
 
         $this->forum = $forum;
+        $this->importMapping = $importMapping;
 
         parent::__construct();
 
@@ -161,6 +163,10 @@ class ilForumXMLParser extends ilSaxParser
 
             case 'Id':
                 $propertyValue['Id'] = $this->cdata;
+                break;
+
+            case 'StyleId':
+                $x['StyleId'] = $this->cdata;
                 break;
 
             case 'ObjId':
@@ -286,12 +292,22 @@ class ilForumXMLParser extends ilSaxParser
                     $newObjProp->setFileUploadAllowed((bool) ($this->forumArray['FileUpload'] ?? false));
                     $newObjProp->setThreadSorting((int) ($this->forumArray['Sorting'] ?? ilForumProperties::THREAD_SORTING_DEFAULT));
                     $newObjProp->setMarkModeratorPosts((bool) ($this->forumArray['MarkModeratorPosts'] ?? false));
+                    $newObjProp->setStyleSheetId((int) ($this->forumArray['StyleId'] ?? 0));
                     $newObjProp->update();
 
                     $id = $this->getNewForumPk();
                     $this->forum_obj_id = $newObjProp->getObjId();
                     $this->mapping['frm'][$this->forumArray['Id']] = $id;
                     $this->lastHandledForumId = $id;
+
+                    $this->importMapping->addMapping('Modules/Forum', 'style', $this->forum->getId(), $newObjProp->getStyleSheetId());
+                    $this->importMapping->addMapping(
+                        'Services/COPage',
+                        'pg',
+                        'frm:' . $this->forumArray['ObjId'],
+                        'frm:' . $this->forum->getId()
+                    );
+
                     $this->forumArray = [];
                 }
                 break;

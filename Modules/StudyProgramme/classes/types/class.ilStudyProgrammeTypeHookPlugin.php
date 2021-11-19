@@ -1,6 +1,4 @@
-<?php
-
-require_once("./Services/Component/classes/class.ilPlugin.php");
+<?php declare(strict_types=1);
 
 /**
  * Abstract parent class for all StudyProgrammeTypeHook plugin classes.
@@ -12,42 +10,22 @@ require_once("./Services/Component/classes/class.ilPlugin.php");
  */
 abstract class ilStudyProgrammeTypeHookPlugin extends ilPlugin
 {
-    /**
-     * Get Component Type
-     *
-     * @return        string        Component Type
-     */
-    final public function getComponentType()
+    final public function getComponentType() : string
     {
         return IL_COMP_MODULE;
     }
 
-    /**
-     * Get Component Name.
-     *
-     * @return        string        Component Name
-     */
-    final public function getComponentName()
+    final public function getComponentName() : string
     {
         return 'StudyProgramme';
     }
 
-    /**
-     * Get Slot Name.
-     *
-     * @return        string        Slot Name
-     */
-    final public function getSlot()
+    final public function getSlot() : string
     {
         return 'StudyProgrammeTypeHook';
     }
 
-    /**
-     * Get Slot ID.
-     *
-     * @return        string        Slot Id
-     */
-    final public function getSlotId()
+    final public function getSlotId() : string
     {
         return 'prgtypehk';
     }
@@ -55,7 +33,7 @@ abstract class ilStudyProgrammeTypeHookPlugin extends ilPlugin
     /**
      * Object initialization done by slot.
      */
-    final protected function slotInit()
+    final protected function slotInit() : void
     {
         // nothing to do here
     }
@@ -68,84 +46,56 @@ abstract class ilStudyProgrammeTypeHookPlugin extends ilPlugin
 
     /**
      * Return false if setting a title is not allowed
-     *
-     * @param int $a_type_id
-     * @param string $a_lang_code
-     * @param string $a_title
-     * @return bool
      */
-    public function allowSetTitle($a_type_id, $a_lang_code, $a_title)
+    public function allowSetTitle(int $type_id, string $lang_code, string $title) : bool
     {
         return true;
     }
 
     /**
      * Return false if setting a description is not allowed
-     *
-     * @param int $a_type_id
-     * @param string $a_lang_code
-     * @param string $a_description
-     * @return bool
      */
-    public function allowSetDescription($a_type_id, $a_lang_code, $a_description)
+    public function allowSetDescription(int $type_id, string $lang_code, string $description) : bool
     {
         return true;
     }
 
     /**
      * Return false if setting a default language is not allowed
-     *
-     * @param int $a_type_id
-     * @param string $a_lang_code
-     * @return bool
      */
-    public function allowSetDefaultLanguage($a_type_id, $a_lang_code)
+    public function allowSetDefaultLanguage(int $type_id, string $lang_code) : bool
     {
         return true;
     }
 
     /**
      * Return false if StudyProgramme type cannot be deleted
-     *
-     * @param int $a_type_id
-     * @return bool
      */
-    public function allowDelete($a_type_id)
+    public function allowDelete(int $type_id) : bool
     {
         return true;
     }
 
     /**
      * Return false if StudyProgramme type is locked and no updates are possible
-     *
-     * @param int $a_type_id
-     * @return bool
      */
-    public function allowUpdate($a_type_id)
+    public function allowUpdate(int $type_id) : bool
     {
         return true;
     }
 
     /**
      * Return false if an AdvancedMDRecord cannot be assigned to an StudyProgramme type
-     *
-     * @param int $a_type_id
-     * @param int $a_record_id
-     * @return bool
      */
-    public function allowAssignAdvancedMDRecord($a_type_id, $a_record_id)
+    public function allowAssignAdvancedMDRecord(int $type_id, int $record_id) : bool
     {
         return true;
     }
 
     /**
      * Return false if an AdvancedMDRecord cannot be deassigned from an StudyProgramme type
-     *
-     * @param int $a_type_id
-     * @param int $a_record_id
-     * @return bool
      */
-    public function allowDeassignAdvancedMDRecord($a_type_id, $a_record_id)
+    public function allowDeassignAdvancedMDRecord(int $type_id, int $record_id) : bool
     {
         return true;
     }

@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
@@ -16,86 +14,23 @@ class ilStudyProgrammeChangeDeadlineGUI
     const CMD_CHANGE_DEADLINE = "changeDeadline";
     const PROP_DEADLINE = "deadline";
 
-    /**
-     * @var ilObjGroupGUI|ilObjCourseGUI
-     */
-    protected $gui;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilAccess $access;
+    protected ilObjUser $user;
+    protected Factory $input_factory;
+    protected Renderer $renderer;
+    protected ServerRequest $request;
+    protected ILIAS\Refinery\Factory $refinery_factory;
+    protected ILIAS\Data\Factory $data_factory;
+    protected ilPRGMessagePrinter $messages;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ?string $back_target = null;
+    protected array $progress_ids = [];
+    protected ?int $ref_id = null;
+    protected ?ilObjStudyProgramme $object = null;
 
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilAccess
-     */
-    protected $access;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var string
-     */
-    protected $back_target;
-
-    /**
-     * @var Factory
-     */
-    protected $input_factory;
-
-    /**
-     * @var Renderer
-     */
-    protected $renderer;
-
-    /**
-     * @var ServerRequest
-     */
-    protected $request;
-
-    /**
-     * @var Factory
-     */
-    protected $refinery_factory;
-
-    /**
-     * @var \ILIAS\Data\Factory
-     */
-    protected $data_factory;
-
-    /**
-     * @var array
-     */
-    protected $progress_ids;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var ilObjStudyProgramme
-     */
-    protected $object;
-
-    /**
-     * @var ilPRGMessages
-     */
-    protected $messages;
-    
     public function __construct(
         ilCtrl $ctrl,
         ilGlobalTemplateInterface $tpl,
@@ -105,8 +40,8 @@ class ilStudyProgrammeChangeDeadlineGUI
         Factory $input_factory,
         Renderer $renderer,
         ServerRequest $request,
-        \ILIAS\Refinery\Factory $refinery_factory,
-        \ILIAS\Data\Factory $data_factory,
+        ILIAS\Refinery\Factory $refinery_factory,
+        ILIAS\Data\Factory $data_factory,
         ilPRGMessagePrinter $messages
     ) {
         $this->ctrl = $ctrl;
@@ -141,7 +76,6 @@ class ilStudyProgrammeChangeDeadlineGUI
                         break;
                     default:
                         throw new Exception('Unknown command ' . $cmd);
-                        break;
                 }
                 break;
         }
@@ -219,7 +153,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         Closure $txt,
         ilObjStudyProgramme $prg
     ) : array {
-        $return = [
+        return [
             $ff->section(
                 [
                     ilObjStudyProgrammeSettingsGUI::PROP_DEADLINE => $this->getDeadlineSubForm($prg)
@@ -228,8 +162,6 @@ class ilStudyProgrammeChangeDeadlineGUI
                 ""
             )
         ];
-
-        return $return;
     }
 
     protected function changeDeadline() : void
@@ -257,7 +189,7 @@ class ilStudyProgrammeChangeDeadlineGUI
                 );
 
                 if (!$deadline) {
-                    ilUtil::sendFailure($this->lng->txt('error_updating_deadline'), true);
+                    $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_deadline'), true);
                     $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_DEADLINE_CONFIG);
                 }
             }
@@ -270,11 +202,11 @@ class ilStudyProgrammeChangeDeadlineGUI
             $this->ctrl->redirectByClass('ilObjStudyProgrammeMembersGUI', 'view');
         }
 
-        ilUtil::sendFailure($this->lng->txt('error_updating_deadline'), true);
+        $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_deadline'), true);
         $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_DEADLINE_CONFIG);
     }
 
-    protected function getBackTarget() : string
+    protected function getBackTarget() : ?string
     {
         return $this->back_target;
     }
@@ -294,7 +226,7 @@ class ilStudyProgrammeChangeDeadlineGUI
         $this->progress_ids = array_map('intval', $progress_ids);
     }
 
-    protected function getRefId() : int
+    protected function getRefId() : ?int
     {
         return $this->ref_id;
     }
@@ -304,16 +236,26 @@ class ilStudyProgrammeChangeDeadlineGUI
         $this->ref_id = $ref_id;
     }
 
-    protected function getObject()
+    protected function getObject() : ilObjStudyProgramme
     {
+        $ref_id = $this->getRefId();
+        if (is_null($ref_id)) {
+            throw new LogicException("Can't create object. No ref_id given.");
+        }
+
         if ($this->object === null) {
-            $this->object = ilObjStudyProgramme::getInstanceByRefId($this->getRefId());
+            $this->object = ilObjStudyProgramme::getInstanceByRefId($ref_id);
         }
         return $this->object;
     }
 
     protected function redirectToParent() : void
     {
-        ilUtil::redirect($this->getBackTarget());
+        $back_target = $this->getBackTarget();
+        if (is_null($back_target)) {
+            throw new LogicException("Can't redirect. No back target given.");
+        }
+
+        $this->ctrl->redirectToURL($back_target);
     }
 }

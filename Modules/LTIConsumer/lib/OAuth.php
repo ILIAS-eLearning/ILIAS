@@ -270,7 +270,7 @@ class OAuthRequest
             if (@substr($request_headers['Authorization'], 0, 6) == "OAuth ") {
                 $header_parameters = OAuthUtil::split_header(
                     $request_headers['Authorization']
-        );
+                );
                 $parameters = array_merge($parameters, $header_parameters);
             }
         }
@@ -460,7 +460,7 @@ class OAuthRequest
             "oauth_signature_method",
             $signature_method->get_name(),
             false
-    );
+        );
         $signature = $this->build_signature($signature_method, $consumer, $token);
         $this->set_parameter("oauth_signature", $signature, false);
     }
@@ -596,12 +596,12 @@ class OAuthServer
         if (!in_array(
             $signature_method,
             array_keys($this->signature_methods)
-    )) {
+        )) {
             throw new OAuthException(
                 "Signature method '$signature_method' not supported " .
         "try one of the following: " .
         implode(", ", array_keys($this->signature_methods))
-      );
+            );
         }
         return $this->signature_methods[$signature_method];
     }
@@ -637,7 +637,7 @@ class OAuthServer
             $consumer,
             $token_type,
             $token_field
-    );
+        );
         if (!$token) {
             throw new OAuthException("Invalid $token_type token: $token_field");
         }
@@ -668,7 +668,7 @@ class OAuthServer
             $consumer,
             $token,
             $signature
-    );
+        );
 
         if (!$valid_sig) {
             $ex_text = "Invalid signature";
@@ -689,7 +689,7 @@ class OAuthServer
         if ($now - $timestamp > $this->timestamp_threshold) {
             throw new OAuthException(
                 "Expired timestamp, yours $timestamp, ours $now"
-      );
+            );
         }
     }
 
@@ -704,7 +704,7 @@ class OAuthServer
             $token,
             $nonce,
             $timestamp
-    );
+        );
         if ($found) {
             throw new OAuthException("Nonce already used: $nonce");
         }
@@ -753,7 +753,7 @@ class OAuthUtil
                 '+',
                 ' ',
                 str_replace('%7E', '~', rawurlencode($input))
-    );
+            );
         } else {
             return '';
         }
@@ -813,7 +813,7 @@ class OAuthUtil
                     " ",
                     "-",
                     ucwords(strtolower(str_replace("_", " ", substr($key, 5))))
-        );
+                );
                 $out[$key] = $value;
             }
         }

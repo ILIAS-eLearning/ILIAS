@@ -31,7 +31,7 @@ class ilADTGroupActiveRecordBridge extends ilADTActiveRecordBridge
 
     protected function prepareElements() : void
     {
-        if (sizeof($this->elements)) {
+        if (count($this->elements)) {
             return;
         }
 

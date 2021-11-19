@@ -42,12 +42,12 @@ class ChatMainBarProvider extends AbstractStaticMainMenuProvider
                     $this->dic->ui()->factory()->legacy($this->dic->language()->txt('component_not_active'))
                 )
                 ->withAvailableCallable(
-                    function () use ($publicChatObjId) : bool {
+                    static function () use ($publicChatObjId) : bool {
                         return $publicChatObjId > 0;
                     }
                 )
                 ->withVisibilityCallable(
-                    function () use ($dic, $publicChatRefId) : bool {
+                    static function () use ($dic, $publicChatRefId) : bool {
                         if (0 === $dic->user()->getId() || $dic->user()->isAnonymous()) {
                             return false;
                         }

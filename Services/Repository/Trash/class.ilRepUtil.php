@@ -439,7 +439,7 @@ class ilRepUtil
         
         // then delete node and put in tree
         try {
-            $tree->insertNodeFromTrash($a_source_id, $a_dest_id, $a_tree_id, IL_LAST_NODE, true);
+            $tree->insertNodeFromTrash($a_source_id, $a_dest_id, $a_tree_id, ilTree::POS_LAST_NODE, true);
         } catch (Exception $e) {
             ilLoggerFactory::getLogger('rep')->error('Restore from trash failed with message: ' . $e->getMessage());
             throw $e;

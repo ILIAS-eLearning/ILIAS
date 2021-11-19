@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +25,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
     {
         try {
             new ilStudyProgrammeAssessmentSettings(self::INVALID_POINTS, self::VALID_STATUS_1);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -37,7 +35,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
     {
         try {
             new ilStudyProgrammeAssessmentSettings(self::VALID_POINTS_1, self::INVALID_STATUS);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -47,7 +45,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
     {
         try {
             new ilStudyProgrammeAssessmentSettings(self::INVALID_POINTS, self::INVALID_STATUS);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -69,7 +67,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
 
         try {
             $obj->withPoints(self::INVALID_POINTS);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -91,7 +89,7 @@ class ilStudyProgrammeAssessmentSettingsTest extends TestCase
 
         try {
             $obj->withStatus(self::INVALID_STATUS);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }

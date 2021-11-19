@@ -106,7 +106,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
             $path->setUseImages(true);
 
             $this->tpl->setCurrentBlock('path');
-            $this->tpl->setVariable('OBJ_PATH', $path->getPath(ROOT_FOLDER_ID, $a_set['source_ref_id']));
+            $this->tpl->setVariable('OBJ_PATH', $path->getPath(ROOT_FOLDER_ID, (int) $a_set['source_ref_id']));
             $this->tpl->parseCurrentBlock();
         }
 

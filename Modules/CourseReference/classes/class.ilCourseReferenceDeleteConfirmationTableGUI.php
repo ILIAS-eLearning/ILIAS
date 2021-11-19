@@ -107,7 +107,7 @@ class ilCourseReferenceDeleteConfirmationTableGUI extends ilTable2GUI
             $this->tpl->setCurrentBlock('reference_path');
             $this->tpl->setVariable('CHECK_USER_NAME', 'refs[' . $row['id'] . '][' . $course_ref_id . ']');
             $this->tpl->setVariable('CHECK_USER_VAL', 1);
-            $this->tpl->setVariable('REF_PATH', $path->getPath(ROOT_FOLDER_ID, $course_ref_id));
+            $this->tpl->setVariable('REF_PATH', $path->getPath(ROOT_FOLDER_ID, (int) $course_ref_id));
             $this->tpl->parseCurrentBlock();
         }
 

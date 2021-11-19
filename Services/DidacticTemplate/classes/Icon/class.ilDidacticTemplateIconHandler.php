@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
 
 use ILIAS\Filesystem\Filesystem;
 use ILIAS\Filesystem\Exception\IOException;
@@ -13,11 +12,9 @@ use ILIAS\FileUpload\Location;
 
 /**
  * Icon handler for didactic template custom icons
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  */
-
 class ilDidacticTemplateIconHandler
 {
     protected const WEBDIR_PREFIX = 'ilDidacticTemplateIcons';
@@ -33,7 +30,6 @@ class ilDidacticTemplateIconHandler
      * @var Filesystem
      */
     protected Filesystem $webDirectory;
-
 
     /**
      * ilDidacticTemplateIconHandler constructor.
@@ -116,7 +112,7 @@ class ilDidacticTemplateIconHandler
             $this->settings->setIconIdentifier((string) $this->settings->getId());
             $this->settings->update();
         } else {
-            $this->settings->setIconIdentifier((string) 0 );
+            $this->settings->setIconIdentifier((string) 0);
             $this->settings->update();
         }
     }

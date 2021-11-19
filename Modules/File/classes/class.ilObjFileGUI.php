@@ -737,7 +737,6 @@ class ilObjFileGUI extends ilObject2GUI
         $dnd_form_gui->addCommandButton("cancel", $this->lng->txt("cancel"));
 
         $dnd_form_gui->setTableWidth("100%");
-        $dnd_form_gui->setTarget($this->getTargetFrame("save"));
         $dnd_form_gui->setTitle($this->lng->txt("upload_files_title"));
         $dnd_form_gui->setTitleIcon(ilUtil::getImagePath('icon_file.gif'));
 

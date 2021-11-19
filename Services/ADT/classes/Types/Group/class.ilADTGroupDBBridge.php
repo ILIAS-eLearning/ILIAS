@@ -62,7 +62,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
     {
         parent::setPrimary($a_value);
 
-        if (sizeof($this->elements)) {
+        if (count($this->elements)) {
             foreach (array_keys($this->getADT()->getElements()) as $name) {
                 $this->elements[$name]->setPrimary($this->getPrimary());
             }

@@ -1,31 +1,18 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use ILIAS\Data\Factory;
-use \ILIAS\UI\Component\Input\Field;
-use \ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeDeadlineSettings
 {
-    /**
-     * @var int|null
-     */
-    protected $deadline_period;
+    protected ?int $deadline_period;
+    protected ?DateTime $deadline_date;
 
-    /**
-     * @var DateTime|null
-     */
-    protected $deadline_date;
-
-    public function __construct(
-        ?int $deadline_period,
-        ?DateTime $deadline_date
-    ) {
+    public function __construct(?int $deadline_period, ?DateTime $deadline_date)
+    {
         if (!is_null($deadline_period) && 0 > $deadline_period) {
-            throw new InvalidArgumentException(
-                'Numbers less than 0 are not allowed'
-            );
+            throw new InvalidArgumentException('Numbers less than 0 are not allowed');
         }
 
         $this->deadline_period = $deadline_period;
@@ -40,9 +27,7 @@ class ilStudyProgrammeDeadlineSettings
     public function withDeadlinePeriod(?int $deadline_period) : ilStudyProgrammeDeadlineSettings
     {
         if (!is_null($deadline_period) && 0 > $deadline_period) {
-            throw new InvalidArgumentException(
-                'Numbers less than 0 are not allowed'
-            );
+            throw new InvalidArgumentException('Numbers less than 0 are not allowed');
         }
 
         $clone = clone $this;
@@ -64,7 +49,7 @@ class ilStudyProgrammeDeadlineSettings
 
     public function toFormInput(
         Field\Factory $input,
-        \ilLanguage $lng,
+        ilLanguage $lng,
         Refinery $refinery,
         Factory $data_factory
     ) : Field\Input {

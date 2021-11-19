@@ -86,7 +86,7 @@ class ilADTGroup extends ilADT
 
     public function isNull() : bool
     {
-        return !sizeof($this->getElements());
+        return !count($this->getElements());
     }
 
     public function getValidationErrorsByElements() : array

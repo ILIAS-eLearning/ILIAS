@@ -1,20 +1,19 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
 
 use Psr\Http\Message\RequestInterface;
 use ILIAS\DI\Container;
 use ILIAS\HTTP\GlobalHttpState;
 use ILIAS\Refinery\Factory;
+use ILIAS\FileUpload\FileUpload;
 
 /**
  * Settings for a single didactic template
- *
- * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesDidacticTemplate
+ * @author            Stefan Meyer <meyer@leifos.com>
+ * @ingroup           ServicesDidacticTemplate
  * @ilCtrl_IsCalledBy ilDidacticTemplateSettingsGUI: ilObjRoleFolderGUI
- * @ilCtrl_Calls ilDidacticTemplateSettingsGUI: ilMultilingualismGUI, ilPropertyFormGUI
+ * @ilCtrl_Calls      ilDidacticTemplateSettingsGUI: ilMultilingualismGUI, ilPropertyFormGUI
  */
 class ilDidacticTemplateSettingsGUI
 {
@@ -31,6 +30,9 @@ class ilDidacticTemplateSettingsGUI
     private RequestInterface $request;
     private GlobalHttpState $http;
     private Factory $refinery;
+    private ilGlobalTemplateInterface $tpl;
+    private ilTabsGUI $tabs;
+    private FileUpload $upload;
 
     private int $ref_id;
 
@@ -48,6 +50,9 @@ class ilDidacticTemplateSettingsGUI
         $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
         $this->logger = $DIC->logger()->otpl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tabs = $DIC->tabs();
+        $this->upload = $DIC->upload();
 
     }
 
@@ -110,7 +115,7 @@ class ilDidacticTemplateSettingsGUI
                 }
                 $form = $this->initEditTemplate($setting);
                 $this->ctrl->forwardCommand($form);
-                // no break
+            // no break
             case 'ilmultilingualismgui':
                 $setting = $this->initTemplateFromRequest();
                 if (
@@ -140,10 +145,6 @@ class ilDidacticTemplateSettingsGUI
 
     protected function overview() : void
     {
-        global $DIC;
-
-        $tpl = $DIC->ui()->mainTemplate();
-
         if ($this->rbacsystem->checkAccess('write', $this->ref_id)) {
             $this->toolbar->addButton(
                 $this->lng->txt('didactic_import_btn'),
@@ -154,12 +155,11 @@ class ilDidacticTemplateSettingsGUI
         $filter = new ilDidacticTemplateSettingsTableFilter($this->ctrl->getFormAction($this, 'overview'));
         $filter->init();
 
-
         $table = new ilDidacticTemplateSettingsTableGUI($this, 'overview', $this->ref_id);
         $table->init();
         $table->parse($filter);
 
-        $tpl->setContent(
+        $this->tpl->setContent(
             $filter->render() . '' . $table->getHTML()
         );
     }
@@ -182,40 +182,30 @@ class ilDidacticTemplateSettingsGUI
         $this->overview();
     }
 
-
     protected function showImportForm(ilPropertyFormGUI $form = null) : void
     {
-        global $DIC;
-
-        $ilTabs = $DIC->tabs();
-        $ilCtrl = $DIC->ctrl();
-
         $setting = $this->initTemplateFromRequest();
         if ($setting instanceof ilDidacticTemplateSetting) {
             $this->setEditTabs('import');
         } else {
-            $ilTabs->clearTargets();
-            $ilTabs->setBackTarget(
+            $this->tabs->clearTargets();
+            $this->tabs->setBackTarget(
                 $this->lng->txt('didactic_back_to_overview'),
-                $ilCtrl->getLinkTarget($this, 'overview')
+                $this->ctrl->getLinkTarget($this, 'overview')
             );
         }
 
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->createImportForm();
         }
-        $GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
     protected function createImportForm() : ilPropertyFormGUI
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
-        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('didactic_import_table_title'));
         $form->addCommandButton('importTemplate', $this->lng->txt('import'));
         $form->addCommandButton('overview', $this->lng->txt('cancel'));
@@ -238,13 +228,8 @@ class ilDidacticTemplateSettingsGUI
 
     protected function importTemplate() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
-            $ilCtrl->redirect($this, "overview");
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
+            $this->ctrl->redirect($this, "overview");
         }
 
         $setting = $this->initTemplateFromRequest();
@@ -253,7 +238,6 @@ class ilDidacticTemplateSettingsGUI
         } else {
             $form = $this->createImportForm();
         }
-
 
         if (!$form->checkInput()) {
             ilUtil::sendFailure($this->lng->txt('err_check_input'));
@@ -287,7 +271,7 @@ class ilDidacticTemplateSettingsGUI
                 $this->editImport($settings);
             } else {
                 if ($settings->hasIconSupport($this->objDefinition)) {
-                    $settings->getIconHandler()->handleUpload($DIC->upload(), $_FILES['icon']['tmp_name']);
+                    $settings->getIconHandler()->handleUpload($this->upload, $_FILES['icon']['tmp_name']);
                 }
             }
         } catch (ilDidacticTemplateImportException $e) {
@@ -298,44 +282,33 @@ class ilDidacticTemplateSettingsGUI
         ilUtil::sendSuccess($this->lng->txt('didactic_import_success'), true);
 
         if ($setting instanceof ilDidacticTemplateSetting) {
-            $ilCtrl->redirect($this, 'editTemplate');
+            $this->ctrl->redirect($this, 'editTemplate');
         } else {
-            $ilCtrl->redirect($this, 'overview');
+            $this->ctrl->redirect($this, 'overview');
         }
     }
 
     protected function editTemplate(ilPropertyFormGUI $form = null) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-
         $setting = $this->initTemplateFromRequest();
         if (!$setting instanceof ilDidacticTemplateSetting) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'overview');
+            $this->ctrl->redirect($this, 'overview');
         }
         $this->setEditTabs("edit");
-        $ilCtrl->saveParameter($this, 'tplid');
+        $this->ctrl->saveParameter($this, 'tplid');
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->initEditTemplate($this->setting);
         }
-        $GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
     protected function updateTemplate() : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-
         $setting = $this->initTemplateFromRequest();
         $this->ctrl->saveParameter($this, 'tplid');
 
-
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "overview");
         }
 
@@ -386,9 +359,9 @@ class ilDidacticTemplateSettingsGUI
             if ($upload->getDeletionFlag()) {
                 $this->setting->getIconHandler()->delete();
             }
-            $this->setting->getIconHandler()->handleUpload($DIC->upload(), $_FILES['icon']['tmp_name']);
+            $this->setting->getIconHandler()->handleUpload($this->upload, $_FILES['icon']['tmp_name']);
             ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
-            $ilCtrl->redirect($this, 'overview');
+            $this->ctrl->redirect($this, 'overview');
         }
         $this->handleUpdateFailure($form);
     }
@@ -402,14 +375,9 @@ class ilDidacticTemplateSettingsGUI
 
     protected function initEditTemplate(ilDidacticTemplateSetting $set) : ilPropertyFormGUI
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $objDefinition = $DIC['objDefinition'];
-
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
-        $form->setFormAction($ilCtrl->getFormAction($this, 'updateTemplate'));
+        $form->setFormAction($this->ctrl->getFormAction($this, 'updateTemplate'));
         $form->setTitle($this->lng->txt('didactic_edit_tpl'));
         $form->addCommandButton('updateTemplate', $this->lng->txt('save'));
         $form->addCommandButton('overview', $this->lng->txt('cancel'));
@@ -430,7 +398,7 @@ class ilDidacticTemplateSettingsGUI
             if (sizeof($trans) > 1) {
                 $languages = ilMDLanguageItem::_getLanguages();
                 $title->setInfo($this->lng->txt("language") . ": " . $languages[$def["lang_code"]] .
-                    ' <a href="' . $ilCtrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations") .
+                    ' <a href="' . $this->ctrl->getLinkTargetByClass("ilmultilingualismgui", "listTranslations") .
                     '">&raquo; ' . $this->lng->txt("more_translations") . '</a>');
             }
         }
@@ -454,7 +422,6 @@ class ilDidacticTemplateSettingsGUI
         $desc->setRows(3);
         $desc->setDisabled($set->isAutoGenerated());
         $form->addItem($desc);
-
 
         $icon = new ilImageFileInputGUI($this->lng->txt('didactic_icon'), 'icon');
         $icon->setImage($set->getIconHandler()->getAbsolutePath());
@@ -482,13 +449,13 @@ class ilDidacticTemplateSettingsGUI
             $type->setInfo($this->lng->txt('dtpl_obj_type_info'));
             $assigned = $set->getAssignments();
             $type->setValue(isset($assigned[0]) ? $assigned[0] : '');
-            $subs = $objDefinition->getSubObjectsRecursively('root', false);
+            $subs = $this->objDefinition->getSubObjectsRecursively('root', false);
             $options = array();
             foreach (array_merge($subs, array('fold' => 1)) as $obj => $null) {
                 ilLoggerFactory::getLogger('root')->dump($null);
-                if ($objDefinition->isPlugin($obj)) {
+                if ($this->objDefinition->isPlugin($obj)) {
                     $options[$obj] = ilObjectPlugin::lookupTxtById($obj, "obj_" . $obj);
-                } elseif ($objDefinition->isAllowedInRepository($obj)) {
+                } elseif ($this->objDefinition->isAllowedInRepository($obj)) {
                     $options[$obj] = $this->lng->txt('obj_' . $obj);
                 }
             }
@@ -497,19 +464,18 @@ class ilDidacticTemplateSettingsGUI
             $type->setOptions($options);
             $form->addItem($type);
 
-            $lokal_templates = new ilCheckboxInputGUI($this->lng->txt("activate_local_didactic_template"), "local_template");
+            $lokal_templates = new ilCheckboxInputGUI($this->lng->txt("activate_local_didactic_template"),
+                "local_template");
             $lokal_templates->setChecked(count($set->getEffectiveFrom()) > 0);
             $lokal_templates->setInfo($this->lng->txt("activate_local_didactic_template_info"));
 
             //effective from (multinode)
 
-
             $effrom = new ilRepositorySelector2InputGUI($this->lng->txt("effective_form"), "effective_from", true);
             //$effrom->setMulti(true);
-            $definition = $GLOBALS['DIC']['objDefinition'];
             $white_list = [];
-            foreach ($definition->getAllRepositoryTypes() as $type) {
-                if ($definition->isContainer($type)) {
+            foreach ($this->objDefinition->getAllRepositoryTypes() as $type) {
+                if ($this->objDefinition->isContainer($type)) {
                     $white_list[] = $type;
                 }
             }
@@ -530,20 +496,14 @@ class ilDidacticTemplateSettingsGUI
 
     protected function copyTemplate() : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "overview");
         }
 
         $setting = $this->initTemplateFromRequest();
         if (!$setting instanceof ilDidacticTemplateSetting) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
-            $ilCtrl->redirect($this, 'overview');
+            $this->ctrl->redirect($this, 'overview');
             return;
         }
 
@@ -551,20 +511,15 @@ class ilDidacticTemplateSettingsGUI
         $copier->start();
 
         ilUtil::sendSuccess($this->lng->txt('didactic_copy_suc_message'), true);
-        $ilCtrl->redirect($this, 'overview');
+        $this->ctrl->redirect($this, 'overview');
     }
 
     protected function exportTemplate() : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $setting = $this->initTemplateFromRequest();
         if (!$setting instanceof ilDidacticTemplateSetting) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
-            $ilCtrl->redirect($this, 'overview');
+            $this->ctrl->redirect($this, 'overview');
             return;
         }
         $writer = new ilDidacticTemplateXmlWriter($setting->getId());
@@ -579,24 +534,15 @@ class ilDidacticTemplateSettingsGUI
 
     protected function confirmDelete() : void
     {
-        /**
-         * @var ilCtrl $ilCtrl
-         */
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilCtrl = $DIC['ilCtrl'];
-
         $templates = $this->initTemplatesFromRequest();
         if (!count($templates)) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'overview');
+            $this->ctrl->redirect($this, 'overview');
             return;
         }
 
-
         $confirm = new ilConfirmationGUI();
-        $confirm->setFormAction($ilCtrl->getFormAction($this));
+        $confirm->setFormAction($this->ctrl->getFormAction($this));
         $confirm->setConfirm($this->lng->txt('delete'), 'deleteTemplates');
         $confirm->setCancel($this->lng->txt('cancel'), 'overview');
 
@@ -614,30 +560,24 @@ class ilDidacticTemplateSettingsGUI
 
         if (count($forbidden) > 0 && count($templates) == 1) {
             ilUtil::sendFailure($this->lng->txt('didactic_cannot_delete_auto_generated'), true);
-            $ilCtrl->redirect($this, "overview");
+            $this->ctrl->redirect($this, "overview");
         } elseif (count($forbidden) > 0 && count($templates) > 1) {
             ilUtil::sendInfo($this->lng->txt('didactic_cannot_delete_auto_generated_confirmation'));
         }
 
         ilUtil::sendQuestion($this->lng->txt('didactic_confirm_delete_msg'));
-        $GLOBALS['DIC']['tpl']->setContent($confirm->getHTML());
+        $this->tpl->setContent($confirm->getHTML());
     }
 
-    protected function deleteTemplates(): void
+    protected function deleteTemplates() : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "overview");
         }
         $templates = $this->initTemplatesFromRequest();
         if (!$templates) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'overview');
+            $this->ctrl->redirect($this, 'overview');
             return;
         }
 
@@ -647,24 +587,18 @@ class ilDidacticTemplateSettingsGUI
         }
 
         ilUtil::sendSuccess($this->lng->txt('didactic_delete_msg'), true);
-        $ilCtrl->redirect($this, 'overview');
+        $this->ctrl->redirect($this, 'overview');
     }
 
-    protected function activateTemplates(): void
+    protected function activateTemplates() : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "overview");
         }
         $templates = $this->initTemplatesFromRequest();
         if (!count($templates)) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'overview');
+            $this->ctrl->redirect($this, 'overview');
             return;
         }
 
@@ -675,25 +609,19 @@ class ilDidacticTemplateSettingsGUI
         }
 
         ilUtil::sendSuccess($this->lng->txt('didactic_activated_msg'), true);
-        $ilCtrl->redirect($this, 'overview');
+        $this->ctrl->redirect($this, 'overview');
     }
 
-    protected function deactivateTemplates(): void
+    protected function deactivateTemplates() : void
     {
-        global $DIC;
-
-        $ilErr = $DIC['ilErr'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilAccess = $DIC['ilAccess'];
-
-        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
+        if (!$this->access->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "overview");
         }
 
         $templates = $this->initTemplatesFromRequest();
         if (!count($templates)) {
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
-            $ilCtrl->redirect($this, 'overview');
+            $this->ctrl->redirect($this, 'overview');
         }
         foreach ($templates as $tplid) {
             $tpl = new ilDidacticTemplateSetting((int) $tplid);
@@ -701,39 +629,32 @@ class ilDidacticTemplateSettingsGUI
             $tpl->update();
         }
         ilUtil::sendSuccess($this->lng->txt('didactic_deactivated_msg'), true);
-        $ilCtrl->redirect($this, 'overview');
+        $this->ctrl->redirect($this, 'overview');
     }
 
     protected function setEditTabs(string $a_tab_active = "edit") : void
     {
-        /**
-         * @var ilTabsGUI $ilTabs
-         * @var ilCtrl $ilCtrl
-         */
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC['ilTabs'];
-
-
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget(
+        $this->tabs->clearTargets();
+        $this->tabs->setBackTarget(
             $this->lng->txt('didactic_back_to_overview'),
-            $ilCtrl->getLinkTarget($this, 'overview')
+            $this->ctrl->getLinkTarget($this, 'overview')
         );
-        $ilCtrl->saveParameter($this, "tplid");
+        $this->ctrl->saveParameter($this, "tplid");
 
         if (!$this->setting->isAutoGenerated()) {
-            $ilTabs->addTab('edit', $this->lng->txt('settings'), $ilCtrl->getLinkTarget($this, 'editTemplate'));
-            $ilTabs->addTab('import', $this->lng->txt('import'), $ilCtrl->getLinkTarget($this, 'showEditImportForm'));
+            $this->tabs->addTab('edit', $this->lng->txt('settings'), $this->ctrl->getLinkTarget($this, 'editTemplate'));
+            $this->tabs->addTab('import', $this->lng->txt('import'),
+                $this->ctrl->getLinkTarget($this, 'showEditImportForm'));
 
             if (in_array($a_tab_active, array('edit', 'settings_trans'))) {
-                $ilTabs->addSubTab('edit', $this->lng->txt('settings'), $ilCtrl->getLinkTarget($this, 'editTemplate'));
-                $ilTabs->addSubTab('settings_trans', $this->lng->txt("obj_multilinguality"), $ilCtrl->getLinkTargetByClass(array( "ilmultilingualismgui"), 'listTranslations'));
-                $ilTabs->setTabActive('edit');
-                $ilTabs->setSubTabActive($a_tab_active);
+                $this->tabs->addSubTab('edit', $this->lng->txt('settings'),
+                    $this->ctrl->getLinkTarget($this, 'editTemplate'));
+                $this->tabs->addSubTab('settings_trans', $this->lng->txt("obj_multilinguality"),
+                    $this->ctrl->getLinkTargetByClass(array("ilmultilingualismgui"), 'listTranslations'));
+                $this->tabs->setTabActive('edit');
+                $this->tabs->setSubTabActive($a_tab_active);
             } else {
-                $ilTabs->setTabActive($a_tab_active);
+                $this->tabs->setTabActive($a_tab_active);
             }
         }
     }
@@ -745,17 +666,14 @@ class ilDidacticTemplateSettingsGUI
         if (!$form instanceof ilPropertyFormGUI) {
             $form = $this->editImportForm();
         }
-        $GLOBALS['DIC']['tpl']->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
     }
 
     public function editImportForm() : ilPropertyFormGUI
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
         $form = new ilPropertyFormGUI();
         $form->setShowTopButtons(false);
-        $form->setFormAction($ilCtrl->getFormAction($this));
+        $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt('didactic_import_table_title'));
         $form->addCommandButton('importTemplate', $this->lng->txt('import'));
         $form->addCommandButton('overview', $this->lng->txt('cancel'));
@@ -769,17 +687,14 @@ class ilDidacticTemplateSettingsGUI
         return $form;
     }
 
-    public function editImport(ilDidacticTemplateSetting $a_settings): void
+    public function editImport(ilDidacticTemplateSetting $a_settings) : void
     {
-        global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
         ilDidacticTemplateObjSettings::transferAutoGenerateStatus($a_settings->getId(), $a_settings->getId());
         $assignments = ilDidacticTemplateObjSettings::getAssignmentsByTemplateID($a_settings->getId());
         $a_settings->delete();
         foreach ($assignments as $obj) {
             ilDidacticTemplateObjSettings::assignTemplate($obj["ref_id"], $obj["obj_id"], $a_settings->getId());
         }
-        $ilCtrl->setParameter($this, "tplid", $a_settings->getId());
+        $this->ctrl->setParameter($this, "tplid", $a_settings->getId());
     }
 }

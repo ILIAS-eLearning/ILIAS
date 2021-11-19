@@ -60,7 +60,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $this->determineOffsetAndOrder();
         $orderField = $this->getOrderField();
         $orderDirection = $this->getOrderDirection();
-        if ( in_array(ilUtil::stripSlashes($orderField), ['user', 'attempts', 'version']) ) {
+        if (in_array(ilUtil::stripSlashes($orderField), ['user', 'attempts', 'version'])) {
             $this->setExternalSorting(true);
             $data = ilUtil::sortArray(
                 $data,

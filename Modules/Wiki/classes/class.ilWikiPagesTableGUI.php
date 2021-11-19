@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 define("IL_WIKI_ALL_PAGES", "all");
 define("IL_WIKI_NEW_PAGES", "new");
@@ -11,16 +22,21 @@ define("IL_WIKI_ORPHANED_PAGES", "orphaned");
 /**
  * TableGUI class for wiki pages table
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiPagesTableGUI extends ilTable2GUI
 {
+    protected int $requested_ref_id;
+    protected int $page_id = 0;
+    protected int $wiki_id = 0;
+    protected string $pg_list_mode = "";
+
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_wiki_id,
-        $a_mode = IL_WIKI_ALL_PAGES,
-        $a_page_id = 0
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        int $a_wiki_id,
+        string $a_mode = IL_WIKI_ALL_PAGES,
+        int $a_page_id = 0
     ) {
         global $DIC;
 
@@ -28,6 +44,14 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+
+        $this->requested_ref_id = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request()
+            ->getRefId();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->pg_list_mode = $a_mode;
@@ -92,10 +116,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         }
     }
     
-    /**
-    * Get pages for list.
-    */
-    public function getPages()
+    public function getPages() : void
     {
         $pages = array();
         $this->setDefaultOrderField("title");
@@ -129,7 +150,9 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         if ($pages) {
             // enable sorting
             foreach (array_keys($pages) as $idx) {
-                $pages[$idx]["user_sort"] = ilUserUtil::getNamePresentation($pages[$idx]["user"], false, false);
+                if (isset($pages[$idx]["user"])) {
+                    $pages[$idx]["user_sort"] = ilUserUtil::getNamePresentation($pages[$idx]["user"], false, false);
+                }
             }
         }
 
@@ -144,13 +167,8 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         return false;
     }
 
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
     protected function fillRow($a_set)
     {
-        $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         
         if ($this->pg_list_mode == IL_WIKI_NEW_PAGES) {
@@ -171,14 +189,17 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable(
             "HREF_PAGE",
-            ilObjWikiGUI::getGotoLink($_GET["ref_id"], $a_set["title"])
+            ilObjWikiGUI::getGotoLink(
+                $this->requested_ref_id,
+                $a_set["title"]
+            )
         );
 
         // user name
         $this->tpl->setVariable(
             "TXT_USER",
             ilUserUtil::getNamePresentation(
-                $a_set["user"],
+                $a_set["user"] ?? 0,
                 true,
                 true,
                 $ilCtrl->getLinkTarget($this->getParentObject(), $this->getParentCmd())

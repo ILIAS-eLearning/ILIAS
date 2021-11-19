@@ -6,22 +6,18 @@
  * Currrently nested set or materialize path
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
- *
  * @ingroup ServicesTree
- *
  */
 interface ilTreeImplementation
 {
     
     /**
      * Get subtree ids for a specific node
-     *
      * @return array node_ids
      * @todo should be merged with getSubTree()
      */
-    public function getSubTreeIds($a_node_id);
-    
+    public function getSubTreeIds(int $a_node_id) : array;
+
     /**
      * Get subtree
      * @param array $a_node
@@ -96,5 +92,5 @@ interface ilTreeImplementation
      * For materialized path validate path against child <-> parent
      * @return int[] array of failure nodes
      */
-    public function validateParentRelations();
+    public function validateParentRelations() : array;
 }

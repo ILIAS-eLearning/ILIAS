@@ -3,8 +3,7 @@
 
 /**
  * Description of ilDidacticTemplateImportException
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateImportException extends ilException

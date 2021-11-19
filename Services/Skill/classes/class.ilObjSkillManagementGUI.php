@@ -483,7 +483,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         // Add items to delete
         foreach ($this->requested_node_ids as $id) {
-            if ($id != IL_FIRST_NODE) {
+            if ($id != ilTree::POS_FIRST_NODE) {
                 $node_obj = ilSkillTreeNodeFactory::getInstance($id);
                 $confirmation_gui->addItem(
                     "id[]",
@@ -511,7 +511,7 @@ class ilObjSkillManagementGUI extends ilObjectGUI
 
         // delete all selected objects
         foreach ($this->requested_node_ids as $id) {
-            if ($id != IL_FIRST_NODE) {
+            if ($id != ilTree::POS_FIRST_NODE) {
                 $obj = ilSkillTreeNodeFactory::getInstance($id);
                 $node_data = $this->skill_tree->getNodeData($id);
                 if (is_object($obj)) {

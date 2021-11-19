@@ -411,6 +411,7 @@ forum#:#adm_autosave_drafts#:#Automatically save drafts
 forum#:#adm_autosave_ival#:#Interval
 forum#:#adm_autosave_drafts_desc#:#If activated, drafts are saved automatically during editing.
 forum#:#frm_task_publishing_draft_title#:#Publishing of Draft "%s"
+adve#:#adve_grp_frm#:#Forums
 itgr#:#itgr_show_title#:#Show Title
 itgr#:#itgr_show_title_info#:#Shows title of item group in presentation for learner.
 itgr#:#itgr_behaviour#:#Block Behaviour
@@ -867,7 +868,7 @@ assessment#:#end_tag#:#End Tag
 assessment#:#tst_settings_conflict_message#:#The current configuration uses settings combinations that are not allowed.
 assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#enlarge#:#Enlarge
-assessment#:#enter_anonymous_code#:#Enter Anonymous Access Code
+assessment#:#enter_anonymous_code#:#Enter access code to continue your already started test:
 assessment#:#enter_enough_positive_points#:#The maximum available points must be greater than 0! Please enter sufficient positive points for your answers.
 assessment#:#enter_enough_positive_points_checked#:#At least one answer needs to score. Please enter a positive score for the selection of an answer.
 assessment#:#err_no_numeric_value#:#Please enter a numeric value
@@ -1357,7 +1358,7 @@ assessment#:#thumb_size#:#Thumbnail Size
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_targets_selected_for_move#:#You must select exactly one target position!
 assessment#:#true#:#True
-assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please write down this code use it for further actions.
+assessment#:#tst_access_code_created#:#To provide you with permanent access to your test results and to offer you a possibility to resume this test, a unique test access code was created. Please make a note of this code so that you can continue the test later.
 assessment#:#tst_all_user_data_deleted#:#All user data of this test has been removed!
 assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_allowed_users#:#Limit Number of Concurrent Participants
@@ -4082,6 +4083,7 @@ common#:#usr_new#:#New User
 common#:#usr_settings_explanation_profile#:#Check ‘Visible’ to show fields in the registration form and personal settings. Check ‘Changeable’ to allow the user to change the values. Please note that visible fields can always be entered in the registration form. Required fields are required in the registration form and the personal settings. All data can be changed in the user administration independent on these settings.
 common#:#usr_settings_header_profile#:#Standard User Data Fields
 common#:#usr_settings_saved#:#Global user settings saved successfully!
+common#:#usr_field_change_components_listening#:#There is at least one component which is interested in the changed configuration. Would you like to confirm the changes with the consequences the component(s) announced below?
 common#:#usr_settings_visib_lua#:#Visible in Local User Administration
 common#:#usr_settings_changeable_lua#:#Changeable in Local User Administration
 common#:#usr_skin_style#:#Skin / Style
@@ -14585,6 +14587,7 @@ dateplaner#:#cal_consultation_hours_for_user#:#Consultation Hours for %1
 dateplaner#:#cal_open_calendar#:#Open Calendar
 dateplaner#:#cal_delete_cal#:#Delete Calendar
 survey#:#sub_tab_dashboard#:#Dashboard
+mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#You have changed the attribute "%s" of the field "%s".<br>This leads to all accounts settings being reset to "receive on primary address" for external delivery,<br>not only for all new accounts but also dismissing the currently active settings made by users.
 mail#:#first_email_missing_info#:#Selection not possible because no e-mail address has been entered
 mail#:#second_email_missing_info#:#Selection not possible because no second e-mail address has been entered
 mail#:#mail_first_email#:#First E-Mail Address

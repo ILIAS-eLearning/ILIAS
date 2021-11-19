@@ -4,9 +4,9 @@
 /**
  * Class ilForumSettingsGUI
  * @author  Nadia Matuschek <nmatuschek@databay.de>
- * @ingroup ModulesForum
+ * @ilCtrl_Calls ilForumSettingsGUI: ilObjStyleSheetGUI
  */
-class ilForumSettingsGUI
+class ilForumSettingsGUI implements ilForumObjectConstants
 {
     private ilCtrl $ctrl;
     private ilGlobalTemplateInterface $tpl;
@@ -24,13 +24,16 @@ class ilForumSettingsGUI
     private int $ref_id;
     private ilObjectService $obj_service;
     private \ILIAS\DI\Container $dic;
+    private ilForumProperties $properties;
 
-    public function __construct(ilObjForumGUI $parent_obj)
+    public function __construct(ilObjForumGUI $parent_obj, ilForumProperties $properties)
     {
         global $DIC;
 
         $this->dic = $DIC;
         $this->parent_obj = $parent_obj;
+        $this->properties = $properties;
+
         $this->ctrl = $DIC->ctrl();
         $this->tpl = $DIC->ui()->mainTemplate();
         $this->lng = $DIC->language();
@@ -42,6 +45,9 @@ class ilForumSettingsGUI
         $this->ref_id = $this->parent_obj->object->getRefId();
         $this->http_wrapper = $DIC->http()->wrapper();
         $this->refinery = $DIC->refinery();
+
+        $this->lng->loadLanguageModule('style');
+        $this->lng->loadLanguageModule('cont');
     }
 
     private function initForcedForumNotification() : void
@@ -53,22 +59,61 @@ class ilForumSettingsGUI
     public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
-        switch (true) {
-            case method_exists($this, $cmd):
-                $this->settingsTabs();
-                $this->{$cmd}();
+        $next_class = $this->ctrl->getNextClass();
+        
+        switch (strtolower($next_class)) {
+            case strtolower(ilObjStyleSheetGUI::class):
+                $this->tabs->clearTargets();
+                
+                $this->ctrl->setReturn($this, 'editStyleProperties');
+                $style_gui = new ilObjStyleSheetGUI(
+                    '',
+                    $this->properties->getStyleSheetId(),
+                    false,
+                    false
+                );
+
+                $new_type = '';
+                if (isset($this->http->request()->getQueryParams()['new_type'])) {
+                    $new_type = $this->http->request()->getQueryParams()['new_type'];
+                }
+                if ($cmd === 'create' || $new_type === 'sty') {
+                    $style_gui->setCreationMode();
+                }
+
+                if ($cmd === 'confirmedDelete') {
+                    $this->properties->setStyleSheetId(0);
+                    $this->properties->update();
+                }
+
+                $ret = $this->ctrl->forwardCommand($style_gui);
+
+                if ($cmd === 'save' || $cmd === 'copyStyle' || $cmd === 'importStyle') {
+                    $styleId = $ret;
+                    $this->properties->setStyleSheetId((int) $styleId);
+                    $this->properties->update();
+                    $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
+                }
                 break;
 
             default:
-                $this->ctrl->redirect($this->parent_obj);
-                break;
+                switch (true) {
+                    case method_exists($this, $cmd):
+                        $this->settingsTabs();
+                        $this->{$cmd}();
+                        break;
+
+                    default:
+                        $this->ctrl->redirect($this->parent_obj);
+                        break;
+                }
         }
     }
 
     public function getCustomForm(ilPropertyFormGUI $a_form) : void
     {
         $this->settingsTabs();
-        $this->tabs->activateSubTab("basic_settings");
+        $this->tabs->activateSubTab(self::UI_SUB_TAB_ID_BASIC_SETTINGS);
         $a_form->setTitle($this->lng->txt('frm_settings_form_header'));
 
         $presentationHeader = new ilFormSectionHeaderGUI();
@@ -160,9 +205,8 @@ class ilForumSettingsGUI
 
     public function settingsTabs() : bool
     {
-        $this->tabs->activateTab('settings');
         $this->tabs->addSubTabTarget(
-            'basic_settings',
+            self::UI_SUB_TAB_ID_BASIC_SETTINGS,
             $this->ctrl->getLinkTarget($this->parent_obj, 'edit'),
             '',
             [strtolower(ilObjForumGUI::class)]
@@ -191,7 +235,7 @@ class ilForumSettingsGUI
                     }
 
                     $this->tabs->addSubTabTarget(
-                        'notifications',
+                        self::UI_SUB_TAB_ID_NOTIFICATIONS,
                         $this->ctrl->getLinkTarget($this, 'showMembers'),
                         '',
                         [strtolower(self::class)],
@@ -202,13 +246,21 @@ class ilForumSettingsGUI
             }
         }
 
-        $this->lng->loadLanguageModule('cont');
         $this->tabs->addSubTabTarget(
-            'cont_news_settings',
+            self::UI_SUB_TAB_ID_NEWS,
             $this->ctrl->getLinkTargetByClass(ilContainerNewsSettingsGUI::class),
             '',
             [strtolower(ilContainerNewsSettingsGUI::class)]
         );
+
+        $this->tabs->addSubTabTarget(
+            self::UI_SUB_TAB_ID_STYLE,
+            $this->ctrl->getLinkTarget($this, 'editStyleProperties'),
+            '',
+            [strtolower(ilObjStyleSheetGUI::class)]
+        );
+
+        $this->tabs->activateTab(self::UI_TAB_ID_SETTINGS);
 
         return true;
     }
@@ -790,5 +842,102 @@ class ilForumSettingsGUI
         $this->notificationSettingsForm->setValuesByPost();
 
         $this->showMembers();
+    }
+
+    protected function editStyleProperties() : void
+    {
+        $this->tabs->activateSubTab(self::UI_SUB_TAB_ID_STYLE);
+        
+        $form = $this->buildStylePropertiesForm();
+        $this->tpl->setContent($form->getHTML());
+    }
+
+    protected function buildStylePropertiesForm() : ilPropertyFormGUI
+    {
+        $form = new ilPropertyFormGUI();
+
+        $fixedStyle = (int) $this->settings->get('fixed_content_style_id', '0');
+        $defaultStyle = (int) $this->settings->get('default_content_style_id', '0');
+        $styleId = $this->properties->getStyleSheetId();
+
+        if ($fixedStyle > 0) {
+            $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
+            $st->setValue(
+                ilObject::_lookupTitle($fixedStyle) . ' (' . $this->lng->txt('global_fixed') . ')'
+            );
+            $form->addItem($st);
+        } else {
+            $st_styles = ilObjStyleSheet::_getStandardStyles(
+                true,
+                false,
+                $this->parent_obj->object->getRefId()
+            );
+
+            if ($defaultStyle > 0) {
+                $st_styles[0] = ilObject::_lookupTitle($defaultStyle) . ' (' . $this->lng->txt('default') . ')';
+            } else {
+                $st_styles[0] = $this->lng->txt('default');
+            }
+            ksort($st_styles);
+
+            if ($styleId > 0 && !ilObjStyleSheet::_lookupStandard($styleId)) {
+                $st = new ilNonEditableValueGUI($this->lng->txt('cont_current_style'));
+                $st->setValue(ilObject::_lookupTitle($styleId));
+                $form->addItem($st);
+
+                $form->addCommandButton('editStyle', $this->lng->txt('cont_edit_style'));
+                $form->addCommandButton('deleteStyle', $this->lng->txt('cont_delete_style'));
+            }
+
+            if ($styleId <= 0 || ilObjStyleSheet::_lookupStandard($styleId)) {
+                $style_sel = new ilSelectInputGUI($this->lng->txt('cont_current_style'), 'style_id');
+                $style_sel->setOptions($st_styles);
+                $style_sel->setValue($styleId);
+                $form->addItem($style_sel);
+                $form->addCommandButton('saveStyleSettings', $this->lng->txt('save'));
+                $form->addCommandButton('createStyle', $this->lng->txt('sty_create_ind_style'));
+            }
+        }
+
+        $form->setTitle($this->lng->txt('cont_style'));
+        $form->setFormAction($this->ctrl->getFormAction($this));
+
+        return $form;
+    }
+
+    protected function createStyle() : void
+    {
+        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'create');
+    }
+
+    protected function editStyle() : void
+    {
+        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'edit');
+    }
+
+    protected function deleteStyle() : void
+    {
+        $this->ctrl->redirectByClass(ilObjStyleSheetGUI::class, 'delete');
+    }
+
+    protected function saveStyleSettings() : void
+    {
+        if (
+            (int) $this->settings->get('fixed_content_style_id', '0') <= 0 &&
+            (
+                ilObjStyleSheet::_lookupStandard(
+                    $this->properties->getStyleSheetId()
+                ) ||
+                $this->properties->getStyleSheetId() === 0
+            )
+        ) {
+            $this->properties->setStyleSheetId(
+                (int) ($this->http->request()->getQueryParams()['style_id'] ?? 0)
+            );
+            $this->properties->update();
+            ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
+        }
+
+        $this->ctrl->redirect($this, 'editStyleProperties');
     }
 }

@@ -135,7 +135,7 @@ class ilObjectTableGUI extends ilTable2GUI
             $path_gui = $this->customizePath($path_gui);
             
             $this->tpl->setCurrentBlock('path');
-            $this->tpl->setVariable('OBJ_PATH', $path_gui->getPath(ROOT_FOLDER_ID, $set['ref_id']));
+            $this->tpl->setVariable('OBJ_PATH', $path_gui->getPath(ROOT_FOLDER_ID, (int) $set['ref_id']));
             $this->tpl->parseCurrentBlock();
         }
     }

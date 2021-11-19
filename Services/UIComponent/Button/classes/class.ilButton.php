@@ -126,7 +126,7 @@ class ilButton extends ilButtonBase
         );
     }
 
-    public function isFormNovalidate() : bool
+    public function isFormNovalidate() : ?bool
     {
         return $this->form_novalidate;
     }
@@ -148,7 +148,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormTarget() : string
+    public function getFormTarget() : ?string
     {
         return $this->form_target;
     }
@@ -175,7 +175,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormMethod() : string
+    public function getFormMethod() : ?string
     {
         return $this->form_method;
     }
@@ -199,7 +199,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormEncType() : string
+    public function getFormEncType() : ?string
     {
         return $this->form_enc_type;
     }
@@ -223,7 +223,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getFormAction() : string
+    public function getFormAction() : ?string
     {
         return $this->form_action;
     }
@@ -270,7 +270,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getValue() : string
+    public function getValue() : ?string
     {
         return $this->value;
     }
@@ -291,7 +291,7 @@ class ilButton extends ilButtonBase
         return $this;
     }
 
-    public function getName() : string
+    public function getName() : ?string
     {
         return $this->name;
     }
@@ -340,15 +340,15 @@ class ilButton extends ilButtonBase
     {
         $this->prepareRender();
 
-        $attr = array();
-        $attr['type'] = $this->getButtonType();
-        $attr['name'] = $this->getName();
-        $attr['value'] = $this->getValue();
-        $attr['form'] = $this->getForm();
-        $attr['formaction'] = $this->getFormAction();
-        $attr['formmethod'] = $this->getFormMethod();
-        $attr['formenctype'] = $this->getFormEncType();
-        $attr['formtarget'] = $this->getFormTarget();
+        $attr = [];
+        $attr['type'] = $this->getButtonType() ?? '';
+        $attr['name'] = $this->getName() ?? '';
+        $attr['value'] = $this->getValue() ?? '';
+        $attr['form'] = $this->getForm() ?? '';
+        $attr['formaction'] = $this->getFormAction() ?? '';
+        $attr['formmethod'] = $this->getFormMethod() ?? '';
+        $attr['formenctype'] = $this->getFormEncType() ?? '';
+        $attr['formtarget'] = $this->getFormTarget() ?? '';
         $attr['formnovalidate'] = $this->isFormNovalidate() ? var_export($this->isFormNovalidate(), 1) : null;
 
         if (self::FORM_TARGET_BLANK === $this->getFormTarget()) {

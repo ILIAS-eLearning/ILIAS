@@ -339,7 +339,7 @@ class ilTermsOfServiceDocumentGUI implements ilTermsOfServiceControllerEnabled
 
             foreach ($documents as $document) {
                 /** @var ilTermsOfServiceDocument $document */
-                $confirmation->addItem('tos_id[]', $document->getId(), implode(' | ', [
+                $confirmation->addItem('tos_id[]', (string) $document->getId(), implode(' | ', [
                     $document->getTitle()
                 ]));
             }

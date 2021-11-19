@@ -37,7 +37,7 @@ abstract class ilBlockGUI
     protected array $data = array();
     protected bool $enablenuminfo = true;
     protected array $footer_links = array();
-    protected int $block_id = 0;
+    protected string $block_id = "0";
     protected bool $allow_moving = true;
     protected array $move = array("left" => false, "right" => false, "up" => false, "down" => false);
     protected array $block_commands = array();
@@ -110,12 +110,12 @@ abstract class ilBlockGUI
         return $this->presentation;
     }
 
-    public function setBlockId(int $a_block_id = 0) : void
+    public function setBlockId(string $a_block_id = "0") : void
     {
         $this->block_id = $a_block_id;
     }
 
-    public function getBlockId() : int
+    public function getBlockId() : string
     {
         return $this->block_id;
     }

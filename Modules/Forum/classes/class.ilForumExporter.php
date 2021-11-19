@@ -7,7 +7,7 @@
  * @version $Id: $
  * @ingroup ModulesForum
  */
-class ilForumExporter extends ilXmlExporter
+class ilForumExporter extends ilXmlExporter implements ilForumObjectConstants
 {
     private $ds;
 
@@ -43,11 +43,46 @@ class ilForumExporter extends ilXmlExporter
                 'ids' => $a_ids
             ];
 
-            // news settings
             $deps[] = [
                 "component" => "Services/News",
                 "entity" => "news_settings",
                 "ids" => $a_ids
+            ];
+        }
+
+        $pageObjectIds = [];
+        $styleIds = [];
+
+        foreach ($a_ids as $frmObjId) {
+            $frm = ilObjectFactory::getInstanceByObjId($frmObjId, false);
+            if (!$frm || !($frm instanceof ilObjForum)) {
+                continue;
+            }
+
+            $frmPageObjIds = $frm->getPageObjIds();
+            foreach ($frmPageObjIds as $frmPageObjId) {
+                $pageObjectIds[] = self::OBJ_TYPE . ':' . $frmPageObjId;
+            }
+
+            $properties = ilForumProperties::getInstance($frm->getId());
+            if ($properties->getStyleSheetId() > 0) {
+                $styleIds[$properties->getStyleSheetId()] = $properties->getStyleSheetId();
+            }
+        }
+
+        if (count($pageObjectIds) > 0) {
+            $deps[] = [
+                'component' => 'Services/COPage',
+                'entity' => 'pg',
+                'ids' => $pageObjectIds,
+            ];
+        }
+
+        if (count($styleIds) > 0) {
+            $deps[] = [
+                'component' => 'Services/Style',
+                'entity' => 'sty',
+                'ids' => array_values($styleIds),
             ];
         }
 

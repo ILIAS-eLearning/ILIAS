@@ -1,13 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
-
 /**
  * Stores the applied template id for objects
- *
- * @author Stefan Meyer <meyer@ilias@gmx.de>
+ * @author  Stefan Meyer <meyer@ilias@gmx.de>
  * @ingroup ServicesDidacticTemplate
  */
 class ilDidacticTemplateObjSettings
@@ -22,7 +18,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT tpl_id FROM didactic_tpl_objs ' .
             'WHERE ref_id = ' . $ilDB->quote($a_ref_id, 'integer');
@@ -33,7 +29,6 @@ class ilDidacticTemplateObjSettings
         return 0;
     }
 
-
     /**
      * Delete by obj id
      * @param int $a_obj_id
@@ -43,7 +38,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE obj_id = ' . $ilDB->quote($a_obj_id, 'integer');
@@ -59,7 +54,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, 'integer');
@@ -74,7 +69,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'DELETE FROM didactic_tpl_objs ' .
             'WHERE ref_id = ' . $ilDB->quote($a_ref_id, 'integer');
@@ -91,7 +86,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         self::deleteByRefId($a_ref_id);
 
@@ -103,6 +98,7 @@ class ilDidacticTemplateObjSettings
             ')';
         $ilDB->manipulate($query);
     }
+
     /**
      * Lookup template id
      * @param int $a_tpl_id
@@ -112,7 +108,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT * FROM didactic_tpl_objs ' .
             'WHERE tpl_id = ' . $ilDB->quote($a_tpl_id, 'integer');
@@ -144,7 +140,6 @@ class ilDidacticTemplateObjSettings
         return $assignments;
     }
 
-
     /**
      * transfer auto generated flag if source is auto generated
      * @param int $a_src
@@ -155,7 +150,7 @@ class ilDidacticTemplateObjSettings
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = 'SELECT auto_generated FROM didactic_tpl_settings ' .
             'WHERE id = ' . $ilDB->quote($a_src, 'integer');

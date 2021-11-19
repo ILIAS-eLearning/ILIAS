@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
 
@@ -31,7 +29,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
                 self::INVALID_DEADLINE_PERIOD,
                 new DateTime(self::VALID_DEADLINE_DATE)
             );
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
@@ -59,7 +57,7 @@ class ilStudyProgrammeDeadlineSettingsTest extends TestCase
 
         try {
             $obj->withDeadlinePeriod(self::INVALID_DEADLINE_PERIOD);
-            $this->assertTrue(false);
+            $this->fail();
         } catch (InvalidArgumentException $e) {
             $this->assertTrue(true);
         }
