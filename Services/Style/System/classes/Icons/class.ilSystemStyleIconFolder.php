@@ -77,6 +77,16 @@ class ilSystemStyleIconFolder
     }
 
     /**
+     * Sorts the Icons by path
+     */
+    public function sortIconsByPath()
+    {
+        usort($this->icons, function (ilSystemStyleIcon $a, ilSystemStyleIcon $b) {
+            return strcmp($a->getPath(), $b->getPath());
+        });
+    }
+
+    /**
      * @param string $src
      * @param string $rel_path
      * @throws ilSystemStyleException
