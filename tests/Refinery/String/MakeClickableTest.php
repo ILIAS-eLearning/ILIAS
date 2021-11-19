@@ -4,6 +4,7 @@ namespace ILIAS\Tests\Refinery\String;
 
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\String\MakeClickable;
+use ILIAS\Refinery\ConstraintViolationException;
 
 class MakeClickableTest extends TestCase
 {
@@ -14,7 +15,7 @@ class MakeClickableTest extends TestCase
 
     public function testTransformFailure() : void
     {
-        $this->expectException(\InvalidArgumentException::class);
+        $this->expectException(ConstraintViolationException::class);
         $clickable = new MakeClickable();
 
         $clickable->transform(3);

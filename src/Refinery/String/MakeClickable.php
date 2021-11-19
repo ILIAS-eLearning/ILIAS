@@ -5,6 +5,7 @@ namespace ILIAS\Refinery\String;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\DeriveApplyToFromTransform;
 use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\ConstraintViolationException;
 
 class MakeClickable implements Transformation
 {
@@ -52,7 +53,7 @@ class MakeClickable implements Transformation
     private function requireString($maybeHTML) : void
     {
         if (!\is_string($maybeHTML)) {
-            throw new \InvalidArgumentException('not a string');
+            throw new ConstraintViolationException('not a string', 'not_a_string');
         }
     }
 }
