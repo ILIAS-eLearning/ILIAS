@@ -8,7 +8,6 @@
  */
 abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
 {
-    
     protected int $current_time = 0;
     protected array $valid_keys = array();
     protected static array $active = array();
@@ -41,22 +40,22 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
     
     abstract public function serialize($value);
     
-    public function getServiceId(): string
+    public function getServiceId() : string
     {
         return $this->service_id;
     }
     
-    public function setServiceId(string $service_id): void
+    public function setServiceId(string $service_id) : void
     {
         $this->service_id = $service_id;
     }
     
-    public function getComponent(): string
+    public function getComponent() : string
     {
         return $this->component;
     }
     
-    public function setComponent(string $component): void
+    public function setComponent(string $component) : void
     {
         $this->component = $component;
     }
@@ -93,9 +92,9 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
         return 'Unknown reason';
     }
     
-    protected function getMemoryLimit() : int
+    protected function getMemoryLimit() : string
     {
-        return 9999;
+        return '9999M';
     }
     
     protected function getMinMemory() : int
@@ -105,7 +104,7 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
     
     protected function checkMemory() : bool
     {
-        $matches = array();
+        $matches = [];
         $memory_limit = $this->getMemoryLimit();
         if (preg_match('#(\d*)([M|K])#uism', $memory_limit, $matches)) {
             if ($matches[2] === 'M') {
@@ -126,17 +125,17 @@ abstract class ilGlobalCacheService implements ilGlobalCacheServiceInterface
     
     abstract public function flush(bool $complete = false) : bool;
     
-    public function setServiceType(int $service_type): void
+    public function setServiceType(int $service_type) : void
     {
         $this->service_type = $service_type;
     }
     
-    public function getServiceType(): int
+    public function getServiceType() : int
     {
         return $this->service_type;
     }
     
-    public function setValid(string $key): void
+    public function setValid(string $key) : void
     {
         $this->valid_keys[$key] = true;
     }
