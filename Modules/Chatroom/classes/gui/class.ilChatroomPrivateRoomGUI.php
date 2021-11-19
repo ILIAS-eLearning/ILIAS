@@ -81,7 +81,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $this->sendResponse($response);
     }
 
-    public function leave()
+    public function leave() : void
     {
         $this->redirectIfNoPermission('read');
 
