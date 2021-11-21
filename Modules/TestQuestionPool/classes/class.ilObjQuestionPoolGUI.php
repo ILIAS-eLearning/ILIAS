@@ -697,7 +697,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
             $newObj->setPermissions($_GET["ref_id"]);
         }
 
-        if (is_file($_SESSION["qpl_import_dir"] . '/' . $_SESSION["qpl_import_subdir"] . "/manifest.xml")) {
+        if (@is_file($_SESSION["qpl_import_dir"] . '/' . $_SESSION["qpl_import_subdir"] . "/manifest.xml")) {
             $_SESSION["qpl_import_idents"] = $_POST["ident"];
             
             $fileName = $_SESSION["qpl_import_subdir"] . '.zip';
