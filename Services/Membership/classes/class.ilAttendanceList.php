@@ -638,6 +638,10 @@ class ilAttendanceList
                 foreach ($this->presets as $id => $item) {
                     if ($item[1]) {
                         switch ($id) {
+                            case 'org_units':
+                                $value = (string) ilOrgUnitPathStorage::getTextRepresentationOfUsersOrgUnits($user_id);
+                                break;
+
                             case "name":
                                 if (!$user_data[$id]) {
                                     $name = ilObjUser::_lookupName($user_id);
