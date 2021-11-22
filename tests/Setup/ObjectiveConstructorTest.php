@@ -34,14 +34,16 @@ class ObjectiveConstructorTest extends TestCase
 
         $this->testObj = new ObjectiveConstructor(
             "My description",
-            $this->closure);
+            $this->closure
+        );
     }
 
     public function testGetDescription() : void
     {
         $this->assertEquals(
             "My description",
-            $this->testObj->getDescription());
+            $this->testObj->getDescription()
+        );
     }
 
     public function testCreate() : void

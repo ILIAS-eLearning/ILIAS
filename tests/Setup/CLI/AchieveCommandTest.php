@@ -121,10 +121,15 @@ class AchieveCommandTest extends TestCase
 
         $namedObjectives = [
             "my.objective" => new Setup\ObjectiveConstructor(
-                "My Objective", static function () use ($objective) : ObjectiveCollection {
+                "My Objective",
+                static function () use ($objective) : ObjectiveCollection {
                     return new Setup\ObjectiveCollection(
-                        "My Objective", false, $objective);
-                })
+                        "My Objective",
+                        false,
+                        $objective
+                    );
+                }
+            )
         ];
 
         $agent
@@ -164,7 +169,6 @@ class AchieveCommandTest extends TestCase
             $this->refinery,
             [
                 "testAgent" => new class implements Setup\Agent {
-
                     public function hasConfig() : bool
                     {
                         return false;
@@ -203,7 +207,8 @@ class AchieveCommandTest extends TestCase
                     public function getNamedObjectives(?Config $config = null) : array
                     {
                         return [
-                            "testNamedObjective" => new Setup\ObjectiveConstructor("Test Named Objective",
+                            "testNamedObjective" => new Setup\ObjectiveConstructor(
+                                "Test Named Objective",
                                 static function () use ($config) : ObjectiveCollection {
                                     if (is_null($config)) {
                                         throw new \RuntimeException(
@@ -216,7 +221,8 @@ class AchieveCommandTest extends TestCase
                                         false,
                                         new Objective\NullObjective()
                                     );
-                                })
+                                }
+                            )
                         ];
                     }
                 },
