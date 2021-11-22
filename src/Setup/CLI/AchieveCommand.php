@@ -135,6 +135,8 @@ class AchieveCommand extends Command
                 $objective->create(),
                 ...$this->preconditions
             );
+        } else {
+            $objective = $objective->create();
         }
 
         $environment = new ArrayEnvironment([
