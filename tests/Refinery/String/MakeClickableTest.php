@@ -53,6 +53,7 @@ class MakeClickableTest extends TestCase
             'test multibyte' => ['I♥ILIAS', 'I♥ILIAS'],
             'test links with multibytes in url' => ['<a href="https://www.ilias.de/?ilias=♥&other=parameter">www.ilias.de/?ilias=♥&other=parameter</a>', 'www.ilias.de/?ilias=♥&other=parameter'],
             'test multibyte at link end' => ['<a href="https://www.ilias.de/?ilias=♥">www.ilias.de/?ilias=♥</a>', 'www.ilias.de/?ilias=♥'],
+            'test multiple multibytes' => ['Etiam laoreet quam sed arcu öä♥♥♥üåñç <a href="https://www.ilias.de">www.ilias.de</a> öä♥♥♥üå', 'Etiam laoreet quam sed arcu öä♥♥♥üåñç www.ilias.de öä♥♥♥üå']
         ];
     }
 }
