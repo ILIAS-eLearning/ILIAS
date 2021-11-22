@@ -14,7 +14,6 @@ interface ilTreeImplementation
     /**
      * Get subtree ids for a specific node
      * @return array node_ids
-     * @todo should be merged with getSubTree()
      */
     public function getSubTreeIds(int $a_node_id) : array;
 
@@ -37,53 +36,50 @@ interface ilTreeImplementation
     public function getTrashSubTreeQuery($a_node, $a_types, $a_force_join_reference = true, $a_fields = []);
 
     /**
-     * Get relation of two nodes
-     *
-     * @see ilTree RELATION_NONE, RELATION_CHILD, RELATION_PARENT, RELATION_SIBLING
-     * @param array $a_node_a
-     * @param array $a_node_b
-     * @return int relation
+     * @inheritdoc
      */
-    public function getRelation($a_node_a, $a_node_b);
-    
+    public function getRelation(array $a_node_a, array $a_node_b) : int;
+
     /**
      * Get path ids from a startnode to a given endnode
      * @param int $a_endnode
      * @param int $a_startnode
+     * @return int[]
      */
-    public function getPathIds($a_endnode, $a_startnode = 0);
-    
-    
-    public function insertNode($a_node_id, $a_parent_id, $a_pos);
+    public function getPathIds(int $a_endnode, int $a_startnode = 0) : array;
+
+    /**
+     * @throws ilInvalidTreeStructureException
+     */
+    public function insertNode(int $a_node_id, int $a_parent_id, int $a_pos) : void;
     
     /**
      * Delete tree
-     * @param int $node_id
      */
-    public function deleteTree($a_node_id);
+    public function deleteTree(int $a_node_id) : void;
     
     
     /**
      * Move subtree to trash
-     * @param type $a_node_id
      */
-    public function moveToTrash($a_node_id);
+    public function moveToTrash(int $a_node_id) : void;
             
     
     /**
      * Move a source subtree to target
-     * @param type $a_source_id
-     * @param type $a_target_id
-     * @param type $a_position
+     * @param int $a_source_id
+     * @param int $a_target_id
+     * @param int $a_position
+     * @throws InvalidArgumentException
      */
-    public function moveTree($a_source_id, $a_target_id, $a_position);
+    public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void;
     
     
     /**
      * Get subtree info lft, rgt, path, child, type
      * @return array
      */
-    public function getSubtreeInfo($a_endnode_id);
+    public function getSubtreeInfo(int $a_endnode_id) : array;
     
     
     /**

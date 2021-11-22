@@ -2573,9 +2573,9 @@ class ilTree
      * and returns all necessary information for this action.
      * The former use of ilTree::getSubtree needs to much memory.
      * @param ref_id ref_id of source node
-     * @return
+     * @return array
      */
-    public function getRbacSubtreeInfo($a_endnode_id)
+    public function getRbacSubtreeInfo(int $a_endnode_id) : array
     {
         return $this->getTreeImplementation()->getSubtreeInfo($a_endnode_id);
     }
