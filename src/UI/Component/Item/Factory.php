@@ -2,9 +2,9 @@
 
 namespace ILIAS\UI\Component\Item;
 
-use ILIAS\UI\Component\Button\Shy;
-use ILIAS\UI\Component\Link\Link;
+use ilDateTime;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ilObjUser;
 
 /**
  * This is how a factory for Items looks like.
@@ -31,6 +31,35 @@ interface Factory
      * @return \ILIAS\UI\Component\Item\Standard
      */
     public function standard($title) : Standard;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Contributions are content that can be credited to one explicit user and time.
+     *     Contribution items are used to present that content with a clear visible association to its creator.
+     *   composition: >
+     *     Contributions contain a textual content, a user presentation and a datetime presentation.
+     *     Further the Contribution can have a close button and a lead icon.
+     *   effect: >
+     *     An interaction with the close button may remove the Contribution permanently.
+     * rules:
+     *   interaction:
+     *     1: >
+     *        Clicking on the Close Button MUST remove the Contribution Item permanently.
+     *   accessibility:
+     *     1: >
+     *       All interactions offered by a contribution item MUST be accessible by only using the keyboard.
+     *     2: >
+     *       The main content of the contribution MUST NOT be part of any interaction.
+     * ---
+     *
+     * @param string      $content
+     * @param \ilObjUser  $user
+     * @param \ilDateTime $dateTime
+     * @return \ILIAS\UI\Component\Item\Contribution
+     */
+    public function contribution(string $content, ilObjUser $user, ilDateTime $dateTime) : Contribution;
 
     /**
      * ---

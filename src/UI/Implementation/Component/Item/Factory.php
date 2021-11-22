@@ -4,8 +4,10 @@
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
+use ilDateTime;
 use ILIAS\UI\Component\Item;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ilObjUser;
 
 class Factory implements Item\Factory
 {
@@ -20,10 +22,19 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
+    public function contribution(string $content, ilObjUser $user, ilDateTime $datetime) : Item\Contribution
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function group(string $title, array $items) : Item\Group
     {
         return new Group($title, $items);
     }
+
     /**
      * @inheritdoc
      */
