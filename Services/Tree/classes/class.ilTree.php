@@ -30,7 +30,7 @@ class ilTree
     protected ilDBInterface $db;
 
     /**
-     * Use "your" component logger in derived classes 
+     * Use "your" component logger in derived classes
      * @access private
      */
     protected ilLogger $logger;
@@ -863,7 +863,9 @@ class ilTree
         */
         
         $query = $this->getTreeImplementation()->getSubTreeQuery($a_node, $a_type);
+
         $res = $this->db->query($query);
+        $subtree = [];
         while ($row = $this->db->fetchAssoc($res)) {
             if ($a_with_data) {
                 $subtree[] = $this->fetchNodeData($row);
@@ -875,7 +877,7 @@ class ilTree
                 $this->in_tree_cache[$row['child']] = true;
             }
         }
-        return $subtree ? $subtree : array();
+        return $subtree;
     }
 
     /**
