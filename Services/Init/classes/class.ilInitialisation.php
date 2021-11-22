@@ -1413,16 +1413,16 @@ class ilInitialisation
             ilContext::getType() == ilContext::CONTEXT_WAC) {
             throw new Exception("Authentication failed.");
         }
+        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
+            ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
+            return self::goToPublicSection();
+        }
         if (
             $GLOBALS['DIC']['ilAuthSession']->isExpired() &&
             !\ilObjUser::_isAnonymous($GLOBALS['DIC']['ilAuthSession']->getUserId())
         ) {
             ilLoggerFactory::getLogger('init')->debug('Expired session found -> redirect to login page');
             return self::goToLogin();
-        }
-        if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME'])) {
-            ilLoggerFactory::getLogger('init')->debug('Redirect to public section.');
-            return self::goToPublicSection();
         }
         ilLoggerFactory::getLogger('init')->debug('Redirect to login page.');
         return self::goToLogin();
