@@ -32,8 +32,8 @@
 */
 class ilPathGUI
 {
-    private int $startnode = ROOT_FOLDER_ID;
-    private int $endnode = ROOT_FOLDER_ID;
+    private int $startnode;
+    private int $endnode;
     
     private bool $textOnly = true;
     private bool $useImages = false;
@@ -49,6 +49,9 @@ class ilPathGUI
     public function __construct()
     {
         global $DIC;
+
+        $this->startnode = (int) ROOT_FOLDER_ID;
+        $this->endnode = (int) ROOT_FOLDER_ID;
 
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();

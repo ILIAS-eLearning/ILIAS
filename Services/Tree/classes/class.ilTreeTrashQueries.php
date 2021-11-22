@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -170,10 +170,11 @@ class ilTreeTrashQueries
     /**
      * Unfortunately not supported by mysql 5
      * @param int $ref_id
-     * @return int[]
+     * @return void
      * @throws ilDatabaseException
+     * @deprecated
      */
-    public function getTrashedNodesForContainerUsingRecursion(int $ref_id)
+    public function getTrashedNodesForContainerUsingRecursion(int $ref_id) : void
     {
         $query = 'with recursive trash (child,tree) as ' .
             '( select child, tree from tree where child = ' . $this->db->quote($ref_id,
