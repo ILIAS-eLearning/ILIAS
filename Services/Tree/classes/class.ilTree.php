@@ -2601,7 +2601,7 @@ class ilTree
     /**
      * @inheritdoc
      */
-    public function getTrashSubTreeQuery($a_node_id, $a_fields = [], $a_types = '', $a_force_join_reference = false)
+    public function getTrashSubTreeQuery($a_node_id, $a_fields = [], $a_types = [], $a_force_join_reference = false)
     {
         return $this->getTreeImplementation()->getTrashSubTreeQuery(
             $this->getNodeTreeData($a_node_id),

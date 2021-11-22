@@ -69,7 +69,8 @@ class ilNestedSetTree implements ilTreeImplementation
     /**
      * @inheritdoc
      */
-    public function getTrashSubTreeQuery($a_node, $a_types, $a_force_join_reference = true, $a_fields = [])
+    public function getTrashSubTreeQuery(
+        array $a_node, array $a_types, bool $a_force_join_reference = true, array $a_fields = []) : string
     {
         $type_str = '';
         if (is_array($a_types)) {
@@ -106,14 +107,13 @@ class ilNestedSetTree implements ilTreeImplementation
 
     /**
      * Get subtree
-     * @param type $a_node
-     * @param string $a_types
-     * @param bool $a_force_join_reference
-     * @param array $a_fields
-     *
+     * @param array      $a_node
+     * @param mixed|null $a_types
+     * @param bool       $a_force_join_reference
+     * @param array      $a_fields
      * @return string query
      */
-    public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array())
+    public function getSubTreeQuery(array $a_node, mixed $a_types = null, bool $a_force_join_reference = true, array $a_fields = array()):string
     {
         $type_str = '';
         if (is_array($a_types)) {
