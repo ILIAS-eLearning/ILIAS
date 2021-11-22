@@ -446,4 +446,26 @@ class AgentCollectionTest extends TestCase
         $this->assertSame($bReturn["b-1"], $result["bAgent.b-1"]);
         $this->assertSame($bReturn["b-2"], $result["bAgent.b-2"]);
     }
+
+    public function testGetAgents() : void
+    {
+        $refinery = $this->createMock(Refinery::class);
+
+        $c1 = $this->newAgent();
+        $c2 = $this->newAgent();
+        $c3 = $this->newAgent();
+        $c4 = $this->newAgent();
+
+        $agentCollection = new Setup\AgentCollection(
+            $refinery,
+            ["c1" => $c1, "c2" => $c2, "c3" => $c3, "c4" => $c4]
+        );
+
+        $this->assertEquals([
+            "c1" => $c1,
+            "c2" => $c2,
+            "c3" => $c3,
+            "c4" => $c4
+        ], $agentCollection->getAgents());
+    }
 }
