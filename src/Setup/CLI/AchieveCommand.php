@@ -114,10 +114,10 @@ class AchieveCommand extends Command
 
         $io->title("Achieve objective: $objective_name");
 
+        $config = null;
+
         if ($input->getArgument("config")) {
             $config = $this->readAgentConfig($agent, $input);
-        } else {
-            $config = null;
         }
 
         $namedObjectives = $agent->getNamedObjectives(new NullConfig());
