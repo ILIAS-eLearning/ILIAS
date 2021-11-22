@@ -120,9 +120,11 @@ class AchieveCommandTest extends TestCase
             }));
 
         $namedObjectives = [
-            "my.objective" => new Setup\ObjectiveCollection(
-                "My Objective", false, $objective
-            ),
+            "my.objective" => new Setup\ObjectiveConstructor(
+                "My Objective", static function () use ($objective) : ObjectiveCollection {
+                    return new Setup\ObjectiveCollection(
+                        "My Objective", false, $objective);
+                })
         ];
 
         $agent
