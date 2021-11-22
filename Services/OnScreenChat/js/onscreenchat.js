@@ -271,7 +271,7 @@
 			let link = $(this),
 				conversationId = $(link).attr('data-onscreenchat-conversation');
 
-			if (!conversationId) {
+			if (!conversationId && this.closest('[data-id]') !== null) {
 				conversationId = this.closest('[data-id]').dataset.id;
 			}
 

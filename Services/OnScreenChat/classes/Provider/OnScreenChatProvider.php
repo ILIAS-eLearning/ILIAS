@@ -95,16 +95,19 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
 
         $items = [];
         foreach ($this->conversationRepo->findByIds($conversationIds) as $conversation) {
+            if ($conversation->isGroup()) {
+                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::GCON, 'group-conversation');
+            } else {
+                $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CON, 'conversation');
+            }
+
             $items[] = $this->dic->ui()->factory()->item()->contribution(
                 $conversation->getLastMessage()->getMessage(),
                 new ilObjUser($conversation->getLastMessage()->getAuthorUsrId()),
                 new ilDateTime((int) ($conversation->getLastMessage()->getCreatedTimestamp() / 1000), IL_CAL_UNIX)
             )->withIdentifier(
                 $conversation->getId()
-            )->withLeadIcon($this->dic->ui()->factory()->symbol()->icon()->standard(
-                    Standard::CHTA,
-                    'conversations'
-                )->withIsOutlined(true)
+            )->withLeadIcon($icon->withIsOutlined(true)
             )->withClose(
                 $this->dic->ui()->factory()->button()->close()
             );
