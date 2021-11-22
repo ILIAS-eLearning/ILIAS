@@ -66,7 +66,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                 ->withTitle($this->dic->language()->txt('obj_chtr'))
                 ->withSymbol($icon)
                 ->withContent($this->dic->ui()->factory()->item()->contribution('', $this->dic->user(), new ilDateTime()
-                    )->withIdentifier('container_selector')->withAdditionalOnLoadCode(function ($id) {
+                    )->withAdditionalOnLoadCode(function ($id) {
                         return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
                     })
                 )

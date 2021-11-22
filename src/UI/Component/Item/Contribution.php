@@ -35,19 +35,22 @@ interface Contribution extends Item
     public function getDateTime() : ilDateTime;
 
     /**
-     * Get a copy of that contribution with an url to consulted async, when the close button is pressed.
+     * Get a copy of that contribution with a close button.
      */
     public function withClose(Close $close) : Contribution;
 
     public function getClose() : ?Close;
 
     /**
-     * Set icon as lead
+     * Get a copy of that contribution with a lead icon.
      */
     public function withLeadIcon(Icon $lead) : Contribution;
 
     public function getLeadIcon() : ?Icon;
 
+    /**
+     * Get a copy of that contribution with a unique identifier for further specification.
+     */
     public function withIdentifier(string $identifier) : Contribution;
 
     public function getIdentifier() : ?string;

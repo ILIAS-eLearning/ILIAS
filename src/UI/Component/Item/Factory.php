@@ -39,15 +39,14 @@ interface Factory
      *     Contributions are content that can be credited to one explicit user and time.
      *     Contribution items are used to present that content with a clear visible association to its creator.
      *   composition: >
-     *     Contributions contain a textual content, a user presentation (as a name or optional a profile pic),
-     *     and a datetime presentation. Further the Contribution can have a close button and a lead icon.
+     *     Contributions contain a textual content, a user presentation and a datetime presentation.
+     *     Further the Contribution can have a close button and a lead icon.
      *   effect: >
      *     An interaction with the close button may remove the Contribution permanently.
      * rules:
      *   interaction:
      *     1: >
-     *        Clicking on the Close Button MUST remove the Contribution Item permanently. The restoration of the item
-     *        should be impossible.
+     *        Clicking on the Close Button MUST remove the Contribution Item permanently.
      *   accessibility:
      *     1: >
      *       All interactions offered by a contribution item MUST be accessible by only using the keyboard.
