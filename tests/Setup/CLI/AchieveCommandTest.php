@@ -258,6 +258,56 @@ class AchieveCommandTest extends TestCase
         );
     }
 
+    public function testAchieveObjectiveInvalidArgument() : void
+    {
+        $namedObjectiveCmd = "testAgent.testNamedObjective";
+        $this->expectExceptionMessage("There is no named objective '$namedObjectiveCmd'");
+
+        $refinery = new Refinery(
+            $this->createMock(DataFactory::class),
+            $this->createMock(ilLanguage::class)
+        );
+        $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
+
+        $agentCollection = new AgentCollection(
+            $this->refinery,
+            [
+
+            ]
+        );
+
+        $agent_finder = $this->createMock(Setup\AgentFinder::class);
+        $agent_finder
+            ->expects($this->any())
+            ->method("getAgents")
+            ->willReturn($agentCollection);
+
+        $command = new Setup\CLI\AchieveCommand($agent_finder, $config_reader, [], $refinery);
+
+        $input_mock = $this->createMock(InputInterface::class);
+        $input_mock
+            ->expects($this->any())
+            ->method("getOption")
+            ->willReturn(false);
+
+        $input_mock
+            ->expects($this->any())
+            ->method("getArguments")
+            ->willReturn(["objective" => "testAgent.testNamedObjective"]);
+
+        $input_mock
+            ->expects($this->any())
+            ->method("getArgument")
+            ->willReturn($namedObjectiveCmd);
+
+        $output = new StreamOutput(fopen('php://memory', 'wb', false));
+
+        $command->execute($input_mock, $output);
+        rewind($output->getStream());
+
+        $outputData = stream_get_contents($output->getStream());
+    }
+
     public function testListNamedObjectives() : void
     {
         $refinery = new Refinery(
