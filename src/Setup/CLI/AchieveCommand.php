@@ -72,7 +72,7 @@ class AchieveCommand extends Command
             "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"",
             []
         );
-        $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the update.");
+        $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the objective.");
         $this->addOption("list", null, InputOption::VALUE_NONE, "Lists all achievable objectives");
     }
 
