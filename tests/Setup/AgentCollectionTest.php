@@ -345,25 +345,25 @@ class AgentCollectionTest extends TestCase
         $dAgent = $this->newAgent();
 
         $aReturn = [
-            "a-2" => $this->newNamedObjective(),
-            "a-1" => $this->newNamedObjective()
+            "a-2" => $this->newObjectiveConstructor(),
+            "a-1" => $this->newObjectiveConstructor()
         ];
 
         $bReturn = [
-            "b-1" => $this->newNamedObjective(),
-            "b-3" => $this->newNamedObjective(),
-            "b-2" => $this->newNamedObjective(),
+            "b-1" => $this->newObjectiveConstructor(),
+            "b-3" => $this->newObjectiveConstructor(),
+            "b-2" => $this->newObjectiveConstructor(),
         ];
 
         $cReturn = [
-            "c-2" => $this->newNamedObjective(),
-            "c-1" => $this->newNamedObjective()
+            "c-2" => $this->newObjectiveConstructor(),
+            "c-1" => $this->newObjectiveConstructor()
         ];
 
         $dReturn = [
-            "d-2" => $this->newNamedObjective(),
-            "d-3" => $this->newNamedObjective(),
-            "d-1" => $this->newNamedObjective()
+            "d-2" => $this->newObjectiveConstructor(),
+            "d-3" => $this->newObjectiveConstructor(),
+            "d-1" => $this->newObjectiveConstructor()
         ];
 
         $aAgent
@@ -416,13 +416,13 @@ class AgentCollectionTest extends TestCase
         $bAgent = $this->newAgent();
 
         $aReturn = [
-            "a-1" => $this->newNamedObjective(),
-            "a-2" => $this->newNamedObjective()
+            "a-1" => $this->newObjectiveConstructor(),
+            "a-2" => $this->newObjectiveConstructor()
         ];
 
         $bReturn = [
-            "b-1" => $this->newNamedObjective(),
-            "b-2" => $this->newNamedObjective(),
+            "b-1" => $this->newObjectiveConstructor(),
+            "b-2" => $this->newObjectiveConstructor(),
         ];
 
         $aAgent

@@ -22,10 +22,10 @@ trait Helper
         return $consumer;
     }
 
-    protected function newNamedObjective() : Setup\ObjectiveConstructor
+    protected function newObjectiveConstructor() : Setup\ObjectiveConstructor
     {
         static $no = 0;
-        return new Setup\ObjectiveConstructor("named-objective-" . ($no++), static function() {
+        return new Setup\ObjectiveConstructor("named-objective-" . ($no++), static function () {
             return self::newObjective();
         });
     }
