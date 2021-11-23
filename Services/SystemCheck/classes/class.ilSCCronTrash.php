@@ -9,7 +9,7 @@ class ilSCCronTrash extends ilCronJob
 {
     protected ilLanguage $lng;
     protected ilTree $tree;
-    protected ilObjectDefinition $objdefinition;
+    protected ilObjectDefinition $objDefinition;
 
     public function __construct()
     {
@@ -17,7 +17,8 @@ class ilSCCronTrash extends ilCronJob
 
         $this->lng           = $DIC->language();
         $this->tree          = $DIC->repositoryTree();
-        $this->objdefinition = $DIC['objDefinition'];
+        $this->objDefinition = $DIC['objDefinition'];
+        $this->lng->loadLanguageModule('sysc');
     }
 
     public function getId() : string
@@ -27,17 +28,11 @@ class ilSCCronTrash extends ilCronJob
 
     public function getTitle() : string
     {
-
-
-        $this->lng->loadLanguageModule('sysc');
         return $this->lng->txt('sysc_cron_empty_trash');
     }
 
     public function getDescription() : string
     {
-
-
-        $this->lng->loadLanguageModule('sysc');
         return $this->lng->txt('sysc_cron_empty_trash_desc');
     }
 
@@ -111,7 +106,7 @@ class ilSCCronTrash extends ilCronJob
         $options    = array();
         $options[0] = '';
         foreach ($sub_objects as $obj_type) {
-            if (!$this->objdefinition->isRBACObject($obj_type) or !$this->objdefinition->isAllowedInRepository($obj_type)) {
+            if (!$this->objDefinition->isRBACObject($obj_type) or !$this->objDefinition->isAllowedInRepository($obj_type)) {
                 continue;
             }
             $options[$obj_type] = $this->lng->txt('obj_' . $obj_type);

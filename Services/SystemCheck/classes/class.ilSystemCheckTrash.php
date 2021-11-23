@@ -102,7 +102,7 @@ class ilSystemCheckTrash
 
         foreach ($deleted as $tmp_num => $deleted_info) {
             $child_id = (int) ($deleted_info['child'] ?? 0);
-            $ref_obj  = $factory->getInstanceByRefId($child_id, false);
+            $ref_obj  = $factory::getInstanceByRefId($child_id, false);
             if (!$ref_obj instanceof ilObject) {
                 continue;
             }
@@ -128,7 +128,7 @@ class ilSystemCheckTrash
             $sub_nodes = $this->readDeleted((int) ($deleted_info['tree'] ?? 0));
 
             foreach ($sub_nodes as $tmp_num => $subnode_info) {
-                $ref_obj = $factory->getInstanceByRefId((int) ($subnode_info['child'] ?? 0), false);
+                $ref_obj = $factory::getInstanceByRefId((int) ($subnode_info['child'] ?? 0), false);
                 if (!$ref_obj instanceof ilObject) {
                     continue;
                 }
@@ -188,12 +188,18 @@ class ilSystemCheckTrash
         return $deleted;
     }
 
-    protected function readDeleted(int $tree_id = 0) : array
+    protected function readDeleted(?int $tree_id = null) : array
     {
 
         $query = 'SELECT child,tree FROM tree t JOIN object_reference r ON child = r.ref_id ' .
-            'JOIN object_data o on r.obj_id = o.obj_id WHERE tree = ' .
-            $this->db->quote($tree_id, ilDBConstants::T_INTEGER) . ' ORDER BY depth desc';
+            'JOIN object_data o on r.obj_id = o.obj_id ';
+
+        if ($tree_id === null) {
+            $query .= 'WHERE tree < ' . $this->db->quote(0, 'integer') . ' ';
+        } else {
+            $query .= 'WHERE tree = ' . $this->db->quote($tree_id, 'integer') . ' ';
+        }
+        $query .= 'ORDER BY depth desc';
 
         $res = $this->db->query($query);
 

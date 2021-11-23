@@ -9,7 +9,7 @@
 class ilSCComponentTaskFactory
 {
 
-    public static function getComponentTaskGUIForGroup(int $a_group_id, ?int $a_task_id = null) : ?ilSCTreeTasksGUI
+    public static function getComponentTaskGUIForGroup(int $a_group_id, ?int $a_task_id = null) : ?ilSCComponentTaskGUI
     {
 
         $component_id = ilSCGroup::lookupComponent($a_group_id);

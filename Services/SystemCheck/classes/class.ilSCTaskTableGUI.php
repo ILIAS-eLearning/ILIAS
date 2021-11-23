@@ -46,7 +46,7 @@ class ilSCTaskTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow($row) : void
+    public function fillRow($row)
     {
         $this->tpl->setVariable('VAL_TITLE', (string) ($row['title'] ?? ''));
         $this->tpl->setVariable('VAL_DESC', (string) ($row['description'] ?? ''));

@@ -42,7 +42,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
             $this->ctrl->getLinkTarget($this->getParentObject(), 'showGroup')
         );
 
-        $this->tpl->setVariable('VAL_DESC', (string) ($row['description'] ?? 0));
+        $this->tpl->setVariable('VAL_DESC', (string) ($row['description'] ?? ''));
         $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($row['last_update'] ?? ''));
         $this->tpl->setVariable('VAL_COMPLETED', (int) ($row['completed'] ?? 0));
         $this->tpl->setVariable('VAL_FAILED', (int) ($row['failed'] ?? 0));

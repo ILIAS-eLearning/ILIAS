@@ -25,7 +25,7 @@ class ilSCGroups
 
     public static function getInstance() : ilSCGroups
     {
-        if (self::$instance instanceof ilSCGroups) {
+        if (!self::$instance instanceof ilSCGroups) {
             return self::$instance = new self();
         }
         return self::$instance;

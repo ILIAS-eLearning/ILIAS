@@ -18,7 +18,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
     protected GlobalHttpState $http;
     protected Factory $refinery;
 
-    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference, bool $a_prepare_output = true)
+    public function __construct($a_data, $a_id, $a_call_by_reference, $a_prepare_output = true)
     {
         global $DIC;
         $this->http     = $DIC->http();
@@ -55,7 +55,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         return $this->lng;
     }
 
-    public function executeCommand() : void
+    public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
         $cmd        = $this->ctrl->getCmd();
@@ -109,7 +109,7 @@ class ilObjSystemCheckGUI extends ilObjectGUI
         }
     }
 
-    public function getAdminTabs() : void
+    public function getAdminTabs()
     {
 
         if ($this->rbacsystem->checkAccess('read', $this->object->getRefId())) {
