@@ -14,12 +14,12 @@ class ObjectiveConstructor
 {
     private string $description;
 
-    private Closure $objectiveCollectionClosure;
+    private Closure $objectiveCreationClosure;
 
-    public function __construct(string $description, Closure $objectiveCollectionClosure)
+    public function __construct(string $description, Closure $objectiveCreationClosure)
     {
         $this->description = $description;
-        $this->objectiveCollectionClosure = $objectiveCollectionClosure;
+        $this->objectiveCreationClosure = $objectiveCreationClosure;
     }
 
     public function getDescription() : string
@@ -27,13 +27,8 @@ class ObjectiveConstructor
         return $this->description;
     }
 
-    public function create() : ObjectiveCollection
+    public function create() : Objective
     {
-        return $this->getObjectiveCollectionClosure()();
-    }
-
-    private function getObjectiveCollectionClosure() : Closure
-    {
-        return $this->objectiveCollectionClosure;
+        return ($this->objectiveCreationClosure)();
     }
 }

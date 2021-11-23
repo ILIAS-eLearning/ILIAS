@@ -143,11 +143,7 @@ class ilSetupAgent implements Setup\Agent
                         );
                     }
 
-                    return new ObjectiveCollection(
-                        "",
-                        false,
-                        new ilNICKeyRegisteredObjective($config),
-                    );
+                    return new ilNICKeyRegisteredObjective($config);
                 })
         ];
     }
