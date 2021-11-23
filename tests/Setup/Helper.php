@@ -15,7 +15,7 @@ trait Helper
 
         $consumer = $this
             ->getMockBuilder(Setup\Agent::class)
-            ->onlyMethods(["hasConfig", "getArrayToConfigTransformation", "getInstallObjective", "getUpdateObjective", "getBuildArtifactObjective", "getStatusObjective", "getMigrations", "getNamedObjective"])
+            ->onlyMethods(["hasConfig", "getArrayToConfigTransformation", "getInstallObjective", "getUpdateObjective", "getBuildArtifactObjective", "getStatusObjective", "getMigrations", "getNamedObjectives"])
             ->setMockClassName("Mock_AgentNo" . ($no++))
             ->getMock();
 
