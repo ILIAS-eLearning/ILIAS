@@ -122,7 +122,7 @@ class AchieveCommandTest extends TestCase
         $namedObjectives = [
             "my.objective" => new Setup\ObjectiveConstructor(
                 "My Objective",
-                static function () use ($objective) : ObjectiveCollection {
+                static function () use ($objective) : Setup\Objective {
                     return new Setup\ObjectiveCollection(
                         "My Objective",
                         false,
@@ -159,203 +159,85 @@ class AchieveCommandTest extends TestCase
 
     public function testAchieveObjective() : void
     {
-        $refinery = new Refinery(
-            $this->createMock(DataFactory::class),
-            $this->createMock(ilLanguage::class)
-        );
+        $refinery = new Refinery($this->createMock(DataFactory::class), $this->createMock(\ilLanguage::class));
+
+        $agent = $this->createMock(Setup\AgentCollection::class);
         $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-
-        $agentCollection = new AgentCollection(
-            $this->refinery,
-            [
-                "testAgent" => new class implements Setup\Agent {
-                    public function hasConfig() : bool
-                    {
-                        return false;
-                    }
-
-                    public function getArrayToConfigTransformation() : Transformation
-                    {
-                        throw new LogicException(self::class . " has no Config.");
-                    }
-
-                    public function getInstallObjective(Config $config = null) : Objective
-                    {
-                        return new Setup\Objective\NullObjective();
-                    }
-
-                    public function getUpdateObjective(Config $config = null) : Objective
-                    {
-                        return new Setup\Objective\NullObjective();
-                    }
-
-                    public function getBuildArtifactObjective() : Objective
-                    {
-                        return new Setup\Objective\NullObjective();
-                    }
-
-                    public function getStatusObjective(Metrics\Storage $storage) : Objective
-                    {
-                        return new Setup\Objective\NullObjective();
-                    }
-
-                    public function getMigrations() : array
-                    {
-                        return [];
-                    }
-
-                    public function getNamedObjectives(?Config $config = null) : array
-                    {
-                        return [
-                            "testNamedObjective" => new Setup\ObjectiveConstructor(
-                                "Test Named Objective",
-                                static function () use ($config) : ObjectiveCollection {
-                                    if (is_null($config)) {
-                                        throw new \RuntimeException(
-                                            "Missing Config for objective 'testNamedObjective'."
-                                        );
-                                    }
-
-                                    return new ObjectiveCollection(
-                                        "",
-                                        false,
-                                        new Objective\NullObjective()
-                                    );
-                                }
-                            )
-                        ];
-                    }
-                },
-            ]
-        );
-
         $agent_finder = $this->createMock(Setup\AgentFinder::class);
-        $agent_finder
-            ->expects($this->any())
-            ->method("getAgents")
-            ->willReturn($agentCollection);
-
         $command = new Setup\CLI\AchieveCommand($agent_finder, $config_reader, [], $refinery);
 
-        $input_mock = $this->createMock(InputInterface::class);
-        $input_mock
-            ->expects($this->any())
-            ->method("getOption")
-            ->willReturn(false);
+        $tester = new CommandTester($command);
 
-        $input_mock
-            ->expects($this->any())
-            ->method("getArguments")
-            ->willReturn(["objective" => "testAgent.testNamedObjective"]);
+        $config = $this->createMock(Setup\ConfigCollection::class);
+        $config_file = "config_file";
+        $config_file_content = ["config_file"];
+        $objective_name = "my.objective";
 
-        $namedObjectiveCmd = "testAgent.testNamedObjective";
-        $input_mock
-            ->expects($this->any())
-            ->method("getArgument")
-            ->willReturn($namedObjectiveCmd);
+        $objective = $this->createMock(Setup\Objective::class);
+        $env = $this->createMock(Setup\Environment::class);
 
-        $output = new StreamOutput(fopen('php://memory', 'wb', false));
+        $config_reader
+            ->expects($this->once())
+            ->method("readConfigFile")
+            ->with($config_file)
+            ->willReturn($config_file_content);
 
-        $command->execute($input_mock, $output);
-        rewind($output->getStream());
-
-        $outputData = stream_get_contents($output->getStream());
-        $this->assertStringContainsString(
-            "[OK] Achieved objective '$namedObjectiveCmd'. Thanks and have fun!",
-            $outputData
-        );
-    }
-
-    public function testAchieveObjectiveInvalidArgument() : void
-    {
-        $namedObjectiveCmd = "testAgent.testNamedObjective";
-        $this->expectExceptionMessage("There is no named objective '$namedObjectiveCmd'");
-
-        $refinery = new Refinery(
-            $this->createMock(DataFactory::class),
-            $this->createMock(ilLanguage::class)
-        );
-        $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-
-        $agentCollection = new AgentCollection(
-            $this->refinery,
-            [
-
-            ]
-        );
-
-        $agent_finder = $this->createMock(Setup\AgentFinder::class);
         $agent_finder
-            ->expects($this->any())
+            ->expects($this->once())
             ->method("getAgents")
-            ->willReturn($agentCollection);
+            ->with()
+            ->willReturn($agent);
 
-        $command = new Setup\CLI\AchieveCommand($agent_finder, $config_reader, [], $refinery);
-
-        $input_mock = $this->createMock(InputInterface::class);
-        $input_mock
-            ->expects($this->any())
-            ->method("getOption")
-            ->willReturn(false);
-
-        $input_mock
-            ->expects($this->any())
-            ->method("getArguments")
-            ->willReturn(["objective" => "testAgent.testNamedObjective"]);
-
-        $input_mock
-            ->expects($this->any())
-            ->method("getArgument")
-            ->willReturn($namedObjectiveCmd);
-
-        $output = new StreamOutput(fopen('php://memory', 'wb', false));
-
-        $command->execute($input_mock, $output);
-        rewind($output->getStream());
-
-        $outputData = stream_get_contents($output->getStream());
-    }
-
-    public function testListNamedObjectives() : void
-    {
-        $refinery = new Refinery(
-            $this->createMock(DataFactory::class),
-            $this->createMock(ilLanguage::class)
-        );
-        $config_reader = $this->createMock(Setup\CLI\ConfigReader::class);
-
-        $agentCollection = new AgentCollection(
-            $this->refinery,
-            [
-                "uicore" => new ilUICoreSetupAgent(),
-                "common" => new ilSetupAgent($refinery, $this->createMock(DataFactory::class))
-            ]
-        );
-
-        $agent_finder = $this->createMock(Setup\AgentFinder::class);
-        $agent_finder
-            ->expects($this->any())
-            ->method("getAgents")
-            ->willReturn($agentCollection);
-
-        $command = new Setup\CLI\AchieveCommand($agent_finder, $config_reader, [], $refinery);
-
-        $input_mock = $this->createMock(InputInterface::class);
-        $input_mock
-            ->expects($this->any())
-            ->method("getOption")
+        $agent
+            ->expects($this->once())
+            ->method("hasConfig")
             ->willReturn(true);
 
-        $output = new StreamOutput(fopen('php://memory', 'wb', false));
+        $agent
+            ->expects($this->once())
+            ->method("getArrayToConfigTransformation")
+            ->with()
+            ->willReturn($refinery->custom()->transformation(function ($v) use ($config_file_content, $config) {
+                $this->assertEquals($v, $config_file_content);
+                return $config;
+            }));
 
-        $command->execute($input_mock, $output);
-        rewind($output->getStream());
 
-        $outputData = stream_get_contents($output->getStream());
+        $seen_config = null;
+        $agent
+            ->expects($this->once())
+            ->method("getNamedObjectives")
+            ->will($this->returnCallback(function ($config) use (&$seen_config, $objective) {
+                $seen_config = $config;
+                return [
+                    "my.objective" => new Setup\ObjectiveConstructor(
+                        "My Objective",
+                        static function () use ($objective) : Setup\Objective {
+                            return $objective;
+                        }
+                    )
+                ];
+            }));
 
-        foreach ($agentCollection->getNamedObjectives(new Setup\NullConfig()) as $cmd => $namedObjective) {
-            $this->assertStringContainsString($cmd, $outputData);
-            $this->assertStringContainsString($namedObjective->getDescription(), $outputData);
-        }
+        $objective
+            ->expects($this->once())
+            ->method("getPreconditions")
+            ->willReturn([]);
+
+        $objective
+            ->method("isApplicable")
+            ->willReturn(true);
+
+        $objective
+            ->expects($this->once())
+            ->method("achieve")
+            ->willReturn($env);
+
+        $tester->execute([
+            "config" => $config_file,
+            "objective" => $objective_name
+        ]);
+
+        $this->assertSame($seen_config, $config);
     }
 }
