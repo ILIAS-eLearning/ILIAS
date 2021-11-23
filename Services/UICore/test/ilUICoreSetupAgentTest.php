@@ -1,17 +1,13 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2020 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\Tests\Setup;
-
 use PHPUnit\Framework\TestCase;
 use ilUICoreSetupAgent;
 use ILIAS\Setup\NullConfig;
-use ILIAS\Setup\ObjectiveCollection;
 use ILIAS\Setup\Objective;
 
 /**
  * Class UICoreSetupAgentTest
- * @package ILIAS\Tests\Setup
  * @author  Marvin Beym <mbeym@databay.de>
  */
 class ilUICoreSetupAgentTest extends TestCase
