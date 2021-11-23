@@ -59,11 +59,19 @@ class AchieveCommand extends Command
     public function configure()
     {
         $this->setDescription("Achieve a named objective from an agent.");
-        $this->addArgument("objective", InputArgument::OPTIONAL,
-            "Objective to be execute from an agent. Format: \$AGENT::\$OBJECTIVE");
+        $this->addArgument(
+            "objective",
+            InputArgument::OPTIONAL,
+            "Objective to be execute from an agent. Format: \$AGENT::\$OBJECTIVE"
+        );
         $this->addArgument("config", InputArgument::OPTIONAL, "Configuration file for the installation");
-        $this->addOption("config", null, InputOption::VALUE_OPTIONAL|InputOption::VALUE_IS_ARRAY,
-            "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"", []);
+        $this->addOption(
+            "config",
+            null,
+            InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY,
+            "Define fields in the configuration file that should be overwritten, e.g. \"a.b.c=foo\"",
+            []
+        );
         $this->addOption("yes", "y", InputOption::VALUE_NONE, "Confirm every message of the update.");
         $this->addOption("list", null, InputOption::VALUE_NONE, "Lists all achievable objectives");
     }
@@ -87,7 +95,7 @@ class AchieveCommand extends Command
             && is_bool($input->getOption("list"))
             && (bool) $input->getOption("list");
 
-        if($listNamedObjectives) {
+        if ($listNamedObjectives) {
             return true;
         }
 
@@ -120,7 +128,7 @@ class AchieveCommand extends Command
             $config = $this->readAgentConfig($agent, $input);
         }
 
-        $namedObjectives = $agent->getNamedObjectives(new NullConfig());
+        $namedObjectives = $agent->getNamedObjectives($config);
 
         if (isset($namedObjectives[$objective_name])) {
             $objective = $namedObjectives[$objective_name];

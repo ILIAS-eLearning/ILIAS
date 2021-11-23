@@ -222,19 +222,25 @@ class AgentCollection implements Agent
     /** @inheritDoc */
     public function getNamedObjectives(?Config $config = null) : array
     {
+        if (!is_null($config)) {
+            $this->checkConfig($config);
+        }
+
         $agents = $this->agents;
-        ksort($agents);
         $namedObjectives = [];
 
-        foreach ($agents as $agentKey => $agent) {
-            $objectives = $agent->getNamedObjectives($config);
-            ksort($objectives);
-
-            foreach ($objectives as $name => $objectiveCollection) {
-                $namedObjectives["$agentKey.$name"] = $objectiveCollection;
+        foreach ($agents as $k => $agent) {
+            if ($config) {
+                $objectives = $agent->getNamedObjectives($config->maybeGetConfig($k));
+            } else {
+                $objectives = $agent->getNamedObjectives();
+            }
+            foreach ($objectives as $name => $constructor) {
+                $namedObjectives["$k.$name"] = $constructor;
             }
         }
 
+        ksort($namedObjectives);
         return $namedObjectives;
     }
 }
