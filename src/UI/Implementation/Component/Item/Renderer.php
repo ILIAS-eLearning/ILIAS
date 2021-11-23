@@ -264,7 +264,7 @@ class Renderer extends AbstractComponentRenderer
         $desc = $component->getDescription();
         if (!is_null($desc) && trim($desc) != "") {
             $tpl->setCurrentBlock("desc");
-            $tpl->setVariable("DESC", $desc);
+            $tpl->setVariable("DESC", \ilUtil::stripSlashes($desc));
             $tpl->parseCurrentBlock();
         }
     }
