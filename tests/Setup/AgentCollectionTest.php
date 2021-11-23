@@ -337,7 +337,7 @@ class AgentCollectionTest extends TestCase
     public function testGetNamedObjectivesSorting() : void
     {
         $refinery = $this->createMock(Refinery::class);
-        $config = new Setup\NullConfig();
+        $config = new Setup\ConfigCollection([]);
 
         $aAgent = $this->newAgent();
         $bAgent = $this->newAgent();
@@ -410,7 +410,7 @@ class AgentCollectionTest extends TestCase
     public function testGetNamedObjectives() : void
     {
         $refinery = $this->createMock(Refinery::class);
-        $config = new Setup\NullConfig();
+        $config = new Setup\ConfigCollection([]);
 
         $aAgent = $this->newAgent();
         $bAgent = $this->newAgent();
@@ -445,6 +445,34 @@ class AgentCollectionTest extends TestCase
         $this->assertSame($aReturn["a-2"], $result["aAgent.a-2"]);
         $this->assertSame($bReturn["b-1"], $result["bAgent.b-1"]);
         $this->assertSame($bReturn["b-2"], $result["bAgent.b-2"]);
+    }
+
+    public function testGetNamedObjectivePassesCorrectConfig()
+    {
+        $refinery = $this->createMock(Refinery::class);
+        $agent = $this->newAgent();
+
+        $seen_config = null;
+        $agent
+            ->method("getNamedObjectives")
+            ->will($this->returnCallback(function ($config) use (&$seen_config) {
+                $seen_config = $config;
+                return [];
+            }));
+
+        $collection = new Setup\AgentCollection(
+            $refinery,
+            ["agent" => $agent]
+        );
+
+        $agent_config = $this->createMock(Setup\Config::class);
+        $config = new Setup\ConfigCollection(
+            ["agent" => $agent_config]
+        );
+
+        $result = $collection->getNamedObjectives($config);
+
+        $this->assertSame($agent_config, $seen_config);
     }
 
     public function testGetAgents() : void
