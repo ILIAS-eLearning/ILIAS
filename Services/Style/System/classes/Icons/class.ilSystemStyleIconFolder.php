@@ -76,6 +76,13 @@ class ilSystemStyleIconFolder
         });
     }
 
+    public function sortIconsByPath() : void
+    {
+        usort($this->icons, static function (ilSystemStyleIcon $a, ilSystemStyleIcon $b) : int {
+            return strcmp($a->getPath(), $b->getPath());
+        });
+    }
+
     /**
      * @param string $src
      * @param string $rel_path
