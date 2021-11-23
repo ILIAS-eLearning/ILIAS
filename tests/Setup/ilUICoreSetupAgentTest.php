@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use ilUICoreSetupAgent;
 use ILIAS\Setup\NullConfig;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective;
 
 /**
  * Class UICoreSetupAgentTest
@@ -35,6 +36,6 @@ class ilUICoreSetupAgentTest extends TestCase
     {
         $objectiveConstructor = $this->testObj->getNamedObjectives(new NullConfig())["reloadCtrlStructure"];
         $closureResult = $objectiveConstructor->create();
-        $this->assertInstanceOf(ObjectiveCollection::class, $closureResult);
+        $this->assertInstanceOf(Objective::class, $closureResult);
     }
 }

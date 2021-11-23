@@ -20,8 +20,9 @@ class ilUICoreSetupAgent implements Setup\Agent
     public function getNamedObjectives(?Config $config = null) : array
     {
         return [
-            "reloadCtrlStructure" => new Setup\ObjectiveConstructor("Reload Control Structure of ILIAS",
-                static function () : ObjectiveCollection {
+            "reloadCtrlStructure" => new Setup\ObjectiveConstructor(
+                "Reload Control Structure of ILIAS",
+                static function () : Setup\Objective {
                     return new ObjectiveCollection(
                         "",
                         false,
@@ -30,9 +31,10 @@ class ilUICoreSetupAgent implements Setup\Agent
                         ),
                         new \ilComponentDefinitionsStoredObjective(false)
                     );
-                })
+                }
+            )
         ];
-}
+    }
 
     /**
      * @inheritdoc

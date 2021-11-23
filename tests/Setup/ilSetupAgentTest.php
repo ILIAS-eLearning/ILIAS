@@ -6,6 +6,7 @@ namespace ILIAS\Tests\Setup;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Setup\NullConfig;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective;
 use ilSetupAgent;
 use ILIAS\Refinery\Factory as Refinery;
 use ILIAS\Data\Factory as DataFactory;
@@ -43,6 +44,6 @@ class ilSetupAgentTest extends TestCase
     {
         $objectiveConstructor = $this->testObj->getNamedObjectives(new NullConfig())["registerNICKey"];
         $closureResult = $objectiveConstructor->create();
-        $this->assertInstanceOf(ObjectiveCollection::class, $closureResult);
+        $this->assertInstanceOf(Objective::class, $closureResult);
     }
 }

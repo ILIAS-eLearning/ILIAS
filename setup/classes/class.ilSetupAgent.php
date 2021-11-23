@@ -135,8 +135,9 @@ class ilSetupAgent implements Setup\Agent
     public function getNamedObjectives(?Config $config = null) : array
     {
         return [
-            "registerNICKey" => new Setup\ObjectiveConstructor("Register NIC key",
-                static function () use ($config) : ObjectiveCollection {
+            "registerNICKey" => new Setup\ObjectiveConstructor(
+                "Register NIC key",
+                static function () use ($config) : Setup\Objective {
                     if (is_null($config)) {
                         throw new \RuntimeException(
                             "Missing Config for objective 'registerNICKey'."
@@ -144,7 +145,8 @@ class ilSetupAgent implements Setup\Agent
                     }
 
                     return new ilNICKeyRegisteredObjective($config);
-                })
+                }
+            )
         ];
     }
 }
