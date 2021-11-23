@@ -2,10 +2,9 @@
 
 namespace ILIAS\UI\examples\Item\Contribution;
 
-function with_lead_icon()
+function with_identifier()
 {
     global $DIC;
-
 
     return $DIC->ui()->renderer()->render(
         $DIC->ui()->factory()->item()->contribution(

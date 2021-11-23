@@ -2,7 +2,7 @@
 
 namespace ILIAS\UI\examples\Item\Contribution;
 
-function with_lead_icon()
+function with_close()
 {
     global $DIC;
 
