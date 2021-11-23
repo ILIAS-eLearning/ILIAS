@@ -3,9 +3,8 @@
 /**
  * @author  Lukas Scharmer <lscharmer@databay.de>
  */
-namespace ILIAS\Refinery\Random\Transformation;
+namespace ILIAS\Refinery;
 
-use ILIAS\Refinery\Transformation;
 use ILIAS\Data\Result;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Refinery\DeriveInvokeFromTransform;

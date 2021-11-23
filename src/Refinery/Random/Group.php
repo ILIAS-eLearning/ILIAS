@@ -8,7 +8,7 @@ namespace ILIAS\Refinery\Random;
 use ILIAS\Refinery\Transformation;
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
 use ILIAS\Refinery\Random\Seed\Seed;
-use ILIAS\Refinery\Random\Transformation\IdentityTransformation;
+use ILIAS\Refinery\IdentityTransformation;
 
 class Group
 {
@@ -19,6 +19,7 @@ class Group
      * The transformation will be shuffled with the given $seed.
      *
      * !! BEWARE OF THE SIDE EFFECT. This Transformation is not Side Effect free !!
+     * The internal state of the PRNG will be advanced on every usage.
      */
     public function shuffleArray(Seed $seed) : Transformation
     {

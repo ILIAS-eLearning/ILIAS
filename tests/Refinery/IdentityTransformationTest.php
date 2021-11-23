@@ -8,7 +8,7 @@ namespace ILIAS\Tests\Refinery\Random\Transformation;
 use ILIAS\Data\NotOKException;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
-use ILIAS\Refinery\Random\Transformation\IdentityTransformation;
+use ILIAS\Refinery\IdentityTransformation;
 use PHPUnit\Framework\TestCase;
 
 class IdentityTransformationTest extends TestCase

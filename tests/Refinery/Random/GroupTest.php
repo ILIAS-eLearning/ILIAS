@@ -10,7 +10,7 @@ use ILIAS\Refinery\Transformation;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Random\Seed\Seed;
 use ILIAS\Refinery\Random\Transformation\ShuffleTransformation;
-use ILIAS\Refinery\Random\Transformation\IdentityTransformation;
+use ILIAS\Refinery\IdentityTransformation;
 
 class GroupTest extends TestCase
 {
