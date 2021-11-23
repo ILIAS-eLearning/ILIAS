@@ -98,11 +98,10 @@ class ilSystemCheckTrash
 
         $this->logger->info('Found deleted : ' . print_r($deleted, true));
 
-        $factory = new ilObjectFactory();
 
         foreach ($deleted as $tmp_num => $deleted_info) {
             $child_id = (int) ($deleted_info['child'] ?? 0);
-            $ref_obj  = $factory::getInstanceByRefId($child_id, false);
+            $ref_obj  = ilObjectFactory::getInstanceByRefId($child_id, false);
             if (!$ref_obj instanceof ilObject) {
                 continue;
             }
@@ -121,14 +120,13 @@ class ilSystemCheckTrash
 
     protected function removeSelectedFromSystem() : void
     {
-        $factory = new ilObjectFactory();
 
         $deleted = $this->readSelectedDeleted();
         foreach ($deleted as $tmp_num => $deleted_info) {
             $sub_nodes = $this->readDeleted((int) ($deleted_info['tree'] ?? 0));
 
             foreach ($sub_nodes as $tmp_num => $subnode_info) {
-                $ref_obj = $factory::getInstanceByRefId((int) ($subnode_info['child'] ?? 0), false);
+                $ref_obj = ilObjectFactory::getInstanceByRefId((int) ($subnode_info['child'] ?? 0), false);
                 if (!$ref_obj instanceof ilObject) {
                     continue;
                 }
