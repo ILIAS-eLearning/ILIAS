@@ -121,7 +121,58 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
         $GLOBALS["ilDB"] = $db;
         $GLOBALS["DIC"]["ilIliasIniFile"] = $ini;
         $GLOBALS["DIC"]["ilClientIniFile"] = $client_ini;
-        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLogger {
+        $GLOBALS["DIC"]["ilLogger"] = new class() extends ilLogger {
+            public function __construct()
+            {
+            }
+            public function isHandling($a_level)
+            {
+                return true;
+            }
+            public function log($a_message, $a_level = ilLogLevel::INFO)
+            {
+            }
+            public function dump($a_variable, $a_level = ilLogLevel::INFO)
+            {
+            }
+            public function debug($a_message, $a_context = array())
+            {
+            }
+            public function info($a_message)
+            {
+            }
+            public function notice($a_message)
+            {
+            }
+            public function warning($a_message)
+            {
+            }
+            public function error($a_message)
+            {
+            }
+            public function critical($a_message)
+            {
+            }
+            public function alert($a_message)
+            {
+            }
+            public function emergency($a_message)
+            {
+            }
+            public function write($a_message, $a_level = ilLogLevel::INFO)
+            {
+            }
+            public function writeLanguageLog($a_topic, $a_lang_key)
+            {
+            }
+            public function logStack($a_level = null, $a_message = '')
+            {
+            }
+            public function writeMemoryPeakUsage($a_level)
+            {
+            }
+        };
+        $GLOBALS["DIC"]["ilLog"] = new class() extends ilLog {
             public function __construct()
             {
             }
@@ -150,11 +201,11 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             }
             public static function getRootLogger()
             {
-                return $GLOBALS["DIC"]["ilLog"];
+                return $GLOBALS["DIC"]["ilLogger"];
             }
             public static function getLogger($a)
             {
-                return $GLOBALS["DIC"]["ilLog"];
+                return $GLOBALS["DIC"]["ilLogger"];
             }
         };
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
@@ -169,7 +220,15 @@ class ilComponentUpdatePluginObjective implements Setup\Objective
             {
             }
         };
-        $GLOBALS["DIC"]["ilAppEventHandler"] = null;
+        $GLOBALS["DIC"]["ilAppEventHandler"] = new class() extends ilAppEventHandler {
+            public function __construct()
+            {
+            }
+            public function raise($a_component, $a_event, $a_parameter = "") : void
+            {
+            }
+        };
+        $GLOBALS["DIC"]["ilObjDataCache"] = new ilObjectDataCache();
         $GLOBALS["DIC"]["ilSetting"] = new ilSetting();
         $GLOBALS["DIC"]["objDefinition"] = new ilObjectDefinition();
         $GLOBALS["DIC"]["rbacadmin"] = new class() extends ilRbacAdmin {
