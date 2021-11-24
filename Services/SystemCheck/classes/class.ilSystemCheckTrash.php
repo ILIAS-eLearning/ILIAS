@@ -122,10 +122,10 @@ class ilSystemCheckTrash
     {
 
         $deleted = $this->readSelectedDeleted();
-        foreach ($deleted as $tmp_num => $deleted_info) {
+        foreach ($deleted as $del_num => $deleted_info) {
             $sub_nodes = $this->readDeleted((int) ($deleted_info['tree'] ?? 0));
 
-            foreach ($sub_nodes as $tmp_num => $subnode_info) {
+            foreach ($sub_nodes as $sub_num => $subnode_info) {
                 $ref_obj = ilObjectFactory::getInstanceByRefId((int) ($subnode_info['child'] ?? 0), false);
                 if (!$ref_obj instanceof ilObject) {
                     continue;

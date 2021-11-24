@@ -31,7 +31,7 @@ class ilSCGroupTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 
-    public function fillRow($row)
+    protected function fillRow($row)
     {
         $this->tpl->setVariable('VAL_TITLE', (string) ($row['title'] ?? ''));
 

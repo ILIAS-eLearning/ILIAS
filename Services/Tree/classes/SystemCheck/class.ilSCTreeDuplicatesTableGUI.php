@@ -34,7 +34,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         $this->setData(array(array('id' => $a_duplicate_id)));
     }
 
-    public function fillRow($a_set)
+    protected function fillRow($a_set)
     {
 
         $id         = (int) ($a_set['id'] ?? 0);
