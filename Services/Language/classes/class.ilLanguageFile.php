@@ -91,7 +91,7 @@ class ilLanguageFile
     * Read a language file
     * Return true, if reading successful. Otherwise return false
     */
-    public function read(): bool
+    public function read() : bool
     {
         global $DIC;
         $lng = $DIC->language();
@@ -180,7 +180,7 @@ class ilLanguageFile
     *
     * $a_header      (optional) fixed header for the new file
     */
-    public function write(string $a_header = ""): void
+    public function write(string $a_header = "") : void
     {
         $fp = fopen($this->lang_file, "w");
         fwrite($fp, $this->build($a_header));
@@ -192,7 +192,7 @@ class ilLanguageFile
     *
     * $a_header     (optional) fixed header for the new file
     */
-    public function build(string $a_header = ''): string
+    public function build(string $a_header = '') : string
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -252,7 +252,7 @@ class ilLanguageFile
     /**
     * Get the error message of the last read/write operation
     */
-    public function getErrorMessage(): string
+    public function getErrorMessage() : string
     {
         return $this->error_message;
     }
@@ -261,7 +261,7 @@ class ilLanguageFile
     /**
     * Get the header of the original file
     */
-    public function getHeader(): string
+    public function getHeader() : string
     {
         return $this->header;
     }
@@ -271,7 +271,7 @@ class ilLanguageFile
     * Get array of all parameters
     * Return array     [name => value]
     */
-    public function getAllParams(): array
+    public function getAllParams() : array
     {
         return $this->params;
     }
@@ -280,7 +280,7 @@ class ilLanguageFile
     * Get array of all values
     * Return array     [module.separator.identifier => value]
     */
-    public function getAllValues(): array
+    public function getAllValues() : array
     {
         return $this->values;
     }
@@ -289,16 +289,16 @@ class ilLanguageFile
     * Get array of all comments
     * Return array     [module.separator.identifier => comment]
     */
-    public function getAllComments(): array
+    public function getAllComments() : array
     {
         return $this->comments;
     }
 
     /**
     * Get a single parameter
-    * $a_name  	parameter name
+    * $a_name    parameter name
     */
-    public function getParam(string $a_name): string
+    public function getParam(string $a_name) : string
     {
         return $this->params[$a_name];
     }
@@ -308,7 +308,7 @@ class ilLanguageFile
     * $a_module      module name
     * $a_identifier      indentifier
     */
-    public function getValue(string $a_module, string $a_identifier): string
+    public function getValue(string $a_module, string $a_identifier) : string
     {
         return $this->values[$a_module . $this->separator . $a_identifier];
     }
@@ -318,17 +318,17 @@ class ilLanguageFile
     * $a_module      module name
     * $a_identifier      indentifier
     */
-    public function getComment(string $a_module, string $a_identifier): string
+    public function getComment(string $a_module, string $a_identifier) : string
     {
         return $this->comments[$a_module . $this->separator . $a_identifier];
     }
 
     /**
     * Set a  parameter
-    * $a_name  	parameter name
-    * $a_value  	parameter value
+    * $a_name    parameter name
+    * $a_value   parameter value
     */
-    public function setParam(string $a_name, string $a_value): void
+    public function setParam(string $a_name, string $a_value) : void
     {
         $this->params[$a_name] = $a_value;
     }
@@ -339,7 +339,7 @@ class ilLanguageFile
     * $a_identifier      indentifier
     * $a_value      value
     */
-    public function setValue(string $a_module, string $a_identifier, string $a_value): void
+    public function setValue(string $a_module, string $a_identifier, string $a_value) : void
     {
         $this->values[$a_module . $this->separator . $a_identifier] = $a_value;
     }
@@ -348,7 +348,7 @@ class ilLanguageFile
     * Set all values
     * $a_values       [module.separator.identifier => value]
     */
-    public function setAllValues(array $a_values): void
+    public function setAllValues(array $a_values) : void
     {
         $this->values = $a_values;
     }
@@ -357,7 +357,7 @@ class ilLanguageFile
     * Set all comments
     * $a_comments       [module.separator.identifier => comment]
     */
-    public function setAllComments(array $a_comments): void
+    public function setAllComments(array $a_comments) : void
     {
         $this->comments = $a_comments;
     }
@@ -369,7 +369,7 @@ class ilLanguageFile
     * $a_identifier      indentifier
     * $a_comment      comment
     */
-    public function setComment(string $a_module, string $a_identifier, string $a_comment): string
+    public function setComment(string $a_module, string $a_identifier, string $a_comment) : string
     {
         return $this->comments[$a_module . $this->separator . $a_identifier] = $a_comment;
     }

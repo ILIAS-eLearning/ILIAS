@@ -61,7 +61,7 @@ class ilLanguageTableGUI extends ilTable2GUI
     /**
     * Get language data
     */
-    public function getItems(): void
+    public function getItems() : void
     {
         $languages = $this->folder->getLanguages();
         $data = array();
@@ -80,7 +80,7 @@ class ilLanguageTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow(array $a_set): void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilSetting = $DIC->settings();

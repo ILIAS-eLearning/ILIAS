@@ -21,7 +21,7 @@ class ilLanguageDetection
     /**
      * Return detected language
      */
-    public function detect(): string
+    public function detect() : string
     {
         global $DIC;
         $ilLog = $DIC->logger()->lang();

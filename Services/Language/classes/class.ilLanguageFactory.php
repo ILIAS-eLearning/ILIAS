@@ -36,7 +36,7 @@ class ilLanguageFactory
     /**
      * Get language object
      */
-    public static function _getLanguage(string $a_lang_key = ''): ilLanguage
+    public static function _getLanguage(string $a_lang_key = '') : ilLanguage
     {
         global $DIC;
         $lng = $DIC->language();
@@ -58,7 +58,7 @@ class ilLanguageFactory
      * Get language object of user
      * @static
      */
-    public static function _getLanguageOfUser(int $a_usr_id): ilLanguage
+    public static function _getLanguageOfUser(int $a_usr_id) : ilLanguage
     {
         return self::_getLanguage(ilObjUser::_lookupLanguage($a_usr_id));
     }

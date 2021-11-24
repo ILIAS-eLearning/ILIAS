@@ -7,10 +7,10 @@
 * contains all function to manage language support for ILIAS3
 * install, uninstall, checkfiles ....
 *
-* @author	Sascha Hofmann <shofmann@databay.de>
-* @version	$Id$
+* @author   Sascha Hofmann <shofmann@databay.de>
+* @version  $Id$
 *
-* @extends	ilObject
+* @extends  ilObject
 */
 
 require_once "./Services/Object/classes/class.ilObject.php";
@@ -49,8 +49,8 @@ class ilObjLanguageFolder extends ilObject
 
     /**
     * Constructor
-    * $a_id  	                reference_id or object_id
-    * $a_call_by_reference  	treat the id as reference_id (true) or object_id (false)
+    * $a_id                     reference_id or object_id
+    * $a_call_by_reference      treat the id as reference_id (true) or object_id (false)
     */
     public function __construct(int $a_id, bool $a_call_by_reference = true)
     {
@@ -72,15 +72,15 @@ class ilObjLanguageFolder extends ilObject
     * This function builds an array with the following structure:
     * $languages[lang_key][long][installed][update][info]
     *
-    * lang_key:		string		international language key (2 digits, i.e. de,en,dk...)
-    * long:			string		full language name in the chosen user language
-    * installed:	boolean		is the language installed (true) or not (false)?
-    * update:		int			contains the timestamp of last db-modification
-    * info:			string		optional information. valid is: 'notfound','new'
+    * lang_key:     string      international language key (2 digits, i.e. de,en,dk...)
+    * long:         string      full language name in the chosen user language
+    * installed:    boolean     is the language installed (true) or not (false)?
+    * update:       int         contains the timestamp of last db-modification
+    * info:         string      optional information. valid is: 'notfound','new'
     *
-    * Returns	$languages	status information about available languages
+    * Returns   $languages    status information about available languages
     */
-    public function getLanguages(): array
+    public function getLanguages() : array
     {
         global $DIC;
         $lng = $DIC->language();
@@ -166,7 +166,7 @@ class ilObjLanguageFolder extends ilObject
     * This functions checks in $languages for languages with the attribute 'new'
     * and insert these languages in db-table 'languages'
     */
-    public function addNewLanguages(array $a_languages): array
+    public function addNewLanguages(array $a_languages) : array
     {
         if (count($a_languages) > 0) {
             foreach ($a_languages as $lang_key => $lang_data) {
@@ -188,7 +188,7 @@ class ilObjLanguageFolder extends ilObject
                                                     "last_update" => $lngObj->getLastUpdateDate());
 
                     $a_languages[$lang_key]["info"] = "new_language";
-                    unset($lngObj);			// better: the objects should be resident in an member array of this class
+                    unset($lngObj);      // better: the objects should be resident in an member array of this class
                 }
             }
         }
@@ -202,9 +202,9 @@ class ilObjLanguageFolder extends ilObject
     * This function removes only the entry in db-table 'languages' and
     * in the array $languages. Does not uninstall a language (see: function flushLanguage())
     *
-    * Return 	$languages	updated status information about available languages
+    * Return   $languages    updated status information about available languages
     */
-    public function removeLanguages(array $a_languages): array
+    public function removeLanguages(array $a_languages) : array
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -231,9 +231,9 @@ class ilObjLanguageFolder extends ilObject
     * This function is similar to function checkLanguage() (see below) but checks for all
     * lang-files and outputs more helpful information.
     *
-    * Return	system message
+    * Return system message
     */
-    public function checkAllLanguages(): string
+    public function checkAllLanguages() : string
     {
         global $DIC;
         // TODO: lng object should not be used in this class
@@ -279,15 +279,15 @@ class ilObjLanguageFolder extends ilObject
                                     } else {
                                         $output .= "<br/>" . $lng->txt("err_1_param") . " " . $lng->txt("check_langfile");
                                     }
-                                break;
+                                    break;
 
                                 case 2:
                                     $output .= "<br/>" . $lng->txt("err_2_param") . " " . $lng->txt("check_langfile");
-                                break;
+                                    break;
 
                                 default:
                                     $output .= "<br/>" . $lng->txt("err_over_3_param") . " " . $lng->txt("check_langfile");
-                                break;
+                                    break;
                             }
                         }
                     }

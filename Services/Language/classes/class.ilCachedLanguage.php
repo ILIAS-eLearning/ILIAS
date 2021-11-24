@@ -34,7 +34,7 @@ class ilCachedLanguage
     /**
      * Return whether the global cache is active
      */
-    public function isActive(): bool
+    public function isActive() : bool
     {
         return $this->global_cache->isActive();
     }
@@ -42,7 +42,7 @@ class ilCachedLanguage
     /**
      * Read from cache
      */
-    protected function readFromCache(): void
+    protected function readFromCache() : void
     {
         if ($this->global_cache->isActive()) {
             $translations = $this->global_cache->get("translations_" . $this->getLanguageKey());
@@ -56,7 +56,7 @@ class ilCachedLanguage
     /**
      * Write to global cache
      */
-    public function writeToCache(): void
+    public function writeToCache() : void
     {
         if ($this->global_cache->isActive()) {
             $this->global_cache->set("translations_" . $this->getLanguageKey(), $this->getTranslations());
@@ -64,23 +64,23 @@ class ilCachedLanguage
     }
 
     /**
-	 * Delete the cache entry for this language without flushing the whole global cache
-	 * Using this function avoids a flush loop when languages are updated
-	 * A missing entry will cause the next request to refill the cache in the constructor of this class
-	 * @see mantis #28818
-	 */
-	public function deleteInCache(): void
+     * Delete the cache entry for this language without flushing the whole global cache
+     * Using this function avoids a flush loop when languages are updated
+     * A missing entry will cause the next request to refill the cache in the constructor of this class
+     * @see mantis #28818
+     */
+    public function deleteInCache() : void
     {
-		if ($this->global_cache->isActive()) {
-			$this->global_cache->delete("translations_" . $this->getLanguageKey());
-			$this->setLoaded(false);
-		}
-	}
+        if ($this->global_cache->isActive()) {
+            $this->global_cache->delete("translations_" . $this->getLanguageKey());
+            $this->setLoaded(false);
+        }
+    }
 
     /**
-     * Read data from table lng_module from DB
-     */
-	protected function readFromDB(): void
+    * Read data from table lng_module from DB
+    */
+    protected function readFromDB() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -97,7 +97,7 @@ class ilCachedLanguage
         $this->setTranslations($translations);
     }
 
-    public static function getInstance($key): self
+    public static function getInstance($key) : self
     {
         if (!isset(self::$instances[$key])) {
             self::$instances[$key] = new self($key);
@@ -106,7 +106,7 @@ class ilCachedLanguage
         return self::$instances[$key];
     }
 
-    public function flush(): void
+    public function flush() : void
     {
         if ($this->global_cache->isActive()) {
             $this->global_cache->flush();
@@ -118,7 +118,7 @@ class ilCachedLanguage
     /**
      * Set language key
      */
-    public function setLanguageKey(string $language_key): void
+    public function setLanguageKey(string $language_key) : void
     {
         $this->language_key = $language_key;
     }
@@ -126,12 +126,12 @@ class ilCachedLanguage
     /**
      * Return language key
      */
-    public function getLanguageKey(): string
+    public function getLanguageKey() : string
     {
         return $this->language_key;
     }
 
-    public function setLoaded(bool $loaded): void
+    public function setLoaded(bool $loaded) : void
     {
         $this->loaded = $loaded;
     }

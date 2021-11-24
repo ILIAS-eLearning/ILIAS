@@ -27,7 +27,7 @@ class ilLangDeprecated
     /**
      * Get deprecated lang vars
      */
-    public function getDeprecatedLangVars(): array
+    public function getDeprecatedLangVars() : array
     {
         $this->getCandidates();
         $this->parseCodeFiles();
@@ -38,7 +38,7 @@ class ilLangDeprecated
      * Get candidates from the db. Base are all lang vars of the
      * english lang file reduced by the ones being accessed (having entries in lng_log)
      */
-    protected function getCandidates(): void
+    protected function getCandidates() : void
     {
         $log = array();
         $set = $this->db->query("SELECT module, identifier FROM lng_log ");
@@ -57,7 +57,7 @@ class ilLangDeprecated
     /**
      * Parse Code Files
      */
-    protected function parseCodeFiles(): void
+    protected function parseCodeFiles() : void
     {
         foreach ($this->getCodeFiles(ILIAS_ABSOLUTE_PATH) as $file) {
             $this->parseCodeFile($file->getPathname());
@@ -67,7 +67,7 @@ class ilLangDeprecated
     /**
      * Get code files
      */
-    protected function getCodeFiles(string $path): \Generator
+    protected function getCodeFiles(string $path) : \Generator
     {
         foreach (
             new \RegexIterator(
@@ -86,7 +86,7 @@ class ilLangDeprecated
     /**
      * Parse code file and reduce candidates
      */
-    protected function parseCodeFile(string $file_path): void
+    protected function parseCodeFile(string $file_path) : void
     {
         $tokens = token_get_all(file_get_contents($file_path));
         $num_tokens = count($tokens);
@@ -98,7 +98,6 @@ class ilLangDeprecated
 
             $token = $tokens[$i][0];
             switch ($token) {
-
                 case T_STRING:
                 case T_CONSTANT_ENCAPSED_STRING:
                     $lv = str_replace(array("'", '"'), "", $tokens[$i][1]);

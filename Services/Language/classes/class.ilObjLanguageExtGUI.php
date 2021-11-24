@@ -76,7 +76,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     * Overwritten from ilObjectGUI to use the extended language object.
     * (Will be deleted when ilObjLanguageExt is merged with ilObjLanguage)
     */
-    public function assignObject(): void
+    public function assignObject() : void
     {
         require_once("Services/Language/classes/class.ilObjLanguageExt.php");
         $this->object = new ilObjLanguageExt($this->id);
@@ -94,7 +94,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * execute command
     */
-    public function executeCommand(): void
+    public function executeCommand() : void
     {
         global $DIC;
         $ilHelp = $DIC->help();
@@ -113,7 +113,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Cancel the current action
     */
-    public function cancelObject(): void
+    public function cancelObject() : void
     {
         $this->viewObject();
     }
@@ -121,7 +121,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
      * Get the table to view language entries
      */
-    protected function getViewTable(): \ilLanguageExtTableGUI
+    protected function getViewTable() : \ilLanguageExtTableGUI
     {
         // create and configure the table object
         include_once "./Services/Language/classes/class.ilLanguageExtTableGUI.php";
@@ -136,7 +136,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Show the edit screen
     */
-    public function viewObject(int $changesSuccessBool = 0): void
+    public function viewObject(int $changesSuccessBool = 0) : void
     {
         global $DIC;
         $tpl = $DIC["tpl"];
@@ -191,10 +191,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
                 $db_found[] = $keys[1];
             }
             $missing_entries = array_diff($topics, $db_found);
-        }
-        // normal view mode:
-        // - the table is filtered manually by module, mode and pattern
-        else {
+        } else { // normal view mode:
+                 // - the table is filtered manually by module, mode and pattern
             $filter_mode = $table_gui->getFilterItemByPostVar("mode")->getValue();
             $filter_pattern = $table_gui->getFilterItemByPostVar("pattern")->getValue();
             $filter_module = $table_gui->getFilterItemByPostVar("module")->getValue();
@@ -333,11 +331,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
             $data[] = $row;
         }
 
-	    if ($changesSuccessBool) {
-		    $tpl->setVariable("MESSAGE", $this->getSuccessMessage());
-	    }
+        if ($changesSuccessBool) {
+            $tpl->setVariable("MESSAGE", $this->getSuccessMessage());
+        }
 
-	    // render and show the table
+        // render and show the table
         $table_gui->setData($data);
         $tpl->setContent($table_gui->getHTML() .
             $this->buildMissingEntries($missing_entries));
@@ -346,7 +344,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
      * Apply filter
      */
-    public function applyFilterObject(): void
+    public function applyFilterObject() : void
     {
         $table_gui = $this->getViewTable();
         $table_gui->writeFilterToSession();    // writes filter to session
@@ -357,7 +355,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
      * Reset filter
      */
-    public function resetFilterObject(): void
+    public function resetFilterObject() : void
     {
         $table_gui = $this->getViewTable();
         $table_gui->resetOffset();                // sets record offest to 0 (first page)
@@ -368,10 +366,10 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Save the changed translations
     */
-    public function saveObject(): void
+    public function saveObject() : void
     {
-	    // no changes have been made yet
-	    $changesSuccessBool = 0;
+        // no changes have been made yet
+        $changesSuccessBool = 0;
         // prepare the values to be saved
         $save_array = array();
         $remarks_array = array();
@@ -399,8 +397,8 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         // save the translations
         ilObjLanguageExt::_saveValues($this->object->key, $save_array, $remarks_array);
 
-	    // set successful changes bool to true;
-	    $changesSuccessBool = 1;
+        // set successful changes bool to true;
+        $changesSuccessBool = 1;
 
         // view the list
         $this->viewObject($changesSuccessBool);
@@ -409,7 +407,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Show the screen to import a language file
     */
-    public function importObject(): void
+    public function importObject() : void
     {
         require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -443,7 +441,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Process an uploaded language file
     */
-    public function uploadObject(): void
+    public function uploadObject() : void
     {
         global $DIC;
 
@@ -484,7 +482,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Show the screen to export a language file
     */
-    public function exportObject(): void
+    public function exportObject() : void
     {
         require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -523,7 +521,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Download a language file
     */
-    public function downloadObject(): void
+    public function downloadObject() : void
     {
         // save the selected scope
         $this->session["export"]["scope"] = ilUtil::stripSlashes($_POST["scope"]);
@@ -575,7 +573,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Process the language maintenance
     */
-    public function maintainObject(): void
+    public function maintainObject() : void
     {
         require_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
@@ -611,7 +609,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    public function maintainExecuteObject(): void
+    public function maintainExecuteObject() : void
     {
         if (isset($_POST["maintain"])) {
             $this->session["maintain"] = ilUtil::stripSlashes($_POST["maintain"]);
@@ -620,7 +618,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         switch ($_POST["maintain"]) {
             // save the global language file for merge after
             case "save_dist":
-
                 // save a copy of the distributed language file
                 $orig_file = $this->object->getLangPath() . "/ilias_" . $this->object->key . ".lang";
                 $copy_file = $this->object->getDataPath() . "/ilias_" . $this->object->key . ".lang";
@@ -662,7 +659,6 @@ class ilObjLanguageExtGUI extends ilObjectGUI
 
             // merge local changes back to the global language file (langmode only)
             case "merge":
-
                 $orig_file = $this->object->getLangPath() . "/ilias_" . $this->object->key . ".lang";
                 $copy_file = $this->object->getCustLangPath() . "/ilias_" . $this->object->key . ".lang";
 
@@ -703,7 +699,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Set the language settings
     */
-    public function settingsObject(): void
+    public function settingsObject() : void
     {
         global $DIC;
         $ilSetting = $DIC->settings();
@@ -735,7 +731,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
     /**
     * Print out statistics about the language
     */
-    public function statisticsObject(): void
+    public function statisticsObject() : void
     {
         $modules = ilObjLanguageExt::_getModules($this->object->key);
         
@@ -781,7 +777,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
      * Get tabs for admin mode
      *(Overwritten from ilObjectGUI, called by prepareOutput)
      */
-    public function getAdminTabs(): void
+    public function getAdminTabs() : void
     {
         global $DIC;
         $ilCtrl = $DIC->ctrl();
@@ -847,7 +843,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
      * Set the locator for admin mode
      *(Overwritten from ilObjectGUI, called by prepareOutput)
      */
-    public function addAdminLocatorItems(bool $a_do_not_add_object = false): void
+    public function addAdminLocatorItems(bool $a_do_not_add_object = false) : void
     {
         global $DIC;
         $ilLocator = $DIC["ilLocator"];
@@ -867,12 +863,11 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         }
     }
 
-
     /**
      * Set the Title and the description
      * (Overwritten from ilObjectGUI, called by prepareOutput)
      */
-    public function setTitleAndDescription(): void
+    public function setTitleAndDescription() : void
     {
         if (ilObjLanguageAccess::_isPageTranslation()) {
             $this->tpl->setHeaderPageTitle($this->lng->txt("translation"));
@@ -913,7 +908,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         return implode("\n", $res);
     }
     
-    public function addNewEntryObject(ilPropertyFormGUI $a_form = null): void
+    public function addNewEntryObject(ilPropertyFormGUI $a_form = null) : void
     {
         global $DIC;
         $tpl = $DIC["tpl"];
@@ -973,7 +968,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         return $form;
     }
     
-    public function saveNewEntryObject(): void
+    public function saveNewEntryObject() : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -1020,15 +1015,15 @@ class ilObjLanguageExtGUI extends ilObjectGUI
         $this->addNewEntryObject($form);
     }
 
-	/**
-	 * Get success message after variables were saved
-	 */
-	protected function getSuccessMessage(): string
-	{
-		global $DIC;
-		$f = $DIC->ui()->factory();
-		$renderer = $DIC->ui()->renderer();
+    /**
+     * Get success message after variables were saved
+     */
+    protected function getSuccessMessage() : string
+    {
+        global $DIC;
+        $f = $DIC->ui()->factory();
+        $renderer = $DIC->ui()->renderer();
 
-		return $renderer->render($f->messageBox()->success($this->lng->txt("language_variables_saved")));
-	}
+        return $renderer->render($f->messageBox()->success($this->lng->txt("language_variables_saved")));
+    }
 } // END class.ilObjLanguageExtGUI

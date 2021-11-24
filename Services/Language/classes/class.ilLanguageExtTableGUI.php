@@ -44,7 +44,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow(array $data): void
+    protected function fillRow(array $data) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -87,7 +87,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     /**
      * Init filter
     */
-    public function initFilter(): void
+    public function initFilter() : void
     {
         global $DIC;
         $lng = $DIC->language();

@@ -5,13 +5,12 @@
 /**
  * Class ilObjLanguageFolderGUI
  *
- * @author	Stefan Meyer <meyer@leifos.com>
- * @version	$Id$
+ * @author    Stefan Meyer <meyer@leifos.com>
+ * @version   $Id$
  *
  * @ilCtrl_Calls ilObjLanguageFolderGUI: ilPermissionGUI
  *
- * @extends	ilObject
-
+ * @extends ilObject
  */
 
 require_once "./Services/Language/classes/class.ilObjLanguage.php";
@@ -33,7 +32,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * show installed languages
      */
-    public function viewObject(): void
+    public function viewObject() : void
     {
         global $DIC;
 
@@ -61,13 +60,11 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
         if ($this->checkPermissionBool("write")) {
             if (!$this->settings->get("lang_detection")) {
-
                 // Toggle Button for auto language detection (toggle off)
                 $toggleButton = $DIC->ui()->factory()->button()->toggle("", $DIC->ctrl()->getLinkTarget($this, "enableLanguageDetection"), $DIC->ctrl()->getLinkTarget($this, "disableLanguageDetection"), false)
                     ->withLabel($this->lng->txt("language_detection"))->withAriaLabel($this->lng->txt("lng_enable_language_detection"));
                 $this->toolbar->addComponent($toggleButton);
             } else {
-
                 // Toggle Button for auto language detection (toggle on)
                 $toggleButton = $DIC->ui()->factory()->button()->toggle("", $DIC->ctrl()->getLinkTarget($this, "enableLanguageDetection"), $DIC->ctrl()->getLinkTarget($this, "disableLanguageDetection"), true)
                     ->withLabel($this->lng->txt("language_detection"))->withAriaLabel($this->lng->txt("lng_disable_language_detection"));
@@ -82,7 +79,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * install languages
      */
-    public function installObject(): void
+    public function installObject() : void
     {
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
@@ -122,7 +119,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * Install local language modifications.
      */
-    public function installLocalObject(): void
+    public function installLocalObject() : void
     {
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
@@ -182,7 +179,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * uninstall language
      */
-    public function uninstallObject(): void
+    public function uninstallObject() : void
     {
         $this->checkPermission('write');
         $this->lng->loadLanguageModule("meta");
@@ -231,7 +228,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * Uninstall local changes in the database
      */
-    public function uninstallChangesObject(): void
+    public function uninstallChangesObject() : void
     {
         $this->checkPermission("write");
 
@@ -258,11 +255,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->out();
     }
 
-
     /**
      * update all installed languages
      */
-    public function refreshObject(): void
+    public function refreshObject() : void
     {
         $this->checkPermission("write");
 
@@ -275,7 +271,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * update selected languages
      */
-    public function refreshSelectedObject(): void
+    public function refreshSelectedObject() : void
     {
         $this->checkPermission("write");
         $this->data = $this->lng->txt("selected_languages_updated");
@@ -295,11 +291,10 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->out();
     }
 
-
     /**
      * set user language
      */
-    public function setUserLanguageObject(): void
+    public function setUserLanguageObject() : void
     {
         global $DIC;
         $ilUser = $DIC->user();
@@ -329,7 +324,6 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
             $this->ilias->raiseError($this->lng->txt("meta_l_" . $newUserLangObj->getKey()) . " " . $this->lng->txt("language_not_installed") . "<br/>" . $this->lng->txt("action_aborted"), $this->ilias->error_obj->MESSAGE);
         }
 
-
         $curUser = new ilObjUser($ilUser->getId());
         $curUser->setLanguage($newUserLangObj->getKey());
         $curUser->update();
@@ -343,7 +337,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * set the system language
      */
-    public function setSystemLanguageObject(): void
+    public function setSystemLanguageObject() : void
     {
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
@@ -382,7 +376,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * check all languages
      */
-    public function checkLanguageObject(): void
+    public function checkLanguageObject() : void
     {
         $this->checkPermission("write");
         $this->data = $this->object->checkAllLanguages();
@@ -395,16 +389,16 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "view");
     }
     
-    public function getAdminTabs(): void
+    public function getAdminTabs() : void
     {
         $this->getTabs();
     }
     
     /**
     * get tabs
-    * @param	object	tabs gui object
+    * @param   object   tabs gui object
     */
-    public function getTabs(): void
+    public function getTabs() : void
     {
         if ($this->checkPermissionBool("read")) {
             $this->tabs_gui->addTab("settings", $this->lng->txt("settings"), $this->ctrl->getLinkTarget($this, "view"));
@@ -415,7 +409,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         }
     }
     
-    public function executeCommand(): bool
+    public function executeCommand() : bool
     {
         // always check read permission, needed write permissions are checked in the *Object functions
         $this->checkPermission("read", "", $this->type, $this->ref_id);
@@ -447,7 +441,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         return true;
     }
 
-    public function confirmRefreshObject(): void
+    public function confirmRefreshObject() : void
     {
         $this->checkPermission("write");
 
@@ -463,7 +457,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->confirmRefreshSelectedObject($ids);
     }
 
-    public function confirmRefreshSelectedObject(array $a_ids = array()): void
+    public function confirmRefreshSelectedObject(array $a_ids = array()) : void
     {
         $this->checkPermission("write");
         $this->lng->loadLanguageModule("meta");
@@ -524,8 +518,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->tpl->setContent($conf_screen->getHTML());
     }
 
-
-    public function confirmUninstallChangesObject(): void
+    public function confirmUninstallChangesObject() : void
     {
         $this->checkPermission('write');
 
@@ -548,9 +541,9 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
 
     /**
      * Get Actions
-     * @deprecated	seems to be not needed anymore
+     * @deprecated  seems to be not needed anymore
     */
-    public function getActions(): array
+    public function getActions() : array
     {
         // standard actions for container
         return array(
@@ -566,7 +559,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * Disable language detection
      */
-    protected function disableLanguageDetectionObject(): void
+    protected function disableLanguageDetectionObject() : void
     {
         $this->settings->set("lang_detection", '0');
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
@@ -576,7 +569,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * Enable language detection
      */
-    protected function enableLanguageDetectionObject(): void
+    protected function enableLanguageDetectionObject() : void
     {
         $this->settings->set("lang_detection", '1');
         ilUtil::sendSuccess($this->lng->txt("saved_successfully"));
@@ -586,7 +579,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * Download deprecated lang entries
      */
-    public function listDeprecatedObject(): void
+    public function listDeprecatedObject() : void
     {
         $button = ilLinkButton::getInstance();
         $button->setCaption("download");
@@ -607,7 +600,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * Download deprecated lang entries
      */
-    public function downloadDeprecatedObject(): void
+    public function downloadDeprecatedObject() : void
     {
         include_once "./Services/Language/classes/class.ilLangDeprecated.php";
         $d = new ilLangDeprecated();

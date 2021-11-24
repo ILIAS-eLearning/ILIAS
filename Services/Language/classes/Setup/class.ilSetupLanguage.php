@@ -69,7 +69,7 @@ class ilSetupLanguage extends ilLanguage
      *
      * $a_topic    topic
      */
-    public function txt(string $a_topic, string $a_default_lang_fallback_mod = ''): string
+    public function txt(string $a_topic, string $a_default_lang_fallback_mod = '') : string
     {
         global $log;
         
@@ -100,7 +100,7 @@ class ilSetupLanguage extends ilLanguage
      *
      * $a_lang_keys    array with lang_keys of languages to install
      */
-    public function installLanguages(array $a_lang_keys, array $a_local_keys): array
+    public function installLanguages(array $a_lang_keys, array $a_local_keys) : array
     {
         global $ilDB;
         
@@ -193,7 +193,7 @@ class ilSetupLanguage extends ilLanguage
     /**
      * get already installed languages (in db)
      */
-    public function getInstalledLanguages(): array
+    public function getInstalledLanguages() : array
     {
         global $ilDB;
         
@@ -214,7 +214,7 @@ class ilSetupLanguage extends ilLanguage
     /**
      * get already installed local languages (in db)
      */
-    public function getInstalledLocalLanguages(): array
+    public function getInstalledLocalLanguages() : array
     {
         global $ilDB;
         
@@ -235,7 +235,7 @@ class ilSetupLanguage extends ilLanguage
     /**
      * get already registered languages (in db)
      */
-    protected function getAvailableLanguages(): array
+    protected function getAvailableLanguages() : array
     {
         global $ilDB;
         
@@ -264,7 +264,7 @@ class ilSetupLanguage extends ilLanguage
      * $scope          empty (global) or "local"
      * $info_text      message about results of check OR "1" if all checks successfully passed
      */
-    protected function checkLanguage(string $a_lang_key, string $scope = ""): bool
+    protected function checkLanguage(string $a_lang_key, string $scope = "") : bool
     {
         $scopeExtension = "";
         if (!empty($scope)) {
@@ -324,7 +324,7 @@ class ilSetupLanguage extends ilLanguage
      * $content    expect an ILIAS lang-file
      *
      */
-    protected function cut_header(array $content): array|bool
+    protected function cut_header(array $content) : array|bool
     {
         foreach ($content as $key => $val) {
             if (trim($val) == "<!-- language file start -->") {
@@ -339,7 +339,7 @@ class ilSetupLanguage extends ilLanguage
      * $a_lang_key     language key
      * $a_mode        "all" or "keep_local"
      */
-    protected function flushLanguage(string $a_lang_key, string $a_mode = "all"): void
+    protected function flushLanguage(string $a_lang_key, string $a_mode = "all") : void
     {
         global $ilDB;
         
@@ -356,7 +356,7 @@ class ilSetupLanguage extends ilLanguage
     *
     * $a_lang_key		lang key
     */
-    public static function _deleteLangData(string $a_lang_key, bool $a_keep_local_change): void
+    public static function _deleteLangData(string $a_lang_key, bool $a_keep_local_change) : void
     {
         global $ilDB;
         
@@ -377,7 +377,7 @@ class ilSetupLanguage extends ilLanguage
     * $a_max_date  	maximum change date "yyyy-mm-dd hh:mm:ss"
     * Returned value       [module][identifier] => value
     */
-    public function getLocalChanges(string $a_lang_key, string $a_min_date = "", string $a_max_date = ""): array
+    public function getLocalChanges(string $a_lang_key, string $a_min_date = "", string $a_max_date = "") : array
     {
         global $ilDB;
         
@@ -412,7 +412,7 @@ class ilSetupLanguage extends ilLanguage
      * $lang_key   international language key (2 digits)
      * $scope      empty (global) or "local"
      */
-    protected function insertLanguage(string $lang_key, string $scope = ""): void
+    protected function insertLanguage(string $lang_key, string $scope = "") : void
     {
         global $ilDB;
         
@@ -536,7 +536,7 @@ class ilSetupLanguage extends ilLanguage
     /**
     * Replace language module array
     */
-    final public static function replaceLangModule(string $a_key, string $a_module, array $a_array): void
+    final public static function replaceLangModule(string $a_key, string $a_module, array $a_array) : void
     {
         global $ilDB;
         
@@ -561,7 +561,7 @@ class ilSetupLanguage extends ilLanguage
         string $a_lang_key,
         string $a_value,
         string $a_local_change = null
-    ): void {
+    ) : void {
         global $ilDB;
 
         $ilDB->manipulate(sprintf(
@@ -595,7 +595,7 @@ class ilSetupLanguage extends ilLanguage
         string $a_lang_key,
         string $a_value,
         string $a_local_change = null
-    ): void {
+    ) : void {
         global $ilDB;
         
         $ilDB->manipulate(sprintf(
@@ -614,7 +614,7 @@ class ilSetupLanguage extends ilLanguage
      * Searches for the existence of *.lang.local files.
      * Returns array with language keys
      */
-    public function getLocalLanguages(): array
+    public function getLocalLanguages() : array
     {
         $local_langs = array();
         if (is_dir($this->cust_lang_path)) {
@@ -639,7 +639,7 @@ class ilSetupLanguage extends ilLanguage
     /**
      * Return installable languages
      */
-    public function getInstallableLanguages(): array
+    public function getInstallableLanguages() : array
     {
         $d = dir($this->lang_path);
         $tmpPath = getcwd();
@@ -664,7 +664,7 @@ class ilSetupLanguage extends ilLanguage
      * @string   object      db handler
      * Return true on success
      */
-    public function setDbHandler($a_db_handler): bool
+    public function setDbHandler($a_db_handler) : bool
     {
         if (empty($a_db_handler) or !is_object($a_db_handler)) {
             return false;

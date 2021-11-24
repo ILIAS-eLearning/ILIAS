@@ -33,8 +33,7 @@ class ilLanguageDetectorFactory
             $this->createDetectorByType(self::DEFAULT_DETECTOR)
         );
 
-        if (
-            $this->settings->get("lang_detection") &&
+        if ($this->settings->get("lang_detection") &&
             ilContext::usesHTTP()
         ) {
             $detectors[] = $this->createDetectorByType(self::HTTP_REQUEST_DETECTOR);

@@ -21,7 +21,7 @@ class ilHttpRequestsLanguageDetector implements ilLanguageDetector
      * Returns the detected ISO2 language code
      * @throws ilLanguageException
      */
-    public function getIso2LanguageCode(): string
+    public function getIso2LanguageCode() : string
     {
         if (strlen($this->header_value)) {
             $matches = array();
