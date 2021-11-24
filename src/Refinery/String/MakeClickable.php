@@ -19,15 +19,16 @@ class MakeClickable implements Transformation
     {
         $this->requireString($maybeHTML);
 
-        $i = 0;
+        $endOfMatch = 0;
         $stringParts = [];
         $matches = [];
-        while (1 === \preg_match('@(^|[^[:alnum:]])(((https?://)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)@', \substr($maybeHTML, $i), $matches)) {
-            $oldIndex = $i;
-            $i += \strpos(\substr($maybeHTML, $i), $matches[0]);
-            $stringParts[] = \substr($maybeHTML, $oldIndex, $i - $oldIndex);
-            $i += \strlen($matches[1] . $matches[2]);
-            if ($this->regexPos('@<a.*</a>@', \substr($maybeHTML, $i)) <= $this->regexPos('@</a>@', \substr($maybeHTML, $i))) {
+        while (1 === \preg_match('@(^|[^[:alnum:]])(((https?://)|(www.))[^[:cntrl:][:space:]<>\'"]+)([^[:alnum:]]|$)@', \substr($maybeHTML, $endOfMatch), $matches)) {
+            $oldIndex = $endOfMatch;
+            $endOfMatch += \strpos(\substr($maybeHTML, $endOfMatch), $matches[0]);
+            $stringParts[] = \substr($maybeHTML, $oldIndex, $endOfMatch - $oldIndex);
+            $startOfMatch = $endOfMatch;
+            $endOfMatch += \strlen($matches[1] . $matches[2]);
+            if ($this->shouldReplace($maybeHTML, $startOfMatch, $endOfMatch)) {
                 $maybeProtocol = '' === $matches[4] ? 'https://' : '';
                 $stringParts[] = \sprintf('%s<a href="%s">%s</a>', $matches[1], $maybeProtocol . $matches[2], $matches[2], $matches[6]);
                 continue;
@@ -35,7 +36,7 @@ class MakeClickable implements Transformation
             $stringParts[] = $matches[1] . $matches[2];
         }
 
-        $stringParts[] = \substr($maybeHTML, $i);
+        $stringParts[] = \substr($maybeHTML, $endOfMatch);
 
         return \join('', $stringParts);
     }
@@ -55,5 +56,14 @@ class MakeClickable implements Transformation
         if (!\is_string($maybeHTML)) {
             throw new ConstraintViolationException('not a string', 'not_a_string');
         }
+    }
+
+    private function shouldReplace(string $maybeHTML, int $startOfMatch, int $endOfMatch) : bool
+    {
+        $isNotInAnchor = $this->regexPos('@<a.*</a>@', \substr($maybeHTML, $endOfMatch)) <= $this->regexPos('@</a>@', \substr($maybeHTML, $endOfMatch));
+        $isNotATagAttribute = 0 === \preg_match('/^[^>]*[[:space:]][[:alpha:]]+</', \strrev(\substr($maybeHTML, 0, $startOfMatch)));
+
+        return $isNotInAnchor && $isNotATagAttribute;
+
     }
 }
