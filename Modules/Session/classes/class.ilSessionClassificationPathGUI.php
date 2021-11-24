@@ -11,10 +11,10 @@ class ilSessionClassificationPathGUI extends ilPathGUI
 {
 
     /**
-     * @param $a_obj_id
-     * @return string|void
+     * @param int $a_obj_id
+     * @return string
      */
-    protected function buildTitle($a_obj_id)
+    protected function buildTitle(int $a_obj_id) : string
     {
         if (ilObject::_lookupType($a_obj_id) !== 'sess') {
             return ilObject::_lookupTitle($a_obj_id);
@@ -26,7 +26,7 @@ class ilSessionClassificationPathGUI extends ilPathGUI
     /**
      * @inheritdoc
      */
-    protected function getPathIds()
+    protected function getPathIds() : array
     {
         global $DIC;
 
