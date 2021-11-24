@@ -16,8 +16,8 @@ class Contribution extends Item implements IContribution, IJavaScriptBindable
 {
     use JavaScriptBindable;
 
-    protected ilObjUser $user;
-    protected ilDateTime $dateTime;
+    protected ?ilObjUser $user = null;
+    protected ?ilDateTime $datetime = null;
     protected ?Icon $lead_icon = null;
     protected ?Close $close = null;
     protected ?string $identifier = null;
@@ -25,11 +25,11 @@ class Contribution extends Item implements IContribution, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function __construct(string $content, ilObjUser $user, ilDateTime $dateTime)
+    public function __construct(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null)
     {
         $this->desc = $content;
         $this->user = $user;
-        $this->dateTime = $dateTime;
+        $this->datetime = $datetime;
         parent::__construct('');
     }
 
@@ -73,7 +73,7 @@ class Contribution extends Item implements IContribution, IJavaScriptBindable
         return $clone;
     }
 
-    public function getUser() : ilObjUser
+    public function getUser() : ?ilObjUser
     {
         return $this->user;
     }
@@ -81,14 +81,14 @@ class Contribution extends Item implements IContribution, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withDateTime(ilDateTime $dateTime) : IContribution
+    public function withDateTime(ilDateTime $datetime) : IContribution
     {
         $clone = clone $this;
-        $clone->dateTime = $dateTime;
+        $clone->datetime = $datetime;
         return $clone;
     }
 
-    public function getDateTime() : ilDateTime
+    public function getDateTime() : ?ilDateTime
     {
         return $this->dateTime;
     }

@@ -150,8 +150,17 @@ class Renderer extends AbstractComponentRenderer
         $this->renderTitle($component, $default_renderer, $tpl);
         $this->renderDescription($component, $tpl);
 
-        $tpl->setVariable("USER", $component->getUser()->getPublicName());
-        $tpl->setVariable("DATETIME", ilDatePresentation::formatDate($component->getDateTime()));
+        if ($component->getUser()) {
+            $tpl->setVariable("USER", $component->getUser()->getPublicName());
+        } else {
+            $tpl->setVariable("USER", $this->txt('unknown'));
+        }
+
+        if ($component->getDateTime()) {
+            $tpl->setVariable("DATETIME", ilDatePresentation::formatDate($component->getDateTime()));
+        } else {
+            $tpl->setVariable("DATETIME", $this->txt('unknown'));
+        }
 
         if ($component->getLeadIcon() !== null) {
             $tpl->setCurrentBlock("lead_icon");
