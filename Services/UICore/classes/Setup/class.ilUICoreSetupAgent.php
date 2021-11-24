@@ -9,6 +9,7 @@ use ILIAS\Setup\Metrics\Storage;
 use ILIAS\Setup\Objective;
 use ILIAS\Setup\Agent;
 use ILIAS\Setup\Config;
+use ILIAS\Setup\ObjectiveConstructor;
 
 /**
  * Class ilUICoreSetupAgent
@@ -98,5 +99,23 @@ class ilUICoreSetupAgent implements Agent
             default:
                 throw new InvalidArgumentException("There is no named objective '$name'");
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getNamedObjectives(?Config $config = null) : array
+    {
+        return [
+            'buildIlCtrlArtifacts' => new ObjectiveConstructor(
+                'builds all necessary ilCtrl artifacts.',
+                function () { return $this->getBuildArtifactObjective(); }
+            ),
+
+            'updateIlCtrlDatabase' => new ObjectiveConstructor(
+                'executes all ilCtrl database update steps.',
+                function () { return $this->getUpdateObjective(); }
+            ),
+        ];
     }
 }
