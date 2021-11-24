@@ -7,7 +7,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilExerciseHandlerGUI: ilObjExerciseGUI
  */
-class ilExerciseHandlerGUI
+class ilExerciseHandlerGUI implements ilCtrlBaseClassInterface
 {
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -40,7 +40,7 @@ class ilExerciseHandlerGUI
         $ilAccess = $this->access;
         $tpl = $this->tpl;
         $ilNavigationHistory = $this->nav_history;
-        
+
         $next_class = $this->ctrl->getNextClass($this);
         if ($next_class == "") {
             $this->ctrl->setCmdClass("ilobjexercisegui");

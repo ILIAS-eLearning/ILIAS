@@ -1660,7 +1660,7 @@ class ilTable2GUI extends ilTableGUI
 
         $this->prepareOutput();
 
-        if (is_object($ilCtrl) && $this->getId() == "") {
+        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
             $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
 

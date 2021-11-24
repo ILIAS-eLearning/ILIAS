@@ -7,7 +7,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilTablePropertiesStorage: ilTablePropertiesStorage
  */
-class ilTablePropertiesStorage
+class ilTablePropertiesStorage implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilObjUser

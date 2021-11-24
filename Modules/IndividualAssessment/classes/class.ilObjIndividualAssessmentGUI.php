@@ -18,7 +18,7 @@
  * @ilCtrl_Calls ilObjIndividualAssessmentGUI: ilObjectMetaDataGUI
  */
 
-class ilObjIndividualAssessmentGUI extends ilObjectGUI
+class ilObjIndividualAssessmentGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
     const TAB_SETTINGS = 'settings';
     const TAB_INFO = 'info_short';

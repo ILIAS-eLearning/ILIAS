@@ -11,7 +11,7 @@
 *
 * @ingroup ModulesMediaCast
 */
-class ilMediaCastHandlerGUI
+class ilMediaCastHandlerGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

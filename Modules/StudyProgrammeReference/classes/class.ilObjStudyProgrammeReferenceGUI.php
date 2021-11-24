@@ -2,7 +2,7 @@
 /**
 * @ilCtrl_Calls ilObjStudyProgrammeReferenceGUI: ilPermissionGUI, ilInfoScreenGUI, ilPropertyFormGUI
 */
-class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI
+class ilObjStudyProgrammeReferenceGUI extends ilContainerReferenceGUI implements ilCtrlBaseClassInterface
 {
     /**
      * ilObjGroupReferenceGUI constructor.

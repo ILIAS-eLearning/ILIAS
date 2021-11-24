@@ -14,7 +14,7 @@
 *
 * @ingroup ModulesGlossary
 */
-class ilGlossaryEditorGUI
+class ilGlossaryEditorGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

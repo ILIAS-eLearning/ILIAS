@@ -84,6 +84,11 @@ class ilAdvancedMDRecordTranslation
         return $this->record_id;
     }
 
+    public function setRecordId(int $record_id) : void
+    {
+        $this->record_id = $record_id;
+    }
+
     /**
      * @return string
      */

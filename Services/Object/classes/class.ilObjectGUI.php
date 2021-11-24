@@ -253,7 +253,7 @@ class ilObjectGUI
         // set context
         if (is_object($this->object)) {
             if ($this->call_by_reference && $this->ref_id == $this->requested_ref_id) {
-                $this->ctrl->setContext(
+                $this->ctrl->setContextObject(
                     $this->object->getId(),
                     $this->object->getType()
                 );

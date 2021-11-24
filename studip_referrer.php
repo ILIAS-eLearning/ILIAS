@@ -65,10 +65,13 @@ if (file_exists("./ilias.ini.php")) {
             }
         break;
         case 'new':
+            // global $DIC;
             $_POST['new_type'] = $_GET['type'];
             $_POST['cmd']['create'] = 'add';
             $_GET['cmd'] = 'post';
-            $_GET[ilCtrl::IL_RTOKEN_NAME] = $ilCtrl->getRequestToken();
+            // @TODO: according to my knowledge, this won't work as the
+            //        surrounding environment doesn't allow it.
+            // $_GET['rtoken'] = (new ilCtrlToken($DIC->database(), $DIC->user()))->getToken();
             $_GET['baseClass'] = 'ilRepositoryGUI';
             $jump_to = 'ilias.php';
         break;
