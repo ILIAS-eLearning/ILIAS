@@ -10,9 +10,7 @@ function with_lead_icon()
 
     return $DIC->ui()->renderer()->render(
         $DIC->ui()->factory()->item()->contribution(
-            'a little test contribution',
-            new \ilObjUser(6),
-            new \ilDateTime(time(), IL_CAL_UNIX)
+            'a little test contribution'
         )->withLeadIcon(
             $DIC->ui()->factory()->symbol()->icon()->standard(Standard::GRP, 'conversation')
         )

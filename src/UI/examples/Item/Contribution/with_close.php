@@ -8,9 +8,7 @@ function with_close()
 
     return $DIC->ui()->renderer()->render(
         $DIC->ui()->factory()->item()->contribution(
-            'a little test contribution',
-            new \ilObjUser(6),
-            new \ilDateTime(time(), IL_CAL_UNIX)
+            'a little test contribution'
         )->withClose(
             $DIC->ui()->factory()->button()->close()
         )

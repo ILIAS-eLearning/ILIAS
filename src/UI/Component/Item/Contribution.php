@@ -16,23 +16,23 @@ use ilObjUser;
 interface Contribution extends Item
 {
     /**
-     * Creates a contribution to a user at a specific time.
+     * Creates a contribution.
      */
-    public function __construct(string $content, ilObjUser $user, ilDateTime $datetime);
+    public function __construct(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null);
 
     /**
      * Get a copy of that contribution with another user.
      */
     public function withUser(ilObjUser $user) : Contribution;
 
-    public function getUser() : ilObjUser;
+    public function getUser() : ?ilObjUser;
 
     /**
      * Get a copy of that contribution with another datetime.
      */
     public function withDateTime(ilDateTime $dateTime) : Contribution;
 
-    public function getDateTime() : ilDateTime;
+    public function getDateTime() : ?ilDateTime;
 
     /**
      * Get a copy of that contribution with a close button.

@@ -22,7 +22,7 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
-    public function contribution(string $content, ilObjUser $user, ilDateTime $datetime) : Item\Contribution
+    public function contribution(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null) : Item\Contribution
     {
         throw new \ILIAS\UI\NotImplementedException();
     }

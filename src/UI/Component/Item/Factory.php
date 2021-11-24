@@ -39,7 +39,8 @@ interface Factory
      *     Contributions are content that can be credited to one explicit user and time.
      *     Contribution items are used to present that content with a clear visible association to its creator.
      *   composition: >
-     *     Contributions contain a textual content, a user presentation and a datetime presentation.
+     *     Contributions contain a textual content, a user presentation and a datetime presentation or a representative
+     *     info if the user or the datetime of the creation is unknown.
      *     Further the Contribution can have a close button and a lead icon.
      *   effect: >
      *     An interaction with the close button may remove the Contribution permanently.
@@ -59,7 +60,7 @@ interface Factory
      * @param \ilDateTime $dateTime
      * @return \ILIAS\UI\Component\Item\Contribution
      */
-    public function contribution(string $content, ilObjUser $user, ilDateTime $dateTime) : Contribution;
+    public function contribution(string $content, ?ilObjUser $user = null, ?ilDateTime $dateTime = null) : Contribution;
 
     /**
      * ---
