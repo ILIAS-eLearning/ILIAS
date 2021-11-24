@@ -64,6 +64,5 @@ class MakeClickable implements Transformation
         $isNotATagAttribute = 0 === \preg_match('/^[^>]*[[:space:]][[:alpha:]]+</', \strrev(\substr($maybeHTML, 0, $startOfMatch)));
 
         return $isNotInAnchor && $isNotATagAttribute;
-
     }
 }
