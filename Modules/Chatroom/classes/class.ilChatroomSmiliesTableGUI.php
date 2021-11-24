@@ -42,11 +42,7 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
         }
     }
 
-    /**
-     * Fills table rows with content from $a_set.
-     * @param array    $a_set
-     */
-    protected function fillRow($a_set)
+    protected function fillRow($a_set) : void
     {
         $this->tpl->setVariable('VAL_SMILEY_ID', $a_set['smiley_id']);
         $this->tpl->setVariable('VAL_SMILEY_PATH', $a_set['smiley_fullpath']);
@@ -54,13 +50,6 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
         $this->tpl->setVariable(
             'VAL_SMILEY_KEYWORDS_NONL',
             str_replace("\n", "", $a_set['smiley_keywords'])
-        );
-        $this->tpl->setVariable(
-            'VAL_SORTING_TEXTINPUT',
-            ilUtil::formInput(
-                'sorting[' . $a_set['id'] . ']',
-                $a_set['sorting']
-            )
         );
 
         if ($this->dic->rbac()->system()->checkAccess('write', $this->gui->ref_id)) {

@@ -906,7 +906,7 @@ assessment#:#end_tag#:#Endmarkierung
 assessment#:#tst_settings_conflict_message#:#Es wurden Kombinationen von Einstellungen gewählt, die nicht erlaubt sind.
 assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit einer anderen Einstellung.
 assessment#:#enlarge#:#vergrößern
-assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
+assessment#:#enter_anonymous_code#:#Zugangsschlüssel eingeben, um bereits gestarteten Tests fortzuführen:
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
 assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erzielen. Bitte geben Sie eine positive Punktezahl für das Auswählen einer Antwort ein.
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
@@ -1427,7 +1427,7 @@ assessment#:#thumb_size_info#:#Wenn Sie eine Vorschaugröße angeben, werden hoc
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielposition auswählen!
 assessment#:#true#:#Wahr
-assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
+assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
 assessment#:#tst_allowed_users#:#Anzahl gleichzeitiger Teilnehmer begrenzen
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
@@ -4613,6 +4613,7 @@ common#:#usr_settings_changeable_lua#:#Änderbar in lokaler Benutzerverwaltung
 common#:#usr_settings_explanation_profile#:#Bestimmen Sie in der folgenden Tabelle, welche Felder für einen Benutzer sichtbar und welche änderbar sind. Ist ein Datenfeld 'Sichtbar', werden die Daten angezeigt, können aber nicht geändert werden. Ist ein Datenfeld 'Änderbar' kann der Benutzer die Daten nachträglich ändern. Bei der Einstellung 'Erforderliche Angabe' ist die Eingabe verpflichtend. Unabhängig von diesen Einstellungen können Systemadministratoren alle Daten in der Benutzeradministration ändern.
 common#:#usr_settings_header_profile#:#Einstellungen für die Benutzerkonten
 common#:#usr_settings_saved#:#Die globalen Benutzereinstellungen wurden erfolgreich gespeichert und sind nun aktiviert!
+common#:#usr_field_change_components_listening#:#Es gibt mindestens eine Komponente, die sich für die getätigten Änderungen interessiert. Möchten Sie die Änderungen samt der von den Komponenten beschriebenen Konsequenzen final durchführen?
 common#:#usr_settings_visib_lua#:#Sichtbar in lokaler Benutzerverwaltung
 common#:#usr_skin_style#:#Skin/Style
 common#:#usr_without_courses#:#Benutzer ohne Kurse zugewiesen
@@ -4730,7 +4731,7 @@ rbac#:#wiki_visible#:#Wiki ist sichtbar
 rbac#:#wiki_write#:#Einstellungen des Wikis bearbeiten
 common#:#with#:#mit
 common#:#wizard_search_list#:#Ihre Suche ergab folgende Ergebnisse. Bitte wählen Sie eines aus.
-common#:#wizard_title_info#:#Geben Sie bitte den Titel oder Teile des Titels ein, um das Objekt zu suchen, das Sie kopieren wollen. Klicken Sie auf "Weiter", um passende Suchergebnisse angezeigt zu bekommen.
+common#:#wizard_title_info#:#    Geben Sie bitte den Titel ein, um das Objekt zu suchen, das Sie kopieren wollen. Auch Teile des Titels reichen aus. Klicken Sie auf „Suchen“, um die Treffer angezeigt zu bekommen.
 common#:#write#:#Schreiben
 common#:#wrong_ip_detected#:#Der Zugang zum System wird aufgrund einer falschen Client IP verweigert.<br>Ihre aktuelle IP-Adresse: %s<br>Bitte kontaktieren Sie die Technische Betreuung / Systemadministration.
 common#:#year#:#Jahr
@@ -6218,7 +6219,7 @@ didactic#:#didactic_confirm_apply_new_template#:#Sind Sie sicher, dass Sie diese
 didactic#:#didactic_confirm_delete_msg#:#Sind Sie sicher, dass die folgenden didaktischen Vorlagen gelöscht werden sollen?
 didactic#:#didactic_copy_suc_message#:#Die didaktische Vorlage wurde kopiert
 didactic#:#didactic_deactivated_msg#:#Die ausgewählten didaktischen Vorlagen wurden deaktiviert.
-didactic#:#didactic_default_type_info#:#Es werden die Standardeinstellungen für Rechte verwendet.
+didactic#:#didactic_default_type_info#:#Es werden die Rechtevorgaben für die jeweiligen Rollen angewendet.
 didactic#:#didactic_delete_msg#:#Die ausgewählten didaktischen Vorlagen wurden gelöscht.
 didactic#:#didactic_do_export#:#Exportieren
 didactic#:#didactic_edit_tpl#:#Didaktische Vorlage bearbeiten
@@ -10166,8 +10167,8 @@ rep#:#rep_visibility_until#:#Zeitlich begrenzte Verfügbarkeit
 assessment#:#tst_activation_online_info#:#Nur wenn der Test online geschaltet ist, können Benutzer am Test teilnehmen.
 assessment#:#tst_activation_limited_visibility_info#:#Außerhalb des angegebenen Zeitraums wird der Testtitel angezeigt. Der Test kann aber nicht gestartet werden.
 book#:#booking_nr_of_items#:#Anzahl
-book#:#book_schedule_type_fixed#:#Belegungen zu Terminen
-book#:#book_schedule_type_fixed_info#:#Dieser Typ ist geeignet für Räume, Beamer, etc.
+book#:#book_schedule_type_fixed#:#Buchung zu Terminen
+book#:#book_schedule_type_fixed_info#:#Geeignet für Buchungen von Dingen für einen bestimmten Zeitraum, wie Räume, Dienstleistungen oder Geräte.
 book#:#book_schedule_type_none#:#Ohne Zeitplan verteilen
 book#:#book_schedule_type_none_info#:#Dieser Typ ist geeignet für Referatsthemen, Seminarplätze, etc.
 book#:#book_confirm_booking_no_schedule#:#Sind Sie sicher, dass Sie das folgende Objekt buchen wollen?
@@ -13790,8 +13791,8 @@ wiki#:#wiki_page_list_mode_ordered#:#Nummeriert
 blog#:#blog_news_posting_updated#:#Ein Blogbeitrag wurde aktualisiert von %s.
 blog#:#blog_news_posting_published#:#Ein neuer Blogbeitrag wurde veröffentlicht von %s.
 blog#:#blog_news_posting_authors#:#Beteiligte Autoren: %s
-book#:#book_reservation_filter_period#:#Filter „Datumsbereich“
-book#:#book_reservation_filter_period_info#:#Der Default-Wert für den Datumsbereich-Filter in Tagen ab dem aktuellem Datum.
+book#:#book_reservation_filter_period#:#Voreinstellung für den Filter „Datumsbereich“
+book#:#book_reservation_filter_period_info#:#Im Reiter Reservierungen wird der Filter „Datumsbereich“ auf diesen Wert ab dem aktuellen Datum voreingestellt.
 book#:#book_filter_past_reservations#:#Abgelaufene Reservierungen anzeigen
 book#:#book_deadline_options#:#Spätester Buchungszeitpunkt
 book#:#book_deadline_hours#:#Bis n Stunden vor Beginn des Zeitfensters
@@ -14570,6 +14571,7 @@ dateplaner#:#cal_cal_shared_with#:#Benutzer mit denen der Kalender geteilt wird
 dateplaner#:#cal_consultation_hours_for_user#:#Sprechstunde %1
 dateplaner#:#cal_open_calendar#:#Kalender öffnen
 dateplaner#:#cal_delete_cal#:#Kalender löschen
+mail#:#usrFieldChange_second_mail_visible_in_personal_data#:#Sie haben das Attribut "%s" im Feld "%s" verändert.<br>Dies führt dazu, dass, für alle bestehenden und künftig angelegten Konten,<br>die bei den Benutzern gewählte Empfangsart und der Standard für neue Benutzerkonten bei externer Zustellung auf die primäre E-Mail-Adresse geändert wird,<br>unter Inkaufnahme der Rücksetzung von bestehenden Benutzer-Einstellungen.
 mail#:#first_email_missing_info#:#Auswahl nicht möglich, da keine E-Mail-Adresse eingetragen wurde
 mail#:#second_email_missing_info#:#Auswahl nicht möglich, da keine zweite E-Mail-Adresse eingetragen wurde
 mail#:#mail_first_email#:#Erste E-Mail-Adresse
@@ -15084,10 +15086,10 @@ book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen
 book#:#book_your_reservations#:#Ihre Reservierungen
 book#:#book_reservation_overview#:#Reservierungen anderer Benutzer
 book#:#book_rem_reason#:#Sie erhalten diese Mail, da Sie die Benachrichtigung der entsprechenden Buchungsobjekte aktiviert haben.
-book#:#book_reminder_setting#:#Reminder
-book#:#book_reminder_day#:#Vor der Reservierung
+book#:#book_reminder_setting#:#Teilnehmer an Reservierung erinnern
+book#:#book_reminder_day#:#Versenden
 book#:#book_reminder_day_info#:#Sendet eine Liste eigener anstehenden Reservierungen und zusätzlich eine Gesamtliste an Benutzer mit Schreibrechten.
-book#:#book_reminder_days#:#Tag(e)
+book#:#book_reminder_days#:#Tage vor der Reservierung
 noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert

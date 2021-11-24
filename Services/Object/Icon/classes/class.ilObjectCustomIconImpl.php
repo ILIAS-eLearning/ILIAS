@@ -133,7 +133,7 @@ class ilObjectCustomIconImpl implements \ilObjectCustomIcon
 
             /** @var \ILIAS\FileUpload\DTO\UploadResult $result */
             $result = array_values($this->upload->getResults())[0];
-            if ($result->getStatus() == \ILIAS\FileUpload\DTO\ProcessingStatus::OK) {
+            if ($result->isOK()) {
                 $this->upload->moveOneFileTo(
                     $result,
                     $this->getIconDirectory(),

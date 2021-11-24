@@ -25,6 +25,10 @@ abstract class AbstractBaseTest extends TestCase
      * @var IdentificationGenerator
      */
     protected $id_generator;
+    /**
+     * @var \ilDBInterface|mixed|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $db_mock;
 
     /**
      * @inheritDoc
@@ -33,6 +37,7 @@ abstract class AbstractBaseTest extends TestCase
     {
         parent::setUp();
         $this->id_generator = new DummyIDGenerator();
+        $this->db_mock = $this->getMockBuilder(\ilDBInterface::class)->getMock();
     }
 
     /**

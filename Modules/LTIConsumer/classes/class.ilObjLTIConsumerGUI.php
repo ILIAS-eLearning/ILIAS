@@ -695,7 +695,7 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
             $info->addProperty('Current User ID', $DIC->user()->getId());
         }
 
-		require_once('Services/Tracking/classes/class.ilLPObjSettings.php');
+        require_once('Services/Tracking/classes/class.ilLPObjSettings.php');
         if ($this->object->getProvider()->getHasOutcome() && ilLPObjSettings::_lookupDBMode($this->object->getId()) != 0) {
             $info->addSection($DIC->language()->txt("lti_info_learning_progress_section"));
             $info->addProperty(
@@ -752,10 +752,10 @@ class ilObjLTIConsumerGUI extends ilObject2GUI
         $cmixUser = new ilCmiXapiUser($this->object->getId(), $this->user->getId(), $this->object->getProvider()->getPrivacyIdent());
         $user_ident = $cmixUser->getUsrIdent();
         if ($user_ident == '' || $user_ident == null) {
-			$user_ident = ilCmiXapiUser::getIdent($this->object->getProvider()->getPrivacyIdent(), $DIC->user());
-			$cmixUser->setUsrIdent($user_ident);
-			$cmixUser->save();
-		}
+            $user_ident = ilCmiXapiUser::getIdent($this->object->getProvider()->getPrivacyIdent(), $DIC->user());
+            $cmixUser->setUsrIdent($user_ident);
+            $cmixUser->save();
+        }
         
         include_once("./Modules/LTIConsumer/classes/class.ilLTIConsumerLaunch.php");
         $ilLTIConsumerLaunch = new ilLTIConsumerLaunch($this->object->getRefId());

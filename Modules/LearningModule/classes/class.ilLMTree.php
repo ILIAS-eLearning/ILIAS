@@ -18,18 +18,17 @@
  */
 class ilLMTree extends ilTree
 {
-    public static array $instances = array();
-    protected array $complete_tree;
+    public static array $instances = [];
+    protected array $complete_tree = [];
 
     public function __construct(
         int $a_tree_id
     ) {
-        global $DIC;
-
         parent::__construct($a_tree_id);
         $this->setTableNames('lm_tree', 'lm_data');
         $this->setTreeTablePK("lm_id");
         $this->useCache(true);
+        $this->readRootId();
     }
 
     public static function getInstance(

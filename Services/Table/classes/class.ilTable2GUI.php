@@ -357,9 +357,9 @@ class ilTable2GUI extends ilTableGUI
      * @param	string	column name
      * @return	boolean
      */
-    public function isColumnSelected($a_col)
+    public function isColumnSelected(string $col) : bool
     {
-        return $this->selected_column[$a_col];
+        return $this->selected_column[$col] ?? false;
     }
 
     /**

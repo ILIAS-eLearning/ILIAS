@@ -9,7 +9,7 @@
  */
 class ilBannedUsersTableGUI extends ilTable2GUI
 {
-    public function __construct(ilChatroomBanGUI $a_parent_obj, string $a_parent_cmd)
+    public function __construct(ilObjChatroomGUI $a_parent_obj, string $a_parent_cmd)
     {
         $this->setId('banned_users');
 

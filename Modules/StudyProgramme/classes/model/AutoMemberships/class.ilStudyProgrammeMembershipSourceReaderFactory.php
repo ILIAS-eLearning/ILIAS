@@ -1,12 +1,12 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Provides adapters to read member-ids from a specific source.
  */
 class ilStudyProgrammeMembershipSourceReaderFactory
 {
+    protected Pimple\Container  $dic;
+
     public function __construct(Pimple\Container $dic)
     {
         $this->dic = $dic;
@@ -38,7 +38,7 @@ class ilStudyProgrammeMembershipSourceReaderFactory
                 );
 
             default:
-                throw new \InvalidargumentException("Invalid source type.", 1);
+                throw new InvalidargumentException("Invalid source type.", 1);
         }
     }
 }

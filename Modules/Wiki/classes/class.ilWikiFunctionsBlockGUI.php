@@ -11,18 +11,20 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
 {
     public static $block_type = "wikiside";
     public static $st_data;
-
-    /**
-     * @var ilObjWiki
-     */
-    protected $wiki;
+    protected int $ref_id;
+    protected ilWikiPage $pageob;
+    protected ilObjWiki $wiki;
     
-    /**
-    * Constructor
-    */
     public function __construct()
     {
         global $DIC;
+
+        $request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -38,32 +40,23 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $this->setTitle($lng->txt("wiki_functions"));
         $this->allow_moving = false;
 
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ref_id = $request->getRefId();
 
         $this->wiki = new ilObjWiki($this->ref_id);
 
         $this->setPresentation(self::PRES_SEC_LEG);
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getBlockType() : string
     {
         return self::$block_type;
     }
 
-    /**
-     * @inheritdoc
-     */
     protected function isRepositoryObject() : bool
     {
         return false;
     }
     
-    /**
-    * Get Screen Mode for current command.
-    */
     public static function getScreenMode() : string
     {
         return IL_SCREEN_SIDE;
@@ -85,41 +78,16 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         }
     }
 
-    /**
-    * Set Page Object
-    *
-    * @param	int	$a_pageob	Page Object
-    */
-    public function setPageObject($a_pageob)
+    public function setPageObject(ilWikiPage $a_pageob) : void
     {
         $this->pageob = $a_pageob;
     }
 
-    /**
-    * Get Page Object
-    *
-    * @return	int	Page Object
-    */
-    public function getPageObject()
+    public function getPageObject() : ilWikiPage
     {
         return $this->pageob;
     }
 
-    /**
-    * Get bloch HTML code.
-    */
-    public function getHTML() : string
-    {
-        $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilUser = $this->user;
-        
-        return parent::getHTML();
-    }
-
-    /**
-    * Fill data section
-    */
     public function fillDataSection() : void
     {
         $this->setDataSection($this->getLegacyContent());
@@ -132,9 +100,6 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
     protected $new_rendering = true;
 
 
-    /**
-     * @inheritdoc
-     */
     protected function getLegacyContent() : string
     {
         $ilCtrl = $this->ctrl;
@@ -241,7 +206,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         if ($ilAccess->checkAccess("write", "", $this->ref_id) ||
             $ilAccess->checkAccess("edit_page_meta", "", $this->ref_id)) {
             // unhide advmd?
-            if ((bool) sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) &&
+            if (sizeof(ilAdvancedMDRecord::_getSelectedRecordsByObject("wiki", $this->ref_id, "wpg")) &&
                 ilWikiPage::lookupAdvancedMetadataHidden($this->getPageObject()->getId())) {
                 $list->addItem(
                     $lng->txt("wiki_unhide_meta_adv_records"),
@@ -375,7 +340,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
         $modal_html = "";
         foreach ($actions as $a) {
             $tpl->setCurrentBlock("action");
-            if ($a["modal"] != "") {
+            if (($a["modal"] ?? "") != "") {
                 $signal = $a["modal"]->getShowSignal();
                 $onclick = "$(document).trigger('" . $signal . "', {'id': '" . $signal . "','triggerer':$(this), 'options': JSON.parse('[]')}); return false;";
                 $tpl->setVariable("ONCLICK", ' onclick="' . $onclick . '" ');
@@ -385,7 +350,7 @@ class ilWikiFunctionsBlockGUI extends ilBlockGUI
                 $tpl->setVariable("HREF", $a["href"]);
             }
             $tpl->setVariable("TXT", $a["txt"]);
-            if ($a["id"] != "") {
+            if (($a["id"] ?? "") != "") {
                 $tpl->setVariable("ACT_ID", "id='" . $a["id"] . "'");
             }
             $tpl->parseCurrentBlock();

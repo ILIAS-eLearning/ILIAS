@@ -399,7 +399,7 @@ class ilSearchResultPresentation
         $path_gui->setUseImages(false);
         
         $tpl = new ilTemplate('tpl.lucene_path.html', true, true, 'Services/Search');
-        $tpl->setVariable('PATH_ITEM', $path_gui->getPath(ROOT_FOLDER_ID, $a_ref_id));
+        $tpl->setVariable('PATH_ITEM', $path_gui->getPath(ROOT_FOLDER_ID, (int) $a_ref_id));
         return $tpl->get();
     }
     

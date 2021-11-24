@@ -1,23 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for image map editor
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilImageMapTableGUI extends ilTable2GUI
 {
+    protected ilObjMediaObject $media_object;
     protected array $highl_classes;
     protected array $highl_modes;
     protected ilAccessHandler $access;
 
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_media_object)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjMediaObject $a_media_object
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -45,10 +57,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->setEnableTitle(false);
     }
     
-    /**
-     * Init columns
-     */
-    public function initColumns()
+    public function initColumns() : void
     {
         $this->addColumn("", "", "1");	// checkbox
         $this->addColumn($this->lng->txt("cont_name"), "title", "");
@@ -59,10 +68,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("cont_link"), "", "");
     }
     
-    /**
-     * Init actions
-     */
-    public function initActions()
+    public function initActions() : void
     {
         $lng = $this->lng;
         
@@ -79,12 +85,8 @@ class ilImageMapTableGUI extends ilTable2GUI
             $this->addCommandButton("updateAreas", $lng->txt("save"));
         }
     }
-    
 
-    /**
-    * Get items of current folder
-    */
-    public function getItems()
+    public function getItems() : void
     {
         $st_item = $this->media_object->getMediaItem("Standard");
         $max = ilMapArea::_getMaxNr($st_item->getId());
@@ -98,10 +100,6 @@ class ilImageMapTableGUI extends ilTable2GUI
         $this->setData($areas);
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
     protected function fillRow($a_set)
     {
         $area = $a_set["area"];

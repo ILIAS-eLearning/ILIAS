@@ -4,6 +4,8 @@
 // mjansen@databay.de essential for mail constants, do not remove this include
 include_once 'Services/Mail/classes/class.ilMailOptions.php';
 
+use ILIAS\Services\Mail\ilMailUserFieldChangeListener;
+
 /**
  * Class ilUserProfile
  *
@@ -240,7 +242,10 @@ class ilUserProfile
                         "maxlength" => 40,
                         "size" => 40,
                         "method" => "getSecondEmail",
-                        "group" => "contact_data"),
+                        "group" => "contact_data",
+                        "change_listeners" => [
+                            ilMailUserFieldChangeListener::class,
+                        ]),
         "hobby" => array(
                         "input" => "textarea",
                         "rows" => 3,

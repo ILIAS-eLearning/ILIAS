@@ -8201,9 +8201,11 @@ ul.dropdown-menu > li > .btn:focus {
 .il-standard-form textarea {
   height: 76px;
 }
-.il-filter .col-md-4 {
+.il-filter .col-md-4,
+.il-filter .col-md-6 {
   padding-top: 6px;
   padding-bottom: 6px;
+  padding-right: 0px;
 }
 .il-filter .glyphicon-ok {
   font-size: unset;
@@ -8236,6 +8238,9 @@ ul.dropdown-menu > li > .btn:focus {
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 10%;
+}
+.il-filter .rightaddon .glyphicon {
+  top: 0;
 }
 .il-filter-bar {
   display: flex;
@@ -8287,6 +8292,7 @@ ul.dropdown-menu > li > .btn:focus {
   border-top: 1px solid #dddddd;
   position: relative;
   padding-bottom: 40px;
+  padding-right: 12px;
   margin: 0;
 }
 .il-filter-input-section .il-input-multiselect {
@@ -10140,9 +10146,9 @@ footer {
 */
 .il-system-info {
   line-height: 20px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  height: calc(3px + 3px + 20px);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  height: calc(6px + 6px + 20px);
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -10206,10 +10212,14 @@ footer {
   margin-right: 8px;
 }
 .il-system-info div.il-system-info-actions {
+  font-size: 18px;
   flex-grow: 0;
   flex-shrink: 0;
-  flex-basis: 60px;
   text-align: right;
+  flex-basis: 60px;
+}
+.il-system-info div.il-system-info-actions :not(:last-child) {
+  padding-right: 12px;
 }
 .il-system-info div.il-system-info-actions span.il-system-info-more {
   display: none;

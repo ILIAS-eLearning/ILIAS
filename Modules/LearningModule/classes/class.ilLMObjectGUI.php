@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\LearningModule\Editing\EditingGUIRequest;
+
 /**
  * Base class for ilStructureObjects and ilPageObjects (see ILIAS DTD)
  *
@@ -20,6 +22,7 @@
  */
 class ilLMObjectGUI
 {
+    protected int $requested_ref_id;
     public ilGlobalTemplateInterface $tpl;
     public ilLanguage $lng;
     public ilLMObject $obj;
@@ -34,6 +37,7 @@ class ilLMObjectGUI
     protected string $requested_target;
     protected string $requested_new_type;
     protected array $target_frame;
+    protected EditingGUIRequest $request;
 
     /**
     * constructor
@@ -53,11 +57,20 @@ class ilLMObjectGUI
         $this->ctrl = $ilCtrl;
         $this->content_object = $a_content_obj;
         $this->ui = $DIC->ui();
-        $this->requested_obj_id = (int) ($_GET["obj_id"] ?? 0);
-        $this->requested_transl = (string) ($_GET["transl"] ?? "");
-        $this->requested_totransl = (string) ($_GET["totransl"] ?? "");
-        $this->requested_target = (string) ($_GET["target"] ?? "");
-        $this->requested_new_type = (string) ($_REQUEST["new_type"] ?? "");
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+        $req = $this->request;
+
+        $this->requested_ref_id = $req->getRefId();
+        $this->requested_obj_id = $req->getObjId();
+        $this->requested_transl = $req->getTranslation();
+        $this->requested_totransl = $req->getToTranslation();
+        $this->requested_target = $req->getTarget();
+        $this->requested_new_type = $req->getNewType();
     }
 
 
@@ -100,23 +113,28 @@ class ilLMObjectGUI
      */
     public function create() : void
     {
-        $new_type = $this->requested_new_type;
+        $form = $this->getCreateForm();
+        $this->tpl->setContent($form->getHTML());
+    }
 
+    public function getCreateForm() : ilPropertyFormGUI
+    {
+        $new_type = $this->requested_new_type;
         $this->ctrl->setParameter($this, "new_type", $new_type);
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
         $form->setTitle($this->lng->txt($new_type . "_new"));
         
-        $title = new ilTextInputGUI($this->lng->txt("title"), "Fobject[title]");
+        $title = new ilTextInputGUI($this->lng->txt("title"), "title");
         $form->addItem($title);
         
-        $desc = new ilTextAreaInputGUI($this->lng->txt("description"), "Fobject[desc]");
+        $desc = new ilTextAreaInputGUI($this->lng->txt("description"), "desc");
         $form->addItem($desc);
         
         $form->addCommandButton("save", $this->lng->txt($new_type . "_add"));
         $form->addCommandButton("cancel", $this->lng->txt("cancel"));
         
-        $this->tpl->setContent($form->getHTML());
+        return $form;
     }
 
 
@@ -174,7 +192,7 @@ class ilLMObjectGUI
     public function cancelDelete() : void
     {
         ilSession::clear("saved_post");
-        $this->ctrl->redirect($this, $_GET["backcmd"]);
+        $this->ctrl->redirect($this, $this->request->getBackCmd());
     }
 
 
@@ -190,7 +208,7 @@ class ilLMObjectGUI
             false
         );
         $cont_obj_gui->confirmedDelete($this->obj->getId());
-        $this->ctrl->redirect($this, $_GET["backcmd"]);
+        $this->ctrl->redirect($this, $this->request->getBackCmd());
     }
 
     /**

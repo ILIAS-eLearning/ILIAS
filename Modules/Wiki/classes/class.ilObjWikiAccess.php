@@ -1,38 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilObjWikiAccess
- *
- * @author 		Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjWikiAccess extends ilObjectAccess
 {
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilRbacSystem $rbacsystem;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -44,18 +34,6 @@ class ilObjWikiAccess extends ilObjectAccess
     }
 
 
-    /**
-     * get commands
-     *
-     * this method returns an array of all possible commands/permission combinations
-     *
-     * example:
-     * $commands = array
-     *	(
-     *		array("permission" => "read", "cmd" => "view", "lang_var" => "show"),
-     *		array("permission" => "write", "cmd" => "edit", "lang_var" => "edit"),
-     *	);
-     */
     public static function _getCommands()
     {
         $commands = array(
@@ -67,18 +45,6 @@ class ilObjWikiAccess extends ilObjectAccess
         return $commands;
     }
     
-    /**
-    * checks wether a user may invoke a command or not
-    * (this method is called by ilAccessHandler::checkAccess)
-    *
-    * @param	string		$a_cmd		command (not permission!)
-    * @param	string		$a_permission	permission
-    * @param	int			$a_ref_id	reference id
-    * @param	int			$a_obj_id	object id
-    * @param	int			$a_user_id	user id (if not provided, current user is taken)
-    *
-    * @return	boolean		true, if everything is ok
-    */
     public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "")
     {
         $ilUser = $this->user;
@@ -130,9 +96,6 @@ class ilObjWikiAccess extends ilObjectAccess
         return true;
     }
 
-    /**
-    * check whether goto script will succeed
-    */
     public static function _checkGoto($a_target)
     {
         global $DIC;
@@ -166,12 +129,7 @@ class ilObjWikiAccess extends ilObjectAccess
         return false;
     }
     
-    /**
-    * Check wether wiki cast is online
-    *
-    * @param	int		$a_id	wiki id
-    */
-    public static function _lookupOnline($a_id)
+    public static function _lookupOnline(int $a_id) : bool
     {
         global $DIC;
 
@@ -182,15 +140,14 @@ class ilObjWikiAccess extends ilObjectAccess
         $wk_set = $ilDB->query($q);
         $wk_rec = $ilDB->fetchAssoc($wk_set);
 
-        return $wk_rec["is_online"];
+        return (bool) $wk_rec["is_online"];
     }
 
     /**
-     * Check wether learning module is online (legacy version)
-     *
+     * see legacyOnlineFilter in ilContainer
      * @deprecated
      */
-    public static function _lookupOnlineStatus($a_ids)
+    public static function _lookupOnlineStatus(array $a_ids) : array
     {
         global $DIC;
 
@@ -201,18 +158,16 @@ class ilObjWikiAccess extends ilObjectAccess
         $lm_set = $ilDB->query($q);
         $status = [];
         while ($r = $ilDB->fetchAssoc($lm_set)) {
-            $status[$r["id"]] = $r["is_online"];
+            $status[$r["id"]] = (bool) $r["is_online"];
         }
         return $status;
     }
 
 
     /**
-    * Check wether files should be public
-    *
-    * @param	int		$a_id	wiki id
-    */
-    public static function _lookupPublicFiles($a_id)
+     * Check wether files should be public
+     */
+    public static function _lookupPublicFiles(int $a_id) : bool
     {
         global $DIC;
 
@@ -223,6 +178,6 @@ class ilObjWikiAccess extends ilObjectAccess
         $wk_set = $ilDB->query($q);
         $wk_rec = $ilDB->fetchAssoc($wk_set);
 
-        return $wk_rec["public_files"];
+        return (bool) $wk_rec["public_files"];
     }
 }

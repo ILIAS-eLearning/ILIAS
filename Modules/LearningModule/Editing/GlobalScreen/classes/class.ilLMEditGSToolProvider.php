@@ -60,8 +60,13 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
     {
         global $DIC;
 
-        $service = new ilLMEditService($DIC->http()->request()->getQueryParams());
-        $lm = $service->getLearningModule();
+        $request = $DIC->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
+        $lm = new ilObjLearningModule($request->getRefId());
 
         $exp = new ilLMEditorExplorerGUI("illmeditorgui", "showTree", $lm);
 

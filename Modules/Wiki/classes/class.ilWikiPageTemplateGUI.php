@@ -1,35 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Wiki\Editing\EditingGUIRequest;
 
 /**
  * Wiki page template gui class
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiPageTemplateGUI
 {
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
+    protected EditingGUIRequest $request;
+    protected ilObjWiki $wiki;
+    protected ilToolbarGUI$toolbar;
+    protected ilLanguage $lng;
+    protected ilObjWikiGUI $wiki_gui;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $wiki_gui;
-    protected $ctrl;
-    protected $tpl;
-
-    /**
-     * Constructor
-     *
-     * @param ilObjWikiGUI $a_wiki_gui wiki gui object
-     */
-    public function __construct(ilObjWikiGUI $a_wiki_gui)
-    {
+    public function __construct(
+        ilObjWikiGUI $a_wiki_gui
+    ) {
         global $DIC;
 
         $ilCtrl = $DIC->ctrl();
@@ -38,17 +41,23 @@ class ilWikiPageTemplateGUI
         $lng = $DIC->language();
 
         $this->wiki_gui = $a_wiki_gui;
-        $this->wiki = $this->wiki_gui->object;
+        /** @var ilObjWiki $wiki */
+        $wiki = $this->wiki_gui->object;
+        $this->wiki = $wiki;
         $this->ctrl = $ilCtrl;
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->toolbar = $ilToolbar;
+
+        $this->request = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $nc = $this->ctrl->getNextClass();
 
@@ -62,10 +71,7 @@ class ilWikiPageTemplateGUI
         }
     }
 
-    /**
-     * List templates
-     */
-    public function listTemplates()
+    public function listTemplates() : void
     {
         // list pages
         $pages = ilWikiPage::getAllWikiPages($this->wiki->getId());
@@ -101,26 +107,21 @@ class ilWikiPageTemplateGUI
         $this->tpl->setContent($tab->getHTML());
     }
 
-    /**
-     * Add page as template page
-     */
-    public function add()
+    public function add() : void
     {
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
-        $wpt->save((int) $_POST["templ_page_id"]);
+        $wpt->save($this->request->getPageTemplateId());
         ilUtil::sendSuccess($this->lng->txt("wiki_template_added"), true);
         $this->ctrl->redirect($this, "listTemplates");
     }
 
-    /**
-     * Remove
-     */
-    public function remove()
+    public function remove() : void
     {
         $wpt = new ilWikiPageTemplate($this->wiki->getId());
 
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $id) {
+        $ids = $this->request->getIds();
+        if (count($ids) > 0) {
+            foreach ($ids as $id) {
                 $wpt->remove((int) $id);
             }
             ilUtil::sendSuccess($this->lng->txt("wiki_template_status_removed"), true);
@@ -129,19 +130,17 @@ class ilWikiPageTemplateGUI
         $this->ctrl->redirect($this, "listTemplates");
     }
 
-    /**
-     * Save template settings
-     */
-    public function saveTemplateSettings()
+    public function saveTemplateSettings() : void
     {
-        if (is_array($_POST["all_ids"])) {
-            foreach ($_POST["all_ids"] as $id) {
-                $wpt = new ilWikiPageTemplate($this->wiki->getId());
-                $wpt->save((int) $id, (int) $_POST["new_pages"][$id], (int) $_POST["add_to_page"][$id]);
-            }
+        $all_ids = $this->request->getAllIds();
+        $new_pages = $this->request->getNewPages();
+        $add_to_page = $this->request->getAddToPage();
+        foreach ($all_ids as $id) {
+            $wpt = new ilWikiPageTemplate($this->wiki->getId());
+            $wpt->save($id, $new_pages[$id], $add_to_page[$id]);
         }
 
-        $this->wiki->setEmptyPageTemplate((int) $_POST["empty_page_templ"]);
+        $this->wiki->setEmptyPageTemplate($this->request->getEmptyPageTemplate());
         $this->wiki->update();
 
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
@@ -153,9 +152,9 @@ class ilWikiPageTemplateGUI
     // PAGE ACTIONS
     //
     
-    public function removePageTemplateFromPageAction()
+    public function removePageTemplateFromPageAction() : void
     {
-        $page_id = (int) $_GET["wpg_id"];
+        $page_id = $this->request->getWikiPageId();
         if ($page_id) {
             $wpt = new ilWikiPageTemplate($this->wiki->getId());
             $wpt->remove($page_id);
@@ -167,7 +166,7 @@ class ilWikiPageTemplateGUI
     
     public function addPageTemplateFromPageAction()
     {
-        $page_id = (int) $_GET["wpg_id"];
+        $page_id = $this->request->getWikiPageId();
         if ($page_id) {
             $wpt = new ilWikiPageTemplate($this->wiki->getId());
             $wpt->save($page_id);

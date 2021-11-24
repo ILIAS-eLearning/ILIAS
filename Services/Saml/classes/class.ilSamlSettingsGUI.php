@@ -600,7 +600,7 @@ class ilSamlSettingsGUI
         $confirmation->setConfirm($this->lng->txt('confirm'), 'deleteIdp');
         $confirmation->setCancel($this->lng->txt('cancel'), self::DEFAULT_CMD);
         $confirmation->setHeaderText($this->lng->txt('auth_saml_sure_delete_idp'));
-        $confirmation->addItem('saml_idp_ids', $this->idp->getIdpId(), $this->idp->getEntityId());
+        $confirmation->addItem('saml_idp_ids', (string) $this->idp->getIdpId(), $this->idp->getEntityId());
 
         $this->tpl->setContent($confirmation->getHTML());
     }

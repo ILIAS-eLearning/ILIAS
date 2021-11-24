@@ -212,7 +212,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
                 "checkbox" => $checkbox,
                 "role" => $link,
                 "title" => $title,
-                'path' => $this->getPathGUI()->getPath(ROOT_FOLDER_ID, $ref_id)
+                'path' => $this->getPathGUI()->getPath(ROOT_FOLDER_ID, (int) $ref_id)
             ];
             ++$counter;
         }

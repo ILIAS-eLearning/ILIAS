@@ -71,7 +71,7 @@ abstract class ilPageObject
     public int $parent_id = 0;
     public array $update_listeners = [];
     public int $update_listener_cnt = 0;
-    public object $offline_handler;     // see LMPresentation handleCodeParagraph
+    public ?object $offline_handler = null;     // see LMPresentation handleCodeParagraph
     public bool $dom_builded = false;
     public bool $history_saved = false;
     protected string $language = "-";
@@ -92,8 +92,8 @@ abstract class ilPageObject
     protected array $first_col_ids = [];
     protected array $list_item_ids = [];
     protected array $file_item_ids = [];
-    protected ?string $activationstart;      // IL_CAL_DATETIME format
-    protected ?string $activationend;        // IL_CAL_DATETIME format
+    protected ?string $activationstart = null;      // IL_CAL_DATETIME format
+    protected ?string $activationend = null;        // IL_CAL_DATETIME format
 
     final public function __construct(
         int $a_id = 0,
@@ -3825,7 +3825,6 @@ s     */
         $q_ids = array();
         for ($i = 0; $i < count($res->nodeset); $i++) {
             $qref = $res->nodeset[$i]->get_attribute("QRef");
-
             $inst_id = ilInternalLink::_extractInstOfTarget($qref);
             $obj_id = ilInternalLink::_extractObjIdOfTarget($qref);
 

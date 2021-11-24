@@ -1,26 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types=1);
-
 /**
- This will set progresses to FAILED,
- if they are past the deadline (and not successful, yet)
+ * This will set progresses to FAILED,
+ * if they are past the deadline (and not successful, yet)
  */
 class ilPrgUpdateProgressCronJob extends ilCronJob
 {
     const ID = 'prg_update_progress';
- 
-    /**
-     * @var Pimple\Container;
-     */
-    protected $dic;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected Pimple\Container $dic;
+    protected ilLanguage $lng;
 
     public function __construct()
     {
@@ -85,6 +76,7 @@ class ilPrgUpdateProgressCronJob extends ilCronJob
     {
         return $this->dic['ilStudyProgrammeUserProgressDB'];
     }
+
     protected function getActingUserId() : int
     {
         return $this->dic['current_user']->getId();

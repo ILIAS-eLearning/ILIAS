@@ -364,6 +364,15 @@ class Container extends \Pimple\Container
         return new \ILIAS\COPage\Service($this);
     }
 
+    public function learningModule() : \ILIAS\LearningModule\Service
+    {
+        return new \ILIAS\LearningModule\Service($this);
+    }
+
+    public function wiki() : \ILIAS\Wiki\Service
+    {
+        return new \ILIAS\Wiki\Service($this);
+    }
 
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,

@@ -219,6 +219,13 @@ class ilRepositorySearchGUI
             $a_options['user_type_default'] = null;
         }
         
+        if (!isset($a_options['add_search'])) {
+            $a_options['add_search'] = false;
+        }
+        if (!isset($a_options['add_from_container'])) {
+            $a_options['add_from_container'] = null;
+        }
+
         $ajax_url = $ilCtrl->getLinkTargetByClass(
             array(get_class($parent_object),'ilRepositorySearchGUI'),
             'doUserAutoComplete',
