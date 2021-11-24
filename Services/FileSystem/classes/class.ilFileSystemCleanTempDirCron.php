@@ -89,7 +89,7 @@ class ilFileSystemCleanTempDirCron extends ilCronJob
     public function run() : ilCronJobResult
     {
         $this->initDependencies();
-        // only delete files and folders older than one day to prevent issues with ongoing processes (e.g. zipping a folder)
+        // only delete files and folders older than ten days to prevent issues with ongoing processes (e.g. zipping a folder)
         $date = "until 10 day ago";
 
         // files are deleted before folders to prevent issues that would arise when trying to delete a (no longer existing) file in a deleted folder.
