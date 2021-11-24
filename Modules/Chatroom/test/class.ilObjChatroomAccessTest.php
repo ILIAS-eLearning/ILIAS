@@ -28,12 +28,12 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getId']
         )->getMock();
-        $user->expects($this->any())->method('getId')->willReturn(6);
+        $user->method('getId')->willReturn(6);
 
         $this->setGlobalVariable('ilUser', $user);
 
         $chatroomSettings = $this->createMock(ilDBStatement::class);
-        $chatroomSettings->expects($this->any())
+        $chatroomSettings
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
                 [
@@ -43,13 +43,13 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
                 null,
             );
 
-        $this->db->expects($this->any())
+        $this->db
             ->method('fetchAssoc')
             ->willReturnCallback(static function (ilDBStatement $statement) {
                 return $statement->fetchAssoc();
             });
 
-        $this->db->expects($this->any())
+        $this->db
             ->method('query')
             ->with($this->stringContains("FROM settings WHERE module='chatroom'", false))
             ->willReturn($chatroomSettings);
@@ -58,11 +58,11 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->onlyMethods(
             ['checkAccess', 'checkAccessOfUser']
         )->getMock();
-        $rbacsystem->expects($this->any())->method('checkAccess')->with(
+        $rbacsystem->method('checkAccess')->with(
             $this->logicalOr($this->equalTo('read'), $this->equalTo('visible')),
             $this->equalTo('1')
         )->willReturn(false);
-        $rbacsystem->expects($this->any())->method('checkAccessOfUser')->with(
+        $rbacsystem->method('checkAccessOfUser')->with(
             $this->equalTo(6),
             $this->logicalOr($this->equalTo('read'), $this->equalTo('visible')),
             $this->equalTo('1')
@@ -83,12 +83,12 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $user = $this->getMockBuilder(ilObjUser::class)->disableOriginalConstructor()->onlyMethods(
             ['getId']
         )->getMock();
-        $user->expects($this->any())->method('getId')->willReturn(6);
+        $user->method('getId')->willReturn(6);
 
         $this->setGlobalVariable('ilUser', $user);
 
         $chatroomSettings = $this->createMock(ilDBStatement::class);
-        $chatroomSettings->expects($this->any())
+        $chatroomSettings
             ->method('fetchAssoc')
             ->willReturnOnConsecutiveCalls(
                 [
@@ -98,13 +98,13 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
                 null
             );
 
-        $this->db->expects($this->any())
+        $this->db
             ->method('fetchAssoc')
             ->willReturnCallback(static function (ilDBStatement $statement) {
                 return $statement->fetchAssoc();
             });
 
-        $this->db->expects($this->any())
+        $this->db
             ->method('query')
             ->with($this->stringContains("FROM settings WHERE module='chatroom'", false))
             ->willReturn($chatroomSettings);
@@ -113,11 +113,11 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
         $rbacsystem = $this->getMockBuilder(ilRbacSystem::class)->disableOriginalConstructor()->onlyMethods(
             ['checkAccess', 'checkAccessOfUser']
         )->getMock();
-        $rbacsystem->expects($this->any())->method('checkAccess')->with(
+        $rbacsystem->method('checkAccess')->with(
             $this->logicalOr($this->equalTo('read'), $this->equalTo('visible'), $this->equalTo('write')),
             $this->equalTo('5')
         )->willReturn(true);
-        $rbacsystem->expects($this->any())->method('checkAccessOfUser')->with(
+        $rbacsystem->method('checkAccessOfUser')->with(
             $this->equalTo(6),
             $this->logicalOr($this->equalTo('read'), $this->equalTo('visible'), $this->equalTo('write')),
             $this->equalTo('5')
@@ -172,7 +172,7 @@ class ilObjChatroomAccessTest extends ilChatroomAbstractTest
 
         $this->setGlobalVariable('ilUser', $user);
 
-        $this->db->expects($this->any())->method('fetchAssoc')->willReturn(
+        $this->db->method('fetchAssoc')->willReturn(
             ['keyword' => 'chat_enabled', 'value' => false]
         );
 
