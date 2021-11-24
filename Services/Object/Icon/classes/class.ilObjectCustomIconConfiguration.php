@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-class ilObjectCustomIconConfiguration implements \ilCustomIconObjectConfiguration
+class ilObjectCustomIconConfiguration implements ilCustomIconObjectConfiguration
 {
     /**
      * @return string[]

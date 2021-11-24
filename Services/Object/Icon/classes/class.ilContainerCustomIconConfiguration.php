@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-class ilContainerCustomIconConfiguration extends \ilObjectCustomIconConfiguration
+class ilContainerCustomIconConfiguration extends ilObjectCustomIconConfiguration
 {
     public function getBaseDirectory() : string
     {

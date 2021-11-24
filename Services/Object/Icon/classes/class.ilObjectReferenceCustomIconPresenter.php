@@ -2,7 +2,7 @@
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-class ilObjectReferenceCustomIconPresenter implements \ilObjectCustomIconPresenter
+class ilObjectReferenceCustomIconPresenter implements ilObjectCustomIconPresenter
 {
     private ilObjectCustomIconFactory $factory;
     private ?ilObjectCustomIcon $icon = null;

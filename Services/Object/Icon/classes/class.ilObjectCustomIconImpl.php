@@ -21,7 +21,7 @@ class ilObjectCustomIconImpl implements ilObjectCustomIcon
     public function __construct(
         Filesystem $webDirectory,
         FileUpload $uploadService,
-        \ilCustomIconObjectConfiguration $config,
+        ilCustomIconObjectConfiguration $config,
         int $objId
     ) {
         $this->objId = $objId;
