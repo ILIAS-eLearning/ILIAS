@@ -6,7 +6,7 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\DI;
 
-class ilComponentActivatePluginsObjective implements Setup\Objective
+class ilComponentActivatePluginsObjective extends ilComponentAbstractPluginsObjective
 {
     /**
      * @var string
@@ -156,7 +156,6 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
         $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
-        $GLOBALS["DIC"]["ilCtrl"] = new ilCtrl();
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["ilLog"] = $GLOBALS["DIC"]["ilLog"];
         $GLOBALS["DIC"]["ilErr"] = null;
@@ -176,6 +175,8 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
                 $this->prefs["language"] = "en";
             }
         };
+
+        $this->initCtrlService();
 
         if (!defined('DEBUG')) {
             define('DEBUG', false);

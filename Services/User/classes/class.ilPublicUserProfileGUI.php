@@ -11,7 +11,7 @@
  *
  * @ingroup ServicesUser
  */
-class ilPublicUserProfileGUI
+class ilPublicUserProfileGUI implements ilCtrlBaseClassInterface
 {
     private $offline = false;
     protected $userid; // [int]

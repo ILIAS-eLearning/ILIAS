@@ -114,7 +114,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
     public function fillRow(array $a_set) : void
     {
         $user = ilMailUserCache::getUserObjectById((int) $a_set['sender_id']);
-        
+
         $this->tpl->touchBlock('usr_image_space');
         if ($user && $user->getId() !== ANONYMOUS_USER_ID) {
             $this->tpl->setVariable('PUBLIC_NAME_LONG', $user->getPublicName());

@@ -32,7 +32,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  * @ingroup ModulesTestQuestionPool
  *
  */
-class ilObjQuestionPoolGUI extends ilObjectGUI
+class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilObjQuestionPool

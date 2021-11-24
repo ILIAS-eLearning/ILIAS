@@ -24,10 +24,10 @@
  * @ilCtrl_Calls ilDashboardGUI: ilPortfolioRepositoryGUI, ilObjChatroomGUI
  * @ilCtrl_Calls ilDashboardGUI: ilMyStaffGUI
  * @ilCtrl_Calls ilDashboardGUI: ilGroupUserActionsGUI, ilAchievementsGUI
- * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
+ * @ilCtrl_Calls ilDashboardGUI: ilPDSelectedItemsBlockGUI, ilPDMembershipBlockGUI, ilPDMailBlockGUI, ilDashboardRecommendedContentGUI, ilStudyProgrammeDashboardViewGUI
  *
  */
-class ilDashboardGUI
+class ilDashboardGUI implements ilCtrlBaseClassInterface
 {
     public const CMD_JUMP_TO_MY_STAFF = "jumpToMyStaff";
     public const DISENGAGE_MAINBAR = "dash_mb_disengage";
@@ -68,8 +68,8 @@ class ilDashboardGUI
         $this->tpl = $tpl;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
-        
-        $ilCtrl->setContext(
+
+        $ilCtrl->setContextObject(
             $ilUser->getId(),
             "user"
         );

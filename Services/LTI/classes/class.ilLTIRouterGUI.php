@@ -10,7 +10,7 @@
  *
  * @ingroup ServicesRouter
  */
-class ilLTIRouterGUI
+class ilLTIRouterGUI implements ilCtrlBaseClassInterface
 {
 
     /** @var  ilCtrl */
