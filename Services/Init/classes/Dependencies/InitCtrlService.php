@@ -40,10 +40,20 @@ final class InitCtrlService
             throw new ilCtrlException(self::class . " could not require artifacts, try `composer du` first.");
         }
 
+        $token_repository = new ilCtrlTokenRepository();
+        $path_factory = new ilCtrlPathFactory($ctrl_structure);
+        $context = new ilCtrlContext(
+            $path_factory,
+            $dic->http()->wrapper()->query(),
+            $dic->refinery()
+        );
+
         // create global instance of ilCtrl
         $GLOBALS['ilCtrl'] = new ilCtrl(
             $ctrl_structure,
-            new ilCtrlTokenRepository(),
+            $token_repository,
+            $path_factory,
+            $context,
             $dic["http.response_sender_strategy"],
             $dic->http()->request(),
             $dic->http()->wrapper()->post(),

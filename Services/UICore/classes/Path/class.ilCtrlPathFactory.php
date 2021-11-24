@@ -7,7 +7,7 @@
  *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-class ilCtrlPathFactory
+class ilCtrlPathFactory implements ilCtrlPathFactoryInterface
 {
     /**
      * @var ilCtrlStructureInterface
@@ -25,9 +25,7 @@ class ilCtrlPathFactory
     }
 
     /**
-     * @param ilCtrlContextInterface $context
-     * @param string[]|string        $target
-     * @return ilCtrlPathInterface
+     * @inheritDoc
      */
     public function find(ilCtrlContextInterface $context, $target) : ilCtrlPathInterface
     {
@@ -43,8 +41,7 @@ class ilCtrlPathFactory
     }
 
     /**
-     * @param string $cid_path
-     * @return ilCtrlPathInterface
+     * @inheritDoc
      */
     public function existing(string $cid_path) : ilCtrlPathInterface
     {
@@ -52,7 +49,7 @@ class ilCtrlPathFactory
     }
 
     /**
-     * @return ilCtrlPathInterface
+     * @inheritDoc
      */
     public function null() : ilCtrlPathInterface
     {

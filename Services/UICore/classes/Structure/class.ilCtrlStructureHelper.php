@@ -12,17 +12,17 @@ class ilCtrlStructureHelper
     /**
      * @var array<string, mixed>
      */
-    private array $ctrl_structure;
+    protected array $ctrl_structure;
 
     /**
      * @var array<string, mixed>
      */
-    private array $plugin_structure;
+    protected array $plugin_structure;
 
     /**
      * @var string[]
      */
-    private array $base_classes;
+    protected array $base_classes;
 
     /**
      * ilCtrlStructureHelper Constructor
@@ -83,7 +83,8 @@ class ilCtrlStructureHelper
                     empty($value[ilCtrlStructureInterface::KEY_CLASS_PARENTS])
                 );
             },
-            ARRAY_FILTER_USE_BOTH);
+            ARRAY_FILTER_USE_BOTH
+        );
 
         return $this;
     }

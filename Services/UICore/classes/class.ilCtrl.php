@@ -77,9 +77,9 @@ class ilCtrl implements ilCtrlInterface
     /**
      * Holds an instance of the path factory.
      *
-     * @var ilCtrlPathFactory
+     * @var ilCtrlPathFactoryInterface
      */
-    private ilCtrlPathFactory $path_factory;
+    private ilCtrlPathFactoryInterface $path_factory;
 
     /**
      * Holds a history of calls made with the current ilCtrl instance.
@@ -100,6 +100,8 @@ class ilCtrl implements ilCtrlInterface
      *
      * @param ilCtrlStructureInterface       $structure
      * @param ilCtrlTokenRepositoryInterface $token_repository
+     * @param ilCtrlPathFactoryInterface     $path_factory
+     * @param ilCtrlContextInterface         $context
      * @param ResponseSenderStrategy         $response_sender
      * @param ServerRequestInterface         $server_request
      * @param RequestWrapper                 $post_parameters
@@ -109,6 +111,8 @@ class ilCtrl implements ilCtrlInterface
     public function __construct(
         ilCtrlStructureInterface $structure,
         ilCtrlTokenRepositoryInterface $token_repository,
+        ilCtrlPathFactoryInterface $path_factory,
+        ilCtrlContextInterface $context,
         ResponseSenderStrategy $response_sender,
         ServerRequestInterface $server_request,
         RequestWrapper $post_parameters,
@@ -122,13 +126,8 @@ class ilCtrl implements ilCtrlInterface
         $this->post_parameters  = $post_parameters;
         $this->get_parameters   = $get_parameters;
         $this->refinery         = $refinery;
-
-        $this->path_factory = new ilCtrlPathFactory($this->structure);
-        $this->context = new ilCtrlContext(
-            $this->path_factory,
-            $this->get_parameters,
-            $this->refinery
-        );
+        $this->path_factory     = $path_factory;
+        $this->context          = $context;
     }
 
     /**

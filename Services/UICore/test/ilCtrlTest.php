@@ -35,6 +35,8 @@ class ilCtrlTest extends TestCase
         $ctrl = new ilCtrl(
             $structure,
             $this->createMock(ilCtrlTokenRepositoryInterface::class),
+            $this->createMock(ilCtrlPathFactoryInterface::class),
+            $this->createMock(ilCtrlContextInterface::class),
             $this->createMock(ResponseSenderStrategy::class),
             $this->createMock(ServerRequestInterface::class),
             $this->createMock(RequestWrapper::class),
@@ -114,6 +116,8 @@ class ilCtrlTest extends TestCase
         $ctrl = new ilCtrl(
             $this->createMock(ilCtrlStructureInterface::class),
             $this->createMock(ilCtrlTokenRepositoryInterface::class),
+            $this->createMock(ilCtrlPathFactoryInterface::class),
+            $this->createMock(ilCtrlContextInterface::class),
             $this->createMock(ResponseSenderStrategy::class),
             $this->createMock(ServerRequestInterface::class),
             $this->createMock(RequestWrapper::class),
@@ -128,6 +132,8 @@ class ilCtrlTest extends TestCase
             $ctrl->getCmd($fallback_cmd)
         );
     }
+
+    // @TODO: coming soon, I promise!
 
     /*
     public function testGetCmdWithUnsafePostCmd() : void
@@ -197,6 +203,8 @@ class ilCtrlTest extends TestCase
         return new ilCtrl(
             $this->createMock(ilCtrlStructureInterface::class),
             $this->createMock(ilCtrlTokenRepositoryInterface::class),
+            $this->createMock(ilCtrlPathFactoryInterface::class),
+            $this->createMock(ilCtrlContextInterface::class),
             $this->createMock(ResponseSenderStrategy::class),
             $this->createMock(ServerRequestInterface::class),
             $this->createMock(RequestWrapper::class),
