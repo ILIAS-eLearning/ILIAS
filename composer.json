@@ -28,7 +28,7 @@
 		]
 	},
 	"require": {
-		"php": ">=7.4",
+		"php": ">=7.4 <8.1",
 		"ext-gd": "*",
 		"ext-dom": "*",
 		"ext-xsl": "*",
@@ -42,7 +42,7 @@
 		"geshi/geshi": "^1.0.9",
 		"tecnickcom/tcpdf": "^6.3",
 		"pimple/pimple" : "^3.0",
-		"symfony/yaml": "^3.4",
+		"symfony/yaml": "^5.3",
 		"imsglobal/lti": "^3.0.2",
 		"guzzlehttp/psr7": "^1.4",
 		"psr/http-message": "^1.0",
@@ -58,7 +58,7 @@
 		"ramsey/uuid": "^3.8",
 		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
-		"simplesamlphp/simplesamlphp": "^1.18",
+		"simplesamlphp/simplesamlphp": "^1.19.3",
 		"seld/jsonlint": "^1.8"
 	},
 	"require-dev": {
@@ -238,10 +238,10 @@
 		},
 		"symfony/yaml" : {
 			"source": "https://github.com/symfony/yaml.git",
-			"used_version": "v3.1",
+			"used_version": "v5.3.11",
 			"added_by": "Timon Amstutz <timon.amstutz@ilub.unibe.ch>",
 			"wrapped_by": "ILIAS\\UI\\Crawler",
-			"last_update": "2016-07-07",
+			"last_update": "2021-12-12",
 			"last_update_by": "Michael Jansen <mjansen@databay.de",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -328,10 +328,10 @@
 		},
 		"simplesamlphp/simplesamlphp" : {
 			"source": "https://github.com/simplesamlphp/simplesamlphp",
-			"used_version": "v1.18.8",
+			"used_version": "v1.19.3",
 			"added_by": "Michael Jansen <mjansen@databay.de>",
 			"wrapped_by": "\\ilSimpleSAMLphpWrapper and \\ilSimpleSAMLphplIdpDiscovery",
-			"last_update": "2020-10-12",
+			"last_update": "2021-12-12",
 			"last_update_by": "Michael Jansen <mjansen@databay.de>",
 			"approved-by": "Jour Fixe",
 			"approved-date": "YYYY-MM-DD"
@@ -395,7 +395,7 @@
 			"last_update_by": "Stefan Meyer <smeyer.ilias@gmx.de",
 			"approved_by": "Jour Fixe",
 			"approved-date": "2018-02-26"
-                },
+		},
 		"slim/slim": {
 			"source": "https://github.com/slimphp/Slim",
 			"used_version": "v3.11",

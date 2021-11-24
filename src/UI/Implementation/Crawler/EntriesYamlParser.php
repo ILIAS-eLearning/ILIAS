@@ -2,7 +2,7 @@
 
 namespace ILIAS\UI\Implementation\Crawler;
 
-use Symfony\Component\Yaml;
+use Symfony\Component\Yaml\Yaml;
 use ILIAS\UI\Implementation\Crawler\Entry as Entry;
 
 /***
@@ -209,11 +209,10 @@ class EntriesYamlParser implements YamlParser
     protected function getPHPArrayFromYamlArray(array $yaml_entries) : array
     {
         $entries = array();
-        $parser = new Yaml\Parser();
 
         foreach ($yaml_entries as $yaml_entry) {
             try {
-                $entries[] = $parser->parse($yaml_entry);
+                $entries[] = Yaml::parse($yaml_entry);
             } catch (\Exception $e) {
                 throw $this->ef->exception(Exception\CrawlerException::PARSING_YAML_ENTRY_FAILED, " file: " . $this->file_path . "; " . $e);
             }
