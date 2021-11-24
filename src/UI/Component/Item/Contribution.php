@@ -30,7 +30,7 @@ interface Contribution extends Item
     /**
      * Get a copy of that contribution with another datetime.
      */
-    public function withDateTime(ilDateTime $dateTime) : Contribution;
+    public function withDateTime(ilDateTime $datetime) : Contribution;
 
     public function getDateTime() : ?ilDateTime;
 

@@ -57,10 +57,10 @@ interface Factory
      *
      * @param string      $content
      * @param \ilObjUser  $user
-     * @param \ilDateTime $dateTime
+     * @param \ilDateTime $datetime
      * @return \ILIAS\UI\Component\Item\Contribution
      */
-    public function contribution(string $content, ?ilObjUser $user = null, ?ilDateTime $dateTime = null) : Contribution;
+    public function contribution(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null) : Contribution;
 
     /**
      * ---
