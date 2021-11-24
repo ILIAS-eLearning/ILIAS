@@ -1086,7 +1086,7 @@ class ilPCParagraph extends ilPageContent
             $attribs = ilUtil::attribsToArray($found[1]);
             //$found[1] = str_replace("?", "\?", $found[1]);
             $tstr = "";
-            if (in_array($attribs["TargetFrame"], array("FAQ", "Glossary", "Media"))) {
+            if (in_array(($attribs["TargetFrame"] ?? ""), array("FAQ", "Glossary", "Media"))) {
                 $tstr = ' target="' . $attribs["TargetFrame"] . '"';
             }
             $a_text = str_replace("<ExtLink" . $found[1] . ">", "[xln url=\"" . $attribs["Href"] . "\"$tstr]", $a_text);

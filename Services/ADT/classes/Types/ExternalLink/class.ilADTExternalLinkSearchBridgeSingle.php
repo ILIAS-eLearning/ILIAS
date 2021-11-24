@@ -92,7 +92,7 @@ class ilADTExternalLinkSearchBridgeSingle extends ilADTSearchBridgeSingle
                             $tmp[] = $this->db->like($a_element_id, "text", "%" . $word . "%");
                         }
                     }
-                    if (sizeof($tmp)) {
+                    if (count($tmp)) {
                         return "(" . implode(" OR ", $tmp) . ")";
                     }
                 }

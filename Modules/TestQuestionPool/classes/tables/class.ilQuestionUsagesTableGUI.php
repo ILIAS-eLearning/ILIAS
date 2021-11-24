@@ -76,7 +76,7 @@ class ilQuestionUsagesTableGUI extends ilTable2GUI
                     'author' => $instance['author'],
                     'ref_id' => $ref_id,
                     'is_trashed' => $trashed,
-                    'path' => $trashed ? $this->lng->txt('deleted') : $path->getPath(ROOT_FOLDER_ID, $ref_id)
+                    'path' => $trashed ? $this->lng->txt('deleted') : $path->getPath(ROOT_FOLDER_ID, (int) $ref_id)
                 );
             }
         }

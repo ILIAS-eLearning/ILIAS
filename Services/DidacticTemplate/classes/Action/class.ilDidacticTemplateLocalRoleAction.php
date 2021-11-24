@@ -1,12 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
 /**
  * represents a creation of local roles action
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesDidacticTemplates
  */
 class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
@@ -66,16 +63,15 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
         );
 
         // Copy template permissions
-        
+
         $this->logger->debug(
             'Copy role template permissions ' .
-                'tpl_id: ' . $this->getRoleTemplateId() . ' ' .
-                'parent: ' . ROLE_FOLDER_ID . ' ' .
-                'role_id: ' . $role->getId() . ' ' .
-                'role_parent: ' . $source->getRefId()
+            'tpl_id: ' . $this->getRoleTemplateId() . ' ' .
+            'parent: ' . ROLE_FOLDER_ID . ' ' .
+            'role_id: ' . $role->getId() . ' ' .
+            'role_parent: ' . $source->getRefId()
         );
-        
-        
+
         $this->admin->copyRoleTemplatePermissions(
             $this->getRoleTemplateId(),
             ROLE_FOLDER_ID,
@@ -139,7 +135,6 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
     {
         $writer->xmlStartTag('localRoleAction');
 
-
         $il_id = 'il_' . IL_INST_ID . '_' . ilObject::_lookupType($this->getRoleTemplateId()) . '_' . $this->getRoleTemplateId();
 
         $writer->xmlStartTag(
@@ -148,8 +143,6 @@ class ilDidacticTemplateLocalRoleAction extends ilDidacticTemplateAction
                 'id' => $il_id
             )
         );
-
-        
 
         $exp = new ilRoleXmlExport();
         $exp->setMode(ilRoleXmlExport::MODE_DTPL);

@@ -1,39 +1,45 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
 use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
 use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy as LegacySlate;
+use ILIAS\GlobalScreen\ScreenContext\AdditionalData\Collection;
+use ILIAS\GlobalScreen\Scope\Tool\Factory\Tool;
 
 /**
- * Class ilLMGSToolProvider
- *
- * @author Alex Killing <killing@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilLMGSToolProvider extends AbstractDynamicToolProvider
 {
     use \ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 
-    const SHOW_TOC_TOOL = 'show_toc_tool';
-    const SHOW_LINK_SLATES = 'show_link_slates';
-    const LM_QUERY_PARAMS = 'lm_query_params';
-    const LM_OFFLINE = 'lm_offline';
+    public const SHOW_TOC_TOOL = 'show_toc_tool';
+    public const SHOW_LINK_SLATES = 'show_link_slates';
+    public const LM_QUERY_PARAMS = 'lm_query_params';
+    public const LM_OFFLINE = 'lm_offline';
 
-
-    /**
-     * @inheritDoc
-     */
     public function isInterestedInContexts() : ContextCollection
     {
         return $this->context_collection->main()->repository();
     }
 
-
-    /**
-     * @inheritDoc
-     */
-    public function getToolsForContextStack(CalledContexts $called_contexts) : array
-    {
+    public function getToolsForContextStack(
+        CalledContexts $called_contexts
+    ) : array {
         global $DIC;
         $lng = $DIC->language();
         $access = $DIC->access();
@@ -139,13 +145,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-    /**
-     *
-     *
-     * @param
-     * @return
-     */
-    public function getOfflineToolIds()
+    public function getOfflineToolIds() : array
     {
         $iff = function ($id) {
             return $this->identification_provider->contextAwareIdentifier($id);
@@ -158,15 +158,9 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         ];
     }
 
-
-    /**
-     * Get toc tool
-     *
-     * @param
-     * @return
-     */
-    public function getTocTool($additional_data) : \ILIAS\GlobalScreen\Scope\Tool\Factory\Tool
-    {
+    public function getTocTool(
+        Collection $additional_data
+    ) : Tool {
         global $DIC;
 
         $lng = $DIC->language();
@@ -190,14 +184,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
     }
 
 
-    /**
-     * toc
-     *
-     * @param int $ref_id
-     *
-     * @return string
-     */
-    private function getToc($additional_data) : string
+    private function getToc(Collection $additional_data) : string
     {
         global $DIC;
         // get params via additional_data, set query params
@@ -208,7 +195,7 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         $offline = $additional_data->is(self::LM_OFFLINE, true);
 
         if (!is_array($params)) {
-            $params = $_GET;
+            $params = null;
         }
         try {
             $service = new ilLMPresentationService($DIC->user(), $params, $offline);
@@ -220,12 +207,6 @@ class ilLMGSToolProvider extends AbstractDynamicToolProvider
         }
     }
 
-
-    /**
-     * @param string
-     *
-     * @return string
-     */
     protected function getLinkSlateContent(string $type) : string
     {
         return "<div style='height:100%; overflow:hidden;' id='" . $type . "_area'><iframe style='border:0; padding:0; height:100%; width:100%'></iframe></div>";

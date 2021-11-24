@@ -121,7 +121,7 @@ class ilApc extends ilGlobalCacheService implements ilGlobalCacheServiceInterfac
         return function_exists('apcu_store');
     }
     
-    protected function getMemoryLimit() : int
+    protected function getMemoryLimit() : string
     {
         if (ilRuntime::getInstance()->isHHVM()) {
             return $this->getMinMemory() . 'M';

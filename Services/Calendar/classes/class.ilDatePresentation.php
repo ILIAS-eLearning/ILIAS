@@ -320,6 +320,7 @@ class ilDatePresentation
         global $DIC;
 
         $lng = $DIC['lng'];
+        $message = null;
 
         if ($a_lng) {
             $lng = $a_lng;

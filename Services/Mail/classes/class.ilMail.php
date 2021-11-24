@@ -37,6 +37,7 @@ class ilMail
     protected $usrIdByLoginCallable;
     protected int $maxRecipientCharacterLength = 998;
     protected ilMailMimeSenderFactory $senderFactory;
+    protected ilObjUser $actor;
 
     public function __construct(
         int $a_user_id,
@@ -51,7 +52,8 @@ class ilMail
         ilMailbox $mailBox = null,
         ilMailMimeSenderFactory $senderFactory = null,
         callable $usrIdByLoginCallable = null,
-        int $mailAdminNodeRefId = null
+        int $mailAdminNodeRefId = null,
+        ilObjUser $actor = null
     ) {
         global $DIC;
         $this->logger = $logger ?? ilLoggerFactory::getLogger('mail');
@@ -60,6 +62,7 @@ class ilMail
         $this->eventHandler = $eventHandler ?? $DIC->event();
         $this->db = $db ?? $DIC->database();
         $this->lng = $lng ?? $DIC->language();
+        $this->actor = $actor ?? $DIC->user();
         $this->mfile = $mailFileData ?? new ilFileDataMail($a_user_id);
         $this->mail_options = $mailOptions ?? new ilMailOptions($a_user_id);
         $this->mailbox = $mailBox ?? new ilMailbox($a_user_id);
@@ -135,8 +138,6 @@ class ilMail
 
     public function formatNamesForOutput(string $recipients) : string
     {
-        global $DIC;
-
         $recipients = trim($recipients);
         if ($recipients === '') {
             return $this->lng->txt('not_available');
@@ -149,7 +150,7 @@ class ilMail
             $usrId = ilObjUser::_lookupId($recipient);
             if ($usrId > 0) {
                 $pp = ilObjUser::_lookupPref($usrId, 'public_profile');
-                if ($pp === 'g' || ($pp === 'y' && !$DIC->user()->isAnonymous())) {
+                if ($pp === 'g' || ($pp === 'y' && !$this->actor->isAnonymous())) {
                     $user = $this->getUserInstanceById($usrId);
                     $names[] = $user->getFullname() . ' [' . $recipient . ']';
                     continue;

@@ -583,7 +583,7 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
             'f_mode' => ['text', $this->getMode()],
             'page_count' => ['text', $this->getPageCount()],
             'rating' => ['integer', $this->hasRating()],
-            'rid' => ['text', $this->resource_id],
+            'rid' => ['text', $this->resource_id ?? ''],
         ];
     }
 

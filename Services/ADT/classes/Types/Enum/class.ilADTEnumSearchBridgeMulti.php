@@ -113,7 +113,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
 
         $current = $this->getADT()->getSelections();
         if (is_array($current) &&
-            sizeof($current)) {
+            count($current)) {
             // #16827 / #17087
             if ($this->search_mode == self::SEARCH_MODE_ANY) {
                 foreach ((array) $a_adt->getSelections() as $value) {
@@ -123,7 +123,7 @@ class ilADTEnumSearchBridgeMulti extends ilADTSearchBridgeMulti
                 }
             } else {
                 // #18028
-                return !(bool) sizeof(array_diff($current, (array) $a_adt->getSelections()));
+                return !(bool) count(array_diff($current, (array) $a_adt->getSelections()));
             }
         }
         return false;

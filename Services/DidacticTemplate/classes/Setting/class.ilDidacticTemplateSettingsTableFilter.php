@@ -63,7 +63,7 @@ class ilDidacticTemplateSettingsTableFilter
 
     public function __construct(string $target_url)
     {
-        global  $DIC;
+        global $DIC;
 
         $this->lng = $DIC->language();
         $this->ui_factory = $DIC->ui()->factory();

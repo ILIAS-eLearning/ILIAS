@@ -678,7 +678,7 @@ abstract class ilTestOutputGUI extends ilTestPlayerAbstractGUI
             }
             $this->testSequence->setQuestionChecked($questionId);
             $this->testSequence->saveToDb();
-        } else if ($this->object->isForceInstantFeedbackEnabled()) {
+        } elseif ($this->object->isForceInstantFeedbackEnabled()) {
             $this->testSequence->setQuestionChecked($questionId);
             $this->testSequence->saveToDb();
         }

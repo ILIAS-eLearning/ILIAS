@@ -30,6 +30,7 @@ class ilPageEditorSettings
         "test" => array("qpl"),
         "rep" => array("cont"),
         "copa" => array("copa"),
+        "frm" => array("frm"),
         );
         
     /**

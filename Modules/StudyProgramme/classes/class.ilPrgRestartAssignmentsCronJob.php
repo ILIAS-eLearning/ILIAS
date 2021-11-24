@@ -1,33 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Denis Klöpfer <denis.kloepfer@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types=1);
+use Pimple\Container;
 
 /**
- Re-assign users (according to restart-date).
- This will result in a new/additional assignment
+ * Re-assign users (according to restart-date).
+ * This will result in a new/additional assignment
  */
 class ilPrgRestartAssignmentsCronJob extends ilCronJob
 {
     const ID = 'prg_restart_assignments_temporal_progress';
     const ACTING_USR_ID = -1;
 
-    /**
-     * @var ilStudyProgrammeAssignmentDBRepository
-     */
-    protected $user_assignments_db;
-
-    /**
-     * @var ilLog
-     */
-    protected $log;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilStudyProgrammeAssignmentDBRepository $user_assignments_db;
+    protected ilLog $log;
+    protected ilLanguage $lng;
+    protected Container $dic;
 
     public function __construct()
     {
@@ -142,7 +132,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         return $result;
     }
 
-    protected function getNow() : \DateTimeImmutable
+    protected function getNow() : DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
@@ -162,7 +152,7 @@ class ilPrgRestartAssignmentsCronJob extends ilCronJob
         return $this->dic['ilStudyProgrammeUserAssignmentDB'];
     }
 
-    protected function getEvents()
+    protected function getEvents() : ilStudyProgrammeEvents
     {
         return $this->dic['ilStudyProgrammeEvents'];
     }

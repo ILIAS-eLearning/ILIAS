@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Wiki Data set class
@@ -9,21 +20,13 @@
  * - wiki: data from il_wiki_data
  * - wpg: data from il_wiki_page
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiDataSet extends ilDataSet
 {
-    /**
-     * @var ilLogger
-     */
-    protected $wiki_log;
+    protected ?ilObjWiki $current_obj = null;
+    protected ilLogger $wiki_log;
 
-    /**
-     * construct
-     *
-     * @param
-     * @return
-     */
     public function __construct()
     {
         global $DIC;
@@ -33,32 +36,16 @@ class ilWikiDataSet extends ilDataSet
         $this->wiki_log = ilLoggerFactory::getLogger('wiki');
     }
 
-
-    /**
-     * Get supported versions
-     * @param
-     * @return array
-     */
     public function getSupportedVersions() : array
     {
         return array("4.1.0", "4.3.0", "4.4.0", "5.1.0", "5.4.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Modules/Wiki/" . $a_entity;
+        return "https://www.ilias.de/xml/Modules/Wiki/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
         if ($a_entity == "wiki") {
@@ -192,11 +179,6 @@ class ilWikiDataSet extends ilDataSet
         return array();
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
@@ -299,9 +281,6 @@ class ilWikiDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -319,17 +298,13 @@ class ilWikiDataSet extends ilDataSet
         return [];
     }
     
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
-        //echo $a_entity;
-        //var_dump($a_rec);
-
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "wiki":
 
@@ -352,7 +327,6 @@ class ilWikiDataSet extends ilDataSet
                 
                 // >= 4.3
                 if (isset($a_rec["PageToc"])) {
-                    // $newObj->setImportantPages($a_rec["ImpPages"]);
                     $newObj->setPageToc($a_rec["PageToc"]);
                     $newObj->setRatingAsBlock($a_rec["RatingSide"]);
                     $newObj->setRatingForNewPages($a_rec["RatingNew"]);

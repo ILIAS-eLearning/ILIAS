@@ -20,7 +20,6 @@
  */
 class ilWorkspaceTree extends ilTree
 {
-    protected ilDBInterface $db;
 
     public function __construct(
         int $a_tree_id,
@@ -28,7 +27,6 @@ class ilWorkspaceTree extends ilTree
     ) {
         global $DIC;
 
-        $this->db = $DIC->database();
         parent::__construct($a_tree_id, $a_root_id);
         
         $this->setTableNames('tree_workspace', 'object_data', 'object_reference_ws');

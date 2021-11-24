@@ -11,8 +11,7 @@ use ILIAS\GlobalScreen\ScreenContext\Stack\ContextCollection;
  */
 class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_TREE = 'show_tree';
-
+    public const SHOW_TREE = 'show_tree';
 
     /**
      * @inheritDoc
@@ -59,8 +58,15 @@ class ilLMEditGSToolProvider extends AbstractDynamicToolProvider
      */
     private function getContent() : string
     {
-        $service = new ilLMEditService($_GET);
-        $lm = $service->getLearningModule();
+        global $DIC;
+
+        $request = $DIC->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
+        $lm = new ilObjLearningModule($request->getRefId());
 
         $exp = new ilLMEditorExplorerGUI("illmeditorgui", "showTree", $lm);
 

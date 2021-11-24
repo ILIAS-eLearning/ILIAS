@@ -807,11 +807,9 @@ class ilObjectGUI
 
     /**
      * Init creation froms
-     *
      * this will create the default creation forms: new, import, clone
-     *
-     * @param	string	$a_new_type
-     * @return	array
+     * @param string $a_new_type
+     * @return array<int, ilPropertyFormGUI>
      */
     protected function initCreationForms($a_new_type)
     {
@@ -826,8 +824,7 @@ class ilObjectGUI
 
     /**
      * Get HTML for creation forms (accordion)
-     *
-     * @param array $a_forms
+     * @param array<int, ilPropertyFormGUI> $a_forms
      */
     final protected function getCreationFormsHTML(array $a_forms)
     {
@@ -872,8 +869,8 @@ class ilObjectGUI
                 // move title from form to accordion
                 $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " .
                     $form_title);
-                $cf->setTitle(null);
-                $cf->setTitleIcon(null);
+                $cf->setTitle('');
+                $cf->setTitleIcon('');
                 $cf->setTableWidth("100%");
 
                 $acc->addItem($htpl->get(), $cf->getHTML());

@@ -158,7 +158,7 @@ class ilSearchResult
     public function addEntry($a_obj_id, $a_type, $found, $a_child_id = 0)
     {
         // Create new entry if it not exists
-        if (!$this->entries[$a_obj_id]) {
+        if (!isset($this->entries[$a_obj_id])) {
             $this->entries[$a_obj_id]['obj_id'] = $a_obj_id;
             $this->entries[$a_obj_id]['type'] = $a_type;
             $this->entries[$a_obj_id]['found'] = $found;

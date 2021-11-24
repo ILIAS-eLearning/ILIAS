@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -8,25 +8,15 @@
  */
 class ilUserAvatarFile extends ilUserAvatarBase
 {
-    /**
-     * @var string
-     */
-    protected $size = '';
+    protected string $size;
 
-    /**
-     * ilUserAvatarFile constructor.
-     * @param string $size
-     */
-    public function __construct($size)
+    public function __construct(string $size)
     {
         $this->size = $size;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUrl() : string
     {
-        return \ilWACSignedPath::signFile(\ilUtil::getImagePath('no_photo_' . $this->size . '.jpg'));
+        return ilWACSignedPath::signFile(\ilUtil::getImagePath('no_photo_' . $this->size . '.jpg'));
     }
 }

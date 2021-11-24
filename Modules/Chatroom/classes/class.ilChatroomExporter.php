@@ -12,7 +12,7 @@ class ilChatroomExporter extends ilXmlExporter
 
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
-        $chat = ilObjectFactory::getInstanceByObjId($a_id, false);
+        $chat = ilObjectFactory::getInstanceByObjId((int) $a_id, false);
         if (!($chat instanceof ilObjChatroom)) {
             $GLOBALS['DIC']->logger()->root()->warning(
                 $a_id . ' is not id of chatroom instance. Skipped generation of export XML.'
@@ -45,7 +45,7 @@ class ilChatroomExporter extends ilXmlExporter
     {
         return [
             '5.3.0' => [
-                'namespace' => 'http://www.ilias.de/Modules/Chatroom/chtr/5_3',
+                'namespace' => 'https://www.ilias.de/Modules/Chatroom/chtr/5_3',
                 'xsd_file' => 'ilias_chtr_5_3.xsd',
                 'uses_dataset' => false,
                 'min' => '5.3.0',

@@ -1,57 +1,56 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+use ILIAS\LearningModule\Editing\EditingGUIRequest;
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 class ilLMEditShortTitlesGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected string $lang;
+    protected ilCtrl $ctrl;
+    protected ilObjLearningModule $lm;
+    protected ilObjLearningModuleGUI $lm_gui;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected EditingGUIRequest $request;
 
-    /**
-     * @var ilObjLearningModule
-     */
-    protected $lm;
-
-    /**
-     * @var ilObjLearningModuleGUI
-     */
-    protected $lm_gui;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * Learning module
-     *
-     * @param ilObjLearningModule $a_lm learning module
-     */
-    public function __construct(ilObjLearningModuleGUI $a_lm_gui)
-    {
+    public function __construct(
+        ilObjLearningModuleGUI $a_lm_gui,
+        string $requested_transl
+    ) {
         global $DIC;
 
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
         $this->ctrl = $DIC->ctrl();
-        $this->lm = $a_lm_gui->object;
+        /** @var ilObjLearningModule $lm */
+        $lm = $a_lm_gui->object;
+        $this->lm = $lm;
         $this->lm_gui = $a_lm_gui;
         $this->tpl = $DIC["tpl"];
         $this->lng = $DIC->language();
 
-        $this->lang = ($_GET["transl"] == "")
+        $this->lang = ($requested_transl == "")
             ? "-"
-            : $_GET["transl"];
+            : $requested_transl;
     }
 
-    /**
-     * Execute command
-     */
     public function executeCommand()
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -65,10 +64,7 @@ class ilLMEditShortTitlesGUI
         }
     }
 
-    /**
-     * List short titles
-     */
-    public function listShortTitles()
+    public function listShortTitles() : void
     {
         ilUtil::sendInfo($this->lng->txt("cont_short_title_info"));
         $ml_head = ilObjContentObjectGUI::getMultiLangHeader($this->lm->getId(), $this->lm_gui, "short_titles");
@@ -76,16 +72,13 @@ class ilLMEditShortTitlesGUI
         $this->tpl->setContent($ml_head . $tab->getHTML());
     }
 
-    /**
-     * Save short titles
-     */
-    public function save()
+    public function save() : void
     {
-        if (is_array($_POST["short_title"])) {
-            foreach ($_POST["short_title"] as $id => $title) {
-                if (ilLMObject::_lookupContObjID($id) == $this->lm->getId()) {
-                    ilLMObject::writeShortTitle($id, ilUtil::stripSlashes($title), $this->lang);
-                }
+        $short_titles = $this->request->getShortTitles();
+
+        foreach ($short_titles as $id => $title) {
+            if (ilLMObject::_lookupContObjID($id) == $this->lm->getId()) {
+                ilLMObject::writeShortTitle($id, ilUtil::stripSlashes($title), $this->lang);
             }
         }
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);

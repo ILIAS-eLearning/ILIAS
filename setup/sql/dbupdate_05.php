@@ -6790,35 +6790,47 @@ if (!$ilDB->tableColumnExists('il_bibl_data', 'rid')) {
 ?>
 <#5797>
 <?php
-if (!$ilDB->indexExistsByFields('il_resource_revision', array('identification'))) {
+if ($ilDB->tableColumnExists('il_resource_revision', 'identification')
+    && !$ilDB->indexExistsByFields('il_resource_revision', array('identification'))
+) {
     $ilDB->addIndex(
         'il_resource_revision',
         array('identification'),
         'i1'
     );
 }
-if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('identification'))) {
+if ($ilDB->tableExists('il_resource_stakeh')
+    && $ilDB->tableColumnExists('il_resource_stakeh', 'identification')
+    && !$ilDB->indexExistsByFields('il_resource_stakeh', array('identification'))
+) {
     $ilDB->addIndex(
         'il_resource_stakeh',
         array('identification'),
         'i1'
     );
 }
-if (!$ilDB->indexExistsByFields('il_resource_stakeh', array('stakeholder_id'))) {
+if ($ilDB->tableExists('il_resource_stakeh')
+    && $ilDB->tableColumnExists('il_resource_stakeh', 'stakeholder_id')
+    && !$ilDB->indexExistsByFields('il_resource_stakeh', array('stakeholder_id'))
+) {
     $ilDB->addIndex(
         'il_resource_stakeh',
         array('stakeholder_id'),
         'i2'
     );
 }
-if (!$ilDB->indexExistsByFields('il_resource_info', array('identification'))) {
+if ($ilDB->tableColumnExists('il_resource_info', 'identification')
+    && !$ilDB->indexExistsByFields('il_resource_info', array('identification'))
+) {
     $ilDB->addIndex(
         'il_resource_info',
         array('identification'),
         'i1'
     );
 }
-if (!$ilDB->indexExistsByFields('il_resource', array('storage_id'))) {
+if ($ilDB->tableColumnExists('il_resource', 'storage_id')
+    && !$ilDB->indexExistsByFields('il_resource', array('storage_id'))
+) {
     $ilDB->addIndex(
         'il_resource',
         array('storage_id'),

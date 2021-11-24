@@ -51,7 +51,7 @@ class ilNestedList
 
     public function getListClass(int $a_depth = 0) : string
     {
-        return $this->list_class[$a_depth];
+        return $this->list_class[$a_depth] ?? "";
     }
 
     public function addListNode(
@@ -123,7 +123,7 @@ class ilNestedList
         $tpl->parseCurrentBlock();
         $tpl->touchBlock("tag");
 
-        if (is_array($this->childs[$a_id]) && count($this->childs[$a_id]) > 0) {
+        if (isset($this->childs[$a_id]) && count($this->childs[$a_id]) > 0) {
             $this->listStart($tpl, $depth + 1);
             foreach ($this->childs[$a_id] as $child) {
                 $this->renderNode($child, $tpl, $depth + 1, $nr);

@@ -1,14 +1,10 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
-
-
 /**
  * GUI class for didactic template settings inside repository objects
- *
- * @author Stefan Meyer <meyer@leifos.com>
- * @ingroup ServicesDidacticTemplate
+ * @author            Stefan Meyer <meyer@leifos.com>
+ * @ingroup           ServicesDidacticTemplate
  * @ilCtrl_IsCalledBy ilDidacticTemplateGUI: ilPermissionGUI
  */
 class ilDidacticTemplateGUI
@@ -104,8 +100,6 @@ class ilDidacticTemplateGUI
             return false;
         }
 
-        
-
         $tpl_selection = new ilSelectInputGUI(
             '',
             'tplid'
@@ -142,7 +136,7 @@ class ilDidacticTemplateGUI
         $confirm->setCancel($this->lng->txt('cancel'), 'cancel');
 
         if ($new_tpl_id) {
-            
+
 
             $dtpl = new ilDidacticTemplateSetting($new_tpl_id);
 

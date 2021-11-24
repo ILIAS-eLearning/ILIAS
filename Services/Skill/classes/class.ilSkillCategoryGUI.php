@@ -200,7 +200,7 @@ class ilSkillCategoryGUI extends ilSkillTreeNodeGUI
         $it->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
         $it->setStatus($this->form->getInput("status"));
         $it->create();
-        ilSkillTreeNode::putInTree($it, $this->requested_obj_id, IL_LAST_NODE);
+        ilSkillTreeNode::putInTree($it, $this->requested_obj_id, ilTree::POS_LAST_NODE);
     }
 
     /**

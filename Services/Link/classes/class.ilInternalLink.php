@@ -300,7 +300,7 @@ class ilInternalLink
     {
         if (!is_int(strpos($a_target, "__"))) {
             $target = explode("_", $a_target);
-            if ($target[1] > 0) {
+            if (isset($target[1]) && $target[1] > 0) {
                 return $target[1];
             }
         }
