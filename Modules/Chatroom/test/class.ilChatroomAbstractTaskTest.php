@@ -38,13 +38,13 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
             ['loadLanguageModule', 'txt']
         )->getMock();
 
-        $lng->expects($this->any())->method('loadLanguageModule')->with(
+        $lng->method('loadLanguageModule')->with(
             $this->logicalOr(
                 $this->equalTo('chatroom'),
                 $this->equalTo('meta')
             )
         );
-        $lng->expects($this->any())->method('txt');
+        $lng->method('txt');
 
         $this->setGlobalVariable('lng', $lng);
 
@@ -83,8 +83,8 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
         $ctrl = $this->getMockBuilder('ilCtrl')->disableOriginalConstructor()->onlyMethods(
             ['setParameterByClass', 'redirectByClass', 'forwardCommand']
         )->getMock();
-        $ctrl->expects($this->any())->method('setParameterByClass');
-        $ctrl->expects($this->any())->method('redirectByClass');
+        $ctrl->method('setParameterByClass');
+        $ctrl->method('redirectByClass');
 
         $this->setGlobalVariable('ilCtrl', $ctrl);
 
@@ -116,7 +116,7 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
 
     protected function createIlObjChatroomGUIGetConnectorMock($returnValue) : void
     {
-        $this->gui->expects($this->any())->method('getConnector')->willReturn($returnValue);
+        $this->gui->method('getConnector')->willReturn($returnValue);
     }
 
     protected function createIlChatroomIsOwnerOfPrivateRoomMock(
@@ -124,7 +124,7 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
         int $subRoomId,
         bool $result
     ) : InvocationMocker {
-        return $this->ilChatroomMock->expects($this->any())->method('isOwnerOfPrivateRoom')->with(
+        return $this->ilChatroomMock->method('isOwnerOfPrivateRoom')->with(
             $this->equalTo($userId),
             $this->equalTo($subRoomId)
         )->willReturn($result);
@@ -132,7 +132,7 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
 
     protected function createIlChatroomUserGetUserIdMock(int $userId) : InvocationMocker
     {
-        return $this->ilChatroomUserMock->expects($this->any())->method('getUserId')->willReturn($userId);
+        return $this->ilChatroomUserMock->method('getUserId')->willReturn($userId);
     }
 
     protected function createIlChatroomServerConnectorMock(
@@ -147,7 +147,7 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
 
     protected function createIlChatroomServerConnectorFileGetContentsMock($returnValue) : InvocationMocker
     {
-        return $this->ilChatroomServerConnectorMock->expects($this->any())->method('file_get_contents')->willReturn(
+        return $this->ilChatroomServerConnectorMock->method('file_get_contents')->willReturn(
             $returnValue
         );
     }
@@ -157,7 +157,7 @@ abstract class ilChatroomAbstractTaskTest extends ilChatroomAbstractTest
         $this->object = $this->getMockBuilder(ilObjChatroom::class)->disableOriginalConstructor()->onlyMethods(
             ['getId']
         )->getMock();
-        $this->object->expects($this->any())->method('getId')->willReturn($id);
+        $this->object->method('getId')->willReturn($id);
 
         return $this->object;
     }

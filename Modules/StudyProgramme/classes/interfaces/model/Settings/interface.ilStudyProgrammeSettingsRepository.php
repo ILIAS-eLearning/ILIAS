@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 /* Copyright (c) 2019 Stefan Hecken <stefan.hecken@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types = 1);
 
 /**
  * Covers the persistence of settings belonging to a study programme (SP).

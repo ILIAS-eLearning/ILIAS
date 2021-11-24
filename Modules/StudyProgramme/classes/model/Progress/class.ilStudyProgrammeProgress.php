@@ -1,7 +1,6 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 
 /**
  * Class ilStudyProgrammeProgress.
@@ -16,7 +15,6 @@
  * @author: Denis Klöpfer <richard.klees@concepts-and-training.de>
  * @author: Nils Haagen <nils.haagen@concepts-and-training.de>
  */
-
 class ilStudyProgrammeProgress
 {
     // The progress of a user on a program node can have different status that
@@ -35,7 +33,7 @@ class ilStudyProgrammeProgress
     // The user does not need to be successful in this node.
     const STATUS_FAILED = 5;
 
-    public static $STATUS = [
+    public static array $STATUS = [
         self::STATUS_IN_PROGRESS,
         self::STATUS_COMPLETED,
         self::STATUS_ACCREDITED,
@@ -55,120 +53,87 @@ class ilStudyProgrammeProgress
      * only. I'm sad.
      * We set a unique constraint on the three fields in the db update to get the
      * desired guarantees by the database.
-     *
-     * @var int
      */
-    protected $id;
+    protected int $id;
 
     /**
      * The id of the assignment this progress belongs to.
-     *
-     * @var int
      */
-    protected $assignment_id;
+    protected int $assignment_id;
 
     /**
      * The id of the program node this progress belongs to.
-     *
-     * @var int
      */
-    protected $prg_id;
+    protected int $prg_id;
 
     /**
      * The id of the user this progress belongs to.
-     *
-     * @var int
      */
-    protected $usr_id;
+    protected int $usr_id;
 
     /**
      * Amount of points the user needs to achieve in the subnodes to be successful
      * on this node. Also the amount of points a user gets by being successful on this
      * node.
-     *
-     * @var int
      */
-    protected $points = 0;
+    protected int $points = 0;
 
     /**
      * Amount of points the user currently has in the subnodes of this node.
-     *
-     * @var int
      */
-    protected $points_cur = 0;
+    protected int $points_cur = 0;
  
     /**
      * The status this progress is in.
-     *
-     * @var int
      */
-    protected $status;
+    protected ?int $status = null;
 
     /**
      * The id of the object, that lead to the successful completion of this node.
      * This is either a user when status is accreditted, a course object if the mode
      * of the program node is lp_completed and the node is completed. Its null
      * otherwise.
-     *
-     * @var int
      */
-    protected $completion_by;
+    protected ?int $completion_by = null;
     
 
     /**
      * The timestamp of the moment this progress was created or updated the
      * last time.
-     *
-     * @var int
      */
-    protected $last_change;
+    protected ?string $last_change = null;
 
     /**
      * Id of the user who did the last manual update of the progress
-     *
-     * @var int
      */
-    protected $last_change_by;
+    protected int $last_change_by;
 
     /**
      * Date of asssignment
-     *
-     * @var \DateTimeImmutable
      */
-    protected $assignment_date;
+    protected ?DateTimeImmutable $assignment_date = null;
 
     /**
      * Date of completion
-     *
-     * @var \DateTimeImmutable
      */
-    protected $completion_date;
+    protected ?DateTimeImmutable $completion_date = null;
 
     /**
      * Date until user has to finish
-     *
-     * @var \DateTimeImmutable | null
      */
-    protected $deadline;
+    protected ?DateTimeImmutable $deadline = null;
 
     /**
      * Date until which this qualification is valid.
-     *
-     * @var \DateTimeImmutable |null
      */
-    protected $vq_date;
+    protected ?DateTimeImmutable $vq_date = null;
 
     /**
      * Is this progress invalidated?
-     *
-     * @var	bool
      */
-    protected $invalidated = false;
+    protected bool $invalidated = false;
 
-    /**
-     * @var bool
-     */
-    protected $is_individual = false;
+    protected bool $is_individual = false;
 
 
 
@@ -179,8 +144,6 @@ class ilStudyProgrammeProgress
 
     /**
      * Get the id of the progress.
-     *
-     * @return int
      */
     public function getId() : int
     {
@@ -243,13 +206,15 @@ class ilStudyProgrammeProgress
     }
     
     /**
-     * Throws when amount of points is smaller then zero.
+     * Throws when amount of points is smaller than zero.
      */
     public function withAmountOfPoints(int $points) : ilStudyProgrammeProgress
     {
         if ($points < 0) {
-            throw new ilException("ilStudyProgrammeProgress::setAmountOfPoints: "
-                                 . "Expected a number >= 0 as argument, got '$points'");
+            throw new ilException(
+                "ilStudyProgrammeProgress::setAmountOfPoints: " .
+                "Expected a number >= 0 as argument, got '$points'"
+            );
         }
 
         $clone = clone $this;
@@ -264,13 +229,13 @@ class ilStudyProgrammeProgress
     
     /**
      * Set the amount of points the user currently has achieved on this node.
-     * @throws when amount of points is smaller then zero.
+     * @throws ilException when amount of points is smaller than zero.
      */
     public function withCurrentAmountOfPoints(int $points_cur) : ilStudyProgrammeProgress
     {
         if ($points_cur < 0) {
             throw new ilException("ilStudyProgrammeProgress::setAmountOfPoints: "
-                                 . "Expected a number >= 0 as argument, got '$points'");
+                                 . "Expected a number >= 0 as argument, got '$points_cur'");
         }
         $clone = clone $this;
         $clone->points_cur = $points_cur;
@@ -289,7 +254,7 @@ class ilStudyProgrammeProgress
     
     /**
      * Set the status of this node.
-     * @throws when status is none of ilStudyProgrammeProgress::STATUS_*.
+     * @throws ilException when status is none of ilStudyProgrammeProgress::STATUS_*.
      */
     public function withStatus(int $status) : ilStudyProgrammeProgress
     {
@@ -336,7 +301,7 @@ class ilStudyProgrammeProgress
                 ];
             case self::STATUS_COMPLETED:
                 return [
-                    self::STATUS_IN_PROGRESS // deaccriditation of sub-progress might revert completion,
+                    self::STATUS_IN_PROGRESS // deaccreditation of sub-progress might revert completion,
                 ];
             case self::STATUS_FAILED:
                 return [
@@ -355,10 +320,8 @@ class ilStudyProgrammeProgress
 
     /**
      * Get the id of the user/object who/which invoked the last change on this assignment.
-     *
-     * @return int
      */
-    public function getLastChangeBy()
+    public function getLastChangeBy() : int
     {
         return $this->last_change_by;
     }
@@ -368,7 +331,7 @@ class ilStudyProgrammeProgress
         if ($this->last_change) {
             return DateTimeImmutable::createFromFormat(self::DATE_TIME_FORMAT, $this->last_change);
         }
-        return $this->last_change;
+        return null;
     }
 
     /**
@@ -393,7 +356,7 @@ class ilStudyProgrammeProgress
         return $clone;
     }
 
-    public function getAssignmentDate() : DateTimeImmutable
+    public function getAssignmentDate() : ?DateTimeImmutable
     {
         return $this->assignment_date;
     }
@@ -552,8 +515,8 @@ class ilStudyProgrammeProgress
     {
         return $this
             ->withStatus(self::STATUS_IN_PROGRESS)
-            ->withCompletion(null, null)
-            ->withValidityOfQualification(null)
+            ->withCompletion()
+            ->withValidityOfQualification()
             ->withLastChange($acting_usr_id, $date);
     }
 
@@ -561,7 +524,7 @@ class ilStudyProgrammeProgress
     {
         return $this
             ->withStatus(self::STATUS_FAILED)
-            ->withCompletion(null, null)
+            ->withCompletion()
             ->withLastChange($acting_usr_id, $date);
     }
 
@@ -569,7 +532,7 @@ class ilStudyProgrammeProgress
     {
         return $this
             ->withStatus(self::STATUS_IN_PROGRESS)
-            ->withCompletion(null, null)
+            ->withCompletion()
             ->withLastChange($acting_usr_id, $date);
     }
 
@@ -586,8 +549,8 @@ class ilStudyProgrammeProgress
         return $this
             ->withStatus(self::STATUS_NOT_RELEVANT)
             ->withLastChange($acting_usr_id, $date)
-            ->withValidityOfQualification(null)
-            ->withDeadline(null)
+            ->withValidityOfQualification()
+            ->withDeadline()
             ->withIndividualModifications(true);
     }
 
@@ -595,7 +558,7 @@ class ilStudyProgrammeProgress
     {
         return $this
             ->withStatus(self::STATUS_IN_PROGRESS)
-            ->withCompletion(null, null)
+            ->withCompletion()
             ->withLastChange($acting_usr_id, $date)
             ->withIndividualModifications(true);
     }

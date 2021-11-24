@@ -1,74 +1,76 @@
 <?php declare(strict_types=1);
 
-class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
+use PHPUnit\Framework\TestCase;
+
+class ilStudyProgrammeProgressTest extends TestCase
 {
     protected function getUserIdAndNow() : array
     {
         return [6, new DateTimeImmutable()];
     }
 
-    public function test_init_and_id()
+    public function test_init_and_id() : ilStudyProgrammeProgress
     {
         $spp = new ilStudyProgrammeProgress(123);
-        $this->assertEquals($spp->getId(), 123);
+        $this->assertEquals(123, $spp->getId());
         return $spp;
     }
 
     /**
      * @depends test_init_and_id
      */
-    public function test_assignment_id()
+    public function test_assignment_id() : void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withAssignmentId(321);
-        $this->assertEquals($spp->getAssignmentId(), 321);
+        $this->assertEquals(321, $spp->getAssignmentId());
     }
 
     /**
      * @depends test_init_and_id
      */
-    public function test_node_id()
+    public function test_node_id() : void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withNodeId(321);
-        $this->assertEquals($spp->getNodeId(), 321);
+        $this->assertEquals(321, $spp->getNodeId());
     }
 
     /**
      * @depends test_init_and_id
      */
-    public function test_user_id()
+    public function test_user_id() : void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withUserId(321);
-        $this->assertEquals($spp->getUserId(), 321);
+        $this->assertEquals(321, $spp->getUserId());
     }
 
     /**
      * @depends test_init_and_id
      */
-    public function test_amount_of_points()
+    public function test_amount_of_points() : void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withAmountOfPoints(321);
-        $this->assertEquals($spp->getAmountOfPoints(), 321);
+        $this->assertEquals(321, $spp->getAmountOfPoints());
     }
 
     /**
      * @depends test_init_and_id
      */
-    public function test_amount_of_points_invalid()
+    public function test_amount_of_points_invalid() : void
     {
-        $this->expectException(\ilException::class);
-        $spp = (new ilStudyProgrammeProgress(123))->withAmountOfPoints(-321);
+        $this->expectException(ilException::class);
+        (new ilStudyProgrammeProgress(123))->withAmountOfPoints(-321);
     }
 
     /**
      * @depends test_init_and_id
      */
-    public function test_current_amount_of_points()
+    public function test_current_amount_of_points() : void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withCurrentAmountOfPoints(321);
-        $this->assertEquals($spp->getCurrentAmountOfPoints(), 321);
+        $this->assertEquals(321, $spp->getCurrentAmountOfPoints());
     }
 
-    public function status()
+    public function status() : array
     {
         return [
             //status, count as 'successful'
@@ -83,7 +85,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     /**
      * @dataProvider status
      */
-    public function test_status($status)
+    public function test_status(int $status) : void
     {
         $spp = (new ilStudyProgrammeProgress(123))->withStatus($status);
         $this->assertEquals($spp->getStatus(), $status);
@@ -94,8 +96,8 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
      */
     public function test_status_invalid()
     {
-        $this->expectException(\ilException::class);
-        $spp = (new ilStudyProgrammeProgress(123))->withStatus(321);
+        $this->expectException(ilException::class);
+        (new ilStudyProgrammeProgress(123))->withStatus(321);
     }
 
     /**
@@ -130,7 +132,7 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($now->format('Y-m-d'), $spp->getCompletionDate()->format('Y-m-d'));
         $this->assertEquals($acting_usr, $spp->getCompletionBy());
 
-        $spp = (new ilStudyProgrammeProgress(123))->withCompletion(null, null);
+        $spp = (new ilStudyProgrammeProgress(123))->withCompletion();
         $this->assertNull($spp->getCompletionDate());
         $this->assertNull($spp->getCompletionBy());
     }
@@ -161,7 +163,6 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
     public function testIndividualPlan(ilStudyProgrammeProgress $spp)
     {
         $this->assertFalse($spp->hasIndividualModifications());
-
         $this->assertTrue($spp->withIndividualModifications(true)->hasIndividualModifications());
         $this->assertFalse($spp->withIndividualModifications(false)->hasIndividualModifications());
     }
@@ -185,9 +186,9 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
      */
     public function test_invalidate_non_expired_1()
     {
-        $this->expectException(\ilException::class);
+        $this->expectException(ilException::class);
         $tomorrow = (new DateTimeImmutable())->add(new DateInterval('P1D'));
-        $spp = (new ilStudyProgrammeProgress(123))->withValidityOfQualification($tomorrow)->invalidate();
+        (new ilStudyProgrammeProgress(123))->withValidityOfQualification($tomorrow)->invalidate();
     }
 
     /**
@@ -195,8 +196,8 @@ class ilStudyProgrammeProgressTest extends \PHPUnit\Framework\TestCase
      */
     public function test_invalidate_non_expired_2()
     {
-        $this->expectException(\ilException::class);
-        $spp = (new ilStudyProgrammeProgress(123))->invalidate();
+        $this->expectException(ilException::class);
+        (new ilStudyProgrammeProgress(123))->invalidate();
     }
 
     /**

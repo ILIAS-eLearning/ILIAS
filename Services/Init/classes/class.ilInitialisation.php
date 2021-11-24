@@ -507,7 +507,7 @@ class ilInitialisation
         define("DEBUG", $ilClientIniFile->readVariable("system", "DEBUG"));
         define("DEVMODE", $ilClientIniFile->readVariable("system", "DEVMODE"));
         define("SHOWNOTICES", $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
-        define("ROOT_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
+        define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
         define("SYSTEM_FOLDER_ID", $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
         define("ROLE_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
         define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));

@@ -369,6 +369,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\LearningModule\Service($this);
     }
 
+    public function wiki() : \ILIAS\Wiki\Service
+    {
+        return new \ILIAS\Wiki\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

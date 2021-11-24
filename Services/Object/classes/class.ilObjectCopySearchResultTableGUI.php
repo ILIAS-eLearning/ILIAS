@@ -137,7 +137,7 @@ class ilObjectCopySearchResultTableGUI extends ilTable2GUI
             
             $this->tpl->setCurrentBlock('path');
             $this->tpl->setVariable('VAL_ID', $reference);
-            $this->tpl->setVariable('VAL_PATH', $path->getPath(ROOT_FOLDER_ID, $reference));
+            $this->tpl->setVariable('VAL_PATH', $path->getPath(ROOT_FOLDER_ID, (int) $reference));
             
             if ($reference == $this->getSelectedReference()) {
                 $this->tpl->setVariable('VAL_CHECKED', 'checked="checked"');

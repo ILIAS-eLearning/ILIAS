@@ -305,7 +305,7 @@ class ilChatroom
                 ['room_id' => ['integer', $this->roomId]]
             );
         } else {
-            $this->roomId = (int) $DIC->database()->nextId(self::$settingsTable);
+            $this->roomId = $DIC->database()->nextId(self::$settingsTable);
 
             $localSettings['room_id'] = [
                 'integer', $this->roomId
@@ -765,7 +765,7 @@ class ilChatroom
     {
         global $DIC;
 
-        $nextId = (int) $DIC->database()->nextId(self::$privateRoomsTable);
+        $nextId = $DIC->database()->nextId(self::$privateRoomsTable);
         $DIC->database()->insert(
             self::$privateRoomsTable,
             [
@@ -830,7 +830,7 @@ class ilChatroom
             $invitationLink = $this->getChatURL($gui, $subScope);
         }
 
-        if ($recipient_id > 0 && (int) ANONYMOUS_USER_ID !== $recipient_id) {
+        if ($recipient_id > 0 && ANONYMOUS_USER_ID !== $recipient_id) {
             if (is_numeric($sender) && $sender > 0) {
                 $sender_id = $sender;
                 /** @var $usr ilObjUser */
@@ -1283,7 +1283,7 @@ class ilChatroom
         $DIC->database()->queryF(
             'DELETE FROM ' . self::$historyTable . ' WHERE room_id = %s AND sub_room = %s',
             ['integer', 'integer'],
-            [$this->roomId, (int) $sub_room]
+            [$this->roomId, $sub_room]
         );
 
         if ($sub_room) {

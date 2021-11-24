@@ -348,7 +348,7 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
                     continue;
                 }
             }
-            if ($this->current_filter['org_units']) {
+            if (array_key_exists('org_units', $this->current_filter) && $this->current_filter['org_units']) {
                 $org_unit = $this->current_filter['org_units'];
                 include_once './Modules/OrgUnit/classes/class.ilObjOrgUnitTree.php';
                 $assigned = ilObjOrgUnitTree::_getInstance()->getOrgUnitOfUser($user_id);

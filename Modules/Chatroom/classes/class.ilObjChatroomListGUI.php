@@ -18,7 +18,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
         self::$publicRoomObjId = ilObjChatroom::_getPublicObjId();
     }
 
-    public function init()
+    public function init() : void
     {
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -32,27 +32,25 @@ class ilObjChatroomListGUI extends ilObjectListGUI
         $this->commands = ilObjChatroomAccess::_getCommands();
     }
 
-    public function getProperties()
+    public function getProperties() : array
     {
-        global $DIC;
-
         $props = [];
 
-        $DIC->language()->loadLanguageModule('chatroom');
+        $this->lng->loadLanguageModule('chatroom');
 
         $room = ilChatroom::byObjectId((int) $this->obj_id);
         if ($room) {
             $props[] = [
                 'alert' => false,
-                'property' => $DIC->language()->txt('chat_users_active'),
+                'property' => $this->lng->txt('chat_users_active'),
                 'value' => $room->countActiveUsers()
             ];
 
             if ($this->obj_id === self::$publicRoomObjId) {
                 $props[] = [
                     'alert' => false,
-                    'property' => $DIC->language()->txt('notice'),
-                    'value' => $DIC->language()->txt('public_room')
+                    'property' => $this->lng->txt('notice'),
+                    'value' => $this->lng->txt('public_room')
                 ];
             }
 
@@ -64,16 +62,16 @@ class ilObjChatroomListGUI extends ilObjectListGUI
             if (!self::$chat_enabled) {
                 $props[] = [
                     'alert' => true,
-                    'property' => $DIC->language()->txt('chtr_server_status'),
-                    'value' => $DIC->language()->txt('server_disabled')
+                    'property' => $this->lng->txt('chtr_server_status'),
+                    'value' => $this->lng->txt('server_disabled')
                 ];
             }
 
             if (!$room->getSetting('online_status')) {
                 $props[] = [
                     'alert' => true,
-                    'property' => $DIC->language()->txt('status'),
-                    'value' => $DIC->language()->txt('offline')
+                    'property' => $this->lng->txt('status'),
+                    'value' => $this->lng->txt('offline')
                 ];
             }
         }

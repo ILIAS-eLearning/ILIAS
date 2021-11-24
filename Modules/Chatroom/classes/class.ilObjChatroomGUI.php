@@ -34,7 +34,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
      * Overwrites $_GET['ref_id'] with given $ref_id.
      * @param string $params
      */
-    public static function _goto($params)
+    public static function _goto($params) : void
     {
         global $DIC;
 
@@ -83,7 +83,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms($a_new_type) : array
     {
         $forms = parent::initCreationForms($a_new_type);
 
@@ -94,7 +94,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         return $forms;
     }
 
-    protected function addLocatorItems()
+    protected function addLocatorItems() : void
     {
         if (is_object($this->object)) {
             $this->locator->addItem(

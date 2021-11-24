@@ -30,7 +30,7 @@ class ilTree
     protected ilDBInterface $db;
 
     /**
-     * Use "your" component logger in derived classes 
+     * Use "your" component logger in derived classes
      * @access private
      */
     protected ilLogger $logger;
@@ -863,7 +863,9 @@ class ilTree
         */
         
         $query = $this->getTreeImplementation()->getSubTreeQuery($a_node, $a_type);
+
         $res = $this->db->query($query);
+        $subtree = [];
         while ($row = $this->db->fetchAssoc($res)) {
             if ($a_with_data) {
                 $subtree[] = $this->fetchNodeData($row);
@@ -875,7 +877,7 @@ class ilTree
                 $this->in_tree_cache[$row['child']] = true;
             }
         }
-        return $subtree ? $subtree : array();
+        return $subtree;
     }
 
     /**
@@ -2571,9 +2573,9 @@ class ilTree
      * and returns all necessary information for this action.
      * The former use of ilTree::getSubtree needs to much memory.
      * @param ref_id ref_id of source node
-     * @return
+     * @return array
      */
-    public function getRbacSubtreeInfo($a_endnode_id)
+    public function getRbacSubtreeInfo(int $a_endnode_id) : array
     {
         return $this->getTreeImplementation()->getSubtreeInfo($a_endnode_id);
     }
@@ -2599,7 +2601,7 @@ class ilTree
     /**
      * @inheritdoc
      */
-    public function getTrashSubTreeQuery($a_node_id, $a_fields = [], $a_types = '', $a_force_join_reference = false)
+    public function getTrashSubTreeQuery($a_node_id, $a_fields = [], $a_types = [], $a_force_join_reference = false)
     {
         return $this->getTreeImplementation()->getTrashSubTreeQuery(
             $this->getNodeTreeData($a_node_id),

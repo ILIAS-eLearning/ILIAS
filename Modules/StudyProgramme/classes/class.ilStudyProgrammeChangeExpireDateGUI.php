@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
-declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Component\Input\Container\Form\Standard;
@@ -16,85 +14,22 @@ class ilStudyProgrammeChangeExpireDateGUI
     const CMD_CHANGE_EXPIRE_DATE = "changeExpireDate";
     const PROP_VALIDITY_OF_QUALIFICATION = "validity_qualification";
 
-    /**
-     * @var ilObjGroupGUI|ilObjCourseGUI
-     */
-    protected $gui;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilAccess $access;
+    protected ilObjUser $user;
+    protected Factory $input_factory;
+    protected Renderer $renderer;
+    protected ServerRequest $request;
+    protected ILIAS\Refinery\Factory $refinery_factory;
+    protected ILIAS\Data\Factory $data_factory;
+    protected ilPRGMessagePrinter $messages;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilGlobalTemplateInterface
-     */
-    protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilAccess
-     */
-    protected $access;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var string
-     */
-    protected $back_target;
-
-    /**
-     * @var Factory
-     */
-    protected $input_factory;
-
-    /**
-     * @var Renderer
-     */
-    protected $renderer;
-
-    /**
-     * @var ServerRequest
-     */
-    protected $request;
-
-    /**
-     * @var \ILIAS\Refinery\Factory
-     */
-    protected $refinery_factory;
-
-    /**
-     * @var \ILIAS\Data\Factory
-     */
-    protected $data_factory;
-
-    /**
-     * @var array
-     */
-    protected $progress_ids;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var ilObjStudyProgramme
-     */
-    protected $object;
-
-    /**
-     * @var ilPRGMessages
-     */
-    protected $messages;
+    protected ?string $back_target = null;
+    protected array $progress_ids = [];
+    protected ?int $ref_id = null;
+    protected ?ilObjStudyProgramme $object = null;
 
     public function __construct(
         ilCtrl $ctrl,
@@ -105,8 +40,8 @@ class ilStudyProgrammeChangeExpireDateGUI
         Factory $input_factory,
         Renderer $renderer,
         ServerRequest $request,
-        \ILIAS\Refinery\Factory $refinery_factory,
-        \ILIAS\Data\Factory $data_factory,
+        ILIAS\Refinery\Factory $refinery_factory,
+        ILIAS\Data\Factory $data_factory,
         ilPRGMessagePrinter $messages
     ) {
         $this->ctrl = $ctrl;
@@ -141,7 +76,6 @@ class ilStudyProgrammeChangeExpireDateGUI
                         break;
                     default:
                         throw new Exception('Unknown command ' . $cmd);
-                        break;
                 }
                 break;
         }
@@ -210,7 +144,7 @@ class ilStudyProgrammeChangeExpireDateGUI
     }
 
     protected function buildFormElements(
-        \ILIAS\UI\Component\Input\Field\Factory $ff,
+        ILIAS\UI\Component\Input\Field\Factory $ff,
         Closure $txt,
         ilObjStudyProgramme $prg
     ) : array {
@@ -246,22 +180,22 @@ class ilStudyProgrammeChangeExpireDateGUI
             if ($vq_type === ilObjStudyProgrammeSettingsGUI::OPT_VALIDITY_OF_QUALIFICATION_DATE) {
                 $validity = DateTimeImmutable::createFromFormat('d.m.Y', array_shift($vq_data[1]));
                 if (!$validity) {
-                    ilUtil::sendFailure($this->lng->txt('error_updating_expire_date'), true);
+                    $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_expire_date'), true);
                     $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
                 }
             }
             foreach ($this->getProgressIds() as $progress_id) {
-                $programme->changeProgressValidityDate($progress_id, $acting_usr_id, $msg_collection, $validity, );
+                $programme->changeProgressValidityDate($progress_id, $acting_usr_id, $msg_collection, $validity);
             }
 
             $this->messages->showMessages($msg_collection);
             $this->ctrl->redirectByClass('ilObjStudyProgrammeMembersGUI', 'view');
         }
-        ilUtil::sendFailure($this->lng->txt('error_updating_expire_date'), true);
+        $this->tpl->setOnScreenMessage("failure", $this->lng->txt('error_updating_expire_date'), true);
         $this->ctrl->redirectByClass(self::class, self::CMD_SHOW_EXPIRE_DATE_CONFIG);
     }
 
-    protected function getBackTarget() : string
+    protected function getBackTarget() : ?string
     {
         return $this->back_target;
     }
@@ -281,7 +215,7 @@ class ilStudyProgrammeChangeExpireDateGUI
         $this->progress_ids = array_map('intval', $progress_ids);
     }
 
-    protected function getRefId() : int
+    protected function getRefId() : ?int
     {
         return $this->ref_id;
     }
@@ -293,14 +227,24 @@ class ilStudyProgrammeChangeExpireDateGUI
 
     protected function getObject() : ilObjStudyProgramme
     {
+        $ref_id = $this->getRefId();
+        if (is_null($ref_id)) {
+            throw new LogicException("Can't create object. No ref_id given.");
+        }
+
         if ($this->object === null) {
-            $this->object = ilObjStudyProgramme::getInstanceByRefId($this->getRefId());
+            $this->object = ilObjStudyProgramme::getInstanceByRefId($ref_id);
         }
         return $this->object;
     }
 
     protected function redirectToParent() : void
     {
-        ilUtil::redirect($this->getBackTarget());
+        $back_target = $this->getBackTarget();
+        if (is_null($back_target)) {
+            throw new LogicException("Can't redirect. No back target given.");
+        }
+
+        $this->ctrl->redirectToURL($back_target);
     }
 }

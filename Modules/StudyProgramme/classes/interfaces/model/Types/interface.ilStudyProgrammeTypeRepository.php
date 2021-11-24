@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Covers the persistence of sp-type related information.
@@ -23,37 +23,37 @@ interface ilStudyProgrammeTypeRepository
     /**
      * Persist type properties.
      */
-    public function updateType(ilStudyProgrammeType $type);
+    public function updateType(ilStudyProgrammeType $type) : void;
 
     /**
      * Persist amd-record properties.
      */
-    public function updateAMDRecord(ilStudyProgrammeAdvancedMetadataRecord $rec);
+    public function updateAMDRecord(ilStudyProgrammeAdvancedMetadataRecord $rec) : void;
 
     /**
      * Persist type translation properties.
      */
-    public function updateTypeTranslation(ilStudyProgrammeTypeTranslation $tt);
+    public function updateTypeTranslation(ilStudyProgrammeTypeTranslation $tt) : void;
 
     /**
      * Delete record corresponding to given object.
      */
-    public function deleteType(ilStudyProgrammeType $type);
+    public function deleteType(ilStudyProgrammeType $type) : void;
 
     /**
      * Delete record corresponding to given object.
      */
-    public function deleteAMDRecord(ilStudyProgrammeAdvancedMetadataRecord $rec);
+    public function deleteAMDRecord(ilStudyProgrammeAdvancedMetadataRecord $rec) : void;
 
     /**
      * Delete record corresponding to given object.
      */
-    public function deleteTypeTranslation(ilStudyProgrammeTypeTranslation $tt);
+    public function deleteTypeTranslation(ilStudyProgrammeTypeTranslation $tt) : void;
 
     /**
      * Delete all translation records corresponding to a type id.
      */
-    public function deleteTypeTranslationByTypeId(int $type_id);
+    public function deleteTypeTranslationByTypeId(int $type_id) : void;
 
     /**
      * Get all persisted type-objects.
@@ -93,6 +93,10 @@ interface ilStudyProgrammeTypeRepository
     public function getAvailableAdvancedMDRecords() : array;
     public function getAvailableAdvancedMDRecordIds() : array;
 
-    public function getTranslationsByTypeAndLang(int $type_id, string $lang_code);
-    public function getTranslationByTypeIdMemberLang(int $type_id, string $member, string $lang_code);
+    public function getTranslationsByTypeAndLang(int $type_id, string $lang_code) : array;
+    public function getTranslationByTypeIdMemberLang(
+        int $type_id,
+        string $member,
+        string $lang_code
+    ) : ?ilStudyProgrammeTypeTranslation;
 }

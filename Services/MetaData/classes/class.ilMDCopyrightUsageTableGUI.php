@@ -134,7 +134,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
 
             foreach ($a_set['references'] as $reference) {
                 $this->tpl->setCurrentBlock("references");
-                $this->tpl->setVariable("REFERENCE", $path->getPath(ROOT_FOLDER_ID, $reference));
+                $this->tpl->setVariable("REFERENCE", $path->getPath(ROOT_FOLDER_ID, (int) $reference));
                 $this->tpl->parseCurrentBlock();
             }
         }

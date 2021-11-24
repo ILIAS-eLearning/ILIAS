@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * Class ilObjStudyProgrammeAutoCategoriesGUI
@@ -10,9 +8,9 @@ declare(strict_types=1);
 class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
 {
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd = "",
-        $a_template_context = ""
+        ilObjectGUI $a_parent_obj,
+        string $a_parent_cmd = "",
+        string $a_template_context = ""
     ) {
         $this->setId("sp_ac_list");
         parent::__construct($a_parent_obj, $a_parent_cmd, $a_template_context);
@@ -39,15 +37,9 @@ class ilStudyProgrammeAutoCategoriesTableGUI extends ilTable2GUI
         $this->addMultiCommand('deleteConfirmation', $this->lng->txt('delete'));
     }
 
-    protected function fillRow($set)
+    protected function fillRow($set) : void
     {
         list($ac, $title, $usr, $actions) = $set;
-        $username = ilObjUser::_lookupName($ac->getLastEditorId());
-        $editor = implode(' ', [
-            $username['firstname'],
-            $username['lastname'],
-            '(' . $username['login'] . ')'
-        ]);
 
         $this->tpl->setVariable("ID", $ac->getCategoryRefId());
         $this->tpl->setVariable("TITLE", $title);

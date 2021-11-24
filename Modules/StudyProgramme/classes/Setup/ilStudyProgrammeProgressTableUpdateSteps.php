@@ -1,17 +1,17 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 class ilStudyProgrammeProgressTableUpdateSteps implements ilDatabaseUpdateSteps
 {
     const TABLE_NAME = 'prg_usr_progress';
 
-    protected \ilDBInterface $db;
+    protected ilDBInterface $db;
     
-    public function prepare(\ilDBInterface $db)
+    public function prepare(ilDBInterface $db) : void
     {
         $this->db = $db;
     }
     
-    public function step_1()
+    public function step_1() : void
     {
         $column_name = 'individual';
 
@@ -33,17 +33,17 @@ class ilStudyProgrammeProgressTableUpdateSteps implements ilDatabaseUpdateSteps
         }
     }
     
-    public function step_2()
+    public function step_2() : void
     {
         $old = "risky_to_fail_mail_send";
         $new = "sent_mail_risky_to_fail";
-        $table = "prg_usr_progress";
+
         if ($this->db->tableColumnExists(self::TABLE_NAME, $old) && !$this->db->tableColumnExists(self::TABLE_NAME, $new)) {
             $this->db->renameTableColumn(self::TABLE_NAME, $old, $new);
         }
     }
     
-    public function step_3()
+    public function step_3() : void
     {
         $column_name = 'sent_mail_expires';
 

@@ -26,6 +26,7 @@ define("IL_WIKI_ORPHANED_PAGES", "orphaned");
  */
 class ilWikiPagesTableGUI extends ilTable2GUI
 {
+    protected int $requested_ref_id;
     protected int $page_id = 0;
     protected int $wiki_id = 0;
     protected string $pg_list_mode = "";
@@ -43,6 +44,14 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+
+        $this->requested_ref_id = $DIC
+            ->wiki()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request()
+            ->getRefId();
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->pg_list_mode = $a_mode;
@@ -180,7 +189,10 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         }
         $this->tpl->setVariable(
             "HREF_PAGE",
-            ilObjWikiGUI::getGotoLink($_GET["ref_id"], $a_set["title"])
+            ilObjWikiGUI::getGotoLink(
+                $this->requested_ref_id,
+                $a_set["title"]
+            )
         );
 
         // user name
