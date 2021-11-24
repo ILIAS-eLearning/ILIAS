@@ -4,6 +4,8 @@
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use ILIAS\GlobalScreen\Provider\ProviderCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\ArrayEnvironment;
 
 /**
  * Abstract Class ilPlugin
@@ -877,6 +879,11 @@ abstract class ilPlugin
         global $DIC;
         $ilDB = $DIC->database();
 
+        $this->runObjectiveWithConfig(new ilCtrlPluginArtifactConfig(
+            $this,
+            ilCtrlPluginArtifactConfig::PLUGIN_STATUS_INSTALL
+        ));
+
         ilCachedComponentData::flush();
         $q = "UPDATE il_plugin SET plugin_id = " . $ilDB->quote($this->getId(), "text") .
             " WHERE component_type = " . $ilDB->quote($this->getComponentType(), "text") .
@@ -927,6 +934,30 @@ abstract class ilPlugin
         ilCachedComponentData::flush();
 
         return $result;
+    }
+
+
+    /**
+     * Runs the ilCtrlPluginStructureArtifactObjective that executes
+     * a small ctrl structure reload for the given configuration.
+     *
+     * @param ilCtrlPluginArtifactConfig $config
+     */
+    protected function runObjectiveWithConfig(ilCtrlPluginArtifactConfig $config) : void
+    {
+        global $DIC;
+
+        $environment = new ArrayEnvironment([
+            Environment::RESOURCE_PLUGIN_ADMIN => $DIC['ilPluginAdmin'],
+        ]);
+
+        $environment = $environment->withConfigFor(
+            ilCtrlPluginStructureArtifactObjective::class,
+            $config
+        );
+
+        $objective = new ilCtrlPluginStructureArtifactObjective();
+        $objective->achieve($environment);
     }
 
 
@@ -1006,6 +1037,11 @@ abstract class ilPlugin
         global $DIC;
         $ilDB = $DIC->database();
 
+        $this->runObjectiveWithConfig(new ilCtrlPluginArtifactConfig(
+            $this,
+            ilCtrlPluginArtifactConfig::PLUGIN_STATUS_UNINSTALL
+        ));
+
         if ($this->beforeUninstall()) {
             // remove all language entries (see ilObjLanguage)
             // see updateLanguages
@@ -1061,7 +1097,6 @@ abstract class ilPlugin
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $ilCtrl = $DIC->ctrl();
 
         ilGlobalCache::flushAll();
 
@@ -1078,21 +1113,10 @@ abstract class ilPlugin
             $result = $this->updateDatabase();
         }
 
-        // load control structure
-        $structure_reader = new ilCtrlStructureReader();
-        $structure_reader->readStructure(
-            true,
-            "./" . $this->getDirectory(),
-            $this->getPrefix(),
-            $this->getDirectory()
-        );
-
-        // add config gui to the ctrl calls
-        $ilCtrl->insertCtrlCalls(
-            "ilobjcomponentsettingsgui",
-            ilPlugin::getConfigureClassName(["name" => $this->getPluginName()]),
-            $this->getPrefix()
-        );
+        $this->runObjectiveWithConfig(new ilCtrlPluginArtifactConfig(
+            $this,
+            ilCtrlPluginArtifactConfig::PLUGIN_STATUS_UPDATE
+        ));
 
         $this->readEventListening();
 

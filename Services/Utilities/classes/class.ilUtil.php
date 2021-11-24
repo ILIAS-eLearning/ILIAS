@@ -2905,7 +2905,7 @@ class ilUtil
         global $DIC;
 
         if (!isset($DIC['ilCtrl']) || !$DIC['ilCtrl'] instanceof ilCtrl) {
-            $ctrl = new ilCtrl();
+            (new InitCtrlService())->init($DIC);
         } else {
             $ctrl = $DIC->ctrl();
         }

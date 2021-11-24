@@ -18,7 +18,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilWikiHandlerGUI: ilObjWikiGUI
  */
-class ilWikiHandlerGUI
+class ilWikiHandlerGUI implements ilCtrlBaseClassInterface
 {
     protected string $requested_page;
     protected int $requested_ref_id;

@@ -10,7 +10,7 @@ use ILIAS\Glossary\Presentation;
  * @author Alex Killing <alex.killing@gmx.de>
  * @ilCtrl_Calls ilGlossaryPresentationGUI: ilNoteGUI, ilInfoScreenGUI, ilPresentationListTableGUI, ilGlossaryDefPageGUI
  */
-class ilGlossaryPresentationGUI
+class ilGlossaryPresentationGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

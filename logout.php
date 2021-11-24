@@ -13,9 +13,8 @@
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
-$ilCtrl->initBaseClass("ilStartUpGUI");
 $ilCtrl->setCmd('doLogout');
-$ilCtrl->callBaseClass();
+$ilCtrl->callBaseClass('ilStartUpGUI');
 $ilBench->save();
 
 exit;
