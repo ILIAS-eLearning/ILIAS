@@ -102,6 +102,7 @@ class ilTestExportRandomQuestionSet extends ilTestExport
         foreach ($this->srcPoolDefList as $definition) {
             $attributes = array(
                 'id' => $definition->getId(),
+                'ref_id' => $definition->getPoolRefId(),
                 'poolId' => $definition->getPoolId(),
                 'poolQuestCount' => $definition->getPoolQuestionCount(),
                 'questAmount' => $definition->getQuestionAmount(),

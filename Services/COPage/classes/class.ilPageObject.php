@@ -3479,6 +3479,9 @@ abstract class ilPageObject
      */
     public function insertContent(&$a_cont_obj, $a_pos, $a_mode = IL_INSERT_AFTER, $a_pcid = "", bool $remove_placeholder = true)
     {
+        if ($a_pcid == "" && $a_pos == "") {
+            $a_pos = "pg";
+        }
         // move mode into container elements is always INSERT_CHILD
         $curr_node = $this->getContentNode($a_pos, $a_pcid);
         $curr_name = $curr_node->node_name();

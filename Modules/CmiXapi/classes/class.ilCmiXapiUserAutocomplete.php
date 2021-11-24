@@ -38,11 +38,10 @@ class ilCmiXapiUserAutocomplete extends ilUserAutoComplete
         $fromPart = parent::getFromPart();
         
         $fromPart .= "
-			INNER JOIN cmix_users
-			ON cmix_users.obj_id = {$DIC->database()->quote($this->objId, 'integer')}
-			AND cmix_users.usr_id = ud.usr_id
+			INNER JOIN (SELECT DISTINCT usr_id, obj_id FROM cmix_users) c
+			ON c.obj_id = {$DIC->database()->quote($this->objId, 'integer')}
+			AND c.usr_id = ud.usr_id
 		";
-        
         return $fromPart;
     }
 }

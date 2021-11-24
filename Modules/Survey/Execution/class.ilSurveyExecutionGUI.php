@@ -507,7 +507,7 @@ class ilSurveyExecutionGUI
             foreach ($page as $k => $data) {
                 $page[$k]["compressed"] = false;
                 $page[$k]["compressed_first"] = false;
-                if ($this->compressQuestion($previous_page, $data)) {
+                if ($compress_view && $this->compressQuestion($previous_page, $data)) {
                     $page[$k]["compressed"] = true;
                     if ($previous_key !== null && $page[$previous_key]["compressed"] == false) {
                         $page[$previous_key]["compressed_first"] = true;

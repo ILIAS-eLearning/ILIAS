@@ -81,12 +81,24 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
             $this->filter["actor"] = $ti->getValue();
         }
         
+        /**
+         * dynamic verbsList (postponed or never used)
+         */
+        /*
+        $verbs = $this->parent_obj->getVerbs(); // ToDo: Caching
+        $si = new ilSelectInputGUI('Used Verb', "verb");
+        $si->setOptions(ilCmiXapiVerbList::getInstance()->getDynamicSelectOptions($verbs));
+        $this->addFilterItem($si);
+        $si->readFromSession();
+        $this->filter["verb"] = $si->getValue();
+        */
+
         $si = new ilSelectInputGUI('Used Verb', "verb");
         $si->setOptions(ilCmiXapiVerbList::getInstance()->getSelectOptions());
         $this->addFilterItem($si);
         $si->readFromSession();
         $this->filter["verb"] = $si->getValue();
-        
+
         $dp = new ilCmiXapiDateDurationInputGUI('Period', 'period');
         $dp->setShowTime(true);
         $this->addFilterItem($dp);
@@ -97,6 +109,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     public function fillRow($data)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
+        
         $r = $DIC->ui()->renderer();
         
         $data['rowkey'] = md5(serialize($data));
@@ -111,7 +124,15 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->tpl->setVariable('STMT_DATE', $date);
         
         if ($this->isMultiActorReport) {
-            $this->tpl->setVariable('STMT_ACTOR', $this->getUsername($data['actor']));
+            $actor = $data['actor'];
+            if (empty($actor))
+            {
+                $this->tpl->setVariable('STMT_ACTOR', 'user_not_found');
+            }
+            else
+            {
+                $this->tpl->setVariable('STMT_ACTOR', $this->getUsername($data['actor']));
+            }
         }
         
         $this->tpl->setVariable('STMT_VERB', ilCmiXapiVerbList::getVerbTranslation(
@@ -156,13 +177,16 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
     protected function getUsername(ilCmiXapiUser $cmixUser)
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
-        
-        $userObj = ilObjectFactory::getInstanceByObjId($cmixUser->getUsrId());
-        
-        if ($userObj) {
-            return $userObj->getFullname();
+        $ret = 'not found';
+        try
+        {
+            $userObj = ilObjectFactory::getInstanceByObjId($cmixUser->getUsrId());
+            $ret = $userObj->getFullname();
         }
-        
-        return $DIC->language()->txt('deleted_user');
+        catch (Exception $e)
+        {
+            $ret = $DIC->language()->txt('deleted_user');
+        }
+        return $ret;
     }
 }

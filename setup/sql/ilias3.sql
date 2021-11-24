@@ -2576,6 +2576,12 @@ CREATE TABLE `cmix_settings` (
   `no_substatements` tinyint(4) NOT NULL DEFAULT 0,
   `privacy_ident` smallint(6) NOT NULL DEFAULT 0,
   `privacy_name` smallint(6) NOT NULL DEFAULT 0,
+  `publisher_id` varchar(255) NOT NULL DEFAULT '',
+  `anonymous_homepage` tinyint(4) NOT NULL DEFAULT 1,
+  `moveon` varchar(32) NOT NULL DEFAULT '',
+  `launch_parameters` varchar(255) NOT NULL DEFAULT '',
+  `entitlement_key` varchar(255) NOT NULL DEFAULT '',
+  `switch_to_review` tinyint(4) NOT NULL DEFAULT 1,
   PRIMARY KEY (`obj_id`)
 ) ;
 
@@ -2595,6 +2601,9 @@ CREATE TABLE `cmix_token` (
   `ref_id` int(11) NOT NULL DEFAULT 0,
   `obj_id` int(11) NOT NULL DEFAULT 0,
   `usr_id` int(11) NOT NULL DEFAULT 0,
+  `cmi5_session` varchar(255) NOT NULL DEFAULT '',
+  `returned_for_cmi5_session` varchar(255) NOT NULL DEFAULT '',
+  `cmi5_session_data` longtext DEFAULT NULL,
   PRIMARY KEY (`token`),
   UNIQUE KEY `c1_idx` (`obj_id`,`usr_id`),
   KEY `i1_idx` (`token`,`valid_until`)
@@ -2616,6 +2625,8 @@ CREATE TABLE `cmix_users` (
   `fetched_until` datetime DEFAULT NULL,
   `usr_ident` varchar(255) DEFAULT NULL,
   `privacy_ident` smallint(6) NOT NULL DEFAULT 0,
+  `registration` varchar(255) NOT NULL DEFAULT '',
+  `satisfied` tinyint(4) NOT NULL DEFAULT 0,
   PRIMARY KEY (`obj_id`,`usr_id`,`privacy_ident`)
 ) ;
 
@@ -20376,7 +20387,7 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','53');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','63');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
 
 --
@@ -23078,6 +23089,7 @@ CREATE TABLE `tst_rnd_quest_set_qpls` (
   `mapped_tax_filter` varchar(4000) DEFAULT NULL,
   `type_filter` varchar(250) DEFAULT NULL,
   `lifecycle_filter` varchar(250) DEFAULT NULL,
+  `pool_ref_id` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`def_id`)
 ) ;
 
@@ -24985,4 +24997,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2021-09-24 16:22:39
+-- Dump completed on 2021-11-03 16:09:38

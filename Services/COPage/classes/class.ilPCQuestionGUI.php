@@ -259,7 +259,7 @@ class ilPCQuestionGUI extends ilPageContentGUI
         
         $this->content_obj = new ilPCQuestion($this->getPage());
         $this->content_obj->create($this->pg_obj, $this->hier_id);
-        
+
         $this->updated = $this->pg_obj->update();
 
         if ($this->updated) {

@@ -14,6 +14,8 @@
  */
 class ilObjCmiXapi extends ilObject2
 {
+    const PLUGIN = false;
+
     const DB_TABLE_NAME = 'cmix_settings';
     protected function dbTableName()
     {
@@ -61,18 +63,44 @@ class ilObjCmiXapi extends ilObject2
     /**
      * @var string
      */
+    protected $publisherId;
+
+    /**
+     * @var string
+     */
     protected $instructions;
     
     /**
      * @var string
      */
     protected $launchUrl;
+
+    /**
+     * @var string
+     */
+    protected $launchParameters;
     
+    /**
+     * @var string
+     */
+    protected $moveOn;
+
+    /**
+     * @var string
+     */
+    protected $entitlementKey;
+
     /**
      * @var bool
      */
     protected $authFetchUrlEnabled;
     
+    /**
+     * @var anonymousHomePage;
+     */
+    protected $anonymousHomePage = false;
+    const ANONYMOUS_HOMEPAGE = 'https://example.org';
+
     /**
      * @var string
      */
@@ -84,13 +112,19 @@ class ilObjCmiXapi extends ilObject2
      * @var string
      */
     protected $launchMode;
-    const LAUNCH_MODE_NORMAL = 'normal';
-    const LAUNCH_MODE_BROWSE = 'browse';
-    const LAUNCH_MODE_REVIEW = 'review';
+    const LAUNCH_MODE_NORMAL = 'Normal';
+    const LAUNCH_MODE_BROWSE = 'Browse';
+    const LAUNCH_MODE_REVIEW = 'Review';
     
+    /**
+     * @var bool
+     */
+    protected $switchToReviewEnabled;
+
     /**
      * @var float
      */
+    const LMS_MASTERY_SCORE = 0.7;
     protected $masteryScore;
     
     /**
@@ -185,6 +219,9 @@ class ilObjCmiXapi extends ilObject2
     /** @var bool $no_substatements */
     protected $no_substatements = false;
 
+    /** @var ilCmiXapiUser $currentCmixUser */
+    protected $currentCmixUser = null;
+
     /**
      * ilObjCmiXapi constructor.
      * @param int $a_id
@@ -205,20 +242,30 @@ class ilObjCmiXapi extends ilObject2
         
         $this->activityId = '';
         
+        $this->publisherId = '';
+
         $this->instructions = '';
 
         $this->launchUrl = '';
+        $this->launchParameters = '';
+        $this->moveOn = '';
+        $this->entitlementKey = '';
+        
         $this->authFetchUrlEnabled = 0;
         
         $this->launchMethod = self::LAUNCH_METHOD_NEW_WIN;
         $this->launchMode = self::LAUNCH_MODE_NORMAL;
+
+        $this->switchToReviewEnabled = 1;
         
-        $this->masteryScore = 0;
+        $this->masteryScore = self::LMS_MASTERY_SCORE;
         $this->keepLpStatusEnabled = 1;
         
         $this->userIdent = self::PRIVACY_IDENT_IL_UUID_USER_ID;
         $this->userName = self::PRIVACY_NAME_NONE;
         $this->userPrivacyComment = '';
+
+        $this->currentCmixUser = null;
 
         $this->statementsReportEnabled = 0;
 
@@ -366,6 +413,17 @@ class ilObjCmiXapi extends ilObject2
     }
     
     /**
+     * @param string $contentType
+     */
+    public function isMixedContentType() : bool
+    {
+        // after 21-07-24 and before cmi5 refactoring
+        // launched before cmi5 refactoring ident in:    statement.actor.mbox 
+        // launched after  cmi5 refactoring ident in:    statement.actor.account.name 
+        return (($this->getContentType() == self::CONT_TYPE_CMI5) && empty($this->getPublisherId()));
+    }
+
+    /**
      * @return string
      */
     public function getSourceType()
@@ -416,6 +474,22 @@ class ilObjCmiXapi extends ilObject2
     /**
      * @return string
      */
+    public function getPublisherId()
+    {
+        return $this->publisherId;
+    }
+    
+    /**
+     * @param string $publisherId
+     */
+    public function setPublisherId($publisherId)
+    {
+        $this->publisherId = $publisherId;
+    }
+
+    /**
+     * @return string
+     */
     public function getInstructions()
     {
         return $this->instructions;
@@ -445,6 +519,97 @@ class ilObjCmiXapi extends ilObject2
         $this->launchUrl = $launchUrl;
     }
     
+    /**
+     * @return string
+     */
+    public function getLaunchParameters()
+    {
+        return $this->launchParameters;
+    }
+    
+    /**
+     * @param string $launchParameters
+     */
+    public function setLaunchParameters($launchParameters)
+    {
+        $this->launchParameters = $launchParameters;
+    }
+
+    /**
+     * @return string
+     * Attention: this is the original imported moveOn
+     * for using in LaunchData and LaunchStatement use getLMSMoveOn!
+     */
+    public function getMoveOn()
+    {
+        return $this->moveOn;
+    }
+
+    /**
+     * @param string $moveOn
+     * Attention: this is the original moveOn from course import
+     * should only be set on import!
+     */
+    public function setMoveOn($moveOn)
+    {
+        $this->moveOn = $moveOn;
+    }
+
+    /**
+     * @return int ilLPObjSettings::const
+     * only for internal LMS usage
+     */
+    public function getLPMode()
+    {
+        // oder besser settings?
+        $olp = ilObjectLP::getInstance($this->getId());
+        return $olp->getCurrentMode();
+    }
+
+    /**
+     * @return string ilCmiXapiLP::const
+     * for CMI5 statements | state moveOn values
+     */
+    public function getLMSMoveOn()
+    {
+        $moveOn = ilCmiXapiLP::MOVEON_NOT_APPLICABLE;
+        switch ($this->getLPMode())
+        {
+            case ilLPObjSettings::LP_MODE_DEACTIVATED :
+                $moveOn = ilCmiXapiLP::MOVEON_NOT_APPLICABLE;
+            break;
+            case ilLPObjSettings::LP_MODE_CMIX_COMPLETED :
+            case ilLPObjSettings::LP_MODE_CMIX_COMPL_WITH_FAILED :
+                $moveOn = ilCmiXapiLP::MOVEON_COMPLETED;
+            break;
+            case ilLPObjSettings::LP_MODE_CMIX_PASSED :
+            case ilLPObjSettings::LP_MODE_CMIX_PASSED_WITH_FAILED :
+                $moveOn = ilCmiXapiLP::MOVEON_PASSED;
+            break;
+                case ilLPObjSettings::LP_MODE_CMIX_COMPLETED_OR_PASSED :
+                case ilLPObjSettings::LP_MODE_CMIX_COMPL_OR_PASSED_WITH_FAILED :
+                $moveOn = ilCmiXapiLP::MOVEON_COMPLETED_OR_PASSED;
+            break;
+        }
+        return $moveOn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEntitlementKey()
+    {
+        return $this->entitlementKey;
+    }
+
+    /**
+     * @param string $entitlementKey
+     */
+    public function setEntitlementKey($entitlementKey)
+    {
+        $this->entitlementKey = $entitlementKey;
+    }
+
     /**
      * @return bool
      */
@@ -482,7 +647,7 @@ class ilObjCmiXapi extends ilObject2
      */
     public function getLaunchMode()
     {
-        return $this->launchMode;
+        return ucfirst($this->launchMode);
     }
     
     /**
@@ -490,9 +655,33 @@ class ilObjCmiXapi extends ilObject2
      */
     public function setLaunchMode($launchMode)
     {
-        $this->launchMode = $launchMode;
+        $this->launchMode = ucfirst($launchMode);
     }
     
+    /**
+     * @return bool
+     */
+    public function isSwitchToReviewEnabled()
+    {
+        return $this->switchToReviewEnabled;
+    }
+    
+    /**
+     * @return bool
+     */
+    public function getSwitchToReviewEnabled()
+    {
+        return $this->switchToReviewEnabled;
+    }
+    
+    /**
+     * @param bool $switchToReviewEnabled
+     */
+    public function setSwitchToReviewEnabled($switchToReviewEnabled)
+    {
+        $this->switchToReviewEnabled = $switchToReviewEnabled;
+    }
+
     /**
      * @return float
      */
@@ -899,14 +1088,19 @@ class ilObjCmiXapi extends ilObject2
             $this->setSourceType($row['source_type']);
             
             $this->setActivityId($row['activity_id']);
+            $this->setPublisherId($row['publisher_id']);
             $this->setInstructions($row['instructions']);
             
             $this->setLaunchUrl($row['launch_url']);
+            $this->setLaunchParameters($row['launch_parameters']);
+            $this->setMoveOn($row['moveon']);
+            $this->setEntitlementKey($row['entitlement_key']);
             $this->setAuthFetchUrlEnabled((bool) $row['auth_fetch_url']);
             
             $this->setLaunchMethod($row['launch_method']);
             
             $this->setLaunchMode($row['launch_mode']);
+            $this->setSwitchToReviewEnabled((bool) $row['switch_to_review']);
             $this->setMasteryScore((float) $row['mastery_score']);
             $this->setKeepLpStatusEnabled((bool) $row['keep_lp']);
             
@@ -965,11 +1159,16 @@ class ilObjCmiXapi extends ilObject2
             'content_type' => ['text', $this->getContentType()],
             'source_type' => ['text', $this->getSourceType()],
             'activity_id' => ['text', $this->getActivityId()],
+            'publisher_id' => ['text', $this->getPublisherId()],
             'instructions' => ['text', $this->getInstructions()],
             'launch_url' => ['text', $this->getLaunchUrl()],
+            'launch_parameters' => ['text', $this->getLaunchParameters()],
+            'moveon' => ['text', $this->getMoveOn()],
+            'entitlement_key' => ['text', $this->getEntitlementKey()],
             'auth_fetch_url' => ['integer', (int) $this->isAuthFetchUrlEnabled()],
             'launch_method' => ['text', $this->getLaunchMethod()],
             'launch_mode' => ['text', $this->getLaunchMode()],
+            'switch_to_review' => ['integer', (int) $this->isSwitchToReviewEnabled()],
             'mastery_score' => ['float', $this->getMasteryScore()],
             'keep_lp' => ['integer', (int) $this->isKeepLpStatusEnabled()],
             'privacy_ident' => ['integer', $this->getPrivacyIdent()],
@@ -1413,11 +1612,16 @@ class ilObjCmiXapi extends ilObject2
             'content_type' => $this->getContentType(),
             'source_type' => $this->getSourceType(),
             'activity_id' => $this->getActivityId(),
+            'publisher_id' => $this->getPublisherId(),
             'instructions' => $this->getInstructions(),
             'launch_url' => $this->getLaunchUrl(),
+            'launch_parameters' => $this->getLaunchParameters(),
+            'moveon' => $this->getMoveOn(),
+            'entitlement_key' => $this->getEntitlementKey(),
             'auth_fetch_url' => (int) $this->isAuthFetchUrlEnabled(),
             'launch_method' => $this->getLaunchMethod(),
             'launch_mode' => $this->getLaunchMode(),
+            'switch_to_review' => (int) $this->isSwitchToReviewEnabled(),
             'mastery_score' => $this->getMasteryScore(),
             'keep_lp' => (int) $this->isKeepLpStatusEnabled(),
             'privacy_ident' => $this->getPrivacyIdent(),
@@ -1469,12 +1673,17 @@ class ilObjCmiXapi extends ilObject2
 		$new_obj->setLrsTypeId($this->getLrsTypeId());
 		$new_obj->setContentType($this->getContentType());
 		$new_obj->setSourceType($this->getSourceType());
-		$new_obj->setActivityId($this->getActivityId());
+        $new_obj->setActivityId($this->getActivityId());
+        $new_obj->setPublisherId($this->getPublisherId());
 		$new_obj->setInstructions($this->getInstructions());
-		$new_obj->setLaunchUrl($this->getLaunchUrl());
+        $new_obj->setLaunchUrl($this->getLaunchUrl());
+        $new_obj->setLaunchParameters($this->getLaunchParameters());
+        $new_obj->setMoveOn($this->getMoveOn());
+        $new_obj->setEntitlementKey($this->getEntitlementKey());
 		$new_obj->setAuthFetchUrlEnabled($this->isAuthFetchUrlEnabled());
 		$new_obj->setLaunchMethod($this->getLaunchMethod());
-		$new_obj->setLaunchMode($this->getLaunchMode());
+        $new_obj->setLaunchMode($this->getLaunchMode());
+        $new_obj->setSwitchToReviewEnabled($this->isSwitchToReviewEnabled());
 		$new_obj->setMasteryScore($this->getMasteryScore());
 		$new_obj->setKeepLpStatusEnabled($this->isKeepLpStatusEnabled());
 		$new_obj->setPrivacyIdent($this->getPrivacyIdent());
@@ -1542,5 +1751,460 @@ class ilObjCmiXapi extends ilObject2
         $this->deleteMetaData();
     }
 
+    public function getRegistrations() {
+        global $DIC;
+        $res = $DIC->database()->queryF(
+            "SELECT DISTINCT registration FROM cmix_users WHERE obj_id = %s",
+            array('text'),
+            array($this->getId())
+        );
+        $ret = [];
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            $ret[] = $row['registration'];
+        }
+        return $ret;
+    }
 
+    public static function guidv4($data = null) {
+        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+        $data = $data ?? random_bytes(16);
+        assert(strlen($data) == 16);
+    
+        // Set version to 0100
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Set bits 6-7 to 10
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+    
+        // Output the 36 character UUID.
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+
+    public function getCurrentCmixUser()
+    {
+        global $DIC;
+        if (null === $this->currentCmixUser)
+        {
+            $this->currentCmixUser = new ilCmiXapiUser($this->getId(), $DIC->user()->getId(), $this->getPrivacyIdent());
+        }
+        return $this->currentCmixUser;
+    }
+
+    public function getSessionId($cmixUser = null) 
+    {
+        if (null === $cmixUser)
+        {
+            $cmixUser = $this->getCurrentCmixUser();
+        }
+        return ilCmiXapiAuthToken::getCmi5SessionByUsrIdAndObjIdAndRefId($cmixUser->getUsrId(),$this->getId(), $this->getRefId());
+    }
+
+    /**
+     * LMS.LaunchData
+     */
+    public function getLaunchData($cmixUser = null, $lang = 'en')
+    {
+        if (null === $cmixUser)
+        {
+            $cmixUser = $this->getCurrentCmixUser();
+        }
+        // ToDo
+        $moveOn = $this->getLMSMoveOn();
+        if (!$moveOn || $moveOn == '')
+        {
+            $moveOn = 'Completed';
+        }
+        $launchMode = $this->getLaunchMode();
+        // only check switch if self::LAUNCH_MODE_NORMAL
+        if ($launchMode == self::LAUNCH_MODE_NORMAL) {
+            if ($cmixUser->getSatisfied() && $this->isSwitchToReviewEnabled()) {
+                $launchMode = self::LAUNCH_MODE_REVIEW;
+            }
+        }
+        $ctxTemplate = [
+            "contextTemplate" => $this->getLaunchedContextTemplate($cmixUser),
+            "launchMode" => ucfirst($launchMode),
+            "launchMethod" => "OwnWindow",
+            "moveOn" => $moveOn
+        ];
+        $lmsLaunchMethod = $this->getLaunchMethod();
+        if ($lmsLaunchMethod === "ownWin") {
+            include_once('./Services/Link/classes/class.ilLink.php');
+            $href = ilLink::_getStaticLink(
+                $this->getRefId(),
+                $this->getType()
+            );
+            $ctxTemplate['returnURL'] = $href;
+        }
+        else {
+            $ctxTemplate['returnURL'] = ILIAS_HTTP_PATH."/Modules/CmiXapi/xapiexit.php?lang={$lang}";
+        }
+        if (!empty($this->getMasteryScore())) {
+            $ctxTemplate['masteryScore'] = $this->getMasteryScore();
+        }
+        if (!empty($this->getLaunchParameters())) {
+            $ctxTemplate['launchParameters'] = $this->getLaunchParameters();
+        }
+        if (!empty($this->getEntitlementKey())) {
+            $ctxTemplate['entitlementKey'] = array("courseStructure" => $this->getEntitlementKey());
+        }
+        return $ctxTemplate;
+    }
+
+    public function getLaunchedContextTemplate($cmixUser = null) 
+    {
+        if (null === $cmixUser)
+        {
+            $cmixUser = $this->getCurrentCmixUser();
+        }
+        $launchMode = $this->getLaunchMode();
+        // only check switch if self::LAUNCH_MODE_NORMAL
+        if ($launchMode == self::LAUNCH_MODE_NORMAL) {
+            if ($cmixUser->getSatisfied() && $this->isSwitchToReviewEnabled()) {
+                $launchMode = self::LAUNCH_MODE_REVIEW;
+            }
+        }
+        $extensions = $this->getStatementExtensions($cmixUser);
+        $extensions['https://w3id.org/xapi/cmi5/context/extensions/launchmode'] =  $launchMode;
+        if (!empty($this->getLMSMoveOn())) {
+            $extensions['https://w3id.org/xapi/cmi5/context/extensions/moveon'] = $this->getLMSMoveOn();
+        }
+        if (!empty($this->getLaunchParameters())) {
+            $extensions['https://w3id.org/xapi/cmi5/context/extensions/launchparameters'] = $this->getLaunchParameters();
+        }
+        if (!empty($this->getMasteryScore())) {
+            $extensions['https://w3id.org/xapi/cmi5/context/extensions/masteryscore'] = $this->getMasteryScore();
+        }
+        $contextTemplate = array(
+            "contextActivities" => $this->getStatementContextActivities(),
+            "extensions" => $extensions
+        );
+        return $contextTemplate;
+    }
+
+    /**
+     * blueprint statement
+     */
+    public function getStatement(string $verb, $cmixUser = null)
+    {
+        if (null === $cmixUser)
+        {
+            $cmixUser = $this->getCurrentCmixUser();
+        }
+        $id = self::guidv4();
+        $actor = $this->getStatementActor($cmixUser);
+        $verbUri = ilCmiXapiVerbList::getInstance()->getVerbUri($verb);
+        $extensions = $this->getStatementExtensions($cmixUser);
+        $registration = $cmixUser->getRegistration();
+        $contextActivities = $this->getStatementContextActivities();
+        $object = $this->getStatementObject();
+        $statement = array (
+            'id' => $id,
+            'actor' => $actor,
+            'verb' => 
+            array (
+                'id' => $verbUri
+            ),
+            'context' => 
+            array (
+                'extensions' => $extensions,
+                'registration' => $registration,
+                'contextActivities' => $contextActivities
+            ),
+            'object' => $object
+        );
+        return $statement;
+    }
+
+    /**
+     * statement actor
+     */
+    public function getStatementActor($cmixUser = null)
+    {
+        global $DIC;
+        if (null === $cmixUser)
+        {
+            $cmixUser = $this->getCurrentCmixUser();
+        }
+        $user = new ilObjUser($cmixUser->getUsrId()); // ToDo: Caching Names
+        $name = ilCmiXapiUser::getName($this->getPrivacyName(), $user);
+        if ($name == '') {
+            $this->log()->error('error: no name in cmixuser');
+            $name = 'UNDEFINED';
+        }
+        $homePage = ($this->anonymousHomePage == true) ? self::ANONYMOUS_HOMEPAGE : self::iliasUrl();
+        if ($this->getContentType() == self::CONT_TYPE_CMI5)
+        {
+            $actor = [
+                'objectType' => 'Agent',
+                'account' => [
+                    'homePage' => $homePage,
+                    'name' => $cmixUser->getUsrIdent()
+                ]
+            ];
+            if ($name !== '')
+            {
+                $actor['name'] = $name;
+            }
+        }
+        else
+        {
+            $actor = [
+                'objectType' => 'Agent',
+                'mbox' => $cmixUser->getUsrIdent()
+            ];
+            if ($name !== '')
+            {
+                $actor['name'] = $name;
+            }
+        }
+        return $actor;     
+    }
+
+    /**
+     * Minimal extensions
+     */
+    public function getStatementExtensions($cmixUser = null)
+    {
+        if (null === $cmixUser)
+        {
+            $cmixUser = $this->getCurrentCmixUser();
+        }
+        $extensions = array (
+            'https://w3id.org/xapi/cmi5/context/extensions/sessionid' => $this->getSessionId($cmixUser),
+            'https://ilias.de/cmi5/activityid' => $this->getActivityId()
+        );
+        return $extensions;
+    }
+
+    /**
+     * Minimal statementActivities
+     */
+    public function getStatementContextActivities()
+    {
+        $publisherId = $this->getPublisherId();
+        $activityId = $this->getActivityId();
+        if (empty($publisherId)) 
+        {
+            $publisherId = $activityId;
+        }
+        $ctxActivities = array(
+            "grouping" => [
+                [
+                "objectType" => "Activity",
+                "id" => "{$publisherId}",
+                'definition' => 
+                array (
+                    'name' => 
+                    array (
+                        'de-DE' => $this->getTitle(),
+                        'en-US' => $this->getTitle()
+                    ),
+                    'description' => 
+                    array (
+                        'de-DE' => $this->getDescription(),
+                        'en-US' => $this->getDescription()
+                    )
+                )]
+            ],
+            "category" => [
+                [
+                    "id" => "https://w3id.org/xapi/cmi5/context/categories/cmi5",
+                    "objectType" => "Activity"
+                ]
+            ]
+        );
+        return $ctxActivities;
+    }
+
+    public function getStatementObject()
+    {
+        $object = array (
+                'id' => $this->getActivityId(),
+                'definition' => 
+                array (
+                    'name' => 
+                    array (
+                        'de-DE' => $this->getTitle(),
+                        'en-US' => $this->getTitle()
+                    ),
+                    'description' => 
+                    array (
+                        'de-DE' => $this->getDescription(),
+                        'en-US' => $this->getDescription()
+                    )
+                )
+            );
+        return $object;
+    }
+
+    public function getLaunchedStatement($cmixUser = null)
+    {
+        if (null === $cmixUser) {
+            $cmixUser = $this->getCurrentCmixUser();
+        }
+        $launchMode = $this->getLaunchMode();
+        // only check switch if self::LAUNCH_MODE_NORMAL
+        if ($launchMode == self::LAUNCH_MODE_NORMAL) {
+            if ($cmixUser->getSatisfied() && $this->isSwitchToReviewEnabled()) {
+                $launchMode = self::LAUNCH_MODE_REVIEW;
+            }
+        }
+        
+        $statement = $this->getStatement('launched', $cmixUser);
+        $statement['context']['extensions']['https://w3id.org/xapi/cmi5/context/extensions/launchmode'] = $launchMode;
+        if (!empty($this->getLMSMoveOn())) {
+            $statement['context']['extensions']['https://w3id.org/xapi/cmi5/context/extensions/moveon'] = $this->getLMSMoveOn();
+        }
+        if (!empty($this->getLaunchParameters())) {
+            $statement['context']['extensions']['https://w3id.org/xapi/cmi5/context/extensions/launchparameters'] = $this->getLaunchParameters();
+        }
+        if (!empty($this->getMasteryScore())) {
+            $statement['context']['extensions']['https://w3id.org/xapi/cmi5/context/extensions/masteryscore'] = $this->getMasteryScore();
+        }
+        return $statement;
+    }
+
+    public function getAbandonedStatement($sessionId, $duration, $cmixUser = null)
+    {
+        if (null === $cmixUser)
+        {
+            $cmixUser = $this->getCurrentCmixUser();
+        }
+        $statement = $this->getStatement('abandoned',$cmixUser);
+        // overwrite session with abandoned oldSession
+        $statement['context']['extensions']['https://w3id.org/xapi/cmi5/context/extensions/sessionid'] = $sessionId;
+        $statement['result'] = array(
+            'duration' => $duration
+        );
+        return $statement;
+    }
+
+    public function getSatisfiedStatement($cmixUser = null)
+    {
+        if (null === $cmixUser)
+        {
+            $cmixUser = $this->getCurrentCmixUser();
+        }
+        $statement = $this->getStatement('satisfied', $cmixUser);
+        // add type, see https://aicc.github.io/CMI-5_Spec_Current/samples/scenarios/16-not_applicable-no_launch/#satisfied-statement
+        // see also: https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#verbs_satisfied
+        $type = "https://w3id.org/xapi/cmi5/activitytype/course";
+        $statement['object']['definition']['type'] = $type;
+        $statement['context']['contextActivities']['grouping'][0]['definition']['type'] = $type;
+        return $statement;
+    }
+
+    /**
+     * get latest statement from session
+     */
+    public function getLastStatement($sess)
+    {
+        global $DIC;
+        $lrsType = $this->getLrsType();
+
+        //$this->getLrsEndpoint())) . '/api/' . self::ENDPOINT_AGGREGATE_SUFFIX;
+        $defaultLrs = $lrsType->getLrsEndpointStatementsAggregationLink();
+        //$fallbackLrs = $lrsType->getLrsFallbackEndpoint();
+        $defaultBasicAuth = $lrsType->getBasicAuth();
+        //$fallbackBasicAuth = $lrsType->getFallbackBasicAuth();
+        $defaultHeaders = [
+            'X-Experience-API-Version' => '1.0.3',
+            'Authorization' => $defaultBasicAuth,
+            'Cache-Control' => 'no-cache, no-store, must-revalidate'
+        ];
+        /*
+        $fallbackHeaders = [
+            'X-Experience-API-Version' => '1.0.3',
+            'Authorization' => $fallbackBasicAuth,
+            'Content-Type' => 'application/json;charset=utf-8',
+            'Cache-Control' => 'no-cache, no-store, must-revalidate'
+        ];
+        */
+        $pipeline = json_encode($this->getLastStatementPipline($sess));
+        $defaultLastStatementUrl = $defaultLrs . "?pipeline=" . urlencode($pipeline);
+        $client = new GuzzleHttp\Client();
+        $req_opts = array(
+            GuzzleHttp\RequestOptions::VERIFY => true,
+            GuzzleHttp\RequestOptions::CONNECT_TIMEOUT => 10,
+            GuzzleHttp\RequestOptions::HTTP_ERRORS => false
+        );
+        $defaultLastStatementRequest = new GuzzleHttp\Psr7\Request(
+            'GET',
+            $defaultLastStatementUrl,
+            $defaultHeaders
+        );
+        $promises = array();
+        $promises['defaultLastStatement'] = $client->sendAsync($defaultLastStatementRequest, $req_opts);
+        try
+        {
+            $responses = GuzzleHttp\Promise\settle($promises)->wait();
+            $body = '';
+            ilCmiXapiAbstractRequest::checkResponse($responses['defaultLastStatement'],$body,[200]);
+            return json_decode($body,JSON_OBJECT_AS_ARRAY);
+        }
+        catch(Exception $e)
+        {
+            $this->log()->error('error:' . $e->getMessage());
+            return null;
+        }
+        return null;
+    }
+
+    public function getLastStatementPipline($sess)
+    {
+        global $DIC;
+        $pipeline = array();
+        
+        // filter activityId
+        $match = array();
+        $match['statement.object.objectType'] = 'Activity';
+        $match['statement.actor.objectType'] = 'Agent';
+        
+        $activityId = array();
+
+        if ($this->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5 && !$this->isMixedContentType())
+        {
+            // https://github.com/AICC/CMI-5_Spec_Current/blob/quartz/cmi5_spec.md#963-extensions
+            $activityId['statement.context.extensions.https://ilias&46;de/cmi5/activityid'] = $this->getActivityId();
+        }
+        else
+        {
+            $activityQuery = [
+                '$regex' => '^' . preg_quote($this->getActivityId()) . ''
+            ];
+            $activityId['$or'] = [];
+            $activityId['$or'][] = ['statement.object.id' => $activityQuery];
+            $activityId['$or'][] = ['statement.context.contextActivities.parent.id' => $activityQuery];
+        }
+
+        $sessionId = array();
+        $sessionId['statement.context.extensions.https://w3id&46;org/xapi/cmi5/context/extensions/sessionid'] = $sess;
+        $match['$and'] = array();
+        $match['$and'][] = $activityId;
+        $match['$and'][] = $sessionId;
+        $sort = array('statement.timestamp' => -1);
+        $project = array('statement.timestamp' => 1, 'statement.verb.id' => 1);
+        $pipeline[] = array('$match' => $match);
+        $pipeline[] = array('$sort' => $sort);
+        $pipeline[] = array('$limit' => 1);
+        $pipeline[] = array('$project' => $project);
+
+        return $pipeline;
+    }
+
+    public static function iliasUrl() {
+        $regex = '/^(https?\:\/\/[^\/]+).*/';
+        preg_match($regex, $GLOBALS['DIC']->http()->request()->getUri(), $request_parts);
+        return $request_parts[1];
+    }
+
+    public static function log() {
+        global $log;
+        if (self::PLUGIN) {
+            return $log;
+        }
+        else {
+            return \ilLoggerFactory::getLogger('cmix');
+        }
+    }
 }

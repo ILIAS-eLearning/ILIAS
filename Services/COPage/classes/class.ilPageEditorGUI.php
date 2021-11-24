@@ -50,6 +50,9 @@ class ilPageEditorGUI
     public $lng;
     public $ctrl;
     public $objDefinition;
+    /**
+     * @var ilPageObject
+     */
     public $page;
     public $target_script;
     public $return_location;
@@ -326,7 +329,10 @@ class ilPageEditorGUI
                 $cont_obj = $this->page->getContentObject($hier_id, $pc_id);
             }
         }
-
+        // this fixes e.g. #31214
+        if ($pc_id != "" && $hier_id == "") {
+            $hier_id = $this->page->getHierIdForPcId($pc_id);
+        }
         if ($ctype != "media" || !is_object($cont_obj)) {
             if ($this->getHeader() != "") {
                 $this->tpl->setTitle($this->getHeader());

@@ -84,7 +84,7 @@ class ilFileVersionsGUI
         $this->toolbar = $DIC->toolbar();
         $this->access = $DIC->access();
         $this->wsp_access = new ilWorkspaceAccessHandler();
-        $this->has_been_migrated = !is_null($file->getResourceId());
+        $this->has_been_migrated = !empty($file->getResourceId());
     }
 
     public function executeCommand()

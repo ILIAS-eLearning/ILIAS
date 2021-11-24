@@ -111,6 +111,9 @@ abstract class ilAssQuestionFeedback
      */
     public function getGenericFeedbackTestPresentation($questionId, $solutionCompleted)
     {
+        if ($this->page_obj_output_mode == "edit") {
+            return "";
+        }
         if ($this->questionOBJ->isAdditionalContentEditingModePageObject()) {
             $genericFeedbackTestPresentationHTML = $this->getPageObjectContent(
                 $this->getGenericFeedbackPageObjectType(),

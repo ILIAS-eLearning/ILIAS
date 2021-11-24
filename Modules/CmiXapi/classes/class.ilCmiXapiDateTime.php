@@ -58,4 +58,51 @@ class ilCmiXapiDateTime extends ilDateTime
     {
         return new self($dateTime->get(IL_CAL_UNIX), IL_CAL_UNIX);
     }
+
+    public static function dateIntervalToISO860Duration(\DateInterval $d) {
+        $duration = 'P';
+        if (!empty($d->y)) {
+            $duration .= "{$d->y}Y";
+        }
+        if (!empty($d->m)) {
+            $duration .= "{$d->m}M";
+        }
+        if (!empty($d->d)) {
+            $duration .= "{$d->d}D";
+        }
+        if (!empty($d->h) || !empty($d->i) || !empty($d->s)) {
+            $duration .= 'T';
+            if (!empty($d->h)) {
+                $duration .= "{$d->h}H";
+            }
+            if (!empty($d->i)) {
+                $duration .= "{$d->i}M";
+            }
+            if (!empty($d->s)) {
+                $duration .= "{$d->s}S";
+            }
+            // ToDo: nervt!
+            /*
+            if (!empty($d->f)) {
+                if (!empty($d->s)) {
+                    $s = $d->s + $d->f;
+                }
+                else {
+                    $s = $d->f;
+                }
+                $duration .= "{$s}S";
+            }
+            else
+            {
+                if (!empty($d->s)) {
+                    $duration .= "S";
+                }
+            }
+            */
+        }
+        if ($duration === 'P') {
+            $duration = 'PT0S'; // Empty duration (zero seconds)
+        }
+        return $duration;
+    }
 }

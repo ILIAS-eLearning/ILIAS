@@ -253,13 +253,13 @@ class ResourceBuilder
             $this->file_name_policy->check($revision->getInformation()->getSuffix());
         }
 
-        $r = $this->lock_handler->lockTables([
-            $this->resource_repository->getNameForLocking(),
-            $this->revision_repository->getNameForLocking(),
-            $this->information_repository->getNameForLocking(),
-            $this->stakeholder_repository->getNameForLocking(),
+        $r = $this->lock_handler->lockTables(array_merge(
+            $this->resource_repository->getNamesForLocking(),
+            $this->revision_repository->getNamesForLocking(),
+            $this->information_repository->getNamesForLocking(),
+            $this->stakeholder_repository->getNamesForLocking(),
 
-        ], function () use ($resource) {
+        ), function () use ($resource) {
             $this->resource_repository->store($resource);
 
             foreach ($resource->getAllRevisions() as $revision) {

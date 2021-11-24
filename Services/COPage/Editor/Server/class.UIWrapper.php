@@ -191,6 +191,7 @@ class UIWrapper
             }
         } else {
             $page_gui->setOutputMode(\ilPageObjectGUI::EDIT);
+            $page_gui->setDefaultLinkXml(); // fixes #31225
             $page_data = $page_gui->showPage();
             $pc_model = $page_gui->getPageObject()->getPCModel();
             $last_change = $page_gui->getPageObject()->getLastChange();

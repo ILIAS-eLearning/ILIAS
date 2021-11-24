@@ -360,24 +360,13 @@ class ilForumSettingsGUI
             'tutors' => $tutors,
             'members' => $members
         ]) as $type => $data) {
-            $tbl_mod = new ilTable2GUI($this, 'showMembers');
-            $tbl_mod->setId('tbl_id_mod');
-            $tbl_mod->setFormAction($this->ctrl->getFormAction($this, 'showMembers'));
-            $tbl_mod->setTitle($this->lng->txt(strtolower($type)));
-
-            $tbl_mod->addColumn('', '', '1%', true);
-            $tbl_mod->addColumn($this->lng->txt('login'), '', '10%');
-            $tbl_mod->addColumn($this->lng->txt('firstname'), '', '10%');
-            $tbl_mod->addColumn($this->lng->txt('lastname'), '', '10%');
-            $tbl_mod->addColumn($this->lng->txt('allow_user_toggle_noti'), '', '10%');
-            $tbl_mod->setSelectAllCheckbox('user_id');
-
-            $tbl_mod->setRowTemplate('tpl.forums_members_row.html', 'Modules/Forum');
+            $tbl_mod = new ilForumNotificationParentMembersTableGUI(
+                $this,
+                'showMembers',
+                $this->parent_obj->object,
+                $type
+            );
             $tbl_mod->setData($data);
-
-            $tbl_mod->addMultiCommand('enableHideUserToggleNoti', $this->lng->txt('enable_hide_user_toggle'));
-            $tbl_mod->addMultiCommand('disableHideUserToggleNoti', $this->lng->txt('disable_hide_user_toggle'));
-
             $this->tpl->setCurrentBlock(strtolower($type) . '_table');
             $this->tpl->setVariable(strtoupper($type), $tbl_mod->getHTML());
         }

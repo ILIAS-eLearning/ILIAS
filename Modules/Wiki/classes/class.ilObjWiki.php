@@ -916,6 +916,17 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
     {
         $new_obj = parent::cloneObject($a_target_id, $a_copy_id, $a_omit_tree);
 
+        // Custom meta data activation is stored in a container setting
+        ilContainer::_writeContainerSetting(
+            $new_obj->getId(),
+            ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+            ilContainer::_lookupContainerSetting(
+                $this->getId(),
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+                0
+            )
+        );
+
         //copy online status if object is not the root copy object
         $cp_options = ilCopyWizardOptions::_getInstance($a_copy_id);
 
