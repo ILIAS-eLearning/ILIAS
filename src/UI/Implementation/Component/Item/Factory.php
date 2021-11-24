@@ -24,7 +24,7 @@ class Factory implements Item\Factory
      */
     public function contribution(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null) : Item\Contribution
     {
-        throw new \ILIAS\UI\NotImplementedException();
+        return new Contribution($content, $user, $datetime);
     }
 
     /**

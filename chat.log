@@ -1,0 +1,21 @@
+[2021-11-24T20:51:06+01:00] INFO - Starting Server! 
+[2021-11-24T20:51:06+01:00] INFO - Log Level: info 
+[2021-11-24T20:51:06+01:00] INFO - SetupNamespace ilias_chat! 
+[2021-11-24T20:51:07+01:00] INFO - DNS Resolve for: ilias8 => IP: 127.0.0.1 , Family: 4 
+[2021-11-24T20:51:07+01:00] INFO - Database for ilias_chat connected! 
+[2021-11-24T20:51:07+01:00] INFO - Preload Data for ilias_chat finished! 
+[2021-11-24T20:51:07+01:00] INFO - SetupNamespace finished! 
+[2021-11-24T20:51:07+01:00] INFO - SetupNamespace IM: ilias_chat-im! 
+[2021-11-24T20:51:07+01:00] INFO - PreloadConversations for ilias_chat-im 
+[2021-11-24T20:51:07+01:00] INFO - Cleanup ilias_chat 
+[2021-11-24T20:51:07+01:00] INFO - SetupNamespace IM finished! 
+[2021-11-24T20:51:07+01:00] INFO - IMSocketHandler used 
+[2021-11-24T20:51:07+01:00] INFO - Started fetching user settings for namespace ilias_chat-im 
+[2021-11-24T20:51:07+01:00] INFO - Finished fetching user settings for namespace ilias_chat-im 
+[2021-11-24T20:51:07+01:00] INFO - Successfully disconnected all users from server 
+[2021-11-24T20:51:07+01:00] INFO - Cleanup ilias_chat-im 
+[2021-11-24T20:51:07+01:00] INFO - Successfully disconnected all users from server 
+[2021-11-24T20:51:07+01:00] INFO - The Server is Ready to use! Listening on: http://127.0.0.1:8081 
+[2021-11-24T20:53:30+01:00] INFO - SendMessage by "6" in conversation 18d3f7d5-fa3b-4ba5-b5bb-a84f178ddcd1 
+[2021-11-24T21:00:00+01:00] INFO - Started fetching user settings for namespace ilias_chat-im 
+[2021-11-24T21:00:00+01:00] INFO - Finished fetching user settings for namespace ilias_chat-im 

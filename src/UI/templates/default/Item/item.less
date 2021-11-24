@@ -122,6 +122,37 @@
 
 }
 
+.il-contribution-item{
+	display: flex;
+	gap: 10px;
+
+	.contribution {
+		width: 100%;
+		display: grid;
+		grid-template-areas:
+			"user close"
+			"description description"
+			"datetime datetime";
+		grid-auto-columns: auto 12px;
+		gap: 10px;
+
+		.user {
+			grid-area: user;
+		}
+		.close {
+			grid-area: close;
+		}
+		.description {
+			grid-area: description;
+		}
+		.datetime {
+			padding-top: 10px;
+			border-top: 1px dashed lightgrey;
+			grid-area: datetime;
+		}
+	}
+}
+
 @media only screen and (min-width: (@grid-float-breakpoint-max + 1px)) {
 
 	.panel-secondary .il-item {

@@ -28,6 +28,8 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderGroup($component, $default_renderer);
         } elseif ($component instanceof Component\Item\Standard) {
             return $this->renderStandard($component, $default_renderer);
+        } elseif ($component instanceof Contribution) {
+            return $this->renderContribution($component, $default_renderer);
         }
         return "";
     }
@@ -132,6 +134,52 @@ class Renderer extends AbstractComponentRenderer
         $actions = $component->getActions();
         if ($actions !== null) {
             $tpl->setVariable("ACTIONS", $default_renderer->render($actions));
+        }
+
+        return $tpl->get();
+    }
+
+    protected function renderContribution(Contribution $component, RendererInterface $default_renderer) : string
+    {
+        $tpl = $this->getTemplate("tpl.item_contribution.html", true, true);
+
+        $this->renderTitle($component, $default_renderer, $tpl);
+        $this->renderDescription($component, $tpl);
+
+        if ($component->getUser()) {
+            $tpl->setVariable("USER", $component->getUser()->getPublicName());
+        } else {
+            $tpl->setVariable("USER", $this->txt('unknown'));
+        }
+
+        if ($component->getDateTime()) {
+            $tpl->setVariable("DATETIME", ilDatePresentation::formatDate($component->getDateTime()));
+        } else {
+            $tpl->setVariable("DATETIME", $this->txt('unknown'));
+        }
+
+        if ($component->getLeadIcon() !== null) {
+            $tpl->setCurrentBlock("lead_icon");
+            $tpl->setVariable("LEAD_ICON", $default_renderer->render($component->getLeadIcon()));
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($component->getClose() !== null) {
+            $tpl->setCurrentBlock("close");
+            $tpl->setVariable("CLOSE", $default_renderer->render($component->getClose()));
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($component->getIdentifier() !== null) {
+            $tpl->setCurrentBlock("identifier");
+            $tpl->setVariable('ID', $component->getIdentifier());
+            $tpl->parseCurrentBlock();
+        }
+
+        if ($component->getOnLoadCode() !== null) {
+            $tpl->setCurrentBlock("id");
+            $tpl->setVariable('ID', $this->bindJavaScript($component));
+            $tpl->parseCurrentBlock();
         }
 
         return $tpl->get();
@@ -280,6 +328,7 @@ class Renderer extends AbstractComponentRenderer
     {
         return [
             Component\Item\Standard::class,
+            Component\Item\Contribution::class,
             Component\Item\Group::class,
             Component\Item\Notification::class
         ];
