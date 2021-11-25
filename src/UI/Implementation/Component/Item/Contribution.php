@@ -90,7 +90,7 @@ class Contribution extends Item implements IContribution, IJavaScriptBindable
 
     public function getDateTime() : ?ilDateTime
     {
-        return $this->dateTime;
+        return $this->datetime;
     }
 
     public function withIdentifier(string $identifier) : IContribution

@@ -156,6 +156,7 @@ class Renderer extends AbstractComponentRenderer
             $tpl->setVariable("USER", $this->txt('unknown'));
         }
 
+        $tpl->setVariable("TIME_LABEL", $this->txt('time'));
         if ($component->getDateTime()) {
             $tpl->setVariable("DATETIME", ilDatePresentation::formatDate($component->getDateTime()));
         } else {
