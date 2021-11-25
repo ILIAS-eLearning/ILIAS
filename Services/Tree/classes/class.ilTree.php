@@ -14,8 +14,6 @@ class ilTree
     public const TREE_TYPE_MATERIALIZED_PATH = 'mp';
     public const TREE_TYPE_NESTED_SET = 'ns';
 
-    /** @var array<int, bool> */
-    protected array $oc_preloaded = [];
 
     public const POS_LAST_NODE = -2;
     public const POS_FIRST_NODE = -1;
@@ -25,24 +23,23 @@ class ilTree
     public const RELATION_SIBLING = 3;
     public const RELATION_EQUALS = 4;
     public const RELATION_NONE = 5;
-    
 
-    protected ilDBInterface $db;
+    protected const DEFAULT_LANGUAGE = 'en';
 
-    /**
-     * Use "your" component logger in derived classes
-     * @access private
-     */
     protected ilLogger $logger;
-    
-    
+    protected ilDBInterface $db;
+    protected ilAppEventHandler $eventHandler;
 
     /**
-    * points to root node (may be a subtree)
-    * @var		integer
-    * @access	public
-    */
-    public $root_id;
+     * Used in fetchNodeData
+     * @var string
+     */
+    private string $lang_code;
+
+    /**
+     * points to root node (may be a subtree)
+     */
+    protected int $root_id;
 
     /**
     * to use different trees in one db-table
@@ -117,6 +114,8 @@ class ilTree
     */
     private int $gap;
 
+    /** @var array<int, bool> */
+    protected array $oc_preloaded = [];
     protected array $depth_cache = [];
     protected array $parent_cache = [];
     protected array $in_tree_cache = [];
@@ -131,10 +130,11 @@ class ilTree
         global $DIC;
 
         $this->db = $DIC->database();
-        //$this->logger = $DIC->logger()->tree();
         $this->logger = ilLoggerFactory::getLogger('tree');
+        //$this->logger = $DIC->logger()->tree();
+        $this->eventHandler = $DIC['ilAppEventHandler'];
 
-        $this->lang_code = "en";
+        $this->lang_code = self::DEFAULT_LANGUAGE;
 
         if (func_num_args() > 2) {
             $this->logger->error("Wrong parameter count!");
@@ -194,7 +194,7 @@ class ilTree
     /**
      * Init tree implementation
      */
-    public function initTreeImplementation()
+    public function initTreeImplementation() : void
     {
         global $DIC;
 
@@ -223,7 +223,7 @@ class ilTree
      * Get tree implementation
      * @return ilTreeImplementation $impl
      */
-    public function getTreeImplementation()
+    public function getTreeImplementation() : ilTreeImplementation
     {
         return $this->tree_impl;
     }
@@ -231,55 +231,57 @@ class ilTree
     /**
     * Use Cache (usually activated)
     */
-    public function useCache($a_use = true)
+    public function useCache(bool $a_use = true) : void
     {
         $this->use_cache = $a_use;
     }
     
     /**
      * Check if cache is active
-     * @return bool
      */
-    public function isCacheUsed()
+    public function isCacheUsed() : bool
     {
-        return $this->__isMainTree() and $this->use_cache;
+        return $this->__isMainTree() && $this->use_cache;
     }
     
     /**
      * Get depth cache
-     * @return type
      */
-    public function getDepthCache()
+    public function getDepthCache() : array
     {
-        return (array) $this->depth_cache;
+        return $this->depth_cache;
     }
     
     /**
      * Get parent cache
-     * @return type
      */
-    public function getParentCache()
+    public function getParentCache() : array
     {
-        return (array) $this->parent_cache;
+        return $this->parent_cache;
     }
-    
+
+    protected function getLangCode() : string
+    {
+        return $this->lang_code;
+    }
+
     /**
-    * Store user language. This function is used by the "main"
-    * tree only (during initialisation).
-    */
+     * Do not use
+     * Store user language. This function is used by the "main"
+     * tree only (during initialisation).
+     */
     public function initLangCode()
     {
         global $DIC;
 
-        // lang_code is only required in $this->fetchnodedata
-        try {
-            $ilUser = $DIC['ilUser'];
-            $this->lang_code = $ilUser->getCurrentLanguage();
-        } catch (\InvalidArgumentException $e) {
-            $this->lang_code = "en";
+        if ($DIC->offsetExists('ilUser')) {
+            $this->lang_code = $DIC->user()->getCurrentLanguage() ?
+                $DIC->user()->getCurrentLanguage() : self::DEFAULT_LANGUAGE;
+        } else {
+            $this->lang_code = self::DEFAULT_LANGUAGE;
         }
     }
-    
+
     /**
      * Get tree table name
      * @return string tree table name
@@ -2672,12 +2674,12 @@ class ilTree
 
     /**
      * Lookup object types in trash
+     * @return string[]
      */
-    public function lookupTrashedObjectTypes()
+    public function lookupTrashedObjectTypes() : array
     {
-        global $DIC;
-
-        $query = 'SELECT DISTINCT(o.type) ' . $this->db->quoteIdentifier('type') . ' FROM tree t JOIN object_reference r ON child = r.ref_id ' .
+        $query = 'SELECT DISTINCT(o.type) ' . $this->db->quoteIdentifier('type') .
+            ' FROM tree t JOIN object_reference r ON child = r.ref_id ' .
                 'JOIN object_data o on r.obj_id = o.obj_id ' .
                 'WHERE tree < ' . $this->db->quote(0, 'integer') . ' ' .
                 'AND child = -tree ' .
@@ -2694,7 +2696,7 @@ class ilTree
     /**
      * check if current tree instance operates on repository tree table
      */
-    public function isRepositoryTree()
+    public function isRepositoryTree() : bool
     {
         if ($this->table_tree == 'tree') {
             return true;
