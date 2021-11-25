@@ -221,7 +221,7 @@ class ilContObjectManifestBuilder
     {
         $tree = new ilSCORM2004Tree($this->cont_obj->getId());
 
-        foreach ($tree->getSubTree($tree->getNodeData($tree->root_id), true, array('sco', 'ass')) as $obj) {
+        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, array('sco', 'ass')) as $obj) {
             $attrs = array();
             $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . "_ref";
             $attrs["type"] = "webcontent";

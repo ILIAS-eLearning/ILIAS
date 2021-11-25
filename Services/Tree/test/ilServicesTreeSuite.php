@@ -12,6 +12,9 @@ class ilServicesTreeSuite extends TestSuite
         include_once("./Services/Tree/test/ilTreeTest.php");
         $suite->addTestSuite("ilTreeTest");
 
+        include_once './Services/Tree/test/ilRepositoryTreeTest.php';
+        $suite->addTestSuite(ilRepositoryTreeTest::class);
+
         return $suite;
     }
 }
