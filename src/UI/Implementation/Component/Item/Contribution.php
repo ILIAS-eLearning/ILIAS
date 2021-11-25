@@ -1,5 +1,4 @@
 <?php declare(strict_types=1);
-
 /* Copyright (c) 2021 Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Implementation\Component\Item;
@@ -90,7 +89,7 @@ class Contribution extends Item implements IContribution, IJavaScriptBindable
 
     public function getDateTime() : ?ilDateTime
     {
-        return $this->dateTime;
+        return $this->datetime;
     }
 
     public function withIdentifier(string $identifier) : IContribution
