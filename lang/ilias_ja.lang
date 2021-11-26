@@ -70,7 +70,7 @@ acc#:#acc_tree_off#:#ツリー表示しない
 acc#:#acc_tree_on#:#ツリー表示する
 adm#:#adm_acc_ctrl_cpt_desc#:#有効にするとアクセッシビリティコントロールコンセプト用のリンクはフッタ－内に表示されます。
 adm#:#adm_acc_ctrl_cpt_enable#:#アクセッシビリティコントロールコンセプトを有効にする
-adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point
+adm#:#adm_accessibility_contacts#:#コンタクトのAccessibility Point 
 adm#:#adm_accessibility_contacts_info#:#フッターリンクのaccessibility issue報告用コンタクト。ログインアカウントのコンマ区切りリスト
 adm#:#adm_awrn_support_contacts_info#:#全てのテクニカルサポートコンタクトが表示されます。ユーザは"全般設定" > "コンタクト情報" セクションのテクニカルサポートコンタクトとして定義されます。
 adm#:#adm_support_contacts#:#テクニカルサポート
@@ -270,6 +270,7 @@ administration#:#language_scope_unchanged_info#:#データベース内の変更�
 administration#:#language_settings#:#言語設定
 administration#:#language_statistics#:#統計
 administration#:#language_translation_enabled#:#ページ翻訳をする
+administration#:#language_variables_saved#:#変更の言語は正しく保存されました。
 administration#:#log_scan#:#Logスキャン結果
 administration#:#log_scan_desc#:#スキャン結果を'scanlog.log'としてクライアントデータディレクトリへ書込む。
 administration#:#loginname_change_blocking_time#:#ログイン名変更時のブロック時間
@@ -1298,6 +1299,7 @@ assessment#:#tst_corr_answ_stat_tbl_header_answer#:#回答
 assessment#:#tst_corr_answ_stat_tbl_header_frequency#:#頻度
 assessment#:#tst_corrections_answers_tbl#:#統計
 assessment#:#tst_corrections_answers_tbl_subindex#:#%sの統計
+assessment#:#tst_corrections_incompatible_question_set_type#:#テストユーザが問題設定を固定している場合に限り修正可能です。
 assessment#:#tst_corrections_manscore_reset_warning#:#問題"%s (ID: %s)"用に処理された%sの手動採点があります。全ての手動採点は問題を保存する際にリセットされます。
 assessment#:#tst_corrections_qst_form#:#点数の修正
 assessment#:#tst_corrections_qst_remove_confirmation#:#テストから問題"%s (ID: %s)" を最終的に本当に削除しますか?
@@ -2037,6 +2039,7 @@ auth#:#auth_saml_username_claim_info#:#ILIASへ表示されるユーザ名の生
 auth#:#auth_sync#:#ユーザの同期
 auth#:#auth_sync_cas#:#ユーザアカウントの自動作成
 auth#:#auth_sync_cas_info#:#ILIASアカウントがない状態の場合でもCAS認証成功ユーザ用のILIASユーザアカウントを自動作成します。
+auth#:#err_auth_ldap_failed#:#認証に失敗しました。ILIAS管理書へ連絡して下さい
 auth#:#err_auth_saml_failed#:#認証に失敗しました。システム管理者へ連絡してください。
 auth#:#err_auth_saml_no_ilias_user#:#認証に失敗しました。システム管理者へ連絡してください。
 auth#:#login_page_activate#:#選択した言語用のエディタを起動する
@@ -2570,7 +2573,7 @@ cert#:#cert_sortable_by_title_asc#:#タイトル昇順
 cert#:#cert_sortable_by_title_desc#:#タイトル降順
 cert#:#certificate_achievement#:#%1$s 達成されました
 cert#:#certificate_achievement_sub_obj#:#%1$sの証明書
-cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.xでは証明書に変更が加えられました。取得の証明書のダウンロードが公開されている場合は、現在の公認へ学習オブジェクトまたは可用性のステータスは前のものへリンクされて、証明書は継続的に取得することができます。これで移行を開始できます。
+cert#:#certificate_migration_confirm_start#:#ILIAS 5.4.xでは証明書に変更が加えられました。取得の証明書のダウンロードが公開されている場合は、現在の公認へ学習オブジェクトまたはアベイラビリティのステータスは前のものへリンクされて、証明書は継続的に取得することができます。これで移行を開始できます。
 cert#:#certificate_migration_confirm_started#:#移行が開始されました。
 cert#:#certificate_migration_go#:#移行を開始
 cert#:#certificate_migration_lastrun_failed#:#証明書の移行に失敗しました。再度行いますか?
@@ -3044,6 +3047,8 @@ cmix#:#conf_launch_mode_review#:#レビュー
 cmix#:#conf_lrs_endpoint#:#終了時
 cmix#:#conf_lrs_key#:#Key / Login
 cmix#:#conf_lrs_secret#:#Secret / Password
+cmix#:#conf_new_window#:#新しいWindow
+cmix#:#conf_new_window_info#:#コンテンツは新しいWindow内のオープンされます。コンテンツ～離れるとWindowは閉じます。
 cmix#:#conf_own_window#:#Own Window
 cmix#:#conf_own_window_info#:#コンテンツを同一Windowで開きILIAS画面と置き換えます。コンテンツを離れるとユーザはILIASへ戻ります。
 cmix#:#conf_privacy_comment_default#:#ユーザへ表示
@@ -3053,28 +3058,6 @@ cmix#:#conf_privacy_setting_force#:#オブジェクトの設定は変更不可�
 cmix#:#conf_privacy_setting_info#:#プライバシー設定の構成オプション
 cmix#:#conf_remarks#:#内部コメント
 cmix#:#conf_title#:#Title
-cmix#:#conf_user_ident#:#ユーザID
-cmix#:#conf_user_ident_il_uuid_ext_account#:#emailアドレス処理されたユニークなILIASプラットフォームIDで結合された外部ユーザID
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#これはコール毎に識別化されますが、ユーザに関して直接終結される事に注意願います。
-cmix#:#conf_user_ident_il_uuid_login#:#emailアドレス処理されたユニークなILIASプラットフォームIDで結合されたILIASログイン
-cmix#:#conf_user_ident_il_uuid_login_info#:#これはコール毎に識別化されますが、ILIASユーザに関して直接終結される事に注意願います。
-cmix#:#conf_user_ident_il_uuid_random#:#E-MailアドレスとしてフォーマットされたユニークなILIASプラットフォームIDでランダムIDを結合します。
-cmix#:#conf_user_ident_il_uuid_random_info#:#各ILIASオブジェクトとILIASユーザランダムIDは各コールごとに同じままで生成されます。ユーザに関する結論は、ユーザプロファイルをオブジェクト全体に渡り生成する事が現実的にできなので、極めて限定されています。
-cmix#:#conf_user_ident_il_uuid_user_id#:#emailアドレス処理されたユニークなILIASプラットフォームIDで結合されたILIASユーザID
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#これはコール毎に識別化されますが、ILIASユーザに関して直接終結されない事に注意願います。
-cmix#:#conf_user_ident_info#:#標準はemail addressが使用されます。ユニークなILIASプラットフォームIDは:
-cmix#:#conf_user_ident_real_email#:#E-Mail Address
-cmix#:#conf_user_ident_real_email_info#:#ID用にユーザのE-Mail Addressを送信 (警告: E-Mail Addressは複数のユーザで使用されている可能性があります!)
-cmix#:#conf_user_name#:#ユーザ名
-cmix#:#conf_user_name_firstname#:#First name
-cmix#:#conf_user_name_firstname_info#:#ILIASからユーザのFirst Nameを送信
-cmix#:#conf_user_name_fullname#:#フルネーム
-cmix#:#conf_user_name_fullname_info#:#title, first name, last nameを送信
-cmix#:#conf_user_name_info#:#ユーザ名の送信は通常必要ありません。
-cmix#:#conf_user_name_lastname#:#TitleとLast Name
-cmix#:#conf_user_name_lastname_info#:#MisterまたはMs/Mrs. (指定していない限り) とlast nameを送信
-cmix#:#conf_user_name_none#:#無し
-cmix#:#conf_user_name_none_info#:#姓名に代えて '-'を送信
 cmix#:#conf_user_registered_mail#:#E-Mail-Addressを登録
 cmix#:#content_privacy_ident#:#リソースのユーザID
 cmix#:#content_privacy_name#:#リソースのユーザ名
@@ -3148,6 +3131,8 @@ cmix#:#tbl_statements_verb#:#Verb
 cmix#:#title_info#:#オブジェクトタイトルを提供
 cmix#:#toplist_top_n_results#:#トップランク
 cmix#:#toplist_your_result#:#自己ランク
+cmix#:#type_cmi5#:#cmi5 Learning Module
+cmix#:#type_generic#:#xAPI Standard Object
 cmix#:#use_fetch#:#Fetch-URL経由の認証
 cmix#:#use_fetch_info#:#リソースがこのオプションをサポートする限りデーターセキュリティ向上にはこのオプションを使用すべきです。
 cmix#:#xapi_statements_fetched_successfully#:#Learning Record Storeの結果は正しく取得されました。
@@ -3666,7 +3651,7 @@ common#:#crs_list_reg#:#登録
 common#:#crs_list_reg_end#:#登録終了日時
 common#:#crs_list_reg_limit_full#:#空席なし
 common#:#crs_list_reg_limit_places#:#空席あり
-common#:#crs_list_reg_noreg#:#登録不可
+common#:#crs_list_reg_noreg#:#自己登録不可
 common#:#crs_list_reg_period#:#登録期間
 common#:#crs_list_reg_start#:#登録開始
 common#:#crs_member_not_passed#:#Not passed(不合格)
@@ -3940,6 +3925,7 @@ common#:#file_info#:#ファイル情報
 common#:#file_is_infected#:#ファイルはウィルスに感染しています。
 common#:#file_no_valid_file_type#:#このファイルタイプは受付できません。
 common#:#file_not_found#:#ファイルが見つかりません
+common#:#file_not_found_sec#:#このファイルは見つからないかセキュリティ上の理由でブロックされました。
 common#:#file_not_valid#:#ファイルは無効!
 common#:#file_notice#:#画像ファイルの最大サイズ
 common#:#file_rollback#:#これを最新バージョンにする
@@ -4086,7 +4072,7 @@ common#:#grp_list_reg#:#登録
 common#:#grp_list_reg_end#:#登録終了日時
 common#:#grp_list_reg_limit_full#:#空席なし
 common#:#grp_list_reg_limit_places#:#空席あり
-common#:#grp_list_reg_noreg#:#登録不可
+common#:#grp_list_reg_noreg#:#自己登録不可
 common#:#grp_list_reg_period#:#登録期間
 common#:#grp_list_reg_start#:#登録開始
 common#:#grp_list_users#:#ユーザをリスト
@@ -4171,6 +4157,8 @@ common#:#il_grp_status_open#:#Group open
 common#:#il_iass_member#:#個別アセスメント受験者
 common#:#il_lso_admin#:#Learning Sequence Admin
 common#:#il_lso_member#:#Learning Sequence Member
+common#:#il_lti_instructor#:#LTI Instructor
+common#:#il_lti_learner#:#LTI 学習者
 common#:#il_orgu_employee#:#従業員
 common#:#il_orgu_superior#:#上司
 common#:#ilias_version#:#ILIAS version
@@ -4561,6 +4549,7 @@ common#:#msg_multi_language_selected#:#同じ言語翻訳を選択しました!
 common#:#msg_no_default_language#:#初期設定言語が指定されていません! 初期設定翻訳として一つ翻訳を定義しなければなりません。
 common#:#msg_no_delete_yourself#:#自分自身のユーザアカウントは削除できません。
 common#:#msg_no_file#:#ファイルを選択していません
+common#:#msg_no_files_selected#:#ファイルが選択されていません
 common#:#msg_no_language_selected#:#翻訳言語が指定されていません! それぞれの翻訳に言語を定義しなければなりません
 common#:#msg_no_perm_assign_role_to_user#:#ユーザの役割割当て変更のアクセス権限がありません
 common#:#msg_no_perm_assign_user_to_role#:#ユーザ割当て変更のアクセス権限がありません
@@ -4601,6 +4590,7 @@ common#:#msg_role_reserved_prefix#:#拡張子 'il_'は自動的に作成され�
 common#:#msg_roleassignment_changed#:#役割変更
 common#:#msg_sysrole_not_deletable#:#システム役割は削除できません
 common#:#msg_sysrole_not_editable#:#システム役割のアクセス権限設定は変更されません。システムの役割はすべてのオブジェクトと機能に割り当てられたユーザへ制限なしのアクセスをすべて許可します。
+common#:#msg_to_many_files#:#選択ファイル数が多すぎます、許容ファイル数:
 common#:#msg_trash_empty#:#削除されたオブジェクトはありません
 common#:#msg_undeleted#:#オブジェクトがリストアされました。
 common#:#msg_unit_is_required#:#単位にはこの入力が必須です。正しい値を入力してください。
@@ -4612,9 +4602,9 @@ common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#msg_wrong_format#:#入力した値は有効形式ではありません。
 common#:#my_bms#:#ブックマーク
 common#:#my_certificates#:#My Certificates
-common#:#my_contacts#:#マイコンタクト
-common#:#my_courses#:#マイコース
-common#:#my_courses_groups#:#マイコース & グループ
+common#:#my_contacts#:#My Contacts
+common#:#my_courses#:#My Course
+common#:#my_courses_groups#:#My Courses and Groups
 common#:#my_staff#:#スタッフ
 common#:#name#:#名前
 common#:#nc_contact_requests_headline#:#コンタクト要求
@@ -4635,7 +4625,7 @@ common#:#no_accessibility_control_concept_description#:#このシステムには
 common#:#no_agreement_description#:#申し訳ありませんが使用許諾書に関しては別途指示に従ってください。
 common#:#no_checkbox#:#アイテムを最低一つ選択してください。
 common#:#no_condition_selected#:#一つ前提条件を選択してください。
-common#:#no_date#:#日付不詳
+common#:#no_date#:#No date
 common#:#no_gallery_users_available#:#現在ギャラリー内にユーザはいません。
 common#:#no_global_role_left#:#どのユーザにも役割を一つ割当てる必要があります。
 common#:#no_import_file_found#:#インポートファイルが見つかりません
@@ -5331,7 +5321,7 @@ common#:#session_config#:#セッション設定
 common#:#session_config_maintenance_disabled#:#クライアントによるメンテナンスを禁止する
 common#:#session_mail_subject_deletion#:# セッション "%s"からユーザ "%s"の登録解除
 common#:#session_mail_subject_entered#:#セッション "%s"内ユーザ"%s" の参加
-common#:#session_mail_subject_registered#:#セッション "%s"のユーザ"%s"の登録
+common#:#session_mail_subject_registered#:#セッション "%s"のユーザ"%s"の登録 
 common#:#session_max_count#:#Maxアクティブセッション
 common#:#session_max_count_info#:#同時に確立可能な最大セッション数を定義します。"0"の場合この機能はOFFとなります。
 common#:#session_max_idle#:#Maxセッションアイドル(分単位)
@@ -6084,7 +6074,7 @@ content#:#cont_ed_insert_list#:#詳細リストを挿入
 content#:#cont_ed_insert_login_page_element#:#ログアウトページ要素を挿入します
 content#:#cont_ed_insert_map#:#地図を挿入
 content#:#cont_ed_insert_media#:#イメージ/メディアを挿入
-content#:#cont_ed_insert_my_courses#:#マイコースを挿入
+content#:#cont_ed_insert_my_courses#:#My Courseを挿入
 content#:#cont_ed_insert_par#:#テキストを挿入
 content#:#cont_ed_insert_pcqst#:#問題を挿入
 content#:#cont_ed_insert_plach#:#プレースフォルダを挿入
@@ -7860,6 +7850,7 @@ dateplaner#:#cal_del_app_sure#:#本当に選択した予定を削除しますか
 dateplaner#:#cal_del_cal_sure#:#本当に選択したカレンダーを削除しますか?
 dateplaner#:#cal_delete_app_sure#:#本当に次の予定を削除しますか?
 dateplaner#:#cal_delete_cal#:#カレンダーを削除
+dateplaner#:#cal_delete_recurrence_rule#:#繰返しの予定を削除
 dateplaner#:#cal_delete_recurrences#:# すべての繰り返しを削除します。
 dateplaner#:#cal_delete_single#:#この予定のみを削除します
 dateplaner#:#cal_deleted_app#:#選択の予定は削除されました。
@@ -7939,6 +7930,7 @@ dateplaner#:#cal_open_calendar#:#カレンダーを開く
 dateplaner#:#cal_origin#:#起点
 dateplaner#:#cal_owner#:#オーナー
 dateplaner#:#cal_rec_err_limit#:#正しい予定の番号を入力してください。
+dateplaner#:#cal_recurrence_confirm_deletion#:#繰返しの予定を削除するか繰返しの予定を完了するか決定してください。
 dateplaner#:#cal_recurrences#:#繰返し
 dateplaner#:#cal_reg_register#:#登録
 dateplaner#:#cal_reg_registered#:#登録を完了しました。
@@ -8406,7 +8398,7 @@ ecs#:#ecs_attribute_name#:#属性名
 ecs#:#ecs_auth_type#:#認証タイプ
 ecs#:#ecs_auth_type_apache#:#ユーザ名とパスワード
 ecs#:#ecs_auth_type_cert#:#認証ベース
-ecs#:#ecs_availability#:#アベイラビリティ,可用性
+ecs#:#ecs_availability#:#アベイラビリティ
 ecs#:#ecs_available_ecs#:#利用可能なECS
 ecs#:#ecs_back_settings#:#ECS設定
 ecs#:#ecs_ca_cert#:#CA証明書
@@ -8727,7 +8719,7 @@ exc#:#exc_global_feedback_file#:#サンプル解答
 exc#:#exc_global_feedback_file_after_date#:#日付設定後
 exc#:#exc_global_feedback_file_cron#:#通知
 exc#:#exc_global_feedback_file_cron_info#:#サンプル解答が利用可能になるとクローンジョブ経由で全学習者へ通知されます。
-exc#:#exc_global_feedback_file_date#:#アベイラビリティ,可用性
+exc#:#exc_global_feedback_file_date#:#アベイラビリティ
 exc#:#exc_global_feedback_file_date_deadline#:#締め切り後
 exc#:#exc_global_feedback_file_date_upload#:#提出後
 exc#:#exc_go_to_exercise#:#演習問題へ
@@ -9128,7 +9120,6 @@ file#:#file_suffix_default_white#:#拡張子ホワイトリスト初期値
 file#:#file_suffix_default_white_info#:#承認済ファイル拡張子の初期値リスト
 file#:#file_suffix_overall_white#:#拡張子ホワイトリスト全般
 file#:#file_suffix_overall_white_info#:#承認済ファイル拡張子の全般リスト結果
-file#:#file_upload_info_file_with_critical_extension#:#アップロードされたファイルはクリティカルや終了不明なファイルが含まれます。ファイル終了はダウンロードごとに.secへ変更されます。
 file#:#file_uploaded_by#:#アップロード者
 file#:#general_upload_error_occured#:#upload中に予期しないエラーが発生しました。
 file#:#generate_sanitize_report#:#アクセス不可なファイルに関するレポート
@@ -9439,7 +9430,7 @@ grp#:#grp_added_to_list#:#グループ "%s"の待ちリストに割当てられ�
 grp#:#grp_admins#:#管理者
 grp#:#grp_admission_link_failure_invalid_code#:#登録できません: リンクが無効です。
 grp#:#grp_admission_link_failure_membership_limited#:#登録不可: グループメンバーシップは制限されています。
-grp#:#grp_admission_link_failure_registration_period#:#登録不可: グループは登録機関買いです。
+grp#:#grp_admission_link_failure_registration_period#:#登録不可: グループは登録期間外です。
 grp#:#grp_admission_link_success_registration#:#グループ"%s"へ新しい予定が作成されました。正しく登録されました。
 grp#:#grp_agree#:#承諾
 grp#:#grp_agreement_header#:#使用許諾書
@@ -10044,7 +10035,7 @@ lso#:#lso_player_suspend#:#保留
 lso#:#lso_print_list#:#リストを印刷
 lso#:#lso_read#:#ユーザは学習シーケンスへ読み込みアクセス権があります。
 lso#:#lso_search_users#:#ユーザを検索
-lso#:#lso_settings_availability#:#アベイラビリティ(可用性)
+lso#:#lso_settings_availability#:#アベイラビリティ()
 lso#:#lso_settings_extro#:#退出ページ設定
 lso#:#lso_settings_intro#:#イントロページ設定
 lso#:#lso_show_members_info#:#ユーザの利用可能なメンバーギャラリー
@@ -10069,26 +10060,6 @@ lti#:#act_lti_for_obj_type#:#オブジェクトタイプ用のLTIをアクティ
 lti#:#activity_id#:#アクティビティID
 lti#:#activity_id_info#:#このアクティビティIDはステートメント識別用にLTIプロバイダが使用します。
 lti#:#auth_lti#:#LTI Auth
-lti#:#conf_user_ident#:#ユーザ識別
-lti#:#conf_user_ident_il_uuid_ext_account#:#emailアドレスとしてフォーマットされたユニークなILIASプラットフォムIDで結合された外部ユーザID
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#これはコール毎に識別されますが、ユーザについて直接結論付けされる可能性があります。
-lti#:#conf_user_ident_il_uuid_login#:#emailアドレスとしてフォーマットされたユニークなILIASプラットフォムIDで結合されたILIAS Login
-lti#:#conf_user_ident_il_uuid_login_info#:#これはコール毎に識別されますが、ユーザについて直接結論付けされる可能性があります。
-lti#:#conf_user_ident_il_uuid_user_id#:#emailアドレスとしてフォーマットされたユニークなILIASプラットフォムIDで結合されたILIASユーザID
-lti#:#conf_user_ident_il_uuid_user_id_info#:#これはコール毎に識別されますが、ユーザについて直接結論付けされる可能性があります。
-lti#:#conf_user_ident_info#:#標準はemailアドレスがしばしば利用されます。ユニークなILIASプラットフォームは:
-lti#:#conf_user_ident_real_email#:#E-Mail Address
-lti#:#conf_user_ident_real_email_info#:#識別用のユーザーE-Mail Address(Warning: E-Mail Addressは複数のユーザで使用される事があります。
-lti#:#conf_user_name#:#ユーザ名
-lti#:#conf_user_name_firstname#:#First name
-lti#:#conf_user_name_firstname_info#:#ILIASからユーザ名の名前を送信
-lti#:#conf_user_name_fullname#:#完全な名前
-lti#:#conf_user_name_fullname_info#:#タイトル、姓、名を送る
-lti#:#conf_user_name_info#:#ユーザ名の送信は通常不要です。
-lti#:#conf_user_name_lastname#:#タイトルと姓
-lti#:#conf_user_name_lastname_info#:#ミスター、Ms/Mrs. (特に指定のない限り)、姓を送る
-lti#:#conf_user_name_none#:#だれもいない
-lti#:#conf_user_name_none_info#:#名前に代えて'-'を送る
 lti#:#consumers#:#Consumer
 lti#:#description_info#:#説明はタイトルの下へ表示されます。
 lti#:#field_provider_xml#:#XML-ファイル
@@ -10198,7 +10169,7 @@ lti#:#lti_consumer_set_active#:#Consumerを有効にしました
 lti#:#lti_consumer_set_inactive#:#Consumerを解除しました
 lti#:#lti_consumer_updated#:#Consumerを更新しました
 lti#:#lti_consuming_tab#:#LTI ConsumerとしてのILIAS
-lti#:#lti_copy#:#ConsumerをCopy
+lti#:#lti_copy#:#ConsumerをCopy 
 lti#:#lti_create_consumer#:#Consumerを作成
 lti#:#lti_create_lti_user_role#:#LTI ユーザ用の推奨グローバル役割を作成
 lti#:#lti_cron_title#:#LTI Outcome Service
@@ -11626,7 +11597,7 @@ obj#:#edit_questions#:#問題編集
 obj#:#obj_activate_content_lang#:#ページ編集用の翻訳を有効化
 obj#:#obj_activate_multilang#:#多言語機能を有効化
 obj#:#obj_activation#:#アクティベーション
-obj#:#obj_activation_list_gui#:#アベイラビリティ,可用性
+obj#:#obj_activation_list_gui#:#アベイラビリティ
 obj#:#obj_add_languages#:#言語を追加
 obj#:#obj_additional_langs#:#追加言語
 obj#:#obj_cont_transl_deactivated#:#ページ編集用の翻訳は解除されました。
@@ -12784,6 +12755,7 @@ rbac#:#iass_read#:#個別アセスメントのコンテンツを読込む
 rbac#:#iass_read_learning_progress#:#個別アセスメントの学習進捗情報を表示
 rbac#:#iass_visible#:#個別アセスメントを表示します
 rbac#:#iass_write#:#個別アセスメントを編集
+rbac#:#il_lti_global_role#:#LTI User
 rbac#:#il_orgu_employee#:#組織のユニット従業員
 rbac#:#il_orgu_superior#:#組織のユニット上司
 rbac#:#il_sess_participant#:#セッション参加者
@@ -13372,7 +13344,7 @@ registration#:#reg_mail_body_confirmation#:#この登録を確認するには、
 registration#:#reg_mail_body_profile#:#プロファイルデータ
 registration#:#reg_mail_body_profile_changed#:#プロファイルを変更しました!
 registration#:#reg_mail_body_pwd_generation#:#アカウントリクエストは管理者がレビューして、48時間以内に有効化されます。承認に関してはemailで通知されます。
-registration#:#reg_mail_body_reason#:#ILIAS の管理アカウントの新規登録に関する通知が有効になりますのでこのメールを受信します。
+registration#:#reg_mail_body_reason#:#ILIAS の管理アカウントの新規登録に関する通知を有効にしているのでこのメールを受信します。
 registration#:#reg_mail_body_timelimit#:#アカウントは有効期間: %sまでの期限付きです。
 registration#:#reg_mail_new_user#:#新しいユーザ登録
 registration#:#reg_mail_new_user_body#:#新しいユーザが登録されました。
@@ -13430,7 +13402,7 @@ rep#:#btn_undelete_new_location#:#リストア (新しいロケーション)
 rep#:#btn_undelete_origin_location#:#リストア (同じロケーション)
 rep#:#rep_activation_access#:#アクセス
 rep#:#rep_activation_access_ref_info#:#この設定はこれを除くリポジトリ内の他の参照には影響しません。
-rep#:#rep_activation_availability#:#アベイラビリティ,可用性
+rep#:#rep_activation_availability#:#アベイラビリティ
 rep#:#rep_activation_limited_end#:#終了時間
 rep#:#rep_activation_limited_start#:#開始時間
 rep#:#rep_activation_limited_visibility#:#常に表示
@@ -14343,7 +14315,7 @@ style#:#sty_add_color#:#カラーを追加
 style#:#sty_add_content_style#:#コンテンツスタイルを追加
 style#:#sty_add_image#:#イメージを追加
 style#:#sty_add_media_query#:#メディアクエリーを追加
-style#:#sty_add_media_query_info#:#例:ブラウザーウインドウが600px以下または印刷機器の"印刷"が "スクリーンのみで(max-width: 600px)"
+style#:#sty_add_media_query_info#:#例:ブラウザーウインドウが600px以下または印刷機器の"印刷"が "スクリーンのみで(max-width: 600px)" 
 style#:#sty_add_pgl#:#ページレイアウトを追加
 style#:#sty_add_template#:#テンプレートを追加
 style#:#sty_added_characteristic#:#スタイルクラスを追加しました。
@@ -15400,7 +15372,7 @@ sysc#:#sysc_tree_list_failures#:#リポジトリツリーのダンプが作成�
 sysc#:#sysc_tree_missing_failures#:#ツリー構造内の欠損エントリーが見つかりました欠損エントリー数
 sysc#:#sysc_tree_structure_failures#:#ツリー構造(親-関係)内の不良数:
 tagging#:#no_tag_text_1#:#まだタグは未利用です。実行するには2つのステップを実行する必要があります。
-tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択
+tagging#:#no_tag_text_2#:# '%s'をクリックして利用可能な提案から学習オブジェクト(例. 学習モジュールまたは掲示板)を選択 
 tagging#:#no_tag_text_3#:#オブジェクトへタグを添付するには、アクションメニューから'タグ設定'を選択します。
 tagging#:#tag_remove_tags_of_obj_without_access#:#タグを削除
 tagging#:#tag_some_obj_tagged_without_access#:#タグされたオブジェクトにはアクセス権のないものがあります。これらのオブジェクト用のタグを削除しますか?
@@ -16239,18 +16211,53 @@ wsp#:#wsp_type_scov#:#証明書: SCORM
 wsp#:#wsp_type_tstv#:#証明書: テスト
 wsp#:#wsp_type_webr#:#Webリンク
 wsp#:#wsp_type_wfld#:#フォルダ
-administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
-dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###25 06 2021 new variable
-dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###25 06 2021 new variable
-auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.###10 09 2021 new variable
-assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###10 09 2021 new variable
-cmix#:#conf_new_window#:#New Window###10 09 2021 new variable
-cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###10 09 2021 new variable
-cmix#:#type_cmi5#:#cmi5 Learning Module###10 09 2021 new variable
-cmix#:#type_generic#:#xAPI Standard Object###10 09 2021 new variable
-common#:#il_lti_learner#:#LTI Learner###10 09 2021 new variable
-common#:#il_lti_instructor#:#LTI Instructor###10 09 2021 new variable
-rbac#:#il_lti_global_role#:#LTI User###10 09 2021 new variable
-common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###20 10 2021 new variable
-common#:#msg_no_files_selected#:#No files selected###20 10 2021 new variable
-common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###20 10 2021 new variable
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.###26 11 2021 new variable
+lti#:#conf_privacy_ident#:#User identification###26 11 2021 new variable
+lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###26 11 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###26 11 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###26 11 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###26 11 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###26 11 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###26 11 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###26 11 2021 new variable
+lti#:#conf_privacy_ident_real_email#:#E-Mail Address###26 11 2021 new variable
+lti#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###26 11 2021 new variable
+lti#:#conf_privacy_name#:#User name###26 11 2021 new variable
+lti#:#conf_privacy_name_info#:#Sending an user name is usually not required.###26 11 2021 new variable
+lti#:#conf_privacy_name_none#:#No one###26 11 2021 new variable
+lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###26 11 2021 new variable
+lti#:#conf_privacy_name_firstname#:#First name###26 11 2021 new variable
+lti#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###26 11 2021 new variable
+lti#:#conf_privacy_name_lastname#:#Title and last name###26 11 2021 new variable
+lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###26 11 2021 new variable
+lti#:#conf_privacy_name_fullname#:#Entire name###26 11 2021 new variable
+lti#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###26 11 2021 new variable
+cmix#:#conf_switch_to_review#:#Switch to Review Mode###26 11 2021 new variable
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###26 11 2021 new variable
+cmix#:#conf_mastery_score#:#Mastery Score###26 11 2021 new variable
+cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.###26 11 2021 new variable
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###26 11 2021 new variable
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###26 11 2021 new variable
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###26 11 2021 new variable
+cmix#:#conf_privacy_ident#:#User identification###26 11 2021 new variable
+cmix#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###26 11 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail adress###26 11 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###26 11 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail adress###26 11 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###26 11 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress###26 11 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###26 11 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###26 11 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###26 11 2021 new variable
+cmix#:#conf_privacy_ident_real_email#:#E-Mail Address###26 11 2021 new variable
+cmix#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###26 11 2021 new variable
+cmix#:#conf_privacy_name#:#User name###26 11 2021 new variable
+cmix#:#conf_privacy_name_info#:#Sending an user name is usually not required.###26 11 2021 new variable
+cmix#:#conf_privacy_name_none#:#No one###26 11 2021 new variable
+cmix#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###26 11 2021 new variable
+cmix#:#conf_privacy_name_firstname#:#First name###26 11 2021 new variable
+cmix#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###26 11 2021 new variable
+cmix#:#conf_privacy_name_lastname#:#Title and last name###26 11 2021 new variable
+cmix#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###26 11 2021 new variable
+cmix#:#conf_privacy_name_fullname#:#Entire name###26 11 2021 new variable
+cmix#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###26 11 2021 new variable
