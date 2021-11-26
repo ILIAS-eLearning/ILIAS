@@ -47,7 +47,7 @@ interface Factory
      *     Further the Contribution can have a close button and a lead icon.
      *   effect: >
      *     An interaction with the close button may remove the Contribution permanently.
-     *   rivals: >
+     * rivals: >
      *     Standard Items have their value inside the content itself, while their creators are insignificant for the
      *     benefiting group of observers. Contributions draw their worth form the contributor. They present content
      *     which is benefiting for the observer because it was created by this contributor.

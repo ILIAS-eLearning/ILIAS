@@ -10,7 +10,9 @@ function with_lead_icon()
 
     return $DIC->ui()->renderer()->render(
         $DIC->ui()->factory()->item()->contribution(
-            'a little test contribution'
+            'a little test contribution',
+            'Contributor',
+            new \DateTimeImmutable()
         )->withLeadIcon(
             $DIC->ui()->factory()->symbol()->icon()->standard(Standard::GRP, 'conversation')
         )

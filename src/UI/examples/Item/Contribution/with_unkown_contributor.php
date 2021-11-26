@@ -2,15 +2,13 @@
 
 namespace ILIAS\UI\examples\Item\Contribution;
 
-function with_critical_identifier()
+function with_unkown_contributor()
 {
     global $DIC;
 
     return $DIC->ui()->renderer()->render(
         $DIC->ui()->factory()->item()->contribution(
             'a little test contribution',
-            'Contributor',
-            new \DateTimeImmutable()
-        )->withIdentifier('noid"><script>alert(\'CRITICAL\')</script')
+        )
     );
 }

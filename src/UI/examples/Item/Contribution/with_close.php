@@ -8,7 +8,9 @@ function with_close()
 
     return $DIC->ui()->renderer()->render(
         $DIC->ui()->factory()->item()->contribution(
-            'a little test contribution'
+            'a little test contribution',
+            'Contributor',
+            new \DateTimeImmutable()
         )->withClose(
             $DIC->ui()->factory()->button()->close()
         )
