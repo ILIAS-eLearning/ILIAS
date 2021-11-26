@@ -7457,7 +7457,7 @@ button > .glyphicon {
   pointer-events: none;
 }
 a[disabled],
-a fieldset[disabled],
+a fieldset[disabled] ,
 a[disabled]:hover,
 a fieldset[disabled] :hover,
 a[disabled]:focus,
@@ -11769,7 +11769,7 @@ a:hover {
   text-decoration: underline;
 }
 hr {
-  margin-bottom: .8em;
+  margin-bottom: 0.8em;
   border: none;
   border-top: 1px solid #dddddd;
 }
@@ -18420,7 +18420,7 @@ span.ilProfileBadge .modal .img-responsive {
   width: 54px;
 }
 .bootstrap-datetimepicker-widget table td.cw {
-  font-size: .8em;
+  font-size: 0.8em;
   height: 20px;
   line-height: 20px;
   color: #757575;
@@ -19140,5 +19140,5 @@ table.mceToolbar td {
   font-size: 0.9em;
   line-height: 2;
   border: 1px solid #dddddd;
-  border-radius: .25em;
+  border-radius: 0.25em;
 }
