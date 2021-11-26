@@ -3,10 +3,10 @@
 
 namespace ILIAS\UI\Component\Item;
 
-use ilDateTime;
+use DateTimeImmutable;
+use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\UI\Component\Button\Close;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ilObjUser;
 
 /**
  * Interface Contribution
@@ -15,23 +15,25 @@ use ilObjUser;
 interface Contribution extends Item
 {
     /**
-     * Creates a contribution.
+     * Get a copy of that contribution with another contributor.
      */
-    public function __construct(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null);
+    public function withContributor(string $contributor) : Contribution;
+
+    public function getContributor() : ?string;
 
     /**
-     * Get a copy of that contribution with another user.
+     * Get a copy of that contribution with another datetime of creation.
      */
-    public function withUser(ilObjUser $user) : Contribution;
+    public function withCreateDatetime(DateTimeImmutable $createDatetime) : Contribution;
 
-    public function getUser() : ?ilObjUser;
+    public function getCreateDatetime() : ?DateTimeImmutable;
 
     /**
-     * Get a copy of that contribution with another datetime.
+     * Get a copy of that contribution with another date format.
      */
-    public function withDateTime(ilDateTime $datetime) : Contribution;
+    public function withDateFormat(DateFormat $datetime) : Contribution;
 
-    public function getDateTime() : ?ilDateTime;
+    public function getDateFormat() : DateFormat;
 
     /**
      * Get a copy of that contribution with a close button.

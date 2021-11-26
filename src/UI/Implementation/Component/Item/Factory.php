@@ -4,10 +4,9 @@
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
-use ilDateTime;
+use DateTimeImmutable;
 use ILIAS\UI\Component\Item;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ilObjUser;
 
 class Factory implements Item\Factory
 {
@@ -22,7 +21,11 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
-    public function contribution(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null) : Item\Contribution
+    public function contribution(
+        string $quote,
+        ?string $contributor = null,
+        ?DateTimeImmutable $createDatetime = null
+    ) : Item\Contribution
     {
         return new Contribution($content, $user, $datetime);
     }

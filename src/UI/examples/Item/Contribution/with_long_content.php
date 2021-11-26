@@ -13,7 +13,9 @@ function with_long_content()
             is still presented properly. This may affect its presentation inside a mobile or resticted view hterefore
             the presentation of a long text is necessary to test within this example to show its responsivity abover all
             views and to show the using developer, who is accessing this example for exact those information if the
-            component can be used for his target purpose.'
+            component can be used for his target purpose.',
+            'Contributor',
+            new \DateTimeImmutable()
         )
     );
 }

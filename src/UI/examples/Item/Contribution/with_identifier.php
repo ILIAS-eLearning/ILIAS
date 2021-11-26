@@ -8,7 +8,9 @@ function with_identifier()
 
     return $DIC->ui()->renderer()->render(
         $DIC->ui()->factory()->item()->contribution(
-            'a little test contribution'
+            'a little test contribution',
+            'Contributor',
+            new \DateTimeImmutable()
         )->withIdentifier('thisisaspecialidentifier')
     );
 }

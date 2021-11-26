@@ -2,7 +2,9 @@
 
 namespace ILIAS\UI\examples\Item\Contribution;
 
-function with_critical_identifier()
+use ILIAS\Data\DateFormat\DateFormat;
+
+function with_date_format()
 {
     global $DIC;
 
@@ -11,6 +13,8 @@ function with_critical_identifier()
             'a little test contribution',
             'Contributor',
             new \DateTimeImmutable()
-        )->withIdentifier('noid"><script>alert(\'CRITICAL\')</script')
+        )->withDateFormat(
+            new DateFormat([])
+        )
     );
 }
