@@ -1326,7 +1326,7 @@ small,
 }
 mark,
 .mark {
-  padding: .2em;
+  padding: 0.2em;
   background-color: #fcf8e3;
 }
 .text-left {
@@ -2610,7 +2610,7 @@ th {
   background-color: #ebcccc;
 }
 .table-responsive {
-  min-height: .01%;
+  min-height: 0.01%;
   overflow-x: auto;
 }
 @media screen and (max-width: 767px) {
@@ -2747,15 +2747,15 @@ output {
   border-radius: 0;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
-  -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
-  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 .form-control:focus {
   border-color: #8198b7;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(129, 152, 183, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(129, 152, 183, 0.6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(129, 152, 183, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(129, 152, 183, 0.6);
 }
 .form-control::-moz-placeholder {
   color: #757575;
@@ -3741,7 +3741,7 @@ tbody.collapse.in {
   cursor: not-allowed;
   background-color: transparent;
   background-image: none;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .open > .dropdown-menu {
   display: block;
@@ -4981,7 +4981,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 }
 .label {
   display: inline;
-  padding: .2em .6em .3em;
+  padding: 0.2em 0.6em 0.3em;
   font-size: 75%;
   font-weight: 700;
   line-height: 1;
@@ -4989,7 +4989,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   text-align: center;
   white-space: nowrap;
   vertical-align: baseline;
-  border-radius: .25em;
+  border-radius: 0.25em;
 }
 a.label:hover,
 a.label:focus {
@@ -8145,7 +8145,7 @@ ul.dropdown-menu > li > .btn:focus {
   --tag-remove-bg: #4c6586;
   --tag-remove-btn-color: white;
   --tag-remove-btn-bg--hover: #4c6586;
-  --tag-hide-transition: .0s;
+  --tag-hide-transition: 0s;
   line-height: 1.42857143;
 }
 .il-input-tag-container {
@@ -10510,10 +10510,10 @@ footer {
 .il-avatar.il-avatar-letter span.abbreviation {
   font-weight: lighter;
   text-transform: inherit;
-  font-size: calc(45px - (2 * 2px) / 2);
+  font-size: calc(41px / 2);
   line-height: 1;
   position: relative;
-  top: calc(45px - (2 * 2px) / 4);
+  top: calc(41px / 4);
 }
 .il-avatar.il-avatar-letter.il-avatar-letter-color-1 {
   background-color: #0e6252;
@@ -10657,8 +10657,8 @@ footer {
     width: 22.5px;
   }
   .il-avatar.il-avatar-letter span.abbreviation {
-    font-size: calc(45px / 2 / 2);
-    top: calc(45px / 2 / 4);
+    font-size: calc(22.5px / 2);
+    top: calc(22.5px / 4);
   }
 }
 .il-link:focus-visible {
@@ -11708,7 +11708,7 @@ div.ilFrame {
 ul,
 ol,
 p {
-  margin: .8em 0;
+  margin: 0.8em 0;
 }
 ol,
 ul {
@@ -11730,7 +11730,7 @@ ol ol {
 small,
 sub,
 sup {
-  font-size: .8em;
+  font-size: 0.8em;
 }
 em,
 i {
@@ -14683,7 +14683,7 @@ li.ilWikiBlockItem {
 }
 #ilTopNav.navbar-default {
   background-color: transparent;
-  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   border: 0 none;
 }
 @media only screen and (max-width: 768px) {
@@ -15601,7 +15601,7 @@ table.ilSkill {
 }
 td.ilSkill,
 th.ilSkill {
-  font-size: .8em;
+  font-size: 0.8em;
   padding: 4px;
   min-width: 50px;
 }
@@ -17800,7 +17800,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   cursor: pointer;
 }
 [data-onscreenchat-inact-userid] {
-  opacity: .3 !important;
+  opacity: 0.3 !important;
 }
 .ilOnScreenChatWindowHeaderTooltip ul {
   text-align: left;
@@ -17879,7 +17879,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   z-index: 0;
   border: 0 none !important;
   background-color: transparent;
-  opacity: .5;
+  opacity: 0.5;
 }
 #onscreenchat-container .chat-window-wrapper .iosOnScreenChatMessageContainer .iosOnScreenChatMessage {
   background-color: transparent;
@@ -17956,7 +17956,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   background-color: #f9f9f9;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.separator p {
-  font-size: .9em;
+  font-size: 0.9em;
 }
 #onscreenchat-container .chat-window-wrapper .chat li.header,
 #onscreenchat-container .chat-window-wrapper .chat li.message {
@@ -17973,12 +17973,12 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   width: 85%;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body .header strong {
-  font-size: .8em;
+  font-size: 0.8em;
 }
 #onscreenchat-container .chat-window-wrapper .chat li .chat-body p {
   margin: 0;
   color: #777;
-  font-size: .9em;
+  font-size: 0.9em;
 }
 #onscreenchat-container .chat-window-wrapper .panel {
   pointer-events: auto;
@@ -18685,8 +18685,8 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .ilPreviewStatusNone {
   filter: alpha(opacity=60);
-  -moz-opacity: 0.60;
-  opacity: 0.60;
+  -moz-opacity: 0.6;
+  opacity: 0.6;
 }
 /* tooltip */
 #qtip-preview {
@@ -19119,7 +19119,7 @@ table.mceToolbar td {
   opacity: 0;
   max-height: 0;
   font-size: 0;
-  transition: .25s ease;
+  transition: 0.25s ease;
 }
 .read-more-state:checked ~ .read-more-wrap .read-more-target {
   opacity: 1;
@@ -19135,9 +19135,9 @@ table.mceToolbar td {
 .read-more-trigger {
   cursor: pointer;
   display: inline-block;
-  padding: 0 .5em;
+  padding: 0 0.5em;
   color: #757575;
-  font-size: .9em;
+  font-size: 0.9em;
   line-height: 2;
   border: 1px solid #dddddd;
   border-radius: .25em;
