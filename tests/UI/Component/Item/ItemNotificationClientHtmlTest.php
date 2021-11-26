@@ -22,14 +22,14 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
         $this->sig_gen = new I\SignalGenerator();
     }
 
-    public function getUIFactory()
+    public function getUIFactory() : NoUIFactory
     {
         $factory = new class extends NoUIFactory {
-            public function counter()
+            public function counter() : C\Counter\Factory
             {
                 return new I\Counter\Factory();
             }
-            public function button()
+            public function button() : C\Button\Factory
             {
                 return new I\Button\Factory($this->sig_gen);
             }
@@ -41,7 +41,7 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
                     new I\Symbol\Avatar\Factory()
                 );
             }
-            public function item()
+            public function item() : C\Item\Factory
             {
                 return new I\Item\Factory();
             }
@@ -62,7 +62,7 @@ class ItemNotificationClientHtmlTest extends ILIAS_UI_TestBase
         return $factory;
     }
 
-    public function testRenderClientHtml()
+    public function testRenderClientHtml() : void
     {
         $f = $this->getUIFactory();
         $expected_html = file_get_contents(__DIR__ . "/../../Client/Item/Notification/NotificationItemTest.html");
