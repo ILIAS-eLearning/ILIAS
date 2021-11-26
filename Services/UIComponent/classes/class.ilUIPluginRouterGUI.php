@@ -21,7 +21,7 @@
  *
  * @author  Fabian Schmid <fs@studer-raimann.ch>, Oskar Truffer <ot@studer-raimann.ch>
  */
-class ilUIPluginRouterGUI
+class ilUIPluginRouterGUI implements ilCtrlBaseClassInterface
 {
     protected ilCtrl $ctrl;
 

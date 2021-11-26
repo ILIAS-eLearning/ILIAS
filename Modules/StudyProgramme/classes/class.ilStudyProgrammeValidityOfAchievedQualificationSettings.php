@@ -1,29 +1,16 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Daniel Weise <daniel.weise@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
-declare(strict_types = 1);
-
 use ILIAS\Data\Factory;
-use \ILIAS\UI\Component\Input\Field;
-use \ILIAS\Refinery\Factory as Refinery;
+use ILIAS\UI\Component\Input\Field;
+use ILIAS\Refinery\Factory as Refinery;
 
 class ilStudyProgrammeValidityOfAchievedQualificationSettings
 {
-    /**
-     * @var int|null
-     */
-    protected $qualification_period;
-
-    /**
-     * @var DateTime|null
-     */
-    protected $qualification_date;
-
-    /**
-     * @var int|null
-     */
-    protected $restart_period;
+    protected ?int $qualification_period;
+    protected ?DateTime $qualification_date;
+    protected ?int $restart_period;
 
     public function __construct(
         ?int $qualification_period,
@@ -101,7 +88,7 @@ class ilStudyProgrammeValidityOfAchievedQualificationSettings
 
     public function toFormInput(
         Field\Factory $input,
-        \ilLanguage $lng,
+        ilLanguage $lng,
         Refinery $refinery,
         Factory $data_factory
     ) : Field\Input {

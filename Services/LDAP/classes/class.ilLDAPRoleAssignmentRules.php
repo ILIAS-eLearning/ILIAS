@@ -78,9 +78,9 @@ class ilLDAPRoleAssignmentRules
     /**
      * get all possible attribute names
      * @param int $a_server_id
-     * @return
+     * @return string[]
      */
-    public static function getAttributeNames($a_server_id)
+    public static function getAttributeNames($a_server_id) : array
     {
         global $DIC;
 
@@ -90,15 +90,16 @@ class ilLDAPRoleAssignmentRules
             "FROM ldap_role_assignments " .
             'WHERE server_id = ' . $ilDB->quote($a_server_id, 'integer');
         $res = $ilDB->query($query);
+        $names = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $name = strtolower(trim($row->att_name));
+            $name = strtolower(trim($row->att_name ?? ''));
             if ($name) {
                 $names[] = $name;
             }
         }
         
-        $names = array_merge((array) $names, self::getAdditionalPluginAttributes($a_server_id));
-        return $names ? $names : array();
+        $names = array_merge($names, self::getAdditionalPluginAttributes($a_server_id));
+        return $names;
     }
     
     // begin-patch ldap_multiple
@@ -159,7 +160,7 @@ class ilLDAPRoleAssignmentRules
             $roles[] = self::parseRole(
                 self::getDefaultRole($a_server_id),
                 self::ROLE_ACTION_ASSIGN
-                );
+            );
         }
         
         return $roles ? $roles : array();
@@ -213,7 +214,7 @@ class ilLDAPRoleAssignmentRules
             $roles[] = self::parseRole(
                 self::getDefaultRole($a_server_id),
                 self::ROLE_ACTION_ASSIGN
-                );
+            );
         }
         
         return $roles ? $roles : array();

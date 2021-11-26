@@ -14,7 +14,7 @@ class ilDBUpdate
     public ?int $currentVersion = null;
     public ?int $fileVersion = null;
     public string $updateMsg;
-    protected ?ilIniFile $client_ini;
+    protected ?ilIniFile $client_ini = null;
     protected ?int $custom_updates_current_version = 0;
     protected ?int $custom_updates_file_version = null;
     protected ?bool $custom_updates_info_read = null;
@@ -33,6 +33,7 @@ class ilDBUpdate
     protected int $hotfix_file_version;
     protected ilSetting $custom_updates_setting;
     protected array $custom_updates_content;
+    protected Iterator $ctrl_structure_iterator;
 
     public function __construct(ilDBInterface $a_db_handler, ilIniFile $client_ini = null)
     {
@@ -57,6 +58,9 @@ class ilDBUpdate
         $this->readDBUpdateFile();
         $this->readLastUpdateFile();
         $this->readFileVersion();
+
+        $class_map = require ILIAS_ABSOLUTE_PATH . '/libs/composer/vendor/composer/autoload_classmap.php';
+        $this->ctrl_structure_iterator = new ilCtrlArrayIterator($class_map);
     }
 
     /**
@@ -125,7 +129,7 @@ class ilDBUpdate
     public function setCurrentVersion(int $a_version) : void
     {
         $set = new ilSetting("common", true);
-        $set->set("db_version", $a_version);
+        $set->set("db_version", (string) $a_version);
         $this->currentVersion = $a_version;
     }
 
@@ -136,7 +140,7 @@ class ilDBUpdate
     public function setRunningStatus(int $a_nr) : void
     {
         $set = new ilSetting("common", true);
-        $set->set("db_update_running", $a_nr);
+        $set->set("db_update_running", (string) $a_nr);
         $this->db_update_running = $a_nr;
     }
 
@@ -158,7 +162,7 @@ class ilDBUpdate
     public function clearRunningStatus() : void
     {
         $set = new ilSetting("common", true);
-        $set->set("db_update_running", 0);
+        $set->set("db_update_running", "0");
         $this->db_update_running = 0;
     }
 
@@ -253,7 +257,7 @@ class ilDBUpdate
         } elseif ($DIC->offsetExists('ilCtrlStructureReader')) {
             $ilCtrlStructureReader = $DIC['ilCtrlStructureReader'];
         } else {
-            $ilCtrlStructureReader = new ilCtrlStructureReader();
+            $ilCtrlStructureReader = new ilCtrlStructureReader($this->ctrl_structure_iterator);
             $DIC->offsetSet('ilCtrlStructureReader', $ilCtrlStructureReader);
         }
 
@@ -607,7 +611,7 @@ class ilDBUpdate
     public function setCustomUpdatesCurrentVersion(?int $a_version) : bool
     {
         $this->readCustomUpdatesInfo();
-        $this->custom_updates_setting->set('db_version_custom', $a_version);
+        $this->custom_updates_setting->set('db_version_custom', (string) $a_version);
         $this->custom_updates_current_version = $a_version;
 
         return true;

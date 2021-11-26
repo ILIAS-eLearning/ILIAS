@@ -134,9 +134,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         $plugin_db_data = ilPlugin::getPluginRecord($a_plugin["component_type"], $a_plugin[self::F_COMPONENT_NAME], $a_plugin["slot_id"], $a_plugin["name"]);
 
         $config_class = null;
-        if (ilPlugin::hasConfigureClass($a_slot->getPluginsDirectory(), $a_plugin, $plugin_db_data)
-            && $this->ctrl->checkTargetClass(ilPlugin::getConfigureClassName($a_plugin))
-        ) {
+        if (ilPlugin::hasConfigureClass($a_slot->getPluginsDirectory(), $a_plugin, $plugin_db_data)) {
             $config_class = strtolower(ilPlugin::getConfigureClassName($a_plugin));
         }
 
@@ -219,7 +217,6 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         $actions = array();
         $this->ctrl->setParameter($this->parent_obj, self::F_PLUGIN_ID, $a_set[self::F_PLUGIN_ID]);
         $this->addCommandToActions($actions, "info", "showPlugin");
-        $this->ctrl->setParameter($this->parent_obj, self::F_PLUGIN_ID, null);
 
         if ($a_set["must_install"]) {
             $this->addCommandToActions($actions, "cmps_install", ilObjComponentSettingsGUI::CMD_INSTALL_PLUGIN);

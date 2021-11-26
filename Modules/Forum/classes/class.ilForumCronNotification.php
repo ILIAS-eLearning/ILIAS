@@ -25,23 +25,22 @@ class ilForumCronNotification extends ilCronJob
     private int $num_sent_messages = 0;
     private ilDBInterface $ilDB;
     private ilForumNotificationCache $notificationCache;
+    private \ILIAS\Refinery\Factory $refinery;
 
-    public function __construct(ilDBInterface $database = null, ilForumNotificationCache $notificationCache = null)
-    {
+    public function __construct(
+        ilDBInterface $database = null,
+        ilForumNotificationCache $notificationCache = null,
+        ilLanguage $lng = null,
+        ilSetting $settings = null,
+        \ILIAS\Refinery\Factory $refinery = null
+    ) {
         global $DIC;
 
-        $this->settings = new ilSetting('frma');
-        $this->lng = $DIC->language();
-
-        if ($database === null) {
-            $ilDB = $DIC->database();
-        }
-        $this->ilDB = $DIC->database();
-
-        if ($notificationCache === null) {
-            $notificationCache = new ilForumNotificationCache();
-        }
-        $this->notificationCache = $notificationCache;
+        $this->settings = $settings ?? new ilSetting('frma');
+        $this->lng = $lng ?? $DIC->language();
+        $this->ilDB = $database ?? $DIC->database();
+        $this->notificationCache = $notificationCache ?? new ilForumNotificationCache();
+        $this->refinery = $refinery ?? $DIC->refinery();
     }
 
     public function getId() : string
@@ -95,18 +94,15 @@ class ilForumCronNotification extends ilCronJob
     {
         global $DIC;
 
-        $ilSetting = $DIC->settings();
-        $lng = $DIC->language();
-
         $this->logger = $DIC->logger()->frm();
 
         $status = ilCronJobResult::STATUS_NO_ACTION;
 
-        $lng->loadLanguageModule('forum');
+        $this->lng->loadLanguageModule('forum');
 
         $this->logger->info('Started forum notification job ...');
 
-        if (!($last_run_datetime = $ilSetting->get('cron_forum_notification_last_date'))) {
+        if (!($last_run_datetime = $this->settings->get('cron_forum_notification_last_date'))) {
             $last_run_datetime = null;
         }
 
@@ -143,7 +139,7 @@ class ilForumCronNotification extends ilCronJob
 
         $this->sendNotificationForDeletedPosts();
 
-        $ilSetting->set('cron_forum_notification_last_date', $cj_start_date);
+        $this->settings->set('cron_forum_notification_last_date', $cj_start_date);
 
         $mess = 'Sent ' . $this->num_sent_messages . ' messages.';
 
@@ -155,7 +151,9 @@ class ilForumCronNotification extends ilCronJob
             $status = ilCronJobResult::STATUS_OK;
             $result->setMessage($mess);
         }
+
         $result->setStatus($status);
+
         return $result;
     }
 
@@ -320,14 +318,26 @@ class ilForumCronNotification extends ilCronJob
         $max_notification_age->allowDecimals(false);
         $max_notification_age->setMinValue(1);
         $max_notification_age->setInfo($this->lng->txt('frm_max_notification_age_info'));
-        $max_notification_age->setValue($this->settings->get('max_notification_age') ?? '');
+        $max_notification_age->setValue($this->settings->get('max_notification_age', ''));
 
         $a_form->addItem($max_notification_age);
     }
 
     public function saveCustomSettings(ilPropertyFormGUI $a_form) : bool
     {
-        $this->settings->set('max_notification_age', $a_form->getInput('max_notification_age'));
+        $this->settings->set(
+            'max_notification_age',
+            $this->refinery->in()->series([
+                $this->refinery->byTrying([
+                    $this->refinery->kindlyTo()->int(),
+                    $this->refinery->in()->series([
+                        $this->refinery->kindlyTo()->float(),
+                        $this->refinery->kindlyTo()->int()
+                    ])
+                ]),
+                $this->refinery->kindlyTo()->string()
+            ])->transform($a_form->getInput('max_notification_age'))
+        );
         return true;
     }
 

@@ -85,7 +85,7 @@ class ilSkillAssignedObjectsTableGUI extends ilTable2GUI
 
         $this->tpl->setVariable(
             "PATH",
-            $path->getPath($this->tree->getParentId($obj_ref_id_parent), $obj_ref_id)
+            $path->getPath($this->tree->getParentId($obj_ref_id_parent), (int) $obj_ref_id)
         );
     }
 }

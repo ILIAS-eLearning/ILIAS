@@ -12,7 +12,7 @@ require_once 'Services/Notifications/classes/class.ilNotificationHandler.php';
  * @ilCtrl_IsCalledBy ilNotificationGUI: ilPersonalProfileGUI, ilDashboardGUI
  * @ingroup           ServicesNotifications
  */
-class ilNotificationGUI
+class ilNotificationGUI implements ilCtrlBaseClassInterface
 {
     private $handler = array();
 

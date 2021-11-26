@@ -9,5 +9,5 @@ namespace ILIAS\ResourceStorage\Lock;
 interface LockingRepository
 {
 
-    public function getNameForLocking() : string;
+    public function getNamesForLocking() : array;
 }

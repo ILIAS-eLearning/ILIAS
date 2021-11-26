@@ -474,6 +474,10 @@ class ilUtil
     */
     public static function makeClickable($a_text, $detectGotoLinks = false)
     {
+        trigger_error(
+            'Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element (the boolean flag is removed)',
+            E_USER_DEPRECATED
+        );
         // New code, uses MediaWiki Sanitizer
         $ret = $a_text;
 
@@ -2901,7 +2905,7 @@ class ilUtil
         global $DIC;
 
         if (!isset($DIC['ilCtrl']) || !$DIC['ilCtrl'] instanceof ilCtrl) {
-            $ctrl = new ilCtrl();
+            (new InitCtrlService())->init($DIC);
         } else {
             $ctrl = $DIC->ctrl();
         }

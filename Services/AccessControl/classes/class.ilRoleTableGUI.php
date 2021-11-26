@@ -279,7 +279,7 @@ class ilRoleTableGUI extends ilTable2GUI
         } else {
             $this->tpl->setVariable(
                 'CONTEXT',
-                (string) $this->getPathGUI()->getPath(ROOT_FOLDER_ID, $ref)
+                (string) $this->getPathGUI()->getPath(ROOT_FOLDER_ID, (int) $ref)
             );
         }
 

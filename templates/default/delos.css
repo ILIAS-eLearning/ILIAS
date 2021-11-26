@@ -2758,14 +2758,14 @@ output {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(129, 152, 183, 0.6);
 }
 .form-control::-moz-placeholder {
-  color: #757575;
+  color: #7c7c7c;
   opacity: 1;
 }
 .form-control:-ms-input-placeholder {
-  color: #757575;
+  color: #7c7c7c;
 }
 .form-control::-webkit-input-placeholder {
-  color: #757575;
+  color: #7c7c7c;
 }
 .form-control::-ms-expand {
   background-color: transparent;
@@ -6888,7 +6888,7 @@ button.list-group-item-danger.active:focus {
 .il-counter-status {
   padding: 2px 4px;
   margin-top: 10px;
-  background-color: #757575;
+  background-color: #737373;
 }
 .panel {
   border: none;
@@ -7097,7 +7097,7 @@ button.list-group-item-danger.active:focus {
 }
 .il-card .caption dl dt {
   font-weight: normal;
-  color: #757575;
+  color: #7c7c7c;
   padding-top: 6px;
 }
 .il-card .il-card-repository-head {
@@ -7500,13 +7500,13 @@ a fieldset[disabled] .active {
   font-size: 21px;
   font-weight: bold;
   line-height: 1;
-  color: #757575;
+  color: #737373;
 }
 .minimize:hover,
 .close:hover,
 .minimize:focus,
 .close:focus {
-  color: #161616;
+  color: #2c2c2c;
   text-decoration: none;
 }
 button.minimize,
@@ -7606,7 +7606,7 @@ button.close {
   border: 1px solid #bfbfbf;
 }
 .il-toggle-button.unavailable .il-toggle-switch {
-  background: #626262;
+  background: #797979;
   border: 1px solid #bfbfbf;
 }
 .ilToolbar .il-toggle-button {
@@ -7725,7 +7725,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-item .il-item-property-name {
   font-size: 12px;
-  color: #757575;
+  color: #7c7c7c;
   overflow: hidden;
 }
 .il-item .il-item-property-value {
@@ -7887,7 +7887,7 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .breadcrumb_wrapper .breadcrumb > span + span:before {
   content: " \e606";
-  color: #757575;
+  color: #737373;
   padding: 8px 10px;
   font-family: "il-icons";
 }
@@ -8124,7 +8124,7 @@ ul.dropdown-menu > li > .btn:focus {
   color: #161616;
   text-align: center;
   background-color: #f9f9f9;
-  border: 1px solid #a8a8a8;
+  border: 1px solid #a6a6a6;
   border-radius: 0;
 }
 .form-horizontal .help-block {
@@ -8212,9 +8212,11 @@ ul.dropdown-menu > li > .btn:focus {
 .il-standard-form textarea {
   height: 76px;
 }
-.il-filter .col-md-4 {
+.il-filter .col-md-4,
+.il-filter .col-md-6 {
   padding-top: 6px;
   padding-bottom: 6px;
+  padding-right: 0px;
 }
 .il-filter .glyphicon-ok {
   font-size: unset;
@@ -8247,6 +8249,9 @@ ul.dropdown-menu > li > .btn:focus {
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 10%;
+}
+.il-filter .rightaddon .glyphicon {
+  top: 0;
 }
 .il-filter-bar {
   display: flex;
@@ -8298,6 +8303,7 @@ ul.dropdown-menu > li > .btn:focus {
   border-top: 1px solid #dddddd;
   position: relative;
   padding-bottom: 40px;
+  padding-right: 12px;
   margin: 0;
 }
 .il-filter-input-section .il-input-multiselect {
@@ -8605,7 +8611,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
   border-color: rgba(0, 0, 0, 0.15);
 }
 .il-table-presentation-row .il-table-presentation-row-expanded .il-table-presentation-details .il-table-presentation-fields .il-item-property-name {
-  color: #757575;
+  color: #7c7c7c;
 }
 .il-table-data {
   display: table;
@@ -8666,7 +8672,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
 }
 .il-workflow-container .not-available.in-progress .text span,
 .il-workflow-container .no-longer-available.in-progress .text span {
-  color: #161616;
+  color: #2c2c2c;
   opacity: 0.5;
 }
 .il-workflow-container .not-available .text,
@@ -8710,7 +8716,7 @@ fieldset[disabled] .il-table-presentation-viewcontrols .btn-default:not(.disable
   font-weight: 400;
 }
 .il-workflow-container .text {
-  border-left: 1px dashed #161616;
+  border-left: 1px dashed #2c2c2c;
   font-size: 14.7px;
   margin-left: 15px;
   padding: 0 0 31.5px 21px;
@@ -8796,7 +8802,7 @@ div.alert ul {
   background-color: #f9f9f9;
   padding: 6px 12px;
   font-size: 12px;
-  color: #757575;
+  color: #7c7c7c;
   list-style-type: none;
 }
 div.alert ul > li:before {
@@ -8858,7 +8864,7 @@ div.alert ul > li:before {
   background-color: #e2e8ef;
 }
 .il-tree li.il-tree-node.expandable > .node-line:before {
-  color: #757575;
+  color: #737373;
   position: absolute;
   margin-left: -14px;
 }
@@ -9038,7 +9044,7 @@ nav.il-maincontrols {
   width: 80px;
 }
 .il-mainbar {
-  background-color: #161616;
+  background-color: #2c2c2c;
   -ms-grid-column: 1;
   -ms-grid-row: 1;
   grid-column: 1;
@@ -9234,7 +9240,7 @@ footer {
   .il-header-locator .dropdown-toggle {
     background-color: transparent;
     border: none;
-    color: #161616;
+    color: #2c2c2c;
     font-size: 1.5rem;
     max-width: 220px;
     white-space: nowrap;
@@ -9258,7 +9264,7 @@ footer {
   .il-header-locator .open > .dropdown-toggle.btn-default:active:focus {
     background: white;
     border-color: white;
-    color: #161616;
+    color: #2c2c2c;
     outline: none;
   }
   .il-header-locator span.caret {
@@ -9269,7 +9275,7 @@ footer {
     width: 100%;
   }
   .il-mainbar {
-    background-color: #161616;
+    background-color: #2c2c2c;
     box-shadow: none;
     display: -ms-flexbox;
     display: flex;
@@ -9610,7 +9616,7 @@ footer {
   outline-color: transparent;
 }
 .il-maincontrols-metabar .btn-bulky .glyphicon {
-  color: #757575;
+  color: #737373;
   font-size: 2.3rem;
 }
 .il-maincontrols-metabar .bulky-label {
@@ -9665,7 +9671,7 @@ footer {
     right: 0;
   }
   .il-metabar-slates .glyphicon {
-    color: #757575;
+    color: #737373;
     font-size: 2rem;
   }
   .il-metabar-slates .il-counter-status,
@@ -9733,7 +9739,7 @@ footer {
   display: none;
 }
 .il-mainbar-triggers {
-  background: #161616;
+  background: #2c2c2c;
   display: flex;
   position: relative;
   width: 80px;
@@ -9742,7 +9748,7 @@ footer {
 .il-mainbar-triggers .btn-bulky,
 .il-mainbar-triggers .il-link.link-bulky {
   align-items: center;
-  background: #161616;
+  background: #2c2c2c;
   border: 0;
   border-bottom: 1px solid #dddddd;
   color: white;
@@ -9766,7 +9772,7 @@ footer {
 .il-mainbar-triggers .btn-bulky:focus-visible,
 .il-mainbar-triggers .il-link.link-bulky:focus-visible {
   background-color: white;
-  color: #161616;
+  color: #2c2c2c;
 }
 .il-mainbar-triggers .btn-bulky:hover .glyph,
 .il-mainbar-triggers .il-link.link-bulky:hover .glyph,
@@ -9774,7 +9780,7 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky.engaged .glyph,
 .il-mainbar-triggers .btn-bulky:focus-visible .glyph,
 .il-mainbar-triggers .il-link.link-bulky:focus-visible .glyph {
-  color: #161616;
+  color: #2c2c2c;
 }
 .il-mainbar-triggers .btn-bulky:hover .icon,
 .il-mainbar-triggers .il-link.link-bulky:hover .icon,
@@ -9790,7 +9796,7 @@ footer {
 .il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label,
 .il-mainbar-triggers .btn-bulky:focus-visible .bulky-label,
 .il-mainbar-triggers .il-link.link-bulky:focus-visible .bulky-label {
-  color: #161616;
+  color: #2c2c2c;
 }
 .il-mainbar-triggers .btn-bulky:hover,
 .il-mainbar-triggers .il-link.link-bulky:hover {
@@ -9819,7 +9825,7 @@ footer {
 @media (hover: none) {
   .il-mainbar-triggers .btn-bulky:hover,
   .il-mainbar-triggers .il-link.link-bulky:hover {
-    background-color: #161616;
+    background-color: #2c2c2c;
     color: white;
   }
   .il-mainbar-triggers .btn-bulky:hover .icon,
@@ -9833,7 +9839,7 @@ footer {
   .il-mainbar-triggers .btn-bulky.engaged,
   .il-mainbar-triggers .il-link.link-bulky.engaged {
     background-color: white;
-    color: #161616;
+    color: #2c2c2c;
   }
   .il-mainbar-triggers .btn-bulky.engaged .icon,
   .il-mainbar-triggers .il-link.link-bulky.engaged .icon {
@@ -9841,7 +9847,7 @@ footer {
   }
   .il-mainbar-triggers .btn-bulky.engaged .bulky-label,
   .il-mainbar-triggers .il-link.link-bulky.engaged .bulky-label {
-    color: #161616;
+    color: #2c2c2c;
   }
 }
 .il-mainbar-entries {
@@ -9870,7 +9876,7 @@ footer {
 }
 .il-mainbar-tools-button .btn-bulky.engaged {
   background-color: white;
-  color: #161616;
+  color: #2c2c2c;
 }
 .il-mainbar-tools-button .btn-bulky.engaged .icon {
   filter: invert(30%);
@@ -9906,7 +9912,7 @@ footer {
 .il-mainbar-tools-entries .il-link.link-bulky.engaged {
   background-color: white;
   border: 0;
-  color: #161616;
+  color: #2c2c2c;
 }
 .il-mainbar-tools-entries .btn-bulky.engaged .icon,
 .il-mainbar-tools-entries .btn-bulky.engaged .icon,
@@ -10004,7 +10010,7 @@ footer {
     flex-flow: row wrap;
   }
   .il-mainbar-triggers {
-    background: #161616;
+    background: #2c2c2c;
     display: flex;
     position: relative;
     width: 100%;
@@ -10151,9 +10157,9 @@ footer {
 */
 .il-system-info {
   line-height: 20px;
-  padding-top: 3px;
-  padding-bottom: 3px;
-  height: calc(3px + 3px + 20px);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  height: calc(6px + 6px + 20px);
   display: flex;
   flex-wrap: nowrap;
   flex-direction: row;
@@ -10217,10 +10223,14 @@ footer {
   margin-right: 8px;
 }
 .il-system-info div.il-system-info-actions {
+  font-size: 18px;
   flex-grow: 0;
   flex-shrink: 0;
-  flex-basis: 60px;
   text-align: right;
+  flex-basis: 60px;
+}
+.il-system-info div.il-system-info-actions :not(:last-child) {
+  padding-right: 12px;
 }
 .il-system-info div.il-system-info-actions span.il-system-info-more {
   display: none;
@@ -10425,7 +10435,7 @@ footer {
   color: #B54F00;
 }
 .glyph.disabled {
-  color: #757575;
+  color: #737373;
   pointer-events: none;
 }
 .glyph:hover,
@@ -11848,7 +11858,7 @@ td {
 code {
   font-family: Pragmata, Menlo, 'DejaVu LGC Sans Mono', 'DejaVu Sans Mono', Consolas, 'Everson Mono', 'Lucida Console', 'Andale Mono', 'Nimbus Mono L', 'Liberation Mono', FreeMono, 'Osaka Monospaced', Courier, 'New Courier', monospace;
   font-size: 90%;
-  color: #757575;
+  color: #7c7c7c;
 }
 ::selection {
   background: #e2e8ef;
@@ -12268,7 +12278,7 @@ h2.ilHeader {
   margin: 0;
   display: inline;
   font-size: 19px;
-  color: #161616;
+  color: #2c2c2c;
 }
 #headerimage {
   width: 45px;
@@ -12467,7 +12477,7 @@ div.Access {
   font-weight: bold;
 }
 .light {
-  color: #757575;
+  color: #7c7c7c;
 }
 /* ----------------- normal links ------------- */
 a.light:link,
@@ -13310,7 +13320,7 @@ div.ilForumQuoteHead {
   }
 }
 div.ilFrmPostHeader span.small {
-  color: #757575;
+  color: #7c7c7c;
 }
 .ilFrmPostContentContainer {
   margin: 0 0 10px;
@@ -13451,8 +13461,8 @@ a.ilEditSubmit {
   padding: 2px;
   margin: 0;
   border: 1px solid #bababa;
-  border-bottom-color: #757575;
-  border-right-color: #757575;
+  border-bottom-color: #737373;
+  border-right-color: #737373;
   text-decoration: none;
   font-size: 80%;
   line-height: 14px;
@@ -13467,8 +13477,8 @@ input.ilEditSubmit {
   cursor: pointer;
   background: url("images/ButtonsBack.png") repeat-x bottom white;
   border: 1px solid #bababa;
-  border-bottom-color: #757575;
-  border-right-color: #757575;
+  border-bottom-color: #737373;
+  border-right-color: #737373;
 }
 input.ilEditSubmit:hover {
   color: #000000;
@@ -13511,7 +13521,7 @@ button.copg-add.dropdown-toggle.btn:hover .glyphicon-plus-sign,
 }
 button.copg-add.dropdown-toggle.btn:hover {
   background-color: #e2e8ef;
-  color: #757575;
+  color: #7c7c7c;
 }
 [data-copg-ed-type='add-area'] ul.dropdown-menu {
   left: 45%;
@@ -13730,7 +13740,7 @@ div.il-copg-button-group-wide {
   margin: 0;
 }
 #iltinymenu .bd div .small {
-  color: #757575;
+  color: #7c7c7c;
   font-style: italic;
 }
 #iltinymenu .btn-default .mce-ico {
@@ -14120,7 +14130,7 @@ p#copg-auto-save {
 }
 .copg-new-content-placeholder {
   text-align: center;
-  color: #757575;
+  color: #7c7c7c;
   padding: 20px;
 }
 .il-copg-drag {
@@ -14572,7 +14582,7 @@ li.ilWikiBlockItem {
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
-  background-color: #161616;
+  background-color: #2c2c2c;
   color: white;
   border: 0 none;
 }
@@ -14584,7 +14594,7 @@ li.ilWikiBlockItem {
   padding: 0;
   margin: 7px 15px 23px;
   border: 0 none;
-  border-bottom: 2px solid #161616;
+  border-bottom: 2px solid #2c2c2c;
 }
 .ilSetupContent #ilTab {
   margin: 7px 0 23px;
@@ -14938,7 +14948,7 @@ div.ilBlogListItemTitle h3 {
 }
 div.ilBlogListItemSubTitle {
   margin-top: 5px;
-  color: #757575;
+  color: #7c7c7c;
   font-size: 80%;
   text-align: right;
 }
@@ -14965,7 +14975,7 @@ td.ilBlogSideBlockContent {
 }
 td.ilBlogSideBlockCommand {
   font-size: 75%;
-  color: #757575;
+  color: #7c7c7c;
   border-bottom: 1px solid #dddddd;
   padding: 1px 3px;
   background-color: #f9f9f9;
@@ -15025,7 +15035,7 @@ div.ilSkill > h4 {
   margin: 10px 0;
   padding: 0;
   font-size: 1em;
-  color: #757575;
+  color: #7c7c7c;
   float: left;
   clear: left;
 }
@@ -15136,7 +15146,7 @@ th.ilSkillEntryHead {
 .ilPollDescription {
   margin: 5px;
   font-size: 80%;
-  color: #757575;
+  color: #7c7c7c;
 }
 .ilPollQuestion {
   display: inline-block;
@@ -15559,7 +15569,7 @@ div.ilc_TextPlaceHolderThumb,
 div.ilc_PredTextPlaceHolderThumb {
   margin: 1px;
   padding: 5px 2px 5px 0;
-  border: 1px solid #161616;
+  border: 1px solid #2c2c2c;
   font-size: 10px;
   background: url("images/question_placeholder_thumb.png") no-repeat center;
   font-weight: bold;
@@ -15577,7 +15587,7 @@ div.ilc_HeadlineThumb {
   font-size: 11px;
   font-weight: bold;
   width: 100%;
-  border-bottom: 1px solid #161616;
+  border-bottom: 1px solid #2c2c2c;
   color: #161616;
   margin: 2px 0 4px;
 }
@@ -16271,7 +16281,7 @@ td.ilBlockHeaderBig {
   padding: 3px 0;
   margin: 0 5px;
   text-align: left;
-  color: #161616;
+  color: #2c2c2c;
   border-bottom: 1px solid #dddddd;
   /* box-shadow: 0 -2px 1px -1px white inset; no white lines */
 }
@@ -16296,12 +16306,12 @@ h3.ilBlockHeader {
 /* possibly deprecated */
 .il_BlockInfo {
   font-size: 80%;
-  color: #757575;
+  color: #7c7c7c;
 }
 /* new class */
 div.ilBlockInfo {
   font-size: 75%;
-  color: #757575;
+  color: #7c7c7c;
   padding: 1px 3px;
   background-color: #f9f9f9;
   text-align: right;
@@ -16315,7 +16325,7 @@ div.ilBlockContent {
   border-bottom: 1px solid #f0f0f0;
 }
 div.ilBlockPropertyCaption {
-  color: #757575;
+  color: #7c7c7c;
 }
 /* Services/UIComponent/Lightbox */
 .ilLightbox {
@@ -16377,7 +16387,7 @@ div.ilInfoScreenSec h2.ilHeader {
 .il_InfoScreenProperty {
   padding: 15px;
   vertical-align: top;
-  color: #757575;
+  color: #737373;
   font-style: italic;
 }
 .il_InfoScreenPropertyValue {
@@ -16632,7 +16642,7 @@ div.ilRatingOverlay {
   cursor: pointer;
   display: inline-block;
   padding: 0 0.5em;
-  color: #757575;
+  color: #737373;
   font-size: 0.9em;
   line-height: 2;
   border: 1px solid #dddddd;
@@ -16778,7 +16788,7 @@ span.ilNewsRssIcon:hover {
   text-align: center;
   position: absolute;
   top: 16px;
-  background-color: #757575;
+  background-color: #737373;
   z-index: 100;
   border-radius: 50%;
   right: 0;
@@ -16936,7 +16946,7 @@ div.ilSurveyPageEditDropAreaSelected {
   background-color: #94c564;
 }
 div.ilSurveyPageEditAreaDragging {
-  border: 2px dashed #161616;
+  border: 2px dashed #2c2c2c;
   background-color: #f9f9f9;
   padding: 5px;
 }
@@ -17036,7 +17046,7 @@ div.ilChecklist ul li a:hover {
 }
 div.ilChecklist ul li p,
 div.ilChecklist ul li p:hover {
-  color: #757575;
+  color: #7c7c7c;
   font-size: 85%;
   text-decoration: none;
   padding: 0;
@@ -17880,7 +17890,7 @@ span.ilProfileBadge .modal .img-responsive {
 .bootstrap-datetimepicker-widget table th.disabled,
 .bootstrap-datetimepicker-widget table th.disabled:hover {
   background: none;
-  color: #757575;
+  color: #737373;
   cursor: not-allowed;
 }
 .bootstrap-datetimepicker-widget table th.prev::after {
@@ -17921,7 +17931,7 @@ span.ilProfileBadge .modal .img-responsive {
   font-size: 0.8em;
   height: 20px;
   line-height: 20px;
-  color: #757575;
+  color: #737373;
 }
 .bootstrap-datetimepicker-widget table td.day {
   height: 20px;
@@ -17938,7 +17948,7 @@ span.ilProfileBadge .modal .img-responsive {
 }
 .bootstrap-datetimepicker-widget table td.old,
 .bootstrap-datetimepicker-widget table td.new {
-  color: #757575;
+  color: #737373;
 }
 .bootstrap-datetimepicker-widget table td.today {
   position: relative;
@@ -17966,7 +17976,7 @@ span.ilProfileBadge .modal .img-responsive {
 .bootstrap-datetimepicker-widget table td.disabled,
 .bootstrap-datetimepicker-widget table td.disabled:hover {
   background: none;
-  color: #757575;
+  color: #737373;
   cursor: not-allowed;
 }
 .bootstrap-datetimepicker-widget table td span {
@@ -17988,12 +17998,12 @@ span.ilProfileBadge .modal .img-responsive {
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 .bootstrap-datetimepicker-widget table td span.old {
-  color: #757575;
+  color: #737373;
 }
 .bootstrap-datetimepicker-widget table td span.disabled,
 .bootstrap-datetimepicker-widget table td span.disabled:hover {
   background: none;
-  color: #757575;
+  color: #737373;
   cursor: not-allowed;
 }
 .bootstrap-datetimepicker-widget.usetwentyfour td.hour {
@@ -18172,7 +18182,7 @@ span.ilProfileBadge .modal .img-responsive {
 .ilPreviewText {
   font-size: 90%;
   margin-top: -20px;
-  color: #161616;
+  color: #2c2c2c;
 }
 .ilPreviewTextLoading {
   width: 14px;

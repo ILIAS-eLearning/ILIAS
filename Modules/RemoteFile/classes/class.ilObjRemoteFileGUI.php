@@ -15,7 +15,7 @@ include_once('Services/WebServices/ECS/classes/class.ilRemoteObjectBaseGUI.php')
 * @ingroup ModulesRemoteFile
 */
 
-class ilObjRemoteFileGUI extends ilRemoteObjectBaseGUI
+class ilObjRemoteFileGUI extends ilRemoteObjectBaseGUI implements ilCtrlBaseClassInterface
 {
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {

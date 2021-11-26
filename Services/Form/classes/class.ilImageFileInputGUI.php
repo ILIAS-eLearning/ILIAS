@@ -41,7 +41,7 @@ class ilImageFileInputGUI extends ilFileInputGUI
         $this->cache = true;
     }
 
-    public function setALlowDeletion(bool $a_val) : void
+    public function setAllowDeletion(bool $a_val) : void
     {
         $this->allow_deletion = $a_val;
     }

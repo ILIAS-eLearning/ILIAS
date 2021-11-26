@@ -33,7 +33,7 @@ use ILIAS\Data;
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjTestGUI
  * @ilCtrl_Calls ilObjLearningSequenceGUI: ilObjSurveyGUI
  */
-class ilObjLearningSequenceGUI extends ilContainerGUI
+class ilObjLearningSequenceGUI extends ilContainerGUI implements ilCtrlBaseClassInterface
 {
     const CMD_VIEW = "view";
     const CMD_LEARNER_VIEW = "learnerView";

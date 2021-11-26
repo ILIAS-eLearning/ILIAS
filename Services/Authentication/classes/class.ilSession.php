@@ -1,9 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('Services/Authentication/classes/class.ilSessionControl.php');
-require_once('Services/Authentication/classes/class.ilSessionStatistics.php');
-require_once('Services/Authentication/classes/class.ilSessionIStorage.php');
+require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionControl.php');
+require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionStatistics.php');
+require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionIStorage.php');
 
 /**
 * @author Alex Killing <alex.killing@gmx.de>
@@ -278,9 +278,10 @@ class ilSession
     }
 
     /**
-    * Destroy expired sessions
-    */
-    public static function _destroyExpiredSessions()
+     * Destroy expired sessions
+     * @return int The number of deleted sessions on success
+     */
+    public static function _destroyExpiredSessions() : int
     {
         global $DIC;
 
@@ -289,15 +290,15 @@ class ilSession
         $q = "SELECT session_id,expires FROM usr_session WHERE expires < " .
             $ilDB->quote(time(), "integer");
         $res = $ilDB->query($q);
-        $ids = array();
+        $ids = [];
         while ($row = $ilDB->fetchAssoc($res)) {
             $ids[$row["session_id"]] = $row["expires"];
         }
-        if (sizeof($ids)) {
+        if ($ids !== []) {
             self::_destroy($ids, self::SESSION_CLOSE_EXPIRE, true);
         }
         
-        return true;
+        return count($ids);
     }
     
     /**

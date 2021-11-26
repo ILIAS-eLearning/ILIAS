@@ -62,13 +62,13 @@ class ilSystemStyleIconColorTest extends TestCase
             $this->assertEquals(ilSystemStyleColorException::INVALID_COLOR_EXCEPTION, $e->getCode());
         }
     }
-    public function testInvalidColor3()
+    public function testValidColor3()
     {
         try {
             new ilSystemStyleIconColor("id", "name", "F00", "description");
-            $this->assertTrue(false);
+            $this->assertTrue(true);
         } catch (ilSystemStyleColorException $e) {
-            $this->assertEquals(ilSystemStyleColorException::INVALID_COLOR_EXCEPTION, $e->getCode());
+            $this->assertTrue(false);
         }
     }
 

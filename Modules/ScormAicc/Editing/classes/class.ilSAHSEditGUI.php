@@ -14,7 +14,7 @@
 *
 * @ingroup ModulesScormAicc
 */
-class ilSAHSEditGUI
+class ilSAHSEditGUI implements ilCtrlBaseClassInterface
 {
     public $ilias;
     public $tpl;
@@ -110,10 +110,10 @@ class ilSAHSEditGUI
         case "ilexportgui":
             $obj_id = ilObject::_lookupObjectId($_GET["ref_id"]);
             if ($cmd == "create_xml") {
-			    require_once("Modules/ScormAicc/classes/class.ilScormAiccExporter.php");
+                require_once("Modules/ScormAicc/classes/class.ilScormAiccExporter.php");
                 $exporter = new ilScormAiccExporter();
                 $xml = $exporter->getXmlRepresentation("sahs", "5.1.0", $obj_id);
-            }  elseif ($cmd == "download") {
+            } elseif ($cmd == "download") {
                 $file = $_GET["file"];
                 $ftmp = explode(":", $file);
                 $fileName = $ftmp[1];
@@ -123,14 +123,14 @@ class ilSAHSEditGUI
             } elseif ($cmd == "confirmDeletion") {
                 require_once("./Services/Export/classes/class.ilExport.php");
                 $exportDir = ilExport::_getExportDirectory($obj_id);
-		        foreach ($_POST["file"] as $file) {
-					$file = explode(":", $file);
-            		$file[1] = basename($file[1]);
-					$exp_file = $exportDir . "/" . str_replace("..", "", $file[1]);
-					if (@is_file($exp_file)) {
-						unlink($exp_file);
-					}
-				}
+                foreach ($_POST["file"] as $file) {
+                    $file = explode(":", $file);
+                    $file[1] = basename($file[1]);
+                    $exp_file = $exportDir . "/" . str_replace("..", "", $file[1]);
+                    if (@is_file($exp_file)) {
+                        unlink($exp_file);
+                    }
+                }
             }
             $this->ctrl->setCmd("export");
             ilUtil::redirect("ilias.php?baseClass=ilSAHSEditGUI&cmd=export&ref_id=" . $_GET["ref_id"]);

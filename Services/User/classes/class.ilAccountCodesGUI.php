@@ -7,7 +7,6 @@
 * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
 * @version $Id$
 *
-* @ilCtrl_Calls ilAccountCodesGUI:
 * @ingroup ServicesUser
 */
 class ilAccountCodesGUI

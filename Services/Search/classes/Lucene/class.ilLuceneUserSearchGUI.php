@@ -13,7 +13,7 @@ include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchField
  * @version $Id$
  *
  * @ilCtrl_Calls ilLuceneUserSearchGUI: ilPublicUserProfileGUI
- * @ilCtrl_IsCalledBy ilLuceneUserSearchGUI: ilSearchController
+ * @ilCtrl_IsCalledBy ilLuceneUserSearchGUI: ilSearchControllerGUI
  *
  * @ingroup ServicesSearch
  */

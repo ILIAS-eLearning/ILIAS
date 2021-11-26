@@ -12,16 +12,17 @@ use ILIAS\FileUpload\Processor\FilenameSanitizerPreProcessor;
 use ILIAS\FileUpload\Processor\PreProcessorManagerImpl;
 use ILIAS\FileUpload\Processor\VirusScannerPreProcessor;
 use ILIAS\GlobalScreen\Services;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\HTTP\Wrapper\SuperGlobalDropInReplacement;
 use ILIAS\ResourceStorage\Policy\WhiteAndBlacklistedFileNamePolicy;
 use ILIAS\ResourceStorage\StorageHandler\StorageHandlerFactory;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandler;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
+use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
+use ILIAS\ResourceStorage\Preloader\DBRepositoryPreloader;
 
 require_once("libs/composer/vendor/autoload.php");
 
@@ -212,17 +213,28 @@ class ilInitialisation
         global $DIC;
 
         $DIC['resource_storage'] = static function (Container $c) : \ILIAS\ResourceStorage\Services {
+            $revision_repository = new RevisionDBRepository($c->database());
+            $resource_repository = new ResourceDBRepository($c->database());
+            $information_repository = new InformationDBRepository($c->database());
+            $stakeholder_repository = new StakeholderDBRepository($c->database());
             return new \ILIAS\ResourceStorage\Services(
                 new StorageHandlerFactory([
                     new MaxNestingFileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE),
                     new FileSystemStorageHandler($c['filesystem.storage'], Location::STORAGE)
                 ]),
-                new RevisionARRepository(),
-                new ResourceARRepository(),
-                new InformationARRepository(),
-                new StakeholderARRepository(),
+                $revision_repository,
+                $resource_repository,
+                $information_repository,
+                $stakeholder_repository,
                 new LockHandlerilDB($c->database()),
-                new WhiteAndBlacklistedFileNamePolicy([], [])
+                new WhiteAndBlacklistedFileNamePolicy([], []),
+                new DBRepositoryPreloader(
+                    $c->database(),
+                    $resource_repository,
+                    $revision_repository,
+                    $information_repository,
+                    $stakeholder_repository
+                )
             );
         };
     }
@@ -495,8 +507,7 @@ class ilInitialisation
         define("DEBUG", $ilClientIniFile->readVariable("system", "DEBUG"));
         define("DEVMODE", $ilClientIniFile->readVariable("system", "DEVMODE"));
         define("SHOWNOTICES", $ilClientIniFile->readVariable("system", "SHOWNOTICES"));
-        define("DEBUGTOOLS", $ilClientIniFile->readVariable("system", "DEBUGTOOLS"));
-        define("ROOT_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
+        define("ROOT_FOLDER_ID", (int) $ilClientIniFile->readVariable('system', 'ROOT_FOLDER_ID'));
         define("SYSTEM_FOLDER_ID", $ilClientIniFile->readVariable('system', 'SYSTEM_FOLDER_ID'));
         define("ROLE_FOLDER_ID", $ilClientIniFile->readVariable('system', 'ROLE_FOLDER_ID'));
         define("MAIL_SETTINGS_ID", (int) $ilClientIniFile->readVariable('system', 'MAIL_SETTINGS_ID'));
@@ -578,14 +589,9 @@ class ilInitialisation
      */
     public static function setSessionHandler()
     {
-        if (ini_get('session.save_handler') != 'user' && version_compare(PHP_VERSION, '7.2.0', '<')) {
-            ini_set("session.save_handler", "user");
-        }
-
-        require_once "Services/Authentication/classes/class.ilSessionDBHandler.php";
         $db_session_handler = new ilSessionDBHandler();
         if (!$db_session_handler->setSaveHandler()) {
-            self::abortAndDie("Please turn off Safe mode OR set session.save_handler to \"user\" in your php.ini");
+            self::abortAndDie("Cannot start session handling.");
         }
 
         // Do not accept external session ids
@@ -1087,10 +1093,6 @@ class ilInitialisation
         if ((defined(SHOWNOTICES) && SHOWNOTICES) || version_compare(PHP_VERSION, '8.0', '>=')) {
             error_reporting(-1);
         }
-
-        if (defined('DEBUGTOOLS') && DEBUGTOOLS) {
-            include_once "include/inc.debug.php";
-        }
     }
 
     protected static $already_initialized;
@@ -1147,8 +1149,12 @@ class ilInitialisation
             if (ilContext::hasHTML()) {
                 self::initHTML();
             }
-            self::initRefinery($GLOBALS['DIC']);
         }
+
+        // this MUST happen after everything else is initialized,
+        // because this leads to rather unexpected behaviour which
+        // is super hard to track down to this.
+        self::replaceSuperGlobals($GLOBALS['DIC']);
     }
 
     /**
@@ -1311,13 +1317,11 @@ class ilInitialisation
         self::initGlobal("tree", $tree);
         unset($tree);
 
-        self::initGlobal(
-            "ilCtrl",
-            "ilCtrl",
-            "./Services/UICore/classes/class.ilCtrl.php"
-        );
-
         self::setSessionCookieParams();
+        self::initRefinery($DIC);
+
+        require_once './Services/Init/classes/Dependencies/InitCtrlService.php';
+        (new InitCtrlService())->init($DIC);
 
         // Init GlobalScreen
         self::initGlobalScreen($DIC);
@@ -1477,7 +1481,13 @@ class ilInitialisation
 
             return new \ILIAS\Refinery\Factory($dataFactory, $language);
         };
+    }
 
+    /**
+     * @param Container $container
+     */
+    protected static function replaceSuperGlobals(\ILIAS\DI\Container $container) : void
+    {
         $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET);
         $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST);
         $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE);
@@ -1638,7 +1648,7 @@ class ilInitialisation
 
         $requestBaseClass = strtolower((string) ($_REQUEST['baseClass'] ?? ''));
         if ($requestBaseClass == strtolower(ilStartUpGUI::class)) {
-            $requestCmdClass = strtolower((string) ($_REQUEST['cmdClass']) ?? '');
+            $requestCmdClass = strtolower((string) ($_REQUEST['cmdClass'] ?? ''));
             if (
                 $requestCmdClass == strtolower(ilAccountRegistrationGUI::class) ||
                 $requestCmdClass == strtolower(ilPasswordAssistanceGUI::class)

@@ -69,7 +69,8 @@ class ilNestedSetTree implements ilTreeImplementation
     /**
      * @inheritdoc
      */
-    public function getTrashSubTreeQuery($a_node, $a_types, $a_force_join_reference = true, $a_fields = [])
+    public function getTrashSubTreeQuery(
+        array $a_node, array $a_types, bool $a_force_join_reference = true, array $a_fields = []) : string
     {
         $type_str = '';
         if (is_array($a_types)) {
@@ -106,14 +107,13 @@ class ilNestedSetTree implements ilTreeImplementation
 
     /**
      * Get subtree
-     * @param type $a_node
-     * @param string $a_types
-     * @param bool $a_force_join_reference
-     * @param array $a_fields
-     *
+     * @param array      $a_node
+     * @param mixed|null $a_types
+     * @param bool       $a_force_join_reference
+     * @param array      $a_fields
      * @return string query
      */
-    public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array())
+    public function getSubTreeQuery(array $a_node, mixed $a_types = null, bool $a_force_join_reference = true, array $a_fields = array()):string
     {
         $type_str = '';
         if (is_array($a_types)) {
@@ -151,12 +151,9 @@ class ilNestedSetTree implements ilTreeImplementation
     
 
     /**
-     * Get relation
-     * @param type $a_node_a
-     * @param type $a_node_b
-     * @return int
+     * @inheritdoc
      */
-    public function getRelation($a_node_a, $a_node_b)
+    public function getRelation(array $a_node_a, array $a_node_b) : int
     {
         if ($a_node_a['child'] == $a_node_b['child']) {
             return ilTree::RELATION_EQUALS;
@@ -181,20 +178,15 @@ class ilNestedSetTree implements ilTreeImplementation
      * @param int $a_startnode
      * @return int[]
      */
-    public function getPathIds($a_endnode, $a_startnode = 0)
+    public function getPathIds(int $a_endnode, int $a_startnode = 0) : array
     {
         return $this->getPathIdsUsingAdjacencyMap($a_endnode, $a_startnode);
     }
     
     /**
-     * Insert tree node
-     * @param type $a_node_id
-     * @param type $a_parent_id
-     * @param type $a_pos
-     *
-     * @throws ilInvalidTreeStructureException
+     * @inheritdoc
      */
-    public function insertNode($a_node_id, $a_parent_id, $a_pos)
+    public function insertNode(int $a_node_id, int $a_parent_id, int $a_pos) : void
     {
         $insert_node_callable = function (ilDBInterface $db) use ($a_node_id, $a_parent_id, $a_pos) {
             switch ($a_pos) {
@@ -476,11 +468,9 @@ class ilNestedSetTree implements ilTreeImplementation
 
 
     /**
-     * Delete a subtree
-     * @param int $a_node_id
-     * @return bool
+     * @inheritdoc
      */
-    public function deleteTree($a_node_id)
+    public function deleteTree(int $a_node_id) : void
     {
         $delete_tree_callable = function (ilDBInterface $db) use ($a_node_id) {
 
@@ -552,19 +542,12 @@ class ilNestedSetTree implements ilTreeImplementation
         } else {
             $delete_tree_callable($this->db);
         }
-
-        return true;
     }
     
     /**
-     * Move to trash
-     * @param int $a_node_id
-     * @return bool
-     *
-     * @todo lock table
-     * locktable already active due to calling method
+     * @inheritdoc
      */
-    public function moveToTrash($a_node_id)
+    public function moveToTrash(int $a_node_id) : void
     {
         $move_to_trash_callable = function (ilDBInterface $db) use ($a_node_id) {
             $node = $this->getTree()->getNodeTreeData($a_node_id);
@@ -587,8 +570,6 @@ class ilNestedSetTree implements ilTreeImplementation
         } else {
             $move_to_trash_callable($this->db);
         }
-
-        return true;
     }
 
 
@@ -781,14 +762,9 @@ class ilNestedSetTree implements ilTreeImplementation
     
     
     /**
-     * Move source subtree to target
-     * @param type $a_source_id
-     * @param type $a_target_id
-     * @param type $a_position
-     *
-     * @throws InvalidArgumentException
+     * @inheritdoc
      */
-    public function moveTree($a_source_id, $a_target_id, $a_position)
+    public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void
     {
         $move_tree_callable = function (ilDBInterface $db) use ($a_source_id, $a_target_id, $a_position) {
             // Receive node infos for source and target
@@ -932,11 +908,11 @@ class ilNestedSetTree implements ilTreeImplementation
     
     /**
      * Get rbac subtree info
-     * @global type $this->db
-     * @param type $a_endnode_id
+     * @param int $a_endnode_id
      * @return array
+     * @global type $this- >db
      */
-    public function getSubtreeInfo($a_endnode_id)
+    public function getSubtreeInfo(int $a_endnode_id): array
     {
         $query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, type " .
             "FROM " . $this->getTree()->getTreeTable() . " t1 " .
@@ -959,9 +935,9 @@ class ilNestedSetTree implements ilTreeImplementation
         }
         return (array) $nodes;
     }
-    
+
     /**
-     *
+     * @inheritdoc
      */
     public function validateParentRelations() : array
     {

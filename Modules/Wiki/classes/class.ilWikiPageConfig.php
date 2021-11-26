@@ -1,17 +1,25 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Wiki page configuration
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilWikiPageConfig extends ilPageConfig
 {
-    /**
-     * Init
-     */
     public function init() : void
     {
         $this->setEnablePCType("Map", true);
@@ -30,10 +38,8 @@ class ilWikiPageConfig extends ilPageConfig
     
     /**
      * Object specific configuration
-     *
-     * @param int $a_obj_id object id
      */
-    public function configureByObjectId($a_obj_id)
+    public function configureByObjectId(int $a_obj_id) : void
     {
         if ($a_obj_id > 0) {
             $this->setEnablePageToc(ilObjWiki::_lookupPageToc($a_obj_id));

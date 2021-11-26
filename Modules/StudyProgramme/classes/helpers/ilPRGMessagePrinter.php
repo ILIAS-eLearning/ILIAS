@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * Util around ilPRGMessageCollection
@@ -6,22 +6,18 @@
  */
 class ilPRGMessagePrinter
 {
-    /**
-     * @var ilPRGMessageCollection
-     */
-    protected $collection;
-    
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilPRGMessageCollection $collection;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
 
     public function __construct(
         ilPRGMessageCollection $collection,
-        ilLanguage $lng
+        ilLanguage $lng,
+        ilGlobalTemplateInterface $tpl
     ) {
         $this->collection = $collection;
         $this->lng = $lng;
+        $this->tpl = $tpl;
     }
 
     public function getMessageCollection(string $topic) : ilPRGMessageCollection
@@ -29,14 +25,14 @@ class ilPRGMessagePrinter
         return $this->collection->withNewTopic($topic);
     }
 
-    public function showMessages(ilPRGMessageCollection $msg)
+    public function showMessages(ilPRGMessageCollection $msg) : void
     {
         if ($msg->hasSuccess()) {
             $out = sprintf(
                 $this->lng->txt($msg->getDescription()),
                 count($msg->getSuccess())
             );
-            \ilUtil::sendSuccess($out, true);
+            $this->tpl->setOnScreenMessage("success", $out, true);
         }
 
         if ($msg->hasErrors()) {
@@ -51,8 +47,8 @@ class ilPRGMessagePrinter
                 count($errmsg)
             )
             . '<ul>' . implode('', $errmsg) . '</ul>';
-            
-            ilUtil::sendInfo($out, true);
+
+            $this->tpl->setOnScreenMessage("success", $out, true);
         }
     }
 }

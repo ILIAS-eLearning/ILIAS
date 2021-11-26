@@ -357,9 +357,9 @@ class ilTable2GUI extends ilTableGUI
      * @param	string	column name
      * @return	boolean
      */
-    public function isColumnSelected($a_col)
+    public function isColumnSelected(string $col) : bool
     {
-        return $this->selected_column[$a_col];
+        return $this->selected_column[$col] ?? false;
     }
 
     /**
@@ -1660,7 +1660,7 @@ class ilTable2GUI extends ilTableGUI
 
         $this->prepareOutput();
 
-        if (is_object($ilCtrl) && $this->getId() == "") {
+        if (is_object($ilCtrl) && is_object($this->getParentObject()) && $this->getId() == "") {
             $ilCtrl->saveParameter($this->getParentObject(), $this->getNavParameter());
         }
 

@@ -77,12 +77,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
     }
 
     /**
-     * Get relation of two nodes
-     * @param type $a_node_a
-     * @param type $a_node_b
-     * @return int
+     * @inheritdoc
      */
-    public function getRelation($a_node_a, $a_node_b)
+    public function getRelation(array $a_node_a, array $a_node_b) : int
     {
         if ($a_node_a['child'] == $a_node_b['child']) {
             ilLoggerFactory::getLogger('tree')->debug('EQUALS');
@@ -113,7 +110,8 @@ class ilMaterializedPathTree implements ilTreeImplementation
     /**
      * @inheritdoc
      */
-    public function getTrashSubTreeQuery($a_node, $a_types, $a_force_join_reference = true, $a_fields = [])
+    public function getTrashSubTreeQuery(
+        array $a_node, array $a_types, bool $a_force_join_reference = true, array $a_fields = []) : string
     {
         global $DIC;
 
@@ -156,14 +154,13 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
     /**
      * Get subtree query
-     * @param type $a_node
-     * @param string $a_types
-     * @param bool $a_force_join_reference
-     * @param array $a_fields
-     *
+     * @param array      $a_node
+     * @param mixed|null $a_types
+     * @param bool       $a_force_join_reference
+     * @param array      $a_fields
      * @return string query
      */
-    public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array())
+    public function getSubTreeQuery(array $a_node, mixed $a_types = null, bool $a_force_join_reference = true, array $a_fields = array()):string
     {
         global $DIC;
 
@@ -205,12 +202,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
     }
     
     /**
-     * Get path ids
-     * @param int $a_endnode
-     * @param int $a_startnode
-     * @return array
+     * @inheritdoc
      */
-    public function getPathIds($a_endnode, $a_startnode = 0)
+    public function getPathIds(int $a_endnode, int $a_startnode = 0) : array
     {
         global $DIC;
 
@@ -226,7 +220,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $path = $row['path'];
         }
 
-        $pathIds = explode('.', $path);
+        $pathIds = array_map('intval', explode('.', $path));
 
         if ($a_startnode != 0) {
             while (count($pathIds) > 0 && $pathIds[0] != $a_startnode) {
@@ -237,14 +231,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
     }
     
     /**
-     * Insert new node under parent node
-     * @param int $a_node_id
-     * @param int $a_parent_id
-     * @param int $a_pos
-     *
-     * @throws ilInvalidTreeStructureException
+     * @inheritdoc
      */
-    public function insertNode($a_node_id, $a_parent_id, $a_pos)
+    public function insertNode(int $a_node_id, int $a_parent_id, int $a_pos) : void
     {
         global $DIC;
 
@@ -306,12 +295,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
     
 
     /**
-     * Delete a subtree
-     * @param int $a_node_id
-     *
-     * @return bool
+     * @inheritdoc
      */
-    public function deleteTree($a_node_id)
+    public function deleteTree(int $a_node_id) : void
     {
         global $DIC;
 
@@ -341,17 +327,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
         } else {
             $delete_tree_callable($ilDB);
         }
-
-        return true;
     }
     
     /**
-     * Move subtree to trash
-     * @param type $a_node_id
-     *
-     * @return bool
+     * @inheritdoc
      */
-    public function moveToTrash($a_node_id)
+    public function moveToTrash(int $a_node_id) : void
     {
         global $DIC;
 
@@ -384,20 +365,12 @@ class ilMaterializedPathTree implements ilTreeImplementation
         } else {
             $move_to_trash_callable($ilDB);
         }
-
-        return true;
     }
     
     /**
-     * move source subtree to target node
-     * @param int $a_source_id
-     * @param int $a_target_id
-     * @param int $a_position
-     * @return bool
-     *
-     * @throws InvalidArgumentException
+     * @inheritdoc
      */
-    public function moveTree($a_source_id, $a_target_id, $a_position)
+    public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void
     {
         global $DIC;
 
@@ -488,8 +461,6 @@ class ilMaterializedPathTree implements ilTreeImplementation
         } else {
             $move_tree_callable($ilDB);
         }
-
-        return true;
     }
     
     
@@ -537,7 +508,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      * @param int $a_endnode_id
      * @return array
      */
-    public function getSubtreeInfo($a_endnode_id)
+    public function getSubtreeInfo(int $a_endnode_id) : array
     {
         global $DIC;
 
@@ -611,8 +582,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
     }
 
     /**
-     * Validaate parent relations
-     * @return int[] array of failure nodes
+     * @inheritdoc
      */
     public function validateParentRelations() : array
     {

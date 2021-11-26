@@ -34,7 +34,7 @@ class MySetupAgent extends Setup\Agent\NullAgent
 ```
 
 Your actual updates of the database go into another file, which implements the
-`ilDatabaseUpdateSteps` interfac. The name SHOULD always start with `il$COMPONENT`
+`ilDatabaseUpdateSteps` interface. The name SHOULD always start with `il$COMPONENT`
 and end with `Steps`. You will want to put something descriptive in between, e.g.
 `ilMyComponentSettingsTableSteps`. The file SHOULD always be put into the same folder
 as the agent. You MAY put your steps in a `Steps` folder in the `Setup`-folder, if
@@ -64,16 +64,16 @@ class MySetupAgent extends Setup\Agent\NullAgent
 {
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new ilDatabaseUpdateStepsExecutedObjective(new MyDBUpdateSteps());
+        return new ilDatabaseUpdateStepsExecutedObjective(new ilMyDBUpdateSteps());
     }
 }
 ``` 
 
-In the MyDBUpdateSteps you can add your consecutive steps by adding methods according
+In the ilMyDBUpdateSteps you can add your consecutive steps by adding methods according
 to this schema:
 
 ```php
-class MyDBUpdateSteps implements ilDatabaseUpdateSteps
+class ilMyDBUpdateSteps implements ilDatabaseUpdateSteps
 {
     protected \ilDBInterface $db;
 
@@ -102,7 +102,7 @@ A few words of warning:
 
 * Make sure to understand, that this mechanism really is about schema updates.
 Do not perform other kinds of updates (e.g. the migrations, creating files, ...)
-with this. There is a more general mechanism (the [`Objectives`](src/Setup/README.md#on-objective)
+with this. There is a more general mechanism (the [`Objectives`](src/Setup/README.md#on-objective))
 to do this.
 * Only use the provided `\ilDBInterface` in the methods. Do not use other things from
 the environment or the globals, they might not be there if you need them.
@@ -202,5 +202,5 @@ environment. Via `getPreconditions`, the migration can announce which other
 `Objective`s need to be achieved first to fill the environment with the required
 ressources. With `getRemainingAmountOfSteps` you can tell the setup, how many steps
 still need to be performed to finish the migration. When the administrator requests
-migration steps to be performed, the `step`s method will be called to perform the
+migration steps to be performed, the `step` method will be called to perform the
 single steps.

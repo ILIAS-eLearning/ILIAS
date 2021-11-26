@@ -1,50 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
- *
- * @author Stefan Meyer <meyer@leifos.com>
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesTree
- *
  */
 class ilTreeTrashItem
 {
-    /**
-     * @var int
-     */
-    private $deleted_by;
+    private int $deleted_by = 0;
 
-    /**
-     * @var string
-     */
-    private $deleted;
+    private ?string $deleted = null;
 
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type = '';
 
-    /**
-     * @var string
-     */
-    private $description;
+    private ?string $description = '';
 
-    /**
-     * @var string
-     */
-    private $title;
+    private string $title = '';
 
-    /**
-     * @var int
-     */
-    private $ref_id;
+    private int $ref_id = 0;
 
-    /**
-     * @var int
-     */
-    private $obj_id;
+    private int $obj_id = 0;
 
     /**
      * ilTreeTrashItem constructor.
@@ -53,11 +29,7 @@ class ilTreeTrashItem
     {
     }
 
-
-    /**
-     * @param int $obj_id
-     */
-    public function setObjId(int $obj_id)
+    public function setObjId(int $obj_id) : void
     {
         $this->obj_id = $obj_id;
     }
@@ -67,100 +39,61 @@ class ilTreeTrashItem
         return $this->obj_id;
     }
 
-    /**
-     * @param int $ref_id
-     */
-    public function setRefId(int $ref_id)
+    public function setRefId(int $ref_id) : void
     {
         $this->ref_id = $ref_id;
     }
 
-    /**
-     * @return int
-     */
     public function getRefId() : int
     {
         return $this->ref_id;
     }
 
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title)
+    public function setTitle(string $title) : void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return string
-     */
     public function getTitle() : string
     {
         return $this->title;
     }
 
-
-    /**
-     * @param string $description
-     */
-    public function setDescription(?string $description)
+    public function setDescription(?string $description) : void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription() : ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param $type
-     */
-    public function setType($type)
+    public function setType(string $type) : void
     {
         $this->type = $type;
     }
 
-    /**
-     * @return string
-     */
     public function getType() : string
     {
         return $this->type;
     }
 
-    /**
-     * @param string $deleted
-     */
-    public function setDeleted(?string $deleted)
+    public function setDeleted(?string $deleted) : void
     {
         $this->deleted = $deleted;
     }
 
-    /**
-     * @return string
-     */
     public function getDeleted() : ?string
     {
         return $this->deleted;
     }
 
-
-    /**
-     * @param int $deleted_by
-     */
-    public function setDeletedBy(int $deleted_by)
+    public function setDeletedBy(int $deleted_by) : void
     {
         $this->deleted_by = $deleted_by;
     }
 
-    /**
-     * @return int
-     */
     public function getDeletedBy() : int
     {
         return $this->deleted_by;

@@ -17,8 +17,7 @@ if (!file_exists(getcwd() . '/ilias.ini.php')) {
 require_once("Services/Init/classes/class.ilInitialisation.php");
 ilInitialisation::initILIAS();
 
-$ilCtrl->initBaseClass('ilStartUpGUI');
 $ilCtrl->setCmd('confirmRegistration');
-$ilCtrl->callBaseClass();
+$ilCtrl->callBaseClass('ilStartUpGUI');
 
 exit();

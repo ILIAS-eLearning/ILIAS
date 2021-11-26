@@ -70,7 +70,7 @@ class ilAdvancedMDRecordTranslations
     /**
      * @return string
      */
-    public function getDefaultLanguage() : string
+    public function getDefaultLanguage() :string
     {
         return $this->default_language;
     }
@@ -96,13 +96,13 @@ class ilAdvancedMDRecordTranslations
      * @param string $lang_key
      * @return ilAdvancedMDRecordTranslation|null
      */
-    public function getTranslation(string $lang_key) : ? ilAdvancedMDRecordTranslation
+    public function getTranslation(string $lang_key) :? ilAdvancedMDRecordTranslation
     {
         if (!$this->isConfigured($lang_key)) {
             return null;
         }
         return $this->translations[$lang_key];
-    }
+   }
 
     /**
      * @return ilAdvancedMDRecordTranslation[]
@@ -123,6 +123,14 @@ class ilAdvancedMDRecordTranslations
             }
         }
         return null;
+    }
+
+    public function cloneRecord(int $new_record_id)
+    {
+        foreach ($this->getTranslations() as $recordTranslation) {
+            $recordTranslation->setRecordId($new_record_id);
+            $recordTranslation->insert();
+        }
     }
 
     private function read()
@@ -183,7 +191,7 @@ class ilAdvancedMDRecordTranslations
             return '';
         }
         $txt = '';
-        $txt = $this->lng->txt('md_adv_int_current') . ' ' . $this->lng->txt('meta_l_' . $active_language);
+        $txt = $this->lng->txt('md_adv_int_current'). ' ' . $this->lng->txt('meta_l_' . $active_language);
         $txt .= ', ';
         foreach ($this->translations as $translation) {
             if ($translation->getLangKey() == $this->default_language) {

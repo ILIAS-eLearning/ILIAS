@@ -1,12 +1,14 @@
-<?php
-
-declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 use GuzzleHttp\Psr7\ServerRequest;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use ILIAS\UI\Component\MessageBox;
 use ILIAS\UI\Component\Button;
+use ILIAS\UI\Component\Modal\RoundTrip;
+use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Dropdown;
+use ILIAS\UI\Component\Link;
 
 /**
  * Class ilObjStudyProgrammeAutoMembershipsGUI
@@ -35,59 +37,24 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     const CMD_DISABLE = 'disable';
     const CMD_PROFILE_NOT_PUBLIC = 'profile_not_public';
 
-    private static $switch_to_ref_id = [
+    private static array $switch_to_ref_id = [
         ilStudyProgrammeAutoMembershipSource::TYPE_COURSE,
         ilStudyProgrammeAutoMembershipSource::TYPE_GROUP
     ];
 
-    /**
-     * @var ilTemplate
-     */
-    public $tpl;
-    /**c
-     * @var ilCtrl
-     */
-    public $ctrl;
-    /**
-     * @var ilToolbarGUI
-     */
-    public $toolbar;
-    /**
-     * @var ilLanguage
-     */
-    public $lng;
-    /**
-     * @var int | null
-     */
-    public $prg_ref_id;
-    /**
-     * @var ilObjStudyProgramme | null
-     */
-    public $object;
-    /**
-     * @var ILIAS\UI\Factory
-     */
-    public $ui_factory;
-    /**
-     * @var MessageBox\Factory
-     */
-    protected $message_box_factory;
-    /**
-     * @var Button\Factory
-     */
-    protected $button_factory;
-    /**
-     * @var ILIAS\UI\Renderer
-     */
-    public $ui_renderer;
-    /**
-     * @var Psr\Http\Message\ServerRequestInterface
-     */
-    protected $request;
-    /**
-     * @var ilTree
-     */
-    protected $tree;
+    public ilGlobalTemplateInterface $tpl;
+    public ilCtrl $ctrl;
+    public ilToolbarGUI $toolbar;
+    public ilLanguage $lng;
+    public ?int $prg_ref_id;
+    public ?ilObjStudyProgramme $object = null;
+    public ILIAS\UI\Factory $ui_factory;
+    protected MessageBox\Factory $message_box_factory;
+    protected Button\Factory $button_factory;
+    public ILIAS\UI\Renderer $ui_renderer;
+    protected Psr\Http\Message\ServerRequestInterface $request;
+    protected ilTree $tree;
+    protected ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper;
 
     public function __construct(
         ilGlobalTemplateInterface $tpl,
@@ -99,7 +66,9 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         Button\Factory $button_factory,
         Renderer $ui_renderer,
         ServerRequest $request,
-        ilTree $tree
+        ilTree $tree,
+        ILIAS\HTTP\Wrapper\RequestWrapper $request_wrapper,
+        ILIAS\Refinery\Factory $refinery
     ) {
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
@@ -111,13 +80,15 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $this->ui_renderer = $ui_renderer;
         $this->request = $request;
         $this->tree = $tree;
+        $this->request_wrapper = $request_wrapper;
+        $this->refinery = $refinery;
 
         // Add this js manually here because the modal contains a form that is
         // loaded asynchronously later on, and this JS won't be pulled then for
         // some reason.
         $tpl->addJavaScript("Services/Form/js/Form.js");
     }
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         switch ($cmd) {
@@ -138,28 +109,26 @@ class ilObjStudyProgrammeAutoMembershipsGUI
                 $this->view(true);
                 break;
             default:
-                throw new ilException(
-                    "ilObjStudyProgrammeAutoMembershipsGUI: " .
-                    "Command not supported: $cmd"
-                );
+                throw new ilException("ilObjStudyProgrammeAutoMembershipsGUI: Command not supported: $cmd");
         }
     }
 
-    protected function nextStep()
+    protected function nextStep() : void
     {
         $current_src_type = null;
-        if (
-            array_key_exists(self::F_ORIGINAL_SOURCE_TYPE, $_GET) &&
-            !is_null($_GET[self::F_ORIGINAL_SOURCE_TYPE])
-        ) {
-            $current_src_type = $_GET[self::F_ORIGINAL_SOURCE_TYPE];
+        if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_TYPE)) {
+            $current_src_type = $this->request_wrapper->retrieve(
+                self::F_ORIGINAL_SOURCE_TYPE,
+                $this->refinery->to()->string()
+            );
         }
+
         $current_src_id = null;
-        if (
-            array_key_exists(self::F_ORIGINAL_SOURCE_ID, $_GET) &&
-            !is_null($_GET[self::F_ORIGINAL_SOURCE_ID])
-        ) {
-            $current_src_id = (int) $_GET[self::F_ORIGINAL_SOURCE_ID];
+        if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_ID)) {
+            $current_src_id = $this->request_wrapper->retrieve(
+                self::F_ORIGINAL_SOURCE_ID,
+                $this->refinery->to()->int()
+            );
         }
 
         $selected_src_type = $_GET[self::F_SOURCE_TYPE];
@@ -180,7 +149,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         $submit = $this->ui_factory->button()->primary($this->txt('add'), "#")->withOnLoadCode(
             function ($id) use ($form_id) {
-                return "$('#{$id}').click(function() { $('#{$form_id}').submit(); return false; });";
+                return "$('#$id').click(function() { $('#$form_id').submit(); return false; });";
             }
         );
 
@@ -193,10 +162,10 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Render.
      */
-    protected function view(bool $profile_not_public = false)
+    protected function view(bool $profile_not_public = false) : void
     {
         if ($profile_not_public) {
-            ilUtil::sendInfo($this->lng->txt('prg_profile_not_public'));
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt('prg_profile_not_public'));
         }
         $collected_modals = [];
         $modal = $this->getModal();
@@ -231,13 +200,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         );
     }
 
-    protected function save()
+    protected function save() : void
     {
         $form = $this->getForm();
         $form->checkInput();
-        $form->setValuesByPost();
 
         $post = $this->request->getParsedBody();
+        $form->setValuesByArray($post);
         $src_type = $post[self::F_SOURCE_TYPE];
         $src_id = $post[self::F_SOURCE_ID . $src_type];
 
@@ -245,15 +214,14 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             (is_null($src_type) || $src_type == "") ||
             (is_null($src_id) || $src_id == 0)
         ) {
-            ilUtil::sendFailure($this->txt('no_srctype_or_id'), true);
+            $this->tpl->setOnScreenMessage("failure", $this->txt('no_srctype_or_id'), true);
             $this->ctrl->redirect($this, self::CMD_VIEW);
             return;
         }
 
         if (in_array($src_type, self::$switch_to_ref_id)) {
-            $src_id = (int) array_shift(
-                ilObject::_getAllReferences($src_id)
-            );
+            $refs = ilObject::_getAllReferences((int) $src_id);
+            $src_id = (int) array_shift($refs);
         }
 
         if (
@@ -267,11 +235,11 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         }
 
         $this->getObject()->storeAutomaticMembershipSource($src_type, (int) $src_id);
-        ilUtil::sendSuccess($this->txt("auto_add_success"), true);
+        $this->tpl->setOnScreenMessage("success", $this->txt("auto_add_success"), true);
         $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
-    protected function deleteConfirmation()
+    protected function deleteConfirmation() : void
     {
         $get = $this->request->getQueryParams();
         $post = $this->request->getParsedBody();
@@ -280,6 +248,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $field_ids_in_get = array_key_exists($field, $get);
         $field_ids_in_post = array_key_exists($field, $post);
 
+        $type_ids = '';
+        $msg = '';
         if ($field_ids_in_get) {
             $type_ids = $get[$field];
             $msg = $this->lng->txt('prg_delete_single_confirmation');
@@ -287,7 +257,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             $type_ids = implode(' ', $post[$field]);
             $msg = $this->lng->txt('prg_delete_confirmation');
         } else {
-            ilUtil::sendInfo($this->lng->txt('prg_delete_nothing_selected'), true);
+            $this->tpl->setOnScreenMessage("info", $this->lng->txt('prg_delete_nothing_selected'), true);
             $this->ctrl->redirect($this, self::CMD_VIEW);
         }
 
@@ -308,13 +278,13 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $this->tpl->setContent($this->ui_renderer->render($message_box));
     }
 
-    protected function delete()
+    protected function delete() : void
     {
         $field = self::CHECKBOX_SOURCE_IDS;
         $get = $this->request->getQueryParams();
 
         if (!array_key_exists($field, $get)) {
-            ilUtil::sendFailure($this->lng->txt('prg_delete_failure'), true);
+            $this->tpl->setOnScreenMessage("failure", $this->lng->txt('prg_delete_failure'), true);
             $this->ctrl->redirect($this, self::CMD_VIEW);
         }
 
@@ -331,14 +301,14 @@ class ilObjStudyProgrammeAutoMembershipsGUI
             $msg = $this->lng->txt('prg_delete_success');
         }
 
-        ilUtil::sendSuccess($msg, true);
+        $this->tpl->setOnScreenMessage("success", $msg, true);
         $this->ctrl->redirect($this, self::CMD_VIEW);
     }
 
     /**
      * Enable single entry.
      */
-    protected function enable()
+    protected function enable() : void
     {
         $get = $this->request->getQueryParams();
         $field = self::CHECKBOX_SOURCE_IDS;
@@ -352,7 +322,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     /**
      * Disable single entry.
      */
-    protected function disable()
+    protected function disable() : void
     {
         $get = $this->request->getQueryParams();
         $field = self::CHECKBOX_SOURCE_IDS;
@@ -365,71 +335,64 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
     /**
      * Set ref-id of StudyProgramme before using this GUI.
-     * @param int $prg_ref_id
      */
-    public function setRefId(int $prg_ref_id)
+    public function setRefId(int $prg_ref_id) : void
     {
         $this->prg_ref_id = $prg_ref_id;
     }
+
     /**
      * Set this GUI's parent gui.
-     * @param ilContainerGUI $a_parent_gui
      */
-    public function setParentGUI(ilContainerGUI $a_parent_gui)
+    public function setParentGUI(ilContainerGUI $a_parent_gui) : void
     {
         $this->parent_gui = $a_parent_gui;
     }
 
     /**
      * Get current StudyProgramme-object.
-     * @return ilObjStudyProgramme
      */
-    protected function getObject()
+    protected function getObject() : ilObjStudyProgramme
     {
         if ($this->object === null ||
-            (int) $this->object->getRefId() !== $this->prg_ref_id
+            $this->object->getRefId() !== $this->prg_ref_id
         ) {
             $this->object = ilObjStudyProgramme::getInstanceByRefId($this->prg_ref_id);
         }
         return $this->object;
     }
 
-    protected function getModal(
-        string $source_type = null,
-        int $source_id = null
-    ) {
+    protected function getModal(string $source_type = null, int $source_id = null) : RoundTrip
+    {
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, $source_type);
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, $source_id);
         $link = $this->ctrl->getLinkTarget($this, "getAsynchModalOutput", "", true);
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_TYPE, null);
         $this->ctrl->setParameter($this, self::F_ORIGINAL_SOURCE_ID, null);
 
-        $modal = $this->ui_factory->modal()->roundtrip(
+        return $this->ui_factory->modal()->roundtrip(
             '',
             []
         )->withAsyncRenderUrl(
             $link
         );
-
-        return $modal;
     }
 
-    protected function getAsynchModalOutput()
+    protected function getAsynchModalOutput() : void
     {
         $current_src_type = null;
-        if (
-            array_key_exists(self::F_ORIGINAL_SOURCE_TYPE, $_GET) &&
-            !is_null($_GET[self::F_ORIGINAL_SOURCE_TYPE])
-        ) {
-            $current_src_type = $_GET[self::F_ORIGINAL_SOURCE_TYPE];
+        if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_TYPE)) {
+            $current_src_type = $this->request_wrapper->retrieve(
+                self::F_ORIGINAL_SOURCE_TYPE,
+                $this->refinery->to()->string()
+            );
         }
+
         $current_src_id = null;
-        if (
-            array_key_exists(self::F_ORIGINAL_SOURCE_ID, $_GET) &&
-            !is_null($_GET[self::F_ORIGINAL_SOURCE_ID])
-        ) {
-            $current_src_id = (int) $_GET[self::F_ORIGINAL_SOURCE_ID];
+        if ($this->request_wrapper->has(self::F_ORIGINAL_SOURCE_ID)) {
+            $current_src_id = $this->request_wrapper->retrieve(self::F_ORIGINAL_SOURCE_ID, $this->refinery->to()->int());
         }
+
         $form = $this->getForm($current_src_type, $current_src_id);
         $form_id = "form_" . $form->getId();
 
@@ -451,24 +414,24 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $submit = $this->ui_factory->button()->primary($this->txt('search'), "#")->withOnLoadCode(
             function ($id) use ($form_id, $link, $signal_id, $f_selected_type, $f_selected_id) {
                 return
-                    "$('#{$id}').click(function() { 
-						var checked = $(\"input[name='{$f_selected_type}']:checked\"). val();
+                    "$('#$id').click(function() { 
+						var checked = $(\"input[name='$f_selected_type']:checked\"). val();
 						if(checked == 'orgu' || typeof(checked) == \"undefined\") {
-							$('#{$form_id}').submit();
+							$('#$form_id').submit();
 							return false;
 						}
 						
-						var i_value = $(\"input[name='{$f_selected_id}\" + checked + \"']\"). val();
+						var i_value = $(\"input[name='$f_selected_id\" + checked + \"']\"). val();
 						if(i_value == '' || typeof(i_value) == \"undefined\") {
-							$('#{$form_id}').submit();
+							$('#$form_id').submit();
 							return false;
 						}
 						
-						n_url = '{$link}' + '&{$f_selected_type}=' + checked + '&{$f_selected_id}=' + i_value;
-						$('#{$id}').attr(\"onclick\", function(event) {
-							$(this).trigger('{$signal_id}',
+						n_url = '$link' + '&$f_selected_type=' + checked + '&$f_selected_id=' + i_value;
+						$('#$id').attr(\"onclick\", function(event) {
+							$(this).trigger('$signal_id',
 								{
-									'id' : '{$signal_id}', 'event' : 'click',
+									'id' : '$signal_id', 'event' : 'click',
 									'triggerer' : $(this),
 									'options' : JSON.parse('{\"url\":\"' + n_url + '\"}')
 								}
@@ -487,10 +450,8 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         exit;
     }
 
-    protected function getForm(
-        string $source_type = null,
-        int $source_id = null
-    ) : ilPropertyFormGUI {
+    protected function getForm(string $source_type = null, int $source_id = null) : ilPropertyFormGUI
+    {
         $form = new ilPropertyFormGUI();
 
         if (is_null($source_type)) {
@@ -499,7 +460,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         if (is_null($source_id)) {
             $source_id = "";
         }
-        $form->setId(uniqid((string) $source_type . (string) $source_id));
+        $form->setId(uniqid($source_type . $source_id));
         $form->setFormAction($this->ctrl->getFormAction($this, 'save'));
 
         $rgroup = new ilRadioGroupInputGUI($this->txt('membership_source_type'), self::F_SOURCE_TYPE);
@@ -601,7 +562,6 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
 
         $query_parser = $this->parseQueryString($selected_source);
-        include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
         $object_search = new ilLikeObjectSearch($query_parser);
         $object_search->setFilter(array($selected_source_type));
         $entries = $object_search->performSearch()->getEntries();
@@ -612,7 +572,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         );
         $form->addItem($rgoup);
         foreach ($entries as $entry) {
-            $obj_id = $entry['obj_id'];
+            $obj_id = (int) $entry['obj_id'];
             $title = ilObject::_lookupTitle($obj_id);
             $description = ilObject::_lookupDescription($obj_id);
 
@@ -635,17 +595,15 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         return $form;
     }
 
-    protected function parseQueryString($a_string, $a_combination_or = true, $a_ignore_length = false)
+    /**
+     * @return ilQueryParser|string
+     */
+    protected function parseQueryString(string $string)
     {
-        $query_parser = new ilQueryParser(ilUtil::stripSlashes($a_string));
+        $query_parser = new ilQueryParser(ilUtil::stripSlashes($string));
         $query_parser->setCombination(QP_COMBINATION_AND);
         $query_parser->setMinWordLength(1);
-
-        // #17502
-        if (!(bool) $a_ignore_length) {
-            $query_parser->setGlobalMinLength(3); // #14768
-        }
-
+        $query_parser->setGlobalMinLength(3); // #14768
         $query_parser->parse();
 
         if (!$query_parser->validate()) {
@@ -654,22 +612,10 @@ class ilObjStudyProgrammeAutoMembershipsGUI
         return $query_parser;
     }
 
-    public function __storeEntries(&$new_res)
-    {
-        if ($this->stored == false) {
-            $this->result_obj->mergeEntries($new_res);
-            $this->stored = true;
-            return true;
-        } else {
-            $this->result_obj->intersectEntries($new_res);
-            return true;
-        }
-    }
-
     /**
      * Setup toolbar.
      */
-    protected function getToolbar(\ILIAS\UI\Component\Signal $add_cat_signal)
+    protected function getToolbar(Signal $add_cat_signal) : void
     {
         $btn = $this->ui_factory->button()->primary($this->txt('add_automembership_source'), '')
             ->withOnClick($add_cat_signal);
@@ -680,9 +626,9 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
     protected function getItemAction(
         string $src_id,
-        \ILIAS\UI\Component\Signal $signal,
+        Signal $signal,
         bool $is_enabled
-    ) : \ILIAS\UI\Component\Dropdown\Standard {
+    ) : Dropdown\Standard {
         $items = [];
 
         $items[] = $this->ui_factory->button()->shy($this->txt('edit'), '')
@@ -709,11 +655,10 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
         $this->ctrl->clearParameters($this);
 
-        $dd = $this->ui_factory->dropdown()->standard($items);
-        return $dd;
+        return $this->ui_factory->dropdown()->standard($items);
     }
 
-    protected function getUserRepresentation(int $usr_id) : \ILIAS\UI\Component\Link\Standard
+    protected function getUserRepresentation(int $usr_id) : Link\Standard
     {
         $username = ilObjUser::_lookupName($usr_id);
         $editor = implode(' ', [
@@ -733,11 +678,9 @@ class ilObjStudyProgrammeAutoMembershipsGUI
 
     protected function getTitleRepresentation(
         ilStudyProgrammeAutoMembershipSource $ams
-    ) : \ILIAS\UI\Component\Link\Standard {
+    ) : Link\Standard {
         $src_id = $ams->getSourceId();
 
-        $title = "";
-        $url = "";
         switch ($ams->getSourceType()) {
             case ilStudyProgrammeAutoMembershipSource::TYPE_ROLE:
                 $title = ilObjRole::_lookupTitle($src_id) ?? "-";
@@ -755,7 +698,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
                 $url = ilLink::_getStaticLink($src_id, 'grp');
                 $hops = array_map(
                     function ($c) {
-                        return ilObject::_lookupTitle($c["obj_id"]);
+                        return ilObject::_lookupTitle((int) $c["obj_id"]);
                     },
                     $this->tree->getPathFull($src_id)
                 );
@@ -775,7 +718,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
                 $url = ilLink::_getStaticLink($src_id, $ams->getSourceType());
                 break;
             default:
-                throw new \LogicException("This should not happen. Forgot a case in the switch?");
+                throw new LogicException("This should not happen. Forgot a case in the switch?");
         }
 
         return $this->ui_factory->link()->standard($title, $url);

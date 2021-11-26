@@ -32,20 +32,16 @@
 */
 class ilPathGUI
 {
-    private $startnode = ROOT_FOLDER_ID;
-    private $endnode = ROOT_FOLDER_ID;
+    private int $startnode;
+    private int $endnode;
     
-    private $textOnly = true;
-    private $useImages = false;
-    private $hide_leaf = true;
-    private $display_cut = false;
+    private bool $textOnly = true;
+    private bool $useImages = false;
+    private bool $hide_leaf = true;
+    private bool $display_cut = false;
     
-    protected $lng = null;
-
-    /**
-     * @var \ilTree
-     */
-    protected $tree = null;
+    protected ilLanguage $lng;
+    protected ilTree $tree;
     
     /**
      * Constructor
@@ -54,20 +50,20 @@ class ilPathGUI
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $lng = $DIC['lng'];
-        
-        $this->tree = $tree;
-        $this->lng = $lng;
+        $this->startnode = (int) ROOT_FOLDER_ID;
+        $this->endnode = (int) ROOT_FOLDER_ID;
+
+        $this->tree = $DIC->repositoryTree();
+        $this->lng = $DIC->language();
     }
     
     /**
      * get path
-     * @param int	$a_startnode	ref_id of startnode
-     * @param int	$a_endnode		ref_id of endnode
+     * @param int $a_startnode ref_id of startnode
+     * @param int $a_endnode   ref_id of endnode
      * @return string html
      */
-    public function getPath($a_startnode, $a_endnode)
+    public function getPath(int $a_startnode, int $a_endnode) : string
     {
         $this->startnode = $a_startnode;
         $this->endnode = $a_endnode;
@@ -78,77 +74,65 @@ class ilPathGUI
     /**
      * render path as text only
      * @param	bool $a_text_only	path as text only true/false
-     * @return
+     * @return void
      */
-    public function enableTextOnly($a_status)
+    public function enableTextOnly(bool $a_status) : void
     {
         $this->textOnly = $a_status;
     }
     
-    /**
-     * show text only
-     * @return
-     */
-    public function textOnly()
+    public function textOnly() : bool
     {
         return $this->textOnly;
     }
     
     /**
      * Hide leaf node in path
-     * @param type $a_status
      */
-    public function enableHideLeaf($a_status)
+    public function enableHideLeaf(bool $a_status) : void
     {
         $this->hide_leaf = $a_status;
     }
     
-    public function hideLeaf()
+    public function hideLeaf() : bool
     {
         return $this->hide_leaf;
     }
-    /**
-     * set use images
-     * @param	bool
-     * @return
-     */
-    public function setUseImages($a_status)
+
+    public function setUseImages(bool $a_status) : void
     {
         $this->useImages = $a_status;
     }
     
     /**
      * get use images
-     * @return
+     * @return bool
      */
-    public function getUseImages()
+    public function getUseImages() : bool
     {
         return $this->useImages;
     }
 
     /**
      * Display a cut with "..."
-     * @param $a_status bool
      */
-    public function enableDisplayCut($a_status)
+    public function enableDisplayCut(bool $a_status) : void
     {
         $this->display_cut = $a_status;
     }
 
     /**
      * Display a cut with "..."
-     * @return bool
      */
-    public function displayCut()
+    public function displayCut() : bool
     {
         return $this->display_cut;
     }
     
     /**
      * get html
-     * @return
      */
-    protected function getHTML()
+    protected function getHTML() : string
     {
         if ($this->textOnly()) {
             $tpl = new ilTemplate('tpl.locator_text_only.html', true, true, "Services/Locator");
@@ -235,31 +219,20 @@ class ilPathGUI
         }
     }
 
-    /**
-     * @param $a_obj_id
-     * @return string
-     */
-    protected function buildTitle($a_obj_id)
+    protected function buildTitle(int $a_obj_id) : string
     {
         return ilObject::_lookupTitle($a_obj_id);
     }
-    
+
     /**
-     *
-     * @param
-     * @return
+     * @return int[]
      */
-    protected function getPathIds()
+    protected function getPathIds() : array
     {
         $path = $this->tree->getPathId($this->endnode, $this->startnode);
-
-        \ilLoggerFactory::getLogger('tree')->dump($path);
-        \ilLoggerFactory::getLogger('tree')->dump($this->endnode);
-        \ilLoggerFactory::getLogger('tree')->dump($this->startnode);
-
-        if ($this->hideLeaf()) {
+        if ($this->hideLeaf() && count($path)) {
             unset($path[count($path) - 1]);
         }
-        return $path ? $path : array();
+        return $path;
     }
 }

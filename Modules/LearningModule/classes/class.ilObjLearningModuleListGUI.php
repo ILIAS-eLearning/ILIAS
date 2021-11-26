@@ -13,15 +13,20 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\LearningModule\Presentation\PresentationGUIRequest;
+
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilObjLearningModuleListGUI extends ilObjectListGUI
 {
+    protected PresentationGUIRequest $request;
     private int $child_id = 0;
 
     public function init()
     {
+        global $DIC;
+
         $this->static_link_enabled = true;
         $this->delete_enabled = true;
         $this->cut_enabled = true;
@@ -31,7 +36,14 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
         $this->info_screen_enabled = true;
         $this->type = "lm";
         $this->gui_class_name = "ilobjlearningmodulegui";
-        
+
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->presentation()
+            ->request();
+
         // general commands array
         $this->commands = ilObjLearningModuleAccess::_getCommands();
     }
@@ -87,7 +99,7 @@ class ilObjLearningModuleListGUI extends ilObjectListGUI
             default:
                 $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->ref_id);
                 $cmd_link = $ilCtrl->getLinkTargetByClass("ilrepositorygui", $a_cmd);
-                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $_GET["ref_id"]);
+                $ilCtrl->setParameterByClass("ilrepositorygui", "ref_id", $this->request->getRefId());
                 break;
         }
 

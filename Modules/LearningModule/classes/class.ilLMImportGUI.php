@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\LearningModule\Editing\EditingGUIRequest;
+
 /**
  * Import related features for learning modules
  * @author Alexander Killing <killing@leifos.de>
@@ -23,10 +25,18 @@ class ilLMImportGUI
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
     protected ilObjLearningModule $lm;
-
+    protected EditingGUIRequest $request;
     public function __construct(ilObjLearningModule $a_lm)
     {
         global $DIC;
+
+        $this->request = $DIC
+            ->learningModule()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
+
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
@@ -98,7 +108,7 @@ class ilLMImportGUI
         $imp = new ilImport();
         $conf = $imp->getConfig("Modules/LearningModule");
 
-        $target_lang = ilUtil::stripSlashes($_POST["import_lang"]);
+        $target_lang = $this->request->getImportLang();
         $ot = ilObjectTranslation::getInstance($this->lm->getId());
         if ($target_lang == $ot->getMasterLanguage() || $target_lang == "") {
             ilUtil::sendFailure($lng->txt("cont_transl_master_language_not_allowed"), true);

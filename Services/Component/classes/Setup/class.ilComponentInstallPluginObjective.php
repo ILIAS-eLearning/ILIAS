@@ -7,7 +7,7 @@ use ILIAS\Setup;
 use ILIAS\DI;
 use ILIAS\Setup\Objective\ClientIdReadObjective;
 
-class ilComponentInstallPluginObjective implements Setup\Objective
+class ilComponentInstallPluginObjective extends ilComponentAbstractPluginsObjective
 {
     /**
      * @var string
@@ -133,7 +133,6 @@ class ilComponentInstallPluginObjective implements Setup\Objective
         $GLOBALS["DIC"]["ilBench"] = null;
         $GLOBALS["DIC"]["lng"] = new ilLanguage('en');
         $GLOBALS["DIC"]["ilPluginAdmin"] = $plugin_admin;
-        $GLOBALS["DIC"]["ilCtrl"] = new ilCtrl();
         $GLOBALS["DIC"]["ilias"] = null;
         $GLOBALS["DIC"]["ilErr"] = null;
         $GLOBALS["DIC"]["tree"] = null;
@@ -148,6 +147,8 @@ class ilComponentInstallPluginObjective implements Setup\Objective
                 $this->prefs["language"] = "en";
             }
         };
+
+        $this->initCtrlService();
 
         if (!defined('DEBUG')) {
             define('DEBUG', false);

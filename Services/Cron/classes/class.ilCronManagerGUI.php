@@ -10,9 +10,10 @@ use ILIAS\UI\Renderer;
  * Class ilCronManagerGUI
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilCronManagerGUI: ilPropertyFormGUI
+ * @ilCtrl_isCalledBy ilCronManagerGUI: ilAdministrationGUI
  * @ingroup ServicesCron
  */
-class ilCronManagerGUI
+class ilCronManagerGUI // implements ilCtrlBaseClassInterface
 {
     private ilLanguage $lng;
     private ilCtrl $ctrl;
@@ -273,7 +274,7 @@ class ilCronManagerGUI
 
                 $option = new ilRadioOption(
                     $this->getScheduleTypeFormElementName($typeId),
-                    $typeId
+                    (string) $typeId
                 );
                 $type->addOption($option);
 

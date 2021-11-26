@@ -13,7 +13,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface
 {
     public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
     {
@@ -34,7 +34,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
      * Overwrites $_GET['ref_id'] with given $ref_id.
      * @param string $params
      */
-    public static function _goto($params)
+    public static function _goto($params) : void
     {
         global $DIC;
 
@@ -83,7 +83,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
     }
 
-    protected function initCreationForms($a_new_type)
+    protected function initCreationForms($a_new_type) : array
     {
         $forms = parent::initCreationForms($a_new_type);
 
@@ -94,7 +94,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         return $forms;
     }
 
-    protected function addLocatorItems()
+    protected function addLocatorItems() : void
     {
         if (is_object($this->object)) {
             $this->locator->addItem(

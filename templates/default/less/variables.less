@@ -22,9 +22,9 @@ with the il- variable set here.
 @il-danger-color: #d00;
 
 //** Neutral Color for various Backgrounds, used to be @gray-dark and @il-neutral-color
-@il-neutral-color: #161616;
+@il-neutral-color: #2c2c2c;
 //** Light version of the @il-neutral-color, used to be @gray-light
-@il-neutral-light-color: #757575;
+@il-neutral-light-color: #737373;
 
 //** Base Border Color, e.g. applied to Meta Bar and Breadcrumbs in Default.
 @il-main-border-color: #dddddd;
@@ -42,11 +42,11 @@ with the il- variable set here.
 @il-highlight-bg: lighten(@il-main-color, 50%);
 
 //** Used to be @text-color. Can be used on all background colors.
-@il-text-color: @il-neutral-color;
+@il-text-color: #161616;
 //** Used if text is hovered in components such a Dropdowns
 @il-text-hover-color: darken(@il-text-color, 10%);
 //** Used e.g. for Bylines in Forms. Used to be @il-light-text-color. For accessibility reasons, the @il-text-color should only be used on the @il-main-bg.
-@il-text-light-color: @il-neutral-light-color;
+@il-text-light-color: lighten(@il-text-color, 40%);
 
 //** Used to be @link-color
 @il-link-color: @il-main-color;

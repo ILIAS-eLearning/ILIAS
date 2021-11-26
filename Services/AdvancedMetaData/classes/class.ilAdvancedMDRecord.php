@@ -466,7 +466,7 @@ class ilAdvancedMDRecord
         $this->language_default = $language_code;
     }
 
-    public function getDefaultLanguage() : string
+    public function getDefaultLanguage() :string
     {
         return (string) $this->language_default;
     }
@@ -1012,7 +1012,7 @@ class ilAdvancedMDRecord
             $r = "SELECT * FROM adv_md_obj_rec_select " .
             " WHERE obj_id = " . $ilDB->quote($a_obj_id, "integer") .
             " AND sub_type = " . $ilDB->quote($a_sub_type, "text")
-        );
+            );
         while ($rec = $ilDB->fetchAssoc($set)) {
             $recs[] = $rec["rec_id"];
         }
@@ -1036,6 +1036,7 @@ class ilAdvancedMDRecord
             ? $a_parent_obj_id
             : $this->getParentObject());
         $new_obj->setAssignedObjectTypes($this->getAssignedObjectTypes());
+        $new_obj->setDefaultLanguage($this->getDefaultLanguage());
         $new_obj->save();
         
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
@@ -1043,6 +1044,9 @@ class ilAdvancedMDRecord
             $new_def = $definition->_clone($new_obj->getRecordId());
             $a_fields_map[$definition->getFieldId()] = $new_def->getFieldId();
         }
+
+        $record_translation = ilAdvancedMDRecordTranslations::getInstanceByRecordId($this->getRecordId());
+        $record_translation->cloneRecord($new_obj->getRecordId());
 
         return $new_obj;
     }

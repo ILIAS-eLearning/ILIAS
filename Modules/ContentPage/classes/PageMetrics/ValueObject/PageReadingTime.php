@@ -10,7 +10,7 @@ use ilException;
  * @package ILIAS\ContentPage\PageMetrics\ValueObject
  * @author Michael Jansen <mjansen@databay.de>
  */
-final class PageReadingTime
+class PageReadingTime
 {
     private int $minutes;
 

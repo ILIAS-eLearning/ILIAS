@@ -24,7 +24,7 @@ class ilPCQuestion extends ilPageContent
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
     public php4DOMElement $q_node;
-    protected static bool $initial_done;
+    protected static bool $initial_done = false;
     
     /**
      * Init page content component.
@@ -377,7 +377,7 @@ class ilPCQuestion extends ilPageContent
         if (count($q_ids) > 0) {
             foreach ($q_ids as $q_id) {
                 $q_exporter = new ilQuestionExporter($a_no_interaction);
-                $image_path = null;
+                $image_path = "";
                 if ($a_mode == "offline") {
                     if ($this->getPage()->getParentType() == "sahs") {
                         $image_path = "./objects/";
@@ -386,7 +386,6 @@ class ilPCQuestion extends ilPageContent
                         $image_path = "./assessment/0/" . $q_id . "/images/";
                     }
                 }
-
                 $js[$q_id] = $q_exporter->exportQuestion($q_id, $image_path, $a_mode);
             }
         }

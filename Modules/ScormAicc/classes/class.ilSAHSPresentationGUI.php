@@ -18,7 +18,7 @@
 *
 * @ingroup ModulesScormAicc
 */
-class ilSAHSPresentationGUI
+class ilSAHSPresentationGUI implements ilCtrlBaseClassInterface
 {
     public $ilias;
     public $tpl;
@@ -478,7 +478,7 @@ class ilSAHSPresentationGUI
             "SCO_ICO",
             ilUtil::getImagePath(
                 "scorm/" . str_replace(" ", "_", $_GET["status"]) . '.svg'
-        )
+            )
         );
         $this->tpl->setVariable(
             "SCO_ALT",

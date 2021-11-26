@@ -37,6 +37,10 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         // add each test class of the component
         require_once("./Modules/StudyProgramme/test/model/Progress/ilStudyProgrammeProgressTest.php");
         $suite->addTestSuite("ilStudyProgrammeProgressTest");
+        require_once("./Modules/StudyProgramme/test/model/AutoCategories/ilStudyProgrammeAutoCategoryTest.php");
+        $suite->addTestSuite("ilStudyProgrammeAutoCategoryTest");
+        require_once("./Modules/StudyProgramme/test/model/AutoMemberships/ilStudyProgrammeAutoMembershipsSourceTest.php");
+        $suite->addTestSuite("ilStudyProgrammeAutoMembershipsSourceTest");
         require_once("./Modules/StudyProgramme/test/ilStudyProgrammeAssessmentSettingsTest.php");
         $suite->addTestSuite("ilStudyProgrammeAssessmentSettingsTest");
         require_once("./Modules/StudyProgramme/test/ilStudyProgrammeAutoMailSettingsTest.php");
@@ -59,7 +63,9 @@ class ilModulesStudyProgrammeSuite extends TestSuite
         $suite->addTestSuite("ilStudyProgrammeCronRiskyToFailTest");
         require_once("./Modules/StudyProgramme/test/cron/ilStudyProgrammeCronAboutToExpireTest.php");
         $suite->addTestSuite("ilStudyProgrammeCronAboutToExpireTest");
-        
+        require_once("./Modules/StudyProgramme/test/ilObjStudyProgrammeCacheTest.php");
+        $suite->addTestSuite("ilObjStudyProgrammeCacheTest");
+
         return $suite;
     }
 }

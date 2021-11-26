@@ -139,7 +139,7 @@ abstract class ilTestQuestionSetConfig
 
         $path = new ilPathGUI();
         $path->enableTextOnly(true);
-        return $path->getPath(ROOT_FOLDER_ID, $ref_id);
+        return $path->getPath(ROOT_FOLDER_ID, (int) $ref_id);
     }
     
     public function getFirstQuestionPoolRefIdByObjId(int $pool_obj_id) : int

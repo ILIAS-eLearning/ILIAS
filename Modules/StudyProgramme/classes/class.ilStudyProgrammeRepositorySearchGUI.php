@@ -1,18 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2015 Richard Klees, Extended GPL, see docs/LICENSE */
-
-require_once("./Services/Search/classes/class.ilRepositorySearchGUI.php");
 
 /**
 * Custom repository search gui class for study programme to make it possible
 * to get a handle on users selected in the repository search gui.
-*
-* @author	Richard Klees
-* @version	$Id$
 */
 class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
 {
+    protected array $callback = [];
+
     public function addUser()
     {
         $class = $this->callback['class'];
@@ -30,8 +27,12 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
     /**
      * This is just the same as in the parent class, except for the hardcoded class name.
      */
-    public static function fillAutoCompleteToolbar($parent_object, ilToolbarGUI $toolbar = null, $a_options = array(), $a_sticky = false)
-    {
+    public static function fillAutoCompleteToolbar(
+        $parent_object,
+        ilToolbarGUI $toolbar = null,
+        $a_options = array(),
+        $a_sticky = false
+    ) : ilToolbarGUI {
         global $DIC;
         $ilToolbar = $DIC['ilToolbar'];
         $lng = $DIC['lng'];
@@ -61,7 +62,6 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
             false
         );
 
-        include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ul = new ilTextInputGUI($a_options['auto_complete_name'], 'user_login');
         $ul->setDataSource($ajax_url);
         $ul->setSize($a_options['auto_complete_size']);
@@ -72,7 +72,6 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
         }
 
         if (count((array) $a_options['user_type'])) {
-            include_once './Services/Form/classes/class.ilSelectInputGUI.php';
             $si = new ilSelectInputGUI("", "user_type");
             $si->setOptions($a_options['user_type']);
             if (!$a_sticky) {
@@ -82,7 +81,6 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
             }
         }
         
-        include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
         $button = ilSubmitButton::getInstance();
         $button->setCaption($a_options['submit_name'], false);
         $button->setCommand('addUserFromAutoComplete');
@@ -99,7 +97,6 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
             $toolbar->addSeparator();
                     
             if ((bool) $a_options['add_search']) {
-                include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
                 $button = ilLinkButton::getInstance();
                 $button->setCaption("search_users");
                 $button->setUrl($ilCtrl->getLinkTargetByClass('ilStudyProgrammeRepositorySearchGUI', ''));
@@ -119,12 +116,20 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
                         $toolbar->addSpacer();
                     }
                     
-                    $ilCtrl->setParameterByClass('ilStudyProgrammeRepositorySearchGUI', "list_obj", ilObject::_lookupObjId($parent_container_ref_id));
+                    $ilCtrl->setParameterByClass(
+                        'ilStudyProgrammeRepositorySearchGUI',
+                        "list_obj",
+                        ilObject::_lookupObjId($parent_container_ref_id)
+                    );
                     
-                    include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
                     $button = ilLinkButton::getInstance();
                     $button->setCaption("search_add_members_from_container_" . $parent_container_type);
-                    $button->setUrl($ilCtrl->getLinkTargetByClass(array(get_class($parent_object),'ilStudyProgrammeRepositorySearchGUI'), 'listUsers'));
+                    $button->setUrl(
+                        $ilCtrl->getLinkTargetByClass(
+                        array(get_class($parent_object),'ilStudyProgrammeRepositorySearchGUI'),
+                        'listUsers'
+                    )
+                    );
                     $toolbar->addButtonInstance($button);
                 }
             }

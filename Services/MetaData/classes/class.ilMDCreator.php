@@ -52,6 +52,11 @@ class ilMDCreator
      */
     public $obj_type;
 
+    protected string $structure = '';
+    protected string $catalog = '';
+    protected string $entry = '';
+    protected string $keyword = '';
+
     public function __construct($a_rbac_id, $a_obj_id, $a_type)
     {
         include_once 'Services/MetaData/classes/class.ilMD.php';

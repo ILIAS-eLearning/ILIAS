@@ -734,7 +734,7 @@ class ilSCORMPresentationGUI
             "SCO_ICO",
             ilUtil::getImagePath(
                 "scorm/" . str_replace(" ", "_", $_GET["status"]) . '.svg'
-        )
+            )
         );
         $this->tpl->setVariable(
             "SCO_ALT",

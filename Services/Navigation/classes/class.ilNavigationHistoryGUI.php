@@ -9,7 +9,7 @@
  *
  * @ilCtrl_Calls ilNavigationHistoryGUI:
  */
-class ilNavigationHistoryGUI
+class ilNavigationHistoryGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

@@ -909,7 +909,7 @@ class ilPageObjectGUI
                 break;
         }
         //echo "+$ret+";
-        return $ret;
+        return (string) $ret;
     }
 
     /**

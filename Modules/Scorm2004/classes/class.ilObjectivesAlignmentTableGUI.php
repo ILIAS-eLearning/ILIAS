@@ -51,7 +51,7 @@ class ilObjectivesAlignmentTableGUI extends ilTable2GUI
         if ($this->chap > 0) {
             $nodes = $this->tree->getChilds($this->chap);
         } else {
-            $nodes = $this->tree->getSubTree($this->tree->getNodeData($this->tree->root_id), true, array('sco'));
+            $nodes = $this->tree->getSubTree($this->tree->getNodeData($this->tree->getRootId()), true, array('sco'));
         }
 
         $scos = array();

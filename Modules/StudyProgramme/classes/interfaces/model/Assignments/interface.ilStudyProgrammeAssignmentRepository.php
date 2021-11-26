@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 interface ilStudyProgrammeAssignmentRepository
 {
@@ -11,10 +11,8 @@ interface ilStudyProgrammeAssignmentRepository
     /**
      * Load settings belonging to a SP-Object.
      * Will throw if the record does not exist yet.
-     *
-     * @return ilStudyProgrammeAssignment | null
      */
-    public function get(int $id);
+    public function get(int $id) : ?ilStudyProgrammeAssignment;
 
     /**
      * Get all assignments of a user.
@@ -42,11 +40,11 @@ interface ilStudyProgrammeAssignmentRepository
      * Update settings belonging to a SP-Object.
      * Will throw if the record does not exist yet.
      */
-    public function update(ilStudyProgrammeAssignment $assignment);
+    public function update(ilStudyProgrammeAssignment $assignment) : void;
 
     /**
      * Delete record corresponding to settings.
      * Will throw if the record does not exist yet.
      */
-    public function delete(ilStudyProgrammeAssignment $assignment);
+    public function delete(ilStudyProgrammeAssignment $assignment) : void;
 }

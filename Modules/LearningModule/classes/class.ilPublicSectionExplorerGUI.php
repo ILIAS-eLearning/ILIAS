@@ -21,13 +21,16 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
 {
     protected ilObjLearningModule $lm;
     public string $exp_id = "public_section";
+    public string $requested_transl = "";
 
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
-        ilObjLearningModule $a_lm
+        ilObjLearningModule $a_lm,
+        string $requested_transl = ""
     ) {
         $this->lm = $a_lm;
+        $this->requested_transl = $requested_transl;
 
         $tree = ilLMTree::getInstance($this->lm->getId());
 
@@ -39,8 +42,8 @@ class ilPublicSectionExplorerGUI extends ilTreeExplorerGUI
      */
     public function getNodeContent($a_node) : string
     {
-        $lang = ($_GET["transl"] != "")
-            ? $_GET["transl"]
+        $lang = ($this->requested_transl != "")
+            ? $this->requested_transl
             : "-";
         return ilLMObject::_getNodePresentationTitle(
             $a_node,

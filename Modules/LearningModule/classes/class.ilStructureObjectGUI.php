@@ -162,15 +162,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     ) : void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        $items = ilUtil::stripSlashesArray($_POST["id"]);
-        if (!is_array($items)) {
+
+        $ids = $this->request->getIds();
+        if (count($ids) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
         
         $todel = array();			// delete IDs < 0 (needed for non-js editing)
-        foreach ($items as $k => $item) {
+        foreach ($ids as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
             }
@@ -199,15 +199,15 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     ) : void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
-        $items = ilUtil::stripSlashesArray($_POST["id"]);
-        if (!is_array($items)) {
+
+        $ids = $this->request->getIds();
+        if (count($ids) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
         
         $todel = array();				// delete IDs < 0 (needed for non-js editing)
-        foreach ($items as $k => $item) {
+        foreach ($ids as $k => $item) {
             if ($item < 0) {
                 $todel[] = $k;
             }
@@ -234,8 +234,9 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     public function saveAllTitles() : void
     {
         $ilCtrl = $this->ctrl;
-        
-        ilLMObject::saveTitles($this->content_object, ilUtil::stripSlashesArray($_POST["title"]), $this->requested_transl);
+
+        $titles = $this->request->getTitles();
+        ilLMObject::saveTitles($this->content_object, $titles, $this->requested_transl);
 
         ilUtil::sendSuccess($this->lng->txt("lm_save_titles"), true);
         $ilCtrl->redirect($this, "showHierarchy");
@@ -325,18 +326,21 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
     public function save() : void
     {
-        $this->obj = new ilStructureObject($this->content_object);
+        $form = $this->getCreateForm();
 
-        $this->obj->setType("st");
-        $this->obj->setTitle(ilUtil::stripSlashes($_POST["Fobject"]["title"]));
-        $this->obj->setDescription(ilUtil::stripSlashes($_POST["Fobject"]["desc"]));
-        $this->obj->setLMId($this->content_object->getId());
-        $this->obj->create();
+        if ($form->checkInput()) {
+            $this->obj = new ilStructureObject($this->content_object);
+            $this->obj->setType("st");
+            $this->obj->setTitle($form->getInput("title"));
+            $this->obj->setDescription($form->getInput("desc"));
+            $this->obj->setLMId($this->content_object->getId());
+            $this->obj->create();
 
-        $this->putInTree();
+            $this->putInTree();
 
-        // check the tree
-        $this->checkTree();
+            // check the tree
+            $this->checkTree();
+        }
 
         if ($this->requested_obj_id > 0) {
             $this->ctrl->redirect($this, "subchap");
@@ -418,15 +422,16 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     public function activatePages() : void
     {
         $lng = $this->lng;
-        
-        if (is_array($_POST["id"])) {
+
+        $ids = $this->request->getIds();
+        if (count($ids) > 0) {
             $act_items = array();
             // get all "top" ids, i.e. remove ids, that have a selected parent
-            foreach ($_POST["id"] as $id) {
+            foreach ($ids as $id) {
                 $path = $this->tree->getPathId($id);
                 $take = true;
                 foreach ($path as $path_id) {
-                    if ($path_id != $id && in_array($path_id, $_POST["id"])) {
+                    if ($path_id != $id && in_array($path_id, $ids)) {
                         $take = false;
                     }
                 }
@@ -435,7 +440,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
                 }
             }
 
-            
+
             foreach ($act_items as $id) {
                 $childs = $this->tree->getChilds($id);
                 foreach ($childs as $child) {
@@ -787,11 +792,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     {
         $ilCtrl = $this->ctrl;
 
+        $req = $this->request;
         $this->content_object->executeDragDrop(
-            $_POST["il_hform_source_id"],
-            $_POST["il_hform_target_id"],
-            $_POST["il_hform_fc"],
-            $_POST["il_hform_as_subitem"]
+            $req->getHFormPar("source_id"),
+            $req->getHFormPar("target_id"),
+            $req->getHFormPar("fc"),
+            $req->getHFormPar("as_subitem")
         );
         $ilCtrl->redirect($this, "showHierarchy");
     }
@@ -809,7 +815,8 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        if (!is_array($_POST["id"])) {
+        $ids = $this->request->getIds();
+        if (count($ids) == 0) {
             ilUtil::sendFailure($lng->txt("no_checkbox"), true);
             $ilCtrl->redirect($this, "showHierarchy");
         }
@@ -828,13 +835,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $ilCtrl = $this->ctrl;
     
         $this->form = new ilPropertyFormGUI();
-        
-        if (is_array($_POST["id"])) {
-            foreach ($_POST["id"] as $id) {
-                $hi = new ilHiddenInputGUI("id[]");
-                $hi->setValue($id);
-                $this->form->addItem($hi);
-            }
+
+        $ids = $this->request->getIds();
+        foreach ($ids as $id) {
+            $hi = new ilHiddenInputGUI("id[]");
+            $hi->setValue($id);
+            $this->form->addItem($hi);
         }
         $layout = ilObjContentObjectGUI::getLayoutOption(
             $lng->txt("cont_layout"),
@@ -858,12 +864,13 @@ class ilStructureObjectGUI extends ilLMObjectGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
-        foreach ($_POST["id"] as $id) {
-            $id = ilUtil::stripSlashes($id);
+
+        $ids = $this->request->getIds();
+        $layout = $this->request->getLayout();
+        foreach ($ids as $id) {
             ilLMPageObject::writeLayout(
-                ilUtil::stripSlashes($id),
-                ilUtil::stripSlashes($_POST["layout"]),
+                $id,
+                $layout,
                 $this->content_object
             );
         }
@@ -942,12 +949,12 @@ class ilStructureObjectGUI extends ilLMObjectGUI
         $form = $form->withRequest($DIC->http()->request());
         $data = $form->getData();
         $layout_id = $data["sec"]["layout_id"];
-        $node_id = $_REQUEST["node_id"];
+        $node_id = $this->request->getNodeId();
         $page_ids = ilLMPageObject::insertPagesFromTemplate(
             $this->content_object->getId(),
-            (int) $_REQUEST["multi"],
+            $this->request->getMulti(),
             $node_id,
-            $_REQUEST["first_child"],
+            $this->request->getFirstChild(),
             $layout_id,
             $data["sec"]["title"]
         );

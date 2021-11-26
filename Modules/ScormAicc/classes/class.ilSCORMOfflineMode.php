@@ -362,7 +362,7 @@ class ilSCORMOfflineMode
                         $comments,
                         $interactions,
                         $objectives
-                        );
+                    );
                     if (!is_array($a_r)) {
                         $result = false;
                     }
