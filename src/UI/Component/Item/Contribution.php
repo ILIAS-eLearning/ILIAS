@@ -31,7 +31,7 @@ interface Contribution extends Item
     /**
      * Get a copy of that contribution with another date format.
      */
-    public function withDateFormat(DateFormat $datetime) : Contribution;
+    public function withDateFormat(DateFormat $dateFormat) : Contribution;
 
     public function getDateFormat() : DateFormat;
 
