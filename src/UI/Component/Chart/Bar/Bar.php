@@ -17,8 +17,9 @@
 namespace ILIAS\UI\Component\Chart\Bar;
 
 use ILIAS\UI\Component\Component;
+use ILIAS\UI\Component\JavaScriptBindable;
 
-interface Bar extends Component
+interface Bar extends Component, JavaScriptBindable
 {
     public function getId() : string;
 
@@ -28,6 +29,10 @@ interface Bar extends Component
     public function withTitle(string $title) : Bar;
 
     public function getTitle() : string;
+
+    public function getMinimumWidth() : string;
+
+    public function getMinimumHeight() : string;
 
     /**
      * Set a fixed width and height for the chart. Makes the chart also non-responsive to make this work correctly.
@@ -40,9 +45,7 @@ interface Bar extends Component
 
     public function getWidth() : string;
 
-    public function getHeigth() : string;
-
-    public function withResponsive(bool $responsive) : Bar;
+    public function getHeight() : string;
 
     public function isResponsive() : bool;
 

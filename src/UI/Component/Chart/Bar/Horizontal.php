@@ -64,7 +64,7 @@ interface Horizontal extends Bar
         string $color,
         float $bar_size = 1.0,
         ?array $tooltips = null,
-        ?string $y_axis_id = null
+        string $y_axis_id = "y"
     ) : Horizontal;
 
     /**
@@ -85,7 +85,7 @@ interface Horizontal extends Bar
         string $color,
         float $bar_size = 1.0,
         ?array $tooltips = null,
-        ?string $y_axis_id = null
+        string $y_axis_id = "y"
     ) : Horizontal;
 
     /**

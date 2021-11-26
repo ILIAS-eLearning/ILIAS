@@ -64,7 +64,7 @@ interface Vertical extends Bar
         string $color,
         float $bar_size = 1.0,
         ?array $tooltips = null,
-        ?string $x_axis_id = null
+        string $x_axis_id = "x"
     ) : Vertical;
 
     /**
@@ -85,7 +85,7 @@ interface Vertical extends Bar
         string $color,
         float $bar_size = 1.0,
         ?array $tooltips = null,
-        ?string $x_axis_id = null
+        string $x_axis_id = "x"
     ) : Vertical;
 
     /**
