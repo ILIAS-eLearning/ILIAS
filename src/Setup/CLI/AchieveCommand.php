@@ -109,12 +109,11 @@ class AchieveCommand extends Command
         $io->title("Listing available objectives");
 
         $agentCollection = $this->agent_finder->getAgents();
-        $config = new NullConfig();
-
-        foreach ($agentCollection->getNamedObjectives($config) as $cmd => $objectiveCollection) {
+        foreach ($agentCollection->getNamedObjectives(null) as $cmd => $objectiveCollection) {
             $output->write(str_pad($cmd, IOWrapper::LABEL_WIDTH));
-            $output->writeln($objectiveCollection->getDescription() . "\n");
+            $output->writeln($objectiveCollection->getDescription());
         }
+        $output->writeln("");
     }
 
     private function executeAchieveObjective(IOWrapper $io, InputInterface $input) : void
