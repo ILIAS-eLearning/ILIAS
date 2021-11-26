@@ -15,22 +15,27 @@ allows to use ES6 modules seamlessly. [Chai](https://www.chaijs.com/) is being u
 
 ## package.json changes
 
-The expression for mocha to run the files which contain the tests are listed in package.json as such: 
+The link to the mocha.config.js files that contains the tests is listed in package.json as such: 
 
 ```
 {
   ...
   "scripts": {
-    "test": "mocha tests/UI/Client/* --require esm"
+    "test": "mocha --recursive --config tests/mocha.config.js --require esm"
   },
   ...
 }
 ```
 
-Note that it might be good practise to keep the tests close to the source an only symlink the files to the above
-directories.
-
-
+In tests/mocha.config.js file you can link your js test folders as such
+```
+module.exports = {
+    spec: [
+        'tests/UI/Client',
+        'docs/development/js/js-unit-test-example/test',
+    ],
+};
+```
 ## Run tests
 
 With this in place, the tests in the above dirs can be executed with:
