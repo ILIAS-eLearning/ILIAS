@@ -35,11 +35,16 @@ class ilCmiXapiHighscoreReport
     protected $cmixUsersByIdent;
     
     /**
+     * @var int
+     */
+    protected $objId;
+    /**
      * ilCmiXapiHighscoreReport constructor.
      * @param string $responseBody
      */
     public function __construct(string $responseBody, $objId)
     {
+        $this->objId = $objId;
         $responseBody = json_decode($responseBody, true);
         
         if (count($responseBody)) {
@@ -61,22 +66,57 @@ class ilCmiXapiHighscoreReport
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
         $rows = [];
-        
-        foreach ($this->response as $item) {
-            $userIdent = str_replace('mailto:', '', $item['mbox']);
-            $cmixUser = $this->cmixUsersByIdent[$userIdent];
-            
-            $rows[] = [
-                'user_ident' => $item['mbox'],
-                'user' => '',
-                //'user' => $item['username'],
-                'date' => $this->formatRawTimestamp($item['timestamp']),
-                'duration' => $this->fetchTotalDuration($item['duration']),
-                'score' => $item['score']['scaled'],
-                'ilias_user_id' => $cmixUser->getUsrId()
-            ];
-        }
+        $obj = ilObjCmiXapi::getInstance($this->objId,false);
 
+        if ($obj->isMixedContentType())
+        {
+            foreach ($this->response as $item) {
+                $userIdent = str_replace('mailto:', '', $item['mbox']);
+                if (empty($userIdent))
+                {
+                    $userIdent =  $item['account'];
+                }
+                $cmixUser = $this->cmixUsersByIdent[$userIdent];
+                $rows[] = [
+                    'user_ident' => $userIdent,
+                    'user' => '',
+                    'date' => $this->formatRawTimestamp($item['timestamp']),
+                    'duration' => $this->fetchTotalDuration($item['duration']),
+                    'score' => $item['score']['scaled'],
+                    'ilias_user_id' => $cmixUser->getUsrId()
+                ];
+            }
+        }
+        elseif ($obj->getContentType() == ilObjCmiXapi::CONT_TYPE_CMI5)
+        {
+            foreach ($this->response as $item) {
+                $userIdent = $item['account'];
+                $cmixUser = $this->cmixUsersByIdent[$userIdent];
+                $rows[] = [
+                    'user_ident' => $userIdent,
+                    'user' => '',
+                    'date' => $this->formatRawTimestamp($item['timestamp']),
+                    'duration' => $this->fetchTotalDuration($item['duration']),
+                    'score' => $item['score']['scaled'],
+                    'ilias_user_id' => $cmixUser->getUsrId()
+                ];
+            }
+        }
+        else
+        {
+            foreach ($this->response as $item) {
+                $userIdent = str_replace('mailto:', '', $item['mbox']);
+                $cmixUser = $this->cmixUsersByIdent[$userIdent];
+                $rows[] = [
+                    'user_ident' => $userIdent,
+                    'user' => '',
+                    'date' => $this->formatRawTimestamp($item['timestamp']),
+                    'duration' => $this->fetchTotalDuration($item['duration']),
+                    'score' => $item['score']['scaled'],
+                    'ilias_user_id' => $cmixUser->getUsrId()
+                ];
+            }
+        }
         usort($rows, function ($a, $b) {
             return $a['score'] != $b['score'] ? $a['score'] > $b['score'] ? -1 : 1 : 0;
         });

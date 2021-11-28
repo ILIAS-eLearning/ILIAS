@@ -822,7 +822,10 @@ class ilCalendarPresentationGUI
                 // Check for execution
                 $category = new ilCalendarCategory($cat_id);
                 
-                if (ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit)) {
+                if (
+                    $category->getRemoteSyncLastExecution()->isNull() ||
+                    ilDateTime::_before($category->getRemoteSyncLastExecution(), $limit)
+                ) {
                     // update in any case to avoid multiple updates of invalid calendar sources.
                     $category->setRemoteSyncLastExecution(new ilDateTime(time(), IL_CAL_UNIX));
                     $category->update();

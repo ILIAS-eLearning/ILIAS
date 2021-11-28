@@ -1434,91 +1434,97 @@ if (!$ilDB->tableColumnExists('lti_ext_provider', 'privacy_name')) {
 ?>
 <#61>
 <?php
-$set = $ilDB->query("SELECT obj_id, user_ident, user_name FROM cmix_settings");
-while ($row = $ilDB->fetchAssoc($set)) {
-    $ident = 0;
-    $name = 0;
-    if ($row['user_ident'] == 'il_uuid_ext_account') {
-        $ident = 1;
+if ($ilDB->tableColumnExists('cmix_settings', 'user_ident')) {
+
+    $set = $ilDB->query("SELECT obj_id, user_ident, user_name FROM cmix_settings");
+    while ($row = $ilDB->fetchAssoc($set)) {
+        $ident = 0;
+        $name = 0;
+        if ($row['user_ident'] == 'il_uuid_ext_account') {
+            $ident = 1;
+        }
+        if ($row['user_ident'] == 'il_uuid_login') {
+            $ident = 2;
+        }
+        if ($row['user_ident'] == 'real_email') {
+            $ident = 3;
+        }
+        if ($row['user_ident'] == 'il_uuid_random') {
+            $ident = 4;
+        }
+        if ($row['user_name'] == 'firstname') {
+            $name = 1;
+        }
+        if ($row['user_name'] == 'lastname') {
+            $name = 2;
+        }
+        if ($row['user_name'] == 'fullname') {
+            $name = 3;
+        }
+        
+        $ilDB->update(
+            "cmix_users",
+            [
+                "privacy_ident" => ["integer", $ident]
+            ],
+            [	// where
+                "obj_id" => ["integer", $row['obj_id']]
+            ]
+        );
+        $ilDB->update(
+            "cmix_settings",
+            [
+                "privacy_ident" => ["integer", $ident],
+                "privacy_name" => ["integer", $name]
+            ],
+            [	// where
+                "obj_id" => ["integer", $row['obj_id']]
+            ]
+        );
     }
-    if ($row['user_ident'] == 'il_uuid_login') {
-        $ident = 2;
-    }
-    if ($row['user_ident'] == 'real_email') {
-        $ident = 3;
-    }
-    if ($row['user_ident'] == 'il_uuid_random') {
-        $ident = 4;
-    }
-    if ($row['user_name'] == 'firstname') {
-        $name = 1;
-    }
-    if ($row['user_name'] == 'lastname') {
-        $name = 2;
-    }
-    if ($row['user_name'] == 'fullname') {
-        $name = 3;
-    }
-    
-    $ilDB->update(
-        "cmix_users",
-        [
-            "privacy_ident" => ["integer", $ident]
-        ],
-        [	// where
-            "obj_id" => ["integer", $row['obj_id']]
-        ]
-    );
-    $ilDB->update(
-        "cmix_settings",
-        [
-            "privacy_ident" => ["integer", $ident],
-            "privacy_name" => ["integer", $name]
-        ],
-        [	// where
-            "obj_id" => ["integer", $row['obj_id']]
-        ]
-    );
 }
 ?>
 <#62>
 <?php
-$set = $ilDB->query("SELECT id, user_ident, user_name FROM lti_ext_provider");
-while ($row = $ilDB->fetchAssoc($set)) {
-    $ident = 0;
-    $name = 0;
-    if ($row['user_ident'] == 'il_uuid_ext_account') {
-        $ident = 1;
+if ($ilDB->tableColumnExists('lti_ext_provider', 'user_ident')) {
+
+    $set = $ilDB->query("SELECT id, user_ident, user_name FROM lti_ext_provider");
+    while ($row = $ilDB->fetchAssoc($set)) {
+        $ident = 0;
+        $name = 0;
+        if ($row['user_ident'] == 'il_uuid_ext_account') {
+            $ident = 1;
+        }
+        if ($row['user_ident'] == 'il_uuid_login') {
+            $ident = 2;
+        }
+        if ($row['user_ident'] == 'real_email') {
+            $ident = 3;
+        }
+        if ($row['user_ident'] == 'il_uuid_random') {
+            $ident = 4;
+        }
+        if ($row['user_name'] == 'firstname') {
+            $name = 1;
+        }
+        if ($row['user_name'] == 'lastname') {
+            $name = 2;
+        }
+        if ($row['user_name'] == 'fullname') {
+            $name = 3;
+        }
+        
+        $ilDB->update(
+            "lti_ext_provider",
+            [
+                "privacy_ident" => ["integer", $ident],
+                "privacy_name" => ["integer", $name]
+            ],
+            [	// where
+                "id" => ["integer", $row['id']]
+            ]
+        );
     }
-    if ($row['user_ident'] == 'il_uuid_login') {
-        $ident = 2;
-    }
-    if ($row['user_ident'] == 'real_email') {
-        $ident = 3;
-    }
-    if ($row['user_ident'] == 'il_uuid_random') {
-        $ident = 4;
-    }
-    if ($row['user_name'] == 'firstname') {
-        $name = 1;
-    }
-    if ($row['user_name'] == 'lastname') {
-        $name = 2;
-    }
-    if ($row['user_name'] == 'fullname') {
-        $name = 3;
-    }
-    
-    $ilDB->update(
-        "lti_ext_provider",
-        [
-            "privacy_ident" => ["integer", $ident],
-            "privacy_name" => ["integer", $name]
-        ],
-        [	// where
-            "id" => ["integer", $row['id']]
-        ]
-    );
 }
 ?>
 <#63>
@@ -1539,50 +1545,170 @@ if (!$ilDB->tableColumnExists('cmix_lrs_types', 'privacy_name')) {
         'default' => 0
     ));
 }
-$set = $ilDB->query("SELECT type_id, user_ident, user_name FROM cmix_lrs_types");
-while ($row = $ilDB->fetchAssoc($set)) {
-    $ident = 0;
-    $name = 0;
-    if ($row['user_ident'] == 'il_uuid_ext_account') {
-        $ident = 1;
+if ($ilDB->tableColumnExists('cmix_lrs_types', 'user_ident')) {
+    $set = $ilDB->query("SELECT type_id, user_ident, user_name FROM cmix_lrs_types");
+    while ($row = $ilDB->fetchAssoc($set)) {
+        $ident = 0;
+        $name = 0;
+        if ($row['user_ident'] == 'il_uuid_ext_account') {
+            $ident = 1;
+        }
+        if ($row['user_ident'] == 'il_uuid_login') {
+            $ident = 2;
+        }
+        if ($row['user_ident'] == 'real_email') {
+            $ident = 3;
+        }
+        if ($row['user_ident'] == 'il_uuid_random') {
+            $ident = 4;
+        }
+        if ($row['user_name'] == 'firstname') {
+            $name = 1;
+        }
+        if ($row['user_name'] == 'lastname') {
+            $name = 2;
+        }
+        if ($row['user_name'] == 'fullname') {
+            $name = 3;
+        }
+        
+        $ilDB->update(
+            "cmix_lrs_types",
+            [
+                "privacy_ident" => ["integer", $ident],
+                "privacy_name" => ["integer", $name]
+            ],
+            [	// where
+                "type_id" => ["integer", $row['type_id']]
+            ]
+        );
     }
-    if ($row['user_ident'] == 'il_uuid_login') {
-        $ident = 2;
-    }
-    if ($row['user_ident'] == 'real_email') {
-        $ident = 3;
-    }
-    if ($row['user_ident'] == 'il_uuid_random') {
-        $ident = 4;
-    }
-    if ($row['user_name'] == 'firstname') {
-        $name = 1;
-    }
-    if ($row['user_name'] == 'lastname') {
-        $name = 2;
-    }
-    if ($row['user_name'] == 'fullname') {
-        $name = 3;
-    }
-    
-    $ilDB->update(
-        "cmix_lrs_types",
-        [
-            "privacy_ident" => ["integer", $ident],
-            "privacy_name" => ["integer", $name]
-        ],
-        [	// where
-            "type_id" => ["integer", $row['type_id']]
-        ]
-    );
 }
 ?>
 <#64>
 <?php
-$ilDB->dropTableColumn("cmix_lrs_types", "user_ident");
-$ilDB->dropTableColumn("cmix_lrs_types", "user_name");
-$ilDB->dropTableColumn("cmix_settings", "user_ident");
-$ilDB->dropTableColumn("cmix_settings", "user_name");
-$ilDB->dropTableColumn("lti_ext_provider", "user_ident");
-$ilDB->dropTableColumn("lti_ext_provider", "user_name");
+if ($ilDB->tableColumnExists('cmix_lrs_types', 'user_ident')) {
+    $ilDB->dropTableColumn("cmix_lrs_types", "user_ident");
+    $ilDB->dropTableColumn("cmix_lrs_types", "user_name");
+}
+if ($ilDB->tableColumnExists('cmix_settings', 'user_ident')) {
+    $ilDB->dropTableColumn("cmix_settings", "user_ident");
+    $ilDB->dropTableColumn("cmix_settings", "user_name");
+}
+if ($ilDB->tableColumnExists('lti_ext_provider', 'user_ident')) {
+    $ilDB->dropTableColumn("lti_ext_provider", "user_ident");
+    $ilDB->dropTableColumn("lti_ext_provider", "user_name");
+}
+?>
+<#65>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_users', 'registration') ) {
+    $ilDB->addTableColumn('cmix_users', 'registration', array(
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+if ( !$ilDB->tableColumnExists('cmix_settings', 'publisher_id') ) {
+    $ilDB->addTableColumn('cmix_settings', 'publisher_id', array(
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+if ( !$ilDB->tableColumnExists('cmix_settings', 'anonymous_homepage') ) {
+    $ilDB->addTableColumn('cmix_settings', 'anonymous_homepage', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+    ));
+}
+?>
+<#66>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_settings', 'moveon') ) {
+    $ilDB->addTableColumn('cmix_settings', 'moveon', array(
+        'type' => 'text',
+        'length' => 32,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+?>
+<#67>
+<?php
+if (!$ilDB->tableColumnExists('cmix_token','cmi5_session')) {
+    $ilDB->addTableColumn("cmix_token", "cmi5_session", [
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ]);
+}
+?>
+<#68>
+<?php
+if (!$ilDB->tableColumnExists('cmix_token','returned_for_cmi5_session')) {
+    $ilDB->addTableColumn("cmix_token", "returned_for_cmi5_session", [
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ]);
+}
+?>
+<#69>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_settings', 'launch_parameters') ) {
+    $ilDB->addTableColumn('cmix_settings', 'launch_parameters', array(
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+?>
+<#70>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_settings', 'entitlement_key') ) {
+    $ilDB->addTableColumn('cmix_settings', 'entitlement_key', array(
+        'type' => 'text',
+        'length' => 255,
+        'notnull' => true,
+        'default' => ''
+    ));
+}
+?>
+<#71>
+<?php
+if (!$ilDB->tableColumnExists('cmix_token','cmi5_session_data')) {
+    $ilDB->addTableColumn("cmix_token", "cmi5_session_data", [
+        'type' => 'clob'
+    ]);
+}
+?>
+<#72>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_users', 'satisfied') ) {
+    $ilDB->addTableColumn('cmix_users', 'satisfied', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 0
+    ));
+}
+?>
+<#73>
+<?php
+if ( !$ilDB->tableColumnExists('cmix_settings', 'switch_to_review') ) {
+    $ilDB->addTableColumn('cmix_settings', 'switch_to_review', array(
+            'type' => 'integer',
+            'length' => 1,
+            'notnull' => true,
+            'default' => 1
+    ));
+}
 ?>
