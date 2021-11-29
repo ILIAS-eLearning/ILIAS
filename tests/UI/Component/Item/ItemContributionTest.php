@@ -195,7 +195,6 @@ EOT;
 	</div>
 </div>
 EOT;
-        var_dump($this->brutallyTrimHTML($this->getDefaultRenderer()->render($c)));
 
         $this->assertEquals(
             $this->brutallyTrimHTML($expected),
