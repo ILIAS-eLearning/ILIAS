@@ -25,7 +25,8 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('sysc_duplicates_repository'), '');
         $this->addColumn($this->lng->txt('sysc_duplicates_trash'), '');
 
-        $this->addCommandButton('deleteDuplicatesFromRepository', $this->lng->txt('sysc_delete_duplicates_from_repository'));
+        $this->addCommandButton('deleteDuplicatesFromRepository',
+            $this->lng->txt('sysc_delete_duplicates_from_repository'));
         $this->addCommandButton('deleteDuplicatesFromTrash', $this->lng->txt('sysc_delete_duplicates_from_trash'));
     }
 
@@ -37,7 +38,7 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
     protected function fillRow($a_set)
     {
 
-        $id         = (int) ($a_set['id'] ?? 0);
+        $id = (int) ($a_set['id'] ?? 0);
         $duplicates = ilSCTreeTasks::findDuplicates($id);
 
         $this->tpl->setVariable('DUP_ID', $id);
@@ -92,7 +93,8 @@ class ilSCTreeDuplicatesTableGUI extends ilTable2GUI
         if (isset($child_data['description']) && $child_data['description']) {
             $this->tpl->setVariable($a_prefix . 'VAL_DESC', $child_data['description']);
         }
-        $this->tpl->setVariable($a_prefix . 'TYPE_IMG', ilUtil::getTypeIconPath((string) ($child_data['type'] ?? ''), (int) ($child_data['obj_id'] ?? 0)));
+        $this->tpl->setVariable($a_prefix . 'TYPE_IMG',
+            ilUtil::getTypeIconPath((string) ($child_data['type'] ?? ''), (int) ($child_data['obj_id'] ?? 0)));
         $this->tpl->setVariable($a_prefix . 'TYPE_STR', $this->lng->txt('obj_' . ($child_data['type'] ?? '')));
     }
 }

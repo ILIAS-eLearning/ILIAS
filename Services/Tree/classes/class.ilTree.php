@@ -14,7 +14,6 @@ class ilTree
     public const TREE_TYPE_MATERIALIZED_PATH = 'mp';
     public const TREE_TYPE_NESTED_SET = 'ns';
 
-
     public const POS_LAST_NODE = -2;
     public const POS_FIRST_NODE = -1;
 
@@ -78,27 +77,23 @@ class ilTree
     protected string $tree_pk;
 
     /**
-    * Size of the gaps to be created in the nested sets sequence numbering of the
-    * tree nodes.
-    * Having gaps in the tree greatly improves performance on all operations
-    * that add or remove tree nodes.
-    *
-    * Setting this to zero will leave no gaps in the tree.
-    * Setting this to a value larger than zero will create gaps in the tree.
-    * Each gap leaves room in the sequence numbering for the specified number of
-    * nodes.
-    * (The gap is expressed as the number of nodes. Since each node consumes
-    * two sequence numbers, specifying a gap of 1 will leave space for 2
-    * sequence numbers.)
-    *
-    * A gap is created, when a new child is added to a node, and when not
-    * enough room between node.rgt and the child with the highest node.rgt value
-    * of the node is available.
-    * A gap is closed, when a node is removed and when (node.rgt - node.lft)
-    * is bigger than gap * 2.
-    *
-    *
-    */
+     * Size of the gaps to be created in the nested sets sequence numbering of the
+     * tree nodes.
+     * Having gaps in the tree greatly improves performance on all operations
+     * that add or remove tree nodes.
+     * Setting this to zero will leave no gaps in the tree.
+     * Setting this to a value larger than zero will create gaps in the tree.
+     * Each gap leaves room in the sequence numbering for the specified number of
+     * nodes.
+     * (The gap is expressed as the number of nodes. Since each node consumes
+     * two sequence numbers, specifying a gap of 1 will leave space for 2
+     * sequence numbers.)
+     * A gap is created, when a new child is added to a node, and when not
+     * enough room between node.rgt and the child with the highest node.rgt value
+     * of the node is available.
+     * A gap is closed, when a node is removed and when (node.rgt - node.lft)
+     * is bigger than gap * 2.
+     */
     private int $gap;
 
     protected bool $use_cache;
@@ -110,7 +105,6 @@ class ilTree
     protected array $translation_cache = [];
     protected array $parent_type_cache = [];
 
-    
     private ?ilTreeImplementation $tree_impl = null;
 
     /**
@@ -155,7 +149,7 @@ class ilTree
         // init tree implementation
         $this->initTreeImplementation();
     }
-    
+
     /**
      * @param int $node_id
      * @return array
@@ -176,7 +170,7 @@ class ilTree
         }
         return $trees;
     }
-    
+
     /**
      * Init tree implementation
      */
@@ -185,22 +179,22 @@ class ilTree
         global $DIC;
 
         if (!$DIC->isDependencyAvailable('settings') || $DIC->settings()->getModule() != 'common') {
-                        $setting = new ilSetting('common');
+            $setting = new ilSetting('common');
         } else {
             $setting = $DIC->settings();
         }
-        
+
         if ($this->__isMainTree()) {
             if ($setting->get('main_tree_impl', 'ns') == 'ns') {
-                                $this->tree_impl = new ilNestedSetTree($this);
+                $this->tree_impl = new ilNestedSetTree($this);
             } else {
-                                $this->tree_impl = new ilMaterializedPathTree($this);
+                $this->tree_impl = new ilMaterializedPathTree($this);
             }
         } else {
-                        $this->tree_impl = new ilNestedSetTree($this);
+            $this->tree_impl = new ilNestedSetTree($this);
         }
     }
-    
+
     /**
      * Get tree implementation
      * @return ilTreeImplementation $impl
@@ -209,15 +203,15 @@ class ilTree
     {
         return $this->tree_impl;
     }
-    
+
     /**
-    * Use Cache (usually activated)
-    */
+     * Use Cache (usually activated)
+     */
     public function useCache(bool $a_use = true) : void
     {
         $this->use_cache = $a_use;
     }
-    
+
     /**
      * Check if cache is active
      */
@@ -225,7 +219,7 @@ class ilTree
     {
         return $this->__isMainTree() && $this->use_cache;
     }
-    
+
     /**
      * Get depth cache
      */
@@ -233,7 +227,7 @@ class ilTree
     {
         return $this->depth_cache;
     }
-    
+
     /**
      * Get parent cache
      */
@@ -272,7 +266,7 @@ class ilTree
     {
         return $this->table_tree;
     }
-    
+
     /**
      * Get object data table
      */
@@ -280,7 +274,7 @@ class ilTree
     {
         return $this->table_obj_data;
     }
-    
+
     /**
      * Get tree primary key
      */
@@ -288,7 +282,7 @@ class ilTree
     {
         return $this->tree_pk;
     }
-    
+
     /**
      * Get reference table if available
      */
@@ -296,7 +290,7 @@ class ilTree
     {
         return $this->table_obj_reference;
     }
-    
+
     /**
      * Get default gap
      */
@@ -304,7 +298,7 @@ class ilTree
     {
         return $this->gap;
     }
-    
+
     /**
      * reset in tree cache
      */
@@ -325,8 +319,7 @@ class ilTree
         string $a_table_tree,
         string $a_table_obj_data,
         string $a_table_obj_reference = ""
-    ) : void
-    {
+    ) : void {
         $this->table_tree = $a_table_tree;
         $this->table_obj_data = $a_table_obj_data;
         $this->table_obj_reference = $a_table_obj_reference;
@@ -369,13 +362,13 @@ class ilTree
         if ($this->table_obj_reference) {
             // Use inner join instead of left join to improve performance
             return "JOIN " . $this->table_obj_reference . " ON " . $this->table_tree . ".child=" . $this->table_obj_reference . "." . $this->ref_pk . " " .
-                   "JOIN " . $this->table_obj_data . " ON " . $this->table_obj_reference . "." . $this->obj_pk . "=" . $this->table_obj_data . "." . $this->obj_pk . " ";
+                "JOIN " . $this->table_obj_data . " ON " . $this->table_obj_reference . "." . $this->obj_pk . "=" . $this->table_obj_data . "." . $this->obj_pk . " ";
         } else {
             // Use inner join instead of left join to improve performance
             return "JOIN " . $this->table_obj_data . " ON " . $this->table_tree . ".child=" . $this->table_obj_data . "." . $this->obj_pk . " ";
         }
     }
-    
+
     /**
      * Get relation of two nodes
      * @todo add unit test
@@ -387,7 +380,7 @@ class ilTree
             $this->getNodeTreeData($a_node_b)
         );
     }
-    
+
     /**
      * get relation of two nodes by node data
      */
@@ -395,18 +388,18 @@ class ilTree
     {
         return $this->getTreeImplementation()->getRelation($a_node_a_arr, $a_node_b_arr);
     }
-    
+
     /**
      * Get node child ids
      */
     public function getChildIds(int $a_node) : array
     {
         $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                'WHERE parent = ' . $this->db->quote($a_node, 'integer') . ' ' .
-                'AND tree = ' . $this->db->quote($this->tree_id, 'integer' . ' ' .
+            'WHERE parent = ' . $this->db->quote($a_node, 'integer') . ' ' .
+            'AND tree = ' . $this->db->quote($this->tree_id, 'integer' . ' ' .
                 'ORDER BY lft');
         $res = $this->db->query($query);
-        
+
         $childs = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $childs[] = $row->child;
@@ -416,7 +409,6 @@ class ilTree
 
     /**
      * get child nodes of given node
-     *
      * @todo remove dependency to ilObjUser and use $this->lang_code
      */
     public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC") : array
@@ -425,7 +417,7 @@ class ilTree
 
         $ilObjDataCache = $DIC['ilObjDataCache'];
         $ilUser = $DIC['ilUser'];
-        
+
         // init childs
         $childs = [];
 
@@ -442,19 +434,18 @@ class ilTree
             $order_clause = "ORDER BY " . $this->table_tree . ".lft";
         }
 
-             
         $query = sprintf(
             'SELECT * FROM ' . $this->table_tree . ' ' .
-                $this->buildJoin() .
-                "WHERE parent = %s " .
-                "AND " . $this->table_tree . "." . $this->tree_pk . " = %s " .
-                $order_clause,
+            $this->buildJoin() .
+            "WHERE parent = %s " .
+            "AND " . $this->table_tree . "." . $this->tree_pk . " = %s " .
+            $order_clause,
             $this->db->quote($a_node_id, 'integer'),
             $this->db->quote($this->tree_id, 'integer')
         );
 
         $res = $this->db->query($query);
-        
+
         if (!$count = $res->numRows()) {
             return [];
         }
@@ -501,9 +492,8 @@ class ilTree
         array $a_filter,
         int $a_node,
         string $a_order = "",
-        string $a_direction = "ASC")
-    : array
-    {
+        string $a_direction = "ASC"
+    ) : array {
         $childs = $this->getChilds($a_node, $a_order, $a_direction);
 
         $filtered = [];
@@ -515,11 +505,10 @@ class ilTree
         return $filtered;
     }
 
-
     /**
-    * get child nodes of given node by object type
+     * get child nodes of given node by object type
      * @todo check the perfomance optimization and remove
-    */
+     */
     public function getChildsByType(int $a_node_id, string $a_type) : array
     {
         if ($a_type == 'rolf' && $this->table_obj_reference) {
@@ -551,7 +540,7 @@ class ilTree
             );
         }
         $res = $this->db->query($query);
-        
+
         // init childs
         $childs = [];
         while ($row = $this->db->fetchAssoc($res)) {
@@ -563,8 +552,12 @@ class ilTree
     /**
      * get child nodes of given node by object type
      */
-    public function getChildsByTypeFilter(int $a_node_id, array $a_types, string $a_order = "", string $a_direction = "ASC") : array
-    {
+    public function getChildsByTypeFilter(
+        int $a_node_id,
+        array $a_types,
+        string $a_order = "",
+        string $a_direction = "ASC"
+    ) : array {
         $filter = ' ';
         if ($a_types) {
             $filter = 'AND ' . $this->table_obj_data . '.type IN(' . implode(',', ilUtil::quoteArray($a_types)) . ') ';
@@ -576,24 +569,25 @@ class ilTree
         } else {
             $order_clause = "ORDER BY " . $this->table_tree . ".lft";
         }
-        
+
         $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
             $this->buildJoin() .
             'WHERE parent = ' . $this->db->quote($a_node_id, 'integer') . ' ' .
-            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->db->quote($this->tree_id, 'integer') . ' ' .
+            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->db->quote($this->tree_id,
+                'integer') . ' ' .
             $filter .
             $order_clause;
-        
+
         $res = $this->db->query($query);
 
         $childs = [];
         while ($row = $this->db->fetchAssoc($res)) {
             $childs[] = $this->fetchNodeData($row);
         }
-        
+
         return $childs;
     }
-    
+
     /**
      * Insert node from trash deletes trash entry.
      * If we have database query exceptions we could wrap insertNode in try/catch
@@ -605,9 +599,8 @@ class ilTree
         int $a_target_id,
         int $a_tree_id,
         int $a_pos = self::POS_LAST_NODE,
-        bool $a_reset_deleted_date = false)
-    : void
-    {
+        bool $a_reset_deleted_date = false
+    ) : void {
         if ($this->__isMainTree()) {
             if ($a_source_id <= 1 || $a_target_id <= 0) {
                 $this->logger->logStack(ilLogLevel::WARNING);
@@ -619,27 +612,25 @@ class ilTree
             ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::WARNING);
             throw new InvalidArgumentException('Node already in tree.');
         }
-        
+
         $query = 'DELETE from tree ' .
-                'WHERE tree = ' . $this->db->quote($a_tree_id, 'integer') . ' ' .
-                'AND child = ' . $this->db->quote($a_source_id, 'integer');
+            'WHERE tree = ' . $this->db->quote($a_tree_id, 'integer') . ' ' .
+            'AND child = ' . $this->db->quote($a_source_id, 'integer');
         $this->db->manipulate($query);
-        
+
         $this->insertNode($a_source_id, $a_target_id, self::POS_LAST_NODE, $a_reset_deleted_date);
     }
-    
-    
+
     /**
-    * insert new node with node_id under parent node with parent_id
-    * @throws InvalidArgumentException
-    */
+     * insert new node with node_id under parent node with parent_id
+     * @throws InvalidArgumentException
+     */
     public function insertNode(
-        int $a_node_id, 
-        int $a_parent_id, 
-        int $a_pos = self::POS_LAST_NODE, 
-        bool $a_reset_deletion_date = false) 
-    : void
-    {
+        int $a_node_id,
+        int $a_parent_id,
+        int $a_pos = self::POS_LAST_NODE,
+        bool $a_reset_deletion_date = false
+    ) : void {
         // CHECK node_id and parent_id > 0 if in main tree
         if ($this->__isMainTree()) {
             if ($a_node_id <= 1 or $a_parent_id <= 0) {
@@ -654,11 +645,11 @@ class ilTree
         }
         if ($this->isInTree($a_node_id)) {
             throw new InvalidArgumentException("Node " . $a_node_id . " already in tree " .
-                                     $this->table_tree . "!");
+                $this->table_tree . "!");
         }
 
         $this->getTreeImplementation()->insertNode($a_node_id, $a_parent_id, $a_pos);
-        
+
         $this->in_tree_cache[$a_node_id] = true;
 
         // reset deletion date
@@ -677,20 +668,17 @@ class ilTree
             );
         }
     }
-    
+
     /**
      * get filtered subtree
-     *
      * get all subtree nodes beginning at a specific node
      * excluding specific object types and their child nodes.
-     *
      * E.g getFilteredSubTreeNodes()
-     *
      */
     public function getFilteredSubTree(int $a_node_id, array $a_filter = []) : array
     {
         $node = $this->getNodeData($a_node_id);
-        
+
         $first = true;
         $depth = 0;
         $filtered = [];
@@ -715,7 +703,7 @@ class ilTree
      * @param int $a_ref_id
      * @return int[]
      */
-    public function getSubTreeIds(int $a_ref_id): array
+    public function getSubTreeIds(int $a_ref_id) : array
     {
         return $this->getTreeImplementation()->getSubTreeIds($a_ref_id);
     }
@@ -754,13 +742,14 @@ class ilTree
             // moved to trash and then deleted.
             if (!$this->__checkDelete($a_node)) {
                 $this->logger->logStack(ilLogLevel::ERROR);
-                throw new ilInvalidTreeStructureException('Deletion canceled due to invalid tree structure.' . print_r($a_node, true));
+                throw new ilInvalidTreeStructureException('Deletion canceled due to invalid tree structure.' . print_r($a_node,
+                        true));
             }
         }
         $this->getTreeImplementation()->deleteTree($a_node['child']);
         $this->resetInTreeCache();
     }
-    
+
     /**
      * Validate parent relations of tree
      * @return int[] array of failure nodes
@@ -771,10 +760,10 @@ class ilTree
     }
 
     /**
-    * get path from a given startnode to a given endnode
-    * if startnode is not given the rootnode is startnode.
-    * This function chooses the algorithm to be used.
-    */
+     * get path from a given startnode to a given endnode
+     * if startnode is not given the rootnode is startnode.
+     * This function chooses the algorithm to be used.
+     */
     public function getPathFull(int $a_endnode_id, int $a_startnode_id = 0) : array
     {
         $pathIds = $this->getPathId($a_endnode_id, $a_startnode_id);
@@ -798,7 +787,8 @@ class ilTree
             'FROM ' . $this->table_tree . ' ' .
             $this->buildJoin() . ' ' .
             'WHERE ' . $inClause . ' ' .
-            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->db->quote($this->tree_id, 'integer') . ' ' .
+            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->db->quote($this->tree_id,
+                'integer') . ' ' .
             'ORDER BY depth';
         $r = $this->db->query($q);
 
@@ -814,7 +804,6 @@ class ilTree
         }
         return $pathFull;
     }
-    
 
     /**
      * Preload depth/parent
@@ -824,7 +813,7 @@ class ilTree
     {
         global $DIC;
 
-        if (!$this->__isMainTree()  || !$this->isCacheUsed()) {
+        if (!$this->__isMainTree() || !$this->isCacheUsed()) {
             return;
         }
 
@@ -849,14 +838,14 @@ class ilTree
             $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException(__METHOD__ . ': No endnode given!');
         }
-        
+
         // path id cache
         if ($this->isCacheUsed() && isset($this->path_id_cache[$a_endnode_id][$a_startnode_id])) {
             return $this->path_id_cache[$a_endnode_id][$a_startnode_id];
         }
 
         $pathIds = $this->getTreeImplementation()->getPathIds($a_endnode_id, $a_startnode_id);
-        
+
         if ($this->__isMainTree()) {
             $this->path_id_cache[$a_endnode_id][$a_startnode_id] = $pathIds;
         }
@@ -864,15 +853,15 @@ class ilTree
     }
 
     /**
-    * Returns the node path for the specified object reference.
-    * Note: this function returns the same result as getNodePathForTitlePath,
-    * but takes ref-id's as parameters.
-    * This function differs from getPathFull, in the following aspects:
-    * - The title of an object is not translated into the language of the user
-    * - This function is significantly faster than getPathFull.
-    * @return	array	ordered path info (depth,parent,child,obj_id,type,title)
-    *               or null, if the node_id can not be converted into a node path.
-    */
+     * Returns the node path for the specified object reference.
+     * Note: this function returns the same result as getNodePathForTitlePath,
+     * but takes ref-id's as parameters.
+     * This function differs from getPathFull, in the following aspects:
+     * - The title of an object is not translated into the language of the user
+     * - This function is significantly faster than getPathFull.
+     * @return    array    ordered path info (depth,parent,child,obj_id,type,title)
+     *               or null, if the node_id can not be converted into a node path.
+     */
     public function getNodePath(int $a_endnode_id, int $a_startnode_id = 0) : array
     {
         $pathIds = $this->getPathId($a_endnode_id, $a_startnode_id);
@@ -882,7 +871,6 @@ class ilTree
             return [];
         }
 
-        
         $types = [];
         $data = [];
         for ($i = 0; $i < count($pathIds); $i++) {
@@ -896,7 +884,7 @@ class ilTree
             'JOIN ' . $this->table_obj_data . ' d ON d.obj_id = r.obj_id ' .
             'WHERE ' . $this->db->in('t.child', $data, false, 'integer') . ' ' .
             'ORDER BY t.depth ';
-            
+
         $res = $this->db->queryF($query, $types, $data);
 
         $titlePath = [];
@@ -916,7 +904,7 @@ class ilTree
         $types = array('integer');
         $query = 'SELECT lft,rgt FROM ' . $this->table_tree . ' ' .
             'WHERE ' . $this->tree_pk . ' = %s ';
-        
+
         $res = $this->db->queryF($query, $types, array($this->tree_id));
         $lft = $rgt = [];
         while ($row = $this->db->fetchObject($res)) {
@@ -938,14 +926,14 @@ class ilTree
     /**
      * check, if all childs of tree nodes exist in object table
      * @throws ilInvalidTreeStructureException
-    */
+     */
     public function checkTreeChilds(bool $a_no_zero_child = true) : bool
     {
         $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                'WHERE ' . $this->tree_pk . ' = %s ' .
-                'ORDER BY lft';
+            'WHERE ' . $this->tree_pk . ' = %s ' .
+            'ORDER BY lft';
         $r1 = $this->db->queryF($query, array('integer'), array($this->tree_id));
-        
+
         while ($row = $this->db->fetchAssoc($r1)) {
             //echo "tree:".$row[$this->tree_pk].":lft:".$row["lft"].":rgt:".$row["rgt"].":child:".$row["child"].":<br>";
             if (($row["child"] == 0) && $a_no_zero_child) {
@@ -958,7 +946,7 @@ class ilTree
                 // get object reference data
                 $query = 'SELECT * FROM ' . $this->table_obj_reference . ' WHERE ' . $this->ref_pk . ' = %s ';
                 $r2 = $this->db->queryF($query, array('integer'), array($row['child']));
-                
+
                 //echo "num_childs:".$r2->numRows().":<br>";
                 if ($r2->numRows() == 0) {
                     $message = "No Object-to-Reference entry found for ID " . $row["child"] . "!";
@@ -1015,14 +1003,14 @@ class ilTree
 
         $query = 'SELECT MAX(depth) depth FROM ' . $this->table_tree;
         $res = $this->db->query($query);
-        
+
         $row = $this->db->fetchAssoc($res);
         return $row['depth'];
     }
 
     /**
-    * return depth of a node in tree
-    */
+     * return depth of a node in tree
+     */
     public function getDepth(int $a_node_id) : int
     {
         global $DIC;
@@ -1035,16 +1023,16 @@ class ilTree
                 $row = $this->db->fetchObject($res);
             } else {
                 $query = 'SELECT depth FROM ' . $this->table_tree . ' ' .
-                'WHERE child = %s ' .
-                'AND ' . $this->tree_pk . ' = %s ';
-                $res = $this->db->queryF($query, array('integer','integer'), array($a_node_id,$this->tree_id));
+                    'WHERE child = %s ' .
+                    'AND ' . $this->tree_pk . ' = %s ';
+                $res = $this->db->queryF($query, array('integer', 'integer'), array($a_node_id, $this->tree_id));
                 $row = $this->db->fetchObject($res);
             }
             return $row->depth;
         }
         return 1;
     }
-    
+
     /**
      * return all columns of tabel tree
      * @throws InvalidArgumentException
@@ -1057,9 +1045,9 @@ class ilTree
             $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException('Missing or empty parameter $a_node_id: ' . $a_node_id);
         }
-        
+
         $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
-                'WHERE child = ' . $this->db->quote($a_node_id, 'integer');
+            'WHERE child = ' . $this->db->quote($a_node_id, 'integer');
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_ASSOC)) {
             return $row;
@@ -1067,18 +1055,17 @@ class ilTree
         return [];
     }
 
-
     /**
-    * get all information of a node.
-    * get data of a specific node from tree and object_data
-    * @throws InvalidArgumentException
-    */
+     * get all information of a node.
+     * get data of a specific node from tree and object_data
+     * @throws InvalidArgumentException
+     */
     public function getNodeData(int $a_node_id, ?int $a_tree_pk = null) : array
     {
         if ($this->__isMainTree()) {
             if ($a_node_id < 1) {
                 $message = 'No valid parameter given! $a_node_id: %s' . $a_node_id;
-               $this->logger->error($message);
+                $this->logger->error($message);
                 throw new InvalidArgumentException($message);
             }
         }
@@ -1087,18 +1074,19 @@ class ilTree
             $this->buildJoin() .
             'WHERE ' . $this->table_tree . '.child = %s ' .
             'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer','integer'), array(
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
             $a_node_id,
-            $a_tree_pk === null ? $this->tree_id : $a_tree_pk));
+            $a_tree_pk === null ? $this->tree_id : $a_tree_pk
+        ));
         $row = $this->db->fetchAssoc($res);
         $row[$this->tree_pk] = $this->tree_id;
 
         return $this->fetchNodeData($row);
     }
-    
+
     /**
-    * get data of parent node from tree and object_data
-    */
+     * get data of parent node from tree and object_data
+     */
     public function fetchNodeData(array $a_row) : array
     {
         global $DIC;
@@ -1142,10 +1130,11 @@ class ilTree
                     'AND lang_code = %s ' .
                     'AND NOT lang_default = %s';
 
-                $res = $this->db->queryF($query, array('integer','text','integer'), array(
+                $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
                     $data['obj_id'],
                     $this->lang_code,
-                    1));
+                    1
+                ));
                 $row = $this->db->fetchObject($res);
 
                 if ($row) {
@@ -1158,7 +1147,7 @@ class ilTree
                 if ($this->isCacheUsed() && count($this->translation_cache) < 1000) {
                     $key = $data["obj_id"] . '.' . $lang_code;
                     $this->translation_cache[$key] = [];
-                    $this->translation_cache[$key]['title'] = $data["title"] ;
+                    $this->translation_cache[$key]['title'] = $data["title"];
                     $this->translation_cache[$key]['description'] = $data["description"];
                     $this->translation_cache[$key]['desc'] = $data["desc"];
                 }
@@ -1167,14 +1156,14 @@ class ilTree
 
         // TODO: Handle this switch by module.xml definitions
         if (isset($data['type']) && ($data['type'] == 'crsr' or $data['type'] == 'catr' or $data['type'] == 'grpr' or $data['type'] === 'prgr')) {
-                        $data['title'] = ilContainerReference::_lookupTitle($data['obj_id']);
+            $data['title'] = ilContainerReference::_lookupTitle($data['obj_id']);
         }
         return $data;
     }
 
     /**
      * Get translation data from object cache (trigger in object cache on preload)
-     * @param	array $a_obj_ids object ids
+     * @param array $a_obj_ids object ids
      * @todo handle dependency
      */
     protected function fetchTranslationFromObjectDataCache(array $a_obj_ids) : void
@@ -1187,18 +1176,16 @@ class ilTree
             foreach ($a_obj_ids as $id) {
                 $this->translation_cache[$id . '.']['title'] = $ilObjDataCache->lookupTitle($id);
                 $this->translation_cache[$id . '.']['description'] = $ilObjDataCache->lookupDescription($id);
-                ;
                 $this->translation_cache[$id . '.']['desc'] =
                     $this->translation_cache[$id . '.']['description'];
             }
         }
     }
 
-
     /**
-    * get all information of a node.
-    * get data of a specific node from tree and object_data
-    */
+     * get all information of a node.
+     * get data of a specific node from tree and object_data
+     */
     public function isInTree(int $a_node_id) : bool
     {
         global $DIC;
@@ -1214,10 +1201,11 @@ class ilTree
         $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
             'WHERE ' . $this->table_tree . '.child = %s ' .
             'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s';
-            
-        $res = $this->db->queryF($query, array('integer','integer'), array(
+
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
             $a_node_id,
-            $this->tree_id));
+            $this->tree_id
+        ));
 
         if ($res->numRows() > 0) {
             if ($this->__isMainTree()) {
@@ -1235,18 +1223,18 @@ class ilTree
     }
 
     /**
-    * get data of parent node from tree and object_data
-    */
+     * get data of parent node from tree and object_data
+     */
     public function getParentNodeData(int $a_node_id) : array
     {
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-        
+
         if ($this->table_obj_reference) {
             // Use inner join instead of left join to improve performance
             $innerjoin = "JOIN " . $this->table_obj_reference . " ON v.child=" . $this->table_obj_reference . "." . $this->ref_pk . " " .
-                        "JOIN " . $this->table_obj_data . " ON " . $this->table_obj_reference . "." . $this->obj_pk . "=" . $this->table_obj_data . "." . $this->obj_pk . " ";
+                "JOIN " . $this->table_obj_data . " ON " . $this->table_obj_reference . "." . $this->obj_pk . "=" . $this->table_obj_data . "." . $this->obj_pk . " ";
         } else {
             // Use inner join instead of left join to improve performance
             $innerjoin = "JOIN " . $this->table_obj_data . " ON v.child=" . $this->table_obj_data . "." . $this->obj_pk . " ";
@@ -1258,26 +1246,27 @@ class ilTree
             'AND s.parent = v.child ' .
             'AND s.' . $this->tree_pk . ' = %s ' .
             'AND v.' . $this->tree_pk . ' = %s';
-        $res = $this->db->queryF($query, array('integer','integer','integer'), array(
+        $res = $this->db->queryF($query, array('integer', 'integer', 'integer'), array(
             $a_node_id,
             $this->tree_id,
-            $this->tree_id));
+            $this->tree_id
+        ));
         $row = $this->db->fetchAssoc($res);
         return $this->fetchNodeData($row);
     }
 
     /**
-    * checks if a node is in the path of an other node
-    */
+     * checks if a node is in the path of an other node
+     */
     public function isGrandChild(int $a_startnode_id, int $a_querynode_id) : bool
     {
         return $this->getRelation($a_startnode_id, $a_querynode_id) == self::RELATION_PARENT;
     }
 
     /**
-    * create a new tree
-    * to do: ???
-    */
+     * create a new tree
+     * to do: ???
+     */
     public function addTree(int $a_tree_id, int $a_node_id = -1) : bool
     {
         global $DIC;
@@ -1301,21 +1290,22 @@ class ilTree
             $this->tree_pk . ', child,parent,lft,rgt,depth) ' .
             'VALUES ' .
             '(%s,%s,%s,%s,%s,%s)';
-        $res = $this->db->manipulateF($query, array('integer','integer','integer','integer','integer','integer'), array(
-            $a_tree_id,
-            $a_node_id,
-            0,
-            1,
-            2,
-            1));
+        $res = $this->db->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
+            array(
+                $a_tree_id,
+                $a_node_id,
+                0,
+                1,
+                2,
+                1
+            ));
 
         return true;
     }
 
-
     /**
-    * remove an existing tree
-    */
+     * remove an existing tree
+     */
     public function removeTree(int $a_tree_id) : bool
     {
         if ($this->__isMainTree()) {
@@ -1332,7 +1322,7 @@ class ilTree
         $this->db->manipulateF($query, array('integer'), array($a_tree_id));
         return true;
     }
-    
+
     /**
      * Move node to trash bin
      * @throws InvalidArgumentException
@@ -1351,7 +1341,6 @@ class ilTree
             $this->logger->logStack(ilLogLevel::ERROR);
             throw new InvalidArgumentException('No valid parameter given! $a_node_id: ' . $a_node_id);
         }
-
 
         $query = $this->getTreeImplementation()->getSubTreeQuery($this->getNodeTreeData($a_node_id), '', false);
         $res = $this->db->query($query);
@@ -1438,11 +1427,10 @@ class ilTree
         }
     }
 
-
     /**
-    * get data saved/deleted nodes
-    * @throws InvalidArgumentException
-    */
+     * get data saved/deleted nodes
+     * @throws InvalidArgumentException
+     */
     public function getSavedNodeData(int $a_parent_id) : array
     {
         global $DIC;
@@ -1457,9 +1445,10 @@ class ilTree
             $this->buildJoin() .
             'WHERE ' . $this->table_tree . '.' . $this->tree_pk . ' < %s ' .
             'AND ' . $this->table_tree . '.parent = %s';
-        $res = $this->db->queryF($query, array('integer','integer'), array(
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
             0,
-            $a_parent_id));
+            $a_parent_id
+        ));
 
         $saved = [];
         while ($row = $this->db->fetchAssoc($res)) {
@@ -1468,11 +1457,11 @@ class ilTree
 
         return $saved;
     }
-    
+
     /**
-    * get object id of saved/deleted nodes
-    */
-    public function getSavedNodeObjIds(array $a_obj_ids): array
+     * get object id of saved/deleted nodes
+     */
+    public function getSavedNodeObjIds(array $a_obj_ids) : array
     {
         global $DIC;
 
@@ -1490,9 +1479,9 @@ class ilTree
     }
 
     /**
-    * get parent id of given node
-    * @throws InvalidArgumentException
-    */
+     * get parent id of given node
+     * @throws InvalidArgumentException
+     */
     public function getParentId(int $a_node_id) : int
     {
         global $DIC;
@@ -1507,11 +1496,12 @@ class ilTree
             );
         } else {
             $query = 'SELECT parent FROM ' . $this->table_tree . ' ' .
-            'WHERE child = %s ' .
-            'AND ' . $this->tree_pk . ' = %s ';
-            $res = $this->db->queryF($query, array('integer','integer'), array(
-            $a_node_id,
-            $this->tree_id));
+                'WHERE child = %s ' .
+                'AND ' . $this->tree_pk . ' = %s ';
+            $res = $this->db->queryF($query, array('integer', 'integer'), array(
+                $a_node_id,
+                $this->tree_id
+            ));
         }
 
         $row = $this->db->fetchObject($res);
@@ -1536,9 +1526,10 @@ class ilTree
         $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
             'WHERE child = %s ' .
             'AND ' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer','integer'), array(
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
             $a_node_id,
-            $this->tree_id));
+            $this->tree_id
+        ));
         $row = $this->db->fetchObject($res);
         return $row->lft;
     }
@@ -1555,7 +1546,7 @@ class ilTree
             $this->logger->error($message);
             throw new InvalidArgumentException($message);
         }
-        
+
         if ($type) {
             $query = 'SELECT count(*) cnt FROM ' . $this->table_tree . ' ' .
                 $this->buildJoin() .
@@ -1564,11 +1555,12 @@ class ilTree
                 'AND parent = %s ' .
                 'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
 
-            $res = $this->db->queryF($query, array('integer','text','integer','integer'), array(
+            $res = $this->db->queryF($query, array('integer', 'text', 'integer', 'integer'), array(
                 $a_node['lft'],
                 $type,
                 $a_node['parent'],
-                $this->tree_id));
+                $this->tree_id
+            ));
         } else {
             $query = 'SELECT count(*) cnt FROM ' . $this->table_tree . ' ' .
                 $this->buildJoin() .
@@ -1576,10 +1568,11 @@ class ilTree
                 'AND parent = %s ' .
                 'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
 
-            $res = $this->db->queryF($query, array('integer','integer','integer'), array(
+            $res = $this->db->queryF($query, array('integer', 'integer', 'integer'), array(
                 $a_node['lft'],
                 $a_node['parent'],
-                $this->tree_id));
+                $this->tree_id
+            ));
         }
         $row = $this->db->fetchAssoc($res);
         return (int) $row["cnt"];
@@ -1590,9 +1583,10 @@ class ilTree
         $query = 'SELECT child FROM ' . $this->table_tree . ' ' .
             'WHERE parent = %s ' .
             'AND ' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer','integer'), array(
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
             0,
-            $this->tree_id));
+            $this->tree_id
+        ));
         $row = $this->db->fetchObject($res);
         $this->root_id = $row->child;
         return $this->root_id;
@@ -1621,7 +1615,7 @@ class ilTree
     /**
      * get node data of successor node
      * @throws InvalidArgumentException
-     * @todo move to tree implementation and throw NotImplementedException for materialized path implementation
+     * @todo  move to tree implementation and throw NotImplementedException for materialized path implementation
      * @fixme fix return false
      */
     public function fetchSuccessorNode(int $a_node_id, string $a_type = "") : ?array
@@ -1630,11 +1624,12 @@ class ilTree
         $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
             'WHERE ' . $this->table_tree . '.child = %s ' .
             'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer','integer'), array(
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
             $a_node_id,
-            $this->tree_id));
+            $this->tree_id
+        ));
         $curr_node = $this->db->fetchAssoc($res);
-        
+
         if ($a_type) {
             $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
                 $this->buildJoin() .
@@ -1643,10 +1638,11 @@ class ilTree
                 'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
                 'ORDER BY lft ';
             $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer','text','integer'), array(
+            $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
                 $curr_node['lft'],
                 $a_type,
-                $this->tree_id));
+                $this->tree_id
+            ));
         } else {
             $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
                 $this->buildJoin() .
@@ -1654,9 +1650,10 @@ class ilTree
                 'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
                 'ORDER BY lft ';
             $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer','integer'), array(
+            $res = $this->db->queryF($query, array('integer', 'integer'), array(
                 $curr_node['lft'],
-                $this->tree_id));
+                $this->tree_id
+            ));
         }
 
         if ($res->numRows() < 1) {
@@ -1685,12 +1682,13 @@ class ilTree
         $query = 'SELECT lft FROM ' . $this->table_tree . ' ' .
             'WHERE ' . $this->table_tree . '.child = %s ' .
             'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ';
-        $res = $this->db->queryF($query, array('integer','integer'), array(
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
             $a_node_id,
-            $this->tree_id));
+            $this->tree_id
+        ));
 
         $curr_node = $this->db->fetchAssoc($res);
-        
+
         if ($a_type) {
             $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
                 $this->buildJoin() .
@@ -1699,10 +1697,11 @@ class ilTree
                 'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
                 'ORDER BY lft DESC';
             $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer','text','integer'), array(
+            $res = $this->db->queryF($query, array('integer', 'text', 'integer'), array(
                 $curr_node['lft'],
                 $a_type,
-                $this->tree_id));
+                $this->tree_id
+            ));
         } else {
             $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
                 $this->buildJoin() .
@@ -1710,11 +1709,12 @@ class ilTree
                 'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = %s ' .
                 'ORDER BY lft DESC';
             $this->db->setLimit(1, 0);
-            $res = $this->db->queryF($query, array('integer','integer'), array(
+            $res = $this->db->queryF($query, array('integer', 'integer'), array(
                 $curr_node['lft'],
-                $this->tree_id));
+                $this->tree_id
+            ));
         }
-        
+
         if ($res->numRows() < 1) {
             return null;
         } else {
@@ -1757,20 +1757,22 @@ class ilTree
             $query = 'UPDATE ' . $this->table_tree . ' SET lft = %s WHERE child = %s';
             $this->db->manipulateF(
                 $query,
-                array('integer','integer'),
+                array('integer', 'integer'),
                 array(
-                $i,
-                $node_id)
+                    $i,
+                    $node_id
+                )
             );
         } else {
             $query = 'UPDATE ' . $this->table_tree . ' SET lft = %s WHERE child = %s AND tree = %s';
             $this->db->manipulateF(
                 $query,
-                array('integer','integer','integer'),
+                array('integer', 'integer', 'integer'),
                 array(
-            $i,
-            $node_id,
-                $this->tree_id)
+                    $i,
+                    $node_id,
+                    $this->tree_id
+                )
             );
         }
 
@@ -1788,48 +1790,48 @@ class ilTree
             $i = $this->__renumber($child, $i + 1);
         }
         $i++;
-        
+
         // Insert a gap at the end of node, if the node has children
         if (count($childs) > 0) {
             $i += $this->gap * 2;
         }
-        
-        
+
         if ($this->isRepositoryTree()) {
             $query = 'UPDATE ' . $this->table_tree . ' SET rgt = %s WHERE child = %s';
             $res = $this->db->manipulateF(
                 $query,
-                array('integer','integer'),
+                array('integer', 'integer'),
                 array(
-                $i,
-                $node_id)
+                    $i,
+                    $node_id
+                )
             );
         } else {
             $query = 'UPDATE ' . $this->table_tree . ' SET rgt = %s WHERE child = %s AND tree = %s';
-            $res = $this->db->manipulateF($query, array('integer','integer', 'integer'), array(
-            $i,
-            $node_id,
-            $this->tree_id));
+            $res = $this->db->manipulateF($query, array('integer', 'integer', 'integer'), array(
+                $i,
+                $node_id,
+                $this->tree_id
+            ));
         }
         return $i;
     }
 
-
     /**
-    * Check for parent type
-    * e.g check if a folder (ref_id 3) is in a parent course obj => checkForParentType(3,'crs');
-    */
+     * Check for parent type
+     * e.g check if a folder (ref_id 3) is in a parent course obj => checkForParentType(3,'crs');
+     */
     public function checkForParentType(int $a_ref_id, string $a_type, bool $a_exclude_source_check = false) : mixed
     {
         // #12577
         $cache_key = $a_ref_id . '.' . $a_type . '.' . ((int) $a_exclude_source_check);
-        
+
         // Try to return a cached result
         if ($this->isCacheUsed() &&
             array_key_exists($cache_key, $this->parent_type_cache)) {
             return $this->parent_type_cache[$cache_key];
         }
-        
+
         // Store up to 1000 results in cache
         $do_cache = ($this->__isMainTree() && count($this->parent_type_cache) < 1000);
 
@@ -1840,7 +1842,7 @@ class ilTree
             }
             return false;
         }
-        
+
         $path = array_reverse($this->getPathFull($a_ref_id));
 
         // remove first path entry as it is requested node
@@ -1857,7 +1859,7 @@ class ilTree
                 return $node["child"];
             }
         }
-        
+
         if ($do_cache) {
             $this->parent_type_cache[$cache_key] = false;
         }
@@ -1865,11 +1867,10 @@ class ilTree
     }
 
     /**
-    * STATIC METHOD
-    * Removes a single entry from a tree. The tree structure is NOT updated!
-    *
-    * @throws InvalidArgumentException
-    */
+     * STATIC METHOD
+     * Removes a single entry from a tree. The tree structure is NOT updated!
+     * @throws InvalidArgumentException
+     */
     public static function _removeEntry(int $a_tree, int $a_child, string $a_db_table = "tree") : void
     {
         global $DIC;
@@ -1887,18 +1888,19 @@ class ilTree
                 throw new InvalidArgumentException($message);
             }
         }
-        
+
         $query = 'DELETE FROM ' . $a_db_table . ' ' .
             'WHERE tree = %s ' .
             'AND child = %s ';
-        $res = $db->manipulateF($query, array('integer','integer'), array(
+        $res = $db->manipulateF($query, array('integer', 'integer'), array(
             $a_tree,
-            $a_child));
+            $a_child
+        ));
     }
-    
+
     /**
-    * Check if operations are done on main tree
-    */
+     * Check if operations are done on main tree
+     */
     public function __isMainTree() : bool
     {
         return $this->table_tree === 'tree';
@@ -1907,16 +1909,15 @@ class ilTree
     /**
      * Check for deleteTree()
      * compares a subtree of a given node by checking lft, rgt against parent relation
-     *
      * @throws ilInvalidTreeStructureException
      * @deprecated since 4.4.0
-    */
+     */
     public function __checkDelete(array $a_node) : bool
     {
         $query = $this->getTreeImplementation()->getSubTreeQuery($a_node, [], false);
         $this->logger->debug($query);
         $res = $this->db->query($query);
-        
+
         $counter = (int) $lft_childs = [];
         while ($row = $this->db->fetchObject($res)) {
             $lft_childs[$row->child] = $row->parent;
@@ -1949,9 +1950,10 @@ class ilTree
         $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
             'WHERE child = %s ' .
             'AND tree = %s ';
-        $res = $this->db->queryF($query, array('integer','integer'), array(
+        $res = $this->db->queryF($query, array('integer', 'integer'), array(
             $a_node_id,
-            $this->tree_id));
+            $this->tree_id
+        ));
 
         $counter = 0;
         while ($row = $this->db->fetchObject($res)) {
@@ -1999,7 +2001,6 @@ class ilTree
             $this->logger->error($message);
             throw new ilInvalidTreeStructureException($message);
         }
-        
 
         foreach ($lft_childs as $key => $value) {
             if ($parent_childs[$key] != $value) {
@@ -2015,10 +2016,10 @@ class ilTree
         }
         return true;
     }
-    
+
     /**
      * Move Tree Implementation
-     * @access	public
+     * @access    public
      * @param int source ref_id
      * @param int target ref_id
      * @param int location ilTree::POS_LAST_NODE or ilTree::POS_FIRST_NODE
@@ -2033,18 +2034,15 @@ class ilTree
                 "Services/Tree",
                 "moveTree",
                 array(
-                        'tree' => $this->table_tree,
-                        'source_id' => $a_source_id,
-                        'target_id' => $a_target_id,
-                        'old_parent_id' => $old_parent_id
-                        )
+                    'tree' => $this->table_tree,
+                    'source_id' => $a_source_id,
+                    'target_id' => $a_target_id,
+                    'old_parent_id' => $old_parent_id
+                )
             );
         }
     }
-    
-    
-    
-    
+
     /**
      * This method is used for change existing objects
      * and returns all necessary information for this action.
@@ -2054,7 +2052,6 @@ class ilTree
     {
         return $this->getTreeImplementation()->getSubtreeInfo($a_endnode_id);
     }
-    
 
     /**
      * Get tree subtree query
@@ -2063,9 +2060,8 @@ class ilTree
         int $a_node_id,
         array $a_fields = [],
         mixed $a_types = null,
-        bool $a_force_join_reference = false)
-    : string
-    {
+        bool $a_force_join_reference = false
+    ) : string {
         return $this->getTreeImplementation()->getSubTreeQuery(
             $this->getNodeTreeData($a_node_id),
             $a_types,
@@ -2073,14 +2069,13 @@ class ilTree
             $a_fields
         );
     }
-    
+
     public function getTrashSubTreeQuery(
         int $a_node_id,
         array $a_fields = [],
         array $a_types = [],
-        bool $a_force_join_reference = false)
-    : string
-    {
+        bool $a_force_join_reference = false
+    ) : string {
         return $this->getTreeImplementation()->getTrashSubTreeQuery(
             $this->getNodeTreeData($a_node_id),
             $a_types,
@@ -2088,8 +2083,7 @@ class ilTree
             $a_fields
         );
     }
-    
-    
+
     /**
      * get all node ids in the subtree under specified node id, filter by object ids
      */
@@ -2099,16 +2093,16 @@ class ilTree
         if (!count($node)) {
             return [];
         }
-        
+
         $res = [];
-        
+
         $query = $this->getTreeImplementation()->getSubTreeQuery($node, '', true, array($this->ref_pk));
-        
+
         $fields = '*';
         if (count($a_fields)) {
             $fields = implode(',', $a_fields);
         }
-        
+
         $query = "SELECT " . $fields .
             " FROM " . $this->getTreeTable() .
             " " . $this->buildJoin() .
@@ -2118,15 +2112,15 @@ class ilTree
         while ($row = $this->db->fetchAssoc($set)) {
             $res[] = $row;
         }
-        
+
         return $res;
     }
-    
+
     public function deleteNode(int $a_tree_id, int $a_node_id) : void
     {
         $query = 'DELETE FROM tree where ' .
-                'child = ' . $this->db->quote($a_node_id, 'integer') . ' ' .
-                'AND tree = ' . $this->db->quote($a_tree_id, 'integer');
+            'child = ' . $this->db->quote($a_node_id, 'integer') . ' ' .
+            'AND tree = ' . $this->db->quote($a_tree_id, 'integer');
         $this->db->manipulate($query);
 
         $this->eventHandler->raise(
@@ -2148,19 +2142,19 @@ class ilTree
     {
         $query = 'SELECT DISTINCT(o.type) ' . $this->db->quoteIdentifier('type') .
             ' FROM tree t JOIN object_reference r ON child = r.ref_id ' .
-                'JOIN object_data o on r.obj_id = o.obj_id ' .
-                'WHERE tree < ' . $this->db->quote(0, 'integer') . ' ' .
-                'AND child = -tree ' .
-                'GROUP BY o.type';
+            'JOIN object_data o on r.obj_id = o.obj_id ' .
+            'WHERE tree < ' . $this->db->quote(0, 'integer') . ' ' .
+            'AND child = -tree ' .
+            'GROUP BY o.type';
         $res = $this->db->query($query);
-        
+
         $types_deleted = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $types_deleted[] = $row->type;
         }
         return $types_deleted;
     }
-    
+
     /**
      * check if current tree instance operates on repository tree table
      */

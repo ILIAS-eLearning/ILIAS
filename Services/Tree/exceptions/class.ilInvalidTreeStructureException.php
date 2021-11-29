@@ -3,11 +3,8 @@
 
 /**
  * Thrown if invalid tree strucutes are found
- *
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ServicesTree
- *
  */
 class ilInvalidTreeStructureException extends ilException
 {

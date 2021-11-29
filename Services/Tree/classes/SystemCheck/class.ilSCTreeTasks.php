@@ -14,7 +14,7 @@ class ilSCTreeTasks
     public function __construct(ilSCTask $task)
     {
         global $DIC;
-        $this->db   = $DIC->database();
+        $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
         $this->task = $task;
     }
@@ -53,29 +53,31 @@ class ilSCTreeTasks
 
         $ilDB = $DIC->database();
 
-        $query = 'SELECT * FROM tree WHERE child = ' . $ilDB->quote($a_child, ilDBConstants::T_INTEGER) . ' AND tree = ' . $ilDB->quote($a_tree_id, ilDBConstants::T_INTEGER);
-        $res   = $ilDB->query($query);
+        $query = 'SELECT * FROM tree WHERE child = ' . $ilDB->quote($a_child,
+                ilDBConstants::T_INTEGER) . ' AND tree = ' . $ilDB->quote($a_tree_id, ilDBConstants::T_INTEGER);
+        $res = $ilDB->query($query);
 
         $node = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $node['child'] = $row->child;
-            $node['tree']  = $row->tree;
+            $node['tree'] = $row->tree;
             $node['depth'] = $row->depth;
 
             // read obj_id
-            $query   = 'SELECT obj_id FROM object_reference WHERE ref_id = ' . $ilDB->quote($a_child, ilDBConstants::T_INTEGER);
+            $query = 'SELECT obj_id FROM object_reference WHERE ref_id = ' . $ilDB->quote($a_child,
+                    ilDBConstants::T_INTEGER);
             $ref_res = $ilDB->query($query);
             while ($ref_row = $ref_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $node['obj_id'] = $ref_row->obj_id;
 
                 // read object info
-                $query   = 'SELECT title, description, type FROM object_data ' .
+                $query = 'SELECT title, description, type FROM object_data ' .
                     'WHERE obj_id = ' . $ilDB->quote($ref_row->obj_id, ilDBConstants::T_INTEGER);
                 $obj_res = $ilDB->query($query);
                 while ($obj_row = $obj_res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-                    $node['title']       = $obj_row->title;
+                    $node['title'] = $obj_row->title;
                     $node['description'] = $obj_row->description;
-                    $node['type']        = $obj_row->type;
+                    $node['type'] = $obj_row->type;
                 }
             }
         }
@@ -88,8 +90,9 @@ class ilSCTreeTasks
 
         $ilDB = $DIC->database();
 
-        $query = 'SELECT * FROM tree WHERE tree = ' . $ilDB->quote($a_tree_id, ilDBConstants::T_INTEGER) . ' ' . 'AND child = ' . $ilDB->quote($a_childs, ilDBConstants::T_INTEGER);
-        $res   = $ilDB->query($query);
+        $query = 'SELECT * FROM tree WHERE tree = ' . $ilDB->quote($a_tree_id,
+                ilDBConstants::T_INTEGER) . ' ' . 'AND child = ' . $ilDB->quote($a_childs, ilDBConstants::T_INTEGER);
+        $res = $ilDB->query($query);
 
         $childs = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -110,12 +113,12 @@ class ilSCTreeTasks
             'GROUP BY child HAVING COUNT(child)  >  1 ) ' .
             'AND child = ' . $ilDB->quote($a_duplicate_id, ilDBConstants::T_INTEGER) . ' ' .
             'ORDER BY depth DESC';
-        $res   = $ilDB->query($query);
+        $res = $ilDB->query($query);
 
         $nodes = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $node          = array();
-            $node['tree']  = $row->tree;
+            $node = array();
+            $node['tree'] = $row->tree;
             $node['child'] = $row->child;
             $node['depth'] = $row->depth;
 
@@ -157,7 +160,7 @@ class ilSCTreeTasks
         $query = 'SELECT child FROM tree ' .
             'WHERE parent = ' . $ilDB->quote($dup_id, ilDBConstants::T_INTEGER) . ' ' .
             'AND tree = ' . $ilDB->quote($tree_id, ilDBConstants::T_INTEGER);
-        $res   = $ilDB->query($query);
+        $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             // start recursion
             self::deleteDuplicate($tree_id, $row->child);
@@ -219,7 +222,7 @@ class ilSCTreeTasks
         $query = 'SELECT child, count(child) num FROM tree ' .
             'GROUP BY child ' .
             'HAVING count(child) > 1';
-        $res   = $this->db->query($query);
+        $res = $this->db->query($query);
 
         $failures = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -262,7 +265,7 @@ class ilSCTreeTasks
 
     public function repairMissing() : void
     {
-        $failures    = $this->readMissing();
+        $failures = $this->readMissing();
         $recf_ref_id = $this->createRecoveryContainer();
         foreach ($failures as $ref_id) {
             $this->repairMissingObject($recf_ref_id, $ref_id);
@@ -280,7 +283,7 @@ class ilSCTreeTasks
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $query = 'SELECT type, title FROM object_data ' .
                 'WHERE obj_id = ' . $this->db->quote($row->obj_id, ilDBConstants::T_INTEGER);
-            $ores  = $this->db->query($query);
+            $ores = $this->db->query($query);
 
             $done = false;
             while ($orow = $ores->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -301,7 +304,8 @@ class ilSCTreeTasks
             }
             if (!$done) {
                 // delete reference value
-                $query = 'DELETE FROM object_reference WHERE ref_id = ' . $this->db->quote($a_ref_id, ilDBConstants::T_INTEGER);
+                $query = 'DELETE FROM object_reference WHERE ref_id = ' . $this->db->quote($a_ref_id,
+                        ilDBConstants::T_INTEGER);
                 $this->db->manipulate($query);
 
             }
@@ -314,7 +318,7 @@ class ilSCTreeTasks
         $query = 'SELECT ref_id FROM object_reference ' .
             'LEFT JOIN tree ON ref_id = child ' .
             'WHERE child IS NULL';
-        $res   = $this->db->query($query);
+        $res = $this->db->query($query);
 
         $failures = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -332,7 +336,7 @@ class ilSCTreeTasks
             // check for duplicates
             $query = 'SELECT tree, child FROM tree ' .
                 'WHERE child = ' . $this->db->quote($ref_id, ilDBConstants::T_INTEGER);
-            $res   = $this->db->query($query);
+            $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
 
 
@@ -353,7 +357,7 @@ class ilSCTreeTasks
             // check for duplicates
             $query = 'SELECT tree, child FROM tree ' .
                 'WHERE child = ' . $this->db->quote($row->child, ilDBConstants::T_INTEGER);
-            $resd  = $this->db->query($query);
+            $resd = $this->db->query($query);
             while ($rowd = $resd->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
                 $this->deleteMissingTreeEntry($rowd->tree, $rowd->child);
             }
