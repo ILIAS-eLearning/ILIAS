@@ -104,7 +104,7 @@ class ilWebDAVTree
      * Recursive function to iterate through tree with given path
      *
      * @param $path_title_array        Array with all object titles in this path
-     * @param $searched_element_index  Index for the path_title_array which points to the searched obj title
+     * @param $searched_element_index  int for the path_title_array which points to the searched obj title
      * @param $parent_ref_id           Ref ID of parent of the searched element
      * @return int
      */

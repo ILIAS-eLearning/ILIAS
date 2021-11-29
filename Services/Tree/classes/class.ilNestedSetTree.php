@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Tree/interfaces/interface.ilTreeImplementation.php';
 
 /**
  * Base class for nested set path based trees
@@ -40,8 +39,6 @@ class ilNestedSetTree implements ilTreeImplementation
     
     /**
      * Get subtree ids
-     * @param int $a_node_id
-     * @return array
      */
     public function getSubTreeIds(int $a_node_id) : array
     {
@@ -58,7 +55,7 @@ class ilNestedSetTree implements ilTreeImplementation
             array('integer','integer'),
             array($a_node_id,$this->getTree()->getTreeId())
         );
-        $childs = new SplFixedArray($res->numRows());
+        $childs = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $childs[] = $row->child;
         }
@@ -70,15 +67,17 @@ class ilNestedSetTree implements ilTreeImplementation
      * @inheritdoc
      */
     public function getTrashSubTreeQuery(
-        array $a_node, array $a_types, bool $a_force_join_reference = true, array $a_fields = []) : string
+        array $a_node,
+        array $a_types,
+        bool $a_force_join_reference = true,
+        array $a_fields = [])
+    : string
     {
         $type_str = '';
         if (is_array($a_types)) {
             if ($a_types) {
                 $type_str = "AND " . $this->db->in($this->getTree()->getObjectDataTable() . ".type", $a_types, false, "text");
             }
-        } elseif (strlen($a_types)) {
-            $type_str = "AND " . $this->getTree()->getObjectDataTable() . ".type = " . $this->db->quote($a_types, "text");
         }
 
         $join = '';
@@ -107,13 +106,13 @@ class ilNestedSetTree implements ilTreeImplementation
 
     /**
      * Get subtree
-     * @param array      $a_node
-     * @param mixed|null $a_types
-     * @param bool       $a_force_join_reference
-     * @param array      $a_fields
-     * @return string query
      */
-    public function getSubTreeQuery(array $a_node, mixed $a_types = null, bool $a_force_join_reference = true, array $a_fields = array()):string
+    public function getSubTreeQuery(
+        array $a_node,
+        mixed $a_types = null,
+        bool $a_force_join_reference = true,
+        array $a_fields = array())
+    : string
     {
         $type_str = '';
         if (is_array($a_types)) {
@@ -144,8 +143,6 @@ class ilNestedSetTree implements ilTreeImplementation
             "AND " . $this->getTree()->getTreeTable() . "." . $this->getTree()->getTreePk() . " = " . $this->db->quote($this->getTree()->getTreeId(), 'integer') . ' ' .
             $type_str . ' ' .
             "ORDER BY " . $this->getTree()->getTreeTable() . ".lft";
-
-
         return $query;
     }
     
@@ -172,12 +169,6 @@ class ilNestedSetTree implements ilTreeImplementation
         return ilTree::RELATION_NONE;
     }
     
-    /**
-     * Get path ids
-     * @param int $a_endnode
-     * @param int $a_startnode
-     * @return int[]
-     */
     public function getPathIds(int $a_endnode, int $a_startnode = 0) : array
     {
         return $this->getPathIdsUsingAdjacencyMap($a_endnode, $a_startnode);
@@ -576,10 +567,6 @@ class ilNestedSetTree implements ilTreeImplementation
     /**
     * get path from a given startnode to a given endnode
     * if startnode is not given the rootnode is startnode
-    * @access	public
-    * @param	integer		node_id of endnode
-    * @param	integer		node_id of startnode (optional)
-    * @return	array		all path ids from startnode to endnode
     */
     protected function getPathIdsUsingAdjacencyMap($a_endnode_id, $a_startnode_id = 0)
     {
@@ -677,7 +664,7 @@ class ilNestedSetTree implements ilTreeImplementation
                     'AND t0.child = %s ';
             }
 
-            $this->db->setLimit(1);
+            $this->db->setLimit(1, 0);
             $res = $this->db->queryF($query, $types, $data);
 
             if ($res->numRows() == 0) {
@@ -714,12 +701,9 @@ class ilNestedSetTree implements ilTreeImplementation
     /**
     * get path from a given startnode to a given endnode
     * if startnode is not given the rootnode is startnode
-    * @access	public
-    * @param	integer		node_id of endnode
-    * @param	integer		node_id of startnode (optional)
-    * @return	array		all path ids from startnode to endnode
+     * @return int[]
     */
-    public function getPathIdsUsingNestedSets($a_endnode_id, $a_startnode_id = 0)
+    public function getPathIdsUsingNestedSets(int $a_endnode_id, int $a_startnode_id = 0) : array
     {
         // The nested sets algorithm is very easy to implement.
         // Unfortunately it always does a full table space scan to retrieve the path
@@ -751,13 +735,14 @@ class ilNestedSetTree implements ilTreeImplementation
         $res = $this->db->queryF($query, $fields, $data);
         
         $takeId = $a_startnode_id == 0;
+        $pathIds = [];
         while ($row = $this->db->fetchAssoc($res)) {
             if ($takeId || $row['child'] == $a_startnode_id) {
                 $takeId = true;
                 $pathIds[] = $row['child'];
             }
         }
-        return $pathIds ? $pathIds : array();
+        return $pathIds;
     }
     
     
@@ -766,7 +751,7 @@ class ilNestedSetTree implements ilTreeImplementation
      */
     public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void
     {
-        $move_tree_callable = function (ilDBInterface $db) use ($a_source_id, $a_target_id, $a_position) {
+        $move_tree_callable = function () use ($a_source_id, $a_target_id, $a_position) {
             // Receive node infos for source and target
             $query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
                 'WHERE ( child = %s OR child = %s ) ' .
@@ -781,6 +766,7 @@ class ilNestedSetTree implements ilTreeImplementation
                 ilLoggerFactory::getLogger('tree')->logStack(ilLogLevel::ERROR, 'Objects not found in tree');
                 throw new InvalidArgumentException('Error moving subtree');
             }
+            $source_lft = $target_lft = $source_rgt = $target_rgt = $source_depth = $target_depth = $source_parent = 0;
             while ($row = $this->db->fetchObject($res)) {
                 if ($row->child == $a_source_id) {
                     $source_lft = $row->lft;
@@ -902,16 +888,10 @@ class ilNestedSetTree implements ilTreeImplementation
             $ilAtomQuery->addQueryCallable($move_tree_callable);
             $ilAtomQuery->run();
         } else {
-            $move_tree_callable($this->db);
+            $move_tree_callable();
         }
     }
     
-    /**
-     * Get rbac subtree info
-     * @param int $a_endnode_id
-     * @return array
-     * @global type $this- >db
-     */
     public function getSubtreeInfo(int $a_endnode_id): array
     {
         $query = "SELECT t2.lft lft, t2.rgt rgt, t2.child child, type " .

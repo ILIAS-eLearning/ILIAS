@@ -1080,7 +1080,8 @@ class ilMembershipGUI
             }
             
             $tree = $DIC->repositoryTree();
-            $children = (array) $tree->getSubTree($tree->getNodeData($this->getParentObject()->getRefId()), false, 'sess');
+            $children = (array) $tree->getSubTree($tree->getNodeData($this->getParentObject()->getRefId()), false,
+                'sess');
             if (count($children)) {
                 $tabs->addSubTabTarget(
                     'events',

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -37,8 +37,7 @@ class ilTreeTest //extends TestCase
 
     protected function setUp() : void
     {
-        //include_once("./Services/PHPUnit/classes/class.ilUnitUtil.php");
-        //ilUnitUtil::performInitialisation();
+        //        //ilUnitUtil::performInitialisation();
     }
     
     public function testGetChild()

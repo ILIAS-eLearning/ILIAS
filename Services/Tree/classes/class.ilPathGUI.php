@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -168,8 +168,7 @@ class ilPathGUI
             return $tpl->get();
         } else {
             // With images and links
-            include_once './Services/Link/classes/class.ilLink.php';
-            
+
             $tpl = new ilTemplate('tpl.locator.html', true, true, 'Services/Locator');
             
             $first = true;
