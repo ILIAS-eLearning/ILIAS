@@ -475,7 +475,6 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         );
 
         foreach ($this->translations as $lang_key => $translation_info) {
-            ilLoggerFactory::getLogger('root')->dump($translation_info, ilLogLevel::ERROR);
             if (!$translations->isConfigured($lang_key)) {
                 $translations->addTranslationEntry($lang_key);
             }
