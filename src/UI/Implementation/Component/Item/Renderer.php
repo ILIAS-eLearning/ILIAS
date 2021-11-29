@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
+use ilDatePresentation;
 use ILIAS\UI\Implementation\Component\Button\Close;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -146,14 +147,17 @@ class Renderer extends AbstractComponentRenderer
         $this->renderTitle($component, $default_renderer, $tpl);
         $this->renderDescription($component, $tpl);
 
-        if ($component->getUser()) {
-            $tpl->setVariable("USER", $component->getUser()->getPublicName());
+        if ($component->getContributor()) {
+            $tpl->setVariable("CONTRIBUTOR", \ilUtil::stripSlashes($component->getContributor()));
         } else {
-            $tpl->setVariable("USER", $this->txt('unknown'));
+            $tpl->setVariable("CONTRIBUTOR", $this->txt('unknown'));
         }
 
-        if ($component->getDateTime()) {
-            $tpl->setVariable("DATETIME", ilDatePresentation::formatDate($component->getDateTime()));
+        $tpl->setVariable("TIME_LABEL", ucfirst($this->txt('time')));
+        if ($component->getCreateDatetime()) {
+            $tpl->setVariable("DATETIME", $component->getCreateDatetime()->format(
+                $component->getDateFormat()->toString()
+            ));
         } else {
             $tpl->setVariable("DATETIME", $this->txt('unknown'));
         }
@@ -172,7 +176,9 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->getIdentifier() !== null) {
             $tpl->setCurrentBlock("identifier");
-            $tpl->setVariable('ID', $component->getIdentifier());
+            $tpl->setVariable('ID',
+                \ilUtil::stripSlashes($component->getIdentifier())
+            );
             $tpl->parseCurrentBlock();
         }
 
@@ -275,7 +281,7 @@ class Renderer extends AbstractComponentRenderer
         $desc = $component->getDescription();
         if (!is_null($desc) && trim($desc) != "") {
             $tpl->setCurrentBlock("desc");
-            $tpl->setVariable("DESC", $desc);
+            $tpl->setVariable("DESC", \ilUtil::stripSlashes($desc));
             $tpl->parseCurrentBlock();
         }
     }

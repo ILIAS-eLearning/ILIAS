@@ -3,20 +3,21 @@
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
-use ilDateTime;
+use DateTimeImmutable;
+use ILIAS\Data\DateFormat\DateFormat;
 use ILIAS\UI\Component\Item\Contribution as IContribution;
 use ILIAS\UI\Component\Button\Close;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Component\JavaScriptBindable as IJavaScriptBindable;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ilObjUser;
 
 class Contribution extends Item implements IContribution, IJavaScriptBindable
 {
     use JavaScriptBindable;
 
-    protected ?ilObjUser $user = null;
-    protected ?ilDateTime $datetime = null;
+    protected ?string $contributor = null;
+    protected ?DateTimeImmutable $createDatetime = null;
+    protected DateFormat $dateFormat;
     protected ?Icon $lead_icon = null;
     protected ?Close $close = null;
     protected ?string $identifier = null;
@@ -24,11 +25,12 @@ class Contribution extends Item implements IContribution, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function __construct(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null)
+    public function __construct(string $quote, ?string $contributor = null,  ?DateTimeImmutable $createDatetime = null)
     {
-        $this->desc = $content;
-        $this->user = $user;
-        $this->datetime = $datetime;
+        $this->desc = $quote;
+        $this->contributor = $contributor;
+        $this->createDatetime = $createDatetime;
+        $this->dateFormat = (new \ILIAS\Data\Factory())->dateFormat()->standard();
         parent::__construct('');
     }
 
@@ -65,31 +67,46 @@ class Contribution extends Item implements IContribution, IJavaScriptBindable
     /**
      * @inheritdoc
      */
-    public function withUser(ilObjUser $user) : IContribution
+    public function withContributor(string $contributor) : IContribution
     {
         $clone = clone $this;
-        $clone->user = $user;
+        $clone->contributor = $contributor;
         return $clone;
     }
 
-    public function getUser() : ?ilObjUser
+    public function getContributor() : ?string
     {
-        return $this->user;
+        return $this->contributor;
     }
 
     /**
      * @inheritdoc
      */
-    public function withDateTime(ilDateTime $datetime) : IContribution
+    public function withCreateDatetime(DateTimeImmutable $createDatetime) : IContribution
     {
         $clone = clone $this;
-        $clone->datetime = $datetime;
+        $clone->createDatetime = $createDatetime;
         return $clone;
     }
 
-    public function getDateTime() : ?ilDateTime
+    public function getCreateDatetime() : ?DateTimeImmutable
     {
-        return $this->datetime;
+        return $this->createDatetime;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function withDateFormat(DateFormat $dateFormat) : IContribution
+    {
+        $clone = clone $this;
+        $clone->dateFormat = $dateFormat;
+        return $clone;
+    }
+
+    public function getDateFormat() : DateFormat
+    {
+        return $this->dateFormat;
     }
 
     public function withIdentifier(string $identifier) : IContribution

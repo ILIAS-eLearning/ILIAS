@@ -27,7 +27,7 @@ class Factory implements Item\Factory
         ?DateTimeImmutable $createDatetime = null
     ) : Item\Contribution
     {
-        return new Contribution($content, $user, $datetime);
+        return new Contribution($quote, $contributor, $createDatetime);
     }
 
     /**
