@@ -1,22 +1,89 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 32 32" enable-background="new 0 0 32 32" xml:space="preserve">
-<g>
-	<defs>
-		<polygon id="SVGID_1_" points="2,12.9 7.3,20.2 7.3,29.3 10.4,28.4 10.4,10 		"/>
-	</defs>
-	<clipPath id="SVGID_2_">
-		<use xlink:href="#SVGID_1_"  overflow="visible"/>
-	</clipPath>
-	
-		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="0.9643" y1="33.476" x2="1.9643" y2="33.476" gradientTransform="matrix(-28 0 0 -28 57 957.0001)">
-		<stop  offset="0" style="stop-color:#FF8D2C"/>
-		<stop  offset="1.000000e-02" style="stop-color:#FF8D2C"/>
-		<stop  offset="1" style="stop-color:#E56E1E"/>
-	</linearGradient>
-	<rect x="2" y="10" clip-path="url(#SVGID_2_)" fill="url(#SVGID_3_)" width="8.4" height="19.3"/>
-</g>
-<polygon fill="#CAD0DF" points="16,2.7 10.6,10 10.4,10 10.4,28.4 16,26.6 24.7,29.3 24.8,20.2 30,12.9 21.4,10 "/>
-</svg>
+%PDF-1.7
+
+1 0 obj
+  << >>
+endobj
+
+2 0 obj
+  << /Length 3 0 R >>
+stream
+/DeviceRGB CS
+/DeviceRGB cs
+q
+1.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 cm
+0.709804 0.309804 0.000000 scn
+84.000000 177.049805 m
+95.160004 180.809814 l
+140.000000 241.149811 l
+184.839996 180.809814 l
+256.079987 156.809814 l
+212.550003 95.519806 l
+211.740005 20.349823 l
+140.000000 42.809814 l
+84.000000 25.279816 l
+84.000000 177.049805 l
+h
+140.000000 266.299805 m
+85.919998 193.529800 l
+0.000000 164.579803 l
+31.150002 120.719818 l
+52.500000 90.659805 l
+53.500000 -0.000183 l
+140.000000 27.089813 l
+226.520004 -0.000183 l
+227.520004 90.659805 l
+280.000000 164.579803 l
+194.080002 193.519806 l
+140.000000 266.299805 l
+h
+f
+n
+Q
+
+endstream
+endobj
+
+3 0 obj
+  638
+endobj
+
+4 0 obj
+  << /Annots []
+     /Type /Page
+     /MediaBox [ 0.000000 0.000000 280.000000 266.299805 ]
+     /Resources 1 0 R
+     /Contents 2 0 R
+     /Parent 5 0 R
+  >>
+endobj
+
+5 0 obj
+  << /Kids [ 4 0 R ]
+     /Count 1
+     /Type /Pages
+  >>
+endobj
+
+6 0 obj
+  << /Pages 5 0 R
+     /Type /Catalog
+  >>
+endobj
+
+xref
+0 7
+0000000000 65535 f
+0000000010 00000 n
+0000000034 00000 n
+0000000728 00000 n
+0000000750 00000 n
+0000000925 00000 n
+0000000999 00000 n
+trailer
+<< /ID [ (some) (id) ]
+   /Root 6 0 R
+   /Size 7
+>>
+startxref
+1058
+%%EOF
