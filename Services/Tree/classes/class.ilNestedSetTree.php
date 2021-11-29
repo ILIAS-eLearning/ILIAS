@@ -103,20 +103,18 @@ class ilNestedSetTree implements ilTreeImplementation
      */
     public function getSubTreeQuery(
         array $a_node,
-        mixed $a_types = null,
+        array $a_types = [],
         bool $a_force_join_reference = true,
         array $a_fields = array()
     ) : string {
         $type_str = '';
-        if (is_array($a_types)) {
+        if (count($a_types)) {
             if ($a_types) {
                 $type_str = "AND " . $this->db->in($this->getTree()->getObjectDataTable() . ".type", $a_types, false,
                         "text");
             }
-        } elseif (strlen($a_types)) {
-            $type_str = "AND " . $this->getTree()->getObjectDataTable() . ".type = " . $this->db->quote($a_types,
-                    "text");
         }
+
 
         $join = '';
         if ($type_str or $a_force_join_reference) {
@@ -742,7 +740,7 @@ class ilNestedSetTree implements ilTreeImplementation
      */
     public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void
     {
-        $move_tree_callable = function () use ($a_source_id, $a_target_id, $a_position) {
+        $move_tree_callable = function (ilDBInterface $ilDB) use ($a_source_id, $a_target_id, $a_position) {
             // Receive node infos for source and target
             $query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
                 'WHERE ( child = %s OR child = %s ) ' .
@@ -884,7 +882,7 @@ class ilNestedSetTree implements ilTreeImplementation
             $ilAtomQuery->addQueryCallable($move_tree_callable);
             $ilAtomQuery->run();
         } else {
-            $move_tree_callable();
+            $move_tree_callable($this->db);
         }
     }
 

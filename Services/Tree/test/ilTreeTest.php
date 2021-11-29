@@ -83,7 +83,7 @@ class ilTreeTest //extends TestCase
         $tree = new ilTree(ROOT_FOLDER_ID);
 
         $root = $tree->getNodeData(1);
-        $childs = $tree->getSubTree($root, false, 'cals'); // only calendar settings
+        $childs = $tree->getSubTree($root, false, ['cals']); // only calendar settings
 
         $this->assertEquals(count($childs), 1);
     }

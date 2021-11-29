@@ -548,7 +548,7 @@ class ilTestQuestionBrowserTableGUI extends ilTable2GUI
         $parents = $this->tree->getSubTree(
             $this->tree->getNodeData($repositoryRootNode),
             true,
-            $this->getQuestionParentObjectType()
+            [$this->getQuestionParentObjectType()]
         );
 
         $parentIds = array();

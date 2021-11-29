@@ -141,27 +141,24 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
     /**
      * Get subtree query
-     * @param array      $a_node
-     * @param mixed|null $a_types
-     * @param bool       $a_force_join_reference
-     * @param array      $a_fields
+     * @param array $a_node
+     * @param array $a_types
+     * @param bool  $a_force_join_reference
+     * @param array $a_fields
      * @return string query
      */
     public function getSubTreeQuery(
         array $a_node,
-        mixed $a_types = null,
+        array $a_types = [],
         bool $a_force_join_reference = true,
         array $a_fields = array()
     ) : string {
         $type_str = '';
-        if (is_array($a_types)) {
+        if (count($a_types)) {
             if ($a_types) {
                 $type_str = "AND " . $this->db->in($this->getTree()->getObjectDataTable() . ".type", $a_types, false,
                         "text");
             }
-        } elseif (strlen($a_types)) {
-            $type_str = "AND " . $this->getTree()->getObjectDataTable() . ".type = " . $this->db->quote($a_types,
-                    "text");
         }
 
         $join = '';
@@ -221,7 +218,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function insertNode(int $a_node_id, int $a_parent_id, int $a_pos) : void
     {
-        $insert_node_callable = function () use ($a_node_id, $a_parent_id, $a_pos) {
+        $insert_node_callable = function (ilDBInterface $ilDB) use ($a_node_id, $a_parent_id, $a_pos) {
             // get path and depth of parent
             $this->db->setLimit(1, 0);
 
@@ -269,7 +266,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $ilAtomQuery->addQueryCallable($insert_node_callable);
             $ilAtomQuery->run();
         } else {
-            $insert_node_callable();
+            $insert_node_callable($this->db);
         }
     }
 
@@ -278,7 +275,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function deleteTree(int $a_node_id) : void
     {
-        $delete_tree_callable = function () use ($a_node_id) {
+        $delete_tree_callable = function (ilDBInterface $ilDB) use ($a_node_id) {
             $query = 'SELECT * FROM ' . $this->getTree()->getTreeTable() . ' ' .
                 'WHERE ' . $this->getTree()->getTreeTable() . '.child = %s ' .
                 'AND ' . $this->getTree()->getTreeTable() . '.' . $this->getTree()->getTreePk() . ' = %s ';
@@ -303,7 +300,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $ilAtomQuery->addQueryCallable($delete_tree_callable);
             $ilAtomQuery->run();
         } else {
-            $delete_tree_callable();
+            $delete_tree_callable($this->db);
         }
     }
 
@@ -312,7 +309,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function moveToTrash(int $a_node_id) : void
     {
-        $move_to_trash_callable = function () use ($a_node_id) {
+        $move_to_trash_callable = function (ilDBInterface $ilDB) use ($a_node_id) {
             $node = $this->getTree()->getNodeTreeData($a_node_id);
 
             // Set the nodes deleted (negative tree id)
@@ -337,7 +334,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
             $ilAtomQuery->run();
         } else {
-            $move_to_trash_callable();
+            $move_to_trash_callable($this->db);
         }
     }
 
@@ -347,7 +344,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
      */
     public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void
     {
-        $move_tree_callable = function () use ($a_source_id, $a_target_id, $a_position) {
+        $move_tree_callable = function (ilDBInterface $ilDB) use ($a_source_id, $a_target_id, $a_position) {
             // Receive node infos for source and target
             $this->db->setLimit(2, 0);
 
@@ -432,7 +429,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
             $ilAtomQuery->addQueryCallable($move_tree_callable);
             $ilAtomQuery->run();
         } else {
-            $move_tree_callable();
+            $move_tree_callable($this->db);
         }
     }
 

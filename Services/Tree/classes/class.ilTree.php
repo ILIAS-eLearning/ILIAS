@@ -713,7 +713,7 @@ class ilTree
      * @todo remove the in cache exception for lm tree
      * @todo refactor $a_type to string[]
      */
-    public function getSubTree(array $a_node, bool $a_with_data = true, mixed $a_type = null) : array
+    public function getSubTree(array $a_node, bool $a_with_data = true, array $a_type = []) : array
     {
         $query = $this->getTreeImplementation()->getSubTreeQuery($a_node, $a_type);
 
@@ -1342,7 +1342,7 @@ class ilTree
             throw new InvalidArgumentException('No valid parameter given! $a_node_id: ' . $a_node_id);
         }
 
-        $query = $this->getTreeImplementation()->getSubTreeQuery($this->getNodeTreeData($a_node_id), '', false);
+        $query = $this->getTreeImplementation()->getSubTreeQuery($this->getNodeTreeData($a_node_id), [], false);
         $res = $this->db->query($query);
 
         $subnodes = [];
@@ -1505,7 +1505,7 @@ class ilTree
         }
 
         $row = $this->db->fetchObject($res);
-        return $row->parent;
+        return (int) $row->parent;
     }
 
     /**
@@ -1531,7 +1531,7 @@ class ilTree
             $this->tree_id
         ));
         $row = $this->db->fetchObject($res);
-        return $row->lft;
+        return (int) $row->lft;
     }
 
     /**
@@ -1588,7 +1588,7 @@ class ilTree
             $this->tree_id
         ));
         $row = $this->db->fetchObject($res);
-        $this->root_id = $row->child;
+        $this->root_id = (int) $row->child;
         return $this->root_id;
     }
 
@@ -1821,7 +1821,7 @@ class ilTree
      * Check for parent type
      * e.g check if a folder (ref_id 3) is in a parent course obj => checkForParentType(3,'crs');
      */
-    public function checkForParentType(int $a_ref_id, string $a_type, bool $a_exclude_source_check = false) : mixed
+    public function checkForParentType(int $a_ref_id, string $a_type, bool $a_exclude_source_check = false) : int
     {
         // #12577
         $cache_key = $a_ref_id . '.' . $a_type . '.' . ((int) $a_exclude_source_check);
@@ -1840,7 +1840,7 @@ class ilTree
             if ($do_cache) {
                 $this->parent_type_cache[$cache_key] = false;
             }
-            return false;
+            return 0;
         }
 
         $path = array_reverse($this->getPathFull($a_ref_id));
@@ -1854,9 +1854,9 @@ class ilTree
             // found matching parent
             if ($node["type"] == $a_type) {
                 if ($do_cache) {
-                    $this->parent_type_cache[$cache_key] = $node["child"];
+                    $this->parent_type_cache[$cache_key] = (int) $node["child"];
                 }
-                return $node["child"];
+                return (int) $node["child"];
             }
         }
 
@@ -2059,7 +2059,7 @@ class ilTree
     public function getSubTreeQuery(
         int $a_node_id,
         array $a_fields = [],
-        mixed $a_types = null,
+        array $a_types = [],
         bool $a_force_join_reference = false
     ) : string {
         return $this->getTreeImplementation()->getSubTreeQuery(
@@ -2096,7 +2096,7 @@ class ilTree
 
         $res = [];
 
-        $query = $this->getTreeImplementation()->getSubTreeQuery($node, '', true, array($this->ref_pk));
+        $query = $this->getTreeImplementation()->getSubTreeQuery($node, [], true, array($this->ref_pk));
 
         $fields = '*';
         if (count($a_fields)) {
