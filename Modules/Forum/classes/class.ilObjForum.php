@@ -454,6 +454,15 @@ class ilObjForum extends ilObject
             }
         }
 
+        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
+        //copy online status if object is not the root copy object
+        if (!$cwo->isRootNode($this->getRefId())) {
+            $new_obj->setOfflineStatus($this->getOfflineStatus());
+        } else {
+            $new_obj->setOfflineStatus(true);
+        }
+        $new_obj->update();
+
         return $new_obj;
     }
 
