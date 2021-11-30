@@ -25,6 +25,9 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
      */
     protected static $booking_repo = null;
 
+    /** @var array<int, array{has_time_info: bool, start: ?DateTimeImmutable, end: ?DateTimeImmutable}> */
+    private static $preloaded_period_data_by_id = [];
+
     /**
      * Get operators
      */
@@ -481,6 +484,16 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
 
         $f = new ilBookingReservationDBRepositoryFactory();
         self::$booking_repo = $f->getRepoWithContextObjCache($a_obj_ids);
+
+        self::$preloaded_period_data_by_id = self::preloadPeriodData($a_obj_ids);
+    }
+
+    /**
+     * @return array<int, array{has_time_info: bool, start: ?DateTimeImmutable, end: ?DateTimeImmutable}>
+     */
+    public static function getPeriodInfo() : array
+    {
+        return self::$preloaded_period_data_by_id;
     }
 
     /**
@@ -501,6 +514,41 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     public static function _usingRegistrationCode()
     {
         return self::$using_code;
+    }
+
+    /**
+     * @param int[] $obj_ids
+     * @return array<int, array{has_time_info: bool, start: ?ilDateTime, end: ?ilDateTime}>
+     */
+    public static function preloadPeriodData(array $obj_ids) : array
+    {
+        global $DIC;
+
+        $query = '
+            SELECT obj_id, period_time_indication, period_start, period_end
+            FROM crs_settings
+            WHERE ' . $DIC->database()->in('obj_id', $obj_ids, false, 'integer');
+
+        $res = $DIC->database()->query($query);
+        $data = [];
+        while ($row = $DIC->database()->fetchAssoc($res)) {
+            $periodStart = null;
+            if (!is_null($row['period_start'])) {
+                $periodStart = new DateTimeImmutable($row['period_start'], new DateTimeZone('UTC'));
+            }
+            $periodEnd = null;
+            if (!is_null($row['period_end'])) {
+                $periodEnd = new DateTimeImmutable($row['period_end'], new DateTimeZone('UTC'));
+            }
+
+            $data[(int) $row['obj_id']] = [
+                'has_time_info' => (bool) $row['period_time_indication'],
+                'periodStart' => $periodStart,
+                'period_end' => $periodEnd,
+            ];
+        }
+
+        return $data;
     }
 
     /**
