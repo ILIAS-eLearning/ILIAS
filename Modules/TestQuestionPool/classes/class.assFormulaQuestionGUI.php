@@ -467,7 +467,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
                 $tolerance->setSize(3);
                 $tolerance->setMinValue(0);
                 $tolerance->setMaxValue(100);
-                $tolerance->allowDecimals(false);
+                $tolerance->allowDecimals(true);
                 $tolerance->setInfo($this->lng->txt('tolerance_info'));
                 $tolerance->setValue($result->getTolerance());
                 
