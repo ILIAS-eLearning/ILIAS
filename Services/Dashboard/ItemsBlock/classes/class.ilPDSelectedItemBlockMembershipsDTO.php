@@ -18,16 +18,16 @@
  */
 final class ilPDSelectedItemBlockMembershipsDTO
 {
-    private $refId;
-    private $objId;
-    private $type;
-    private $title;
-    private $description;
-    private $parentRefId;
-    private $parentLftTree;
-    private $objectPeriodHasTime;
-    private $periodStart;
-    private $periodEnd;
+    private int $refId;
+    private int $objId;
+    private string $type;
+    private string $title;
+    private string $description;
+    private int $parentRefId;
+    private int $parentLftTree;
+    private bool $objectPeriodHasTime;
+    private ?DateTimeImmutable $periodStart;
+    private ?DateTimeImmutable $periodEnd;
 
     public function __construct(
         int $refId,

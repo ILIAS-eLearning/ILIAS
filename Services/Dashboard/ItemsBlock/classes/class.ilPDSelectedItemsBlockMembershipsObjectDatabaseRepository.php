@@ -24,10 +24,8 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
         'grp',
     ];
     
-    /** @var ilDBInterface */
-    private $db;
-    /** @var int */
-    private $recoveryFolderId;
+    private ilDBInterface $db;
+    private int $recoveryFolderId;
 
     public function __construct(ilDBInterface $db, int $recoveryFolderId)
     {
