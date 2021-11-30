@@ -126,6 +126,7 @@ class ilObjContentPage extends ilObject2 implements ilContentPageObjectConstants
         $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         $options = $cwo->getOptions($this->getRefId());
 
+        $cwo = ilCopyWizardOptions::_getInstance($a_copy_id);
         //copy online status if object is not the root copy object
         if (!$cwo->isRootNode($this->getRefId())) {
             $new_obj->setOfflineStatus($this->getOfflineStatus());
