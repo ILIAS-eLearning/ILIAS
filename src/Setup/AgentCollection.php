@@ -47,7 +47,7 @@ class AgentCollection implements Agent
     public function withAdditionalAgent(string $key, Agent $agent) : AgentCollection
     {
         if (isset($this->agents[$key])) {
-            throw new \LogicException("An agent with the name '$name' already exists.");
+            throw new \LogicException("An agent with the name '$key' already exists.");
         }
         $clone = clone $this;
         $clone->agents[$key] = $agent;
