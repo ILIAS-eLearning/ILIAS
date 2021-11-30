@@ -55,6 +55,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
             $objTypes = $this->repository->getValidObjectTypes();
         }
 
+        $references = [];
         foreach ($this->repository->getForUser($this->actor, $objTypes, $this->actor->getLanguage()) as $item) {
             $refId = $item->getRefId();
             $objId = $item->getObjId();
