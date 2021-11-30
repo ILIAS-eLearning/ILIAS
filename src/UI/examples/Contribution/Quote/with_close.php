@@ -1,16 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Item\Contribution;
+namespace ILIAS\UI\examples\Contribution\Quote;
 
-function with_critical_identifier()
+function with_close()
 {
     global $DIC;
 
     return $DIC->ui()->renderer()->render(
-        $DIC->ui()->factory()->item()->contribution(
+        $DIC->ui()->factory()->contribution()->quote(
             'a little test contribution',
             'Contributor',
             new \DateTimeImmutable()
-        )->withIdentifier('noid"><script>alert(\'CRITICAL\')</script')
+        )->withClose(
+            $DIC->ui()->factory()->button()->close()
+        )
     );
 }

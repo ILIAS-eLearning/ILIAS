@@ -1,18 +1,16 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 2021 Extended GPL, see docs/LICENSE */
 
-namespace ILIAS\UI\Component\Item;
+namespace ILIAS\UI\Component\Contribution;
 
 use DateTimeImmutable;
 use ILIAS\Data\DateFormat\DateFormat;
-use ILIAS\UI\Component\Button\Close;
-use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Component;
 
 /**
- * Interface Contribution
- * @package ILIAS\UI\Component\Item
+ * Common interface to all contributions.
  */
-interface Contribution extends Item
+interface Contribution extends Component
 {
     /**
      * Get a copy of that contribution with another contributor.
@@ -34,20 +32,6 @@ interface Contribution extends Item
     public function withDateFormat(DateFormat $dateFormat) : Contribution;
 
     public function getDateFormat() : DateFormat;
-
-    /**
-     * Get a copy of that contribution with a close button.
-     */
-    public function withClose(Close $close) : Contribution;
-
-    public function getClose() : ?Close;
-
-    /**
-     * Get a copy of that contribution with a lead icon.
-     */
-    public function withLeadIcon(Icon $lead) : Contribution;
-
-    public function getLeadIcon() : ?Icon;
 
     /**
      * Get a copy of that contribution with a unique identifier for further specification.

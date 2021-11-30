@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Item;
 
 use DateTimeImmutable;
+use ILIAS\UI\Component\Contribution\Contribution;
 use ILIAS\UI\Component\Item;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
 
@@ -16,18 +17,6 @@ class Factory implements Item\Factory
     public function standard($title) : Item\Standard
     {
         return new Standard($title);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function contribution(
-        string $quote,
-        ?string $contributor = null,
-        ?DateTimeImmutable $createDatetime = null
-    ) : Item\Contribution
-    {
-        throw new \ILIAS\UI\NotImplementedException();
     }
 
     /**

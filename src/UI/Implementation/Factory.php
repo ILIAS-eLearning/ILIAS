@@ -301,4 +301,9 @@ class Factory implements \ILIAS\UI\Factory
     {
         throw new \ILIAS\UI\NotImplementedException();
     }
+
+    public function contribution() : C\Contribution\Factory
+    {
+        throw new \ILIAS\UI\NotImplementedException();
+    }
 }

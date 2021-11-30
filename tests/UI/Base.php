@@ -113,6 +113,12 @@ class NoUIFactory implements Factory
     public function toast() : C\Toast\Factory
     {
     }
+    public function contribution(
+        ?string $contributor = null,
+        ?DateTimeImmutable $createDatetime = null
+    ) : C\Contribution\Factory
+    {
+    }
 }
 
 class LoggingRegistry implements ResourceRegistry

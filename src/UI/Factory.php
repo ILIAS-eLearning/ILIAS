@@ -4,6 +4,7 @@
 
 namespace ILIAS\UI;
 
+use DateTimeImmutable;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Component\Link\Standard;
 use ILIAS\UI\Component\Breadcrumbs\Breadcrumbs;
@@ -841,4 +842,26 @@ interface Factory
      * @return \ILIAS\UI\Component\Toast\Factory
      */
     public function toast() : C\Toast\Factory;
+
+    /**
+     * ---
+     * description:
+     *   purpose: >
+     *     Contributions are content that can be credited to one explicit contributor and time and which have a focus on
+     *     that contributor, since the origin of the contribution declaring its value.
+     *     Contribution Items are used to present that content with a clear visible association to its creator.
+     *   composition: >
+     *     Contributions contain a content, a contributor name and a datetime presentation or a representative
+     *     info if the datetime or contributor of the creation is unknown.
+     * rules:
+     *   usage:
+     *     1: The Contribution SHOULD be used for all displays of significant foreign intellectual property.
+     *   style:
+     *     1: The Contribution SHOULD show a clear association form its content to its contributor.
+     *     2: The Contribution MUST never be partial visible.
+     * ---
+     *
+     * @return \ILIAS\UI\Component\Contribution\Factory
+     */
+    public function contribution() : C\Contribution\Factory;
 }
