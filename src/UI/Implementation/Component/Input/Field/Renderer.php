@@ -4,7 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\Data\DateFormat as DateFormat;
+use ILIAS\Data\DateFormat;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\Input\Field as F;
 use ILIAS\UI\Component\Input\Field as FI;
@@ -23,6 +23,8 @@ use stdClass;
  */
 class Renderer extends AbstractComponentRenderer
 {
+    public const DYNAMIC_INPUT_ID_PLACEHOLDER = 'DYNAMIC_INPUT_ID';
+
     public const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
 
     public const DATEPICKER_FORMAT_MAPPING = [
@@ -103,7 +105,7 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\Url):
                 return $this->renderUrlField($component);
-            
+
             default:
                 throw new LogicException("Cannot render '" . get_class($component) . "'");
         }
@@ -694,6 +696,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
         $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
+        $registry->register('./src/UI/templates/js/Input/Field/dynamic_inputs_renderer.js');
     }
 
     /**
@@ -766,7 +769,7 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\DateTime::class,
             Component\Input\Field\Duration::class,
             Component\Input\Field\File::class,
-            Component\Input\Field\Url::class
+            Component\Input\Field\Url::class,
         ];
     }
 
@@ -802,7 +805,6 @@ class Renderer extends AbstractComponentRenderer
         return $input;
     }
 
-    
     protected function renderUrlField(F\Url $component) : string
     {
         $tpl = $this->getTemplate("tpl.url.html", true, true);
@@ -811,5 +813,47 @@ class Renderer extends AbstractComponentRenderer
         $this->maybeDisable($component, $tpl);
         $id = $this->bindJSandApplyId($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);
+    }
+
+    protected function initClientsideRenderer(
+        FI\DynamicInputsAware $input,
+        string $template_html
+    ) : FI\DynamicInputsAware {
+        $dynamic_inputs_template_html = $this->replaceTemplateIds($template_html);
+        $dynamic_input_count = count($input->getDynamicInputs());
+
+        // note that $dynamic_inputs_template_html is in tilted single quotes (`),
+        // because otherwise the html syntax might collide with normal ones.
+        return $input->withAdditionalOnLoadCode(function ($id) use (
+            $dynamic_inputs_template_html,
+            $dynamic_input_count
+        ) {
+            return "
+            $(document).ready(function () {
+                il.UI.Input.DynamicInputsRenderer.init(
+                    '$id', 
+                    `$dynamic_inputs_template_html`,
+                    $dynamic_input_count
+                );
+            });
+        ";
+        });
+    }
+
+    protected function replaceTemplateIds(string $template_html) : string
+    {
+        // regex matches anything between 'id="' and '"', hence the js_id.
+        preg_match_all('/(?<=id=")(.*?)(?=\s*")/', $template_html, $matches);
+        if (!empty($matches[0])) {
+            foreach ($matches[0] as $index => $js_id) {
+                $template_html = str_replace(
+                    $js_id,
+                    self::DYNAMIC_INPUT_ID_PLACEHOLDER . "_$index",
+                    $template_html
+                );
+            }
+        }
+
+        return $template_html;
     }
 }
