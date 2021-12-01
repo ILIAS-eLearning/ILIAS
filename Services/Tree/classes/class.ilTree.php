@@ -1186,11 +1186,9 @@ class ilTree
      * get all information of a node.
      * get data of a specific node from tree and object_data
      */
-    public function isInTree(int $a_node_id) : bool
+    public function isInTree(?int $a_node_id) : bool
     {
-        global $DIC;
-
-        if (!isset($a_node_id)) {
+        if (is_null($a_node_id) || !$a_node_id) {
             return false;
         }
         // is in tree cache
@@ -1209,13 +1207,11 @@ class ilTree
 
         if ($res->numRows() > 0) {
             if ($this->__isMainTree()) {
-                #$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = true');
                 $this->in_tree_cache[$a_node_id] = true;
             }
             return true;
         } else {
             if ($this->__isMainTree()) {
-                #$GLOBALS['DIC']['ilLog']->write(__METHOD__.': Storing in tree cache '.$a_node_id.' = false');
                 $this->in_tree_cache[$a_node_id] = false;
             }
             return false;
