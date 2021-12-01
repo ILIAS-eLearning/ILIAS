@@ -95,6 +95,10 @@ class ilPortfolioRepositoryGUI
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
 
+        if (!$this->access_handler->editPortfolios()) {
+            throw new ilException($this->lng->txt("no_permission"));
+        }
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("show");
                         

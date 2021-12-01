@@ -594,4 +594,13 @@ class ilPortfolioAccessHandler implements ilWACCheckingClass
 
         return false;
     }
+
+    /**
+     * Is portfolio editing (general feature) enabled
+     */
+    public function editPortfolios() : bool
+    {
+        return (bool) $this->settings->get('user_portfolios');
+    }
+
 }
