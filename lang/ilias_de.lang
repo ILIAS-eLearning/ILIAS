@@ -16332,6 +16332,10 @@ ui#:#ui_invalid_url#:#Das Format der URL ist nicht korrekt.
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_numeric_only#:#Bitte geben sie eine ganze Zahl ein.
+ui#:#ui_file_input_invalid_mime#:#Dateien vom Typ '%s' sind nicht erlaubt.
+ui#:#ui_file_input_invalid_size#:#Datei überschreitet die maximale Dateigrösse von %s.
+ui#:#ui_file_input_invalid_amount#:#Sie dürfen nicht so viele Dateien auf einmal hochladen, entfernen Sie ein paaru m fortzufahren.
+ui#:#ui_file_input_general_error#:#Es ist ein Fehler aufgetreten, prüfen Sie die Konsole für mehr Infos.
 ui#:#ui_tag_required#:#Bitte geben sie mindestens ein Tag ein.
 user#:#all_roles_has_starting_point#:#Alle Rollen mit definierter Startseite
 user#:#back_to_starting_points_list#:#Zurück zu Startseiten

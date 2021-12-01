@@ -4,9 +4,9 @@
 
 namespace ILIAS\Tests\UI\Component\Input\Field;
 
-use ILIAS\UI\Implementation\Component\Input\Field\DynamicInputsAwareInput;
+use ILIAS\UI\Implementation\Component\Input\Field\HasDynamicInputsBase;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Component\Input\Field\DynamicInputsAware;
+use ILIAS\UI\Component\Input\Field\HasDynamicInputs;
 use ILIAS\UI\Component\Input\Field\Input;
 use PHPUnit\Framework\TestCase;
 use ILIAS\Refinery\Constraint;
@@ -18,9 +18,9 @@ use Closure;
 /**
  * @author  Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-class DynamicInputsAwareTest extends TestCase
+class HasDynamicInputsBaseTest extends TestCase
 {
-    protected DynamicInputsAware $input;
+    protected HasDynamicInputsBase $input;
     protected DataFactory $data_factory;
     protected ilLanguage $language;
     protected Refinery $refinery;
@@ -30,10 +30,17 @@ class DynamicInputsAwareTest extends TestCase
         $this->data_factory = $this->createMock(DataFactory::class);
         $this->language = $this->createMock(ilLanguage::class);
         $this->refinery = $this->createMock(Refinery::class);
-        $this->input = new class($this->language, $this->data_factory, $this->refinery, 'test_input_name', $this->getTestInputTemplate(), 'test_byline') extends DynamicInputsAwareInput {
+        $this->input = new class(
+            $this->language,
+            $this->data_factory,
+            $this->refinery,
+            'test_input_name',
+            $this->getTestInputTemplate(),
+            'test_byline'
+        ) extends HasDynamicInputsBase {
             public function getUpdateOnLoadCode() : Closure
             {
-                return static function () : void {
+                return static function () {
                 };
             }
 
@@ -148,10 +155,15 @@ class DynamicInputsAwareTest extends TestCase
 
     protected function getTestInputTemplate() : Input
     {
-        return new class($this->data_factory, $this->refinery, 'input_template_name', 'input_template_byline') extends \ILIAS\UI\Implementation\Component\Input\Field\Input {
+        return new class(
+            $this->data_factory,
+            $this->refinery,
+            'input_template_name',
+            'input_template_byline'
+        ) extends \ILIAS\UI\Implementation\Component\Input\Field\Input {
             public function getUpdateOnLoadCode() : Closure
             {
-                return static function () : void {
+                return static function () {
                 };
             }
 

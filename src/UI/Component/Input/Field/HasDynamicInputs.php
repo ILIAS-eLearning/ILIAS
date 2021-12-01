@@ -7,7 +7,7 @@ namespace ILIAS\UI\Component\Input\Field;
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
-interface DynamicInputsAware extends FormInput
+interface HasDynamicInputs extends FormInput
 {
     /**
      * Returns the instance of Input which should be used to generate

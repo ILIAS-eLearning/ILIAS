@@ -79,7 +79,7 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         }
     }
 
-    protected function getInfoResult(string $identifier) : FileInfoResult
+    public function getInfoResult(string $identifier) : ?FileInfoResult
     {
         $id = $this->storage->manage()->find($identifier);
         if ($id === null) {
@@ -87,7 +87,8 @@ class ilSkillProfileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
         }
         $r = $this->storage->manage()->getCurrentRevision($id)->getInformation();
 
-        return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, $r->getTitle(), $r->getSize(), $r->getMimeType());
+        return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, $r->getTitle(),
+            $r->getSize(), $r->getMimeType());
     }
 
     public function getInfoForExistingFiles(array $file_ids) : array

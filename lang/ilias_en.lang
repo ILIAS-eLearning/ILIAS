@@ -16303,6 +16303,10 @@ ui#:#ui_invalid_url#:#Invalid URL-format
 ui#:#ui_link_label#:#Label
 ui#:#ui_link_url#:#URL
 ui#:#ui_numeric_only#:#Please insert a whole number.
+ui#:#ui_file_input_invalid_mime#:#Files of type '%s' are not allowed
+ui#:#ui_file_input_invalid_size#:#File exceeds the maximum size of %s.
+ui#:#ui_file_input_invalid_amount#:#You cannot upload this many files, please remove some in order to continue.
+ui#:#ui_file_input_general_error#:#An error occurred, check the console for more information
 ui#:#ui_tag_required#:#Please insert at least one tag.
 user#:#all_roles_has_starting_point#:#All the roles have starting points
 user#:#back_to_starting_points_list#:#Back to Starting Points

@@ -123,7 +123,7 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
     abstract protected function getRemoveResult(string $identifier) : HandlerResult;
 
 
-    abstract protected function getInfoResult(string $identifier) : FileInfoResult;
+    abstract public function getInfoResult(string $identifier) : ?FileInfoResult;
 
     
     abstract public function getInfoForExistingFiles(array $file_ids) : array;
