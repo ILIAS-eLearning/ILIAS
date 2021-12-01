@@ -11,6 +11,7 @@ use ILIAS\Data\NotOKException;
 use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
 use PHPUnit\Framework\TestCase;
+use ILIAS\Refinery\ConstraintViolationException;
 
 class ShuffleTransformationTest extends TestCase
 {
@@ -30,7 +31,7 @@ class ShuffleTransformationTest extends TestCase
 
     public function testTransformResultFailure() : void
     {
-        $this->expectException(NotOKException::class);
+        $this->expectException(ConstraintViolationException::class);
         $seedMock = $this->getMockBuilder(Seed::class)->getMock();
         $seedMock->expects(self::never())->method('seedRandomGenerator');
 

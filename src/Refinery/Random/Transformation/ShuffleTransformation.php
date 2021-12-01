@@ -10,6 +10,10 @@ use ILIAS\Data\Result\Ok;
 use ILIAS\Data\Result\Error;
 use ILIAS\Refinery\Random\Seed\Seed;
 use ILIAS\Refinery\IdentityTransformation;
+use ILIAS\Refinery\Transformation;
+use ILIAS\Refinery\ConstraintViolationException;
+use ILIAS\Refinery\DeriveInvokeFromTransform;
+use ILIAS\Refinery\DeriveApplyToFromTransform;
 
 /**
  * !! BEWARE OF THE SIDE EFFECT. This Transformation is not Side Effect free !!
@@ -18,8 +22,11 @@ use ILIAS\Refinery\IdentityTransformation;
  * @see https://github.com/ILIAS-eLearning/ILIAS/pull/476/files#diff-a6b45507ea92787f1788b74d31ba62162dd9b09f00e7a9dea804be783c09afecR8
  * and https://github.com/ILIAS-eLearning/ILIAS/pull/1707/files#diff-cbb4c50b8e633da5c3461f5b4bdf0f29c11199213ae2c60788af66b885b6bb5e
  */
-class ShuffleTransformation extends IdentityTransformation
+class ShuffleTransformation implements Transformation
 {
+    use DeriveInvokeFromTransform;
+    use DeriveApplyToFromTransform;
+
     private Seed $seed;
 
     public function __construct(Seed $seed)
@@ -28,19 +35,14 @@ class ShuffleTransformation extends IdentityTransformation
     }
 
     /**
-     * @return Result<array>
-     */
-    protected function validate($from) : Result
-    {
-        return is_array($from) ? new Ok($from) : new Error('I need an array');
-    }
-
-    /**
-     * @param array $array
+     * @throws ConstraintViolationException
      * @return array
      */
-    protected function saveTransform($array)
+    public function transform($array)
     {
+        if (!is_array($array)) {
+            throw new ConstraintViolationException('not an array', 'not_an_array');
+        }
         $this->seed->seedRandomGenerator();
         \shuffle($array);
 
