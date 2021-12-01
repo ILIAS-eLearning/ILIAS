@@ -54,7 +54,7 @@ acc#:#acc_form_edit_doc_head#:#Редактиране на документ
 acc#:#acc_form_new_doc_head#:#Създаване на документ
 acc#:#acc_forward_mail#:#Препращане на поща
 acc#:#acc_function#:#Фукнция
-acc#:#acc_last_rep_visited#:#Repository/Last Visited
+acc#:#acc_last_rep_visited#:#Хранилище/Последно посетени
 acc#:#acc_mark_all_read#:#Маркиране на всички като прочетени
 acc#:#acc_next#:#Следващ
 acc#:#acc_previous#:#Предишен
@@ -128,11 +128,11 @@ administration#:#adm_rep_shorten_description_info#:#Ако е активиран
 administration#:#adm_rep_shorten_description_length#:#Максимален брой знаци
 administration#:#adm_rep_tree_all_types#:#Всички типове ресурси
 administration#:#adm_rep_tree_all_types_info#:#All types of resources are listed in the tree.
-administration#:#adm_rep_tree_limit_grp_crs#:#Show limited context tree in courses and groups.
+administration#:#adm_rep_tree_limit_grp_crs#:#Показване на ограничено контекстно дърво в курсове и групи.
 administration#:#adm_rep_tree_limit_grp_crs_info#:#This relies on and automatically activates the 'Synchronize Tree Frame' feature.
 administration#:#adm_rep_tree_only_cntr#:#Container Only
 administration#:#adm_rep_tree_only_cntr_info#:#Only categories, courses and groups are listed.
-administration#:#adm_rep_tree_presentation#:#Repository Tree Presentation
+administration#:#adm_rep_tree_presentation#:#Дървовидно представяне на хранилището
 administration#:#adm_search_and_find#:#Search and Find
 administration#:#adm_settings_templates#:#Settings Templates
 administration#:#adm_show_comments_tagging_in_lists#:#Show number of notes, comments and tags in object lists
@@ -147,7 +147,7 @@ administration#:#adm_user_starting_point_info#:#Select the page or object which 
 administration#:#adm_user_starting_point_inherit#:#Use Standard-Settings
 administration#:#adm_user_starting_point_inherit_info#:#The settings that were made by the administrator of the platform as a whole will be used.
 administration#:#adm_user_starting_point_invalid_info#:#This feature is currently not active.
-administration#:#adm_user_starting_point_object#:#Repository Object
+administration#:#adm_user_starting_point_object#:#Обекти на хранилището
 administration#:#adm_user_starting_point_personal#:#Personal Setting
 administration#:#adm_user_starting_point_personal_info#:#If activated users may select their starting page.
 administration#:#adm_user_starting_point_ref_id#:#Reference-Id
@@ -231,7 +231,7 @@ administration#:#language_loaded_local#:#The local language file was loaded into
 administration#:#language_load_local_changes#:#Load local language file into the database
 administration#:#language_load_local_changes_info#:#Load the file Customizing/global/lang/ilias_%s_lang.local to the database. New entries of this file are added to the database and existing entries are overwritten.
 administration#:#language_local_file_deleted#:#The local language file was deleted.
-administration#:#language_maintain#:#Maintain
+administration#:#language_maintain#:#Поддръжка
 administration#:#language_maintain_local_changes#:#Maintain local changes
 administration#:#language_maintenance#:#Language Maintenance
 administration#:#language_merged_global#:#The local changes were merged into the global language file.
@@ -272,7 +272,7 @@ administration#:#language_scope_merged_info#:#Export the standard ILIAS language
 administration#:#language_scope_unchanged#:#Unchanged entries only
 administration#:#language_scope_unchanged_info#:#Export all default language entries that are not changed in the database. This is the opposite to "Local changes only". Both together are a complete backup of the current language in the database.
 administration#:#language_settings#:#Language Settings
-administration#:#language_statistics#:#Statistics
+administration#:#language_statistics#:#Статистика
 administration#:#language_translation_enabled#:#Page translation enabled
 administration#:#loginname_change_blocking_time#:#Blocking Time for Changing Login Names
 administration#:#loginname_change_blocking_time_info#:#Insert a period in seconds that an user has to wait before changing again its login name. If you enter 0 or leave this field blank, user can change login names anytime. Enter 3600 for one hour, 86400 for one day, a.s.o.
@@ -366,9 +366,9 @@ adve#:#adve_char_selector_settings#:#Character Selector
 adve#:#adve_excass_settings#:#Задания към упражнението
 adve#:#adve_grp_copa#:#Страници със съдържание
 adve#:#adve_grp_glo#:#Речници
-adve#:#adve_grp_lm#:#ILIAS Learning Modules
+adve#:#adve_grp_lm#:#ILIAS модул за обучение
 adve#:#adve_grp_rep#:#Страници на хранилището
-adve#:#adve_grp_scorm#:#SCORM Editing
+adve#:#adve_grp_scorm#:#Редактиране на SCORM
 adve#:#adve_grp_test#:#Тест и оценка
 adve#:#adve_grp_wiki#:#Уики
 adve#:#adve_minutes#:#Минути
@@ -435,7 +435,7 @@ assessment#:#allowedextensions#:#Allowed File Extensions
 assessment#:#allowedextensions_info#:#Enter a comma separated list of allowed file extensions if you want to restrict the upload to a given set of file extensions (e.g. doc,xls,odt).
 assessment#:#allow_images#:#Image Support for Answers
 assessment#:#all_available_question_pools#:#Всички налични набори въпроси
-assessment#:#all_participants#:#All participants
+assessment#:#all_participants#:#Всички участници
 assessment#:#analyze_errortext#:#Analyze Error Text
 assessment#:#answer#:#Отговор
 assessment#:#answered#:#Answered
@@ -928,10 +928,10 @@ assessment#:#output#:#Output
 assessment#:#output_mode#:#Output Mode
 assessment#:#out_of_range#:#Out of range
 assessment#:#parseQuestion#:#Parse Question
-assessment#:#participants#:#Participants
+assessment#:#participants#:#Участници
 assessment#:#participants_invitation#:#Invite Fixed Participants
-assessment#:#participants_invitation_description#:#You are able to make this test accessible only for a fixed group of ILIAS users. To enable this functionality, please check the above checkbox and press the Save button.
-assessment#:#participants_results_subtab#:#All Participants
+assessment#:#participants_invitation_description#:#Можете да направите този тест достъпен само за определена група потребители на ILIAS. За да активирате тази функционалност, моля, поставете отметка в горното квадратче и натиснете бутона Запазване.
+assessment#:#participants_results_subtab#:#Всички участници
 assessment#:#part_received_a_of_b_points#:#The participant received %s of %s possible points
 assessment#:#pass#:#Pass
 assessment#:#passed_official#:#издържал
@@ -1171,7 +1171,7 @@ assessment#:#solution_contain_keywords#:#Score is granted based on the occurence
 assessment#:#solution_hint#:#Предложено решение
 assessment#:#start_tag#:#Стартов прозорец
 assessment#:#statistical_data#:#Статистически данни
-assessment#:#statistics#:#Statistics
+assessment#:#statistics#:#Статистика
 assessment#:#submit_and_check#:#Submit and Check Answer
 assessment#:#submit_answer#:#Submit Answer
 assessment#:#suggestedSolutionType#:#Suggested solution type
@@ -1187,7 +1187,7 @@ assessment#:#test_delete_page#:#Delete Question
 assessment#:#test_edit_settings#:#Edit Settings
 assessment#:#test_enable_archiving#:#Enable Archiving.
 assessment#:#test_has_datasets_warning_page_view#:#The test already contains datasets. You cannot edit the test questions until you remove these datasets.
-assessment#:#test_has_datasets_warning_page_view_link#:#Edit Participants
+assessment#:#test_has_datasets_warning_page_view_link#:#Редактиране на участниците
 assessment#:#test_is_offline#:#You cannot start the test! The test is offline.
 assessment#:#test_jump_to#:#Jump to Question
 assessment#:#test_move_page#:#Move Question
@@ -1244,7 +1244,7 @@ assessment#:#tst_add_quest_cont_edit_mode_page_object#:#Additional Content Editi
 assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.
 assessment#:#tst_allowed_users#:#Maximum Number of Users Running the Test Simultaneously
 assessment#:#tst_allowed_users_desc#:#ILIAS will monitor the number of participants taking the test at the same time. If more users than maximally allowed try to access ILIAS will prevent them from starting the test.
-assessment#:#tst_allowed_users_max#:#Max. Number of Participants
+assessment#:#tst_allowed_users_max#:#Максимален брой участници
 assessment#:#tst_allowed_users_time_gap#:#Idle Time for Active Users
 assessment#:#tst_allowed_users_time_gap_desc#:#Participants that do not click in the test fort he indicated amount of time will be categorized as ‚inactive‘ and removed from the test.
 assessment#:#tst_all_test_competences#:#All Test Competence
@@ -1297,14 +1297,14 @@ assessment#:#tst_comp_points#:#Competence Points
 assessment#:#tst_confirm_submit_answers#:#Please confirm your submission of your solution. You won't be able to revert your answers after pressing the submit button.
 assessment#:#tst_conflicting_setting#:#This setting does conflict with another setting.
 assessment#:#tst_copy#:#Copy Test
-assessment#:#tst_corrections_answers_tbl#:#Statistics
-assessment#:#tst_corrections_answers_tbl_subindex#:#Statistics for %s
+assessment#:#tst_corrections_answers_tbl#:#Статистика
+assessment#:#tst_corrections_answers_tbl_subindex#:#Статистика за %s
 assessment#:#tst_corrections_manscore_reset_warning#:#There are %s manual scorings that have been done for the question "%s (ID: %s)". All manual scorings will be reset when saving the question.
 assessment#:#tst_corrections_qst_form#:#Correction of Points
 assessment#:#tst_corrections_qst_remove_confirmation#:#Do you really want to finally remove the question "%s (ID: %s)" from the test?
 assessment#:#tst_corrections_tab_question#:#Question
 assessment#:#tst_corrections_tab_solution#:#Solution
-assessment#:#tst_corrections_tab_statistics#:#Statistics
+assessment#:#tst_corrections_tab_statistics#:#Статистика
 assessment#:#tst_corr_add_as_answer_btn#:#Add as Correct Answer
 assessment#:#tst_corr_answ_stat_tbl_header_answer#:#Answer
 assessment#:#tst_corr_answ_stat_tbl_header_frequency#:#Frequency
@@ -1858,7 +1858,7 @@ assessment#:#tst_tbl_col_percent_result#:#Percent Solved
 assessment#:#tst_tbl_col_reached_points#:#Reached Points
 assessment#:#tst_tbl_col_scored_pass#:#Scored Pass
 assessment#:#tst_tbl_invited_users#:#Manually Selected Participants
-assessment#:#tst_tbl_participants#:#Participants
+assessment#:#tst_tbl_participants#:#Участници
 assessment#:#tst_tbl_results_grades#:#Results and Grades
 assessment#:#tst_test_contains_obligatory_questions#:#To pass this test you have to answer at least all obligatory questions (*) correctly.
 assessment#:#tst_test_result#:#Test Result
@@ -2087,7 +2087,7 @@ background_tasks#:#ui_msg_no_files_found#:#No files have been found. The downloa
 background_tasks#:#ui_msg_num_files#:#%s file(-s) were detected for download, do you want to continue?
 background_tasks#:#ui_msg_sum_file_sizes#:#The total download size before creating the zip-folder is %s. Do you want to continue?
 background_tasks#:#waiting#:#Waiting
-badge#:#badge_activity_badges#:#Activity Badges
+badge#:#badge_activity_badges#:#Значки за активност
 badge#:#badge_add_template#:#Add Template
 badge#:#badge_add_to_backpack#:#Add to Backpack
 badge#:#badge_add_to_backpack_multi#:#Trying to add %s to Backpack
@@ -2115,12 +2115,12 @@ badge#:#badge_issued_on#:#Issued On
 badge#:#badge_lhist_badge_completed#:#Badge $3$ was awarded.
 badge#:#badge_lhist_badge_completed_in#:#Badge $3$ was awarded in $1$.
 badge#:#badge_manual#:#Manual Awarding
-badge#:#badge_new_badges#:#You have %1 new badge(s).
-badge#:#badge_notification_badges#:#New Badges
+badge#:#badge_new_badges#:#Имате %1 нова(и) значка(и).
+badge#:#badge_notification_badges#:#Нови значки
 badge#:#badge_notification_badges_goto#:#To your badges
 badge#:#badge_notification_body#:#you just received new badges.
 badge#:#badge_notification_osd#:#You just received new badges: [BADGE_LIST]
-badge#:#badge_notification_parent_goto#:#To repository
+badge#:#badge_notification_parent_goto#:#Към хранилището
 badge#:#badge_notification_reason#:#You are receiving this message to be able to add the badges to your profile.
 badge#:#badge_notification_subject#:#Badges received
 badge#:#badge_no_valid_types_for_obj#:#There are currently no active badge types. You cannot create new badges. Please contact your administrator.
@@ -2135,7 +2135,7 @@ badge#:#badge_obi_salt_info#:#Enter a combination of characters and numbers to a
 badge#:#badge_object_badges#:#Object Badges
 badge#:#badge_personal_badges#:#My Badges
 badge#:#badge_profile_less#:#Show less
-badge#:#badge_profile_manage#:#Manage
+badge#:#badge_profile_manage#:#Управление
 badge#:#badge_profile_more#:#Show all
 badge#:#badge_profile_view#:#View
 badge#:#badge_remove_badge#:#Revoke Badge
@@ -2380,136 +2380,136 @@ blog#:#blog_task_publishing_draft_title#:#Publishing of Draft "%s"
 blog#:#blog_toggle_draft#:#Save As Draft
 blog#:#blog_toggle_draft_admin#:#Deactivate Blog Posting
 blog#:#blog_toggle_final#:#Publish Posting
-book#:#booking_multiple_succesfully#:#Bookings created successfully.
-book#:#booking_nr_of_items#:#Nr of Items
-book#:#book_add#:#Add Booking Pool
-book#:#book_additional_info_file#:#Additional Description
-book#:#book_add_object#:#Add Object
-book#:#book_add_schedule#:#Add Schedule
-book#:#book_all#:#Show all
-book#:#book_all_pools_need_schedules#:#Settings not saved. All assigned pools need to have at least one schedule.
-book#:#book_all_users#:#All Participants
-book#:#book_assign#:#Assign
-book#:#book_assign_object#:#Assign Booking Object
-book#:#book_assign_participant#:#Assign to Participant
-book#:#book_back_to_list#:#Back to List
-book#:#book_bobj#:#Booking Object
-book#:#book_book#:#Book
-book#:#book_booked_in#:#Booked in
-book#:#book_booking_information#:#Information
-book#:#book_booking_reminders#:#Upcoming reservations
-book#:#book_booking_types#:#Types
-book#:#book_cal_entry#:#Booking of:
-book#:#book_confirm_booking#:#Confirm Booking
-book#:#book_confirm_booking_no_schedule#:#Are you sure you want to book the following object?
-book#:#book_confirm_booking_schedule_number_of_objects#:#Booking Confirmation
-book#:#book_confirm_booking_schedule_number_of_objects_info#:#Please state the numbers of objects to book.
-book#:#book_confirm_cancel#:#Are you sure you want to cancel the following reservation?
-book#:#book_confirm_cancel_aggregation#:#Number of Cancellations
-book#:#book_confirm_delete#:#Do you really want to delete the following items?
-book#:#book_copy#:#Copy Booking Pool
-book#:#book_deadline#:#Deadline
-book#:#book_deadline_hours#:#X hours prior to booking period
-book#:#book_deadline_info#:#Minimum time between booking and booked period
-book#:#book_deadline_options#:#Booking deadline
-book#:#book_deadline_slot_end#:#Until end of booking period
-book#:#book_deadline_slot_start#:#Until begin of booking period
-book#:#book_deassign#:#Deassign
-book#:#book_download_info#:#Download Additional Description
-book#:#book_edit#:#Edit Booking Pool
-book#:#book_edit_object#:#Edit Object
-book#:#book_edit_schedule#:#Edit Schedule
-book#:#book_filter_past_reservations#:#Show past reservations
-book#:#book_fromto#:#Date Range
-book#:#book_hours#:#Hours
-book#:#book_is_used#:#Is Used
-book#:#book_limit_objects_available#:#You can not assign %s participants to "%s" because it has only %s items available.
-book#:#book_log#:#Log
-book#:#book_new#:#New Booking Pool
-book#:#book_not#:#No
-book#:#book_notification#:#Send Reservation Notifications
-book#:#book_notification_info#:#Send a list of reservations of the next day to users (own reservations) and admins (if activated).
-book#:#book_not_enough_preferences#:#You selected not enough preferences. The preferences have not been saved.
-book#:#book_no_bookings_for_you#:#No reservations have been performed for you.
-book#:#book_no_objects#:#No Assignment
-book#:#book_no_of_objects#:#No. of Objects
-book#:#book_no_preferences_for_you#:#No preferences have been stored for you.
-book#:#book_nr_of_preferences#:#Number of Preferences
-book#:#book_nr_of_preferences_info#:#Number of preferences each participant can indicate.
-book#:#book_objects_available#:#Objects available %s
-book#:#book_objects_list#:#Objects of Type:
-book#:#book_object_added#:#A booking object has been added.
-book#:#book_object_deleted#:#The booking object has been deleted.
-book#:#book_object_updated#:#The booking object has been updated.
-book#:#book_open#:#Open Booking Pool
-book#:#book_overall_limit#:#Limit number of bookings
-book#:#book_overall_limit_info#:#Maximum number of bookings for each user in this booking pool
-book#:#book_overall_limit_warning#:#You have reached the maximum number of bookings.
-book#:#book_participant_already_assigned#:#Participant(s) already assigned.
-book#:#book_participant_assigned#:#Participant(s) assigned
-book#:#book_period#:#Period
-book#:#book_pool_added#:#A booking pool has been added.
-book#:#book_pool_selection#:#Booking Pool Selection
-book#:#book_post_booking_file#:#File
-book#:#book_post_booking_information#:#Post Booking Information
-book#:#book_post_booking_text#:#Text
-book#:#book_post_booking_text_info#:#Use [PERIOD] and [OBJECT] to add booking details to the text.
-book#:#book_preferences#:#Preferences
-book#:#book_preferences_saved#:#The preferences have been saved.
-book#:#book_preference_info#:#Please select %1 preference(s) until %2. After the deadline bookings will be done automatically based on the preferences of all users.
-book#:#book_pref_book_cron#:#Booking with Preferences
-book#:#book_pref_book_cron_info#:#Automatically book pools using preferences after the deadline
-book#:#book_pref_deadline#:#Deadline
-book#:#book_pref_overview#:#Overview
-book#:#book_public_log#:#Public Reservations
-book#:#book_public_log_info#:#The list of reservations can be viewed by all users.
-book#:#book_reminder_day#:#Before Reservation
-book#:#book_reminder_days#:#Day(s)
-book#:#book_reminder_day_info#:#Send list of own reservations to users and full list of reservations to admins.
-book#:#book_reminder_setting#:#Reminder
-book#:#book_rem_intro#:#This is an overview of upcoming reservations:
-book#:#book_rem_reason#:#You are reciving these mails, because you are subscribed to notifications of the corresponding booking pools.
-book#:#book_reservations_list#:#Reservations
-book#:#book_reservation_available#:#%s available
-book#:#book_reservation_confirmed#:#Your booking has been confirmed.
-book#:#book_reservation_failed#:#Your booking has failed.
-book#:#book_reservation_failed_overbooked#:#The booking failed because the object is not available anymore.
-book#:#book_reservation_filter_period#:#Period for the reservation list
-book#:#book_reservation_filter_period_info#:#The default value for the period-filter in days from the current date.
-book#:#book_reservation_fix_info#:#The reservation can only be done for fixed hours.
-book#:#book_reservation_overview#:#Reservation Overviews
-book#:#book_reservation_status_5#:#Cancelled
-book#:#book_reservation_title#:#Booking Reservation for
-book#:#book_schedule#:#Schedule
-book#:#book_schedules#:#Schedules
-book#:#book_schedule_added#:#A booking schedule has been added.
-book#:#book_schedule_days#:#Weekdays
-book#:#book_schedule_days_info#:#Valid booking times for each day (HH:MM-HH:MM)
-book#:#book_schedule_deleted#:#The booking schedule has been deleted.
-book#:#book_schedule_slot#:#Slot
-book#:#book_schedule_type#:#Type
-book#:#book_schedule_type_fixed#:#Fixed Schedule
-book#:#book_schedule_type_fixed_info#:#This type can be used for rooms, beamers and such
-book#:#book_schedule_type_none#:#No Schedule
-book#:#book_schedule_type_none_direct#:#No Schedule, Direct Booking
-book#:#book_schedule_type_none_direct_info#:#This type can be used for seminar papers, seminar places and such. Participants can book items directly.
-book#:#book_schedule_type_none_info#:#This type can be used for seminar papers, seminar places and such
-book#:#book_schedule_type_none_preference#:#No Schedule, Using Preferences
-book#:#book_schedule_type_none_preference_info#:#This type can be used for seminar papers, seminar places and such. Participants will indicate their preferences. Items will be assigned automatically after the preferences deadline.
-book#:#book_schedule_updated#:#The booking schedule has been updated.
-book#:#book_schedule_warning_edit#:#Currently, there is no schedule available. To use the booking pool you need to create a schedule for booking.
-book#:#book_select_pool#:#Select Pool
-book#:#book_set_cancel#:#Cancel Reservation
-book#:#book_set_delete#:#Delete
-book#:#book_too_many_preferences#:#You selected too many preferences. The preferences have not been saved.
-book#:#book_type_warning#:#Currently, there are no booking objects available. To use the booking pool you need to create booking objects.
-book#:#book_your_bookings#:#Your Reservations
-book#:#book_your_preferences#:#Your Preferences
-book#:#book_your_reservations#:#Your Reservations
-book#:#obj_book_duplicate#:#Copy Booking Pool
-book#:#participants#:#Participants
-book#:#reservation_deleted#:#Reservation deleted
-book#:#X_reservations_of#:#%s reservations of
+book#:#booking_multiple_succesfully#:#Успешно създадени резервации.
+book#:#booking_nr_of_items#:#Брой на елементите
+book#:#book_add#:#Добавяне на модул за резервации
+book#:#book_additional_info_file#:#Допълнително описание
+book#:#book_add_object#:#Добавяне на обект
+book#:#book_add_schedule#:#Добавяне на график
+book#:#book_all#:#Показване на всички
+book#:#book_all_pools_need_schedules#:#Настройките не са запазени. Модулите за резервация трябва да имат поне един график.
+book#:#book_all_users#:#Всички участници
+book#:#book_assign#:#Присвояване
+book#:#book_assign_object#:#Присвояване на обект за резервация
+book#:#book_assign_participant#:#Прехвърляне към участник
+book#:#book_back_to_list#:#Обратно към списъка
+book#:#book_bobj#:#Обект за резервация
+book#:#book_book#:#Резервиране
+book#:#book_booked_in#:#Резервирано в
+book#:#book_booking_information#:#Информация
+book#:#book_booking_reminders#:#Предстоящи резервации
+book#:#book_booking_types#:#Типове
+book#:#book_cal_entry#:#Резервация на:
+book#:#book_confirm_booking#:#Потвърждаване на резервацията
+book#:#book_confirm_booking_no_schedule#:#Сигурни ли сте, че искате да резервирате този обект?
+book#:#book_confirm_booking_schedule_number_of_objects#:#Потвърждаване на резервацията
+book#:#book_confirm_booking_schedule_number_of_objects_info#:#Моля, посочете броя на обектите, които искате да резервирате.
+book#:#book_confirm_cancel#:#Сигурни ли сте, че искате да отмените тази резервация?
+book#:#book_confirm_cancel_aggregation#:#Брой отменени резервации
+book#:#book_confirm_delete#:#Наистина ли искате да изтриете тези елементи?
+book#:#book_copy#:#Копиране на модул за резервация
+book#:#book_deadline#:#Краен срок
+book#:#book_deadline_hours#:#X часове преди периода на резервацията
+book#:#book_deadline_info#:#Минимално време между резервацията и резервирания период
+book#:#book_deadline_options#:#Краен срок за резервацията
+book#:#book_deadline_slot_end#:#До края на периода на резервация
+book#:#book_deadline_slot_start#:#До началото на периода за резервация
+book#:#book_deassign#:#Преназначаване
+book#:#book_download_info#:#Изтегляне на допълнително описание
+book#:#book_edit#:#Редактиране на модула за резервация
+book#:#book_edit_object#:#Редактиране на обект
+book#:#book_edit_schedule#:#Редактиране на график
+book#:#book_filter_past_reservations#:#Показване на минали резервации
+book#:#book_fromto#:#Диапазон на датите
+book#:#book_hours#:#Часове
+book#:#book_is_used#:#Използван
+book#:#book_limit_objects_available#:#Не можете да присвоите %s участници на "%s", тъй като той разполага само с %s елементи.
+book#:#book_log#:#Отчет
+book#:#book_new#:#Нов модул за резервация
+book#:#book_not#:#Не
+book#:#book_notification#:#Изпращане на известия за резервация
+book#:#book_notification_info#:#Изпращане на списък с резервациите за следващия ден на потребителите (собствени резервации) и администраторите (ако е активирано).
+book#:#book_not_enough_preferences#:#Не сте избрали достатъчно предпочитания. Предпочитанията не са записани.
+book#:#book_no_bookings_for_you#:#Не са направени никакви резервации за Вас.
+book#:#book_no_objects#:#Няма назначение
+book#:#book_no_of_objects#:#Брой на обектите
+book#:#book_no_preferences_for_you#:#Не са запазени никакви предпочитания за Вас.
+book#:#book_nr_of_preferences#:#Брой на предпочитанията
+book#:#book_nr_of_preferences_info#:#Брой предпочитания, които всеки участник може да посочи.
+book#:#book_objects_available#:#%s налични обекти
+book#:#book_objects_list#:#Обекти от тип:
+book#:#book_object_added#:#Добавен е обект за резервация.
+book#:#book_object_deleted#:#Обектът на резервацията е изтрит.
+book#:#book_object_updated#:#Обектът на резервацията е обновен.
+book#:#book_open#:#Отваряне на модула за резервации
+book#:#book_overall_limit#:#Ограничаване на броя на резервациите
+book#:#book_overall_limit_info#:#Максимален брой резервации за всеки потребител в този модул за резервации
+book#:#book_overall_limit_warning#:#Достигнат е максималният брой резервации.
+book#:#book_participant_already_assigned#:#Вече назначен(и) участник(и).
+book#:#book_participant_assigned#:#Определен(и) участник(ци)
+book#:#book_period#:#Период
+book#:#book_pool_added#:#Модулът за резервации е добавен
+book#:#book_pool_selection#:#Избор на модул за резервации.
+book#:#book_post_booking_file#:#Файл
+book#:#book_post_booking_information#:#Информация след резервиране
+book#:#book_post_booking_text#:#Текст
+book#:#book_post_booking_text_info#:#Използвайте [PERIOD] и [OBJECT], за да добавите подробности за резервацията към текста.
+book#:#book_preferences#:#Предпочитания
+book#:#book_preferences_saved#:#Предпочитанията са запазени.
+book#:#book_preference_info#:#Моля, изберете %1 предпочитание(я) до %2. След изтичането на крайния срок резервациите ще се извършват автоматично въз основа на предпочитанията на всички потребители.
+book#:#book_pref_book_cron#:#Резервация с предпочитания
+book#:#book_pref_book_cron_info#:#Автоматично резервиране с помощта на предпочитания след крайния срок
+book#:#book_pref_deadline#:#Kraen srok
+book#:#book_pref_overview#:#Pregled
+book#:#book_public_log#:#Публични резервации
+book#:#book_public_log_info#:#Списъкът с резервации може да бъде видян от всички потребители.
+book#:#book_reminder_day#:#Преди резервиране
+book#:#book_reminder_days#:#Ден/дни
+book#:#book_reminder_day_info#:#Изпращане на списък със собствени резервации на потребителите и на пълен списък с резервации на администраторите.
+book#:#book_reminder_setting#:#Напомняне
+book#:#book_rem_intro#:#Това е преглед на предстоящите резервации:
+book#:#book_rem_reason#:#Пполучавате тези писма, защото сте абонирани за известия от съответните модуле за резервации.
+book#:#book_reservations_list#:#Резервации
+book#:#book_reservation_available#:#%s налични
+book#:#book_reservation_confirmed#:#Вашата резервация е потвърдена.
+book#:#book_reservation_failed#:#Резервацията Ви е неуспешна.
+book#:#book_reservation_failed_overbooked#:#Резервацията е неуспешна, тъй като обектът вече не е наличен.
+book#:#book_reservation_filter_period#:#Период за списъка с резервации
+book#:#book_reservation_filter_period_info#:#Стойността по подразбиране за филтъра за период в дни от текущата дата.
+book#:#book_reservation_fix_info#:#Резервацията може да бъде направена само за фиксирани часове.
+book#:#book_reservation_overview#:#Преглед на резервациите
+book#:#book_reservation_status_5#:#Анулирана
+book#:#book_reservation_title#:#Резервация за
+book#:#book_schedule#:#График
+book#:#book_schedules#:#Графици
+book#:#book_schedule_added#:#Добавен е график за резервацията
+book#:#book_schedule_days#:#Дни от седмицата
+book#:#book_schedule_days_info#:#Разрешено време за резервация за всеки ден (HH:MM-HH:MM)
+book#:#book_schedule_deleted#:#Графикът за резервации е изтрит.
+book#:#book_schedule_slot#:#Слот/Място
+book#:#book_schedule_type#:#Тип
+book#:#book_schedule_type_fixed#:#Фиксиран график
+book#:#book_schedule_type_fixed_info#:#Този тип може да се използва за стаи, прожектори и други подобни
+book#:#book_schedule_type_none#:#Няма график
+book#:#book_schedule_type_none_direct#:#Няма график, директна резервация
+book#:#book_schedule_type_none_direct_info#:#Този тип може да се използва за документи за семинари, места за семинари и други подобни. Участниците могат да резервират обекти директно.
+book#:#book_schedule_type_none_info#:#Този тип може да се използва за документи за семинари, места за семинари и други подобни
+book#:#book_schedule_type_none_preference#:#Няма график, използва се с преференции
+book#:#book_schedule_type_none_preference_info#:#Този тип може да се използва за семинарни доклади, места за семинари и други подобни. Участниците ще посочат своите предпочитания. Елементите ще бъдат разпределени автоматично след изтичане на крайния срок за преференциите.
+book#:#book_schedule_updated#:#Графикът беше обновен.
+book#:#book_schedule_warning_edit#:#Понастоящем няма наличен график. За да използвате модула за резервации, трябва да създадете график за резервации.
+book#:#book_select_pool#:#Изберете модул
+book#:#book_set_cancel#:#Отменяне на резервация
+book#:#book_set_delete#:#Изтриване
+book#:#book_too_many_preferences#:#Избрали сте твърде много предпочитания. Предпочитанията не са запазени.
+book#:#book_type_warning#:#В момента няма налични обекти за резервация. За да използвате резервационния модул, трябва да създадете обекти за резервации.
+book#:#book_your_bookings#:#Вашите резервации
+book#:#book_your_preferences#:#Вашите предпочитания
+book#:#book_your_reservations#:#Вашите резервации
+book#:#obj_book_duplicate#:#Копиране на модул за резервация
+book#:#participants#:#Участници
+book#:#reservation_deleted#:#Резервацията е изтрита
+book#:#X_reservations_of#:#%s резервации на
 buddysystem#:#buddy_allow_to_contact_me#:#Allow to contact me
 buddysystem#:#buddy_allow_to_contact_me_info#:#If enabled, other users are able to send me request for getting into contact.
 buddysystem#:#buddy_bs_action_already_ignored#:#Already ignored user '%s'.
@@ -2682,7 +2682,7 @@ certificate#:#certificate_visibility_introduction#:#The button in the test resul
 certificate#:#certificate_visibility_never#:#Not Visible
 certificate#:#certificate_visibility_passed#:#Only Visible if a User Passed the Test
 certificate#:#certificate_visibility_passed_exercise#:#Only Visible if a User Passed the Exercise
-certificate#:#cert_cron_task_desc#:#This job's responsibility is the creation of persisting certificate data based on learning achievements of users.
+certificate#:#cert_cron_task_desc#:#Отговорността на това задача е създаването на постоянни данни за сертификати въз основа на учебните постижения на потребители
 certificate#:#cert_cron_task_title#:#Certificates
 certificate#:#cert_form_sec_add_features#:#Additional Features
 certificate#:#cert_form_sec_availability#:#Availability
@@ -2767,7 +2767,7 @@ chatroom#:#chat_osc_doesnt_accept_msg#:#Conversations not possible
 chatroom#:#chat_osc_dont_accept_msg#:#You currently cannot be invited to conversations. If desired you can change this in your <a href="%s">'Personal Settings'</a>.
 chatroom#:#chat_osc_dont_accept_msg_link_txt#:#'Personal Settings'
 chatroom#:#chat_osc_emoticons#:#Emoticons
-chatroom#:#chat_osc_head_grp_x_persons#:#%s Users
+chatroom#:#chat_osc_head_grp_x_persons#:#%s потребители
 chatroom#:#chat_osc_invite_to_conversation#:#Add to Conversation
 chatroom#:#chat_osc_leave_grp_conv#:#Leave Conversation
 chatroom#:#chat_osc_nc_conv_x_p#:#You have %s hidden conversations.
@@ -2925,7 +2925,7 @@ cld#:#cld_add_download_failed#:#Download Failed
 cld#:#cld_add_file#:#File
 cld#:#cld_add_folder#:#Folder
 cld#:#cld_add_items_from_service_failed#:#Add Items from Service Failed
-cld#:#cld_add_new_item#:#Add New Item
+cld#:#cld_add_new_item#:#Добавяне на нов елемент
 cld#:#cld_authentication_failed#:#:#Authentication Failed
 cld#:#cld_auth_failed#:#Authentication Failed
 cld#:#cld_auth_failed_no_object_created#:#Authentication failed, no Cloud Object has been created.
@@ -3174,7 +3174,7 @@ cmps#:#cmps_deactivate#:#Deactivate
 cmps#:#cmps_dir#:#Directory
 cmps#:#cmps_enable_creation#:#Enable Creation
 cmps#:#cmps_file_version#:#Update File Version
-cmps#:#cmps_group#:#Group
+cmps#:#cmps_group#:#Група
 cmps#:#cmps_id#:#ID
 cmps#:#cmps_ilias_max_version#:#Max. ILIAS Version
 cmps#:#cmps_ilias_min_version#:#Min. ILIAS Version
@@ -3221,14 +3221,14 @@ cmps#:#database_is_uptodate#:#Die Datenbank ist aktuell.
 cmps#:#no_changes#:#Keine Änderungen
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Object
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 object to generate a certificate for it
-cntr#:#cntr_add_new_item#:#Add New Item
+cntr#:#cntr_add_new_item#:#Добавяне на нов елемент
 cntr#:#cntr_adopt_content#:#Adopt Content
 cntr#:#cntr_back_to_old_editor#:#Back to Old Editor
 cntr#:#cntr_container_only_on_their_own#:#Categories, courses, groups, folders or study programmes can only be copied as single objects. Please select one item only.
-cntr#:#cntr_copy_crs_grp#:#My Courses and Groups
+cntr#:#cntr_copy_crs_grp#:#Моите курсове и групи
 cntr#:#cntr_copy_repo_tree#:#Repository Tree
 cntr#:#cntr_hide_title_and_icon#:#Hide Title and Icon
-cntr#:#cntr_manage#:#Manage
+cntr#:#cntr_manage#:#Управление
 cntr#:#cntr_old_editor_open_standard_editor#:#Open Standard Editor
 cntr#:#cntr_old_editor_warning#:#The maintenance of this editor will be discontinued in a future major releases of ILIAS. You may still use it to edit the content of this page now. But we recommend to switch to the standard page editor of ILIAS when possible.
 cntr#:#cntr_ordering#:#Sorting
@@ -3260,7 +3260,7 @@ cntr#:#sorting_new_items_at_top#:#Top
 cntr#:#sorting_new_items_direction#:#Sorting Direction for New Objects
 cntr#:#sorting_new_items_order#:#Order For New Objects
 cntr#:#sorting_new_items_position#:#Position For New Objects
-cntr#:#tab_back_to_repository#:#Back to Repository
+cntr#:#tab_back_to_repository#:#Назад към хранилището
 common#:#3rd_party_software#:#Софтуер от други производители
 common#:#absolute_path#:#Абсолютен път до файл
 common#:#accept_usr_agreement#:#Приемате ли потребителското споразумение?
@@ -3292,7 +3292,7 @@ common#:#activation#:#Активация
 common#:#active#:#Активен
 common#:#add#:#Добавяне
 common#:#added_new_condition#:#Създадено ново условие.
-common#:#additional_info#:#Additional Information
+common#:#additional_info#:#Допълнителна информация
 common#:#address#:#Address
 common#:#add_condition#:#Създаване на нова асоциация
 common#:#add_entry#:#Add/Edit entry
@@ -3506,9 +3506,9 @@ common#:#cant_deactivate_if_users_assigned#:#You cannot deactivate a style if th
 common#:#cat#:#Категории
 common#:#categories#:#Категории
 common#:#categories_imported#:#Импортирането на категория е завършено.
-common#:#catr#:#Category Reference
+common#:#catr#:#Препратка към категория
 common#:#catr_edit_info#:#Please choose one category, for creating a new reference.
-common#:#catr_new#:#Create new Category Reference
+common#:#catr_new#:#Създаване на нова препратка към категория
 common#:#cat_add#:#Добавяне на категория
 common#:#cat_added#:#Категорията добавена
 common#:#cat_copy_threads_info#:#Please decide which category items should be copied, linked or even omitted.
@@ -3900,7 +3900,7 @@ common#:#exc_members_comments_saved#:#The exercise comments for the selected use
 common#:#exc_new#:#Ново упражнение
 common#:#exc_next_deadline#:#Next Deadline
 common#:#exc_obj#:#Упражнение
-common#:#exc_save_changes#:#Съхраняване
+common#:#exc_save_changes#:#Запазване
 common#:#exc_schedule#:#Schedule
 common#:#exc_select_one_file#:#Моля, изберете точно един файл.
 common#:#exc_sent#:#Упражнението беше изпратено на избраните потребители
@@ -3958,7 +3958,7 @@ common#:#file_created#:#A new file has been added.
 common#:#file_edit#:#Редактиране на файл
 common#:#file_info#:#File Information
 common#:#file_is_infected#:#Файлът е заразен с вирус.
-common#:#file_notice#:#Моля, вземете бележка за максималния размер на файла
+common#:#file_notice#:#Моля, имайте впредвид, че максималния размер на файла не трябва да е по-голям от
 common#:#file_not_found#:#Файлът не е намерен
 common#:#file_not_valid#:#Файлът е невалиден!
 common#:#file_no_valid_file_type#:#This file type is not allowed.
@@ -3985,7 +3985,7 @@ common#:#filter_users_with_access#:#Only users with access
 common#:#filter_users_with_disk_usage#:#Only users with disk space used
 common#:#filter_users_with_exceeded_disk_quota#:#Only users with disk quota exceeded
 common#:#first#:#First
-common#:#firstname#:#Първо име
+common#:#firstname#:#Име
 common#:#flatview#:#Плосък изглед
 common#:#fm_start#:#Open With File Manager
 common#:#fold#:#Папка
@@ -4060,7 +4060,7 @@ common#:#glo_mode_subtree#:#virtual (entire subtree)
 common#:#glo_new#:#Нов речник
 common#:#go#:#Go
 common#:#grade#:#Grade
-common#:#group#:#Group
+common#:#group#:#Група
 common#:#groupings#:#Membership Limitations
 common#:#groupings_assigned_obj_crs#:#Assigned Courses
 common#:#groupings_assigned_obj_grp#:#Assigned Groups
@@ -4076,15 +4076,15 @@ common#:#group_req_direct#:#Директно включване
 common#:#group_req_registration_msg#:#За да се присъедините към тази група, трябва да се регистрирате. Администраторът на съответната група ще ви разпредели към нея. Моля, въведете тема на заявката с причините за вашата кандидатура.<br />Ще получите съобщение, когато бъдете разпределени в групата.
 common#:#group_status#:#Групата е
 common#:#grp#:#Групи
-common#:#grpr#:#Group Reference
-common#:#grpr_edit#:#Edit Group Reference
-common#:#grpr_edit_info#:#Please choose one group, for creating a new reference.
-common#:#grpr_new#:#Create Group Reference
+common#:#grpr#:#Препратка къп група
+common#:#grpr_edit#:#Редактиране на препратка към група
+common#:#grpr_edit_info#:#Моля, изберете група за създаване на нова препратка.
+common#:#grpr_new#:#Създаване на препратка към група
 common#:#grp_add#:#Добавяне на група
 common#:#grp_added#:#Групата добавена
 common#:#grp_btn_unsubscribe#:#Отписване от групата
 common#:#grp_cancel_waiting_list#:#Наистина ли искате да се отпишете от списъка на чакащите в групата "%s"? 
-common#:#grp_copy_threads_info#:#Please decide which materials should be copied, linked or even omitted.
+common#:#grp_copy_threads_info#:#Моля, преценете кои материали трябва да бъдат копирани, свързани и кои пропуснати.
 common#:#grp_deleted_export_files#:#Избраните файлове са изтрити.
 common#:#grp_dismiss_member#:#Сигурни ли сте, че желаете да освободите следния член(ове) от групата?
 common#:#grp_dismiss_myself#:#Сигурни ли сте, че желаете да се освободите от групата?
@@ -4109,9 +4109,9 @@ common#:#grp_msg_member_assigned#:#Потребител(и), разпредел�
 common#:#grp_new#:#Нова група
 common#:#grp_registration#:#Присъединяване към групата
 common#:#grp_registration_completed#:#Регистрацията завършена
-common#:#grp_removed_from_waiting_list#:#You have been detached from the waiting list of group "%s".
-common#:#grp_select_one_file#:#Please select one file.
-common#:#grp_wizard_page#:#Copy Group (Step 2/2)
+common#:#grp_removed_from_waiting_list#:#Отстранени сте от списъка на чакащите в групата "%s".
+common#:#grp_select_one_file#:#Моля, изберете файл.
+common#:#grp_wizard_page#:#Копиране на група (Стъпка 2/2)
 common#:#header_searchable#:#Searchable
 common#:#header_title#:#Заглавие
 common#:#header_visible_registration#:#Visible in Registration
@@ -4253,8 +4253,8 @@ common#:#in_use_by#:#In use by
 common#:#ip_address#:#IP адрес
 common#:#is_already_your#:#вече е вашият
 common#:#item#:#Елемент
-common#:#itgr_add#:#Add Item Group
-common#:#itgr_new#:#New Item Group
+common#:#itgr_add#:#Добавяне на група обекти
+common#:#itgr_new#:#Нова група от обекти
 common#:#java_server#:#Java-Server
 common#:#java_server_host#:#Host
 common#:#java_server_info#:#If activated, it is possible to search in PDF, HTML files and HTML-Learning modules
@@ -4288,7 +4288,7 @@ common#:#lang_timeformat_no_sec#:#H:i
 common#:#lang_uninstall_changes#:#Uninstall Local Changes
 common#:#lang_uninstall_changes_confirm#:#Do you really want to clear all local changes of the selected languages and reset them to the default of the current ILIAS version?
 common#:#lang_uninstall_confirm#:#Do you really want to uninstall the selected languages?
-common#:#lastname#:#Последно име
+common#:#lastname#:#Фамилия
 common#:#last_access#:#Last access:
 common#:#last_change#:#Последна промяна
 common#:#last_edited_on#:#Last edited on
@@ -4296,7 +4296,7 @@ common#:#last_login#:#Last login
 common#:#last_refresh#:#Last Refresh
 common#:#last_reminder#:#Last reminder
 common#:#last_update#:#Последна актуализация
-common#:#last_visited#:#Last Visited
+common#:#last_visited#:#Последно посетени
 common#:#laugh#:#Laugh
 common#:#launch#:#Пуск
 common#:#ldap#:#LDAP
@@ -4308,12 +4308,12 @@ common#:#ldap_server#:#URL на LDAP сървъра
 common#:#ldap_tls#:#Използване на LDAP TLS
 common#:#ldap_version#:#Версия на LDAP протокола
 common#:#learning module#:#Модул за обучение
-common#:#learning_progress#:#Learning progress
+common#:#learning_progress#:#Напредък в обучението
 common#:#leave_waiting_list#:#Leave Waiting List
-common#:#legend#:#Legend
+common#:#legend#:#Легенда
 common#:#level#:#Ниво
-common#:#like#:#Like
-common#:#link#:#Линк
+common#:#like#:#Харесване
+common#:#link#:#Връзка
 common#:#links_add_param#:#Add parameter:
 common#:#links_dynamic#:#Dynamic Web Links parameters
 common#:#links_dynamic_info#:#If enabled, it is possible to append dynamic parameters to Web Links. E.g. the ILIAS user id or the username.
@@ -4435,13 +4435,13 @@ common#:#membership_leave#:#Leave
 common#:#member_status#:#Member Status
 common#:#mem_add_to_wl#:#Add to Waiting List
 common#:#mem_alert_no_places#:#There are no free places available.
-common#:#mem_cron_min_members#:#Course/Group: Minimum Members Check
+common#:#mem_cron_min_members#:#Курс/група: Проверка на минималния брой членове
 common#:#mem_cron_min_members_info#:#The administrators will be notified if the minimum number is not met.
 common#:#mem_end#:#Registration End:
 common#:#mem_free_places#:#Free Places:
 common#:#mem_max_users#:#Maximum of Users:
 common#:#mem_min_users#:#Minimum of Users
-common#:#mem_participants#:#Participants
+common#:#mem_participants#:#Участници
 common#:#mem_reg_expired#:#The registration time is expired.
 common#:#mem_reg_not_started#:#The registration has not started
 common#:#mem_reg_period#:#Registration Period
@@ -4466,49 +4466,49 @@ common#:#meta_data#:#Метаданни
 common#:#mgs_objects_linked_to_the_following_folders_p#:#The objects were linked to the following folder(s): %s
 common#:#mgs_objects_linked_to_the_following_folders_s#:#The object was linked to the following folder(s): %s
 common#:#migrate#:#Мигриране
-common#:#minute#:#Minute
-common#:#minutes#:#Minutes
+common#:#minute#:#Минута
+common#:#minutes#:#Минути
 common#:#missing#:#Липсва
 common#:#missing_perm#:#Missing Permission
 common#:#missing_precondition#:#Missing Precondition
 common#:#mme_lost_item_reason#:#Item is no longer provided.
 common#:#mme_lost_item_title#:#No assignment
-common#:#mm_achievements#:#Achievements
+common#:#mm_achievements#:#Постижения
 common#:#mm_administration#:#Администриране
-common#:#mm_badges#:#Badges
-common#:#mm_calendar#:#Calendar
-common#:#mm_certificates#:#Certificates
-common#:#mm_comments#:#Comments
+common#:#mm_badges#:#Значки
+common#:#mm_calendar#:#Календар
+common#:#mm_certificates#:#Сертификати
+common#:#mm_comments#:#Коментари
 common#:#mm_communication#:#Комуникация
 common#:#mm_contacts#:#Contacts
 common#:#mm_dashboard#:#Табло
 common#:#mm_enrolments#:#Enrolments
-common#:#mm_favorites#:#Favourites
-common#:#mm_learning_history#:#Learning History
-common#:#mm_learning_progress#:#Learning Progress
-common#:#mm_mail#:#Mail
-common#:#mm_news#:#News
-common#:#mm_notes#:#Notes
-common#:#mm_organisation#:#Organisation
-common#:#mm_personal_and_shared_r#:#Personal and Shared Resources
-common#:#mm_personal_workspace#:#Personal Workspace
+common#:#mm_favorites#:#Любими
+common#:#mm_learning_history#:#История на обучението
+common#:#mm_learning_progress#:#Напредък в обучението
+common#:#mm_mail#:#Поща
+common#:#mm_news#:#Новини
+common#:#mm_notes#:#Бележки
+common#:#mm_organisation#:#Организация
+common#:#mm_personal_and_shared_r#:#Лични и споделени ресурси
+common#:#mm_personal_workspace#:#Лично работно пространство
 common#:#mm_portfolio#:#Портфолио
-common#:#mm_repository#:#Repository
-common#:#mm_repo_tree_view#:#Tree View
+common#:#mm_repository#:#Хранилище
+common#:#mm_repo_tree_view#:#Дървовидна структура
 common#:#mm_repo_tree_view_act#:#Activate Tree
 common#:#mm_repo_tree_view_deact#:#Deactivate Tree
-common#:#mm_rep_tree_view#:#Tree View
+common#:#mm_rep_tree_view#:#Дървовидна структура
 common#:#mm_skills#:#Competences
 common#:#mm_staff_list#:#Staff List
-common#:#mm_tags#:#Tags
+common#:#mm_tags#:#Етикети
 common#:#mm_task_derived_tasks#:#Задачи
 common#:#mob#:#Медиен обект
 common#:#moderators#:#Moderators
 common#:#module#:#модул
 common#:#modules#:#Модули
 common#:#month#:#Месец
-common#:#monthly#:#monthly
-common#:#months#:#Months
+common#:#monthly#:#месечно
+common#:#months#:#Месеци
 common#:#month_01_long#:#Януари
 common#:#month_01_short#:#Ян
 common#:#month_02_long#:#Февруари
@@ -4533,7 +4533,7 @@ common#:#month_11_long#:#Ноември
 common#:#month_11_short#:#Ноем
 common#:#month_12_long#:#Декември
 common#:#month_12_short#:#Дек
-common#:#more#:#More
+common#:#more#:#Още
 common#:#mount_webfolder#:#Open as webfolder
 common#:#move#:#Преместване
 common#:#moveChapter#:#Преместване
@@ -4683,10 +4683,10 @@ common#:#object_imported#:#Object imported
 common#:#objf#:#Обектни дефиниции
 common#:#objs_bibl#:#Bibliographies
 common#:#objs_blog#:#Blogs
-common#:#objs_book#:#Booking Pools
+common#:#objs_book#:#Модули за резервация
 common#:#objs_cat#:#Категории
-common#:#objs_catr#:#Category References
-common#:#objs_chtr#:#Chats
+common#:#objs_catr#:#Препратки към категории
+common#:#objs_chtr#:#Чатове
 common#:#objs_cld#:#Cloud Objects
 common#:#objs_cmix#:#Objects xAPI/cmi5
 common#:#objs_copa#:#Content Pages
@@ -4700,10 +4700,10 @@ common#:#objs_fold#:#Папки
 common#:#objs_frm#:#Форуми
 common#:#objs_glo#:#Речници
 common#:#objs_grp#:#Групи
-common#:#objs_grpr#:#Group References
+common#:#objs_grpr#:#Препратки към групи
 common#:#objs_htlm#:#HTML модули за обучение
 common#:#objs_iass#:#Individual Assessments
-common#:#objs_itgr#:#Item Groups
+common#:#objs_itgr#:#Групи от елементи
 common#:#objs_lm#:#ILIAS модули за обучение
 common#:#objs_lres#:#Learning Resources
 common#:#objs_lso#:#Learning Sequences
@@ -4723,7 +4723,7 @@ common#:#objs_rcat#:#ECS Categories
 common#:#objs_rcrs#:#Course-Links
 common#:#objs_rfil#:#ECS Files
 common#:#objs_rglo#:#ECS Glossaries
-common#:#objs_rgrp#:#ECS Groups
+common#:#objs_rgrp#:#ECS групи
 common#:#objs_rlm#:#ECS Learning Modules
 common#:#objs_role#:#Роли
 common#:#objs_rtst#:#ECS Tests
@@ -4758,13 +4758,13 @@ common#:#obj_bibs#:#Bibliography
 common#:#obj_bibs_desc#:#Bibliography Administration
 common#:#obj_blog#:#Blog
 common#:#obj_blog_duplicate#:#Copy Blog
-common#:#obj_book#:#Booking Pool
+common#:#obj_book#:#Модул за резервация
 common#:#obj_cadm#:#Contacts
 common#:#obj_cadm_desc#:#Contacts Administration
 common#:#obj_cals#:#Calendar
 common#:#obj_cals_desc#:#General Calendar settings.
 common#:#obj_cat#:#Категория
-common#:#obj_catr#:#Category Reference
+common#:#obj_catr#:#Препратка към категория
 common#:#obj_cat_duplicate#:#Copy Category
 common#:#obj_cert#:#Certificates
 common#:#obj_cert_desc#:#Settings for certificates
@@ -4781,7 +4781,7 @@ common#:#obj_coms#:#Comments
 common#:#obj_coms_desc#:#Comments settings
 common#:#obj_copa#:#Content Page
 common#:#obj_crs#:#Курс
-common#:#obj_crsr#:#Course Reference
+common#:#obj_crsr#:#Препратка към курс
 common#:#obj_crss#:#Course
 common#:#obj_crss_desc#:#General settings for Courses
 common#:#obj_crsv#:#Course Certificate
@@ -4807,16 +4807,16 @@ common#:#obj_file_inline#:#Learning Module File
 common#:#obj_fold#:#Папка
 common#:#obj_fold_duplicate#:#Copy Folder
 common#:#obj_frm#:#Форум
-common#:#obj_frma#:#Forum
+common#:#obj_frma#:#Форум
 common#:#obj_frma_desc#:#Global Forum Settings
 common#:#obj_frm_duplicate#:#Copy Forum
 common#:#obj_glo#:#Речник
 common#:#obj_glo_duplicate#:#Copy Glossary
 common#:#obj_grp#:#Група
-common#:#obj_grpr#:#Group Reference
-common#:#obj_grps#:#Group
-common#:#obj_grps_desc#:#General settings for Groups
-common#:#obj_grp_duplicate#:#Copy Group
+common#:#obj_grpr#:#Препратка към група
+common#:#obj_grps#:#Група
+common#:#obj_grps_desc#:#Общи настройки на групите
+common#:#obj_grp_duplicate#:#Копиране на група
 common#:#obj_hlps#:#Помощ
 common#:#obj_hlps_desc#:#Settings for the online help
 common#:#obj_htlm#:#Модул за обучение HTML
@@ -4824,10 +4824,10 @@ common#:#obj_htlm_duplicate#:#Copy HTML Learning Module
 common#:#obj_iass#:#Individual Assessment
 common#:#obj_iass_duplicate#:#Copy Individual Assessment
 common#:#obj_iass_select#:#-- Please select one individual assessment --
-common#:#obj_itgr#:#Item Group
+common#:#obj_itgr#:#Групи от елементи
 common#:#obj_ldap_desc#:#Конфигурирайте глобалните LDAP настройки тук.
-common#:#obj_lhts#:#Learning History
-common#:#obj_lhts_desc#:#Learning history settings
+common#:#obj_lhts#:#История на обучението
+common#:#obj_lhts_desc#:#История на обучението - настройки
 common#:#obj_lm#:#Модул за обучение ILIAS
 common#:#obj_lm_duplicate#:#Copy Learning Module
 common#:#obj_lng#:#Език
@@ -4866,7 +4866,7 @@ common#:#obj_objf_desc#:#Управление на типовете обекти
 common#:#obj_orgu#:#Organisational Unit
 common#:#obj_orgu_description#:#Creating and editing organisational structure
 common#:#obj_page#:#Page
-common#:#obj_pdfg#:#PDF Generation
+common#:#obj_pdfg#:#Генериране на PDF
 common#:#obj_pdfg_desc#:#Options for generation PDF documents
 common#:#obj_pg#:#Страница
 common#:#obj_poll#:#Анкета
@@ -4893,12 +4893,12 @@ common#:#obj_rcat#:#ECS Category
 common#:#obj_rcrs#:#Course-Link
 common#:#obj_recf#:#Възстановени обекти
 common#:#obj_recf_desc#:#Съдържа възстановени обекти от системната проверка.
-common#:#obj_rep#:#Repository
-common#:#obj_reps#:#Repository
-common#:#obj_reps_desc#:#General settings for the Repository
+common#:#obj_rep#:#Хранилище
+common#:#obj_reps#:#Хранилище
+common#:#obj_reps_desc#:#Общи настройки на хранилището
 common#:#obj_rfil#:#ECS File
 common#:#obj_rglo#:#ECS Glossary
-common#:#obj_rgrp#:#ECS Group
+common#:#obj_rgrp#:#ECS група
 common#:#obj_rlm#:#ECS Learning Module
 common#:#obj_role#:#Роля
 common#:#obj_rolf#:#Роли
@@ -4994,7 +4994,7 @@ common#:#org_units#:#Organisational Units
 common#:#other#:#Други
 common#:#overview#:#Преглед
 common#:#overwrite#:#Overwrite
-common#:#owner#:#Притежател
+common#:#owner#:#Създадено от
 common#:#owner_updated#:#Owner updated.
 common#:#page#:#Страница
 common#:#pages#:#Страници
@@ -5044,7 +5044,7 @@ common#:#pdfg_visible#:#PDF Generation is visible
 common#:#pdfg_write#:#User can edit settings of PDF Generation
 common#:#pdf_export#:#PDF Export
 common#:#pd_items_news#:#Include News of Personal Items
-common#:#perma_link#:#Permanent Link
+common#:#perma_link#:#Постоянна връзка
 common#:#permission#:#Разрешение
 common#:#permission_denied#:#Разрешението отказано
 common#:#permission_settings#:#Разрешителни настройки
@@ -5263,15 +5263,15 @@ common#:#salutation_n#:#No salutation desired
 common#:#saml_login_form_info_txt#:#You can log in using the “Direct Login” button without having to enter your username or password.
 common#:#saml_login_form_txt#:#Login to ILIAS via SAML
 common#:#saml_log_in#:#Direct login
-common#:#save#:#Съхраняване
-common#:#saved_successfully#:#Успешно съхранено
-common#:#save_and_back#:#Съхраняване и преминаване назад
-common#:#save_message#:#Съхраняване на съобщение
+common#:#save#:#Запазване
+common#:#saved_successfully#:#Успешно запазено
+common#:#save_and_back#:#Запазване и връщане назад
+common#:#save_message#:#Запазване на съобщение
 common#:#save_params_for_cron#:#Save Parameter for Cronjob
-common#:#save_refresh#:#Съхраняване и обновяване
-common#:#save_return#:#Съхраняване и връщане
-common#:#save_settings#:#Съхраняване на настройките
-common#:#save_user_related_data#:#Съхраняване на свързаните с потребителя данни за достъп
+common#:#save_refresh#:#Запазване и обновяване
+common#:#save_return#:#Запазване и връщане
+common#:#save_settings#:#Запазване на настройките
+common#:#save_user_related_data#:#Запазване на свързаните с потребителя данни за достъп
 common#:#saving#:#Saving...
 common#:#scorm_create_export_file_html#:#Create Export File (HTML)
 common#:#scorm_create_export_file_pdf#:#Create Export File (PDF)
@@ -5355,8 +5355,8 @@ common#:#sess_mode#:#Session Mode
 common#:#set#:#Настройване
 common#:#setSystemLanguage#:#Настройване на системния език
 common#:#settings#:#Настройки
-common#:#settings_for_all_members#:#Global Setting for all Course/Group Members
-common#:#settings_per_users#:#Settings per Course/Group Members
+common#:#settings_for_all_members#:#Глобална настройка за всички членове на курса/групата
+common#:#settings_per_users#:#Настройки за членове на курса/групата
 common#:#settings_presentation_header#:#Presentation
 common#:#settings_saved#:#Saved settings
 common#:#setUserLanguage#:#Настройване езика на потребителя
@@ -5411,7 +5411,7 @@ common#:#show_hidden_sections#:#Show More Information &raquo;
 common#:#show_list#:#Показване на списъка
 common#:#show_members#:#Визуализиране на членовете
 common#:#show_more#:#Show More
-common#:#show_owner#:#Показване на притежателя
+common#:#show_owner#:#Показване на автора
 common#:#show_users_online#:#Показване на потребителите онлайн
 common#:#show_who_is_online#:#Show who is online
 common#:#side_frame#:#Side Frame
@@ -5452,7 +5452,7 @@ common#:#ssl#:#SSL (HTTPS)
 common#:#standard_fields#:#Standard Fields
 common#:#startpage#:#Стартова страница
 common#:#statistic#:#Статистка
-common#:#statistics#:#Statistics
+common#:#statistics#:#Статистика
 common#:#status#:#Статус
 common#:#status_no_permission#:#No permission granted
 common#:#stat_selected#:#Selected
@@ -5490,8 +5490,8 @@ common#:#system_language#:#Системен език
 common#:#system_styles#:#System Styles
 common#:#table_mail_import#:#Импортиране на поща
 common#:#tabs#:#Tabs
-common#:#tagging_my_tags#:#My Tags
-common#:#tags#:#Tags
+common#:#tagging_my_tags#:#Мои етикети
+common#:#tags#:#Етикети
 common#:#take_over_structure#:#Adopt Structure
 common#:#take_over_structure_info#:#If activated, directories in the zip file will be mapped to categories or, if used in groups or courses, to folders.
 common#:#target#:#Target
@@ -5539,7 +5539,7 @@ common#:#tst_edit_questions#:#Edit Questions
 common#:#tst_new#:#Нов тест
 common#:#tst_results#:#Test Results
 common#:#tst_run#:#Run
-common#:#tst_statistical_evaluation#:#Statistics
+common#:#tst_statistical_evaluation#:#Статистика
 common#:#tst_statistics#:#Access to Test Statistics
 common#:#tst_user_not_invited#:#You are not supposed to take this exam.
 common#:#tst_warning_test_not_complete#:#The test is not complete!
@@ -5668,8 +5668,8 @@ common#:#usr_active_only#:#Active Users only
 common#:#usr_add#:#Добавяне на потребител
 common#:#usr_agreement#:#Потребителско споразумение
 common#:#usr_edit#:#Редактиране на потребител
-common#:#usr_filter_coursemember#:#Member of course
-common#:#usr_filter_groupmember#:#Member of group
+common#:#usr_filter_coursemember#:#Участник в курса
+common#:#usr_filter_groupmember#:#Член на група
 common#:#usr_filter_lastlogin#:#Last login of user
 common#:#usr_filter_role#:#Assigned role
 common#:#usr_inactive_only#:#Inactive Users only
@@ -5792,7 +5792,7 @@ cont#:#cont_news_timeline_info#:#Activates News Timeline Tab
 cont#:#cont_news_timeline_landing_page#:#Landing Page
 cont#:#cont_news_timeline_landing_page_info#:#Timeline page will be the landing page.
 cont#:#cont_news_timeline_tab#:#Timeline
-cont#:#cont_page_type_cont#:#Repository Page (Cours, Group, ...)
+cont#:#cont_page_type_cont#:#Страница на хранилището (Курс, Гръпа, ...)
 cont#:#cont_page_type_cstr#:#Course Start Page (Learning Objectives View)
 cont#:#cont_path#:#Path
 cont#:#cont_published#:#Published
@@ -5915,7 +5915,7 @@ content#:#cont_cach_mode#:#Mode
 content#:#cont_cach_mode_automatic#:#Automatic
 content#:#cont_cach_mode_automatic_info#:#All your consultation hours will be published.
 content#:#cont_cach_mode_manual#:#Manual
-content#:#cont_cach_mode_manual_info#:#Only the consultation hours of the following groups will be published.
+content#:#cont_cach_mode_manual_info#:#Ще бъдат публикувани само часовете за консултации на следните групи.
 content#:#cont_cant_copy_folders#:#Папките не могат да се копират в клипборда.
 content#:#cont_cant_del_full#:#Изтриването на файл с цял екран не е възможно.
 content#:#cont_cant_del_std#:#Изтриването на файл със стандартен изглед не е възможно.
@@ -6113,7 +6113,7 @@ content#:#cont_ed_insert_grid#:#Insert Column Layout
 content#:#cont_ed_insert_grid_info#:#Adds a responsive column layout based on a grid with 12 units per row.
 content#:#cont_ed_insert_iim#:#Insert Interactive Image
 content#:#cont_ed_insert_incl#:#Insert Content Snippet
-content#:#cont_ed_insert_learning_history#:#Insert Learning History
+content#:#cont_ed_insert_learning_history#:#Вмъкване на историята на обучението
 content#:#cont_ed_insert_list#:#вмъкване на Списък
 content#:#cont_ed_insert_login_page_element#:#Insert Login Page Element
 content#:#cont_ed_insert_map#:#Insert Map
@@ -6157,7 +6157,7 @@ content#:#cont_ed_split_page#:#отделяне в нова страница
 content#:#cont_ed_split_page_next#:#отделяне в следващата страница
 content#:#cont_ed_textitem#:# Text Item
 content#:#cont_ed_width#:#Ширина
-content#:#cont_element_refers_removed_itgr#:#This content element refers to an item group that has been removed in the meantime.
+content#:#cont_element_refers_removed_itgr#:#Този елемент от съдържанието се отнася до група елементи, която междувременно е била премахната.
 content#:#cont_empty_question#:#Question editing not finished. Please either click and edit or delete question.
 content#:#cont_enable_page_history#:#Page History
 content#:#cont_enable_page_history_info#:#Stores older versions of pages and allows to roll back to older versions.
@@ -7049,15 +7049,15 @@ crs#:#crs_added_starters#:#Assigned start object(s).
 crs#:#crs_added_to_list#:#You have been assigned to the waiting list. You are assigned to position %s on the waiting list.
 crs#:#crs_add_archive_html#:#Добавяне на HTML-архив
 crs#:#crs_add_archive_xml#:#Добавяне на XML-архив
-crs#:#crs_add_grouping#:#Add course grouping
+crs#:#crs_add_grouping#:#Добавяне на група от курсове
 crs#:#crs_add_html_archive#:#Добавяне на HTML архив
 crs#:#crs_add_objective#:#Add objective
 crs#:#crs_add_remove_from_desktop#:#Add/Remove from Desktop
 crs#:#crs_add_remove_from_desktop_info#:#Allow the members to add course items to the personal desktop.
 crs#:#crs_add_starter#:#Add start object
-crs#:#crs_add_to_group#:#Add to Group
+crs#:#crs_add_to_group#:#Добавяне към група
 crs#:#crs_admin#:#Администратор
-crs#:#crs_administrators#:#Administrators
+crs#:#crs_administrators#:#Администратори
 crs#:#crs_admission_link_failure_availability#:#Can't register: Course is not online.
 crs#:#crs_admission_link_failure_invalid_code#:#Can't register: Link is invalid.
 crs#:#crs_admission_link_failure_membership_limited#:#Can't registrate: Course membership is limited.
@@ -7100,7 +7100,7 @@ crs#:#crs_contact_responsibility#:#Отговорност
 crs#:#crs_content#:#Съдържание на курса
 crs#:#crs_copy#:#Copy Course
 crs#:#crs_count_members#:#Брой членове
-crs#:#crs_course_group_notification_link#:#Link:
+crs#:#crs_course_group_notification_link#:#Връзка:
 crs#:#crs_course_period_not_valid#:#The course period is not valid.
 crs#:#crs_course_status_of_users#:#Passed Status of Users
 crs#:#crs_create_date#:#Създаване на дата
@@ -7123,14 +7123,14 @@ crs#:#crs_file_size_info#:#Filesize
 crs#:#crs_from#:#От:
 crs#:#crs_general_info#:#General Informations
 crs#:#crs_general_informations#:#General Informations
-crs#:#crs_groupings#:#Course groupings
-crs#:#crs_grouping_deleted#:#Deleted course grouping.
-crs#:#crs_grouping_delete_sure#:#Do you really want to delete the following course groupings?
-crs#:#crs_grouping_select_one#:#Please select a course grouping.
-crs#:#crs_groups_nr#:#Number of Groups
+crs#:#crs_groupings#:#Групиране на курсовете
+crs#:#crs_grouping_deleted#:#Изтрита група курсове.
+crs#:#crs_grouping_delete_sure#:#Наистина ли искате да изтриете следните групи курсове?
+crs#:#crs_grouping_select_one#:#Моля, изберете група от курсове.
+crs#:#crs_groups_nr#:#Брой на групите
 crs#:#crs_grp_added_grouping#:#Added new membership limitation.
-crs#:#crs_grp_already_assigned#:#You are already member of this course grouping.
-crs#:#crs_grp_assignments#:#Assignments of Course Members to Groups
+crs#:#crs_grp_already_assigned#:#Вие вече сте член на тази група курсове.
+crs#:#crs_grp_assignments#:#Присъединяване на членове на курсове към групи
 crs#:#crs_grp_assign_crs#:#Assign course
 crs#:#crs_grp_enter_title#:#Please enter a title.
 crs#:#crs_grp_info_reg#:#You can only register to one of this courses:
@@ -7269,7 +7269,7 @@ crs#:#crs_loc_tst_start#:#Test starten
 crs#:#crs_loc_tt_info#:#You have reached %1$d%%. The test is passed with %2$d%%.
 crs#:#crs_loc_type_initial_all_info#:#todo
 crs#:#crs_loc_type_qualified_info#:#todo
-crs#:#crs_mail_all#:#For all Participants
+crs#:#crs_mail_all#:#За всички участници
 crs#:#crs_mail_all_info#:#Members, administrators and tutors can use the feature "Mail to Members" in the "Members" tab.
 crs#:#crs_mail_context_member_info#:#For the contact emails on the info screen of a course 
 crs#:#crs_mail_context_member_title#:#Course Member
@@ -7289,15 +7289,15 @@ crs#:#crs_max_members_reached#:#Максималният брой членове
 crs#:#crs_member#:#Член
 crs#:#crs_members#:#Members
 crs#:#crs_members_deleted#:#Изтрити членове
-crs#:#crs_members_groups#:#Course Members Groups
+crs#:#crs_members_groups#:#Групи членове на курса
 crs#:#crs_members_map#:#Course Members Map
 crs#:#crs_members_print_title#:#Членове на курс
-crs#:#crs_member_administration#:#Edit Participants
+crs#:#crs_member_administration#:#Редактиране на участници
 crs#:#crs_member_passed_status_changed#:#Passed Status Changed
 crs#:#crs_mem_contact#:#Support Contact
 crs#:#crs_mem_contacts#:#Support Contacts
 crs#:#crs_mem_send_mail#:#Изпращане на поща
-crs#:#crs_mem_tbl_header#:#Course Participants
+crs#:#crs_mem_tbl_header#:#Участници в курса
 crs#:#crs_min_one_admin#:#There has to be at least one administrator assigned to this course.
 crs#:#crs_news#:#Course News
 crs#:#crs_new_status#:#Your new status is:
@@ -7422,7 +7422,7 @@ crs#:#crs_reject_subscriber_body#:#Вашият абонамент беше от
 crs#:#crs_reset_results#:#Reset results
 crs#:#crs_role_status#:#Роля / Статус
 crs#:#crs_search_users#:#Search Users
-crs#:#crs_selected_users#:#Selected Participants
+crs#:#crs_selected_users#:#Избрани участници
 crs#:#crs_select_archive_language#:#Моля, изберете език за архива
 crs#:#crs_select_one_archive#:#Моля, изберете един архив
 crs#:#crs_select_starter#:#Select start object
@@ -7432,9 +7432,9 @@ crs#:#crs_shorten_breadcrumb#:#Breadcrumb
 crs#:#crs_show_all_obj#:#Expand All
 crs#:#crs_show_members#:#Show Members
 crs#:#crs_show_members_info#:#If activated, course members can access the members gallery and the send mail to members feature.
-crs#:#crs_show_member_export#:#Participants List
+crs#:#crs_show_member_export#:#Списък на участниците
 crs#:#crs_show_member_export_info#:#Course Members may print a list of participants.
-crs#:#crs_show_member_export_settings#:#Participants List
+crs#:#crs_show_member_export_settings#:#Списък на участниците
 crs#:#crs_size#:#Размер на файла
 crs#:#crs_sort_activation#:#Сортиране по реда на активиране
 crs#:#crs_sort_manual#:#Ръчно сортиране
@@ -7477,7 +7477,7 @@ crs#:#crs_sure_delete_selected_archives#:#Сигурни ли сте, че же�
 crs#:#crs_syllabus#:#Учебна програма
 crs#:#crs_sys_default#:#System Default
 crs#:#crs_table_start_objects#:#Start objects
-crs#:#crs_target_group#:#Target Group
+crs#:#crs_target_group#:#Таргет група
 crs#:#crs_tile_and_objective_view_not_supported#:#You cannot activate both "Tile Presentation" and "Learning Objectives Presentation" at the same time.
 crs#:#crs_tile_and_session_limit_not_supported#:#You cannot activate both "Tile Presentation" and "Session Limitation" at the same time.
 crs#:#crs_timings_activate_optional#:#Optional mode for course timings
@@ -7584,7 +7584,7 @@ crs#:#event_date_time#:#Date & Time
 crs#:#event_desc#:#Description
 crs#:#event_details_workflow#:#Details/Workflow
 crs#:#event_digit#:#Digit
-crs#:#event_edit_members#:#Edit Participants
+crs#:#event_edit_members#:#Редактиране на участниците
 crs#:#event_etime_smaller_stime#:#The ending time is earlier than the starting time. Please enter a valid time span.
 crs#:#event_file#:#File
 crs#:#event_files#:#Assigned File
@@ -7618,7 +7618,7 @@ crs#:#event_user_selection_include_filter#:#Include "%1$s"
 crs#:#event_user_selection_include_requests#:#Include all users on list "Join Requests"
 crs#:#event_user_selection_include_role#:# Include all users with role "%1$s"
 crs#:#event_user_selection_include_waiting_list#:#Include all users on "Waiting List"
-crs#:#export_members#:#Export Participants
+crs#:#export_members#:#Експортиране на участниците
 crs#:#grouping_change_assignment#:#Change Assignment
 crs#:#grp_grp_already_assigned#:#You are already member of this grouping of groups.
 crs#:#mem_cron_min_members_intro#:#The following courses and groups do not meet the minimum number of members (yet).
@@ -7672,18 +7672,18 @@ dash#:#dash_default_sortation#:#Default Sortation
 dash#:#dash_enable_cal#:#Calendar
 dash#:#dash_enable_favourites#:#Favourites
 dash#:#dash_enable_mail#:#Mail
-dash#:#dash_enable_memberships#:#My Courses and Groups
-dash#:#dash_enable_news#:#News
+dash#:#dash_enable_memberships#:#Моите курсове и групи
+dash#:#dash_enable_news#:#Новини
 dash#:#dash_enable_task#:#Задачи
-dash#:#dash_favourites#:#Favourites
+dash#:#dash_favourites#:#Любими
 dash#:#dash_info_sure_remove_from_favs#:#Are you sure you want to remove the following objects from your Favourites?
 dash#:#dash_item_removed#:#Recommendation has been removed from the list.
 dash#:#dash_learningsequences#:#My Learning Sequences
 dash#:#dash_list#:#List
 dash#:#dash_main_panel#:#Main Panel
 dash#:#dash_make_favourite#:#Add to Favourites
-dash#:#dash_memberships#:#My Courses and Groups
-dash#:#dash_member_main_alt#:#Courses and groups can also be configured as a separate main menu entry.
+dash#:#dash_memberships#:#Моите курсове и групи
+dash#:#dash_member_main_alt#:#Курсовете и групите също могат да бъдат конфигурирани като отделен елемент от главното меню.
 dash#:#dash_presentation#:#Presentation
 dash#:#dash_remove_from_list#:#Remove from List
 dash#:#dash_side_panel#:#Side Panel
@@ -7693,8 +7693,8 @@ dash#:#dash_sort_by_start_date#:#Sort by Start Date
 dash#:#dash_sort_by_type#:#Sort by Type
 dash#:#dash_studyprogramme#:#My Study Programmes
 dash#:#dash_tile#:#Tile
-dash#:#dash_view_courses_groups#:#Section ‘My Courses and Groups’
-dash#:#dash_view_favourites#:#Section ‘Favourites’
+dash#:#dash_view_courses_groups#:#Раздел "Моите курсове и групи"
+dash#:#dash_view_favourites#:#Раздел ‘Любими’
 dateplaner#:#add_appointment#:#Add Appointment
 dateplaner#:#apply#:#прилагане
 dateplaner#:#app_consultation_hours#:#Consultation Hours
@@ -7702,8 +7702,8 @@ dateplaner#:#app_day#:#преглед на деня
 dateplaner#:#app_month#:#месечен преглед
 dateplaner#:#app_week#:#седмичен преглед
 dateplaner#:#back#:#назад
-dateplaner#:#back_to_crs#:#Go to Course
-dateplaner#:#back_to_grp#:#Go to Group
+dateplaner#:#back_to_crs#:#Към курса
+dateplaner#:#back_to_grp#:#Към група
 dateplaner#:#back_to_pd#:#Back to Personal Desktop
 dateplaner#:#btn_ical#:#iCal
 dateplaner#:#cal_accepted#:#Accepted
@@ -7711,7 +7711,7 @@ dateplaner#:#cal_add_appointment#:#Create Appointment
 dateplaner#:#cal_add_calendar#:#Add Calendar
 dateplaner#:#cal_add_category#:#Create New Calendar
 dateplaner#:#cal_add_milestone#:#Add Milestone
-dateplaner#:#cal_adm_notification_info#:#Choose this option, to send optional mail notifications to course/group participants about changed appointments.
+dateplaner#:#cal_adm_notification_info#:#Изберете тази опция, за да изпращате по желание известия по пощата на участниците в курса/групата за променени срещи.
 dateplaner#:#cal_adm_notification_user_info#:#Choose this option, to send optional mail notifications to selected users.
 dateplaner#:#cal_agenda#:#Agenda
 dateplaner#:#cal_all_day#:#All Day
@@ -7754,7 +7754,7 @@ dateplaner#:#cal_cancel_booking#:#Cancel Booking
 dateplaner#:#cal_cancel_booking_confirmed#:#The booking has been cancelled successfully.
 dateplaner#:#cal_cancel_booking_info#:#Please confirm the cancellation of this booking.
 dateplaner#:#cal_category_selection#:#Calendar Selection
-dateplaner#:#cal_cg_notification#:#Course/Group Notification
+dateplaner#:#cal_cg_notification#:#Известие за курс/група
 dateplaner#:#cal_cg_registrations#:#Registration for Course/Group Appointments
 dateplaner#:#cal_cg_registration_info#:#Gives users the possibility to register to course and group appointments.
 dateplaner#:#cal_changed_events_header#:#Changed Appointments 
@@ -7768,7 +7768,7 @@ dateplaner#:#cal_ch_assigned_apps#:#Number of Appointments
 dateplaner#:#cal_ch_assign_participants#:#Assign Users
 dateplaner#:#cal_ch_book#:#Book Appointment
 dateplaner#:#cal_ch_booking#:#Ressource Booking
-dateplaner#:#cal_ch_bookings#:#Participants
+dateplaner#:#cal_ch_bookings#:#Участници
 dateplaner#:#cal_ch_bookings_tbl#:#Booked Appointments
 dateplaner#:#cal_ch_booking_message_tbl#:#Comment
 dateplaner#:#cal_ch_booking_owner#:#Owner
@@ -7921,7 +7921,7 @@ dateplaner#:#cal_last#:#Last
 dateplaner#:#cal_list#:#List
 dateplaner#:#cal_mail_notification_body#:#you have been invited to an appointment.
 dateplaner#:#cal_mail_notification_subject#:#Appointment Invitation: "%s"
-dateplaner#:#cal_manage#:#Manage
+dateplaner#:#cal_manage#:#Управление
 dateplaner#:#cal_milestone_settings#:#Milestones
 dateplaner#:#cal_monthly#:#Monthly
 dateplaner#:#cal_month_overview#:#Month Overview
@@ -8049,8 +8049,8 @@ dateplaner#:#err_end_before_start#:#The appointment must not start before the en
 dateplaner#:#err_missing_title#:#Please enter an appointment title.
 dateplaner#:#execute#:#изпълнение на избраното
 dateplaner#:#free#:#свободно
-dateplaner#:#Fr_long#:#Петък
-dateplaner#:#Fr_short#:#Пет
+dateplaner#:#Fr_long#:#петък
+dateplaner#:#Fr_short#:#пет
 dateplaner#:#group#:#група
 dateplaner#:#grp_cal_end#:#Group ends
 dateplaner#:#grp_cal_reg_end#:#Registration End 
@@ -8065,27 +8065,27 @@ dateplaner#:#keywords#:#Ключови думи
 dateplaner#:#last_change#:#Последна промяна
 dateplaner#:#month#:#месец
 dateplaner#:#more#:#още
-dateplaner#:#Mo_long#:#Понеделник
-dateplaner#:#Mo_short#:#Пон
+dateplaner#:#Mo_long#:#понеделник
+dateplaner#:#Mo_short#:#пон
 dateplaner#:#of#:#на
 dateplaner#:#properties#:#Характеристики
 dateplaner#:#remote_pass_info#:#Please enter your account data if the access to the webcalendar ist protected.
 dateplaner#:#r_14#:#всеки 14 дни
 dateplaner#:#r_4_weeks#:#всеки 4 седмици
-dateplaner#:#Sa_long#:#Събота
-dateplaner#:#Sa_short#:#Съб
-dateplaner#:#Su_long#:#Неделя
-dateplaner#:#Su_short#:#Нед
+dateplaner#:#Sa_long#:#събота
+dateplaner#:#Sa_short#:#съб
+dateplaner#:#Su_long#:#неделя
+dateplaner#:#Su_short#:#нед
 dateplaner#:#Text#:#Текст
-dateplaner#:#Th_long#:#Четвъртък
-dateplaner#:#Th_short#:#Чет
+dateplaner#:#Th_long#:#четвъртък
+dateplaner#:#Th_short#:#чет
 dateplaner#:#to#:#до
 dateplaner#:#today#:#днес
-dateplaner#:#Tu_long#:#Вторник
-dateplaner#:#Tu_short#:#Вт
+dateplaner#:#Tu_long#:#вторник
+dateplaner#:#Tu_short#:#вто
 dateplaner#:#week#:#седмица
-dateplaner#:#We_long#:#Сряда
-dateplaner#:#We_short#:#Ср
+dateplaner#:#We_long#:#сряда
+dateplaner#:#We_short#:#сря
 dateplaner#:#wk_short#:#WK
 dateplaner#:#year#:#година
 dcl#:#add_value#:#Add new value
@@ -8212,7 +8212,7 @@ dcl#:#dcl_list_fields#:#List Fields
 dcl#:#dcl_list_visibility_and_filter#:#Visibility and filter
 dcl#:#dcl_locked#:#Locked
 dcl#:#dcl_locked_tooltip#:#Disable this field for users to edit. Does not include roles with the permission 'Edit Settings'
-dcl#:#dcl_manage#:#Manage
+dcl#:#dcl_manage#:#Управление
 dcl#:#dcl_max_digits#:#Maximum Number of Digits
 dcl#:#dcl_max_import#:#The maximum amount of imported entries is reached.
 dcl#:#dcl_max_text_length#:#Maximum Length
@@ -8476,7 +8476,7 @@ ecs#:#ecs_cms_id#:#Root-Id in the Campus-Managment-System
 ecs#:#ecs_cms_tree_deleted#:#The campus managment tree assignments have been deleted.
 ecs#:#ecs_cms_tree_synchronize#:#Synchronize Tree
 ecs#:#ecs_cms_tree_synchronized#:#The tree has been synchronized.
-ecs#:#ecs_communities#:#Participants
+ecs#:#ecs_communities#:#Участници
 ecs#:#ecs_confirm_delete_tree#:#Do you really want to delete all assignments for this campus managment tree?
 ecs#:#ecs_connection_settings#:#Connection Settings
 ecs#:#ecs_cron_task_scheduler#:#ECS Task Scheduler
@@ -8583,8 +8583,8 @@ ecs#:#ecs_not_published#:#No approvals selected.
 ecs#:#ecs_no_adv_md#:#No Advanced Meta Data available.
 ecs#:#ecs_no_owner#:#Please select one community name.
 ecs#:#ecs_no_value#:#Not available
-ecs#:#ecs_participants#:#Participants
-ecs#:#ecs_participants_infos#:#Further Informations
+ecs#:#ecs_participants#:#Участници
+ecs#:#ecs_participants_infos#:#Допълнителна информация
 ecs#:#ecs_part_settings#:#Settings for Participant:
 ecs#:#ecs_polling#:#Polling Time
 ecs#:#ecs_polling_info#:#Please define the polling time for creation and update of Course-Links
@@ -8641,7 +8641,7 @@ ecs#:#ecs_wiki_export#:#Wiki Releases
 ecs#:#ecs_wiki_export_disabled#:#Do not release this Wiki
 ecs#:#ecs_wiki_export_enabled#:#Release this Wiki
 ecs#:#ecs_wiki_export_obj_settings#:#Wiki Release Settings
-error#:#error_back_to_repository#:#Back to Repository
+error#:#error_back_to_repository#:#Назад към хранилището
 error#:#error_sry_error#:#Sorry, an error occured.
 exc#:#exc_add_assignment#:#Add Assignment
 exc#:#exc_add_criteria#:#Add Criteria
@@ -8812,7 +8812,7 @@ exc#:#exc_num_teams#:#Number
 exc#:#exc_order_by_deadline#:#Order by Deadline
 exc#:#exc_overview#:#Overview
 exc#:#exc_participant#:#Participant
-exc#:#exc_participants#:#Participants
+exc#:#exc_participants#:#Участници
 exc#:#exc_participant_view#:#Participant View
 exc#:#exc_passed_status_determination#:#Determination of Staus "Passed"
 exc#:#exc_passing_exc#:#Passing the Exercise
@@ -9352,7 +9352,7 @@ forum#:#frm_settings_mod_functions_header#:#Moderator Functions
 forum#:#frm_settings_presentation_header#:#Presentation
 forum#:#frm_settings_privacy_header#:#Privacy
 forum#:#frm_settings_user_functions_header#:#User Functions
-forum#:#frm_statistics#:#Statistics
+forum#:#frm_statistics#:#Статистика
 forum#:#frm_statistics_disabled_for_participants#:#Statistics are disabled for forum members.
 forum#:#frm_statistics_enabled#:#Enable Statistics
 forum#:#frm_statistics_enabled_desc#:#Enable Posting Statistics for all participants
@@ -9472,10 +9472,10 @@ grp#:#grp_create_new_grp_in#:#Create new group in '%1'.
 grp#:#grp_create_or_use_existing#:#Do you want to add the user to an existing group or create a new group?
 grp#:#grp_custom_user_fields#:#Group Relevant User Data
 grp#:#grp_deactivate_notification#:#Deactivate Notification
-grp#:#grp_edit_members#:#Edit Participants
+grp#:#grp_edit_members#:#Редактиране на участниците
 grp#:#grp_enable_map#:#Enable Group Map
 grp#:#grp_err_registration_limited#:#please enter a valid start and end date for the registration
-grp#:#grp_export_members#:#Export Participants
+grp#:#grp_export_members#:#Експортиране на участниците
 grp#:#grp_general_informations#:#General Information
 grp#:#grp_grp_info_reg#:#You can only register to one of these groups:
 grp#:#grp_grp_open#:#Open Group
@@ -9493,7 +9493,7 @@ grp#:#grp_join_request#:#Send
 grp#:#grp_lim_assigned#:#Already assigned to associated group "%s".
 grp#:#grp_mail_admission_new_bod#:#we are pleased to announce your registration for the group "%s".
 grp#:#grp_mail_admission_new_sub#:#Your registration for group "%s"
-grp#:#grp_mail_all#:#For all Participants
+grp#:#grp_mail_all#:#За всички участници
 grp#:#grp_mail_all_info#:#Members and administrators can use the feature "Mail to Members" in the "Members" tab.
 grp#:#grp_mail_dismiss_bod#:#your membership in group "%s" has been terminated.
 grp#:#grp_mail_dismiss_sub#:#Membership terminated in group "%s"
@@ -9528,9 +9528,9 @@ grp#:#grp_members#:#Members
 grp#:#grp_members_deleted#:#Deleted members
 grp#:#grp_members_map#:#Group Members Map
 grp#:#grp_members_print_title#:#Group Members
-grp#:#grp_member_administration#:#Edit Participants
+grp#:#grp_member_administration#:#Редактиране на участниците
 grp#:#grp_mem_contacts#:#Tutorial Support
-grp#:#grp_mem_tbl_header#:#Group Participants
+grp#:#grp_mem_tbl_header#:#Участници в групата
 grp#:#grp_missing_grp_type#:#Please choose a group type.
 grp#:#grp_missing_password#:#Please enter a group password.
 grp#:#grp_new_status#:#Your new status is:
@@ -9570,7 +9570,7 @@ grp#:#grp_reg_req_info_screen#:#You can request membership for this group. You w
 grp#:#grp_reg_subject#:#Message
 grp#:#grp_role_status#:#Role/Status
 grp#:#grp_search_users#:#Search User
-grp#:#grp_selected_users#:#Selected Participants
+grp#:#grp_selected_users#:#Избрани участници
 grp#:#grp_settings#:#Group Settings
 grp#:#grp_setting_header_presentation#:#Group Presentation
 grp#:#grp_setting_header_registration#:#Group Registration
@@ -9714,7 +9714,7 @@ iass#:#iass_usr_edit#:#Edit user record and learning progress
 iass#:#iass_usr_remove#:#Remove user from object
 iass#:#iass_usr_view#:#User record
 iass#:#il_iass_member#:#Individual Assessment examinee
-iass#:#il_iass_members#:#Participants
+iass#:#il_iass_members#:#Участници
 iass#:#lp_inactive#:#Note: the learning progress for this object is inactive. Thus memberships may not be finalised.
 impr#:#impr_page_type_impr#:#Imprint
 init#:#init_error_authentication_fail#:#Authentication failed.
@@ -9917,17 +9917,17 @@ ldap#:#ldap_user_sync#:#User Synchronization Settings
 ldap#:#ldap_user_sync_cron#:#LDAP User Synchronization 
 ldap#:#ldap_user_sync_cron_info#:#If activated, user accounts will be imported from the LDAP directory and synchronised continuously as an option.
 ldap#:#ldap_user_sync_info#:#Defines whether new users are automatically created on login or regularly per Cron-Job.
-lhist#:#cont_create_lhist#:#Create Learning History Element
-lhist#:#cont_update_lhist#:#Edit Learning History Element
+lhist#:#cont_create_lhist#:#Създаване на елемент от историята на обучението
+lhist#:#cont_update_lhist#:#Редактиране на елемент от историята на обучението
 lhist#:#lhist_all#:#All
 lhist#:#lhist_cont_placeholder_text#:#This element will show the learning history in the presentation mode of the portfolio.
-lhist#:#lhist_enable_learning_history#:#Learning History
-lhist#:#lhist_enable_learning_history_info#:#Enables an overview of all achievements of a user.
+lhist#:#lhist_enable_learning_history#:#Историята на обучението
+lhist#:#lhist_enable_learning_history_info#:#Позволява преглед на всички постижения на даден потребител.
 lhist#:#lhist_first_login#:#First Login
-lhist#:#lhist_learning_history#:#Learning History
-lhist#:#lhist_lhist#:#Learning History
+lhist#:#lhist_learning_history#:#Историята на обучението
+lhist#:#lhist_lhist#:#Историята на обучението
 lhist#:#lhist_manual#:#Manual
-lhist#:#lhist_no_entries#:#Achieve your goals! Learn something today to further your learning history.
+lhist#:#lhist_no_entries#:#Постигнете целите си! Научете нещо днес, за да разширите историята си на обучение. 
 lhist#:#lhist_period#:#Period
 lhist#:#lhist_selected#:#Selected
 lhist#:#lhist_show_more#:#Show More
@@ -10031,7 +10031,7 @@ lso#:#lso_mainbar_button_label_toc#:#Content
 lso#:#lso_members_deleted#:#Deleted members
 lso#:#lso_members_gallery#:#Learning Sequence Members Gallery
 lso#:#lso_members_print_title#:#Learning sequence mebers
-lso#:#lso_member_administration#:#Edit Participants
+lso#:#lso_member_administration#:#Редактиране на участниците
 lso#:#lso_mem_tbl_header#:#Learning Sequence Member
 lso#:#lso_min_one_admin#:#There has to be at least one administrator assigned to this learning sequence.
 lso#:#lso_msg_member_assigned#:#User(s) assigned as learning sequence member(s)
@@ -10059,7 +10059,7 @@ lso#:#lso_show_members_info#:#Member Gallery available for users
 lso#:#lso_start_item#:#Start
 lso#:#lso_users_already_assigned#:#The user is already assigned to this learning sequence
 lso#:#mail_lso_roles#:#Send mails to roles of learning sequence.
-lso#:#manage#:#Manage
+lso#:#manage#:#Управление
 lso#:#manage_content_maintab#:#Content
 lso#:#members_gallery#:#Member Gallery
 lso#:#not_finished#:#Not Finished
@@ -10313,7 +10313,7 @@ mail#:#invite_to_chat#:#Invite to Chat
 mail#:#linebreak#:#Край на реда
 mail#:#link_check_affected_links#:#Affected Links
 mail#:#link_check_introduction#:#the following weblinks are invalid:
-mail#:#link_check_perma_link#:#Permanent Link
+mail#:#link_check_perma_link#:#Постоянна връзка
 mail#:#link_check_reason#:#You recife this mail because you enabled the notification for invalid links.
 mail#:#mail_account_mail#:#Account Mail
 mail#:#mail_add_folder#:#Add New Subfolder
@@ -10620,7 +10620,7 @@ mcst#:#mcst_incl_files_in_rss_info#:#If enabled, media files are includes as att
 mcst#:#mcst_input_either_file_or_url#:#Please specify a file or an URL. If you provide a file, please note the maximum allowed upload file size.
 mcst#:#mcst_last_submission#:#Last Submission
 mcst#:#mcst_list#:#List
-mcst#:#mcst_manage#:#Manage
+mcst#:#mcst_manage#:#Управление
 mcst#:#mcst_media_cast#:#Media Cast
 mcst#:#mcst_media_cast_not_online#:#Mediacast is not online
 mcst#:#mcst_media_cast_not_online_text#:#Mediacast is not online or has been disabled
@@ -10658,7 +10658,7 @@ mcst#:#mcst_viewmode#:#Presentation Mode
 mcst#:#mcst_visibility_info#:#Public items can be accessed via RSS without any authentication.
 mcst#:#mcst_visibility_public#:#Public
 mcst#:#mcst_visibility_users#:#Logged in Users
-mcst#:#mcst_webfeed#:#RSS Web Feed
+mcst#:#mcst_webfeed#:#RSS уеб канал
 mem#:#mem_period_without_time#:#Without Time Indication
 mem#:#mem_print_view_form#:#Default Settings for Print View
 mem#:#mem_settings_tab_print_view#:#Print View Settings
@@ -11380,7 +11380,7 @@ mmbr#:#mmbr_awrn_my_groups_courses_info#:#All members of groups or courses of th
 mmbr#:#mmbr_btn_mail_selected_users#:#Send Mail
 mmbr#:#mmbr_info_delete_sure_unsubscribe#:#Are you sure you want to unsubscribe from the following objects?
 mmbr#:#mmbr_memberships#:#Memberships
-mmbr#:#mmbr_selected_users#:#Selected Participants
+mmbr#:#mmbr_selected_users#:#Избрани участници
 mmbr#:#mmbr_unsubscribed_from_objs#:#You have been unsubscribed from the selected objects.
 mme#:#additional_langs#:#Additional Languages
 mme#:#add_languages#:#Add Language
@@ -11540,7 +11540,7 @@ news#:#news_news_items#:#News Item(s)
 news#:#news_news_item_content#:#Text
 news#:#news_news_item_content_long#:#Long Text
 news#:#news_news_item_content_long_info#:#This text will not be published via RSS.
-news#:#news_news_item_def_visibility_public_info#:#Current news are accessible in a public RSS webfeed. They should not contain confidential information.
+news#:#news_news_item_def_visibility_public_info#:#Актуалните новини са достъпни в публичен RSS уебфийд. Те не трябва да съдържат поверителна информация.
 news#:#news_news_item_def_visibility_users_info#:#Only authenticated users have access to current news.
 news#:#news_news_item_head#:#News Item
 news#:#news_news_item_title#:#Headline
@@ -11772,9 +11772,9 @@ orgu#:#org_op_access_results#:#Access Results
 orgu#:#org_op_edit_individual_plan#:#Edit Individual Plan
 orgu#:#org_op_edit_submissions_grades#:#Edit submissions of other users
 orgu#:#org_op_manage_members#:#Manage Members
-orgu#:#org_op_manage_participants#:#Manage Participants
+orgu#:#org_op_manage_participants#:#Управление на участниците
 orgu#:#org_op_read_learning_progress#:#View learning progress of other users
-orgu#:#org_op_score_participants#:#Score Participants
+orgu#:#org_op_score_participants#:#Оценяване на участниците
 orgu#:#org_op_view_certificates#:#View certificates of other users
 orgu#:#org_op_view_competences#:#View competences of other users
 orgu#:#org_op_view_individual_plan#:#View Individual Plan
@@ -11810,7 +11810,7 @@ orgu#:#user_changed_successful#:#The user has been changed successfully.
 orgu#:#user_import_successful#:#The import terminated successfully. Assigned: %s, Removed: %s.
 orgu#:#view_learning_progress#:#View Learning Progress
 orgu#:#view_learning_progress_rec#:#View Learning Progress Recursivly
-pd#:#block_create_pdfeed#:#Neuen Webfeed erstellen
+pd#:#block_create_pdfeed#:#Създаване на уеб канал
 pd#:#block_show_chatviewer#:#Chatviewer anzeigen
 pd#:#block_show_pdbookm#:#Bookmarks anzeigen
 pd#:#block_show_pdcal#:#Kalender anzeigen
@@ -11819,10 +11819,10 @@ pd#:#block_show_pdmail#:#Mail anzeigen
 pd#:#block_show_pdnews#:#Nachrichten anzeigen
 pd#:#block_show_pdnotes#:#Notizen anzeigen
 pd#:#block_show_pdportf#:#Show Portfolios
-pd#:#block_show_pdtag#:#Tags anzeigen
+pd#:#block_show_pdtag#:#Показване на етикети
 pd#:#block_show_pdtasks#:#Show Tasks
 pd#:#block_show_x#:#%s anzeigen
-pd#:#pd_achievements#:#Achievements
+pd#:#pd_achievements#:#Постижения
 pd#:#pd_bookmarks#:#Bookmarks
 pd#:#pd_download_last_export_file#:#Download Last Export File
 pd#:#pd_enable_comments#:#Enable Comments
@@ -11956,7 +11956,7 @@ poll#:#poll_result_answers#:#Votes
 poll#:#poll_result_sorting#:#Sorting
 poll#:#poll_result_sorting_answers#:#In the order of the answers
 poll#:#poll_result_sorting_votes#:#By number of votes (descending)
-poll#:#poll_result_users#:#Participants
+poll#:#poll_result_users#:#Участници
 poll#:#poll_show_results_as#:#Show Results as
 poll#:#poll_sortorder#:#Order
 poll#:#poll_view_results#:#Display Results
@@ -12076,7 +12076,7 @@ prg#:#prg_link#:#Link
 prg#:#prg_mail_context_info#:#For the participant e-mails on the member and learning progress screens of a study programme
 prg#:#prg_mail_context_title#:#Study Programme: Mail to Members
 prg#:#prg_mail_permanent_link#:#Click on the following link to find all of the information you need regarding the study programm:
-prg#:#prg_manage#:#Manage
+prg#:#prg_manage#:#Управление
 prg#:#prg_manual_status#:#Manual Status
 prg#:#prg_mark_accredited#:#Mark Accredited
 prg#:#prg_mark_accredited_multi_success#:#Mark Selected Users As Accredited
@@ -12419,7 +12419,7 @@ ps#:#ps_type_select#:#Select Field
 ps#:#ps_type_select_long#:#Selection Box (Fixed Values)
 ps#:#ps_type_text#:#Text Field
 ps#:#ps_type_txt_long#:#Text Field (Optional Values)
-ps#:#ps_user_selection#:#Participants Selection
+ps#:#ps_user_selection#:#Избор на участници
 ps#:#ps_warning_modify#:#Attention: Minimum one user has accepted the user agreement. Modifying these settings will reset all user agreements.
 ps#:#rbac_log#:#Permission Log
 ps#:#rbac_log_age#:#Keep Log Entries 
@@ -12535,12 +12535,12 @@ rbac#:#blog_read#:#User can read blog content
 rbac#:#blog_redact#:#User can edit all postings
 rbac#:#blog_visible#:#Blog is visible
 rbac#:#blog_write#:#User can edit blog settings
-rbac#:#book_copy#:#User can copy booking pool
-rbac#:#book_delete#:#User can move or delete booking pool
-rbac#:#book_edit_permission#:#Change permission settings
+rbac#:#book_copy#:#Потребителят може да копира пул за резервации
+rbac#:#book_delete#:#Потребителят може да премества или изтрива пул за резервации
+rbac#:#book_edit_permission#:#Промяна на настройките за разрешение
 rbac#:#book_read#:#Read access to Booking Pool
-rbac#:#book_visible#:#Booking Pool is visible
-rbac#:#book_write#:#Edit Booking Pool
+rbac#:#book_visible#:#Резервационният модул е видим
+rbac#:#book_write#:#Редактиране на модул за резервация
 rbac#:#cadm_edit_permission#:#User can change permission settings
 rbac#:#cadm_read#:#User has read access to user connection administration
 rbac#:#cadm_visible#:#User connection administration is visible
@@ -12551,11 +12551,11 @@ rbac#:#cals_edit_permission#:#Change permission settings
 rbac#:#cals_read#:#Read access to Calendar settings
 rbac#:#cals_visible#:#Calendar settings are visible
 rbac#:#cals_write#:#Edit Calendar settings
-rbac#:#catr_copy#:#Copy Category Reference
-rbac#:#catr_delete#:#Delete Category Reference
+rbac#:#catr_copy#:#Копиране на препратка към категория
+rbac#:#catr_delete#:#Изтриване на препратка към категория
 rbac#:#catr_edit_permission#:#Change Permission Settings
-rbac#:#catr_visible#:#Category Reference is visible
-rbac#:#catr_write#:#Edit Category Reference
+rbac#:#catr_visible#:#Препратката към категорията е видима
+rbac#:#catr_write#:#Редактиране на препратка към категория
 rbac#:#cat_administrate_users#:#Administrate Local User Accounts
 rbac#:#cat_cat_administrate_users#:#Администриране на акаунтите на локалните потребители
 rbac#:#cat_copy#:#Copy Category
@@ -12621,11 +12621,11 @@ rbac#:#copa_read#:#User can read Content Page
 rbac#:#copa_read_learning_progress#:#User can view learning progress of other users
 rbac#:#copa_visible#:#Content Page is visible
 rbac#:#copa_write#:#User can edit Content Page
-rbac#:#crsr_copy#:#Copy Course Reference
-rbac#:#crsr_delete#:#Delete Course Reference
+rbac#:#crsr_copy#:#Копиране на препратка към курс
+rbac#:#crsr_delete#:#Изтриване на препратка към курс
 rbac#:#crsr_edit_permission#:#Change Permission Settings
-rbac#:#crsr_visible#:#Course Reference is visible
-rbac#:#crsr_write#:#Edit Course Reference
+rbac#:#crsr_visible#:#Препратката към курса е видима
+rbac#:#crsr_write#:#Редактиране на препратка към курс
 rbac#:#crss_edit_permission#:#User can change permission settings in Course administration
 rbac#:#crss_read#:#User has read access to Course administration
 rbac#:#crss_visible#:#Course administration is visible
@@ -12697,11 +12697,11 @@ rbac#:#facs_read#:#Read access to files & foldes settings
 rbac#:#facs_upload_blacklisted_files#:#Upload indexed file types despite blacklist
 rbac#:#facs_visible#:#Files & foldes settings are visible
 rbac#:#facs_write#:#Edit files & foldes settings
-rbac#:#feed_copy#:#User can copy webfeed
-rbac#:#feed_delete#:#Delete Web Feed
+rbac#:#feed_copy#:#Потребителят може да копира уеб канал
+rbac#:#feed_delete#:#Изтриване на уеб канал
 rbac#:#feed_edit_permission#:#Change permission settings
-rbac#:#feed_read#:#Read access to Web Feed
-rbac#:#feed_write#:#Edit Web Feed
+rbac#:#feed_read#:#Достъп за четене на уеб канал
+rbac#:#feed_write#:#Редактиране на уеб канал
 rbac#:#files_visible#:#Files Visible
 rbac#:#file_copy#:#Copy File
 rbac#:#file_delete#:#Изтриване на файл
@@ -13007,31 +13007,31 @@ rbac#:#rbac_copy_role#:#Copy Role
 rbac#:#rbac_copy_role_add_perm#:#Add Permissions
 rbac#:#rbac_copy_role_copy#:#Copy Permissions
 rbac#:#rbac_copy_role_remove_perm#:#Remove Permissions
-rbac#:#rbac_create_bibl#:#Create Bibliography
-rbac#:#rbac_create_blog#:#Create Blog
-rbac#:#rbac_create_book#:#Create Booking Pool
+rbac#:#rbac_create_bibl#:#Създаване на библиография
+rbac#:#rbac_create_blog#:#Създаване на блога
+rbac#:#rbac_create_book#:#Създаване на модул за резервации
 rbac#:#rbac_create_cat#:#Потребителят може да създава категории
-rbac#:#rbac_create_catr#:#Create Category Reference
+rbac#:#rbac_create_catr#:#Създаване на препратка към категория
 rbac#:#rbac_create_chtr#:#Create Chatroom
 rbac#:#rbac_create_cld#:#Create new Cloud Object
 rbac#:#rbac_create_cmix#:#Create xAPI/cmi5 Object
 rbac#:#rbac_create_copa#:#Create Content Page
-rbac#:#rbac_create_crs#:#Create Course
+rbac#:#rbac_create_crs#:#Създаване на курс
 rbac#:#rbac_create_crsr#:#Create Course Referenc
 rbac#:#rbac_create_dcl#:#Create Data Collection
-rbac#:#rbac_create_exc#:#Create Exercise
-rbac#:#rbac_create_feed#:#Create Web Feed
-rbac#:#rbac_create_file#:#Upload File
+rbac#:#rbac_create_exc#:#Създаване на упражнение
+rbac#:#rbac_create_feed#:#Създаване на уеб канал
+rbac#:#rbac_create_file#:#Качване на файл
 rbac#:#rbac_create_fold#:#Създаване на папка
-rbac#:#rbac_create_frm#:#Create Forum
-rbac#:#rbac_create_glo#:#Create Glossary
-rbac#:#rbac_create_grp#:#Create Group
-rbac#:#rbac_create_grpr#:#Create Group Reference
-rbac#:#rbac_create_htlm#:#Create HTML Learning Module
+rbac#:#rbac_create_frm#:#Създаване на форум
+rbac#:#rbac_create_glo#:#Създаване на речник
+rbac#:#rbac_create_grp#:#Създаване на група
+rbac#:#rbac_create_grpr#:#Създаване на препратка към група
+rbac#:#rbac_create_htlm#:#Създаване на HTML модул за обучение
 rbac#:#rbac_create_iass#:#Create Individual Assessment
-rbac#:#rbac_create_itgr#:#Create Item Group
-rbac#:#rbac_create_lm#:#Create ILIAS Learning Module
-rbac#:#rbac_create_lso#:#Create Learning Sequence
+rbac#:#rbac_create_itgr#:#Създаване на група от елементи
+rbac#:#rbac_create_lm#:#Създаване ILIAS модул за обучение
+rbac#:#rbac_create_lso#:#Създаване на последователност на обучението
 rbac#:#rbac_create_lti#:#Create LTI Consumer
 rbac#:#rbac_create_mcst#:#Create Mediacast
 rbac#:#rbac_create_mep#:#Create Media Pool
@@ -13320,7 +13320,7 @@ rbac#:#wiki_edit_permission#:#Change permission settings
 rbac#:#wiki_edit_wiki_navigation#:#Edit Wiki Navigation
 rbac#:#wiki_html_export#:#Export HTML
 rbac#:#wiki_read#:#Read Wiki
-rbac#:#wiki_statistics_read#:#View Statistics
+rbac#:#wiki_statistics_read#:#Преглед на статистиката
 rbac#:#wiki_visible#:#Wiki is visible
 rbac#:#wiki_wiki_html_export#:#Export Wiki as HTML
 rbac#:#wiki_write#:#Change Wiki Settings, Grade Learners
@@ -13468,10 +13468,10 @@ rep#:#rep_export_limitation_info#:#Limits the number of objects for container ex
 rep#:#rep_export_limitation_limited#:#Limit Export
 rep#:#rep_export_limit_number#:#Number of Objects
 rep#:#rep_failure_trashed_trash#:#You selected objects that cannot be restored to their original location, because their parent objects were deleted. Please uncheck the respective object in the table or select the Restore to New Location instead.
-rep#:#rep_fav_intro1#:#You have not yet selected any favourites. To do this, you must take two steps:
-rep#:#rep_fav_intro2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.
-rep#:#rep_fav_intro3#:#When you have found something that interests you, you can easily add it to your favourites. Select the desired item in the <i>Actions</i> menu and choose "<i>Add to favourites</i>".
-rep#:#rep_intro#:#Welcome to the Repository!
+rep#:#rep_fav_intro1#:#Все още не сте избрали предпочитани (любими) обекти. За да направите това, трябва да предприемете две стъпки:
+rep#:#rep_fav_intro2#:#Натиснете върху '%s' и изберете обект от наличните предложения, напр. модул за обучение или форум.
+rep#:#rep_fav_intro3#:#Когато откриете нещо, което ви интересува, можете лесно да го добавите към любимите си. Изберете желания обект в менюто <i>"Действия"</i> и изберете "<i>Добавяне към любими</i>".
+rep#:#rep_intro#:#Добре дошли в хранилището!
 rep#:#rep_intro1#:#In this area you can create learning and working resources for all users. All resources are organised in categories. Categories can reflect the structure of your organisation (e.g. departments), a hierarchie of disciplines, or classes of a school.
 rep#:#rep_intro2#:#Three steps are needed to build an initial structure:
 rep#:#rep_intro3#:#Click on the <i>%s</i> button besides the selection list on the top right.
@@ -13491,7 +13491,7 @@ rep#:#rep_new_item_group_other#:#Other
 rep#:#rep_new_item_group_separator#:#Column Separator
 rep#:#rep_new_item_group_unassigned#:#Not Assigned
 rep#:#rep_new_item_group_unassigned_subitems#:#Number of Unassigned Objects: %s
-rep#:#rep_new_item_menu#:#"Add New Item"-Menu
+rep#:#rep_new_item_menu#:#"Добавяне на нов елемент"-Меню
 rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.
 rep#:#rep_no_permission_to_delete#:#No permission to delete
 rep#:#rep_object_lists#:#Object Lists
@@ -13875,7 +13875,7 @@ search#:#lucene_relevance_short#:#Relevance
 search#:#lucene_settings_tab#:#Lucene
 search#:#lucene_settings_title#:#Lucene Settings
 search#:#lucene_show_relevance#:#Show Relevance
-search#:#lucene_show_relevance_info#:#Search results are sorted by their relevance. If activated, the relevance is shown as additional information for each search result.
+search#:#lucene_show_relevance_info#:#Резултатите от търсенето са подредени по релевантност. Ако е активирано, релевантността се показва като допълнителна информация за всеки резултат от търсенето.
 search#:#lucene_show_sub_relevance#:#Show Subitem Relevance
 search#:#lucene_size_fragments#:#Size of Text Fragments
 search#:#lucene_size_frag_info#:#Please choose the maximum size of highlighted test fragments.
@@ -13990,7 +13990,7 @@ sess#:#sess_mail_type#:#Mail to Participants
 sess#:#sess_material_assigned#:#Assigned
 sess#:#sess_material_not_assigned#:#Not Assigned
 sess#:#sess_max_members_needed#:#A maximum number of members is needed for the waiting list feature.
-sess#:#sess_members#:#Participants
+sess#:#sess_members#:#Участници
 sess#:#sess_members_gallery#:#Session Gallery
 sess#:#sess_members_print_title#:#Session Participants
 sess#:#sess_member_administration#:#Edit Participants
@@ -14034,7 +14034,7 @@ sess#:#sess_reg_waiting_list_no_autofill#:#Without Auto-Fill
 sess#:#sess_reg_waiting_list_no_autofill_info#:#If the maximum number of users is exceeded, new registrations will be placed on a waiting list.
 sess#:#sess_section_reg#:#Registration Settings
 sess#:#sess_setting_header_presentation#:#Presentation
-sess#:#sess_show_members#:#Show Participants
+sess#:#sess_show_members#:#Показване на участниците
 sess#:#sess_show_participants_info#:#If activated, session participants can access the participant gallery
 sess#:#sess_title#:#Title of Session
 sess#:#sess_users_added#:#Registered selected users for the session.
@@ -14078,12 +14078,12 @@ shib#:#shib_rule_type#:#Type of Assignment
 shib#:#shib_settings#:#Shibboleth Settings
 shib#:#shib_update_roles#:#Role Assignments
 shib#:#shib_update_role_ass_table#:#Edit Role Assignment Rule
-skll#:#skll_competence_achievements#:#New competence achievements and appraisals
-skll#:#skll_intro_skill_notification_for#:#this is an overview of your latest competence achievements.
+skll#:#skll_competence_achievements#:#Постижения и оценки на нови компетенции.
+skll#:#skll_intro_skill_notification_for#:#това е преглед на последните ви постижения в областта на компетентността.
 skll#:#skll_lhist_skill_achieved#:#Status $4$ of $3$ was assigned in $1$.
 skll#:#skll_lhist_skill_self_eval#:#Status $4$ of $3$ was self-assigned.
 skll#:#skll_lhist_skill_self_eval_in#:#Status $4$ of $3$ was self-assigned in $1$.
-skll#:#skll_new_skill_achievements#:#You achieved new competence levels in the period of %1$s to %2$s:
+skll#:#skll_new_skill_achievements#:#Постигнали сте нови нива на компетентност в периода от %1$s до %2$s:
 skll#:#skll_skill_notification#:#Competence Notification
 skll#:#skll_skill_notification_desc#:#Informs user on newly set competence levels.
 skmg#:#scat#:#Skill Category
@@ -14993,8 +14993,8 @@ survey#:#results#:#Results
 survey#:#resume_survey#:#Продължаване на обзора
 survey#:#row_text#:#Row Text
 survey#:#saved_messages#:#Available messages
-survey#:#save_obligatory_state#:#Съхраняване на задължителните статуси
-survey#:#save_phrase#:#Съхраняване като фраза
+survey#:#save_obligatory_state#:#Запазване на задължителните статуси
+survey#:#save_phrase#:#Запазване като фраза
 survey#:#save_phrase_introduction#:#Ако желаете да съхраните категориите по-долу като фраза по подразбиране, моля, въведете заглавие за фразата. Имате достъп до фраза по подразбиране, когато пожелаете да добавите фраза в пореден въпрос.
 survey#:#save_reuse_message#:#Save message text for later use
 survey#:#save_reuse_title#:#Message text title
@@ -15126,14 +15126,14 @@ survey#:#survey_dnd_split_page#:#Split Page
 survey#:#survey_edit_heading#:#Edit Heading
 survey#:#survey_edit_settings#:#Edit Settings
 survey#:#survey_error_insert_incomplete_question#:#You tried to add an incomplete question to the survey! The question was not added.
-survey#:#survey_execution_exit#:#Back to repository
+survey#:#survey_execution_exit#:#Назад към хранилището
 survey#:#survey_execution_sure_finish#:#Are you sure you want to finish the survey? You will not be able to edit your answers afterwards.
 survey#:#survey_existing_pool#:#Use existing question pool
 survey#:#survey_finish#:#приключване на обзора
 survey#:#survey_finished#:#Завършихте обзора. Благодарим ви за вашето участие!
 survey#:#survey_has_datasets_warning#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets in the maintenance section.
 survey#:#survey_has_datasets_warning_page_view#:#The survey already contains datasets. You cannot edit the survey questions until you remove these datasets.
-survey#:#survey_has_datasets_warning_page_view_link#:#Edit Participants
+survey#:#survey_has_datasets_warning_page_view_link#:#Редактиране на участниците
 survey#:#survey_introduction_info#:#This message appears at the beginning of the survey.
 survey#:#survey_is_offline#:#Не можете да започнете обзора! Обзорът е офлайн.
 survey#:#survey_jump_to#:#Jump To
@@ -15228,11 +15228,11 @@ survey#:#svy_activation_online_info#:#Activate this setting to make the survey a
 survey#:#svy_all_survey_competences#:#All Survey Competences
 survey#:#svy_all_user_data_deleted#:#Всички потребителски данни от този обзор бяха изтрити!
 survey#:#svy_analysis#:#Analysis
-survey#:#svy_anonymous_participants#:#List of Participants
+survey#:#svy_anonymous_participants#:#Списък на участниците
 survey#:#svy_anonymous_participants_info#:#If activated a list of participants can be enabled in anonymous surveys.
 survey#:#svy_anonymous_participants_min#:#Minimum Number of Participants
 survey#:#svy_anonymous_participants_min_info#:#The list will only be available if there are at least the minimum number of participants.
-survey#:#svy_anonymous_participants_svy#:#List of Participants
+survey#:#svy_anonymous_participants_svy#:#Списък на участниците
 survey#:#svy_anonymous_participants_svy_info#:#If activated a list of participants is available after the end date.
 survey#:#svy_answer_too_long#:#Your current answer is too long (%s characters). Please shorten your answer.
 survey#:#svy_appraisses_cannot_be_raters#:#User cannot be added as rater. Use self evaluation option in the survey settings instead.
@@ -15304,7 +15304,7 @@ survey#:#svy_results_view_own#:#Participant can view own answers
 survey#:#svy_results_view_own_info#:#todo4
 survey#:#svy_result_mail_notification_info#:#On finishing the survey the answers of each participant will be sent to the defined recipients.
 survey#:#svy_save_sync#:#Save and Sync Question Copies
-survey#:#svy_search_users#:#Search for participants
+survey#:#svy_search_users#:#Търсене на участници
 survey#:#svy_selected_user_data_deleted#:#The survey data of the selected user(s) was deleted successfully
 survey#:#svy_self_ev_access_results_all#:#Access to Self-Evaluations of All Participants
 survey#:#svy_self_ev_access_results_none#:#No Access to Results
@@ -15718,7 +15718,7 @@ trac#:#trac_object_stat_lp_max#:#Max.
 trac#:#trac_object_stat_lp_min#:#Min.
 trac#:#trac_object_stat_types#:#Number of Objects
 trac#:#trac_others#:#Other
-trac#:#trac_participants#:#Show Participants
+trac#:#trac_participants#:#Показване на участниците
 trac#:#trac_participated#:#Participated
 trac#:#trac_percentage#:#Percentage
 trac#:#trac_periodic_system_load#:#Periodic 
@@ -15740,17 +15740,17 @@ trac#:#trac_sessions_opened#:#Admissions
 trac#:#trac_session_active_avg#:#Active Sessions (Average)
 trac#:#trac_session_active_max#:#Active Sessions (Maximum)
 trac#:#trac_session_active_min#:#Active Sessions (Minimum)
-trac#:#trac_session_statistics_mode_day#:#Day
-trac#:#trac_session_statistics_mode_last_day#:#Last 24 Hours
-trac#:#trac_session_statistics_mode_last_month#:#Last 30 Days
-trac#:#trac_session_statistics_mode_last_week#:#Last 7 Days
-trac#:#trac_session_statistics_mode_month#:#Month
-trac#:#trac_session_statistics_mode_today#:#Today
-trac#:#trac_session_statistics_mode_week#:#Week
-trac#:#trac_session_statistics_mode_year#:#Year
+trac#:#trac_session_statistics_mode_day#:#Ден
+trac#:#trac_session_statistics_mode_last_day#:#Последните 24 часа
+trac#:#trac_session_statistics_mode_last_month#:#Последните 30 дни
+trac#:#trac_session_statistics_mode_last_week#:#Последните 7 дни
+trac#:#trac_session_statistics_mode_month#:#Месец
+trac#:#trac_session_statistics_mode_today#:#Днес
+trac#:#trac_session_statistics_mode_week#:#Седмица
+trac#:#trac_session_statistics_mode_year#:#Година
 trac#:#trac_session_statistics_no_data#:#No data for this statistics could be found.
-trac#:#trac_settings#:#Settings
-trac#:#trac_settings_saved#:#Saved settings.
+trac#:#trac_settings#:#Настройки
+trac#:#trac_settings_saved#:#Запазени настройки.
 trac#:#trac_short_system_load#:#Short term
 trac#:#trac_show_graph#:#Show Graph
 trac#:#trac_show_repository_views#:#Changes in the repository
@@ -15918,7 +15918,7 @@ user#:#user_screen_reader_optimization_info#:#Automatic focus and Ajax optimizat
 user#:#user_select_course_group#:#Select Course/Group
 user#:#user_set_publishing_options#:#Set publishing options
 user#:#user_set_visibilty_options#:#Set visibility options
-user#:#user_store_last_visited#:#Last Visited
+user#:#user_store_last_visited#:#Последно посетени
 user#:#user_visibility_settings#:#Visibility
 user#:#user_visible_in_profile#:#Visible in Profile
 user#:#usr_id#:#System ID
@@ -15993,257 +15993,257 @@ wfe#:#wfe_request_missing_process_id#:#The process id is missing, cannot perform
 wfe#:#wfe_started_listening#:#Process armed
 wfe#:#wfe_stopped_listening#:#Process disarmed
 wfe#:#wfe_sure_to_delete_process_def#:#Are you sure you want to delete the definition?
-wfld#:#wfld_add#:#Create Folder
-wfld#:#wfld_alphabetically_asc#:#Alphabetically, asc.
-wfld#:#wfld_alphabetically_desc#:#Alphabetically, desc.
-wfld#:#wfld_creation_asc#:#Creation Date, asc.
-wfld#:#wfld_creation_desc#:#Creation Date, desc.
+wfld#:#wfld_add#:#Създаване на папка
+wfld#:#wfld_alphabetically_asc#:#По азбучен ред, (възходящ ред).
+wfld#:#wfld_alphabetically_desc#:#По азбучен ред, (низходящ ред)
+wfld#:#wfld_creation_asc#:#Дата на създаване, (възходящ ред).
+wfld#:#wfld_creation_desc#:#Дата на създаване, (низходящ ред)
 wfld#:#wfld_derive#:#Adopt from parent
-wfld#:#wfld_edit#:#Edit Folder
-wfld#:#wfld_new#:#Create New Folder
-wfld#:#wfld_sortation#:#Sortation
-wiki#:#wiki_activate_extended_rating#:#Activate Rating Categories
-wiki#:#wiki_activate_new_page_rating#:#Activate Rating For New Pages
-wiki#:#wiki_activate_page_rating#:#Activate Rating
-wiki#:#wiki_activate_rating#:#Activate Rating
-wiki#:#wiki_add_link#:#Add Link
-wiki#:#wiki_add_template#:#Set Template Status
-wiki#:#wiki_advmd_block_title#:#Advanced Metadata of Page
-wiki#:#wiki_all_pages#:#All Pages
-wiki#:#wiki_block_page#:#Block Page
-wiki#:#wiki_changed_by#:#Changed by
-wiki#:#wiki_change_notification_body_new#:#the following wiki page was created
-wiki#:#wiki_change_notification_link#:#Link to wiki: %s
-wiki#:#wiki_change_notification_page_body_comment#:#a comment has been added to the following wiki page
-wiki#:#wiki_change_notification_page_body_delete#:#the following wiki page has been deleted
-wiki#:#wiki_change_notification_page_body_update#:#In wiki "%s" the page "%s" was updated.
-wiki#:#wiki_change_notification_page_link#:#Link to wiki page: %s
-wiki#:#wiki_change_notification_salutation#:#Hello %s,
-wiki#:#wiki_change_notification_subject#:#Wiki "%s" has been changed
-wiki#:#wiki_commented_by#:#Commented by
-wiki#:#wiki_contributor#:#Contributor
-wiki#:#wiki_contributors#:#Contributors
-wiki#:#wiki_copy#:#Copy Wiki
-wiki#:#wiki_created_by#:#Created By
-wiki#:#wiki_create_page#:#Create Page
-wiki#:#wiki_deactivate_page_rating#:#Deactivate Rating
-wiki#:#wiki_delete_page#:#Delete Page
+wfld#:#wfld_edit#:#Редактиране на папка
+wfld#:#wfld_new#:#Създаване на нова папка
+wfld#:#wfld_sortation#:#Сортиране
+wiki#:#wiki_activate_extended_rating#:#Активиране на рейтингови категории
+wiki#:#wiki_activate_new_page_rating#:#Активиране на рейтинг за нови страници
+wiki#:#wiki_activate_page_rating#:#Активиране на оценка
+wiki#:#wiki_activate_rating#:#Активиране на оценка
+wiki#:#wiki_add_link#:#Добавяне на връзка
+wiki#:#wiki_add_template#:#Задаване на статус на шаблона
+wiki#:#wiki_advmd_block_title#:#Разширени метаданни на страницата
+wiki#:#wiki_all_pages#:#Всички страници
+wiki#:#wiki_block_page#:#Блокиране на страница
+wiki#:#wiki_changed_by#:#Променено от
+wiki#:#wiki_change_notification_body_new#:#беше създадена следната страница в уикито
+wiki#:#wiki_change_notification_link#:#Връзка към уики: %s
+wiki#:#wiki_change_notification_page_body_comment#:#Добавен е коментар към следната страница в уикито
+wiki#:#wiki_change_notification_page_body_delete#:#следната страница в уикито е изтрита
+wiki#:#wiki_change_notification_page_body_update#:#В уикипедия "%s" е актуализирана страницата "%s".
+wiki#:#wiki_change_notification_page_link#:#Връзка към уики страница: %s
+wiki#:#wiki_change_notification_salutation#:#Здравейте %s,
+wiki#:#wiki_change_notification_subject#:#Уики "%s" е променено
+wiki#:#wiki_commented_by#:#Коментирано от
+wiki#:#wiki_contributor#:#Съавтор
+wiki#:#wiki_contributors#:#Съавтори
+wiki#:#wiki_copy#:#Копиране на уики
+wiki#:#wiki_created_by#:#Създадено от
+wiki#:#wiki_create_page#:#Създаване на страница
+wiki#:#wiki_deactivate_page_rating#:#Деактивиране на оценката
+wiki#:#wiki_delete_page#:#Изтриване на страница
 wiki#:#wiki_download_submission#:#Download Submission File
-wiki#:#wiki_empty_page#:#Empty Page
-wiki#:#wiki_empty_page_template#:#Empty Page Template on Page Creation
-wiki#:#wiki_exc_template#:#Wiki Template
-wiki#:#wiki_exc_wiki_created#:#Wiki has been created.
-wiki#:#wiki_exercise_info#:#This wiki is part of the assignment "%s" of exercise "%s".
-wiki#:#wiki_exercise_submitted_info#:#Your last submission was on %s. Please check the export file.
-wiki#:#wiki_failed#:#Failed
-wiki#:#wiki_feedback_from_tutor#:#Feedback from Tutor
-wiki#:#wiki_finalized#:#Wiki has been finalized and submitted.
-wiki#:#wiki_finalize_wiki#:#Finalize and Submit Wiki
-wiki#:#wiki_functions#:#Wiki Functions
-wiki#:#wiki_general_settings#:#General Settings
-wiki#:#wiki_grading#:#Grading
-wiki#:#wiki_html_export#:#HTML exportieren
-wiki#:#wiki_import#:#Import Wiki
-wiki#:#wiki_imp_page_added#:#Page added.
-wiki#:#wiki_indentation#:#Indentation
-wiki#:#wiki_introduction#:#Introduction
-wiki#:#wiki_last_changed#:#Last Change
-wiki#:#wiki_last_changed_by#:#Last Changed By
-wiki#:#wiki_last_edited#:#Last edited
-wiki#:#wiki_last_visited_page#:#Last Visited Page
-wiki#:#wiki_link_md_values#:#Automatic Linking
-wiki#:#wiki_link_md_values_info#:#Autmatically links properties presented in the side block to wiki pages with the same name.
-wiki#:#wiki_link_text#:#Link Text
-wiki#:#wiki_mark#:#Mark
-wiki#:#wiki_navigation#:#Wiki Navigation
-wiki#:#wiki_navigation_info#:#Here you can add and remove links to existing wiki pages to the navigation block in the wiki.
-wiki#:#wiki_news_page_changed#:#Wiki page has been updated.
-wiki#:#wiki_news_page_created#:#New wiki page has been created.
-wiki#:#wiki_new_page#:#New Page
-wiki#:#wiki_new_pages#:#New Pages
-wiki#:#wiki_new_page_name#:#New Title
-wiki#:#wiki_notgraded#:#Not Graded
-wiki#:#wiki_notification_activated#:#Notification Activated (Whole Wiki)
-wiki#:#wiki_notification_activate_page#:#Activate Notification for Page
-wiki#:#wiki_notification_activate_wiki#:#Activate Notification for Wiki
-wiki#:#wiki_notification_comment#:#the following Wiki Page has been commented.
-wiki#:#wiki_notification_comment_subject#:#A comment was added to %s: %s
-wiki#:#wiki_notification_deactivated#:#Notification Deactivated
-wiki#:#wiki_notification_deactivate_page#:#Deactivate Notification for Page
-wiki#:#wiki_notification_deactivate_wiki#:#Deactivate Notification for Wiki
-wiki#:#wiki_no_page_found#:#No wiki page has been found for search term '$1'.
-wiki#:#wiki_no_search_term#:#No search term has been entered. All pages of the wiki are listed below.
-wiki#:#wiki_no_start_page#:#Wiki is missing a valid starting page.
-wiki#:#wiki_number_users_notes_or_comments#:#Number of users that attached notes or comments to this page
-wiki#:#wiki_ordering#:#Ordering
-wiki#:#wiki_ordering_and_indent_saved#:#Ordering and Indentation saved.
-wiki#:#wiki_orphaned_pages#:#Orphaned Pages
-wiki#:#wiki_other_pages_linking#:#Other Pages Linking to This Page
-wiki#:#wiki_page#:#Page
-wiki#:#wiki_pages#:#Pages
-wiki#:#wiki_pages_found#:#The following pages match your search term '$1'.
-wiki#:#wiki_page_actions#:#Page Actions
-wiki#:#wiki_page_already_exists#:#A page with this title already exists.
-wiki#:#wiki_page_blocked#:#Wiki page blocked.
-wiki#:#wiki_page_changes#:#Page Changes
-wiki#:#wiki_page_deleted#:#Wiki page deleted.
-wiki#:#wiki_page_deletion_confirmation#:#Do you really want to delete this wiki page?
-wiki#:#wiki_page_exists#:#Existing Page
-wiki#:#wiki_page_hits#:#Page Hits
-wiki#:#wiki_page_lists#:#Page Lists
-wiki#:#wiki_page_list_form_info#:#Adds a list of pages of this wiki that are all assigned to the selected metadata below.
-wiki#:#wiki_page_list_mode#:#Type of List
-wiki#:#wiki_page_list_mode_ordered#:#Numbered
-wiki#:#wiki_page_list_mode_unordered#:#Not numbered
-wiki#:#wiki_page_notification_activated#:#Notification Activated (Single Page)
-wiki#:#wiki_page_not_exist_select_templ#:#This page does not exist yet. Please select a template for the new page.
-wiki#:#wiki_page_status_blocked#:#Editing of this page is currently blocked for learners.
-wiki#:#wiki_page_template#:#Page Template
-wiki#:#wiki_page_templates#:#Page Templates
-wiki#:#wiki_page_title_too_long#:#Sorry, the title of the wiki page is too long. Please replace it with a shorter title.
-wiki#:#wiki_page_toc#:#Enable Page Overview Block
-wiki#:#wiki_page_toc_info#:#This lists all headings linked to the content at the beginning of each page if that page uses at least two headings.
-wiki#:#wiki_page_type_wpg#:#Wiki Page
-wiki#:#wiki_page_unblocked#:#Wiki page unblocked.
-wiki#:#wiki_passed#:#Passed
-wiki#:#wiki_pg_list_no_search_fields#:#No searchable meta data fields found in the metadata sets of the wiki.
-wiki#:#wiki_please_enter_search_term#:#Please enter a search term.
-wiki#:#wiki_popular_pages#:#Popular Pages
-wiki#:#wiki_print_view#:#Print View
-wiki#:#wiki_public_comments#:#Public Comments
-wiki#:#wiki_purpose#:#Purpose
-wiki#:#wiki_quick_navigation#:#Wiki Quick Navigation
-wiki#:#wiki_rate_overall#:#Rate Wiki
-wiki#:#wiki_rate_page#:#Rate this Page
-wiki#:#wiki_recent_changes#:#Recent Changes
-wiki#:#wiki_removed_imp_pages#:#Important pages removed from list.
-wiki#:#wiki_remove_template_status#:#Remove Template Status
-wiki#:#wiki_rename#:#Rename
-wiki#:#wiki_rename_page#:#Rename Page
-wiki#:#wiki_save_ordering_and_indent#:#Save Ordering and Indentation
-wiki#:#wiki_search#:#Search
-wiki#:#wiki_search_results#:#Search Results
-wiki#:#wiki_selected_pages#:#Selected Pages
-wiki#:#wiki_select_one_item#:#Please select one item.
-wiki#:#wiki_settings#:#Wiki Settings
-wiki#:#wiki_set_as_start_page#:#Set as Start Page
-wiki#:#wiki_short_title_already_in_use#:#This title is already used by another wiki. Please select a different title.
-wiki#:#wiki_show_pdf_export#:#PDF Export
-wiki#:#wiki_show_print_view#:#Print View
-wiki#:#wiki_start_page#:#Start Page
-wiki#:#wiki_start_page_info#:#If there does not exist a page with this title yet, a new page will be created.
-wiki#:#wiki_stat_chars#:#Number of Characters
-wiki#:#wiki_stat_chars_avg#:#Average Number of Characters per Page
-wiki#:#wiki_stat_deleted_pages#:#Number of Deleted Pages
-wiki#:#wiki_stat_edit_pages#:#Number of Edited Pages
-wiki#:#wiki_stat_edit_pages_avg#:#Average Number of Edited Pages per User
-wiki#:#wiki_stat_external_links#:#Number of External Links
-wiki#:#wiki_stat_external_links_avg#:#Average Number of External Links per Page
-wiki#:#wiki_stat_figure#:#Figure
-wiki#:#wiki_stat_footnotes#:#Number of Footnotes
-wiki#:#wiki_stat_footnotes_avg#:#Average Number of Footnotes per Page
-wiki#:#wiki_stat_internal_links#:#Number of Internal Links
-wiki#:#wiki_stat_internal_links_avg#:#Average Number of Internal Links per Page
-wiki#:#wiki_stat_new_pages#:#Number of New Pages
-wiki#:#wiki_stat_new_pages_avg#:#Average Number of New Pages per User
-wiki#:#wiki_stat_num_pages#:#Number of Pages
-wiki#:#wiki_stat_num_rating#:#Number of Ratings
-wiki#:#wiki_stat_num_rating_avg#:#Average Number of Ratings per Page
-wiki#:#wiki_stat_page_changes#:#Number of Changes
-wiki#:#wiki_stat_page_changes_avg#:#Average Number of Changes
-wiki#:#wiki_stat_page_characters#:#Number of Characters
-wiki#:#wiki_stat_page_external_links#:#Number of External Links
-wiki#:#wiki_stat_page_footnotes#:#Number of Footnotes
-wiki#:#wiki_stat_page_internal_links#:#Number of Internal Links
-wiki#:#wiki_stat_page_ratings#:#Number of Ratings
-wiki#:#wiki_stat_page_read#:#Number of Read Accesses
-wiki#:#wiki_stat_page_user_edit#:#Number of Users Who Edited Page
-wiki#:#wiki_stat_page_words#:#Number of Words
-wiki#:#wiki_stat_rating_avg#:#Average Rating
-wiki#:#wiki_stat_read_pages#:#Number of Read Accesses
-wiki#:#wiki_stat_scope#:#Timeframe
-wiki#:#wiki_stat_user_edit_pages#:#Number of Users Who Edited Pages 
-wiki#:#wiki_stat_user_edit_pages_avg#:#Average Number of Users Who Edited Pages 
-wiki#:#wiki_stat_words#:#Number of Words
-wiki#:#wiki_stat_words_avg#:# Average Number of Words per Page
-wiki#:#wiki_style#:#Style
-wiki#:#wiki_sure_remove_imp_pages#:#Do you really want to remove the following pages from the list of important pages?
-wiki#:#wiki_target_page#:#Target Page
-wiki#:#wiki_team_members#:#Team Members
-wiki#:#wiki_template_added#:#Template page added.
-wiki#:#wiki_template_status_removed#:#Template status removed.
-wiki#:#wiki_templ_add_to_page#:#Available for Being Added to Existing Pages
-wiki#:#wiki_templ_new_pages#:#Available on Page Creation
-wiki#:#wiki_type_wiki_team#:#Team Wiki
-wiki#:#wiki_unblock_page#:#Unblock Page
-wiki#:#wiki_unhide_meta_adv_records#:#Show additional properties
-wiki#:#wiki_what_links_here#:#What Links Here?
-wiki#:#wiki_what_links_to_page#:#What links to page "%s"?
-wiki#:#wiki_whole_wiki#:#Whole Wiki
-wiki#:#wiki_wiki_page#:#Wiki Page
-wiki#:#wiki_wiki_search#:#Wiki Search
-wiki#:#wiki_wpg#:#Wiki Page
-wsp#:#element_already_shared#:#This object is already shared with this user.
-wsp#:#element_shared#:#Object shared.
-wsp#:#error_creating_certificate_pdf#:#The certificate could not be created. Please contact the administrator to check the certificate server.
-wsp#:#search_no_match#:#Your search did not match any results.
-wsp#:#share#:#Share
-wsp#:#share_content#:#Share Object
-wsp#:#share_with#:#Username
-wsp#:#wsp_copy_to_repository#:#Copy to Repository
-wsp#:#wsp_invalid_password#:#The given password is invalid.
-wsp#:#wsp_list_cmxv#:#Certificate of xAPI/cmi5 Object
-wsp#:#wsp_list_crsv#:#Course Certificate
-wsp#:#wsp_list_excv#:#Exercise Certificate
-wsp#:#wsp_list_ltiv#:#Certificate of LTI Consumer Object
-wsp#:#wsp_list_scov#:#SCORM Certificate
-wsp#:#wsp_list_tstv#:#Test Certificate
-wsp#:#wsp_move_to_repository#:#Move to Repository
-wsp#:#wsp_password_for#:#Password for
-wsp#:#wsp_password_protected_resource#:#Password-protected Resource
-wsp#:#wsp_password_protected_resource_info#:#To access this resource you have to enter a password.
-wsp#:#wsp_permissions#:#Share
-wsp#:#wsp_permission_all_info#:#This object has been published.
-wsp#:#wsp_permission_all_pw_info#:#After providing the password this object is visible for all users of the internet.
-wsp#:#wsp_permission_registered_info#:#This object is shared with all registered users.
-wsp#:#wsp_permission_removed#:#The item has been removed.
-wsp#:#wsp_personal_resources_description#:#Here you can manage your private files, blogs and artifacts.
-wsp#:#wsp_set_permission_all#:#Publish 
-wsp#:#wsp_set_permission_all_password#:#Publish (Password required)
-wsp#:#wsp_set_permission_course#:#Course
-wsp#:#wsp_set_permission_group#:#Group
-wsp#:#wsp_set_permission_registered#:#All Registered Users
-wsp#:#wsp_set_permission_single_user#:#Single User
-wsp#:#wsp_shared_date#:#Date of Share
-wsp#:#wsp_shared_date_filter#:#Shared From
-wsp#:#wsp_shared_filter_button#:#Search
-wsp#:#wsp_shared_filter_reset_button#:#Reset Search
-wsp#:#wsp_shared_mandatory_filter_info#:#Please set at least one filter attribute. Text filters have to be at least 4 characters long.
-wsp#:#wsp_shared_member_filter#:#Members of Course / Group
-wsp#:#wsp_shared_object_type#:#Type of Resource
-wsp#:#wsp_shared_resources#:#Shared Resources
-wsp#:#wsp_shared_table_title#:#Shares
-wsp#:#wsp_shared_title#:#Title of Resource
-wsp#:#wsp_shared_type#:#Shared With
-wsp#:#wsp_shared_user_filter#:#Login/Name
-wsp#:#wsp_shared_with#:#Shared With
-wsp#:#wsp_share_search_users#:#Search Users
-wsp#:#wsp_share_success#:#A new entry has been added.
-wsp#:#wsp_share_with_members#:#Share with members
-wsp#:#wsp_share_with_users#:#Share with users
-wsp#:#wsp_status_shared#:#Shared
-wsp#:#wsp_switch_to_repo_tree#:#Switch to Repository
-wsp#:#wsp_switch_to_wsp_tree#:#Switch to Personal Resources
-wsp#:#wsp_tab_ownership#:#My Repository Objects
-wsp#:#wsp_tab_personal#:#My Resources
-wsp#:#wsp_tab_shared#:#Shared By Other Users
-wsp#:#wsp_type_blog#:#Blog
-wsp#:#wsp_type_cmxv#:#Certificate: xAPI/cmi5
-wsp#:#wsp_type_crsv#:#Certificate: Course
-wsp#:#wsp_type_excv#:#Verification: Exercise
-wsp#:#wsp_type_file#:#File
-wsp#:#wsp_type_ltiv#:#Certificate: LTI Consumer
-wsp#:#wsp_type_scov#:#Certificate: SCORM
-wsp#:#wsp_type_tstv#:#Verification: Test
-wsp#:#wsp_type_webr#:#Weblink
-wsp#:#wsp_type_wfld#:#Folder
+wiki#:#wiki_empty_page#:#Празна страница
+wiki#:#wiki_empty_page_template#:#Шаблон за празна страница при създаване на страница
+wiki#:#wiki_exc_template#:#Уики шаблон
+wiki#:#wiki_exc_wiki_created#:#Уикито е създадено.
+wiki#:#wiki_exercise_info#:#Това уики е част от задачата "%s" на упражнение "%s".
+wiki#:#wiki_exercise_submitted_info#:#Последното ви подаване на данни е било на %s. Моля, проверете експортния файл.
+wiki#:#wiki_failed#:#Неуспешно
+wiki#:#wiki_feedback_from_tutor#:#Отзиви от преподавателя
+wiki#:#wiki_finalized#:#Уикито е завършено и представено.
+wiki#:#wiki_finalize_wiki#:#Финализиране и изпращане на Уики
+wiki#:#wiki_functions#:#Функции на Уики
+wiki#:#wiki_general_settings#:#Общи настройки
+wiki#:#wiki_grading#:#Оценяване
+wiki#:#wiki_html_export#:#Експортиране в HTML
+wiki#:#wiki_import#:#Импортиране на Уики
+wiki#:#wiki_imp_page_added#:#Страницата е добавена.
+wiki#:#wiki_indentation#:#Отстъп
+wiki#:#wiki_introduction#:#Въведение
+wiki#:#wiki_last_changed#:#Последна промяна
+wiki#:#wiki_last_changed_by#:#Последна промяна от
+wiki#:#wiki_last_edited#:#Последна редакция
+wiki#:#wiki_last_visited_page#:#Последно посетена страница
+wiki#:#wiki_link_md_values#:#Автоматично свързване
+wiki#:#wiki_link_md_values_info#:#Автоматично свързва свойствата, представени в страничния блок, със страници в уикипедия със същото име.
+wiki#:#wiki_link_text#:#Текст на връзката
+wiki#:#wiki_mark#:#Markirane
+wiki#:#wiki_navigation#:#Навигация в уикито
+wiki#:#wiki_navigation_info#:#HТук можете да добавяте и премахвате връзки към съществуващи страници в уикито в навигационния блок на уикито.
+wiki#:#wiki_news_page_changed#:#Страницата в уикипедията е актуализирана.
+wiki#:#wiki_news_page_created#:#Създадена е нова страница в уикито.
+wiki#:#wiki_new_page#:#Нова страница
+wiki#:#wiki_new_pages#:#Нови страници
+wiki#:#wiki_new_page_name#:#Ново заглавие
+wiki#:#wiki_notgraded#:#Не е оценено
+wiki#:#wiki_notification_activated#:#Активирано известие (всички страници)
+wiki#:#wiki_notification_activate_page#:#Активиране на известие за страница
+wiki#:#wiki_notification_activate_wiki#:#Активиране на известие за Уики
+wiki#:#wiki_notification_comment#:#коментирана е следната страница в Уикипедия.
+wiki#:#wiki_notification_comment_subject#:#Добавен е коментар към %s: %s
+wiki#:#wiki_notification_deactivated#:#Известията са деактивирани
+wiki#:#wiki_notification_deactivate_page#:#Деактивиране на известието за страницата
+wiki#:#wiki_notification_deactivate_wiki#:#Деактивиране на известието за уики
+wiki#:#wiki_no_page_found#:#Не е намерена страница в уикипедия за търсения термин '$1'.
+wiki#:#wiki_no_search_term#:#Не е въведен термин за търсене. Всички страници на уикито са показани по-долу.
+wiki#:#wiki_no_start_page#:#В уикито липсва валидна начална страница.
+wiki#:#wiki_number_users_notes_or_comments#:#NБрой потребители, които са добавили бележки или коментари към тази страница
+wiki#:#wiki_ordering#:#Подреждане
+wiki#:#wiki_ordering_and_indent_saved#:#Подреждането и отстъпа са запазени.
+wiki#:#wiki_orphaned_pages#:#"Осиротели" страници
+wiki#:#wiki_other_pages_linking#:#Други страници с връзки към тази страница
+wiki#:#wiki_page#:#Страница
+wiki#:#wiki_pages#:#Страници
+wiki#:#wiki_pages_found#:#Следните страници отговарят на вашия термин за търсене '$1'.
+wiki#:#wiki_page_actions#:#Действия на страницата
+wiki#:#wiki_page_already_exists#:#Страница с това заглавие вече съществува.
+wiki#:#wiki_page_blocked#:#Страницата в уикипедия е блокирана.
+wiki#:#wiki_page_changes#:#Промени в страницата
+wiki#:#wiki_page_deleted#:#Страницата в уикито е изтрита.
+wiki#:#wiki_page_deletion_confirmation#:#Наистина ли искате да изтриете тази уики страница?
+wiki#:#wiki_page_exists#:#Съществуваща страница
+wiki#:#wiki_page_hits#:#Посещения на страницата
+wiki#:#wiki_page_lists#:#Списъци на страници
+wiki#:#wiki_page_list_form_info#:#Добавя списък със страници от тази уикипедия, които са присвоени към избраните по-долу метаданни.
+wiki#:#wiki_page_list_mode#:#Вид на списъка
+wiki#:#wiki_page_list_mode_ordered#:#Номериран
+wiki#:#wiki_page_list_mode_unordered#:#Неномериран
+wiki#:#wiki_page_notification_activated#:#Активирано известие (една страница)
+wiki#:#wiki_page_not_exist_select_templ#:#Тази страница все още не съществува. Моля, изберете шаблон за новата страница.
+wiki#:#wiki_page_status_blocked#:#В момента, редактирането на тази страница е блокирано за обучаемите.
+wiki#:#wiki_page_template#:#Шаблон на страницата
+wiki#:#wiki_page_templates#:#Шаблони на страници
+wiki#:#wiki_page_title_too_long#:#Заглавието на страницата в уикито е твърде дълго. Моля, заменете го с по-кратко заглавие.
+wiki#:#wiki_page_toc#:#Активиране на блока за преглед на страницата
+wiki#:#wiki_page_toc_info#:#Това показва всички заглавия, свързани със съдържанието в началото на всяка страница, ако тази страница използва поне две заглавия.
+wiki#:#wiki_page_type_wpg#:#Уики страница
+wiki#:#wiki_page_unblocked#:#Уики страницата е отблокирана.
+wiki#:#wiki_passed#:#Преминато
+wiki#:#wiki_pg_list_no_search_fields#:#В наборите от метаданни на уикипедията не са открити полета за метаданни с възможност за търсене.
+wiki#:#wiki_please_enter_search_term#:#Въведете термин за търсене.
+wiki#:#wiki_popular_pages#:#Популярни страници
+wiki#:#wiki_print_view#:#Преглед за печат
+wiki#:#wiki_public_comments#:#Публични коментари
+wiki#:#wiki_purpose#:#Предназначение
+wiki#:#wiki_quick_navigation#:#Бърза навигация в уикипедията
+wiki#:#wiki_rate_overall#:#Оценяване на Уики
+wiki#:#wiki_rate_page#:#Оценете тази страница
+wiki#:#wiki_recent_changes#:#Последни промени
+wiki#:#wiki_removed_imp_pages#:#Важните страници са премахнати от списъка.
+wiki#:#wiki_remove_template_status#:#Премахване на състоянието на шаблона
+wiki#:#wiki_rename#:#Преименуване
+wiki#:#wiki_rename_page#:#Преименуване на страницата
+wiki#:#wiki_save_ordering_and_indent#:#Запазване на подредбата и отстъпа
+wiki#:#wiki_search#:#Търсене
+wiki#:#wiki_search_results#:#Резултати от търсенето
+wiki#:#wiki_selected_pages#:#Избрани страници
+wiki#:#wiki_select_one_item#:#Моля, изберете елемент.
+wiki#:#wiki_settings#:#Настройки на Уики
+wiki#:#wiki_set_as_start_page#:#Задаване като начална страница
+wiki#:#wiki_short_title_already_in_use#:#Това заглавие вече се използва от друга уикипедия. Моля, изберете друго заглавие.
+wiki#:#wiki_show_pdf_export#:#PDF експортиране
+wiki#:#wiki_show_print_view#:#Преглед за печат
+wiki#:#wiki_start_page#:#Начална страница
+wiki#:#wiki_start_page_info#:#Ако все още не съществува страница с това заглавие, ще бъде създадена нова страница.
+wiki#:#wiki_stat_chars#:#Брой символи
+wiki#:#wiki_stat_chars_avg#:#Среден брой символи на страница
+wiki#:#wiki_stat_deleted_pages#:#Брой изтрити страници
+wiki#:#wiki_stat_edit_pages#:#Брой редактирани страници
+wiki#:#wiki_stat_edit_pages_avg#:#Среден брой редактирани страници на потребител
+wiki#:#wiki_stat_external_links#:#Брой външни връзки
+wiki#:#wiki_stat_external_links_avg#:#Среден брой външни връзки на страница
+wiki#:#wiki_stat_figure#:#Изображение
+wiki#:#wiki_stat_footnotes#:#Брой бележки под линия
+wiki#:#wiki_stat_footnotes_avg#:#Среден брой бележки под линия на страница
+wiki#:#wiki_stat_internal_links#:#Брой вътрешни връзки
+wiki#:#wiki_stat_internal_links_avg#:#Среден брой вътрешни връзки на страница
+wiki#:#wiki_stat_new_pages#:#Брой нови страници
+wiki#:#wiki_stat_new_pages_avg#:#Среден брой нови страници на потребител
+wiki#:#wiki_stat_num_pages#:#Брой страници
+wiki#:#wiki_stat_num_rating#:#Брой оценки
+wiki#:#wiki_stat_num_rating_avg#:#Среден брой оценки на страница
+wiki#:#wiki_stat_page_changes#:#Брой промени
+wiki#:#wiki_stat_page_changes_avg#:#Среден брой промени
+wiki#:#wiki_stat_page_characters#:#Брой символи
+wiki#:#wiki_stat_page_external_links#:#Брой външни връзки
+wiki#:#wiki_stat_page_footnotes#:#Брой бележки под линия
+wiki#:#wiki_stat_page_internal_links#:#Брой вътрешни връзки
+wiki#:#wiki_stat_page_ratings#:#Брой оценки
+wiki#:#wiki_stat_page_read#:#рой достъпи за четене
+wiki#:#wiki_stat_page_user_edit#:#Брой потребители, които са редактирали страницата
+wiki#:#wiki_stat_page_words#:#Брой думи
+wiki#:#wiki_stat_rating_avg#:#Средна оценка
+wiki#:#wiki_stat_read_pages#:#Брой достъпи за четене
+wiki#:#wiki_stat_scope#:#Времева рамка
+wiki#:#wiki_stat_user_edit_pages#:#Брой потребители, които са редактирали страници 
+wiki#:#wiki_stat_user_edit_pages_avg#:#Среден брой потребители, които са редактирали страници 
+wiki#:#wiki_stat_words#:#Брой думи
+wiki#:#wiki_stat_words_avg#:# Среден брой думи на страница
+wiki#:#wiki_style#:#Стил
+wiki#:#wiki_sure_remove_imp_pages#:#Наистина ли искате да премахнете следните страници от списъка с важни страници?
+wiki#:#wiki_target_page#:#Целева (таргет) страница
+wiki#:#wiki_team_members#:#Членове на екипа
+wiki#:#wiki_template_added#:#Добавена е страница с шаблони.
+wiki#:#wiki_template_status_removed#:#Статусът на шаблона е премахнат.
+wiki#:#wiki_templ_add_to_page#:#На разположение за добавяне към съществуващи страници
+wiki#:#wiki_templ_new_pages#:#Налично при създаване на страница
+wiki#:#wiki_type_wiki_team#:#Екип Уики
+wiki#:#wiki_unblock_page#:#Отблокиране на страница
+wiki#:#wiki_unhide_meta_adv_records#:#Показване на допълнителни свойства
+wiki#:#wiki_what_links_here#:#Какви са връзките тук?
+wiki#:#wiki_what_links_to_page#:#Какво е свързано със страница "%s"?
+wiki#:#wiki_whole_wiki#:#Всички уики страници
+wiki#:#wiki_wiki_page#:#Уики страница
+wiki#:#wiki_wiki_search#:#Уики търсене
+wiki#:#wiki_wpg#:#Уики страница
+wsp#:#element_already_shared#:#Този обект вече е споделен с този потребител.
+wsp#:#element_shared#:#Споделен обект.
+wsp#:#error_creating_certificate_pdf#:#Сертификатът не може да бъде създаден. Моля, свържете се с администратора, за да провери сървера за сертификати.
+wsp#:#search_no_match#:#Търсенето Ви не съвпадна с никакви резултати.
+wsp#:#share#:#Споделяне
+wsp#:#share_content#:#Споделяне на обект
+wsp#:#share_with#:#Потребителско име
+wsp#:#wsp_copy_to_repository#:#Копиране в хранилището
+wsp#:#wsp_invalid_password#:#Въведената парола е невалидна.
+wsp#:#wsp_list_cmxv#:#Сертификат от xAPI/cmi5 обект
+wsp#:#wsp_list_crsv#:#Сертификат от курса
+wsp#:#wsp_list_excv#:#Сертификат от упражнение
+wsp#:#wsp_list_ltiv#:#Сертификат от LTI обект
+wsp#:#wsp_list_scov#:#SCORM Сертификат
+wsp#:#wsp_list_tstv#:#Сертификат от тест
+wsp#:#wsp_move_to_repository#:#Преместване в хранилището
+wsp#:#wsp_password_for#:#Парола за
+wsp#:#wsp_password_protected_resource#:#Ресурс, защитен с парола
+wsp#:#wsp_password_protected_resource_info#:#За да получите достъп до този ресурс, трябва да въведете парола.
+wsp#:#wsp_permissions#:#Споделяне
+wsp#:#wsp_permission_all_info#:#Обектът е публикуван.
+wsp#:#wsp_permission_all_pw_info#:#След предоставяне на паролата този обект ще е видим за всички потребители на интернет.
+wsp#:#wsp_permission_registered_info#:#Този обект е достъпен за всички регистрирани потребители.
+wsp#:#wsp_permission_removed#:#Елементът е премахнат
+wsp#:#wsp_personal_resources_description#:#Тук можете да управлявате личните си файлове, блогове и др.
+wsp#:#wsp_set_permission_all#:#Публикуване 
+wsp#:#wsp_set_permission_all_password#:#Публикуване (изисква се парола)
+wsp#:#wsp_set_permission_course#:#Курс
+wsp#:#wsp_set_permission_group#:#Група
+wsp#:#wsp_set_permission_registered#:#Всички регистрирани потребители
+wsp#:#wsp_set_permission_single_user#:#Единичен потребител
+wsp#:#wsp_shared_date#:#Дата на споделяне
+wsp#:#wsp_shared_date_filter#:#Споделено от
+wsp#:#wsp_shared_filter_button#:#Търсене
+wsp#:#wsp_shared_filter_reset_button#:#Изчистване на търсенето
+wsp#:#wsp_shared_mandatory_filter_info#:#Моля, задайте поне един атрибут на филтъра. Текстовите филтри трябва да имат поне 4 символа.
+wsp#:#wsp_shared_member_filter#:#Член на курс/група
+wsp#:#wsp_shared_object_type#:#Тип на ресурса
+wsp#:#wsp_shared_resources#:#Споделени ресурси
+wsp#:#wsp_shared_table_title#:#Споделяния
+wsp#:#wsp_shared_title#:#Заглавие на ресурса
+wsp#:#wsp_shared_type#:#Споделено с
+wsp#:#wsp_shared_user_filter#:#Логин/Име
+wsp#:#wsp_shared_with#:#Споделено с
+wsp#:#wsp_share_search_users#:#Търсене на потребители
+wsp#:#wsp_share_success#:#Добавен е нов запис.
+wsp#:#wsp_share_with_members#:#Сподели с участниците
+wsp#:#wsp_share_with_users#:#Сподели с потребителите
+wsp#:#wsp_status_shared#:#Споделени
+wsp#:#wsp_switch_to_repo_tree#:#Превключване към хранилището
+wsp#:#wsp_switch_to_wsp_tree#:#Превключване към лични ресурси
+wsp#:#wsp_tab_ownership#:#Мои обекти в хранилището
+wsp#:#wsp_tab_personal#:#Моите ресурси
+wsp#:#wsp_tab_shared#:#Споделено от други потребители
+wsp#:#wsp_type_blog#:#Блог
+wsp#:#wsp_type_cmxv#:#Сертификат: xAPI/cmi5
+wsp#:#wsp_type_crsv#:#Сертификат: Курс
+wsp#:#wsp_type_excv#:#Проверка: Упражнение
+wsp#:#wsp_type_file#:#Файл
+wsp#:#wsp_type_ltiv#:#Сертификат: LTI Потребител
+wsp#:#wsp_type_scov#:#Сертификат: SCORM
+wsp#:#wsp_type_tstv#:#Проверка: Тест
+wsp#:#wsp_type_webr#:#Връзка
+wsp#:#wsp_type_wfld#:#Папка
