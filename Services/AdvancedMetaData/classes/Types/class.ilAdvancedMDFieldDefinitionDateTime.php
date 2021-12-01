@@ -17,7 +17,7 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
     // generic types
     //
     
-    public function getType()
+    public function getType() : int
     {
         return self::TYPE_DATETIME;
     }
@@ -27,7 +27,7 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
     // ADT
     //
     
-    protected function initADTDefinition()
+    protected function initADTDefinition() : ilADTDefinition
     {
         return ilADTFactory::getInstance()->getDefinitionInstanceByType("DateTime");
     }
@@ -37,17 +37,17 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
     // import/export
     //
     
-    public function getValueForXML(ilADT $element)
+    public function getValueForXML(ilADT $element) : string
     {
         return $element->getDate()->get(IL_CAL_DATETIME);
     }
     
-    public function importValueFromXML($a_cdata)
+    public function importValueFromXML(string $a_cdata) : void
     {
         $this->getADT()->setDate(new ilDate($a_cdata, IL_CAL_DATETIME));
     }
     
-    public function importFromECS($a_ecs_type, $a_value, $a_sub_id)
+    public function importFromECS(string $a_ecs_type, $a_value, string $a_sub_id) : bool
     {
         switch ($a_ecs_type) {
             case ilECSUtils::TYPE_TIMEPLACE:
@@ -69,7 +69,7 @@ class ilAdvancedMDFieldDefinitionDateTime extends ilAdvancedMDFieldDefinition
     // search
     //
     
-    public function getLuceneSearchString($a_value)
+    public function getLuceneSearchString(string $a_value) : string
     {
         // see ilADTDateTimeSearchBridgeRange::importFromPost();
         

@@ -13,28 +13,28 @@ require_once "Services/AdvancedMetaData/classes/Types/class.ilAdvancedMDFieldDef
  */
 class ilAdvancedMDFieldDefinitionAddress extends ilAdvancedMDFieldDefinitionGroupBased
 {
-    public function getType()
+    public function getType() : int
     {
         return self::TYPE_ADDRESS;
     }
     
-    public function getADTGroup()
+    public function getADTGroup() : ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("Group");
         
         $street = ilADTFactory::getInstance()->getDefinitionInstanceByType("Text");
-        $def->AddElement("street", $street);
+        $def->addElement("street", $street);
         
         $city = ilADTFactory::getInstance()->getDefinitionInstanceByType("Text");
-        $def->AddElement("city", $city);
+        $def->addElement("city", $city);
         
         $loc = ilADTFactory::getInstance()->getDefinitionInstanceByType("Location");
-        $def->AddElement("location", $loc);
+        $def->addElement("location", $loc);
                     
         return $def;
     }
     
-    public function getTitles()
+    public function getTitles() : array
     {
         global $lng;
         

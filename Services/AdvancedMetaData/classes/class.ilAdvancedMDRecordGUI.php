@@ -550,7 +550,7 @@ class ilAdvancedMDRecordGUI
             $time->addSubItem($duration);
         }
 
-        if ($field_id = $mapping->getMappingByECSName(0, 'cycle')) {
+        if ($field_id = (int) $mapping->getMappingByECSName(0, 'cycle')) {
             $value = ilAdvancedMDValue::_getInstance($this->obj_id, $field_id);
             $cycle_def = ilAdvancedMDFieldDefinition::getInstance($field_id);
             switch ($cycle_def->getFieldType()) {
@@ -572,7 +572,7 @@ class ilAdvancedMDRecordGUI
                     break;
             }
         }
-        if ($field_id = $mapping->getMappingByECSName(0, 'room')) {
+        if ($field_id = (int) $mapping->getMappingByECSName(0, 'room')) {
             $value = ilAdvancedMDValue::_getInstance($this->obj_id, $field_id);
             $room_def = ilAdvancedMDFieldDefinition::getInstance($field_id);
             switch ($room_def->getFieldType()) {

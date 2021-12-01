@@ -13,32 +13,29 @@ include_once('Services/Table/classes/class.ilTable2GUI.php');
  */
 class ilAdvancedMDFieldDefinitionGroupTableGUI extends ilTable2GUI
 {
-    protected $def; // [ilAdvancedMDFieldDefinition]
+    protected ilAdvancedMDFieldDefinition $def;
     
     public function __construct($a_parent_obj, $a_parent_cmd = "", ilAdvancedMDFieldDefinition $a_def)
     {
-        global $lng,$ilCtrl;
-        
         $this->def = $a_def;
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
         
-        $this->addColumn($lng->txt("option"), "option");
+        $this->addColumn($this->lng->txt("option"), "option");
         
         foreach ($this->def->getTitles() as $element => $title) {
             $this->addColumn($title, $element);
         }
         
-        $this->addColumn($lng->txt("action"), "");
+        $this->addColumn($this->lng->txt("action"), "");
         
-        $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.edit_complex_row.html", "Services/AdvancedMetaData");
         $this->setDefaultOrderField("option");
-        
         $this->initItems($a_def);
     }
     
-    protected function initItems(ilAdvancedMDFieldDefinition $a_def)
+    protected function initItems(ilAdvancedMDFieldDefinition $a_def) : void
     {
         $data = array();
         
@@ -53,10 +50,8 @@ class ilAdvancedMDFieldDefinitionGroupTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function fillRow($a_set)
+    protected function fillRow($a_set)
     {
-        global $lng, $ilCtrl;
-        
         $this->tpl->setVariable("OPTION", $a_set["option"]);
         
         $this->tpl->setCurrentBlock("field_bl");
@@ -66,11 +61,11 @@ class ilAdvancedMDFieldDefinitionGroupTableGUI extends ilTable2GUI
         }
         
         // action
-        $ilCtrl->setParameter($this->getParentObject(), "oid", md5($a_set["option"]));
-        $url = $ilCtrl->getLinkTarget($this->getParentObject(), "editComplexOption");
-        $ilCtrl->setParameter($this->getParentObject(), "oid", "");
+        $this->ctrl->setParameter($this->getParentObject(), "oid", md5($a_set["option"]));
+        $url = $this->ctrl->getLinkTarget($this->getParentObject(), "editComplexOption");
+        $this->ctrl->setParameter($this->getParentObject(), "oid", "");
         
         $this->tpl->setVariable("ACTION_URL", $url);
-        $this->tpl->setVariable("ACTION_TXT", $lng->txt("edit"));
+        $this->tpl->setVariable("ACTION_TXT", $this->lng->txt("edit"));
     }
 }

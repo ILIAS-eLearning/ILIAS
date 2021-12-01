@@ -22,10 +22,7 @@ class ilAdvancedMDFieldTranslations
      */
     private array $translations = [];
 
-    /**
-     * @var array<string, ilAdvancedMDRecordTranslation>
-     */
-    private array $record_translations = [];
+    private ilAdvancedMDRecordTranslations $record_translations;
     private string $default_language = '';
 
 
@@ -53,7 +50,7 @@ class ilAdvancedMDFieldTranslations
         $this->read();
     }
 
-    public static function getInstanceByRecordId(int $record_id) : ilAdvancedMDRecordTranslation
+    public static function getInstanceByRecordId(int $record_id) : ilAdvancedMDFieldTranslations
     {
         if (!isset(self::$instances[$record_id])) {
             self::$instances[$record_id] = new self($record_id);

@@ -439,7 +439,7 @@ class ilLuceneAdvancedSearchFields
                 // Advanced meta data
                 $field_id = substr($a_field_name, 4);
                 include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
-                $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+                $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
                                 
                 $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
                 $field_form->setForm($a_form);
@@ -629,7 +629,7 @@ class ilLuceneAdvancedSearchFields
                 include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
                 try {
                     // field might be invalid (cached query)
-                    $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+                    $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
                 } catch (Exception $ex) {
                     return '';
                 }
@@ -795,7 +795,7 @@ class ilLuceneAdvancedSearchFields
                     $field_id = substr($field_name, 4);
                     include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
                     include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-                    $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+                    $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
                     $record_id = $field->getRecordId();
 
                     $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record_id);

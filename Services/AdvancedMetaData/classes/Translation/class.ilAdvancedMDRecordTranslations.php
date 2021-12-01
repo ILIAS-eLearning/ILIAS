@@ -37,11 +37,7 @@ class ilAdvancedMDRecordTranslations
         $this->read();
     }
 
-    /**
-     * @param int $record_id
-     * @return array<int, ilAdvancedMDRecordTranslation>
-     */
-    public static function getInstanceByRecordId(int $record_id)
+    public static function getInstanceByRecordId(int $record_id) : ilAdvancedMDRecordTranslations
     {
         if (!isset(self::$instances[$record_id])) {
             self::$instances[$record_id] = new self($record_id);
