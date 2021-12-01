@@ -15,26 +15,31 @@ use LogicException;
 /**
  * This implements commonalities between all forms.
  */
-abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
+abstract class Form implements C\Input\Container\Form\Form
 {
     use ComponentHelper;
 
+    protected Input\NameSource $name_source;
     protected C\Input\Field\Group $input_group;
     protected ?Transformation $transformation;
 
     /**
      * For the implementation of NameSource.
      */
-    private int $count = 0;
-
-    public function __construct(Input\Field\Factory $field_factory, array $inputs)
-    {
+    public function __construct(
+        Input\NameSource $name_source,
+        Input\Field\Factory $field_factory,
+        array $inputs
+    ) {
         $classes = [CI\Input\Field\Input::class];
         $this->checkArgListElements("input", $inputs, $classes);
         // TODO: this is a dependency and should be treated as such. `use` statements can be removed then.
+
+        $this->name_source = $name_source;
         $this->input_group = $field_factory->group(
             $inputs
-        )->withNameFrom($this);
+        )->withNameFrom($this->name_source);
+
         $this->transformation = null;
     }
 
@@ -53,7 +58,6 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
     {
         return $this->input_group;
     }
-
 
     /**
      * @inheritdocs
@@ -97,7 +101,6 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
 
     /**
      * Check the request for sanity.
-     *
      * TODO: implement me!
      */
     protected function isSanePostRequest(ServerRequestInterface $request) : bool
@@ -105,23 +108,11 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
         return true;
     }
 
-
     /**
      * Extract post data from request.
      */
     protected function extractPostData(ServerRequestInterface $request) : Input\InputData
     {
         return new PostDataFromServerRequest($request);
-    }
-
-    /**
-     * Implementation of NameSource
-     */
-    public function getNewName() : string
-    {
-        $name = "form_input_$this->count";
-        $this->count++;
-
-        return $name;
     }
 }
