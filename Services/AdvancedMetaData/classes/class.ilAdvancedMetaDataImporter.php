@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlImporter.php");
 
 /**
  * Importer class for adv md
@@ -26,10 +25,6 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
     
     public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
     {
-        include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDParser.php";
-        include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
-        include_once "Services/Container/classes/class.ilContainer.php";
-        include_once "Services/Object/classes/class.ilObjectServiceSettingsGUI.php";
         
         $parser = new ilAdvancedMDParser($a_id, $a_mapping);
         $parser->setXMLContent($a_xml);
@@ -37,7 +32,7 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
         
         // records with imported values should be selected
         foreach ($parser->getRecordIds() as $obj_id => $sub_types) {
-            ilContainer::_writeContainerSetting($obj_id, ilObjectServiceSettingsGUI::CUSTOM_METADATA, 1);
+            ilContainer::_writeContainerSetting($obj_id, ilObjectServiceSettingsGUI::CUSTOM_METADATA, "1");
             
             foreach ($sub_types as $sub_type => $rec_ids) {
                 ilAdvancedMDRecord::saveObjRecSelection($obj_id, $sub_type, array_unique($rec_ids), false);

@@ -1,9 +1,9 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once('Services/Authentication/classes/class.ilSessionControl.php');
-require_once('Services/Authentication/classes/class.ilSessionStatistics.php');
-require_once('Services/Authentication/classes/class.ilSessionIStorage.php');
+require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionControl.php');
+require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionStatistics.php');
+require_once(__DIR__ . '/../../../Services/Authentication/classes/class.ilSessionIStorage.php');
 
 /**
 * @author Alex Killing <alex.killing@gmx.de>

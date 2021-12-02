@@ -10,7 +10,7 @@ use ILIAS\Refinery\Factory as Refinery;
  * @ingroup      ServicesMail
  * @ilCtrl_Calls ilMailGUI: ilMailFolderGUI, ilMailFormGUI, ilContactGUI, ilMailOptionsGUI, ilMailAttachmentGUI, ilMailSearchGUI, ilObjUserGUI
  */
-class ilMailGUI
+class ilMailGUI implements ilCtrlBaseClassInterface
 {
     private ilGlobalTemplateInterface $tpl;
     private ilCtrl $ctrl;

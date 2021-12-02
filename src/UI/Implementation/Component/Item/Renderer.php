@@ -270,7 +270,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/Item/notification.js');
+        $registry->register('./src/UI/templates/js/Item/dist/notification.js');
     }
 
     /**

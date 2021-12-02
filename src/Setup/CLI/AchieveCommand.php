@@ -91,15 +91,17 @@ class AchieveCommand extends Command
 
     private function shouldListNamedObjectives(InputInterface $input) : bool
     {
-        $listNamedObjectives = $input->getOption("list") !== null
-            && is_bool($input->getOption("list"))
-            && (bool) $input->getOption("list");
-
-        if ($listNamedObjectives) {
-            return true;
-        }
-
-        return !$this->hasArguments($input) && !$this->hasOptions($input);
+        return
+            (
+                $input->getOption("list") !== null
+                && is_bool($input->getOption("list"))
+                && (bool) $input->getOption("list")
+            )
+            ||
+            (
+                $input->getArgument("objective") === ""
+                || $input->getArgument("objective") === null
+            );
     }
 
     private function executeListNamedObjectives(IOWrapper $io, OutputInterface $output) : void
@@ -107,12 +109,11 @@ class AchieveCommand extends Command
         $io->title("Listing available objectives");
 
         $agentCollection = $this->agent_finder->getAgents();
-        $config = new NullConfig();
-
-        foreach ($agentCollection->getNamedObjectives($config) as $cmd => $objectiveCollection) {
+        foreach ($agentCollection->getNamedObjectives(null) as $cmd => $objectiveCollection) {
             $output->write(str_pad($cmd, IOWrapper::LABEL_WIDTH));
-            $output->writeln($objectiveCollection->getDescription() . "\n");
+            $output->writeln($objectiveCollection->getDescription());
         }
+        $output->writeln("");
     }
 
     private function executeAchieveObjective(IOWrapper $io, InputInterface $input) : void
@@ -160,38 +161,5 @@ class AchieveCommand extends Command
         } catch (NoConfirmationException $e) {
             $io->error("Aborted the attempt to achieve '$objective_name', a necessary confirmation is missing:\n\n" . $e->getRequestedConfirmation());
         }
-    }
-
-    private function hasOptions(InputInterface $input) : bool
-    {
-        foreach ($input->getOptions() as $value) {
-            if ((bool) $value) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private function hasArguments(InputInterface $input) : bool
-    {
-        foreach ($input->getArguments() as $argument => $value) {
-            if ($argument === "command") {
-                continue;
-            }
-            if (isset($value)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    protected function parseAgentMethod(string $agent_method) : ?array
-    {
-        $result = [];
-        if (!preg_match('/^\s*(\w+)::(\w+)\s*$/', $agent_method, $result)) {
-            return null;
-        }
-
-        return [$result[1], $result[2]];
     }
 }

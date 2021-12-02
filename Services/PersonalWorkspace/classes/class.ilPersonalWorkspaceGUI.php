@@ -31,6 +31,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  */
 class ilPersonalWorkspaceGUI
 {
+    protected ilSetting $settings;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilHelpGUI $help;
@@ -59,6 +60,7 @@ class ilPersonalWorkspaceGUI
         $this->locator = $DIC["ilLocator"];
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
+        $this->settings = $DIC->settings();
 
         $lng->loadLanguageModule("wsp");
 
@@ -83,6 +85,10 @@ class ilPersonalWorkspaceGUI
         $ilCtrl = $this->ctrl;
         $objDefinition = $this->obj_definition;
         $tpl = $this->tpl;
+
+        if ($this->settings->get("disable_personal_workspace")) {
+            throw new ilException($this->lng->txt("no_permission"));
+        }
 
         $ilCtrl->setReturn($this, "render");
 

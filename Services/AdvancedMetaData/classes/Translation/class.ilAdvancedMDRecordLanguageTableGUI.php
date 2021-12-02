@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 
 /**
- * Class ilAdvancedMDRecordLanguageTableGUI
  * @ingroup ServicesAdvancedMetaData
+ * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
 {
@@ -19,30 +19,16 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
 
     private const CMD_SAVE_ACTION = 'saveTranslations';
 
-    /**
-     * @var
-     */
-    private $ui_factory;
-
-    private $ui_renderer;
+    private Factory $ui_factory;
+    private Renderer $ui_renderer;
+    private ilAdvancedMDRecord $record;
 
     /**
-     * @var ilAdvancedMDRecord
+     * @var array<string, ilAdvancedMDRecordTranslation>
      */
-    private $record;
+    private array $record_translation;
 
-    /**
-     * @var ilAdvancedMDRecordTranslations
-     */
-    private $record_translation;
-
-    /**
-     * ilAdvancedMDRecordLanguageTableGUI constructor.
-     * @param        $a_parent_obj
-     * @param string $a_parent_cmd
-     * @param string $a_template_context
-     */
-    public function __construct(ilAdvancedMDRecord $record, $a_parent_obj, $a_parent_cmd = "")
+    public function __construct(ilAdvancedMDRecord $record, object $a_parent_obj, string $a_parent_cmd = "")
     {
         global $DIC;
 
@@ -58,7 +44,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     /**
      * Init table
      */
-    public function init()
+    public function init() : void
     {
         $this->lng->loadLanguageModule('meta');
         $this->setTitle($this->lng->txt('md_adv_record_lng_table'));
@@ -83,7 +69,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     /**
      * Parse content
      */
-    public function parse()
+    public function parse() : void
     {
         $all_languages = $this->readLanguages();
         $installed_languages = ilLanguage::_getInstalledLanguages();
@@ -109,7 +95,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     }
 
 
-    public function fillRow($row)
+    function fillRow($row)
     {
         $this->tpl->setVariable('VAL_ID', $row[self::COL_LANGUAGE_CODE]);
 
@@ -140,7 +126,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return array
+     * @return array<int, string>
      */
     private function readLanguages() : array
     {

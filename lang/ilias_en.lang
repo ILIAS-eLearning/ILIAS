@@ -16647,3 +16647,7 @@ prg#:#prg_manage_members_short#:#Manage Assignments
 prg#:#will_not_modify_relevant_progress#:#already relevant
 prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when successful
 prg#:#status_unchanged#:#Status unchanged
+common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
+common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
+violation#:#not_a_string#:#Given value is not a String
+common#:#actions_for#:#Actions for %s

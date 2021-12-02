@@ -12,7 +12,7 @@ require_once("./Services/Preview/classes/class.ilPreview.php");
  *
  * @package ServicesPreview
  */
-class ilPreviewGUI
+class ilPreviewGUI implements ilCtrlBaseClassInterface
 {
 
     /**

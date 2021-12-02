@@ -221,7 +221,7 @@ class ilContObjectManifestBuilder
     {
         $tree = new ilSCORM2004Tree($this->cont_obj->getId());
 
-        foreach ($tree->getSubTree($tree->getNodeData($tree->root_id), true, array('sco', 'ass')) as $obj) {
+        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, array('sco', 'ass')) as $obj) {
             $attrs = array();
             $attrs["identifier"] = "il_" . IL_INST_ID . "_" . $obj['type'] . "_" . $obj['obj_id'] . "_ref";
             $attrs["type"] = "webcontent";
@@ -289,7 +289,7 @@ class ilContObjectManifestBuilder
 
             $pagetree = new ilSCORM2004Tree($this->cont_obj->getId());
 
-            foreach ($pagetree->getSubTree($pagetree->getNodeData($obj['obj_id']), false, 'page') as $page) {
+            foreach ($pagetree->getSubTree($pagetree->getNodeData($obj['obj_id']), false, ['page']) as $page) {
                 $page_obj = new ilSCORM2004Page($page);
                 $page_obj->buildDom();
                 $mob_ids = $page_obj->collectMediaObjects(false);

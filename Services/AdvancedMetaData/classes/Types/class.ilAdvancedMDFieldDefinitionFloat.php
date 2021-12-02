@@ -1,62 +1,48 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/AdvancedMetaData/classes/Types/class.ilAdvancedMDFieldDefinitionInteger.php";
 
 /**
  * AMD field type float (based on integer)
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionInteger
 {
-    protected $decimals; // [integer]
+    protected int $decimals;
     
-    //
-    // generic types
-    //
-    
-    public function getType()
+    public function getType() : int
     {
         return self::TYPE_FLOAT;
     }
     
-    protected function init()
+    protected function init() : void
     {
         parent::init();
         $this->setDecimals(2);
     }
     
-    public function isFilterSupported()
+    public function isFilterSupported() : bool
     {
         return false;
     }
     
     
-    //
-    // ADT
-    //
-    
-    protected function initADTDefinition()
+    protected function initADTDefinition() : ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("Float");
 
         $def->setMin($this->getMin());
         $def->setMax($this->getMax());
         $def->setDecimals($this->getDecimals());
-        $def->setSuffix(isset($this->getSuffixTranslations()[$this->language]) ?  $this->getSuffixTranslations()[$this->language] : $this->getSuffix());
-
+        $def->setSuffix($this->getSuffixTranslations()[$this->language] ?? $this->getSuffix());
         return $def;
     }
     
         
-    //
-    // properties
-    //
-    
+
     /**
      * Set decimals
      *
@@ -82,20 +68,20 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
     // definition (NOT ADT-based)
     //
     
-    protected function importFieldDefinition(array $a_def)
+    protected function importFieldDefinition(array $a_def) : void
     {
         parent::importFieldDefinition($a_def);
         $this->setDecimals($a_def["decimals"]);
     }
     
-    protected function getFieldDefinition()
+    protected function getFieldDefinition() : array
     {
         $def = parent::getFieldDefinition();
         $def["decimals"] = $this->getDecimals();
         return $def;
     }
     
-    public function getFieldDefinitionForTableGUI(string $content_language)
+    public function getFieldDefinitionForTableGUI(string $content_language) : array
     {
         global $DIC;
 
@@ -112,7 +98,7 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
      * @param bool              $a_disabled
      * @param string            $language
      */
-    public function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, $a_disabled = false, string $language = '')
+    protected function addCustomFieldToDefinitionForm(ilPropertyFormGUI $a_form, bool $a_disabled = false, string $language = '') : void
     {
         global $DIC;
 
@@ -134,14 +120,11 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
 
     /**
      * Import custom  post values from definition form
-     * @param ilPropertyFormGUI $a_form
-     * @param string            $language
      */
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '')
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '') : void
     {
         parent::importCustomDefinitionFormPostValues($a_form, $language);
-        
-        $this->setDecimals($a_form->getInput("dec"));
+        $this->setDecimals((int) $a_form->getInput("dec"));
     }
     
     
@@ -149,14 +132,13 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
     // export/import
     //
     
-    protected function addPropertiesToXML(ilXmlWriter $a_writer)
+    protected function addPropertiesToXML(ilXmlWriter $a_writer) : void
     {
         parent::addPropertiesToXML($a_writer);
-        
         $a_writer->xmlElement('FieldValue', array("id" => "decimals"), $this->getDecimals());
     }
     
-    public function importXMLProperty($a_key, $a_value)
+    public function importXMLProperty(string $a_key, string $a_value) : void
     {
         if ($a_key == "decimals") {
             $this->setDecimals($a_value != "" ? $a_value : null);

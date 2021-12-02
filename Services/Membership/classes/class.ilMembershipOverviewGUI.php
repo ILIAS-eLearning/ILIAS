@@ -9,7 +9,7 @@
  *
  * @author killing@leifos.de
  */
-class ilMembershipOverviewGUI
+class ilMembershipOverviewGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var \ilCtrl

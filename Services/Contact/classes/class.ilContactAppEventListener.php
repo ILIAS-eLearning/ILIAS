@@ -16,7 +16,11 @@ class ilContactAppEventListener implements ilAppEventListener
 
         if ('Services/User' === $a_component && 'deleteUser' === $a_event) {
             ilBuddyList::getInstanceByUserId((int) $a_parameter['usr_id'])->destroy();
-            ilMailingList::removeAssignmentsByUserId((int) $a_parameter['usr_id']);
+            $user = new ilObjUser();
+            $user->setId((int) $a_parameter['usr_id']);
+
+            $mailingLists = new ilMailingLists($user);
+            $mailingLists->deleteAssignments();
         }
 
         if ('Services/Contact' === $a_component && 'contactRequested' === $a_event) {

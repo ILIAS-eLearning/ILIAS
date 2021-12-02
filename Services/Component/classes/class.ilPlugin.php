@@ -4,6 +4,8 @@
 use ILIAS\GlobalScreen\Provider\PluginProviderCollection;
 use ILIAS\GlobalScreen\Provider\ProviderCollection;
 use ILIAS\GlobalScreen\Scope\MainMenu\Provider\AbstractStaticPluginMainMenuProvider;
+use ILIAS\Setup\Environment;
+use ILIAS\Setup\ArrayEnvironment;
 
 /**
  * Abstract Class ilPlugin
@@ -1061,7 +1063,6 @@ abstract class ilPlugin
     {
         global $DIC;
         $ilDB = $DIC->database();
-        $ilCtrl = $DIC->ctrl();
 
         ilGlobalCache::flushAll();
 
@@ -1077,22 +1078,6 @@ abstract class ilPlugin
         if ($result === true) {
             $result = $this->updateDatabase();
         }
-
-        // load control structure
-        $structure_reader = new ilCtrlStructureReader();
-        $structure_reader->readStructure(
-            true,
-            "./" . $this->getDirectory(),
-            $this->getPrefix(),
-            $this->getDirectory()
-        );
-
-        // add config gui to the ctrl calls
-        $ilCtrl->insertCtrlCalls(
-            "ilobjcomponentsettingsgui",
-            ilPlugin::getConfigureClassName(["name" => $this->getPluginName()]),
-            $this->getPrefix()
-        );
 
         $this->readEventListening();
 

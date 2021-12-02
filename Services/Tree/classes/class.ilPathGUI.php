@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -22,27 +22,24 @@
 */
 
 /**
-* Creates a path for a start and endnode
-*
-* @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
-* @ingroup ServicesTree
-*/
+ * Creates a path for a start and endnode
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @version $Id$
+ * @ingroup ServicesTree
+ */
 class ilPathGUI
 {
     private int $startnode;
     private int $endnode;
-    
+
     private bool $textOnly = true;
     private bool $useImages = false;
     private bool $hide_leaf = true;
     private bool $display_cut = false;
-    
+
     protected ilLanguage $lng;
     protected ilTree $tree;
-    
+
     /**
      * Constructor
      */
@@ -56,7 +53,7 @@ class ilPathGUI
         $this->tree = $DIC->repositoryTree();
         $this->lng = $DIC->language();
     }
-    
+
     /**
      * get path
      * @param int $a_startnode ref_id of startnode
@@ -67,88 +64,76 @@ class ilPathGUI
     {
         $this->startnode = $a_startnode;
         $this->endnode = $a_endnode;
-        
+
         return $this->getHTML();
     }
-    
+
     /**
      * render path as text only
-     * @param	bool $a_text_only	path as text only true/false
-     * @return
+     * @param bool $a_text_only path as text only true/false
+     * @return void
      */
-    public function enableTextOnly($a_status)
+    public function enableTextOnly(bool $a_status) : void
     {
         $this->textOnly = $a_status;
     }
-    
-    /**
-     * show text only
-     * @return
-     */
-    public function textOnly()
+
+    public function textOnly() : bool
     {
         return $this->textOnly;
     }
-    
+
     /**
      * Hide leaf node in path
-     * @param type $a_status
      */
-    public function enableHideLeaf($a_status)
+    public function enableHideLeaf(bool $a_status) : void
     {
         $this->hide_leaf = $a_status;
     }
-    
-    public function hideLeaf()
+
+    public function hideLeaf() : bool
     {
         return $this->hide_leaf;
     }
-    /**
-     * set use images
-     * @param	bool
-     * @return
-     */
-    public function setUseImages($a_status)
+
+    public function setUseImages(bool $a_status) : void
     {
         $this->useImages = $a_status;
     }
-    
+
     /**
      * get use images
-     * @return
+     * @return bool
      */
-    public function getUseImages()
+    public function getUseImages() : bool
     {
         return $this->useImages;
     }
 
     /**
      * Display a cut with "..."
-     * @param $a_status bool
      */
-    public function enableDisplayCut($a_status)
+    public function enableDisplayCut(bool $a_status) : void
     {
         $this->display_cut = $a_status;
     }
 
     /**
      * Display a cut with "..."
-     * @return bool
      */
-    public function displayCut()
+    public function displayCut() : bool
     {
         return $this->display_cut;
     }
-    
+
     /**
      * get html
-     * @return
      */
-    protected function getHTML()
+    protected function getHTML() : string
     {
         if ($this->textOnly()) {
             $tpl = new ilTemplate('tpl.locator_text_only.html', true, true, "Services/Locator");
-            
+
             $first = true;
 
             // Display cut
@@ -163,7 +148,7 @@ class ilPathGUI
             foreach ($this->getPathIds() as $ref_id) {
                 $obj_id = ilObject::_lookupObjId($ref_id);
                 $title = $this->buildTitle($obj_id);
-                
+
                 if ($first) {
                     if ($ref_id == ROOT_FOLDER_ID) {
                         $title = $this->lng->txt('repository');
@@ -180,10 +165,9 @@ class ilPathGUI
             return $tpl->get();
         } else {
             // With images and links
-            include_once './Services/Link/classes/class.ilLink.php';
-            
+
             $tpl = new ilTemplate('tpl.locator.html', true, true, 'Services/Locator');
-            
+
             $first = true;
 
             // Display cut
@@ -199,7 +183,7 @@ class ilPathGUI
                 $obj_id = ilObject::_lookupObjId($ref_id);
                 $title = $this->buildTitle($obj_id);
                 $type = ilObject::_lookupType($obj_id);
-                
+
                 if ($first) {
                     if ($ref_id == ROOT_FOLDER_ID) {
                         $title = $this->lng->txt('repository');
@@ -231,31 +215,20 @@ class ilPathGUI
         }
     }
 
-    /**
-     * @param $a_obj_id
-     * @return string
-     */
-    protected function buildTitle($a_obj_id)
+    protected function buildTitle(int $a_obj_id) : string
     {
         return ilObject::_lookupTitle($a_obj_id);
     }
-    
+
     /**
-     *
-     * @param
-     * @return
+     * @return int[]
      */
-    protected function getPathIds()
+    protected function getPathIds() : array
     {
         $path = $this->tree->getPathId($this->endnode, $this->startnode);
-
-        \ilLoggerFactory::getLogger('tree')->dump($path);
-        \ilLoggerFactory::getLogger('tree')->dump($this->endnode);
-        \ilLoggerFactory::getLogger('tree')->dump($this->startnode);
-
-        if ($this->hideLeaf()) {
+        if ($this->hideLeaf() && count($path)) {
             unset($path[count($path) - 1]);
         }
-        return $path ? $path : array();
+        return $path;
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -175,7 +175,6 @@ class ilAdvancedMDSubstitution
             return array();
         }
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
         $values_records = ilAdvancedMDValues::preloadedRead($this->type, $a_obj_id);
                 
         $counter = 0;
@@ -239,7 +238,6 @@ class ilAdvancedMDSubstitution
                     new ilDate($a_values[$end],IL_CAL_UNIX) :
                     new ilDateTime($a_values[$end],IL_CAL_UNIX);
 
-                include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
                 $weekday = ilCalendarUtil::_numericDayToString($start->get(IL_CAL_FKT_DATE,'w',$ilUser->getTimeZone()),false);
 
                 ilDatePresentation::setUseRelativeDates(false);
@@ -398,7 +396,7 @@ class ilAdvancedMDSubstitution
         $res = $this->db->query($query);
         $this->active = $res->numRows() ? true : false;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->active_fields[$row->field_id] = $row->title;
+            $this->active_fields[(int) $row->field_id] = (string) $row->title;
         }
             
         $query = "SELECT * FROM adv_md_substitutions " .
@@ -408,7 +406,7 @@ class ilAdvancedMDSubstitution
         $this->bold = array();
         $this->newline = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $tmp_substitutions = unserialize($row->substitution);
+            $tmp_substitutions = unserialize((string) $row->substitution);
             if (is_array($tmp_substitutions)) {
                 foreach ($tmp_substitutions as $substitution) {
                     if ($substitution['field_id']) {
@@ -422,8 +420,8 @@ class ilAdvancedMDSubstitution
                     }
                 }
             }
-            $this->enabled_desc = !$row->hide_description;
-            $this->enabled_field_names = !$row->hide_field_names;
+            $this->enabled_desc = (bool) !$row->hide_description;
+            $this->enabled_field_names = (bool) !$row->hide_field_names;
         }
 
         if ($this->type == 'crs' or $this->type == 'rcrs') {
@@ -449,7 +447,6 @@ class ilAdvancedMDSubstitution
     {
         return true;
 
-        include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
         
         if (isset(self::$mappings) and is_object(self::$mappings)) {
             return true;

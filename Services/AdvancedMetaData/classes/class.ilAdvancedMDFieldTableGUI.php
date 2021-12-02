@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -24,33 +24,25 @@
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
 * @ingroup ServicesAdvancedMetaData
 */
-
-include_once('Services/Table/classes/class.ilTable2GUI.php');
-include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-
 class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 {
-    protected $permissions; // [ilAdvancedMDPermissionHelper]
-    protected $may_edit_pos; // [bool]
+    protected ilClaimingPermissionHelper $permissions;
+    protected bool $may_edit_pos;
 
     /**
      * @var string
      */
-    protected $active_language;
+    protected string $active_language;
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param object calling gui class
-     * @param string parent command
-     *
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_may_edit_pos, string $active_language)
+    public function __construct(
+        $a_parent_obj,
+        $a_parent_cmd,
+        ilAdvancedMDPermissionHelper $a_permissions,
+        bool $a_may_edit_pos,
+        string $active_language
+    )
     {
         global $DIC;
 
@@ -73,17 +65,9 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.edit_fields_row.html", "Services/AdvancedMetaData");
         $this->setDefaultOrderField("position");
-        #$this->setDefaultOrderDirection("desc");
     }
     
-    /**
-     * Fill row
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function fillRow($a_set)
+    protected function fillRow($a_set)
     {
         $this->tpl->setVariable('TXT_SEARCHABLE', $this->lng->txt('md_adv_searchable'));
         $this->tpl->setVariable('ASS_ID', $a_set['id']);
@@ -123,16 +107,10 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
     }
     
     
-    /**
-     * parese field data
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function parseDefinitions($a_definitions)
+    public function parseDefinitions(array $a_definitions) : void
     {
         $counter = 0;
+        $defs_arr = [];
         foreach ($a_definitions as $definition) {
             $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($definition->getRecordId());
 
@@ -158,8 +136,6 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
             
             $defs_arr[] = $tmp_arr;
         }
-
-
-        $this->setData($defs_arr ? $defs_arr : array());
+        $this->setData($defs_arr);
     }
 }

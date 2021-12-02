@@ -14,7 +14,7 @@
  * Implement update steps on one or more tables by creating methods that follow
  * this schema:
  *
- * public function step_1(\ilDBInterface $db) { ... }
+ * public function step_1() { ... }
  *
  * The ilDatabaseUpdateStepsExecutedObjective will figure out which of them
  * haven't been performed yet and need to be executed.

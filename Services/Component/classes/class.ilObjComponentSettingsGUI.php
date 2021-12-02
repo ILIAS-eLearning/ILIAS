@@ -19,11 +19,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     public const CMD_ACTIVATE_PLUGIN = "activatePlugin";
     public const CMD_DEACTIVATE_PLUGIN = "deactivatePlugin";
     public const CMD_UPDATE_PLUGIN = "updatePlugin";
+    public const P_REF_ID = 'ref_id';
     public const P_CTYPE = "ctype";
     public const P_CNAME = "cname";
     public const P_SLOT_ID = "slot_id";
     public const P_PLUGIN_NAME = "pname";
     public const P_PLUGIN_ID = "plugin_id";
+    public const P_ADMIN_MODE = 'admin_mode';
     public const CMD_SHOW_PLUGIN = "showPlugin";
     public const CMD_JUMP_TO_PLUGIN_SLOT = "jumpToPluginSlot";
     public const CMD_UNINSTALL_PLUGIN = "uninstallPlugin";
@@ -323,8 +325,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             );
         } else {
             // configure button
-            if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $plugin, $plugin_db_data) &&
-                $this->ctrl->checkTargetClass(ilPlugin::getConfigureClassName($plugin))) {
+            if (ilPlugin::hasConfigureClass($slot->getPluginsDirectory(), $plugin, $plugin_db_data)) {
                 $this->toolbar->addButton(
                     $this->lng->txt("cmps_configure"),
                     $this->ctrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($plugin)), self::CMD_CONFIGURE)
@@ -512,14 +513,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
         // reinitialize control class
         $_GET["cmd"] = self::CMD_JUMP_TO_PLUGIN_SLOT;
-        $this->ctrl->initBaseClass(ilAdministrationGUI::class);
+        $this->ctrl->setParameterByClass(ilAdministrationGUI::class, self::P_ADMIN_MODE, self::ADMIN_MODE_SETTINGS);
         $this->ctrl->setParameterByClass(ilAdministrationGUI::class, self::P_CTYPE, $_GET[self::P_CTYPE]);
         $this->ctrl->setParameterByClass(ilAdministrationGUI::class, self::P_CNAME, $_GET[self::P_CNAME]);
         $this->ctrl->setParameterByClass(ilAdministrationGUI::class, self::P_SLOT_ID, $_GET[self::P_SLOT_ID]);
         $this->ctrl->setParameterByClass(ilAdministrationGUI::class, self::P_PLUGIN_ID, $_GET[self::P_PLUGIN_ID]);
-        ilUtil::redirect("ilias.php?admin_mode=settings&baseClass=ilAdministrationGUI" .
-            "&cmd=jumpToPluginSlot&ref_id=" . $_GET["ref_id"] . "&ctype=" . $_GET[self::P_CTYPE] .
-            "&cname=" . $_GET[self::P_CNAME] . "&slot_id=" . $_GET[self::P_SLOT_ID] . "&plugin_id=" . $_GET[self::P_PLUGIN_ID]);
+        $this->ctrl->setParameterByClass(ilAdministrationGUI::class, self::P_REF_ID, $_GET[self::P_REF_ID]);
+        $this->ctrl->redirectByClass(ilAdministrationGUI::class, self::CMD_JUMP_TO_PLUGIN_SLOT);
     }
 
     protected function deactivatePlugin() : void

@@ -27,8 +27,8 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
         global $DIC;
         parent::__construct($task);
 
-        $this->tree     = $DIC->repositoryTree();
-        $this->http     = $DIC->http();
+        $this->tree = $DIC->repositoryTree();
+        $this->http = $DIC->http();
         $this->refinery = $DIC->refinery();
     }
 
@@ -107,13 +107,13 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
             case self::TYPE_DUPLICATES:
 
                 $actions[] = array(
-                    'txt'     => $this->getLang()->txt('sysc_action_validate'),
+                    'txt' => $this->getLang()->txt('sysc_action_validate'),
                     'command' => 'validateDuplicates'
                 );
 
                 if ($repair) {
                     $actions[] = array(
-                        'txt'     => $this->getLang()->txt('sysc_action_repair'),
+                        'txt' => $this->getLang()->txt('sysc_action_repair'),
                         'command' => 'repairDuplicates'
                     );
                 }
@@ -124,13 +124,13 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
                 $validator = new ilValidator();
                 if ($validator->hasScanLog()) {
                     $actions[] = array(
-                        'txt'     => $this->getLang()->txt('sysc_action_show_tree'),
+                        'txt' => $this->getLang()->txt('sysc_action_show_tree'),
                         'command' => 'showTree'
                     );
                 }
 
                 $actions[] = array(
-                    'txt'     => $this->getLang()->txt('sysc_action_list_tree'),
+                    'txt' => $this->getLang()->txt('sysc_action_list_tree'),
                     'command' => 'listTree'
                 );
                 break;
@@ -138,13 +138,13 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
             case self::TYPE_MISSING:
 
                 $actions[] = array(
-                    'txt'     => $this->getLang()->txt('sysc_action_validate'),
+                    'txt' => $this->getLang()->txt('sysc_action_validate'),
                     'command' => 'findMissing'
                 );
 
                 if ($repair) {
                     $actions[] = array(
-                        'txt'     => $this->getLang()->txt('sysc_action_repair'),
+                        'txt' => $this->getLang()->txt('sysc_action_repair'),
                         'command' => 'confirmRepairMissing'
                     );
                 }
@@ -153,13 +153,13 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
             case self::TYPE_MISSING_TREE:
 
                 $actions[] = array(
-                    'txt'     => $this->getLang()->txt('sysc_action_validate'),
+                    'txt' => $this->getLang()->txt('sysc_action_validate'),
                     'command' => 'findMissingTreeEntries'
                 );
 
                 if ($repair) {
                     $actions[] = array(
-                        'txt'     => $this->getLang()->txt('sysc_action_repair'),
+                        'txt' => $this->getLang()->txt('sysc_action_repair'),
                         'command' => 'confirmRepairMissingTreeEntries'
                     );
                 }
@@ -168,13 +168,13 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
             case self::TYPE_STRUCTURE:
 
                 $actions[] = array(
-                    'txt'     => $this->getLang()->txt('sysc_action_validate'),
+                    'txt' => $this->getLang()->txt('sysc_action_validate'),
                     'command' => 'analyzeStructure'
                 );
 
                 if ($repair) {
                     $actions[] = array(
-                        'txt'     => $this->getLang()->txt('sysc_action_repair'),
+                        'txt' => $this->getLang()->txt('sysc_action_repair'),
                         'command' => 'confirmRepairStructure'
                     );
                 }
@@ -187,7 +187,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     public function analyzeStructure() : void
     {
 
-        $tasks        = new ilSCTreeTasks($this->getTask());
+        $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->validateStructure();
 
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {
@@ -229,7 +229,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
 
     public function listTree() : void
     {
-        $validator    = new ilValidator(true);
+        $validator = new ilValidator(true);
         $errors_count = $validator->dumpTree();
 
         if ($errors_count) {
@@ -249,7 +249,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     public function showTree() : void
     {
         $validator = new ilValidator();
-        $scan_log  = $validator->readScanLog();
+        $scan_log = $validator->readScanLog();
 
         if (is_array($scan_log)) {
             $scan_log = '<pre>' . implode("", $scan_log) . '</pre>';
@@ -260,7 +260,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     public function validateDuplicates() : void
     {
 
-        $tasks        = new ilSCTreeTasks($this->getTask());
+        $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->validateDuplicates();
 
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {
@@ -314,7 +314,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     protected function findMissing() : void
     {
 
-        $tasks        = new ilSCTreeTasks($this->getTask());
+        $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->findMissing();
 
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {
@@ -352,7 +352,7 @@ class ilSCTreeTasksGUI extends ilSCComponentTaskGUI
     protected function findMissingTreeEntries() : void
     {
 
-        $tasks        = new ilSCTreeTasks($this->getTask());
+        $tasks = new ilSCTreeTasks($this->getTask());
         $num_failures = $tasks->findMissingTreeEntries();
 
         if ($this->getTask()->getStatus() == ilSCTask::STATUS_FAILED) {

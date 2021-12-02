@@ -648,7 +648,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function editPageFrameObject() : void
     {
-        $this->ctrl->redirectByClass(array("ilcontainerpagegui"), "edit");
+        $this->ctrl->redirectByClass(array(static::class, "ilcontainerpagegui"), "edit");
     }
 
     public function cancelPageContentObject() : void
@@ -869,7 +869,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         if ($a_include_view && $this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             if (!$this->isActiveAdministrationPanel()) {
-                $ilTabs->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTarget($this, "view"));
+                $ilTabs->addSubTab("view_content", $lng->txt("view"), $ilCtrl->getLinkTargetByClass(static::class, "view"));
             } else {
                 $ilTabs->addSubTab(
                     "view_content",
@@ -918,7 +918,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         if ($rbacsystem->checkAccess('edit_permission', $this->ref_id)) {
             $this->tabs_gui->addTarget(
                 "perm_settings",
-                $this->ctrl->getLinkTargetByClass(array(get_class($this), 'ilpermissiongui'), "perm"),
+                $this->ctrl->getLinkTargetByClass([get_class($this), 'ilpermissiongui'], "perm"),
                 array("perm", "info", "owner"),
                 'ilpermissiongui'
             );
