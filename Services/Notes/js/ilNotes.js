@@ -158,6 +158,7 @@ var ilNotes =
 				}
 				else {
 					$("#il_notes_modal .modal-body").html(o.responseText);
+					$("#il_notes_modal .modal-header button").focus();
 				}
 
 //				ilNotes.insertPanelHTML(o.responseText);

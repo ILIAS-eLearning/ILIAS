@@ -16273,3 +16273,4 @@ dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to 
 common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
 rbac#:#il_lti_global_role#:#LTI User
+common#:#actions_for#:#Actions for %s
