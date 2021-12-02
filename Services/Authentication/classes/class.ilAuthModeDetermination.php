@@ -135,6 +135,16 @@ class ilAuthModeDetermination
             $sid = ilLDAPServer::getServerIdByAuthMode($auth_key);
             if ($sid) {
                 $server = ilLDAPServer::getInstanceByServerId($sid);
+                if (!$server->isAuthenticationEnabled()) {
+                    ilLoggerFactory::getLogger('auth')->debug(
+                        sprintf(
+                            'LDAP server with id %s is configured as data source, not as authentication server',
+                            $server->getServerId()
+                        )
+                    );
+                    continue;
+                }
+
                 ilLoggerFactory::getLogger('auth')->debug('Validating username filter for ' . $server->getName());
                 if (strlen($server->getUsernameFilter())) {
                     //#17731
