@@ -27,8 +27,8 @@ abstract class Form implements C\Input\Container\Form\Form
      * For the implementation of NameSource.
      */
     public function __construct(
-        Input\NameSource $name_source,
         Input\Field\Factory $field_factory,
+        Input\NameSource $name_source,
         array $inputs
     ) {
         $classes = [CI\Input\Field\Input::class];
