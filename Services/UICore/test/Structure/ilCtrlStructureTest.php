@@ -6,7 +6,6 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class ilCtrlStructureTest
- *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
 class ilCtrlStructureTest extends TestCase
@@ -17,7 +16,7 @@ class ilCtrlStructureTest extends TestCase
             'baseclass1' => [ilCtrlStructureInterface::KEY_CLASS_CID => 'cid1'],
             'baseclass2' => [ilCtrlStructureInterface::KEY_CLASS_CID => 'cid2'],
             'baseclass3' => [ilCtrlStructureInterface::KEY_CLASS_CID => 'cid3'],
-        ], [], [
+        ], [
             'baseclass1',
             'baseclass2',
             'baseclass3',
@@ -41,7 +40,7 @@ class ilCtrlStructureTest extends TestCase
                 ilCtrlStructureInterface::KEY_CLASS_CID => 'cid2',
                 ilCtrlStructureInterface::KEY_CLASS_NAME => 'cmdClass2',
             ],
-        ], [], [], [
+        ], [], [
             'cmdclass1' => [
                 ilCtrlStructureInterface::KEY_UNSAFE_COMMANDS => [],
                 ilCtrlStructureInterface::KEY_SAFE_COMMANDS => [
@@ -96,7 +95,7 @@ class ilCtrlStructureTest extends TestCase
                 ],
                 ilCtrlStructureInterface::KEY_CLASS_CHILDREN => [],
             ],
-        ], [], [], []);
+        ], [], []);
 
         $this->assertEquals('Class1', $structure->getObjNameByCid('cid1'));
         $this->assertEquals('Class1', $structure->getObjNameByName('Class1'));
@@ -136,7 +135,7 @@ class ilCtrlStructureTest extends TestCase
 
     public function testStructureSavedParameters() : void
     {
-        $structure = new ilCtrlStructure([], [], [], []);
+        $structure = new ilCtrlStructure([], [], []);
 
         $structure->setPermanentParameterByClass('Class1', 'param1');
         $structure->setPermanentParameterByClass('Class1', 'param2');
@@ -169,7 +168,7 @@ class ilCtrlStructureTest extends TestCase
 
     public function testStructureTemporaryParameters() : void
     {
-        $structure = new ilCtrlStructure([], [], [], []);
+        $structure = new ilCtrlStructure([], [], []);
 
         $structure->setTemporaryParameterByClass('Class1', 'param1', 1);
         $structure->setTemporaryParameterByClass('Class1', 'param2', '2');
@@ -208,7 +207,7 @@ class ilCtrlStructureTest extends TestCase
 
     public function testStructureReturnTargets() : void
     {
-        $structure = new ilCtrlStructure([], [], [], []);
+        $structure = new ilCtrlStructure([], [], []);
 
         $test_url = 'https://domain.com/test/url';
         $structure->setReturnTargetByClass('Class1', $test_url);
