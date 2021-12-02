@@ -45,7 +45,7 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
 
     /**
      * Gets all objects the current user is member of
-     * @param $objTypes $types
+     * @param string[] $objTypes
      * @return array array of objects
      */
     protected function getObjectsByMembership(array $objTypes = []) : array
