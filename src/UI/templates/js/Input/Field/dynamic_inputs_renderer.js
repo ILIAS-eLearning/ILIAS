@@ -54,12 +54,11 @@ il.UI.Input = il.UI.Input || {};
       }
 
       let sub_inputs = $(template_html).find(':input');
-      let index = (0 < input_count) ? (input_count - 1) : input_count;
 
       dynamic_inputs[input_id] = {
         template_html: template_html,
         sub_input_count: sub_inputs.length,
-        index: index,
+        index: input_count,
       };
     }
 
