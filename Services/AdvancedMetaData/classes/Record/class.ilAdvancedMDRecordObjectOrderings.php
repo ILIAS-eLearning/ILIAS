@@ -56,7 +56,7 @@ class ilAdvancedMDRecordObjectOrderings
             if (ilContainer::_lookupContainerSetting(
                 $obj_id,
                 ilObjectServiceSettingsGUI::CUSTOM_METADATA,
-                false
+                ''
             )) {
                 $use_global = false;
             }
