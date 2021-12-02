@@ -68,7 +68,7 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
         $res = $this->db->query($query);
         $ref_ids = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $ref_ids[] = $row->ref_id;
+            $ref_ids[] = (int) $row->ref_id;
         }
         if (count($ref_ids)) {
             return '(' . implode(' ', $ref_ids) . ') ';

@@ -113,7 +113,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
         
         $res = array();
         while ($row = $ilDB->fetchAssoc($set)) {
-            $res[] = $row["id"];
+            $res[] = (int) $row["id"];
         }
         return $res;
     }

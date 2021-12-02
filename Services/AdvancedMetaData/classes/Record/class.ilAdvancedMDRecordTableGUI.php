@@ -146,7 +146,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             }
         }
         
-        $record = ilAdvancedMDRecord::_getInstanceByRecordId($a_set['id']);
+        $record = ilAdvancedMDRecord::_getInstanceByRecordId((int) $a_set['id']);
         if (!$a_set['local'] && count($record->getScopeRefIds())) {
             $this->tpl->setCurrentBlock('scope_txt');
             $this->tpl->setVariable('LOCAL_OR_GLOBAL', $this->lng->txt('md_adv_scope_list_header'));

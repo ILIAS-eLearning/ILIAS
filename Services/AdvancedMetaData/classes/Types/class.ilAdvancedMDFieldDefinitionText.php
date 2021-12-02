@@ -311,7 +311,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         $set = $ilDB->query($sql);
         while ($row = $ilDB->fetchAssoc($set)) {
             $row["found"] = array();
-            foreach ($obj_ids[$row["obj_id"]] as $field => $value) {
+            foreach ($obj_ids[(int) $row["obj_id"]] as $field => $value) {
                 if (substr($field, 0, 5) == "found") {
                     $row["found"][$field] = $value;
                 }

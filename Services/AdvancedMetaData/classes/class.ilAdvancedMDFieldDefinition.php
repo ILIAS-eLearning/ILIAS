@@ -71,7 +71,7 @@ abstract class ilAdvancedMDFieldDefinition
                 " FROM adv_mdf_definition" .
                 " WHERE field_id = " . $db->quote($a_field_id, "integer"));
             $a_type = $db->fetchAssoc($set);
-            $a_type = $a_type["field_type"];
+            $a_type = (int) $a_type["field_type"];
         }
         
         if (self::isValidType($a_type)) {
@@ -146,7 +146,7 @@ abstract class ilAdvancedMDFieldDefinition
         while ($row = $ilDB->fetchAssoc($set)) {
             $field = self::getInstance(null, (int) $row["field_type"], $language);
             $field->import($row);
-            $defs[$row["field_id"]] = $field;
+            $defs[(int) $row["field_id"]] = $field;
         }
         return $defs;
     }
@@ -175,7 +175,7 @@ abstract class ilAdvancedMDFieldDefinition
         while ($row = $ilDB->fetchAssoc($res)) {
             $field = self::getInstance(null, (int) $row["field_type"]);
             $field->import($row);
-            $defs[$row["field_id"]] = $field;
+            $defs[(int) $row["field_id"]] = $field;
         }
         return $defs;
     }
@@ -214,7 +214,7 @@ abstract class ilAdvancedMDFieldDefinition
             " AND searchable = " . $ilDB->quote(1, "integer");
         $set = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($set)) {
-            $field_ids[] = $row["field_id"];
+            $field_ids[] = (int) $row["field_id"];
         }
         return $field_ids;
     }

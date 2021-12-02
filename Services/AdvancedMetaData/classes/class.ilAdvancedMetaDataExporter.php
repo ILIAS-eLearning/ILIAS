@@ -61,7 +61,7 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
             return "";
         }
         $obj_id = $parts[0];
-        $rec_id = $parts[1];
+        $rec_id = (int) $parts[1];
         
         // any data for current record and object?
         $raw = ilAdvancedMDValues::findByObjectId($obj_id);

@@ -137,8 +137,8 @@ class ilAdvancedMDRecordScope
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->entry_exists = true;
-            $this->record_id = $row->record_id;
-            $this->ref_id = $row->ref_id;
+            $this->record_id = (int) $row->record_id;
+            $this->ref_id = (int) $row->ref_id;
         }
     }
 }

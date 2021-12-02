@@ -396,7 +396,7 @@ class ilAdvancedMDSubstitution
         $res = $this->db->query($query);
         $this->active = $res->numRows() ? true : false;
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->active_fields[$row->field_id] = $row->title;
+            $this->active_fields[(int) $row->field_id] = (string) $row->title;
         }
             
         $query = "SELECT * FROM adv_md_substitutions " .
@@ -406,7 +406,7 @@ class ilAdvancedMDSubstitution
         $this->bold = array();
         $this->newline = array();
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $tmp_substitutions = unserialize($row->substitution);
+            $tmp_substitutions = unserialize((string) $row->substitution);
             if (is_array($tmp_substitutions)) {
                 foreach ($tmp_substitutions as $substitution) {
                     if ($substitution['field_id']) {
@@ -420,8 +420,8 @@ class ilAdvancedMDSubstitution
                     }
                 }
             }
-            $this->enabled_desc = !$row->hide_description;
-            $this->enabled_field_names = !$row->hide_field_names;
+            $this->enabled_desc = (bool) !$row->hide_description;
+            $this->enabled_field_names = (bool) !$row->hide_field_names;
         }
 
         if ($this->type == 'crs' or $this->type == 'rcrs') {

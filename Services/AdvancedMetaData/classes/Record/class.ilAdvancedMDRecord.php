@@ -2,46 +2,41 @@
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-
 /**
 * @defgroup ServicesAdvancedMetaData Services/AdvancedMetaData
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
 *
 * @ingroup ServicesAdvancedMetaData
 */
 
 class ilAdvancedMDRecord
 {
-    private static $instances = array();
+    private static $instances = [];
     
-    protected $record_id;
+    protected int $record_id;
+    protected int $global_position = 0;
+
+    protected string $import_id = '';
+    protected bool $active = false;
+    protected string $title = '';
+    protected string $description = '';
+    protected string $language_default = '';
 
     /**
-     * @var int
+     * @var string[]
      */
-    protected $global_position;
-
-    protected $import_id;
-    protected $active;
-    protected $title;
-    protected $description;
-    /**
-     * @var string
-     */
-    protected $language_default;
-    protected $obj_types = array();
-    protected $db = null;
-    protected $parent_obj; // [int]
-    protected $scope_enabled = false;
-
+    protected array $obj_types = array();
+    protected int $parent_obj = 0;
+    protected bool $scope_enabled = false;
     /**
      * @var ilAdvancedMDRecordScope[]
      */
-    protected $scopes = [];
-    
+    protected array $scopes = [];
+
+    protected ilDBInterface  $db;
+
+
 
     /**
      * Singleton constructor
@@ -52,30 +47,19 @@ class ilAdvancedMDRecord
      * @param int record id
      *
      */
-    public function __construct($a_record_id = 0)
+    public function __construct(int $a_record_id = 0)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        
+        $this->db = $DIC->database();
         $this->record_id = $a_record_id;
-        $this->db = $ilDB;
-        
+
         if ($this->getRecordId()) {
             $this->read();
         }
     }
     
-    /**
-     * Get instance by record id
-     *
-     * @access public
-     * @static
-     *
-     * @param int record id
-     * @return ilAdvancedMDRecord
-     */
-    public static function _getInstanceByRecordId($a_record_id)
+    public static function _getInstanceByRecordId(int $a_record_id) : ilAdvancedMDRecord
     {
         if (isset(self::$instances[$a_record_id])) {
             return self::$instances[$a_record_id];
@@ -101,10 +85,11 @@ class ilAdvancedMDRecord
             "WHERE searchable = 1 AND active = 1 ";
             
         $res = $ilDB->query($query);
+        $records = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $records[] = self::_getInstanceByRecordId($row->record_id);
+            $records[] = self::_getInstanceByRecordId((int) $row->record_id);
         }
-        return $records ? $records : array();
+        return $records;
     }
 
     /**
@@ -132,7 +117,7 @@ class ilAdvancedMDRecord
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         
-        return $title_cache[$a_record_id] = $row->title;
+        return $title_cache[$a_record_id] = (string) $row->title;
     }
     
     /**
@@ -153,7 +138,7 @@ class ilAdvancedMDRecord
             "WHERE import_id = " . $ilDB->quote($a_ilias_id, 'text') . " ";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->record_id;
+            return (int) $row->record_id;
         }
         return 0;
     }
@@ -221,10 +206,11 @@ class ilAdvancedMDRecord
             "JOIN adv_md_record amr ON amo.record_id = amr.record_id " .
             "WHERE active = 1 ";
         $res = $ilDB->query($query);
+        $obj_types = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $obj_types[] = $row->obj_type;
+            $obj_types[] = (string) $row->obj_type;
         }
-        return $obj_types ? $obj_types : array();
+        return $obj_types;
     }
     
     /**
@@ -244,10 +230,11 @@ class ilAdvancedMDRecord
         
         $query = "SELECT record_id FROM adv_md_record ORDER BY gpos ";
         $res = $ilDB->query($query);
+        $records = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $records[] = ilAdvancedMDRecord::_getInstanceByRecordId($row->record_id);
+            $records[] = ilAdvancedMDRecord::_getInstanceByRecordId((int) $row->record_id);
         }
-        return $records ? $records : array();
+        return $records;
     }
     
     /**
@@ -264,12 +251,11 @@ class ilAdvancedMDRecord
 
         $ilDB = $DIC['ilDB'];
         
-        $records = array();
-        
+        $records = [];
         $query = "SELECT * FROM adv_md_record_objs WHERE sub_type=" . $ilDB->quote("-", "text");
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $records[$row->obj_type][] = self::_getInstanceByRecordId($row->record_id);
+            $records[(string) $row->obj_type][] = self::_getInstanceByRecordId((int) $row->record_id);
         }
         // #13359 hide ecs if not configured
         if (!ilECSSetting::ecsConfigured()) {
@@ -296,12 +282,11 @@ class ilAdvancedMDRecord
 
         $ilDB = $DIC['ilDB'];
 
-        $records = array();
-        
         if ($a_sub_type == "") {
             $a_sub_type = "-";
         }
-        
+
+        $records = [];
         $query = "SELECT amro.record_id record_id FROM adv_md_record_objs amro " .
             "JOIN adv_md_record amr ON amr.record_id = amro.record_id " .
             "WHERE active = 1 " .
@@ -317,9 +302,8 @@ class ilAdvancedMDRecord
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $records[] = self::_getInstanceByRecordId($row->record_id);
+            $records[] = self::_getInstanceByRecordId((int) $row->record_id);
         }
-
         return $records;
     }
     
@@ -888,19 +872,15 @@ class ilAdvancedMDRecord
      */
     private function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
         $query = "SELECT * FROM adv_md_record " .
             "WHERE record_id = " . $this->db->quote($this->getRecordId(), 'integer') . " ";
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->setImportId($row->import_id);
-            $this->setActive($row->active);
-            $this->setTitle($row->title);
-            $this->setDescription($row->description);
-            $this->setParentObject($row->parent_obj);
+            $this->setImportId((string) $row->import_id);
+            $this->setActive((bool) $row->active);
+            $this->setTitle((string) $row->title);
+            $this->setDescription((string) $row->description);
+            $this->setParentObject((int) $row->parent_obj);
             $this->setGlobalPosition((int) $row->gpos);
             $this->setDefaultLanguage((string) $row->lang_default);
         }
@@ -909,20 +889,20 @@ class ilAdvancedMDRecord
         $res = $this->db->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->obj_types[] = array(
-                "obj_type" => $row->obj_type,
-                "sub_type" => $row->sub_type,
+                "obj_type" => (string) $row->obj_type,
+                "sub_type" => (string) $row->sub_type,
                 "optional" => (bool) $row->optional
             );
         }
         
         $query = 'SELECT scope_id FROM adv_md_record_scope ' .
-            'WHERE record_id = ' . $ilDB->quote($this->record_id);
-        $res = $ilDB->query($query);
+            'WHERE record_id = ' . $this->quote($this->record_id);
+        $res = $this->query($query);
         $this->scope_enabled = false;
         $this->scopes = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->scope_enabled = true;
-            $this->scopes[] = new ilAdvancedMDRecordScope($row->scope_id);
+            $this->scopes[] = new ilAdvancedMDRecordScope((int) $row->scope_id);
         }
     }
     
@@ -1010,7 +990,7 @@ class ilAdvancedMDRecord
             " AND sub_type = " . $ilDB->quote($a_sub_type, "text")
             );
         while ($rec = $ilDB->fetchAssoc($set)) {
-            $recs[] = $rec["rec_id"];
+            $recs[] = (int) $rec["rec_id"];
         }
         return $recs;
     }

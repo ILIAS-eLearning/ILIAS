@@ -102,7 +102,7 @@ class ilAdvancedMDRecordTranslations
 
         $this->translations = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->translations[$row->lang_code] = new ilAdvancedMDRecordTranslation(
+            $this->translations[(string) $row->lang_code] = new ilAdvancedMDRecordTranslation(
                 (int) $row->record_id,
                 (string) $row->title,
                 (string) $row->description,

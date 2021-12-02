@@ -591,9 +591,9 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($row->lang_code == $record->getDefaultLanguage()) {
-                $default[$row->idx] = $row->value;
+                $default[(int) $row->idx] = (string) $row->value;
             }
-            $options[$row->lang_code][$row->idx] = $row->value;
+            $options[(string) $row->lang_code][(int) $row->idx] = (string) $row->value;
         }
         $this->setOptions($default);
         $this->setOptionTranslations($options);
@@ -611,9 +611,9 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         $record = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId());
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             if ($row->lang_code == $record->getDefaultLanguage()) {
-                $default[$row->idx] = $row->value;
+                $default[(int) $row->idx] = (string) $row->value;
             }
-            $options[$row->lang_code][$row->idx] = $row->value;
+            $options[(string) $row->lang_code][(int) $row->idx] = (string) $row->value;
         }
         $obj->setOptions($default);
         $obj->setOptionTranslations($options);

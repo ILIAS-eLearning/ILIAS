@@ -182,7 +182,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         
             if (count($record_ids) > 0) {
                 foreach ($record_ids as $record_id) {
-                    $record_obj = ilAdvancedMDRecord::_getInstanceByrecordId($record_id);
+                    $record_obj = ilAdvancedMDRecord::_getInstanceByrecordId((int) $record_id);
                     $record_obj->toXML($this);
                 }
             }

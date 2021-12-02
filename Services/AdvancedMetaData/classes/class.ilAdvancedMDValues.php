@@ -284,7 +284,7 @@ class ilAdvancedMDValues
             " WHERE active = " . $ilDB->quote(1, "integer");
         $set = $ilDB->query($query);
         while ($row = $ilDB->fetchAssoc($set)) {
-            self::$preload_obj_records[$row["obj_type"]][] = array($row["record_id"], $row["optional"]);
+            self::$preload_obj_records[(string) $row["obj_type"]][] = array((int) $row["record_id"], (int) $row["optional"]);
         }
     }
     

@@ -154,7 +154,7 @@ class ilAdvancedMDRecordObjectOrderings
 
         $this->record_position_map = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            $this->record_position_map[$row->record_id] = $row->position;
+            $this->record_position_map[(int) $row->record_id] = (int) $row->position;
         }
     }
 }
