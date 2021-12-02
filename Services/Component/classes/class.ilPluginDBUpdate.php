@@ -19,7 +19,7 @@ class ilPluginDBUpdate extends ilDBUpdate
         string $a_pname,
         ilDBInterface $a_db_handler,
         string $tmp_flag = null,
-        string $a_db_prefix= ''
+        string $a_db_prefix = ''
     ) {
         $this->db_prefix = $a_db_prefix;
 
@@ -76,15 +76,6 @@ class ilPluginDBUpdate extends ilDBUpdate
                 $this->pname
             );
 
-        $this->ctrl_structure_iterator = new ilCtrlDirectoryIterator(
-            ILIAS_ABSOLUTE_PATH . '/' . ilPlugin::_getDirectory(
-                $this->ctype,
-                $this->cname,
-                $this->slot_id,
-                $this->pname
-            )
-        );
-
         $this->readDBUpdateFile();
         $this->readLastUpdateFile();
         $this->readFileVersion();
@@ -129,7 +120,7 @@ class ilPluginDBUpdate extends ilDBUpdate
     /**
      * Set current DB version
      */
-    public function setCurrentVersion(int $a_version): void
+    public function setCurrentVersion(int $a_version) : void
     {
         $q = "UPDATE il_plugin SET db_version = " . $this->db->quote((int) $a_version, "integer") .
             " WHERE component_type = " . $this->db->quote($this->ctype, "text") .
