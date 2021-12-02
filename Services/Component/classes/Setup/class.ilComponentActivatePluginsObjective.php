@@ -6,7 +6,7 @@ declare(strict_types=1);
 use ILIAS\Setup;
 use ILIAS\DI;
 
-class ilComponentActivatePluginsObjective extends ilComponentAbstractPluginsObjective
+class ilComponentActivatePluginsObjective implements Setup\Objective
 {
     /**
      * @var string
@@ -175,8 +175,6 @@ class ilComponentActivatePluginsObjective extends ilComponentAbstractPluginsObje
                 $this->prefs["language"] = "en";
             }
         };
-
-        $this->initCtrlService();
 
         if (!defined('DEBUG')) {
             define('DEBUG', false);

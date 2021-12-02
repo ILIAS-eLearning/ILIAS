@@ -7,7 +7,7 @@ use ILIAS\Setup;
 use ILIAS\DI;
 use ILIAS\Setup\Objective\ClientIdReadObjective;
 
-class ilComponentInstallPluginObjective extends ilComponentAbstractPluginsObjective
+class ilComponentInstallPluginObjective implements Setup\Objective
 {
     /**
      * @var string
@@ -147,8 +147,6 @@ class ilComponentInstallPluginObjective extends ilComponentAbstractPluginsObject
                 $this->prefs["language"] = "en";
             }
         };
-
-        $this->initCtrlService();
 
         if (!defined('DEBUG')) {
             define('DEBUG', false);
