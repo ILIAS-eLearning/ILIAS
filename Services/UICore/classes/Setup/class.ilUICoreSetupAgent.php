@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
@@ -13,7 +13,6 @@ use ILIAS\Setup\ObjectiveConstructor;
 
 /**
  * Class ilUICoreSetupAgent
- *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
@@ -63,7 +62,6 @@ class ilUICoreSetupAgent implements Agent
             false,
             new ilCtrlBaseClassArtifactObjective(),
             new ilCtrlStructureArtifactObjective(),
-            new ilCtrlPluginStructureArtifactObjective(),
             new ilCtrlSecurityArtifactObjective(),
         );
     }
@@ -87,34 +85,21 @@ class ilUICoreSetupAgent implements Agent
     /**
      * @inheritDoc
      */
-    public function getNamedObjective(string $name, Config $config = null) : Objective
-    {
-        switch ($name) {
-            case 'buildIlCtrlArtifacts':
-                return $this->getBuildArtifactObjective();
-
-            case 'updateIlCtrlDatabase':
-                return $this->getUpdateObjective();
-
-            default:
-                throw new InvalidArgumentException("There is no named objective '$name'");
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
     public function getNamedObjectives(?Config $config = null) : array
     {
         return [
             'buildIlCtrlArtifacts' => new ObjectiveConstructor(
                 'builds all necessary ilCtrl artifacts.',
-                function () { return $this->getBuildArtifactObjective(); }
+                function () {
+                    return $this->getBuildArtifactObjective();
+                }
             ),
 
             'updateIlCtrlDatabase' => new ObjectiveConstructor(
                 'executes all ilCtrl database update steps.',
-                function () { return $this->getUpdateObjective(); }
+                function () {
+                    return $this->getUpdateObjective();
+                }
             ),
         ];
     }
