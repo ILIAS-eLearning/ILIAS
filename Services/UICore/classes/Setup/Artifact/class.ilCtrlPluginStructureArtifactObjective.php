@@ -81,12 +81,11 @@ class ilCtrlPluginStructureArtifactObjective extends BuildArtifactObjective
     public function build() : Artifact
     {
         $data = [];
+        $cid_generator = new ilCtrlStructureCidGenerator($this->getNextStructureIndex());
         foreach (new ilCtrlPluginIterator() as $plugin_id => $plugin_dir) {
             $data[$plugin_id] = (new ilCtrlStructureReader(
                 new ilCtrlDirectoryIterator($plugin_dir),
-                new ilCtrlStructureCidGenerator(
-                    $this->getNextStructureIndex()
-                )
+                $cid_generator
             ))->readStructure();
         }
 
