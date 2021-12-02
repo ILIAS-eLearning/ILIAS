@@ -2472,6 +2472,11 @@ class ilObjectListGUI
 
         include_once("Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
         $this->current_selection_list = new ilAdvancedSelectionListGUI();
+        $this->current_selection_list->setAriaListTitle(sprintf(
+                $this->lng->txt('actions_for'),
+                $this->getTitle()
+            )
+        );
         $this->current_selection_list->setAsynch($a_use_asynch && !$a_get_asynch_commands);
         $this->current_selection_list->setAsynchUrl($a_asynch_url);
         if ($a_header_actions) {
@@ -3051,7 +3056,8 @@ class ilObjectListGUI
                 );
             }
         }
-        
+
+        $this->title = ilObject::_lookupTitle($this->obj_id);
         $htpl->setVariable(
             "ACTION_DROP_DOWN",
             $this->insertCommands(false, false, "", true)
@@ -3764,7 +3770,11 @@ class ilObjectListGUI
 
         $dropdown = $ui->factory()
             ->dropdown()
-            ->standard($actions);
+            ->standard($actions)
+            ->withAriaLabel(sprintf(
+                $this->lng->txt('actions_for'),
+                $title
+            ));
 
         $def_command = $this->getDefaultCommand();
 
@@ -3888,7 +3898,11 @@ class ilObjectListGUI
                 });
             $actions[] = $button;*/
         }
-        $dropdown = $ui->factory()->dropdown()->standard($actions);
+        $dropdown = $ui->factory()->dropdown()->standard($actions)
+                       ->withAriaLabel(sprintf(
+                           $this->lng->txt('actions_for'),
+                           $title
+                       ));
 
         $img = $this->object_service->commonSettings()->tileImage()->getByObjId((int) $obj_id);
         if ($img->exists()) {
