@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\UI\Factory;
@@ -209,7 +209,6 @@ class ilAdvancedMDSettingsGUI
         );
         
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD]) {
-            include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
             $button = ilLinkButton::getInstance();
             $button->setCaption("add");
             $button->setUrl($this->ctrl->getLinkTarget($this, "createRecord"));
@@ -221,14 +220,12 @@ class ilAdvancedMDSettingsGUI
         }
         
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS]) {
-            include_once "Services/UIComponent/Button/classes/class.ilLinkButton.php";
             $button = ilLinkButton::getInstance();
             $button->setCaption("import");
             $button->setUrl($this->ctrl->getLinkTarget($this, "importRecords"));
             $ilToolbar->addButtonInstance($button);
         }
         
-        include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordTableGUI.php");
         $table_gui = new ilAdvancedMDRecordTableGUI($this, "showRecords", $this->getPermissions(), (bool) $this->obj_id);
         $table_gui->setTitle($this->lng->txt("md_record_list_table"));
         $table_gui->setData($this->getParsedRecordObjects());
@@ -293,7 +290,6 @@ class ilAdvancedMDSettingsGUI
                 );
             }
             
-            include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
             $sub = ilAdvancedMDSubstitution::_getInstanceByObjectType($obj_type);
             
             if ($perm && $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_DESCRIPTION]) {
@@ -394,11 +390,9 @@ class ilAdvancedMDSettingsGUI
             $this->ctrl->redirect($this, "showRecords");
         }
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordXMLWriter.php');
         $xml_writer = new ilAdvancedMDRecordXMLWriter($_POST['record_id']);
         $xml_writer->write();
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
         $export_files = new ilAdvancedMDRecordExportFiles($this->obj_id);
         $export_files->create($xml_writer->xmlDumpMem());
         
@@ -414,11 +408,9 @@ class ilAdvancedMDSettingsGUI
         $this->setSubTabs($this->context);
         $this->tabs_gui->setSubTabActive('md_adv_file_list');
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
         $files = new ilAdvancedMDRecordExportFiles($this->obj_id);
         $file_data = $files->readFilesInfo();
 
-        include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFilesTableGUI.php");
         $table_gui = new ilAdvancedMDRecordExportFilesTableGUI($this, "showFiles");
         $table_gui->setTitle($this->lng->txt("md_record_export_table"));
         $table_gui->parseFiles($file_data);
@@ -447,7 +439,6 @@ class ilAdvancedMDSettingsGUI
             return false;
         }
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
         $files = new ilAdvancedMDRecordExportFiles($this->obj_id);
         $abs_path = $files->getAbsolutePathByFileId((int) $_POST['file_id'][0]);
         
@@ -476,7 +467,6 @@ class ilAdvancedMDSettingsGUI
         $c_gui->setCancel($this->lng->txt("cancel"), "showFiles");
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteFiles");
 
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
         $files = new ilAdvancedMDRecordExportFiles($this->obj_id);
         $file_data = $files->readFilesInfo();
 
@@ -509,7 +499,6 @@ class ilAdvancedMDSettingsGUI
             $GLOBALS['DIC']->ctrl()->redirect($this, 'showFiles');
         }
 
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordExportFiles.php');
         $files = new ilAdvancedMDRecordExportFiles($this->obj_id);
         
         foreach ($_POST['file_id'] as $file_id) {
@@ -811,11 +800,10 @@ class ilAdvancedMDSettingsGUI
         $filter_warn = array();
         if ($perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_CREATE_FIELD]) {
             // type selection
-            include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
             $types = new ilSelectInputGUI("", "ftype");
             $options = array();
             foreach (ilAdvancedMDFieldDefinition::getValidTypes() as $type) {
-                $field = ilAdvancedMDFieldDefinition::getInstance(null, $type);
+                $field = ilAdvancedMDFieldDefinition::getInstance(null, (int) $type);
                 $options[$type] = $this->lng->txt($field->getTypeTitle());
                 
                 if (!$field->isFilterSupported()) {
@@ -831,7 +819,6 @@ class ilAdvancedMDSettingsGUI
             
             $this->toolbar->setFormAction($this->ctrl->getFormAction($this, "createField"));
             
-            include_once "Services/UIComponent/Button/classes/class.ilSubmitButton.php";
             $button = ilSubmitButton::getInstance();
             $button->setCaption("add");
             $button->setCommand("createField");
@@ -844,16 +831,14 @@ class ilAdvancedMDSettingsGUI
         }
     
         // show field table
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         $fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->record->getRecordId(), false, $this->active_language);
         
-        include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldTableGUI.php");
         $table_gui = new ilAdvancedMDFieldTableGUI(
             $this,
             'editFields',
             $this->getPermissions(),
             $perm[ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS],
-            $this->active_language
+            $this->record->getDefaultLanguage()
         );
         $table_gui->setTitle($this->lng->txt("md_adv_field_table"));
         $table_gui->parseDefinitions($fields);
@@ -883,7 +868,6 @@ class ilAdvancedMDSettingsGUI
             return false;
         }
         
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         $fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId($_GET['record_id']);
         
         if ($this->getPermissions()->hasPermission(
@@ -985,7 +969,7 @@ class ilAdvancedMDSettingsGUI
     protected function importRecords()
     {
         $this->initRecordObject();
-        $this->setRecordSubtabs();
+        $this->setRecordSubTabs();
 
         // Import Table
         $this->initImportForm();
@@ -1051,7 +1035,6 @@ class ilAdvancedMDSettingsGUI
             return true;
         }
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $this->import_form = new ilPropertyFormGUI();
         $this->import_form->setMultipart(true);
         $this->import_form->setFormAction($this->ctrl->getFormAction($this));
@@ -1083,7 +1066,6 @@ class ilAdvancedMDSettingsGUI
             return false;
         }
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordImportFiles.php');
         $import_files = new ilAdvancedMDRecordImportFiles();
         if (!$create_time = $import_files->moveUploadedFile($_FILES['file']['tmp_name'])) {
             $this->createRecord();
@@ -1091,7 +1073,6 @@ class ilAdvancedMDSettingsGUI
         }
         
         try {
-            include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordParser.php');
             $parser = new ilAdvancedMDRecordParser($import_files->getImportFileByCreationDate($create_time));
             
             // local import?
@@ -1108,7 +1089,7 @@ class ilAdvancedMDSettingsGUI
             $parser->startParsing();
             ilUtil::sendSuccess($this->lng->txt('md_adv_added_new_record'), true);
             $this->ctrl->redirect($this, "showRecords");
-        } catch (ilSAXParserException $exc) {
+        } catch (ilSaxParserException $exc) {
             ilUtil::sendFailure($exc->getMessage(), true);
             $this->ctrl->redirect($this, "importRecords");
         }
@@ -1259,7 +1240,6 @@ class ilAdvancedMDSettingsGUI
         
 
         if (!$a_form) {
-            include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
             $field_definition = ilAdvancedMDFieldDefinition::getInstance(null, $_REQUEST["ftype"]);
             $field_definition->setRecordId($_REQUEST["record_id"]);
             $a_form = $this->initFieldForm($field_definition);
@@ -1285,8 +1265,7 @@ class ilAdvancedMDSettingsGUI
         $this->initLanguage($record_id);
         $this->ctrl->saveParameter($this, 'ftype');
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-        $field_definition = ilAdvancedMDFieldDefinition::getInstance(null, $ftype);
+        $field_definition = ilAdvancedMDFieldDefinition::getInstance(null, (int) $ftype);
         $field_definition->setRecordId($record_id);
         $form = $this->initFieldForm($field_definition);
         
@@ -1370,7 +1349,6 @@ class ilAdvancedMDSettingsGUI
         )
         );
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
 
         $this->form = new ilPropertyFormGUI();
 
@@ -1633,7 +1611,6 @@ class ilAdvancedMDSettingsGUI
 
         $ilAccess = $DIC['ilAccess'];
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         
         if (!$visible_records = ilAdvancedMDRecord::_getAllRecordsByObjectType()) {
             return;
@@ -2039,7 +2016,6 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->saveParameter($this, "field_id");
         $this->ctrl->saveParameter($this, "oid");
         
-        include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt("md_adv_edit_complex_option"));
         $form->setFormAction($this->ctrl->getFormAction($this, "updateComplexOption"));

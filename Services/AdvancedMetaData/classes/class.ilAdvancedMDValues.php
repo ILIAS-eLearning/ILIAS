@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php";
 
 /**
 *
@@ -128,7 +127,6 @@ class ilAdvancedMDValues
     protected function getActiveRecord()
     {
         if (!$this->active_record instanceof ilADTActiveRecordByType) {
-            include_once "Services/ADT/classes/class.ilADTFactory.php";
             $factory = ilADTFactory::getInstance();
             
             $adt_group_db = $factory->getDBBridgeForInstance($this->getADTGroup());
@@ -163,7 +161,6 @@ class ilAdvancedMDValues
      */
     public static function findByObjectId($a_obj_id)
     {
-        include_once "Services/ADT/classes/class.ilADTFactory.php";
         ilADTFactory::initActiveRecordByType();
         return ilADTActiveRecordByType::readByPrimary("adv_md_values", array("obj_id" => array("integer", $a_obj_id)));
     }
@@ -302,7 +299,6 @@ class ilAdvancedMDValues
                 // record is optional, check activation for object
                 if ($item[1]) {
                     $found = false;
-                    include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
                     foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject($a_type, $a_obj_id) as $record) {
                         if ($record->getRecordId() == $item[0]) {
                             $found = true;
@@ -344,7 +340,6 @@ class ilAdvancedMDValues
         // clone local records
 
         // new records are created automatically, only if source and target id differs.
-        include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
         $new_records = $fields_map = array();
 
         foreach (ilAdvancedMDRecord::_getRecords() as $record) {

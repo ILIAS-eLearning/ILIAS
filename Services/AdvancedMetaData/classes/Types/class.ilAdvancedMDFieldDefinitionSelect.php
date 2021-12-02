@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -376,7 +376,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     if ($sub_id) {
                         $class = "ilObj" . $objDefinition->getClassName($type);
                         $class_path = $objDefinition->getLocation($type);
-                        include_once $class_path . "/class." . $class . ".php";
                         $ints = class_implements($class);
                         if (isset($ints["ilAdvancedMetaDataSubItems"])) {
                             $sub_title = $class::getAdvMDSubItemTitle($obj_id, $sub_type, $sub_id);
@@ -525,7 +524,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                     
                     if ($sub_type == "wpg") {
                         // #15763 - adapt advmd page lists
-                        include_once "Modules/Wiki/classes/class.ilPCAMDPageList.php";
                         ilPCAMDPageList::migrateField($obj_id, $this->getFieldId(), $old_option, $new_option, true);
                     }
                 }

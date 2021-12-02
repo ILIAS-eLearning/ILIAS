@@ -7,7 +7,10 @@
  */
 class ilAdvancedMDFieldTranslations
 {
-    private static ?self $instances = null;
+    /**
+     * @var array<int, self>
+     */
+    private static array $instances = [];
 
     private int $record_id;
     private ilAdvancedMDRecord $record;

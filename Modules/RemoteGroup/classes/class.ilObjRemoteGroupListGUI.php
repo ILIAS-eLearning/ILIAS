@@ -61,7 +61,6 @@ class ilObjRemoteGroupListGUI extends ilObjectListGUI
         $this->type = 'rgrp';
         $this->gui_class_name = 'ilobjremotegroupgui';
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;

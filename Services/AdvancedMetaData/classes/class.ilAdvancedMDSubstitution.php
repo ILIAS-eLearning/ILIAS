@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -175,7 +175,6 @@ class ilAdvancedMDSubstitution
             return array();
         }
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
         $values_records = ilAdvancedMDValues::preloadedRead($this->type, $a_obj_id);
                 
         $counter = 0;
@@ -239,7 +238,6 @@ class ilAdvancedMDSubstitution
                     new ilDate($a_values[$end],IL_CAL_UNIX) :
                     new ilDateTime($a_values[$end],IL_CAL_UNIX);
 
-                include_once('./Services/Calendar/classes/class.ilCalendarUtil.php');
                 $weekday = ilCalendarUtil::_numericDayToString($start->get(IL_CAL_FKT_DATE,'w',$ilUser->getTimeZone()),false);
 
                 ilDatePresentation::setUseRelativeDates(false);
@@ -449,7 +447,6 @@ class ilAdvancedMDSubstitution
     {
         return true;
 
-        include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
         
         if (isset(self::$mappings) and is_object(self::$mappings)) {
             return true;

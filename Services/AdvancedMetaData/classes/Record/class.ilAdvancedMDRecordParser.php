@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -31,8 +31,6 @@
 * @ingroup ServicesAdvancedMetaData
 */
 
-include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 
 class ilAdvancedMDRecordParser extends ilSaxParser
 {
@@ -111,7 +109,6 @@ class ilAdvancedMDRecordParser extends ilSaxParser
     {
         parent::startParsing();
         if ($this->is_error) {
-            include_once('./Services/Xml/exceptions/class.ilSaxParserException.php');
             throw new ilSaxParserException(implode('<br/>', $this->error_msg));
         }
     }

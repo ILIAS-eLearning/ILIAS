@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -10,8 +10,6 @@
 *
 * @ingroup ServicesAdvancedMetaData
 */
-include_once('Services/Table/classes/class.ilTable2GUI.php');
-include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 
 class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 {

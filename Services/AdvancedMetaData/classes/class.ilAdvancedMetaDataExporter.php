@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Export/classes/class.ilXmlExporter.php");
 
 /**
  * Export class for adv md
@@ -65,7 +64,6 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
         $rec_id = $parts[1];
         
         // any data for current record and object?
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
         $raw = ilAdvancedMDValues::findByObjectId($obj_id);
         if (!$raw) {
             return "";

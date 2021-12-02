@@ -1,8 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordScope.php';
 
 /**
 * @defgroup ServicesAdvancedMetaData Services/AdvancedMetaData
@@ -343,8 +342,6 @@ class ilAdvancedMDRecord
         $a_obj_id = ilObject::_lookupObjId($a_ref_id);
         
         // object-wide metadata configuration setting
-        include_once 'Services/Container/classes/class.ilContainer.php';
-        include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
         $config_setting = ilContainer::_lookupContainerSetting(
             $a_obj_id,
             ilObjectServiceSettingsGUI::CUSTOM_METADATA,
@@ -876,7 +873,6 @@ class ilAdvancedMDRecord
         }
         
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->getRecordId()) as $definition) {
             $definition->toXML($writer);
         }
@@ -1039,7 +1035,6 @@ class ilAdvancedMDRecord
         $new_obj->setDefaultLanguage($this->getDefaultLanguage());
         $new_obj->save();
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->getRecordId()) as $definition) {
             $new_def = $definition->_clone($new_obj->getRecordId());
             $a_fields_map[$definition->getFieldId()] = $new_def->getFieldId();

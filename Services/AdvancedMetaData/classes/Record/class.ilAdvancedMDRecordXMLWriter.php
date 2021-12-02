@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -29,92 +29,60 @@
 *
 * @ingroup ServicesAdvancedMetaData
 */
-class ilAdvancedMDRecordImportFiles
-{
-    const IMPORT_NAME = 'ilias_adv_md_record';
 
-    private $import_dir = '';
+
+class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
+{
+    protected $record_ids = array();
+    protected $settings = null;
     
     /**
      * Constructor
      *
      * @access public
+     * @param
      *
      */
-    public function __construct()
+    public function __construct($a_record_ids)
     {
-        $this->import_dir = ilUtil::getDataDir() . '/ilAdvancedMetaData/import';
-        $this->init();
-    }
-    
-    /**
-     * get import directory
-     *
-     * @access public
-     *
-     */
-    public function getImportDirectory()
-    {
-        return $this->import_dir;
-    }
-    
-    /**
-     * Get import file by creation date
-     *
-     * @access public
-     * @param int creation date (unix time)
-     * @return string absolute path
-     */
-    public function getImportFileByCreationDate($a_unix_time)
-    {
-        $unix_time = (int) $a_unix_time;
-        return $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $unix_time . '.xml';
-    }
-    
-    /**
-     * Delete a file
-     *
-     * @access public
-     * @param int creation date (unix time)
-     *
-     */
-    public function deleteFileByCreationDate($a_unix_time)
-    {
-        $unix_time = (int) $a_unix_time;
-        return @unlink($this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $unix_time . '.xml');
-    }
-    
-    
-    /**
-     * move uploaded files
-     *
-     * @access public
-     * @param string tmp name
-     * @return int creation time of newly created file. 0 on error
-     */
-    public function moveUploadedFile($a_temp_name)
-    {
-        $creation_time = time();
-        $file_name = $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $creation_time . '.xml';
+        global $DIC;
+
+        $ilSetting = $DIC['ilSetting'];
+
+        parent::__construct();
+        $this->settings = $ilSetting;
         
-        if (!ilUtil::moveUploadedFile($a_temp_name, '', $file_name, false)) {
-            return false;
-        }
-        return $creation_time;
+        $this->record_ids = $a_record_ids ? $a_record_ids : array();
     }
     
-    
-    
     /**
-     * init function: create import directory, delete old files
+     * generate xml
      *
-     * @access private
+     * @access public
      *
      */
-    private function init()
+    public function write()
     {
-        if (!@is_dir($this->import_dir)) {
-            ilUtil::makeDirParents($this->import_dir);
+        $this->buildHeader();
+        
+        $this->xmlStartTag('AdvancedMetaDataRecords');
+        foreach ($this->record_ids as $record_id) {
+            $record_obj = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
+            $record_obj->toXML($this);
         }
+        $this->xmlEndTag('AdvancedMetaDataRecords');
+    }
+    
+    /**
+     * build header
+     *
+     * @access protected
+     */
+    protected function buildHeader()
+    {
+        $this->xmlSetDtdDef("<!DOCTYPE AdvancedMetaDataRecords PUBLIC \"-//ILIAS//DTD AdvancedMetaDataRecords//EN\" \"" .
+            ILIAS_HTTP_PATH . "/Services/AdvancedMetaData/xml/ilias_advanced_meta_data_records_3_9.dtd\">");
+        $this->xmlSetGenCmt("Export of ILIAS Advanced meta data records of installation " . $this->settings->get('inst_id') . ".");
+        $this->xmlHeader();
     }
 }

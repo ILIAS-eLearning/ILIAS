@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once "Services/AdvancedMetaData/classes/Types/class.ilAdvancedMDFieldDefinitionGroupBased.php";
 
 /**
  * AMD field type address

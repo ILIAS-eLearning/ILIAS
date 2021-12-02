@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 require_once "Services/ADT/classes/class.ilADTFactory.php";
@@ -60,7 +60,7 @@ abstract class ilAdvancedMDFieldDefinition
         $this->read($a_field_id);
     }
 
-    public static function getInstance(?int $a_field_id, ?string $a_type = null, string $language = '') : ilAdvancedMDFieldDefinition
+    public static function getInstance(?int $a_field_id, ?int $a_type = null, string $language = '') : ilAdvancedMDFieldDefinition
     {
         global $DIC;
 
@@ -144,7 +144,7 @@ abstract class ilAdvancedMDFieldDefinition
         $set = $ilDB->query($query);
         $defs = [];
         while ($row = $ilDB->fetchAssoc($set)) {
-            $field = self::getInstance(null, $row["field_type"], $language);
+            $field = self::getInstance(null, (int) $row["field_type"], $language);
             $field->import($row);
             $defs[$row["field_id"]] = $field;
         }
@@ -173,7 +173,7 @@ abstract class ilAdvancedMDFieldDefinition
         $res = $ilDB->query($query);
         $defs = [];
         while ($row = $ilDB->fetchAssoc($res)) {
-            $field = self::getInstance(null, $row["field_type"]);
+            $field = self::getInstance(null, (int) $row["field_type"]);
             $field->import($row);
             $defs[$row["field_id"]] = $field;
         }
@@ -191,7 +191,7 @@ abstract class ilAdvancedMDFieldDefinition
         $set = $ilDB->query($query);
         if ($ilDB->numRows($set)) {
             $row = $ilDB->fetchAssoc($set);
-            return self::getInstance((int) $row["field_id"], (string) $row["field_type"]);
+            return self::getInstance((int) $row["field_id"], (int) $row["field_type"]);
         }
         return null;
     }
@@ -251,7 +251,7 @@ abstract class ilAdvancedMDFieldDefinition
     
     /**
      * Get all valid types
-     * @return string[]
+     * @return int[]
      */
     public static function getValidTypes() : array
     {
@@ -759,15 +759,14 @@ abstract class ilAdvancedMDFieldDefinition
      */
     protected function import(array $a_data) : void
     {
-        $this->setFieldId($a_data["field_id"]);
-        
-        $this->setRecordId($a_data["record_id"]);
-        $this->setImportId($a_data["import_id"]);
-        $this->setTitle($a_data["title"]);
-        $this->setDescription($a_data["description"]);
-        $this->setPosition($a_data["position"]);
-        $this->setSearchable($a_data["searchable"]);
-        $this->setRequired($a_data["required"]);
+        $this->setFieldId((int) $a_data["field_id"]);
+        $this->setRecordId((int) $a_data["record_id"]);
+        $this->setImportId((string) $a_data["import_id"]);
+        $this->setTitle((string) $a_data["title"]);
+        $this->setDescription((string) $a_data["description"]);
+        $this->setPosition((int) $a_data["position"]);
+        $this->setSearchable((bool) $a_data["searchable"]);
+        $this->setRequired((bool) $a_data["required"]);
         if ($a_data["field_values"]) {
             $this->importFieldDefinition(unserialize($a_data["field_values"]));
         }
@@ -848,7 +847,6 @@ abstract class ilAdvancedMDFieldDefinition
         }
     
         // delete all values
-        include_once("Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
         ilAdvancedMDValues::_deleteByFieldId($this->getFieldId(), $this->getADT());
         
         $query = "DELETE FROM adv_mdf_definition" .
@@ -982,7 +980,6 @@ abstract class ilAdvancedMDFieldDefinition
     
     public function searchSubObjects(ilADTSearchBridge $a_adt_search, int $a_obj_id, string $sub_obj_type) : array
     {
-        include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');
         $element_id = ilADTActiveRecordByType::SINGLE_COLUMN_NAME;
         
         // :TODO:
@@ -1020,7 +1017,6 @@ abstract class ilAdvancedMDFieldDefinition
     ):array
     {
         // search type only supported/needed for text
-        include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');
         $condition = $a_adt_search->getSQLCondition(ilADTActiveRecordByType::SINGLE_COLUMN_NAME);
         if ($condition) {
             $objects = ilADTActiveRecordByType::find("adv_md_values", $this->getADT()->getType(), $this->getFieldId(), $condition, $a_locate);

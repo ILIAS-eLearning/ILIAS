@@ -117,8 +117,6 @@ class ilLuceneAdvancedSearchFields
         $fields['lom_taxon'] = $lng->txt('meta_taxon');
             
         // Append all advanced meta data fields
-        include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-        include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
         foreach (ilAdvancedMDRecord::_getRecords() as $record) {
             foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true) as $def) {
                 $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record->getRecordId());
@@ -438,7 +436,6 @@ class ilLuceneAdvancedSearchFields
                     
                 // Advanced meta data
                 $field_id = substr($a_field_name, 4);
-                include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
                 $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
                                 
                 $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
@@ -626,7 +623,6 @@ class ilLuceneAdvancedSearchFields
                     
                 // Advanced meta data
                 $field_id = substr($a_field, 4);
-                include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
                 try {
                     // field might be invalid (cached query)
                     $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
@@ -793,8 +789,6 @@ class ilLuceneAdvancedSearchFields
 
                     // Advanced meta data
                     $field_id = substr($field_name, 4);
-                    include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php';
-                    include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
                     $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
                     $record_id = $field->getRecordId();
 

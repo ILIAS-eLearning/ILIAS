@@ -1,7 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once('Services/Table/classes/class.ilTable2GUI.php');
 
 /**
  * Table GUI for complex AdvMD options

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -209,7 +209,6 @@ class ilAdvancedMDRecordGUI
      */
     protected function parseEditor()
     {
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
         $this->editor_form = array();
         
         foreach ($this->getActiveRecords() as $record_obj) {
@@ -326,7 +325,6 @@ class ilAdvancedMDRecordGUI
         
         $this->lng->loadLanguageModule('search');
                 
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         
         $this->search_form = array();
         foreach ($this->getActiveRecords() as $record) {
@@ -406,9 +404,6 @@ class ilAdvancedMDRecordGUI
      */
     private function parseInfoPage()
     {
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-        include_once('Services/ADT/classes/class.ilADTFactory.php');
                                 
         foreach (ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type, $this->sub_id) as $record_id => $a_values) {
             // this correctly binds group and definitions
@@ -495,8 +490,6 @@ class ilAdvancedMDRecordGUI
      */
     private function handleECSDefinitions($a_definition)
     {
-        include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-        include_once('./Services/WebServices/ECS/classes/class.ilECSServerSettings.php');
 
         if (ilECSServerSettings::getInstance()->activeServerExists() or
             ($this->obj_type != 'crs' and $this->obj_type != 'rcrs')
@@ -520,7 +513,6 @@ class ilAdvancedMDRecordGUI
         
         $this->lng->loadLanguageModule('ecs');
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValue.php');
         $value_start = ilAdvancedMDValue::_getInstance($this->obj_id, $def->getFieldId());
         
         $unixtime = $value_start->getValue() ? $value_start->getValue() : mktime(8, 0, 0, date('m'), date('d'), date('Y'));
@@ -632,7 +624,6 @@ class ilAdvancedMDRecordGUI
 
         $ilUser = $DIC['ilUser'];
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
         $first = true;
         foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type) as $record_obj) {
             $selected = ilAdvancedMDRecord::getObjRecSelection($this->obj_id, $this->sub_type);
@@ -666,7 +657,6 @@ class ilAdvancedMDRecordGUI
     public function saveSelection()
     {
         $sel = ilUtil::stripSlashesArray($_POST["amet_use_rec"]);
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
         ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $sel);
     }
 
@@ -712,7 +702,6 @@ class ilAdvancedMDRecordGUI
         
     protected function getActiveRecords()
     {
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
         list($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
         return ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_ref_id, $adv_subtype);
     }
@@ -727,7 +716,6 @@ class ilAdvancedMDRecordGUI
     {
         $this->adt_search = array();
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         foreach ($this->getActiveRecords() as $record_obj) {
             $record_id = $record_obj->getRecordId();
 
@@ -799,7 +787,6 @@ class ilAdvancedMDRecordGUI
      */
     private function parseTableHead()
     {
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         foreach ($this->getActiveRecords() as $record_obj) {
             $record_id = $record_obj->getRecordId();
 
@@ -827,7 +814,6 @@ class ilAdvancedMDRecordGUI
         $data = $this->getRowData();
         $html = "";
 
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         foreach ($this->getActiveRecords() as $record_obj) {
             $record_id = $record_obj->getRecordId();
 

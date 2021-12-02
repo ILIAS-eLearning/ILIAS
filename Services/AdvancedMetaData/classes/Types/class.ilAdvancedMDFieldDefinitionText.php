@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -332,7 +332,6 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     {
         // :TODO: search type (like, fulltext)
 
-        include_once('Services/ADT/classes/ActiveRecord/class.ilADTActiveRecordByType.php');
         $condition = $a_adt_search->getSQLCondition(
             ilADTActiveRecordByType::SINGLE_COLUMN_NAME,
             ilADTTextSearchBridgeSingle::SQL_LIKE,
