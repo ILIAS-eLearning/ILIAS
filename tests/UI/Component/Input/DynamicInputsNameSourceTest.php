@@ -20,12 +20,12 @@ class DynamicInputsNameSourceTest extends TestCase
         $name_source = new DynamicInputsNameSource($expected_parent_name, $expected_absolute_index);
 
         $this->assertEquals(
-            $expected_parent_name . "[$expected_absolute_index][dynamic_input_1]",
+            $expected_parent_name . "[$expected_absolute_index][dynamic_input_0]",
             $name_source->getNewName()
         );
 
         $this->assertEquals(
-            $expected_parent_name . "[$expected_absolute_index][dynamic_input_2]",
+            $expected_parent_name . "[$expected_absolute_index][dynamic_input_1]",
             $name_source->getNewName()
         );
     }
