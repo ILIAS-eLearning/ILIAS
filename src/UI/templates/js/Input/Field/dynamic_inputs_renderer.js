@@ -15,7 +15,7 @@ il.UI.Input = il.UI.Input || {};
 
     const SELECTORS = {
       dynamic_inputs_list: '.ui-input-dynamic-inputs-list',
-      dynamic_input: '.ui-input-dynamic-inputs-input',
+      dynamic_input: '.ui-input-dynamic-input',
     };
 
     /**
@@ -52,6 +52,11 @@ il.UI.Input = il.UI.Input || {};
         console.error(`Error: tried to register input '${input_id}' as dynamic input twice.`);
         return;
       }
+
+      // register the removal event listener for dynamic inputs.
+      $(document).on('click', `#${input_id} .glyph`, function () {
+        $(this).closest(SELECTORS.dynamic_input).remove();
+      });
 
       let sub_inputs = $(template_html).find(':input');
 

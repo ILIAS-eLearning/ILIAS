@@ -910,6 +910,10 @@ class Renderer extends AbstractComponentRenderer
     ) : Template {
         $tpl->setCurrentBlock(self::DYNAMIC_INPUT_BLOCK);
         $tpl->setVariable(self::DYNAMIC_INPUT_VAR, $default_renderer->render($input));
+        $tpl->setVariable('DYNAMIC_INPUT_REMOVAL_GLYPH', $default_renderer->render(
+            $this->getUIFactory()->symbol()->glyph()->close('#')
+        ));
+
         $tpl->parseCurrentBlock();
 
         return $tpl;
