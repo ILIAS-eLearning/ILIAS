@@ -772,7 +772,6 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\Duration::class,
             Component\Input\Field\File::class,
             Component\Input\Field\Url::class,
-            TestInput::class
         ];
     }
 
@@ -841,7 +840,7 @@ class Renderer extends AbstractComponentRenderer
                     il.UI.Input.DynamicInputsRenderer.init(
                         '$id', 
                         `$dynamic_inputs_template_html`,
-                        '$dynamic_input_count'
+                        $dynamic_input_count
                     );
                 });
             ";

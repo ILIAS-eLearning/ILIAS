@@ -5,6 +5,7 @@
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
 use ILIAS\UI\Implementation\Component\Input\Container\Form\ArrayInputData;
+use ILIAS\UI\Implementation\Component\Input\DynamicInputsTemplateNameSource;
 use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
 use ILIAS\UI\Implementation\Component\Input\NameSource;
 use ILIAS\UI\Implementation\Component\Input\InputData;
@@ -16,8 +17,6 @@ use ILIAS\Data\Result\Ok;
 use InvalidArgumentException;
 use LogicException;
 use ilLanguage;
-use Closure;
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsTemplateNameSource;
 
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
@@ -153,47 +152,38 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
         $clone = clone $this;
         $post_data = $post_data->getOr($clone->getName(), null);
         $template = $clone->getTemplateForDynamicInputs();
+        $contains_error = false;
+        $contents = [];
 
         if (null === $post_data || null === $template) {
-            $clone->content = new Ok(null);
+            $clone->content = $clone->applyOperationsTo(new Ok(null));
+            if ($clone->content->isError()) {
+                $clone = $clone->withError((string) $clone->content->error());
+            }
+
             return $clone;
         }
 
-        $contents = [];
-        $error = false;
-        foreach ($post_data as $input_data) {
-
-            // because the post data cannot be processed by other
-            // inputs, due to the special array structure, the data
-            // sort of gets built back together, so it can.
-            $processable_data = [];
-            foreach ($input_data as $key => $value) {
-                $input_name = "{$clone->getName()}[" . DynamicInputsNameSource::INDEX_PLACEHOLDER . "][$key]";
-                $processable_data[$input_name] = $value;
-            }
-
-            $template = $template->withInput(new ArrayInputData($processable_data));
-            $content = $template->getContent();
-
-            if ($content->isOk()) {
-                $content = $content->value();
-                // keeps the content mapped to the input name, if
-                // e.g. a group or inputs with multiple values are
-                // the provided template.
-                if (is_array($content) && !empty($content)) {
+        foreach ($this->overridePostInputNames($post_data, $clone->getName()) as $index => $input_data) {
+            $result = $template->withInput(new ArrayInputData($input_data))->getContent();
+            if ($result->isOk()) {
+                $content = $result->value();
+                // keeps the content mapped to the input name, if e.g. a group
+                // or inputs with multiple values are the provided template.
+                if (is_array($content)) {
                     foreach ($content as $key => $val) {
-                        $contents[$key] = $val;
+                        $contents[$index][$key] = $val;
                     }
                 } else {
                     $contents[] = $content;
                 }
             } else {
-                $error = true;
+                $contains_error = true;
             }
         }
 
-        if ($error) {
-            $clone->content = $clone->data_factory->error("error" /*$this->language->txt("ui_error_in_group")*/);
+        if ($contains_error) {
+            $clone->content = $clone->data_factory->error($this->language->txt("ui_error_in_group"));
         } else {
             $clone->content = $clone->applyOperationsTo($contents);
         }
@@ -205,9 +195,35 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
         return $clone;
     }
 
+    public function getValue() : array
+    {
+        $values = [];
+        foreach ($this->getDynamicInputs() as $key => $input) {
+            $values[$key] = $input->getValue();
+        }
+
+        return $values;
+    }
+
     // ==========================================
     // END OVERWRITTEN METHODS OF Input
     // ==========================================
+
+    protected function overridePostInputNames(array $post_data, string $parent_input_name) : array
+    {
+        $processable_data = [];
+        $dynamic_input_index = DynamicInputsTemplateNameSource::INDEX_PLACEHOLDER;
+        foreach ($post_data as $index => $input_data) {
+            $current_input_data = [];
+            foreach ($input_data as $input_name => $value) {
+                $current_input_data[$parent_input_name . "[$dynamic_input_index][$input_name]"] = $value;
+            }
+
+            $processable_data[$index] = $current_input_data;
+        }
+
+        return $processable_data;
+    }
 
     /**
      * @param mixed $value
