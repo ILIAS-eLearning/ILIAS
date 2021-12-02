@@ -1,11 +1,10 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
 
 /**
  * Class ilCtrlStructure holds the currently read control
  * structure.
- *
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
  */
 class ilCtrlStructure implements ilCtrlStructureInterface
@@ -19,7 +18,6 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * Holds parameter => value pairs mapped to the corresponding
      * or owning class.
-     *
      * @var array<string, array>
      */
     private array $temporary_parameters = [];
@@ -27,35 +25,30 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * Holds parameter names mapped to the corresponding or owning
      * class.
-     *
      * @var array<string, string[]>
      */
     private array $permanent_parameters = [];
 
     /**
      * Holds target URLs mapped to
-     *
      * @var array<string, string>
      */
     private array $return_targets = [];
 
     /**
      * Holds the currently read control structure as array data.
-     *
      * @var array<string, string|string[]>
      */
     private array $structure;
 
     /**
      * Holds a list of the currently gathered ilCtrl base classes.
-     *
      * @var string[]
      */
     private array $base_classes;
 
     /**
      * Holds the stored ilCtrlSecurityInterface information.
-     *
      * @var array<string, mixed>
      */
     private array $security;
@@ -63,32 +56,24 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * Holds the control structure mapped by other identifiers than
      * the classname (primarily CID).
-     *
      * @var array<string, string|string[]>
      */
     private array $mapped_structure = [];
 
     /**
      * ilCtrlStructure Constructor
-     *
      * @param array $ctrl_structure
-     * @param array $plugin_structure
      * @param array $base_classes
      * @param array $security_info
      */
     public function __construct(
         array $ctrl_structure,
-        array $plugin_structure,
         array $base_classes,
         array $security_info
     ) {
         $this->base_classes = $base_classes;
         $this->security = $security_info;
-        $this->structure = (new ilCtrlStructureHelper($base_classes, $ctrl_structure, $plugin_structure))
-            ->mergePluginStructure()
-            ->mapStructureReferences()
-            ->getStructure()
-        ;
+        $this->structure = $ctrl_structure;
     }
 
     /**
@@ -100,8 +85,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
         // and within the current baseclass array.
         return
             null !== $this->getClassCidByName($class_name) &&
-            in_array($this->lowercase($class_name), $this->base_classes, true)
-        ;
+            in_array($this->lowercase($class_name), $this->base_classes, true);
     }
 
     /**
@@ -288,7 +272,7 @@ class ilCtrlStructure implements ilCtrlStructureInterface
 
                     // reindex the array values.
                     $permanent_parameters =& $this->permanent_parameters[$class_name];
-                    $permanent_parameters =  array_values($permanent_parameters);
+                    $permanent_parameters = array_values($permanent_parameters);
                 }
             }
         }
@@ -362,7 +346,6 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * Returns a stored structure value of the given key from the
      * corresponding class mapped by CID.
-     *
      * @param string $identifier_key
      * @param string $cid
      * @return array|string|null
@@ -386,7 +369,6 @@ class ilCtrlStructure implements ilCtrlStructureInterface
     /**
      * Returns a stored structure value of the given key from the
      * corresponding class mapped by name.
-     *
      * @param string $identifier_key
      * @param string $class_name
      * @return array|string|null
@@ -403,7 +385,6 @@ class ilCtrlStructure implements ilCtrlStructureInterface
 
     /**
      * Helper function to lowercase strings.
-     *
      * @param string $string
      * @return string
      */
