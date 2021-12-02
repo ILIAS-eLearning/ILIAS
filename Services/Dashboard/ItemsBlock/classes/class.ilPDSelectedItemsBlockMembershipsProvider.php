@@ -45,13 +45,12 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
 
     /**
      * Gets all objects the current user is member of
-     * @param array $types
+     * @param $objTypes $types
      * @return array array of objects
      */
-    protected function getObjectsByMembership(array $types = []) : array
+    protected function getObjectsByMembership(array $objTypes = []) : array
     {
-        $objTypes = [];
-        if (!is_array($types) || $types === []) {
+        if (!is_array($objTypes) || $objTypes === []) {
             $objTypes = $this->repository->getValidObjectTypes();
         }
 
