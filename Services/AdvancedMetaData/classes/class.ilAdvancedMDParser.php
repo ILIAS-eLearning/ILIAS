@@ -33,7 +33,7 @@ class ilAdvancedMDParser extends ilSaxParser implements ilSaxSubsetParser
      */
     protected ilLogger $log;
     
-    public function __construct(int $a_obj_id, ilImportMapping $a_mapping)
+    public function __construct(string $a_obj_id, ilImportMapping $a_mapping)
     {
         parent::__construct();
 

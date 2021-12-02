@@ -32,7 +32,7 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
         
         // records with imported values should be selected
         foreach ($parser->getRecordIds() as $obj_id => $sub_types) {
-            ilContainer::_writeContainerSetting($obj_id, ilObjectServiceSettingsGUI::CUSTOM_METADATA, 1);
+            ilContainer::_writeContainerSetting($obj_id, ilObjectServiceSettingsGUI::CUSTOM_METADATA, "1");
             
             foreach ($sub_types as $sub_type => $rec_ids) {
                 ilAdvancedMDRecord::saveObjRecSelection($obj_id, $sub_type, array_unique($rec_ids), false);

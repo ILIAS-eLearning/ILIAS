@@ -1684,7 +1684,7 @@ class ilAdvancedMDSettingsGUI
                 
                 $perm = $this->getSubstitutionFieldPermissions($obj_type, $definition_id);
             
-                $title = ilAdvancedMDRecord::_lookupTitle($def->getRecordId());
+                $title = ilAdvancedMDRecord::_lookupTitle((int) $def->getRecordId());
                 $title = $def->getTitle() . ' (' . $title . ')';
                 
                 $check = new ilCheckboxInputGUI($title, 'show[' . $obj_type . '][' . $definition_id . ']');
