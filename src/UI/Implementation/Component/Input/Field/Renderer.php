@@ -4,7 +4,7 @@
 
 namespace ILIAS\UI\Implementation\Component\Input\Field;
 
-use ILIAS\Data\DateFormat as DateFormat;
+use ILIAS\Data\DateFormat;
 use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Component\Input\Field as F;
 use ILIAS\UI\Component\Input\Field as FI;
@@ -23,6 +23,11 @@ use stdClass;
  */
 class Renderer extends AbstractComponentRenderer
 {
+    public const DYNAMIC_INPUT_ID_PLACEHOLDER = 'DYNAMIC_INPUT_ID';
+    public const DYNAMIC_INPUT_BLOCK = 'block_dynamic_input';
+    public const DYNAMIC_INPUTS_VAR = 'DYNAMIC_INPUTS';
+    public const DYNAMIC_INPUT_VAR = 'DYNAMIC_INPUT';
+
     public const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
 
     public const DATEPICKER_FORMAT_MAPPING = [
@@ -103,7 +108,7 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\Url):
                 return $this->renderUrlField($component);
-            
+
             default:
                 throw new LogicException("Cannot render '" . get_class($component) . "'");
         }
@@ -693,6 +698,7 @@ class Renderer extends AbstractComponentRenderer
         $registry->register('./libs/bower/bower_components/dropzone/dist/min/dropzone.min.js');
         $registry->register('./src/UI/templates/js/Input/Field/file.js');
         $registry->register('./src/UI/templates/js/Input/Field/groups.js');
+        $registry->register('./src/UI/templates/js/Input/Field/dynamic_inputs_renderer.js');
     }
 
     /**
@@ -765,7 +771,8 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\DateTime::class,
             Component\Input\Field\Duration::class,
             Component\Input\Field\File::class,
-            Component\Input\Field\Url::class
+            Component\Input\Field\Url::class,
+            TestInput::class
         ];
     }
 
@@ -801,7 +808,6 @@ class Renderer extends AbstractComponentRenderer
         return $input;
     }
 
-    
     protected function renderUrlField(F\Url $component) : string
     {
         $tpl = $this->getTemplate("tpl.url.html", true, true);
@@ -810,5 +816,103 @@ class Renderer extends AbstractComponentRenderer
         $this->maybeDisable($component, $tpl);
         $id = $this->bindJSandApplyId($component, $tpl);
         return $this->wrapInFormContext($component, $tpl->get(), $id);
+    }
+
+    protected function addDynamicInputsAwareClientsideRenderer(
+        FI\DynamicInputsAware $input,
+        RendererInterface $default_renderer
+    ) : FI\DynamicInputsAware {
+        $dynamic_inputs_template = $input->getTemplateForDynamicInputs();
+        if (null === $dynamic_inputs_template) {
+            return $input;
+        }
+
+        $dynamic_inputs_template_html = $this->getDynamicInputsTemplateHtml($default_renderer, $input);
+        $dynamic_input_count = count($input->getDynamicInputs());
+
+        // note that $dynamic_inputs_template_html is in tilted single quotes (`),
+        // because otherwise the html syntax might collide with normal ones.
+        return $input->withAdditionalOnLoadCode(function ($id) use (
+            $dynamic_inputs_template_html,
+            $dynamic_input_count
+        ) {
+            return "
+                $(document).ready(function () {
+                    il.UI.Input.DynamicInputsRenderer.init(
+                        '$id', 
+                        `$dynamic_inputs_template_html`,
+                        '$dynamic_input_count'
+                    );
+                });
+            ";
+        });
+    }
+
+    protected function renderDynamicInputsAwareInputs(
+        FI\DynamicInputsAware $input,
+        RendererInterface $default_renderer,
+        Template $parent_template
+    ) : void {
+        $dynamic_inputs_template = $input->getTemplateForDynamicInputs();
+        if (null !== $dynamic_inputs_template) {
+            $subordinate_template = $this->getTemplate('tpl.dynamic_inputs.html', true, true);
+            foreach ($input->getDynamicInputs() as $dynamic_input) {
+                $subordinate_template = $this->renderDynamicInput(
+                    $default_renderer,
+                    $dynamic_input,
+                    $subordinate_template
+                );
+            }
+
+            // add the serverside rendered inputs to the (parent) input's html.
+            $parent_template->setVariable(self::DYNAMIC_INPUTS_VAR, $subordinate_template->get());
+        }
+    }
+
+    protected function getDynamicInputsTemplateHtml(
+        RendererInterface $default_renderer,
+        FI\DynamicInputsAware $input
+    ) : string {
+        $dynamic_inputs_template = $input->getTemplateForDynamicInputs();
+        if (null === $dynamic_inputs_template) {
+            return '';
+        }
+
+        $tpl = $this->getTemplate('tpl.dynamic_inputs.html', true, true);
+        $tpl = $this->renderDynamicInput(
+            $default_renderer,
+            $dynamic_inputs_template,
+            $tpl
+        );
+
+        // only retrieve current block, instead of the whole template,
+        // because we need to pass the outer html (dynamic input container)
+        // of the template too.
+        $dynamic_inputs_template_html = $tpl->get(self::DYNAMIC_INPUT_BLOCK);
+
+        preg_match_all('/(?<=id=")(.*?)(?=\s*")/', $dynamic_inputs_template_html, $matches);
+        if (!empty($matches[0])) {
+            foreach ($matches[0] as $index => $js_id) {
+                $dynamic_inputs_template_html = str_replace(
+                    $js_id,
+                    self::DYNAMIC_INPUT_ID_PLACEHOLDER . "_$index",
+                    $dynamic_inputs_template_html
+                );
+            }
+        }
+
+        return $dynamic_inputs_template_html;
+    }
+
+    protected function renderDynamicInput(
+        RendererInterface $default_renderer,
+        FI\Input $input,
+        Template $tpl
+    ) : Template {
+        $tpl->setCurrentBlock(self::DYNAMIC_INPUT_BLOCK);
+        $tpl->setVariable(self::DYNAMIC_INPUT_VAR, $default_renderer->render($input));
+        $tpl->parseCurrentBlock();
+
+        return $tpl;
     }
 }

@@ -8,12 +8,15 @@
 var il = il || {};
 il.UI = il.UI || {};
 il.UI.Input = il.UI.Input || {};
-
 (function ($, Input) {
   Input.DynamicInputsRenderer = (function ($) {
-    const INPUT_SELECTOR = 'input, select, textarea';
     const INPUT_INDEX_PLACEHOLDER = 'DYNAMIC_INPUT_INDEX';
     const INPUT_ID_PLACEHOLDER = 'DYNAMIC_INPUT_ID';
+
+    const SELECTORS = {
+      dynamic_inputs_list: '.ui-input-dynamic-inputs-list',
+      dynamic_input: '.ui-input-dynamic-inputs-input',
+    };
 
     /**
      * @type {*[]}
@@ -24,94 +27,84 @@ il.UI.Input = il.UI.Input || {};
      * @param {string} input_id
      */
     let render = function (input_id) {
-      abortIfUndefined(input_id);
+      // abort if the DynamicInputsAware input was not yet registered.
+      if (typeof dynamic_inputs[input_id] === 'undefined') {
+        console.error(`Error: tried rendering dynamic sub input for '${input_id}' which is unregistered.`);
+        return;
+      }
 
-      $(`#${input_id} > ${dynamic_inputs[input_id].list_selector}`).append(
-        indexDynamicInput(
-          dynamic_inputs[input_id].template,
-          dynamic_inputs[input_id].index
-        )
-      );
+      let template = dynamic_inputs[input_id].template_html;
 
-      dynamic_inputs[input_id].index++;
-    }
+      template = addInputTemplateIndexes(template, dynamic_inputs[input_id].index++);
+      template = addInputTemplateIds(template, dynamic_inputs[input_id].sub_input_count);
 
-    /**
-     * @param {string} input_id
-     * @param {int} index
-     */
-    let remove = function (input_id, index) {
-      abortIfUndefined(input_id);
-
-      let input = $(`#${input_id} > ${dynamic_inputs[input_id].list_selector}`).find(``);
+      $(`#${input_id} ${SELECTORS.dynamic_inputs_list}`).append($(template));
     }
 
     /**
      * @param {string} input_id
      * @param {string} template_html
-     * @param {string} list_selector (including '.' or '#')
+     * @param {int} input_count
      */
-    let init = function (input_id, template_html, list_selector) {
+    let init = function (input_id, template_html, input_count) {
+      // abort if the DynamicInputsAware input was already registered.
       if (typeof dynamic_inputs[input_id] !== 'undefined') {
+        console.error(`Error: tried to register input '${input_id}' as dynamic input twice.`);
         return;
       }
 
-      let current_dynamic_inputs = $(`#${input_id} ${list_selector}`).find(INPUT_SELECTOR);
-      let count = current_dynamic_inputs.length;
-
-      console.log("here:");
-      console.log(`#${input_id} ${list_selector}`);
-      console.log($(`#${input_id} ${list_selector}`));
-
-      if (0 < count) {
-        indexServersideInputs(current_dynamic_inputs);
-      }
+      let sub_inputs = $(template_html).find(':input');
+      let index = (0 < input_count) ? (input_count - 1) : input_count;
 
       dynamic_inputs[input_id] = {
-        template: replaceInputIdWithPlaceholder(template_html),
-        index: (0 < count) ? (count - 1) : count,
-        list_selector: list_selector,
+        template_html: template_html,
+        sub_input_count: sub_inputs.length,
+        index: index,
       };
     }
 
     /**
      * @param {string} template_html
-     * @return {string}
+     * @param {int} sub_input_count
      */
-    let replaceInputIdWithPlaceholder = function (template_html) {
-      let template = $(template_html);
-
-    }
-
-    /**
-     * @param {[]} inputs
-     */
-    let indexServersideInputs = function (inputs) {
-      for (let i = 0; i < count; i++) {
-        $(inputs[i]).attr(
-          'name',
-          input.attr('name').replace(INPUT_INDEX_PLACEHOLDER, String(i))
-        )
+    let addInputTemplateIds = function (template_html, sub_input_count) {
+      if (1 >= sub_input_count) {
+        return replaceAll(template_html, INPUT_ID_PLACEHOLDER, generateId());
       }
-    }
 
-    /**
-     * @param {string} input_id
-     */
-    let abortIfUndefined = function (input_id) {
-      if (typeof dynamic_inputs[input_id] === 'undefined') {
-        console.error(`Error: cannot render dynamic input for '${input_id}' before initialized.`);
-        return;
+      // Ids must not be all the same, therefore we need to generate
+      // one for each sub-input contained in the template.
+      for (let i = 0; i < sub_input_count; i++) {
+        template_html = replaceAll(
+          template_html,
+          `${INPUT_ID_PLACEHOLDER}_${i}`,
+          generateId()
+        );
       }
+
+      console.log()
+
+      return template_html;
     }
 
     /**
-     * @param {string} template
+     * @param {string} template_html
      * @param {int} index
+     */
+    let addInputTemplateIndexes = function (template_html, index) {
+      // indexes will be all the same, therefore we don't need
+      // to distinguish inputs with multiple sub inputs.
+      return replaceAll(template_html, INPUT_INDEX_PLACEHOLDER, String(index));
+    }
+
+    /**
+     * @param {string} string
+     * @param {string} expression
+     * @param {string} replacement
      * @return {string}
      */
-    let indexDynamicInput = function (template, index) {
-      return template.replace('DYNAMIC_INPUT_INDEX', String(index));
+    let replaceAll = function (string, expression, replacement) {
+      return string.replace(new RegExp(expression, 'g'), replacement);
     }
 
     /**
@@ -123,7 +116,6 @@ il.UI.Input = il.UI.Input || {};
 
     return {
       render: render,
-      remove: remove,
       init: init,
     }
   })($)

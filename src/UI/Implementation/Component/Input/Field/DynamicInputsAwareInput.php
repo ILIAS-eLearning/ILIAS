@@ -16,6 +16,8 @@ use ILIAS\Data\Result\Ok;
 use InvalidArgumentException;
 use LogicException;
 use ilLanguage;
+use Closure;
+use ILIAS\UI\Implementation\Component\Input\DynamicInputsTemplateNameSource;
 
 /**
  * @author Thibeau Fuhrer <thf@studer-raimann.ch>
@@ -95,7 +97,7 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
         }
 
         if (!$this->isDynamicInputsValueOk($value)) {
-            throw new InvalidArgumentException("Display value does not match input type.");
+            throw new InvalidArgumentException("Display value does not match input(-template) type.");
         }
 
         $clone = clone $this;
@@ -125,14 +127,18 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
     public function withNameFrom(NameSource $source) : self
     {
         $clone = parent::withNameFrom($source);
-        $name_source = new DynamicInputsNameSource($clone->getName());
 
         if (null !== $clone->dynamic_input_template) {
-            $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom($name_source);
+            $clone->dynamic_input_template = $clone->dynamic_input_template->withNameFrom(
+                new DynamicInputsTemplateNameSource($clone->getName())
+            );
         }
 
+        $count = 0;
         foreach ($clone->dynamic_inputs as $key => $input) {
-            $clone->dynamic_inputs[$key] = $input->withNameFrom($name_source);
+            $clone->dynamic_inputs[$key] = $input->withNameFrom(
+                new DynamicInputsNameSource($clone->getName(), $count++)
+            );
         }
 
         return $clone;
@@ -148,7 +154,7 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
         $post_data = $post_data->getOr($clone->getName(), null);
         $template = $clone->getTemplateForDynamicInputs();
 
-        if (null === $post_data || $template instanceof NullInput) {
+        if (null === $post_data || null === $template) {
             $clone->content = new Ok(null);
             return $clone;
         }

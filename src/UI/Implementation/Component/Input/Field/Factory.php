@@ -177,4 +177,9 @@ class Factory implements Field\Factory
     {
         return new Link($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
     }
+
+    public function test() : TestInput
+    {
+        return new TestInput($this->lng, $this->data_factory, $this->refinery, "lbl", null);
+    }
 }
