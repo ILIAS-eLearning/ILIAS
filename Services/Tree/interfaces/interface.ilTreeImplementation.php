@@ -21,7 +21,7 @@ interface ilTreeImplementation
      */
     public function getSubTreeQuery(
         array $a_node,
-        mixed $a_types = null,
+        array $a_types = [],
         bool $a_force_join_reference = true,
         array $a_fields = []
     ) : string;

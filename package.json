@@ -45,7 +45,7 @@
     "rollup-plugin-terser": "^6.1.0"
   },
   "scripts": {
-    "test": "mocha --require esm"
+    "test": "mocha --recursive --config tests/mocha.config.js --require esm"
   },
   "repository": {
     "type": "git",

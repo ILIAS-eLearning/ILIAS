@@ -195,7 +195,6 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
         
         $this->addCustomInfoFields($info);
                 
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $record_gui = new ilAdvancedMDRecordGUI(
             ilAdvancedMDRecordGUI::MODE_INFO,
             $this->getType(),
@@ -276,7 +275,6 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
         
         $this->addCustomEditForm($form);
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $record_gui = new ilAdvancedMDRecordGUI(
             ilAdvancedMDRecordGUI::MODE_EDITOR,
             $this->getType(),
@@ -319,7 +317,6 @@ abstract class ilRemoteObjectBaseGUI extends ilObject2GUI
             $this->object->update();
 
             // Save advanced meta data
-            include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
             $record_gui = new ilAdvancedMDRecordGUI(
                 ilAdvancedMDRecordGUI::MODE_EDITOR,
                 $this->getType(),

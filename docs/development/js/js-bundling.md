@@ -23,7 +23,7 @@ export default {
   input: './src/component.js',
   output: {
     file: './dist/component.js',
-    format: 'es',
+    format: 'iife',
     sourcemap: 'inline'             // optional: creates inline source map
   }
 };

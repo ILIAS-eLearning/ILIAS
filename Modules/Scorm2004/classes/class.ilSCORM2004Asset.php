@@ -254,7 +254,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $tree = new ilTree($this->slm_id);
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($this->getId()), true, 'page') as $page) {
+        foreach ($tree->getSubTree($tree->getNodeData($this->getId()), true, ['page']) as $page) {
             $page_obj = new ilSCORM2004Page($page["obj_id"]);
 
             $q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
@@ -375,7 +375,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         // init export (this initialises glossary template)
         ilSCORM2004PageGUI::initExport();
         $terms = $this->getGlossaryTermIds();
-        $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, 'page');
+        $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, ['page']);
         $sco_q_ids = array();
         foreach ($pages as $page) {
             //echo(print_r($page));
@@ -685,7 +685,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
 
-        $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, 'page');
+        $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, ['page']);
         foreach ($pages as $page) {
             $expLog->write(date("[y-m-d H:i:s] ") . "Page Object " . $page["obj_id"]);
 

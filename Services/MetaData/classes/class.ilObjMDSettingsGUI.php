@@ -87,7 +87,6 @@ class ilObjMDSettingsGUI extends ilObjectGUI
         switch ($next_class) {
             case 'iladvancedmdsettingsgui':
                 $this->tabs_gui->setTabActive('md_advanced');
-                include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSettingsGUI.php');
                 $adv_md = new ilAdvancedMDSettingsGUI();
                 $ret = $this->ctrl->forwardCommand($adv_md);
                 break;

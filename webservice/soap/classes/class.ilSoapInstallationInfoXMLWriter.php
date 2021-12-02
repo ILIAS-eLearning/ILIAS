@@ -167,9 +167,6 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         
         if ($this->exportAdvMDDefs) {
             // create advanced meta data record xml
-            include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-            include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordXMLWriter.php';
-            
             $record_ids = array();
             $record_types = ilAdvancedMDRecord::_getAssignableObjectTypes();
             
@@ -185,7 +182,7 @@ class ilSoapInstallationInfoXMLWriter extends ilXmlWriter
         
             if (count($record_ids) > 0) {
                 foreach ($record_ids as $record_id) {
-                    $record_obj = ilAdvancedMDRecord::_getInstanceByrecordId($record_id);
+                    $record_obj = ilAdvancedMDRecord::_getInstanceByrecordId((int) $record_id);
                     $record_obj->toXML($this);
                 }
             }

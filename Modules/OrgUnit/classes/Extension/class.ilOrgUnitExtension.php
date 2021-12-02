@@ -166,6 +166,6 @@ abstract class ilOrgUnitExtension extends ilObjectPlugin
     {
         $node = $this->tree->getNodeData($this->parent_ref_id);
 
-        return $this->tree->getSubTree($node, $with_data, $type);
+        return $this->tree->getSubTree($node, $with_data, [$type]);
     }
 }

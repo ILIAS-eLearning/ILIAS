@@ -294,7 +294,6 @@ class ilObjCourseGUI extends ilContainerGUI
             );
         }
 
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'crs', $this->object->getId());
         $record_gui->setInfoObject($info);
         $record_gui->parse();
@@ -713,7 +712,6 @@ class ilObjCourseGUI extends ilContainerGUI
         $area->setCols(80);
         $form->addItem($area);
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'crs', $this->object->getId());
         $this->record_gui->setPropertyForm($form);
         $this->record_gui->parse();

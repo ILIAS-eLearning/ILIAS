@@ -231,7 +231,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
         $questions = [];
-        foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, 'page') as $page) {
+        foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, ['page']) as $page) {
             // get question ids
             $qids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
             if (count($qids) > 0) {
@@ -427,7 +427,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $terms = $this->node_object->getGlossaryTermIds();
         
         // render page
-        foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, 'page') as $page) {
+        foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, ['page']) as $page) {
             $page_obj = new ilSCORM2004PageGUI(
                 $this->node_object->getType(),
                 $page["obj_id"],
@@ -657,7 +657,7 @@ class ilSCORM2004ScoGUI extends ilSCORM2004NodeGUI
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
         $i = 0;
-        foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, 'page') as $page) {
+        foreach ($tree->getSubTree($tree->getNodeData($this->node_object->getId()), true, ['page']) as $page) {
             $page_obj = new ilSCORM2004Page($page["obj_id"]);
             $page_obj->buildDom();
             $mob_ids = $page_obj->collectMediaObjects(false);

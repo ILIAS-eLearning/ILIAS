@@ -379,6 +379,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             case "ilmediapoolimportgui":
                 $this->prepareOutput();
                 $this->addHeaderAction();
+                $this->checkPermission("write");
                 $ilTabs->activateTab("import");
                 $gui = new ilMediaPoolImportGUI($this->object);
                 $this->ctrl->forwardCommand($gui);

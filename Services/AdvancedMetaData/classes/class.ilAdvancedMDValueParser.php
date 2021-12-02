@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -30,9 +30,6 @@
 * @ingroup ServicesAdvancedMetaData
 */
 
-include_once('Services/Utilities/interfaces/interface.ilSaxSubsetParser.php');
-include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 
 class ilAdvancedMDValueParser implements ilSaxSubsetParser
 {

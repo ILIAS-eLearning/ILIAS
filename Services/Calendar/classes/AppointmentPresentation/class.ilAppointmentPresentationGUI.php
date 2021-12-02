@@ -551,7 +551,6 @@ class ilAppointmentPresentationGUI implements ilCalendarAppointmentPresentation
     public function addMetaData($a_obj_type, $a_obj_id, $a_sub_obj_type = null, $a_sub_obj_id = null)
     {
         //TODO: Remove the hack in ilADTActiveRecordByType.php.
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $record_gui = new ilAdvancedMDRecordGUI(
             ilAdvancedMDRecordGUI::MODE_APP_PRESENTATION,
             $a_obj_type,

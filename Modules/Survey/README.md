@@ -273,7 +273,7 @@ If the constraint is met, show the question.
   * finished_id: autoincrement and pk of this table
   * survey_fi: survey -> svy_svy
   * user_fi: user -> usr_data (and object_data)
-  * anonymous_id:
+  * anonymous_id: this is the survey key, aka code, (NOT the field anonymous_id) from table svy_anonymous
   * state: 1 if finished? 0 otherwise?
   * lastpage:
   * appr_id:

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -30,7 +30,6 @@
 * @ingroup ServicesAdvancedMetaData
 */
 
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilAdvancedMDSearch extends ilAbstractSearch
 {

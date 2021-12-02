@@ -856,7 +856,7 @@ class ilMDEditorGUI
         $tree = new ilTree($module_id);
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, 'sco') as $sco) {
+        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
             $sco_md = new ilMD($module_id, $sco['obj_id'], 'sco');
             if ($_POST[$request] != "") {
                 $sco_md_section;
