@@ -32,7 +32,6 @@ final class InitCtrlService
         try {
             $ctrl_structure = new ilCtrlStructure(
                 require $ilias_path . ilCtrlStructureArtifactObjective::ARTIFACT_PATH,
-                require $ilias_path . ilCtrlPluginStructureArtifactObjective::ARTIFACT_PATH,
                 require $ilias_path . ilCtrlBaseClassArtifactObjective::ARTIFACT_PATH,
                 require $ilias_path . ilCtrlSecurityArtifactObjective::ARTIFACT_PATH
             );
