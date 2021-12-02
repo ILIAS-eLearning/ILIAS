@@ -862,7 +862,7 @@ class ilAdvancedSelectionListGUI
         $tpl->setVariable("TXT_SEL_TOP", $this->getListTitle());
         if ($this->getListTitle() == "" || $this->getAriaListTitle() != "") {
             $aria_title = ($this->getAriaListTitle() != "")
-                ? $this->getAriaListTitle() != ""
+                ? $this->getAriaListTitle()
                 : $this->lng->txt("actions");
             $tpl->setVariable("TXT_ARIA_TOP", $aria_title);
         }

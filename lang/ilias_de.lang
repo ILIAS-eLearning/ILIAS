@@ -16273,3 +16273,4 @@ common#:#il_lti_instructor#:#LTI Instructor
 rbac#:#il_lti_global_role#:#LTI User
 prg#:#prgr_new#:#Create Study Programme Link###20 10 2021 new variable
 prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###20 10 2021 new variable
+common#:#actions_for#:#Aktionen für %s

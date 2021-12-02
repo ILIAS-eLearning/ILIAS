@@ -1243,7 +1243,11 @@ abstract class ilBlockGUI
 
 
         if (count($actions) > 0) {
-            $actions = $factory->dropdown()->standard($actions);
+            $actions = $factory->dropdown()->standard($actions)
+                ->withAriaLabel(sprintf(
+                    $this->lng->txt('actions_for'),
+                    $this->getTitle()
+                ));
             $panel = $panel->withActions($actions);
         }
 
