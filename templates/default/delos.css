@@ -15236,6 +15236,9 @@ input.ilMainMenuSearch {
   margin: 0;
   padding: 0;
 }
+#il_search_toolbar > div {
+  padding-top: 6px;
+}
 #il_search_toolbar div.ilFormOption {
   width: auto;
 }
@@ -17197,7 +17200,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #awareness-content .media-body h4,
 #awareness-content .media-body p {
-  color: #757575;
+  color: #7c7c7c;
   font-size: 12px;
   padding: 5px 3px 0 3px;
   line-height: 1em;
@@ -17216,7 +17219,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
   font-size: 12px;
 }
 #awareness-content .dropdown-menu a {
-  color: #757575;
+  color: #7c7c7c;
 }
 #awareness-content .dropdown-menu a:hover {
   color: #000000;
@@ -17280,7 +17283,7 @@ body.ilPrtfPdfBody .ilPCMyCoursesToggle img {
 }
 #awareness-content .ilHighlighted {
   background-color: #e2e8ef;
-  color: #757575;
+  color: #7c7c7c;
 }
 .ilAwrnBadgeHidden {
   visibility: hidden;
