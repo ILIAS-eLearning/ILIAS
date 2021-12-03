@@ -116,20 +116,21 @@ class ilAuthModeDetermination
     {
         $this->kind = $a_kind;
     }
-    
-    /**
-     * get auth mode sequence
-     *
-     * @access public
-     *
-     */
-    public function getAuthModeSequence($a_username = '')
+
+    public function getAuthModeSequence($a_username = '') : array
     {
-        if (!strlen($a_username)) {
-            return $this->position ? $this->position : array();
+        if ($a_username === '') {
+            return $this->position ? array_filter($this->position, static function ($auth_key) : bool {
+                $serverId = ilLDAPServer::getServerIdByAuthMode($auth_key);
+                if ($serverId) {
+                    return ilLDAPServer::getInstanceByServerId($serverId)->isAuthenticationEnabled();
+                }
+
+                return true;
+            }) : [];
         }
-        $sorted = array();
-        
+
+        $sorted = [];
         foreach ($this->position as $auth_key) {
             include_once './Services/LDAP/classes/class.ilLDAPServer.php';
             $sid = ilLDAPServer::getServerIdByAuthMode($auth_key);
@@ -161,7 +162,7 @@ class ilAuthModeDetermination
             $sorted[] = $auth_key;
         }
         
-        return (array) $sorted;
+        return $sorted;
     }
     
     /**
