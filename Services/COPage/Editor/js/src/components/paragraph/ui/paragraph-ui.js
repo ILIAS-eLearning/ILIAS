@@ -1032,13 +1032,13 @@ export default class ParagraphUI {
 
   setSectionClass(pcid, characteristic) {
     const currentPar = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
-    this.log(currentPar);
     const parentComp = currentPar.parentNode.closest("[data-copg-ed-type='pc-area']");
-    this.log(parentComp);
     if (parentComp && parentComp.dataset.cname === "Section") {
-      parentComp.childNodes[1].className = "ilc_section_" + characteristic + " ilCOPageSection";
+      const contentDiv = parentComp.querySelector("div.ilCOPageSection,a.ilCOPageSection");
+      contentDiv.className = "ilc_section_" + characteristic + " ilCOPageSection";
     }
     this.setSectionClassSelector(characteristic);
+    this.tinyWrapper.synchInputRegion();
   }
 
   /**
@@ -1050,7 +1050,8 @@ export default class ParagraphUI {
     const currentPar = document.querySelector("[data-copg-ed-type='pc-area'][data-pcid='" + pcid + "']");
     const parentComp = currentPar.parentNode.closest("[data-copg-ed-type='pc-area']");
     if (parentComp && parentComp.dataset.cname === "Section") {
-      parentComp.childNodes[1].classList.forEach((c) => {
+      const contentDiv = parentComp.querySelector("div.ilCOPageSection,a.ilCOPageSection");
+      contentDiv.classList.forEach((c) => {
         if (c.substr(0, 12) === "ilc_section_") {
           secClass = c.substr(12);
         }
