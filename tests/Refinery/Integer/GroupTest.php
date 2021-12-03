@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Tests\Refinery\Integer;
@@ -8,15 +9,11 @@ use ILIAS\Refinery\Integer\Group;
 use ILIAS\Refinery\Integer\GreaterThan;
 use ILIAS\Refinery\Integer\LessThan;
 use ILIAS\Tests\Refinery\TestCase;
-
-require_once('./libs/composer/vendor/autoload.php');
+use ILIAS\Refinery\Integer\GreaterThanOrEqual;
 
 class GroupTest extends TestCase
 {
-    /**
-     * @var Group
-     */
-    private $group;
+    private Group $group;
 
     public function setUp() : void
     {
@@ -28,14 +25,20 @@ class GroupTest extends TestCase
         $this->group = new Group($dataFactory, $language);
     }
 
-    public function testGreaterThanInstance()
+    public function testGreaterThanInstance() : void
     {
         $instance = $this->group->isGreaterThan(42);
         $this->assertInstanceOf(GreaterThan::class, $instance);
     }
-    public function testLowerThanInstance()
+    public function testLowerThanInstance() : void
     {
         $instance = $this->group->isLessThan(42);
         $this->assertInstanceOf(LessThan::class, $instance);
+    }
+
+    public function testGreaterThanOrEqualInstance() : void
+    {
+        $instance = $this->group->isGreaterThanOrEqual(42);
+        $this->assertInstanceOf(GreaterThanOrEqual::class, $instance);
     }
 }
