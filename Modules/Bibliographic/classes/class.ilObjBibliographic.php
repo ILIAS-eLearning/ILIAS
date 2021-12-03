@@ -125,6 +125,7 @@ class ilObjBibliographic extends ilObject2
                 "file_type" => ["integer", $this->getFilename() ? $this->determineFileTypeByFileName($this->getFilename()) : ""],
             ]
         );
+        $this->parseFileToDatabase();
     }
 
 
