@@ -405,6 +405,11 @@ class ilAdvancedMDRecord
         $res = $ilDB->manipulate($query);
     }
 
+    protected function setRecordId(int $record_id) : void
+    {
+        $this->record_id = $record_id;
+    }
+
     /**
      * @param string $language_code
      */
