@@ -203,10 +203,10 @@ EOT;
         $expected = <<<EOT
 <div class="il-item il-std-item ">
 	<div class="row">
-		<div class="col-sm-3">
+		<div class="col-xs-2 col-sm-3">
 			<img src="src" class="img-standard" alt="str" />
 		</div>
-		<div class="col-sm-9">
+		<div class="col-xs-10 col-sm-9">
             <div class="il-item-title">title</div>
 		</div>
 	</div>
