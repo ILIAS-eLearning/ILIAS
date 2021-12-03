@@ -7830,6 +7830,9 @@ ul.dropdown-menu > li > .btn:focus {
     margin: 0;
     border-bottom: 0;
   }
+  .il-panel-listing-std-container .il-item .media-left {
+    min-width: 44px;
+  }
   .panel-secondary .il-item .media-body {
     width: auto;
   }
