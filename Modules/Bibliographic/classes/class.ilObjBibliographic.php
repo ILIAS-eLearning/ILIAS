@@ -174,6 +174,7 @@ class ilObjBibliographic extends ilObject2
                 "rid" => ["string", ($rid = $this->getResourceId()) ? $rid->serialize() : ''],
             ]
         );
+        $this->parseFileToDatabase();
     }
 
     protected function doRead()
