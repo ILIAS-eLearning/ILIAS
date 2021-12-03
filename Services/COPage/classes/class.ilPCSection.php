@@ -359,10 +359,9 @@ class ilPCSection extends ilPageContent
             $id = explode("_", $access_attr[3]);
             $section_nr = $access_attr[6];
             $access = true;
-
             if (in_array($id[1], array("", 0, IL_INST_ID)) && $id[3] > 0) {
                 if ($access_attr[5] == "no_read") {
-                    $access = !$ilAccess->checkAccess($access_attr[5], "", $id[3]);
+                    $access = !$ilAccess->checkAccess("read", "", $id[3]);
                 } else {
                     $access = $ilAccess->checkAccess($access_attr[5], "", $id[3]);
                 }
@@ -381,7 +380,6 @@ class ilPCSection extends ilPageContent
         }
 
         $a_html = str_replace("{{{{{Section;Access}}}}}", "", $a_html);
-
         return $a_html;
     }
 
