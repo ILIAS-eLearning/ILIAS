@@ -14124,7 +14124,7 @@ rbac#:#news_add_news#:#Add News
 rbac#:#grp_news_add_news#:#Add and edit own news entries in group
 news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
 obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
+obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view. Users can subscribe for notifications, if the news block or the timeline are activated.
 obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline_landing_page#:#Landing Page
