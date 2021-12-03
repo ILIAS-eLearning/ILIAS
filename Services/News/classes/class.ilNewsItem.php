@@ -876,6 +876,7 @@ class ilNewsItem
         // get starting date
         $starting_date = "";
         if ($obj_type == "grp" || $obj_type == "crs") {
+            // see #31471, #30687, and ilMembershipNotification
             if (!ilContainer::_lookupContainerSetting(
                 $obj_id,
                 'cont_use_news',
