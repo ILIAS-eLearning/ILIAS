@@ -349,7 +349,7 @@ class ilAdvancedMDRecordGUI
     public function importSearchForm() : ?array
     {
         if (!is_array($this->search_form)) {
-            return;
+            return null;
         }
         
         $valid = true;
