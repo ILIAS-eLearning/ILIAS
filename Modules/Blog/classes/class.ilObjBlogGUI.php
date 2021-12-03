@@ -691,10 +691,11 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 if ($this->prvm) {
                     $cmd = "preview" . (($this->prvm == "fsc") ? "Fullscreen" : "Embedded");
                 }
+                $ret = $ilCtrl->forwardCommand($bpost_gui); // needs prvm setParameter call
                 if (in_array($cmd, array("previewFullscreen", "previewEmbedded"))) {
+                    // resets prvm parameter
                     $this->renderToolbarNavigation($this->items, true);
                 }
-                $ret = $ilCtrl->forwardCommand($bpost_gui);
                 if ($ret != "") {
 
                     // $is_owner = $this->object->getOwner() == $ilUser->getId();
