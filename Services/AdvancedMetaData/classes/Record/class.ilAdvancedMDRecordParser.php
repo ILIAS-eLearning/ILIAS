@@ -25,74 +25,53 @@
 * SAX based XML parser for record import files
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
 * @ingroup ServicesAdvancedMetaData
+ * @todo remove update mode completely
 */
-
-
 class ilAdvancedMDRecordParser extends ilSaxParser
 {
-    const MODE_UPDATE = 1;
-    const MODE_INSERT = 2;
-    const MODE_UPDATE_VALIDATION = 3;
-    const MODE_INSERT_VALIDATION = 4;
+    public const MODE_UNDEFINED = 0;
+    public const MODE_UPDATE = 1;
+    public const MODE_INSERT = 2;
+    // update is not supported anymore
+    public const MODE_UPDATE_VALIDATION = 3;
+    public const MODE_INSERT_VALIDATION = 4;
     
-    private $mode;
+    private int $mode = self::MODE_UNDEFINED;
     
-    private $fields = array();
+    private array $fields = [];
     
-    private $is_error = false;
-    private $error_msg = array();
-    
-    protected $context; // [array]
-    
-    protected $scopes = [];
+    private bool $is_error = false;
+    private array $error_msg = [];
 
-    protected $translations = [];
-    protected $translation_language = '';
+    protected array $context;
+    protected array $scopes = [];
 
-    protected $field_translations = [];
-    protected $field_translation_language = '';
+    protected array $translations = [];
+    protected string $translation_language = '';
 
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    protected array $field_translations = [];
+    protected string $field_translation_language = '';
 
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param string xml file
-     *
-     */
-    public function __construct($a_file)
+    private array $rec_map;
+    protected ?ilAdvancedMDRecord $current_record = null;
+    protected ?ilAdvancedMDFieldDefinition $current_field = null;
+    protected string $cdata = '';
+
+    protected ilLogger $log;
+
+    public function __construct(string $a_file)
     {
         parent::__construct($a_file, true);
         $this->log = ilLoggerFactory::getLogger('amet');
     }
     
-    /**
-     * set parsing mode
-     *
-     * @access public
-     * @param int MODE_VALIDATION, MODE_UPDATE or MODE_INSERT
-     *
-     */
-    public function setMode($a_mode)
+    public function setMode(int $a_mode) : void
     {
         $this->mode = $a_mode;
     }
     
-    /**
-     * get mode
-     *
-     * @access public
-     *
-     */
-    public function getMode()
+    public function getMode() : int
     {
         return $this->mode;
     }
@@ -151,7 +130,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                     ilObject::_exists($parsed_id['id'], true, $parsed_id['type'])
                 ) {
                     $scope = new ilAdvancedMDRecordScope();
-                    $scope->setRefId($parsed_id['id']);
+                    $scope->setRefId((int) $parsed_id['id']);
                     $this->scopes[] = $scope;
                 }
                 break;
@@ -164,7 +143,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 if (!strlen($a_attribs['id']) or !isset($a_attribs['active'])) {
                     $this->appendErrorMessage('Missing XML attribute for element "Record".');
                 }
-                if (!$this->initRecordObject($a_attribs['id'])) {
+                if (!$this->initRecordObject((int) $a_attribs['id'])) {
                     $this->appendErrorMessage('Invalid attribute Id given for element "Record".');
                 }
                 $this->getCurrentRecord()->setActive($a_attribs['active']);
@@ -208,11 +187,11 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 if (!strlen($a_attribs['id']) or !isset($a_attribs['searchable']) or !isset($a_attribs['fieldType'])) {
                     $this->appendErrorMessage('Missing XML attribute for element "Field".');
                 }
-                if (!$this->initFieldObject($a_attribs['id'], $a_attribs['fieldType'])) {
+                if (!$this->initFieldObject((int) $a_attribs['id'], (string) $a_attribs['fieldType'])) {
                     $this->appendErrorMessage('Invalid attribute Id given for element "Record".');
                 }
                 $this->getCurrentField()->setImportId($a_attribs['id']);
-                $this->getCurrentField()->setSearchable($a_attribs['searchable'] == 'Yes' ? true : false);
+                $this->getCurrentField()->setSearchable($a_attribs['searchable'] == 'Yes');
                 break;
                 
             case 'FieldTitle':
@@ -256,7 +235,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 $parts = explode(":", trim($this->cdata));
                 $this->getCurrentRecord()->appendAssignedObjectType($parts[0], $parts[1]);
                 break;
-                
+
             case 'Field':
                 break;
 
@@ -311,14 +290,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         }
     }
     
-    /**
-     * Init record object
-     *
-     * @param string import id
-     * @access private
-     *
-     */
-    private function initRecordObject($a_id)
+    private function initRecordObject(int $a_id) : bool
     {
         switch ($this->getMode()) {
             case self::MODE_INSERT:
@@ -329,18 +301,13 @@ class ilAdvancedMDRecordParser extends ilSaxParser
             default:
                 $this->current_record = ilAdvancedMDRecord::_getInstanceByRecordId($this->extractRecordId($a_id));
                 return true;
-                break;
         }
     }
     
     /**
      * Init field definition object
-     *
-     * @access private
-     * @param string import id
-     *
      */
-    private function initFieldObject($a_id, $a_type)
+    private function initFieldObject(int $a_id, string $a_type)
     {
         switch ($this->getMode()) {
             case self::MODE_INSERT:
@@ -350,43 +317,24 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 return true;
             
             default:
-                // ??? nonsense
-                $this->current_field = ilAdvancedMDRecord::_getInstanceByFieldId($this->extractFieldId($a_id));
-                return true;
-                break;
+                throw new InvalidArgumentException('Current parsing mode is not supported. Mode: ' . (string) $this->getMode());
         }
     }
 
-    /**
-     * @return ilAdvancedMDRecord
-     */
-    private function getCurrentRecord() : ilAdvancedMDRecord
+    private function getCurrentRecord() : ?ilAdvancedMDRecord
     {
         return $this->current_record;
     }
     
-    /**
-     * get current field definition
-     * @access private
-     *
-     */
-    private function getCurrentField()
+    private function getCurrentField() : ?ilAdvancedMDFieldDefinition
     {
         return $this->current_field;
     }
     
-    /**
-     * Extract id
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function extractRecordId($a_id_string)
+    private function extractRecordId(string $a_id_string) : int
     {
         // first lookup import id
         if ($record_id = ilAdvancedMDRecord::_lookupRecordIdByImportId($a_id_string)) {
-            $this->record_exists = true;
             return $record_id;
         }
         return 0;
@@ -394,32 +342,18 @@ class ilAdvancedMDRecordParser extends ilSaxParser
     
     
     
-    /**
-     *
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function appendErrorMessage($a_msg)
+    private function appendErrorMessage(string $a_msg) : void
     {
         $this->is_error = true;
         $this->error_msg[] = $a_msg;
     }
     
-    /**
-     * Store Record
-     *
-     * @access private
-     * @param
-     *
-     */
-    private function storeRecords()
+    private function storeRecords() : void
     {
         switch ($this->getMode()) {
             case self::MODE_INSERT_VALIDATION:
             case self::MODE_UPDATE_VALIDATION:
-                return true;
+                return;
             
             case self::MODE_INSERT:
                 // set local context
@@ -483,7 +417,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         }
     }
     
-    public function setContext($a_obj_id, $a_obj_type, $a_sub_type = null)
+    public function setContext(int $a_obj_id, string $a_obj_type, ?string $a_sub_type = null) : void
     {
         if (!$a_sub_type) {
             $a_sub_type = "-";
@@ -496,7 +430,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         );
     }
     
-    public function getRecordMap()
+    public function getRecordMap() : array
     {
         return $this->rec_map;
     }
