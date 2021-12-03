@@ -24,7 +24,7 @@ trait DeriveApplyToFromTransform
     {
         return $result->then(function ($value) use ($result) : Result {
             try {
-                return new Ok($this->transform($result->value()));
+                return new Ok($this->transform($value));
             } catch (\Exception $exception) {
                 return new Error($exception);
             }
