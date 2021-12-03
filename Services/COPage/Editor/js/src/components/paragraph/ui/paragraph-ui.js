@@ -1019,16 +1019,11 @@ export default class ParagraphUI {
       cnt++;
     });
 
-
-    /*
-    pcarea.querySelectorAll("div", (d) => {
-    })
-    const contentDiv = pcarea.getElementsByTagName('div')[1];
-    console.log(pcid);
-    console.log(pcarea);
-    console.log(contentDiv);
-    contentDiv.remove();*/
     pcarea.innerHTML = pcarea.innerHTML + content;
+
+    // replacing the content may move the editing area, so
+    // we need to synch the tiny position
+    this.tinyWrapper.synchInputRegion();
   }
 
   showLastUpdate(last_update) {
