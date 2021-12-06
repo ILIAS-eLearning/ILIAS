@@ -20,6 +20,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return $commands;
     }
 
+    // CR: Type of parameter $a_target is missing
     public static function _checkGoto($a_target) : bool
     {
         if (is_string($a_target)) {
