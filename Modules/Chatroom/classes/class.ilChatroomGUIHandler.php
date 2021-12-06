@@ -123,6 +123,7 @@ abstract class ilChatroomGUIHandler
         }
     }
 
+    // CR: Type of parameter $response is missing
     /**
      * Checks for success param in an json decoded response
      * @param string|false $response
