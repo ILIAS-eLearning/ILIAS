@@ -39,8 +39,8 @@ interface Factory
      *   purpose: >
      *     Shy Items are used to list more decent items which don't acquire much space.
      *   composition: >
-     *     A Shy Item contains a title and optional a description, a close action, properties (name/value), an icon lead
-     *     as a lead.
+     *     A Shy Item contains a title and optional a description, a close action, properties (name/value), an icon as a
+     *     lead.
      * rules:
      *   interaction:
      *     1: >
