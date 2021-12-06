@@ -110,9 +110,11 @@ class ilChatroomServerSettings
     {
         return $this->protocol;
     }
-
+    
     public function setProtocol(string $protocol) : void
     {
+        
+        // CR: Replace if (strpos($protocol, '://') === false) with if (!str_contains($protocol, '://'))
         if (strpos($protocol, '://') === false) {
             $this->protocol = $protocol . '://';
         }
