@@ -62,6 +62,7 @@ class ilChatroomInviteUsersToPrivateRoomGUI extends ilChatroomGUIHandler
             $auto->setSearchType(ilUserAutoComplete::SEARCH_TYPE_EQUALS);
         }
         
+        // CR: Class ilUtil is deprecated
         $query = ilUtil::stripSlashes(
             $this->getRequestValue('q', $this->refinery->kindlyTo()->string(), '')
         );
