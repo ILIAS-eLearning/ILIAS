@@ -7,7 +7,7 @@ class ilRepositoryTreeTest extends TestCase
 {
     protected Container $dic;
 
-    public function setUp() : void
+    protected function setUp() : void
     {
         $this->initRepositoryTreeDependencies();
         parent::setUp();

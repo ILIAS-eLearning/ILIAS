@@ -405,6 +405,11 @@ class ilAdvancedMDRecord
         $res = $ilDB->manipulate($query);
     }
 
+    protected function setRecordId(int $record_id) : void
+    {
+        $this->record_id = $record_id;
+    }
+
     /**
      * @param string $language_code
      */
@@ -422,7 +427,7 @@ class ilAdvancedMDRecord
     public function delete() : void
     {
         ilAdvancedMDRecord::_delete($this->getRecordId());
-        ilAdvancedMDRecordScope::deleteByRecordI($this->getRecordId());
+        ilAdvancedMDRecordScope::deleteByRecordId($this->getRecordId());
     }
     
     public function enabledScope() : bool
@@ -546,7 +551,7 @@ class ilAdvancedMDRecord
                 ")";
             $res = $ilDB->manipulate($query);
         }
-        ilAdvancedMDRecordScope::deleteByRecordI($this->getRecordId());
+        ilAdvancedMDRecordScope::deleteByRecordId($this->getRecordId());
         foreach ($this->getScopes() as $scope) {
             $scope->setRecordId($this->getRecordId());
             $scope->save();

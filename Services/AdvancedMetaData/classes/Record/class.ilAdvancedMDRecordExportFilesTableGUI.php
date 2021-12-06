@@ -29,8 +29,6 @@
 *
 * @ingroup ServicesAdvancedMetaData
 */
-
-
 class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
 {
     /**
@@ -43,14 +41,6 @@ class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
      */
     public function __construct($a_parent_obj, $a_parent_cmd = '')
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
-        
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->addColumn('', 'f', 1);
         $this->addColumn($this->lng->txt('md_adv_records'), 'records', "33%");
@@ -71,7 +61,7 @@ class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
      * @param
      *
      */
-    public function fillRow($a_set)
+    protected function fillRow($a_set)
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_SIZE', sprintf("%.1f KB", $a_set['file_size'] / 1024));
@@ -90,8 +80,9 @@ class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
      * @param
      *
      */
-    public function parseFiles($a_file_data)
+    public function parseFiles(array $a_file_data) : void
     {
+        $defs_arr = [];
         foreach ($a_file_data as $id => $data) {
             $tmp_arr['id'] = $id;
             $tmp_arr['records'] = implode(', ', $data['name']);
@@ -100,6 +91,6 @@ class ilAdvancedMDRecordExportFilesTableGUI extends ilTable2GUI
             $tmp_arr['record_arr'] = $data['name'];
             $defs_arr[] = $tmp_arr;
         }
-        $this->setData($defs_arr ? $defs_arr : array());
+        $this->setData($defs_arr);
     }
 }

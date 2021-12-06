@@ -5,8 +5,6 @@
 namespace ILIAS\Refinery\Integer;
 
 use ILIAS\Data\Factory;
-use ILIAS\Refinery\Integer\GreaterThan;
-use ILIAS\Refinery\Integer\LessThan;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -44,5 +42,17 @@ class Group
     public function isLessThan(int $maximum) : LessThan
     {
         return new LessThan($maximum, $this->dataFactory, $this->language);
+    }
+
+    /**
+     * Creates a constraint that can be used to check if an integer value is
+     * greater than or equal the defined lower limit.
+     *
+     * @param int $minimum
+     * @return GreaterThanOrEqual
+     */
+    public function isGreaterThanOrEqual(int $minimum) : GreaterThanOrEqual
+    {
+        return new GreaterThanOrEqual($minimum, $this->dataFactory, $this->language);
     }
 }
