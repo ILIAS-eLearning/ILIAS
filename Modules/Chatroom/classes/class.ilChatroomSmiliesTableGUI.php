@@ -42,6 +42,7 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
         }
     }
 
+    // CR: Type of parameter $a_set is missing
     protected function fillRow($a_set) : void
     {
         $this->tpl->setVariable('VAL_SMILEY_ID', $a_set['smiley_id']);
