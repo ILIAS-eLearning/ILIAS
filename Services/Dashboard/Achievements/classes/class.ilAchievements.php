@@ -1,4 +1,4 @@
-<?php
+<?php // CR: declare(strict_types=1) is missing
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
