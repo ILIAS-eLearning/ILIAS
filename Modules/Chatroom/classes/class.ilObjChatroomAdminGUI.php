@@ -13,6 +13,7 @@
  */
 class ilObjChatroomAdminGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface
 {
+    // CR: Type of parameters $a_data, $a_id, $a_call_by_reference is missing
     public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
     {
         $this->type = 'chta';
