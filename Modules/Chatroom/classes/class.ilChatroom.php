@@ -41,6 +41,7 @@ class ilChatroom
     private int $roomId = 0;
     private ?ilObjChatroom $object;
 
+    // CR: Type of parameter $permissions is missing
     /**
      * Checks user permissions by given array and ref_id.
      * @param string|string[] $permissions
@@ -326,6 +327,7 @@ class ilChatroom
         }
     }
 
+    // CR: Type of parameter $message is missing
     /**
      * @param string|array|stdClass $message
      */
