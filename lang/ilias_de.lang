@@ -2392,7 +2392,6 @@ cntr#:#cntr_view_sessions#:#Sitzungsansicht
 cntr#:#cntr_view_simple#:#Einfache Liste
 cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gültiger ILIAS Export. Um Verzeichnisstrukturen hochzuladen benutzen Sie bitte ein Datei-Objekt.
 cntr#:#edit_questions#:#Fragen bearbeiten
-common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
@@ -3281,6 +3280,7 @@ common#:#hint#:#Hinweis
 common#:#hist_lm_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
 common#:#hist_lm_delete_st#:#Kapitel "%1" [%2] wurde gelöscht.
 common#:#hist_lm_pg_create#:#Seite erstellt.
+common#:#hist_lm_pg_update#:#Seite geändert.
 common#:#hist_lm_st_create#:#Kapitel erstellt.
 common#:#hist_webr_add#:#Neuer Weblink angelegt mit Titel: "%1"
 common#:#hist_webr_delete#:#Weblink wurde gelöscht. Titel: "%1"
