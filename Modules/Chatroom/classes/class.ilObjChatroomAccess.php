@@ -41,6 +41,7 @@ class ilObjChatroomAccess extends ilObjectAccess implements ilWACCheckingClass
         return false;
     }
 
+    // CR: Type of parameters $a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id is missing
     public function _checkAccess($a_cmd, $a_permission, $a_ref_id, $a_obj_id, $a_user_id = "") : bool
     {
         if (!$a_user_id) {
