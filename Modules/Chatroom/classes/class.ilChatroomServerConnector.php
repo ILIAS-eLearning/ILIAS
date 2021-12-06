@@ -53,6 +53,7 @@ class ilChatroomServerConnector
         return $response instanceof stdClass && ((int) $responseObject->status) === 200;
     }
 
+    // CR: Method type is missing
     /**
      * Creates connect URL using given $scope and $userId and returns it.
      * @param int $scope
