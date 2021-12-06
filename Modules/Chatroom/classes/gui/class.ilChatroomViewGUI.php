@@ -117,6 +117,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
             $this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
         }
 
+        // CR: Variable $connection_info is defined, but it is not used later
         $connection_info = json_decode($response, false, 512, JSON_THROW_ON_ERROR);
         $settings = $connector->getSettings();
         $known_private_room = $room->getActivePrivateRooms($this->ilUser->getId());
