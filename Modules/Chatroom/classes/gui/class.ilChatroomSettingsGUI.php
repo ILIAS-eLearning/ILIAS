@@ -43,6 +43,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
             }
             $room->saveSettings($settings);
 
+            // CR: Class ilUtil is deprecated
             ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
             $this->ilCtrl->redirect($this->gui, 'settings-general');
         }
