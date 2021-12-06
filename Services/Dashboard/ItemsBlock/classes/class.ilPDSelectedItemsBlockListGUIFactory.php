@@ -66,6 +66,7 @@ class ilPDSelectedItemsBlockListGUIFactory
             $item_list_gui->enableInfoScreen(true);
             $item_list_gui->enableSubscribe($this->block->getViewSettings()->enabledSelectedItems());
 
+            // CR: Delete comments lines 70-73
             //$item_list_gui->enableDescription(false);
             //$item_list_gui->enableProperties(false);
             //$item_list_gui->enablePreconditions(false);
