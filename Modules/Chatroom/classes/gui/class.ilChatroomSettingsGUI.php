@@ -58,6 +58,7 @@ class ilChatroomSettingsGUI extends ilChatroomGUIHandler
 
         $chatSettings = new ilSetting('chatroom');
         if (!$chatSettings->get('chat_enabled', '0')) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendInfo($this->ilLng->txt('server_disabled'), true);
         }
 
