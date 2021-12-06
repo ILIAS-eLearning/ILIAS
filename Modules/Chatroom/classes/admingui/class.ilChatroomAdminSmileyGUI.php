@@ -247,6 +247,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         return $form_data;
     }
 
+    // CR: Type of parameter $form_data is missing
     public function initSmiliesEditForm($form_data) : ilPropertyFormGUI
     {
         $this->form_gui = new ilPropertyFormGUI();
