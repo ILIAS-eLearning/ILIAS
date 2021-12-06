@@ -276,6 +276,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             $this->action_menu->setAsynchUrl('');
             $this->action_menu->setListTitle($lng->txt('actions'));
             $this->action_menu->setId('act_pd');
+            // CR: Method setSelectionHeaderClass() is deprecated
             $this->action_menu->setSelectionHeaderClass('small');
             $this->action_menu->setItemLinkClass('xsmall');
             $this->action_menu->setLinksMode('il_ContainerItemCommand2');
