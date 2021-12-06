@@ -13,6 +13,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
     protected ilTree $repositoryTree;
     protected Refinery $refinery;
 
+    // CR: Type of parameters $a_data, $a_id, $a_call_reference, $a_prepare_output is missing
     public function __construct($a_data, $a_id = 0, $a_call_by_reference = true, $a_prepare_output = true)
     {
         /** @var $DIC \ILIAS\DI\Container */
