@@ -15,6 +15,7 @@ use ILIAS\HTTP\Response\ResponseHeader;
  */
 class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface
 {
+    // CR: Type of parameters $a_data, $a_id, $a_call_reference is missing
     public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
     {
         if (isset($_REQUEST['cmd']) && in_array($_REQUEST['cmd'], array('getOSDNotifications', 'removeOSDNotifications'))) {
@@ -30,6 +31,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         $this->lng->loadLanguageModule('chatroom_adm');
     }
 
+    // CR: Type of parameter $params is missing
     /**
      * Overwrites $_GET['ref_id'] with given $ref_id.
      * @param string $params
@@ -83,6 +85,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         return ilChatroomObjectDefinition::getDefaultDefinition('Chatroom');
     }
 
+    // CR: Type of parameter $a_new_type is missing
     protected function initCreationForms($a_new_type) : array
     {
         $forms = parent::initCreationForms($a_new_type);
