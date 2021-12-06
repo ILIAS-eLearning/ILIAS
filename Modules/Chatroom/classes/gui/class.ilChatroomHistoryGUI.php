@@ -218,6 +218,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
         }
 
         if ($export) {
+            // CR: Class ilUtil is depredated
             ilUtil::deliverData(
                 $roomTpl->get(),
                 ilUtil::getASCIIFilename($scopes[$requestScope] . '.html'),
