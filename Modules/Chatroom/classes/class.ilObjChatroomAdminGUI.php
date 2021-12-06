@@ -21,6 +21,7 @@ class ilObjChatroomAdminGUI extends ilChatroomObjectGUI implements ilCtrlBaseCla
         $this->lng->loadLanguageModule('chatroom_adm');
     }
 
+     // CR: Type of parameters $ref_id is missing
     /**
      * @param int $ref_id
      */
