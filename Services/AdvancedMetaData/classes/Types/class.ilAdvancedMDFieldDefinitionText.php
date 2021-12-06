@@ -283,7 +283,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     }
     
     
-    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : int
+    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
         return $a_adt_search->getADT()->getText();
     }

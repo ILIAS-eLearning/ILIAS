@@ -346,7 +346,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $this->media_pool->getRefId(),
                 "mep",
                 "mob",
-                0,
+                [0],
                 "mob",
                 $objs,
                 "",

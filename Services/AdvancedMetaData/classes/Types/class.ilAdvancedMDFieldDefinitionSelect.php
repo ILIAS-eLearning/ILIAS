@@ -26,7 +26,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
         return self::TYPE_SELECT;
     }
 
-    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : int
+    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
         return $a_adt_search->getADT()->getSelection();
     }

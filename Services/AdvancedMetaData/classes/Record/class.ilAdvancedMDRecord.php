@@ -736,8 +736,8 @@ class ilAdvancedMDRecord
         }
         
         $query = 'SELECT scope_id FROM adv_md_record_scope ' .
-            'WHERE record_id = ' . $this->quote($this->record_id);
-        $res = $this->query($query);
+            'WHERE record_id = ' . $this->db->quote($this->record_id, ilDBConstants::T_INTEGER);
+        $res = $this->db->query($query);
         $this->scope_enabled = false;
         $this->scopes = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
