@@ -206,6 +206,7 @@ class ilChatroom
             $room = new self();
             $room->initialize($row);
 
+	    // CR: Incompatible types: Expected property of type '\ilObjChatroom|null', 'bool|\ilObject' provided  
             if ($initObject) {
                 $room->object = ilObjectFactory::getInstanceByObjId((int) $row['object_id']);
             }
