@@ -375,10 +375,12 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     public function prepareContentView() : void
     {
         $this->tpl->loadStandardTemplate();
-                
+        
+        // CR: Class ilUtil is deprecated
         // display infopanel if something happened
         ilUtil::infoPanel();
 
+        // CR: Class ilUtil is deprecated
         $this->tpl->setTitleIcon(ilUtil::getImagePath("icon_pd.svg"));
         $this->tpl->setTitle($this->lng->txt("personal_desktop"));
         $this->tpl->setVariable("IMG_SPACE", ilUtil::getImagePath("spacer.png", false));
