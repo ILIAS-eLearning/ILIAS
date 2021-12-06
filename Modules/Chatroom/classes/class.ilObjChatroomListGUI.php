@@ -12,6 +12,7 @@ class ilObjChatroomListGUI extends ilObjectListGUI
     private static int $publicRoomObjId;
     private static ?bool $chat_enabled = null;
 
+    // CR: Type of parameter $a_context is missing
     public function __construct($a_context = self::CONTEXT_REPOSITORY)
     {
         parent::__construct($a_context);
