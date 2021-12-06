@@ -260,6 +260,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         
     public function changePDItemPresentation() : void
     {
+        // CR: Method request() is deprecated
         $this->viewSettings->storeActorPresentationMode(
             \ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['presentation'] ?? ''))
         );
