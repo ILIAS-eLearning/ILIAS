@@ -33,6 +33,7 @@ class ilDashObjectsTableGUI extends ilTable2GUI
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
+        // CR: Delete comment line 37
         //$this->setData($this->getItems());
         $this->setTitle($this->lng->txt(""));
 
@@ -41,9 +42,11 @@ class ilDashObjectsTableGUI extends ilTable2GUI
         $this->setEnableNumInfo(false);
         $this->setEnableHeader(false);
 
+        // CR: Delete comment line 46
         //$this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.dash_obj_row.html", "Services/Dashboard");
 
+        // CR: Delete comment line 50-51
         //$this->addMultiCommand("", $this->lng->txt(""));
         //$this->addCommandButton("", $this->lng->txt(""));
         $this->setLimit(9999);
