@@ -303,6 +303,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         // CR: Class ilUtil is deprecated
         $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
 
+        // CR: Class ilSubmitButton is deprecated
         $button = ilSubmitButton::getInstance();
         if ($this->viewSettings->isSelectedItemsViewActive()) {
             $button->setCaption('remove');
