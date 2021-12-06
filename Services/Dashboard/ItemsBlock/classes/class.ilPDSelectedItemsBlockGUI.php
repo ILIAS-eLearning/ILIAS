@@ -104,6 +104,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     public function addToDeskObject() : void
     {
         $this->favourites->add($this->user->getId(), $this->requested_item_ref_id);
+        // CR: Class ilUtil is deprecated
         ilUtil::sendSuccess($this->lng->txt("rep_added_to_favourites"), true);
         $this->returnToContext();
     }
@@ -118,6 +119,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     {
         $this->lng->loadLanguageModule("rep");
         $this->favourites->remove($this->user->getId(), $this->requested_item_ref_id);
+        // CR: Class ilUtil is deprecated
         ilUtil::sendSuccess($this->lng->txt("rep_removed_from_favourites"), true);
         $this->returnToContext();
     }
@@ -260,6 +262,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         
     public function changePDItemPresentation() : void
     {
+        // CR: Class ilUtil is deprecated
         // CR: Method request() is deprecated
         $this->viewSettings->storeActorPresentationMode(
             \ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['presentation'] ?? ''))
@@ -269,6 +272,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
     public function changePDItemSorting() : void
     {
+        // CR: Class ilUtil is deprecated
         $this->viewSettings->storeActorSortingMode(
             \ilUtil::stripSlashes((string) ($this->http->request()->getQueryParams()['sorting'] ?? ''))
         );
@@ -296,6 +300,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
         $top_tb = new ilToolbarGUI();
         $top_tb->setFormAction($this->ctrl->getFormAction($this));
+        // CR: Class ilUtil is deprecated
         $top_tb->setLeadingImage(ilUtil::getImagePath('arrow_upright.svg'), $this->lng->txt('actions'));
 
         $button = ilSubmitButton::getInstance();
@@ -328,6 +333,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
 
         $refIds = (array) ($this->http->request()->getParsedBody()['id'] ?? []);
         if (0 === count($refIds)) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendFailure($this->lng->txt('select_one'), true);
             $this->ctrl->redirect($this, 'manage');
         }
@@ -376,6 +382,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
         }
 
         // #12909
+        // CR: Class ilUtil is deprecated
         ilUtil::sendSuccess($this->lng->txt('pd_remove_multi_confirm'), true);
         $this->ctrl->redirect($this, 'manage');
     }
@@ -426,6 +433,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             }
         }
 
+        // CR: Class ilUtil is deprecated
         ilUtil::sendSuccess($this->lng->txt('mmbr_unsubscribed_from_objs'), true);
         $this->ctrl->returnToParent($this);
     }
