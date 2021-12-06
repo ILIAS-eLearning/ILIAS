@@ -59,6 +59,7 @@ class ilChatroom
 
         $hasPermissions = self::checkPermissions($DIC->user()->getId(), $ref_id, $permissions);
         if (!$hasPermissions && $send_info) {
+	    // CR: Class ilUtil is deprecated
             ilUtil::sendFailure($DIC->language()->txt('permission_denied'), true);
 
             return false;
