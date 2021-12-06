@@ -75,6 +75,7 @@ abstract class ilChatroomObjectGUI extends ilObjectGUI
         }
 
         if ($this->repositoryTree->getSavedNodeData($this->object->getRefId())) {
+            // CR: The get_class($this) can be replaced with $this::class
             $this->tabs_gui->addTarget('trash', $this->ctrl->getLinkTarget($this, 'trash'), 'trash', get_class($this));
         }
     }
