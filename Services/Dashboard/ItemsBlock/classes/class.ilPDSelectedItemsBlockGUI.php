@@ -461,6 +461,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
             }
         }
 
+        // CR: Delete comments line 465-466
         ////
         ///
 
