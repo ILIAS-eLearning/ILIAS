@@ -135,6 +135,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
                 // pd notes
             case "ilpdnotesgui":
                 if ($ilSetting->get('disable_notes') && $ilSetting->get('disable_comments')) {
+                    // CR: ilUtil is deprecated
                     ilUtil::sendFailure($this->lng->txt('permission_denied'), true);
                     ilUtil::redirect('ilias.php?baseClass=ilDashboardGUI');
                     return;
