@@ -31,7 +31,8 @@ class ilBannedUsersTableGUI extends ilTable2GUI
 
         $this->addMultiCommand('ban-delete', $this->lng->txt('unban'));
     }
-
+    
+    // CR: Type of method is missing
     protected function fillRow($a_set) : void
     {
         if (is_numeric($a_set['timestamp']) && $a_set['timestamp'] > 0) {
