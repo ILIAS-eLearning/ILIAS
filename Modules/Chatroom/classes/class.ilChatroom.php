@@ -747,6 +747,7 @@ class ilChatroom
         return null;
     }
 
+    // CR: Parameter $user is not used
     public function getSessions(ilChatroomUser $user) : array
     {
         global $DIC;
