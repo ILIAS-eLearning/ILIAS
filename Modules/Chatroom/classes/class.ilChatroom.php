@@ -815,6 +815,7 @@ class ilChatroom
         return false;
     }
 
+    // CR: Type of parameter $sender is missing and the $DIC can be rmoved, because $DIC is not used.  
     /**
      * @param null|object $gui
      * @param int|ilChatroomUser $sender (can be an instance of ilChatroomUser or an user id of an ilObjUser instance
