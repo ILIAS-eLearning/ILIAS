@@ -127,6 +127,8 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
                         }
 
                         if ($prevDate !== $currentDate) {
+                            
+                            // CR: Rebuild the switch-case with match()
                             switch ($time_format) {
                                 case ilCalendarSettings::TIME_FORMAT_24:
                                     $date_string = $dateTime->get(IL_CAL_FKT_DATE, 'H:i', $this->ilUser->getTimeZone());
