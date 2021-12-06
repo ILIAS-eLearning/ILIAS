@@ -67,6 +67,7 @@ class ilChatroomServerConnector
         );
     }
 
+    // CR: Returned type is missing
     /**
      * @param string $url
      * @param array $stream_context_params
@@ -111,6 +112,7 @@ class ilChatroomServerConnector
         return false;
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -125,6 +127,7 @@ class ilChatroomServerConnector
         );
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -138,6 +141,7 @@ class ilChatroomServerConnector
         );
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -150,6 +154,7 @@ class ilChatroomServerConnector
         return $this->sendEnterPrivateRoom($scope, $subScope, $user);
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -163,6 +168,7 @@ class ilChatroomServerConnector
         );
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -176,6 +182,7 @@ class ilChatroomServerConnector
         );
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -187,6 +194,7 @@ class ilChatroomServerConnector
         return $this->sendLeavePrivateRoom($scope, $subScope, $user);
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -200,6 +208,7 @@ class ilChatroomServerConnector
         );
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -211,6 +220,7 @@ class ilChatroomServerConnector
         return $this->kick($scope, $subScope, $user);
     }
 
+    // CR: Returned type is missing
     /**
      * Returns kick URL
      * Creates kick URL using given $scope and $query and returns it.
@@ -226,6 +236,7 @@ class ilChatroomServerConnector
         );
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -239,11 +250,13 @@ class ilChatroomServerConnector
         );
     }
 
+    // CR: Returned type is missing
     public function getSettings() : ilChatroomServerSettings
     {
         return $this->settings;
     }
 
+    // CR: Returned type is missing
     /**
      * @param int $scope
      * @param int $subScope
@@ -259,6 +272,7 @@ class ilChatroomServerConnector
         );
     }
 
+    // CR: Returned type is missing
     /**
      * @param string $message
      * @return string|false
