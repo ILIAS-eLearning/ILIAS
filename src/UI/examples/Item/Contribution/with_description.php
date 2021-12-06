@@ -2,13 +2,11 @@
 
 namespace ILIAS\UI\examples\Item\Contribution;
 
-function with_unkown_contributor()
+function with_long_content()
 {
     global $DIC;
 
     return $DIC->ui()->renderer()->render(
-        $DIC->ui()->factory()->item()->contribution(
-            'a little test contribution',
-        )
+        $DIC->ui()->factory()->item()->shy('Test shy Item')->withDescription('This is a test shy.')
     );
 }

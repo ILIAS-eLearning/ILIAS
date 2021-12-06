@@ -56,4 +56,14 @@ interface Standard extends Item
     public function withProgress(ProgressMeter $chart) : Standard;
 
     public function getProgress() : ?ProgressMeter;
+
+    /**
+     * Create a new appointment item with a set of actions to perform on it.
+     */
+    public function withActions(Standard $actions) : Item;
+
+    /**
+     * Get the actions of the item.
+     */
+    public function getActions() : ?Standard;
 }

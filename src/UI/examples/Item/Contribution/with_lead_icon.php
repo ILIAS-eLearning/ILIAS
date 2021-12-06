@@ -9,11 +9,7 @@ function with_lead_icon()
     global $DIC;
 
     return $DIC->ui()->renderer()->render(
-        $DIC->ui()->factory()->item()->contribution(
-            'a little test contribution',
-            'Contributor',
-            new \DateTimeImmutable()
-        )->withLeadIcon(
+        $DIC->ui()->factory()->item()->contribution('Test shy Item')->withLeadIcon(
             $DIC->ui()->factory()->symbol()->icon()->standard(Standard::GRP, 'conversation')
         )
     );

@@ -37,41 +37,23 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     Contributions are quotes that can be credited to one explicit contributor and time and which have a focus on
-     *     that contributor, since the origin of the quote declaring its value.
-     *     Contribution Items are used to present that quote with a clear visible association to its creator. This can
-     *     be used to present comments, reactions ,references or ratings and more.
+     *     Shy Items are used to list more decent items which don't acquire much space.
      *   composition: >
-     *     Contributions contain a textual quote, a contributor name and a datetime presentation or a representative
-     *     info if the datetime or contributor of the creation is unknown.
-     *     Further the Contribution can have a close button and a lead icon.
-     *   effect: >
-     *     An interaction with the close button may remove the Contribution permanently.
-     * rivals: >
-     *     Standard Items have their value inside the content itself, while their creators are insignificant for the
-     *     benefiting group of observers. Contributions draw their worth form the contributor. They present content
-     *     which is benefiting for the observer because it was created by this contributor.
+     *     A Shy Item contains a title and optional a description, a close action, properties (name/value), an icon lead
+     *     as a lead.
      * rules:
      *   interaction:
      *     1: >
-     *        Clicking on the Close Button MUST remove the Contribution Item permanently.
+     *        Clicking on the Close Button MUST remove the Shy Item permanently.
      *   accessibility:
      *     1: >
-     *       All interactions offered by a Contribution Item MUST be accessible by only using the keyboard.
-     *     2: >
-     *       The main quote of the contribution MUST NOT be part of any interaction.
+     *       All interactions offered by a Shy Item MUST be accessible by only using the keyboard.
      * ---
      *
-     * @param string      $quote
-     * @param string      $contributor
-     * @param \ilDateTime $createDatetime
-     * @return \ILIAS\UI\Component\Item\Contribution
+     * @param string      $title
+     * @return \ILIAS\UI\Component\Item\Shy
      */
-    public function contribution(
-        string $quote,
-        ?string $contributor = null,
-        ?DateTimeImmutable $createDatetime = null
-    ) : Contribution;
+    public function shy(string $title) : Shy;
 
     /**
      * ---
