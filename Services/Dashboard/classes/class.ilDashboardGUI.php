@@ -92,6 +92,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->requested_wsp_id = (int) ($params["wsp_id"] ?? 0);
 
         $this->ctrl->saveParameter($this, array("view"));
+        // CR: Class ilAdvancedSelectionListGUI is deprecated
         $this->action_menu = new ilAdvancedSelectionListGUI();
     }
     
@@ -278,6 +279,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
             $this->action_menu->setSelectionHeaderClass('small');
             $this->action_menu->setItemLinkClass('xsmall');
             $this->action_menu->setLinksMode('il_ContainerItemCommand2');
+            // CR: Class ilAdvancedSelectionListGUI is deprecated
             $this->action_menu->setHeaderIcon(ilAdvancedSelectionListGUI::DOWN_ARROW_DARK);
             $this->action_menu->setUseImages(false);
 
