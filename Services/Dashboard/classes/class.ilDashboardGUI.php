@@ -446,6 +446,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
     public function jumpToCalendar() : void
     {
         global $DIC;
+        // CR: Method request() is deprecated
         $request = $DIC->http()->request();
 
         if ($request->getQueryParams()["cal_view"]) {
