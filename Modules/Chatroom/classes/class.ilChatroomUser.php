@@ -21,6 +21,7 @@ class ilChatroomUser
     
     public function enabledBroadcastTyping() : bool
     {
+	// CR: Class ilUtil is deprecated
         return ilUtil::yn2tf($this->user->getPref('chat_broadcast_typing'));
     }
 
