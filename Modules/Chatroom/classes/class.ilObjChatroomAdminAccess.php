@@ -20,6 +20,7 @@ class ilObjChatroomAdminAccess extends ilObjectAccess
         return $commands;
     }
 
+    // Type of parameter $a_target is missing
     public static function _checkGoto($a_target) : bool
     {
         global $DIC;
