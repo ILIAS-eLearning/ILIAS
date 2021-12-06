@@ -63,6 +63,7 @@ class PDMainBarProvider extends AbstractStaticMainMenuProvider
                     $access_helper->isUserLoggedIn($access_helper->isRepositoryReadable(
                         static function () use ($dic) : bool {
                             return true;
+                            // CR: Delete comment line 67
                             /*$pdItemsViewSettings = new ilPDSelectedItemsBlockViewSettings($dic->user());
                             return (bool) $pdItemsViewSettings->allViewsEnabled() || $pdItemsViewSettings->enabledSelectedItems();*/
                         }
