@@ -51,6 +51,7 @@ class ilChatroomBanGUI extends ilChatroomGUIHandler
         
         $users = $this->getRequestValue('banned_user_id', $userTrafo, []);
         if ($users === []) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendInfo($this->ilLng->txt('no_checkbox'), true);
             $this->ilCtrl->redirect($this->gui, 'ban-show');
         }
