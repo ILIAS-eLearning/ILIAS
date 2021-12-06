@@ -263,6 +263,7 @@ class ilChatroom
 
     public function getDescription() : string
     {
+	// CR: Incompatible types: Expected property of type '\ilObjChatroom|null', 'bool|\ilObject' provided
         if (!$this->object) {
             $this->object = ilObjectFactory::getInstanceByObjId((int) $this->getSetting('object_id'));
         }
