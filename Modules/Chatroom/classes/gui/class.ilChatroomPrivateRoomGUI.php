@@ -43,6 +43,7 @@ class ilChatroomPrivateRoomGUI extends ilChatroomGUIHandler
         $chat_user = new ilChatroomUser($this->ilUser, $room);
         $this->exitIfNoRoomSubscription($room, $chat_user);
 
+        // CR: Class ilUtil is deprecated
         $title = $room->getUniquePrivateRoomTitle(ilUtil::stripSlashes(
             $this->getRequestValue('title', $this->refinery->kindlyTo()->string())
         ));
