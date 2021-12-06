@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Transformation;
+
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once dirname(__DIR__) . '../../../libs/composer/vendor/autoload.php';
 
@@ -153,7 +155,7 @@ abstract class assQuestion
     
     protected $lastChange;
 
-    protected \ilRandomArrayElementProvider $shuffler;
+    protected Transformation $shuffler;
 
     private bool $obligationsToBeConsidered = false;
 
@@ -166,7 +168,7 @@ abstract class assQuestion
         'image/png' => array('png'),
         'image/gif' => array('gif')
     );
-    
+
     /**
      * assQuestion constructor
      */
@@ -212,7 +214,7 @@ abstract class assQuestion
 
         $this->questionActionCmd = 'handleQuestionAction';
 
-        $this->shuffler = new ilDeterministicArrayElementProvider();
+        $this->shuffler = $DIC->refinery()->random()->dontShuffle();
         $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
     }
     
@@ -360,12 +362,12 @@ abstract class assQuestion
         return array_unique($extensions);
     }
 
-    public function getShuffler() : ilRandomArrayElementProvider
+    public function getShuffler() : Transformation
     {
         return $this->shuffler;
     }
 
-    public function setShuffler(ilRandomArrayElementProvider $shuffler) : void
+    public function setShuffler(Transformation $shuffler) : void
     {
         $this->shuffler = $shuffler;
     }
