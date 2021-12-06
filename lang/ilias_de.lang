@@ -16649,6 +16649,8 @@ prg#:#will_not_modify_validity_on_non_successful_progress#:#Gültigkeit kann nur
 prg#:#status_unchanged#:#Status unverändert
 common#:#file_system_clean_temp_dir_cron#:#Temporäres Verzeichnis aufräumen
 common#:#file_system_clean_temp_dir_cron_info#:#Dieser Job räumt das ILIAS temp-Verzeichnis auf und löscht von Dateien, welche älter als 10 Tage sind. Damit wird einer Anhäufung ungenutzter Dateien und damit einem erhöhten Speicherplatzverbrauch des temp-Verzeichnisses entgegengewirkt.
+common#:#actions_for#:#Aktionen für %s
 violation#:#not_a_string#:#Wert ist keine Zeichenkette
 common#:#actions_for#:#Aktionen für %s
 validation#:#not_greater_than_or_equal#:#Der Wert ist nicht größer oder gleich '%s'.
+validation#:#not_an_array#:#Wert ist kein Feld
