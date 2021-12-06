@@ -149,6 +149,7 @@ class ilObjChatroom extends ilObject
         );
     }
 
+    // CR: Type of parameters $a_target_id, $a_copy_id, $_a_omit_tree is missing
     public function cloneObject($a_target_id, $a_copy_id = 0, $a_omit_tree = false)
     {
         $original_room = ilChatroom::byObjectId($this->getId());
