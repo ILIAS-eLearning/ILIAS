@@ -932,10 +932,10 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get value for search query parser
      * @param ilADTSearchBridge $a_adt_search
-     * @return int
+     * @return string
      * @todo check if string type is applicable
      */
-    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : int
+    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
         return '';
     }

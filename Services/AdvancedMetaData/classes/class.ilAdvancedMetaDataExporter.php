@@ -11,9 +11,7 @@
  */
 class ilAdvancedMetaDataExporter extends ilXmlExporter
 {
-    private $ds;
-    
-    private static $local_recs_done = array();
+    private static array $local_recs_done = [];
 
     /**
      * Initialisation
@@ -22,45 +20,24 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
     {
     }
 
-    /**
-     * Get head dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return		array		array of array with keys "component", entity", "ids"
-     */
     public function getXmlExportHeadDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         return array();
     }
 
 
-    /**
-     * Get tail dependencies
-     * @param		string		entity
-     * @param		string		target release
-     * @param		array		ids
-     * @return        array        array of array with keys "component", entity", "ids"
-     */
     public function getXmlExportTailDependencies(string $a_entity, string $a_target_release, array $a_ids) : array
     {
         return array();
     }
 
-    /**
-     * Get xml representation
-     * @param	string		entity
-     * @param	string		schema version
-     * @param	string		id
-     * @return	string		xml string
-     */
     public function getXmlRepresentation(string $a_entity, string $a_schema_version, string $a_id) : string
     {
         $parts = explode(":", $a_id);
         if (sizeof($parts) != 2) {
             return "";
         }
-        $obj_id = $parts[0];
+        $obj_id = (int) $parts[0];
         $rec_id = (int) $parts[1];
         
         // any data for current record and object?
@@ -156,12 +133,6 @@ class ilAdvancedMetaDataExporter extends ilXmlExporter
         return "";
     }
     
-    /**
-     * Returns schema versions that the component can export to.
-     * ILIAS chooses the first one, that has min/max constraints which
-     * fit to the target release. Please put the newest on top.
-     * @return array
-     */
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
