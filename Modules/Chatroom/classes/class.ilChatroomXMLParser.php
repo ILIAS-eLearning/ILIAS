@@ -65,6 +65,7 @@ class ilChatroomXMLParser extends ilSaxParser
         xml_set_character_data_handler($a_xml_parser, 'handlerCharacterData');
     }
 
+    // CR: Parameter $a_xml_parser, $a_attribs are not used
     public function handlerBeginTag($a_xml_parser, string $a_name, array $a_attribs) : void
     {
         switch ($a_name) {
