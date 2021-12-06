@@ -22,7 +22,7 @@ trait DeriveApplyToFromTransform
 
     public function applyTo(Result $result) : Result
     {
-        return $result->then(function ($value) use ($result) : Result {
+        return $result->then(function ($value) : Result {
             try {
                 return new Ok($this->transform($value));
             } catch (\Exception $exception) {
