@@ -443,6 +443,7 @@ class ilPDSelectedItemsBlockGUI extends ilBlockGUI implements ilDesktopItemHandl
     // New rendering
     //
 
+    // CR: The property should be placed on the top of the file with other properties
     protected $new_rendering = true;
 
 
