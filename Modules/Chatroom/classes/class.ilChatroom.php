@@ -269,6 +269,7 @@ class ilChatroom
         return $this->object->getDescription();
     }
 
+    // CR: Returned type is missing
     public function getSetting(string $name)
     {
         return $this->settings[$name];
