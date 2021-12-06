@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Item\Contribution;
+namespace ILIAS\UI\examples\Item\Shy;
 
 function base()
 {

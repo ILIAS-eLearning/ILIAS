@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Item\Contribution;
+namespace ILIAS\UI\examples\Item\Shy;
 
-function with_long_content()
+function with_description()
 {
     global $DIC;
 

@@ -8,6 +8,7 @@ use ILIAS\UI\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Component\Image\Image;
 use ILIAS\UI\Component\Chart\ProgressMeter\ProgressMeter;
 use ILIAS\Data\Color;
+use ILIAS\UI\Component\Dropdown\Standard as DropdownStandard;
 
 /**
  * Interface Standard Item
@@ -60,10 +61,10 @@ interface Standard extends Item
     /**
      * Create a new appointment item with a set of actions to perform on it.
      */
-    public function withActions(Standard $actions) : Item;
+    public function withActions(DropdownStandard $actions) : Standard;
 
     /**
      * Get the actions of the item.
      */
-    public function getActions() : ?Standard;
+    public function getActions() : ?DropdownStandard;
 }
