@@ -230,6 +230,7 @@ class ilChatroomXMLParser extends ilSaxParser
         $this->cdata = '';
     }
 
+    // CR: Parameter $a_xml_parser is not used
     public function handlerCharacterData($a_xml_parser, string $a_data) : void
     {
         if ($a_data !== "\n") {
