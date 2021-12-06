@@ -56,6 +56,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
             $this->showRoom($room, $chat_user);
         } else {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendFailure($this->ilLng->txt('no_username_given'));
             $this->showNameSelection($chat_user);
         }
@@ -102,6 +103,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $response = $connector->connect($scope, $user_id);
 
         if (!$response) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendFailure($this->ilLng->txt('unable_to_connect'), true);
             $this->ilCtrl->redirectByClass(ilInfoScreenGUI::class, 'info');
         }
@@ -113,6 +115,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $subScope = 0;
         $response = $connector->sendEnterPrivateRoom($scope, $subScope, $user_id);
         if (!$response) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendFailure($this->ilLng->txt('unable_to_connect'), true);
             $this->ilCtrl->redirectByClass('ilinfoscreengui', 'info');
         }
@@ -127,6 +130,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         $initial->private_rooms = array_values($known_private_room);
         $initial->redirect_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-lostConnection', '', false, false);
         $initial->profile_image_url = $this->ilCtrl->getLinkTarget($this->gui, 'view-getUserProfileImages', '', true, false);
+        // CR: Class ilUtil is deprecated
         $initial->no_profile_image_url = ilUtil::getImagePath('no_photo_xxsmall.jpg');
         $initial->private_rooms_enabled = (bool) $room->getSetting('private_rooms_enabled');
         $initial->subdirectory = $settings->getSubDirectory();
@@ -339,6 +343,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
      */
     private function cancelJoin(string $message) : void
     {
+        // CR: Class ilUtil is deprecated
         ilUtil::sendFailure($message);
     }
 
@@ -510,18 +515,22 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
         if ($this->http->wrapper()->query()->has('msg')) {
             switch ($this->http->wrapper()->query()->retrieve('msg', $this->refinery->kindlyTo()->string())) {
                 case 'kicked':
+                    // CR: Class ilUtil is deprecated
                     ilUtil::sendFailure($this->ilLng->txt('kicked'), true);
                     break;
 
                 case 'banned':
+                    // CR: Class ilUtil is deprecated
                     ilUtil::sendFailure($this->ilLng->txt('banned'), true);
                     break;
 
                 default:
+                    // CR: Class ilUtil is deprecated
                     ilUtil::sendFailure($this->ilLng->txt('lost_connection'), true);
                     break;
             }
         } else {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendFailure($this->ilLng->txt('lost_connection'), true);
         }
 
