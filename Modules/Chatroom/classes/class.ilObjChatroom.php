@@ -17,6 +17,7 @@ class ilObjChatroom extends ilObject
     protected ?int $access_end = null;
     protected ?int $access_visibility = null;
 
+    // CR: Type of parameters $a_id, $a_call_by_reference is missing
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
         $this->setAccessType(ilObjectActivation::TIMINGS_DEACTIVATED);
