@@ -60,6 +60,7 @@ class ilChatroomServerSettings
         return $settings;
     }
 
+    // CR: Type of parameter $score is missing
     /**
      * Creates URL by calling $this->getBaseURL and using given $action and
      * $scope and returns it.
