@@ -175,6 +175,7 @@ class ilChatroomServerSettings
         if ($this->getClientUrlEnabled()) {
             $url = $this->getClientUrl();
 
+            // CR: Replace if (strpos($url, '://') === false) with if (!str_contains($url, '://'))
             if (strpos($url, '://') === false) {
                 $url = $this->getProtocol() . $url;
             }
