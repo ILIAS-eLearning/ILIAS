@@ -67,6 +67,8 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         // CR the $ilCtrl = $DIC->ctrl() can be deleted and later in line 74 the $this->ctrl = $ilCtril to be replaced with the $this->ctrl = $DIC->ctrl() 
         
         $ilCtrl = $DIC->ctrl();
+        
+        // CR the $ilUser = $DIC->user() can be deleted and later in line 80 the $ilUser->getIdl to be replaced with the $DIC->user()->getId() 
         $ilUser = $DIC->user();
 
         $this->tpl = $tpl;
