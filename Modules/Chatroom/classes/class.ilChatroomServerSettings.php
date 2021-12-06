@@ -84,6 +84,7 @@ class ilChatroomServerSettings
         if ($this->getIliasUrlEnabled()) {
             $url = $this->getIliasUrl();
 
+            // CR: Replace if (strpos($url, '://') === false) with if (!str_contains($url, '://'))
             if (strpos($url, '://') === false) {
 
                 $url = $this->getProtocol() . $url;
