@@ -69,6 +69,7 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
 
+        // CR: Method setContextObject() is deprecated
         $ilCtrl->setContextObject(
             $ilUser->getId(),
             "user"
