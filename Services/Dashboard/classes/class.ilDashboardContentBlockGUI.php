@@ -82,6 +82,7 @@ class ilDashboardContentBlockGUI extends ilBlockGUI
 
     public function fillFooter() : void
     {
+        // CR: Delete comment line 86
         //$this->fillFooterLinks();
         $lng = $this->lng;
 
