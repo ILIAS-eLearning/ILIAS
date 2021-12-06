@@ -1,4 +1,4 @@
-<?php
+<?php // CR: declare(strict_types=1) is missing
 
 /**
  * This file is part of ILIAS, a powerful learning management system
