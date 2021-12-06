@@ -198,7 +198,8 @@ class ilPDSelectedItemsBlockViewSettings implements ilPDSelectedItemsBlockConsta
     {
         return $this->currentPresentationOption === $this->getListPresentationMode();
     }
-
+    
+    // CR: Type for method is missing
     public function storeViewSorting(int $view, string $type, array $active)
     {
         if (!in_array($type, $active)) {
