@@ -178,6 +178,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             $durationForm->addItem($select);
         }
 
+        // CR: Variable $room is defined, but it is not used later
         $room = ilChatroom::byObjectId($this->gui->object->getId());
 
         $prevUseRelDates = ilDatePresentation::useRelativeDates();
