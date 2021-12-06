@@ -61,9 +61,10 @@ class ilDashboardGUI implements ilCtrlBaseClassInterface
         $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->help = $DIC["ilHelp"];
         $tpl = $DIC["tpl"];
+        // CD: the $lng = $DIC->language() can be deleted and later in line 73 the $this->lng = $lng to be replaced with the $this->lng = $DIC->language()
         $lng = $DIC->language();
         
-        // CR the $ilCtrl = $DIC->ctrl() can be deleted and later in line 73 the $this->ctrl = $ilCtril to be replaced with the $this->ctrl = $DIC->ctrl() 
+        // CR the $ilCtrl = $DIC->ctrl() can be deleted and later in line 74 the $this->ctrl = $ilCtril to be replaced with the $this->ctrl = $DIC->ctrl() 
         
         $ilCtrl = $DIC->ctrl();
         $ilUser = $DIC->user();
