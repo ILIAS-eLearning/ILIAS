@@ -4,10 +4,6 @@ use ILIAS\ResourceStorage\Stakeholder\ResourceStakeholder;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\Filesystem\Provider\Configuration\LocalConfig;
 use ILIAS\FileUpload\Location;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
 use ILIAS\Filesystem\Provider\FlySystem\FlySystemFilesystemFactory;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
@@ -16,6 +12,10 @@ use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
 use ILIAS\Setup\Environment;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
+use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 
 /**
  * Class ilResourceStorageMigrationHelper
@@ -56,10 +56,10 @@ class ilResourceStorageMigrationHelper
                 ),
                     Location::STORAGE)
             ]),
-            new RevisionARRepository(),
-            new ResourceARRepository(),
-            new InformationARRepository(),
-            new StakeholderARRepository(),
+            new RevisionDBRepository($db),
+            new ResourceDBRepository($db),
+            new InformationDBRepository($db),
+            new StakeholderDBRepository($db),
             new LockHandlerilDB($this->database)
         );
     }

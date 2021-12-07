@@ -61,7 +61,6 @@ class ilObjRemoteCategoryListGUI extends ilObjectListGUI
         $this->type = 'rcat';
         $this->gui_class_name = 'ilobjremotecategorygui';
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;

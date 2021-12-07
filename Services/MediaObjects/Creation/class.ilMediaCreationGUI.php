@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * @author Alexander Killing <killing@leifos.de>
@@ -8,78 +19,33 @@
  */
 class ilMediaCreationGUI
 {
-    const TYPE_VIDEO = 1;
-    const TYPE_AUDIO = 2;
-    const TYPE_IMAGE = 3;
-    const TYPE_OTHER = 4;
-    const TYPE_ALL = 5;
+    public const TYPE_VIDEO = 1;
+    public const TYPE_AUDIO = 2;
+    public const TYPE_IMAGE = 3;
+    public const TYPE_OTHER = 4;
+    public const TYPE_ALL = 5;
+    public const POOL_VIEW_FOLDER = "fold";
+    public const POOL_VIEW_ALL = "all";
 
-    const POOL_VIEW_FOLDER = "fold";
-    const POOL_VIEW_ALL = "all";
+    protected array $accept_types = [1,2,3,4];
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $main_tpl;
+    protected Closure $after_upload;
+    protected Closure $after_url_saving;
+    protected Closure $after_pool_insert;
+    protected ilAccessHandler $access;
+    protected array $all_suffixes = [];
+    protected array $all_mime_types = [];
+    protected \ILIAS\DI\UIServices $ui;
+    protected int $requested_mep;
+    protected string $pool_view = self::POOL_VIEW_FOLDER;
 
-    protected $accept_types = [1,2,3,4];
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var \ilTemplate
-     */
-    protected $main_tpl;
-
-    /**
-     * @var closure
-     */
-    protected $after_upload;
-
-    /**
-     * @var closure
-     */
-    protected $after_url_saving;
-
-    /**
-     * @var closure
-     */
-    protected $after_pool_insert;
-
-    /**
-     * @var \ilAccessHandler
-     */
-    protected $access;
-
-    protected $all_suffixes = [];
-    protected $all_mime_types = [];
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var int
-     */
-    protected $requested_mep;
-
-    /**
-     * @var string
-     */
-    protected $pool_view = self::POOL_VIEW_FOLDER;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         array $accept_types,
-        closure $after_upload,
-        closure $after_url_saving,
-        closure $after_pool_insert
+        Closure $after_upload,
+        Closure $after_url_saving,
+        Closure $after_pool_insert
     ) {
         global $DIC;
 
@@ -108,48 +74,29 @@ class ilMediaCreationGUI
             : self::POOL_VIEW_FOLDER;
     }
 
-    /**
-     * Set All suffixes
-     * @param array $a_val
-     */
-    public function setAllSuffixes($a_val)
-    {
+    public function setAllSuffixes(
+        array $a_val
+    ) : void {
         $this->all_suffixes = $a_val;
     }
 
-    /**
-     * Get All suffixes
-     * @return array
-     */
-    public function getAllSuffixes()
+    public function getAllSuffixes() : array
     {
         return $this->all_suffixes;
     }
 
-    /**
-     * Set All mime types
-     * @param array $a_val
-     */
-    public function setAllMimeTypes($a_val)
-    {
+    public function setAllMimeTypes(
+        array $a_val
+    ) : void {
         $this->all_mime_types = $a_val;
     }
 
-    /**
-     * Get All mime types
-     * @return array
-     */
-    public function getAllMimeTypes()
+    public function getAllMimeTypes() : array
     {
         return $this->all_mime_types;
     }
 
-
-    /**
-     * Get suffixes
-     * @return array
-     */
-    protected function getSuffixes()
+    protected function getSuffixes() : array
     {
         $suffixes = [];
         if (in_array(self::TYPE_ALL, $this->accept_types)) {
@@ -161,11 +108,7 @@ class ilMediaCreationGUI
         return $suffixes;
     }
 
-    /**
-     * Get mimes
-     * @return array
-     */
-    protected function getMimeTypes()
+    protected function getMimeTypes() : array
     {
         $mimes = [];
         if (in_array(self::TYPE_ALL, $this->accept_types)) {
@@ -178,10 +121,7 @@ class ilMediaCreationGUI
         return $mimes;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -203,10 +143,7 @@ class ilMediaCreationGUI
         }
     }
 
-    /**
-     * Creation selection
-     */
-    protected function creationSelection()
+    protected function creationSelection() : void
     {
         $main_tpl = $this->main_tpl;
 
@@ -244,10 +181,7 @@ class ilMediaCreationGUI
         $main_tpl->setContent($acc->getHTML());
     }
 
-    /**
-     * Init upload form.
-     */
-    public function initUploadForm()
+    public function initUploadForm() : ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -268,10 +202,7 @@ class ilMediaCreationGUI
         return $form;
     }
 
-    /**
-     * Init url form.
-     */
-    public function initUrlForm()
+    public function initUrlForm() : ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
@@ -293,17 +224,13 @@ class ilMediaCreationGUI
         return $form;
     }
 
-    /**
-     * Init pool selectio form.
-     */
-    public function initPoolSelection()
+    public function initPoolSelection() : ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
         $form = new \ilPropertyFormGUI();
 
-        // mediacast
         $mcst = new ilRepositorySelector2InputGUI($lng->txt("obj_mep"), "mep", false);
         $exp = $mcst->getExplorerGUI();
         $exp->setSelectableTypes(["mep"]);
@@ -320,10 +247,7 @@ class ilMediaCreationGUI
         return $form;
     }
 
-    /**
-     * Upload file
-     */
-    protected function uploadFile()
+    protected function uploadFile() : void
     {
         $form = $this->initUploadForm();
 
@@ -379,19 +303,13 @@ class ilMediaCreationGUI
         }
     }
 
-    /**
-     * Cancel
-     */
-    protected function cancel()
+    protected function cancel() : void
     {
         $ctrl = $this->ctrl;
         $ctrl->returnToParent($this);
     }
 
-    /**
-     * Save url
-     */
-    protected function saveUrl()
+    protected function saveUrl() : void
     {
         $form = $this->initUrlForm();
 
@@ -449,7 +367,7 @@ class ilMediaCreationGUI
     /**
      * Insert media object from pool
      */
-    public function listPoolItems()
+    public function listPoolItems() : void
     {
         $ctrl = $this->ctrl;
         $access = $this->access;
@@ -492,10 +410,7 @@ class ilMediaCreationGUI
         }
     }
 
-    /**
-     * Apply filter
-     */
-    protected function applyFilter()
+    protected function applyFilter() : void
     {
         $mpool_table = $this->getPoolTable();
         $mpool_table->resetOffset();
@@ -503,10 +418,7 @@ class ilMediaCreationGUI
         $this->ctrl->redirect($this, "listPoolItems");
     }
 
-    /**
-     * Reset filter
-     */
-    protected function resetFilter()
+    protected function resetFilter() : void
     {
         $mpool_table = $this->getPoolTable();
         $mpool_table->resetOffset();
@@ -514,12 +426,7 @@ class ilMediaCreationGUI
         $this->ctrl->redirect($this, "listPoolItems");
     }
 
-    /**
-     * Get pool table
-     * @param
-     * @return
-     */
-    protected function getPoolTable()
+    protected function getPoolTable() : ilMediaPoolTableGUI
     {
         $pool = new ilObjMediaPool($this->requested_mep);
         $mpool_table = new ilMediaPoolTableGUI(
@@ -539,7 +446,7 @@ class ilMediaCreationGUI
     /**
      * Select concrete pool
      */
-    public function selectPool()
+    public function selectPool() : void
     {
         $ctrl = $this->ctrl;
 
@@ -547,10 +454,7 @@ class ilMediaCreationGUI
         $ctrl->redirect($this, "listPoolItems");
     }
 
-    /**
-     * Pool Selection
-     */
-    public function poolSelection()
+    public function poolSelection() : void
     {
         $main_tpl = $this->main_tpl;
         $exp = new ilPoolSelectorGUI(
@@ -571,7 +475,7 @@ class ilMediaCreationGUI
     /**
      * Insert media from pool
      */
-    protected function insertFromPool()
+    protected function insertFromPool() : void
     {
         if (!is_array($_POST["id"])) {
             ilUtil::sendFailure($this->lng->txt("select_one"));

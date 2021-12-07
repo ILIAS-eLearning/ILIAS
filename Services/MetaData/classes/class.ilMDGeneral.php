@@ -33,7 +33,7 @@ include_once 'class.ilMDBase.php';
 
 class ilMDGeneral extends ilMDBase
 {
-    protected string $coverage = '';
+    protected ?string $coverage = '';
     protected $coverage_language;
 
     public function getPossibleSubelements()

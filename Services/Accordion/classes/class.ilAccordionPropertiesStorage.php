@@ -7,7 +7,7 @@
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilAccordionPropertiesStorage: ilAccordionPropertiesStorage
  */
-class ilAccordionPropertiesStorage
+class ilAccordionPropertiesStorage implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilObjUser

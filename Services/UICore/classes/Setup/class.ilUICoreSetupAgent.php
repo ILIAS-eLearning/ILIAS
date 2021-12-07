@@ -1,21 +1,23 @@
 <?php declare(strict_types=1);
 
-use ILIAS\Setup;
+/* Copyright (c) 2021 Thibeau Fuhrer <thf@studer-raimann.ch> Extended GPL, see docs/LICENSE */
+
 use ILIAS\Refinery\Transformation;
 use ILIAS\Setup\ObjectiveCollection;
+use ILIAS\Setup\Objective\NullObjective;
+use ILIAS\Setup\Metrics\Storage;
+use ILIAS\Setup\Objective;
+use ILIAS\Setup\Agent;
+use ILIAS\Setup\Config;
+use ILIAS\Setup\ObjectiveConstructor;
 
-class ilUICoreSetupAgent implements Setup\Agent
+/**
+ * Class ilUICoreSetupAgent
+ * @author Thibeau Fuhrer <thf@studer-raimann.ch>
+ * @author Fabian Schmid <fs@studer-raimann.ch>
+ */
+class ilUICoreSetupAgent implements Agent
 {
-    /**
-     * @var ilCtrlStructureReader
-     */
-    protected $ctrl_reader;
-
-    public function __construct()
-    {
-        $this->ctrl_reader = new \ilCtrlStructureReader();
-    }
-
     /**
      * @inheritdoc
      */
@@ -29,39 +31,47 @@ class ilUICoreSetupAgent implements Setup\Agent
      */
     public function getArrayToConfigTransformation() : Transformation
     {
-        throw new \LogicException(self::class . " has no Config.");
+        throw new LogicException(self::class . " has no Config.");
     }
 
     /**
      * @inheritdoc
      */
-    public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
+    public function getInstallObjective(Config $config = null) : Objective
     {
-        return new \ilCtrlStructureStoredObjective($this->ctrl_reader);
+        return new NullObjective();
     }
 
     /**
      * @inheritdoc
      */
-    public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
+    public function getUpdateObjective(Config $config = null) : Objective
     {
-        return new \ilCtrlStructureStoredObjective($this->ctrl_reader);
+        return new ilDatabaseUpdateStepsExecutedObjective(
+            new ilCtrlDatabaseUpdateSteps()
+        );
     }
 
     /**
      * @inheritdoc
      */
-    public function getBuildArtifactObjective() : Setup\Objective
+    public function getBuildArtifactObjective() : Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new ObjectiveCollection(
+            'buildIlCtrlArtifacts',
+            false,
+            new ilCtrlBaseClassArtifactObjective(),
+            new ilCtrlStructureArtifactObjective(),
+            new ilCtrlSecurityArtifactObjective(),
+        );
     }
 
     /**
      * @inheritdoc
      */
-    public function getStatusObjective(Setup\Metrics\Storage $storage) : Setup\Objective
+    public function getStatusObjective(Storage $storage) : Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new NullObjective();
     }
 
     /**
@@ -72,20 +82,25 @@ class ilUICoreSetupAgent implements Setup\Agent
         return [];
     }
 
-    public function getNamedObjective(string $name, Setup\Config $config = null) : Setup\Objective
+    /**
+     * @inheritDoc
+     */
+    public function getNamedObjectives(?Config $config = null) : array
     {
-        if ($name == "reloadCtrlStructure") {
-            return new ObjectiveCollection(
-                "Reload Control Structure of ILIAS",
-                false,
-                new \ilCtrlStructureStoredObjective(
-                    new \ilCtrlStructureReader()
-                ),
-                new \ilComponentDefinitionsStoredObjective(false)
-            );
-        }
-        throw new \InvalidArgumentException(
-            "There is no named objective '$name'"
-        );
+        return [
+            'buildIlCtrlArtifacts' => new ObjectiveConstructor(
+                'builds all necessary ilCtrl artifacts.',
+                function () {
+                    return $this->getBuildArtifactObjective();
+                }
+            ),
+
+            'updateIlCtrlDatabase' => new ObjectiveConstructor(
+                'executes all ilCtrl database update steps.',
+                function () {
+                    return $this->getUpdateObjective();
+                }
+            ),
+        ];
     }
 }

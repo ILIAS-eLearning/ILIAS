@@ -7,7 +7,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class ilAwarenessGUI
+class ilAwarenessGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilObjUser

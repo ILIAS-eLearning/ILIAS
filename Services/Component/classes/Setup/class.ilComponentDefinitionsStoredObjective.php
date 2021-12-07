@@ -110,6 +110,7 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
         }
 
         $reader = new \ilComponentDefinitionReader(
+            new \ilGeneralComponentDefinitionProcessor($db),
             new \ilBadgeDefinitionProcessor($db),
             new \ilCOPageDefinitionProcessor($db),
             new \ilComponentInfoDefinitionProcessor($db),
@@ -122,7 +123,6 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
             new \ilPDFGenerationDefinitionProcessor($db),
             new \ilSystemCheckDefinitionProcessor($db),
             new \ilSecurePathDefinitionProcessor($db),
-            new \ilCtrlBaseclassDefinitionProcessor($db)
         );
         $reader->purge();
         $reader->readComponentDefinitions();

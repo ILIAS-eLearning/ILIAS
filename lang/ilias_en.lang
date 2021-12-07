@@ -1996,7 +1996,6 @@ cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions f
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
 cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
-common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept terms of service?
 common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
@@ -2829,6 +2828,7 @@ common#:#hint#:#Hint
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_lm_pg_create#:#Page created.
+common#:#hist_lm_pg_update#:#Page changed.
 common#:#hist_lm_st_create#:#Chapter created.
 common#:#hist_webr_add#:#Added new Weblink with title: "%1"
 common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
@@ -5640,7 +5640,6 @@ forum#:#forums_your_reply#:#Your Reply
 forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name. If the option "Mark moderators posts" is also enabled, moderators can not use a pseudonym.
 forum#:#frm_anonymous_posting#:#Posting with pseudonym
 forum#:#frm_default_view#:#Default View
-forum#:#frm_detach_moderator_role#:#Detach Moderator Role
 forum#:#frm_moderator_f#:#Moderator
 forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_n#:#Moderation
@@ -8584,6 +8583,7 @@ administration#:#language_remove_local_file#:#Delete the custom language file
 rbac#:#export_member_data#:#Access User Data
 rbac#:#rbac_change_existing_objects_desc_new_role#:#The permission settings of this role will be adopted to ALL existing objects.
 forum#:#frm_edit_title#:#Edit Title
+forum#:#frm_activation_online_info#:#Set the forum online to make it visible and available to other users. If not, only administrators will have access to it.
 common#:#webdav_pwd_instruction#:#We suggest to create a local password for opening the repository as webfolder.<br />This password is only required for the webfolder functionality.
 common#:#webdav_pwd_instruction_success#:#A new local password has been created. You can now open the repository as webfolder.
 administration#:#language_merged_global#:#The local changes were merged into the standard language file.
@@ -11032,6 +11032,7 @@ common#:#obj_bibl#:#Bibliography
 common#:#objs_bibl#:#Bibliographies
 common#:#obj_bibs#:#Bibliography
 common#:#obj_bibs_desc#:#Bibliography Administration
+bibl#:#not_yet_migrated#:#This Object has not et been migrated. Please contact the administrators of the platform.
 bibl#:#bibl_new#:#New Bibliography
 bibl#:#bibl_link_online#:#Lookup inventory
 bibl#:#bibl_add#:#Add Bibliography
@@ -11941,6 +11942,7 @@ mail#:#mail_filter_attach#:#Attachments
 mail#:#mail_filter_field_placeholder#:#Filter these messages ...
 mail#:#mail_filter_txt#:#Filter messages by
 mail#:#mail_filter_only_unread#:#Only Unread
+mail#:#mail_filter_only_user_mails#:#Hide System Notifications
 mail#:#mail_filter_only_with_attachments#:#With Attachments
 mail#:#mail_filter_period#:#Period
 mail#:#mail_filter_period_from#:#From
@@ -14199,7 +14201,7 @@ rbac#:#news_add_news#:#Add News
 rbac#:#grp_news_add_news#:#Add and edit own news entries in group
 news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
 obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
+obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view. Users can subscribe for notifications, if the news block or the timeline are activated.
 obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline_landing_page#:#Landing Page
@@ -14900,6 +14902,7 @@ copa#:#copa_btn_lp_toggle_state_not_completed#:#Set Completed
 copa#:#copa_prop_reading_time#:#Reading Time
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#copa_value_reading_time_f_p#:#%s Minutes
+copa#:#copa_activation_online_info#:#Set the Content Page online to make it visible and available to other users. If not, only administrators will have access to it.
 common#:#obj_cpad#:#Content Pages
 common#:#obj_cpad_desc#:#Content Page Administration
 common#:#obj_cpad#_desc#:#Content Page Administration
@@ -16647,3 +16650,10 @@ prg#:#prg_manage_members_short#:#Manage Assignments
 prg#:#will_not_modify_relevant_progress#:#already relevant
 prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when successful
 prg#:#status_unchanged#:#Status unchanged
+common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
+common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
+common#:#actions_for#:#Actions for %s
+violation#:#not_a_string#:#Given value is not a String
+common#:#actions_for#:#Actions for %s
+validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.
+validation#:#not_an_array#:#Given value is not an array

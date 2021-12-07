@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -15,11 +15,11 @@ interface ilObjectCommonSettingsInterface
      * Get form adapter (currently only for legacy form using ilPropertyFormGUI) for adding and saving
      * common settings to and from forms.
      *
-     * @todo In the future a method form() should also act on new ui form containers.
-     *
      * @param ilPropertyFormGUI $form
      * @param ilObject $object
      * @return ilObjectCommonSettingFormAdapter
+     * @todo In the future a method form() should also act on new ui form containers.
+     *
      */
     public function legacyForm(ilPropertyFormGUI $form, ilObject $object) : ilObjectCommonSettingFormAdapter;
 

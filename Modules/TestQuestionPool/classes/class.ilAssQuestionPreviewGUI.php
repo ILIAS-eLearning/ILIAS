@@ -1,6 +1,10 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+use ILIAS\Refinery\Random\Seed\RandomSeed;
+use ILIAS\Refinery\Random\Seed\GivenSeed;
+use ILIAS\Refinery\Transformation;
 
 /**
  * @author		Björn Heyser <bheyser@databay.de>
@@ -82,8 +86,10 @@ class ilAssQuestionPreviewGUI
      * @var ilAssQuestionPreviewHintTracking
      */
     protected $hintTracking;
+
+    private RandomGroup $randomGroup;
     
-    public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user)
+    public function __construct(ilCtrl $ctrl, ilTabsGUI $tabs, ilGlobalTemplateInterface $tpl, ilLanguage $lng, ilDBInterface $db, ilObjUser $user, RandomGroup $randomGroup)
     {
         $this->ctrl = $ctrl;
         $this->tabs = $tabs;
@@ -91,6 +97,7 @@ class ilAssQuestionPreviewGUI
         $this->lng = $lng;
         $this->db = $db;
         $this->user = $user;
+        $this->randomGroup = $randomGroup;
     }
 
     public function initQuestion($questionId, $parentObjId)
@@ -543,20 +550,15 @@ class ilAssQuestionPreviewGUI
     }
 
     /**
-     * @return ilArrayElementShuffler
+     * @return Transformation
      */
     private function getQuestionAnswerShuffler()
     {
-        require_once 'Services/Randomization/classes/class.ilArrayElementShuffler.php';
-        $shuffler = new ilArrayElementShuffler();
-        
         if (!$this->previewSession->randomizerSeedExists()) {
-            $this->previewSession->setRandomizerSeed($shuffler->buildRandomSeed());
+            $this->previewSession->setRandomizerSeed((new RandomSeed())->createSeed());
         }
-        
-        $shuffler->setSeed($this->previewSession->getRandomizerSeed());
-        
-        return $shuffler;
+
+        return $this->randomGroup->shuffleArray(new GivenSeed($this->previewSession->getRandomizerSeed()));
     }
     
     protected function populateNotesPanel(ilTemplate $tpl, $notesPanelHTML)

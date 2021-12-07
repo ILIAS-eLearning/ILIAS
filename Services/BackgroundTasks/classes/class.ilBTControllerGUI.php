@@ -9,7 +9,7 @@ use ILIAS\Modules\OrgUnit\ARHelper\DIC;
  * @author Oskar Truffer <ot@studer-raimann.ch>
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
-class ilBTControllerGUI
+class ilBTControllerGUI implements ilCtrlBaseClassInterface
 {
     use DIC;
     const FROM_URL = 'from_url';

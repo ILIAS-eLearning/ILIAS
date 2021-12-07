@@ -455,7 +455,7 @@ class ilOrgUnitType
         $sql = 'SELECT * FROM orgu_types_adv_md_rec WHERE type_id = ' . $this->db->quote($this->getId(), 'integer');
         $set = $this->db->query($sql);
         while ($rec = $this->db->fetchObject($set)) {
-            $amd_record = new ilAdvancedMDRecord($rec->rec_id);
+            $amd_record = new ilAdvancedMDRecord((int) $rec->rec_id);
             if ($a_only_active) {
                 if ($amd_record->isActive()) {
                     $this->amd_records_assigned[1][] = $amd_record;

@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2021 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory;
+
 /**
  * Class ilMailMimeTest
  * @author Michael Jansen <mjansen@databay.de>
@@ -21,6 +23,9 @@ class ilMailTest extends ilMailBaseTest
      */
     public function testExternalMailDeliveryToLocalRecipientsWorksAsExpected() : void
     {
+        $refineryMock = $this->getMockBuilder(Factory::class)->disableOriginalConstructor()->getMock();
+        $this->setGlobalVariable('refinery', $refineryMock);
+
         $senderUsrId = 666;
         $loginToIdMap = [
             'phpunit1' => 1,

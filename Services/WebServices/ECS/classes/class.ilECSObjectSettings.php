@@ -658,8 +658,6 @@ abstract class ilECSObjectSettings
     protected function addMetadataToJson(&$a_json, ilECSSetting $a_server, array $a_definition)
     {
         include_once('./Services/WebServices/ECS/classes/class.ilECSDataMappingSettings.php');
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         $mappings = ilECSDataMappingSettings::getInstanceByServerId($a_server->getServerId());
         
         include_once "Services/WebServices/ECS/classes/class.ilECSUtils.php";

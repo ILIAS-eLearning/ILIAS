@@ -11,7 +11,7 @@
  *
  * @ingroup ModulesMediaPool
  */
-class ilMediaPoolPresentationGUI
+class ilMediaPoolPresentationGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

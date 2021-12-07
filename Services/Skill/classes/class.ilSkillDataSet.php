@@ -433,7 +433,7 @@ class ilSkillDataSet extends ilDataSet
                             if (ilSkillTreeNode::_lookupType($id) == "sktr") {
                                 $ref_nodes[$id] = $id;
                             } else {
-                                $sub = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($id), true, "sktr");
+                                $sub = $this->skill_tree->getSubTree($this->skill_tree->getNodeData($id), true, ["sktr"]);
                                 foreach ($sub as $s) {
                                     $ref_nodes[$s["child"]] = $s["child"];
                                 }

@@ -121,6 +121,9 @@ run `php setup/setup.php achieve $AGENT_NAME.$OBJECTIVE_NAME`, e.g.
 control structure. The agent might need to a config file to work, which may be added
 as last parameter: `php setup/setup.php achieve uicore.reloadCtrlStructure config.json`
 
+## List available objectives
+Calling `php setup/setup.php achieve` without any arguments and options  
+or calling `php setup/setup.php achieve --list` will list all available objectives.
 
 # Migrations
 

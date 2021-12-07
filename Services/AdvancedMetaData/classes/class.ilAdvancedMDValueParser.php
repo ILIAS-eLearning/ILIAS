@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -30,38 +30,24 @@
 * @ingroup ServicesAdvancedMetaData
 */
 
-include_once('Services/Utilities/interfaces/interface.ilSaxSubsetParser.php');
-include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
-include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php');
 
 class ilAdvancedMDValueParser implements ilSaxSubsetParser
 {
-    protected $cdata = '';
-    protected $obj_id;
-    protected $values_records = array(); // [ilAdvancedMDValues]
-    protected $values = array(); // [ilAdvancedMDFieldDefinition]
-    protected $current_value = null;
+    protected string $cdata = '';
+    protected int $obj_id;
+    protected array $values_records = array();
+    protected array $values = array();
+    protected ?ilAdvancedMDFieldDefinition $current_value = null;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_new_obj_id = 0)
+    public function __construct(int $a_new_obj_id = 0)
     {
         $this->obj_id = $a_new_obj_id;
     }
     
     /**
      * Set object id (id of new created object)
-     *
-     * @access public
-     * @param int obj_id
-     *
      */
-    public function setObjId($a_obj_id)
+    public function setObjId(int $a_obj_id) : void
     {
         $this->obj_id = $a_obj_id;
     }
@@ -71,7 +57,7 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
      * @access public
      *
      */
-    public function save()
+    public function save() : bool
     {
         foreach ($this->values_records as $values_record) {
             $values_record->write();
@@ -152,12 +138,8 @@ class ilAdvancedMDValueParser implements ilSaxSubsetParser
     
     /**
      * init new value object
-     *
-     * @access private
-     * @param string import id
-     *
      */
-    private function initValue($a_import_id)
+    private function initValue(string $a_import_id) : void
     {
         if (isset($this->values[$a_import_id])) {
             $this->current_value = $this->values[$a_import_id];

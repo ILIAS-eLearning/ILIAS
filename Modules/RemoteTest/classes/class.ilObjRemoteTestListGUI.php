@@ -61,7 +61,6 @@ class ilObjRemoteTestListGUI extends ilObjectListGUI
         $this->type = 'rtst';
         $this->gui_class_name = 'ilobjremotetestgui';
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDSubstitution.php');
         $this->substitutions = ilAdvancedMDSubstitution::_getInstanceByObjectType($this->type);
         if ($this->substitutions->isActive()) {
             $this->substitutions_enabled = true;

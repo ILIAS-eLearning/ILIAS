@@ -130,7 +130,7 @@ class ilMailingList
     private function read() : void
     {
         if ($this->getId() && $this->getUserId()) {
-            $res = $this->db->queryf(
+            $res = $this->db->queryF(
                 'SELECT * FROM addressbook_mlist WHERE ml_id = %s AND user_id =%s',
                 ['integer', 'integer'],
                 [$this->getId(), $this->getUserId()]
@@ -155,7 +155,7 @@ class ilMailingList
      */
     public function getAssignedEntries() : array
     {
-        $res = $this->db->queryf(
+        $res = $this->db->queryF(
             'SELECT a_id, usr_data.usr_id FROM addressbook_mlist_ass ' .
             'INNER JOIN usr_data ON usr_data.usr_id = addressbook_mlist_ass.usr_id WHERE ml_id = %s',
             ['integer'],
@@ -268,22 +268,6 @@ class ilMailingList
         return $this->changedate;
     }
 
-    public static function _isOwner(int $a_ml_id, int $a_usr_id) : bool
-    {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $res = $ilDB->queryf(
-            'SELECT * FROM addressbook_mlist WHERE ml_id = %s AND user_id =%s',
-            ['integer', 'integer'],
-            [$a_ml_id, $a_usr_id]
-        );
-        $row = $ilDB->fetchObject($res);
-
-        return is_object($row) ? true : false;
-    }
-
     public function setMode(int $a_mode) : void
     {
         if (in_array($a_mode, [self::MODE_ADDRESSBOOK, self::MODE_TEMPORARY], true)) {
@@ -294,15 +278,5 @@ class ilMailingList
     public function getMode() : int
     {
         return $this->mode;
-    }
-
-
-    public static function removeAssignmentsByUserId(int $usr_id) : void
-    {
-        /** @var $ilDB ilDBInterface */
-        global $DIC;
-        $ilDB = $DIC['ilDB'];
-
-        $ilDB->manipulate('DELETE FROM addressbook_mlist_ass WHERE usr_id = ' . $ilDB->quote($usr_id, 'integer'));
     }
 }

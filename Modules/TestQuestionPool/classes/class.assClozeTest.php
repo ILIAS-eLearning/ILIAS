@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+
 require_once './Modules/TestQuestionPool/classes/class.assQuestion.php';
 require_once './Modules/Test/classes/inc.AssessmentConstants.php';
 require_once './Modules/TestQuestionPool/classes/class.assClozeGapCombination.php';
@@ -101,6 +103,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
 
     protected $feedbackMode = ilAssClozeTestFeedback::FB_MODE_GAP_QUESTION;
 
+    private RandomGroup $randomGroup;
+
     /**
      * assClozeTest constructor
      *
@@ -121,6 +125,8 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $owner = -1,
         $question = ""
     ) {
+        global $DIC;
+
         parent::__construct($title, $comment, $author, $owner, $question);
         $this->start_tag = "[gap]";
         $this->end_tag = "[/gap]";
@@ -130,6 +136,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         $this->identical_scoring = 1;
         $this->gap_combinations_exists = false;
         $this->gap_combinations = array();
+        $this->randomGroup = $DIC->refinery()->random();
     }
 
     /**
@@ -2010,7 +2017,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
             return false;
         }
 
-        foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $item) {
+        foreach ($gap->getItems($this->randomGroup->dontShuffle()) as $item) {
             if ($item->getAnswertext() == $answerOptionValue) {
                 return false;
             }

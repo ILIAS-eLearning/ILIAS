@@ -2,14 +2,18 @@
 
 namespace ILIAS\UI\examples\Dropzone\File\Standard;
 
+use Exception;
+
 function base()
 {
     global $DIC;
     $factory = $DIC->ui()->factory();
     $renderer = $DIC->ui()->renderer();
+    $refinery = $DIC->refinery();
+    $request_wrapper = $DIC->http()->wrapper()->query();
 
     // Handle a file upload ajax request
-    if (isset($_GET['example']) && $_GET['example'] == 1) {
+    if ($request_wrapper->has('example') && $request_wrapper->retrieve('example', $refinery->kindlyTo()->int()) == 1) {
         $upload = $DIC->upload();
         try {
             $upload->process();
@@ -17,7 +21,7 @@ function base()
 
             // The File-Dropzones will expect a valid json-Status (success true or false).
             echo json_encode([ 'success' => true, 'message' => 'Successfully uploaded file' ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // See above
             echo json_encode([ 'success' => false, 'message' => $e->getMessage() ]);
         }

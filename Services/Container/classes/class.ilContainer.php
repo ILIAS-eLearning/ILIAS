@@ -1108,7 +1108,7 @@ class ilContainer extends ilObject
                         $result = $meta_search->performSearch();
                     }
                 } else {        // advanced metadata search
-                    $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+                    $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
 
                     $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
                         $field->getADTDefinition(),

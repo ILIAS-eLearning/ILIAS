@@ -916,7 +916,6 @@ class ilECSSettingsGUI
 
         $ilToolbar = $DIC['ilToolbar'];
         
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 
         $this->setMappingTabs(self::MAPPING_IMPORT);
 
@@ -975,7 +974,6 @@ class ilECSSettingsGUI
 
         $ilToolbar = $DIC['ilToolbar'];
         
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
 
         $this->setMappingTabs(self::MAPPING_EXPORT);
 
@@ -1111,7 +1109,6 @@ class ilECSSettingsGUI
             $form->addItem($assignments);
         }
 
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         $fields = ilAdvancedMDFieldDefinition::getInstancesByObjType('crs');
         $options = $this->prepareFieldSelection($fields);
 
@@ -1162,7 +1159,6 @@ class ilECSSettingsGUI
         $rcrs = new ilCustomInputGUI($this->lng->txt('ecs_mapping_rcrs'));
         $form->addItem($rcrs);
 
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         $fields = ilAdvancedMDFieldDefinition::getInstancesByObjType('rcrs');
         $options = $this->prepareFieldSelection($fields);
 
@@ -1815,8 +1811,7 @@ class ilECSSettingsGUI
      */
     protected function prepareFieldSelection($fields)
     {
-        include_once('./Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
-        
+
         $options[0] = $this->lng->txt('ecs_ignore_field');
         foreach ($fields as $field) {
             $title = ilAdvancedMDRecord::_lookupTitle($field->getRecordId());

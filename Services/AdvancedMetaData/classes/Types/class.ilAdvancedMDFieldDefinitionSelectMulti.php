@@ -1,39 +1,31 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once "Services/AdvancedMetaData/classes/Types/class.ilAdvancedMDFieldDefinitionSelect.php";
 
 /**
  * AMD field type select
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id$
  *
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinitionSelect
 {
-    const XML_SEPARATOR = "~|~";
+    protected const XML_SEPARATOR = "~|~";
     
-    //
-    // generic types
-    //
-
-    // search
-    public function getSearchQueryParserValue(ilADTSearchBridge $search_bridge)
+    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
-        return $search_bridge->getADT()->getSelections()[0] ?? 0;
+        return $a_adt_search->getADT()->getSelections()[0] ?? "";
     }
 
     
-    public function getType()
+    public function getType() : int
     {
         return self::TYPE_SELECT_MULTI;
     }
     
     
 
-    protected function initADTDefinition()
+    protected function initADTDefinition() : ilADTDefinition
     {
         $def = ilADTFactory::getInstance()->getDefinitionInstanceByType("MultiEnum");
         $def->setNumeric(false);
@@ -47,20 +39,11 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
         return $def;
     }
 
-    
-    
-    //
-    // definition (NOT ADT-based)
-    //
-
-    /**
-     * @param ilPropertyFormGUI $a_form
-     * @param string            $language
-     */
-    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '')
+    public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '') : void
     {
         if (!$this->useDefaultLanguageMode($language)) {
-            return $this->importTranslatedFormPostValues($a_form, $language);
+            $this->importTranslatedFormPostValues($a_form, $language);
+            return;
         }
         if (!strlen($language)) {
             $language = ilAdvancedMDRecord::_getInstanceByRecordId($this->getRecordId())->getDefaultLanguage();
@@ -94,37 +77,22 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
     }
 
     
-    //
-    // definition CRUD
-    //
-    
-
-    
-    //
-    // import/export
-    //
-    
-    public function getValueForXML(ilADT $element)
+    public function getValueForXML(ilADT $element) : string
     {
         return self::XML_SEPARATOR .
             implode(self::XML_SEPARATOR, $element->getSelections()) .
             self::XML_SEPARATOR;
     }
     
-    public function importValueFromXML($a_cdata)
+    public function importValueFromXML(string $a_cdata) : void
     {
         $this->getADT()->setSelections(explode(self::XML_SEPARATOR, $a_cdata));
     }
     
-    
-    //
-    // presentation
-    //
-    
-    public function prepareElementForEditor(ilADTFormBridge $a_enum)
+    public function prepareElementForEditor(ilADTFormBridge $a_bridge) : void
     {
-        assert($a_enum instanceof ilADTMultiEnumFormBridge);
+        assert($a_bridge instanceof ilADTMultiEnumFormBridge);
         
-        $a_enum->setAutoSort(false);
+        $a_bridge->setAutoSort(false);
     }
 }
