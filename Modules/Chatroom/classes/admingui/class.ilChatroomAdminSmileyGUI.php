@@ -40,10 +40,12 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $path = self::_getSmileyDir();
 
         if (!is_dir($path)) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendInfo($DIC->language()->txt('chat_smilies_dir_not_exists'));
             ilUtil::makeDirParents($path);
 
             if (!is_dir($path)) {
+                // CR: Class ilUtil is deprecated
                 ilUtil::sendFailure($DIC->language()->txt('chat_smilies_dir_not_available'));
                 return false;
             }
@@ -70,6 +72,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
             self::_insertDefaultValues();
 
+            // CR: Class ilUtil is deprecated
             ilUtil::sendSuccess($DIC->language()->txt('chat_smilies_initialized'));
         }
 
@@ -85,6 +88,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $path = 'chatroom/smilies';
 
         if ($withBaseDir) {
+            // CR: Class ilUtil is deprecated
             $path = ilUtil::getWebspaceDir() . '/' . $path;
         }
 
@@ -393,6 +397,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         if (!$atLeastOneKeywordGiven || !$isFormValid) {
             $errorShown = !$isFormValid;
             if (!$atLeastOneKeywordGiven && !$errorShown) {
+                // CR: Class ilUtil is deprecated
                 ilUtil::sendFailure($this->ilLng->txt('form_input_not_valid'));
             }
 
@@ -426,6 +431,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
 
         ilChatroomSmilies::_updateSmiley($data);
 
+        // CR: Class ilUtil is deprecated
         ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
         $this->ilCtrl->redirect($this->gui, 'smiley');
     }
@@ -453,12 +459,14 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             []
         );
         if ($ids === []) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendInfo($this->ilLng->txt('select_one'), true);
             $this->ilCtrl->redirect($this->gui, 'smiley');
         }
 
         $smilies = ilChatroomSmilies::_getSmiliesById($ids);
         if ($smilies === []) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendInfo($this->ilLng->txt('select_one'), true);
             $this->ilCtrl->redirect($this->gui, 'smiley');
         }
@@ -473,6 +481,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             $confirmation->addItem(
                 'sel_ids[]',
                 (string) $s['smiley_id'],
+                // CR: Class ilUtil is deprecated
                 ilUtil::img($s['smiley_fullpath'], $s['smiley_keywords']) . ' ' . $s['smiley_keywords']
             );
         }
@@ -538,6 +547,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         if (!$atLeastOneKeywordGiven || !$isFormValid) {
             $errorShown = !$isFormValid;
             if (!$atLeastOneKeywordGiven && !$errorShown) {
+                // CR: Class ilUtil is deprecated
                 ilUtil::sendFailure($this->ilLng->txt('form_input_not_valid'));
             }
 
@@ -568,6 +578,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             }
         }
 
+        // CR: Class ilUtil is deprecated
         ilUtil::sendSuccess($this->ilLng->txt('saved_successfully'), true);
         $this->ilCtrl->redirect($this->gui, 'smiley');
     }
