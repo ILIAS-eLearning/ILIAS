@@ -30,6 +30,7 @@ class ilChatroomExporter extends ilXmlExporter
     {
         $deps = [];
 
+        // CR: Replace if('chtr' === $a_entity) with if($a_entity === 'chtr') 
         if ('chtr' === $a_entity) {
             $deps[] = [
                 'component' => 'Services/Object',
