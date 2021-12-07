@@ -89,7 +89,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $path = 'chatroom/smilies';
 
         if ($withBaseDir) {
-            // CR: Class ilUtil is deprecated
+            // CR: Class ilUtil and method getWebspaceDir() is deprecated
             $path = ilUtil::getWebspaceDir() . '/' . $path;
         }
 
