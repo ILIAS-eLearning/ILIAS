@@ -95,10 +95,12 @@ class ilChatroomSmilies
             }
 
             self::_insertDefaultValues();
+            // CR: Class ilUtil is deprecated
             ilUtil::sendSuccess($lng->txt('chatroom_smilies_initialized'));
         }
 
         if (!is_writable($path)) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendInfo($lng->txt('chatroom_smilies_dir_not_writable'));
         }
 
