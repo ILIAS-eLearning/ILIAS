@@ -251,6 +251,7 @@ class ilChatroomSmilies
         );
 
         if ($row = $ilDB->fetchAssoc($res)) {
+            // CR: Class ilUtil and method getWebSpaceDir() is deprecated
             return [
                 'smiley_id' => (int) $row['smiley_id'],
                 'smiley_keywords' => $row['smiley_keywords'],
@@ -276,6 +277,7 @@ class ilChatroomSmilies
 
         try {
             $smiley = self::_getSmiley($a_id);
+            // CR: Class ilUtil and method getWebSpaceDir() is deprecated
             $path = ilUtil::getWebspaceDir() . '/chatroom/smilies/' . $smiley['smiley_path'];
 
             if (is_file($path)) {
