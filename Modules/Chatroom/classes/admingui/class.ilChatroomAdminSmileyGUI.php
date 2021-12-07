@@ -339,6 +339,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         $confirmation->setHeaderText($this->ilLng->txt('chatroom_confirm_delete_smiley'));
         $confirmation->setConfirm($this->ilLng->txt('confirm'), 'smiley-deleteSmileyObject');
         $confirmation->setCancel($this->ilLng->txt('cancel'), 'smiley');
+        // CR: Class ilUtil and method img() is deprecated
         $confirmation->addItem(
             'chatroom_smiley_id',
             (string) $smiley['smiley_id'],
