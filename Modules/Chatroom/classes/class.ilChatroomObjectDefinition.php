@@ -43,6 +43,7 @@ class ilChatroomObjectDefinition
         $this->guiScope = rtrim($guiScope);
     }
 
+    // CR: Remove variable $object --> The content of method can be just return new self($moduleName, 'Modules/' . $moduleName . '/');
     /**
      * Returns an Instance of ilChatroomObjectDefinition, using given $moduleName
      * as parameter.
