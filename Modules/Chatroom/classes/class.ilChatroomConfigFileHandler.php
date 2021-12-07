@@ -85,8 +85,10 @@ class ilChatroomConfigFileHandler
      */
     protected function createDataDirIfNotExists() : string
     {
+        // CR: Class ilUtil and method getDataDir() is deprecated
         $path = ilUtil::getDataDir() . self::CHATROOM_DATA_DIR;
-
+        
+        // CR: Class ilUtil and method makeDir()is deprecated
         if (!is_dir($path) && !ilUtil::makeDir($path)) {
             throw new Exception('Directory cannot be created');
         }
