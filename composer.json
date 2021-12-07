@@ -29,6 +29,10 @@
 	},
 	"require": {
 		"php": ">=7.4",
+		"ext-gd": "*",
+		"ext-dom": "*",
+		"ext-xsl": "*",
+		"ext-curl": "*",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^2.3.5",
@@ -86,6 +90,49 @@
 		]
 	},
 	"extra": {
+		"ext-gd" : {
+			"source" : "https://www.php.net/manual/en/book.image.php",
+			"used_version" : "*",
+			"wrapped_by" : "Services/MediaObjects",
+			"added_by" : "Alexander Killing",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2004-01-01",
+			"info": "Used for image map editing since the beginning of ILIAS 3"
+		},
+		"ext-dom" : {
+			"source" : "https://www.php.net/manual/en/class.domdocument.php",
+			"used_version" : "*",
+			"wrapped_by" : "various",
+			"added_by" : "Alexander Killing",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2004-01-01",
+			"info": "Used for xml document handling since the beginning of ILIAS 3"
+		},
+		"ext-xsl" : {
+			"source" : "https://www.php.net/manual/en/book.xsl.php",
+			"used_version" : "*",
+			"wrapped_by" : "Services/COPage",
+			"added_by" : "Alexander Killing",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2004-01-01",
+			"info": "Used for xsl processing in the page editor since the beginning of ILIAS 3"
+		},
+		"ext-curl" : {
+			"source" : "https://www.php.net/manual/en/book.xsl.php",
+			"used_version" : "*",
+			"wrapped_by" : "various",
+			"added_by" : "",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "",
+			"approved-date": ""
+		},
 		"cweagans/composer-patches" : {
 			"source" : "https://github.com/cweagans/composer-patches",
 			"used_version" : "v1.7",
