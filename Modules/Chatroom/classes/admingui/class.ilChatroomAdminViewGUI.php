@@ -44,6 +44,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         }
 
         $instance = ilObjectFactory::getInstanceByRefId($ref_id, false);
+        // CR: Condition is unnecessary because it is checked by '!$instance instanceof ilObjChatroom' 
         if (!$instance || (!$instance instanceof ilObjChatroom)) {
             $this->createPublicRoom();
             return;
