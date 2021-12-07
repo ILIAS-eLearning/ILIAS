@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 define("IL_AREA_RECT", "Rect");
 define("IL_AREA_CIRCLE", "Circle");
@@ -31,39 +42,35 @@ define("IL_TF_NEW", "New");
  */
 class ilMapArea
 {
+    public const HL_NONE = "";
+    public const HL_HOVER = "Hover";
+    public const HL_ALWAYS = "Always";
+    public const HLCL_ACCENTED = "";
+    public const HLCL_LIGHT = "Light";
+    public const HLCL_DARK = "Dark";
+    protected string $highlight_class;
+
+    protected ilDBInterface $db;
+    public int $item_id = 0;
+    public int $nr = 0;
+    public string $shape = "";
+    public string $coords = "";
+    public string $title = "";
+    public string $linktype = "";
+    public string $xl_title = "";
+    public string $xl_href = "";
+    public string $il_target = "";
+    public string $il_type = "";
+    public string $il_target_frame = "";
+
     /**
-     * @var ilDB
+     * @param	int		$a_item_id		parent media item id
+     * @param	int		$a_nr			map area number within media item
      */
-    protected $db;
-
-    const HL_NONE = "";
-    const HL_HOVER = "Hover";
-    const HL_ALWAYS = "Always";
-    const HLCL_ACCENTED = "";
-    const HLCL_LIGHT = "Light";
-    const HLCL_DARK = "Dark";
-
-    public $item_id;
-    public $nr;
-    public $shape;
-    public $coords;
-    public $title;
-    public $linktype;
-    public $xl_title;
-    public $xl_href;
-    public $il_target;
-    public $il_type;
-    public $il_target_frame;
-
-
-    /**
-    * map area
-    *
-    * @param	int		$a_item_id		parent media item id
-    * @param	int		$a_nr			map area number within media item
-    */
-    public function __construct($a_item_id = 0, $a_nr = 0)
-    {
+    public function __construct(
+        int $a_item_id = 0,
+        int $a_nr = 0
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -76,9 +83,9 @@ class ilMapArea
     }
 
     /**
-    * create persistent map area object in db
-    */
-    public function create()
+     * create persistent map area object in db
+     */
+    public function create() : void
     {
         $ilDB = $this->db;
 
@@ -101,14 +108,11 @@ class ilMapArea
     }
 
     /**
-    * get maximum nr of media item (static)
-    *
-    * @param	int		$a_item_id	 item id
-    *
-    * @return	int		maximum nr
-    */
-    public static function _getMaxNr($a_item_id)
-    {
+     * get maximum nr of media item (static)
+     */
+    public static function _getMaxNr(
+        int $a_item_id
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -118,13 +122,10 @@ class ilMapArea
         $max_set = $ilDB->query($q);
         $max_rec = $ilDB->fetchAssoc($max_set);
 
-        return $max_rec["max_nr"];
+        return (int) $max_rec["max_nr"];
     }
 
-    /**
-    * read map area data into object (item id and nr must be set)
-    */
-    public function read()
+    public function read() : void
     {
         $ilDB = $this->db;
         
@@ -136,7 +137,7 @@ class ilMapArea
 
         $this->setShape($area_rec["shape"]);
         //echo $area_rec["Shape"];
-        $this->setNr($area_rec["nr"]);
+        $this->setNr((int) $area_rec["nr"]);
         $this->setCoords($area_rec["coords"]);
         $this->setLinkType($area_rec["link_type"]);
         $this->setTitle($area_rec["title"]);
@@ -148,10 +149,7 @@ class ilMapArea
         $this->setHighlightClass($area_rec["highlight_class"]);
     }
 
-    /**
-    * update map area
-    */
-    public function update()
+    public function update() : void
     {
         $ilDB = $this->db;
 
@@ -171,10 +169,11 @@ class ilMapArea
     }
 
     /**
-    * resolve internal links of an item id
-    */
-    public static function _resolveIntLinks($a_item_id)
-    {
+     * resolve internal links of an item id
+     */
+    public static function _resolveIntLinks(
+        int $a_item_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -203,12 +202,13 @@ class ilMapArea
     }
 
     /**
-    * get all internal links of a media items map areas
-    *
-    * @param	int		$a_item_id		media item id
-    */
-    public static function _getIntLinks($a_item_id)
-    {
+     * get all internal links of a media items map areas
+     *
+     * @param	int		$a_item_id		media item id
+     */
+    public static function _getIntLinks(
+        int $a_item_id
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -234,10 +234,12 @@ class ilMapArea
     }
 
     /**
-    * Get areas for a certain target
-    */
-    public static function _getMobsForTarget($a_type, $a_target)
-    {
+     * Get areas for a certain target
+     */
+    public static function _getMobsForTarget(
+        string $a_type,
+        string $a_target
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -256,13 +258,7 @@ class ilMapArea
         return $mobs;
     }
 
-    /**
-     * Get all highlight modes
-     *
-     * @param
-     * @return
-     */
-    public static function getAllHighlightModes()
+    public static function getAllHighlightModes() : array
     {
         global $DIC;
 
@@ -275,33 +271,18 @@ class ilMapArea
             );
     }
     
-    
-    /**
-     * Set highlight mode
-     *
-     * @param string $a_val highlight mode
-     */
-    public function setHighlightMode($a_val)
-    {
+    public function setHighlightMode(
+        string $a_val
+    ) : void {
         $this->highlight_mode = $a_val;
     }
     
-    /**
-     * Get highlight mode
-     *
-     * @return string highlight mode
-     */
-    public function getHighlightMode()
+    public function getHighlightMode() : string
     {
         return $this->highlight_mode;
     }
 
-    /**
-     * Get all highlight classes
-     *
-     * @return array
-     */
-    public static function getAllHighlightClasses()
+    public static function getAllHighlightClasses() : array
     {
         global $DIC;
 
@@ -314,212 +295,135 @@ class ilMapArea
         );
     }
     
-    /**
-     * Set highlight class
-     *
-     * @param string $a_val highlight class
-     */
-    public function setHighlightClass($a_val)
+    public function setHighlightClass(string $a_val) : void
     {
         $this->highlight_class = $a_val;
     }
     
-    /**
-     * Get highlight class
-     *
-     * @return string highlight class
-     */
-    public function getHighlightClass()
+    public function getHighlightClass() : string
     {
         return $this->highlight_class;
     }
 
-    /**
-    * set media item id
-    *
-    * @param	int		$a_item_id		media item id
-    */
-    public function setItemId($a_item_id)
+    public function setItemId(int $a_item_id) : void
     {
         $this->item_id = $a_item_id;
     }
 
-    /**
-    * get item id
-    *
-    * @return	int		media item id
-    */
-    public function getItemId()
+    public function getItemId() : int
     {
         return $this->item_id;
     }
 
-    /**
-    * set area number
-    *
-    * @param	int		$a_nr		number (of area within parent media object)
-    */
-    public function setNr($a_nr)
+    public function setNr(int $a_nr) : void
     {
         $this->nr = $a_nr;
     }
 
-    /**
-    * get area number
-    *
-    * @return	int		number (of area within parent media object)
-    */
-    public function getNr()
+    public function getNr() : int
     {
         return $this->nr;
     }
 
     /**
-    * set shape (IL_AREA_RECT, IL_AREA_CIRCLE, IL_AREA_POLY, IL_AREA_WHOLE_PICTURE)
-    *
-    * @param	string		$a_shape	shape of map area
-    */
-    public function setShape($a_shape)
+     * set shape (IL_AREA_RECT, IL_AREA_CIRCLE, IL_AREA_POLY, IL_AREA_WHOLE_PICTURE)
+     */
+    public function setShape(string $a_shape) : void
     {
         $this->shape = $a_shape;
     }
 
-    /**
-    * get shape
-    *
-    * @return	string		(IL_AREA_RECT, IL_AREA_CIRCLE, IL_AREA_POLY, IL_AREA_WHOLE_PICTURE)
-    */
-    public function getShape()
+    public function getShape() : string
     {
         return $this->shape;
     }
 
     /**
-    * set coords of area
-    *
-    * @param	string		$a_coords		coords (comma separated integers)
-    */
-    public function setCoords($a_coords)
+     * set coords of area
+     * @param	string		$a_coords		coords (comma separated integers)
+     */
+    public function setCoords(string $a_coords) : void
     {
         $this->coords = $a_coords;
     }
 
-    /**
-    * get coords
-    *
-    * @return	string		coords (comma separated integers)
-    */
-    public function getCoords()
+    public function getCoords() : string
     {
         return $this->coords;
     }
 
     /**
-    * set (tooltip)title of area
-    *
-    * @param	string		$a_title		title
-    */
-    public function setTitle($a_title)
+     * set (tooltip)title of area
+     */
+    public function setTitle(string $a_title) : void
     {
         $this->title = $a_title;
     }
 
-    /**
-    * append string to (tooltip) title of area
-    *
-    * @param	string		$a_title_str		title string
-    */
-    public function appendTitle($a_title_str)
+    public function appendTitle(string $a_title_str) : void
     {
         $this->title .= $a_title_str;
     }
 
-    /**
-    * get (tooltip) title
-    *
-    * @return	string		title
-    */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
 
     /**
-    * set link type
-    *
-    * @param	string		$a_linktype		link type (IL_INT_LINK, IL_EXT_LINK)
-    */
-    public function setLinkType($a_link_type)
+     * set link type
+     * @param	string		$a_link_type		link type (IL_INT_LINK, IL_EXT_LINK)
+     */
+    public function setLinkType(string $a_link_type) : void
     {
         $this->linktype = $a_link_type;
     }
 
-    /**
-    * get link type
-    *
-    * @return	int		link type (IL_INT_LINK, IL_EXT_LINK)
-    */
-    public function getLinkType()
+    public function getLinkType() : string
     {
         return $this->linktype;
     }
 
     /**
-    * set hyper reference (external link only)
-    *
-    * @param	string	$a_href		hyper ref url
-    */
-    public function setHref($a_href)
+     * set hyper reference (external link only)
+     */
+    public function setHref(string $a_href) : void
     {
         $this->xl_href = $a_href;
     }
 
-    /**
-    * get hyper reference url (external link only)
-    *
-    * @param	string		hyper ref url
-    */
-    public function getHref()
+    public function getHref() : string
     {
         return $this->xl_href;
     }
 
     /**
-    * set link text (external link only)
-    *
-    * @param	string		$a_title		link text
-    */
-    public function setExtTitle($a_title)
+     * set link text (external link only)
+     * @param	string		$a_title		link text
+     */
+    public function setExtTitle(string $a_title) : void
     {
         $this->xl_title = $a_title;
     }
 
-    /**
-    * get link text (external link only)
-    *
-    * @return	string		link text
-    */
-    public function getExtTitle()
+    public function getExtTitle() : string
     {
         return $this->xl_title;
     }
 
     /**
-    * set link target (internal link only)
-    *
-    * @param	string		$a_target	link target (e.g. "il__pg_23")
-    */
-    public function setTarget($a_target)
+     * set link target (internal link only)
+     * @param	string		$a_target	link target (e.g. "il__pg_23")
+     */
+    public function setTarget(string $a_target) : void
     {
         $this->il_target = $a_target;
     }
 
     /**
-    * get link target (internal link only)
-    *
-    * @return	string		link target
-    */
-    public function getTarget($a_insert_inst = false)
+     * get link target (internal link only)
+     */
+    public function getTarget($a_insert_inst = false) : string
     {
         $target = $this->il_target;
 
@@ -531,61 +435,47 @@ class ilMapArea
     }
 
     /**
-    * set link type (internal link only)
-    *
-    * @param	string		$a_type			link type
-    *				(IL_LT_STRUCTURE | IL_LT_PAGE | IL_LT_MEDIA | IL_LT_GLITEM)
-    */
-    public function setType($a_type)
+     * set link type (internal link only)
+     * @param	string		$a_type			link type
+     *				(IL_LT_STRUCTURE | IL_LT_PAGE | IL_LT_MEDIA | IL_LT_GLITEM)
+     */
+    public function setType(string $a_type) : void
     {
         $this->il_type = $a_type;
     }
 
-    /**
-    * get link type (internal link only)
-    *
-    * @return	string	(IL_LT_STRUCTURE | IL_LT_PAGE | IL_LT_MEDIA | IL_LT_GLITEM)
-    */
-    public function getType()
+    public function getType() : string
     {
         return $this->il_type;
     }
 
     /**
-    * set link target frame (internal link only)
-    *
-    * @param	string		$a_target_frame		target frame (IL_TF_MEDIA |
-    *											IL_TF_FAQ | IL_TF_GLOSSARY | IL_TF_NEW)
-    */
-    public function setTargetFrame($a_target_frame)
+     * set link target frame (internal link only)
+     *
+     * @param	string		$a_target_frame		target frame (IL_TF_MEDIA |
+     *											IL_TF_FAQ | IL_TF_GLOSSARY | IL_TF_NEW)
+     */
+    public function setTargetFrame(string $a_target_frame) : void
     {
         $this->il_target_frame = $a_target_frame;
     }
 
-    /**
-    * get link target frame (internal link only)
-    *
-    * @return	string		link target frame	target frame (IL_TF_MEDIA |
-    *											IL_TF_FAQ | IL_TF_GLOSSARY | IL_TF_NEW)
-    */
-    public function getTargetFrame()
+    public function getTargetFrame() : string
     {
         return $this->il_target_frame;
     }
 
     /**
-    * draw image to
-    *
-    * @param	boolean		$a_close_poly		close polygon
-    */
+     * @param resource|GdImage $a_image (GdImage comes with 8.0)
+     */
     public function draw(
-        &$a_image,
-        $a_col1,
-        $a_col2,
-        $a_close_poly = true,
-        $a_x_ratio = 1,
-        $a_y_ratio = 1
-    ) {
+        $a_image,
+        int $a_col1,
+        int $a_col2,
+        bool $a_close_poly = true,
+        float $a_x_ratio = 1,
+        float $a_y_ratio = 1
+    ) : void {
         switch ($this->getShape()) {
             case "Rect":
                 $this->drawRect(
@@ -624,18 +514,24 @@ class ilMapArea
     }
 
     /**
-    * draws an outlined two color line in an image
-    *
-    * @param 	int		$im		image identifier as returned by ImageCreateFromGIF() etc.
-    * @param	int		$x1		x-coordinate of starting point
-    * @param	int		$y1		y-coordinate of starting point
-    * @param	int		$x2		x-coordinate of ending point
-    * @param	int		$y2		y-coordinate of ending point
-    * @param	int		$c1		color identifier 1
-    * @param	int		$c2		color identifier 2
-    */
-    public function drawLine(&$im, $x1, $y1, $x2, $y2, $c1, $c2)
-    {
+     * draws an outlined two color line in an image
+     * @param resource|GdImage $im (GdImage comes with 8.0)
+     * @param	int		$x1		x-coordinate of starting point
+     * @param	int		$y1		y-coordinate of starting point
+     * @param	int		$x2		x-coordinate of ending point
+     * @param	int		$y2		y-coordinate of ending point
+     * @param	int		$c1		color identifier 1
+     * @param	int		$c2		color identifier 2
+     */
+    public function drawLine(
+        $im,
+        int $x1,
+        int $y1,
+        int $x2,
+        int $y2,
+        int $c1,
+        int $c2
+    ) : void {
         imageline($im, $x1 + 1, $y1, $x2 + 1, $y2, $c1);
         imageline($im, $x1 - 1, $y1, $x2 - 1, $y2, $c1);
         imageline($im, $x1, $y1 + 1, $x2, $y2 + 1, $c1);
@@ -644,16 +540,21 @@ class ilMapArea
     }
 
     /**
-    * draws an outlined two color rectangle
-    *
-    * @param	int			$im			image identifier as returned by ImageCreateFromGIF() etc.
-    * @param	string		$coords     coordinate string, format : "x1,y1,x2,y2" with (x1,y1) is top left
-    *									and (x2,y2) is bottom right point of the rectangle
-    * @param	int			$c1			color identifier 1
-    * @param	int			$c2			color identifier 2
-    */
-    public function drawRect(&$im, $coords, $c1, $c2, $a_x_ratio = 1, $a_y_ratio = 1)
-    {
+     * draws an outlined two color rectangle
+     * @param resource|GdImage $im (GdImage comes with 8.0)
+     * @param	string		$coords     coordinate string, format : "x1,y1,x2,y2" with (x1,y1) is top left
+     *									and (x2,y2) is bottom right point of the rectangle
+     * @param	int			$c1			color identifier 1
+     * @param	int			$c2			color identifier 2
+     */
+    public function drawRect(
+        $im,
+        string $coords,
+        int $c1,
+        int $c2,
+        float $a_x_ratio = 1,
+        float $a_y_ratio = 1
+    ) : void {
         $coord = explode(",", $coords);
 
         $this->drawLine(
@@ -696,17 +597,23 @@ class ilMapArea
 
 
     /**
-    * draws an outlined two color polygon
-    *
-    * @param	int			$im			image identifier as returned by ImageCreateFromGIF() etc.
-    * @param	string		$coords     coordinate string, format : "x1,y1,x2,y2,..." with every (x,y) pair is
-    *									an ending point of a line of the polygon
-    * @param	int			$c1			color identifier 1
-    * @param	int			$c3			color identifier 2
-    * @param	boolean		$closed		true: the first and the last point will be connected with a line
-    */
-    public function drawPoly(&$im, $coords, $c1, $c2, $closed, $a_x_ratio = 1, $a_y_ratio = 1)
-    {
+     * draws an outlined two color polygon
+     * @param resource|GdImage $im (GdImage comes with 8.0)
+     * @param	string		$coords     coordinate string, format : "x1,y1,x2,y2,..." with every (x,y) pair is
+     *									an ending point of a line of the polygon
+     * @param	int			$c1			color identifier 1
+     * @param	int			$c2			color identifier 2
+     * @param	bool		$closed		true: the first and the last point will be connected with a line
+     */
+    public function drawPoly(
+        $im,
+        string $coords,
+        int $c1,
+        int $c2,
+        bool $closed,
+        float $a_x_ratio = 1,
+        float $a_y_ratio = 1
+    ) : void {
         if ($closed) {
             $p = 0;
         } else {
@@ -736,16 +643,21 @@ class ilMapArea
 
 
     /**
-    * draws an outlined two colored circle
-    *
-    * @param	int			$im			image identifier as returned by ImageCreateFromGIF()
-    * @param	string		$coords     coordinate string, format : "x,y,r" with (x,y) as center point
-    *									and r as radius
-    * @param	int			$c1			color identifier 1
-    * @param	int			$c3			color identifier 2
-    */
-    public function drawCircle(&$im, $coords, $c1, $c2, $a_x_ratio = 1, $a_y_ratio = 1)
-    {
+     * draws an outlined two colored circle
+     * @param resource|GdImage $im (GdImage comes with 8.0)
+     * @param	string		$coords     coordinate string, format : "x,y,r" with (x,y) as center point
+     *									and r as radius
+     * @param	int			$c1			color identifier 1
+     * @param	int			$c2			color identifier 2
+     */
+    public function drawCircle(
+        $im,
+        string $coords,
+        int $c1,
+        int $c2,
+        float $a_x_ratio = 1,
+        float $a_y_ratio = 1
+    ) : void {
         $c = explode(",", $coords);
         imagearc(
             $im,
@@ -781,11 +693,10 @@ class ilMapArea
 
     /**
      * count the number of coordinates (x,y) in a coordinate string (format: "x1,y1,x2,y2,x3,y3,...")
-     *
      * @param string $c coordinate string
      * @return int number of coordinates
      */
-    public static function countCoords($c)
+    public static function countCoords(string $c) : int
     {
         if ($c == "") {
             return 0;

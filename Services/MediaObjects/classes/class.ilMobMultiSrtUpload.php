@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Handler class for multi srt upload
@@ -9,20 +20,15 @@
  */
 class ilMobMultiSrtUpload
 {
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    protected $lm;
+    protected ilMobMultiSrtInt $multi_srt;
+    protected ilLanguage $lng;
 
     /**
-     * Construcotr
-     *
      * @param ilMobMultiSrtInt $a_multi_srt adapter implementation
      */
-    public function __construct(ilMobMultiSrtInt $a_multi_srt)
-    {
+    public function __construct(
+        ilMobMultiSrtInt $a_multi_srt
+    ) {
         global $DIC;
 
         $lng = $DIC->language();
@@ -33,10 +39,8 @@ class ilMobMultiSrtUpload
 
     /**
      * Get directory for multi srt upload
-     *
-     * @return string diretory
      */
-    public function getMultiSrtUploadDir()
+    public function getMultiSrtUploadDir() : string
     {
         return $this->multi_srt->getUploadDir();
     }
@@ -46,10 +50,12 @@ class ilMobMultiSrtUpload
      * Upload multi srt file
      *
      * @param array $a_file file info array
-     * @throws ilLMException
+     * @throws ilException
+     * @throws ilMobSrtUploadException
      */
-    public function uploadMultipleSubtitleFile($a_file)
-    {
+    public function uploadMultipleSubtitleFile(
+        array $a_file
+    ) : void {
         if (!is_file($a_file["tmp_name"])) {
             throw new ilMobSrtUploadException($this->lng->txt("cont_srt_zip_file_could_not_be_uploaded"));
         }
@@ -64,7 +70,7 @@ class ilMobMultiSrtUpload
     /**
      * Clear multi feedback directory
      */
-    public function clearMultiSrtDirectory()
+    public function clearMultiSrtDirectory() : void
     {
         ilUtil::delDir($this->getMultiSrtUploadDir());
     }
@@ -72,7 +78,7 @@ class ilMobMultiSrtUpload
     /**
      * Get all srt files of srt multi upload
      */
-    public function getMultiSrtFiles()
+    public function getMultiSrtFiles() : array
     {
         $items = array();
 
@@ -124,7 +130,7 @@ class ilMobMultiSrtUpload
     /**
      * Move all srt files that could be mapped to media objects
      */
-    public function moveMultiSrtFiles()
+    public function moveMultiSrtFiles() : int
     {
         $items = $this->getMultiSrtFiles();
         $cnt = 0;
