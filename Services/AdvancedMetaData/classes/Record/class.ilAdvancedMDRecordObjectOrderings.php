@@ -83,15 +83,13 @@ class ilAdvancedMDRecordObjectOrderings
             $b->setGlobalPosition(999);
         }
 
-        if ($a->getGlobalPosition() == $b->getGlobalPosition()) {
-            return 0;
-        }
         if ($a->getGlobalPosition() < $b->getGlobalPosition()) {
             return -1;
         }
         if ($a->getGlobalPosition() > $b->getGlobalPosition()) {
             return 1;
         }
+        return 0;
     }
 
     /**
@@ -105,15 +103,13 @@ class ilAdvancedMDRecordObjectOrderings
             ($a->getGlobalPosition() ? $a->getGlobalPosition() : 999);
         $local_pos_b = $this->record_position_map[$b->getRecordId()] ??
             ($b->getGlobalPosition() ? $b->getGlobalPosition() : 999);
-        if ($local_pos_a == $local_pos_b) {
-            return 0;
-        }
         if ($local_pos_a < $local_pos_b) {
             return -1;
         }
         if ($local_pos_a > $local_pos_b) {
             return 1;
         }
+        return 0;
     }
 
     /**

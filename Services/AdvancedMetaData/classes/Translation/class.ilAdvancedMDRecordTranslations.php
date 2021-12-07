@@ -8,7 +8,7 @@
 class ilAdvancedMDRecordTranslations
 {
     /**
-     * @var array<int, ilAdvancedMDRecordTranslation>
+     * @var array<int, ilAdvancedMDRecordTranslations>
      */
     private static $instances = null;
 

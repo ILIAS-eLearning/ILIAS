@@ -74,7 +74,7 @@ class ilAdvancedMDRecordExportFiles
     
     /**
      * Get files
-     * @return array<string, string>
+     * @return array<int, array{type: string, size: string}>
      */
     public function getFiles() : array
     {

@@ -22,11 +22,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
     private Factory $ui_factory;
     private Renderer $ui_renderer;
     private ilAdvancedMDRecord $record;
-
-    /**
-     * @var array<string, ilAdvancedMDRecordTranslation>
-     */
-    private array $record_translation;
+    private ilAdvancedMDRecordTranslations $record_translation;
 
     public function __construct(ilAdvancedMDRecord $record, object $a_parent_obj, string $a_parent_cmd = "")
     {

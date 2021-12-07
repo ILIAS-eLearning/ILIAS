@@ -24,7 +24,7 @@ class ilAdvancedMDRecord
     protected string $language_default = '';
 
     /**
-     * @var string[]
+     * @var array<int, array{obj_type: string, sub_type: string, optional: bool}>
      */
     protected array $obj_types = array();
     protected int $parent_obj = 0;
@@ -640,7 +640,9 @@ class ilAdvancedMDRecord
         );
     }
 
-
+    /**
+     * @return array<int, array{obj_type: string, sub_type: string, optional: bool}>
+     */
     public function getAssignedObjectTypes() : array
     {
         return $this->obj_types;

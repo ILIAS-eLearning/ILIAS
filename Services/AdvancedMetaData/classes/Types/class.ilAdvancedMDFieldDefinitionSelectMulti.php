@@ -14,7 +14,7 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
     
     public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
-        return $a_adt_search->getADT()->getSelections()[0] ?? 0;
+        return $a_adt_search->getADT()->getSelections()[0] ?? "";
     }
 
     

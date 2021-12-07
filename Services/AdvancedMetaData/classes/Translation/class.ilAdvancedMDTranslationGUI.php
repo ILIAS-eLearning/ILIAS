@@ -29,6 +29,7 @@ abstract class ilAdvancedMDTranslationGUI
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('obj');
         $this->request = $DIC->http()->request();
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
         $this->record = $record;
     }

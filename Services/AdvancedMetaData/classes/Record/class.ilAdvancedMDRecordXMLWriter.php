@@ -64,7 +64,7 @@ class ilAdvancedMDRecordXMLWriter extends ilXmlWriter
      *
      * @access protected
      */
-    protected function buildHeader() : string
+    protected function buildHeader() : void
     {
         $this->xmlSetDtdDef("<!DOCTYPE AdvancedMetaDataRecords PUBLIC \"-//ILIAS//DTD AdvancedMetaDataRecords//EN\" \"" .
             ILIAS_HTTP_PATH . "/Services/AdvancedMetaData/xml/ilias_advanced_meta_data_records_3_9.dtd\">");

@@ -222,6 +222,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             }
             return $res;
         }
+        return null;
     }
 
     public function importCustomDefinitionFormPostValues(ilPropertyFormGUI $a_form, string $language = '') : void
@@ -268,7 +269,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
      * @return array
      * @todo fix $a_value type
      */
-    protected function findBySingleValue(ilADTEnumSearchBridgeMulti $a_search, $a_value) : array
+    protected function findBySingleValue(ilADTSearchBridge $a_search, $a_value) : array
     {
         $res = array();
         $a_search->getADT()->setSelections((array) $a_value);
@@ -378,6 +379,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
                         $class_path = $objDefinition->getLocation($type);
                         $ints = class_implements($class);
                         if (isset($ints["ilAdvancedMetaDataSubItems"])) {
+                            /** @noinspection PhpUndefinedMethodInspection */
                             $sub_title = $class::getAdvMDSubItemTitle($obj_id, $sub_type, $sub_id);
                             if ($sub_title) {
                                 $title .= ' (' . $sub_title . ')';
@@ -601,6 +603,7 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     public function _clone(int $a_new_record_id) : self
     {
+        /** @var ilAdvancedMDFieldDefinitionSelect $obj */
         $obj = parent::_clone($a_new_record_id);
         $query = 'select * from adv_mdf_enum ' .
             'where field_id = ' . $this->db->quote($this->getFieldId(), ilDBConstants::T_INTEGER) . ' ' .

@@ -10,8 +10,6 @@
  */
 class ilAdvancedMetaDataImporter extends ilXmlImporter
 {
-    private ilLogger $logger;
-    
     /**
      *
      */
@@ -19,7 +17,6 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
     {
         global $DIC;
 
-        $this->logger = $DIC->logger()->amet();
         parent::__construct();
     }
     
@@ -35,7 +32,7 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
         foreach ($parser->getRecordIds() as $obj_id => $sub_types) {
             ilContainer::_writeContainerSetting($obj_id, ilObjectServiceSettingsGUI::CUSTOM_METADATA, "1");
             
-            foreach ($sub_types as $sub_type => $rec_ids) {
+            foreach ((array) $sub_types as $sub_type => $rec_ids) {
                 ilAdvancedMDRecord::saveObjRecSelection($obj_id, $sub_type, array_unique($rec_ids), false);
             }
         }

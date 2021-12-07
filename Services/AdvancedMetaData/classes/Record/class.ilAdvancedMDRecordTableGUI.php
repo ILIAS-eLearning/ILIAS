@@ -12,7 +12,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 {
     protected ilAdvancedMDPermissionHelper $permissions;
     
-    public function __construct($a_parent_obj, $a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_in_object_context = false)
+    public function __construct($a_parent_obj, $a_parent_cmd, ilAdvancedMDPermissionHelper $a_permissions, $a_in_object_context = false)
     {
         $this->permissions = $a_permissions;
 

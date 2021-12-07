@@ -109,7 +109,7 @@ class ilAdvancedMDFieldDefinitionFloat extends ilAdvancedMDFieldDefinitionIntege
         
         $decimals = new ilNumberInputGUI($lng->txt("md_adv_number_decimals"), "dec");
         $decimals->setRequired(true);
-        $decimals->setValue($this->getDecimals());
+        $decimals->setValue((string) $this->getDecimals());
         $decimals->setSize(5);
         $a_form->addItem($decimals);
         

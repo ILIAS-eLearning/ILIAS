@@ -160,14 +160,14 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
         $lng = $DIC['lng'];
         
         $max = new ilNumberInputGUI($lng->txt("md_adv_text_max_length"), "max");
-        $max->setValue($this->getMaxLength());
+        $max->setValue((string) $this->getMaxLength());
         $max->setSize(10);
         $max->setMinValue(1);
         $max->setMaxValue(4000); // DB limit
         $a_form->addItem($max);
         
         $multi = new ilCheckboxInputGUI($lng->txt("md_adv_text_multi"), "multi");
-        $multi->setValue(1);
+        $multi->setValue("1");
         $multi->setChecked($this->isMulti());
         $a_form->addItem($multi);
                 
@@ -246,6 +246,7 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
     
     public function importFromECS(string $a_ecs_type, $a_value, string $a_sub_id) : bool
     {
+        $value = '';
         switch ($a_ecs_type) {
             case ilECSUtils::TYPE_ARRAY:
                 $value = implode(',', (array) $a_value);
@@ -350,5 +351,6 @@ class ilAdvancedMDFieldDefinitionText extends ilAdvancedMDFieldDefinitionGroupBa
             }
             return [];
         }
+        return [];
     }
 }

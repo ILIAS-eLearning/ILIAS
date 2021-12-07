@@ -46,6 +46,7 @@ class ilAdvancedMDFieldDefinitionDate extends ilAdvancedMDFieldDefinition
     
     public function importFromECS(string $a_ecs_type, $a_value, string $a_sub_id) : bool
     {
+        $value = '';
         switch ($a_ecs_type) {
             case ilECSUtils::TYPE_TIMEPLACE:
                 if ($a_value instanceof ilECSTimePlace) {
@@ -60,9 +61,11 @@ class ilAdvancedMDFieldDefinitionDate extends ilAdvancedMDFieldDefinition
         }
         return false;
     }
-    
-    
-    public function getLuceneSearchString(string $a_value) : string
+
+    /**
+     * @inheritdoc
+     */
+    public function getLuceneSearchString($a_value) : string
     {
         // see ilADTDateSearchBridgeRange::importFromPost();
         
@@ -101,5 +104,6 @@ class ilAdvancedMDFieldDefinitionDate extends ilAdvancedMDFieldDefinition
             
             return "{" . $start->get(IL_CAL_DATE) . " TO " . $end->get(IL_CAL_DATE) . "}";
         }
+        return "null";
     }
 }

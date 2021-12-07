@@ -27,11 +27,12 @@ class ilAdvancedMDRecordGUI
     private int $mode = self::MODE_UNDEFINED;
     private string $obj_type = '';
     private string $sub_type = '';
-    private int $obj_id ;
+    private int $sub_id = 0;
+    private int $obj_id  = 0;
     private ?int $ref_id = null;
 
     // mode specific parameters
-    private ?ilTableGUI $table_gui = null;
+    private ?ilTable2GUI $table_gui = null;
     private ?array $row_data = null;
     private ?array $adt_search = null;
     protected ?ilPropertyFormGUI $form = null;
@@ -223,14 +224,14 @@ class ilAdvancedMDRecordGUI
             $adt_group_form->setInfo($translations->getDescriptionForLanguage($this->user->getLanguage()));
             
             foreach ($defs as $def) {
-                $element = $adt_group_form->getElement($def->getFieldId());
+                $element = $adt_group_form->getElement((string) $def->getFieldId());
                 $element->setTitle($field_translations->getTitleForLanguage($def->getFieldId(), $this->user->getLanguage()));
                 $element->setInfo($field_translations->getDescriptionForLanguage($def->getFieldId(), $this->user->getLanguage()));
                 
                 // definition may customize ADT form element
                 $def->prepareElementForEditor($element);
                 
-                if ($values->isDisabled($def->getFieldId())) {
+                if ($values->isDisabled((string) $def->getFieldId())) {
                     $element->setDisabled(true);
                 }
             }
@@ -354,7 +355,6 @@ class ilAdvancedMDRecordGUI
         
         $valid = true;
         $res = array();
-        
         foreach ($this->search_form as $field_id => $item) {
             $item["value"]->importFromPost();
             if (!$item["value"]->validate()) {
@@ -369,6 +369,7 @@ class ilAdvancedMDRecordGUI
         if ($valid) {
             return $res;
         }
+        return null;
     }
     
     public function setSearchFormValues(array $a_values) : void
@@ -510,12 +511,12 @@ class ilAdvancedMDRecordGUI
     /**
      * Set table for self::MODE_TABLE_FILTER
      */
-    public function setTableGUI(ilTableGUI $a_val) : void
+    public function setTableGUI(ilTable2GUI $a_val) : void
     {
         $this->table_gui = $a_val;
     }
     
-    public function getTableGUI() : ?ilTableGUI
+    public function getTableGUI() : ?ilTable2GUI
     {
         return $this->table_gui;
     }

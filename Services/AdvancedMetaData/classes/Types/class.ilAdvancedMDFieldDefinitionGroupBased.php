@@ -154,7 +154,7 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
         return true;
     }
             
-    protected function getADTForOption($a_option) : ilADT
+    protected function getADTForOption(string $a_option) : ilADT
     {
         $adt = ilADTFactory::getInstance()->getInstanceByDefinition($this->getADTGroup());
         if (array_key_exists($a_option, $this->complex)) {
@@ -172,7 +172,7 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
         return $tbl->getHTML();
     }
         
-    public function exportOptionToTableGUI($a_option, array &$a_item)
+    public function exportOptionToTableGUI($a_option, array &$a_item) : void
     {
         $adt = $this->getADTForOption($a_option);
         foreach ($adt->getElements() as $title => $element) {
@@ -180,9 +180,7 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
             $a_item[$title] = $pres->getList();
         }
     }
-    
-    // form
-    
+
     public function initOptionForm(ilPropertyFormGUI $a_form, $a_option_id)
     {
         global $lng;
@@ -224,17 +222,18 @@ abstract class ilAdvancedMDFieldDefinitionGroupBased extends ilAdvancedMDFieldDe
         return false;
     }
     
-    protected function importComplexOptionFromForm($a_option, ilADT $a_adt)
+    protected function importComplexOptionFromForm(string $a_option, ilADT $a_adt)
     {
         $this->complex[$a_option] = $a_adt->exportStdClass();
     }
         
-    protected function findOptionById($a_id)
+    protected function findOptionById(string $a_id) : ?string
     {
         foreach ($this->getOptions() as $item) {
             if (md5($item) == $a_id) {
                 return $item;
             }
         }
+        return null;
     }
 }

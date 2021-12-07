@@ -43,6 +43,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
     
     private bool $is_error = false;
     private array $error_msg = [];
+    private string $field_value_id = '';
 
     protected array $context;
     protected array $scopes = [];
@@ -77,13 +78,6 @@ class ilAdvancedMDRecordParser extends ilSaxParser
     }
     
     
-    /**
-    * stores xml data in array
-    *
-    * @return bool success status
-    * @access	private
-    * @throws ilSaxParserException
-    */
     public function startParsing()
     {
         parent::startParsing();
@@ -143,7 +137,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
                 if (!strlen($a_attribs['id']) or !isset($a_attribs['active'])) {
                     $this->appendErrorMessage('Missing XML attribute for element "Record".');
                 }
-                if (!$this->initRecordObject((int) $a_attribs['id'])) {
+                if (!$this->initRecordObject((string) $a_attribs['id'])) {
                     $this->appendErrorMessage('Invalid attribute Id given for element "Record".');
                 }
                 $this->getCurrentRecord()->setActive($a_attribs['active']);
@@ -198,7 +192,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
             case 'FieldDescription':
             case 'FieldPosition':
             case 'FieldValue':
-                $this->field_value_id = $a_attribs['id'];
+                $this->field_value_id = (string) $a_attribs['id'];
                 break;
         }
     }
@@ -290,7 +284,7 @@ class ilAdvancedMDRecordParser extends ilSaxParser
         }
     }
     
-    private function initRecordObject(int $a_id) : bool
+    private function initRecordObject(string $a_id) : bool
     {
         switch ($this->getMode()) {
             case self::MODE_INSERT:

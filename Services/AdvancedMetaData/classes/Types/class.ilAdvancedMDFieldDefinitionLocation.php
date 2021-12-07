@@ -44,8 +44,9 @@ class ilAdvancedMDFieldDefinitionLocation extends ilAdvancedMDFieldDefinition
 
     /**
      * @todo fix location search for lucene
+     * @inheritdoc
      */
-    public function getLuceneSearchString(string $a_value) : string
+    public function getLuceneSearchString($a_value) : string
     {
         // #14777 - currently not supported
         return '';

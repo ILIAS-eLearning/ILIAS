@@ -21,6 +21,7 @@ class ilAdvancedMDRecordScope
         global $DIC;
 
         $this->db = $DIC->database();
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
         
         $this->scope_id = $a_scope_id;

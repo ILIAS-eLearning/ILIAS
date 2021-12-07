@@ -5,6 +5,7 @@ use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\HTTP\GlobalHttpState;
 
 /**
  *
@@ -103,7 +104,8 @@ class ilAdvancedMDSettingsGUI
             !$this->obj_type) {
             $this->obj_type = ilObject::_lookupType($this->obj_id);
         }
-        
+
+        /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
         $this->permissions = ilAdvancedMDPermissionHelper::getInstance();
     }
 
@@ -278,7 +280,7 @@ class ilAdvancedMDSettingsGUI
                 );
             }
         
-            $sub->resetSubstitutions(array());
+            $sub->resetSubstitutions();
             
             $new_sub = array();
             foreach ($definitions as $def) {
@@ -452,7 +454,7 @@ class ilAdvancedMDSettingsGUI
     {
         if (!isset($_POST['file_id'])) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
-            $this->editFiles();
+            $this->showFiles();
             return;
         }
         
@@ -1516,6 +1518,7 @@ class ilAdvancedMDSettingsGUI
             ,"newline" => $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_EXERCISE_EDIT_FIELD_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_SUBSTITUTION_NEWLINE]
             );
         }
+        return [];
     }
     
     /**
@@ -1523,7 +1526,7 @@ class ilAdvancedMDSettingsGUI
      *
      * @access protected
      */
-    protected function initFormSubstitutions() : void
+    protected function initFormSubstitutions() : bool
     {
         global $DIC;
 
@@ -1531,7 +1534,7 @@ class ilAdvancedMDSettingsGUI
         
         
         if (!$visible_records = ilAdvancedMDRecord::_getAllRecordsByObjectType()) {
-            return;
+            return false;
         }
 
         $this->form = new ilPropertyFormGUI();
@@ -1580,7 +1583,8 @@ class ilAdvancedMDSettingsGUI
             if ($perm && !$perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_SHOW_FIELDNAMES]) {
                 $check->setDisabled(true);
             }
-            
+
+            $perm_pos = null;
             if ($perm) {
                 $perm_pos = $perm[ilAdvancedMDPermissionHelper::ACTION_SUBSTITUTION_FIELD_POSITIONS];
             }
@@ -1644,6 +1648,7 @@ class ilAdvancedMDSettingsGUI
         if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
             $this->form->addCommandButton('updateSubstitutions', $this->lng->txt('save'));
         }
+        return true;
     }
 
     /**
@@ -1772,7 +1777,8 @@ class ilAdvancedMDSettingsGUI
     protected function getParsedRecordObjects() : array
     {
         $res = array();
-        
+
+        $selected = [];
         if ($this->context == self::CONTEXT_OBJECT) {
             $selected = ilAdvancedMDRecord::getObjRecSelection($this->obj_id, $this->sub_type);
         }

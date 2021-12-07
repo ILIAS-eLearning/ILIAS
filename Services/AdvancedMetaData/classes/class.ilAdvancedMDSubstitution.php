@@ -145,7 +145,7 @@ class ilAdvancedMDSubstitution
         return $substituted;
     }
     
-    private function parseValue(int $a_field_id, array $a_values_records) : string
+    private function parseValue(int $a_field_id, array $a_values_records) : ?string
     {
         foreach ($a_values_records as $a_values) {
             if ($a_values->getADTGroup()->hasElement($a_field_id)) {
@@ -155,6 +155,7 @@ class ilAdvancedMDSubstitution
                 }
             }
         }
+        return null;
     }
     
     
@@ -287,8 +288,8 @@ class ilAdvancedMDSubstitution
         }
     }
     
-    private function initECSMappings() : bool
+    private function initECSMappings() : void
     {
-        return true;
+        return;
     }
 }
