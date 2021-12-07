@@ -495,6 +495,7 @@ class ilChatroomViewGUI extends ilChatroomGUIHandler
 
         $room->sendInvitationNotification($this->gui, $chat_user, $user_id, $subRoomId);
 
+        // CR: Variable $subRoomId can be eventually removed. The line 503 can be  $this->ilCtrl->setParameter($this->gui, 'sub', $_REQUEST['sub']);
         $_REQUEST['sub'] = $subRoomId;
 
         $_SESSION['show_invitation_message'] = $user_id;
