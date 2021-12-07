@@ -99,6 +99,7 @@ class ilChatroomAuthInputGUI extends ilSubEnabledFormPropertyGUI
 
     public function checkInput() : bool
     {
+        // CR: Method request() is deprecated
         $post = $this->http->request()->getParsedBody()[$this->getPostVar()] ?? [];
 
         if ($this->getRequired() && 2 > count(array_filter(array_map('trim', $post)))) {
