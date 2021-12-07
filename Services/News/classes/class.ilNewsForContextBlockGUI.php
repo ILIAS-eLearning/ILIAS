@@ -1476,7 +1476,7 @@ class ilNewsForContextBlockGUI extends ilBlockGUI
 
 
         $props = [
-            $this->lng->txt("date") => $info["creation_date"]
+            $this->lng->txt("news_date") => $info["creation_date"]
         ];
 
 
