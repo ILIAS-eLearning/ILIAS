@@ -151,6 +151,23 @@ class Renderer extends AbstractComponentRenderer
         $this->renderDescription($component, $tpl);
         $this->renderProperties($component, $default_renderer, $tpl);
 
+        if ($component->getProperties() !== []) {
+            foreach ($component->getProperties() as $name => $value) {
+                $name = ilUtil::stripSlashes($name);
+                if ($value instanceof Shy) {
+                    $value = $default_renderer->render($value);
+                } else {
+                    $value = ilUtil::stripSlashes($value);
+                }
+                $tpl->setCurrentBlock("property_row");
+                $tpl->setVariable("PROP_NAME_A", $name);
+                $tpl->setVariable("PROP_VAL_A", $value);
+                $tpl->parseCurrentBlock();
+            }
+            $tpl->setCurrentBlock("properties");
+            $tpl->parseCurrentBlock();
+        }
+
         if ($component->getLeadIcon() !== null) {
             $tpl->setCurrentBlock("lead_icon");
             $tpl->setVariable("LEAD_ICON", $default_renderer->render($component->getLeadIcon()));
