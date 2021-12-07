@@ -13,6 +13,7 @@ class ilChatroomCreateGUI extends ilChatroomGUIHandler
     public function save() : void
     {
         $formFactory = new ilChatroomFormFactory();
+        // CR: Method getCreateionForm() is deprecated
         $form = $formFactory->getCreationForm();
 
         if ($form->checkInput()) {
