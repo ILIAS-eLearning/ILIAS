@@ -45,7 +45,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         $sub = (int) ($parts[1] ?? 0);
 
         if (ilChatroom::checkUserPermissions('read', $ref_id, false)) {
-            // TODO PHP 8: Remove this code fragment if possible (seems not to be used)
+             // TODO PHP 8: Remove this code fragment if possible (seems not to be used)
             if ($sub) {
                 $_REQUEST['sub'] = $_GET['sub'] = (int) $sub;
             }
