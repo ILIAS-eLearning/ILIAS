@@ -36,6 +36,8 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
      */
     private $count = 0;
 
+    protected ?string $error = null;
+
 
     /**
      * @param array $inputs
@@ -98,6 +100,16 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
         return $clone;
     }
 
+    public function getError() : ?string
+    {
+        return $this->error;
+    }
+
+    protected function setError(string $error) : void
+    {
+        $this->error = $error;
+    }
+
 
     /**
      * @inheritdocs
@@ -106,6 +118,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
     {
         $content = $this->getInputGroup()->getContent();
         if (!$content->isok()) {
+            $this->setError($content->error());
             return null;
         }
 

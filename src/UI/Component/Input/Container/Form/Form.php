@@ -53,4 +53,6 @@ interface Form extends Component
     /**
      * TODO: there should be a further method to attach the different submit buttons
      */
+
+    public function getError() : ?string;
 }
