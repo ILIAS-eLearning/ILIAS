@@ -66,10 +66,12 @@ class ilChatroomSmilies
         $path = self::_getSmileyDir();
 
         if (!is_dir($path)) {
+             // CR: Class ilUtil is deprecated
             ilUtil::sendInfo($lng->txt('chatroom_smilies_dir_not_exists'));
             ilUtil::makeDirParents($path);
 
             if (!is_dir($path)) {
+                // CR: Class ilUtil is deprecated
                 ilUtil::sendFailure($lng->txt('chatroom_smilies_dir_not_available'));
                 return false;
             }
