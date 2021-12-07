@@ -40,13 +40,12 @@ class ilRepUtil
         $this->settings = $DIC->settings();
     }
 
-
     /**
-    * Delete objects. Move them to trash (if trash feature is enabled).
-    *
-    * @param	integer		current ref id
-    * @param	array		array of ref(!) ids to be deleted
-    */
+     * Delete objects. Move them to trash (if trash feature is enabled).
+     * @param int       current ref id
+     * @param int[]        array of ref(!) ids to be deleted
+     * @throws \ilRepositoryException on missing permission, objects already deleted,...
+     */
     public static function deleteObjects($a_cur_ref_id, $a_ids)
     {
         global $DIC;
@@ -58,6 +57,7 @@ class ilRepUtil
         $tree = $DIC->repositoryTree();
         $lng = $DIC->language();
         $ilSetting = $DIC->settings();
+        $user = $DIC->user();
 
         $log = $ilLog;
         
@@ -112,21 +112,6 @@ class ilRepUtil
             // alex: this branch looks suspicious to me... I deactivate it for
             // now. Objects that aren't in the tree should overwrite this method.
             throw new ilRepositoryException($lng->txt("ilRepUtil::deleteObjects: Type information missing."));
-            // OBJECTS ARE NO 'TREE OBJECTS'
-            if ($rbacsystem->checkAccess('delete', $a_cur_ref_id)) {
-                foreach ($a_ids as $id) {
-                    $obj = ilObjectFactory::getInstanceByObjId($id);
-                    $obj->delete();
-                    
-                    // write log entry
-                    $log->write("ilObjectGUI::confirmedDeleteObject(), deleted obj_id " . $obj->getId() .
-                        ", type: " . $obj->getType() . ", title: " . $obj->getTitle());
-                }
-            } else {
-                throw new ilRepositoryException(
-                    $lng->txt("no_perm_delete") . "<br/>" . $lng->txt("msg_cancel")
-                );
-            }
         } else {
             // SAVE SUBTREE AND DELETE SUBTREE FROM TREE
             $affected_ids = array();
@@ -151,8 +136,7 @@ class ilRepUtil
                 // This class shouldn't have to know anything about ECS
                 include_once('./Services/WebServices/ECS/classes/class.ilECSObjectSettings.php');
                 ilECSObjectSettings::_handleDelete($subnodes);
-
-                if (!$tree->saveSubTree($id, true)) {
+                if (!$tree->moveToTrash($id, true, $user->getId())) {
                     $log->write(__METHOD__ . ': Object with ref_id: ' . $id . ' already deleted.');
                     throw new ilRepositoryException($lng->txt("msg_obj_already_deleted"));
                 }

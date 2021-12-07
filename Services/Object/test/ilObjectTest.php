@@ -152,7 +152,7 @@ class ilObjectTest extends TestCase
         }
         
         $d1 = ilObject::_lookupDeletedDate($ref_id);
-        ilObject::_setDeletedDate($ref_id);
+        ilObject::_setDeletedDate($ref_id, $ilUser->getId());
         $d2 = ilObject::_lookupDeletedDate($ref_id);
         ilObject::_resetDeletedDate($ref_id);
         $d3 = ilObject::_lookupDeletedDate($ref_id);
@@ -173,6 +173,7 @@ class ilObjectTest extends TestCase
     {
         global $DIC;
         $tree = $DIC->repositoryTree();
+        $user = $DIC->user();
         
         $obj = new ilObject();
         $obj->setType("xxx");
@@ -196,8 +197,7 @@ class ilObjectTest extends TestCase
         
         // isSaved() uses internal cache!
         $tree->useCache(false);
-        
-        $tree->saveSubTree($ref_id, true);
+        $tree->moveToTrash($ref_id, true,$user->getId());
         if ($tree->isDeleted($ref_id)) {
             $value .= "tree3-";
         }
@@ -237,10 +237,11 @@ class ilObjectTest extends TestCase
      */
     public function testObjectReference()
     {
-        include_once './Services/Object/classes/class.ilObject.php';
+        global $DIC;
+        $user = $DIC->user();
         
         $ref_ids = ilObject::_getAllReferences(1);
-        $bool = ilObject::_setDeletedDate(1);
+        $bool = ilObject::_setDeletedDate(1, $user->getId());
         $bool = ilObject::_resetDeletedDate(1);
         $date = ilObject::_lookupDeletedDate(1);
         
