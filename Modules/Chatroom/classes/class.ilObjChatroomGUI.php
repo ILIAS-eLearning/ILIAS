@@ -264,6 +264,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         $refId = $this->http->wrapper()->query()->retrieve('ref_id', $this->refinery->kindlyTo()->int());
         $title = '';
         if ($this->http->wrapper()->post()->has('title')) {
+            // CR: Class ilUtil is deprecated
             $title = ilUtil::stripSlashes(
                 $this->http->wrapper()->post()->retrieve(
                     'title',
@@ -273,6 +274,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInt
         }
         $desc = '';
         if ($this->http->wrapper()->post()->has('desc')) {
+            // CR: Class ilUtil is deprecated
             $desc = ilUtil::stripSlashes(
                 $this->http->wrapper()->post()->retrieve(
                     'desc',
