@@ -6604,6 +6604,7 @@ forum#:#frm_anonymous_posting#:#Mit Pseudonym schreiben
 forum#:#frm_anonymous_posting_desc#:#Alle Forenbeiträge werden mit einem Pseudonym bzw. ohne Nennung des Namens erstellt. Ist die Option „Beiträge der Moderation markieren“ aktiviert, kann die Moderation kein Pseudonym verwenden.###Modified as part of gender mainstreaming activities for ILIAS 8
 forum#:#frm_default_view#:#Standardansicht
 forum#:#frm_edit_title#:#Titel bearbeiten
+forum#:#frm_activation_online_info#:#Nur wenn das Forum online geschaltet ist, können Benutzer auf das Forum zugreifen. Wenn nicht, ist das Forum nur für Administratoren verfügbar.
 forum#:#frm_moderator_f#:#Moderatorin
 forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_n#:#Moderation
@@ -14902,13 +14903,14 @@ copa#:#copa_new#:#Neue Inhaltsseite anlegen
 copa#:#copa_import#:#Inhaltsseite importieren
 copa#:#copa_copy#:#Inhaltsseite kopieren
 copa#:#copa_add#:#Inhaltsseite hinzufügen
-copa#:#copa_edit#:#Inhaltsseite bearbeiten
+copa#:#copa_edit#:#Einstellungen der Inhaltsseite
 copa#:#obj_copa_duplicate#:#Inhaltsseite duplizieren
 copa#:#copa_btn_lp_toggle_state_completed#:#Auf "Nicht bearbeitet" setzen
 copa#:#copa_btn_lp_toggle_state_not_completed#:#Auf "Bearbeitet" setzen
 copa#:#copa_prop_reading_time#:#Lesezeit
 copa#:#copa_value_reading_time_f_s#:#%s Minute
 copa#:#copa_value_reading_time_f_p#:#%s Minuten
+copa#:#copa_activation_online_info#:#Nur wenn die Inhaltsseite online geschaltet ist, können Benutzer auf die Inhaltsseite zugreifen. Wenn nicht, ist die Inhaltsseite nur für Administratoren verfügbar.
 common#:#obj_cpad#:#Inhaltsseiten
 common#:#obj_cpad_desc#:#Administration der Inhaltsseiten
 common#:#obj_cpad#_desc#:#Administration Inhaltsseiten
