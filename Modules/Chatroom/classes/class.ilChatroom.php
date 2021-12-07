@@ -914,7 +914,7 @@ class ilChatroom
             return $row['title'];
         }
 
-        return 'unkown';
+        return 'unknown';
     }
 
     public function inviteUserToPrivateRoomByLogin(string $login, int $proom_id) : void
