@@ -1126,7 +1126,8 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
 		FROM tst_solutions, tst_active, qpl_questions 
 		WHERE tst_solutions.active_fi = tst_active.active_id 
 		AND tst_solutions.question_fi = qpl_questions.question_id 
-		AND tst_solutions.question_fi = %s AND tst_active.test_fi = %s";
+		AND tst_solutions.question_fi = %s AND tst_active.test_fi = %s 
+		AND tst_solutions.value1 is not null";
         $result = $ilDB->queryF(
             $query,
             array("integer", "integer"),
