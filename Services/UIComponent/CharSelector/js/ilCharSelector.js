@@ -413,7 +413,7 @@ il.CharSelector = new function() {
 		
 		// special handling of tinyMCE
 		if (element.tagName.toLowerCase() == 'iframe') {
-			if ($(element).parent().hasClass('mceIframeContainer')) {
+			if ($(element).parent().hasClass('tox-edit-area')) {
 				tinymce.activeEditor.execCommand('mceInsertContent', false, char);
 				return;
 			}
