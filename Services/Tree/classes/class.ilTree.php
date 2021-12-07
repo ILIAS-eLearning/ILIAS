@@ -573,8 +573,10 @@ class ilTree
         $query = 'SELECT * FROM ' . $this->table_tree . ' ' .
             $this->buildJoin() .
             'WHERE parent = ' . $this->db->quote($a_node_id, 'integer') . ' ' .
-            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->db->quote($this->tree_id,
-                'integer') . ' ' .
+            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->db->quote(
+                $this->tree_id,
+                'integer'
+            ) . ' ' .
             $filter .
             $order_clause;
 
@@ -742,8 +744,10 @@ class ilTree
             // moved to trash and then deleted.
             if (!$this->__checkDelete($a_node)) {
                 $this->logger->logStack(ilLogLevel::ERROR);
-                throw new ilInvalidTreeStructureException('Deletion canceled due to invalid tree structure.' . print_r($a_node,
-                        true));
+                throw new ilInvalidTreeStructureException('Deletion canceled due to invalid tree structure.' . print_r(
+                    $a_node,
+                    true
+                ));
             }
         }
         $this->getTreeImplementation()->deleteTree($a_node['child']);
@@ -787,8 +791,10 @@ class ilTree
             'FROM ' . $this->table_tree . ' ' .
             $this->buildJoin() . ' ' .
             'WHERE ' . $inClause . ' ' .
-            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->db->quote($this->tree_id,
-                'integer') . ' ' .
+            'AND ' . $this->table_tree . '.' . $this->tree_pk . ' = ' . $this->db->quote(
+                $this->tree_id,
+                'integer'
+            ) . ' ' .
             'ORDER BY depth';
         $r = $this->db->query($q);
 
@@ -1005,7 +1011,7 @@ class ilTree
         $res = $this->db->query($query);
 
         $row = $this->db->fetchAssoc($res);
-        return $row['depth'];
+        return (int) $row['depth'];
     }
 
     /**
@@ -1028,7 +1034,7 @@ class ilTree
                 $res = $this->db->queryF($query, array('integer', 'integer'), array($a_node_id, $this->tree_id));
                 $row = $this->db->fetchObject($res);
             }
-            return $row->depth;
+            return (int) $row->depth;
         }
         return 1;
     }
@@ -1286,7 +1292,9 @@ class ilTree
             $this->tree_pk . ', child,parent,lft,rgt,depth) ' .
             'VALUES ' .
             '(%s,%s,%s,%s,%s,%s)';
-        $res = $this->db->manipulateF($query, array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
+        $res = $this->db->manipulateF(
+            $query,
+            array('integer', 'integer', 'integer', 'integer', 'integer', 'integer'),
             array(
                 $a_tree_id,
                 $a_node_id,
@@ -1294,7 +1302,8 @@ class ilTree
                 1,
                 2,
                 1
-            ));
+            )
+        );
 
         return true;
     }

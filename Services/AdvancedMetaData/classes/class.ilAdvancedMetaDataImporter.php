@@ -6,20 +6,21 @@
  * Importer class for adv md
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: $
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMetaDataImporter extends ilXmlImporter
 {
-    private $logger = null;
+    private ilLogger $logger;
     
     /**
      *
      */
     public function __construct()
     {
+        global $DIC;
+
+        $this->logger = $DIC->logger()->amet();
         parent::__construct();
-        $this->logger = $GLOBALS['DIC']->logger()->amet();
     }
     
     

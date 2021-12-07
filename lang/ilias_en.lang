@@ -1996,7 +1996,6 @@ cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions f
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
 cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
-common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept terms of service?
 common#:#withdraw_consent_header#:#Revoke acceptance to terms of service
@@ -2829,6 +2828,7 @@ common#:#hint#:#Hint
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_lm_pg_create#:#Page created.
+common#:#hist_lm_pg_update#:#Page changed.
 common#:#hist_lm_st_create#:#Chapter created.
 common#:#hist_webr_add#:#Added new Weblink with title: "%1"
 common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
@@ -5640,7 +5640,6 @@ forum#:#forums_your_reply#:#Your Reply
 forum#:#frm_anonymous_posting_desc#:#If enabled, registered users can post to this forum only by using a pseudonym or without name. If the option "Mark moderators posts" is also enabled, moderators can not use a pseudonym.
 forum#:#frm_anonymous_posting#:#Posting with pseudonym
 forum#:#frm_default_view#:#Default View
-forum#:#frm_detach_moderator_role#:#Detach Moderator Role
 forum#:#frm_moderator_f#:#Moderator
 forum#:#frm_moderator_m#:#Moderator
 forum#:#frm_moderator_n#:#Moderation
@@ -16651,6 +16650,8 @@ prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when
 prg#:#status_unchanged#:#Status unchanged
 common#:#file_system_clean_temp_dir_cron#:#Clean temp directory
 common#:#file_system_clean_temp_dir_cron_info#:#This job cleans the ILIAS temp-directory of files, which are older than 10 days. This counteracts the accumulation of unused files and therefore prevents an increased use of disk space by the temp directory.
+common#:#actions_for#:#Actions for %s
 violation#:#not_a_string#:#Given value is not a String
 common#:#actions_for#:#Actions for %s
 validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.
+validation#:#not_an_array#:#Given value is not an array
