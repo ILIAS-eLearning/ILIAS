@@ -129,6 +129,7 @@ class ilChatroomSmilies
         $result = [];
 
         while ($row = $ilDB->fetchAssoc($res)) {
+            // CR: Class ilUtil is deprecated
             $result[] = [
                 'smiley_id' => (int) $row['smiley_id'],
                 'smiley_keywords' => $row['smiley_keywords'],
