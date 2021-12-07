@@ -288,6 +288,7 @@ class ilChatroomHistoryGUI extends ilChatroomGUIHandler
             );
         }
 
+        // CR: Variable $sessions is defined more than one time. Lines 292-310 can be rebuild
         if ($from && $to) {
             $psessions = $room->getPrivateRoomSessions(
                 $from,
