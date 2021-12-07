@@ -4,7 +4,6 @@
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
-use ilDatePresentation;
 use ILIAS\UI\Implementation\Component\Button\Close;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
@@ -13,6 +12,7 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
+use ilUtil;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -29,8 +29,8 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderGroup($component, $default_renderer);
         } elseif ($component instanceof Component\Item\Standard) {
             return $this->renderStandard($component, $default_renderer);
-        } elseif ($component instanceof Contribution) {
-            return $this->renderContribution($component, $default_renderer);
+        } elseif ($component instanceof Component\Item\Shy) {
+            return $this->renderShy($component, $default_renderer);
         }
         return "";
     }
@@ -140,27 +140,13 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderContribution(Contribution $component, RendererInterface $default_renderer) : string
+    protected function renderShy(Component\Item\Shy $component, RendererInterface $default_renderer) : string
     {
-        $tpl = $this->getTemplate("tpl.item_contribution.html", true, true);
+        $tpl = $this->getTemplate("tpl.item_shy.html", true, true);
 
         $this->renderTitle($component, $default_renderer, $tpl);
         $this->renderDescription($component, $tpl);
-
-        if ($component->getContributor()) {
-            $tpl->setVariable("CONTRIBUTOR", \ilUtil::stripSlashes($component->getContributor()));
-        } else {
-            $tpl->setVariable("CONTRIBUTOR", $this->txt('unknown'));
-        }
-
-        $tpl->setVariable("TIME_LABEL", ucfirst($this->txt('time')));
-        if ($component->getCreateDatetime()) {
-            $tpl->setVariable("DATETIME", $component->getCreateDatetime()->format(
-                $component->getDateFormat()->toString()
-            ));
-        } else {
-            $tpl->setVariable("DATETIME", $this->txt('unknown'));
-        }
+        $this->renderProperties($component, $default_renderer, $tpl);
 
         if ($component->getLeadIcon() !== null) {
             $tpl->setCurrentBlock("lead_icon");
@@ -171,14 +157,6 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getClose() !== null) {
             $tpl->setCurrentBlock("close");
             $tpl->setVariable("CLOSE", $default_renderer->render($component->getClose()));
-            $tpl->parseCurrentBlock();
-        }
-
-        if ($component->getIdentifier() !== null) {
-            $tpl->setCurrentBlock("identifier");
-            $tpl->setVariable('ID',
-                \ilUtil::stripSlashes($component->getIdentifier())
-            );
             $tpl->parseCurrentBlock();
         }
 
@@ -269,6 +247,8 @@ class Renderer extends AbstractComponentRenderer
         $title = $component->getTitle();
         if ($title instanceof Shy || $title instanceof Link) {
             $title = $default_renderer->render($title);
+        } else {
+            $title = ilUtil::stripSlashes($title);
         }
         $tpl->setVariable("TITLE", $title);
     }
@@ -281,7 +261,7 @@ class Renderer extends AbstractComponentRenderer
         $desc = $component->getDescription();
         if (!is_null($desc) && trim($desc) != "") {
             $tpl->setCurrentBlock("desc");
-            $tpl->setVariable("DESC", \ilUtil::stripSlashes($desc));
+            $tpl->setVariable("DESC", ilUtil::stripSlashes($desc));
             $tpl->parseCurrentBlock();
         }
     }
@@ -296,8 +276,11 @@ class Renderer extends AbstractComponentRenderer
         if (count($props) > 0) {
             $cnt = 0;
             foreach ($props as $name => $value) {
+                $name = ilUtil::stripSlashes($name);
                 if ($value instanceof Shy) {
                     $value = $default_renderer->render($value);
+                } else {
+                    $value = ilUtil::stripSlashes($value);
                 }
                 $cnt++;
                 if ($cnt % 2 == 1) {
@@ -334,7 +317,7 @@ class Renderer extends AbstractComponentRenderer
     {
         return [
             Component\Item\Standard::class,
-            Component\Item\Contribution::class,
+            Component\Item\Shy::class,
             Component\Item\Group::class,
             Component\Item\Notification::class
         ];

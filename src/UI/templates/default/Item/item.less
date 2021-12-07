@@ -122,33 +122,31 @@
 
 }
 
-.il-contribution-item{
+.il-shy-item{
 	display: flex;
 	gap: 10px;
 
-	.contribution {
+	.content {
 		width: 100%;
 		display: grid;
 		grid-template-areas:
-			"contributor close"
+			"title close"
 			"description description"
-			"datetime datetime";
+			"properties properties";
 		grid-auto-columns: auto 12px;
 		gap: 10px;
 
-		.contributor {
-			grid-area: contributor;
+		.il-item-title {
+			grid-area: title;
 		}
 		.close {
 			grid-area: close;
 		}
-		.description {
+		.il-item-description {
 			grid-area: description;
 		}
-		.datetime {
-			padding-top: 10px;
-			border-top: 1px dashed lightgrey;
-			grid-area: datetime;
+		.il-item-properties {
+			grid-area: properties;
 		}
 	}
 }
