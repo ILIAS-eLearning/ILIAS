@@ -67,6 +67,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
     public function createPublicRoom() : void
     {
         ilChatroomInstaller::createDefaultPublicRoom(true);
+        // CR: Class ilUtil is deprecated
         ilUtil::sendSuccess($this->ilLng->txt('public_chat_created'), true);
     }
 
@@ -76,6 +77,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
             isset($serverSettings['port'], $serverSettings['address']) &&
             !ilChatroomServerConnector::checkServerConnection(false)
         ) {
+            // CR: Class ilUtil is deprecated
             ilUtil::sendInfo($this->ilLng->txt('chat_cannot_connect_to_server'));
         }
     }
@@ -92,6 +94,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
 
     protected function getReadmePath() : string
     {
+        // CR: Class ilUtil is deprecated
         return ilUtil::_getHttpPath() . self::CHATROOM_README_PATH;
     }
 
@@ -144,6 +147,7 @@ class ilChatroomAdminViewGUI extends ilChatroomGUIHandler
         $fileHandler = new ilChatroomConfigFileHandler();
         $fileHandler->createClientConfigFile($settings);
 
+        // CR: Class ilUtil is deprecated
         ilUtil::sendSuccess($this->ilLng->txt('settings_has_been_saved'), true);
         $this->ilCtrl->redirect($this->gui, 'view-clientsettings');
     }
