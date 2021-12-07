@@ -152,6 +152,7 @@ abstract class ilChatroomGUIHandler
     protected function exitIfNoRoomExists(?ilChatroom $room) : void
     {
         if (null === $room) {
+            // CR: spelling error in word "unkown"
             $this->sendResponse([
                 'success' => false,
                 'reason' => 'unkown room',
