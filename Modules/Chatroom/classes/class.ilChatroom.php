@@ -1114,6 +1114,7 @@ class ilChatroom
 
         $suffix = '';
         $i = 0;
+	// CR: do-while has no variable in while(), but only a true
         do {
             if (!in_array($title . $suffix, $titles, true)) {
                 $title .= $suffix;
