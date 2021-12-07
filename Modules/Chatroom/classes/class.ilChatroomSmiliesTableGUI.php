@@ -54,6 +54,7 @@ class ilChatroomSmiliesTableGUI extends ilTable2GUI
         );
 
         if ($this->dic->rbac()->system()->checkAccess('write', $this->gui->ref_id)) {
+            // CR: Class ilAdvancedSelectionListGUI is deprecated
             $current_selection_list = new ilAdvancedSelectionListGUI();
             $current_selection_list->setListTitle($this->lng->txt('actions'));
             $current_selection_list->setId('act_' . $a_set['smiley_id']);
