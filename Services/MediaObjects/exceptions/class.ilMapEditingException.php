@@ -14,10 +14,10 @@
  */
 
 /**
- * Class for ffmpeg exception handling in ILIAS.
+ * General exception class for media objects
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilFFmpegException extends ilException
+class ilMapEditingException extends ilException
 {
 }

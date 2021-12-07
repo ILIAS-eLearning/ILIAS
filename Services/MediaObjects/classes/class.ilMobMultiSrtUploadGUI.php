@@ -1,43 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Upload SRT files to a set of media objects
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ServicesMediaObjects
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMobMultiSrtUploadGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilToolbarGUI $toolbar;
+    protected ilTemplate $tpl;
+    public ilMobMultiSrtUpload $multi_srt;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    public $multi_srt;
-
-    /**
-     * Constructor
-     *
-     * @param ilObjLearningModule $a_lm learning module object
-     */
     public function __construct(ilMobMultiSrtInt $a_multi_srt)
     {
         global $DIC;
@@ -54,10 +42,7 @@ class ilMobMultiSrtUploadGUI
         $this->toolbar = $ilToolbar;
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd("uploadMultipleSubtitleFileForm");
 
@@ -66,10 +51,7 @@ class ilMobMultiSrtUploadGUI
         }
     }
 
-    /**
-     *	Upload multiple stubtitles
-     */
-    public function uploadMultipleSubtitleFileForm()
+    public function uploadMultipleSubtitleFileForm() : void
     {
         ilUtil::sendInfo($this->lng->txt("cont_upload_multi_srt_howto"));
 
@@ -85,7 +67,7 @@ class ilMobMultiSrtUploadGUI
     /**
      * Upload multiple subtitles
      */
-    public function uploadMultipleSubtitleFile()
+    public function uploadMultipleSubtitleFile() : void
     {
         try {
             $this->multi_srt->uploadMultipleSubtitleFile(ilUtil::stripSlashesArray($_FILES["subtitle_file"]));
@@ -99,16 +81,13 @@ class ilMobMultiSrtUploadGUI
     /**
      * List of srt files in zip file
      */
-    public function showMultiSubtitleConfirmationTable()
+    public function showMultiSubtitleConfirmationTable() : void
     {
         $tab = new ilMobMultiSrtConfirmationTable2GUI($this, "showMultiSubtitleConfirmationTable");
         $this->tpl->setContent($tab->getHTML());
     }
 
-    /**
-     * Cancel Multi Feedback
-     */
-    public function cancelMultiSrt()
+    public function cancelMultiSrt() : void
     {
         $this->multi_srt->clearMultiSrtDirectory();
         $this->ctrl->redirect($this, "uploadMultipleSubtitleFileForm");
@@ -117,7 +96,7 @@ class ilMobMultiSrtUploadGUI
     /**
      * Save selected srt files as new srt files
      */
-    public function saveMultiSrt()
+    public function saveMultiSrt() : void
     {
         $cnt = $this->multi_srt->moveMultiSrtFiles();
         $this->multi_srt->clearMultiSrtDirectory();

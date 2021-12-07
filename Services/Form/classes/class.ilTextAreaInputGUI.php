@@ -239,7 +239,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     
     public function setValueByArray(array $a_values) : void
     {
-        $this->setValue($a_values[$this->getPostVar()]);
+        $this->setValue($a_values[$this->getPostVar()] ?? "");
         
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
