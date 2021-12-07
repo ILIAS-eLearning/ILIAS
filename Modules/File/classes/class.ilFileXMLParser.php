@@ -13,6 +13,9 @@
  * @extends ilSaxParser
  */
 
+use ILIAS\Data\DataSize;
+use ILIAS\Filesystem\Util\LegacyPathHelper;
+
 include_once './Services/Xml/classes/class.ilSaxParser.php';
 include_once 'Modules/File/classes/class.ilFileException.php';
 include_once 'Services/Utilities/classes/class.ilFileUtils.php';
