@@ -1,85 +1,10 @@
-%PDF-1.7
-
-1 0 obj
-  << >>
-endobj
-
-2 0 obj
-  << /Length 3 0 R >>
-stream
-/DeviceRGB CS
-/DeviceRGB cs
-q
-1.000000 0.000000 -0.000000 1.000000 0.000000 0.000000 cm
-0.709804 0.309804 0.000000 scn
-196.000000 25.279785 m
-196.000000 177.049789 l
-256.079987 156.809784 l
-212.550003 95.519775 l
-211.740005 20.349792 l
-196.000000 25.279785 l
-h
-140.000000 266.279785 m
-85.919998 193.529785 l
-0.000000 164.579773 l
-26.790001 126.859787 l
-52.500000 90.659775 l
-53.500000 -0.000214 l
-140.000000 27.089783 l
-226.520004 -0.000214 l
-227.520004 90.659775 l
-280.000000 164.579773 l
-194.080002 193.519791 l
-140.000000 266.279785 l
-h
-f
-n
-Q
-
-endstream
-endobj
-
-3 0 obj
-  546
-endobj
-
-4 0 obj
-  << /Annots []
-     /Type /Page
-     /MediaBox [ 0.000000 0.000000 280.000000 266.299805 ]
-     /Resources 1 0 R
-     /Contents 2 0 R
-     /Parent 5 0 R
-  >>
-endobj
-
-5 0 obj
-  << /Kids [ 4 0 R ]
-     /Count 1
-     /Type /Pages
-  >>
-endobj
-
-6 0 obj
-  << /Pages 5 0 R
-     /Type /Catalog
-  >>
-endobj
-
-xref
-0 7
-0000000000 65535 f
-0000000010 00000 n
-0000000034 00000 n
-0000000636 00000 n
-0000000658 00000 n
-0000000833 00000 n
-0000000907 00000 n
-trailer
-<< /ID [ (some) (id) ]
-   /Root 6 0 R
-   /Size 7
->>
-startxref
-966
-%%EOF
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 26.0.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 280 266.3" style="enable-background:new 0 0 280 266.3;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#B54F00;}
+</style>
+<path class="st0" d="M196,241V89.2l60.1,20.2l-43.5,61.3l-0.8,75.2L196,241z M140,0L85.9,72.8L0,101.7l0,0l26.8,37.7l25.7,36.2
+	l1,90.7l86.5-27.1l0,0l86.5,27.1l1-90.7l52.5-73.9l-85.9-28.9L140,0z"/>
+</svg>
