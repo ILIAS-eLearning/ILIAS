@@ -111,6 +111,7 @@ class ilChatroomSmilies
 
     public static function _getSmileyDir() : string
     {
+        // CR: Class ilUtil and method getWebSpaceDir() is deprecated
         return ilUtil::getWebspaceDir() . '/chatroom/smilies';
     }
 
