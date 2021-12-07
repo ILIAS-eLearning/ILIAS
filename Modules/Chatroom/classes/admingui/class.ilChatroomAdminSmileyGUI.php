@@ -42,6 +42,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         if (!is_dir($path)) {
             // CR: Class ilUtil is deprecated
             ilUtil::sendInfo($DIC->language()->txt('chat_smilies_dir_not_exists'));
+            // CR: Method makeDirParents() is deprecated
             ilUtil::makeDirParents($path);
 
             if (!is_dir($path)) {
