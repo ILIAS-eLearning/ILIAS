@@ -483,7 +483,7 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
             $confirmation->addItem(
                 'sel_ids[]',
                 (string) $s['smiley_id'],
-                // CR: Class ilUtil is deprecated
+                // CR: Class ilUtil and method img() is deprecated
                 ilUtil::img($s['smiley_fullpath'], $s['smiley_keywords']) . ' ' . $s['smiley_keywords']
             );
         }
