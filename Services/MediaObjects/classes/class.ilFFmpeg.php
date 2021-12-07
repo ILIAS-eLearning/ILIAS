@@ -153,9 +153,6 @@ class ilFFmpeg
     
     /**
      * Get last return values
-     *
-     * @param
-     * @return
      */
     public static function getLastReturnValues() : ?array
     {

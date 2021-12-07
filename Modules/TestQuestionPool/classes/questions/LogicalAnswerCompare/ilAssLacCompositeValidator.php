@@ -1,5 +1,7 @@
 <?php
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+
 require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Expressions/ilAssLacResultOfAnswerOfQuestionExpression.php";
 require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacExpressionNotSupportedByQuestion.php";
 require_once "Modules/TestQuestionPool/classes/questions/LogicalAnswerCompare/Exception/ilAssLacQuestionNotExist.php";
@@ -29,12 +31,17 @@ class ilAssLacCompositeValidator
      */
     protected $object_loader;
 
+    private RandomGroup $randomGroup;
+
     /**
      * @param ilAssLacQuestionProvider $object_loader
      */
     public function __construct($object_loader)
     {
+        global $DIC;
+
         $this->object_loader = $object_loader;
+        $this->randomGroup = $DIC->refinery()->random();
     }
 
     public function validate(ilAssLacAbstractComposite $composite)
@@ -240,6 +247,6 @@ class ilAssLacCompositeValidator
     
     protected function getNonShuffler()
     {
-        return new ilDeterministicArrayElementProvider();
+        return $this->randomGroup->dontShuffle();
     }
 }

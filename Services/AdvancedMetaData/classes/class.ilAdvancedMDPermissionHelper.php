@@ -76,8 +76,6 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     
         
     
-    // caching
-        
     protected function readContextIds($a_context_type)
     {
         global $DIC;

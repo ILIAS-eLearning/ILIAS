@@ -5,7 +5,7 @@
 	<objects>
 		<object id="copa" class_name="ContentPage" dir="classes" default_pos="340" default_pres_pos="340"
 				checkbox="1" inherit="1" translate="db" allow_link="1" allow_copy="1" rbac="1" export="1"
-				workspace="0" repository="1">
+				workspace="0" repository="1" offline_handling="1">
 			<parent id="cat">cat</parent>
 			<parent id="crs">crs</parent>
 			<parent id="fold">fold</parent>

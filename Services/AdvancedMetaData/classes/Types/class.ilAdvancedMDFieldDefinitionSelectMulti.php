@@ -12,9 +12,9 @@ class ilAdvancedMDFieldDefinitionSelectMulti extends ilAdvancedMDFieldDefinition
 {
     protected const XML_SEPARATOR = "~|~";
     
-    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : int
+    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
-        return $a_adt_search->getADT()->getSelections()[0] ?? 0;
+        return $a_adt_search->getADT()->getSelections()[0] ?? "";
     }
 
     

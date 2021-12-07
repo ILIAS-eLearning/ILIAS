@@ -124,7 +124,7 @@ class ilAppEventHandler
 
         $this->logger->debug("Started event propagation for event listeners ...");
 
-        if (is_array($this->listener[$a_component])) {
+        if (is_array($this->listener[$a_component] ?? null)) {
             foreach ($this->listener[$a_component] as $listener) {
                 // Allow listeners like Services/WebServices/ECS
                 $last_slash = strripos($listener, '/');

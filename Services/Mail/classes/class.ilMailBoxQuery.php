@@ -64,10 +64,15 @@ class ilMailBoxQuery
             $filter_qry .= ' AND m_status = ' . $DIC->database()->quote('unread', 'text') . ' ';
         }
 
-        if (isset(self::$filter['mail_filter_only_with_attachments']) &&
+        if (
+            isset(self::$filter['mail_filter_only_with_attachments']) &&
             self::$filter['mail_filter_only_with_attachments']
         ) {
             $filter_qry .= ' AND attachments != ' . $DIC->database()->quote(serialize(null), 'text') . ' ';
+        }
+
+        if (isset(self::$filter['mail_filter_only_user_mails']) && self::$filter['mail_filter_only_user_mails']) {
+            $filter_qry .= ' AND sender_id != ' . $DIC->database()->quote(ANONYMOUS_USER_ID, ilDBConstants::T_INTEGER) . ' ';
         }
 
         if (isset(self::$filter['period']) && is_array(self::$filter['period'])) {

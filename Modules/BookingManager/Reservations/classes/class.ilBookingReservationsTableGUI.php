@@ -492,7 +492,8 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
         
         if ($this->advmd) {
             // advanced metadata
-            $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER, "book", $this->pool_id, "bobj");
+            $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER, "book", $this->pool_id,
+                "bobj");
             $this->record_gui->setTableGUI($this);
             $this->record_gui->parse();
             
@@ -504,7 +505,7 @@ class ilBookingReservationsTableGUI extends ilTable2GUI
                 $this->ref_id,
                 "book",
                 "bobj",
-                $this->pool_id,
+                [$this->pool_id],
                 "bobj",
                 $data,
                 "pool_id",

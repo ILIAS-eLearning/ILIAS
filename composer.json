@@ -29,6 +29,10 @@
 	},
 	"require": {
 		"php": ">=7.4",
+		"ext-gd": "*",
+		"ext-dom": "*",
+		"ext-xsl": "*",
+		"ext-curl": "*",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^2.3.5",
@@ -54,7 +58,8 @@
 		"ramsey/uuid": "^3.8",
 		"enshrined/svg-sanitize": "^0.13.0",
 		"guzzlehttp/guzzle": "^6.3",
-		"simplesamlphp/simplesamlphp": "^1.18"
+		"simplesamlphp/simplesamlphp": "^1.18",
+		"seld/jsonlint": "^1.8"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
@@ -86,6 +91,49 @@
 		]
 	},
 	"extra": {
+		"ext-gd" : {
+			"source" : "https://www.php.net/manual/en/book.image.php",
+			"used_version" : "*",
+			"wrapped_by" : "Services/MediaObjects",
+			"added_by" : "Alexander Killing",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2004-01-01",
+			"info": "Used for image map editing since the beginning of ILIAS 3"
+		},
+		"ext-dom" : {
+			"source" : "https://www.php.net/manual/en/class.domdocument.php",
+			"used_version" : "*",
+			"wrapped_by" : "various",
+			"added_by" : "Alexander Killing",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2004-01-01",
+			"info": "Used for xml document handling since the beginning of ILIAS 3"
+		},
+		"ext-xsl" : {
+			"source" : "https://www.php.net/manual/en/book.xsl.php",
+			"used_version" : "*",
+			"wrapped_by" : "Services/COPage",
+			"added_by" : "Alexander Killing",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "Jour Fixe",
+			"approved-date": "2004-01-01",
+			"info": "Used for xsl processing in the page editor since the beginning of ILIAS 3"
+		},
+		"ext-curl" : {
+			"source" : "https://www.php.net/manual/en/book.xsl.php",
+			"used_version" : "*",
+			"wrapped_by" : "various",
+			"added_by" : "",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "",
+			"approved-date": ""
+		},
 		"cweagans/composer-patches" : {
 			"source" : "https://github.com/cweagans/composer-patches",
 			"used_version" : "v1.7",
@@ -396,6 +444,16 @@
 			"last_update_by" : "Alex Killing <killing@leifos.de>",
 			"approved-by": "see security issue 20339",
 			"approved-date": "2017-04-05"
+		},
+		"seld/jsonlint" : {
+			"source" : "https://github.com/Seldaek/jsonlint",
+			"used_version" : "v1.8.3",
+			"wrapped_by" : null,
+			"added_by" : "Daniel Weise <daniel.weise@concepts-and-training.de>",
+			"last_update" : "2021-11-18",
+			"last_update_by" : "Daniel Weise <daniel.weise@concepts-and-training.de>",
+			"approved-by": "Jour Fix",
+			"approved-date": "2021-11-29"
 		},
 		"patches": {
 			"tecnickcom/tcpdf": {

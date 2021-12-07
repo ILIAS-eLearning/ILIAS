@@ -53,6 +53,7 @@ abstract class ilAdvancedMDFieldDefinition
         if ($language) {
             $this->language = $language;
         }
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
         $this->db = $DIC->database();
 
@@ -301,6 +302,7 @@ abstract class ilAdvancedMDFieldDefinition
             );
             return $map[$a_type];
         }
+        return '';
     }
 
     /**
@@ -531,6 +533,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     protected function getFieldDefinition() : array
     {
+        return [];
     }
     
     /**
@@ -538,6 +541,7 @@ abstract class ilAdvancedMDFieldDefinition
      */
     public function getFieldDefinitionForTableGUI(string $content_language) : array
     {
+        return [];
     }
     
     /**
@@ -620,7 +624,7 @@ abstract class ilAdvancedMDFieldDefinition
         // searchable
         $check = new ilCheckboxInputGUI($lng->txt('md_adv_searchable'), 'searchable');
         $check->setChecked($this->isSearchable());
-        $check->setValue(1);
+        $check->setValue("1");
         $a_form->addItem($check);
         
         if (!$perm[ilAdvancedMDPermissionHelper::ACTION_FIELD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_FIELD_SEARCHABLE] ||
@@ -699,7 +703,7 @@ abstract class ilAdvancedMDFieldDefinition
         // checkboxes have no hidden on disabled
         if ($a_form->getInput("searchable")) {
             $hidden = new ilHiddenInputGUI("searchable");
-            $hidden->setValue(1);
+            $hidden->setValue("1");
             $a_form->addItem($hidden);
         }
         
@@ -932,10 +936,10 @@ abstract class ilAdvancedMDFieldDefinition
     /**
      * Get value for search query parser
      * @param ilADTSearchBridge $a_adt_search
-     * @return int
+     * @return string
      * @todo check if string type is applicable
      */
-    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : int
+    public function getSearchQueryParserValue(ilADTSearchBridge $a_adt_search) : string
     {
         return '';
     }
@@ -969,8 +973,8 @@ abstract class ilAdvancedMDFieldDefinition
         
         $sql = "SELECT obj_id,type" .
             " FROM object_data" .
-            " WHERE " . $this->db->in("obj_id", $obj_ids, "", "integer") .
-            " AND " . $this->db->in("type", $a_object_types, "", "text");
+            " WHERE " . $this->db->in("obj_id", $obj_ids, false, "integer") .
+            " AND " . $this->db->in("type", $a_object_types, false, "text");
         $set = $this->db->query($sql);
         while ($row = $this->db->fetchAssoc($set)) {
             $res[] = $row;
@@ -1023,14 +1027,17 @@ abstract class ilAdvancedMDFieldDefinition
             if (sizeof($objects)) {
                 return $this->parseSearchObjects($objects, $a_object_types);
             }
-            return array();
         }
+        return [];
     }
     
     /**
      * Get search string in lucene syntax
+     * @param string | array
+     * @return
+     * @todo with php 8 support change parameter to union type
      */
-    public function getLuceneSearchString(string $a_value) : string
+    public function getLuceneSearchString($a_value)
     {
         return $a_value;
     }

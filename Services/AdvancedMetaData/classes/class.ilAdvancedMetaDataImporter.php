@@ -6,20 +6,18 @@
  * Importer class for adv md
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- * @version $Id: $
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMetaDataImporter extends ilXmlImporter
 {
-    private $logger = null;
-    
     /**
      *
      */
     public function __construct()
     {
+        global $DIC;
+
         parent::__construct();
-        $this->logger = $GLOBALS['DIC']->logger()->amet();
     }
     
     
@@ -34,7 +32,7 @@ class ilAdvancedMetaDataImporter extends ilXmlImporter
         foreach ($parser->getRecordIds() as $obj_id => $sub_types) {
             ilContainer::_writeContainerSetting($obj_id, ilObjectServiceSettingsGUI::CUSTOM_METADATA, "1");
             
-            foreach ($sub_types as $sub_type => $rec_ids) {
+            foreach ((array) $sub_types as $sub_type => $rec_ids) {
                 ilAdvancedMDRecord::saveObjRecSelection($obj_id, $sub_type, array_unique($rec_ids), false);
             }
         }

@@ -24,83 +24,40 @@
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesAdvancedMetaData
 */
-
-
 class ilAdvancedMDSearch extends ilAbstractSearch
 {
-    protected $definition;
-    protected $adt;
+    protected ?ilAdvancedMDFieldDefinition $definition = null;
+    protected ?ilADTSearchBridge $adt = null;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param obj query parser
-     *
-     */
     public function __construct($query_parser)
     {
         parent::__construct($query_parser);
     }
     
-    /**
-     * set Definition
-     *
-     * @access public
-     * @param obj field definition object
-     *
-     */
-    public function setDefinition($a_def)
+    public function setDefinition(ilAdvancedMDFieldDefinition $a_def) : void
     {
         $this->definition = $a_def;
     }
     
-    /**
-     * get definition
-     *
-     * @access public
-     *
-     */
-    public function getDefinition()
+    public function getDefinition() : ilAdvancedMDFieldDefinition
     {
         return $this->definition;
     }
     
-    /**
-     * set search element
-     *
-     * @access public
-     * @param ilADTSearchBridge
-     *
-     */
-    public function setSearchElement($a_adt)
+    public function setSearchElement(ilADTSearchBridge $a_adt) : void
     {
         $this->adt = $a_adt;
     }
     
-    /**
-     * get search element
-     *
-     * @access public
-     * @return ilADTSearchBridge
-     */
-    public function getSearchElement()
+    public function getSearchElement() : ilADTSearchBridge
     {
         return $this->adt;
     }
     
-    /**
-     * perform search
-     *
-     * @access public
-     * @param
-     *
-     */
     public function performSearch()
     {
         $this->query_parser->parse();
@@ -133,5 +90,6 @@ class ilAdvancedMDSearch extends ilAbstractSearch
             }
             return $this->search_result;
         }
+        return null;
     }
 }

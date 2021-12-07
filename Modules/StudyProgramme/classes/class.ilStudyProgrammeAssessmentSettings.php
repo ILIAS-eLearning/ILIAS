@@ -74,7 +74,7 @@ class ilStudyProgrammeAssessmentSettings
         $num = $input
             ->numeric($lng->txt('prg_points'), $lng->txt('prg_points_byline'))
             ->withValue($this->getPoints())
-            ->withAdditionalTransformation($refinery->int()->isGreaterThan(-1))
+            ->withAdditionalTransformation($refinery->int()->isGreaterThanOrEqual(0))
         ;
         $select = $input
             ->select(

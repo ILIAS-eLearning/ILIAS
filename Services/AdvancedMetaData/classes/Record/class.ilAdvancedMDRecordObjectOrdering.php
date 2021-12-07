@@ -9,52 +9,25 @@
  */
 class ilAdvancedMDRecordObjectOrdering
 {
-    /**
-     * @var int
-     */
-    private $record_id;
+    private int $record_id;
+    private int $obj_id;
+    private int $position = 0;
 
-    /**
-     * @var int
-     */
-    private $obj_id;
-
-    /**
-     * @var int
-     */
-    private $position;
+    protected ilDBInterface $db;
 
 
-    /**
-     * @var \ilDBInterface
-     */
-    private $db;
-
-
-    /**
-     * ilAdvancedMDRecordObjectOrdering constructor.
-     * @param int $record_id
-     * @param int $obj_id
-     */
     public function __construct(int $record_id, int $obj_id, ilDBInterface $db)
     {
         $this->record_id = $record_id;
         $this->obj_id = $obj_id;
-
         $this->db = $db;
     }
 
-    /**
-     * @param int $position
-     */
-    public function setPosition(int $position)
+    public function setPosition(int $position) : void
     {
         $this->position = $position;
     }
 
-    /**
-     * @return int
-     */
     public function getPosition() : int
     {
         return $this->position;
@@ -64,7 +37,7 @@ class ilAdvancedMDRecordObjectOrdering
      * Save entry
      * @throws ilDatabaseException
      */
-    public function save()
+    public function save() : void
     {
         $this->delete();
 
@@ -81,7 +54,7 @@ class ilAdvancedMDRecordObjectOrdering
     /**
      * Delete entry
      */
-    public function delete()
+    public function delete() : void
     {
         $query = 'DELETE FROM adv_md_record_obj_ord WHERE ' .
             'record_id = ' . $this->db->quote($this->record_id, 'integer') . ' ' .

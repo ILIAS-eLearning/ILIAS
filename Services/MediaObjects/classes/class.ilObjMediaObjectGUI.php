@@ -1,75 +1,51 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * Class ilObjMediaObjectGUI
- *
  * Editing User Interface for MediaObjects within LMs (see ILIAS DTD)
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilObjMediaObjectGUI: ilObjectMetaDataGUI, ilImageMapEditorGUI, ilFileSystemGUI
  */
 class ilObjMediaObjectGUI extends ilObjectGUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilErrorHandling
-     */
-    protected $error;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilPropertyFormGUI $form_gui;
+    protected int $height_preset;
+    protected int $width_preset;
+    protected string $back_title;
+    protected ilErrorHandling $error;
+    protected ilHelpGUI $help;
+    protected ilTabsGUI $tabs;
 
     // $adv_ref_id - $adv_type - $adv_subtype:
     // Object, that defines the adv md records being used. Default is $this->object, but the
     // context may set another object (e.g. media pool for media objects)
-    /**
-     * @var int
-     */
-    protected $adv_ref_id = null;
-    /**
-     * @var string
-     */
-    protected $adv_type = null;
-    /**
-     * @var string
-     */
-    protected $adv_subtype = null;
+    protected ?int $adv_ref_id = null;
+    protected ?string $adv_type = null;
+    protected ?string $adv_subtype = null;
+    protected \ILIAS\MediaObjects\MediaType\MediaType $media_type;
+    public string $header = "";
+    public string $target_script = "";
+    public bool $enabledmapareas = true;
 
-    /**
-     * @var \ILIAS\MediaObjects\MediaType\MediaType
-     */
-    protected $media_type;
-
-    public $ctrl;
-    public $header;
-    public $target_script;
-    public $enabledmapareas = true;
-
-    public function __construct($a_data, $a_id = 0, $a_call_by_reference = false, $a_prepare_output = false)
-    {
+    public function __construct(
+        $a_data,
+        int $a_id = 0,
+        bool $a_call_by_reference = false,
+        bool $a_prepare_output = false
+    ) {
         global $DIC;
 
         $this->tpl = $DIC["tpl"];
@@ -95,11 +71,12 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * Set object, that defines the adv md records being used. Default is $this->object, but the
      * context may set another object (e.g. media pool for media objects)
-     *
-     * @param string $a_val adv type
      */
-    public function setAdvMdRecordObject($a_adv_ref_id, $a_adv_type, $a_adv_subtype = "-")
-    {
+    public function setAdvMdRecordObject(
+        int $a_adv_ref_id,
+        string $a_adv_type,
+        string $a_adv_subtype = "-"
+    ) : void {
         $this->adv_ref_id = $a_adv_ref_id;
         $this->adv_type = $a_adv_type;
         $this->adv_subtype = $a_adv_subtype;
@@ -107,10 +84,8 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
     /**
      * Get adv md record type
-     *
-     * @return array adv type
      */
-    public function getAdvMdRecordObject()
+    public function getAdvMdRecordObject() : ?array
     {
         if ($this->adv_type == null) {
             return [$this->ref_id, $this->obj_type, $this->sub_type];
@@ -118,105 +93,78 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
     }
 
-    public function setHeader($a_title = "")
-    {
+    public function setHeader(
+        string $a_title = ""
+    ) : void {
         $this->header = $a_title;
     }
 
-    public function getHeader()
+    public function getHeader() : string
     {
         return $this->header;
     }
 
-    /**
-    * Set Enable map areas.
-    *
-    * @param	boolean	$a_enabledmapareas	Enable map areas
-    */
-    public function setEnabledMapAreas($a_enabledmapareas)
-    {
+    public function setEnabledMapAreas(
+        bool $a_enabledmapareas
+    ) : void {
         $this->enabledmapareas = $a_enabledmapareas;
     }
 
-    /**
-    * Get Enable map areas.
-    *
-    * @return	boolean	Enable map areas
-    */
-    public function getEnabledMapAreas()
+    public function getEnabledMapAreas() : bool
     {
         return $this->enabledmapareas;
     }
     
     /**
-    * Set width preset
-    *
-    * @param	int		width preset
-    */
-    public function setWidthPreset($a_val)
+     * Set width preset (e.g. set from media pool)
+     */
+    public function setWidthPreset(int $a_val) : void
     {
         $this->width_preset = $a_val;
     }
     
-    /**
-    * Get width preset
-    *
-    * @return	int		width preset
-    */
-    public function getWidthPreset()
+    public function getWidthPreset() : int
     {
         return $this->width_preset;
     }
 
     /**
-    * Set height preset
-    *
-    * @param	int		height preset
-    */
-    public function setHeightPreset($a_val)
+     * Set height preset (e.g. set from media pool)
+     */
+    public function setHeightPreset(int $a_val) : void
     {
         $this->height_preset = $a_val;
     }
     
-    /**
-    * Get height preset
-    *
-    * @return	int		height preset
-    */
-    public function getHeightPreset()
+    public function getHeightPreset() : int
     {
         return $this->height_preset;
     }
 
-    /**
-    * Get form
-    *
-    * @return	ilPropertyFormGUI	form gui class
-    */
-    public function getForm()
+    public function getForm() : ilPropertyFormGUI
     {
         return $this->form_gui;
     }
 
-    public function assignObject()
+    public function assignObject() : void
     {
         if ($this->id != 0) {
             $this->object = new ilObjMediaObject($this->id);
         }
     }
 
-    public function returnToContextObject()
+    /**
+     * @throws ilCtrlException
+     */
+    public function returnToContextObject() : void
     {
         $this->ctrl->returnToParent($this);
     }
-    
 
     /**
-     * Execute current command
-     * @return bool|mixed
      * @throws ilCtrlException
      */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         $tpl = $this->tpl;
 
@@ -238,7 +186,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 break;
                 
             case "ilimagemapeditorgui":
-                $image_map_edit = new ilImageMapEditorGUI($this->object);
+                /** @var ilObjMediaObject $mob */
+                $mob = $this->object;
+                $image_map_edit = new ilImageMapEditorGUI($mob);
                 $ret = $this->ctrl->forwardCommand($image_map_edit);
                 $tpl->setContent($ret);
                 $this->checkFixSize();
@@ -280,21 +230,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
                 break;
         }
 
-        return $ret;
+        return (string) $ret;
     }
 
-    /**
-    * set title for back tab
-    */
-    public function setBackTitle($a_title)
+    public function setBackTitle(string $a_title) : void
     {
         $this->back_title = $a_title;
     }
     
-    /**
-    * create new media object form
-    */
-    public function createObject()
+    public function createObject() : void
     {
         $tpl = $this->tpl;
         $ilHelp = $this->help;
@@ -304,10 +248,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $tpl->setContent($this->form_gui->getHTML());
     }
 
-    /**
-    * Init creation form
-    */
-    public function initForm($a_mode = "create")
+    public function initForm($a_mode = "create") : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -560,12 +501,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     }
 
     /**
-     * Check fix size
-     *
-     * @param
-     * @return
+     * Check fix size (for map editing hint)
      */
-    protected function checkFixSize()
+    protected function checkFixSize() : void
     {
         $std_item = $this->object->getMediaItem("Standard");
         if ($std_item->getWidth() == "" || $std_item->getHeight() == "") {
@@ -575,10 +513,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
     
     /**
-    * Get values for form
-    *
-    */
-    public function getValues()
+     * Get values for form
+     */
+    public function getValues() : void
     {
         $values = array();
         
@@ -664,9 +601,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     }
 
     /**
-    * create new media object in dom and update page in db
-    */
-    public function saveObject()
+     * create new media object
+     */
+    public function saveObject() : ?ilObjMediaObject
     {
         $tpl = $this->tpl;
         $lng = $this->lng;
@@ -680,17 +617,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         } else {
             $this->form_gui->setValuesByPost();
             $tpl->setContent($this->form_gui->getHTML());
-            return false;
+            return null;
         }
     }
     
-    /**
-     * chechInputForm
-     *
-     * @param
-     * @return
-     */
-    public function checkFormInput()
+    public function checkFormInput() : bool
     {
         if (!$this->form_gui->checkInput()) {
             $this->form_gui->setValuesByPost();
@@ -701,10 +632,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     
     
     /**
-    * Set media object values from creation form
-    */
-    public static function setObjectPerCreationForm($a_mob)
-    {
+     * Set media object values from creation form
+     */
+    public static function setObjectPerCreationForm(
+        ilObjMediaObject $a_mob
+    ) : void {
         // determinte title and format
         if (trim($_POST["standard_title"]) != "") {
             $title = trim($_POST["standard_title"]);
@@ -876,17 +808,15 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     
     
     /**
-    * Cancel saving
-    */
-    public function cancelObject()
+     * Cancel saving
+     * @throws ilCtrlException
+     */
+    public function cancelObject() : void
     {
         $this->ctrl->returnToParent($this);
     }
 
-    /**
-    * edit media object properties
-    */
-    public function editObject()
+    public function editObject() : void
     {
         $tpl = $this->tpl;
         
@@ -899,9 +829,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 
     /**
-    * resize images to specified size
-    */
-    public function resizeImagesObject()
+     * resize images to specified size
+     */
+    public function resizeImagesObject() : void
     {
         // directory
         $mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
@@ -943,9 +873,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 
     /**
-    * set original size of standard file
-    */
-    public function getStandardSizeObject()
+     * set original size of standard file
+     */
+    public function getStandardSizeObject() : void
     {
         $std_item = $this->object->getMediaItem("Standard");
         $mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
@@ -964,9 +894,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 
     /**
-    * set original size of fullscreen file
-    */
-    public function getFullscreenSizeObject()
+     * set original size of fullscreen file
+     */
+    public function getFullscreenSizeObject() : void
     {
         $full_item = $this->object->getMediaItem("Fullscreen");
         $mob_dir = ilObjMediaObject::_getDirectory($this->object->getId());
@@ -981,10 +911,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-    /**
-    * save properties in db and return to page edit screen
-    */
-    public function savePropertiesObject()
+    public function savePropertiesObject() : void
     {
         $lng = $this->lng;
         $tpl = $this->tpl;
@@ -1226,9 +1153,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 
     /**
-    * administrate files of media object
-    */
-    public function editFilesObject()
+     * administrate files of media object
+     */
+    public function editFilesObject() : void
     {
         // standard item
         $std_item = $this->object->getMediaItem("Standard");
@@ -1390,11 +1317,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 
     /**
-    * create directory
-    */
-    public function createDirectoryObject()
+     * create directory
+     */
+    public function createDirectoryObject() : void
     {
-        //echo "cdir:".$_GET["cdir"].":<br>";
         // determine directory
         $cur_subdir = str_replace(".", "", $_GET["cdir"]);
         $mob_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
@@ -1413,9 +1339,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     }
 
     /**
-    * upload file
-    */
-    public function uploadFileObject()
+     * upload file
+     */
+    public function uploadFileObject() : void
     {
         // determine directory
         $cur_subdir = str_replace(".", "", $_GET["cdir"]);
@@ -1440,10 +1366,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     }
 
     /**
-    * assign file to standard view
-    */
-    public function assignStandardObject($a_file)
-    {
+     * assign file to standard view
+     */
+    public function assignStandardObject(
+        string $a_file
+    ) : void {
         // determine directory
         $cur_subdir = dirname($a_file);
         $mob_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
@@ -1469,10 +1396,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 
     /**
-    * assign file to fullscreen view
-    */
-    public function assignFullscreenObject($a_file)
-    {
+     * assign file to fullscreen view
+     */
+    public function assignFullscreenObject(
+        string $a_file
+    ) : void {
         // determine directory
         $cur_subdir = dirname($a_file);
         $mob_dir = ilUtil::getWebspaceDir() . "/mobs/mm_" . $this->object->getId();
@@ -1512,9 +1440,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 
     /**
-    * remove fullscreen view
-    */
-    public function removeFullscreenObject()
+     * remove fullscreen view
+     */
+    public function removeFullscreenObject() : void
     {
         $this->object->removeMediaItem("Fullscreen");
         $this->object->update();
@@ -1522,11 +1450,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-
     /**
-    * add fullscreen view
-    */
-    public function addFullscreenObject()
+     * add fullscreen view
+     */
+    public function addFullscreenObject() : void
     {
         if (!$this->object->hasFullScreenItem()) {
             $std_item = $this->object->getMediaItem("Standard");
@@ -1550,9 +1477,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
 
 
     /**
-    * delete object file
-    */
-    public function deleteFileObject()
+     * delete object file
+     */
+    public function deleteFileObject() : void
     {
         if (!isset($_POST["file"])) {
             $this->ilias->raiseError($this->lng->txt("no_checkbox"), $this->ilias->error_obj->MESSAGE);
@@ -1616,7 +1543,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * Show all media object usages (incl history)
      */
-    public function showAllUsagesObject()
+    public function showAllUsagesObject() : void
     {
         $this->showUsagesObject(true);
     }
@@ -1625,10 +1552,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * show all usages of mob
      */
-    public function showUsagesObject($a_all = false)
-    {
+    public function showUsagesObject(
+        bool $a_all = false
+    ) : void {
         $tpl = $this->tpl;
-        $ilTabs = $this->tabs;
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1663,10 +1590,11 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     }
 
     /**
-    * get media info as html
-    */
-    public static function _getMediaInfoHTML(&$a_mob)
-    {
+     * get media info as html
+     */
+    public static function _getMediaInfoHTML(
+        ilObjMediaObject $a_mob
+    ) : string {
         global $DIC;
 
         $lng = $DIC->language();
@@ -1745,13 +1673,10 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     }
 
     /**
-    * set admin tabs
-    */
-    //function setAdminTabs()
-    public function setTabs()
+     * set admin tabs
+     */
+    public function setTabs() : void
     {
-        //echo "setAdminTabs should not be called.";
-
         // catch feedback message
         $this->getTabs();
 
@@ -1766,11 +1691,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         }
     }
 
-    
-    /**
-    * Get Tabs
-    */
-    public function getTabs()
+    public function getTabs() : void
     {
         $ilHelp = $this->help;
 
@@ -1854,12 +1775,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     }
     
     /**
-     * Show video tools
-     *
-     * @param
-     * @return
+     * @deprecated
      */
-    public function showVideoToolObject()
+    public function showVideoToolObject() : void
     {
         $tpl = $this->tpl;
 
@@ -1872,8 +1790,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * Include media object presentation JS
      */
-    public static function includePresentationJS($a_tpl = null)
-    {
+    public static function includePresentationJS(
+        ilGlobalTemplateInterface $a_tpl = null
+    ) : void {
         global $DIC;
 
         $tpl = $DIC["tpl"];
@@ -1889,13 +1808,9 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         ilPlayerUtil::initMediaElementJs($a_tpl);
     }
     
-    /**
-     * Set subtabs for properties
-     *
-     * @param string $a_active active tab id
-     */
-    public function setPropertiesSubTabs($a_active)
-    {
+    public function setPropertiesSubTabs(
+        string $a_active
+    ) : void {
         $ilTabs = $this->tabs;
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -1920,13 +1835,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilTabs->activateSubTab($a_active);
     }
     
-    /**
-     * List subtitls files
-     *
-     * @param
-     * @return
-     */
-    public function listSubtitleFilesObject()
+    public function listSubtitleFilesObject() : void
     {
         $ilToolbar = $this->toolbar;
         $tpl = $this->tpl;
@@ -1959,13 +1868,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $tpl->setContent($tab->getHTML());
     }
     
-    /**
-     * Upload srt file
-     *
-     * @param
-     * @return
-     */
-    public function uploadSubtitleFileObject()
+    public function uploadSubtitleFileObject() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1979,7 +1882,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * Confirm srt file deletion
      */
-    public function confirmSrtDeletionObject()
+    public function confirmSrtDeletionObject() : void
     {
         $ilCtrl = $this->ctrl;
         $tpl = $this->tpl;
@@ -2008,7 +1911,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * Delete srt files
      */
-    public function deleteSrtFilesObject()
+    public function deleteSrtFilesObject() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -2022,13 +1925,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilCtrl->redirect($this, "listSubtitleFiles");
     }
 
-    /**
-     *	Upload multiple stubtitles
-     *
-     * @param
-     * @return
-     */
-    public function uploadMultipleSubtitleFileFormObject()
+    public function uploadMultipleSubtitleFileFormObject() : void
     {
         $ilToolbar = $this->toolbar;
         $lng = $this->lng;
@@ -2047,10 +1944,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
         $ilToolbar->addFormButton($lng->txt("upload"), "uploadMultipleSubtitleFile");
     }
 
-    /**
-     * Upload multiple subtitles
-     */
-    public function uploadMultipleSubtitleFileObject()
+    public function uploadMultipleSubtitleFileObject() : void
     {
         try {
             $this->object->uploadMultipleSubtitleFile(ilUtil::stripSlashesArray($_FILES["subtitle_file"]));
@@ -2064,7 +1958,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * List of srt files in zip file
      */
-    public function showMultiSubtitleConfirmationTableObject()
+    public function showMultiSubtitleConfirmationTableObject() : void
     {
         $tpl = $this->tpl;
 
@@ -2077,7 +1971,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * Cancel Multi Feedback
      */
-    public function cancelMultiSrtObject()
+    public function cancelMultiSrtObject() : void
     {
         $this->object->clearMultiSrtDirectory();
         $this->ctrl->redirect($this, "listSubtitleFiles");
@@ -2086,7 +1980,7 @@ class ilObjMediaObjectGUI extends ilObjectGUI
     /**
      * Save selected srt files as new srt files
      */
-    public function saveMultiSrtObject()
+    public function saveMultiSrtObject() : void
     {
         $ilCtrl = $this->ctrl;
         $srt_files = $this->object->getMultiSrtFiles();

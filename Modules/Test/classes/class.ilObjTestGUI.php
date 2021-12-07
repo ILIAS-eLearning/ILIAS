@@ -156,6 +156,7 @@ class ilObjTestGUI extends ilObjectGUI
         $tree = $DIC['tree'];
         $ilias = $DIC['ilias'];
         $ilUser = $DIC['ilUser'];
+        $randomGroup = $DIC->refinery()->random();
 
         $cmd = $this->ctrl->getCmd("infoScreen");
 
@@ -659,7 +660,7 @@ class ilObjTestGUI extends ilObjectGUI
                 $this->ctrl->saveParameter($this, "q_id");
 
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
-                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser);
+                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser, $randomGroup);
 
                 $gui->initQuestion($this->fetchAuthoringQuestionIdParameter(), $this->object->getId());
                 $gui->initPreviewSettings($this->object->getRefId());

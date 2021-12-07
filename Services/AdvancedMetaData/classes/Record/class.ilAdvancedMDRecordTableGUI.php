@@ -5,34 +5,15 @@
 /**
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
-*
-*
 * @ingroup ServicesAdvancedMetaData
 */
 
 class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 {
-    protected $lng = null;
-    protected $ctrl;
-    protected $permissions; // [ilAdvancedMDPermissionHelper]
+    protected ilAdvancedMDPermissionHelper $permissions;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_in_object_context = false)
+    public function __construct($a_parent_obj, $a_parent_cmd, ilAdvancedMDPermissionHelper $a_permissions, $a_in_object_context = false)
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        
-        $this->lng = $lng;
-        $this->ctrl = $ilCtrl;
         $this->permissions = $a_permissions;
 
         $this->setId('adv_md_records_tbl');
@@ -54,10 +35,6 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
     }
 
-    /**
-     * @param $a_field
-     * @return bool
-     */
     public function numericOrdering($a_field)
     {
         if ($a_field == 'position') {
@@ -66,14 +43,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         return parent::numericOrdering($a_field);
     }
 
-    /**
-     * Fill row
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function fillRow($a_set)
+    protected function fillRow($a_set)
     {
         // assigned object types
         $disabled = !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES];

@@ -57,11 +57,14 @@ class ilAdvancedMDFieldDefinitionInternalLink extends ilAdvancedMDFieldDefinitio
             if (!is_null($objects) && count($objects)) {
                 return $this->parseSearchObjects($objects, $a_object_types);
             }
-            return [];
         }
+        return [];
     }
-    
-    public function getLuceneSearchString(string $a_value) : string
+
+    /**
+     * @inheritdoc
+     */
+    public function getLuceneSearchString($a_value) : string
     {
         $query = 'select ref_id from object_reference obr join object_data obd on obr.obj_id = obd.obj_id ' .
             'where ' . $this->db->like('title', 'text', $a_value . '%');

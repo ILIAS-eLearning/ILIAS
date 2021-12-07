@@ -1,36 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * List srt files from zip file for upload confirmation
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilAccessHandler $access;
+    protected ilObjUser $user;
+    protected ilObjMediaObject $mob;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $mob;
-
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -39,9 +36,6 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
         $this->user = $DIC->user();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        $ilAccess = $DIC->access();
-        $lng = $DIC->language();
-        $ilUser = $DIC->user();
 
         $this->mob = $a_parent_obj->object;
         $lng->loadLanguageModule("meta");
@@ -64,9 +58,6 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
         $this->addCommandButton("cancelMultiSrt", $lng->txt("cancel"));
     }
 
-    /**
-     * Fill table row
-     */
     protected function fillRow($a_set)
     {
         $lng = $this->lng;

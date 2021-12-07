@@ -824,8 +824,6 @@ class ilChatroom
         int $subScope = 0,
         string $invitationLink = ''
     ) : void {
-        global $DIC;
-
         if ($gui && $invitationLink === '') {
             $invitationLink = $this->getChatURL($gui, $subScope);
         }
@@ -914,7 +912,7 @@ class ilChatroom
             return $row['title'];
         }
 
-        return 'unkown';
+        return 'unknown';
     }
 
     public function inviteUserToPrivateRoomByLogin(string $login, int $proom_id) : void

@@ -14,7 +14,7 @@ class ilAdvancedMDFieldDefinitionGroupTableGUI extends ilTable2GUI
 {
     protected ilAdvancedMDFieldDefinition $def;
     
-    public function __construct($a_parent_obj, $a_parent_cmd = "", ilAdvancedMDFieldDefinition $a_def)
+    public function __construct($a_parent_obj, $a_parent_cmd, ilAdvancedMDFieldDefinition $a_def)
     {
         $this->def = $a_def;
         

@@ -24,7 +24,7 @@ class ilAdvancedMDRecord
     protected string $language_default = '';
 
     /**
-     * @var string[]
+     * @var array<int, array{obj_type: string, sub_type: string, optional: bool}>
      */
     protected array $obj_types = array();
     protected int $parent_obj = 0;
@@ -405,6 +405,11 @@ class ilAdvancedMDRecord
         $res = $ilDB->manipulate($query);
     }
 
+    protected function setRecordId(int $record_id) : void
+    {
+        $this->record_id = $record_id;
+    }
+
     /**
      * @param string $language_code
      */
@@ -422,7 +427,7 @@ class ilAdvancedMDRecord
     public function delete() : void
     {
         ilAdvancedMDRecord::_delete($this->getRecordId());
-        ilAdvancedMDRecordScope::deleteByRecordI($this->getRecordId());
+        ilAdvancedMDRecordScope::deleteByRecordId($this->getRecordId());
     }
     
     public function enabledScope() : bool
@@ -546,7 +551,7 @@ class ilAdvancedMDRecord
                 ")";
             $res = $ilDB->manipulate($query);
         }
-        ilAdvancedMDRecordScope::deleteByRecordI($this->getRecordId());
+        ilAdvancedMDRecordScope::deleteByRecordId($this->getRecordId());
         foreach ($this->getScopes() as $scope) {
             $scope->setRecordId($this->getRecordId());
             $scope->save();
@@ -635,7 +640,9 @@ class ilAdvancedMDRecord
         );
     }
 
-
+    /**
+     * @return array<int, array{obj_type: string, sub_type: string, optional: bool}>
+     */
     public function getAssignedObjectTypes() : array
     {
         return $this->obj_types;
@@ -731,8 +738,8 @@ class ilAdvancedMDRecord
         }
         
         $query = 'SELECT scope_id FROM adv_md_record_scope ' .
-            'WHERE record_id = ' . $this->quote($this->record_id);
-        $res = $this->query($query);
+            'WHERE record_id = ' . $this->db->quote($this->record_id, ilDBConstants::T_INTEGER);
+        $res = $this->db->query($query);
         $this->scope_enabled = false;
         $this->scopes = [];
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {

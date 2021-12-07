@@ -337,6 +337,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             
             return $res;
         }
+        return [];
     }
     
     public static function setDBSubstitution(
@@ -386,12 +387,12 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
                     return true;
                 }
             }
-            return false;
         }
+        return false;
     }
     
     public static function setDBFieldSubstitution(
-        int $a_obj_type,
+        string $a_obj_type,
         int $a_field_id,
         bool $a_bold = false,
         bool $a_newline = false

@@ -153,7 +153,7 @@ abstract class ilChatroomGUIHandler
         if (null === $room) {
             $this->sendResponse([
                 'success' => false,
-                'reason' => 'unkown room',
+                'reason' => 'unknown room',
             ]);
         }
     }

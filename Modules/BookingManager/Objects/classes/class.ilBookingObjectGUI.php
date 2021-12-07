@@ -425,7 +425,8 @@ class ilBookingObjectGUI
         $form_gui->addItem($pfile);
 
         // #18214 - should also work for new objects
-        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, "book", $this->getPoolObjId(), "bobj", $id);
+        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, "book", $this->getPoolObjId(),
+            "bobj", $id);
         $this->record_gui->setPropertyForm($form_gui);
         $this->record_gui->parse();
 
