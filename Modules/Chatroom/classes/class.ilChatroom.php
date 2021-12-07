@@ -824,8 +824,6 @@ class ilChatroom
         int $subScope = 0,
         string $invitationLink = ''
     ) : void {
-        global $DIC;
-
         if ($gui && $invitationLink === '') {
             $invitationLink = $this->getChatURL($gui, $subScope);
         }
