@@ -27,6 +27,6 @@ class ilForumModeratorsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('lastname'), 'lastname', '30%');
 
         $this->setSelectAllCheckbox('usr_id');
-        $this->addMultiCommand('detachModeratorRole', $this->lng->txt('frm_detach_moderator_role'));
+        $this->addMultiCommand('detachModeratorRole', $this->lng->txt('remove'));
     }
 }

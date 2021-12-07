@@ -3,8 +3,8 @@
 }(window, il, function init($) {
 
 	var templates = {
-		modal:       '<div class="modal fade">' +
-					 '<div class="modal-dialog">' +
+		modal:       '<div class="modal fade" tabindex="-1" role="dialog">' +
+					 '<div class="modal-dialog" role="document">' +
 					 '<div class="modal-content">' +
 					 '<div class="modal-body"></div>' +
 					 '</div>' +

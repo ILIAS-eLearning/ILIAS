@@ -36,31 +36,23 @@ interface Factory
      * ---
      * description:
      *   purpose: >
-     *     Contributions are content that can be credited to one explicit user and time.
-     *     Contribution items are used to present that content with a clear visible association to its creator.
+     *     Shy Items are used to list more decent items which don't acquire much space.
      *   composition: >
-     *     Contributions contain a textual content, a user presentation and a datetime presentation or a representative
-     *     info if the user or the datetime of the creation is unknown.
-     *     Further the Contribution can have a close button and a lead icon.
-     *   effect: >
-     *     An interaction with the close button may remove the Contribution permanently.
+     *     A Shy Item contains a title and optional a description, a close action, properties (name/value), an icon as a
+     *     lead.
      * rules:
      *   interaction:
      *     1: >
-     *        Clicking on the Close Button MUST remove the Contribution Item permanently.
+     *        Clicking on the Close Button MUST remove the Shy Item permanently.
      *   accessibility:
      *     1: >
-     *       All interactions offered by a contribution item MUST be accessible by only using the keyboard.
-     *     2: >
-     *       The main content of the contribution MUST NOT be part of any interaction.
+     *       All interactions offered by a Shy Item MUST be accessible by only using the keyboard.
      * ---
      *
-     * @param string      $content
-     * @param \ilObjUser  $user
-     * @param \ilDateTime $datetime
-     * @return \ILIAS\UI\Component\Item\Contribution
+     * @param string      $title
+     * @return \ILIAS\UI\Component\Item\Shy
      */
-    public function contribution(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null) : Contribution;
+    public function shy(string $title) : Shy;
 
     /**
      * ---

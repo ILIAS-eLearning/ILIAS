@@ -199,7 +199,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
                     $this->ilias->raiseError($this->lng->txt("msg_no_perm_read"), $this->ilias->error_obj->MESSAGE);
                 }
                 $info = new ilInfoScreenGUI($this);
-                $amd_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'orgu', $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
+                $amd_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_INFO, 'orgu', $this->object->getId(),
+                    'orgu_type', $this->object->getOrgUnitTypeId());
                 $amd_gui->setInfoObject($info);
                 $amd_gui->parse();
                 $this->ctrl->forwardCommand($info);
@@ -576,7 +577,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->ctrl->redirect($this);
         }
         $form = $this->initAdvancedSettingsForm();
-        $gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'orgu', $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
+        $gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'orgu', $this->object->getId(),
+            'orgu_type', $this->object->getOrgUnitTypeId());
         $gui->setPropertyForm($form);
         $gui->parse();
         $this->tpl->setContent($form->getHTML());
@@ -593,7 +595,8 @@ class ilObjOrgUnitGUI extends ilContainerGUI
             $this->ctrl->redirect($this);
         }
         $form = $this->initAdvancedSettingsForm();
-        $gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'orgu', $this->object->getId(), 'orgu_type', $this->object->getOrgUnitTypeId());
+        $gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'orgu', $this->object->getId(),
+            'orgu_type', $this->object->getOrgUnitTypeId());
         $gui->setPropertyForm($form);
         $form->checkInput();
         $gui->parse();

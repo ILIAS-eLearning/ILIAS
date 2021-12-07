@@ -459,7 +459,7 @@ class ilStudyProgrammeTypeDBRepository implements ilStudyProgrammeTypeRepository
         $res = $this->db->query($q);
         $this->amd_records_assigned[$type_id][$active] = [];
         while ($rec = $this->db->fetchAssoc($res)) {
-            $amd_record = new ilAdvancedMDRecord($rec[self::FIELD_REC_ID]);
+            $amd_record = new ilAdvancedMDRecord((int) $rec[self::FIELD_REC_ID]);
             if ($only_active) {
                 if ($amd_record->isActive()) {
                     $this->amd_records_assigned[$type_id][1][] = $amd_record;

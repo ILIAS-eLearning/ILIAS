@@ -89,5 +89,4 @@ class KeyValueAccess implements \ArrayAccess, \Countable
     {
         return count($this->raw_values);
     }
-
 }

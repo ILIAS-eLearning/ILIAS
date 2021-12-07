@@ -280,7 +280,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             return $this->form;
         }
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
         include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performAdvMDSearch'));
@@ -313,7 +312,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $type->setValue($this->options['type']);
         $this->form->addItem($type);
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH);
         $record_gui->setPropertyForm($this->form);
         $record_gui->setSearchValues($this->options);
@@ -865,7 +863,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     {
         $this->initFormSearch();
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         foreach (array_keys($this->options) as $key) {
             if (substr($key, 0, 3) != 'adv') {
                 continue;
@@ -877,7 +874,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             }
 
             $field_id = substr($key, 4);
-            $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
+            $field = ilAdvancedMDFieldDefinition::getInstance((int) $field_id);
         
             $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
             $field_form->setElementId("query[" . $key . "]");
@@ -982,7 +979,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 break;
 
             case 'adv_all':
-                include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
                 $this->filter = ilAdvancedMDRecord::_getActivatedObjTypes();
                 break;
 
@@ -1075,7 +1071,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         $ilTabs = $DIC['ilTabs'];
         
-        include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         if (!count(ilAdvancedMDFieldDefinition::getSearchableDefinitionIds())) {
             return true;
         }

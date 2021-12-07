@@ -15,11 +15,19 @@ trait Helper
 
         $consumer = $this
             ->getMockBuilder(Setup\Agent::class)
-            ->onlyMethods(["hasConfig", "getArrayToConfigTransformation", "getInstallObjective", "getUpdateObjective", "getBuildArtifactObjective", "getStatusObjective", "getMigrations", "getNamedObjective"])
+            ->onlyMethods(["hasConfig", "getArrayToConfigTransformation", "getInstallObjective", "getUpdateObjective", "getBuildArtifactObjective", "getStatusObjective", "getMigrations", "getNamedObjectives"])
             ->setMockClassName("Mock_AgentNo" . ($no++))
             ->getMock();
 
         return $consumer;
+    }
+
+    protected function newObjectiveConstructor() : Setup\ObjectiveConstructor
+    {
+        static $no = 0;
+        return new Setup\ObjectiveConstructor("named-objective-" . ($no++), static function () {
+            return self::newObjective();
+        });
     }
 
     protected function newObjective()

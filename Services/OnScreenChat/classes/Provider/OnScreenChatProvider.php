@@ -3,6 +3,7 @@
 
 namespace ILIAS\OnScreenChat\Provider;
 
+use ilDatePresentation;
 use ilDateTime;
 use ilDateTimeException;
 use ILIAS\DI\Container;
@@ -11,10 +12,9 @@ use ILIAS\MainMenu\Provider\StandardTopItemsProvider;
 use ILIAS\OnScreenChat\Repository\Conversation;
 use ILIAS\OnScreenChat\Repository\Subscriber;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
-use ILIAS\UI\Implementation\Component\Item\Contribution;
-use ILIAS\UI\Implementation\Component\Signal;
-use ilObjUser;
+use ILIAS\UI\Implementation\Component\Item\Shy;
 use ilSetting;
+use ilUserUtil;
 use JsonException;
 
 /**
@@ -65,8 +65,8 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                 })
                 ->withTitle($this->dic->language()->txt('obj_chtr'))
                 ->withSymbol($icon)
-                ->withContent($this->dic->ui()->factory()->item()->contribution('', $this->dic->user(), new ilDateTime()
-                    )->withAdditionalOnLoadCode(function ($id) {
+                ->withContent($this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
+                    function ($id) {
                         return "il.OnScreenChat.menuCollector = $id.parentNode;$id.remove();";
                     })
                 )
@@ -81,7 +81,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
      * @param string $conversationIds
      * @param bool   $withAggregates
      *
-     * @return Contribution[]
+     * @return Shy[]
      * @throws JsonException
      * @throws ilDateTimeException
      */
@@ -101,16 +101,24 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                 $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CON, 'conversation');
             }
 
-            $items[] = $this->dic->ui()->factory()->item()->contribution(
-                $conversation->getLastMessage()->getMessage(),
-                new ilObjUser($conversation->getLastMessage()->getAuthorUsrId()),
-                new ilDateTime((int) ($conversation->getLastMessage()->getCreatedTimestamp() / 1000), IL_CAL_UNIX)
-            )->withIdentifier(
-                $conversation->getId()
-            )->withLeadIcon($icon->withIsOutlined(true)
-            )->withClose(
-                $this->dic->ui()->factory()->button()->close()
-            );
+            $usernames = [];
+            foreach ($conversation->getSubscriberUsrIds() as $id) {
+                $usernames[] = ilUserUtil::getNamePresentation($id);
+            }
+
+            $items[] = $this->dic->ui()->factory()->item()->shy(implode(', ', $usernames))
+                  ->withDescription($conversation->getLastMessage()->getMessage())
+                  ->withProperties(
+                      [$this->dic->language()->txt('time') . ':' =>
+                          ilDatePresentation::formatDate(
+                              new ilDateTime(
+                                  (int) ($conversation->getLastMessage()->getCreatedTimestamp() / 1000),
+                                  IL_CAL_UNIX
+                              )
+                          )
+                      ])
+                  ->withLeadIcon($icon->withIsOutlined(true))
+                  ->withClose($this->dic->ui()->factory()->button()->close());
         }
 
         return $items;

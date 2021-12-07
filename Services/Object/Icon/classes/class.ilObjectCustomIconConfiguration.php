@@ -1,11 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
-/**
- * Class ilObjectIconConfiguration
- */
-class ilObjectCustomIconConfiguration implements \ilCustomIconObjectConfiguration
+class ilObjectCustomIconConfiguration implements ilCustomIconObjectConfiguration
 {
     /**
      * @return string[]
@@ -15,33 +12,21 @@ class ilObjectCustomIconConfiguration implements \ilCustomIconObjectConfiguratio
         return ['svg'];
     }
 
-    /**
-     * @return string
-     */
     public function getTargetFileExtension() : string
     {
         return 'svg';
     }
 
-    /**
-     * @return string
-     */
     public function getBaseDirectory() : string
     {
         return 'custom_icons';
     }
 
-    /**
-     * @return string
-     */
     public function getSubDirectoryPrefix() : string
     {
         return 'obj_';
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUploadPostProcessors() : array
     {
         return [];

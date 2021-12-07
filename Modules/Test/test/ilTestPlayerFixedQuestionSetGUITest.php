@@ -27,6 +27,7 @@ class ilTestPlayerFixedQuestionSetGUITest extends ilTestBaseTestCase
         $this->addGlobal_ilObjDataCache();
         $this->addGlobal_rbacsystem();
         $this->addGlobal_ilUser();
+        $this->addGlobal_refinery();
 
         $this->testObj = new ilTestPlayerFixedQuestionSetGUI(
             $this->createMock(ilObjTest::class)

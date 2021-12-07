@@ -324,9 +324,11 @@ class ilSystemStyleIconsGUI
         $si = new ilSelectInputGUI($this->lng->txt("select_icon"), "selected_icon");
 
         $options = array();
+        $this->getIconFolder()->sortIconsByPath();
+        $substr_len = strlen($this->getIconFolder()->getPath()) + 1;
         foreach ($this->getIconFolder()->getIcons() as $icon) {
             if ($icon->getType() == "svg") {
-                $options[$icon->getPath()] = $icon->getPath();
+                $options[$icon->getPath()] = substr($icon->getPath(), $substr_len);
             }
         }
 

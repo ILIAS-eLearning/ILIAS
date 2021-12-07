@@ -249,9 +249,6 @@ class ilSoapAdministration
             $auth_mode_names[] = strtoupper(ilAuthUtils::_getAuthModeName($mode));
         }
 
-        include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
-        include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordXMLWriter.php';
-        
         // create advanced meta data record xml
         $record_ids = array();
         $record_types = ilAdvancedMDRecord::_getAssignableObjectTypes();

@@ -2,7 +2,7 @@
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- * Class ilChatroomSmileyGUI
+ * Class ilChatroomAdminSmileyGUI
  * Provides methods to show, add, edit and delete smilies
  * consisting of icon and keywords
  * @author  Andreas Kordosz <akordosz@databay.de>
@@ -247,7 +247,11 @@ class ilChatroomAdminSmileyGUI extends ilChatroomGUIHandler
         return $form_data;
     }
 
-    public function initSmiliesEditForm($form_data) : ilPropertyFormGUI
+    /**
+     * @param array<string, mixed> $form_data
+     * @return ilPropertyFormGUI
+     */
+    public function initSmiliesEditForm(array $form_data) : ilPropertyFormGUI
     {
         $this->form_gui = new ilPropertyFormGUI();
         $this->form_gui->setValuesByArray($form_data);

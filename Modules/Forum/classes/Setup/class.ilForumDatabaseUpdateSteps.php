@@ -41,4 +41,9 @@ class ilForumDatabaseUpdateSteps implements ilDatabaseUpdateSteps
             );
         }
     }
+
+    public function step_2() : void
+    {
+        $this->db->manipulateF("UPDATE object_data SET offline = %s WHERE type = %s", ['integer', 'text'], [0, 'frm']);
+    }
 }

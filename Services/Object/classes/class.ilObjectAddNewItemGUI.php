@@ -291,7 +291,9 @@ class ilObjectAddNewItemGUI
         } else {
             $base_url = $this->url_creation;
         }
-        $base_url = $ilCtrl->appendRequestTokenParameterString($base_url);
+        // I removed the token statement because you can now
+        // generate links with ilCtrl::getLinkTargetByClass()
+        // which automatically appends one.
         
         if ($this->url_creation_callback) {
             $base_url .= "&crtcb=" . $this->url_creation_callback;

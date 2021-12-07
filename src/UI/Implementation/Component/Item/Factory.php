@@ -22,9 +22,9 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
-    public function contribution(string $content, ?ilObjUser $user = null, ?ilDateTime $datetime = null) : Item\Contribution
+    public function shy(string $title) : Item\Shy
     {
-        return new Contribution($content, $user, $datetime);
+        return new Shy($title);
     }
 
     /**

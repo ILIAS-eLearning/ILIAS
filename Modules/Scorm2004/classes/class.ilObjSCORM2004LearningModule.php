@@ -1452,7 +1452,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $tree = new ilTree($this->getId());
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, 'sco') as $sco) {
+        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
             $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
             ilUtil::makeDir($sco_folder);
             $node = new ilSCORM2004Sco($this, $sco['obj_id']);
@@ -1468,7 +1468,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $tree = new ilTree($this->getId());
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, 'sco') as $sco) {
+        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
             $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
             ilUtil::makeDir($sco_folder);
             $node = new ilSCORM2004Sco($this, $sco['obj_id']);
@@ -1595,7 +1595,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
         $tree = new ilTree($this->getId());
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, array('sco','ass')) as $sco) {
+        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, array('sco', 'ass')) as $sco) {
             if ($sco['type'] == "sco") {
                 $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
                 ilUtil::makeDir($sco_folder);
@@ -1655,7 +1655,7 @@ class ilObjSCORM2004LearningModule extends ilObjSCORMLearningModule
             fputs($a_one_file, $output);
         }
         
-        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, 'sco') as $sco) {
+        foreach ($tree->getSubTree($tree->getNodeData($tree->getRootId()), true, ['sco']) as $sco) {
             $sco_folder = $a_target_dir . "/" . $sco['obj_id'];
             ilUtil::makeDir($sco_folder);
             $node = new ilSCORM2004Sco($this, $sco['obj_id']);

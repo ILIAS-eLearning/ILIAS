@@ -1,42 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-* TableGUI class for media object usages listing
-*
-* @author Alex Killing <alex.killing@gmx.de>
-*/
+ * TableGUI class for media object usages listing
+ *
+ * @author Alexander Killing <killing@leifos.de>
+ */
 class ilMediaObjectUsagesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected bool $include_hist;
+    protected ilAccessHandler $access;
+    protected ilObjMediaObject $media_object;
+    protected ilTree $repo_tree;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjMediaObject
-     */
-    protected $media_object;
-
-    /**
-     * @var ilTree
-     */
-    protected $repo_tree;
-
-    /**
-    * Constructor
-    */
     public function __construct(
-        $a_parent_obj,
-        $a_parent_cmd,
-        $a_media_object,
-        $a_include_hist = false
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjMediaObject $a_media_object,
+        bool $a_include_hist = false
     ) {
         global $DIC;
 
@@ -61,9 +54,9 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
     }
 
     /**
-    * Get items of current folder
-    */
-    public function getItems()
+     * Get items of current folder
+     */
+    public function getItems() : void
     {
         $usages = $this->media_object->getUsages($this->include_hist);
         
@@ -97,7 +90,7 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
             if ($usage["type"] == "clip") {
                 $clip_cnt++;
             } else {
-                if ($this->incl_hist || !$usage["trash"]) {
+                if ($this->include_hist || !$usage["trash"]) {
                     if (empty($agg_usages[$usage["type"] . ":" . $usage["id"]])) {
                         $agg_usages[$usage["type"] . ":" . $usage["id"]] = $usage;
                     }
@@ -116,10 +109,6 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         $this->setData($agg_usages);
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
     protected function fillRow($a_set)
     {
         $lng = $this->lng;
@@ -287,8 +276,9 @@ class ilMediaObjectUsagesTableGUI extends ilTable2GUI
         }
     }
 
-    public function getFirstWritableRefId($a_obj_id)
-    {
+    public function getFirstWritableRefId(
+        int $a_obj_id
+    ) : int {
         $ilAccess = $this->access;
         
         $ref_ids = ilObject::_getAllReferences($a_obj_id);

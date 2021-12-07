@@ -15,7 +15,7 @@ use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
-use ilUserUtil;
+use ilUtil;
 
 class Renderer extends AbstractComponentRenderer
 {
@@ -32,8 +32,8 @@ class Renderer extends AbstractComponentRenderer
             return $this->renderGroup($component, $default_renderer);
         } elseif ($component instanceof Standard) {
             return $this->renderStandard($component, $default_renderer);
-        } elseif ($component instanceof Contribution) {
-            return $this->renderContribution($component, $default_renderer);
+        } elseif ($component instanceof Component\Item\Shy) {
+            return $this->renderShy($component, $default_renderer);
         }
         return "";
     }
@@ -88,24 +88,26 @@ class Renderer extends AbstractComponentRenderer
         $progress = $component->getProgress();
         if ($lead != null) {
             if (is_string($lead)) {
-                $tpl->setCurrentBlock("lead_text");
+                if ($progress != null) {
+                    $tpl->setCurrentBlock("lead_text_with_progress");
+                    $tpl->touchBlock("item_with_lead_and_progress");
+                } else {
+                    $tpl->setCurrentBlock("lead_text");
+                    $tpl->touchBlock("item_with_lead_only");
+                }
                 $tpl->setVariable("LEAD_TEXT", $lead);
                 $tpl->parseCurrentBlock();
-                if ($progress != null) {
-                    $tpl->touchBlock("item_with_lead_and_progress");
-                } else {
-                    $tpl->touchBlock("item_with_lead");
-                }
             }
             if ($lead instanceof Image) {
-                $tpl->setCurrentBlock("lead_image");
-                $tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
-                $tpl->parseCurrentBlock();
                 if ($progress != null) {
+                    $tpl->setCurrentBlock("lead_image_with_progress");
                     $tpl->touchBlock("item_with_lead_and_progress");
                 } else {
-                    $tpl->touchBlock("item_with_lead");
+                    $tpl->setCurrentBlock("lead_image");
+                    $tpl->touchBlock("item_with_lead_only");
                 }
+                $tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
+                $tpl->parseCurrentBlock();
             }
             if ($lead instanceof Icon) {
                 $tpl->setCurrentBlock("lead_icon");
@@ -129,11 +131,12 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->touchBlock("lead_end");
             }
         } elseif ($progress != null) {
-            $tpl->touchBlock("item_with_progress");
+            $tpl->touchBlock("item_with_progress_only");
             $tpl->setCurrentBlock("progress_end");
             $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
             $tpl->parseCurrentBlock();
         }
+
         // actions
         $actions = $component->getActions();
         if ($actions !== null) {
@@ -143,24 +146,29 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderContribution(Contribution $component, RendererInterface $default_renderer) : string
+    protected function renderShy(Component\Item\Shy $component, RendererInterface $default_renderer) : string
     {
-        $tpl = $this->getTemplate("tpl.item_contribution.html", true, true);
+        $tpl = $this->getTemplate("tpl.item_shy.html", true, true);
 
         $this->renderTitle($component, $default_renderer, $tpl);
         $this->renderDescription($component, $tpl);
+        $this->renderProperties($component, $default_renderer, $tpl);
 
-        if ($component->getUser()) {
-            $tpl->setVariable("USER", $component->getUser()->getPublicName());
-        } else {
-            $tpl->setVariable("USER", $this->txt('unknown'));
-        }
-
-        $tpl->setVariable("TIME_LABEL", $this->txt('time'));
-        if ($component->getDateTime()) {
-            $tpl->setVariable("DATETIME", ilDatePresentation::formatDate($component->getDateTime()));
-        } else {
-            $tpl->setVariable("DATETIME", $this->txt('unknown'));
+        if ($component->getProperties() !== []) {
+            foreach ($component->getProperties() as $name => $value) {
+                $name = ilUtil::stripSlashes($name);
+                if ($value instanceof Shy) {
+                    $value = $default_renderer->render($value);
+                } else {
+                    $value = ilUtil::stripSlashes($value);
+                }
+                $tpl->setCurrentBlock("property_row");
+                $tpl->setVariable("PROP_NAME_A", $name);
+                $tpl->setVariable("PROP_VAL_A", $value);
+                $tpl->parseCurrentBlock();
+            }
+            $tpl->setCurrentBlock("properties");
+            $tpl->parseCurrentBlock();
         }
 
         if ($component->getLeadIcon() !== null) {
@@ -172,12 +180,6 @@ class Renderer extends AbstractComponentRenderer
         if ($component->getClose() !== null) {
             $tpl->setCurrentBlock("close");
             $tpl->setVariable("CLOSE", $default_renderer->render($component->getClose()));
-            $tpl->parseCurrentBlock();
-        }
-
-        if ($component->getIdentifier() !== null) {
-            $tpl->setCurrentBlock("identifier");
-            $tpl->setVariable('ID', $component->getIdentifier());
             $tpl->parseCurrentBlock();
         }
 
@@ -265,6 +267,8 @@ class Renderer extends AbstractComponentRenderer
         $title = $component->getTitle();
         if ($title instanceof Shy || $title instanceof Link) {
             $title = $default_renderer->render($title);
+        } else {
+            $title = ilUtil::stripSlashes($title);
         }
         $tpl->setVariable("TITLE", $title);
     }
@@ -274,7 +278,7 @@ class Renderer extends AbstractComponentRenderer
         $desc = $component->getDescription();
         if (!is_null($desc) && trim($desc) != "") {
             $tpl->setCurrentBlock("desc");
-            $tpl->setVariable("DESC", \ilUtil::stripSlashes($desc));
+            $tpl->setVariable("DESC", ilUtil::stripSlashes($desc));
             $tpl->parseCurrentBlock();
         }
     }
@@ -285,8 +289,11 @@ class Renderer extends AbstractComponentRenderer
         if (count($props) > 0) {
             $cnt = 0;
             foreach ($props as $name => $value) {
+                $name = ilUtil::stripSlashes($name);
                 if ($value instanceof Shy) {
                     $value = $default_renderer->render($value);
+                } else {
+                    $value = ilUtil::stripSlashes($value);
                 }
                 $cnt++;
                 if ($cnt % 2 == 1) {
@@ -313,7 +320,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/Item/notification.js');
+        $registry->register('./src/UI/templates/js/Item/dist/notification.js');
     }
 
     /**
@@ -323,7 +330,7 @@ class Renderer extends AbstractComponentRenderer
     {
         return [
             Component\Item\Standard::class,
-            Component\Item\Contribution::class,
+            Component\Item\Shy::class,
             Component\Item\Group::class,
             Component\Item\Notification::class
         ];

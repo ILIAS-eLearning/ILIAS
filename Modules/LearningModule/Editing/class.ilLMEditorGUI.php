@@ -20,7 +20,7 @@ use ILIAS\LearningModule\Editing\EditingGUIRequest;
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilLMEditorGUI: ilObjLearningModuleGUI
  */
-class ilLMEditorGUI
+class ilLMEditorGUI implements ilCtrlBaseClassInterface
 {
     protected \ILIAS\GlobalScreen\ScreenContext\ContextServices $tool_context;
     protected ilCtrl $ctrl;

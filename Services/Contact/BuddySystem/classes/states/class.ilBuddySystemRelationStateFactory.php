@@ -14,20 +14,27 @@ class ilBuddySystemRelationStateFactory
     protected static ?array $stateOptions = null;
     protected ilLanguage $lng;
 
-    protected function __construct()
+    protected function __construct(ilLanguage $lng)
+    {
+        $this->lng = $lng;
+    }
+
+    public static function getInstance(?ilLanguage $lng = null) : self
     {
         global $DIC;
 
-        $this->lng = $DIC['lng'];
-    }
-
-    public static function getInstance() : self
-    {
         if (null === self::$instance) {
-            self::$instance = new self();
+            $lng = $lng ?? $DIC['lng'];
+
+            self::$instance = new self($lng);
         }
 
         return self::$instance;
+    }
+
+    public function reset() : void
+    {
+        self::$instance = null;
     }
 
     /**

@@ -40,6 +40,7 @@ class ilTestPlayerFactoryTest extends ilTestBaseTestCase
         $this->addGlobal_ilObjDataCache();
         $_GET["ref_id"] = 2;
         $this->addGlobal_rbacsystem();
+        $this->addGlobal_refinery();
 
         $objTest = new ilObjTest();
 

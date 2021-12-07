@@ -12,7 +12,7 @@ use ILIAS\GlobalScreen\Scope\MainMenu\Factory\Item;
  * @ilCtrl_Calls ilHelpGUI: ilLMPageGUI
  *
  */
-class ilHelpGUI
+class ilHelpGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilCtrl

@@ -13,7 +13,7 @@
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilObjectMetaDataGUI, ilPermissionGUI, ilObjectCopyGUI
 * @ilCtrl_Calls ilObjSurveyQuestionPoolGUI: ilCommonActionDispatcherGUI
 */
-class ilObjSurveyQuestionPoolGUI extends ilObjectGUI
+class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilNavigationHistory

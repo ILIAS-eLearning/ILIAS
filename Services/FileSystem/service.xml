@@ -1,0 +1,9 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<service xmlns="http://www.w3.org" version="$Id$"
+		id="filesys">
+	<baseclasses>
+	</baseclasses>
+	<crons>
+		<cron id="file_system_clean_temp_dir" class="ilFileSystemCleanTempDirCron" />
+	</crons>
+</service>

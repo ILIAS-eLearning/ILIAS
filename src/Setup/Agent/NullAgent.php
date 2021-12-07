@@ -83,13 +83,8 @@ class NullAgent implements Agent
         return [];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getNamedObjective(string $name, Config $config = null) : Objective
+    public function getNamedObjectives(?Config $config = null) : array
     {
-        throw new \InvalidArgumentException(
-            self::class . " has no named objectives."
-        );
+        return [];
     }
 }

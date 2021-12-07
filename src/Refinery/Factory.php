@@ -7,6 +7,7 @@ namespace ILIAS\Refinery;
 use ILIAS\Refinery\In;
 use ILIAS\Refinery\To;
 use ILIAS\Refinery\ByTrying;
+use ILIAS\Refinery\Random\Group as RandomGroup;
 
 /**
  * @author  Niels Theen <ntheen@databay.de>
@@ -145,5 +146,10 @@ class Factory
     public function byTrying(array $transformations) : ByTrying
     {
         return new ByTrying($transformations, $this->dataFactory, $this->language);
+    }
+
+    public function random() : RandomGroup
+    {
+        return new RandomGroup();
     }
 }

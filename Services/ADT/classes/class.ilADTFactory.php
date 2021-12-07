@@ -199,10 +199,10 @@ class ilADTFactory
 
     /**
      * Get active record by type instance
-     * @param ilADTGroupDBBridge $a_properties
+     * @param ilADTDBBridge $a_properties
      * @return ilADTActiveRecordByType
      */
-    public static function getActiveRecordByTypeInstance(ilADTGroupDBBridge $a_properties) : ilADTActiveRecordByType
+    public static function getActiveRecordByTypeInstance(ilADTDBBridge $a_properties) : ilADTActiveRecordByType
     {
         self::initActiveRecordByType();
         return new ilADTActiveRecordByType($a_properties);

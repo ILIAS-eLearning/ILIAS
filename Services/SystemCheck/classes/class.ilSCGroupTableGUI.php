@@ -1,40 +1,24 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once './Services/Table/classes/class.ilTable2GUI.php';
-include_once './Services/SystemCheck/classes/class.ilSCTask.php';
-
 /**
  * Table GUI for system check groups overview
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilSCGroupTableGUI extends ilTable2GUI
 {
 
-    /**
-     * Constructor
-     * @param type $a_parent_obj
-     * @param type $a_parent_cmd
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd = "")
+    public function __construct(object $a_parent_obj, string $a_parent_cmd = '')
     {
         $this->setId('sc_groups');
         parent::__construct($a_parent_obj, $a_parent_cmd);
     }
-    
-    /**
-     * init table
-     */
-    public function init()
+
+    public function init() : void
     {
-        global $DIC;
 
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-
-        $lng->loadLanguageModule('sysc');
+        $this->lng->loadLanguageModule('sysc');
         $this->addColumn($this->lng->txt('title'), 'title', '60%');
         $this->addColumn($this->lng->txt('last_update'), 'last_update_sort', '20%');
         $this->addColumn($this->lng->txt('sysc_completed_num'), 'completed', '10%');
@@ -44,28 +28,25 @@ class ilSCGroupTableGUI extends ilTable2GUI
         $this->setTitle($this->lng->txt('sysc_overview'));
 
         $this->setRowTemplate('tpl.syscheck_groups_row.html', 'Services/SystemCheck');
-        $this->setFormAction($ilCtrl->getFormAction($this->getParentObject()));
+        $this->setFormAction($this->ctrl->getFormAction($this->getParentObject()));
     }
 
-    /**
-     * Fill row
-     * @param type $a_set
-     */
-    public function fillRow($row)
+    protected function fillRow($row)
     {
-        $this->tpl->setVariable('VAL_TITLE', $row['title']);
+        $this->tpl->setVariable('VAL_TITLE', (string) ($row['title'] ?? ''));
 
-        $GLOBALS['DIC']['ilCtrl']->setParameter($this->getParentObject(), 'grp_id', $row['id']);
+        $id = (int) ($row['id'] ?? 0);
+        $this->ctrl->setParameter($this->getParentObject(), 'grp_id', $id);
         $this->tpl->setVariable(
             'VAL_LINK',
-            $GLOBALS['DIC']['ilCtrl']->getLinkTarget($this->getParentObject(), 'showGroup')
+            $this->ctrl->getLinkTarget($this->getParentObject(), 'showGroup')
         );
-        
-        $this->tpl->setVariable('VAL_DESC', $row['description']);
-        $this->tpl->setVariable('VAL_LAST_UPDATE', $row['last_update']);
-        $this->tpl->setVariable('VAL_COMPLETED', $row['completed']);
-        $this->tpl->setVariable('VAL_FAILED', $row['failed']);
-        
+
+        $this->tpl->setVariable('VAL_DESC', (string) ($row['description'] ?? ''));
+        $this->tpl->setVariable('VAL_LAST_UPDATE', (string) ($row['last_update'] ?? ''));
+        $this->tpl->setVariable('VAL_COMPLETED', (int) ($row['completed'] ?? 0));
+        $this->tpl->setVariable('VAL_FAILED', (int) ($row['failed'] ?? 0));
+
         switch ($row['status']) {
             case ilSCTask::STATUS_COMPLETED:
                 $this->tpl->setVariable('STATUS_CLASS', 'smallgreen');
@@ -73,58 +54,49 @@ class ilSCGroupTableGUI extends ilTable2GUI
             case ilSCTask::STATUS_FAILED:
                 $this->tpl->setVariable('STATUS_CLASS', 'warning');
                 break;
-                
+
         }
-        
-        
+
         // Actions
-        include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
+
         $list = new ilAdvancedSelectionListGUI();
         $list->setSelectionHeaderClass('small');
         $list->setItemLinkClass('small');
-        $list->setId('sysc_' . $row['id']);
+        $list->setId('sysc_' . $id);
         $list->setListTitle($this->lng->txt('actions'));
-        
-        $GLOBALS['DIC']['ilCtrl']->setParameter($this->getParentObject(), 'grp_id', $row['id']);
+
+        $this->ctrl->setParameter($this->getParentObject(), 'grp_id', $id);
         $list->addItem(
             $this->lng->txt('show'),
             '',
-            $GLOBALS['DIC']['ilCtrl']->getLinkTarget($this->getParentObject(), 'showGroup')
+            $this->ctrl->getLinkTarget($this->getParentObject(), 'showGroup')
         );
         $this->tpl->setVariable('ACTIONS', $list->getHTML());
     }
 
-
-    /**
-     * Parse system check groups
-     */
-    public function parse()
+    public function parse() : void
     {
         $data = array();
-        include_once './Services/SystemCheck/classes/class.ilSCGroups.php';
+
         foreach (ilSCGroups::getInstance()->getGroups() as $group) {
-            $item = array();
+            $item       = array();
             $item['id'] = $group->getId();
-            
-            
-            include_once './Services/SystemCheck/classes/class.ilSCComponentTaskFactory.php';
+
             $task_gui = ilSCComponentTaskFactory::getComponentTaskGUIForGroup($group->getId());
-            
-            
-            $item['title'] = $task_gui->getGroupTitle();
+
+            $item['title']       = $task_gui->getGroupTitle();
             $item['description'] = $task_gui->getGroupDescription();
-            $item['status'] = $group->getStatus();
-            
-            include_once './Services/SystemCheck/classes/class.ilSCTasks.php';
+            $item['status']      = $group->getStatus();
+
             $item['completed'] = ilSCTasks::lookupCompleted($group->getId());
-            $item['failed'] = ilSCTasks::lookupFailed($group->getId());
-            
-            $last_update = ilSCTasks::lookupLastUpdate($group->getId());
-            $item['last_update'] = ilDatePresentation::formatDate($last_update);
+            $item['failed']    = ilSCTasks::lookupFailed($group->getId());
+
+            $last_update              = ilSCTasks::lookupLastUpdate($group->getId());
+            $item['last_update']      = ilDatePresentation::formatDate($last_update);
             $item['last_update_sort'] = $last_update->get(IL_CAL_UNIX);
-            $data[] = $item;
+            $data[]                   = $item;
         }
-        
+
         $this->setData($data);
     }
 }

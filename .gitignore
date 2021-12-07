@@ -28,6 +28,10 @@
 /install_client.php
 /Services/GlobalScreen/artifacts/global_screen_providers.php
 /Services/Style/System/data/data.php
+/Services/UICore/artifacts/ctrl_structure.php
+/Services/UICore/artifacts/ctrl_plugin_structure.php
+/Services/UICore/artifacts/ctrl_base_classes.php
+/Services/UICore/artifacts/ctrl_security.php
 
 # Directories
 /data
@@ -36,6 +40,7 @@
 /setup/sql/ilDBTemplate
 virtual-data
 /libs/composer/vendor
+/node_modules/**/.cache
 
 # /dicto
 /dicto/results/*

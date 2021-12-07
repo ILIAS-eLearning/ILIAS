@@ -1,16 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
  * Interface for tree implementations
- * Currrently nested set or materialize path
- *
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * Currrently nested set or materialized path
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  * @ingroup ServicesTree
  */
 interface ilTreeImplementation
 {
-    
+
     /**
      * Get subtree ids for a specific node
      * @return array node_ids
@@ -18,25 +17,27 @@ interface ilTreeImplementation
     public function getSubTreeIds(int $a_node_id) : array;
 
     /**
-     * Get subtree
-     * @param array $a_node
-     * @param mixed $a_types
+     * Get subtree query
      */
-    public function getSubTreeQuery($a_node, $a_types = '', $a_force_join_reference = true, $a_fields = array());
-
+    public function getSubTreeQuery(
+        array $a_node,
+        array $a_types = [],
+        bool $a_force_join_reference = true,
+        array $a_fields = []
+    ) : string;
 
     /**
      * Get subtree query for trashed tree items
-     * @param $a_node
-     * @param $a_types
-     * @param bool $a_force_join_reference
-     * @param array $a_fields
-     * @return mixed
      */
-    public function getTrashSubTreeQuery($a_node, $a_types, $a_force_join_reference = true, $a_fields = []);
+    public function getTrashSubTreeQuery(
+        array $a_node,
+        array $a_types,
+        bool $a_force_join_reference = true,
+        array $a_fields = []
+    ) : string;
 
     /**
-     * @inheritdoc
+     * Get relation of two nodes
      */
     public function getRelation(array $a_node_a, array $a_node_b) : int;
 
@@ -52,19 +53,17 @@ interface ilTreeImplementation
      * @throws ilInvalidTreeStructureException
      */
     public function insertNode(int $a_node_id, int $a_parent_id, int $a_pos) : void;
-    
+
     /**
      * Delete tree
      */
     public function deleteTree(int $a_node_id) : void;
-    
-    
+
     /**
      * Move subtree to trash
      */
     public function moveToTrash(int $a_node_id) : void;
-            
-    
+
     /**
      * Move a source subtree to target
      * @param int $a_source_id
@@ -73,15 +72,13 @@ interface ilTreeImplementation
      * @throws InvalidArgumentException
      */
     public function moveTree(int $a_source_id, int $a_target_id, int $a_position) : void;
-    
-    
+
     /**
      * Get subtree info lft, rgt, path, child, type
      * @return array
      */
     public function getSubtreeInfo(int $a_endnode_id) : array;
-    
-    
+
     /**
      * Validate the parent relations of the tree implementation
      * For nested set, validate the lft, rgt against child <-> parent

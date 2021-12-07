@@ -8,7 +8,7 @@
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilPortfolioRepositoryGUI: ilObjPortfolioGUI, ilObjExerciseGUI
  */
-class ilPortfolioRepositoryGUI
+class ilPortfolioRepositoryGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilLanguage
@@ -94,6 +94,10 @@ class ilPortfolioRepositoryGUI
         $lng = $this->lng;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
+
+        if (!$this->access_handler->editPortfolios()) {
+            throw new ilException($this->lng->txt("no_permission"));
+        }
 
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("show");
