@@ -71,6 +71,7 @@ class ilAdvancedMDSettingsGUI
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
+        $this->http = $DIC->http();
 
         /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
