@@ -3019,8 +3019,6 @@ cmix#:#cmix_info_privacy_section#:#Informazioni relative ai dati personali
 cmix#:#cmix_info_privacy_section_launch#:#Informazioni relative ai dati personali trasmessi all'avvio
 cmix#:#cmix_lrs_type#:#Learning Record Store (LRS)
 cmix#:#cmix_new#:#Nuovo oggetto xAPI/cmi5
-cmix#:#conf_any_window#:#Nuova finestra
-cmix#:#conf_any_window_info#:#Il contenuto viene aperto in una nuova pagina. All'uscita dal contenuto la pagina viene chiusa.
 cmix#:#conf_availability#:#Disponibilità
 cmix#:#conf_availability_0#:#Non disponibile
 cmix#:#conf_availability_1#:#Per oggetti esistenti
@@ -3051,28 +3049,6 @@ cmix#:#conf_privacy_setting_force#:#Le impostazioni non sono modificabili per og
 cmix#:#conf_privacy_setting_info#:#Opzioni configurazione per la protezione dei dati
 cmix#:#conf_remarks#:#Commenti interni
 cmix#:#conf_title#:#Titolo
-cmix#:#conf_user_ident#:#Identificazione utente
-cmix#:#conf_user_ident_il_uuid_ext_account#:#Identificatore utente esterno combinato con un Identificatore unico della piattaforma ILIAS, che è formattato come indirizzo email.
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#Ciò è identico per ogni visualizzazione, può però permettere una deduzione diretta sull'utente.
-cmix#:#conf_user_ident_il_uuid_login#:#Nome utente ILIAS combinato con un Identificatore unico della piattaforma ILIAS, che è formattato come indirizzo email.
-cmix#:#conf_user_ident_il_uuid_login_info#:#Ciò è identico per ogni visualizzazione, può però permettere una deduzione diretta sull'utente.
-cmix#:#conf_user_ident_il_uuid_random#:#Identificatore casuale combinato con un Identificatore unico della piattaforma ILIAS, che è formattato come indirizzo email.
-cmix#:#conf_user_ident_il_uuid_random_info#:#Per ogni oggetto ed utente ILIAS viene generato un identificatore casuale, che rimane identico per ogni visualizzazione. Deduzioni su un utente sono molto limitate, in quanto è praticamente impossibile creare profili utente, che si estendono su più oggetti.
-cmix#:#conf_user_ident_il_uuid_user_id#:#Identificatore utente ILIAS combinato con un Identificatore unico della piattaforma ILIAS, che è formattato come indirizzo email.
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#Ciò è identico per ogni visualizzazione, però non permette una deduzione diretta sull'utente.
-cmix#:#conf_user_ident_info#:#Come predefinito è spesso l'indirizzo email. L'identificatore univoco della piattaforma ILIAS è:
-cmix#:#conf_user_ident_real_email#:#Indirizzo e-mail
-cmix#:#conf_user_ident_real_email_info#:#Manda l'indirizzo e-mail dell'utente come identificazione (Attenzione: L'indirizzo email potrebbe essere utilizzato da più utentiI).
-cmix#:#conf_user_name#:#Nome utente
-cmix#:#conf_user_name_firstname#:#Nome
-cmix#:#conf_user_name_firstname_info#:#Manda il nome di battesimo
-cmix#:#conf_user_name_fullname#:#Nome completo
-cmix#:#conf_user_name_fullname_info#:#Manda titolo, nome e cognome
-cmix#:#conf_user_name_info#:#L'invio di un nome utente non è, di norma, necessario.
-cmix#:#conf_user_name_lastname#:#Titolo e cognome
-cmix#:#conf_user_name_lastname_info#:#Manda Signore o Signora (se non indicato diversamente) e il cognome.
-cmix#:#conf_user_name_none#:#Nessuno
-cmix#:#conf_user_name_none_info#:#Invia '-' invecedi un nome
 cmix#:#conf_user_registered_mail#:#Indirizzo e-mail registrato
 cmix#:#content_privacy_ident#:#Identificazione utente
 cmix#:#content_privacy_name#:#Nome utente
@@ -3251,7 +3227,6 @@ cntr#:#sorting_new_items_direction#:#Direzione di ordinamento per i nuovi oggett
 cntr#:#sorting_new_items_order#:#Ordine per i nuovi oggetti
 cntr#:#sorting_new_items_position#:#Posizione per i nuovi oggetti
 cntr#:#tab_back_to_repository#:#Torna al repository
-common#:#3rd_party_software#:#Software di terze parti
 common#:#absolute_path#:#Percorso assoluto
 common#:#accept_usr_agreement#:#Accetti le condizioni utente?
 common#:#access#:#Accesso
@@ -6311,7 +6286,6 @@ content#:#cont_left_float#:#Sinistra, Floating
 content#:#cont_license#:#Licenza
 content#:#cont_license_info#:#Consenti la funzione di autorizzazione
 content#:#cont_light#:#Chiara
-content#:#cont_Link#:#Collegamento
 content#:#cont_linked_mobs#:#Oggetto multimediale collegato
 content#:#cont_links#:#Collegamenti
 content#:#cont_link_area#:#Collega area
@@ -9118,7 +9092,6 @@ file#:#file_suffix_default_white_info#:#Elenco predefinito di suffissi di file a
 file#:#file_suffix_overall_white#:#Elenco elementi consentiti suffisso complessivo
 file#:#file_suffix_overall_white_info#:#Risultante elenco complessivo dei suffissi di file accettati.
 file#:#file_uploaded_by#:#Caricato da
-file#:#file_upload_info_file_with_critical_unknown_extension_later_renamed_when_downloading#:#Il file caricato contiene un terminatore critico o sconosciuto. L'estensione di file verra' cambiata in .sec per ogni download.
 file#:#general_upload_error_occured#:#Si è verificato un errore inaspettato alla carica del file.
 file#:#generate_sanitize_report#:#Segnala file inaccessibili
 file#:#personal_resources_disk_quota#:#Limite di quota dell'Hard Disk per le risorse personali
@@ -10050,26 +10023,6 @@ lti#:#activity_id#:#Activity ID
 lti#:#activity_id_info#:#Questo ID attività viene utilizzato dal provider LTI per identificare le dichiarazioni.
 lti#:#act_lti_for_obj_type#:#Attiva LTI per tipo di oggetto
 lti#:#auth_lti#:#LTI Aut
-lti#:#conf_user_ident#:#User identification
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.
-lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.
-lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.
-lti#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.
-lti#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:
-lti#:#conf_user_ident_real_email#:#E-Mail Address
-lti#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)
-lti#:#conf_user_name#:#User name
-lti#:#conf_user_name_firstname#:#First name
-lti#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS
-lti#:#conf_user_name_fullname#:#Entire name
-lti#:#conf_user_name_fullname_info#:#Sends title, first name and last name
-lti#:#conf_user_name_info#:#Sending an user name is usually not required.
-lti#:#conf_user_name_lastname#:#Title and last name
-lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name
-lti#:#conf_user_name_none#:#No one
-lti#:#conf_user_name_none_info#:#Sends '-' instead of a name
 lti#:#consumers#:#Consumatori
 lti#:#description_info#:#The description will be shown below the title.
 lti#:#field_provider_xml#:#XML-File
@@ -10271,7 +10224,6 @@ lti#:#use_xapi#:#Utilizza xAPI-Support
 lti#:#use_xapi_info#:#Questo Provider LTI supporta xAPI-Statements.
 ltiv#:#ltiv_create#:#Crea certificato per Oggetto Consumer LTI.
 ltiv#:#ltiv_create_info#:#Seleziona un Oggetto Consumer LTI completo per generare un certificato.
-mail#:#activate_serial_letter_placeholders#:#Metti segnaposto per template
 mail#:#back_to_folder#:#Torna alla cartella
 mail#:#bc#:#BC
 mail#:#chat_users_have_been_invited#:#Gli utenti sono stati invitati.
@@ -13479,158 +13431,6 @@ rep#:#rep_tree_limit_info#:#Il numero di oggetti nella struttura del repository 
 rep#:#rep_tree_limit_number#:#Numero massimo
 rep#:#rep_tree_limit_number_info#:#Numero massimo di elementi figlio inizialmente visualizzati per un nodo espanso. Se sono presenti più elementi figlio, viene mostrato un campo di input di ricerca per filtrare gli elementi figlio per titolo.
 rep#:#rep_visibility_until#:#Temporaneamente disponibile
-rep_robj_xhfp#:#rep_robj_xhfp_actions#:#Azioni
-rep_robj_xhfp#:#rep_robj_xhfp_add#:#Aggiungi
-rep_robj_xhfp#:#rep_robj_xhfp_added_libraries#:#Aggiunte %%new nuova librerie H5P.
-rep_robj_xhfp#:#rep_robj_xhfp_added_libraries_updated_libraries#:#Aggiunte %%new nuove librerie H5P e aggiornate %%old quelle vecchie.
-rep_robj_xhfp#:#rep_robj_xhfp_added_libraries_updated_library#:#Aggiunte %%new nuove librerie H5P e aggiornata %%old quella vecchia.
-rep_robj_xhfp#:#rep_robj_xhfp_added_library#:#Aggiunta %%new nuova libreria H5P.
-rep_robj_xhfp#:#rep_robj_xhfp_added_library_updated_libraries#:#Aggiunta %%new nuova libreria H5P e aggiornate %%old quelle vecchie.
-rep_robj_xhfp#:#rep_robj_xhfp_added_library_updated_library#:#Aggiunta %%new nuova libreria H5P e aggiornata %%old quella vecchia.
-rep_robj_xhfp#:#rep_robj_xhfp_add_content#:#Aggiungi contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_all#:#Tutti
-rep_robj_xhfp#:#rep_robj_xhfp_author#:#Autore
-rep_robj_xhfp#:#rep_robj_xhfp_by#:#di
-rep_robj_xhfp#:#rep_robj_xhfp_cancel#:#Cancella
-rep_robj_xhfp#:#rep_robj_xhfp_categories#:#Categorie
-rep_robj_xhfp#:#rep_robj_xhfp_close#:#Chiudi
-rep_robj_xhfp#:#rep_robj_xhfp_confirm#:#Conferma
-rep_robj_xhfp#:#rep_robj_xhfp_confirm_action#:#Conferma azione
-rep_robj_xhfp#:#rep_robj_xhfp_confirm_action_text#:#Conferma di voler procedere. Questa azione non è reversibile.
-rep_robj_xhfp#:#rep_robj_xhfp_content#:#Contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_contents#:#Contenuti
-rep_robj_xhfp#:#rep_robj_xhfp_contents()->shows#:#Contenuti
-rep_robj_xhfp#:#rep_robj_xhfp_content_changed#:#Questo contenuto è cambiato dall'ultima volta che lo hai utilizzato.
-rep_robj_xhfp#:#rep_robj_xhfp_content_count#:#Contenuto %1$d di %2$d
-rep_robj_xhfp#:#rep_robj_xhfp_content_not_exists#:#Questo contenuto H5P non esiste più
-rep_robj_xhfp#:#rep_robj_xhfp_content_types#:#Tipi di contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_delete#:#Cancella
-rep_robj_xhfp#:#rep_robj_xhfp_deleted_content#:#Contenuto %s cancellato
-rep_robj_xhfp#:#rep_robj_xhfp_deleted_files#:#Il seguente file è stato eliminato in %s:
-rep_robj_xhfp#:#rep_robj_xhfp_deleted_library#:#Libreria %s cancellata
-rep_robj_xhfp#:#rep_robj_xhfp_deleted_results#:#Risultati di %s cancellati
-rep_robj_xhfp#:#rep_robj_xhfp_delete_content#:#Cancella contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_delete_content_confirm#:#Vuoi davvero eliminare il contenuto: %s ?
-rep_robj_xhfp#:#rep_robj_xhfp_delete_library_confirm#:#Vuoi davvero eliminare questa libreria: %s ?
-rep_robj_xhfp#:#rep_robj_xhfp_delete_library_in_use#:#La libreria è in uso
-rep_robj_xhfp#:#rep_robj_xhfp_delete_old_events#:#Cancella i vecchi registri degli eventi
-rep_robj_xhfp#:#rep_robj_xhfp_delete_old_events_description#:#Cancella i vecchi registri degli eventi generati da H5P
-rep_robj_xhfp#:#rep_robj_xhfp_delete_old_tmp_files#:#Cancella i vecchi file temporanei
-rep_robj_xhfp#:#rep_robj_xhfp_delete_old_tmp_files_description#:#Cancella i vecchi file temporanei generati da H5P
-rep_robj_xhfp#:#rep_robj_xhfp_delete_results_confirm#:#Vuoi davvero eliminare i risultati di %s?
-rep_robj_xhfp#:#rep_robj_xhfp_description#:#Descrizione
-rep_robj_xhfp#:#rep_robj_xhfp_details#:#Dettagli
-rep_robj_xhfp#:#rep_robj_xhfp_disable_fullscreen#:#Disattiva il fullscreen
-rep_robj_xhfp#:#rep_robj_xhfp_download#:#Scarica
-rep_robj_xhfp#:#rep_robj_xhfp_download_content#:#Scarica questo contenuto come file H5P.
-rep_robj_xhfp#:#rep_robj_xhfp_edit#:#Modifica
-rep_robj_xhfp#:#rep_robj_xhfp_edit_content#:#modifica contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_edit_permission#:#Modifica permesso
-rep_robj_xhfp#:#rep_robj_xhfp_embed#:#Incorporato
-rep_robj_xhfp#:#rep_robj_xhfp_embed_include_script#:#Includi questo script nel tuo sito web se desideri il ridimensionamento dinamico del contenuto incorporato:
-rep_robj_xhfp#:#rep_robj_xhfp_enable_lrs_content_types#:#Abilita i tipi di contenuto dipendenti da LRS.
-rep_robj_xhfp#:#rep_robj_xhfp_enable_lrs_content_types_info#:#Rendi possibile utilizzare i tipi di contenuto che si basano su un archivio di record di apprendimento per funzionare correttamente, come il tipo di contenuto Questionario.
-rep_robj_xhfp#:#rep_robj_xhfp_example#:#Esempio
-rep_robj_xhfp#:#rep_robj_xhfp_export#:#Esporta
-rep_robj_xhfp#:#rep_robj_xhfp_export_content#:#Esporta contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_files#:#Files:
-rep_robj_xhfp#:#rep_robj_xhfp_finish#:#Finire
-rep_robj_xhfp#:#rep_robj_xhfp_finished#:#Finito
-rep_robj_xhfp#:#rep_robj_xhfp_fullscreen#:#Schermo Intero
-rep_robj_xhfp#:#rep_robj_xhfp_hide_advanced#:#Nascondi avanzate
-rep_robj_xhfp#:#rep_robj_xhfp_hub#:#HUB
-rep_robj_xhfp#:#rep_robj_xhfp_hub_last_refresh#:#HUB ultimo aggiornamento: %s
-rep_robj_xhfp#:#rep_robj_xhfp_hub_refresh#:#Aggiorna HUB
-rep_robj_xhfp#:#rep_robj_xhfp_hub_refreshed#:#HUB è stato aggiornato correttamente
-rep_robj_xhfp#:#rep_robj_xhfp_import#:#Importa
-rep_robj_xhfp#:#rep_robj_xhfp_import_content#:#Importa contenuto
-rep_robj_xhfp#:#rep_robj_xhfp_incomplete_content#:#Il contenuto H5P è incompleto. Si prega di controllare tutti gli input e i campi obbligatori
-rep_robj_xhfp#:#rep_robj_xhfp_install#:#Installa
-rep_robj_xhfp#:#rep_robj_xhfp_installed#:#Installato
-rep_robj_xhfp#:#rep_robj_xhfp_installed_libraries#:#Librerie installate
-rep_robj_xhfp#:#rep_robj_xhfp_installed_version#:#Versione installata
-rep_robj_xhfp#:#rep_robj_xhfp_keywords#:#Parole chiave
-rep_robj_xhfp#:#rep_robj_xhfp_latest_version#:#Ultima versione
-rep_robj_xhfp#:#rep_robj_xhfp_libraries#:#Librerie
-rep_robj_xhfp#:#rep_robj_xhfp_library#:#Libreria
-rep_robj_xhfp#:#rep_robj_xhfp_license#:#Licenza
-rep_robj_xhfp#:#rep_robj_xhfp_manage_contents#:#Modifica
-rep_robj_xhfp#:#rep_robj_xhfp_msg_content_not_editable#:#I contenuti non possono essere modificati, poiché ci sono già dei risultati.
-rep_robj_xhfp#:#rep_robj_xhfp_next_content#:#Contenuto successivo
-rep_robj_xhfp#:#rep_robj_xhfp_no#:#No
-rep_robj_xhfp#:#rep_robj_xhfp_not_available#:#Non disponibile
-rep_robj_xhfp#:#rep_robj_xhfp_not_installed#:#Non installato
-rep_robj_xhfp#:#rep_robj_xhfp_no_content_copyright#:#Nessuna informazione di copyright disponibile per questo contenuto.
-rep_robj_xhfp#:#rep_robj_xhfp_no_result#:#Nessun risultato
-rep_robj_xhfp#:#rep_robj_xhfp_objs_xhfp_duplicate#:#Copia di H5P
-rep_robj_xhfp#:#rep_robj_xhfp_obj_xhfp#:#H5P
-rep_robj_xhfp#:#rep_robj_xhfp_obj_xhfp_duplicate#:#Copia H5P
-rep_robj_xhfp#:#rep_robj_xhfp_offline#:#Offline
-rep_robj_xhfp#:#rep_robj_xhfp_online#:#Online
-rep_robj_xhfp#:#rep_robj_xhfp_only_not_used#:#Solo non utilizzato
-rep_robj_xhfp#:#rep_robj_xhfp_only_runnable#:#Solo eseguibile
-rep_robj_xhfp#:#rep_robj_xhfp_permission_denied#:#Permesso negato
-rep_robj_xhfp#:#rep_robj_xhfp_previous_content#:#Contenuto precedente
-rep_robj_xhfp#:#rep_robj_xhfp_rbac_create_xhfp#:#Crea H5P
-rep_robj_xhfp#:#rep_robj_xhfp_read#:#Letto
-rep_robj_xhfp#:#rep_robj_xhfp_refresh_hub#:#Aggiorna elenco hub
-rep_robj_xhfp#:#rep_robj_xhfp_refresh_hub_description#:#Ricarica l'elenco degli hub
-rep_robj_xhfp#:#rep_robj_xhfp_rep_robj_xhfp_obj_xhfp#:#H5P
-rep_robj_xhfp#:#rep_robj_xhfp_required_libraries#:#Librerie richieste
-rep_robj_xhfp#:#rep_robj_xhfp_results#:#Risultati
-rep_robj_xhfp#:#rep_robj_xhfp_rights_of_use#:#Diritti di utilizzo
-rep_robj_xhfp#:#rep_robj_xhfp_runnable#:#Eseguibile
-rep_robj_xhfp#:#rep_robj_xhfp_save#:#Salva
-rep_robj_xhfp#:#rep_robj_xhfp_saved_content#:#%s salvato
-rep_robj_xhfp#:#rep_robj_xhfp_send_usage_statistics#:#Contribuisci automaticamente alle statistiche sull'utilizzo
-rep_robj_xhfp#:#rep_robj_xhfp_send_usage_statistics_info#:#I numeri delle statistiche di utilizzo verranno riportati automaticamente per aiutare gli sviluppatori a capire meglio come viene utilizzato H5P e per determinare potenziali aree di miglioramento. Ulteriori informazioni sui dati raccolti su %s.
-rep_robj_xhfp#:#rep_robj_xhfp_settings#:#Impostazioni
-rep_robj_xhfp#:#rep_robj_xhfp_settings_saved#:#Impostazioni salvate
-rep_robj_xhfp#:#rep_robj_xhfp_show#:#Mostra
-rep_robj_xhfp#:#rep_robj_xhfp_show_advanced#:#Mostra avanzato
-rep_robj_xhfp#:#rep_robj_xhfp_show_less#:#Mostra meno
-rep_robj_xhfp#:#rep_robj_xhfp_show_more#:#Mostra di più
-rep_robj_xhfp#:#rep_robj_xhfp_size#:#Dimensione
-rep_robj_xhfp#:#rep_robj_xhfp_solved_all_contents#:#Hai già risolto tutti i contenuti.
-rep_robj_xhfp#:#rep_robj_xhfp_solved_content#:#Hai già risolto questo contenuto.
-rep_robj_xhfp#:#rep_robj_xhfp_solve_only_once#:#Risolvi i contenuti solo una volta
-rep_robj_xhfp#:#rep_robj_xhfp_solve_only_once_info#:#Nota: Per alcuni contenuti potrebbe essere necessario disattivare il pulsante soluzione / riprova
-rep_robj_xhfp#:#rep_robj_xhfp_source#:#Fonte
-rep_robj_xhfp#:#rep_robj_xhfp_start_over#:#Ricomincerai da capo.
-rep_robj_xhfp#:#rep_robj_xhfp_status#:#Stato
-rep_robj_xhfp#:#rep_robj_xhfp_sublevel#:#Sottolivello
-rep_robj_xhfp#:#rep_robj_xhfp_summary#:#Sommario
-rep_robj_xhfp#:#rep_robj_xhfp_thumbnail#:#Miniatura
-rep_robj_xhfp#:#rep_robj_xhfp_title#:#Titolo
-rep_robj_xhfp#:#rep_robj_xhfp_tutorial#:#Tutorial
-rep_robj_xhfp#:#rep_robj_xhfp_updated_libraries#:#Aggiornate le librerie H5P %%old
-rep_robj_xhfp#:#rep_robj_xhfp_updated_library#:#Aggiornata la libreria H5P %%old
-rep_robj_xhfp#:#rep_robj_xhfp_upgrade#:#Aggiornamento
-rep_robj_xhfp#:#rep_robj_xhfp_upgrade_available#:#Aggiornamento disponibile
-rep_robj_xhfp#:#rep_robj_xhfp_upload#:#Carica
-rep_robj_xhfp#:#rep_robj_xhfp_uploaded_files#:#I seguenti file(s) sono stati caricati su %s:
-rep_robj_xhfp#:#rep_robj_xhfp_uploaded_files_failed#:#I seguenti file(s) non sono stati accettati perché hanno un'estensione dannosa:
-rep_robj_xhfp#:#rep_robj_xhfp_upload_file#:#Caricare un file
-rep_robj_xhfp#:#rep_robj_xhfp_upload_file_info#:#Carica un file\nI file zip vengono estratti automaticamente\nInserisci il file iniziale in "Fonte"
-rep_robj_xhfp#:#rep_robj_xhfp_upload_library#:#Carica libreria
-rep_robj_xhfp#:#rep_robj_xhfp_usage_contents#:#Contenuti che lo utilizzano
-rep_robj_xhfp#:#rep_robj_xhfp_usage_libraries#:#Librerie che lo utilizzano
-rep_robj_xhfp#:#rep_robj_xhfp_usage_statistics#:#Statistiche di utilizzo
-rep_robj_xhfp#:#rep_robj_xhfp_user#:#Utente
-rep_robj_xhfp#:#rep_robj_xhfp_version#:#Versione
-rep_robj_xhfp#:#rep_robj_xhfp_view_content_copyright#:#Visualizza le informazioni sul copyright per questo contenuto.
-rep_robj_xhfp#:#rep_robj_xhfp_view_embed_code#:#Visualizza il codice di incorporamento per questo contenuto.
-rep_robj_xhfp#:#rep_robj_xhfp_visible#:#Visibile
-rep_robj_xhfp#:#rep_robj_xhfp_write#:#Scrivi
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_add#:#Aggiungi
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_delete#:#Cancella
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_edit_permission#:#Modifica permessi
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_new#:#Nuovo H5P
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_read#:#Leggi
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_visible#:#Visibile
-rep_robj_xhfp#:#rep_robj_xhfp_xhfp_write#:#Modifica
-rep_robj_xhfp#:#rep_robj_xhfp_year#:#Anno
-rep_robj_xhfp#:#rep_robj_xhfp_yes#:#Sì
 rfil#:#rfil_call#:#Richiama file ESC
 rfil#:#rfil_version_tstamp#:#Carica dati
 rglo#:#rglo_call#:#Richiama Glossario ESC
@@ -14458,7 +14258,6 @@ style#:#skin_version#:#Versione Interfaccia
 style#:#skin_version_description#:#La versione interfaccia è utilizzata per memorizzare nuovamente lo stile dopo le modifiche. Viene aggiornata automaticamente.
 style#:#sound_dir#:#Elenco suoni
 style#:#sound_dir_description#:#Cartella per memorizzare i suoni dell’interfaccia. Questa directory può essere condivisa con altri stili e stili secondari dell’interfaccia.
-style#:#Style#:#
 style#:#styles_not_deleted#:#Gli stili non sono stati eliminati per le seguenti ragioni:
 style#:#style_assignments_deleted#:#Le assegnazioni di stile del seguente stile secondario è stato eliminato:
 style#:#style_copied#:#Lo stile è stato copiato con successo.
@@ -16350,3 +16149,121 @@ wsp#:#wsp_type_scov#:#Certificato: SCORM
 wsp#:#wsp_type_tstv#:#Certificato: Test
 wsp#:#wsp_type_webr#:#Collegamento web
 wsp#:#wsp_type_wfld#:#Cartella
+auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.###08 12 2021 new variable
+crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)###08 12 2021 new variable
+crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)###08 12 2021 new variable
+crs#:#crs_objective_result_details#:#« Show Details###08 12 2021 new variable
+common#:#tools#:#Tools###08 12 2021 new variable
+common#:#more#:#More###08 12 2021 new variable
+common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###08 12 2021 new variable
+common#:#msg_no_files_selected#:#No files selected###08 12 2021 new variable
+administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###08 12 2021 new variable
+assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###08 12 2021 new variable
+assessment#:#exam_id_label#:#Exam Id###08 12 2021 new variable
+assessment#:#tst_add_quest_cont_edit_mode_RTE_info#:#Allows text formatting of questions, answers, feedbacks and hints. But feedback and hints cannot be reused when question is embedded in ILIAS learning module.###08 12 2021 new variable
+assessment#:#tst_add_quest_cont_edit_mode_IPE_info#:#No formatting of text in question and answers. No use of LaTex either. But feedback and hints can be reused when question is embedded in ILIAS learning module.###08 12 2021 new variable
+assessment#:#autosavecontent#:#Autosave Content###08 12 2021 new variable
+common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###08 12 2021 new variable
+common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###08 12 2021 new variable
+common#:#hist_lm_pg_update#:#Page changed.###08 12 2021 new variable
+content#:#cont_link#:#Link###08 12 2021 new variable
+form#:#form_msg_max_upload#:#Maximum number of simultaneously uploadable files:###08 12 2021 new variable
+ldap#:#ldap_escapedn#:#Escape DN###08 12 2021 new variable
+ldap#:#ldap_escapedn_info#:#If enabled, special characters in the "Distinguished Name (DN)" of user accounts are escaped in queries for group membership.###08 12 2021 new variable
+search#:#search_field#:#Search Input Field###08 12 2021 new variable
+common#:#label_search_options#:#Search Area###08 12 2021 new variable
+search#:#search_on#:#On###08 12 2021 new variable
+survey#:#survey_notification_target_group_invited#:#All users manually invited to the survey###08 12 2021 new variable
+rbac#:#edit_in_online_editor#:#Open in online editor###08 12 2021 new variable
+rbac#:#cld_edit_in_online_editor#:#User can open and edit files in online editor###08 12 2021 new variable
+administration#:#adm_auth_reg#:#Authentication Registration###08 12 2021 new variable
+administration#:#adm_auth_login#:#Authentication Login###08 12 2021 new variable
+survey#:#survey_reminder_cron#:#Remind users to participate / Send results to tutors###08 12 2021 new variable
+mail#:#mail_sel_label#:#Choose the Recipients###08 12 2021 new variable
+style#:#style#:#Style###08 12 2021 new variable
+auth#:#auth_saml_err_sqlite_driver#:#The SAML authentication requires the SQLite driver for PHP. Please install the SQLite package and try again.###08 12 2021 new variable
+file#:#file_upload_info_file_with_critical_extension#:#The uploaded file contains a critical or unknown file ending. The file ending will be changed to .sec for every download. If necessary, contact your administrator.###08 12 2021 new variable
+mme#:#flush#:#Remove Lost Items###08 12 2021 new variable
+mme#:#msg_subitem_flushed#:#Lost Items removed.###08 12 2021 new variable
+file#:#personal_workspace_disk_quota#:#Hard Disk Quota for Personal Workspace###08 12 2021 new variable
+file#:#personal_workspace_quota_exceeded_warning#:#You have exceeded the disk quota for your personal workspace.###08 12 2021 new variable
+file#:#personal_workspace_quota_status_legend#:#You are using %1$s of your available disk quota of %2$s (%3$d%%).###08 12 2021 new variable
+lti#:#conf_privacy_ident#:#User identification###08 12 2021 new variable
+lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###08 12 2021 new variable
+lti#:#conf_privacy_ident_real_email#:#E-Mail Address###08 12 2021 new variable
+lti#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###08 12 2021 new variable
+lti#:#conf_privacy_name#:#User name###08 12 2021 new variable
+lti#:#conf_privacy_name_info#:#Sending an user name is usually not required.###08 12 2021 new variable
+lti#:#conf_privacy_name_none#:#No one###08 12 2021 new variable
+lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###08 12 2021 new variable
+lti#:#conf_privacy_name_firstname#:#First name###08 12 2021 new variable
+lti#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###08 12 2021 new variable
+lti#:#conf_privacy_name_lastname#:#Title and last name###08 12 2021 new variable
+lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###08 12 2021 new variable
+lti#:#conf_privacy_name_fullname#:#Entire name###08 12 2021 new variable
+lti#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###08 12 2021 new variable
+cmix#:#conf_switch_to_review#:#Switch to Review Mode###08 12 2021 new variable
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###08 12 2021 new variable
+cmix#:#conf_mastery_score#:#Mastery Score###08 12 2021 new variable
+cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.###08 12 2021 new variable
+cmix#:#conf_new_window#:#New Window###08 12 2021 new variable
+cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###08 12 2021 new variable
+cmix#:#type_cmi5#:#cmi5 Learning Module###08 12 2021 new variable
+cmix#:#type_generic#:#xAPI Standard Object###08 12 2021 new variable
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###08 12 2021 new variable
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###08 12 2021 new variable
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###08 12 2021 new variable
+cmix#:#conf_privacy_ident#:#User identification###08 12 2021 new variable
+cmix#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail adress###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail adress###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###08 12 2021 new variable
+cmix#:#conf_privacy_ident_real_email#:#E-Mail Address###08 12 2021 new variable
+cmix#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###08 12 2021 new variable
+cmix#:#conf_privacy_name#:#User name###08 12 2021 new variable
+cmix#:#conf_privacy_name_info#:#Sending an user name is usually not required.###08 12 2021 new variable
+cmix#:#conf_privacy_name_none#:#No one###08 12 2021 new variable
+cmix#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###08 12 2021 new variable
+cmix#:#conf_privacy_name_firstname#:#First name###08 12 2021 new variable
+cmix#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###08 12 2021 new variable
+cmix#:#conf_privacy_name_lastname#:#Title and last name###08 12 2021 new variable
+cmix#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###08 12 2021 new variable
+cmix#:#conf_privacy_name_fullname#:#Entire name###08 12 2021 new variable
+cmix#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###08 12 2021 new variable
+prg#:#no_srctype_or_id#:#Id and type may not be empty.###08 12 2021 new variable
+tagging#:#no_tag_text_1#:#You have not yet used any tags. To do this, you must take two steps:###08 12 2021 new variable
+tagging#:#no_tag_text_2#:#Click on '%s' and select a learning object from the available offer, e.g. a learning module or a forum.###08 12 2021 new variable
+tagging#:#no_tag_text_3#:#To attach any tags to the object select 'Set Tags' from the actions menu.###08 12 2021 new variable
+form#:#form_invalid_uri#:#Invalid URI format.###08 12 2021 new variable
+awrn#:#awrn_filter#:#User Filter###08 12 2021 new variable
+help#:#help_search_label#:#Search Help###08 12 2021 new variable
+rbac#:#delete_xapi_data#:#Delete xAPI/cmi5 Data###08 12 2021 new variable
+trac#:#trac_mode_cmix_completed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###08 12 2021 new variable
+trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###08 12 2021 new variable
+trac#:#trac_mode_cmix_passed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###08 12 2021 new variable
+trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###08 12 2021 new variable
+trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.###08 12 2021 new variable
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.###08 12 2021 new variable
+cmix#:#toplist_top_n_results#:#Top Ranking###08 12 2021 new variable
+cmix#:#toplist_your_result#:#Own Rank###08 12 2021 new variable
+lti#:#toplist_top_n_results#:#Top Ranking###08 12 2021 new variable
+lti#:#toplist_your_result#:#Own Rank###08 12 2021 new variable
+rep#:#rep_no_last_visited_mess#:#You did not visited any resources yet.###08 12 2021 new variable
+dateplaner#:#cal_delete_recurrence_rule#:#Delete Series of Appoinments###08 12 2021 new variable
+dateplaner#:#cal_recurrence_confirm_deletion#:#Please decide wether you want to delete single appointments or the complete series of appointments.###08 12 2021 new variable
+common#:#il_lti_learner#:#LTI Learner###08 12 2021 new variable
+common#:#il_lti_instructor#:#LTI Instructor###08 12 2021 new variable
+rbac#:#il_lti_global_role#:#LTI User###08 12 2021 new variable
+common#:#actions_for#:#Actions for %s###08 12 2021 new variable
+news#:#news_date#:#Date###08 12 2021 new variable
