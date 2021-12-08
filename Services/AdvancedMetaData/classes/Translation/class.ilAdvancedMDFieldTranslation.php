@@ -42,7 +42,6 @@ class ilAdvancedMDFieldTranslation
         $this->description = $description;
     }
 
-
     public function getFieldId() : int
     {
         return $this->field_id;

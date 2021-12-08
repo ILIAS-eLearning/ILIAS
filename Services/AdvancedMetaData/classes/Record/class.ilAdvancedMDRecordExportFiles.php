@@ -22,16 +22,14 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ServicesAdvancedMetaData
- * @todo use logger and filestorage
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ * @todo    use logger and filestorage
+ */
 class ilAdvancedMDRecordExportFiles
 {
     protected string $export_dir = '';
-    
+
     public function __construct(int $a_obj_id = null)
     {
         $this->export_dir = ilUtil::getDataDir() . '/ilAdvancedMetaData/export';
@@ -40,13 +38,13 @@ class ilAdvancedMDRecordExportFiles
         }
         $this->init();
     }
-    
+
     /**
      * Read files info
      * @access public
      * @return array array e.g array(records => 'ECS-Server',size => '123',created' => 121212)
      */
-    public function readFilesInfo():array
+    public function readFilesInfo() : array
     {
         $file_info = array();
         foreach ($this->getFiles() as $name => $data) {
@@ -60,7 +58,7 @@ class ilAdvancedMDRecordExportFiles
             $file_info = [];
             $file_info[$file_parts[0]]['size'] = $data['size'];
             $file_info[$file_parts[0]]['date'] = $file_parts[0];
-            
+
             if ($xml = simplexml_load_file($this->export_dir . '/' . $name)) {
                 $records = array();
                 foreach ($xml->xpath('Record/Title') as $title) {
@@ -71,7 +69,7 @@ class ilAdvancedMDRecordExportFiles
         }
         return $file_info;
     }
-    
+
     /**
      * Get files
      * @return array<int, array{type: string, size: string}>
@@ -87,7 +85,7 @@ class ilAdvancedMDRecordExportFiles
         }
         return $files;
     }
-    
+
     /**
      * Create new export file from xml string
      */
@@ -96,29 +94,28 @@ class ilAdvancedMDRecordExportFiles
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-         
+
         if (!$fp = @fopen($this->export_dir . '/' . time() . '.xml', 'w+')) {
             $ilLog->write(__METHOD__ . ': Cannot open file ' . $this->export_dir . '/' . time() . '.xml');
             throw new ilException('Cannot write export file.');
         }
-         
+
         @fwrite($fp, $a_xml);
         @fclose($fp);
     }
-    
+
     public function deleteByFileId(int $a_timest) : bool
     {
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-        
+
         if (!unlink($this->export_dir . '/' . $a_timest . '.xml')) {
             $ilLog->write(__METHOD__ . ': Cannot delete file ' . $this->export_dir . '/' . $a_timest . '.xml');
             return false;
         }
         return true;
     }
-
 
     public function getAbsolutePathByFileId(int $a_file_basename) : string
     {
@@ -133,12 +130,10 @@ class ilAdvancedMDRecordExportFiles
         }
         return $this->export_dir . '/' . $a_file_basename . '.xml';
     }
-    
+
     /**
      * init export directory
-     *
      * @access private
-     *
      */
     private function init() : void
     {

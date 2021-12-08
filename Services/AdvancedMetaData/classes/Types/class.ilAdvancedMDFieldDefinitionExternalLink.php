@@ -1,10 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * AMD field type external link
- *
  * Stefan Meyer <smeyer.ilias@gmx.de>
- *
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDFieldDefinitionExternalLink extends ilAdvancedMDFieldDefinition
@@ -13,8 +12,7 @@ class ilAdvancedMDFieldDefinitionExternalLink extends ilAdvancedMDFieldDefinitio
     {
         return self::TYPE_EXTERNAL_LINK;
     }
-    
-    
+
     protected function initADTDefinition() : ilADTDefinition
     {
         return ilADTFactory::getInstance()->getDefinitionInstanceByType("ExternalLink");

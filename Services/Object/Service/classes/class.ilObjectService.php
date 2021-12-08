@@ -7,6 +7,7 @@ class ilObjectService implements ilObjectServiceInterface
     protected ilLanguage $lng;
     protected ilSetting $settings;
     protected \ILIAS\Filesystem\Filesystems $filesystem;
+    protected \ILIAS\FileUpload\FileUpload $upload;
 
     public function __construct(
         ilLanguage $lng,

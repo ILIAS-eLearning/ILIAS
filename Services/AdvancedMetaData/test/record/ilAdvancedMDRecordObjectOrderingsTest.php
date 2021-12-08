@@ -24,7 +24,7 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
         $record_id_reflection = new ReflectionMethod(ilAdvancedMDRecord::class, 'setRecordId');
         $record_id_reflection->setAccessible(true);
 
-        $ids = [1,2,3,4,5];
+        $ids = [1, 2, 3, 4, 5];
         $positions = array_reverse($ids);
         $records = [];
         foreach ($ids as $id) {
@@ -43,8 +43,6 @@ class ilAdvancedMDRecordObjectOrderingsTest extends TestCase
             $this->assertEquals(5, $index + $record->getRecordId());
         }
     }
-
-
 
     /**
      * @param string $name
