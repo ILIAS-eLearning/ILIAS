@@ -173,7 +173,7 @@ class ilSetupLanguage extends ilLanguage
                 } else {
                     $this->flushLanguage($key, "all");
 
-                    if (str_starts_with($val["status"],"installed")) {
+                    if (str_starts_with($val["status"], "installed")) {
                         $query = "UPDATE object_data SET " .
                                 "description = " . $ilDB->quote("not_installed", "text") . ", " .
                                 "last_update = " . $ilDB->now() . " " .
@@ -354,7 +354,7 @@ class ilSetupLanguage extends ilLanguage
     /**
     * Delete languge data
     *
-    * $a_lang_key		lang key
+    * $a_lang_key lang key
     */
     public static function _deleteLangData(string $a_lang_key, bool $a_keep_local_change) : void
     {
@@ -372,9 +372,9 @@ class ilSetupLanguage extends ilLanguage
 
     /**
     * get locally changed language entries
-    * $a_lang_key     language key
-    * $a_min_date  	minimum change date "yyyy-mm-dd hh:mm:ss"
-    * $a_max_date  	maximum change date "yyyy-mm-dd hh:mm:ss"
+    * $a_lang_key language key
+    * $a_min_date minimum change date "yyyy-mm-dd hh:mm:ss"
+    * $a_max_date maximum change date "yyyy-mm-dd hh:mm:ss"
     * Returned value       [module][identifier] => value
     */
     public function getLocalChanges(string $a_lang_key, string $a_min_date = "", string $a_max_date = "") : array
@@ -458,10 +458,10 @@ class ilSetupLanguage extends ilLanguage
 
                 foreach ($content as $key => $val) {
                     // split the line of the language file
-                    // [0]:	module
-                    // [1]:	identifier
-                    // [2]:	value
-                    // [3]:	comment (optional)
+                    // [0]: module
+                    // [1]: identifier
+                    // [2]: value
+                    // [3]: comment (optional)
                     $separated = explode($this->separator, trim($val));
 
                     //get position of the comment_separator
