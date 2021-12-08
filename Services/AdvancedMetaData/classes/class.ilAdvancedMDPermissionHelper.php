@@ -84,7 +84,7 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
         
         switch ($a_context_type) {
             case self::CONTEXT_MD:
-                return array($_REQUEST["ref_id"]);
+                return array($this->ref_id);
             
             case self::CONTEXT_RECORD:
                 $set = $ilDB->query("SELECT record_id id" .

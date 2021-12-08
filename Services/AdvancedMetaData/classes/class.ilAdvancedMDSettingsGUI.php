@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-use ILIAS\UI\Factory;
+use ILIAS\UI\Factory as UIFactory;
+use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Renderer;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -35,8 +36,10 @@ class ilAdvancedMDSettingsGUI
     protected ilCtrl $ctrl;
     protected RequestInterface $request;
     protected GlobalHttpState $http;
+    protected RefineryFactory $refinery;
+
     protected ilTabsGUI $tabs_gui;
-    protected Factory $ui_factory;
+    protected UIFactory $ui_factory;
     protected Renderer $ui_renderer;
     protected ilToolbarGUI $toolbar;
     protected ilLogger $logger;
@@ -45,72 +48,120 @@ class ilAdvancedMDSettingsGUI
     protected ?ilAdvancedMDRecord $record = null;
 
     private string $active_language = '';
-    protected ?int $ref_id = null;
-    protected ?int $obj_id = null;
+    protected int $ref_id;
+    protected ?int $obj_id;
     protected ?string $obj_type = null;
     protected ?string $sub_type = null;
 
-
-
-
-    
     /**
      * Constructor
      *
      * @access public
      *
      */
-    public function __construct($a_ref_id = null, $a_obj_type = null, $a_sub_type = null)
+    public function __construct(int $a_context, int $a_ref_id, ?string $a_obj_type = null, ?string $a_sub_type = null)
     {
         global $DIC;
 
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $ilTabs = $DIC->tabs();
-        
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
+        $this->ctrl = $DIC->ctrl();
+        $this->lng = $DIC->language();
         $this->lng->loadLanguageModule('meta');
-        $this->tpl = $tpl;
-        $this->tabs_gui = $ilTabs;
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->tabs_gui = $DIC->tabs();
 
+        $this->refinery = $DIC->refinery();
         $this->toolbar = $DIC->toolbar();
         $this->ui_factory = $DIC->ui()->factory();
         $this->ui_renderer = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
-        
-        $this->logger = $GLOBALS['DIC']->logger()->amet();
-        
-        $this->ref_id = $a_ref_id;
-        if ($this->ref_id) {
-            $this->obj_id = ilObject::_lookupObjId($a_ref_id);
-        }
 
-        if (!$this->ref_id) {
-            $this->context = self::CONTEXT_ADMINISTRATION;
-        } else {
-            $this->context = self::CONTEXT_OBJECT;
-        }
+        /** @noinspection PhpUndefinedMethodInspection */
+        $this->logger = $DIC->logger()->amet();
 
-
-        $this->obj_type = $a_obj_type;
-        $this->sub_type = $a_sub_type
-            ? $a_sub_type
-            : "-";
-        
-        if (
-            $this->obj_id &&
-            !$this->obj_type) {
-            $this->obj_type = ilObject::_lookupType($this->obj_id);
-        }
+        $this->context = $a_context;
+        $this->initContextParameters(
+            $this->context,
+            $a_ref_id,
+            $a_obj_type,
+            $a_sub_type
+        );
 
         /** @noinspection PhpFieldAssignmentTypeMismatchInspection */
-        $this->permissions = ilAdvancedMDPermissionHelper::getInstance();
+        $this->permissions = ilAdvancedMDPermissionHelper::getInstance($DIC->user()->getId(), $this->ref_id);
     }
 
-    protected function initReferenceIdFromRequest()
+    protected function getRecordIdFromQuery() : ?int
     {
+        if ($this->http->wrapper()->query()->has('record_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'record_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return null;
+    }
+
+    protected function getRecordIdsFromPost() : SplFixedArray
+    {
+        if ($this->http->wrapper()->post()->has('field_id')) {
+            return SplFixedArray::fromArray(
+                $this->http->wrapper()->post()->retrieve(
+                    'field_id',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        return new SplFixedArray(0);
+    }
+
+    protected function getFieldIdFromQuery() : ?int
+    {
+        if ($this->http->wrapper()->query()->has('field_id')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'field_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return null;
+    }
+
+    protected function getFieldIdsFromPost() : SplFixedArray
+    {
+        if ($this->http->wrapper()->post()->has('field_id')) {
+            return SplFixedArray::fromArray(
+                $this->http->wrapper()->post()->retrieve(
+                    'field_id',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        return new SplFixedArray(0);
+    }
+
+    protected function getFieldTypeFromQuery() : ?int
+    {
+        if ($this->http->wrapper()->query()->has('ftype')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'ftype',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return null;
+    }
+
+    protected function getOidFromQuery() : ?int
+    {
+        if ($this->http->wrapper()->query()->has('oid')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'oid',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return null;
     }
 
     /**
@@ -120,14 +171,28 @@ class ilAdvancedMDSettingsGUI
     {
         return $this->permissions;
     }
-    
-    /**
-     * Execute command
-     *
-     * @access public
-     * @param
-     *
-     */
+
+    protected function initContextParameters(
+        int $context,
+        int $ref_id,
+        ?string $obj_type,
+        ?string $sub_type
+    ) : void
+    {
+        if ($context === self::CONTEXT_ADMINISTRATION) {
+            $this->ref_id = $ref_id;
+            $this->obj_id = null;
+            $this->obj_type = null;
+            $this->sub_type = null;
+        } else {
+            $this->ref_id = $ref_id;
+            $this->obj_id = ilObject::_lookupObjId($ref_id);
+            $this->obj_type = $obj_type;
+            $this->sub_type = $sub_type;
+        }
+    }
+
+
     public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass($this);
@@ -168,7 +233,7 @@ class ilAdvancedMDSettingsGUI
         
         $perm = $this->getPermissions()->hasPermissions(
             ilAdvancedMDPermissionHelper::CONTEXT_MD,
-            $_REQUEST["ref_id"],
+            $this->ref_id,
             array(
                 ilAdvancedMDPermissionHelper::ACTION_MD_CREATE_RECORD,
                 ilAdvancedMDPermissionHelper::ACTION_MD_IMPORT_RECORDS
@@ -193,7 +258,12 @@ class ilAdvancedMDSettingsGUI
             $ilToolbar->addButtonInstance($button);
         }
         
-        $table_gui = new ilAdvancedMDRecordTableGUI($this, "showRecords", $this->getPermissions(), (bool) $this->obj_id);
+        $table_gui = new ilAdvancedMDRecordTableGUI(
+            $this,
+            "showRecords",
+            $this->getPermissions(),
+            $this->context === self::CONTEXT_OBJECT
+        );
         $table_gui->setTitle($this->lng->txt("md_record_list_table"));
         $table_gui->setData($this->getParsedRecordObjects());
         
@@ -202,7 +272,7 @@ class ilAdvancedMDSettingsGUI
         $table_gui->addMultiCommand("exportRecords", $this->lng->txt('export'));
         $table_gui->setSelectAllCheckbox("record_id");
         
-        if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
+        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             $table_gui->addMultiCommand("confirmDeleteRecords", $this->lng->txt("delete"));
             $table_gui->addCommandButton("updateRecords", $this->lng->txt("save"));
         }
@@ -235,7 +305,7 @@ class ilAdvancedMDSettingsGUI
 
         $ilAccess = $DIC['ilAccess'];
         
-        if (!$ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
+        if (!$ilAccess->checkAccess('write', '', $this->ref_id)) {
             $this->ctrl->redirect($this, "showPresentation");
         }
         
@@ -331,7 +401,8 @@ class ilAdvancedMDSettingsGUI
      */
     public function exportRecords() : void
     {
-        if (!isset($_POST['record_id'])) {
+        $record_ids = $this->getRecordIdsFromPost();
+        if (!count($record_ids)) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->showRecords();
             return;
@@ -339,7 +410,7 @@ class ilAdvancedMDSettingsGUI
         
         // all records have to be exportable
         $fail = array();
-        foreach ($_POST['record_id'] as $record_id) {
+        foreach ($record_ids as $record_id) {
             if (!$this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
                 $record_id,
@@ -354,10 +425,12 @@ class ilAdvancedMDSettingsGUI
             $this->ctrl->redirect($this, "showRecords");
         }
         
-        $xml_writer = new ilAdvancedMDRecordXMLWriter($_POST['record_id']);
+        $xml_writer = new ilAdvancedMDRecordXMLWriter((array) $record_ids);
         $xml_writer->write();
-        
-        $export_files = new ilAdvancedMDRecordExportFiles($this->obj_id);
+
+        $export_files = new ilAdvancedMDRecordExportFiles(
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+        );
         $export_files->create($xml_writer->xmlDumpMem());
         
         ilUtil::sendSuccess($this->lng->txt('md_adv_records_exported'));
@@ -372,7 +445,9 @@ class ilAdvancedMDSettingsGUI
         $this->setSubTabs($this->context);
         $this->tabs_gui->setSubTabActive('md_adv_file_list');
         
-        $files = new ilAdvancedMDRecordExportFiles($this->obj_id);
+        $files = new ilAdvancedMDRecordExportFiles(
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+        );
         $file_data = $files->readFilesInfo();
 
         $table_gui = new ilAdvancedMDRecordExportFilesTableGUI($this, "showFiles");
@@ -402,8 +477,9 @@ class ilAdvancedMDSettingsGUI
             $this->showFiles();
             return;
         }
-        
-        $files = new ilAdvancedMDRecordExportFiles($this->obj_id);
+        $files = new ilAdvancedMDRecordExportFiles(
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+        );
         $abs_path = $files->getAbsolutePathByFileId((int) $_POST['file_id'][0]);
         
         ilUtil::deliverFile($abs_path, 'ilias_meta_data_record.xml', 'application/xml');
@@ -431,7 +507,9 @@ class ilAdvancedMDSettingsGUI
         $c_gui->setCancel($this->lng->txt("cancel"), "showFiles");
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteFiles");
 
-        $files = new ilAdvancedMDRecordExportFiles($this->obj_id);
+        $files = new ilAdvancedMDRecordExportFiles(
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+        );
         $file_data = $files->readFilesInfo();
 
 
@@ -463,8 +541,9 @@ class ilAdvancedMDSettingsGUI
             $GLOBALS['DIC']->ctrl()->redirect($this, 'showFiles');
         }
 
-        $files = new ilAdvancedMDRecordExportFiles($this->obj_id);
-        
+        $files = new ilAdvancedMDRecordExportFiles(
+            $this->context === self::CONTEXT_ADMINISTRATION ? null : $this->obj_id
+        );
         foreach ($_POST['file_id'] as $file_id) {
             $files->deleteByFileId((int) $file_id);
         }
@@ -483,7 +562,8 @@ class ilAdvancedMDSettingsGUI
         $this->initRecordObject();
         $this->setRecordSubTabs();
 
-        if (!isset($_POST['record_id'])) {
+        $record_ids = $this->getRecordIdsFromPost();
+        if (!count($record_ids)) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->showRecords();
             return;
@@ -498,7 +578,7 @@ class ilAdvancedMDSettingsGUI
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteRecords");
 
         // add items to delete
-        foreach ($_POST["record_id"] as $record_id) {
+        foreach ($record_ids as $record_id) {
             $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
             $c_gui->addItem("record_id[]", $record_id, $record->getTitle() ? $record->getTitle() : 'No Title');
         }
@@ -513,7 +593,8 @@ class ilAdvancedMDSettingsGUI
      */
     public function deleteRecords() : void
     {
-        if (!isset($_POST['record_id'])) {
+        $record_ids = $this->getRecordIdsFromPost();
+        if (!count($record_ids)) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->showRecords();
             return;
@@ -521,7 +602,7 @@ class ilAdvancedMDSettingsGUI
         
         // all records have to be deletable
         $fail = array();
-        foreach ($_POST['record_id'] as $record_id) {
+        foreach ($record_ids as $record_id) {
             // must not delete global records in local context
             if ($this->context == self::CONTEXT_OBJECT) {
                 $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
@@ -544,7 +625,7 @@ class ilAdvancedMDSettingsGUI
             $this->ctrl->redirect($this, "showRecords");
         }
         
-        foreach ($_POST['record_id'] as $record_id) {
+        foreach ($record_ids as $record_id) {
             $record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
             $record->delete();
         }
@@ -630,7 +711,7 @@ class ilAdvancedMDSettingsGUI
                 $local_position->save();
             }
         }
-
+        // only local?
         if ($this->obj_type) {
             ilAdvancedMDRecord::saveObjRecSelection($this->obj_id, $this->sub_type, $selected_global);
         }
@@ -641,7 +722,8 @@ class ilAdvancedMDSettingsGUI
     
     public function confirmDeleteFields() : void
     {
-        if (!isset($_POST['field_id'])) {
+        $field_ids = $this->getFieldIdsFromPost();
+        if (!count($field_ids)) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->editFields();
             return;
@@ -659,7 +741,7 @@ class ilAdvancedMDSettingsGUI
         $c_gui->setConfirm($this->lng->txt("confirm"), "deleteFields");
 
         // add items to delete
-        foreach ($_POST["field_id"] as $field_id) {
+        foreach ($field_ids as $field_id) {
             $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
             $c_gui->addItem("field_id[]", $field_id, $field->getTitle() ? $field->getTitle() : 'No Title');
         }
@@ -669,8 +751,9 @@ class ilAdvancedMDSettingsGUI
     public function deleteFields() : void
     {
         $this->ctrl->saveParameter($this, 'record_id');
-        
-        if (!isset($_POST['field_id'])) {
+
+        $field_ids = $this->getFieldIdsFromPost();
+        if (!count($field_ids)) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->editFields();
             return;
@@ -678,7 +761,7 @@ class ilAdvancedMDSettingsGUI
         
         // all fields have to be deletable
         $fail = array();
-        foreach ($_POST['field_id'] as $field_id) {
+        foreach ($field_ids as $field_id) {
             if (!$this->getPermissions()->hasPermission(
                 ilAdvancedMDPermissionHelper::CONTEXT_FIELD,
                 $field_id,
@@ -693,7 +776,7 @@ class ilAdvancedMDSettingsGUI
             $this->ctrl->redirect($this, "editFields");
         }
                 
-        foreach ($_POST["field_id"] as $field_id) {
+        foreach ($field_ids as $field_id) {
             $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
             $field->delete();
         }
@@ -703,7 +786,7 @@ class ilAdvancedMDSettingsGUI
 
     public function editRecord(ilPropertyFormGUI $form = null) : void
     {
-        $record_id = $this->request->getQueryParams()['record_id'] ?? 0;
+        $record_id = $this->getRecordIdFromQuery();
         if (!$record_id) {
             $this->ctrl->redirect($this, 'showRecords');
         }
@@ -723,8 +806,10 @@ class ilAdvancedMDSettingsGUI
     {
         global $DIC;
 
-        $record_id = $this->request->getQueryParams()['record_id'] ?? 0;
-
+        $record_id = $this->getRecordIdFromQuery();
+        if (!$record_id) {
+            $this->ctrl->redirect($this, 'showRecords');
+        }
         $this->ctrl->saveParameter($this, 'record_id');
         $this->initRecordObject();
         $this->setRecordSubTabs();
@@ -805,18 +890,19 @@ class ilAdvancedMDSettingsGUI
     public function updateFields() : void
     {
         $this->ctrl->saveParameter($this, 'record_id');
-        
-        if (!isset($_GET['record_id']) or !$_GET['record_id']) {
+
+        $record_id = $this->getRecordIdFromQuery();
+        if (!$record_id) {
             ilUtil::sendFailure($this->lng->txt('select_one'));
             $this->editFields();
             return;
         }
         
-        $fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId($_GET['record_id']);
+        $fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId($record_id);
         
         if ($this->getPermissions()->hasPermission(
             ilAdvancedMDPermissionHelper::CONTEXT_RECORD,
-            $_GET['record_id'],
+            $record_id,
             ilAdvancedMDPermissionHelper::ACTION_RECORD_FIELD_POSITIONS
         )) {
             if (!isset($_POST['position']) or !is_array($_POST['position'])) {
@@ -860,7 +946,7 @@ class ilAdvancedMDSettingsGUI
      */
     public function updateRecord() : void
     {
-        $record_id = $this->request->getQueryParams()['record_id'] ?? 0;
+        $record_id = $this->getRecordIdFromQuery();
         if (!$record_id) {
             $this->ctrl->redirect($this, 'showRecords');
         }
@@ -1078,8 +1164,8 @@ class ilAdvancedMDSettingsGUI
      */
     public function editField(ilPropertyFormGUI $a_form = null) : void
     {
-        $record_id = (int) ($this->request->getQueryParams()['record_id'] ?? 0);
-        $field_id = (int) ($this->request->getQueryParams()['field_id'] ?? 0);
+        $record_id = $this->getRecordIdFromQuery();
+        $field_id = $this->getFieldIdFromQuery();
         if (!$record_id || !$field_id) {
             $this->editFields();
             return;
@@ -1111,8 +1197,8 @@ class ilAdvancedMDSettingsGUI
      */
     public function updateField() : void
     {
-        $record_id = $this->request->getQueryParams()['record_id'] ?? 0;
-        $field_id = $this->request->getQueryParams()['field_id'] ?? 0;
+        $record_id = $this->getRecordIdFromQuery();
+        $field_id = $this->getFieldIdFromQuery();
         $this->ctrl->saveParameter($this, 'record_id');
         $this->ctrl->saveParameter($this, 'field_id');
 
@@ -1165,15 +1251,17 @@ class ilAdvancedMDSettingsGUI
         $this->ctrl->saveParameter($this, 'ftype');
         $this->setRecordSubTabs(2);
 
-        if (!$_REQUEST["record_id"] || !$_REQUEST["ftype"]) {
+        $record_id = $this->getRecordIdFromQuery();
+        $field_type = $this->getFieldTypeFromQuery();
+        if (!$record_id || !$field_type) {
             $this->editFields();
             return;
         }
         
 
         if (!$a_form) {
-            $field_definition = ilAdvancedMDFieldDefinition::getInstance(null, $_REQUEST["ftype"]);
-            $field_definition->setRecordId($_REQUEST["record_id"]);
+            $field_definition = ilAdvancedMDFieldDefinition::getInstance(null, $field_type);
+            $field_definition->setRecordId($record_id);
             $a_form = $this->initFieldForm($field_definition);
         }
         $this->tpl->setContent($a_form->getHTML());
@@ -1181,8 +1269,8 @@ class ilAdvancedMDSettingsGUI
     
     public function saveField() : void
     {
-        $record_id = $this->request->getQueryParams()['record_id'];
-        $ftype = $this->request->getQueryParams()['ftype'];
+        $record_id = $this->getRecordIdFromQuery();
+        $ftype = $this->getFieldTypeFromQuery();
 
         if (!$record_id || !$ftype) {
             $this->editFields();
@@ -1645,7 +1733,7 @@ class ilAdvancedMDSettingsGUI
         }
         $this->form->setTitle($this->lng->txt('md_adv_substitution_table'));
         
-        if ($ilAccess->checkAccess('write', '', $_REQUEST["ref_id"])) {
+        if ($ilAccess->checkAccess('write', '', $this->ref_id)) {
             $this->form->addCommandButton('updateSubstitutions', $this->lng->txt('save'));
         }
         return true;
@@ -1720,17 +1808,19 @@ class ilAdvancedMDSettingsGUI
         $this->record->enableScope($_POST['scope'] ? true : false);
         return $this->record;
     }
-    
+
+    /**
+     * @todo get rid of $this->obj_id switch
+     */
     protected function initRecordObject() : ilAdvancedMDRecord
     {
         if (!$this->record instanceof ilAdvancedMDRecord) {
-            $record_id = $this->request->getQueryParams()['record_id'] ?? 0;
+            $record_id = $this->getRecordIdFromQuery();
             $this->record = ilAdvancedMDRecord::_getInstanceByRecordId($record_id);
             $this->ctrl->saveParameter($this, 'record_id');
 
             // bind to parent object (aka local adv md)
-            if (!$record_id &&
-                $this->obj_id) {
+            if (!$record_id && $this->obj_id) {
                 $this->record->setParentObject($this->obj_id);
             }
         }
@@ -1865,7 +1955,6 @@ class ilAdvancedMDSettingsGUI
 
             $res[] = $tmp_arr;
         }
-        
         return $res;
     }
     
@@ -1876,7 +1965,13 @@ class ilAdvancedMDSettingsGUI
     
     public function editComplexOption(ilPropertyFormGUI $a_form = null) : void
     {
-        $field_definition = ilAdvancedMDFieldDefinition::getInstance((int) $_REQUEST['field_id']);
+        $field_id = $this->getFieldIdFromQuery();
+        if (!$field_id) {
+            ilUtil::sendFailure($this->lng->txt('err_select_one'));
+            $this->ctrl->redirect($this, 'showRecords');
+        }
+
+        $field_definition = ilAdvancedMDFieldDefinition::getInstance($field_id);
         if (!$field_definition->hasComplexOptions()) {
             $this->ctrl->redirect($this, "editField");
         }
@@ -1897,8 +1992,9 @@ class ilAdvancedMDSettingsGUI
         $form = new ilPropertyFormGUI();
         $form->setTitle($this->lng->txt("md_adv_edit_complex_option"));
         $form->setFormAction($this->ctrl->getFormAction($this, "updateComplexOption"));
-        
-        $a_def->initOptionForm($form, $_REQUEST["oid"]);
+
+        $oid = $this->getOidFromQuery();
+        $a_def->initOptionForm($form, $oid);
         
         $form->addCommandButton("updateComplexOption", $this->lng->txt("save"));
         $form->addCommandButton("editField", $this->lng->txt("cancel"));
@@ -1908,11 +2004,14 @@ class ilAdvancedMDSettingsGUI
     
     public function updateComplexOption() : void
     {
-        $field_definition = ilAdvancedMDFieldDefinition::getInstance((int) $_REQUEST['field_id']);
+        $field_id = $this->getFieldIdFromQuery();
+        $field_definition = ilAdvancedMDFieldDefinition::getInstance($field_id);
+        $oid = $this->getOidFromQuery();
+
         if ($field_definition->hasComplexOptions()) {
             $form = $this->initComplexOptionForm($field_definition);
             if ($form->checkInput() &&
-                $field_definition->updateComplexOption($form, $_REQUEST["oid"])) {
+                $field_definition->updateComplexOption($form, $oid)) {
                 $field_definition->update();
                 ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
             }
