@@ -144,6 +144,12 @@ substantially in the general condition of the component and the proposed maintai
 	* Testcases: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 	* Tester: [ioanna.mitroulaki](https://docu.ilias.de/goto_docu_usr_72564.html)
 
+* **Component**
+	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
+	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
+	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
+
 * **Contacts**
 	* 1st Maintainer: [mjansen](https://docu.ilias.de/goto_docu_usr_8784.html)
 	* 2nd Maintainer: N.A.
@@ -439,8 +445,8 @@ substantially in the general condition of the component and the proposed maintai
 	* Tester: [atoedt](https://docu.ilias.de/goto_docu_usr_3139.html)
 
 * **Organisational Units**
-	* 1st Maintainer: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
-	* 2nd Maintainer: N.A.
+	* 1st Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
+	* 2nd Maintainer: [fschmid](https://docu.ilias.de/goto_docu_usr_21087.html)
 	* Testcases: [wischniak](https://docu.ilias.de/goto_docu_usr_21896.html)
 	* Tester: [qualitus.morgunova](https://docu.ilias.de/goto_docu_usr_69410.html)
 
@@ -461,12 +467,6 @@ substantially in the general condition of the component and the proposed maintai
 	* 2nd Maintainer: N.A.
 	* Testcases: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
 	* Tester: [Fabian](https://docu.ilias.de/goto_docu_usr_27631.html)
-
-* **Plugin Slots**
-	* 1st Maintainer: [mstuder](https://docu.ilias.de/goto_docu_usr_8473.html)
-	* 2nd Maintainer: [rklees](https://docu.ilias.de/goto_docu_usr_34047.html)
-	* Testcases: [AUTHOR MISSING](https://docu.ilias.de/goto_docu_pg_64423_4793.html)
-	* Tester: [kunkel](https://docu.ilias.de/goto_docu_usr_115.html)
 
 * **Poll**
 	* 1st Maintainer: [smeyer](https://docu.ilias.de/goto_docu_usr_191.html)
