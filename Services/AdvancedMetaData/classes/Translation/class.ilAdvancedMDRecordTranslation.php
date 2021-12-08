@@ -5,7 +5,7 @@
 /**
  * Class ilAdvancedMDRecordTranslation
  * @ingroup ServicesAdvancedMetaData
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilAdvancedMDRecordTranslation
 {
@@ -24,8 +24,8 @@ class ilAdvancedMDRecordTranslation
         string $title,
         string $description,
         string $lang_key,
-        bool $lang_default = false)
-    {
+        bool $lang_default = false
+    ) {
         global $DIC;
 
         $this->db = $DIC->database();
@@ -90,7 +90,6 @@ class ilAdvancedMDRecordTranslation
     {
         return $this->lang_key;
     }
-
 
     public function update() : void
     {

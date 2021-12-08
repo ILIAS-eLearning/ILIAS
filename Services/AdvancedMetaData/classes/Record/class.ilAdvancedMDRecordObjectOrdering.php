@@ -2,9 +2,7 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
- *
- * @author Stefan Meyer <meyer@leifos.com>
- *
+ * @author  Stefan Meyer <meyer@leifos.com>
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDRecordObjectOrdering
@@ -14,7 +12,6 @@ class ilAdvancedMDRecordObjectOrdering
     private int $position = 0;
 
     protected ilDBInterface $db;
-
 
     public function __construct(int $record_id, int $obj_id, ilDBInterface $db)
     {
@@ -42,11 +39,11 @@ class ilAdvancedMDRecordObjectOrdering
         $this->delete();
 
         $query = 'INSERT INTO adv_md_record_obj_ord (record_id, obj_id, position ) ' .
-        'VALUES ( ' .
-        $this->db->quote($this->record_id, 'integer') . ', ' .
-        $this->db->quote($this->obj_id, 'integer') . ', ' .
-        $this->db->quote($this->position, 'integer') . ' ' .
-        ')';
+            'VALUES ( ' .
+            $this->db->quote($this->record_id, 'integer') . ', ' .
+            $this->db->quote($this->obj_id, 'integer') . ', ' .
+            $this->db->quote($this->position, 'integer') . ' ' .
+            ')';
 
         $this->db->manipulate($query);
     }

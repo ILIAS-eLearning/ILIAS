@@ -5,7 +5,7 @@ use ILIAS\UI\Renderer;
 
 /**
  * @ingroup ServicesAdvancedMetaData
- * @author Stefan Meyer <smeyer.ilias@gmx.de>
+ * @author  Stefan Meyer <smeyer.ilias@gmx.de>
  */
 class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
 {
@@ -90,8 +90,7 @@ class ilAdvancedMDRecordLanguageTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-
-    function fillRow($row)
+    public function fillRow($row)
     {
         $this->tpl->setVariable('VAL_ID', $row[self::COL_LANGUAGE_CODE]);
 
