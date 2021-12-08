@@ -100,8 +100,6 @@ class ilObjectMetaDataGUI
         $this->sub_id = $a_sub_id;
         $this->in_repository = $in_repository;
 
-
-
         if (!$this->sub_type) {
             $this->sub_type = "-";
         }
@@ -112,7 +110,6 @@ class ilObjectMetaDataGUI
             $this->obj_type = $a_object->getType();
             if ($in_repository) {
                 $this->ref_id = $a_object->getRefId();
-
                 if (!$a_object->withReferences()) {
                     $this->logger->logStack(ilLogLevel::WARNING);
                     $this->logger->warning('ObjectMetaDataGUI called without valid reference id.');
@@ -284,6 +281,7 @@ class ilObjectMetaDataGUI
      */
     public function setAdvMdRecordObject($a_adv_id, $a_adv_type, $a_adv_subtype = "-")
     {
+        echo "AAA";
         $this->adv_id = $a_adv_id;
         $this->adv_type = $a_adv_type;
         $this->adv_subtype = $a_adv_subtype;

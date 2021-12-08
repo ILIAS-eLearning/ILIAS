@@ -29,6 +29,10 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+exc#:#exc_print_pdf#:#Drucken/PDF
+exp#:#exp_print_pdf_info#:#Um ein PDF zu erstellen, wählen Sie bitte anschließend in der Druckansicht "Als PDF speichern" als Ziel.
+exp#:#exp_show_print_view#:#Druckansicht anzeigen
+exp#:#exp_print_pdf#:#Drucken/PDF
 prtf#:#prtf_edit_data#:#Daten editieren
 content#:#cont_ed_insert_amdfrm#:#Erweiterte Metadaten einfügen
 prtt#:#prtt_select_datasets#:#Datensätze auswählen

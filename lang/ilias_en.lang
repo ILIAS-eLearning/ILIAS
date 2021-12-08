@@ -30,6 +30,10 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
+exc#:#exc_print_pdf#:#Print/PDF
+exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
+exp#:#exp_show_print_view#:#Show Print View
+exp#:#exp_print_pdf#:#Print/PDF
 prtf#:#prtf_edit_data#:#Edit Data
 content#:#cont_ed_insert_amdfrm#:#Insert Advanced Metadata
 prtt#:#prtt_select_datasets#:#Select Datasets
