@@ -1425,7 +1425,6 @@ cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
 cntr#:#container_import_zip_file_invalid#:#The uploaded file is not a valid ILIAS export file. To upload a directory structure please use a file object.
 cntr#:#edit_questions#:#Edit Questions
-common#:#3rd_party_software#:#برمجيات الطرف الثالث
 common#:#absolute_path#:#مسار النظام
 common#:#accept_usr_agreement#:#قبول اتفاقية المستخدم؟
 common#:#access#:#وصول
@@ -15660,26 +15659,6 @@ lti#:#lti_con_prov_keywords#:#Keywords###18 05 2020 new variable
 lti#:#lti_con_prov_keywords_info#:#The keywords must be separated by a Semicolon (;). The Keywords are automatically taken to the Metadata as Keywords.###18 05 2020 new variable
 lti#:#lti_con_prov_category#:#Category###18 05 2020 new variable
 lti#:#lti_con_prov_category_info#:#Category to filter entries when LTI Consumer Object is created.###18 05 2020 new variable
-lti#:#conf_user_ident#:#User identification###18 05 2020 new variable
-lti#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-lti#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###18 05 2020 new variable
-lti#:#conf_user_ident_real_email#:#E-Mail Address###18 05 2020 new variable
-lti#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###18 05 2020 new variable
-lti#:#conf_user_name#:#User name###18 05 2020 new variable
-lti#:#conf_user_name_info#:#Sending an user name is usually not required.###18 05 2020 new variable
-lti#:#conf_user_name_none#:#No one###18 05 2020 new variable
-lti#:#conf_user_name_none_info#:#Sends '-' instead of a name###18 05 2020 new variable
-lti#:#conf_user_name_firstname#:#First name###18 05 2020 new variable
-lti#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###18 05 2020 new variable
-lti#:#conf_user_name_lastname#:#Title and last name###18 05 2020 new variable
-lti#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###18 05 2020 new variable
-lti#:#conf_user_name_fullname#:#Entire name###18 05 2020 new variable
-lti#:#conf_user_name_fullname_info#:#Sends title, first name and last name###18 05 2020 new variable
 lti#:#lti_con_prov_privacy_setting_conf#:#Configuration Options###18 05 2020 new variable
 lti#:#lti_con_prov_privacy_setting_info#:#Configuration Options for Privacy Settings###18 05 2020 new variable
 lti#:#lti_con_prov_privacy_setting_default#:#Default Settings, changeable for Objects###18 05 2020 new variable
@@ -15840,26 +15819,6 @@ cmix#:#conf_keep_lp#:#Keep Learning Progress###18 05 2020 new variable
 cmix#:#conf_keep_lp_info#:#The ILIAS learning progress status completed would be freezed.###18 05 2020 new variable
 cmix#:#conf_external_lrs#:#External LRS###18 05 2020 new variable
 cmix#:#info_external_lrs#:#A hint will be shown to users when dealing with an external LRS. An external LRS is characterized by insufficient influence on the LRS the by the operator of the ILIAS-installation. This is the case when there are no rights to delete.###18 05 2020 new variable
-cmix#:#conf_user_ident#:#User identification###18 05 2020 new variable
-cmix#:#conf_user_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###18 05 2020 new variable
-cmix#:#conf_user_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###18 05 2020 new variable
-cmix#:#conf_user_ident_real_email#:#E-Mail Address###18 05 2020 new variable
-cmix#:#conf_user_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###18 05 2020 new variable
-cmix#:#conf_user_name#:#User name###18 05 2020 new variable
-cmix#:#conf_user_name_info#:#Sending an user name is usually not required.###18 05 2020 new variable
-cmix#:#conf_user_name_none#:#No one###18 05 2020 new variable
-cmix#:#conf_user_name_none_info#:#Sends '-' instead of a name###18 05 2020 new variable
-cmix#:#conf_user_name_firstname#:#First name###18 05 2020 new variable
-cmix#:#conf_user_name_firstname_info#:#Sends the first name of the user name from ILIAS###18 05 2020 new variable
-cmix#:#conf_user_name_lastname#:#Title and last name###18 05 2020 new variable
-cmix#:#conf_user_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###18 05 2020 new variable
-cmix#:#conf_user_name_fullname#:#Entire name###18 05 2020 new variable
-cmix#:#conf_user_name_fullname_info#:#Sends title, first name and last name###18 05 2020 new variable
 cmix#:#conf_privacy_setting_conf#:#Configuration Options###18 05 2020 new variable
 cmix#:#conf_privacy_setting_info#:#Configuration Options for Privacy Settings###18 05 2020 new variable
 cmix#:#conf_privacy_setting_default#:#Default Settings, changeable for Objects###18 05 2020 new variable
@@ -16189,8 +16148,6 @@ common#:#lso_admin_interval_byline#:#Poll Learning Progress every x seconds. Be 
 book#:#reservation_deleted#:#Reservation deleted###27 11 2020 new variable
 book#:#X_reservations_of#:#%s reservations of###27 11 2020 new variable
 book#:#book_set_delete#:#Delete###27 11 2020 new variable
-cmix#:#conf_user_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###27 11 2020 new variable
-cmix#:#conf_user_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###27 11 2020 new variable
 common#:#err_valid_login_account_creation_disabled#:#Authentication succeeded, but the creation of new user accounts is currently disabled. Please contact your system administrator.###29 01 2021 new variable
 search#:#search_field#:#Search Input Field###29 01 2021 new variable
 search#:#search_on#:#On###29 01 2021 new variable
@@ -16254,3 +16211,55 @@ rbac#:#il_lti_global_role#:#LTI User###10 09 2021 new variable
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###20 10 2021 new variable
 common#:#msg_no_files_selected#:#No files selected###20 10 2021 new variable
 common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###20 10 2021 new variable
+common#:#hist_lm_pg_update#:#Page changed.###08 12 2021 new variable
+lti#:#conf_privacy_ident#:#User identification###08 12 2021 new variable
+lti#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formated as an email adress.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formated as an email adress.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formated as an email adress.###08 12 2021 new variable
+lti#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###08 12 2021 new variable
+lti#:#conf_privacy_ident_real_email#:#E-Mail Address###08 12 2021 new variable
+lti#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###08 12 2021 new variable
+lti#:#conf_privacy_name#:#User name###08 12 2021 new variable
+lti#:#conf_privacy_name_info#:#Sending an user name is usually not required.###08 12 2021 new variable
+lti#:#conf_privacy_name_none#:#No one###08 12 2021 new variable
+lti#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###08 12 2021 new variable
+lti#:#conf_privacy_name_firstname#:#First name###08 12 2021 new variable
+lti#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###08 12 2021 new variable
+lti#:#conf_privacy_name_lastname#:#Title and last name###08 12 2021 new variable
+lti#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###08 12 2021 new variable
+lti#:#conf_privacy_name_fullname#:#Entire name###08 12 2021 new variable
+lti#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###08 12 2021 new variable
+cmix#:#conf_switch_to_review#:#Switch to Review Mode###08 12 2021 new variable
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###08 12 2021 new variable
+cmix#:#conf_mastery_score#:#Mastery Score###08 12 2021 new variable
+cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.###08 12 2021 new variable
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###08 12 2021 new variable
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###08 12 2021 new variable
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###08 12 2021 new variable
+cmix#:#conf_privacy_ident#:#User identification###08 12 2021 new variable
+cmix#:#conf_privacy_ident_info#:#Standard is frequently the email address. The unique ILIAS platform id is:###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_user_id#:#ILIAS user id combined with a unique ILIAS platform id formatted as an E-Mail adress###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_user_id_info#:#This is identical to each call, but doesn't allow a direct conclusion about the ILIAS user.###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_login#:#ILIAS Login combined with a unique ILIAS platform id formatted as an E-Mail adress###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_login_info#:#This is identical to each call, but may allow a direct conclusion about the ILIAS user.###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_ext_account#:#External User Id combined with a unique ILIAS platform id formatted as an E-Mail adress###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_ext_account_info#:#This is identical to each call, but may allow a direct conclusion about the user.###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_random#:#Random ID combined with a unique ILIAS platform ID formatted as an E-Mail address###08 12 2021 new variable
+cmix#:#conf_privacy_ident_il_uuid_random_info#:#For each ILIAS object and ILIAS user a random ID is generated which remains identical for each call. Conclusions about a user are very limited because it is practically impossible to create user profiles across objects.###08 12 2021 new variable
+cmix#:#conf_privacy_ident_real_email#:#E-Mail Address###08 12 2021 new variable
+cmix#:#conf_privacy_ident_real_email_info#:#Sends E-Mail Address of user as identification (Warning: an E-Mail Address might be used by multiple users!)###08 12 2021 new variable
+cmix#:#conf_privacy_name#:#User name###08 12 2021 new variable
+cmix#:#conf_privacy_name_info#:#Sending an user name is usually not required.###08 12 2021 new variable
+cmix#:#conf_privacy_name_none#:#No one###08 12 2021 new variable
+cmix#:#conf_privacy_name_none_info#:#Sends '-' instead of a name###08 12 2021 new variable
+cmix#:#conf_privacy_name_firstname#:#First name###08 12 2021 new variable
+cmix#:#conf_privacy_name_firstname_info#:#Sends the first name of the user name from ILIAS###08 12 2021 new variable
+cmix#:#conf_privacy_name_lastname#:#Title and last name###08 12 2021 new variable
+cmix#:#conf_privacy_name_lastname_info#:#Sends Mister or Ms/Mrs. (unless otherwise specified) and the last name###08 12 2021 new variable
+cmix#:#conf_privacy_name_fullname#:#Entire name###08 12 2021 new variable
+cmix#:#conf_privacy_name_fullname_info#:#Sends title, first name and last name###08 12 2021 new variable
+common#:#actions_for#:#Actions for %s###08 12 2021 new variable
+news#:#news_date#:#Date###08 12 2021 new variable
