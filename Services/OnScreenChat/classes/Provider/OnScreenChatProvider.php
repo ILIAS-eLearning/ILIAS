@@ -106,7 +106,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                 $usernames[] = ilUserUtil::getNamePresentation($id);
             }
 
-            $items[] = $this->dic->ui()->factory()->item()->shy(implode(', ', $usernames))
+            $items[] = $this->dic->ui()->factory()->item()->shy(implode('| ', $usernames))
                   ->withDescription($conversation->getLastMessage()->getMessage())
                   ->withProperties(
                       [$this->dic->language()->txt('time') . ':' =>

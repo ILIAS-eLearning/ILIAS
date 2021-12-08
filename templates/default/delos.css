@@ -7778,7 +7778,7 @@ ul.dropdown-menu > li > .btn:focus {
 .il-shy-item .content {
   width: 100%;
   display: grid;
-  grid-template-areas: "title close" "description description" "properties properties";
+  grid-template-areas: "title close" "description description" "divider divider" "properties properties";
   grid-auto-columns: auto 12px;
   gap: 10px;
 }
@@ -7790,6 +7790,9 @@ ul.dropdown-menu > li > .btn:focus {
 }
 .il-shy-item .content .il-item-description {
   grid-area: description;
+}
+.il-shy-item .content .il-item-divider {
+  grid-area: divider;
 }
 .il-shy-item .content .il-item-properties {
   grid-area: properties;
