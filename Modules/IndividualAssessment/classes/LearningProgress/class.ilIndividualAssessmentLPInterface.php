@@ -8,12 +8,14 @@ class ilIndividualAssessmentLPInterface
 
     public static function updateLPStatusOfMember(ilIndividualAssessmentMember $member) : void
     {
-        ilLPStatusWrapper::_refreshStatus($member->assessmentId(), array($member->id()));
+        ilLPStatusWrapper::_updateStatus($member->assessmentId(), $member->id());
     }
 
     public static function updateLPStatusByIds(int $iass_id, array $usr_ids) : void
     {
-        ilLPStatusWrapper::_refreshStatus($iass_id, $usr_ids);
+        foreach ($usr_ids as $usr_id) {
+            ilLPStatusWrapper::_updateStatus($iass_id, $usr_id);
+        }
     }
 
     public static function determineStatusOfMember(int $iass_id, int $usr_id) : int
