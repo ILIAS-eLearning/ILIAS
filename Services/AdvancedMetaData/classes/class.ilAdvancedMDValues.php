@@ -266,6 +266,7 @@ class ilAdvancedMDValues
      * Clone Advanced Meta Data
      */
     public static function _cloneValues(
+        int $copy_id,
         int $a_source_id,
         int $a_target_id,
         ?string $a_sub_type = null,
@@ -281,18 +282,25 @@ class ilAdvancedMDValues
         // new records are created automatically, only if source and target id differs.
         $new_records = $fields_map = array();
 
+        $record_mapping = [];
         foreach (ilAdvancedMDRecord::_getRecords() as $record) {
             if ($record->getParentObject() == $a_source_id) {
                 $tmp = array();
                 if ($a_source_id != $a_target_id) {
                     $new_records[$record->getRecordId()] = $record->_clone($tmp, $a_target_id);
+                    $record_mapping[$record->getRecordId()] = $new_records[$record->getRecordId()]->getRecordId();
                 } else {
                     $new_records[$record->getRecordId()] = $record->getRecordId();
                 }
                 $fields_map[$record->getRecordId()] = $tmp;
             }
         }
-
+        if ($copy_id > 0) {
+            $cp_options = ilCopyWizardOptions::_getInstance($copy_id);
+            $cp_options->appendMapping($a_target_id . '_adv_rec', (array) $record_mapping);
+            $cp_options->read();        // otherwise mapping will not be available for getMappings
+        }
+        
         // object record selection
 
         $source_sel = ilAdvancedMDRecord::getObjRecSelection($a_source_id, $a_sub_type);
@@ -447,8 +455,11 @@ class ilAdvancedMDValues
             $sub_id = $rec[$a_obj_subid_key];
 
             // get adv records
-            foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_rec_obj_type, $adv_rec_obj_ref_id,
-                $adv_rec_obj_subtype) as $adv_record) {
+            foreach (ilAdvancedMDRecord::_getSelectedRecordsByObject(
+                $adv_rec_obj_type,
+                $adv_rec_obj_ref_id,
+                $adv_rec_obj_subtype
+            ) as $adv_record) {
                 $record_id = $adv_record->getRecordId();
 
                 if (!isset($record_groups[$record_id])) {

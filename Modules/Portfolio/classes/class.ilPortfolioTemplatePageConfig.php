@@ -22,6 +22,7 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 
         $this->setEnablePCType("Verification", false);
         $this->setEnablePCType("PlaceHolder", true);
+        $this->setEnablePCType("AMDForm", true);
     }
     
     public function getAvailablePlaceholderTypes()

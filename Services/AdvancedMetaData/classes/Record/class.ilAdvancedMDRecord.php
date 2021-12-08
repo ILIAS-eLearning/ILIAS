@@ -269,26 +269,23 @@ class ilAdvancedMDRecord
         return $records;
     }
 
-    /**
-     * @param string $a_obj_type
-     * @param int    $a_ref_id
-     * @param string $a_sub_type
-     * @return array<int, ilAdvancedMDRecord>
-     */
     public static function _getSelectedRecordsByObject(
         string $a_obj_type,
-        int $a_ref_id,
-        string $a_sub_type = ""
+        int $a_id,
+        string $a_sub_type = "",
+        bool $is_ref_id = true
     ) : array {
         $records = array();
         //		ilUtil::printBacktrace(10);
-        //		var_dump($a_obj_type."-".$a_ref_id."-".$a_sub_type); exit;
+        //		var_dump($a_obj_type."-".$a_id."-".$a_sub_type); exit;
         if ($a_sub_type == "") {
             $a_sub_type = "-";
         }
 
-        $a_obj_id = ilObject::_lookupObjId($a_ref_id);
-
+        $a_obj_id = $is_ref_id
+            ? ilObject::_lookupObjId($a_id)
+            : $a_id;
+        
         // object-wide metadata configuration setting
         $config_setting = ilContainer::_lookupContainerSetting(
             $a_obj_id,
@@ -299,10 +296,9 @@ class ilAdvancedMDRecord
         $optional = array();
         foreach (self::_getActivatedRecordsByObjectType($a_obj_type, $a_sub_type) as $record) {
             // check scope
-            if (self::isFilteredByScope($a_ref_id, $record->getScopes())) {
+            if ($is_ref_id && self::isFilteredByScope($a_id, $record->getScopes())) {
                 continue;
             }
-
             foreach ($record->getAssignedObjectTypes() as $item) {
                 if ($record->getParentObject()) {
                     // only matching local records
@@ -489,7 +485,6 @@ class ilAdvancedMDRecord
             global $DIC;
 
             $ilDB = $DIC['ilDB'];
-
             $query = "INSERT INTO adv_md_record_objs (record_id,obj_type,sub_type,optional) " .
                 "VALUES( " .
                 $this->db->quote($this->getRecordId(), 'integer') . ", " .

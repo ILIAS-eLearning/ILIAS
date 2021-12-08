@@ -29,6 +29,10 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+prtf#:#prtf_edit_data#:#Daten editieren
+content#:#cont_ed_insert_amdfrm#:#Erweiterte Metadaten einfügen
+prtt#:#prtt_select_datasets#:#Datensätze auswählen
+prtt#:#prtt_pfpg#:#Portfolio Page
 meta#:#md_adv_field_list#:#Datenfelder
 meta#:#md_adv_record_lng_table#:#Sprachenverwaltung
 meta#:#md_adv_record_lng_table_lng#:#Sprache

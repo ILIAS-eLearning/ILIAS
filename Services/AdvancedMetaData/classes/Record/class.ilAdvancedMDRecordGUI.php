@@ -41,37 +41,39 @@ class ilAdvancedMDRecordGUI
 
     protected ?ilInfoScreenGUI $info = null;
 
-    // $adv_ref_id - $adv_type - $adv_subtype:
+    // $adv_id - $adv_type - $adv_subtype:
     // Object, that defines the adv md records being used. Default is $this->object, but the
     // context may set another object (e.g. media pool for media objects)
-    /**
-     * @var int
-     */
-    protected ?int $adv_ref_id = null;
-    /**
-     * @var string
-     */
+
+    // $adv_id must be a ref id, if $in_repository is true,
+    // otherwise an object id
+    protected ?int $adv_id = null;
     protected ?string $adv_type = null;
-    /**
-     * @var string
-     */
     protected ?string $adv_subtype = null;
+
+    // This is false e.g. for portfolios
+    protected bool $in_repository = true;
 
     protected ilObjUser $user;
     protected ilLanguage $lng;
 
     /**
+     * @var ?int[] id filter for adv records
+     */
+    protected ?array $record_filter = null;
+
+
+    /**
      * Constructor
-     * @access public
-     * @param int mode either MODE_EDITOR or MODE_SEARCH
-     * @param int obj_type
+     * @param int $a_mode mode either MODE_EDITOR or MODE_SEARCH
      */
     public function __construct(
         int $a_mode,
         string $a_obj_type = '',
         int $a_obj_id = 0,
         string $a_sub_type = '',
-        int $a_sub_id = 0
+        int $a_sub_id = 0,
+        bool $in_repository = true
     ) {
         global $DIC;
 
@@ -82,19 +84,21 @@ class ilAdvancedMDRecordGUI
         $this->sub_type = $a_sub_type;
         $this->sub_id = $a_sub_id;
 
-        if ($a_obj_id) {
+        if ($a_obj_id && $this->in_repository) {
             $refs = ilObject::_getAllReferences($a_obj_id);
             $this->ref_id = end($refs);
         }
+        $this->in_repository = $in_repository;
     }
 
     /**
      * Set object, that defines the adv md records being used. Default is $this->object, but the
      * context may set another object (e.g. media pool for media objects)
+     * @param int $a_adv_id ref id, if $in_repository is true, otherwise object id
      */
-    public function setAdvMdRecordObject(int $a_adv_ref_id, string $a_adv_type, string $a_adv_subtype = "-") : void
+    public function setAdvMdRecordObject(int $a_adv_id, string $a_adv_type, string $a_adv_subtype = "-") : void
     {
-        $this->adv_ref_id = $a_adv_ref_id;
+        $this->adv_id = $a_adv_id;
         $this->adv_type = $a_adv_type;
         $this->adv_subtype = $a_adv_subtype;
     }
@@ -103,12 +107,16 @@ class ilAdvancedMDRecordGUI
      * Get adv md record parameters
      * @return array adv type
      */
-    protected function getAdvMdRecordObjectParams() : array
+    public function getAdvMdRecordObject() : array
     {
         if ($this->adv_type == null) {
-            return [$this->ref_id, $this->obj_type, $this->sub_type];
+            if ($this->in_repository) {
+                return [$this->ref_id, $this->obj_type, $this->sub_type];
+            } else {
+                return [$this->obj_id, $this->obj_type, $this->sub_type];
+            }
         }
-        return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
+        return [$this->adv_id, $this->adv_type, $this->adv_subtype];
     }
 
     /**
@@ -140,6 +148,23 @@ class ilAdvancedMDRecordGUI
     public function setInfoObject(ilInfoScreenGUI $info) : void
     {
         $this->info = $info;
+    }
+
+    /**
+     * Set advanced record filter
+     * @param ?int[] $filter
+     */
+    public function setRecordFilter(?array $filter = null) : void
+    {
+        $this->record_filter = $filter;
+    }
+
+    /**
+     * Check filter
+     */
+    protected function checkFilter($record_id) : bool
+    {
+        return !(is_array($this->record_filter) && !in_array($record_id, $this->record_filter));
     }
 
     /**
@@ -190,7 +215,6 @@ class ilAdvancedMDRecordGUI
     protected function parseEditor() : void
     {
         $this->editor_form = array();
-
         foreach ($this->getActiveRecords() as $record_obj) {
             $record_id = $record_obj->getRecordId();
 
@@ -200,6 +224,10 @@ class ilAdvancedMDRecordGUI
 
             // empty record?
             if (!sizeof($defs)) {
+                continue;
+            }
+
+            if (!$this->checkFilter($record_id)) {
                 continue;
             }
 
@@ -214,10 +242,14 @@ class ilAdvancedMDRecordGUI
 
             foreach ($defs as $def) {
                 $element = $adt_group_form->getElement((string) $def->getFieldId());
-                $element->setTitle($field_translations->getTitleForLanguage($def->getFieldId(),
-                    $this->user->getLanguage()));
-                $element->setInfo($field_translations->getDescriptionForLanguage($def->getFieldId(),
-                    $this->user->getLanguage()));
+                $element->setTitle($field_translations->getTitleForLanguage(
+                    $def->getFieldId(),
+                    $this->user->getLanguage()
+                ));
+                $element->setInfo($field_translations->getDescriptionForLanguage(
+                    $def->getFieldId(),
+                    $this->user->getLanguage()
+                ));
 
                 // definition may customize ADT form element
                 $def->prepareElementForEditor($element);
@@ -314,12 +346,17 @@ class ilAdvancedMDRecordGUI
             foreach ($fields as $field) {
                 $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record->getRecordId());
 
-                $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(),
-                    true, false);
+                $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
+                    $field->getADTDefinition(),
+                    true,
+                    false
+                );
                 $field_form->setForm($this->form);
                 $field_form->setElementId("advmd[" . $field->getFieldId() . "]");
-                $field_form->setTitle($field_translations->getTitleForLanguage($field->getFieldId(),
-                    $this->user->getLanguage()));
+                $field_form->setTitle($field_translations->getTitleForLanguage(
+                    $field->getFieldId(),
+                    $this->user->getLanguage()
+                ));
 
                 if (is_array($this->search_form_values) &&
                     isset($this->search_form_values[$field->getFieldId()])) {
@@ -374,9 +411,12 @@ class ilAdvancedMDRecordGUI
      */
     private function parseInfoPage() : void
     {
-
-        foreach (ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type,
-            $this->sub_id) as $record_id => $a_values) {
+        foreach (ilAdvancedMDValues::getInstancesForObjectId(
+            $this->obj_id,
+            $this->obj_type,
+            $this->sub_type,
+            $this->sub_id
+        ) as $record_id => $a_values) {
             // this correctly binds group and definitions
             $a_values->read();
 
@@ -414,8 +454,12 @@ class ilAdvancedMDRecordGUI
         }
 
         $array_elements = array();
-        foreach (ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type,
-            $this->sub_id) as $record_id => $a_values) {
+        foreach (ilAdvancedMDValues::getInstancesForObjectId(
+            $this->obj_id,
+            $this->obj_type,
+            $this->sub_type,
+            $this->sub_id
+        ) as $record_id => $a_values) {
             // this correctly binds group and definitions
             $a_values->read();
 
@@ -437,8 +481,10 @@ class ilAdvancedMDRecordGUI
                     }
                     $array_elements[$positions[$element_id]] =
                         [
-                            "title" => $field_translations->getTitleForLanguage($element_id,
-                                $this->user->getLanguage()),
+                            "title" => $field_translations->getTitleForLanguage(
+                                $element_id,
+                                $this->user->getLanguage()
+                            ),
                             "value" => $presentation_value
                         ];
                 }
@@ -469,8 +515,10 @@ class ilAdvancedMDRecordGUI
     public function parseRecordSelection(string $a_sec_head = "") : void
     {
         $first = true;
-        foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type,
-            $this->sub_type) as $record_obj) {
+        foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType(
+            $this->obj_type,
+            $this->sub_type
+        ) as $record_obj) {
             $selected = ilAdvancedMDRecord::getObjRecSelection($this->obj_id, $this->sub_type);
             if ($first) {
                 $first = false;
@@ -538,8 +586,8 @@ class ilAdvancedMDRecordGUI
      */
     protected function getActiveRecords() : array
     {
-        list($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObjectParams();
-        return ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_ref_id, $adv_subtype);
+        list($adv_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
+        return ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_id, $adv_subtype, $this->in_repository);
     }
 
     /**
@@ -561,8 +609,11 @@ class ilAdvancedMDRecordGUI
                     continue;
                 }
 
-                $this->adt_search[$def->getFieldId()] = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($def->getADTDefinition(),
-                    true, false);
+                $this->adt_search[$def->getFieldId()] = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
+                    $def->getADTDefinition(),
+                    true,
+                    false
+                );
                 $this->adt_search[$def->getFieldId()]->setTableGUI($this->table_gui);
                 $this->adt_search[$def->getFieldId()]->setTitle(
                     $field_translations->getTitleForLanguage($def->getFieldId(), $this->user->getLanguage())

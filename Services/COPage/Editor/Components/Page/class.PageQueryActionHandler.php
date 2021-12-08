@@ -143,7 +143,6 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             $commands["plug_" . $plugin->getPluginName()] =
                 $plugin->txt(\ilPageComponentPlugin::TXT_CMD_INSERT);
         }
-
         return $commands;
     }
 
