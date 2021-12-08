@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
 
@@ -6,6 +6,9 @@ use ILIAS\Setup;
 
 class ilDefaultLanguageSetObjective extends ilLanguageObjective
 {
+    /**
+     * @inheritDoc
+     */
     public function getHash() : string
     {
         return hash(
@@ -15,16 +18,25 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
         );
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getLabel() : string
     {
         return "Set default language to " . $this->config->getDefaultLanguage();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function isNotable() : bool
     {
         return true;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
@@ -33,6 +45,9 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
@@ -61,7 +76,6 @@ class ilDefaultLanguageSetObjective extends ilLanguageObjective
 
         return
             $settings->get("language") !== $this->config->getDefaultLanguage() ||
-            $client_ini->readVariable("language", "default") !== $this->config->getDefaultLanguage()
-        ;
+            $client_ini->readVariable("language", "default") !== $this->config->getDefaultLanguage();
     }
 }

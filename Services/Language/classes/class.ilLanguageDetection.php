@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2015 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-require_once 'Services/Language/classes/class.ilLanguage.php';
-require_once 'Services/Language/classes/class.ilLanguageDetectorFactory.php';
+require_once "Services/Language/classes/class.ilLanguage.php";
+require_once "Services/Language/classes/class.ilLanguageDetectorFactory.php";
 
 /**
  * Class ilLanguageDetection
@@ -11,23 +11,17 @@ require_once 'Services/Language/classes/class.ilLanguageDetectorFactory.php';
  */
 class ilLanguageDetection
 {
-    /**
-     * @var ilLanguageDetectorFactory
-     */
     protected $factory;
 
-    /**
-     *
-     */
     public function __construct()
     {
         $this->factory = new ilLanguageDetectorFactory();
     }
 
     /**
-     * @return string
+     * Return detected language
      */
-    public function detect()
+    public function detect() : string
     {
         global $DIC;
         $ilLog = $DIC->logger()->lang();
