@@ -88,7 +88,7 @@ class ImageMapGUIRequest
 
     public function getAreaTitle(int $nr) : string
     {
-        return $this->str("name_" . (string) $nr);
+        return $this->str("name_" . $nr);
     }
 
     public function getAreaName() : string
@@ -98,12 +98,12 @@ class ImageMapGUIRequest
 
     public function getAreaHighlightMode(int $nr) : string
     {
-        return $this->str("hl_mode_" . (string) $nr);
+        return $this->str("hl_mode_" . $nr);
     }
 
     public function getAreaHighlightClass(int $nr) : string
     {
-        return $this->str("hl_class_" . (string) $nr);
+        return $this->str("hl_class_" . $nr);
     }
 
     public function getHighlightMode() : string

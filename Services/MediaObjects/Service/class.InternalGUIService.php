@@ -53,4 +53,12 @@ class InternalGUIService
             $this
         );
     }
+
+    public function subTitles() : SubTitles\GUIService
+    {
+        return new SubTitles\GUIService(
+            $this->domain_service,
+            $this
+        );
+    }
 }

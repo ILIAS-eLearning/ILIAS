@@ -75,7 +75,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         $i = $this->getInput();
         $this->setWidth($i["width"]);
         $this->setHeight($i["height"]);
-        $this->setConstrainProportions($i["contr_prop"]);
+        $this->setConstrainProportions($i["constr_prop"]);
 
         return true;
     }
@@ -86,7 +86,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         return [
             "width" => (string) $val["width"],
             "height" => (string) $val["height"],
-            "contr_prop" => (bool) ($val["contr_prop"] ?? false)
+            "constr_prop" => (bool) ($val["constr_prop"] ?? false)
         ];
     }
 
@@ -115,7 +115,7 @@ class ilWidthHeightInputGUI extends ilFormPropertyGUI
         $a_tpl->parseCurrentBlock();
 
         $this->main_tpl
-            ->addJavascript("./Services/MediaObjects/js/ServiceMediaObjectPropWidthHeight.js");
+            ->addJavaScript("./Services/MediaObjects/js/ServiceMediaObjectPropWidthHeight.js");
     }
 
     public function setValueByArray(array $a_values) : void

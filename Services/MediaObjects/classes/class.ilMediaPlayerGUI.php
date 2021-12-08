@@ -187,7 +187,7 @@ class ilMediaPlayerGUI
 
         ilYuiUtil::initConnection();
 
-        $a_tpl->addJavascript("./Services/MediaObjects/js/MediaObjects.js");
+        $a_tpl->addJavaScript("./Services/MediaObjects/js/MediaObjects.js");
 
         ilPlayerUtil::initMediaElementJs($a_tpl);
     }
@@ -273,6 +273,7 @@ class ilMediaPlayerGUI
                                       "video/vimeo",
                                       "video/ogg"
         ))) {
+            $style = "";
             if ($mimeType == "video/quicktime") {
                 $mimeType = "video/mov";
             }

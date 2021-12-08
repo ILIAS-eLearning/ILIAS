@@ -23,6 +23,7 @@ use ILIAS\MediaObjects\ImageMap\ImageMapGUIRequest;
  */
 class ilImageMapEditorGUI
 {
+    protected ilObjMediaObject $media_object;
     protected ImageMapGUIRequest $request;
     protected ImageMapManager $map;
     protected ilTemplate $tpl;
@@ -291,9 +292,9 @@ class ilImageMapEditorGUI
 
                     return $this->editMapArea(false, true, true);
                 }
-                break;
 
             // Polygon
+            // no break
             case "Poly":
                 if ($cnt_coords < 1) {
                     return $this->editMapArea(true, false, false);
@@ -302,12 +303,11 @@ class ilImageMapEditorGUI
                 } else {
                     return $this->editMapArea(true, true, true);
                 }
-                break;
 
             // Whole picture
+            // no break
             case "WholePicture":
                 return $this->editMapArea(false, false, true);
-                break;
         }
         return "";
     }
@@ -448,7 +448,7 @@ class ilImageMapEditorGUI
             if ($this->map->getExternalLink() != "") {
                 $ti->setValue($this->map->getExternalLink());
             } else {
-                $ti->setValue("http://");
+                $ti->setValue("https://");
             }
             $ext->addSubItem($ti);
             
@@ -491,14 +491,9 @@ class ilImageMapEditorGUI
         }
         
         // save and cancel commands
-        if ($a_edit_property == "") {
-            $form->setTitle($lng->txt("cont_new_area"));
-            $form->addCommandButton("saveArea", $lng->txt("save"));
-        } else {
-            $form->setTitle($lng->txt("cont_new_area"));
-            $form->addCommandButton("saveArea", $lng->txt("save"));
-        }
-                    
+        $form->setTitle($lng->txt("cont_new_area"));
+        $form->addCommandButton("saveArea", $lng->txt("save"));
+
         //		$form->setFormAction($ilCtrl->getFormAction($this));
         
         return $form;
@@ -565,7 +560,7 @@ class ilImageMapEditorGUI
             'enlarge_path' => ilUtil::getImagePath("enlarge.svg"),
             'webspace_path' => $wb_path);
         $output = xslt_process($xh, "arg:/_xml", "arg:/_xsl", null, $args, $params);
-        echo xslt_error($xh);
+        xslt_error($xh);
         xslt_free($xh);
         
         $output = $this->outputPostProcessing($output);
@@ -605,7 +600,8 @@ class ilImageMapEditorGUI
         string $a_frame
     ) : string {
         $lng = $this->lng;
-        
+        $frame_str = "";
+        $link_str = "";
         $t_arr = explode("_", $a_target);
         if ($a_frame != "") {
             $frame_str = " (" . $a_frame . " Frame)";
@@ -795,7 +791,7 @@ class ilImageMapEditorGUI
     ) : string {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-
+        $area = null;
         if ($a_handle) {
             $this->handleMapParameters();
         }
@@ -977,7 +973,8 @@ class ilImageMapEditorGUI
     ) : string {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
+        $area = [];
         if ($a_handle) {
             $this->handleMapParameters();
         }
@@ -1038,9 +1035,9 @@ class ilImageMapEditorGUI
                     $this->map->setCoords($coords);
                     return $this->saveArea();
                 }
-                break;
 
             // Polygon
+            // no break
             case "Poly":
                 if ($cnt_coords < 1) {
                     return $this->editMapArea(true, false, false, "shape", $area_nr);
@@ -1049,9 +1046,9 @@ class ilImageMapEditorGUI
                 } else {
                     return $this->editMapArea(true, true, true, "shape", $area_nr);
                 }
-                break;
-            
+
             // Whole Picture
+            // no break
             case "WholePicture":
                 return $this->saveArea();
         }
@@ -1067,8 +1064,9 @@ class ilImageMapEditorGUI
         $lng = $this->lng;
         
         $st_item = $this->media_object->getMediaItem("Standard");
-        $st_item->setHighlightMode($this->request->getHighlightMode());
-        $st_item->setHighlightClass($this->request->getHighlightClass());
+        // seems to be obsolete, methods don't exist
+        //$st_item->setHighlightMode($this->request->getHighlightMode());
+        //$st_item->setHighlightClass($this->request->getHighlightClass());
         $st_item->update();
         
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);

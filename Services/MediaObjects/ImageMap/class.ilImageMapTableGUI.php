@@ -106,7 +106,7 @@ class ilImageMapTableGUI extends ilTable2GUI
         $i = $a_set["nr"];
         $this->tpl->setVariable(
             "CHECKBOX",
-            ilUtil::formCheckBox("", "area[]", $i)
+            ilUtil::formCheckbox("", "area[]", $i)
         );
         $this->tpl->setVariable("VAR_NAME", "name_" . $i);
         $this->tpl->setVariable("VAL_NAME", ilUtil::prepareFormOutput($area->getTitle()));

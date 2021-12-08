@@ -1549,7 +1549,6 @@ class ilUtil
             ? " -background color " . $a_background_color . " "
             : "";
         $convert_cmd = ilUtil::escapeShellArg($a_from) . " " . $bg_color . $geometry . ilUtil::escapeShellArg($format_str . $a_to);
-
         ilUtil::execConvert($convert_cmd);
     }
 
@@ -3058,7 +3057,6 @@ class ilUtil
         exec($cmd, $arr);
 
         $DIC->logger()->root()->debug("ilUtil::execQuoted: " . $cmd . ".");
-
         return $arr;
     }
 
