@@ -22,29 +22,27 @@
 */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ingroup ServicesAdvancedMetaData
- * @todo use filesystem service
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ingroup ServicesAdvancedMetaData
+ * @todo    use filesystem service
+ */
 class ilAdvancedMDRecordImportFiles
 {
-    const IMPORT_NAME = 'ilias_adv_md_record';
+    public const IMPORT_NAME = 'ilias_adv_md_record';
 
     private string $import_dir = '';
-    
+
     public function __construct()
     {
         $this->import_dir = ilUtil::getDataDir() . '/ilAdvancedMetaData/import';
         $this->init();
     }
-    
+
     public function getImportDirectory() : string
     {
         return $this->import_dir;
     }
-    
+
     /**
      * Get import file by creation date
      * @param int creation date (unix time)
@@ -55,7 +53,7 @@ class ilAdvancedMDRecordImportFiles
         $unix_time = (int) $a_unix_time;
         return $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . (string) $unix_time . '.xml';
     }
-    
+
     /**
      * Delete a file
      * @param int creation date (unix time)
@@ -65,11 +63,9 @@ class ilAdvancedMDRecordImportFiles
         $unix_time = (int) $a_unix_time;
         return @unlink($this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . (string) $unix_time . '.xml');
     }
-    
-    
+
     /**
      * move uploaded files
-     *
      * @access public
      * @param string tmp name
      * @return int creation time of newly created file. 0 on error
@@ -78,15 +74,13 @@ class ilAdvancedMDRecordImportFiles
     {
         $creation_time = time();
         $file_name = $this->getImportDirectory() . '/' . self::IMPORT_NAME . '_' . $creation_time . '.xml';
-        
+
         if (!ilUtil::moveUploadedFile($a_temp_name, '', $file_name, false)) {
             return 0;
         }
         return $creation_time;
     }
-    
-    
-    
+
     /**
      * init function: create import directory, delete old files
      */

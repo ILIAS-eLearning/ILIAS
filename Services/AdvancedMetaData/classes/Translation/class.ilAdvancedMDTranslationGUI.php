@@ -8,7 +8,6 @@ abstract class ilAdvancedMDTranslationGUI
     protected const CMD_ADD_TRANSLATION = 'addTranslations';
     protected const CMD_SAVE_ADDITIONAL_TRANSLATIONS = 'saveAdditionalTranslations';
 
-
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
