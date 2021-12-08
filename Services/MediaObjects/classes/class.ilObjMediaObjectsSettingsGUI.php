@@ -119,10 +119,10 @@ class ilObjMediaObjectsSettingsGUI extends ilObjectGUI
         if ($this->form->checkInput()) {
             // perform save
             $mset = new ilSetting("mobs");
-            $mset->set("mep_activate_pages", $_POST["activate_pages"]);
-            $mset->set("file_manager_always", $_POST["file_manager_always"]);
-            $mset->set("restricted_file_types", $_POST["restricted_file_types"]);
-            $mset->set("black_list_file_types", $_POST["black_list_file_types"]);
+            $mset->set("mep_activate_pages", $this->form->getInput("activate_pages"));
+            $mset->set("file_manager_always", $this->form->getInput("file_manager_always"));
+            $mset->set("restricted_file_types", $this->form->getInput("restricted_file_types"));
+            $mset->set("black_list_file_types", $this->form->getInput("black_list_file_types"));
 
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
             $ilCtrl->redirect($this, "editSettings");
