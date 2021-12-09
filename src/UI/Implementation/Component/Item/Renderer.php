@@ -4,12 +4,12 @@
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
+use ILIAS\UI\Component\Component;
 use ILIAS\UI\Implementation\Component\Button\Close;
 use ILIAS\UI\Implementation\Component\Image\Image;
 use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
-use ILIAS\UI\Component;
 use ILIAS\UI\Implementation\Render\Template;
 use ILIAS\UI\Component\Button\Shy as bShy;
 use ILIAS\UI\Component\Link\Link;
@@ -21,7 +21,7 @@ class Renderer extends AbstractComponentRenderer
     /**
      * @inheritdoc
      */
-    public function render(Component\Component $component, RendererInterface $default_renderer) : string
+    public function render(Component $component, RendererInterface $default_renderer) : string
     {
         $this->checkComponent($component);
 
@@ -327,10 +327,10 @@ class Renderer extends AbstractComponentRenderer
     protected function getComponentInterfaceName() : array
     {
         return [
-            Component\Item\Standard::class,
-            Component\Item\Shy::class,
-            Component\Item\Group::class,
-            Component\Item\Notification::class
+            Standard::class,
+            Shy::class,
+            Group::class,
+            Notification::class
         ];
     }
 }
