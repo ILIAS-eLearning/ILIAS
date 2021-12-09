@@ -4,8 +4,6 @@
 require_once(__DIR__ . '/../../../../libs/composer/vendor/autoload.php');
 require_once(__DIR__ . '/../../Base.php');
 
-use ILIAS\Data\DateFormat\DateFormat;
-use ILIAS\Data\Factory;
 use ILIAS\UI\Component as C;
 use ILIAS\UI\Implementation as I;
 
@@ -63,7 +61,7 @@ class ItemShyTest extends ILIAS_UI_TestBase
         $c = $this->getFactory()->shy('shy');
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">shy</div>
 	</div>
@@ -81,7 +79,7 @@ EOT;
         $c = $this->getFactory()->shy('noid"><script>alert(\'CRITICAL\')</script');
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">noid"&gt;alert('CRITICAL')</div>
 	</div>
@@ -99,7 +97,7 @@ EOT;
         $c = $this->getFactory()->shy('shy')->withDescription('This is a shy');
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">shy</div>
         <div class="il-item-description">This is a shy</div>
@@ -118,23 +116,13 @@ EOT;
         $c = $this->getFactory()->shy('shy')->withProperties(['name' => 'value']);
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">shy</div>
 		<hr class="il-item-divider" />
 		<div class="il-item-properties">
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-sm-5 col-lg-4 il-item-property-name">name</div>
-					<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">value</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-sm-5 col-lg-4 il-item-property-name"></div>
-					<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"></div>
-				</div>
-			</div>
+            <div class="il-item-property-name">name</div>
+            <div class="il-item-property-value">value</div>
 		</div>
 	</div>
 </div>
@@ -154,7 +142,7 @@ EOT;
         );
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
     <img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label" />
 	<div class="content">
 		<div class="il-item-title">shy</div>
@@ -173,7 +161,7 @@ EOT;
         $c = $this->getFactory()->shy('shy')->withClose(new I\Component\Button\Close());
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">shy</div>
 		<button type="button" class="close" aria-label="close">
