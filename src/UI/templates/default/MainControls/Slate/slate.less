@@ -68,7 +68,26 @@
 		.il-maincontrols-slate-notification-title{
 			text-transform: uppercase;
 			padding: @padding-large-horizontal;
-			background: @il-slate-bulky-level2-bg-color;
+			.btn-bulky{
+				.glyph{
+					:before{
+						content: " \e605";
+						font-family: "il-icons";
+						font-size: 1.7rem;
+						margin-right: 10px;
+					}
+				}
+				margin: -@padding-large-horizontal;
+				border: none;
+				border-right: solid 3px;
+				border-right-color: @il-main-dark-bg;;
+				padding: @padding-large-horizontal;
+
+				background-color: transparent;
+				text-transform: uppercase;
+
+				width: 50%;
+			}
 		}
 	}
 	//@Todo, this is a fix for #27705. Note the similarities to the back button above from the notification center.
@@ -99,16 +118,19 @@
 // see Mantis #26107
 .il-maincontrols-slate.engaged {
 	&[data-depth-level="2"] {
+		.btn-bulky:not(:hover),
 		.link-bulky:not(:hover) {
 			background-color: @il-slate-bulky-level2-bg-color;
 		}
 	}
 	&[data-depth-level="3"] {
+		.btn-bulky:not(:hover),
 		.link-bulky:not(:hover) {
 			background-color: fade(@il-slate-bulky-level2-bg-color, 15%);
 		}
 	}
 	&[data-depth-level="4"] {
+		.btn-bulky:not(:hover),
 		.link-bulky:not(:hover) {
 			background-color: fade(@il-slate-bulky-level2-bg-color, 10%);
 		}

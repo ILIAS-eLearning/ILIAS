@@ -9437,7 +9437,22 @@ footer {
 .il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title {
   text-transform: uppercase;
   padding: 12px;
-  background: #f9f9f9;
+}
+.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky {
+  margin: -12px;
+  border: none;
+  border-right: solid 3px;
+  border-right-color: #f9f9f9;
+  padding: 12px;
+  background-color: transparent;
+  text-transform: uppercase;
+  width: 50%;
+}
+.il-maincontrols-slate.il-maincontrols-slate-notification .il-maincontrols-slate-notification-title .btn-bulky .glyph :before {
+  content: " \e605";
+  font-family: "il-icons";
+  font-size: 1.7rem;
+  margin-right: 10px;
 }
 .il-maincontrols-slate #il-tag-slate-container .btn-bulky,
 .il-maincontrols-slate #ilHelpPanel .btn-bulky {
@@ -9456,12 +9471,15 @@ footer {
 .il-maincontrols-slate #ilHelpPanel .btn-bulky .bulky-label {
   margin-top: 3px;
 }
+.il-maincontrols-slate.engaged[data-depth-level="2"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="2"] .link-bulky:not(:hover) {
   background-color: #f9f9f9;
 }
+.il-maincontrols-slate.engaged[data-depth-level="3"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="3"] .link-bulky:not(:hover) {
   background-color: rgba(249, 249, 249, 0.15);
 }
+.il-maincontrols-slate.engaged[data-depth-level="4"] .btn-bulky:not(:hover),
 .il-maincontrols-slate.engaged[data-depth-level="4"] .link-bulky:not(:hover) {
   background-color: rgba(249, 249, 249, 0.1);
 }

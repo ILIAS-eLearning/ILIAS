@@ -2,9 +2,7 @@
 
 namespace ILIAS\UI\Component\Item;
 
-use ilDateTime;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ilObjUser;
 
 /**
  * This is how a factory for Items looks like.

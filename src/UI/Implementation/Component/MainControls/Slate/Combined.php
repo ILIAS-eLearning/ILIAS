@@ -9,7 +9,6 @@ use ILIAS\UI\Component\MainControls\Slate as ISlate;
 use ILIAS\UI\Component\Button\Bulky as IBulkyButton;
 use ILIAS\UI\Component\Link\Bulky as IBulkyLink;
 use ILIAS\UI\Component\Signal;
-use ILIAS\UI\Implementation\Component\Item\Shy;
 
 /**
  * Combined Slate
@@ -32,8 +31,7 @@ class Combined extends Slate implements ISlate\Combined
             IBulkyButton::class,
             IBulkyLink::class,
             ISlate\Slate::class,
-            Horizontal::class,
-            Shy::class
+            Horizontal::class
         ];
         $check = [$entry];
         $this->checkArgListElements("Slate, Bulky -Button or -Link", $check, $classes);

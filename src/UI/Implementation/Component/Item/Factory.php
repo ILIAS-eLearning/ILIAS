@@ -4,10 +4,8 @@
 
 namespace ILIAS\UI\Implementation\Component\Item;
 
-use ilDateTime;
 use ILIAS\UI\Component\Item;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
-use ilObjUser;
 
 class Factory implements Item\Factory
 {
