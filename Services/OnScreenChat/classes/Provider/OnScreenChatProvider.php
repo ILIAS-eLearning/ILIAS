@@ -63,7 +63,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                     $isEnabled = $chatSettings->get('chat_enabled') && $chatSettings->get('enable_osc');
                     return $isUser && $isEnabled;
                 })
-                ->withTitle($this->dic->language()->txt('obj_chtr'))
+                ->withTitle($this->dic->language()->txt('chat'))
                 ->withSymbol($icon)
                 ->withContent($this->dic->ui()->factory()->item()->shy('')->withAdditionalOnLoadCode(
                     function ($id) {
@@ -93,20 +93,37 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
             return [];
         }
 
+        $conversations = $this->conversationRepo->findByIds($conversationIds);
+
+        $allUsrIds = [];
+        foreach ($conversations as $conversation) {
+            foreach ($conversation->getSubscriberUsrIds() as $id) {
+                if ($id !== $this->dic->user()->getId()) {
+                    $allUsrIds[$id] = true;
+                }
+            }
+        }
+        $allUsrIds = array_keys($allUsrIds);
+        $user_data = $this->subscriberRepo->getDataByUserIds($allUsrIds);
+
         $items = [];
-        foreach ($this->conversationRepo->findByIds($conversationIds) as $conversation) {
+        foreach ($conversations as $conversation) {
             if ($conversation->isGroup()) {
                 $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::GCON, 'group-conversation');
             } else {
                 $icon = $this->dic->ui()->factory()->symbol()->icon()->standard(Standard::CON, 'conversation');
             }
 
-            $usernames = [];
+            $users = [];
             foreach ($conversation->getSubscriberUsrIds() as $id) {
-                $usernames[] = ilUserUtil::getNamePresentation($id);
+                if ($id !== $this->dic->user()->getId()) {
+                    $users[] = $user_data[$id]['public_name'];
+                }
             }
 
-            $items[] = $this->dic->ui()->factory()->item()->shy(implode('| ', $usernames))
+            $cid = $conversation->getId();
+
+            $items[] = $this->dic->ui()->factory()->item()->shy(implode(', ', $users))
                   ->withDescription($conversation->getLastMessage()->getMessage())
                   ->withProperties(
                       [$this->dic->language()->txt('time') . ':' =>
@@ -118,7 +135,12 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
                           )
                       ])
                   ->withLeadIcon($icon->withIsOutlined(true))
-                  ->withClose($this->dic->ui()->factory()->button()->close());
+                  ->withClose($this->dic->ui()->factory()->button()->close())
+                  ->withAdditionalOnLoadCode(
+                    function ($id) use ($cid){
+                        return "il.OnScreenChat.menuCollector.querySelector('#$id').dataset.id = '$cid';";
+                    })
+            ;
         }
 
         return $items;

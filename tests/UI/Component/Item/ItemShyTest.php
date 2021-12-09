@@ -63,7 +63,7 @@ class ItemShyTest extends ILIAS_UI_TestBase
         $c = $this->getFactory()->shy('shy');
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">shy</div>
 	</div>
@@ -81,7 +81,7 @@ EOT;
         $c = $this->getFactory()->shy('noid"><script>alert(\'CRITICAL\')</script');
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">noid"&gt;alert('CRITICAL')</div>
 	</div>
@@ -99,7 +99,7 @@ EOT;
         $c = $this->getFactory()->shy('shy')->withDescription('This is a shy');
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">shy</div>
         <div class="il-item-description">This is a shy</div>
@@ -118,7 +118,7 @@ EOT;
         $c = $this->getFactory()->shy('shy')->withProperties(['name' => 'value']);
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">shy</div>
 		<hr class="il-item-divider" />
@@ -154,7 +154,7 @@ EOT;
         );
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
     <img class="icon name small" src="./templates/default/images/icon_default.svg" alt="aria_label" />
 	<div class="content">
 		<div class="il-item-title">shy</div>
@@ -173,7 +173,7 @@ EOT;
         $c = $this->getFactory()->shy('shy')->withClose(new I\Component\Button\Close());
 
         $expected = <<<EOT
-<div class="il-item il-shy-item">
+<div class="il-item il-item-shy">
 	<div class="content">
 		<div class="il-item-title">shy</div>
 		<button type="button" class="close" aria-label="close">

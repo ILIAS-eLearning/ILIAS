@@ -7771,39 +7771,33 @@ ul.dropdown-menu > li > .btn:focus {
 .il-notification-item .dropdown {
   margin-top: -20px;
 }
-.il-shy-item {
+.il-item-shy {
   display: flex;
   gap: 10px;
 }
-.il-shy-item .content {
+.il-item-shy .content {
   width: 100%;
   display: grid;
   grid-template-areas: "title close" "description description" "divider divider" "properties properties";
   grid-auto-columns: auto 12px;
-  gap: 10px;
 }
-.il-shy-item .content .il-item-title {
+.il-item-shy .content .il-item-title {
   grid-area: title;
 }
-.il-shy-item .content .close {
+.il-item-shy .content .close {
   grid-area: close;
 }
-.il-shy-item .content .il-item-description {
+.il-item-shy .content .il-item-description {
   grid-area: description;
 }
-.il-shy-item .content .il-item-divider {
+.il-item-shy .content .il-item-divider {
   grid-area: divider;
 }
-.il-shy-item .content .il-item-properties {
+.il-item-shy .content .il-item-properties {
   grid-area: properties;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr;
   gap: 8px;
-}
-.il-shy-item .content .il-item-properties .il-item-property-name {
-  width: 30%;
-}
-.il-shy-item .content .il-item-properties .il-item-property-value {
-  width: 70%;
 }
 @media only screen and (min-width: 769px) {
   .panel-secondary .il-item {
@@ -9716,6 +9710,14 @@ footer {
 .il-maincontrols-metabar .bulky-label {
   white-space: normal;
   display: block;
+}
+.il-maincontrols-mainbar .il-item-shy,
+.il-maincontrols-metabar .il-item-shy {
+  margin-bottom: 2px;
+}
+.il-maincontrols-mainbar .il-item-shy:not(:hover),
+.il-maincontrols-metabar .il-item-shy:not(:hover) {
+  background: #f9f9f9;
 }
 .il-maincontrols-mainbar .btn:active,
 .il-maincontrols-metabar .btn:active,

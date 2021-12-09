@@ -121,7 +121,7 @@
 
 }
 
-.il-shy-item{
+.il-item-shy{
 	display: flex;
 	gap: 10px;
 
@@ -134,7 +134,6 @@
 			"divider divider"
 			"properties properties";
 		grid-auto-columns: auto 12px;
-		gap: 10px;
 
 		.il-item-title {
 			grid-area: title;
@@ -150,14 +149,9 @@
 		}
 		.il-item-properties {
 			grid-area: properties;
-			display: flex;
+			display: grid;
+			grid-template-columns: auto 1fr;
 			gap: 8px;
-			.il-item-property-name {
-				width: 30%;
-			}
-			.il-item-property-value {
-				width: 70%;
-			}
 		}
 	}
 }

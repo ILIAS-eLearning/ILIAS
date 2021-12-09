@@ -467,8 +467,14 @@
 				xhr.onload = function () {
 					if (xhr.status === 200) {
 						getModule().menuCollector.innerHTML = xhr.responseText;
+						getModule().menuCollector.querySelectorAll('script').forEach(element => {
+							eval(element.innerHTML);
+						})
 						$(getModule().menuCollector)
-							.on('click', '[data-id] .user', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
+							.off('click', '[data-id]')
+							.off('click', '[data-id] .close');
+						$(getModule().menuCollector)
+							.on('click', '[data-id]', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemClicked)
 							.on('click', '[data-id] .close', $scope.il.OnScreenChatJQueryTriggers.triggers.menuItemRemovalRequest);
 					} else {
 						il.OnScreenChat.menuCollector.innerHTML = '';
@@ -499,7 +505,6 @@
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
-			//getModule().menuCollector.querySelector('[data-id="' + conversation.id + '"]').remove();
 			getModule().rerenderNotifications(conversation);
 		},
 
@@ -530,13 +535,10 @@
 			getModule().open(conversation);
 
 			// Remove conversation
-			console.log(getModule().notificationCenterConversationItems);
 			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
 				delete getModule().notificationCenterConversationItems[conversation.id];
 			}
-			console.log(getModule().notificationCenterConversationItems);
 
-			//getModule().menuCollector.querySelector('[data-id="' + conversation.id + '"]').remove();
 			getModule().rerenderNotifications(conversation);
 		},
 

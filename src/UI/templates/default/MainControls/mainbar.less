@@ -22,6 +22,16 @@
 
 .il-maincontrols-mainbar,
 .il-maincontrols-metabar {
+	.il-item-shy {
+		margin-bottom: @il-slate-content-spacing;
+		&:not(:hover) {
+			background: @il-main-dark-bg;
+		}
+	}
+}
+
+.il-maincontrols-mainbar,
+.il-maincontrols-metabar {
 	.btn,a {
 	  &:active {
 		  outline: 0;

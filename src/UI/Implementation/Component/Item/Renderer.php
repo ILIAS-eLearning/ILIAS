@@ -152,7 +152,6 @@ class Renderer extends AbstractComponentRenderer
 
         $this->renderTitle($component, $default_renderer, $tpl);
         $this->renderDescription($component, $tpl);
-        $this->renderProperties($component, $default_renderer, $tpl);
 
         if ($component->getProperties() !== []) {
             foreach ($component->getProperties() as $name => $value) {

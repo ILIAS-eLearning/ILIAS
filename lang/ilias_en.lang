@@ -3318,6 +3318,7 @@ common#:#note#:#Note
 common#:#notes_and_comments#:#Notes and Comments
 common#:#notes#:#Notes
 common#:#notifications#:#Notifications
+common#:#chat#:#Chat
 common#:#num_users#:#Number of Users
 common#:#edit_metadata#:#Edit Metadata
 rbac#:#nwss_edit_permission#:#User can change permission settings in News and Web Feeds administration
