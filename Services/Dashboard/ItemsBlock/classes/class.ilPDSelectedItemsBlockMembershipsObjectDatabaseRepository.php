@@ -48,9 +48,14 @@ final class ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository implements
      */
     public function getForUser(ilObjUser $user, array $objTypes, string $actorLanguageCode) : Generator
     {
+        $objTypes = array_intersect($objTypes, self::VALID_OBJECT_TYPES);
+        if ($objTypes === []) {
+            return;
+        }
+
         $odObjTypes = ' AND ' . $this->db->in(
             'od.type',
-            array_intersect($objTypes, self::VALID_OBJECT_TYPES),
+            $objTypes,
             false,
             'text'
         );
