@@ -26,6 +26,8 @@
  */
 class ilMediaObjectDataSet extends ilDataSet
 {
+    protected ilMediaItem $current_media_item;
+    protected ilObjMediaObject $current_mob;
     protected ilLogger $mob_log;
     protected bool $use_previous_import_ids = false;
 
@@ -55,9 +57,9 @@ class ilMediaObjectDataSet extends ilDataSet
         return array("5.1.0", "4.3.0", "4.1.0");
     }
     
-    public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
+    protected function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Services/MediaObject/" . $a_entity;
+        return "https://www.ilias.de/xml/Services/MediaObject/" . $a_entity;
     }
     
     protected function getTypes(string $a_entity, string $a_version) : array
@@ -88,6 +90,8 @@ class ilMediaObjectDataSet extends ilDataSet
         // media item
         if ($a_entity == "mob_media_item") {
             switch ($a_version) {
+                case "5.1.0":
+                case "4.3.0":
                 case "4.1.0":
                     return array(
                         "Id" => "integer",
@@ -104,22 +108,6 @@ class ilMediaObjectDataSet extends ilDataSet
                         "TextRepresentation" => "text"
                     );
 
-                case "4.3.0":
-                case "5.1.0":
-                    return array(
-                        "Id" => "integer",
-                        "MobId" => "integer",
-                        "Width" => "integer",
-                        "Height" => "integer",
-                        "Halign" => "text",
-                        "Caption" => "text",
-                        "Nr" => "integer",
-                        "Purpose" => "text",
-                        "Location" => "text",
-                        "LocationType" => "text",
-                        "Format" => "text",
-                        "TextRepresentation" => "text"
-                    );
             }
         }
 
@@ -207,6 +195,8 @@ class ilMediaObjectDataSet extends ilDataSet
         // media item
         if ($a_entity == "mob_media_item") {
             switch ($a_version) {
+                case "5.1.0":
+                case "4.3.0":
                 case "4.1.0":
                     $this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign," .
                         "caption, nr, purpose, location, location_type, format, text_representation" .
@@ -214,13 +204,6 @@ class ilMediaObjectDataSet extends ilDataSet
                         $ilDB->in("mob_id", $a_ids, false, "integer"));
                     break;
 
-                case "4.3.0":
-                case "5.1.0":
-                    $this->getDirectDataFromQuery("SELECT id, mob_id, width, height, halign," .
-                        "caption, nr, purpose, location, location_type, format, text_representation" .
-                        " FROM media_item WHERE " .
-                        $ilDB->in("mob_id", $a_ids, false, "integer"));
-                    break;
             }
         }
 

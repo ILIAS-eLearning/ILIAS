@@ -3,12 +3,10 @@
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-*
-* @author Stefan Meyer <meyer@leifos.com>
-*
-* @ilCtrl_Calls
-* @ingroup ServicesAdvancedMetaData
-*/
+ * @author  Stefan Meyer <meyer@leifos.com>
+ * @ilCtrl_Calls
+ * @ingroup ServicesAdvancedMetaData
+ */
 class ilAdvancedMDRecordGUI
 {
     public const MODE_UNDEFINED = 0;
@@ -18,17 +16,16 @@ class ilAdvancedMDRecordGUI
     public const MODE_APP_PRESENTATION = 8;
 
     // glossary
-    public const MODE_REC_SELECTION = 4;		// record selection (per object)
-    public const MODE_FILTER = 5;				// filter (as used e.g. in tables)
-    public const MODE_TABLE_HEAD = 6;				// table header (columns)
-    public const MODE_TABLE_CELLS = 7;			// table cells
-    
+    public const MODE_REC_SELECTION = 4;        // record selection (per object)
+    public const MODE_FILTER = 5;                // filter (as used e.g. in tables)
+    public const MODE_TABLE_HEAD = 6;                // table header (columns)
+    public const MODE_TABLE_CELLS = 7;            // table cells
 
     private int $mode = self::MODE_UNDEFINED;
     private string $obj_type = '';
     private string $sub_type = '';
     private int $sub_id = 0;
-    private int $obj_id  = 0;
+    private int $obj_id = 0;
     private ?int $ref_id = null;
 
     // mode specific parameters
@@ -40,7 +37,6 @@ class ilAdvancedMDRecordGUI
     protected ?array $search_form = null;
     protected ?array $search_form_values = null;
 
-    
     protected array $editor_form = [];
 
     protected ?ilInfoScreenGUI $info = null;
@@ -64,14 +60,11 @@ class ilAdvancedMDRecordGUI
     protected ilObjUser $user;
     protected ilLanguage $lng;
 
-
     /**
      * Constructor
-     *
      * @access public
      * @param int mode either MODE_EDITOR or MODE_SEARCH
      * @param int obj_type
-     *
      */
     public function __construct(
         int $a_mode,
@@ -79,8 +72,7 @@ class ilAdvancedMDRecordGUI
         int $a_obj_id = 0,
         string $a_sub_type = '',
         int $a_sub_id = 0
-    )
-    {
+    ) {
         global $DIC;
 
         $this->user = $DIC->user();
@@ -89,7 +81,7 @@ class ilAdvancedMDRecordGUI
         $this->obj_id = $a_obj_id;
         $this->sub_type = $a_sub_type;
         $this->sub_id = $a_sub_id;
-        
+
         if ($a_obj_id) {
             $refs = ilObject::_getAllReferences($a_obj_id);
             $this->ref_id = end($refs);
@@ -119,7 +111,6 @@ class ilAdvancedMDRecordGUI
         return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
     }
 
-
     /**
      * Set ref_id for context. In case of object creations this is the reference id
      * of the parent container.
@@ -128,12 +119,12 @@ class ilAdvancedMDRecordGUI
     {
         $this->ref_id = $a_ref_id;
     }
-    
+
     public function setPropertyForm(ilPropertyFormGUI $form) : void
     {
         $this->form = $form;
     }
-    
+
     /**
      * Set values for search form
      */
@@ -141,8 +132,7 @@ class ilAdvancedMDRecordGUI
     {
         $this->search_values = $a_values;
     }
-    
-    
+
     /**
      * get info sections
      * @todo use another required parameter injection for modes
@@ -151,12 +141,12 @@ class ilAdvancedMDRecordGUI
     {
         $this->info = $info;
     }
-    
+
     /**
      * Get HTML
      * @throws InvalidArgumentException
      * @noinspection PhpVoidFunctionResultUsedInspection
-     * @todo return type depends on mode
+     * @todo         return type depends on mode
      *       MODE_APP_PRESENTATION => array
      *       MODE_TABLE_CELLS => string
      *       all other void
@@ -188,27 +178,26 @@ class ilAdvancedMDRecordGUI
 
             case self::MODE_TABLE_CELLS:
                 return $this->parseTableCells();
-                
+
             default:
                 throw new InvalidArgumentException('Missing or wrong ADV mode given: ' . $this->mode);
         }
     }
-        
-    
+
     /**
      * Parse property form in editor mode
      */
     protected function parseEditor() : void
     {
         $this->editor_form = array();
-        
+
         foreach ($this->getActiveRecords() as $record_obj) {
             $record_id = $record_obj->getRecordId();
-            
+
             $values = new ilAdvancedMDValues($record_id, $this->obj_id, $this->sub_type, $this->sub_id);
             $values->read();
             $defs = $values->getDefinitions();
-            
+
             // empty record?
             if (!sizeof($defs)) {
                 continue;
@@ -216,32 +205,34 @@ class ilAdvancedMDRecordGUI
 
             $translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record_obj->getRecordId());
             $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record_obj->getRecordId());
-            
+
             $adt_group_form = ilADTFactory::getInstance()->getFormBridgeForInstance($values->getADTGroup());
             $adt_group_form->setForm($this->form);
 
             $adt_group_form->setTitle($translations->getTitleForLanguage($this->user->getLanguage()));
             $adt_group_form->setInfo($translations->getDescriptionForLanguage($this->user->getLanguage()));
-            
+
             foreach ($defs as $def) {
                 $element = $adt_group_form->getElement((string) $def->getFieldId());
-                $element->setTitle($field_translations->getTitleForLanguage($def->getFieldId(), $this->user->getLanguage()));
-                $element->setInfo($field_translations->getDescriptionForLanguage($def->getFieldId(), $this->user->getLanguage()));
-                
+                $element->setTitle($field_translations->getTitleForLanguage($def->getFieldId(),
+                    $this->user->getLanguage()));
+                $element->setInfo($field_translations->getDescriptionForLanguage($def->getFieldId(),
+                    $this->user->getLanguage()));
+
                 // definition may customize ADT form element
                 $def->prepareElementForEditor($element);
-                
+
                 if ($values->isDisabled((string) $def->getFieldId())) {
                     $element->setDisabled(true);
                 }
             }
-            
+
             $adt_group_form->addToForm();
-            
+
             $this->editor_form[$record_id] = array("values" => $values, "form" => $adt_group_form);
         }
     }
-    
+
     /**
      * Load edit form values from post
      */
@@ -251,19 +242,19 @@ class ilAdvancedMDRecordGUI
         if (!is_array($this->editor_form)) {
             return false;
         }
-        
+
         $valid = true;
-        
+
         foreach ($this->editor_form as $item) {
             $item["form"]->importFromPost();
             if (!$item["form"]->validate()) {
                 $valid = false;
             }
         }
-        
+
         return $valid;
     }
-    
+
     /**
      * Write edit form values to db
      * @todo throw exception in case of missing parameters
@@ -273,7 +264,7 @@ class ilAdvancedMDRecordGUI
         if (!sizeof($this->editor_form)) {
             return false;
         }
-        
+
         // switch ids?
         if ($a_obj_id) {
             $this->obj_id = $a_obj_id;
@@ -281,19 +272,17 @@ class ilAdvancedMDRecordGUI
         if ($a_sub_id) {
             $this->sub_id = $a_sub_id;
         }
-        
+
         foreach ($this->editor_form as $item) {
             if ($a_obj_id || $a_sub_id) {
                 // switch active record to updated primary keys, e.g. after creation
                 $item["values"]->setActiveRecordPrimary($this->obj_id, $this->sub_type, $this->sub_id);
             }
-                    
+
             $item["values"]->write();
         }
         return true;
     }
-    
-    
 
     /**
      * Parse search
@@ -304,13 +293,13 @@ class ilAdvancedMDRecordGUI
         // (so searchable flag is NOT relevant)
         //
         // current usage: wiki page element "[amd] page list"
-        
+
         $this->lng->loadLanguageModule('search');
-        
+
         $this->search_form = array();
         foreach ($this->getActiveRecords() as $record) {
             $fields = ilAdvancedMDFieldDefinition::getInstancesByRecordId($record->getRecordId(), true);
-            
+
             // empty record?
             if (!sizeof($fields)) {
                 continue;
@@ -321,29 +310,31 @@ class ilAdvancedMDRecordGUI
             $section->setTitle($record_translations->getTitleForLanguage($this->user->getLanguage()));
             $section->setInfo($record_translations->getDescriptionForLanguage($this->user->getLanguage()));
             $this->form->addItem($section);
-            
+
             foreach ($fields as $field) {
                 $field_translations = ilAdvancedMDFieldTranslations::getInstanceByRecordId($record->getRecordId());
 
-                $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
+                $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(),
+                    true, false);
                 $field_form->setForm($this->form);
                 $field_form->setElementId("advmd[" . $field->getFieldId() . "]");
-                $field_form->setTitle($field_translations->getTitleForLanguage($field->getFieldId(), $this->user->getLanguage()));
-                
+                $field_form->setTitle($field_translations->getTitleForLanguage($field->getFieldId(),
+                    $this->user->getLanguage()));
+
                 if (is_array($this->search_form_values) &&
                     isset($this->search_form_values[$field->getFieldId()])) {
                     $field->setSearchValueSerialized($field_form, $this->search_form_values[$field->getFieldId()]);
                 }
-                
+
                 $field->prepareElementForSearch($field_form);
-                
+
                 $field_form->addToForm();
-                
+
                 $this->search_form[$field->getFieldId()] = array("def" => $field, "value" => $field_form);
             }
         }
     }
-    
+
     /**
      * Load edit form values from post
      */
@@ -352,7 +343,7 @@ class ilAdvancedMDRecordGUI
         if (!is_array($this->search_form)) {
             return null;
         }
-        
+
         $valid = true;
         $res = array();
         foreach ($this->search_form as $field_id => $item) {
@@ -365,32 +356,33 @@ class ilAdvancedMDRecordGUI
                 $res[$field_id] = $value;
             }
         }
-        
+
         if ($valid) {
             return $res;
         }
         return null;
     }
-    
+
     public function setSearchFormValues(array $a_values) : void
     {
         $this->search_form_values = $a_values;
     }
-    
+
     /**
      * Presentation for info page
      * @return void
      */
     private function parseInfoPage() : void
     {
-                                
-        foreach (ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type, $this->sub_id) as $record_id => $a_values) {
+
+        foreach (ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type,
+            $this->sub_id) as $record_id => $a_values) {
             // this correctly binds group and definitions
             $a_values->read();
 
             $record_translations = ilAdvancedMDRecordTranslations::getInstanceByRecordId($record_id);
             $this->info->addSection($record_translations->getTitleForLanguage($this->user->getLanguage()));
-        
+
             $defs = $a_values->getDefinitions();
             foreach ($a_values->getADTGroup()->getElements() as $element_id => $element) {
                 if (!$element->isNull()) {
@@ -422,7 +414,8 @@ class ilAdvancedMDRecordGUI
         }
 
         $array_elements = array();
-        foreach (ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type, $this->sub_id) as $record_id => $a_values) {
+        foreach (ilAdvancedMDValues::getInstancesForObjectId($this->obj_id, $this->obj_type, $this->sub_type,
+            $this->sub_id) as $record_id => $a_values) {
             // this correctly binds group and definitions
             $a_values->read();
 
@@ -444,7 +437,8 @@ class ilAdvancedMDRecordGUI
                     }
                     $array_elements[$positions[$element_id]] =
                         [
-                            "title" => $field_translations->getTitleForLanguage($element_id, $this->user->getLanguage()),
+                            "title" => $field_translations->getTitleForLanguage($element_id,
+                                $this->user->getLanguage()),
                             "value" => $presentation_value
                         ];
                 }
@@ -467,7 +461,6 @@ class ilAdvancedMDRecordGUI
         }
         return false;
     }
-    
 
     /**
      * Parse property form in editor mode
@@ -476,7 +469,8 @@ class ilAdvancedMDRecordGUI
     public function parseRecordSelection(string $a_sec_head = "") : void
     {
         $first = true;
-        foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type, $this->sub_type) as $record_obj) {
+        foreach (ilAdvancedMDRecord::_getActivatedRecordsByObjectType($this->obj_type,
+            $this->sub_type) as $record_obj) {
             $selected = ilAdvancedMDRecord::getObjRecSelection($this->obj_id, $this->sub_type);
             if ($first) {
                 $first = false;
@@ -487,7 +481,7 @@ class ilAdvancedMDRecordGUI
                 $section->setTitle($sec_tit);
                 $this->form->addItem($section);
             }
-            
+
             // checkbox for each active record
             $cb = new ilCheckboxInputGUI($record_obj->getTitle(), "amet_use_rec[]");
             $cb->setInfo($record_obj->getDescription());
@@ -498,7 +492,7 @@ class ilAdvancedMDRecordGUI
             $this->form->addItem($cb);
         }
     }
-    
+
     /**
      * Save selection per object
      */
@@ -515,12 +509,12 @@ class ilAdvancedMDRecordGUI
     {
         $this->table_gui = $a_val;
     }
-    
+
     public function getTableGUI() : ?ilTable2GUI
     {
         return $this->table_gui;
     }
-    
+
     /**
      * Set row data
      * @param array $a_val assoc array of row data (containing md record data)
@@ -529,7 +523,7 @@ class ilAdvancedMDRecordGUI
     {
         $this->row_data = $a_val;
     }
-    
+
     /**
      * Get row data
      * @return array assoc array of row data (containing md record data)
@@ -547,14 +541,14 @@ class ilAdvancedMDRecordGUI
         list($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObjectParams();
         return ilAdvancedMDRecord::_getSelectedRecordsByObject($adv_type, $adv_ref_id, $adv_subtype);
     }
-    
+
     /**
      * Parse property for filter (table)
      */
     private function parseFilter() : void
     {
         $this->adt_search = array();
-        
+
         foreach ($this->getActiveRecords() as $record_obj) {
             $record_id = $record_obj->getRecordId();
 
@@ -566,20 +560,21 @@ class ilAdvancedMDRecordGUI
                 if (!$def->isFilterSupported()) {
                     continue;
                 }
-                
-                $this->adt_search[$def->getFieldId()] = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($def->getADTDefinition(), true, false);
+
+                $this->adt_search[$def->getFieldId()] = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($def->getADTDefinition(),
+                    true, false);
                 $this->adt_search[$def->getFieldId()]->setTableGUI($this->table_gui);
                 $this->adt_search[$def->getFieldId()]->setTitle(
                     $field_translations->getTitleForLanguage($def->getFieldId(), $this->user->getLanguage())
                 );
                 $this->adt_search[$def->getFieldId()]->setElementId('md_' . $def->getFieldId());
-                
+
                 $this->adt_search[$def->getFieldId()]->loadFilter();
                 $this->adt_search[$def->getFieldId()]->addToForm();
             }
         }
     }
-    
+
     /**
      * Import filter (post) values
      */
@@ -588,12 +583,12 @@ class ilAdvancedMDRecordGUI
         if (!is_array($this->adt_search)) {
             return;
         }
-        
+
         foreach ($this->adt_search as $element) {
             $element->importFromPost();
         }
     }
-    
+
     /**
      * Get SQL conditions for current filter value(s)
      */
@@ -602,7 +597,7 @@ class ilAdvancedMDRecordGUI
         if (!is_array($this->adt_search)) {
             return [];
         }
-        
+
         $res = [];
         foreach ($this->adt_search as $def_id => $element) {
             if (!$element->isNull() ||
@@ -612,7 +607,6 @@ class ilAdvancedMDRecordGUI
         }
         return $res;
     }
-    
 
     /**
      * Parse property for table head
@@ -629,7 +623,7 @@ class ilAdvancedMDRecordGUI
                 if ($this->handleECSDefinitions($def)) {
                     continue;
                 }
-                
+
                 $this->table_gui->addColumn(
                     $field_translations->getTitleForLanguage($def->getFieldId(), $this->user->getLanguage()),
                     'md_' . $def->getFieldId()
@@ -654,7 +648,7 @@ class ilAdvancedMDRecordGUI
                 if ($this->handleECSDefinitions($def)) {
                     continue;
                 }
-                
+
                 $html .= "<td class='std'>" . $data['md_' . $def->getFieldId()] . "</td>";
             }
         }

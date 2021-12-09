@@ -48,7 +48,8 @@ class ilMapArea
     public const HLCL_ACCENTED = "";
     public const HLCL_LIGHT = "Light";
     public const HLCL_DARK = "Dark";
-    protected string $highlight_class;
+    protected string $highlight_mode = "";
+    protected string $highlight_class = "";
 
     protected ilDBInterface $db;
     public int $item_id = 0;

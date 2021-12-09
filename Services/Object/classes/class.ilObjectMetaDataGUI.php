@@ -154,7 +154,12 @@ class ilObjectMetaDataGUI
 
             case 'iladvancedmdsettingsgui':
                 $this->setSubTabs("advmddef");
-                $advmdgui = new ilAdvancedMDSettingsGUI($this->ref_id, $this->obj_type, $this->sub_type);
+                $advmdgui = new ilAdvancedMDSettingsGUI(
+                    ilAdvancedMDSettingsGUI::CONTEXT_OBJECT,
+                    $this->ref_id,
+                    $this->obj_type,
+                    $this->sub_type
+                );
                 $ilCtrl->forwardCommand($advmdgui);
                 break;
 

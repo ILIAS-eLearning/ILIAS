@@ -5,7 +5,6 @@
 /**
  * Scope restrictions for advanced md records
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- *
  */
 class ilAdvancedMDRecordScope
 {
@@ -15,7 +14,7 @@ class ilAdvancedMDRecordScope
 
     protected ilDBInterface $db;
     protected ilLogger $logger;
-    
+
     public function __construct(int $a_scope_id = 0)
     {
         global $DIC;
@@ -23,42 +22,41 @@ class ilAdvancedMDRecordScope
         $this->db = $DIC->database();
         /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
-        
+
         $this->scope_id = $a_scope_id;
         $this->read();
     }
-    
+
     public function setRecordId(int $a_record_id) : void
     {
         $this->record_id = $a_record_id;
     }
-    
+
     public function getRecordId() : int
     {
         return $this->record_id;
     }
-    
+
     public function setScopeId(int $a_scope_id) : void
     {
         $this->scope_id = $a_scope_id;
     }
-    
+
     public function getScopeId() : int
     {
         return $this->scope_id;
     }
-    
+
     public function setRefId(int $a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
-    
+
     public function getRefId() : int
     {
         return $this->ref_id;
     }
-    
-    
+
     public function save() : void
     {
         // create
@@ -71,7 +69,7 @@ class ilAdvancedMDRecordScope
             ')';
         $this->db->manipulate($query);
     }
-    
+
     public function update() : void
     {
         $this->logger->debug('Update entry.');
@@ -88,18 +86,17 @@ class ilAdvancedMDRecordScope
             'WHERE scope_id = ' . $this->db->quote($this->scope_id, 'integer');
         $this->db->manipulate($query);
     }
-    
+
     public static function deleteByRecordId(int $a_record_id) : void
     {
         global $DIC;
         $db = $DIC->database();
-        
+
         $query = 'DELETE FROM adv_md_record_scope ' .
             'WHERE record_id = ' . $db->quote($a_record_id, 'integer');
         $db->manipulate($query);
     }
 
-        
     protected function read() : void
     {
         if (!$this->scope_id) {

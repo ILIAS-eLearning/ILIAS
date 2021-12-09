@@ -20,6 +20,8 @@
  */
 class ilMobMultiSrtConfirmationTable2GUI extends ilTable2GUI
 {
+    protected ilMobMultiSrtUpload $multi_srt;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd
