@@ -20,9 +20,7 @@ class Factory implements Item\Factory
     /**
      * @inheritdoc
      */
-    public function shy(
-        string $title
-    ) : Item\Shy
+    public function shy(string $title) : Item\Shy
     {
         throw new \ILIAS\UI\NotImplementedException();
     }
