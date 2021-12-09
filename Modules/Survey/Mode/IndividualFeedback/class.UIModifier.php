@@ -21,7 +21,6 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilObjSurvey $survey
     ) : array {
         $items = [];
-        $lng = $this->gui_service->lng();
 
         return $items;
     }
