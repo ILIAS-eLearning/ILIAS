@@ -317,7 +317,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
             $lcomment = new ilTextAreaInputGUI($this->lng->txt("exc_comment_for_learner"), "lcomment_" . $a_ass->getId() . "_" . $a_user_id);
             $lcomment->setInfo($this->lng->txt("exc_comment_for_learner_info"));
-            $lcomment->setValue($a_row["comment"]);
+            $lcomment->setValue((string) $a_row["comment"]);
             $lcomment->setRows(10);
             $lcomment_form->addItem($lcomment);
 
