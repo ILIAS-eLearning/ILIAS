@@ -170,6 +170,7 @@ survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein End
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 content#:#cont_lpe_openid_connect_login#:#OpenID-Connect-Login
+content#:#cont_lpe_saml_login#:#SAML-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 common#:#msg_to_many_files#:#Zu viele Dateien ausgewählt, erlaubte Anzahl Dateien:
 common#:#msg_no_files_selected#:#Keine Dateien ausgewählt

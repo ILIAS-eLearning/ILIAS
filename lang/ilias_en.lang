@@ -246,6 +246,7 @@ auth#:#auth_oidc_update_field_info#:#Automatisch aktualisieren
 auth#:#auth_oidc_role_mapping_table#:#Zurodnung von ILIAS-Rollen zu OpenId Connect Attributen
 auth#:#auth_oidc_update_role_info#:#Nur bei Erstanmeldung (automatische Synchronisierung) anwenden
 content#:#cont_lpe_openid_connect_login#:#OpenId Connect Login
+content#:#cont_lpe_saml_login#:#SAML Login
 common#:#msg_wrong_filetypes#:#Allowed Files-Types:
 common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:
 common#:#msg_no_files_selected#:#No files selected
