@@ -138,8 +138,12 @@ class ilBlogPostingGUI extends ilPageObjectGUI
         
         switch ($next_class) {
             case "ilnotegui":
-                // $this->getTabs();
-                // $ilTabs->setTabActive("pg");
+                $tpl->setTitle(ilObject::_lookupTitle($this->getBlogPosting()->getBlogId()) . ": " . // #15017
+                    $posting->getTitle());
+                $tpl->setTitleIcon(
+                    ilUtil::getImagePath("icon_blog.svg"),
+                    $this->lng->txt("obj_blog")
+                ); // #12879
                 return $this->previewFullscreen();
 
             default:
@@ -254,7 +258,6 @@ class ilBlogPostingGUI extends ilPageObjectGUI
                 $ilSetting->get("comments_del_tutor", 1));
 
             $wtpl->setVariable("TOOLBAR", $toolbar->getHTML());
-
             $wtpl->setVariable("NOTES", $this->getNotesHTML(
                 $this->getBlogPosting(),
                 false,
@@ -615,7 +618,7 @@ class ilBlogPostingGUI extends ilPageObjectGUI
     }
 
     
-    public function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_news_id, $a_action, $a_note_id)
+    public function observeNoteAction($a_blog_id, $a_posting_id, $a_type, $a_action, $a_note_id)
     {
         // #10040 - get note text
         $note = new ilNote($a_note_id);

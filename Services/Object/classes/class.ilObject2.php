@@ -272,9 +272,9 @@ abstract class ilObject2 extends ilObject
     {
         return parent::_lookupObjId($a_id);
     }
-    final public static function _setDeletedDate($a_ref_id)
+    final public static function _setDeletedDate($a_ref_id, $a_deleted_by)
     {
-        return parent::_setDeletedDate($a_ref_id);
+        return parent::_setDeletedDate($a_ref_id, $a_deleted_by);
     }
     final public static function _resetDeletedDate($a_ref_id)
     {

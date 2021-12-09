@@ -3237,7 +3237,7 @@ class ilObjCourseGUI extends ilContainerGUI
             
             // notification
             include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
-            if (ilMembershipNotifications::isActive()) {
+            if (ilMembershipNotifications::isActiveForRefId($this->ref_id)) {
                 $noti = new ilMembershipNotifications($this->ref_id);
                 if (!$noti->isCurrentUserActive()) {
                     $lg->addHeaderIcon(

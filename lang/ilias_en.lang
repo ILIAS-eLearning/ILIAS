@@ -1973,7 +1973,6 @@ cntr#:#cntr_view_info_sessions#:#This content presentation groups all sessions f
 cntr#:#cntr_view_info_simple#:#This content presentation lists all items in one block.
 cntr#:#cntr_view_sessions#:#Sessions View
 cntr#:#cntr_view_simple#:#Simple View
-common#:#3rd_party_software#:#3rd party software
 common#:#absolute_path#:#Absolute Path
 common#:#accept_usr_agreement#:#Accept terms of service?
 common#:#access_expired#:#expired
@@ -2798,6 +2797,7 @@ common#:#hint#:#Hint
 common#:#hist_lm_delete_pg#:#Page "%1" [%2] has been deleted.
 common#:#hist_lm_delete_st#:#Chapter "%1" [%2] has been deleted.
 common#:#hist_lm_pg_create#:#Page created.
+common#:#hist_lm_pg_update#:#Page changed.
 common#:#hist_lm_st_create#:#Chapter created.
 common#:#hist_webr_add#:#Added new Weblink with title: "%1"
 common#:#hist_webr_delete#:#Deleted Weblink with title: "%1"
@@ -14124,7 +14124,7 @@ rbac#:#news_add_news#:#Add News
 rbac#:#grp_news_add_news#:#Add and edit own news entries in group
 news#:#news_timline_add_entries_info#:#No news available yet. Click "Add" to create news entries.
 obj#:#obj_tool_setting_use_news#:#News
-obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view.
+obj#:#obj_tool_setting_use_news_info#:#Activate the news block and/or timeline view. Users can subscribe for notifications, if the news block or the timeline are activated.
 obj#:#obj_tool_setting_use_news_open_settings#:#Open Settings
 cont#:#cont_news_settings#:#News Settings
 cont#:#cont_news_timeline_landing_page#:#Landing Page
@@ -16274,3 +16274,4 @@ common#:#il_lti_learner#:#LTI Learner
 common#:#il_lti_instructor#:#LTI Instructor
 rbac#:#il_lti_global_role#:#LTI User
 common#:#actions_for#:#Actions for %s
+news#:#news_date#:#Date

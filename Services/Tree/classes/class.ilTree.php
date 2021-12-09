@@ -1852,17 +1852,22 @@ class ilTree
     }
     
     /**
-     * Wrapper for saveSubTree
+     * Move node to trash bin
      * @param int $a_node_id
      * @param bool $a_set_deleted
-     * @return integer
+     * @param int deleted_by user_id
+     * @return bool
      * @throws InvalidArgumentException
      */
-    public function moveToTrash($a_node_id, $a_set_deleted = false)
+    public function moveToTrash($a_node_id, $a_set_deleted = false, $a_deleted_by = 0)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
+        $user = $DIC->user();
+        if(!$a_deleted_by) {
+            $a_deleted_by = $user->getId();
+        }
 
         if (!$a_node_id) {
             $this->log->logStack(ilLogLevel::ERROR);
@@ -1884,29 +1889,13 @@ class ilTree
         }
 
         if ($a_set_deleted) {
-            include_once './Services/Object/classes/class.ilObject.php';
-            ilObject::setDeletedDates($subnodes);
+            ilObject::setDeletedDates($subnodes, $a_deleted_by);
         }
 
         // netsted set <=> mp
         $this->getTreeImplementation()->moveToTrash($a_node_id);
 
         return true;
-    }
-
-    /**
-     * Use the wrapper moveToTrash
-     * save subtree: delete a subtree (defined by node_id) to a new tree
-     * with $this->tree_id -node_id. This is neccessary for undelete functionality
-     * @param	integer	node_id
-     * @return	integer
-     * @access	public
-     * @throws InvalidArgumentException
-     * @deprecated since 4.4.0
-     */
-    public function saveSubTree($a_node_id, $a_set_deleted = false)
-    {
-        return $this->moveToTrash($a_node_id, $a_set_deleted);
     }
 
     /**

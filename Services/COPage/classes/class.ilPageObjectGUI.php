@@ -3215,7 +3215,6 @@ class ilPageObjectGUI
         if (!$this->getEnabledTabs()) {
             return;
         }
-
         // back to upper context
         if (!$this->getEditPreview()) {
             $this->tabs_gui->addTarget("pg", $this->ctrl->getLinkTarget($this, "preview"), array("", "preview"));
