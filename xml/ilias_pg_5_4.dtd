@@ -322,6 +322,7 @@ col or row span. -->
 	ActiveTo CDATA #IMPLIED
 	Permission CDATA #IMPLIED
 	PermissionRefId CDATA #IMPLIED
+	Protected CDATA #IMPLIED
 	PCID CDATA #IMPLIED
 >
 

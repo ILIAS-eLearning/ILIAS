@@ -29,6 +29,9 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+content#:#cont_sec_protected_text#:#Der folgende Block ist geschützt und kann nicht bearbeitet werden.
+content#:#cont_sec_protected#:#Geschützt
+prtf#:#prtf_sec_protected_info#:#Geschützte Blöcke können im Portfolio nicht bearbeitet werden.
 prtf#:#prtf_role_assignment#:#Rollenzuordnung
 prtf#:#prtf_add_assignment#:#Zuordnung hinzufügen
 prtf#:#prtf_role_title#:#Rolle

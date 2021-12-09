@@ -49,6 +49,11 @@ select.ilEditSelect {
 	height: 30px;
 }
 
+[data-protected='1'] [data-copg-ed-type='add-area'] {
+	display: none;
+}
+
+
 button.copg-add.dropdown-toggle.btn,
 button.copg-add.dropdown-toggle.btn:focus,
 button.copg-add.dropdown-toggle.btn:hover {
@@ -123,6 +128,9 @@ div.il_editarea, div.il_editarea_disabled {
 	div.il_editarea:hover, div.il_editarea_disabled:hover {
 		border: 2px solid @il-main-color;
 	}
+	[data-protected='1'] div.il_editarea:hover {
+		border: 2px solid transparent;
+	}
 }
 
 div.ilEditLabel {
@@ -144,6 +152,9 @@ div.ilEditLabel {
 	div.il_editarea_disabled:hover > div.ilEditLabel,
 	.copg-ghost-wrapper div.ilEditLabel {
 		display: block;
+	}
+	[data-protected='1'] div.il_editarea:hover > div.ilEditLabel {
+		display: none;
 	}
 }
 
@@ -752,6 +763,10 @@ p#copg-auto-save {
 .copg-edit-container {
 	border: 1px dashed #d0d0d0;
 }
+[data-protected='1'] .copg-edit-container {
+	border: none;
+}
+
 
 /* very important: add areas around floating images https://stackoverflow.com/questions/1260122/expand-a-div-to-fill-the-remaining-width  and https://css-tricks.com/popping-hidden-overflow/ */
 #il_EditPage [data-copg-ed-type="add-area"] {

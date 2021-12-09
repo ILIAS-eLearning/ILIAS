@@ -106,6 +106,8 @@ class PageQueryActionHandler implements Server\QueryActionHandler
             "./Services/COPage/css/tiny_extra.css";
         $config->text_formats = \ilPCParagraphGUI::_getTextCharacteristics($this->page_gui->getStyleId());
         $config->editPlaceholders = $this->page_gui->getPageConfig()->getEnablePCType("PlaceHolder");
+        $config->activatedProtection =
+            ($this->page_gui->getPageConfig()->getSectionProtection() == \ilPageConfig::SEC_PROTECT_PROTECTED);
 
         return $config;
     }

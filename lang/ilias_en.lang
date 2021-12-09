@@ -30,6 +30,9 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
+content#:#cont_sec_protected_text#:#The following section is protected and can not be edited.
+content#:#cont_sec_protected#:#Protected
+prtf#:#prtf_sec_protected_info#:#Protected sections cannot be edited by portfolio owners.
 prtf#:#prtf_role_assignment#:#Role Assignment
 prtf#:#prtf_add_assignment#:#Add Assignment
 prtf#:#prtf_role_title#:#Role

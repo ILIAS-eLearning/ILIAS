@@ -425,4 +425,33 @@ class ilPCSection extends ilPageContent
         }
         return $a_html;
     }
+
+    public function getProtected() : bool
+    {
+        if (is_object($this->sec_node)) {
+            return ($this->sec_node->get_attribute("Protected") == "1");
+        }
+
+        return false;
+    }
+
+    public function setProtected(bool $val) : void
+    {
+        if ($val) {
+            $this->sec_node->set_attribute("Protected", "1");
+        } else {
+            $this->sec_node->set_attribute("Protected", "0");
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getModel()
+    {
+        $model = new \stdClass();
+        $model->protected = $this->getProtected();
+
+        return $model;
+    }
 }
