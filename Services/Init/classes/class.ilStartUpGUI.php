@@ -1050,6 +1050,7 @@ class ilStartUpGUI
                 '[list-user-agreement]',
                 '[list-login-form]',
                 '[list-cas-login-form]',
+                '[list-saml-login]',
                 '[list-shibboleth-login-form]'
             ),
             array('','','','','','',''),
@@ -1890,7 +1891,7 @@ class ilStartUpGUI
                 $GLOBALS['tpl'],
                 $page_editor_html,
                 $tpl->get(),
-                '[list-saml-login-form]',
+                '[list-saml-login]',
                 'SAML_LOGIN_FORM'
             );
         }
