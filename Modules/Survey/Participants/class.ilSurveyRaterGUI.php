@@ -303,6 +303,12 @@ class ilSurveyRaterGUI
     {
         $ilTabs = $this->tabs;
 
+        $appr_id = $this->parent->handleRatersAccess();
+        $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "appr_id", $appr_id);
+        $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "rater_id", $_GET["rater_id"]);
+        $this->ctrl->redirectByClass("ilSurveyParticipantsGUI", "mailRaters");
+        return;
+
         $raters = (is_array($_POST["rtr_id"]))
             ? $_POST["rtr_id"]
             : ($_GET["rater_id"] != "" ? explode(";", $_GET["rater_id"]) : null);

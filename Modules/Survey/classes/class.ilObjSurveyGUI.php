@@ -65,6 +65,9 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
      */
     protected $session_manager;
 
+    /**
+     * @var \ILIAS\Survey\Access\AccessManager|null
+     */
     protected $access_manager = null;
 
     /**
@@ -508,14 +511,12 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             }
         }
 
-        if (
-            $this->checkRbacOrPositionPermission('read_results', 'access_results') ||
-            ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $ilUser->getId())) {
+        if ($this->access_manager->canAccessEvaluation()) {
             // evaluation
             $this->tabs_gui->addTab(
                 "svy_results",
                 $this->lng->txt("svy_results"),
-                $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation")
+                $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "openEvaluation")
             );
         }
         
@@ -914,23 +915,34 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     */
     public static function _goto($a_target, $a_access_code = "")
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
-        
+        $ctrl = $DIC->ctrl();
+
         // see ilObjSurveyAccess::_checkGoto()
         if (strlen($a_access_code)) {
-            $_SESSION["anonymous_id"][ilObject::_lookupObjId($a_target)] = $a_access_code;
+            $sess = $DIC->survey()->internal()->repo()
+                ->execution()->anonymousSession();
+            //$_SESSION["anonymous_id"][ilObject::_lookupObjId($a_target)] = $a_access_code;
+            $sess->setCode(ilObject::_lookupObjId($a_target), $a_access_code);
             $_GET["baseClass"] = "ilObjSurveyGUI";
             $_GET["cmd"] = "infoScreen";
             $_GET["ref_id"] = $a_target;
             include("ilias.php");
             exit;
         }
-        
         if ($ilAccess->checkAccess("visible", "", $a_target) ||
             $ilAccess->checkAccess("read", "", $a_target)) {
+            $am = $DIC->survey()->internal()->domain()->access($a_target, $DIC->user()->getId());
+            if (/*!$am->canStartSurvey() &&*/ $am->canAccessEvaluation()) {
+                $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
+                $ctrl->redirectByClass(["ilObjSurveyGUI", "ilSurveyEvaluationGUI"], "openEvaluation");
+                exit;
+            }
+
             $_GET["baseClass"] = "ilObjSurveyGUI";
             $_GET["cmd"] = "infoScreen";
             $_GET["ref_id"] = $a_target;

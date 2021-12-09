@@ -74,14 +74,12 @@ abstract class AbstractUIModifier implements UIModifier
     public function setResultsOverviewToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id,
-        int $appraisee_id = 0
+        int $user_id
     ) : void {
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
-            $user_id,
-            $appraisee_id
+            $user_id
         );
 
         $this->addExportAndPrintButton(
@@ -90,11 +88,23 @@ abstract class AbstractUIModifier implements UIModifier
         );
     }
 
+    public function setResultsCompetenceToolbar(
+        \ilObjSurvey $survey,
+        \ilToolbarGUI $toolbar,
+        int $user_id
+    ) : void {
+        $this->addApprSelectionToToolbar(
+            $survey,
+            $toolbar,
+            $user_id
+        );
+    }
+
+
     public function setResultsDetailToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id,
-        int $appraisee_id = 0
+        int $user_id
     ) : void {
         $gui = $this->service->ui();
         $lng = $gui->lng();
@@ -102,8 +112,7 @@ abstract class AbstractUIModifier implements UIModifier
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
-            $user_id,
-            $appraisee_id
+            $user_id
         );
 
         $captions = new \ilSelectInputGUI($lng->txt("svy_eval_captions"), "cp");
@@ -213,30 +222,42 @@ abstract class AbstractUIModifier implements UIModifier
     public function addApprSelectionToToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id,
-        int $appraisee_id
+        int $user_id
     ) {
         $lng = $this->service->ui()->lng();
         $ctrl = $this->service->ui()->ctrl();
+        $req = $this->service->ui()->evaluation($survey)->request();
 
         $options = [];
-        $evaluation_manager = $this->service->domain()->evaluation($survey, $user_id);
-        foreach ($evaluation_manager->getSelectableAppraisees() as $user_id) {
-            $options[$user_id] = \ilUserUtil::getNamePresentation($user_id, false, false, "", true);
-        }
-        asort($options);
-        $no_appraisees = (count($options) == 0);
-        if ($appraisee_id == 0) {
-            $options = array_merge(
-                [0 => $lng->txt("please_select")],
-                $options
-            );
-        }
+        $evaluation_manager = $this->service->domain()->evaluation(
+            $survey,
+            $user_id,
+            $req->getAppraiseeId(),
+            $req->getRaterId()
+        );
 
-        if (!$no_appraisees) {
-            $appr = new \ilSelectInputGUI($lng->txt("svy_participant"), "appr_id");
+        $appr_id = $evaluation_manager->getCurrentAppraisee();
+
+        if ($evaluation_manager->isMultiParticipantsView()) {
+            $appr_id = $evaluation_manager->getCurrentAppraisee();
+            $options = array();
+            if (!$appr_id) {
+                $options[""] = $lng->txt("please_select");
+            }
+
+            foreach ($evaluation_manager->getSelectableAppraisees() as $user_id) {
+                $options[$user_id] = \ilUserUtil::getNamePresentation(
+                    $user_id,
+                    false,
+                    false,
+                    "",
+                    true
+                );
+            }
+
+            $appr = new \ilSelectInputGUI($lng->txt("survey_360_appraisee"), "appr_id");
             $appr->setOptions($options);
-            $appr->setValue($appraisee_id);
+            $appr->setValue($appr_id);
             $toolbar->addInputItem($appr, true);
 
             $button = \ilSubmitButton::getInstance();
@@ -244,7 +265,7 @@ abstract class AbstractUIModifier implements UIModifier
             $button->setCommand($ctrl->getCmd());
             $toolbar->addButtonInstance($button);
 
-            if ($appraisee_id > 0) {
+            if ($appr_id) {
                 $toolbar->addSeparator();
             }
         }

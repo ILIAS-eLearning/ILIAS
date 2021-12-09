@@ -355,6 +355,12 @@ class InfoScreenGUI
         if ($this->status_manager->isAppraisee()) {
             $info->addSection($this->lng->txt("survey_360_appraisee_info"));
 
+            $privacy_info = $this->lng->txt("svy_rater_see_app_info");
+            if (in_array($survey->get360Results(), [\ilObjSurvey::RESULTS_360_OWN, \ilObjSurvey::RESULTS_360_ALL])) {
+                $privacy_info .= " " . $this->lng->txt("svy_app_see_rater_info");
+            }
+            $info->addProperty($this->lng->txt("svy_privacy_info"), $privacy_info);
+
             $appr_data = $survey->getAppraiseesData();
             $appr_data = $appr_data[$this->user->getId()];
             $info->addProperty($this->lng->txt("survey_360_raters_status_info"), $appr_data["finished"]);

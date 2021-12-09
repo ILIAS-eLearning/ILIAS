@@ -154,6 +154,15 @@ class RunManager
         return $this->repo->getRunsForUser($this->survey->getSurveyId(), $user_id, $code);
     }
 
+    public function getById(int $run_id) : ?Run
+    {
+        $run = $this->repo->getById($run_id);
+        if (!is_null($run) && $run->getSurveyId() != $this->survey->getSurveyId()) {
+            throw new \ilSurveyException("Run survey id mismatch.");
+        }
+        return $run;
+    }
+
     /**
      * Starts the survey creating an entry in the database
      *

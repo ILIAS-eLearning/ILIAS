@@ -81,6 +81,7 @@ class ilPersonalSkillsGUI
     protected int $requested_self_eval_level_id;
     protected int $requested_wsp_id;
     protected array $requested_wsp_ids;
+    protected array $trigger_user_filter = [];
 
     public function __construct()
     {
@@ -188,7 +189,7 @@ class ilPersonalSkillsGUI
     {
         $this->trigger_objects_filter = $trigger_objects_filter;
     }
-    
+
     public function setIntroText(string $a_val) : void
     {
         $this->intro_text = $a_val;
@@ -197,6 +198,22 @@ class ilPersonalSkillsGUI
     public function getIntroText() : string
     {
         return $this->intro_text;
+    }
+
+    /**
+     * @return array
+     */
+    public function getTriggerUserFilter()
+    {
+        return $this->trigger_user_filter;
+    }
+
+    /**
+     * @param array $trigger_user_filter
+     */
+    public function setTriggerUserFilter($trigger_user_filter)
+    {
+        $this->trigger_user_filter = $trigger_user_filter;
     }
 
     public function hideSkill(int $a_skill_id, int $a_tref_id = 0) : void
@@ -523,7 +540,10 @@ class ilPersonalSkillsGUI
                     if (count($this->getTriggerObjectsFilter()) && !in_array($level_entry['trigger_obj_id'], $this->getTriggerObjectsFilter())) {
                         continue;
                     }
-                    
+                    if (count($this->getTriggerUserFilter()) && !in_array($level_entry['trigger_user_id'], $this->getTriggerUserFilter())) {
+                        continue;
+                    }
+
                     // render the self evaluation at the correct position within the list of object triggered entries
                     if ($se_date > $level_entry["status_date"] && !$se_rendered) {
                         $se_rendered = true;

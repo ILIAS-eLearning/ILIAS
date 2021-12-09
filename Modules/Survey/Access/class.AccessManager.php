@@ -142,4 +142,34 @@ class AccessManager
         }
         return false;
     }
+
+    public function isCodeInputAllowed() : bool
+    {
+        $survey = $this->getSurvey();
+        $participant_status = $this->domain_service
+            ->participants()
+            ->status($this->getSurvey(), $this->user_id);
+        if ($participant_status->isExternalRater() ||
+            $survey->getAnonymize() || !$survey->isAccessibleWithoutCode()) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Can access evaluation
+     * @return bool
+     */
+    public function canAppraiseesAccessEvaluation() : bool
+    {
+        $survey = $this->getSurvey();
+        $survey->read();
+        if (in_array($survey->get360Results(), [ilObjSurvey::RESULTS_360_OWN, ilObjSurvey::RESULTS_360_ALL])) {
+        }
+
+        if (\ilObjSurveyAccess::_hasEvaluationAccess($survey->getId(), $this->user_id)) {
+            return true;
+        }
+        return false;
+    }
 }

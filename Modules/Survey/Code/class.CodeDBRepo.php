@@ -297,6 +297,33 @@ class CodeDBRepo
         return $codes;
     }
 
+    public function getByUserKey(int $survey_id, string $survey_key) : ?Code
+    {
+        $db = $this->db;
+
+        $set = $db->queryF(
+            "SELECT * FROM svy_anonymous " .
+            " WHERE survey_fi = %s AND survey_key = %s",
+            ["integer", "string"],
+            [$survey_id, $survey_key]
+        );
+
+        if ($rec = $db->fetchAssoc($set)) {
+            $ext_data = unserialize((string) $rec["externaldata"]);
+            return $this->data->code($rec["survey_key"])
+                                  ->withId((int) $rec["anonymous_id"])
+                                  ->withSurveyId((int) $rec["survey_fi"])
+                                  ->withUserKey((string) $rec["user_key"])
+                                  ->withTimestamp((int) $rec["tstamp"])
+                                  ->withSent((int) $rec["sent"])
+                                  ->withEmail((string) ($ext_data["email"] ?? ""))
+                                  ->withFirstName((string) ($ext_data["firstname"] ?? ""))
+                                  ->withLastName((string) ($ext_data["lastname"] ?? ""));
+        }
+
+        return null;
+    }
+
     /**
      * Bind registered user to a code
      * @param int    $survey_id

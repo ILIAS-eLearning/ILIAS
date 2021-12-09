@@ -54,7 +54,7 @@ class CodeManager
         $this->code_repo = $code_repo;
         $this->survey_id = $survey->getSurveyId();
         $this->access = $domain_service->access(
-            $survey->getRefId(),
+            (int) $survey->getRefId(),
             $user_id
         );
         $this->lng = $domain_service->lng();
@@ -209,5 +209,10 @@ class CodeManager
     {
         //$this->checkPermission();
         return $this->code_repo->getByUserId($this->survey_id, $user_id);
+    }
+
+    public function getByUserKey(string $user_key) : ?Code
+    {
+        return $this->code_repo->getByUserKey($this->survey_id, $user_key);
     }
 }

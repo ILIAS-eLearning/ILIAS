@@ -244,8 +244,11 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
             $this->confirmed_objects = $this->buildConfirmedObjects($a_form);
 
             if (!is_array($this->confirmed_objects)) {
-                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($this->getADTDefinition(),
-                    false, true);
+                $search = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance(
+                    $this->getADTDefinition(),
+                    false,
+                    true
+                );
                 foreach ($missing as $missing_idx => $missing_value) {
                     $in_use = $this->findBySingleValue($search, $missing_idx);
                     if (is_array($in_use)) {
@@ -321,8 +324,10 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
             foreach ($this->confirm_objects as $old_option => $items) {
                 $old_option_value = $this->confirm_objects_values[$old_option];
-                $details = new ilRadioGroupInputGUI($lng->txt("md_adv_confirm_definition_select_option") . ': "' . $old_option_value . '"',
-                    "conf_det[" . $this->getFieldId() . "][" . $old_option . "]");
+                $details = new ilRadioGroupInputGUI(
+                    $lng->txt("md_adv_confirm_definition_select_option") . ': "' . $old_option_value . '"',
+                    "conf_det[" . $this->getFieldId() . "][" . $old_option . "]"
+                );
                 $details->setRequired(true);
                 $details->setValue("sum");
                 $a_form->addItem($details);
@@ -574,7 +579,6 @@ class ilAdvancedMDFieldDefinitionSelect extends ilAdvancedMDFieldDefinition
 
     protected function import(array $a_data) : void
     {
-
         parent::import($a_data);
 
         $query = 'select * from adv_mdf_enum ' .

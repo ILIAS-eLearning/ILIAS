@@ -206,6 +206,26 @@ class RunDBRepository
         return $runs;
     }
 
+    public function getById(int $run_id) : ?Run
+    {
+        $db = $this->db;
+
+        $sql = "SELECT * FROM svy_finished" .
+            " WHERE finished_id = " . $db->quote($run_id, "integer");
+        $set = $db->query($sql);
+        while ($row = $db->fetchAssoc($set)) {
+            return $this->data->run((int) $row["survey_fi"], (int) $row["user_fi"])
+                ->withId((int) $row["finished_id"])
+                ->withFinished((bool) $row["state"])
+                ->withCode((string) $row["anonymous_id"])
+                ->withTimestamp((int) $row["tstamp"])
+                ->withAppraiseeId((int) $row["appr_id"])
+                ->withLastPage((int) $row["lastpage"]);
+        }
+        return null;
+    }
+
+
     /**
      * Add run
      * @param int    $survey_id

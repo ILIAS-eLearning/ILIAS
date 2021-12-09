@@ -9,6 +9,7 @@ use \ILIAS\UI\Component\Input\Container\Form;
  *
  * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_isCalledBy ilPCAMDFormGUI: ilPageEditorGUI
+ * @ilCtrl_Calls ilPCAMDFormGUI: ilPropertyFormGUI
  */
 class ilPCAMDFormGUI extends ilPageContentGUI
 {
@@ -18,8 +19,6 @@ class ilPCAMDFormGUI extends ilPageContentGUI
     public function __construct($a_pg_obj, $a_content_obj, $a_hier_id, $a_pc_id = "")
     {
         global $DIC;
-
-        $this->tpl = $DIC["tpl"];
         $this->ctrl = $DIC->ctrl();
         $this->ui = $DIC->ui();
         $this->request = $DIC->http()->request();
@@ -41,6 +40,12 @@ class ilPCAMDFormGUI extends ilPageContentGUI
         $cmd = $this->ctrl->getCmd();
 
         switch ($next_class) {
+
+            case "ilpropertyformgui":
+                $form = $this->getPortfolioForm(true);
+                $this->ctrl->forwardCommand($form);
+                break;
+
             default:
                 $ret = $this->$cmd();
                 break;
@@ -268,12 +273,19 @@ class ilPCAMDFormGUI extends ilPageContentGUI
      */
     public function getPortfolioForm(bool $edit = false) : ilPropertyFormGUI
     {
+        $content_obj = $this->content_obj;
+        if (is_null($content_obj)) {
+            $page = new ilPortfolioPage($_GET["ppage"]);
+            $page->buildDom();
+            $content_obj = $page->getContentObjectForPcId($_GET["pc_id"]);
+        }
+
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
         $selected = [];
         if ($edit) {
-            $selected = $this->content_obj->getRecordIds();
+            $selected = $content_obj->getRecordIds();
         }
         $recs = $this->getAdvRecords();
         foreach ($recs as $r) {

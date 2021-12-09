@@ -15,6 +15,11 @@
 class ilSurveyEvaluationGUI
 {
     /**
+     * @var \ILIAS\Survey\Evaluation\EvaluationManager
+     */
+    protected $evaluation_manager;
+
+    /**
      * @var ilTabsGUI
      */
     protected $tabs;
@@ -96,9 +101,21 @@ class ilSurveyEvaluationGUI
         $this->log = ilLoggerFactory::getLogger("svy");
         $this->array_panels = array();
 
-        if ($this->object->get360Mode() || $this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
-            $this->determineAppraiseeId();
-        }
+        $this->ctrl->saveParameter($this, ["appr_id", "rater_id"]);
+        $this->evaluation_manager = $DIC
+            ->survey()
+            ->internal()
+            ->domain()
+            ->evaluation(
+                $this->object,
+                $DIC->user()->getId(),
+                (int) $_REQUEST["appr_id"],
+                (string) $_REQUEST["rater_id"]
+            );
+
+        $this->setAppraiseeId(
+            $this->evaluation_manager->getCurrentAppraisee()
+        );
 
         $this->ui_modifier = $DIC->survey()
              ->internal()
@@ -159,11 +176,13 @@ class ilSurveyEvaluationGUI
             );
         }
 
-        $ilTabs->addSubTabTarget(
-            "svy_eval_cumulated",
-            $this->ctrl->getLinkTarget($this, "evaluation"),
-            array("evaluation", "checkEvaluationAccess")
-        );
+        if ($this->object->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
+            $ilTabs->addSubTabTarget(
+                "svy_eval_cumulated",
+                $this->ctrl->getLinkTarget($this, "evaluation"),
+                array("evaluation", "checkEvaluationAccess")
+            );
+        }
 
         $ilTabs->addSubTabTarget(
             "svy_eval_detail",
@@ -209,51 +228,7 @@ class ilSurveyEvaluationGUI
         return $this->appr_id;
     }
     
-    /**
-     * Determine appraisee id
-     */
-    public function determineAppraiseeId()
-    {
-        $ilUser = $this->user;
-        $rbacsystem = $this->rbacsystem;
-        
-        $appr_id = "";
-        
-        // always start with current user
-        if ($_REQUEST["appr_id"] == "") {
-            $req_appr_id = $ilUser->getId();
-        } else {
-            $req_appr_id = (int) $_REQUEST["appr_id"];
-        }
-        
-        // write access? allow selection
-        if ($req_appr_id > 0 && $this->object->get360Mode()) {
-            $all_appr = ($this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL);
-            
-            $valid = array();
-            foreach ($this->object->getAppraiseesData() as $item) {
-                if ($item["closed"] &&
-                    ($item["user_id"] == $ilUser->getId() ||
-                    $rbacsystem->checkAccess("write", $this->object->getRefId()) ||
-                    $all_appr)) {
-                    $valid[] = $item["user_id"];
-                }
-            }
-            if (in_array($req_appr_id, $valid)) {
-                $appr_id = $req_appr_id;
-            } else {
-                // current selection / user is not valid, use 1st valid instead
-                $appr_id = array_shift($valid);
-            }
-        } else { // SVY SELF EVALUATION MODE
-            $appr_id = $req_appr_id;
-        }
-        
-        $this->ctrl->setParameter($this, "appr_id", $appr_id);
-        $this->setAppraiseeId($appr_id);
-    }
-    
-    
+
     /**
     * Show the detailed evaluation
     *
@@ -749,7 +724,17 @@ class ilSurveyEvaluationGUI
         
         return $modal->getHTML();
     }
-    
+
+    protected function openEvaluation()
+    {
+        $skmg_set = new ilSkillManagementSettings();
+        if ($this->object->getSkillService() && $skmg_set->isActivated()) {
+            $this->competenceEval();
+        } else {
+            $this->evaluation();
+        }
+    }
+
     public function evaluation($details = 0, $pdf = false, $return_pdf = false)
     {
         $ilToolbar = $this->toolbar;
@@ -796,7 +781,7 @@ class ilSurveyEvaluationGUI
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
             if ($this->object->get360Mode()) {
                 $appr_id = (int) $this->getAppraiseeId();
-                $this->addApprSelectionToToolbar();
+//                $this->addApprSelectionToToolbar();
             }
         }
         $results = array();
@@ -808,15 +793,13 @@ class ilSurveyEvaluationGUI
             $this->ui_modifier->setResultsDetailToolbar(
                 $this->object,
                 $ilToolbar,
-                $this->user->getId(),
-                $appr_id
+                $this->user->getId()
             );
         } else {
             $this->ui_modifier->setResultsOverviewToolbar(
                 $this->object,
                 $ilToolbar,
-                $this->user->getId(),
-                $appr_id
+                $this->user->getId()
             );
         }
 
@@ -992,63 +975,46 @@ class ilSurveyEvaluationGUI
     
     /**
      * Add appraisee selection to toolbar
-     *
-     * @param
-     * @return
      */
     public function addApprSelectionToToolbar()
     {
+        return;
         $ilToolbar = $this->toolbar;
-        $rbacsystem = $this->rbacsystem;
 
-        $svy_mode = $this->object->getMode();
-        if ($svy_mode == ilObjSurvey::MODE_360 || $svy_mode == ilObjSurvey::MODE_SELF_EVAL) {
+        if ($this->evaluation_manager->isMultiParticipantsView()) {
             $appr_id = $this->getAppraiseeId();
-
             $options = array();
             if (!$appr_id) {
                 $options[""] = $this->lng->txt("please_select");
             }
 
-            $no_appr = true;
-            if ($this->object->get360Mode()) {
-                foreach ($this->object->getAppraiseesData() as $item) {
-                    if ($item["closed"]) {
-                        $options[$item["user_id"]] = $item["login"];
-                        $no_appr = false;
-                    }
-                }
-            } else { //self evaluation mode
-                foreach ($this->object->getSurveyParticipants() as $item) {
-                    $options[ilObjUser::_lookupId($item['login'])] = $item['login'];
-                    $no_appr = false;
-                }
+            foreach ($this->evaluation_manager->getSelectableAppraisees() as $user_id) {
+                $options[$user_id] = ilUserUtil::getNamePresentation(
+                    $user_id,
+                    false,
+                    false,
+                    "",
+                    true
+                );
             }
 
-            if (!$no_appr) {
-                if ($rbacsystem->checkAccess("write", $this->object->getRefId()) ||
-                    $this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL ||
-                    $this->object->getSelfEvaluationResults() == ilObjSurvey::RESULTS_SELF_EVAL_ALL) {
-                    $appr = new ilSelectInputGUI($this->lng->txt("svy_participant"), "appr_id");
-                    $appr->setOptions($options);
-                    $appr->setValue($this->getAppraiseeId());
-                    $ilToolbar->addInputItem($appr, true);
+            $appr = new ilSelectInputGUI($this->lng->txt("svy_appraisee"), "appr_id");
+            $appr->setOptions($options);
+            $appr->setValue($this->getAppraiseeId());
+            $ilToolbar->addInputItem($appr, true);
                     
-                    $button = ilSubmitButton::getInstance();
-                    $button->setCaption("survey_360_select_appraisee");
-                    $button->setCommand($this->ctrl->getCmd());
-                    $ilToolbar->addButtonInstance($button);
+            $button = ilSubmitButton::getInstance();
+            $button->setCaption("survey_360_select_appraisee");
+            $button->setCommand($this->ctrl->getCmd());
+            $ilToolbar->addButtonInstance($button);
     
-                    if ($appr_id) {
-                        $ilToolbar->addSeparator();
-                    }
-                }
-            } else {
-                ilUtil::sendFailure($this->lng->txt("survey_360_no_closed_appraisees"));
+            if ($appr_id) {
+                $ilToolbar->addSeparator();
             }
         }
     }
-    
+
+
     /**
     * Processes an array as a CSV row and converts the array values to correct CSV
     * values. The "converted" array is returned
@@ -1260,7 +1226,7 @@ class ilSurveyEvaluationGUI
         
         if ($this->object->get360Mode()) {
             $appr_id = $this->getAppraiseeId();
-            $this->addApprSelectionToToolbar();
+//            $this->addApprSelectionToToolbar();
         }
 
         $tabledata = null;
@@ -1401,15 +1367,22 @@ class ilSurveyEvaluationGUI
         $ilTabs->activateTab("svy_results");
 
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "competenceEval"));
-        
-        if ($this->object->get360Mode() || $survey->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
-            $appr_id = $this->getAppraiseeId();
-            $this->addApprSelectionToToolbar();
-        }
-        
+
+        $appr_id = $this->getAppraiseeId();
+
         if ($appr_id == 0) {
+            ilUtil::sendInfo($this->lng->txt("svy_no_appraisees_found"));
             return;
         }
+
+        $this->ui_modifier->setResultsCompetenceToolbar(
+            $this->object,
+            $ilToolbar,
+            $this->user->getId()
+        );
+
+//        $this->addApprSelectionToToolbar();
+//        $this->addRaterSelectionToToolbar();
         
         // evaluation modes
         $eval_modes = array();
@@ -1473,11 +1446,19 @@ class ilSurveyEvaluationGUI
         
         $ilToolbar->addFormButton($lng->txt("select"), "competenceEval");
 
+        $pskills_gui = new ilPersonalSkillsGUI();
+        $rater = $this->evaluation_manager->getCurrentRater();
+        if ($rater != "") {
+            if (substr($rater, 0, 1) == "u") {
+                $rater = substr($rater, 1);
+            }
+            $pskills_gui->setTriggerUserFilter([$rater]);
+        }
+
         if (substr($comp_eval_mode, 0, 4) == "gap_") {
             // gap analysis
             $profile_id = (int) substr($comp_eval_mode, 4);
             
-            $pskills_gui = new ilPersonalSkillsGUI();
             $pskills_gui->setProfileId($profile_id);
             $pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
             if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0) {
@@ -1492,9 +1473,9 @@ class ilSurveyEvaluationGUI
             
             $tpl->setContent($html);
         } else { // must be all survey competences
-            $pskills_gui = new ilPersonalSkillsGUI();
             #23743
-            if ($survey->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
+            if ($survey->getMode() != ilObjSurvey::MODE_SELF_EVAL &&
+                $survey->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
                 $pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
             }
             if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0) {

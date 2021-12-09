@@ -66,4 +66,14 @@ class EvaluationGUIRequest
     {
         return !isset($this->params["cp"]) || is_int(strpos($this->params["cp"], "p"));
     }
+
+    public function getAppraiseeId() : int
+    {
+        return (int) ($this->params["appr_id"] ?? 0);
+    }
+
+    public function getRaterId() : string
+    {
+        return (string) ($this->params["rater_id"] ?? 0);
+    }
 }

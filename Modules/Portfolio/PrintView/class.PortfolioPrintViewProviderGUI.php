@@ -264,7 +264,7 @@ class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
                 $page_gui = new \ilPortfolioPageGUI($this->portfolio->getId(), $page["id"]);
                 $page_gui->setOutputMode($this->getOutputMode());
                 $page_gui->setPresentationTitle($page["title"]);
-                $html = $page_gui->showPage();
+                $html = $this->ctrl->getHTML($page_gui);
                 $print_pages[] = $page_head_str . $html;
             } else {
                 $pages2 = \ilBlogPosting::getAllPostings($page["title"]);

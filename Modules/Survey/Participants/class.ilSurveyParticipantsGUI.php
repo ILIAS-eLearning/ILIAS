@@ -1252,9 +1252,42 @@ class ilSurveyParticipantsGUI
         }
         $this->ctrl->redirect($this->parent_gui, "infoScreen");
     }
-    
+
+    /**
+     * @param
+     * @return
+     */
+    protected function storeMailSent()
+    {
+        $ilUser = $this->user;
+        $appr_id = $this->handleRatersAccess();
+        $all_data = $this->object->getRatersData($appr_id);
+
+        $recs = json_decode(base64_decode($_GET["recipients"]));
+        foreach ($all_data as $rec_id => $rater) {
+            $sent = false;
+            if ($rater["login"] != "" && in_array($rater["login"], $recs) ||
+                $rater["email"] != "" && in_array($rater["email"], $recs)) {
+                $sent = true;
+            }
+            if ($sent) {
+                $this->object->set360RaterSent(
+                    $appr_id,
+                    (substr($rec_id, 0, 1) == "a") ? 0 : (int) substr($rec_id, 1),
+                    (substr($rec_id, 0, 1) == "u") ? 0 : (int) substr($rec_id, 1)
+                );
+            }
+        }
+        $this->ctrl->setParameter($this, "appr_id", $appr_id);
+        $this->ctrl->redirect($this, "editRaters");
+    }
+
     public function editRatersObject()
     {
+        if ($_GET["returned_from_mail"] == "1") {
+            $this->storeMailSent();
+        }
+
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
         $ilAccess = $this->access;
@@ -1553,9 +1586,63 @@ class ilSurveyParticipantsGUI
         
         return $form;
     }
-    
-    public function mailRatersObject(ilPropertyFormGUI $a_form = null)
+
+    public function mailRatersObject()
     {
+        $appr_id = $this->handleRatersAccess();
+        $all_data = $this->object->getRatersData($appr_id);
+        $this->ctrl->setParameter($this, "appr_id", $appr_id);
+
+        $raters = (is_array($_POST["rtr_id"]))
+            ? $_POST["rtr_id"]
+            : ($_GET["rater_id"] != "" ? explode(";", $_GET["rater_id"]) : null);
+
+        $rec = [];
+        $external_rater = false;
+        $rater_id = "";
+        foreach ($raters as $id) {
+            if (isset($all_data[$id])) {
+                if ($all_data[$id]["login"] != "") {
+                    $rec[] = $all_data[$id]["login"];
+                } elseif ($all_data[$id]["email"] != "") {
+                    $rec[] = $all_data[$id]["email"];
+                    $external_rater = true;
+                    $rater_id = $all_data[$id]["user_id"];
+                }
+            }
+        }
+        if ($external_rater && count($rec) > 1) {
+            ilUtil::sendFailure($this->lng->txt("svy_only_max_one_external_rater"), true);
+            $this->ctrl->redirect($this, "editRaters");
+        }
+
+        // $_POST["rtr_id"]
+        ilMailFormCall::setRecipients($rec);
+
+        $contextParameters = [
+            'ref_id' => $this->object->getRefId(),
+            'ts' => time(),
+            'appr_id' => $appr_id,
+            'rater_id' => $rater_id,
+            ilMailFormCall::CONTEXT_KEY => "svy_rater_inv"
+        ];
+
+        $this->ctrl->redirectToURL(ilMailFormCall::getRedirectTarget(
+            $this,
+            'editRaters',
+            [
+                'recipients' => base64_encode(json_encode($rec))
+            ],
+            [
+                'type' => 'new'
+            ],
+            $contextParameters
+        ));
+    }
+
+    public function mailRatersObjectOld(ilPropertyFormGUI $a_form = null)
+    {
+        $ilTabs = $this->tabs;
         if (!$a_form) {
             $appr_id = $this->handleRatersAccess();
             $this->ctrl->setParameter($this, "appr_id", $appr_id);

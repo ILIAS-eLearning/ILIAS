@@ -206,7 +206,7 @@ class ilSurveyExecutionGUI
         // see ilObjSurveyGUI::infoScreen()
         $anonymous_id = null;
         $anonymous_code = "";
-        if ($this->object->getAnonymize() || !$this->object->isAccessibleWithoutCode()) {
+        if ($this->access_manager->isCodeInputAllowed()) {
             $anonymous_code = $this->session_manager->getCode();
             $anonymous_id = $this->object->getAnonymousIdByCode($anonymous_code);
             if (!$anonymous_id) {
@@ -988,7 +988,7 @@ class ilSurveyExecutionGUI
         $ilUser = $this->user;
         
         if (!$this->preview) {
-            $this->object->finishSurvey($this->getCurrentRunId());
+            $this->object->finishSurvey($this->getCurrentRunId(), $this->requested_appr_id);
                         
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                 ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());

@@ -159,7 +159,6 @@ class StatusManager
         $survey = $this->survey;
         $feature_config = $this->feature_config;
         $anon_session = $this->repo_service->execution()->anonymousSession();
-
         if (!is_null($survey) &&
             $feature_config->usesAppraisees() &&
             $anon_session->issetCode($survey->getId()) &&

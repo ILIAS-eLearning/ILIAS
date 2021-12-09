@@ -110,8 +110,7 @@ class UIModifier extends Mode\AbstractUIModifier
     public function setResultsDetailToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id,
-        int $appraisee_id = 0
+        int $user_id
     ) : void {
         $gui = $this->service->ui();
         $lng = $gui->lng();
@@ -119,16 +118,81 @@ class UIModifier extends Mode\AbstractUIModifier
         $this->addApprSelectionToToolbar(
             $survey,
             $toolbar,
-            $user_id,
-            $appraisee_id
+            $user_id
         );
-
 
         $this->addExportAndPrintButton(
             $toolbar,
             true
         );
     }
+
+    public function setResultsCompetenceToolbar(
+        \ilObjSurvey $survey,
+        \ilToolbarGUI $toolbar,
+        int $user_id
+    ) : void {
+        $gui = $this->service->ui();
+        $lng = $gui->lng();
+
+        $this->addApprSelectionToToolbar(
+            $survey,
+            $toolbar,
+            $user_id
+        );
+
+        $this->addRaterSelectionToToolbar(
+            $survey,
+            $toolbar,
+            $user_id
+        );
+    }
+
+    /**
+     * Add rater selection to toolbar
+     */
+    public function addRaterSelectionToToolbar(
+        \ilObjSurvey $survey,
+        \ilToolbarGUI $toolbar,
+        int $user_id
+    ) {
+        $lng = $this->service->ui()->lng();
+        $ctrl = $this->service->ui()->ctrl();
+        $req = $this->service->ui()->evaluation($survey)->request();
+
+        $evaluation_manager = $this->service->domain()->evaluation(
+            $survey,
+            $user_id,
+            $req->getAppraiseeId(),
+            $req->getRaterId()
+        );
+
+
+        if (!$evaluation_manager->isMultiParticipantsView()) {
+            $raters = $evaluation_manager->getSelectableRaters();
+
+            if (count($raters) > 0) {
+                $options = [];
+                $options["-"] = $lng->txt("svy_all_raters");
+                foreach ($raters as $rater) {
+                    $options[$rater["user_id"]] = $rater["name"];
+                }
+
+                $rat = new \ilSelectInputGUI($lng->txt("svy_rater"), "rater_id");
+                $rat->setOptions($options);
+                $rat->setValue($evaluation_manager->getCurrentRater());
+                $toolbar->addInputItem($rat, true);
+
+                $button = \ilSubmitButton::getInstance();
+                $button->setCaption("svy_select_rater");
+                $button->setCommand($ctrl->getCmd());
+                $toolbar->addButtonInstance($button);
+
+                $toolbar->addSeparator();
+            }
+        }
+    }
+
 
     protected function getPanelChart(
         \ILIAS\Survey\Evaluation\EvaluationGUIRequest $request,
@@ -218,7 +282,7 @@ class UIModifier extends Mode\AbstractUIModifier
                     $participant = $this->getParticipantByActiveId($participants, $answer["active_id"]);
                     $part_caption = "";
                     if ($participant) {
-                        $part_caption = $participant["sortname"];
+                        $part_caption = $this->getCaptionForParticipant($participant);
                     }
                     $a_tpl->setCurrentBlock("grid_col_bl");
                     $a_tpl->setVariable("COL_CAPTION", $part_caption);
@@ -333,5 +397,10 @@ class UIModifier extends Mode\AbstractUIModifier
             }
         }
         return null;
+    }
+
+    protected function getCaptionForParticipant($part_array)
+    {
+        return $part_array["sortname"];
     }
 }

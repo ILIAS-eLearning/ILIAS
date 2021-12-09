@@ -49,15 +49,19 @@ interface UIModifier
     public function setResultsOverviewToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id,
-        int $appraisee_id = 0
+        int $user_id
     ) : void;
 
     public function setResultsDetailToolbar(
         \ilObjSurvey $survey,
         \ilToolbarGUI $toolbar,
-        int $user_id,
-        int $appraisee_id = 0
+        int $user_id
+    ) : void;
+
+    public function setResultsCompetenceToolbar(
+        \ilObjSurvey $survey,
+        \ilToolbarGUI $toolbar,
+        int $user_id
     ) : void;
 
     public function getDetailPanels(

@@ -29,6 +29,17 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+survey#:#svy_ext_rater_firstname#:#Vorname eines externen Feedback-Gebers
+survey#:#svy_ext_rater_lastname#:#Nachname eines externen Feedback-Gebers
+survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen Feedback-Geber aus.
+survey#:#svy_select_rater#:#Feedbackgeber auswählen
+survey#:#svy_all_raters#:#Alle Feedbackgeber
+survey#:#svy_privacy_info#:#Persönliche Daten
+survey#:#svy_rater_see_app_info#:#Feedbackgebende werden die Namen der Feedbacknehmenden angezeigt, damit diese die Fragen in Bezug auf den Feedbacknehmenden beantworten können.
+survey#:#svy_app_see_rater_info#:#Feedbacknehemde können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
+survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation
+survey#:#svy_mail_context_rater_invitation_info#:#Invite raters to participate in a survey.
+survey#:#svy_mail_context_rater_invitation_survey_title#:#Survey Title
 content#:#cont_sec_protected_text#:#Der folgende Block ist geschützt und kann nicht bearbeitet werden.
 content#:#cont_sec_protected#:#Geschützt
 prtf#:#prtf_sec_protected_info#:#Geschützte Blöcke können im Portfolio nicht bearbeitet werden.
