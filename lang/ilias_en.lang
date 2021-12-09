@@ -30,6 +30,12 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
+prtf#:#prtf_role_assignment#:#Role Assignment
+prtf#:#prtf_add_assignment#:#Add Assignment
+prtf#:#prtf_role_title#:#Role
+prtf#:#prtf_template_title#:#Portfolio Template
+prtf#:#prtf_delete_assignment#:#Delete Assignments
+prtf#:#prtf_delete_assignment_sure#:#Do you really want to delete the following assignment(s)?
 survey#:#svy_rater#:#Rater
 survey#:#svy_dont_send#:#Don't send a message
 survey#:#svy_save_and_continue#:#Save and Continue

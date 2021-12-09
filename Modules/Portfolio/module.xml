@@ -42,5 +42,6 @@
 	</pdfpurposes>
 	<events>
 		<event type="listen" id="Services/Object" />
+		<event type="listen" id="Services/User" />
 	</events>
 </module>

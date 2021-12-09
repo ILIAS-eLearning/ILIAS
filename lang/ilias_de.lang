@@ -29,6 +29,12 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+prtf#:#prtf_role_assignment#:#Rollenzuordnung
+prtf#:#prtf_add_assignment#:#Zuordnung hinzufügen
+prtf#:#prtf_role_title#:#Rolle
+prtf#:#prtf_template_title#:#Portfoliovorlage
+prtf#:#prtf_delete_assignment#:#Zuordnungen löschen
+prtf#:#prtf_delete_assignment_sure#:#Wollen Sie wirklich die folgende(n) Zuordnung(en) löschen?
 survey#:#svy_rater#:#Feedback-Geber
 survey#:#svy_dont_send#:#Keine Nachricht senden
 survey#:#svy_save_and_continue#:#Speichern und Fortfahren
