@@ -48,7 +48,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     protected $infoScreenEnabled = false;
     /** @var PageMetricsService */
     private $pageMetricsService;
-    private \ILIAS\DI\UIServices $uiServices;
+    /** @var \ILIAS\DI\UIServices  */
+    private $uiServices;
 
     /** @var ilHelp */
     protected $help;
