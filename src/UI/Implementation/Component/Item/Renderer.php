@@ -260,7 +260,8 @@ class Renderer extends AbstractComponentRenderer
         return $tpl->get();
     }
 
-    protected function renderTitle(Item $component, RendererInterface $default_renderer, Template $tpl) : void {
+    protected function renderTitle(Item $component, RendererInterface $default_renderer, Template $tpl) : void
+    {
         $title = $component->getTitle();
         if ($title instanceof bShy || $title instanceof Link) {
             $title = $default_renderer->render($title);
@@ -270,7 +271,8 @@ class Renderer extends AbstractComponentRenderer
         $tpl->setVariable("TITLE", $title);
     }
 
-    protected function renderDescription(Item $component, Template $tpl) : void {
+    protected function renderDescription(Item $component, Template $tpl) : void
+    {
         // description
         $desc = $component->getDescription();
         if (!is_null($desc) && trim($desc) != "") {
@@ -280,7 +282,8 @@ class Renderer extends AbstractComponentRenderer
         }
     }
 
-    protected function renderProperties(Item $component, RendererInterface $default_renderer, Template $tpl) : void {
+    protected function renderProperties(Item $component, RendererInterface $default_renderer, Template $tpl) : void
+    {
         // properties
         $props = $component->getProperties();
         if (count($props) > 0) {
