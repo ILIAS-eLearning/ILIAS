@@ -1415,7 +1415,7 @@ class ilObjWikiGUI extends ilObjectGUI
 
     public function getPrintView() : \ILIAS\Export\PrintProcessGUI
     {
-        $provider = new \ILIAS\Wiki\PrintViewProviderGUI(
+        $provider = new \ILIAS\Wiki\WikiPrintViewProviderGUI(
             $this->lng,
             $this->ctrl,
             $this->object->getRefId(),

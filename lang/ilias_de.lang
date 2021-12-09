@@ -29,14 +29,27 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+survey#:#svy_rater#:#Feedback-Geber
+survey#:#svy_dont_send#:#Keine Nachricht senden
+survey#:#svy_save_and_continue#:#Speichern und Fortfahren
+survey#:#svy_external_rater#:#Externen Feedback-Geber hinzufügen
+survey#:#svy_external_rater_info#:#Externe Feedback-Geber haben keinen Nutzer-Account auf der Plattform.
+survey#:#svy_search_user#:#Benutzer suchen
+survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Teilnehmer auswählen.
+survey#:#svy_add_internal_user#:#Benutzer hinzufügen
+survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen einen Benutzer-Account auf der Plattform.
+survey#:#svy_type_of_rater#:#Art Feedback-Geber
+survey#:#svy_add_rater#:#Feedback-Geber hinzufügen
+survey#:#svy_ind_feedb_mode#:#Fremd-Evaluation
+survey#:#svy_ind_feedb_info#:#Feedback-Nehmer erhalten mehrere einzelne Evaluationen durch Feebdack-Geber.
 exc#:#exc_print_pdf#:#Drucken/PDF
 exp#:#exp_print_pdf_info#:#Um ein PDF zu erstellen, wählen Sie bitte anschließend in der Druckansicht "Als PDF speichern" als Ziel.
 exp#:#exp_show_print_view#:#Druckansicht anzeigen
 exp#:#exp_print_pdf#:#Drucken/PDF
-prtf#:#prtf_edit_data#:#Daten editieren
+prtf#:#prtf_edit_data#:#Daten bearbeiten
 content#:#cont_ed_insert_amdfrm#:#Erweiterte Metadaten einfügen
 prtt#:#prtt_select_datasets#:#Datensätze auswählen
-prtt#:#prtt_pfpg#:#Portfolio Page
+prtt#:#prtt_pfpg#:#Portfolioseite
 meta#:#md_adv_field_list#:#Datenfelder
 meta#:#md_adv_record_lng_table#:#Sprachenverwaltung
 meta#:#md_adv_record_lng_table_lng#:#Sprache
@@ -11142,7 +11155,7 @@ survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschl
 survey#:#survey_360_mode#:#360°-Feedback
 survey#:#survey_360_self_evaluation#:#Selbsteinschätzung
 survey#:#survey_360_self_raters#:#Feedback-Geber auswählen
-survey#:#survey_360_self_appraisee#:#Offenes 360°-Feedback
+survey#:#survey_360_self_appraisee#:#Offenes Feedback
 survey#:#survey_360_results#:#Feedback-Nehmer können die Antworten einsehen
 survey#:#survey_360_results_none#:#Kein Zugang
 survey#:#survey_360_results_own#:#Nur eigene Feedback-Geber

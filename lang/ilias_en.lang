@@ -30,6 +30,19 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
+survey#:#svy_rater#:#Rater
+survey#:#svy_dont_send#:#Don't send a message
+survey#:#svy_save_and_continue#:#Save and Continue
+survey#:#svy_external_rater#:#Add External Rater
+survey#:#svy_external_rater_info#:#The rater is not registered on this platform.
+survey#:#svy_search_user#:#Search User
+survey#:#svy_search_user_info#:#Search for users or roles and pick participants.
+survey#:#svy_add_internal_user#:#Add User
+survey#:#svy_add_internal_user_info#:#The rater has a registered user on this platform.
+survey#:#svy_type_of_rater#:#Type of Rater
+survey#:#svy_add_rater#:#Add Rater
+survey#:#svy_ind_feedb_mode#:#Individual Feedback
+survey#:#svy_ind_feedb_info#:#Users get distinct evaluations by others.
 exc#:#exc_print_pdf#:#Print/PDF
 exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
 exp#:#exp_show_print_view#:#Show Print View
@@ -11146,7 +11159,7 @@ survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following
 survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_self_evaluation#:#Self-Evaluation
 survey#:#survey_360_self_raters#:#Appraisees Select Own Raters
-survey#:#survey_360_self_appraisee#:#Open 360° Feedback
+survey#:#survey_360_self_appraisee#:#Open Feedback
 survey#:#survey_360_results#:#Access To Results For Appraisees
 survey#:#survey_360_results_none#:#No Access to Results
 survey#:#survey_360_results_own#:#Access to Feedback of Own Raters

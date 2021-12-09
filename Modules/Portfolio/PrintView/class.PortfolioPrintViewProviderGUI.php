@@ -11,7 +11,7 @@ use \ILIAS\Export;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class PrintViewProviderGUI extends Export\AbstractPrintViewProvider
+class PortfolioPrintViewProviderGUI extends Export\AbstractPrintViewProvider
 {
     /**
      * @var \ilLanguage

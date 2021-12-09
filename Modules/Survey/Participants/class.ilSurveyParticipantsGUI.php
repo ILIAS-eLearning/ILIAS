@@ -10,7 +10,7 @@ use \ILIAS\Survey\Participants;
 * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
 * @version  $Id: class.ilObjSurveyGUI.php 43670 2013-07-26 08:41:31Z jluetzen $
 *
-* @ilCtrl_Calls ilSurveyParticipantsGUI: ilRepositorySearchGUI
+* @ilCtrl_Calls ilSurveyParticipantsGUI: ilRepositorySearchGUI, ilSurveyRaterGUI
 *
 * @ingroup ModulesSurvey
 */
@@ -70,10 +70,21 @@ class ilSurveyParticipantsGUI
      * @var Participants\InvitationsManager
      */
     protected $invitation_manager;
-    
+
+    /**
+     * @var \ILIAS\Survey\InternalService
+     */
+    protected $survey_service;
+
+    protected $code_manager;
+
+    protected $data_manager;
+
     public function __construct(ilObjSurveyGUI $a_parent_gui, $a_has_write_access)
     {
         global $DIC;
+
+        $this->survey_service = $DIC->survey()->internal();
 
         $this->tabs = $DIC->tabs();
         $this->toolbar = $DIC->toolbar();
@@ -93,7 +104,21 @@ class ilSurveyParticipantsGUI
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
-        $this->invitation_manager = new Participants\InvitationsManager();
+        $this->invitation_manager = $this
+            ->survey_service
+            ->domain()
+            ->participants()
+            ->invitations();
+        $this->code_manager = $this
+            ->survey_service
+            ->domain()
+            ->code($this->object, $this->user->getId());
+        $this->data_manager = $this
+            ->survey_service
+            ->data();
+        $this->feature_config = $this
+            ->survey_service
+            ->domain()->modeFeatureConfig($this->object->getMode());
     }
     
     protected function handleWriteAccess()
@@ -170,7 +195,13 @@ class ilSurveyParticipantsGUI
                     $this->ctrl->forwardCommand($rep_search);
                 }
                 break;
-                
+
+            case 'ilsurveyratergui':
+                $ilTabs->activateTab("survey_360_edit_raters");
+                $rater_gui = new ilSurveyRaterGUI($this, $this->object);
+                $this->ctrl->forwardCommand($rater_gui);
+                break;
+
             default:
                 $cmd .= "Object";
                 $this->$cmd();
@@ -751,7 +782,7 @@ class ilSurveyParticipantsGUI
     public function createSurveyCodesObject()
     {
         if (is_numeric($_POST["nrOfCodes"])) {
-            $ids = $this->object->createSurveyCodes($_POST["nrOfCodes"]);
+            $ids = $this->code_manager->addCodes((int) $_POST["nrOfCodes"]);
             ilUtil::sendSuccess($this->lng->txt('codes_created'), true);
             $this->ctrl->setParameter($this, "new_ids", implode(";", $ids));
             $this->ctrl->redirect($this, 'editCodes');
@@ -889,17 +920,36 @@ class ilSurveyParticipantsGUI
                     }
                     if (strlen($dataset['email'])) {
                         array_push($founddata, $dataset);
+                        $this->addCodeForExternal(
+                            $dataset['email'],
+                            $dataset['lastname'],
+                            $dataset['firstname']
+                        );
                     }
                 }
             }
-            $this->object->createSurveyCodesForExternalData($founddata);
             ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
             $this->ctrl->redirect($this, 'codes');
         }
         
         $this->ctrl->redirect($this, 'importExternalMailRecipientsFromTextForm');
     }
-    
+
+    /**
+     * @param string $email
+     * @param string $lastname
+     * @param string $firstname
+     */
+    public function addCodeForExternal(string $email, string $lastname, string $firstname) : int
+    {
+        $code = $this->data_manager->code("")
+           ->withEmail($email)
+           ->withLastName($lastname)
+           ->withFirstName($firstname);
+        $code_id = $this->code_manager->add($code);
+        return $code_id;
+    }
+
     // see ilBookmarkImportExport
     protected function _convertCharset($a_string, $a_from_charset = "", $a_to_charset = "UTF-8")
     {
@@ -963,13 +1013,17 @@ class ilSurveyParticipantsGUI
                     }
                     if (strlen($dataset['email'])) {
                         array_push($founddata, $dataset);
+                        $this->addCodeForExternal(
+                            $dataset['email'],
+                            $dataset['lastname'],
+                            $dataset['firstname']
+                        );
                     }
                 }
             }
             $reader->close();
             
             if (sizeof($founddata)) {
-                $this->object->createSurveyCodesForExternalData($founddata);
                 ilUtil::sendSuccess($this->lng->txt('external_recipients_imported'), true);
             }
         }
@@ -1190,7 +1244,7 @@ class ilSurveyParticipantsGUI
                 $this->ctrl->redirect($this, "listAppraisees");
             }
             return $appr_id;
-        } elseif ($this->object->get360Mode() &&
+        } elseif ($this->feature_config->usesAppraisees() &&
             $this->object->get360SelfRaters() &&
             $this->object->isAppraisee($ilUser->getId()) &&
             !$this->object->isAppraiseeClosed($ilUser->getId())) {
@@ -1204,9 +1258,9 @@ class ilSurveyParticipantsGUI
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
         $ilAccess = $this->access;
-        
+        $ilTabs->activateTab("survey_360_edit_raters");
         $appr_id = $_REQUEST["appr_id"] = $this->handleRatersAccess();
-                
+
         $has_write = $ilAccess->checkAccess("write", "", $this->ref_id);
         if ($has_write) {
             $ilTabs->clearTargets();
@@ -1218,7 +1272,8 @@ class ilSurveyParticipantsGUI
         
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
         $this->ctrl->setParameter($this, "rate360", 1);
-        
+
+        /*
         ilRepositorySearchGUI::fillAutoCompleteToolbar(
             $this,
             $ilToolbar,
@@ -1229,16 +1284,21 @@ class ilSurveyParticipantsGUI
                 'add_from_container' => $this->ref_id
             )
         );
-        
+
         $this->ctrl->setParameter($this, "rate360", "");
-        
+
         $ilToolbar->addSeparator();
-        
+
         $ilToolbar->addButton(
             $this->lng->txt("survey_360_add_external_rater"),
             $this->ctrl->getLinkTarget($this, "addExternalRaterForm")
         );
-        
+        */
+        $ilToolbar->addButton(
+            $this->lng->txt("svy_add_rater"),
+            $this->ctrl->getLinkTargetByClass("ilSurveyRaterGUI", "add")
+        );
+
         // #13320
         $url = ilLink::_getStaticLink($this->object->getRefId());
         
@@ -1312,10 +1372,13 @@ class ilSurveyParticipantsGUI
                 "lastname" => $form->getInput("lname"),
                 "firstname" => $form->getInput("fname")
             );
-            $anonymous_id = $this->object->createSurveyCodesForExternalData(array($data));
-            $anonymous_id = array_pop($anonymous_id);
-            
-            $this->object->addRater($appr_id, 0, $anonymous_id);
+            $code_id = $this->addCodeForExternal(
+                $form->getInput("email"),
+                $form->getInput("lname"),
+                $form->getInput("fname")
+            );
+
+            $this->object->addRater($appr_id, 0, $code_id);
             
             ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
             $this->ctrl->setParameter($this, "appr_id", $appr_id);
@@ -1493,8 +1556,6 @@ class ilSurveyParticipantsGUI
     
     public function mailRatersObject(ilPropertyFormGUI $a_form = null)
     {
-        $ilTabs = $this->tabs;
-        
         if (!$a_form) {
             $appr_id = $this->handleRatersAccess();
             $this->ctrl->setParameter($this, "appr_id", $appr_id);
@@ -1519,7 +1580,6 @@ class ilSurveyParticipantsGUI
     public function mailRatersActionObject()
     {
         $ilUser = $this->user;
-        
         $appr_id = $this->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
         

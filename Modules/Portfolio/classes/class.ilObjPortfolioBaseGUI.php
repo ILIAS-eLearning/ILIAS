@@ -392,7 +392,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
     public function getPrintView() : \ILIAS\Export\PrintProcessGUI
     {
-        $provider = new \ILIAS\Portfolio\PrintViewProviderGUI(
+        $provider = new \ILIAS\Portfolio\PortfolioPrintViewProviderGUI(
             $this->lng,
             $this->ctrl,
             $this->object,

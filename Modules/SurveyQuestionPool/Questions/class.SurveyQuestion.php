@@ -1710,7 +1710,7 @@ class SurveyQuestion
     * Creates an instance of a question evaluation with a given question id
     *
     * @param integer $question_id The question id
-    * @return object The question evaluation instance
+    * @return SurveyQuestionEvaluation The question evaluation instance
     * @access public
     */
     public static function _instanciateQuestionEvaluation($question_id, array $a_finished_ids = null)

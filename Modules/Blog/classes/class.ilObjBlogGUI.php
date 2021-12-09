@@ -3105,7 +3105,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
             "blog"
         );
 
-        $provider = new \ILIAS\Blog\PrintViewProviderGUI(
+        $provider = new \ILIAS\Blog\BlogPrintViewProviderGUI(
             $this->lng,
             $this->ctrl,
             $this->object,

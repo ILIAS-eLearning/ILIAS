@@ -161,7 +161,7 @@ class ilSurveyEvaluationResults
         return [];
     }
     
-    protected function getScaleText($a_value)
+    public function getScaleText($a_value)
     {
         if (!sizeof($this->variables)) {
             return $a_value;
@@ -241,11 +241,13 @@ class ilSurveyEvaluationResultsAnswer
     public $active_id; // [int]
     public $value; // [int|float]
     public $text; // [string]
-    
-    public function __construct($a_active_id, $a_value, $a_text)
+    public $tstamp; // [int]
+
+    public function __construct($a_active_id, $a_value, $a_text, $a_tstamp)
     {
         $this->active_id = (int) $a_active_id;
         $this->value = $a_value;
         $this->text = trim($a_text);
+        $this->tstamp = trim($a_tstamp);
     }
 }

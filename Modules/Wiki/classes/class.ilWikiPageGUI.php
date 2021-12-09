@@ -470,7 +470,7 @@ class ilWikiPageGUI extends ilPageObjectGUI
 
     protected function getPrintView() : \ILIAS\Export\PrintProcessGUI
     {
-        $provider = new \ILIAS\Wiki\PrintViewProviderGUI(
+        $provider = new \ILIAS\Wiki\WikiPrintViewProviderGUI(
             $this->lng,
             $this->ctrl,
             $this->getWikiPage()->getWikiRefId(),

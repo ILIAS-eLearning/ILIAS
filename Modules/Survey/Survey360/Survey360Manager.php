@@ -6,6 +6,7 @@ namespace ILIAS\Survey\Survey360;
 
 use ILIAS\Survey\Execution\RunDBRepository;
 use ILIAS\Survey\Settings\SettingsDBRepository;
+use ILIAS\Survey\InternalRepoService;
 
 /**
  * Survey 360
@@ -33,21 +34,15 @@ class Survey360Manager
      * Constructor
      */
     public function __construct(
-        AppraiseeDBRepository $appr_repo = null,
-        RunDBRepository $run_rep = null,
-        SettingsDBRepository $set_repo = null
+        InternalRepoService $repo_service
     ) {
-        $this->run_repo = (is_null($run_rep))
-            ? new RunDBRepository()
-            : $run_rep;
+        $this->run_repo = $repo_service->execution()->run();
 
         $this->appr_repo = (is_null($appr_repo))
             ? new AppraiseeDBRepository()
             : $appr_repo;
 
-        $this->set_repo = (is_null($set_repo))
-            ? new SettingsDBRepository()
-            : $set_repo;
+        $this->set_repo = $repo_service->settings();
     }
 
     /**

@@ -1,4 +1,6 @@
 <?php
+declare(strict_types = 1);
+
 
 namespace ILIAS\Survey\Participants;
 
@@ -6,6 +8,7 @@ namespace ILIAS\Survey\Participants;
 
 use ILIAS\Survey\Execution;
 use ILIAS\Survey\Settings;
+use ILIAS\Survey\InternalRepoService;
 
 /**
  * Survey invitations
@@ -33,23 +36,13 @@ class InvitationsManager
      * Constructor
      */
     public function __construct(
-        InvitationsDBRepository $repo = null,
-        Execution\RunDBRepository $run_repo = null,
-        Settings\SettingsDBRepository $set_repo = null
+        InternalRepoService $repo_service
     ) {
-        $this->repo = (is_null($repo))
-            ? new InvitationsDBRepository()
-            : $repo;
-
-        $this->run_repo = (is_null($run_repo))
-            ? new Execution\RunDBRepository()
-            : $run_repo;
-
-        $this->set_repo = (is_null($set_repo))
-            ? new Settings\SettingsDBRepository()
-            : $set_repo;
+        $this->repo = $repo_service->participants()->invitations();
+        $this->run_repo = $repo_service->execution()->run();
+        $this->set_repo = $repo_service->settings();
+        ;
     }
-
 
     /**
      * Remove invitation

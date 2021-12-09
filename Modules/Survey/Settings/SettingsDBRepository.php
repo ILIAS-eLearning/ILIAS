@@ -1,16 +1,16 @@
 <?php
+declare(strict_types = 1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\Survey\Settings;
 
-/**
+use ILIAS\Survey\InternalDataService;/**
  * Survey settings db repository.
- *
  * This should wrap all svy_svy calls in the future.
- *
  * @author killing@leifos.de
  */
+
 class SettingsDBRepository
 {
     /**
@@ -26,17 +26,12 @@ class SettingsDBRepository
     /**
      * Constructor
      */
-    public function __construct(\ilDBInterface $db = null, SettingsFactory $set_factory = null)
+    public function __construct(InternalDataService $data, \ilDBInterface $db)
     {
         global $DIC;
 
-        $this->db = (is_null($db))
-            ? $DIC->database()
-            : $db;
-
-        $this->set_factory = (is_null($set_factory))
-            ? new SettingsFactory()
-            : $set_factory;
+        $this->db = $db;
+        $this->set_factory = $data->settings();
     }
 
     /**
