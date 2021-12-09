@@ -50,9 +50,37 @@ class ilMembershipNotifications
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-                    
-        return ($ilSetting->get("block_activated_news") &&
-            $ilSetting->get("crsgrp_ntf"));
+
+        if (!$ilSetting->get("block_activated_news") || !$ilSetting->get("crsgrp_ntf")) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function isActiveForRefId(int $ref_id)
+    {
+        if (!self::isActive()) {
+            return false;
+        }
+        // see #31471, #30687, and ilNewsItem::getNewsForRefId
+        $obj_id = ilObject::_lookupObjId($ref_id);
+        if (!ilContainer::_lookupContainerSetting(
+            $obj_id,
+            'cont_use_news',
+            true
+        ) || (
+            !ilContainer::_lookupContainerSetting(
+                $obj_id,
+                'cont_show_news',
+                true
+            ) && !ilContainer::_lookupContainerSetting(
+                $obj_id,
+                'news_timeline'
+            )
+        )) {
+            return false;
+        }
+        return true;
     }
     
     /**
@@ -235,7 +263,7 @@ class ilMembershipNotifications
             case self::MODE_SELF:
                 $set = $ilDB->query("SELECT usr_id" .
                     " FROM usr_pref" .
-                    " WHERE keyword = " . $ilDB->quote("grpcrs_ntf_".$this->ref_id, "text") .
+                    " WHERE keyword = " . $ilDB->quote("grpcrs_ntf_" . $this->ref_id, "text") .
                     " AND value = " . $ilDB->quote(self::VALUE_ON, "text"));
                 while ($row = $ilDB->fetchAssoc($set)) {
                     $users[] = $row["usr_id"];
@@ -248,7 +276,7 @@ class ilMembershipNotifications
                 $inactive = array();
                 $set = $ilDB->query("SELECT usr_id" .
                     " FROM usr_pref" .
-                    " WHERE keyword = " . $ilDB->quote("grpcrs_ntf_".$this->ref_id, "text") .
+                    " WHERE keyword = " . $ilDB->quote("grpcrs_ntf_" . $this->ref_id, "text") .
                     " AND value = " . $ilDB->quote(self::VALUE_OFF, "text"));
                 while ($row = $ilDB->fetchAssoc($set)) {
                     $inactive[] = $row["usr_id"];

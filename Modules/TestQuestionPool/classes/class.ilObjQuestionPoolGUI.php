@@ -32,7 +32,7 @@ require_once './Modules/Test/classes/class.ilObjTest.php';
  * @ingroup ModulesTestQuestionPool
  *
  */
-class ilObjQuestionPoolGUI extends ilObjectGUI
+class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilObjQuestionPool
@@ -92,6 +92,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
         $ilDB = $DIC['ilDB'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
         $ilias = $DIC['ilias'];
+        $randomGroup = $DIC->refinery()->random();
         
         $writeAccess = $ilAccess->checkAccess("write", "", $_GET["ref_id"]);
         
@@ -162,7 +163,7 @@ class ilObjQuestionPoolGUI extends ilObjectGUI
                 $this->ctrl->saveParameter($this, "q_id");
 
                 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionPreviewGUI.php';
-                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser);
+                $gui = new ilAssQuestionPreviewGUI($this->ctrl, $this->tabs_gui, $this->tpl, $this->lng, $ilDB, $ilUser, $randomGroup);
                 
                 $gui->initQuestion((int) $_GET['q_id'], $this->object->getId());
                 $gui->initPreviewSettings($this->object->getRefId());

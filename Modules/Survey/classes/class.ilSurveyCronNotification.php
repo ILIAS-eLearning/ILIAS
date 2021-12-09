@@ -89,7 +89,7 @@ class ilSurveyCronNotification extends ilCronJob
         $log->debug(var_export($tutor_res, true));
         
         $root = $tree->getNodeData(ROOT_FOLDER_ID);
-        foreach ($tree->getSubTree($root, false, "svy") as $svy_ref_id) {
+        foreach ($tree->getSubTree($root, false, ["svy"]) as $svy_ref_id) {
             $svy = new ilObjSurvey($svy_ref_id);
             $num = $svy->checkReminder();
             if ($num !== false) {

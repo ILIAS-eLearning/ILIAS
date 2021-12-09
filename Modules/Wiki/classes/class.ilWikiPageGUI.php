@@ -996,7 +996,8 @@ class ilWikiPageGUI extends ilPageObjectGUI
         // :TODO:
         $form->setTitle($lng->txt("wiki_advmd_block_title") . ": " . $page->getTitle());
         
-        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'wiki', $page->getWikiId(), 'wpg', $page->getId());
+        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_EDITOR, 'wiki', $page->getWikiId(),
+            'wpg', $page->getId());
         $this->record_gui->setPropertyForm($form);
         $this->record_gui->parse();
         

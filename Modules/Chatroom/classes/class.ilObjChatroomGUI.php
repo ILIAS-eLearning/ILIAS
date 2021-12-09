@@ -13,10 +13,11 @@ use ILIAS\HTTP\Response\ResponseHeader;
  * @ilCtrl_Calls      ilObjChatroomGUI: ilExportGUI, ilCommonActionDispatcherGUI, ilPropertyFormGUI, ilExportGUI
  * @ingroup           ModulesChatroom
  */
-class ilObjChatroomGUI extends ilChatroomObjectGUI
+class ilObjChatroomGUI extends ilChatroomObjectGUI implements ilCtrlBaseClassInterface
 {
     public function __construct($a_data = null, $a_id = null, $a_call_by_reference = true)
     {
+        // TODO: PHP 8 This will be removed with another ILIAS 8 feature, please ignore this on review
         if (isset($_REQUEST['cmd']) && in_array($_REQUEST['cmd'], array('getOSDNotifications', 'removeOSDNotifications'))) {
             require_once 'Services/Notifications/classes/class.ilNotificationGUI.php';
             $notifications = new ilNotificationGUI();
@@ -31,8 +32,7 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
     }
 
     /**
-     * Overwrites $_GET['ref_id'] with given $ref_id.
-     * @param string $params
+     * @ineritdoc
      */
     public static function _goto($params) : void
     {
@@ -43,11 +43,18 @@ class ilObjChatroomGUI extends ilChatroomObjectGUI
         $sub = (int) ($parts[1] ?? 0);
 
         if (ilChatroom::checkUserPermissions('read', $ref_id, false)) {
-            // TODO PHP 8: Remove this code fragment if possible (seems not to be used)
             if ($sub) {
-                $_REQUEST['sub'] = $_GET['sub'] = (int) $sub;
+                $DIC->ctrl()->setParameterByClass(self::class, 'sub', $sub);
             }
-            ilObjectGUI::_gotoRepositoryNode($ref_id, 'view');
+
+            $DIC->ctrl()->setParameterByClass(self::class, 'ref_id', $ref_id);
+            $DIC->ctrl()->redirectByClass(
+                [
+                    ilRepositoryGUI::class,
+                    self::class,
+                ],
+                'view'
+            );
         } elseif (ilChatroom::checkUserPermissions('visible', $ref_id, false)) {
             $DIC->ctrl()->setParameterByClass(ilInfoScreenGUI::class, 'ref_id', $ref_id);
             $DIC->ctrl()->redirectByClass(

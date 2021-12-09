@@ -7,7 +7,7 @@
  *
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilAccessibilitySupportContactsGUI
+class ilAccessibilitySupportContactsGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilTemplate

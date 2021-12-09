@@ -22,6 +22,7 @@ class ilTestTaxonomyTreeTest extends ilTestBaseTestCase
                 ->willReturn($returnValue);
 
         $this->setGlobalVariable("ilDB", $db_mock);
+        $this->addGlobal_ilAppEventHandler();
 
         $this->testObj = new ilTestTaxonomyTree(0);
     }

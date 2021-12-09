@@ -11,7 +11,7 @@
  * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilObjStyleSheetGUI, ilPortfolioExerciseGUI
  */
-class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
+class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilHelpGUI
@@ -675,7 +675,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
         $root = $tree->readRootId();
         if ($root) {
             $root = $tree->getNodeData($root);
-            foreach ($tree->getSubTree($root, true, "blog") as $node) {
+            foreach ($tree->getSubTree($root, true, ["blog"]) as $node) {
                 $options[$node["obj_id"]] = $node["title"];
             }
             asort($options);
@@ -824,7 +824,7 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
             $root = $tree->readRootId();
             if ($root) {
                 $root = $tree->getNodeData($root);
-                foreach ($tree->getSubTree($root, true, "blog") as $node) {
+                foreach ($tree->getSubTree($root, true, ["blog"]) as $node) {
                     $blog_options[$node["obj_id"]] = $node["title"];
                 }
                 asort($blog_options);

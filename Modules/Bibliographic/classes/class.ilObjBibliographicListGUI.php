@@ -19,6 +19,7 @@ class ilObjBibliographicListGUI extends ilObjectListGUI
      */
     public function init()
     {
+        $this->lng->loadLanguageModule('bibl');
         $this->copy_enabled = true;
         $this->delete_enabled = true;
         $this->cut_enabled = true;

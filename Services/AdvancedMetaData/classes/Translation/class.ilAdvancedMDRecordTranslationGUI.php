@@ -1,17 +1,14 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Class ilAdvancedMDRecordTranslationGUI
  * @ilCtrl_isCalledBy ilAdvancedMDRecordTranslationGUI: ilAdvancedMDSettingsGUI
- * @ingroup ServicesAdvancedMetaData
+ * @ingroup           ServicesAdvancedMetaData
  */
 class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
 {
 
-    /**
-     * @inheritDoc
-     */
-    protected function translations()
+    protected function translations() : void
     {
         $this->setTabs(self::CMD_DEFAULT);
 
@@ -26,7 +23,10 @@ class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
         $this->tpl->setContent($language_table->getHTML());
     }
 
-    protected function saveTranslations()
+    /**
+     * @todo use kindlyTo for input parameters
+     */
+    protected function saveTranslations() : void
     {
         $languages = (array) $this->request->getParsedBody()['active_languages'];
         $default = (string) $this->request->getParsedBody()['default'];
@@ -51,11 +51,6 @@ class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
 
         $this->record->setDefaultLanguage($default);
         $this->record->update();
-
-        #$default = $translations->getTranslation($default);
-        #$default->setTitle($this->record->getTitle());
-        #$default->setDescription($this->record->getDescription());
-        #$default->update();
 
         ilUtil::sendSuccess($this->language->txt('settings_saved'), true);
         $this->ctrl->redirect($this, self::CMD_DEFAULT);

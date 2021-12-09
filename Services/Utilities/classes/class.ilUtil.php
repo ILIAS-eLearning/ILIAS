@@ -474,6 +474,10 @@ class ilUtil
     */
     public static function makeClickable($a_text, $detectGotoLinks = false)
     {
+        trigger_error(
+            'Use the respective `Refinery` transformation `$refinery->string()->makeClickable("foo bar")` to convert URL-like string parts to an HTML anchor (`<a>`) element (the boolean flag is removed)',
+            E_USER_DEPRECATED
+        );
         // New code, uses MediaWiki Sanitizer
         $ret = $a_text;
 
@@ -1545,7 +1549,6 @@ class ilUtil
             ? " -background color " . $a_background_color . " "
             : "";
         $convert_cmd = ilUtil::escapeShellArg($a_from) . " " . $bg_color . $geometry . ilUtil::escapeShellArg($format_str . $a_to);
-
         ilUtil::execConvert($convert_cmd);
     }
 
@@ -2901,7 +2904,7 @@ class ilUtil
         global $DIC;
 
         if (!isset($DIC['ilCtrl']) || !$DIC['ilCtrl'] instanceof ilCtrl) {
-            $ctrl = new ilCtrl();
+            (new InitCtrlService())->init($DIC);
         } else {
             $ctrl = $DIC->ctrl();
         }
@@ -3054,7 +3057,6 @@ class ilUtil
         exec($cmd, $arr);
 
         $DIC->logger()->root()->debug("ilUtil::execQuoted: " . $cmd . ".");
-
         return $arr;
     }
 

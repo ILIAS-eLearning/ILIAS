@@ -7,7 +7,7 @@
  *
  * @author Alex Killing <alex.killing@gmx.de>
  */
-class ilSystemSupportContactsGUI
+class ilSystemSupportContactsGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilTemplate

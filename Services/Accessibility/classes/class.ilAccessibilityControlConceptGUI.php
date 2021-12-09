@@ -7,7 +7,7 @@
  *
  * @author Thomas Famula <famula@leifos.de>
  */
-class ilAccessibilityControlConceptGUI
+class ilAccessibilityControlConceptGUI implements ilCtrlBaseClassInterface
 {
     /**
      * @var ilTemplate

@@ -53,10 +53,10 @@ class ilSCORMTree extends ilTree
     * @param	integer		node_id
     * @param	string		sort order of returned childs, optional (possible values: 'title','desc','last_update' or 'type')
     * @param	string		sort direction, optional (possible values: 'DESC' or 'ASC'; defalut is 'ASC')
-    * @return	array		with node data of all childs or empty array
+    * @return    array        with node data of all childs or empty array
     * @throws InvalidArgumentException
     */
-    public function getChilds($a_node_id, $a_order = "", $a_direction = "ASC")
+    public function getChilds(int $a_node_id, string $a_order = "", string $a_direction = "ASC") : array
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];

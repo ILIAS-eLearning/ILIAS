@@ -14,7 +14,7 @@
 *
 * @ingroup ModulesScormAicc
 */
-class ilSAHSEditGUI
+class ilSAHSEditGUI implements ilCtrlBaseClassInterface
 {
     public $ilias;
     public $tpl;

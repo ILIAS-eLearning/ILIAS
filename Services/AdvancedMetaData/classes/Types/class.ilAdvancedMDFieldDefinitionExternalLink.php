@@ -1,47 +1,29 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+
 /**
  * AMD field type external link
- *
  * Stefan Meyer <smeyer.ilias@gmx.de>
- *
  * @ingroup ServicesAdvancedMetaData
  */
 class ilAdvancedMDFieldDefinitionExternalLink extends ilAdvancedMDFieldDefinition
 {
-    /**
-     * Get type
-     * @return int
-     */
-    public function getType()
+    public function getType() : int
     {
         return self::TYPE_EXTERNAL_LINK;
     }
-    
-    
-    /**
-     * Init ADT definition
-     * @return ilADTDefinition
-     */
-    protected function initADTDefinition()
+
+    protected function initADTDefinition() : ilADTDefinition
     {
         return ilADTFactory::getInstance()->getDefinitionInstanceByType("ExternalLink");
     }
 
-    /**
-     * Get value for XML
-     * @param \ilADT $element
-     */
-    public function getValueForXML(\ilADT $element)
+    public function getValueForXML(ilADT $element) : string
     {
         return $element->getTitle() . '#' . $element->getUrl();
     }
 
-    /**
-     * Import value from xml
-     * @param string $a_cdata
-     */
-    public function importValueFromXML($a_cdata)
+    public function importValueFromXML(string $a_cdata) : void
     {
         $parts = explode("#", $a_cdata);
         if (count($parts) == 2) {

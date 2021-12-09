@@ -144,6 +144,7 @@ function build_container_for_setup(string $executed_in_directory) : \Pimple\Cont
 
     $c["config_reader"] = function ($c) use ($executed_in_directory) {
         return new \ILIAS\Setup\CLI\ConfigReader(
+            $c["json.parser"],
             $executed_in_directory
         );
     };
@@ -154,6 +155,10 @@ function build_container_for_setup(string $executed_in_directory) : \Pimple\Cont
 
     $c["plugin_raw_reader"] = function ($c) {
         return new \ilPluginRawReader();
+    };
+
+    $c["json.parser"] = function ($c) {
+        return new \Seld\JsonLint\JsonParser();
     };
 
     return $c;

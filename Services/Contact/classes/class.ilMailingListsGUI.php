@@ -114,7 +114,7 @@ class ilMailingListsGUI
         if (isset($this->httpRequest->getParsedBody()['ml_id']) && is_array($this->httpRequest->getParsedBody()['ml_id'])) {
             $counter = 0;
             foreach ($this->httpRequest->getParsedBody()['ml_id'] as $id) {
-                if (ilMailingList::_isOwner((int) $id, $this->user->getId())) {
+                if ($this->mlists->isOwner((int) $id, $this->user->getId())) {
                     $this->mlists->get((int) ilUtil::stripSlashes($id))->delete();
                     ++$counter;
                 }
@@ -157,7 +157,7 @@ class ilMailingListsGUI
 
         $lists = [];
         foreach ($ml_ids as $id) {
-            if (ilMailingList::_isOwner((int) $id, $this->user->getId()) &&
+            if ($this->mlists->isOwner((int) $id, $this->user->getId()) &&
                 !$this->umail->existsRecipient('#il_ml_' . $id, (string) $mail_data['rcp_to'])) {
                 $lists[] = '#il_ml_' . $id;
             }
@@ -281,7 +281,7 @@ class ilMailingListsGUI
     public function saveForm() : void
     {
         if ($this->mlists->getCurrentMailingList() && $this->mlists->getCurrentMailingList()->getId()) {
-            if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
+            if (!$this->mlists->isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
                 $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
             }
 
@@ -362,7 +362,7 @@ class ilMailingListsGUI
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.mail_mailing_lists_form.html', 'Services/Contact');
 
         if ($this->mlists->getCurrentMailingList() && $this->mlists->getCurrentMailingList()->getId()) {
-            if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
+            if (!$this->mlists->isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
                 $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
             }
 
@@ -483,7 +483,7 @@ class ilMailingListsGUI
 
     public function performDeleteMembers() : bool
     {
-        if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
+        if (!$this->mlists->isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
@@ -561,7 +561,7 @@ class ilMailingListsGUI
 
     public function saveAssignmentForm() : bool
     {
-        if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
+        if (!$this->mlists->isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 
@@ -591,7 +591,7 @@ class ilMailingListsGUI
             return true;
         }
 
-        if (!ilMailingList::_isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
+        if (!$this->mlists->isOwner($this->mlists->getCurrentMailingList()->getId(), $this->user->getId())) {
             $this->error->raiseError($this->lng->txt('permission_denied'), $this->error->MESSAGE);
         }
 

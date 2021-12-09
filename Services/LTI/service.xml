@@ -1,5 +1,5 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<service xmlns="http://www.w3.org" version="$Id$" id="lti">
+<service xmlns="http://www.w3.org" version="$Id$" id="ltis">
     <baseclasses>
 	    <baseclass name="ilLTIRouterGUI" dir="classes" />
     </baseclasses>

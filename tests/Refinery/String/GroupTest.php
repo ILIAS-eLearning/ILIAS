@@ -8,6 +8,7 @@ use ILIAS\Refinery\String\Group;
 use ILIAS\Refinery\String\HasMinLength;
 use ILIAS\Refinery\String\HasMaxLength;
 use ILIAS\Tests\Refinery\TestCase;
+use ILIAS\Refinery\String\MakeClickable;
 
 require_once('./libs/composer/vendor/autoload.php');
 
@@ -28,14 +29,21 @@ class GroupTest extends TestCase
         $this->group = new Group($dataFactory, $language);
     }
 
-    public function testGreaterThanInstance()
+    public function testGreaterThanInstance() : void
     {
         $instance = $this->group->hasMaxLength(42);
         $this->assertInstanceOf(HasMaxLength::class, $instance);
     }
-    public function testLowerThanInstance()
+
+    public function testLowerThanInstance() : void
     {
         $instance = $this->group->hasMinLength(42);
         $this->assertInstanceOf(HasMinLength::class, $instance);
+    }
+
+    public function testMakeClickable() : void
+    {
+        $instance = $this->group->makeClickable();
+        $this->assertInstanceOf(MakeClickable::class, $instance);
     }
 }

@@ -167,7 +167,7 @@ abstract class ilObject2GUI extends ilObjectGUI
         
         // set context
         if (is_object($this->object)) {
-            $this->ctrl->setContext($this->object->getId(), $this->object->getType());
+            $this->ctrl->setContextObject($this->object->getId(), $this->object->getType());
         }
         
         $this->afterConstructor();

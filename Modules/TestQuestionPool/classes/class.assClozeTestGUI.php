@@ -1,6 +1,9 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Random\Group as RandomGroup;
+use ILIAS\Refinery\Random\RandomSeed;
+
 require_once './Modules/TestQuestionPool/classes/class.assQuestionGUI.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiQuestionScoringAdjustable.php';
 require_once './Modules/TestQuestionPool/interfaces/interface.ilGuiAnswerScoringAdjustable.php';
@@ -29,6 +32,8 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     */
     private $gapIndex;
 
+    private RandomGroup $randomGroup;
+
     /**
     * assClozeTestGUI constructor
     *
@@ -36,12 +41,16 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
     */
     public function __construct($id = -1)
     {
+        global $DIC;
+
         parent::__construct();
         include_once "./Modules/TestQuestionPool/classes/class.assClozeTest.php";
         $this->object = new assClozeTest();
         if ($id >= 0) {
             $this->object->loadFromDb($id);
         }
+
+        $this->randomGroup = $DIC->refinery()->random();
     }
 
     public function getCommand($cmd)
@@ -1432,7 +1441,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
             if ($gap->type == CLOZE_TEXT) {
                 $present_elements = array();
-                foreach ($gap->getItems(new ilArrayElementShuffler()) as $item) {
+                foreach ($gap->getItems($this->randomGroup->shuffleArray(new RandomSeed())) as $item) {
                     /** @var assAnswerCloze $item */
                     $present_elements[] = $item->getAnswertext();
                 }
@@ -1577,7 +1586,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
 
             case CLOZE_SELECT:
 
-                $items = $gap->getItems(new ilDeterministicArrayElementProvider());
+                $items = $gap->getItems($this->randomGroup->dontShuffle());
                 return $items[$answer]->getAnswertext();
         }
     }
@@ -1593,7 +1602,7 @@ class assClozeTestGUI extends assQuestionGUI implements ilGuiQuestionScoringAdju
         foreach ($answers as $key => $ans) {
             $found = false;
 
-            foreach ($gap->getItems(new ilDeterministicArrayElementProvider()) as $item) {
+            foreach ($gap->getItems($this->randomGroup->dontShuffle()) as $item) {
                 if ($ans['answer'] !== $item->getAnswerText()) {
                     continue;
                 }

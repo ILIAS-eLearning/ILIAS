@@ -82,24 +82,26 @@ class Renderer extends AbstractComponentRenderer
         $progress = $component->getProgress();
         if ($lead != null) {
             if (is_string($lead)) {
-                $tpl->setCurrentBlock("lead_text");
+                if ($progress != null) {
+                    $tpl->setCurrentBlock("lead_text_with_progress");
+                    $tpl->touchBlock("item_with_lead_and_progress");
+                } else {
+                    $tpl->setCurrentBlock("lead_text");
+                    $tpl->touchBlock("item_with_lead_only");
+                }
                 $tpl->setVariable("LEAD_TEXT", $lead);
                 $tpl->parseCurrentBlock();
-                if ($progress != null) {
-                    $tpl->touchBlock("item_with_lead_and_progress");
-                } else {
-                    $tpl->touchBlock("item_with_lead");
-                }
             }
             if ($lead instanceof Component\Image\Image) {
-                $tpl->setCurrentBlock("lead_image");
-                $tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
-                $tpl->parseCurrentBlock();
                 if ($progress != null) {
+                    $tpl->setCurrentBlock("lead_image_with_progress");
                     $tpl->touchBlock("item_with_lead_and_progress");
                 } else {
-                    $tpl->touchBlock("item_with_lead");
+                    $tpl->setCurrentBlock("lead_image");
+                    $tpl->touchBlock("item_with_lead_only");
                 }
+                $tpl->setVariable("LEAD_IMAGE", $default_renderer->render($lead));
+                $tpl->parseCurrentBlock();
             }
             if ($lead instanceof Component\Symbol\Icon\Icon) {
                 $tpl->setCurrentBlock("lead_icon");
@@ -123,11 +125,12 @@ class Renderer extends AbstractComponentRenderer
                 $tpl->touchBlock("lead_end");
             }
         } elseif ($progress != null) {
-            $tpl->touchBlock("item_with_progress");
+            $tpl->touchBlock("item_with_progress_only");
             $tpl->setCurrentBlock("progress_end");
             $tpl->setVariable("PROGRESS", $default_renderer->render($progress));
             $tpl->parseCurrentBlock();
         }
+
         // actions
         $actions = $component->getActions();
         if ($actions !== null) {
@@ -270,7 +273,7 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
-        $registry->register('./src/UI/templates/js/Item/notification.js');
+        $registry->register('./src/UI/templates/js/Item/dist/notification.js');
     }
 
     /**

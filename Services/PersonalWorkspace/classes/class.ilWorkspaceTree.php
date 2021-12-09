@@ -181,7 +181,7 @@ class ilWorkspaceTree extends ilTree
         return $this->getSubTree(
             $this->getNodeData($this->getRootId()),
             $a_with_data,
-            $a_type
+            [$a_type]
         );
     }
     

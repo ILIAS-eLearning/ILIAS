@@ -511,7 +511,7 @@ class ilRepUtil
         
         // delete object instances (repository/trash)
         
-        $ref_ids_in_tree = $tree->getSubTree($tree->getNodeData(ROOT_FOLDER_ID), false, $a_type);
+        $ref_ids_in_tree = $tree->getSubTree($tree->getNodeData(ROOT_FOLDER_ID), false, [$a_type]);
         if ($ref_ids_in_tree) {
             $this->deleteObjects(null, $ref_ids_in_tree);
         }

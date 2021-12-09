@@ -123,7 +123,7 @@ class ilMMSubItemGUI extends ilMMAbstractItemGUI
 
         switch ($next_class) {
             case strtolower(ilMMItemTranslationGUI::class):
-                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true, $this->ctrl->getCallHistory()[2]['class'] ? $this->ctrl->getCallHistory()[2]['class'] : "");
+                $this->tab_handling->initTabs(ilObjMainMenuGUI::TAB_MAIN, self::CMD_VIEW_SUB_ITEMS, true, $this->ctrl->getCallHistory()[2][ilCtrlInterface::PARAM_CMD_CLASS] ? $this->ctrl->getCallHistory()[2]['class'] : "");
                 $g = new ilMMItemTranslationGUI($this->getMMItemFromRequest(), $this->repository);
                 $this->ctrl->forwardCommand($g);
                 break;
