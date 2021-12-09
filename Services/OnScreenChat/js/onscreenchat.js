@@ -98,6 +98,7 @@
 
 		init: function() {
 			$(window).on('resize', $scope.il.OnScreenChat.resizeWindow).resize();
+
 			$('body')
 				.on('click', '[data-onscreenchat-userid]', $scope.il.OnScreenChatJQueryTriggers.triggers.participantEvent)
 				.on('click', '[data-onscreenchat-close]', $scope.il.OnScreenChatJQueryTriggers.triggers.onEmitCloseConversation)
@@ -117,7 +118,6 @@
 		}
 	};
 
-
 	$scope.il.OnScreenChat = {
 		config: {},
 		container: $('<div></div>').addClass('row').addClass('iosOnScreenChat'),
@@ -132,18 +132,13 @@
 		participantsImages: {},
 		participantsNames: {},
 		chatWindowWidth: 278,
-		notificationItemId: '',
 		numWindows: Infinity,
-		notificationCenterConversationItems: {},
+		conversationItems: {},
 		conversationMessageTimes: {},
 		conversationToUiIdMap: {},
 
 		setConversationMessageTimes: function(timeInfo) {
 			getModule().conversationMessageTimes = timeInfo;
-		},
-
-		setNotificationItemId: function(id) {
-			getModule().notificationItemId = id;
 		},
 
 		addConversationToUiIdMapping: function(conversationId, uiId) {
@@ -450,8 +445,8 @@
 
 			return $template;
 		},
-		rerenderNotifications: function(conversation) {
-			let conversations = Object.values(getModule().notificationCenterConversationItems).filter(function(conversation) {
+		rerenderConversations: function(conversation) {
+			let conversations = Object.values(getModule().conversationItems).filter(function(conversation) {
 				return conversation.latestMessage !== null && (conversation.open === false || conversation.open === undefined);
 			}).sort(function(a, b) {
 				return b.latestMessage.timestamp - a.latestMessage.timestamp;
@@ -463,7 +458,7 @@
 				}).join(",");
 
 				let xhr = new XMLHttpRequest();
-				xhr.open('GET', getConfig().renderNotificationItemsURL + '&ids=' + conversationIds);
+				xhr.open('GET', getConfig().renderConversationItemsURL + '&ids=' + conversationIds);
 				xhr.onload = function () {
 					if (xhr.status === 200) {
 						getModule().menuCollector.innerHTML = xhr.responseText;
@@ -502,10 +497,10 @@
 			conversationWindow.hide();
 
 			// Remove conversation
-			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
-				delete getModule().notificationCenterConversationItems[conversation.id];
+			if (getModule().conversationItems.hasOwnProperty(conversation.id)) {
+				delete getModule().conversationItems[conversation.id];
 			}
-			getModule().rerenderNotifications(conversation);
+			getModule().rerenderConversations(conversation);
 		},
 
 		/**
@@ -519,11 +514,11 @@
 			conversationWindow.hide();
 
 			// Add or update conversation
-			if (!getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
-				getModule().notificationCenterConversationItems[conversation.id] = conversation;
+			if (!getModule().conversationItems.hasOwnProperty(conversation.id)) {
+				getModule().conversationItems[conversation.id] = conversation;
 			}
-			DeferredCallbackFactory('renderNotifications')(function () {
-				getModule().rerenderNotifications(conversation);
+			DeferredCallbackFactory('renderConversations')(function () {
+				getModule().rerenderConversations(conversation);
 			}, 100);
 		},
 
@@ -535,11 +530,11 @@
 			getModule().open(conversation);
 
 			// Remove conversation
-			if (getModule().notificationCenterConversationItems.hasOwnProperty(conversation.id)) {
-				delete getModule().notificationCenterConversationItems[conversation.id];
+			if (getModule().conversationItems.hasOwnProperty(conversation.id)) {
+				delete getModule().conversationItems[conversation.id];
 			}
 
-			getModule().rerenderNotifications(conversation);
+			getModule().rerenderConversations(conversation);
 		},
 
 		/**

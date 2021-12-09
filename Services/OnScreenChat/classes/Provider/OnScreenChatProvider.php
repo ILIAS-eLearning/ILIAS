@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/* Copyright (c) 2021 Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\OnScreenChat\Provider;
 
@@ -14,7 +14,6 @@ use ILIAS\OnScreenChat\Repository\Subscriber;
 use ILIAS\UI\Component\Symbol\Icon\Standard;
 use ILIAS\UI\Implementation\Component\Item\Shy;
 use ilSetting;
-use ilUserUtil;
 use JsonException;
 
 /**
@@ -76,11 +75,7 @@ class OnScreenChatProvider extends AbstractStaticMainMenuProvider
         ];
     }
 
-
     /**
-     * @param string $conversationIds
-     * @param bool   $withAggregates
-     *
      * @return Shy[]
      * @throws JsonException
      * @throws ilDateTimeException

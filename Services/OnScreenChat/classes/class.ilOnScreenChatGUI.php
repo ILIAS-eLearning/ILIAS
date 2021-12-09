@@ -96,7 +96,7 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                 $response = $this->verifyLogin();
                 break;
 
-            case 'getRenderedNotificationItems':
+            case 'getRenderedConversationItems':
                 $provider = new OnScreenChatProvider(
                     $this->dic,
                     new Conversation($this->dic->database(), $this->dic->user()),
@@ -246,9 +246,9 @@ class ilOnScreenChatGUI implements ilCtrlBaseClassInterface
                     true,
                     false
                 ),
-                'renderNotificationItemsURL' => $DIC->ctrl()->getLinkTargetByClass(
+                'renderConversationItemsURL' => $DIC->ctrl()->getLinkTargetByClass(
                     'ilonscreenchatgui',
-                    'getRenderedNotificationItems',
+                    'getRenderedConversationItems',
                     '',
                     true,
                     false
