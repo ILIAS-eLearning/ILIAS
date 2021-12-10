@@ -46,7 +46,12 @@ class ilIntroduceComponentArtifactDBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_4()
     {
-        $this->db->addPrimaryKey("il_plugin", ["plugin_id"]);
+        try {
+            $this->db->addPrimaryKey("il_plugin", ["plugin_id"]);
+        } catch (\PDOException $e) {
+            $this->db->dropPrimaryKey("il_plugin");
+            $this->db->addPrimaryKey("il_plugin", ["plugin_id"]);
+        }
     }
 
     public function step_5()
