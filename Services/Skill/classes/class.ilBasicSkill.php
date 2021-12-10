@@ -309,7 +309,8 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
         bool $a_force = false,
         bool $a_self_eval = false,
         string $a_unique_identifier = "",
-        float $a_next_level_fulfilment = 0.0
+        float $a_next_level_fulfilment = 0.0,
+        string $trigger_user_id = ""
     ) : void {
         global $DIC;
 
@@ -355,7 +356,8 @@ class ilBasicSkill extends ilSkillTreeNode implements ilSkillUsageInfo
             $a_tref_id,
             $a_self_eval,
             $a_unique_identifier,
-            $a_next_level_fulfilment
+            $a_next_level_fulfilment,
+            $trigger_user_id
         );
     }
 

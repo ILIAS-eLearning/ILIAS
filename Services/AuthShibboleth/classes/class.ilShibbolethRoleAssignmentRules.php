@@ -156,22 +156,12 @@ class ilShibbolethRoleAssignmentRules
     public static function callPlugin($a_plugin_id, $a_user_data)
     {
         global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-        if (self::$active_plugins == null) {
-            self::$active_plugins = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk');
-        }
-        $assigned = false;
-        foreach (self::$active_plugins as $plugin_name) {
-            $ok = false;
-            $plugin_obj = $ilPluginAdmin->getPluginObject(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk', $plugin_name);
-            if ($plugin_obj instanceof ilShibbolethRoleAssignmentPlugin) {
-                $ok = $plugin_obj->checkRoleAssignment($a_plugin_id, $a_user_data);
-            }
-            if ($ok) {
-                $assigned = true;
+        $component_factory = $DIC['component.factory'];
+        foreach ($component->getActivePluginsInSlot('shibhk') as $plugin) {
+            if ($plugin->checkRoleAssignment($a_plugin_id, $a_user_data)) {
+                return true;
             }
         }
-
-        return $assigned;
+        return false;
     }
 }

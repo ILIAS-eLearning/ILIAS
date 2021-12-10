@@ -58,6 +58,14 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $do_select = (!$a_set["readonly"] && !$a_set["local"]);
         foreach (ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $obj_type) {
             $value = 0;
+
+            // workaround for hiding portfolio pages in portfolios, since they only get
+            // data from portfolio templates
+            // @todo define interface for configuration of behaviour
+            if ($obj_type["obj_type"] == "prtf" && $obj_type["sub_type"] == "pfpg") {
+                continue;
+            }
+
             foreach ($a_set['obj_types'] as $t) {
                 if ($obj_type["obj_type"] == $t["obj_type"] &&
                     $obj_type["sub_type"] == $t["sub_type"]) {
@@ -131,8 +139,10 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             }
         } else {
             $this->tpl->setCurrentBlock('scope_txt');
-            $this->tpl->setVariable('LOCAL_OR_GLOBAL',
-                $a_set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global'));
+            $this->tpl->setVariable(
+                'LOCAL_OR_GLOBAL',
+                $a_set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global')
+            );
             $this->tpl->parseCurrentBlock();
         }
 
@@ -175,8 +185,10 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('TXT_EDIT_RECORD', $this->lng->txt('edit'));
             }
             if ($a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_FIELDS]) {
-                $this->tpl->setVariable('EDIT_FIELDS_LINK',
-                    $this->ctrl->getLinkTarget($this->parent_obj, 'editFields'));
+                $this->tpl->setVariable(
+                    'EDIT_FIELDS_LINK',
+                    $this->ctrl->getLinkTarget($this->parent_obj, 'editFields')
+                );
                 $this->tpl->setVariable('TXT_EDIT_FIELDS', $this->lng->txt('md_adv_field_table'));
             }
         }

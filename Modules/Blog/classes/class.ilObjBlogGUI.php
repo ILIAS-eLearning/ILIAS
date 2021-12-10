@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\DI\HTTPServices;
+
 /**
  * Class ilObjBlogGUI
  *
@@ -123,6 +125,16 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
      */
     protected $tool_context;
 
+    /**
+     * @var HTTPServices
+     */
+    protected $http;
+
+    /**
+     * @var \ILIAS\DI\UIServices
+     */
+    protected $ui;
+
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
         global $DIC;
@@ -138,6 +150,8 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $this->main_menu = $DIC["ilMainMenu"];
         $this->rbacreview = $DIC->rbac()->review();
         $this->rbacadmin = $DIC->rbac()->admin();
+        $this->http = $DIC->http();
+        $this->ui = $DIC->ui();
 
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
@@ -1036,6 +1050,18 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                 $button->setUrl($url);
                 $ilToolbar->addButtonInstance($button);
             }
+
+            // print/pdf
+            $print_view = $this->getPrintView();
+            $modal_elements = $print_view->getModalElements(
+                $this->ctrl->getLinkTarget(
+                    $this,
+                    "printViewSelection"
+                )
+            );
+            $ilToolbar->addSeparator();
+            $ilToolbar->addComponent($modal_elements->button);
+            $ilToolbar->addComponent($modal_elements->modal);
         }
                                 
         // $is_owner = ($this->object->getOwner() == $ilUser->getId());
@@ -2394,7 +2420,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
      *
      * @return string
      */
-    public function buildExportFile($a_include_comments = false)
+    public function buildExportFile($a_include_comments = false, $print_version = false)
     {
         $type = "html";
         $format = explode("_", $_POST["format"]);
@@ -2408,8 +2434,12 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
         $exp_dir = ilExport::_getExportDirectory($this->object->getId(), $type, "blog");
 
         $subdir = $this->object->getType() . "_" . $this->object->getId();
+        if ($print_version) {
+            $subdir .= "print";
+        }
 
         $blog_export = new \ILIAS\Blog\Export\BlogHtmlExport($this, $exp_dir, $subdir);
+        $blog_export->setPrintVersion($print_version);
         $blog_export->includeComments($a_include_comments);
         return $blog_export->exportHTML();
     }
@@ -3062,5 +3092,46 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
     protected function exportWithComments()
     {
         $this->export(true);
+    }
+
+    ////
+    //// Print
+    ////
+
+    public function getPrintView() : \ILIAS\Export\PrintProcessGUI
+    {
+        $style_sheet_id = ilObjStyleSheet::getEffectiveContentStyleId(
+            $this->object->getStyleSheetId(),
+            "blog"
+        );
+
+        $provider = new \ILIAS\Blog\BlogPrintViewProviderGUI(
+            $this->lng,
+            $this->ctrl,
+            $this->object,
+            $this->node_id,
+            $this->access_handler,
+            $style_sheet_id,
+            $_POST["obj_id"] ?? null
+        );
+
+        return new \ILIAS\Export\PrintProcessGUI(
+            $provider,
+            $this->http,
+            $this->ui,
+            $this->lng
+        );
+    }
+
+    public function printViewSelection()
+    {
+        $view = $this->getPrintView();
+        $view->sendForm();
+    }
+
+    public function printPostings()
+    {
+        $print_view = $this->getPrintView();
+        $print_view->sendPrintView();
     }
 }

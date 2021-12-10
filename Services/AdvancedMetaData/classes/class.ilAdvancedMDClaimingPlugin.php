@@ -9,30 +9,6 @@
  */
 abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
 {
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    final public function getComponentName()
-    {
-        return "AdvancedMetaData";
-    }
-
-    final public function getSlot()
-    {
-        return "AdvancedMDClaiming";
-    }
-
-    final public function getSlotId()
-    {
-        return "amdc";
-    }
-
-    final protected function slotInit()
-    {
-    }
-
     abstract public function checkPermission(
         int $a_user_id,
         int $a_context_type,

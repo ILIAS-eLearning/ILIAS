@@ -10,39 +10,9 @@
  */
 abstract class ilStudyProgrammeTypeHookPlugin extends ilPlugin
 {
-    final public function getComponentType() : string
-    {
-        return IL_COMP_MODULE;
-    }
-
-    final public function getComponentName() : string
-    {
-        return 'StudyProgramme';
-    }
-
-    final public function getSlot() : string
-    {
-        return 'StudyProgrammeTypeHook';
-    }
-
-    final public function getSlotId() : string
-    {
-        return 'prgtypehk';
-    }
-
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit() : void
-    {
-        // nothing to do here
-    }
-
-
     /**
      * The following methods can be overridden by plugins
      */
-
 
     /**
      * Return false if setting a title is not allowed

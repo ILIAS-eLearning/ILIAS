@@ -154,11 +154,11 @@ abstract class SurveyQuestionEvaluation
                         $answer["value"] = $scale->scale;
                     }
                 }
-                
                 $parsed = new ilSurveyEvaluationResultsAnswer(
                     $active_id,
                     $answer["value"],
-                    $answer["text"]
+                    $answer["text"],
+                    $answer["tstamp"]
                 );
                 $a_results->addAnswer($parsed);
 
@@ -479,7 +479,8 @@ abstract class SurveyQuestionEvaluation
         while ($row = $ilDB->fetchAssoc($set)) {
             $res[(int) $row["rowvalue"]][(int) $row["active_fi"]][] = array(
                 "value" => $row["value"],
-                "text" => $row["textanswer"]
+                "text" => $row["textanswer"],
+                "tstamp" => $row["tstamp"]
             );
         }
         

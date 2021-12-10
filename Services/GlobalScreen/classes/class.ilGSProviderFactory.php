@@ -39,6 +39,9 @@ class ilGSProviderFactory implements ProviderFactory
      */
     protected $all_providers;
 
+    protected ilComponentRepository $component_repository;
+    protected ilComponentFactory $component_factory;
+
     /**
      * @inheritDoc
      */
@@ -47,17 +50,24 @@ class ilGSProviderFactory implements ProviderFactory
         $this->dic                        = $dic;
         $this->main_menu_item_information = new ilMMItemInformation();
         $this->class_loader               = include "Services/GlobalScreen/artifacts/global_screen_providers.php";
+        $this->component_repository          = $dic["component.repository"];
+        $this->component_factory          = $dic["component.factory"];
     }
 
     private function initPlugins() : void
     {
         if (!is_array($this->plugin_provider_collections)) {
             $this->plugin_provider_collections = [];
-            foreach (ilPluginAdmin::getGlobalScreenProviderCollections() as $collection) {
-                $this->plugin_provider_collections[] = $collection;
+            foreach ($this->component_repository->getPlugins() as $plugin) {
+                if (!$plugin->isActive()) {
+                    continue;
+                } 
+                $pl = $this->component_factory->getPlugin($plugin->getId());
+                $this->plugin_provider_collections[] = $pl->getGlobalScreenProviderCollection();
             }
         }
     }
+
 
     /**
      * @param array $providers
@@ -192,9 +202,9 @@ class ilGSProviderFactory implements ProviderFactory
     private function appendPlugins(array &$array_of_core_providers, string $interface) : void
     {
         // Plugins
-        static $plugin_providers;
+        static $plugin_providers = null;
 
-        $plugin_providers = $plugin_providers ?? ilPluginAdmin::getAllGlobalScreenProviders();
+        $plugin_providers = $plugin_providers ?? $this->getGlobalScreenProvidersFromActivePlugins();
 
         foreach ($plugin_providers as $provider) {
             if (is_a($provider, $interface)) {
@@ -202,6 +212,22 @@ class ilGSProviderFactory implements ProviderFactory
             }
         }
     }
+
+    private function getGlobalScreenProvidersFromActivePlugins() : array
+    {
+        $providers = array();
+        foreach ($this->component_repository->getPlugins() as $plugin) {
+            if (!$plugin->isActive()) {
+                continue;
+            }
+
+            $pl = $this->component_factory->getPlugin($plugin->getId());
+            $providers[] = $pl->promoteGlobalScreenProvider();
+        }
+
+        return $providers;
+    }
+
 
     /**
      * @param array  $array_of_providers

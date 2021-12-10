@@ -19,6 +19,13 @@ class ilPortfolioAppEventListener
                         break;
                 }
                 break;
+            case "Services/User":
+                switch ($event) {
+                    case "firstLogin":
+                        self::firstLogin($parameter);
+                        break;
+                }
+                break;
         }
     }
 
@@ -34,6 +41,21 @@ class ilPortfolioAppEventListener
                 $blog_id = $obj->getId();
                 $action = new ilPortfolioPageAction();
                 $action->deletePagesOfBlog($blog_id);
+            }
+        }
+    }
+
+    /**
+     * @param array $parameter
+     */
+    protected static function firstLogin($parameter)
+    {
+        $manager = new \ILIAS\Portfolio\Administration\PortfolioRoleAssignmentManager();
+        if (isset($parameter["user_obj"]) && is_object($parameter["user_obj"])) {
+            /** @var ilObjUser $obj */
+            $obj = $parameter["user_obj"];
+            if (get_class($obj) == "ilObjUser") {
+                $manager->assignPortfoliosOnLogin($obj->getId());
             }
         }
     }

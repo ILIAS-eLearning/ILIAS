@@ -21,35 +21,6 @@
  */
 abstract class ilUserInterfaceHookPlugin extends ilPlugin
 {
-    final public function getComponentType() : string
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    final public function getComponentName() : string
-    {
-        return "UIComponent";
-    }
-
-    final public function getSlot() : string
-    {
-        return "UserInterfaceHook";
-    }
-
-    final public function getSlotId() : string
-    {
-        return "uihk";
-    }
-
-
-    /**
-     * Object initialization done by slot.
-     */
-    final protected function slotInit() : void
-    {
-        // nothing to do here
-    }
-
     public function getUIClassInstance() : ilUIHookPluginGUI
     {
         /**

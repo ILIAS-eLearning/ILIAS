@@ -10,6 +10,7 @@
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPortfolioTemplatePageGUI, ilPageObjectGUI, ilNoteGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectCopyGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilPermissionGUI, ilExportGUI, ilObjStyleSheetGUI
+ * @ilCtrl_Calls ilObjPortfolioTemplateGUI: ilObjectMetaDataGUI
  */
 class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
 {
@@ -129,7 +130,16 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                     $this->ctrl->redirectByClass("ilobjstylesheetgui", "edit");
                 }
                 break;
-            
+
+            case 'ilobjectmetadatagui':
+                $this->checkPermission("write");
+                $this->prepareOutput();
+                $this->addHeaderAction();
+                $this->tabs->activateTab("advmd");
+                $md_gui = new ilObjectMetaDataGUI($this->object, "pfpg");
+                $this->ctrl->forwardCommand($md_gui);
+                break;
+
             default:
                 $this->addHeaderAction($cmd);
                 return ilObject2GUI::executeCommand();
@@ -164,7 +174,17 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
                 $this->lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "edit")
             );
-            
+
+            $mdgui = new ilObjectMetaDataGUI($this->object, "pfpg");
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
+                $this->tabs_gui->addTab(
+                    "advmd",
+                    $this->lng->txt("meta_data"),
+                    $mdtab
+                );
+            }
+
             $this->tabs_gui->addTab(
                 "export",
                 $this->lng->txt("export"),
@@ -323,10 +343,18 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
     
         parent::initEditCustomForm($a_form);
 
+        ilObjectServiceSettingsGUI::initServiceSettingsForm(
+            $this->object->getId(),
+            $a_form,
+            array(
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA
+            )
+        );
+
         $tit = $a_form->getItemByPostVar("title");
         $tit->setInfo($this->lng->txt('prtt_title_info'));
     }
-    
+
     protected function getEditFormCustomValues(array &$a_values)
     {
         $a_values["online"] = $this->object->isOnline();
@@ -337,7 +365,13 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
             ? new ilDateTime($this->object->getActivationEndDate(), IL_CAL_UNIX)
             : null;
         $a_values["access_visiblity"] = $this->object->getActivationVisibility();
-        
+
+        $a_values['cont_custom_md'] = ilContainer::_lookupContainerSetting(
+            $this->object->getId(),
+            ilObjectServiceSettingsGUI::CUSTOM_METADATA,
+            false
+        );
+
         parent::getEditFormCustomValues($a_values);
     }
     
@@ -361,6 +395,14 @@ class ilObjPortfolioTemplateGUI extends ilObjPortfolioBaseGUI
         parent::updateCustom($a_form);
 
         $obj_service->commonSettings()->legacyForm($a_form, $this->object)->saveTileImage();
+
+        ilObjectServiceSettingsGUI::updateServiceSettingsForm(
+            $this->object->getId(),
+            $a_form,
+            array(
+                ilObjectServiceSettingsGUI::CUSTOM_METADATA
+            )
+        );
     }
     
     

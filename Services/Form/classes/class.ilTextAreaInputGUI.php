@@ -37,7 +37,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
     protected array $disabled_buttons = array();
     protected bool $usePurifier = false;
     protected ?ilHtmlPurifierInterface $Purifier = null;
-    protected ?string $root_block_element = null;
+    protected ?string $root_block_element = "";
     
     protected array $rte_tag_set = array(
         "mini" => array("strong", "em", "u", "ol", "li", "ul", "blockquote", "a", "p", "span", "br"), // #13286/#17981
@@ -310,8 +310,7 @@ class ilTextAreaInputGUI extends ilSubEnabledFormPropertyGUI
         } else {
             if ($this->getUseRte()) {
                 $rtestring = ilRTE::_getRTEClassname();
-                $rte = new $rtestring($this->rteSupport['version']);
-
+                $rte = new $rtestring((string) $this->rteSupport['version']);
                 $rte->setInitialWidth($this->getInitialRteWidth());
                 
                 // @todo: Check this.

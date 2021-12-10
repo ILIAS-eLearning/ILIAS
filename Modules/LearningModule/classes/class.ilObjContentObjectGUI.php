@@ -29,11 +29,12 @@ class ilObjContentObjectGUI extends ilObjectGUI
     protected string $lang_switch_mode;
     protected ilPropertyFormGUI $form;
     protected ilTabsGUI $tabs;
-    protected ilPluginAdmin $plugin_admin;
     protected ilHelpGUI $help;
     protected ilDBInterface $db;
     protected ilLogger $log;
     protected \ILIAS\DI\UIServices $ui;
+    protected ilComponentRepository $component_repository;
+
     protected bool $to_props = false;
     protected int $requested_obj_id = 0;
     protected string $requested_new_type = "";
@@ -74,7 +75,6 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $this->toolbar = $DIC->toolbar();
         $this->rbacsystem = $DIC->rbac()->system();
         $this->tree = $DIC->repositoryTree();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->help = $DIC["ilHelp"];
         $this->locator = $DIC["ilLocator"];
         $this->db = $DIC->database();
@@ -83,6 +83,7 @@ class ilObjContentObjectGUI extends ilObjectGUI
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $this->ctrl = $ilCtrl;
+        $this->component_repository = $DIC["component.repository"];
         $lng->loadLanguageModule("content");
         $lng->loadLanguageModule("obj");
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
