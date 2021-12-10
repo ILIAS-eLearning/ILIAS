@@ -1487,10 +1487,9 @@ class ilTree
      * get parent id of given node
      * @throws InvalidArgumentException
      */
-    public function getParentId(int $a_node_id) : int
+    public function getParentId(int $a_node_id) : ?int
     {
         global $DIC;
-
         if ($this->__isMainTree()) {
             $query = 'SELECT parent FROM ' . $this->table_tree . ' ' .
                 'WHERE child = %s ';
@@ -1509,8 +1508,10 @@ class ilTree
             ));
         }
 
-        $row = $this->db->fetchObject($res);
-        return (int) $row->parent;
+        if ($row = $this->db->fetchObject($res)) {
+            return (int) $row->parent;
+        }
+        return null;
     }
 
     /**

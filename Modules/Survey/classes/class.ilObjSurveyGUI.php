@@ -117,9 +117,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $this->invitation_manager = $this->survey_service->domain()->participants()->invitations();
 
-
         parent::__construct("", (int) $_GET["ref_id"], true, false);
 
+        if ($this->object->getType() != "svy") {
+            $this->setCreationMode(true);
+        }
         if ($this->object && $this->object->getType() == "svy") {
             /** @var $survey \ilObjSurvey */
             $survey = $this->object;
@@ -420,7 +422,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $ilUser = $this->user;
         $ilHelp = $this->help;
         $feature_config = $this->feature_config;
-        
+
+        if (is_null($this->object)) {
+            return;
+        }
+
         if ($this->object instanceof ilObjSurveyQuestionPool) {
             return true;
         }
@@ -586,7 +592,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if ($settings_ui->checkForm($form)) {
             $settings_ui->saveForm($form);
 
-            if (strcmp($_SESSION["info"], "") != 0) {
+            if (strcmp($_SESSION["info"] ?? "", "") != 0) {
                 ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
             } else {
                 ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);

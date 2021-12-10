@@ -109,7 +109,7 @@ class InfoScreenGUI
         $this->ctrl = $ctrl;
 
         $body = $request->getParsedBody();
-        $this->requested_code = (string) $body["anonymous_id"] ?? "";
+        $this->requested_code = (string) ($body["anonymous_id"] ?? "");
     }
 
     /**

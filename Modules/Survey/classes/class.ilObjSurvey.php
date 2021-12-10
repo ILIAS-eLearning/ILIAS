@@ -12,6 +12,7 @@ use \ILIAS\Survey\Mode;
  */
 class ilObjSurvey extends ilObject
 {
+    protected bool $activation_limited = false;
     /**
      * @var ilObjUser
      */
@@ -139,7 +140,7 @@ class ilObjSurvey extends ilObject
      */
     protected $log;
     
-    protected $activation_visibility;
+    protected bool $activation_visibility = false;
     protected $activation_starting_time;
     protected $activation_ending_time;
     
@@ -288,14 +289,6 @@ class ilObjSurvey extends ilObject
         $this->data_manager = $this
             ->survey_service
             ->data();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setRefId($id)
-    {
-        parent::setRefId($id);
     }
 
     /**
@@ -1331,19 +1324,19 @@ class ilObjSurvey extends ilObject
     public function saveAuthorToMetadata($a_author = "")
     {
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = &$md->getLifecycle();
+        $md_life = $md->getLifecycle();
         if (!$md_life) {
             if (strlen($a_author) == 0) {
                 $ilUser = $this->user;
                 $a_author = $ilUser->getFullname();
             }
             
-            $md_life = &$md->addLifecycle();
+            $md_life = $md->addLifecycle();
             $md_life->save();
-            $con = &$md_life->addContribute();
+            $con = $md_life->addContribute();
             $con->setRole("Author");
             $con->save();
-            $ent = &$con->addEntity();
+            $ent = $con->addEntity();
             $ent->setEntity($a_author);
             $ent->save();
         }
@@ -1360,15 +1353,15 @@ class ilObjSurvey extends ilObject
     {
         $author = array();
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = &$md->getLifecycle();
+        $md_life = $md->getLifecycle();
         if ($md_life) {
-            $ids = &$md_life->getContributeIds();
+            $ids = $md_life->getContributeIds();
             foreach ($ids as $id) {
-                $md_cont = &$md_life->getContribute($id);
+                $md_cont = $md_life->getContribute($id);
                 if (strcmp($md_cont->getRole(), "Author") == 0) {
-                    $entids = &$md_cont->getEntityIds();
+                    $entids = $md_cont->getEntityIds();
                     foreach ($entids as $entid) {
-                        $md_ent = &$md_cont->getEntity($entid);
+                        $md_ent = $md_cont->getEntity($entid);
                         array_push($author, $md_ent->getEntity());
                     }
                 }
@@ -2406,7 +2399,7 @@ class ilObjSurvey extends ilObject
     * @return array The available question pools
     * @access public
     */
-    public function &getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false, $showPath = false, $permission = "read")
+    public function getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false, $showPath = false, $permission = "read")
     {
         return ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_obj_id, $could_be_offline, $showPath, $permission);
     }
@@ -4397,7 +4390,7 @@ class ilObjSurvey extends ilObject
     */
     public function prepareTextareaOutput($txt_output)
     {
-        return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
+        return ilUtil::prepareTextareaOutput($txt_output);
     }
 
     /**

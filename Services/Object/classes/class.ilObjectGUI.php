@@ -363,9 +363,7 @@ class ilObjectGUI
     */
     public function prepareOutput($a_show_subobjects = true)
     {
-        $ilLocator = $this->locator;
         $tpl = $this->tpl;
-        $ilUser = $this->user;
 
         $this->tpl->loadStandardTemplate();
         // administration prepare output

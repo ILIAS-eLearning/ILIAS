@@ -9,22 +9,10 @@
  */
 class ilPCAMDForm extends ilPageContent
 {
-    /**
-     * @var ilDB
-     */
-    protected $db;
+    protected ilDBInterface $db;
+    protected ilLanguage $lng;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    public $dom;
-
-    /**
-     * Init page content component.
-     */
-    public function init()
+    public function init() : void
     {
         global $DIC;
 
@@ -35,41 +23,27 @@ class ilPCAMDForm extends ilPageContent
         $this->ref_id = (int) $_GET["ref_id"];
     }
 
-    /**
-     * Get lang vars needed for editing
-     * @return array array of lang var keys
-     */
-    public static function getLangVars()
+    public static function getLangVars() : array
     {
         return array("ed_insert_amdfrm", "pc_amdfrm");
     }
 
-    /**
-     * Set node
-     */
-    public function setNode($a_node)
+    public function setNode(php4DOMElement $a_node) : void
     {
         parent::setNode($a_node);		// this is the PageContent node
         $this->amdfrm_node = $a_node->first_child();		// this is the courses node
     }
 
-    /**
-     * Is template
-     * @return bool
-     */
     protected function isTemplate() : bool
     {
         return ($this->getPage()->getParentType() == "prtt");
     }
 
-    /**
-     * Create list node in xml.
-     *
-     * @param	object	$a_pg_obj		Page Object
-     * @param	string	$a_hier_id		Hierarchical ID
-     */
-    public function create($a_pg_obj, $a_hier_id, $a_pc_id = "")
-    {
+    public function create(
+        ilPageObject $a_pg_obj,
+        string $a_hier_id,
+        string $a_pc_id = ""
+    ) : void {
         $this->node = $this->createPageContentNode();
         $a_pg_obj->insertContent($this, $a_hier_id, IL_INSERT_AFTER, $a_pc_id);
         $this->amdfrm_node = $this->dom->create_element("AMDForm");
@@ -89,17 +63,16 @@ class ilPCAMDForm extends ilPageContent
     }
 
 
-    /**
-     * @inheritDoc
-     */
-    public function modifyPageContentPostXsl($a_html, $a_mode, $a_abstract_only = false)
-    {
-        $c_pos = 0;
+    public function modifyPageContentPostXsl(
+        string $a_html,
+        string $a_mode,
+        bool $a_abstract_only = false
+    ) : string {
+        $end = 0;
         $start = strpos($a_html, "[[[[[AMDForm;");
         if (is_int($start)) {
             $end = strpos($a_html, "]]]]]", $start);
         }
-        $i = 1;
         while ($end > 0) {
             $parts = explode(";", substr($a_html, $start + 13, $end - $start - 13));
             if ($this->isTemplate()) {

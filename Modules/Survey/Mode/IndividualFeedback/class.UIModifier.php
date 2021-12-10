@@ -36,13 +36,16 @@ class UIModifier extends Mode\AbstractUIModifier
         $lng = $ui_service->lng();
 
         $ts_results = new \ilRadioGroupInputGUI($lng->txt("survey_360_results"), "ts_res");
-        $ts_results->setValue($survey->get360Results());
+        $ts_results->setValue((string) $survey->get360Results());
 
-        $option = new \ilRadioOption($lng->txt("survey_360_results_none"), \ilObjSurvey::RESULTS_360_NONE);
+        $option = new \ilRadioOption($lng->txt("survey_360_results_none"), (string) \ilObjSurvey::RESULTS_360_NONE);
         $option->setInfo($lng->txt("survey_360_results_none_info"));
         $ts_results->addOption($option);
 
-        $option = new \ilRadioOption($lng->txt("survey_360_results_own"), \ilObjSurvey::RESULTS_360_OWN);
+        $option = new \ilRadioOption(
+            $lng->txt("survey_360_results_own"),
+            (string) \ilObjSurvey::RESULTS_360_OWN
+        );
         $option->setInfo($lng->txt("survey_360_results_own_info"));
         $ts_results->addOption($option);
 

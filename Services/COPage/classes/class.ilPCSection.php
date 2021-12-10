@@ -93,6 +93,9 @@ class ilPCSection extends ilPageContent
         self::saveTimings($a_page);
     }
 
+    /**
+     * @throws ilDateTimeException
+     */
     public function modifyPageContentPostXsl(
         string $a_output,
         string $a_mode,
@@ -444,15 +447,12 @@ class ilPCSection extends ilPageContent
         }
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getModel()
+    public function getModel() : ?stdClass
     {
         if ($this->sec_node->node_name() != "Section") {
             return null;
         }
-        $model = new \stdClass();
+        $model = new stdClass();
         $model->protected = $this->getProtected();
 
         return $model;

@@ -1,5 +1,4 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -90,7 +89,7 @@ class SettingsDBRepository
     {
         if ($date > 0) {
             if (preg_match("/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/", $date, $matches)) {
-                return (int) mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+                return (int) mktime((int) $matches[4], (int) $matches[5], (int) $matches[6], (int) $matches[2], (int) $matches[3], (int) $matches[1]);
             }
         }
         return 0;

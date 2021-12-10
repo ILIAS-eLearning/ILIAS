@@ -38,10 +38,7 @@ class Survey360Manager
     ) {
         $this->run_repo = $repo_service->execution()->run();
 
-        $this->appr_repo = (is_null($appr_repo))
-            ? new AppraiseeDBRepository()
-            : $appr_repo;
-
+        $this->appr_repo = new AppraiseeDBRepository();
         $this->set_repo = $repo_service->settings();
     }
 

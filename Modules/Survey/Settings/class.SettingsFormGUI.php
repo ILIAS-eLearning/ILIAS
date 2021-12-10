@@ -235,13 +235,13 @@ class SettingsFormGUI
 
         // pool usage
         $pool_usage = new \ilRadioGroupInputGUI($lng->txt("survey_question_pool_usage"), "use_pool");
-        $opt = new \ilRadioOption($lng->txt("survey_question_pool_usage_active"), 1);
+        $opt = new \ilRadioOption($lng->txt("survey_question_pool_usage_active"), "1");
         $opt->setInfo($lng->txt("survey_question_pool_usage_active_info"));
         $pool_usage->addOption($opt);
-        $opt = new \ilRadioOption($lng->txt("survey_question_pool_usage_inactive"), 0);
+        $opt = new \ilRadioOption($lng->txt("survey_question_pool_usage_inactive"), "0");
         $opt->setInfo($lng->txt("survey_question_pool_usage_inactive_info"));
         $pool_usage->addOption($opt);
-        $pool_usage->setValue($survey->getPoolUsage());
+        $pool_usage->setValue((string) $survey->getPoolUsage());
         $form->addItem($pool_usage);
 
         if ($feature_config->usesAppraisees()) {
@@ -438,8 +438,8 @@ class SettingsFormGUI
 
         // show question titles
         $show_question_titles = new \ilCheckboxInputGUI($lng->txt("svy_show_questiontitles"), "show_question_titles");
-        $show_question_titles->setValue(1);
-        $show_question_titles->setChecked($survey->getShowQuestionTitles());
+        $show_question_titles->setValue("1");
+        $show_question_titles->setChecked((bool) $survey->getShowQuestionTitles());
         $form->addItem($show_question_titles);
 
         return $form;
@@ -497,7 +497,7 @@ class SettingsFormGUI
         $mailnotification = new \ilCheckboxInputGUI($lng->txt("mailnotification"), "mailnotification");
         // $mailnotification->setOptionTitle($lng->txt("activate"));
         $mailnotification->setInfo($lng->txt("svy_result_mail_notification_info")); // #11762
-        $mailnotification->setValue(1);
+        $mailnotification->setValue("1");
         $mailnotification->setChecked($survey->getMailNotification());
 
         // addresses
@@ -509,7 +509,7 @@ class SettingsFormGUI
 
         // participant data
         $participantdata = new \ilTextAreaInputGUI($lng->txt("mailparticipantdata"), "mailparticipantdata");
-        $participantdata->setValue($survey->getMailParticipantData());
+        $participantdata->setValue((string) $survey->getMailParticipantData());
         $participantdata->setRows(6);
         $participantdata->setCols(80);
         $participantdata->setUseRte(false);
@@ -678,7 +678,7 @@ class SettingsFormGUI
         $rmd_freq->setRequired(true);
         $rmd_freq->setSize(3);
         $rmd_freq->setSuffix($lng->txt("survey_reminder_frequency_days"));
-        $rmd_freq->setValue($survey->getReminderFrequency());
+        $rmd_freq->setValue((string) $survey->getReminderFrequency());
         $rmd_freq->setMinValue(1);
         $rmd->addSubItem($rmd_freq);
 
@@ -795,7 +795,7 @@ class SettingsFormGUI
         if ($feature_config->supportsCompetences() && $skmg_set->isActivated()) {
             $skill_service = new \ilCheckboxInputGUI($lng->txt("survey_activate_skill_service"), "skill_service");
             $skill_service->setInfo($lng->txt("survey_activate_skill_service_info"));
-            $skill_service->setChecked($survey->getSkillService());
+            $skill_service->setChecked((bool) $survey->getSkillService());
             $other_items[] = $skill_service;
         }
 
