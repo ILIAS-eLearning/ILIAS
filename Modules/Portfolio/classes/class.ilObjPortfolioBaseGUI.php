@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\DI\HTTPServices;
+
 /**
  * Portfolio view gui base class
  *
@@ -45,6 +47,11 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      */
     protected $ui;
 
+    /**
+     * @var HTTPServices
+     */
+    protected $http;
+
     public function __construct($a_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
         global $DIC;
@@ -60,7 +67,7 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
         $ilUser = $DIC->user();
         $this->ui = $DIC->ui();
         
-        $this->ui = $DIC->ui();
+        $this->http = $DIC->http();
         
         parent::__construct($a_id, $a_id_type, $a_parent_node_id);
 
@@ -317,10 +324,9 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
      */
     public function view()
     {
-        $ctrl = $this->ctrl;
         $ilToolbar = $this->toolbar;
         $ilSetting = $this->settings;
-        $tree = $this->tree;
+        $lng = $this->lng;
         
         if (!$this->checkPermissionBool("write")) {
             $this->ctrl->redirect($this, "infoScreen");
@@ -369,19 +375,38 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $ilToolbar->addButtonInstance($button);
             }
 
-
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("prtf_pdf");
-            $button->setUrl($this->ctrl->getLinkTarget($this, "exportPDFSelection"));
-            $ilToolbar->addButtonInstance($button);
+            $print_view = $this->getPrintView();
+            $modal_elements = $print_view->getModalElements($this->ctrl->getLinkTarget(
+                $this,
+                "printSelection"
+            ));
+            $modal_html .= $ui->renderer()->render($modal_elements->modal);
+            $ilToolbar->addComponent($modal_elements->button);
         }
         
         $table = new ilPortfolioPageTableGUI($this, "view");
         
 
-        $this->tpl->setContent($message . $table->getHTML() . $modal_html);
+        $this->tpl->setContent($table->getHTML() . $modal_html);
     }
-    
+
+    public function getPrintView() : \ILIAS\Export\PrintProcessGUI
+    {
+        $provider = new \ILIAS\Portfolio\PortfolioPrintViewProviderGUI(
+            $this->lng,
+            $this->ctrl,
+            $this->object,
+            false,
+            $_POST["obj_id"] ?? null
+        );
+        return new \ILIAS\Export\PrintProcessGUI(
+            $provider,
+            $this->http,
+            $this->ui,
+            $this->lng
+        );
+    }
+
     /**
      * Show portfolio page creation form
      */

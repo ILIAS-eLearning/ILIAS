@@ -3,6 +3,7 @@
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use \ILIAS\Survey\Participants;
+use \ILIAS\Survey\Mode;
 
 /**
  * Class ilObjSurvey
@@ -11,6 +12,7 @@ use \ILIAS\Survey\Participants;
  */
 class ilObjSurvey extends ilObject
 {
+    protected bool $activation_limited = false;
     /**
      * @var ilObjUser
      */
@@ -138,7 +140,7 @@ class ilObjSurvey extends ilObject
      */
     protected $log;
     
-    protected $activation_visibility;
+    protected bool $activation_visibility = false;
     protected $activation_starting_time;
     protected $activation_ending_time;
     
@@ -186,6 +188,7 @@ class ilObjSurvey extends ilObject
     const MODE_STANDARD = 0;
     const MODE_360 = 1;
     const MODE_SELF_EVAL = 2;
+    const MODE_IND_FEEDB = 3;
 
     //self evaluation only access to results
     const RESULTS_SELF_EVAL_NONE = 0;
@@ -199,6 +202,26 @@ class ilObjSurvey extends ilObject
     protected $invitation_manager;
 
     /**
+     * @var \ILIAS\Survey\InternalService
+     */
+    protected $survey_service;
+
+    /**
+     * @var \ILIAS\Survey\Code\CodeManager
+     */
+    protected $code_manager;
+
+    /**
+     * @var \ILIAS\Survey\InternalDataService
+     */
+    protected $data_manager;
+
+    /**
+     * @var ?Mode\FeatureConfig
+     */
+    protected $feature_config;
+
+    /**
     * Constructor
     * @access	public
     * @param	integer	reference_id or object_id
@@ -206,7 +229,10 @@ class ilObjSurvey extends ilObject
     */
     public function __construct($a_id = 0, $a_call_by_reference = true)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
+        $this->survey_service = $DIC->survey()->internal();
 
         $this->user = $DIC->user();
         $this->lng = $DIC->language();
@@ -234,9 +260,35 @@ class ilObjSurvey extends ilObject
         $this->mode = self::MODE_STANDARD;
         $this->mode_self_eval_results = self::RESULTS_SELF_EVAL_OWN;
 
-        $this->invitation_manager = new Participants\InvitationsManager();
+        $this->invitation_manager = $this
+            ->survey_service
+            ->domain()
+            ->participants()
+            ->invitations();
 
         parent::__construct($a_id, $a_call_by_reference);
+        $this->initServices();
+    }
+
+    /**
+     * Init services
+     */
+    protected function initServices() : void
+    {
+        if ($this->getRefId() > 0) {
+            $this->code_manager = $this
+                ->survey_service
+                ->domain()
+                ->code($this, $this->user->getId());
+        }
+        $this->feature_config = $this
+            ->survey_service
+            ->domain()
+            ->modeFeatureConfig($this->getMode());
+
+        $this->data_manager = $this
+            ->survey_service
+            ->data();
     }
 
     /**
@@ -296,6 +348,7 @@ class ilObjSurvey extends ilObject
     {
         parent::read();
         $this->loadFromDb();
+        $this->initServices();
     }
     
     /**
@@ -372,12 +425,8 @@ class ilObjSurvey extends ilObject
         );
         $this->deleteAllUserData(false);
 
-        $affectedRows = $ilDB->manipulateF(
-            "DELETE FROM svy_anonymous WHERE survey_fi = %s",
-            array('integer'),
-            array($this->getSurveyId())
-        );
-        
+        $this->code_manager->deleteAll();
+
         // delete export files
         $svy_data_dir = ilUtil::getDataDir() . "/svy_data";
         $directory = $svy_data_dir . "/svy_" . $this->getId();
@@ -493,7 +542,6 @@ class ilObjSurvey extends ilObject
     public function &getSurveyParticipants($finished_ids = null, $force_non_anonymous = false, $include_invites = false)
     {
         $ilDB = $this->db;
-        
         $sql = "SELECT * FROM svy_finished" .
             " WHERE survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
         if ($finished_ids) {
@@ -530,7 +578,6 @@ class ilObjSurvey extends ilObject
                 }
             }
         }
-
         return $participants;
     }
 
@@ -755,7 +802,6 @@ class ilObjSurvey extends ilObject
         if (is_object($rmd_end)) {
             $rmd_end = $rmd_end->get(IL_CAL_DATE);
         }
-        
         if ($this->getSurveyId() < 1) {
             $next_id = $ilDB->nextId('svy_svy');
             $affectedRows = $ilDB->insert("svy_svy", array(
@@ -1021,9 +1067,9 @@ class ilObjSurvey extends ilObject
     * @result integer survey database id
     * @access public
     */
-    public function getSurveyId()
+    public function getSurveyId() : int
     {
-        return $this->survey_id;
+        return (int) $this->survey_id;
     }
     
     /**
@@ -1278,19 +1324,19 @@ class ilObjSurvey extends ilObject
     public function saveAuthorToMetadata($a_author = "")
     {
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = &$md->getLifecycle();
+        $md_life = $md->getLifecycle();
         if (!$md_life) {
             if (strlen($a_author) == 0) {
                 $ilUser = $this->user;
                 $a_author = $ilUser->getFullname();
             }
             
-            $md_life = &$md->addLifecycle();
+            $md_life = $md->addLifecycle();
             $md_life->save();
-            $con = &$md_life->addContribute();
+            $con = $md_life->addContribute();
             $con->setRole("Author");
             $con->save();
-            $ent = &$con->addEntity();
+            $ent = $con->addEntity();
             $ent->setEntity($a_author);
             $ent->save();
         }
@@ -1307,15 +1353,15 @@ class ilObjSurvey extends ilObject
     {
         $author = array();
         $md = new ilMD($this->getId(), 0, $this->getType());
-        $md_life = &$md->getLifecycle();
+        $md_life = $md->getLifecycle();
         if ($md_life) {
-            $ids = &$md_life->getContributeIds();
+            $ids = $md_life->getContributeIds();
             foreach ($ids as $id) {
-                $md_cont = &$md_life->getContribute($id);
+                $md_cont = $md_life->getContribute($id);
                 if (strcmp($md_cont->getRole(), "Author") == 0) {
-                    $entids = &$md_cont->getEntityIds();
+                    $entids = $md_cont->getEntityIds();
                     foreach ($entids as $entid) {
-                        $md_ent = &$md_cont->getEntity($entid);
+                        $md_ent = $md_cont->getEntity($entid);
                         array_push($author, $md_ent->getEntity());
                     }
                 }
@@ -1450,19 +1496,6 @@ class ilObjSurvey extends ilObject
             array_push($messages, $this->lng->txt("cannot_participate_survey"));
             $result = false;
         }
-        /*
-        // 2. check previous access
-        if (!$result["error"])
-        {
-        $ilUser = $this->user;
-            $survey_started = $this->isSurveyStarted($ilUser->getId(), $anonymous_id);
-            if ($survey_started === 1)
-            {
-                array_push($messages, $this->lng->txt("already_completed_survey"));
-                $result = FALSE;
-            }
-        }
-        */
         return array(
             "result" => $result,
             "messages" => $messages,
@@ -1533,6 +1566,32 @@ class ilObjSurvey extends ilObject
     public function setEndDate($end_date = "")
     {
         $this->end_date = $end_date;
+    }
+
+    /**
+     * Has started
+     */
+    public function hasStarted() : bool
+    {
+        $start = $this->getStartDate();
+        if ($start) {
+            $start_date = new ilDateTime($start, IL_CAL_TIMESTAMP);
+            return ($start_date->get(IL_CAL_UNIX) < time());
+        }
+        return true;
+    }
+
+    /**
+     * Has ended
+     */
+    public function hasEnded() : bool
+    {
+        $end = $this->getEndDate();
+        if ($end) {
+            $end_date = new ilDateTime($end, IL_CAL_TIMESTAMP);
+            return ($end_date->get(IL_CAL_UNIX) < time());
+        }
+        return false;
     }
 
     /**
@@ -1617,7 +1676,7 @@ class ilObjSurvey extends ilObject
     */
     public function getIntroduction()
     {
-        return (strlen($this->introduction)) ? $this->introduction : null;
+        return (strlen($this->introduction)) ? $this->introduction : "";
     }
 
     /**
@@ -2340,7 +2399,7 @@ class ilObjSurvey extends ilObject
     * @return array The available question pools
     * @access public
     */
-    public function &getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false, $showPath = false, $permission = "read")
+    public function getAvailableQuestionpools($use_obj_id = false, $could_be_offline = false, $showPath = false, $permission = "read")
     {
         return ilObjSurveyQuestionPool::_getAvailableQuestionpools($use_obj_id, $could_be_offline, $showPath, $permission);
     }
@@ -2604,35 +2663,6 @@ class ilObjSurvey extends ilObject
             return $result_array;
         }
     }
-    
-    /**
-    * Starts the survey creating an entry in the database
-    *
-    * @param integer $user_id The database id of the user who starts the survey
-    * @access public
-    */
-    public function startSurvey($user_id, $anonymous_id, $appraisee_id)
-    {
-        $ilDB = $this->db;
-        
-        if ($this->getAnonymize() && (strlen($anonymous_id) == 0)) {
-            return;
-        }
-
-        if (strcmp($user_id, "") == 0) {
-            if ($user_id == ANONYMOUS_USER_ID) {
-                $user_id = 0;
-            }
-        }
-        $next_id = $ilDB->nextId('svy_finished');
-        $affectedRows = $ilDB->manipulateF(
-            "INSERT INTO svy_finished (finished_id, survey_fi, user_fi, anonymous_id, state, tstamp, appr_id) " .
-            "VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            array('integer','integer','integer','text','text','integer','integer'),
-            array($next_id, $this->getSurveyId(), $user_id, $anonymous_id, 0, time(), $appraisee_id)
-        );
-        return $next_id;
-    }
 
     /**
     * Finishes the survey creating an entry in the database
@@ -2640,7 +2670,7 @@ class ilObjSurvey extends ilObject
     * @param integer $user_id The database id of the user who finishes the survey
     * @access public
     */
-    public function finishSurvey($finished_id)
+    public function finishSurvey($finished_id, $appr_id = 0)
     {
         $ilDB = $this->db;
         
@@ -2656,6 +2686,33 @@ class ilObjSurvey extends ilObject
             $user = $this->getUserDataFromActiveId($finished_id);
             $sskill = new ilSurveySkill($this);
             $sskill->writeAndAddSelfEvalSkills($user['usr_id']);
+        }
+
+        // self eval writes skills on finishing
+        if ($this->getMode() == ilObjSurvey::MODE_IND_FEEDB) {
+
+            // we use a rater id like "a27" for anonymous or
+            // "123" for non anonymous user
+            // @todo: move this e.g. to participant manager
+            $raters = $this->getRatersData($appr_id);
+            $run_manager = $this->survey_service
+                ->domain()
+                ->execution()
+                ->run($this, $this->user->getId());
+            $run = $run_manager->getById($finished_id);
+            $rater_id = "";
+            if ($run->getUserId() != 0 && $run->getUserId() != ANONYMOUS_USER_ID) {
+                $rater_id = $run->getUserId();
+            } else {
+                foreach ($raters as $id => $rater) {
+                    if ($rater["code"] == $run->getCode()) {
+                        $rater_id = $id;
+                    }
+                }
+            }
+            $sskill = new ilSurveySkill($this);
+            //$sskill->writeAndAddSelfEvalSkills($user['usr_id']);
+            $sskill->writeAndAddIndFeedbackSkills($finished_id, $appr_id, $rater_id);
         }
 
         $this->checkTutorNotification();
@@ -2680,11 +2737,11 @@ class ilObjSurvey extends ilObject
     }
 
     /**
-     * @param $a_user_id user who did the survey
-     * @param $a_anonymize_id
-     * @param $a_appr_id
+     * @param int    $a_user_id
+     * @param string $a_anonymize_id
+     * @param int    $a_appr_id
      */
-    public function sendNotificationMail($a_user_id, $a_anonymize_id, $a_appr_id)
+    public function sendNotificationMail(int $a_user_id, string $a_anonymize_id, int $a_appr_id = 0)
     {
         // #12755
         $placeholders = array(
@@ -2832,8 +2889,6 @@ class ilObjSurvey extends ilObject
     {
         $ilDB = $this->db;
 
-        // see self::isSurveyStarted()
-        
         // #15031 - should not matter if code was used by registered or anonymous (each code must be unique)
         if ($anonymize_id) {
             $result = $ilDB->queryF(
@@ -3070,6 +3125,14 @@ class ilObjSurvey extends ilObject
                     $userdata["lastname"] = $user->getLastname();
                     $userdata["sortname"] = $user->getLastname() . ", " . $user->getFirstname();
                     $userdata["login"] = $user->getLogin();
+                }
+            }
+            if ($row["user_fi"] == 0 || $row["user_fi"] == ANONYMOUS_USER_ID) {
+                $code = $this->code_manager->getByUserKey($row["anonymous_id"]);
+                if (!is_null($code) && $this->feature_config->usesAppraisees()) {
+                    $userdata["firstname"] = $code->getFirstName();
+                    $userdata["lastname"] = $code->getLastName();
+                    $userdata["sortname"] = $code->getLastName() . ", " . $code->getFirstName();
                 }
             }
         }
@@ -3665,23 +3728,14 @@ class ilObjSurvey extends ilObject
         $newObj->setMailOwnResults($this->hasMailOwnResults());
         $newObj->setMailConfirmation($this->hasMailConfirmation());
         $newObj->setAnonymousUserList($this->hasAnonymousUserList());
-        
-        // #12661
-        if ($this->get360Mode()) {
-            $newObj->setMode(ilObjSurvey::MODE_360);
-            $newObj->set360SelfEvaluation($this->get360SelfEvaluation());
-            $newObj->set360SelfAppraisee($this->get360SelfAppraisee());
-            $newObj->set360SelfRaters($this->get360SelfRaters());
-            $newObj->set360Results($this->get360Results());
-            $newObj->setSkillService($this->getSkillService());
-        }
-        //svy mode self eval: skills + view results
-        if ($svy_type == ilObjSurvey::MODE_SELF_EVAL) {
-            $newObj->setMode(ilObjSurvey::MODE_SELF_EVAL);
-            $newObj->setSkillService($this->getSkillService());
-            $newObj->setSelfEvaluationResults($this->getSelfEvaluationResults());
-        }
-                
+
+        $newObj->setMode($this->getMode());
+        $newObj->set360SelfEvaluation($this->get360SelfEvaluation());
+        $newObj->set360SelfAppraisee($this->get360SelfAppraisee());
+        $newObj->set360SelfRaters($this->get360SelfRaters());
+        $newObj->set360Results($this->get360Results());
+        $newObj->setSkillService($this->getSkillService());
+
         // reminder/notification
         $newObj->setReminderStatus($this->getReminderStatus());
         $newObj->setReminderStart($this->getReminderStart());
@@ -3932,33 +3986,6 @@ class ilObjSurvey extends ilObject
         }
     }
 
-    public function isAnonymousKey($key)
-    {
-        $ilDB = $this->db;
-        
-        $result = $ilDB->queryF(
-            "SELECT anonymous_id FROM svy_anonymous WHERE survey_key = %s AND survey_fi = %s",
-            array('text','integer'),
-            array($key, $this->getSurveyId())
-        );
-        return ($result->numRows() == 1) ? true : false;
-    }
-    
-    public function bindSurveyCodeToUser($user_id, $code)
-    {
-        $ilDB = $this->db;
-        
-        if ($user_id == ANONYMOUS_USER_ID) {
-            return;
-        }
-        
-        if ($this->checkSurveyCode($code)) {
-            $ilDB->manipulate("UPDATE svy_anonymous" .
-                " SET user_key = " . $ilDB->quote(md5($user_id), "text") .
-                " WHERE survey_key = " . $ilDB->quote($code, "text"));
-        }
-    }
-    
     public function isAnonymizedParticipant($key)
     {
         $ilDB = $this->db;
@@ -3969,19 +3996,6 @@ class ilObjSurvey extends ilObject
             array($key, $this->getSurveyId())
         );
         return ($result->numRows() == 1) ? true : false;
-    }
-    
-    public function checkSurveyCode($code)
-    {
-        if ($this->isAnonymousKey($code)) {
-            if ($this->isSurveyStarted("", $code) == 1) {
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
-        }
     }
 
     /**
@@ -4144,27 +4158,7 @@ class ilObjSurvey extends ilObject
         );
         return ($result->numRows() > 0) ? false : true;
     }
-    
-    public function createSurveyCodes($nrOfCodes)
-    {
-        $ilDB = $this->db;
-        
-        $res = array();
-        
-        for ($i = 0; $i < $nrOfCodes; $i++) {
-            $next_id = $ilDB->nextId('svy_anonymous');
-            $ilDB->manipulateF(
-                "INSERT INTO svy_anonymous (anonymous_id, survey_key, survey_fi, tstamp) " .
-                "VALUES (%s, %s, %s, %s)",
-                array('integer','text','integer','integer'),
-                array($next_id, $this->createNewAccessCode(), $this->getSurveyId(), time())
-            );
-            $res[] = $next_id;
-        }
-        
-        return $res;
-    }
-    
+
     public function importSurveyCode($a_anonymize_key, $a_created, $a_data)
     {
         $ilDB = $this->db;
@@ -4176,25 +4170,6 @@ class ilObjSurvey extends ilObject
             array('integer','text','integer','text','integer'),
             array($next_id, $a_anonymize_key, $this->getSurveyId(), serialize($a_data), $a_created)
         );
-    }
-
-    public function createSurveyCodesForExternalData($data)
-    {
-        $ilDB = $this->db;
-        
-        $ids = array();
-        foreach ($data as $dataset) {
-            $anonymize_key = $this->createNewAccessCode();
-            $next_id = $ilDB->nextId('svy_anonymous');
-            $affectedRows = $ilDB->manipulateF(
-                "INSERT INTO svy_anonymous (anonymous_id, survey_key, survey_fi, externaldata, tstamp) " .
-                "VALUES (%s, %s, %s, %s, %s)",
-                array('integer','text','integer','text','integer'),
-                array($next_id, $anonymize_key, $this->getSurveyId(), serialize($dataset), time())
-            );
-            $ids[] = $next_id;
-        }
-        return $ids;
     }
 
     public function sendCodes($not_sent, $subject, $message, $lang)
@@ -4380,28 +4355,7 @@ class ilObjSurvey extends ilObject
         );
     }
     
-    /**
-    * Returns a new, unused survey access code
-    *
-    * @return	string A new survey access code
-    */
-    public function createNewAccessCode()
-    {
-        // create a 5 character code
-        $codestring = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-        mt_srand();
-        $code = "";
-        for ($i = 1; $i <= 5; $i++) {
-            $index = mt_rand(0, strlen($codestring) - 1);
-            $code .= substr($codestring, $index, 1);
-        }
-        // verify it against the database
-        while (!$this->isSurveyCodeUnique($code)) {
-            $code = $this->createNewAccessCode();
-        }
-        return $code;
-    }
-    
+
     public function getLastAccess($finished_id)
     {
         $ilDB = $this->db;
@@ -4436,7 +4390,7 @@ class ilObjSurvey extends ilObject
     */
     public function prepareTextareaOutput($txt_output)
     {
-        return ilUtil::prepareTextareaOutput($txt_output, $prepare_for_latex_output);
+        return ilUtil::prepareTextareaOutput($txt_output);
     }
 
     /**
@@ -5039,7 +4993,6 @@ class ilObjSurvey extends ilObject
     public function isAppraisee($a_user_id)
     {
         $ilDB = $this->db;
-        
         $set = $ilDB->query("SELECT user_id" .
             " FROM svy_360_appr" .
             " WHERE obj_id = " . $ilDB->quote($this->getSurveyId(), "integer") .
@@ -5285,24 +5238,31 @@ class ilObjSurvey extends ilObject
             return (int) $row["state"];
         }
     }
-    
+
+    /**
+     * Generates a code in svy_anonymous for logged in raters, if codes are used
+     * Generates a code for the anonymous user, if the survey is set to anonymous and no codes are used
+     * @param null $a_code
+     * @return array|null
+     */
     public function getUserSurveyExecutionStatus($a_code = null)
     {
         $ilUser = $this->user;
         $ilDB = $this->db;
             
         $user_id = $ilUser->getId();
-                
         // code is obligatory?
         if (!$this->isAccessibleWithoutCode()) {
             if (!$a_code) {
                 // registered raters do not need code
-                if ($this->get360Mode() &&
+                if ($this->feature_config->usesAppraisees() &&
                     $user_id != ANONYMOUS_USER_ID &&
                     $this->isRater(0, $user_id)) {
                     // auto-generate code
-                    $a_code = $this->createNewAccessCode();
-                    $this->saveUserAccessCode($user_id, $a_code);
+                    $code = $this->data_manager->code("")
+                        ->withUserId($user_id);
+                    $this->code_manager->add($code);
+                    $a_code = $this->code_manager->getByUserId($user_id);
                 } else {
                     return null;
                 }
@@ -5311,15 +5271,17 @@ class ilObjSurvey extends ilObject
             $this->getAnonymize() == self::ANONYMIZE_FREEACCESS) {
             if (!$a_code) {
                 // auto-generate code
-                $a_code = $this->createNewAccessCode();
-                $this->saveUserAccessCode($user_id, $a_code);
+                $code = $this->data_manager->code("")
+                    ->withUserId($user_id);
+                $this->code_manager->add($code);
             }
         } else {
             $a_code = null;
         }
             
         $res = array();
-                                
+
+        // get runs for user id / code
         $sql = "SELECT * FROM svy_finished" .
             " WHERE survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
         // if proper user id is given, use it or current code
@@ -5338,11 +5300,10 @@ class ilObjSurvey extends ilObject
                 "code" => $row["anonymous_id"],
                 "finished" => (bool) $row["state"]);
         }
-        
         return array("code" => $a_code, "runs" => $res);
     }
     
-    public function findCodeForUser($a_user_id)
+    public function findCodeForUser($a_user_id) : string
     {
         $ilDB = $this->db;
         
@@ -5351,8 +5312,9 @@ class ilObjSurvey extends ilObject
                 " WHERE sf.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer") .
                 " AND sf.user_fi = " . $ilDB->quote($a_user_id, "integer"));
             $a_code = $ilDB->fetchAssoc($set);
-            return $a_code["anonymous_id"];
+            return (string) $a_code["anonymous_id"];
         }
+        return "";
     }
     
     public function isUnusedCode($a_code, $a_user_id)
@@ -5485,13 +5447,20 @@ class ilObjSurvey extends ilObject
     
     public static function validateExternalRaterCode($a_ref_id, $a_code)
     {
+        /** @var ILIAS\DI\Container $DIC */
+        global $DIC;
+
         if (!isset($_SESSION["360_extrtr"][$a_ref_id])) {
             $svy = new self($a_ref_id);
             $svy->loadFromDB();
+
+            $domain_service = $DIC->survey()->internal()->domain();
+            $code_manager = $domain_service->code($svy, 0);
+            $feature_config = $domain_service->modeFeatureConfig($svy->getMode());
             
             if ($svy->canStartSurvey(null, true) &&
-                $svy->get360Mode() &&
-                $svy->isAnonymousKey($a_code)) {
+                $feature_config->usesAppraisees() &&
+                $code_manager->exists($a_code)) {
                 $anonymous_id = $svy->getAnonymousIdByCode($a_code);
                 if ($anonymous_id) {
                     if (sizeof($svy->getAppraiseesToRate(null, $anonymous_id))) {
@@ -5870,7 +5839,7 @@ class ilObjSurvey extends ilObject
             $cut->get(IL_CAL_DATE) >= substr($this->getReminderLastSent(), 0, 10)) {
             $missing_ids = array();
 
-            if (!$this->get360Mode()) {
+            if (!$this->feature_config->usesAppraisees()) {
                 $this->log->debug("Entering survey mode.");
 
                 // #16871
@@ -6088,9 +6057,9 @@ class ilObjSurvey extends ilObject
         $this->mode = $a_value;
     }
 
-    public function getMode()
+    public function getMode() : int
     {
-        return $this->mode;
+        return (int) $this->mode;
     }
 
     public function setSelfEvaluationResults($a_value)

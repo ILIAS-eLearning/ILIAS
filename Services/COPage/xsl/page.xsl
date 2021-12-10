@@ -85,6 +85,8 @@
 <xsl:param name="current_ts"/>
 <xsl:param name="enable_html_mob"/>
 <xsl:param name="page_perma_link"/>
+<xsl:param name="activated_protection"/>
+<xsl:param name="protection_text"/>
 
 <xsl:template match="PageObject">
 	<xsl:if test="$mode != 'edit'">
@@ -3166,7 +3168,13 @@
 				</a>
 			</xsl:if>
 			<xsl:if test="(not(./ExtLink) and not(./IntLink)) or $mode = 'edit'">
+				<xsl:if test="$mode = 'edit' and $activated_protection = 'y' and @Protected = '1'">
+					<div class="small"><xsl:value-of select="$protection_text"/></div>
+				</xsl:if>
 				<div>
+					<xsl:if test="$activated_protection = 'y' and @Protected = '1'">
+						<xsl:attribute name="data-protected">1</xsl:attribute>
+					</xsl:if>
 					<xsl:call-template name="SectionContent" />
 				</div>
 			</xsl:if>
@@ -4175,7 +4183,12 @@
 	</xsl:if>
 </xsl:template>
 
-<!-- helper functions -->
+<!-- Advanced MD Page List -->
+<xsl:template match="AMDForm">
+	[[[[[AMDForm;<xsl:value-of select="@RecordIds"/>]]]]]
+</xsl:template>
+
+	<!-- helper functions -->
 
 <xsl:template name="substring-before-last">
 	<xsl:param name="originalString" select="''" />

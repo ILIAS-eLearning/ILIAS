@@ -711,6 +711,18 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                     );
                 $this->submission->uploadFile($meta, true);
 
+                // print version
+                $file = $file = $blog_gui->buildExportFile(false, true);
+                $size = filesize($file);
+                if ($size) {
+                    $meta = array(
+                        "name" => $blog_id . "print",
+                        "tmp_name" => $file,
+                        "size" => $size
+                    );
+                    $this->submission->uploadFile($meta, true);
+                }
+
                 $this->handleNewUpload();
                 return true;
             }
@@ -747,6 +759,19 @@ class ilExSubmissionObjectGUI extends ilExSubmissionBaseGUI
                     "size" => $size
                     );
                 $this->submission->uploadFile($meta, true);
+
+                // print version
+                $port_export->setPrintVersion(true);
+                $file = $port_export->exportHtml();
+                $size = filesize($file);
+                if ($size) {
+                    $meta = array(
+                        "name" => $prtf_id . "print",
+                        "tmp_name" => $file,
+                        "size" => $size
+                    );
+                    $this->submission->uploadFile($meta, true);
+                }
 
                 $this->handleNewUpload();
                 return true;

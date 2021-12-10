@@ -79,6 +79,11 @@ class PortfolioHtmlExport
     protected $include_comments = false;
 
     /**
+     * @var bool
+     */
+    protected $print_version = false;
+
+    /**
      * constructor
      * @param \ilObjPortfolioBaseGUI $portfolio_gui
      */
@@ -89,13 +94,8 @@ class PortfolioHtmlExport
         $this->portfolio_gui = $portfolio_gui;
         $this->portfolio = $portfolio_gui->object;
 
-        $this->export_dir = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf");
-        $this->sub_dir = $this->portfolio->getType() . "_" . $this->portfolio->getId();
-        $this->target_dir = $this->export_dir . "/" . $this->sub_dir;
 
         $this->global_screen = $DIC->globalScreen();
-        $this->export_util = new \ILIAS\Services\Export\HTML\Util($this->export_dir, $this->sub_dir);
-        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
         $this->tabs = $DIC->tabs();
         $this->lng = $DIC->language();
 
@@ -105,6 +105,18 @@ class PortfolioHtmlExport
         );
     }
 
+    protected function init()
+    {
+        $this->export_dir = \ilExport::_getExportDirectory($this->portfolio->getId(), "html", "prtf");
+        $this->sub_dir = $this->portfolio->getType() . "_" . $this->portfolio->getId();
+        if ($this->print_version) {
+            $this->sub_dir .= "print";
+        }
+        $this->target_dir = $this->export_dir . "/" . $this->sub_dir;
+        $this->export_util = new \ILIAS\Services\Export\HTML\Util($this->export_dir, $this->sub_dir);
+        $this->co_page_html_export = new \ilCOPageHTMLExport($this->target_dir);
+    }
+
     /**
      * Include comments
      * @param bool $a_include_comments
@@ -112,6 +124,11 @@ class PortfolioHtmlExport
     public function includeComments($a_include_comments)
     {
         $this->include_comments = $a_include_comments;
+    }
+
+    public function setPrintVersion(bool $print_version) : void
+    {
+        $this->print_version = $print_version;
     }
 
     /**
@@ -162,6 +179,7 @@ class PortfolioHtmlExport
      */
     public function exportHtml()
     {
+        $this->init();
         $this->initDirectories();
 
         $this->export_util->exportSystemStyle();
@@ -173,7 +191,11 @@ class PortfolioHtmlExport
         $this->exportBanner();
 
         // export pages
-        $this->exportHTMLPages();
+        if ($this->print_version) {
+            $this->exportHTMLPagesPrint();
+        } else {
+            $this->exportHTMLPages();
+        }
 
         $this->exportUserImages();
 
@@ -279,6 +301,32 @@ class PortfolioHtmlExport
                 }
             }
         }
+    }
+
+    /**
+     * Export all pages as one print version
+     */
+    public function exportHTMLPagesPrint()
+    {
+        // collect page elements
+        $pages = \ilPortfolioPage::getAllPortfolioPages($this->portfolio->getId());
+        foreach ($pages as $page) {
+            if (\ilPortfolioPage::_exists("prtf", $page["id"])) {
+                if ($page["type"] == \ilPortfolioPage::TYPE_BLOG) {
+                    $blog_gui = new \ilObjBlogGUI((int) $page["title"], \ilObject2GUI::WORKSPACE_OBJECT_ID);
+                    $blog_export = new BlogHtmlExport($blog_gui, $this->export_dir, $this->sub_dir, false);
+                    $blog_export->collectAllPagesPageElements($this->co_page_html_export);
+                } else {
+                    $this->co_page_html_export->collectPageElements("prtf:pg", $page["id"]);
+                }
+            }
+        }
+
+        // render print view
+        $print_view = $this->portfolio_gui->getPrintView();
+        $print_view->setOffline(true);
+        $html = $print_view->renderPrintView();
+        file_put_contents($this->target_dir . "/index.html", $html);
     }
 
     /**

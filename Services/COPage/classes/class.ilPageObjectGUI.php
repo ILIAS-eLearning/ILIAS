@@ -1485,8 +1485,11 @@ class ilPageObjectGUI
                          'current_ts' => $current_ts,
                          'enable_html_mob' => ilObjMediaObject::isTypeAllowed("html") ? "y" : "n",
                          'flv_video_player' => $flv_video_player,
-                         'page_perma_link' => $this->getPagePermaLink()
-                        );
+                         'page_perma_link' => $this->getPagePermaLink(),
+                         'activated_protection' =>
+                            ($this->getPageConfig()->getSectionProtection() == \ilPageConfig::SEC_PROTECT_PROTECTED) ? "y" : "n",
+                        'protection_text' => $this->lng->txt("cont_sec_protected_text")
+    );
         if ($this->link_frame != "") {		// todo other link types
             $params["pg_frame"] = $this->link_frame;
         }
