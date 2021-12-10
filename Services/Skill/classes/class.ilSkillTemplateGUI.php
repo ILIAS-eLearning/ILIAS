@@ -40,7 +40,7 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         
-        $ilCtrl->saveParameter($this, "obj_id");
+        $ilCtrl->saveParameter($this, "node_id");
         
         parent::__construct($a_node_id);
     }

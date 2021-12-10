@@ -46,7 +46,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         
         $this->tref_id = $a_tref_id;
         
-        $ilCtrl->saveParameter($this, array("obj_id", "level_id"));
+        $ilCtrl->saveParameter($this, array("node_id", "level_id"));
         
         parent::__construct($a_node_id);
     }
@@ -83,7 +83,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $ni->setRequired(true);
         if ($a_mode == "create") {
             $tree = new ilSkillTree();
-            $max = $tree->getMaxOrderNr($this->requested_obj_id, true);
+            $max = $tree->getMaxOrderNr($this->requested_node_id, true);
             $ni->setValue($max + 10);
         }
         $this->form->addItem($ni);
@@ -100,7 +100,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             }
         }
         
-        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
+        $ilCtrl->setParameter($this, "node_id", $this->requested_node_id);
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
@@ -241,7 +241,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         $it->setDescription($this->form->getInput("description"));
         $it->setOrderNr($this->form->getInput("order_nr"));
         $it->create();
-        ilSkillTreeNode::putInTree($it, $this->requested_obj_id, ilTree::POS_LAST_NODE);
+        ilSkillTreeNode::putInTree($it, $this->requested_node_id, ilTree::POS_LAST_NODE);
         $this->node_object = $it;
     }
 
@@ -251,7 +251,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
         
         $ilCtrl->setParameterByClass(
             "ilbasicskilltemplategui",
-            "obj_id",
+            "node_id",
             $this->node_object->getId()
         );
         $ilCtrl->redirectByClass("ilbasicskilltemplategui", "edit");
@@ -277,7 +277,7 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             }
         }
 
-        $table = new ilSkillLevelTableGUI($this->requested_obj_id, $this, "edit", $this->tref_id, $this->isInUse());
+        $table = new ilSkillLevelTableGUI($this->requested_node_id, $this, "edit", $this->tref_id, $this->isInUse());
         $tpl->setContent($table->getHTML());
     }
 

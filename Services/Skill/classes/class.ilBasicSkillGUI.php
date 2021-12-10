@@ -42,13 +42,13 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
     protected int $tref_id = 0;
     protected int $base_skill_id;
-    protected int $requested_level_id;
-    protected int $requested_root_id;
-    protected array $requested_level_order;
-    protected array $requested_level_ids;
-    protected array $requested_resource_ids;
-    protected array $requested_suggested;
-    protected array $requested_trigger;
+    protected int $requested_level_id = 0;
+    protected int $requested_root_id = 0;
+    protected array $requested_level_order = [];
+    protected array $requested_level_ids = [];
+    protected array $requested_resource_ids = [];
+    protected array $requested_suggested = [];
+    protected array $requested_trigger = [];
 
     public function __construct(int $a_node_id = 0)
     {
@@ -65,7 +65,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $this->request = $DIC->http()->request();
         $ilCtrl = $DIC->ctrl();
 
-        $ilCtrl->saveParameter($this, array("obj_id", "level_id"));
+        $ilCtrl->saveParameter($this, array("node_id", "level_id"));
         $this->base_skill_id = $a_node_id;
         
         parent::__construct($a_node_id);
@@ -122,11 +122,11 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         $it = new ilBasicSkill();
         $it->setTitle($this->form->getInput("title"));
         $it->setDescription($this->form->getInput("description"));
-        $it->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
+        $it->setOrderNr($tree->getMaxOrderNr($this->requested_node_id) + 10);
         $it->setStatus($this->form->getInput("status"));
         $it->setSelfEvaluation((bool) $this->form->getInput("self_eval"));
         $it->create();
-        ilSkillTreeNode::putInTree($it, $this->requested_obj_id, ilTree::POS_LAST_NODE);
+        ilSkillTreeNode::putInTree($it, $this->requested_node_id, ilTree::POS_LAST_NODE);
         $this->node_object = $it;
     }
 
@@ -136,7 +136,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
         
         $ilCtrl->setParameterByClass(
             "ilbasicskillgui",
-            "obj_id",
+            "node_id",
             $this->node_object->getId()
         );
         $ilCtrl->redirectByClass("ilbasicskillgui", "edit");
@@ -216,7 +216,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             }
         }
         
-        $ilCtrl->setParameter($this, "obj_id", $this->requested_obj_id);
+        $ilCtrl->setParameter($this, "node_id", $this->requested_node_id);
         $this->form->setFormAction($ilCtrl->getFormAction($this));
     }
 
@@ -527,7 +527,7 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
 
             $ilCtrl->setParameterByClass(
                 "ilskillrootgui",
-                "obj_id",
+                "node_id",
                 $this->node_object->getSkillTree()->getRootId()
             );
             $ilTabs->setBackTarget(
@@ -536,8 +536,8 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
             );
             $ilCtrl->setParameterByClass(
                 "ilskillrootgui",
-                "obj_id",
-                $this->requested_obj_id
+                "node_id",
+                $this->requested_node_id
             );
             
             $ilTabs->activateTab($a_tab);
@@ -554,17 +554,17 @@ class ilBasicSkillGUI extends ilSkillTreeNodeGUI
     }
 
     /**
-     * Redirect to parent (identified by current obj_id)
+     * Redirect to parent (identified by current node_id)
      */
     public function redirectToParent(bool $a_tmp_mode = false) : void
     {
         $ilCtrl = $this->ctrl;
         
-        $t = ilSkillTreeNode::_lookupType($this->requested_obj_id);
+        $t = ilSkillTreeNode::_lookupType($this->requested_node_id);
 
         switch ($t) {
             case "skrt":
-                $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", $this->requested_obj_id);
+                $ilCtrl->setParameterByClass("ilskillrootgui", "node_id", $this->requested_node_id);
                 $ilCtrl->redirectByClass("ilskillrootgui", "listSkills");
                 break;
         }

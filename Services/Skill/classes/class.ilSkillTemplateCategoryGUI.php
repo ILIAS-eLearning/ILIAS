@@ -44,7 +44,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $this->help = $DIC["ilHelp"];
         $ilCtrl = $DIC->ctrl();
         
-        $ilCtrl->saveParameter($this, "obj_id");
+        $ilCtrl->saveParameter($this, "node_id");
         $this->tref_id = $a_tref_id;
         
         parent::__construct($a_node_id);
@@ -108,7 +108,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         if ($this->tref_id == 0) {
             $ilCtrl->setParameterByClass(
                 "ilskillrootgui",
-                "obj_id",
+                "node_id",
                 $this->node_object->getSkillTree()->getRootId()
             );
             $ilTabs->setBackTarget(
@@ -117,8 +117,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
             );
             $ilCtrl->setParameterByClass(
                 "ilskillrootgui",
-                "obj_id",
-                $this->requested_obj_id
+                "node_id",
+                $this->requested_node_id
             );
         }
  
@@ -137,7 +137,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         if ($a_mode == "create") {
             $ni = $this->form->getItemByPostVar("order_nr");
             $tree = new ilSkillTree();
-            $max = $tree->getMaxOrderNr($this->requested_obj_id, true);
+            $max = $tree->getMaxOrderNr($this->requested_node_id, true);
             $ni->setValue($max + 10);
         }
     }
@@ -162,7 +162,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $table = new ilSkillCatTableGUI(
             $this,
             "listItems",
-            $this->requested_obj_id,
+            $this->requested_node_id,
             ilSkillCatTableGUI::MODE_SCTP,
             $this->tref_id
         );
@@ -180,14 +180,14 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $ilUser = $DIC->user();
         $admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
 
-        $requested_obj_id = $admin_gui_request->getObjId();
+        $requested_node_id = $admin_gui_request->getNodeId();
         
         $ilCtrl->setParameterByClass("ilobjskillmanagementgui", "tmpmode", 1);
         
         $ilCtrl->setParameterByClass(
             "ilbasicskilltemplategui",
-            "obj_id",
-            $requested_obj_id
+            "node_id",
+            $requested_node_id
         );
         $ilToolbar->addButton(
             $lng->txt("skmg_create_skill_template"),
@@ -195,8 +195,8 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         );
         $ilCtrl->setParameterByClass(
             "ilskilltemplatecategorygui",
-            "obj_id",
-            $requested_obj_id
+            "node_id",
+            $requested_node_id
         );
         $ilToolbar->addButton(
             $lng->txt("skmg_create_skill_template_category"),
@@ -244,7 +244,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $it->setDescription($this->form->getInput("description"));
         $it->setOrderNr($this->form->getInput("order_nr"));
         $it->create();
-        ilSkillTreeNode::putInTree($it, $this->requested_obj_id, ilTree::POS_LAST_NODE);
+        ilSkillTreeNode::putInTree($it, $this->requested_node_id, ilTree::POS_LAST_NODE);
     }
 
     public function updateItem() : void
@@ -280,7 +280,7 @@ class ilSkillTemplateCategoryGUI extends ilSkillTreeNodeGUI
         $this->setTabs("usage");
 
         $usage_info = new ilSkillUsage();
-        $usages = $usage_info->getAllUsagesOfTemplate($this->requested_obj_id);
+        $usages = $usage_info->getAllUsagesOfTemplate($this->requested_node_id);
 
         $html = "";
         foreach ($usages as $k => $usage) {

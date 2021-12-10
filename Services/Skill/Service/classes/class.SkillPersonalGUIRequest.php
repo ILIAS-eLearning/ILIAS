@@ -38,9 +38,9 @@ class SkillPersonalGUIRequest extends SkillGUIRequest
         parent::__construct($http, $refinery, $passed_query_params, $passed_post_data);
     }
 
-    public function getObjId() : int
+    public function getNodeId() : int
     {
-        return $this->int("obj_id");
+        return $this->int("node_id");
     }
 
     public function getProfileId() : int

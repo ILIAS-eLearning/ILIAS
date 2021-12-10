@@ -37,7 +37,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $this->help = $DIC["ilHelp"];
         $ilCtrl = $DIC->ctrl();
         
-        $ilCtrl->saveParameter($this, "obj_id");
+        $ilCtrl->saveParameter($this, "node_id");
         $ilCtrl->saveParameter($this, "tref_id");
         
         parent::__construct($a_tref_id);
@@ -244,10 +244,10 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         $sktr->setDescription($this->form->getInput("description"));
         $sktr->setSkillTemplateId($this->form->getInput("skill_template_id"));
         $sktr->setSelfEvaluation((bool) $this->form->getInput("selectable"));
-        $sktr->setOrderNr($tree->getMaxOrderNr($this->requested_obj_id) + 10);
+        $sktr->setOrderNr($tree->getMaxOrderNr($this->requested_node_id) + 10);
         $sktr->setStatus($this->form->getInput("status"));
         $sktr->create();
-        ilSkillTreeNode::putInTree($sktr, $this->requested_obj_id, ilTree::POS_LAST_NODE);
+        ilSkillTreeNode::putInTree($sktr, $this->requested_node_id, ilTree::POS_LAST_NODE);
         $this->node_object = $sktr;
     }
 
@@ -262,7 +262,7 @@ class ilSkillTemplateReferenceGUI extends ilBasicSkillTemplateGUI
         );
         $ilCtrl->setParameterByClass(
             "ilskilltemplatereferencegui",
-            "obj_id",
+            "node_id",
             $this->node_object->getSkillTemplateId()
         );
         $ilCtrl->redirectByClass("ilskilltemplatereferencegui", "listItems");

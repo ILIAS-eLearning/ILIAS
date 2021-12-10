@@ -43,9 +43,9 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->int("ref_id");
     }
 
-    public function getObjId() : int
+    public function getNodeId() : int
     {
-        return $this->int("obj_id");
+        return $this->int("node_id");
     }
 
     public function getRootId() : int
@@ -68,9 +68,9 @@ class SkillAdminGUIRequest extends SkillGUIRequest
         return $this->bool("tmpmode");
     }
 
-    public function getTemplatesTree() : bool
+    public function getTemplatesTree() : int
     {
-        return $this->bool("templates_tree");
+        return $this->int("templates_tree");
     }
 
     public function getBackCommand() : string

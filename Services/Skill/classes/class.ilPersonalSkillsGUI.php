@@ -70,17 +70,17 @@ class ilPersonalSkillsGUI
     protected ilSkillManagementSettings $skmg_settings;
     protected ilPersonalSkillsFilterGUI $filter;
     protected SkillPersonalGUIRequest $personal_gui_request;
-    protected string $requested_list_mode;
-    protected int $requested_obj_id;
-    protected int $requested_profile_id;
-    protected int $requested_skill_id;
-    protected array $requested_skill_ids;
-    protected int $requested_basic_skill_id;
-    protected int $requested_tref_id;
-    protected int $requested_level_id;
-    protected int $requested_self_eval_level_id;
-    protected int $requested_wsp_id;
-    protected array $requested_wsp_ids;
+    protected string $requested_list_mode = "";
+    protected int $requested_node_id = 0;
+    protected int $requested_profile_id = 0;
+    protected int $requested_skill_id = 0;
+    protected array $requested_skill_ids = [];
+    protected int $requested_basic_skill_id = 0;
+    protected int $requested_tref_id = 0;
+    protected int $requested_level_id = 0;
+    protected int $requested_self_eval_level_id = 0;
+    protected int $requested_wsp_id = 0;
+    protected array $requested_wsp_ids = [];
     protected array $trigger_user_filter = [];
 
     public function __construct()
@@ -116,7 +116,7 @@ class ilPersonalSkillsGUI
         $ilCtrl->saveParameter($this, "list_mode");
 
         $this->requested_list_mode = $this->personal_gui_request->getListMode();
-        $this->requested_obj_id = $this->personal_gui_request->getObjId();
+        $this->requested_node_id = $this->personal_gui_request->getNodeId();
         $this->requested_profile_id = $this->personal_gui_request->getProfileId();
         $this->requested_skill_id = $this->personal_gui_request->getSkillId();
         $this->requested_skill_ids = $this->personal_gui_request->getSkillIds();
@@ -688,7 +688,7 @@ class ilPersonalSkillsGUI
         $ilUser = $this->user;
         $lng = $this->lng;
 
-        ilPersonalSkill::addPersonalSkill($ilUser->getId(), $this->requested_obj_id);
+        ilPersonalSkill::addPersonalSkill($ilUser->getId(), $this->requested_node_id);
         
         ilUtil::sendSuccess($lng->txt("msg_object_modified"));
         $ilCtrl->redirect($this, "listSkills");
