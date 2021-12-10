@@ -123,18 +123,8 @@ EOT;
 		<div class="il-item-title">shy</div>
 		<hr class="il-item-divider" />
 		<div class="il-item-properties">
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-sm-5 col-lg-4 il-item-property-name">name</div>
-					<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3">value</div>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="row">
-					<div class="col-sm-5 col-lg-4 il-item-property-name"></div>
-					<div class="col-sm-7 col-lg-8 il-item-property-value il-multi-line-cap-3"></div>
-				</div>
-			</div>
+            <div class="il-item-property-name">name</div>
+            <div class="il-item-property-value">value</div>
 		</div>
 	</div>
 </div>
