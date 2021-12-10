@@ -68,9 +68,10 @@ final class ilRendererFactory
         // get registered and active plugins
         global $DIC;
         $component_factory = $DIC["component.factory"];
-        foreach ($component_factory.>getActivePluginsInSlot("prve") as $plugin) {
+        /* this slot seems to be non-existent
+        foreach ($component_factory->getActivePluginsInSlot("prve") as $plugin) {
             $r[] = $plugin->getRendererClassInstance();
-        }
+        }*/
         
         // add default renderers
         include_once("./Services/Preview/classes/class.ilImageMagickRenderer.php");

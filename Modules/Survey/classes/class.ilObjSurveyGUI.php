@@ -382,18 +382,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         // #16446
         $a_new_object->loadFromDb();
         
-        $tpl = $this->getDidacticTemplateVar("svytpl");
-        if ($tpl) {
-            $a_new_object->applySettingsTemplate($tpl);
-        } else {
-            //set the mode depending on didactic template
-            if ($this->getDidacticTemplateVar("svy360")) {
-                $a_new_object->setMode(ilObjSurvey::MODE_360);
-            } elseif ($this->getDidacticTemplateVar("svyselfeval")) {
-                $a_new_object->setMode(ilObjSurvey::MODE_SELF_EVAL);
-            } elseif ($this->getDidacticTemplateVar("individfeedb")) {
-                $a_new_object->setMode(ilObjSurvey::MODE_IND_FEEDB);
-            }
+        //set the mode depending on didactic template
+        if ($this->getDidacticTemplateVar("svy360")) {
+            $a_new_object->setMode(ilObjSurvey::MODE_360);
+        } elseif ($this->getDidacticTemplateVar("svyselfeval")) {
+            $a_new_object->setMode(ilObjSurvey::MODE_SELF_EVAL);
+        } elseif ($this->getDidacticTemplateVar("individfeedb")) {
+            $a_new_object->setMode(ilObjSurvey::MODE_IND_FEEDB);
         }
 
         $svy_mode = $a_new_object->getMode();
@@ -480,7 +475,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         // questions
         if ($this->checkPermissionBool("write") &&
-            !in_array("constraints", $hidden_tabs) &&
             $this->object->getMode() == ilObjSurvey::MODE_STANDARD) {
             // constraints (tab called routing)
             $this->tabs_gui->addTab(
@@ -537,27 +531,23 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
 
         if ($this->checkPermissionBool("write")) {
-            if (!in_array("meta_data", $hidden_tabs)) {
-                // meta data
-                $mdgui = new ilObjectMetaDataGUI($this->object);
-                $mdtab = $mdgui->getTab();
-                if ($mdtab) {
-                    $this->tabs_gui->addTab(
-                        "meta_data",
-                        $this->lng->txt("meta_data"),
-                        $mdtab
-                    );
-                }
-            }
-
-            if (!in_array("export", $hidden_tabs)) {
-                // export
+            // meta data
+            $mdgui = new ilObjectMetaDataGUI($this->object);
+            $mdtab = $mdgui->getTab();
+            if ($mdtab) {
                 $this->tabs_gui->addTab(
-                    "export",
-                    $this->lng->txt("export"),
-                    $this->ctrl->getLinkTargetByClass("ilexportgui", "")
+                    "meta_data",
+                    $this->lng->txt("meta_data"),
+                    $mdtab
                 );
             }
+
+            // export
+            $this->tabs_gui->addTab(
+                "export",
+                $this->lng->txt("export"),
+                $this->ctrl->getLinkTargetByClass("ilexportgui", "")
+            );
         }
 
         if ($this->checkPermissionBool("edit_permission")) {

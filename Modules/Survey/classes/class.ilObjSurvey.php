@@ -1,43 +1,35 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use \ILIAS\Survey\Participants;
 use \ILIAS\Survey\Mode;
 
 /**
- * Class ilObjSurvey
- *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
 class ilObjSurvey extends ilObject
 {
-    protected bool $activation_limited = false;
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilPluginAdmin
-     */
-    protected $plugin_admin;
-
     const EVALUATION_ACCESS_OFF = 0;
     const EVALUATION_ACCESS_ALL = 1;
     const EVALUATION_ACCESS_PARTICIPANTS = 2;
-    
 
     const ANONYMIZE_OFF = 0; // personalized, no codes
     const ANONYMIZE_ON = 1; // anonymized, codes
     const ANONYMIZE_FREEACCESS = 2; // anonymized, no codes
     const ANONYMIZE_CODE_ALL = 3; // personalized, codes
-    
+
     const QUESTIONTITLES_HIDDEN = 0;
     const QUESTIONTITLES_VISIBLE = 1;
 
@@ -45,93 +37,42 @@ class ilObjSurvey extends ilObject
     const PRINT_HIDE_LABELS = 1; // Show only the titles in "print" and "PDF Export"
     const PRINT_SHOW_LABELS = 3; // Show titles and labels in "print" and "PDF Export"
 
+
+    protected bool $activation_limited = false;
+    protected ilObjUser $user;
+    protected ilAccessHandler $access;
+    protected ilPluginAdmin $plugin_admin;
+    protected bool $calculate_sum_score = false;
     /**
-     * @var bool
+     * A unique positive numerical ID which identifies the survey.
+     * This is the primary key from a database table.
      */
-    protected $calculate_sum_score = false;
-
+    public int $survey_id;
     /**
-    * A unique positive numerical ID which identifies the survey.
-    * This is the primary key from a database table.
-    *
-    * @var integer
-    */
-    public $survey_id;
-
-    /**
-    * A text representation of the authors name. The name of the author must
-    * not necessary be the name of the owner.
-    *
-    * @var string
-    */
-    public $author;
-
-    /**
-    * A text representation of the surveys introduction.
-    *
-    * @var string
-    */
-    public $introduction;
-
-    /**
-    * A text representation of the surveys outro.
-    *
-    * @var string
-    */
-    public $outro;
-
-
-    /**
-    * Indicates the evaluation access for learners
-    *
-    * @var string
-    */
-    public $evaluation_access;
-
-    /**
-    * The start date of the survey
-    *
-    * @var string
-    */
-    public $start_date;
-
-    /**
-    * The end date of the survey
-    *
-    * @var string
-    */
-    public $end_date;
-
-    /**
-    * The questions contained in this survey
-    *
-    * @var array
-    */
-    public $questions;
-
-
-    /**
-    * Indicates the anonymization of the survey
-    * @var integer
-    */
-    public $anonymize;
-
-    /**
-    * Indicates if the question titles are shown during a query
-    * @var integer
-    */
-    public $display_question_titles;
-
-    /**
-     * Indicates if a survey code may be exported with the survey statistics
-     *
-     * @var boolean
-     **/
-    public $surveyCodeSecurity;
+     * A text representation of the authors name. The name of the author must
+     * not necessary be the name of the owner.
+     */
+    public string $author;
+    public string $introduction;
+    public string $outro;
+    // Indicates the evaluation access for learners
+    public string $evaluation_access;
+    // The start date of the survey
+    public string $start_date;
+    // The end date of the survey
+    public string $end_date;
+    // The questions contained in this survey
+    public array $questions;
+    // Indicates the anonymization of the survey
+    public int $anonymize;
+    // Indicates if the question titles are shown during a query
+    public int $display_question_titles;
+    // Indicates if a survey code may be exported with the survey statistics
+    public bool $surveyCodeSecurity;
     
-    public $mailnotification;
-    public $mailaddresses;
-    public $mailparticipantdata;
+    public bool $mailnotification;
+    public string $mailaddresses;
+    public string $mailparticipantdata;
     public $template_id;
     public $pool_usage;
 
@@ -818,10 +759,9 @@ class ilObjSurvey extends ilObject
                 "anonymize" => array("text", $this->getAnonymize()),
                 "show_question_titles" => array("text", $this->getShowQuestionTitles()),
                 "mailnotification" => array('integer', ($this->getMailNotification()) ? 1 : 0),
-                "mailaddresses" => array('text', strlen($this->getMailAddresses()) ? $this->getMailAddresses() : null),
-                "mailparticipantdata" => array('text', strlen($this->getMailParticipantData()) ? $this->getMailParticipantData() : null),
+                "mailaddresses" => array('text', $this->getMailAddresses()),
+                "mailparticipantdata" => array('text', $this->getMailParticipantData()),
                 "tstamp" => array("integer", time()),
-                "template_id" => array("integer", $this->getTemplate()),
                 "pool_usage" => array("integer", $this->getPoolUsage()),
                 // Mode type
                 "mode" => array("integer", $this->getMode()),
@@ -866,10 +806,9 @@ class ilObjSurvey extends ilObject
                 "anonymize" => array("text", $this->getAnonymize()),
                 "show_question_titles" => array("text", $this->getShowQuestionTitles()),
                 "mailnotification" => array('integer', ($this->getMailNotification()) ? 1 : 0),
-                "mailaddresses" => array('text', strlen($this->getMailAddresses()) ? $this->getMailAddresses() : null),
-                "mailparticipantdata" => array('text', strlen($this->getMailParticipantData()) ? $this->getMailParticipantData() : null),
+                "mailaddresses" => array('text', $this->getMailAddresses()),
+                "mailparticipantdata" => array('text', $this->getMailParticipantData()),
                 "tstamp" => array("integer", time()),
-                "template_id" => array("integer", $this->getTemplate()),
                 "pool_usage" => array("integer", $this->getPoolUsage()),
                 //MODE TYPE
                 "mode" => array("integer", $this->getMode()),
@@ -1169,10 +1108,9 @@ class ilObjSurvey extends ilObject
             $this->setAnonymize($data["anonymize"]);
             $this->setEvaluationAccess($data["evaluation_access"]);
             $this->loadQuestionsFromDb();
-            $this->setMailNotification($data['mailnotification']);
-            $this->setMailAddresses($data['mailaddresses']);
-            $this->setMailParticipantData($data['mailparticipantdata']);
-            $this->setTemplate($data['template_id']);
+            $this->setMailNotification((bool) $data['mailnotification']);
+            $this->setMailAddresses((string) $data['mailaddresses']);
+            $this->setMailParticipantData((string) $data['mailparticipantdata']);
             $this->setPoolUsage($data['pool_usage']);
             // Mode
             $this->setMode($data['mode']);
@@ -3722,7 +3660,6 @@ class ilObjSurvey extends ilObject
         $newObj->setEndDate($this->getEndDate());
         $newObj->setAnonymize($this->getAnonymize());
         $newObj->setShowQuestionTitles($this->getShowQuestionTitles());
-        $newObj->setTemplate($this->getTemplate());
         $newObj->setPoolUsage($this->getPoolUsage());
         $newObj->setViewOwnResults($this->hasViewOwnResults());
         $newObj->setMailOwnResults($this->hasMailOwnResults());
@@ -4599,32 +4536,32 @@ class ilObjSurvey extends ilObject
         return $result_array;
     }
 
-    public function getMailNotification()
+    public function getMailNotification() : bool
     {
         return $this->mailnotification;
     }
     
-    public function setMailNotification($a_notification)
+    public function setMailNotification(bool $a_notification) : void
     {
-        $this->mailnotification = ($a_notification) ? true : false;
+        $this->mailnotification = $a_notification;
     }
     
-    public function getMailAddresses()
+    public function getMailAddresses() : string
     {
         return $this->mailaddresses;
     }
     
-    public function setMailAddresses($a_addresses)
+    public function setMailAddresses(string $a_addresses) : void
     {
         $this->mailaddresses = $a_addresses;
     }
     
-    public function getMailParticipantData()
+    public function getMailParticipantData() : string
     {
         return $this->mailparticipantdata;
     }
     
-    public function setMailParticipantData($a_data)
+    public function setMailParticipantData(string $a_data)
     {
         $this->mailparticipantdata = $a_data;
     }
@@ -4673,16 +4610,6 @@ class ilObjSurvey extends ilObject
         return $total;
     }
 
-    public function setTemplate($template_id)
-    {
-        $this->template_id = (int) $template_id;
-    }
-
-    public function getTemplate()
-    {
-        return $this->template_id;
-    }
-
     public function updateOrder(array $a_order)
     {
         if (sizeof($this->questions) == sizeof($a_order)) {
@@ -4709,92 +4636,9 @@ class ilObjSurvey extends ilObject
     public function isPoolActive()
     {
         $use_pool = (bool) $this->getPoolUsage();
-        $template_settings = $this->getTemplate();
-        if ($template_settings) {
-            $template_settings = new ilSettingsTemplate($template_settings);
-            $template_settings = $template_settings->getSettings();
-            $template_settings = $template_settings["use_pool"];
-            if ($template_settings && $template_settings["hide"]) {
-                $use_pool = (bool) $template_settings["value"];
-            }
-        }
         return $use_pool;
     }
-    
-    /**
-     * Apply settings template
-     *
-     * @param int $template_id
-     */
-    public function applySettingsTemplate($template_id)
-    {
-        if (!$template_id) {
-            return;
-        }
-        
-        $template = new ilSettingsTemplate($template_id);
-        $template_settings = $template->getSettings();
-        //ilUtil::dumpVar($template_settings); exit;
-        if ($template_settings) {
-            if ($template_settings["show_question_titles"] !== null) {
-                if ($template_settings["show_question_titles"]["value"]) {
-                    $this->setShowQuestionTitles(true);
-                } else {
-                    $this->setShowQuestionTitles(false);
-                }
-            }
 
-            if ($template_settings["use_pool"] !== null) {
-                if ($template_settings["use_pool"]["value"]) {
-                    $this->setPoolUsage(true);
-                } else {
-                    $this->setPoolUsage(false);
-                }
-            }
-
-
-            /* see #0021719
-            if($template_settings["anonymization_options"]["value"])
-            {
-                $anon_map = array('personalized' => self::ANONYMIZE_OFF,
-                    'anonymize_with_code' => self::ANONYMIZE_ON,
-                    'anonymize_without_code' => self::ANONYMIZE_FREEACCESS);
-                $this->setAnonymize($anon_map[$template_settings["anonymization_options"]["value"]]);
-            }*/
-
-            // see #0021719 and ilObjectSurveyGUI::savePropertiesObject
-            $this->setEvaluationAccess($template_settings["evaluation_access"]["value"]);
-            $codes = (bool) $template_settings["acc_codes"]["value"];
-            $anon = (bool) $template_settings["anonymization_options"]["value"];
-            if (!$anon) {
-                if (!$codes) {
-                    $this->setAnonymize(ilObjSurvey::ANONYMIZE_OFF);
-                } else {
-                    $this->setAnonymize(ilObjSurvey::ANONYMIZE_CODE_ALL);
-                }
-            } else {
-                if ($codes) {
-                    $this->setAnonymize(ilObjSurvey::ANONYMIZE_ON);
-                } else {
-                    $this->setAnonymize(ilObjSurvey::ANONYMIZE_FREEACCESS);
-                }
-
-                $this->setAnonymousUserList($_POST["anon_list"]);
-            }
-
-
-
-            /* other settings: not needed here
-             * - enabled_end_date
-             * - enabled_start_date
-             * - rte_switch
-             */
-        }
-
-        $this->setTemplate($template_id);
-        $this->saveToDb();
-    }
-    
     public function updateCode($a_id, $a_email, $a_last_name, $a_first_name, $a_sent)
     {
         $ilDB = $this->db;

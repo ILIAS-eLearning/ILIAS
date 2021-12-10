@@ -32,14 +32,14 @@ $orig_target = $_GET['target'];
 // user interface plugin slot hook
 if (is_object($ilPluginAdmin)) {
     // search
-    foreach ($DIC["component.factory"]->getActivePlugins("uihk") as $ui_plugin) {
+    foreach ($DIC["component.factory"]->getActivePluginsInSlot("uihk") as $ui_plugin) {
         $gui_class = $ui_plugin->getUIClassInstance();
         $gui_class->gotoHook();
     }
 }
 
 $r_pos = strpos($_GET["target"], "_");
-$rest = substr($_GET["target"], $r_pos+1);
+$rest = substr($_GET["target"], $r_pos + 1);
 $target_arr = explode("_", $_GET["target"]);
 $target_type = $target_arr[0];
 $target_id = $target_arr[1];

@@ -153,13 +153,6 @@ class ilSurveyEditorGUI
         if ($a_cmd == "questions" && $_REQUEST["pgov"]) {
             $a_cmd = "page";
         }
-        
-        $hidden_tabs = array();
-        $template = $this->object->getTemplate();
-        if ($template) {
-            $template = new ilSettingsTemplate($template);
-            $hidden_tabs = $template->getHiddenTabs();
-        }
 
         $ilTabs->addSubTab(
             "page",
@@ -167,15 +160,13 @@ class ilSurveyEditorGUI
             $this->ctrl->getLinkTargetByClass("ilsurveypagegui", "renderPage")
         );
 
-        if (!in_array("survey_question_editor", $hidden_tabs)) {
-            $this->ctrl->setParameter($this, "pgov", "");
-            $ilTabs->addSubTab(
-                "questions",
-                $this->lng->txt("survey_question_editor"),
-                $this->ctrl->getLinkTarget($this, "questions")
-            );
-            $this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
-        }
+        $this->ctrl->setParameter($this, "pgov", "");
+        $ilTabs->addSubTab(
+            "questions",
+            $this->lng->txt("survey_question_editor"),
+            $this->ctrl->getLinkTarget($this, "questions")
+        );
+        $this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
 
         $ilTabs->addSubTab(
             "print",
