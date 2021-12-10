@@ -88,7 +88,7 @@ abstract class ilPlugin
         return $this->getPluginInfo()->getComponent();
     }
 
-    protected function getPluginSlotInfo() : ilSlotInfo
+    protected function getPluginSlotInfo() : ilPluginSlotInfo
     {
         return $this->getPluginInfo()->getPluginSlot();
     }
