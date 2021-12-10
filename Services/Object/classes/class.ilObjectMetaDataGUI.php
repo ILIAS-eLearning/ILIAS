@@ -281,7 +281,6 @@ class ilObjectMetaDataGUI
      */
     public function setAdvMdRecordObject($a_adv_id, $a_adv_type, $a_adv_subtype = "-")
     {
-        echo "AAA";
         $this->adv_id = $a_adv_id;
         $this->adv_type = $a_adv_type;
         $this->adv_subtype = $a_adv_subtype;

@@ -61,6 +61,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
 
             // workaround for hiding portfolio pages in portfolios, since they only get
             // data from portfolio templates
+            // @todo define interface for configuration of behaviour
             if ($obj_type["obj_type"] == "prtf" && $obj_type["sub_type"] == "pfpg") {
                 continue;
             }

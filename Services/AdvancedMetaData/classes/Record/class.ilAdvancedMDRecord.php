@@ -269,6 +269,13 @@ class ilAdvancedMDRecord
         return $records;
     }
 
+    /**
+     * @param string $a_obj_type
+     * @param int    $a_id
+     * @param string $a_sub_type
+     * @param bool   $is_ref_id
+     * @return array<int, ilAdvancedMDRecord>
+     */
     public static function _getSelectedRecordsByObject(
         string $a_obj_type,
         int $a_id,
@@ -276,8 +283,7 @@ class ilAdvancedMDRecord
         bool $is_ref_id = true
     ) : array {
         $records = array();
-        //		ilUtil::printBacktrace(10);
-        //		var_dump($a_obj_type."-".$a_id."-".$a_sub_type); exit;
+
         if ($a_sub_type == "") {
             $a_sub_type = "-";
         }
