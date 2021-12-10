@@ -55,7 +55,7 @@ abstract class ilPlugin
         string $id
     )
     {
-        if (!$this->component_repository->hasPluginId($id)) {
+        if (!$component_repository->hasPluginId($id)) {
             throw new \LogicException(
                 "You tried to instantiate a plugin with an inexisting id '$id'." .
                 "This is odd... Please use ilComponentFactory to instantiate plugins."
