@@ -690,36 +690,6 @@ abstract class ilPlugin
     }
 
     /**
-     * Only very little classes seem to care about this:
-     *     - Services/Repository/classes/class.ilObjectPluginGUI.php
-     *     - Services/Repository/classes/class.ilObjectPluginListGUI.php
-     *     - Services/Repository/classes/class.ilObjectPlugin.php
-     *     - Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php
-     *     - Services/Object/classes/class.ilObjectDefinition.php
-     *     - Services/Navigation/classes/class.ilNavigationHistory.php
-     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionListGUI.php
-     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtension.php
-     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionGUI.php
-     *     - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php
-     *
-     * @param $a_ctype
-     * @param $a_cname
-     * @param $a_slot_id
-     * @param $a_plugin_id
-     *
-     * @return string | null
-     */
-    public static function lookupNameForId(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_id)
-    {
-        global $DIC;
-        try {
-            return $DIC["component.repository"]->getPluginById($a_plugin_id)->getName();
-        } catch (\InvalidArgumentException $e) {
-            return null;
-        }
-    }
-
-    /**
      * @param $a_ctype
      * @param $a_cname
      * @param $a_slot_id
