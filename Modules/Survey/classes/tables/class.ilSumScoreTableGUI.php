@@ -19,8 +19,6 @@
  */
 class ilSumScoreTableGUI extends ilTable2GUI
 {
-    private bool $is_anonymized;
-
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -34,7 +32,6 @@ class ilSumScoreTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
 
-        $this->is_anonymized = $is_anonymized;
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->counter = 1;

@@ -428,13 +428,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         
         $ilHelp->setScreenIdComponent("svy");
 
-        $hidden_tabs = array();
-        $template = $this->object->getTemplate();
-        if ($template) {
-            $template = new ilSettingsTemplate($template);
-            $hidden_tabs = $template->getHiddenTabs();
-        }
-        
         if ($this->checkPermissionBool("write")) {
             $this->tabs_gui->addTab(
                 "survey_questions",
@@ -654,21 +647,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $a_form = $this->initPropertiesForm();
         }
         
-        // using template?
-        $message = "";
-        if ($this->object->getTemplate()) {
-            $link = $this->ctrl->getLinkTarget($this, "confirmResetTemplate");
-            $link = "<a href=\"" . $link . "\">" . $this->lng->txt("survey_using_template_link") . "</a>";
-            $message = "<div style=\"margin-top:10px\">" .
-                ilUtil::getSystemMessageHTML(sprintf(
-                    $this->lng->txt("survey_using_template"),
-                    ilSettingsTemplate::lookupTitle($this->object->getTemplate()),
-                    $link
-                ), "info") . // #10651
-                "</div>";
-        }
-    
-        $this->tpl->setContent($a_form->getHTML() . $message);
+        $this->tpl->setContent($a_form->getHTML());
     }
             
     public function doAutoCompleteObject()

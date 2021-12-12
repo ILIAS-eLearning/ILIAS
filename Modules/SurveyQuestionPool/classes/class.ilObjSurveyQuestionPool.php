@@ -881,13 +881,15 @@ class ilObjSurveyQuestionPool extends ilObject
     }
 
     /**
-    * Returns the available question pools for the active user
-    *
-    * @return array The available question pools
-    * @access public
-    */
-    public static function _getAvailableQuestionpools($use_object_id = false, $could_be_offline = false, $showPath = false, $permission = "read")
-    {
+     * Returns the available question pools for the active user
+     * @return array<int, string> keys are ref or obj IDs, values are titles
+     */
+    public static function _getAvailableQuestionpools(
+        bool $use_object_id = false,
+        bool $could_be_offline = false,
+        bool $showPath = false,
+        string $permission = "read"
+    ) : array {
         global $DIC;
 
         $ilUser = $DIC->user();
@@ -909,7 +911,7 @@ class ilObjSurveyQuestionPool extends ilObject
                 if ($use_object_id) {
                     $result_array[$obj_id] = $titles[$ref_id];
                 } else {
-                    $result_array[$ref_id] = $titles[$ref_id];
+                    $result_array[(int) $ref_id] = $titles[$ref_id];
                 }
             }
         }

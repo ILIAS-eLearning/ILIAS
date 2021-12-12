@@ -434,10 +434,10 @@ class ilSurveyExecutionGUI
         $constraint_true = 0;
         
         // check for constraints
-        if (is_array($page[0]["constraints"]) && count($page[0]["constraints"])) {
+        if (!is_null($page) && is_array($page[0]["constraints"]) && count($page[0]["constraints"])) {
             $this->log->debug("Page constraints= ", $page[0]["constraints"]);
 
-            while (is_array($page) and ($constraint_true == 0) and (count($page[0]["constraints"]))) {
+            while (!is_null($page) and ($constraint_true == 0) and (count($page[0]["constraints"]))) {
                 $constraint_true = ($page[0]['constraints'][0]['conjunction'] == 0) ? true : false;
                 foreach ($page[0]["constraints"] as $constraint) {
                     if (!$this->preview) {
@@ -472,9 +472,9 @@ class ilSurveyExecutionGUI
         }
         
         $first_question = -1;
-        if ($page === 0) {
+        if (is_null($page) && $direction == -1) {
             $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
-        } elseif ($page === 1) {
+        } elseif (is_null($page) && $direction == 1) {
             $state = $this->object->getUserSurveyExecutionStatus();
             if ($this->preview ||
                 !$state["runs"][$this->getCurrentRunId()]["finished"]) {
@@ -900,7 +900,7 @@ class ilSurveyExecutionGUI
     {
         $prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
         $stpl->setCurrentBlock($navigationblock . "_prev");
-        if ($prevpage === 0) {
+        if (is_null($prevpage)) {
             $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
         } else {
             $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
@@ -908,7 +908,7 @@ class ilSurveyExecutionGUI
         $stpl->parseCurrentBlock();
         $nextpage = $this->object->getNextPage($page[0]["question_id"], 1);
         $stpl->setCurrentBlock($navigationblock . "_next");
-        if ($nextpage === 1) {
+        if (is_null($nextpage)) {
             $stpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));
         } else {
             $stpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));

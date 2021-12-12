@@ -148,7 +148,7 @@ class ilSurveyPageGUI
                         if (substr($subcmd, 0, 11) == "addQuestion") {
                             $type = explode("_", $subcmd);
                             $type = (int) $type[1];
-                            $has_content = $this->addQuestion($type, $this->object->isPoolActive(), $id, $_REQUEST["il_hform_node"]);
+                            $has_content = $this->addQuestion($type, $this->object->getPoolUsage(), $id, $_REQUEST["il_hform_node"]);
                         } else {
                             $has_content = $this->$subcmd($id, $_REQUEST["il_hform_node"]);
                         }
@@ -1080,7 +1080,7 @@ class ilSurveyPageGUI
             $form->addItem($pos);
         }
 
-        if ($this->object->isPoolActive()) {
+        if ($this->object->getPoolUsage()) {
             $this->editor_gui->createQuestionObject($form);
         }
 
@@ -1098,7 +1098,7 @@ class ilSurveyPageGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $pool_active = $this->object->isPoolActive();
+        $pool_active = $this->object->getPoolUsage();
 
         if (!$_POST["usage"] && $pool_active) {
             ilUtil::sendFailure($lng->txt("select_one"), true);
@@ -1216,7 +1216,7 @@ class ilSurveyPageGUI
             $button->setUrl($ilCtrl->getLinkTarget($this, "addQuestionToolbarForm"));
             $ilToolbar->addStickyItem($button);
 
-            if ($this->object->isPoolActive()) {
+            if ($this->object->getPoolUsage()) {
                 //$ilToolbar->addSeparator();
 
                 $last_on_page = 0;
@@ -1519,7 +1519,7 @@ class ilSurveyPageGUI
                             "text" => sprintf($lng->txt("svy_page_add_question"), $trans));
                     }
                     
-                    if ($this->object->isPoolActive()) {
+                    if ($this->object->getPoolUsage()) {
                         $menu[] = array("cmd" => "addPoolQuestion",
                             "text" => $lng->txt("browse_for_questions"));
                     }
@@ -1602,7 +1602,7 @@ class ilSurveyPageGUI
                         "text" => sprintf($lng->txt("svy_page_add_question"), $trans));
                 }
                 
-                if ($this->object->isPoolActive()) {
+                if ($this->object->getPoolUsage()) {
                     $menu[] = array("cmd" => "addPoolQuestion",
                         "text" => $lng->txt("browse_for_questions"));
                 }

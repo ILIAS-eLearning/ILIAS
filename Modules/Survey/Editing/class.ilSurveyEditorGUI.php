@@ -233,7 +233,7 @@ class ilSurveyEditorGUI
             $button->setCommand("createQuestion");
             $ilToolbar->addStickyItem($button);
             
-            if ($this->object->isPoolActive()) {
+            if ($this->object->getPoolUsage()) {
                 $ilToolbar->addSeparator();
 
                 $cmd = ($ilUser->getPref('svy_insert_type') == 1 ||
@@ -589,7 +589,7 @@ class ilSurveyEditorGUI
     
     public function createQuestionObject(ilPropertyFormGUI $a_form = null)
     {
-        if (!$this->object->isPoolActive()) {
+        if (!$this->object->getPoolUsage()) {
             $_POST["usage"] = 1;
             $_GET["sel_question_types"] = $_POST["sel_question_types"];
             return $this->executeCreateQuestionObject();

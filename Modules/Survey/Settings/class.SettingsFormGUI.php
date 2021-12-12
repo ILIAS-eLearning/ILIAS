@@ -905,9 +905,9 @@ class SettingsFormGUI
             $md_desc->update();
         }*/
 
-        $survey->setViewOwnResults($form->getInput("view_own"));
-        $survey->setMailOwnResults($form->getInput("mail_own"));
-        $survey->setMailConfirmation($form->getInput("mail_confirm"));
+        $survey->setViewOwnResults((bool) $form->getInput("view_own"));
+        $survey->setMailOwnResults((bool) $form->getInput("mail_own"));
+        $survey->setMailConfirmation((bool) $form->getInput("mail_confirm"));
 
         // both are saved in object, too
         $survey->setTitle($form->getInput('title'));
@@ -933,7 +933,7 @@ class SettingsFormGUI
             $datetime = explode(" ", $start->getDate()->get(IL_CAL_DATETIME));
             $survey->setStartDateAndTime($datetime[0], $datetime[1]);
         } else {
-            $survey->setStartDate(null);
+            $survey->setStartDate("");
         }
 
         $end = $form->getItemByPostVar("end_date");
@@ -941,13 +941,13 @@ class SettingsFormGUI
             $datetime = explode(" ", $end->getDate()->get(IL_CAL_DATETIME));
             $survey->setEndDateAndTime($datetime[0], $datetime[1]);
         } else {
-            $survey->setEndDate(null);
+            $survey->setEndDate("");
         }
         $survey->setIntroduction($form->getInput("introduction"));
         $survey->setOutro($form->getInput("outro"));
-        $survey->setShowQuestionTitles($form->getInput("show_question_titles"));
-        $survey->setPoolUsage($form->getInput("use_pool"));
-        $survey->setMailNotification($form->getInput('mailnotification'));
+        $survey->setShowQuestionTitles((bool) $form->getInput("show_question_titles"));
+        $survey->setPoolUsage((bool) $form->getInput("use_pool"));
+        $survey->setMailNotification((bool) $form->getInput('mailnotification'));
         $survey->setMailAddresses($form->getInput('mailaddresses'));
         $survey->setMailParticipantData($form->getInput('mailparticipantdata'));
 
@@ -957,7 +957,7 @@ class SettingsFormGUI
         }
 
         if ($feature_config->supportsCompetences()) {
-            $survey->setSkillService((int) $form->getInput("skill_service"));
+            $survey->setSkillService((bool) $form->getInput("skill_service"));
         }
 
         foreach ($this->modifier->getSurveySettingsResults(
