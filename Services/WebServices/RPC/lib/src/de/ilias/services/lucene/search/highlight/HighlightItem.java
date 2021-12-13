@@ -24,10 +24,11 @@ package de.ilias.services.lucene.search.highlight;
 
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.jdom.Element;
 
 import de.ilias.services.lucene.search.ResultExport;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -37,7 +38,7 @@ import de.ilias.services.lucene.search.ResultExport;
  */
 public class HighlightItem implements ResultExport {
 
-	protected static Logger logger = Logger.getLogger(HighlightItem.class); 
+	protected static Logger logger = LogManager.getLogger(HighlightItem.class); 
 	
 	private int subId;
 	private double absoluteScore = 0;
