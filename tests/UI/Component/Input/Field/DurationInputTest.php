@@ -132,6 +132,12 @@ class DurationInputTest extends ILIAS_UI_TestBase
         $datetime->withTimeZone($tz);
     }
 
+    public function testWithoutByline() : void
+    {
+        $datetime = $this->factory->duration('label');
+        $this->assertInstanceOf(C\Input\Field\Duration::class, $datetime);
+    }
+
     public function test_render()
     {
         $datetime = $this->factory->duration('label', 'byline');

@@ -35,7 +35,7 @@ class Duration extends Group implements C\Input\Field\Duration
         ilLanguage $lng,
         Factory $field_factory,
         string $label,
-        string $byline
+        ?string $byline
     ) {
         $inputs = [
             $field_factory->dateTime('start'),
