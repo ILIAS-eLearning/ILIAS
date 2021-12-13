@@ -111,6 +111,10 @@ class ilTermsOfServiceUserHasGlobalRoleCriterionGUI implements ilTermsOfServiceC
             return $uiFactory->legacy('');
         }
 
+        if (!in_array($roleId, $this->rbacReview->getGlobalRoles())) {
+            return $uiFactory->legacy($this->lng->txt('deleted'));
+        }
+
         return $uiFactory->legacy($this->objectCache->lookupTitle($roleId));
     }
 }

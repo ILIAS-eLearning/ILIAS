@@ -2392,7 +2392,6 @@ cntr#:#cntr_view_sessions#:#Sitzungsansicht
 cntr#:#cntr_view_simple#:#Einfache Liste
 cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gültiger ILIAS Export. Um Verzeichnisstrukturen hochzuladen benutzen Sie bitte ein Datei-Objekt.
 cntr#:#edit_questions#:#Fragen bearbeiten
-common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
@@ -2412,7 +2411,9 @@ common#:#withdrawal_complete_deleted#:#Widerrufsvorgang ist abgeschlossen. Der N
 common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur Löschung des Accounts nehmen Sie bitte Kontakt zu Ihrer Organisation auf.
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
+common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
 common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,[BR][BR]hiermit widerrufe ich mein Einverständnis zu den Nutzungsvereinbarungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Benutzername: %2$s[BR]Externers Benutzerkonto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#access#:#Zugriff
@@ -3281,6 +3282,7 @@ common#:#hint#:#Hinweis
 common#:#hist_lm_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
 common#:#hist_lm_delete_st#:#Kapitel "%1" [%2] wurde gelöscht.
 common#:#hist_lm_pg_create#:#Seite erstellt.
+common#:#hist_lm_pg_update#:#Seite geändert.
 common#:#hist_lm_st_create#:#Kapitel erstellt.
 common#:#hist_webr_add#:#Neuer Weblink angelegt mit Titel: "%1"
 common#:#hist_webr_delete#:#Weblink wurde gelöscht. Titel: "%1"
@@ -14183,7 +14185,7 @@ rbac#:#news_add_news#:#Neuigkeiten erstellen
 rbac#:#grp_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
 news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag hinzufügen" um Neuigkeiten anzulegen.
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
-obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten.
+obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten. Benutzer können Benachrichtigungen für Neuigkeiten aktivieren, sobald der Block oder die Timeline aktiv sind.
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen öffnen
 cont#:#cont_news_settings#:#Neuigkeiten
 cont#:#cont_news_timeline_landing_page#:#Startseite
@@ -16634,3 +16636,4 @@ ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor 
 forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
 prg#:#prgr_new#:#Create Study Programme Link###03 11 2021 new variable
 prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###03 11 2021 new variable
+common#:#actions_for#:#Aktionen für %s

@@ -5,7 +5,7 @@
 * @module	language file Hungarian
 * @modulegroup	language
 * @author	Kiss-Kálmán Dániel <kisskalmandaniel@gmail.com>
-* @version	7.x 2021-05-22
+* @version	7.x 2021-12-05
 */
 // The language file starts beyond the HTML-comment below. DO NOT modify this line!
 // To edit your language file with a spreadsheet (i.e. Excel or StarCalc) remove all lines
@@ -14,6 +14,7 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+auth#:#err_auth_ldap_failed#:#A hitelesítés sikertelen. Kérem, keresse az ILIAS-üzemeltetőt.
 crs#:#crs_objective_result_summary_initial#:#Belépő teszt: %1$s (%2$s kötelező)
 crs#:#crs_objective_result_summary_qualifying#:#Elővizsga belépő teszt: %1$s (%2$s kötelező)
 crs#:#crs_objective_result_details#:#« Részletek megjelenítése
@@ -246,6 +247,8 @@ auth#:#auth_oidc_role_mapping_table#:#ILIAS-szerepek és OpenID-attribútumok ö
 auth#:#auth_oidc_update_role_info#:#Csak az első bejelentkezéskor (automatikus szinkronizálás) alkalmazzuk
 content#:#cont_lpe_openid_connect_login#:#OpenID-felhasználónév
 common#:#msg_wrong_filetypes#:#Engedélyezett fájltípusok:
+common#:#msg_to_many_files#:#Túl sok fájl választott ki, többet, mint
+common#:#msg_no_files_selected#:#Egy fájlt sem választott ki
 obj#:#cont_filter_empty#:#Az objektumok megtekintéséhez használja a szűrőt.
 obj#:#obj_tool_setting_filter#:#Szűrés
 obj#:#obj_tool_setting_filter_info#:#A szűrés a tartalom fülön fog megjelenni.
@@ -519,6 +522,7 @@ administration#:#language_scope_unchanged#:#Csak a nem változtatott bejegyzése
 administration#:#language_settings#:#Nyelvi beállítások
 administration#:#language_statistics#:#Statisztika
 administration#:#language_translation_enabled#:#Oldalfordító
+administration#:#language_variables_saved#:#A nyelvi változók módosítását sikeresen mentette.
 administration#:#log_scan_desc#:#Vizsgálati eredmények mentése a kliens adatmappa 'scanlog.log' fájljába.
 administration#:#log_scan#:#Vizsgálati eredmények naplózása
 administration#:#loginname_change_blocking_time_info#:#Adjon meg időtartamot napban, ameddig a felhasználók nem változtathatják meg felhasználónevüket. Ha 0-t ad meg, a felhasználók bármikor megváltoztathatják felhasználónevüket.
@@ -623,6 +627,7 @@ assessment#:#assessment_scoring_adjust#:#Utólagos korrekció engedélyezése
 assessment#:#assessment_scoring_adjust_desc#:#Az utólagos korrekció engedélyezése a kérdések módosítását teszi lehetővé a tesztben.
 assessment#:#assessment_log_scoring_adjustment_activate#:#A korrekcióban elérhető kérdéstípusok
 assessment#:#assessment_log_scoring_adjustment_desc#:#Az itt kiválasztott kérdéstípusok lesznek elérhetőek a korrekcióban. Ez a beállítás független a kérdéstípusok jelenlegi beállításától, például a korrekciót nem támogató kérdéstípusok is megjelennek itt.
+assessment#:#tst_corrections_incompatible_question_set_type#:#Javítás csak rögzített kérdések esetén lehetséges.
 assessment#:#tst_corrections_qst_remove_confirmation#:#, Biztos, hogy véglegesen eltávolítja '%s (ID: %s)' kérdést a tesztből?
 assessment#:#tst_corrections_tab_question#:#Kérdés
 assessment#:#tst_corrections_tab_solution#:#Megoldás
@@ -840,7 +845,7 @@ assessment#:#end_tag#:#Zárócímke
 assessment#:#tst_settings_conflict_message#:#A beállítások jelen kombinációja nem megengedett.
 assessment#:#tst_conflicting_setting#:#Ez a beállítás ütközik egy másikkal.
 assessment#:#enlarge#:#növelés
-assessment#:#enter_anonymous_code#:#Adja meg az anonymous felhasználó belépési kódját
+assessment#:#enter_anonymous_code#:#A teszt folytatásához adja meg a hozzáférési kódot:
 assessment#:#enter_enough_positive_points#:#A maximálisan elérhető pontszámnak magasabbnak kell lennie 0-nál. Megfelelő, nem negatív pontszámokat adjon válaszaihoz.
 assessment#:#enter_enough_positive_points_checked#:#A pontozáshoz legalább egy választ meg kell adnia. Kérjük, adjon meg egy pozitív számot a válasz megjelöléséhez.
 assessment#:#err_no_numeric_value#:#Számértéket adjon meg!
@@ -1330,7 +1335,7 @@ assessment#:#thumb_size#:#Bélyegképméret
 assessment#:#time_format#:#ÓÓ PP MM
 assessment#:#too_many_targets_selected_for_move#:#Egy célpozíciót válasszon ki!
 assessment#:#true#:#Igaz
-assessment#:#tst_access_code_created#:#Egyedi hozzáférési kódot állítottunk be az Ön számára, hogy bármikor elérhesse teszteredményeit, és hogy lehetősége legyen ennek a tesztnek a folytatására. Jegyezze fel ezt a kódot a teszt későbbi elérése érdekében.
+assessment#:#tst_access_code_created#:#Egyedi hozzáférési kódot állítottunk be az Ön számára, hogy bármikor elérhesse teszteredményeit, és hogy lehetősége legyen ennek a tesztnek a folytatására. Jegyezze fel ezt a kódot, hogy később a teszt elérhesse, illetve folytathassa.
 assessment#:#tst_all_user_data_deleted#:#Ennek a tesztnek minden felhasználói adatát sikeresen eltávolította.
 assessment#:#tst_allowed_users_time_gap#:#Aktív felhasználók tétlenséggel tölthető ideje
 assessment#:#tst_allowed_users#:#A tesztet egyidejűleg futtató felhasználók számának korlátja
@@ -2617,6 +2622,7 @@ common#:#file_edit#:#Fájlinformációk módosítása
 common#:#file_info#:#Fájlinformációk
 common#:#file_is_infected#:#A fájl vírussal fertőzött.
 common#:#file_not_found#:#A fájl nem található
+common#:#file_not_found_sec#:#Ez a fájl nem található vagy biztonsági okok miatt letitottuk a hozzáférést.
 common#:#file_not_valid#:#A fájl nem érvényes.
 common#:#file_notice#:#Maximális feltölthető méret:
 rbac#:#file_read#:#A felhasználó tölthet fel fájlt
@@ -5535,12 +5541,6 @@ feed#:#feed_no_js_click_here#:#Ha a hírforrás nem jelenik meg, kattintson ide.
 feed#:#feed_no_valid_url#:#A hírforrás URL nem érvényes.
 feed#:#feed_open_source_page#:#Megnyitás új ablakban
 feed#:#feed_settings#:#Külső webhírforrások beállításai
-file#:#file_new_version_info#:#Új fájlverzió létrehozása. A korábbi verziók nem módosulnak.
-file#:#file_new_version#:#Új verzió létrehozása
-file#:#replace_file_info#:#Az összes korábbi fájlverziót törli.
-file#:#upload_info#:#Fájl
-file#:#upload_info_desc#:#Feltöltések és verziók kezelése a 'Verziók' fül alatt
-file#:#generate_sanitize_report#:#Jelentés az elérhetetlen fájlokról
 common#:#page_count#:#Oldalszám
 form#:#form_days#:#Nap
 form#:#form_file_input#:#Fájlbemenet
@@ -9931,7 +9931,6 @@ tax#:#tax_order#:#Sorrend
 administration#:#adm_rep_shorten_description#:#Leírások hosszának korlátja
 administration#:#adm_rep_shorten_description_info#:#Ha be van kapcsolva, az objektumok felsorolásánál a leírások maximum ennyi karakterben jelennek meg.
 administration#:#adm_rep_shorten_description_length#:#Karakterek maximális száma
-file#:#file_uploaded_by#:#Feltöltötte
 trac#:#trac_session_statistics_mode_year#:#Év
 assessment#:#tst_question#:#Kérdés
 assessment#:#tst_participant#:#Résztvevő
@@ -10562,7 +10561,6 @@ crs#:#crs_copy#:#Kurzus másolása
 cat#:#cat_copy#:#Kategória másolása
 grp#:#grp_copy#:#Csoport másolása
 forum#:#frm_copy#:#Fórum másolása
-file#:#file_copy#:#Fájl másolása
 webr#:#webr_copy#:#Weblink másolása
 exc#:#exc_copy#:#Beadandó feladat másolása
 assessment#:#tst_copy#:#Teszt másolása
@@ -10682,7 +10680,6 @@ dateplaner#:#cal_user_notification_info#:#A megadott felhasználóknak e-mail é
 dateplaner#:#cal_cg_notification#:#Kurzus/csoport értesítés
 dateplaner#:#cal_mail_notification_subject#:#Eseményre meghívás: '%s'
 dateplaner#:#cal_mail_notification_body#:#ezúton értesítjük, hogy Ön meghívót kapott egy eseményre.
-file#:#file_download#:#Fájl letöltése
 trac#:#trac_lp_learner_access#:#Saját tanulási haladás megtekintése
 trac#:#trac_lp_learner_access_info#:#Ha aktív, a felhasználók hozzáférnek saját tanulási haladási állapotukhoz.
 content#:#help_assign_help_ids#:#Fejezet/Képernyő-ID-k hozzárendelés
@@ -12966,7 +12963,6 @@ grp#:#grp_usr_agreement#:#Szolgáltatási feltételek
 meta#:#md_adv_confirm_definition_select_option_all#:#Összes bejegyzése kezelése ugyanúgy
 meta#:#md_adv_confirm_definition_select_option_single#:#Döntéshozatal bejegyzésenként
 meta#:#md_adv_confirm_definition_select_option_all_action#:#Új érték
-file#:#file_import#:#Fájlok importálása
 dcl#:#dcl_boolean_desc#:#'Kipipált'/'Nem kipipált' jelölőnégyzet.
 dcl#:#dcl_text_desc#:#Beviteli mező szöveg, link vagy e-mail cím tárolására.
 dcl#:#dcl_text_selection_desc#:#Szöveglehetőségek választásának felkínálása.
@@ -14860,19 +14856,6 @@ content#:#cont_lpe_user_agreement_link#:#Szolgáltatási feltételek linkje
 common#:#obj_fold_duplicate#:#Mappa másolása
 common#:#fold_wizard_page#:#Mappa másolása (2/2 lépés)
 common#:#fold_copy_threads_info#:#Kérem, válassza ki a másolandó, linkelendő vagy kihagyandó tanulási segédanyagokat.
-file#:#general_upload_error_occured#:#A feltöltés alatt ismeretlen hiba lépett fel.
-file#:#file_suffix_custom_expl_black#:#Explicit tiltólista
-file#:#file_suffix_custom_expl_black_info#:#Az ilyen végződésekkel rendelkező fájlokat nem fogadjuk el.
-file#:#file_suffix_default_white#:#Alapértelmezetten engedélyezett kiterjesztések
-file#:#file_suffix_default_white_info#:#Alapértelmezetten elfogadható fájlkiterjesztések felsorolása.
-file#:#file_suffix_custom_black#:#Kiterjesztések egyéni tiltólistája
-file#:#file_suffix_custom_black_info#:#Ezeket a kiterjesztéseket eltávolítjuk az engedélyezettek közül.
-file#:#file_suffix_custom_white#:#Egyénileg engedélyezett kiterjesztések
-file#:#file_suffix_custom_white_info#:#Ezeket a kiterjesztéseket hozzáadjuk az engedélyezettekhez.
-file#:#file_suffix_overall_white#:#Engedélyezett kiterjesztések összesítő listája
-file#:#file_suffix_overall_white_info#:#Az elfogadható fájlkiterjesztések összesítő felsorolása.
-file#:#file_upload_info_file_with_critical_extension#:#A feltöltött fájl kritikus vagy ismeretlen fájlvégződést tartalmaz. Minden fájl minden feltöltött példányának a végét lecseréljük '.sec'-re.
-file#:#not_yet_migrated#:#Ezt a fájlobjektumot még nem migrálták és új verziókat sem hoztak még létre. Kérem, értesítse az üzemeltetőket.
 common#:#settings_presentation_header#:#Megjelenítés
 common#:#obj_copa#:#Tartalomlap
 common#:#objs_copa#:#Tartalomlapok
@@ -15669,20 +15652,20 @@ wsp#:#wsp_type_cmxv#:#Tanúsítvány: xAPI/cmi5
 wsp#:#wsp_list_cmxv#:#xAPI/cmi5 objektum tanúsítványa
 wsp#:#wsp_type_ltiv#:#Tanúsítvány: LTI-Fogyasztók
 wsp#:#wsp_list_ltiv#:#LTI-Fogyasztóobjektum tanúsítványa
-ltiv#:#ltiv_create#:#Create Certificate for LTI Fogyasztók Objektum###XXX
-ltiv#:#ltiv_create_info#:#Select a completed LTI Fogyasztók objektum to generate a certificate for it
+ltiv#:#ltiv_create#:#Az LTI-Fogyasztóobjektumoknak tanúsítvány létrehozása
+ltiv#:#ltiv_create_info#:#Select a completed LTI-Fogyasztóobjektum to generate a certificate for it
 cmxv#:#cmxv_create#:#Create Certificate for xAPI/cmi5 Objektum
 cmxv#:#cmxv_create_info#:#Select a completed xAPI/cmi5 objektum to generate a certificate for it
 trac#:#cmix_lp_mode_deactivated#:#Learning Progress is Deactivated
 trac#:#cmix_lp_mode_deactivated_info#:#The learning progress status is not displayed and does not influence parent objects.
-trac#:#cmix_lp_mode_when_completed#:#Completed when 'completed'
-trac#:#cmix_lp_mode_when_completed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed'.
+trac#:#cmix_lp_mode_when_completed#:#Completed when 'befejezte'
+trac#:#cmix_lp_mode_when_completed_info#:#ILIAS status 'befejezte' is set when verb of last relevant xAPI-Statement is 'befejezte'.
 trac#:#cmix_lp_mode_with_failed#:#Also consider failed
-trac#:#cmix_lp_mode_with_failed_info#:#The status could be 'failed' instead of 'in progress'.
-trac#:#cmix_lp_mode_when_passed#:#Completed when 'passed'
-trac#:#cmix_lp_mode_when_passed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'passed' or 'satisfied'.
-trac#:#cmix_lp_mode_when_passed_or_completed#:#Completed when 'passed' or 'completed'
-trac#:#cmix_lp_mode_when_passed_or_completed_info#:#ILIAS status 'completed' is set when verb of last relevant xAPI-Statement is 'completed' or 'passed' or 'satisfied'.
+trac#:#cmix_lp_mode_with_failed_info#:#The status could be 'nem teljesítette' instead of 'folyamatban'.
+trac#:#cmix_lp_mode_when_passed#:#Completed when 'sikeresen teljesítette'
+trac#:#cmix_lp_mode_when_passed_info#:#ILIAS status 'befejezte' is set when verb of last relevant xAPI-Statement is 'sikeresen teljesítette' or 'satisfied'.
+trac#:#cmix_lp_mode_when_passed_or_completed#:#Completed when 'sikeresen teljesítette' or 'befejezte'
+trac#:#cmix_lp_mode_when_passed_or_completed_info#:#ILIAS status 'befejezte' is set when verb of last relevant xAPI-Statement is 'befejezte' or 'sikeresen teljesítette' or 'satisfied'.
 trac#:#trac_mode_lti_outcome#:#A Mastery Score-t el kell érni
 trac#:#trac_mode_lti_outcome_info#:#The Learning Progress will be evaluated from the LTI outcome and the mastery score threshold.
 lti#:#launch_method_own_win#:#Saját ablak
@@ -15909,6 +15892,10 @@ cmix#:#conf_bypass_proxy#:#Detection of Learning Progress
 cmix#:#conf_bypass_proxy_disabled#:#xAPI-Proxy to get immediately data
 cmix#:#conf_bypass_proxy_enabled#:#CronJob to check Learning Record Store
 cmix#:#conf_bypass_proxy_info#:#In most cases it is recommended to use the xAPI-Proxy. Use the CronJob in case of Limitations regarding Resource or Server.
+cmix#:#conf_switch_to_review#:#Switch to Review Mode###03 11 2021 new variable
+cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###03 11 2021 new variable
+cmix#:#conf_mastery_score#:#Mastery Score###03 11 2021 new variable
+cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'sikeresen teljesítette'.###03 11 2021 new variable
 cmix#:#cron_xapi_results_evaluation#:#Fetch xAPI/cmi5 Results
 cmix#:#cron_xapi_results_evaluation_desc#:#Requests all xAPI results from learning record stores for objects not supporting the ILIAS xAPI proxy.
 cmix#:#fetch_xapi_statements#:#Fetch results from Learning Record Store
@@ -15952,10 +15939,17 @@ cmix#:#conf_lrs_secret#:#Titok / Jelszó
 cmix#:#info_lrs_secret#:#Megosztott titok / Jelszó, például titok
 cmix#:#conf_own_window#:#Egy ablak
 cmix#:#conf_own_window_info#:#A tartalom ugyanabban az ablakban nyílik meg, lecserélve az ILIAS képernyőjét. A tartalom elhagyásakor a felhasználó visszatér az ILIAS-ba.
+cmix#:#conf_new_window#:#Új ablak
+cmix#:#conf_new_window_info#:#A tartalom új ablakban nyílik meg. A tartalom elhagyásakor ez az ablak bezárul.
+cmix#:#type_cmi5#:#cmi5-tananyag
+cmix#:#type_generic#:#xAPI Standard Objektum
 cmix#:#conf_launch_mode#:#Indítási mód
 cmix#:#conf_launch_mode_normal#:#Normál
+cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###03 11 2021 new variable
 cmix#:#conf_launch_mode_browse#:#Böngészés
+cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review#:#Felülvizsgálat
+cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
 cmix#:#conf_keep_lp#:#A tanulási folyamat megtartása
 cmix#:#conf_keep_lp_info#:#Az ILIAS tanulási folyamatának 'Teljesítve' állapotát befagyasztjuk.
 cmix#:#conf_external_lrs#:#Külső LRS
@@ -16074,20 +16068,7 @@ content#:#cont_page_template#:#Oldalsablon
 content#:#cont_page_created#:#Az oldal létrehozva
 prg#:#assignment_date#:#Hozzárendelés időpontja
 prg#:#completion_date#:#Befejezés időpontja
-prg#:#prg_no_deadline#:#Nincs rögzített feldolgozási időszak
-prg#:#prg_deadline_period#:#A feldolgozási időszak személyre szabott
-prg#:#prg_deadline_period_desc#:#A programot a megadott időtartam alatt kell teljesíteni.
-prg#:#prg_deadline_date#:#A feldolgozási idő egy megadott időpontban jár le
-prg#:#prg_deadline_date_desc#:#A programot a megadott időpontig kell teljesíteni.
-prg#:#prg_no_validity_qualification#:#Le nem járó képesítés
 prg#:#prg_validity_of_qualification#:#A megszerzett képesítés érvényessége
-prg#:#validity_qualification_period#:#A képesítés személyre szabottan jár le
-prg#:#validity_qualification_period_desc#:#nappal a befejezés után
-prg#:#validity_qualification_date#:#A képesítés megadott időpontban jár le
-prg#:#validity_qualification_date_desc#:#lejárat időpontja
-prg#:#prg_no_restart#:#Nem igényel megújítást
-prg#:#restart_period#:#Megújítást igényel
-prg#:#restart_period_desc#:#nappal a lejárat előtt
 prg#:#sp_certificate_title#:#Képzési program címe
 prg#:#sp_certificate_description#:#Képzési program leírása
 prg#:#sp_certificate_type#:#Képzési program típusa
@@ -16099,10 +16080,6 @@ prg#:#prg_expiry_date#:#Lejárat dátuma
 prg#:#prg_validity#:#Érvényesség
 prg#:#prg_still_valid#:#még érvényes
 prg#:#prg_not_valid#:#már nem érvényes
-prg#:#prg_restart_assignments_temporal_progress_title#:#A hozzárendelések újraindítása
-prg#:#prg_restart_assignments_temporal_progress_desc#:#A hamarosan lejáró Képzési programok újraindítása
-prg#:#prg_invalidate_expired_progresses_title#:#A Képzési program képesítésének korlátozott érvényessége
-prg#:#prg_invalidate_expired_progresses_desc#:#A lejárt képesítésű Képzési programok megjelölése 'nem teljesített'-ként
 prg#:#prg_orgus#:#Szervezeti egységek
 prg#:#content_automation_title#:#Automatikusan hozzáadja, illetve eltávolítja a kategóriákban lévő kurzusokat.
 prg#:#content_automation#:#Tartalomautomatizmus
@@ -16124,6 +16101,7 @@ prg#:#auto_memberships#:#Tagság automatizálása
 prg#:#orgu#:#Szervezeti egység
 prg#:#rol#:#Szerep
 prg#:#auto_membership_title#:#Automatizált tagság forrásai
+prg#:#auto_membership_description#:#Szabály csak akkor fut le, amikor annak aktiválása után teljesülnek annak feltételei. Szabály törlése nem távolít el hozzárendelést, ha bámely más aktiválási feltétel teljesül.
 prg#:#add_automembership_source#:#Forrása hozzáadása
 prg#:#auto_membership_src_type#:#Típus
 prg#:#membership_source_id#:#Id
@@ -16143,7 +16121,6 @@ prg#:#prg_formatted_period#:#%d nap
 prg#:#deadline_information#:#A feldolgozási időszakra vonatkozó információk
 prg#:#vq_information#:#Információk a megszerzett képesítésekről
 prg#:#vq_period_info#:#A megszerzése után ennyi nappal jár le a képesítés
-prg#:#vq_date_info#:#A képesítés megadott időpontban jár le
 prg#:#restart_information#:#Információk a függőben lévő lejáró képesítések automatikus megújításról
 prg#:#restart_period_info#:#A képesítés megújításához a képesítés lejárta előtti napok száma
 prg#:#access_ctr_by_orgu_position#:#Hozzáférés-kezelés szervezeti egység pozíciói alapján
@@ -16155,21 +16132,7 @@ prg#:#re_assigned_mail_subject#:#Részvétel megújítása Képzési programban
 prg#:#re_assigned_mail_body#:#%s %s,<br/><br/>ezúton értesítjük, hogy '%s' Képzési programhoz újra hozzárendelték.
 prg#:#info_to_re_assign_mail_subject#:#Emlékeztető részvétel megújításáról Képzési programban
 prg#:#info_to_re_assign_mail_body#:#%s %s,<br/><br/>ezúton értesítjük, hogy '%s' Képzési programban tagságának érvényessége hamarosan lejár. Kérjük, jelentkezzen be újra.
-prg#:#prg_user_not_restarted_time_input#:#Emlékeztető e-mail megújításról
-prg#:#prg_user_not_restarted_time_input_info#:#Emlékeztető e-mail küldése a felhasználónak a képesítés megújításának szükségességéről a Képzési program lejárta előtt x nappal.
-prg#:#prg_processing_ends_no_success#:#Emlékeztető e-mail sikertelen teljesítés kockázatáról
-prg#:#prg_processing_ends_no_success_info#:#Emlékeztető e-mail küldése a felhasználónak a sikertelen teljesítés kockázatáról a képzési program lejárta előtt x nappal.
 prg#:#prg_cron_job_configuration#:#Automatikus e-mailek beállításai
-prg#:#send_re_assigned_mail#:#E-mail megújított résztvételről
-prg#:#send_re_assigned_mail_info#:#E-mail küldése a Képzési programhoz automatikus újracsatlakozásról.
-prg#:#send_info_to_re_assign_mail#:#Emlékeztető e-mail megújításról
-prg#:#send_info_to_re_assign_mail_info#:#E-mail küldése a tanulóknak, ami emlékezteti őket, hogy újítsák meg a képesítésüket.
-prg#:#prg_user_risky_to_fail_title#:#Figyelmeztető e-mail esetleges kudarcról
-prg#:#prg_user_risky_to_fail_desc#:#Figyelmeztető e-mail küldése, amikor fenn áll a veszélye, hogy egy tanulónak nem sikerül teljesíteni a képzési programot a határidőig.
-prg#:#prg_user_not_restarted_title#:#Figyelmeztető e-mail küldése megújításhoz
-prg#:#prg_user_not_restarted_desc#:#Értesítő e-mail küldése, amikor a képzési program képesítése lejár és meg nem újították meg a képesítést.
-prg#:#send_risky_to_fail_mail#:#E-mail kudarcról
-prg#:#send_risky_to_fail_mail_info#:#E-mail küldése, amikor valószínű, hogy egy tanulónak nem sikerül teljesíteni a képzési programot.
 search#:#search_for_orgu_members#:#Szervezeti egységek keresése
 search#:#select_orgu#:#Válasszon szervezeti egységeket
 prg#:#prg_dash_label_valid#:#Érvényes:
@@ -16276,7 +16239,7 @@ prg#:#prg_confirm_delete#:#Törlése
 prg#:#prg_cancel#:#Mégsem
 prg#:#prg_delete_failure#:#A törlés nem sikerült.
 prg#:#prg_delete_success#:#A bejegyzéseket sikeresen törölte.
-prg#:#prg_delete_single_confirmation#:##Biztos, hogy törli a kiválasztott bejegyzést?
+prg#:#prg_delete_single_confirmation#:#Biztos, hogy törli a kiválasztott bejegyzést?
 prg#:#prg_delete_single_success#:#A bejegyzést sikeresen törölte.
 common#:#obj_lsos#:#Tanulási sorok
 common#:#obj_lsos_desc#:#Tanulási sorok általános beállításai
@@ -16286,8 +16249,6 @@ mail#:#mail_enable_lso_admin_notification#:#Tanulási sor vezetőinek értesít�
 mail#:#mail_enable_lso_admin_notification_info#:#Az új Tanulási sor létrehozásakor az 'Új tagokról értesítés' alapértelmezetten aktív lesz. Ez a beállítás a Tanulás sor 'Tagok' fülén található. A vezetők levélben értesítést kapnak, amikor valaki csatlakozik a Tanulási sorhoz vagy elhagyja azt.
 prg#:#risky_to_fail_mail_subject#:#Emlékeztető, hogy a képzési program teljesítésének határideje hamarosan lejár
 prg#:#risky_to_fail_mail_body#:#%s %s,<br/><br/>ezúton értesítjük, hogy '%s' a képzési program teljesítésének határideje hamarosan lejár.
-prg#:#prg_update_progress_title#:#Határidő után a 'Folyamatban' legyen 'Nem teljesítette'
-prg#:#prg_update_progress_description#:#A 'Folyamatban' állapotok módosítása 'Nem teljesítette' állapotra a határidő után.
 common#:#collapse_content#:#Tartalom összecsukása
 common#:#expand_content#:#Tartalom kitejesztése
 common#:#briefcase#:#Háttérfolyamatok
@@ -16377,13 +16338,13 @@ cmix#:#achieved_label#:#Statements with the verb 'achieved'
 cmix#:#achieved_info#:#Successfully bring about or reach a desired objective, level, or result by effort, skill, or courage.
 cmix#:#answered_label#:#Statements with the verb 'answered'
 cmix#:#answered_info#:#Indicates the actor replied to a question, where the object is generally an activity representing the question. The text of the answer will often be included in the response inside result.
-cmix#:#completed_label#:#Statements with the verb 'completed'
+cmix#:#completed_label#:#Statements with the verb 'befejezte'
 cmix#:#completed_info#:#Indicates the actor finished or concluded the activity normally.
-cmix#:#failed_label#:#Statements with the verb 'failed'
+cmix#:#failed_label#:#Statements with the verb 'nem teljesítette'
 cmix#:#failed_info#:#Indicates the actor did not successfully pass an activity to a level of predetermined satisfaction.
 cmix#:#initialized_label#:#Statements with the verb 'initialized'
 cmix#:#initialized_info#:#Indicates the activity provider has determined that the actor successfully started an activity.
-cmix#:#passed_label#:#Statements with the verb 'passed'
+cmix#:#passed_label#:#Statements with the verb 'sikeresen teljesítette'
 cmix#:#passed_info#:#Indicates the actor successfully passed an activity to a level of predetermined satisfaction.
 cmix#:#progressed_label#:#Statements with the verb 'progressed'
 cmix#:#progressed_info#:#Indicates a value of how much of an actor has advanced or moved through an activity.
@@ -16528,7 +16489,7 @@ copg#:#copg_an_error_occured#:#Hiba történt.
 copg#:#copg_details#:#Részletek
 copg#:#copg_error#:#Hiba
 copg#:#copg_page_element_not_found#:#Az oldalelem nem található.
-adve#:#adve_autosave_info_min_10#:#Please choose a value of minimal 10 seconds if you activated this feature.
+adve#:#adve_autosave_info_min_10#:#Kérem, legalább 10 mp-es értéket állítson be.
 content#:#cont_keyword#:#Kulcsszó
 content#:#cont_footnote#:#Lábjegyzet
 content#:#cont_Book#:#Könyv
@@ -16542,12 +16503,12 @@ common#:#user_avatar_of#:#Profilkép -
 awrn#:#awrn_filter#:#Felhasználószűrő
 help#:#help_search_label#:#Keresés a súgóban
 rbac#:#delete_xapi_data#:#xAPI/cmi5 adat törlése
-trac#:#trac_mode_cmix_completed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
-trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'completed' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
-trac#:#trac_mode_cmix_passed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
-trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
-trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'In Progress'.
-trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'completed' or 'passed' or 'satisfied' was sent. Verb 'failed' sets status of ILIAS to 'Failed'.
+trac#:#trac_mode_cmix_completed#:#Completed when verb 'befejezte' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'folyamatban'.
+trac#:#trac_mode_cmix_compl_with_failed#:#Completed when verb 'befejezte' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'nem teljesítette'.
+trac#:#trac_mode_cmix_passed#:#Completed when verb 'sikeresen teljesítette' or 'satisfied' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'folyamatban'.
+trac#:#trac_mode_cmix_passed_with_failed#:#Completed when verb 'sikeresen teljesítette' or 'satisfied' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'nem teljesítette'.
+trac#:#trac_mode_cmix_completed_or_passed#:#Completed when verb 'befejezte' or 'sikeresen teljesítette' or 'satisfied' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'folyamatban'.
+trac#:#trac_mode_cmix_compl_or_passed_with_failed#:#Completed when verb 'befejezte' or 'sikeresen teljesítette' or 'satisfied' was sent. Verb 'nem teljesítette' sets status of ILIAS to 'nem teljesítette'.
 cmix#:#toplist_top_n_results#:#Ranglista
 cmix#:#toplist_your_result#:#Saját helyezésem
 lti#:#toplist_top_n_results#:#Ranglista
@@ -16556,69 +16517,108 @@ rep#:#rep_no_last_visited_mess#:#Egy erőforrást sem látogatott még meg.
 content#:#cont_could_not_save_duplicate_pc_ids#:#Az oldal nem menthető (duplikált PC ID-k).
 dateplaner#:#cal_delete_recurrence_rule#:#Elfoglaltságsorozat törlése
 dateplaner#:#cal_recurrence_confirm_deletion#:#Kérem válasszon, hogy egy foglaltságot vagy egy teljes foglaltságsorozatot.
-administration#:#language_variables_saved#:#The changes to the language variables were saved successfully.###25 06 2021 new variable
-auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.###24 09 2021 new variable
-common#:#msg_to_many_files#:#Too many files selected, allowed amount of files:###24 09 2021 new variable
-common#:#msg_no_files_selected#:#No files selected###24 09 2021 new variable
-assessment#:#tst_corrections_incompatible_question_set_type#:#Corrections are only possible if the test uses a fixed set of questions.###24 09 2021 new variable
-common#:#file_not_found_sec#:#This file cannot be found in ILIAS or has been blocked due to security reasons.###24 09 2021 new variable
-cmix#:#conf_new_window#:#New Window###24 09 2021 new variable
-cmix#:#conf_new_window_info#:#The content is opened in a new window. When leaving the content this window gets closed.###24 09 2021 new variable
-cmix#:#type_cmi5#:#cmi5 Learning Module###24 09 2021 new variable
-cmix#:#type_generic#:#xAPI Standard Object###24 09 2021 new variable
-prg#:#auto_membership_description#:#Rules are only executed when a criterion gets fulfilled after activation of the rule. Deleting rules will not remove assignments if any other active criterion is fulfilled by that time.###24 09 2021 new variable
-file#:#resource_id#:#Resource ID###24 09 2021 new variable
-file#:#storage_id#:#Storage ID###24 09 2021 new variable
-file#:#versionname#:#Title###24 09 2021 new variable
-file#:#version_uploaded#:#Version uploaded###24 09 2021 new variable
-common#:#il_lti_learner#:#LTI Learner###24 09 2021 new variable
-common#:#il_lti_instructor#:#LTI Instructor###24 09 2021 new variable
-rbac#:#il_lti_global_role#:#LTI User###24 09 2021 new variable
+file#:#file_new_version_info#:#Új fájlverzió létrehozása. A korábbi verziók nem módosulnak.
+file#:#file_new_version#:#Új verzió létrehozása
+file#:#replace_file_info#:#Az összes korábbi fájlverziót törli.
+file#:#upload_info#:#Fájl
+file#:#resource_id#:#Erőforrás-ID
+file#:#storage_id#:#Tároló-ID
+file#:#upload_info_desc#:#Feltöltések és verziók kezelése a 'Verziók' fül alatt
+file#:#generate_sanitize_report#:#Jelentés az elérhetetlen fájlokról
+file#:#file_import#:#Fájlok importálása
+file#:#file_download#:#Fájl letöltése
+file#:#file_uploaded_by#:#Feltöltötte
+file#:#versionname#:#Cím
+file#:#version_uploaded#:#A verziót sikeresen feltöltötte
+file#:#file_copy#:#Fájl másolása
+file#:#general_upload_error_occured#:#A feltöltés alatt ismeretlen hiba lépett fel.
+file#:#file_suffix_custom_expl_black#:#Explicit tiltólista
+file#:#file_suffix_custom_expl_black_info#:#Az ilyen végződésekkel rendelkező fájlokat nem fogadjuk el.
+file#:#file_suffix_default_white#:#Alapértelmezetten engedélyezett kiterjesztések
+file#:#file_suffix_default_white_info#:#Alapértelmezetten elfogadható fájlkiterjesztések felsorolása.
+file#:#file_suffix_custom_black#:#Kiterjesztések egyéni tiltólistája
+file#:#file_suffix_custom_black_info#:#Ezeket a kiterjesztéseket eltávolítjuk az engedélyezettek közül.
+file#:#file_suffix_custom_white#:#Egyénileg engedélyezett kiterjesztések
+file#:#file_suffix_custom_white_info#:#Ezeket a kiterjesztéseket hozzáadjuk az engedélyezettekhez.
+file#:#file_suffix_overall_white#:#Engedélyezett kiterjesztések összesítő listája
+file#:#file_suffix_overall_white_info#:#Az elfogadható fájlkiterjesztések összesítő felsorolása.
+file#:#file_upload_info_file_with_critical_extension#:#A feltöltött fájl kritikus vagy ismeretlen fájlvégződést tartalmaz. Minden fájl minden feltöltött példányának a végét lecseréljük '.sec'-re.
+file#:#not_yet_migrated#:#Ezt a fájlobjektumot még nem migrálták és új verziókat sem hoztak még létre. Kérem, értesítse az üzemeltetőket.
+common#:#il_lti_learner#:#LTI-Tanuló
+common#:#il_lti_instructor#:#LTI-Instruktor
+rbac#:#il_lti_global_role#:#LTI-Felhasználó
 common#:#toggle_on#:#ON### Don't translate this label to prevent rendering problems of the related Toggle Button!
 common#:#toggle_off#:#OFF### Don't translate this label to prevent rendering problems of the related Toggle Button!
-prg#:#msg_mark_relevant#:#%s users successfully marked relevant###24 09 2021 new variable
-prg#:#msg_mark_relevant_failed#:#Not marked marked relevant:###24 09 2021 new variable
-prg#:#msg_mark_not_relevant#:#%s users successfully unmarked relevant###24 09 2021 new variable
-prg#:#msg_mark_not_relevant_failed#:#Not unmarked relevant:###24 09 2021 new variable
-prg#:#msg_mark_accredited#:#%s users successfully marked accredited###24 09 2021 new variable
-prg#:#msg_mark_accredited_failed#:#Not marked accredited:###24 09 2021 new variable
-prg#:#msg_unmark_accredited#:#Unmarked %s users accredited.###24 09 2021 new variable
-prg#:#msg_unmark_accredited_failed#:#Unmarking accredited not successful for:###24 09 2021 new variable
-prg#:#msg_update_from_settings#:#Updated %s users from settings:###24 09 2021 new variable
-prg#:#msg_update_from_settings_failed#:#Updated from settings failed:###24 09 2021 new variable
-prg#:#msg_change_deadline_date#:#Updated deadline for %s users.###24 09 2021 new variable
-prg#:#msg_change_deadline_date_failed#:#Deadline not updated for:###24 09 2021 new variable
-prg#:#msg_change_expire_date#:#Updated expire date for %s users.###24 09 2021 new variable
-prg#:#msg_change_expire_date_failed#:#Expire date not updated for:###24 09 2021 new variable
-prg#:#status_transition_not_allowed#:#Status change not allowed###24 09 2021 new variable
-prg#:#will_not_modify_irrelevant_progress#:#No change because not relevant###24 09 2021 new variable
-prg#:#will_not_modify_deadline_on_successful_progress#:#No change because already completed or marked accredited###24 09 2021 new variable
-prg#:#status_changed#:#Updated status###24 09 2021 new variable
-prg#:#validity_updated#:#Updated validity###24 09 2021 new variable
-prg#:#deadline_updated#:#Updated deadline###24 09 2021 new variable
-prg#:#updated_from_settings#:#Updated from settings###24 09 2021 new variable
-prg#:#msg_update_individual_plan#:#Successfully updated individual plan (%)###24 09 2021 new variable
-prg#:#msg_update_individual_plan_failed#:#Update  of individual plan failed###24 09 2021 new variable
-prg#:#msg_points_must_be_positive#:#Only positive numbers are allowed.###24 09 2021 new variable
-prg#:#msg_impossible_target_status#:#Impossible target status###24 09 2021 new variable
-prg#:#confirm_to_remove_selected_assignments#:#Do you really want to remove the user assignment(s)?###24 09 2021 new variable
-prg#:#will_not_set_top_progress_to_irrelevant#:#Cannot change top node to irrelevant.###24 09 2021 new variable
-prg#:#assignments#:#Assignments###24 09 2021 new variable
-prg#:#mail_assignments#:#Mail to assigned Users###24 09 2021 new variable
-prg#:#manage_assignments#:#Manage Assignments###24 09 2021 new variable
-prg#:#prg_manage_members_short#:#Manage Assignments###24 09 2021 new variable
-prg#:#will_not_modify_relevant_progress#:#already relevant###24 09 2021 new variable
-prg#:#will_not_modify_validity_on_non_successful_progress#:#Can change only when successful###24 09 2021 new variable
-prg#:#status_unchanged#:#Status unchanged###24 09 2021 new variable
-content#:#cont_media#:#Images/Media###24 09 2021 new variable
-content#:#cont_sur_block_format#:#Surrounding Section###24 09 2021 new variable
-ui#:#datetime_required#:#Time/Date required###24 09 2021 new variable
-ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###24 09 2021 new variable
-forum#:#sticky_threads_sorting#:#Sticky Threads Sorting###24 09 2021 new variable
-cmix#:#conf_switch_to_review#:#Switch to Review Mode###03 11 2021 new variable
-cmix#:#conf_switch_to_review_info#:#After the cmi5 learning module has been successfully processed (status satisfied), the learning module is started in review mode the next time it is called up.###03 11 2021 new variable
-cmix#:#conf_mastery_score#:#Mastery Score###03 11 2021 new variable
-cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning module at startup to determine the points required for passing. If a higher (or equal) value is obtained, the learning module shall transmit the status 'passed'.###03 11 2021 new variable
-cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###03 11 2021 new variable
-cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
-cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
+prg#:#msg_mark_relevant#:#%s felhasználót sikeresen módosította irrelevánsra
+prg#:#msg_mark_relevant_failed#:#Nem releváns:
+prg#:#msg_mark_not_relevant#:#%s felhasználó releváns állapotát sikeresen eltávolította
+prg#:#msg_mark_not_relevant_failed#:#A releváns el nem távolítva:
+prg#:#msg_mark_accredited#:#%s felhasználót sikeresen megjelölt abszolvált állapotúra
+prg#:#msg_mark_accredited_failed#:#Nincs megjelölve abszolváltként:
+prg#:#msg_unmark_accredited#:#%s felhasználó abszolvált állapotát sikeresen eltávolította 
+prg#:#msg_unmark_accredited_failed#:#Abszolvált állapot eltávolítása sikertelen:
+prg#:#msg_update_from_settings#:#%s felhasználót sikeresen módosított a beállításokból
+prg#:#msg_update_from_settings_failed#:#A módosítás a beállításokból sikertelen:
+prg#:#msg_change_deadline_date#:#%s felhasználónál a határidőt sikeresen módosította.
+prg#:#msg_change_deadline_date_failed#:#A határidő nem módosult:
+prg#:#msg_change_expire_date#:#%s felhasználónál a lejárati időt sikeresen módosította
+prg#:#msg_change_expire_date_failed#:#A lejárati idő nem módosult
+prg#:#status_transition_not_allowed#:#Az állapot módosítása nem engedélyezett
+prg#:#will_not_modify_irrelevant_progress#:#Nem módosult, mert nem releváns
+prg#:#will_not_modify_deadline_on_successful_progress#:#Nem módosult, mert már teljesített vagy abszolvált az állapota
+prg#:#status_changed#:#Az állapotot sikeresen módosította
+prg#:#validity_updated#:#Az érvényességet sikeresen módosította
+prg#:#deadline_updated#:#A határidőt sikeresen módosította
+prg#:#updated_from_settings#:#A beállításokból sikeresen módosította
+prg#:#prg_restart_assignments_temporal_progress_title#:#A hozzárendelések újraindítása
+prg#:#prg_restart_assignments_temporal_progress_desc#:#A hamarosan lejáró Képzési programok újraindítása
+prg#:#prg_user_not_restarted_title#:#Figyelmeztető e-mail küldése megújításhoz
+prg#:#prg_user_not_restarted_desc#:#Értesítő e-mail küldése, amikor a képzési program képesítése lejár és meg nem újították meg a képesítést.
+prg#:#prg_user_risky_to_fail_title#:#Figyelmeztető e-mail esetleges kudarcról
+prg#:#prg_user_risky_to_fail_desc#:#Figyelmeztető e-mail küldése, amikor fenn áll a veszélye, hogy egy tanulónak nem sikerül teljesíteni a képzési programot a határidőig.
+prg#:#prg_invalidate_expired_progresses_title#:#A Képzési program képesítésének korlátozott érvényessége
+prg#:#prg_invalidate_expired_progresses_desc#:#A lejárt képesítésű Képzési programok megjelölése 'nem teljesített'-ként
+prg#:#prg_update_progress_title#:#Határidő után a 'Folyamatban' legyen 'Nem teljesítette'
+prg#:#prg_update_progress_description#:#A 'Folyamatban' állapotok módosítása 'Nem teljesítette' állapotra a határidő után.
+prg#:#prg_deadline_period#:#A feldolgozási időszak személyre szabott
+prg#:#prg_deadline_period_desc#:#A programot a megadott időtartam alatt kell teljesíteni.
+prg#:#prg_no_deadline#:#Nincs rögzített feldolgozási időszak
+prg#:#prg_deadline_date#:#A feldolgozási idő egy megadott időpontban jár le
+prg#:#prg_deadline_date_desc#:#A programot a megadott időpontig kell teljesíteni.
+prg#:#prg_no_validity_qualification#:#Le nem járó képesítés
+prg#:#validity_qualification_period#:#A képesítés személyre szabottan jár le
+prg#:#validity_qualification_period_desc#:#nappal a befejezés után
+prg#:#validity_qualification_date#:#A képesítés megadott időpontban jár le
+prg#:#validity_qualification_date_desc#:#lejárat időpontja
+prg#:#vq_date_info#:#A képesítés megadott időpontban jár le
+prg#:#prg_no_restart#:#Nem igényel megújítást
+prg#:#restart_period#:#Megújítást igényel
+prg#:#restart_period_desc#:#nappal a lejárat előtt
+prg#:#send_re_assigned_mail#:#E-mail megújított résztvételről
+prg#:#send_re_assigned_mail_info#:#E-mail küldése a Képzési programhoz automatikus újracsatlakozásról.
+prg#:#send_info_to_re_assign_mail#:#Emlékeztető e-mail megújításról
+prg#:#send_info_to_re_assign_mail_info#:#E-mail küldése a tanulóknak, ami emlékezteti őket, hogy újítsák meg a képesítésüket.
+prg#:#prg_user_not_restarted_time_input#:#Emlékeztető e-mail megújításról
+prg#:#prg_user_not_restarted_time_input_info#:#Emlékeztető e-mail küldése a felhasználónak a képesítés megújításának szükségességéről a Képzési program lejárta előtt x nappal.
+prg#:#send_risky_to_fail_mail#:#E-mail kudarcról
+prg#:#send_risky_to_fail_mail_info#:#E-mail küldése, amikor valószínű, hogy egy tanulónak nem sikerül teljesíteni a képzési programot.
+prg#:#prg_processing_ends_no_success#:#Emlékeztető e-mail sikertelen teljesítés kockázatáról
+prg#:#prg_processing_ends_no_success_info#:#Emlékeztető e-mail küldése a felhasználónak a sikertelen teljesítés kockázatáról a képzési program lejárta előtt x nappal.
+prg#:#msg_update_individual_plan#:#Az egyéni tervet sikeresen módosította(%)
+prg#:#msg_update_individual_plan_failed#:#Az egyéni terv módosítása sikertelen
+prg#:#msg_points_must_be_positive#:#Csak pozitív szám lehetséges.
+prg#:#msg_impossible_target_status#:#Lehetetlen célállapot
+prg#:#confirm_to_remove_selected_assignments#:#Biztos, hogy eltávolítja a felhasználó hozzárendeléseit?
+prg#:#will_not_set_top_progress_to_irrelevant#:#A legfelső csomópont nem lehet irreleváns.
+prg#:#assignments#:#Hozzárendelések
+prg#:#mail_assignments#:#E-mail a hozzárendelt felhasználóknak
+prg#:#manage_assignments#:#Hozzárendelések kezelése
+prg#:#prg_manage_members_short#:#Hozzárendelések kezelése
+prg#:#will_not_modify_relevant_progress#:#már releváns
+prg#:#will_not_modify_validity_on_non_successful_progress#:#Csak teljesített esetén módosítható
+prg#:#status_unchanged#:#Az állapot nem változott
+content#:#cont_media#:#Képek/Média
+content#:#cont_sur_block_format#:#Körülölelő fejezet
+ui#:#datetime_required#:#Idő/Dátum kötelező
+ui#:#duration_end_must_not_be_earlier_than_start#:#A kezdő időpont nem lehet későbbi, mint a záró.
+forum#:#sticky_threads_sorting#:#Ragadós témák rendezése

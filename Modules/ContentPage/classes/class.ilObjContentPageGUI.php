@@ -48,6 +48,8 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     protected $infoScreenEnabled = false;
     /** @var PageMetricsService */
     private $pageMetricsService;
+    /** @var \ILIAS\DI\UIServices  */
+    private $uiServices;
 
     /** @var ilHelp */
     protected $help;
@@ -72,6 +74,7 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
         $this->navHistory = $this->dic['ilNavigationHistory'];
         $this->error = $this->dic['ilErr'];
         $this->help = $DIC['ilHelp'];
+        $this->uiServices = $DIC->ui();
 
         $this->lng->loadLanguageModule('copa');
         $this->lng->loadLanguageModule('style');
@@ -518,36 +521,25 @@ class ilObjContentPageGUI extends ilObject2GUI implements ilContentPageObjectCon
     {
         $this->checkPermission('read');
 
-        $this->setContentSubTabs();
+        $this->populateContentToolbar();
 
         $this->tabs->activateTab(self::UI_TAB_ID_CONTENT);
-        $this->tabs->activateSubTab(self::UI_TAB_ID_CONTENT);
 
         $this->tpl->setPermanentLink($this->object->getType(), $this->object->getRefId(), '', '_top');
 
         $this->tpl->setContent($this->getContent());
     }
 
-    /**
-     * Sub tab configuration of the content area
-     */
-    protected function setContentSubTabs() : void
+    protected function populateContentToolbar() : void
     {
-        if ($this->checkPermissionBool('write')) {
-            $this->tabs->addSubTab(
-                self::UI_TAB_ID_CONTENT,
-                $this->lng->txt('view'),
-                $this->ctrl->getLinkTarget($this, self::UI_CMD_VIEW)
-            );
-
-            if (!$this->user->isAnonymous()) {
-                $this->lng->loadLanguageModule('cntr');
-                $this->tabs->addSubTab(
-                    'page_editor',
+        if (!$this->user->isAnonymous() && $this->checkPermissionBool('write')) {
+            $this->lng->loadLanguageModule('cntr');
+            $this->toolbar->addComponent(
+                $this->uiServices->factory()->button()->primary(
                     $this->lng->txt('cntr_text_media_editor'),
-                    $this->ctrl->getLinkTargetByClass('ilContentPagePageGUI', 'edit')
-                );
-            }
+                    $this->ctrl->getLinkTargetByClass(ilContentPagePageGUI::class, 'edit')
+                )
+            );
         }
     }
 

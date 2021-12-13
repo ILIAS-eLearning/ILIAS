@@ -2058,7 +2058,7 @@ class ilObjGroupGUI extends ilContainerGUI
         include_once('./Modules/Group/classes/class.ilGroupParticipants.php');
         if (ilGroupParticipants::_isParticipant($this->ref_id, $ilUser->getId())) {
             include_once "Services/Membership/classes/class.ilMembershipNotifications.php";
-            if (ilMembershipNotifications::isActive()) {
+            if (ilMembershipNotifications::isActiveForRefId($this->ref_id)) {
                 $noti = new ilMembershipNotifications($this->ref_id);
                 if (!$noti->isCurrentUserActive()) {
                     $lg->addHeaderIcon(

@@ -50,9 +50,37 @@ class ilMembershipNotifications
         global $DIC;
 
         $ilSetting = $DIC['ilSetting'];
-                    
-        return ($ilSetting->get("block_activated_news") &&
-            $ilSetting->get("crsgrp_ntf"));
+
+        if (!$ilSetting->get("block_activated_news") || !$ilSetting->get("crsgrp_ntf")) {
+            return false;
+        }
+        return true;
+    }
+
+    public static function isActiveForRefId(int $ref_id)
+    {
+        if (!self::isActive()) {
+            return false;
+        }
+        // see #31471, #30687, and ilNewsItem::getNewsForRefId
+        $obj_id = ilObject::_lookupObjId($ref_id);
+        if (!ilContainer::_lookupContainerSetting(
+                $obj_id,
+                'cont_use_news',
+                true
+            ) || (
+                !ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    'cont_show_news',
+                    true
+                ) && !ilContainer::_lookupContainerSetting(
+                    $obj_id,
+                    'news_timeline'
+                )
+            )) {
+            return false;
+        }
+        return true;
     }
     
     /**

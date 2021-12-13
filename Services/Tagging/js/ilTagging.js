@@ -169,6 +169,7 @@ ilTagging =
 			{				
 				// default action: replace html
 				$("#il_tags_modal .modal-body").html(o.responseText);
+				$("#il_tags_modal .modal-header button").focus();
 				//ilTagging.insertPanelHTML(o.responseText);
 				if (typeof ilTagging.update_code != "undefined" &&
 					ilTagging.update_code != null && ilTagging.update_code != "")

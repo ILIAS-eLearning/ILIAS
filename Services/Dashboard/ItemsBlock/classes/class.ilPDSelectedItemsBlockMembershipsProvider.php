@@ -23,6 +23,9 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
      */
     protected $access;
 
+    /** @var ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository */
+    private $repository;
+
     /**
      * ilPDSelectedItemsBlockSelectedItemsProvider constructor.
      * @param ilObjUser $actor
@@ -34,68 +37,59 @@ class ilPDSelectedItemsBlockMembershipsProvider implements ilPDSelectedItemsBloc
         $this->actor = $actor;
         $this->tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
+        $this->repository = new ilPDSelectedItemsBlockMembershipsObjectDatabaseRepository(
+            $DIC->database(),
+            RECOVERY_FOLDER_ID
+        );
     }
 
     /**
      * Gets all objects the current user is member of
-     * @param array $types
+     * @param string[] $objTypes
      * @return array array of objects
      */
-    protected function getObjectsByMembership($types = array())
+    protected function getObjectsByMembership(array $objTypes = []) : array
     {
-        $items = array();
-
-        if (is_array($types) && count($types)) {
-            foreach ($types as $type) {
-                switch ($type) {
-                    case 'grp':
-                        $items = array_merge(ilParticipants::_getMembershipByType($this->actor->getId(), 'grp'), $items);
-                        break;
-                    case 'crs':
-                        $items = array_merge(ilParticipants::_getMembershipByType($this->actor->getId(), 'crs'), $items);
-                        break;
-                    default:
-                        break;
-                }
-            }
-        } else {
-            $crs_mbs = ilParticipants::_getMembershipByType($this->actor->getId(), 'crs');
-            $grp_mbs = ilParticipants::_getMembershipByType($this->actor->getId(), 'grp');
-            $items = array_merge($crs_mbs, $grp_mbs);
+        if (!is_array($objTypes) || $objTypes === []) {
+            $objTypes = $this->repository->getValidObjectTypes();
         }
 
-        $references = array();
+        $references = [];
+        foreach ($this->repository->getForUser($this->actor, $objTypes, $this->actor->getLanguage()) as $item) {
+            $refId = $item->getRefId();
+            $objId = $item->getObjId();
+            $parentRefId = $item->getParentRefId();
+            $title = $item->getTitle();
+            $parentTreeLftValue = $item->getParentLftTree();
+            $parentTreeLftValue = sprintf("%010d", $parentTreeLftValue);
 
-        foreach ($items as $key => $obj_id) {
-            $item_references = ilObject::_getAllReferences($obj_id);
-            foreach ($item_references as $ref_id) {
-                if (!$this->access->checkAccess('read', '', $ref_id) &&
-                    !$this->access->checkAccess('visible', '', $ref_id)) {
-                    continue;
-                }
-                if ($this->tree->isInTree($ref_id)) {
-                    $object = ilObjectFactory::getInstanceByRefId($ref_id);
+            if (!$this->access->checkAccess('read', '', $refId) &&
+                !$this->access->checkAccess('visible', '', $refId)) {
+                continue;
+            }
 
-                    $parent_ref_id = $this->tree->getParentId($ref_id);
-                    $par_left = $this->tree->getLeftValue($parent_ref_id);
-                    $par_left = sprintf("%010d", $par_left);
-
-                    if ($parent_ref_id != RECOVERY_FOLDER_ID) {
-                        $references[$par_left . $object->getTitle() . $ref_id] = array(
-                            'ref_id' => $ref_id,
-                            'obj_id' => $obj_id,
-                            'type' => $object->getType(),
-                            'title' => $object->getTitle(),
-                            'description' => $object->getDescription(),
-                            'parent_ref' => $parent_ref_id,
-                            'start' => $object->getType() == 'grp' ? $object->getStart() : $object->getCourseStart(),
-                            'end' => $object->getType() == 'grp' ? $object->getEnd() : $object->getCourseEnd()
-                        );
-                    }
+            $periodStart = $periodEnd = null;
+            if ($item->getPeriodStart() !== null && $item->getPeriodEnd() !== null) {
+                if ($item->objectPeriodHasTime()) {
+                    $periodStart = new ilDateTime($item->getPeriodStart()->getTimestamp(), IL_CAL_UNIX);
+                    $periodEnd = new ilDateTime($item->getPeriodEnd()->getTimestamp(), IL_CAL_UNIX);
+                } else {
+                    $periodStart = new ilDate($item->getPeriodStart()->format('Y-m-d'), IL_CAL_DATE);
+                    $periodEnd = new ilDate($item->getPeriodEnd()->format('Y-m-d'), IL_CAL_DATE);
                 }
             }
-        }
 
+            $references[$parentTreeLftValue . $title . $refId] = [
+                'ref_id' => $refId,
+                'obj_id' => $objId,
+                'type' => $item->getType(),
+                'title' => $title,
+                'description' => $item->getDescription(),
+                'parent_ref' => $parentRefId,
+                'start' => $periodStart,
+                'end' => $periodEnd
+            ];
+        }
         ksort($references);
 
         return $references;

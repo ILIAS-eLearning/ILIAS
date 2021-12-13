@@ -92,6 +92,7 @@ class ilPersonalWorkspaceGUI
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
         $ilHelp = $DIC["ilHelp"];
+        $this->settings = $DIC->settings();
 
         $lng->loadLanguageModule("wsp");
 
@@ -115,6 +116,10 @@ class ilPersonalWorkspaceGUI
         $objDefinition = $this->obj_definition;
         $tpl = $this->tpl;
         $ilMainMenu = $this->main_menu;
+
+        if ($this->settings->get("disable_personal_workspace")) {
+            throw new ilException($this->lng->txt("no_permission"));
+        }
 
         $ilCtrl->setReturn($this, "render");
         $cmd = $ilCtrl->getCmd();

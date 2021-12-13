@@ -3144,7 +3144,7 @@
 		<xsl:call-template name="EditLabel"><xsl:with-param name="text"><xsl:value-of select="//LVs/LV[@name='pc_sec']/@value"/> <xsl:if test="@Characteristic"> (<xsl:value-of select="@Characteristic"/>)</xsl:if></xsl:with-param></xsl:call-template>
 		<xsl:if test="($mode = 'edit') or ((not(@ActiveFrom) or (@ActiveFrom &lt; $current_ts)) and (not(@ActiveTo) or (@ActiveTo &gt; $current_ts)))">
 			<xsl:if test="@PermissionRefId">
-				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>}}}}}
+				{{{{{Section;Access;PermissionRefId;<xsl:value-of select="@PermissionRefId"/>;Permission;<xsl:value-of select="@Permission"/>;<xsl:number count="Section" level="any" />}}}}}
 			</xsl:if>
 			<xsl:if test="(./ExtLink or ./IntLink) and not($mode = 'edit')">
 				<a style="display:block;">
@@ -3171,7 +3171,7 @@
 				</div>
 			</xsl:if>
 			<xsl:if test="@PermissionRefId">
-				{{{{{Section;Access}}}}}
+				{{{{{Section;AccessEnd;<xsl:number count="Section" level="any" />}}}}}
 			</xsl:if>
 		</xsl:if>
 	</xsl:template>
