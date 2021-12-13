@@ -11,7 +11,8 @@ import de.ilias.services.settings.LocalSettings;
 import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -19,7 +20,7 @@ import org.apache.log4j.Logger;
  */
 public class MailAttachmentPathCreator implements PathCreator {
 
-	public static Logger logger = Logger.getLogger(MailAttachmentPathCreator.class);
+	public static Logger logger = LogManager.getLogger(MailAttachmentPathCreator.class);
 
 	
 	public File buildFile(CommandQueueElement el, ResultSet res) throws PathCreatorException {

@@ -26,11 +26,29 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import org.apache.avalon.framework.configuration.AbstractConfiguration;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.RollingFileAppender;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Filter;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.ConsoleAppender;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.appender.RollingFileAppender;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.core.config.builder.api.AppenderComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilder;
+import org.apache.logging.log4j.core.config.builder.api.ConfigurationBuilderFactory;
+import org.apache.logging.log4j.core.config.builder.api.FilterComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.LayoutComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.LoggerComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.api.RootLoggerComponentBuilder;
+import org.apache.logging.log4j.core.config.builder.impl.BuiltConfiguration;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 /**
  * Stores general server settings like rpc host and port, global log file and
@@ -41,7 +59,7 @@ import org.apache.log4j.RollingFileAppender;
  */
 public class ServerSettings {
 
-	private static Logger logger = Logger.getLogger(ServerSettings.class);
+	private static Logger logger;
 	private static ServerSettings instance = null;
 
 	public static final long DEFAULT_MAX_FILE_SIZE = 500 * 1024 * 1024;
@@ -110,9 +128,7 @@ public class ServerSettings {
 		builder.append("http://");
 		builder.append(getHostString());
 		builder.append(":" + getPort());
-		builder.append("/xmlrpc");
-		
-		logger.info("Using RPC Url: " + builder);
+		builder.append("/xmlrpc");		
 		return builder.toString();
 	}
 
@@ -257,30 +273,58 @@ public class ServerSettings {
 	 * @throws ConfigurationException 
 	 * 
 	 */
-	public void initLogger() throws ConfigurationException {
-
-		Logger logger = Logger.getRootLogger();
-        logger.setLevel(Level.INFO);
-
-        try {
-            RollingFileAppender file_appender = new RollingFileAppender(
-                    new PatternLayout("%d{ISO8601} %-5p %t (%F:%L) - %m%n"),
-                    this.logFile.getAbsolutePath());
-            
-            // TODO: increase max file size
-            file_appender.setMaxFileSize("100MB");
-            logger.removeAllAppenders();
-            logger.addAppender(file_appender);
-            logger.setLevel(this.getLogLevel());
-            
-            logger.info("Started loggin to: " + getLogFile().getAbsolutePath());
-            logger.info("Using log level " + getLogLevel());
-        } 
-        catch (IOException e) {
-        	logger.fatal("Error appending log file.");
-            throw new ConfigurationException(e);
-        }
-
+	public void initLogManager() {
+		
+		
+		ConfigurationBuilder<BuiltConfiguration> builder;
+		builder = ConfigurationBuilderFactory.newConfigurationBuilder();
+		builder.setStatusLevel(this.getLogLevel());
+		
+		LayoutComponentBuilder layout = builder.newLayout("PatternLayout")
+			.addAttribute("pattern", "%d{ISO8601} %-5p %t (%F:%L) - %m%n");
+		
+		ComponentBuilder component = builder.newComponent("Policies")
+			.addComponent(
+				builder.newComponent("CronTriggeringPolicy")
+					.addAttribute("schedule", "0 0 0 * * ?")
+			)
+			.addComponent(
+				builder.newComponent("SizeBasedTriggeringPolicy")
+					.addAttribute("size", "100M"
+			)
+		);
+		
+		// Turn console off FATAL
+		AppenderComponentBuilder consoleAppender = builder.newAppender("console", "Console");
+		FilterComponentBuilder treshold = builder.newFilter(
+			"ThresholdFilter",
+			Filter.Result.ACCEPT,
+			Filter.Result.DENY
+		)
+			.addAttribute("level", Level.FATAL);
+		consoleAppender.add(treshold);
+		builder.add(consoleAppender);
+		
+		AppenderComponentBuilder rollingAppender = builder.newAppender("rolling", "RollingFile")
+			.addAttribute("fileName", this.getLogFile().getAbsolutePath())
+			.addAttribute("filePattern", this.getLogFile().getName() + ".%d")
+			.add(layout)
+			.addComponent(component);
+		
+		builder.add(rollingAppender);
+		builder.add(builder.newLogger("de.ilias", Level.INFO)
+			.add(builder.newAppenderRef("rolling"))
+			.add(builder.newAppenderRef("console"))
+			.addAttribute("additivity", false)
+		);
+		builder.add(builder.newRootLogger(Level.ERROR)
+			.add(builder.newAppenderRef("rolling"))
+			.add(builder.newAppenderRef("console"))
+		);
+		Configurator.initialize(builder.build());
+		
+		ServerSettings.logger = LogManager.getLogger(ServerSettings.class);
+					
 	}
 
 	/**
