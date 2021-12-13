@@ -153,13 +153,6 @@ class ilSurveyEditorGUI
         if ($a_cmd == "questions" && $_REQUEST["pgov"]) {
             $a_cmd = "page";
         }
-        
-        $hidden_tabs = array();
-        $template = $this->object->getTemplate();
-        if ($template) {
-            $template = new ilSettingsTemplate($template);
-            $hidden_tabs = $template->getHiddenTabs();
-        }
 
         $ilTabs->addSubTab(
             "page",
@@ -167,15 +160,13 @@ class ilSurveyEditorGUI
             $this->ctrl->getLinkTargetByClass("ilsurveypagegui", "renderPage")
         );
 
-        if (!in_array("survey_question_editor", $hidden_tabs)) {
-            $this->ctrl->setParameter($this, "pgov", "");
-            $ilTabs->addSubTab(
-                "questions",
-                $this->lng->txt("survey_question_editor"),
-                $this->ctrl->getLinkTarget($this, "questions")
-            );
-            $this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
-        }
+        $this->ctrl->setParameter($this, "pgov", "");
+        $ilTabs->addSubTab(
+            "questions",
+            $this->lng->txt("survey_question_editor"),
+            $this->ctrl->getLinkTarget($this, "questions")
+        );
+        $this->ctrl->setParameter($this, "pgov", $_REQUEST["pgov"]);
 
         $ilTabs->addSubTab(
             "print",
@@ -242,7 +233,7 @@ class ilSurveyEditorGUI
             $button->setCommand("createQuestion");
             $ilToolbar->addStickyItem($button);
             
-            if ($this->object->isPoolActive()) {
+            if ($this->object->getPoolUsage()) {
                 $ilToolbar->addSeparator();
 
                 $cmd = ($ilUser->getPref('svy_insert_type') == 1 ||
@@ -598,7 +589,7 @@ class ilSurveyEditorGUI
     
     public function createQuestionObject(ilPropertyFormGUI $a_form = null)
     {
-        if (!$this->object->isPoolActive()) {
+        if (!$this->object->getPoolUsage()) {
             $_POST["usage"] = 1;
             $_GET["sel_question_types"] = $_POST["sel_question_types"];
             return $this->executeCreateQuestionObject();

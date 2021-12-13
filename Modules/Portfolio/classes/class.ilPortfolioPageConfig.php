@@ -44,6 +44,7 @@ class ilPortfolioPageConfig extends ilPageConfig
         $this->setIntLinkHelpDefaultType("PortfolioPage");
         $this->setEnablePCType("Profile", true);
         $this->setEditLockSupport(false);
+        $this->setSectionProtection(ilPageConfig::SEC_PROTECT_PROTECTED);
 
         $validator = new ilCertificateActiveValidator();
         if (true === $validator->validate()) {

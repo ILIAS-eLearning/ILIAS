@@ -369,6 +369,7 @@ class ilLPTableBaseGUI extends ilTable2GUI
 
         $lng = $DIC['lng'];
         $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
 
         $options = array();
 
@@ -407,9 +408,9 @@ class ilLPTableBaseGUI extends ilTable2GUI
         
         // repository plugins (currently only active)
         include_once 'Services/Repository/classes/class.ilRepositoryObjectPluginSlot.php';
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Repository", "robj");
-        foreach ($pl_names as $pl) {
-            $pl_id = $ilPluginAdmin->getId(IL_COMP_SERVICE, "Repository", "robj", $pl);
+        $plugins = $component_repository->getPluginSlotById("robj")->getActivePlugins();
+        foreach ($plugins as $pl) {
+            $pl_id = $pl->getId();
             if (ilRepositoryObjectPluginSlot::isTypePluginWithLP($pl_id)) {
                 $options[$pl_id] = ilObjectPlugin::lookupTxtById($pl_id, "objs_" . $pl_id);
             }

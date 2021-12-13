@@ -374,6 +374,16 @@ class Container extends \Pimple\Container
         return new \ILIAS\Wiki\Service($this);
     }
 
+    public function mediaObjects() : \ILIAS\MediaObjects\Service
+    {
+        return new \ILIAS\MediaObjects\Service($this);
+    }
+
+    public function survey() : \ILIAS\Survey\Service
+    {
+        return new \ILIAS\Survey\Service();
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

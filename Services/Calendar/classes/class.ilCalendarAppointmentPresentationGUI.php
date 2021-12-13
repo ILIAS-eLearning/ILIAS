@@ -202,20 +202,8 @@ class ilCalendarAppointmentPresentationGUI
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $res = array();
-
-        foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "Calendar", "capm") as $plugin_name) {
-            $res[] = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "Calendar",
-                "capm",
-                $plugin_name
-            );
-        }
-
-        return $res;
+        $component_factory = $DIC['component.factory'];
+        return $component_factory->getActivePluginsInSlot("capm");
     }
 
     protected function getContentByPlugins($a_content, $a_toolbar)

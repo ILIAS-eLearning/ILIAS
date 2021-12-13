@@ -15,6 +15,11 @@
 class ilSurveyEvaluationGUI
 {
     /**
+     * @var \ILIAS\Survey\Evaluation\EvaluationManager
+     */
+    protected $evaluation_manager;
+
+    /**
      * @var ilTabsGUI
      */
     protected $tabs;
@@ -54,6 +59,16 @@ class ilSurveyEvaluationGUI
     public $tpl;
     public $ctrl;
     public $appr_id = null;
+
+    /**
+     * @var \ILIAS\Survey\Mode\UIModifier
+     */
+    protected $ui_modifier = null;
+
+    /**
+     * @var \ILIAS\Survey\Evaluation\EvaluationGUIRequest
+     */
+    protected $request;
     
     /**
      * ilSurveyEvaluationGUI constructor
@@ -65,6 +80,7 @@ class ilSurveyEvaluationGUI
      */
     public function __construct($a_object)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->tabs = $DIC->tabs();
@@ -85,9 +101,28 @@ class ilSurveyEvaluationGUI
         $this->log = ilLoggerFactory::getLogger("svy");
         $this->array_panels = array();
 
-        if ($this->object->get360Mode() || $this->object->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
-            $this->determineAppraiseeId();
-        }
+        $this->ctrl->saveParameter($this, ["appr_id", "rater_id"]);
+        $this->evaluation_manager = $DIC
+            ->survey()
+            ->internal()
+            ->domain()
+            ->evaluation(
+                $this->object,
+                $DIC->user()->getId(),
+                (int) $_REQUEST["appr_id"],
+                (string) $_REQUEST["rater_id"]
+            );
+
+        $this->setAppraiseeId(
+            $this->evaluation_manager->getCurrentAppraisee()
+        );
+
+        $this->ui_modifier = $DIC->survey()
+             ->internal()
+             ->ui()
+             ->modeUIModifier($this->object->getMode());
+
+        $this->request = $DIC->survey()->internal()->ui()->evaluation($this->object)->request();
     }
     
     /**
@@ -141,11 +176,13 @@ class ilSurveyEvaluationGUI
             );
         }
 
-        $ilTabs->addSubTabTarget(
-            "svy_eval_cumulated",
-            $this->ctrl->getLinkTarget($this, "evaluation"),
-            array("evaluation", "checkEvaluationAccess")
-        );
+        if ($this->object->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
+            $ilTabs->addSubTabTarget(
+                "svy_eval_cumulated",
+                $this->ctrl->getLinkTarget($this, "evaluation"),
+                array("evaluation", "checkEvaluationAccess")
+            );
+        }
 
         $ilTabs->addSubTabTarget(
             "svy_eval_detail",
@@ -191,51 +228,7 @@ class ilSurveyEvaluationGUI
         return $this->appr_id;
     }
     
-    /**
-     * Determine appraisee id
-     */
-    public function determineAppraiseeId()
-    {
-        $ilUser = $this->user;
-        $rbacsystem = $this->rbacsystem;
-        
-        $appr_id = "";
-        
-        // always start with current user
-        if ($_REQUEST["appr_id"] == "") {
-            $req_appr_id = $ilUser->getId();
-        } else {
-            $req_appr_id = (int) $_REQUEST["appr_id"];
-        }
-        
-        // write access? allow selection
-        if ($req_appr_id > 0 && $this->object->get360Mode()) {
-            $all_appr = ($this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL);
-            
-            $valid = array();
-            foreach ($this->object->getAppraiseesData() as $item) {
-                if ($item["closed"] &&
-                    ($item["user_id"] == $ilUser->getId() ||
-                    $rbacsystem->checkAccess("write", $this->object->getRefId()) ||
-                    $all_appr)) {
-                    $valid[] = $item["user_id"];
-                }
-            }
-            if (in_array($req_appr_id, $valid)) {
-                $appr_id = $req_appr_id;
-            } else {
-                // current selection / user is not valid, use 1st valid instead
-                $appr_id = array_shift($valid);
-            }
-        } else { // SVY SELF EVALUATION MODE
-            $appr_id = $req_appr_id;
-        }
-        
-        $this->ctrl->setParameter($this, "appr_id", $appr_id);
-        $this->setAppraiseeId($appr_id);
-    }
-    
-    
+
     /**
     * Show the detailed evaluation
     *
@@ -731,7 +724,17 @@ class ilSurveyEvaluationGUI
         
         return $modal->getHTML();
     }
-    
+
+    protected function openEvaluation()
+    {
+        $skmg_set = new ilSkillManagementSettings();
+        if ($this->object->getSkillService() && $skmg_set->isActivated()) {
+            $this->competenceEval();
+        } else {
+            $this->evaluation();
+        }
+    }
+
     public function evaluation($details = 0, $pdf = false, $return_pdf = false)
     {
         $ilToolbar = $this->toolbar;
@@ -754,8 +757,11 @@ class ilSurveyEvaluationGUI
                 
             switch ($this->object->getEvaluationAccess()) {
                 case ilObjSurvey::EVALUATION_ACCESS_OFF:
-                    ilUtil::sendFailure($this->lng->txt("permission_denied"));
-                    return;
+                    if ($this->object->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
+                        ilUtil::sendFailure($this->lng->txt("permission_denied"));
+                        return;
+                    }
+                    break;
 
                 case ilObjSurvey::EVALUATION_ACCESS_ALL:
                 case ilObjSurvey::EVALUATION_ACCESS_PARTICIPANTS:
@@ -768,75 +774,48 @@ class ilSurveyEvaluationGUI
         }
 
         $this->log->debug("check access ok");
-
         // setup toolbar
 
+        $appr_id = 0;
         if (!$pdf) {
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
             if ($this->object->get360Mode()) {
-                $appr_id = $this->getAppraiseeId();
-                $this->addApprSelectionToToolbar();
+                $appr_id = (int) $this->getAppraiseeId();
+//                $this->addApprSelectionToToolbar();
             }
         }
         $results = array();
 
         $eval_tpl = new ilTemplate("tpl.il_svy_svy_evaluation.html", true, true, "Modules/Survey");
 
+
+        if ($details) {
+            $this->ui_modifier->setResultsDetailToolbar(
+                $this->object,
+                $ilToolbar,
+                $this->user->getId()
+            );
+        } else {
+            $this->ui_modifier->setResultsOverviewToolbar(
+                $this->object,
+                $ilToolbar,
+                $this->user->getId()
+            );
+        }
+
         if (!$this->object->get360Mode() || $appr_id) {
             if ($details) {
-                $captions = new ilSelectInputGUI($this->lng->txt("svy_eval_captions"), "cp");
-                $captions->setOptions(array(
-                    "ap" => $this->lng->txt("svy_eval_captions_abs_perc"),
-                    "a" => $this->lng->txt("svy_eval_captions_abs"),
-                    "p" => $this->lng->txt("svy_eval_captions_perc")
-                    ));
-                $captions->setValue($_POST["cp"]);
-                $ilToolbar->addInputItem($captions, true);
-                
-                $view = new ilSelectInputGUI($this->lng->txt("svy_eval_view"), "vw");
-                $view->setOptions(array(
-                    "tc" => $this->lng->txt("svy_eval_view_tables_charts"),
-                    "t" => $this->lng->txt("svy_eval_view_tables"),
-                    "c" => $this->lng->txt("svy_eval_view_charts")
-                    ));
-                $view->setValue($_POST["vw"]);
-                $ilToolbar->addInputItem($view, true);
-
-                $button = ilSubmitButton::getInstance();
-                $button->setCaption("ok");
-                $button->setCommand("evaluationdetails");
-                $button->setOmitPreventDoubleSubmission(true);
-                $ilToolbar->addButtonInstance($button);
-
-                $ilToolbar->addSeparator();
-
                 //templates: results, table of contents
-                $dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey");
-                $toc_tpl = new ilTemplate("tpl.svy_results_table_contents.html", true, true, "Modules/Survey");
+                $dtmpl = new ilTemplate("tpl.il_svy_svy_results_details.html", true, true, "Modules/Survey/Evaluation");
+                $toc_tpl = new ilTemplate("tpl.svy_results_table_contents.html", true, true, "Modules/Survey/Evaluation");
                 $this->lng->loadLanguageModule("content");
                 $toc_tpl->setVariable("TITLE_TOC", $this->lng->txt('cont_toc'));
             }
 
             if (!$pdf) {
-                $modal_id = "svy_ev_exp";
-                $modal = $this->buildExportModal($modal_id, $details
-                    ? 'exportDetailData'
-                    : 'exportData');
-
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("export");
-                $button->setOnClick('$(\'#' . $modal_id . '\').modal(\'show\')');
-                $ilToolbar->addButtonInstance($button);
-
-                $ilToolbar->addSeparator();
-
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("print");
-                $button->setOnClick("if(il.Accordion) { il.Accordion.preparePrint(); } window.print(); return false;");
-                $button->setOmitPreventDoubleSubmission(true);
-                $ilToolbar->addButtonInstance($button);
 
                 // patch BGHW jluetzen-ilias
+                /*
                 $this->ctrl->setParameter($this, "cp", $_POST["cp"]);
                 $this->ctrl->setParameter($this, "vw", $_POST["vw"]);
                 $url = $this->ctrl->getLinkTarget($this, $details
@@ -848,7 +827,7 @@ class ilSurveyEvaluationGUI
                 $button->setCaption("svy_export_pdf");
                 $button->setUrl($url);
                 $button->setOmitPreventDoubleSubmission(true);
-                $ilToolbar->addButtonInstance($button);
+                $ilToolbar->addButtonInstance($button);*/
             }
 
             $finished_ids = null;
@@ -878,13 +857,21 @@ class ilSurveyEvaluationGUI
             // parse answer data in evaluation results
             $list = new ilNestedList();
 
+            $panels = [];
             foreach ($this->object->getSurveyQuestions() as $qdata) {
                 $q_eval = SurveyQuestion::_instanciateQuestionEvaluation($qdata["question_id"], $finished_ids);
                 $q_res = $q_eval->getResults();
                 $results[] = $q_res;
-                        
+
                 if ($details) {
-                    $this->renderDetails($details_view, $details_figure, $qdata, $q_eval, $q_res, $pdf);
+                    $panels = array_merge(
+                        $panels,
+                        $this->ui_modifier->getDetailPanels(
+                            $this->object->getSurveyParticipants(),
+                            $this->request,
+                            $q_eval
+                        )
+                    );
 
                     // TABLE OF CONTENTS
                     if ($qdata["questionblock_id"] &&
@@ -914,7 +901,7 @@ class ilSurveyEvaluationGUI
 
                 //REPORT
                 $report_title = "";
-                $panel_report = $ui_factory->panel()->report($report_title, $this->array_panels);
+                $panel_report = $ui_factory->panel()->report($report_title, $panels);
                 $render_report = $ui_renderer->render($panel_report);
                 $dtmpl->setVariable("PANEL_REPORT", $render_report);
 
@@ -923,14 +910,14 @@ class ilSurveyEvaluationGUI
             }
         }
 
-        $eval_tpl->setVariable('MODAL', $modal);
+        //$eval_tpl->setVariable('MODAL', $modal);
         if (!$details) {
             $table_gui = new ilSurveyResultsCumulatedTableGUI($this, $details ? 'evaluationdetails' : 'evaluation', $results);
             $eval_tpl->setVariable('CUMULATED', $table_gui->getHTML());
         }
-        unset($dtmpl);
-        unset($table_gui);
-        unset($modal);
+        //unset($dtmpl);
+        //unset($table_gui);
+        //unset($modal);
         
 
         //
@@ -964,6 +951,7 @@ class ilSurveyEvaluationGUI
 
         $this->tpl->setContent($eval_tpl->get());
 
+        /*
         if ($pdf) {
             $this->tpl->setTitle($this->object->getTitle());
             $this->tpl->setTitleIcon(
@@ -980,251 +968,53 @@ class ilSurveyEvaluationGUI
             } else {
                 $this->generateAndSendPDF($html);
             }
-        }
+        }*/
 
         // $this->tpl->addCss("./Modules/Survey/templates/default/survey_print.css", "print");
     }
     
     /**
-     * Render details
-     *
-     * @param string $a_details_parts
-     * @param string $a_details_figure
-     * @param___     ilTemplate $a_tpl
-     * @param array $a_qdata
-     * @param SurveyQuestionEvaluation $a_eval
-     * @param ilSurveyEvaluationResults|array $a_results
-     */
-    //protected function renderDetails($a_details_parts, $a_details_figure, ilTemplate $a_tpl, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results)
-    protected function renderDetails($a_details_parts, $a_details_figure, array $a_qdata, SurveyQuestionEvaluation $a_eval, $a_results, $pdf)
-    {
-        $ui_factory = $this->ui->factory();
-        $a_tpl = new ilTemplate("tpl.svy_results_details_panel.html", true, true, "Modules/Survey");
-
-        $question_res = $a_results;
-        $matrix = false;
-        if (is_array($question_res)) {
-            $question_res = $question_res[0][1];
-            $matrix = true;
-        }
-
-        // see #28507 (matrix question without a row)
-        if (!is_object($question_res)) {
-            return;
-        }
-
-        $question = $question_res->getQuestion();
-
-        // question "overview"
-                
-        // :TODO: present subtypes (hrz/vrt, mc/sc mtx)?
-        
-        $a_tpl->setVariable("QTYPE", SurveyQuestion::_getQuestionTypeName($question->getQuestionType()));
-        
-        $kv = array();
-        $kv["users_answered"] = $question_res->getUsersAnswered();
-        $kv["users_skipped"] = $question_res->getUsersSkipped();
-        
-        if (!$matrix) {
-            if ($question_res->getModeValue() !== null) {
-                $kv["mode"] = wordwrap($question_res->getModeValueAsText(), 50, "<br />");
-                $kv["mode_nr_of_selections"] = $question_res->getModeNrOfSelections();
-            }
-            if ($question_res->getMedian() !== null) {
-                $kv["median"] = $question_res->getMedianAsText();
-            }
-            if ($question_res->getMean() !== null) {
-                $kv["arithmetic_mean"] = $question_res->getMean();
-            }
-        }
-
-        $svy_type_title = SurveyQuestion::_getQuestionTypeName($question->getQuestionType());
-        $qst_title = $question->getTitle();
-        $svy_text = nl2br($question->getQuestiontext());
-        $card_table_tpl = new ilTemplate("tpl.svy_results_details_card.html", true, true, "Modules/Survey");
-        foreach ($kv as $key => $value) {
-            $card_table_tpl->setCurrentBlock("question_statistics_card");
-            $card_table_tpl->setVariable("QUESTION_STATISTIC_KEY", $this->lng->txt($key));
-            $card_table_tpl->setVariable("QUESTION_STATISTIC_VALUE", $value);
-            $card_table_tpl->parseCurrentBlock();
-        }
-
-        // patch BGHW: added anchor
-        $anchor_id = "svyrdq" . $question->getId();
-        $title = "<span id='$anchor_id'>$qst_title</span>";
-        $panel_qst_card = $ui_factory->panel()->sub($title, $ui_factory->legacy($svy_text))
-            ->withFurtherInformation($ui_factory->card()->standard($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
-
-        //commit 715c28815 from phantom patch
-        //$anchor = "<a name='".$anchor_id."'></a>";
-        //$panel_qst_card = $ui_factory->panel()->sub($anchor.$qst_title, $ui_factory->legacy($svy_text))
-        //->withFurtherInformation($ui_factory->card($svy_type_title)->withSections(array($ui_factory->legacy($card_table_tpl->get()))));
-        
-        array_push($this->array_panels, $panel_qst_card);
-
-        // grid
-        if ($a_details_parts == "t" ||
-            $a_details_parts == "tc") {
-            $grid = $a_eval->getGrid(
-                $a_results,
-                ($a_details_figure == "ap" || $a_details_figure == "a"),
-                ($a_details_figure == "ap" || $a_details_figure == "p")
-            );
-            if ($grid) {
-                foreach ($grid["cols"] as $col) {
-                    $a_tpl->setCurrentBlock("grid_col_header_bl");
-                    $a_tpl->setVariable("COL_HEADER", $col);
-                    $a_tpl->parseCurrentBlock();
-                }
-                foreach ($grid["rows"] as $cols) {
-                    foreach ($cols as $idx => $col) {
-                        if ($idx > 0) {
-                            $a_tpl->touchBlock("grid_col_nowrap_bl");
-                        }
-                        
-                        $a_tpl->setCurrentBlock("grid_col_bl");
-                        $a_tpl->setVariable("COL_CAPTION", trim($col));
-                        $a_tpl->parseCurrentBlock();
-                    }
-
-                    $a_tpl->touchBlock("grid_row_bl");
-                }
-            }
-        }
-        
-        // text answers
-        $texts = $a_eval->getTextAnswers($a_results);
-        if ($texts) {
-            if (array_key_exists("", $texts)) {
-                $a_tpl->setVariable("TEXT_HEADING", $this->lng->txt("given_answers"));
-                foreach ($texts[""] as $item) {
-                    $a_tpl->setCurrentBlock("text_direct_item_bl");
-                    $a_tpl->setVariable("TEXT_DIRECT", nl2br(htmlentities($item)));
-                    $a_tpl->parseCurrentBlock();
-                }
-            } else {
-                $acc = new ilAccordionGUI();
-                // patch BGHW: fixed accordion in pdf output
-                if ($_GET["pdf"] == 1) {
-                    $acc->setBehaviour(ilAccordionGUI::FORCE_ALL_OPEN);
-                }
-                $acc->setId("svyevaltxt" . $question->getId());
-
-                $a_tpl->setVariable("TEXT_HEADING", $this->lng->txt("freetext_answers"));
-
-                foreach ($texts as $var => $items) {
-                    $list = array("<ul class=\"small\">");
-                    foreach ($items as $item) {
-                        $list[] = "<li>" . nl2br(htmlentities($item)) . "</li>";
-                    }
-                    $list[] = "</ul>";
-                    $acc->addItem($var, implode("\n", $list));
-                }
-
-                $a_tpl->setVariable("TEXT_ACC", $acc->getHTML());
-            }
-        }
-                
-        // chart
-        if ($a_details_parts == "c" ||
-            $a_details_parts == "tc") {
-            $chart = $a_eval->getChart($a_results);
-            if ($chart) {
-                if (is_array($chart)) {
-                    // legend
-                    if (is_array($chart[1])) {
-                        foreach ($chart[1] as $legend_item) {
-                            $r = hexdec(substr($legend_item[1], 1, 2));
-                            $g = hexdec(substr($legend_item[1], 3, 2));
-                            $b = hexdec(substr($legend_item[1], 5, 2));
-                            
-                            $a_tpl->setCurrentBlock("legend_bl");
-                            $a_tpl->setVariable("LEGEND_CAPTION", $legend_item[0]);
-                            $a_tpl->setVariable("LEGEND_COLOR", $legend_item[1]);
-                            $a_tpl->setVariable("LEGEND_COLOR_SVG", $r . "," . $g . "," . $b);
-                            $a_tpl->parseCurrentBlock();
-                        }
-                    }
-
-                    $chart = $chart[0];
-                }
-
-                // patch BGHW jluezen
-                if (!$pdf) {
-                    $this->ctrl->setParameter($this, "qid", $question->getId());
-                    $url = $this->ctrl->getLinkTarget($this, "downloadChart");
-                    $this->ctrl->setParameter($this, "qid", "");
-                }
-
-                $a_tpl->setVariable("CHART", $chart);
-                $a_tpl->setVariable("CHART_DL_URL", $url);
-                $a_tpl->setVariable("CHART_DL_TXT", $this->lng->txt("svy_chart_download"));
-            }
-        }
-
-        $panel = $ui_factory->panel()->sub("", $ui_factory->legacy($a_tpl->get()));
-        array_push($this->array_panels, $panel);
-    }
-    
-    /**
      * Add appraisee selection to toolbar
-     *
-     * @param
-     * @return
      */
     public function addApprSelectionToToolbar()
     {
+        return;
         $ilToolbar = $this->toolbar;
-        $rbacsystem = $this->rbacsystem;
 
-        $svy_mode = $this->object->getMode();
-        if ($svy_mode == ilObjSurvey::MODE_360 || $svy_mode == ilObjSurvey::MODE_SELF_EVAL) {
+        if ($this->evaluation_manager->isMultiParticipantsView()) {
             $appr_id = $this->getAppraiseeId();
-
             $options = array();
             if (!$appr_id) {
                 $options[""] = $this->lng->txt("please_select");
             }
 
-            $no_appr = true;
-            if ($this->object->get360Mode()) {
-                foreach ($this->object->getAppraiseesData() as $item) {
-                    if ($item["closed"]) {
-                        $options[$item["user_id"]] = $item["login"];
-                        $no_appr = false;
-                    }
-                }
-            } else { //self evaluation mode
-                foreach ($this->object->getSurveyParticipants() as $item) {
-                    $options[ilObjUser::_lookupId($item['login'])] = $item['login'];
-                    $no_appr = false;
-                }
+            foreach ($this->evaluation_manager->getSelectableAppraisees() as $user_id) {
+                $options[$user_id] = ilUserUtil::getNamePresentation(
+                    $user_id,
+                    false,
+                    false,
+                    "",
+                    true
+                );
             }
 
-            if (!$no_appr) {
-                if ($rbacsystem->checkAccess("write", $this->object->getRefId()) ||
-                    $this->object->get360Results() == ilObjSurvey::RESULTS_360_ALL ||
-                    $this->object->getSelfEvaluationResults() == ilObjSurvey::RESULTS_SELF_EVAL_ALL) {
-                    $appr = new ilSelectInputGUI($this->lng->txt("svy_participant"), "appr_id");
-                    $appr->setOptions($options);
-                    $appr->setValue($this->getAppraiseeId());
-                    $ilToolbar->addInputItem($appr, true);
+            $appr = new ilSelectInputGUI($this->lng->txt("svy_appraisee"), "appr_id");
+            $appr->setOptions($options);
+            $appr->setValue($this->getAppraiseeId());
+            $ilToolbar->addInputItem($appr, true);
                     
-                    $button = ilSubmitButton::getInstance();
-                    $button->setCaption("survey_360_select_appraisee");
-                    $button->setCommand($this->ctrl->getCmd());
-                    $ilToolbar->addButtonInstance($button);
+            $button = ilSubmitButton::getInstance();
+            $button->setCaption("survey_360_select_appraisee");
+            $button->setCommand($this->ctrl->getCmd());
+            $ilToolbar->addButtonInstance($button);
     
-                    if ($appr_id) {
-                        $ilToolbar->addSeparator();
-                    }
-                }
-            } else {
-                ilUtil::sendFailure($this->lng->txt("survey_360_no_closed_appraisees"));
+            if ($appr_id) {
+                $ilToolbar->addSeparator();
             }
         }
     }
-    
+
+
     /**
     * Processes an array as a CSV row and converts the array values to correct CSV
     * values. The "converted" array is returned
@@ -1436,7 +1226,7 @@ class ilSurveyEvaluationGUI
         
         if ($this->object->get360Mode()) {
             $appr_id = $this->getAppraiseeId();
-            $this->addApprSelectionToToolbar();
+//            $this->addApprSelectionToToolbar();
         }
 
         $tabledata = null;
@@ -1577,15 +1367,22 @@ class ilSurveyEvaluationGUI
         $ilTabs->activateTab("svy_results");
 
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "competenceEval"));
-        
-        if ($this->object->get360Mode() || $survey->getMode() == ilObjSurvey::MODE_SELF_EVAL) {
-            $appr_id = $this->getAppraiseeId();
-            $this->addApprSelectionToToolbar();
-        }
-        
+
+        $appr_id = $this->getAppraiseeId();
+
         if ($appr_id == 0) {
+            ilUtil::sendInfo($this->lng->txt("svy_no_appraisees_found"));
             return;
         }
+
+        $this->ui_modifier->setResultsCompetenceToolbar(
+            $this->object,
+            $ilToolbar,
+            $this->user->getId()
+        );
+
+//        $this->addApprSelectionToToolbar();
+//        $this->addRaterSelectionToToolbar();
         
         // evaluation modes
         $eval_modes = array();
@@ -1649,11 +1446,19 @@ class ilSurveyEvaluationGUI
         
         $ilToolbar->addFormButton($lng->txt("select"), "competenceEval");
 
+        $pskills_gui = new ilPersonalSkillsGUI();
+        $rater = $this->evaluation_manager->getCurrentRater();
+        if ($rater != "") {
+            if (substr($rater, 0, 1) == "u") {
+                $rater = substr($rater, 1);
+            }
+            $pskills_gui->setTriggerUserFilter([$rater]);
+        }
+
         if (substr($comp_eval_mode, 0, 4) == "gap_") {
             // gap analysis
             $profile_id = (int) substr($comp_eval_mode, 4);
             
-            $pskills_gui = new ilPersonalSkillsGUI();
             $pskills_gui->setProfileId($profile_id);
             $pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
             if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0) {
@@ -1668,9 +1473,9 @@ class ilSurveyEvaluationGUI
             
             $tpl->setContent($html);
         } else { // must be all survey competences
-            $pskills_gui = new ilPersonalSkillsGUI();
             #23743
-            if ($survey->getMode() != ilObjSurvey::MODE_SELF_EVAL) {
+            if ($survey->getMode() != ilObjSurvey::MODE_SELF_EVAL &&
+                $survey->getMode() != ilObjSurvey::MODE_IND_FEEDB) {
                 $pskills_gui->setGapAnalysisActualStatusModePerObject($survey->getId(), $lng->txt("skmg_eval_type_1"));
             }
             if ($survey->getFinishedIdForAppraiseeIdAndRaterId($appr_id, $appr_id) > 0) {
@@ -1748,7 +1553,7 @@ class ilSurveyEvaluationGUI
 
                 $chart = $q_eval->getChart($q_res);
                 if ($chart) {
-                    $dtmpl = new ilTemplate("tpl.il_svy_svy_results_details_single.html", true, true, "Modules/Survey");
+                    $dtmpl = new ilTemplate("tpl.il_svy_svy_results_details_single.html", true, true, "Modules/Survey/Evaluation");
 
                     if (is_array($chart)) {
                         // legend

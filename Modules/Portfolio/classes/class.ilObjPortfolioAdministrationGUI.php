@@ -7,7 +7,7 @@
  *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  *
- * @ilCtrl_Calls ilObjPortfolioAdministrationGUI: ilPermissionGUI
+ * @ilCtrl_Calls ilObjPortfolioAdministrationGUI: ilPermissionGUI, ilPortfolioRoleAssignmentGUI
  * @ilCtrl_IsCalledBy ilObjPortfolioAdministrationGUI: ilAdministrationGUI
  */
 class ilObjPortfolioAdministrationGUI extends ilObjectGUI
@@ -71,6 +71,12 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
                 $this->ctrl->forwardCommand($perm_gui);
                 break;
 
+            case 'ilportfolioroleassignmentgui':
+                $this->tabs_gui->activateTab('role_assignment');
+                $gui = new ilPortfolioRoleAssignmentGUI();
+                $this->ctrl->forwardCommand($gui);
+                break;
+
             default:
                 if (!$cmd || $cmd == 'view') {
                     $cmd = "editSettings";
@@ -99,6 +105,11 @@ class ilObjPortfolioAdministrationGUI extends ilObjectGUI
                 "settings",
                 $lng->txt("settings"),
                 $this->ctrl->getLinkTarget($this, "editSettings")
+            );
+            $tabs->addTab(
+                "role_assignment",
+                $lng->txt("prtf_role_assignment"),
+                $this->ctrl->getLinkTargetByClass("ilPortfolioRoleAssignmentGUI", "")
             );
             $tabs->addTab(
                 "authorship",

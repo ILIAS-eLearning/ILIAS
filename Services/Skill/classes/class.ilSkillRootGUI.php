@@ -42,7 +42,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $this->lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         
-        $ilCtrl->saveParameter($this, "obj_id");
+        $ilCtrl->saveParameter($this, "node_id");
         
         parent::__construct($a_node_id);
     }
@@ -92,7 +92,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $table = new ilSkillCatTableGUI(
             $this,
             "listTemplates",
-            $this->requested_obj_id,
+            $this->requested_node_id,
             ilSkillCatTableGUI::MODE_SCTP
         );
         
@@ -123,7 +123,7 @@ class ilSkillRootGUI extends ilSkillTreeNodeGUI
         $table = new ilSkillCatTableGUI(
             $this,
             "listSkills",
-            $this->requested_obj_id,
+            $this->requested_node_id,
             ilSkillCatTableGUI::MODE_SCAT
         );
         

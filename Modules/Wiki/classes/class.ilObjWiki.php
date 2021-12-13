@@ -771,6 +771,7 @@ class ilObjWiki extends ilObject implements ilAdvancedMetaDataSubItems
             
             // #15718
             ilAdvancedMDValues::_cloneValues(
+                0,
                 $this->getId(),
                 $this->getId(),
                 "wpg",

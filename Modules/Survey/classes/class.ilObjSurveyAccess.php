@@ -255,6 +255,23 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     public static function _hasEvaluationAccess($a_obj_id, $user_id)
     {
         $evaluation_access = ilObjSurveyAccess::_lookupEvaluationAccess($a_obj_id);
+        $svy_mode = self::_lookupMode($a_obj_id);
+
+        if ($svy_mode == ilObjSurvey::MODE_IND_FEEDB) {
+            $svy = new ilObjSurvey($a_obj_id, false);
+            $svy->read();
+            switch ($svy->get360Results()) {
+                case ilObjSurvey::RESULTS_360_NONE:
+                    return false;
+
+                case ilObjSurvey::RESULTS_360_OWN:
+                    return true;
+
+                case ilObjSurvey::RESULTS_360_ALL:
+                    return false;   // not applicable
+            }
+        }
+
         switch ($evaluation_access) {
             case 0:
                 // no evaluation access
@@ -269,7 +286,6 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
                 }
                 break;
             case 2:
-                $svy_mode = self::_lookupMode($a_obj_id);
                 switch ($svy_mode) {
                     case ilObjSurvey::MODE_360:
                         $svy = new ilObjSurvey($a_obj_id, false);
@@ -280,6 +296,21 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
 
                             case ilObjSurvey::RESULTS_360_OWN:
                                 return $svy->isAppraiseeClosed($user_id);
+
+                            case ilObjSurvey::RESULTS_360_ALL:
+                                return $svy->isAppraisee($user_id);
+                        }
+                        break;
+
+                    case ilObjSurvey::MODE_IND_FEEDB:
+                        $svy = new ilObjSurvey($a_obj_id, false);
+                        $svy->read();
+                        switch ($svy->get360Results()) {
+                            case ilObjSurvey::RESULTS_360_NONE:
+                                return false;
+
+                            case ilObjSurvey::RESULTS_360_OWN:
+                                return true;
 
                             case ilObjSurvey::RESULTS_360_ALL:
                                 return $svy->isAppraisee($user_id);

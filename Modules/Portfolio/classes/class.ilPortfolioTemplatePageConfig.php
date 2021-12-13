@@ -11,9 +11,13 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 {
     public function init() : void
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->settings = $DIC->settings();
+        $lng = $DIC->language();
+        $lng->loadLanguageModule("prtf");
+
         parent::init();
         $this->setIntLinkHelpDefaultId($_GET["ref_id"]);
         $this->addIntLinkFilter("PortfolioTemplatePage");
@@ -22,6 +26,10 @@ class ilPortfolioTemplatePageConfig extends ilPortfolioPageConfig
 
         $this->setEnablePCType("Verification", false);
         $this->setEnablePCType("PlaceHolder", true);
+        $this->setEnablePCType("AMDForm", true);
+
+        $this->setSectionProtection(ilPageConfig::SEC_PROTECT_EDITABLE);
+        $this->setSectionProtectionInfo($lng->txt("prtf_sec_protected_info"));
     }
     
     public function getAvailablePlaceholderTypes()

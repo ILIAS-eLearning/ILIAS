@@ -304,8 +304,8 @@ class ilMDKeyword extends ilMDBase
     
     /**
      * Lookup Keywords
-     * @param object $a_rbac_id
-     * @param object $a_obj_id
+     * @param int $a_rbac_id
+     * @param int $a_obj_id
      * @param bool $a_return_kw
      * @return
      */

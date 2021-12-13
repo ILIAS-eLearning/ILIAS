@@ -37,7 +37,14 @@ class ilComponentsSetupAgent implements Setup\Agent
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
-        return new \ilComponentDefinitionsStoredObjective(false);
+        return new Setup\ObjectiveCollection(
+            "Updates of Services/Components",
+            false,
+            new ilDatabaseUpdateStepsExecutedObjective(
+                new \ilIntroduceComponentArtifactDBUpdateSteps()
+            ),
+            new \ilComponentDefinitionsStoredObjective(false)
+        );
     }
 
     /**
@@ -45,7 +52,12 @@ class ilComponentsSetupAgent implements Setup\Agent
      */
     public function getBuildArtifactObjective() : Setup\Objective
     {
-        return new Setup\Objective\NullObjective();
+        return new Setup\ObjectiveCollection(
+            "Artifacts for Services/Component",
+            false,
+            new \ilComponentBuildComponentInfoObjective(),
+            new \ilComponentBuildPluginInfoObjective()
+        );
     }
 
     /**

@@ -1628,10 +1628,8 @@ class SurveyQuestion
         } else {
             global $DIC;
 
-            $ilPluginAdmin = $DIC["ilPluginAdmin"];
-            $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
-            foreach ($pl_names as $pl_name) {
-                $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+            $component_factory = $DIC["component.factory"];
+            foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
                 if (strcmp($pl->getQuestionType(), $question_type) == 0) {
                     $pl->includeClass("class." . $type . ".php");
                     return true;
@@ -1657,10 +1655,8 @@ class SurveyQuestion
         } else {
             global $DIC;
 
-            $ilPluginAdmin = $DIC["ilPluginAdmin"];
-            $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "SurveyQuestionPool", "svyq");
-            foreach ($pl_names as $pl_name) {
-                $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "SurveyQuestionPool", "svyq", $pl_name);
+            $component_factory = $DIC["component.factory"];
+            foreach ($component_factory->getActivePluginsInSlot("svyq") as $pl) {
                 if (strcmp($pl->getQuestionType(), $type_tag) == 0) {
                     return $pl->getQuestionTypeTranslation();
                 }
@@ -1710,7 +1706,7 @@ class SurveyQuestion
     * Creates an instance of a question evaluation with a given question id
     *
     * @param integer $question_id The question id
-    * @return object The question evaluation instance
+    * @return SurveyQuestionEvaluation The question evaluation instance
     * @access public
     */
     public static function _instanciateQuestionEvaluation($question_id, array $a_finished_ids = null)

@@ -48,14 +48,6 @@ abstract class ilPageComponentPlugin extends ilPlugin
     }
     
     /**
-    * Object initialization done by slot.
-    */
-    final protected function slotInit() : void
-    {
-        // nothing to do here
-    }
-    
-    /**
      * Determines the resources that allow to include the
      * new content component.
      * @param string $a_type Parent type (e.g. "cat", "lm", "glo", "wiki", ...)

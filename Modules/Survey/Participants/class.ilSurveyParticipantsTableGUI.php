@@ -15,15 +15,28 @@ class ilSurveyParticipantsTableGUI extends ilTable2GUI
      */
     protected $invitation_manager;
 
+    /**
+     * @var \ILIAS\Survey\InternalService
+     */
+    protected $survey_service;
+
     public function __construct($a_parent_obj, $a_parent_cmd, ilObjSurvey $a_svy)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
+
+        $this->survey_service = $DIC->survey()->internal();
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
-        $this->invitation_manager = new Participants\InvitationsManager();
+        $this->invitation_manager = $this
+            ->survey_service
+            ->domain()
+            ->participants()
+            ->invitations();
+
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         

@@ -1,6 +1,19 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+use ILIAS\Survey\Mode;
 
 /**
  * Survey execution graphical output
@@ -44,7 +57,38 @@ class ilSurveyExecutionGUI
     * @var ilLogger
     */
     protected $log;
-    
+
+    /**
+     * @var \ILIAS\Survey\Execution\RunManager
+     */
+    protected $run_manager;
+
+    /**
+     * @var \ILIAS\Survey\Execution\SessionManager
+     */
+    protected $session_manager;
+
+    /**
+     * @var \ILIAS\Survey\Participants\StatusManager
+     */
+    protected $participant_manager;
+
+    /**
+     * @var \ILIAS\Survey\Access\AccessManager
+     */
+    protected $access_manager;
+
+    /**
+     * @var int
+     */
+    protected $requested_appr_id;
+
+    /**
+     * @var Mode\FeatureConfig
+     */
+    protected $feature_config;
+
+
     /**
     * ilSurveyExecutionGUI constructor
     *
@@ -53,8 +97,9 @@ class ilSurveyExecutionGUI
     * @param object $a_object Associated ilObjSurvey class
     * @access public
     */
-    public function __construct($a_object)
+    public function __construct(ilObjSurvey $a_object)
     {
+        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -71,23 +116,36 @@ class ilSurveyExecutionGUI
         $this->ctrl = $ilCtrl;
         $this->object = $a_object;
         $this->tree = $tree;
-                
-        $this->external_rater_360 = false;
-        if ($this->object->get360Mode() &&
-            $_SESSION["anonymous_id"][$this->object->getId()] &&
-            ilObjSurvey::validateExternalRaterCode(
-                $this->object->getRefId(),
-                $_SESSION["anonymous_id"][$this->object->getId()]
-            )) {
-            $this->external_rater_360 = true;
-        }
+        $this->user = $DIC->user();
 
         // stay in preview mode
         $this->preview = (bool) $_REQUEST["prvw"];
+        $this->requested_appr_id = (int) $_REQUEST["appr_id"];
         $this->ctrl->saveParameter($this, "prvw");
+        $this->ctrl->saveParameter($this, "appr_id");
         $this->ctrl->saveParameter($this, "pgov");
 
         $this->log = ilLoggerFactory::getLogger("svy");
+
+        $domain_service = $DIC->survey()->internal();
+        $this->run_manager = $domain_service->domain()->execution()->run(
+            $a_object,
+            $this->user->getId()
+        );
+        $this->session_manager = $domain_service->domain()->execution()->session(
+            $a_object,
+            $this->user->getId()
+        );
+        $this->participant_manager = $domain_service->domain()->participants()->status(
+            $a_object,
+            $this->user->getId()
+        );
+        $this->access_manager = $domain_service->domain()->access(
+            $a_object->getRefId(),
+            $this->user->getId()
+        );
+
+        $this->feature_config = $domain_service->domain()->modeFeatureConfig($a_object->getMode());
     }
     
     /**
@@ -135,9 +193,9 @@ class ilSurveyExecutionGUI
             
             return true;
         }
-                        
-        if (!$this->external_rater_360 &&
-            !$rbacsystem->checkAccess("read", $this->object->ref_id)) {
+
+
+        if (!$this->access_manager->canStartSurvey()) {
             // only with read access it is possible to run the test
             throw new ilSurveyException($this->lng->txt("cannot_read_survey"));
         }
@@ -146,9 +204,10 @@ class ilSurveyExecutionGUI
 
         // check existing code
         // see ilObjSurveyGUI::infoScreen()
-        $anonymous_id = $anonymous_code = null;
-        if ($this->object->getAnonymize() || !$this->object->isAccessibleWithoutCode()) {
-            $anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
+        $anonymous_id = null;
+        $anonymous_code = "";
+        if ($this->access_manager->isCodeInputAllowed()) {
+            $anonymous_code = $this->session_manager->getCode();
             $anonymous_id = $this->object->getAnonymousIdByCode($anonymous_code);
             if (!$anonymous_id) {
                 ilUtil::sendFailure(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $anonymous_code, true));
@@ -158,11 +217,11 @@ class ilSurveyExecutionGUI
         
         // appraisee validation
         $appr_id = 0;
-        if ($this->object->get360Mode()) {
-            $appr_id = $_REQUEST["appr_id"];
-            if (!$appr_id) {
-                $appr_id = $_SESSION["appr_id"][$this->object->getId()];
-            }
+        if ($this->feature_config->usesAppraisees()) {
+            $appr_id = $this->requested_appr_id;
+            //if (!$appr_id) {
+            //    $appr_id = $_SESSION["appr_id"][$this->object->getId()];
+            //}
             // check if appraisee is valid
             if ($anonymous_id) {
                 $appraisees = $this->object->getAppraiseesToRate(0, $anonymous_id);
@@ -181,20 +240,20 @@ class ilSurveyExecutionGUI
             $appr_id = $ilUser->getId();
         }
         
-        $_SESSION["appr_id"][$this->object->getId()] = $appr_id;
+        //$_SESSION["appr_id"][$this->object->getId()] = $appr_id;
                     
         if (!$a_ignore_status) {
-            $status = $this->object->isSurveyStarted($user_id, $anonymous_code, $appr_id);
             // completed
-            if ($status === 1) {
+            if ($this->run_manager->hasFinished($user_id, $anonymous_code, $appr_id)) {
                 ilUtil::sendFailure($this->lng->txt("already_completed_survey"), true);
                 $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
             }
             // starting
-            elseif ($status === false) {
+            elseif (!$this->run_manager->hasStarted($user_id, $anonymous_code, $appr_id)) {
                 if ($a_may_start) {
-                    $_SESSION["finished_id"][$this->object->getId()] =
-                        $this->object->startSurvey($user_id, $anonymous_code, $appr_id);
+                    //$_SESSION["finished_id"][$this->object->getId()] =
+                    //    $this->object->startSurvey($user_id, $anonymous_code, $appr_id);
+                    $this->run_manager->start($user_id, $anonymous_code, $appr_id);
                 } else {
                     ilUtil::sendFailure($this->lng->txt("survey_use_start_button"), true);
                     $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
@@ -205,10 +264,13 @@ class ilSurveyExecutionGUI
                 // nothing todo
             }
         }
-        
+
         // validate finished id
         if ($this->object->getActiveID($user_id, $anonymous_code, $appr_id) !=
-            $_SESSION["finished_id"][$this->object->getId()]) {
+            $this->run_manager->getCurrentRunId($appr_id)) {
+            var_dump($this->object->getActiveID($user_id, $anonymous_code, $appr_id));
+            var_dump($this->run_manager->getCurrentRunId($appr_id));
+            exit;
             ilUtil::sendFailure($this->lng->txt("cannot_read_survey"), true);
             $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
         }
@@ -256,7 +318,9 @@ class ilSurveyExecutionGUI
                 
         $activepage = "";
         if ($resume) {
-            $activepage = $this->object->getLastActivePage($_SESSION["finished_id"][$this->object->getId()]);
+            $activepage = $this->object->getLastActivePage(
+                $this->getCurrentRunId()
+            );
         }
         
         if (strlen($activepage)) {
@@ -370,14 +434,14 @@ class ilSurveyExecutionGUI
         $constraint_true = 0;
         
         // check for constraints
-        if (is_array($page[0]["constraints"]) && count($page[0]["constraints"])) {
+        if (!is_null($page) && is_array($page[0]["constraints"]) && count($page[0]["constraints"])) {
             $this->log->debug("Page constraints= ", $page[0]["constraints"]);
 
-            while (is_array($page) and ($constraint_true == 0) and (count($page[0]["constraints"]))) {
+            while (!is_null($page) and ($constraint_true == 0) and (count($page[0]["constraints"]))) {
                 $constraint_true = ($page[0]['constraints'][0]['conjunction'] == 0) ? true : false;
                 foreach ($page[0]["constraints"] as $constraint) {
                     if (!$this->preview) {
-                        $working_data = $this->object->loadWorkingData($constraint["question"], $_SESSION["finished_id"][$this->object->getId()]);
+                        $working_data = $this->object->loadWorkingData($constraint["question"], $this->getCurrentRunId());
                     } else {
                         $working_data = $_SESSION["preview_data"][$this->object->getId()][$constraint["question"]];
                     }
@@ -396,7 +460,7 @@ class ilSurveyExecutionGUI
                                                 
                         // see saveActiveQuestionData()
                         if (!$this->preview) {
-                            $this->object->deleteWorkingData($qid, $_SESSION["finished_id"][$this->object->getId()]);
+                            $this->object->deleteWorkingData($qid, $this->getCurrentRunId());
                         } else {
                             $_SESSION["preview_data"][$this->object->getId()][$qid] = null;
                         }
@@ -408,12 +472,12 @@ class ilSurveyExecutionGUI
         }
         
         $first_question = -1;
-        if ($page === 0) {
+        if (is_null($page) && $direction == -1) {
             $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
-        } elseif ($page === 1) {
+        } elseif (is_null($page) && $direction == 1) {
             $state = $this->object->getUserSurveyExecutionStatus();
             if ($this->preview ||
-                !$state["runs"][$_SESSION["finished_id"][$this->object->getId()]]["finished"]) {
+                !$state["runs"][$this->getCurrentRunId()]["finished"]) {
                 $this->showFinishConfirmation();
             } else {
                 $this->runShowFinishedPage();
@@ -432,8 +496,8 @@ class ilSurveyExecutionGUI
             //$this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_content.html", "Modules/Survey");
             $stpl = new ilTemplate("tpl.il_svy_svy_content.html", true, true, "Modules/Survey");
             
-            if ($this->object->get360Mode()) {
-                $appr_id = $_SESSION["appr_id"][$this->object->getId()];
+            if ($this->feature_config->usesAppraisees()) {
+                $appr_id = $this->requested_appr_id;
                 
                 $this->tpl->setTitle($this->object->getTitle() . " (" .
                     $this->lng->txt("survey_360_appraisee") . ": " .
@@ -509,7 +573,7 @@ class ilSurveyExecutionGUI
                 if (is_array($_SESSION["svy_errors"])) {
                     $working_data = &$question_gui->object->getWorkingDataFromUserInput($_SESSION["postdata"]);
                 } else {
-                    $working_data = $this->object->loadWorkingData($data["question_id"], $_SESSION["finished_id"][$this->object->getId()]);
+                    $working_data = $this->object->loadWorkingData($data["question_id"], $this->getCurrentRunId());
                 }
                 $question_gui->object->setObligatory($data["obligatory"]);
                 $error_messages = array();
@@ -543,9 +607,18 @@ class ilSurveyExecutionGUI
         $this->tpl->setContent($stpl->get());
 
         if (!$this->preview) {
-            $this->object->setPage($_SESSION["finished_id"][$this->object->getId()], $page[0]['question_id']);
-            $this->object->setStartTime($_SESSION["finished_id"][$this->object->getId()], $first_question);
+            $this->object->setPage($this->getCurrentRunId(), $page[0]['question_id']);
+            $this->object->setStartTime($this->getCurrentRunId(), $first_question);
         }
+    }
+
+    /**
+     * Get current run id
+     * @return int
+     */
+    protected function getCurrentRunId() : int
+    {
+        return $this->run_manager->getCurrentRunId($this->requested_appr_id);
     }
 
     /**
@@ -578,7 +651,7 @@ class ilSurveyExecutionGUI
     public function saveUserInput($navigationDirection = "next")
     {
         if (!$this->preview) {
-            $this->object->setEndTime($_SESSION["finished_id"][$this->object->getId()]);
+            $this->object->setEndTime($this->getCurrentRunId());
         }
         
         // check users input when it is a metric question
@@ -671,17 +744,17 @@ class ilSurveyExecutionGUI
     {
         $ilUser = $this->user;
         
-        $question = &SurveyQuestion::_instanciateQuestion($data["question_id"]);
+        $question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
         $error = $question->checkUserInput($_POST, $this->object->getSurveyId());
         if (strlen($error) == 0) {
             if (!$this->preview) {
                 // delete old answers
-                $this->object->deleteWorkingData($data["question_id"], $_SESSION["finished_id"][$this->object->getId()]);
+                $this->object->deleteWorkingData($data["question_id"], $this->getCurrentRunId());
         
-                $question->saveUserInput($_POST, $_SESSION["finished_id"][$this->object->getId()]);
+                $question->saveUserInput($_POST, $this->getCurrentRunId());
             } else {
                 $_SESSION["preview_data"][$this->object->getId()][$data["question_id"]] =
-                    $question->saveUserInput($_POST, $_SESSION["finished_id"][$this->object->getId()], true);
+                    $question->saveUserInput($_POST, $this->getCurrentRunId(), true);
             }
             return 0;
         } else {
@@ -786,7 +859,7 @@ class ilSurveyExecutionGUI
         $tree = $this->tree;
         
         // #14971
-        if ($this->object->get360Mode()) {
+        if ($this->feature_config->usesAppraisees()) {
             $target_ref_id = $this->object->getRefId();
         } else {
             // #11534
@@ -827,7 +900,7 @@ class ilSurveyExecutionGUI
     {
         $prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
         $stpl->setCurrentBlock($navigationblock . "_prev");
-        if ($prevpage === 0) {
+        if (is_null($prevpage)) {
             $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_start"));
         } else {
             $stpl->setVariable("BTN_PREV", $this->lng->txt("survey_previous"));
@@ -835,7 +908,7 @@ class ilSurveyExecutionGUI
         $stpl->parseCurrentBlock();
         $nextpage = $this->object->getNextPage($page[0]["question_id"], 1);
         $stpl->setCurrentBlock($navigationblock . "_next");
-        if ($nextpage === 1) {
+        if (is_null($nextpage)) {
             $stpl->setVariable("BTN_NEXT", $this->lng->txt("survey_finish"));
         } else {
             $stpl->setVariable("BTN_NEXT", $this->lng->txt("survey_next"));
@@ -864,7 +937,7 @@ class ilSurveyExecutionGUI
         $ilToolbar->addButtonInstance($button);
             
         $survey_gui = new ilObjSurveyGUI();
-        $html = $survey_gui->getUserResultsTable($_SESSION["finished_id"][$this->object->getId()]);
+        $html = $survey_gui->getUserResultsTable($this->getCurrentRunId());
         $this->tpl->setContent($html);
     }
     
@@ -888,7 +961,7 @@ class ilSurveyExecutionGUI
         
         $survey_gui = new ilObjSurveyGUI();
         $survey_gui->sendUserResultsMail(
-            $_SESSION["finished_id"][$this->object->getId()],
+            $this->getCurrentRunId(),
             $recipient
         );
         
@@ -915,7 +988,7 @@ class ilSurveyExecutionGUI
         $ilUser = $this->user;
         
         if (!$this->preview) {
-            $this->object->finishSurvey($_SESSION["finished_id"][$this->object->getId()]);
+            $this->object->finishSurvey($this->getCurrentRunId(), $this->requested_appr_id);
                         
             if ($ilUser->getId() != ANONYMOUS_USER_ID) {
                 ilLPStatusWrapper::_updateStatus($this->object->getId(), $ilUser->getId());
@@ -924,8 +997,8 @@ class ilSurveyExecutionGUI
             if ($this->object->getMailNotification()) {
                 $this->object->sendNotificationMail(
                     $ilUser->getId(),
-                    $_SESSION["anonymous_id"][$this->object->getId()],
-                    $_SESSION["appr_id"][$this->object->getId()]
+                    $this->session_manager->getCode(),
+                    $this->requested_appr_id
                 );
             }
         }

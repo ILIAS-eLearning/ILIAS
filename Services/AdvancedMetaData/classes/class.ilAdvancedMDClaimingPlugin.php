@@ -4,61 +4,33 @@
 
 /**
  * Abstract parent class for all advanced md claiming plugin classes.
- *
- * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
- *
+ * @author  Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ingroup ServicesAdvancedMetaData
  */
 abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
 {
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    final public function getComponentName()
-    {
-        return "AdvancedMetaData";
-    }
-
-    final public function getSlot()
-    {
-        return "AdvancedMDClaiming";
-    }
-
-    final public function getSlotId()
-    {
-        return "amdc";
-    }
-    
-    final protected function slotInit()
-    {
-    }
-    
-    
     abstract public function checkPermission(
         int $a_user_id,
         int $a_context_type,
         int $a_context_id,
         int $a_action_id,
         int $a_action_sub_id
-    ):bool;
-
+    ) : bool;
 
     public static function hasDBRecord(int $a_record_id) : bool
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query("SELECT record_id FROM adv_md_record" .
             " WHERE record_id = " . $ilDB->quote($a_record_id, "integer"));
         return (bool) $ilDB->numRows($set);
     }
 
     /**
-     * @param string $a_title
-     * @param string $a_description
-     * @param bool   $a_active
+     * @param string   $a_title
+     * @param string   $a_description
+     * @param bool     $a_active
      * @param string[] $a_obj_types
      * @return int
      */
@@ -67,14 +39,13 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         string $a_description,
         bool $a_active,
         array $a_obj_types
-    ) : int
-    {
+    ) : int {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $record_id = $ilDB->nextId("adv_md_record");
-        
+
         $fields = array(
             "record_id" => array("integer", $record_id),
             "import_id" => array("text", 'il_' . IL_INST_ID . '_adv_md_record_' . $record_id),
@@ -86,7 +57,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         self::saveRecordObjTypes($record_id, $a_obj_types);
         return $record_id;
     }
-    
+
     /**
      * Validate object type
      * @todo support ecs type
@@ -100,20 +71,20 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             $valid[] = "orgu";
             $valid[] = "prg";
         }
-        
+
         return in_array($a_obj_type, $valid);
     }
-    
+
     /**
      * Save object type assignments for record
-     * @param int $a_record_id
+     * @param int      $a_record_id
      * @param string[] $a_obj_types
      */
     protected static function saveRecordObjTypes(int $a_record_id, array $a_obj_types) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
-                
+
         foreach ($a_obj_types as $type) {
             if (!is_array($type)) {
                 $type = strtolower(trim($type));
@@ -122,7 +93,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
                 $subtype = strtolower(trim($type[1]));
                 $type = strtolower(trim($type[0]));
             }
-                    
+
             if (self::isValidObjType($type)) {
                 $fields = array(
                     "record_id" => array("integer", $a_record_id),
@@ -133,7 +104,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             }
         }
     }
-    
+
     /**
      * Update record db entry
      * @param int      $a_record_id
@@ -148,12 +119,12 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         string $a_title,
         string $a_description,
         bool $a_active,
-        array $a_obj_types) : bool
-    {
+        array $a_obj_types
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (self::hasDBRecord($a_record_id)) {
             $fields = array(
                 "title" => array("text", trim($a_title)),
@@ -165,52 +136,51 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
                 $fields,
                 array("record_id" => array("integer", $a_record_id))
             );
-            
+
             $ilDB->manipulate("DELETE FROM adv_md_record_objs" .
                 " WHERE record_id = " . $ilDB->quote($a_record_id, "integer"));
 
             self::saveRecordObjTypes($a_record_id, $a_obj_types);
-            
+
             return true;
         }
         return false;
     }
-    
+
     public static function deleteDBRecord(int $a_record_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (self::hasDBRecord($a_record_id)) {
             $ilDB->manipulate("DELETE FROM adv_md_record" .
                 " WHERE record_id = " . $ilDB->quote($a_record_id, "integer"));
             return true;
         }
-        
+
         return false;
     }
-    
+
     public static function hasDBField(int $a_field_id) : bool
     {
         global $DIC;
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query("SELECT field_id FROM adv_mdf_definition" .
             " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
         return (bool) $ilDB->numRows($set);
     }
-    
-    
+
     /**
-     *@see ilAdvancedMDFieldDefinition::getLastPosition()
+     * @see ilAdvancedMDFieldDefinition::getLastPosition()
      */
     protected static function getDBFieldLastPosition(int $a_record_id) : int
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $sql = "SELECT max(position) pos" .
             " FROM adv_mdf_definition" .
             " WHERE record_id = " . $ilDB->quote($a_record_id, "integer");
@@ -221,7 +191,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         }
         return 0;
     }
-    
+
     public static function createDBField(
         int $a_record_id,
         int $a_type,
@@ -229,26 +199,25 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         ?string $a_description = null,
         bool $a_searchable = false,
         array $a_definition = null
-    ) : ?int
-    {
+    ) : ?int {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (!self::hasDBRecord($a_record_id)) {
             return null;
         }
-        
+
         $field_id = $ilDB->nextId("adv_mdf_definition");
-        
+
         // validating type
         $a_type = (int) $a_type;
         if ($a_type < 1 || $a_type > 8) {
             return null;
         }
-        
+
         $pos = self::getDBFieldLastPosition($a_record_id) + 1;
-        
+
         $fields = array(
             "record_id" => array("integer", $a_record_id),
             "field_id" => array("integer", $field_id),
@@ -263,22 +232,21 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             $fields["field_values"] = array("text", serialize($a_definition));
         }
         $ilDB->insert("adv_mdf_definition", $fields);
-        
+
         return $field_id;
     }
-    
+
     public static function updateDBField(
         int $a_field_id,
         string $a_title,
         ?string $a_description = null,
         bool $a_searchable = false,
         ?array $a_definition = null
-    ) : bool
-    {
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
-                
+
         if (self::hasDBField($a_field_id)) {
             $fields = array(
                 "field_id" => array("integer", $a_field_id),
@@ -296,72 +264,71 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             );
             return true;
         }
-        
+
         return false;
     }
-    
+
     public static function deleteDBField(int $a_field_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if (self::hasDBField($a_field_id)) {
             $ilDB->manipulate("DELETE FROM adv_mdf_definition" .
                 " WHERE field_id = " . $ilDB->quote($a_field_id, "integer"));
             return true;
         }
-        
+
         return false;
     }
-    
+
     protected static function getDBSubstitution(string $a_obj_type, bool $a_include_field_data = false) : array
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         $set = $ilDB->query("SELECT * FROM adv_md_substitutions" .
             " WHERE obj_type = " . $ilDB->quote($a_obj_type, "text"));
         if ($ilDB->numRows($set)) {
             $res = $ilDB->fetchAssoc($set);
             $res["hide_description"] = array("integer", (bool) $res["hide_description"]);
             $res["hide_field_names"] = array("integer", (bool) $res["hide_field_names"]);
-                        
+
             if ($a_include_field_data) {
                 $res["substitution"] = array("text", (array) unserialize($res["substitution"]));
             } else {
                 unset($res["substitution"]);
             }
             unset($res["obj_type"]);
-            
+
             return $res;
         }
         return [];
     }
-    
+
     public static function setDBSubstitution(
         string $a_obj_type,
         bool $a_show_description,
         bool $a_show_field_names
-    ) : bool
-    {
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (self::isValidObjType($a_obj_type, true)) {
             $fields = self::getDBSubstitution($a_obj_type);
-            
+
             $create = false;
             if (!$fields) {
                 $create = true;
                 $fields = array("obj_type" => array("text", $a_obj_type));
             }
-            
+
             $fields["hide_description"] = array("integer", !(bool) $a_show_description);
             $fields["hide_field_names"] = array("integer", !(bool) $a_show_field_names);
-            
+
             if ($create) {
                 $ilDB->insert("adv_md_substitutions", $fields);
             } else {
@@ -371,12 +338,12 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
                     array("obj_type" => array("text", $a_obj_type))
                 );
             }
-            
+
             return true;
         }
         return false;
     }
-    
+
     public static function hasDBFieldSubstitution(string $a_obj_type, int $a_field_id) : bool
     {
         if (self::isValidObjType($a_obj_type, true)) {
@@ -390,18 +357,17 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         }
         return false;
     }
-    
+
     public static function setDBFieldSubstitution(
         string $a_obj_type,
         int $a_field_id,
         bool $a_bold = false,
         bool $a_newline = false
-    ) : bool
-    {
+    ) : bool {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (self::isValidObjType($a_obj_type, true)) {
             $fields = self::getDBSubstitution($a_obj_type, true);
             if (!$fields) {
@@ -410,7 +376,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             } else {
                 $fields = $fields["substitution"][1];
             }
-            
+
             $found = false;
             foreach ($fields as $idx => $field) {
                 if ($field["field_id"] == $a_field_id) {
@@ -423,11 +389,13 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             if (!$found) {
                 $fields[] = array(
                     "field_id" => $a_field_id
-                    ,"bold" => (bool) $a_bold
-                    ,"newline" => (bool) $a_newline
+                    ,
+                    "bold" => (bool) $a_bold
+                    ,
+                    "newline" => (bool) $a_newline
                 );
             }
-            
+
             $fields = array("substitution" => array("text", serialize($fields)));
             $ilDB->update(
                 "adv_md_substitutions",
@@ -437,13 +405,13 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
         }
         return false;
     }
-    
+
     public static function removeDBFieldSubstitution(string $a_obj_type, int $a_field_id) : bool
     {
         global $DIC;
 
         $ilDB = $DIC->database();
-        
+
         if (self::isValidObjType($a_obj_type, true)) {
             $fields = self::getDBSubstitution($a_obj_type, true);
             if (!$fields) {
@@ -451,7 +419,7 @@ abstract class ilAdvancedMDClaimingPlugin extends ilPlugin
             } else {
                 $fields = $fields["substitution"][1];
             }
-            
+
             $found = false;
             foreach ($fields as $idx => $field) {
                 if ($field["field_id"] == $a_field_id) {

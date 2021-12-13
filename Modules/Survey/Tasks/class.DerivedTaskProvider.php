@@ -51,15 +51,26 @@ class DerivedTaskProvider implements \ilDerivedTaskProvider
      */
     public function __construct(\ilTaskService $task_service, \ilAccess $access, \ilLanguage $lng)
     {
+        /** @var \ILIAS\DI\Container $DIC */
+        global $DIC;
+
+        $survey_service = $DIC->survey()->internal();
+
         $this->access = $access;
         $this->task_service = $task_service;
         $this->lng = $lng;
 
         $this->lng->loadLanguageModule("svy");
 
-        $this->inv_manager = new InvitationsManager();
-        $this->set_repo = new SettingsDBRepository();
-        $this->svy_360_manager = new Survey360Manager();
+        $this->inv_manager = $survey_service
+            ->domain()
+            ->participants()
+            ->invitations();
+
+        $this->set_repo = $survey_service->repo()->settings();
+        $this->svy_360_manager = new Survey360Manager(
+            $survey_service->repo()
+        );
     }
 
     /**

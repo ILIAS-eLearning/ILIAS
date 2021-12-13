@@ -33,6 +33,10 @@ include_once 'class.ilMDBase.php';
 
 class ilMDLifecycle extends ilMDBase
 {
+    protected $version_language = null;
+    protected string $version = "";
+    protected string $status = "";
+
     public function getPossibleSubelements()
     {
         $subs['Contribute'] = 'meta_contribute';

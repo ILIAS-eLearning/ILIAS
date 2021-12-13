@@ -34,25 +34,24 @@ class EventTest extends TestCase
                 )
             );
 
-        $pa_mock = $this->createMock(ilPluginAdmin::class);
-        $pa_mock->method("getActivePluginsForSlot")
-            ->will(
-                $this->onConsecutiveCalls(
-                    []
-                )
-            );
 
         $this->setGlobalVariable(
             "ilDB",
             $db_mock
         );
         $this->setGlobalVariable(
-            "ilPluginAdmin",
-            $pa_mock
-        );
-        $this->setGlobalVariable(
             "ilSetting",
             $this->createMock(ilSetting::class)
+        );
+        $component_repository = $this->createMock(ilComponentRepository::class);
+        $this->setGlobalVariable(
+            "component.repository",
+            $component_repository
+        );
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $this->setGlobalVariable(
+            "component.factory",
+            $component_factory
         );
     }
 

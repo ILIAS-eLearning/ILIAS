@@ -34,6 +34,8 @@ include_once 'class.ilMDBase.php';
 class ilMDContribute extends ilMDBase
 {
     // Subelements
+    protected string $date = "";
+
     public function getEntityIds()
     {
         include_once 'Services/MetaData/classes/class.ilMDEntity.php';
