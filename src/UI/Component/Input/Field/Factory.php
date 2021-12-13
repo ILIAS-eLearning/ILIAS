@@ -533,10 +533,17 @@ interface Factory
      * ---
      * @param string 	$label   defines the label.
      * @param string 	$byline
+     * @param string    $label_start label for the first input
+     * @param string    $label_end label for the second input
      * @return \ILIAS\UI\Component\Input\Field\Duration
      */
-    public function duration(string $label, string $byline = null) : Duration;
-
+    public function duration(
+        string $label,
+        string $byline = null,
+        string $label_start = 'start',
+        string $label_end = 'end'
+    ) : Duration;
+    
     /**
      * ---
      * description:

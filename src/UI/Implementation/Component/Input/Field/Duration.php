@@ -35,11 +35,13 @@ class Duration extends Group implements C\Input\Field\Duration
         ilLanguage $lng,
         Factory $field_factory,
         string $label,
-        string $byline
+        string $byline,
+        string $label_start,
+        string $label_end
     ) {
         $inputs = [
-            $field_factory->dateTime('start'),
-            $field_factory->dateTime('end')
+            $field_factory->dateTime($label_start),
+            $field_factory->dateTime($label_end)
         ];
 
         parent::__construct($data_factory, $refinery, $lng, $inputs, $label, $byline);
@@ -256,7 +258,6 @@ class Duration extends Group implements C\Input\Field\Duration
         $clone->inputs = array_map(
             function ($input) use ($tz) {
                 return $input->withTimezone($tz);
-
             },
             $clone->inputs
         );

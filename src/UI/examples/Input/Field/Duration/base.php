@@ -19,11 +19,14 @@ function base()
 
     //Step 1: define the input
     $duration = $ui->input()->field()->duration("Pick a time-span", "This is the byline text");
-    $time = $duration->withTimeOnly(true)->withRequired(true);
     $timezone = $duration
         ->withTimezone('America/El_Salvador')
         ->withUseTime(true)
         ->withByline('timezone and both time and date');
+
+    $time = $ui->input()->field()->duration("Pick a time-span", 'times only (no dates)', 'start time', 'end time');
+    $time = $time->withTimeOnly(true)->withRequired(true);
+
 
     //Step 2: define form and form actions, attach the input
     $form = $ui->input()->container()->form()->standard(

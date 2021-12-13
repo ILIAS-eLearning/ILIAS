@@ -149,9 +149,9 @@ class Factory implements Field\Factory
     /**
      * @inheritdoc
      */
-    public function duration(string $label, string $byline = null) : Field\Duration
+    public function duration(string $label, string $byline = null, string $label_start = 'start', string $label_end = 'end') : Field\Duration
     {
-        return new Duration($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline);
+        return new Duration($this->data_factory, $this->refinery, $this->lng, $this, $label, $byline, $label_start, $label_end);
     }
 
     /**
