@@ -4,6 +4,7 @@ namespace ILIAS\FileUpload\Handler;
 
 use ILIAS\Filesystem\Stream\Streams;
 use ILIAS\FileUpload\FileUpload;
+use ilCtrl;
 
 /**
  * Class ilCtrlAwareUploadHandler
@@ -109,14 +110,13 @@ abstract class AbstractCtrlAwareUploadHandler implements ilCtrlAwareUploadHandle
         $this->http->close();
     }
 
-
     abstract protected function getUploadResult() : HandlerResult;
 
 
     abstract protected function getRemoveResult(string $identifier) : HandlerResult;
 
 
-    abstract protected function getInfoResult(string $identifier) : FileInfoResult;
+    abstract public function getInfoResult(string $identifier) : ?FileInfoResult;
 
 
     abstract public function getInfoForExistingFiles(array $file_ids) : array;

@@ -72,9 +72,10 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
     }
 
 
-    protected function getInfoResult(string $identifier) : FileInfoResult
+    public function getInfoResult(string $identifier) : ?FileInfoResult
     {
-        return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier, "My funny Testfile $identifier.txt", 64);
+        return new BasicFileInfoResult($this->getFileIdentifierParameterName(), $identifier,
+            "My funny Testfile $identifier.txt", 64, 'text');
     }
 
 
