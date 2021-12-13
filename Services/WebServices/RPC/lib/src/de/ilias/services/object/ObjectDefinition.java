@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 import org.apache.lucene.document.Document;
 
 import de.ilias.services.lucene.index.CommandQueueElement;
@@ -34,6 +34,7 @@ import de.ilias.services.lucene.index.DocumentHandler;
 import de.ilias.services.lucene.index.DocumentHandlerException;
 import de.ilias.services.lucene.index.DocumentHolder;
 import de.ilias.services.lucene.index.IndexHolder;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 
@@ -46,7 +47,7 @@ public class ObjectDefinition implements DocumentHandler {
 	public static final String TYPE_FULL = "full";
 	public static final String TYPE_INCREMENTAL = "incremental";
 
-	protected Logger logger = Logger.getLogger(ObjectDefinition.class);
+	protected Logger logger = LogManager.getLogger(ObjectDefinition.class);
 	
 	private String type;
 	private String indexType = "full";
