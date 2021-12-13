@@ -161,11 +161,16 @@ class DurationInputTest extends ILIAS_UI_TestBase
         </div>
         ');
         $this->assertEquals($expected, $html);
+
+        return $datetime;
     }
 
-    public function testRenderwithDifferentLabels()
+    /**
+     * @depends test_render
+     */
+    public function testRenderwithDifferentLabels($datetime)
     {
-        $datetime = $this->factory->duration('label', 'byline', 'other startlabel', 'other endlabel');
+        $datetime = $datetime->withLabels('other startlabel', 'other endlabel');
         $r = $this->getDefaultRenderer();
         $html = $this->brutallyTrimHTML($r->render($datetime));
 
