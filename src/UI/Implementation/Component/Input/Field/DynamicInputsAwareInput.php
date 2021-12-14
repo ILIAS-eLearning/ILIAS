@@ -68,8 +68,8 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
 
     /**
      * Returns serverside generated dynamic Inputs, which happens when
-     * providing this @return InputInterface[]
-     * @see InputInterface::withValue().
+     * providing this InputInterface::withValue().
+     * @return InputInterface[]
      */
     public function getDynamicInputs() : array
     {
@@ -101,8 +101,8 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
 
         $clone = clone $this;
 
-        foreach ($value as $input_value) {
-            $clone->dynamic_inputs[] = $clone->dynamic_input_template->withValue($input_value);
+        foreach ($value as $input_name => $input_value) {
+            $clone->dynamic_inputs[$input_name] = $clone->dynamic_input_template->withValue($input_value);
         }
 
         return $clone;
@@ -197,6 +197,10 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
 
     public function getValue() : array
     {
+        if (null === $this->getTemplateForDynamicInputs()) {
+            return parent::getValue();
+        }
+
         $values = [];
         foreach ($this->getDynamicInputs() as $key => $input) {
             $values[$key] = $input->getValue();

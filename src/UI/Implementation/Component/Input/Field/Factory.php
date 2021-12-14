@@ -157,9 +157,13 @@ class Factory implements Field\Factory
     /**
      * @inheritDoc
      */
-    public function file(UploadHandler $handler, string $label, string $byline = null) : Field\File
-    {
-        return new File($this->data_factory, $this->refinery, $handler, $label, $byline);
+    public function file(
+        UploadHandler $handler,
+        string $label,
+        string $byline = null,
+        bool $has_zip_options = false
+    ) : Field\File {
+        return new File($this->lng, $this->data_factory, $this->refinery, $handler, $label, $byline, $has_zip_options);
     }
 
     /**

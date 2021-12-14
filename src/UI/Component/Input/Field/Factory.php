@@ -558,21 +558,24 @@ interface Factory
      *     Clicking the Remove Glyph will remove the file-info and calls the
      *     upload-handler to delete the already uploaded file.
      *     Invalid files will lead to a error message in the dropzone.
-     *
      * rules:
      *   usage:
      *     1: The consuming component MUST handle uploads and deletions of files.
-     *
      * context:
      *   - Upload icons for items in the MainBar (https://docu.ilias.de/goto_docu_wiki_wpage_3993_1357.html)
-     *
      * ---
      * @param UploadHandler $handler
      * @param string        $label defines the label.
-     * @param string        $byline
+     * @param string|null   $byline
+     * @param bool|null     $has_zip_options
      * @return \ILIAS\UI\Component\Input\Field\File
      */
-    public function file(UploadHandler $handler, string $label, string $byline = null) : File;
+    public function file(
+        UploadHandler $handler,
+        string $label,
+        string $byline = null,
+        bool $has_zip_options = false
+    ) : File;
 
     /**
      * ---

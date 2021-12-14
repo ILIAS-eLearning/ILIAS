@@ -37,7 +37,8 @@ class ilUIDemoFileUploadHandlerGUI extends AbstractCtrlAwareUploadHandler
      */
     public function getFileRemovalURL() : string
     {
-        return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_REMOVE);
+        return $this->ctrl->getLinkTargetByClass([ilUIPluginRouterGUI::class, self::class], self::CMD_REMOVE, null,
+            false);
     }
 
 

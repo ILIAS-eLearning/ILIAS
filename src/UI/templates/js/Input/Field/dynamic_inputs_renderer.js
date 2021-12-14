@@ -12,7 +12,6 @@ il.UI.Input = il.UI.Input || {};
   Input.DynamicInputsRenderer = (function ($) {
     const INPUT_INDEX_PLACEHOLDER = 'DYNAMIC_INPUT_INDEX';
     const INPUT_ID_PLACEHOLDER = 'DYNAMIC_INPUT_ID';
-
     const SELECTORS = {
       dynamic_inputs_list: '.ui-input-dynamic-inputs-list',
       dynamic_input: '.ui-input-dynamic-input',
@@ -25,12 +24,13 @@ il.UI.Input = il.UI.Input || {};
 
     /**
      * @param {string} input_id
+     * @return {jQuery|null}
      */
     let render = function (input_id) {
       // abort if the DynamicInputsAware input was not yet registered.
       if (typeof dynamic_inputs[input_id] === 'undefined') {
         console.error(`Error: tried rendering dynamic sub input for '${input_id}' which is unregistered.`);
-        return;
+        return null;
       }
 
       let template = dynamic_inputs[input_id].template_html;
@@ -38,7 +38,10 @@ il.UI.Input = il.UI.Input || {};
       template = addInputTemplateIndexes(template, dynamic_inputs[input_id].index++);
       template = addInputTemplateIds(template, dynamic_inputs[input_id].sub_input_count);
 
-      $(`#${input_id} ${SELECTORS.dynamic_inputs_list}`).append($(template));
+      template = $(template);
+      template.appendTo($(`#${input_id} ${SELECTORS.dynamic_inputs_list}`));
+
+      return template;
     }
 
     /**
@@ -53,18 +56,26 @@ il.UI.Input = il.UI.Input || {};
         return;
       }
 
-      // register the removal event listener for dynamic inputs.
-      $(document).on('click', `#${input_id} .glyph`, function () {
-        $(this).closest(SELECTORS.dynamic_input).remove();
-      });
-
       let sub_inputs = $(template_html).find(':input');
-
       dynamic_inputs[input_id] = {
         template_html: template_html,
         sub_input_count: sub_inputs.length,
         index: input_count,
       };
+
+      registerEventListeners(input_id);
+    }
+
+    /**
+     * @param {string} input_id
+     */
+    let registerEventListeners = function (input_id) {
+      // register the removal event listener for dynamic inputs.
+      $(document).on('click', `#${input_id} .glyph[aria-label="Close"]`, removeDynamicInputHook);
+    }
+
+    let removeDynamicInputHook = function () {
+      $(this).closest(SELECTORS.dynamic_input).remove();
     }
 
     /**
@@ -85,8 +96,6 @@ il.UI.Input = il.UI.Input || {};
           generateId()
         );
       }
-
-      console.log()
 
       return template_html;
     }
