@@ -472,7 +472,7 @@ class ilMailAddressTypesTest extends ilMailBaseTest
         $roleMailboxSearch = $this->getMockBuilder(ilRoleMailboxSearch::class)->disableOriginalConstructor()->onlyMethods(['searchRoleIdsByAddressString'])->getMock();
 
         $roleMailboxSearch->expects($this->once())->method('searchRoleIdsByAddressString')->willReturn([1]);
-        $rbacreview->expects($this->exactly(3))->method('assignedUsers')->willReturn([]);
+        $rbacreview->expects($this->once())->method('assignedUsers')->willReturn([]);
 
         $type = new ilMailRoleAddressType(
             $addressTypeHelper,
