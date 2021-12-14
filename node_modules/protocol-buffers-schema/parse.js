@@ -322,6 +322,14 @@ var onsyntaxversion = function (tokens) {
 
 var onenumvalue = function (tokens) {
   if (tokens.length < 4) throw new Error('Invalid enum value: ' + tokens.slice(0, 3).join(' '))
+  if (tokens[0] === 'reserved') {
+    tokens.shift()
+    while (tokens[0] !== ';') {
+      tokens.shift()
+    }
+    tokens.shift()
+    return null
+  }
   if (tokens[1] !== '=') throw new Error('Expected = but found ' + tokens[1])
   if (tokens[3] !== ';' && tokens[3] !== '[') throw new Error('Expected ; or [ but found ' + tokens[1])
 
@@ -368,7 +376,9 @@ var onenum = function (tokens) {
       continue
     }
     var val = onenumvalue(tokens)
-    e.values[val.name] = val.val
+    if (val !== null) {
+      e.values[val.name] = val.val
+    }
   }
 
   throw new Error('No closing tag for enum')

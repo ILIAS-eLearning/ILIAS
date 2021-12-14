@@ -109,6 +109,12 @@ tape('service parse + stringify', function (t) {
   t.end()
 })
 
+tape('import parse + stringify', function (t) {
+  var syntax = 'syntax = "proto3";\n\n'
+  t.same(schema.stringify(schema.parse(fixture('search.proto'))), syntax + fixture('search.proto'))
+  t.end()
+})
+
 tape('enums with options', function (t) {
   t.same(schema.parse(fixture('enum.proto')), require('./fixtures/enum.json'))
   t.end()

@@ -6,9 +6,9 @@ import {clear} from './obj.js';
 /**
  * Key to use with {@link module:ol/Observable~Observable#unByKey}.
  * @typedef {Object} EventsKey
- * @property {ListenerFunction} listener
- * @property {import("./events/Target.js").EventTargetLike} target
- * @property {string} type
+ * @property {ListenerFunction} listener Listener.
+ * @property {import("./events/Target.js").EventTargetLike} target Target.
+ * @property {string} type Type.
  * @api
  */
 
@@ -22,7 +22,7 @@ import {clear} from './obj.js';
 
 /**
  * @typedef {Object} ListenerObject
- * @property {ListenerFunction} handleEvent
+ * @property {ListenerFunction} handleEvent HandleEvent listener function.
  */
 
 /**
@@ -34,14 +34,14 @@ import {clear} from './obj.js';
  * https://google.github.io/closure-library/api/source/closure/goog/events/events.js.src.html
  *
  * This function efficiently binds a `listener` to a `this` object, and returns
- * a key for use with {@link module:ol/events~unlistenByKey}.
+ * a key for use with {@link module:ol/events.unlistenByKey}.
  *
  * @param {import("./events/Target.js").EventTargetLike} target Event target.
  * @param {string} type Event type.
  * @param {ListenerFunction} listener Listener.
- * @param {Object=} opt_this Object referenced by the `this` keyword in the
+ * @param {Object} [opt_this] Object referenced by the `this` keyword in the
  *     listener. Default is the `target`.
- * @param {boolean=} opt_once If true, add the listener as one-off listener.
+ * @param {boolean} [opt_once] If true, add the listener as one-off listener.
  * @return {EventsKey} Unique key for the listener.
  */
 export function listen(target, type, listener, opt_this, opt_once) {
@@ -70,17 +70,17 @@ export function listen(target, type, listener, opt_this, opt_once) {
  *
  * This function efficiently binds a `listener` as self-unregistering listener
  * to a `this` object, and returns a key for use with
- * {@link module:ol/events~unlistenByKey} in case the listener needs to be
+ * {@link module:ol/events.unlistenByKey} in case the listener needs to be
  * unregistered before it is called.
  *
- * When {@link module:ol/events~listen} is called with the same arguments after this
+ * When {@link module:ol/events.listen} is called with the same arguments after this
  * function, the self-unregistering listener will be turned into a permanent
  * listener.
  *
  * @param {import("./events/Target.js").EventTargetLike} target Event target.
  * @param {string} type Event type.
  * @param {ListenerFunction} listener Listener.
- * @param {Object=} opt_this Object referenced by the `this` keyword in the
+ * @param {Object} [opt_this] Object referenced by the `this` keyword in the
  *     listener. Default is the `target`.
  * @return {EventsKey} Key for unlistenByKey.
  */
@@ -93,7 +93,7 @@ export function listenOnce(target, type, listener, opt_this) {
  * https://google.github.io/closure-library/api/source/closure/goog/events/events.js.src.html
  *
  * The argument passed to this function is the key returned from
- * {@link module:ol/events~listen} or {@link module:ol/events~listenOnce}.
+ * {@link module:ol/events.listen} or {@link module:ol/events.listenOnce}.
  *
  * @param {EventsKey} key The key.
  */
