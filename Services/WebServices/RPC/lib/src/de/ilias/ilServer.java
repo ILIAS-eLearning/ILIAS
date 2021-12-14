@@ -94,7 +94,7 @@ public class ilServer {
 		} catch (ConfigurationException | IOException ex) {
 			System.err.println("Failed to initialize logging: "  + ex.getMessage());
 		}
-		return true;
+		return false;
 	}
 	
 
