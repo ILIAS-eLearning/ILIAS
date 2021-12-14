@@ -23,8 +23,8 @@ interface DynamicInputsAware extends FormInput
 
     /**
      * Returns serverside generated dynamic Inputs, which happens when
-     * providing this @return Input[]
-     * @see Input::withValue().
+     * providing this withValue()
+     * @return Input[]
      */
     public function getDynamicInputs() : array;
 }
