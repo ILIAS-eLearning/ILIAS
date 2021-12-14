@@ -41,6 +41,8 @@ releases).
 - Component maintainers must agree to coordinate the development of their component with the product manager.
 - Component maintainer are responsible for bug fixing of their component and get assigned related bugs automatically 
 by the [Issue-Tracker](https://mantis.ilias.de).
+- Component maintainers are responsible for Pull Requests to their component and get assigned related Pull Requests 
+by the Technical Board according to the [Rules for Maintainers and Coordinators assigned to PRs[(Rules for Maintainers and Coordinators assigned to PRs)
 
 
 ## Becoming a Maintainer
@@ -51,6 +53,46 @@ addition the company the maintainer is working for can be listed, too. In this s
 propose an alternative maintainer at any time. In particular, if the maintainer resigns from his maintenance, a proposal
 for a new maintainer by the company of the old maintainer will be preferred, if the company recently invested 
 substantially in the general condition of the component and the proposed maintainer meets the criteria.
+
+## Implicit Maintainers
+If a component is currently unmaintained a developer can take responsibility for it without agreeing to give full support. 
+An implicit maintainer will get assigned related bugs automatically and will keep the compontent working through the update cycle. 
+S/he will not implement new features or develop the component further. If enhancements of the component are wanted, an
+explicit maintainer or coordinator must be assigned.
+
+## Additional Competences
+A maintainer can pass certain of her/his competences to other people in the community. Currently these are:
+
+* The **competence to handle pull requests** including the rights to merge or close them.
+* The **competence to handle issues in Mantis** including the rights to relable, reassign, close, or reopen them.
+
+If nobody is fullfilling the responsibilities of the component maintainer the Product Manager together with the Technical Board 
+can look for members of the community and assign these competences to them.
+
+## Tracking Maintainerships
+Maintainerships are tracked in maintenance.json files placed in the root of the corresponding components of ILIAS. The 
+file containes the following fields:
+
+* **maintenance_model**: Currently there are two possible entries for this field
+	* "[Classic](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers)"
+	* "[Coordinator](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md#coordinator-model)".
+* **"first_maintainer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on 
+	https://docu.ilias.de. Only relevant if **the maintenance_model** is set to "Classic".
+* **"second_maintainer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on https://docu.ilias.de. 
+	Only relevant if **the maintenance_model** is set to "Classic".
+* **"[implicit_maintainers](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#implicit-maintainers)"**: 
+    An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de. Only relevant if 
+    **the maintenance_model** is set to "Classic" **and** neither a first nor a second maintainers is set.
+* **"coordinator"**: An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
+	Only relevant if **the maintenance_model** is set to "Coordinator".
+* **"[pr_management](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#additional-competences)"** : 
+    An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
+* **"[issue_management](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#additional-competences)"** : 
+    An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
+* **"tester"**: One entry in the form `<username> (<userid>)` pointing to a valid user on 
+	https://docu.ilias.de.
+* **"testcase_writer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on 
+	https://docu.ilias.de.
 
 ## Current Maintainerships
 
