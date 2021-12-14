@@ -15,6 +15,7 @@ class ilDBUpdate3136
      *
      * @param
      * @return
+     * @deprecated use Services/Style/classes/Setup/class.ilStyleClassCopiedObjective.php instead
      */
     public static function copyStyleClass($a_orig_class, $a_class, $a_type, $a_tag, $a_hide = 0)
     {
@@ -65,6 +66,7 @@ class ilDBUpdate3136
      *
      * @param
      * @return
+     * @deprecated use Services/Style/classes/Setup/class.ilStyleClassAddedObjective.php instead
      */
     public static function addStyleClass($a_class, $a_type, $a_tag, $a_parameters = "", $a_hide = 0)
     {
