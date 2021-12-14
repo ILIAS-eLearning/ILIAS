@@ -164,6 +164,8 @@ abstract class DynamicInputsAwareInput extends Input implements DynamicInputsAwa
             return $clone;
         }
 
+        $t = $this->overridePostInputNames($post_data, $clone->getName());
+
         foreach ($this->overridePostInputNames($post_data, $clone->getName()) as $index => $input_data) {
             $result = $template->withInput(new ArrayInputData($input_data))->getContent();
             if ($result->isOk()) {

@@ -11,12 +11,6 @@ use ILIAS\UI\Component as C;
 use ILIAS\Refinery\Constraint;
 use Closure;
 use ilLanguage;
-use ILIAS\UI\Implementation\Component\Input\NameSource;
-use ILIAS\UI\Implementation\Component\Input\InputData;
-use LogicException;
-use ILIAS\Data\Result\Ok;
-use ILIAS\UI\Implementation\Component\Input\Container\Form\ArrayInputData;
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsTemplateNameSource;
 
 /**
  * @author Fabian Schmid <fs@studer-raimann.ch>
@@ -24,13 +18,13 @@ use ILIAS\UI\Implementation\Component\Input\DynamicInputsTemplateNameSource;
  */
 class File extends DynamicInputsAwareInput implements C\Input\Field\File
 {
-    public const KEY_ZIP_EXTRACT = 'file_zip_extract';
-    public const KEY_ZIP_STRUCTURE = 'file_zip_structure';
+    // ===============================================
+    // BEGIN IMPLEMENTATION OF FileUploadAware
+    // ===============================================
 
-    protected C\Input\Field\Group $zip_options;
     protected C\Input\Field\UploadHandler $upload_handler;
     protected array $accepted_mime_types = [];
-    protected bool $has_zip_options = false;
+    protected bool $has_metadata_inputs = false;
     protected int $max_file_amount = 1;
     protected int $max_file_size = 2048;
 
@@ -40,18 +34,13 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
         Factory $refinery,
         C\Input\Field\UploadHandler $handler,
         string $label,
-        ?string $byline,
-        bool $has_zip_options = false
+        ?string $byline
     ) {
         parent::__construct($language, $data_factory, $refinery, $label, $byline);
 
-        $this->value = [];
+        $this->dynamic_input_template = new Hidden($data_factory, $refinery);
         $this->upload_handler = $handler;
-        $this->has_zip_options = $has_zip_options;
-        $this->zip_options = $this->getGroup([
-            self::KEY_ZIP_EXTRACT => $this->getCheckbox($language->txt('file_zip_extract')),
-            self::KEY_ZIP_STRUCTURE => $this->getCheckbox($language->txt('file_zip_structure')),
-        ]);
+        $this->value = [];
     }
 
     public function getUploadHandler() : C\Input\Field\UploadHandler
@@ -98,127 +87,51 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
         return $this->accepted_mime_types;
     }
 
-    public function hasZipOptions() : bool
-    {
-        return $this->has_zip_options;
-    }
+    // ===============================================
+    // END IMPLEMENTATION OF FileUploadAware
+    // ===============================================
 
-    public function getZipOptions() : C\Input\Field\Group
+    // ===============================================
+    // BEGIN OVERWRITTEN METHODS OF DynamicInputsAware
+    // ===============================================
+
+    /**
+     * Merges the provided template with this inputs default one.
+     */
+    public function withTemplateForDynamicInputs(InputInterface $template) : DynamicInputsAwareInput
     {
-        return $this->zip_options;
+        $clone = clone $this;
+        $clone->has_metadata_inputs = true;
+        $clone->dynamic_input_template = $this->mergeTemplateWithInput(
+            $template,
+            $clone->dynamic_input_template
+        );
+
+        return $clone;
     }
 
     public function withValue($value) : DynamicInputsAwareInput
     {
-        /** @var $value FileUploadData[] */
-        $this->checkArgListElements('value', $value, FileUploadData::class);
+        $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
+
         $clone = clone $this;
+        foreach ($value as $file_id => $input_value) {
+            $input_value = (is_array($input_value)) ? $input_value : [$input_value];
+            $input_value[$clone->upload_handler->getFileIdentifierParameterName()] = $file_id;
 
-        foreach ($value as $file_info) {
-            $clone->value[$file_info->getFileId()] = $file_info;
-
-            if ($clone->hasZipOptions() &&
-                null !== $clone->getTemplateForDynamicInputs() &&
-                'application/zip' === $file_info->getMimeType()
-            ) {
-                $dynamic_input = $clone->getGroup([
-                    $clone->getZipOptions(),
-                    $clone->getTemplateForDynamicInputs(),
-                ]);
-
-                $clone->dynamic_inputs[$file_info->getFileId()] = $dynamic_input->withValue(
-                    $file_info->getMetadata(true)
-                );
-            }
-
-            if ((null !== $clone->getTemplateForDynamicInputs())) {
-                $dynamic_input = $clone->getTemplateForDynamicInputs();
-                $clone->dynamic_inputs[$file_info->getFileId()] = $dynamic_input->withValue(
-                    $file_info->getMetadata()
-                );
-            }
+            $clone->dynamic_inputs[$file_id] = $clone->dynamic_input_template->withValue($input_value);
         }
 
         return $clone;
     }
 
-    public function withInput(InputData $post_data) : DynamicInputsAwareInput
+    // ===============================================
+    // END OVERWRITTEN METHODS OF DynamicInputsAware
+    // ===============================================
+
+    public function hasMetadataInputs() : bool
     {
-        if (null === $this->getName()) {
-            throw new LogicException(self::class . '::withNameFrom must be called first.');
-        }
-
-        $clone = clone $this;
-        $post_data = $post_data->getOr($clone->getName(), null);
-        $template = $clone->getTemplateForDynamicInputs();
-        $contains_error = false;
-        $contents = [];
-
-        if (null === $post_data || null === $template) {
-            $clone->content = $clone->applyOperationsTo(new Ok(null));
-            if ($clone->content->isError()) {
-                $clone = $clone->withError((string) $clone->content->error());
-            }
-
-            return $clone;
-        }
-
-        $t = $this->overridePostInputNames($post_data, $clone->getName());
-
-        foreach ($this->overridePostInputNames($post_data, $clone->getName()) as $index => $input_data) {
-            $result = $template->withInput(new ArrayInputData($input_data))->getContent();
-            if ($result->isOk()) {
-                $content = $result->value();
-                // keeps the content mapped to the input name, if e.g. a group
-                // or inputs with multiple values are the provided template.
-                if (is_array($content)) {
-                    foreach ($content as $key => $val) {
-                        $contents[$index][$key] = $val;
-                    }
-                } else {
-                    $contents[] = $content;
-                }
-            } else {
-                $contains_error = true;
-            }
-        }
-
-        if ($contains_error) {
-            $clone->content = $clone->data_factory->error($this->language->txt("ui_error_in_group"));
-        } else {
-            $clone->content = $clone->applyOperationsTo($contents);
-        }
-
-        if ($clone->content->isError()) {
-            $clone = $clone->withError((string) $clone->content->error());
-        }
-
-        return $clone;
-    }
-
-    public function withNameFrom(NameSource $source) : DynamicInputsAwareInput
-    {
-        $has_template = null !== $this->dynamic_input_template;
-        if ($has_template && $this->hasZipOptions()) {
-            $this->dynamic_input_template = $this->getGroup([
-                $this->getZipOptions(),
-                $this->dynamic_input_template,
-            ]);
-        }
-
-        if (!$has_template && $this->hasZipOptions()) {
-            $this->dynamic_input_template = $this->getZipOptions();
-        }
-
-        return parent::withNameFrom($source);
-    }
-
-    /**
-     * @return FileUploadData[]
-     */
-    public function getValue() : array
-    {
-        return $this->value;
+        return $this->has_metadata_inputs;
     }
 
     public function getUpdateOnLoadCode() : Closure
@@ -251,27 +164,17 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
         return true;
     }
 
-    /**
-     * @param C\Input\Field\Input[] $inputs
-     */
-    private function getGroup(array $inputs) : C\Input\Field\Group
+    protected function mergeTemplateWithInput(InputInterface $template, InputInterface $input) : C\Input\Field\Group
     {
+        $inputs = ($template instanceof C\Input\Field\Group) ? $template->getInputs() : [$template];
+        $inputs[$this->upload_handler->getFileIdentifierParameterName()] = $input;
+
         return new Group(
             $this->data_factory,
             $this->refinery,
             $this->language,
             $inputs,
             ''
-        );
-    }
-
-    private function getCheckbox(string $label) : C\Input\Field\Checkbox
-    {
-        return new Checkbox(
-            $this->data_factory,
-            $this->refinery,
-            $label,
-            null
         );
     }
 }

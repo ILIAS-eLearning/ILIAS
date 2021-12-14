@@ -28,6 +28,4 @@ interface FileUploadAware
      * @return string[]
      */
     public function getAcceptedMimeTypes() : array;
-
-    public function hasZipOptions() : bool;
 }

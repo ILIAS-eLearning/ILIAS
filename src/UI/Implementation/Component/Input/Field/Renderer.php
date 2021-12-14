@@ -15,13 +15,8 @@ use ILIAS\UI\Implementation\Render\Template;
 use LogicException;
 use Closure;
 use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use stdClass;
 use ILIAS\FileUpload\Handler\FileInfoResult;
 use ILIAS\Data\DataSize;
-use ILIAS\UI\Implementation\DefaultRenderer;
-use ILIAS\FileUpload\Handler\BasicFileInfoResult;
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsNameSource;
-use ILIAS\UI\Implementation\Component\Input\DynamicInputsTemplateNameSource;
 
 /**
  * Class Renderer
@@ -114,6 +109,9 @@ class Renderer extends AbstractComponentRenderer
 
             case ($component instanceof F\Url):
                 return $this->renderUrlField($component);
+
+            case ($component instanceof F\Hidden):
+                return $this->renderHiddenField($component);
 
             default:
                 throw new LogicException("Cannot render '" . get_class($component) . "'");
@@ -618,132 +616,6 @@ class Renderer extends AbstractComponentRenderer
         return $this->wrapInFormContext($component, $tpl->get(), $id);
     }
 
-    protected function renderGlyph(RendererInterface $default_renderer, string $name) : string
-    {
-        return $default_renderer->render(
-            $this->getUIFactory()->symbol()->glyph()->{$name}()
-        );
-    }
-
-    /**
-     * @param string|int $file_preview_index
-     */
-    protected function renderFileInputPreview(
-        RendererInterface $default_renderer,
-        Template $file_input_template,
-        string $file_input_name,
-        string $file_input_file_identifier,
-        $file_preview_index,
-        FileUploadData $file_data = null,
-        FI\Input $dynamic_input = null
-    ) : Template {
-        $file_input_template->setCurrentBlock('block_file_preview');
-        $file_input_template->setVariable('NAME', $file_input_name);
-        $file_input_template->setVariable('FILE_IDENTIFIER', $file_input_file_identifier);
-        $file_input_template->setVariable('REMOVAL_GLYPH', $this->renderGlyph($default_renderer, 'close'));
-        $file_input_template->setVariable('INDEX', $file_preview_index);
-
-        if (null !== $file_data) {
-            $file_input_template->setVariable('REMOVABLE_CLASS', 'ui-input-file-input-removable');
-            $file_input_template->setVariable('FILE_ID', $file_data->getFileId());
-            $file_input_template->setVariable('FILE_NAME', $file_data->getName());
-            $file_input_template->setVariable('FILE_SIZE',
-                (new DataSize($file_data->getSize(), DataSize::MB))->inBytes() . " MB"
-            );
-        }
-
-        if (null !== $dynamic_input) {
-            $file_input_template->setVariable('METADATA_INPUTS', $default_renderer->render($dynamic_input));
-            $file_input_template->setVariable('EXPAND_GLYPH', $this->renderGlyph($default_renderer, 'expand'));
-            $file_input_template->setVariable('COLLAPSE_GLYPH', $this->renderGlyph($default_renderer, 'collapse'));
-        }
-
-        $file_input_template->parseCurrentBlock();
-        return $file_input_template;
-    }
-
-    protected function initClientsideFileInput(FI\File $input) : FI\File
-    {
-        return $input->withAdditionalOnLoadCode(
-            static function ($id) use ($input) {
-                // parse mime-types to javascript array.
-                $mime_types = json_encode($input->getAcceptedMimeTypes());
-                // stringify boolean value
-                $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
-                $has_zip_options = ($input->hasZipOptions()) ? 'true' : 'false';
-                return "
-                    $(document).ready(function () {
-                        il.UI.Input.File.init(
-                            '$id',
-                            '{$input->getUploadHandler()->getUploadURL()}',
-                            '{$input->getUploadHandler()->getFileRemovalURL()}',
-                            '{$input->getUploadHandler()->getFileIdentifierParameterName()}',
-                            {$input->getMaxFiles()},
-                            {$input->getMaxFileSize()},
-                            $is_disabled,
-                            $has_zip_options,
-                            $mime_types
-                        );
-                    });
-                ";
-            }
-        );
-    }
-
-    protected function renderFileField(FI\File $input, RendererInterface $default_renderer) : string
-    {
-        $template = $this->getTemplate('tpl.file.html', true, true);
-
-        $file_count = 0;
-        $dynamic_inputs = $input->getDynamicInputs();
-        foreach ($input->getValue() as $file_id => $file_data) {
-            $template = $this->renderFileInputPreview(
-                $default_renderer,
-                $template,
-                $input->getName(),
-                $input->getUploadHandler()->getFileIdentifierParameterName(),
-                $file_count++,
-                $file_data,
-                (!empty($dynamic_inputs)) ? $dynamic_inputs[$file_id] : null
-            );
-        }
-
-        $input = $this->initClientsideFileInput($input);
-        $dynamic_inputs_template = $this->getTemplate('tpl.file.html', true, true);
-        $dynamic_inputs_template = $this->renderFileInputPreview(
-            $default_renderer,
-            $dynamic_inputs_template,
-            $input->getName(),
-            $input->getUploadHandler()->getFileIdentifierParameterName(),
-            DynamicInputsTemplateNameSource::INDEX_PLACEHOLDER,
-            null,
-            $input->getTemplateForDynamicInputs()
-        );
-
-        // must be initialized after file input, because of the
-        // order of event listeners.
-        $input = $this->initClientsideRenderer(
-            $input,
-            $dynamic_inputs_template->get('block_file_preview'),
-            $file_count
-        );
-
-        // display the action button (to choose files).
-        $template->setVariable('ACTION_BUTTON', $default_renderer->render(
-            $this->getUIFactory()->button()->shy(
-                $this->txt('select_files_from_computer'),
-                '#'
-            )
-        ));
-
-        $js_id = $this->bindJSandApplyId($input, $template);
-        return $this->wrapInFormContext(
-            $input,
-            $template->get(),
-            $js_id
-        );
-    }
-
     protected function renderSection(F\Section $section, RendererInterface $default_renderer) : string
     {
         $section_tpl = $this->getTemplate("tpl.section.html", true, true);
@@ -768,6 +640,67 @@ class Renderer extends AbstractComponentRenderer
         }
 
         return $section_tpl->get();
+    }
+
+    protected function renderUrlField(F\Url $component) : string
+    {
+        $tpl = $this->getTemplate("tpl.url.html", true, true);
+        $this->applyName($component, $tpl);
+        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
+        $this->maybeDisable($component, $tpl);
+        $id = $this->bindJSandApplyId($component, $tpl);
+        return $this->wrapInFormContext($component, $tpl->get(), $id);
+    }
+
+    protected function renderFileField(FI\File $input, RendererInterface $default_renderer) : string
+    {
+        $template = $this->getTemplate('tpl.file.html', true, true);
+        foreach ($input->getDynamicInputs() as $file_id => $metadata_input) {
+            $template = $this->renderFilePreview(
+                $input,
+                $metadata_input,
+                $default_renderer,
+                $input->getUploadHandler()->getInfoResult($file_id),
+                $template
+            );
+        }
+
+        $file_preview_template = $this->getTemplate('tpl.file.html', true, true);
+        $file_preview_template = $this->renderFilePreview(
+            $input,
+            $input->getTemplateForDynamicInputs(),
+            $default_renderer,
+            $input->getUploadHandler()->getInfoResult($file_id),
+            $file_preview_template
+        );
+
+        $input = $this->initClientsideFileInput($input);
+        $input = $this->initClientsideRenderer($input, $file_preview_template->get('block_file_preview'));
+
+        // display the action button (to choose files).
+        $template->setVariable('ACTION_BUTTON', $default_renderer->render(
+            $this->getUIFactory()->button()->shy(
+                $this->txt('select_files_from_computer'),
+                '#'
+            )
+        ));
+
+        $js_id = $this->bindJSandApplyId($input, $template);
+        return $this->wrapInFormContext(
+            $input,
+            $template->get(),
+            $js_id
+        );
+    }
+
+    protected function renderHiddenField(F\Hidden $input) : string
+    {
+        $template = $this->getTemplate('tpl.hidden.html', true, true);
+        $this->applyName($input, $template);
+        $this->applyValue($input, $template);
+        $this->maybeDisable($input, $template);
+        $this->bindJSandApplyId($input, $template);
+        return $template->get();
     }
 
     /**
@@ -863,25 +796,76 @@ class Renderer extends AbstractComponentRenderer
             Component\Input\Field\Duration::class,
             Component\Input\Field\File::class,
             Component\Input\Field\Url::class,
+            Hidden::class,
         ];
     }
 
-    protected function renderUrlField(F\Url $component) : string
+    protected function renderFilePreview(
+        FI\File $file_input,
+        FI\Input $metadata_input,
+        RendererInterface $default_renderer,
+        ?FileInfoResult $file_info,
+        Template $template
+    ) : Template {
+        $template->setCurrentBlock('block_file_preview');
+        $template->setVariable('REMOVAL_GLYPH', $default_renderer->render(
+            $this->getUIFactory()->symbol()->glyph()->close()
+        ));
+
+        if (null !== $file_info) {
+            $template->setVariable('FILE_NAME', $file_info->getName());
+            $template->setVariable('FILE_SIZE',
+                (new DataSize($file_info->getSize(), DataSize::MB))->inBytes() . " MB"
+            );
+        }
+
+        if ($file_input->hasMetadataInputs()) {
+            $template->setVariable('EXPAND_GLYPH', $default_renderer->render(
+                $this->getUIFactory()->symbol()->glyph()->expand()
+            ));
+            $template->setVariable('COLLAPSE_GLYPH', $default_renderer->render(
+                $this->getUIFactory()->symbol()->glyph()->collapse()
+            ));
+
+            $template->setVariable('METADATA_INPUTS', $default_renderer->render($metadata_input));
+        }
+
+        $template->parseCurrentBlock();
+
+        return $template;
+    }
+
+    protected function initClientsideFileInput(FI\File $input) : FI\File
     {
-        $tpl = $this->getTemplate("tpl.url.html", true, true);
-        $this->applyName($component, $tpl);
-        $this->applyValue($component, $tpl, $this->escapeSpecialChars());
-        $this->maybeDisable($component, $tpl);
-        $id = $this->bindJSandApplyId($component, $tpl);
-        return $this->wrapInFormContext($component, $tpl->get(), $id);
+        return $input->withAdditionalOnLoadCode(
+            static function ($id) use ($input) {
+                $mime_types = json_encode($input->getAcceptedMimeTypes());
+                $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
+
+                return "
+                    $(document).ready(function () {
+                        il.UI.Input.File.init(
+                            '$id',
+                            '{$input->getUploadHandler()->getUploadURL()}',
+                            '{$input->getUploadHandler()->getFileRemovalURL()}',
+                            '{$input->getUploadHandler()->getFileIdentifierParameterName()}',
+                            {$input->getMaxFiles()},
+                            {$input->getMaxFileSize()},
+                            $mime_types,
+                            $is_disabled
+                        );
+                    });
+                ";
+            }
+        );
     }
 
     protected function initClientsideRenderer(
         FI\DynamicInputsAware $input,
-        string $template_html,
-        int $dynamic_input_count
+        string $template_html
     ) : FI\DynamicInputsAware {
         $dynamic_inputs_template_html = $this->replaceTemplateIds($template_html);
+        $dynamic_input_count = count($input->getDynamicInputs());
 
         // note that $dynamic_inputs_template_html is in tilted single quotes (`),
         // because otherwise the html syntax might collide with normal ones.

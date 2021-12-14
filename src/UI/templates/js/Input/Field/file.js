@@ -17,7 +17,7 @@ il.UI.Input = il.UI.Input || {};
 			file_entry: '.ui-input-file-input',
 			file_list: '.ui-input-file-input-list',
 			file_metadata: '.ui-input-file-metadata',
-			file_removable: '.ui-input-file-input-removable',
+			file_id_input: 'input[type="hidden"]',
 			file_error_msg: '.ui-input-file-input-error-msg',
 			removal_glyph: '.glyph[aria-label="Close"]',
 			expand_glyph: '.glyph[aria-label="Expand Content"]',
@@ -42,9 +42,8 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {string} file_identifier
 		 * @param {int} max_file_amount
 		 * @param {int} max_file_size
-		 * @param {boolean} has_zip_options
-		 * @param {boolean} is_disabled
 		 * @param {string[]} mime_types
+		 * @param {boolean} is_disabled
 		 */
 		let init = function (
 			input_id,
@@ -53,9 +52,8 @@ il.UI.Input = il.UI.Input || {};
 			file_identifier,
 			max_file_amount,
 			max_file_size,
+			mime_types,
 			is_disabled,
-			has_zip_options,
-			mime_types
 		) {
 			if (typeof dropzones[input_id] !== 'undefined') {
 				console.error(`Error: tried to register input '${input_id}' as file input twice.`);
@@ -79,7 +77,6 @@ il.UI.Input = il.UI.Input || {};
 				clickable: action_button,
 				autoProcessQueue: false,
 				parallelUploads: 1,
-				has_zip_options: has_zip_options,
 				file_identifier: file_identifier,
 				removal_url: removal_url,
 				input_id: input_id,
@@ -103,7 +100,7 @@ il.UI.Input = il.UI.Input || {};
 		 * @param {Dropzone} dropzone
 		 */
 		let initDropzoneEventListeners = function (dropzone) {
-			dropzone.on('processing', enableAutoProcessingHook);
+			// dropzone.on('processing', enableAutoProcessingHook);
 		}
 
 		/**
@@ -120,12 +117,12 @@ il.UI.Input = il.UI.Input || {};
 			}
 
 			let file_preview = removal_glyph.parent();
-			let removable_file = file_preview.find(SELECTOR.file_removable);
+			let hidden_file_input = file_preview.find(SELECTOR.file_id_input);
 			let dropzone_options = dropzones[file_input_id].options;
 
 			// only remove files that have the removable class and were
 			// already stored on the server.
-			if (0 === removable_file.length) {
+			if ('' === hidden_file_input.val()) {
 				return;
 			}
 
@@ -141,7 +138,7 @@ il.UI.Input = il.UI.Input || {};
 				type: 'GET',
 				url: dropzone_options.removal_url,
 				data: {
-					[dropzone_options.file_identifier]: removable_file.attr('value'),
+					[dropzone_options.file_identifier]: hidden_file_input.val(),
 				},
 				success: json_response => {
 					$(this).parent().remove();
@@ -168,37 +165,6 @@ il.UI.Input = il.UI.Input || {};
 			preview.find('[data-dz-name]').text(file.name);
 			preview.find('[data-dz-size]').text(beautifyFileSize(file.size));
 			setupExpansionGlyphs(preview);
-
-			// if the file is not of type zip but the zip options
-			// were provided, they must be removed.
-			if (dropzones[input_id].options.has_zip_options && 'application/zip' !== file.type) {
-				removeZipOptions(preview);
-			}
-		}
-
-		/**
-		 * @param {jQuery} preview
-		 */
-		let removeZipOptions = function (preview) {
-			// this only works if the zip-options are the two top-
-			// most inputs within the metadata div, but idc.
-			for (let i = 0, i_max = 2; i < i_max; i++) {
-				let zip_option = preview.find(`${SELECTOR.file_metadata} input:eq(0)`);
-				zip_option.closest('.form-group.row').remove();
-			}
-
-			// if they were the only metadata inputs, the toggles
-			// must be removed as well.
-			if (0 === preview.find(`${SELECTOR.file_metadata} input`).length) {
-				preview.find(SELECTOR.expand_glyph).remove();
-				preview.find(SELECTOR.collapse_glyph).remove();
-			}
-		}
-
-		let enableAutoProcessingHook = function () {
-			let dropzone = $(this)[0];
-			console.log($(this));
-			console.log(dropzone);
 		}
 
 		/**
