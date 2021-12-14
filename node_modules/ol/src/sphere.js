@@ -27,7 +27,7 @@ export const DEFAULT_RADIUS = 6371008.8;
  * Get the great circle distance (in meters) between two geographic coordinates.
  * @param {Array} c1 Starting coordinate.
  * @param {Array} c2 Ending coordinate.
- * @param {number=} opt_radius The sphere radius to use.  Defaults to the Earth's
+ * @param {number} [opt_radius] The sphere radius to use.  Defaults to the Earth's
  *     mean radius using the WGS84 ellipsoid.
  * @return {number} The great circle distance between the points (in meters).
  * @api
@@ -67,7 +67,7 @@ function getLengthInternal(coordinates, radius) {
  * the sum of all rings.  For points, the length is zero.  For multi-part
  * geometries, the length is the sum of the length of each part.
  * @param {import("./geom/Geometry.js").default} geometry A geometry.
- * @param {SphereMetricOptions=} opt_options Options for the
+ * @param {SphereMetricOptions} [opt_options] Options for the
  * length calculation.  By default, geometries are assumed to be in 'EPSG:3857'.
  * You can change this by providing a `projection` option.
  * @return {number} The spherical length (in meters).
@@ -90,20 +90,26 @@ export function getLength(geometry, opt_options) {
     }
     case GeometryType.LINE_STRING:
     case GeometryType.LINEAR_RING: {
-      coordinates = /** @type {import("./geom/SimpleGeometry.js").default} */ (geometry).getCoordinates();
+      coordinates = /** @type {import("./geom/SimpleGeometry.js").default} */ (
+        geometry
+      ).getCoordinates();
       length = getLengthInternal(coordinates, radius);
       break;
     }
     case GeometryType.MULTI_LINE_STRING:
     case GeometryType.POLYGON: {
-      coordinates = /** @type {import("./geom/SimpleGeometry.js").default} */ (geometry).getCoordinates();
+      coordinates = /** @type {import("./geom/SimpleGeometry.js").default} */ (
+        geometry
+      ).getCoordinates();
       for (i = 0, ii = coordinates.length; i < ii; ++i) {
         length += getLengthInternal(coordinates[i], radius);
       }
       break;
     }
     case GeometryType.MULTI_POLYGON: {
-      coordinates = /** @type {import("./geom/SimpleGeometry.js").default} */ (geometry).getCoordinates();
+      coordinates = /** @type {import("./geom/SimpleGeometry.js").default} */ (
+        geometry
+      ).getCoordinates();
       for (i = 0, ii = coordinates.length; i < ii; ++i) {
         coords = coordinates[i];
         for (j = 0, jj = coords.length; j < jj; ++j) {
@@ -113,7 +119,10 @@ export function getLength(geometry, opt_options) {
       break;
     }
     case GeometryType.GEOMETRY_COLLECTION: {
-      const geometries = /** @type {import("./geom/GeometryCollection.js").default} */ (geometry).getGeometries();
+      const geometries =
+        /** @type {import("./geom/GeometryCollection.js").default} */ (
+          geometry
+        ).getGeometries();
       for (i = 0, ii = geometries.length; i < ii; ++i) {
         length += getLength(geometries[i], opt_options);
       }
@@ -129,7 +138,7 @@ export function getLength(geometry, opt_options) {
 /**
  * Returns the spherical area for a list of coordinates.
  *
- * [Reference](https://trs-new.jpl.nasa.gov/handle/2014/40409)
+ * [Reference](https://trs.jpl.nasa.gov/handle/2014/40409)
  * Robert. G. Chamberlain and William H. Duquette, "Some Algorithms for
  * Polygons on a Sphere", JPL Publication 07-03, Jet Propulsion
  * Laboratory, Pasadena, CA, June 2007
@@ -161,7 +170,7 @@ function getAreaInternal(coordinates, radius) {
  * Get the spherical area of a geometry.  This is the area (in meters) assuming
  * that polygon edges are segments of great circles on a sphere.
  * @param {import("./geom/Geometry.js").default} geometry A geometry.
- * @param {SphereMetricOptions=} opt_options Options for the area
+ * @param {SphereMetricOptions} [opt_options] Options for the area
  *     calculation.  By default, geometries are assumed to be in 'EPSG:3857'.
  *     You can change this by providing a `projection` option.
  * @return {number} The spherical area (in square meters).
@@ -186,7 +195,9 @@ export function getArea(geometry, opt_options) {
       break;
     }
     case GeometryType.POLYGON: {
-      coordinates = /** @type {import("./geom/Polygon.js").default} */ (geometry).getCoordinates();
+      coordinates = /** @type {import("./geom/Polygon.js").default} */ (
+        geometry
+      ).getCoordinates();
       area = Math.abs(getAreaInternal(coordinates[0], radius));
       for (i = 1, ii = coordinates.length; i < ii; ++i) {
         area -= Math.abs(getAreaInternal(coordinates[i], radius));
@@ -194,7 +205,9 @@ export function getArea(geometry, opt_options) {
       break;
     }
     case GeometryType.MULTI_POLYGON: {
-      coordinates = /** @type {import("./geom/SimpleGeometry.js").default} */ (geometry).getCoordinates();
+      coordinates = /** @type {import("./geom/SimpleGeometry.js").default} */ (
+        geometry
+      ).getCoordinates();
       for (i = 0, ii = coordinates.length; i < ii; ++i) {
         coords = coordinates[i];
         area += Math.abs(getAreaInternal(coords[0], radius));
@@ -205,7 +218,10 @@ export function getArea(geometry, opt_options) {
       break;
     }
     case GeometryType.GEOMETRY_COLLECTION: {
-      const geometries = /** @type {import("./geom/GeometryCollection.js").default} */ (geometry).getGeometries();
+      const geometries =
+        /** @type {import("./geom/GeometryCollection.js").default} */ (
+          geometry
+        ).getGeometries();
       for (i = 0, ii = geometries.length; i < ii; ++i) {
         area += getArea(geometries[i], opt_options);
       }
@@ -225,7 +241,7 @@ export function getArea(geometry, opt_options) {
  * @param {number} distance The great-circle distance between the origin
  *     point and the target point.
  * @param {number} bearing The bearing (in radians).
- * @param {number=} opt_radius The sphere radius to use.  Defaults to the Earth's
+ * @param {number} [opt_radius] The sphere radius to use.  Defaults to the Earth's
  *     mean radius using the WGS84 ellipsoid.
  * @return {import("./coordinate.js").Coordinate} The target point.
  */

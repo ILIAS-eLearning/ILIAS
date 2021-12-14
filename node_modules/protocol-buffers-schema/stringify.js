@@ -1,3 +1,8 @@
+var onimport = function (i, result) {
+  result.push('import "' + i + '";', '')
+  return result
+}
+
 var onfield = function (f, result) {
   var prefix = f.repeated ? 'repeated' : f.required ? 'required' : 'optional'
   if (f.type === 'map') prefix = 'map<' + f.map.from + ',' + f.map.to + '>'
@@ -171,6 +176,12 @@ module.exports = function (schema) {
   result.push('syntax = "proto' + schema.syntax + '";', '')
 
   if (schema.package) result.push('package ' + schema.package + ';', '')
+
+  if (schema.imports) {
+    schema.imports.forEach(function (i) {
+      onimport(i, result)
+    })
+  }
 
   if (!schema.options) schema.options = {}
 

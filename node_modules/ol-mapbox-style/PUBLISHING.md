@@ -5,7 +5,7 @@ To create and publish a release, perform the following steps:
 In order to make these release-related changes, create a branch in your repository clone.
 Note that all the examples below use 2.11.0 as the release version, you'll want to use the appropriate version numbers for the release you're working toward.
 
-    git checkout -b v2.11.0 origin/master
+    git checkout -b v2.11.0 origin/main
 
 ### Bump the version in package.json
 
