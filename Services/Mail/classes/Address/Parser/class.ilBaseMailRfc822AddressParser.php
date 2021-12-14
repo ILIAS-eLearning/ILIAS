@@ -32,14 +32,6 @@ abstract class ilBaseMailRfc822AddressParser implements ilMailRecipientParser
 
     /**
      * @param string $addresses A comma separated list of email addresses
-     */
-    public function setAddresses(string $addresses) : void
-    {
-        $this->addresses = $addresses;
-    }
-
-    /**
-     * @param string $addresses A comma separated list of email addresses
      * @return ilMailAddress[]
      */
     abstract protected function parseAddressString(string $addresses) : array;
