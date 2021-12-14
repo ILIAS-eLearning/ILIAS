@@ -76,22 +76,22 @@ file containes the following fields:
 * **maintenance_model**: Currently there are two possible entries for this field
 	* "[Classic](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#maintainers)"
 	* "[Coordinator](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance-coordinator.md#coordinator-model)".
-* **"first_maintainer"**: One entry in the form "<username> (<userid>)" pointing to a valid user on 
+* **"first_maintainer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on 
 	https://docu.ilias.de. Only relevant if **the maintenance_model** is set to "Classic".
-* **"second_maintainer"**: One entry in the form "<username> (<userid>)" pointing to a valid user on https://docu.ilias.de. 
+* **"second_maintainer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on https://docu.ilias.de. 
 	Only relevant if **the maintenance_model** is set to "Classic".
 * **"[implicit_maintainers](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#implicit-maintainers)"**: 
-    An array in the form [ "<username> (<userid>)" ] pointing to valid users on https://docu.ilias.de. Only relevant if 
+    An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de. Only relevant if 
     **the maintenance_model** is set to "Classic" **and** neither a first nor a second maintainers is set.
-* **"coordinator"**: An array in the form [ "<username> (<userid>)" ] pointing to valid users on https://docu.ilias.de.
+* **"coordinator"**: An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
 	Only relevant if **the maintenance_model** is set to "Coordinator".
 * **"[pr_management](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#additional-competences)"** : 
-    An array in the form [ "<username> (<userid>)" ] pointing to valid users on https://docu.ilias.de.
+    An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
 * **"[issue_management](https://github.com/ILIAS-eLearning/ILIAS/blob/trunk/docs/development/maintenance.md#additional-competences)"** : 
-    An array in the form [ "<username> (<userid>)" ] pointing to valid users on https://docu.ilias.de.
-* **"tester"**: One entry in the form "<username> (<userid>)" pointing to a valid user on 
+    An array in the form [ `<username> (<userid>)` ] pointing to valid users on https://docu.ilias.de.
+* **"tester"**: One entry in the form `<username> (<userid>)` pointing to a valid user on 
 	https://docu.ilias.de.
-* **"testcase_writer"**: One entry in the form "<username> (<userid>)" pointing to a valid user on 
+* **"testcase_writer"**: One entry in the form `<username> (<userid>)` pointing to a valid user on 
 	https://docu.ilias.de.
 
 ## Current Maintainerships
