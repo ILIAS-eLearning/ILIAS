@@ -25,7 +25,7 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
     protected C\Input\Field\UploadHandler $upload_handler;
     protected array $accepted_mime_types = [];
     protected bool $has_metadata_inputs = false;
-    protected int $max_file_amount = 1;
+    protected int $max_file_amount = 99;
     protected int $max_file_size = 2048;
 
     public function __construct(
