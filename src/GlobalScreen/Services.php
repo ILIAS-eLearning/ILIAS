@@ -25,31 +25,20 @@ class Services
      * @var ProviderFactory
      */
     private $provider_factory;
-
+    /**
+     * @var string
+     */
+    public $resource_version = '';
 
     /**
      * Services constructor.
      *
      * @param ProviderFactory $provider_factory
      */
-    public function __construct(ProviderFactory $provider_factory)
+    public function __construct(ProviderFactory $provider_factory, string $resource_version = '')
     {
         $this->provider_factory = $provider_factory;
-    }
-
-
-    /**
-     * @param ProviderFactory $provider_factory
-     *
-     * @return Services
-     */
-    public static function getInstance(ProviderFactory $provider_factory)
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new self($provider_factory);
-        }
-
-        return self::$instance;
+        $this->resource_version = $resource_version;
     }
 
 
@@ -88,7 +77,7 @@ class Services
      */
     public function layout() : LayoutServices
     {
-        return $this->get(LayoutServices::class);
+        return $this->getWithArgument(LayoutServices::class, $this->resource_version);
     }
 
 

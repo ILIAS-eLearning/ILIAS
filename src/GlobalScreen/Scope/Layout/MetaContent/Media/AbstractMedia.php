@@ -12,16 +12,20 @@ abstract class AbstractMedia
      * @var string
      */
     protected $content = "";
-
+    /**
+     * @var string
+     */
+    protected $version = '';
 
     /**
      * AbstractMedia constructor.
      *
      * @param string $content
      */
-    public function __construct(string $content)
+    public function __construct(string $content, string $version)
     {
         $this->content = $content;
+        $this->version = $version;
     }
 
 
