@@ -3240,7 +3240,6 @@ cntr#:#sorting_new_items_direction#:#新規オブジェクトの並び替え順
 cntr#:#sorting_new_items_order#:#新規オブジェクトの順
 cntr#:#sorting_new_items_position#:#新規オブジェクトの位置
 cntr#:#tab_back_to_repository#:#リピジトリへ戻る
-common#:#3rd_party_software#:#サードパーティ製ソフトウェア
 common#:#absolute_path#:#絶対Path
 common#:#accept_usr_agreement#:#使用許諾書を承諾しますか?
 common#:#access#:#アクセス
@@ -16622,3 +16621,7 @@ content#:#cont_sur_block_format#:#Surrounding Section###26 11 2021 new variable
 ui#:#datetime_required#:#Time/Date required###26 11 2021 new variable
 ui#:#duration_end_must_not_be_earlier_than_start#:#Start must not be later than end.###26 11 2021 new variable
 forum#:#sticky_threads_sorting#:#Sticky Threads Sorting###26 11 2021 new variable
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
+common#:#actions_for#:#Actions for %s###15 12 2021 new variable
