@@ -1,22 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- *
  * @author Helmut Schottmüller <ilias@aurealis.de>
  */
 class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, array $a_results)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        array $a_results
+    ) {
         global $DIC;
 
         $lng = $DIC->language();
@@ -66,7 +72,7 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         $this->getItems($a_results);
     }
 
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $lng = $this->lng;
         $cols["question"] = array(
@@ -104,8 +110,9 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         return $cols;
     }
     
-    protected function getItems(array $a_results)
-    {
+    protected function getItems(
+        array $a_results
+    ) : void {
         $data = array();
             
         foreach ($a_results as $question_res) {
@@ -157,13 +164,6 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         return !in_array($a_field, array("question", "question_type"));
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function fillRow($data)
     {
         $this->tpl->setVariable("TITLE", $data['title']);
@@ -214,25 +214,5 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             }
         }
-        
-        /*
-        if($data["subitems"])
-        {
-            $this->tpl->setCurrentBlock("tbl_content");
-            $this->tpl->parseCurrentBlock();
-
-            foreach($data["subitems"] as $subitem)
-            {
-                $this->fillRow($subitem);
-
-                $this->tpl->setCurrentBlock("tbl_content");
-                $this->css_row = ($this->css_row != "tblrow1")
-                    ? "tblrow1"
-                    : "tblrow2";
-                $this->tpl->setVariable("CSS_ROW", $this->css_row);
-                $this->tpl->parseCurrentBlock();
-            }
-        }
-        */
     }
 }

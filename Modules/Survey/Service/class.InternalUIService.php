@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey;
 
@@ -17,65 +27,22 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class InternalUIService
 {
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
+    protected \ilCtrl $ctrl;
+    protected \ilObjectServiceInterface $object_service;
+    protected \ilLanguage $lng;
+    protected ModeFactory $mode_factory;
+    protected InternalDomainService $domain_service;
+    protected ServerRequestInterface $request;
+    protected \ilObjUser $user;
+    protected \ilGlobalTemplateInterface $main_tpl;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ILIAS\HTTP\Services $http;
 
-    /**
-     * @var \ilObjectServiceInterface
-     */
-    protected $object_service;
-
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ModeFactory
-     */
-    protected $mode_factory;
-
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain_service;
-
-    /**
-     * @var ServerRequestInterface
-     */
-    protected $request;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ilGlobalTemplateInterface
-     */
-    protected $main_tpl;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ILIAS\DI\HTTPServices
-     */
-    protected $http;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         \ilObjectServiceInterface $object_service,
         ModeFactory $mode_factory,
         InternalDomainService $domain_service
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->object_service = $object_service;
@@ -149,7 +116,7 @@ class InternalUIService
         return $this->main_tpl;
     }
 
-    public function http() : \ILIAS\DI\HTTPServices
+    public function http() : \ILIAS\HTTP\Services
     {
         return $this->http;
     }

@@ -1,54 +1,37 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
+
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Participants;
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\InternalRepoService;
-use ILIAS\Survey\Execution\RunDBRepository;
 
 /**
  * Participant status manager
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class StatusManager
 {
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain_service;
-
-    /**
-     * @var \ilObjSurvey
-     */
-    protected $survey;
-
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * @var \ILIAS\Survey\Access\AccessManager
-     */
-    protected $access;
-
-    /**
-     * @var \ILIAS\Survey\Mode\FeatureConfig
-     */
-    protected $feature_config;
-
-    /**
-     * @var InternalRepoService
-     */
+    protected InternalDomainService $domain_service;
+    protected \ilObjSurvey $survey;
+    protected int $user_id;
+    protected \ILIAS\Survey\Access\AccessManager $access;
+    protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
     protected $repo_service;
 
-    /**
-     * Constructor
-     */
     public function __construct(
         InternalDomainService $domain_service,
         InternalRepoService $repo_service,
@@ -87,10 +70,10 @@ class StatusManager
 
     /**
      * This will return true, if a survey without appraisees is finished
-     * @param string $code
+     * Note: Code will be gathered from session
      * @return bool
      */
-    public function cantStartAgain(string $code = "") : bool
+    public function cantStartAgain() : bool
     {
         $feature_config = $this->feature_config;
 
@@ -98,7 +81,7 @@ class StatusManager
             return false;
         }
 
-        if ($this->run_manager->hasFinished($this->user_id, $code)) {
+        if ($this->run_manager->hasFinished()) {
             // check for
             // !(!$this->object->isAccessibleWithoutCode() && !$anonymous_code && $ilUser->getId() == ANONYMOUS_USER_ID)
             // removed
@@ -110,12 +93,11 @@ class StatusManager
 
     /**
      * Can the current user see the own results
-     * @param string $code
      * @return bool
      */
-    public function canViewUserResults(string $code = "") : bool
+    public function canViewUserResults() : bool
     {
-        if ($this->cantStartAgain($code) &&
+        if ($this->cantStartAgain() &&
             $this->user_id != ANONYMOUS_USER_ID &&
             $this->survey->hasViewOwnResults()) {
             return true;
@@ -125,12 +107,11 @@ class StatusManager
 
     /**
      * Can the current user mail the confirmation
-     * @param string $code
      * @return bool
      */
-    public function canMailUserResults(string $code = "") : bool
+    public function canMailUserResults() : bool
     {
-        if ($this->cantStartAgain($code) &&
+        if ($this->cantStartAgain() &&
             $this->user_id != ANONYMOUS_USER_ID &&
             $this->survey->hasMailConfirmation()) {
             return true;

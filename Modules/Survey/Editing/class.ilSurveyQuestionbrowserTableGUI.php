@@ -1,42 +1,37 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-*/
+ * @author Helmut Schottmüller <ilias@aurealis.de>
+ */
 class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilRbacReview
-     */
-    protected $rbacreview;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    protected $editable = true;
-    protected $writeAccess = false;
-    protected $browsercolumns = array();
-    protected $questionpools = null;
+    protected ilRbacReview $rbacreview;
+    protected ilObjUser $user;
+    protected ilAccessHandler $access;
+    protected bool $editable = true;
+    protected bool $writeAccess = false;
+    protected array $browsercolumns = array();
+    protected ?array $questionpools = null;
     
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_object, $a_write_access = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjSurvey $a_object,
+        bool $a_write_access = false
+    ) {
         global $DIC;
 
         $this->rbacreview = $DIC->rbac()->review();
@@ -86,7 +81,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->initData($a_object);
     }
     
-    public function initData($a_object)
+    public function initData(ilObjSurvey $a_object) : void
     {
         $arrFilter = array();
         foreach ($this->getFilterItems() as $item) {
@@ -107,7 +102,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function getQuestionPools()
+    public function getQuestionPools() : array
     {
         return $this->questionpools;
     }
@@ -118,9 +113,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
     public function initFilter()
     {
         $lng = $this->lng;
-        $rbacreview = $this->rbacreview;
-        $ilUser = $this->user;
-        
+
         // title
         $ti = new ilTextInputGUI($lng->txt("survey_question_title"), "title");
         $ti->setMaxLength(64);
@@ -185,18 +178,8 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->filter["type"] = $si->getValue();
     }
     
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function fillRow($data)
     {
-        $ilUser = $this->user;
-        $ilAccess = $this->access;
-        
         $this->tpl->setVariable('QUESTION_ID', $data["question_id"]);
         $this->tpl->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($data["title"]));
 
@@ -213,22 +196,22 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("QPL", ilUtil::prepareFormOutput($data["spl"]));
     }
     
-    public function setEditable($value)
+    public function setEditable(bool $value) : void
     {
         $this->editable = $value;
     }
     
-    public function getEditable()
+    public function getEditable() : bool
     {
         return $this->editable;
     }
 
-    public function setWriteAccess($value)
+    public function setWriteAccess(bool $value) : void
     {
         $this->writeAccess = $value;
     }
     
-    public function getWriteAccess()
+    public function getWriteAccess() : bool
     {
         return $this->writeAccess;
     }

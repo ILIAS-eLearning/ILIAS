@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use \ILIAS\Survey\Participants;
 
@@ -20,76 +31,22 @@ use \ILIAS\Survey\Participants;
  */
 class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
-    /**
-     * @var ilNavigationHistory
-     */
-    protected $nav_history;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-     * @var Participants\InvitationsManager
-     */
-    protected $invitation_manager;
-
-    /**
-     * @var \ILIAS\Survey\InternalService
-     */
-    protected $survey_service;
-
-    /**
-     * @var \ILIAS\Survey\Mode\FeatureConfig|null
-     */
-    protected $feature_config = null;
-
-    /**
-     * @var \ILIAS\Survey\Execution\SessionManager
-     */
-    protected $session_manager;
-
-    /**
-     * @var \ILIAS\Survey\Access\AccessManager|null
-     */
-    protected $access_manager = null;
-
-    /**
-     * @var \ILIAS\Survey\Execution\RunManager
-     */
-    protected $run_manager;
-
-    /**
-     * @var \ILIAS\Survey\Participants\StatusManager
-     */
-    protected $status_manager;
-
-    /**
-     * @var \ilObjSurvey
-     */
-    protected $survey = null;
+    protected ilNavigationHistory $nav_history;
+    protected ilTabsGUI $tabs;
+    protected ilHelpGUI $help;
+    protected ilLogger $log;
+    protected Participants\InvitationsManager $invitation_manager;
+    protected \ILIAS\Survey\InternalService $survey_service;
+    protected ?\ILIAS\Survey\Mode\FeatureConfig $feature_config = null;
+    protected \ILIAS\Survey\Execution\SessionManager $session_manager;
+    protected ?\ILIAS\Survey\Access\AccessManager $access_manager = null;
+    protected \ILIAS\Survey\Execution\RunManager $run_manager;
+    protected \ILIAS\Survey\Participants\StatusManager $status_manager;
+    protected ?ilObjSurvey $survey = null;
 
     public function __construct()
     {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
-
 
         $this->user = $DIC->user();
         $this->survey_service = $DIC->survey()->internal();
@@ -143,7 +100,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilTabs = $this->tabs;
         $access_manager = $this->access_manager;
@@ -337,13 +294,10 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     }
 
     /**
-    * Redirects the evaluation object call to the ilSurveyEvaluationGUI class
-    *
-    * Coming from ListGUI...
-    *
-    * @access	private
-    */
-    public function evaluationObject()
+     * Redirects the evaluation object call to the ilSurveyEvaluationGUI class
+     * Coming from ListGUI...
+     */
+    public function evaluationObject() : void
     {
         $eval_gui = new ilSurveyEvaluationGUI($this->object);
         $this->ctrl->setCmdClass(get_class($eval_gui));
@@ -373,10 +327,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->lng->txt("svy_ind_feedb_info"));
     }
 
-    /**
-    * save object
-    * @access	public
-    */
     public function afterSave(ilObject $a_new_object)
     {
         // #16446
@@ -407,12 +357,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $a_new_object->getRefId() . "&cmd=properties");
     }
     
-    /**
-    * adds tabs to tab gui object
-    *
-    * @param	object		$tabs_gui		ilTabsGUI object
-    */
-    public function getTabs()
+    public function getTabs() : void
     {
         $ilUser = $this->user;
         $ilHelp = $this->help;
@@ -422,8 +367,9 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             return;
         }
 
+        // @todo investigate, if this can still be the case
         if ($this->object instanceof ilObjSurveyQuestionPool) {
-            return true;
+            return;
         }
         
         $ilHelp->setScreenIdComponent("svy");
@@ -558,17 +504,8 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     // SETTINGS
     //
             
-    /**
-    * Save the survey properties
-    *
-    * Save the survey properties
-    *
-    * @access private
-    */
-    public function savePropertiesObject()
+    public function savePropertiesObject() : void
     {
-        $rbacsystem = $this->rbacsystem;
-        $obj_service = $this->object_service;
         $settings_ui = $this->survey_service->ui()->surveySettings($this->object);
 
         $form = $settings_ui->form("ilObjSurveyGUI");
@@ -588,24 +525,16 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->propertiesObject($form);
     }
     
-    /**
-     * Init survey settings form
-     *
-     * @return ilPropertyFormGUI
-     */
-    public function initPropertiesForm()
+    public function initPropertiesForm() : ilPropertyFormGUI
     {
         $form = $this->survey_service
             ->ui()->surveySettings($this->object)->form("ilObjSurveyGUI");
         return $form;
     }
     
-    /**
-     * Add subtabs for tabs
-     * @param type $a_section
-     */
-    public function addSubTabs($a_section)
-    {
+    public function addSubTabs(
+        string $a_section
+    ) : void {
         if ($a_section == 'settings') {
             $this->tabs_gui->addSubTabTarget(
                 "settings",
@@ -624,12 +553,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
 
     /**
-    * Display and fill the properties form of the test
-    *
-    * @access	public
-    */
-    public function propertiesObject(ilPropertyFormGUI $a_form = null)
-    {
+     * Display the properties form
+     */
+    public function propertiesObject(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $ilTabs = $this->tabs;
         $ilHelp = $this->help;
         
@@ -650,7 +578,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->tpl->setContent($a_form->getHTML());
     }
             
-    public function doAutoCompleteObject()
+    public function doAutoCompleteObject() : void
     {
         $fields = array('login','firstname','lastname','email');
                 
@@ -667,34 +595,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         echo $auto->getList(ilUtil::stripSlashes($_REQUEST['term']));
         exit();
     }
-    
-    /**
-     * Enable all settings - Confirmation
-     */
-    public function confirmResetTemplateObject()
-    {
-        ilUtil::sendQuestion($this->lng->txt("survey_confirm_template_reset"));
-        $this->tpl->addBlockFile("ADM_CONTENT", "adm_content", "tpl.il_svy_svy_confirm_resettemplate.html", "Modules/Survey");
-        $this->tpl->setCurrentBlock("adm_content");
-        $this->tpl->setVariable("BTN_CONFIRM_REMOVE", $this->lng->txt("confirm"));
-        $this->tpl->setVariable("BTN_CANCEL_REMOVE", $this->lng->txt("cancel"));
-        $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "resetTemplateObject"));
-        $this->tpl->parseCurrentBlock();
-    }
-
-    /**
-     * Enable all settings - remove template
-     */
-    public function resetTemplateObject()
-    {
-        $this->object->setTemplate(null);
-        $this->object->saveToDB();
-
-        ilUtil::sendSuccess($this->lng->txt("survey_template_reset"), true);
-        $this->ctrl->redirect($this, "properties");
-    }
-
-    
     
     //
     // IMPORT/EXPORT
@@ -726,14 +626,10 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         return $form;
     }
     
-    /**
-    * form for new survey object import
-    */
-    public function importSurveyObject()
+    public function importSurveyObject() : void
     {
         $tpl = $this->tpl;
 
-        $parent_id = $_GET["ref_id"];
         $new_type = $_REQUEST["new_type"];
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
@@ -813,7 +709,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     * not very nice to set cmdClass/Cmd manually, if everything
     * works through ilCtrl in the future this may be changed
     */
-    public function infoScreenObject()
+    public function infoScreenObject() : void
     {
         $this->ctrl->setCmd("showSummary");
         $this->ctrl->setCmdClass("ilinfoscreengui");
@@ -823,7 +719,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     /**
      * show information screen
      */
-    public function infoScreen()
+    public function infoScreen() : void
     {
         $ilTabs = $this->tabs;
         if (!$this->access_manager->canAccessInfoScreen()) {
@@ -836,7 +732,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl->forwardCommand($info);
     }
 
-    public function addLocatorItems()
+    public function addLocatorItems() : void
     {
         $ilLocator = $this->locator;
         switch ($this->ctrl->getCmd()) {
@@ -844,6 +740,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             case "previous":
             case "start":
             case "resume":
+            case "infoScreen":
             case "redirectQuestion":
                 $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
                 break;
@@ -859,10 +756,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             case "importSurvey":
             case "cloneAll":
                 break;
-            case "infoScreen":
-                $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
-                break;
-        default:
+            default:
                 $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
                         
                 // this has to be done here because ilSurveyEditorGUI is called after finalizing the locator
@@ -881,15 +775,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
     }
     
-   
-   
     /**
-    * redirect script
-    *
-    * @param	string		$a_target
-    */
-    public static function _goto($a_target, $a_access_code = "")
-    {
+     * redirect script
+     */
+    public static function _goto(
+        string $a_target,
+        string $a_access_code = ""
+    ) : void {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
@@ -931,9 +823,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             ilObjectGUI::_gotoRepositoryRoot();
         }
     }
-    
-    public function getUserResultsTable($a_active_id)
-    {
+
+    /**
+     * @todo move to evaluation sub-service
+     */
+    public function getUserResultsTable(
+        int $a_active_id
+    ) : string {
         $rtpl = new ilTemplate("tpl.svy_view_user_results.html", true, true, "Modules/Survey");
         
         $show_titles = (bool) $this->object->getShowQuestionTitles();
@@ -979,8 +875,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         
         return $rtpl->get();
     }
-    
-    protected function viewUserResultsObject()
+
+    /**
+     * @todo move to evaluation sub-service
+     */
+    protected function viewUserResultsObject() : void
     {
         $ilUser = $this->user;
         $tpl = $this->tpl;
@@ -989,7 +888,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
         $active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);
 
-        if (!$this->run_manager->hasFinished($ilUser->getId(), $anonymous_code) ||
+        if (!$this->run_manager->hasFinished() ||
             !$active_id) {
             $this->ctrl->redirect($this, "infoScreen");
         }
@@ -1003,9 +902,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $html = $this->getUserResultsTable($active_id);
         $tpl->setContent($html);
     }
-    
-    protected function getUserResultsPlain($a_active_id)
-    {
+
+    /**
+     * @todo move to evaluation sub-service
+     */
+    protected function getUserResultsPlain(
+        int $a_active_id
+    ) : string {
         $res = array();
         
         $show_titles = (bool) $this->object->getShowQuestionTitles();
@@ -1100,8 +1003,10 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         return implode("\n", $res);
     }
     
-    public function sendUserResultsMail($a_active_id, $a_recipient)
-    {
+    public function sendUserResultsMail(
+        int $a_active_id,
+        string $a_recipient
+    ) : void {
         $ilUser = $this->user;
         
         $finished = $this->object->getSurveyParticipants(array($a_active_id));
@@ -1135,13 +1040,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $mmail->Send();
     }
         
-    public function mailUserResultsObject()
+    public function mailUserResultsObject() : void
     {
         $ilUser = $this->user;
         
         $anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
         $active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);
-        if (!$this->run_manager->hasFinished($ilUser->getId(), $anonymous_code) ||
+        if (!$this->run_manager->hasFinished() ||
             !$active_id) {
             $this->ctrl->redirect($this, "infoScreen");
         }
@@ -1161,13 +1066,12 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     }
     
     /**
-     * Check rbac or position permission
-     * @param string $a_rbac_permission
-     * @param string $a_position_permission
-     * @return bool
+     * @todo move to access manager
      */
-    protected function checkRbacOrPositionPermission($a_rbac_permission, $a_position_permission)
-    {
+    protected function checkRbacOrPositionPermission(
+        string $a_rbac_permission,
+        string $a_position_permission
+    ) : bool {
         $access = $GLOBALS['DIC']->access();
         return $access->checkRbacOrPositionPermissionAccess(
             $a_rbac_permission,

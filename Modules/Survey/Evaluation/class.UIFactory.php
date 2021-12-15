@@ -1,5 +1,4 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -24,24 +23,10 @@ use ILIAS\Survey\InternalDomainService;
  */
 class UIFactory
 {
-    /**
-     * @var InternalUIService
-     */
-    protected $ui_service;
+    protected InternalUIService $ui_service;
+    protected \ilObjectServiceInterface $object_service;
+    protected InternalDomainService $domain_service;
 
-    /**
-     * @var \ilObjectServiceInterface
-     */
-    protected $object_service;
-
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain_service;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         InternalUIService $ui_service,
         \ilObjectServiceInterface $object_service,

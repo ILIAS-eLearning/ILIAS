@@ -24,26 +24,16 @@ namespace ILIAS\Survey\Evaluation;
  */
 class EvaluationGUIRequest
 {
-    /**
-     * @var \ILIAS\DI\HTTPServices
-     */
-    protected $http;
+    protected \ILIAS\HTTP\Services $http;
+    protected array $params;
 
-    /**
-     * @var array
-     */
-    protected $params;
-
-    /**
-     * @param \ILIAS\DI\HTTPServices    $http
-     */
     public function __construct(
-        \ILIAS\DI\HTTPServices $http
+        \ILIAS\HTTP\Services $http
     ) {
         $this->http = $http;
         $this->params = array_merge(
-            $http->request()->getQueryParams(),
-            $http->request()->getParsedBody()
+            (array) $http->request()->getQueryParams(),
+            (array) $http->request()->getParsedBody()
         );
     }
 

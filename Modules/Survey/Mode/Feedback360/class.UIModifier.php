@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Mode\Feedback360;
 
@@ -14,14 +24,11 @@ use ILIAS\Survey\InternalUIService;
  */
 class UIModifier extends Mode\AbstractUIModifier
 {
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsGeneral(
         \ilObjSurvey $survey
     ) : array {
         $items = [];
-        $lng = $this->gui_service->lng();
+        $lng = $this->service->ui()->lng();
 
         $self_eval = new \ilCheckboxInputGUI($lng->txt("survey_360_self_evaluation"), "self_eval");
         $self_eval->setInfo($lng->txt("survey_360_self_evaluation_info"));
@@ -31,9 +38,6 @@ class UIModifier extends Mode\AbstractUIModifier
         return $items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
         InternalUIService $ui_service
@@ -66,9 +70,6 @@ class UIModifier extends Mode\AbstractUIModifier
         return $items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
         InternalUIService $ui_service
@@ -77,17 +78,17 @@ class UIModifier extends Mode\AbstractUIModifier
         $lng = $ui_service->lng();
 
         $ts_results = new \ilRadioGroupInputGUI($lng->txt("survey_360_results"), "ts_res");
-        $ts_results->setValue($survey->get360Results());
+        $ts_results->setValue((string) $survey->get360Results());
 
-        $option = new \ilRadioOption($lng->txt("survey_360_results_none"), \ilObjSurvey::RESULTS_360_NONE);
+        $option = new \ilRadioOption($lng->txt("survey_360_results_none"), (string) \ilObjSurvey::RESULTS_360_NONE);
         $option->setInfo($lng->txt("survey_360_results_none_info"));
         $ts_results->addOption($option);
 
-        $option = new \ilRadioOption($lng->txt("survey_360_results_own"), \ilObjSurvey::RESULTS_360_OWN);
+        $option = new \ilRadioOption($lng->txt("survey_360_results_own"), (string) \ilObjSurvey::RESULTS_360_OWN);
         $option->setInfo($lng->txt("survey_360_results_own_info"));
         $ts_results->addOption($option);
 
-        $option = new \ilRadioOption($lng->txt("survey_360_results_all"), \ilObjSurvey::RESULTS_360_ALL);
+        $option = new \ilRadioOption($lng->txt("survey_360_results_all"), (string) \ilObjSurvey::RESULTS_360_ALL);
         $option->setInfo($lng->txt("survey_360_results_all_info"));
         $ts_results->addOption($option);
 
@@ -96,9 +97,6 @@ class UIModifier extends Mode\AbstractUIModifier
         return $items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setValuesFromForm(
         \ilObjSurvey $survey,
         \ilPropertyFormGUI $form

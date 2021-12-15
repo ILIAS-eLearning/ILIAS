@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,24 +13,25 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\Survey\Mode\Standard;
-
-use \ILIAS\Survey\Mode;
-
 /**
- * Interface for modes
  * @author Alexander Killing <killing@leifos.de>
  */
-class ModeProvider implements Mode\ModeProvider
+class ilSurveyEvaluationResultsAnswer
 {
-    const ID = 0;
+    public int $active_id;
+    public float $value;
+    public string $text;
+    public int $tstamp;
 
-    use Mode\ModeProviderBase;
-
-    public function __construct()
-    {
-        $this->feature_config = new FeatureConfig();
-        $this->ui_modifier = new UIModifier();
-        $this->id = self::ID;
+    public function __construct(
+        int $a_active_id,
+        float $a_value,
+        string $a_text,
+        int $a_tstamp
+    ) {
+        $this->active_id = (int) $a_active_id;
+        $this->value = $a_value;
+        $this->text = trim($a_text);
+        $this->tstamp = trim($a_tstamp);
     }
 }

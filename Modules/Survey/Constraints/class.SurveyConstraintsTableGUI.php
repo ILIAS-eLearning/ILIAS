@@ -1,19 +1,33 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for survey constraints
- *
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  */
 class SurveyConstraintsTableGUI extends ilTable2GUI
 {
-    protected $read_only; // [bool]
-    protected $structure; // [array]
+    protected bool $read_only;
+    protected array $structure;
     
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjSurvey $a_survey, $a_read_only)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjSurvey $a_survey,
+        bool $a_read_only
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -49,7 +63,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
         $this->initItems($a_survey);
     }
     
-    protected function initItems(ilObjSurvey $a_survey)
+    protected function initItems(ilObjSurvey $a_survey) : void
     {
         $lng = $this->lng;
         
@@ -131,7 +145,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
         $this->setData($tbl_data);
     }
     
-    public function getStructure()
+    public function getStructure() : array
     {
         return $this->structure;
     }

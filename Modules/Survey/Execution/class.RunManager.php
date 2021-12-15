@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Execution;
 
@@ -10,44 +20,21 @@ use ILIAS\Survey\InternalRepoService;
 use ILIAS\Survey\Mode;
 
 /**
- * Survey Runs
- * @author killing@leifos.de
+ * Survey Run
+ * Note: The manager should get the current user id passed.
+ *       The manager also receives the current access key (code) from the session manager
+ *       automatically.
+ * @author Alexander Killing <killing@leifos.de>
  */
 class RunManager
 {
-    /**
-     * @var RunDBRepository
-     */
-    protected $repo;
+    protected RunDBRepository $repo;
+    protected int $survey_id;
+    protected Mode\FeatureConfig $feature_config;
+    protected InternalDomainService $domain_service;
+    protected \ilObjSurvey $survey;
+    protected int $current_user_id;
 
-    /**
-     * @var int
-     */
-    protected $survey_id;
-
-    /**
-     * @var Mode\FeatureConfig
-     */
-    protected $feature_config;
-
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain_service;
-
-    /**
-     * @var \ilObjSurvey
-     */
-    protected $survey;
-
-    /**
-     * @var int
-     */
-    protected $current_user_id;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         InternalRepoService $repo_service,
         InternalDomainService $domain_service,
@@ -63,9 +50,6 @@ class RunManager
         $this->current_user_id = $current_user_id;
     }
 
-    /**
-     * @return SessionManager
-     */
     protected function getSessionManager() : SessionManager
     {
         return $this->domain_service->execution()->session(
@@ -74,7 +58,7 @@ class RunManager
         );
     }
 
-    public function getCurrentRunId($appraisee = 0)
+    public function getCurrentRunId(int $appraisee = 0) : int
     {
         $repo = $this->repo;
         $survey_id = $this->survey_id;
@@ -89,13 +73,14 @@ class RunManager
 
     /**
      * Check user parameters
-     * @param int    $user_id
-     * @param string $code
-     * @param int    $appraisee
      * @throws \ilSurveyException
+     * @todo: somehow this does not belong here, maybe session manager instead?
      */
-    protected function checkUserParameters(int $user_id, string $code = "", $appraisee = 0) : void
-    {
+    protected function checkUserParameters(
+        int $user_id,
+        string $code = "",
+        int $appraisee = 0
+    ) : void {
         if ($this->feature_config->usesAppraisees() && $appraisee == 0) {
             throw new \ilSurveyException("No appraisee specified");
         }
@@ -110,47 +95,64 @@ class RunManager
     }
 
 
-    protected function getCurrentState(int $user_id, string $code = "", $appraisee = 0)
+    // Get state of current run
+    protected function getCurrentState(int $appraisee = 0) : int
     {
         $repo = $this->repo;
-        $survey_id = $this->survey_id;
-
-        $run_id = (int) $this->getCurrentRunId($appraisee);
-
+        $run_id = $this->getCurrentRunId($appraisee);
         return $repo->getState($run_id);
     }
 
-    public function hasStarted(int $user_id, string $code = "", $appraisee = 0)
+    public function hasStarted(int $appraisee = 0) : bool
     {
         return in_array(
-            $this->getCurrentState($user_id, $code, $appraisee),
+            $this->getCurrentState($appraisee),
             [RunDBRepository::STARTED_NOT_FINISHED, RunDBRepository::FINISHED]
         );
     }
 
-    public function hasFinished(int $user_id, string $code = "", $appraisee = 0)
+    public function hasFinished(int $appraisee = 0) : bool
     {
-        return ($this->getCurrentState($user_id, $code, $appraisee) ===
+        return ($this->getCurrentState($appraisee) ===
             RunDBRepository::FINISHED);
     }
 
-    // does code belong to current anonymous started, but not finished run?
-    public function isCodeOfCurrentUnfinishedRun(string $code) : bool
-    {
+    /**
+     * Does code belong to current anonymous started, but not finished run?
+     * Note: this method acts on the current user, but accepts the passed code
+     * and does not retrieve the code from the session.
+     */
+    public function isCodeOfCurrentUnfinishedRun(
+        string $code,
+        int $appraisee_id = 0
+    ) : bool {
+        $repo = $this->repo;
         $code_manager = $this->domain_service->code($this->survey, $this->current_user_id);
+
         if ($code_manager->exists($code)) {
-            return (!$this->hasFinished(0, $code));
+            $run_id = $repo->getCurrentRunId(
+                $this->survey_id,
+                $this->current_user_id,
+                $code,
+                $appraisee_id
+            );
+            if ($run_id > 0) {
+                $state = $repo->getState($run_id);
+                if ($state !== RunDBRepository::FINISHED) {
+                    return true;
+                }
+            }
         }
         return false;
     }
 
     /**
-     * @param int    $user_id
-     * @param string $code
      * @return Run[]
      */
-    public function getRunsForUser(int $user_id, string $code = "") : array
-    {
+    public function getRunsForUser(
+        int $user_id,
+        string $code = ""
+    ) : array {
         return $this->repo->getRunsForUser($this->survey->getSurveyId(), $user_id, $code);
     }
 
@@ -164,25 +166,18 @@ class RunManager
     }
 
     /**
-     * Starts the survey creating an entry in the database
-     *
-     * @param integer $user_id The database id of the user who starts the survey
-     * @access public
+     * Starts the survey creating a new run
      */
-    public function start(int $user_id, string $anonymous_id, int $appraisee_id = 0) : void
-    {
+    public function start(
+        int $appraisee_id = 0
+    ) : void {
+        $code = $this->getSessionManager()->getCode();
+        $user_id = $this->current_user_id;
         $survey = $this->survey;
 
-        if ($survey->getAnonymize() && (strlen($anonymous_id) == 0)) {
+        if ($survey->getAnonymize() && (strlen($code) == 0)) {
             return;
         }
-
-        /*
-        if (strcmp($user_id, "") == 0) {
-            if ($user_id == ANONYMOUS_USER_ID) {
-                $user_id = 0;
-            }
-        }*/
-        $run_id = $this->repo->add($this->survey->getSurveyId(), $user_id, $anonymous_id, $appraisee_id);
+        $this->repo->add($this->survey->getSurveyId(), $user_id, $code, $appraisee_id);
     }
 }

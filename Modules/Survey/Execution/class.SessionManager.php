@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Execution;
 
@@ -11,39 +21,17 @@ use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\Code\CodeManager;
 
 /**
- * Survey Runs
- * @author killing@leifos.de
+ * Survey session
+ * @author Alexander Killing <killing@leifos.de>
  */
 class SessionManager
 {
-    /**
-     * @var AnonymousSessionRepo
-     */
-    protected $session_repo;
-
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * @var \ilObjSurvey
-     */
-    protected $survey;
-
-    /**
-     * @var RunManager
-     */
-    protected $run_manager;
-
-    /**
-     * @var CodeManager
-     */
+    protected AnonymousSessionRepo $session_repo;
+    protected int $user_id;
+    protected \ilObjSurvey $survey;
+    protected RunManager $run_manager;
     protected $code_manager;
 
-    /**
-     * Constructor
-     */
     public function __construct(
         AnonymousSessionRepo $session_repo,
         \ilObjSurvey $survey,
@@ -59,7 +47,7 @@ class SessionManager
 
     public function initSession(
         string $requested_code = ""
-    ) {
+    ) : void {
         $user_id = $this->user_id;
         $survey = $this->survey;
         $session_repo = $this->session_repo;

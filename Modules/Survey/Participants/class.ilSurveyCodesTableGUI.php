@@ -1,22 +1,27 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-*
-* @author Helmut Schottmüller <ilias@aurealis.de>
-*/
+ * @author Helmut Schottmüller <ilias@aurealis.de>
+ */
 class ilSurveyCodesTableGUI extends ilTable2GUI
 {
-    /**
-     * Constructor
-     *
-     * @access public
-     * @param
-     * @return
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -60,13 +65,6 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('chb_code');
     }
 
-    /**
-     * fill row
-     *
-     * @access public
-     * @param
-     * @return
-     */
     public function fillRow($data)
     {
         $lng = $this->lng;

@@ -1,67 +1,39 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilSurveyEditorGUI
-*
-* @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
-* @version  $Id: class.ilObjSurveyGUI.php 43670 2013-07-26 08:41:31Z jluetzen $
-*
-* @ilCtrl_Calls ilSurveyEditorGUI: SurveyMultipleChoiceQuestionGUI, SurveyMetricQuestionGUI
-* @ilCtrl_Calls ilSurveyEditorGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
-* @ilCtrl_Calls ilSurveyEditorGUI: SurveyMatrixQuestionGUI, ilSurveyPageGUI
-*
-* @ingroup ModulesSurvey
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * Class ilSurveyEditorGUI
+ *
+ * @author	Jörg Lützenkirchen <luetzenkirchen@leifos.com>
+ * @ilCtrl_Calls ilSurveyEditorGUI: SurveyMultipleChoiceQuestionGUI, SurveyMetricQuestionGUI
+ * @ilCtrl_Calls ilSurveyEditorGUI: SurveySingleChoiceQuestionGUI, SurveyTextQuestionGUI
+ * @ilCtrl_Calls ilSurveyEditorGUI: SurveyMatrixQuestionGUI, ilSurveyPageGUI
+ */
 class ilSurveyEditorGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    protected $parent_gui; // [ilObjSurveyGUI]
-    protected $object; // [ilObjSurvey]
-
-    /**
-     * @var array
-     */
-    protected $print_options;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilTabsGUI $tabs;
+    protected ilHelpGUI $help;
+    protected ilToolbarGUI $toolbar;
+    protected ilObjUser $user;
+    protected ilTree $tree;
+    protected ilObjSurveyGUI $parent_gui;
+    protected ilObjSurvey $object;
+    protected array $print_options;
     
     public function __construct(ilObjSurveyGUI $a_parent_gui)
     {
@@ -93,7 +65,7 @@ class ilSurveyEditorGUI
         );
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilTabs = $this->tabs;
         
@@ -146,8 +118,9 @@ class ilSurveyEditorGUI
         }
     }
 
-    protected function questionsSubtabs($a_cmd)
-    {
+    protected function questionsSubtabs(
+        string $a_cmd
+    ) : void {
         $ilTabs = $this->tabs;
         
         if ($a_cmd == "questions" && $_REQUEST["pgov"]) {
@@ -194,7 +167,7 @@ class ilSurveyEditorGUI
     // QUESTIONS BROWSER INCL. MULTI-ACTIONS
     //
     
-    public function questionsObject()
+    public function questionsObject() : void
     {
         $ilToolbar = $this->toolbar;
         $ilUser = $this->user;
@@ -272,15 +245,14 @@ class ilSurveyEditorGUI
         
     /**
      * Gather (and filter) selected items from table gui
-     *
-     * @param bool $allow_blocks
-     * @param bool $allow_questions
-     * @param bool $allow_headings
-     * @param bool $allow_questions_in_blocks
      * @return array (questions, blocks, headings)
      */
-    protected function gatherSelectedTableItems($allow_blocks = true, $allow_questions = true, $allow_headings = false, $allow_questions_in_blocks = false)
-    {
+    protected function gatherSelectedTableItems(
+        bool $allow_blocks = true,
+        bool $allow_questions = true,
+        bool $allow_headings = false,
+        bool $allow_questions_in_blocks = false
+    ) : array {
         $block_map = array();
         foreach ($this->object->getSurveyQuestions() as $item) {
             $block_map[$item["question_id"]] = $item["questionblock_id"];
@@ -312,7 +284,7 @@ class ilSurveyEditorGUI
             "headings" => $headings);
     }
     
-    public function saveObligatoryObject()
+    public function saveObligatoryObject() : void
     {
         if (isset($_POST["order"])) {
             $position = -1;
@@ -348,7 +320,7 @@ class ilSurveyEditorGUI
         $this->ctrl->redirect($this, "questions");
     }
 
-    public function unfoldQuestionblockObject()
+    public function unfoldQuestionblockObject() : void
     {
         $items = $this->gatherSelectedTableItems(true, false, false, false);
         if (count($items["blocks"])) {
@@ -360,7 +332,7 @@ class ilSurveyEditorGUI
         $this->ctrl->redirect($this, "questions");
     }
 
-    public function moveQuestionsObject()
+    public function moveQuestionsObject() : void
     {
         $items = $this->gatherSelectedTableItems(true, true, false, false);
 
@@ -381,18 +353,19 @@ class ilSurveyEditorGUI
         }
     }
 
-    public function insertQuestionsBeforeObject()
+    public function insertQuestionsBeforeObject() : void
     {
         $this->insertQuestions(0);
     }
 
-    public function insertQuestionsAfterObject()
+    public function insertQuestionsAfterObject() : void
     {
         $this->insertQuestions(1);
     }
     
-    protected function insertQuestions($insert_mode)
-    {
+    protected function insertQuestions(
+        int $insert_mode
+    ) : void {
         $insert_id = null;
         if ($_POST["id"]) {
             $items = $this->gatherSelectedTableItems(true, true, false, false);
@@ -431,7 +404,7 @@ class ilSurveyEditorGUI
         $this->ctrl->redirect($this, "questions");
     }
     
-    public function removeQuestionsObject()
+    public function removeQuestionsObject() : void
     {
         $items = $this->gatherSelectedTableItems(true, true, true, true);
         if (count($items["blocks"]) + count($items["questions"]) + count($items["headings"]) > 0) {
@@ -444,8 +417,11 @@ class ilSurveyEditorGUI
         }
     }
 
-    public function removeQuestionsForm($checked_questionblocks, $checked_questions, $checked_headings)
-    {
+    public function removeQuestionsForm(
+        array $checked_questionblocks,
+        array $checked_questions,
+        array $checked_headings
+    ) : void {
         $cgui = new ilConfirmationGUI();
         $cgui->setHeaderText($this->lng->txt("survey_sure_delete_questions"));
 
@@ -454,7 +430,7 @@ class ilSurveyEditorGUI
         $cgui->setConfirm($this->lng->txt("confirm"), "confirmRemoveQuestions");
         
         $counter = 0;
-        $surveyquestions = &$this->object->getSurveyQuestions();
+        $surveyquestions = $this->object->getSurveyQuestions();
         foreach ($surveyquestions as $question_id => $data) {
             if (in_array($data["question_id"], $checked_questions)) {
                 $type = SurveyQuestion::_getQuestionTypeName($data["type_tag"]);
@@ -484,7 +460,7 @@ class ilSurveyEditorGUI
         $this->tpl->setContent($cgui->getHTML());
     }
     
-    public function confirmRemoveQuestionsObject()
+    public function confirmRemoveQuestionsObject() : void
     {
         $checked_questions = array();
         $checked_questionblocks = array();
@@ -514,7 +490,7 @@ class ilSurveyEditorGUI
         $this->ctrl->redirect($this, "questions");
     }
     
-    public function copyQuestionsToPoolObject()
+    public function copyQuestionsToPoolObject() : void
     {
         $items = $this->gatherSelectedTableItems(true, true, false, true);
 
@@ -550,7 +526,7 @@ class ilSurveyEditorGUI
             $ids->setValue(implode(";", $copy_questions));
             $form->addItem($ids);
 
-            $questionpools = &$this->object->getAvailableQuestionpools(false, false, true, "write");
+            $questionpools = $this->object->getAvailableQuestionpools(false, false, true, "write");
             $pools = new ilSelectInputGUI($this->lng->txt("survey_copy_select_questionpool"), "sel_spl");
             $pools->setOptions($questionpools);
             $form->addItem($pools);
@@ -558,11 +534,11 @@ class ilSurveyEditorGUI
             $form->addCommandButton("executeCopyQuestionsToPool", $this->lng->txt("submit"));
             $form->addCommandButton("questions", $this->lng->txt("cancel"));
 
-            return $this->tpl->setContent($form->getHTML());
+            $this->tpl->setContent($form->getHTML());
         }
     }
     
-    public function executeCopyQuestionsToPoolObject()
+    public function executeCopyQuestionsToPoolObject() : void
     {
         $question_ids = explode(";", $_POST["question_ids"]);
         $pool_id = ilObject::_lookupObjId($_POST["sel_spl"]);
@@ -587,12 +563,14 @@ class ilSurveyEditorGUI
     // QUESTION CREATION
     //
     
-    public function createQuestionObject(ilPropertyFormGUI $a_form = null)
-    {
+    public function createQuestionObject(
+        ilPropertyFormGUI $a_form = null
+    ) : ?ilPropertyFormGUI {
         if (!$this->object->getPoolUsage()) {
             $_POST["usage"] = 1;
             $_GET["sel_question_types"] = $_POST["sel_question_types"];
-            return $this->executeCreateQuestionObject();
+            $this->executeCreateQuestionObject();
+            return null;
         }
 
         if (!$a_form) {
@@ -624,7 +602,7 @@ class ilSurveyEditorGUI
             $usage->setValue(1);
         }
 
-        $questionpools = &$this->object->getAvailableQuestionpools(false, true, true, "write");
+        $questionpools = $this->object->getAvailableQuestionpools(false, true, true, "write");
         $pools = new ilSelectInputGUI($this->lng->txt("select_questionpool"), "sel_spl");
         $pools->setOptions($questionpools);
         $existing_pool->addSubItem($pools);
@@ -641,10 +619,11 @@ class ilSurveyEditorGUI
         $form->addCommandButton("executeCreateQuestion", $this->lng->txt("submit"));
         $form->addCommandButton("questions", $this->lng->txt("cancel"));
 
-        return $this->tpl->setContent($form->getHTML());
+        $this->tpl->setContent($form->getHTML());
+        return null;
     }
 
-    public function executeCreateQuestionObject()
+    public function executeCreateQuestionObject() : void
     {
         $_SESSION["svy_qpool_choice"] = $_POST["usage"];
         
@@ -691,7 +670,7 @@ class ilSurveyEditorGUI
         $this->ctrl->redirectByClass($q_gui_class, "editQuestion");
     }
     
-    protected function createQuestionPool($name = "dummy")
+    protected function createQuestionPool($name = "dummy") : int
     {
         $tree = $this->tree;
         
@@ -716,7 +695,7 @@ class ilSurveyEditorGUI
     // ADD FROM POOL
     //
     
-    protected function setBrowseForQuestionsSubtabs()
+    protected function setBrowseForQuestionsSubtabs() : void
     {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
@@ -741,7 +720,7 @@ class ilSurveyEditorGUI
         $ilToolbar->setFormAction($this->ctrl->getFormAction($this, "changeDatatype"));
     }
 
-    public function changeDatatypeObject()
+    public function changeDatatypeObject() : void
     {
         $ilUser = $this->user;
         
@@ -759,7 +738,7 @@ class ilSurveyEditorGUI
         }
     }
 
-    public function browseForQuestionsObject()
+    public function browseForQuestionsObject() : void
     {
         $this->setBrowseForQuestionsSubtabs();
         
@@ -768,21 +747,21 @@ class ilSurveyEditorGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
 
-    public function filterQuestionBrowserObject()
+    public function filterQuestionBrowserObject() : void
     {
         $table_gui = new ilSurveyQuestionbrowserTableGUI($this, 'browseForQuestions', $this->object);
         $table_gui->writeFilterToSession();
         $this->ctrl->redirect($this, 'browseForQuestions');
     }
 
-    public function resetfilterQuestionBrowserObject()
+    public function resetfilterQuestionBrowserObject() : void
     {
         $table_gui = new ilSurveyQuestionbrowserTableGUI($this, 'browseForQuestions', $this->object);
         $table_gui->resetFilter();
         $this->ctrl->redirect($this, 'browseForQuestions');
     }
     
-    public function insertQuestionsObject()
+    public function insertQuestionsObject() : void
     {
         $inserted_objects = 0;
         if (is_array($_POST['q_id'])) {
@@ -827,7 +806,7 @@ class ilSurveyEditorGUI
         }
     }
     
-    public function browseForQuestionblocksObject()
+    public function browseForQuestionblocksObject() : void
     {
         $this->setBrowseForQuestionsSubtabs();
                 
@@ -836,21 +815,21 @@ class ilSurveyEditorGUI
         $this->tpl->setContent($table_gui->getHTML());
     }
     
-    public function filterQuestionblockBrowserObject()
+    public function filterQuestionblockBrowserObject() : void
     {
         $table_gui = new ilSurveyQuestionblockbrowserTableGUI($this, 'browseForQuestionblocks', $this->object);
         $table_gui->writeFilterToSession();
         $this->ctrl->redirect($this, 'browseForQuestionblocks');
     }
 
-    public function resetfilterQuestionblockBrowserObject()
+    public function resetfilterQuestionblockBrowserObject() : void
     {
         $table_gui = new ilSurveyQuestionblockbrowserTableGUI($this, 'browseForQuestionblocks', $this->object);
         $table_gui->resetFilter();
         $this->ctrl->redirect($this, 'browseForQuestionblocks');
     }
     
-    public function insertQuestionblocksObject()
+    public function insertQuestionblocksObject() : void
     {
         $inserted_objects = 0;
         if (is_array($_POST['cb'])) {
@@ -894,8 +873,9 @@ class ilSurveyEditorGUI
     // BLOCKS
     //
     
-    public function editQuestionblockObject(ilPropertyFormGUI $a_form = null)
-    {
+    public function editQuestionblockObject(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $block_id = (int) $_REQUEST["bl_id"];
         $this->ctrl->setParameter($this, "bl_id", $block_id);
         
@@ -907,8 +887,9 @@ class ilSurveyEditorGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    public function createQuestionblockObject(ilPropertyFormGUI $a_form = null)
-    {
+    public function createQuestionblockObject(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         if (!$a_form) {
             // gather questions from table selected
             $items = $this->gatherSelectedTableItems(false, true, false, false);
@@ -928,8 +909,10 @@ class ilSurveyEditorGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    protected function initQuestionblockForm($a_block_id = null, $a_question_ids = null)
-    {
+    protected function initQuestionblockForm(
+        ?int $a_block_id = null,
+        ?array $a_question_ids = null
+    ) : ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveDefineQuestionblock"));
         $form->setTitle($this->lng->txt("define_questionblock"));
@@ -980,7 +963,7 @@ class ilSurveyEditorGUI
         return $form;
     }
 
-    public function saveDefineQuestionblockObject()
+    public function saveDefineQuestionblockObject() : void
     {
         $block_id = (int) $_REQUEST["bl_id"];
         $q_ids = $_POST["qids"];
@@ -1028,8 +1011,9 @@ class ilSurveyEditorGUI
     // HEADING
     //
     
-    protected function initHeadingForm($a_question_id = null)
-    {
+    protected function initHeadingForm(
+        ?int $a_question_id = null
+    ) : ilPropertyFormGUI {
         $survey_questions = $this->object->getSurveyQuestions();
         
         $form = new ilPropertyFormGUI();
@@ -1071,8 +1055,9 @@ class ilSurveyEditorGUI
         return $form;
     }
 
-    public function addHeadingObject(ilPropertyFormGUI $a_form = null)
-    {
+    public function addHeadingObject(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $q_id = $_REQUEST["q_id"];
         $this->ctrl->setParameter($this, "q_id", $q_id);
         
@@ -1085,8 +1070,9 @@ class ilSurveyEditorGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    public function editHeadingObject(ilPropertyFormGUI $a_form = null)
-    {
+    public function editHeadingObject(
+        ilPropertyFormGUI $a_form = null
+    ) : void {
         $q_id = $_REQUEST["q_id"];
         $this->ctrl->setParameter($this, "q_id", $q_id);
         
@@ -1099,7 +1085,7 @@ class ilSurveyEditorGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    public function saveHeadingObject()
+    public function saveHeadingObject() : void
     {
         // #15474
         $q_id = (int) $_REQUEST["q_id"];
@@ -1122,7 +1108,7 @@ class ilSurveyEditorGUI
         $this->addHeadingObject($form);
     }
     
-    public function removeHeadingObject()
+    public function removeHeadingObject() : void
     {
         $q_id = (int) $_REQUEST["q_id"];
         $this->ctrl->setParameter($this, "q_id", $q_id);
@@ -1143,7 +1129,7 @@ class ilSurveyEditorGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    public function confirmedRemoveHeadingObject()
+    public function confirmedRemoveHeadingObject() : void
     {
         $q_id = (int) $_REQUEST["q_id"];
         if (!$q_id) {
@@ -1155,11 +1141,9 @@ class ilSurveyEditorGUI
     }
 
     /**
-    * Creates a print view of the survey questions
-    *
-    * @access public
-    */
-    public function printViewObject()
+     * Print view of the survey questions
+     */
+    public function printViewObject() : void
     {
         $ilToolbar = $this->toolbar;
         
@@ -1214,7 +1198,7 @@ class ilSurveyEditorGUI
 
         $template = new ilTemplate("tpl.il_svy_svy_printview.html", true, true, "Modules/Survey");
     
-        $pages = &$this->object->getSurveyPages();
+        $pages = $this->object->getSurveyPages();
         $required = false;
         foreach ($pages as $page) {
             if (count($page) > 0) {

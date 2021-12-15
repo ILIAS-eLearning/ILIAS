@@ -1,7 +1,17 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 namespace ILIAS\Survey\Settings;
 
@@ -15,46 +25,14 @@ use ILIAS\Survey\InternalDomainService;
  */
 class SettingsFormGUI
 {
-    /**
-     * @var InternalUIService
-     */
-    protected $ui_service;
+    protected InternalUIService $ui_service;
+    protected \ilObjectServiceInterface $object_service;
+    protected \ilObjSurvey $survey;
+    protected UIModifier $modifier;
+    protected InternalDomainService $domain_service;
+    protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
+    protected \ilRbacSystem $rbacsystem;
 
-    /**
-     * @var \ilObjectServiceInterface
-     */
-    protected $object_service;
-
-    /**
-     * @var \ilObjSurvey
-     */
-    protected $survey;
-
-    /**
-     * @var UIModifier
-     */
-    protected $modifier;
-
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain_service;
-
-    /**
-     * @var \ILIAS\Survey\Mode\FeatureConfig
-     */
-    protected $feature_config;
-
-    /**
-     * @var \ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * SettingsFormGUI constructor.
-     * @param InternalUIService         $ui_service
-     * @param \ilObjectServiceInterface $object_service
-     */
     public function __construct(
         InternalUIService $ui_service,
         InternalDomainService $domain_service,
@@ -62,7 +40,6 @@ class SettingsFormGUI
         \ilObjSurvey $survey,
         UIModifier $modifier
     ) {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -75,16 +52,9 @@ class SettingsFormGUI
         $this->feature_config = $this->domain_service->modeFeatureConfig($survey->getMode());
     }
 
-    /**
-     * Check form
-     * @param
-     * @return
-     */
     public function checkForm(\ilPropertyFormGUI $form) : bool
     {
-        $survey = $this->survey;
         $feature_config = $this->feature_config;
-        $rbacsystem = $this->rbacsystem;
         $lng = $this->ui_service->lng();
 
         $valid = false;
@@ -165,9 +135,8 @@ class SettingsFormGUI
     }
 
     /**
-     * Get form
-     * @param string $target_class
-     * @return \ilPropertyFormGUI
+     * @throws \ilCtrlException
+     * @throws \ilDateTimeException
      */
     public function getForm(
         string $target_class
@@ -198,13 +167,11 @@ class SettingsFormGUI
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add general section
      */
     public function withGeneral(
         \ilPropertyFormGUI $form
     ) : \ilPropertyFormGUI {
-        $obj_service = $this->object_service;
         $survey = $this->survey;
         $lng = $this->ui_service->lng();
         $feature_config = $this->feature_config;
@@ -256,18 +223,14 @@ class SettingsFormGUI
             $form->addItem($self_appr);
         }
 
-        foreach ($this->modifier->getSurveySettingsGeneral(
-            $survey,
-            $this->ui_service
-        ) as $item) {
+        foreach ($this->modifier->getSurveySettingsGeneral($survey) as $item) {
             $form->addItem($item);
         }
         return $form;
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add activation section
      * @throws \ilDateTimeException
      */
     public function withActivation(
@@ -316,8 +279,7 @@ class SettingsFormGUI
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add presentation section
      */
     public function withPresentation(
         \ilPropertyFormGUI $form
@@ -338,8 +300,7 @@ class SettingsFormGUI
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add "before start" section
      */
     public function withBeforeStart(
         \ilPropertyFormGUI $form
@@ -369,8 +330,7 @@ class SettingsFormGUI
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add access section
      */
     public function withAccess(
         \ilPropertyFormGUI $form
@@ -421,8 +381,7 @@ class SettingsFormGUI
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add question behaviour section
      */
     public function withQuestionBehaviour(
         \ilPropertyFormGUI $form
@@ -446,8 +405,7 @@ class SettingsFormGUI
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add "after ending" section
      */
     public function withAfterEnd(
         \ilPropertyFormGUI $form,
@@ -623,7 +581,6 @@ class SettingsFormGUI
 
     /**
      * Check for group course parent
-     * @return bool
      */
     protected function hasGroupCourseParent() : bool
     {
@@ -638,8 +595,7 @@ class SettingsFormGUI
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add reminders section
      */
     public function withReminders(
         \ilPropertyFormGUI $form
@@ -685,12 +641,12 @@ class SettingsFormGUI
         if ($feature_config->supportsMemberReminder()) {
             $rmd_grp = new \ilRadioGroupInputGUI($lng->txt("survey_notification_target_group"), "rmd_grp");
             $rmd_grp->setRequired(true);
-            $rmd_grp->setValue($survey->getReminderTarget());
+            $rmd_grp->setValue((string) $survey->getReminderTarget());
             $rmd->addSubItem($rmd_grp);
 
             $rmd_grp_crs = new \ilRadioOption(
                 $lng->txt("survey_notification_target_group_parent_course"),
-                \ilObjSurvey::NOTIFICATION_PARENT_COURSE
+                (string) \ilObjSurvey::NOTIFICATION_PARENT_COURSE
             );
             if (!$this->hasGroupCourseParent()) {
                 $rmd_grp_crs->setInfo($lng->txt("survey_notification_target_group_parent_course_inactive"));
@@ -704,7 +660,7 @@ class SettingsFormGUI
 
             $rmd_grp_inv = new \ilRadioOption(
                 $lng->txt("survey_notification_target_group_invited"),
-                \ilObjSurvey::NOTIFICATION_INVITED_USERS
+                (string) \ilObjSurvey::NOTIFICATION_INVITED_USERS
             );
             $num_inv = count($invitation_manager->getAllForSurvey($survey->getSurveyId()));
             $rmd_grp_inv->setInfo(sprintf($lng->txt("survey_notification_target_group_invited_info"), $num_inv));
@@ -724,7 +680,7 @@ class SettingsFormGUI
                 if ($survey->getReminderTemplate()) {
                     $reminderTemplateValue = $survey->getReminderTemplate();
                 }
-                $rmdt->setValue($reminderTemplateValue);
+                $rmdt->setValue((string) $reminderTemplateValue);
                 $rmd->addSubItem($rmdt);
             }
         }
@@ -740,8 +696,7 @@ class SettingsFormGUI
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add results section
      */
     public function withResults(
         \ilPropertyFormGUI $form
@@ -776,8 +731,7 @@ class SettingsFormGUI
     }
 
     /**
-     * @param \ilPropertyFormGUI $form
-     * @return \ilPropertyFormGUI
+     * add "other" section
      */
     public function withOther(
         \ilPropertyFormGUI $form
@@ -800,7 +754,7 @@ class SettingsFormGUI
         }
 
         $position_settings = \ilOrgUnitGlobalSettings::getInstance()
-                                                     ->getObjectPositionSettingsByType($survey->getType());
+            ->getObjectPositionSettingsByType($survey->getType());
 
         if (count($other_items) > 0 ||
             $position_settings->isActive()
@@ -828,12 +782,9 @@ class SettingsFormGUI
         return $form;
     }
 
-    /**
-     * @param \ilPropertyFormGUI $form
-     * @return bool
-     */
-    public function saveForm(\ilPropertyFormGUI $form) : void
-    {
+    public function saveForm(
+        \ilPropertyFormGUI $form
+    ) : void {
         $survey = $this->survey;
         $feature_config = $this->feature_config;
         $obj_service = $this->object_service;
@@ -888,22 +839,6 @@ class SettingsFormGUI
         } else {
             $survey->setOfflineStatus((bool) !$form->getInput('online'));
         }
-
-        /*
-        $md_obj = new ilMD($survey->getId(), 0, "svy");
-        $md_section = $md_obj->getGeneral();
-
-        // title
-        $md_section->setTitle(ilUtil::stripSlashes($_POST['title']));
-        $md_section->update();
-
-        // Description
-        $md_desc_ids = $md_section->getDescriptionIds();
-        if ($md_desc_ids) {
-            $md_desc = $md_section->getDescription(array_pop($md_desc_ids));
-            $md_desc->setDescription(ilUtil::stripSlashes($_POST['description']));
-            $md_desc->update();
-        }*/
 
         $survey->setViewOwnResults((bool) $form->getInput("view_own"));
         $survey->setMailOwnResults((bool) $form->getInput("mail_own"));

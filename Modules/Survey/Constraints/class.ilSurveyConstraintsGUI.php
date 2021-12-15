@@ -1,40 +1,34 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Class ilSurveyConstraintsGUI
-*
-* @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
-* @version  $Id: class.ilObjSurveyGUI.php 43670 2013-07-26 08:41:31Z jluetzen $
-*
-* @ilCtrl_Calls ilSurveyConstraintsGUI:
-*
-* @ingroup ModulesSurvey
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * @author Helmut Schottmüller <helmut.schottmueller@mac.com>
+ * @ilCtrl_Calls ilSurveyConstraintsGUI:
+ */
 class ilSurveyConstraintsGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilObjSurvey $object;
+    protected ilObjSurveyGUI $parent_gui;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilAccessHandler $access;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    public function __construct(ilObjSurveyGUI $a_parent_gui)
-    {
+    public function __construct(
+        ilObjSurveyGUI $a_parent_gui
+    ) {
         global $DIC;
 
         $this->access = $DIC->access();
@@ -43,14 +37,17 @@ class ilSurveyConstraintsGUI
         $tpl = $DIC["tpl"];
         
         $this->parent_gui = $a_parent_gui;
-        $this->object = $this->parent_gui->object;
+
+        /** @var ilObjSurvey $survey */
+        $survey = $this->parent_gui->object;
+        $this->object = $survey;
         
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
     }
     
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -61,9 +58,9 @@ class ilSurveyConstraintsGUI
     }
     
     /**
-    * Administration page for survey constraints
-    */
-    public function constraintsObject()
+     * Administration page for survey constraints
+     */
+    public function constraintsObject() : void
     {
         $step = 0;
         if (array_key_exists("step", $_GET)) {
@@ -73,13 +70,9 @@ class ilSurveyConstraintsGUI
             case 1:
                 $this->constraintStep1Object();
                 return;
-                break;
+            case 3:
             case 2:
                 return;
-                break;
-            case 3:
-                return;
-                break;
         }
         
         $hasDatasets = ilObjSurvey::_hasDatasets($this->object->getSurveyId());
@@ -98,15 +91,16 @@ class ilSurveyConstraintsGUI
     }
     
     /**
-    * Add a precondition for a survey question or question block
-    */
-    public function constraintsAddObject()
+     * Add a precondition for a survey question or question block
+     */
+    public function constraintsAddObject() : void
     {
         if (strlen($_POST["v"]) == 0) {
             ilUtil::sendFailure($this->lng->txt("msg_enter_value_for_valid_constraint"));
-            return $this->constraintStep3Object();
+            $this->constraintStep3Object();
+            return;
         }
-        $survey_questions = &$this->object->getSurveyQuestions();
+        $survey_questions = $this->object->getSurveyQuestions();
         $structure = &$_SESSION["constraintstructure"];
         $include_elements = $_SESSION["includeElements"];
         foreach ($include_elements as $elementCounter) {
@@ -130,11 +124,11 @@ class ilSurveyConstraintsGUI
     }
 
     /**
-    * Handles the first step of the precondition add action
-    */
-    public function constraintStep1Object()
+     * Handles the first step of the precondition add action
+     */
+    public function constraintStep1Object() : void
     {
-        $survey_questions = &$this->object->getSurveyQuestions();
+        $survey_questions = $this->object->getSurveyQuestions();
         $structure = &$_SESSION["constraintstructure"];
         $start = $_GET["start"];
         $option_questions = array();
@@ -157,22 +151,22 @@ class ilSurveyConstraintsGUI
     }
     
     /**
-    * Handles the second step of the precondition add action
-    */
-    public function constraintStep2Object()
+     * Handles the second step of the precondition add action
+     */
+    public function constraintStep2Object() : void
     {
-        $survey_questions = &$this->object->getSurveyQuestions();
+        $survey_questions = $this->object->getSurveyQuestions();
         $option_questions = array();
         array_push($option_questions, array("question_id" => $_POST["q"], "title" => $survey_questions[$_POST["q"]]["title"], "type_tag" => $survey_questions[$_POST["q"]]["type_tag"]));
         $this->constraintForm(2, $_POST, $survey_questions, $option_questions);
     }
     
     /**
-    * Handles the third step of the precondition add action
-    */
-    public function constraintStep3Object()
+     * Handles the third step of the precondition add action
+     */
+    public function constraintStep3Object() : void
     {
-        $survey_questions = &$this->object->getSurveyQuestions();
+        $survey_questions = $this->object->getSurveyQuestions();
         $option_questions = array();
         if (strlen($_GET["precondition"])) {
             if (!$this->validateConstraintForEdit($_GET["precondition"])) {
@@ -193,9 +187,14 @@ class ilSurveyConstraintsGUI
             $this->constraintForm(3, $_POST, $survey_questions, $option_questions);
         }
     }
-    
-    public function constraintForm($step, $postvalues, &$survey_questions, $questions = false)
-    {
+
+    // output constraint editing form
+    public function constraintForm(
+        int $step,
+        array $postvalues,
+        array $survey_questions,
+        ?array $questions = null
+    ) : void {
         if (strlen($_GET["start"])) {
             $this->ctrl->setParameter($this, "start", $_GET["start"]);
         }
@@ -258,7 +257,7 @@ class ilSurveyConstraintsGUI
         }
         
         if ($step > 2) {
-            $variables = &$this->object->getVariables($postvalues["q"]);
+            $variables = $this->object->getVariables($postvalues["q"]);
             $question_type = $survey_questions[$postvalues["q"]]["type_tag"];
             SurveyQuestion::_includeClass($question_type);
             $question = new $question_type();
@@ -289,13 +288,13 @@ class ilSurveyConstraintsGUI
     }
     
     /**
-     * Validate if given constraint id is part of current survey and there are sufficient permissions to edit+
-     *
-     * @param int $a_id
-     * @return bool
+     * Validate if given constraint id is part of current survey and
+     * there are sufficient permissions to edit.
+     * @todo actually the ID is not checked against the survey
      */
-    protected function validateConstraintForEdit($a_id)
-    {
+    protected function validateConstraintForEdit(
+        int $a_id
+    ) : bool {
         $ilAccess = $this->access;
         
         if (ilObjSurvey::_hasDatasets($this->object->getSurveyId())) {
@@ -311,7 +310,7 @@ class ilSurveyConstraintsGUI
     /**
      * Delete constraint confirmation
      */
-    public function confirmDeleteConstraintsObject()
+    public function confirmDeleteConstraintsObject() : void
     {
         $id = (int) $_REQUEST["precondition"];
         if (!$this->validateConstraintForEdit($id)) {
@@ -345,10 +344,7 @@ class ilSurveyConstraintsGUI
         $this->tpl->setContent($cgui->getHTML());
     }
 
-    /**
-    * Delete constraints of a survey
-    */
-    public function deleteConstraintsObject()
+    public function deleteConstraintsObject() : void
     {
         $id = (int) $_REQUEST["precondition"];
         if ($this->validateConstraintForEdit($id)) {
@@ -359,7 +355,7 @@ class ilSurveyConstraintsGUI
         $this->ctrl->redirect($this, "constraints");
     }
     
-    public function createConstraintsObject()
+    public function createConstraintsObject() : void
     {
         $include_elements = $_POST["includeElements"];
         if ((!is_array($include_elements)) || (count($include_elements) == 0)) {
@@ -372,8 +368,11 @@ class ilSurveyConstraintsGUI
             $this->constraintStep1Object();
         }
     }
-    
-    public function editPreconditionObject()
+
+    /**
+     * @throws ilCtrlException
+     */
+    public function editPreconditionObject() : void
     {
         if (!$this->validateConstraintForEdit($_GET["precondition"])) {
             $this->ctrl->redirect($this, "constraints");

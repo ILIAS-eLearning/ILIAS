@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,8 +13,22 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\Survey\Mode;
-
-class ModeException extends \ilException
+/**
+ * @author Alexander Killing <killing@leifos.de>
+ */
+class ilSurveyEvaluationResultsVariable
 {
+    public ilSurveyCategory $cat;
+    public int $abs;
+    public float $perc;
+
+    public function __construct(
+        ilSurveyCategory $a_cat,
+        int $a_abs,
+        float $a_perc
+    ) {
+        $this->cat = $a_cat;
+        $this->abs = $a_abs;
+        $this->perc = $a_perc;
+    }
 }

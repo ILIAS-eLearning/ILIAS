@@ -1,74 +1,39 @@
-<?php
-declare(strict_types = 1);
-
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+<?php declare(strict_types = 1);
 
 /**
- *
- * @author Alexander Killing <killing@leifos.de>
- *
-  @ilCtrl_Calls ilSurveyRaterGUI: ilRepositorySearchGUI
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * @author       Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilSurveyRaterGUI: ilRepositorySearchGUI
  */
 class ilSurveyRaterGUI
 {
-    /**
-     * @var \ilCtrl
-     */
-    protected $ctrl;
+    protected \ilCtrl $ctrl;
+    protected \ilLanguage $lng;
+    protected \ILIAS\DI\UIServices $ui;
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected \ilGlobalTemplateInterface $main_tpl;
+    protected ilSurveyParticipantsGUI $parent;
+    protected ilObjSurvey $survey;
+    protected \ilObjUser $user;
+    protected \ilAccessHandler $access;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var \ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var \ILIAS\DI\UIServices
-     */
-    protected $ui;
-
-    /**
-     * @var \ILIAS\Refinery\Factory
-     */
-    protected $refinery;
-
-    /**
-     * @var \ilGlobalTemplateInterface
-     */
-    protected $main_tpl;
-
-    /**
-     * @var ilSurveyParticipantsGUI
-     */
-    protected $parent;
-
-    /**
-     * @var ilObjSurveyGUI
-     */
-    protected $survey;
-
-    /**
-     * @var \ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var \ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         ilSurveyParticipantsGUI $parent,
         ilObjSurvey $survey
     ) {
-        /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -85,9 +50,6 @@ class ilSurveyRaterGUI
         $this->ctrl->saveParameter($this, "appr_id");
     }
 
-    /**
-     * Execute command
-     */
     public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
@@ -99,13 +61,6 @@ class ilSurveyRaterGUI
 
             case 'ilrepositorysearchgui':
                 $rep_search = new ilRepositorySearchGUI();
-
-                /*
-                $ilTabs->clearTargets();
-                $ilTabs->setBackTarget(
-                    $this->lng->txt("btn_back"),
-                    $this->ctrl->getLinkTarget($this, "listAppraisees")
-                );*/
 
                 $this->ctrl->setParameter($this, "rate360", 1);
                 $this->ctrl->saveParameter($this, "appr_id");
@@ -135,19 +90,14 @@ class ilSurveyRaterGUI
         }
     }
 
-    /**
-     * Cancel
-     */
-    protected function cancel()
+    protected function cancel() : void
     {
         $this->ctrl->redirect($this->parent, "editRaters");
     }
 
-    /**
-     * Add
-     */
-    protected function add(ilPropertyFormGUI $form = null) : void
-    {
+    protected function add(
+        ilPropertyFormGUI $form = null
+    ) : void {
         $form_html = (!is_null($form))
             ? $form->getHTML()
             : $this->initOptionSelectForm()->getHTML();
@@ -155,9 +105,6 @@ class ilSurveyRaterGUI
         $main_tpl->setContent($form_html);
     }
 
-    /**
-     * Init option select form.
-     */
     public function initOptionSelectForm() : ilPropertyFormGUI
     {
         $ctrl = $this->ctrl;
@@ -219,7 +166,7 @@ class ilSurveyRaterGUI
         return $form;
     }
 
-    public function doAutoComplete()
+    public function doAutoComplete() : void
     {
         $fields = array('login','firstname','lastname','email');
 
@@ -238,12 +185,7 @@ class ilSurveyRaterGUI
         exit();
     }
 
-    /**
-     * Continue
-     * @param
-     * @return
-     */
-    protected function continue()
+    protected function continue() : void
     {
         $form = $this->initOptionSelectForm();
         if ($form->checkInput()) {
@@ -299,51 +241,23 @@ class ilSurveyRaterGUI
     }
 
 
-    public function mailRaters(ilPropertyFormGUI $a_form = null)
+    public function mailRaters(ilPropertyFormGUI $a_form = null) : void
     {
-        $ilTabs = $this->tabs;
-
         $appr_id = $this->parent->handleRatersAccess();
         $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "appr_id", $appr_id);
         $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "rater_id", $_GET["rater_id"]);
         $this->ctrl->redirectByClass("ilSurveyParticipantsGUI", "mailRaters");
-        return;
-
-        $raters = (is_array($_POST["rtr_id"]))
-            ? $_POST["rtr_id"]
-            : ($_GET["rater_id"] != "" ? explode(";", $_GET["rater_id"]) : null);
-
-        if (!$a_form) {
-            $appr_id = $this->parent->handleRatersAccess();
-            $this->ctrl->setParameter($this->parent, "appr_id", $appr_id);
-
-            if (is_null($raters)) {
-                ilUtil::sendFailure($this->lng->txt("select_one"), true);
-                $this->ctrl->redirect($this->parent, "editRaters");
-            }
-
-            $a_form = $this->initMailRatersForm($appr_id, $raters);
-        }
-
-        $ilTabs->clearTargets();
-        $ilTabs->setBackTarget(
-            $this->lng->txt("btn_back"),
-            $this->ctrl->getLinkTarget($this->parent, "editRaters")
-        );
-
-        $this->main_tpl->setContent($a_form->getHTML());
     }
 
-    public function initMailRatersForm($appr_id, array $rec_ids)
-    {
+    public function initMailRatersForm(
+        int $appr_id,
+        array $rec_ids
+    ) : ilPropertyFormGUI {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "mailRatersAction"));
         $form->setTitle($this->lng->txt('compose'));
 
         $all_data = $this->survey->getRatersData($appr_id);
-
-//        var_dump($all_data);
-//        exit;
 
         $rec_data = array();
         foreach ($rec_ids as $rec_id) {
@@ -402,7 +316,7 @@ class ilSurveyRaterGUI
     }
 
 
-    public function mailRatersAction()
+    public function mailRatersAction() : void
     {
         $ilUser = $this->user;
 
@@ -475,7 +389,7 @@ class ilSurveyRaterGUI
         $this->mailRatersObject($form);
     }
 
-    public function addExternalRater($form)
+    public function addExternalRater(ilPropertyFormGUI $form) : void
     {
         $appr_id = $_REQUEST["appr_id"];
 
@@ -506,8 +420,9 @@ class ilSurveyRaterGUI
         $this->ctrl->redirect($this->parent, "editRaters");
     }
 
-    public function addFromSearch(array $user_ids)
-    {
+    public function addFromSearch(
+        array $user_ids
+    ) : void {
         // check access
         $ilAccess = $this->access;
         $ilUser = $this->user;

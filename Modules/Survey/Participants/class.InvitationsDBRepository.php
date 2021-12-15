@@ -1,32 +1,32 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace ILIAS\Survey\Participants;
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 use ILIAS\Survey\InternalDataService;
 
 /**
  * Survey invitations repository
  *
- * @author killing@leifos.de
+ * @author Alexander Killing <killing@leifos.de>
  */
 class InvitationsDBRepository
 {
-    /**
-     * @var \ilDBInterface
-     */
-    protected $db;
+    protected \ilDBInterface $db;
+    protected InternalDataService $data;
 
-    /**
-     * @var InternalDataService
-     */
-    protected $data;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         InternalDataService $data,
         \ilDBInterface $db
@@ -61,7 +61,7 @@ class InvitationsDBRepository
      * @param int $survey_id Survey ID not object ID!
      * @param int $user_id
      */
-    public function add(int $survey_id, int $user_id)
+    public function add(int $survey_id, int $user_id) : void
     {
         $db = $this->db;
 
@@ -101,7 +101,6 @@ class InvitationsDBRepository
 
     /**
      * Get surveys where user is invited
-     *
      * @param int $user_id user id
      * @return int[] survey IDs
      */

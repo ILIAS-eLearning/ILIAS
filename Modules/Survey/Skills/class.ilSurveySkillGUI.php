@@ -1,49 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Survey skill service GUI class
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilSurveySkillGUI: ilSurveySkillThresholdsGUI
- * @ingroup ModulesSurvey
  */
 class ilSurveySkillGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilTemplate $tpl;
+    protected ilObjUser $user;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * Constructor
-     *
-     * @param object $a_survey
-     */
-    public function __construct(ilObjSurvey $a_survey)
-    {
+    public function __construct(
+        ilObjSurvey $a_survey
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -54,10 +39,7 @@ class ilSurveySkillGUI
         $this->survey = $a_survey;
     }
     
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -85,7 +67,7 @@ class ilSurveySkillGUI
     /**
      * List question to skill assignment
      */
-    public function listQuestionAssignment()
+    public function listQuestionAssignment() : void
     {
         $tpl = $this->tpl;
 
@@ -100,16 +82,11 @@ class ilSurveySkillGUI
     /**
      * Assign skill to question
      */
-    public function assignSkillToQuestion()
+    public function assignSkillToQuestion() : void
     {
-        $ilUser = $this->user;
         $tpl = $this->tpl;
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        $ilTabs = $this->tabs;
-
         $ilCtrl->saveParameter($this, "q_id");
-        
 
         $sel = new ilSkillSelectorGUI($this, "assignSkillToQuestion", $this, "selectSkillForQuestion");
         if (!$sel->handleCommand()) {
@@ -117,10 +94,7 @@ class ilSurveySkillGUI
         }
     }
     
-    /**
-     * Select skill for question
-     */
-    public function selectSkillForQuestion()
+    public function selectSkillForQuestion() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -137,10 +111,7 @@ class ilSurveySkillGUI
         $ilCtrl->redirect($this, "listQuestionAssignment");
     }
     
-    /**
-     * Remove skill from question
-     */
-    public function removeSkillFromQuestion()
+    public function removeSkillFromQuestion() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -152,12 +123,7 @@ class ilSurveySkillGUI
         $ilCtrl->redirect($this, "listQuestionAssignment");
     }
     
-    /**
-     * Set subtabs
-     *
-     * @param string $a_activate activate sub tab (ID)
-     */
-    public function setSubTabs($a_activate)
+    public function setSubTabs(string $a_activate) : void
     {
         $ilTabs = $this->tabs;
         $lng = $this->lng;

@@ -25,49 +25,15 @@ use ILIAS\Survey\InternalRepoService;
  */
 class EvaluationManager
 {
-    /**
-     * @var int
-     */
-    protected $requested_appr_id;
+    protected int $requested_appr_id;
+    protected InternalDomainService $domain_service;
+    protected \ilObjSurvey $survey;
+    protected int $user_id;
+    protected \ILIAS\Survey\Access\AccessManager $access;
+    protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
+    protected InternalRepoService $repo_service;
+    protected string $requested_rater_id;
 
-    /**
-     * @var InternalDomainService
-     */
-    protected $domain_service;
-
-    /**
-     * @var \ilObjSurvey
-     */
-    protected $survey;
-
-    /**
-     * @var int
-     */
-    protected $user_id;
-
-    /**
-     * @var \ILIAS\Survey\Access\AccessManager
-     */
-    protected $access;
-
-    /**
-     * @var \ILIAS\Survey\Mode\FeatureConfig
-     */
-    protected $feature_config;
-
-    /**
-     * @var InternalRepoService
-     */
-    protected $repo_service;
-
-    /**
-     * @var string
-     */
-    protected $requested_rater_id;
-
-    /**
-     * Constructor
-     */
     public function __construct(
         InternalDomainService $domain_service,
         InternalRepoService $repo_service,
@@ -195,7 +161,6 @@ class EvaluationManager
     {
         $req_rater_id = $this->requested_rater_id;
 
-        // requested appraisee is valid -> return appraisee
         $valid = array_map(function ($i) {
             return $i["user_id"];
         }, $this->getSelectableRaters());

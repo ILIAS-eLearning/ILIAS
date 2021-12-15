@@ -26,80 +26,26 @@ use ILIAS\Survey\Mode;
  */
 class ilSurveyExecutionGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
+    protected ilRbacSystem $rbacsystem;
+    protected ilObjUser $user;
+    protected ilHelpGUI $help;
+    protected ilToolbarGUI $toolbar;
+    protected ilObjSurvey $object;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilCtrl $ctrl;
+    protected ilTree $tree;
+    protected bool $preview;
+    protected ilLogger $log;
+    protected \ILIAS\Survey\Execution\RunManager $run_manager;
+    protected \ILIAS\Survey\Execution\SessionManager $session_manager;
+    protected \ILIAS\Survey\Participants\StatusManager $participant_manager;
+    protected \ILIAS\Survey\Access\AccessManager $access_manager;
+    protected int $requested_appr_id;
+    protected Mode\FeatureConfig $feature_config;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    public $object;
-    public $lng;
-    public $tpl;
-    public $ctrl;
-    public $tree;
-    public $preview;
-
-    /**
-    * @var ilLogger
-    */
-    protected $log;
-
-    /**
-     * @var \ILIAS\Survey\Execution\RunManager
-     */
-    protected $run_manager;
-
-    /**
-     * @var \ILIAS\Survey\Execution\SessionManager
-     */
-    protected $session_manager;
-
-    /**
-     * @var \ILIAS\Survey\Participants\StatusManager
-     */
-    protected $participant_manager;
-
-    /**
-     * @var \ILIAS\Survey\Access\AccessManager
-     */
-    protected $access_manager;
-
-    /**
-     * @var int
-     */
-    protected $requested_appr_id;
-
-    /**
-     * @var Mode\FeatureConfig
-     */
-    protected $feature_config;
-
-
-    /**
-    * ilSurveyExecutionGUI constructor
-    *
-    * The constructor takes possible arguments an creates an instance of the ilSurveyExecutionGUI object.
-    *
-    * @param object $a_object Associated ilObjSurvey class
-    * @access public
-    */
     public function __construct(ilObjSurvey $a_object)
     {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->rbacsystem = $DIC->rbac()->system();
@@ -148,10 +94,7 @@ class ilSurveyExecutionGUI
         $this->feature_config = $domain_service->domain()->modeFeatureConfig($a_object->getMode());
     }
     
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : string
     {
         // record read event for lp
         ilChangeEvent::_recordReadEvent(
@@ -164,8 +107,6 @@ class ilSurveyExecutionGUI
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
 
-        $cmd = $this->getCommand($cmd);
-
         $this->log->debug("- cmd= " . $cmd);
 
         if (strlen($cmd) == 0) {
@@ -174,14 +115,16 @@ class ilSurveyExecutionGUI
         }
         switch ($next_class) {
             default:
-                $ret = &$this->$cmd();
+                $ret = $this->$cmd();
                 break;
         }
-        return $ret;
+        return (string) $ret;
     }
     
-    protected function checkAuth($a_may_start = false, $a_ignore_status = false)
-    {
+    protected function checkAuth(
+        bool $a_may_start = false,
+        bool $a_ignore_status = false
+    ) : void {
         $rbacsystem = $this->rbacsystem;
         $ilUser = $this->user;
         
@@ -190,8 +133,7 @@ class ilSurveyExecutionGUI
                 // only with write access it is possible to preview the survey
                 throw new ilSurveyException($this->lng->txt("survey_cannot_preview_survey"));
             }
-            
-            return true;
+            return;
         }
 
 
@@ -244,16 +186,16 @@ class ilSurveyExecutionGUI
                     
         if (!$a_ignore_status) {
             // completed
-            if ($this->run_manager->hasFinished($user_id, $anonymous_code, $appr_id)) {
+            if ($this->run_manager->hasFinished($appr_id)) {
                 ilUtil::sendFailure($this->lng->txt("already_completed_survey"), true);
                 $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
             }
             // starting
-            elseif (!$this->run_manager->hasStarted($user_id, $anonymous_code, $appr_id)) {
+            elseif (!$this->run_manager->hasStarted($appr_id)) {
                 if ($a_may_start) {
                     //$_SESSION["finished_id"][$this->object->getId()] =
                     //    $this->object->startSurvey($user_id, $anonymous_code, $appr_id);
-                    $this->run_manager->start($user_id, $anonymous_code, $appr_id);
+                    $this->run_manager->start($appr_id);
                 } else {
                     ilUtil::sendFailure($this->lng->txt("survey_use_start_button"), true);
                     $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
@@ -268,45 +210,15 @@ class ilSurveyExecutionGUI
         // validate finished id
         if ($this->object->getActiveID($user_id, $anonymous_code, $appr_id) !=
             $this->run_manager->getCurrentRunId($appr_id)) {
-            var_dump($this->object->getActiveID($user_id, $anonymous_code, $appr_id));
-            var_dump($this->run_manager->getCurrentRunId($appr_id));
-            exit;
-            ilUtil::sendFailure($this->lng->txt("cannot_read_survey"), true);
-            $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
+            throw new ilSurveyException("Run ID mismatch");
         }
     }
 
-    /**
-    * Retrieves the ilCtrl command
-    *
-    * Retrieves the ilCtrl command
-    *
-    * @access public
-    */
-    public function getCommand($cmd)
-    {
-        return $cmd;
-    }
-
-    /**
-    * Resumes the survey
-    *
-    * Resumes the survey
-    *
-    * @access private
-    */
     public function resume()
     {
         $this->start(true);
     }
     
-    /**
-    * Starts the survey
-    *
-    * Starts the survey
-    *
-    * @access private
-    */
     public function start($resume = false)
     {
         if ($this->preview) {
@@ -331,21 +243,15 @@ class ilSurveyExecutionGUI
     }
 
     /**
-    * Called when a user answered a page to perform a redirect after POST.
-    * This is called for security reasons to prevent users sending a form twice.
-    *
-    * @access public
-    */
-    public function redirectQuestion()
+     * Called when a user answered a page to perform a redirect after POST.
+     * This is called for security reasons to prevent users sending a form twice.
+     */
+    public function redirectQuestion() : void
     {
         switch ($_GET["activecommand"]) {
-            case "next":
-                $this->outSurveyPage($_GET["qid"], $_GET["direction"]);
-                break;
             case "previous":
-                $this->outSurveyPage($_GET["qid"], $_GET["direction"]);
-                break;
             case "gotoPage":
+            case "next":
                 $this->outSurveyPage($_GET["qid"], $_GET["direction"]);
                 break;
             case "default":
@@ -358,20 +264,14 @@ class ilSurveyExecutionGUI
         }
     }
     
-    public function previousNoSave()
+    public function previousNoSave() : void
     {
         $this->previous(false);
     }
 
-    /**
-    * Navigates to the previous pages
-    *
-    * Navigates to the previous pages
-    *
-    * @access private
-    */
-    public function previous($a_save_input = true)
-    {
+    public function previous(
+        bool $a_save_input = true
+    ) : void {
         if ($a_save_input) {
             // #16209
             $has_error = $this->saveUserInput("previous");
@@ -387,11 +287,9 @@ class ilSurveyExecutionGUI
     }
     
     /**
-    * Navigates to the next pages
-    *
-    * @access private
-    */
-    public function next()
+     * Navigates to the next page
+     */
+    public function next() : void
     {
         $result = $this->saveUserInput("next");
         $this->ctrl->setParameter($this, "activecommand", "next");
@@ -405,11 +303,9 @@ class ilSurveyExecutionGUI
     }
     
     /**
-    * Go to a specific page without saving
-    *
-    * @access private
-    */
-    public function gotoPage()
+     * Go to a specific page without saving
+     */
+    public function gotoPage() : void
     {
         $this->ctrl->setParameter($this, "activecommand", "gotoPage");
         $this->ctrl->setParameter($this, "qid", $_GET["qid"]);
@@ -418,14 +314,12 @@ class ilSurveyExecutionGUI
     }
 
     /**
-    * Output of the active survey question to the screen
-    *
-    * Output of the active survey question to the screen
-    *
-    * @access private
-    */
-    public function outSurveyPage($activepage = null, $direction = null)
-    {
+     * Output of the active survey question to the screen
+     */
+    public function outSurveyPage(
+        ?int $activepage = null,
+        ?int $direction = null
+    ) : void {
         $ilUser = $this->user;
         
         $this->checkAuth();
@@ -612,23 +506,15 @@ class ilSurveyExecutionGUI
         }
     }
 
-    /**
-     * Get current run id
-     * @return int
-     */
     protected function getCurrentRunId() : int
     {
         return $this->run_manager->getCurrentRunId($this->requested_appr_id);
     }
 
-    /**
-     *
-     * @param array $previous_page
-     * @param array $page
-     * @return bool
-     */
-    protected function compressQuestion($previous_page, $page)
-    {
+    protected function compressQuestion(
+        array $previous_page,
+        array $page
+    ) : bool {
         if (!$previous_page) {
             return false;
         }
@@ -644,12 +530,11 @@ class ilSurveyExecutionGUI
     }
 
     /**
-    * Save the user's input
-    *
-    * @access private
-    */
-    public function saveUserInput($navigationDirection = "next")
-    {
+     * Save the user's input
+     */
+    public function saveUserInput(
+        string $navigationDirection = "next"
+    ) : int {
         if (!$this->preview) {
             $this->object->setEndTime($this->getCurrentRunId());
         }
@@ -669,81 +554,17 @@ class ilSurveyExecutionGUI
                 ilUtil::sendFailure($this->lng->txt("svy_page_errors"), true);
             }
         } else {
-            $page_error = "";
+            $page_error = 0;
             unset($_SESSION["svy_errors"]);
         }
         return $page_error;
     }
 
     /**
-    * Survey navigation
-    *
-    * Survey navigation
-    *
-    * @access private
-    */
-    /*
-    function navigate($navigationDirection = "next")
+     * Saves the users input of the active page
+     */
+    public function saveActiveQuestionData(array $data) : int
     {
-        // check users input when it is a metric question
-        unset($_SESSION["svy_errors"]);
-        $page_error = 0;
-        $page = $this->object->getNextPage($_GET["qid"], 0);
-        foreach ($page as $data)
-        {
-            $page_error += $this->saveActiveQuestionData($data);
-        }
-        if ($page_error && (strcmp($navigationDirection, "previous") != 0))
-        {
-            if ($page_error == 1)
-            {
-                ilUtil::sendFailure($this->lng->txt("svy_page_error"));
-            }
-            else
-            {
-                ilUtil::sendFailure($this->lng->txt("svy_page_errors"));
-            }
-        }
-        else
-        {
-            $page_error = "";
-            unset($_SESSION["svy_errors"]);
-        }
-
-        $direction = 0;
-        switch ($navigationDirection)
-        {
-            case "next":
-            default:
-                $activepage = $_GET["qid"];
-                if (!$page_error)
-                {
-                    $direction = 1;
-                }
-                break;
-            case "previous":
-                $activepage = $_GET["qid"];
-                if (!$page_error)
-                {
-                    $direction = -1;
-                }
-                break;
-        }
-        $this->outSurveyPage($activepage, $direction);
-    }
-*/
-    
-    /**
-    * Saves the users input of the active page
-    *
-    * Saves the users input of the active page
-    *
-    * @access private
-    */
-    public function saveActiveQuestionData(&$data)
-    {
-        $ilUser = $this->user;
-        
         $question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
         $error = $question->checkUserInput($_POST, $this->object->getSurveyId());
         if (strlen($error) == 0) {
@@ -763,26 +584,15 @@ class ilSurveyExecutionGUI
         }
     }
     
-    /**
-    * Called on cancel
-    *
-    * Called on cancel
-    *
-    * @access private
-    */
-    public function cancel()
+    public function cancel() : void
     {
         $this->ctrl->redirectByClass("ilobjsurveygui", "infoScreen");
     }
     
     /**
-    * Creates the finished page for a running survey
-    *
-    * Creates the finished page for a running survey
-    *
-    * @access public
-    */
-    public function runShowFinishedPage()
+     * Show finish page
+     */
+    public function runShowFinishedPage() : void
     {
         $ilToolbar = $this->toolbar;
         $ilUser = $this->user;
@@ -854,7 +664,7 @@ class ilSurveyExecutionGUI
         }
     }
     
-    public function backToRepository()
+    public function backToRepository() : void
     {
         $tree = $this->tree;
         
@@ -870,13 +680,9 @@ class ilSurveyExecutionGUI
     }
 
     /**
-    * Exits the survey after finishing it
-    *
-    * Exits the survey after finishing it
-    *
-    * @access public
-    */
-    public function exitSurvey()
+     * Exits the survey after finishing it
+     */
+    public function exitSurvey() : void
     {
         if (!$this->preview) {
             $this->backToRepository();
@@ -887,17 +693,11 @@ class ilSurveyExecutionGUI
         }
     }
     
-    /**
-    * Creates the navigation buttons for a survey
-    *
-    * Creates the navigation buttons for a survey.
-    * Runs twice to generate a top and a bottom navigation to
-    * ease the use of long forms.
-    *
-    * @access public
-    */
-    public function outNavigationButtons($navigationblock, $page, $stpl)
-    {
+    public function outNavigationButtons(
+        string $navigationblock,
+        array $page,
+        ilTemplate $stpl
+    ) : void {
         $prevpage = $this->object->getNextPage($page[0]["question_id"], -1);
         $stpl->setCurrentBlock($navigationblock . "_prev");
         if (is_null($prevpage)) {
@@ -916,12 +716,12 @@ class ilSurveyExecutionGUI
         $stpl->parseCurrentBlock();
     }
 
-    public function preview()
+    public function preview() : void
     {
         $this->outSurveyPage();
     }
     
-    public function viewUserResults()
+    public function viewUserResults() : void
     {
         $ilToolbar = $this->toolbar;
         
@@ -941,7 +741,7 @@ class ilSurveyExecutionGUI
         $this->tpl->setContent($html);
     }
     
-    public function mailUserResults()
+    public function mailUserResults() : void
     {
         $ilUser = $this->user;
 
@@ -969,7 +769,7 @@ class ilSurveyExecutionGUI
         $this->ctrl->redirect($this, "runShowFinishedPage");
     }
     
-    public function showFinishConfirmation()
+    public function showFinishConfirmation() : void
     {
         $tpl = $this->tpl;
         
@@ -983,7 +783,7 @@ class ilSurveyExecutionGUI
         $tpl->setContent($cgui->getHTML());
     }
     
-    public function confirmedFinish()
+    public function confirmedFinish() : void
     {
         $ilUser = $this->user;
         
