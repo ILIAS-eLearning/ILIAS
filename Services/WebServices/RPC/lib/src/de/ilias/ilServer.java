@@ -72,7 +72,8 @@ public class ilServer {
 		
 		ilServer server = null;
 		server = new ilServer(args);
-		server.handleRequest();
+		boolean success = server.handleRequest();
+		System.exit(success ? 0 : 1);
 	}
 	
 	
