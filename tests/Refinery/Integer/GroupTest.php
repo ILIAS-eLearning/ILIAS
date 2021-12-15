@@ -10,6 +10,7 @@ use ILIAS\Refinery\Integer\GreaterThan;
 use ILIAS\Refinery\Integer\LessThan;
 use ILIAS\Tests\Refinery\TestCase;
 use ILIAS\Refinery\Integer\GreaterThanOrEqual;
+use ILIAS\Refinery\Integer\LessThanOrEqual;
 
 class GroupTest extends TestCase
 {
@@ -40,5 +41,11 @@ class GroupTest extends TestCase
     {
         $instance = $this->group->isGreaterThanOrEqual(42);
         $this->assertInstanceOf(GreaterThanOrEqual::class, $instance);
+    }
+
+    public function testLessThanOrEqualInstance() : void
+    {
+        $instance = $this->group->isLessThanOrEqual(42);
+        $this->assertInstanceOf(LessThanOrEqual::class, $instance);
     }
 }

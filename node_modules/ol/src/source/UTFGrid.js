@@ -132,7 +132,7 @@ export class CustomTile extends Tile {
    * for given coordinate (or `null` if not yet loaded).
    * @param {import("../coordinate.js").Coordinate} coordinate Coordinate.
    * @param {function(*): void} callback Callback.
-   * @param {boolean=} opt_request If `true` the callback is always async.
+   * @param {boolean} [opt_request] If `true` the callback is always async.
    *                               The tile data is requested if not yet loaded.
    */
   forDataAtCoordinate(coordinate, callback, opt_request) {
@@ -222,9 +222,9 @@ export class CustomTile extends Tile {
     if (!client.status || (client.status >= 200 && client.status < 300)) {
       let response;
       try {
-        response = /** @type {!UTFGridJSON} */ (JSON.parse(
-          client.responseText
-        ));
+        response = /** @type {!UTFGridJSON} */ (
+          JSON.parse(client.responseText)
+        );
       } catch (err) {
         this.handleError_();
         return;
@@ -268,6 +268,9 @@ export class CustomTile extends Tile {
  * If not provided, `url` must be configured.
  * @property {string} [url] TileJSON endpoint that provides the configuration for this source.
  * Request will be made through JSONP. If not provided, `tileJSON` must be configured.
+ * @property {number|import("../array.js").NearestDirectionFunction} [zDirection=0]
+ * Choose whether to use tiles with a higher or lower zoom level when between integer
+ * zoom levels. See {@link module:ol/tilegrid/TileGrid~TileGrid#getZForResolution}.
  */
 
 /**
@@ -283,6 +286,7 @@ class UTFGrid extends TileSource {
     super({
       projection: getProjection('EPSG:3857'),
       state: SourceState.LOADING,
+      zDirection: options.zDirection,
     });
 
     /**
@@ -341,9 +345,9 @@ class UTFGrid extends TileSource {
     if (!client.status || (client.status >= 200 && client.status < 300)) {
       let response;
       try {
-        response = /** @type {import("./TileJSON.js").Config} */ (JSON.parse(
-          client.responseText
-        ));
+        response = /** @type {import("./TileJSON.js").Config} */ (
+          JSON.parse(client.responseText)
+        );
       } catch (err) {
         this.handleTileJSONError();
         return;
@@ -378,7 +382,7 @@ class UTFGrid extends TileSource {
    * @param {import("../coordinate.js").Coordinate} coordinate Coordinate.
    * @param {number} resolution Resolution.
    * @param {function(*): void} callback Callback.
-   * @param {boolean=} opt_request If `true` the callback is always async.
+   * @param {boolean} [opt_request] If `true` the callback is always async.
    *                               The tile data is requested if not yet loaded.
    * @api
    */
@@ -391,13 +395,15 @@ class UTFGrid extends TileSource {
     if (this.tileGrid) {
       const z = this.tileGrid.getZForResolution(resolution, this.zDirection);
       const tileCoord = this.tileGrid.getTileCoordForCoordAndZ(coordinate, z);
-      const tile = /** @type {!CustomTile} */ (this.getTile(
-        tileCoord[0],
-        tileCoord[1],
-        tileCoord[2],
-        1,
-        this.getProjection()
-      ));
+      const tile = /** @type {!CustomTile} */ (
+        this.getTile(
+          tileCoord[0],
+          tileCoord[1],
+          tileCoord[2],
+          1,
+          this.getProjection()
+        )
+      );
       tile.forDataAtCoordinate(coordinate, callback, opt_request);
     } else {
       if (opt_request === true) {
@@ -435,10 +441,11 @@ class UTFGrid extends TileSource {
       extent = applyTransform(tileJSON['bounds'], transform);
     }
 
+    const gridExtent = extentFromProjection(sourceProjection);
     const minZoom = tileJSON['minzoom'] || 0;
     const maxZoom = tileJSON['maxzoom'] || 22;
     const tileGrid = createXYZ({
-      extent: extentFromProjection(sourceProjection),
+      extent: gridExtent,
       maxZoom: maxZoom,
       minZoom: minZoom,
     });
@@ -455,9 +462,7 @@ class UTFGrid extends TileSource {
     this.tileUrlFunction_ = createFromTemplates(grids, tileGrid);
 
     if (tileJSON['attribution'] !== undefined) {
-      const attributionExtent =
-        extent !== undefined ? extent : epsg4326Projection.getExtent();
-
+      const attributionExtent = extent !== undefined ? extent : gridExtent;
       this.setAttributions(function (frameState) {
         if (intersects(attributionExtent, frameState.extent)) {
           return [tileJSON['attribution']];
