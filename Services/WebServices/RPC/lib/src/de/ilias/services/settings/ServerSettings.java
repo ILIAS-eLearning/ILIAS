@@ -301,18 +301,26 @@ public class ServerSettings {
 			Filter.Result.ACCEPT,
 			Filter.Result.DENY
 		)
-			.addAttribute("level", Level.FATAL);
-		consoleAppender.add(treshold);
+			.addAttribute("level", Level.ERROR);
+		consoleAppender
+			.add(layout)
+			.add(treshold);
+			
 		builder.add(consoleAppender);
 		
 		AppenderComponentBuilder rollingAppender = builder.newAppender("rolling", "RollingFile")
 			.addAttribute("fileName", this.getLogFile().getAbsolutePath())
-			.addAttribute("filePattern", this.getLogFile().getName() + ".%d")
+			.addAttribute("filePattern", this.getLogFile().getAbsolutePath() + ".%i")
 			.add(layout)
 			.addComponent(component);
 		
 		builder.add(rollingAppender);
-		builder.add(builder.newLogger("de.ilias", Level.INFO)
+		builder.add(builder.newLogger("de.ilias", this.logLevel)
+			.add(builder.newAppenderRef("rolling"))
+			.add(builder.newAppenderRef("console"))
+			.addAttribute("additivity", false)
+		);
+		builder.add(builder.newLogger("org.apache", Level.FATAL)
 			.add(builder.newAppenderRef("rolling"))
 			.add(builder.newAppenderRef("console"))
 			.addAttribute("additivity", false)
@@ -322,7 +330,6 @@ public class ServerSettings {
 			.add(builder.newAppenderRef("console"))
 		);
 		Configurator.initialize(builder.build());
-		
 		ServerSettings.logger = LogManager.getLogger(ServerSettings.class);
 					
 	}
