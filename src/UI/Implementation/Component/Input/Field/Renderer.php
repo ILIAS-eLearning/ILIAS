@@ -819,6 +819,8 @@ class Renderer extends AbstractComponentRenderer
             );
         }
 
+        // only render expansion toggles if the input
+        // contains actual (unhidden) inputs.
         if ($file_input->hasMetadataInputs()) {
             $template->setVariable('EXPAND_GLYPH', $default_renderer->render(
                 $this->getUIFactory()->symbol()->glyph()->expand()
@@ -826,9 +828,9 @@ class Renderer extends AbstractComponentRenderer
             $template->setVariable('COLLAPSE_GLYPH', $default_renderer->render(
                 $this->getUIFactory()->symbol()->glyph()->collapse()
             ));
-
-            $template->setVariable('METADATA_INPUTS', $default_renderer->render($metadata_input));
         }
+
+        $template->setVariable('METADATA_INPUTS', $default_renderer->render($metadata_input));
 
         $template->parseCurrentBlock();
 
@@ -839,6 +841,7 @@ class Renderer extends AbstractComponentRenderer
     {
         return $input->withAdditionalOnLoadCode(
             static function ($id) use ($input) {
+                $current_file_count = count($input->getDynamicInputs());
                 $mime_types = json_encode($input->getAcceptedMimeTypes());
                 $is_disabled = ($input->isDisabled()) ? 'true' : 'false';
 
@@ -849,6 +852,7 @@ class Renderer extends AbstractComponentRenderer
                             '{$input->getUploadHandler()->getUploadURL()}',
                             '{$input->getUploadHandler()->getFileRemovalURL()}',
                             '{$input->getUploadHandler()->getFileIdentifierParameterName()}',
+                            $current_file_count,
                             {$input->getMaxFiles()},
                             {$input->getMaxFileSize()},
                             $mime_types,

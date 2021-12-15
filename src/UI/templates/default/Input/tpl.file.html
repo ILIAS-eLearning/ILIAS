@@ -2,17 +2,18 @@
     <div class="ui-input-file-input-list ui-input-dynamic-inputs-list">
         <!-- BEGIN block_file_preview -->
         <div class="ui-input-file-input ui-input-dynamic-input">
-            {REMOVAL_GLYPH}
-            <span data-dz-name>{FILE_NAME}</span>
-            <span data-dz-size>{FILE_SIZE}</span>
+            <div class="ui-input-file-info">
+                {EXPAND_GLYPH}
+                {COLLAPSE_GLYPH}
+                <span data-dz-name>{FILE_NAME}</span>
+                <span data-dz-size>{FILE_SIZE}</span>
+                {REMOVAL_GLYPH}
+                <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
+            </div>
 
-            {EXPAND_GLYPH}
-            {COLLAPSE_GLYPH}
             <div class="ui-input-file-metadata" style="display: none;">
                 {METADATA_INPUTS}
             </div>
-
-            <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
         </div>
         <!-- END block_file_preview -->
     </div>
@@ -20,6 +21,7 @@
     <!-- BEGIN block_file_dropzone -->
     <div class="ui-input-file-input-dropzone">
         {ACTION_BUTTON}
+        <span class="ui-input-file-input-error-msg" data-dz-error-msg></span>
     </div>
     <!-- END block_file_dropzone -->
 </div>

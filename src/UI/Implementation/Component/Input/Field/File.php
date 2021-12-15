@@ -25,7 +25,7 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
     protected C\Input\Field\UploadHandler $upload_handler;
     protected array $accepted_mime_types = [];
     protected bool $has_metadata_inputs = false;
-    protected int $max_file_amount = 99;
+    protected int $max_file_amount = 1;
     protected int $max_file_size = 2048;
 
     public function __construct(
@@ -110,16 +110,22 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
         return $clone;
     }
 
+    /**
+     * Maps generated dynamic inputs to their file-id, which must be
+     * provided in or as $value.
+     */
     public function withValue($value) : DynamicInputsAwareInput
     {
         $this->checkArg("value", $this->isClientSideValueOk($value), "Display value does not match input type.");
 
         $clone = clone $this;
-        foreach ($value as $file_id => $input_value) {
-            $input_value = (is_array($input_value)) ? $input_value : [$input_value];
-            $input_value[$clone->upload_handler->getFileIdentifierParameterName()] = $file_id;
+        $identifier_key = $clone->upload_handler->getFileIdentifierParameterName();
+        foreach ($value as $data) {
+            $file_id = ($clone->hasMetadataInputs()) ? $data[$identifier_key] : $data;
 
-            $clone->dynamic_inputs[$file_id] = $clone->dynamic_input_template->withValue($input_value);
+            // that was not implicitly intended, but mapping dynamic inputs
+            // to the file-id is also a duplicate protection.
+            $clone->dynamic_inputs[$file_id] = $clone->dynamic_input_template->withValue($data);
         }
 
         return $clone;
@@ -151,13 +157,25 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
             return false;
         }
 
-        foreach ($value as $key => $val) {
-            if (!is_string($key) && null !== $this->getTemplateForDynamicInputs()) {
+        foreach ($value as $data) {
+            // if no dynamic input template was provided, the values
+            // must all be strings (possibly file-ids).
+            if (!is_string($data) && !$this->hasMetadataInputs()) {
                 return false;
             }
 
-            if (!is_string($val) && null === $this->getTemplateForDynamicInputs()) {
-                return false;
+            if ($this->hasMetadataInputs()) {
+                // if a dynamic input template was provided, the values
+                // must all contain the file-id as an array entry.
+                if (!array_key_exists($this->upload_handler->getFileIdentifierParameterName(), $data)) {
+                    return false;
+                }
+
+                // if a dynamic input template was provided, the values
+                // must be valid for the template input.
+                if (!$this->dynamic_input_template->isClientSideValueOk($data)) {
+                    return false;
+                }
             }
         }
 
@@ -166,8 +184,9 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
 
     protected function mergeTemplateWithInput(InputInterface $template, InputInterface $input) : C\Input\Field\Group
     {
+        $identifier_key = $this->upload_handler->getFileIdentifierParameterName();
         $inputs = ($template instanceof C\Input\Field\Group) ? $template->getInputs() : [$template];
-        $inputs[$this->upload_handler->getFileIdentifierParameterName()] = $input;
+        $inputs[$identifier_key] = $input;
 
         return new Group(
             $this->data_factory,
