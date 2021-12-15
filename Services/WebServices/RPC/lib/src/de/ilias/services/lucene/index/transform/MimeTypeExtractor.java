@@ -7,8 +7,8 @@ package de.ilias.services.lucene.index.transform;
 import de.ilias.services.object.DataSourceFactory;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
  */
 public class MimeTypeExtractor implements ContentTransformer {
 
-	protected static Logger logger = Logger.getLogger(MimeTypeExtractor.class);
+	protected static Logger logger = LogManager.getLogger(MimeTypeExtractor.class);
 
 	private static final String MIME_DEFAULT = "other";
 	private static final String MIME_DOC = "word";
@@ -106,8 +106,6 @@ public class MimeTypeExtractor implements ContentTransformer {
 	 * @return 
 	 */
 	public String transform(String content) {
-		
-		logger.setLevel(Level.DEBUG);
 		
 		// no dot
 		if(content.lastIndexOf(".") < 0) {

@@ -2413,7 +2413,6 @@ common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbar
 common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
-common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
 common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,[BR][BR]hiermit widerrufe ich mein Einverständnis zu den Nutzungsvereinbarungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Benutzername: %2$s[BR]Externers Benutzerkonto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#access#:#Zugriff
@@ -16637,3 +16636,4 @@ forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
 prg#:#prgr_new#:#Create Study Programme Link###03 11 2021 new variable
 prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###03 11 2021 new variable
 common#:#actions_for#:#Aktionen für %s
+common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable

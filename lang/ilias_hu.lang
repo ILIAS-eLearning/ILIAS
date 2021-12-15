@@ -1976,7 +1976,6 @@ cntr#:#cntr_view_info_sessions#:#Először az eseményeket azok objektumaival, a
 cntr#:#cntr_view_info_simple#:#Az objektumokat nem csoportosítjuk, azokat egymás alatt jelenítjük meg.
 cntr#:#cntr_view_sessions#:#Események nézete
 cntr#:#cntr_view_simple#:#Egyszerű nézet
-common#:#3rd_party_software#:#Harmadik fél szoftvere
 common#:#absolute_path#:#Abszolút elérési út
 common#:#accept_usr_agreement#:#A Szolgáltatási feltételekben leírtakat tudomásul veszem, és azt elfogadom.
 common#:#withdraw_consent_header#:#A Szolgáltatási feltételek elfogadásainak visszavonása
@@ -16622,3 +16621,7 @@ content#:#cont_sur_block_format#:#Körülölelő fejezet
 ui#:#datetime_required#:#Idő/Dátum kötelező
 ui#:#duration_end_must_not_be_earlier_than_start#:#A kezdő időpont nem lehet későbbi, mint a záró.
 forum#:#sticky_threads_sorting#:#Ragadós témák rendezése
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
+common#:#actions_for#:#Actions for %s###15 12 2021 new variable

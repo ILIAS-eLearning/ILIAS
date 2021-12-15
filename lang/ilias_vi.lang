@@ -378,7 +378,6 @@ assessment#:#warning_question_not_complete#:#Chưa hoàn thành câu hỏi!
 assessment#:#width#:#Độ rộng
 assessment#:#working_time#:#Thời gian làm
 assessment#:#you_received_a_of_b_points#:#Bạn đạt %s trong số %s điểm có thể
-common#:#3rd_party_software#:#Phần mềm bên thứ ba
 common#:#absolute_path#:#Đường dẫn tuyệt đối
 common#:#accept_usr_agreement#:#Chấp nhận thỏa thuận sử dụng?
 common#:#access#:#Truy cập
@@ -16624,3 +16623,7 @@ cmix#:#conf_mastery_score_info#:#This value is passed to the cmi5 learning modul
 cmix#:#conf_launch_mode_normal_info#:#Data related to the learning progress should be recorded.###03 11 2021 new variable
 cmix#:#conf_launch_mode_browse_info#:#This option should provide a user experience that allows the user to "look around" without judgement.###03 11 2021 new variable
 cmix#:#conf_launch_mode_review_info#:#This option should provide a user experience that allows the user to "revisit / review" already completed material.###03 11 2021 new variable
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.###15 12 2021 new variable
+common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable
+common#:#hist_lm_pg_update#:#Page changed.###15 12 2021 new variable
+common#:#actions_for#:#Actions for %s###15 12 2021 new variable

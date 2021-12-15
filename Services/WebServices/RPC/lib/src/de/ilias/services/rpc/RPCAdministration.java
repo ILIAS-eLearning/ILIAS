@@ -24,7 +24,7 @@ package de.ilias.services.rpc;
 
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import de.ilias.ilServerStatus;
 import de.ilias.services.db.DBFactory;
@@ -32,6 +32,7 @@ import de.ilias.services.lucene.index.IndexHolder;
 import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -42,7 +43,7 @@ import de.ilias.services.settings.LocalSettings;
  */
 public class RPCAdministration {
 
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private Logger logger = LogManager.getLogger(this.getClass().getName());
 
 	
 	/**
