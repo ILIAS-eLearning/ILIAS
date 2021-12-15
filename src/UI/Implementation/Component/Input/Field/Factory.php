@@ -160,10 +160,9 @@ class Factory implements Field\Factory
     public function file(
         UploadHandler $handler,
         string $label,
-        string $byline = null,
-        bool $has_zip_options = false
+        string $byline = null
     ) : Field\File {
-        return new File($this->lng, $this->data_factory, $this->refinery, $handler, $label, $byline, $has_zip_options);
+        return new File($this->lng, $this->data_factory, $this->refinery, $handler, $label, $byline);
     }
 
     /**
