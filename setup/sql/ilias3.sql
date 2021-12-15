@@ -1,8 +1,8 @@
--- MySQL dump 10.19  Distrib 10.3.29-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.19  Distrib 10.3.31-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: ilias_release
 -- ------------------------------------------------------
--- Server version	10.3.29-MariaDB-0+deb10u1
+-- Server version	10.3.31-MariaDB-0+deb10u1
 
 --
 -- Table structure for table `acc_access_key`
@@ -5480,8 +5480,9 @@ CREATE TABLE `file_data` (
   `rating` tinyint(4) NOT NULL DEFAULT 0,
   `page_count` bigint(20) DEFAULT NULL,
   `max_version` int(11) DEFAULT NULL,
-  `rid` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`file_id`)
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  PRIMARY KEY (`file_id`),
+  KEY `i1_idx` (`rid`)
 ) ;
 
 --
@@ -10415,9 +10416,9 @@ INSERT INTO `il_request_token` VALUES (6,'e94abe3044958d2cf4bebff6e68f6a52','201
 --
 
 CREATE TABLE `il_resource` (
-  `identification` varchar(250) NOT NULL,
-  `storage_id` varchar(8) DEFAULT NULL,
-  PRIMARY KEY (`identification`),
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `storage_id` varchar(8) NOT NULL DEFAULT '',
+  PRIMARY KEY (`rid`),
   KEY `i1_idx` (`storage_id`)
 ) ;
 
@@ -10431,15 +10432,15 @@ CREATE TABLE `il_resource` (
 --
 
 CREATE TABLE `il_resource_info` (
-  `internal` varchar(250) NOT NULL,
-  `identification` varchar(250) DEFAULT NULL,
-  `title` varchar(250) DEFAULT NULL,
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
   `suffix` varchar(64) DEFAULT NULL,
   `mime_type` varchar(250) DEFAULT NULL,
-  `size` bigint(20) DEFAULT NULL,
-  `creation_date` bigint(20) DEFAULT 0,
-  PRIMARY KEY (`internal`),
-  KEY `i1_idx` (`identification`)
+  `size` bigint(20) NOT NULL DEFAULT 0,
+  `creation_date` bigint(20) NOT NULL DEFAULT 0,
+  `version_number` bigint(20) NOT NULL,
+  PRIMARY KEY (`rid`,`version_number`),
+  KEY `i1_idx` (`rid`)
 ) ;
 
 --
@@ -10452,14 +10453,13 @@ CREATE TABLE `il_resource_info` (
 --
 
 CREATE TABLE `il_resource_revision` (
-  `internal` varchar(250) NOT NULL,
-  `identification` varchar(250) DEFAULT NULL,
-  `available` tinyint(4) DEFAULT NULL,
-  `version_number` bigint(20) DEFAULT NULL,
-  `owner_id` bigint(20) DEFAULT 0,
-  `title` varchar(255) DEFAULT '-',
-  PRIMARY KEY (`internal`),
-  KEY `i1_idx` (`identification`)
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `available` tinyint(4) DEFAULT 1,
+  `version_number` bigint(20) NOT NULL,
+  `owner_id` bigint(20) NOT NULL DEFAULT 0,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`rid`,`version_number`),
+  KEY `i1_idx` (`rid`)
 ) ;
 
 --
@@ -10468,21 +10468,33 @@ CREATE TABLE `il_resource_revision` (
 
 
 --
--- Table structure for table `il_resource_stakeh`
+-- Table structure for table `il_resource_stkh`
 --
 
-CREATE TABLE `il_resource_stakeh` (
-  `internal` varchar(255) NOT NULL,
-  `identification` varchar(255) DEFAULT NULL,
-  `stakeholder_id` varchar(255) DEFAULT NULL,
-  `stakeholder_class` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`internal`),
-  KEY `i1_idx` (`identification`),
+CREATE TABLE `il_resource_stkh` (
+  `id` varchar(64) NOT NULL DEFAULT '',
+  `class_name` varchar(250) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ;
+
+--
+-- Dumping data for table `il_resource_stkh`
+--
+
+
+--
+-- Table structure for table `il_resource_stkh_u`
+--
+
+CREATE TABLE `il_resource_stkh_u` (
+  `rid` varchar(64) NOT NULL DEFAULT '',
+  `stakeholder_id` varchar(64) DEFAULT NULL,
+  KEY `i1_idx` (`rid`),
   KEY `i2_idx` (`stakeholder_id`)
 ) ;
 
 --
--- Dumping data for table `il_resource_stakeh`
+-- Dumping data for table `il_resource_stkh_u`
 --
 
 
@@ -20387,7 +20399,7 @@ INSERT INTO `settings` VALUES ('common','soap_connect_timeout','0');
 INSERT INTO `settings` VALUES ('common','rpc_server_host','');
 INSERT INTO `settings` VALUES ('common','rpc_server_port','0');
 INSERT INTO `settings` VALUES ('common','inst_id','0');
-INSERT INTO `settings` VALUES ('common','db_hotfixes_7','63');
+INSERT INTO `settings` VALUES ('common','db_hotfixes_7','71');
 INSERT INTO `settings` VALUES ('adve','autosave','30');
 
 --
@@ -24997,4 +25009,4 @@ CREATE TABLE `xmlvalue_seq` (
 
 
 
--- Dump completed on 2021-11-03 16:09:38
+-- Dump completed on 2021-12-15 10:54:33
