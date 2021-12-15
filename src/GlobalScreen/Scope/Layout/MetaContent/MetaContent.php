@@ -37,17 +37,21 @@ class MetaContent
      * @var string
      */
     private $base_url = "";
-
+    /**
+     * @var string
+     */
+    protected $resource_version;
 
     /**
      * MetaContent constructor.
      */
-    public function __construct()
+    public function __construct(string $resource_version)
     {
-        $this->css = new CssCollection();
-        $this->js = new JsCollection();
-        $this->on_load_code = new OnLoadCodeCollection();
-        $this->inline_css = new InlineCssCollection();
+        $this->resource_version = $resource_version;
+        $this->css = new CssCollection($resource_version);
+        $this->js = new JsCollection($resource_version);
+        $this->on_load_code = new OnLoadCodeCollection($resource_version);
+        $this->inline_css = new InlineCssCollection($resource_version);
     }
 
     /**
@@ -55,10 +59,10 @@ class MetaContent
      */
     public function reset()
     {
-        $this->css = new CssCollection();
-        $this->js = new JsCollection();
-        $this->on_load_code = new OnLoadCodeCollection();
-        $this->inline_css = new InlineCssCollection();
+        $this->css = new CssCollection($this->resource_version);
+        $this->js = new JsCollection($this->resource_version);
+        $this->on_load_code = new OnLoadCodeCollection($this->resource_version);
+        $this->inline_css = new InlineCssCollection($this->resource_version);
     }
 
     /**
@@ -67,7 +71,7 @@ class MetaContent
      */
     public function addCss(string $path, string $media = self::MEDIA_SCREEN)
     {
-        $this->css->addItem(new Css($path, $media));
+        $this->css->addItem(new Css($path, $this->resource_version, $media));
     }
 
 
@@ -78,7 +82,7 @@ class MetaContent
      */
     public function addJs(string $path, bool $add_version_number = false, int $batch = 2)
     {
-        $this->js->addItem(new Js($path, $add_version_number, $batch));
+        $this->js->addItem(new Js($path, $this->resource_version, $add_version_number, $batch));
     }
 
 
@@ -88,7 +92,7 @@ class MetaContent
      */
     public function addInlineCss(string $content, string $media = self::MEDIA_SCREEN)
     {
-        $this->inline_css->addItem(new InlineCss($content, $media));
+        $this->inline_css->addItem(new InlineCss($content, $this->resource_version, $media));
     }
 
 
@@ -98,7 +102,7 @@ class MetaContent
      */
     public function addOnloadCode(string $content, int $batch = 2)
     {
-        $this->on_load_code->addItem(new OnLoadCode($content, $batch));
+        $this->on_load_code->addItem(new OnLoadCode($content, $this->resource_version, $batch));
     }
 
 
