@@ -670,7 +670,7 @@ class Renderer extends AbstractComponentRenderer
             $input,
             $input->getTemplateForDynamicInputs(),
             $default_renderer,
-            $input->getUploadHandler()->getInfoResult($file_id),
+            null,
             $file_preview_template
         );
 
