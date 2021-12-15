@@ -1046,18 +1046,15 @@ class ilMailFolderGUI
      */
     protected function getMailFolderTable() : ilMailFolderTableGUI
     {
-        $sentFolderId = $this->mbox->getSentFolder();
-        $draftsFolderId = $this->mbox->getDraftsFolder();
-
-        $isTrashFolder = $this->currentFolderId == $this->mbox->getTrashFolder();
-        $isSentFolder = $this->currentFolderId == $sentFolderId;
-        $isDraftFolder = $this->currentFolderId == $draftsFolderId;
-
-        $table = new ilMailFolderTableGUI($this, $this->currentFolderId, 'showFolder');
-        $table->isSentFolder($isSentFolder)
-            ->isDraftFolder($isDraftFolder)
-            ->isTrashFolder($isTrashFolder)
-            ->initFilter();
+        $table = new ilMailFolderTableGUI(
+            $this,
+            $this->currentFolderId,
+            'showFolder',
+            $this->currentFolderId == $this->mbox->getTrashFolder(),
+            $this->currentFolderId == $this->mbox->getSentFolder(),
+            $this->currentFolderId == $this->mbox->getDraftsFolder()
+        );
+        $table->initFilter();
         
         return $table;
     }
