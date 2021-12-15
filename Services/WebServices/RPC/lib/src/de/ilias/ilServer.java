@@ -104,7 +104,11 @@ public class ilServer {
 	private boolean handleRequest() {
 		
 		if(arguments.length < 1) {
-			logger.error(getUsage());
+			System.err.println(this.getUsage());
+			return false;
+		}
+		
+		if(!this.initLogging()) {
 			return false;
 		}
 		
@@ -119,9 +123,6 @@ public class ilServer {
 		if(command.compareTo("start") == 0) {
 			if(arguments.length != 2) {
 				System.err.println("Usage: java -jar ilServer.jar PATH_TO_SERVER_INI start");
-				return false;
-			}
-			if(!initLogging()) {
 				return false;
 			}
 			return startServer();
@@ -309,7 +310,6 @@ public class ilServer {
 			// Check if webserver is alive
 			// otherwise stop execution
 			while(true) {
-
 				Thread.sleep(3000);
 				if(!rpc.isAlive()) {
 					rpc.shutdown();
@@ -321,7 +321,6 @@ public class ilServer {
 			
 		} 
 		catch (ConfigurationException e) {
-			//logger.error(e);
 			System.exit(1);
 			return false;
 		} 
@@ -360,6 +359,7 @@ public class ilServer {
 			parser.parseServerSettings(arguments[0],false);
 			
 			client = initRpcClient();
+			logger.debug("Client execute");
 			client.execute("RPCAdministration.stop",new Vector());
 			return true;
 		} 
@@ -429,13 +429,12 @@ public class ilServer {
 		XmlRpcClientConfigImpl config;
 		ServerSettings settings;
 		
-		
 		settings = ServerSettings.getInstance();
 		config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL(settings.getServerUrl()));
 		config.setConnectionTimeout(10000);
 		config.setReplyTimeout(0);
-		
+
 		client = new XmlRpcClient();
 		client.setTransportFactory(new XmlRpcCommonsTransportFactory(client));
 		client.setConfig(config);
