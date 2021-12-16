@@ -13,7 +13,7 @@ class ilLangDeprecated
     const ILIAS_CLASS_FILE_RE = "class\..*\.php$";
 
     protected array $candidates;
-    private $db;
+    private \ilDBInterface $db;
 
     /**
      * ilLangDeprecated constructor.
