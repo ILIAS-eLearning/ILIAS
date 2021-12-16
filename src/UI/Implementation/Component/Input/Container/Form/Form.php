@@ -36,6 +36,11 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
      */
     private $count = 0;
 
+    /**
+     * @var null|string
+     */
+    protected $error = null;
+
 
     /**
      * @param array $inputs
@@ -53,7 +58,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
 
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function getInputs()
     {
@@ -62,7 +67,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
 
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function getInputGroup()
     {
@@ -71,7 +76,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
 
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function withRequest(ServerRequestInterface $request)
     {
@@ -88,7 +93,7 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
 
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function withAdditionalTransformation(Transformation $trafo)
     {
@@ -98,14 +103,28 @@ abstract class Form implements C\Input\Container\Form\Form, CI\Input\NameSource
         return $clone;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    protected function setError(string $error) : void
+    {
+        $this->error = $error;
+    }
+
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function getData()
     {
         $content = $this->getInputGroup()->getContent();
         if (!$content->isok()) {
+            $this->setError($content->error());
             return null;
         }
 
