@@ -6,6 +6,7 @@ namespace ILIAS\UI\Component\Item;
 
 use ILIAS\UI\Component\Legacy\Legacy;
 use ILIAS\UI\Component\Symbol\Icon\Icon;
+use ILIAS\UI\Component\Dropdown\Standard as DropdownStandard;
 
 /**
  * Interface Notification
@@ -62,4 +63,14 @@ interface Notification extends Item
      * this is different from the standard Item.
      */
     public function getLeadIcon() : Icon;
+
+    /**
+     * Create a new appointment item with a set of actions to perform on it.
+     */
+    public function withActions(DropdownStandard $actions) : Notification;
+
+    /**
+     * Get the actions of the item.
+     */
+    public function getActions() : ?DropdownStandard;
 }
