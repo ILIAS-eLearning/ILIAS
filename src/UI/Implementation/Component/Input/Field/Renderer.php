@@ -25,9 +25,6 @@ use ILIAS\Data\DataSize;
 class Renderer extends AbstractComponentRenderer
 {
     public const DYNAMIC_INPUT_ID_PLACEHOLDER = 'DYNAMIC_INPUT_ID';
-    public const DYNAMIC_INPUT_BLOCK = 'block_dynamic_input';
-    public const DYNAMIC_INPUTS_VAR = 'DYNAMIC_INPUTS';
-    public const DYNAMIC_INPUT_VAR = 'DYNAMIC_INPUT';
 
     public const DATEPICKER_MINMAX_FORMAT = 'Y/m/d';
 
@@ -325,7 +322,7 @@ class Renderer extends AbstractComponentRenderer
 
         $configuration = $component->getConfiguration();
         $value = $component->getValue();
-        
+
         if ($value) {
             $value = array_map(
                 function ($v) {
@@ -711,7 +708,7 @@ class Renderer extends AbstractComponentRenderer
         parent::registerResources($registry);
         $registry->register('./libs/bower/bower_components/moment/min/moment-with-locales.min.js');
         $registry->register('./libs/bower/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js');
-        
+
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.min.js');
         $registry->register('./node_modules/@yaireo/tagify/dist/tagify.css');
         $registry->register('./src/UI/templates/js/Input/Field/tagInput.js');
@@ -878,14 +875,14 @@ class Renderer extends AbstractComponentRenderer
             $dynamic_input_count
         ) {
             return "
-                $(document).ready(function () {
-                    il.UI.Input.DynamicInputsRenderer.init(
-                        '$id', 
-                        `$dynamic_inputs_template_html`,
-                        $dynamic_input_count
-                    );
-                });
-            ";
+            $(document).ready(function () {
+                il.UI.Input.DynamicInputsRenderer.init(
+                    '$id',
+                    `$dynamic_inputs_template_html`,
+                    $dynamic_input_count
+                );
+            });
+        ";
         });
     }
 

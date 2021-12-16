@@ -23,6 +23,6 @@ class Factory implements F\Factory
      */
     public function standard(string $post_url, array $inputs) : F\Standard
     {
-        return new Standard($this->name_source, $this->field_factory, $post_url, $inputs);
+        return new Standard($this->field_factory, $this->name_source, $post_url, $inputs);
     }
 }

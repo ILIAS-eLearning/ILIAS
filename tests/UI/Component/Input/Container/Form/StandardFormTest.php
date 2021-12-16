@@ -10,21 +10,33 @@ use ILIAS\UI\Implementation\Component\SignalGenerator;
 use ILIAS\Data;
 use ILIAS\UI\Component\Button\Factory;
 use ILIAS\UI\Implementation\Component as I;
+use ILIAS\UI\Implementation\Component\Input\NameSource;
 
 class WithButtonNoUIFactory extends NoUIFactory
 {
     protected Factory $button_factory;
-
 
     public function __construct(Factory $button_factory)
     {
         $this->button_factory = $button_factory;
     }
 
-
     public function button() : Factory
     {
         return $this->button_factory;
+    }
+}
+
+class InputNameSource implements NameSource
+{
+    public int $count = 0;
+
+    public function getNewName() : string
+    {
+        $name = "form_input_{$this->count}";
+        $this->count++;
+
+        return $name;
     }
 }
 
@@ -35,7 +47,7 @@ class StandardFormTest extends ILIAS_UI_TestBase
 {
     protected function buildFactory() : I\Input\Container\Form\Factory
     {
-        return new I\Input\Container\Form\Factory($this->buildInputFactory());
+        return new I\Input\Container\Form\Factory($this->buildInputFactory(), new InputNameSource());
     }
 
     protected function buildInputFactory() : I\Input\Field\Factory
