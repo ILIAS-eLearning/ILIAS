@@ -291,7 +291,7 @@ class ilObjFileImplementationLegacy extends ilObjFileImplementationAbstract impl
 
           // trying to distinguish the next-to-last being a 'last part of the filename'
           // or a 'version information',  based on having a dot included or not
-          if (str_contains($data[$last - 1], "."))
+          if (strpos($data[$last - 1], ".") !== false)
           {
             $data[0] .= "," . $data[$last - 1];
             $data[1] = $data[$last];
