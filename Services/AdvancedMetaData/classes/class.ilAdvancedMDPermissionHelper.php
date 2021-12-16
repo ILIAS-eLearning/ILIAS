@@ -263,20 +263,8 @@ class ilAdvancedMDPermissionHelper extends ilClaimingPermissionHelper
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        $res = array();
-
-        foreach ($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "AdvancedMetaData", "amdc") as $plugin_name) {
-            $res[] = $ilPluginAdmin->getPluginObject(
-                IL_COMP_SERVICE,
-                "AdvancedMetaData",
-                "amdc",
-                $plugin_name
-            );
-        }
-
-        return $res;
+        $component_factory = $DIC['component.repository'];
+        return $component_factory->getActivePluginsInSlot("amdc");
     }
 
     protected function checkPermission($a_context_type, $a_context_id, $a_action_id, $a_action_sub_id = null)

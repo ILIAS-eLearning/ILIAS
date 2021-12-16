@@ -189,7 +189,7 @@ class ilSoapUtils extends ilSoapAdministration
         }
         
         // Fetch first node
-        if (($node = $cp_options->fetchFirstDependenciesNode()) === false) {
+        if (($node = $cp_options->fetchFirstDependenciesNode()) === null) {
             $cp_options->deleteAll();
             ilLoggerFactory::getLogger('obj')->info('Finished copy step 2. Copy completed');
             return true;
@@ -256,7 +256,7 @@ class ilSoapUtils extends ilSoapAdministration
         
         
         // Fetch first node
-        if (($node = $cp_options->fetchFirstNode()) === false) {
+        if (($node = $cp_options->fetchFirstNode()) === null) {
             ilLoggerFactory::getLogger('obj')->info('Finished copy step 1. Starting copying of object dependencies...');
             return $this->ilCloneDependencies($sid, $copy_identifier, true);
         }

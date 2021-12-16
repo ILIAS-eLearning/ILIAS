@@ -49,6 +49,8 @@ import {assert} from '../asserts.js';
  * @property {import("./Image.js").default} [image] Image style.
  * @property {RenderFunction} [renderer] Custom renderer. When configured, `fill`, `stroke` and `image` will be
  * ignored, and the provided function will be called with each render frame for each geometry.
+ * @property {RenderFunction} [hitDetectionRenderer] Custom renderer for hit detection. If provided will be used
+ * in hit detection rendering.
  * @property {import("./Stroke.js").default} [stroke] Stroke style.
  * @property {import("./Text.js").default} [text] Text style.
  * @property {number} [zIndex] Z index.
@@ -147,7 +149,7 @@ import {assert} from '../asserts.js';
  */
 class Style {
   /**
-   * @param {Options=} opt_options Style options.
+   * @param {Options} [opt_options] Style options.
    */
   constructor(opt_options) {
     const options = opt_options || {};
@@ -188,6 +190,15 @@ class Style {
 
     /**
      * @private
+     * @type {RenderFunction|null}
+     */
+    this.hitDetectionRenderer_ =
+      options.hitDetectionRenderer !== undefined
+        ? options.hitDetectionRenderer
+        : null;
+
+    /**
+     * @private
      * @type {import("./Stroke.js").default}
      */
     this.stroke_ = options.stroke !== undefined ? options.stroke : null;
@@ -213,12 +224,15 @@ class Style {
   clone() {
     let geometry = this.getGeometry();
     if (geometry && typeof geometry === 'object') {
-      geometry = /** @type {import("../geom/Geometry.js").default} */ (geometry).clone();
+      geometry = /** @type {import("../geom/Geometry.js").default} */ (
+        geometry
+      ).clone();
     }
     return new Style({
       geometry: geometry,
       fill: this.getFill() ? this.getFill().clone() : undefined,
       image: this.getImage() ? this.getImage().clone() : undefined,
+      renderer: this.getRenderer(),
       stroke: this.getStroke() ? this.getStroke().clone() : undefined,
       text: this.getText() ? this.getText().clone() : undefined,
       zIndex: this.getZIndex(),
@@ -243,6 +257,26 @@ class Style {
    */
   setRenderer(renderer) {
     this.renderer_ = renderer;
+  }
+
+  /**
+   * Sets a custom renderer function for this style used
+   * in hit detection.
+   * @param {RenderFunction|null} renderer Custom renderer function.
+   * @api
+   */
+  setHitDetectionRenderer(renderer) {
+    this.hitDetectionRenderer_ = renderer;
+  }
+
+  /**
+   * Get the custom renderer function that was configured with
+   * {@link #setHitDetectionRenderer} or the `hitDetectionRenderer` constructor option.
+   * @return {RenderFunction|null} Custom renderer function.
+   * @api
+   */
+  getHitDetectionRenderer() {
+    return this.hitDetectionRenderer_;
   }
 
   /**
@@ -360,9 +394,9 @@ class Style {
       this.geometryFunction_ = geometry;
     } else if (typeof geometry === 'string') {
       this.geometryFunction_ = function (feature) {
-        return /** @type {import("../geom/Geometry.js").default} */ (feature.get(
-          geometry
-        ));
+        return /** @type {import("../geom/Geometry.js").default} */ (
+          feature.get(geometry)
+        );
       };
     } else if (!geometry) {
       this.geometryFunction_ = defaultGeometryFunction;

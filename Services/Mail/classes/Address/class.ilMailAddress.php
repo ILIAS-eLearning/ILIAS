@@ -16,16 +16,6 @@ class ilMailAddress
         $this->host = $host;
     }
 
-    public function setHost(string $host) : void
-    {
-        $this->host = $host;
-    }
-
-    public function setMailbox(string $mailbox) : void
-    {
-        $this->mailbox = $mailbox;
-    }
-
     public function getHost() : string
     {
         return $this->host;

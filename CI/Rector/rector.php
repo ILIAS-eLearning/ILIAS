@@ -18,20 +18,22 @@ return static function (ContainerConfigurator $containerConfigurator) : void {
     // We need the parameters to set e.g. the language level of PHP
     $parameters = $containerConfigurator->parameters();
     $parameters->set(Option::PHP_VERSION_FEATURES, PhpVersion::PHP_74);
-    
+
     // get services (needed for register a single rule)
     $services = $containerConfigurator->services();
-    
+
     // We start with a single and sinle (own) rule. remove requires and include.
     $services->set(\ILIAS\CI\Rector\RemoveRequiresAndIncludesRector::class);
-    
+    // The second rule will add (or replace) e license-header for every class-file
+    $services->set(\ILIAS\CI\Rector\ChangeLicenseHeader::class);
+
     // After that, you can try to introduce TypeDeclarations in your component
     // $containerConfigurator->import(SetList::TYPE_DECLARATION);
-    
+
     // This SetList intricuces some changes concerning PHP7.4,
     // see libs/composer/vendor/rector/rector/config/set/php74.php for more details.
     $containerConfigurator->import(SetList::PHP_74);
-    
+
     // You can introduce or modify visibilities of constants and/or methods with there rectors:
     // $services->set(ChangeConstantVisibilityRector::class);
     // $services->set(ChangeMethodVisibilityRector::class);

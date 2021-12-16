@@ -214,6 +214,8 @@ class ilObjUser extends ilObject
             //style (css)
             $this->prefs["style"] = $this->ilias->ini->readVariable("layout", "style");
         }
+
+        $this->app_event_handler = $DIC['ilAppEventHandler'];
     }
 
     /**
@@ -897,6 +899,11 @@ class ilObjUser extends ilObject
                 " WHERE usr_id = %s",
                 array("integer"),
                 array($this->id)
+            );
+            $this->app_event_handler->raise(
+                "Services/User",
+                "firstLogin",
+                array("user_obj" => $this)
             );
         }
     }

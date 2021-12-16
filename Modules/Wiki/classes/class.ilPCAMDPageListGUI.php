@@ -95,8 +95,13 @@ class ilPCAMDPageListGUI extends ilPageContentGUI
         $mode->setRequired(true);
         $form->addItem($mode);
 
-        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH, 'wiki',
-            $this->getPage()->getWikiId(), 'wpg', $this->getPage()->getId());
+        $this->record_gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_SEARCH,
+            'wiki',
+            $this->getPage()->getWikiId(),
+            'wpg',
+            $this->getPage()->getId()
+        );
         $this->record_gui->setPropertyForm($form);
         
         if (!$a_insert) {

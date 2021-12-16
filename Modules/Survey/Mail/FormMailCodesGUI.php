@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Class FormMailCodesGUI
@@ -9,16 +20,17 @@
  */
 class FormMailCodesGUI extends ilPropertyFormGUI
 {
-    protected $guiclass;
-    protected $subject;
-    protected $sendtype;
-    protected $savedmessages;
-    protected $mailmessage;
-    protected $savemessage;
-    protected $savemessagetitle;
+    protected ilSurveyParticipantsGUI $guiclass;
+    protected ilTextInputGUI $subject;
+    protected ilRadioGroupInputGUI $sendtype;
+    protected ilSelectInputGUI $savedmessages;
+    protected ilTextAreaInputGUI $mailmessage;
+    protected ilCheckboxInputGUI $savemessage;
+    protected ilTextInputGUI $savemessagetitle;
     
-    public function __construct($guiclass)
-    {
+    public function __construct(
+        ilSurveyParticipantsGUI $guiclass
+    ) {
         global $DIC;
 
         parent::__construct();
@@ -104,12 +116,12 @@ class FormMailCodesGUI extends ilPropertyFormGUI
         }
     }
     
-    public function getSavedMessages()
+    public function getSavedMessages() : ilSelectInputGUI
     {
         return $this->savedmessages;
     }
     
-    public function getMailMessage()
+    public function getMailMessage() : ilTextAreaInputGUI
     {
         return $this->mailmessage;
     }

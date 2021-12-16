@@ -15,36 +15,6 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
 abstract class ilUDFClaimingPlugin extends ilPlugin
 {
     //
-    // plugin slot
-    //
-    
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    final public function getComponentName()
-    {
-        return "User";
-    }
-
-    final public function getSlot()
-    {
-        return "UDFClaiming";
-    }
-
-    final public function getSlotId()
-    {
-        return "udfc";
-    }
-    
-    final protected function slotInit()
-    {
-        require_once "Services/User/classes/class.ilUDFPermissionHelper.php";
-    }
-    
-    
-    //
     // permission
     //
     

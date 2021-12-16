@@ -133,6 +133,14 @@ class ilMailAddressParserTest extends ilMailBaseTest
         $this->assertCount(count($expected), $parsedAddresses);
     }
 
+    public function testAddressParserReturnsEmptyListIfAnEmptyAddressStringIsGiven() : void
+    {
+        $parser = new ilMailPearRfc822WrapperAddressParser('');
+        $parsedAddresses = $parser->parse();
+
+        $this->assertCount(0, $parsedAddresses);
+    }
+
     /**
      * @dataProvider emailInvalidAddressesProvider
      */

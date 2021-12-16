@@ -29,6 +29,47 @@
 // to the corresponding mode!
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
+survey#:#svy_ext_rater_firstname#:#Vorname eines externen Feedback-Gebers
+survey#:#svy_ext_rater_lastname#:#Nachname eines externen Feedback-Gebers
+survey#:#svy_only_max_one_external_rater#:#Bitte wählen Sie nur einen externen Feedback-Geber aus.
+survey#:#svy_select_rater#:#Feedbackgeber auswählen
+survey#:#svy_all_raters#:#Alle Feedbackgeber
+survey#:#svy_privacy_info#:#Persönliche Daten
+survey#:#svy_rater_see_app_info#:#Feedbackgebende werden die Namen der Feedbacknehmenden angezeigt, damit diese die Fragen in Bezug auf den Feedbacknehmenden beantworten können.
+survey#:#svy_app_see_rater_info#:#Feedbacknehemde können auf den Ergebnisseiten einsehen, welche Feedbackgebenden die Antworten gegeben haben, inkl. Namen und E-Mail, sofern diese beim Anlegen der Feedbackgebenden angegeben wurden.
+survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation
+survey#:#svy_mail_context_rater_invitation_info#:#Invite raters to participate in a survey.
+survey#:#svy_mail_context_rater_invitation_survey_title#:#Survey Title
+content#:#cont_sec_protected_text#:#Der folgende Block ist geschützt und kann nicht bearbeitet werden.
+content#:#cont_sec_protected#:#Geschützt
+prtf#:#prtf_sec_protected_info#:#Geschützte Blöcke können im Portfolio nicht bearbeitet werden.
+prtf#:#prtf_role_assignment#:#Rollenzuordnung
+prtf#:#prtf_add_assignment#:#Zuordnung hinzufügen
+prtf#:#prtf_role_title#:#Rolle
+prtf#:#prtf_template_title#:#Portfoliovorlage
+prtf#:#prtf_delete_assignment#:#Zuordnungen löschen
+prtf#:#prtf_delete_assignment_sure#:#Wollen Sie wirklich die folgende(n) Zuordnung(en) löschen?
+survey#:#svy_rater#:#Feedback-Geber
+survey#:#svy_dont_send#:#Keine Nachricht senden
+survey#:#svy_save_and_continue#:#Speichern und Fortfahren
+survey#:#svy_external_rater#:#Externen Feedback-Geber hinzufügen
+survey#:#svy_external_rater_info#:#Externe Feedback-Geber haben keinen Nutzer-Account auf der Plattform.
+survey#:#svy_search_user#:#Benutzer suchen
+survey#:#svy_search_user_info#:#Benutzer oder Rollen suchen und Teilnehmer auswählen.
+survey#:#svy_add_internal_user#:#Benutzer hinzufügen
+survey#:#svy_add_internal_user_info#:#Feedbackgeber benötigen einen Benutzer-Account auf der Plattform.
+survey#:#svy_type_of_rater#:#Art Feedback-Geber
+survey#:#svy_add_rater#:#Feedback-Geber hinzufügen
+survey#:#svy_ind_feedb_mode#:#Fremd-Evaluation
+survey#:#svy_ind_feedb_info#:#Feedback-Nehmer erhalten mehrere einzelne Evaluationen durch Feebdack-Geber.
+exc#:#exc_print_pdf#:#Drucken/PDF
+exp#:#exp_print_pdf_info#:#Um ein PDF zu erstellen, wählen Sie bitte anschließend in der Druckansicht "Als PDF speichern" als Ziel.
+exp#:#exp_show_print_view#:#Druckansicht anzeigen
+exp#:#exp_print_pdf#:#Drucken/PDF
+prtf#:#prtf_edit_data#:#Daten bearbeiten
+content#:#cont_ed_insert_amdfrm#:#Erweiterte Metadaten einfügen
+prtt#:#prtt_select_datasets#:#Datensätze auswählen
+prtt#:#prtt_pfpg#:#Portfolioseite
 meta#:#md_adv_field_list#:#Datenfelder
 meta#:#md_adv_record_lng_table#:#Sprachenverwaltung
 meta#:#md_adv_record_lng_table_lng#:#Sprache
@@ -2420,7 +2461,9 @@ common#:#withdrawal_complete_deleted#:#Widerrufsvorgang ist abgeschlossen. Der N
 common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur Löschung des Accounts nehmen Sie bitte Kontakt zu Ihrer Organisation auf.
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
+common#:#withdrawal_sure_account_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten?
 common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,[BR][BR]hiermit widerrufe ich mein Einverständnis zu den Nutzungsvereinbarungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Benutzername: %2$s[BR]Externers Benutzerkonto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
 common#:#access#:#Zugriff
@@ -11134,7 +11177,7 @@ survey#:#survey_code_delete_sure#:#Wollen Sie wirklich die folgenden Zugangsschl
 survey#:#survey_360_mode#:#360°-Feedback
 survey#:#survey_360_self_evaluation#:#Selbsteinschätzung
 survey#:#survey_360_self_raters#:#Feedback-Geber auswählen
-survey#:#survey_360_self_appraisee#:#Offenes 360°-Feedback
+survey#:#survey_360_self_appraisee#:#Offenes Feedback
 survey#:#survey_360_results#:#Feedback-Nehmer können die Antworten einsehen
 survey#:#survey_360_results_none#:#Kein Zugang
 survey#:#survey_360_results_own#:#Nur eigene Feedback-Geber
@@ -16655,3 +16698,4 @@ violation#:#not_a_string#:#Wert ist keine Zeichenkette
 common#:#actions_for#:#Aktionen für %s
 validation#:#not_greater_than_or_equal#:#Der Wert ist nicht größer oder gleich '%s'.
 validation#:#not_an_array#:#Wert ist kein Feld
+validation#:#not_less_than_or_equal#:#Der Wert ist nicht kleiner oder gleich '%s'.

@@ -229,7 +229,7 @@ class ilSkillTreeNode
 
         $ilDB = $DIC->database();
 
-        return self::_lookup($a_obj_id, "description");
+        return (string) self::_lookup($a_obj_id, "description");
     }
 
     public static function _lookupSelfEvaluation(int $a_obj_id) : bool

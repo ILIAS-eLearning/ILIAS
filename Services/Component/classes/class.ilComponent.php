@@ -1,6 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('class.ilCachedComponentData.php');
 
 define("IL_COMP_MODULE", "Modules");
 define("IL_COMP_SERVICE", "Services");
@@ -53,31 +52,17 @@ abstract class ilComponent
     */
     abstract public function getName();
 
-
-    /**
-     * @var ilCachedComponentData
-     */
-    protected $global_cache;
+    protected \ilComponentInfo $component;
 
     public function __construct()
     {
-        $this->global_cache = ilCachedComponentData::getInstance();
+        global $DIC;
+        $this->component_repository = $DIC["component.repository"];
 
-        $this->setId($this->global_cache->lookCompId($this->getComponentType(), $this->getName()));
-        $this->setPluginSlots(ilComponent::lookupPluginSlots(
+        $this->component = $this->component_repository->getComponentByTypeAndName(
             $this->getComponentType(),
             $this->getName()
-        ));
-    }
-    
-    /**
-    * Set Id.
-    *
-    * @param	string	$a_id	Id
-    */
-    final public function setId($a_id)
-    {
-        $this->id = $a_id;
+        );
     }
 
     /**
@@ -87,17 +72,7 @@ abstract class ilComponent
     */
     final public function getId()
     {
-        return $this->id;
-    }
-
-    /**
-    * Set Plugin Slots.
-    *
-    * @param	array	$a_pluginslots	Plugin Slots
-    */
-    final public function setPluginSlots($a_pluginslots)
-    {
-        $this->pluginslots = $a_pluginslots;
+        return $this->component->getId();
     }
 
     /**
@@ -107,7 +82,17 @@ abstract class ilComponent
     */
     final public function getPluginSlots()
     {
-        return $this->pluginslots;
+        $pluginslots = [];
+        foreach ($this->component->getPluginSlots() as $slot) {
+            $pluginslots[$slot->getId()] = [
+                "component" => $this->component->getQualifiedName(),
+                "id" => $slot->getId(),
+                "name" => $slot->getName(),
+                "dir_pres" => "Customizing/global/plugins/<br />" . $slot->getQualifiedName(),
+                "lang_prefix" => $this->component->getId() . "_" . $slot->getId() . "_"
+            ];
+        }
+        return $pluginslots;
     }
 
     /**
@@ -119,15 +104,9 @@ abstract class ilComponent
     final public static function getComponentObject($a_ctype, $a_cname)
     {
         global $DIC;
-        $ilDB = $DIC->database();
+        $component_repository = $DIC["component.repository"];
 
-        $set = $ilDB->queryF(
-            "SELECT * FROM il_component WHERE type = %s " .
-            " AND name = %s",
-            array("text", "text"),
-            array($a_ctype, $a_cname)
-        );
-        if (!$ilDB->fetchAssoc($set)) {
+        if (!$component_repository->hasComponent($a_ctype, $a_cname)) {
             return null;
         }
         
@@ -163,24 +142,6 @@ abstract class ilComponent
     public function getSubDirectory()
     {
         return $this->subdirectory;
-    }
-    
-    /**
-    * Lookup all plugin slots of a component
-    */
-    public static function lookupPluginSlots($a_type, $a_name)
-    {
-        $cached_component = ilCachedComponentData::getInstance();
-        $recs = $cached_component->lookupPluginSlotByComponent($a_type . "/" . $a_name);
-
-        $ps = array();
-        foreach ($recs as $rec) {
-            $rec["dir"] = "Customizing/global/plugins/" . $a_type . "/" . $a_name . "/" . $rec["name"];
-            $rec["dir_pres"] = "Customizing/global/plugins/<br />" . $a_type . "/" . $a_name . "/" . $rec["name"];
-            $rec["lang_prefix"] = ilComponent::lookupId($a_type, $a_name) . "_" . $rec["id"] . "_";
-            $ps[$rec["id"]] = $rec;
-        }
-        return $ps;
     }
     
     /**
@@ -224,68 +185,11 @@ abstract class ilComponent
     */
     public static function lookupId($a_type, $a_name)
     {
-        $global_cache = ilCachedComponentData::getInstance();
-
-        return $global_cache->lookCompId($a_type, $a_name);
-    }
-    
-    /**
-     * @param $a_type
-     * @param $a_name
-     *
-     * @return mixed
-     */
-    public static function getComponentInfo($a_type, $a_name)
-    {
-        $global_cache = ilCachedComponentData::getInstance();
-
-        return $global_cache->lookupCompInfo($a_type, $a_name);
-    }
-    
-    /**
-    * Check version number.
-    */
-    final public static function checkVersionNumber($a_ver)
-    {
-        $parts = explode(".", $a_ver);
-
-        if (count($parts) < 2 || count($parts) > 3) {
-            return "Version number does not conform to format a.b or a.b.c";
-        }
-        
-        if (!is_numeric($parts[0]) || !is_numeric($parts[1])) {
-            return "Not all version number parts a.b or a.b.c are numeric.";
-        }
-
-        if (isset($parts[2]) && !is_numeric($parts[2])) {
-            return "Not all version number parts a.b.c are numeric.";
-        }
-
-        return $parts;
+        global $DIC;
+        $component_repository = $DIC["component.repository"];
+        return $component_repository->getComponentByTypeAndName($a_type, $a_name)->getId();
     }
 
-    final public static function isVersionGreaterString($a_ver1, $a_ver2)
-    {
-        $a_arr1 = ilComponent::checkVersionNumber($a_ver1);
-        $a_arr2 = ilComponent::checkVersionNumber($a_ver2);
-
-        if (is_array($a_arr1) && is_array($a_arr2)) {
-            return ilComponent::isVersionGreater($a_ver1, $a_ver2);
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * @param string $version1
-     * @param string $version2
-     * @return bool
-     */
-    final public static function isVersionGreater(string $version1, string $version2) : bool
-    {
-        return version_compare($version1, $version2, '>');
-    }
-    
     /**
      * lookup component name
      * @global type $ilDB
@@ -295,31 +199,10 @@ abstract class ilComponent
     public static function lookupComponentName($a_component_id)
     {
         global $DIC;
-        $ilDB = $DIC->database();
-        
-        $query = 'SELECT name from il_component ' .
-                'WHERE id = ' . $ilDB->quote($a_component_id, 'text');
-        
-        $res = $ilDB->query($query);
-        while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->name;
+        $component_repository = $DIC["component.repository"];
+        if (!$component_repository->hasComponent($a_component_id)) {
+            return null;
         }
-    }
-
-    /**
-     * Get all
-     * @return array
-     */
-    public static function getAll()
-    {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        $set = $ilDB->query("SELECT * FROM il_component");
-        $comps = [];
-        while ($rec = $ilDB->fetchAssoc($set)) {
-            $comps[$rec["id"]] = $rec;
-        }
-        return $comps;
+        return $component_repository->getComponentById($a_component_id)->getName();
     }
 }

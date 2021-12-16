@@ -110,8 +110,10 @@ abstract class SurveyQuestionGUI
     * @return object The alias to the question object
     * @access public
     */
-    public static function _getQuestionGUI($questiontype, $question_id = -1)
-    {
+    public static function _getQuestionGUI(
+        string $questiontype,
+        int $question_id = -1
+    ) : SurveyQuestionGUI {
         if ((!$questiontype) and ($question_id > 0)) {
             $questiontype = SurveyQuestion::_getQuestiontype($question_id);
         }

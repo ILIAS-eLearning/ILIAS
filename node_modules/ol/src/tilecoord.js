@@ -13,7 +13,7 @@
  * @param {number} z Z.
  * @param {number} x X.
  * @param {number} y Y.
- * @param {TileCoord=} opt_tileCoord Tile coordinate.
+ * @param {TileCoord} [opt_tileCoord] Tile coordinate.
  * @return {TileCoord} Tile coordinate.
  */
 export function createOrUpdate(z, x, y, opt_tileCoord) {
@@ -44,6 +44,19 @@ export function getKeyZXY(z, x, y) {
  */
 export function getKey(tileCoord) {
   return getKeyZXY(tileCoord[0], tileCoord[1], tileCoord[2]);
+}
+
+/**
+ * Get the tile cache key for a tile key obtained through `tile.getKey()`.
+ * @param {string} tileKey The tile key.
+ * @return {string} The cache key.
+ */
+export function getCacheKeyForTileKey(tileKey) {
+  const [z, x, y] = tileKey
+    .substring(tileKey.lastIndexOf('/') + 1, tileKey.length)
+    .split(',')
+    .map(Number);
+  return getKeyZXY(z, x, y);
 }
 
 /**

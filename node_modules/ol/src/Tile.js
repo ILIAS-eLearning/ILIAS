@@ -76,7 +76,7 @@ class Tile extends EventTarget {
   /**
    * @param {import("./tilecoord.js").TileCoord} tileCoord Tile coordinate.
    * @param {import("./TileState.js").default} state State.
-   * @param {Options=} opt_options Tile options.
+   * @param {Options} [opt_options] Tile options.
    */
   constructor(tileCoord, state, opt_options) {
     super();
@@ -101,14 +101,6 @@ class Tile extends EventTarget {
      * @type {Tile}
      */
     this.interimTile = null;
-
-    /**
-     * The tile is available at the highest possible resolution. Subclasses can
-     * set this to `false` initially. Tile load listeners will not be
-     * unregistered before this is set to `true` and a `#changed()` is called.
-     * @type {boolean}
-     */
-    this.hifi = true;
 
     /**
      * A key assigned to the tile. This is used by the tile source to determine

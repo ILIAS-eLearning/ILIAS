@@ -11,8 +11,8 @@ import {
   makeStructureNS,
   pushParseAndPop,
 } from '../xml.js';
-import {readDecimal, readNonNegativeInteger, readString} from './xsd.js';
-import {readHref} from './XLink.js';
+import {readDecimal, readPositiveInteger, readString} from './xsd.js';
+import {readHref} from './xlink.js';
 
 /**
  * @const
@@ -103,7 +103,7 @@ const LAYER_PARSERS = makeStructureNS(
   makeStructureNS(OWS_NAMESPACE_URIS, {
     'Title': makeObjectPropertySetter(readString),
     'Abstract': makeObjectPropertySetter(readString),
-    'WGS84BoundingBox': makeObjectPropertySetter(readWgs84BoundingBox),
+    'WGS84BoundingBox': makeObjectPropertySetter(readBoundingBox),
     'Identifier': makeObjectPropertySetter(readString),
   })
 );
@@ -150,10 +150,10 @@ const TMS_LIMITS_LIST_PARSERS = makeStructureNS(NAMESPACE_URIS, {
 // @ts-ignore
 const TMS_LIMITS_PARSERS = makeStructureNS(NAMESPACE_URIS, {
   'TileMatrix': makeObjectPropertySetter(readString),
-  'MinTileRow': makeObjectPropertySetter(readNonNegativeInteger),
-  'MaxTileRow': makeObjectPropertySetter(readNonNegativeInteger),
-  'MinTileCol': makeObjectPropertySetter(readNonNegativeInteger),
-  'MaxTileCol': makeObjectPropertySetter(readNonNegativeInteger),
+  'MinTileRow': makeObjectPropertySetter(readPositiveInteger),
+  'MaxTileRow': makeObjectPropertySetter(readPositiveInteger),
+  'MinTileCol': makeObjectPropertySetter(readPositiveInteger),
+  'MaxTileCol': makeObjectPropertySetter(readPositiveInteger),
 });
 
 /**
@@ -196,6 +196,7 @@ const TMS_PARSERS = makeStructureNS(
   makeStructureNS(OWS_NAMESPACE_URIS, {
     'SupportedCRS': makeObjectPropertySetter(readString),
     'Identifier': makeObjectPropertySetter(readString),
+    'BoundingBox': makeObjectPropertySetter(readBoundingBox),
   })
 );
 
@@ -209,10 +210,10 @@ const TM_PARSERS = makeStructureNS(
   {
     'TopLeftCorner': makeObjectPropertySetter(readCoordinates),
     'ScaleDenominator': makeObjectPropertySetter(readDecimal),
-    'TileWidth': makeObjectPropertySetter(readNonNegativeInteger),
-    'TileHeight': makeObjectPropertySetter(readNonNegativeInteger),
-    'MatrixWidth': makeObjectPropertySetter(readNonNegativeInteger),
-    'MatrixHeight': makeObjectPropertySetter(readNonNegativeInteger),
+    'TileWidth': makeObjectPropertySetter(readPositiveInteger),
+    'TileHeight': makeObjectPropertySetter(readPositiveInteger),
+    'MatrixWidth': makeObjectPropertySetter(readPositiveInteger),
+    'MatrixHeight': makeObjectPropertySetter(readPositiveInteger),
   },
   makeStructureNS(OWS_NAMESPACE_URIS, {
     'Identifier': makeObjectPropertySetter(readString),
@@ -304,9 +305,9 @@ function readResourceUrl(node, objectStack) {
 /**
  * @param {Element} node Node.
  * @param {Array<*>} objectStack Object stack.
- * @return {Object|undefined} WGS84 BBox object.
+ * @return {Object|undefined} BBox object.
  */
-function readWgs84BoundingBox(node, objectStack) {
+function readBoundingBox(node, objectStack) {
   const coordinates = pushParseAndPop(
     [],
     WGS84_BBOX_READERS,

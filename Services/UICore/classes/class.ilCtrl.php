@@ -82,6 +82,13 @@ class ilCtrl implements ilCtrlInterface
     private ilCtrlPathFactoryInterface $path_factory;
 
     /**
+     * Holds an instance of the component factory.
+     *
+     * @var ilComponentFactory
+     */
+    private ilComponentFactory $component_factory;
+
+    /**
      * Holds a history of calls made with the current ilCtrl instance.
      *
      * @var array<int, string[]>
@@ -107,6 +114,7 @@ class ilCtrl implements ilCtrlInterface
      * @param RequestWrapper                 $post_parameters
      * @param RequestWrapper                 $get_parameters
      * @param Refinery                       $refinery
+     * @param ilComponentFactory             $component_factory
      */
     public function __construct(
         ilCtrlStructureInterface $structure,
@@ -117,7 +125,8 @@ class ilCtrl implements ilCtrlInterface
         ServerRequestInterface $server_request,
         RequestWrapper $post_parameters,
         RequestWrapper $get_parameters,
-        Refinery $refinery
+        Refinery $refinery,
+        ilComponentFactory $component_factory
     ) {
         $this->structure        = $structure;
         $this->token_repository = $token_repository;
@@ -128,6 +137,7 @@ class ilCtrl implements ilCtrlInterface
         $this->refinery         = $refinery;
         $this->path_factory     = $path_factory;
         $this->context          = $context;
+        $this->component_factory = $component_factory;
     }
 
     /**
@@ -689,10 +699,7 @@ class ilCtrl implements ilCtrlInterface
         $class_name = $this->getClassByObject($a_gui_obj);
         $target_url = $this->getParentReturnByClass($class_name);
 
-        // abort if no parent has set a return target yet.
-        if (null === $target_url) {
-            throw new ilCtrlException("ilCtrl was not yet provided with a return-target for class '$class_name'");
-        }
+        $component_factory = $DIC["component.factory"] ?? null;
 
         // append redirect source to target url.
         $target_url = $this->appendParameterString(
@@ -979,32 +986,27 @@ class ilCtrl implements ilCtrlInterface
      */
     private function modifyUrlWithPluginHooks(string $target_url) : string
     {
-        $ui_plugins = ilPluginAdmin::getActivePluginsForSlot('Services', 'UIComponent', 'uihk');
-        if (!empty($ui_plugins)) {
-            foreach ($ui_plugins as $plugin_name) {
-                /** @var $plugin_instance ilUserInterfaceHookPlugin */
-                $plugin_instance = ilPluginAdmin::getPluginObject(
-                    'Services', 'UIComponent', 'uihk', $plugin_name
-                );
+        $ui_plugins = $this->component_factory->getActivePluginsInSlot("uihk");
+        foreach ($ui_plugins as $plugin_instance) {
+            /** @var $plugin_instance ilUserInterfaceHookPlugin */
 
-                $html = $plugin_instance
+            $html = $plugin_instance
+                ->getUIClassInstance()
+                ->getHTML(
+                    'Services/Utilities',
+                    'redirect',
+                    ["html" => $target_url]
+                )
+            ;
+
+            if (ilUIHookPluginGUI::KEEP !== $html['mode']) {
+                $target_url = $plugin_instance
                     ->getUIClassInstance()
-                    ->getHTML(
-                        'Services/Utilities',
-                        'redirect',
-                        ["html" => $target_url]
+                    ->modifyHTML(
+                        $target_url,
+                        $html
                     )
                 ;
-
-                if (ilUIHookPluginGUI::KEEP !== $html['mode']) {
-                    $target_url = $plugin_instance
-                        ->getUIClassInstance()
-                        ->modifyHTML(
-                            $target_url,
-                            $html
-                        )
-                    ;
-                }
             }
         }
 

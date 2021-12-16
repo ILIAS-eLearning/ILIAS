@@ -11,6 +11,17 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class ilMailBaseTest extends TestCase
 {
+    protected function brutallyTrimHTML(string $html) : string
+    {
+        $html = str_replace(["\n", "\r", "\t"], "", $html);
+        $html = preg_replace('# {2,}#', " ", $html);
+        $html = preg_replace('/<!--(.|\s)*?-->/', '', $html);
+        $html = preg_replace("/>(\s+)</", "><", $html);
+        $html = str_replace([" >", " <"], [">", "<"], $html);
+
+        return trim($html);
+    }
+
     protected function setUp() : void
     {
         if (!defined('ANONYMOUS_USER_ID')) {

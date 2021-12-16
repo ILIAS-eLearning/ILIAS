@@ -25,6 +25,10 @@ class ilMarkSchemaTableGUITest extends ilTestBaseTestCase
         $this->setGlobalVariable("lng", $lng_mock);
         $this->setGlobalVariable("ilCtrl", $ctrl_mock);
         $this->setGlobalVariable("tpl", $this->createMock(ilGlobalPageTemplate::class));
+        $this->setGlobalVariable("component.repository", $this->createMock(ilComponentRepository::class));
+        $component_factory = $this->createMock(ilComponentFactory::class);
+        $component_factory->method("getActivePluginsInSlot")->willReturn(new ArrayIterator());
+        $this->setGlobalVariable("component.factory", $component_factory);
         $this->setGlobalVariable("ilPluginAdmin", new ilPluginAdmin());
         $this->setGlobalVariable("ilDB", $this->createMock(ilDBInterface::class));
         $this->setGlobalVariable("ilToolbar", $this->createMock(ilToolbarGUI::class));

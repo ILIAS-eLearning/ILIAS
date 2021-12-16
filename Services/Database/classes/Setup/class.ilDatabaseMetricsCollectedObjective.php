@@ -117,7 +117,7 @@ class ilDatabaseMetricsCollectedObjective extends Setup\Metrics\CollectedObjecti
             define("ILIAS_LOG_ENABLED", false);
         }
         if (!defined("ROOT_FOLDER_ID")) {
-            define("ROOT_FOLDER_ID", $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
+            define("ROOT_FOLDER_ID", (int) $client_ini->readVariable("system", "ROOT_FOLDER_ID"));
         }
         if (!defined("ROLE_FOLDER_ID")) {
             define("ROLE_FOLDER_ID", $client_ini->readVariable("system", "ROLE_FOLDER_ID"));

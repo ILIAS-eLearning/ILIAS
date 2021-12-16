@@ -93,6 +93,9 @@ class ilPCSection extends ilPageContent
         self::saveTimings($a_page);
     }
 
+    /**
+     * @throws ilDateTimeException
+     */
     public function modifyPageContentPostXsl(
         string $a_output,
         string $a_mode,
@@ -424,5 +427,34 @@ class ilPCSection extends ilPageContent
             }
         }
         return $a_html;
+    }
+
+    public function getProtected() : bool
+    {
+        if (is_object($this->sec_node)) {
+            return ($this->sec_node->get_attribute("Protected") == "1");
+        }
+
+        return false;
+    }
+
+    public function setProtected(bool $val) : void
+    {
+        if ($val) {
+            $this->sec_node->set_attribute("Protected", "1");
+        } else {
+            $this->sec_node->set_attribute("Protected", "0");
+        }
+    }
+
+    public function getModel() : ?stdClass
+    {
+        if ($this->sec_node->node_name() != "Section") {
+            return null;
+        }
+        $model = new stdClass();
+        $model->protected = $this->getProtected();
+
+        return $model;
     }
 }

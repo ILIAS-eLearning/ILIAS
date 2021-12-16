@@ -8,10 +8,10 @@
  */
 class ilMailAddressListTest extends ilMailBaseTest
 {
-    public function addressProvider() : array
+    public function addressTestProvider() : array
     {
         return [
-           'Username Addresses' => [
+            'Username Addresses' => [
                 [
                     new ilMailAddress('phpunit', 'ilias'),
                 ],
@@ -38,7 +38,7 @@ class ilMailAddressListTest extends ilMailBaseTest
     }
 
     /**
-     * @dataProvider addressProvider
+     * @dataProvider addressTestProvider
      */
     public function testDiffAddressListCanCalculateTheDifferenceOfTwoLists(
         array $leftAddresses,
@@ -50,5 +50,56 @@ class ilMailAddressListTest extends ilMailBaseTest
 
         $list = new ilMailDiffAddressList($left, $right);
         $this->assertCount($numberOfExpectedItems, $list->value());
+    }
+
+    public function externalAddressTestProvider() : array
+    {
+        return [
+            'Username' => [
+                new ilMailAddress('user', 'ilias'),
+                0
+            ],
+            'Email Address exists as Username' => [
+                new ilMailAddress('max.mustermann', 'ilias.de'),
+                0
+            ],
+            'Email Address' => [
+                new ilMailAddress('phpunit', 'gmail.com'),
+                1
+            ],
+            'Mailing List' => [
+                new ilMailAddress('#il_ml_4713', 'ilias'),
+                0
+            ],
+            'Role (technical)' => [
+                new ilMailAddress('#il_role_1000', 'ilias'),
+                0
+            ],
+            'Role (human readable)' => [
+                new ilMailAddress('#admin', '[Math Course]'),
+                0
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider externalAddressTestProvider
+     * @param ilMailAddress $address
+     * @param int $numberOfExpectedItems
+     */
+    public function testExternalAddressListDecoratorFiltersExternalAddresses(
+        ilMailAddress $address,
+        int $numberOfExpectedItems
+    ) : void {
+        $list = new ilMailAddressListImpl([$address]);
+        $externalList = new ilMailOnlyExternalAddressList($list, 'ilias', static function (string $address) : int {
+            if ('max.mustermann@ilias.de' === $address) {
+                return 4711;
+            }
+
+            return 0;
+        });
+
+        $this->assertCount($numberOfExpectedItems, $externalList->value());
     }
 }

@@ -14,28 +14,4 @@ include_once("./Services/Component/classes/class.ilPlugin.php");
  */
 abstract class ilCronHookPlugin extends ilPlugin implements ilCronJobProvider
 {
-    final public function getComponentType()
-    {
-        return IL_COMP_SERVICE;
-    }
-
-    final public function getComponentName()
-    {
-        return "Cron";
-    }
-
-    final public function getSlot()
-    {
-        return "CronHook";
-    }
-
-    final public function getSlotId()
-    {
-        return "crnhk";
-    }
-    
-    final protected function slotInit()
-    {
-        // nothing to do here
-    }
 }

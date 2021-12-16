@@ -255,7 +255,7 @@ class ilSecuritySettings
      */
     public function save() : void
     {
-        $this->settings->set('https', (int) $this->isHTTPSEnabled());
+        $this->settings->set('https', (string) $this->isHTTPSEnabled());
 
         $this->settings->set('ps_password_chars_and_numbers_enabled', (string) $this->isPasswordCharsAndNumbersEnabled());
         $this->settings->set('ps_password_special_chars_enabled', (string) $this->isPasswordSpecialCharsEnabled());
@@ -274,8 +274,8 @@ class ilSecuritySettings
             'ps_password_change_on_first_login_enabled',
             (string) $this->isPasswordChangeOnFirstLoginEnabled()
         );
-        $this->settings->set('ps_prevent_simultaneous_logins', (int) $this->isPreventionOfSimultaneousLoginsEnabled());
-        $this->settings->set('ps_protect_admin', (int) $this->isAdminRoleProtected());
+        $this->settings->set('ps_prevent_simultaneous_logins', (string) $this->isPreventionOfSimultaneousLoginsEnabled());
+        $this->settings->set('ps_protect_admin', (string) $this->isAdminRoleProtected());
     }
 
     /**

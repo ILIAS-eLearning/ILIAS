@@ -1,23 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Importer class for files
- *
  * @author Stefan Meyer <meyer@leifos.com>
  */
 class ilSurveyImporter extends ilXmlImporter
 {
-    /**
-     * @var Logger
-     */
-    protected $log;
+    protected ilLogger $log;
+    protected static ilObjSurvey $survey;
+    protected ilLogger $svy_log;
 
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         parent::__construct();
@@ -26,21 +31,7 @@ class ilSurveyImporter extends ilXmlImporter
         $this->log = $DIC["ilLog"];
     }
 
-    /**
-     * @var ilObjSurvey
-     */
-    protected static $survey;
 
-    /**
-     * @var ilLogger
-     */
-    protected $svy_log;
-
-    /**
-     * Init
-     * @param
-     * @return void
-     */
     public function init() : void
     {
         $this->ds = new ilSurveyDataSet();
@@ -55,37 +46,29 @@ class ilSurveyImporter extends ilXmlImporter
      * Set current survey object (being imported). This is done statically,
      * since the survey import uses multiple input files being processed for every survey
      * and all of these need the current survey object (ilSurveyImporter is intantiated multiple times)
-     *
-     * @param ilObjSurvey $a_val survey
      */
-    public function setSurvey(ilObjSurvey $a_val)
+    public function setSurvey(ilObjSurvey $a_val) : void
     {
         self::$survey = $a_val;
     }
 
-    /**
-     * Get current survey object
-     *
-     * @return ilObjSurvey survey
-     */
-    public function getSurvey()
+    public function getSurvey() : ilObjSurvey
     {
         return self::$survey;
     }
 
     /**
      * Import XML
-     * @param string          $a_entity
-     * @param string          $a_id
-     * @param string          $a_xml
-     * @param ilImportMapping $a_mapping
-     * @return void
      * @throws ilDatabaseException
      * @throws ilImportException
      * @throws ilObjectNotFoundException
      */
-    public function importXmlRepresentation(string $a_entity, string $a_id, string $a_xml, ilImportMapping $a_mapping) : void
-    {
+    public function importXmlRepresentation(
+        string $a_entity,
+        string $a_id,
+        string $a_xml,
+        ilImportMapping $a_mapping
+    ) : void {
         if ($a_entity == "svy") {
             // Container import => test object already created
             if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
@@ -184,9 +167,8 @@ class ilSurveyImporter extends ilXmlImporter
     
     /**
      * Create qti and xml file name
-     * @return array
      */
-    protected function parseXmlFileNames()
+    protected function parseXmlFileNames() : array
     {
         $GLOBALS['ilLog']->write(__METHOD__ . ': ' . $this->getImportDirectory());
         

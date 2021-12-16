@@ -614,10 +614,9 @@ class ilObjQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterfa
             
             if (strcmp($type, "-" . $item["type"] . "-") == 0) {
                 global $DIC;
-                $ilPluginAdmin = $DIC['ilPluginAdmin'];
-                $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, "TestQuestionPool", "qst");
-                foreach ($pl_names as $pl_name) {
-                    $pl = ilPlugin::getPluginObject(IL_COMP_MODULE, "TestQuestionPool", "qst", $pl_name);
+                $component_factory = $DIC['component.factory'];
+                $plugins = $component_repository->getPluginSlotById("qst")->getActivePlugins();
+                foreach ($component_factory->getActivePluginsInSlot("qst") as $pl) {
                     if (strcmp($pl->getQuestionType(), $item["type"]) == 0) {
                         $type = $pl->getQuestionTypeTranslation();
                     }

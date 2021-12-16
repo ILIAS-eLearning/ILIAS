@@ -347,13 +347,14 @@ class ilTabsGUI
         if (isset($DIC["ilPluginAdmin"])) {
             $ilPluginAdmin = $DIC["ilPluginAdmin"];
         }
+        if (isset($DIC["component.repository"])) {
+            $component_factory = $DIC["component.factory"];
+        }
 
         // user interface hook [uihk]
         if (!$this->getSetupMode()) {
-            $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, "UIComponent", "uihk");
-            foreach ($pl_names as $pl) {
-                $ui_plugin = ilPluginAdmin::getPluginObject(IL_COMP_SERVICE, "UIComponent", "uihk", $pl);
-                $gui_class = $ui_plugin->getUIClassInstance();
+            foreach ($component_factory->getActivePluginsInSlot("uihk") as $plugin) {
+                $gui_class = $plugin->getUIClassInstance();
                 $resp = $gui_class->modifyGUI(
                     "",
                     $a_get_sub_tabs ? "sub_tabs" : "tabs",

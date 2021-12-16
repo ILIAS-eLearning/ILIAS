@@ -1,76 +1,48 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
-* Survey per page view
-*
-* @author		Jörg Lützenkirchen <luetzenkirchen@leifos.com
-* @version  $Id: class.ilObjSurveyGUI.php 26720 2010-11-25 17:06:26Z jluetzen $
-*
-* @ilCtrl_Calls ilSurveyPageGUI:
-*
-* @ingroup ModulesSurvey
-*/
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
+/**
+ * Survey per page view
+ *
+ * @author		Jörg Lützenkirchen <luetzenkirchen@leifos.com
+ * @ilCtrl_Calls ilSurveyPageGUI:
+ */
 class ilSurveyPageGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilRbacSystem $rbacsystem;
+    protected ilDBInterface $db;
+    protected ilTabsGUI $tabs;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ilObjUser $user;
+    protected int $ref_id;
+    protected ilLanguage $lng;
+    protected ilObjSurvey $object;
+    protected ilSurveyEditorGUI $editor_gui;
+    protected int $current_page;
+    protected bool $has_previous_page;
+    protected bool $has_next_page;
+    protected bool $has_datasets;
+    protected bool $use_pool;
+    protected ilLogger $log;
 
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilDB
-     */
-    protected $db;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilGlobalTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    protected $ref_id; // [int]
-    protected $lng; // [object]
-    protected $object; // [ilObjSurvey]
-    protected $editor_gui; // [ilSurveyEditorGUI]
-    protected $current_page; // [int]
-    protected $has_previous_page; // [bool]
-    protected $has_next_page; // [bool]
-    protected $has_datasets; // [bool]
-    protected $use_pool; // [bool]
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
-
-    /**
-    * Constructor
-    *
-    * @param ilObjSurvey $a_survey
-    * @param ilSurveyEditorGUI $a_survey_editor_gui
-    */
-    public function __construct(ilObjSurvey $a_survey, ilSurveyEditorGUI $a_survey_editor_gui)
-    {
+    public function __construct(
+        ilObjSurvey $a_survey,
+        ilSurveyEditorGUI $a_survey_editor_gui
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -87,10 +59,7 @@ class ilSurveyPageGUI
         $this->log = ilLoggerFactory::getLogger("svy");
     }
 
-    /**
-     * Routing
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -128,7 +97,8 @@ class ilSurveyPageGUI
                                 // removing types as we only allow questions anyway
                                 $id = array();
                                 foreach (explode(";", $_REQUEST["il_hform_multi"]) as $item) {
-                                    $id[] = (int) array_pop(explode("_", $item));
+                                    $item_arr = explode("_", $item);
+                                    $id[] = (int) array_pop($item_arr);
                                 }
 
                                 if ($subcmd == "multiDelete") {
@@ -148,7 +118,7 @@ class ilSurveyPageGUI
                         if (substr($subcmd, 0, 11) == "addQuestion") {
                             $type = explode("_", $subcmd);
                             $type = (int) $type[1];
-                            $has_content = $this->addQuestion($type, $this->object->isPoolActive(), $id, $_REQUEST["il_hform_node"]);
+                            $has_content = $this->addQuestion($type, $this->object->getPoolUsage(), $id, $_REQUEST["il_hform_node"]);
                         } else {
                             $has_content = $this->$subcmd($id, $_REQUEST["il_hform_node"]);
                         }
@@ -162,10 +132,7 @@ class ilSurveyPageGUI
         }
     }
 
-    /**
-     * determine current page
-     */
-    public function determineCurrentPage()
+    public function determineCurrentPage() : void
     {
         $current_page = (int) $_REQUEST["jump"];
         if (!$current_page) {
@@ -182,13 +149,14 @@ class ilSurveyPageGUI
 
     /**
      * Add new question to survey (database part)
-     *
-     * @param int $a_new_id
-     * @param bool $a_duplicate
      * @todo: move out of GUI class, see also ilObjSurvey->insertQuestion
+     * @return int survey question id
      */
-    protected function appendNewQuestionToSurvey($a_new_id, $a_duplicate = true, $a_force_duplicate = false)
-    {
+    protected function appendNewQuestionToSurvey(
+        int $a_new_id,
+        bool $a_duplicate = true,
+        bool $a_force_duplicate = false
+    ) : int {
         $ilDB = $this->db;
 
         $this->log->debug("append question, id: " . $a_new_id . ", duplicate: " . $a_duplicate . ", force: " . $a_force_duplicate);
@@ -232,13 +200,10 @@ class ilSurveyPageGUI
 
     /**
      * Add new question to survey
-     *
-     * @param int $a_new_id
      */
-    public function insertNewQuestion($a_new_id)
-    {
-        $rbacsystem = $this->rbacsystem;
-        $ilDB = $this->db;
+    public function insertNewQuestion(
+        int $a_new_id
+    ) : void {
         $lng = $this->lng;
 
         if (!SurveyQuestion::_isComplete($a_new_id)) {
@@ -301,11 +266,10 @@ class ilSurveyPageGUI
     
     /**
      * Copy and insert questions from block
-     *
-     * @param int $a_block_id
      */
-    public function insertQuestionBlock($a_block_id)
-    {
+    public function insertQuestionBlock(
+        int $a_block_id
+    ) : void {
         $new_ids = array();
         $question_ids = $this->object->getQuestionblockQuestionIds($a_block_id);
         foreach ($question_ids as $qid) {
@@ -375,14 +339,18 @@ class ilSurveyPageGUI
 
     /**
      * Call add question to survey form
-     *
      * @param int $a_type question type
      * @param bool $a_use_pool add question to pool
      * @param int $a_pos target position
      * @param string $a_special_position special positions (toolbar | page_end)
+     * @throws ilCtrlException
      */
-    protected function addQuestion($a_type, $a_use_pool, $a_pos, $a_special_position)
-    {
+    protected function addQuestion(
+        int $a_type,
+        bool $a_use_pool,
+        int $a_pos,
+        string $a_special_position
+    ) : bool {
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
         
@@ -445,14 +413,13 @@ class ilSurveyPageGUI
             $ilCtrl->setParameterByClass($q_gui_class, "sel_question_types", $q_gui->getQuestionType());
             $ilCtrl->redirectByClass($q_gui_class, "editQuestion");
         }
+        return false;
     }
     
     /**
      * Add question to be cut to clipboard
-     *
-     * @param int $a_id question id
      */
-    protected function cutQuestion($a_id)
+    protected function cutQuestion(int $a_id) : void
     {
         $lng = $this->lng;
         
@@ -467,10 +434,8 @@ class ilSurveyPageGUI
     
     /**
      * Add question to be copied to clipboard
-     *
-     * @param int $a_id question id
      */
-    protected function copyQuestion($a_id)
+    protected function copyQuestion(int $a_id) : void
     {
         $lng = $this->lng;
         
@@ -486,9 +451,9 @@ class ilSurveyPageGUI
     /**
      * Add questions to be cut to clipboard
      *
-     * @param array $a_id question ids
+     * @param int[] $a_id question ids
      */
-    protected function multiCut($a_id)
+    protected function multiCut(array $a_id) : void
     {
         $lng = $this->lng;
 
@@ -505,10 +470,9 @@ class ilSurveyPageGUI
 
     /**
      * Add questions to be copied to clipboard
-     *
-     * @param array $a_id question ids
+     * @param int[] $a_id question ids
      */
-    protected function multiCopy($a_id)
+    protected function multiCopy(array $a_id) : void
     {
         $lng = $this->lng;
 
@@ -526,17 +490,16 @@ class ilSurveyPageGUI
     /**
      * Empty clipboard
      */
-    protected function clearClipboard()
+    protected function clearClipboard() : void
     {
         $_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = null;
     }
 
     /**
      * Paste from clipboard
-     *
      * @param int $a_id target position
      */
-    protected function paste($a_id)
+    protected function paste(int $a_id) : void
     {
         $data = $_SESSION["survey_page_view"][$this->ref_id]["clipboard"];
         $pages = $this->object->getSurveyPages();
@@ -679,11 +642,13 @@ class ilSurveyPageGUI
     /**
      * Move questions in page
      */
-    protected function dnd()
+    protected function dnd() : void
     {
-        $source_id = (int) array_pop(explode("_", $_REQUEST["il_hform_source"]));
+        $source_arr = explode("_", $_REQUEST["il_hform_source"]);
+        $target_arr = explode("_", $_REQUEST["il_hform_target"]);
+        $source_id = (int) array_pop($source_arr);
         if ($_REQUEST["il_hform_target"] != "droparea_end") {
-            $target_id = (int) array_pop(explode("_", $_REQUEST["il_hform_target"]));
+            $target_id = (int) array_pop($target_arr);
             $pos = 0;
         } else {
             $page = $this->object->getSurveyPages();
@@ -699,9 +664,8 @@ class ilSurveyPageGUI
 
     /**
      * Confirm removing question block
-     * @param int $a_id
      */
-    protected function deleteBlock()
+    protected function deleteBlock() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -729,9 +693,10 @@ class ilSurveyPageGUI
     /**
      * Confirm removing question(s) from survey
      *
-     * @param int|array $a_id
+     * @param array $a_id
+     * @throws ilCtrlException
      */
-    protected function deleteQuestion($a_id)
+    protected function deleteQuestion(array $a_id) : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -741,13 +706,12 @@ class ilSurveyPageGUI
         
         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
         $this->editor_gui->removeQuestionsForm(array(), $a_id, array());
-        return true;
     }
 
     /**
      * Remove question(s) from survey
      */
-    protected function confirmRemoveQuestions()
+    protected function confirmRemoveQuestions() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -807,50 +771,41 @@ class ilSurveyPageGUI
 
     /**
      * Edit question block
-     *
-     * @param int $a_id
      */
-    protected function editBlock($a_id)
+    protected function editBlock(int $a_id) : void
     {
         $this->callEditor("editQuestionblockObject", "bl_id", $a_id);
-        return true;
     }
     
     /**
      * Add heading to question
-     *
-     * @param int $a_id
      */
-    protected function addHeading($a_id)
+    protected function addHeading(int $a_id) : void
     {
         $this->callEditor("addHeadingObject", "q_id", $a_id);
-        return true;
     }
 
     /**
      * Edit question heading
-     *
-     * @param int $a_id
      */
-    protected function editHeading($a_id)
+    protected function editHeading(int $a_id) : void
     {
         $this->callEditor("editHeadingObject", "q_id", $a_id);
-        return true;
     }
 
     /**
      * Delete question heading
-     *
-     * @param int $a_id
      */
-    protected function deleteHeading($a_id)
+    protected function deleteHeading(int $a_id) : void
     {
         $this->callEditor("removeHeadingObject", "q_id", $a_id);
-        return true;
     }
     
-    protected function callEditor($a_cmd, $a_param, $a_value)
-    {
+    protected function callEditor(
+        string $a_cmd,
+        string $a_param,
+        string $a_value
+    ) : void {
         $ilTabs = $this->tabs;
         
         $ilTabs->clearSubTabs();
@@ -861,11 +816,10 @@ class ilSurveyPageGUI
 
     /**
      * Split current page in 2 pages
-     *
-     * @param int $a_id
      */
-    protected function splitPage($a_id)
-    {
+    protected function splitPage(
+        int $a_id
+    ) : int {
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
 
@@ -908,10 +862,8 @@ class ilSurveyPageGUI
 
     /**
      * Move question to next page
-     *
-     * @param int $a_id
      */
-    protected function moveNext($a_id)
+    protected function moveNext(int $a_id) : void
     {
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
@@ -964,11 +916,10 @@ class ilSurveyPageGUI
 
     /**
      * Move question to previous page
-     *
-     * @param int $a_id
      */
-    protected function movePrevious($a_id)
-    {
+    protected function movePrevious(
+        int $a_id
+    ) : int {
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
         $target = $pages[$this->current_page - 2];
@@ -1015,12 +966,7 @@ class ilSurveyPageGUI
         }
     }
 
-    /**
-     * Edit question
-     *
-     * @param int $a_id
-     */
-    protected function editQuestion($a_id)
+    protected function editQuestion(int $a_id) : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -1037,7 +983,7 @@ class ilSurveyPageGUI
     /**
      * Add question to survey form (used in toolbar)
      */
-    protected function addQuestionToolbarForm()
+    protected function addQuestionToolbarForm() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1080,29 +1026,30 @@ class ilSurveyPageGUI
             $form->addItem($pos);
         }
 
-        if ($this->object->isPoolActive()) {
+        if ($this->object->getPoolUsage()) {
             $this->editor_gui->createQuestionObject($form);
         }
 
         $form->addCommandButton("addQuestionToolbar", $lng->txt("create"));
         $form->addCommandButton("renderPage", $lng->txt("cancel"));
 
-        return $tpl->setContent($form->getHTML());
+        $tpl->setContent($form->getHTML());
     }
         
     /**
      * Add question to survey action (used in toolbar)
      */
-    protected function addQuestionToolbar()
+    protected function addQuestionToolbar() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
-        $pool_active = $this->object->isPoolActive();
+        $pool_active = $this->object->getPoolUsage();
 
         if (!$_POST["usage"] && $pool_active) {
             ilUtil::sendFailure($lng->txt("select_one"), true);
-            return $this->addQuestionToolbarForm();
+            $this->addQuestionToolbarForm();
+            return;
         }
 
         // make sure that it is set for current and next requests
@@ -1116,7 +1063,7 @@ class ilSurveyPageGUI
     /**
      * Move current page
      */
-    protected function movePageForm()
+    protected function movePageForm() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1154,14 +1101,14 @@ class ilSurveyPageGUI
         $form->addCommandButton("movePage", $lng->txt("submit"));
         $form->addCommandButton("renderPage", $lng->txt("cancel"));
 
-        return $tpl->setContent($form->getHTML());
+        $tpl->setContent($form->getHTML());
     }
 
     /**
      * Move current page to new position
      * @todo this needs to be refactored outside of a GUI class, same with ilSurveyEditorGUI->insertQuestions
      */
-    protected function movePage()
+    protected function movePage() : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -1200,10 +1147,8 @@ class ilSurveyPageGUI
 
     /**
      * Render toolbar form
-     *
-     * @param array $a_pages
      */
-    protected function renderToolbar($a_pages)
+    protected function renderToolbar(?array $a_pages) : void
     {
         $ilToolbar = $this->toolbar;
         $ilCtrl = $this->ctrl;
@@ -1216,7 +1161,7 @@ class ilSurveyPageGUI
             $button->setUrl($ilCtrl->getLinkTarget($this, "addQuestionToolbarForm"));
             $ilToolbar->addStickyItem($button);
 
-            if ($this->object->isPoolActive()) {
+            if ($this->object->getPoolUsage()) {
                 //$ilToolbar->addSeparator();
 
                 $last_on_page = 0;
@@ -1332,7 +1277,7 @@ class ilSurveyPageGUI
     /**
      * render questions per page
      */
-    protected function renderPage()
+    protected function renderPage() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
@@ -1447,16 +1392,15 @@ class ilSurveyPageGUI
     }
 
     /**
-     * Get Form HTML
-     *
-     * @param array $questions
-     * @param bool $a_has_previous_page
-     * @param bool $a_has_next_page
-     * @param bool $a_readonly
-     * @return string
+     * @return string page nodes html
+     * @throws ilCtrlException
      */
-    public function getPageNodes(array $a_questions, $a_has_previous_page = false, $a_has_next_page = false, $a_readonly = false)
-    {
+    public function getPageNodes(
+        array $a_questions,
+        bool $a_has_previous_page = false,
+        bool $a_has_next_page = false,
+        bool $a_readonly = false
+    ) : string {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         
@@ -1503,10 +1447,6 @@ class ilSurveyPageGUI
         // questions/headings
 
         $questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
-        $questionpools = array_keys($this->object->getQuestionpoolTitles(true));
-        
-        $counter = $question_count;
-        $block_done = null;
         foreach ($a_questions as $idx => $question) {
             // drop area
 
@@ -1519,7 +1459,7 @@ class ilSurveyPageGUI
                             "text" => sprintf($lng->txt("svy_page_add_question"), $trans));
                     }
                     
-                    if ($this->object->isPoolActive()) {
+                    if ($this->object->getPoolUsage()) {
                         $menu[] = array("cmd" => "addPoolQuestion",
                             "text" => $lng->txt("browse_for_questions"));
                     }
@@ -1602,7 +1542,7 @@ class ilSurveyPageGUI
                         "text" => sprintf($lng->txt("svy_page_add_question"), $trans));
                 }
                 
-                if ($this->object->isPoolActive()) {
+                if ($this->object->getPoolUsage()) {
                     $menu[] = array("cmd" => "addPoolQuestion",
                         "text" => $lng->txt("browse_for_questions"));
                 }
@@ -1617,19 +1557,19 @@ class ilSurveyPageGUI
     }
 
     /**
-     * Render single of dnd page view
-     *
-     * @param ilTemplate $a_tpl
-     * @param string $a_type
-     * @param int $a_id
-     * @param string $a_content
-     * @param array $a_menu
-     * @param bool $a_spacer
-     * @param string $a_subtitle
-     * @param string $a_heading
+     * Render single node of dnd page view
      */
-    public function renderPageNode(ilTemplate $a_tpl, $a_type, $a_id, $a_content = null, array $a_menu = null, $a_spacer = false, $a_subtitle = false, $a_status = false, $a_heading = false)
-    {
+    public function renderPageNode(
+        ilTemplate $a_tpl,
+        string $a_type,
+        int $a_id,
+        ?string $a_content = null,
+        ?array $a_menu = null,
+        bool $a_spacer = false,
+        string $a_subtitle = "",
+        ?string $a_status = null,
+        ?string $a_heading = null
+    ) : void {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
 
@@ -1727,25 +1667,24 @@ class ilSurveyPageGUI
 
     /**
      * Get name for newly created blocks
-     *
-     * @return string
      */
-    public function getAutoBlockTitle()
+    public function getAutoBlockTitle() : string
     {
         $lng = $this->lng;
-
         return $lng->txt("survey_auto_block_title");
     }
     
-    public function addPoolQuestion($pos, $node)
-    {
+    public function addPoolQuestion(
+        string $pos,
+        string $node
+    ) : void {
         $ilCtrl = $this->ctrl;
         $ilUser = $this->user;
         
         if ($node == "page_end") {
-            $pos = $this->object->getSurveyPages();
-            $pos = array_pop($pos[$this->current_page - 1]);
-            $pos = $pos["question_id"] . "a";
+            $pages = $this->object->getSurveyPages();
+            $page = array_pop($pages[$this->current_page - 1]);
+            $pos = $page["question_id"] . "a";
         } else {
             $pos = $pos . "b";
         }

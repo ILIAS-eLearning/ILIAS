@@ -54,10 +54,6 @@ class ilGlobalCache
     /**
      * @var string
      */
-    const COMP_COMPONENT = 'comp';
-    /**
-     * @var string
-     */
     const COMP_RBAC_UA = 'rbac_ua';
     /**
      * @var string
@@ -90,7 +86,6 @@ class ilGlobalCache
         self::COMP_CLNG,
         self::COMP_OBJ_DEF,
         self::COMP_ILCTRL,
-        self::COMP_COMPONENT,
         self::COMP_TEMPLATE,
         self::COMP_TPL_BLOCKS,
         self::COMP_TPL_VARIABLES,

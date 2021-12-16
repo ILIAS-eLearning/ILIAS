@@ -1,49 +1,34 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Survey skill thresholds GUI class
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
+ * @author Alexander Killing <killing@leifos.de>
  * @ilCtrl_Calls ilSurveySkillThresholdsGUI:
- * @ingroup ModulesSurvey
  */
 class ilSurveySkillThresholdsGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * Constructor
-     *
-     * @param object $a_survey
-     */
-    public function __construct(ilObjSurvey $a_survey)
-    {
+    public function __construct(
+        ilObjSurvey $a_survey
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -54,10 +39,7 @@ class ilSurveySkillThresholdsGUI
         $this->survey = $a_survey;
     }
     
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -71,13 +53,7 @@ class ilSurveySkillThresholdsGUI
         }
     }
     
-    /**
-     * List competences
-     *
-     * @param
-     * @return
-     */
-    public function listCompetences()
+    public function listCompetences() : void
     {
         $tpl = $this->tpl;
         
@@ -85,14 +61,9 @@ class ilSurveySkillThresholdsGUI
         $tpl->setContent($tab->getHTML());
     }
     
-    
-    /**
-     * List skill thresholds
-     */
-    public function listSkillThresholds()
+    public function listSkillThresholds() : void
     {
         $tpl = $this->tpl;
-        $ilToolbar = $this->toolbar;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
         $ilTabs = $this->tabs;
@@ -113,13 +84,7 @@ class ilSurveySkillThresholdsGUI
         $tpl->setContent($tab->getHTML());
     }
     
-    /**
-     * Select skill
-     *
-     * @param
-     * @return
-     */
-    public function selectSkill()
+    public function selectSkill() : void
     {
         $ilCtrl = $this->ctrl;
         
@@ -129,13 +94,7 @@ class ilSurveySkillThresholdsGUI
         $ilCtrl->redirect($this, "listSkillThresholds");
     }
     
-    /**
-     * Save Thresholds
-     *
-     * @param
-     * @return
-     */
-    public function saveThresholds()
+    public function saveThresholds() : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

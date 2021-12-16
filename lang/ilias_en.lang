@@ -30,6 +30,47 @@
 // Language file names refer to ISO 639, see: http://www.oasis-open.org/cover/iso639a.html
 <!-- language file start -->
 auth#:#err_auth_ldap_failed#:#Authentication failed. Please contact your ILIAS administrator.
+survey#:#svy_ext_rater_firstname#:#First name of external rater
+survey#:#svy_ext_rater_lastname#:#Last name of external rater
+survey#:#svy_only_max_one_external_rater#:#Please select only one external rater.
+survey#:#svy_select_rater#:#Select Rater
+survey#:#svy_all_raters#:#All Raters
+survey#:#svy_privacy_info#:#Privacy
+survey#:#svy_rater_see_app_info#:#The names of appraisees will be presented to raters to enable them evaluating the questions.
+survey#:#svy_app_see_rater_info#:#Appraisees can access rater information in the results screens, including names and e-mail addresses, if entered before when adding raters.
+survey#:#svy_mail_context_rater_invitation_title#:#Survey: Rater Invitation
+survey#:#svy_mail_context_rater_invitation_info#:#Invite raters to participate in a survey.
+survey#:#svy_mail_context_rater_invitation_survey_title#:#Survey Title
+content#:#cont_sec_protected_text#:#The following section is protected and can not be edited.
+content#:#cont_sec_protected#:#Protected
+prtf#:#prtf_sec_protected_info#:#Protected sections cannot be edited by portfolio owners.
+prtf#:#prtf_role_assignment#:#Role Assignment
+prtf#:#prtf_add_assignment#:#Add Assignment
+prtf#:#prtf_role_title#:#Role
+prtf#:#prtf_template_title#:#Portfolio Template
+prtf#:#prtf_delete_assignment#:#Delete Assignments
+prtf#:#prtf_delete_assignment_sure#:#Do you really want to delete the following assignment(s)?
+survey#:#svy_rater#:#Rater
+survey#:#svy_dont_send#:#Don't send a message
+survey#:#svy_save_and_continue#:#Save and Continue
+survey#:#svy_external_rater#:#Add External Rater
+survey#:#svy_external_rater_info#:#The rater is not registered on this platform.
+survey#:#svy_search_user#:#Search User
+survey#:#svy_search_user_info#:#Search for users or roles and pick participants.
+survey#:#svy_add_internal_user#:#Add User
+survey#:#svy_add_internal_user_info#:#The rater has a registered user on this platform.
+survey#:#svy_type_of_rater#:#Type of Rater
+survey#:#svy_add_rater#:#Add Rater
+survey#:#svy_ind_feedb_mode#:#Individual Feedback
+survey#:#svy_ind_feedb_info#:#Users get distinct evaluations by others.
+exc#:#exc_print_pdf#:#Print/PDF
+exp#:#exp_print_pdf_info#:#To create a PDF please use the "Print to PDF" target as soon as the print view is presented.
+exp#:#exp_show_print_view#:#Show Print View
+exp#:#exp_print_pdf#:#Print/PDF
+prtf#:#prtf_edit_data#:#Edit Data
+content#:#cont_ed_insert_amdfrm#:#Insert Advanced Metadata
+prtt#:#prtt_select_datasets#:#Select Datasets
+prtt#:#prtt_pfpg#:#Portfolio Page
 crs#:#crs_objective_result_summary_initial#:#Placement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_summary_qualifying#:#Achievement Test: %1$s (%2$s required)
 crs#:#crs_objective_result_details#:#« Show Details
@@ -1955,6 +1996,7 @@ cmps#:#cmps_main_dir#:#Main Directory
 cmps#:#cmps_missing#:#Missing
 cmps#:#cmps_module#:#Module
 cmps#:#cmps_name#:#Name
+cmps#:#cmps_needs_matching_ilias_version#:#This plugin does not work with your current ILIAS version.
 cmps#:#cmps_needs_newer_ilias_version#:#This plugin version only runs on newer ILIAS versions. Please upgrade ILIAS.
 cmps#:#cmps_needs_newer_plugin_version#:#This ILIAS version needs a newer plugin version. Please upgrade the plugin.
 cmps#:#cmps_needs_update#:#Needs update.
@@ -2015,7 +2057,9 @@ common#:#withdrawal_complete_deleted#:#Withdrawal of consent complete, account d
 common#:#withdrawal_complete_redirect#:#Withdrawal of consent complete. To have the account deleted, please contact your organisation.
 common#:#withdrawal_mail_subject#:#Withdrawal of Consent to Terms of Service
 common#:#withdrawal_sure_account_deletion#:#Are you sure you want to confirm the withdrawal of consent? Your user account will be irrevocably deleted.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Are you sure you do not want to accept the terms of service? Your user account will be irrevocably deleted.
 common#:#withdrawal_sure_account#:#Are you sure you want to confirm the withdrawal of consent?
+common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?
 common#:#withdrawal_mail_text#:#Dear Sir or Madam,[BR][BR]I hereby withdraw my consent to your ILIAS installations terms of service. Please update/remove my account accordingly.[BR][BR]Name: %1$s[BR]Login: %2$s[BR]External Account: %3$s[BR][BR]Kind regards[BR]%1$s
 common#:#withdrawal_mail_info#:#The following email will be sent to an administrator after confirming the withdrawal:[BR][BR]
 common#:#access_expired#:#expired
@@ -11138,7 +11182,7 @@ survey#:#survey_code_delete_sure#:#Are you sure you want to delete the following
 survey#:#survey_360_mode#:#360° Feedback
 survey#:#survey_360_self_evaluation#:#Self-Evaluation
 survey#:#survey_360_self_raters#:#Appraisees Select Own Raters
-survey#:#survey_360_self_appraisee#:#Open 360° Feedback
+survey#:#survey_360_self_appraisee#:#Open Feedback
 survey#:#survey_360_results#:#Access To Results For Appraisees
 survey#:#survey_360_results_none#:#No Access to Results
 survey#:#survey_360_results_own#:#Access to Feedback of Own Raters
@@ -16657,3 +16701,4 @@ violation#:#not_a_string#:#Given value is not a String
 common#:#actions_for#:#Actions for %s
 validation#:#not_greater_than_or_equal#:#The value is not greater than or equal '%s'.
 validation#:#not_an_array#:#Given value is not an array
+validation#:#not_less_than_or_equal#:#The value is not less than or equal '%s'.
