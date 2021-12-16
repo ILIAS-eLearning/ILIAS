@@ -72,7 +72,8 @@ public class ilServer {
 		
 		ilServer server = null;
 		server = new ilServer(args);
-		server.handleRequest();
+		boolean success = server.handleRequest();
+		System.exit(success ? 0 : 1);
 	}
 	
 	
@@ -94,7 +95,7 @@ public class ilServer {
 		} catch (ConfigurationException | IOException ex) {
 			System.err.println("Failed to initialize logging: "  + ex.getMessage());
 		}
-		return true;
+		return false;
 	}
 	
 
