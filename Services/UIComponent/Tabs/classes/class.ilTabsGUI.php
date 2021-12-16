@@ -426,9 +426,7 @@ class ilTabsGUI
                     $target['cmd'] = [];
                 }
 
-                if (!($a_get_sub_tabs ? $this->subtab_manual_activation : $this->manual_activation) &&
-                    (in_array($cmd, $target["cmd"]) || (count($target["cmd"]) === 1 && $target["cmd"][0] === '')) &&
-                    (in_array($cmdClass, $target["cmdClass"]) || !$target["cmdClass"])) {
+                if ($this->isTabActive($a_get_sub_tabs, $target, $cmd, $cmdClass)) {
                     $tabtype = $pre . "tabactive";
                 } else {
                     $tabtype = $pre . "tabinactive";
@@ -547,6 +545,25 @@ class ilTabsGUI
     
     public function hasTabs() : bool
     {
-        return (bool) sizeof($this->target);
+        return $this->target !== [];
+    }
+
+    private function isTabActive(bool $isSubTabsContext, array $target, string $cmd, string $cmdClass) : bool
+    {
+        if (($isSubTabsContext && $this->subtab_manual_activation) || (!$isSubTabsContext && $this->manual_activation)) {
+            return false;
+        }
+
+        $targetMatchesCmdClass = (
+            !$target['cmdClass'] ||
+            in_array(strtolower($cmdClass), array_map('strtolower', $target['cmdClass']), true)
+        );
+        
+        $targetMatchesCmd = (
+            in_array(strtolower($cmd), array_map('strtolower', $target['cmd']), true) ||
+            (count($target['cmd']) === 1 && $target['cmd'][0] === '')
+        );
+
+        return $targetMatchesCmd && $targetMatchesCmdClass;
     }
 }
