@@ -548,11 +548,14 @@ class ilTabsGUI
         return $this->target !== [];
     }
 
-    private function isTabActive(bool $isSubTabsContext, array $target, string $cmd, string $cmdClass) : bool
+    private function isTabActive(bool $isSubTabsContext, array $target, ?string $cmd, ?string $cmdClass) : bool
     {
         if (($isSubTabsContext && $this->subtab_manual_activation) || (!$isSubTabsContext && $this->manual_activation)) {
             return false;
         }
+
+        $cmdClass = (string) $cmdClass;
+        $cmd = (string) $cmd;
 
         $targetMatchesCmdClass = (
             !$target['cmdClass'] ||
