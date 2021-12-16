@@ -15,7 +15,7 @@ class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
     {
         return $this->idpMetadataParser;
     }
-
+    
     public function checkInput() : bool
     {
         $valid = parent::checkInput();
@@ -24,18 +24,20 @@ class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
         }
 
         try {
-            $httpValue = $this->getInput();
+            $httpValue = $this->raw($this->getPostVar());
 
-            $result = $this->idpMetadataParser->parse($httpValue);
-            if ($result->isError()) {
-                $this->setAlert(implode(' ', [$this->lng->txt('auth_saml_add_idp_md_error'), $result->error()]));
+            $this->idpMetadataParser->parse($httpValue);
+            if ($this->idpMetadataParser->result()->isError()) {
+                $this->setAlert(implode(' ', [$this->lng->txt('auth_saml_add_idp_md_error'), $this->idpMetadataParser->result()->error()]));
                 return false;
             }
 
-            if (!$result->value()) {
+            if (!$this->idpMetadataParser->result()->value()) {
                 $this->setAlert($this->lng->txt('auth_saml_add_idp_md_error'));
                 return false;
             }
+
+            $this->value = $this->stripSlashesAddSpaceFallback($this->idpMetadataParser->result()->value());
         } catch (Exception $e) {
             $this->setAlert($this->lng->txt('auth_saml_add_idp_md_error'));
             return false;

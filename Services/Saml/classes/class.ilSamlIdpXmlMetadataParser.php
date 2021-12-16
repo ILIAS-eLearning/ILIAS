@@ -8,6 +8,7 @@ final class ilSamlIdpXmlMetadataParser
 {
     private DataTypeFactory $dataFactory;
     private ilSamlIdpXmlMetadataErrorFormatter $errorFormatter;
+    private Result $result;
     private bool $xmlErrorState = false;
     /** @var LibXMLError */
     private array $errorStack = [];
@@ -16,6 +17,7 @@ final class ilSamlIdpXmlMetadataParser
     {
         $this->dataFactory = $dataFactory;
         $this->errorFormatter = $errorFormatter;
+        $this->result = new Result\Error('No metadata parsed, yet');
     }
 
     private function beginLogging() : void
@@ -55,7 +57,7 @@ final class ilSamlIdpXmlMetadataParser
         return $errors;
     }
 
-    public function parse(string $xmlString) : Result
+    public function parse(string $xmlString) : void
     {
         try {
             $this->beginLogging();
@@ -75,7 +77,8 @@ final class ilSamlIdpXmlMetadataParser
             }
 
             if ($entityId) {
-                return $this->dataFactory->ok($entityId);
+                $this->result = $this->dataFactory->ok($entityId);
+                return;
             }
 
             $errors = $this->endLogging();
@@ -89,9 +92,14 @@ final class ilSamlIdpXmlMetadataParser
 
             $errors[] = $error;
 
-            return $this->dataFactory->error($this->errorFormatter->formatErrors(...$errors));
+            $this->result = $this->dataFactory->error($this->errorFormatter->formatErrors(...$errors));
         } catch (Exception $e) {
-            return $this->dataFactory->error($this->errorFormatter->formatErrors(...$this->endLogging()));
+            $this->result = $this->dataFactory->error($this->errorFormatter->formatErrors(...$this->endLogging()));
         }
+    }
+
+    public function result() : Result
+    {
+        return $this->result;
     }
 }

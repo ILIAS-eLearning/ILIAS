@@ -34,12 +34,12 @@ class ilSamlIdpXmlMetadataParserTest extends TestCase
 
     public function testErrorsCanBeRetrievedWhenParsingNonXmlDocument() : void
     {
-        $result = $this->parser->parse('phpunit');
+        $this->parser->parse('phpunit');
 
-        $this->assertTrue($result->isError());
-        $this->assertFalse($result->isOK());
+        $this->assertTrue($this->parser->result()->isError());
+        $this->assertFalse($this->parser->result()->isOK());
 
-        $this->assertNotEmpty($result->error());
+        $this->assertNotEmpty($this->parser->result()->error());
     }
 
     /**
@@ -94,12 +94,12 @@ class ilSamlIdpXmlMetadataParserTest extends TestCase
 </md:EntityDescriptor>
 EOT;
 
-        $result = $this->parser->parse($xml);
+        $this->parser->parse($xml);
 
-        $this->assertFalse($result->isError(), $result->isError() ? $result->error() : '');
-        $this->assertTrue($result->isOK());
+        $this->assertFalse($this->parser->result()->isError(), $this->parser->result()->isError() ? $this->parser->result()->error() : '');
+        $this->assertTrue($this->parser->result()->isOK());
 
-        $this->assertEquals('https://sso.example.org/idp', $result->value());
+        $this->assertEquals('https://sso.example.org/idp', $this->parser->result()->value());
     }
 
     /**
@@ -153,11 +153,11 @@ EOT;
 </md:EntityDescriptor>
 EOT;
 
-        $result = $this->parser->parse($xml);
+        $this->parser->parse($xml);
 
-        $this->assertTrue($result->isError());
-        $this->assertFalse($result->isOK());
+        $this->assertTrue($this->parser->result()->isError());
+        $this->assertFalse($this->parser->result()->isOK());
 
-        $this->assertNotEmpty($result->error());
+        $this->assertNotEmpty($this->parser->result()->error());
     }
 }
