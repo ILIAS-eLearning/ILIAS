@@ -22,11 +22,7 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
     // BEGIN IMPLEMENTATION OF FileUploadAware
     // ===============================================
 
-    protected C\Input\Field\UploadHandler $upload_handler;
-    protected array $accepted_mime_types = [];
-    protected bool $has_metadata_inputs = false;
-    protected int $max_file_amount = 1;
-    protected int $max_file_size = 2048;
+    use FileUploadAwareHelper;
 
     public function __construct(
         ilLanguage $language,
@@ -41,50 +37,6 @@ class File extends DynamicInputsAwareInput implements C\Input\Field\File
         $this->dynamic_input_template = new Hidden($data_factory, $refinery);
         $this->upload_handler = $handler;
         $this->value = [];
-    }
-
-    public function getUploadHandler() : C\Input\Field\UploadHandler
-    {
-        return $this->upload_handler;
-    }
-
-    public function withMaxFileSize(int $size_in_bytes) : C\Input\Field\File
-    {
-        $clone = clone $this;
-        $clone->max_file_size = $size_in_bytes;
-
-        return $clone;
-    }
-
-    public function getMaxFileSize() : int
-    {
-        return $this->max_file_size;
-    }
-
-    public function withMaxFiles(int $max_file_amount) : C\Input\Field\File
-    {
-        $clone = clone $this;
-        $clone->max_file_amount = $max_file_amount;
-
-        return $clone;
-    }
-
-    public function getMaxFiles() : int
-    {
-        return $this->max_file_amount;
-    }
-
-    public function withAcceptedMimeTypes(array $mime_types) : C\Input\Field\File
-    {
-        $clone = clone $this;
-        $clone->accepted_mime_types = $mime_types;
-
-        return $clone;
-    }
-
-    public function getAcceptedMimeTypes() : array
-    {
-        return $this->accepted_mime_types;
     }
 
     // ===============================================

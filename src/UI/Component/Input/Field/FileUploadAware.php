@@ -11,18 +11,18 @@ interface FileUploadAware
 {
     public function getUploadHandler() : UploadHandler;
 
-    public function withMaxFileSize(int $size_in_bytes) : File;
+    public function withMaxFileSize(int $size_in_bytes) : FileUploadAware;
 
     public function getMaxFileSize() : int;
 
-    public function withMaxFiles(int $max_file_amount) : File;
+    public function withMaxFiles(int $max_file_amount) : FileUploadAware;
 
     public function getMaxFiles() : int;
 
     /**
      * @param string[] $mime_types
      */
-    public function withAcceptedMimeTypes(array $mime_types) : File;
+    public function withAcceptedMimeTypes(array $mime_types) : FileUploadAware;
 
     /**
      * @return string[]
