@@ -26,7 +26,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
         $this->tree = $a_tree;
         $this->db = $DIC->database();
-        $this->logger = $DIC->logger()->tree();
+        if (ilContext::getType() != "") {
+            $this->logger = $DIC->logger()->tree();
+        }
     }
 
     /**

@@ -28,7 +28,7 @@ class ilTree
 
     protected ilLogger $logger;
     protected ilDBInterface $db;
-    protected ilAppEventHandler $eventHandler;
+    protected ?ilAppEventHandler $eventHandler;
 
     /**
      * Used in fetchNodeData
@@ -118,7 +118,9 @@ class ilTree
         $this->db = $DIC->database();
         $this->logger = ilLoggerFactory::getLogger('tree');
         //$this->logger = $DIC->logger()->tree();
-        $this->eventHandler = $DIC['ilAppEventHandler'];
+        if (isset($DIC['ilAppEventHandler'])) {
+            $this->eventHandler = $DIC['ilAppEventHandler'];
+        }
 
         $this->lang_code = self::DEFAULT_LANGUAGE;
 
@@ -660,7 +662,7 @@ class ilTree
         if ($a_reset_deletion_date) {
             ilObject::_resetDeletedDate((int) $a_node_id);
         }
-        if (($this->eventHandler instanceof ilAppEventHandler) && $this->__isMainTree()) {
+        if (isset($this->eventHandler) && ($this->eventHandler instanceof ilAppEventHandler) && $this->__isMainTree()) {
             $this->eventHandler->raise(
                 'Services/Tree',
                 'insertNode',
