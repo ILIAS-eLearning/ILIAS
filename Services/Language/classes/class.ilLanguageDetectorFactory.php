@@ -12,7 +12,7 @@ class ilLanguageDetectorFactory
     const HTTP_REQUEST_DETECTOR = 2;
 
     protected ilIniFile $client_ini;
-    protected array $request_information;
+    protected array $request_information = array();
     protected $settings;
 
     public function __construct()
