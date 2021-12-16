@@ -53,7 +53,7 @@ class Numeric extends Input implements C\Input\Field\Numeric
      */
     protected function getConstraintForRequirement() : ?Constraint
     {
-        return $this->refinery->to()->int();
+        return $this->refinery->numeric()->isNumeric();
     }
 
     /**
