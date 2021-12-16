@@ -555,8 +555,8 @@ class ilTabsGUI
         }
 
         $targetMatchesCmdClass = (
-            !$target["cmdClass"] ||
-            in_array(strtolower($cmdClass), array_map('strtolower', $target["cmdClass"]), true)
+            !$target['cmdClass'] ||
+            in_array(strtolower($cmdClass), array_map('strtolower', $target['cmdClass']), true)
         );
         
         $targetMatchesCmd = (
