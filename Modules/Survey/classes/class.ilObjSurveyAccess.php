@@ -37,18 +37,18 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     }
 
     
-    public static function getConditionOperators()
+    public static function getConditionOperators() : array
     {
         return array(
             ilConditionHandler::OPERATOR_FINISHED
         );
     }
     
-    public static function checkCondition($a_svy_id, $a_operator, $a_value, $a_usr_id)
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_FINISHED:
-                if (ilObjSurveyAccess::_lookupFinished($a_svy_id, $a_usr_id)) {
+                if (ilObjSurveyAccess::_lookupFinished($a_trigger_obj_id, $a_usr_id)) {
                     return true;
                 } else {
                     return false;
