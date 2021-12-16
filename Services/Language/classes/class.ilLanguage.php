@@ -34,13 +34,13 @@ class ilLanguage
     public string $lang_name;
     public string $separator = "#:#";
     public string $comment_separator = "###";
-    public array $loaded_modules;
-    protected static array $used_topics;
-    protected static array $used_modules;
-    protected array $cached_modules;
-    protected array $map_modules_txt;
+    public array $loaded_modules = array();
+    protected static array $used_topics = array();
+    protected static array $used_modules = array();
+    protected array $cached_modules = array();
+    protected array $map_modules_txt = array();
     protected bool $usage_log_enabled = false;
-    protected static array $lng_log;
+    protected static array $lng_log = array();
     protected string $cust_lang_path;
 
     /**
