@@ -1,10 +1,6 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2017 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-/**
- * Class ilSamlIdpMetadataInputGUI
- * @author Michael Jansen <mjansen@databay.de>
- */
 class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
 {
     protected ilSamlIdpXmlMetadataParser $idpMetadataParser;
@@ -28,20 +24,20 @@ class ilSamlIdpMetadataInputGUI extends ilTextAreaInputGUI
         }
 
         try {
-            $httpValue = (string) ($_POST[$this->getPostVar()] ?? '');
+            $httpValue = $this->getInput();
 
-            $this->idpMetadataParser->parse($httpValue);
-            if ($this->idpMetadataParser->hasErrors()) {
-                $this->setAlert(implode('<br />', $this->idpMetadataParser->getErrors()));
+            $result = $this->idpMetadataParser->parse($httpValue);
+            if ($result->isError()) {
+                $this->setAlert(implode(' ', [$this->lng->txt('auth_saml_add_idp_md_error'), $result->error()]));
                 return false;
             }
 
-            if (!$this->idpMetadataParser->getEntityId()) {
-                $this->setAlert($GLOBALS['DIC']->language()->txt('auth_saml_add_idp_md_error'));
+            if (!$result->value()) {
+                $this->setAlert($this->lng->txt('auth_saml_add_idp_md_error'));
                 return false;
             }
         } catch (Exception $e) {
-            $this->setAlert($GLOBALS['DIC']->language()->txt('auth_saml_add_idp_md_error'));
+            $this->setAlert($this->lng->txt('auth_saml_add_idp_md_error'));
             return false;
         }
 

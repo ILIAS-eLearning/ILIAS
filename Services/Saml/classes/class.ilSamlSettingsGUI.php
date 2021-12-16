@@ -564,7 +564,10 @@ class ilSamlSettingsGUI
         $metadata = new ilSamlIdpMetadataInputGUI(
             $this->lng->txt('auth_saml_add_idp_md_label'),
             'metadata',
-            new ilSamlIdpXmlMetadataParser()
+            new ilSamlIdpXmlMetadataParser(
+                new \ILIAS\Data\Factory(),
+                new ilSamlIdpXmlMetadataErrorFormatter()
+            )
         );
         $metadata->setInfo($this->lng->txt('auth_saml_add_idp_md_info'));
         $metadata->setRows(20);

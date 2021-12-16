@@ -18,6 +18,9 @@ class ilServicesSamlTestSuite extends TestSuite
         require_once 'Services/Saml/test/ilSamlMappedUserAttributeValueParserTest.php';
         $suite->addTestSuite(ilSamlMappedUserAttributeValueParserTest::class);
 
+        require_once 'Services/Saml/test/ilSamlIdpXmlMetadataParserTest.php';
+        $suite->addTestSuite(ilSamlIdpXmlMetadataParserTest::class);
+
         return $suite;
     }
 }
