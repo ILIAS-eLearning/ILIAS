@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /* Copyright (c) 1998-2018 ILIAS open source, Extended GPL, see docs/LICENSE */
 
@@ -78,6 +78,9 @@ class ilConditionUtil
     {
         // check if parent takes over control of condition
         $parent = $this->tree->getParentId($ref_id);
+        if (!$parent) {
+            return false;
+        }
         $parent_obj_id = $this->cond_obj_adapter->getObjIdForRefId($parent);
         $parent_type = $this->cond_obj_adapter->getTypeForObjId($parent_obj_id);
 

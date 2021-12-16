@@ -28,7 +28,7 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * Get operators
      */
-    public static function getConditionOperators()
+    public static function getConditionOperators() : array
     {
         include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         return array(
@@ -37,22 +37,21 @@ class ilObjCourseAccess extends ilObjectAccess implements ilConditionHandling
     }
 
     /**
-     *
-     * @global ilObjUser $ilUser
-     * @param type $a_obj_id
-     * @param type $a_operator
-     * @param type $a_value
-     * @param type $a_usr_id
+     * @param int        $a_trigger_obj_id
+     * @param string     $a_operator
+     * @param string     $a_value
+     * @param int        $a_usr_id
      * @return boolean
+     * @global ilObjUser $ilUser
      */
-    public static function checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id)
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         include_once "./Modules/Course/classes/class.ilCourseParticipants.php";
         include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
-                return ilCourseParticipants::_hasPassed($a_obj_id, $a_usr_id);
+                return ilCourseParticipants::_hasPassed($a_trigger_obj_id, $a_usr_id);
         }
         return false;
     }

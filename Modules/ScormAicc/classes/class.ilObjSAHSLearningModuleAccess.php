@@ -20,7 +20,7 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     /**
      * Get possible conditions operaditors
      */
-    public static function getConditionOperators()
+    public static function getConditionOperators() : array
     {
         include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         return array(
@@ -32,13 +32,13 @@ class ilObjSAHSLearningModuleAccess extends ilObjectAccess implements ilConditio
     
     /**
      * check condition
-     * @param type $a_svy_id
-     * @param type $a_operator
-     * @param type $a_value
-     * @param type $a_usr_id
+     * @param type   $a_svy_id
+     * @param string $a_operator
+     * @param string $a_value
+     * @param int    $a_usr_id
      * @return boolean
      */
-    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id)
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         switch ($a_operator) {
 

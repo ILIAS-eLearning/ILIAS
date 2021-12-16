@@ -1,7 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once "./Services/Repository/classes/class.ilRepositorySelectorExplorerGUI.php";
+
 
 /**
 * Repository Explorer

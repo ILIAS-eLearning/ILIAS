@@ -279,7 +279,7 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     /**
      * Get possible conditions operators
      */
-    public static function getConditionOperators()
+    public static function getConditionOperators() : array
     {
         include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         return array(
@@ -296,23 +296,23 @@ class ilObjTestAccess extends ilObjectAccess implements ilConditionHandling
     *
     * this method is called by ilConditionHandler
     */
-    public static function checkCondition($a_obj_id, $a_operator, $a_value, $a_usr_id)
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         include_once './Services/Conditions/classes/class.ilConditionHandler.php';
         
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_PASSED:
-                return ilObjTestAccess::_isPassed($a_usr_id, $a_obj_id);
+                return ilObjTestAccess::_isPassed($a_usr_id, $a_trigger_obj_id);
                 break;
             
             case ilConditionHandler::OPERATOR_FAILED:
-                return ilObjTestAccess::isFailed($a_usr_id, $a_obj_id);
+                return ilObjTestAccess::isFailed($a_usr_id, $a_trigger_obj_id);
 
             case ilConditionHandler::OPERATOR_FINISHED:
-                return ilObjTestAccess::hasFinished($a_usr_id, $a_obj_id);
+                return ilObjTestAccess::hasFinished($a_usr_id, $a_trigger_obj_id);
 
             case ilConditionHandler::OPERATOR_NOT_FINISHED:
-                return !ilObjTestAccess::hasFinished($a_usr_id, $a_obj_id);
+                return !ilObjTestAccess::hasFinished($a_usr_id, $a_trigger_obj_id);
 
             default:
                 return true;

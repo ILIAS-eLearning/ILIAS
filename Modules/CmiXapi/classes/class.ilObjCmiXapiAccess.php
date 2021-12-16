@@ -35,7 +35,7 @@ class ilObjCmiXapiAccess extends ilObjectAccess implements ilConditionHandling
         return $commands;
     }
 
-    public static function getConditionOperators()
+    public static function getConditionOperators() : array
     {
         return [
             ilConditionHandler::OPERATOR_FINISHED,
@@ -43,7 +43,7 @@ class ilObjCmiXapiAccess extends ilObjectAccess implements ilConditionHandling
         ];
     }
     
-    public static function checkCondition($a_trigger_obj_id, $a_operator, $a_value, $a_usr_id)
+    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool
     {
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_FAILED:

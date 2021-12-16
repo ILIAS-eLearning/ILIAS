@@ -94,24 +94,27 @@ class ilObjStudyProgrammeAccess extends ilObjectAccess implements ilConditionHan
     }
 
     /**
-     *
-     * @param int $obj_id
-     * @param string $operator
-     * @param mixed $value
-     * @param int $usr_id
+     * @param int    $a_trigger_obj_id
+     * @param string $a_operator
+     * @param string $a_value
+     * @param int    $a_usr_id
      * @return boolean
      */
-    public static function checkCondition($obj_id, $operator, $value, $usr_id) : bool
+    public static function checkCondition(int $a_trigger_obj_id,
+        string $a_operator,
+        string $a_value,
+        int $a_usr_id
+    ) : bool
     {
-        if ($operator === ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED) {
+        if ($a_operator === ilConditionHandler::OPERATOR_ACCREDITED_OR_PASSED) {
             $valid_progress = array(
                 ilStudyProgrammeProgress::STATUS_COMPLETED,
                 ilStudyProgrammeProgress::STATUS_ACCREDITED
             );
 
             $prg_user_progress = ilStudyProgrammeDIC::dic()['model.Progress.ilStudyProgrammeProgressRepository']
-                ->getByPrgIdAndUserId($obj_id, $usr_id);
-                
+                ->getByPrgIdAndUserId($a_trigger_obj_id, $a_usr_id);
+
             foreach ($prg_user_progress as $progress) {
                 if (in_array($progress->getStatus(), $valid_progress)) {
                     return true;
