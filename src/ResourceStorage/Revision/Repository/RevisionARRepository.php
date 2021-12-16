@@ -18,13 +18,10 @@ use ILIAS\ResourceStorage\Resource\InfoResolver\InfoResolver;
  * Class RevisionARRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @internal
+ * @deprecated
  */
 class RevisionARRepository implements RevisionRepository
 {
-    public function getNameForLocking() : string
-    {
-        return (new ARRevision())->getConnectorContainerName();
-    }
 
     public function blankFromUpload(
         InfoResolver $info_resolver,
@@ -143,5 +140,22 @@ class RevisionARRepository implements RevisionRepository
         }
 
         return $r;
+    }
+
+    public function getNamesForLocking() : array
+    {
+        return [
+            (new ARRevision())->getConnectorContainerName()
+        ];
+    }
+
+    public function preload(array $identification_strings) : void
+    {
+        // noting to to
+    }
+
+    public function populateFromArray(array $data) : void
+    {
+        // noting to to
     }
 }

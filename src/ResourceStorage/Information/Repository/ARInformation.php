@@ -7,6 +7,7 @@ use ActiveRecord;
 /**
  * Class ARInformation
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated
  */
 class ARInformation extends ActiveRecord
 {

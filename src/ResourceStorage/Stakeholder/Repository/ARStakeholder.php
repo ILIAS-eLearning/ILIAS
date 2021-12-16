@@ -7,6 +7,7 @@ use ActiveRecord;
 /**
  * Class ARStakeholder
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated
  */
 class ARStakeholder extends ActiveRecord
 {
