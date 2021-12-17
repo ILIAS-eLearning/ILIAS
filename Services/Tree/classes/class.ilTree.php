@@ -1838,7 +1838,7 @@ class ilTree
         // Try to return a cached result
         if ($this->isCacheUsed() &&
             array_key_exists($cache_key, $this->parent_type_cache)) {
-            return $this->parent_type_cache[$cache_key];
+            return (int) $this->parent_type_cache[$cache_key];
         }
 
         // Store up to 1000 results in cache
