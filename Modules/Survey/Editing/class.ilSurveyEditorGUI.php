@@ -1211,7 +1211,10 @@ class ilSurveyEditorGUI
                             $template->parseCurrentBlock();
                         }
                         $template->setCurrentBlock("question");
-                        $template->setVariable("QUESTION_DATA", $questionGUI->getPrintView($current_title, $question["questionblock_show_questiontext"], $this->object->getSurveyId()));
+                        $template->setVariable("QUESTION_DATA", $questionGUI->getPrintView(
+                            $current_title,
+                            $question["questionblock_show_questiontext"]
+                        ));
                         $template->parseCurrentBlock();
                         
                         if ($question["obligatory"]) {

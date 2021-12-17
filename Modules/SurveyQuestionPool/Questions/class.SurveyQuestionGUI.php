@@ -1,57 +1,38 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Basic class for all survey question types
- *
  * The SurveyQuestionGUI class defines and encapsulates basic methods and attributes
  * for survey question types to be used for all parent classes.
- *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
 abstract class SurveyQuestionGUI
 {
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    protected $tpl;
-    protected $lng;
-    protected $ctrl;
-    protected $cumulated; // [array]
-    protected $parent_url;
-
-    /**
-     * @var ilLogger
-     */
-    protected $log;
+    protected ilRbacSystem $rbacsystem;
+    protected ilObjUser $user;
+    protected ilAccessHandler $access;
+    protected ilTree $tree;
+    protected ilToolbarGUI $toolbar;
+    protected ilTabsGUI $tabs;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected array $cumulated;
+    protected string $parent_url;
+    protected ilLogger $log;
     
     public $object;
         
@@ -84,32 +65,26 @@ abstract class SurveyQuestionGUI
         $this->log = ilLoggerFactory::getLogger('svy');
     }
     
-    abstract protected function initObject();
-    abstract public function setQuestionTabs();
+    abstract protected function initObject() : void;
+
+    abstract public function setQuestionTabs() : void;
     
-    public function &executeCommand()
+    public function executeCommand() : string
     {
         $cmd = $this->ctrl->getCmd();
         $next_class = $this->ctrl->getNextClass($this);
         switch ($next_class) {
             default:
-                $ret = &$this->$cmd();
+                $ret = $this->$cmd();
                 break;
         }
-        return $ret;
+        return (string) $ret;
     }
 
     /**
-    * Creates a question gui representation
-    *
-    * Creates a question gui representation and returns the alias to the question gui
-    * note: please do not use $this inside this method to allow static calls
-    *
-    * @param string $question_type The question type as it is used in the language database
-    * @param integer $question_id The database ID of an existing question to load it into ASS_QuestionGUI
-    * @return object The alias to the question object
-    * @access public
-    */
+     * Creates a question gui representation
+     * @todo move to factory
+     */
     public static function _getQuestionGUI(
         string $questiontype,
         int $question_id = -1
@@ -123,47 +98,44 @@ abstract class SurveyQuestionGUI
         return $question;
     }
     
-    public static function _getGUIClassNameForId($a_q_id)
+    public static function _getGUIClassNameForId(int $a_q_id) : string
     {
         $q_type = SurveyQuestion::_getQuestiontype($a_q_id);
         $class_name = SurveyQuestionGUI::_getClassNameForQType($q_type);
         return $class_name;
     }
 
-    public static function _getClassNameForQType($q_type)
+    public static function _getClassNameForQType(string $q_type) : string
     {
         return $q_type;
     }
     
     /**
-    * Returns the question type string
-    *
-    * @result string The question type string
-    * @access public
-    */
-    public function getQuestionType()
+     * Returns the question type string
+     */
+    public function getQuestionType() : string
     {
         return $this->object->getQuestionType();
     }
         
-    protected function outQuestionText($template)
+    protected function outQuestionText(ilTemplate $template) : void
     {
         $questiontext = $this->object->getQuestiontext();
         if (preg_match("/^<.[\\>]?>(.*?)<\\/.[\\>]*?>$/", $questiontext, $matches)) {
             $questiontext = $matches[1];
         }
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
-        if ($this->object->getObligatory($survey_id)) {
+        if ($this->object->getObligatory()) {
             $template->setVariable("OBLIGATORY_TEXT", ' *');
         }
     }
     
-    public function setBackUrl($a_url)
+    public function setBackUrl(string $a_url) : void
     {
         $this->parent_url = $a_url;
     }
     
-    public function setQuestionTabsForClass($guiclass)
+    public function setQuestionTabsForClass(string $guiclass) : void
     {
         $rbacsystem = $this->rbacsystem;
         $ilTabs = $this->tabs;
@@ -226,7 +198,7 @@ abstract class SurveyQuestionGUI
     // EDITOR
     //
     
-    protected function initEditForm()
+    protected function initEditForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "save"));
@@ -290,7 +262,7 @@ abstract class SurveyQuestionGUI
         return $form;
     }
     
-    protected function addCommandButtons($a_form)
+    protected function addCommandButtons(ilPropertyFormGUI $a_form) : void
     {
         $a_form->addCommandButton("saveReturn", $this->lng->txt("save_return"));
         $a_form->addCommandButton("save", $this->lng->txt("save"));
@@ -303,7 +275,7 @@ abstract class SurveyQuestionGUI
         }
     }
             
-    protected function editQuestion(ilPropertyFormGUI $a_form = null)
+    protected function editQuestion(ilPropertyFormGUI $a_form = null) : void
     {
         $ilTabs = $this->tabs;
         
@@ -315,17 +287,17 @@ abstract class SurveyQuestionGUI
         $this->tpl->setContent($a_form->getHTML());
     }
     
-    protected function saveSync()
+    protected function saveSync() : void
     {
         $this->save($_REQUEST["rtrn"], true);
     }
 
-    protected function saveReturn()
+    protected function saveReturn() : void
     {
         $this->save(true);
     }
     
-    protected function saveForm()
+    protected function saveForm() : bool
     {
         $form = $this->initEditForm();
         if ($form->checkInput()) {
@@ -351,8 +323,10 @@ abstract class SurveyQuestionGUI
         return false;
     }
     
-    protected function save($a_return = false, $a_sync = false)
-    {
+    protected function save(
+        bool $a_return = false,
+        bool $a_sync = false
+    ) : void {
         $ilUser = $this->user;
                     
         if ($this->saveForm()) {
@@ -360,7 +334,8 @@ abstract class SurveyQuestionGUI
             if ($a_return &&
                 !SurveyQuestion::_isComplete($this->object->getId())) {
                 ilUtil::sendFailure($this->lng->txt("survey_error_insert_incomplete_question"));
-                return $this->editQuestion();
+                $this->editQuestion();
+                return;
             }
             
             $ilUser->setPref("svy_lastquestiontype", $this->object->getQuestionType());
@@ -389,7 +364,7 @@ abstract class SurveyQuestionGUI
         }
     }
         
-    protected function copySyncForm()
+    protected function copySyncForm() : void
     {
         $ilTabs = $this->tabs;
         
@@ -400,14 +375,15 @@ abstract class SurveyQuestionGUI
         $this->tpl->setContent($tbl->getHTML());
     }
     
-    protected function syncCopies()
+    protected function syncCopies() : void
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
         
         if (!sizeof($_POST["qid"])) {
             ilUtil::sendFailure($lng->txt("select_one"));
-            return $this->copySyncForm();
+            $this->copySyncForm();
+            return;
         }
         
         foreach ($this->object->getCopyIds(true) as $survey_id => $questions) {
@@ -444,7 +420,7 @@ abstract class SurveyQuestionGUI
         $this->redirectAfterSaving($_REQUEST["rtrn"]);
     }
     
-    protected function originalSyncForm()
+    protected function originalSyncForm() : void
     {
         $ilTabs = $this->tabs;
         
@@ -462,7 +438,7 @@ abstract class SurveyQuestionGUI
         $this->tpl->setContent($cgui->getHTML());
     }
     
-    protected function sync()
+    protected function sync() : void
     {
         $original_id = $this->object->original_id;
         if ($original_id) {
@@ -473,7 +449,7 @@ abstract class SurveyQuestionGUI
         $this->redirectAfterSaving($_REQUEST["rtrn"]);
     }
 
-    protected function cancelSync()
+    protected function cancelSync() : void
     {
         ilUtil::sendInfo($this->lng->txt("question_changed_in_survey_only"), true);
         $this->redirectAfterSaving($_REQUEST["rtrn"]);
@@ -481,11 +457,10 @@ abstract class SurveyQuestionGUI
             
     /**
      * Redirect to calling survey or to edit form
-     *
-     * @param bool $a_return
      */
-    protected function redirectAfterSaving($a_return = false)
-    {
+    protected function redirectAfterSaving(
+        bool $a_return = false
+    ) : void {
         // return?
         if ($a_return) {
             // to calling survey
@@ -511,7 +486,7 @@ abstract class SurveyQuestionGUI
         }
     }
     
-    protected function cancel()
+    protected function cancel() : void
     {
         if ($this->parent_url) {
             ilUtil::redirect($this->parent_url);
@@ -520,18 +495,25 @@ abstract class SurveyQuestionGUI
         }
     }
         
-    protected function validateEditForm(ilPropertyFormGUI $a_form)
+    protected function validateEditForm(ilPropertyFormGUI $a_form) : bool
     {
         return true;
     }
         
-    abstract protected function addFieldsToEditForm(ilPropertyFormGUI $a_form);
-    abstract protected function importEditFormValues(ilPropertyFormGUI $a_form);
+    abstract protected function addFieldsToEditForm(ilPropertyFormGUI $a_form) : void;
+
+    abstract protected function importEditFormValues(ilPropertyFormGUI $a_form) : void;
                 
-    abstract public function getPrintView($question_title = 1, $show_questiontext = 1);
+    abstract public function getPrintView(
+        int $question_title = 1,
+        bool $show_questiontext = true,
+        ?int $survey_id = null,
+        ?array $working_data = null
+    ) : string;
     
-    protected function getPrintViewQuestionTitle($question_title = 1)
-    {
+    protected function getPrintViewQuestionTitle(
+        int $question_title = 1
+    ) : string {
         switch ($question_title) {
             case ilObjSurvey::PRINT_HIDE_LABELS:
                 $title = ilUtil::prepareFormOutput($this->object->getTitle());
@@ -552,12 +534,7 @@ abstract class SurveyQuestionGUI
         return $title;
     }
     
-    /**
-    * Creates a preview of the question
-    *
-    * @access private
-    */
-    public function preview()
+    public function preview() : void
     {
         $ilTabs = $this->tabs;
         
@@ -584,12 +561,19 @@ abstract class SurveyQuestionGUI
     // EXECUTION
     //
     
-    abstract public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null, $compress_view = false);
+    abstract public function getWorkingForm(
+        array $working_data = null,
+        int $question_title = 1,
+        bool $show_questiontext = true,
+        string $error_message = "",
+        int $survey_id = null,
+        bool $compress_view = false
+    ) : string;
     
     /**
-    * Creates the HTML output of the question material(s)
-    */
-    protected function getMaterialOutput()
+     * Creates the HTML output of the question material(s)
+     */
+    protected function getMaterialOutput() : string
     {
         if (count($this->object->getMaterial())) {
             $template = new ilTemplate("tpl.il_svy_qpl_material.html", true, true, "Modules/SurveyQuestionPool");
@@ -616,10 +600,11 @@ abstract class SurveyQuestionGUI
     //
     
     /**
-    * Material tab of the survey questions
-    */
-    public function material($checkonly = false)
-    {
+     * Material tab of the survey questions
+     */
+    public function material(
+        bool $checkonly = false
+    ) : bool {
         $rbacsystem = $this->rbacsystem;
         $ilTabs = $this->tabs;
         
@@ -682,7 +667,7 @@ abstract class SurveyQuestionGUI
         return $errors;
     }
     
-    public function deleteMaterial()
+    public function deleteMaterial() : void
     {
         if (is_array($_POST['idx'])) {
             $this->object->deleteMaterials($_POST['idx']);
@@ -694,11 +679,10 @@ abstract class SurveyQuestionGUI
     }
 
     /**
-    * Add materials to a question
-    */
-    public function addMaterial()
+     * Add materials to a question
+     */
+    public function addMaterial() : void
     {
-        $tree = $this->tree;
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
         
@@ -741,21 +725,21 @@ abstract class SurveyQuestionGUI
         }
     }
     
-    public function removeMaterial()
+    public function removeMaterial() : void
     {
         $this->object->material = array();
         $this->object->saveToDb();
         $this->editQuestion();
     }
     
-    public function cancelExplorer()
+    public function cancelExplorer() : void
     {
         unset($_SESSION["link_new_type"]);
         ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, 'material');
     }
         
-    public function addPG()
+    public function addPG() : void
     {
         $this->object->addInternalLink("il__pg_" . $_GET["pg"]);
         unset($_SESSION["link_new_type"]);
@@ -764,7 +748,7 @@ abstract class SurveyQuestionGUI
         $this->ctrl->redirect($this, "material");
     }
     
-    public function addST()
+    public function addST() : void
     {
         $this->object->addInternalLink("il__st_" . $_GET["st"]);
         unset($_SESSION["link_new_type"]);
@@ -773,7 +757,7 @@ abstract class SurveyQuestionGUI
         $this->ctrl->redirect($this, "material");
     }
 
-    public function addGIT()
+    public function addGIT() : void
     {
         $this->object->addInternalLink("il__git_" . $_GET["git"]);
         unset($_SESSION["link_new_type"]);
@@ -782,7 +766,7 @@ abstract class SurveyQuestionGUI
         $this->ctrl->redirect($this, "material");
     }
     
-    public function linkChilds()
+    public function linkChilds() : void
     {
         $ilTabs = $this->tabs;
         
@@ -868,7 +852,7 @@ abstract class SurveyQuestionGUI
     // PHRASES (see SurveyMatrixQuestionGUI)
     //
     
-    protected function initPhrasesForm()
+    protected function initPhrasesForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "addSelectedPhrase"));
@@ -906,9 +890,9 @@ abstract class SurveyQuestionGUI
     }
         
     /**
-    * Creates an output for the addition of phrases
-    */
-    protected function addPhrase(ilPropertyFormGUI $a_form = null)
+     * Creates an output for the addition of phrases
+     */
+    protected function addPhrase(ilPropertyFormGUI $a_form = null) : void
     {
         $ilTabs = $this->tabs;
         
@@ -926,7 +910,7 @@ abstract class SurveyQuestionGUI
         $this->tpl->setContent($a_form->getHTML());
     }
 
-    protected function addSelectedPhrase()
+    protected function addSelectedPhrase() : void
     {
         $form = $this->initPhrasesForm();
         if ($form->checkInput()) {
@@ -961,12 +945,11 @@ abstract class SurveyQuestionGUI
     }
     
     /**
-    * Creates an output to save the current answers as a phrase
-    *
-    * @access public
-    */
-    public function savePhrase($a_reload = false)
-    {
+     * Creates an output to save the current answers as a phrase
+     */
+    public function savePhrase(
+        bool $a_reload = false
+    ) : void {
         $ilTabs = $this->tabs;
         $ilToolbar = $this->toolbar;
         
@@ -1012,11 +995,9 @@ abstract class SurveyQuestionGUI
     }
 
     /**
-    * Save a new phrase to the database
-    *
-    * @access public
-    */
-    public function confirmSavePhrase()
+     * Save a new phrase to the database
+     */
+    public function confirmSavePhrase() : void
     {
         $title = $_POST["phrase_title"];
         
@@ -1039,8 +1020,11 @@ abstract class SurveyQuestionGUI
         $this->savePhrase(true);
     }
     
-    protected function renderStatisticsDetailsTable(array $a_head, array $a_rows, array $a_foot = null)
-    {
+    protected function renderStatisticsDetailsTable(
+        array $a_head,
+        array $a_rows,
+        array $a_foot = null
+    ) : string {
         $html = array();
         $html[] = '<div class="ilTableOuter table-responsive">';
         $html[] = '<table class="table table-striped">';
