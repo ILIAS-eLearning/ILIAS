@@ -20,6 +20,14 @@ il.UI = il.UI || {};
         };
 
         /**
+         * Holds a list of css classes used within this script.
+         * @type {{}}
+         */
+        const CSS = {
+            highlight: 'highlight',
+        };
+
+        /**
          * Holds whether the global event listeners were added or not.
          * @type {boolean}
          */
@@ -40,26 +48,29 @@ il.UI = il.UI || {};
                 return;
             }
 
+            let dropzone = $(`#${dropzone_id}`);
             dropzones[dropzone_id] = {
-                file_input_id: $(`#${dropzone_id}`).find(SELECTOR.file_input).attr('id'),
+                file_input_id: dropzone.find(SELECTOR.file_input).attr('id'),
             };
 
-            initDropzoneEventListeners(dropzone_id);
+            adjustModalContentStyles(dropzone);
+            initDropzoneEventListeners(dropzone);
             initGlobalEventListeners();
         }
 
         /**
-         * @param {string} dropzone_id
+         * @param {jQuery} dropzone
          */
-        let initDropzoneEventListeners = function (dropzone_id) {
-            $(`#${dropzone_id}`).on('drop', transferDroppedFilesHook);
+        let initDropzoneEventListeners = function (dropzone) {
+            dropzone.on('drop', transferDroppedFilesHook);
         }
 
         let initGlobalEventListeners = function () {
             if (!instantiated) {
                 $(document).on({
-                    dragover: disableDefaultEventBehaviour,
-                    drop: disableDefaultEventBehaviour,
+                    dragover: highlightPossibleDropzones,
+                    dragleave: removeHighlightFromDropzones,
+                    drop: removeHighlightFromDropzones,
                 });
 
                 instantiated = true;
@@ -70,8 +81,7 @@ il.UI = il.UI || {};
          * @param {Event} event
          */
         let transferDroppedFilesHook = function (event) {
-            // prevent default drop behaviour.
-            disableDefaultEventBehaviour(event);
+            removeHighlightFromDropzones(event);
 
             // dataTransfer has to be fetched by triggering event (DragEvent).
             // there's also a console bug where dataTransfer will be shown
@@ -86,6 +96,44 @@ il.UI = il.UI || {};
                     );
                 }
             }
+        }
+
+        /**
+         * @param {Event} event
+         */
+        let highlightPossibleDropzones = function (event) {
+            disableDefaultEventBehaviour(event);
+            let dropzones = $(document).find(SELECTOR.dropzone);
+            let dropzone_count = dropzones.length;
+            if (0 < dropzone_count) {
+                for (let i = 0; i < dropzone_count; i++) {
+                    $(dropzones[i]).addClass(CSS.highlight);
+                }
+            }
+        }
+
+        /**
+         * @param {Event} event
+         */
+        let removeHighlightFromDropzones = function (event) {
+            disableDefaultEventBehaviour(event);
+            let dropzones = $(document).find(SELECTOR.dropzone);
+            let dropzone_count = dropzones.length;
+            if (0 < dropzone_count) {
+                for (let i = 0; i < dropzone_count; i++) {
+                    $(dropzones[i]).removeClass(CSS.highlight);
+                }
+            }
+        }
+
+        /**
+         * @param {jQuery} dropzone
+         */
+        let adjustModalContentStyles = function (dropzone) {
+            // remove the first form-group column (labels) and
+            // expand the content column to the width of the modal.
+            dropzone.find('.form-group .col-sm-3').css('display', 'none');
+            dropzone.find('.form-group .col-sm-9').css('width', '100%');
         }
 
         /**

@@ -15,16 +15,6 @@ use ILIAS\UI\Component\Component;
 interface Wrapper extends File
 {
     /**
-     * Get a wrapper dropzone like this, but showing a custom title in the appearing modal.
-     */
-    public function withTitle(string $title) : Wrapper;
-
-    /**
-     * Get the custom title if set.
-     */
-    public function getTitle() : string;
-
-    /**
      * Get the components being wrapped by this dropzone.
      *
      * @return Component[]

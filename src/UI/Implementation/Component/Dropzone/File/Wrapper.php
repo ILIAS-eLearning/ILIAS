@@ -21,7 +21,6 @@ class Wrapper extends File implements WrapperInterface
      * @var Component[]
      */
     protected array $components;
-    protected string $title = '';
 
     /**
      * @param Component[]|Component $content
@@ -40,18 +39,6 @@ class Wrapper extends File implements WrapperInterface
         $this->checkEmptyArray($content);
 
         $this->components = $content;
-    }
-
-    public function withTitle(string $title) : self
-    {
-        $clone = clone $this;
-        $clone->title = $title;
-        return $clone;
-    }
-
-    public function getTitle() : string
-    {
-        return $this->title;
     }
 
     public function getContent() : array

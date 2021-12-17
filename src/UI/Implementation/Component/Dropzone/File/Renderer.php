@@ -41,17 +41,20 @@ class Renderer extends AbstractComponentRenderer
     public function registerResources(ResourceRegistry $registry) : void
     {
         parent::registerResources($registry);
-        $registry->register("./libs/bower/bower_components/jquery-dragster/jquery.dragster.js");
         $registry->register("./src/UI/templates/js/Dropzone/File/dropzone.js");
     }
 
     protected function renderWrapper(Wrapper $dropzone) : string
     {
-        $modal = $this->getUIFactory()->modal()->roundtrip('', [$dropzone->getForm()]);
+        $modal = $this->getUIFactory()->modal()->roundtrip(
+            $dropzone->getTitle(),
+            [$dropzone->getForm()]
+        );
 
         $template = $this->getTemplate("tpl.dropzone.html", true, true);
         $template->setVariable('MODAL', $this->default_renderer->render($modal));
         $template->setVariable('CONTENT', $this->default_renderer->render($dropzone->getContent()));
+        $template->setVariable('WRAPPER_CLASS', 'ui-dropzone-wrapper');
 
         $dropzone = $this->initClientsideDropzone($dropzone);
         $dropzone = $dropzone->withAdditionalDrop($modal->getShowSignal());
@@ -63,10 +66,25 @@ class Renderer extends AbstractComponentRenderer
 
     protected function renderStandard(Standard $dropzone) : string
     {
-        $modal = $this->getUIFactory()->modal()->roundtrip('', [$dropzone->getForm()]);
+        $modal = $this->getUIFactory()->modal()->roundtrip(
+            $dropzone->getTitle(),
+            [$dropzone->getForm()]
+        );
 
         $template = $this->getTemplate("tpl.dropzone.html", true, true);
         $template->setVariable('MODAL', $this->default_renderer->render($modal));
+        $template->setVariable('MESSAGE', $dropzone->getMessage());
+
+        $upload_button = $dropzone->getUploadButton();
+        if (null !== $upload_button) {
+            // override default onClick behaviour with modal signal
+            // to prevent the action from triggering.
+            $upload_button = $upload_button->withOnClick(
+                $modal->getShowSignal()
+            );
+
+            $template->setVariable('BUTTON', $this->default_renderer->render($upload_button));
+        }
 
         $dropzone = $this->initClientsideDropzone($dropzone);
         $dropzone = $dropzone->withAdditionalDrop($modal->getShowSignal());
@@ -79,6 +97,8 @@ class Renderer extends AbstractComponentRenderer
     protected function initClientsideDropzone(FileInterface $dropzone) : FileInterface
     {
         return $dropzone->withAdditionalOnLoadCode(static function ($id) {
+            // the file-input id would be nice as DI too, but I don't see
+            // how it could be retrieved here without being hacky.
             return "
                 $(document).ready(function() {
                     il.UI.Dropzone.init('$id');

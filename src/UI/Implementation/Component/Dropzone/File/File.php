@@ -33,6 +33,7 @@ abstract class File implements FileInterface
     protected ?FormInterface $form = null;
     protected InputFactory $input_factory;
     protected ilLanguage $language;
+    protected string $title = '';
     protected string $post_url;
 
     public function __construct(
@@ -47,25 +48,39 @@ abstract class File implements FileInterface
         $this->post_url = $post_url;
     }
 
+    public function withTitle(string $title) : self
+    {
+        $clone = clone $this;
+        $clone->title = $title;
+        return $clone;
+    }
+
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
+
     public function getForm() : FormInterface
     {
-        return $this->input_factory->container()->form()->standard(
-            $this->post_url,
-            [
-                $this->input_factory
-                    ->field()->file($this->upload_handler, "dropzone_file_form")
-                    ->withMaxFiles($this->getMaxFiles())
-                    ->withMaxFileSize($this->getMaxFileSize())
-                    ->withAcceptedMimeTypes($this->getAcceptedMimeTypes())
-                    ->withTemplateForDynamicInputs(
-                        $this->input_factory->field()->group([
-                            $this->input_factory->field()->text($this->language->txt('dropzone_file_title')),
-                            $this->input_factory->field()->textarea($this->language->txt('dropzone_file_description')),
-                        ])
-                    )
-                ,
-            ]
-        );
+        return
+            $this->form ??
+            $this->input_factory->container()->form()->standard(
+                $this->post_url,
+                [
+                    $this->input_factory
+                        ->field()->file($this->upload_handler, '')
+                        ->withMaxFiles($this->getMaxFiles())
+                        ->withMaxFileSize($this->getMaxFileSize())
+                        ->withAcceptedMimeTypes($this->getAcceptedMimeTypes())
+                        ->withTemplateForDynamicInputs(
+                            $this->input_factory->field()->group([
+                                $this->input_factory->field()->text($this->language->txt('dropzone_file_title')),
+                                $this->input_factory->field()->textarea($this->language->txt('dropzone_file_description')),
+                            ])
+                        )
+                    ,
+                ]
+            );
     }
 
     public function withRequest(ServerRequestInterface $request) : self

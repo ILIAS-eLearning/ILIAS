@@ -1,31 +1,37 @@
+// Dropzone Styles
+// @author Thibeau Fuhrer <thibeau@sr.solutions>
+
 .ui-dropzone {
-	&.ui-dropzone-container {
-		padding: 1px
-	}
+	border: @il-dropzone-filelist-border-width @il-dropzone-filelist-border-type @il-dropzone-filelist-border-color;
+	background: @il-dropzone-bg;
+	display: inline-block;
+	margin-bottom: 5px;
+	padding: 3px;
+	width: 100%;
+}
 
-	&.darkened-highlight {
-		z-index: 1100;
-		position: relative;
-		border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
-		-moz-border-radius: @il-dropzone-border-radius;
-		-webkit-border-radius: @il-dropzone-border-radius;
-		border-radius: @il-dropzone-border-radius;
-		background: @il-dropzone-highlight-bg;
-	}
+.ui-dropzone-wrapper {
+	background: none;
+	border: none;
+}
 
-	&.default-highlight {
-		border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
-		-moz-border-radius: @il-dropzone-border-radius;
-		-webkit-border-radius: @il-dropzone-border-radius;
-		border-radius: @il-dropzone-border-radius;
-		background: @il-dropzone-highlight-bg;
-	}
+.ui-dropzone.highlight {
+	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color;
+	border-radius: @il-dropzone-border-radius;
+	background: @il-dropzone-highlight-bg;
+}
 
-	&.drag-hover {
-		border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color-hover;
-		-moz-border-radius: @il-dropzone-border-radius;
-		-webkit-border-radius: @il-dropzone-border-radius;
-		border-radius: @il-dropzone-border-radius;
-		background-color: @il-dropzone-hover-bg;
-	}
+.ui-dropzone.highlight:hover {
+	border: @il-dropzone-border-width @il-dropzone-border-style @il-dropzone-border-color-hover;
+	background-color: @il-dropzone-hover-bg;
+}
+
+.ui-dropzone-message {
+	font-size: @il-font-size-base;
+	margin: 0 3px 0 0;
+	float: right;
+}
+
+.ui-dropzone-container button {
+	font-size: @il-font-size-base;
 }

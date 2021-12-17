@@ -5,9 +5,9 @@
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Input\Field\FileUploadAware;
+use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\UI\Component\Component;
 use ILIAS\UI\Component\Droppable;
-use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Transformation;
 
 /**
@@ -15,6 +15,16 @@ use ILIAS\Refinery\Transformation;
  */
 interface File extends FileUploadAware, Component, Droppable
 {
+    /**
+     * Get a dropzone like this, but showing a custom title in the appearing modal.
+     */
+    public function withTitle(string $title) : File;
+
+    /**
+     * Get the custom title if set.
+     */
+    public function getTitle() : string;
+
     /**
      * Get a dropzone like this with a server request.
      */
