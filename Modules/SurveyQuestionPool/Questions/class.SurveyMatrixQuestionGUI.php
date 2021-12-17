@@ -1,35 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Matrix question GUI representation
- *
- * The SurveyMatrixQuestionGUI class encapsulates the GUI representation
- * for matrix question types.
- *
  * @author		Helmut Schottmüller <helmut.schottmueller@mac.com>
  */
 class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
 {
-    protected $show_layout_row;
+    protected bool $show_layout_row = false;
     
-    protected function initObject()
+    protected function initObject() : void
     {
         $this->object = new SurveyMatrixQuestion();
     }
-
     
     //
     // EDITOR
     //
     
-    public function setQuestionTabs()
+    public function setQuestionTabs() : void
     {
         $this->setQuestionTabsForClass("surveymatrixquestiongui");
     }
 
-    protected function addFieldsToEditForm(ilPropertyFormGUI $a_form)
+    protected function addFieldsToEditForm(ilPropertyFormGUI $a_form) : void
     {
         // subtype
         $subtype = new ilRadioGroupInputGUI($this->lng->txt("subtype"), "type");
@@ -146,7 +152,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         $rows->setValues($this->object->getRows());
     }
     
-    protected function importEditFormValues(ilPropertyFormGUI $a_form)
+    protected function importEditFormValues(ilPropertyFormGUI $a_form) : void
     {
         $this->object->setSubtype($a_form->getInput("type"));
         $this->object->setRowSeparators($a_form->getInput("row_separators") ? 1 : 0);
@@ -178,8 +184,10 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         }
     }
     
-    public function getParsedAnswers(array $a_working_data = null, $a_only_user_anwers = false)
-    {
+    public function getParsedAnswers(
+        array $a_working_data = null,
+        bool $a_only_user_anwers = false
+    ) : array {
         if (is_array($a_working_data)) {
             $user_answers = $a_working_data;
         }
@@ -231,14 +239,13 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         return $options;
     }
     
-    /**
-    * Creates a HTML representation of the question
-    *
-    * @access private
-    */
-    public function getPrintView($question_title = 1, $show_questiontext = 1, $survey_id = null, array $a_working_data = null)
-    {
-        $options = $this->getParsedAnswers($a_working_data);
+    public function getPrintView(
+        int $question_title = 1,
+        bool $show_questiontext = true,
+        ?int $survey_id = null,
+        ?array $working_data = null
+    ) : string {
+        $options = $this->getParsedAnswers($working_data);
                         
         $layout = $this->object->getLayout();
         $neutralstyle = "3px solid #808080";
@@ -465,11 +472,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     //
 
     /**
-    * Creates a layout view of the question
-    *
-    * @access public
-    */
-    public function layout()
+     * Creates a layout view of the question
+     */
+    public function layout() : void
     {
         $ilTabs = $this->tabs;
         
@@ -485,10 +490,8 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     
     /**
      * Saves the layout for the matrix question
-     *
-     * @return void
-     **/
-    public function saveLayout()
+     */
+    public function saveLayout() : void
     {
         $percent_values = array(
             "percent_row" => (int) $_POST["percent_row"],
@@ -516,11 +519,9 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     }
 
     /**
-    * Creates a row to define the matrix question layout with percentage values
-    *
-    * @access public
-    */
-    public function getLayoutRow()
+     * Creates a row to define the matrix question layout with percentage values
+     */
+    public function getLayoutRow() : string
     {
         $percent_values = $this->object->getLayout();
         $template = new ilTemplate("tpl.il_svy_out_matrix_layout.html", true, true, "Modules/SurveyQuestionPool");
@@ -556,12 +557,16 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     //
     
     /**
-    * Creates the question output form for the learner
-    *
-    * @access public
-    */
-    public function getWorkingForm($working_data = "", $question_title = 1, $show_questiontext = 1, $error_message = "", $survey_id = null, $compress_view = false)
-    {
+     * Creates the question output form for the learner
+     */
+    public function getWorkingForm(
+        array $working_data = null,
+        int $question_title = 1,
+        bool $show_questiontext = true,
+        string $error_message = "",
+        int $survey_id = null,
+        bool $compress_view = false
+    ) : string {
         $layout = $this->object->getLayout();
         $neutralstyle = "3px solid #808080";
         $bordercolor = "#808080";

@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Survey metric  evaluation
@@ -13,8 +24,11 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
     // RESULTS
     //
     
-    protected function parseResults(ilSurveyEvaluationResults $a_results, array $a_answers, SurveyCategories $a_categories = null)
-    {
+    protected function parseResults(
+        ilSurveyEvaluationResults $a_results,
+        array $a_answers,
+        SurveyCategories $a_categories = null
+    ) : void {
         parent::parseResults($a_results, $a_answers);
         
         // add arithmetic mean
@@ -34,12 +48,18 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
     //
     // DETAILS
     //
-    
-    public function getGrid($a_results, $a_abs = true, $a_perc = true)
-    {
+
+    /**
+     * @param array|ilSurveyEvaluationResults $a_results
+     */
+    public function getGrid(
+        $a_results,
+        bool $a_abs = true,
+        bool $a_perc = true
+    ) : array {
         $lng = $this->lng;
         
-        if ((bool) $a_abs && (bool) $a_perc) {
+        if ($a_abs && (bool) $a_perc) {
             $cols = array(
                 $lng->txt("category_nr_selected"),
                 $lng->txt("svy_fraction_of_selections")
@@ -93,8 +113,11 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
         
         return $res;
     }
-    
-    public function getChart($a_results)
+
+    /**
+     * @param array|ilSurveyEvaluationResults $a_results
+     */
+    public function getChart($a_results) : ?array
     {
         $lng = $this->lng;
         
@@ -128,8 +151,12 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
 
             $chart->setTicks($labels, false, true);
         
-            return $chart->getHTML();
+            return array(
+                $chart->getHTML(),
+                null
+            );
         }
+        return null;
     }
 
     
@@ -139,11 +166,9 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
     
     /**
      * Get grid data
-     *
      * @param ilSurveyEvaluationResults|array $a_results
-     * @return array
      */
-    public function getExportGrid($a_results)
+    public function getExportGrid($a_results) : array
     {
         $lng = $this->lng;
         
@@ -174,9 +199,15 @@ class SurveyMetricQuestionEvaluation extends SurveyQuestionEvaluation
                 
         return $res;
     }
-    
-    public function addUserSpecificResults(array &$a_row, $a_user_id, $a_results)
-    {
+
+    /**
+     * @param array|ilSurveyEvaluationResults $a_results
+     */
+    public function addUserSpecificResults(
+        array &$a_row,
+        int $a_user_id,
+        $a_results
+    ) : void {
         $answer = $a_results->getUserResults($a_user_id);
         if ($answer === null) {
             $a_row[] = $this->getSkippedValue();
