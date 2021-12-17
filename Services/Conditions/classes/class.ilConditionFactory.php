@@ -4,7 +4,6 @@
 
 /**
  * Condition factory
- *
  * @author @leifos.de
  */
 class ilConditionFactory
@@ -30,8 +29,7 @@ class ilConditionFactory
         $obj_type = $this->cond_obj_adapter->getTypeForObjId($obj_id);
         return new ilConditionTrigger($ref_id, $obj_id, $obj_type);
     }
-    
-    
+
     /**
      * Condition set
      * @param ilCondition[] $conditions
@@ -47,7 +45,7 @@ class ilConditionFactory
         return new ilCondition($trigger, $operator, $value);
     }
 
-    public function operator():ilConditionOperatorFactory
+    public function operator() : ilConditionOperatorFactory
     {
         return new ilConditionOperatorFactory();
     }

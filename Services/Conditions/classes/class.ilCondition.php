@@ -4,8 +4,7 @@
 
 /**
  * Condition class
- *
- * @author killing@leifos.de
+ * @author  killing@leifos.de
  * @ingroup ServicesConditions
  */
 class ilCondition
