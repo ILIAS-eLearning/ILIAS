@@ -13,8 +13,7 @@ include_once "./Services/Table/classes/class.ilTable2GUI.php";
 */
 class ilLanguageTableGUI extends ilTable2GUI
 {
-    /** @var ilObjLanguageFolder */
-    protected $folder;
+    protected ilObjLanguageFolder $folder;
 
     /**
     * Constructor

@@ -10,7 +10,7 @@ require_once "Services/Language/interfaces/interface.ilLanguageDetector.php";
  */
 class ilDefaultLanguageDetector implements ilLanguageDetector
 {
-    protected $ini;
+    protected ilIniFile $ini;
 
     public function __construct(ilIniFile $ini)
     {

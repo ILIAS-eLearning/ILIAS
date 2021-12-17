@@ -13,8 +13,8 @@ class ilCachedLanguage
     protected \ilGlobalCache $global_cache;
     protected bool $loaded = false;
     protected string $language_key = "en";
-    protected array $translations;
-    protected static array $instances;
+    protected array $translations = array();
+    protected static array $instances = array();
 
     /**
      * ilCachedLanguage constructor.
