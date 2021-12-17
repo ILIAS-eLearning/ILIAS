@@ -340,6 +340,7 @@ class ilTestCorrectionsGUI
         
         $scoring = new ilTestScoring($this->testOBJ);
         $scoring->setPreserveManualScores(true);
+        $scoring->setQuestionId($questionGUI->object->getId());
         $scoring->recalculateSolutions();
         
         $response->result = true;
