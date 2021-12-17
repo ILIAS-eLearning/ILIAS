@@ -1,54 +1,40 @@
 <?php declare(strict_types=1);
 
+/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
+use ILIAS\UI\Component\Dropzone\File\Standard as StandardInterface;
 use ILIAS\UI\Component\Button\Button;
-use ILIAS\UI\Component\Dropzone\File as F;
 
 /**
- * Class Standard
- *
  * @author  nmaerchy <nm@studer-raimann.ch>
- *
- * @package ILIAS\UI\Implementation\Component\Dropzone\File
+ * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Standard extends File implements F\Standard
+class Standard extends File implements StandardInterface
 {
     protected string $message = "";
     protected ?Button $upload_button = null;
 
-
-    /**
-     * @inheritdoc
-     */
-    public function withMessage(string $message) : F\Standard
+    public function withMessage(string $message) : self
     {
         $clone = clone $this;
         $clone->message = $message;
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getMessage() : string
     {
         return $this->message;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function withUploadButton(Button $button) : F\Standard
+    public function withUploadButton(Button $button) : self
     {
         $clone = clone $this;
         $clone->upload_button = $button;
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getUploadButton() : ?Button
     {
         return $this->upload_button;

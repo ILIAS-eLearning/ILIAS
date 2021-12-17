@@ -1,82 +1,66 @@
 <?php declare(strict_types=1);
 
+/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-use ILIAS\UI\Component\Dropzone\File as F;
+use ILIAS\UI\Component\Dropzone\File\Wrapper as WrapperInterface;
+use ILIAS\UI\Component\Input\Factory as InputFactory;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Component;
 use LogicException;
+use ilLanguage;
 
 /**
- * Class Wrapper
- *
  * @author  nmaerchy <nm@studer-raimann.ch>
- *
- * @package ILIAS\UI\Implementation\Component\Dropzone\File
+ * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
-class Wrapper extends File implements F\Wrapper
+class Wrapper extends File implements WrapperInterface
 {
     /**
      * @var Component[]
      */
     protected array $components;
-    protected string $title = "";
+    protected string $title = '';
 
     /**
-     * @param Component[]|Component $content Component(s) being wrapped by this dropzone
+     * @param Component[]|Component $content
      */
-    public function __construct(string $url, $content)
-    {
-        parent::__construct($url);
-        $this->components = $this->toArray($content);
-        $types = array( Component::class );
-        $this->checkArgListElements('content', $this->components, $types);
-        $this->checkEmptyArray($this->components);
+    public function __construct(
+        InputFactory $input_factory,
+        ilLanguage $language,
+        UploadHandler $upload_handler,
+        string $post_url,
+        $content
+    ) {
+        parent::__construct($input_factory, $language, $upload_handler, $post_url);
+
+        $content = $this->toArray($content);
+        $this->checkArgListElements('content', $content, [Component::class]);
+        $this->checkEmptyArray($content);
+
+        $this->components = $content;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function withContent($content) : F\Wrapper
-    {
-        $clone = clone $this;
-        $clone->components = $this->toArray($content);
-        $types = array( Component::class );
-        $this->checkArgListElements('content', $clone->components, $types);
-        $this->checkEmptyArray($clone->components);
-
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withTitle(string $title) : F\Wrapper
+    public function withTitle(string $title) : self
     {
         $clone = clone $this;
         $clone->title = $title;
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
     public function getTitle() : string
     {
         return $this->title;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getContent() : array
     {
         return $this->components;
     }
 
-
     /**
      * Checks if the passed array contains at least one element, throws a LogicException otherwise.
-     *
      * @throws LogicException if the passed in argument counts 0
      */
     private function checkEmptyArray(array $array) : void

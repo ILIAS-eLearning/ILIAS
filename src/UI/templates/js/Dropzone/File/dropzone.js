@@ -1,251 +1,103 @@
 /**
- * Provides the behavior of all dropzone types.
+ * this script is responsible for the dropzone highlighting and
+ * file processing.
  *
- * @author nmaerchy <nm@studer-raimann.ch>
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
  */
 
 var il = il || {};
 il.UI = il.UI || {};
 (function ($, UI) {
-    UI.dropzone = (function ($) {
-
+    UI.Dropzone = (function ($) {
         /**
-         * Contains all css classes used for dropzone manipulation.
-         * These classes MUST NOT have the . symbol at the beginning.
+         * Contains a list of selectors used throughout this script.
+         * @type {{}}
          */
-        var CSS = {
-            "darkenedBackground": "modal-backdrop in", // <- bootstrap classes, should not be changed
-            "darkenedDropzoneHighlight": "darkened-highlight",
-            "defaultDropzoneHighlight": "default-highlight",
-            "dropzoneDragHover": "drag-hover"
+        const SELECTOR = {
+            dropzone: '.ui-dropzone',
+            dropzone_container: '.ui-dropzone-container',
+            file_input: '.ui-input-file',
         };
 
         /**
-         * Contains all css selectors used for dropzone manipulation.
-         * Selectors MUST be declared like in css.
-         * e.g.
-         *  .this-is-a-class
-         *  #this-is-a-id
+         * Holds whether the global event listeners were added or not.
+         * @type {boolean}
          */
-        var SELECTOR = {
-            "darkenedBackground": "#il-dropzone-darkened",
-            "dropzones": ".il-dropzone"
-        };
+        let instantiated = false;
 
         /**
-         * Contains all supported dropzone types.
-         * The type MUST be equal to the full qualified class name used in php.
-         * NOTE backslashes needs to be removed.
-         * e.g. ILIAS\UI\Component\Dropzone\Standard -> Standard
+         * Holds all dropzone instances of the current page.
+         * @type {*[]}
          */
-        var DROPZONE = {
-            "standard": "Standard",
-            "wrapper": "Wrapper"
-        };
-
-        var _darkenedBackground = false;
+        let dropzones = [];
 
         /**
-         * Initializes a dropzone depending on the passed in type with the passed in options.
-         *
-         * @param {string} type the type of the dropzone
-         *                      MUST be the full qualified class name.
-         * @param {Object} options possible settings for this dropzone
+         * @param {string} dropzone_id
          */
-        var initializeDropzone = function (type, options) {
-            // console.log("INIT DROPZONE " + options.id);
-            // disable default behavior of browsers for file drops
-            $(document).on("dragenter dragstart dragend dragleave dragover drag drop", function (e) {
-                e.preventDefault();
-            });
-
-            var settings = $.extend({
-                // default settings
-                registeredSignals: [],
-                darkenedBackground: false,
-                uploadUrl: '',
-                uploadButton: null
-            }, options);
-
-            if (settings.id === undefined) {
-                throw new Error("Missing dropzone id in parameter options: options.id not found");
+        let init = function (dropzone_id) {
+            if (typeof dropzones[dropzone_id] !== 'undefined') {
+                console.error(`Error: tried initializing dropzone '${dropzone_id}' twice.`);
+                return;
             }
 
-            switch (type) {
-                case DROPZONE.standard:
-                    _initStandardDropzone(settings);
-                    break;
-                case DROPZONE.wrapper:
-                    _configureDarkenedBackground(true);
-                    _initWrapperDropzone(settings);
-                    break;
-                default:
-                    throw new Error("Unsupported dropzone type found: " + type);
-            }
+            dropzones[dropzone_id] = {
+                file_input_id: $(`#${dropzone_id}`).find(SELECTOR.file_input).attr('id'),
+            };
 
-        };
+            initDropzoneEventListeners(dropzone_id);
+            initGlobalEventListeners();
+        }
 
         /**
-         * Adds a html div to enable the darkened background, if the passed in argument is true.
-         * Sets the state of the darkened background availability to the value of the passed in argument.
-         *
-         * @param {boolean} darkenedBackground true, if the darkened background should be available
-         *
-         * @private
+         * @param {string} dropzone_id
          */
-        var _configureDarkenedBackground = function (darkenedBackground) {
-            _darkenedBackground = darkenedBackground;
-            if (!$(SELECTOR.darkenedBackground).length && darkenedBackground) {
-                $("body").prepend("<div id=" + SELECTOR.darkenedBackground.substring(1) + "></div>"); // <- str.substring(1) removes the # symbol used in css
-            }
-        };
+        let initDropzoneEventListeners = function (dropzone_id) {
+            $(`#${dropzone_id}`).on('drop', transferDroppedFilesHook);
+        }
 
-        /**
-         * Enables the highlighting on all dropzones depending on the passed in argument.
-         * Does NOT affect the highlighting of a single dropzone on drag hover.
-         *
-         * @param {boolean} darkenedBackground true to use the darkened background for highlighting, otherwise false
-         *
-         * @private
-         */
-        var _enableHighlighting = function (darkenedBackground) {
-            if (darkenedBackground) {
-                $(SELECTOR.darkenedBackground).addClass(CSS.darkenedBackground);
-                $(SELECTOR.dropzones).addClass(CSS.darkenedDropzoneHighlight);
-            } else {
-                $(SELECTOR.dropzones).addClass(CSS.defaultDropzoneHighlight);
-            }
-        };
-
-        /**
-         * Disables the highlighting of all dropzones.
-         * Does NOT affect the highlighting of a single dropzone on drag hover.
-         *
-         * @private
-         */
-        var _disableHighlighting = function () {
-            $(SELECTOR.darkenedBackground).removeClass(CSS.darkenedBackground);
-            $(SELECTOR.dropzones).removeClass(CSS.darkenedDropzoneHighlight)
-                .removeClass(CSS.defaultDropzoneHighlight);
-        };
-
-
-        /**
-         * @private functions to initialize different types of dropzones -----------------------------------
-         *
-         * Every dropzone MUST have its own init function (improves code readability).
-         * The function for the appropriate dropzone is simply called in the switch statement
-         * from the {@link initializeDropzone} function.
-         */
-
-
-        /**
-         *
-         * @param {Object} options possible settings for this dropzone
-         *                         @see {@link initializeDropzone}
-         *
-         * @private
-         */
-        var _initStandardDropzone = function (options) {
-            var $dropzone = $("#" + options.id).find(".il-dropzone");
-            // Find the element acting as "Select Files" button/link
-            var $selectFilesButton = $dropzone.find('.il-dropzone-standard-select-files-wrapper')
-                .children('a');
-            if ($selectFilesButton.length) {
-                options.selectFilesButton = $selectFilesButton;
-            }
-
-            options.fileListContainer = $dropzone.parent().prevAll('.il-upload-file-list');
-
-            il.UI.uploader.init(options.id, options);
-
-            $dropzone.dragster({
-                enter: function (dragsterEvent, event) {
-                    $(this).addClass(CSS.dropzoneDragHover);
-                },
-                leave: function (dragsterEvent, event) {
-                    $(this).removeClass(CSS.dropzoneDragHover);
-                },
-                drop: function (dragsterEvent, event) {
-                    $(this).removeClass(CSS.dropzoneDragHover);
-                    var files = event.originalEvent.dataTransfer.files;
-                    $.each(files, function (index, file) {
-                        il.UI.uploader.addFile(options.id, file);
-                    });
-                }
-            });
-        };
-
-
-        /**
-         *
-         * @param {Object} options possible settings for this dropzone
-         *                         @see {@link initializeDropzone}
-         *
-         * @private
-         */
-        var _initWrapperDropzone = function (options) {
-            var $dropzone = $("#" + options.id);
-            var topmost = ($dropzone.find(".il-dropzone").length === 1);
-
-            if (topmost) {
-                // Highlighting handler
-                $(document).dragster({
-                    enter: function (dragsterEvent, event) {
-                        _enableHighlighting(_darkenedBackground);
-                    },
-                    leave: function (dragsterEvent, event) {
-                        _disableHighlighting();
-                    },
-                    drop: function (dragsterEvent, event) {
-                        _disableHighlighting();
-                    }
+        let initGlobalEventListeners = function () {
+            if (!instantiated) {
+                $(document).on({
+                    dragover: disableDefaultEventBehaviour,
+                    drop: disableDefaultEventBehaviour,
                 });
 
-                options.fileListContainer = $dropzone.find('.il-modal-roundtrip').find('.il-upload-file-list');
-                options.uploadButton = $dropzone.find('.modal-footer button.btn-primary:first');
-
-                il.UI.uploader.init(options.id, options);
+                instantiated = true;
             }
+        }
 
-            /*
-                * event.stopImmediatePropagation() is needed
-                * to prevent dragster to fire leave events on the document,
-                * when a user just leaves on the dropzone.
-                */
-            $dropzone.dragster({
-                enter: function (dragsterEvent, event) {
-                    dragsterEvent.stopImmediatePropagation();
-                    $(this).find(".il-dropzone").addClass(CSS.dropzoneDragHover);
-                },
-                leave: function (dragsterEvent, event) {
-                    dragsterEvent.stopImmediatePropagation();
-                    $(this).find(".il-dropzone").removeClass(CSS.dropzoneDragHover);
-                },
-                drop: function (dragsterEvent, event) {
-                    $(this).find(".il-dropzone").removeClass(CSS.dropzoneDragHover);
-                    _disableHighlighting();
-                    if (!topmost) {
-                        event.stopImmediatePropagation();
-                        return false;
-                    }
-                    // Reset the uploader in case files have been dropped before, e.g.
-                    // the user drops some files, closes the modal and drops again
-                    il.UI.uploader.reset(options.id);
-                    var files = event.originalEvent.dataTransfer.files;
-                    $.each(files, function (index, file) {
-                        il.UI.uploader.addFile(options.id, file);
-                    });
-                    // This will trigger (at least) the show signal of the modal
-                    // _triggerSignals(options.registeredSignals, event, $dropzone);
+        /**
+         * @param {Event} event
+         */
+        let transferDroppedFilesHook = function (event) {
+            // prevent default drop behaviour.
+            disableDefaultEventBehaviour(event);
+
+            // dataTransfer has to be fetched by triggering event (DragEvent).
+            // there's also a console bug where dataTransfer will be shown
+            // empty in the console (in case you're debugging this).
+            let data_transfer = event.originalEvent.dataTransfer;
+            let file_count = data_transfer.files.length;
+            if (0 < file_count) {
+                for (let i = 0; i < file_count; i++) {
+                    il.UI.Input.File.renderFileEntry(
+                        data_transfer.files[i],
+                        dropzones[$(this).attr('id')].file_input_id
+                    );
                 }
-            });
+            }
+        }
 
-        };
+        /**
+         * @param {Event} event
+         */
+        let disableDefaultEventBehaviour = function (event) {
+            event.stopPropagation();
+            event.preventDefault();
+        }
 
         return {
-            initializeDropzone: initializeDropzone
-        };
-
+            init: init,
+        }
     })($);
 })($, il.UI);

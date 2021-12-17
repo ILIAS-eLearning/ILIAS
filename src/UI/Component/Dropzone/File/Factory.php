@@ -1,18 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
+use ILIAS\UI\Component\Input\Field\UploadHandler;
 use ILIAS\UI\Component\Component;
 
 /**
- * Interface Factory
- *
  * Describes a factory for file dropzones.
- *
  * @author  nmaerchy <nm@studer-raimann.ch>
  * @author  Stefan Wanzenried <sw@studer-raimann.ch>
- *
- * @package ILIAS\UI\Component\Dropzone\File
+ * @author  Thibeau Fuhrer <thibeau@sr.solutions>
  */
 interface Factory
 {
@@ -53,11 +52,14 @@ interface Factory
      *        manually from the computer.
      *
      * ---
-     * @param string $url The url where the dropped files are being uploaded
+     * @param UploadHandler $upload_handler for async file upload
+     * @param string        $post_url       for submitting the file data
      * @return \ILIAS\UI\Component\Dropzone\File\Standard
      */
-    public function standard(string $url) : Standard;
-
+    public function standard(
+        UploadHandler $upload_handler,
+        string $post_url
+    ) : Standard;
 
     /**
      * ---
@@ -85,7 +87,6 @@ interface Factory
      *      Rival 1: >
      *          A standard dropzone displays a message instead of other
      *          ILIAS UI components.
-     *
      * rules:
      *   usage:
      *     1: >
@@ -98,10 +99,14 @@ interface Factory
      *        The upload button in the modal MUST be disabled if there are no files
      *        to be uploaded.
      * ---
-     *
-     * @param string $url The url where the dropped files are being uploaded
-     * @param Component[]|Component $content Component(s) wrapped by the dropzone
+     * @param UploadHandler         $upload_handler for async file upload
+     * @param string                $post_url       for submitting the file data
+     * @param Component[]|Component $content        Component(s) wrapped by the dropzone
      * @return \ILIAS\UI\Component\Dropzone\File\Wrapper
      */
-    public function wrapper(string $url, $content) : Wrapper;
+    public function wrapper(
+        UploadHandler $upload_handler,
+        string $post_url,
+        $content
+    ) : Wrapper;
 }

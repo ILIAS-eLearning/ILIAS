@@ -1,18 +1,15 @@
-<?php declare(strict_types=1);
+<?php
+
+/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
 
 namespace ILIAS\UI\Component\Dropzone\File;
 
 use ILIAS\UI\Component\Button\Button;
 
 /**
- * Interface Standard
- *
  * A standard file dropzone offers the possibility to upload dropped files to the server.
  * The dropzone also displays a button to select the files manually from the hard disk.
- *
  * @author  nmaerchy <nm@studer-raimann.ch>
- *
- * @package ILIAS\UI\Component\Dropzone\File
  */
 interface Standard extends File
 {

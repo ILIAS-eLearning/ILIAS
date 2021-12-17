@@ -1,187 +1,109 @@
 <?php declare(strict_types=1);
 
+/* Copyright (c) 2021 Thibeau Fuhrer <thibeau@sr.solutions> Extended GPL, see docs/LICENSE */
+
 namespace ILIAS\UI\Implementation\Component\Dropzone\File;
 
-/**
- * Class Dropzone
- *
- * Basic implementation for dropzones. Provides functionality which are needed
- * for all dropzones.
- *
- * @author  nmaerchy <nm@studer-raimann.ch>
- *
- * @package ILIAS\UI\Implementation\Component\Dropzone\File
- */
-use ILIAS\Data\DataSize;
-use ILIAS\UI\Component\Signal;
+use ILIAS\UI\Component\Input\Container\Form\Standard as FormInterface;
+use ILIAS\UI\Implementation\Component\Input\Field\FileUploadAwareHelper;
+use ILIAS\UI\Component\Dropzone\File\File as FileInterface;
+use ILIAS\UI\Component\Input\Factory as InputFactory;
+use ILIAS\UI\Component\Input\Field\UploadHandler;
+use ILIAS\UI\Implementation\Component\JavaScriptBindable;
 use ILIAS\UI\Implementation\Component\ComponentHelper;
 use ILIAS\UI\Implementation\Component\Triggerer;
-use ILIAS\UI\Implementation\Component\JavaScriptBindable;
-use ILIAS\UI\Component\Droppable;
-use ILIAS\UI\Component\Dropzone\File as F;
+use ILIAS\UI\Component\Signal;
+use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Refinery\Transformation;
+use LogicException;
+use ilLanguage;
 
-abstract class File implements F\File
+/**
+ * @author Thibeau Fuhrer <thibeau@sr.solutions>
+ */
+abstract class File implements FileInterface
 {
-    use Triggerer;
-    use ComponentHelper;
+    public const JAVASCRIPT_EVENT = 'drop';
+
+    use FileUploadAwareHelper;
     use JavaScriptBindable;
+    use ComponentHelper;
+    use Triggerer;
 
-    public const DROP_EVENT = "drop"; // Name of the drop-event in JS, e.g. used with jQuery .on('drop', ...)
+    protected ?FormInterface $form = null;
+    protected InputFactory $input_factory;
+    protected ilLanguage $language;
+    protected string $post_url;
 
-    protected string $url;
-    protected array $allowed_file_types = [];
-    protected ?DataSize $file_size_limit = null;
-    protected int $max_files = 0;
-    protected bool $custom_file_names = false;
-    protected bool $file_descriptions = false;
-    protected string $parameter_name = 'files';
-
-    public function __construct(string $url)
-    {
-        $this->checkStringArg('url', $url);
-        $this->url = $url;
+    public function __construct(
+        InputFactory $input_factory,
+        ilLanguage $language,
+        UploadHandler $upload_handler,
+        string $post_url
+    ) {
+        $this->input_factory = $input_factory;
+        $this->language = $language;
+        $this->upload_handler = $upload_handler;
+        $this->post_url = $post_url;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function withUploadUrl(string $url) : F\File
+    public function getForm() : FormInterface
+    {
+        return $this->input_factory->container()->form()->standard(
+            $this->post_url,
+            [
+                $this->input_factory
+                    ->field()->file($this->upload_handler, "dropzone_file_form")
+                    ->withMaxFiles($this->getMaxFiles())
+                    ->withMaxFileSize($this->getMaxFileSize())
+                    ->withAcceptedMimeTypes($this->getAcceptedMimeTypes())
+                    ->withTemplateForDynamicInputs(
+                        $this->input_factory->field()->group([
+                            $this->input_factory->field()->text($this->language->txt('dropzone_file_title')),
+                            $this->input_factory->field()->textarea($this->language->txt('dropzone_file_description')),
+                        ])
+                    )
+                ,
+            ]
+        );
+    }
+
+    public function withRequest(ServerRequestInterface $request) : self
     {
         $clone = clone $this;
-        $clone->url = $url;
+        $clone->form = (null === $clone->form) ?
+            $clone->getForm()->withRequest($request) :
+            $clone->form->withRequest($request);
+
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getUploadUrl() : string
-    {
-        return $this->url;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withAllowedFileTypes(array $types) : F\File
+    public function withAdditionalTransformation(Transformation $transformation) : self
     {
         $clone = clone $this;
-        $clone->allowed_file_types = $types;
+        $clone->form = (null === $clone->form) ?
+            $clone->getForm()->withAdditionalTransformation($transformation) :
+            $clone->form->withAdditionalTransformation($transformation);
+
         return $clone;
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getAllowedFileTypes() : array
+    public function getData()
     {
-        return $this->allowed_file_types;
+        if (null === $this->form) {
+            throw new LogicException(static::class . " ::withRequest must be called first.");
+        }
+
+        return $this->form->getData();
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function withMaxFiles(int $max) : F\File
+    public function withOnDrop(Signal $signal) : self
     {
-        $clone = clone $this;
-        $clone->max_files = $max;
-        return $clone;
+        return $this->withTriggeredSignal($signal, self::JAVASCRIPT_EVENT);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function getMaxFiles() : int
+    public function withAdditionalDrop(Signal $signal) : self
     {
-        return $this->max_files;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withFileSizeLimit(DataSize $limit) : F\File
-    {
-        $clone = clone $this;
-        $clone->file_size_limit = $limit;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getFileSizeLimit() : ?DataSize
-    {
-        return $this->file_size_limit;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withUserDefinedFileNamesEnabled(bool $state) : F\File
-    {
-        $clone = clone $this;
-        $clone->custom_file_names = $state;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function allowsUserDefinedFileNames() : bool
-    {
-        return $this->custom_file_names;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withUserDefinedDescriptionEnabled(bool $state) : F\File
-    {
-        $clone = clone $this;
-        $clone->file_descriptions = $state;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function allowsUserDefinedFileDescriptions() : bool
-    {
-        return $this->file_descriptions;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function withParameterName(string $parameter_name) : F\File
-    {
-        $clone = clone $this;
-        $clone->parameter_name = $parameter_name;
-        return $clone;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getParameterName() : string
-    {
-        return $this->parameter_name;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function withOnDrop(Signal $signal) : Droppable
-    {
-        return $this->withTriggeredSignal($signal, self::DROP_EVENT);
-    }
-
-
-    /**
-     * @inheritDoc
-     */
-    public function withAdditionalDrop(Signal $signal) : Droppable
-    {
-        return $this->appendTriggeredSignal($signal, self::DROP_EVENT);
+        return $this->appendTriggeredSignal($signal, self::JAVASCRIPT_EVENT);
     }
 }
