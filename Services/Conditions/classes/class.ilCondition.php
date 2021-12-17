@@ -12,7 +12,7 @@ class ilCondition
     protected ilConditionTrigger $trigger;
     protected string $operator;
     protected ?string $value;
-    protected bool $obligatory;
+    protected ?bool $obligatory = null;
     protected int $id;
 
     /**
@@ -47,7 +47,7 @@ class ilCondition
         return $clone;
     }
 
-    public function getObligatory() : bool
+    public function getObligatory() : ?bool
     {
         return $this->obligatory;
     }

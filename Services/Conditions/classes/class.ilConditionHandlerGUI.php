@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 use ILIAS\Refinery\Factory;
@@ -14,6 +15,10 @@ use ILIAS\HTTP\GlobalHttpState;
  */
 class ilConditionHandlerGUI
 {
+    private const LIST_MODE_UNDEFINED = 'undefined';
+    private const LIST_MODE_ALL = 'all';
+    private const LIST_MODE_SUBSET = 'subset';
+
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
@@ -24,7 +29,6 @@ class ilConditionHandlerGUI
     protected ilObjectDefinition $objectDefinition;
     private GlobalHttpState $http;
     private Factory $refinery;
-
 
     protected ilConditionHandler $ch_obj;
     protected ?ilObject $target_obj = null;
@@ -89,6 +93,46 @@ class ilConditionHandlerGUI
             );
         }
         return new SplFixedArray(0);
+    }
+
+    protected function initItemIdsFromPost() : SplFixedArray
+    {
+        if ($this->http->wrapper()->post()->has('item_ids')) {
+            return SplFixedArray::fromArray(
+                $this->http->wrapper()->post()->retrieve(
+                    'item_ids',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        return new SplFixedArray(0);
+    }
+
+    protected function initObligatoryItemsFromPost() : SplFixedArray
+    {
+        if ($this->http->wrapper()->post()->has('obl')) {
+            return SplFixedArray::fromArray(
+                $this->http->wrapper()->post()->retrieve(
+                    'obl',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        return new SplFixedArray(0);
+    }
+
+    protected function initListModeFromPost() : string
+    {
+        if ($this->http->wrapper()->post()->has('list_mode')) {
+            $this->http->wrapper()->post()->retrieve(
+                'list_mode',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
 
     }
 
@@ -269,12 +313,13 @@ class ilConditionHandlerGUI
             $this->getTargetId(),
             $this->getTargetType()
         );
+        $list_mode = $this->initListModeFromPost();
         if (count($optional_conditions)) {
-            if (!$_REQUEST["list_mode"]) {
-                $_REQUEST["list_mode"] = "subset";
+            if ($list_mode == self::LIST_MODE_UNDEFINED) {
+                $list_mode = self::LIST_MODE_SUBSET;
             }
-        } elseif (!$_REQUEST["list_mode"]) {
-            $_REQUEST["list_mode"] = "all";
+        } elseif ($list_mode == self::LIST_MODE_UNDEFINED) {
+            $list_mode = self::LIST_MODE_ALL;
         }
 
         // Show form only if conditions are availabe
@@ -284,13 +329,13 @@ class ilConditionHandlerGUI
             $this->getTargetType()
         ))
         ) {
-            $form = $this->showObligatoryForm($optional_conditions);
+            $form = $this->showObligatoryForm($optional_conditions, $list_mode);
             if ($form instanceof ilPropertyFormGUI) {
                 $this->tpl->setVariable('TABLE_SETTINGS', $form->getHTML());
             }
         }
 
-        $table = new ilConditionHandlerTableGUI($this, 'listConditions', ($_REQUEST["list_mode"] != "all"));
+        $table = new ilConditionHandlerTableGUI($this, 'listConditions', $list_mode == self::LIST_MODE_ALL);
         $table->setConditions(
             ilConditionHandler::_getPersistedConditionsOfTarget(
                 $this->getTargetRefId(),
@@ -370,14 +415,15 @@ class ilConditionHandlerGUI
             $this->getTargetType()
         );
 
-        if ($_POST["obl"] && sizeof($_POST["obl"]) > sizeof($all_conditions) - 2) {
+        $obligatory_ids = $this->initObligatoryItemsFromPost();
+        if (count($obligatory_ids) > count($all_conditions) - 2) {
             ilUtil::sendFailure($this->lng->txt("rbac_precondition_minimum_optional"), true);
             $this->ctrl->redirect($this, 'listConditions');
         }
 
         foreach ($all_conditions as $item) {
             $status = false;
-            if ($_POST["obl"] && in_array($item["condition_id"], $_POST["obl"])) {
+            if (in_array($item['condition_id'], $obligatory_ids)) {
                 $status = true;
             }
             ilConditionHandler::updateObligatory($item["condition_id"], $status);
@@ -399,9 +445,9 @@ class ilConditionHandlerGUI
      * Show obligatory form
      * @return ilPropertyFormGUI|null
      */
-    protected function showObligatoryForm($opt = array()) : ?ilPropertyFormGUI
+    protected function showObligatoryForm($opt = array(), string $list_mode = self::LIST_MODE_ALL) : ?ilPropertyFormGUI
     {
-        if (!$this->objectDefinition->isRbacObject($this->getTargetType())) {
+        if (!$this->objectDefinition->isRBACObject($this->getTargetType())) {
             return null;
         }
 
@@ -426,7 +472,7 @@ class ilConditionHandlerGUI
 
         $mode = new ilRadioGroupInputGUI($this->lng->txt("rbac_precondition_mode"), "list_mode");
         $form->addItem($mode);
-        $mode->setValue($_REQUEST["list_mode"]);
+        $mode->setValue($list_mode);
 
         $mall = new ilRadioOption($this->lng->txt("rbac_precondition_mode_all"), "all");
         $mall->setInfo($this->lng->txt("rbac_precondition_mode_all_info"));
@@ -454,13 +500,13 @@ class ilConditionHandlerGUI
         }
 
         $old_mode = new ilHiddenInputGUI("old_list_mode");
-        $old_mode->setValue($_REQUEST["list_mode"]);
+        $old_mode->setValue($list_mode);
         $form->addItem($old_mode);
 
         return $form;
     }
 
-    public function edit() : void
+    public function edit(?ilPropertyFormGUI $form = null) : void
     {
         $condition_id = $this->initConditionIdFromQuery();
         if (!$condition_id) {
@@ -470,7 +516,10 @@ class ilConditionHandlerGUI
         }
         $this->ctrl->setParameter($this, 'condition_id', $condition_id);
         $condition = ilConditionHandler::_getCondition($condition_id);
-        $form = $this->initFormCondition($condition['trigger_ref_id'], $condition_id, 'edit');
+
+        if (!$form instanceof ilPropertyFormGUI) {
+            $form = $this->initFormCondition($condition['trigger_ref_id'], $condition_id, 'edit');
+        }
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -482,17 +531,29 @@ class ilConditionHandlerGUI
             $this->listConditions();
             return;
         }
-
         // Update condition
         $condition_handler = new ilConditionHandler();
         $condition = ilConditionHandler::_getCondition($condition_id);
-        $condition_handler->setOperator($_POST['operator']);
-        $condition_handler->setObligatory((int) $_POST['obligatory']);
+
+        $form = $this->initFormCondition(
+            $condition['trigger_ref_id'],
+            $condition_id,
+            'edit'
+        );
+
+        if (!$form->checkInput()) {
+            ilUtil::sendFailure($this->lng->txt('err_check_input'));
+            $this->edit($form);
+            return;
+        }
+
+        $condition_handler->setOperator((string) $form->getInput('operator'));
+        $condition_handler->setObligatory((string) $form->getInput('obligatory'));
         $condition_handler->setTargetRefId($this->getTargetRefId());
         $condition_handler->setValue('');
         switch ($this->getTargetType()) {
             case 'st':
-                $condition_handler->setReferenceHandlingType($_POST['ref_handling']);
+                $condition_handler->setReferenceHandlingType($form->getInput('ref_handling'));
                 break;
 
             default:
@@ -509,13 +570,13 @@ class ilConditionHandlerGUI
             if ($collection) {
                 $collection->delete();
             }
-
-            if (is_array($_POST['item_ids'])) { // #12901
-                $collection->activateEntries($_POST['item_ids']);
+            $item_ids = $this->initItemIdsFromPost();
+            if (count($item_ids)) { // #12901
+                $collection->activateEntries($item_ids);
             }
             ilLPStatusWrapper::_refreshStatus($condition['trigger_obj_id']);
         }
-        ilUtil::sendSuccess($this->lng->txt('settings_saved'));
+        ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
         $this->ctrl->redirect($this, 'listConditions');
     }
 
@@ -585,7 +646,7 @@ class ilConditionHandlerGUI
         }
     }
 
-    public function add() : void
+    public function add(?ilPropertyFormGUI $form = null) : void
     {
         $source_id = $this->initSourceIdFromQuery();
         if (!$source_id) {
@@ -593,7 +654,9 @@ class ilConditionHandlerGUI
             $this->selector();
             return;
         }
-        $form = $this->initFormCondition($source_id, 0, 'add');
+        if (!$form instanceof ilPropertyFormGUI) {
+            $form = $this->initFormCondition($source_id, 0, 'add');
+        }
         $this->tpl->setContent($form->getHTML());
     }
 
@@ -608,19 +671,20 @@ class ilConditionHandlerGUI
             $this->selector();
             return;
         }
-        if (!$_POST['operator']) {
+
+        $form = $this->initFormCondition($source_id, 0, 'add');
+        if (!$form->checkInput()) {
             ilUtil::sendFailure($this->lng->txt('err_check_input'));
-            $this->add();
+            $this->add($form);
             return;
         }
-
         $this->ch_obj->setTargetRefId($this->getTargetRefId());
         $this->ch_obj->setTargetObjId($this->getTargetId());
         $this->ch_obj->setTargetType($this->getTargetType());
 
         switch ($this->getTargetType()) {
             case 'st':
-                $this->ch_obj->setReferenceHandlingType($_POST['ref_handling']);
+                $this->ch_obj->setReferenceHandlingType($form->getInput('ref_handling'));
                 break;
 
             default:
@@ -628,28 +692,26 @@ class ilConditionHandlerGUI
                 break;
         }
         // this has to be changed, if non referenced trigger are implemted
-        if (!$trigger_obj = ilObjectFactory::getInstanceByRefId($source_id, false)) {
-            echo 'ilConditionHandler: Trigger object does not exist';
-        }
+        $trigger_obj = ilObjectFactory::getInstanceByRefId($source_id);
         $this->ch_obj->setTriggerRefId($trigger_obj->getRefId());
         $this->ch_obj->setTriggerObjId($trigger_obj->getId());
         $this->ch_obj->setTriggerType($trigger_obj->getType());
-        $this->ch_obj->setOperator($_POST['operator']);
-        $this->ch_obj->setObligatory((int) $_POST['obligatory']);
+        $this->ch_obj->setOperator($form->getInput('operator'));
+        $this->ch_obj->setObligatory($form->getInput('obligatory'));
         $this->ch_obj->setHiddenStatus(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
         $this->ch_obj->setValue('');
 
         // Save assigned sco's
         if ($this->ch_obj->getTriggerType() == 'sahs') {
-
             $olp = ilObjectLP::getInstance($this->ch_obj->getTriggerObjId());
             $collection = $olp->getCollectionInstance();
             if ($collection) {
                 $collection->delete();
             }
 
-            if (is_array($_POST['item_ids'])) { // #12901
-                $collection->activateEntries($_POST['item_ids']);
+            $items_ids = $this->initItemIdsFromPost();
+            if (count($items_ids)) { // #12901
+                $collection->activateEntries($items_ids);
             }
         }
         $this->ch_obj->enableAutomaticValidation($this->getAutomaticValidation());
@@ -659,18 +721,6 @@ class ilConditionHandlerGUI
             ilUtil::sendSuccess($this->lng->txt('added_new_condition'), true);
         }
         $this->ctrl->redirect($this, 'listConditions');
-    }
-
-    public function chi_update() : void
-    {
-        foreach ($this->__getConditionsOfTarget() as $condition) {
-            $this->ch_obj->setOperator($_POST['operator'][$condition["id"]]);
-            $this->ch_obj->setValue($_POST['value'][$condition["id"]]);
-            $this->ch_obj->updateCondition($condition['id']);
-        }
-        ilUtil::sendSuccess($this->lng->txt('conditions_updated'));
-
-        $this->ctrl->returnToParent($this);
     }
 
     public function __getConditionsOfTarget() : array
