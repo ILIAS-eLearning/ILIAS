@@ -325,7 +325,7 @@ class ilSetupLanguage extends ilLanguage
      *
      * @return bool|string[]
      */
-    protected function cut_header(array $content) :
+    protected function cut_header(array $content)
     {
         foreach ($content as $key => $val) {
             if (trim($val) == "<!-- language file start -->") {
