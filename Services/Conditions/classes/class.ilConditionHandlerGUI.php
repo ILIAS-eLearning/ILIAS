@@ -1,6 +1,9 @@
 <?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\Refinery\Factory;
+use ILIAS\HTTP\GlobalHttpState;
+
 /**
  * class ilConditionHandlerGUI
  * @author       Stefan Meyer <meyer@leifos.com>
@@ -19,6 +22,9 @@ class ilConditionHandlerGUI
     protected ilToolbarGUI $toolbar;
     protected ilConditionUtil $conditionUtil;
     protected ilObjectDefinition $objectDefinition;
+    private GlobalHttpState $http;
+    private Factory $refinery;
+
 
     protected ilConditionHandler $ch_obj;
     protected ?ilObject $target_obj = null;
@@ -47,6 +53,8 @@ class ilConditionHandlerGUI
         $this->toolbar = $DIC->toolbar();
         $this->conditionUtil = $DIC->conditions()->util();
         $this->objectDefinition = $DIC['objDefinition'];
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
 
         if ($a_ref_id) {
             $target_obj = ilObjectFactory::getInstanceByRefId($a_ref_id);
@@ -55,6 +63,44 @@ class ilConditionHandlerGUI
             $this->setTargetType($target_obj->getType());
             $this->setTargetTitle($target_obj->getTitle());
         }
+    }
+
+    protected function initConditionIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('condition_id')) {
+            $this->http->wrapper()->query()->retrieve(
+                'condition_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
+    protected function initConditionsIdsFromPost() : SplFixedArray
+    {
+        if ($this->http->wrapper()->post()->has('conditions')) {
+            return SplFixedArray::fromArray(
+                $this->http->wrapper()->post()->retrieve(
+                    'conditions',
+                    $this->refinery->kindlyTo()->listOf(
+                        $this->refinery->kindlyTo()->int()
+                    )
+                )
+            );
+        }
+        return new SplFixedArray(0);
+
+    }
+
+    protected function initSourceIdFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('source_id')) {
+            $this->http->wrapper()->query()->retrieve(
+                'source_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
     }
 
     /**
@@ -416,32 +462,22 @@ class ilConditionHandlerGUI
 
     public function edit() : void
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
-
-        if (!$_GET['condition_id']) {
+        $condition_id = $this->initConditionIdFromQuery();
+        if (!$condition_id) {
             ilUtil::sendFailure("Missing id: condition_id");
             $this->listConditions();
             return;
         }
-        $condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
-
-        $this->tpl->addBlockfile(
-            'ADM_CONTENT',
-            'adm_content',
-            'tpl.condition_handler_edit_condition.html',
-            "Services/AccessControl"
-        );
-        $this->ctrl->setParameter($this, 'condition_id', (int) $_GET['condition_id']);
-
-        $form = $this->initFormCondition($condition['trigger_ref_id'], (int) $_GET['condition_id'], 'edit');
-        $this->tpl->setVariable('CONDITION_TABLE', $form->getHTML());
+        $this->ctrl->setParameter($this, 'condition_id', $condition_id);
+        $condition = ilConditionHandler::_getCondition($condition_id);
+        $form = $this->initFormCondition($condition['trigger_ref_id'], $condition_id, 'edit');
+        $this->tpl->setContent($form->getHTML());
     }
 
     public function updateCondition() : void
     {
-        if (!$_GET['condition_id']) {
+        $condition_id = $this->initConditionIdFromQuery();
+        if (!$condition_id) {
             ilUtil::sendFailure("Missing id: condition_id");
             $this->listConditions();
             return;
@@ -449,7 +485,7 @@ class ilConditionHandlerGUI
 
         // Update condition
         $condition_handler = new ilConditionHandler();
-        $condition = ilConditionHandler::_getCondition((int) $_GET['condition_id']);
+        $condition = ilConditionHandler::_getCondition($condition_id);
         $condition_handler->setOperator($_POST['operator']);
         $condition_handler->setObligatory((int) $_POST['obligatory']);
         $condition_handler->setTargetRefId($this->getTargetRefId());
@@ -485,7 +521,8 @@ class ilConditionHandlerGUI
 
     public function askDelete() : void
     {
-        if (!count($_POST['conditions'])) {
+        $condition_ids = $this->initConditionsIdsFromPost();
+        if (!count($condition_ids)) {
             ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
             $this->listConditions();
             return;
@@ -499,7 +536,7 @@ class ilConditionHandlerGUI
         $cgui->setConfirm($this->lng->txt("delete"), "delete");
 
         // list conditions that should be deleted
-        foreach ($_POST['conditions'] as $condition_id) {
+        foreach ($condition_ids as $condition_id) {
             $condition = ilConditionHandler::_getCondition($condition_id);
 
             $title = ilObject::_lookupTitle($condition['trigger_obj_id']) .
@@ -516,13 +553,14 @@ class ilConditionHandlerGUI
 
     public function delete() : void
     {
-        if (!count($_POST['conditions'])) {
+        $condition_ids = $this->initConditionsIdsFromPost();
+        if (!count($condition_ids)) {
             ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
             $this->listConditions();
             return;
         }
 
-        foreach ($_POST['conditions'] as $condition_id) {
+        foreach ($condition_ids as $condition_id) {
             $this->ch_obj->deleteCondition($condition_id);
         }
         ilUtil::sendSuccess($this->lng->txt('condition_deleted'), true);
@@ -549,19 +587,14 @@ class ilConditionHandlerGUI
 
     public function add() : void
     {
-        if (!$_GET['source_id']) {
+        $source_id = $this->initSourceIdFromQuery();
+        if (!$source_id) {
             ilUtil::sendFailure("Missing id: condition_id");
             $this->selector();
             return;
         }
-        $form = $this->initFormCondition((int) $_GET['source_id'], 0, 'add');
-        $this->tpl->addBlockFile(
-            'ADM_CONTENT',
-            'adm_content',
-            'tpl.condition_handler_add.html',
-            "Services/AccessControl"
-        );
-        $this->tpl->setVariable('CONDITION_TABLE', $form->getHTML());
+        $form = $this->initFormCondition($source_id, 0, 'add');
+        $this->tpl->setContent($form->getHTML());
     }
 
     /**
@@ -569,9 +602,10 @@ class ilConditionHandlerGUI
      */
     public function assign() : void
     {
-        if (!isset($_GET['source_id'])) {
-            echo "class.ilConditionHandlerGUI: no source_id given";
-
+        $source_id = $this->initSourceIdFromQuery();
+        if (!$source_id) {
+            ilUtil::sendFailure($this->lng->txt('no_condition_selected'));
+            $this->selector();
             return;
         }
         if (!$_POST['operator']) {
@@ -594,7 +628,7 @@ class ilConditionHandlerGUI
                 break;
         }
         // this has to be changed, if non referenced trigger are implemted
-        if (!$trigger_obj = ilObjectFactory::getInstanceByRefId((int) $_GET['source_id'], false)) {
+        if (!$trigger_obj = ilObjectFactory::getInstanceByRefId($source_id, false)) {
             echo 'ilConditionHandler: Trigger object does not exist';
         }
         $this->ch_obj->setTriggerRefId($trigger_obj->getRefId());
