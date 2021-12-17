@@ -4,8 +4,7 @@
 
 /**
  * Interface for ilObject dependency
- *
- * @author killing@leifos.de
+ * @author  killing@leifos.de
  * @ingroup ServicesConditions
  */
 interface ilConditionObjectAdapterInterface

@@ -4,8 +4,7 @@
 
 /**
  * Interface for containers that take over control of conditions for repository object targets
- *
- * @author @leifos.de
+ * @author  @leifos.de
  * @ingroup ServicesCondition
  */
 interface ilConditionControllerInterface

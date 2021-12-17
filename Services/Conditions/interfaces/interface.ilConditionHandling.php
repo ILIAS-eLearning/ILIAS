@@ -4,7 +4,6 @@
 
 /**
  * Interface for condition handling
- *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  */
 interface ilConditionHandling
@@ -19,5 +18,10 @@ interface ilConditionHandling
     /**
      * check condition for a specific user and object
      */
-    public static function checkCondition(int $a_trigger_obj_id, string $a_operator, string $a_value, int $a_usr_id) : bool;
+    public static function checkCondition(
+        int $a_trigger_obj_id,
+        string $a_operator,
+        string $a_value,
+        int $a_usr_id
+    ) : bool;
 }

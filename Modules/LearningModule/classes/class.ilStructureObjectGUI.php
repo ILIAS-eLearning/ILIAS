@@ -477,7 +477,7 @@ class ilStructureObjectGUI extends ilLMObjectGUI
 
     public function initConditionHandlerInterface() : void
     {
-        $this->condHI = new ilConditionHandlerGUI($this);
+        $this->condHI = new ilConditionHandlerGUI();
         $this->condHI->setBackButtons(array());
         $this->condHI->setAutomaticValidation(false);
         $this->condHI->setTargetType("st");
