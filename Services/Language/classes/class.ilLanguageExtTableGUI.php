@@ -44,7 +44,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow(array $data) : void
+    protected function fillRow($data) : void
     {
         global $DIC;
         $ilDB = $DIC->database();

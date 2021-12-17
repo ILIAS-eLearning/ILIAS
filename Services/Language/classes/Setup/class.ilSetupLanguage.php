@@ -323,8 +323,9 @@ class ilSetupLanguage extends ilLanguage
      *
      * $content    expect an ILIAS lang-file
      *
+     * @return bool|string[]
      */
-    protected function cut_header(array $content) : array|bool
+    protected function cut_header(array $content)
     {
         foreach ($content as $key => $val) {
             if (trim($val) == "<!-- language file start -->") {
