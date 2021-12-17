@@ -507,6 +507,7 @@ class SurveyQuestion
 
             $this->log->debug("UPDATE svy_question id=" . $this->getId() . " SET: title=" . $this->getTitle() . " ...");
         }
+        return $affectedRows;
     }
     
     public function saveMaterial() : void

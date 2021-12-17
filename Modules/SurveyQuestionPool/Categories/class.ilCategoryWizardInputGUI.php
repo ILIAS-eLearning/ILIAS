@@ -202,7 +202,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
             // check neutral column
             if (array_key_exists('neutral', $foundvalues)) {
-                if ((strlen($foundvalues['neutral']) == 0) && ($this->getRequired)) {
+                if ((strlen($foundvalues['neutral']) == 0) && ($this->getRequired())) {
                     $this->setAlert($lng->txt("msg_input_is_required"));
                     return false;
                 }
@@ -338,7 +338,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("prop_scale_neutral_propval");
-            $scale = ($neutral_category->scale > 0) ? $neutral_category->scale : $this->values->getNewScale();
+            $scale = (is_object($neutral_category) && $neutral_category->scale > 0) ? $neutral_category->scale : $this->values->getNewScale();
             $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($scale));
             $tpl->parseCurrentBlock();
 

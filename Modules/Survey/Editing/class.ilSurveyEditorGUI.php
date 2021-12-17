@@ -95,7 +95,6 @@ class ilSurveyEditorGUI
                 if (stristr($next_class, "questiongui")) {
                     $ilTabs->clearTargets();
                     $this->ctrl->saveParameter($this, array("new_for_survey"));
-                    
                     $q_gui = SurveyQuestionGUI::_getQuestionGUI(null, $_REQUEST["q_id"]);
                     if (is_object($q_gui->object)) {
                         $ilHelp = $this->help;

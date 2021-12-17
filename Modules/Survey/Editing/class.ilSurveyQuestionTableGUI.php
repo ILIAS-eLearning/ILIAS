@@ -213,7 +213,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("DESCRIPTION", $a_set["description"]);
                 $this->tpl->setVariable("TYPE", $a_set["question_type"]);
                 $this->tpl->setVariable("AUTHOR", $a_set["author"]);
-                $this->tpl->setVariable("POOL", $a_set["pool"]);
+                $this->tpl->setVariable("POOL", $a_set["pool"] ?? "");
                 
                 if ($a_set["heading"]) {
                     $this->tpl->setCurrentBlock("heading");
@@ -236,7 +236,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                     }
 
                     // order
-                    if ($a_set["position"]) {
+                    if ($a_set["position"] ?? false) {
                         $this->tpl->setCurrentBlock("order");
                         if (!$a_set["block_id"]) {
                             $this->tpl->setVariable("ORDER_NAME", "order[q_" . $a_set["id"] . "]");

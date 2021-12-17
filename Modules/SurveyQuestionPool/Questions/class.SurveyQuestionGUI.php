@@ -86,7 +86,7 @@ abstract class SurveyQuestionGUI
      * @todo move to factory
      */
     public static function _getQuestionGUI(
-        string $questiontype,
+        ?string $questiontype,
         int $question_id = -1
     ) : SurveyQuestionGUI {
         if ((!$questiontype) and ($question_id > 0)) {
