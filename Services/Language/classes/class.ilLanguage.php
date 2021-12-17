@@ -26,7 +26,7 @@
 class ilLanguage
 {
     public $ilias;
-    public array $text;
+    public array $text = [];
     public string $lang_default;
     public string $lang_user;
     public string $lang_path;
@@ -332,7 +332,7 @@ class ilLanguage
 
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
-            return $row->obj_id;
+            return (int) $row->obj_id;
         }
         return 0;
     }
@@ -429,7 +429,7 @@ class ilLanguage
      *
      * $a_lang_key language key or array of language keys
      */
-    public function toJS(string|array $a_lang_key, ilGlobalTemplateInterface $a_tpl = null) : void
+    public function toJS(string | array $a_lang_key, ilGlobalTemplateInterface $a_tpl = null) : void
     {
         global $DIC;
         $tpl = $DIC["tpl"];
