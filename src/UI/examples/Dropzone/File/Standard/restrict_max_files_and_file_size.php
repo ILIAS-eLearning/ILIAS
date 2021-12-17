@@ -2,7 +2,7 @@
 
 namespace ILIAS\UI\examples\Dropzone\File\Standard;
 
-function with_custom_file_metadata()
+function restrict_max_files_and_file_size()
 {
     global $DIC;
 
@@ -11,9 +11,10 @@ function with_custom_file_metadata()
     $dropzone = $factory
         ->dropzone()->file()->standard(
             (new \ilUIAsyncDemoFileUploadHandlerGUI()),
-            '#',
-            $factory->input()->field()->text('title or something')
+            '#'
         )
+        ->withMaxFiles(2)
+        ->withMaxFileSize(2048)
         ->withUploadButton(
             $factory->button()->shy('Upload files', '#')
         )
