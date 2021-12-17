@@ -28,8 +28,8 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
 {
     protected ilLanguage $lng;
     protected SkillAdminGUIRequest $admin_gui_request;
-    protected int $requested_obj_id;
-    protected int $requested_tref_id;
+    protected int $requested_skill_node_id = 0;
+    protected int $requested_tref_id = 0;
 
     /**
      * @param object|string[] $a_parent_obj
@@ -44,7 +44,7 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd);
 
-        $this->requested_obj_id = $this->admin_gui_request->getObjId();
+        $this->requested_skill_node_id = $this->admin_gui_request->getNodeId();
         $this->requested_tref_id = $this->admin_gui_request->getTrefId();
 
         // node should be hidden #26849 (not not hidden, see discussion in #26813 and JF 6 Jan 2020)
@@ -127,19 +127,19 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         $id_parts = explode(":", $a_node["id"]);
         if ($id_parts[1] == 0) {
             // skill in main tree
-            $skill_id = $a_node["id"];
-            $tref_id = 0;
+            $skill_id = $id_parts[0];
+            $tref_id = $id_parts[1];
         } else {
             // skill in template
             $tref_id = $id_parts[0];
             $skill_id = $id_parts[1];
         }
 
-        if ($this->requested_obj_id == "" && $a_node["type"] == "skrt") {
+        if ($this->requested_skill_node_id == "" && $a_node["type"] == "skrt") {
             return true;
         }
         
-        if ($skill_id == $this->requested_obj_id &&
+        if ($skill_id == $this->requested_skill_node_id &&
             ($this->requested_tref_id == $tref_id)) {
             return true;
         }
@@ -156,8 +156,8 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         $id_parts = explode(":", $a_node["id"]);
         if ($id_parts[1] == 0) {
             // skill in main tree
-            $skill_id = $a_node["id"];
-            $tref_id = 0;
+            $skill_id = $id_parts[0];
+            $tref_id = $id_parts[1];
         } else {
             // skill in template
             $tref_id = $id_parts[0];
@@ -186,9 +186,9 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         $cmd = $cmd[$a_node["type"]];
         
         $ilCtrl->setParameterByClass($gui_class, "tref_id", $tref_id);
-        $ilCtrl->setParameterByClass($gui_class, "obj_id", $skill_id);
+        $ilCtrl->setParameterByClass($gui_class, "node_id", $skill_id);
         $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI", $gui_class], $cmd);
-        $ilCtrl->setParameterByClass($gui_class, "obj_id", $this->requested_obj_id);
+        $ilCtrl->setParameterByClass($gui_class, "node_id", $this->requested_skill_node_id);
         $ilCtrl->setParameterByClass($gui_class, "tref_id", $this->requested_tref_id);
 
         return $ret;

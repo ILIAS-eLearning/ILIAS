@@ -37,6 +37,10 @@ class ilAuthShibbolethSettingsGUI
      */
     private $ref_id;
 
+    protected ilComponentRepository $component_repository;
+    
+    private ilAccess $access;
+
 
     /**
      *
@@ -53,6 +57,7 @@ class ilAuthShibbolethSettingsGUI
         $ilTabs = $DIC['ilTabs'];
         $ilias = $DIC['ilias'];
         $this->ctrl = $ilCtrl;
+        $this->access = $DIC['ilAccess'];
         $this->tabs_gui = $ilTabs;
         $this->lng = $lng;
         $this->lng->loadLanguageModule('shib');
@@ -60,6 +65,7 @@ class ilAuthShibbolethSettingsGUI
         $this->tpl = $tpl;
         $this->ref_id = $a_auth_ref_id;
         $this->obj_id = ilObject::_lookupObjId($this->ref_id);
+        $this->component_repository = $DIC["component.repository"];
     }
 
 
@@ -147,7 +153,11 @@ class ilAuthShibbolethSettingsGUI
         $propertys = new ilPropertyFormGUI();
         $propertys->setTitle($this->lng->txt("shib"));
         $propertys->setFormAction($this->ctrl->getFormAction($this, "save"));
-        $propertys->addCommandButton("save", $this->lng->txt("save"));
+
+        if ($this->access->checkAccess('write', '', $this->ref_id)) {
+            $propertys->addCommandButton("save", $this->lng->txt("save"));
+        }
+
         $propertys->addCommandButton("settings", $this->lng->txt("cancel"));
         //set enable shibboleth support
         $enable = new ilCheckboxInputGUI();
@@ -491,7 +501,7 @@ class ilAuthShibbolethSettingsGUI
         $value->setSize(32);
         $attr->addSubItem($value);
         $kind->addOption($attr);
-        $pl_active = (bool) $this->hasActiveRoleAssignmentPlugins();
+        $pl_active = $this->component_repository->getPluginSlotById('shibhk')->hasActivePlugins();
         $pl = new ilRadioOption($this->lng->txt('shib_plugin'), 2);
         $pl->setInfo($this->lng->txt('shib_plugin_info'));
         $pl->setDisabled(!$pl_active);
@@ -737,21 +747,6 @@ class ilAuthShibbolethSettingsGUI
         unset($_SESSION['shib_role_ass']);
         $this->roleAssignment();
     }
-
-
-    /**
-     * Check if plugin is active
-     *
-     * @return
-     */
-    private function hasActiveRoleAssignmentPlugins()
-    {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
-        return count($ilPluginAdmin->getActivePluginsForSlot(IL_COMP_SERVICE, 'AuthShibboleth', 'shibhk'));
-    }
-
 
     private function prepareRoleSelect($a_as_select = true)
     {

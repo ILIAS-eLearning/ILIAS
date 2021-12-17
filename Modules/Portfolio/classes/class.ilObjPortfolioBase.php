@@ -427,6 +427,11 @@ abstract class ilObjPortfolioBase extends ilObject2
             $a_target->setStyleSheetId($new_id);
             $a_target->update();
         }
+
+        // container settings
+        foreach (ilContainer::_getContainerSettings($a_source->getId()) as $keyword => $value) {
+            ilContainer::_writeContainerSetting($a_target->getId(), $keyword, $value);
+        }
     }
 
     /**
@@ -457,7 +462,30 @@ abstract class ilObjPortfolioBase extends ilObject2
         }
         
         self::cloneBasics($a_source, $a_target);
-        
+
+        // copy advanced metadata
+        $copy_id = ilCopyWizardOptions::_allocateCopyId();
+        ilAdvancedMDValues::_cloneValues($copy_id, $a_source->getId(), $a_target->getId());
+
+        // fix metadata record type assignment
+        // e.g. if portfolio is created from template
+        // we need to change this from prtt to prtf
+        foreach (\ilAdvancedMDRecord::_getSelectedRecordsByObject(
+            ilObject::_lookupType($a_source->getId()),
+            $a_target->getId(),
+            "pfpg",
+            false
+        ) as $rec) {
+            $rec->setAssignedObjectTypes(
+                [[
+                    "obj_type" => ilObject::_lookupType($a_target->getId()),
+                    "sub_type" => "pfpg",
+                    "optional" => 0
+                ]]
+            );
+            $rec->update();
+        }
+
         // personal skills
         $pskills = array_keys(ilPersonalSkill::getSelectedUserSkills($ilUser->getId()));
         
@@ -530,9 +558,14 @@ abstract class ilObjPortfolioBase extends ilObject2
 
                 // page editor
                 default:
-                    $target_page->setXMLContent($source_page->copyXmlContent(true)); // copy mobs
+                    $target_page->setXMLContent(
+                        $source_page->copyXmlContent(
+                            true,
+                            $a_target->getId(),
+                            $copy_id
+                        )
+                    );
                     $target_page->buildDom(true);
-
 
                     // parse content / blocks
 
@@ -589,7 +622,6 @@ abstract class ilObjPortfolioBase extends ilObject2
                 $page_map[$source_page->getId()] = $target_page->getId();
             }
         }
-
         ilPortfolioPage::updateInternalLinks($page_map, $a_target);
     }
         

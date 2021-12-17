@@ -153,7 +153,7 @@ class ilSamlIdp
 
         /** @var $metadata ilSamlIdpMetadataInputGUI */
         $metadata = $form->getItemByPostVar('metadata');
-        $this->setEntityId($metadata->getIdpMetadataParser()->getEntityId());
+        $this->setEntityId($metadata->getValue());
     }
 
     public static function isAuthModeSaml(string $a_auth_mode) : bool

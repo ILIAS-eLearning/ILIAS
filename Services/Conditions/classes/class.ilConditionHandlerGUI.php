@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 
@@ -59,7 +59,7 @@ class ilConditionHandlerGUI
         $this->tree = $tree;
         
         if ($a_ref_id) {
-            $this->target_obj = &ilObjectFactory::getInstanceByRefId($a_ref_id);
+            $this->target_obj = ilObjectFactory::getInstanceByRefId($a_ref_id);
         } else {
             $this->target_obj = &$this->gui_obj->object;
         }
@@ -83,7 +83,7 @@ class ilConditionHandlerGUI
         switch ($a_operator) {
             case ilConditionHandler::OPERATOR_LP:
                 $GLOBALS['DIC']['lng']->loadLanguageModule('trac');
-                include_once './Services/Tracking/classes/class.ilLPObjSettings.php';
+
                 $obj_settings = new ilLPObjSettings($a_obj_id);
                 return ilLPObjSettings::_mode2Text($obj_settings->getMode());
             
@@ -326,7 +326,7 @@ class ilConditionHandlerGUI
             
             $cond = new ilConditionHandler();
             $cond->setTargetRefId($this->getTargetRefId());
-            $cond->updateHiddenStatus((int) $form->getInput('hidden'));
+            $cond->updateHiddenStatus((bool) $form->getInput('hidden'));
             
             ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
             $this->ctrl->redirect($this, 'listConditions');
@@ -394,7 +394,7 @@ class ilConditionHandlerGUI
         
         $all = ilConditionHandler::_getPersistedConditionsOfTarget($this->getTargetRefId(), $this->getTargetId());
         
-        include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
+
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this), 'listConditions');
         $form->setTitle($this->lng->txt('precondition_obligatory_settings'));
@@ -402,7 +402,7 @@ class ilConditionHandlerGUI
         
         $hide = new ilCheckboxInputGUI($this->lng->txt('rbac_precondition_hide'), 'hidden');
         $hide->setChecked(ilConditionHandler::lookupPersistedHiddenStatusByTarget($this->getTargetRefId()));
-        $hide->setValue(1);
+        $hide->setValue("1");
         $hide->setInfo($this->lng->txt('rbac_precondition_hide_info'));
         $form->addItem($hide);
         
@@ -501,7 +501,7 @@ class ilConditionHandlerGUI
 
         // Update relevant sco's
         if ($condition['trigger_type'] == 'sahs') {
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
+
             $olp = ilObjectLP::getInstance($condition['trigger_obj_id']);
             $collection = $olp->getCollectionInstance();
             if ($collection) {
@@ -512,7 +512,7 @@ class ilConditionHandlerGUI
                 $collection->activateEntries($_POST['item_ids']);
             }
             
-            include_once("./Services/Tracking/classes/class.ilLPStatusWrapper.php");
+
             ilLPStatusWrapper::_refreshStatus($condition['trigger_obj_id']);
         }
 
@@ -643,7 +643,7 @@ class ilConditionHandlerGUI
                 break;
         }
         // this has to be changed, if non referenced trigger are implemted
-        if (!$trigger_obj = &ilObjectFactory::getInstanceByRefId((int) $_GET['source_id'], false)) {
+        if (!$trigger_obj = ilObjectFactory::getInstanceByRefId((int) $_GET['source_id'], false)) {
             echo 'ilConditionHandler: Trigger object does not exist';
         }
         $this->ch_obj->setTriggerRefId($trigger_obj->getRefId());
@@ -656,7 +656,7 @@ class ilConditionHandlerGUI
 
         // Save assigned sco's
         if ($this->ch_obj->getTriggerType() == 'sahs') {
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
+
             $olp = ilObjectLP::getInstance($this->ch_obj->getTriggerObjId());
             $collection = $olp->getCollectionInstance();
             if ($collection) {
@@ -728,7 +728,7 @@ class ilConditionHandlerGUI
         if (is_object($this->form)) {
             return true;
         }
-        include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
+
         $this->form = new ilPropertyFormGUI();
         $this->ctrl->setParameter($this, 'source_id', $a_source_id);
         $this->form->setFormAction($this->ctrl->getFormAction($this));
@@ -759,7 +759,7 @@ class ilConditionHandlerGUI
         if ($a_condition_id) {
             $obl->setValue($condition['obligatory']);
         } else {
-            $obl->setValue(1);
+            $obl->setValue("1");
         }
         $this->form->addItem($obl);
         
@@ -780,10 +780,10 @@ class ilConditionHandlerGUI
             $rad_opt = new ilRadioGroupInputGUI($this->lng->txt('cond_ref_handling'), 'ref_handling');
             $rad_opt->setValue(isset($condition['ref_handling']) ? $condition['ref_handling'] : ilConditionHandler::SHARED_CONDITIONS);
             
-            $opt2 = new ilRadioOption($this->lng->txt('cond_ref_shared'), ilConditionHandler::SHARED_CONDITIONS);
+            $opt2 = new ilRadioOption($this->lng->txt('cond_ref_shared'), (string) ilConditionHandler::SHARED_CONDITIONS);
             $rad_opt->addOption($opt2);
 
-            $opt1 = new ilRadioOption($this->lng->txt('cond_ref_unique'), ilConditionHandler::UNIQUE_CONDITIONS);
+            $opt1 = new ilRadioOption($this->lng->txt('cond_ref_unique'), (string) ilConditionHandler::UNIQUE_CONDITIONS);
             $rad_opt->addOption($opt1);
             
             $this->form->addItem($rad_opt);
@@ -804,7 +804,7 @@ class ilConditionHandlerGUI
             );
             $counter = 0;
 
-            include_once 'Services/Object/classes/class.ilObjectLP.php';
+
             $olp = ilObjectLP::getInstance($trigger_obj_id);
             $collection = $olp->getCollectionInstance();
             if ($collection) {

@@ -247,7 +247,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
                 $this->ref_id,
                 "book",
                 "bobj",
-                $this->pool_id,
+                [$this->pool_id],
                 "bobj",
                 $data,
                 "pool_id",

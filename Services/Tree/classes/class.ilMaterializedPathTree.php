@@ -26,7 +26,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
         $this->tree = $a_tree;
         $this->db = $DIC->database();
-        $this->logger = $DIC->logger()->tree();
+        if (ilContext::getType() != "") {
+            $this->logger = $DIC->logger()->tree();
+        }
     }
 
     /**
@@ -49,7 +51,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
     /**
      * Get subtree ids
      * @param int $a_node_id
-     * @return array
+     * @return int[]
      */
     public function getSubTreeIds(int $a_node_id) : array
     {
@@ -68,7 +70,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         );
         $childs = [];
         while ($row = $this->db->fetchAssoc($res)) {
-            $childs[] = $row['child'];
+            $childs[] = (int) $row['child'];
         }
         return $childs;
     }
@@ -200,7 +202,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
 
         $path = null;
         while ($row = $this->db->fetchAssoc($res)) {
-            $path = $row['path'];
+            $path = (string) $row['path'];
         }
 
         $pathIds = array_map('intval', explode('.', $path));
@@ -243,7 +245,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
             }
 
             $parentPath = $r->path;
-            $depth = $r->depth + 1;
+            $depth = (int) $r->depth + 1;
             $lft = 0;
             $rgt = 0;
 
@@ -468,7 +470,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $r = $db->queryF('SELECT child FROM tree WHERE parent = %s', array('integer'), array($parent));
 
         while ($row = $db->fetchAssoc($r)) {
-            self::createMaterializedPath($row['child'], $parentPath . $row['child'] . '.');
+            self::createMaterializedPath((int) $row['child'], (string) ($parentPath . $row['child'] . '.'));
         }
         return true;
     }
@@ -499,7 +501,7 @@ class ilMaterializedPathTree implements ilTreeImplementation
         $res = $this->db->query($query);
         $row = $this->db->fetchAssoc($res);
         if ($row[$this->getTree()->getTreePk()] == $this->getTree()->getTreeId()) {
-            $path = $row['path'];
+            $path = (string) $row['path'];
         } else {
             return [];
         }
@@ -522,9 +524,9 @@ class ilMaterializedPathTree implements ilTreeImplementation
                 continue;
             }
 
-            $nodes[$row['child']]['child'] = $row['child'];
-            $nodes[$row['child']]['type'] = $row['type'];
-            $nodes[$row['child']]['path'] = $row['path'];
+            $nodes[$row['child']]['child'] = (int) $row['child'];
+            $nodes[$row['child']]['type'] = (string) $row['type'];
+            $nodes[$row['child']]['path'] = (string) $row['path'];
         }
 
         $depth_first_compare = static function ($a, $b) {

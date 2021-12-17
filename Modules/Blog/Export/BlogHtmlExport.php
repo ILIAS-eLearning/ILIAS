@@ -82,6 +82,13 @@ class BlogHtmlExport
     protected $include_comments = false;
 
     /**
+     * @var bool
+     */
+    protected $print_version = false;
+
+    protected static $export_key_set = false;
+
+    /**
      * constructor
      * @param \ilObjBlogGUI $blog_gui
      * @param string $exp_dir
@@ -105,12 +112,21 @@ class BlogHtmlExport
 
         $this->items = $this->blog_gui->getItems();
         $this->keywords = $this->blog_gui->getKeywords(false);
-        if ($set_export_key) {
+        if ($set_export_key && !self::$export_key_set) {
+            self::$export_key_set = true;
             $this->global_screen->tool()->context()->current()->addAdditionalData(
                 \ilHTMLExportViewLayoutProvider::HTML_EXPORT_RENDERING,
                 true
             );
         }
+    }
+    protected function init()
+    {
+    }
+
+    public function setPrintVersion(bool $print_version) : void
+    {
+        $this->print_version = $print_version;
     }
 
     /**
@@ -149,7 +165,11 @@ class BlogHtmlExport
         $this->exportBanner();
 
         // export pages
-        $this->exportHTMLPages();
+        if ($this->print_version) {
+            $this->exportHTMLPagesPrint();
+        } else {
+            $this->exportHTMLPages();
+        }
 
         // export comments user images
         $this->exportUserImages();
@@ -319,6 +339,31 @@ class BlogHtmlExport
                 $this->writeExportFile($file, $tpl, $page_content, $nav, $back, $comments);
 
                 $this->co_page_html_export->collectPageElements("blp:pg", $page["id"]);
+            }
+        }
+    }
+
+    /**
+     * Export all pages as one print version
+     */
+    public function exportHTMLPagesPrint()
+    {
+        $this->collectAllPagesPageElements($this->co_page_html_export);
+
+        // render print view
+        $print_view = $this->blog_gui->getPrintView();
+        $print_view->setOffline(true);
+        $html = $print_view->renderPrintView();
+        file_put_contents($this->target_dir . "/index.html", $html);
+    }
+
+
+    public function collectAllPagesPageElements(\ilCOPageHTMLExport $co_page_html_export) : void
+    {
+        $pages = \ilBlogPosting::getAllPostings($this->blog->getId(), 0);
+        foreach ($pages as $page) {
+            if (\ilBlogPosting::_exists("blp", $page["id"])) {
+                $co_page_html_export->collectPageElements("blp:pg", $page["id"]);
             }
         }
     }

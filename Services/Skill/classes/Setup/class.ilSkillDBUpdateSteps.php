@@ -40,4 +40,36 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
             $this->db->dropTable('skl_self_eval_level');
         }
     }
+
+    public function step_2()
+    {
+        if (!$this->db->tableColumnExists('skl_user_skill_level', 'trigger_user_id')) {
+            $this->db->addTableColumn(
+                'skl_user_skill_level',
+                'trigger_user_id',
+                array(
+                    'type' => 'text',
+                    'notnull' => true,
+                    'length' => 20,
+                    'default' => "-"
+                )
+            );
+        }
+    }
+
+    public function step_3()
+    {
+        if (!$this->db->tableColumnExists('skl_user_has_level', 'trigger_user_id')) {
+            $this->db->addTableColumn(
+                'skl_user_has_level',
+                'trigger_user_id',
+                array(
+                    'type' => 'text',
+                    'notnull' => true,
+                    'length' => 20,
+                    'default' => "-"
+                )
+            );
+        }
+    }
 }

@@ -1,7 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Survey Data set class
@@ -13,24 +23,15 @@
  * - svy_quest_skill: question to skill assignment
  * - svy_skill_threshold: skill threshold values
  *
- * @author Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilSurveyDataSet extends ilDataSet
 {
-    /**
-     * Get supported versions
-     * @return array of version strings
-     */
     public function getSupportedVersions() : array
     {
         return array("5.1.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
         return "http://www.ilias.de/xml/Modules/Survey/" . $a_entity;
@@ -38,9 +39,6 @@ class ilSurveyDataSet extends ilDataSet
     
     /**
      * Get field types for entity
-     * @param string $a_entity  entity
-     * @param string $a_version version
-     * @return array
      */
     protected function getTypes(string $a_entity, string $a_version) : array
     {
@@ -70,12 +68,6 @@ class ilSurveyDataSet extends ilDataSet
         return array();
     }
 
-    /**
-     * Read data
-     * @param string $a_entity  entity
-     * @param string $a_version version
-     * @param array  $a_ids     ids
-     */
     public function readData(string $a_entity, string $a_version, array $a_ids) : void
     {
         $ilDB = $this->db;
@@ -130,14 +122,13 @@ class ilSurveyDataSet extends ilDataSet
         return [];
     }
     
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "svy_quest_skill":
                 $skill_data = ilBasicSkill::getCommonSkillIdForImportId($this->getCurrentInstallationId(), $a_rec["BaseSkillId"], $a_rec["TrefId"]);

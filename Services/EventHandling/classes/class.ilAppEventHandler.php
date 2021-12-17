@@ -48,13 +48,20 @@ class ilAppEventHandler
     protected ilDBInterface $db;
     protected array $listener; // [array]
     protected ilLogger $logger;
-    
+    protected ilComponentRepository $component_repository;
+    protected ilComponentFactory $component_factory;
+
+    /**
+    * Constructor
+    */
     public function __construct()
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $this->db = $DIC->database();
+        $this->component_repository = $DIC["component.repository"];
+        $this->component_factory = $DIC["component.factory"];
         $this->initListeners();
 
         $this->logger = \ilLoggerFactory::getLogger('evnt');
@@ -124,7 +131,7 @@ class ilAppEventHandler
 
         $this->logger->debug("Started event propagation for event listeners ...");
 
-        if (is_array($this->listener[$a_component])) {
+        if (is_array($this->listener[$a_component] ?? null)) {
             foreach ($this->listener[$a_component] as $listener) {
                 // Allow listeners like Services/WebServices/ECS
                 $last_slash = strripos($listener, '/');
@@ -134,17 +141,13 @@ class ilAppEventHandler
                 if ($comp == 'Plugins') {
                     $name = substr($listener, $last_slash + 1);
 
-                    foreach (ilPluginAdmin::getActivePlugins() as $pdata) {
-                        if ($pdata['name'] == $name) {
-                            $plugin = ilPluginAdmin::getPluginObject(
-                                $pdata['component_type'],
-                                $pdata['component_name'],
-                                $pdata['slot_id'],
-                                $pdata['name']
-                            );
 
-                            $plugin->handleEvent($a_component, $a_event, $a_parameter);
+                    foreach ($this->component_repository->getPlugins() as $pl) {
+                        if ($pl->getName() !== $name || !$pl->isActive()) {
+                            continue;
                         }
+                        $plugin = $this->component_factory->getPlugin($pl->getId());
+                        $plugin->handleEvent($a_component, $a_event, $a_parameter);
                     }
                 } else {
                     $class = 'il' . substr($listener, $last_slash + 1) . 'AppEventListener';
@@ -161,14 +164,7 @@ class ilAppEventHandler
         $this->logger->debug("Finished event listener handling, started event propagation for event hook plugins ...");
 
         // get all event hook plugins and forward the event to them
-        $plugins = ilPluginAdmin::getActivePluginsForSlot("Services", "EventHandling", "evhk");
-        foreach ($plugins as $pl) {
-            $plugin = ilPluginAdmin::getPluginObject(
-                "Services",
-                "EventHandling",
-                "evhk",
-                $pl
-            );
+        foreach ($this->component_factory->getActivePluginsInSlot("evhk") as $plugin) {
             $plugin->handleEvent($a_component, $a_event, $a_parameter);
         }
 

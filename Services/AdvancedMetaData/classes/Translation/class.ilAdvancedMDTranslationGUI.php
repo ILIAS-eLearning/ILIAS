@@ -8,7 +8,6 @@ abstract class ilAdvancedMDTranslationGUI
     protected const CMD_ADD_TRANSLATION = 'addTranslations';
     protected const CMD_SAVE_ADDITIONAL_TRANSLATIONS = 'saveAdditionalTranslations';
 
-
     protected ilCtrl $ctrl;
     protected ilGlobalTemplateInterface $tpl;
     protected ilToolbarGUI $toolbar;
@@ -29,6 +28,7 @@ abstract class ilAdvancedMDTranslationGUI
         $this->language = $DIC->language();
         $this->language->loadLanguageModule('obj');
         $this->request = $DIC->http()->request();
+        /** @noinspection PhpUndefinedMethodInspection */
         $this->logger = $DIC->logger()->amet();
         $this->record = $record;
     }

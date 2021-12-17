@@ -27,7 +27,7 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
 class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 {
     protected SkillAdminGUIRequest $admin_gui_request;
-    protected int $requested_obj_id;
+    protected int $requested_skill_node_id = 0;
     protected array $parent;
     protected array $draft;
 
@@ -45,7 +45,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
         $tree = new ilSkillTree();
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
-        $this->requested_obj_id = $this->admin_gui_request->getObjId();
+        $this->requested_skill_node_id = $this->admin_gui_request->getNodeId();
 
         $this->setTypeWhiteList(array("skrt", "sktp", "sctp"));
         
@@ -56,7 +56,7 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
 
     public function getRootNode() : array
     {
-        $path = $this->getTree()->getPathId($this->requested_obj_id);
+        $path = $this->getTree()->getPathId($this->requested_skill_node_id);
         return $this->getTree()->getNodeData($path[1]);
     }
 
@@ -131,8 +131,8 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
      */
     public function isNodeHighlighted($a_node) : bool
     {
-        if ($a_node["child"] == $this->requested_obj_id ||
-            ($this->requested_obj_id == "" && $a_node["type"] == "skrt")) {
+        if ($a_node["child"] == $this->requested_skill_node_id ||
+            ($this->requested_skill_node_id == "" && $a_node["type"] == "skrt")) {
             return true;
         }
         return false;
@@ -148,32 +148,32 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
         switch ($a_node["type"]) {
             // root
             case "skrt":
-                $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", $a_node["child"]);
+                $ilCtrl->setParameterByClass("ilskillrootgui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
                                                       "ilObjSkillManagementGUI",
                                                       "ilskillrootgui"
                 ], "listTemplates");
-                $ilCtrl->setParameterByClass("ilskillrootgui", "obj_id", $this->requested_obj_id);
+                $ilCtrl->setParameterByClass("ilskillrootgui", "node_id", $this->requested_skill_node_id);
                 return $ret;
 
             // template
             case "sktp":
-                $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $a_node["child"]);
+                $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
                                                       "ilObjSkillManagementGUI",
                                                       "ilbasicskilltemplategui"
                 ], "edit");
-                $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $this->requested_obj_id);
+                $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $this->requested_skill_node_id);
                 return $ret;
 
             // template category
             case "sctp":
-                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $a_node["child"]);
+                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
                                                       "ilObjSkillManagementGUI",
                                                       "ilskilltemplatecategorygui"
                 ], "listItems");
-                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $this->requested_obj_id);
+                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "node_id", $this->requested_skill_node_id);
                 return $ret;
 
             default:

@@ -36,8 +36,8 @@ class ilSkillCatTableGUI extends ilTable2GUI
     protected ilSkillTree $skill_tree;
     protected int $obj_id;
     protected SkillAdminGUIRequest $admin_gui_request;
-    protected int $requested_obj_id;
-    protected int $requested_tref_id;
+    protected int $requested_node_id = 0;
+    protected int $requested_tref_id = 0;
 
     public const MODE_SCAT = 0;
     public const MODE_SCTP = 1;
@@ -62,7 +62,7 @@ class ilSkillCatTableGUI extends ilTable2GUI
         $this->tref_id = $a_tref_id;
         $ilCtrl->setParameter($a_parent_obj, "tmpmode", $a_mode);
 
-        $this->requested_obj_id = $this->admin_gui_request->getObjId();
+        $this->requested_node_id = $this->admin_gui_request->getNodeId();
         $this->requested_tref_id = $this->admin_gui_request->getTrefId();
         
         $this->mode = $a_mode;
@@ -124,42 +124,42 @@ class ilSkillCatTableGUI extends ilTable2GUI
         switch ($a_set["type"]) {
             // category
             case "scat":
-                $ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id", $a_set["child"]);
+                $ilCtrl->setParameterByClass("ilskillcategorygui", "node_id", $a_set["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass("ilskillcategorygui", "listItems");
-                $ilCtrl->setParameterByClass("ilskillcategorygui", "obj_id", $this->requested_obj_id);
+                $ilCtrl->setParameterByClass("ilskillcategorygui", "node_id", $this->requested_node_id);
                 break;
                 
             // skill template reference
             case "sktr":
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_set["child"]);
                 $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id", $a_set["child"]);
-                $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $tid);
+                $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "node_id", $tid);
                 $ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatereferencegui", "listItems");
-                $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "obj_id", $this->requested_obj_id);
+                $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "node_id", $this->requested_node_id);
                 $ilCtrl->setParameterByClass("ilskilltemplatereferencegui", "tref_id", $this->requested_tref_id);
                 break;
                 
             // skill
             case "skll":
-                $ilCtrl->setParameterByClass("ilbasicskillgui", "obj_id", $a_set["child"]);
+                $ilCtrl->setParameterByClass("ilbasicskillgui", "node_id", $a_set["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass("ilbasicskillgui", "edit");
-                $ilCtrl->setParameterByClass("ilbasicskillgui", "obj_id", $this->requested_obj_id);
+                $ilCtrl->setParameterByClass("ilbasicskillgui", "node_id", $this->requested_node_id);
                 break;
                 
             // --------
                 
             // template
             case "sktp":
-                $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $a_set["child"]);
+                $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $a_set["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass("ilbasicskilltemplategui", "edit");
-                $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "obj_id", $this->requested_obj_id);
+                $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $this->requested_node_id);
                 break;
 
             // template category
             case "sctp":
-                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $a_set["child"]);
+                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "node_id", $a_set["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass("ilskilltemplatecategorygui", "listItems");
-                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "obj_id", $this->requested_obj_id);
+                $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "node_id", $this->requested_node_id);
                 break;
         }
 

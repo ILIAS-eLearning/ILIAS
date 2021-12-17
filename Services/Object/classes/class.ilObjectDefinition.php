@@ -45,6 +45,8 @@ class ilObjectDefinition // extends ilSaxParser
     
     public $sub_types = array();
 
+    protected ilComponentRepository $component_repository;
+
     const MODE_REPOSITORY = 1;
     const MODE_WORKSPACE = 2;
     const MODE_ADMINISTRATION = 3;
@@ -57,6 +59,7 @@ class ilObjectDefinition // extends ilSaxParser
         global $DIC;
 
         $this->plugin_admin = $DIC["ilPluginAdmin"];
+        $this->component_repository = $DIC["component.repository"];
         $this->settings = $DIC->settings();
         $this->readDefinitionData();
     }
@@ -217,10 +220,10 @@ class ilObjectDefinition // extends ilSaxParser
     {
         global $DIC;
 
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
-        foreach ($pl_names as $pl_name) {
-            $pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
+        $component_repository = $DIC["component.repository"];
+        $plugins = $component_repository->getPluginSlotById($slotId)->getActivePlugins();
+        foreach ($plugins as $plugin) {
+            $pl_id = $plugin->getId();
             if (!isset($grouped_obj[$pl_id])) {
                 $grouped_obj[$pl_id] = array(
                     "pos" => "99992000", // "unassigned" group
@@ -1173,12 +1176,11 @@ class ilObjectDefinition // extends ilSaxParser
      */
     protected function parsePluginData($component, $slotName, $slotId, $isInAdministration)
     {
-        $ilPluginAdmin = $this->plugin_admin;
-        $pl_names = $ilPluginAdmin->getActivePluginsForSlot($component, $slotName, $slotId);
-        foreach ($pl_names as $pl_name) {
-            $pl_id = ilPlugin::lookupIdForName($component, $slotName, $slotId, $pl_name);
+        $plugins = $this->component_repository->getPluginSlotById($slotId)->getActivePlugins();
+        foreach ($plugins as $plugin) {
+            $pl_id = $plugin->getId();
             if ($pl_id != "" && !isset($this->obj_data[$pl_id])) {
-                $loc = ilPlugin::_getDirectory($component, $slotName, $slotId, $pl_name) . "/classes";
+                $loc = $plugin->getPath() . "/classes";
                 // The plugin_id is the same as the type_id in repository object plugins.
                 $pl = ilObjectPlugin::getPluginObjectByType($pl_id);
 
@@ -1202,7 +1204,7 @@ class ilObjectDefinition // extends ilSaxParser
                     'workspace' => '0',
                     'administration' => $isInAdministration?'1':'0',
                     "sideblock" => "0",
-                    'export' => $ilPluginAdmin->supportsExport($component, $slotName, $slotId, $pl_name),
+                    'export' => $plugin->supportsExport(),
                     'offline_handling' => '0',
                     'orgunit_permissions' => $pl->useOrguPermissions() ? '1' : '0'
                 );

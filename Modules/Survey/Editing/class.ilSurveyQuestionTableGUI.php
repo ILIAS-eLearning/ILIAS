@@ -1,6 +1,17 @@
 <?php
 
-/* Copyright (c) 1998-2019 ILIAS open source, Extended GPL, see docs/LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Survey question table GUI class
@@ -9,17 +20,15 @@
  */
 class ilSurveyQuestionTableGUI extends ilTable2GUI
 {
-    protected $object;
-    protected $read_only;
+    protected ilObjSurvey $object;
+    protected bool $read_only;
     
-    /**
-     * Constructor
-     *
-     * @param object $a_parent_obj parent gui object
-     * @param string $a_parent_cmd parent default command
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, ilObjSurvey $a_survey_obj, $a_read_only = false)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilObjSurvey $a_survey_obj,
+        bool $a_read_only = false
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -34,8 +43,6 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
         $this->setId("il_svy_qst");
         $this->setLimit(9999);
-
-        // $this->setTitle($lng->txt("survey_questions"));
 
         if (!$this->read_only) {
             // command dropdown
@@ -81,14 +88,10 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->importData();
     }
 
-    /**
-     * Import data from DB
-     */
-    protected function importData()
+    protected function importData() : void
     {
         $ilCtrl = $this->ctrl;
-        $lng = $this->lng;
-        
+
         $survey_questions = $this->object->getSurveyQuestions();
         if (count($survey_questions) > 0) {
             $questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
@@ -181,11 +184,6 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->setData($table_data);
     }
     
-    /**
-     * Fill table row
-     *
-     * @param array $a_set data array
-     */
     protected function fillRow($a_set)
     {
         $lng = $this->lng;

@@ -190,7 +190,8 @@ class ilCronManager implements \ilCronManagerInterface
         global $DIC;
 
         $ilLog = $DIC->logger()->root();
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
+        $component_factory = $DIC['component.factory'];
 
         // plugin
         if (strpos($a_job_id, 'pl__') === 0) {
@@ -198,17 +199,12 @@ class ilCronManager implements \ilCronManagerInterface
             $pl_name = $parts[1];
             $job_id = $parts[2];
 
-            foreach ($ilPluginAdmin->getActivePlugins() as $pluginData) {
-                if ($pluginData['name'] !== $pl_name) {
+            foreach ($component_repository->getPlugins() as $pl) {
+                if ($pl->getName() !== $pl_name || !$pl->isActive()) {
                     continue;
                 }
 
-                $plugin = $ilPluginAdmin->getPluginObject(
-                    $pluginData['component_type'],
-                    $pluginData['component_name'],
-                    $pluginData['slot_id'],
-                    $pluginData['name']
-                );
+                $plugin = $component_factory->getPlugin($pl->getId());
 
                 if (!$plugin instanceof ilCronJobProvider) {
                     continue;
@@ -426,18 +422,17 @@ class ilCronManager implements \ilCronManagerInterface
     {
         global $DIC;
 
-        /** @var ilPluginAdmin $ilPluginAdmin */
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
+        $component_repository = $DIC['component.repository'];
+        $component_factory = $DIC['component.factory'];
 
         $res = [];
 
-        foreach ($ilPluginAdmin::getActivePlugins() as $pluginData) {
-            $plugin = $ilPluginAdmin::getPluginObject(
-                $pluginData['component_type'],
-                $pluginData['component_name'],
-                $pluginData['slot_id'],
-                $pluginData['name']
-            );
+        foreach ($component_repository->getPlugins() as $pl) {
+            if (!$pl->isActive()) {
+                continue;
+            }
+            
+            $plugin = $component_factory->getPlugin($pl->getId());
 
             if (!$plugin instanceof ilCronJobProvider) {
                 continue;

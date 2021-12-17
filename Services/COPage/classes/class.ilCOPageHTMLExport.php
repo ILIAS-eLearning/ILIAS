@@ -133,6 +133,10 @@ class ilCOPageHTMLExport
         // export syntax highlighting style
         $syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
         $this->exportResourceFile($this->exp_dir, $syn_stylesheet);
+
+        // export print style
+        $print_stylesheet = ilObjStyleSheet::getContentPrintStyle();
+        $this->exportResourceFile($this->exp_dir, $print_stylesheet);
     }
     
     /**

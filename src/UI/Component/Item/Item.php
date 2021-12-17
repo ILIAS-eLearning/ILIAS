@@ -43,14 +43,4 @@ interface Item extends Component
      * @return array<string,string|Shy>		Title => Content
      */
     public function getProperties() : array;
-
-    /**
-     * Create a new appointment item with a set of actions to perform on it.
-     */
-    public function withActions(Standard $actions) : Item;
-
-    /**
-     * Get the actions of the item.
-     */
-    public function getActions() : ?Standard;
 }

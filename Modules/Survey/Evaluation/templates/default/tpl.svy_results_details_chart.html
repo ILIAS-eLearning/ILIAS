@@ -1,0 +1,23 @@
+<br />
+<div class="ilFloatLeft">
+    {CHART}
+</div>
+<!-- BEGIN legend_col_bl -->
+<div class="ilFloatLeft" style="padding:10px">
+    <!-- BEGIN legend_bl -->
+    <p class="hidden-print">
+        <span style="background-color: {LEGEND_COLOR}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> {LEGEND_CAPTION}
+    </p>
+    <p class="visible-print">
+        <svg width="20" height="20">
+            <rect width="20" height="20" style="fill:rgb({LEGEND_COLOR_SVG});" />
+        </svg>
+        {LEGEND_CAPTION}
+    </p>
+    <!-- END legend_bl -->
+</div>
+<!-- END legend_col_bl -->
+<br class="ilClearFloat" />
+<div class="ilFloatRight hidden-print">
+    <a href="{CHART_DL_URL}">{CHART_DL_TXT}</a>
+</div>

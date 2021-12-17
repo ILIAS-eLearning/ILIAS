@@ -403,7 +403,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                 $this->mob_ids[$mob_id] = $mob_id;
                 $media_obj = new ilObjMediaObject($mob_id);
                 if ($media_obj->hasFullscreenItem()) {
-                    $media_obj->exportMediaFullscreen($a_target_dir, $page_obj->getPageObject());
+                    //$media_obj->exportMediaFullscreen($a_target_dir, $page_obj->getPageObject());
                 }
             }
 
@@ -425,7 +425,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                                 //echo "<br>-$mob_id-";
                                 $media_obj = new ilObjMediaObject($mob_id);
                                 if ($media_obj->hasFullscreenItem()) {
-                                    $media_obj->exportMediaFullscreen($a_target_dir, $def_pg);
+                                    //$media_obj->exportMediaFullscreen($a_target_dir, $def_pg);
                                 }
                             }
                             $file_ids = ilPCFileList::collectFileItems($def_pg, $def_pg->getDomDoc());

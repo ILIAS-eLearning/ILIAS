@@ -36,7 +36,7 @@ class ilMakeInstallationAccessibleObjective extends ilSetupObjective
         $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
         $settings = $factory->settingsFor("common");
 
-        $settings->set("setup_ok", 1);
+        $settings->set("setup_ok", "1");
 
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 

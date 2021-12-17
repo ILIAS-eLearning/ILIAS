@@ -57,7 +57,8 @@ final class InitCtrlService
             $dic->http()->request(),
             $dic->http()->wrapper()->post(),
             $dic->http()->wrapper()->query(),
-            $dic->refinery()
+            $dic->refinery(),
+            $dic["component.factory"]
         );
 
         // add helper function to DI container that

@@ -3,7 +3,7 @@
 /**
  * Class ilAdvancedMDRecordTranslationGUI
  * @ilCtrl_isCalledBy ilAdvancedMDRecordTranslationGUI: ilAdvancedMDSettingsGUI
- * @ingroup ServicesAdvancedMetaData
+ * @ingroup           ServicesAdvancedMetaData
  */
 class ilAdvancedMDRecordTranslationGUI extends ilAdvancedMDTranslationGUI
 {

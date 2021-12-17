@@ -15,8 +15,8 @@ import {getTransformFromProjections, getUserProjection} from './proj.js';
 /**
  * @typedef {Object} State
  * @property {CanvasRenderingContext2D} context Canvas context that the layer is being rendered to.
- * @property {import("./Feature.js").FeatureLike} feature
- * @property {import("./geom/SimpleGeometry.js").default} geometry
+ * @property {import("./Feature.js").FeatureLike} feature Feature.
+ * @property {import("./geom/SimpleGeometry.js").default} geometry Geometry.
  * @property {number} pixelRatio Pixel ratio used by the layer renderer.
  * @property {number} resolution Resolution that the render batch was created and optimized for.
  * This is not the view's resolution that is being rendered.
@@ -61,7 +61,7 @@ import {getTransformFromProjections, getUserProjection} from './proj.js';
  * ```
  *
  * @param {CanvasRenderingContext2D} context Canvas context.
- * @param {ToContextOptions=} opt_options Options.
+ * @param {ToContextOptions} [opt_options] Options.
  * @return {CanvasImmediateRenderer} Canvas Immediate.
  * @api
  */
@@ -84,10 +84,12 @@ export function toContext(context, opt_options) {
 /**
  * Gets a vector context for drawing to the event's canvas.
  * @param {import("./render/Event.js").default} event Render event.
- * @returns {CanvasImmediateRenderer} Vector context.
+ * @return {CanvasImmediateRenderer} Vector context.
  * @api
  */
 export function getVectorContext(event) {
+  // canvas may be at a different pixel ratio than frameState.pixelRatio
+  const canvasPixelRatio = event.inversePixelTransform[0];
   const frameState = event.frameState;
   const transform = multiplyTransform(
     event.inversePixelTransform.slice(),
@@ -95,7 +97,7 @@ export function getVectorContext(event) {
   );
   const squaredTolerance = getSquaredTolerance(
     frameState.viewState.resolution,
-    frameState.pixelRatio
+    canvasPixelRatio
   );
   let userTransform;
   const userProjection = getUserProjection();
@@ -107,7 +109,7 @@ export function getVectorContext(event) {
   }
   return new CanvasImmediateRenderer(
     event.context,
-    frameState.pixelRatio,
+    canvasPixelRatio,
     frameState.extent,
     transform,
     frameState.viewState.rotation,
@@ -121,7 +123,7 @@ export function getVectorContext(event) {
  * @param {import("./render/Event.js").default} event Render event.
  * @param {import("./pixel.js").Pixel} pixel CSS pixel relative to the top-left
  * corner of the map viewport.
- * @returns {import("./pixel.js").Pixel} Pixel on the event's canvas context.
+ * @return {import("./pixel.js").Pixel} Pixel on the event's canvas context.
  * @api
  */
 export function getRenderPixel(event, pixel) {
