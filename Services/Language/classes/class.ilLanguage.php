@@ -429,7 +429,7 @@ class ilLanguage
      *
      * $a_lang_key language key or array of language keys
      */
-    public function toJS(string|array $a_lang_key, ilGlobalTemplateInterface $a_tpl = null) : void
+    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null) : void
     {
         global $DIC;
         $tpl = $DIC["tpl"];

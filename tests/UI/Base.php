@@ -133,13 +133,13 @@ class ilLanguageMock extends ilLanguage
     {
     }
 
-    public function txt($a_topic, $a_default_lang_fallback_mod = "")
+    public function txt(string $a_topic, string $a_default_lang_fallback_mod = "") : string
     {
         $this->requested[] = $a_topic;
         return $a_topic;
     }
 
-    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null)
+    public function toJS($a_lang_key, ilGlobalTemplateInterface $a_tpl = null) : void
     {
     }
 
@@ -149,7 +149,7 @@ class ilLanguageMock extends ilLanguage
     {
     }
 
-    public function getLangKey()
+    public function getLangKey() : string
     {
         return "en";
     }
