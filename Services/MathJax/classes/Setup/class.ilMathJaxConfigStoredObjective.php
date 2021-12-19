@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\Setup;
 
@@ -29,25 +29,21 @@ class ilMathJaxConfigStoredObjective implements Setup\Objective
 
     public function isNotable() : bool
     {
-        return false;
+        return true;
     }
 
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new ilIniFilesLoadedObjective()
+            new \ilSettingsFactoryExistsObjective()
         ];
     }
 
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
-
-        $ini->setVariable("tools", "latex", $this->config->getPathToLatexCGI());
-
-        if (!$ini->write()) {
-            throw new Setup\UnachievableException("Could not write ilias.ini.php");
-        }
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $repo = new ilMathJaxConfigSettingsRepository($factory);
+        $repo->updateConfig($this->config->applyTo($repo->getConfig()));
 
         return $environment;
     }
@@ -57,8 +53,10 @@ class ilMathJaxConfigStoredObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
+        $factory = $environment->getResource(Setup\Environment::RESOURCE_SETTINGS_FACTORY);
+        $repo = new ilMathJaxConfigSettingsRepository($factory);
 
-        return $ini->readVariable("tools", "latex") !== $this->config->getPathToLatexCGI();
+        return $this->config->isApplicableTo($repo->getConfig());
+
     }
 }

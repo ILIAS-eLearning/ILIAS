@@ -1,11 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
+/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
 
 use ILIAS\Setup;
 use ILIAS\Refinery;
-use ILIAS\Data;
-use ILIAS\UI;
 
 class ilMathJaxSetupAgent implements Setup\Agent
 {
@@ -36,9 +34,7 @@ class ilMathJaxSetupAgent implements Setup\Agent
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
         return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilMathJaxSetupConfig(
-                $data["path_to_latex_cgi"] ?? null
-            );
+            return new ilMathJaxSetupConfig((array) $data);
         });
     }
 
@@ -47,6 +43,7 @@ class ilMathJaxSetupAgent implements Setup\Agent
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        /** @var ilMathJaxSetupConfig $config */
         return new ilMathJaxConfigStoredObjective($config);
     }
 
@@ -56,6 +53,7 @@ class ilMathJaxSetupAgent implements Setup\Agent
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         if ($config !== null) {
+            /** @var ilMathJaxSetupConfig $config */
             return new ilMathJaxConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();
