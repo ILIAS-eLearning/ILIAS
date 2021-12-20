@@ -132,7 +132,11 @@ class MainMenuMainCollector extends AbstractBaseCollector implements ItemCollect
         });*/
 
         $this->map->walk(function (isItem &$item) : isItem {
-            $item->setTypeInformation($this->getTypeInformationForItem($item));
+            if (is_null($item->getTypeInformation())) {
+                $item->setTypeInformation(
+                    $this->getTypeInformationForItem($item)
+                );
+            }
 
             // Apply the TypeHandler
             $item = $this->getTypeHandlerForItem($item)->enrichItem($item);

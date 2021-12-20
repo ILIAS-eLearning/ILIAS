@@ -84,10 +84,7 @@ interface isItem extends isGlobalScreenItem
      */
     public function setTypeInformation(TypeInformation $information) : isItem;
 
-    /**
-     * @return TypeInformation
-     */
-    public function getTypeInformation() : TypeInformation;
+    public function getTypeInformation() : ?TypeInformation;
 
     public function isTop() : bool;
 }

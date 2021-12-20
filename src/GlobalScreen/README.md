@@ -110,3 +110,18 @@ of all available Providers in the system. E.g.:
         $this->provider_collection->setToolProvider(new ToolProvider($DIC, $this));
     }
 ```
+
+# A note on Items/TypeInformation and rendering
+Providers yield Items for a certain Scope. Those Items carry all information necessary to finally "translate" them into UI Components.
+Therefore those `TypeInformation` will naturally have similiar or identical atttributes as the UI Component - they are, however, part of the GS and safeguard consistency and functionality of page parts.
+One type of Item SHOULD result in one type of UI Component.
+
+On the other hand, alternative options for the UI Component are feasible if they manifest similar principles and can be derived from the same information.
+An example for this is the construction of a DrilldonwMenu based on ListItems, which will work fine for one level of items,
+but will not suffice for deeper structures as ListItems cannot provide those.
+
+In summary, you are generally warned about changing UI-Components for Items on GS-Provider level.
+Furthermore, your are encouraged to discuss your plans with people at the JourFixe _before_ embarking on a project.
+Finally, you MUST get the JourFix's approval for changing UI-Components for specific GS Items;
+this also holds true for changing appearance or behavior of the currently used Component.
+Probably it is best to actually create a new Item.

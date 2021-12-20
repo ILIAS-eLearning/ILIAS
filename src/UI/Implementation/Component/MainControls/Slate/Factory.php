@@ -10,6 +10,7 @@ use ILIAS\UI\Implementation\Component\SignalGeneratorInterface;
 use ILIAS\UI\Component\Counter\Factory as CounterFactory;
 use ILIAS\UI\Component\Symbol\Symbol;
 use ILIAS\UI\Component\Symbol\Factory as SymbolFactory;
+use ILIAS\UI\Component\Menu\Drilldown as IDrilldownMenu;
 
 class Factory implements ISlate\Factory
 {
@@ -28,7 +29,7 @@ class Factory implements ISlate\Factory
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function legacy(string $name, Symbol $symbol, ILegacy $content) : ISlate\Legacy
     {
@@ -36,7 +37,7 @@ class Factory implements ISlate\Factory
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function combined(string $name, Symbol $symbol) : ISlate\Combined
     {
@@ -44,11 +45,19 @@ class Factory implements ISlate\Factory
     }
 
     /**
-     * @inheritdocs
+     * @inheritdoc
      */
     public function notification(string $name, array $notification_items) : ISlate\Notification
     {
         $notification_symbol = $this->symbol_factory->glyph()->notification();
         return new Notification($this->signal_generator, $name, $notification_items, $notification_symbol);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function drilldown(string $name, Symbol $symbol, IDrilldownMenu $drilldown) : ISlate\Drilldown
+    {
+        return new Drilldown($this->signal_generator, $name, $symbol, $drilldown);
     }
 }
