@@ -18,6 +18,8 @@ namespace ILIAS\Survey;
 use ILIAS\Survey\Mode\FeatureConfig;
 use ILIAS\Survey\Mode\ModeFactory;
 use ILIAS\Survey\Code\CodeManager;
+use ILIAS\Repository\GlobalDICDomainServices;
+use ILIAS\Survey\Editing\EditManager;
 
 /**
  * Survey internal domain service
@@ -25,12 +27,11 @@ use ILIAS\Survey\Code\CodeManager;
  */
 class InternalDomainService
 {
+    use GlobalDICDomainServices;
+
     protected ModeFactory $mode_factory;
-    protected \ilTree $repo_tree;
-    protected \ilAccessHandler $access;
     protected InternalRepoService $repo_service;
     protected InternalDataService $data_service;
-    protected \ilLanguage $lng;
 
     public function __construct(
         ModeFactory $mode_factory,
@@ -47,11 +48,6 @@ class InternalDomainService
         $this->data_service = $data_service;
 
         $this->mode_factory = $mode_factory;
-    }
-
-    public function repositoryTree() : \ilTree
-    {
-        return $this->repo_tree;
     }
 
     public function modeFeatureConfig(int $mode) : FeatureConfig
@@ -97,11 +93,6 @@ class InternalDomainService
         );
     }
 
-    public function lng() : \ilLanguage
-    {
-        return $this->lng;
-    }
-
     public function evaluation(
         \ilObjSurvey $survey,
         int $user_id,
@@ -115,6 +106,14 @@ class InternalDomainService
             $user_id,
             $requested_appr_id,
             $requested_rater_id
+        );
+    }
+
+    public function edit() : EditManager
+    {
+        return new EditManager(
+            $this->repo_service,
+            $this
         );
     }
 }

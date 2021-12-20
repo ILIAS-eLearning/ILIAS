@@ -414,8 +414,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
 
         $this->object->purgeQuestions();
 
-        $_SESSION['q_id_table_nav'] = $_GET['q_id_table_nav'];
-            
         if ($this->checkPermissionBool('write')) {
             $qtypes = new ilSelectInputGUI("", "sel_question_types");
             $qtypes->setValue($ilUser->getPref("svy_lastquestiontype"));

@@ -21,6 +21,7 @@
  */
 abstract class SurveyQuestionGUI
 {
+    protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
     protected ilRbacSystem $rbacsystem;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
@@ -63,6 +64,11 @@ abstract class SurveyQuestionGUI
             $this->object->loadFromDb($a_id);
         }
         $this->log = ilLoggerFactory::getLogger('svy');
+
+        $this->edit_manager = $DIC->surveyQuestionPool()
+            ->internal()
+            ->domain()
+            ->editing();
     }
     
     abstract protected function initObject() : void;
@@ -150,7 +156,6 @@ abstract class SurveyQuestionGUI
             }
             $ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), $this->parent_url . $addurl);
         } else {
-            $this->ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "q_id_table_nav", $_SESSION['q_id_table_nav']);
             $ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
         }
         if ($_GET["q_id"]) {
@@ -473,7 +478,6 @@ abstract class SurveyQuestionGUI
             }
             // to pool
             else {
-                $this->ctrl->setParameterByClass("ilObjSurveyQuestionPoolGUI", "q_id_table_nav", $_SESSION['q_id_table_nav']);
                 $this->ctrl->redirectByClass("ilObjSurveyQuestionPoolGUI", "questions");
             }
         }
@@ -693,27 +697,31 @@ abstract class SurveyQuestionGUI
             $this->ctrl->getLinkTarget($this, "material")
         );
         
-        if (strlen($_SESSION["link_new_type"]) || !$this->material(true)) {
+        if ($this->edit_manager->getNewLinkType() != "" || !$this->material(true)) {
             switch ($_POST["internalLinkType"]) {
                 case "lm":
-                    $_SESSION["link_new_type"] = "lm";
-                    $_SESSION["search_link_type"] = "lm";
+                    $this->edit_manager->setNewLinkType("lm");
+                    $this->edit_manager->setSearchLinkType("lm");
                     break;
                 case "glo":
-                    $_SESSION["link_new_type"] = "glo";
-                    $_SESSION["search_link_type"] = "glo";
+                    $this->edit_manager->setNewLinkType("glo");
+                    $this->edit_manager->setSearchLinkType("glo");
                     break;
                 case "st":
-                    $_SESSION["link_new_type"] = "lm";
-                    $_SESSION["search_link_type"] = "st";
+                    $this->edit_manager->setNewLinkType("lm");
+                    $this->edit_manager->setSearchLinkType("st");
                     break;
                 case "pg":
-                    $_SESSION["link_new_type"] = "lm";
-                    $_SESSION["search_link_type"] = "pg";
+                    $this->edit_manager->setNewLinkType("lm");
+                    $this->edit_manager->setSearchLinkType("pg");
                     break;
             }
 
-            $exp = new ilMaterialExplorer($this, 'addMaterial', $_SESSION["link_new_type"]);
+            $exp = new ilMaterialExplorer(
+                $this,
+                'addMaterial',
+                $this->edit_manager->getNewLinkType()
+            );
             $exp->setPathOpen((int) $_GET["ref_id"]);
             if (!$exp->handleCommand()) {
                 $panel = ilPanelGUI::getInstance();
@@ -734,7 +742,7 @@ abstract class SurveyQuestionGUI
     
     public function cancelExplorer() : void
     {
-        unset($_SESSION["link_new_type"]);
+        $this->edit_manager->clearNewLinkType();
         ilUtil::sendInfo($this->lng->txt("msg_cancel"), true);
         $this->ctrl->redirect($this, 'material');
     }
@@ -742,8 +750,8 @@ abstract class SurveyQuestionGUI
     public function addPG() : void
     {
         $this->object->addInternalLink("il__pg_" . $_GET["pg"]);
-        unset($_SESSION["link_new_type"]);
-        unset($_SESSION["search_link_type"]);
+        $this->edit_manager->clearNewLinkType();
+        $this->edit_manager->clearSearchLinkType();
         ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
@@ -751,8 +759,8 @@ abstract class SurveyQuestionGUI
     public function addST() : void
     {
         $this->object->addInternalLink("il__st_" . $_GET["st"]);
-        unset($_SESSION["link_new_type"]);
-        unset($_SESSION["search_link_type"]);
+        $this->edit_manager->clearNewLinkType();
+        $this->edit_manager->clearSearchLinkType();
         ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
@@ -760,8 +768,8 @@ abstract class SurveyQuestionGUI
     public function addGIT() : void
     {
         $this->object->addInternalLink("il__git_" . $_GET["git"]);
-        unset($_SESSION["link_new_type"]);
-        unset($_SESSION["search_link_type"]);
+        $this->edit_manager->clearNewLinkType();
+        $this->edit_manager->clearSearchLinkType();
         ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
         $this->ctrl->redirect($this, "material");
     }
@@ -773,14 +781,14 @@ abstract class SurveyQuestionGUI
         $selectable_items = array();
         
         $source_id = $_GET["source_id"];
-        
-        switch ($_SESSION["search_link_type"]) {
+
+        switch ($this->edit_manager->getSearchLinkType()) {
             case "pg":
                 $cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
                 $cont_obj = $cont_obj_gui->object;
                 $pages = ilLMPageObject::getPageList($cont_obj->getId());
                 foreach ($pages as $page) {
-                    if ($page["type"] == $_SESSION["search_link_type"]) {
+                    if ($page["type"] == $this->edit_manager->getSearchLinkType()) {
                         $selectable_items[] = array(
                             "item_type" => $page["type"]
                             ,"item_id" => $page["obj_id"]
@@ -794,10 +802,10 @@ abstract class SurveyQuestionGUI
                 $cont_obj_gui = new ilObjContentObjectGUI("", $source_id, true);
                 $cont_obj = $cont_obj_gui->object;
                 // get all chapters
-                $ctree = &$cont_obj->getLMTree();
+                $ctree = $cont_obj->getLMTree();
                 $nodes = $ctree->getSubtree($ctree->getNodeData($ctree->getRootId()));
                 foreach ($nodes as $node) {
-                    if ($node["type"] == $_SESSION["search_link_type"]) {
+                    if ($node["type"] == $this->edit_manager->getSearchLinkType()) {
                         $selectable_items[] = array(
                             "item_type" => $node["type"]
                             ,"item_id" => $node["obj_id"]
@@ -834,11 +842,11 @@ abstract class SurveyQuestionGUI
             $tbl->setData($selectable_items);
             $this->tpl->setContent($tbl->getHTML());
         } else {
-            if ($_SESSION["search_link_type"] == "lm") {
+            if ($this->edit_manager->getSearchLinkType() == "lm") {
                 ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
-                
-                unset($_SESSION["link_new_type"]);
-                unset($_SESSION["search_link_type"]);
+
+                $this->edit_manager->clearSearchLinkType();
+                $this->edit_manager->clearNewLinkType();
                 $this->ctrl->redirect($this, "material");
             } else {
                 ilUtil::sendFailure($this->lng->txt("material_added_empty"), true);
@@ -989,7 +997,7 @@ abstract class SurveyQuestionGUI
             );
         }
         $table_gui->setData($data);
-        $_SESSION['save_phrase_data'] = $data; // :TODO: see savePhrase()
+        $this->edit_manager->setPhraseData($data);
         
         $this->tpl->setContent($table_gui->getHTML());
     }

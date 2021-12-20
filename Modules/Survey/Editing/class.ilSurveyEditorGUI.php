@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\Survey\Editing\EditManager;
+
 /**
  * Class ilSurveyEditorGUI
  *
@@ -23,6 +25,7 @@
  */
 class ilSurveyEditorGUI
 {
+    protected EditManager $edit_manager;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
@@ -63,6 +66,10 @@ class ilSurveyEditorGUI
             //2 => $this->lng->txt('svy_print_label_only'),
             ilObjSurvey::PRINT_SHOW_LABELS => $this->lng->txt('svy_print_show_labels')
         );
+        $this->edit_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->edit();
     }
     
     public function executeCommand() : void
@@ -345,8 +352,7 @@ class ilSurveyEditorGUI
             ilUtil::sendInfo($this->lng->txt("no_question_selected_for_move"), true);
             $this->ctrl->redirect($this, "questions");
         } else {
-            $_SESSION["move_questions"] = $move_questions;
-            $_SESSION["move_questions_survey_id"] = $this->object->getId();
+            $this->edit_manager->setMoveSurveyQuestions($this->object->getId(), $move_questions);
             ilUtil::sendInfo($this->lng->txt("select_target_position_for_move_question"));
             $this->questionsObject();
         }
@@ -395,9 +401,14 @@ class ilSurveyEditorGUI
             ilUtil::sendInfo($this->lng->txt("no_target_selected_for_move"), true);
         } else {
             ilUtil::sendSuccess($this->lng->txt('msg_obj_modified'), true);
-            $this->object->moveQuestions($_SESSION["move_questions"], $insert_id, $insert_mode);
-            unset($_SESSION["move_questions"]);
-            unset($_SESSION["move_questions_survey_id"]);
+            if ($this->edit_manager->getMoveSurveyId() != $this->object->getId()) {
+                $this->object->moveQuestions(
+                    $this->edit_manager->getMoveSurveyQuestions(),
+                    $insert_id,
+                    $insert_mode
+                );
+                $this->edit_manager->clearMoveSurveyQuestions();
+            }
         }
     
         $this->ctrl->redirect($this, "questions");
@@ -594,8 +605,8 @@ class ilSurveyEditorGUI
         $usage->addOption($new_pool);
         $form->addItem($usage);
 
-        if (isset($_SESSION["svy_qpool_choice"])) {
-            $usage->setValue($_SESSION["svy_qpool_choice"]);
+        if ($this->edit_manager->getPoolChoice() > 0) {
+            $usage->setValue($this->edit_manager->getPoolChoice());
         } else {
             // default: no pool
             $usage->setValue(1);
@@ -624,7 +635,7 @@ class ilSurveyEditorGUI
 
     public function executeCreateQuestionObject() : void
     {
-        $_SESSION["svy_qpool_choice"] = $_POST["usage"];
+        $this->edit_manager->setPoolChoice((int) $_POST["usage"]);
         
         $q_type = $_GET["sel_question_types"];
         

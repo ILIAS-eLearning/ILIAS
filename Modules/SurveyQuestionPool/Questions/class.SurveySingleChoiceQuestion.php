@@ -344,7 +344,8 @@ class SurveySingleChoiceQuestion extends SurveyQuestion
         $phrase_id = $next_id;
                 
         $counter = 1;
-        foreach ($_SESSION['save_phrase_data'] as $data) {
+        $phrase_data = $this->edit_manager->getPhraseData();
+        foreach ($phrase_data as $data) {
             $next_id = $ilDB->nextId('svy_category');
             $affectedRows = $ilDB->manipulateF(
                 "INSERT INTO svy_category (category_id, title, defaultvalue, owner_fi, tstamp, neutral) VALUES (%s, %s, %s, %s, %s, %s)",

@@ -38,7 +38,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     protected Participants\InvitationsManager $invitation_manager;
     protected \ILIAS\Survey\InternalService $survey_service;
     protected ?\ILIAS\Survey\Mode\FeatureConfig $feature_config = null;
-    protected \ILIAS\Survey\Execution\SessionManager $session_manager;
     protected ?\ILIAS\Survey\Access\AccessManager $access_manager = null;
     protected \ILIAS\Survey\Execution\RunManager $run_manager;
     protected \ILIAS\Survey\Participants\StatusManager $status_manager;
@@ -90,8 +89,6 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 ->status($survey, $this->user->getId());
             $this->feature_config = $this->survey_service->domain()
                 ->modeFeatureConfig($this->object->getMode());
-            $this->session_manager = $this->survey_service->domain()
-                ->execution()->session($survey, $this->user->getId());
             $this->run_manager = $this->survey_service->domain()
                 ->execution()->run($survey, $this->user->getId());
             $this->access_manager = $this->survey_service
@@ -506,17 +503,17 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             
     public function savePropertiesObject() : void
     {
-        $settings_ui = $this->survey_service->ui()->surveySettings($this->object);
+        $settings_ui = $this->survey_service->gui()->surveySettings($this->object);
 
         $form = $settings_ui->form("ilObjSurveyGUI");
         if ($settings_ui->checkForm($form)) {
             $settings_ui->saveForm($form);
 
-            if (strcmp($_SESSION["info"] ?? "", "") != 0) {
-                ilUtil::sendSuccess($_SESSION["info"] . "<br />" . $this->lng->txt("settings_saved"), true);
-            } else {
-                ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
-            }
+            // settings change clear the code
+            // this is adopted from ILIAS 7, unsure if or when this is necessary
+            $this->run_manager->clearCode();
+
+            ilUtil::sendSuccess($this->lng->txt("settings_saved"), true);
             $this->ctrl->redirect($this, "properties");
         }
 
@@ -528,7 +525,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function initPropertiesForm() : ilPropertyFormGUI
     {
         $form = $this->survey_service
-            ->ui()->surveySettings($this->object)->form("ilObjSurveyGUI");
+            ->gui()->surveySettings($this->object)->form("ilObjSurveyGUI");
         return $form;
     }
     
@@ -727,7 +724,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         }
         $ilTabs->activateTab("info_short");
 
-        $info = $this->survey_service->ui()->infoScreen($this, $this->toolbar);
+        $info = $this->survey_service->gui()->infoScreen($this, $this->toolbar);
 
         $this->ctrl->forwardCommand($info);
     }
@@ -792,8 +789,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         // see ilObjSurveyAccess::_checkGoto()
         if (strlen($a_access_code)) {
             $sess = $DIC->survey()->internal()->repo()
-                ->execution()->anonymousSession();
-            //$_SESSION["anonymous_id"][ilObject::_lookupObjId($a_target)] = $a_access_code;
+                ->execution()->runSession();
             $sess->setCode(ilObject::_lookupObjId($a_target), $a_access_code);
             $_GET["baseClass"] = "ilObjSurveyGUI";
             $_GET["cmd"] = "infoScreen";
@@ -884,8 +880,8 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $ilUser = $this->user;
         $tpl = $this->tpl;
         $ilTabs = $this->tabs;
-        
-        $anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
+
+        $anonymous_code = $this->run_manager->getCode();
         $active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);
 
         if (!$this->run_manager->hasFinished() ||
@@ -1044,7 +1040,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     {
         $ilUser = $this->user;
         
-        $anonymous_code = $_SESSION["anonymous_id"][$this->object->getId()];
+        $anonymous_code = $this->run_manager->getCode();
         $active_id = $this->object->getActiveID($ilUser->getId(), $anonymous_code, 0);
         if (!$this->run_manager->hasFinished() ||
             !$active_id) {

@@ -19,24 +19,23 @@ use ILIAS\Survey\Settings;
 use ILIAS\Survey\Mode\ModeFactory;
 use ILIAS\Survey\Mode\UIModifier;
 use Psr\Http\Message\ServerRequestInterface;
+use ILIAS\Repository\GlobalDICGUIServices;
 
 /**
  * Survey internal ui service
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class InternalUIService
+class InternalGUIService
 {
-    protected \ilCtrl $ctrl;
+    use GlobalDICGUIServices;
+
     protected \ilObjectServiceInterface $object_service;
     protected \ilLanguage $lng;
     protected ModeFactory $mode_factory;
     protected InternalDomainService $domain_service;
     protected ServerRequestInterface $request;
     protected \ilObjUser $user;
-    protected \ilGlobalTemplateInterface $main_tpl;
-    protected \ILIAS\DI\UIServices $ui;
-    protected \ILIAS\HTTP\Services $http;
 
     public function __construct(
         \ilObjectServiceInterface $object_service,
@@ -101,28 +100,9 @@ class InternalUIService
         return $mode_provider->getUIModifier();
     }
 
-    public function ctrl() : \ilCtrl
-    {
-        return $this->ctrl;
-    }
 
     public function lng() : \ilLanguage
     {
         return $this->lng;
-    }
-
-    public function mainTemplate() : \ilGlobalTemplateInterface
-    {
-        return $this->main_tpl;
-    }
-
-    public function http() : \ILIAS\HTTP\Services
-    {
-        return $this->http;
-    }
-
-    public function ui() : \ILIAS\DI\UIServices
-    {
-        return $this->ui;
     }
 }

@@ -240,4 +240,28 @@ class RunDBRepository
 
         return $next_id;
     }
+
+    /**
+     * Add time record
+     */
+    public function addTime(int $run_id, int $time, int $first_question) : void
+    {
+        $db = $this->db;
+        $id = $db->nextId('svy_times');
+        $db->manipulateF(
+            "INSERT INTO svy_times (id, finished_fi, entered_page, left_page, first_question) VALUES (%s, %s, %s, %s,%s)",
+            array('integer','integer', 'integer', 'integer', 'integer'),
+            array($id, $run_id, $time, null, $first_question)
+        );
+    }
+
+    public function updateTime(int $run_id, int $time, int $entered_time) : void
+    {
+        $db = $this->db;
+        $db->manipulateF(
+            "UPDATE svy_times SET left_page = %s WHERE finished_fi = %s AND entered_page = %s",
+            array('integer', 'integer', 'integer'),
+            array($time, $run_id, $entered_time)
+        );
+    }
 }

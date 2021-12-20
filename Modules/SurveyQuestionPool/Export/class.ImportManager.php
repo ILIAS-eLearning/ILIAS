@@ -13,37 +13,34 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\Survey\Execution;
-
-use ILIAS\Survey\InternalDataService;
+namespace ILIAS\SurveyQuestionPool\Export;
 
 /**
- * Execution repos
+ * Manages items in repository clipboard
+ *
  * @author Alexander Killing <killing@leifos.de>
  */
-class RepoService
+class ImportManager
 {
-    protected \ilDBInterface $db;
-    protected InternalDataService $data;
+    protected ImportSessionRepository $repo;
 
-    public function __construct(
-        InternalDataService $data,
-        \ilDBInterface $db
-    ) {
-        $this->db = $db;
-        $this->data = $data;
+    public function __construct(ImportSessionRepository $repo)
+    {
+        $this->repo = $repo;
     }
 
-    public function runSession() : RunSessionRepo
+    public function getMobs() : array
     {
-        return new RunSessionRepo();
+        return $this->repo->getMobs();
     }
 
-    public function run() : RunDBRepository
+    public function addMob(string $label, string $uri) : void
     {
-        return new RunDBRepository(
-            $this->data,
-            $this->db
-        );
+        $this->repo->addMob($label, $uri);
+    }
+
+    public function clearMobs() : void
+    {
+        $this->repo->clearMobs();
     }
 }

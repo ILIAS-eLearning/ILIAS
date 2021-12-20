@@ -16,7 +16,7 @@
 namespace ILIAS\Survey\Mode\Feedback360;
 
 use \ILIAS\Survey\Mode;
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 
 /**
  * Interface for modes
@@ -28,7 +28,7 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilObjSurvey $survey
     ) : array {
         $items = [];
-        $lng = $this->service->ui()->lng();
+        $lng = $this->service->gui()->lng();
 
         $self_eval = new \ilCheckboxInputGUI($lng->txt("survey_360_self_evaluation"), "self_eval");
         $self_eval->setInfo($lng->txt("survey_360_self_evaluation_info"));
@@ -40,7 +40,7 @@ class UIModifier extends Mode\AbstractUIModifier
 
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         $items = [];
         $lng = $ui_service->lng();
@@ -72,7 +72,7 @@ class UIModifier extends Mode\AbstractUIModifier
 
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         $items = [];
         $lng = $ui_service->lng();

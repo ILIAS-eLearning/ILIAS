@@ -13,57 +13,39 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\Survey;
+namespace ILIAS\SurveyQuestionPool;
 
-use ILIAS\Survey\Mode\ModeFactory;
+use ILIAS\DI\Container;
 
 /**
- * Survey internal service
+ * Survey question pool internal service
  * @author Alexander Killing <killing@leifos.de>
  */
 class InternalService
 {
     protected InternalDataService $data;
-    protected InternalGUIService $gui;
-    protected InternalDomainService $domain;
     protected InternalRepoService $repo;
-    protected ModeFactory $mode_factory;
-    protected \ilDBInterface $db;
+    protected InternalDomainService $domain;
+    protected InternalGUIService $gui;
 
-    public function __construct()
+    public function __construct(Container $DIC)
     {
-        global $DIC;
-
-        $object_service = $DIC->object();
-        $this->db = $DIC->database();
-
-        $this->mode_factory = new ModeFactory();
         $this->data = new InternalDataService();
+
         $this->repo = new InternalRepoService(
             $this->data(),
-            $this->db
+            $DIC->database()
         );
         $this->domain = new InternalDomainService(
-            $this->mode_factory,
+            $DIC,
             $this->repo,
             $this->data
         );
         $this->gui = new InternalGUIService(
-            $object_service,
-            $this->mode_factory,
+            $DIC,
+            $this->data,
             $this->domain
         );
-        $this->mode_factory->setInternalService($this);
-    }
-
-    public function gui() : InternalGUIService
-    {
-        return $this->gui;
-    }
-
-    public function repo() : InternalRepoService
-    {
-        return $this->repo;
     }
 
     public function data() : InternalDataService
@@ -71,8 +53,18 @@ class InternalService
         return $this->data;
     }
 
+    public function repo() : InternalRepoService
+    {
+        return $this->repo;
+    }
+
     public function domain() : InternalDomainService
     {
         return $this->domain;
+    }
+
+    public function gui() : InternalGUIService
+    {
+        return $this->gui;
     }
 }

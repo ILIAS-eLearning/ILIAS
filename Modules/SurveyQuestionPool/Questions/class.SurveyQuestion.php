@@ -21,6 +21,7 @@
  */
 class SurveyQuestion
 {
+    protected \ILIAS\SurveyQuestionPool\Editing\EditSessionRepository $edit_manager;
     protected ilObjUser $user;
     protected ilDBInterface $db;
     public int $id;
@@ -41,6 +42,11 @@ class SurveyQuestion
     protected array $cumulated;
     private array $arrData;         //  question data
     protected ilLogger $log;
+
+    /**
+     * @var \ILIAS\SurveyQuestionPool\Export\ImportSessionRepository
+     */
+    protected $import_manager;
 
     public function __construct(
         string $title = "",
@@ -79,6 +85,15 @@ class SurveyQuestion
         $this->arrData = array();
 
         $this->log = ilLoggerFactory::getLogger('svy');
+        $this->import_manager = $DIC->surveyQuestionPool()
+            ->internal()
+            ->repo()
+            ->import();
+
+        $this->edit_manager = $DIC->surveyQuestionPool()
+            ->internal()
+            ->repo()
+            ->editing();
     }
 
     public function setComplete(bool $a_complete) : void
@@ -1389,10 +1404,10 @@ class SurveyQuestion
                 $matimage = $material["material"];
                 if (preg_match("/(il_([0-9]+)_mob_([0-9]+))/", $matimage->getLabel(), $matches)) {
                     // import an mediaobject which was inserted using tiny mce
-                    if (!is_array($_SESSION["import_mob_xhtml"])) {
-                        $_SESSION["import_mob_xhtml"] = array();
-                    }
-                    array_push($_SESSION["import_mob_xhtml"], array("mob" => $matimage->getLabel(), "uri" => $matimage->getUri()));
+                    $this->import_manager->addMob(
+                        $matimage->getLabel(),
+                        $matimage->getUri()
+                    );
                 }
             }
         }

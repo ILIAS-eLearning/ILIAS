@@ -20,6 +20,7 @@
  */
 class ilObjSurveyQuestionPool extends ilObject
 {
+    protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
     protected ilObjUser $user;
     public bool $online = false;
     protected ilComponentRepository $component_repository;
@@ -36,6 +37,10 @@ class ilObjSurveyQuestionPool extends ilObject
         $this->component_repository = $DIC["component.repository"];
         $this->type = "spl";
         parent::__construct($a_id, $a_call_by_reference);
+        $this->edit_manager = $DIC->surveyQuestionPool()
+            ->internal()
+            ->domain()
+            ->editing();
     }
 
     public function create($a_upload = false)
@@ -876,10 +881,7 @@ class ilObjSurveyQuestionPool extends ilObject
     public function copyToClipboard(
         int $question_id
     ) : void {
-        if (!array_key_exists("spl_clipboard", $_SESSION)) {
-            $_SESSION["spl_clipboard"] = array();
-        }
-        $_SESSION["spl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "copy");
+        $this->edit_manager->addQuestionToClipboard($question_id, "copy");
     }
     
     /**
@@ -888,10 +890,7 @@ class ilObjSurveyQuestionPool extends ilObject
     public function moveToClipboard(
         int $question_id
     ) : void {
-        if (!array_key_exists("spl_clipboard", $_SESSION)) {
-            $_SESSION["spl_clipboard"] = array();
-        }
-        $_SESSION["spl_clipboard"][$question_id] = array("question_id" => $question_id, "action" => "move");
+        $this->edit_manager->addQuestionToClipboard($question_id, "move");
     }
 
     /**
@@ -901,8 +900,10 @@ class ilObjSurveyQuestionPool extends ilObject
     {
         $ilDB = $this->db;
 
-        if (array_key_exists("spl_clipboard", $_SESSION)) {
-            foreach ($_SESSION["spl_clipboard"] as $question_object) {
+
+        $qentries = $this->edit_manager->getQuestionsFromClipboard();
+        if (count($qentries) > 0) {
+            foreach ($qentries as $question_object) {
                 if (strcmp($question_object["action"], "move") == 0) {
                     $result = $ilDB->queryF(
                         "SELECT obj_fi FROM svy_question WHERE question_id = %s",
@@ -940,7 +941,7 @@ class ilObjSurveyQuestionPool extends ilObject
             }
         }
         ilUtil::sendSuccess($this->lng->txt("spl_paste_success"), true);
-        unset($_SESSION["spl_clipboard"]);
+        $this->edit_manager->clearClipboardQuestions();
     }
     
     /**

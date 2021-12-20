@@ -15,7 +15,7 @@
 
 namespace ILIAS\Survey\Settings;
 
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\Mode\UIModifier;
 use ILIAS\Survey\InternalDomainService;
 
@@ -25,7 +25,7 @@ use ILIAS\Survey\InternalDomainService;
  */
 class SettingsFormGUI
 {
-    protected InternalUIService $ui_service;
+    protected InternalGUIService $ui_service;
     protected \ilObjectServiceInterface $object_service;
     protected \ilObjSurvey $survey;
     protected UIModifier $modifier;
@@ -34,7 +34,7 @@ class SettingsFormGUI
     protected \ilRbacSystem $rbacsystem;
 
     public function __construct(
-        InternalUIService $ui_service,
+        InternalGUIService $ui_service,
         InternalDomainService $domain_service,
         \ilObjectServiceInterface $object_service,
         \ilObjSurvey $survey,

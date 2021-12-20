@@ -44,10 +44,15 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->setId("il_svy_qst");
         $this->setLimit(9999);
 
+        $edit_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->edit();
+
         if (!$this->read_only) {
             // command dropdown
-            if (!array_key_exists("move_questions", $_SESSION) ||
-                $_SESSION["move_questions_survey_id"] != $this->object->getId()) {
+            if (count($edit_manager->getMoveSurveyQuestions()) == 0 ||
+                $edit_manager->getMoveSurveyId() != $this->object->getId()) {
                 $this->addMultiCommand("createQuestionblock", $lng->txt("define_questionblock"));
                 $this->addMultiCommand("unfoldQuestionblock", $lng->txt("unfold"));
                 $this->addMultiCommand("removeQuestions", $lng->txt("remove_question"));

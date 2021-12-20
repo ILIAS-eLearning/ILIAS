@@ -16,7 +16,7 @@
 namespace ILIAS\Survey\Mode\IndividualFeedback;
 
 use \ILIAS\Survey\Mode;
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 
 /**
  * Interface for modes
@@ -34,7 +34,7 @@ class UIModifier extends Mode\AbstractUIModifier
 
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         $items = [];
         $lng = $ui_service->lng();
@@ -60,7 +60,7 @@ class UIModifier extends Mode\AbstractUIModifier
 
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         $items = [];
         $lng = $ui_service->lng();
@@ -151,9 +151,9 @@ class UIModifier extends Mode\AbstractUIModifier
         \ilToolbarGUI $toolbar,
         int $user_id
     ) : void {
-        $lng = $this->service->ui()->lng();
-        $ctrl = $this->service->ui()->ctrl();
-        $req = $this->service->ui()->evaluation($survey)->request();
+        $lng = $this->service->gui()->lng();
+        $ctrl = $this->service->gui()->ctrl();
+        $req = $this->service->gui()->evaluation($survey)->request();
 
         $evaluation_manager = $this->service->domain()->evaluation(
             $survey,
@@ -210,7 +210,7 @@ class UIModifier extends Mode\AbstractUIModifier
         \SurveyQuestionEvaluation $a_eval
     ) : string {
         $a_results = $a_eval->getResults();
-        $lng = $this->service->ui()->lng();
+        $lng = $this->service->gui()->lng();
         $matrix = false;
         if (is_array($a_results)) {
             $answers = $a_results[0][1]->getAnswers();

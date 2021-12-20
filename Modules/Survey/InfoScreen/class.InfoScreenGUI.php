@@ -33,7 +33,6 @@ class InfoScreenGUI
     protected \ilToolbarGUI $toolbar;
     protected \ilObjSurveyGUI $survey_gui;
     protected Participants\StatusManager $status_manager;
-    protected Execution\SessionManager $session_manager;
     protected Access\AccessManager $access_manager;
     protected Execution\RunManager $run_manager;
     protected ServerRequestInterface $request;
@@ -58,7 +57,6 @@ class InfoScreenGUI
         $survey = $survey_gui->object;
         $this->survey = $survey;
         $this->status_manager = $domain_service->participants()->status($this->survey, $user->getId());
-        $this->session_manager = $domain_service->execution()->session($this->survey, $user->getId());
         $this->access_manager = $domain_service->access($this->survey->getRefId(), $user->getId());
         $this->run_manager = $domain_service->execution()->run($this->survey, $user->getId());
         $this->feature_config = $domain_service->modeFeatureConfig($this->survey->getMode());
@@ -90,18 +88,18 @@ class InfoScreenGUI
 
         // handle (anonymous) code
 
-        $this->session_manager->initSession($this->requested_code);
-        $anonymous_code = $this->session_manager->getCode();
+        $this->run_manager->initSession($this->requested_code);
+        $anonymous_code = $this->run_manager->getCode();
 
         // completed message
-        if ($this->status_manager->cantStartAgain($anonymous_code)) {
+        if ($this->status_manager->cantStartAgain()) {
             \ilUtil::sendInfo($this->lng->txt("already_completed_survey"));
         }
 
         $separator = false;
 
         // view results button
-        if ($this->status_manager->canViewUserResults($anonymous_code)) {
+        if ($this->status_manager->canViewUserResults()) {
             $button = \ilLinkButton::getInstance();
             $button->setCaption("svy_view_own_results");
             $button->setUrl($this->ctrl->getLinkTarget($this->survey_gui, "viewUserResults"));
@@ -110,7 +108,7 @@ class InfoScreenGUI
         }
 
         // confirmation mail button / input
-        if ($this->status_manager->canMailUserResults($anonymous_code)) {
+        if ($this->status_manager->canMailUserResults()) {
             if ($separator) {
                 $toolbar->addSeparator();
             }

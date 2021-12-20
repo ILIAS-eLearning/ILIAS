@@ -22,6 +22,7 @@ use \ILIAS\Survey\Participants;
  */
 class ilSurveyParticipantsGUI
 {
+    protected \ILIAS\Survey\Editing\EditManager $edit_manager;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
@@ -83,6 +84,9 @@ class ilSurveyParticipantsGUI
         $this->feature_config = $this
             ->survey_service
             ->domain()->modeFeatureConfig($this->object->getMode());
+        $this->edit_manager = $this->survey_service
+            ->domain()
+            ->edit();
     }
     
     protected function handleWriteAccess() : void
@@ -851,7 +855,7 @@ class ilSurveyParticipantsGUI
             $data = preg_split("/[\n\r]/", $_POST['externaltext']);
             $fields = preg_split("/;/", array_shift($data));
             if (!in_array('email', $fields)) {
-                $_SESSION['externaltext'] = $_POST['externaltext'];
+                $this->edit_manager->setExternalText($_POST['externaltext']);
                 ilUtil::sendFailure($this->lng->txt('err_external_rcp_no_email_column'), true);
                 $this->ctrl->redirect($this, 'importExternalMailRecipientsFromTextForm');
             }
@@ -1043,8 +1047,9 @@ class ilSurveyParticipantsGUI
         $form_import_text->addItem($headertext);
 
         $inp = new ilTextAreaInputGUI($this->lng->txt('externaltext'), 'externaltext');
-        if (array_key_exists('externaltext', $_SESSION) && strlen($_SESSION['externaltext'])) {
-            $inp->setValue($_SESSION['externaltext']);
+        $external_text = $this->edit_manager->getExternalText();
+        if ($external_text != "") {
+            $inp->setValue($external_text);
         } else {
             // $this->lng->txt('mail_import_example1') #14897
             $inp->setValue("email;firstname;lastname\n" . $this->lng->txt('mail_import_example2') . "\n" . $this->lng->txt('mail_import_example3') . "\n");
@@ -1054,7 +1059,7 @@ class ilSurveyParticipantsGUI
         $inp->setRows(10);
         $inp->setInfo($this->lng->txt('externaltext_info'));
         $form_import_text->addItem($inp);
-        unset($_SESSION['externaltext']);
+        $this->edit_manager->setExternalText("");
 
         if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
             $form_import_text->addCommandButton("importExternalRecipientsFromText", $this->lng->txt("import"));
