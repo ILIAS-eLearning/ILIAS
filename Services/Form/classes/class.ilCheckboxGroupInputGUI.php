@@ -117,7 +117,7 @@ class ilCheckboxGroupInputGUI extends ilSubEnabledFormPropertyGUI implements ilT
         return $ok;
     }
 
-    protected function getInput() : array
+    public function getInput() : array
     {
         return $this->strArray($this->getPostVar());
     }
