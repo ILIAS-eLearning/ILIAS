@@ -2002,4 +2002,24 @@ class ilObject
     {
         return $this->obj_definition->getSubObjects($this->type, $filter);
     }
-}
+
+    public static function _getObjectTypeIdByTitle(string $type) : ?int
+    {
+        global $DIC;
+        $ilDB = $DIC->database();
+
+        $sql =
+            "SELECT obj_id FROM object_data" . PHP_EOL
+            ."WHERE type = 'typ'" . PHP_EOL
+            ."AND title = " . $ilDB->quote($type, 'text') . PHP_EOL
+        ;
+
+        $res = $ilDB->query($sql);
+        if ($ilDB->numRows($res) == 0) {
+            return null;
+        }
+
+        $row = $ilDB->fetchAssoc($res);
+        return (int) $row['obj_id'] ?? null;
+    }
+} // END class.ilObject
