@@ -2,6 +2,7 @@
 
 use ILIAS\Setup;
 use ILIAS\DI;
+use ILIAS\COPage\Setup\ilCOPageDBUpdateSteps;
 
 class ilComponentDefinitionsStoredObjective implements Setup\Objective
 {
@@ -45,7 +46,8 @@ class ilComponentDefinitionsStoredObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new \ilDatabaseUpdatedObjective()
+            new \ilDatabaseUpdatedObjective(),
+            new \ilDatabaseUpdateStepsExecutedObjective(new ilCOPageDBUpdateSteps())
         ];
     }
 
