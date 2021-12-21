@@ -1163,7 +1163,7 @@ class ilLMPresentationGUI
         if (!$this->offlineMode()) {
             // LTI
             if ($ltiview->isActive()) {
-                // Do nothing, its complicated...
+                $ilLocator->addRepositoryItems();
             } else {
                 $ilLocator->addRepositoryItems();
                 //$ilLocator->addItem("...", "");
