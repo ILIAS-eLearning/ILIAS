@@ -19,7 +19,8 @@
 */
 class ilSearchGUI extends ilSearchBaseGUI
 {
-    
+
+    private array $details;
     public int $root_node;
     public string $combination;
     public string $string;
@@ -76,11 +77,8 @@ class ilSearchGUI extends ilSearchBaseGUI
     * Control
     * @access public
     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        
-
-
         $next_class = $this->ctrl->getNextClass($this);
         $cmd = $this->ctrl->getCmd();
 
@@ -90,7 +88,8 @@ class ilSearchGUI extends ilSearchBaseGUI
                 $form = $this->getSearchAreaForm();
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, 'storeRoot');
-                return $this->ctrl->forwardCommand($form);
+                $this->ctrl->forwardCommand($form);
+                return;
                 
             case 'ilobjectcopygui':
                 $this->prepareOutput();
@@ -107,42 +106,41 @@ class ilSearchGUI extends ilSearchBaseGUI
                 $this->handleCommand($cmd);
                 break;
         }
-        return true;
     }
 
     /**
     * Set/get type of search (detail or 'fast' search)
     * @access public
     */
-    public function setType($a_type)
+    public function setType(int $a_type) : void
     {
         $_SESSION['search']['type'] = $this->type = $a_type;
     }
-    public function getType()
+    public function getType() : int
     {
-        return $this->type ? $this->type : ilSearchBaseGUI::SEARCH_FAST;
+        return $this->type ?: ilSearchBaseGUI::SEARCH_FAST;
     }
     /**
     * Set/get combination of search ('and' or 'or')
     * @access public
     */
-    public function setCombination($a_combination)
+    public function setCombination(string $a_combination) : void
     {
         $_SESSION['search']['combination'] = $this->combination = $a_combination;
     }
-    public function getCombination()
+    public function getCombination() : string
     {
-        return $this->combination ? $this->combination : ilSearchBaseGUI::SEARCH_OR;
+        return $this->combination ?: ilSearchBaseGUI::SEARCH_OR;
     }
     /**
     * Set/get search string
     * @access public
     */
-    public function setString($a_str)
+    public function setString(string $a_str) : void
     {
         $_SESSION['search']['string'] = $this->string = $a_str;
     }
-    public function getString()
+    public function getString() : string
     {
         return $this->string;
     }
@@ -150,27 +148,27 @@ class ilSearchGUI extends ilSearchBaseGUI
     * Set/get details (object types for details search)
     * @access public
     */
-    public function setDetails($a_details)
+    public function setDetails(array $a_details) : void
     {
         $_SESSION['search']['details'] = $this->details = $a_details;
     }
-    public function getDetails()
+    public function getDetails() : array
     {
-        return $this->details ? $this->details : array();
+        return $this->details ?: [];
     }
 
         
-    public function getRootNode()
+    public function getRootNode() : int
     {
-        return $this->root_node ? $this->root_node : ROOT_FOLDER_ID;
+        return $this->root_node ?: ROOT_FOLDER_ID;
     }
-    public function setRootNode($a_node_id)
+    public function setRootNode(int $a_node_id) : void
     {
         $_SESSION['search_root'] = $this->root_node = $a_node_id;
     }
         
     
-    public function remoteSearch()
+    public function remoteSearch() : void
     {
         $this->setString(ilUtil::stripSlashes($_POST['queryString']));
         $this->setRootNode((int) $_POST['root_id']);
@@ -180,7 +178,7 @@ class ilSearchGUI extends ilSearchBaseGUI
     /**
      * Store new root node
      */
-    protected function storeRoot()
+    protected function storeRoot() : void
     {
         $form = $this->getSearchAreaForm();
 
@@ -188,9 +186,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->search_cache->setRoot($this->root_node);
         $this->search_cache->save();
         $this->search_cache->deleteCachedEntries();
-
-                ilSubItemListGUI::resetDetails();
-
+        ilSubItemListGUI::resetDetails();
         $this->performSearch();
     }
 
@@ -204,7 +200,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $result_field = 'login';
 
             // Starting user autocomplete search
-                        $auto = new ilUserAutoComplete();
+            $auto = new ilUserAutoComplete();
 
 
             $auto->setMoreLinkAvailable(true);
@@ -235,7 +231,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         }
     }
     
-    public function showSearch()
+    public function showSearch() : void
     {
         
         // include js needed
@@ -283,11 +279,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 
         // search area form
         $this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
-
-        return true;
     }
 
-    public function showSavedResults()
+    public function showSavedResults() : void
     {
 
         // Read old result sets
@@ -310,18 +304,15 @@ class ilSearchGUI extends ilSearchBaseGUI
 
             if ($presentation->render()) {
                 //				$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
-                $this->tpl->setVariable('RESULTS_TABLE', $presentation->getHTML(true));
+                $this->tpl->setVariable('RESULTS_TABLE', $presentation->getHTML());
             }
         }
-
-        return true;
     }
-        
 
     /**
      * Perform search
      */
-    public function performSearch()
+    public function performSearch() : bool
     {
         
         if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
@@ -392,16 +383,15 @@ class ilSearchGUI extends ilSearchBaseGUI
         // Step 6: show results
         $this->addPager($result, 'max_page');
         
-                $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
+        $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
         $presentation->setResults($result->getResultsForPresentation());
         $presentation->setSubitemIds($result->getSubitemIds());
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
 
         if ($presentation->render()) {
             //			$this->tpl->setVariable('SEARCH_RESULTS',$presentation->getHTML());
-            $this->tpl->setVariable('RESULTS_TABLE', $presentation->getHTML(true));
+            $this->tpl->setVariable('RESULTS_TABLE', $presentation->getHTML());
         }
-
         return true;
     }
 
@@ -409,8 +399,6 @@ class ilSearchGUI extends ilSearchBaseGUI
 
     public function prepareOutput() : void
     {
-
-        
         parent::prepareOutput();
         
         $this->help_gui->setScreenIdComponent("src");
@@ -432,8 +420,7 @@ class ilSearchGUI extends ilSearchBaseGUI
         $this->tabs_gui->activateTab("search");
     }
 
-    // PRIVATE
-    public function &__performDetailsSearch(&$query_parser, &$result)
+    protected function __performDetailsSearch(ilQueryParser $query_parser, ilSearchResult $result) : ilSearchResult
     {
         foreach ($this->getDetails() as $type => $enabled) {
             if (!$enabled) {
@@ -482,7 +469,7 @@ class ilSearchGUI extends ilSearchBaseGUI
                     break;
 
                 case 'mcst':
-                    $mcst_search = ilObjectSearchFactory::_getMediaCastSearchInstance($query_parser);
+                    $mcst_search = ilObjectSearchFactory::_getMediacastSearchInstance($query_parser);
                     $result->mergeEntries($mcst_search->performSearch());
                     break;
 
@@ -522,12 +509,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 
     /**
     * parse query string, using query parser instance
-    * @return object of query parser or error message if an error occured
-    * @access public
     */
-    public function __parseQueryString()
+    public function __parseQueryString() : ilQueryParser
     {
-
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->getString()));
         $query_parser->setCombination($this->getCombination());
         $query_parser->parse();
@@ -539,22 +523,18 @@ class ilSearchGUI extends ilSearchBaseGUI
     }
     /**
     * Search in obect title,desctiption
-    * @return object result object
-    * @access public
     */
-    public function __searchObjects(&$query_parser)
+    public function __searchObjects(ilQueryParser $query_parser) : ilSearchResult
     {
-
         $obj_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
         if ($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS) {
             $obj_search->setFilter($this->__getFilter());
         }
-        
         $this->parseCreationFilter($obj_search);
         return $obj_search->performSearch();
     }
     
-    public function parseCreationFilter(ilObjectSearch $search)
+    public function parseCreationFilter(ilObjectSearch $search) : bool
     {
         $options = $this->getSearchCache()->getCreationFilter();
         
@@ -584,10 +564,10 @@ class ilSearchGUI extends ilSearchBaseGUI
 
     /**
     * Search in object meta data (keyword)
-    * @return object result object
+    * @return ilSearchResult result object
     * @access public
     */
-    public function __searchMeta($query_parser, $a_type)
+    public function __searchMeta(ilQueryParser $query_parser, string $a_type) : ilSearchResult
     {
 
         $meta_search = ilObjectSearchFactory::_getMetaDataSearchInstance($query_parser);
@@ -615,15 +595,15 @@ class ilSearchGUI extends ilSearchBaseGUI
     }
     /**
     * Get object type for filter (If detail search is enabled)
-    * @return array object types
-    * @access public
+     * @return string[]
     */
-    public function __getFilter()
+    public function __getFilter() : array
     {
         if ($this->getType() != ilSearchBaseGUI::SEARCH_DETAILS) {
-            return false;
+            return [];
         }
-        
+
+        $filter = [];
         foreach ($this->getDetails() as $key => $detail_type) {
             if (!$detail_type) {
                 continue;
@@ -679,7 +659,7 @@ class ilSearchGUI extends ilSearchBaseGUI
                     $filter[] = $key;
             }
         }
-        return $filter ? $filter : array();
+        return $filter;
     }
 
 }

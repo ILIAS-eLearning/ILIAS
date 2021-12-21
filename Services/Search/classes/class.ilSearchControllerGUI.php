@@ -39,7 +39,7 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         $this->system = $DIC->rbac()->system();
     }
 
-    public function getLastClass()
+    public function getLastClass() : string
     {
                 if (ilSearchSettings::getInstance()->enabledLucene()) {
             $default = 'illucenesearchgui';
@@ -54,16 +54,13 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         
         return $_SESSION['search_last_class'] ? $_SESSION['search_last_class'] : $default;
     }
-    public function setLastClass($a_class)
+    public function setLastClass(string $a_class) : void
     {
         $_SESSION['search_last_class'] = $a_class;
     }
 
-    public function executeCommand()
+    public function executeCommand() : void
     {
-
-
-
         // Check hacks
         if (!$this->system->checkAccess('search', ilSearchSettings::_getSearchSettingRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
@@ -89,15 +86,12 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
             case 'iladvancedsearchgui':
                 // Remember last class
                 $this->setLastClass('iladvancedsearchgui');
-
-
                 $this->ctrl->forwardCommand(new ilAdvancedSearchGUI());
                 break;
 
             case 'ilsearchgui':
                 // Remember last class
                 $this->setLastClass('ilsearchgui');
-
                 // no break
             default:
 
@@ -106,7 +100,5 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
                 break;
         }
         $this->tpl->printToStdout();
-
-        return true;
     }
 }

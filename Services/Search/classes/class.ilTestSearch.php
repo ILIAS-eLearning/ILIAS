@@ -31,15 +31,13 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
-
 class ilTestSearch extends ilAbstractSearch
 {
-    public function &__searchTestIntroduction()
+    public function __searchTestIntroduction() : ilSearchResult
     {
         $this->setFields(array('introduction'));
 
-        $where = $this->__createWhereCondition(implode(',', $this->getFields()));
+        $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_fi  " .
@@ -53,11 +51,12 @@ class ilTestSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function &__searchTestTitle()
+
+    public function __searchTestTitle() : ilSearchResult
     {
         $this->setFields(array('title','description'));
 
-        $where = $this->__createWhereCondition(implode(',', $this->getFields()));
+        $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_fi  " .
@@ -71,11 +70,11 @@ class ilTestSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function &__searchSurveyIntroduction()
+    public function __searchSurveyIntroduction() : ilSearchResult
     {
         $this->setFields(array('introduction'));
 
-        $where = $this->__createWhereCondition(implode(',', $this->getFields()));
+        $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_fi  " .
@@ -89,11 +88,11 @@ class ilTestSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-    public function &__searchSurveyTitle()
+    public function __searchSurveyTitle() : ilSearchResult
     {
         $this->setFields(array('title','description'));
 
-        $where = $this->__createWhereCondition(implode(',', $this->getFields()));
+        $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();
 
         $query = "SELECT obj_fi  " .
@@ -115,7 +114,6 @@ class ilTestSearch extends ilAbstractSearch
         $this->__searchTestIntroduction();
         $this->__searchSurveyTitle();
         $this->__searchSurveyIntroduction();
-
         return $this->search_result;
     }
 }

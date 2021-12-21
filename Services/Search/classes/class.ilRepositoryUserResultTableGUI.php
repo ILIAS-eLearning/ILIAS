@@ -143,8 +143,6 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
 
     protected function fillRow($a_set)
     {
-
-
         $this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
         
         $link = '';

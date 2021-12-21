@@ -355,9 +355,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
         $object_search->setFields(array('title'));
         $object_search->appendToFilter('role');
         $object_search->appendToFilter('rolt');
-        $res =&$object_search->performSearch();
+        $res = $object_search->performSearch();
         if ($user_id) {
-            $res->setUserId($user_id);
+            $res->setUserId((int) $user_id);
         }
 
         $res->filter(ROOT_FOLDER_ID, true);
@@ -483,9 +483,9 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
             $object_search->setFilter($types);
 
-            $res =&$object_search->performSearch();
+            $res = $object_search->performSearch();
             if ($user_id) {
-                $res->setUserId($user_id);
+                $res->setUserId((int) $user_id);
             }
             // begin-patch fm
             $res->setMaxHits(100);

@@ -52,16 +52,14 @@ class ilWikiContentSearch extends ilAbstractSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->parent_id, $row->parent_type, $this->__prepareFound($row), $row->page_id);
         }
-
         return $this->search_result;
     }
 
 
 
     // Protected can be overwritten in Like or Fulltext classes
-    public function __createInStatement()
+    public function __createInStatement() : string
     {
-        
         if (!$this->getFilter() and !$this->getIdFilter()) {
             return '';
         }

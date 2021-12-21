@@ -91,9 +91,4 @@ class ilLMContentSearch extends ilAbstractSearch
         }
         return $in;
     }
-
-    public function __createAndCondition() : void
-    {
-        echo "Overwrite me!";
-    }
 }

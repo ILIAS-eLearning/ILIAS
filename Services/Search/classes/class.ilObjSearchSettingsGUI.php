@@ -37,7 +37,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
             case 'ilpermissiongui':
                 $this->tabs_gui->setTabActive('perm_settings');
                 $perm_gui = new ilPermissionGUI($this);
-                $ret = &$this->ctrl->forwardCommand($perm_gui);
+                $ret = $this->ctrl->forwardCommand($perm_gui);
                 break;
 
             default:
@@ -71,9 +71,6 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
 
     public function saveSettingsObject() : bool
     {
-
-
-
         if (!$this->rbacsystem->checkAccess('write', $this->object->getRefId())) {
             $this->ilias->raiseError($this->lng->txt("permission_denied"), $this->ilias->error_obj->MESSAGE);
         }

@@ -43,16 +43,9 @@ class ilSearchCommandQueueElement
     private bool $finished;
     
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-    }
-    
-    /**
      * set obj_id
      */
-    public function setObjId($a_id)
+    public function setObjId(int $a_id) : void
     {
         $this->obj_id = $a_id;
     }
@@ -60,7 +53,7 @@ class ilSearchCommandQueueElement
     /**
      * get obj_id
      */
-    public function getObjId()
+    public function getObjId() : int
     {
         return $this->obj_id;
     }
@@ -68,7 +61,7 @@ class ilSearchCommandQueueElement
     /**
      * set obj_type
      */
-    public function setObjType($a_type)
+    public function setObjType($a_type) : string
     {
         $this->obj_type = $a_type;
     }
@@ -76,7 +69,7 @@ class ilSearchCommandQueueElement
     /**
      * get obj_type
      */
-    public function getObjType()
+    public function getObjType() : string
     {
         return $this->obj_type;
     }
@@ -84,7 +77,7 @@ class ilSearchCommandQueueElement
     /**
      * set command
      */
-    public function setCommand($a_command)
+    public function setCommand(string $a_command) : void
     {
         $this->command = $a_command;
     }
@@ -92,7 +85,7 @@ class ilSearchCommandQueueElement
     /**
      * get command
      */
-    public function getCommand()
+    public function getCommand() : string
     {
         return $this->command;
     }
@@ -100,7 +93,7 @@ class ilSearchCommandQueueElement
     /**
      * set last_update
      */
-    public function setLastUpdate(ilDateTime $date_time)
+    public function setLastUpdate(ilDateTime $date_time) : void
     {
         $this->last_update = $date_time;
     }
@@ -108,7 +101,7 @@ class ilSearchCommandQueueElement
     /**
      * get last update
      */
-    public function getLastUpdate()
+    public function getLastUpdate() : ?ilDateTime
     {
         return is_object($this->last_update) ? $this->last_update : null;
     }
@@ -116,7 +109,7 @@ class ilSearchCommandQueueElement
     /**
      * set finsihed
      */
-    public function setFinished($a_finished)
+    public function setFinished(bool $a_finished) : void
     {
         $this->finished = $a_finished;
     }
@@ -124,8 +117,8 @@ class ilSearchCommandQueueElement
     /**
      * get finished
      */
-    public function getFinished()
+    public function getFinished() : bool
     {
-        return (bool) $this->finished;
+        return $this->finished;
     }
 }

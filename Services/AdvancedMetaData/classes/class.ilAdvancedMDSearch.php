@@ -87,6 +87,5 @@ class ilAdvancedMDSearch extends ilAbstractSearch
             }
             return $this->search_result;
         }
-        return null;
     }
 }

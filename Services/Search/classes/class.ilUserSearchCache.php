@@ -53,24 +53,17 @@ class ilUserSearchCache
     private array $checked = array();
     private array $failed = array();
     private int $page_number = 1;
+
     /**
      * @var string|array $query
      */
     private $query;
     private int $root;
-    
     private array $item_filter = array();
-
     private bool $isAnonymous = false;
-    
-    // begin-patch mime_filter
     private array $mime_filter = array();
-    // end-patch mime_filter
-    
-    // begin-patch create_date
     private array $creation_filter = array();
-    // end-patch create_date
-    
+
     
     
     /**
@@ -79,7 +72,7 @@ class ilUserSearchCache
      * @access private
      *
      */
-    private function __construct($a_usr_id)
+    private function __construct(int $a_usr_id)
     {
         global $DIC;
 
@@ -107,7 +100,7 @@ class ilUserSearchCache
      * Check if current user is anonymous user
      * @return bool
      */
-    public function isAnonymous()
+    public function isAnonymous() : bool
     {
         return $this->isAnonymous;
     }
@@ -115,12 +108,8 @@ class ilUserSearchCache
     /**
      * switch to search type
      * reads entries from database
-     *
-     * @access public
-     * @param int search type
-     *
      */
-    public function switchSearchType($a_type)
+    public function switchSearchType(int $a_type) : bool
     {
         $this->search_type = $a_type;
         $this->read();
@@ -133,9 +122,9 @@ class ilUserSearchCache
      * @access public
      *
      */
-    public function getResults()
+    public function getResults() : array
     {
-        return $this->search_result ? $this->search_result : array();
+        return $this->search_result ?: array();
     }
     
     /**
@@ -145,7 +134,7 @@ class ilUserSearchCache
      * @param array(int => array(int,int,string)) array(ref_id => array(ref_id,obj_id,type))
      *
      */
-    public function setResults($a_results)
+    public function setResults(array $a_results) : void
     {
         $this->search_result = $a_results;
     }
@@ -157,7 +146,7 @@ class ilUserSearchCache
      * @param array(int,int,string) array(ref_id,obj_id,type)
      *
      */
-    public function addResult($a_result_item)
+    public function addResult(array $a_result_item) : bool
     {
         $this->search_result[$a_result_item['ref_id']]['ref_id'] = $a_result_item['ref_id'];
         $this->search_result[$a_result_item['ref_id']]['obj_id'] = $a_result_item['obj_id'];
@@ -167,26 +156,18 @@ class ilUserSearchCache
 
     /**
      * Append failed id
-     *
-     * @access public
-     * @param int ref_id of failed access
-     *
      */
-    public function appendToFailed($a_ref_id)
+    public function appendToFailed(int $a_ref_id) : void
     {
         $this->failed[$a_ref_id] = $a_ref_id;
     }
     
     /**
      * check if reference has failed access
-     *
-     * @access public
-     * @param int ref_id
-     *
      */
-    public function isFailed($a_ref_id)
+    public function isFailed(int $a_ref_id) : bool
     {
-        return in_array($a_ref_id, $this->failed) ? true : false;
+        return in_array($a_ref_id, $this->failed);
     }
     
     /**
@@ -197,7 +178,7 @@ class ilUserSearchCache
      * @param int checked obj_id
      *
      */
-    public function appendToChecked($a_ref_id, $a_obj_id)
+    public function appendToChecked(int $a_ref_id, int $a_obj_id) : void
     {
         $this->checked[$a_ref_id] = $a_obj_id;
     }
@@ -209,21 +190,19 @@ class ilUserSearchCache
      * @param int ref_id
      *
      */
-    public function isChecked($a_ref_id)
+    public function isChecked(int $a_ref_id) : bool
     {
         return array_key_exists($a_ref_id, $this->checked) and $this->checked[$a_ref_id];
     }
     
     /**
      * Get all checked items
-     *
      * @access public
      * @return array array(ref_id => obj_id)
-     *
      */
-    public function getCheckedItems()
+    public function getCheckedItems():array
     {
-        return $this->checked ? $this->checked : array();
+        return $this->checked ?: array();
     }
     
     /**
@@ -232,7 +211,7 @@ class ilUserSearchCache
      * @access public
      *
      */
-    public function setResultPageNumber($a_number)
+    public function setResultPageNumber(int $a_number) : void
     {
         if ($a_number) {
             $this->page_number = $a_number;
@@ -241,29 +220,24 @@ class ilUserSearchCache
     
     /**
      * get result page number
-     *
-     * @access public
-     *
      */
-    public function getResultPageNumber()
+    public function getResultPageNumber() : int
     {
-        return $this->page_number ? $this->page_number : 1;
+        return $this->page_number ?: 1;
     }
     
     /**
      * set query
      * @param mixed query string or array (for advanced search)
-     * @return
+     * @return void
      */
-    public function setQuery($a_query)
+    public function setQuery($a_query) : void
     {
         $this->query = $a_query;
     }
     
     /**
-     * get query
-     *
-     * @return
+     * @return mixed query string or array (for advanced search)
      */
     public function getQuery()
     {
@@ -272,9 +246,8 @@ class ilUserSearchCache
     
     /**
      * Urlencode query for further use in e.g glossariers (highlighting off search terms).
-     * @return
      */
-    public function getUrlEncodedQuery()
+    public function getUrlEncodedQuery() : string
     {
         if (is_array($this->getQuery())) {
             $query = $this->getQuery();
@@ -286,70 +259,61 @@ class ilUserSearchCache
     
     /**
      * set root node of search
-     * @param int root id
-     * @return
      */
-    public function setRoot($a_root)
+    public function setRoot(int $a_root)
     {
         $this->root = $a_root;
     }
     
     /**
      * get root node
-     *
-     * @return
+     * @return int
      */
-    public function getRoot()
+    public function getRoot() : int
     {
-        return $this->root ? $this->root : ROOT_FOLDER_ID;
+        return $this->root ?: ROOT_FOLDER_ID;
     }
     
-    public function setItemFilter($a_filter)
+    public function setItemFilter(array $a_filter) : void
     {
         $this->item_filter = $a_filter;
     }
     
-    public function getItemFilter()
+    public function getItemFilter() : array
     {
-        return (array) $this->item_filter;
+        return $this->item_filter;
     }
     
-    public function setMimeFilter($a_filter)
+    public function setMimeFilter(array $a_filter) : void
     {
         $this->mime_filter = $a_filter;
     }
     
-    public function getMimeFilter()
+    public function getMimeFilter() : array
     {
-        return (array) $this->mime_filter;
+        return $this->mime_filter;
     }
     
-    // begin-patch create_date
-    public function setCreationFilter($a_filter)
+    public function setCreationFilter(array $a_filter) : void
     {
         $this->creation_filter = $a_filter;
     }
     
-    public function getCreationFilter()
+    public function getCreationFilter() : array
     {
         return $this->creation_filter;
     }
-    // end-patch create_date
-    
+
 
     /**
      * delete cached entries
-     * @param
-     * @return
      */
-    public function deleteCachedEntries()
+    public function deleteCachedEntries() : void
     {
-
         if ($this->isAnonymous()) {
-            return $this->deleteCachedEntriesAnonymous();
+            $this->deleteCachedEntriesAnonymous();
+            return;
         }
-
-        
         $query = "SELECT COUNT(*) num FROM usr_search " .
             "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer') . " " .
             "AND search_type = " . $this->db->quote($this->search_type, 'integer');
@@ -393,7 +357,7 @@ class ilUserSearchCache
      * Delete cached entries for anonymous user
      * @return bool
      */
-    public function deleteCachedEntriesAnonymous()
+    public function deleteCachedEntriesAnonymous() : bool
     {
         $this->setResultPageNumber(1);
         $this->search_result = array();
@@ -405,13 +369,7 @@ class ilUserSearchCache
 
 
     
-    /**
-     * Delete user entries
-     *
-     * @access public
-     *
-     */
-    public function delete()
+    public function delete() : bool
     {
 
         $query = "DELETE FROM usr_search " .
@@ -423,17 +381,11 @@ class ilUserSearchCache
         return true;
     }
     
-    /**
-     * Save entries
-     *
-     * @access public
-     *
-     */
-    public function save()
+    public function save() : void
     {
-        
         if ($this->isAnonymous()) {
-            return $this->saveForAnonymous();
+            $this->saveForAnonymous();
+            return;
         }
         
         $query = "DELETE FROM usr_search " .
@@ -468,7 +420,7 @@ class ilUserSearchCache
         );
     }
 
-    public function saveForAnonymous()
+    public function saveForAnonymous() : void
     {
         unset($_SESSION['usr_search_cache']);
 
@@ -483,8 +435,6 @@ class ilUserSearchCache
         $_SESSION['usr_search_cache'][$this->search_type]['creation_filter'] = $this->getCreationFilter();
 
         $_SESSION['usr_search_cache'][self::LAST_QUERY]['query'] = $this->getQuery();
-
-        return true;
     }
     
     
@@ -494,7 +444,7 @@ class ilUserSearchCache
      * @access private
      *
      */
-    private function read()
+    private function read() : void
     {
         $this->failed = array();
         $this->checked = array();
@@ -502,7 +452,8 @@ class ilUserSearchCache
         $this->page_number = 0;
 
         if ($this->isAnonymous()) {
-            return $this->readAnonymous();
+            $this->readAnonymous();
+            return;
         }
 
         $query = "SELECT * FROM usr_search " .
@@ -524,13 +475,12 @@ class ilUserSearchCache
             $this->setItemFilter(unserialize($row->item_filter));
             $this->setCreationFilter(unserialize($row->creation_filter));
         }
-        return true;
     }
 
     /**
      * Read from session for anonymous user
      */
-    private function readAnonymous()
+    private function readAnonymous() : void
     {
         $this->search_result = (array) $_SESSION['usr_search_cache'][$this->search_type]['search_result'];
         $this->checked = (array) $_SESSION['usr_search_cache'][$this->search_type]['checked'];
@@ -538,11 +488,9 @@ class ilUserSearchCache
         $this->page_number = $_SESSION['usr_search_cache'][$this->search_type]['page_number'];
 
         $this->setQuery($_SESSION['usr_search_cache'][$this->search_type]['query']);
-        $this->setRoot((string) $_SESSION['usr_search_cache'][$this->search_type]['root']);
+        $this->setRoot((int) $_SESSION['usr_search_cache'][$this->search_type]['root']);
         $this->setItemFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['item_filter']);
         $this->setMimeFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['mime_filter']);
         $this->setCreationFilter((array) $_SESSION['usr_search_cache'][$this->search_type]['creation_filter']);
-
-        return true;
     }
 }

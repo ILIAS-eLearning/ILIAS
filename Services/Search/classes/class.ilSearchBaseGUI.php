@@ -97,8 +97,6 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     
     public function initStandardSearchForm(int $a_mode) : void
     {
-
-
         $this->form = new ilPropertyFormGUI();
         $this->form->setOpenTag(false);
         $this->form->setCloseTag(false);
@@ -309,18 +307,17 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     }
     
     
-    public function addLocator()
+    public function addLocator() : void
     {
         $this->locator->addItem($this->lng->txt('search'), $this->ctrl->getLinkTarget($this));
         $this->tpl->setLocator();
     }
-    
 
-    //TODO: Figure out what to do with $result parameter
+    /**
+     * @todo check wether result is ilSearchResult or ilLuceneSearchResult and add interface or base class.
+     */
     protected function addPager($result, string $a_session_key) : bool
     {
-
-        
         $_SESSION["$a_session_key"] = max($_SESSION["$a_session_key"], $this->search_cache->getResultPageNumber());
         
         if ($_SESSION["$a_session_key"] == 1 and

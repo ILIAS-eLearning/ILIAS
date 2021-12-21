@@ -17,11 +17,6 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 
     protected ilRbacReview $review;
 
-    /**
-     * @param object $a_parent_obj
-     * @param object $a_parent_cmd
-     * @param bool $a_allow_object_selection
-     */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_allow_object_selection = false)
     {
         global $DIC;
@@ -90,8 +85,9 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
     }
     
 
-    public function parseObjectIds(array $a_ids)
+    public function parseObjectIds(array $a_ids) : void
     {
+        $data = [];
         foreach ($a_ids as $object_id) {
             $row = array();
             $type = ilObject::_lookupType($object_id);
@@ -130,8 +126,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param $a_field
-     * @return bool
+     * @inheritDoc
      */
     public function numericOrdering($a_field)
     {

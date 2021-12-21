@@ -36,7 +36,7 @@ class ilLuceneSubItemListGUIFactory
     /**
      * get instance by type
      */
-    public static function getInstanceByType(string $a_type, string $a_cmd_class) : ilObjectSubItemListGUI
+    public static function getInstanceByType(string $a_type, object $a_cmd_class) : ilObjectSubItemListGUI
     {
         global $DIC;
 

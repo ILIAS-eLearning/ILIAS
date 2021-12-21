@@ -78,9 +78,4 @@ class ilForumSearch extends ilAbstractSearch
         }
         return $this->search_result;
     }
-
-    public function __createAndCondition() : void
-    {
-        echo "Overwrite me!";
-    }
 }

@@ -38,7 +38,7 @@
 */
 class ilUserFilterGUI
 {
-    private ?int $usr_id = null;
+    private int $usr_id;
 
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
@@ -46,7 +46,7 @@ class ilUserFilterGUI
     protected ilUserSearchFilter $filter;
     protected ilObjUser $user;
 
-    public function __construct($a_usr_id)
+    public function __construct(int $a_usr_id)
     {
         global $DIC;
 
@@ -64,7 +64,7 @@ class ilUserFilterGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         switch ($this->ctrl->getNextClass()) {
             default:
@@ -72,17 +72,16 @@ class ilUserFilterGUI
                 $this->$cmd();
 
         }
-        return true;
     }
 
     
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->usr_id;
     }
 
 
-    public function getHTML()
+    public function getHTML() : string
     {
 
         $tpl = new ilTemplate('tpl.search_user_filter.html', true, true, 'Services/Search');
@@ -103,7 +102,7 @@ class ilUserFilterGUI
 
         
         
-    public function refresh()
+    public function refresh() : bool
     {
         $_GET['offset'] = 0;
         $this->ctrl->saveParameter($this, 'offset');
@@ -114,11 +113,8 @@ class ilUserFilterGUI
     }
 
 
-    // Private
-    public function __initFilter()
+    public function __initFilter() : bool
     {
-
-        include_once 'Services/Search/classes/class.ilUserSearchFilter.php';
         $this->filter = new ilUserSearchFilter($this->user->getId());
         return true;
     }

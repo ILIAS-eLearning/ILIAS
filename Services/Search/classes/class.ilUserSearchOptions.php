@@ -30,10 +30,6 @@
 *
 *
 */
-
-
-
-
 class ilUserSearchOptions
 {
 
@@ -51,7 +47,7 @@ class ilUserSearchOptions
      * @param bool $a_admin
      * @return array
      */
-    public static function getSelectableColumnInfo($a_admin = false)
+    public static function getSelectableColumnInfo(bool $a_admin = false) : array
     {
         $col_info = array();
         foreach (self::_getSearchableFieldsInfo($a_admin) as $field) {
@@ -70,7 +66,7 @@ class ilUserSearchOptions
         return $col_info;
     }
 
-    public static function _getSearchableFieldsInfo($a_admin = false)
+    public static function _getSearchableFieldsInfo(bool $a_admin = false) : array
     {
         global $DIC;
 
@@ -173,10 +169,10 @@ class ilUserSearchOptions
         }
         $fields = ilUserSearchOptions::__appendUserDefinedFields($fields, $counter);
 
-        return $fields ? $fields : array();
+        return $fields ?: array();
     }
 
-    public static function _getPossibleFields($a_admin = false)
+    public static function _getPossibleFields(bool $a_admin = false) : array
     {
         return array('gender',
                      'lastname',
@@ -203,7 +199,7 @@ class ilUserSearchOptions
         // end-patch lok
     }
 
-    public static function _isSearchable($a_key)
+    public static function _isSearchable(string $a_key) : bool
     {
         return in_array($a_key, ilUserSearchOptions::_getPossibleFields());
     }
@@ -222,7 +218,7 @@ class ilUserSearchOptions
         return (bool) $ilias->getSetting('search_enabled_' . $a_key);
     }
 
-    public static function _saveStatus($a_key, $a_enabled)
+    public static function _saveStatus(string $a_key, bool $a_enabled) : bool
     {
         global $DIC;
 
@@ -232,7 +228,7 @@ class ilUserSearchOptions
         return true;
     }
 
-    public static function __appendUserDefinedFields($fields, $counter)
+    public static function __appendUserDefinedFields(array $fields, int $counter) : array
     {
 
         $user_defined_fields = ilUserDefinedFields::_getInstance();
@@ -256,7 +252,7 @@ class ilUserSearchOptions
         return $fields ? $fields : array();
     }
 
-    public static function __prepareValues($a_values)
+    public static function __prepareValues(array $a_values) : array
     {
         global $DIC;
 
@@ -266,6 +262,6 @@ class ilUserSearchOptions
         foreach ($a_values as $value) {
             $new_values[$value] = $value;
         }
-        return $new_values ? $new_values : array();
+        return $new_values;
     }
 }

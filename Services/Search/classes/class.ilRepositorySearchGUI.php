@@ -158,7 +158,12 @@ class ilRepositorySearchGUI
      *		submit_name = $lng->txt('add')
      * )
      */
-    public static function fillAutoCompleteToolbar(object $parent_object, ilToolbarGUI $toolbar = null, array $a_options = array(), bool $a_sticky = false) : ilToolbarGUI
+    public static function fillAutoCompleteToolbar(
+        object $parent_object,
+        ilToolbarGUI $toolbar = null,
+        array $a_options = [],
+        bool $a_sticky = false
+    ) : ilToolbarGUI
     {
         global $DIC;
 
@@ -751,7 +756,7 @@ class ilRepositorySearchGUI
         
         $this->result_obj->setRequiredPermission('read');
         $this->result_obj->addObserver($this, 'searchResultFilterListener');
-        $this->result_obj->filter(ROOT_FOLDER_ID, ilQueryParser::QP_COMBINATION_OR);
+        $this->result_obj->filter(ROOT_FOLDER_ID, true);
         
         // User access filter
         if ($this->search_type == 'usr') {
@@ -906,7 +911,7 @@ class ilRepositorySearchGUI
     /**
      * @return ilQueryParser|string
     */
-    public function &__parseQueryString(string $a_string, bool $a_combination_or = true, bool $a_ignore_length = false)
+    public function __parseQueryString(string $a_string, bool $a_combination_or = true, bool $a_ignore_length = false)
     {
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($a_string));
         $query_parser->setCombination($a_combination_or ? ilQueryParser::QP_COMBINATION_OR : ilQueryParser::QP_COMBINATION_AND);
@@ -984,7 +989,7 @@ class ilRepositorySearchGUI
         return $_SESSION['rep_search']['usr'] ? array_unique($_SESSION['rep_search']['usr']) : array();
     }
 
-    public function __storeEntries(ilSearchResult &$new_res) : bool
+    public function __storeEntries(ilSearchResult $new_res) : bool
     {
         if ($this->stored == false) {
             $this->result_obj->mergeEntries($new_res);

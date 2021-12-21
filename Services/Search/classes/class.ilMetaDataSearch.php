@@ -61,17 +61,14 @@ class ilMetaDataSearch extends ilAbstractSearch
 
             case 'description':
                 return $this->__searchDescriptions();
-
-            default:
-                echo "ilMDSearch::performSearch() no mode given";
-                return null;
         }
+        throw new InvalidArgumentException('ilMDSearch: no mode given');
     }
 
 
 
     // Private
-    public function __createInStatement()
+    public function __createInStatement() : string
     {
         if (!$this->getFilter()) {
             return '';
@@ -79,13 +76,10 @@ class ilMetaDataSearch extends ilAbstractSearch
             $type = "('";
             $type .= implode("','", $this->getFilter());
             $type .= "')";
-            
-            $in = " AND obj_type IN " . $type;
-
-            return $in;
+            return " AND obj_type IN " . $type;
         }
     }
-    public function __searchContribute()
+    public function __searchContribute() : ilSearchResult
     {
         $this->setFields(array('entity'));
 
@@ -107,7 +101,7 @@ class ilMetaDataSearch extends ilAbstractSearch
     }
 
 
-    public function __searchKeywords()
+    public function __searchKeywords() : ilSearchResult
     {
         $this->setFields(array('keyword'));
 
@@ -124,10 +118,9 @@ class ilMetaDataSearch extends ilAbstractSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
         }
-
         return $this->search_result;
     }
-    public function __searchTitles()
+    public function __searchTitles() : ilSearchResult
     {
         $this->setFields(array('title'));
 
@@ -144,10 +137,9 @@ class ilMetaDataSearch extends ilAbstractSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
         }
-
         return $this->search_result;
     }
-    public function __searchDescriptions()
+    public function __searchDescriptions() : ilSearchResult
     {
         $this->setFields(array('description'));
 
@@ -164,7 +156,6 @@ class ilMetaDataSearch extends ilAbstractSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
         }
-
         return $this->search_result;
     }
 }

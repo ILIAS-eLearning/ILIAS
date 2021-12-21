@@ -19,7 +19,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
     /**
     * Constructor
     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_presenter)
+    public function __construct($a_parent_obj, $a_parent_cmd, ilSearchResultPresentation $a_presenter)
     {
         global $DIC;
 
@@ -63,8 +63,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
         $this->setEnableNumInfo(false);
         $this->setShowRowsSelector(false);
-        
-        include_once "Services/Object/classes/class.ilObjectActivation.php";
     }
     
     public function numericOrdering($a_field)
@@ -73,8 +71,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
             case 'relevance':
                 return true;
         }
-        
-        
         return parent::numericOrdering($a_field);
     }
     
@@ -84,9 +80,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
      */
     public function getSelectableColumns()
     {
-
-
-        
         return array('create_date' =>
                         array(
                             'txt' => $this->lng->txt('create_date'),
@@ -179,12 +172,10 @@ class ilSearchResultTableGUI extends ilTable2GUI
         );
     }
     
-    /**
-     * Check if relevance is visible
-     * @return
-     */
-    protected function enabledRelevance()
+    protected function enabledRelevance() : bool
     {
-        return ilSearchSettings::getInstance()->enabledLucene() and ilSearchSettings::getInstance()->isRelevanceVisible();
+        return
+            ilSearchSettings::getInstance()->enabledLucene() &&
+            ilSearchSettings::getInstance()->isRelevanceVisible();
     }
 }

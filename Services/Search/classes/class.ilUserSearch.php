@@ -33,29 +33,15 @@
 
 class ilUserSearch extends ilAbstractSearch
 {
-    private $active_check = false;
-    private $inactive_check = false;
+    private bool $active_check = false;
+    private bool $inactive_check = false;
     
-    /**
-     * search only active accounts
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function enableActiveCheck($a_enabled)
+    public function enableActiveCheck(bool $a_enabled) : void
     {
         $this->active_check = $a_enabled;
     }
     
-    /**
-     * search only inactive accounts
-     *
-     * @access public
-     * @param
-     *
-     */
-    public function enableInactiveCheck($a_enabled)
+    public function enableInactiveCheck(bool $a_enabled) : void
     {
         $this->inactive_check = $a_enabled;
     }

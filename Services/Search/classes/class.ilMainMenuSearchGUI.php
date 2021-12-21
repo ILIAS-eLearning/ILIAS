@@ -36,7 +36,7 @@ class ilMainMenuSearchGUI
         if (isset($_GET['ref_id'])) {
             $this->ref_id = (int) $_GET['ref_id'];
         } else {
-            $this->ref_id = (int) ROOT_FOLDER_ID;
+            $this->ref_id = ROOT_FOLDER_ID;
         }
         $this->obj_id = ilObject::_lookupObjId($this->ref_id);
         $this->type = ilObject::_lookupType($this->obj_id);

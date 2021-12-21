@@ -41,7 +41,6 @@ class ilSearchResultPresentation
     protected ilCtrl $ctrl;
     protected ilAccess $access;
     protected ilTree $tree;
-    protected ilBenchmark $bench;
 
     private array $results = [];
     private array $subitem_ids = [];
@@ -59,7 +58,7 @@ class ilSearchResultPresentation
      * Constructor
      * @param object	$container container gui object
      */
-    public function __construct($container = null, $a_mode = self::MODE_LUCENE)
+    public function __construct(object $container = null, int $a_mode = self::MODE_LUCENE)
     {
         global $DIC;
 
@@ -68,8 +67,7 @@ class ilSearchResultPresentation
         $this->ctrl = $DIC->ctrl();
         $this->access = $DIC->access();
         $this->tree = $DIC->repositoryTree();
-        $this->bench = $DIC['ilBench'];
-        
+
         $this->mode = $a_mode;
         $this->container = $container;
         
@@ -84,62 +82,58 @@ class ilSearchResultPresentation
     /**
      * Get container gui
      */
-    public function getContainer()
+    public function getContainer() : object
     {
         return $this->container;
     }
     
-    public function getMode()
+    public function getMode() : int
     {
         return $this->mode;
     }
     
     /**
      * Set result array
-     * @param array $a_result_data result array
      */
-    public function setResults($a_result_data)
+    public function setResults(array $a_result_data) : void
     {
         $this->results = $a_result_data;
     }
     
     /**
      * get results
-     * @return array result array
      */
-    public function getResults()
+    public function getResults() : array
     {
-        return $this->results ? $this->results : array();
+        return $this->results;
     }
     
     /**
      * Set subitem ids
      * Used for like and fulltext search
      * @param array $a_subids array ($obj_id => array(page1_id,page2_id);
-     * @return
+     * @return void
      */
-    public function setSubitemIds($a_subids)
+    public function setSubitemIds(array $a_subids) : void
     {
         $this->subitem_ids = $a_subids;
     }
     
     /**
      * Get subitem ids
-     * @return
+     * @return array
      */
-    public function getSubitemIds()
+    public function getSubitemIds() : array
     {
-        return $this->subitem_ids ? $this->subitem_ids : array();
+        return $this->subitem_ids;
     }
     
     /**
      * Get subitem ids for an object
-     * @param int $a_obj_id
-     * @return
      */
-    public function getSubitemIdsByObject($a_obj_id)
+    public function getSubitemIdsByObject(int $a_obj_id) : array
     {
-        return (isset($this->subitem_ids[$a_obj_id]) and $this->subitem_ids[$a_obj_id]) ?
+        return (isset($this->subitem_ids[$a_obj_id]) && $this->subitem_ids[$a_obj_id]) ?
             $this->subitem_ids[$a_obj_id] :
             array();
     }
@@ -149,9 +143,8 @@ class ilSearchResultPresentation
     /**
      * Check if more than one reference is visible
      */
-    protected function parseResultReferences()
+    protected function parseResultReferences() : void
     {
-        
         foreach ($this->getResults() as $ref_id => $obj_id) {
             $this->all_references[$ref_id][] = $ref_id;
             $counter = 0;
@@ -169,18 +162,17 @@ class ilSearchResultPresentation
         }
     }
     
-    protected function hasMoreReferences($a_ref_id)
+    protected function hasMoreReferences(int $a_ref_id) : bool
     {
         if (!isset($this->has_more_ref_ids[$a_ref_id]) or
             !$this->has_more_ref_ids[$a_ref_id] or
             isset($_SESSION['vis_references'][$a_ref_id])) {
             return false;
         }
-        
         return $this->has_more_ref_ids[$a_ref_id];
     }
     
-    protected function getAllReferences($a_ref_id)
+    protected function getAllReferences(int $a_ref_id) : array
     {
         if (isset($_SESSION['vis_references'][$a_ref_id])) {
             return $this->all_references[$a_ref_id] ? $this->all_references[$a_ref_id] : array();
@@ -193,27 +185,23 @@ class ilSearchResultPresentation
      * Get HTML
      * @return string HTML
      */
-    public function getHTML($a_new = false)
+    public function getHTML() : string
     {
         return $this->thtml;
     }
     
     /**
      * set searcher
-     * @param
-     * @return
      */
-    public function setSearcher($a_searcher)
+    public function setSearcher(ilLuceneSearcher $a_searcher) : void
     {
         $this->searcher = $a_searcher;
     }
     
     /**
      * Parse results
-     * @param void
-     * @return string html
      */
-    public function render()
+    public function render() : bool
     {
         return $this->renderItemList();
     }
@@ -221,26 +209,23 @@ class ilSearchResultPresentation
     /**
     * Set previous next
     */
-    public function setPreviousNext($a_p, $a_n)
+    public function setPreviousNext(string $a_p, string $a_n) : void
     {
-        $this->prev = (string) $a_p;
-        $this->next = (string) $a_n;
+        $this->prev = $a_p;
+        $this->next = $a_n;
     }
     
     
     /**
      * Render item list
-     * @return void
      */
-    protected function renderItemList()
+    protected function renderItemList() : bool
     {
 
         $this->html = '';
         
-        $this->bench->start('Lucene', '2000_pr');
         $this->parseResultReferences();
-        $this->bench->stop('Lucene', '2000_pr');
-        
+
         $this->lng->loadLanguageModule("cntr"); // #16834
         
         include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
@@ -248,14 +233,11 @@ class ilSearchResultPresentation
             
         $set = array();
         foreach ($this->getResults() as $c_ref_id => $obj_id) {
-            $this->bench->start('Lucene', '2100_res');
             foreach ($this->getAllReferences($c_ref_id) as $ref_id) {
-                $this->bench->start('Lucene', '2120_tree');
                 if (!$this->tree->isInTree($ref_id)) {
                     continue;
                 }
-                $this->bench->stop('Lucene', '2120_tree');
-                
+
                 $obj_type = ilObject::_lookupType($obj_id);
                 
                 $set[] = array(
@@ -272,7 +254,6 @@ class ilSearchResultPresentation
                                 
                 $preloader->addItem($obj_id, $obj_type, $ref_id);
             }
-            $this->bench->stop('Lucene', '2100_res');
         }
 
         if (!count($set)) {
@@ -282,26 +263,17 @@ class ilSearchResultPresentation
         $preloader->preload();
         unset($preloader);
 
-        $this->bench->start('Lucene', '2900_tb');
         include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
         $result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
         $result_table->setCustomPreviousNext($this->prev, $this->next);
         
         $result_table->setData($set);
         $this->thtml = $result_table->getHTML();
-        $this->bench->stop('Lucene', '2900_tb');
-        
         return true;
     }
     
     
-    // searcher
-    /**
-     * get relevance
-     * @param
-     * @return
-     */
-    public function getRelevance($a_obj_id)
+    public function getRelevance(int $a_obj_id) : float
     {
         if ($this->getMode() == self::MODE_LUCENE) {
             return $this->searcher->getResult()->getRelevance($a_obj_id);
@@ -309,12 +281,7 @@ class ilSearchResultPresentation
         return 0;
     }
     
-    /**
-     *
-     * @param
-     * @return
-     */
-    public function lookupTitle($a_obj_id, $a_sub_id)
+    public function lookupTitle(int $a_obj_id, int $a_sub_id) : string
     {
         if ($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter())) {
             return ilObject::_lookupTitle((int) $a_obj_id);
@@ -325,12 +292,7 @@ class ilSearchResultPresentation
         return ilObject::_lookupTitle((int) $a_obj_id);
     }
     
-    /**
-     *
-     * @param
-     * @return
-     */
-    public function lookupDescription($a_obj_id, $a_sub_id)
+    public function lookupDescription(int $a_obj_id, int $a_sub_id) : string
     {
         if ($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter())) {
             return ilObject::_lookupDescription((int) $a_obj_id);
@@ -341,12 +303,7 @@ class ilSearchResultPresentation
         return ilObject::_lookupDescription((int) $a_obj_id);
     }
     
-    /**
-     * get content
-     * @param
-     * @return
-     */
-    public function lookupContent($a_obj_id, $a_sub_id)
+    public function lookupContent(int $a_obj_id, int $a_sub_id) : string
     {
         if ($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter())) {
             return '';
@@ -357,7 +314,12 @@ class ilSearchResultPresentation
     /**
      * Append path, relevance information
      */
-    public function appendAdditionalInformation($item_list_gui, $ref_id, $obj_id, $type)
+    public function appendAdditionalInformation(
+        ilObjectListGUI $item_list_gui,
+        int $ref_id,
+        int $obj_id,
+        string $type
+    ) : void
     {
         $sub = $this->appendSubItems($item_list_gui, $ref_id, $obj_id, $type);
         $path = $this->appendPath((int) $ref_id);
@@ -366,7 +328,7 @@ class ilSearchResultPresentation
         if (!strlen($sub) and
             !strlen($path) and
             !strlen($more)) {
-            return '';
+            return;
         }
         $tpl = new ilTemplate('tpl.lucene_additional_information.html', true, true, 'Services/Search');
         $tpl->setVariable('SUBITEM', $sub);
@@ -381,11 +343,7 @@ class ilSearchResultPresentation
     }
     
     
-    /**
-     * Append path
-     * @return
-     */
-    protected function appendPath($a_ref_id)
+    protected function appendPath(int $a_ref_id) : string
     {
         include_once './Services/Tree/classes/class.ilPathGUI.php';
         $path_gui = new ilPathGUI();
@@ -397,11 +355,7 @@ class ilSearchResultPresentation
         return $tpl->get();
     }
     
-    /**
-     * Append more occurences link
-     * @return
-     */
-    protected function appendMorePathes($a_ref_id)
+    protected function appendMorePathes(int $a_ref_id) : string
     {
         if ($this->getMode() != self::MODE_LUCENE) {
             return '';
@@ -423,9 +377,14 @@ class ilSearchResultPresentation
     
     /**
      * Append subitems
-     * @return
+     * @return string
      */
-    protected function appendSubItems($item_list_gui, $ref_id, $obj_id, $a_type)
+    protected function appendSubItems(
+        ilObjectListGUI $item_list_gui,
+        int $ref_id,
+        int $obj_id,
+        string $a_type
+    ) : string
     {
         $subitem_ids = array();
         if ($this->getMode() == self::MODE_STANDARD) {
@@ -448,7 +407,7 @@ class ilSearchResultPresentation
         return $sub_list->getHTML();
     }
     
-    protected function initReferences()
+    protected function initReferences() : void
     {
         if (isset($_REQUEST['refs'])) {
             $_SESSION['vis_references'][(int) $_REQUEST['refs']] = (int) $_REQUEST['refs'];

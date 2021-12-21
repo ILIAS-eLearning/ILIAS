@@ -29,20 +29,16 @@
 * @package core
 */
 
-require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
-
 class ilSearchRootSelector extends ilExplorer
 {
-
-
     protected ilCtrl $ctrl;
     protected ilRbacSystem $system;
 
-    private string $selectable_type;
-    private int $ref_id;
-    private string $target_class;
-    private array $clickable_types;
-    private string $cmd;
+    private string $selectable_type = '';
+    private int $ref_id = 0;
+    private string $target_class = '';
+    private array $clickable_types = [];
+    private string $cmd = '';
     /**
     * Constructor
     * @access	public
@@ -76,7 +72,7 @@ class ilSearchRootSelector extends ilExplorer
         $this->setTitleLength(ilObject::TITLE_LENGTH);
     }
     
-    public function setClickableTypes($a_types)
+    public function setClickableTypes(array $a_types) : void
     {
         $this->clickable_types = $a_types;
     }
@@ -89,36 +85,36 @@ class ilSearchRootSelector extends ilExplorer
         return false;
     }
 
-    public function setTargetClass($a_class)
+    public function setTargetClass(string $a_class) : void
     {
         $this->target_class = $a_class;
     }
-    public function getTargetClass()
+    public function getTargetClass() : string
     {
-        return $this->target_class ? $this->target_class : 'ilsearchgui';
+        return $this->target_class ?: 'ilsearchgui';
     }
-    public function setCmd($a_cmd)
+    public function setCmd(string $a_cmd) : void
     {
         $this->cmd = $a_cmd;
     }
-    public function getCmd()
+    public function getCmd() : string
     {
-        return $this->cmd ? $this->cmd : 'selectRoot';
+        return $this->cmd ?: 'selectRoot';
     }
 
-    public function setSelectableType($a_type)
+    public function setSelectableType(string $a_type) : void
     {
         $this->selectable_type = $a_type;
     }
-    public function getSelectableType()
+    public function getSelectableType() : string
     {
         return $this->selectable_type;
     }
-    public function setRefId($a_ref_id)
+    public function setRefId(int $a_ref_id) : void
     {
         $this->ref_id = $a_ref_id;
     }
-    public function getRefId($a_ref_id)
+    public function getRefId() : int
     {
         return $this->ref_id;
     }
@@ -152,11 +148,7 @@ class ilSearchRootSelector extends ilExplorer
 
 
     /**
-    * overwritten method from base class
-    * @access	public
-    * @param	integer obj_id
-    * @param	integer array options
-    * @return    void
+    * @inheritDoc
      */
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {

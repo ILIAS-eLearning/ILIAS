@@ -32,12 +32,10 @@
 */
 class ilSearchAppEventListener implements ilAppEventListener
 {
-    
+
     /**
-    * @param	string $a_component component, e.g. "Modules/Forum" or "Services/User"
-    * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
-    * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
-    */
+     * @inheritDoc
+     */
     public static function handleEvent(string $a_component, string $a_event, array $a_parameter) : void
     {
         // only for files in the moment
@@ -57,6 +55,7 @@ class ilSearchAppEventListener implements ilAppEventListener
             case 'Services/Object':
                 
                 switch ($a_event) {
+                    case 'undelete':
                     case 'update':
                         $command = ilSearchCommandQueueElement::RESET;
                         break;
@@ -64,23 +63,15 @@ class ilSearchAppEventListener implements ilAppEventListener
                     case 'create':
                         $command = ilSearchCommandQueueElement::CREATE;
                         break;
-                        
+
+                    case 'delete':
                     case 'toTrash':
                         $command = ilSearchCommandQueueElement::DELETE;
                         break;
-                        
-                    case 'delete':
-                        $command = ilSearchCommandQueueElement::DELETE;
-                        break;
-                        
-                    case 'undelete':
-                        $command = ilSearchCommandQueueElement::RESET;
-                        break;
-                        
+
                     default:
                         return;
                 }
-                
                 ilSearchAppEventListener::storeElement($command, $a_parameter);
         }
     }

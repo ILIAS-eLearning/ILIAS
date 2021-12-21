@@ -48,9 +48,9 @@ class ilSearchCommandQueue
     /**
      * get singleton instance
      */
-    public static function factory()
+    public static function factory() : ilSearchCommandQueue
     {
-        if (isset(self::$instance) and self::$instance) {
+        if (self::$instance instanceof ilSearchCommandQueue) {
             return self::$instance;
         }
         return self::$instance = new ilSearchCommandQueue();
@@ -59,10 +59,8 @@ class ilSearchCommandQueue
     /**
      * update / save new entry
      */
-    public function store(ilSearchCommandQueueElement $element)
+    public function store(ilSearchCommandQueueElement $element) : void
     {
-
-        
         $query = "SELECT obj_id, obj_type FROM search_command_queue " .
             "WHERE obj_id = " . $this->db->quote($element->getObjId(), 'integer') . " " .
             "AND obj_type = " . $this->db->quote($element->getObjType(), 'text');
@@ -77,7 +75,7 @@ class ilSearchCommandQueue
     /**
      * Insert new entry
      */
-    protected function insert(ilSearchCommandQueueElement $element)
+    protected function insert(ilSearchCommandQueueElement $element) : void
     {
         
         $query = "INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished) " .
@@ -91,16 +89,13 @@ class ilSearchCommandQueue
             "0 " .
             ")";
         $res = $this->db->manipulate($query);
-        return true;
     }
     
     /**
      * Update existing entry
      */
-    protected function update(ilSearchCommandQueueElement $element)
+    protected function update(ilSearchCommandQueueElement $element) : void
     {
-
-        
         $query = "UPDATE search_command_queue " .
             "SET command = " . $this->db->quote($element->getCommand(), 'text') . ", " .
             "last_update = " . $this->db->now() . ", " .
@@ -108,6 +103,5 @@ class ilSearchCommandQueue
             "WHERE obj_id = " . $this->db->quote($element->getObjId(), 'integer') . " " .
             "AND obj_type = " . $this->db->quote($element->getObjType(), 'text');
         $res = $this->db->manipulate($query);
-        return true;
     }
 }

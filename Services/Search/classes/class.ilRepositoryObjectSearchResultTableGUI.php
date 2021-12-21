@@ -76,7 +76,7 @@ abstract class ilRepositoryObjectSearchResultTableGUI extends ilTable2GUI
     abstract public function parse();
     
 
-    public function getRelevanceHTML(float $a_rel)
+    public function getRelevanceHTML(float $a_rel) : string
     {
         $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'Services/Search');
 

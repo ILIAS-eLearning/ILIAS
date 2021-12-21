@@ -215,7 +215,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if ($this->search_mode == 'in_results') {
 
             $old_result_obj = new ilSearchResult($this->user->getId());
-            $old_result_obj->read(ADVANCED_MD_SEARCH);
+            $old_result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
 
             $res->diffEntriesFromResult();
         }
@@ -240,7 +240,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
 
         if ($presentation->render()) {
-            $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
+            $this->tpl->setVariable('RESULTS', $presentation->getHTML());
         }
         return true;
     }
@@ -311,7 +311,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if ($this->search_mode == 'in_results') {
 
             $old_result_obj = new ilSearchResult($this->user->getId());
-            $old_result_obj->read(ADVANCED_MD_SEARCH);
+            $old_result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
 
             $res->diffEntriesFromResult();
         }
@@ -337,7 +337,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
 
         if ($presentation->render()) {
-            $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
+            $this->tpl->setVariable('RESULTS', $presentation->getHTML());
         }
         return true;
     }
@@ -403,8 +403,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function prepareOutput() : void
     {
-
-        
         parent::prepareOutput();
         
         $this->help_gui->setScreenIdComponent("src");
@@ -430,7 +428,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     
         $this->initSearchType(self::TYPE_ADV_MD);
         $result_obj = new ilSearchResult($this->user->getId());
-        $result_obj->read(ADVANCED_MD_SEARCH);
+        $result_obj->read(ilUserSearchCache::ADVANCED_MD_SEARCH);
 
         $this->showAdvMDSearch();
 
@@ -443,7 +441,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $presentation->setPreviousNext($this->prev_link, $this->next_link);
             
             if ($presentation->render()) {
-                $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
+                $this->tpl->setVariable('RESULTS', $presentation->getHTML());
             }
         }
 
@@ -470,7 +468,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $presentation->setPreviousNext($this->prev_link, $this->next_link);
             
             if ($presentation->render()) {
-                $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
+                $this->tpl->setVariable('RESULTS', $presentation->getHTML());
             }
         }
 

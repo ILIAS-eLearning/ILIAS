@@ -33,17 +33,11 @@ class ilObjSearchSettings extends ilObject
 
 
 
-    /**
-    * @return	boolean
-    */
     public function update()
     {
         if (!parent::update()) {
             return false;
         }
-
-        // put here object specific stuff
-        
         return true;
     }
 } // END class.ilObjSearchSettings

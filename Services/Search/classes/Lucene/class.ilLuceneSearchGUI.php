@@ -189,7 +189,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $this->showSearchForm();
 
         if ($presentation->render()) {
-            $this->tpl->setVariable('SEARCH_RESULTS', $presentation->getHTML(true));
+            $this->tpl->setVariable('SEARCH_RESULTS', $presentation->getHTML());
         } elseif (strlen($this->search_cache->getQuery())) {
             ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'), $qp->getQuery()));
         }
@@ -294,7 +294,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $presentation->setPreviousNext($this->prev_link, $this->next_link);
 
         if ($presentation->render()) {
-            $this->tpl->setVariable('SEARCH_RESULTS', $presentation->getHTML(true));
+            $this->tpl->setVariable('SEARCH_RESULTS', $presentation->getHTML());
         } else {
             ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'), $this->search_cache->getQuery()));
         }
