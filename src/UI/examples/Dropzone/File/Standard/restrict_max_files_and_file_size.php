@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace ILIAS\UI\examples\Dropzone\File\Standard;
+namespace ILIAS\UI\examples\Dropzone\File\Wrapper;
 
-function base()
+function restrict_max_files_and_file_size()
 {
     global $DIC;
 
@@ -13,6 +13,8 @@ function base()
             (new \ilUIAsyncDemoFileUploadHandler()),
             '#'
         )
+        ->withMaxFiles(2)
+        ->withMaxFileSize(2048)
         ->withUploadButton(
             $factory->button()->shy('Upload files', '#')
         )

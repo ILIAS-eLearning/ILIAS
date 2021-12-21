@@ -24,6 +24,9 @@ use ilLanguage;
 abstract class File implements FileInterface
 {
     public const JAVASCRIPT_EVENT = 'drop';
+    public const FILE_INPUT_KEY = 'files';
+    public const FILE_TITLE_KEY = 'file_title';
+    public const FILE_DESCRIPTION_KEY = 'file_description';
 
     use FileUploadAwareHelper;
     use JavaScriptBindable;
@@ -35,6 +38,7 @@ abstract class File implements FileInterface
     protected ilLanguage $language;
     protected string $title = '';
     protected string $post_url;
+    protected bool $with_metadata_fields = false;
 
     public function __construct(
         InputFactory $input_factory,
@@ -62,25 +66,31 @@ abstract class File implements FileInterface
 
     public function getForm() : FormInterface
     {
-        return
-            $this->form ??
-            $this->input_factory->container()->form()->standard(
-                $this->post_url,
-                [
-                    $this->input_factory
-                        ->field()->file($this->upload_handler, '')
-                        ->withMaxFiles($this->getMaxFiles())
-                        ->withMaxFileSize($this->getMaxFileSize())
-                        ->withAcceptedMimeTypes($this->getAcceptedMimeTypes())
-                        ->withTemplateForDynamicInputs(
-                            $this->input_factory->field()->group([
-                                $this->input_factory->field()->text($this->language->txt('dropzone_file_title')),
-                                $this->input_factory->field()->textarea($this->language->txt('dropzone_file_description')),
-                            ])
-                        )
-                    ,
-                ]
+        if (null !== $this->form) {
+            return $this->form;
+        }
+
+        $file_input = $this->input_factory
+            ->field()->file($this->upload_handler, '')
+            ->withMaxFiles($this->getMaxFiles())
+            ->withMaxFileSize($this->getMaxFileSize())
+            ->withAcceptedMimeTypes($this->getAcceptedMimeTypes());
+
+        if ($this->with_metadata_fields) {
+            $file_input = $file_input->withTemplateForDynamicInputs(
+                $this->input_factory->field()->group([
+                    self::FILE_TITLE_KEY => $this->input_factory->field()->text($this->language->txt('dropzone_file_title')),
+                    self::FILE_DESCRIPTION_KEY => $this->input_factory->field()->textarea($this->language->txt('dropzone_file_description')),
+                ])
             );
+        }
+
+        return $this->input_factory->container()->form()->standard(
+            $this->post_url,
+            [
+                self::FILE_INPUT_KEY => $file_input,
+            ]
+        );
     }
 
     public function withRequest(ServerRequestInterface $request) : self
@@ -109,7 +119,19 @@ abstract class File implements FileInterface
             throw new LogicException(static::class . " ::withRequest must be called first.");
         }
 
-        return $this->form->getData();
+        $data = $this->form->getData();
+        if (null !== $data && isset($data[self::FILE_INPUT_KEY])) {
+            return $data[self::FILE_INPUT_KEY];
+        }
+
+        return null;
+    }
+
+    public function withMetadataFields(bool $is_enabled) : FileInterface
+    {
+        $clone = clone $this;
+        $clone->with_metadata_fields = $is_enabled;
+        return $clone;
     }
 
     public function withOnDrop(Signal $signal) : self
