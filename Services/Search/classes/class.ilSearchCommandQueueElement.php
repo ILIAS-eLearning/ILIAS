@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,23 +25,22 @@
 * Represents an entry for the search command queue
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroupServicesSearch
 */
 class ilSearchCommandQueueElement
 {
-    const UPDATE = 'update';
-    const DELETE = 'delete';
-    const CREATE = 'create';
-    const RESET = 'reset';
+    public const UPDATE = 'update';
+    public const DELETE = 'delete';
+    public const CREATE = 'create';
+    public const RESET = 'reset';
 
-    private $obj_id;
-    private $obj_type;
-    private $command;
-    private $last_update;
-    private $finished;
+    private int $obj_id;
+    private string $obj_type;
+    private string $command;
+    private ilDateTime $last_update;
+    private bool $finished;
     
     /**
      * Constructor

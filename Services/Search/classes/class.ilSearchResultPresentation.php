@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,28 +25,35 @@
 * Presentation of search results using object list gui
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
 */
 class ilSearchResultPresentation
 {
-    const MODE_LUCENE = 1;
-    const MODE_STANDARD = 2;
+    public const MODE_LUCENE = 1;
+    public const MODE_STANDARD = 2;
     
-    protected $mode;
+    protected int $mode;
     
-    protected $tpl;
-    protected $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilAccess $access;
+    protected ilTree $tree;
+    protected ilBenchmark $bench;
 
-    private $results = array();
-    private $subitem_ids = array();
-    private $has_more_ref_ids = array();
-    private $all_references = null;
-    private $searcher = null;
-    
-    private $container = null;
+    private array $results = [];
+    private array $subitem_ids = [];
+    private array $has_more_ref_ids = [];
+    private array $all_references = [];
+    private ?ilLuceneSearcher $searcher = null;
+    private ?object $container = null;
+
+    protected string $prev;
+    protected string $next;
+    protected string $html;
+    protected string $thtml;
     
     /**
      * Constructor
@@ -56,14 +63,15 @@ class ilSearchResultPresentation
     {
         global $DIC;
 
-        $tpl = $DIC['tpl'];
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->access = $DIC->access();
+        $this->tree = $DIC->repositoryTree();
+        $this->bench = $DIC['ilBench'];
         
         $this->mode = $a_mode;
-        $this->lng = $lng;
         $this->container = $container;
-        $this->ctrl = $ilCtrl;
         
         $this->initReferences();
         
@@ -143,18 +151,15 @@ class ilSearchResultPresentation
      */
     protected function parseResultReferences()
     {
-        global $DIC;
-
-        $ilAccess = $DIC['ilAccess'];
         
         foreach ($this->getResults() as $ref_id => $obj_id) {
             $this->all_references[$ref_id][] = $ref_id;
             $counter = 0;
-            foreach (ilObject::_getAllReferences($obj_id) as $new_ref) {
+            foreach (ilObject::_getAllReferences((int) $obj_id) as $new_ref) {
                 if ($new_ref == $ref_id) {
                     continue;
                 }
-                if (!$ilAccess->checkAccess('read', '', $new_ref)) {
+                if (!$this->access->checkAccess('read', '', $new_ref)) {
                     continue;
                 }
                 $this->all_references[$ref_id][] = $new_ref;
@@ -218,8 +223,8 @@ class ilSearchResultPresentation
     */
     public function setPreviousNext($a_p, $a_n)
     {
-        $this->prev = $a_p;
-        $this->next = $a_n;
+        $this->prev = (string) $a_p;
+        $this->next = (string) $a_n;
     }
     
     
@@ -229,32 +234,27 @@ class ilSearchResultPresentation
      */
     protected function renderItemList()
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
-        $ilBench = $DIC['ilBench'];
-        $lng = $DIC['lng'];
 
         $this->html = '';
         
-        $ilBench->start('Lucene', '2000_pr');
+        $this->bench->start('Lucene', '2000_pr');
         $this->parseResultReferences();
-        $ilBench->stop('Lucene', '2000_pr');
+        $this->bench->stop('Lucene', '2000_pr');
         
-        $lng->loadLanguageModule("cntr"); // #16834
+        $this->lng->loadLanguageModule("cntr"); // #16834
         
         include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_SEARCH);
             
         $set = array();
         foreach ($this->getResults() as $c_ref_id => $obj_id) {
-            $ilBench->start('Lucene', '2100_res');
+            $this->bench->start('Lucene', '2100_res');
             foreach ($this->getAllReferences($c_ref_id) as $ref_id) {
-                $ilBench->start('Lucene', '2120_tree');
-                if (!$tree->isInTree($ref_id)) {
+                $this->bench->start('Lucene', '2120_tree');
+                if (!$this->tree->isInTree($ref_id)) {
                     continue;
                 }
-                $ilBench->stop('Lucene', '2120_tree');
+                $this->bench->stop('Lucene', '2120_tree');
                 
                 $obj_type = ilObject::_lookupType($obj_id);
                 
@@ -262,8 +262,8 @@ class ilSearchResultPresentation
                     "ref_id" => $ref_id,
                     "obj_id" => $obj_id,
                     "title" => $this->lookupTitle($obj_id, 0),
-                    "title_sort" => ilObject::_lookupTitle($obj_id),
-                    "description" => $this->lookupDescription($obj_id, 0),
+                    "title_sort" => ilObject::_lookupTitle((int) $obj_id),
+                    "description" => $this->lookupDescription((int) $obj_id, 0),
                     "type" => $obj_type,
                     "relevance" => $this->getRelevance($obj_id),
                     "s_relevance" => sprintf("%03d", $this->getRelevance($obj_id)),
@@ -272,7 +272,7 @@ class ilSearchResultPresentation
                                 
                 $preloader->addItem($obj_id, $obj_type, $ref_id);
             }
-            $ilBench->stop('Lucene', '2100_res');
+            $this->bench->stop('Lucene', '2100_res');
         }
 
         if (!count($set)) {
@@ -281,15 +281,15 @@ class ilSearchResultPresentation
         
         $preloader->preload();
         unset($preloader);
-        
-        $ilBench->start('Lucene', '2900_tb');
+
+        $this->bench->start('Lucene', '2900_tb');
         include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
         $result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
         $result_table->setCustomPreviousNext($this->prev, $this->next);
         
         $result_table->setData($set);
         $this->thtml = $result_table->getHTML();
-        $ilBench->stop('Lucene', '2900_tb');
+        $this->bench->stop('Lucene', '2900_tb');
         
         return true;
     }
@@ -317,12 +317,12 @@ class ilSearchResultPresentation
     public function lookupTitle($a_obj_id, $a_sub_id)
     {
         if ($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter())) {
-            return ilObject::_lookupTitle($a_obj_id);
+            return ilObject::_lookupTitle((int) $a_obj_id);
         }
         if (strlen($title = $this->searcher->getHighlighter()->getTitle($a_obj_id, $a_sub_id))) {
             return $title;
         }
-        return ilObject::_lookupTitle($a_obj_id);
+        return ilObject::_lookupTitle((int) $a_obj_id);
     }
     
     /**
@@ -333,12 +333,12 @@ class ilSearchResultPresentation
     public function lookupDescription($a_obj_id, $a_sub_id)
     {
         if ($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter())) {
-            return ilObject::_lookupDescription($a_obj_id);
+            return ilObject::_lookupDescription((int) $a_obj_id);
         }
         if (strlen($title = $this->searcher->getHighlighter()->getDescription($a_obj_id, $a_sub_id))) {
             return $title;
         }
-        return ilObject::_lookupDescription($a_obj_id);
+        return ilObject::_lookupDescription((int) $a_obj_id);
     }
     
     /**
@@ -360,14 +360,12 @@ class ilSearchResultPresentation
     public function appendAdditionalInformation($item_list_gui, $ref_id, $obj_id, $type)
     {
         $sub = $this->appendSubItems($item_list_gui, $ref_id, $obj_id, $type);
-        $path = $this->appendPath($ref_id);
-        $more = $this->appendMorePathes($ref_id);
-        #$rel = $this->appendRelevance($obj_id);
+        $path = $this->appendPath((int) $ref_id);
+        $more = $this->appendMorePathes((int) $ref_id);
         
         if (!strlen($sub) and
             !strlen($path) and
-            !strlen($more) and
-            !strlen($rel)) {
+            !strlen($more)) {
             return '';
         }
         $tpl = new ilTemplate('tpl.lucene_additional_information.html', true, true, 'Services/Search');
@@ -378,12 +376,8 @@ class ilSearchResultPresentation
         if (strlen($more)) {
             $tpl->setVariable('MORE_PATH', $more);
         }
-        if (strlen($rel)) {
-            $tpl->setVariable('RELEVANCE', $rel);
-        }
         
         $item_list_gui->setAdditionalInformation($tpl->get());
-        //$item_list_gui->setAdditionalInformation("Hello");
     }
     
     
@@ -399,7 +393,7 @@ class ilSearchResultPresentation
         $path_gui->setUseImages(false);
         
         $tpl = new ilTemplate('tpl.lucene_path.html', true, true, 'Services/Search');
-        $tpl->setVariable('PATH_ITEM', $path_gui->getPath(ROOT_FOLDER_ID, (int) $a_ref_id));
+        $tpl->setVariable('PATH_ITEM', $path_gui->getPath((int) ROOT_FOLDER_ID, (int) $a_ref_id));
         return $tpl->get();
     }
     
@@ -425,39 +419,7 @@ class ilSearchResultPresentation
         $tpl->setVariable('TXT_MORE_REFS', sprintf($this->lng->txt('lucene_all_occurrences'), $num_refs));
         return $tpl->get();
     }
-    
-    /**
-     * Append relevance
-     * @return
-     */
-    protected function appendRelevance($a_obj_id)
-    {
-        if ($this->getMode() != self::MODE_LUCENE) {
-            return '';
-        }
 
-        if (!((int) $this->getRelevance($a_obj_id))) {
-            return '';
-        }
-        
-        include_once './Services/Search/classes/class.ilSearchSettings.php';
-        if (!ilSearchSettings::getInstance()->isRelevanceVisible()) {
-            return '';
-        }
-
-        $tpl = new ilTemplate('tpl.lucene_relevance.html', true, true, 'Services/Search');
-        
-        include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
-        $pbar = ilProgressBar::getInstance();
-        $pbar->setCurrent($this->getRelevance());
-        
-        $this->tpl->setCurrentBlock('relevance');
-        $this->tpl->setVariable('REL_PBAR', $pbar->render());
-        $this->tpl->parseCurrentBlock();
-        
-        $html = $tpl->get();
-        return $html;
-    }
     
     /**
      * Append subitems
@@ -475,7 +437,7 @@ class ilSearchResultPresentation
         }
         
         if (!count($subitem_ids)) {
-            return;
+            return '';
         }
         
         // Build subitem list

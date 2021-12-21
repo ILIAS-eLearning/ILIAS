@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,16 +27,14 @@
 * Abstract class for lm content.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilLMContentSearch extends ilAbstractSearch
 {
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         $this->setFields(array('content'));
 
@@ -69,7 +67,7 @@ class ilLMContentSearch extends ilAbstractSearch
 
 
     // Protected can be overwritten in Like or Fulltext classes
-    public function __createInStatement()
+    public function __createInStatement() : string
     {
         global $DIC;
 
@@ -94,7 +92,7 @@ class ilLMContentSearch extends ilAbstractSearch
         return $in;
     }
 
-    public function __createAndCondition()
+    public function __createAndCondition() : void
     {
         echo "Overwrite me!";
     }

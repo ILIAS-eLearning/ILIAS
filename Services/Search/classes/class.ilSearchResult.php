@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,31 +27,32 @@
 *
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version Id$
 *
 * @package ilias-search
 */
 include_once('Services/Search/classes/class.ilUserSearchCache.php');
 
-define('DEFAULT_SEARCH', 0);
-define('ADVANCED_SEARCH', 1);
-define('ADVANCED_MD_SEARCH', 4);
 
 class ilSearchResult
 {
-    public $permission = 'visible';
+    private string $permission = 'visible';
 
-    public $user_id;
-    public $entries = array();
-    public $results = array();
-    public $observers = array();
+    private int $user_id;
+    private array $entries = array();
+    private array $results = array();
+    private array $observers = array();
+    private int $max_hits = 0;
 
     protected $search_cache = null;
     protected $offset = 0;
 
     // OBJECT VARIABLES
-    public $ilias;
-    public $ilAccess;
+    protected ILIAS $ilias;
+    protected ilAccess $ilAccess;
+    protected ilDBInterface $db;
+    protected ilTree $tree;
+    protected ilObjUser $user;
+    protected ilSearchSettings $search_settings;
 
     // Stores info if MAX HITS is reached or not
     public $limit_reached = false;
@@ -59,10 +60,7 @@ class ilSearchResult
     
     protected $preventOverwritingMaxhits = false;
 
-    /**
-     * @var ilLogger
-     */
-    private $logger;
+
 
     /**
     * Constructor
@@ -72,23 +70,23 @@ class ilSearchResult
     {
         global $DIC;
 
-        $ilias = $DIC['ilias'];
-        $ilAccess = $DIC['ilAccess'];
-        $ilDB = $DIC['ilDB'];
-        $ilUser = $DIC['ilUser'];
+        $this->ilAccess = $DIC->access();
+        $this->ilias = $DIC['ilias'];
+        $this->db = $DIC->database();
+        $this->tree = $DIC->repositoryTree();
+        $this->user = $DIC->user();
 
-        $this->logger = $DIC->logger()->src();
 
-        $this->ilAccess = $ilAccess;
+
         if ($a_user_id) {
             $this->user_id = $a_user_id;
         } else {
-            $this->user_id = $ilUser->getId();
+            $this->user_id = $this->user->getId();
         }
         $this->__initSearchSettingsObject();
         $this->initUserSearchCache();
 
-        $this->db = $ilDB;
+
     }
 
     /**
@@ -201,7 +199,7 @@ class ilSearchResult
      * @param object result_obj
      * @access	public
      */
-    public function mergeEntries(&$result_obj)
+    public function mergeEntries($result_obj)
     {
         foreach ($result_obj->getEntries() as $entry) {
             $this->addEntry($entry['obj_id'], $entry['type'], $entry['found']);
@@ -217,7 +215,7 @@ class ilSearchResult
      * @param object result_obj
      * @access	public
      */
-    public function diffEntriesFromResult(&$result_obj)
+    public function diffEntriesFromResult()
     {
         $new_entries = $this->getEntries();
         $this->entries = array();
@@ -366,9 +364,7 @@ class ilSearchResult
      */
     public function filter($a_root_node, $check_and)
     {
-        global $DIC;
 
-        $tree = $DIC['tree'];
         
         // get ref_ids and check access
         $counter = 0;
@@ -395,7 +391,7 @@ class ilSearchResult
                 continue;
             }
             // Check referenced objects
-            foreach (ilObject::_getAllReferences($entry['obj_id']) as $ref_id) {
+            foreach (ilObject::_getAllReferences((int) $entry['obj_id']) as $ref_id) {
                 // Failed check: if ref id check is failed by previous search
                 if ($this->search_cache->isFailed($ref_id)) {
                     continue;
@@ -422,7 +418,7 @@ class ilSearchResult
                     $type,
                     $entry['obj_id']
                 )) {
-                    if ($a_root_node == ROOT_FOLDER_ID or $tree->isGrandChild($a_root_node, $ref_id)) {
+                    if ($a_root_node == ROOT_FOLDER_ID or $this->tree->isGrandChild($a_root_node, $ref_id)) {
                         // Call listeners
                         #if($this->callListeners($ref_id,$entry))
                         if (1) {
@@ -457,14 +453,12 @@ class ilSearchResult
      */
     public function filterResults($a_root_node)
     {
-        global $DIC;
 
-        $tree = $DIC['tree'];
 
         $tmp_results = $this->getResults();
         $this->results = array();
         foreach ($tmp_results as $result) {
-            if ($tree->isGrandChild($a_root_node, $result['ref_id']) and $tree->isInTree($result['ref_id'])) {
+            if ($this->tree->isGrandChild($a_root_node, $result['ref_id']) and $this->tree->isInTree($result['ref_id'])) {
                 $this->addResult($result['ref_id'], $result['obj_id'], $result['type']);
                 $this->__updateResultChilds($result['ref_id'], $result['child']);
             }
@@ -480,7 +474,7 @@ class ilSearchResult
      * @param integer DEFAULT_SEARCH or ADVANCED_SEARCH
      * @access	public
      */
-    public function save($a_type = DEFAULT_SEARCH)
+    public function save($a_type = ilUserSearchCache::DEFAULT_SEARCH)
     {
         $this->search_cache->save();
         return false;
@@ -491,7 +485,7 @@ class ilSearchResult
      * @param integer DEFAULT_SEARCH or ADVANCED_SEARCH
      * @access	public
      */
-    public function read($a_type = DEFAULT_SEARCH)
+    public function read($a_type = ilUserSearchCache::DEFAULT_SEARCH)
     {
         $this->results = $this->search_cache->getResults();
     }
@@ -538,7 +532,6 @@ class ilSearchResult
 
     public function __initSearchSettingsObject()
     {
-        include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
         $this->search_settings = new ilSearchSettings();
         if (!$this->preventOverwritingMaxhits()) {

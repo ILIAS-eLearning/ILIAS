@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,15 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/EventHandling/interfaces/interface.ilAppEventListener.php';
-include_once './Services/Search/classes/class.ilSearchCommandQueue.php';
-include_once './Services/Search/classes/class.ilSearchCommandQueueElement.php';
 
 /**
 * Update search command queue from Services/Object events
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
@@ -38,7 +34,6 @@ class ilSearchAppEventListener implements ilAppEventListener
 {
     
     /**
-    * Handle an event in a listener.
     * @param	string $a_component component, e.g. "Modules/Forum" or "Services/User"
     * @param	string $a_event     event e.g. "createUser", "updateUser", "deleteUser", ...
     * @param	array  $a_parameter parameter array (assoc), array("name" => ..., "phone_office" => ...)
@@ -90,7 +85,7 @@ class ilSearchAppEventListener implements ilAppEventListener
         }
     }
     
-    protected static function storeElement($a_command, $a_params)
+    protected static function storeElement(string $a_command, array $a_params) : bool
     {
         if (!$a_command) {
             return false;

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -26,7 +26,6 @@
 *
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ilCtrl_Calls
@@ -34,39 +33,42 @@
 */
 class ilUserSearchCache
 {
-    const DEFAULT_SEARCH = 0;
-    const ADVANCED_SEARCH = 1;
-    const ADVANCED_MD_SEARCH = 4;
-    const LUCENE_DEFAULT = 5;
-    const LUCENE_ADVANCED = 6;
+    public const DEFAULT_SEARCH = 0;
+    public const ADVANCED_SEARCH = 1;
+    public const ADVANCED_MD_SEARCH = 4;
+    public const LUCENE_DEFAULT = 5;
+    public const LUCENE_ADVANCED = 6;
     
-    const LAST_QUERY = 7;
+    public const LAST_QUERY = 7;
     
-    const LUCENE_USER_SEARCH = 8;
+    public const LUCENE_USER_SEARCH = 8;
 
-    private static $instance = null;
-    private $db;
+    private static ?ilUserSearchCache $instance = null;
+    protected ilDBInterface $db;
     
-    private $usr_id;
-    private $search_type = self::DEFAULT_SEARCH;
+    private int $usr_id;
+    private int $search_type = self::DEFAULT_SEARCH;
     
-    private $search_result = array();
-    private $checked = array();
-    private $failed = array();
-    private $page_number = 1;
+    private array $search_result = array();
+    private array $checked = array();
+    private array $failed = array();
+    private int $page_number = 1;
+    /**
+     * @var string|array $query
+     */
     private $query;
-    private $root = ROOT_FOLDER_ID;
+    private int $root;
     
-    private $item_filter = array();
+    private array $item_filter = array();
 
-    private $isAnonymous = false;
+    private bool $isAnonymous = false;
     
     // begin-patch mime_filter
-    private $mime_filter = array();
+    private array $mime_filter = array();
     // end-patch mime_filter
     
     // begin-patch create_date
-    private $creation_filter = array();
+    private array $creation_filter = array();
     // end-patch create_date
     
     
@@ -81,29 +83,21 @@ class ilUserSearchCache
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $this->db = $DIC->database();
 
         if ($a_usr_id == ANONYMOUS_USER_ID) {
             $this->isAnonymous = true;
         }
         
-        $this->db = $ilDB;
+        $this->root = (int) ROOT_FOLDER_ID;
         $this->usr_id = $a_usr_id;
         $this->search_type = self::DEFAULT_SEARCH;
         $this->read();
     }
     
-    /**
-     * Get singleton instance
-     *
-     * @access public
-     * @static
-     *
-     * @param int usr_id
-     */
-    public static function _getInstance($a_usr_id)
+    public static function _getInstance($a_usr_id) : ilUserSearchCache
     {
-        if (is_object(self::$instance) and self::$instance) {
+        if (self::$instance instanceof ilUserSearchCache) {
             return self::$instance;
         }
         return self::$instance = new ilUserSearchCache($a_usr_id);
@@ -350,9 +344,6 @@ class ilUserSearchCache
      */
     public function deleteCachedEntries()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
 
         if ($this->isAnonymous()) {
             return $this->deleteCachedEntriesAnonymous();
@@ -360,13 +351,13 @@ class ilUserSearchCache
 
         
         $query = "SELECT COUNT(*) num FROM usr_search " .
-            "WHERE usr_id = " . $ilDB->quote($this->usr_id, 'integer') . " " .
-            "AND search_type = " . $ilDB->quote($this->search_type, 'integer');
-        $res = $ilDB->query($query);
+            "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer') . " " .
+            "AND search_type = " . $this->db->quote($this->search_type, 'integer');
+        $res = $this->db->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
         
         if ($row->num > 0) {
-            $ilDB->update(
+            $this->db->update(
                 'usr_search',
                 array(
                     'search_result' => array('clob',serialize(array(0))),
@@ -379,7 +370,7 @@ class ilUserSearchCache
             )
             );
         } else {
-            $ilDB->insert(
+            $this->db->insert(
                 'usr_search',
                 array(
                     'search_result' => array('clob',serialize(array(0))),
@@ -422,14 +413,11 @@ class ilUserSearchCache
      */
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
 
         $query = "DELETE FROM usr_search " .
             "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer') . " " .
             "AND search_type = " . $this->db->quote($this->search_type, 'integer');
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
         
         $this->read();
         return true;
@@ -443,21 +431,18 @@ class ilUserSearchCache
      */
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->isAnonymous()) {
             return $this->saveForAnonymous();
         }
         
         $query = "DELETE FROM usr_search " .
-            "WHERE usr_id = " . $ilDB->quote($this->usr_id, 'integer') . " " .
-            "AND ( search_type = " . $ilDB->quote($this->search_type, 'integer') . ' ' .
-            "OR search_type = " . $ilDB->quote(self::LAST_QUERY, 'integer') . ')';
-        $res = $ilDB->manipulate($query);
-        
-        $ilDB->insert('usr_search', array(
+            "WHERE usr_id = " . $this->db->quote($this->usr_id, 'integer') . " " .
+            "AND ( search_type = " . $this->db->quote($this->search_type, 'integer') . ' ' .
+            "OR search_type = " . $this->db->quote(self::LAST_QUERY, 'integer') . ')';
+        $res = $this->db->manipulate($query);
+
+        $this->db->insert('usr_search', array(
             'usr_id' => array('integer',(int) $this->usr_id),
             'search_result' => array('clob',serialize($this->search_result)),
             'checked' => array('clob',serialize($this->checked)),
@@ -473,7 +458,7 @@ class ilUserSearchCache
             
             
         // Write last query information
-        $ilDB->insert(
+        $this->db->insert(
             'usr_search',
             array(
                 'usr_id' => array('integer',$this->usr_id),
@@ -533,9 +518,9 @@ class ilUserSearchCache
             if (strlen($row->failed)) {
                 $this->failed = unserialize(stripslashes($row->failed));
             }
-            $this->page_number = $row->page;
+            $this->page_number = (int) $row->page;
             $this->setQuery(unserialize($row->query));
-            $this->setRoot($row->root);
+            $this->setRoot((int) $row->root);
             $this->setItemFilter(unserialize($row->item_filter));
             $this->setCreationFilter(unserialize($row->creation_filter));
         }

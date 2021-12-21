@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,7 +27,6 @@
 * Abstract class for glossary definitions.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
@@ -36,7 +35,7 @@ include_once 'Services/Search/classes/class.ilAbstractSearch.php';
  
 class ilWebresourceSearch extends ilAbstractSearch
 {
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         $this->setFields(array('title'));
 

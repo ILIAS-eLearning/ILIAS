@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -30,20 +30,21 @@
 *
 *
 */
-define('FIELD_TYPE_UDF_SELECT', 1);
-define('FIELD_TYPE_UDF_TEXT', 2);
-define('FIELD_TYPE_SELECT', 3);
-define('FIELD_TYPE_TEXT', 4);
-// begin-patch lok
-define('FIELD_TYPE_MULTI', 5);
-// end-patch lok
 
 
 
 
 class ilUserSearchOptions
 {
-    public $db = null;
+
+    public const FIELD_TYPE_UDF_SELECT = 1;
+    public const FIELD_TYPE_UDF_TEXT   = 2;
+    public const FIELD_TYPE_SELECT     = 3;
+    public const FIELD_TYPE_TEXT       = 4;
+// begin-patch lok
+    public const FIELD_TYPE_MULTI = 5;
+// end-patch lok
+
 
     /**
      * Get info of searchable fields for selectable columns in table gui
@@ -73,7 +74,7 @@ class ilUserSearchOptions
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         // begin-patch lok
         $lng->loadLanguageModule('user');
@@ -87,7 +88,7 @@ class ilUserSearchOptions
                 continue;
             }
             $fields[$counter]['values'] = array();
-            $fields[$counter]['type'] = FIELD_TYPE_TEXT;
+            $fields[$counter]['type'] = self::FIELD_TYPE_TEXT;
             $fields[$counter]['lang'] = $lng->txt($field);
             $fields[$counter]['db'] = $field;
 
@@ -111,7 +112,7 @@ class ilUserSearchOptions
                 // SELECTS
                 
                 case 'gender':
-                    $fields[$counter]['type'] = FIELD_TYPE_SELECT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
                     $fields[$counter]['values'] = array(
                         0 => $lng->txt('please_choose'),
                         'n' => $lng->txt('gender_n'),
@@ -121,7 +122,7 @@ class ilUserSearchOptions
                     break;
                 
                 case 'sel_country':
-                    $fields[$counter]['type'] = FIELD_TYPE_SELECT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
                     $fields[$counter]['values'] = array(0 => $lng->txt('please_choose'));
                     
                     // #7843 -- see ilCountrySelectInputGUI
@@ -133,10 +134,9 @@ class ilUserSearchOptions
                     break;
                     
                 case 'org_units':
-                    $fields[$counter]['type'] = FIELD_TYPE_SELECT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_SELECT;
 
-                    include_once './Modules/OrgUnit/classes/PathStorage/class.ilOrgUnitPathStorage.php';
-                    $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
+                                        $paths = ilOrgUnitPathStorage::getTextRepresentationOfOrgUnits();
 
                     $options[0] = $lng->txt('select_one');
                     foreach ($paths as $org_ref_id => $path) {
@@ -151,7 +151,7 @@ class ilUserSearchOptions
                 case 'interests_general':
                 case 'interests_help_offered':
                 case 'interests_help_looking':
-                    $fields[$counter]['type'] = FIELD_TYPE_MULTI;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_MULTI;
                     break;
                 // end-patch lok
                     
@@ -234,7 +234,6 @@ class ilUserSearchOptions
 
     public static function __appendUserDefinedFields($fields, $counter)
     {
-        include_once './Services/User/classes/class.ilUserDefinedFields.php';
 
         $user_defined_fields = ilUserDefinedFields::_getInstance();
         
@@ -245,11 +244,11 @@ class ilUserSearchOptions
 
             switch ($definition['field_type']) {
                 case UDF_TYPE_TEXT:
-                    $fields[$counter]['type'] = FIELD_TYPE_UDF_TEXT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_TEXT;
                     break;
 
                 case UDF_TYPE_SELECT:
-                    $fields[$counter]['type'] = FIELD_TYPE_UDF_SELECT;
+                    $fields[$counter]['type'] = self::FIELD_TYPE_UDF_SELECT;
                     break;
             }
             ++$counter;
@@ -261,7 +260,7 @@ class ilUserSearchOptions
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
+        $lng = $DIC->language();
 
         $new_values = array(0 => $lng->txt('please_choose'));
         foreach ($a_values as $value) {

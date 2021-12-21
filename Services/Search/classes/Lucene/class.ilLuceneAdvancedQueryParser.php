@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,22 +21,19 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Search/classes/Lucene/class.ilLuceneQueryParser.php';
-include_once './Services/Search/classes/Lucene/class.ilLuceneAdvancedSearchFields.php';
 
 /**
 *
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
 */
 class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
 {
-    protected $field_definition = null;
-    protected $query_data = array();
+    protected ilLuceneAdvancedSearchFields $field_definition;
+    protected ?array $query_data;
 
     /**
      * Constructor
@@ -62,7 +59,7 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
         return $this->query_data ? $this->query_data : array();
     }
     
-    public function parse()
+    public function parse() : void
     {
         foreach ((array) $this->getQueryData() as $field => $query) {
             if (!is_array($query) && !trim($query)) {
@@ -75,6 +72,5 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
                 $this->parsed_query .= ") ";
             }
         }
-        return true;
     }
 }

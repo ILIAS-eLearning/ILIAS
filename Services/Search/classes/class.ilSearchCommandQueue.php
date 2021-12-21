@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,12 +21,10 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Search/classes/class.ilSearchCommandQueueElement.php';
 /**
 *
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
@@ -35,12 +33,16 @@ class ilSearchCommandQueue
 {
     private static $instance = null;
 
+    protected ilDBInterface $db;
 
     /**
      * Constructor
      */
     protected function __construct()
     {
+        global $DIC;
+
+        $this->db = $DIC->database();
     }
     
     /**
@@ -59,14 +61,12 @@ class ilSearchCommandQueue
      */
     public function store(ilSearchCommandQueueElement $element)
     {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
         
         $query = "SELECT obj_id, obj_type FROM search_command_queue " .
-            "WHERE obj_id = " . $ilDB->quote($element->getObjId(), 'integer') . " " .
-            "AND obj_type = " . $ilDB->quote($element->getObjType(), 'text');
-        $res = $ilDB->query($query);
+            "WHERE obj_id = " . $this->db->quote($element->getObjId(), 'integer') . " " .
+            "AND obj_type = " . $this->db->quote($element->getObjType(), 'text');
+        $res = $this->db->query($query);
         if ($res->numRows()) {
             $this->update($element);
         } else {
@@ -79,21 +79,18 @@ class ilSearchCommandQueue
      */
     protected function insert(ilSearchCommandQueueElement $element)
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $query = "INSERT INTO search_command_queue (obj_id,obj_type,sub_id,sub_type,command,last_update,finished) " .
             "VALUES( " .
-            $ilDB->quote($element->getObjId(), 'integer') . ", " .
-            $ilDB->quote($element->getObjType(), 'text') . ", " .
+            $this->db->quote($element->getObjId(), 'integer') . ", " .
+            $this->db->quote($element->getObjType(), 'text') . ", " .
             "0, " .
             "''," .
-            $ilDB->quote($element->getCommand(), 'text') . ", " .
-            $ilDB->now() . ", " .
+            $this->db->quote($element->getCommand(), 'text') . ", " .
+            $this->db->now() . ", " .
             "0 " .
             ")";
-        $res = $ilDB->manipulate($query);
+        $res = $this->db->manipulate($query);
         return true;
     }
     
@@ -102,17 +99,15 @@ class ilSearchCommandQueue
      */
     protected function update(ilSearchCommandQueueElement $element)
     {
-        global $DIC;
 
-        $ilDB = $DIC['ilDB'];
         
         $query = "UPDATE search_command_queue " .
-            "SET command = " . $ilDB->quote($element->getCommand(), 'text') . ", " .
-            "last_update = " . $ilDB->now() . ", " .
-            "finished = " . $ilDB->quote(0, 'integer') . " " .
-            "WHERE obj_id = " . $ilDB->quote($element->getObjId(), 'integer') . " " .
-            "AND obj_type = " . $ilDB->quote($element->getObjType(), 'text');
-        $res = $ilDB->manipulate($query);
+            "SET command = " . $this->db->quote($element->getCommand(), 'text') . ", " .
+            "last_update = " . $this->db->now() . ", " .
+            "finished = " . $this->db->quote(0, 'integer') . " " .
+            "WHERE obj_id = " . $this->db->quote($element->getObjId(), 'integer') . " " .
+            "AND obj_type = " . $this->db->quote($element->getObjType(), 'text');
+        $res = $this->db->manipulate($query);
         return true;
     }
 }

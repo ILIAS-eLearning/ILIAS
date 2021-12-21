@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,13 +21,11 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Exceptions/classes/class.ilException.php';
 
 /**
 * Query parser exception
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch

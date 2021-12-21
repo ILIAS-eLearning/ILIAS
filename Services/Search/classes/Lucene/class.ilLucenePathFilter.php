@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,21 +21,19 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once './Services/Search/interfaces/interface.ilLuceneResultFilter.php';
 /**
 * Lucene path filter
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
 */
 class ilLucenePathFilter implements ilLuceneResultFilter
 {
-    protected $root = ROOT_FOLDER_ID;
-    protected $subnodes = array();
-    
+    protected int $root;
+    protected array $subnodes = [];
+    protected ilTree $tree;
     
     /**
      * Constructor
@@ -44,20 +42,17 @@ class ilLucenePathFilter implements ilLuceneResultFilter
      */
     public function __construct($a_root)
     {
+        global $DIC;
+
+        $this->tree = $DIC->repositoryTree();
         $this->root = $a_root;
-        //$this->init();
     }
     
     /**
      * Return whether a object reference is valid or not
-     * @param int $a_ref_id reference id of object in question
-     * @return boolean
      */
-    public function filter($a_ref_id)
+    public function filter(int $a_ref_id) : bool
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
         
         if ($this->root == ROOT_FOLDER_ID) {
             return true;
@@ -65,24 +60,21 @@ class ilLucenePathFilter implements ilLuceneResultFilter
         if ($this->root == $a_ref_id) {
             return true;
         }
-        return $tree->isGrandChild($this->root, $a_ref_id);
+        return $this->tree->isGrandChild($this->root, $a_ref_id);
     }
     
     /**
      * Read valid reference ids
-     * @return
+     * @return void
      */
-    protected function init()
+    protected function init() : void
     {
-        global $DIC;
-
-        $tree = $DIC['tree'];
         
         if ($this->root == ROOT_FOLDER_ID) {
             $this->subnodes = array();
         } else {
-            $node = $tree->getNodeData($this->root);
-            $this->subnodes = $tree->getSubTree($node, false);
+            $node = $this->tree->getNodeData($this->root);
+            $this->subnodes = $this->tree->getSubTree($node, false);
         }
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -30,7 +30,6 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilUserSearch extends ilAbstractSearch
 {
@@ -61,7 +60,7 @@ class ilUserSearch extends ilAbstractSearch
         $this->inactive_check = $a_enabled;
     }
 
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         $where = $this->__createWhereCondition();
         $locate = $this->__createLocateString();

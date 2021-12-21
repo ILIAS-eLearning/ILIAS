@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,16 +7,14 @@
 * Abstract class for test search.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilMediaPoolSearch extends ilAbstractSearch
 {
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         $this->setFields(array('title'));
 
@@ -35,7 +33,7 @@ class ilMediaPoolSearch extends ilAbstractSearch
         return $this->search_result;
     }
     
-    public function performKeywordSearch()
+    public function performKeywordSearch() : ?ilSearchResult
     {
         $this->setFields(array('keyword'));
         

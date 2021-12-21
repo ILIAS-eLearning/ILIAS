@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,16 +27,14 @@
 * Abstract class for mediacast definitions.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id: class.ilMediaCastSearch.php 7785 2005-06-06 13:38:15Z smeyer $
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilMediaCastSearch extends ilAbstractSearch
 {
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         // Search in glossary term
         

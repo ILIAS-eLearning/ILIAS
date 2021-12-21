@@ -337,7 +337,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
         $query_parser = new ilQueryParser($a_title);
         $query_parser->setMinWordLength(0);
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
             return $this->__raiseError(
@@ -466,7 +466,7 @@ class ilSoapObjectAdministration extends ilSoapAdministration
 
             $query_parser = new ilQueryParser($key);
             #$query_parser->setMinWordLength(3);
-            $query_parser->setCombination($combination == 'and' ? QP_COMBINATION_AND : QP_COMBINATION_OR);
+            $query_parser->setCombination($combination == 'and' ? ilQueryParser::QP_COMBINATION_AND : ilQueryParser::QP_COMBINATION_OR);
             $query_parser->parse();
             if (!$query_parser->validate()) {
                 return $this->__raiseError(

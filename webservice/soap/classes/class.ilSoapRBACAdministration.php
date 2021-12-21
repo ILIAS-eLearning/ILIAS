@@ -725,7 +725,7 @@ class ilSoapRBACAdministration extends ilSoapAdministration
 
         $query_parser = new ilQueryParser($key);
         $query_parser->setMinWordLength(3);
-        $query_parser->setCombination($combination == 'and' ? QP_COMBINATION_AND : QP_COMBINATION_OR);
+        $query_parser->setCombination($combination == 'and' ? ilQueryParser::QP_COMBINATION_AND : ilQueryParser::QP_COMBINATION_OR);
         $query_parser->parse();
         if (!$query_parser->validate()) {
             return $this->__raiseError($query_parser->getMessage(), 'Client');

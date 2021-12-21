@@ -798,7 +798,7 @@ class ilObjectCopyGUI
         
         $query_parser = new ilQueryParser($this->form->getInput('tit'));
         $query_parser->setMinWordLength(1);
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->parse();
         if (!$query_parser->validate()) {
             ilUtil::sendFailure($query_parser->getMessage(), true);

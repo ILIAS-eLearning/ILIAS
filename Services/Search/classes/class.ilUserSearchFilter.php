@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,8 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
-include_once 'Services/Search/classes/class.ilSearchResult.php';
 
 /**
 * Generic user filter used for learning progress in courses, course member list ...
@@ -31,41 +29,43 @@ include_once 'Services/Search/classes/class.ilSearchResult.php';
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @version $Id$
 *
 * @package ServicesSearch
 *
 */
 class ilUserSearchFilter
 {
-    public $limit = 0;
-    public $limit_reached = false;
+    private int $limit = 0;
+    private bool $limit_reached = false;
+    private bool $stored;
 
 
-    public $search_fields = array('login' => true,
+    private array $search_fields = array('login' => true,
                                'firstname' => true,
                                'lastname' => true);
 
-    public $enabled_member_filter = false;
-    public $possible_users = array();
+    private bool $enabled_member_filter = false;
+    private array $possible_users = array();
 
     // Default values for filter
 
-    public $usr_id = null;
-    public $db = null;
+    private ?int $usr_id = null;
+
+    protected ilDBInterface $db;
+    protected ILIAS $ilias;
+    protected ilSearchResult $result_obj;
 
     public function __construct($a_usr_id)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-        $ilias = $DIC['ilias'];
 
         $this->usr_id = $a_usr_id;
-        $this->db = &$ilDB;
+        $this->db = $DIC->database();
+        $this->ilias = $DIC['ilias'];
 
         // Limit of filtered objects is search max hits
-        $this->limit = $ilias->getSetting('search_max_hits', 50);
+        $this->limit = (int) $this->ilias->getSetting('search_max_hits', 50);
         $this->result_obj = new ilSearchResult();
     }
 
@@ -150,11 +150,12 @@ class ilUserSearchFilter
                 ilUtil::sendInfo($query_parser);
                 return false;
             }
-            $user_search = &ilObjectSearchFactory::_getUserSearchInstance($query_parser);
+            $user_search = ilObjectSearchFactory::_getUserSearchInstance($query_parser);
             $user_search->setFields(array($field));
             
             // store entries
-            $this->__storeEntries($result_obj = $user_search->performSearch());
+            $result_obj = $user_search->performSearch();
+            $this->__storeEntries($result_obj);
         }
 
         // no filter entries
@@ -162,7 +163,7 @@ class ilUserSearchFilter
             if ($this->enabled_member_filter) {
                 $this->result_obj->addObserver($this, 'memberFilter');
             }
-            $this->result_obj->filter(ROOT_FOLDER_ID, QP_COMBINATION_OR);
+            $this->result_obj->filter(ROOT_FOLDER_ID, ilQueryParser::QP_COMBINATION_OR);
 
             return $this->__toArray($this->result_obj->getResults());
         }
@@ -174,12 +175,11 @@ class ilUserSearchFilter
     * @return object of query parser or error message if an error occured
     * @access public
     */
-    public function &__parseQueryString($a_string)
+    public function __parseQueryString($a_string)
     {
-        include_once 'Services/Search/classes/class.ilQueryParser.php';
 
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($a_string));
-        $query_parser->setCombination(QP_COMBINATION_OR);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
         $query_parser->setMinWordLength(1);
         $query_parser->parse();
 

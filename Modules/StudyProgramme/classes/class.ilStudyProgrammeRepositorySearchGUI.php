@@ -10,7 +10,7 @@ class ilStudyProgrammeRepositorySearchGUI extends ilRepositorySearchGUI
 {
     protected array $callback = [];
 
-    public function addUser()
+    public function addUser() : void
     {
         $class = $this->callback['class'];
         $method = $this->callback['method'];

@@ -625,7 +625,7 @@ class ilAuthShibbolethSettingsGUI
             $parser = new ilQueryParser($this->form->getInput('role_search'));
             // TODO: Handle minWordLength
             $parser->setMinWordLength(1);
-            $parser->setCombination(QP_COMBINATION_AND);
+            $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
             $parser->parse();
             include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
             $object_search = new ilLikeObjectSearch($parser);
@@ -709,7 +709,7 @@ class ilAuthShibbolethSettingsGUI
         include_once './Services/Search/classes/class.ilQueryParser.php';
         $parser = new ilQueryParser($_SESSION['shib_role_ass']['search']);
         $parser->setMinWordLength(1);
-        $parser->setCombination(QP_COMBINATION_AND);
+        $parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $parser->parse();
         include_once 'Services/Search/classes/Like/class.ilLikeObjectSearch.php';
         $object_search = new ilLikeObjectSearch($parser);

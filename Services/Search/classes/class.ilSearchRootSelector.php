@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,11 +21,10 @@
     +-----------------------------------------------------------------------------+
 */
 
-/*
+/**
 * Repository Explorer
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package core
 */
@@ -35,16 +34,15 @@ require_once("./Services/UIComponent/Explorer/classes/class.ilExplorer.php");
 class ilSearchRootSelector extends ilExplorer
 {
 
-    /**
-     * id of root folder
-     * @var int root folder id
-     * @access private
-     */
-    public $root_id;
-    public $ctrl;
 
-    public $selectable_type;
-    public $ref_id;
+    protected ilCtrl $ctrl;
+    protected ilRbacSystem $system;
+
+    private string $selectable_type;
+    private int $ref_id;
+    private string $target_class;
+    private array $clickable_types;
+    private string $cmd;
     /**
     * Constructor
     * @access	public
@@ -55,13 +53,10 @@ class ilSearchRootSelector extends ilExplorer
     {
         global $DIC;
 
-        $tree = $DIC['tree'];
-        $ilCtrl = $DIC['ilCtrl'];
-
-        $this->ctrl = $ilCtrl;
+        $this->ctrl = $DIC->ctrl();
+        $this->system = $DIC->rbac()->system();
 
         parent::__construct($a_target);
-        $this->tree = $tree;
         $this->root_id = $this->tree->readRootId();
         $this->order_column = "title";
 
@@ -115,9 +110,17 @@ class ilSearchRootSelector extends ilExplorer
     {
         $this->selectable_type = $a_type;
     }
+    public function getSelectableType()
+    {
+        return $this->selectable_type;
+    }
     public function setRefId($a_ref_id)
     {
         $this->ref_id = $a_ref_id;
+    }
+    public function getRefId($a_ref_id)
+    {
+        return $this->ref_id;
     }
     
 
@@ -135,15 +138,12 @@ class ilSearchRootSelector extends ilExplorer
 
     public function showChilds($a_parent_id) : bool
     {
-        global $DIC;
-
-        $rbacsystem = $DIC['rbacsystem'];
 
         if ($a_parent_id == 0) {
             return true;
         }
 
-        if ($rbacsystem->checkAccess("read", $a_parent_id)) {
+        if ($this->system->checkAccess("read", $a_parent_id)) {
             return true;
         } else {
             return false;
@@ -160,10 +160,6 @@ class ilSearchRootSelector extends ilExplorer
      */
     public function formatHeader(ilTemplate $tpl, $a_obj_id, array $a_option) : void
     {
-        global $DIC;
-
-        $lng = $DIC['lng'];
-        $ilias = $DIC['ilias'];
 
         #$tpl = new ilTemplate("tpl.tree.html", true, true, "Services/UIComponent/Explorer");
 
@@ -173,7 +169,7 @@ class ilSearchRootSelector extends ilExplorer
             
             $this->ctrl->setParameterByClass($this->getTargetClass(), 'root_id', ROOT_FOLDER_ID);
             $tpl->setVariable("LINK_TARGET", $this->ctrl->getLinkTargetByClass($this->getTargetClass(), $this->getCmd()));
-            $tpl->setVariable("TITLE", $lng->txt("repository"));
+            $tpl->setVariable("TITLE", $this->lng->txt("repository"));
             
             $tpl->parseCurrentBlock();
         }

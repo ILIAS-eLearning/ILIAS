@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,16 +27,14 @@
 * Abstract class for glossary definitions.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilGlossaryDefinitionSearch extends ilAbstractSearch
 {
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         // Search in glossary term
         
@@ -55,7 +53,7 @@ class ilGlossaryDefinitionSearch extends ilAbstractSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->glo_id, 'glo', $this->__prepareFound($row), $row->id);
         }
-        //var_dump($this->search_result->entries["179"]["child"]);
+
         return $this->search_result;
     }
 }

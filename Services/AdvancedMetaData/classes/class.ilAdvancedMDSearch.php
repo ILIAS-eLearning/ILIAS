@@ -55,7 +55,7 @@ class ilAdvancedMDSearch extends ilAbstractSearch
         return $this->adt;
     }
 
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         $this->query_parser->parse();
 

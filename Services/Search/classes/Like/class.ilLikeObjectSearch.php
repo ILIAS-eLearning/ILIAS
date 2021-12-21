@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,34 +27,20 @@
 * Performs Mysql Like search in object_data title and description
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilObjectSearch.php';
 
 class ilLikeObjectSearch extends ilObjectSearch
 {
-    public function __createWhereCondition()
+    public function __createWhereCondition() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        /*
-        $concat  = " CONCAT(";
-        $concat .= 'title,description';
-        $concat .= ") ";
-        */
-        
-        $concat = $ilDB->concat(
+        $concat = $this->db->concat(
             array(
                 array('title','text'),
                 array('description','text'))
         );
-        
-
         $where = "WHERE (";
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {
@@ -62,10 +48,7 @@ class ilLikeObjectSearch extends ilObjectSearch
                 $where .= "OR";
             }
             
-            $where .= $ilDB->like($concat, 'text', '%' . $word . '%');
-            
-            #$where .= $concat;
-            #$where .= ("LIKE ('%".$word."%') ");
+            $where .= $this->db->like($concat, 'text', '%' . $word . '%');
         }
         $where .= ') ';
         return $where;

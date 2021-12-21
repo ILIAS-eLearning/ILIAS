@@ -1,41 +1,41 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
 * TableGUI class object (course,group and role) search results
  * Used in member search
 *
 * @author Stefan Meyer <smeyer.ilias@gmx.de>
-* @version $Id$
 *
 * @ingroup ServicesSearch
 */
 class ilRepositoryObjectResultTableGUI extends ilTable2GUI
 {
+
+    protected ilRbacAdmin $admin;
+
+    protected ilRbacReview $review;
+
     /**
-     * Constructor
-     * @return
      * @param object $a_parent_obj
      * @param object $a_parent_cmd
+     * @param bool $a_allow_object_selection
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_allow_object_selection = false)
     {
         global $DIC;
-
-        $ilCtrl = $DIC['ilCtrl'];
-        $lng = $DIC['lng'];
-        $ilAccess = $DIC['ilAccess'];
-        $lng = $DIC['lng'];
         
         parent::__construct($a_parent_obj, $a_parent_cmd);
+
+        $this->admin = $DIC->rbac()->admin();
+        $this->review = $DIC->rbac()->review();
         
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("title"), "title", "80%");
         $this->addColumn($this->lng->txt("members"), "member", "20%");
         
-        $this->setFormAction($ilCtrl->getFormAction($this->parent_obj));
+        $this->setFormAction($this->ctrl->getFormAction($this->parent_obj));
         $this->setRowTemplate("tpl.rep_search_obj_result_row.html", "Services/Search");
         $this->setTitle($this->lng->txt('search_results'));
         $this->setEnableTitle(true);
@@ -68,9 +68,8 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
     }
     
     /**
-     *
-     * @return
-     * @param object $row
+     * @param array $row
+     * @return bool
      */
     public function fillRow($row)
     {
@@ -90,20 +89,15 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
         return true;
     }
     
-    
-    /**
-     * Parse object data
-     * @return
-     * @param object $a_ids
-     */
-    public function parseObjectIds($a_ids)
+
+    public function parseObjectIds(array $a_ids)
     {
         foreach ($a_ids as $object_id) {
             $row = array();
             $type = ilObject::_lookupType($object_id);
             
             if ($type == 'role') {
-                if ($GLOBALS['DIC']['rbacreview']->isRoleDeleted($object_id)) {
+                if ($this->review->isRoleDeleted($object_id)) {
                     continue;
                 }
             }
@@ -118,7 +112,6 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
                 case 'crs':
                 case 'grp':
 
-                    include_once './Services/Membership/classes/class.ilParticipants.php';
                     if (ilParticipants::hasParticipantListAccess($object_id)) {
                         $row['member'] = count(ilParticipants::getInstanceByObjId($object_id)->getParticipants());
                     } else {
@@ -127,11 +120,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
                     break;
                     
                 case 'role':
-                    global $DIC;
-
-                    $rbacreview = $DIC['rbacreview'];
-                    include_once './Services/User/classes/class.ilUserFilter.php';
-                    $row['member'] = count(ilUserFilter::getInstance()->filter($rbacreview->assignedUsers($object_id)));
+                    $row['member'] = count(ilUserFilter::getInstance()->filter($this->review->assignedUsers($object_id)));
                     break;
             }
             

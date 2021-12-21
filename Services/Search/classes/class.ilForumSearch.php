@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,16 +27,14 @@
 * Abstract class for lm content.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilForumSearch extends ilAbstractSearch
 {
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         // Search in topic titles, posting title, posting
         
@@ -81,7 +79,7 @@ class ilForumSearch extends ilAbstractSearch
         return $this->search_result;
     }
 
-    public function __createAndCondition()
+    public function __createAndCondition() : void
     {
         echo "Overwrite me!";
     }

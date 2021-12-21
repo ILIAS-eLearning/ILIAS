@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -21,7 +21,6 @@
     +-----------------------------------------------------------------------------+
 */
 
-include_once 'Services/Search/classes/class.ilSearchSettings.php';
 
 /**
  * Class ilObjectSearchFactory
@@ -29,7 +28,6 @@ include_once 'Services/Search/classes/class.ilSearchSettings.php';
  * Factory for ObjectSearch classes
  *
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
- * @version $Id$
  *
  * @package ServicesSearch
  */

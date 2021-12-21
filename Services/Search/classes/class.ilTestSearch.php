@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,7 +27,6 @@
 * Abstract class for test search.
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
@@ -110,7 +109,7 @@ class ilTestSearch extends ilAbstractSearch
     }
 
 
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         $this->__searchTestTitle();
         $this->__searchTestIntroduction();

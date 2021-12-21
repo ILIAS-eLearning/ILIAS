@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,14 +27,13 @@
 * Abstract class for wiki content.
 *
 * @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
 *
 */
 include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilWikiContentSearch extends ilAbstractSearch
 {
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         $this->setFields(array('content'));
 
@@ -62,9 +61,6 @@ class ilWikiContentSearch extends ilAbstractSearch
     // Protected can be overwritten in Like or Fulltext classes
     public function __createInStatement()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if (!$this->getFilter() and !$this->getIdFilter()) {
             return '';
@@ -81,7 +77,7 @@ class ilWikiContentSearch extends ilAbstractSearch
         }
         if ($this->getIdFilter()) {
             $in .= ' AND ';
-            $in .= $ilDB->in('il_wiki_page.wiki_id', $this->getIdFilter(), false, 'integer');
+            $in .= $this->db->in('il_wiki_page.wiki_id', $this->getIdFilter(), false, 'integer');
         }
         
         return $in;
