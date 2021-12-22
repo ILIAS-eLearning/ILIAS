@@ -4,6 +4,9 @@
 
 use ILIAS\Repository\Clipboard\ClipboardManager;
 use ILIAS\Container\Content\ViewManager;
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
+
 
 /**
 * Class ilSearchBaseGUI
@@ -45,6 +48,9 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
     protected ilLocatorGUI $locator;
     protected ilObjUser $user;
     protected ilTree $tree;
+    private GlobalHttpState $http;
+    private Factory $refinery;
+
 
     protected string $prev_link = '';
     protected string $next_link = '';
@@ -79,7 +85,22 @@ class ilSearchBaseGUI implements ilDesktopItemHandling, ilAdministrationCommandH
             ->content()
             ->view();
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
     }
+
+    protected function initPageNumberFromQuery() : int
+    {
+        if ($this->http->wrapper()->query()->has('page_number')) {
+            return $this->http->wrapper()->query()->retrieve(
+                'page_number',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        return 0;
+    }
+
 
     public function prepareOutput() : void
     {

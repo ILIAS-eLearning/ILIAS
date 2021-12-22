@@ -74,7 +74,6 @@ class ilSearchResultPresentation
         $this->initReferences();
         
         if (isset($_GET['details'])) {
-            include_once './Services/Object/classes/class.ilSubItemListGUI.php';
             ilSubItemListGUI::setShowDetails((int) $_GET['details']);
         }
     }
@@ -228,7 +227,6 @@ class ilSearchResultPresentation
 
         $this->lng->loadLanguageModule("cntr"); // #16834
         
-        include_once("./Services/Object/classes/class.ilObjectListGUIPreloader.php");
         $preloader = new ilObjectListGUIPreloader(ilObjectListGUI::CONTEXT_SEARCH);
             
         $set = array();
@@ -263,7 +261,6 @@ class ilSearchResultPresentation
         $preloader->preload();
         unset($preloader);
 
-        include_once("./Services/Search/classes/class.ilSearchResultTableGUI.php");
         $result_table = new ilSearchResultTableGUI($this->container, "showSavedResults", $this);
         $result_table->setCustomPreviousNext($this->prev, $this->next);
         
@@ -345,7 +342,6 @@ class ilSearchResultPresentation
     
     protected function appendPath(int $a_ref_id) : string
     {
-        include_once './Services/Tree/classes/class.ilPathGUI.php';
         $path_gui = new ilPathGUI();
         $path_gui->enableTextOnly(false);
         $path_gui->setUseImages(false);
@@ -396,7 +392,6 @@ class ilSearchResultPresentation
         }
         
         // Build subitem list
-        include_once './Services/Search/classes/Lucene/class.ilLuceneSubItemListGUIFactory.php';
         $sub_list = ilLuceneSubItemListGUIFactory::getInstanceByType($a_type, $this->getContainer());
         $sub_list->setHighlighter($highlighter);
         $sub_list->init($item_list_gui, $ref_id, $subitem_ids);

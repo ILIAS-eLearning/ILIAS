@@ -31,7 +31,6 @@
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
  
 class ilWebresourceSearch extends ilAbstractSearch
 {

@@ -152,10 +152,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function performSearch() : bool
     {
-
         $this->initSearchType(self::TYPE_LOM);
-        
-        if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
+        $page_number = $this->initPageNumberFromQuery();
+        if (!$page_number and $this->search_mode != 'in_results') {
             unset($_SESSION['adv_max_page']);
             $this->search_cache->deleteCachedEntries();
         }
@@ -163,10 +162,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if (isset($_POST['query'])) {
             $this->search_cache->setQuery($_POST['query']);
         }
-        
-
         $res = new ilSearchResult();
-
         if ($res_con = $this->__performContentSearch()) {
             $this->__storeEntries($res, $res_con);
         }
@@ -293,21 +289,17 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     protected function performAdvMDSearch() : bool
     {
-
-
         $this->initSearchType(self::TYPE_ADV_MD);
-        if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
+        $page_number = $this->initPageNumberFromQuery();
+        if (!$page_number and $this->search_mode != 'in_results') {
             unset($_SESSION['adv_max_page']);
             $this->search_cache->delete();
         }
-
         $res = new ilSearchResult();
-        
         if ($res_tit = $this->__performTitleSearch()) {
             $this->__storeEntries($res, $res_tit);
         }
         $this->searchAdvancedMD($res);
-
         if ($this->search_mode == 'in_results') {
 
             $old_result_obj = new ilSearchResult($this->user->getId());
@@ -315,8 +307,6 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
             $res->diffEntriesFromResult();
         }
-
-        
         $res->filter($this->getRootNode(), true);
         $res->save();
         $this->showAdvMDSearch();
@@ -925,12 +915,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     
     private function initUserSearchCache() : void
     {
-
-        
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_SEARCH);
-        if ($_GET['page_number']) {
-            $this->search_cache->setResultPageNumber((int) $_GET['page_number']);
+        $page_number = $this->initPageNumberFromQuery();
+        if ($page_number) {
+            $this->search_cache->setResultPageNumber($page_number);
         }
         if ($_POST['cmd']['performSearch']) {
             $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['query']['lomContent']));

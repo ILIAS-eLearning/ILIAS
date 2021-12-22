@@ -223,7 +223,6 @@ class ilSearchGUI extends ilSearchBaseGUI
             }
         } else {
             $q = $_REQUEST["term"];
-            include_once("./Services/Search/classes/class.ilSearchAutoComplete.php");
             $list = ilSearchAutoComplete::getList($q);
             ilLoggerFactory::getLogger('sea')->dump(json_decode($list));
             echo $list;
@@ -233,19 +232,14 @@ class ilSearchGUI extends ilSearchBaseGUI
     
     public function showSearch() : void
     {
-        
-        // include js needed
-        include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
         ilOverlayGUI::initJavascript();
         $this->tpl->addJavascript("./Services/Search/js/Search.js");
 
-        include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
 
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.search.html', 'Services/Search');
         $this->tpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, 'performSearch'));
         $this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->getString()));
         $this->tpl->setVariable("SEARCH_LABEL", $this->lng->txt("search"));
-        include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
         $btn = ilSubmitButton::getInstance();
         $btn->setCommand("performSearch");
         $btn->setCaption("search");
@@ -314,8 +308,8 @@ class ilSearchGUI extends ilSearchBaseGUI
      */
     public function performSearch() : bool
     {
-        
-        if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
+        $page_number = $this->initPageNumberFromQuery();
+        if (!$page_number and $this->search_mode != 'in_results') {
             unset($_SESSION['max_page']);
             $this->search_cache->deleteCachedEntries();
         }

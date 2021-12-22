@@ -293,8 +293,9 @@ class ilLuceneAdvancedSearchGUI extends ilSearchBaseGUI
     {
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_ADVANCED);
-        if ((int) $_GET['page_number']) {
-            $this->search_cache->setResultPageNumber((int) $_GET['page_number']);
+        $page_number = $this->initPageNumberFromQuery();
+        if ($page_number) {
+            $this->search_cache->setResultPageNumber($page_number);
         }
         if (isset($_POST['query'])) {
             $this->search_cache->setQuery($_POST['query']);

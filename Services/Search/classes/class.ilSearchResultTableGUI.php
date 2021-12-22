@@ -106,7 +106,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
             return;
         }
         
-        include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';
         $item_list_gui = ilLuceneSearchObjectListGUIFactory::factory($type);
         $item_list_gui->initItem($ref_id, $obj_id, $type, $title, $description);
         $item_list_gui->setContainerObject($this->parent_obj);
@@ -126,7 +125,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
 
         
         if ($this->enabledRelevance()) {
-            include_once "Services/UIComponent/ProgressBar/classes/class.ilProgressBar.php";
             $pbar = ilProgressBar::getInstance();
             $pbar->setCurrent($relevance);
             
@@ -153,7 +151,6 @@ class ilSearchResultTableGUI extends ilTable2GUI
             $type_txt = $this->lng->txt('icon') . ' ' . $this->lng->txt('obj_' . $type);
             $icon = ilObject::_getIcon($obj_id, 'small', $type);
         } else {
-            include_once("./Services/Component/classes/class.ilPlugin.php");
             $type_txt = ilObjectPlugin::lookupTxtById($type, "obj_" . $type);
             $icon = ilObject::_getIcon($obj_id, 'small', $type);
         }
