@@ -1,6 +1,8 @@
 <?php
 /* Copyright (c) 1998-2013 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use \ILIAS\Skill\Service\SkillTreeService;
+
 require_once 'Modules/TestQuestionPool/classes/class.ilAssQuestionSolutionComparisonExpressionList.php';
 
 /**
@@ -56,6 +58,7 @@ class ilAssQuestionSkillAssignment
      * @var string
      */
     private $skillPath;
+    private SkillTreeService $skill_tree_service;
 
     /**
      * @var string
@@ -69,9 +72,12 @@ class ilAssQuestionSkillAssignment
     
     public function __construct(ilDBInterface $db)
     {
+        global $DIC;
+
         $this->db = $db;
         
         $this->solutionComparisonExpressionList = new ilAssQuestionSolutionComparisonExpressionList($this->db);
+        $this->skill_tree_service = $DIC->skills()->tree();
     }
 
     public function loadFromDb()
@@ -301,9 +307,7 @@ class ilAssQuestionSkillAssignment
             ilBasicSkill::_lookupTitle($this->getSkillBaseId(), $this->getSkillTrefId())
         );
 
-        $tree = new ilSkillTree();
-
-        $path = $tree->getSkillTreePath(
+        $path = $this->skill_tree_service->getSkillTreePath(
             $this->getSkillBaseId(),
             $this->getSkillTrefId()
         );

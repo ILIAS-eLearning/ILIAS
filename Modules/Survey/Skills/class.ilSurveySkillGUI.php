@@ -88,7 +88,7 @@ class ilSurveySkillGUI
         $ilCtrl = $this->ctrl;
         $ilCtrl->saveParameter($this, "q_id");
 
-        $sel = new ilSkillSelectorGUI($this, "assignSkillToQuestion", $this, "selectSkillForQuestion");
+        $sel = new ilSkillSelectorGUI(0, $this, "assignSkillToQuestion", $this, "selectSkillForQuestion");
         if (!$sel->handleCommand()) {
             $tpl->setContent($sel->getHTML());
         }

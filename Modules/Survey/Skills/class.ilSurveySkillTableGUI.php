@@ -13,12 +13,16 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use \ILIAS\Skill\Service\SkillTreeService;
+
 /**
  * TableGUI class for skill list in survey
  * @author Alexander Killing <killing@leifos.de>
  */
 class ilSurveySkillTableGUI extends ilTable2GUI
 {
+    protected SkillTreeService $skill_tree_service;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -37,7 +41,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
         $this->getSkills();
         $this->setTitle($lng->txt("survey_competences"));
 
-        $this->skill_tree = new ilSkillTree();
+        $this->skill_tree_service = $DIC->skills()->tree();
 
         $this->skill_thres = new ilSurveySkillThresholds($a_survey);
         $this->thresholds = $this->skill_thres->getThresholds();
@@ -86,7 +90,7 @@ class ilSurveySkillTableGUI extends ilTable2GUI
             "COMPETENCE",
             ilBasicSkill::_lookupTitle($a_set["base_skill"], $a_set["tref_id"])
         );
-        $path = $this->skill_tree->getSkillTreePath($a_set["base_skill"], $a_set["tref_id"]);
+        $path = $this->skill_tree_service->getSkillTreePath($a_set["base_skill"], $a_set["tref_id"]);
         $path_nodes = array();
         foreach ($path as $p) {
             if ($p["child"] > 1 && $p["skill_id"] != $a_set["base_skill"]) {
