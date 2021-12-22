@@ -92,7 +92,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
             $linking = @link($original_absolute_path, $linked_absolute_path);
             /** @noinspection PhpUsageOfSilenceOperatorInspection */
             $unlinking = @unlink($original_absolute_path);
-
+            $stream->close();
             if ($linking && $unlinking && $this->fs->has($linked_filename)) {
                 $cleaner();
 
@@ -145,7 +145,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
             if ($revision->keepOriginal()) {
                 $stream = $revision->getStream();
                 $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
-
+                $stream->close();
             } else {
                 $target = $revision->getStream()->getMetadata('uri');
                 if ($this->links_possible) {
@@ -156,6 +156,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
                     $this->fs->rename(LegacyPathHelper::createRelativePath($target),
                         $this->getRevisionPath($revision) . '/' . self::DATA);
                 }
+                $revision->getStream()->close();
             }
         } catch (\Throwable $t) {
             return false;
@@ -169,6 +170,7 @@ abstract class AbstractFileSystemStorageHandler implements StorageHandler
         $stream = $this->getStream($revision->getRevisionToClone());
         try {
             $this->fs->writeStream($this->getRevisionPath($revision) . '/' . self::DATA, $stream);
+            $stream->close();
         } catch (\Throwable $t) {
             return false;
         }
