@@ -51,7 +51,7 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
         $ilUser = $DIC->user();
 
         $this->ws_tree = new ilWorkspaceTree($ilUser->getId());
-        if (!$this->ws_tree->getRootId()) {
+        if (!$this->ws_tree->readRootId()) {
             $this->ws_tree->createTreeForUser($ilUser->getId());
         }
         $this->ws_access = new ilWorkspaceAccessHandler();
@@ -62,15 +62,10 @@ class ilSkillAssignMaterialsTableGUI extends ilTable2GUI
 
 
         // build title
-        $stree = new ilSkillTree();
-        $path = $stree->getPathFull($this->basic_skill_id);
-        $title = $sep = "";
-        foreach ($path as $p) {
-            if ($p["type"] != "skrt") {
-                $title .= $sep . $p["title"];
-                $sep = " > ";
-            }
-        }
+        $tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $tree_id = $tree_repo->getTreeIdForNodeId($this->basic_skill_id);
+        $node_manager = $DIC->skills()->internal()->manager()->getTreeNodeManager($tree_id);
+        $title = $node_manager->getWrittenPath($this->basic_skill_id);
 
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->getLevels());

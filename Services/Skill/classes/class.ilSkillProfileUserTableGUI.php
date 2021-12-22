@@ -17,6 +17,9 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Access\SkillTreeAccess;
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
+
 /**
  * TableGUI class for skill profile user assignment
  *
@@ -30,12 +33,14 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
     protected $ctrl;
     protected ilAccessHandler $access;
     protected ilSkillProfile $profile;
+    protected SkillTreeAccess $skill_tree_access_manager;
+    protected SkillAdminGUIRequest $admin_gui_request;
+    protected int $requested_ref_id = 0;
 
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
-        ilSkillProfile $a_profile,
-        bool $a_write_permission = false
+        ilSkillProfile $a_profile
     ) {
         global $DIC;
 
@@ -46,13 +51,18 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         $lng = $DIC->language();
         $ilAccess = $DIC->access();
         $lng = $DIC->language();
+
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
+        $this->requested_ref_id = $this->admin_gui_request->getRefId();
+
+        $this->skill_tree_access_manager = $DIC->skills()->internal()->manager()->getTreeAccessManager($this->requested_ref_id);
         
         $this->profile = $a_profile;
         parent::__construct($a_parent_obj, $a_parent_cmd);
         $this->setData($this->profile->getAssignments());
         $this->setTitle($lng->txt("skmg_assigned_users"));
 
-        if (!$this->profile->getRefId() > 0) {
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
             $this->addColumn("", "", "1px", true);
             $this->setSelectAllCheckbox("id[]");
         }
@@ -64,7 +74,7 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.profile_user_row.html", "Services/Skill");
 
-        if ($a_write_permission && !$this->profile->getRefId() > 0) {
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
             $this->addMultiCommand("confirmUserRemoval", $lng->txt("remove"));
         }
         //$this->addCommandButton("", $lng->txt(""));
@@ -77,7 +87,7 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         $this->tpl->setVariable("TYPE", $a_set["type"]);
         $this->tpl->setVariable("NAME", $a_set["name"]);
         $this->tpl->setVariable("OBJECT", $a_set["object_title"]);
-        if (!$this->profile->getRefId() > 0) {
+        if ($this->skill_tree_access_manager->hasManageProfilesPermission() && !$this->profile->getRefId() > 0) {
             $this->tpl->setCurrentBlock("checkbox");
             $this->tpl->setVariable("ID", $a_set["id"]);
             $this->tpl->parseCurrentBlock();

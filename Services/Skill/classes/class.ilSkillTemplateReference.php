@@ -154,7 +154,9 @@ class ilSkillTemplateReference extends ilSkillTreeNode
      */
     public static function _lookupTrefIdsForTemplateId(int $a_tid) : array
     {
-        $tree = new ilSkillTree();
+        global $DIC;
+
+        $tree = $DIC->skills()->internal()->repo()->getTreeRepo()->getTreeForNodeId($a_tid);
         $top_template_id = $tree->getTopParentNodeId($a_tid);
         return self::_lookupTrefIdsForTopTemplateId($top_template_id);
     }

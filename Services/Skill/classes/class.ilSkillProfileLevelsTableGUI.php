@@ -17,6 +17,10 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree;
+use ILIAS\Skill\Service\SkillAdminGUIRequest;
+use ILIAS\Skill\Service\SkillInternalManagerService;
+
 /**
  * TableGUI class for skill profile levels
  *
@@ -29,14 +33,16 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
      */
     protected $ctrl;
     protected ilAccessHandler $access;
-    protected ilSkillTree $tree;
     protected ilSkillProfile $profile;
+    protected ilBasicSkillTreeRepository $tree_repo;
+    protected SkillInternalManagerService $skill_manager;
+    protected SkillAdminGUIRequest $admin_gui_request;
+    protected int $requested_ref_id = 0;
 
     public function __construct(
         $a_parent_obj,
         string $a_parent_cmd,
-        ilSkillProfile $a_profile,
-        bool $a_write_permission = false
+        ilSkillProfile $a_profile
     ) {
         global $DIC;
 
@@ -45,58 +51,65 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
         $lng = $DIC->language();
-        
-        $this->tree = new ilSkillTree();
+
+        $this->skill_manager = $DIC->skills()->internal()->manager();
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
         
         $this->profile = $a_profile;
+        $this->requested_ref_id = $this->admin_gui_request->getRefId();
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setData($this->profile->getSkillLevels());
         $this->setTitle($lng->txt("skmg_target_levels"));
-        
-        $this->addColumn("", "", "1", true);
-        $this->addColumn($this->lng->txt("skmg_order"), "", "1px");
+
+        $access_manager = $this->skill_manager->getTreeAccessManager($this->requested_ref_id);
+        if ($access_manager->hasManageProfilesPermission()) {
+            $this->addColumn("", "", "1", true);
+            $this->addColumn($this->lng->txt("skmg_order"), "", "1px");
+        }
         $this->addColumn($this->lng->txt("skmg_skill"));
         $this->addColumn($this->lng->txt("skmg_level"));
         
         $this->setFormAction($ilCtrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.skill_profile_level_row.html", "Services/Skill");
 
-        if ($a_write_permission) {
+        if ($access_manager->hasManageProfilesPermission()) {
             $this->addMultiCommand("confirmLevelAssignmentRemoval", $lng->txt("skmg_remove_levels"));
-        }
-        if (count($this->profile->getSkillLevels()) > 0) {
-            $this->addCommandButton("saveLevelOrder", $lng->txt("skmg_save_order"));
+            if (count($this->profile->getSkillLevels()) > 0) {
+                $this->addCommandButton("saveLevelOrder", $lng->txt("skmg_save_order"));
+            }
         }
     }
 
     protected function fillRow($a_set) : void
     {
-        $path = $this->tree->getSkillTreePath(
-            $a_set["base_skill_id"],
-            $a_set["tref_id"]
-        );
-        $path_items = [];
-        foreach ($path as $p) {
-            if ($p["type"] != "skrt") {
-                $path_items[] = $p["title"];
-            }
-        }
+        $tree_id = $this->tree_repo->getTreeIdForNodeId($a_set["base_skill_id"]);
+        $node_manager = $this->skill_manager->getTreeNodeManager($tree_id);
         $this->tpl->setVariable(
             "SKILL_TITLE",
-            implode(" > ", $path_items)
+            $node_manager->getWrittenPath(
+                $a_set["base_skill_id"],
+                $a_set["tref_id"]
+            )
         );
         
         $this->tpl->setVariable("LEVEL_TITLE", ilBasicSkill::lookupLevelTitle($a_set["level_id"]));
-        
-        $this->tpl->setVariable(
-            "ID",
-            ((int) $a_set["base_skill_id"]) . ":" . ((int) $a_set["tref_id"]) . ":" . ((int) $a_set["level_id"]) .
-            ":" . ((int) $a_set["order_nr"])
-        );
 
-        $this->tpl->setVariable("SKILL_ID", (int) $a_set["base_skill_id"]);
-        $this->tpl->setVariable("TREF_ID", (int) $a_set["tref_id"]);
-        $this->tpl->setVariable("ORDER_NR", (int) $a_set["order_nr"]);
+        $access_manager = $this->skill_manager->getTreeAccessManager($this->requested_ref_id);
+        if ($access_manager->hasManageProfilesPermission()) {
+            $this->tpl->setCurrentBlock("checkbox");
+            $this->tpl->setVariable(
+                "ID",
+                ((int) $a_set["base_skill_id"]) . ":" . ((int) $a_set["tref_id"]) . ":" . ((int) $a_set["level_id"]) .
+                ":" . ((int) $a_set["order_nr"])
+            );
+            $this->tpl->setVariable("SKILL_ID", (int) $a_set["base_skill_id"]);
+            $this->tpl->setVariable("TREF_ID", (int) $a_set["tref_id"]);
+            $this->tpl->parseCurrentBlock();
+            $this->tpl->setCurrentBlock("order");
+            $this->tpl->setVariable("ORDER_NR", (int) $a_set["order_nr"]);
+            $this->tpl->parseCurrentBlock();
+        }
     }
 }

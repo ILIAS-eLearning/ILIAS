@@ -207,7 +207,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
                 " AND skill_id = " . $ilDB->quote($skill_id, "integer") .
                 " AND status = " . $ilDB->quote($a_status, "integer") .
                 " AND trigger_obj_id = " . $ilDB->quote($trigger_obj_id, "integer") .
-                " AND tref_id = " . $ilDB->quote((int) $a_tref_id, "integer") .
+                " AND tref_id = " . $ilDB->quote($a_tref_id, "integer") .
                 " AND self_eval = " . $ilDB->quote($a_self_eval, "integer") .
                 " AND trigger_user_id = " . $ilDB->quote($trigger_user_id, "text")
             );
@@ -244,7 +244,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
                 $ilDB->quote($trigger_title, "text") . "," .
                 $ilDB->quote($a_self_eval, "integer") . "," .
                 $ilDB->quote($a_unique_identifier, "text") . "," .
-                $ilDB->quote((float) $a_next_level_fulfilment, "float") . "," .
+                $ilDB->quote($a_next_level_fulfilment, "float") . "," .
                 $ilDB->quote($trigger_user_id, "text") .
                 ")");
         }
@@ -274,7 +274,7 @@ class ilBasicSkillUserLevelDBRepository implements ilBasicSkillUserLevelReposito
                 $ilDB->quote($trigger_type, "text") . "," .
                 $ilDB->quote($trigger_title, "text") . "," .
                 $ilDB->quote($a_self_eval, "integer") . "," .
-                $ilDB->quote((float) $a_next_level_fulfilment, "float") . "," .
+                $ilDB->quote($a_next_level_fulfilment, "float") . "," .
                 $ilDB->quote($trigger_user_id, "text") .
                 ")");
         }
