@@ -58,7 +58,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
                 $this->handleCommand($cmd);
                 break;
         }
-        return;
     }
 
     public function prepareOutput() : void
@@ -76,10 +75,7 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      */
     protected function getType()
     {
-        if (count($this->search_cache)) {
-            return ilSearchBaseGUI::SEARCH_DETAILS;
-        }
-        return ilSearchBaseGUI::SEARCH_FAST;
+        return self::SEARCH_DETAILS;
     }
     
     /**

@@ -131,7 +131,6 @@ class ilLuceneSearcher
     
     /**
      * get highlighter
-     * @return ililLuceneHighlightResultParser
      */
     public function getHighlighter() : ?ilLuceneHighlighterResultParser
     {
@@ -166,17 +165,18 @@ class ilLuceneSearcher
             switch ($this->getType()) {
                 
                 case self::TYPE_USER:
-                                        $res = ilRpcClientFactory::factory('RPCSearchHandler')->searchUsers(
+                    /** @noinspection PhpUndefinedMethodInspection */
+                    $res = ilRpcClientFactory::factory('RPCSearchHandler')->searchUsers(
                         CLIENT_ID . '_' . $this->setting->get('inst_id', '0'),
-                        (string) $this->query_parser->getQuery()
+                        $this->query_parser->getQuery()
                     );
                     break;
                 
                 case self::TYPE_STANDARD:
                 default:
-                                        $res = ilRpcClientFactory::factory('RPCSearchHandler')->search(
+                    $res = ilRpcClientFactory::factory('RPCSearchHandler')->search(
                         CLIENT_ID . '_' . $this->setting->get('inst_id', '0'),
-                        (string) $this->query_parser->getQuery(),
+                        $this->query_parser->getQuery(),
                         $this->getPageNumber()
                     );
                     break;

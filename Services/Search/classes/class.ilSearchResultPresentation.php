@@ -175,7 +175,7 @@ class ilSearchResultPresentation
     protected function getAllReferences(int $a_ref_id) : array
     {
         if (isset($_SESSION['vis_references'][$a_ref_id])) {
-            return $this->all_references[$a_ref_id] ? $this->all_references[$a_ref_id] : array();
+            return $this->all_references[$a_ref_id] ?: array();
         } else {
             return array($a_ref_id);
         }
@@ -284,23 +284,23 @@ class ilSearchResultPresentation
     public function lookupTitle(int $a_obj_id, int $a_sub_id) : string
     {
         if ($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter())) {
-            return ilObject::_lookupTitle((int) $a_obj_id);
+            return ilObject::_lookupTitle($a_obj_id);
         }
         if (strlen($title = $this->searcher->getHighlighter()->getTitle($a_obj_id, $a_sub_id))) {
             return $title;
         }
-        return ilObject::_lookupTitle((int) $a_obj_id);
+        return ilObject::_lookupTitle($a_obj_id);
     }
     
     public function lookupDescription(int $a_obj_id, int $a_sub_id) : string
     {
         if ($this->getMode() != self::MODE_LUCENE or !is_object($this->searcher->getHighlighter())) {
-            return ilObject::_lookupDescription((int) $a_obj_id);
+            return ilObject::_lookupDescription($a_obj_id);
         }
         if (strlen($title = $this->searcher->getHighlighter()->getDescription($a_obj_id, $a_sub_id))) {
             return $title;
         }
-        return ilObject::_lookupDescription((int) $a_obj_id);
+        return ilObject::_lookupDescription($a_obj_id);
     }
     
     public function lookupContent(int $a_obj_id, int $a_sub_id) : string
@@ -322,8 +322,8 @@ class ilSearchResultPresentation
     ) : void
     {
         $sub = $this->appendSubItems($item_list_gui, $ref_id, $obj_id, $type);
-        $path = $this->appendPath((int) $ref_id);
-        $more = $this->appendMorePathes((int) $ref_id);
+        $path = $this->appendPath($ref_id);
+        $more = $this->appendMorePathes($ref_id);
         
         if (!strlen($sub) and
             !strlen($path) and
@@ -351,7 +351,7 @@ class ilSearchResultPresentation
         $path_gui->setUseImages(false);
         
         $tpl = new ilTemplate('tpl.lucene_path.html', true, true, 'Services/Search');
-        $tpl->setVariable('PATH_ITEM', $path_gui->getPath((int) ROOT_FOLDER_ID, (int) $a_ref_id));
+        $tpl->setVariable('PATH_ITEM', $path_gui->getPath(ROOT_FOLDER_ID, $a_ref_id));
         return $tpl->get();
     }
     
@@ -375,10 +375,6 @@ class ilSearchResultPresentation
     }
 
     
-    /**
-     * Append subitems
-     * @return string
-     */
     protected function appendSubItems(
         ilObjectListGUI $item_list_gui,
         int $ref_id,
@@ -387,9 +383,9 @@ class ilSearchResultPresentation
     ) : string
     {
         $subitem_ids = array();
+        $highlighter = null;
         if ($this->getMode() == self::MODE_STANDARD) {
             $subitem_ids = $this->getSubitemIdsByObject($obj_id);
-            $highlighter = null;
         } elseif (is_object($this->searcher->getHighlighter())) {
             $subitem_ids = $this->searcher->getHighlighter()->getSubitemIds($obj_id);
             $highlighter = $this->searcher->getHighlighter();

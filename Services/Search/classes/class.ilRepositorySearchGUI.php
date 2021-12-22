@@ -256,13 +256,13 @@ class ilRepositorySearchGUI
             }
         }
         
-        if ((bool) $a_options['add_search'] ||
+        if ($a_options['add_search'] ||
             is_numeric($a_options['add_from_container'])) {
             $lng->loadLanguageModule("search");
             
             $toolbar->addSeparator();
                     
-            if ((bool) $a_options['add_search']) {
+            if ($a_options['add_search']) {
                 $button = ilLinkButton::getInstance();
                 $button->setCaption("search_users");
                 $button->setUrl($ilCtrl->getLinkTargetByClass('ilRepositorySearchGUI', ''));
@@ -278,7 +278,7 @@ class ilRepositorySearchGUI
                     $parent_container_type = "crs";
                 }
                 if ($parent_container_ref_id) {
-                    if ((bool) $a_options['add_search']) {
+                    if ($a_options['add_search']) {
                         $toolbar->addSpacer();
                     }
                     
@@ -409,7 +409,7 @@ class ilRepositorySearchGUI
                 $role_ids[] = $id;
             }
         }
-        $class->$method((array) $role_ids);
+        $class->$method($role_ids);
 
         $this->showSearchResults();
     }
@@ -441,7 +441,7 @@ class ilRepositorySearchGUI
             }
         }
 
-        $user_type = isset($_REQUEST['user_type']) ? $_REQUEST['user_type'] : 0;
+        $user_type = $_REQUEST['user_type'] ?? 0;
 
         if (!$class->$method($user_ids, $user_type)) {
             $this->ctrl->returnToParent($this);
@@ -479,7 +479,7 @@ class ilRepositorySearchGUI
         }
         $class = $this->callback['class'];
         $method = $this->callback['method'];
-        $user_type = isset($_REQUEST['user_type']) ? $_REQUEST['user_type'] : 0;
+        $user_type = $_REQUEST['user_type'] ?? 0;
 
         if (!$class->$method($users, $user_type)) {
             $this->ctrl->returnToParent($this);
@@ -527,16 +527,16 @@ class ilRepositorySearchGUI
         }
     }
 
-    public function setCallback(object &$class, string $method, array $a_add_options = array()) : void
+    public function setCallback(object $class, string $method, array $a_add_options = array()) : void
     {
         $this->callback = array('class' => $class,'method' => $method);
-        $this->add_options = $a_add_options ? $a_add_options : array();
+        $this->add_options = $a_add_options;
     }
 
-    public function setRoleCallback(object &$class, string $method, array $a_add_options = array()) : void
+    public function setRoleCallback(object $class, string $method, array $a_add_options = array()) : void
     {
         $this->role_callback = array('class' => $class,'method' => $method);
-        $this->add_options = $a_add_options ? $a_add_options : array();
+        $this->add_options = $a_add_options;
     }
     
 
@@ -676,7 +676,12 @@ class ilRepositorySearchGUI
         // Orgus
         if (ilUserSearchOptions::_isEnabled("org_units")) {
             $orgus = new ilRadioOption($this->lng->txt('search_for_orgu_members'), 'orgu');
-            $orgu = new ilRepositorySelector2InputGUI($this->lng->txt('select_orgu'), 'rep_query_orgu', true, get_class($this));
+            $orgu = new ilRepositorySelector2InputGUI(
+                $this->lng->txt('select_orgu'),
+                'rep_query_orgu',
+                true,
+                $this->form
+            );
             $orgu->getExplorerGUI()->setSelectableTypes(["orgu"]);
             $orgu->getExplorerGUI()->setTypeWhiteList(["root", "orgu"]);
             $orgu->getExplorerGUI()->setRootId(ilObjOrgUnit::getRootOrgRefId());
@@ -745,7 +750,7 @@ class ilRepositorySearchGUI
             case 'orgu':
                 $_POST['obj'] = array_map(
                     function ($ref_id) {
-                        return (int) ilObject::_lookupObjId($ref_id);
+                        return ilObject::_lookupObjId($ref_id);
                     },
                     $_POST['rep_query_orgu']
                 );
@@ -773,7 +778,7 @@ class ilRepositorySearchGUI
             );
         } else {
             $this->search_results = array();
-            foreach ((array) $this->result_obj->getResults() as $res) {
+            foreach ($this->result_obj->getResults() as $res) {
                 $this->search_results[] = $res['obj_id'];
             }
         }
@@ -918,7 +923,7 @@ class ilRepositorySearchGUI
         $query_parser->setMinWordLength(1);
         
         // #17502
-        if (!(bool) $a_ignore_length) {
+        if (!$a_ignore_length) {
             $query_parser->setGlobalMinLength(3); // #14768
         }
         
@@ -1167,7 +1172,7 @@ class ilRepositorySearchGUI
                     break;
             }
         }
-        $members = array_unique((array) $members);
+        $members = array_unique($members);
         $this->__appendToStoredResults($members);
         
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.rep_search_result.html', 'Services/Search');

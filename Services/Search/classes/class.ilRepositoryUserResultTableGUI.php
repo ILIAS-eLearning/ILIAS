@@ -223,7 +223,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
                     // no break
                 default:
                     $this->tpl->setCurrentBlock('custom_fields');
-                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set[$field] ? $a_set[$field] : ''));
+                    $this->tpl->setVariable('VAL_CUST', (string) ($a_set[$field] ?: ''));
                     $this->tpl->parseCurrentBlock();
                     break;
             }

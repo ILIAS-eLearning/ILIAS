@@ -108,10 +108,8 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
     }
 
 
-    public function getTabs()
+    protected function getTabs()
     {
-
-
         if ($this->rbacsystem->checkAccess("visible,read", $this->object->getRefId())) {
             $this->tabs_gui->addTarget(
                 "settings",
@@ -165,6 +163,7 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $hits = new ilSelectInputGUI($this->lng->txt('seas_max_hits'), 'max_hits');
         $hits->setValue($settings->getMaxHits());
         $hits->setRequired(true);
+        $values = [];
         for ($value = 5; $value <= 50; $value += 5) {
             $values[$value] = $value;
         }
@@ -444,12 +443,12 @@ class ilObjSearchSettingsGUI extends ilObjectGUI
         $settings->setFragmentCount((int) $_POST['fragmentCount']);
         $settings->setFragmentSize((int) $_POST['fragmentSize']);
         $settings->setMaxSubitems((int) $_POST['maxSubitems']);
-        $settings->showRelevance((int) $_POST['relevance']);
-        $settings->enableLuceneOfflineFilter((int) $_POST['offline_filter']);
-        $settings->enableLuceneMimeFilter((int) $_POST['mime_enabled']);
+        $settings->showRelevance((bool) $_POST['relevance']);
+        $settings->enableLuceneOfflineFilter((bool) $_POST['offline_filter']);
+        $settings->enableLuceneMimeFilter((bool) $_POST['mime_enabled']);
         $settings->setLuceneMimeFilter((array) $_POST['mime']);
-        $settings->showSubRelevance((int) $_POST['subrelevance']);
-        $settings->enablePrefixWildcardQuery((int) $_POST['prefix']);
+        $settings->showSubRelevance((bool) $_POST['subrelevance']);
+        $settings->enablePrefixWildcardQuery((bool) $_POST['prefix']);
         
         if ($this->form->checkInput()) {
             $settings->setLastIndexTime($this->form->getItemByPostVar('last_index')->getDate());

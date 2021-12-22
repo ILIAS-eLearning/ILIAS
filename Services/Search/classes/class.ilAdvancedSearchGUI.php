@@ -73,7 +73,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function getRootNode() : int
     {
-        return (int) ROOT_FOLDER_ID;
+        return ROOT_FOLDER_ID;
     }
 
 

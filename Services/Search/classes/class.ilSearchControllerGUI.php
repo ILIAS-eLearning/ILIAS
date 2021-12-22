@@ -52,7 +52,7 @@ class ilSearchControllerGUI implements ilCtrlBaseClassInterface
         
         $this->setLastClass($default);
         
-        return $_SESSION['search_last_class'] ? $_SESSION['search_last_class'] : $default;
+        return $_SESSION['search_last_class'] ?: $default;
     }
     public function setLastClass(string $a_class) : void
     {

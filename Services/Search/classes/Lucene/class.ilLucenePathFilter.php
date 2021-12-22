@@ -35,11 +35,6 @@ class ilLucenePathFilter implements ilLuceneResultFilter
     protected array $subnodes = [];
     protected ilTree $tree;
     
-    /**
-     * Constructor
-     * @param int $a_root root id
-     * @return
-     */
     public function __construct($a_root)
     {
         global $DIC;

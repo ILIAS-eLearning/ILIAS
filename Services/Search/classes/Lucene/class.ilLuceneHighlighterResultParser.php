@@ -129,6 +129,6 @@ class ilLuceneHighlighterResultParser
                 $sub_item_ids[] = $sub_item_id;
             }
         }
-        return $sub_item_ids ? $sub_item_ids : array();
+        return $sub_item_ids;
     }
 }

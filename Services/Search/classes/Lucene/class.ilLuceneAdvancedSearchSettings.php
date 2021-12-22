@@ -62,7 +62,7 @@ class ilLuceneAdvancedSearchSettings
     
     public function setActive(string $a_field, bool $a_status) : void
     {
-        $this->fields[$a_field] = (bool) $a_status;
+        $this->fields[$a_field] = $a_status;
     }
     
     public function save() : void

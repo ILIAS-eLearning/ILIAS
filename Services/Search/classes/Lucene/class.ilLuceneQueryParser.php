@@ -39,7 +39,6 @@ class ilLuceneQueryParser
     /**
      * Constructor
      * @param string query string
-     * @return
      */
     public function __construct($a_query_string)
     {

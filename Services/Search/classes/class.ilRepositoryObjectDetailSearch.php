@@ -89,8 +89,8 @@ class ilRepositoryObjectDetailSearch
                     array(
                         'obj_id' => $this->getObjId(),
                         'item_id' => $sub_id,
-                        'relevance' => $searcher->getHighlighter()->getRelevance((int) $this->getObjId(), (int) $sub_id),
-                        'content' => $searcher->getHighlighter()->getContent((int) $this->getObjId(), (int) $sub_id)
+                        'relevance' => $searcher->getHighlighter()->getRelevance($this->getObjId(), $sub_id),
+                        'content' => $searcher->getHighlighter()->getContent($this->getObjId(), $sub_id)
                     )
                 );
             }

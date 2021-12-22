@@ -44,7 +44,8 @@ class ilLikeUserOrgUnitSearch extends ilAbstractSearch
 
     public function __createWhereCondition() : string
     {
-        
+
+        $and = '';
         $where = 'WHERE ';
         $counter = 0;
         foreach ($this->query_parser->getQuotedWords() as $word) {

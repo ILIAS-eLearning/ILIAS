@@ -138,6 +138,8 @@ class ilAdvancedSearch extends ilAbstractSearch
         if (!$this->options['lom_coverage'] and !$this->options['lom_structure']) {
             return null;
         }
+        $and = $locate = '';
+
         if ($this->options['lom_coverage']) {
             $this->setFields(array('coverage'));
             $and = $this->__createCoverageAndCondition();
@@ -374,6 +376,7 @@ class ilAdvancedSearch extends ilAbstractSearch
         
         $this->setFields(array('meta_version'));
 
+        $locate = '';
         if ($this->options['lom_version']) {
             $where = $this->__createLifecycleWhereCondition();
             $locate = $this->__createLocateString();
@@ -410,7 +413,7 @@ class ilAdvancedSearch extends ilAbstractSearch
         }
 
         $query = "SELECT rbac_id,obj_id,obj_type FROM il_meta_format " .
-            "WHERE format LIKE(" . $this->db->quote($this->options['lom_format']) . ") " .
+            "WHERE format LIKE(" . $this->db->quote($this->options['lom_format'], ilDBConstants::T_TEXT) . ") " .
             "AND obj_type " . $this->__getInStatement($this->getFilter());
         
         $res = $this->db->query($query);
@@ -448,7 +451,7 @@ class ilAdvancedSearch extends ilAbstractSearch
 
         if ($this->options['lom_purpose']) {
             $and = $counter++ ? 'AND ' : ' ';
-            $where .= ($and . "purpose = " . $this->db->quote($this->options['lom_purpose']) . " ");
+            $where .= ($and . "purpose = " . $this->db->quote($this->options['lom_purpose'], ilDBConstants::T_TEXT) . " ");
         }
         return $counter ? $where : '';
     }
@@ -520,11 +523,11 @@ class ilAdvancedSearch extends ilAbstractSearch
 
         if ($this->options['lom_operating_system']) {
             $and = $counter++ ? 'AND ' : ' ';
-            $where .= ($and . "operating_system_name = " . $this->db->quote($this->options['lom_operating_system']) . " ");
+            $where .= ($and . "operating_system_name = " . $this->db->quote($this->options['lom_operating_system'], ilDBConstants::T_TEXT) . " ");
         }
         if ($this->options['lom_browser']) {
             $and = $counter++ ? 'AND ' : ' ';
-            $where .= ($and . "browser_name = " . $this->db->quote($this->options['lom_browser']) . " ");
+            $where .= ($and . "browser_name = " . $this->db->quote($this->options['lom_browser'], ilDBConstants::T_TEXT) . " ");
         }
         return $counter ? $where : '';
     }
@@ -534,13 +537,14 @@ class ilAdvancedSearch extends ilAbstractSearch
      */
     public function __getDifference(int $a_val1, int $a_val2, array $options) : array
     {
-        $a_val2 = $a_val2 ? $a_val2 : count($options);
+        $a_val2 = $a_val2 ?: count($options);
         // Call again if a > b
         if ($a_val1 > $a_val2) {
             return $this->__getDifference($a_val2, $a_val1, $options);
         }
 
         $counter = 0;
+        $fields = [];
         foreach ($options as $option) {
             if ($a_val1 > ++$counter) {
                 continue;
@@ -550,7 +554,7 @@ class ilAdvancedSearch extends ilAbstractSearch
             }
             $fields[] = $option;
         }
-        return $fields ? $fields : array();
+        return $fields;
     }
 
     public function __getInStatement(array $a_fields) : string

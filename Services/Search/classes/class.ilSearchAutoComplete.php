@@ -28,7 +28,7 @@ class ilSearchAutoComplete
         $num_entries = 0;
         foreach ($res as $res_obj_id) {
             if (self::checkObjectPermission($res_obj_id)) {
-                $list[] = ilObject::_lookupTitle($res_obj_id, true);
+                $list[] = ilObject::_lookupTitle($res_obj_id);
                 $num_entries++;
             }
             if ($num_entries >= $max_entries) {

@@ -103,7 +103,7 @@ class ilSearchResultTableGUI extends ilTable2GUI
         $relevance = $a_set['relevance'];
         
         if (!$type) {
-            return false;
+            return;
         }
         
         include_once './Services/Search/classes/Lucene/class.ilLuceneSearchObjectListGUIFactory.php';

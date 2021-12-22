@@ -61,7 +61,7 @@ class ilSearchCommandQueueElement
     /**
      * set obj_type
      */
-    public function setObjType($a_type) : string
+    public function setObjType(string $a_type) : void
     {
         $this->obj_type = $a_type;
     }

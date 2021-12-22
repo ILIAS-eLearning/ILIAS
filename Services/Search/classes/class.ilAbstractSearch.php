@@ -98,6 +98,7 @@ abstract class ilAbstractSearch
             return '';
         }
         if (count($this->fields) > 1) {
+            $tmp_fields = [];
             foreach ($this->fields as $field) {
                 $tmp_fields[] = array($field,'text');
             }
@@ -119,9 +120,6 @@ abstract class ilAbstractSearch
         return $locate;
     }
 
-    /**
-     * @return array
-     */
     public function __prepareFound(object $row) : array
     {
         if ($this->query_parser->getCombination() == 'or') {

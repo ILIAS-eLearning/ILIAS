@@ -58,7 +58,6 @@ class ilLuceneSearchResult implements Iterator
     
     /**
      * Iterator rewind
-     * @return
      */
     public function rewind()
     {
@@ -108,7 +107,6 @@ class ilLuceneSearchResult implements Iterator
     
     /**
      * Iterator next
-     * @return
      */
     public function next()
     {

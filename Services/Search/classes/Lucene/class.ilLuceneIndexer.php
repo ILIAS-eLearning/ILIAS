@@ -68,7 +68,7 @@ class ilLuceneIndexer extends ilCronJob
         
         try {
                         ilRpcClientFactory::factory('RPCIndexHandler', 60)->index(
-                CLIENT_ID . '_' . $this->setting->get('inst_id', 0),
+                CLIENT_ID . '_' . $this->setting->get('inst_id', "0"),
                 true
             );
         } catch (Exception $e) {

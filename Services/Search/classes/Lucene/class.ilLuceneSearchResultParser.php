@@ -35,8 +35,6 @@ class ilLuceneSearchResultParser
     
     /**
      * Constructor
-     * @param string search result
-     * @return
      */
     public function __construct(string $a_xml)
     {

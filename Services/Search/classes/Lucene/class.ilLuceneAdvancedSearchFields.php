@@ -125,7 +125,7 @@ class ilLuceneAdvancedSearchFields
     
     /**
      * Get all active fields
-     * @param array<string, string>
+     * @return array<string, string>
      */
     public function getActiveFields() : array
     {

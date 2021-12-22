@@ -17,10 +17,8 @@ class ilMainMenuSearchGUI
     protected ilTree $tree;
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
-    
+
     private int $ref_id;
-    private int $obj_id = 0;
-    private string $type = '';
     private bool $isContainer = true;
     
     public function __construct()
@@ -28,6 +26,7 @@ class ilMainMenuSearchGUI
         global $DIC;
 
         $this->lng = $DIC->language();
+        $this->lng->loadLanguageModule("search");
         $this->tree = $DIC->repositoryTree();
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
@@ -38,11 +37,6 @@ class ilMainMenuSearchGUI
         } else {
             $this->ref_id = ROOT_FOLDER_ID;
         }
-        $this->obj_id = ilObject::_lookupObjId($this->ref_id);
-        $this->type = ilObject::_lookupType($this->obj_id);
-
-        $this->lng->loadLanguageModule("search");
-        
     }
 
     public function getHTML() : string
@@ -63,7 +57,7 @@ class ilMainMenuSearchGUI
                 $this->tpl->setVariable('ROOT_ID_HID', ROOT_FOLDER_ID);
                 $this->tpl->parseCurrentBlock();
             }
-            if (isset($_GET['ref_id']) && (int) $_GET['ref_id']) {
+            if ($this->ref_id) {
                 $this->tpl->setCurrentBlock('position_rep');
                 $this->tpl->setVariable('TXT_CURRENT_POSITION', $this->lng->txt("search_at_current_position"));
                 $this->tpl->setVariable('REF_ID', (int) $_GET["ref_id"]);

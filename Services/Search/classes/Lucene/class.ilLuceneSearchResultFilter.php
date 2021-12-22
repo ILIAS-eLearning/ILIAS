@@ -50,8 +50,6 @@ class ilLuceneSearchResultFilter
 
     /**
      * Singleton constructor
-     * @param int $a_usr_id user id
-     * @return
      */
     protected function __construct(int $a_user_id)
     {

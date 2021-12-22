@@ -82,7 +82,7 @@ class ilUserSearchCache
             $this->isAnonymous = true;
         }
         
-        $this->root = (int) ROOT_FOLDER_ID;
+        $this->root = ROOT_FOLDER_ID;
         $this->usr_id = $a_usr_id;
         $this->search_type = self::DEFAULT_SEARCH;
         $this->read();
@@ -329,8 +329,8 @@ class ilUserSearchCache
                     'failed' => array('clob',serialize(array(0))),
                     'page' => array('integer',0)),
                 array(
-                    'usr_id' => array('integer',(int) $this->usr_id),
-                    'search_type' => array('integer',(int) $this->search_type)
+                    'usr_id' => array('integer', $this->usr_id),
+                    'search_type' => array('integer', $this->search_type)
             )
             );
         } else {
@@ -341,8 +341,8 @@ class ilUserSearchCache
                     'checked' => array('clob',serialize(array(0))),
                     'failed' => array('clob',serialize(array(0))),
                     'page' => array('integer',0),
-                    'usr_id' => array('integer',(int) $this->usr_id),
-                    'search_type' => array('integer',(int) $this->search_type)
+                    'usr_id' => array('integer', $this->usr_id),
+                    'search_type' => array('integer', $this->search_type)
             )
             );
         }
@@ -395,12 +395,12 @@ class ilUserSearchCache
         $res = $this->db->manipulate($query);
 
         $this->db->insert('usr_search', array(
-            'usr_id' => array('integer',(int) $this->usr_id),
+            'usr_id' => array('integer', $this->usr_id),
             'search_result' => array('clob',serialize($this->search_result)),
             'checked' => array('clob',serialize($this->checked)),
             'failed' => array('clob',serialize($this->failed)),
-            'page' => array('integer',(int) $this->page_number),
-            'search_type' => array('integer',(int) $this->search_type),
+            'page' => array('integer', $this->page_number),
+            'search_type' => array('integer', $this->search_type),
             'query' => array('clob',serialize($this->getQuery())),
             'root' => array('integer',$this->getRoot()),
             'item_filter' => array('text',serialize($this->getItemFilter())),

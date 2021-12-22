@@ -29,10 +29,10 @@ class ilAdministrationCommandGUI
     protected ilObjectDefinition$obj_definition;
     protected ?ilCtrl $ctrl = null;
     protected ?ilLanguage $lng = null;
-    private ?ilContainer $container = null;
+    private ilAdministrationCommandHandling $container;
     protected AdminGUIRequest $request;
 
-    public function __construct(ilContainer $a_container)
+    public function __construct(ilAdministrationCommandHandling $a_container)
     {
         /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
@@ -55,7 +55,7 @@ class ilAdministrationCommandGUI
         );
     }
 
-    public function getContainer() : ilContainer
+    public function getContainer() : ilAdministrationCommandHandling
     {
         return $this->container;
     }

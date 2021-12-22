@@ -35,6 +35,7 @@ class ilLikeUserMultiFieldSearch extends ilAbstractSearch
 
     public function setFields(array $a_fields) : void
     {
+        $fields = [];
         foreach ($a_fields as $field) {
             $fields[] = $field;
         }

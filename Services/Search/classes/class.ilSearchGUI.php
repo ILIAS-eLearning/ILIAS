@@ -359,7 +359,7 @@ class ilSearchGUI extends ilSearchBaseGUI
             $old_result_obj = new ilSearchResult($this->user->getId());
             $old_result_obj->read();
 
-            $result->diffEntriesFromResult($old_result_obj);
+            $result->diffEntriesFromResult();
         }
             
 
@@ -509,8 +509,9 @@ class ilSearchGUI extends ilSearchBaseGUI
 
     /**
     * parse query string, using query parser instance
-    */
-    public function __parseQueryString() : ilQueryParser
+     * @return ilQueryParser | string
+     */
+    public function __parseQueryString()
     {
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($this->getString()));
         $query_parser->setCombination($this->getCombination());

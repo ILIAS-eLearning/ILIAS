@@ -371,7 +371,7 @@ class ilSearchSettings
      */
     public function showLimitedUser(bool $a_visible) : void
     {
-        $this->show_limited_user = (bool) $a_visible;
+        $this->show_limited_user = $a_visible;
     }
 
 

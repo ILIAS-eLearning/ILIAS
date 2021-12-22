@@ -156,7 +156,7 @@ class ilQueryParser
     public function getQuotedWords(bool $with_quotation = false) : array
     {
         if ($with_quotation) {
-            return $this->quoted_words ? $this->quoted_words : array();
+            return $this->quoted_words ?: array();
         } else {
             foreach ($this->quoted_words as $word) {
                 $tmp_word[] = str_replace('\"', '', $word);

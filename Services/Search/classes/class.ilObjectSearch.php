@@ -42,10 +42,9 @@ class ilObjectSearch extends ilAbstractSearch
     private ?ilDate $cdate_date = null;
     
 
-    public function __construct(ilQueryParser &$qp_obj)
+    public function __construct(ilQueryParser $qp_obj)
     {
         parent::__construct($qp_obj);
-
         $this->setFields(array('title','description'));
     }
 

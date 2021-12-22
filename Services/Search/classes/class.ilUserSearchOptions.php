@@ -77,6 +77,7 @@ class ilUserSearchOptions
         // end-patch lok
 
         $counter = 1;
+        $fields = [];
         foreach (ilUserSearchOptions::_getPossibleFields($a_admin) as $field) {
             // TODO: check enabled
             // DONE
@@ -149,20 +150,6 @@ class ilUserSearchOptions
                 case 'interests_help_looking':
                     $fields[$counter]['type'] = self::FIELD_TYPE_MULTI;
                     break;
-                // end-patch lok
-                    
-                    
-                    
-                                        
-                /*
-                case 'active':
-                    $fields[$counter]['type'] = FIELD_TYPE_SELECT;
-                    $fields[$counter]['values'] = array(-1 => $lng->txt('please_choose'),
-                                                    '1' => $lng->txt('active'),
-                                                    '0' => $lng->txt('inactive'));
-
-                    break;
-                */
             }
             
             ++$counter;
@@ -232,7 +219,8 @@ class ilUserSearchOptions
     {
 
         $user_defined_fields = ilUserDefinedFields::_getInstance();
-        
+
+        $fields = [];
         foreach ($user_defined_fields->getSearchableDefinitions() as $definition) {
             $fields[$counter]['values'] = ilUserSearchOptions::__prepareValues($definition['field_values']);
             $fields[$counter]['lang'] = $definition['field_name'];
@@ -249,7 +237,7 @@ class ilUserSearchOptions
             }
             ++$counter;
         }
-        return $fields ? $fields : array();
+        return $fields;
     }
 
     public static function __prepareValues(array $a_values) : array

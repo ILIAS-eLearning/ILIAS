@@ -56,7 +56,7 @@ class ilLuceneAdvancedQueryParser extends ilLuceneQueryParser
     
     public function getQueryData()
     {
-        return $this->query_data ? $this->query_data : array();
+        return $this->query_data ?: array();
     }
     
     public function parse() : void

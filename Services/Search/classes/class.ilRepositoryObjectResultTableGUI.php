@@ -57,7 +57,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
                 break;
         }
 
-        if ((bool) $a_allow_object_selection) {
+        if ($a_allow_object_selection) {
             $this->addMultiCommand('selectObject', $this->lng->txt('grp_select_object'));
         }
     }
@@ -66,7 +66,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
      * @param array $row
      * @return bool
      */
-    public function fillRow($row)
+    protected function fillRow($row)
     {
         /*
         TODO: Checkboxes must be always enabled now because of role assignment. An alternative to pretend showing
@@ -122,7 +122,7 @@ class ilRepositoryObjectResultTableGUI extends ilTable2GUI
             
             $data[] = $row;
         }
-        $this->setData($data ? $data : array());
+        $this->setData($data);
     }
 
     /**

@@ -33,13 +33,7 @@
 class ilLuceneAdvancedSearchActivationTableGUI extends ilTable2GUI
 {
     protected ilAccess $access;
-    /**
-     * constructor
-     *
-     * @access public
-     * @param
-     *
-     */
+
     public function __construct($a_parent_obj, $a_parent_cmd = '')
     {
         global $DIC;

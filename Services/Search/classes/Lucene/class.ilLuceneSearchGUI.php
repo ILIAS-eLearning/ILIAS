@@ -114,10 +114,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function getType() : int
     {
-        if (count($this->search_cache->getItemFilter())) {
-            return ilSearchBaseGUI::SEARCH_DETAILS;
-        }
-        return ilSearchBaseGUI::SEARCH_FAST;
+        return self::SEARCH_DETAILS;
     }
     
     /**
@@ -126,7 +123,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function getDetails() : array
     {
-        return (array) $this->search_cache->getItemFilter();
+        return $this->search_cache->getItemFilter();
     }
     
     /**
@@ -135,7 +132,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function getMimeDetails() : array
     {
-        return (array) $this->search_cache->getMimeFilter();
+        return $this->search_cache->getMimeFilter();
     }
     
     /**
@@ -193,6 +190,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         } elseif (strlen($this->search_cache->getQuery())) {
             ilUtil::sendInfo(sprintf($this->lng->txt('search_no_match_hint'), $qp->getQuery()));
         }
+        return true;
     }
     
     /**
@@ -228,13 +226,13 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $filter_query = '';
         if ($this->search_cache->getItemFilter() and ilSearchSettings::getInstance()->isLuceneItemFilterEnabled()) {
             $filter_settings = ilSearchSettings::getInstance()->getEnabledLuceneItemFilterDefinitions();
-            foreach ((array) $this->search_cache->getItemFilter() as $obj => $value) {
+            foreach ($this->search_cache->getItemFilter() as $obj => $value) {
                 if (!$filter_query) {
                     $filter_query .= '+( ';
                 } else {
                     $filter_query .= 'OR';
                 }
-                $filter_query .= (' ' . (string) $filter_settings[$obj]['filter'] . ' ');
+                $filter_query .= (' ' . $filter_settings[$obj]['filter'] . ' ');
             }
             $filter_query .= ') ';
         }
@@ -248,7 +246,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
                 } else {
                     $mime_query .= 'OR';
                 }
-                $mime_query .= (' ' . (string) $filter_settings[$mime]['filter'] . ' ');
+                $mime_query .= (' ' . $filter_settings[$mime]['filter'] . ' ');
             }
             $mime_query .= ') ';
         }
@@ -397,7 +395,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         $adm_view_cmp = $adm_cmds = $creation_selector = $adm_view = false;
 
         // admin panel commands
-        if ((count((array) $this->admin_panel_commands) > 0)) {
+        if ((count($this->admin_panel_commands) > 0)) {
             foreach ($this->admin_panel_commands as $cmd) {
                 $this->tpl->setCurrentBlock("lucene_admin_panel_cmd");
                 $this->tpl->setVariable("LUCENE_PANEL_CMD", $cmd["cmd"]);
