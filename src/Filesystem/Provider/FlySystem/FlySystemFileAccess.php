@@ -48,9 +48,7 @@ class FlySystemFileAccess implements FileAccess
     public function read(string $path) : string
     {
         try {
-            $path = Util::normalizeRelativePath($path);
-            $object = $this->flySystemFS->getAdapter()->read($path);
-            $result = $object['contents'];
+            $result = $this->flySystemFS->read($path);
 
             if ($result === false) {
                 throw new IOException("Could not access the file \"$path\".");
