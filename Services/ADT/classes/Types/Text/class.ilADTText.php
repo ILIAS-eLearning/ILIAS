@@ -35,9 +35,9 @@ class ilADTText extends ilADT
     public function getLength() : int
     {
         if (function_exists("mb_strlen")) {
-            return mb_strlen($this->getText(), "UTF-8");
+            return mb_strlen((string) $this->getText(), "UTF-8");
         } else {
-            return strlen($this->getText());
+            return strlen((string) $this->getText());
         }
     }
 

@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
-
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+
+use ILIAS\HTTP\GlobalHttpState;
+use ILIAS\Refinery\Factory;
 
 /**
  * Add a search box to main menu
@@ -18,6 +20,10 @@ class ilMainMenuSearchGUI
     protected ilCtrl $ctrl;
     protected ilObjUser $user;
 
+    private GlobalHttpState $http;
+    private Factory $refinery;
+
+
     private int $ref_id;
     private bool $isContainer = true;
     
@@ -30,14 +36,25 @@ class ilMainMenuSearchGUI
         $this->tree = $DIC->repositoryTree();
         $this->ctrl = $DIC->ctrl();
         $this->user = $DIC->user();
-        
-        
-        if (isset($_GET['ref_id'])) {
-            $this->ref_id = (int) $_GET['ref_id'];
-        } else {
-            $this->ref_id = ROOT_FOLDER_ID;
+
+        $this->http = $DIC->http();
+        $this->refinery = $DIC->refinery();
+
+        $this->initRefIdFromQuery();
+    }
+
+    protected function initRefIdFromQuery() : void
+    {
+        $this->ref_id = ROOT_FOLDER_ID;
+        if ($this->http->wrapper()->query()->has('ref_id')) {
+            $this->ref_id  = $this->http->wrapper()->query()->retrieve(
+                'ref_id',
+                $this->refinery->kindlyTo()->int()
+            );
         }
     }
+
+
 
     public function getHTML() : string
     {
@@ -47,7 +64,7 @@ class ilMainMenuSearchGUI
         
         if ($this->user->getId() != ANONYMOUS_USER_ID) {
             $this->tpl->setVariable('LABEL_SEARCH_OPTIONS', $this->lng->txt("label_search_options"));
-            if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled() or (int) $_GET['ref_id']) {
+            if (ilSearchSettings::getInstance()->isLuceneUserSearchEnabled() || ($this->ref_id != ROOT_FOLDER_ID)) {
                 $this->tpl->setCurrentBlock("position");
                 $this->tpl->setVariable('TXT_GLOBALLY', $this->lng->txt("search_globally"));
                 $this->tpl->setVariable('ROOT_ID', ROOT_FOLDER_ID);
@@ -57,10 +74,10 @@ class ilMainMenuSearchGUI
                 $this->tpl->setVariable('ROOT_ID_HID', ROOT_FOLDER_ID);
                 $this->tpl->parseCurrentBlock();
             }
-            if ($this->ref_id) {
+            if ($this->ref_id != ROOT_FOLDER_ID) {
                 $this->tpl->setCurrentBlock('position_rep');
                 $this->tpl->setVariable('TXT_CURRENT_POSITION', $this->lng->txt("search_at_current_position"));
-                $this->tpl->setVariable('REF_ID', (int) $_GET["ref_id"]);
+                $this->tpl->setVariable('REF_ID', $this->ref_id);
                 $this->tpl->parseCurrentBlock();
             }
         }

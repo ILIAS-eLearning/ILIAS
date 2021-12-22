@@ -25,7 +25,7 @@ class ilADTGroup extends ilADT
         $this->elements = array();
 
         foreach ($this->getDefinition()->getElements() as $name => $def) {
-            $this->addElement($name, $def);
+            $this->addElement((string) $name, $def);
         }
     }
 

@@ -146,8 +146,8 @@ class ilAdvancedMDSubstitution
     private function parseValue(int $a_field_id, array $a_values_records) : ?string
     {
         foreach ($a_values_records as $a_values) {
-            if ($a_values->getADTGroup()->hasElement($a_field_id)) {
-                $element = $a_values->getADTGroup()->getElement($a_field_id);
+            if ($a_values->getADTGroup()->hasElement((string) $a_field_id)) {
+                $element = $a_values->getADTGroup()->getElement((string) $a_field_id);
                 if (!$element->isNull()) {
                     return ilADTFactory::getInstance()->getPresentationBridgeForInstance($element)->getList();
                 }
