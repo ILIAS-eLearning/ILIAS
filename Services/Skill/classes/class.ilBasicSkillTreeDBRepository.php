@@ -128,7 +128,8 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT * FROM skl_tree " .
+        $set = $db->queryF(
+            "SELECT * FROM skl_tree " .
             " WHERE child = %s ",
             ["integer"],
             [$node_id]
@@ -143,7 +144,7 @@ class ilBasicSkillTreeDBRepository implements ilBasicSkillTreeRepository
         return $this->tree_factory->getTreeById($tree_id);
     }
 
-    public function getVirtualTreeForNodeId(int $node_id): ilVirtualSkillTree
+    public function getVirtualTreeForNodeId(int $node_id) : ilVirtualSkillTree
     {
         $tree_id = $this->getTreeIdForNodeId($node_id);
         return $this->tree_factory->getVirtualTreeById($tree_id);

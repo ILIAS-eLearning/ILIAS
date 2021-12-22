@@ -70,5 +70,4 @@ class ilObjSkillManagement extends ilObject
         
         return true;
     }
-
 }

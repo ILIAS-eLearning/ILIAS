@@ -743,7 +743,8 @@ class ilSkillProfile implements ilSkillUsageInfo
     {
         $db = $this->db;
 
-        $set = $db->queryF("SELECT * FROM skl_profile " .
+        $set = $db->queryF(
+            "SELECT * FROM skl_profile " .
             " WHERE id = %s ",
             ["integer"],
             [$a_profile_id]

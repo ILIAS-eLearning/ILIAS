@@ -270,7 +270,8 @@ class ilBasicSkillTemplateGUI extends ilBasicSkillGUI
             "edit",
             $this->tref_id,
             $this->isInUse(),
-            $this->tree_access_manager->hasManageCompetenceTemplatesPermission());
+            $this->tree_access_manager->hasManageCompetenceTemplatesPermission()
+        );
         $tpl->setContent($table->getHTML());
     }
 

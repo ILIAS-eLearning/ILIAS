@@ -391,7 +391,7 @@ class ilSkillDataSet extends ilDataSet
                 case "8.0":
                     $set = $ilDB->query(
                         "SELECT id, title, description FROM skl_profile " .
-                        " WHERE ". $ilDB->in("id", $a_ids, false, "integer")
+                        " WHERE " . $ilDB->in("id", $a_ids, false, "integer")
                     );
                     while ($rec = $ilDB->fetchAssoc($set)) {
                         $this->data[] = [
@@ -420,7 +420,7 @@ class ilSkillDataSet extends ilDataSet
                         }
                         $set = $ilDB->query(
                             "SELECT * FROM skl_profile " .
-                            " WHERE ". $ilDB->in("id", $profile_ids, false, "integer")
+                            " WHERE " . $ilDB->in("id", $profile_ids, false, "integer")
                         );
                         while ($rec = $ilDB->fetchAssoc($set)) {
                             $this->data[] = [

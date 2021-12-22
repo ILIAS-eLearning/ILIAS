@@ -98,8 +98,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         $this->tpl->setCurrentBlock("cmd");
         if ($this->skill_tree_access_manager->hasManageProfilesPermission()) {
             $this->tpl->setVariable("CMD", $lng->txt("edit"));
-        }
-        else {
+        } else {
             $this->tpl->setVariable("CMD", $lng->txt("show"));
         }
         $ilCtrl->setParameter($this->parent_obj, "sprof_id", $a_set["id"]);

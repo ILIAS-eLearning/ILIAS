@@ -52,7 +52,7 @@ class ilSkillUsage implements ilSkillUsageInfo
 
     protected ilBasicSkillTreeRepository $tree_repo;
 
-    function __construct ()
+    public function __construct()
     {
         global $DIC;
 

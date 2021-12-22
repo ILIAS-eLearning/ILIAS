@@ -160,7 +160,8 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
     public function step_6()
     {
         // get skill managemenet object id
-        $set = $this->db->queryF("SELECT * FROM object_data " .
+        $set = $this->db->queryF(
+            "SELECT * FROM object_data " .
             " WHERE type = %s ",
             ["text"],
             ["skmg"]
@@ -168,7 +169,8 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         $rec = $this->db->fetchAssoc($set);
 
         // get skill management ref id
-        $set = $this->db->queryF("SELECT * FROM object_reference " .
+        $set = $this->db->queryF(
+            "SELECT * FROM object_reference " .
             " WHERE obj_id = %s ",
             ["integer"],
             [$rec["obj_id"]]
@@ -205,16 +207,20 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_7()
     {
-        $set = $this->db->queryF("SELECT * FROM object_data " .
+        $set = $this->db->queryF(
+            "SELECT * FROM object_data " .
             " WHERE type = %s AND title = %s",
             ["string", "string"],
             ["skee", "Default"]
         );
         $rec = $this->db->fetchAssoc($set);
 
-        $this->db->update("skl_tree", [
+        $this->db->update(
+            "skl_tree",
+            [
             "skl_tree_id" => ["integer", $rec["obj_id"]]
-        ], [    // where
+        ],
+            [    // where
                 "skl_tree_id" => ["integer", 1]
             ]
         );
@@ -234,19 +240,22 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
 
     public function step_9()
     {
-        $set = $this->db->queryF("SELECT * FROM object_data " .
+        $set = $this->db->queryF(
+            "SELECT * FROM object_data " .
             " WHERE type = %s AND title = %s",
             ["string", "string"],
             ["skee", "Default"]
         );
         $rec = $this->db->fetchAssoc($set);
 
-        $this->db->update("skl_profile", [
+        $this->db->update(
+            "skl_profile",
+            [
             "skill_tree_id" => ["integer", $rec["obj_id"]]
-        ], [    // where
+        ],
+            [    // where
                 "skill_tree_id" => ["integer", 0]
             ]
         );
     }
-
 }

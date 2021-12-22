@@ -72,7 +72,6 @@ class ilSkillGSToolProvider extends AbstractDynamicToolProvider
                 ->withSymbol($icon)
                 ->withContentWrapper(function () use ($l, $tree_id) {
                     return $l($this->getSkillTree($tree_id));
-
                 });
         }
 

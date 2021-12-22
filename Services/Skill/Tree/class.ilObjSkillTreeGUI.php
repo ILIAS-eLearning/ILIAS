@@ -354,7 +354,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $ctrl = $this->ctrl;
         $lng = $this->lng;
 
-        $fields["title"] = $f->input()->field()->text($lng->txt("title"))->withRequired(true);;
+        $fields["title"] = $f->input()->field()->text($lng->txt("title"))->withRequired(true);
         if ($edit) {
             $fields["title"] = $fields["title"]->withValue($this->object->getTitle());
         }
@@ -642,8 +642,7 @@ class ilObjSkillTreeGUI extends ilObjectGUI
         $usages = [];
         if ($mode == "tree") {
             $usages = $u->getAllUsagesInfoOfTrees($tree_ids);
-        }
-        elseif ($mode == "basic" || $mode == "templates") {
+        } elseif ($mode == "basic" || $mode == "templates") {
             $usages = $u->getAllUsagesInfoOfSubtrees($cskill_ids);
         } else {
             $this->ilias->raiseError("Skill Deletion - type mismatch.", $this->ilias->error_obj->MESSAGE);

@@ -44,5 +44,4 @@ class SkillTreeFactory
     {
         return new \ilVirtualSkillTree($id);
     }
-
 }

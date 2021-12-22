@@ -32,5 +32,4 @@ class SkillInternalFactoryService
     {
         return new Tree\SkillTreeFactory();
     }
-
 }

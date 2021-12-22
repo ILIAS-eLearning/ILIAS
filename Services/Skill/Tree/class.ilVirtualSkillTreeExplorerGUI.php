@@ -45,8 +45,7 @@ class ilVirtualSkillTreeExplorerGUI extends ilExplorerBaseGUI
 
         if ($tree_id == 0) {
             $this->vtree = new ilGlobalVirtualSkillTree();
-        }
-        else {
+        } else {
             $this->vtree = new ilVirtualSkillTree($tree_id);
         }
         

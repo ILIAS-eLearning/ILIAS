@@ -64,12 +64,12 @@ class SkillTreeAdminGUI
 
         $this->requested_ref_id = $this->admin_gui_request->getRefId();
 
-        $this->skill_manager  = $skill_manager;
+        $this->skill_manager = $skill_manager;
         $this->skill_tree_manager = $skill_manager->getTreeManager();
         $this->skill_management_access_manager = $skill_manager->getManagementAccessManager($this->requested_ref_id);
     }
 
-    function executeCommand() : void
+    public function executeCommand() : void
     {
         $ctrl = $this->ctrl;
 
@@ -112,5 +112,4 @@ class SkillTreeAdminGUI
         $tab = new Tree\SkillTreeTableGUI($this, "listTrees", $this->skill_manager);
         $mtpl->setContent($tab->getHTML());
     }
-
 }

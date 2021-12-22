@@ -39,7 +39,7 @@ class SkillTreeTableGUI extends \ilTable2GUI
     protected SkillAdminGUIRequest $admin_gui_request;
     protected int $requested_ref_id = 0;
 
-    function __construct(object $a_parent_obj, string $a_parent_cmd, SkillInternalManagerService $manager)
+    public function __construct(object $a_parent_obj, string $a_parent_cmd, SkillInternalManagerService $manager)
     {
         global $DIC;
 
@@ -80,17 +80,19 @@ class SkillTreeTableGUI extends \ilTable2GUI
      */
     protected function getItems() : array
     {
-        return array_filter(array_map(function ($i) {
-            $tree_access_manager = $this->internal_manager->getTreeAccessManager($i->getRefId());
-            if ($tree_access_manager->hasVisibleTreePermission()) {
-                return [
+        return array_filter(array_map(
+            function ($i) {
+                $tree_access_manager = $this->internal_manager->getTreeAccessManager($i->getRefId());
+                if ($tree_access_manager->hasVisibleTreePermission()) {
+                    return [
                     "title" => $i->getTitle(),
                     "tree" => $i
                 ];
-            }
-            return [];
-        },
-            iterator_to_array($this->tree_manager->getTrees())));
+                }
+                return [];
+            },
+            iterator_to_array($this->tree_manager->getTrees())
+        ));
     }
 
     protected function fillRow($a_set) : void

@@ -362,5 +362,4 @@ class SkillTreeNodeManager
             array("sktp", "sctp")
         );
     }
-
 }

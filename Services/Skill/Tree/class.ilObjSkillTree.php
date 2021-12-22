@@ -29,5 +29,4 @@ class ilObjSkillTree extends ilObject
         $this->type = "skee";
         parent::__construct($a_id, $a_call_by_reference);
     }
-
 }

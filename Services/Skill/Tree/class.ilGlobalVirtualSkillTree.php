@@ -71,8 +71,7 @@ class ilGlobalVirtualSkillTree extends ilVirtualSkillTree
                 $childs[] = $data;
             }
             return $childs;
-        }
-        else {
+        } else {
             $tree_id = $this->tree_repo->getTreeIdForNodeId($a_parent_id);
             $this->tree = $this->skill_tree_factory->getTreeById($tree_id);
             return parent::getChildsOfNode($a_parent_id);

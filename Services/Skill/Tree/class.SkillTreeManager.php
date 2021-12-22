@@ -122,5 +122,4 @@ class SkillTreeManager
     {
         return $this->skmg_ref_id;
     }
-
 }

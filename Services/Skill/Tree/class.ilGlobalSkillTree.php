@@ -77,8 +77,7 @@ class ilGlobalSkillTree extends ilSkillTree
                 $childs[] = $data;
             }
             return $childs;
-        }
-        else {
+        } else {
             return parent::getChilds($a_node_id, $a_order, $a_direction);
         }
     }
