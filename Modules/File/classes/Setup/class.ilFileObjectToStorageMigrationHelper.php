@@ -3,57 +3,60 @@
 class ilFileObjectToStorageMigrationHelper
 {
     protected $base_path = '/var/iliasdata/ilias/default/ilFile';
-    /**
-     * @var Iterator
-     */
-    protected $iterator;
-    /**
-     * @var int
-     */
-    private $remaining;
-
     public const MIGRATED = ".migrated";
+    /**
+     * @var ilDBInterface
+     */
+    protected $database;
 
     /**
-     * ilFileObjectToStorageMigrationHelper constructor.
-     * @param string $base_path
-     * @param string $regex
+     * @param string        $base_path
+     * @param ilDBInterface $database
      */
-    public function __construct(string $base_path, string $regex)
+    public function __construct(string $base_path, ilDBInterface $database)
     {
         $this->base_path = $base_path;
-        $this->iterator = new RecursiveDirectoryIterator(
-            $base_path,
-            FilesystemIterator::KEY_AS_PATHNAME
-            |FilesystemIterator::CURRENT_AS_FILEINFO
-            |FilesystemIterator::SKIP_DOTS
-        );
-        $this->iterator = new RecursiveIteratorIterator($this->iterator, RecursiveIteratorIterator::SELF_FIRST);
-        $this->iterator = new RegexIterator($this->iterator, $regex, RegexIterator::GET_MATCH);
-        $this->iterator = new CallbackFilterIterator($this->iterator, static function ($path) {
-            return is_readable($path[0]) && !file_exists(rtrim($path[0], "/") . "/" . self::MIGRATED);
-        });
-
-        $this->remaining = iterator_count($this->iterator);
-        $this->iterator->rewind();
-    }
-
-    public function rewind() : void
-    {
-        $this->iterator->rewind();
-    }
-
-    public function getAmountOfItems() : int
-    {
-        return $this->remaining;
+        $this->database = $database;
     }
 
     public function getNext() : ilFileObjectToStorageDirectory
     {
-        $item = $this->iterator->current();
-        $this->iterator->next();
+        $query = "SELECT file_id 
+                    FROM file_data 
+                    WHERE 
+                        (rid IS NULL OR rid = '')
+                        AND (file_id != ''  AND file_id IS NOT NULL) 
+                    LIMIT 1;";
+        $r = $this->database->query($query);
+        $d = $this->database->fetchObject($r);
+        if (!isset($d->file_id) || null === $d->file_id || '' === $d->file_id) {
+            throw new LogicException("error fetching file_id");
+        }
 
-        return new ilFileObjectToStorageDirectory((int) $item[1], $item[0]);
+        $file_id = (int) $d->file_id;
+        return new ilFileObjectToStorageDirectory($file_id, $this->createPathFromId($file_id));
+    }
+
+    private function createPathFromId(int $file_id) : string
+    {
+        $path = [];
+        $found = false;
+        $num = $file_id;
+        $path_string = '';
+        for ($i = 3; $i > 0; $i--) {
+            $factor = pow(100, $i);
+            if (($tmp = (int) ($num / $factor)) or $found) {
+                $path[] = $tmp;
+                $num = $num % $factor;
+                $found = true;
+            }
+        }
+
+        if (count($path)) {
+            $path_string = (implode('/', $path) . '/');
+        }
+
+        return $this->base_path . '/' . $path_string . 'file_' . $file_id;
     }
 
 }
