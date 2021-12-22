@@ -41,9 +41,6 @@ class ilBuddySystemLinkedStateRelationTest extends ilBuddySystemBaseStateTest
         $this->assertTrue($this->relation->wasLinked());
     }
 
-    /**
-     *
-     */
     public function testCanBeLinked() : void
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
@@ -60,5 +57,16 @@ class ilBuddySystemLinkedStateRelationTest extends ilBuddySystemBaseStateTest
     {
         $this->expectException(ilBuddySystemRelationStateException::class);
         $this->relation->ignore();
+    }
+
+    public function testPossibleTargetStates() : void
+    {
+        $this->assertTrue(
+            $this->relation->getState()
+                ->getPossibleTargetStates()
+                ->equals(new ilBuddySystemRelationStateCollection([
+                    new ilBuddySystemUnlinkedRelationState(),
+                ]))
+        );
     }
 }
