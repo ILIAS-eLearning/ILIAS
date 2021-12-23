@@ -17,21 +17,11 @@
  ********************************************************************
  */
 
-namespace ILIAS\Skill\Service;
-
 /**
- * Skill tree manager
- * @author famula@leifos.de
+ * Skill object tree access
+ *
+ * @author Alexander Killing <killing@leifos.de>
  */
-class SkillTreeManager
+class ilObjSkillTreeAccess extends ilObjectAccess
 {
-    protected SkillInternalRepoService $repo_service;
-
-    public function __construct(SkillInternalRepoService $repo_service = null)
-    {
-        global $DIC;
-
-        $this->repo_service = ($repo_service)
-            ?: $DIC->skills()->internal()->repo();
-    }
 }

@@ -35,14 +35,14 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
      * @param object|string[] $a_parent_obj parent gui object(s)
      * @param string          $a_parent_cmd parent command
      */
-    public function __construct($a_parent_obj, string $a_parent_cmd)
+    public function __construct($a_parent_obj, string $a_parent_cmd, int $tree_id)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
-        $tree = new ilSkillTree();
+        $tree = $DIC->skills()->internal()->factory()->tree()->getTreeById($tree_id);
         parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree);
 
         $this->requested_skill_node_id = $this->admin_gui_request->getNodeId();
@@ -151,6 +151,8 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ilCtrl->setParameterByClass("ilskillrootgui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
                                                       "ilObjSkillManagementGUI",
+                                                      "SkillTreeAdminGUI",
+                                                      "ilObjSkillTreeGUI",
                                                       "ilskillrootgui"
                 ], "listTemplates");
                 $ilCtrl->setParameterByClass("ilskillrootgui", "node_id", $this->requested_skill_node_id);
@@ -161,6 +163,8 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
                                                       "ilObjSkillManagementGUI",
+                                                      "SkillTreeAdminGUI",
+                                                      "ilObjSkillTreeGUI",
                                                       "ilbasicskilltemplategui"
                 ], "edit");
                 $ilCtrl->setParameterByClass("ilbasicskilltemplategui", "node_id", $this->requested_skill_node_id);
@@ -171,6 +175,8 @@ class ilSkillTemplateTreeExplorerGUI extends ilTreeExplorerGUI
                 $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "node_id", $a_node["child"]);
                 $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI",
                                                       "ilObjSkillManagementGUI",
+                                                      "SkillTreeAdminGUI",
+                                                      "ilObjSkillTreeGUI",
                                                       "ilskilltemplatecategorygui"
                 ], "listItems");
                 $ilCtrl->setParameterByClass("ilskilltemplatecategorygui", "node_id", $this->requested_skill_node_id);

@@ -24,9 +24,9 @@
  */
 class ilSkillTree extends ilTree
 {
-    public function __construct()
+    public function __construct(int $a_tree_id = 1)
     {
-        parent::__construct(1);	// only one skill tree, with ID 1
+        parent::__construct($a_tree_id);
         $this->setTreeTablePK("skl_tree_id");
         $this->setTableNames('skl_tree', 'skl_tree_node');
     }
@@ -93,7 +93,7 @@ class ilSkillTree extends ilTree
     public function getTopParentNodeId(int $a_node_id) : int
     {
         $path = $this->getPathId($a_node_id);
-        return (int) $path[1];
+        return $path[1];
     }
 
     public function getMaxOrderNr(int $a_par_id, bool $a_templates = false) : int

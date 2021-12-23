@@ -16700,3 +16700,13 @@ common#:#actions_for#:#Aktionen für %s
 validation#:#not_greater_than_or_equal#:#Der Wert ist nicht größer oder gleich '%s'.
 validation#:#not_an_array#:#Wert ist kein Feld
 validation#:#not_less_than_or_equal#:#Der Wert ist nicht kleiner oder gleich '%s'.
+skmg#:#skmg_add_skill_tree#:#Kompetenzbaum hinzufügen
+skmg#:#skmg_skill_tree#:#Kompetenzbaum
+skmg#:#skmg_skill_trees#:#Kompetenzbäume
+skmg#:#skmg_lp_triggers_level_resources#:#Magazinobjekte gesetzt durch 'Bearbeitet'-Status
+rbac#:#obj_skee#:#Kompetenzbaum
+rbac#:#read_comp#:#Lesezugriff auf Kompetenzen und Kompetenzvorlagen
+rbac#:#read_profiles#:#Lesezugriff auf Kompetenzprofile
+rbac#:#manage_comp#:#Kompetenzen bearbeiten
+rbac#:#manage_comp_temp#:#Kompetenzvorlagen bearbeiten
+rbac#:#manage_profiles#:#Kompetenzprofile bearbeiten

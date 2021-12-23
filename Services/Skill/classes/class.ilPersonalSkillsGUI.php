@@ -20,6 +20,7 @@
 use ILIAS\DI\UIServices;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
+use ILIAS\Skill\Service\SkillTreeService;
 use ILIAS\Skill\Service\SkillPersonalGUIRequest;
 
 /**
@@ -65,10 +66,11 @@ class ilPersonalSkillsGUI
     protected array $profile_levels;
     protected array $user_profiles;
     protected array $cont_profiles;
-    protected ilSkillTree $skill_tree;
     protected bool $use_materials;
     protected ilSkillManagementSettings $skmg_settings;
     protected ilPersonalSkillsFilterGUI $filter;
+    protected ilBasicSkillTreeRepository $tree_repo;
+    protected SkillTreeService $tree_service;
     protected SkillPersonalGUIRequest $personal_gui_request;
     protected string $requested_list_mode = "";
     protected int $requested_node_id = 0;
@@ -129,14 +131,15 @@ class ilPersonalSkillsGUI
 
         $this->user_profiles = ilSkillProfile::getProfilesOfUser($this->user->getId());
         $this->cont_profiles = [];
-
-        $this->skill_tree = new ilSkillTree();
         
         $this->use_materials = !$ilSetting->get("disable_personal_workspace");
 
         $this->skmg_settings = new ilSkillManagementSettings();
 
         $this->filter = new ilPersonalSkillsFilterGUI();
+
+        $this->tree_repo = $DIC->skills()->internal()->repo()->getTreeRepo();
+        $this->tree_service = $DIC->skills()->tree();
     }
 
     public function getFilter() : ilPersonalSkillsFilterGUI
@@ -359,8 +362,6 @@ class ilPersonalSkillsGUI
         $tpl = new ilTemplate("tpl.skill_filter.html", true, true, "Services/Skill");
 
         $this->setTabs("list_skills");
-
-        $stree = new ilSkillTree();
         
         // skill selection / add new personal skill
         $ilToolbar->addFormButton(
@@ -376,7 +377,7 @@ class ilPersonalSkillsGUI
         $skills = ilPersonalSkill::getSelectedUserSkills($ilUser->getId());
         $html = "";
         foreach ($skills as $s) {
-            $path = $stree->getSkillTreePath($s["skill_node_id"]);
+            $path = $this->tree_service->getSkillTreePath($s["skill_node_id"]);
 
             // check draft
             foreach ($path as $p) {
@@ -464,9 +465,8 @@ class ilPersonalSkillsGUI
 
         $tpl = new ilTemplate("tpl.skill_pres.html", true, true, "Services/Skill");
 
-        $stree = new ilSkillTree();
-
-        $vtree = new ilVirtualSkillTree();
+        $vtree_id = $this->tree_repo->getTreeIdForNodeId($a_top_skill_id);
+        $vtree = new ilVirtualSkillTree($vtree_id);
         $tref_id = $a_tref_id;
         $skill_id = $a_top_skill_id;
         if (ilSkillTreeNode::_lookupType($a_top_skill_id) == "sktr") {
@@ -479,7 +479,7 @@ class ilPersonalSkillsGUI
             $bs["id"] = $bs["skill_id"];
             $bs["tref"] = $bs["tref_id"];
 
-            $path = $stree->getSkillTreePath($bs["id"], $bs["tref"]);
+            $path = $this->tree_service->getSkillTreePath($bs["id"], $bs["tref"]);
 
             $panel_comps = [];
 
@@ -528,8 +528,8 @@ class ilPersonalSkillsGUI
             }
 
             if ($this->mode == "gap" && !$this->history_view) {
-                $panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"]) . "");
-                $panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]) . "");
+                $panel_comps[] = $this->ui_fac->legacy($this->getActualGapItem($level_data, $bs["tref"]));
+                $panel_comps[] = $this->ui_fac->legacy($this->getSelfEvalGapItem($level_data, $bs["tref"]));
             } else {
                 // get date of self evaluation
                 $se_date = ilPersonalSkill::getSelfEvaluationDate($user->getId(), $a_top_skill_id, $bs["tref"], $bs["id"]);
@@ -769,7 +769,8 @@ class ilPersonalSkillsGUI
             ".svg"));
          
         // basic skill selection
-        $vtree = new ilVirtualSkillTree();
+        $vtree_id = $this->tree_repo->getTreeIdForNodeId($this->requested_skill_id);
+        $vtree = new ilVirtualSkillTree($vtree_id);
         $tref_id = 0;
         $skill_id = $this->requested_skill_id;
         if (ilSkillTreeNode::_lookupType($this->requested_skill_id) == "sktr") {
@@ -953,7 +954,8 @@ class ilPersonalSkillsGUI
             ".svg"));
          
         // basic skill selection
-        $vtree = new ilVirtualSkillTree();
+        $vtree_id = $this->tree_repo->getTreeIdForNodeId($this->requested_skill_id);
+        $vtree = new ilVirtualSkillTree($vtree_id);
         $tref_id = 0;
         $skill_id = $this->requested_skill_id;
         if (ilSkillTreeNode::_lookupType($this->requested_skill_id) == "sktr") {
@@ -1304,16 +1306,15 @@ class ilPersonalSkillsGUI
             $all_chart_html = $pan->getHTML();
         }
 
-        $stree = new ilSkillTree();
         $html = "";
 
         if (!$this->getProfileId() > 0) {
             // order skills per virtual skill tree
-            $vtree = new ilVirtualSkillTree();
+            $vtree = new ilGlobalVirtualSkillTree();
             $skills = $vtree->getOrderedNodeset($skills, "base_skill_id", "tref_id");
         }
         foreach ($skills as $s) {
-            $path = $stree->getSkillTreePath($s["base_skill_id"]);
+            $path = $this->tree_service->getSkillTreePath($s["base_skill_id"]);
 
             // check draft
             foreach ($path as $p) {

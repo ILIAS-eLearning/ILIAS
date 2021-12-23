@@ -32,17 +32,18 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
     protected int $requested_tref_id = 0;
 
     /**
-     * @param object|string[] $a_parent_obj
-     * @param string        $a_parent_cmd
+     * @param object|string[]   $a_parent_obj
+     * @param string            $a_parent_cmd
+     * @param int               $tree_id
      */
-    public function __construct($a_parent_obj, string $a_parent_cmd)
+    public function __construct($a_parent_obj, string $a_parent_cmd, int $tree_id)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
         $this->ctrl = $DIC->ctrl();
         $this->admin_gui_request = $DIC->skills()->internal()->gui()->admin_request();
-        parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd);
+        parent::__construct("skill_exp", $a_parent_obj, $a_parent_cmd, $tree_id);
 
         $this->requested_skill_node_id = $this->admin_gui_request->getNodeId();
         $this->requested_tref_id = $this->admin_gui_request->getTrefId();
@@ -70,7 +71,8 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         
         // root?
         if ($a_node["type"] == "skrt") {
-            $title = $lng->txt("skmg_skills");
+            $tree_obj = $this->skill_tree_manager->getTree($a_node["skl_tree_id"]);
+            $title = $tree_obj->getTitle();
         } else {
             if ($a_node["type"] == "sktr") {
                 $tid = ilSkillTemplateReference::_lookupTemplateId($a_parent_skl_tree_id);
@@ -187,7 +189,8 @@ class ilSkillTreeExplorerGUI extends ilVirtualSkillTreeExplorerGUI
         
         $ilCtrl->setParameterByClass($gui_class, "tref_id", $tref_id);
         $ilCtrl->setParameterByClass($gui_class, "node_id", $skill_id);
-        $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI", $gui_class], $cmd);
+        $ret = $ilCtrl->getLinkTargetByClass(["ilAdministrationGUI", "ilObjSkillManagementGUI",
+                                              "SkillTreeAdminGUI", "ilObjSkillTreeGUI", $gui_class], $cmd);
         $ilCtrl->setParameterByClass($gui_class, "node_id", $this->requested_skill_node_id);
         $ilCtrl->setParameterByClass($gui_class, "tref_id", $this->requested_tref_id);
 

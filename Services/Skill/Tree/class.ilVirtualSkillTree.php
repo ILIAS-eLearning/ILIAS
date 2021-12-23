@@ -36,12 +36,12 @@ class ilVirtualSkillTree
     protected bool $include_outdated = false;
     protected array $outdated = [];
 
-    public function __construct()
+    public function __construct(int $tree_id)
     {
         global $DIC;
 
         $this->lng = $DIC->language();
-        $this->tree = new ilSkillTree();
+        $this->tree = $DIC->skills()->internal()->factory()->tree()->getTreeById($tree_id);
     }
 
     public function getRootNode() : array
@@ -251,7 +251,7 @@ class ilVirtualSkillTree
         return $result;
     }
 
-    private function __getSubTreeRec(string $id, array &$result, bool $a_only_basic) : void
+    protected function __getSubTreeRec(string $id, array &$result, bool $a_only_basic) : void
     {
         $childs = $this->getChildsOfNode($id);
         foreach ($childs as $c) {
