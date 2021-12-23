@@ -23,26 +23,11 @@ use ILIAS\GlobalScreen\Scope\Layout\Factory\ViewTitleModification;
 class PageContentProvider extends AbstractModificationProvider implements ModificationProvider
 {
 
-    /**
-     * @var string
-     */
-    private static $content = "";
-    /**
-     * @var string
-     */
-    private static $perma_link = "";
-    /**
-     * @var string
-     */
-    private static $title = "";
-    /**
-     * @var string
-     */
-    private static $short_title = "";
-    /**
-     * @var string
-     */
-    private static $view_title = "";
+    private static string $content = "";
+    private static string $perma_link = "";
+    private static string $title = "";
+    private static string $short_title = "";
+    private static string $view_title = "";
 
     /**
      * @param string $content
@@ -112,27 +97,21 @@ class PageContentProvider extends AbstractModificationProvider implements Modifi
     public function getTitleModification(CalledContexts $screen_context_stack) : ?TitleModification
     {
         return $this->globalScreen()->layout()->factory()->title()->withModification(
-            function (string $content) : string {
-                return self::$title;
-            }
+            fn(string $content): string => self::$title
         )->withLowPriority();
     }
 
     public function getShortTitleModification(CalledContexts $screen_context_stack) : ?ShortTitleModification
     {
         return $this->globalScreen()->layout()->factory()->short_title()->withModification(
-            function (string $content) : string {
-                return self::$short_title;
-            }
+            fn(string $content): string => self::$short_title
         )->withLowPriority();
     }
 
     public function getViewTitleModification(CalledContexts $screen_context_stack) : ?ViewTitleModification
     {
         return $this->globalScreen()->layout()->factory()->view_title()->withModification(
-            function (string $content) : string {
-                return self::$view_title;
-            }
+            fn(string $content): string => self::$view_title
         )->withLowPriority();
     }
 

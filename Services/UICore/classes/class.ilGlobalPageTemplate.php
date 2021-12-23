@@ -15,29 +15,11 @@ use ILIAS\UICore\PageContentProvider;
 class ilGlobalPageTemplate implements ilGlobalTemplateInterface
 {
 
-    /**
-     * @var array
-     */
-    private static $ignored_blocks = ['ContentStyle', "DEFAULT", "SyntaxStyle", ""];
-    //
-    // SERVICES
-    //
-    /**
-     * @var HTTPServices
-     */
-    private $http;
-    /**
-     * @var Services
-     */
-    private $gs;
-    /**
-     * @var UIServices
-     */
-    private $ui;
-    /**
-     * @var PageContentGUI
-     */
-    private $legacy_content_template;
+    private static array $ignored_blocks = ['ContentStyle', "DEFAULT", "SyntaxStyle", ""];
+    private HTTPServices $http;
+    private \ILIAS\GlobalScreen\Services $gs;
+    private \ILIAS\DI\UIServices $ui;
+    private \ILIAS\Services\UICore\MetaTemplate\PageContentGUI $legacy_content_template;
     /**
      * @var ilLanguage
      */

@@ -13,10 +13,9 @@ include_once("./Services/UICore/lib/html-it/ITX.php");
 class ilTemplate extends HTML_Template_ITX
 {
     /**
-    * variablen die immer in jedem block ersetzt werden sollen
-    * @var	array
-    */
-    public $vars;
+     * variablen die immer in jedem block ersetzt werden sollen
+     */
+    public array $vars;
 
     /**
     * Aktueller Block
@@ -26,35 +25,17 @@ class ilTemplate extends HTML_Template_ITX
     */
     public $activeBlock;
     
-    /**
-     * @var array
-     */
-    protected static $il_cache = array();
+    protected static array $il_cache = array();
 
-    /**
-     * @var bool
-     */
-    protected $il_use_cache;
+    protected bool $il_use_cache;
 
-    /**
-     * @var string
-     */
-    protected $il_cur_key;
+    protected string $il_cur_key;
 
-    /**
-     * @var string
-     */
-    protected $tplName;
+    protected string $tplName;
 
-    /**
-     * @var string
-     */
-    protected $tplPath;
+    protected string $tplPath;
 
-    /**
-     * @var string
-     */
-    protected $tplIdentifier;
+    protected string $tplIdentifier;
 
     /**
      * constructor
@@ -363,12 +344,12 @@ class ilTemplate extends HTML_Template_ITX
         }
         $this->lastTemplatefile = $filename;
         // copied.
-        
+
         // new code to include the template input hook:
         $component_factory = $DIC["component.factory"];
         foreach ($component_factory->getActivePluginsInSlot("uihk") as $ui_plugin) {
             $gui_class = $ui_plugin->getUIClassInstance();
-            
+
             $resp = $gui_class->getHTML(
                 "",
                 "template_load",
@@ -380,7 +361,7 @@ class ilTemplate extends HTML_Template_ITX
             }
         }
         // new.
-        
+
         // copied from IT:loadTemplateFile
         return $template != '' ?
                 $this->setTemplate(

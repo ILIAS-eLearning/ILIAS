@@ -9,18 +9,15 @@
  */
 class ilGlobalTemplate implements ilGlobalTemplateInterface
 {
-    protected $tree_flat_link = "";
-    protected $page_form_action = "";
+    protected string $tree_flat_link = "";
+    protected string $page_form_action = "";
     protected $permanent_link = false;
-    protected $main_content = "";
+    protected string $main_content = "";
 
-    protected $lightbox = array();
-    protected $standard_template_loaded = false;
+    protected array $lightbox = array();
+    protected bool $standard_template_loaded = false;
 
-    /**
-     * @var	\ilTemplate
-     */
-    protected $template;
+    protected \ilTemplate $template;
 
     /**
     * constructor
@@ -71,7 +68,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    private $show_footer = true;
+    private bool $show_footer = true;
 
     /**
      * Make the template hide the footer.
@@ -299,14 +296,14 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     /**
      * @var array  available Types for Messages
      */
-    protected static $message_types = array(
+    protected static array $message_types = array(
         self::MESSAGE_TYPE_FAILURE,
         self::MESSAGE_TYPE_INFO,
         self::MESSAGE_TYPE_SUCCESS,
         self::MESSAGE_TYPE_QUESTION,
     );
 
-    protected $message = array();
+    protected array $message = array();
 
     /**
      * Set a message to be displayed to the user. Please use ilUtil::sendInfo(),
@@ -389,13 +386,13 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
      * List of JS-Files that should be included.
      * @var array<int,string>
      */
-    protected $js_files = array(0 => "./Services/JavaScript/js/Basic.js");
+    protected array $js_files = array(0 => "./Services/JavaScript/js/Basic.js");
 
     /**
      * Stores if a version parameter should be appended to the js-file to force reloading.
      * @var array<string,bool>
      */
-    protected $js_files_vp = array("./Services/JavaScript/js/Basic.js" => true);
+    protected array $js_files_vp = array("./Services/JavaScript/js/Basic.js" => true);
 
     /**
      * Stores the order in which js-files should be included.
@@ -819,10 +816,10 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     //
     //***********************************
 
-    protected $header_page_title = "";
-    protected $title = "";
-    protected $title_desc = "";
-    protected $title_alerts = array();
+    protected string $header_page_title = "";
+    protected string $title = "";
+    protected string $title_desc = "";
+    protected array $title_alerts = array();
     protected $header_action;
 
     /**
@@ -1035,21 +1032,9 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     }
 
 
-    //***********************************
-    //
-    // TABS in standard template
-    //
-    //***********************************
+    protected string $tabs_html = "";
 
-    /**
-     * @var	string
-     */
-    protected $tabs_html = "";
-
-    /**
-     * @var string
-     */
-    protected $sub_tabs_html = "";
+    protected string $sub_tabs_html = "";
 
     /**
     * sets tabs in standard template
@@ -1627,7 +1612,7 @@ class ilGlobalTemplate implements ilGlobalTemplateInterface
     // An "Admin Panel" is that toolbar thingy that could be found on top and bottom
     // of a repository listing when editing objects in a container gui.
 
-    protected $admin_panel_commands_toolbar = null;
+    protected ?\ilToolbarGUI $admin_panel_commands_toolbar = null;
     protected $admin_panel_arrow = null;
     protected $admin_panel_bottom = null;
 

@@ -39,12 +39,11 @@
 class HTML_Template_ITX extends HTML_Template_IT
 {
     /**
-    * Array with all warnings.
-    * @var    array
-    * @access public
-    * @see    $printWarning, $haltOnWarning, warning()
-    */
-    public $warn = array();
+     * Array with all warnings.
+     * @access public
+     * @see    $printWarning, $haltOnWarning, warning()
+     */
+    public array $warn = array();
 
     /**
     * Print warnings?
@@ -55,47 +54,40 @@ class HTML_Template_ITX extends HTML_Template_IT
     public $printWarning = false;
 
     /**
-    * Call die() on warning?
-    * @var    boolean
-    * @access public
-    * @see    $warn, $printWarning, warning()
-    */
-    public $haltOnWarning = false;
+     * Call die() on warning?
+     * @access public
+     * @see    $warn, $printWarning, warning()
+     */
+    public bool $haltOnWarning = false;
 
     /**
-    * RegExp used to test for a valid blockname.
-    * @var string
-    */
-    public $checkblocknameRegExp = '';
+     * RegExp used to test for a valid blockname.
+     */
+    public string $checkblocknameRegExp = '';
 
     /**
-    * Functionnameprefix used when searching function calls in the template.
-    * @var string
-    */
-    public $functionPrefix = 'func_';
+     * Functionnameprefix used when searching function calls in the template.
+     */
+    public string $functionPrefix = 'func_';
 
     /**
-    * Functionname RegExp.
-    * @var string
-    */
-    public $functionnameRegExp = '[_a-zA-Z]+[A-Za-z_0-9]*';
+     * Functionname RegExp.
+     */
+    public string $functionnameRegExp = '[_a-zA-Z]+[A-Za-z_0-9]*';
 
     /**
-    * RegExp used to grep function calls in the template.
-    *
-    * The variable gets set by the constructor.
-    *
-    * @var string
-    * @see HTML_Template_IT()
-    */
-    public $functionRegExp = '';
+     * RegExp used to grep function calls in the template.
+     *
+     * The variable gets set by the constructor.
+     *
+     * @see HTML_Template_IT()
+     */
+    public string $functionRegExp = '';
 
     /**
-    * List of functions found in the template.
-    *
-    * @var array
-    */
-    public $functions = array();
+     * List of functions found in the template.
+     */
+    public array $functions = array();
 
     /**
     * List of callback functions specified by the user.

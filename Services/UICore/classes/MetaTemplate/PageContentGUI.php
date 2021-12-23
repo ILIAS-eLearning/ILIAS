@@ -12,15 +12,9 @@ use ilTemplate;
 class PageContentGUI
 {
 
-    /**
-     * @var ilTemplate
-     */
-    private $template_file;
+    private \ilTemplate $template_file;
 
-    /**
-     * @var bool
-     */
-    private $hiddenTitle = false;
+    private bool $hiddenTitle = false;
 
     /**
      * @inheritDoc
@@ -38,7 +32,7 @@ class PageContentGUI
     /**
      * @var array  available Types for Messages
      */
-    protected static $message_types
+    protected static array $message_types
         = array(
             self::MESSAGE_TYPE_FAILURE,
             self::MESSAGE_TYPE_INFO,
@@ -63,9 +57,9 @@ class PageContentGUI
     private $page_form_action;
     private $permanent_link;
     private $main_content;
-    private $lightbox = [];
+    private array $lightbox = [];
     private $translation_linked;
-    private $message;
+    private ?array $message = null;
     private $header_page_title;
     private $title;
     private $title_desc;
@@ -81,8 +75,8 @@ class PageContentGUI
     private $icon_path;
     private $icon_desc;
     private $enable_fileupload;
-    private $filter;
-    private $banner;
+    private ?string $filter = null;
+    private ?string $banner = null;
     //
     // Needed Methods for communication from the outside
     //

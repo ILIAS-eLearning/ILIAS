@@ -125,53 +125,47 @@ class HTML_Template_IT
 {
     /**
      * Contains the error objects
-     * @var      array
      * @access   public
      * @see      halt(), $printError, $haltOnError
      */
-    public $err = array();
+    public array $err = array();
 
     /**
      * Clear cache on get()?
-     * @var      boolean
      */
-    public $clearCache = false;
+    public bool $clearCache = false;
 
     /**
      * First character of a variable placeholder ( _{_VARIABLE} ).
-     * @var      string
      * @access   public
      * @see      $closingDelimiter, $blocknameRegExp, $variablenameRegExp
      */
-    public $openingDelimiter = '{';
+    public string $openingDelimiter = '{';
 
     /**
      * Last character of a variable placeholder ( {VARIABLE_}_ ).
-     * @var      string
      * @access   public
      * @see      $openingDelimiter, $blocknameRegExp, $variablenameRegExp
      */
-    public $closingDelimiter = '}';
+    public string $closingDelimiter = '}';
 
     /**
      * RegExp matching a block in the template.
      * Per default "sm" is used as the regexp modifier, "i" is missing.
      * That means a case sensitive search is done.
-     * @var      string
      * @access   public
      * @see      $variablenameRegExp, $openingDelimiter, $closingDelimiter
      */
-    public $blocknameRegExp = '[\.0-9A-Za-z_-]+';
+    public string $blocknameRegExp = '[\.0-9A-Za-z_-]+';
 
     /**
      * RegExp matching a variable placeholder in the template.
      * Per default "sm" is used as the regexp modifier, "i" is missing.
      * That means a case sensitive search is done.
-     * @var      string
      * @access   public
      * @see      $blocknameRegExp, $openingDelimiter, $closingDelimiter
      */
-    public $variablenameRegExp = '[\.0-9A-Za-z_-]+';
+    public string $variablenameRegExp = '[\.0-9A-Za-z_-]+';
 
     /**
      * RegExp used to find variable placeholder, filled by the constructor.
@@ -179,34 +173,31 @@ class HTML_Template_IT
      * @access   public
      * @see      IntegratedTemplate()
      */
-    public $variablesRegExp = '';
+    public string $variablesRegExp = '';
 
     /**
      * RegExp used to strip unused variable placeholder.
      * @brother  $variablesRegExp
      */
-    public $removeVariablesRegExp = '';
+    public string $removeVariablesRegExp = '';
 
     /**
      * Controls the handling of unknown variables, default is remove.
-     * @var      boolean
      * @access   public
      */
-    public $removeUnknownVariables = true;
+    public bool $removeUnknownVariables = true;
 
     /**
      * Controls the handling of empty blocks, default is remove.
-     * @var      boolean
      * @access   public
      */
-    public $removeEmptyBlocks = true;
+    public bool $removeEmptyBlocks = true;
 
     /**
      * RegExp used to find blocks an their content, filled by the constructor.
-     * @var      string
      * @see      IntegratedTemplate()
      */
-    public $blockRegExp = '';
+    public string $blockRegExp = '';
 
     /**
      * Name of the current block.
@@ -216,9 +207,8 @@ class HTML_Template_IT
 
     /**
      * Content of the template.
-     * @var      string
      */
-    public $template = '';
+    public string $template = '';
 
     /**
      * Array of all blocks and their content.
@@ -241,13 +231,12 @@ class HTML_Template_IT
      */
     public $blockvariables = array();
 
-    public $blockparents = array();
+    public array $blockparents = array();
 
     /**
      * Array of inner blocks of a block.
-     * @var      array
      */
-    public $blockinner = array();
+    public array $blockinner = array();
 
     /**
      * List of blocks to preverse even if they are "empty".
@@ -271,17 +260,15 @@ class HTML_Template_IT
      * The array $touchedBlocks stores a list of touched block which must not
      * be removed even if they are empty.
      *
-     * @var  array    $touchedBlocks
      * @see  touchBlock(), $removeEmptyBlocks
      */
-    public $touchedBlocks = array();
+    public array $touchedBlocks = array();
 
     /**
      * List of blocks which should not be shown even if not "empty"
-     * @var  array    $_hiddenBlocks
      * @see  hideBlock(), $removeEmptyBlocks
      */
-    public $_hiddenBlocks = array();
+    public array $_hiddenBlocks = array();
 
     /**
      * Variable cache.
@@ -290,10 +277,9 @@ class HTML_Template_IT
      * Advantage: empty blocks can be removed automatically.
      * Disadvantage: might take some more memory
      *
-     * @var    array
      * @see    setVariable(), $clearCacheOnParse
      */
-    public $variableCache = array();
+    public array $variableCache = array();
 
     /**
      * Clear the variable cache on parse?
@@ -301,30 +287,25 @@ class HTML_Template_IT
      * If you're not an expert just leave the default false.
      * True reduces memory consumption somewhat if you tend to
      * add lots of values for unknown placeholder.
-     *
-     * @var    boolean
      */
-    public $clearCacheOnParse = false;
+    public bool $clearCacheOnParse = false;
 
     /**
      * Root directory for all file operations.
      * The string gets prefixed to all filenames given.
-     * @var    string
      * @see    HTML_Template_IT(), setRoot()
      */
-    public $fileRoot = '';
+    public string $fileRoot = '';
 
     /**
      * Internal flag indicating that a blockname was used multiple times.
-     * @var    boolean
      */
-    public $flagBlocktrouble = false;
+    public bool $flagBlocktrouble = false;
 
     /**
      * Flag indicating that the global block was parsed.
-     * @var    boolean
      */
-    public $flagGlobalParsed = false;
+    public bool $flagGlobalParsed = false;
 
     /**
      * EXPERIMENTAL! FIXME!
@@ -335,15 +316,13 @@ class HTML_Template_IT
      * one template file over and over again but I don't know
      * before that I will use the same template file again.
      * Now IT could notice this and skip the preparse.
-     *
-     * @var    boolean
      */
-    public $flagCacheTemplatefile = true;
+    public bool $flagCacheTemplatefile = true;
 
     /**
      * EXPERIMENTAL! FIXME!
      */
-    public $lastTemplatefile = '';
+    public string $lastTemplatefile = '';
 
     /**
      * $_options['preserve_data'] Whether to substitute variables and remove
@@ -353,7 +332,7 @@ class HTML_Template_IT
      * str_replace in parse()
      * (this is a backwards compatibility feature, see also bugs #21951, #20392)
      */
-    public $_options = array(
+    public array $_options = array(
         'preserve_data' => false,
         'use_preg' => true
     );
