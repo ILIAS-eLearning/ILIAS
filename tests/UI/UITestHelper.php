@@ -12,9 +12,9 @@ use \ILIAS\Data\Factory as DataFactory;
 
 /**
  * Class UITestHelper can be helpful for test cases outside the UI Components, to inject a working
- * factory and renderer into some clases to be unit tested.
+ * factory and renderer into some classes to be unit tested.
  *
- * See; UITestHelperTest, testRenderExample for an example of how this can be used.
+ * See UITestHelperTest for an example of how this can be used.
  */
 class UITestHelper
 {
