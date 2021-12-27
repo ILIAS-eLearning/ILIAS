@@ -142,7 +142,7 @@ class Session
                 getenv("PATH_INFO"),
                 0,
                 strrpos(getenv("PATH_INFO"), "/") + 1
-                                   )
+            )
                             . $pathInfo;
         }
 
@@ -158,7 +158,7 @@ class Session
         // Redirect
         header("Location: "
                . (($portMatch[1] == 443) ? "https://" : "http://")
-               . $_SERVER["HTTP_HOST"] . $port . $this->url($pathInfo));
+               . $_SERVER["HTTP_HOST"] . $this->url($pathInfo));
         exit;
     }
 
