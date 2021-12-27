@@ -72,6 +72,7 @@ class OrgUnitToolProvider extends AbstractDynamicToolProvider
         $tree->setTypeWhiteList($this->getTreeWhiteList());
         $tree->setRootId(ilObjOrgUnit::getRootOrgRefId());
         $tree->setPathOpen($_GET['item_ref_id'] ?? $_GET['ref_id'] ?? '');
+        $tree->setOrderField('title');
 
         return $tree;
     }
