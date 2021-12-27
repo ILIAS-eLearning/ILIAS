@@ -7,7 +7,7 @@ require_once(__DIR__ . "/Base.php");
 use ILIAS\DI\Container;
 use ILIAS\UI\Factory;
 use ILIAS\UI\Renderer;
-use ILIAS\Refinery\Factory as RefinaryFactory;
+use ILIAS\Refinery\Factory as RefineryFactory;
 use \ILIAS\Data\Factory as DataFactory;
 
 /**
@@ -27,7 +27,7 @@ class UITestHelper
         $this->dic["tpl"] = $tpl_fac->getTemplate("tpl.main.html", false, false);
         $this->dic["lng"] = new ilLanguageMock();
         $data_factory = new DataFactory();
-        $this->dic["refinery"] = new RefinaryFactory($data_factory, $this->dic["lng"]);
+        $this->dic["refinery"] = new RefineryFactory($data_factory, $this->dic["lng"]);
         (new InitUIFramework())->init($this->dic);
     }
 
