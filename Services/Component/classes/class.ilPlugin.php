@@ -584,9 +584,6 @@ abstract class ilPlugin
 
             $this->component_repository->removeStateInformationOf($this->getId());
 
-            $ilDB->manipulateF('DELETE FROM ctrl_classfile WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
-            $ilDB->manipulateF('DELETE FROM ctrl_calls WHERE comp_prefix=%s', [ilDBConstants::T_TEXT], [$this->getPrefix()]);
-
             $this->afterUninstall();
 
             return true;
