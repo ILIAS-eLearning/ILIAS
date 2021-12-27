@@ -384,8 +384,14 @@ abstract class ilPlugin
      */
     public static function _getImagePath(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname, string $a_img) : string
     {
-        $d2 = ilComponent::lookupId($a_ctype, $a_cname) . "_" . $a_slot_id . "_" .
-            ilPlugin::lookupIdForName($a_ctype, $a_cname, $a_slot_id, $a_pname);
+        global $DIC;
+
+        $component_repository = $DIC["component.repository"];
+
+        $plugin = $component_repository->getPluginName($a_pname);
+        $component = $component_repository->getComponentByTypeAndName($a_ctype, $a_cname);
+
+        $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin->getId();
 
         $img = ilUtil::getImagePath($d2 . "/" . $a_img);
         if (is_int(strpos($img, "Customizing"))) {
@@ -687,24 +693,6 @@ abstract class ilPlugin
      */
     protected function afterUpdate()
     {
-    }
-
-    /**
-     * @param $a_ctype
-     * @param $a_cname
-     * @param $a_slot_id
-     * @param $a_plugin_name
-     *
-     * @return string | null
-     */
-    protected static function lookupIdForName(string $a_ctype, string $a_cname, string $a_slot_id, string $a_plugin_name) : string
-    {
-        global $DIC;
-        try {
-            return $DIC["component.repository"]->getPluginByName($a_plugin_name)->getName();
-        } catch (\InvalidArgumentException $e) {
-            return null;
-        }
     }
 
     /**
