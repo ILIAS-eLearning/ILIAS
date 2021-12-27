@@ -78,8 +78,8 @@ abstract class ilPlugin
     protected function getPluginInfo() : ilPluginInfo
     {
         return $this->component_repository
-            ->getPluginByName(
-                $this->getPluginName()
+            ->getPluginById(
+                $this->id
             );
     }
 
@@ -97,7 +97,10 @@ abstract class ilPlugin
      * Get Plugin Name. Must be same as in class name il<Name>Plugin
      * and must correspond to plugins subdirectory name.
      */
-    abstract public function getPluginName() : string;
+    public function getPluginName() : string
+    {
+        return $this->getPluginInfo()->getName();
+    }
 
     public function getId() : string
     {
