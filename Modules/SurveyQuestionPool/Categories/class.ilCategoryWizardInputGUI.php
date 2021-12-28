@@ -119,7 +119,17 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
         }
         if (array_key_exists('neutral', $a_value)) {
-            $this->values->addCategory($a_value['neutral'], 0, 1, null, $_POST[$this->postvar . '_neutral_scale']);
+            $scale = $this->str($this->postvar . '_neutral_scale');
+            $scale = ($scale == "")
+                ? null
+                : (int) $scale;
+            $this->values->addCategory(
+                $a_value['neutral'],
+                0,
+                1,
+                null,
+                $scale
+            );
         }
     }
 
@@ -186,10 +196,10 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
     public function checkInput() : bool
     {
         $lng = $this->lng;
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-        }
-        $foundvalues = $_POST[$this->getPostVar()];
+        $foundvalues = $this->getInput();
+        $neutral_scale = $this->getNeutralScaleInput();
+        $neutral = $this->getNeutralInput();
+
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {
@@ -202,7 +212,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
             // check neutral column
             if (array_key_exists('neutral', $foundvalues)) {
-                if ((strlen($foundvalues['neutral']) == 0) && ($this->getRequired())) {
+                if ((strlen($neutral) == 0) && ($this->getRequired())) {
                     $this->setAlert($lng->txt("msg_input_is_required"));
                     return false;
                 }
@@ -229,9 +239,9 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
 
             // check neutral column scale
-            if (strlen($_POST[$this->postvar . '_neutral_scale'])) {
+            if ($neutral_scale != "") {
                 if (is_array($foundvalues['scale'])) {
-                    if (in_array($_POST[$this->postvar . '_neutral_scale'], $foundvalues['scale'])) {
+                    if (in_array($neutral_scale, $foundvalues['scale'])) {
                         $this->setAlert($lng->txt("msg_duplicate_scale"));
                         return false;
                     }
@@ -242,6 +252,24 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             return false;
         }
         return $this->checkSubItemsInput();
+    }
+
+    public function getInput() : array
+    {
+        $val = $this->arrayArray($this->getPostVar());
+        $val = ilUtil::stripSlashesRecursive($val);
+        return $val;
+    }
+
+    public function getNeutralScaleInput() : string
+    {
+        return $this->str($this->getPostVar() . '_neutral_scale');
+    }
+
+    public function getNeutralInput() : string
+    {
+        $val = $this->strArray($this->getPostVar());
+        return $val["neutral"];
     }
 
     public function insert(

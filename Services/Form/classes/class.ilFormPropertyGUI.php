@@ -491,6 +491,9 @@ class ilFormPropertyGUI
                 return array_column(
                     array_map(
                         function ($k, $v) {
+                            if (is_array($v)) {
+                                $v = "";
+                            }
                             return [$k, $this->stripSlashesAddSpaceFallback((string) $v)];
                         },
                         array_keys($arr),

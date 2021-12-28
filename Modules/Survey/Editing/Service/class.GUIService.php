@@ -13,36 +13,33 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\SurveyQuestionPool;
+namespace ILIAS\Survey\Editing;
 
-use ILIAS\DI\Container;
-use ILIAS\Repository\GlobalDICGUIServices;
+use ILIAS\Survey\InternalGUIService;
+use ILIAS\Survey\InternalDomainService;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class InternalGUIService
+class GUIService
 {
-    use GlobalDICGUIServices;
-
-    protected InternalDataService $data_service;
+    protected InternalGUIService $ui_service;
+    protected \ilObjectServiceInterface $object_service;
     protected InternalDomainService $domain_service;
 
     public function __construct(
-        Container $DIC,
-        InternalDataService $data_service,
+        InternalGUIService $ui_service,
         InternalDomainService $domain_service
     ) {
-        $this->data_service = $data_service;
+        $this->ui_service = $ui_service;
         $this->domain_service = $domain_service;
-        $this->initGUIServices($DIC);
     }
 
-    public function editing() : Editing\GUIService
+    public function request() : EditingGUIRequest
     {
-        return new Editing\GUIService(
-            $this,
-            $this->domain_service
+        return new EditingGUIRequest(
+            $this->ui_service->http(),
+            $this->domain_service->refinery()
         );
     }
 }

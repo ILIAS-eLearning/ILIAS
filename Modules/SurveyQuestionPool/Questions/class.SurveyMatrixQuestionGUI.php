@@ -165,21 +165,29 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         
         // set columns
         $this->object->flushColumns();
-        
-        foreach ($_POST['columns']['answer'] as $key => $value) {
+
+        $columns = $this->request->getColumns();
+        foreach ($columns['answer'] as $key => $value) {
             if (strlen($value)) {
-                $this->object->getColumns()->addCategory($value, $_POST['columns']['other'][$key], 0, null, $_POST['columns']['scale'][$key]);
+                $this->object->getColumns()->addCategory($value, $columns['other'][$key], 0, null, $columns['scale'][$key]);
             }
         }
-        if (strlen($_POST["columns"]["neutral"])) {
-            $this->object->getColumns()->addCategory($_POST['columns']['neutral'], 0, 1, null, $_POST['columns_neutral_scale']);
+        if (strlen($columns["neutral"])) {
+            $this->object->getColumns()->addCategory(
+                $columns['neutral'],
+                0,
+                1,
+                null,
+                $this->request->getColumnNeutralScale()
+            );
         }
         
         // set rows
         $this->object->flushRows();
-        foreach ($_POST['rows']['answer'] as $key => $value) {
+        $rows = $this->request->getRows();
+        foreach ($rows['answer'] as $key => $value) {
             if (strlen($value)) {
-                $this->object->getRows()->addCategory($value, $_POST['rows']['other'][$key], 0, $_POST['rows']['label'][$key]);
+                $this->object->getRows()->addCategory($value, $rows['other'][$key], 0, $rows['label'][$key]);
             }
         }
     }
@@ -494,11 +502,11 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
     public function saveLayout() : void
     {
         $percent_values = array(
-            "percent_row" => (int) $_POST["percent_row"],
-            "percent_columns" => (int) $_POST["percent_columns"],
-            "percent_bipolar_adjective1" => (int) $_POST['percent_bipolar_adjective1'],
-            "percent_bipolar_adjective2" => (int) $_POST['percent_bipolar_adjective2'],
-            "percent_neutral" => (int) $_POST["percent_neutral"]
+            "percent_row" => $this->request->getPercentRow(),
+            "percent_columns" => $this->request->getPercentColumns(),
+            "percent_bipolar_adjective1" => $this->request->getPercentBipAdj1(),
+            "percent_bipolar_adjective2" => $this->request->getPercentBipAdj2(),
+            "percent_neutral" => $this->request->getPercentNeutral()
         );
         $this->object->setLayout($percent_values);
         

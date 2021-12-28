@@ -31,6 +31,8 @@ use \ILIAS\Survey\Participants;
  */
 class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    protected \ILIAS\Survey\Execution\ExecutionGUIRequest $execution_request;
+    protected ?\ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected ilNavigationHistory $nav_history;
     protected ilTabsGUI $tabs;
     protected ilHelpGUI $help;
@@ -73,7 +75,12 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 
         $this->invitation_manager = $this->survey_service->domain()->participants()->invitations();
 
-        parent::__construct("", (int) $_GET["ref_id"], true, false);
+        $this->execution_request = $this->survey_service
+            ->gui()
+            ->execution()
+            ->request();
+
+        parent::__construct("", $this->execution_request->getRefId(), true, false);
 
         if ($this->object->getType() != "svy") {
             $this->setCreationMode(true);
@@ -93,7 +100,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 ->execution()->run($survey, $this->user->getId());
             $this->access_manager = $this->survey_service
                 ->domain()
-                ->access((int) $_GET["ref_id"], $this->user->getId());
+                ->access($this->requested_ref_id, $this->user->getId());
+            $this->edit_request = $this->survey_service
+                ->gui()
+                ->editing()
+                ->request();
         }
     }
     
@@ -119,9 +130,8 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         
         // deep link from repository - "redirect" to page view
         if (!$this->ctrl->getCmdClass() && $cmd == "questionsrepo") {
-            $_REQUEST["pgov"] = 1;
-            $this->ctrl->setCmd("questions");
-            $this->ctrl->setCmdClass("ilsurveyeditorgui");
+            $this->ctrl->setParameterByClass("ilsurveyeditorgui", "pgov", "1");
+            $this->ctrl->redirectByClass("ilsurveyeditorgui", "questions");
         }
         
         $next_class = $this->ctrl->getNextClass($this);
@@ -263,7 +273,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 break;
         }
 
-        if (strtolower($_GET["baseClass"]) != "iladministrationgui" &&
+        if (strtolower($this->edit_request->getBaseClass()) != "iladministrationgui" &&
             $this->getCreationMode() != true) {
             $this->tpl->printToStdout();
 
@@ -585,11 +595,11 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $auto->enableFieldSearchableCheck(true);
         $auto->setMoreLinkAvailable(true);
 
-        if (($_REQUEST['fetchall'])) {
+        if ($this->edit_request->getFetchAll()) {
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
 
-        echo $auto->getList(ilUtil::stripSlashes($_REQUEST['term']));
+        echo $auto->getList(ilUtil::stripSlashes($this->edit_request->getTerm()));
         exit();
     }
     
@@ -627,7 +637,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     {
         $tpl = $this->tpl;
 
-        $new_type = $_REQUEST["new_type"];
+        $new_type = $this->edit_request->getNewType();
 
         // create permission is already checked in createObject. This check here is done to prevent hacking attempts
         $this->checkPermission("create", "", $new_type);
@@ -739,13 +749,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             case "resume":
             case "infoScreen":
             case "redirectQuestion":
-                $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+                $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $this->requested_ref_id);
                 break;
             case "evaluation":
             case "checkEvaluationAccess":
             case "evaluationdetails":
             case "evaluationuser":
-                $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"), "", $_GET["ref_id"]);
+                $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTargetByClass("ilsurveyevaluationgui", "evaluation"), "", $this->requested_ref_id);
                 break;
             case "create":
             case "save":
@@ -754,13 +764,14 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             case "cloneAll":
                 break;
             default:
-                $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $_GET["ref_id"]);
+                $ilLocator->addItem($this->object->getTitle(), $this->ctrl->getLinkTarget($this, "infoScreen"), "", $this->requested_ref_id);
                         
                 // this has to be done here because ilSurveyEditorGUI is called after finalizing the locator
-                if ((int) $_GET["q_id"] && !(int) $_REQUEST["new_for_survey"]) {
+                if ($this->edit_request->getQuestionId() > 0 &&
+                    !$this->edit_request->getNewForSurvey()) {
                     // not on create
                     // see ilObjSurveyQuestionPool::addLocatorItems
-                    $q_id = (int) $_GET["q_id"];
+                    $q_id = $this->edit_request->getQuestionId();
                     $q_type = SurveyQuestion::_getQuestionType($q_id) . "GUI";
                     $this->ctrl->setParameterByClass($q_type, "q_id", $q_id);
                     $ilLocator->addItem(
@@ -774,12 +785,12 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     
     /**
      * redirect script
+     * @throws ilCtrlException
      */
     public static function _goto(
         string $a_target,
         string $a_access_code = ""
     ) : void {
-        /** @var \ILIAS\DI\Container $DIC */
         global $DIC;
 
         $ilAccess = $DIC->access();
@@ -791,11 +802,8 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $sess = $DIC->survey()->internal()->repo()
                 ->execution()->runSession();
             $sess->setCode(ilObject::_lookupObjId($a_target), $a_access_code);
-            $_GET["baseClass"] = "ilObjSurveyGUI";
-            $_GET["cmd"] = "infoScreen";
-            $_GET["ref_id"] = $a_target;
-            include("ilias.php");
-            exit;
+            $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
+            $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         }
         if ($ilAccess->checkAccess("visible", "", $a_target) ||
             $ilAccess->checkAccess("read", "", $a_target)) {
@@ -803,14 +811,10 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             if (/*!$am->canStartSurvey() &&*/ $am->canAccessEvaluation()) {
                 $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
                 $ctrl->redirectByClass(["ilObjSurveyGUI", "ilSurveyEvaluationGUI"], "openEvaluation");
-                exit;
             }
 
-            $_GET["baseClass"] = "ilObjSurveyGUI";
-            $_GET["cmd"] = "infoScreen";
-            $_GET["ref_id"] = $a_target;
-            include("ilias.php");
-            exit;
+            $ctrl->setParameterByClass("ilObjSurveyGUI", "ref_id", $a_target);
+            $ctrl->redirectByClass("ilObjSurveyGUI", "infoScreen");
         } elseif ($ilAccess->checkAccess("read", "", ROOT_FOLDER_ID)) {
             ilUtil::sendFailure(sprintf(
                 $lng->txt("msg_no_perm_read_item"),
@@ -1047,7 +1051,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->ctrl->redirect($this, "infoScreen");
         }
         
-        $recipient = $_POST["mail"];
+        $recipient = $this->edit_request->getMail();
         if (!$recipient) {
             $recipient = $ilUser->getEmail();
         }

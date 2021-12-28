@@ -252,13 +252,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
         if ($result->numRows() == 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setId((int) $data["question_id"]);
-            $this->setTitle($data["title"]);
-            $this->label = $data['label'];
-            $this->setDescription($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->label = (string) $data['label'];
+            $this->setDescription((string) $data["description"]);
             $this->setObjId((int) $data["obj_fi"]);
-            $this->setAuthor($data["author"]);
+            $this->setAuthor((string) $data["author"]);
             $this->setOwner((int) $data["owner_fi"]);
-            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
+            $this->setQuestiontext((string) ilRTE::_replaceMediaObjectImageSrc((string) $data["questiontext"], 1));
             $this->setObligatory((bool) $data["obligatory"]);
             $this->setComplete((bool) $data["complete"]);
             $this->setOriginalId((int) $data["original_id"]);
@@ -268,10 +268,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $this->setColumnSeparators((bool) $data["column_separators"]);
             $this->setColumnPlaceholders((bool) $data["column_placeholders"]);
             $this->setLegend((bool) $data["legend"]);
-            $this->setSingleLineRowCaption($data["singleline_row_caption"]);
-            $this->setRepeatColumnHeader($data["repeat_column_header"]);
-            $this->setBipolarAdjective(0, $data["bipolar_adjective1"]);
-            $this->setBipolarAdjective(1, $data["bipolar_adjective2"]);
+            $this->setSingleLineRowCaption((string) $data["singleline_row_caption"]);
+            $this->setRepeatColumnHeader((bool) $data["repeat_column_header"]);
+            $this->setBipolarAdjective(0, (string) $data["bipolar_adjective1"]);
+            $this->setBipolarAdjective(1, (string) $data["bipolar_adjective2"]);
             $this->setLayout($data["layout"]);
             $this->flushColumns();
 
@@ -1081,7 +1081,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         if (is_array($layout)) {
             $this->layout = $layout;
         } else {
-            $this->layout = unserialize($layout);
+            $this->layout = unserialize($layout) ?: [];
         }
     }
     

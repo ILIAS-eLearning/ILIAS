@@ -414,6 +414,12 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
     {
         global $DIC;
 
+        $request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->execution()
+            ->request();
+
         $ilAccess = $DIC->access();
         
         $t_arr = explode("_", $a_target);
@@ -423,8 +429,8 @@ class ilObjSurveyAccess extends ilObjectAccess implements ilConditionHandling
         }
         
         // 360° external raters
-        if ($_GET["accesscode"]) {
-            if (ilObjSurvey::validateExternalRaterCode($t_arr[1], $_GET["accesscode"])) {
+        if ($request->getAccessCode()) {
+            if (ilObjSurvey::validateExternalRaterCode($t_arr[1], $request->getAccessCode())) {
                 return true;
             }
         }

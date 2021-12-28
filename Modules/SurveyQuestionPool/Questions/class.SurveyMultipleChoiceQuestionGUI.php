@@ -95,12 +95,13 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
         if ($a_form->getInput("use_min_answers")) {
             // #13927 - see importEditFormValues()
             $cnt_answers = 0;
-            foreach ($_POST['answers']['answer'] as $key => $value) {
+            $answers = $this->request->getAnswers();
+            foreach ($answers['answer'] as $key => $value) {
                 if (strlen($value)) {
                     $cnt_answers++;
                 }
             }
-            if (strlen($_POST['answers']['neutral'])) {
+            if ($this->request->getNeutral() != "") {
                 $cnt_answers++;
             }
             /* this would be the DB-values
@@ -138,13 +139,14 @@ class SurveyMultipleChoiceQuestionGUI extends SurveyQuestionGUI
 
         $this->object->categories->flushCategories();
 
-        foreach ($_POST['answers']['answer'] as $key => $value) {
+        $answers = $this->request->getAnswers();
+        foreach ($answers['answer'] as $key => $value) {
             if (strlen($value)) {
-                $this->object->getCategories()->addCategory($value, $_POST['answers']['other'][$key], 0, null, $_POST['answers']['scale'][$key]);
+                $this->object->getCategories()->addCategory($value, $answers['other'][$key], 0, null, $answers['scale'][$key]);
             }
         }
-        if (strlen($_POST['answers']['neutral'])) {
-            $this->object->getCategories()->addCategory($_POST['answers']['neutral'], 0, 1, null, $_POST['answers_neutral_scale']);
+        if ($this->request->getNeutral() != "") {
+            $this->object->getCategories()->addCategory($this->request->getNeutral(), 0, 1, null, $this->request->getNeutralScale());
         }
     }
     

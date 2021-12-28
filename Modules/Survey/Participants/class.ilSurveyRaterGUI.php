@@ -48,6 +48,11 @@ class ilSurveyRaterGUI
         $this->tabs = $DIC->tabs();
 
         $this->ctrl->saveParameter($this, "appr_id");
+        $this->edit_request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
     }
 
     public function executeCommand() : void
@@ -177,11 +182,11 @@ class ilSurveyRaterGUI
         $auto->setMoreLinkAvailable(true);
         $auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
 
-        if (($_REQUEST['fetchall'])) {
+        if ($this->edit_request->getFetchAll()) {
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
 
-        echo $auto->getList(ilUtil::stripSlashes($_REQUEST['term']));
+        echo $auto->getList($this->edit_request->getTerm());
         exit();
     }
 
@@ -245,7 +250,7 @@ class ilSurveyRaterGUI
     {
         $appr_id = $this->parent->handleRatersAccess();
         $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "appr_id", $appr_id);
-        $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "rater_id", $_GET["rater_id"]);
+        $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "rater_id", $this->edit_request->getRaterId());
         $this->ctrl->redirectByClass("ilSurveyParticipantsGUI", "mailRaters");
     }
 
@@ -323,8 +328,8 @@ class ilSurveyRaterGUI
         $appr_id = $this->parent->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
 
-        $rec_ids = explode(";", $_POST["rtr_id"]);
-        if (!sizeof($rec_ids)) {
+        $rec_ids = $this->edit_request->getRaterIds();
+        if (count($rec_ids) == 0) {
             $this->ctrl->redirect($this, "editRaters");
         }
 
@@ -391,7 +396,7 @@ class ilSurveyRaterGUI
 
     public function addExternalRater(ilPropertyFormGUI $form) : void
     {
-        $appr_id = $_REQUEST["appr_id"];
+        $appr_id = $this->edit_request->getAppraiseeId();
 
         if (!$appr_id) {
             $this->ctrl->redirect($this, "listAppraisees");

@@ -47,6 +47,12 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt("name"), 'name', '');
         $this->addColumn($this->lng->txt("login"), 'login', '');
         $this->addColumn($this->lng->txt("email"), 'email', '');
+
+        $this->edit_request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
                         
         if (!$this->raters_mode) {
             $this->addColumn($this->lng->txt("survey_360_raters_finished"), "finished");
@@ -60,7 +66,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("survey_360_rater_mail_sent"), "sent");
             
             $this->setTitle($this->lng->txt("survey_360_edit_raters") . " : " .
-                ilUserUtil::getNamePresentation($_REQUEST["appr_id"]));
+                ilUserUtil::getNamePresentation($this->edit_request->getAppraiseeId()));
         }
     
         $this->setRowTemplate("tpl.il_svy_svy_appraisees_row.html", "Modules/Survey");

@@ -74,19 +74,20 @@ class SurveySingleChoiceQuestionGUI extends SurveyQuestionGUI
         $this->object->setOrientation($a_form->getInput("orientation"));
         
         $this->object->categories->flushCategories();
-        foreach ($_POST['answers']['answer'] as $key => $value) {
+        $answers = $this->request->getAnswers();
+        foreach ($answers['answer'] as $key => $value) {
             if (strlen($value)) {
                 $this->object->getCategories()->addCategory(
                     $value,
-                    $_POST['answers']['other'][$key] ?? 0,
+                    $answers['other'][$key] ?? 0,
                     0,
                     null,
-                    $_POST['answers']['scale'][$key] ?? null
+                    $answers['scale'][$key] ?? null
                 );
             }
         }
-        if (strlen($_POST['answers']['neutral'])) {
-            $this->object->getCategories()->addCategory($_POST['answers']['neutral'], 0, 1, null, $_POST['answers_neutral_scale']);
+        if ($this->request->getNeutral() != "") {
+            $this->object->getCategories()->addCategory($this->request->getNeutral(), 0, 1, null, $this->request->getNeutralScale());
         }
     }
     

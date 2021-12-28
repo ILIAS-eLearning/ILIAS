@@ -849,7 +849,7 @@ class SurveyQuestion
         );
 
         if ($data = $ilDB->fetchAssoc($result)) {
-            return $data["title"];
+            return (string) $data["title"];
         }
         return "";
     }

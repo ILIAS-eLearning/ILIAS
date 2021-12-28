@@ -13,37 +13,32 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\Survey\Evaluation;
+namespace ILIAS\SurveyQuestionPool\Editing;
 
-use ILIAS\Survey\InternalGUIService;
-use ILIAS\Survey\InternalDomainService;
+use ILIAS\SurveyQuestionPool\InternalGUIService;
+use ILIAS\SurveyQuestionPool\InternalDomainService;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class UIFactory
+class GUIService
 {
     protected InternalGUIService $ui_service;
-    protected \ilObjectServiceInterface $object_service;
     protected InternalDomainService $domain_service;
 
     public function __construct(
         InternalGUIService $ui_service,
-        \ilObjectServiceInterface $object_service,
-        \ilObjSurvey $survey,
         InternalDomainService $domain_service
     ) {
         $this->ui_service = $ui_service;
-        $this->object_service = $object_service;
         $this->domain_service = $domain_service;
-
-        $mode_ui_modifier = $ui_service->modeUIModifier($survey->getMode());
     }
 
-    public function request() : EvaluationGUIRequest
+    public function request() : EditingGUIRequest
     {
-        return new EvaluationGUIRequest(
-            $this->ui_service->http()
+        return new EditingGUIRequest(
+            $this->ui_service->http(),
+            $this->domain_service->refinery()
         );
     }
 }

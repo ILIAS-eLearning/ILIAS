@@ -257,8 +257,8 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
 
                     // obligatory
                     $checked = $a_set["obligatory"] ? " checked=\"checked\"" : "";
-                    $obligatory = "<input type=\"checkbox\" name=\"obligatory_" .
-                        $a_set["id"] . "\" value=\"1\"" . $checked . " />";
+                    $obligatory = "<input type=\"checkbox\" name=\"obligatory[" .
+                        $a_set["id"] . "]\" value=\"1\"" . $checked . " />";
                 } elseif ($a_set["obligatory"]) {
                     $obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.png", "Modules/Survey") .
                         "\" alt=\"" . $lng->txt("question_obligatory") .

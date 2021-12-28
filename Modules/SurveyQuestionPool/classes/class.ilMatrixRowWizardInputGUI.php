@@ -137,10 +137,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
     public function checkInput() : bool
     {
         $lng = $this->lng;
-        if (is_array($_POST[$this->getPostVar()])) {
-            $_POST[$this->getPostVar()] = ilUtil::stripSlashesRecursive($_POST[$this->getPostVar()]);
-        }
-        $foundvalues = $_POST[$this->getPostVar()];
+        $foundvalues = $this->getInput();
         if (is_array($foundvalues)) {
             // check answers
             if (is_array($foundvalues['answer'])) {
@@ -157,6 +154,13 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         }
         
         return $this->checkSubItemsInput();
+    }
+
+    public function getInput() : array
+    {
+        $val = $this->arrayArray($this->getPostVar());
+        $val = ilUtil::stripSlashesRecursive($val);
+        return $val;
     }
 
     public function insert(ilTemplate $a_tpl) : void

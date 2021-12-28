@@ -22,6 +22,7 @@ use \ILIAS\Survey\Participants;
  */
 class ilSurveyParticipantsGUI
 {
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
@@ -87,6 +88,10 @@ class ilSurveyParticipantsGUI
         $this->edit_manager = $this->survey_service
             ->domain()
             ->edit();
+        $this->edit_request = $this->survey_service
+            ->gui()
+            ->editing()
+            ->request();
     }
     
     protected function handleWriteAccess() : void
@@ -109,7 +114,7 @@ class ilSurveyParticipantsGUI
             case 'ilrepositorysearchgui':
                 $rep_search = new ilRepositorySearchGUI();
                 
-                if (!$_REQUEST["appr360"] && !$_REQUEST["rate360"]) {
+                if (!$this->edit_request->getAppr360() && !$this->edit_request->getRate360()) {
                     $ilTabs->clearTargets();
                     $ilTabs->setBackTarget(
                         $this->lng->txt("btn_back"),
@@ -127,7 +132,7 @@ class ilSurveyParticipantsGUI
                     $this->ctrl->setReturn($this, 'maintenance');
                     $this->ctrl->forwardCommand($rep_search);
                     $ilTabs->setTabActive('maintenance');
-                } elseif ($_REQUEST["rate360"]) {
+                } elseif ($this->edit_request->getRate360()) {
                     $ilTabs->clearTargets();
                     $ilTabs->setBackTarget(
                         $this->lng->txt("btn_back"),
@@ -387,12 +392,13 @@ class ilSurveyParticipantsGUI
      */
     public function confirmDeleteSelectedUserDataObject() : void
     {
-        if (is_array($_POST["chbUser"])) {
-            $this->object->removeSelectedSurveyResults(array_filter($_POST["chbUser"], function ($i) {
+        $user_ids = $this->edit_request->getUserIds();
+        if (count($user_ids) > 0) {
+            $this->object->removeSelectedSurveyResults(array_filter($user_ids, function ($i) {
                 return is_numeric($i);
             }));
 
-            $invitations = array_filter($_POST["chbUser"], function ($i) {
+            $invitations = array_filter($user_ids, function ($i) {
                 return (substr($i, 0, 3) == "inv");
             });
             foreach ($invitations as $i) {
@@ -419,8 +425,9 @@ class ilSurveyParticipantsGUI
     public function deleteSingleUserResultsObject() : void
     {
         $this->handleWriteAccess();
-        
-        if (!is_array($_POST["chbUser"]) || count($_POST["chbUser"]) == 0) {
+
+        $user_ids = $this->edit_request->getUserIds();
+        if (count($user_ids) == 0) {
             ilUtil::sendInfo($this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, "maintenance");
         }
@@ -430,8 +437,8 @@ class ilSurveyParticipantsGUI
         $total = $this->object->getSurveyParticipants(null, false, true);
         $data = array();
         foreach ($total as $user_data) {
-            if (in_array($user_data['active_id'], $_POST['chbUser'])
-                || ($user_data['invited'] && in_array("inv" . $user_data['usr_id'], $_POST['chbUser']))) {
+            if (in_array($user_data['active_id'], $user_ids)
+                || ($user_data['invited'] && in_array("inv" . $user_data['usr_id'], $user_ids))) {
                 $last_access = $this->object->getLastAccess($user_data["active_id"]);
                 array_push($data, array(
                     'id' => $user_data["active_id"],
@@ -452,9 +459,9 @@ class ilSurveyParticipantsGUI
      */
     public function setCodeLanguageObject() : void
     {
-        if (strcmp($_POST["lang"], "-1") != 0) {
+        if (strcmp($this->edit_request->getLang(), "-1") != 0) {
             $ilUser = $this->user;
-            $ilUser->writePref("survey_code_language", $_POST["lang"]);
+            $ilUser->writePref("survey_code_language", $this->edit_request->getLang());
         }
         ilUtil::sendSuccess($this->lng->txt('language_changed'), true);
         $this->ctrl->redirect($this, 'codes');
@@ -536,12 +543,8 @@ class ilSurveyParticipantsGUI
     
     public function editCodesObject() : void
     {
-        if (isset($_GET["new_ids"])) {
-            $ids = explode(";", $_GET["new_ids"]);
-        } else {
-            $ids = (array) $_POST["chb_code"];
-        }
-        if (!$ids) {
+        $ids = $this->edit_request->getCodeIds();
+        if (count($ids) == 0) {
             ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
             $this->ctrl->redirect($this, 'codes');
         }
@@ -556,21 +559,26 @@ class ilSurveyParticipantsGUI
     
     public function updateCodesObject() : void
     {
-        if (!is_array($_POST["chb_code"])) {
+        $codes = $this->edit_request->getCodes();
+        $mails = $this->edit_request->getCodesPar("mail");
+        $lnames = $this->edit_request->getCodesPar("lname");
+        $fnames = $this->edit_request->getCodesPar("fname");
+        $sents = $this->edit_request->getCodesPar("sent");
+        if (count($codes) == 0) {
             $this->ctrl->redirect($this, 'codes');
         }
 
         $errors = array();
         $error_message = "";
-        foreach ($_POST["chb_code"] as $id) {
+        foreach ($codes as $id) {
             if (!$this->object->updateCode(
                 $id,
-                $_POST["chb_mail"][$id],
-                $_POST["chb_lname"][$id],
-                $_POST["chb_fname"][$id],
-                $_POST["chb_sent"][$id]
+                $mails[$id],
+                $lnames[$id],
+                $fnames[$id],
+                $sents[$id]
             )) {
-                array_push($errors, array($_POST["chb_mail"][$id], $_POST["chb_lname"][$id], $_POST["chb_fname"][$id]));
+                array_push($errors, array($mails[$id], $lnames[$id], $fnames[$id]));
             };
         }
         if (empty($errors)) {
@@ -587,7 +595,8 @@ class ilSurveyParticipantsGUI
     
     public function deleteCodesConfirmObject() : void
     {
-        if (is_array($_POST["chb_code"]) && (count($_POST["chb_code"]) > 0)) {
+        $codes = $this->edit_request->getCodes();
+        if (count($codes) > 0) {
             $cgui = new ilConfirmationGUI();
             $cgui->setHeaderText($this->lng->txt("survey_code_delete_sure"));
 
@@ -595,7 +604,7 @@ class ilSurveyParticipantsGUI
             $cgui->setCancel($this->lng->txt("cancel"), "codes");
             $cgui->setConfirm($this->lng->txt("confirm"), "deleteCodes");
             
-            $data = $this->object->getSurveyCodesTableData($_POST["chb_code"]);
+            $data = $this->object->getSurveyCodesTableData($codes);
 
             foreach ($data as $item) {
                 if ($item["used"]) {
@@ -623,8 +632,9 @@ class ilSurveyParticipantsGUI
      */
     public function deleteCodesObject() : void
     {
-        if (is_array($_POST["chb_code"]) && (count($_POST["chb_code"]) > 0)) {
-            foreach ($_POST["chb_code"] as $survey_code) {
+        $codes = $this->edit_request->getCodes();
+        if (count($codes) > 0) {
+            foreach ($codes as $survey_code) {
                 $this->object->deleteSurveyCode($survey_code);
             }
             ilUtil::sendSuccess($this->lng->txt('codes_deleted'), true);
@@ -639,8 +649,9 @@ class ilSurveyParticipantsGUI
      */
     public function exportCodesObject() : void
     {
-        if (is_array($_POST["chb_code"]) && (count($_POST["chb_code"]) > 0)) {
-            $export = $this->object->getSurveyCodesForExport(null, $_POST["chb_code"]);
+        $codes = $this->edit_request->getCodes();
+        if (count($codes) > 0) {
+            $export = $this->object->getSurveyCodesForExport(null, $codes);
             ilUtil::deliverData($export, ilUtil::getASCIIFilename($this->object->getTitle() . ".csv"));
         } else {
             ilUtil::sendFailure($this->lng->txt("no_checkbox"), true);
@@ -744,8 +755,8 @@ class ilSurveyParticipantsGUI
      */
     public function createSurveyCodesObject() : void
     {
-        if (is_numeric($_POST["nrOfCodes"])) {
-            $ids = $this->code_manager->addCodes((int) $_POST["nrOfCodes"]);
+        if ($this->edit_request->getNrOfCodes() > 0) {
+            $ids = $this->code_manager->addCodes($this->edit_request->getNrOfCodes());
             ilUtil::sendSuccess($this->lng->txt('codes_created'), true);
             $this->ctrl->setParameter($this, "new_ids", implode(";", $ids));
             $this->ctrl->redirect($this, 'editCodes');
@@ -806,9 +817,15 @@ class ilSurveyParticipantsGUI
         $this->handleWriteAccess();
         $this->setParticipantSubTabs("codes");
 
-        $mailData['m_subject'] = (array_key_exists('m_subject', $_POST)) ? $_POST['m_subject'] : sprintf($this->lng->txt('default_codes_mail_subject'), $this->object->getTitle());
-        $mailData['m_message'] = (array_key_exists('m_message', $_POST)) ? $_POST['m_message'] : $this->lng->txt('default_codes_mail_message');
-        $mailData['m_notsent'] = (array_key_exists('m_notsent', $_POST)) ? $_POST['m_notsent'] : '1';
+        $mailData['m_subject'] =
+            $this->edit_request->getCodeMailPart("subject")
+            ?: sprintf($this->lng->txt('default_codes_mail_subject'), $this->object->getTitle());
+        $mailData['m_message'] =
+            $this->edit_request->getCodeMailPart("message")
+                ?: $this->lng->txt('default_codes_mail_message');
+        $mailData['m_notsent'] =
+            $this->edit_request->getCodeMailPart("notsent")
+                ?: '1';
 
         $form_gui = new FormMailCodesGUI($this);
         $form_gui->setValuesByArray($mailData);
@@ -824,22 +841,28 @@ class ilSurveyParticipantsGUI
 
         $form_gui = new FormMailCodesGUI($this);
         if ($form_gui->checkInput()) {
-            $url_exists = strpos($_POST['m_message'], '[url]') !== false;
+            $url_exists = strpos($this->edit_request->getCodeMailPart("message"), '[url]') !== false;
             if (!$url_exists) {
                 ilUtil::sendFailure($this->lng->txt('please_enter_mail_url'));
                 $form_gui->setValuesByPost();
             } else {
-                if ($_POST['savemessage'] == 1) {
+                if ($this->edit_request->getSaveMessage() == 1) {
                     $ilUser = $this->user;
-                    $title = (strlen($_POST['savemessagetitle'])) ? $_POST['savemessagetitle'] : ilStr::substr($_POST['m_message'], 0, 40) . '...';
-                    $this->object->saveUserSettings($ilUser->getId(), 'savemessage', $title, $_POST['m_message']);
+                    $title = ($this->edit_request->getSaveMessageTitle())
+                        ?: ilStr::substr($this->edit_request->getCodeMailPart("message"), 0, 40) . '...';
+                    $this->object->saveUserSettings($ilUser->getId(), 'savemessage', $title, $this->edit_request->getCodeMailPart("message"));
                 }
                 
                 $lang = $ilUser->getPref("survey_code_language");
                 if (!$lang) {
                     $lang = $this->lng->getDefaultLanguage();
                 }
-                $this->object->sendCodes($_POST['m_notsent'], $_POST['m_subject'], nl2br($_POST['m_message']), $lang);
+                $this->object->sendCodes(
+                    $this->edit_request->getCodeMailPart("notsent"),
+                    $this->edit_request->getCodeMailPart("subject"),
+                    nl2br($this->edit_request->getCodeMailPart("message")),
+                    $lang
+                );
                 ilUtil::sendSuccess($this->lng->txt('mail_sent'), true);
                 $this->ctrl->redirect($this, 'mailCodes');
             }
@@ -851,11 +874,11 @@ class ilSurveyParticipantsGUI
     
     public function importExternalRecipientsFromTextObject() : void
     {
-        if (trim($_POST['externaltext'])) {
-            $data = preg_split("/[\n\r]/", $_POST['externaltext']);
+        if (trim($this->edit_request->getExternalText())) {
+            $data = preg_split("/[\n\r]/", $this->edit_request->getExternalText());
             $fields = preg_split("/;/", array_shift($data));
             if (!in_array('email', $fields)) {
-                $this->edit_manager->setExternalText($_POST['externaltext']);
+                $this->edit_manager->setExternalText($this->edit_request->getExternalText());
                 ilUtil::sendFailure($this->lng->txt('err_external_rcp_no_email_column'), true);
                 $this->ctrl->redirect($this, 'importExternalMailRecipientsFromTextForm');
             }
@@ -1020,10 +1043,10 @@ class ilSurveyParticipantsGUI
         $externalmails->setInfo($this->lng->txt('externalmails_info'));
         $externalmails->setRequired(true);
         $form_import_file->addItem($externalmails);
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("write", "", $this->edit_request->getRefId())) {
             $form_import_file->addCommandButton("importExternalRecipientsFromFile", $this->lng->txt("import"));
         }
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("write", "", $this->edit_request->getRefId())) {
             $form_import_file->addCommandButton("codes", $this->lng->txt("cancel"));
         }
 
@@ -1061,10 +1084,10 @@ class ilSurveyParticipantsGUI
         $form_import_text->addItem($inp);
         $this->edit_manager->setExternalText("");
 
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("write", "", $this->edit_request->getRefId())) {
             $form_import_text->addCommandButton("importExternalRecipientsFromText", $this->lng->txt("import"));
         }
-        if ($ilAccess->checkAccess("write", "", $_GET["ref_id"])) {
+        if ($ilAccess->checkAccess("write", "", $this->edit_request->getRefId())) {
             $form_import_text->addCommandButton("codes", $this->lng->txt("cancel"));
         }
 
@@ -1137,8 +1160,9 @@ class ilSurveyParticipantsGUI
     public function confirmDeleteAppraiseesObject() : void
     {
         $ilTabs = $this->tabs;
-        
-        if (!is_array($_POST["appr_id"])) {
+
+        $appr_ids = $this->edit_request->getAppraiseeIds();
+        if (count($appr_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
@@ -1159,7 +1183,7 @@ class ilSurveyParticipantsGUI
         $data = $this->object->getAppraiseesData();
         
         $count = 0;
-        foreach ($_POST["appr_id"] as $id) {
+        foreach ($appr_ids as $id) {
             if (isset($data[$id]) && !$data[$id]["closed"]) {
                 $cgui->addItem("appr_id[]", $id, ilUserUtil::getNamePresentation($id));
                 $count++;
@@ -1176,10 +1200,11 @@ class ilSurveyParticipantsGUI
     
     public function deleteAppraiseesObject() : void
     {
-        if (sizeof($_POST["appr_id"])) {
+        $appr_ids = $this->edit_request->getAppraiseeIds();
+        if (count($appr_ids) > 0) {
             $data = $this->object->getAppraiseesData();
 
-            foreach ($_POST["appr_id"] as $id) {
+            foreach ($appr_ids as $id) {
                 // #11285
                 if (isset($data[$id]) && !$data[$id]["closed"]) {
                     $this->object->deleteAppraisee($id);
@@ -1198,7 +1223,7 @@ class ilSurveyParticipantsGUI
         $ilUser = $this->user;
         
         if ($ilAccess->checkAccess("write", "", $this->ref_id)) {
-            $appr_id = $_REQUEST["appr_id"];
+            $appr_id = $this->edit_request->getAppraiseeId();
             if (!$appr_id) {
                 $this->ctrl->redirect($this, "listAppraisees");
             }
@@ -1218,7 +1243,7 @@ class ilSurveyParticipantsGUI
         $appr_id = $this->handleRatersAccess();
         $all_data = $this->object->getRatersData($appr_id);
 
-        $recs = json_decode(base64_decode($_GET["recipients"]));
+        $recs = json_decode(base64_decode($this->edit_request->getRecipients()));
         foreach ($all_data as $rec_id => $rater) {
             $sent = false;
             if ($rater["login"] != "" && in_array($rater["login"], $recs) ||
@@ -1239,7 +1264,7 @@ class ilSurveyParticipantsGUI
 
     public function editRatersObject() : void
     {
-        if ($_GET["returned_from_mail"] == "1") {
+        if ($this->edit_request->getReturnedFromMail() == 1) {
             $this->storeMailSent();
         }
 
@@ -1247,7 +1272,7 @@ class ilSurveyParticipantsGUI
         $ilToolbar = $this->toolbar;
         $ilAccess = $this->access;
         $ilTabs->activateTab("survey_360_edit_raters");
-        $appr_id = $_REQUEST["appr_id"] = $this->handleRatersAccess();
+        $appr_id = $this->handleRatersAccess();
 
         $has_write = $ilAccess->checkAccess("write", "", $this->ref_id);
         if ($has_write) {
@@ -1327,7 +1352,7 @@ class ilSurveyParticipantsGUI
     
     public function addExternalRaterObject() : void
     {
-        $appr_id = $_REQUEST["appr_id"];
+        $appr_id = $this->edit_request->getAppraiseeId();
         if (!$appr_id) {
             $this->ctrl->redirect($this, "listAppraisees");
         }
@@ -1389,10 +1414,11 @@ class ilSurveyParticipantsGUI
     public function confirmDeleteRatersObject() : void
     {
         $ilTabs = $this->tabs;
-        
+
+        $rater_ids = $this->edit_request->getRaterIds();
         $appr_id = $this->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
-        if (!sizeof($_POST["rtr_id"])) {
+        if (count($rater_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "editRaters");
         }
@@ -1415,7 +1441,7 @@ class ilSurveyParticipantsGUI
 
         $data = $this->object->getRatersData($appr_id);
             
-        foreach ($_POST["rtr_id"] as $id) {
+        foreach ($rater_ids as $id) {
             if (isset($data[$id])) {
                 $cgui->addItem("rtr_id[]", $id, $data[$id]["lastname"] . ", " .
                     $data[$id]["firstname"] . " (" . $data[$id]["email"] . ")");
@@ -1429,11 +1455,12 @@ class ilSurveyParticipantsGUI
     {
         $appr_id = $this->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
-        
-        if (sizeof($_POST["rtr_id"])) {
+
+        $rater_ids = $this->edit_request->getRaterIds();
+        if (count($rater_ids) > 0) {
             $data = $this->object->getRatersData($appr_id);
 
-            foreach ($_POST["rtr_id"] as $id) {
+            foreach ($rater_ids as $id) {
                 if (isset($data[$id])) {
                     if (substr($id, 0, 1) == "u") {
                         $this->object->deleteRater($appr_id, substr($id, 1));
@@ -1512,7 +1539,7 @@ class ilSurveyParticipantsGUI
         $mailmessage_a->setInfo(sprintf($this->lng->txt('message_content_info'), join(', ', $existingcolumns)));
         $form->addItem($mailmessage_a);
         
-        $recf = new ilHiddenInputGUI("rtr_id");
+        $recf = new ilHiddenInputGUI("rater_id");
         $recf->setValue(implode(";", $rec_ids));
         $form->addItem($recf);
 
@@ -1532,9 +1559,7 @@ class ilSurveyParticipantsGUI
         $all_data = $this->object->getRatersData($appr_id);
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
 
-        $raters = (is_array($_POST["rtr_id"]))
-            ? $_POST["rtr_id"]
-            : ($_GET["rater_id"] != "" ? explode(";", $_GET["rater_id"]) : null);
+        $raters = $this->edit_request->getRaterIds();
 
         $rec = [];
         $external_rater = false;
@@ -1583,16 +1608,17 @@ class ilSurveyParticipantsGUI
         ilPropertyFormGUI $a_form = null
     ) : void {
         $ilTabs = $this->tabs;
+        $rater_ids = $this->edit_request->getRaterIds();
         if (!$a_form) {
             $appr_id = $this->handleRatersAccess();
             $this->ctrl->setParameter($this, "appr_id", $appr_id);
         
-            if (!sizeof($_POST["rtr_id"])) {
+            if (count($rater_ids) == 0) {
                 ilUtil::sendFailure($this->lng->txt("select_one"), true);
                 $this->ctrl->redirect($this, "editRaters");
             }
         
-            $a_form = $this->initMailRatersForm($appr_id, $_POST["rtr_id"]);
+            $a_form = $this->initMailRatersForm($appr_id, $rater_ids);
         }
                 
         $ilTabs->clearTargets();
@@ -1610,8 +1636,8 @@ class ilSurveyParticipantsGUI
         $appr_id = $this->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
         
-        $rec_ids = explode(";", $_POST["rtr_id"]);
-        if (!sizeof($rec_ids)) {
+        $rec_ids = $this->edit_request->getRaterIds();
+        if (count($rec_ids) == 0) {
             $this->ctrl->redirect($this, "editRaters");
         }
         
@@ -1725,10 +1751,10 @@ class ilSurveyParticipantsGUI
         $tpl = $this->tpl;
        
         $this->handleWriteAccess();
-       
-        $appr_ids = $_POST["appr_id"];
 
-        if (!sizeof($appr_ids)) {
+        $appr_ids = $this->edit_request->getAppraiseeIds();
+
+        if (count($appr_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }
@@ -1750,10 +1776,10 @@ class ilSurveyParticipantsGUI
     public function adminAppraiseesCloseObject() : void
     {
         $this->handleWriteAccess();
+
+        $appr_ids = $this->edit_request->getAppraiseeIds();
         
-        $appr_ids = $_POST["appr_id"];
-        
-        if (!sizeof($appr_ids)) {
+        if (count($appr_ids) == 0) {
             ilUtil::sendFailure($this->lng->txt("select_one"), true);
             $this->ctrl->redirect($this, "listAppraisees");
         }

@@ -5615,15 +5615,17 @@ class ilObjSurvey extends ilObject
         
         return $res;
     }
-    
+
+    // most probably abandoned, see https://docu.ilias.de/goto_docu_wiki_wpage_6994_1357.html
+    /*
     public function sendTutorResults() : void
     {
         global $ilCtrl, $ilDB;
 
         $log = ilLoggerFactory::getLogger("svy");
-        
+
         $link = ilLink::_getStaticLink($this->getRefId(), "svy");
-        
+
         // yeah, I know...
         $old_ref_id = $_GET["ref_id"];
         $old_base_class = $_GET["baseClass"];
@@ -5653,23 +5655,16 @@ class ilObjSurvey extends ilObject
         $pdf_factory = new ilHtmlToPdfTransformerFactory();
         $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");
 
-        /*
-        $log->debug("calling phantom for ref_id: " . $this->getRefId());
-
-        $pdf = $gui->callPdfGeneration($url, "pdf", true, true);
-
-        $log->debug("phantom called : " . $pdf);*/
-        
         if (!$pdf ||
             !file_exists($pdf)) {
             return;
         }
-        
+
         // prepare mail attachment
         $att = "survey_" . $this->getRefId() . ".pdf";
         $mail_data = new ilFileDataMail(ANONYMOUS_USER_ID);
         $mail_data->copyAttachmentFile($pdf, $att);
-            
+
         foreach ($this->getTutorResultsRecipients() as $user_id) {
             // use language of recipient to compose message
             $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
@@ -5681,7 +5676,7 @@ class ilObjSurvey extends ilObject
             $message .= $ulng->txt('survey_results_tutor_body') . ":\n\n";
             $message .= $ulng->txt('obj_svy') . ": " . $this->getTitle() . "\n";
             $message .= "\n" . $ulng->txt('survey_notification_tutor_link') . ": " . $link;
-            
+
             $mail_obj = new ilMail(ANONYMOUS_USER_ID);
             $mail_obj->appendInstallationSignature(true);
             $log->debug("send mail to user id: " . $user_id . ",login: " . ilObjUser::_lookupLogin($user_id));
@@ -5694,11 +5689,11 @@ class ilObjSurvey extends ilObject
                 array($att)
             );
         }
-        
+
         $ilDB->manipulate("UPDATE svy_svy" .
             " SET tutor_res_cron = " . $ilDB->quote(1, "integer") .
             " WHERE survey_id = " . $ilDB->quote($this->getSurveyId(), "integer"));
-    }
+    }*/
 
     public function getMaxSumScore() : int
     {

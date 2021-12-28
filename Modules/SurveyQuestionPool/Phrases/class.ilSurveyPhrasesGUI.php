@@ -13,6 +13,8 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
+
 /**
  * Survey phrases GUI class
  * The ilSurveyPhrases GUI class creates the GUI output for
@@ -22,6 +24,8 @@
  */
 class ilSurveyPhrasesGUI
 {
+    protected ilPropertyFormGUI $form;
+    protected EditingGUIRequest $request;
     protected ilRbacSystem $rbacsystem;
     protected ilToolbarGUI $toolbar;
     protected ilDBInterface $db;
@@ -53,6 +57,11 @@ class ilSurveyPhrasesGUI
         $this->tree = $tree;
         $this->ref_id = $a_object->ref_id;
         $this->ctrl->saveParameter($this, "p_id");
+        $this->request = $DIC->surveyQuestionPool()
+                                  ->internal()
+                                  ->gui()
+                                  ->editing()
+                                  ->request();
     }
     
     public function executeCommand() : string
@@ -75,8 +84,8 @@ class ilSurveyPhrasesGUI
     {
         ilUtil::sendInfo();
 
-        $checked_phrases = $_POST['phrase'];
-        if (count($checked_phrases)) {
+        $checked_phrases = $this->request->getPhraseIds();
+        if (count($checked_phrases) > 0) {
             ilUtil::sendQuestion($this->lng->txt("qpl_confirm_delete_phrases"));
             $this->deletePhrasesForm($checked_phrases);
         } else {
@@ -122,7 +131,7 @@ class ilSurveyPhrasesGUI
     
     public function confirmDeletePhrase() : void
     {
-        $phrases = $_POST['phrase'];
+        $phrases = $this->request->getPhraseIds();
         $this->object->deletePhrases($phrases);
         ilUtil::sendSuccess($this->lng->txt("qpl_phrases_deleted"), true);
         $this->ctrl->redirect($this, "phrases");
@@ -200,8 +209,8 @@ class ilSurveyPhrasesGUI
     {
         $result = $this->writePostData();
         if ($result == 0) {
-            if ($_GET['p_id']) {
-                $this->object->updatePhrase($_GET['p_id']);
+            if ($this->request->getPhraseId()) {
+                $this->object->updatePhrase($this->request->getPhraseId());
                 ilUtil::sendSuccess($this->lng->txt('phrase_saved'), true);
             } else {
                 $this->object->savePhrase();
@@ -220,15 +229,24 @@ class ilSurveyPhrasesGUI
     ) : int {
         $hasErrors = (!$always) ? $this->phraseEditor(true) : false;
         if (!$hasErrors) {
-            $this->object->title = $_POST["title"];
+            $form = $this->form;
+            $this->object->title = $form->getInput("title");
             $categories = new SurveyCategories();
-            foreach ($_POST['answers']['answer'] as $key => $value) {
+
+            $answers = $this->request->getAnswers();
+            foreach ($answers['answer'] as $key => $value) {
                 if (strlen($value)) {
-                    $categories->addCategory($value, $_POST['answers']['other'][$key], 0, null, $_POST['answers']['scale'][$key]);
+                    $categories->addCategory($value, $answers['other'][$key], 0, null, $answers['scale'][$key]);
                 }
             }
-            if (strlen($_POST['answers']['neutral'])) {
-                $categories->addCategory($_POST['answers']['neutral'], 0, 1, null, $_POST['answers_neutral_scale']);
+            if ($this->request->getNeutral() != "") {
+                $categories->addCategory(
+                    $this->request->getNeutral(),
+                    0,
+                    1,
+                    null,
+                    $this->request->getNeutralScale()
+                );
             }
             $this->object->categories = $categories;
             return 0;
@@ -244,15 +262,16 @@ class ilSurveyPhrasesGUI
     
     public function editPhrase() : void
     {
-        if (!array_key_exists('phrase', $_POST)) {
+        $ids = $this->request->getPhraseIds();
+        if (count($ids) == 0) {
             ilUtil::sendFailure($this->lng->txt('no_phrase_selected'), true);
             $this->ctrl->redirect($this, 'phrases');
         }
-        if ((array_key_exists('phrase', $_POST)) && count($_POST['phrase']) > 1) {
+        if (count($ids) > 1) {
             ilUtil::sendFailure($this->lng->txt('select_max_one_item'), true);
             $this->ctrl->redirect($this, 'phrases');
         }
-        $phrase_id = (array_key_exists('phrase', $_POST)) ? $_POST['phrase'][key($_POST['phrase'])] : null;
+        $phrase_id = $ids[key($ids)];
         if ($phrase_id) {
             $this->ctrl->setParameter($this, 'p_id', $phrase_id);
         }
@@ -271,7 +290,7 @@ class ilSurveyPhrasesGUI
         $form->setTableWidth("100%");
         $form->setId("phraseeditor");
 
-        $phrase_id = $_GET['p_id'];
+        $phrase_id = $this->request->getPhraseId();
 
         // title
         $title = new ilTextInputGUI($this->lng->txt("title"), "title");
@@ -313,6 +332,7 @@ class ilSurveyPhrasesGUI
         if (!$checkonly) {
             $this->tpl->setVariable("ADM_CONTENT", $form->getHTML());
         }
+        $this->form = $form;
         return $errors;
     }
 }
