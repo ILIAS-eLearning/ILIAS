@@ -1,21 +1,14 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'class.ilSystemStyleExceptionBase.php';
+<?php declare(strict_types=1);
 
 /**
  * Class for advanced editing exception handling in ILIAS.
- *
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version $Id$
- *
  */
 class ilSystemStyleIconException extends ilSystemStyleExceptionBase
 {
-    const IMAGES_FOLDER_DOES_NOT_EXIST = 1001;
-    const ICON_DOES_NOT_EXIST = 1002;
+    public const IMAGES_FOLDER_DOES_NOT_EXIST = 1001;
+    public const ICON_DOES_NOT_EXIST = 1002;
 
-    protected function assignMessageToCode()
+    protected function assignMessageToCode() : void
     {
         switch ($this->code) {
             case self::IMAGES_FOLDER_DOES_NOT_EXIST:

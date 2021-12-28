@@ -1,13 +1,7 @@
-<?php
-include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconColor.php");
-
+<?php declare(strict_types=1);
 
 /***
  * Bundles a set of colors into one unit to be handled in one object. Colorsets can be merged and transferred to array or strings.
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$
- *
  */
 class ilSystemStyleIconColorSet
 {
@@ -16,12 +10,10 @@ class ilSystemStyleIconColorSet
      *
      * @var ilSystemStyleIconColor[]
      */
-    protected $colors = [];
+    protected array $colors = [];
 
-    /**
-     * @param ilSystemStyleIconColor $color
-     */
-    public function addColor(ilSystemStyleIconColor $color)
+
+    public function addColor(ilSystemStyleIconColor $color) : void
     {
         $this->colors[$color->getId()] = $color;
     }
@@ -29,7 +21,7 @@ class ilSystemStyleIconColorSet
     /**
      * @return ilSystemStyleIconColor[]
      */
-    public function getColors()
+    public function getColors() : array
     {
         return $this->colors;
     }
@@ -43,11 +35,9 @@ class ilSystemStyleIconColorSet
     }
 
     /**
-     * @param string $id
-     * @return ilSystemStyleIconColor
      * @throws ilSystemStyleException
      */
-    public function getColorById($id = "")
+    public function getColorById(string $id = "") : ilSystemStyleIconColor
     {
         if (!array_key_exists($id, $this->colors)) {
             throw new ilSystemStyleException(ilSystemStyleException::INVALID_ID, $id);
@@ -55,19 +45,13 @@ class ilSystemStyleIconColorSet
         return $this->colors[$id];
     }
 
-    /**
-     * @param string $id
-     * @return bool
-     */
-    public function doesColorExist($id)
+    public function doesColorExist(string $id) : bool
     {
         return array_key_exists($id, $this->colors);
     }
 
     /**
      * Merges an other colorset into this one
-     *
-     * @param ilSystemStyleIconColorSet $color_set
      */
     public function mergeColorSet(ilSystemStyleIconColorSet $color_set)
     {
@@ -82,7 +66,7 @@ class ilSystemStyleIconColorSet
      * Orders and sorts the colors to be displayed in GUI (form)
      * @return array [CategoryOfColor][color]
      */
-    public function getColorsSortedAsArray()
+    public function getColorsSortedAsArray() : array
     {
         $colors_categories = [];
         foreach ($this->getColors() as $color) {
@@ -98,10 +82,8 @@ class ilSystemStyleIconColorSet
 
     /**
      * Returns the ids of the colors of this color set as array
-     *
-     * @return array [color_id]
      */
-    public function asArray()
+    public function asArray() : array
     {
         $colors = [];
         foreach ($this->getColors() as $color) {
@@ -112,10 +94,8 @@ class ilSystemStyleIconColorSet
 
     /**
      * Returns the ids of the colors of this color set as string
-     *
-     * @return array
      */
-    public function asString()
+    public function asString() : string
     {
         $colors = "";
         foreach ($this->getColors() as $color) {

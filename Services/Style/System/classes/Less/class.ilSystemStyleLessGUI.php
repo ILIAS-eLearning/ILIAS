@@ -1,69 +1,29 @@
-<?php
-include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/Style/System/classes/Less/class.ilSystemStyleLessFile.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php");
+<?php declare(strict_types=1);
 
-
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleLessGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilSystemStyleSkinContainer $style_container;
+    protected ilSystemStyleLessFile $less_file;
+    protected ilSystemStyleMessageStack $message_stack;
+    protected string $style_id;
 
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilSystemStyleSkinContainer
-     */
-    protected $style_container;
-
-    /**
-     * @var ilSystemStyleLessFile
-     */
-    protected $less_file;
-
-    /**
-     * @var ilSystemStyleMessageStack
-     */
-    protected $message_stack;
-
-
-    /**
-     * ilSystemStyleLessGUI constructor.
-     * @param string $skin_id
-     * @param string $style_id
-     */
-    public function __construct($skin_id = "", $style_id = "")
-    {
-        global $DIC;
-
-        $this->ctrl = $DIC->ctrl();
-        $this->lng = $DIC->language();
-        $this->tpl = $DIC["tpl"];
+    public function __construct(
+        ilCtrl $ctrl,
+        ilLanguage $lng,
+        ilGlobalTemplateInterface $tpl,
+        string $skin_id,
+        string $style_id
+    ) {
+        $this->ctrl = $ctrl;
+        $this->lng = $lng;
+        $this->tpl = $tpl;
+        $this->style_id = $style_id;
 
         $this->setMessageStack(new ilSystemStyleMessageStack());
-
-        if ($skin_id == "") {
-            $skin_id = $_GET["skin_id"];
-        }
-        if ($style_id == "") {
-            $style_id = $_GET["style_id"];
-        }
 
         try {
             $this->setStyleContainer(ilSystemStyleSkinContainer::generateFromId($skin_id));
@@ -79,7 +39,7 @@ class ilSystemStyleLessGUI
     /**
      * Execute command
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
 
@@ -96,25 +56,21 @@ class ilSystemStyleLessGUI
         }
     }
 
-
-    /**
-     * @return bool
-     */
-    protected function checkRequirements()
+    protected function checkRequirements() : bool
     {
-        $style_id = $_GET['style_id'];
-        $less_path = $this->getStyleContainer()->getLessFilePath($style_id);
+        $less_path = $this->getStyleContainer()->getLessFilePath($this->style_id);
 
         $pass = $this->checkLessInstallation();
 
         if (file_exists($less_path)) {
-            $less_variables_name = $this->getStyleContainer()->getLessVariablesName($style_id);
+            $less_variables_name = $this->getStyleContainer()->getLessVariablesName($this->style_id);
             $content = "";
             try {
                 $content = file_get_contents($less_path);
             } catch (Exception $e) {
                 $this->getMessageStack()->addMessage(
-                    new ilSystemStyleMessage($this->lng->txt("can_not_read_less_file") . " " . $less_path, ilSystemStyleMessage::TYPE_ERROR)
+                    new ilSystemStyleMessage($this->lng->txt("can_not_read_less_file") . " " . $less_path,
+                        ilSystemStyleMessage::TYPE_ERROR)
                 );
                 $pass = false;
             }
@@ -124,24 +80,23 @@ class ilSystemStyleLessGUI
                 if (!preg_match($reg_exp, $content)) {
                     $this->getMessageStack()->addMessage(
                         new ilSystemStyleMessage($this->lng->txt("less_variables_file_not_included") . " " . $less_variables_name
-                            . " " . $this->lng->txt("in_main_less_file") . " " . $less_path, ilSystemStyleMessage::TYPE_ERROR)
+                            . " " . $this->lng->txt("in_main_less_file") . " " . $less_path,
+                            ilSystemStyleMessage::TYPE_ERROR)
                     );
                     $pass = false;
                 }
             }
         } else {
             $this->getMessageStack()->addMessage(
-                new ilSystemStyleMessage($this->lng->txt("less_file_does_not_exist") . $less_path, ilSystemStyleMessage::TYPE_ERROR)
+                new ilSystemStyleMessage($this->lng->txt("less_file_does_not_exist") . $less_path,
+                    ilSystemStyleMessage::TYPE_ERROR)
             );
             $pass = false;
         }
         return $pass;
     }
 
-    /**
-     * @return bool
-     */
-    protected function checkLessInstallation()
+    protected function checkLessInstallation() : bool
     {
         $pass = true;
 
@@ -155,20 +110,21 @@ class ilSystemStyleLessGUI
                 new ilSystemStyleMessage($this->lng->txt("invalid_less_path"), ilSystemStyleMessage::TYPE_ERROR)
             );
             $this->getMessageStack()->addMessage(
-                new ilSystemStyleMessage($this->lng->txt("provided_less_path") . " " . PATH_TO_LESSC, ilSystemStyleMessage::TYPE_ERROR)
+                new ilSystemStyleMessage($this->lng->txt("provided_less_path") . " " . PATH_TO_LESSC,
+                    ilSystemStyleMessage::TYPE_ERROR)
             );
             $pass = false;
         }
 
         if (!$pass && shell_exec("which lessc")) {
             $this->getMessageStack()->addMessage(
-                new ilSystemStyleMessage($this->lng->txt("less_less_installation_detected") . shell_exec("which lessc"), ilSystemStyleMessage::TYPE_ERROR)
+                new ilSystemStyleMessage($this->lng->txt("less_less_installation_detected") . shell_exec("which lessc"),
+                    ilSystemStyleMessage::TYPE_ERROR)
             );
         }
 
         return $pass;
     }
-
 
     protected function edit()
     {
@@ -194,7 +150,7 @@ class ilSystemStyleLessGUI
      * @param bool|true $modify
      * @return ilPropertyFormGUI
      */
-    public function initSystemStyleLessForm($modify = true)
+    public function initSystemStyleLessForm(bool $modify = true)
     {
         $form = new ilPropertyFormGUI();
 
@@ -239,12 +195,10 @@ class ilSystemStyleLessGUI
             $form->addCommandButton("cancel", $this->lng->txt("cancel"));
         }
 
-
         $form->setFormAction($this->ctrl->getFormAction($this));
 
         return $form;
     }
-
 
     /**
      * @param ilPropertyFormGUI $form
@@ -321,50 +275,32 @@ class ilSystemStyleLessGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @return ilSystemStyleSkinContainer
-     */
-    public function getStyleContainer()
+    protected function getStyleContainer() : ilSystemStyleSkinContainer
     {
         return $this->style_container;
     }
 
-    /**
-     * @param ilSystemStyleSkinContainer $style_container
-     */
-    public function setStyleContainer($style_container)
+    protected function setStyleContainer(ilSystemStyleSkinContainer $style_container) : void
     {
         $this->style_container = $style_container;
     }
 
-    /**
-     * @return ilSystemStyleLessFile
-     */
-    public function getLessFile()
+    protected function getLessFile() : ilSystemStyleLessFile
     {
         return $this->less_file;
     }
 
-    /**
-     * @param ilSystemStyleLessFile $less_file
-     */
-    public function setLessFile($less_file)
+    protected function setLessFile(ilSystemStyleLessFile $less_file) : void
     {
         $this->less_file = $less_file;
     }
 
-    /**
-     * @return ilSystemStyleMessageStack
-     */
-    public function getMessageStack()
+    protected function getMessageStack() : ilSystemStyleMessageStack
     {
         return $this->message_stack;
     }
 
-    /**
-     * @param ilSystemStyleMessageStack $message_stack
-     */
-    public function setMessageStack($message_stack)
+    protected function setMessageStack(ilSystemStyleMessageStack $message_stack) : void
     {
         $this->message_stack = $message_stack;
     }

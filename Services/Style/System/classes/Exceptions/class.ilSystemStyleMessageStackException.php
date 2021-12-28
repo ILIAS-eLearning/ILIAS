@@ -1,21 +1,14 @@
-<?php
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once 'class.ilSystemStyleExceptionBase.php';
+<?php declare(strict_types=1);
 
 /**
  * Class for advanced editing exception handling in ILIAS.
- *
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version $Id$
- *
  */
 class ilSystemStyleMessageStackException extends ilSystemStyleExceptionBase
 {
-    const MESSAGE_STACK_TYPE_ID_DOES_NOT_EXIST = 1001;
+    public const MESSAGE_STACK_TYPE_ID_DOES_NOT_EXIST = 1001;
 
 
-    protected function assignMessageToCode()
+    protected function assignMessageToCode() : void
     {
         switch ($this->code) {
             case self::MESSAGE_STACK_TYPE_ID_DOES_NOT_EXIST:

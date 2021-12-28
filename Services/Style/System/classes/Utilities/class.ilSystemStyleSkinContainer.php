@@ -382,7 +382,7 @@ class ilSystemStyleSkinContainer
     public function copyVariablesFromDefault(ilSkinStyleXML $style)
     {
         $less_file = new ilSystemStyleLessFile($this->getSystemStylesConf()->getDefaultVariablesPath());
-        $less_file->setLessVariablesFile($this->getLessVariablesFilePath($style->getId()));
+        $less_file->setLessVariablesFilePathName($this->getLessVariablesFilePath($style->getId()));
         $less_file->write();
         return $less_file;
     }

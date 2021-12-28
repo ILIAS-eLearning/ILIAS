@@ -1,64 +1,35 @@
-<?php
-include_once("Services/Object/exceptions/class.ilObjectException.php");
+<?php declare(strict_types=1);
 
-/* Copyright (c) 1998-2016 ILIAS open source, Extended GPL, see docs/LICENSE */
+use ILIAS\UI\Implementation\Crawler\Entry\ComponentEntries as Entries;
+use \ILIAS\UI\Factory;
+use \ILIAS\UI\Renderer;
+use ILIAS\GlobalScreen\Services;
+use \ILIAS\HTTP\Wrapper\RequestWrapper;
+use ILIAS\Refinery\Factory as RefineryFactory;
 
 /**
  * Settings UI class for system styles. Acts as main router for the systems styles and handles permissions checks,
  * sets tabs and title as well as description of the content section.
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
-
- * @version $Id$
- * @ingroup ServicesStyle
- *
  * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleOverviewGUI,ilSystemStyleSettingsGUI
  * @ilCtrl_Calls ilSystemStyleMainGUI: ilSystemStyleLessGUI,ilSystemStyleIconsGUI,ilSystemStyleDocumentationGUI
- *
  */
 class ilSystemStyleMainGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilTabsGUI $tabs;
+    protected ilRbacSystem $rbacsystem;
+    protected string $ref_id;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilHelpGUI $help;
+    protected Factory $ui_factory;
+    protected Renderer $renderer;
+    protected ilIniFile $ilIniFile;
+    protected ilLocatorGUI $locator;
+    protected Services $global_screen;
+    protected RequestWrapper $request_wrapper;
+    protected RefineryFactory $refinery;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-
-    /**
-     * @var ILIAS\DI\Container
-     */
-    protected $DIC;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-
-    /**
-     * @var ilRbacSystem
-     */
-    protected $rbacsystem;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         /**
@@ -70,158 +41,123 @@ class ilSystemStyleMainGUI
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
         $this->rbacsystem = $DIC->rbac()->system();
-        $this->tpl = $DIC["tpl"];
-        $this->help =
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->help = $DIC->help();
+        $this->ui_factory = $DIC->ui()->factory();
+        $this->renderer = $DIC->ui()->renderer();
+        $this->locator = $DIC["ilLocator"];
+        $this->ilIniFile = $DIC->iliasIni();
+        $this->global_screen = $DIC->globalScreen();
+        $this->request_wrapper = $DIC->http()->wrapper()->query();
+        $this->refinery = $DIC->refinery();
 
-        $this->ref_id = (int) $_GET["ref_id"];
+        $this->ref_id = $this->request_wrapper->retrieve('ref_id', $this->refinery->kindlyTo()->string());
     }
-
 
     /**
      * Main routing of the system styles. Resets ilCtrl Parameter for all subsequent generation of links.
-     *
      * @throws ilCtrlException
-     * @throws ilObjectException
      */
-    public function executeCommand()
+    public function executeCommand() : void
     {
-        /**
-         * @var ilHelpGUI $ilHelp
-         */
-        global $DIC;
-
-
         $next_class = $this->ctrl->getNextClass($this);
 
-        $DIC->help()->setScreenIdComponent("sty");
-        $DIC->help()->setScreenId("system_styles");
+        $this->help->setScreenIdComponent("sty");
+        $this->help->setScreenId("system_styles");
 
-        if (!$_GET["skin_id"]) {
+        if ($this->request_wrapper->has('skin_id') && $this->request_wrapper->has('style_id')) {
+            $skin_id = $this->request_wrapper->retrieve('skin_id', $this->refinery->kindlyTo()->string());
+            $style_id = $this->request_wrapper->retrieve('style_id', $this->refinery->kindlyTo()->string());
+        } else {
             $config = new ilSystemStyleConfig();
-            $_GET["skin_id"] = $config->getDefaultSkinId();
-            $_GET["style_id"] = $config->getDefaultStyleId();
+            $skin_id = $config->getDefaultSkinId();
+            $style_id = $config->getDefaultStyleId();
         }
 
-        $this->ctrl->setParameterByClass('ilsystemstylesettingsgui', 'skin_id', $_GET["skin_id"]);
-        $this->ctrl->setParameterByClass('ilsystemstylesettingsgui', 'style_id', $_GET["style_id"]);
-        $this->ctrl->setParameterByClass('ilsystemstylelessgui', 'skin_id', $_GET["skin_id"]);
-        $this->ctrl->setParameterByClass('ilsystemstylelessgui', 'style_id', $_GET["style_id"]);
-        $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'skin_id', $_GET["skin_id"]);
-        $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'style_id', $_GET["style_id"]);
-        $this->ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'skin_id', $_GET["skin_id"]);
-        $this->ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'style_id', $_GET["style_id"]);
+        $this->ctrl->setParameterByClass('ilsystemstylesettingsgui', 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass('ilsystemstylesettingsgui', 'style_id', $style_id);
+        $this->ctrl->setParameterByClass('ilsystemstylelessgui', 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass('ilsystemstylelessgui', 'style_id', $style_id);
+        $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass('ilsystemstyleiconsgui', 'style_id', $style_id);
+        $this->ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'skin_id', $skin_id);
+        $this->ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'style_id', $style_id);
 
         try {
             switch ($next_class) {
 
                 case "ilsystemstylesettingsgui":
-                    $DIC->help()->setSubScreenId("settings");
+                    $this->help->setSubScreenId("settings");
                     $this->checkPermission("sty_management");
                     $this->setUnderworldTabs('settings');
-                    $this->setUnderworldTitle();
-                    include_once("Settings/class.ilSystemStyleSettingsGUI.php");
+                    $this->setUnderworldTitle($skin_id, $style_id);
                     $system_styles_settings = new ilSystemStyleSettingsGUI();
                     $this->ctrl->forwardCommand($system_styles_settings);
                     break;
                 case "ilsystemstylelessgui":
-                    $DIC->help()->setSubScreenId("less");
+                    $this->help->setSubScreenId("less");
                     $this->checkPermission("sty_management");
                     $this->setUnderworldTabs('less');
-                    $this->setUnderworldTitle();
-                    include_once("Less/class.ilSystemStyleLessGUI.php");
-                    $system_styles_less = new ilSystemStyleLessGUI();
+                    $this->setUnderworldTitle($skin_id, $style_id);
+                    $system_styles_less = new ilSystemStyleLessGUI($this->ctrl, $this->lng, $this->tpl,
+                        $skin_id, $style_id);
                     $this->ctrl->forwardCommand($system_styles_less);
                     break;
                 case "ilsystemstyleiconsgui":
-                    $DIC->help()->setSubScreenId("icons");
+                    $this->help->setSubScreenId("icons");
                     $this->checkPermission("sty_management");
                     $this->setUnderworldTabs('icons');
-                    $this->setUnderworldTitle();
-                    include_once("Icons/class.ilSystemStyleIconsGUI.php");
+                    $this->setUnderworldTitle($skin_id, $style_id);
                     $system_styles_icons = new ilSystemStyleIconsGUI();
                     $this->ctrl->forwardCommand($system_styles_icons);
                     break;
                 case "ilsystemstyledocumentationgui":
-                    $DIC->help()->setSubScreenId("documentation");
+                    $this->help->setSubScreenId("documentation");
                     $read_only = !$this->checkPermission("sty_management", false);
-                    $this->setUnderworldTabs('documentation');
-                    $this->setUnderworldTitle();
-                    include_once("Documentation/class.ilSystemStyleDocumentationGUI.php");
-                    $system_styles_documentation = new ilSystemStyleDocumentationGUI($read_only);
-                    $this->ctrl->forwardCommand($system_styles_documentation);
+                    $this->setUnderworldTabs('documentation', $read_only);
+                    $this->setUnderworldTitle($skin_id, $style_id,$read_only);
+                    $goto_link = (new ilKSDocumentationGotoLink())->generateGotoLink($_GET["node_id"] ? $_GET["node_id"] : "",
+                        $skin_id, $style_id);
+                    $this->global_screen->tool()->context()->current()->addAdditionalData(
+                        ilSystemStyleDocumentationGUI::SHOW_TREE, true);
+                    $this->tpl->setPermanentLink("stys", $_GET["ref_id"], $goto_link);
+                    $entries = new Entries();
+                    $entries->addEntriesFromArray(include ilSystemStyleDocumentationGUI::DATA_PATH);
+                    $documentation_gui = new ilSystemStyleDocumentationGUI($this->tpl, $this->ctrl, $this->ui_factory,
+                        $this->renderer);
+                    $documentation_gui->show($entries, $_GET["node_id"] ? $_GET["node_id"] : "");
                     break;
                 case "ilsystemstyleoverviewgui":
                 default:
-                $DIC->help()->setSubScreenId("overview");
+                    $this->help->setSubScreenId("overview");
                     $this->checkPermission("visible,read");
-                    include_once("Overview/class.ilSystemStyleOverviewGUI.php");
-                    $system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system", false), $this->checkPermission("sty_management", false));
+                    $system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system",
+                        false), $this->checkPermission("sty_management", false));
                     $this->ctrl->forwardCommand($system_styles_overview);
                     break;
             }
         } catch (ilObjectException $e) {
             ilUtil::sendFailure($e->getMessage());
             $this->checkPermission("visible,read");
-            include_once("Overview/class.ilSystemStyleOverviewGUI.php");
             $this->ctrl->setCmd("");
-            $system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system", false), $this->checkPermission("sty_management", false));
+            $system_styles_overview = new ilSystemStyleOverviewGUI(!$this->checkPermission("sty_write_system", false),
+                $this->checkPermission("sty_management", false));
             $this->ctrl->forwardCommand($system_styles_overview);
         }
     }
 
     /**
-     * @param $ref_id
-     * @param $params
-     */
-    public static function _goto($ref_id, $params)
-    {
-        global $DIC;
-
-        $node_id = $params[2];
-        $skin_id = $params[3];
-        $style_id = $params[4];
-
-        $DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI', 'skin_id', $skin_id);
-        $DIC->ctrl()->setParameterByClass(
-            'ilSystemStyleDocumentationGUI',
-            'style_id',
-            $style_id
-        );
-        $DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI', 'node_id', $node_id);
-        $DIC->ctrl()->setParameterByClass('ilSystemStyleDocumentationGUI', 'ref_id', $ref_id);
-
-        $_GET['baseClass'] = 'ilAdministrationGUI';
-
-        $cmd = "entries";
-        $cmd_classes = [
-                "ilAdministrationGUI",
-                "ilObjStyleSettingsGUI",
-                "ilSystemStyleMainGUI",
-                'ilSystemStyleDocumentationGUI'
-        ];
-
-        $DIC->ctrl()->setTargetScript("ilias.php");
-        $DIC->ctrl()->redirectByClass($cmd_classes, $cmd);
-    }
-
-    /**
      * Checks permission for system styles. Permissions work on two levels, ordinary rbac and the
      * 'enable_system_styles_management' setting in the tools section of the ilias.ini.php
-     *
-     * @param $a_perm
-     * @param bool|true $a_throw_exc
-     * @return bool
      * @throws ilObjectException
      */
-    public function checkPermission($a_perm, $a_throw_exc = true)
+    public function checkPermission(string $a_perm, bool $a_throw_exc = true) : bool
     {
-        global $DIC;
-
         $has_perm = true;
 
         $config = new ilSystemStyleConfig();
         if ($a_perm == "sty_management") {
-            $has_perm = $DIC->iliasIni()->readVariable("tools", "enable_system_styles_management") == "1" ? true:false;
+            $has_perm = $this->ilIniFile->readVariable("tools", "enable_system_styles_management") == "1";
             $a_perm = "sty_write_system";
             if ($has_perm && !is_writable($config->getCustomizingSkinPath())) {
                 ilUtil::sendFailure($this->lng->txt("enable_system_styles_management_no_write_perm"));
@@ -235,68 +171,90 @@ class ilSystemStyleMainGUI
 
         if (!$has_perm) {
             if ($a_throw_exc) {
-                include_once "Services/Object/exceptions/class.ilObjectException.php";
                 throw new ilObjectException($this->lng->txt("sty_permission_denied"));
             }
             return false;
         }
-        return $has_perm;
+        return true;
     }
 
     /**
      * Sets the tab correctly if one system style is open (navigational underworld opened)
-     *
      * @param string $active
      */
-    protected function setUnderworldTabs($active = "")
+    protected function setUnderworldTabs(string $active = "", bool $read_only = false)
     {
-        global $DIC;
         $this->tabs->clearTargets();
+
+        if ($read_only) {
+            $this->locator->clearItems();
+            $this->tpl->setLocator();
+            return;
+        }
 
         /**
          * Since clearTargets also clears the help screen ids
          */
-        $DIC->help()->setScreenIdComponent("sty");
-        $DIC->help()->setScreenId("system_styles");
+        $this->help->setScreenIdComponent("sty");
+        $this->help->setScreenId("system_styles");
         $this->tabs->setBackTarget($this->lng->txt("back"), $this->ctrl->getLinkTarget($this));
         $config = new ilSystemStyleConfig();
         if ($_GET["skin_id"] != $config->getDefaultSkinId()) {
-            $this->tabs->addTab('settings', $this->lng->txt('settings'), $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui'));
-            $this->tabs->addTab('less', $this->lng->txt('less'), $this->ctrl->getLinkTargetByClass('ilsystemstylelessgui'));
-            $this->tabs->addTab('icons', $this->lng->txt('icons'), $this->ctrl->getLinkTargetByClass('ilsystemstyleiconsgui'));
+            $this->tabs->addTab('settings', $this->lng->txt('settings'),
+                $this->ctrl->getLinkTargetByClass('ilsystemstylesettingsgui'));
+            $this->tabs->addTab('less', $this->lng->txt('less'),
+                $this->ctrl->getLinkTargetByClass('ilsystemstylelessgui'));
+            $this->tabs->addTab('icons', $this->lng->txt('icons'),
+                $this->ctrl->getLinkTargetByClass('ilsystemstyleiconsgui'));
         }
 
-        $this->tabs->addTab('documentation', $this->lng->txt('documentation'), $this->ctrl->getLinkTargetByClass('ilsystemstyledocumentationgui'));
+        $this->tabs->addTab('documentation', $this->lng->txt('documentation'),
+            $this->ctrl->getLinkTargetByClass('ilsystemstyledocumentationgui'));
 
         $this->tabs->activateTab($active);
     }
 
-
     /**
      * Sets title correctly if one system style is opened
-     *
      * @throws ilSystemStyleException
      */
-    protected function setUnderworldTitle()
+    protected function setUnderworldTitle(string $skin_id, string $style_id, bool $read_only = false)
     {
-        $skin_id = $_GET["skin_id"];
-        $style_id = $_GET["style_id"];
-
         $skin = ilSystemStyleSkinContainer::generateFromId($skin_id)->getSkin();
         $style = $skin->getStyle($style_id);
 
-        $this->tpl->setTitle($style->getName());
-        if ($style->isSubstyle()) {
-            $this->tpl->setDescription(
-                $this->lng->txt("settings_of_substyle") . " '" . $style->getName() . "' " .
+        if ($read_only) {
+            $this->tpl->setTitle($this->lng->txt("documentation"));
+
+            if ($style->isSubstyle()) {
+                $this->tpl->setDescription(
+                    $this->lng->txt("ks_documentation_of_substyle")
+                    . " '"
+                    . $style->getName() . "' " .
                     $this->lng->txt("of_parent") . " '" . $skin->getStyle($style->getSubstyleOf())->getName() . "' " .
                     $this->lng->txt("from_skin") . " " . $skin->getName()
-            );
-        } else {
-            $this->tpl->setDescription(
-                $this->lng->txt("settings_of_style") . " '" . $style->getName() . "' " .
+                );
+            } else {
+                $this->tpl->setDescription(
+                    $this->lng->txt("ks_documentation_of_style") . " '" . $style->getName() . "' " .
                     $this->lng->txt("from_skin") . " '" . $skin->getName() . "'"
-            );
+                );
+            }
+        } else {
+            $this->tpl->setTitle($style->getName());
+            if ($style->isSubstyle()) {
+                $this->tpl->setDescription(
+                    $this->lng->txt("settings_of_substyle") . " '" . $style->getName() . "' " .
+                    $this->lng->txt("of_parent") . " '" . $skin->getStyle($style->getSubstyleOf())->getName() . "' " .
+                    $this->lng->txt("from_skin") . " " . $skin->getName()
+                );
+            } else {
+                $this->tpl->setDescription(
+                    $this->lng->txt("settings_of_style") . " '" . $style->getName() . "' " .
+                    $this->lng->txt("from_skin") . " '" . $skin->getName() . "'"
+                );
+            }
         }
+
     }
 }

@@ -6,21 +6,16 @@
  * This class acts as Model for all system styles settings related settings
  * such as activated or default system styles etc, be it in database or inifile.
  * Do not use this class to get the current system style, use ilStyleDefinition insteaed.
- *
  * Semantics of terms style, sub style, skin, template --> see ilStyleDefinition
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- *
+ * @author  Alex Killing <alex.killing@gmx.de>
+ * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version $Id$
  * @ingroup ServicesStyle
- *
  */
 class ilSystemStyleSettings
 {
     /**
      * lookup if a style is activated
-     *
      * @param $a_skin
      * @param $a_style
      * @return bool
@@ -45,7 +40,6 @@ class ilSystemStyleSettings
 
     /**
      * deactivate system style
-     *
      * @param $a_skin
      * @param $a_style
      */
@@ -64,7 +58,6 @@ class ilSystemStyleSettings
 
     /**
      * activate system style
-     *
      * @param $a_skin
      * @param $a_style
      */
@@ -82,8 +75,7 @@ class ilSystemStyleSettings
     /**
      * Get all system sub styles category assignments. This is used to check wheter a system sub style is to be used
      * in a particular category.
-     *
-     * @param string $a_skin_id skin id
+     * @param string $a_skin_id  skin id
      * @param string $a_style_id style id
      * @return array ('substyle' => substyle_id, 'ref id' => cat_ref_id)
      */
@@ -94,13 +86,13 @@ class ilSystemStyleSettings
         $assignments = [];
         $set = $DIC->database()->query(
             "SELECT substyle, category_ref_id FROM syst_style_cat " .
-                " WHERE skin_id = " . $DIC->database()->quote($a_skin_id, "text") .
-                " AND style_id = " . $DIC->database()->quote($a_style_id, "text")
+            " WHERE skin_id = " . $DIC->database()->quote($a_skin_id, "text") .
+            " AND style_id = " . $DIC->database()->quote($a_style_id, "text")
         );
         while (($rec = $DIC->database()->fetchAssoc($set))) {
             $assignments[] = [
-                    "substyle" => $rec["substyle"],
-                    "ref_id" => $rec["category_ref_id"]
+                "substyle" => $rec["substyle"],
+                "ref_id" => $rec["category_ref_id"]
             ];
         }
         return $assignments;
@@ -109,7 +101,6 @@ class ilSystemStyleSettings
     /**
      * Get all system category assignments of exactly one substyle. This is used to check wheter a system sub style is to be used
      * in a particular category.
-     *
      * @param $a_skin_id
      * @param $a_style_id
      * @param $a_sub_style_id
@@ -123,14 +114,14 @@ class ilSystemStyleSettings
 
         $set = $DIC->database()->query(
             "SELECT substyle, category_ref_id FROM syst_style_cat " .
-                " WHERE skin_id = " . $DIC->database()->quote($a_skin_id, "text") .
-                " AND substyle = " . $DIC->database()->quote($a_sub_style_id, "text") .
-                " AND style_id = " . $DIC->database()->quote($a_style_id, "text")
+            " WHERE skin_id = " . $DIC->database()->quote($a_skin_id, "text") .
+            " AND substyle = " . $DIC->database()->quote($a_sub_style_id, "text") .
+            " AND style_id = " . $DIC->database()->quote($a_style_id, "text")
         );
         while (($rec = $DIC->database()->fetchAssoc($set))) {
             $assignmnts[] = [
-                    "substyle" => $rec["substyle"],
-                    "ref_id" => $rec["category_ref_id"]
+                "substyle" => $rec["substyle"],
+                "ref_id" => $rec["category_ref_id"]
             ];
         }
         return $assignmnts;
@@ -138,7 +129,6 @@ class ilSystemStyleSettings
 
     /**
      * Sets a substyle category assignment.
-     *
      * @param $a_skin_id
      * @param $a_style_id
      * @param $a_substyle
@@ -157,22 +147,22 @@ class ilSystemStyleSettings
 
         foreach ($assignments as $assignment) {
             if ($assignment["ref_id"] == $a_ref_id) {
-                throw new ilSystemStyleException(ilSystemStyleException::SUBSTYLE_ASSIGNMENT_EXISTS, $a_substyle . ": " . $a_ref_id);
+                throw new ilSystemStyleException(ilSystemStyleException::SUBSTYLE_ASSIGNMENT_EXISTS,
+                    $a_substyle . ": " . $a_ref_id);
             }
         }
         $DIC->database()->manipulate("INSERT INTO syst_style_cat " .
-                "(skin_id, style_id, substyle, category_ref_id) VALUES (" .
-                $DIC->database()->quote($a_skin_id, "text") . "," .
-                $DIC->database()->quote($a_style_id, "text") . "," .
-                $DIC->database()->quote($a_substyle, "text") . "," .
-                $DIC->database()->quote($a_ref_id, "integer") .
-                ")");
+            "(skin_id, style_id, substyle, category_ref_id) VALUES (" .
+            $DIC->database()->quote($a_skin_id, "text") . "," .
+            $DIC->database()->quote($a_style_id, "text") . "," .
+            $DIC->database()->quote($a_substyle, "text") . "," .
+            $DIC->database()->quote($a_ref_id, "integer") .
+            ")");
     }
 
     /**
      * Deletes all sub style category assignment of a system style. This is used if a system style is deleted
      * completely
-     *
      * @param $a_skin_id
      * @param $a_style_id
      * @param $a_substyle
@@ -187,15 +177,14 @@ class ilSystemStyleSettings
         global $DIC;
 
         $DIC->database()->manipulate("DELETE FROM syst_style_cat WHERE " .
-                " skin_id = " . $DIC->database()->quote($a_skin_id, "text") .
-                " AND style_id = " . $DIC->database()->quote($a_style_id, "text") .
-                " AND substyle = " . $DIC->database()->quote($a_substyle, "text") .
-                " AND category_ref_id = " . $DIC->database()->quote($a_ref_id, "integer"));
+            " skin_id = " . $DIC->database()->quote($a_skin_id, "text") .
+            " AND style_id = " . $DIC->database()->quote($a_style_id, "text") .
+            " AND substyle = " . $DIC->database()->quote($a_substyle, "text") .
+            " AND category_ref_id = " . $DIC->database()->quote($a_ref_id, "integer"));
     }
 
     /**
      * Delets a sub styles category assignment.
-     *
      * @param $a_skin_id
      * @param $a_style_id
      * @param $a_substyle
@@ -205,14 +194,13 @@ class ilSystemStyleSettings
         global $DIC;
 
         $DIC->database()->manipulate("DELETE FROM syst_style_cat WHERE " .
-                " skin_id = " . $DIC->database()->quote($a_skin_id, "text") .
-                " AND style_id = " . $DIC->database()->quote($a_style_id, "text") .
-                " AND substyle = " . $DIC->database()->quote($a_substyle, "text"));
+            " skin_id = " . $DIC->database()->quote($a_skin_id, "text") .
+            " AND style_id = " . $DIC->database()->quote($a_style_id, "text") .
+            " AND substyle = " . $DIC->database()->quote($a_substyle, "text"));
     }
 
     /**
      * Updates an assignment, e.g. in case of ID Change through GUI.
-     *
      * @param string $old_skin_id
      * @param string $old_style_id
      * @param string $new_skin_id
@@ -251,7 +239,6 @@ class ilSystemStyleSettings
 
     /**
      * Sets a users preferred system skin/style by using the user object.
-     *
      * @param $skin_id
      * @param $style_id
      */
@@ -266,7 +253,6 @@ class ilSystemStyleSettings
 
     /**
      * Gets a users preferred skin by using the user object.
-     *
      * @return bool
      */
     public static function getCurrentUserPrefSkin()
@@ -278,7 +264,6 @@ class ilSystemStyleSettings
 
     /**
      * Gets a users preferred style by using the user object.
-     *
      * @return bool
      */
     public static function getCurrentUserPrefStyle()
@@ -290,7 +275,6 @@ class ilSystemStyleSettings
 
     /**
      * Sets the default style of the system
-     *
      * @param $skin_id
      * @param $style_id
      */
@@ -313,7 +297,6 @@ class ilSystemStyleSettings
 
     /**
      * Gets default Skin of the System
-     *
      * @return string
      */
     public static function getCurrentDefaultSkin()
@@ -331,7 +314,6 @@ class ilSystemStyleSettings
 
     /**
      * Gets default style of the system
-     *
      * @return mixed
      * @throws ilSystemStyleException
      */

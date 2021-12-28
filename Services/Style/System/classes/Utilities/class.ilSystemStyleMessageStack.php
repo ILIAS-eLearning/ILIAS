@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
+
 
 /**
  * Used to stack messages to be shown to the user. Mostly used in ilUtil-Classes to present via ilUtil::sendMessage()
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
  */
 class ilSystemStyleMessageStack
 {
@@ -12,34 +10,28 @@ class ilSystemStyleMessageStack
     /**
      * @var ilSystemStyleMessage[]
      */
-    protected $messages = array();
+    protected array $messages = [];
 
     /**
      * Add a message to be displayed before all others
-     *
-     * @param ilSystemStyleMessage $message
      */
-    public function prependMessage(ilSystemStyleMessage $message)
+    public function prependMessage(ilSystemStyleMessage $message) : void
     {
         array_unshift($this->messages, $message);
     }
 
     /**
      * Add a message to be displayed by the stack
-     *
-     * @param ilSystemStyleMessage $message
      */
-    public function addMessage(ilSystemStyleMessage $message)
+    public function addMessage(ilSystemStyleMessage $message) : void
     {
         $this->messages[] = $message;
     }
 
     /**
      * Send messages via ilUtil to be displayed
-     *
-     * @param bool|false $keep
      */
-    public function sendMessages($keep = false)
+    public function sendMessages(bool $keep = false)
     {
         foreach ($this->getJoinedMessages() as $type => $joined_message) {
             switch ($type) {
@@ -61,7 +53,7 @@ class ilSystemStyleMessageStack
      *
      * @return string[]
      */
-    public function getJoinedMessages()
+    public function getJoinedMessages() : array
     {
         $joined_messages = [];
         foreach ($this->getMessages() as $message) {
@@ -76,7 +68,7 @@ class ilSystemStyleMessageStack
     /**
      * @return ilSystemStyleMessage[]
      */
-    public function getMessages()
+    public function getMessages() : array
     {
         return $this->messages;
     }
@@ -84,17 +76,15 @@ class ilSystemStyleMessageStack
     /**
      * @param ilSystemStyleMessage[] $messages
      */
-    public function setMessages($messages)
+    public function setMessages(array $messages)
     {
         $this->messages = $messages;
     }
 
     /**
      * Return wheter there are any message at all stored in the stack
-     *
-     * @return bool
      */
-    public function hasMessages()
+    public function hasMessages() : bool
     {
         return count($this->getMessages()) > 0;
     }

@@ -1,72 +1,51 @@
-<?php
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
+<?php declare(strict_types=1);
+
 class ilSkinStyleXML
 {
     /**
      * Id of the skin. Currently css and less files are named accordingely
-     * @var string
      */
-    protected $id = "";
+    protected string $id = "";
 
     /**
      * Name of the style visible in all UI elements
-     *
-     * @var string
      */
-    protected $name = "";
+    protected string $name = "";
 
     /**
      * Directory to store sound files into
-     *
-     * @var string
      */
-    protected $sound_directory = "";
+    protected string $sound_directory = "";
 
     /**
      * Directory to store image files into
-     *
-     * @var string
      */
-    protected $image_directory = "";
+    protected string $image_directory = "";
 
     /**
      * Directory to store fonts into
-     *
-     * @var string
      */
-    protected $font_directory = "";
+    protected string $font_directory = "";
 
     /**
      * Css file name of the skin
-     *
-     * @var string
      */
-    protected $css_file = "";
+    protected string $css_file = "";
 
     /**
      * Parent of the skin if set
-     *
-     * @var string
      */
-    protected $substyle_of = "";
+    protected string $substyle_of = "";
 
-    /**
-     * ilSkinStyleXML constructor.
-     * @param $id
-     * @param $name
-     * @param string $css_file
-     * @param string $image_directory
-     * @param string $font_directory
-     * @param string $sound_directory
-     * @param string $parent_style
-     * @throws ilSystemStyleException
-     */
-    public function __construct($id, $name, $css_file = "", $image_directory = "", $font_directory = "", $sound_directory = "", $parent_style = "")
-    {
+    public function __construct(
+        string $id,
+        string $name,
+        string $css_file = "",
+        string $image_directory = "",
+        string $font_directory = "",
+        string $sound_directory = "",
+        string $parent_style = ""
+    ) {
         $this->setId($id);
         $this->setName($name);
 
@@ -213,7 +192,6 @@ class ilSkinStyleXML
 
     /**
      * Returns the parent style of this style if set
-     *
      * @return string
      */
     public function getSubstyleOf()
@@ -223,7 +201,6 @@ class ilSkinStyleXML
 
     /**
      * Sets style as sub style of another
-     *
      * @param string $substyle_of
      */
     public function setSubstyleOf($substyle_of)
@@ -233,7 +210,6 @@ class ilSkinStyleXML
 
     /**
      * Return wheter this style is a substyle of another
-     *
      * @return bool
      */
     public function isSubstyle()
@@ -243,7 +219,6 @@ class ilSkinStyleXML
 
     /**
      * Checks if a resource (folder) relative to the style is referenced by this style. Used to decide if folder can be deleted.
-     *
      * @param $resource
      * @return bool
      */
