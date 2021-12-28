@@ -44,10 +44,15 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
         $this->setId("il_svy_qst");
         $this->setLimit(9999);
 
+        $edit_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->edit();
+
         if (!$this->read_only) {
             // command dropdown
-            if (!array_key_exists("move_questions", $_SESSION) ||
-                $_SESSION["move_questions_survey_id"] != $this->object->getId()) {
+            if (count($edit_manager->getMoveSurveyQuestions()) == 0 ||
+                $edit_manager->getMoveSurveyId() != $this->object->getId()) {
                 $this->addMultiCommand("createQuestionblock", $lng->txt("define_questionblock"));
                 $this->addMultiCommand("unfoldQuestionblock", $lng->txt("unfold"));
                 $this->addMultiCommand("removeQuestions", $lng->txt("remove_question"));
@@ -213,7 +218,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("DESCRIPTION", $a_set["description"]);
                 $this->tpl->setVariable("TYPE", $a_set["question_type"]);
                 $this->tpl->setVariable("AUTHOR", $a_set["author"]);
-                $this->tpl->setVariable("POOL", $a_set["pool"]);
+                $this->tpl->setVariable("POOL", $a_set["pool"] ?? "");
                 
                 if ($a_set["heading"]) {
                     $this->tpl->setCurrentBlock("heading");
@@ -236,7 +241,7 @@ class ilSurveyQuestionTableGUI extends ilTable2GUI
                     }
 
                     // order
-                    if ($a_set["position"]) {
+                    if ($a_set["position"] ?? false) {
                         $this->tpl->setCurrentBlock("order");
                         if (!$a_set["block_id"]) {
                             $this->tpl->setVariable("ORDER_NAME", "order[q_" . $a_set["id"] . "]");

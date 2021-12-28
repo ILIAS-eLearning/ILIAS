@@ -17,11 +17,13 @@
  ********************************************************************
  */
 
+use ILIAS\Skill\Tree;
+
 /**
  * Skill template GUI class
  *
  * @author Alex Killing <alex.killing@gmx.de>
- * @ilCtrl_isCalledBy ilSkillTemplateGUI: ilObjSkillManagementGUI
+ * @ilCtrl_isCalledBy ilSkillTemplateGUI: ilObjSkillManagementGUI, ilObjSkillTreeGUI
  */
 class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
 {
@@ -30,7 +32,7 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
     protected ilTabsGUI $tabs;
     protected ilLanguage $lng;
 
-    public function __construct(int $a_node_id = 0)
+    public function __construct(Tree\SkillTreeNodeManager $node_manager, int $a_node_id = 0)
     {
         global $DIC;
 
@@ -42,7 +44,7 @@ class ilSkillTemplateGUI extends ilSkillTreeNodeGUI
         
         $ilCtrl->saveParameter($this, "node_id");
         
-        parent::__construct($a_node_id);
+        parent::__construct($node_manager, $a_node_id);
     }
 
     public function getType() : string

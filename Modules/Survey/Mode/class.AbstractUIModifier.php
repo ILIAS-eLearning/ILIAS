@@ -15,7 +15,7 @@
 
 namespace ILIAS\Survey\Mode;
 
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\InternalService;
 
@@ -48,14 +48,14 @@ abstract class AbstractUIModifier implements UIModifier
 
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         return [];
     }
 
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         return [];
     }
@@ -101,7 +101,7 @@ abstract class AbstractUIModifier implements UIModifier
         \ilToolbarGUI $toolbar,
         int $user_id
     ) : void {
-        $gui = $this->service->ui();
+        $gui = $this->service->gui();
         $lng = $gui->lng();
 
         $this->addApprSelectionToToolbar(
@@ -171,9 +171,9 @@ abstract class AbstractUIModifier implements UIModifier
         string $a_id,
         string $a_cmd
     ) : string {
-        $tpl = $this->service->ui()->mainTemplate();
-        $lng = $this->service->ui()->lng();
-        $ctrl = $this->service->ui()->ctrl();
+        $tpl = $this->service->gui()->mainTemplate();
+        $lng = $this->service->gui()->lng();
+        $ctrl = $this->service->gui()->ctrl();
 
         $form_id = "svymdfrm";
 
@@ -216,9 +216,9 @@ abstract class AbstractUIModifier implements UIModifier
         \ilToolbarGUI $toolbar,
         int $user_id
     ) : void {
-        $lng = $this->service->ui()->lng();
-        $ctrl = $this->service->ui()->ctrl();
-        $req = $this->service->ui()->evaluation($survey)->request();
+        $lng = $this->service->gui()->lng();
+        $ctrl = $this->service->gui()->ctrl();
+        $req = $this->service->gui()->evaluation($survey)->request();
 
         $evaluation_manager = $this->service->domain()->evaluation(
             $survey,
@@ -268,7 +268,7 @@ abstract class AbstractUIModifier implements UIModifier
     ) : array {
         $a_results = $a_eval->getResults();
         $panels = [];
-        $ui_factory = $this->service->ui()->ui()->factory();
+        $ui_factory = $this->service->gui()->ui()->factory();
 
         $a_tpl = new \ilTemplate("tpl.svy_results_details_panel.html", true, true, "Modules/Survey/Evaluation");
 
@@ -404,7 +404,7 @@ abstract class AbstractUIModifier implements UIModifier
     ) : string {
         $a_results = $a_eval->getResults();
         $question = $question_res->getQuestion();
-        $lng = $this->service->ui()->lng();
+        $lng = $this->service->gui()->lng();
 
         $a_tpl = new \ilTemplate("tpl.svy_results_details_text.html", true, true, "Modules/Survey/Evaluation");
 
@@ -448,8 +448,8 @@ abstract class AbstractUIModifier implements UIModifier
     protected function getPanelCard(
         \ilSurveyEvaluationResults $question_res
     ) : \ILIAS\UI\Component\Card\Card {
-        $ui_factory = $this->service->ui()->ui()->factory();
-        $lng = $this->service->ui()->lng();
+        $ui_factory = $this->service->gui()->ui()->factory();
+        $lng = $this->service->gui()->lng();
 
         $question = $question_res->getQuestion();
         $kv = array();

@@ -200,9 +200,9 @@ abstract class AbstractBaseItem implements isItem
     /**
      * @inheritDoc
      */
-    public function getTypeInformation() : TypeInformation
+    public function getTypeInformation() : ?TypeInformation
     {
-        return $this->type_information instanceof TypeInformation ? $this->type_information : new TypeInformation(get_class($this), get_class($this));
+        return $this->type_information;
     }
 
     public function isTop() : bool
@@ -211,7 +211,7 @@ abstract class AbstractBaseItem implements isItem
             return $this->getParent() instanceof NullIdentification || (int) $this->getParent()->serialize() === false;
         }
         if ($this instanceof isTopItem && $this instanceof isInterchangeableItem) {
-            return $this->getParent()===null || $this->getParent() instanceof NullIdentification;
+            return $this->getParent() === null || $this->getParent() instanceof NullIdentification;
         }
         return $this instanceof isTopItem;
     }

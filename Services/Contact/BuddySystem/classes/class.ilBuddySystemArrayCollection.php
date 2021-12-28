@@ -46,6 +46,7 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     {
         if (!isset($offset)) {
             $this->add($value);
+
             return;
         }
 
@@ -193,5 +194,20 @@ abstract class ilBuddySystemArrayCollection implements ilBuddySystemCollection
     public function toArray() : array
     {
         return $this->elements;
+    }
+
+    public function equals($other) : bool
+    {
+        if (!($other instanceof self)) {
+            return false;
+        }
+
+        $self = $this->toArray();
+        $other = $this->toArray();
+
+        sort($self);
+        sort($other);
+
+        return $self == $other;
     }
 }

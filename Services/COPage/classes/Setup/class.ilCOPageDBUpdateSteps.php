@@ -38,4 +38,16 @@ class ilCOPageDBUpdateSteps implements \ilDatabaseUpdateSteps
 
         $this->db->modifyTableColumn("copg_pc_def", "order_nr", $field);
     }
+
+    public function step_2()
+    {
+        $field = array(
+            'type' => 'integer',
+            'length' => 4,
+            'notnull' => true,
+            'default' => 0
+        );
+
+        $this->db->modifyTableColumn("copg_pc_def", "order_nr", $field);
+    }
 }

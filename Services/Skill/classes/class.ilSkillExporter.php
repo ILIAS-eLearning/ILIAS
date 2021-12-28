@@ -37,6 +37,7 @@ class ilSkillExporter extends ilXmlExporter
         $this->ds->setSelectedNodes($this->config->getSelectedNodes());
         $this->ds->setSelectedProfiles($this->config->getSelectedProfiles());
         $this->ds->setMode($this->config->getMode());
+        $this->ds->setSkillTreeId($this->config->getSkillTreeId());
     }
     
     /**
@@ -53,6 +54,12 @@ class ilSkillExporter extends ilXmlExporter
     public function getValidSchemaVersions(string $a_entity) : array
     {
         return array(
+            "8.0" => array(
+                "namespace" => "http://www.ilias.de/Services/Skill/skll/8_0",
+                "xsd_file" => "ilias_skll_8_0.xsd",
+                "uses_dataset" => true,
+                "min" => "8.0",
+                "max" => ""),
             "7.0" => array(
                 "namespace" => "http://www.ilias.de/Services/Skill/skll/7_0",
                 "xsd_file" => "ilias_skll_7_0.xsd",

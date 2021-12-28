@@ -19,6 +19,7 @@
  */
 class ilSurveyConstraintsGUI
 {
+    protected \ILIAS\Survey\Editing\EditManager $edit_manager;
     protected ilObjSurvey $object;
     protected ilObjSurveyGUI $parent_gui;
     protected ilCtrl $ctrl;
@@ -45,6 +46,10 @@ class ilSurveyConstraintsGUI
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
+        $this->edit_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->edit();
     }
     
     public function executeCommand() : void
@@ -84,7 +89,7 @@ class ilSurveyConstraintsGUI
             $mbox = new ilSurveyContainsDataMessageBoxGUI();
             $mess = $mbox->getHTML();
         } else {
-            $_SESSION["constraintstructure"] = $tbl->getStructure();
+            $this->edit_manager->setConstraintStructure($tbl->getStructure());
         }
 
         $this->tpl->setContent($mess . $tbl->getHTML());
@@ -101,8 +106,8 @@ class ilSurveyConstraintsGUI
             return;
         }
         $survey_questions = $this->object->getSurveyQuestions();
-        $structure = &$_SESSION["constraintstructure"];
-        $include_elements = $_SESSION["includeElements"];
+        $structure = $this->edit_manager->getConstraintStructure();
+        $include_elements = $this->edit_manager->getConstraintElements();
         foreach ($include_elements as $elementCounter) {
             if (is_array($structure[$elementCounter])) {
                 if (strlen($_GET["precondition"])) {
@@ -118,8 +123,8 @@ class ilSurveyConstraintsGUI
                 }
             }
         }
-        unset($_SESSION["includeElements"]);
-        unset($_SESSION["constraintstructure"]);
+        $this->edit_manager->clearConstraintElements();
+        $this->edit_manager->clearConstraintStructure();
         $this->ctrl->redirect($this, "constraints");
     }
 
@@ -129,7 +134,7 @@ class ilSurveyConstraintsGUI
     public function constraintStep1Object() : void
     {
         $survey_questions = $this->object->getSurveyQuestions();
-        $structure = &$_SESSION["constraintstructure"];
+        $structure = $this->edit_manager->getConstraintStructure();
         $start = $_GET["start"];
         $option_questions = array();
         for ($i = 1; $i < $start; $i++) {
@@ -142,8 +147,8 @@ class ilSurveyConstraintsGUI
             }
         }
         if (count($option_questions) == 0) {
-            unset($_SESSION["includeElements"]);
-            unset($_SESSION["constraintstructure"]);
+            $this->edit_manager->clearConstraintElements();
+            $this->edit_manager->clearConstraintStructure();
             ilUtil::sendInfo($this->lng->txt("constraints_no_nonessay_available"), true);
             $this->ctrl->redirect($this, "constraints");
         }
@@ -203,22 +208,24 @@ class ilSurveyConstraintsGUI
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTableWidth("100%");
         $form->setId("constraintsForm");
+
+        $constraint_structure = $this->edit_manager->getConstraintStructure();
                 
         // #9366
         $title = array();
-        $title_ids = $_SESSION["includeElements"];
+        $title_ids = $this->edit_manager->getConstraintElements();
         if (!$title_ids) {
             $title_ids = array($_GET["start"]);
         }
         foreach ($title_ids as $title_id) {
             // question block
-            if ($survey_questions[$_SESSION["constraintstructure"][$title_id][0]]["questionblock_id"] > 0) {
-                $title[] = $this->lng->txt("questionblock") . ": " . $survey_questions[$_SESSION["constraintstructure"][$title_id][0]]["questionblock_title"];
+            if ($survey_questions[$constraint_structure[$title_id][0]]["questionblock_id"] > 0) {
+                $title[] = $this->lng->txt("questionblock") . ": " . $survey_questions[$constraint_structure[$title_id][0]]["questionblock_title"];
             }
             // question
             else {
-                $title[] = $this->lng->txt($survey_questions[$_SESSION["constraintstructure"][$title_id][0]]["type_tag"]) . ": " .
-                    $survey_questions[$_SESSION["constraintstructure"][$title_id][0]]["title"];
+                $title[] = $this->lng->txt($survey_questions[$constraint_structure[$title_id][0]]["type_tag"]) . ": " .
+                    $survey_questions[$constraint_structure[$title_id][0]]["title"];
             }
         }
         $header = new ilFormSectionHeaderGUI();
@@ -362,7 +369,7 @@ class ilSurveyConstraintsGUI
             ilUtil::sendInfo($this->lng->txt("constraints_no_questions_or_questionblocks_selected"), true);
             $this->ctrl->redirect($this, "constraints");
         } elseif (count($include_elements) >= 1) {
-            $_SESSION["includeElements"] = $include_elements;
+            $this->edit_manager->setConstraintElements($include_elements);
             sort($include_elements, SORT_NUMERIC);
             $_GET["start"] = $include_elements[0];
             $this->constraintStep1Object();
@@ -378,7 +385,7 @@ class ilSurveyConstraintsGUI
             $this->ctrl->redirect($this, "constraints");
         }
         
-        $_SESSION["includeElements"] = array($_GET["start"]);
+        $this->edit_manager->setConstraintElements([$_GET["start"]]);
         $this->ctrl->setParameter($this, "precondition", $_GET["precondition"]);
         $this->ctrl->setParameter($this, "start", $_GET["start"]);
         $this->ctrl->redirect($this, "constraintStep3");

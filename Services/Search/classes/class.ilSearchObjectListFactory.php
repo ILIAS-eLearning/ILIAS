@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -43,7 +43,7 @@ class ilSearchObjectListFactory
      * @param string object  type
      * @return object reference of ilObj<type>ListGUI
      */
-    public function &_getInstance($a_type)
+    public function _getInstance(string $a_type) : ilObjectListGUI
     {
         global $DIC;
 

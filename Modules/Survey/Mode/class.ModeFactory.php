@@ -16,7 +16,7 @@
 namespace ILIAS\Survey\Mode;
 
 use ILIAS\Survey\InternalDomainService;
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\InternalService;
 
 /**

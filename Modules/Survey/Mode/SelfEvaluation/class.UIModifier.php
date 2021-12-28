@@ -16,7 +16,7 @@
 namespace ILIAS\Survey\Mode\SelfEvaluation;
 
 use \ILIAS\Survey\Mode;
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 
 /**
  * Interface for modes
@@ -26,7 +26,7 @@ class UIModifier extends Mode\AbstractUIModifier
 {
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         $items = [];
         $lng = $ui_service->lng();

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -27,41 +27,27 @@
 * Base class for advanced meta search
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id
 *
 * @package ilias-search
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilMetaDataSearch extends ilAbstractSearch
 {
-    public $mode = '';
+    private string $mode = '';
 
-    /*
-     * instance of query parser
-     */
-    public $query_parser = null;
 
-    public $db = null;
-
-    /**
-    * Define meta elements to search
-    *
-    * @param array elements to search in. E.G array('keyword','contribute')
-    * @access public
-    */
-    public function setMode($a_mode)
+    public function setMode(string $a_mode) : void
     {
         $this->mode = $a_mode;
     }
-    public function getMode()
+    public function getMode() : string
     {
         return $this->mode;
     }
 
 
-    public function performSearch()
+    public function performSearch() : ilSearchResult
     {
         switch ($this->getMode()) {
             case 'keyword':
@@ -75,17 +61,14 @@ class ilMetaDataSearch extends ilAbstractSearch
 
             case 'description':
                 return $this->__searchDescriptions();
-
-            default:
-                echo "ilMDSearch::performSearch() no mode given";
-                return false;
         }
+        throw new InvalidArgumentException('ilMDSearch: no mode given');
     }
 
 
 
     // Private
-    public function __createInStatement()
+    public function __createInStatement() : string
     {
         if (!$this->getFilter()) {
             return '';
@@ -93,13 +76,10 @@ class ilMetaDataSearch extends ilAbstractSearch
             $type = "('";
             $type .= implode("','", $this->getFilter());
             $type .= "')";
-            
-            $in = " AND obj_type IN " . $type;
-
-            return $in;
+            return " AND obj_type IN " . $type;
         }
     }
-    public function __searchContribute()
+    public function __searchContribute() : ilSearchResult
     {
         $this->setFields(array('entity'));
 
@@ -121,7 +101,7 @@ class ilMetaDataSearch extends ilAbstractSearch
     }
 
 
-    public function __searchKeywords()
+    public function __searchKeywords() : ilSearchResult
     {
         $this->setFields(array('keyword'));
 
@@ -138,10 +118,9 @@ class ilMetaDataSearch extends ilAbstractSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
         }
-
         return $this->search_result;
     }
-    public function __searchTitles()
+    public function __searchTitles() : ilSearchResult
     {
         $this->setFields(array('title'));
 
@@ -158,10 +137,9 @@ class ilMetaDataSearch extends ilAbstractSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
         }
-
         return $this->search_result;
     }
-    public function __searchDescriptions()
+    public function __searchDescriptions() : ilSearchResult
     {
         $this->setFields(array('description'));
 
@@ -178,7 +156,6 @@ class ilMetaDataSearch extends ilAbstractSearch
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $this->search_result->addEntry($row->rbac_id, $row->obj_type, $this->__prepareFound($row), $row->obj_id);
         }
-
         return $this->search_result;
     }
 }

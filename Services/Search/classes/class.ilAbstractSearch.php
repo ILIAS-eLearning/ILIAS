@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
 
 /**
@@ -7,159 +7,103 @@
 * Base class for all search classes
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 * @package ilias-search
 *
 */
 
-class ilAbstractSearch
+abstract class ilAbstractSearch
 {
-    /*
-     * instance of db object
-     */
-    public $db = null;
-    /*
-     * instance of query parser
-     */
-    public $query_parser = null;
-    
-    /*
-     * instance of result obj
-     */
-    public $search_result = null;
-
-    /*
-     * List of all searchable objects
-     */
-    public $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
-                         'chat','webr','mcst','sess','pg','st','wiki','book', 'copa');
-                         
-    private $id_filter = array();
-
+    protected ilDBInterface $db;
+    protected ilQueryParser $query_parser;
+    protected ilSearchResult $search_result;
 
     /**
-    * Constructor
-    * @access public
-    */
-    public function __construct($qp_obj)
+     * @var string[]
+     */
+    protected array $object_types = array('cat','dbk','crs','fold','frm','grp','lm','sahs','glo','mep','htlm','exc','file','qpl','tst','svy','spl',
+                         'chat','webr','mcst','sess','pg','st','wiki','book', 'copa');
+
+    /**
+     * @var int[]
+     */
+    private array $id_filter = [];
+
+    /**
+     * @var string[]
+     */
+    private array $fields = [];
+
+
+
+    public function __construct(ilQueryParser $qp_obj)
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
-
+        $this->db = $DIC->database();
         $this->query_parser = $qp_obj;
-        $this->db = $ilDB;
-
-        include_once 'Services/Search/classes/class.ilSearchResult.php';
-
         $this->search_result = new ilSearchResult();
     }
 
-    /**
-    * Set fields to search
-    * @param array Array of table field (e.g array('title','description'))
-    * @access public
-    */
-    public function setFields($a_fields)
+    public function setFields(array $a_fields) : void
     {
         $this->fields = $a_fields;
     }
 
     /**
-    * Get fields to search
-    * @return array array of search fields. E.g. array(title,description)
-    * @access public
+    * @return string[] array of search fields. E.g. array(title,description)
     */
-    public function getFields()
+    public function getFields() : array
     {
-        return $this->fields ? $this->fields : array();
+        return $this->fields;
     }
 
-    /**
-    * set object type to search in
-    * @param array Array of object types (e.g array('lm','st','pg','dbk'))
-    * @access public
-    */
-    public function setFilter($a_filter)
+    public function setFilter(array $a_filter) : void
     {
-        if (is_array($a_filter)) {
-            $this->object_types = $a_filter;
-        }
+        $this->object_types = $a_filter;
     }
-    
-    /**
-     * Set id filter
-     * Filters search by given object id
-     * @return
-     */
-    public function setIdFilter($a_id_filter)
+
+    public function setIdFilter(array $a_id_filter)
     {
         $this->id_filter = $a_id_filter;
     }
-    
+
     /**
-     * Get Id filter
-     * @return
+     * @return int[]
      */
-    public function getIdFilter()
+    public function getIdFilter() : array
     {
-        return (array) $this->id_filter;
+        return $this->id_filter;
     }
 
-    /**
-    * Append object type to filter
-    * @param string obj_type e.g. 'role'
-    * @access public
-    */
-    public function appendToFilter($a_type)
+    public function appendToFilter(string $a_type) : void
     {
-        if (is_array($this->object_types)) {
-            if (in_array($a_type, $this->object_types)) {
-                return false;
-            }
+        if (!in_array($a_type, $this->object_types)) {
+            $this->object_types[] = $a_type;
         }
-        $this->object_types[] = $a_type;
-        
-        return true;
     }
 
 
     /**
-    * get object type to search in
-    * @param array Array of object types (e.g array('lm','st','pg','dbk'))
-    * @access public
-    */
-    public function getFilter()
+     * @param string[] Array of object types (e.g array('lm','st','pg','dbk'))
+     */
+    public function getFilter() : array
     {
-        return $this->object_types ? $this->object_types : array();
+        return $this->object_types;
     }
 
-    /**
-    * build locate string in case of AND search
-    * @return string
-    * @access public
-    */
-    public function __createLocateString()
+    public function __createLocateString() : string
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-        
-        if ($this->query_parser->getCombination() == 'or') {
+        if ($this->query_parser->getCombination() == ilQueryParser::QP_COMBINATION_OR) {
             return '';
         }
         if (count($this->fields) > 1) {
+            $tmp_fields = [];
             foreach ($this->fields as $field) {
                 $tmp_fields[] = array($field,'text');
             }
-            $complete_str = $ilDB->concat($tmp_fields);
-            
-        /*
-        $complete_str = 'CONCAT(';
-        $complete_str .= implode(',',$this->fields);
-        $complete_str .= ')';
-        */
+            $complete_str = $this->db->concat($tmp_fields);
+
         } else {
             $complete_str = $this->fields[0];
         }
@@ -168,17 +112,15 @@ class ilAbstractSearch
         $locate = '';
         foreach ($this->query_parser->getQuotedWords() as $word) {
             $locate .= ',';
-            $locate .= $ilDB->locate($ilDB->quote($word, 'text'), $complete_str);
+            $locate .= $this->db->locate($this->db->quote($word, 'text'), $complete_str);
             $locate .= (' found' . $counter++);
             $locate .= ' ';
-            #$locate .= (", LOCATE('".$word."',".$complete_str.") ");
-            #$locate .= ("as found".$counter++." ");
         }
         
         return $locate;
     }
 
-    public function __prepareFound(&$row)
+    public function __prepareFound(object $row) : array
     {
         if ($this->query_parser->getCombination() == 'or') {
             return array();
@@ -192,8 +134,5 @@ class ilAbstractSearch
         return $found;
     }
 
-    public function performSearch()
-    {
-        echo "Should be overwritten.";
-    }
+    abstract public function performSearch() : ilSearchResult;
 }

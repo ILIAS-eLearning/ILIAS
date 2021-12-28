@@ -15,7 +15,7 @@
 
 namespace ILIAS\Survey\Mode;
 
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\InternalService;
 
@@ -40,7 +40,7 @@ interface UIModifier
      */
     public function getSurveySettingsReminderTargets(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array;
 
     /**
@@ -48,7 +48,7 @@ interface UIModifier
      */
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array;
 
     public function setValuesFromForm(

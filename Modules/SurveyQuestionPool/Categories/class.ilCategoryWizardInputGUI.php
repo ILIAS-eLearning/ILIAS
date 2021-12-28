@@ -1,37 +1,40 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
- * This class represents a survey question category wizard property in a property form.
- *
+ * This class represents a survey question category wizard property
+ * in a property form.
  * @author Helmut Schottmüller <ilias@aurealis.de>
  */
 class ilCategoryWizardInputGUI extends ilTextInputGUI
 {
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    protected $values = array();
-    protected $allowMove = false;
-    protected $disabled_scale = true;
-    protected $show_wizard = false;
-    protected $show_save_phrase = false;
-    protected $categorytext;
-    protected $show_neutral_category = false;
-    protected $neutral_category_title;
-    protected $use_other_answer;
+    protected ilGlobalTemplateInterface $tpl;
+    protected ?SurveyCategories $values = null;
+    protected bool $allowMove = false;
+    protected bool $disabled_scale = true;
+    protected bool $show_wizard = false;
+    protected bool $show_save_phrase = false;
+    protected string $categorytext;
+    protected bool $show_neutral_category = false;
+    protected string $neutral_category_title;
+    protected bool $use_other_answer;
     
-    /**
-    * Constructor
-    *
-    * @param	string	$a_title	Title
-    * @param	string	$a_postvar	Post Variable
-    */
-    public function __construct($a_title = "", $a_postvar = "")
-    {
+    public function __construct(
+        string $a_title = "",
+        string $a_postvar = ""
+    ) {
         global $DIC;
 
         $this->lng = $DIC->language();
@@ -48,17 +51,17 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $this->setMaxLength(1000); // #6218
     }
     
-    public function getUseOtherAnswer()
+    public function getUseOtherAnswer() : bool
     {
         return $this->use_other_answer;
     }
     
-    public function setUseOtherAnswer($a_value)
+    public function setUseOtherAnswer(bool $a_value) : void
     {
-        $this->use_other_answer = ($a_value) ? true : false;
+        $this->use_other_answer = $a_value;
     }
     
-    public function getCategoryCount()
+    public function getCategoryCount() : int
     {
         if (!is_object($this->values)) {
             return 0;
@@ -66,7 +69,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         return $this->values->getCategoryCount();
     }
     
-    protected function calcNeutralCategoryScale()
+    protected function calcNeutralCategoryScale() : int
     {
         if (is_object($this->values)) {
             $scale = 0;
@@ -82,30 +85,29 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         }
     }
     
-    public function setShowNeutralCategory($a_value)
+    public function setShowNeutralCategory(bool $a_value) : void
     {
         $this->show_neutral_category = $a_value;
     }
     
-    public function getShowNeutralCategory()
+    public function getShowNeutralCategory() : bool
     {
         return $this->show_neutral_category;
     }
     
-    public function setNeutralCategoryTitle($a_title)
+    public function setNeutralCategoryTitle(string $a_title) : void
     {
         $this->neutral_category_title = $a_title;
     }
     
-    public function getNeutralCategoryTitle()
+    public function getNeutralCategoryTitle() : string
     {
         return $this->neutral_category_title;
     }
 
     /**
-    * Set Value.
-    * @param    $a_value Value
-    */
+     * @param array|string $a_value
+     */
     public function setValue($a_value) : void
     {
         $this->values = new SurveyCategories();
@@ -121,90 +123,66 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         }
     }
 
-    /**
-    * Set Values
-    *
-    * @param	array	$a_value	Value
-    */
-    public function setValues($a_values)
+    public function setValues(SurveyCategories $a_values) : void
     {
         $this->values = $a_values;
     }
 
-    /**
-    * Get Values
-    *
-    * @return	array	Values
-    */
-    public function getValues()
+    public function getValues() : SurveyCategories
     {
         return $this->values;
     }
 
-    /**
-    * Set allow move
-    *
-    * @param	boolean	$a_allow_move Allow move
-    */
-    public function setAllowMove($a_allow_move)
+    public function setAllowMove(bool $a_allow_move) : void
     {
         $this->allowMove = $a_allow_move;
     }
 
-    /**
-    * Get allow move
-    *
-    * @return	boolean	Allow move
-    */
-    public function getAllowMove()
+    public function getAllowMove() : bool
     {
         return $this->allowMove;
     }
     
-    public function setShowWizard($a_value)
+    public function setShowWizard(bool $a_value) : void
     {
         $this->show_wizard = $a_value;
     }
     
-    public function getShowWizard()
+    public function getShowWizard() : bool
     {
         return $this->show_wizard;
     }
     
-    public function setCategoryText($a_text)
+    public function setCategoryText(string $a_text) : void
     {
         $this->categorytext = $a_text;
     }
     
-    public function getCategoryText()
+    public function getCategoryText() : string
     {
         return $this->categorytext;
     }
     
-    public function setShowSavePhrase($a_value)
+    public function setShowSavePhrase(bool $a_value) : void
     {
         $this->show_save_phrase = $a_value;
     }
     
-    public function getShowSavePhrase()
+    public function getShowSavePhrase() : bool
     {
         return $this->show_save_phrase;
     }
     
-    public function getDisabledScale()
+    public function getDisabledScale() : bool
     {
         return $this->disabled_scale;
     }
     
-    public function setDisabledScale($a_value)
+    public function setDisabledScale(bool $a_value) : void
     {
         $this->disabled_scale = $a_value;
     }
 
-    /**
-    * Check input, strip slashes etc. set alert, if input is not ok.
-    * @return	boolean		Input ok, true/false
-    */
     public function checkInput() : bool
     {
         $lng = $this->lng;
@@ -224,7 +202,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
             }
             // check neutral column
             if (array_key_exists('neutral', $foundvalues)) {
-                if ((strlen($foundvalues['neutral']) == 0) && ($this->getRequired)) {
+                if ((strlen($foundvalues['neutral']) == 0) && ($this->getRequired())) {
                     $this->setAlert($lng->txt("msg_input_is_required"));
                     return false;
                 }
@@ -266,12 +244,9 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         return $this->checkSubItemsInput();
     }
 
-    /**
-    * Insert property html
-    * @return	void	Size
-    */
-    public function insert(ilTemplate $a_tpl) : void
-    {
+    public function insert(
+        ilTemplate $a_tpl
+    ) : void {
         $lng = $this->lng;
         
         $neutral_category = null;
@@ -363,7 +338,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
                 $tpl->parseCurrentBlock();
             }
             $tpl->setCurrentBlock("prop_scale_neutral_propval");
-            $scale = ($neutral_category->scale > 0) ? $neutral_category->scale : $this->values->getNewScale();
+            $scale = (is_object($neutral_category) && $neutral_category->scale > 0) ? $neutral_category->scale : $this->values->getNewScale();
             $tpl->setVariable("PROPERTY_VALUE", ilUtil::prepareFormOutput($scale));
             $tpl->parseCurrentBlock();
 

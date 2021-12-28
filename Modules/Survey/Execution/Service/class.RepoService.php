@@ -34,9 +34,9 @@ class RepoService
         $this->data = $data;
     }
 
-    public function anonymousSession() : AnonymousSessionRepo
+    public function runSession() : RunSessionRepo
     {
-        return new AnonymousSessionRepo();
+        return new RunSessionRepo();
     }
 
     public function run() : RunDBRepository

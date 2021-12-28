@@ -24,7 +24,7 @@ class ilADTGroupDBBridge extends ilADTDBBridge
 
         foreach ($this->getADT()->getElements() as $name => $element) {
             $this->elements[$name] = $factory->getDBBridgeForInstance($element);
-            $this->elements[$name]->setElementId($name);
+            $this->elements[$name]->setElementId((string) $name);
             $this->elements[$name]->setTable($this->getTable());
             $this->elements[$name]->setPrimary($this->getPrimary());
         }

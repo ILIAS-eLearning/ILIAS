@@ -83,10 +83,10 @@ class ilSurveyEvaluationGUI
 
         $this->ui_modifier = $DIC->survey()
              ->internal()
-             ->ui()
+             ->gui()
              ->modeUIModifier($this->object->getMode());
 
-        $this->request = $DIC->survey()->internal()->ui()->evaluation($this->object)->request();
+        $this->request = $DIC->survey()->internal()->gui()->evaluation($this->object)->request();
     }
     
     public function executeCommand() : string
@@ -175,13 +175,13 @@ class ilSurveyEvaluationGUI
         $ilUser = $this->user;
         
         if ($this->object->getAnonymize() == 1 &&
-            $_SESSION["anon_evaluation_access"] == $_GET["ref_id"]) {
+            $this->evaluation_manager->getAnonEvaluationAccess() == $_GET["ref_id"]) {
             return true;
         }
         
         if (ilObjSurveyAccess::_hasEvaluationAccess(ilObject::_lookupObjId($_GET["ref_id"]), $ilUser->getId())) {
             if ($this->object->getAnonymize() == 1) {
-                $_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
+                $this->evaluation_manager->setAnonEvaluationAccess($_GET["ref_id"]);
             }
             return true;
         }
@@ -190,7 +190,7 @@ class ilSurveyEvaluationGUI
             // autocode
             $surveycode = $this->object->getUserAccessCode($ilUser->getId());
             if ($this->object->isAnonymizedParticipant($surveycode)) {
-                $_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
+                $this->evaluation_manager->setAnonEvaluationAccess($_GET["ref_id"]);
                 return true;
             }
             
@@ -215,7 +215,7 @@ class ilSurveyEvaluationGUI
             $this->tpl->parseCurrentBlock();
         }
         
-        $_SESSION["anon_evaluation_access"] = null;
+        $this->evaluation_manager->clearAnonEvaluationAccess();
         return false;
     }
 
@@ -226,7 +226,7 @@ class ilSurveyEvaluationGUI
     {
         $surveycode = $_POST["surveycode"];
         if ($this->object->isAnonymizedParticipant($surveycode)) {
-            $_SESSION["anon_evaluation_access"] = $_GET["ref_id"];
+            $this->evaluation_manager->setAnonEvaluationAccess($_GET["ref_id"]);
             $this->evaluation();
         } else {
             ilUtil::sendFailure($this->lng->txt("svy_check_evaluation_wrong_key", true));

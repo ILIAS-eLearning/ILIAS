@@ -24,7 +24,7 @@ use ILIAS\Survey\Mode\ModeFactory;
 class InternalService
 {
     protected InternalDataService $data;
-    protected InternalUIService $ui;
+    protected InternalGUIService $gui;
     protected InternalDomainService $domain;
     protected InternalRepoService $repo;
     protected ModeFactory $mode_factory;
@@ -48,7 +48,7 @@ class InternalService
             $this->repo,
             $this->data
         );
-        $this->ui = new InternalUIService(
+        $this->gui = new InternalGUIService(
             $object_service,
             $this->mode_factory,
             $this->domain
@@ -56,9 +56,9 @@ class InternalService
         $this->mode_factory->setInternalService($this);
     }
 
-    public function ui() : InternalUIService
+    public function gui() : InternalGUIService
     {
-        return $this->ui;
+        return $this->gui;
     }
 
     public function repo() : InternalRepoService

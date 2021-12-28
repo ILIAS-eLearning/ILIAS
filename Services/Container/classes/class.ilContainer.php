@@ -1085,7 +1085,7 @@ class ilContainer extends ilObject
                         $obj_ids = array_intersect($obj_ids, $result_obj_ids);
                     } else {
                         #$query_parser->setCombination($this->options['title_ao']);
-                        $query_parser->setCombination(QP_COMBINATION_OR);
+                        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_OR);
                         $query_parser->parse();
                         $meta_search = ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
 

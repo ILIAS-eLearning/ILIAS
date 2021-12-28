@@ -144,7 +144,7 @@ class ilADTActiveRecordByType
      * @param bool $a_return_additional_data
      * @return bool | array
      */
-    public function read($a_return_additional_data = false) : mixed
+    public function read($a_return_additional_data = false)
     {
         // reset all group elements
         $this->properties->getADT()->reset();

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -32,30 +32,31 @@
 *
 * @author Stefan Meyer <meyer@leifos.com>
 *
-* @version $Id$
 *
 * @package ilias-tracking
 *
 */
 class ilUserFilterGUI
 {
-    public $usr_id = null;
-    public $tpl = null;
-    public $lng = null;
-    public $ctrl = null;
+    private int $usr_id;
 
-    public function __construct($a_usr_id)
+    protected ilGlobalTemplateInterface $tpl;
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected ilUserSearchFilter $filter;
+    protected ilObjUser $user;
+
+    public function __construct(int $a_usr_id)
     {
         global $DIC;
 
-        $lng = $DIC['lng'];
-        $ilCtrl = $DIC['ilCtrl'];
-        $tpl = $DIC['tpl'];
+        $this->lng = $DIC->language();
+        $this->ctrl = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->user = $DIC->user();
 
-        $this->ctrl = $ilCtrl;
-        $this->lng = $lng;
+
         $this->lng->loadLanguageModule('trac');
-        $this->tpl = $tpl;
         $this->usr_id = $a_usr_id;
         $this->__initFilter();
     }
@@ -63,7 +64,7 @@ class ilUserFilterGUI
     /**
     * execute command
     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         switch ($this->ctrl->getNextClass()) {
             default:
@@ -71,21 +72,17 @@ class ilUserFilterGUI
                 $this->$cmd();
 
         }
-        return true;
     }
 
     
-    public function getUserId()
+    public function getUserId() : int
     {
         return $this->usr_id;
     }
 
 
-    public function getHTML()
+    public function getHTML() : string
     {
-        global $DIC;
-
-        $ilObjDataCache = $DIC['ilObjDataCache'];
 
         $tpl = new ilTemplate('tpl.search_user_filter.html', true, true, 'Services/Search');
 
@@ -105,7 +102,7 @@ class ilUserFilterGUI
 
         
         
-    public function refresh()
+    public function refresh() : bool
     {
         $_GET['offset'] = 0;
         $this->ctrl->saveParameter($this, 'offset');
@@ -116,15 +113,9 @@ class ilUserFilterGUI
     }
 
 
-    // Private
-    public function __initFilter()
+    public function __initFilter() : bool
     {
-        global $DIC;
-
-        $ilUser = $DIC['ilUser'];
-
-        include_once 'Services/Search/classes/class.ilUserSearchFilter.php';
-        $this->filter = new ilUserSearchFilter($ilUser->getId());
+        $this->filter = new ilUserSearchFilter($this->user->getId());
         return true;
     }
 }

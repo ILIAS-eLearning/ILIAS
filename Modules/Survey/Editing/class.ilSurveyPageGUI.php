@@ -21,6 +21,7 @@
  */
 class ilSurveyPageGUI
 {
+    protected \ILIAS\Survey\Editing\EditManager $edit_manager;
     protected ilCtrl $ctrl;
     protected ilRbacSystem $rbacsystem;
     protected ilDBInterface $db;
@@ -57,6 +58,10 @@ class ilSurveyPageGUI
         $this->ref_id = $a_survey->getRefId();
         $this->object = $a_survey;
         $this->log = ilLoggerFactory::getLogger("svy");
+        $this->edit_manager = $DIC->survey()
+            ->internal()
+            ->domain()
+            ->edit();
     }
 
     public function executeCommand() : void
@@ -348,7 +353,7 @@ class ilSurveyPageGUI
     protected function addQuestion(
         int $a_type,
         bool $a_use_pool,
-        int $a_pos,
+        string $a_pos,
         string $a_special_position
     ) : bool {
         $ilCtrl = $this->ctrl;
@@ -368,7 +373,7 @@ class ilSurveyPageGUI
         if ($a_special_position == "toolbar") {
             $id = $this->object->getSurveyPages();
             if ($a_pos && $a_pos != "fst") {
-                $id = $id[$a_pos - 1];
+                $id = $id[(int) $a_pos - 1];
                 $id = array_pop($id);
                 $id = $id["question_id"] . "c";
             } else {
@@ -425,11 +430,13 @@ class ilSurveyPageGUI
         
         ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
         $this->suppress_clipboard_msg = true;
-        
-        $_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
-                        "source" => $this->current_page,
-                        "nodes" => array($a_id),
-                        "mode" => "cut");
+
+        $this->edit_manager->setQuestionClipboard(
+            $this->ref_id,
+            $this->current_page,
+            "cut",
+            array($a_id)
+        );
     }
     
     /**
@@ -442,10 +449,12 @@ class ilSurveyPageGUI
         ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
         $this->suppress_clipboard_msg = true;
         
-        $_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
-                        "source" => $this->current_page,
-                        "nodes" => array($a_id),
-                        "mode" => "copy");
+        $this->edit_manager->setQuestionClipboard(
+            $this->ref_id,
+            $this->current_page,
+            "copy",
+            array($a_id)
+        );
     }
 
     /**
@@ -461,10 +470,12 @@ class ilSurveyPageGUI
             ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
             $this->suppress_clipboard_msg = true;
 
-            $_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
-                "source" => $this->current_page,
-                "nodes" => $a_id,
-                "mode" => "cut");
+            $this->edit_manager->setQuestionClipboard(
+                $this->ref_id,
+                $this->current_page,
+                "cut",
+                $a_id
+            );
         }
     }
 
@@ -480,10 +491,12 @@ class ilSurveyPageGUI
             ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
             $this->suppress_clipboard_msg = true;
 
-            $_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = array(
-                "source" => $this->current_page,
-                "nodes" => $a_id,
-                "mode" => "copy");
+            $this->edit_manager->setQuestionClipboard(
+                $this->ref_id,
+                $this->current_page,
+                "copy",
+                $a_id
+            );
         }
     }
 
@@ -492,7 +505,7 @@ class ilSurveyPageGUI
      */
     protected function clearClipboard() : void
     {
-        $_SESSION["survey_page_view"][$this->ref_id]["clipboard"] = null;
+        $this->edit_manager->clearQuestionClipboard($this->ref_id);
     }
 
     /**
@@ -501,15 +514,17 @@ class ilSurveyPageGUI
      */
     protected function paste(int $a_id) : void
     {
-        $data = $_SESSION["survey_page_view"][$this->ref_id]["clipboard"];
+        $source_page = $this->edit_manager->getQuestionClipboardSourcePage($this->ref_id);
+        $qids = $this->edit_manager->getQuestionClipboardQuestions($this->ref_id);
+        $mode = $this->edit_manager->getQuestionClipboardMode($this->ref_id);
         $pages = $this->object->getSurveyPages();
-        $source = $pages[$data["source"] - 1];
+        $source = $pages[$source_page - 1];
         $target = $pages[$this->current_page - 1];
                 
         // #12558 - use order of source page
         $nodes = array();
         foreach ($source as $src_qst) {
-            if (in_array($src_qst["question_id"], $data["nodes"])) {
+            if (in_array($src_qst["question_id"], $qids)) {
                 $nodes[] = $src_qst["question_id"];
             }
         }
@@ -524,9 +539,9 @@ class ilSurveyPageGUI
         }
         
         // cut
-        if ($data["mode"] == "cut") {
+        if ($mode == "cut") {
             // special case: paste cut on same page (no block handling needed)
-            if ($data["source"] == $this->current_page) {
+            if ($source_page == $this->current_page) {
                 // re-order nodes in page
                 if (sizeof($nodes) <= sizeof($source)) {
                     $this->object->moveQuestions($nodes, $a_id, $pos);
@@ -554,14 +569,14 @@ class ilSurveyPageGUI
                 }
 
                 // page will be "deleted" by operation
-                if (sizeof($source) == sizeof($nodes) && $data["source"] < $this->current_page) {
+                if (sizeof($source) == sizeof($nodes) && $source_page < $this->current_page) {
                     $this->current_page--;
                 }
             }
         }
         
         // copy
-        elseif ($data["mode"] == "copy") {
+        elseif ($mode == "copy") {
             $titles = array();
             foreach ($this->object->getSurveyPages() as $page) {
                 foreach ($page as $question) {
@@ -1054,8 +1069,7 @@ class ilSurveyPageGUI
 
         // make sure that it is set for current and next requests
         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
-
-        if (!$this->addQuestion($_POST["qtype"], $pool_active, $_POST["pgov"], "toolbar")) {
+        if (!$this->addQuestion((int) $_POST["qtype"], $pool_active, $_POST["pgov"], "toolbar")) {
             $this->renderPage();
         }
     }
@@ -1154,6 +1168,7 @@ class ilSurveyPageGUI
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         $ilUser = $this->user;
+        $pages_drop = null;
         
         if (!$this->has_datasets) {
             $button = ilLinkButton::getInstance();
@@ -1310,7 +1325,7 @@ class ilSurveyPageGUI
 
             if (!$read_only) {
                 // clipboard is empty
-                if (!$_SESSION["survey_page_view"][$this->ref_id]["clipboard"]) {
+                if ($this->edit_manager->isQuestionClipboardEmpty($this->ref_id)) {
                     $multi_commands[] = array("cmd" => "multiDelete", "text" => $lng->txt("delete"));
                     $multi_commands[] = array("cmd" => "multiCut", "text" => $lng->txt("cut"));
                     $multi_commands[] = array("cmd" => "multiCopy", "text" => $lng->txt("copy"));
@@ -1406,7 +1421,7 @@ class ilSurveyPageGUI
         
         $ttpl = new ilTemplate("tpl.il_svy_svy_page_view_nodes.html", true, true, "Modules/Survey");
 
-        $has_clipboard = (bool) $_SESSION["survey_page_view"][$this->ref_id]["clipboard"];
+        $has_clipboard = !$this->edit_manager->isQuestionClipboardEmpty($this->ref_id);
 
         // question block ?
 
@@ -1476,7 +1491,7 @@ class ilSurveyPageGUI
                 array(),
                 $this->object->getShowQuestionTitles(),
                 $question["questionblock_show_questiontext"],
-                null,
+                "",
                 $this->object->getSurveyId(),
                 $compress_view
             );
@@ -1562,7 +1577,7 @@ class ilSurveyPageGUI
     public function renderPageNode(
         ilTemplate $a_tpl,
         string $a_type,
-        int $a_id,
+        string $a_id,
         ?string $a_content = null,
         ?array $a_menu = null,
         bool $a_spacer = false,

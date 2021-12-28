@@ -38,7 +38,6 @@ class ilSurveyExecutionGUI
     protected bool $preview;
     protected ilLogger $log;
     protected \ILIAS\Survey\Execution\RunManager $run_manager;
-    protected \ILIAS\Survey\Execution\SessionManager $session_manager;
     protected \ILIAS\Survey\Participants\StatusManager $participant_manager;
     protected \ILIAS\Survey\Access\AccessManager $access_manager;
     protected int $requested_appr_id;
@@ -75,10 +74,6 @@ class ilSurveyExecutionGUI
 
         $domain_service = $DIC->survey()->internal();
         $this->run_manager = $domain_service->domain()->execution()->run(
-            $a_object,
-            $this->user->getId()
-        );
-        $this->session_manager = $domain_service->domain()->execution()->session(
             $a_object,
             $this->user->getId()
         );
@@ -149,7 +144,7 @@ class ilSurveyExecutionGUI
         $anonymous_id = null;
         $anonymous_code = "";
         if ($this->access_manager->isCodeInputAllowed()) {
-            $anonymous_code = $this->session_manager->getCode();
+            $anonymous_code = $this->run_manager->getCode();
             $anonymous_id = $this->object->getAnonymousIdByCode($anonymous_code);
             if (!$anonymous_id) {
                 ilUtil::sendFailure(sprintf($this->lng->txt("error_retrieving_anonymous_survey"), $anonymous_code, true));
@@ -222,9 +217,9 @@ class ilSurveyExecutionGUI
     public function start($resume = false)
     {
         if ($this->preview) {
-            unset($_SESSION["preview_data"]);
+            $this->run_manager->clearAllPreviewData();
         }
-        unset($_SESSION["svy_errors"]);
+        $this->run_manager->clearErrors();
         
         $this->checkAuth(!$resume);
                 
@@ -337,7 +332,7 @@ class ilSurveyExecutionGUI
                     if (!$this->preview) {
                         $working_data = $this->object->loadWorkingData($constraint["question"], $this->getCurrentRunId());
                     } else {
-                        $working_data = $_SESSION["preview_data"][$this->object->getId()][$constraint["question"]];
+                        $working_data = $this->run_manager->getPreviewData($constraint["question"]);
                     }
                     if ($constraint['conjunction'] == 0) {
                         // and
@@ -356,7 +351,7 @@ class ilSurveyExecutionGUI
                         if (!$this->preview) {
                             $this->object->deleteWorkingData($qid, $this->getCurrentRunId());
                         } else {
-                            $_SESSION["preview_data"][$this->object->getId()][$qid] = null;
+                            $this->run_manager->clearPreviewData($qid);
                         }
                     }
                     
@@ -464,19 +459,29 @@ class ilSurveyExecutionGUI
                     $first_question = $data["question_id"];
                 }
                 $question_gui = $this->object->getQuestionGUI($data["type_tag"], $data["question_id"]);
-                if (is_array($_SESSION["svy_errors"])) {
-                    $working_data = &$question_gui->object->getWorkingDataFromUserInput($_SESSION["postdata"]);
+                $errors = $this->run_manager->getErrors();
+                if (count($errors) > 0) {
+                    $working_data = $question_gui->object->getWorkingDataFromUserInput(
+                        $this->run_manager->getPostData()
+                    );
                 } else {
                     $working_data = $this->object->loadWorkingData($data["question_id"], $this->getCurrentRunId());
                 }
                 $question_gui->object->setObligatory($data["obligatory"]);
                 $error_messages = array();
-                if (is_array($_SESSION["svy_errors"])) {
-                    $error_messages = $_SESSION["svy_errors"];
+                if (count($errors) > 0) {
+                    $error_messages = $errors;
                 }
                 $show_questiontext = ($data["questionblock_show_questiontext"]) ? 1 : 0;
                 $show_title = ($this->object->getShowQuestionTitles() && !$data["compressed_first"]);
-                $question_output = $question_gui->getWorkingForm($working_data, $show_title, $show_questiontext, $error_messages[$data["question_id"]], $this->object->getSurveyId(), $compress_view);
+                $question_output = $question_gui->getWorkingForm(
+                    $working_data,
+                    $show_title,
+                    $show_questiontext,
+                    $error_messages[$data["question_id"]],
+                    $this->object->getSurveyId(),
+                    $compress_view
+                );
                 if ($data["compressed"]) {
                     $question_output = '<div class="il-svy-qst-compressed">' . $question_output . '</div>';
                 }
@@ -502,7 +507,7 @@ class ilSurveyExecutionGUI
 
         if (!$this->preview) {
             $this->object->setPage($this->getCurrentRunId(), $page[0]['question_id']);
-            $this->object->setStartTime($this->getCurrentRunId(), $first_question);
+            $this->run_manager->setStartTime($first_question);
         }
     }
 
@@ -536,12 +541,13 @@ class ilSurveyExecutionGUI
         string $navigationDirection = "next"
     ) : int {
         if (!$this->preview) {
-            $this->object->setEndTime($this->getCurrentRunId());
+            $this->run_manager->setEndTime();
         }
         
         // check users input when it is a metric question
-        unset($_SESSION["svy_errors"]);
-        $_SESSION["postdata"] = $_POST;
+        $this->run_manager->clearErrors();
+        $this->run_manager->setPostData($_POST);
+
         $page_error = 0;
         $page = $this->object->getNextPage($_GET["qid"], 0);
         foreach ($page as $data) {
@@ -555,7 +561,7 @@ class ilSurveyExecutionGUI
             }
         } else {
             $page_error = 0;
-            unset($_SESSION["svy_errors"]);
+            $this->run_manager->clearErrors();
         }
         return $page_error;
     }
@@ -574,12 +580,16 @@ class ilSurveyExecutionGUI
         
                 $question->saveUserInput($_POST, $this->getCurrentRunId());
             } else {
-                $_SESSION["preview_data"][$this->object->getId()][$data["question_id"]] =
-                    $question->saveUserInput($_POST, $this->getCurrentRunId(), true);
+                $this->run_manager->setPreviewData(
+                    $data["question_id"],
+                    $question->saveUserInput($_POST, $this->getCurrentRunId(), true)
+                );
             }
             return 0;
         } else {
-            $_SESSION["svy_errors"][$question->getId()] = $error;
+            $errors = $this->run_manager->getErrors();
+            $errors[$question->getId()] = $error;
+            $this->run_manager->setErrors($errors);
             return 1;
         }
     }
@@ -797,7 +807,7 @@ class ilSurveyExecutionGUI
             if ($this->object->getMailNotification()) {
                 $this->object->sendNotificationMail(
                     $ilUser->getId(),
-                    $this->session_manager->getCode(),
+                    $this->run_manager->getCode(),
                     $this->requested_appr_id
                 );
             }

@@ -134,6 +134,7 @@ class ilObjSurvey extends ilObject
     protected \ILIAS\Survey\Code\CodeManager $code_manager;
     protected \ILIAS\Survey\InternalDataService $data_manager;
     protected ?Mode\FeatureConfig $feature_config;
+    protected \ILIAS\SurveyQuestionPool\Export\ImportManager $import_manager;
 
     public function __construct(
         int $a_id = 0,
@@ -173,6 +174,11 @@ class ilObjSurvey extends ilObject
             ->domain()
             ->participants()
             ->invitations();
+
+        $this->import_manager = $DIC->surveyQuestionPool()
+            ->internal()
+            ->domain()
+            ->import();
 
         parent::__construct($a_id, $a_call_by_reference);
         $this->initServices();
@@ -2459,44 +2465,6 @@ class ilObjSurvey extends ilObject
     }
 
     /**
-     * Checks if a user already started a survey
-     * @todo move to run manager/repo
-     */
-    public function isSurveyStarted(
-        int $user_id,
-        string $anonymize_id,
-        int $appr_id = 0
-    ) : bool {
-        $ilDB = $this->db;
-
-        // #15031 - should not matter if code was used by registered or anonymous (each code must be unique)
-        if ($anonymize_id) {
-            $result = $ilDB->queryF(
-                "SELECT * FROM svy_finished" .
-                " WHERE survey_fi = %s AND anonymous_id = %s AND appr_id = %s",
-                array('integer','text','integer'),
-                array($this->getSurveyId(), $anonymize_id, $appr_id)
-            );
-        } else {
-            $result = $ilDB->queryF(
-                "SELECT * FROM svy_finished" .
-                " WHERE survey_fi = %s AND user_fi = %s AND appr_id = %s",
-                array('integer','integer','integer'),
-                array($this->getSurveyId(), $user_id, $appr_id)
-            );
-        }
-        if ($result->numRows() == 0) {
-            return false;
-        } else {
-            $row = $ilDB->fetchAssoc($result);
-            // yes, we are doing it this way
-            $_SESSION["finished_id"][$this->getId()] = $row["finished_id"];
-            
-            return (int) $row["state"];
-        }
-    }
-
-    /**
      * Get run id
      * @todo move to run manager/repo
      */
@@ -3227,7 +3195,7 @@ class ilObjSurvey extends ilObject
                 return $error;
             }
 
-            unset($_SESSION["import_mob_xhtml"]);
+            $this->import_manager->clearMobs();
             if (strpos($xml, "questestinterop")) {
                 throw new ilInvalidSurveyImportFileException("Unsupported survey version (< 3.8) found.");
             } else {
@@ -4210,41 +4178,6 @@ class ilObjSurvey extends ilObject
     /**
      * @todo move to run manager?
      */
-    public function setStartTime(
-        int $finished_id,
-        int $first_question
-    ) : void {
-        $ilDB = $this->db;
-        $time = time();
-        //primary for table svy_times
-        $id = $ilDB->nextId('svy_times');
-        $_SESSION['svy_entered_page'] = $time;
-        $ilDB->manipulateF(
-            "INSERT INTO svy_times (id, finished_fi, entered_page, left_page, first_question) VALUES (%s, %s, %s, %s,%s)",
-            array('integer','integer', 'integer', 'integer', 'integer'),
-            array($id, $finished_id, $time, null, $first_question)
-        );
-    }
-
-    /**
-     * @todo move to run manager?
-     */
-    public function setEndTime(
-        int $finished_id
-    ) : void {
-        $ilDB = $this->db;
-        $time = time();
-        $affectedRows = $ilDB->manipulateF(
-            "UPDATE svy_times SET left_page = %s WHERE finished_fi = %s AND entered_page = %s",
-            array('integer', 'integer', 'integer'),
-            array($time, $finished_id, $_SESSION['svy_entered_page'])
-        );
-        unset($_SESSION['svy_entered_page']);
-    }
-
-    /**
-     * @todo move to run manager?
-     */
     public function getWorkingtimeForParticipant(
         int $finished_id
     ) : int {
@@ -5029,7 +4962,13 @@ class ilObjSurvey extends ilObject
         /** @var ILIAS\DI\Container $DIC */
         global $DIC;
 
-        if (!isset($_SESSION["360_extrtr"][$a_ref_id])) {
+        $anonym_repo = $DIC->survey()
+                           ->internal()
+                           ->repo()
+                           ->execution()
+                           ->runSession();
+
+        if (!$anonym_repo->isExternalRaterValidated($a_ref_id)) {
             $svy = new self($a_ref_id);
             $svy->loadFromDB();
 
@@ -5044,17 +4983,16 @@ class ilObjSurvey extends ilObject
                 $anonymous_id = $svy->getAnonymousIdByCode($a_code);
                 if ($anonymous_id) {
                     if (sizeof($svy->getAppraiseesToRate(null, $anonymous_id))) {
-                        $_SESSION["360_extrtr"][$a_ref_id] = true;
+                        $anonym_repo->setExternalRaterValidation($a_ref_id, true);
                         return true;
                     }
                 }
             }
-
-            $_SESSION["360_extrtr"][$a_ref_id] = false;
+            $anonym_repo->setExternalRaterValidation($a_ref_id, false);
             return false;
         }
         
-        return $_SESSION["360_extrtr"][$a_ref_id];
+        return $anonym_repo->isExternalRaterValidated($a_ref_id);
     }
     
     

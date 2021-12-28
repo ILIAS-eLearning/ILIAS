@@ -16,7 +16,7 @@
 namespace ILIAS\Survey\Mode\Standard;
 
 use \ILIAS\Survey\Mode;
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 
 /**
  * Interface for modes
@@ -26,7 +26,7 @@ class UIModifier extends Mode\AbstractUIModifier
 {
     public function getSurveySettingsResults(
         \ilObjSurvey $survey,
-        InternalUIService $ui_service
+        InternalGUIService $ui_service
     ) : array {
         $items = [];
         $lng = $ui_service->lng();
@@ -116,9 +116,6 @@ class UIModifier extends Mode\AbstractUIModifier
 
                 $survey->setAnonymousUserList($form->getInput("anon_list"));
             }
-
-            // if settings were changed get rid of existing code
-            unset($_SESSION["anonymous_id"][$survey->getId()]);
         }
     }
 }

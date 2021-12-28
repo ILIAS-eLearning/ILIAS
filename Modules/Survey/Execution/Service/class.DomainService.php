@@ -36,22 +36,6 @@ class DomainService
         $this->repo_service = $repo_service;
     }
 
-    public function session(
-        \ilObjSurvey $survey,
-        int $user_id
-    ) : SessionManager {
-        if (!isset(self::$managers[SessionManager::class][$survey->getId()][$user_id])) {
-            self::$managers[SessionManager::class][$survey->getId()][$user_id] =
-                new SessionManager(
-                    $this->repo_service->execution()->anonymousSession(),
-                    $survey,
-                    $user_id,
-                    $this->domain_service
-                );
-        }
-        return self::$managers[SessionManager::class][$survey->getId()][$user_id];
-    }
-
     public function run(
         \ilObjSurvey $survey,
         int $user_id

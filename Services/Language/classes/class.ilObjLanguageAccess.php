@@ -89,7 +89,7 @@ class ilObjLanguageAccess
         " WHERE r.obj_id = d.obj_id AND d.type = " . $ilDB->quote("lngf", "text");
         $set = $ilDB->query($q);
         $row = $ilDB->fetchAssoc($set);
-        return $row["ref_id"];
+        return (int) $row["ref_id"];
     }
     
 
@@ -142,7 +142,7 @@ class ilObjLanguageAccess
     public static function _isPageTranslation() : bool
     {
         $cmdClass = $_GET["cmdClass"] ?? "";
-        return (strtolower($cmdClass == "ilobjlanguageextgui") && $_GET["view_mode"] == "translate");
+        return (strtolower($cmdClass) == "ilobjlanguageextgui" && $_GET["view_mode"] == "translate");
     }
 
     /**

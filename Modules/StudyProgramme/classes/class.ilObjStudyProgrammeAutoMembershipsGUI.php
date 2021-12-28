@@ -601,7 +601,7 @@ class ilObjStudyProgrammeAutoMembershipsGUI
     protected function parseQueryString(string $string)
     {
         $query_parser = new ilQueryParser(ilUtil::stripSlashes($string));
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->setMinWordLength(1);
         $query_parser->setGlobalMinLength(3); // #14768
         $query_parser->parse();

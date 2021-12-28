@@ -356,7 +356,7 @@ class ilInternalLink
         $result = new ilSearchResult();
 
         $query_parser = new ilQueryParser($a_search_str, '%_');
-        $query_parser->setCombination(QP_COMBINATION_AND);
+        $query_parser->setCombination(ilQueryParser::QP_COMBINATION_AND);
         $query_parser->setMinWordLength(3);
         $query_parser->parse();
 

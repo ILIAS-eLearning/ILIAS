@@ -2359,7 +2359,7 @@ class ilObjCourseGUI extends ilContainerGUI
                 $this->setSubTabs("properties");
                 $this->tabs_gui->activateTab('settings');
                 $this->tabs_gui->activateSubTab('preconditions');
-                $new_gui = new ilConditionHandlerGUI($this);
+                $new_gui = new ilConditionHandlerGUI($this->object->getRefId());
                 $this->ctrl->forwardCommand($new_gui);
                 break;
 

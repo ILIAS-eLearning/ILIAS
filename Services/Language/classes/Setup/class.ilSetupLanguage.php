@@ -46,7 +46,6 @@
  */
 class ilSetupLanguage extends ilLanguage
 {
-
     public array $text;
     public string $lang_default = "en";
     public string $lang_path;
@@ -100,7 +99,7 @@ class ilSetupLanguage extends ilLanguage
      *
      * $a_lang_keys    array with lang_keys of languages to install
      */
-    public function installLanguages(array $a_lang_keys, array $a_local_keys) : array
+    public function installLanguages(array $a_lang_keys, array $a_local_keys) : bool
     {
         global $ilDB;
         
@@ -323,8 +322,9 @@ class ilSetupLanguage extends ilLanguage
      *
      * $content    expect an ILIAS lang-file
      *
+     * @return bool|string[]
      */
-    protected function cut_header(array $content) : array|bool
+    protected function cut_header(array $content)
     {
         foreach ($content as $key => $val) {
             if (trim($val) == "<!-- language file start -->") {

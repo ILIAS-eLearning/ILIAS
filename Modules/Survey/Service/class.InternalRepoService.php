@@ -16,6 +16,8 @@
 namespace ILIAS\Survey;
 
 use ILIAS\Survey\Execution;
+use ILIAS\Survey\Editing;
+use ILIAS\Survey\Evaluation;
 
 /**
  * Survey internal data service
@@ -62,5 +64,15 @@ class InternalRepoService
             $this->data,
             $this->db
         );
+    }
+
+    public function edit() : Editing\EditSessionRepo
+    {
+        return new Editing\EditSessionRepo();
+    }
+
+    public function evaluation() : Evaluation\EvaluationSessionRepo
+    {
+        return new Evaluation\EvaluationSessionRepo();
     }
 }

@@ -25,6 +25,7 @@ use ILIAS\Survey\InternalRepoService;
  */
 class EvaluationManager
 {
+    protected EvaluationSessionRepo $eval_repo;
     protected int $requested_appr_id;
     protected InternalDomainService $domain_service;
     protected \ilObjSurvey $survey;
@@ -50,6 +51,7 @@ class EvaluationManager
         $this->user_id = $user_id;
         $this->requested_appr_id = $requested_appr_id;
         $this->requested_rater_id = $requested_rater_id;
+        $this->eval_repo = $this->repo_service->evaluation();
     }
 
     /**
@@ -168,5 +170,20 @@ class EvaluationManager
             return $req_rater_id;
         }
         return "";
+    }
+
+    public function setAnonEvaluationAccess(int $ref_id) : void
+    {
+        $this->eval_repo->setAnonEvaluationAccess($ref_id);
+    }
+
+    public function getAnonEvaluationAccess() : int
+    {
+        return $this->eval_repo->getAnonEvaluationAccess();
+    }
+
+    public function clearAnonEvaluationAccess() : void
+    {
+        $this->eval_repo->clearAnonEvaluationAccess();
     }
 }

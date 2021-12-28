@@ -22,6 +22,7 @@ class ilSurveyImporter extends ilXmlImporter
     protected ilLogger $log;
     protected static ilObjSurvey $survey;
     protected ilLogger $svy_log;
+    protected \ILIAS\SurveyQuestionPool\Export\ImportManager $spl_import_manager;
 
     public function __construct()
     {
@@ -29,6 +30,11 @@ class ilSurveyImporter extends ilXmlImporter
         global $DIC;
 
         $this->log = $DIC["ilLog"];
+
+        $this->spl_import_manager = $DIC->surveyQuestionPool()
+            ->internal()
+            ->domain()
+            ->import();
     }
 
 
@@ -94,14 +100,14 @@ class ilSurveyImporter extends ilXmlImporter
             $import->setSurveyObject($newObj);
             $import->startParsing();
 
-            $this->svy_log->debug("is array import_mob_xml: -" . is_array($_SESSION["import_mob_xhtml"]) . "-");
 
             // this is "written" by Services/Survey/classes/class.ilSurveyImportParser
-            if (is_array($_SESSION["import_mob_xhtml"])) {
-                foreach ($_SESSION["import_mob_xhtml"] as $mob) {
+            $mobs = $this->spl_import_manager->getMobs();
+            if (count($mobs) > 0) {
+                foreach ($mobs as $mob) {
                     $this->svy_log->debug("import mob xhtml, type: " . $mob["type"] . ", id: " . $mob["mob"]);
 
-                    if (!$mob["type"]) {
+                    if (!isset($mob["type"])) {
                         $mob["type"] = "svy:html";
                     }
 

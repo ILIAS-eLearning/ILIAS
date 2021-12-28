@@ -15,7 +15,7 @@
 
 namespace ILIAS\Survey\Evaluation;
 
-use ILIAS\Survey\InternalUIService;
+use ILIAS\Survey\InternalGUIService;
 use ILIAS\Survey\InternalDomainService;
 
 /**
@@ -23,12 +23,12 @@ use ILIAS\Survey\InternalDomainService;
  */
 class UIFactory
 {
-    protected InternalUIService $ui_service;
+    protected InternalGUIService $ui_service;
     protected \ilObjectServiceInterface $object_service;
     protected InternalDomainService $domain_service;
 
     public function __construct(
-        InternalUIService $ui_service,
+        InternalGUIService $ui_service,
         \ilObjectServiceInterface $object_service,
         \ilObjSurvey $survey,
         InternalDomainService $domain_service

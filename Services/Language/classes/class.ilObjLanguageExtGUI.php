@@ -843,7 +843,7 @@ class ilObjLanguageExtGUI extends ilObjectGUI
      * Set the locator for admin mode
      *(Overwritten from ilObjectGUI, called by prepareOutput)
      */
-    public function addAdminLocatorItems(bool $a_do_not_add_object = false) : void
+    public function addAdminLocatorItems($a_do_not_add_object = false) : void
     {
         global $DIC;
         $ilLocator = $DIC["ilLocator"];

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /*
     +-----------------------------------------------------------------------------+
     | ILIAS open source                                                           |
@@ -25,7 +25,6 @@
 * Parses result XML from lucene search highlight
 *
 * @author Stefan Meyer <meyer@leifos.com>
-* @version $Id$
 *
 *
 * @ingroup ServicesSearch
@@ -33,39 +32,23 @@
 */
 class ilLuceneHighlighterResultParser
 {
-    private $result_string = '';
-    private $result = array();
+    private string $result_string = '';
+    private array $result = [];
+    private int $max_score = 0;
+
     
-    // begin-patch mime_filter
-    private $max_score = 0;
-    // end-patch mime_filter
-    
-    
-    /**
-     * Contructor
-     * @return
-     */
-    public function __construct()
-    {
-    }
-    
-    // begin-patch mime_filter
-    public function getMaxScore()
+
+    public function getMaxScore() : int
     {
         return $this->max_score;
     }
     
-    public function setMaxScore($a_score)
+    public function setMaxScore(int $a_score) : void
     {
         $this->max_score = $a_score;
     }
     
-    /**
-     * get relevance
-     * @param int obj_id
-     * @return int	relevance in percent
-     */
-    public function getRelevance($a_obj_id, $sub_id)
+    public function getRelevance(int $a_obj_id, int $sub_id) : float
     {
         if (!$this->getMaxScore()) {
             return 0;
@@ -75,33 +58,21 @@ class ilLuceneHighlighterResultParser
         return $score / $this->getMaxScore() * 100;
     }
     
-    // end-patch mime_filter
-
-    /**
-     * set result xml string
-     * @param
-     * @return
-     */
-    public function setResultString($a_res)
+    public function setResultString(string $a_res) : void
     {
         $this->result_string = $a_res;
     }
     
-    /**
-     * get result xml string
-     * @param
-     * @return
-     */
-    public function getResultString()
+    public function getResultString() : string
     {
         return $this->result_string;
     }
     
     /**
      * parse
-     * @return
+     * @return bool
      */
-    public function parse()
+    public function parse() : bool
     {
         if (!strlen($this->getResultString())) {
             return false;
@@ -109,11 +80,7 @@ class ilLuceneHighlighterResultParser
         ilLoggerFactory::getLogger('src')->debug($this->getResultString());
         $root = new SimpleXMLElement($this->getResultString());
         
-        // begin-patch mime_filter
-        $this->setMaxScore((string) $root['maxScore']);
-        // end-patch mime_filter
-        
-        
+        $this->setMaxScore((int) $root['maxScore']);
         foreach ($root->children() as $object) {
             $obj_id = (string) $object['id'];
             foreach ($object->children() as $item) {
@@ -130,49 +97,28 @@ class ilLuceneHighlighterResultParser
                 }
             }
         }
-        
         return true;
     }
     
-    /**
-     * get title
-     * @param int obj_id
-     * @param int sub_item
-     * @return
-     */
-    public function getTitle($a_obj_id, $a_sub_id)
+    public function getTitle(int $a_obj_id, int $a_sub_id) : string
     {
-        return isset($this->result[$a_obj_id][$a_sub_id]['title']) ? $this->result[$a_obj_id][$a_sub_id]['title'] : null;
+        return $this->result[$a_obj_id][$a_sub_id]['title'] ?? '';
+    }
+    
+    public function getDescription(int $a_obj_id, int $a_sub_id) : string
+    {
+        return $this->result[$a_obj_id][$a_sub_id]['description'] ?? '';
+    }
+    
+    public function getContent(int $a_obj_id, int $a_sub_id) : string
+    {
+        return $this->result[$a_obj_id][$a_sub_id]['content'] ?? '';
     }
     
     /**
-     * get description
-     * @param int obj_id
-     * @param int sub_item
-     * @return
+     * @return int[]
      */
-    public function getDescription($a_obj_id, $a_sub_id)
-    {
-        return isset($this->result[$a_obj_id][$a_sub_id]['description']) ? $this->result[$a_obj_id][$a_sub_id]['description'] : null;
-    }
-    
-    /**
-     * get content
-     * @param int obj_id
-     * @param int sub_item
-     * @return
-     */
-    public function getContent($a_obj_id, $a_sub_id)
-    {
-        return isset($this->result[$a_obj_id][$a_sub_id]['content']) ? $this->result[$a_obj_id][$a_sub_id]['content'] : null;
-    }
-    
-    /**
-     * get subitem ids
-     * @param
-     * @return
-     */
-    public function getSubItemIds($a_obj_id)
+    public function getSubItemIds(int $a_obj_id) : array
     {
         $sub_item_ids = array();
         if (!isset($this->result[$a_obj_id])) {
@@ -183,6 +129,6 @@ class ilLuceneHighlighterResultParser
                 $sub_item_ids[] = $sub_item_id;
             }
         }
-        return $sub_item_ids ? $sub_item_ids : array();
+        return $sub_item_ids;
     }
 }
