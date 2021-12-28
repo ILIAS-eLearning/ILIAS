@@ -67,7 +67,8 @@ class ilCronManager implements \ilCronManagerInterface
 
         // plugins
         foreach (self::getPluginJobs(true) as $item) {
-            self::runJob($item[0], $item[1]);
+            // #18411 - we are NOT using the initial job data as it might be outdated at this point
+            self::runJob($item[0]);
         }
 
         $this->logger->info("CRON - batch end");
