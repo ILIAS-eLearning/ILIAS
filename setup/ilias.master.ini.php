@@ -22,6 +22,9 @@ unzip =
 java = 
 ffmpeg = 
 
+[language]
+default = en
+
 [log]
 path = 
 file = 
@@ -57,4 +60,4 @@ java =
 [https]
 auto_https_detect_enabled = 0
 auto_https_detect_header_name = 
-auto_https_detect_header_value =
+auto_https_detect_header_value
