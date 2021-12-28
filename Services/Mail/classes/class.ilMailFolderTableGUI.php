@@ -59,7 +59,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
     public function __construct(
         $a_parent_obj,
         $a_current_folder_id,
-        $a_parent_cmd = '',
+        $a_parent_cmd,
+        bool $isTrashFolder,
+        bool $isSentFolder,
+        bool $isDraftsFolder,
         Factory $uiFactory = null,
         Renderer $uiRenderer = null
     ) {
@@ -78,6 +81,10 @@ class ilMailFolderTableGUI extends ilTable2GUI
 
         $this->_currentFolderId = $a_current_folder_id;
         $this->_parentObject = $a_parent_obj;
+
+        $this->_isTrashFolder = $isTrashFolder;
+        $this->_isSentFolder = $isSentFolder;
+        $this->_isDraftsFolder = $isDraftsFolder;
 
         $this->setId('mail_folder_tbl_' . $a_current_folder_id);
         $this->setPrefix('mtable');
@@ -307,52 +314,19 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return $this;
     }
 
-    /**
-     * Setter/Getter for folder status
-     * @param mixed $a_bool Boolean folder status or null
-     * @return bool|ilMailFolderTableGUI    Either an object of type ilMailFolderTableGUI or the boolean folder status
-     */
-    public function isDraftFolder(bool $a_bool = null)
+    public function isDraftFolder() : bool
     {
-        if (null === $a_bool) {
-            return $this->_isDraftsFolder;
-        }
-
-        $this->_isDraftsFolder = $a_bool;
-
-        return $this;
+        return $this->_isDraftsFolder;
     }
 
-    /**
-     * Setter/Getter for folder status
-     * @param mixed $a_bool Boolean folder status or null
-     * @return bool|ilMailFolderTableGUI    Either an object of type ilMailFolderTableGUI or the boolean folder status
-     */
-    public function isSentFolder(bool $a_bool = null)
+    public function isSentFolder() : bool
     {
-        if (null === $a_bool) {
-            return $this->_isSentFolder;
-        }
-
-        $this->_isSentFolder = $a_bool;
-
-        return $this;
+        return $this->_isSentFolder;
     }
 
-    /**
-     * Setter/Getter for folder status
-     * @param mixed $a_bool Boolean folder status or null
-     * @return bool|ilMailFolderTableGUI    Either an object of type ilMailFolderTableGUI or the boolean folder status
-     */
-    public function isTrashFolder(bool $a_bool = null)
+    public function isTrashFolder() : bool 
     {
-        if (null === $a_bool) {
-            return $this->_isTrashFolder;
-        }
-
-        $this->_isTrashFolder = $a_bool;
-
-        return $this;
+        return $this->_isTrashFolder;
     }
 
     /**

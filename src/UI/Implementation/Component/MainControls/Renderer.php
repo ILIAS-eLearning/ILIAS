@@ -360,8 +360,6 @@ class Renderer extends AbstractComponentRenderer
             $button_html = $default_renderer->render($button);
 
             if ($slate) {
-                $slate = $slate->withAriaRole(ISlate::MENU);
-
                 $tpl->setCurrentBlock("slate_item");
                 $tpl->setVariable("SLATE", $default_renderer->render($slate));
                 $tpl->parseCurrentBlock();

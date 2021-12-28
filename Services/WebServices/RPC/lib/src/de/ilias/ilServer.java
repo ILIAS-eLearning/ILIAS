@@ -27,9 +27,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Vector;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -39,7 +36,10 @@ import de.ilias.services.rpc.RPCServer;
 import de.ilias.services.settings.ClientSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.IniFileParser;
+import de.ilias.services.settings.LogConfigParser;
 import de.ilias.services.settings.ServerSettings;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -55,7 +55,7 @@ public class ilServer {
 	private String[] arguments;
 	private String command;
 	
-	private static final Logger logger = Logger.getLogger(ilServer.class);
+	private static Logger logger = null;
 	
 	/**
 	 * @param args
@@ -71,16 +71,33 @@ public class ilServer {
 	public static void main(String[] args) {
 		
 		ilServer server = null;
-		
-		BasicConfigurator.configure();
-		logger.setLevel(Level.INFO);
-		
-		Logger root = Logger.getLogger("org");
-		root.setLevel(Level.OFF);
-		
 		server = new ilServer(args);
-		server.handleRequest();
+		boolean success = server.handleRequest();
+		System.exit(success ? 0 : 1);
 	}
+	
+	
+	private boolean initLogging()
+	{
+		LogConfigParser parser;
+		ServerSettings settings;
+		parser = new LogConfigParser();
+		try {
+			parser.parse(arguments[0]);
+			settings = ServerSettings.getInstance();
+			settings.setLogFile(parser.getLogFile());
+			settings.setLogLevel(parser.getLogLevel());
+			settings.initLogManager();
+			// init after configuration
+			logger = LogManager.getLogger(ilServer.class);
+			return true;
+			
+		} catch (ConfigurationException | IOException ex) {
+			System.err.println("Failed to initialize logging: "  + ex.getMessage());
+		}
+		return false;
+	}
+	
 
 	/**
 	 * @return success status
@@ -88,7 +105,11 @@ public class ilServer {
 	private boolean handleRequest() {
 		
 		if(arguments.length < 1) {
-			logger.error(getUsage());
+			System.err.println(this.getUsage());
+			return false;
+		}
+		
+		if(!this.initLogging()) {
 			return false;
 		}
 		
@@ -102,7 +123,7 @@ public class ilServer {
 		command = arguments[1];
 		if(command.compareTo("start") == 0) {
 			if(arguments.length != 2) {
-				logger.error("Usage: java -jar ilServer.jar PATH_TO_SERVER_INI start");
+				System.err.println("Usage: java -jar ilServer.jar PATH_TO_SERVER_INI start");
 				return false;
 			}
 			return startServer();
@@ -290,7 +311,6 @@ public class ilServer {
 			// Check if webserver is alive
 			// otherwise stop execution
 			while(true) {
-
 				Thread.sleep(3000);
 				if(!rpc.isAlive()) {
 					rpc.shutdown();
@@ -302,7 +322,6 @@ public class ilServer {
 			
 		} 
 		catch (ConfigurationException e) {
-			//logger.error(e);
 			System.exit(1);
 			return false;
 		} 
@@ -341,6 +360,7 @@ public class ilServer {
 			parser.parseServerSettings(arguments[0],false);
 			
 			client = initRpcClient();
+			logger.debug("Client execute");
 			client.execute("RPCAdministration.stop",new Vector());
 			return true;
 		} 
@@ -410,13 +430,12 @@ public class ilServer {
 		XmlRpcClientConfigImpl config;
 		ServerSettings settings;
 		
-		
 		settings = ServerSettings.getInstance();
 		config = new XmlRpcClientConfigImpl();
 		config.setServerURL(new URL(settings.getServerUrl()));
 		config.setConnectionTimeout(10000);
 		config.setReplyTimeout(0);
-		
+
 		client = new XmlRpcClient();
 		client.setTransportFactory(new XmlRpcCommonsTransportFactory(client));
 		client.setConfig(config);

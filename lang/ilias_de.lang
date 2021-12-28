@@ -170,6 +170,7 @@ survey#:#svy_notification_tutor_results_alert#:#Diese Funktion erfordert ein End
 survey#:#survey_results_tutor_subject#:#Ergebnisse der Umfrage "%s"
 survey#:#survey_results_tutor_body#:#Im Anhang finden Sie die Ergebnisse der folgenden Umfrage
 content#:#cont_lpe_openid_connect_login#:#OpenID-Connect-Login
+content#:#cont_lpe_saml_login#:#SAML-Login
 common#:#msg_wrong_filetypes#:#Erlaubte Dateiendungen:
 common#:#msg_to_many_files#:#Zu viele Dateien ausgewählt, erlaubte Anzahl Dateien:
 common#:#msg_no_files_selected#:#Keine Dateien ausgewählt
@@ -895,7 +896,7 @@ assessment#:#end_tag#:#Endmarkierung
 assessment#:#tst_settings_conflict_message#:#Es wurden Kombinationen von Einstellungen gewählt, die nicht erlaubt sind.
 assessment#:#tst_conflicting_setting#:#Diese Einstellung steht in Konflikt mit einer anderen Einstellung.
 assessment#:#enlarge#:#vergrößern
-assessment#:#enter_anonymous_code#:#Zugangsschlüssel für anonymen Zugang
+assessment#:#enter_anonymous_code#:#Zugangsschlüssel eingeben, um bereits gestarteten Tests fortzuführen:
 assessment#:#enter_enough_positive_points#:#Die maximale Punktezahl für die Frage muss größer als Null sein! Bitte geben Sie ausreichend viele nicht-negative Punkte für die Antworten ein.
 assessment#:#enter_enough_positive_points_checked#:#Mindestens eine Antwort muss Punkte erzielen. Bitte geben Sie eine positive Punktezahl für das Auswählen einer Antwort ein.
 assessment#:#err_no_numeric_value#:#Bitte geben Sie einen numerischen Wert ein
@@ -1416,7 +1417,7 @@ assessment#:#thumb_size_info#:#Wenn Sie eine Vorschaugröße angeben, werden hoc
 assessment#:#time_format#:#HH MM SS
 assessment#:#too_many_targets_selected_for_move#:#Sie müssen genau eine Zielposition auswählen!
 assessment#:#true#:#Wahr
-assessment#:#tst_access_code_created#:#Um Ihnen einen dauerhaften Zugang zu Ihren Testergebnissen zu ermöglichen und Ihnen die Möglichkeit zu eröffnen, einen abgebrochenen Test wiederaufnehmen zu können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich diesen Code, damit Sie ihn für spätere Aktionen nutzen können.
+assessment#:#tst_access_code_created#:#Damit Sie dauerhaften Zugriff auf Ihre Testergebnisse haben und einen unterbrochenen Test wieder aufnehmen können, wurde für Sie ein persönlicher Zugangsschlüssel erzeugt. Bitte notieren Sie sich den nachfolgenden Code, um später den Test fortführen zu können.
 assessment#:#tst_all_user_data_deleted#:#Die Daten aller Testteilnehmer wurden gelöscht!
 assessment#:#tst_allowed_users#:#Anzahl gleichzeitiger Teilnehmer begrenzen
 assessment#:#tst_allowed_users_time_gap#:#Inaktivitätszeit der Teilnehmer
@@ -2392,7 +2393,6 @@ cntr#:#cntr_view_sessions#:#Sitzungsansicht
 cntr#:#cntr_view_simple#:#Einfache Liste
 cntr#:#container_import_zip_file_invalid#:#Die hochgeladene Datei ist kein gültiger ILIAS Export. Um Verzeichnisstrukturen hochzuladen benutzen Sie bitte ein Datei-Objekt.
 cntr#:#edit_questions#:#Fragen bearbeiten
-common#:#3rd_party_software#:#Drittanbieter-Software
 common#:#absolute_path#:#Absoluter Pfad
 common#:#accept_usr_agreement#:#Nutzungsvereinbarung akzeptieren?
 common#:#withdraw_consent_header#:#Einverständnis zur Nutzungsvereinbarung widerrufen
@@ -2412,6 +2412,7 @@ common#:#withdrawal_complete_deleted#:#Widerrufsvorgang ist abgeschlossen. Der N
 common#:#withdrawal_complete_redirect#:#Widerrufsvorgang ist abgeschlossen. Zur Löschung des Accounts nehmen Sie bitte Kontakt zu Ihrer Organisation auf.
 common#:#withdrawal_mail_subject#:#Widerruf Einverständnis zu Nutzungsvereinbarungen
 common#:#withdrawal_sure_account_deletion#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
+common#:#withdrawal_sure_account_deletion_no_consent_yet#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen nicht erteilen möchten? Ihr Benutzerkonto wird in Folge dessen unwiderruflich gelöscht.
 common#:#withdrawal_sure_account#:#Sind Sie sicher, dass Sie Ihr Einverständnis zu den Nutzungsvereinbarungen widerrufen möchten?
 common#:#withdrawal_mail_text#:#Sehr geehrte Damen und Herren,[BR][BR]hiermit widerrufe ich mein Einverständnis zu den Nutzungsvereinbarungen Ihrer ILIAS Installation. Bitte leiten Sie die entsprechenden Maßnahmen ein.[BR][BR]Name: %1$s[BR]Benutzername: %2$s[BR]Externers Benutzerkonto: %3$s[BR][BR]Mit freundlichen Grüßen[BR]%1$s
 common#:#withdrawal_mail_info#:#Die folgende Nachricht wird in Ihrem Auftrag versandt, wenn Sie bestätigen:[BR][BR]
@@ -3281,6 +3282,7 @@ common#:#hint#:#Hinweis
 common#:#hist_lm_delete_pg#:#Seite "%1" [%2] wurde gelöscht.
 common#:#hist_lm_delete_st#:#Kapitel "%1" [%2] wurde gelöscht.
 common#:#hist_lm_pg_create#:#Seite erstellt.
+common#:#hist_lm_pg_update#:#Seite geändert.
 common#:#hist_lm_st_create#:#Kapitel erstellt.
 common#:#hist_webr_add#:#Neuer Weblink angelegt mit Titel: "%1"
 common#:#hist_webr_delete#:#Weblink wurde gelöscht. Titel: "%1"
@@ -5741,11 +5743,11 @@ crs#:#crs_password_required#:#Für diese Registrierungsart ist ein Passwort erfo
 crs#:#crs_pdf#:#PDF
 crs#:#crs_presentation_type#:#Ansicht
 crs#:#crs_print_list#:#Liste erstellen
-crs#:#crs_reg#:#Selbständiger Beitritt durch Benutzer
+crs#:#crs_reg#:#Selbstständiger Beitritt durch Benutzer
 crs#:#crs_reg_code#:#Beitritt per Link
 crs#:#crs_reg_code_enabled_info#:#Unabhängig vom ausgewählten Beitrittsverfahren und den Kursrechten ermöglicht diese Option einen direkten Beitritt durch Aufruf eines Links.
 crs#:#crs_reg_code_link#:#Link für direkten Beitritt
-crs#:#crs_reg_max_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbständiger Beitritt nicht mehr möglich.
+crs#:#crs_reg_max_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
 crs#:#crs_reg_subject#:#Nachricht
 crs#:#crs_reg_until#:#Zeitraum für Beitritte
 crs#:#crs_reg_user_already_subscribed#:#Sie haben bereits einen Aufnahmeantrag gestellt! Bitte warten Sie auf die Bestätigung.
@@ -6723,10 +6725,10 @@ grp#:#grp_reg_deac_info_screen#:#Zur Zeit ist keine Aufnahme möglich.
 grp#:#grp_reg_direct#:#Direkter Beitritt
 grp#:#grp_reg_direct_info_screen#:#Sie können dieser Gruppe direkt beitreten.
 grp#:#grp_reg_disabled#:#Zur Zeit ist kein Beitritt möglich.
-grp#:#grp_reg_no_selfreg#:#Kein selbständiger Beitritt
+grp#:#grp_reg_no_selfreg#:#Kein selbstständiger Beitritt
 grp#:#grp_reg_disabled_info#:#Nur Gruppenadministratoren können Benutzer in die Gruppe aufnehmen.
 grp#:#grp_reg_limited#:#Zeitlich begrenzter Beitritt
-grp#:#grp_reg_max_members_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbständiger Beitritt nicht mehr möglich.
+grp#:#grp_reg_max_members_info#:#Ist die maximale Mitgliederanzahl erreicht, ist ein selbstständiger Beitritt nicht mehr möglich.
 grp#:#grp_reg_passwd_info_screen#:#Wenn Sie das Gruppenpasswort von einem Gruppenadministrator erhalten haben, können Sie in dieser Gruppe beitreten.
 grp#:#grp_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um der Gruppe beitreten zu können.
 grp#:#grp_reg_req_info_screen#:#Sie können die Aufnahme in diese Gruppe beantragen. Sobald ein Gruppenadministrator Ihren Antrag angenommen oder abgelehnt hat, werden Sie per Mail benachrichtigt.
@@ -6739,7 +6741,7 @@ grp#:#grp_search_users#:#Benutzer suchen
 grp#:#grp_selected_users#:#Ausgewählte Teilnehmer
 grp#:#grp_set_on_waiting_list#:#Wenn Sie einen Aufnahmeantrag stellen, werden Sie auf die Warteliste gesetzt. Sie werden dann von der Gruppenleitung benachrichtigt, ob Ihr Aufnahmeantrag angenommen oder abgelehnt wird.
 grp#:#grp_setting_header_presentation#:#Darstellung
-grp#:#grp_setting_header_registration#:#Selbständiger Beitritt durch Benutzer
+grp#:#grp_setting_header_registration#:#Selbstständiger Beitritt durch Benutzer
 grp#:#grp_settings#:#Gruppeneinstellungen
 grp#:#grp_typ#:#Typ
 grp#:#grp_unsubscribe#:#Gruppenmitgliedschaft beenden
@@ -12092,7 +12094,7 @@ cron#:#cron_action_deactivate_sure_multi#:#Wollen Sie wirklich die folgenden Cro
 cron#:#cron_action_reset_sure_multi#:#Wollen Sie wirklich die folgenden Cron-Jobs zurücksetzen?
 crs#:#crs_registration_period#:#Zeitraum
 crs#:#crs_registration_confirmation_info#:#Der Beitritt erfolgt nur, wenn er durch einen Kursadministrator oder Kurstutor bestätigt wird.
-crs#:#crs_reg_no_selfreg#:#Kein selbständiger Beitritt
+crs#:#crs_reg_no_selfreg#:#Kein selbstständiger Beitritt
 crs#:#crs_reg_password_info#:#Benutzer müssen dieses Passwort eingeben, um dem Kurs beitreten zu können.
 cat#:#cat_more_translations#:#Weitere Übersetzungen
 content#:#cont_finish_editing#:#Bearbeitung beenden
@@ -12804,7 +12806,7 @@ survey#:#svy_evaluation_access_off_info#:#Nur Benutzer, welche die Umfrage bearb
 survey#:#svy_evaluation_access_participants_info#:#Alle Benutzer, die an der Umfrage teilgenommen haben, können deren Ergebnisse einsehen nachdem sie die Umfrage abgeschlossen haben.
 survey#:#svy_results_view_own_info#:#Teilnehmer können sich eine Übersicht mit den eigenen Antworten anzeigen lassen, nachdem sie die Umfrage beendet haben. Sie können die Antworten nicht mehr ändern.
 survey#:#survey_360_self_evaluation_info#:#Feedback-Nehmer können anhand der Fragen eine Selbsteinschätzung vornehmen.
-survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbständig ein.
+survey#:#survey_360_self_raters_info#:#Feedback-Nehmer wählen die Personen, welche ihnen eine Rückmeldung geben sollen selber aus. Sie laden diese Personen auch selbstständig ein.
 survey#:#survey_360_self_appraisee_info#:#Allen Benutzern wird ein Link auf dem Reiter "Info" angezeigt. Über diesen Link können diese sich selbst als Feedback-Empfänger für diese Umfrage eintragen.
 survey#:#survey_360_results_none_info#:#Feedback-Nehmer können die Antworten, welche Feedback-Geber ausgewählt haben nicht einsehen.
 survey#:#survey_360_results_own_info#:#Feedback-Nehmer können nur die Antworten einsehen, welche Feedback-Geber zu ihnen persönlich ausgewählt haben.
@@ -13286,8 +13288,8 @@ sess#:#sess_reg_waiting_list_no_autofill#:#Ohne automatisches Aufrücken
 sess#:#sess_reg_waiting_list_no_autofill_info#:#Ist die maximale Teilnehmeranzahl erreicht, können sich weitere Benutzer auf eine Warteliste setzen lassen.
 sess#:#sess_reg_waiting_list_autofill#:#Mit automatischem Aufrücken
 sess#:#sess_reg_waiting_list_autofill_info#:#Teilnehmer rücken automatisch bei Stornierungen von der Warteliste nach. Dies sollte nicht in Verbindung mit dem Anmeldeverfahren "Teilnahme beantragen" benutzt werden, da die Bestätigung so umgangen wird.
-grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Gruppenmitgliedschaft beenden.
-crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbständig die Kursmitgliedschaft beenden.
+grp#:#grp_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Gruppenmitgliedschaft beenden.
+crs#:#crs_cancellation_end_info#:#Mitglieder können nur bis zum gesetzten Datum selbstständig die Kursmitgliedschaft beenden.
 crs#:#crs_period_info#:#Information zum Start und Ende der Veranstaltung, die mit dem Kurs unterstützt werden soll.
 meta#:#md_adv_deleted_fields#:#Die Felder wurden gelöscht.
 cntr#:#tab_back_to_repository#:#Zurück zum Magazin
@@ -14183,7 +14185,7 @@ rbac#:#news_add_news#:#Neuigkeiten erstellen
 rbac#:#grp_news_add_news#:#Neuigkeiten erstellen und eigene Neuigkeiten bearbeiten
 news#:#news_timline_add_entries_info#:#Zurzeit sind noch keine Neuigkeiten vorhanden. Klicken Sie auf "Beitrag hinzufügen" um Neuigkeiten anzulegen.
 obj#:#obj_tool_setting_use_news#:#Neuigkeiten
-obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten.
+obj#:#obj_tool_setting_use_news_info#:#Nutzung des Blocks "Neuigkeiten" oder der Timeline für Neuigkeiten. Benutzer können Benachrichtigungen für Neuigkeiten aktivieren, sobald der Block oder die Timeline aktiv sind.
 obj#:#obj_tool_setting_use_news_open_settings#:#Einstellungen öffnen
 cont#:#cont_news_settings#:#Neuigkeiten
 cont#:#cont_news_timeline_landing_page#:#Startseite
@@ -14629,7 +14631,7 @@ exc#:#exc_template#:#Vorlage
 exc#:#exc_portfolio_template#:#Portfoliovorlage bestimmen
 exc#:#exc_without_template#:#Ohne Portfoliovorlage
 exc#:#exc_with_template#:#Mit Portfoliovorlage
-exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbständig ohne Vorlage.
+exc#:#exc_without_template_info#:#Teilnehmer erstellen ihre Portfolios selbstständig ohne Vorlage.
 exc#:#exc_with_template_info#:#Ein leeres Portfolio wird automatisch aus einer bestimmten Portfoliovorlage abgeleitet.
 exc#:#exc_no_portfolio_templates#:#Es sind keine Portfoliovorlagen vorhanden.
 exc#:#exc_go_to_exercise#:#Zur Übung
@@ -15109,7 +15111,7 @@ user#:#user_prompt_repeat#:#Wiederholt nach x Tagen
 user#:#user_prompt_repeat_info#:#Benutzer werden wiederholt aufgefordert ihr Profil zu veröffentlichen, falls es nicht bereits veröffentlicht ist.
 user#:#user_profile_prompt_text_info#:#Dieser Text ersetzt den "Standard Infotext Benutzerprofil", falls der Benutzer zur Veröffentlichung des Profils aufgefordert wird.
 lhist#:#lhist_first_login#:#Erstes Login
-prtf#:#prtf_decl_authorship#:#Selbständigkeitserklärung
+prtf#:#prtf_decl_authorship#:#Selbstständigkeitserklärung
 pd#:#pd_achievements#:#Lernerfolge
 content#:#cont_got_lock_release#:#Diese Seite wurde für Ihre Bearbeitung gesperrt bis %1. Andere Benutzer können in dieser Zeit keine Änderungen an der Seite vornehmen. Bitte geben Sie die Seite nach der Bearbeitung wieder frei.
 prtf#:#prtf_download_submission#:#Kopie der Abgabe herunterladen
@@ -16086,8 +16088,6 @@ prg#:#modal_categories_title#:#Zu überwachende Kategorie
 prg#:#category#:#Kategorie
 common#:#obj_prgr#:#Link zum Studienprogramm
 common#:#obj_prgrs#:#Links zu Studienprogrammen
-common#:#prgr_new#:#Neuen Link zu einem Studienprogramm anlegen
-common#:#prgr_edit_info#:#Bitte wählen Sie das Studienprogramm aus, für das Sie einen Link erstellen möchten.
 prg#:#prgr_may_not_create_circular_reference#:#Das Verlinken dieses Programms ist hierher nicht möglich, da das beinhaltende Programm darin erhalten ist.
 prg#:#prg_deadline_settings#:#Bearbeitungszeitraum
 prg#:#prg_validity_of_qualification_limit#:#Ablauf der Gültigkeit
@@ -16362,7 +16362,7 @@ cmix#:#terminated_info#:#Die Aktivität wurde erfolgreich beendet.
 cmix#:#hide_data_label#:#Daten schwärzen
 cmix#:#hide_data_info#:#Mit dieser nur für den ILIAS-LRS-Proxy zur Verfügung stehenden Option werden bestimmte Daten in Statements mit unkenntlich gemachten Werten im Learning Record Store gespeichert.
 cmix#:#timestamp_label#:#Zeitstempel 'timestamp'
-cmix#:#timestamp_info#:#Der timestamp kennzeichnet den Zeitpunkt einer durch das Statement gekennzeichneten Aktion. Der timestamp wird durch diese Option auf den Standardwert 01.01.1970 (1970-01-01T00:00:00.000Z) gesetzt. Bitte beachten Sie, dass ein Learning Record Store gegebenenfalls selbständig einen Wert für das Speicherdatum (stored) setzt, der mit dem timestamp nahezu identisch sein kann.
+cmix#:#timestamp_info#:#Der timestamp kennzeichnet den Zeitpunkt einer durch das Statement gekennzeichneten Aktion. Der timestamp wird durch diese Option auf den Standardwert 01.01.1970 (1970-01-01T00:00:00.000Z) gesetzt. Bitte beachten Sie, dass ein Learning Record Store gegebenenfalls selbstständig einen Wert für das Speicherdatum (stored) setzt, der mit dem timestamp nahezu identisch sein kann.
 cmix#:#duration_label#:#Zeitdauer 'duration'
 cmix#:#duration_info#:#Die Zeitdauer kann z.B. für die Beantwortung einer Aufgabe erfasst werden. Die Zeitdauer 'duration' wird durch diese Option auf den Standardwert 0 Sekunden (PT00.000S) gesetzt.
 cmix#:#no_substatements_label#:#Substatements nicht speichern
@@ -16634,3 +16634,7 @@ content#:#cont_sur_block_format#:#Umgebender Block
 ui#:#datetime_required#:#Zeit/Datum erforderlich
 ui#:#duration_end_must_not_be_earlier_than_start#:#Der Beginn muss zeitlich vor dem Ende liegen.
 forum#:#sticky_threads_sorting#:#Top-Thema-Sortierung
+prg#:#prgr_new#:#Create Study Programme Link###03 11 2021 new variable
+prg#:#prgr_edit_info#:#Please choose one Study Programme for creating a new link.###03 11 2021 new variable
+common#:#actions_for#:#Aktionen für %s
+common#:#withdrawal_sure_account_no_consent_ye#:#Are you sure you do not want to accept the terms of service?###15 12 2021 new variable

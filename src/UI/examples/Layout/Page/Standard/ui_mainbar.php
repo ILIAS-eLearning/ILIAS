@@ -112,7 +112,11 @@ EOT;
 function getUIContent($f, $request)
 {
     $params = $request->getQueryParams();
-    $cidx = $params['c'];
+    $cidx = -1;
+    if (array_key_exists('c', $params)) {
+        $cidx = $params['c'];
+    }
+
 
     switch ($cidx) {
         case 1:

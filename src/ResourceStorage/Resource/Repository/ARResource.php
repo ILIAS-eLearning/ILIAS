@@ -8,6 +8,7 @@ use ActiveRecord;
  * Class ARResource
  *
  * @author Fabian Schmid <fs@studer-raimann.ch>
+ * @deprecated
  */
 class ARResource extends ActiveRecord
 {

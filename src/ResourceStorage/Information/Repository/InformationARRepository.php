@@ -10,14 +10,10 @@ use ILIAS\ResourceStorage\Revision\Revision;
  * Interface InformationRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @internal
+ * @deprecated
  */
 class InformationARRepository implements InformationRepository
 {
-
-    public function getNameForLocking() : string
-    {
-        return (new ARInformation())->getConnectorContainerName();
-    }
 
     /**
      * @inheritDoc
@@ -85,4 +81,22 @@ class InformationARRepository implements InformationRepository
     {
         return $revision->getIdentification()->serialize() . '_' . $revision->getVersionNumber();
     }
+
+    public function getNamesForLocking() : array
+    {
+        return [
+            (new ARInformation())->getConnectorContainerName()
+        ];
+    }
+
+    public function preload(array $identification_strings) : void
+    {
+        // noting to to
+    }
+
+    public function populateFromArray(array $data) : void
+    {
+        // noting to to
+    }
+
 }

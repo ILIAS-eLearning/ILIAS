@@ -428,7 +428,7 @@ class ilMailFormGUI
 
             echo json_encode([
                 'm_subject' => $template->getSubject(),
-                'm_message' => $template->getMessage(),
+                'm_message' => $template->getMessage() . $this->umail->appendSignature(),
             ]);
         } catch (Exception $e) {
         }
@@ -697,7 +697,7 @@ class ilMailFormGUI
                         if (!isset($mailData['template_id']) && $template->isDefault()) {
                             $template_chb->setValue($template->getTplId());
                             $form_gui->getItemByPostVar('m_subject')->setValue($template->getSubject());
-                            $mailData["m_message"] = $template->getMessage();
+                            $mailData["m_message"] = $template->getMessage()  . $this->umail->appendSignature();
                         }
                     }
                     if (isset($mailData['template_id'])) {

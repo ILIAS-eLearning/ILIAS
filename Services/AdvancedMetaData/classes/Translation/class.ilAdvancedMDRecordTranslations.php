@@ -125,6 +125,14 @@ class ilAdvancedMDRecordTranslations
         return null;
     }
 
+    public function cloneRecord(int $new_record_id)
+    {
+        foreach ($this->getTranslations() as $recordTranslation) {
+            $recordTranslation->setRecordId($new_record_id);
+            $recordTranslation->insert();
+        }
+    }
+
     private function read()
     {
         $query = 'select * from ' . ilAdvancedMDRecordTranslation::TABLE_NAME . ' ' .

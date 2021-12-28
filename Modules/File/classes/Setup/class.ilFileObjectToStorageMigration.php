@@ -23,7 +23,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     protected $runner;
     /**
-     * @var mixed|null
+     * @var ilDBInterface
      */
     protected $database;
 
@@ -108,7 +108,7 @@ class ilFileObjectToStorageMigration implements Setup\Migration
                 throw new Exception("storage directory is not writable, abort...");
             }
 
-            $this->helper = new ilFileObjectToStorageMigrationHelper($legacy_files_dir, self::FILE_PATH_REGEX);
+            $this->helper = new ilFileObjectToStorageMigrationHelper($legacy_files_dir, $this->database);
 
             $storageConfiguration = new LocalConfig("{$data_dir}/{$client_id}");
             $f = new FlySystemFilesystemFactory();
@@ -120,7 +120,6 @@ class ilFileObjectToStorageMigration implements Setup\Migration
             );
 
         }
-        $this->helper->rewind();
     }
 
     /**
@@ -137,11 +136,10 @@ class ilFileObjectToStorageMigration implements Setup\Migration
      */
     public function getRemainingAmountOfSteps() : int
     {
-        if (is_null($this->helper)) {
-            return 0;
-        }
+        $r = $this->database->query("SELECT COUNT(file_id) AS amount FROM file_data WHERE rid IS NULL OR rid = '';");
+        $d = $this->database->fetchObject($r);
 
-        return $this->helper->getAmountOfItems();
+        return (int) $d->amount;
     }
 
 }

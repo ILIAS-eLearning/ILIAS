@@ -11,6 +11,8 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
 use ILIAS\Filesystem\Stream\FileStream;
 use ILIAS\ResourceStorage\Resource\InfoResolver\UploadInfoResolver;
 use ILIAS\ResourceStorage\Resource\InfoResolver\StreamInfoResolver;
+use ILIAS\ResourceStorage\Preloader\RepositoryPreloader;
+use ILIAS\ResourceStorage\Preloader\StandardRepositoryPreloader;
 
 /**
  * Class StorageManager
@@ -22,15 +24,21 @@ class Manager
      * @var ResourceBuilder
      */
     protected $resource_builder;
+    /**
+     * @var RepositoryPreloader
+     */
+    protected $preloader;
 
     /**
      * Manager constructor.
      * @param ResourceBuilder $b
      */
     public function __construct(
-        ResourceBuilder $b
+        ResourceBuilder $b,
+        RepositoryPreloader $l
     ) {
         $this->resource_builder = $b;
+        $this->preloader = $l;
     }
 
     public function upload(
@@ -97,6 +105,7 @@ class Manager
 
     public function getResource(ResourceIdentification $i) : StorableResource
     {
+        $this->preloader->preload([$i->serialize()]);
         return $this->resource_builder->get($i);
     }
 
@@ -268,5 +277,4 @@ class Manager
 
         return true;
     }
-
 }

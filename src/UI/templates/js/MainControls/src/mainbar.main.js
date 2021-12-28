@@ -94,6 +94,9 @@ var mainbar = function() {
                         state = mb.model.getState();
                         if(id in state.tools) {
                             mb.model.actions.engageTool(id);
+                            after_render = function() {
+                                mb.renderer.focusSubentry(id);
+                            };
                         }
                         if(id in state.entries) { //toggle
                             if(state.entries[id].engaged) {

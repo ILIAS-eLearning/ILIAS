@@ -289,22 +289,40 @@ class ilObjCmiXapiGUI extends ilObject2GUI
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $err = $DIC['ilErr']; /* @var ilErrorHandling $err */
-        
-        
-        if ($DIC->access()->checkAccess('read', '', $a_target)) {
-            ilObjectGUI::_gotoRepositoryNode($a_target, 'infoScreen');
-        } elseif ($DIC->access()->checkAccess('read', '', ROOT_FOLDER_ID)) {
+        $ctrl = $DIC->ctrl();
+        $request = $DIC->http()->request();
+        $access = $DIC->access();
+        $lng = $DIC->language();
+
+        $targetParameters = explode('_', $a_target);
+        $id = (int) $targetParameters[0];
+
+        if ($id <= 0) {
+            $err->raiseError($lng->txt('msg_no_perm_read'), $err->FATAL);
+        }
+
+        if ($access->checkAccess('read', '', $id)) {
+            $ctrl->setTargetScript('ilias.php');
+            $ctrl->initBaseClass(ilRepositoryGUI::class);
+            $ctrl->setParameterByClass(ilObjCmiXapiGUI::class, 'ref_id', $id);
+            if (isset($request->getQueryParams()['gotolp'])) {
+                $ctrl->setParameterByClass(ilObjCmiXapiGUI::class, 'gotolp', 1);
+            }
+            $ctrl->redirectByClass([ilRepositoryGUI::class, ilObjCmiXapiGUI::class]);
+        } elseif ($access->checkAccess('visible', '', $id)) {
+            ilObjectGUI::_gotoRepositoryNode($id, 'infoScreen');
+        } elseif ($access->checkAccess('read', '', ROOT_FOLDER_ID)) {
             ilUtil::sendInfo(
                 sprintf(
                     $DIC->language()->txt('msg_no_perm_read_item'),
-                    ilObject::_lookupTitle(ilObject::_lookupObjId($a_target))
+                    ilObject::_lookupTitle(ilObject::_lookupObjId($id))
                 ),
                 true
             );
 
             ilObjectGUI::_gotoRepositoryRoot();
         }
-        
+
         $err->raiseError($DIC->language()->txt("msg_no_perm_read_lm"), $err->FATAL);
     }
     

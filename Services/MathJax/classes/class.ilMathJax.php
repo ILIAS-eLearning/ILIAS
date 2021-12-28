@@ -326,8 +326,11 @@ class ilMathJax
         $a_start = str_replace("\\", "", $a_start);
         $a_end = str_replace("\\", "", $a_end);
 
+        // current position to start the search for delimiters
         $cpos = 0;
-        while (is_int($spos = ilStr::strIPos($a_text, $a_start, $cpos))) {	// find next start
+        // find position of start delimiter
+        while (is_int($spos = ilStr::strIPos($a_text, $a_start, $cpos))) {
+            // find position of end delimiter
             if (is_int($epos = ilStr::strIPos($a_text, $a_end, $spos + ilStr::strLen($a_start)))) {
                 // extract the tex code inside the delimiters
                 $tex = ilStr::subStr($a_text, $spos + ilStr::strLen($a_start), $epos - $spos - ilStr::strLen($a_start));
@@ -344,8 +347,12 @@ class ilMathJax
                 $tex = str_replace('<br />', '', $tex);
                 $tex = str_replace('\\\\', '\\cr', $tex);
 
-                // replace, if tags do not go across div borders
-                if (!is_int(ilStr::strPos($tex, '</div>'))) {
+                // check, if tags go across div borders
+                if (is_int(ilStr::strPos($tex, '<div>')) || is_int(ilStr::strPos($tex, '</div>'))) {
+                    // keep the original including delimiters, continue search behind
+                    $cpos = $epos + ilStr::strLen($a_end);
+                }
+                else {
                     switch ($this->engine) {
                         case self::ENGINE_CLIENT:
                             // prepare code for processing in the browser
@@ -374,16 +381,28 @@ class ilMathJax
                             break;
 
                         case self::ENGINE_NONE:
+                        default:
                             // show only the pure tex code
                             $replacement = htmlspecialchars($tex);
                             break;
                     }
 
-                    // replace tex code with prepared code or generated image
+                    // replace delimiters and tex code with prepared code or generated image
                     $a_text = ilStr::subStr($a_text, 0, $spos) . $replacement . ilStr::subStr($a_text, $epos + ilStr::strLen($a_end));
+
+                    // continue search behind replacement
+                    $cpos = $spos + ilStr::strLen($replacement);
                 }
             }
-            $cpos = $spos + 1;
+            else {
+                // end delimiter position not found => stop search
+                break;
+            }
+
+            if ($cpos >= ilStr::strlen($a_text)) {
+                // current position at the end => stop search
+                break;
+            }
         }
         return $a_text;
     }

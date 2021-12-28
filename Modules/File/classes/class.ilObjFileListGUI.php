@@ -2,6 +2,8 @@
 
 /* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
 
+use ILIAS\DI\Container;
+
 include_once "Services/Object/classes/class.ilObjectListGUI.php";
 
 /**
@@ -122,7 +124,7 @@ class ilObjFileListGUI extends ilObjectListGUI
         $file_data = ilObjFileAccess::getListGUIData($this->obj_id);
         if (is_array($file_data)) {
 
-            if($file_data['rid'] === null && parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type)) {
+            if(empty($file_data['rid']) && parent::checkCommandAccess("write", "versions", $this->ref_id, $this->type)) {
                 $props[] = array(
                     "alert" => true,
                     "property" => $DIC->language()->txt("migrated"),

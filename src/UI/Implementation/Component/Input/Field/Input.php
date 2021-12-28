@@ -379,7 +379,11 @@ abstract class Input implements C\Input\Field\Input, FormInputInternal
 
         $clone->content = $this->applyOperationsTo($clone->getValue());
         if ($clone->content->isError()) {
-            return $clone->withError("" . $clone->content->error());
+            $error = $clone->content->error();
+            if ($error instanceof \Exception) {
+                $error = $error->getMessage();
+            }
+            return $clone->withError("" . $error);
         }
 
         return $clone;

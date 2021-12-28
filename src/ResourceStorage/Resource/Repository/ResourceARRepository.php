@@ -11,14 +11,10 @@ use ILIAS\ResourceStorage\Resource\StorableResource;
  * Class ResourceARRepository
  * @author Fabian Schmid <fs@studer-raimann.ch>
  * @internal
+ * @deprecated
  */
 class ResourceARRepository implements ResourceRepository
 {
-
-    public function getNameForLocking() : string
-    {
-        return (new ARResource())->getConnectorContainerName();
-    }
 
     /**
      * @inheritDoc
@@ -110,5 +106,22 @@ class ResourceARRepository implements ResourceRepository
         $r->setStorageId($AR_resource->getStorageId());
 
         return $r;
+    }
+
+    public function getNamesForLocking() : array
+    {
+        return [
+            (new ARResource())->getConnectorContainerName()
+        ];
+    }
+
+    public function preload(array $identification_strings) : void
+    {
+        // noting to to
+    }
+
+    public function populateFromArray(array $data) : void
+    {
+        // noting to to
     }
 }

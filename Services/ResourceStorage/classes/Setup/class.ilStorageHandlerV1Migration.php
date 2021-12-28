@@ -12,13 +12,13 @@ use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\FileSystemStorageHandle
 use ILIAS\ResourceStorage\Policy\FileNamePolicyStack;
 use ILIAS\ResourceStorage\Resource\ResourceBuilder;
 use ILIAS\ResourceStorage\Lock\LockHandlerilDB;
-use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderARRepository;
-use ILIAS\ResourceStorage\Information\Repository\InformationARRepository;
-use ILIAS\ResourceStorage\Resource\Repository\ResourceARRepository;
-use ILIAS\ResourceStorage\Revision\Repository\RevisionARRepository;
 use ILIAS\ResourceStorage\Identification\ResourceIdentification;
 use ILIAS\ResourceStorage\StorageHandler\FileSystemBased\MaxNestingFileSystemStorageHandler;
 use ILIAS\DI\Container;
+use ILIAS\ResourceStorage\Revision\Repository\RevisionDBRepository;
+use ILIAS\ResourceStorage\Resource\Repository\ResourceDBRepository;
+use ILIAS\ResourceStorage\Information\Repository\InformationDBRepository;
+use ILIAS\ResourceStorage\Stakeholder\Repository\StakeholderDBRepository;
 
 /**
  * Class ilStorageHandlerV1Migration
@@ -99,10 +99,10 @@ class ilStorageHandlerV1Migration implements Migration
 
         $this->resource_builder = new ResourceBuilder(
             $storage_handler_factory,
-            new RevisionARRepository(),
-            new ResourceARRepository(),
-            new InformationARRepository(),
-            new StakeholderARRepository(),
+            new RevisionDBRepository($this->database),
+            new ResourceDBRepository($this->database),
+            new InformationDBRepository($this->database),
+            new StakeholderDBRepository($this->database),
             new LockHandlerilDB($this->database),
             new FileNamePolicyStack()
         );
@@ -122,13 +122,13 @@ class ilStorageHandlerV1Migration implements Migration
         $io = $environment->getResource(Environment::RESOURCE_ADMIN_INTERACTION);
 
         $r = $this->database->queryF(
-            "SELECT identification FROM il_resource WHERE storage_id = %s LIMIT 1",
+            "SELECT rid FROM il_resource WHERE storage_id = %s LIMIT 1",
             ['text'],
             [$this->from]
         );
         $d = $this->database->fetchObject($r);
-        if ($d->identification) {
-            $resource = $this->resource_builder->get(new ResourceIdentification($d->identification));
+        if ($d->rid) {
+            $resource = $this->resource_builder->get(new ResourceIdentification($d->rid));
             if (!$this->migrator->migrate($resource, $this->to)) {
                 $i = $resource->getIdentification()->serialize();
                 $io->text('Resource ' . $i . ' not migrated, file not found. All Stakeholder have been informed about the deletion.');
@@ -139,7 +139,7 @@ class ilStorageHandlerV1Migration implements Migration
     public function getRemainingAmountOfSteps() : int
     {
         $r = $this->database->queryF(
-            "SELECT COUNT(identification) as old_storage FROM il_resource WHERE storage_id != %s",
+            "SELECT COUNT(rid) as old_storage FROM il_resource WHERE storage_id != %s",
             ['text'],
             [$this->to]
         );

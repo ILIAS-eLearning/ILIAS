@@ -420,7 +420,8 @@ class ilBlogPosting extends ilPageObject
     {
         $data = self::getAllPostings($a_blog_id, 1);
         if ($data) {
-            return array_pop(array_keys($data));
+            $keys = array_keys($data);
+            return array_pop($keys);
         }
     }
     

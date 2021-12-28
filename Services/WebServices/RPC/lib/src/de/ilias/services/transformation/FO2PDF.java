@@ -49,14 +49,15 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.FormattingResults;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.fop.apps.PageSequenceResults;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.xml.sax.SAXException;
 
 public class FO2PDF {
     
     private static FO2PDF instance = null;
 	
-	private Logger logger = Logger.getLogger(this.getClass().getName());
+	private Logger logger = LogManager.getLogger(this.getClass().getName());
     private String foString = null;
     private byte[] pdfByteArray = null;
 	private FopFactory fopFactory = null;

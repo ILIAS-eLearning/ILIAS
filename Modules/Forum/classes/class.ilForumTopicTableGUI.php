@@ -301,6 +301,8 @@ class ilForumTopicTableGUI extends ilTable2GUI
         if ($num_posts > 0) {
             if ($thread->getLastPostForThreadOverview() instanceof ilForumPost) {
                 $objLastPost = $thread->getLastPostForThreadOverview();
+
+                $this->ctrl->setParameter($this->getParentObject(), 'user', $objLastPost->getDisplayUserId());
                 $authorinfo = new ilForumAuthorInformation(
                     $objLastPost->getPosAuthorId(),
                     $objLastPost->getDisplayUserId(),

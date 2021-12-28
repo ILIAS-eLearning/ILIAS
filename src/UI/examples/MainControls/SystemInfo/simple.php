@@ -15,7 +15,6 @@ function simple()
 
     $systemInfo = $f->mainControls()
         ->systemInfo('This is an neutral Message!', 'read it, understand it, dismiss it...')
-        ->withIsDismissable(true)
         ->withDismissAction(new URI($_SERVER['HTTP_REFERER']));
 
     return $renderer->render([$systemInfo]);

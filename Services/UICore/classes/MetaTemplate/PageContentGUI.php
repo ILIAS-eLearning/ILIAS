@@ -622,7 +622,6 @@ class PageContentGUI
             $this->template_file->setCurrentBlock("head_action_inner");
             $this->template_file->setVariable("HEAD_ACTION", $header);
             $this->template_file->parseCurrentBlock();
-            $this->template_file->touchBlock("head_action");
         }
 
         if (count((array) $this->title_alerts)) {
