@@ -10624,6 +10624,7 @@ mep#:#mep_master_language_only_no_media#:#Lingua principale senza media
 mep#:#mep_media_files#:#Media Files
 mep#:#mep_media_subtitles#:#Sottotitoli multimediali
 mep#:#mep_mob#:#Media Object
+mep#:#mep_mpg#:#Content Snippet
 mep#:#mep_new_content_snippet#:#Nuovo frammento di contenuto
 mep#:#mep_new_folder#:#Nuova cartella
 mep#:#mep_page_properties#:#Proprieà della pagina
@@ -11216,7 +11217,8 @@ meta#:#meta_no_meta_metadata#:#Non ci sono metadati disponibili per la sezione M
 meta#:#meta_no_relation#:#Non ci sono metadati disponibili per la sezione Relazioni.
 meta#:#meta_no_rights#:#Non ci sono metadati disponibili per la sezione Diritti.
 meta#:#meta_no_technical#:#Non ci sono metadati disponibili per la sezione Tecnica.
-meta#:#meta_obj_type_inactive#:#Non usato
+meta#:#meta_obj_type_inactive#:#Dataset non offerti
+meta#:#meta_obj_type_active#:#Dataset offerti
 meta#:#meta_obj_type_mandatory#:#Obbligatorio
 meta#:#meta_obj_type_optional#:#Il set di dati deve essere attivato
 meta#:#meta_oer_blocked#:#Ignorato da OER Harvester

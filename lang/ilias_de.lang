@@ -13170,6 +13170,7 @@ common#:#il_blog_editor#:#Blog-Redakteur
 rbac#:#blog_redact#:#Benutzer kann auch Beiträge anderer Mitwirkender bearbeiten
 blog#:#blog_contributors#:#Mitwirkende
 meta#:#meta_obj_type_inactive#:#Datensatz nicht anbieten
+meta#:#meta_obj_type_active#:#Datensatz anbieten
 meta#:#meta_obj_type_mandatory#:#Immer zum Ausfüllen anbieten
 meta#:#meta_obj_type_optional#:#Datensatz muss aktiviert werden
 meta#:#meta_section#:#Bereich
@@ -14991,6 +14992,7 @@ notes#:#notes_add_edit_comment#:#Kommentar hinzufügen/editieren
 mep#:#mep_media_files#:#Mediendateien
 mep#:#mep_bulk_upload#:#Massen-Upload
 mep#:#mep_mob#:#Medienobjekt
+mep#:#mep_mpg#:#Inhaltsbaustein
 book#:#book_booking_reminders#:#Anstehende Reservierungen
 book#:#book_rem_intro#:#Dies ist eine Übersicht über anstehende Reservierungen.
 book#:#book_your_reservations#:#Ihre Reservierungen

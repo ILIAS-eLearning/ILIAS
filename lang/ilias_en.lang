@@ -13162,7 +13162,8 @@ rbac#:#redact#:#Redact
 common#:#il_blog_editor#:#Blog Editor
 rbac#:#blog_redact#:#User can edit postings of other contributors, too
 blog#:#blog_contributors#:#Blog-Contributors
-meta#:#meta_obj_type_inactive#:#Dataset not Used
+meta#:#meta_obj_type_inactive#:#Dataset not offered
+meta#:#meta_obj_type_active#:#Dataset offered
 meta#:#meta_obj_type_mandatory#:#Dataset always offered
 meta#:#meta_obj_type_optional#:#Dataset needs activation
 common#:#obj_tool_setting_custom_metadata#:#Custom Metadata
@@ -15009,6 +15010,7 @@ notes#:#notes_add_edit_comment#:#Add/Edit Comment
 mep#:#mep_media_files#:#Media Files
 mep#:#mep_bulk_upload#:#Bulk Upload
 mep#:#mep_mob#:#Media Object
+mep#:#mep_mpg#:#Content Snippet
 book#:#book_booking_reminders#:#Upcoming reservations
 book#:#book_rem_intro#:#This is an overview of upcoming reservations:
 book#:#book_your_reservations#:#Your Reservations
