@@ -5,7 +5,7 @@
 use ILIAS\Setup;
 use ILIAS\DI;
 
-class ilComponentPluginLanguageUpdatedObjective implements Setup\Objective
+class ilPluginLanguageUpdatedObjective implements Setup\Objective
 {
     protected string $plugin_name;
 
@@ -44,7 +44,10 @@ class ilComponentPluginLanguageUpdatedObjective implements Setup\Objective
     public function getPreconditions(Setup\Environment $environment) : array
     {
         return [
-            new ilComponentPluginAdminInitObjective()
+            new \ilIniFilesLoadedObjective(),
+            new \ilDatabaseInitializedObjective(),
+            new ilLanguagesInstalledAndUpdatedObjective(null, new ilSetupLanguage('en')),
+            new ilComponentRepositoryExistsObjective()
         ];
     }
 
@@ -53,19 +56,12 @@ class ilComponentPluginLanguageUpdatedObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        $pl = ilPlugin::getPluginObject(
-            $plugin['component_type'],
-            $plugin['component_name'],
-            $plugin['slot_id'],
-            $plugin['name']
-        );
-
-        $pl->updateLanguages();
-
+        $plugin = $component_repository->getPluginByName($this->plugin_name);
+        $language_handler = new ilPluginLanguage($plugin);
+        $language_handler->updateLanguages();
 
         $GLOBALS["DIC"] = $ORIG_DIC;
         $GLOBALS["ilDB"] = $ORIG_ilDB;
@@ -78,24 +74,14 @@ class ilComponentPluginLanguageUpdatedObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        list($ORIG_DIC, $ORIG_ilDB) = $this->initEnvironment($environment);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
 
-        $plugin = $GLOBALS["DIC"]["ilPluginAdmin"]->getRawPluginDataFor($this->plugin_name);
-
-        if (is_null($plugin) || !$plugin['supports_cli_setup']) {
-            return false;
-        }
-
-        $GLOBALS["DIC"] = $ORIG_DIC;
-        $GLOBALS["ilDB"] = $ORIG_ilDB;
-
-        return true;
+        return $component_repository->getPluginByName($this->plugin_name)->supportsCLISetup();
     }
 
     protected function initEnvironment(Setup\Environment $environment) : array
     {
         $db = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
-        $plugin_admin = $environment->getResource(Setup\Environment::RESOURCE_PLUGIN_ADMIN);
         $ini = $environment->getResource(Setup\Environment::RESOURCE_ILIAS_INI);
         $client_ini = $environment->getResource(Setup\Environment::RESOURCE_CLIENT_INI);
 
