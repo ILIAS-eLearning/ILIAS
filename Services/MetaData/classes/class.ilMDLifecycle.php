@@ -203,7 +203,7 @@ class ilMDLifecycle extends ilMDBase
                 $this->setObjId($row->obj_id);
                 $this->setObjType($row->obj_type);
                 $this->setStatus($row->lifecycle_status);
-                $this->setVersion($row->meta_version);
+                $this->setVersion((string) $row->meta_version);
                 $this->setVersionLanguage(new ilMDLanguageItem($row->version_language));
             }
         }

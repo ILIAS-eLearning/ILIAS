@@ -50,7 +50,7 @@ class ImportSessionRepository
         \ilSession::set(self::KEY_BASE, $entries);
     }
 
-    public function clearMobs() : array
+    public function clearMobs() : void
     {
         if (\ilSession::has(self::KEY_BASE)) {
             \ilSession::clear(self::KEY_BASE);

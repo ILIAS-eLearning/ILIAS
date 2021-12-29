@@ -19,6 +19,8 @@
  */
 class ilSumScoreTableGUI extends ilTable2GUI
 {
+    protected int $counter;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -52,13 +54,13 @@ class ilSumScoreTableGUI extends ilTable2GUI
         $this->setData($scores);
     }
 
-    public function fillRow($data)
+    protected function fillRow($a_set)
     {
-        if ($data['score'] === null) {
-            $data['score'] = "n.a.";
+        if ($a_set['score'] === null) {
+            $a_set['score'] = "n.a.";
         }
-        $this->tpl->setVariable("SUM_SCORE", $data['score']);
-        $this->tpl->setVariable("PARTICIPANT", $data['username']);
+        $this->tpl->setVariable("SUM_SCORE", $a_set['score']);
+        $this->tpl->setVariable("PARTICIPANT", $a_set['username']);
     }
 
     protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)

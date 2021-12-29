@@ -32,7 +32,7 @@ class ilSurveyPhrasesGUI
 
     protected ilSurveyPhrases $object;
     protected ilLanguage $lng;
-    protected ilTemplate $tpl;
+    protected ilGlobalTemplateInterface $tpl;
     protected ilCtrl $ctrl;
     protected ilTree $tree;
     protected int $ref_id;
@@ -115,7 +115,10 @@ class ilSurveyPhrasesGUI
             $data = array();
             foreach ($phrases as $phrase_id => $phrase_array) {
                 $categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
-                array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join(", ", $categories)));
+                $data[] = array('phrase_id' => $phrase_id,
+                                'phrase' => $phrase_array["title"],
+                                'answers' => join(", ", $categories)
+                );
             }
             $table_gui->setData($data);
             $this->tpl->setContent($table_gui->getHTML());
@@ -194,7 +197,10 @@ class ilSurveyPhrasesGUI
         foreach ($checked_phrases as $phrase_id) {
             $phrase_array = $phrases[$phrase_id];
             $categories = ilSurveyPhrases::_getCategoriesForPhrase($phrase_id);
-            array_push($data, array('phrase_id' => $phrase_id, 'phrase' => $phrase_array["title"], 'answers' => join(", ", $categories)));
+            $data[] = array('phrase_id' => $phrase_id,
+                            'phrase' => $phrase_array["title"],
+                            'answers' => join(", ", $categories)
+            );
         }
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
@@ -227,7 +233,7 @@ class ilSurveyPhrasesGUI
     public function writePostData(
         bool $always = false
     ) : int {
-        $hasErrors = (!$always) ? $this->phraseEditor(true) : false;
+        $hasErrors = !$always && $this->phraseEditor(true);
         if (!$hasErrors) {
             $form = $this->form;
             $this->object->title = $form->getInput("title");
@@ -281,7 +287,7 @@ class ilSurveyPhrasesGUI
     public function phraseEditor(
         bool $checkonly = false
     ) : bool {
-        $save = (strcmp($this->ctrl->getCmd(), "saveEditPhrase") == 0) ? true : false;
+        $save = strcmp($this->ctrl->getCmd(), "saveEditPhrase") == 0;
 
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, 'phraseEditor'));

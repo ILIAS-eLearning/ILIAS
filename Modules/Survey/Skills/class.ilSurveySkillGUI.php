@@ -112,7 +112,7 @@ class ilSurveySkillGUI
             $this->edit_request->getSelectedSkill()
         );
         $skill_survey->addQuestionSkillAssignment(
-            (int) $this->edit_request->getQuestionId(),
+            $this->edit_request->getQuestionId(),
             (int) $skill_id_parts[0],
             (int) $skill_id_parts[1]
         );
@@ -141,7 +141,7 @@ class ilSurveySkillGUI
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
 
-        $ilTabs->addSubtab(
+        $ilTabs->addSubTab(
             "survey_skill_assign",
             $lng->txt("survey_skill_assign"),
             $ilCtrl->getLinkTargetByClass("ilsurveyskillgui", "listQuestionAssignment")
@@ -153,6 +153,6 @@ class ilSurveySkillGUI
             $ilCtrl->getLinkTargetByClass("ilsurveyskillthresholdsgui", "listCompetences")
         );
 
-        $ilTabs->activateSubtab($a_activate);
+        $ilTabs->activateSubTab($a_activate);
     }
 }

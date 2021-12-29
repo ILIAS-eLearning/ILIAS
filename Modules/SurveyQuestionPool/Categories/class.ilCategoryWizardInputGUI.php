@@ -200,7 +200,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $neutral_scale = $this->getNeutralScaleInput();
         $neutral = $this->getNeutralInput();
 
-        if (is_array($foundvalues)) {
+        if (count($foundvalues) > 0) {
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
@@ -279,7 +279,6 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         
         $neutral_category = null;
         $tpl = new ilTemplate("tpl.prop_categorywizardinput.html", true, true, "Modules/SurveyQuestionPool");
-        $i = 0;
         if (is_object($this->values)) {
             for ($i = 0; $i < $this->values->getCategoryCount(); $i++) {
                 $cat = $this->values->getCategory($i);
@@ -405,7 +404,7 @@ class ilCategoryWizardInputGUI extends ilTextInputGUI
         $a_tpl->parseCurrentBlock();
         
         $tpl = $this->tpl;
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavascript("./Modules/SurveyQuestionPool/Categories/js/categorywizard.js");
+        $tpl->addJavaScript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavaScript("./Modules/SurveyQuestionPool/Categories/js/categorywizard.js");
     }
 }

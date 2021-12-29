@@ -19,6 +19,9 @@
  */
 class ilSurveySkillChangesTableGUI extends ilTable2GUI
 {
+    protected ilSurveySkill $survey_skill;
+    protected ilObjSurvey $survey;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,

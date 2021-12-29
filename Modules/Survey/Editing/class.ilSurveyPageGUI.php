@@ -21,6 +21,7 @@
  */
 class ilSurveyPageGUI
 {
+    protected bool $suppress_clipboard_msg;
     protected string $pgov;
     protected \ILIAS\Survey\Editing\EditingGUIRequest $svy_request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;
@@ -373,6 +374,7 @@ class ilSurveyPageGUI
         $ilTabs = $this->tabs;
         
         // get translated type
+        $type_trans = "";
         $questiontypes = ilObjSurveyQuestionPool::_getQuestiontypes();
         foreach ($questiontypes as $item) {
             if ($item["questiontype_id"] == $a_type) {
@@ -478,7 +480,7 @@ class ilSurveyPageGUI
     {
         $lng = $this->lng;
 
-        if (is_array($a_id)) {
+        if (count($a_id) > 0) {
             ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_cut"));
             $this->suppress_clipboard_msg = true;
 
@@ -499,7 +501,7 @@ class ilSurveyPageGUI
     {
         $lng = $this->lng;
 
-        if (is_array($a_id)) {
+        if (count($a_id) > 0) {
             ilUtil::sendSuccess($lng->txt("survey_questions_to_clipboard_copy"));
             $this->suppress_clipboard_msg = true;
 
@@ -727,10 +729,6 @@ class ilSurveyPageGUI
     {
         $ilCtrl = $this->ctrl;
         
-        if (!is_array($a_id)) {
-            $a_id = array($a_id);
-        }
-        
         $ilCtrl->setParameter($this->editor_gui, "pgov", $this->current_page);
         $this->editor_gui->removeQuestionsForm(array(), $a_id, array());
     }
@@ -843,7 +841,7 @@ class ilSurveyPageGUI
      */
     protected function splitPage(
         int $a_id
-    ) : int {
+    ) : void {
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
 
@@ -943,7 +941,7 @@ class ilSurveyPageGUI
      */
     protected function movePrevious(
         int $a_id
-    ) : int {
+    ) : void {
         $pages = $this->object->getSurveyPages();
         $source = $pages[$this->current_page - 1];
         $target = $pages[$this->current_page - 2];
@@ -1140,6 +1138,8 @@ class ilSurveyPageGUI
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
+
+        $questions = [];
 
         // current_page is already set to new position
         $target_page = $this->current_page - 1;
@@ -1416,7 +1416,7 @@ class ilSurveyPageGUI
 
             // add js to template
             ilYuiUtil::initDragDrop();
-            $tpl->addJavascript("./Modules/Survey/js/SurveyPageView.js");
+            $tpl->addJavaScript("./Modules/Survey/js/SurveyPageView.js");
         }
     }
 

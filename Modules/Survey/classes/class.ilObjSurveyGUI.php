@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use \ILIAS\Survey\Participants;
+use ILIAS\Survey\Participants;
 
 /**
  * Class ilObjSurveyGUI
@@ -181,14 +181,14 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 ilObjSurveyAccess::_hasEvaluationAccess($this->object->getId(), $this->user->getId())) {
                     $ilTabs->activateTab("svy_results");
                     $this->addHeaderAction();
-                    $eval_gui = new ilSurveyEvaluationGUI($this->object);
+                    $eval_gui = new ilSurveyEvaluationGUI($survey);
                     $this->ctrl->forwardCommand($eval_gui);
                 }
                 break;
 
             case "ilsurveyexecutiongui":
                 $ilTabs->clearTargets();
-                $exec_gui = new ilSurveyExecutionGUI($this->object);
+                $exec_gui = new ilSurveyExecutionGUI($survey);
                 $this->ctrl->forwardCommand($exec_gui);
                 break;
                 
@@ -213,13 +213,13 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             // 360, skill service
             case 'ilsurveyskillgui':
                 $ilTabs->activateTab("survey_competences");
-                $gui = new ilSurveySkillGUI($this->object);
+                $gui = new ilSurveySkillGUI($survey);
                 $this->ctrl->forwardCommand($gui);
                 break;
 
             case 'ilsurveyskilldeterminationgui':
                 $ilTabs->activateTab("maintenance");
-                $gui = new ilSurveySkillDeterminationGUI($this->object);
+                $gui = new ilSurveySkillDeterminationGUI($survey);
                 $this->ctrl->forwardCommand($gui);
                 break;
             
@@ -306,7 +306,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
      */
     public function evaluationObject() : void
     {
-        $eval_gui = new ilSurveyEvaluationGUI($this->object);
+        $eval_gui = new ilSurveyEvaluationGUI($this->survey);
         $this->ctrl->setCmdClass(get_class($eval_gui));
         $this->ctrl->redirect($eval_gui, "evaluation");
     }
@@ -334,7 +334,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->lng->txt("svy_ind_feedb_info"));
     }
 
-    public function afterSave(ilObject $a_new_object)
+    protected function afterSave(ilObject $a_new_object)
     {
         // #16446
         $a_new_object->loadFromDb();
@@ -364,7 +364,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $a_new_object->getRefId() . "&cmd=properties");
     }
     
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $ilUser = $this->user;
         $ilHelp = $this->help;
@@ -513,7 +513,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             
     public function savePropertiesObject() : void
     {
-        $settings_ui = $this->survey_service->gui()->surveySettings($this->object);
+        $settings_ui = $this->survey_service->gui()->surveySettings($this->survey);
 
         $form = $settings_ui->form("ilObjSurveyGUI");
         if ($settings_ui->checkForm($form)) {
@@ -535,7 +535,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
     public function initPropertiesForm() : ilPropertyFormGUI
     {
         $form = $this->survey_service
-            ->gui()->surveySettings($this->object)->form("ilObjSurveyGUI");
+            ->gui()->surveySettings($this->survey)->form("ilObjSurveyGUI");
         return $form;
     }
     
@@ -703,7 +703,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         
         // display form to correct errors
         $form->setValuesByPost();
-        $tpl->setContent($form->getHtml());
+        $tpl->setContent($form->getHTML());
     }
     
     
@@ -739,7 +739,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $this->ctrl->forwardCommand($info);
     }
 
-    public function addLocatorItems() : void
+    protected function addLocatorItems() : void
     {
         $ilLocator = $this->locator;
         switch ($this->ctrl->getCmd()) {
@@ -838,7 +838,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             if (count($page) > 0) {
                 // question block
                 if (count($page) > 1) {
-                    if ((bool) $page[0]["questionblock_show_blocktitle"]) {
+                    if ($page[0]["questionblock_show_blocktitle"]) {
                         $rtpl->setVariable("BLOCK_TITLE", trim($page[0]["questionblock_title"]));
                     }
                 }
@@ -846,26 +846,24 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 // questions
                 foreach ($page as $question) {
                     $question_gui = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
-                    if (is_object($question_gui)) {
-                        $rtpl->setCurrentBlock("question_bl");
-                        
-                        // heading
-                        if (strlen($question["heading"])) {
-                            $rtpl->setVariable("HEADING", trim($question["heading"]));
-                        }
-                        
-                        $rtpl->setVariable(
-                            "QUESTION_DATA",
-                            $question_gui->getPrintView(
-                                $show_titles,
-                                (bool) $question["questionblock_show_questiontext"],
-                                $this->object->getId(),
-                                $this->object->loadWorkingData($question["question_id"], $a_active_id)
-                            )
-                        );
-                        
-                        $rtpl->parseCurrentBlock();
+                    $rtpl->setCurrentBlock("question_bl");
+
+                    // heading
+                    if (strlen($question["heading"])) {
+                        $rtpl->setVariable("HEADING", trim($question["heading"]));
                     }
+
+                    $rtpl->setVariable(
+                        "QUESTION_DATA",
+                        $question_gui->getPrintView(
+                            $show_titles,
+                            (bool) $question["questionblock_show_questiontext"],
+                            $this->object->getId(),
+                            $this->object->loadWorkingData($question["question_id"], $a_active_id)
+                        )
+                    );
+
+                    $rtpl->parseCurrentBlock();
                 }
                 
                 $rtpl->setCurrentBlock("block_bl");
@@ -919,7 +917,7 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 
                 // question block
                 if (count($page) > 1) {
-                    if ((bool) $page[0]["questionblock_show_blocktitle"]) {
+                    if ($page[0]["questionblock_show_blocktitle"]) {
                         $res[$this->lng->txt("questionblock")] = trim($page[0]["questionblock_title"]) . "\n";
                     }
                 }
@@ -930,68 +928,66 @@ class ilObjSurveyGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 
                 foreach ($page as $question) {
                     $question_gui = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
-                    if (is_object($question_gui)) {
-                        $question_parts = array();
-                        
-                        // heading
-                        if (strlen($question["heading"])) {
-                            $question_parts[$this->lng->txt("heading")] = trim($question["heading"]);
-                        }
-                        
-                        if ($show_titles) {
-                            $question_parts[$this->lng->txt("title")] = trim($question["title"]);
-                        }
-                        
-                        if ((bool) $question["questionblock_show_questiontext"]) {
-                            $question_parts[$this->lng->txt("question")] = trim(strip_tags($question_gui->object->getQuestionText()));
-                        }
-                        
-                        $answers = $question_gui->getParsedAnswers(
-                            $this->object->loadWorkingData($question["question_id"], $a_active_id),
-                            true
-                        );
-                        
-                        if (sizeof($answers)) {
-                            $multiline = false;
-                            if (sizeof($answers) > 1 ||
-                                get_class($question_gui) == "SurveyTextQuestionGUI") {
-                                $multiline = true;
-                            }
-                            
-                            $parts = array();
-                            foreach ($answers as $answer) {
-                                $text = null;
-                                if ($answer["textanswer"]) {
-                                    $text = ' ("' . $answer["textanswer"] . '")';
-                                }
-                                if (!isset($answer["cols"])) {
-                                    if (isset($answer["title"])) {
-                                        $parts[] = $answer["title"] . $text;
-                                    } elseif (isset($answer["value"])) {
-                                        $parts[] = $answer["value"];
-                                    } elseif ($text) {
-                                        $parts[] = substr($text, 2, -1);
-                                    }
-                                }
-                                // matrix
-                                else {
-                                    $tmp = array();
-                                    foreach ($answer["cols"] as $col) {
-                                        $tmp[] = $col["title"];
-                                    }
-                                    $parts[] = $answer["title"] . ": " . implode(", ", $tmp) . $text;
-                                }
-                            }
-                            $question_parts[$this->lng->txt("answer")] =
-                                ($multiline ? "\n" : "") . implode("\n", $parts);
-                        }
-                        
-                        $tmp = array();
-                        foreach ($question_parts as $type => $value) {
-                            $tmp[] = $type . ": " . $value;
-                        }
-                        $page_res[] = implode("\n", $tmp);
+                    $question_parts = array();
+
+                    // heading
+                    if (strlen($question["heading"])) {
+                        $question_parts[$this->lng->txt("heading")] = trim($question["heading"]);
                     }
+
+                    if ($show_titles) {
+                        $question_parts[$this->lng->txt("title")] = trim($question["title"]);
+                    }
+
+                    if ($question["questionblock_show_questiontext"]) {
+                        $question_parts[$this->lng->txt("question")] = trim(strip_tags($question_gui->object->getQuestionText()));
+                    }
+
+                    $answers = $question_gui->getParsedAnswers(
+                        $this->object->loadWorkingData($question["question_id"], $a_active_id),
+                        true
+                    );
+
+                    if (sizeof($answers)) {
+                        $multiline = false;
+                        if (sizeof($answers) > 1 ||
+                            get_class($question_gui) == "SurveyTextQuestionGUI") {
+                            $multiline = true;
+                        }
+
+                        $parts = array();
+                        foreach ($answers as $answer) {
+                            $text = null;
+                            if ($answer["textanswer"]) {
+                                $text = ' ("' . $answer["textanswer"] . '")';
+                            }
+                            if (!isset($answer["cols"])) {
+                                if (isset($answer["title"])) {
+                                    $parts[] = $answer["title"] . $text;
+                                } elseif (isset($answer["value"])) {
+                                    $parts[] = $answer["value"];
+                                } elseif ($text) {
+                                    $parts[] = substr($text, 2, -1);
+                                }
+                            }
+                            // matrix
+                            else {
+                                $tmp = array();
+                                foreach ($answer["cols"] as $col) {
+                                    $tmp[] = $col["title"];
+                                }
+                                $parts[] = $answer["title"] . ": " . implode(", ", $tmp) . $text;
+                            }
+                        }
+                        $question_parts[$this->lng->txt("answer")] =
+                            ($multiline ? "\n" : "") . implode("\n", $parts);
+                    }
+
+                    $tmp = array();
+                    foreach ($question_parts as $type => $value) {
+                        $tmp[] = $type . ": " . $value;
+                    }
+                    $page_res[] = implode("\n", $tmp);
                 }
                 
                 $res[] = implode("\n\n-------------------------------\n\n", $page_res);

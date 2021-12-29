@@ -351,9 +351,9 @@ class EditingGUIRequest
         return $this->str($key);
     }
 
-    public function getIncludeElements() : string
+    public function getIncludeElements() : array
     {
-        return $this->str("includeElements");
+        return $this->strArray("includeElements");
     }
 
     // skill related

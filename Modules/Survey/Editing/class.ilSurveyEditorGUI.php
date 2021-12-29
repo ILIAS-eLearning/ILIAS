@@ -55,8 +55,10 @@ class ilSurveyEditorGUI
         $tpl = $DIC["tpl"];
         
         $this->parent_gui = $a_parent_gui;
-        $this->object = $this->parent_gui->object;
-        
+        /** @var ilObjSurvey $survey */
+        $survey = $this->parent_gui->object;
+        $this->object = $survey;
+
         $this->ctrl = $ilCtrl;
         $this->lng = $lng;
         $this->tpl = $tpl;
@@ -284,16 +286,16 @@ class ilSurveyEditorGUI
                 if ($allow_questions && preg_match("/cb_(\d+)/", $key, $matches)) {
                     if (($allow_questions_in_blocks || !$block_map[$matches[1]]) &&
                         !in_array($block_map[$matches[1]], $blocks)) {
-                        array_push($questions, $matches[1]);
+                        $questions[] = $matches[1];
                     }
                 }
                 // blocks
                 if ($allow_blocks && preg_match("/cb_qb_(\d+)/", $key, $matches)) {
-                    array_push($blocks, $matches[1]);
+                    $blocks[] = $matches[1];
                 }
                 // headings
                 if ($allow_headings && preg_match("/cb_tb_(\d+)/", $key, $matches)) {
-                    array_push($headings, $matches[1]);
+                    $headings[] = $matches[1];
                 }
             }
         }
@@ -355,7 +357,7 @@ class ilSurveyEditorGUI
         $move_questions = $items["questions"];
         foreach ($items["blocks"] as $block_id) {
             foreach ($this->object->getQuestionblockQuestionIds($block_id) as $qid) {
-                array_push($move_questions, $qid);
+                $move_questions[] = $qid;
             }
         }
         if (count($move_questions) == 0) {
@@ -431,7 +433,6 @@ class ilSurveyEditorGUI
         if (count($items["blocks"]) + count($items["questions"]) + count($items["headings"]) > 0) {
             ilUtil::sendQuestion($this->lng->txt("remove_questions"));
             $this->removeQuestionsForm($items["blocks"], $items["questions"], $items["headings"]);
-            return;
         } else {
             ilUtil::sendInfo($this->lng->txt("no_question_selected_for_removal"), true);
             $this->ctrl->redirect($this, "questions");
@@ -508,7 +509,7 @@ class ilSurveyEditorGUI
         $copy_questions = $items["questions"];
         foreach ($items["blocks"] as $block_id) {
             foreach ($this->object->getQuestionblockQuestionIds($block_id) as $qid) {
-                array_push($copy_questions, $qid);
+                $copy_questions[] = $qid;
             }
         }
         $copy_questions = array_unique($copy_questions);
@@ -651,7 +652,9 @@ class ilSurveyEditorGUI
         if (is_null($pool_usage)) {
             $pool_usage = $this->request->getPoolUsage();
         }
-        
+
+        $obj_id = 0;
+
         // no pool
         if ($pool_usage == 1) {
             $obj_id = $this->object->getId();
@@ -787,6 +790,7 @@ class ilSurveyEditorGUI
     public function insertQuestionsObject() : void
     {
         $inserted_objects = 0;
+        $page_gui = null;
         $qids = $this->request->getQuestionIds();
         if (count($qids) > 0) {
             if ($this->requested_pgov != "") {
@@ -856,6 +860,7 @@ class ilSurveyEditorGUI
     public function insertQuestionblocksObject() : void
     {
         $inserted_objects = 0;
+        $page_gui = null;
         $block_ids = $this->request->getBlockIds();
         if (count($block_ids) > 0) {
             if ($this->requested_pgov != "") {
@@ -869,7 +874,7 @@ class ilSurveyEditorGUI
                 if ($this->requested_pgov == "") {
                     $this->object->insertQuestionblock($questionblock_id);
                 } else {
-                    $page_gui->insertQuestionblock($questionblock_id);
+                    $page_gui->insertQuestionBlock($questionblock_id);
                 }
                 $inserted_objects++;
             }
@@ -939,6 +944,7 @@ class ilSurveyEditorGUI
         ?int $a_block_id = null,
         ?array $a_question_ids = null
     ) : ilPropertyFormGUI {
+        $questionblock = null;
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this, "saveDefineQuestionblock"));
         $form->setTitle($this->lng->txt("define_questionblock"));
@@ -997,7 +1003,7 @@ class ilSurveyEditorGUI
 
         $this->ctrl->setParameter($this, "bl_id", $block_id);
                     
-        if (!$block_id && !is_array($q_ids)) {
+        if (!$block_id && count($q_ids) == 0) {
             $this->ctrl->redirect($this, "questions");
         }
         
@@ -1232,32 +1238,27 @@ class ilSurveyEditorGUI
             if (count($page) > 0) {
                 foreach ($page as $question) {
                     $questionGUI = $this->object->getQuestionGUI($question["type_tag"], $question["question_id"]);
-                    if (is_object($questionGUI)) {
-                        if (strlen($question["heading"])) {
-                            $template->setCurrentBlock("textblock");
-                            $template->setVariable("TEXTBLOCK", $question["heading"]);
-                            $template->parseCurrentBlock();
-                        }
-                        $template->setCurrentBlock("question");
-                        $template->setVariable("QUESTION_DATA", $questionGUI->getPrintView(
-                            $current_title,
-                            $question["questionblock_show_questiontext"]
-                        ));
+                    if (strlen($question["heading"])) {
+                        $template->setCurrentBlock("textblock");
+                        $template->setVariable("TEXTBLOCK", $question["heading"]);
                         $template->parseCurrentBlock();
-                        
-                        if ($question["obligatory"]) {
-                            $required = true;
-                        }
+                    }
+                    $template->setCurrentBlock("question");
+                    $template->setVariable("QUESTION_DATA", $questionGUI->getPrintView(
+                        $current_title,
+                        $question["questionblock_show_questiontext"]
+                    ));
+                    $template->parseCurrentBlock();
+
+                    if ($question["obligatory"]) {
+                        $required = true;
                     }
                 }
+                $template->setCurrentBlock("page");
                 if (count($page) > 1 && $page[0]["questionblock_show_blocktitle"]) {
-                    $template->setCurrentBlock("page");
                     $template->setVariable("BLOCKTITLE", $page[0]["questionblock_title"]);
-                    $template->parseCurrentBlock();
-                } else {
-                    $template->setCurrentBlock("page");
-                    $template->parseCurrentBlock();
                 }
+                $template->parseCurrentBlock();
             }
         }
         

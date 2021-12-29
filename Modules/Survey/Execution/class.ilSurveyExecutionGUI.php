@@ -174,6 +174,7 @@ class ilSurveyExecutionGUI
         
         // appraisee validation
         $appr_id = 0;
+        $appraisees = [];
         if ($this->feature_config->usesAppraisees()) {
             $appr_id = $this->requested_appr_id;
             //if (!$appr_id) {
@@ -290,6 +291,7 @@ class ilSurveyExecutionGUI
     public function previous(
         bool $a_save_input = true
     ) : void {
+        $has_error = "";
         if ($a_save_input) {
             // #16209
             $has_error = $this->saveUserInput("previous");
@@ -333,15 +335,16 @@ class ilSurveyExecutionGUI
 
     /**
      * Output of the active survey question to the screen
+     * @throws ilCtrlException
+     * @throws ilSurveyException
      */
     public function outSurveyPage(
         ?int $activepage = null,
-        ?int $direction = null
+        int $direction = 0
     ) : void {
         $ilUser = $this->user;
         
         $this->checkAuth();
-        
         $page = $this->object->getNextPage($activepage, $direction);
         $constraint_true = 0;
         
@@ -350,7 +353,7 @@ class ilSurveyExecutionGUI
             $this->log->debug("Page constraints= ", $page[0]["constraints"]);
 
             while (!is_null($page) and ($constraint_true == 0) and (count($page[0]["constraints"]))) {
-                $constraint_true = ($page[0]['constraints'][0]['conjunction'] == 0) ? true : false;
+                $constraint_true = $page[0]['constraints'][0]['conjunction'] == 0;
                 foreach ($page[0]["constraints"] as $constraint) {
                     if (!$this->preview) {
                         $working_data = $this->object->loadWorkingData($constraint["question"], $this->getCurrentRunId());
@@ -501,7 +504,7 @@ class ilSurveyExecutionGUI
                     $working_data,
                     $show_title,
                     $show_questiontext,
-                    $error_messages[$data["question_id"]],
+                    $error_messages[$data["question_id"]] ?? "",
                     $this->object->getSurveyId(),
                     $compress_view
                 );
@@ -525,8 +528,8 @@ class ilSurveyExecutionGUI
             $this->outNavigationButtons("bottom", $page, $stpl);
 
             $stpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
+            $this->tpl->setContent($stpl->get());
         }
-        $this->tpl->setContent($stpl->get());
 
         if (!$this->preview) {
             $this->object->setPage($this->getCurrentRunId(), $page[0]['question_id']);
@@ -540,10 +543,10 @@ class ilSurveyExecutionGUI
     }
 
     protected function compressQuestion(
-        array $previous_page,
+        ?array $previous_page,
         array $page
     ) : bool {
-        if (!$previous_page) {
+        if (is_null($previous_page)) {
             return false;
         }
 

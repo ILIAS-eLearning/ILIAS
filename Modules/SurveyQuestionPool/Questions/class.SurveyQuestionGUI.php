@@ -111,7 +111,7 @@ abstract class SurveyQuestionGUI
         int $question_id = -1
     ) : SurveyQuestionGUI {
         if ((!$questiontype) and ($question_id > 0)) {
-            $questiontype = SurveyQuestion::_getQuestiontype($question_id);
+            $questiontype = SurveyQuestion::_getQuestionType($question_id);
         }
         SurveyQuestion::_includeClass($questiontype, 1);
         $question_type_gui = $questiontype . "GUI";
@@ -121,7 +121,7 @@ abstract class SurveyQuestionGUI
     
     public static function _getGUIClassNameForId(int $a_q_id) : string
     {
-        $q_type = SurveyQuestion::_getQuestiontype($a_q_id);
+        $q_type = SurveyQuestion::_getQuestionType($a_q_id);
         $class_name = SurveyQuestionGUI::_getClassNameForQType($q_type);
         return $class_name;
     }
@@ -550,6 +550,7 @@ abstract class SurveyQuestionGUI
     protected function getPrintViewQuestionTitle(
         int $question_title = 1
     ) : string {
+        $title = "";
         switch ($question_title) {
             case ilObjSurvey::PRINT_HIDE_LABELS:
                 $title = ilUtil::prepareFormOutput($this->object->getTitle());
@@ -642,11 +643,15 @@ abstract class SurveyQuestionGUI
         bool $checkonly = false
     ) : bool {
         $rbacsystem = $this->rbacsystem;
+
         $ilTabs = $this->tabs;
-        
         $ilTabs->activateTab("material");
 
+        $href = "";
+        $type = "";
         $add_html = '';
+        $errors = false;
+
         if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $form = new ilPropertyFormGUI();
             $form->setFormAction($this->ctrl->getFormAction($this));
@@ -665,8 +670,6 @@ abstract class SurveyQuestionGUI
             $form->addItem($material);
 
             $form->addCommandButton("addMaterial", $this->lng->txt("add"));
-
-            $errors = false;
 
             if ($checkonly) {
                 $form->setValuesByPost();
@@ -695,7 +698,7 @@ abstract class SurveyQuestionGUI
                         break;
                 }
                 $title = (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material');
-                array_push($data, array('href' => $href, 'title' => $title, 'type' => $type));
+                $data[] = array('href' => $href, 'title' => $title, 'type' => $type);
             }
             $table_gui->setData($data);
             $mat_html = $table_gui->getHTML();

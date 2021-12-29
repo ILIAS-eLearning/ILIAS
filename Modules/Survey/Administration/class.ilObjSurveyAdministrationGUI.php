@@ -183,7 +183,7 @@ class ilObjSurveyAdministrationGUI extends ilObjectGUI
         $this->getTabs();
     }
 
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $lng = $this->lng;
 

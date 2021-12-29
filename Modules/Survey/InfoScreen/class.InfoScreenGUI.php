@@ -19,7 +19,7 @@ use ILIAS\Survey\Participants;
 use ILIAS\Survey\Execution;
 use ILIAS\Survey\InternalDomainService;
 use ILIAS\Survey\Access;
-use \Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Info screen wrapper for the survey. The screen currently acts
@@ -134,7 +134,7 @@ class InfoScreenGUI
             $info->setFormAction($this->ctrl->getFormAction($this->survey_gui, "infoScreen"));
             $info->addSection($this->lng->txt("anonymization"));
             $info->addProperty("", $this->lng->txt("anonymize_anonymous_introduction"));
-            $info->addPropertyTextinput($this->lng->txt("enter_anonymous_id"), "anonymous_id", "", 8, "infoScreen", $this->lng->txt("submit"), true);
+            $info->addPropertyTextinput($this->lng->txt("enter_anonymous_id"), "anonymous_id", "", "8", "infoScreen", $this->lng->txt("submit"), true);
         }
 
         // display start / resume links/buttons

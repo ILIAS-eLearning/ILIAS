@@ -160,7 +160,10 @@ class ilSurveyConstraintsGUI
             if (is_array($structure[$i])) {
                 foreach ($structure[$i] as $key => $question_id) {
                     if ($survey_questions[$question_id]["usableForPrecondition"]) {
-                        array_push($option_questions, array("question_id" => $survey_questions[$question_id]["question_id"], "title" => $survey_questions[$question_id]["title"], "type_tag" => $survey_questions[$question_id]["type_tag"]));
+                        $option_questions[] = array("question_id" => $survey_questions[$question_id]["question_id"],
+                                                    "title" => $survey_questions[$question_id]["title"],
+                                                    "type_tag" => $survey_questions[$question_id]["type_tag"]
+                        );
                     }
                 }
             }
@@ -182,10 +185,11 @@ class ilSurveyConstraintsGUI
         $survey_questions = $this->object->getSurveyQuestions();
         $option_questions = array();
         $q = $this->request->getConstraintPar("q");
-        array_push($option_questions, array(
+        $option_questions[] = array(
             "question_id" => $q,
             "title" => $survey_questions[$q]["title"],
-            "type_tag" => $survey_questions[$q]["type_tag"]));
+            "type_tag" => $survey_questions[$q]["type_tag"]
+        );
         $this->constraintForm(2, $this->getConstraintParsFromPost(), $survey_questions, $option_questions);
     }
     
@@ -208,16 +212,17 @@ class ilSurveyConstraintsGUI
                 "r" => $pc["relation_id"],
                 "v" => $pc["value"]
             );
-            array_push($option_questions, array("question_id" => $pc["question_fi"], "title" => $survey_questions[$pc["question_fi"]]["title"], "type_tag" => $survey_questions[$pc["question_fi"]]["type_tag"]));
+            $option_questions[] = array("question_id" => $pc["question_fi"],
+                                        "title" => $survey_questions[$pc["question_fi"]]["title"],
+                                        "type_tag" => $survey_questions[$pc["question_fi"]]["type_tag"]
+            );
             $this->constraintForm(3, $postvalues, $survey_questions, $option_questions);
         } else {
             $q = $this->request->getConstraintPar("q");
-            array_push(
-                $option_questions,
-                array(
+            $option_questions[] = array(
                 "question_id" => $q,
                 "title" => $survey_questions[$q]["title"],
-                "type_tag" => $survey_questions[$q]["type_tag"])
+                "type_tag" => $survey_questions[$q]["type_tag"]
             );
             $this->constraintForm(3, $this->getConstraintParsFromPost(), $survey_questions, $option_questions);
         }
@@ -314,6 +319,9 @@ class ilSurveyConstraintsGUI
             $form->addItem($step3);
         }
 
+        $cmd_back = "";
+        $cmd_continue = "";
+
         switch ($step) {
             case 1:
                 $cmd_continue = "constraintStep2";
@@ -405,7 +413,7 @@ class ilSurveyConstraintsGUI
     public function createConstraintsObject() : void
     {
         $include_elements = $this->request->getIncludeElements();
-        if ((!is_array($include_elements)) || (count($include_elements) == 0)) {
+        if (count($include_elements) == 0) {
             ilUtil::sendInfo($this->lng->txt("constraints_no_questions_or_questionblocks_selected"), true);
             $this->ctrl->redirect($this, "constraints");
         } elseif (count($include_elements) >= 1) {

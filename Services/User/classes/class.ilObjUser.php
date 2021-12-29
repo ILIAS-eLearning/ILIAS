@@ -700,6 +700,7 @@ class ilObjUser extends ilObject
     {
         global $DIC;
 
+        $fullname = "";
         $ilDB = $DIC['ilDB'];
         
         $set = $ilDB->queryF(
@@ -776,12 +777,20 @@ class ilObjUser extends ilObject
             array("integer"),
             array($a_user_id)
         );
-        $user_rec = $ilDB->fetchAssoc($res);
-        return array("user_id" => $a_user_id,
-            "firstname" => $user_rec["firstname"],
-            "lastname" => $user_rec["lastname"],
-            "title" => $user_rec["title"],
-            "login" => $user_rec["login"]);
+        if ($user_rec = $ilDB->fetchAssoc($res)) {
+            return array("user_id" => $a_user_id,
+                         "firstname" => $user_rec["firstname"],
+                         "lastname" => $user_rec["lastname"],
+                         "title" => $user_rec["title"],
+                         "login" => $user_rec["login"]
+            );
+        }
+        return array("user_id" => 0,
+                     "firstname" => "",
+                     "lastname" => "",
+                     "title" => "",
+                     "login" => ""
+        );
     }
 
     /**

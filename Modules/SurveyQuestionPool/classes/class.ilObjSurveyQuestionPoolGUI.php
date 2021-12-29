@@ -28,6 +28,7 @@ use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
  */
 class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
 {
+    protected bool $update;
     protected EditingGUIRequest $edit_request;
     protected ilNavigationHistory $nav_history;
     protected ilHelpGUI $help;
@@ -430,7 +431,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $ilToolbar->addInputItem($qtypes);
 
             $options = array();
-            foreach (ilObjSurveyQuestionPool::_getQuestionTypes() as $translation => $data) {
+            foreach (ilObjSurveyQuestionPool::_getQuestiontypes() as $translation => $data) {
                 $options[$data["type_tag"]] = $translation;
             }
             $qtypes->setOptions($options);
@@ -450,7 +451,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             $ilToolbar->addButtonInstance($button);
         }
                 
-        $table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', (($this->checkPermissionBool('write') ? true : false)));
+        $table_gui = new ilSurveyQuestionsTableGUI($this, 'questions', $this->checkPermissionBool('write'));
         $table_gui->setEditable($this->checkPermissionBool('write'));
         $arrFilter = array();
         foreach ($table_gui->getFilterItems() as $item) {
@@ -468,7 +469,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
     }
     
-    public function afterSave(ilObject $a_new_object) : void
+    protected function afterSave(ilObject $a_new_object) : void
     {
         // always send a message
         ilUtil::sendSuccess($this->lng->txt("object_added"), true);
@@ -495,7 +496,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $data = array();
         foreach ($export_files as $exp_file) {
             $file_arr = explode("__", $exp_file);
-            array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir . "/" . $exp_file)));
+            $data[] = array('file' => $exp_file,
+                            'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)),
+                            'size' => filesize($export_dir . "/" . $exp_file)
+            );
         }
         $table_gui->setData($data);
         $this->tpl->setContent($table_gui->getHTML());
@@ -507,8 +511,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
     public function createExportFileObject($questions = null) : void
     {
         $this->checkPermission("write");
-        
-        $survey_exp = new ilSurveyQuestionpoolExport($this->object);
+
+        /** @var ilObjSurveyQuestionPool $svy */
+        $svy = $this->object;
+        $survey_exp = new ilSurveyQuestionpoolExport($svy);
         $survey_exp->buildExportFile($questions);
         $this->ctrl->redirect($this, "export");
     }
@@ -554,7 +560,10 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $data = array();
         foreach ($files as $exp_file) {
             $file_arr = explode("__", $exp_file);
-            array_push($data, array('file' => $exp_file, 'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)), 'size' => filesize($export_dir . "/" . $exp_file)));
+            $data[] = array('file' => $exp_file,
+                            'date' => ilDatePresentation::formatDate(new ilDateTime($file_arr[0], IL_CAL_UNIX)),
+                            'size' => filesize($export_dir . "/" . $exp_file)
+            );
         }
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
@@ -603,7 +612,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         return $forms;
     }
 
-    public function importFileObject($parent_id = null, $a_catch_errors = true)
+    protected function importFileObject($parent_id = null, $a_catch_errors = true)
     {
         $tpl = $this->tpl;
 
@@ -641,7 +650,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
             );
 
             // import qti data
-            $qtiresult = $newObj->importObject($full_path);
+            $newObj->importObject($full_path);
 
             ilUtil::sendSuccess($this->lng->txt("object_imported"), true);
             ilUtil::redirect("ilias.php?ref_id=" . $newObj->getRefId() .
@@ -650,7 +659,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         
         // display form to correct errors
         $form->setValuesByPost();
-        $tpl->setContent($form->getHtml());
+        $tpl->setContent($form->getHTML());
     }
 
     /**
@@ -722,7 +731,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         $this->ctrl->forwardCommand($info);
     }
     
-    public function addLocatorItems() : void
+    protected function addLocatorItems() : void
     {
         $ilLocator = $this->locator;
         switch ($this->ctrl->getCmd()) {
@@ -749,7 +758,7 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
         }
     }
     
-    public function getTabs() : void
+    protected function getTabs() : void
     {
         $ilHelp = $this->help;
         
@@ -764,7 +773,6 @@ class ilObjSurveyQuestionPoolGUI extends ilObjectGUI implements ilCtrlBaseClassI
                 break;
             default:
                 return;
-                break;
         }
             
         // questions

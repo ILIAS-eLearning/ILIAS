@@ -138,7 +138,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
     {
         $lng = $this->lng;
         $foundvalues = $this->getInput();
-        if (is_array($foundvalues)) {
+        if (count($foundvalues) > 0) {
             // check answers
             if (is_array($foundvalues['answer'])) {
                 foreach ($foundvalues['answer'] as $idx => $answervalue) {
@@ -168,7 +168,6 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         $lng = $this->lng;
         
         $tpl = new ilTemplate("tpl.prop_matrixrowwizardinput.html", true, true, "Modules/SurveyQuestionPool");
-        $i = 0;
         if (is_object($this->values)) {
             for ($i = 0; $i < $this->values->getCategoryCount(); $i++) {
                 $cat = $this->values->getCategory($i);
@@ -252,7 +251,7 @@ class ilMatrixRowWizardInputGUI extends ilTextInputGUI
         $a_tpl->parseCurrentBlock();
         
         $tpl = $this->tpl;
-        $tpl->addJavascript("./Services/Form/js/ServiceFormWizardInput.js");
-        $tpl->addJavascript("./Modules/SurveyQuestionPool/js/matrixrowwizard.js");
+        $tpl->addJavaScript("./Services/Form/js/ServiceFormWizardInput.js");
+        $tpl->addJavaScript("./Modules/SurveyQuestionPool/js/matrixrowwizard.js");
     }
 }

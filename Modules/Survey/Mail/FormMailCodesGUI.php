@@ -71,7 +71,7 @@ class FormMailCodesGUI extends ilPropertyFormGUI
             $first = array_shift($existingdata);
             foreach ($first as $key => $value) {
                 if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0 && strcmp($key, 'sent') != 0) {
-                    array_push($existingcolumns, '[' . $key . ']');
+                    $existingcolumns[] = '[' . $key . ']';
                 }
             }
         }

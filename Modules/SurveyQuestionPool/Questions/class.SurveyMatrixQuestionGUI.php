@@ -271,7 +271,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
             $tplheaders->setCurrentBlock("bipolar_start");
             $style = array();
-            array_push($style, sprintf("width: %.2F%s!important", $layout["percent_bipolar_adjective1"], "%"));
+            $style[] = sprintf("width: %.2F%s!important", $layout["percent_bipolar_adjective1"], "%");
             if (count($style) > 0) {
                 $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
             }
@@ -285,36 +285,36 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 $tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($cat->title));
                 $tplheaders->setVariable("CLASS", "rsep");
                 $style = array();
-                array_push($style, sprintf("width: %.2F%s!important", $layout["percent_neutral"], "%"));
+                $style[] = sprintf("width: %.2F%s!important", $layout["percent_neutral"], "%");
                 if ($this->object->getNeutralColumnSeparator()) {
-                    array_push($style, "border-left: $neutralstyle!important;");
+                    $style[] = "border-left: $neutralstyle!important;";
                 }
-                if (count($style) > 0) {
-                    $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-                }
-                $tplheaders->parseCurrentBlock();
             } else {
                 $style = array();
                 if ($this->object->getColumnSeparators() == 1) {
                     if (($i < $this->object->getColumnCount() - 1)) {
-                        array_push($style, "border-right: 1px solid $bordercolor!important");
+                        $style[] = "border-right: 1px solid $bordercolor!important";
                     }
                 }
-                array_push($style, sprintf("width: %.2F%s!important", $layout["percent_columns"] / $this->object->getColumnCount(), "%"));
+                $style[] = sprintf(
+                    "width: %.2F%s!important",
+                    $layout["percent_columns"] / $this->object->getColumnCount(),
+                    "%"
+                );
                 $tplheaders->setCurrentBlock("column_header");
                 $tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($cat->title));
                 $tplheaders->setVariable("CLASS", "center");
-                if (count($style) > 0) {
-                    $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-                }
-                $tplheaders->parseCurrentBlock();
             }
+            if (count($style) > 0) {
+                $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+            }
+            $tplheaders->parseCurrentBlock();
         }
 
         if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
             $tplheaders->setCurrentBlock("bipolar_end");
             $style = array();
-            array_push($style, sprintf("width: %.2F%s!important", $layout["percent_bipolar_adjective2"], "%"));
+            $style[] = sprintf("width: %.2F%s!important", $layout["percent_bipolar_adjective2"], "%");
             if (count($style) > 0) {
                 $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
             }
@@ -322,7 +322,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         }
 
         $style = array();
-        array_push($style, sprintf("width: %.2F%s!important", $layout["percent_row"], "%"));
+        $style[] = sprintf("width: %.2F%s!important", $layout["percent_row"], "%");
         if (count($style) > 0) {
             $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
         }
@@ -362,83 +362,57 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                     case 0:
                         if ($cat->neutral) {
                             $tplrow->setCurrentBlock("neutral_radiobutton");
-                            $tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_" . $col["checked"] . ".png")));
-                            $tplrow->setVariable("ALT_RADIO", $this->lng->txt($col["checked"]));
-                            $tplrow->setVariable("TITLE_RADIO", $this->lng->txt($col["checked"]));
-                            $tplrow->parseCurrentBlock();
                         } else {
                             $tplrow->setCurrentBlock("radiobutton");
-                            $tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_" . $col["checked"] . ".png")));
-                            $tplrow->setVariable("ALT_RADIO", $this->lng->txt($col["checked"]));
-                            $tplrow->setVariable("TITLE_RADIO", $this->lng->txt($col["checked"]));
-                            $tplrow->parseCurrentBlock();
                         }
+                        $tplrow->setVariable("IMAGE_RADIO", ilUtil::getHtmlPath(ilUtil::getImagePath("radiobutton_" . $col["checked"] . ".png")));
+                        $tplrow->setVariable("ALT_RADIO", $this->lng->txt($col["checked"]));
+                        $tplrow->setVariable("TITLE_RADIO", $this->lng->txt($col["checked"]));
+                        $tplrow->parseCurrentBlock();
                         break;
                     case 1:
                         if ($cat->neutral) {
                             $tplrow->setCurrentBlock("neutral_checkbox");
-                            $tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $col["checked"] . ".png")));
-                            $tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt($col["checked"]));
-                            $tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt($col["checked"]));
-                            $tplrow->parseCurrentBlock();
                         } else {
                             $tplrow->setCurrentBlock("checkbox");
-                            $tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $col["checked"] . ".png")));
-                            $tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt($col["checked"]));
-                            $tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt($col["checked"]));
-                            $tplrow->parseCurrentBlock();
                         }
+                        $tplrow->setVariable("IMAGE_CHECKBOX", ilUtil::getHtmlPath(ilUtil::getImagePath("checkbox_" . $col["checked"] . ".png")));
+                        $tplrow->setVariable("ALT_CHECKBOX", $this->lng->txt($col["checked"]));
+                        $tplrow->setVariable("TITLE_CHECKBOX", $this->lng->txt($col["checked"]));
+                        $tplrow->parseCurrentBlock();
                         break;
                 }
                 if ($cat->neutral) {
                     $tplrow->setCurrentBlock("neutral_answer");
                     $style = array();
                     if ($this->object->getNeutralColumnSeparator()) {
-                        array_push($style, "border-left: $neutralstyle!important");
+                        $style[] = "border-left: $neutralstyle!important";
                     }
-                    if ($this->object->getColumnSeparators() == 1) {
-                        if ($j < $this->object->getColumnCount() - 1) {
-                            array_push($style, "border-right: 1px solid $bordercolor!important");
-                        }
-                    }
-
-                    if ($this->object->getRowSeparators() == 1) {
-                        if ($i < $this->object->getRowCount() - 1) {
-                            array_push($style, "border-bottom: 1px solid $bordercolor!important");
-                        }
-                    }
-                    if (count($style)) {
-                        $tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-                    }
-                    $tplrow->parseCurrentBlock();
                 } else {
                     $tplrow->setCurrentBlock("answer");
                     $style = array();
-
-                    if ($this->object->getColumnSeparators() == 1) {
-                        if ($j < $this->object->getColumnCount() - 1) {
-                            array_push($style, "border-right: 1px solid $bordercolor!important");
-                        }
-                    }
-
-                    if ($this->object->getRowSeparators() == 1) {
-                        if ($i < $this->object->getRowCount() - 1) {
-                            array_push($style, "border-bottom: 1px solid $bordercolor!important");
-                        }
-                    }
-                    if (count($style)) {
-                        $tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-                    }
-                    $tplrow->parseCurrentBlock();
                 }
+                if ($this->object->getColumnSeparators() == 1) {
+                    if ($j < $this->object->getColumnCount() - 1) {
+                        $style[] = "border-right: 1px solid $bordercolor!important";
+                    }
+                }
+                if ($this->object->getRowSeparators() == 1) {
+                    if ($i < $this->object->getRowCount() - 1) {
+                        $style[] = "border-bottom: 1px solid $bordercolor!important";
+                    }
+                }
+                if (count($style)) {
+                    $tplrow->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+                }
+                $tplrow->parseCurrentBlock();
             }
 
             if ($rowobj->other) {
                 $text = $options[$i]["textanswer"];
                 $tplrow->setCurrentBlock("text_other");
                 $tplrow->setVariable("TEXT_OTHER", $text
-                    ? $text
-                    : "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                    ?: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                 $tplrow->parseCurrentBlock();
             }
 
@@ -594,7 +568,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
             $tplheaders->setCurrentBlock("bipolar_start");
             $style = array();
-            array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%"));
+            $style[] = sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective1"], "%");
             if (count($style) > 0) {
                 $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
             }
@@ -608,35 +582,34 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                 $tplheaders->setCurrentBlock("neutral_column_header");
                 $tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($col->title));
                 $tplheaders->setVariable("CLASS", "rsep");
-                $style = array();
-                array_push($style, sprintf("width: %.2f%s!important", $layout["percent_neutral"], "%"));
+                $style[] = sprintf("width: %.2f%s!important", $layout["percent_neutral"], "%");
                 if ($this->object->getNeutralColumnSeparator()) {
-                    array_push($style, "border-left: $neutralstyle!important;");
+                    $style[] = "border-left: $neutralstyle!important;";
                 }
-                if (count($style) > 0) {
-                    $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-                }
-                $tplheaders->parseCurrentBlock();
             } else {
                 if ($this->object->getColumnSeparators() == 1) {
                     if (($i < $this->object->getColumnCount() - 1)) {
-                        array_push($style, "border-right: 1px solid $bordercolor!important");
+                        $style[] = "border-right: 1px solid $bordercolor!important";
                     }
                 }
-                array_push($style, sprintf("width: %.2f%s!important", $layout["percent_columns"] / $this->object->getColumnCount(), "%"));
+                $style[] = sprintf(
+                    "width: %.2f%s!important",
+                    $layout["percent_columns"] / $this->object->getColumnCount(),
+                    "%"
+                );
                 $tplheaders->setCurrentBlock("column_header");
                 $tplheaders->setVariable("TEXT", ilUtil::prepareFormOutput($col->title));
                 $tplheaders->setVariable("CLASS", "center");
-                if (count($style) > 0) {
-                    $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
-                }
-                $tplheaders->parseCurrentBlock();
             }
+            if (count($style) > 0) {
+                $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
+            }
+            $tplheaders->parseCurrentBlock();
         }
         if ((strlen($this->object->getBipolarAdjective(0))) && (strlen($this->object->getBipolarAdjective(1)))) {
             $tplheaders->setCurrentBlock("bipolar_end");
             $style = array();
-            array_push($style, sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%"));
+            $style[] = sprintf("width: %.2f%s!important", $layout["percent_bipolar_adjective2"], "%");
             if (count($style) > 0) {
                 $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
             }
@@ -644,7 +617,7 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
         }
 
         $style = array();
-        array_push($style, sprintf("width: %.2f%s!important", $layout["percent_row"], "%"));
+        $style[] = sprintf("width: %.2f%s!important", $layout["percent_row"], "%");
         if (count($style) > 0) {
             $tplheaders->setVariable("STYLE", " style=\"" . implode(";", $style) . "\"");
         }
@@ -679,86 +652,58 @@ class SurveyMatrixQuestionGUI extends SurveyQuestionGUI
                     case 0:
                         if ($cat->neutral) {
                             $tplrow->setCurrentBlock("neutral_radiobutton");
-                            $tplrow->setVariable("QUESTION_ID", $this->object->getId());
-                            $tplrow->setVariable("ROW", $i);
-                            $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
-                            if (is_array($working_data)) {
-                                foreach ($working_data as $data) {
-                                    if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
-                                        $tplrow->setVariable("CHECKED_RADIOBUTTON", " checked=\"checked\"");
-                                    }
-                                }
-                            }
-                            $tplrow->parseCurrentBlock();
                         } else {
                             $tplrow->setCurrentBlock("radiobutton");
-                            $tplrow->setVariable("QUESTION_ID", $this->object->getId());
-                            $tplrow->setVariable("ROW", $i);
-                            $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
-                            if (is_array($working_data)) {
-                                foreach ($working_data as $data) {
-                                    if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
-                                        $tplrow->setVariable("CHECKED_RADIOBUTTON", " checked=\"checked\"");
-                                    }
+                        }
+                        $tplrow->setVariable("QUESTION_ID", $this->object->getId());
+                        $tplrow->setVariable("ROW", $i);
+                        $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
+                        if (is_array($working_data)) {
+                            foreach ($working_data as $data) {
+                                if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
+                                    $tplrow->setVariable("CHECKED_RADIOBUTTON", " checked=\"checked\"");
                                 }
                             }
-                            $tplrow->parseCurrentBlock();
                         }
+                        $tplrow->parseCurrentBlock();
                         break;
                     case 1:
                         if ($cat->neutral) {
                             $tplrow->setCurrentBlock("neutral_checkbox");
-                            $tplrow->setVariable("QUESTION_ID", $this->object->getId());
-                            $tplrow->setVariable("ROW", $i);
-                            $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
-                            if (is_array($working_data)) {
-                                foreach ($working_data as $data) {
-                                    if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
-                                        $tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
-                                    }
-                                }
-                            }
-                            $tplrow->parseCurrentBlock();
                         } else {
                             $tplrow->setCurrentBlock("checkbox");
-                            $tplrow->setVariable("QUESTION_ID", $this->object->getId());
-                            $tplrow->setVariable("ROW", $i);
-                            $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
-                            if (is_array($working_data)) {
-                                foreach ($working_data as $data) {
-                                    if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
-                                        $tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
-                                    }
+                        }
+                        $tplrow->setVariable("QUESTION_ID", $this->object->getId());
+                        $tplrow->setVariable("ROW", $i);
+                        $tplrow->setVariable("VALUE", ($cat->scale) ? ($cat->scale - 1) : $j);
+                        if (is_array($working_data)) {
+                            foreach ($working_data as $data) {
+                                if (($data["value"] == $cat->scale - 1) && ($data["rowvalue"] == $i)) {
+                                    $tplrow->setVariable("CHECKED_CHECKBOX", " checked=\"checked\"");
                                 }
                             }
-                            $tplrow->parseCurrentBlock();
                         }
+                        $tplrow->parseCurrentBlock();
                         break;
                 }
                 if ($cat->neutral) {
                     $tplrow->setCurrentBlock("neutral_answer");
                     $style = array();
                     if ($this->object->getNeutralColumnSeparator()) {
-                        array_push($style, "border-left: $neutralstyle!important");
-                    }
-                    if ($this->object->getColumnSeparators() == 1) {
-                        if ($j < $this->object->getColumnCount() - 1) {
-                            array_push($style, "border-right: 1px solid $bordercolor!important");
-                        }
+                        $style[] = "border-left: $neutralstyle!important";
                     }
                 } else {
                     $tplrow->setCurrentBlock("answer");
                     $style = array();
-
-                    if ($this->object->getColumnSeparators() == 1) {
-                        if ($j < $this->object->getColumnCount() - 1) {
-                            array_push($style, "border-right: 1px solid $bordercolor!important");
-                        }
+                }
+                if ($this->object->getColumnSeparators() == 1) {
+                    if ($j < $this->object->getColumnCount() - 1) {
+                        $style[] = "border-right: 1px solid $bordercolor!important";
                     }
                 }
                 if ($this->object->getRowSeparators() == 1) {
                     if ($i < $this->object->getRowCount() - 1) {
-                        array_push($style, "border-bottom: 1px solid $bordercolor!important");
+                        $style[] = "border-bottom: 1px solid $bordercolor!important";
                     }
                 }
                 if (count($style)) {

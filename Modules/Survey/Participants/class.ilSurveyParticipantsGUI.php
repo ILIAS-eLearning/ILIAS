@@ -13,7 +13,7 @@
  * https://github.com/ILIAS-eLearning
  */
 
-use \ILIAS\Survey\Participants;
+use ILIAS\Survey\Participants;
 
 /**
  * Class ilSurveyParticipantsGUI
@@ -22,6 +22,7 @@ use \ILIAS\Survey\Participants;
  */
 class ilSurveyParticipantsGUI
 {
+    protected \ILIAS\Survey\Mode\FeatureConfig $feature_config;
     protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected \ILIAS\Survey\Editing\EditManager $edit_manager;
     protected ilCtrl $ctrl;
@@ -259,13 +260,20 @@ class ilSurveyParticipantsGUI
         $data = array();
         foreach ($total as $user_data) {
             $finished = false;
-            if ((bool) $user_data["finished"]) {
+            if ($user_data["finished"]) {
                 $finished = $user_data["finished_tstamp"];
             }
-            $wt = $this->object->getWorkingtimeForParticipant($user_data["active_id"]);
-            $last_access = $this->object->getLastAccess($user_data["active_id"]);
-            array_push($data, array(
-                'id' => $user_data["active_id"],
+            if (isset($user_data["active_id"])) {
+                $wt = $this->object->getWorkingtimeForParticipant($user_data["active_id"]);
+                $last_access = $this->object->getLastAccess($user_data["active_id"]);
+                $active_id = $user_data["active_id"];
+            } else {
+                $wt = 0;
+                $last_access = null;
+                $active_id = 0;
+            }
+            $data[] = array(
+                'id' => $active_id,
                 'name' => $user_data["sortname"],
                 'usr_id' => $user_data["usr_id"],
                 'login' => $user_data["login"],
@@ -273,7 +281,7 @@ class ilSurveyParticipantsGUI
                 'workingtime' => $wt,
                 'finished' => $finished,
                 'invited' => $user_data["invited"]
-            ));
+            );
         }
         $table_gui->setData($data);
         $this->tpl->setVariable('ADM_CONTENT', $table_gui->getHTML());
@@ -440,14 +448,14 @@ class ilSurveyParticipantsGUI
             if (in_array($user_data['active_id'], $user_ids)
                 || ($user_data['invited'] && in_array("inv" . $user_data['usr_id'], $user_ids))) {
                 $last_access = $this->object->getLastAccess($user_data["active_id"]);
-                array_push($data, array(
+                $data[] = array(
                     'id' => $user_data["active_id"],
                     'name' => $user_data["sortname"],
                     'login' => $user_data["login"],
                     'last_access' => $last_access,
                     'usr_id' => $user_data["usr_id"],
                     'invited' => $user_data["invited"]
-                ));
+                );
             }
         }
         $table_gui->setData($data);
@@ -578,8 +586,8 @@ class ilSurveyParticipantsGUI
                 $fnames[$id],
                 $sents[$id]
             )) {
-                array_push($errors, array($mails[$id], $lnames[$id], $fnames[$id]));
-            };
+                $errors[] = array($mails[$id], $lnames[$id], $fnames[$id]);
+            }
         }
         if (empty($errors)) {
             ilUtil::sendSuccess($this->lng->txt('settings_saved'), true);
@@ -612,9 +620,9 @@ class ilSurveyParticipantsGUI
                 }
                 
                 $title = array($item["code"]);
-                $item["email"] ? $title[] = $item["email"] : null;
-                $item["last_name"] ? $title[] = $item["last_name"] : null;
-                $item["first_name"] ? $title[] = $item["first_name"] : null;
+                $title[] = $item["email"] ?? "";
+                $title[] = $item["last_name"] ?? "";
+                $title[] = $item["first_name"] ?? "";
                 $title = implode(", ", $title);
                                 
                 $cgui->addItem("chb_code[]", $item["code"], $title);
@@ -784,7 +792,7 @@ class ilSurveyParticipantsGUI
             }
         } catch (Exception $e) {
             $ilLog = $this->log;
-            $ilLog->write('Error: ' + $e->getMessage());
+            $ilLog->write('Error: ' . $e->getMessage());
         }
         $this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
     }
@@ -807,7 +815,7 @@ class ilSurveyParticipantsGUI
             }
         } catch (Exception $e) {
             $ilLog = $this->log;
-            $ilLog->write('Error: ' + $e->getMessage());
+            $ilLog->write('Error: ' . $e->getMessage());
         }
         $this->tpl->setVariable("ADM_CONTENT", $form_gui->getHTML());
     }
@@ -849,7 +857,7 @@ class ilSurveyParticipantsGUI
                 if ($this->edit_request->getSaveMessage() == 1) {
                     $ilUser = $this->user;
                     $title = ($this->edit_request->getSaveMessageTitle())
-                        ?: ilStr::substr($this->edit_request->getCodeMailPart("message"), 0, 40) . '...';
+                        ?: ilStr::subStr($this->edit_request->getCodeMailPart("message"), 0, 40) . '...';
                     $this->object->saveUserSettings($ilUser->getId(), 'savemessage', $title, $this->edit_request->getCodeMailPart("message"));
                 }
                 
@@ -887,7 +895,7 @@ class ilSurveyParticipantsGUI
             if (count($existingdata)) {
                 $first = array_shift($existingdata);
                 foreach ($first as $key => $value) {
-                    array_push($existingcolumns, $key);
+                    $existingcolumns[] = $key;
                 }
             }
             $founddata = array();
@@ -905,7 +913,6 @@ class ilSurveyParticipantsGUI
                         }
                     }
                     if (strlen($dataset['email'])) {
-                        array_push($founddata, $dataset);
                         $this->addCodeForExternal(
                             $dataset['email'],
                             $dataset['lastname'],
@@ -983,7 +990,7 @@ class ilSurveyParticipantsGUI
             if (count($existingdata)) {
                 $first = array_shift($existingdata);
                 foreach ($first as $key => $value) {
-                    array_push($existingcolumns, $key);
+                    $existingcolumns[] = $key;
                 }
             }
             
@@ -1004,7 +1011,7 @@ class ilSurveyParticipantsGUI
                         }
                     }
                     if (strlen($dataset['email'])) {
-                        array_push($founddata, $dataset);
+                        $founddata[] = $dataset;
                         $this->addCodeForExternal(
                             $dataset['email'],
                             $dataset['lastname'],
@@ -1361,11 +1368,6 @@ class ilSurveyParticipantsGUI
         
         $form = $this->initExternalRaterForm($appr_id);
         if ($form->checkInput()) {
-            $data = array(
-                "email" => $form->getInput("email"),
-                "lastname" => $form->getInput("lname"),
-                "firstname" => $form->getInput("fname")
-            );
             $code_id = $this->addCodeForExternal(
                 $form->getInput("email"),
                 $form->getInput("lname"),
@@ -1507,7 +1509,7 @@ class ilSurveyParticipantsGUI
         }
         sort($rec_data);
         $rec = new ilCustomInputGUI($this->lng->txt('recipients'));
-        $rec->setHTML(implode("<br />", $rec_data));
+        $rec->setHtml(implode("<br />", $rec_data));
         $form->addItem($rec);
 
         $subject = new ilTextInputGUI($this->lng->txt('subject'), 'subject');
@@ -1521,7 +1523,7 @@ class ilSurveyParticipantsGUI
             $first = array_shift($existingdata);
             foreach ($first as $key => $value) {
                 if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0 && strcmp($key, 'sent') != 0) {
-                    array_push($existingcolumns, '[' . $key . ']');
+                    $existingcolumns[] = '[' . $key . ']';
                 }
             }
         }
@@ -1699,7 +1701,7 @@ class ilSurveyParticipantsGUI
         }
         
         $form->setValuesByPost();
-        $this->mailRatersObject($form);
+        $this->mailRatersObject();
     }
    
     public function confirmAppraiseeCloseObject() : void
@@ -1825,10 +1827,8 @@ class ilSurveyParticipantsGUI
         $lng = $this->lng;
         $ctrl = $this->ctrl;
 
-        if (is_array($user_ids)) {
-            foreach ($user_ids as $user_id) {
-                $this->invitation_manager->add($this->object->getSurveyId(), (int) $user_id);
-            }
+        foreach ($user_ids as $user_id) {
+            $this->invitation_manager->add($this->object->getSurveyId(), $user_id);
         }
         ilUtil::sendSuccess($lng->txt("svy_users_invited"), true);
         $ctrl->redirect($this, "maintenance");
