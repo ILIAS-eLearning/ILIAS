@@ -175,12 +175,12 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $a_xml_writer->xmlDumpFile($a_target_dir . '/index.xml', false);
 
         $a_xml_writer->_XmlWriter;
-        
+
         // export sco data (currently only objective) to sco.xml
         if ($this->getType() == "sco") {
             $objectives_text = "";
             $a_xml_writer = new ilXmlWriter;
-            
+
             $tr_data = $this->getObjectives();
             foreach ($tr_data as $data) {
                 $objectives_text .= $data->getObjectiveID();
@@ -274,7 +274,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $tree->setTreeTablePK("slm_id");
         foreach ($tree->getSubTree($tree->getNodeData($this->getId()), true, 'page') as $page) {
             $page_obj = new ilSCORM2004Page($page["obj_id"]);
-            
+
             include_once("./Services/COPage/classes/class.ilPCQuestion.php");
             $q_ids = ilPCQuestion::_getQuestionIdsForPage("sahs", $page["obj_id"]);
             if (count($q_ids) > 0) {
@@ -313,6 +313,10 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $tree->setTableNames('sahs_sc13_tree', 'sahs_sc13_tree_node');
         $tree->setTreeTablePK("slm_id");
 
+        // note: the co page html exporter is not yet fully used
+        // - used for mobs
+        $page_html_export = new ilCOPageHTMLExport($a_target_dir);
+
         // @todo
         // Why is that much HTML code in an application class?
         // Please extract all this HTML to a tpl.<t_name>.html file and use
@@ -337,7 +341,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
             include_once("./Services/COPage/classes/class.ilCOPageHTMLExport.php");
             $pg_exp = new ilCOPageHTMLExport($a_target_dir);
             $pg_exp->getPreparedMainTemplate($sco_tpl);
-            
+
             // init and question lang vars
             $lk = ilObjSAHSLearningModule::getAffectiveLocalization($this->slm_id);
             $sco_tpl->setCurrentBlock("init");
@@ -361,7 +365,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                 $sco_tpl->setVariable("CSS_FILE", $style);
                 $sco_tpl->parseCurrentBlock();
             }
-            
+
             // (additional) scripts needed
             $js_files = $sco_tpl->getJSFiles();
             $js_files["./js/scorm.js"] = 3;
@@ -382,7 +386,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                 }
                 reset($js_files);
             }
-            
+
             if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset") {
                 self::renderNavigation($sco_tpl, "./images/spacer.png", $lk);
             }
@@ -414,6 +418,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $pages = $tree->getSubTree($tree->getNodeData($this->getId()), true, 'page');
         $sco_q_ids = array();
         foreach ($pages as $page) {
+
+            $page_html_export->collectPageElements("sahs:pg", $page["obj_id"], "-");
+
             //echo(print_r($page));
             $page_obj = new ilSCORM2004PageGUI(
                 $this->getType(),
@@ -492,14 +499,14 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                     $html = $q_gui->getPreview(true);
                     $page_output = preg_replace("/{{{{{Question;il__qst_" . $q_id . "}}}}}/i", $html, $page_output);
                 }
-                
+
                 $sco_tpl->touchBlock("pdf_pg_break");
             }
 
             $sco_tpl->setCurrentBlock("page");
             $sco_tpl->setVariable("PAGE", $page_output);
             $sco_tpl->parseCurrentBlock();
-            
+
             // get all question ids of the sco
             if ($a_one_file != "") {
                 include_once("./Services/COPage/classes/class.ilPCQuestion.php");
@@ -530,9 +537,11 @@ class ilSCORM2004Asset extends ilSCORM2004Node
             $output = preg_replace("/<div class=\"ilc_page_title_PageTitle\">(.*?)<\/div>/i", "<h2>$1</h2>", $output);
         }
 
-        $output = preg_replace("/mobs\/mm_(\d+)\/([^\"]+)/i", "./objects/il_" . IL_INST_ID . "_mob_$1/$2", $output);
-        $output = preg_replace("/\.\/files\/file_(\d+)\/([^\"]+)/i", "./objects/il_" . IL_INST_ID . "_file_$1/$2", $output);
-        $output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i", "./players", $output);
+        $page_html_export->exportPageElements();
+
+        // $output = preg_replace("/mobs\/mm_(\d+)\/([^\"]+)/i", "./objects/il_" . IL_INST_ID . "_mob_$1/$2", $output);
+        // $output = preg_replace("/\.\/files\/file_(\d+)\/([^\"]+)/i", "./objects/il_" . IL_INST_ID . "_file_$1/$2", $output);
+        // $output = preg_replace("/\.\/Services\/MediaObjects\/flash_mp3_player/i", "./players", $output);
         $output = preg_replace("/file=..\/..\/..\/.\//i", "file=../", $output);
 
         if ($mode != 'pdf') {
@@ -573,10 +582,11 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         } else {
             fputs(fopen($a_target_dir . '/index.html', 'w+'), $output);
         }
-                
-        $this->exportFileItems($a_target_dir, $expLog);
+
+        // old export of mobs and files, now done by $page_html_export->exportPageElements(); above
+        // $this->exportFileItems($a_target_dir, $expLog);
     }
-    
+
     /**
      * Render navigation
      *
@@ -588,7 +598,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         if ($a_spacer_img == "") {
             $a_spacer_img = ilUtil::getImagePath("spacer.png");
         }
@@ -607,7 +617,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $a_tpl->setVariable("TXT_NEXT", $lng->txtlng("content", 'scplayer_next', $a_lang));
         $a_tpl->parseCurrentBlock();
     }
-    
+
     /**
      * Render meta page (description/objectives at beginning)
      *
@@ -621,17 +631,17 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         global $DIC;
 
         $lng = $DIC->language();
-        
+
         if ($a_sco->getType() != "sco" || $a_sco->getHideObjectivePage()) {
             return;
         }
-        
+
         if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset") {
             $meta = new ilMD($a_sco->getSLMId(), $a_sco->getId(), $a_sco->getType());
             $desc_ids = $meta->getGeneral()->getDescriptionIds();
             $sco_description = $meta->getGeneral()->getDescription($desc_ids[0])->getDescription();
         }
-        
+
         if ($mode != 'pdf') {
             // title
             if ($a_asset_type != "entry_asset" && $a_asset_type != "final_asset") {
@@ -673,7 +683,7 @@ class ilSCORM2004Asset extends ilSCORM2004Node
         $a_tpl->setCurrentBlock("meta_page");
         $a_tpl->parseCurrentBlock();
     }
-    
+
 
     /**
      * Convert * and # to lists
@@ -715,9 +725,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
     private static function insertQuestion($matches)
     {
         $q_exporter = new ilQuestionExporter();
-        
+
         $ret = $q_exporter->exportQuestion($matches[2], "./objects/", "offline");
-        
+
         return $ret;
     }
 
@@ -837,6 +847,9 @@ class ilSCORM2004Asset extends ilSCORM2004Node
                 if ($mob_id > 0 && ilObject::_exists($mob_id)) {
                     $expLog->write(date("[y-m-d H:i:s] ") . "Media Object " . $mob_id);
                     $media_obj = new ilObjMediaObject($mob_id);
+                    // target dir here is e.g.
+                    // /datadir/clientid/lm_data/lm_1098/export__scorm2004/1611142834__11614__sahs_1098/2
+                    // subdir will be /objects/il_" . IL_INST_ID . "_mob_" . $id;
                     $media_obj->exportFiles($a_target_dir, $expLog);
                     $lmobs = $media_obj->getLinkedMediaObjects($this->mob_ids);
                     $linked_mobs = array_merge($linked_mobs, $lmobs);

@@ -38,7 +38,7 @@ class ilObjectMetaDataGUI
     protected $sub_type; // [string]
     protected $sub_id; // [int]
     protected $md_observers; // [array]
-    
+
     /**
      * @var ilLogger
      */
@@ -69,7 +69,7 @@ class ilObjectMetaDataGUI
      * Construct
      *
      * @param ilObject $a_object
-     * @param string $a_sub_type
+     * @param string|string[] $a_sub_type       // string array only for settings, in this case no sub id must be passed
      * @return self
      */
     public function __construct(ilObject $a_object = null, $a_sub_type = null, $a_sub_id = null)
@@ -81,7 +81,7 @@ class ilObjectMetaDataGUI
         $this->tpl = $DIC["tpl"];
         $this->tabs = $DIC->tabs();
 
-        
+
         $this->logger = $GLOBALS['DIC']->logger()->obj();
 
         $this->in_workspace = (bool) $_REQUEST["wsp_id"];
@@ -100,12 +100,12 @@ class ilObjectMetaDataGUI
             $this->obj_id = $a_object->getId();
             $this->obj_type = $a_object->getType();
             $this->ref_id = $a_object->getRefId();
-            
+
             if (!$a_object->withReferences()) {
                 $this->logger->logStack(ilLogLevel::WARNING);
                 $this->logger->warning('ObjectMetaDataGUI called without valid reference id.');
             }
-            
+
             if (!$this->ref_id) {
                 $this->logger->logStack(ilLogLevel::WARNING);
                 $this->logger->warning('ObjectMetaDataGUI called without valid reference id.');
@@ -127,14 +127,14 @@ class ilObjectMetaDataGUI
         $this->lng->loadLanguageModule("meta");
         $this->lng->loadLanguageModule("tax");
     }
-    
+
     public function executeCommand()
     {
         $ilCtrl = $this->ctrl;
-        
+
         $next_class = $ilCtrl->getNextClass($this);
         $cmd = $ilCtrl->getCmd("edit");
-        
+
         switch ($next_class) {
             case 'ilmdeditorgui':
                 $this->setSubTabs("lom");
@@ -241,7 +241,7 @@ class ilObjectMetaDataGUI
             "section" => $a_section
         );
     }
-    
+
     protected function getLOMType()
     {
         if ($this->sub_type != "-" &&
@@ -278,33 +278,34 @@ class ilObjectMetaDataGUI
         return [$this->adv_ref_id, $this->adv_type, $this->adv_subtype];
     }
 
-    
+
     protected function isAdvMDAvailable()
     {
-        //		$this->setAdvMdRecordObject(70,"mep", "mob");
+        // $this->setAdvMdRecordObject(70,"mep", "mob");
         include_once 'Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php';
         foreach (ilAdvancedMDRecord::_getAssignableObjectTypes(false) as $item) {
             list($adv_ref_id, $adv_type, $adv_subtype) = $this->getAdvMdRecordObject();
 
-            //			echo ("<br>".$item["obj_type"]."-".$adv_type."-".$adv_subtype);
             if ($item["obj_type"] == $adv_type) {
-                //				 ("<br>-- ".$adv_type."-".$adv_subtype);
-                //				exit;
-                return ((!$item["sub_type"] && $adv_subtype == "-") ||
-                    ($item["sub_type"] == $adv_subtype));
+                if ((!$item["sub_type"] && $adv_subtype == "-") ||
+                  ($item["sub_type"] == $adv_subtype) ||
+                  (is_array($adv_subtype) && in_array($item["sub_type"], $adv_subtype))
+                ) {
+                  return true;
+                }
             }
         }
         //		exit;
         return false;
     }
-    
+
     protected function isLOMAvailable()
     {
         $type = $this->getLOMType();
         if ($type == $this->sub_type) {
             $type = $this->obj_type . ":" . $type;
         }
-        
+
         return (($this->obj_id || !$this->obj_type) &&
             in_array($type, array(
                 "crs",
@@ -319,26 +320,27 @@ class ilObjectMetaDataGUI
                 "lm", "lm:st", "lm:pg",
                 "sahs", "sahs:sco", "sahs:page",
                 'sess', "iass",
+                "mep:mpg",
                 'exc', 'lti', 'cmix'
         )));
     }
-    
+
     protected function hasAdvancedMDSettings()
     {
         if ($this->sub_id) {
             return false;
         }
-        
+
         include_once 'Services/Container/classes/class.ilContainer.php';
         include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
-        
+
         return ilContainer::_lookupContainerSetting(
             $this->obj_id,
             ilObjectServiceSettingsGUI::CUSTOM_METADATA,
             false
         );
     }
-    
+
     /**
      * check if active records exist in current path anf for object type
      * @return type
@@ -356,12 +358,17 @@ class ilObjectMetaDataGUI
             $adv_subtype
         ));
     }
-    
+
     protected function canEdit()
     {
         //		if($this->hasActiveRecords() &&
         //			$this->obj_id)
         //		{
+
+        if (is_array($this->sub_type)) {        // only settings
+            return false;
+        }
+
         if ($this->hasActiveRecords()) {
             if ($this->sub_type == "-" ||
                 $this->sub_id) {
@@ -380,14 +387,14 @@ class ilObjectMetaDataGUI
     public function getTab($a_base_class = null)
     {
         $ilCtrl = $this->ctrl;
-        
+
         if (!$a_base_class) {
             $path = array();
         } else {
             $path = array($a_base_class);
         }
         $path[] = "ilobjectmetadatagui";
-        
+
         $link = null;
         if ($this->isLOMAvailable()) {
             $path[] = "ilmdeditorgui";
@@ -412,7 +419,7 @@ class ilObjectMetaDataGUI
         $ilTabs = $this->tabs;
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-                
+
         if ($this->isLOMAvailable()) {
             $ilTabs->addSubTab(
                 "lom",
@@ -434,7 +441,7 @@ class ilObjectMetaDataGUI
                     $lng->txt("meta_tab_advmd_def"),
                     $ilCtrl->getLinkTargetByClass("iladvancedmdsettingsgui", "showRecords")
                 );
-                                
+
                 $ilTabs->addSubTab(
                     "md_adv_file_list",
                     $lng->txt("md_adv_file_list"),
@@ -465,22 +472,22 @@ class ilObjectMetaDataGUI
 
         $ilTabs->activateSubTab($a_active);
     }
-    
-    
+
+
     //
     // (VALUES) EDITOR
     //
-    
+
     protected function initEditForm()
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
         $form = new ilPropertyFormGUI();
         $form->setFormAction($ilCtrl->getFormAction($this, "update"));
         $form->setTitle($lng->txt("meta_tab_advmd"));
-        
+
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $this->record_gui = new ilAdvancedMDRecordGUI(
             ilAdvancedMDRecordGUI::MODE_EDITOR,
@@ -496,60 +503,60 @@ class ilObjectMetaDataGUI
 
         $this->record_gui->setPropertyForm($form);
         $this->record_gui->parse();
-        
+
         $form->addCommandButton("update", $lng->txt("save"));
-        
+
         return $form;
     }
-    
+
     protected function edit(ilPropertyFormGUI $a_form = null)
     {
         $tpl = $this->tpl;
-        
+
         if (!$a_form) {
             $a_form = $this->initEditForm();
         }
-        
+
         $tpl->setContent($a_form->getHTML());
     }
-    
+
     protected function update()
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
-        
+
         $form = $this->initEditForm();
         if (
             $form->checkInput() &&
             $this->record_gui->importEditFormPostValues()) {
             $this->record_gui->writeEditForm();
-            
+
             // Update ECS content
             if ($this->obj_type == "crs") {
                 include_once "Modules/Course/classes/class.ilECSCourseSettings.php";
                 $ecs = new ilECSCourseSettings($this->object);
                 $ecs->handleContentUpdate();
             }
-            
+
             ilUtil::sendSuccess($lng->txt("settings_saved"), true);
             $ilCtrl->redirect($this, "edit");
         }
-        
+
         $form->setValuesByPost();
         $this->edit($form);
     }
-    
-    
+
+
     //
     // BLOCK
     //
-    
+
     public function getBlockHTML(array $a_cmds = null, $a_callback = null)
     {
         $lng = $this->lng;
-        
+
         $html = "";
-        
+
         include_once "Services/Object/classes/class.ilObjectMetaDataBlockGUI.php";
         include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php";
         include_once "Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php";
@@ -564,7 +571,7 @@ class ilObjectMetaDataGUI
             }
             $html .= $block->getHTML();
         }
-        
+
         return $html;
     }
 

@@ -56,7 +56,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     * @access public
     */
     private $options = array();
-    
+
     protected $tabs_gui;
 
     /**
@@ -68,9 +68,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
-        
+
         $this->tabs_gui = $ilTabs;
-        
+
         parent::__construct();
 
         $this->lng->loadLanguageModule('meta');
@@ -100,8 +100,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         switch ($next_class) {
             case "ilpropertyformgui":
-            
-            
+
+
             case 'ilobjectcopygui':
                 $this->prepareOutput();
                 $this->ctrl->setReturn($this, '');
@@ -110,7 +110,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
-            
+
             default:
                 $this->initUserSearchCache();
                 if (!$cmd) {
@@ -118,7 +118,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                         case self::TYPE_ADV_MD:
                             $cmd = "showSavedAdvMDResults";
                             break;
-                        
+
                         default:
                             $cmd = "showSavedResults";
                             break;
@@ -176,16 +176,16 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $ilUser = $DIC['ilUser'];
 
         $this->initSearchType(self::TYPE_LOM);
-        
+
         if (!isset($_GET['page_number']) and $this->search_mode != 'in_results') {
             unset($_SESSION['adv_max_page']);
             $this->search_cache->deleteCachedEntries();
         }
-        
+
         if (isset($_POST['query'])) {
             $this->search_cache->setQuery($_POST['query']);
         }
-        
+
 
         include_once 'Services/Search/classes/class.ilSearchResult.php';
         $res = new ilSearchResult();
@@ -232,9 +232,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if ($res_key = &$this->__performKeywordSearch()) {
             $this->__storeEntries($res, $res_key);
         }
-                
+
         $this->searchAdvancedMD($res);
-                    
+
         if ($this->search_mode == 'in_results') {
             include_once 'Services/Search/classes/class.ilSearchResult.php';
 
@@ -247,7 +247,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $res->filter($this->getRootNode(), (ilSearchSettings::getInstance()->getDefaultOperator() == ilSearchSettings::OPERATOR_AND));
         $res->save();
         $this->showSearch();
-        
+
         if (!count($res->getResults())) {
             ilUtil::sendInfo($this->lng->txt('search_no_match'));
         }
@@ -258,7 +258,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
 
         $this->addPager($res, 'adv_max_page');
-        
+
         include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
         $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
         $presentation->setResults($res->getResultsForPresentation());
@@ -269,7 +269,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         return true;
     }
-    
+
     /**
      *
      *
@@ -280,7 +280,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if (is_object($this->form)) {
             return $this->form;
         }
-        
+
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecord.php');
         include_once('Services/Form/classes/class.ilPropertyFormGUI.php');
         $this->form = new ilPropertyFormGUI();
@@ -288,7 +288,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->form->setTitle($this->lng->txt('adv_md_search_title'));
         $this->form->addCommandButton('performAdvMDSearch', $this->lng->txt('search'));
         #$this->form->setSubformMode('right');
-        
+
         $content = new ilTextInputGUI($this->lng->txt('meta_title') . '/' .
             $this->lng->txt('meta_keyword') . '/' .
             $this->lng->txt('meta_description'), 'title');
@@ -304,7 +304,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $group->addOption($radio_option);
         $content->addSubItem($group);
         $this->form->addItem($content);
-        
+
         $type = new ilSelectInputGUI($this->lng->txt('type'), 'type');
         $options['adv_all'] = $this->lng->txt('search_any');
         foreach (ilAdvancedMDRecord::_getActivatedObjTypes() as $obj_type) {
@@ -313,14 +313,14 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $type->setOptions($options);
         $type->setValue($this->options['type']);
         $this->form->addItem($type);
-        
+
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordGUI.php');
         $record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_SEARCH);
         $record_gui->setPropertyForm($this->form);
         $record_gui->setSearchValues($this->options);
         $record_gui->parse();
     }
-    
+
     /**
      * perform advanced meta data search
      *
@@ -340,7 +340,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         include_once 'Services/Search/classes/class.ilSearchResult.php';
         $res = new ilSearchResult();
-        
+
         if ($res_tit = &$this->__performTitleSearch()) {
             $this->__storeEntries($res, $res_tit);
         }
@@ -355,11 +355,11 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $res->diffEntriesFromResult($old_result_obj);
         }
 
-        
+
         $res->filter($this->getRootNode(), true);
         $res->save();
         $this->showAdvMDSearch();
-        
+
         if (!count($res->getResults())) {
             ilUtil::sendInfo($this->lng->txt('search_no_match'));
         }
@@ -370,7 +370,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
 
         $this->addPager($res, 'adv_max_page');
-        
+
         include_once './Services/Search/classes/class.ilSearchResultPresentation.php';
         $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
         $presentation->setResults($res->getResultsForPresentation());
@@ -381,8 +381,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         return true;
     }
-    
-    
+
+
     /**
      * Show advanced meta data search
      *
@@ -402,7 +402,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $this->tpl->setVariable('SEARCH_FORM', $this->form->getHTML());
         return true;
     }
-    
+
     /**
      * Show search form
      */
@@ -411,22 +411,22 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         global $DIC;
 
         $tree = $DIC['tree'];
-        
+
         include_once './Services/Form/classes/class.ilPropertyFormGUI.php';
-        
+
         $this->form = new ilPropertyFormGUI();
         $this->form->setFormAction($this->ctrl->getFormAction($this, 'performSearch'));
         $this->form->setTitle($this->lng->txt('search_advanced'));
         $this->form->addCommandButton('performSearch', $this->lng->txt('search'));
         $this->form->addCommandButton('reset', $this->lng->txt('reset'));
-        
+
         foreach ($this->fields->getActiveSections() as $definition) {
             if ($definition['name'] != 'default') {
                 $section = new ilFormSectionHeaderGUI();
                 $section->setTitle($definition['name']);
                 $this->form->addItem($section);
             }
-            
+
             foreach ($definition['fields'] as $field_name) {
                 if (is_object($element = $this->fields->getFormElement($this->search_cache->getQuery(), $field_name, $this->form))) {
                     $this->form->addItem($element);
@@ -435,7 +435,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         }
         return true;
     }
-    
+
 
 
     public function showSearch()
@@ -460,9 +460,9 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         $ilTabs = $DIC['ilTabs'];
         $ilHelp = $DIC['ilHelp'];
-        
+
         parent::prepareOutput();
-        
+
         $ilHelp->setScreenIdComponent("src");
 
         $ilTabs->addTab(
@@ -493,7 +493,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         // Read old result sets
         include_once 'Services/Search/classes/class.ilSearchResult.php';
-    
+
         $this->initSearchType(self::TYPE_ADV_MD);
         $result_obj = new ilSearchResult($ilUser->getId());
         $result_obj->read(ADVANCED_MD_SEARCH);
@@ -508,7 +508,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
             $presentation->setResults($result_obj->getResultsForPresentation());
             $presentation->setPreviousNext($this->prev_link, $this->next_link);
-            
+
             if ($presentation->render()) {
                 $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
             }
@@ -516,8 +516,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return true;
     }
-    
-    
+
+
     public function showSavedResults()
     {
         global $DIC;
@@ -541,7 +541,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $presentation = new ilSearchResultPresentation($this, ilSearchResultPresentation::MODE_STANDARD);
             $presentation->setResults($result_obj->getResultsForPresentation());
             $presentation->setPreviousNext($this->prev_link, $this->next_link);
-            
+
             if ($presentation->render()) {
                 $this->tpl->setVariable('RESULTS', $presentation->getHTML(true));
             }
@@ -615,19 +615,19 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $query_parser->setCombination(QP_COMBINATION_OR);
         $query_parser->parse();
         $meta_search = &ilObjectSearchFactory::_getAdvancedSearchInstance($query_parser);
-        
+
         $meta_search->setFilter($this->filter);
         $meta_search->setMode('title_description');
         $meta_search->setOptions($this->options);
         $res_tit = &$meta_search->performSearch();
-        
+
         $meta_search->setMode('keyword_all');
         $res_key = &$meta_search->performSearch();
-        
+
         // merge them
         $res_tit->mergeEntries($res_key);
-        
-        
+
+
         return $res_tit;
     }
 
@@ -721,7 +721,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         if (!$this->options['lom_role_entry']) {
             return false;
         }
-        
+
         include_once 'Services/Search/classes/class.ilObjectSearchFactory.php';
         include_once 'Services/Search/classes/class.ilQueryParser.php';
 
@@ -854,7 +854,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
         return $res;
     }
-    
+
     /**
      * Perform advanced meta data search
      *
@@ -865,13 +865,13 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     private function searchAdvancedMD($res)
     {
         $this->initFormSearch();
-        
+
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         foreach (array_keys($this->options) as $key) {
             if (substr($key, 0, 3) != 'adv') {
                 continue;
             }
-            
+
             // :TODO: ?
             if (!$key) {
                 continue;
@@ -879,15 +879,15 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
             $field_id = substr($key, 4);
             $field = ilAdvancedMDFieldDefinition::getInstance($field_id);
-        
+
             $field_form = ilADTFactory::getInstance()->getSearchBridgeForDefinitionInstance($field->getADTDefinition(), true, false);
             $field_form->setElementId("query[" . $key . "]");
             $field_form->setForm($this->form);
-        
+
             // reload search values
             $field_form->importFromPost($this->options);
             $field_form->validate();
-                                                
+
             $parser_value = $field->getSearchQueryParserValue($field_form);
 
             include_once 'Services/Search/classes/class.ilQueryParser.php';
@@ -922,7 +922,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $meta_search->setMode('keyword');
         $meta_search->setOptions($this->options);
         $res = &$meta_search->performSearch();
-        
+
         return $res;
     }
 
@@ -935,7 +935,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         } else {
             $this->options = $_SESSION['search_adv'];
         }
-        
+
         $_POST['result'] = $_POST['id'];
 
         $this->filter = array();
@@ -945,7 +945,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             case 'cat':
                 $this->filter[] = 'cat';
                 break;
-            
+
             case 'webr':
                 $this->filter[] = 'webr';
                 break;
@@ -972,12 +972,14 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
             case 'mep':
                 $this->filter[] = 'mep';
+                $this->filter[] = 'mob';
+                $this->filter[] = 'mpg';
                 break;
-                    
+
             case 'crs':
                 $this->filter[] = 'crs';
                 break;
-                
+
             case 'file':
                 $this->filter[] = 'file';
                 break;
@@ -1005,6 +1007,8 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
                 $this->filter[] = 'sahs';
                 $this->filter[] = 'htlm';
                 $this->filter[] = 'file';
+                $this->filter[] = 'mob';
+                $this->filter[] = 'mpg';
         }
         return true;
     }
@@ -1039,7 +1043,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             return true;
         }
     }
-    
+
     /**
      * Init user search cache
      *
@@ -1051,7 +1055,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         global $DIC;
 
         $ilUser = $DIC['ilUser'];
-        
+
         include_once('Services/Search/classes/class.ilUserSearchCache.php');
         $this->search_cache = ilUserSearchCache::_getInstance($ilUser->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::ADVANCED_SEARCH);
@@ -1063,7 +1067,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             $this->search_cache->save();
         }
     }
-    
+
     /**
      * set sub tabs
      *
@@ -1075,7 +1079,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         global $DIC;
 
         $ilTabs = $DIC['ilTabs'];
-        
+
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         if (!count(ilAdvancedMDFieldDefinition::getSearchableDefinitionIds())) {
             return true;
@@ -1083,7 +1087,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
         $ilTabs->addSubTabTarget('search_lom', $this->ctrl->getLinkTarget($this, 'showSavedResults'));
         #$ilTabs->addSubTabTarget('search_adv_md',$this->ctrl->getLinkTarget($this,'showSavedAdvMDResults'));
     }
-    
+
     /**
      * convert input array to unix time
      *
@@ -1095,7 +1099,7 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
     {
         return mktime($time['h'], $time['m'], 0, $date['m'], $date['d'], $date['y']);
     }
-    
+
     /**
      * init search type (LOM Search or Advanced meta data search)
      *
