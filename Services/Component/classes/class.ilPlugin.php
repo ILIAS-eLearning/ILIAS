@@ -379,7 +379,7 @@ abstract class ilPlugin
             return $img;
         }
 
-        $d = ilPlugin::_getDirectory($a_ctype, $a_cname, $a_slot_id, $a_pname);
+        $d = $plugin->getPath();
 
         return $d . "/templates/images/" . $a_img;
     }
