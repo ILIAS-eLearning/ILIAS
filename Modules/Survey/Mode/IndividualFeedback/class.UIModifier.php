@@ -15,7 +15,7 @@
 
 namespace ILIAS\Survey\Mode\IndividualFeedback;
 
-use \ILIAS\Survey\Mode;
+use ILIAS\Survey\Mode;
 use ILIAS\Survey\InternalGUIService;
 
 /**
@@ -294,23 +294,19 @@ class UIModifier extends Mode\AbstractUIModifier
 
                     // answer
                     $a_tpl->setCurrentBlock("grid_col_bl");
-                    if ($matrix) {
-                        $a_tpl->setVariable("COL_CAPTION", "-");
+                    if ($q->getQuestionType() == "SurveyTextQuestion") {
+                        $a_tpl->setVariable(
+                            "COL_CAPTION",
+                            $a_results->getScaleText($answer["text"])
+                        );
                     } else {
-                        if ($q->getQuestionType() == "SurveyTextQuestion") {
-                            $a_tpl->setVariable(
-                                "COL_CAPTION",
-                                $a_results->getScaleText($answer["text"])
-                            );
-                        } else {
-                            $scale_texts = array_map(function ($v) use ($a_results) {
-                                return $a_results->getScaleText($v);
-                            }, $answer["value"]);
-                            $a_tpl->setVariable(
-                                "COL_CAPTION",
-                                implode(", ", $scale_texts)
-                            );
-                        }
+                        $scale_texts = array_map(function ($v) use ($a_results) {
+                            return $a_results->getScaleText($v);
+                        }, $answer["value"]);
+                        $a_tpl->setVariable(
+                            "COL_CAPTION",
+                            implode(", ", $scale_texts)
+                        );
                     }
                     $a_tpl->parseCurrentBlock();
 

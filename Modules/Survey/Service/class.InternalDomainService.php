@@ -40,6 +40,7 @@ class InternalDomainService
     ) {
         global $DIC;
 
+        $this->initDomainServices($DIC);
         $this->repo_tree = $DIC->repositoryTree();
         $this->access = $DIC->access();
         $this->lng = $DIC->language();

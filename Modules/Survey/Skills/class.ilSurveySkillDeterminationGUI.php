@@ -20,6 +20,7 @@
  */
 class ilSurveySkillDeterminationGUI
 {
+    protected ilObjSurvey $survey;
     protected ilCtrl $ctrl;
     protected ilTemplate $tpl;
     protected ilToolbarGUI $toolbar;
@@ -42,7 +43,7 @@ class ilSurveySkillDeterminationGUI
         
         $cmd = $ilCtrl->getCmd("listSkillChanges");
         
-        if (in_array($cmd, array("listSkillChanges"))) {
+        if ($cmd == "listSkillChanges") {
             $this->$cmd();
         }
     }

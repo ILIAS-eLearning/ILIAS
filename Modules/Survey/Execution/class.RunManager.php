@@ -64,7 +64,7 @@ class RunManager
         $this->checkUserParameters($user_id, $code, $appraisee);
 
         $run_id = $repo->getCurrentRunId($survey_id, $user_id, $code, $appraisee);
-        return $run_id;
+        return (int) $run_id;
     }
 
     /**

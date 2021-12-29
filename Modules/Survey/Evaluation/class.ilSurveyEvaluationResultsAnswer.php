@@ -29,7 +29,7 @@ class ilSurveyEvaluationResultsAnswer
         string $a_text,
         int $a_tstamp
     ) {
-        $this->active_id = (int) $a_active_id;
+        $this->active_id = $a_active_id;
         $this->value = $a_value;
         $this->text = trim($a_text);
         $this->tstamp = trim($a_tstamp);

@@ -398,7 +398,7 @@ class SettingsFormGUI
         // show question titles
         $show_question_titles = new \ilCheckboxInputGUI($lng->txt("svy_show_questiontitles"), "show_question_titles");
         $show_question_titles->setValue("1");
-        $show_question_titles->setChecked((bool) $survey->getShowQuestionTitles());
+        $show_question_titles->setChecked($survey->getShowQuestionTitles());
         $form->addItem($show_question_titles);
 
         return $form;
@@ -467,7 +467,7 @@ class SettingsFormGUI
 
         // participant data
         $participantdata = new \ilTextAreaInputGUI($lng->txt("mailparticipantdata"), "mailparticipantdata");
-        $participantdata->setValue((string) $survey->getMailParticipantData());
+        $participantdata->setValue($survey->getMailParticipantData());
         $participantdata->setRows(6);
         $participantdata->setCols(80);
         $participantdata->setUseRte(false);
@@ -521,12 +521,12 @@ class SettingsFormGUI
 
             $tut_grp = new \ilRadioGroupInputGUI($lng->txt("survey_notification_target_group"), "tut_grp");
             $tut_grp->setRequired(true);
-            $tut_grp->setValue($survey->getTutorNotificationTarget());
+            $tut_grp->setValue((string) $survey->getTutorNotificationTarget());
             $tut->addSubItem($tut_grp);
 
             $tut_grp_crs = new \ilRadioOption(
                 $lng->txt("survey_notification_target_group_parent_course"),
-                \ilObjSurvey::NOTIFICATION_PARENT_COURSE
+                (string) \ilObjSurvey::NOTIFICATION_PARENT_COURSE
             );
             if (!$this->hasGroupCourseParent()) {
                 $tut_grp_crs->setInfo($lng->txt("survey_notification_target_group_parent_course_inactive"));
@@ -540,7 +540,7 @@ class SettingsFormGUI
 
             $tut_grp_inv = new \ilRadioOption(
                 $lng->txt("survey_notification_target_group_invited"),
-                \ilObjSurvey::NOTIFICATION_INVITED_USERS
+                (string) \ilObjSurvey::NOTIFICATION_INVITED_USERS
             );
             $tut_grp_inv->setInfo(sprintf($lng->txt("survey_notification_target_group_invited_info"), $num_inv));
             $tut_grp->addOption($tut_grp_inv);
@@ -670,7 +670,7 @@ class SettingsFormGUI
             if ($mtmpl) {
                 $rmdt = new \ilRadioGroupInputGUI($lng->txt("svy_reminder_mail_template"), "rmdt");
                 $rmdt->setRequired(true);
-                $rmdt->addOption(new \ilRadioOption($lng->txt("svy_reminder_mail_template_none"), -1));
+                $rmdt->addOption(new \ilRadioOption($lng->txt("svy_reminder_mail_template_none"), "-1"));
                 foreach ($mtmpl as $mtmpl_id => $mtmpl_caption) {
                     $option = new \ilRadioOption($mtmpl_caption, $mtmpl_id);
                     $rmdt->addOption($option);
@@ -749,7 +749,7 @@ class SettingsFormGUI
         if ($feature_config->supportsCompetences() && $skmg_set->isActivated()) {
             $skill_service = new \ilCheckboxInputGUI($lng->txt("survey_activate_skill_service"), "skill_service");
             $skill_service->setInfo($lng->txt("survey_activate_skill_service_info"));
-            $skill_service->setChecked((bool) $survey->getSkillService());
+            $skill_service->setChecked($survey->getSkillService());
             $other_items[] = $skill_service;
         }
 
@@ -837,7 +837,7 @@ class SettingsFormGUI
         if ($form->getInput('online') && count($survey->questions) == 0) {
             \ilUtil::sendFailure($lng->txt("cannot_switch_to_online_no_questions"), true);
         } else {
-            $survey->setOfflineStatus((bool) !$form->getInput('online'));
+            $survey->setOfflineStatus(!$form->getInput('online'));
         }
 
         $survey->setViewOwnResults((bool) $form->getInput("view_own"));

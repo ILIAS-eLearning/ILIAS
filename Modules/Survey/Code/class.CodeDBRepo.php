@@ -145,7 +145,7 @@ class CodeDBRepo
             $tstamp = time();
         }
 
-        $next_id = (int) $db->nextId('svy_anonymous');
+        $next_id = $db->nextId('svy_anonymous');
 
         $db->insert("svy_anonymous", [
             "anonymous_id" => ["integer", $next_id],

@@ -92,14 +92,14 @@ class ilSurveyCronNotification extends ilCronJob
         foreach ($tree->getSubTree($root, false, ["svy"]) as $svy_ref_id) {
             $svy = new ilObjSurvey($svy_ref_id);
             $num = $svy->checkReminder();
-            if ($num !== false) {
+            if (!is_null($num)) {
                 $message[] = $svy_ref_id . "(" . $num . ")";
                 $status = ilCronJobResult::STATUS_OK;
             }
             
             // separate cron-job?
             if (in_array($svy->getId(), $tutor_res)) {
-                $svy->sendTutorResults();
+//                $svy->sendTutorResults();
                 $message[] = $svy_ref_id;
                 $status = ilCronJobResult::STATUS_OK;
             }

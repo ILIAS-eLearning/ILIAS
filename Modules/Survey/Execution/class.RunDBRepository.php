@@ -230,7 +230,7 @@ class RunDBRepository
     ) : int {
         $db = $this->db;
 
-        $next_id = (int) $db->nextId('svy_finished');
+        $next_id = $db->nextId('svy_finished');
         $affectedRows = $db->manipulateF(
             "INSERT INTO svy_finished (finished_id, survey_fi, user_fi, anonymous_id, state, tstamp, appr_id) " .
             "VALUES (%s, %s, %s, %s, %s, %s, %s)",

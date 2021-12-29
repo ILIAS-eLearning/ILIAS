@@ -80,7 +80,7 @@ class SurveyTextQuestion extends SurveyQuestion
             $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
             $this->setObligatory($data["obligatory"]);
             $this->setComplete($data["complete"]);
-            $this->setOriginalId($data["original_id"]);
+            $this->setOriginalId((int) $data["original_id"]);
 
             $this->setMaxChars($data["maxchars"]);
             $this->setTextWidth($data["width"]);
@@ -138,7 +138,7 @@ class SurveyTextQuestion extends SurveyQuestion
         bool $a_include_header = true,
         bool $obligatory_state = false
     ) {
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
         $this->insertXML($a_xml_writer, $a_include_header);
         $xml = $a_xml_writer->xmlDumpMem(false);
@@ -156,7 +156,7 @@ class SurveyTextQuestion extends SurveyQuestion
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "type" => $this->getQuestiontype(),
+            "type" => $this->getQuestionType(),
             "obligatory" => $this->getObligatory()
         );
         $a_xml_writer->xmlStartTag("question", $attrs);
@@ -220,7 +220,7 @@ class SurveyTextQuestion extends SurveyQuestion
         $entered_value = $post_data[$this->getId() . "_text_question"];
         $data = array();
         if (strlen($entered_value)) {
-            array_push($data, array("textanswer" => $entered_value));
+            $data[] = array("textanswer" => $entered_value);
         }
         return $data;
     }

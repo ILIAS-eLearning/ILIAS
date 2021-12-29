@@ -22,7 +22,7 @@
 class ilSurveyCategory
 {
     private array $arrData;
-    
+
     public function __construct(
         ?string $title = null,
         int $other = 0,
@@ -48,14 +48,12 @@ class ilSurveyCategory
             case 'other':
             case 'neutral':
                 return ($this->arrData[$value]) ? 1 : 0;
-                break;
             default:
                 if (array_key_exists($value, $this->arrData)) {
                     return $this->arrData[$value];
                 } else {
                     return null;
                 }
-                break;
         }
     }
 

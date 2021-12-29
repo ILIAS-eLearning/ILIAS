@@ -26,6 +26,11 @@ use ILIAS\Survey\Mode;
  */
 class ilSurveyExecutionGUI
 {
+    /**
+     * @var array|object|null
+     */
+    protected array $raw_post_data;
+    protected \ILIAS\Survey\Execution\ExecutionGUIRequest $request;
     protected ilRbacSystem $rbacsystem;
     protected ilObjUser $user;
     protected ilHelpGUI $help;
@@ -63,9 +68,15 @@ class ilSurveyExecutionGUI
         $this->tree = $tree;
         $this->user = $DIC->user();
 
+        $this->request = $DIC->survey()
+                             ->internal()
+                             ->gui()
+                             ->execution()
+                             ->request();
+
         // stay in preview mode
-        $this->preview = (bool) $_REQUEST["prvw"];
-        $this->requested_appr_id = (int) $_REQUEST["appr_id"];
+        $this->preview = (bool) $this->request->getPreview();
+        $this->requested_appr_id = $this->request->getAppraiseeId();
         $this->ctrl->saveParameter($this, "prvw");
         $this->ctrl->saveParameter($this, "appr_id");
         $this->ctrl->saveParameter($this, "pgov");
@@ -87,6 +98,11 @@ class ilSurveyExecutionGUI
         );
 
         $this->feature_config = $domain_service->domain()->modeFeatureConfig($a_object->getMode());
+
+
+        // @todo this is used to store answers in the session, but should
+        // be refactored somehow to avoid the use of the complete post body
+        $this->raw_post_data = $DIC->http()->request()->getParsedBody() ?? [];
     }
     
     public function executeCommand() : string
@@ -105,7 +121,11 @@ class ilSurveyExecutionGUI
         $this->log->debug("- cmd= " . $cmd);
 
         if (strlen($cmd) == 0) {
-            $this->ctrl->setParameter($this, "qid", $_GET["qid"]);
+            $this->ctrl->setParameter(
+                $this,
+                "qid",
+                $this->request->getQuestionId()
+            );
             $this->ctrl->redirect($this, "gotoPage");
         }
         switch ($next_class) {
@@ -154,6 +174,7 @@ class ilSurveyExecutionGUI
         
         // appraisee validation
         $appr_id = 0;
+        $appraisees = [];
         if ($this->feature_config->usesAppraisees()) {
             $appr_id = $this->requested_appr_id;
             //if (!$appr_id) {
@@ -243,14 +264,17 @@ class ilSurveyExecutionGUI
      */
     public function redirectQuestion() : void
     {
-        switch ($_GET["activecommand"]) {
+        switch ($this->request->getActiveCommand()) {
             case "previous":
             case "gotoPage":
             case "next":
-                $this->outSurveyPage($_GET["qid"], $_GET["direction"]);
+                $this->outSurveyPage(
+                    $this->request->getQuestionId(),
+                    $this->request->getDirection()
+                );
                 break;
             case "default":
-                $this->outSurveyPage($_GET["qid"]);
+                $this->outSurveyPage($this->request->getQuestionId());
                 break;
             default:
                 // don't save input, go to the first page
@@ -267,12 +291,13 @@ class ilSurveyExecutionGUI
     public function previous(
         bool $a_save_input = true
     ) : void {
+        $has_error = "";
         if ($a_save_input) {
             // #16209
             $has_error = $this->saveUserInput("previous");
         }
         $this->ctrl->setParameter($this, "activecommand", "previous");
-        $this->ctrl->setParameter($this, "qid", $_GET["qid"]);
+        $this->ctrl->setParameter($this, "qid", $this->request->getQuestionId());
         if (strlen($has_error)) {
             $this->ctrl->setParameter($this, "direction", "0");
         } else {
@@ -288,7 +313,7 @@ class ilSurveyExecutionGUI
     {
         $result = $this->saveUserInput("next");
         $this->ctrl->setParameter($this, "activecommand", "next");
-        $this->ctrl->setParameter($this, "qid", $_GET["qid"]);
+        $this->ctrl->setParameter($this, "qid", $this->request->getQuestionId());
         if (strlen($result)) {
             $this->ctrl->setParameter($this, "direction", "0");
         } else {
@@ -303,22 +328,23 @@ class ilSurveyExecutionGUI
     public function gotoPage() : void
     {
         $this->ctrl->setParameter($this, "activecommand", "gotoPage");
-        $this->ctrl->setParameter($this, "qid", $_GET["qid"]);
+        $this->ctrl->setParameter($this, "qid", $this->request->getQuestionId());
         $this->ctrl->setParameter($this, "direction", "0");
         $this->ctrl->redirect($this, "redirectQuestion");
     }
 
     /**
      * Output of the active survey question to the screen
+     * @throws ilCtrlException
+     * @throws ilSurveyException
      */
     public function outSurveyPage(
         ?int $activepage = null,
-        ?int $direction = null
+        int $direction = 0
     ) : void {
         $ilUser = $this->user;
         
         $this->checkAuth();
-        
         $page = $this->object->getNextPage($activepage, $direction);
         $constraint_true = 0;
         
@@ -327,7 +353,7 @@ class ilSurveyExecutionGUI
             $this->log->debug("Page constraints= ", $page[0]["constraints"]);
 
             while (!is_null($page) and ($constraint_true == 0) and (count($page[0]["constraints"]))) {
-                $constraint_true = ($page[0]['constraints'][0]['conjunction'] == 0) ? true : false;
+                $constraint_true = $page[0]['constraints'][0]['conjunction'] == 0;
                 foreach ($page[0]["constraints"] as $constraint) {
                     if (!$this->preview) {
                         $working_data = $this->object->loadWorkingData($constraint["question"], $this->getCurrentRunId());
@@ -400,7 +426,7 @@ class ilSurveyExecutionGUI
                     $stpl->setVariable("TEXT_SUSPEND", $this->lng->txt("cancel_survey"));
                     $stpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass("ilObjSurveyGUI", "infoScreen"));
                 } else {
-                    $this->ctrl->setParameterByClass("ilObjSurveyGUI", "pgov", $_REQUEST["pgov"]);
+                    $this->ctrl->setParameterByClass("ilObjSurveyGUI", "pgov", $this->request->getTargetPosition());
                     $stpl->setVariable("TEXT_SUSPEND", $this->lng->txt("survey_cancel_preview"));
                     $stpl->setVariable("HREF_SUSPEND", $this->ctrl->getLinkTargetByClass(array("ilObjSurveyGUI", "ilSurveyEditorGUI"), "questions"));
                 }
@@ -478,7 +504,7 @@ class ilSurveyExecutionGUI
                     $working_data,
                     $show_title,
                     $show_questiontext,
-                    $error_messages[$data["question_id"]],
+                    $error_messages[$data["question_id"]] ?? "",
                     $this->object->getSurveyId(),
                     $compress_view
                 );
@@ -502,8 +528,8 @@ class ilSurveyExecutionGUI
             $this->outNavigationButtons("bottom", $page, $stpl);
 
             $stpl->setVariable("FORM_ACTION", $this->ctrl->getFormAction($this, "redirectQuestion"));
+            $this->tpl->setContent($stpl->get());
         }
-        $this->tpl->setContent($stpl->get());
 
         if (!$this->preview) {
             $this->object->setPage($this->getCurrentRunId(), $page[0]['question_id']);
@@ -517,10 +543,10 @@ class ilSurveyExecutionGUI
     }
 
     protected function compressQuestion(
-        array $previous_page,
+        ?array $previous_page,
         array $page
     ) : bool {
-        if (!$previous_page) {
+        if (is_null($previous_page)) {
             return false;
         }
 
@@ -546,10 +572,10 @@ class ilSurveyExecutionGUI
         
         // check users input when it is a metric question
         $this->run_manager->clearErrors();
-        $this->run_manager->setPostData($_POST);
+        $this->run_manager->setPostData($this->raw_post_data);
 
         $page_error = 0;
-        $page = $this->object->getNextPage($_GET["qid"], 0);
+        $page = $this->object->getNextPage($this->request->getQuestionId(), 0);
         foreach ($page as $data) {
             $page_error += $this->saveActiveQuestionData($data);
         }
@@ -572,17 +598,17 @@ class ilSurveyExecutionGUI
     public function saveActiveQuestionData(array $data) : int
     {
         $question = SurveyQuestion::_instanciateQuestion($data["question_id"]);
-        $error = $question->checkUserInput($_POST, $this->object->getSurveyId());
+        $error = $question->checkUserInput($this->raw_post_data, $this->object->getSurveyId());
         if (strlen($error) == 0) {
             if (!$this->preview) {
                 // delete old answers
                 $this->object->deleteWorkingData($data["question_id"], $this->getCurrentRunId());
         
-                $question->saveUserInput($_POST, $this->getCurrentRunId());
+                $question->saveUserInput($this->raw_post_data, $this->getCurrentRunId());
             } else {
                 $this->run_manager->setPreviewData(
                     $data["question_id"],
-                    $question->saveUserInput($_POST, $this->getCurrentRunId(), true)
+                    $question->saveUserInput($this->raw_post_data, $this->getCurrentRunId(), true)
                 );
             }
             return 0;
@@ -698,7 +724,7 @@ class ilSurveyExecutionGUI
             $this->backToRepository();
         } else {
             // #12841
-            $this->ctrl->setParameterByClass("ilsurveyeditorgui", "pgov", $_REQUEST["pgov"]);
+            $this->ctrl->setParameterByClass("ilsurveyeditorgui", "pgov", $this->request->getTargetPosition());
             $this->ctrl->redirectByClass(array("ilobjsurveygui", "ilsurveyeditorgui"), "questions");
         }
     }
@@ -761,7 +787,7 @@ class ilSurveyExecutionGUI
         
         $this->checkAuth(false, true);
         
-        $recipient = $_POST["mail"];
+        $recipient = $this->request->getMail();
         if (!$recipient) {
             $recipient = $ilUser->getEmail();
         }

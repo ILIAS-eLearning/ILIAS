@@ -19,7 +19,9 @@
  */
 class ilSurveySkillThresholds
 {
+    protected ilObjSurvey $survey;
     protected ilDBInterface $db;
+    protected array $threshold;
 
     public function __construct(ilObjSurvey $a_survey)
     {
@@ -60,11 +62,11 @@ class ilSurveySkillThresholds
         $ilDB->replace(
             "svy_skill_threshold",
             array("survey_id" => array("integer", $this->survey->getId()),
-                "base_skill_id" => array("integer", (int) $a_base_skill_id),
-                "tref_id" => array("integer", (int) $a_tref_id),
-                "level_id" => array("integer", (int) $a_level_id)
+                  "base_skill_id" => array("integer", $a_base_skill_id),
+                  "tref_id" => array("integer", $a_tref_id),
+                  "level_id" => array("integer", $a_level_id)
                 ),
-            array("threshold" => array("integer", (int) $a_threshold))
+            array("threshold" => array("integer", $a_threshold))
         );
     }
 }

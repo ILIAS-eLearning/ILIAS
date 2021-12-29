@@ -103,6 +103,9 @@ trait BaseGUIRequest
                 return array_column(
                     array_map(
                         function ($k, $v) {
+                            if (is_array($v)) {
+                                $v = "";
+                            }
                             return [$k, \ilUtil::stripSlashes((string) $v)];
                         },
                         array_keys($arr),
