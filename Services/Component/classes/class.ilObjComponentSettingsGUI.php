@@ -79,6 +79,13 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         );
     }
 
+    protected function getPluginLanguageHandler() : ilPluginLanguage
+    {
+        return new ilPluginLanguage(
+            $this->component_repository->getPluginByName($_GET[self::P_PLUGIN_NAME])
+        );
+    }
+
     /**
      * Execute command
      * @access public
@@ -300,7 +307,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $this->ctrl->setParameter($this, self::P_PLUGIN_ID, $plugin->getId());
         $this->ctrl->setParameter($this, self::P_PLUGIN_NAME, $plugin->getName());
 
-        $langs = ilPlugin::getAvailableLangFiles($plugin->getPath() . "/lang");
+        $language_handler = new ilPluginLanguage($plugin);
 
         // dbupdate
         $db_update = new ilPluginDBUpdate(
@@ -327,7 +334,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
                 );
             }
             // refresh languages button
-            if (count($langs) > 0) {
+            if ($language_handler->hasAvailableLangFiles()) {
                 $this->toolbar->addButton(
                     $this->lng->txt("cmps_refresh"),
                     $this->ctrl->getLinkTarget($this, self::CMD_REFRESH_LANGUAGES)
@@ -394,9 +401,9 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
         $info[""][$this->lng->txt("cmps_ilias_max_version")] = (string) $plugin->getMaximumILIASVersion();
         $info[""][$this->lng->txt("cmps_status")] = $status;
 
-        if (sizeof($langs)) {
-            $lang_files = array();
-            foreach ($langs as $lang) {
+        if ($language_handler->hasAvailableLangFiles()) {
+            $lang_files = [];
+            foreach ($language_handler->getAvailableLangFiles() as $lang) {
                 $lang_files[] = $lang["file"];
             }
             $info[""][$this->lng->txt("cmps_languages")] = implode(", ", $lang_files);
@@ -518,9 +525,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function refreshLanguages() : void
     {
-        $pl = $this->getPlugin();
-
-        $pl->updateLanguages();
+        $this->getPluginLanguageHandler()->updateLanguages();
 
         $this->ctrl->setParameter($this, self::P_CTYPE, $_GET[self::P_CTYPE]);
         $this->ctrl->setParameter($this, self::P_CNAME, $_GET[self::P_CNAME]);
