@@ -29,11 +29,15 @@ class EditingGUIRequest
 
     public function __construct(
         \ILIAS\HTTP\Services $http,
-        \ILIAS\Refinery\Factory $refinery
+        \ILIAS\Refinery\Factory $refinery,
+        ?array $passed_query_params = null,
+        ?array $passed_post_data = null
     ) {
         $this->initRequest(
             $http,
-            $refinery
+            $refinery,
+            $passed_query_params,
+            $passed_post_data
         );
     }
 
