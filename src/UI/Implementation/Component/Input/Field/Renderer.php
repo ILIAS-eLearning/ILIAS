@@ -175,7 +175,7 @@ class Renderer extends AbstractComponentRenderer
         if (!is_null($escape)) {
             $value = $escape($value);
         }
-        if ($value) {
+        if (isset($value) && strlen($value) > 0) {
             $tpl->setVariable("VALUE", $value);
         }
     }
