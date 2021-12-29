@@ -135,28 +135,6 @@ abstract class ilPlugin
             $slot->getName() . "/" . $plugin->getName();
     }
 
-    /**
-     *
-     * @return string
-     */
-    protected function getClassesDirectory() : string
-    {
-        return $this->getDirectory() . "/classes";
-    }
-
-
-    /**
-     * Include (once) a class file
-     *
-     * Only very little classes seem to care about this:
-     *    - Services/UIComponent/classes/class.ilUserInterfaceHookPlugin.php
-     *    - Services/COPage/classes/class.ilPageComponentPlugin.php
-     */
-    public function includeClass($a_class_file_name)
-    {
-        include_once($this->getClassesDirectory() . "/" . $a_class_file_name);
-    }
-
     // ------------------------------------------
     // Language Handling
     // ------------------------------------------

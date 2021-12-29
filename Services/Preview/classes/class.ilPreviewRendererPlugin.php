@@ -25,7 +25,6 @@ abstract class ilPreviewRendererPlugin extends ilPlugin
     public function getRendererClassInstance() : object
     {
         $class = "il" . $this->getPluginName();
-        $this->includeClass("class." . $class . ".php");
         return new $class();
     }
 }

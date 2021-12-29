@@ -81,7 +81,6 @@ abstract class ilPageComponentPlugin extends ilPlugin
     public function getUIClassInstance() : ilPageComponentPluginGUI
     {
         $class = "il" . $this->getPluginName() . "PluginGUI";
-        $this->includeClass("class." . $class . ".php");
         $obj = new $class();
         $obj->setPlugin($this);
         return $obj;
