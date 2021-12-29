@@ -123,16 +123,10 @@ abstract class ilPlugin
      * Only very little classes seem to care about this:
      *     - Services/COPage/classes/class.ilPCPlugged.php
      *     - Modules/DataCollection/classes/Fields/class.ilDclFieldFactory.php
-     *
-     * @return    object    Plugin Slot
      */
     public function getDirectory() : string
     {
-        $plugin = $this->getPluginInfo();
-        $component = $this->getComponentInfo();
-        $slot = $this->getPluginSlotInfo();
-        return "Customizing/global/plugins/" . $component->getType() . "/" . $component->getName() . "/" .
-            $slot->getName() . "/" . $plugin->getName();
+        return $this->getPluginInfo()->getPath();
     }
 
     // ------------------------------------------
