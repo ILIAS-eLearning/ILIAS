@@ -61,7 +61,6 @@ class ilPageObjectGUI
     protected ilCtrl $ctrl;
     protected ilTabsGUI $tabs_gui;
     protected ilAccessHandler $access;
-    protected ilPluginAdmin $plugin_admin;
     protected ilLogger $log;
     protected ilObjUser $user;
     protected ilHelpGUI $help;
@@ -144,7 +143,6 @@ class ilPageObjectGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tabs_gui = $DIC->tabs();
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->access = $DIC->access();
         $this->user = $DIC->user();
         $this->help = $DIC["ilHelp"];
