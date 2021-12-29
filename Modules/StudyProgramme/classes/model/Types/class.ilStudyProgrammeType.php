@@ -25,7 +25,6 @@ class ilStudyProgrammeType
     protected string $icon;
     protected ilLog $log;
     protected ilObjUser $user;
-    protected ilPluginAdmin $plugin_admin;
     protected array $active_plugins;
     protected ilLanguage $lng;
     protected array $translations;
@@ -42,7 +41,6 @@ class ilStudyProgrammeType
         int $id,
         ilStudyProgrammeTypeRepository $type_repo,
         ILIAS\Filesystem\Filesystem $webdir,
-        ilPluginAdmin $plugin_admin,
         ilLanguage $lng,
         ilObjUser $user,
         ilComponentFactory $component_factory
@@ -50,7 +48,6 @@ class ilStudyProgrammeType
         $this->id = $id;
         $this->type_repo = $type_repo;
         $this->webdir = $webdir;
-        $this->plugin_admin = $plugin_admin;
         $this->lng = $lng;
         $this->user = $user;
         $this->component_factory = $component_factory;

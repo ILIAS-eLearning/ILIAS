@@ -541,9 +541,6 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
 
     protected function confirmUninstallPlugin() : void
     {
-        global $DIC;
-        $ilPluginAdmin = $DIC['ilPluginAdmin'];
-
         $pl = $this->getPlugin();
 
         $pl_info = $this->component_repository

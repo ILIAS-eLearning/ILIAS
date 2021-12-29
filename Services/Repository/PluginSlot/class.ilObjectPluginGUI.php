@@ -23,7 +23,6 @@ abstract class ilObjectPluginGUI extends ilObject2GUI
 {
     protected ilNavigationHistory $nav_history;
     protected ilTabsGUI $tabs;
-    protected ilPluginAdmin $plugin_admin;
     protected ilPlugin $plugin;
     protected PluginSlotGUIRequest $slot_request;
     protected ilComponentFactory $component_factory;
