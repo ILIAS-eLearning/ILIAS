@@ -51,7 +51,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
             new \ilIniFilesLoadedObjective(),
             new \ilDatabaseInitializedObjective(),
             new \ilComponentPluginAdminInitObjective(),
-            new \ilComponentDatabaseExistsObjective(),
+            new \ilComponentRepositoryExistsObjective(),
             new \ilComponentFactoryExistsObjective()
         ];
     }
@@ -61,7 +61,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
      */
     public function achieve(Setup\Environment $environment) : Setup\Environment
     {
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $component_factory = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_FACTORY);
         $info = $component_repository->getPluginByName($this->plugin_name);
 
@@ -90,7 +90,7 @@ class ilComponentActivatePluginsObjective implements Setup\Objective
      */
     public function isApplicable(Setup\Environment $environment) : bool
     {
-        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_DATABASE);
+        $component_repository = $environment->getResource(Setup\Environment::RESOURCE_COMPONENT_REPOSITORY);
         $plugin = $component_repository->getPluginByName($this->plugin_name);
 
         return $plugin->isActivationPossible($environment);
