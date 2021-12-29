@@ -34,6 +34,7 @@ abstract class ilPlugin
     protected ilDBInterface $db;
     protected ilComponentRepositoryWrite $component_repository;
     protected string $id;
+    protected ?ilPluginLanguage $language_handler = null;
 
     /**
      * @var bool
@@ -133,118 +134,27 @@ abstract class ilPlugin
     // Language Handling
     // ------------------------------------------
 
-    /**
-     * @return string
-     */
-    protected function getLanguageDirectory() : string
+    protected function getLanguageHandler() : ilPluginLanguage
     {
-        return $this->getDirectory() . "/lang";
+        if ($this->language_handler === null) {
+            $this->language_handler = $this->buildLanguageHandler();
+        }
+        return $this->language_handler;
     }
 
-    /**
-     * Get array of all language files in the plugin
-     */
-    public static function getAvailableLangFiles(string $a_lang_directory) : array
+    protected function buildLanguageHandler() : ilPluginLanguage
     {
-        $langs = array();
-
-        if (!@is_dir($a_lang_directory)) {
-            return array();
-        }
-
-        $dir = opendir($a_lang_directory);
-        while ($file = readdir($dir)) {
-            if ($file != "." and
-                $file != ".."
-            ) {
-                // directories
-                if (@is_file($a_lang_directory . "/" . $file)) {
-                    if (substr($file, 0, 6) == "ilias_"
-                        && substr($file, strlen($file) - 5) == ".lang"
-                    ) {
-                        $langs[] = array(
-                            "key" => substr($file, 6, 2),
-                            "file" => $file,
-                            "path" => $a_lang_directory . "/" . $file,
-                        );
-                    }
-                }
-            }
-        }
-
-        return $langs;
-    }
-
-    /**
-     * Update all or selected languages
-     *
-     * @var array|null $a_lang_keys keys of languages to be updated (null for all)
-     */
-    public function updateLanguages($a_lang_keys = null)
-    {
-        ilGlobalCache::flushAll();
-
-        // get the keys of all installed languages if keys are not provided
-        if (!isset($a_lang_keys)) {
-            $a_lang_keys = array();
-            foreach (ilObjLanguage::getInstalledLanguages() as $langObj) {
-                if ($langObj->isInstalled()) {
-                    $a_lang_keys[] = $langObj->getKey();
-                }
-            }
-        }
-
-        $langs = $this->getAvailableLangFiles($this->getLanguageDirectory());
-
-        $prefix = $this->getPrefix();
-
-        foreach ($langs as $lang) {
-            // check if the language should be updated, otherwise skip it
-            if (!in_array($lang['key'], $a_lang_keys)) {
-                continue;
-            }
-
-            $txt = file($this->getLanguageDirectory() . "/" . $lang["file"]);
-            $lang_array = array();
-
-            // get locally changed variables of the module (these should be kept)
-            $local_changes = ilObjLanguage::_getLocalChangesByModule($lang['key'], $prefix);
-
-            // get language data
-            if (is_array($txt)) {
-                foreach ($txt as $row) {
-                    if ($row[0] != "#" && strpos($row, "#:#") > 0) {
-                        $a = explode("#:#", trim($row));
-                        $identifier = $prefix . "_" . trim($a[0]);
-                        $value = trim($a[1]);
-
-                        if (isset($local_changes[$identifier])) {
-                            $lang_array[$identifier] = $local_changes[$identifier];
-                        } else {
-                            $lang_array[$identifier] = $value;
-                            ilObjLanguage::replaceLangEntry($prefix, $identifier, $lang["key"], $value);
-                        }
-                        //echo "<br>-$prefix-".$prefix."_".trim($a[0])."-".$lang["key"]."-";
-                    }
-                }
-            }
-
-            ilObjLanguage::replaceLangModule($lang["key"], $prefix, $lang_array);
-        }
+        return new ilPluginLanguage($this->getPluginInfo());
     }
 
     /**
      * Load language module for plugin
+     *
+     * @deprecate Just use `txt`, this will automatically load the language module.
      */
-    public function loadLanguageModule()
+    public function loadLanguageModule() : void
     {
-        global $DIC;
-        $lng = $DIC->language();
-
-        if (!$this->lang_initialised && is_object($lng)) {
-            $lng->loadLanguageModule($this->getPrefix());
-            $this->lang_initialised = true;
-        }
+        $this->getLanguageHandler()->loadLanguageModule();
     }
 
     /**
@@ -252,11 +162,7 @@ abstract class ilPlugin
      */
     public function txt(string $a_var) : string
     {
-        global $DIC;
-        $lng = $DIC->language();
-        $this->loadLanguageModule();
-
-        return $lng->txt($this->getPrefix() . "_" . $a_var, $this->getPrefix());
+        return $this->getLanguageHandler()->txt($a_var);
     }
 
     // ------------------------------------------
@@ -293,19 +199,6 @@ abstract class ilPlugin
     protected static function getConfigureClassName(\ilPluginInfo $plugin) : string
     {
         return "il" . $plugin->getName() . "ConfigGUI";
-    }
-
-
-    /**
-     * Get plugin prefix, used for lang vars
-     */
-    public function getPrefix() : string
-    {
-        $plugin = $this->getPluginInfo();
-        $component = $this->getComponentInfo();
-        $slot = $this->getPluginSlotInfo();
-
-        return $component->getId() . "_" . $slot->getId() . "_" . $plugin->getId();
     }
 
     /**
@@ -535,36 +428,17 @@ abstract class ilPlugin
     }
 
 
-    final public function uninstall()
+    final public function uninstall() : bool
     {
-        global $DIC;
-        $ilDB = $DIC->database();
-
-        if ($this->beforeUninstall()) {
-            // remove all language entries (see ilObjLanguage)
-            // see updateLanguages
-            $prefix = $this->getPrefix();
-            if ($prefix) {
-                $ilDB->manipulate(
-                    "DELETE FROM lng_data" .
-                    " WHERE module = " . $ilDB->quote($prefix, "text")
-                );
-                $ilDB->manipulate(
-                    "DELETE FROM lng_modules" .
-                    " WHERE module = " . $ilDB->quote($prefix, "text")
-                );
-            }
-
-            $this->clearEventListening();
-
-            $this->component_repository->removeStateInformationOf($this->getId());
-
-            $this->afterUninstall();
-
-            return true;
+        if (!$this->beforeUninstall()) {
+            return false;
         }
 
-        return false;
+        $this->getLanguageHandler()->uninstall();
+        $this->clearEventListening();
+        $this->component_repository->removeStateInformationOf($this->getId());
+        $this->afterUninstall();
+        return true;
     }
 
 
@@ -590,7 +464,7 @@ abstract class ilPlugin
         }
 
         // Load language files
-        $this->updateLanguages();
+        $this->getLanguageHandler()->updateLanguages();
 
         // DB update
         if ($result === true) {
