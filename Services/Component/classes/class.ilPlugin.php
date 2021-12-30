@@ -168,40 +168,6 @@ abstract class ilPlugin
     // ------------------------------------------
 
     /**
-     * Has the plugin a configure class?
-     *
-     * @param string $a_slot_dir     slot directory
-     * @param array  $plugin_data    plugin data
-     * @param array  $plugin_db_data plugin db data
-     *
-     * @return boolean true/false
-     */
-    public static function hasConfigureClass(\ilPluginInfo $plugin) : bool
-    {
-        global $DIC;
-
-        // Mantis: 23282: Disable plugin config page for incompatible plugins
-        if (!$plugin->isCompliantToILIAS()) {
-            return false;
-        }
-
-        return is_file($plugin->getPath() . "/classes/" . self::getConfigureClassName($plugin));
-    }
-
-
-    /**
-     * Get plugin configure class name
-     *
-     * @param array $plugin_data
-     *
-     * @return string
-     */
-    protected static function getConfigureClassName(\ilPluginInfo $plugin) : string
-    {
-        return "il" . $plugin->getName() . "ConfigGUI";
-    }
-
-    /**
      * Update database
      */
     public function updateDatabase()
