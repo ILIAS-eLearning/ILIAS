@@ -202,42 +202,6 @@ abstract class ilPlugin
         return new ilTemplate($this->getDirectory() . "/templates/" . $a_template, $a_par1, $a_par2);
     }
 
-
-    /**
-     * Only very little classes seem to care about this:
-     *    - Services/Repository/classes/class.ilRepositoryObjectPlugin.php
-     *    - Modules/OrgUnit/classes/Extension/class.ilOrgUnitExtensionPlugin.php
-     *
-     * @param string $a_ctype
-     * @param string $a_cname
-     * @param string $a_slot_id
-     * @param string $a_pname
-     * @param string $a_img
-     *
-     * @return string
-     */
-    public static function _getImagePath(string $a_ctype, string $a_cname, string $a_slot_id, string $a_pname, string $a_img) : string
-    {
-        global $DIC;
-
-        $component_repository = $DIC["component.repository"];
-
-        $plugin = $component_repository->getPluginName($a_pname);
-        $component = $component_repository->getComponentByTypeAndName($a_ctype, $a_cname);
-
-        $d2 = $component->getId() . "_" . $a_slot_id . "_" . $plugin->getId();
-
-        $img = ilUtil::getImagePath($d2 . "/" . $a_img);
-        if (is_int(strpos($img, "Customizing"))) {
-            return $img;
-        }
-
-        $d = $plugin->getPath();
-
-        return $d . "/templates/images/" . $a_img;
-    }
-
-
     /**
      * @param string $a_css_file
      *
