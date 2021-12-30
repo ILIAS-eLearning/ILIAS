@@ -175,7 +175,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($a_set["question_id"]));
         $guiclass = $class . "GUI";

@@ -140,21 +140,21 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($user)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         $lng = $DIC['lng'];
 
-        $this->tpl->setVariable("VAL_FIRSTNAME", $user["firstname"]);
-        $this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);
+        $this->tpl->setVariable("VAL_FIRSTNAME", $a_set["firstname"]);
+        $this->tpl->setVariable("VAL_LASTNAME", $a_set["lastname"]);
         
         if (
-            $user['usr_id'] != SYSTEM_USER_ID and
-            ($user['usr_id'] != ANONYMOUS_USER_ID or $this->getRoleId() != ANONYMOUS_ROLE_ID) and
+            $a_set['usr_id'] != SYSTEM_USER_ID and
+            ($a_set['usr_id'] != ANONYMOUS_USER_ID or $this->getRoleId() != ANONYMOUS_ROLE_ID) and
             $this->isRoleAssignmentEditable()) {
-            $this->tpl->setVariable("ID", $user["usr_id"]);
+            $this->tpl->setVariable("ID", $a_set["usr_id"]);
         }
         
         include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
@@ -163,13 +163,13 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         $actions->setItemLinkClass("small");
         
         $actions->setListTitle($lng->txt('actions'));
-        $actions->setId($user['usr_id']);
+        $actions->setId($a_set['usr_id']);
         
         $link_contact = ilMailFormCall::getLinkTarget(
             $this->getParentObject(),
             $this->getParentCmd(),
             array('fr' => rawurlencode(base64_encode($ilCtrl->getLinkTarget($this->getParentObject(), 'userassignment', '', false, false)))),
-            array('type' => 'new', 'rcp_to' => $user['login'])
+            array('type' => 'new', 'rcp_to' => $a_set['login'])
         );
         $actions->addItem(
             $lng->txt('message'),
@@ -179,11 +179,11 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
         
         if (strtolower($_GET["baseClass"]) == 'iladministrationgui' && $_GET["admin_mode"] == "settings") {
             $ilCtrl->setParameterByClass("ilobjusergui", "ref_id", 7);
-            $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $user["usr_id"]);
+            $ilCtrl->setParameterByClass("ilobjusergui", "obj_id", $a_set["usr_id"]);
             
             $link_change = $ilCtrl->getLinkTargetByClass(array("iladministrationgui", "ilobjusergui"), "view");
             
-            $this->tpl->setVariable('VAL_LOGIN', $user['login']);
+            $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);
             $this->tpl->setVariable('HREF_LOGIN', $link_change);
             $actions->addItem(
                 $this->lng->txt("edit"),
@@ -191,14 +191,14 @@ class ilAssignedUsersTableGUI extends ilTable2GUI
                 $link_change
             );
         } else {
-            $this->tpl->setVariable('VAL_PLAIN_LOGIN', $user['login']);
+            $this->tpl->setVariable('VAL_PLAIN_LOGIN', $a_set['login']);
         }
         
         if (
-            ($this->getRoleId() != SYSTEM_ROLE_ID or $user['usr_id'] != SYSTEM_USER_ID) and
-            ($this->getRoleId() != ANONYMOUS_ROLE_ID or $user['usr_id'] != ANONYMOUS_USER_ID) and
+            ($this->getRoleId() != SYSTEM_ROLE_ID or $a_set['usr_id'] != SYSTEM_USER_ID) and
+            ($this->getRoleId() != ANONYMOUS_ROLE_ID or $a_set['usr_id'] != ANONYMOUS_USER_ID) and
             $this->isRoleAssignmentEditable()) {
-            $ilCtrl->setParameter($this->getParentObject(), "user_id", $user["usr_id"]);
+            $ilCtrl->setParameter($this->getParentObject(), "user_id", $a_set["usr_id"]);
             $link_leave = $ilCtrl->getLinkTarget($this->getParentObject(), "deassignUser");
             
             $actions->addItem(

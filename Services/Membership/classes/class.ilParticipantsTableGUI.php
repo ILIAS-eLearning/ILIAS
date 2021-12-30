@@ -27,7 +27,7 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
     /**
      * Init table filter
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         $this->setDefaultFilterVisiblity(true);
         
@@ -83,9 +83,9 @@ abstract class ilParticipantTableGUI extends ilTable2GUI
 
     /**
      * Get selectable columns
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         global $DIC;
 

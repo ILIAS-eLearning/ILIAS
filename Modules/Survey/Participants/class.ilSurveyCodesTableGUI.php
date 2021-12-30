@@ -65,7 +65,7 @@ class ilSurveyCodesTableGUI extends ilTable2GUI
         $this->setSelectAllCheckbox('chb_code');
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
                 

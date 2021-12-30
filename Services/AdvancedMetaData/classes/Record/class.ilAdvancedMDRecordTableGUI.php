@@ -37,7 +37,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->setShowRowsSelector(true);
     }
 
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == 'position') {
             return true;
@@ -45,7 +45,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         return parent::numericOrdering($a_field);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         // assigned object types
         $disabled = !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES];

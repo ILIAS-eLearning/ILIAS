@@ -69,7 +69,7 @@ class ilSurveySkillChangesTableGUI extends ilTable2GUI
         $this->setData($new_levels);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         //var_dump($a_set);

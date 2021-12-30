@@ -61,7 +61,7 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
 
-    public function executeCommand()
+    public function executeCommand() : bool
     {
         switch ($this->myCtrl->getNextClass()) {
             case strtolower(__CLASS__):
@@ -96,15 +96,15 @@ class ilAssQuestionSkillUsagesTableGUI extends ilTable2GUI
         $this->addColumn($this->myLng->txt('qpl_qst_skl_usg_sklpnt_col'), 'max_skill_points', '');
     }
     
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('SKILL_TITLE', $data['skill_title']);
-        $this->tpl->setVariable('SKILL_PATH', $data['skill_path']);
-        $this->tpl->setVariable('NUM_QUESTIONS', $data['num_questions']);
-        $this->tpl->setVariable('MAX_SKILL_POINTS', $data['max_skill_points']);
+        $this->tpl->setVariable('SKILL_TITLE', $a_set['skill_title']);
+        $this->tpl->setVariable('SKILL_PATH', $a_set['skill_path']);
+        $this->tpl->setVariable('NUM_QUESTIONS', $a_set['num_questions']);
+        $this->tpl->setVariable('MAX_SKILL_POINTS', $a_set['max_skill_points']);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'num_questions':

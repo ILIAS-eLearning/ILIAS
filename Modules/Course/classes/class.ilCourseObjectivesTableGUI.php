@@ -122,12 +122,11 @@ class ilCourseObjectivesTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param array row data
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_POSITION', $a_set['position']);

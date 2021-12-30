@@ -97,7 +97,7 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $optionalColumns = array_filter($this->getColumnDefinition(), function ($column) {
             return isset($column['optional']) && $column['optional'];
@@ -138,7 +138,7 @@ abstract class ilAccessibilityTableGUI extends ilTable2GUI
     /**
      * @param array $row
      */
-    final protected function fillRow($row)
+    final protected function fillRow(array $row) : void
     {
         $this->prepareRow($row);
 

@@ -169,15 +169,15 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
     
     /**
      * Fill row template
-     * @return
+     * @return void
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $objDefinition = $DIC['objDefinition'];
         
-        if (isset($row['show_ce'])) {
+        if (isset($a_set['show_ce'])) {
             $this->tpl->setCurrentBlock('ce_td');
             $this->tpl->setVariable('CE_TYPE', $this->getTemplateType());
             $this->tpl->parseCurrentBlock();
@@ -208,12 +208,11 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
                 );
                 $this->tpl->parseCurrentBlock();
             }
-            return true;
         } else {
             $this->tpl->setCurrentBlock('perm_td');
             $this->tpl->setVariable('OBJ_TYPE', $this->getTemplateType());
-            $this->tpl->setVariable('PERM_PERM_ID', $row['ops_id']);
-            $this->tpl->setVariable('PERM_CHECKED', $row['set'] ? 'checked="checked"' : '');
+            $this->tpl->setVariable('PERM_PERM_ID', $a_set['ops_id']);
+            $this->tpl->setVariable('PERM_CHECKED', $a_set['set'] ? 'checked="checked"' : '');
             
             if ($this->getRoleId() == SYSTEM_ROLE_ID) {
                 $this->tpl->setVariable('PERM_DISABLED', 'disabled="disabled"');
@@ -223,40 +222,38 @@ class ilObjectRoleTemplatePermissionTableGUI extends ilTable2GUI
             
             $this->tpl->setCurrentBlock('perm_desc_td');
             $this->tpl->setVariable('DESC_TYPE', $this->getTemplateType());
-            $this->tpl->setVariable('DESC_PERM_ID', $row['ops_id']);
+            $this->tpl->setVariable('DESC_PERM_ID', $a_set['ops_id']);
 
-            if ($row["create_type"] != "" && $objDefinition->isPlugin($row['create_type'])) {
+            if ($a_set["create_type"] != "" && $objDefinition->isPlugin($a_set['create_type'])) {
                 $this->tpl->setVariable(
                     'TXT_PERMISSION',
                     ilObjectPlugin::lookupTxtById(
-                        $row['create_type'],
-                        $this->getTemplateType() . "_" . $row['name']
+                        $a_set['create_type'],
+                        $this->getTemplateType() . "_" . $a_set['name']
                     )
                 );
-            } elseif ($row["create_type"] == "" && $objDefinition->isPlugin($this->getTemplateType())) {
+            } elseif ($a_set["create_type"] == "" && $objDefinition->isPlugin($this->getTemplateType())) {
                 $this->tpl->setVariable(
                     'TXT_PERMISSION',
                     ilObjectPlugin::lookupTxtById(
                         $this->getTemplateType(),
-                        $this->getTemplateType() . "_" . $row['name']
+                        $this->getTemplateType() . "_" . $a_set['name']
                     )
                 );
             } else {
-                if (substr($row['name'], 0, 6) == 'create') {
+                if (substr($a_set['name'], 0, 6) == 'create') {
                     #$perm = $this->lng->txt($this->getTemplateType().'_'.$row['name']);
-                    $perm = $this->lng->txt('rbac' . '_' . $row['name']);
-                } elseif ($this->lng->exists($this->getTemplateType() . '_' . $row['name'] . '_short')) {
-                    $perm = $this->lng->txt($this->getTemplateType() . '_' . $row['name'] . '_short') . ': ' .
-                        $this->lng->txt($this->getTemplateType() . '_' . $row['name']);
+                    $perm = $this->lng->txt('rbac' . '_' . $a_set['name']);
+                } elseif ($this->lng->exists($this->getTemplateType() . '_' . $a_set['name'] . '_short')) {
+                    $perm = $this->lng->txt($this->getTemplateType() . '_' . $a_set['name'] . '_short') . ': ' .
+                        $this->lng->txt($this->getTemplateType() . '_' . $a_set['name']);
                 } else {
-                    $perm = $this->lng->txt($row['name']) . ': ' . $this->lng->txt($this->getTemplateType() . '_' . $row['name']);
+                    $perm = $this->lng->txt($a_set['name']) . ': ' . $this->lng->txt($this->getTemplateType() . '_' . $a_set['name']);
                 }
                 
                 $this->tpl->setVariable('TXT_PERMISSION', $perm);
             }
             $this->tpl->parseCurrentBlock();
-            
-            return true;
         }
     }
     

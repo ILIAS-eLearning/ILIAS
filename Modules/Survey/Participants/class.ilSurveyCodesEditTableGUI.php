@@ -49,7 +49,7 @@ class ilSurveyCodesEditTableGUI extends ilTable2GUI
         $this->setDefaultOrderDirection("asc");
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('ID', $a_set["id"]);
         $this->tpl->setVariable("SENT", ($a_set['sent']) ?  ' checked="checked"' : '');

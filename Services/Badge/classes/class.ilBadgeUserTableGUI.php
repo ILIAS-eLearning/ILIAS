@@ -10,11 +10,6 @@
 class ilBadgeUserTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilTree
      */
     protected $tree;
@@ -96,7 +91,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
         $this->getItems($a_parent_ref_id, $this->award_badge, $a_parent_obj_id, $a_restrict_badge_id);
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
         
@@ -210,7 +205,7 @@ class ilBadgeUserTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         

@@ -41,8 +41,10 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
             ->mainTemplate()
             ->addJavaScript('./Services/AccessControl/js/ilPermSelect.js');
 
-        $this->setTitle($this->dic()->language()->txt('orgu_permission_settings_'
-            . $this->context_string));
+        $this->setTitle(
+            $this->dic()->language()->txt('orgu_permission_settings_'
+                . $this->context_string)
+        );
         $this->setEnableHeader(true);
         $this->disable('sort');
         $this->setFormAction($this->dic()->ctrl()->getFormAction($a_parent_obj, $a_parent_cmd));
@@ -74,22 +76,21 @@ class ilOrgUnitDefaultPermissionTableGUI extends ilTable2GUI
 
 
     /**
-     * @param \ilOrgUnitOperation $row
-     *
-     * @return bool
+     * @param array $a_set
+     * @return void
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('OBJ_TYPE', $this->context_string);
-        $this->tpl->setVariable('PERM_PERM_ID', $row->getOperationId());
-        if ($this->ilOrgUnitPermission->isOperationIdSelected($row->getOperationId())) {
+        $this->tpl->setVariable('PERM_PERM_ID', $a_set->getOperationId());
+        if ($this->ilOrgUnitPermission->isOperationIdSelected($a_set->getOperationId())) {
             $this->tpl->setVariable('PERM_CHECKED', "checked=checked");
         }
         // $this->tpl->setVariable('PERM_DISABLED', "disabled=disabled");
         $this->tpl->setVariable('DESC_TYPE', $this->context_string);
-        $this->tpl->setVariable('DESC_PERM_ID', $row->getOperationId());
+        $this->tpl->setVariable('DESC_PERM_ID', $a_set->getOperationId());
         $this->tpl->setVariable('TXT_PERMISSION', $this->dic()->language()->txt('orgu_op_'
-            . $row->getOperationString()));
+            . $a_set->getOperationString()));
     }
 
 

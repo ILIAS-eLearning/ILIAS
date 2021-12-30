@@ -18,7 +18,7 @@
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem
+class ilCheckboxInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarItem, ilTableFilterItem
 {
     protected string $value = "1";
     protected bool $checked = false;

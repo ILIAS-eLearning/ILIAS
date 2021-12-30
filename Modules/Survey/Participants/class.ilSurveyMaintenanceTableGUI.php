@@ -79,7 +79,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');
@@ -135,7 +135,7 @@ class ilSurveyMaintenanceTableGUI extends ilTable2GUI
         }
     }
 
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'workingtime':

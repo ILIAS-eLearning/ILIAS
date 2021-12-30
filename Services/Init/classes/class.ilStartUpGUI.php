@@ -1440,12 +1440,12 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
         if ($hasPublicSection) {
             $tbl->setTitle($lng->txt("clientlist_available_clients"));
             $tbl->setHeaderNames(array($lng->txt("clientlist_installation_name"), $lng->txt("clientlist_login"), $lng->txt("clientlist_public_access")));
-            $tbl->setHeaderVars(array("name","index","login"));
+            $tbl->setHeaderVars(array("name", "index", "login"));
             $tbl->setColumnWidth(array("50%","25%","25%"));
         } else {
             $tbl->setTitle($lng->txt("clientlist_available_clients"));
             $tbl->setHeaderNames(array($lng->txt("clientlist_installation_name"), $lng->txt("clientlist_login"), ''));
-            $tbl->setHeaderVars(array("name","login",''));
+            $tbl->setHeaderVars(array("name", "login", ''));
             $tbl->setColumnWidth(array("70%","25%",'1px'));
         }
 

@@ -88,32 +88,32 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
     
     /**
      * Fill row
-     * @return
+     * @return void
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         
-        $this->tpl->setVariable('VAL_ID', $row['id']);
-        $this->tpl->setVariable('START', $row['start_p']);
-        $this->tpl->setVariable('TITLE', $row['title']);
+        $this->tpl->setVariable('VAL_ID', $a_set['id']);
+        $this->tpl->setVariable('START', $a_set['start_p']);
+        $this->tpl->setVariable('TITLE', $a_set['title']);
         
         if ($this->hasGroups()) {
-            $this->tpl->setVariable('TITLE_GROUP', $row['group']);
+            $this->tpl->setVariable('TITLE_GROUP', $a_set['group']);
         }
         
-        $this->tpl->setVariable('NUM_BOOKINGS', $row['num_bookings']);
+        $this->tpl->setVariable('NUM_BOOKINGS', $a_set['num_bookings']);
         
-        foreach ((array) $row['target_links'] as $link) {
+        foreach ((array) $a_set['target_links'] as $link) {
             $this->tpl->setCurrentBlock('links');
             $this->tpl->setVariable('TARGET', $link['title']);
             $this->tpl->setVariable('URL_TARGET', $link['link']);
             $this->tpl->parseCurrentBlock();
         }
-        if ($row['bookings']) {
-            foreach ($row['bookings'] as $user_id => $name) {
+        if ($a_set['bookings']) {
+            foreach ($a_set['bookings'] as $user_id => $name) {
                 $user_profile_prefs = ilObjUser::_getPreferences($user_id);
                 if ($user_profile_prefs["public_profile"] == "y") {
                     $this->tpl->setCurrentBlock('booking_with_link');
@@ -128,14 +128,14 @@ class ilConsultationHoursTableGUI extends ilTable2GUI
             }
         }
 
-        $this->tpl->setVariable('BOOKINGS', implode(', ', $row['bookings']));
+        $this->tpl->setVariable('BOOKINGS', implode(', ', $a_set['bookings']));
         
         include_once './Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php';
         $list = new ilAdvancedSelectionListGUI();
-        $list->setId('act_cht_' . $row['id']);
+        $list->setId('act_cht_' . $a_set['id']);
         $list->setListTitle($this->lng->txt('actions'));
 
-        $ilCtrl->setParameter($this->getParentObject(), 'apps', $row['id']);
+        $ilCtrl->setParameter($this->getParentObject(), 'apps', $a_set['id']);
         $list->addItem(
             $this->lng->txt('edit'),
             '',

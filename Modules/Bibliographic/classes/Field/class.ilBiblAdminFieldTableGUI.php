@@ -14,10 +14,6 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
      */
     protected $facade;
     /**
-     * @var ilBiblAdminFieldGUI
-     */
-    protected $parent_obj;
-    /**
      * @var array
      */
     protected $filter = [];
@@ -97,7 +93,7 @@ class ilBiblAdminFieldTableGUI extends ilTable2GUI
      * Fills table rows with content from $a_set.
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $field = $this->facade->fieldFactory()->findById($a_set['id']);
 

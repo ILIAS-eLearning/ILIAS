@@ -72,7 +72,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         $this->filters = [];
         $this->filter = [];
@@ -168,7 +168,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($this->hasAccessToMailSystem) {
             $a_set['chb'] = ilUtil::formCheckbox(0, 'usr_id[]', $a_set['usr_id']);
@@ -198,7 +198,7 @@ class ilBuddySystemRelationsTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function render()
+    public function render() : string
     {
         $listener_tpl = new ilTemplate(
             'tpl.buddy_system_relation_table_listener.html',

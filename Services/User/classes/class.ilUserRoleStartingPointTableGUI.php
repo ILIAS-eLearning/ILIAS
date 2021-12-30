@@ -14,7 +14,6 @@ include_once("Services/Table/classes/class.ilTable2GUI.php");
 class ilUserRoleStartingPointTableGUI extends ilTable2GUI
 {
     protected $log;
-    protected $parent_obj;
 
     const TABLE_POSITION_USER_CHOOSES = -1;
     const TABLE_POSITION_DEFAULT = 9999;
@@ -141,7 +140,7 @@ class ilUserRoleStartingPointTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

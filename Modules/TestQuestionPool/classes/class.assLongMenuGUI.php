@@ -676,10 +676,12 @@ class assLongMenuGUI extends assQuestionGUI implements ilGuiQuestionScoringAdjus
             $questionIndex
         );
         
-        $table->setTitle(sprintf(
-            $DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
-            $DIC->language()->txt('longmenu') . ' ' . ($questionIndex + 1)
-        ));
+        $table->setTitle(
+            sprintf(
+                $DIC->language()->txt('tst_corrections_answers_tbl_subindex'),
+                $DIC->language()->txt('longmenu') . ' ' . ($questionIndex + 1)
+            )
+        );
         
         return $table;
     }

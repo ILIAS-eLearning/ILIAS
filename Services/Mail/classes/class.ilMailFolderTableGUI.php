@@ -110,7 +110,7 @@ class ilMailFolderTableGUI extends ilTable2GUI
         return false;
     }
 
-    final protected function fillRow($a_set) : void
+    final protected function fillRow(array $a_set) : void
     {
         foreach ($this->removeInvisibleFields($a_set) as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);

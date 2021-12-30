@@ -109,14 +109,22 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
         if ($this->showAdvMetadata()) {
             // adv metadata init (adds filter)
-            $this->adv_filter_record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER, 'mep',
-                $this->media_pool->getId(), 'mob');
+            $this->adv_filter_record_gui = new ilAdvancedMDRecordGUI(
+                ilAdvancedMDRecordGUI::MODE_FILTER,
+                'mep',
+                $this->media_pool->getId(),
+                'mob'
+            );
             $this->adv_filter_record_gui->setTableGUI($this);
             $this->adv_filter_record_gui->parse();
 
             // adv metadata columns
-            $adv_th_record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_TABLE_HEAD, 'mep',
-                $this->media_pool->getId(), 'mob');
+            $adv_th_record_gui = new ilAdvancedMDRecordGUI(
+                ilAdvancedMDRecordGUI::MODE_TABLE_HEAD,
+                'mep',
+                $this->media_pool->getId(),
+                'mob'
+            );
             $adv_th_record_gui->setTableGUI($this);
             $adv_th_record_gui->parse();
             if ($a_mode == self::IL_MEP_SELECT) {
@@ -225,11 +233,10 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
     /**
      * Get HTML
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         $html = parent::getHTML();
         $html .= ilObjMediaPoolGUI::getPreviewModalHTML($this->media_pool->getRefId(), $this->parent_tpl);
@@ -240,7 +247,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
 
@@ -361,11 +368,10 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
     /**
      * Prepare output
-     *
      * @param
-     * @return
+     * @return void
      */
-    public function prepareOutput()
+    public function prepareOutput() : void
     {
         $lng = $this->lng;
         
@@ -380,7 +386,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     * Standard Version of Fill Row. Most likely to
     * be overwritten by derived class.
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;
@@ -390,8 +396,12 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
         // adv metadata columns
         if ($this->showAdvMetadata()) {
-            $adv_cell_record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_TABLE_CELLS, 'mep',
-                $this->media_pool->getId(), 'mob');
+            $adv_cell_record_gui = new ilAdvancedMDRecordGUI(
+                ilAdvancedMDRecordGUI::MODE_TABLE_CELLS,
+                'mep',
+                $this->media_pool->getId(),
+                'mob'
+            );
             $adv_cell_record_gui->setTableGUI($this);
             $adv_cell_record_gui->setRowData($a_set);
             $this->tpl->setVariable("ADV_CELLS", $adv_cell_record_gui->parse());
@@ -537,11 +547,10 @@ class ilMediaPoolTableGUI extends ilTable2GUI
 
     /**
      * get HTML
-     *
      * @param
-     * @return
+     * @return string
      */
-    public function render()
+    public function render() : string
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;

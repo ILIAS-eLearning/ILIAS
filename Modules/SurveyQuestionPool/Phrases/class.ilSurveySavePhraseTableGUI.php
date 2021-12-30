@@ -47,7 +47,7 @@ class ilSurveySavePhraseTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ANSWER", $a_set["answer"]);
         $this->tpl->setVariable("OPEN_ANSWER", ($a_set["other"]) ? $this->lng->txt('yes') : $this->lng->txt('no'));

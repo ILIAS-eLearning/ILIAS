@@ -42,12 +42,12 @@ class ilCmiXapiLrsTypesTableGUI extends ilTable2GUI
         $this->addColumn('', '', '1%');
     }
     
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('LRS_TYPE_TITLE', $data['title']);
-        $this->tpl->setVariable('LRS_TYPE_AVAILABILITY', $this->getAvailabilityLabel($data['availability']));
-        $this->tpl->setVariable('LRS_TYPE_USAGES', $data['usages'] ? $data['usages'] : '');
-        $this->tpl->setVariable('ACTIONS', $this->getActionsList($data)->getHTML());
+        $this->tpl->setVariable('LRS_TYPE_TITLE', $a_set['title']);
+        $this->tpl->setVariable('LRS_TYPE_AVAILABILITY', $this->getAvailabilityLabel($a_set['availability']));
+        $this->tpl->setVariable('LRS_TYPE_USAGES', $a_set['usages'] ? $a_set['usages'] : '');
+        $this->tpl->setVariable('ACTIONS', $this->getActionsList($a_set)->getHTML());
     }
     
     protected function getAvailabilityLabel($availability)

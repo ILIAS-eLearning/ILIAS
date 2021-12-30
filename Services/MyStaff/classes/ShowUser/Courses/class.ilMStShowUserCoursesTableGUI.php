@@ -123,7 +123,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     /**
      *
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -178,7 +178,7 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         global $DIC;
 
@@ -234,27 +234,27 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilMStListCourse $profile
+     * @param array $a_set
      */
-    public function fillRow($profile)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
-        }, $profile, $profile);
+        }, $a_set, $a_set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
                 switch ($k) {
                     case 'usr_reg_status':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMStListCourse::getMembershipStatusText($profile->getUsrRegStatus())));
+                        $this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMStListCourse::getMembershipStatusText($a_set->getUsrRegStatus())));
                         $this->tpl->parseCurrentBlock();
                         break;
                     case 'usr_lp_status':
                         $this->tpl->setCurrentBlock('td');
-                        $this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMyStaffGUI::getUserLpStatusAsHtml($profile)));
+                        $this->tpl->setVariable('VALUE', $this->getSpaceOrValue(ilMyStaffGUI::getUserLpStatusAsHtml($a_set)));
                         $this->tpl->parseCurrentBlock();
                         break;
                     default:
@@ -275,10 +275,10 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
         $actions = new ilAdvancedSelectionListGUI();
         $actions->setListTitle($DIC->language()->txt("actions"));
         $actions->setAsynch(true);
-        $actions->setId($profile->getUsrId() . "-" . $profile->getCrsRefId());
+        $actions->setId($a_set->getUsrId() . "-" . $a_set->getCrsRefId());
 
-        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_usr_id', $profile->getUsrId());
-        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_crs_ref_id', $profile->getCrsRefId());
+        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_usr_id', $a_set->getUsrId());
+        $DIC->ctrl()->setParameterByClass(ilMStShowUserCoursesGUI::class, 'mst_lco_crs_ref_id', $a_set->getCrsRefId());
 
         $actions->setAsynchUrl(str_replace("\\", "\\\\", $DIC->ctrl()
             ->getLinkTarget($this->parent_obj, ilMStShowUserCoursesGUI::CMD_GET_ACTIONS, "", true)));
@@ -288,14 +288,14 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilExcel         $a_excel excel wrapper
-     * @param int             $a_row
-     * @param ilMStListCourse $selected_skill
+     * @param ilExcel $a_excel excel wrapper
+     * @param int     $a_row
+     * @param array   $a_set
      */
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $selected_skill)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $col = 0;
-        foreach ($this->getFieldValuesForExport($selected_skill) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -303,12 +303,12 @@ class ilMStShowUserCoursesTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilCSVWriter     $a_csv
-     * @param ilMStListCourse $selected_skill
+     * @param ilCSVWriter $a_csv
+     * @param array       $a_set
      */
-    protected function fillRowCSV($a_csv, $selected_skill)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
-        foreach ($this->getFieldValuesForExport($selected_skill) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();

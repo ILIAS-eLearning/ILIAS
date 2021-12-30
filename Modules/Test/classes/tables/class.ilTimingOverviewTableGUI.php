@@ -34,13 +34,13 @@ class ilTimingOverviewTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $data
+     * @param array $a_set
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("LOGIN", $data['login']);
-        $this->tpl->setVariable("NAME", $data['name']);
-        $this->tpl->setVariable("STARTED", $data['started']);
-        $this->tpl->setVariable("EXTRATIME", ilDatePresentation::secondsToString($data['extratime'] * 60));
+        $this->tpl->setVariable("LOGIN", $a_set['login']);
+        $this->tpl->setVariable("NAME", $a_set['name']);
+        $this->tpl->setVariable("STARTED", $a_set['started']);
+        $this->tpl->setVariable("EXTRATIME", ilDatePresentation::secondsToString($a_set['extratime'] * 60));
     }
 }

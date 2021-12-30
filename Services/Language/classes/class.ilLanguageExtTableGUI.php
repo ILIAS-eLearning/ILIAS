@@ -44,7 +44,7 @@ class ilLanguageExtTableGUI extends ilTable2GUI
     /**
      * Fill a single data row.
      */
-    protected function fillRow($data) : void
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilDB = $DIC->database();
@@ -53,35 +53,35 @@ class ilLanguageExtTableGUI extends ilTable2GUI
 
         // mantis #25237
         // @see https://php.net/manual/en/language.variables.external.php
-        $data["name"] = str_replace(".", "_POSTDOT_", $data["name"]);
-        $data["name"] = str_replace(" ", "_POSTSPACE_", $data["name"]);
+        $a_set["name"] = str_replace(".", "_POSTDOT_", $a_set["name"]);
+        $a_set["name"] = str_replace(" ", "_POSTSPACE_", $a_set["name"]);
 
         if ($this->params["langmode"]) {
             $this->tpl->setCurrentBlock("comment");
-            $this->tpl->setVariable("COM_ID", ilUtil::prepareFormOutput($data["name"] . $lng->separator . "comment"));
-            $this->tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($data["name"] . $lng->separator . "comment"));
-            $this->tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($data["comment"]));
+            $this->tpl->setVariable("COM_ID", ilUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment"));
+            $this->tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment"));
+            $this->tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($a_set["comment"]));
             $this->tpl->setVariable("COM_SIZE", $this->commentsize);
             $this->tpl->setVariable("COM_MAX", 250);
             $this->tpl->setVariable("TXT_COMMENT", $lng->txt("comment"));
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock("hidden_comment");
-            $this->tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($data["name"] . $lng->separator . "comment"));
-            $this->tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($data["comment"]));
+            $this->tpl->setVariable("COM_NAME", ilUtil::prepareFormOutput($a_set["name"] . $lng->separator . "comment"));
+            $this->tpl->setVariable("COM_VALUE", ilUtil::prepareFormOutput($a_set["comment"]));
             $this->tpl->parseCurrentBlock();
         }
 
-        $this->tpl->setVariable("T_ROWS", ceil(strlen($data["translation"]) / $this->inputsize));
+        $this->tpl->setVariable("T_ROWS", ceil(strlen($a_set["translation"]) / $this->inputsize));
         $this->tpl->setVariable("T_SIZE", $this->inputsize);
-        $this->tpl->setVariable("T_NAME", ilUtil::prepareFormOutput($data["name"]));
-        $this->tpl->setVariable("T_USER_VALUE", ilUtil::prepareFormOutput($data["translation"]));
+        $this->tpl->setVariable("T_NAME", ilUtil::prepareFormOutput($a_set["name"]));
+        $this->tpl->setVariable("T_USER_VALUE", ilUtil::prepareFormOutput($a_set["translation"]));
 
-        $this->tpl->setVariable("MODULE", ilUtil::prepareFormOutput($data["module"]));
-        $this->tpl->setVariable("TOPIC", ilUtil::prepareFormOutput($data["topic"]));
+        $this->tpl->setVariable("MODULE", ilUtil::prepareFormOutput($a_set["module"]));
+        $this->tpl->setVariable("TOPIC", ilUtil::prepareFormOutput($a_set["topic"]));
 
-        $this->tpl->setVariable("DEFAULT_VALUE", ilUtil::prepareFormOutput($data["default"]));
-        $this->tpl->setVariable("COMMENT", ilUtil::prepareFormOutput($data["default_comment"]));
+        $this->tpl->setVariable("DEFAULT_VALUE", ilUtil::prepareFormOutput($a_set["default"]));
+        $this->tpl->setVariable("COMMENT", ilUtil::prepareFormOutput($a_set["default_comment"]));
     }
 
     /**

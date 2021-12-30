@@ -83,7 +83,7 @@ class ilObjWorkspaceFolderTableGUI extends ilTable2GUI
         $this->setData($nodes);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $objDefinition = $this->obj_definition;
         $ilCtrl = $this->ctrl;

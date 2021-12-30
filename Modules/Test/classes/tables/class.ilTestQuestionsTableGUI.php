@@ -91,7 +91,7 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $cols = array(
             'qid' => array('txt' => $this->lng->txt('question_id'), 'default' => true),
@@ -188,59 +188,58 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         if ($this->isCheckboxColumnRequired()) {
-            $this->tpl->setVariable("CHECKBOX_QID", $data['question_id']);
+            $this->tpl->setVariable("CHECKBOX_QID", $a_set['question_id']);
         }
         
         if ($this->isQuestionPositioningEnabled()) {
             $this->position += 10;
-            $inputField = $this->buildPositionInput($data['question_id'], $this->position);
+            $inputField = $this->buildPositionInput($a_set['question_id'], $this->position);
             
             $this->tpl->setVariable("QUESTION_POSITION", $inputField);
-            $this->tpl->setVariable("POSITION_QID", $data['question_id']);
+            $this->tpl->setVariable("POSITION_QID", $a_set['question_id']);
         }
         
         if ($this->isColumnSelected('qid')) {
-            $this->tpl->setVariable("QUESTION_ID_PRESENTATION", $data['question_id']);
+            $this->tpl->setVariable("QUESTION_ID_PRESENTATION", $a_set['question_id']);
         }
         
         if ($this->isQuestionTitleLinksEnabled()) {
-            $this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($data));
+            $this->tpl->setVariable("QUESTION_TITLE", $this->buildQuestionTitleLink($a_set));
         } else {
-            $this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
+            $this->tpl->setVariable("QUESTION_TITLE", $a_set["title"]);
         }
         
-        if (!$data['complete']) {
+        if (!$a_set['complete']) {
             $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
             $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
             $this->tpl->setVariable("TITLE_WARNING", $this->lng->txt("warning_question_not_complete"));
         }
         
         if ($this->isObligatoryQuestionsHandlingEnabled()) {
-            $this->tpl->setVariable("QUESTION_OBLIGATORY", $this->buildObligatoryColumnContent($data));
+            $this->tpl->setVariable("QUESTION_OBLIGATORY", $this->buildObligatoryColumnContent($a_set));
         }
         
         if ($this->isColumnSelected('description')) {
-            $this->tpl->setVariable("QUESTION_COMMENT", $data["description"] ? $data["description"] : '&nbsp;');
+            $this->tpl->setVariable("QUESTION_COMMENT", $a_set["description"] ? $a_set["description"] : '&nbsp;');
         }
         
-        $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($data["type_tag"]));
-        $this->tpl->setVariable("QUESTION_POINTS", $data["points"]);
+        $this->tpl->setVariable("QUESTION_TYPE", assQuestion::_getQuestionTypeName($a_set["type_tag"]));
+        $this->tpl->setVariable("QUESTION_POINTS", $a_set["points"]);
         
         if ($this->isColumnSelected('author')) {
-            $this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+            $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
         }
         
         if ($this->isColumnSelected('lifecycle')) {
             try {
-                $lifecycle = ilAssQuestionLifecycle::getInstance($data['lifecycle'])->getTranslation($this->lng);
+                $lifecycle = ilAssQuestionLifecycle::getInstance($a_set['lifecycle'])->getTranslation($this->lng);
                 $this->tpl->setVariable("QUESTION_LIFECYCLE", $lifecycle);
             } catch (ilTestQuestionPoolInvalidArgumentException $e) {
                 $this->tpl->setVariable("QUESTION_LIFECYCLE", '');
@@ -248,17 +247,17 @@ class ilTestQuestionsTableGUI extends ilTable2GUI
         }
 
         if ($this->isColumnSelected('working_time')) {
-            $this->tpl->setVariable("QUESTION_WORKING_TIME", $data["working_time"]);
+            $this->tpl->setVariable("QUESTION_WORKING_TIME", $a_set["working_time"]);
         }
 
-        if (ilObject::_lookupType($data["orig_obj_fi"]) == 'qpl') {
-            $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($data["orig_obj_fi"]));
+        if (ilObject::_lookupType($a_set["orig_obj_fi"]) == 'qpl') {
+            $this->tpl->setVariable("QUESTION_POOL", ilObject::_lookupTitle($a_set["orig_obj_fi"]));
         } else {
             $this->tpl->setVariable("QUESTION_POOL", $this->lng->txt('tst_question_not_from_pool_info'));
         }
         
         if ($this->isQuestionRemoveRowButtonEnabled()) {
-            $this->tpl->setVariable('ROW_ACTIONS', $this->buildQuestionRemoveButton($data));
+            $this->tpl->setVariable('ROW_ACTIONS', $this->buildQuestionRemoveButton($a_set));
         }
     }
     

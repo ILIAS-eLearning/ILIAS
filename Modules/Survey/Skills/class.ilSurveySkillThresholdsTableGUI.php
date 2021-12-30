@@ -97,7 +97,7 @@ class ilSurveySkillThresholdsTableGUI extends ilTable2GUI
         return $bs->getLevelData();
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

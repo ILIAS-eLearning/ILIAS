@@ -232,7 +232,7 @@ class ilCronManagerTableGUI extends ilTable2GUI
         return $this;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if ($this->mayWrite) {
             $this->tpl->setVariable('VAL_JID', $a_set['job_id']);

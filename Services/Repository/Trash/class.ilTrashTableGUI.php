@@ -170,7 +170,7 @@ class ilTrashTableGUI extends ilTable2GUI
         $this->setData($rows);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('ID', $a_set['id']);
         $this->tpl->setVariable('VAL_TITLE', $a_set['title']);

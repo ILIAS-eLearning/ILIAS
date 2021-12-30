@@ -66,8 +66,10 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
             $this->addColumn($this->lng->txt("survey_code_url"));
             $this->addColumn($this->lng->txt("survey_360_rater_mail_sent"), "sent");
             
-            $this->setTitle($this->lng->txt("survey_360_edit_raters") . " : " .
-                ilUserUtil::getNamePresentation($this->edit_request->getAppraiseeId()));
+            $this->setTitle(
+                $this->lng->txt("survey_360_edit_raters") . " : " .
+                    ilUserUtil::getNamePresentation($this->edit_request->getAppraiseeId())
+            );
         }
     
         $this->setRowTemplate("tpl.il_svy_svy_appraisees_row.html", "Modules/Survey");
@@ -92,7 +94,7 @@ class ilSurveyAppraiseesTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
                 

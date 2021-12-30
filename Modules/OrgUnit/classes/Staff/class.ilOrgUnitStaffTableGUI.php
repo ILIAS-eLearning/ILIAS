@@ -122,24 +122,24 @@ class ilOrgUnitStaffTableGUI extends ilTable2GUI
     }
 
 
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilUser = $DIC['ilUser'];
         $ilAccess = $DIC['ilAccess'];
         $lng = $DIC['lng'];
         $ilAccess = $DIC['ilAccess'];
-        $this->tpl->setVariable("FIRST_NAME", $set["first_name"]);
-        $this->tpl->setVariable("LAST_NAME", $set["last_name"]);
+        $this->tpl->setVariable("FIRST_NAME", $a_set["first_name"]);
+        $this->tpl->setVariable("LAST_NAME", $a_set["last_name"]);
         if ($this->recursive) {
-            $orgUnitsTitles = array_values(ilObjOrgUnitTree::_getInstance()->getTitles($set['org_units']));
+            $orgUnitsTitles = array_values(ilObjOrgUnitTree::_getInstance()->getTitles($a_set['org_units']));
             $this->tpl->setVariable("ORG_UNITS", implode(', ', $orgUnitsTitles));
         }
-        $this->ctrl->setParameterByClass("illearningprogressgui", "obj_id", $set["user_id"]);
-        $this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $set["user_id"]);
+        $this->ctrl->setParameterByClass("illearningprogressgui", "obj_id", $a_set["user_id"]);
+        $this->ctrl->setParameterByClass("ilobjorgunitgui", "obj_id", $a_set["user_id"]);
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($lng->txt("Actions"));
-        $selection->setId("selection_list_user_lp_" . $set["user_id"]);
+        $selection->setId("selection_list_user_lp_" . $a_set["user_id"]);
 
         if ($ilAccess->checkAccess("view_learning_progress", "", $_GET["ref_id"]) and ilObjUserTracking::_enabledLearningProgress() and
             ilObjUserTracking::_enabledUserRelatedData()

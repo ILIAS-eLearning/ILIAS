@@ -166,7 +166,7 @@ class ilTermsOfServiceAcceptanceHistoryTableGUI extends ilTermsOfServiceTableGUI
         return $this->uiRenderer->render([$titleLink, $modal]);
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         return 'ts' === $a_field;
     }

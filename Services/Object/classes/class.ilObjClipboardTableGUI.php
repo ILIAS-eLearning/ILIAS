@@ -10,11 +10,6 @@
 class ilObjClipboardTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd)
@@ -40,7 +35,7 @@ class ilObjClipboardTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         //var_dump($a_set);

@@ -111,7 +111,7 @@ abstract class ilTermsOfServiceTableGUI extends ilTable2GUI
         return false;
     }
 
-    final protected function fillRow($a_set) : void
+    final protected function fillRow(array $a_set) : void
     {
         $this->prepareRow($a_set);
 

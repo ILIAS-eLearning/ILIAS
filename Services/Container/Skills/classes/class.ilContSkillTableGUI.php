@@ -25,16 +25,6 @@
 class ilContSkillTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilGlobalTemplateInterface
      */
     protected $tpl;
@@ -90,7 +80,7 @@ class ilContSkillTableGUI extends ilTable2GUI
         return $skills;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
 

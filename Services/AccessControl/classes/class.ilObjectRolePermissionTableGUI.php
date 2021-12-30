@@ -146,9 +146,9 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     
     /**
      * Init role filter
-     * @return
+     * @return void
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -183,10 +183,10 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
     
     /**
      * Fill one permission row
-     * @param object $row
-     * @return
+     * @param array $a_set
+     * @return void
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -194,8 +194,8 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
         
         
         // local policy
-        if (isset($row['show_local_policy_row'])) {
-            foreach ($row['roles'] as $role_id => $role_info) {
+        if (isset($a_set['show_local_policy_row'])) {
+            foreach ($a_set['roles'] as $role_id => $role_info) {
                 $this->tpl->setCurrentBlock('role_option');
                 $this->tpl->setVariable('INHERIT_ROLE_ID', $role_id);
                 $this->tpl->setVariable('INHERIT_CHECKED', $role_info['local_policy'] ? 'checked=checked' : '');
@@ -204,11 +204,11 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('INHERIT_LONG', $this->lng->txt('perm_use_local_policy_desc'));
                 $this->tpl->parseCurrentBlock();
             }
-            return true;
+            return;
         }
         // protected
-        if (isset($row['show_protected_row'])) {
-            foreach ($row['roles'] as $role_id => $role_info) {
+        if (isset($a_set['show_protected_row'])) {
+            foreach ($a_set['roles'] as $role_id => $role_info) {
                 $this->tpl->setCurrentBlock('role_protect');
                 $this->tpl->setVariable('PROTECT_ROLE_ID', $role_id);
                 $this->tpl->setVariable('PROTECT_CHECKED', $role_info['protected_status'] ? 'checked=checked' : '');
@@ -217,11 +217,11 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
                 $this->tpl->setVariable('PROTECT_LONG', $this->lng->txt('role_protect_permissions_desc'));
                 $this->tpl->parseCurrentBlock();
             }
-            return true;
+            return;
         }
         
         // block role
-        if (isset($row['show_block_row'])) {
+        if (isset($a_set['show_block_row'])) {
             foreach ($this->getVisibleRoles() as $counter => $role_info) {
                 $this->tpl->setCurrentBlock('role_block');
                 $this->tpl->setVariable('BLOCK_ROLE_ID', $role_info['obj_id']);
@@ -239,70 +239,70 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
                 
                 $this->tpl->parseCurrentBlock();
             }
-            return true;
+            return;
         }
 
         // Select all
-        if (isset($row['show_select_all'])) {
+        if (isset($a_set['show_select_all'])) {
             foreach ($this->getVisibleRoles() as $role) {
                 $this->tpl->setCurrentBlock('role_select_all');
                 $this->tpl->setVariable('JS_ROLE_ID', $role['obj_id']);
-                $this->tpl->setVariable('JS_SUBID', $row['subtype']);
-                $this->tpl->setVariable('JS_ALL_PERMS', "['" . implode("','", $row['ops']) . "']");
+                $this->tpl->setVariable('JS_SUBID', $a_set['subtype']);
+                $this->tpl->setVariable('JS_ALL_PERMS', "['" . implode("','", $a_set['ops']) . "']");
                 $this->tpl->setVariable('JS_FORM_NAME', $this->getFormName());
                 $this->tpl->setVariable('TXT_SEL_ALL', $this->lng->txt('select_all'));
                 $this->tpl->parseCurrentBlock();
             }
-            return true;
+            return;
         }
 
         // Object permissions
-        if (isset($row['show_start_info'])) {
+        if (isset($a_set['show_start_info'])) {
             $this->tpl->setCurrentBlock('section_info');
             $this->tpl->setVariable('SECTION_TITLE', $this->lng->txt('perm_class_object'));
             $this->tpl->setVariable('SECTION_DESC', $this->lng->txt('perm_class_object_desc'));
             $this->tpl->parseCurrentBlock();
             
-            return true;
+            return;
         }
 
-        if (isset($row['show_create_info'])) {
+        if (isset($a_set['show_create_info'])) {
             $this->tpl->setCurrentBlock('section_info');
             $this->tpl->setVariable('SECTION_TITLE', $this->lng->txt('perm_class_create'));
             $this->tpl->setVariable('SECTION_DESC', $this->lng->txt('perm_class_create_desc'));
             $this->tpl->parseCurrentBlock();
             
-            return true;
+            return;
         }
 
-        foreach ((array) $row['roles'] as $role_id => $role_info) {
+        foreach ((array) $a_set['roles'] as $role_id => $role_info) {
             $perm = "";
             $this->tpl->setCurrentBlock('role_td');
             $this->tpl->setVariable('PERM_ROLE_ID', $role_id);
-            $this->tpl->setVariable('PERM_PERM_ID', $row['perm']['ops_id']);
+            $this->tpl->setVariable('PERM_PERM_ID', $a_set['perm']['ops_id']);
             
             
-            if (substr($row['perm']['operation'], 0, 6) == 'create') {
-                if ($objDefinition->isPlugin(substr($row['perm']['operation'], 7))) {
+            if (substr($a_set['perm']['operation'], 0, 6) == 'create') {
+                if ($objDefinition->isPlugin(substr($a_set['perm']['operation'], 7))) {
                     $perm = ilObjectPlugin::lookupTxtById(
-                        substr($row['perm']['operation'], 7),
-                        "obj_" . substr($row['perm']['operation'], 7)
+                        substr($a_set['perm']['operation'], 7),
+                        "obj_" . substr($a_set['perm']['operation'], 7)
                     );
                 } else {
-                    $perm = $this->lng->txt('obj_' . substr($row['perm']['operation'], 7));
+                    $perm = $this->lng->txt('obj_' . substr($a_set['perm']['operation'], 7));
                 }
             } else {
                 if ($objDefinition->isPlugin($this->getObjType())) {
-                    if (ilObjectPlugin::langExitsById($this->getObjType(), $row['perm']['operation'])) {
-                        $perm = ilObjectPlugin::lookupTxtById($this->getObjType(), $row['perm']['operation']);
+                    if (ilObjectPlugin::langExitsById($this->getObjType(), $a_set['perm']['operation'])) {
+                        $perm = ilObjectPlugin::lookupTxtById($this->getObjType(), $a_set['perm']['operation']);
                     }
                 }
 
                 if (!$perm) {
-                    if ($this->lng->exists($this->getObjType() . '_' . $row['perm']['operation'] . '_short')) {
-                        $perm = $this->lng->txt($this->getObjType() . '_' . $row['perm']['operation'] . '_short');
+                    if ($this->lng->exists($this->getObjType() . '_' . $a_set['perm']['operation'] . '_short')) {
+                        $perm = $this->lng->txt($this->getObjType() . '_' . $a_set['perm']['operation'] . '_short');
                     } else {
-                        $perm = $this->lng->txt($row['perm']['operation']);
+                        $perm = $this->lng->txt($a_set['perm']['operation']);
                     }
                 }
             }
@@ -312,12 +312,12 @@ class ilObjectRolePermissionTableGUI extends ilTable2GUI
             if ($objDefinition->isPlugin($this->getObjType())) {
                 $this->tpl->setVariable('PERM_LONG', ilObjectPlugin::lookupTxtById(
                     $this->getObjType(),
-                    $this->getObjType() . "_" . $row['perm']['operation']
+                    $this->getObjType() . "_" . $a_set['perm']['operation']
                 ));
-            } elseif (substr($row['perm']['operation'], 0, 6) == 'create') {
-                $this->tpl->setVariable('PERM_LONG', $this->lng->txt('rbac_' . $row['perm']['operation']));
+            } elseif (substr($a_set['perm']['operation'], 0, 6) == 'create') {
+                $this->tpl->setVariable('PERM_LONG', $this->lng->txt('rbac_' . $a_set['perm']['operation']));
             } else {
-                $this->tpl->setVariable('PERM_LONG', $this->lng->txt($this->getObjType() . '_' . $row['perm']['operation']));
+                $this->tpl->setVariable('PERM_LONG', $this->lng->txt($this->getObjType() . '_' . $a_set['perm']['operation']));
             }
             
             if ($role_info['protected'] || $role_info['blocked']) {

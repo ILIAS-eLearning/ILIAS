@@ -74,9 +74,9 @@ class ilBookingSchedulesTableGUI extends ilTable2GUI
 
     /**
      * Fill table row
-     * @param	array	$a_set
+     * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilAccess = $this->access;

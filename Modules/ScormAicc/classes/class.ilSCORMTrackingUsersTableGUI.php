@@ -72,7 +72,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function initFilter()
+    public function initFilter() : void
     {
         $item = $this->addFilterItemByMetaType("lastname", ilTable2GUI::FILTER_TEXT);
         $this->filter["lastname"] = $item->getValue();
@@ -82,7 +82,7 @@ class ilSCORMTrackingUsersTableGUI extends ilTable2GUI
      * Fill row template
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

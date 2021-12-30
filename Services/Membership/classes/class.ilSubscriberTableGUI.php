@@ -145,9 +145,9 @@ class ilSubscriberTableGUI extends ilTable2GUI
     
     /**
      * Get selectable columns
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         if (self::$all_columns) {
             return self::$all_columns;
@@ -180,12 +180,11 @@ class ilSubscriberTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
