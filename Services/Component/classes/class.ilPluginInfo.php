@@ -93,6 +93,11 @@ class ilPluginInfo
         return "il" . $this->getName() . "Plugin";
     }
 
+    public function getConfigGUIClassName() : string
+    {
+        return "il" . $this->getName() . "ConfigGUI";
+    }
+
     /**
      * "activated" tells if the administrator of the installation
      * wants the plugin to be effective. Compare to "active".

@@ -113,8 +113,7 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $a_set
-     * @return array
+     * @return array<string, string> where key is the caption and value is the action
      */
     protected function getActionMenuEntries(ilPluginInfo $plugin) : array
     {
@@ -130,9 +129,9 @@ class ilPluginsOverviewTableGUI extends ilTable2GUI
         if (!$plugin->isInstalled()) {
             $this->addCommandToActions($actions, "cmps_install", ilObjComponentSettingsGUI::CMD_INSTALL_PLUGIN);
         } else {
-            if (ilPlugin::hasConfigureClass($plugin)) {
+            if ($plugin->isCompliantToILIAS() && class_exists($plugin->getConfigGUIClassName())) {
                 $actions[$this->lng->txt("cmps_configure")]
-                    = $this->ctrl->getLinkTargetByClass($a_set["config_class"], ilObjComponentSettingsGUI::CMD_CONFIGURE);
+                    = $this->ctrl->getLinkTargetByClass($plugin->getConfigGUIClassName(), ilObjComponentSettingsGUI::CMD_CONFIGURE);
             }
 
             if ($language_handler->hasAvailableLangFiles()) {

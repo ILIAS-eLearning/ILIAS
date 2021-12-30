@@ -327,10 +327,10 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
             );
         } else {
             // configure button
-            if (ilPlugin::hasConfigureClass($plugin)) {
+            if ($plugin->isCompliantToILIAS() && class_exists($plugin->getConfigGUIClassName())) {
                 $this->toolbar->addButton(
                     $this->lng->txt("cmps_configure"),
-                    $this->ctrl->getLinkTargetByClass(strtolower(ilPlugin::getConfigureClassName($plugin)), self::CMD_CONFIGURE)
+                    $this->ctrl->getLinkTargetByClass(strtolower($plugin->getConfigGUIClassName()), self::CMD_CONFIGURE)
                 );
             }
             // refresh languages button
