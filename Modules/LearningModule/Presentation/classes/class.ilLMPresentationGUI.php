@@ -214,7 +214,7 @@ class ilLMPresentationGUI
             $DIC->globalScreen()->tool()->context()->claim()->repository();
 
             // moved this into the if due to #0027200
-            if ($this->service->getPresentationStatus()->isTocNecessary()) {
+            if ($this->lm->isActiveTOC() && $this->service->getPresentationStatus()->isTocNecessary()) {
                 $DIC->globalScreen()->tool()->context()->current()->addAdditionalData(
                     ilLMGSToolProvider::SHOW_TOC_TOOL,
                     true
