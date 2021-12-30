@@ -89,6 +89,7 @@ class Util
      */
     public function exportResourceFiles()
     {
+        global $DIC;
         $global_screen = $this->global_screen;
         $target_dir = $this->target_dir;
         $css = $global_screen->layout()->meta()->getCss();
@@ -99,6 +100,36 @@ class Util
         foreach ($js->getItemsInOrderOfDelivery() as $item) {
             $this->exportResourceFile($target_dir, $item->getContent());
         }
+
+        $skinDir = "Customizing/global/skin/" . $DIC->systemStyle()->getSkin()->getId();
+        $substr_len = strlen(realpath($skinDir)) - strlen($skinDir);
+        $files = $this->getDirContentsRecursive($skinDir, $substr_len);
+
+        foreach ($files as $file) {
+            $this->exportResourceFile($target_dir, $file);
+        }
+    }
+
+    /**
+     * Get all files in the directory, recursively
+     */
+    protected function getDirContentsRecursive(string $dir, $substr_len, &$results = array())
+    {
+        $files = scandir($dir);
+        $ignore = "/(xsd|dtd|xml)$/i";
+
+        foreach ($files as $key => $value) {
+            $path = realpath($dir . DIRECTORY_SEPARATOR . $value);
+            if (! is_dir($path)) {
+                if(! preg_match($ignore, $value)) {
+                    $results[] = substr($path, $substr_len);
+                }
+	        } else if ($value != "." && $value != "..") {
+                $this->getDirContentsRecursive($path, $substr_len, $results);
+            }
+        }
+
+        return $results;
     }
 
     /**
