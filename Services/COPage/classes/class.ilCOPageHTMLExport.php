@@ -97,7 +97,7 @@ class ilCOPageHTMLExport
         $this->tex_dir = $a_exp_dir . "/teximg";
         $this->content_style_dir = $a_exp_dir . "/content_style";
         $this->content_style_img_dir = $a_exp_dir . "/content_style/images";
-        
+
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
         $this->services_dir = $a_exp_dir . "/Services";
         $this->media_service_dir = $this->services_dir . "/MediaObjects";
@@ -118,7 +118,7 @@ class ilCOPageHTMLExport
     {
         $this->content_style_id = $a_val;
     }
-    
+
     /**
      * Get content style id
      *
@@ -128,7 +128,7 @@ class ilCOPageHTMLExport
     {
         return $this->content_style_id;
     }
-    
+
     /**
      * Create directories
      *
@@ -146,13 +146,13 @@ class ilCOPageHTMLExport
         ilUtil::makeDir($this->media_service_dir);
         ilUtil::makeDir($this->flv_dir);
         ilUtil::makeDir($this->mp3_dir);
-        
+
         ilUtil::makeDir($this->js_dir);
         ilUtil::makeDir($this->js_yahoo_dir);
         ilUtil::makeDir($this->css_dir);
         ilUtil::makeDir($this->css_dir . "/yahoo");
     }
-    
+
     /**
      * Export content style
      *
@@ -175,12 +175,12 @@ class ilCOPageHTMLExport
             $this->exportResourceFile($this->exp_dir,
                 ilObjStyleSheet::getContentStylePath($this->getContentStyleId(), false, false));
         }
-        
+
         // export syntax highlighting style
         $syn_stylesheet = ilObjStyleSheet::getSyntaxStylePath();
         $this->exportResourceFile($this->exp_dir, $syn_stylesheet);
     }
-    
+
     /**
      * Export support scripts
      *
@@ -204,7 +204,7 @@ class ilCOPageHTMLExport
         }
 
         //copy('./Services/UIComponent/Overlay/js/ilOverlay.js', $this->js_dir . '/ilOverlay.js');
-        
+
 
         // yui stuff we use
         /*
@@ -278,7 +278,7 @@ class ilCOPageHTMLExport
 
 
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
-        
+
         if ($a_tpl != "") {
             $tpl = $a_tpl;
         } else {
@@ -308,7 +308,7 @@ class ilCOPageHTMLExport
 
         return $tpl;
     }
-    
+
     /**
      * Collect page elements (that need to be exported separately)
      *
@@ -390,7 +390,7 @@ class ilCOPageHTMLExport
         foreach ($pcs as $pc) {
             if ($pc["type"] == "skmg") {
                 $skill_id = $pc["id"];
-                
+
                 // trying to find user id
                 $user_id = null;
                 switch ($a_type) {
@@ -399,32 +399,32 @@ class ilCOPageHTMLExport
                         $page = new ilPortfolioPage($a_id);
                         $user_id = $page->create_user;
                         break;
-                    
+
                     default:
                         // :TODO:
                         break;
                 }
-                
+
                 if ($user_id) {
                     // we only need 1 instance each
                     if (!$skill_tree) {
-                        include_once "Services/Skill/classes/class.ilSkillTree.php";
+                        //include_once "Services/Skill/classes/class.ilSkillTree.php";
                         $skill_tree = new ilSkillTree();
 
-                        include_once "Services/Skill/classes/class.ilPersonalSkill.php";
+                        //include_once "Services/Skill/classes/class.ilPersonalSkill.php";
 
-                        include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
+                        //include_once "Services/PersonalWorkspace/classes/class.ilWorkspaceTree.php";
                         $ws_tree = new ilWorkspaceTree($user_id);
                     }
 
                     // walk skill tree
-                    include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
+                    //include_once("./Services/Skill/classes/class.ilVirtualSkillTree.php");
                     $vtree = new ilVirtualSkillTree();
                     $tref_id = 0;
                     $skill_id = (int) $skill_id;
-                    include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
+                    //include_once("./Services/Skill/classes/class.ilSkillTreeNode.php");
                     if (ilSkillTreeNode::_lookupType($skill_id) == "sktr") {
-                        include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
+                        //include_once("./Services/Skill/classes/class.ilSkillTemplateReference.php");
                         $tref_id = $skill_id;
                         $skill_id = ilSkillTemplateReference::_lookupTemplateId($skill_id);
                     }
@@ -460,7 +460,7 @@ class ilCOPageHTMLExport
                                             $this->files_direct[$obj_id] = array($obj->getFilePath(),
                                                 $obj->getOfflineFilename());
                                             break;
-                                        
+
                                         case "crsv":
                                             include_once "Modules/Course/classes/Verification/class.ilObjCourseVerification.php";
                                             $obj = new ilObjCourseVerification($obj_id, false);
@@ -495,7 +495,7 @@ class ilCOPageHTMLExport
             }
         }
     }
-    
+
     /**
      * Export page elements
      *
@@ -535,7 +535,7 @@ class ilCOPageHTMLExport
                 $a_update_callback($total, $cnt);
             }
         }
-        
+
         // export all files (which are not objects
         foreach ($this->files_direct as $file_id => $attr) {
             $this->exportHTMLFileDirect($file_id, $attr[0], $attr[1]);
@@ -614,7 +614,7 @@ class ilCOPageHTMLExport
             fclose($fp);
             unset($fp);
         }
-        
+
         $linked_mobs = $mob_obj->getLinkedMediaObjects();
         $a_linked_mobs = array_merge($a_linked_mobs, $linked_mobs);
     }
@@ -659,7 +659,7 @@ class ilCOPageHTMLExport
     {
         $file_dir = $this->files_dir . "/file_" . $a_file_id;
         ilUtil::makeDir($file_dir);
-        
+
         include_once("./Modules/File/classes/class.ilObjFile.php");
         $file_obj = new ilObjFile($a_file_id, false);
         $source_file = $file_obj->getDirectory($file_obj->getVersion()) . "/" . $file_obj->getFileName();
@@ -670,7 +670,7 @@ class ilCOPageHTMLExport
             copy($source_file, $file_dir . "/" . $file_obj->getFileName());
         }
     }
-    
+
     /**
      * Export file from path
      */
@@ -678,7 +678,7 @@ class ilCOPageHTMLExport
     {
         $file_dir = $this->files_dir . "/file_" . $a_file_id;
         ilUtil::makeDir($file_dir);
-                                
+
         if (is_file($a_source_file)) {
             copy(
                 $a_source_file,

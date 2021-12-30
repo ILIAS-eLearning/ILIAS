@@ -39,7 +39,17 @@ class ilMediaPoolTableGUI extends ilTable2GUI
      * @var ilAdvancedMDRecordGUI
      */
     protected $adv_filter_record_gui;
-    
+
+    /**
+     * @var ilObjMediaPool
+     */
+    protected $media_pool;
+
+    /**
+     * @var \ILIAS\MediaPool\ilMediaPoolRepository
+     */
+    protected $pool_repo;
+
     /**
     * Constructor
     */
@@ -84,11 +94,14 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->setMode($a_mode);
         $this->all_objects = $a_all_objects;
         $lng->loadLanguageModule("mep");
-        
+
         $this->media_pool = $a_media_pool;
         $this->tree = ilObjMediaPool::_getPoolTree($this->media_pool->getId());
         $this->folder_par = $a_folder_par;
-        
+
+        include_once('./Modules/MediaPool/classes/class.ilMediaPoolRepository.php');
+        $this->pool_repo = new \ILIAS\MediaPool\ilMediaPoolRepository();
+
         if ($this->all_objects) {
             $this->setExternalSorting(true);
             $this->initFilter();
@@ -152,13 +165,13 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 );
             }
         }
-        
+
         // action commands
         if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
             $this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT) {
             $this->addMultiCommand("copyToClipboard", $lng->txt("cont_copy_to_clipboard"));
             $this->addMultiCommand("confirmRemove", $lng->txt("remove"));
-            
+
             if (!$this->all_objects) {
                 /*				$this->addCommandButton("createFolderForm", $lng->txt("mep_create_folder"));
                                 $this->addCommandButton("createMediaObject", $lng->txt("mep_create_mob"));
@@ -175,7 +188,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
             // ... even more coupling with ilpcmediaobjectgui
             $this->addMultiCommand("selectObjectReference", $lng->txt("cont_select"));
         }
-        
+
         if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT &&
             $ilAccess->checkAccess("write", "", $this->media_pool->getRefId())) {
             $this->setSelectAllCheckbox("id");
@@ -215,7 +228,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     {
         $this->insert_command = $a_val;
     }
-    
+
     /**
      * Get inser command
      *
@@ -239,17 +252,16 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $html .= ilObjMediaPoolGUI::getPreviewModalHTML($this->media_pool->getRefId(), $this->parent_tpl);
         return $html;
     }
-    
-    
+
+
     /**
     * Init filter
     */
     public function initFilter()
     {
+        $mset = new ilSetting("mobs");
         $lng = $this->lng;
-        $rbacreview = $this->rbacreview;
-        $ilUser = $this->user;
-        
+
         // title/description
         include_once("./Services/Form/classes/class.ilTextInputGUI.php");
         $ti = new ilTextInputGUI($lng->txt("title"), "title");
@@ -258,7 +270,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->addFilterItem($ti);
         $ti->readFromSession();
         $this->filter["title"] = $ti->getValue();
-        
+
         // keyword
         $GLOBALS['lng']->loadLanguageModule('meta');
         $ke = new ilTextInputGUI($lng->txt('meta_keyword'), 'keyword');
@@ -267,7 +279,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->addFilterItem($ke);
         $ke->readFromSession();
         $this->filter['keyword'] = $ke->getValue();
-        
+
         // Caption
         $ca = new ilTextInputGUI($lng->txt('cont_caption'), 'caption');
         $ca->setMaxLength(64);
@@ -275,12 +287,16 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         $this->addFilterItem($ca);
         $ca->readFromSession();
         $this->filter['caption'] = $ca->getValue();
-        
+
         // format
         include_once("./Services/Form/classes/class.ilSelectInputGUI.php");
         $options = array(
             "" => $lng->txt("mep_all"),
             );
+        if ($mset->get("mep_activate_pages")) {
+            $options["mob"] = $lng->txt("mep_mob");
+            $options["pg"] = $lng->txt("mep_mpg");
+        }
         $formats = $this->media_pool->getUsedFormats();
         $options = array_merge($options, $formats);
         $si = new ilSelectInputGUI($this->lng->txt("mep_format"), "format");
@@ -322,7 +338,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $f2objs[$obj["title"] . ":" . $obj["child"]] = $obj;
             }
             ksort($f2objs);
-            
+
             // get current media objects / pages
             if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT) {
                 $mobjs = $this->media_pool->getChilds($this->current_folder, "mob");
@@ -336,11 +352,12 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $m2objs[$obj["title"] . ":" . $obj["child"]] = $obj;
             }
             ksort($m2objs);
-            
+
             // merge everything together
             $objs = array_merge($f2objs, $m2objs);
         } else {
-            $objs = $this->media_pool->getMediaObjects(
+            $objs = $this->pool_repo->getItems(
+                $this->media_pool->getId(),
                 $this->filter["title"],
                 $this->filter["format"],
                 $this->filter['keyword'],
@@ -351,20 +368,43 @@ class ilMediaPoolTableGUI extends ilTable2GUI
         // add advanced metadata
         if ($this->showAdvMetadata()) {
             include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
-            $objs = ilAdvancedMDValues::queryForRecords(
+
+            $mobs = array_filter($objs, function ($m) {
+                return ($m["type"] === "mob");
+            });
+
+            $mobs = ilAdvancedMDValues::queryForRecords(
                 $this->media_pool->getRefId(),
                 "mep",
                 "mob",
                 0,
                 "mob",
-                $objs,
+                $mobs,
                 "",
                 "foreign_id",
                 $this->adv_filter_record_gui->getFilterElements()
             );
+
+            $snippets = array_filter($objs, function ($m) {
+                return ($m["type"] === "pg");
+            });
+
+            include_once("./Services/AdvancedMetaData/classes/class.ilAdvancedMDValues.php");
+            $snippets = ilAdvancedMDValues::queryForRecords(
+                $this->media_pool->getRefId(),
+                "mep",
+                "mpg",
+                $this->media_pool->getId(),
+                "mpg",
+                $snippets,
+                "mep_id",
+                "obj_id",
+                $this->adv_filter_record_gui->getFilterElements()
+            );
+
+            $objs = array_merge($mobs, $snippets);
         }
-        //echo ("<br>".$this->media_pool->getRefId());
-        //var_dump($objs); exit;
+
         $this->setData($objs);
     }
 
@@ -377,7 +417,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     public function prepareOutput()
     {
         $lng = $this->lng;
-        
+
         if ($this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT ||
             $this->getMode() == ilMediaPoolTableGUI::IL_MEP_SELECT_CONTENT) {
             $this->addMultiCommand($this->getInsertCommand(), $lng->txt("insert"));
@@ -415,7 +455,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     $ilCtrl->getLinkTarget($this->parent_obj, $this->parent_cmd)
                 );
                 $this->tpl->parseCurrentBlock();
-                
+
                 if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
                     $this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT) {
                     $this->tpl->setCurrentBlock("edit");
@@ -428,7 +468,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     $ilCtrl->setParameter($this->parent_obj, $this->folder_par, $_GET[$this->folder_par]);
                     $this->tpl->parseCurrentBlock();
                 }
-                
+
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_" . $a_set["type"] . ".svg")));
                 $ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
@@ -443,7 +483,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);
                     $ilCtrl->setParameterByClass("ilobjmediapoolgui", "mepitem_id", $a_set["child"]);
                 }
-                
+
                 if ($ilAccess->checkAccess("write", "", $this->media_pool->getRefId()) &&
                     $this->getMode() == ilMediaPoolTableGUI::IL_MEP_EDIT) {
                     $this->tpl->setCurrentBlock("edit");
@@ -455,7 +495,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     );
                     $this->tpl->parseCurrentBlock();
                 }
-                
+
                 $this->tpl->setCurrentBlock("tbl_content");
                 $this->tpl->setVariable("IMG", ilUtil::img(ilUtil::getImagePath("icon_pg.svg")));
                 $ilCtrl->setParameter($this->parent_obj, $this->folder_par, $this->current_folder);
@@ -478,10 +518,10 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                     );
                     $this->tpl->parseCurrentBlock();
                 }
-                
+
                 $this->tpl->setCurrentBlock("link");
                 $this->tpl->setCurrentBlock("tbl_content");
-                
+
                 // output thumbnail (or mob icon)
                 if (ilObject::_lookupType($a_set["foreign_id"]) == "mob") {
                     $mob = new ilObjMediaObject($a_set["foreign_id"]);
@@ -513,7 +553,7 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                             );
                         }
                     }
-                    
+
                     // output media info
                     include_once("./Services/MediaObjects/classes/class.ilObjMediaObjectGUI.php");
                     $this->tpl->setVariable(
@@ -554,9 +594,9 @@ class ilMediaPoolTableGUI extends ilTable2GUI
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
-        
+
         $mtpl = new ilTemplate("tpl.media_sel_table.html", true, true, "Modules/MediaPool");
-        
+
         $pre = "";
         if ($this->current_folder != $this->tree->getRootId() && !$this->all_objects) {
             $path = $this->tree->getPathFull($this->current_folder);
@@ -579,14 +619,14 @@ class ilMediaPoolTableGUI extends ilTable2GUI
                 $this->folder_par,
                 $this->current_folder
             );
-            
+
             $mtpl->setCurrentBlock("loc");
             $mtpl->setVariable("LOC", $loc->getHTML());
             $mtpl->parseCurrentBlock();
         }
 
         $mtpl->setVariable("TABLE", parent::render());
-        
+
         return $mtpl->get();
     }
 }

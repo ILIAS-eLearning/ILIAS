@@ -14,9 +14,10 @@
 			<parent id="recf">recf</parent>
 			<parent id="root">root</parent>
 			<sub_type id="mob" amet="1" />
+			<sub_type id="mpg" amet="1" />
 		</object>
 	</objects>
-	<events>		
+	<events>
 		<event type="listen" id="Services/Object" />
 	</events>
 	<copage>

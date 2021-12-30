@@ -18,7 +18,12 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
     protected $lng = null;
     protected $ctrl;
     protected $permissions; // [ilAdvancedMDPermissionHelper]
-    
+
+    /**
+     * @var bool
+     */
+    protected $in_object_type_context = false;
+
     /**
      * Constructor
      *
@@ -26,16 +31,18 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
      * @param
      *
      */
-    public function __construct($a_parent_obj, $a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_in_object_context = false)
+    public function __construct($a_parent_obj, $a_parent_cmd = '', ilAdvancedMDPermissionHelper $a_permissions, $a_in_object_type_context = "")
     {
         global $DIC;
 
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
-        
+
         $this->lng = $lng;
         $this->ctrl = $ilCtrl;
         $this->permissions = $a_permissions;
+
+        $this->in_object_type_context = $a_in_object_type_context;
 
         $this->setId('adv_md_records_tbl');
         parent::__construct($a_parent_obj, $a_parent_cmd);
@@ -46,9 +53,9 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('md_adv_scope'), 'scope');
         $this->addColumn($this->lng->txt('md_obj_types'), 'obj_types');
         $this->addColumn($this->lng->txt('md_adv_active'), 'active');
-        
+
         $this->addColumn($this->lng->txt('actions'));
-        
+
         $this->setFormAction($this->ctrl->getFormAction($a_parent_obj));
         $this->setRowTemplate("tpl.show_records_row.html", "Services/AdvancedMetaData");
         $this->setDefaultOrderField('position');
@@ -79,34 +86,72 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
     {
         // assigned object types
         $disabled = !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_EDIT_PROPERTY][ilAdvancedMDPermissionHelper::SUBACTION_RECORD_OBJECT_TYPES];
-        $options = array(
-            0 => $this->lng->txt("meta_obj_type_inactive"),
-            1 => $this->lng->txt("meta_obj_type_mandatory"),
-            2 => $this->lng->txt("meta_obj_type_optional")
-        );
-        
-        $do_select = (!$a_set["readonly"] && !$a_set["local"]);
+
+        if ($this->in_object_type_context == "") {
+            // options for global administration
+            $options = array(
+                0 => $this->lng->txt("meta_obj_type_inactive"),
+                1 => $this->lng->txt("meta_obj_type_mandatory"),
+                2 => $this->lng->txt("meta_obj_type_optional")
+            );
+        } else {
+            // options for local administration
+            $options = array(
+                0 => $this->lng->txt("meta_obj_type_inactive"),
+                1 => $this->lng->txt("meta_obj_type_active")
+            );
+        }
+
+        // global administration ($this->in_object_context is true)
+        // $a_set["local"] is not set
+        // $a_set["readonly"] is not set
+
+        // local administration, global sets ($this->in_object_context is false)
+        // $a_set["local"] is NULL
+        // $a_set["readonly"] is true
+
+        // local administration, local sets:
+        // $a_set["local"] is int
+        // $a_set["readonly"] is false
+
+        //$do_select = (!$a_set["readonly"] && !$a_set["local"]);
+        $do_select = true;
+
         foreach (ilAdvancedMDRecord::_getAssignableObjectTypes(true) as $obj_type) {
             $value = 0;
             foreach ($a_set['obj_types'] as $t) {
                 if ($obj_type["obj_type"] == $t["obj_type"] &&
                     $obj_type["sub_type"] == $t["sub_type"]) {
-                    if ($t["context"] &&
-                        !$a_set["local"]) {
-                        $obj_type["text"] = '<span class="il_ItemAlertProperty">' . $obj_type["text"] . '</span>';
-                    }
-                    
+                    // if ($t["context"] &&
+                    //     !$a_set["local"]) {
+                    //     $obj_type["text"] = '<span class="il_ItemAlertProperty">' . $obj_type["text"] . '</span>';
+                    // }
+
                     $value = $t["optional"]
                         ? 2
                         : 1;
+
+                    // globally optional, locally selected global records
+                    if (!$a_set["local"] && $a_set["readonly"]) {
+                        $value = (isset($a_set["local_selected"][$obj_type["obj_type"]]) &&
+                            in_array($obj_type["sub_type"], $a_set["local_selected"][$obj_type["obj_type"]]))
+                            ? 1
+                            : 0;
+                    }
+
                     break;
                 }
             }
-                
+
+            // do only list context types that match the current object type
+            if ($this->in_object_type_context != "" && $this->in_object_type_context != $obj_type["obj_type"]) {
+                continue;
+            }
+
             if (!$do_select && !$value) {
                 continue;
             }
-            
+
 
             if ($do_select) {
                 $this->tpl->setCurrentBlock('ass_obj_types');
@@ -147,13 +192,13 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             }
         }
-        
+
         $record = ilAdvancedMDRecord::_getInstanceByRecordId($a_set['id']);
         if (!$a_set['local'] && count($record->getScopeRefIds())) {
             $this->tpl->setCurrentBlock('scope_txt');
             $this->tpl->setVariable('LOCAL_OR_GLOBAL', $this->lng->txt('md_adv_scope_list_header'));
             $this->tpl->parseCurrentBlock();
-            
+
             foreach ($record->getScopeRefIds() as $ref_id) {
                 $this->tpl->setCurrentBlock('scope_entry');
                 $this->tpl->setVariable('LINK_HREF', ilLink::_getLink($ref_id));
@@ -165,7 +210,7 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
             $this->tpl->setVariable('LOCAL_OR_GLOBAL', $a_set['local'] ? $this->lng->txt('meta_local') : $this->lng->txt('meta_global'));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         if (!$a_set["readonly"] || $a_set["local"]) {
             $this->tpl->setCurrentBlock('check_bl');
             $this->tpl->setVariable('VAL_ID', $a_set['id']);
@@ -189,11 +234,11 @@ class ilAdvancedMDRecordTableGUI extends ilTable2GUI
                 ": " . $this->lng->txt($definition_obj->getTypeTitle()));
             $this->tpl->parseCurrentBlock();
         }
-        
+
         $this->tpl->setVariable('ACTIVE_CHECKED', $a_set['active'] ? ' checked="checked" ' : '');
         $this->tpl->setVariable('ACTIVE_ID', $a_set['id']);
-        
-        if (($a_set["readonly"] && !$a_set["optional"]) ||
+
+        if (($a_set["readonly"]) ||
             !$a_set["perm"][ilAdvancedMDPermissionHelper::ACTION_RECORD_TOGGLE_ACTIVATION]) {
             $this->tpl->setVariable('ACTIVE_DISABLED', 'disabled="disabled"');
         }

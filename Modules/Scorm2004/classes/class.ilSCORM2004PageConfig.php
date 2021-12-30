@@ -23,12 +23,17 @@ class ilSCORM2004PageConfig extends ilPageConfig
         $this->setPreventHTMLUnmasking(false);
         $this->setEnableInternalLinks(true);
         $this->setEnableSelfAssessment(true);
-        
+
         $this->setIntLinkFilterWhiteList(true);
         $this->addIntLinkFilter(array("File"));
         $this->setIntLinkHelpDefaultType("File");
+
+        $mset = new ilSetting("mobs");
+        if ($mset->get("mep_activate_pages")) {
+            $this->setEnablePCType("ContentInclude", true);
+        }
     }
-    
+
     /**
      * Object specific configuration
      *

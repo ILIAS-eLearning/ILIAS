@@ -17,7 +17,7 @@ include_once './Services/AdvancedMetaData/classes/class.ilAdvancedMDRecordScope.
 class ilAdvancedMDRecord
 {
     private static $instances = array();
-    
+
     protected $record_id;
 
     /**
@@ -38,7 +38,7 @@ class ilAdvancedMDRecord
      * @var ilAdvancedMDRecordScope[]
      */
     protected $scopes = [];
-    
+
 
     /**
      * Singleton constructor
@@ -54,15 +54,15 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $this->record_id = $a_record_id;
         $this->db = $ilDB;
-        
+
         if ($this->getRecordId()) {
             $this->read();
         }
     }
-    
+
     /**
      * Get instance by record id
      *
@@ -79,7 +79,7 @@ class ilAdvancedMDRecord
         }
         return self::$instances[$a_record_id] = new ilAdvancedMDRecord($a_record_id);
     }
-    
+
     /**
      * Get active searchable records
      *
@@ -92,11 +92,11 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT DISTINCT(amr.record_id) FROM adv_md_record amr " .
             "JOIN adv_mdf_definition amfd ON amr.record_id = amfd.record_id " .
             "WHERE searchable = 1 AND active = 1 ";
-            
+
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
             $records[] = self::_getInstanceByRecordId($row->record_id);
@@ -115,23 +115,23 @@ class ilAdvancedMDRecord
     public static function _lookupTitle($a_record_id)
     {
         static $title_cache = array();
-        
+
         if (isset($title_cache[$a_record_id])) {
             return $title_cache[$a_record_id];
         }
-        
+
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT title FROM adv_md_record " .
             "WHERE record_id = " . $ilDB->quote($a_record_id, 'integer') . " ";
         $res = $ilDB->query($query);
         $row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT);
-        
+
         return $title_cache[$a_record_id] = $row->title;
     }
-    
+
     /**
      * Lookup record Id by import id
      *
@@ -145,7 +145,7 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT record_id FROM adv_md_record " .
             "WHERE import_id = " . $ilDB->quote($a_ilias_id, 'text') . " ";
         $res = $ilDB->query($query);
@@ -154,7 +154,7 @@ class ilAdvancedMDRecord
         }
         return 0;
     }
-    
+
     /**
      * Get assignable object type
      *
@@ -167,7 +167,7 @@ class ilAdvancedMDRecord
 
         $objDefinition = $DIC['objDefinition'];
         $lng = $DIC['lng'];
-        
+
         $types = array();
         $filter = array();
         $amet_types = $objDefinition->getAdvancedMetaDataTypes();
@@ -199,7 +199,7 @@ class ilAdvancedMDRecord
         sort($types);
         return $types;
     }
-    
+
     /**
      * get activated obj types
      *
@@ -213,7 +213,7 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT DISTINCT(obj_type) FROM adv_md_record_objs amo " .
             "JOIN adv_md_record amr ON amo.record_id = amr.record_id " .
             "WHERE active = 1 ";
@@ -223,7 +223,7 @@ class ilAdvancedMDRecord
         }
         return $obj_types ? $obj_types : array();
     }
-    
+
     /**
      * Get records
      *
@@ -238,7 +238,7 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT record_id FROM adv_md_record ORDER BY gpos ";
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -246,7 +246,7 @@ class ilAdvancedMDRecord
         }
         return $records ? $records : array();
     }
-    
+
     /**
      * Get records by obj_type
      * Note: this returns only records with no sub types!
@@ -260,9 +260,9 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $records = array();
-        
+
         $query = "SELECT * FROM adv_md_record_objs WHERE sub_type=" . $ilDB->quote("-", "text");
         $res = $ilDB->query($query);
         while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -277,7 +277,7 @@ class ilAdvancedMDRecord
 
         return $records;
     }
-    
+
     /**
      * Get activated records by object type
      *
@@ -294,21 +294,21 @@ class ilAdvancedMDRecord
         $ilDB = $DIC['ilDB'];
 
         $records = array();
-        
+
         if ($a_sub_type == "") {
             $a_sub_type = "-";
         }
-        
+
         $query = "SELECT amro.record_id record_id FROM adv_md_record_objs amro " .
             "JOIN adv_md_record amr ON amr.record_id = amro.record_id " .
             "WHERE active = 1 " .
             "AND obj_type = " . $ilDB->quote($a_obj_type, 'text') . " " .
             "AND sub_type = " . $ilDB->quote($a_sub_type, 'text');
-        
+
         if ($a_only_optional) {
             $query .= " AND optional =" . $ilDB->quote(1, 'integer');
         }
-        
+
         // #16428
         $query .= "ORDER by parent_obj DESC, record_id";
 
@@ -319,7 +319,7 @@ class ilAdvancedMDRecord
 
         return $records;
     }
-    
+
     /**
      * Get selected records by object
      *
@@ -335,9 +335,9 @@ class ilAdvancedMDRecord
         if ($a_sub_type == "") {
             $a_sub_type = "-";
         }
-        
+
         $a_obj_id = ilObject::_lookupObjId($a_ref_id);
-        
+
         // object-wide metadata configuration setting
         include_once 'Services/Container/classes/class.ilContainer.php';
         include_once 'Services/Object/classes/class.ilObjectServiceSettingsGUI.php';
@@ -346,14 +346,14 @@ class ilAdvancedMDRecord
             ilObjectServiceSettingsGUI::CUSTOM_METADATA,
             false
         );
-        
+
         $optional = array();
         foreach (self::_getActivatedRecordsByObjectType($a_obj_type, $a_sub_type) as $record) {
             // check scope
             if (self::isFilteredByScope($a_ref_id, $record->getScopes())) {
                 continue;
             }
-            
+
             foreach ($record->getAssignedObjectTypes() as $item) {
                 if ($record->getParentObject()) {
                     // only matching local records
@@ -365,7 +365,7 @@ class ilAdvancedMDRecord
                         continue;
                     }
                 }
-                
+
                 if ($item['obj_type'] == $a_obj_type &&
                     $item['sub_type'] == $a_sub_type) {
                     if ($item['optional']) {
@@ -375,7 +375,7 @@ class ilAdvancedMDRecord
                 }
             }
         }
-        
+
         if ($optional) {
             if (!$config_setting && !in_array($a_sub_type, array("orgu_type", "prg_type"))) { //#16925 + #17777
                 $selected = array();
@@ -392,10 +392,10 @@ class ilAdvancedMDRecord
 
         $orderings = new ilAdvancedMDRecordObjectOrderings();
         $records = $orderings->sortRecords($records, $a_obj_id);
-        
+
         return $records;
     }
-    
+
     /**
      * Check if a given ref id is not filtered by scope restriction.
      * @param type $a_ref_id
@@ -405,7 +405,7 @@ class ilAdvancedMDRecord
     {
         $tree = $GLOBALS['DIC']->repositoryTree();
         $logger = $GLOBALS['DIC']->logger()->amet();
-        
+
         if (!count($scopes)) {
             $logger->debug('No md scope restrictions.');
             return false;
@@ -422,11 +422,11 @@ class ilAdvancedMDRecord
             }
         }
         $logger->info('Scope filter matches.');
-        
+
         return true;
     }
-    
-    
+
+
     /**
      * Delete record and all related data
      *
@@ -440,22 +440,22 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         // Delete fields
         foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($a_record_id) as $field) {
             $field->delete();
         }
-        
+
         $query = "DELETE FROM adv_md_record " .
             "WHERE record_id = " . $ilDB->quote($a_record_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
-        
+
         $query = "DELETE FROM adv_md_record_objs " .
             "WHERE record_id = " . $ilDB->quote($a_record_id, 'integer') . " ";
         $res = $ilDB->manipulate($query);
     }
-    
-    
+
+
     /**
      * Delete
      *
@@ -467,7 +467,7 @@ class ilAdvancedMDRecord
         ilAdvancedMDRecord::_delete($this->getRecordId());
         ilAdvancedMDRecordScope::deleteByRecordI($this->getRecordId());
     }
-    
+
     /**
      * Is scope enabled
      * @return scope
@@ -476,7 +476,7 @@ class ilAdvancedMDRecord
     {
         return $this->scope_enabled;
     }
-    
+
     /**
      * Enable scope restrictions
      * @param bool $a_stat
@@ -485,7 +485,7 @@ class ilAdvancedMDRecord
     {
         $this->scope_enabled = $a_stat;
     }
-    
+
     /**
      * Set scopes
      * @param array $a_scopes
@@ -494,7 +494,7 @@ class ilAdvancedMDRecord
     {
         $this->scopes = $a_scopes;
     }
-    
+
     /**
      * Get scopes
      * @return ilAdvancedMDRecordScope[]
@@ -503,7 +503,7 @@ class ilAdvancedMDRecord
     {
         return $this->scopes;
     }
-    
+
     /**
      * Get scope gef_ids
      * @return type
@@ -516,7 +516,7 @@ class ilAdvancedMDRecord
         }
         return $ref_ids;
     }
-    
+
     /**
      * save
      *
@@ -528,10 +528,10 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         // Save import id if given
         $next_id = $ilDB->nextId('adv_md_record');
-        
+
         $query = "INSERT INTO adv_md_record (record_id,import_id,active,title,description,parent_obj) " .
             "VALUES(" .
             $ilDB->quote($next_id, 'integer') . ", " .
@@ -566,13 +566,13 @@ class ilAdvancedMDRecord
                 ")";
             $res = $ilDB->manipulate($query);
         }
-        
+
         foreach ($this->getScopes() as $scope) {
             $scope->setRecordId($this->getRecordId());
             $scope->save();
         }
     }
-    
+
     /**
      * update
      *
@@ -584,7 +584,7 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "UPDATE adv_md_record " .
             "SET active = " . $this->db->quote($this->isActive(), 'integer') . ", " .
             "title = " . $this->db->quote($this->getTitle(), 'text') . ", " .
@@ -592,12 +592,12 @@ class ilAdvancedMDRecord
             'gpos = ' . $this->db->quote($this->getGlobalPosition(), 'integer') . ' ' .
             "WHERE record_id = " . $this->db->quote($this->getRecordId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
-                
+
         // Delete assignments
         $query = "DELETE FROM adv_md_record_objs " .
             "WHERE record_id = " . $this->db->quote($this->getRecordId(), 'integer') . " ";
         $res = $ilDB->manipulate($query);
-            
+
         // Insert assignments
         foreach ($this->getAssignedObjectTypes() as $type) {
             $query = "INSERT INTO adv_md_record_objs (record_id,obj_type,sub_type,optional) " .
@@ -615,7 +615,7 @@ class ilAdvancedMDRecord
             $scope->save();
         }
     }
-    
+
     /**
      * Validate settings
      *
@@ -647,7 +647,7 @@ class ilAdvancedMDRecord
         return $this->global_position;
     }
 
-    
+
     /**
      * Get record id
      *
@@ -658,7 +658,7 @@ class ilAdvancedMDRecord
     {
         return $this->record_id;
     }
-    
+
     /**
      * Set active
      *
@@ -670,7 +670,7 @@ class ilAdvancedMDRecord
     {
         $this->active = $a_active;
     }
-    
+
     /**
      * Check if record is active
      *
@@ -681,7 +681,7 @@ class ilAdvancedMDRecord
     {
         return (bool) $this->active;
     }
-    
+
     /**
      * Set title
      *
@@ -693,7 +693,7 @@ class ilAdvancedMDRecord
     {
         $this->title = $a_title;
     }
-    
+
     /**
      * get title
      *
@@ -704,7 +704,7 @@ class ilAdvancedMDRecord
     {
         return $this->title;
     }
-    
+
     /**
      * set description
      *
@@ -716,7 +716,7 @@ class ilAdvancedMDRecord
     {
         $this->description = $a_description;
     }
-    
+
     /**
      * get description
      *
@@ -727,7 +727,7 @@ class ilAdvancedMDRecord
     {
         return $this->description;
     }
-    
+
     /**
      * set import id
      *
@@ -739,7 +739,7 @@ class ilAdvancedMDRecord
     {
         $this->import_id = $a_id_string;
     }
-    
+
     /**
      * get import id
      *
@@ -750,7 +750,7 @@ class ilAdvancedMDRecord
     {
         return $this->import_id;
     }
-    
+
     /**
      * Set assigned object types
      *
@@ -762,7 +762,7 @@ class ilAdvancedMDRecord
     {
         $this->obj_types = $a_obj_types;
     }
-    
+
     /**
      * append assigned object types
      *
@@ -778,7 +778,7 @@ class ilAdvancedMDRecord
             "optional" => (bool) $a_optional
         );
     }
-    
+
     /**
      * Get assigned object types
      *
@@ -789,7 +789,7 @@ class ilAdvancedMDRecord
     {
         return $this->obj_types ? $this->obj_types : array();
     }
-    
+
     /**
      * Is assigned object type?
      *
@@ -806,17 +806,17 @@ class ilAdvancedMDRecord
         }
         return false;
     }
-    
+
     public function setParentObject($a_obj_id)
     {
         $this->parent_obj = $a_obj_id;
     }
-    
+
     public function getParentObject()
     {
         return $this->parent_obj;
     }
-    
+
     /**
      * To Xml.
      * This method writes only the subset Record (including all fields)
@@ -832,7 +832,7 @@ class ilAdvancedMDRecord
             'id' => $this->generateImportId()));
         $writer->xmlElement('Title', null, $this->getTitle());
         $writer->xmlElement('Description', null, $this->getDescription());
-        
+
         foreach ($this->getAssignedObjectTypes() as $obj_type) {
             $optional = array("optional" => $obj_type["optional"]);
             if ($obj_type["sub_type"] == "") {
@@ -841,7 +841,7 @@ class ilAdvancedMDRecord
                 $writer->xmlElement('ObjectType', $optional, $obj_type["obj_type"] . ":" . $obj_type["sub_type"]);
             }
         }
-        
+
         // scopes
         if (count($this->getScopeRefIds())) {
             $writer->xmlStartTag('Scope');
@@ -853,15 +853,15 @@ class ilAdvancedMDRecord
         if (count($this->getScopeRefIds())) {
             $writer->xmlEndTag('Scope');
         }
-        
-        
+
+
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->getRecordId()) as $definition) {
             $definition->toXML($writer);
         }
         $writer->xmlEndTag('Record');
     }
-    
+
     /**
      * read record and assiged object types
      *
@@ -874,7 +874,7 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         $query = "SELECT * FROM adv_md_record " .
             "WHERE record_id = " . $this->db->quote($this->getRecordId(), 'integer') . " ";
         $res = $this->db->query($query);
@@ -896,7 +896,7 @@ class ilAdvancedMDRecord
                 "optional" => (bool) $row->optional
             );
         }
-        
+
         $query = 'SELECT scope_id FROM adv_md_record_scope ' .
             'WHERE record_id = ' . $ilDB->quote($this->record_id);
         $res = $ilDB->query($query);
@@ -907,7 +907,7 @@ class ilAdvancedMDRecord
             $this->scopes[] = new ilAdvancedMDRecordScope($row->scope_id);
         }
     }
-    
+
     /**
      * generate unique record id
      *
@@ -918,7 +918,7 @@ class ilAdvancedMDRecord
     {
         return 'il_' . IL_INST_ID . '_adv_md_record_' . $this->getRecordId();
     }
-    
+
     /**
      * Destructor
      *
@@ -929,7 +929,7 @@ class ilAdvancedMDRecord
     {
         unset(self::$instances[$this->getRecordId()]);
     }
-    
+
     /**
      * Save repository object record selection
      *
@@ -944,7 +944,7 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if ($a_sub_type == "") {
             $a_sub_type = "-";
         }
@@ -954,7 +954,7 @@ class ilAdvancedMDRecord
                 " obj_id = " . $ilDB->quote($a_obj_id, "integer") .
                 " AND sub_type = " . $ilDB->quote($a_sub_type, "text"));
         }
-        
+
         if (is_array($a_records)) {
             foreach ($a_records as $r) {
                 if ($r > 0) {
@@ -968,7 +968,22 @@ class ilAdvancedMDRecord
             }
         }
     }
-    
+
+    /**
+     * Delete repository object record selection
+     *
+     * @param int $a_obj_id object id if repository object
+     */
+    public static function deleteObjRecSelection($a_obj_id)
+    {
+        global $DIC;
+
+        $ilDB = $DIC['ilDB'];
+
+        $ilDB->manipulate("DELETE FROM adv_md_obj_rec_select WHERE " .
+            " obj_id = " . $ilDB->quote($a_obj_id, "integer"));
+    }
+
     /**
      * Get repository object record selection
      *
@@ -980,11 +995,11 @@ class ilAdvancedMDRecord
         global $DIC;
 
         $ilDB = $DIC['ilDB'];
-        
+
         if ($a_sub_type == "") {
             $a_sub_type = "-";
         }
-        
+
         $recs = array();
         $set = $ilDB->query(
             $r = "SELECT * FROM adv_md_obj_rec_select " .
@@ -996,7 +1011,7 @@ class ilAdvancedMDRecord
         }
         return $recs;
     }
-    
+
     /**
      * Clone record
      *
@@ -1015,7 +1030,7 @@ class ilAdvancedMDRecord
             : $this->getParentObject());
         $new_obj->setAssignedObjectTypes($this->getAssignedObjectTypes());
         $new_obj->save();
-        
+
         include_once('Services/AdvancedMetaData/classes/class.ilAdvancedMDFieldDefinition.php');
         foreach (ilAdvancedMDFieldDefinition::getInstancesByRecordId($this->getRecordId()) as $definition) {
             $new_def = $definition->_clone($new_obj->getRecordId());
@@ -1024,7 +1039,7 @@ class ilAdvancedMDRecord
 
         return $new_obj;
     }
-        
+
     /**
      * Get shared records
      *
@@ -1040,20 +1055,20 @@ class ilAdvancedMDRecord
             ilAdvancedMDRecord::getObjRecSelection($a_obj1_id, $a_sub_type),
             ilAdvancedMDRecord::getObjRecSelection($a_obj2_id, $a_sub_type)
         );
-        
+
         $res = array();
-        
+
         foreach (self::_getRecords() as $record) {
             // local records cannot be shared
             if ($record->getParentObject()) {
                 continue;
             }
-            
+
             // :TODO: inactive records can be ignored?
             if (!$record->isActive()) {
                 continue;
             }
-            
+
             // parse assigned types
             foreach ($record->getAssignedObjectTypes() as $item) {
                 if ($item["obj_type"] == $obj_type &&
@@ -1069,7 +1084,7 @@ class ilAdvancedMDRecord
                 }
             }
         }
-        
+
         return $res;
     }
 }
