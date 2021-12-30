@@ -20,7 +20,7 @@
  */
 class ilTablePropertiesStorage implements ilCtrlBaseClassInterface
 {
-    protected \ILIAS\Table\TableGUIRequest $table_request;
+    protected ?\ILIAS\Table\TableGUIRequest $table_request = null;
     protected ilObjUser $user;
     protected ilCtrl $ctrl;
     protected ilDBInterface $db;
@@ -42,10 +42,12 @@ class ilTablePropertiesStorage implements ilCtrlBaseClassInterface
         $this->user = $DIC->user();
         $this->ctrl = $DIC->ctrl();
         $this->db = $DIC->database();
-        $this->table_request = new \ILIAS\Table\TableGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        if (isset($DIC["http"])) {
+            $this->table_request = new \ILIAS\Table\TableGUIRequest(
+                $DIC->http(),
+                $DIC->refinery()
+            );
+        }
     }
 
 

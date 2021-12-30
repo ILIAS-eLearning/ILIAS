@@ -124,10 +124,12 @@ class ilTable2GUI extends ilTableGUI
         $this->ctrl = $DIC->ctrl();
         $lng = $DIC->language();
 
-        $this->table_request = new \ILIAS\Table\TableGUIRequest(
-            $DIC->http(),
-            $DIC->refinery()
-        );
+        if (isset($DIC["http"])) {
+            $this->table_request = new \ILIAS\Table\TableGUIRequest(
+                $DIC->http(),
+                $DIC->refinery()
+            );
+        }
         $this->getRequestedValues();
         parent::__construct([], false);
         $this->unique_id = md5(uniqid());
@@ -148,11 +150,13 @@ class ilTable2GUI extends ilTableGUI
         $this->setContext($a_template_context);
 
         // activate export mode
-        $this->export_mode = $this->table_request->getExportMode($this->prefix);
+        if (isset($this->table_request)) {
+            $this->export_mode = $this->table_request->getExportMode($this->prefix);
 
-        // template handling
-        if ($this->table_request->getTemplate($this->prefix) != "") {
-            $this->restoreTemplate($this->table_request->getTemplate($this->prefix));
+            // template handling
+            if ($this->table_request->getTemplate($this->prefix) != "") {
+                $this->restoreTemplate($this->table_request->getTemplate($this->prefix));
+            }
         }
 
         $this->determineLimit();
@@ -160,7 +164,10 @@ class ilTable2GUI extends ilTableGUI
         $this->setEnableNumInfo(true);
         $this->determineSelectedColumns();
 
-        $this->raw_post_data = $DIC->http()->request()->getParsedBody();
+        $this->raw_post_data = [];
+        if (isset($DIC["http"])) {
+            $this->raw_post_data = $DIC->http()->request()->getParsedBody();
+        }
     }
 
     /**
@@ -214,7 +221,7 @@ class ilTable2GUI extends ilTableGUI
         }
 
         $limit = 0;
-        if ($this->table_request->getRows($this->prefix) > 0) {
+        if (isset($this->table_request) && $this->table_request->getRows($this->prefix) > 0) {
             $this->storeProperty("rows", $this->table_request->getRows($this->prefix));
             $limit = $this->table_request->getRows($this->prefix) ?? 0;
             $this->resetOffset();
@@ -267,8 +274,12 @@ class ilTable2GUI extends ilTableGUI
         $this->selected_columns = array();
         $set = false;
 
-        $fs = $this->table_request->getFS($this->getId());
-        $fsh = $this->table_request->getFSH($this->getId());
+        $fsh = false;
+        $fs = [];
+        if (isset($this->table_request)) {
+            $fs = $this->table_request->getFS($this->getId());
+            $fsh = $this->table_request->getFSH($this->getId());
+        }
 
         foreach ($this->getSelectableColumns() as $k => $c) {
             $this->selected_column[$k] = false;
@@ -292,7 +303,10 @@ class ilTable2GUI extends ilTableGUI
             }
 
             // Optional filters
-            $ff = $this->table_request->getFF($this->getId());
+            $ff = [];
+            if (isset($this->table_request)) {
+                $ff = $this->table_request->getFF($this->getId());
+            }
             if (count($ff) > 0) {
                 $set = true;
                 if (in_array($k, $ff)) {
