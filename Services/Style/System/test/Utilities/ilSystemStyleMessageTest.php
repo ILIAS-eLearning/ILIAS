@@ -1,29 +1,15 @@
-<?php
-/* Copyright (c) 2016 Tomasz Kolonko <thomas.kolonko@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessage.php");
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- * @author            Tomasz Kolonko <thomas.kolonko@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleMessageTest extends TestCase
 {
+    protected ilSystemStyleMessage $ilSystemStyleMessage;
+    protected string $messageString = "This is a message";
 
-    /**
-     * @var ilSystemStyleMessage
-     */
-    protected $ilSystemStyleMessage;
-
-    /**
-     * @var messageString
-     */
-    protected $messageString = "This is a message";
-
-    public function testConstructor()
+    public function testConstructor() : void
     {
         $this->ilSystemStyleMessage = new ilSystemStyleMessage($this->messageString, ilSystemStyleMessage::TYPE_INFO);
         $this->assertTrue($this->ilSystemStyleMessage->getTypeId() === ilSystemStyleMessage::TYPE_INFO);
@@ -38,14 +24,14 @@ class ilSystemStyleMessageTest extends TestCase
         $this->assertTrue($this->ilSystemStyleMessage->getMessage() === $this->messageString);
     }
 
-    public function testGetAndSetMessage()
+    public function testGetAndSetMessage() : void
     {
         $this->ilSystemStyleMessage = new ilSystemStyleMessage($this->messageString, ilSystemStyleMessage::TYPE_INFO);
         $this->ilSystemStyleMessage->setMessage("This is an altered message");
         $this->assertTrue($this->ilSystemStyleMessage->getMessage() === "This is an altered message");
     }
 
-    public function testGetAndSetTypeID()
+    public function testGetAndSetTypeID() : void
     {
         $this->ilSystemStyleMessage = new ilSystemStyleMessage($this->messageString, ilSystemStyleMessage::TYPE_INFO);
         $this->ilSystemStyleMessage->setTypeId(ilSystemStyleMessage::TYPE_SUCCESS);
@@ -58,7 +44,7 @@ class ilSystemStyleMessageTest extends TestCase
         $this->assertTrue($this->ilSystemStyleMessage->getTypeId() === ilSystemStyleMessage::TYPE_INFO);
     }
 
-    public function testGetMessageOutput()
+    public function testGetMessageOutput() : void
     {
         $this->ilSystemStyleMessage = new ilSystemStyleMessage($this->messageString, ilSystemStyleMessage::TYPE_INFO);
         $this->assertTrue($this->ilSystemStyleMessage->getMessageOutput() === "This is a message</br>");

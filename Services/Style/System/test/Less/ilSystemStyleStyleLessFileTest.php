@@ -1,50 +1,38 @@
-<?php
-include_once("Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessFile.php");
-include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
-include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleDICMock.php");
+<?php declare(strict_types=1);
+
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
 /**
- *
  * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
  * @version           $Id$*
  */
 class ilSystemStyleStyleLessFileTest extends TestCase
 {
-
-
-    /**
-     * @var ilSystemStyleConfigMock
-     */
-    protected $system_style_config;
-
-    /**
-     * @var ilSystemStyleSkinContainer
-     */
-    protected $container;
-
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $style;
-
-    protected $save_dic = null;
+    protected ilSystemStyleConfigMock $system_style_config;
+    protected ilSystemStyleSkinContainer $container;
+    protected ilSkinStyleXML $style;
+    protected ILIAS\DI\Container $save_dic;
 
     protected function setUp() : void
     {
         global $DIC;
 
-        $this->save_dic = $DIC;
+        if(isset($DIC)){
+            $this->save_dic = $DIC;
+        }
+
         $DIC = new ilSystemStyleDICMock();
 
         $this->system_style_config = new ilSystemStyleConfigMock();
 
-        mkdir($this->system_style_config->test_skin_temp_path);
-        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path, $this->system_style_config->test_skin_temp_path);
+        if (!file_exists($this->system_style_config->test_skin_temp_path)) {
+            mkdir($this->system_style_config->test_skin_temp_path);
+        }
+
+        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path,
+            $this->system_style_config->test_skin_temp_path);
 
         $this->container = ilSystemStyleSkinContainer::generateFromId("skin1", null, $this->system_style_config);
         $this->style = $this->container->getSkin()->getStyle("style1");
@@ -53,38 +41,46 @@ class ilSystemStyleStyleLessFileTest extends TestCase
     protected function tearDown() : void
     {
         global $DIC;
-        $DIC = $this->save_dic;
+
+        if(isset($DIC)){
+            $this->save_dic = $DIC;
+        }
 
         ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
-    public function testConstructAndRead()
+    public function testConstructAndRead() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
-        $this->assertEquals(14, count($file->getItems()));
+        $this->assertCount(14, $file->getItems());
     }
 
-    public function testReadCorrectTypes()
+    public function testReadCorrectTypes() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
-        $this->assertEquals(2, count($file->getCategories()));
-        $this->assertEquals(6, count($file->getVariablesIds()));
-        $this->assertEquals(6, count($file->getCommentsIds()));
+        $this->assertCount(2, $file->getCategories());
+        $this->assertCount(6, $file->getVariablesIds());
+        $this->assertCount(6, $file->getCommentsIds());
     }
 
-
-    public function testGetVariableByName()
+    public function testGetVariableByName() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
-        $expected_variable11 = new ilSystemStyleLessVariable("variable11", "value11", "comment variable 11", "Category 1", []);
-        $expected_variable12 = new ilSystemStyleLessVariable("variable12", "value12", "comment variable 12", "Category 1", []);
-        $expected_variable13 = new ilSystemStyleLessVariable("variable13", "@variable11", "comment variable 13", "Category 1", ["variable11"]);
+        $expected_variable11 = new ilSystemStyleLessVariable("variable11", "value11", "comment variable 11",
+            "Category 1", []);
+        $expected_variable12 = new ilSystemStyleLessVariable("variable12", "value12", "comment variable 12",
+            "Category 1", []);
+        $expected_variable13 = new ilSystemStyleLessVariable("variable13", "@variable11", "comment variable 13",
+            "Category 1", ["variable11"]);
 
-        $expected_variable21 = new ilSystemStyleLessVariable("variable21", "@variable11", "comment variable 21", "Category 2", ["variable11"]);
-        $expected_variable22 = new ilSystemStyleLessVariable("variable22", "value21", "comment variable 22", "Category 2", []);
-        $expected_variable23 = new ilSystemStyleLessVariable("variable23", "@variable21", "comment variable 23", "Category 2", ["variable21"]);
+        $expected_variable21 = new ilSystemStyleLessVariable("variable21", "@variable11", "comment variable 21",
+            "Category 2", ["variable11"]);
+        $expected_variable22 = new ilSystemStyleLessVariable("variable22", "value21", "comment variable 22",
+            "Category 2", []);
+        $expected_variable23 = new ilSystemStyleLessVariable("variable23", "@variable21", "comment variable 23",
+            "Category 2", ["variable21"]);
 
         $this->assertEquals($expected_variable11, $file->getVariableByName("variable11"));
         $this->assertEquals($expected_variable12, $file->getVariableByName("variable12"));
@@ -95,55 +91,69 @@ class ilSystemStyleStyleLessFileTest extends TestCase
         $this->assertEquals($expected_variable23, $file->getVariableByName("variable23"));
     }
 
-    public function testGetCategory()
+    public function testGetCategory() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
         $expected_category1 = new ilSystemStyleLessCategory("Category 1", "Comment Category 1");
         $expected_category2 = new ilSystemStyleLessCategory("Category 2", "Comment Category 2");
-        $expected_categories = [$expected_category1,$expected_category2];
+        $expected_categories = [$expected_category1, $expected_category2];
 
         $this->assertEquals($expected_categories, $file->getCategories());
     }
 
-    public function testGetItems()
+    public function testGetItems() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
         $expected_category1 = new ilSystemStyleLessCategory("Category 1", "Comment Category 1");
         $expected_comment2 = new ilSystemStyleLessComment("// Random Section 1");
         $expected_comment3 = new ilSystemStyleLessComment("");
-        $expected_variable11 = new ilSystemStyleLessVariable("variable11", "value11", "comment variable 11", "Category 1", []);
-        $expected_variable12 = new ilSystemStyleLessVariable("variable12", "value12", "comment variable 12", "Category 1", []);
-        $expected_variable13 = new ilSystemStyleLessVariable("variable13", "@variable11", "comment variable 13", "Category 1", ["variable11"]);
+        $expected_variable11 = new ilSystemStyleLessVariable("variable11", "value11", "comment variable 11",
+            "Category 1", []);
+        $expected_variable12 = new ilSystemStyleLessVariable("variable12", "value12", "comment variable 12",
+            "Category 1", []);
+        $expected_variable13 = new ilSystemStyleLessVariable("variable13", "@variable11", "comment variable 13",
+            "Category 1", ["variable11"]);
         $expected_comment4 = new ilSystemStyleLessComment("");
         $expected_category2 = new ilSystemStyleLessCategory("Category 2", "Comment Category 2");
         $expected_comment6 = new ilSystemStyleLessComment("/**");
         $expected_comment7 = new ilSystemStyleLessComment(" Random Section 2 **/");
         $expected_comment8 = new ilSystemStyleLessComment("");
-        $expected_variable21 = new ilSystemStyleLessVariable("variable21", "@variable11", "comment variable 21", "Category 2", ["variable11"]);
-        $expected_variable22 = new ilSystemStyleLessVariable("variable22", "value21", "comment variable 22", "Category 2", []);
-        $expected_variable23 = new ilSystemStyleLessVariable("variable23", "@variable21", "comment variable 23", "Category 2", ["variable21"]);
+        $expected_variable21 = new ilSystemStyleLessVariable("variable21", "@variable11", "comment variable 21",
+            "Category 2", ["variable11"]);
+        $expected_variable22 = new ilSystemStyleLessVariable("variable22", "value21", "comment variable 22",
+            "Category 2", []);
+        $expected_variable23 = new ilSystemStyleLessVariable("variable23", "@variable21", "comment variable 23",
+            "Category 2", ["variable21"]);
 
         $expected_items = [$expected_category1,
-            $expected_comment2,$expected_comment3,
-            $expected_variable11,$expected_variable12,$expected_variable13,
-            $expected_comment4,
-            $expected_category2,
-            $expected_comment6,$expected_comment7,$expected_comment8,
-            $expected_variable21,$expected_variable22,$expected_variable23];
+                           $expected_comment2,
+                           $expected_comment3,
+                           $expected_variable11,
+                           $expected_variable12,
+                           $expected_variable13,
+                           $expected_comment4,
+                           $expected_category2,
+                           $expected_comment6,
+                           $expected_comment7,
+                           $expected_comment8,
+                           $expected_variable21,
+                           $expected_variable22,
+                           $expected_variable23
+        ];
 
         $this->assertEquals($expected_items, $file->getItems());
     }
 
-    public function testGetContent()
+    public function testGetContent() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
         $expected_content = file_get_contents($this->container->getLessVariablesFilePath($this->style->getId()));
         $this->assertEquals($expected_content, $file->getContent());
     }
 
-    public function testReadWriteDouble()
+    public function testReadWriteDouble() : void
     {
         $expected_content = file_get_contents($this->container->getLessVariablesFilePath($this->style->getId()));
 
@@ -156,7 +166,7 @@ class ilSystemStyleStyleLessFileTest extends TestCase
         $this->assertEquals($expected_content, $file->getContent());
     }
 
-    public function testReadWriteDoubleFullLess()
+    public function testReadWriteDoubleFullLess() : void
     {
         $expected_content = file_get_contents($this->container->getSkinDirectory() . "full.less");
 
@@ -169,7 +179,7 @@ class ilSystemStyleStyleLessFileTest extends TestCase
         $this->assertEquals($expected_content, $file->getContent());
     }
 
-    public function testChangeVariable()
+    public function testChangeVariable() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
         $variable = $file->getVariableByName("variable11");
@@ -178,55 +188,83 @@ class ilSystemStyleStyleLessFileTest extends TestCase
         $expected_category1 = new ilSystemStyleLessCategory("Category 1", "Comment Category 1");
         $expected_comment2 = new ilSystemStyleLessComment("// Random Section 1");
         $expected_comment3 = new ilSystemStyleLessComment("");
-        $expected_variable11 = new ilSystemStyleLessVariable("variable11", "newvalue11", "comment variable 11", "Category 1", []);
-        $expected_variable12 = new ilSystemStyleLessVariable("variable12", "value12", "comment variable 12", "Category 1", []);
-        $expected_variable13 = new ilSystemStyleLessVariable("variable13", "@variable11", "comment variable 13", "Category 1", ["variable11"]);
+        $expected_variable11 = new ilSystemStyleLessVariable("variable11", "newvalue11", "comment variable 11",
+            "Category 1", []);
+        $expected_variable12 = new ilSystemStyleLessVariable("variable12", "value12", "comment variable 12",
+            "Category 1", []);
+        $expected_variable13 = new ilSystemStyleLessVariable("variable13", "@variable11", "comment variable 13",
+            "Category 1", ["variable11"]);
         $expected_comment4 = new ilSystemStyleLessComment("");
         $expected_category2 = new ilSystemStyleLessCategory("Category 2", "Comment Category 2");
         $expected_comment6 = new ilSystemStyleLessComment("/**");
         $expected_comment7 = new ilSystemStyleLessComment(" Random Section 2 **/");
         $expected_comment8 = new ilSystemStyleLessComment("");
-        $expected_variable21 = new ilSystemStyleLessVariable("variable21", "@variable11", "comment variable 21", "Category 2", ["variable11"]);
-        $expected_variable22 = new ilSystemStyleLessVariable("variable22", "value21", "comment variable 22", "Category 2", []);
-        $expected_variable23 = new ilSystemStyleLessVariable("variable23", "@variable21", "comment variable 23", "Category 2", ["variable21"]);
+        $expected_variable21 = new ilSystemStyleLessVariable("variable21", "@variable11", "comment variable 21",
+            "Category 2", ["variable11"]);
+        $expected_variable22 = new ilSystemStyleLessVariable("variable22", "value21", "comment variable 22",
+            "Category 2", []);
+        $expected_variable23 = new ilSystemStyleLessVariable("variable23", "@variable21", "comment variable 23",
+            "Category 2", ["variable21"]);
 
         $expected_items = [$expected_category1,
-            $expected_comment2,$expected_comment3,
-            $expected_variable11,$expected_variable12,$expected_variable13,
-            $expected_comment4,
-            $expected_category2,
-            $expected_comment6,$expected_comment7,$expected_comment8,
-            $expected_variable21,$expected_variable22,$expected_variable23];
+                           $expected_comment2,
+                           $expected_comment3,
+                           $expected_variable11,
+                           $expected_variable12,
+                           $expected_variable13,
+                           $expected_comment4,
+                           $expected_category2,
+                           $expected_comment6,
+                           $expected_comment7,
+                           $expected_comment8,
+                           $expected_variable21,
+                           $expected_variable22,
+                           $expected_variable23
+        ];
 
         $this->assertEquals($expected_items, $file->getItems());
     }
 
-    public function testAddAndWriteItems()
+    public function testAddAndWriteItems() : void
     {
         $empty_less = new ilSystemStyleLessFile($this->container->getSkinDirectory() . "empty.less");
 
         $expected_category1 = new ilSystemStyleLessCategory("Category 1", "Comment Category 1");
         $expected_comment2 = new ilSystemStyleLessComment("// Random Section 1");
         $expected_comment3 = new ilSystemStyleLessComment("");
-        $expected_variable11 = new ilSystemStyleLessVariable("variable11", "value11", "comment variable 11", "Category 1", []);
-        $expected_variable12 = new ilSystemStyleLessVariable("variable12", "value12", "comment variable 12", "Category 1", []);
-        $expected_variable13 = new ilSystemStyleLessVariable("variable13", "@variable11", "comment variable 13", "Category 1", ["variable11"]);
+        $expected_variable11 = new ilSystemStyleLessVariable("variable11", "value11", "comment variable 11",
+            "Category 1", []);
+        $expected_variable12 = new ilSystemStyleLessVariable("variable12", "value12", "comment variable 12",
+            "Category 1", []);
+        $expected_variable13 = new ilSystemStyleLessVariable("variable13", "@variable11", "comment variable 13",
+            "Category 1", ["variable11"]);
         $expected_comment4 = new ilSystemStyleLessComment("");
         $expected_category2 = new ilSystemStyleLessCategory("Category 2", "Comment Category 2");
         $expected_comment6 = new ilSystemStyleLessComment("/**");
         $expected_comment7 = new ilSystemStyleLessComment(" Random Section 2 **/");
         $expected_comment8 = new ilSystemStyleLessComment("");
-        $expected_variable21 = new ilSystemStyleLessVariable("variable21", "@variable11", "comment variable 21", "Category 2", ["variable11"]);
-        $expected_variable22 = new ilSystemStyleLessVariable("variable22", "value21", "comment variable 22", "Category 2", []);
-        $expected_variable23 = new ilSystemStyleLessVariable("variable23", "@variable21", "comment variable 23", "Category 2", ["variable21"]);
+        $expected_variable21 = new ilSystemStyleLessVariable("variable21", "@variable11", "comment variable 21",
+            "Category 2", ["variable11"]);
+        $expected_variable22 = new ilSystemStyleLessVariable("variable22", "value21", "comment variable 22",
+            "Category 2", []);
+        $expected_variable23 = new ilSystemStyleLessVariable("variable23", "@variable21", "comment variable 23",
+            "Category 2", ["variable21"]);
 
         $expected_items = [$expected_category1,
-            $expected_comment2,$expected_comment3,
-            $expected_variable11,$expected_variable12,$expected_variable13,
-            $expected_comment4,
-            $expected_category2,
-            $expected_comment6,$expected_comment7,$expected_comment8,
-            $expected_variable21,$expected_variable22,$expected_variable23];
+                           $expected_comment2,
+                           $expected_comment3,
+                           $expected_variable11,
+                           $expected_variable12,
+                           $expected_variable13,
+                           $expected_comment4,
+                           $expected_category2,
+                           $expected_comment6,
+                           $expected_comment7,
+                           $expected_comment8,
+                           $expected_variable21,
+                           $expected_variable22,
+                           $expected_variable23
+        ];
 
         foreach ($expected_items as $item) {
             $empty_less->addItem($item);
@@ -237,11 +275,11 @@ class ilSystemStyleStyleLessFileTest extends TestCase
         $this->assertEquals($expected_items, $new_less->getItems());
     }
 
-    public function testGetVariableReferences()
+    public function testGetVariableReferences() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
-        $this->assertEquals(["variable13","variable21"], $file->getReferencesToVariable("variable11"));
+        $this->assertEquals(["variable13", "variable21"], $file->getReferencesToVariable("variable11"));
         $this->assertEquals([], $file->getReferencesToVariable("variable12"));
         $this->assertEquals([], $file->getReferencesToVariable("variable13"));
 
@@ -250,7 +288,7 @@ class ilSystemStyleStyleLessFileTest extends TestCase
         $this->assertEquals([], $file->getReferencesToVariable("variable23"));
     }
 
-    public function testGetVariableReferencesAsString()
+    public function testGetVariableReferencesAsString() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getLessVariablesFilePath($this->style->getId()));
 
@@ -263,49 +301,62 @@ class ilSystemStyleStyleLessFileTest extends TestCase
         $this->assertEquals("", $file->getReferencesToVariableAsString("variable23"));
     }
 
-    public function testReadCorrectTypesEdgeCases()
+    public function testReadCorrectTypesEdgeCases() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getSkinDirectory() . "edge-cases.less");
 
-        $this->assertEquals(3, count($file->getCategories()));
-        $this->assertEquals(7, count($file->getVariablesIds()));
-        $this->assertEquals(4, count($file->getCommentsIds()));
+        $this->assertCount(3, $file->getCategories());
+        $this->assertCount(7, $file->getVariablesIds());
+        $this->assertCount(4, $file->getCommentsIds());
     }
 
-    public function testGetItemsEdgeCases()
+    public function testGetItemsEdgeCases() : void
     {
         $file = new ilSystemStyleLessFile($this->container->getSkinDirectory() . "edge-cases.less");
 
         $expected_comment1 = new ilSystemStyleLessComment("// No Category to start");
         $expected_comment2 = new ilSystemStyleLessComment("");
 
-        $expected_variable11 = new ilSystemStyleLessVariable("variableNoCategory1", "value11", "comment variable 11", "", []);
+        $expected_variable11 = new ilSystemStyleLessVariable("variableNoCategory1", "value11", "comment variable 11",
+            "", []);
         $expected_variable12 = new ilSystemStyleLessVariable("variableNoCategory1NoComment", "value12", "", "", []);
 
         $expected_category1 = new ilSystemStyleLessCategory("Category 1 no valid section", "");
 
-        $expected_variable21 = new ilSystemStyleLessVariable("variableNoValidSection1", "value21", "", "Category 1 no valid section", []);
-        $expected_variable22 = new ilSystemStyleLessVariable("variableNoValidSection2", "value22", "comment", "Category 1 no valid section", []);
+        $expected_variable21 = new ilSystemStyleLessVariable("variableNoValidSection1", "value21", "",
+            "Category 1 no valid section", []);
+        $expected_variable22 = new ilSystemStyleLessVariable("variableNoValidSection2", "value22", "comment",
+            "Category 1 no valid section", []);
 
         $expected_comment3 = new ilSystemStyleLessComment("");
 
         $expected_category2 = new ilSystemStyleLessCategory("Category 2", "Comment Category 2");
 
-        $expected_variable31 = new ilSystemStyleLessVariable("regular", "value", "Hard references id", "Category 2", []);
-        $expected_variable32 = new ilSystemStyleLessVariable("variable21", "floor((@regular * 1.6)) * lighten(@regular, 20%)", "Hard references", "Category 2", ["regular"]);
+        $expected_variable31 = new ilSystemStyleLessVariable("regular", "value", "Hard references id", "Category 2",
+            []);
+        $expected_variable32 = new ilSystemStyleLessVariable("variable21",
+            "floor((@regular * 1.6)) * lighten(@regular, 20%)", "Hard references", "Category 2", ["regular"]);
 
         $expected_comment4 = new ilSystemStyleLessComment("");
 
         $expected_category3 = new ilSystemStyleLessCategory("Category 3", "No Section Between");
         $expected_variable41 = new ilSystemStyleLessVariable("variable3", "value3", "", "Category 3", []);
 
-        $expected_items = [$expected_comment1,$expected_comment2,
-                $expected_variable11,$expected_variable12,
-                $expected_category1,$expected_variable21,$expected_variable22,
-                $expected_comment3,
-                $expected_category2,$expected_variable31,$expected_variable32,
-                $expected_comment4,
-                $expected_category3,$expected_variable41];
+        $expected_items = [$expected_comment1,
+                           $expected_comment2,
+                           $expected_variable11,
+                           $expected_variable12,
+                           $expected_category1,
+                           $expected_variable21,
+                           $expected_variable22,
+                           $expected_comment3,
+                           $expected_category2,
+                           $expected_variable31,
+                           $expected_variable32,
+                           $expected_comment4,
+                           $expected_category3,
+                           $expected_variable41
+        ];
 
         $this->assertEquals($expected_items, $file->getItems());
     }

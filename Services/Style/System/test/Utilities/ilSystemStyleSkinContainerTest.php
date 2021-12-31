@@ -1,46 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once("Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
-include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleDICMock.php");
-
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php");
-include_once("Services/Utilities/classes/class.ilUtil.php");
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleSkinContainerTest extends TestCase
 {
+    protected ilSkinXML $skin;
+    protected ilSkinStyleXML $style1;
+    protected ilSkinStyleXML $style2;
+    protected ilSystemStyleConfigMock $system_style_config;
 
-
-    /**
-     * @var ilSkinXML
-     */
-    protected $skin;
-
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $style1 = null;
-
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $style2 = null;
-
-    /**
-     * @var ilSystemStyleConfigMock
-     */
-    protected $system_style_config;
-
-    protected $save_dic = null;
+    protected \ILIAS\DI\Container $save_dic;
 
     protected function setUp() : void
     {
@@ -75,7 +46,8 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->system_style_config = new ilSystemStyleConfigMock();
 
         mkdir($this->system_style_config->test_skin_temp_path);
-        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path, $this->system_style_config->test_skin_temp_path);
+        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path,
+            $this->system_style_config->test_skin_temp_path);
     }
 
     protected function tearDown() : void
@@ -86,7 +58,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
-    public function testGenerateFromId()
+    public function testGenerateFromId() : void
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
         $this->assertEquals($container->getSkin()->getId(), $this->skin->getId());
@@ -96,7 +68,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertEquals($container->getSkin()->getStyle($this->style2->getId()), $this->style2);
     }
 
-    public function testCreateDelete()
+    public function testCreateDelete() : void
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
 
@@ -108,14 +80,14 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . "newSkin"));
     }
 
-    public function testUpdateSkinNoIdChange()
+    public function testUpdateSkinNoIdChange() : void
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
         $container->updateSkin();
         $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId()));
     }
 
-    public function testUpdateSkinWithChangedID()
+    public function testUpdateSkinWithChangedID() : void
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
         $old_skin = clone $container->getSkin();
@@ -128,7 +100,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . "newSkin2"));
     }
 
-    public function testAddStyle()
+    public function testAddStyle() : void
     {
         $new_style = new ilSkinStyleXML("style1new", "new Style");
         $new_style->setCssFile("style1new");
@@ -169,7 +141,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . "/style1new-variables.less"));
     }
 
-    public function testDeleteStyle()
+    public function testDeleteStyle() : void
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
 
@@ -190,7 +162,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . "/style2css-variables.less"));
     }
 
-    public function testUpdateStyle()
+    public function testUpdateStyle() : void
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
         $skin = $container->getSkin();
@@ -222,7 +194,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertTrue(is_file($this->system_style_config->getCustomizingSkinPath() . $this->skin->getId() . "/style1new-variables.less"));
     }
 
-    public function testDeleteSkin()
+    public function testDeleteSkin() : void
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
         $skin = $container->getSkin();
@@ -232,7 +204,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId()));
     }
 
-    public function testCopySkin()
+    public function testCopySkin() : void
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
         $skin = $container->getSkin();
@@ -255,7 +227,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertEquals("0.1", $skin_copy->getVersion());
     }
 
-    public function testCopySkinWithInjectedName()
+    public function testCopySkinWithInjectedName() : void
     {
         $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
         $skin = $container->getSkin();
@@ -267,7 +239,7 @@ class ilSystemStyleSkinContainerTest extends TestCase
         $this->assertEquals("0.1", $skin_copy->getVersion());
     }
 
-    public function testImportSkin()
+    public function testImportSkin() : void
     {
         if (!defined('PATH_TO_ZIP')) {
             if (file_exists("ilias.ini.php")) {
@@ -293,12 +265,14 @@ class ilSystemStyleSkinContainerTest extends TestCase
 
         //Only perform this test, if an unzip path has been found.
         if (PATH_TO_UNZIP != "") {
-            $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null, $this->system_style_config);
+            $container = ilSystemStyleSkinContainer::generateFromId($this->skin->getId(), null,
+                $this->system_style_config);
             $skin = $container->getSkin();
 
             $this->assertFalse(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . "Copy"));
 
-            $container_import = $container->import($container->createTempZip(), $this->skin->getId() . ".zip", null, $this->system_style_config, false);
+            $container_import = $container->import($container->createTempZip(), $this->skin->getId() . ".zip", null,
+                $this->system_style_config, false);
             $skin_copy = $container_import->getSkin();
 
             $this->assertTrue(is_dir($this->system_style_config->getCustomizingSkinPath() . $skin->getId() . "Copy"));

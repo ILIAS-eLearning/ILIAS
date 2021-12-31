@@ -1,44 +1,13 @@
-<?php
-include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/Style/System/classes/class.ilSystemStyleSettings.php");
-include_once("Services/Style/System/classes/Exceptions/class.ilSystemStyleException.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessage.php");
-include_once("Services/Style/System/classes/Settings/class.ilSubStyleAssignmentGUI.php");
+<?php declare(strict_types=1);
 
-
-/**
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleSettingsGUI
 {
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilTabsGUI $tabs;
+    protected \ILIAS\UI\Factory $f;
 
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -46,15 +15,11 @@ class ilSystemStyleSettingsGUI
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->tabs = $DIC->tabs();
-
+        $this->f = $DIC->ui()->factory();
         $this->tpl = $DIC["tpl"];
     }
 
-
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd() ? $this->ctrl->getCmd():"edit";
         $system_style_conf = new ilSystemStyleConfig();
@@ -80,7 +45,7 @@ class ilSystemStyleSettingsGUI
                 break;
             case "addAssignment":
                 $assign_gui = new ilSubStyleAssignmentGUI($this);
-                $assign_gui->addAssignment($skin, $style);
+                $assign_gui->addAssignment();
                 break;
             case "assignStyle":
                 $assign_gui = new ilSubStyleAssignmentGUI($this);
@@ -170,15 +135,15 @@ class ilSystemStyleSettingsGUI
                     $this->saveStyle($message_stack);
                 }
 
-                $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("msg_sys_style_update"), ilSystemStyleMessage::TYPE_SUCCESS));
-                $message_stack->sendMessages(true);
+                $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("msg_sys_style_update")));
+                $message_stack->getUIComponentsMessages( $this->f );
                 $this->ctrl->redirectByClass("ilSystemStyleSettingsGUI");
             } catch (ilSystemStyleException $e) {
-                ilUtil::sendFailure($e->getMessage(), true);
+                $message_stack->prependMessage(new ilSystemStyleMessage($e->getMessage(), ilSystemStyleMessage::TYPE_ERROR));
             }
-        } else {
-            $message_stack->sendMessages();
         }
+
+        $message_stack->getUIComponentsMessages( $this->f );
 
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
@@ -305,10 +270,9 @@ class ilSystemStyleSettingsGUI
     }
 
     /**
-     * @return ilPropertyFormGUI
      * @throws ilSystemStyleException
      */
-    protected function editSystemStyleForm()
+    protected function editSystemStyleForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $system_style_conf = new ilSystemStyleConfig();

@@ -1,30 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once("./Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php");
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleXMLTest extends TestCase
 {
+    protected ilSkinStyleXML $style1;
 
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $style1;
-
-    public function testStyleNameAndId()
+    public function testStyleNameAndId() : void
     {
         $this->style1 = new ilSkinStyleXML("style1", "Style 1");
         $this->assertEquals("style1", $this->style1->getId());
         $this->assertEquals("Style 1", $this->style1->getName());
     }
 
-    public function testStyleProperties()
+    public function testStyleProperties() : void
     {
         $this->style1 = new ilSkinStyleXML("style1", "Style 1");
         $this->style1->setId("id");

@@ -5,6 +5,7 @@ use \ILIAS\UI\Factory;
 use \ILIAS\UI\Renderer;
 use ILIAS\GlobalScreen\Services;
 use \ILIAS\HTTP\Wrapper\RequestWrapper;
+use Psr\Http\Message\ServerRequestInterface;
 use ILIAS\Refinery\Factory as RefineryFactory;
 
 /**
@@ -29,6 +30,8 @@ class ilSystemStyleMainGUI
     protected Services $global_screen;
     protected RequestWrapper $request_wrapper;
     protected RefineryFactory $refinery;
+    protected ServerRequestInterface $request;
+    protected ilToolbarGUI $toolbar;
 
     public function __construct()
     {
@@ -50,6 +53,8 @@ class ilSystemStyleMainGUI
         $this->global_screen = $DIC->globalScreen();
         $this->request_wrapper = $DIC->http()->wrapper()->query();
         $this->refinery = $DIC->refinery();
+        $this->request = $DIC->http()->request();
+        $this->toolbar = $DIC->toolbar();
 
         $this->ref_id = $this->request_wrapper->retrieve('ref_id', $this->refinery->kindlyTo()->string());
     }
@@ -99,8 +104,8 @@ class ilSystemStyleMainGUI
                     $this->checkPermission("sty_management");
                     $this->setUnderworldTabs('less');
                     $this->setUnderworldTitle($skin_id, $style_id);
-                    $system_styles_less = new ilSystemStyleLessGUI($this->ctrl, $this->lng, $this->tpl,
-                        $skin_id, $style_id);
+                    $system_styles_less = new ilSystemStyleLessGUI($this->ctrl, $this->lng, $this->tpl, $this->ui_factory,
+                        $this->renderer, $this->request, $this->toolbar, $this->refinery, $skin_id, $style_id);
                     $this->ctrl->forwardCommand($system_styles_less);
                     break;
                 case "ilsystemstyleiconsgui":
@@ -115,7 +120,7 @@ class ilSystemStyleMainGUI
                     $this->help->setSubScreenId("documentation");
                     $read_only = !$this->checkPermission("sty_management", false);
                     $this->setUnderworldTabs('documentation', $read_only);
-                    $this->setUnderworldTitle($skin_id, $style_id,$read_only);
+                    $this->setUnderworldTitle($skin_id, $style_id, $read_only);
                     $goto_link = (new ilKSDocumentationGotoLink())->generateGotoLink($_GET["node_id"] ? $_GET["node_id"] : "",
                         $skin_id, $style_id);
                     $this->global_screen->tool()->context()->current()->addAdditionalData(

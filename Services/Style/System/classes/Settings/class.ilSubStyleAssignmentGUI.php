@@ -1,55 +1,14 @@
-<?php
-include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/Style/System/classes/class.ilStyleDefinition.php");
-include_once("Services/Style/System/classes/class.ilSystemStyleSettings.php");
-include_once("Services/Style/System/classes/Exceptions/class.ilSystemStyleException.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessage.php");
-include_once("Services/Style/System/classes/Settings/class.ilSysStyleCatAssignmentTableGUI.php");
+<?php declare(strict_types=1);
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSubStyleAssignmentGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilTemplate $tpl;
+    protected ilToolbarGUI $toolbar;
+    protected ilSystemStyleSettingsGUI $parent_gui;
+    protected ilTree $tree;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilSystemStyleSettingsGUI
-     */
-    protected $parent_gui;
-
-    /**
-     * @var ilTree
-     */
-    protected $tree;
-
-
-    /**
-     * Constructor
-     */
     public function __construct(ilSystemStyleSettingsGUI $parent_gui)
     {
         global $DIC;
@@ -65,11 +24,9 @@ class ilSubStyleAssignmentGUI
     /**
      * Assign styles to categories
      *
-     * @param ilSkinXML $skin
-     * @param ilSkinStyleXML $substyle
      * @throws ilSystemStyleException
      */
-    public function assignStyle(ilSkinXML $skin, ilSkinStyleXML $substyle)
+    public function assignStyle(ilSkinXML $skin, ilSkinStyleXML $substyle) : void
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
 
@@ -91,7 +48,7 @@ class ilSubStyleAssignmentGUI
     /**
      * Add style category assignment
      */
-    public function addAssignment()
+    public function addAssignment() : void
     {
         include_once 'Services/Search/classes/class.ilSearchRootSelector.php';
         $exp = new ilSearchRootSelector(
@@ -110,11 +67,8 @@ class ilSubStyleAssignmentGUI
 
     /**
      * Save style category assignment
-     *
-     * @param ilSkinXML $skin
-     * @param ilSkinStyleXML $substyle
      */
-    public function saveAssignment(ilSkinXML $skin, ilSkinStyleXML $substyle)
+    public function saveAssignment(ilSkinXML $skin, ilSkinStyleXML $substyle) : void
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
         try {
@@ -135,11 +89,8 @@ class ilSubStyleAssignmentGUI
 
     /**
      * Delete system style to category assignments
-     *
-     * @param ilSkinXML $skin
-     * @param ilSkinStyleXML $substyle
      */
-    public function deleteAssignments(ilSkinXML $skin, ilSkinStyleXML $substyle)
+    public function deleteAssignments(ilSkinXML $skin, ilSkinStyleXML $substyle) : void
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
 
@@ -162,18 +113,12 @@ class ilSubStyleAssignmentGUI
         $this->ctrl->redirect($this->getParentGui(), "assignStyle");
     }
 
-    /**
-     * @return ilSystemStyleSettingsGUI
-     */
-    public function getParentGui()
+    public function getParentGui() : ilSystemStyleSettingsGUI
     {
         return $this->parent_gui;
     }
 
-    /**
-     * @param ilSystemStyleSettingsGUI $parent_gui
-     */
-    public function setParentGui($parent_gui)
+    public function setParentGui(ilSystemStyleSettingsGUI $parent_gui)
     {
         $this->parent_gui = $parent_gui;
     }

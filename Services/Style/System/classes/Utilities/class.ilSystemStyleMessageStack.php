@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-
+use ILIAS\UI\Component\MessageBox\MessageBox;
 /**
  * Used to stack messages to be shown to the user. Mostly used in ilUtil-Classes to present via ilUtil::sendMessage()
  */
@@ -29,23 +29,26 @@ class ilSystemStyleMessageStack
     }
 
     /**
-     * Send messages via ilUtil to be displayed
+     * Return Messages as UI Component
+     * @return MessageBox[]
      */
-    public function sendMessages(bool $keep = false)
+    public function getUIComponentsMessages(\ILIAS\UI\Factory $f) : array
     {
+        $messages = [];
         foreach ($this->getJoinedMessages() as $type => $joined_message) {
             switch ($type) {
                 case ilSystemStyleMessage::TYPE_SUCCESS:
-                    ilUtil::sendSuccess($joined_message, $keep);
+                    $messages[] = $f->messageBox()->success($joined_message);
                     break;
                 case ilSystemStyleMessage::TYPE_INFO:
-                    ilUtil::sendInfo($joined_message, $keep);
+                    $messages[] = $f->messageBox()->info($joined_message);
                     break;
                 case ilSystemStyleMessage::TYPE_ERROR:
-                    ilUtil::sendFailure($joined_message, $keep);
+                    $messages[] = $f->messageBox()->failure($joined_message);
                     break;
             }
         }
+        return $messages;
     }
 
     /**

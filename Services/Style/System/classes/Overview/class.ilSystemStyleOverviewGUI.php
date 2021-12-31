@@ -1,69 +1,20 @@
-<?php
-include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-include_once("Services/Style/System/classes/class.ilSystemStyleSettings.php");
-include_once("Services/Style/System/classes/Overview/class.ilSystemStyleDeleteGUI.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleMessageStack.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/FileDelivery/classes/class.ilFileDelivery.php");
-include_once("Services/Style/System/classes/Overview/class.ilSystemStylesTableGUI.php");
-include_once("Services/Form/classes/class.ilSelectInputGUI.php");
-include_once("Services/Style/System/classes/class.ilStyleDefinition.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/Object/exceptions/class.ilObjectException.php");
+<?php declare(strict_types=1);
 
-/**
- * @author            Alex Killing <alex.killing@gmx.de>
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleOverviewGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilToolbarGUI $toolbar;
+    protected ilLanguage $lng;
+    protected ilGlobalPageTemplate $tpl;
+    protected ILIAS\DI\Container $DIC;
+    protected int $ref_id;
+    protected bool $read_only = true;
+    protected bool $management_enabled = false;
+    protected $ilias;
+    protected \ILIAS\DI\Container $dic;
+    protected \ILIAS\UI\Factory $f;
 
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ILIAS\DI\Container
-     */
-    protected $DIC;
-
-    /**
-     * @var int
-     */
-    protected $ref_id;
-
-    /**
-     * @var bool
-     */
-    protected $read_only = true;
-
-    /**
-     * @var bool
-     */
-    protected $management_enabled = false;
-
-
-    /**
-     * Constructor
-     */
-    public function __construct($read_only, $management_enabled)
+    public function __construct(bool $read_only, bool $management_enabled)
     {
         global $DIC;
 
@@ -73,6 +24,7 @@ class ilSystemStyleOverviewGUI
         $this->toolbar = $DIC->toolbar();
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
+        $this->f = $DIC->ui()->factory();
 
         $this->ref_id = (int) $_GET["ref_id"];
 
@@ -80,17 +32,13 @@ class ilSystemStyleOverviewGUI
         $this->setManagementEnabled($management_enabled);
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
 
         if ($cmd == "") {
-            $cmd = $this->isReadOnly()?"view":"edit";
+            $cmd = $this->isReadOnly() ? "view" : "edit";
         }
-
 
         switch ($cmd) {
             case "addSystemStyle":
@@ -124,9 +72,9 @@ class ilSystemStyleOverviewGUI
         }
     }
 
-    protected function view()
+    protected function view() : void
     {
-        $table = new ilSystemStylesTableGUI($this, "edit", true);
+        $table = new ilSystemStylesTableGUI($this, "edit");
         $this->tpl->setContent($table->getHTML());
     }
 
@@ -134,6 +82,7 @@ class ilSystemStyleOverviewGUI
     {
         $this->edit();
     }
+
     /**
      * Edit
      */
@@ -159,7 +108,8 @@ class ilSystemStyleOverviewGUI
         }
 
         // from styles selector
-        $si = new ilSelectInputGUI($this->lng->txt("sty_move_user_styles") . ": " . $this->lng->txt("sty_from"), "from_style");
+        $si = new ilSelectInputGUI($this->lng->txt("sty_move_user_styles") . ": " . $this->lng->txt("sty_from"),
+            "from_style");
 
         $options = array();
         foreach (ilStyleDefinition::getAllSkinStyles() as $id => $skin_style) {
@@ -186,10 +136,7 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($table->getHTML());
     }
 
-    /**
-     * Move user styles
-     */
-    public function moveUserStyles()
+    public function moveUserStyles() : void
     {
         $to = explode(":", $_POST["to_style"]);
 
@@ -214,11 +161,7 @@ class ilSystemStyleOverviewGUI
         $this->ctrl->redirect($this, "edit");
     }
 
-
-    /**
-     * Save skin and style settings
-     */
-    public function saveStyleSettings()
+    public function saveStyleSettings() : void
     {
         $message_stack = new ilSystemStyleMessageStack();
 
@@ -237,28 +180,27 @@ class ilSystemStyleOverviewGUI
                 $sknst = explode(":", $_POST["default_skin_style"]);
                 ilSystemStyleSettings::setCurrentDefaultStyle($sknst[0], $sknst[1]);
             }
-            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("msg_obj_modified"), ilSystemStyleMessage::TYPE_SUCCESS));
+            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("msg_obj_modified"),
+                ilSystemStyleMessage::TYPE_SUCCESS));
         }
-        $message_stack->sendMessages(true);
+        $message_stack->getUIComponentsMessages($this->f);
         $this->ctrl->redirect($this, "edit");
     }
 
-    /**
-     * @param ilSystemStyleMessageStack $message_stack
-     * @return bool
-     */
-    protected function checkStyleSettings(ilSystemStyleMessageStack $message_stack)
+    protected function checkStyleSettings(ilSystemStyleMessageStack $message_stack) : bool
     {
         $passed = true;
 
         if (count($_POST["st_act"]) < 1) {
             $passed = false;
-            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("at_least_one_style"), ilSystemStyleMessage::TYPE_ERROR));
+            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("at_least_one_style"),
+                ilSystemStyleMessage::TYPE_ERROR));
         }
 
         if (!isset($_POST["st_act"][$_POST["default_skin_style"]])) {
             $passed = false;
-            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("cant_deactivate_default_style"), ilSystemStyleMessage::TYPE_ERROR));
+            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("cant_deactivate_default_style"),
+                ilSystemStyleMessage::TYPE_ERROR));
         }
 
         // check if a style should be deactivated, that still has
@@ -269,24 +211,20 @@ class ilSystemStyleOverviewGUI
             if (!isset($_POST["st_act"][$st["id"]])) {
                 if (ilObjUser::_getNumberOfUsersForStyle($st["template_id"], $st["style_id"]) > 0) {
                     $passed = false;
-                    $message_stack->addMessage(new ilSystemStyleMessage($st["style_name"] . ": " . $this->lng->txt("cant_deactivate_if_users_assigned"), ilSystemStyleMessage::TYPE_ERROR));
+                    $message_stack->addMessage(new ilSystemStyleMessage($st["style_name"] . ": " . $this->lng->txt("cant_deactivate_if_users_assigned"),
+                        ilSystemStyleMessage::TYPE_ERROR));
                 }
             }
         }
         return $passed;
     }
 
-
-    /**
-     * create
-     */
-    protected function addSystemStyle()
+    protected function addSystemStyle() : void
     {
         $this->addSystemStyleForms();
     }
 
-
-    protected function saveNewSystemStyle()
+    protected function saveNewSystemStyle() : void
     {
         $form = $this->createSystemStyleForm();
 
@@ -304,16 +242,17 @@ class ilSystemStyleOverviewGUI
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $skin->getId());
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $style->getId());
                     if ($message_stack->hasMessages()) {
-                        $message_stack->sendMessages(true);
+                        $message_stack->getUIComponentsMessages($this->f);
                     } else {
                         ilUtil::sendSuccess($this->lng->txt("msg_sys_style_created"), true);
                     }
                     $this->ctrl->redirectByClass("ilSystemStyleSettingsGUI");
                 } catch (ilSystemStyleException $e) {
-                    $message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(), ilSystemStyleMessage::TYPE_ERROR));
+                    $message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(),
+                        ilSystemStyleMessage::TYPE_ERROR));
                 }
             }
-            $message_stack->sendMessages();
+            $message_stack->getUIComponentsMessages($this->f);
         }
 
         // display only this form to correct input
@@ -321,10 +260,7 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * create
-     */
-    protected function addSystemStyleForms()
+    protected function addSystemStyleForms() : void
     {
         global $DIC;
 
@@ -345,10 +281,7 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($this->getCreationFormsHTML($forms));
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function createSystemStyleForm()
+    protected function createSystemStyleForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -388,10 +321,7 @@ class ilSystemStyleOverviewGUI
         return $form;
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function importSystemStyleForm()
+    protected function importSystemStyleForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -409,10 +339,7 @@ class ilSystemStyleOverviewGUI
         return $form;
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function cloneSystemStyleForm()
+    protected function cloneSystemStyleForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
@@ -439,11 +366,7 @@ class ilSystemStyleOverviewGUI
         return $form;
     }
 
-    /**
-     * @param array $a_forms
-     * @return string
-     */
-    protected function getCreationFormsHTML(array $a_forms)
+    protected function getCreationFormsHTML(array $a_forms) : string
     {
         include_once("./Services/Accordion/classes/class.ilAccordionGUI.php");
 
@@ -468,8 +391,8 @@ class ilSystemStyleOverviewGUI
             // move title from form to accordion
             $htpl->setVariable("TITLE", $this->lng->txt("option") . " " . $cnt . ": " .
                 $form_title);
-            $cf->setTitle(null);
-            $cf->setTitleIcon(null);
+            $cf->setTitle("");
+            $cf->setTitleIcon("");
             $cf->setTableWidth("100%");
 
             $acc->addItem($htpl->get(), $cf->getHTML());
@@ -491,19 +414,20 @@ class ilSystemStyleOverviewGUI
         try {
             $container = ilSystemStyleSkinContainer::generateFromId($skin_id, $message_stack);
             $new_container = $container->copy($this->lng->txt("sty_acopy"));
-            $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("style_copied"), ilSystemStyleMessage::TYPE_SUCCESS));
+            $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("style_copied"),
+                ilSystemStyleMessage::TYPE_SUCCESS));
             $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $new_container->getSkin()->getId());
-            $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $new_container->getSkin()->getStyle($style_id)->getId());
+            $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id',
+                $new_container->getSkin()->getStyle($style_id)->getId());
         } catch (Exception $e) {
             $message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(), ilSystemStyleMessage::TYPE_ERROR));
         }
 
-
-        $message_stack->sendMessages(true);
+        $message_stack->getUIComponentsMessages($this->f);
         $this->ctrl->redirectByClass("ilSystemStyleSettingsGUI");
     }
 
-    protected function deleteStyle()
+    protected function deleteStyle() : void
     {
         $skin_id = $_GET["skin_id"];
         $style_id = $_GET["style_id"];
@@ -515,12 +439,14 @@ class ilSystemStyleOverviewGUI
             $delete_form_table->addStyle($container->getSkin(), $container->getSkin()->getStyle($style_id));
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());
         } else {
-            $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("style_not_deleted"), ilSystemStyleMessage::TYPE_ERROR));
-            $message_stack->sendMessages(true);
+            $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("style_not_deleted"),
+                ilSystemStyleMessage::TYPE_ERROR));
+            $message_stack->getUIComponentsMessages($this->f);
             $this->edit();
         }
     }
-    protected function deleteStyles()
+
+    protected function deleteStyles() : void
     {
         $delete_form_table = new ilSystemStyleDeleteGUI();
         $message_stack = new ilSystemStyleMessageStack();
@@ -544,43 +470,41 @@ class ilSystemStyleOverviewGUI
             }
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());
         } else {
-            $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("styles_not_deleted"), ilSystemStyleMessage::TYPE_ERROR));
-            $message_stack->sendMessages(true);
+            $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("styles_not_deleted"),
+                ilSystemStyleMessage::TYPE_ERROR));
+            $message_stack->getUIComponentsMessages($this->f);
             $this->edit();
         }
     }
 
-    /**
-     * @param $skin_id
-     * @param $style_id
-     * @param ilSystemStyleMessageStack $message_stack
-     * @return bool
-     * @throws ilSystemStyleException
-     */
-    protected function checkDeletable($skin_id, $style_id, ilSystemStyleMessageStack $message_stack)
+    protected function checkDeletable(string $skin_id, string $style_id, ilSystemStyleMessageStack $message_stack) : bool
     {
         $passed = true;
         if (ilObjUser::_getNumberOfUsersForStyle($skin_id, $style_id) > 0) {
-            $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_if_users_assigned"), ilSystemStyleMessage::TYPE_ERROR));
+            $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_if_users_assigned"),
+                ilSystemStyleMessage::TYPE_ERROR));
             $passed = false;
         }
         if (ilSystemStyleSettings::_lookupActivatedStyle($skin_id, $style_id) > 0) {
-            $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_activated_style"), ilSystemStyleMessage::TYPE_ERROR));
+            $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_activated_style"),
+                ilSystemStyleMessage::TYPE_ERROR));
             $passed = false;
         }
         if (ilSystemStyleSettings::getCurrentDefaultSkin() == $skin_id && ilSystemStyleSettings::getCurrentDefaultSkin() == $style_id) {
-            $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_default_style"), ilSystemStyleMessage::TYPE_ERROR));
+            $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_default_style"),
+                ilSystemStyleMessage::TYPE_ERROR));
             $passed = false;
         }
 
         if (ilSystemStyleSkinContainer::generateFromId($skin_id)->getSkin()->getSubstylesOfStyle($style_id)) {
-            $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_style_with_substyles"), ilSystemStyleMessage::TYPE_ERROR));
+            $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_style_with_substyles"),
+                ilSystemStyleMessage::TYPE_ERROR));
             $passed = false;
         }
         return $passed;
     }
 
-    protected function confirmDelete()
+    protected function confirmDelete() : void
     {
         $message_stack = new ilSystemStyleMessageStack();
 
@@ -595,11 +519,12 @@ class ilSystemStyleOverviewGUI
                         $container->delete();
                     }
                 } catch (Exception $e) {
-                    $message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(), ilSystemStyleMessage::TYPE_ERROR));
+                    $message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(),
+                        ilSystemStyleMessage::TYPE_ERROR));
                 }
             }
         }
-        $message_stack->sendMessages(true);
+        $message_stack->getUIComponentsMessages($this->f);
         $this->ctrl->redirect($this);
     }
 
@@ -612,12 +537,16 @@ class ilSystemStyleOverviewGUI
 
         if ($form->checkInput()) {
             $message_stack = new ilSystemStyleMessageStack();
-            $imported_container = ilSystemStyleSkinContainer::import($_POST['importfile']['tmp_name'], $_POST['importfile']['name'], $message_stack);
-            $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $imported_container->getSkin()->getId());
-            $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $imported_container->getSkin()->getDefaultStyle()->getId());
-            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("style_imported") . " " . $imported_container->getSkinDirectory(), ilSystemStyleMessage::TYPE_SUCCESS));
+            $imported_container = ilSystemStyleSkinContainer::import($_POST['importfile']['tmp_name'],
+                $_POST['importfile']['name'], $message_stack);
+            $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id',
+                $imported_container->getSkin()->getId());
+            $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id',
+                $imported_container->getSkin()->getDefaultStyle()->getId());
+            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("style_imported") . " " . $imported_container->getSkinDirectory(),
+                ilSystemStyleMessage::TYPE_SUCCESS));
 
-            $message_stack->sendMessages(true);
+            $message_stack->getUIComponentsMessages($this->f);
             $this->ctrl->redirectByClass("ilSystemStyleSettingsGUI");
         }
 
@@ -625,7 +554,8 @@ class ilSystemStyleOverviewGUI
         $form->setValuesByPost();
         $this->tpl->setContent($form->getHTML());
     }
-    protected function export()
+
+    protected function export() : void
     {
         $skin_id = $_GET["skin_id"];
         $container = ilSystemStyleSkinContainer::generateFromId($skin_id);
@@ -636,11 +566,10 @@ class ilSystemStyleOverviewGUI
         }
     }
 
-
     /**
      *
      */
-    protected function addSubStyle()
+    protected function addSubStyle() : void
     {
         global $DIC;
 
@@ -657,15 +586,11 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @return ilPropertyFormGUI
-     */
-    protected function addSubStyleForms()
+    protected function addSubStyleForms() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
         $form->setFormAction($this->ctrl->getFormAction($this));
         $form->setTitle($this->lng->txt("sty_create_new_system_sub_style"));
-
 
         $ti = new ilTextInputGUI($this->lng->txt("sub_style_id"), "sub_style_id");
         $ti->setInfo($this->lng->txt("sub_style_id_description"));
@@ -702,7 +627,7 @@ class ilSystemStyleOverviewGUI
         return $form;
     }
 
-    protected function saveNewSubStyle()
+    protected function saveNewSubStyle() : void
     {
         $form = $this->addSubStyleForms();
 
@@ -714,8 +639,10 @@ class ilSystemStyleOverviewGUI
 
                 $container = ilSystemStyleSkinContainer::generateFromId($parent_skin_id);
 
-                if (array_key_exists($_POST['sub_style_id'], $container->getSkin()->getSubstylesOfStyle($parent_style_id))) {
-                    throw new ilSystemStyleException(ilSystemStyleException::SUBSTYLE_ASSIGNMENT_EXISTS, $_POST['sub_style_id']);
+                if (array_key_exists($_POST['sub_style_id'],
+                    $container->getSkin()->getSubstylesOfStyle($parent_style_id))) {
+                    throw new ilSystemStyleException(ilSystemStyleException::SUBSTYLE_ASSIGNMENT_EXISTS,
+                        $_POST['sub_style_id']);
                 }
 
                 $sub_style_id = $_POST['sub_style_id'];
@@ -738,34 +665,22 @@ class ilSystemStyleOverviewGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @return boolean
-     */
-    public function isReadOnly()
+    public function isReadOnly() : bool
     {
         return $this->read_only;
     }
 
-    /**
-     * @param boolean $read_only
-     */
-    public function setReadOnly($read_only)
+    public function setReadOnly($read_only) : void
     {
         $this->read_only = $read_only;
     }
 
-    /**
-     * @return boolean
-     */
-    public function isManagementEnabled()
+    public function isManagementEnabled() : bool
     {
         return $this->management_enabled;
     }
 
-    /**
-     * @param boolean $management_enabled
-     */
-    public function setManagementEnabled($management_enabled)
+    public function setManagementEnabled(bool $management_enabled)
     {
         $this->management_enabled = $management_enabled;
     }

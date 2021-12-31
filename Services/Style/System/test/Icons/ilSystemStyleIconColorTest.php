@@ -1,18 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconColor.php");
-include_once("Services/Style/System/classes/Exceptions/class.ilSystemStyleColorException.php");
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleIconColorTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $color = new ilSystemStyleIconColor("id", "name", "FF0000", "description");
 
@@ -22,7 +16,7 @@ class ilSystemStyleIconColorTest extends TestCase
         $this->assertEquals("description", $color->getDescription());
     }
 
-    public function testSetMethods()
+    public function testSetMethods() : void
     {
         $color = new ilSystemStyleIconColor("id", "name", "FF0000", "description");
 
@@ -37,14 +31,14 @@ class ilSystemStyleIconColorTest extends TestCase
         $this->assertEquals("descriptionnew", $color->getDescription());
     }
 
-    public function testLowerCaseColor()
+    public function testLowerCaseColor() : void
     {
         $color = new ilSystemStyleIconColor("id", "name", "abcdef", "description");
 
         $this->assertEquals("ABCDEF", $color->getColor());
     }
 
-    public function testInvalidColor1()
+    public function testInvalidColor1() : void
     {
         try {
             new ilSystemStyleIconColor("id", "name", "#FF0000", "description");
@@ -53,7 +47,7 @@ class ilSystemStyleIconColorTest extends TestCase
             $this->assertEquals(ilSystemStyleColorException::INVALID_COLOR_EXCEPTION, $e->getCode());
         }
     }
-    public function testInvalidColor2()
+    public function testInvalidColor2() : void
     {
         try {
             new ilSystemStyleIconColor("id", "name", "ZZ0000", "description");
@@ -62,7 +56,7 @@ class ilSystemStyleIconColorTest extends TestCase
             $this->assertEquals(ilSystemStyleColorException::INVALID_COLOR_EXCEPTION, $e->getCode());
         }
     }
-    public function testValidColor3()
+    public function testValidColor3() : void
     {
         try {
             new ilSystemStyleIconColor("id", "name", "F00", "description");
@@ -72,7 +66,7 @@ class ilSystemStyleIconColorTest extends TestCase
         }
     }
 
-    public function testGetDominantAspect()
+    public function testGetDominantAspect() : void
     {
         $white = new ilSystemStyleIconColor("id", "name", "FFFFFF", "description");
         $black = new ilSystemStyleIconColor("id", "name", "000000", "description");
@@ -90,7 +84,7 @@ class ilSystemStyleIconColorTest extends TestCase
         $this->assertEquals(ilSystemStyleIconColor::BLUE, $blue->getDominatAspect());
     }
 
-    public function testGetPerceivedBrightness()
+    public function testGetPerceivedBrightness() : void
     {
         $white = new ilSystemStyleIconColor("id", "name", "FFFFFF", "description");
         $black = new ilSystemStyleIconColor("id", "name", "000000", "description");
@@ -108,7 +102,7 @@ class ilSystemStyleIconColorTest extends TestCase
         $this->assertEquals(87, ceil($blue->getPerceivedBrightness()));
     }
 
-    public function testCompareColors()
+    public function testCompareColors() : void
     {
         $white = new ilSystemStyleIconColor("id", "name", "FFFFFF", "description");
         $black = new ilSystemStyleIconColor("id", "name", "000000", "description");

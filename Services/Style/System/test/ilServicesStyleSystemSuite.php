@@ -4,7 +4,7 @@ use PHPUnit\Framework\TestSuite;
 
 class ilServicesStyleSystemSuite extends TestSuite
 {
-    public static function suite()
+    public static function suite() : TestSuite
     {
         $suite = new ilServicesStyleSystemSuite();
 

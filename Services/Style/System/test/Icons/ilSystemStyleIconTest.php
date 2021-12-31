@@ -1,50 +1,17 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once("Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
-include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleDICMock.php");
-
-include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIcon.php");
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleIconTest extends TestCase
 {
-
-    /**
-     * @var ilSystemStyleConfigMock
-     */
-    protected $system_style_config;
-
-    /**
-     * @var ilSystemStyleSkinContainer
-     */
-    protected $container;
-
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $style;
-
-    /**
-     * @var string
-     */
-    protected $icon_name = "test_image_1.svg";
-
-    /**
-     * @var string
-     */
-    protected $icon_type = "svg";
-
-
-    protected $save_dic = null;
+    protected ilSystemStyleConfigMock $system_style_config;
+    protected ilSystemStyleSkinContainer $container;
+    protected ilSkinStyleXML $style;
+    protected string $icon_name = "test_image_1.svg";
+    protected string $icon_type = "svg";
+    protected ILIAS\DI\Container $save_dic;
 
     protected function setUp() : void
     {
@@ -70,7 +37,7 @@ class ilSystemStyleIconTest extends TestCase
         ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . "/" . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
@@ -80,22 +47,22 @@ class ilSystemStyleIconTest extends TestCase
         $this->assertEquals($icon->getType(), $this->icon_type);
     }
 
-    public function testGetDirRelToCustomizing()
+    public function testGetDirRelToCustomizing() : void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . "/" . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
 
-        $this->assertEquals($icon->getDirRelToCustomizing(), "");
+        $this->assertEquals("", $icon->getDirRelToCustomizing());
 
         $name = "test.svg";
         $rel_path = "global/skin/unibe50/images";
         $path = "./Customizing" . $rel_path . "/" . $name;
         $icon = new ilSystemStyleIcon($name, $path, "svg");
 
-        $this->assertEquals($icon->getDirRelToCustomizing(), $rel_path);
+        $this->assertEquals($rel_path,$icon->getDirRelToCustomizing());
     }
 
-    public function testGetColorSet()
+    public function testGetColorSet() : void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . "/" . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
@@ -113,7 +80,7 @@ class ilSystemStyleIconTest extends TestCase
         $this->assertEquals($expected_color_set, $icon->getColorSet());
     }
 
-    public function testChangeColor()
+    public function testChangeColor() : void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . "/" . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);
@@ -133,7 +100,7 @@ class ilSystemStyleIconTest extends TestCase
         $this->assertEquals($expected_color_set, $icon->getColorSet());
     }
 
-    public function testChangeColorInIconFile()
+    public function testChangeColorInIconFile() : void
     {
         $path = $this->container->getImagesSkinPath($this->style->getId()) . "/" . $this->icon_name;
         $icon = new ilSystemStyleIcon($this->icon_name, $path, $this->icon_type);

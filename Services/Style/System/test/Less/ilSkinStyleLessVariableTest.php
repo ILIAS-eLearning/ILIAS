@@ -1,17 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessVariable.php");
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSkinStyleLessVariableTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $variable = new ilSystemStyleLessVariable("name", "value", "comment", "category_name", ["references_id"]);
         $this->assertEquals("name", $variable->getName());
@@ -21,7 +16,7 @@ class ilSkinStyleLessVariableTest extends TestCase
         $this->assertEquals(["references_id"], $variable->getReferences());
     }
 
-    public function testSetters()
+    public function testSetters() : void
     {
         $variable = new ilSystemStyleLessVariable("name", "value", "comment", "category_name", ["references_id"]);
 
@@ -38,7 +33,7 @@ class ilSkinStyleLessVariableTest extends TestCase
         $this->assertEquals(["new_references_id"], $variable->getReferences());
     }
 
-    public function testIconFontPathUpdate()
+    public function testIconFontPathUpdate() : void
     {
         $variable = new ilSystemStyleLessVariable("il-icon-font-path", "value", "comment", "category_name", ["references_id"]);
 
@@ -46,7 +41,7 @@ class ilSkinStyleLessVariableTest extends TestCase
         $this->assertEquals("\"../../../../node_modules/bootstrap/fonts/\"", $variable->getValue());
     }
 
-    public function testIconFontPathQuotation()
+    public function testIconFontPathQuotation() : void
     {
         $variable = new ilSystemStyleLessVariable("il-icon-font-path", "value", "comment", "category_name", ["references_id"]);
 
@@ -65,7 +60,7 @@ class ilSkinStyleLessVariableTest extends TestCase
         $this->assertEquals("\"somePath\"", $variable->getValue());
     }
 
-    public function testToString()
+    public function testToString() : void
     {
         $variable = new ilSystemStyleLessVariable("name", "value", "comment", "category_name", ["references_id"]);
         $this->assertEquals("//** comment\n@name:\t\tvalue;\n", (string) $variable);

@@ -1,50 +1,18 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once("Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSkinXML.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
-include_once("Services/Style/System/test/fixtures/mocks/ilSystemStyleDICMock.php");
-
-include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIcon.php");
-include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconFolder.php");
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleIconFolderTest extends TestCase
 {
+    protected ilSystemStyleConfigMock $system_style_config;
+    protected ilSystemStyleSkinContainer $container;
+    protected ilSkinStyleXML $style;
+    protected string $icon_name = "test_image_1.svg";
+    protected string $icon_type = "svg";
 
-    /**
-     * @var ilSystemStyleConfigMock
-     */
-    protected $system_style_config;
-
-    /**
-     * @var ilSystemStyleSkinContainer
-     */
-    protected $container;
-
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $style;
-
-    /**
-     * @var string
-     */
-    protected $icon_name = "test_image_1.svg";
-
-    /**
-     * @var string
-     */
-    protected $icon_type = "svg";
-
-    protected $save_dic = null;
+    protected ILIAS\DI\Container $save_dic;
 
     protected function setUp() : void
     {
@@ -70,14 +38,14 @@ class ilSystemStyleIconFolderTest extends TestCase
         ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
 
         $this->assertEquals($this->container->getImagesSkinPath($this->style->getId()), $folder->getPath());
     }
 
-    public function testSetPath()
+    public function testSetPath() : void
     {
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
         $folder->setPath("pathnew");
@@ -86,13 +54,13 @@ class ilSystemStyleIconFolderTest extends TestCase
     }
 
 
-    public function testReadRecursiveCount()
+    public function testReadRecursiveCount() : void
     {
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
-        $this->assertEquals(5, count($folder->getIcons()));
+        $this->assertCount(5, $folder->getIcons());
     }
 
-    public function testFolderDoesNotExist()
+    public function testFolderDoesNotExist() : void
     {
         try {
             new ilSystemStyleIconFolder("Does not exist");
@@ -102,7 +70,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         }
     }
 
-    public function testFolderGetIconByName()
+    public function testFolderGetIconByName() : void
     {
         $style_path = $this->container->getImagesSkinPath($this->style->getId());
 
@@ -112,7 +80,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $this->assertEquals($icon1, $folder->getIconByName("test_image_1.svg"));
     }
 
-    public function testFolderGetIconByPath()
+    public function testFolderGetIconByPath() : void
     {
         $style_path = $this->container->getImagesSkinPath($this->style->getId());
 
@@ -122,7 +90,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $this->assertEquals($icon1, $folder->getIconByPath($path1));
     }
 
-    public function testIconDoesNotExist()
+    public function testIconDoesNotExist() : void
     {
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
 
@@ -134,7 +102,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         }
     }
 
-    public function testReadRecursiveAndSortByName()
+    public function testReadRecursiveAndSortByName() : void
     {
         $style_path = $this->container->getImagesSkinPath($this->style->getId());
 
@@ -159,7 +127,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $this->assertEquals($expected_icons, $folder->getIcons());
     }
 
-    public function testReadRecursiveAndSortByFolder()
+    public function testReadRecursiveAndSortByFolder() : void
     {
         $style_path = $this->container->getImagesSkinPath($this->style->getId());
 
@@ -187,7 +155,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $this->assertEquals($expected_icons, $folder->getIconsSortedByFolder());
     }
 
-    public function testExtractColorset()
+    public function testExtractColorset() : void
     {
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
 
@@ -211,7 +179,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $this->assertEquals($expected_color_set, $folder->getColorSet());
     }
 
-    public function testExtractChangeColors()
+    public function testExtractChangeColors() : void
     {
         $folder1 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
         $folder1->changeIconColors(["505050" => "555555"]);
@@ -238,7 +206,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $this->assertEquals($expected_color_set, $folder2->getColorSet());
     }
 
-    public function testGetUsages()
+    public function testGetUsages() : void
     {
         $style_path = $this->container->getImagesSkinPath($this->style->getId());
 
@@ -261,7 +229,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $this->assertEquals($expected_icons_usages, $folder1->getUsagesOfColor("id_6B6B6B"));
     }
 
-    public function testGetUsagesAfterChangeColor()
+    public function testGetUsagesAfterChangeColor() : void
     {
         $style_path = $this->container->getImagesSkinPath($this->style->getId());
 
@@ -288,7 +256,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $this->assertEquals([], $folder2->getUsagesOfColor("id_6B6B6B"));
     }
 
-    public function testGetUsagesAsString()
+    public function testGetUsagesAsString() : void
     {
         $folder1 = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
 

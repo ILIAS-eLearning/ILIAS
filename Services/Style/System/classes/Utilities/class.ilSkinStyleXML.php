@@ -73,13 +73,11 @@ class ilSkinStyleXML
     }
 
     /**
-     * @param SimpleXMLElement $xml_element
-     * @return ilSkinStyleXML
      * @throws ilSystemStyleException
      */
-    public static function parseFromXMLElement(SimpleXMLElement $xml_element)
+    public static function parseFromXMLElement(SimpleXMLElement $xml_element) : ilSkinStyleXML
     {
-        $style = new self(
+        return new self(
             (string) $xml_element->attributes()["id"],
             (string) $xml_element->attributes()["name"],
             (string) $xml_element->attributes()["css_file"],
@@ -87,22 +85,17 @@ class ilSkinStyleXML
             (string) $xml_element->attributes()["font_directory"],
             (string) $xml_element->attributes()["sound_directory"]
         );
-        return $style;
     }
 
-    /**
-     * @return string
-     */
-    public function getId()
+    public function getId() : string
     {
         return $this->id;
     }
 
     /**
-     * @param $id
      * @throws ilSystemStyleException
      */
-    public function setId($id)
+    public function setId(string $id)
     {
         if (strpos($id, ' ') !== false) {
             throw new ilSystemStyleException(ilSystemStyleException::INVALID_CHARACTERS_IN_ID, $id);
@@ -110,119 +103,84 @@ class ilSkinStyleXML
         $this->id = str_replace(" ", "_", $id);
     }
 
-    /**
-     * @return string
-     */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * @return string
-     */
-    public function getSoundDirectory()
+    public function getSoundDirectory() : string
     {
         return $this->sound_directory;
     }
 
-    /**
-     * @param string $sound_directory
-     */
-    public function setSoundDirectory($sound_directory)
+    public function setSoundDirectory(string $sound_directory)
     {
         $this->sound_directory = $sound_directory;
     }
 
-    /**
-     * @return string
-     */
-    public function getImageDirectory()
+    public function getImageDirectory() : string
     {
         return $this->image_directory;
     }
 
-    /**
-     * @param string $image_directory
-     */
-    public function setImageDirectory($image_directory)
+    public function setImageDirectory(string $image_directory)
     {
         $this->image_directory = $image_directory;
     }
 
-    /**
-     * @return string
-     */
-    public function getCssFile()
+    public function getCssFile() : string
     {
         return $this->css_file;
     }
 
-    /**
-     * @param string $css_file
-     */
-    public function setCssFile($css_file)
+    public function setCssFile(string $css_file)
     {
         $this->css_file = $css_file;
     }
 
-    /**
-     * @return string
-     */
-    public function getFontDirectory()
+    public function getFontDirectory() : string
     {
         return $this->font_directory;
     }
 
-    /**
-     * @param string $font_directory
-     */
-    public function setFontDirectory($font_directory)
+    public function setFontDirectory(string $font_directory)
     {
         $this->font_directory = $font_directory;
     }
 
     /**
      * Returns the parent style of this style if set
-     * @return string
      */
-    public function getSubstyleOf()
+    public function getSubstyleOf() : string
     {
         return $this->substyle_of;
     }
 
     /**
      * Sets style as sub style of another
-     * @param string $substyle_of
      */
-    public function setSubstyleOf($substyle_of)
+    public function setSubstyleOf(string $substyle_of)
     {
         $this->substyle_of = $substyle_of;
     }
 
     /**
      * Return wheter this style is a substyle of another
-     * @return bool
      */
-    public function isSubstyle()
+    public function isSubstyle() : bool
     {
         return $this->getSubstyleOf() != "";
     }
 
     /**
      * Checks if a resource (folder) relative to the style is referenced by this style. Used to decide if folder can be deleted.
-     * @param $resource
-     * @return bool
      */
-    public function referencesResource($resource)
+    public function referencesResource(string $resource) : bool
     {
         return $this->getCssFile() == $resource
             || $this->getImageDirectory() == $resource

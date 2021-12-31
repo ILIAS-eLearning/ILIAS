@@ -1,26 +1,17 @@
-<?php
-
-/* Copyright (c) 1998-2014 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
 /**
  * This class acts as Model for all system styles settings related settings
  * such as activated or default system styles etc, be it in database or inifile.
  * Do not use this class to get the current system style, use ilStyleDefinition insteaed.
  * Semantics of terms style, sub style, skin, template --> see ilStyleDefinition
- * @author  Alex Killing <alex.killing@gmx.de>
- * @author  Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version $Id$
- * @ingroup ServicesStyle
  */
 class ilSystemStyleSettings
 {
     /**
      * lookup if a style is activated
-     * @param $a_skin
-     * @param $a_style
-     * @return bool
      */
-    public static function _lookupActivatedStyle($a_skin, $a_style)
+    public static function _lookupActivatedStyle(string $a_skin, string $a_style) : bool
     {
         global $DIC;
 
@@ -40,10 +31,8 @@ class ilSystemStyleSettings
 
     /**
      * deactivate system style
-     * @param $a_skin
-     * @param $a_style
      */
-    public static function _deactivateStyle($a_skin, $a_style)
+    public static function _deactivateStyle(string $a_skin, string $a_style) : void
     {
         global $DIC;
 
@@ -58,10 +47,8 @@ class ilSystemStyleSettings
 
     /**
      * activate system style
-     * @param $a_skin
-     * @param $a_style
      */
-    public static function _activateStyle($a_skin, $a_style)
+    public static function _activateStyle(string $a_skin, string $a_style) : void
     {
         global $DIC;
 
@@ -75,11 +62,9 @@ class ilSystemStyleSettings
     /**
      * Get all system sub styles category assignments. This is used to check wheter a system sub style is to be used
      * in a particular category.
-     * @param string $a_skin_id  skin id
-     * @param string $a_style_id style id
      * @return array ('substyle' => substyle_id, 'ref id' => cat_ref_id)
      */
-    public static function getSystemStyleCategoryAssignments($a_skin_id, $a_style_id)
+    public static function getSystemStyleCategoryAssignments(string $a_skin_id, string $a_style_id) : array
     {
         global $DIC;
 
@@ -101,13 +86,12 @@ class ilSystemStyleSettings
     /**
      * Get all system category assignments of exactly one substyle. This is used to check wheter a system sub style is to be used
      * in a particular category.
-     * @param $a_skin_id
-     * @param $a_style_id
-     * @param $a_sub_style_id
-     * @return array
      */
-    public static function getSubStyleCategoryAssignments($a_skin_id, $a_style_id, $a_sub_style_id)
-    {
+    public static function getSubStyleCategoryAssignments(
+        string $a_skin_id,
+        string $a_style_id,
+        string $a_sub_style_id
+    ) : array {
         global $DIC;
 
         $assignmnts = [];
@@ -129,17 +113,14 @@ class ilSystemStyleSettings
 
     /**
      * Sets a substyle category assignment.
-     * @param $a_skin_id
-     * @param $a_style_id
-     * @param $a_substyle
-     * @param $a_ref_id
+     *
      * @throws ilSystemStyleException
      */
     public static function writeSystemStyleCategoryAssignment(
-        $a_skin_id,
-        $a_style_id,
-        $a_substyle,
-        $a_ref_id
+        string $a_skin_id,
+        string $a_style_id,
+        string $a_substyle,
+        string $a_ref_id
     ) {
         global $DIC;
 
@@ -163,17 +144,13 @@ class ilSystemStyleSettings
     /**
      * Deletes all sub style category assignment of a system style. This is used if a system style is deleted
      * completely
-     * @param $a_skin_id
-     * @param $a_style_id
-     * @param $a_substyle
-     * @param $a_ref_id
      */
     public static function deleteSystemStyleCategoryAssignment(
-        $a_skin_id,
-        $a_style_id,
-        $a_substyle,
-        $a_ref_id
-    ) {
+        string $a_skin_id,
+        string $a_style_id,
+        string $a_substyle,
+        string $a_ref_id
+    ) : void {
         global $DIC;
 
         $DIC->database()->manipulate("DELETE FROM syst_style_cat WHERE " .
@@ -185,11 +162,8 @@ class ilSystemStyleSettings
 
     /**
      * Delets a sub styles category assignment.
-     * @param $a_skin_id
-     * @param $a_style_id
-     * @param $a_substyle
      */
-    public static function deleteSubStyleCategoryAssignments($a_skin_id, $a_style_id, $a_substyle)
+    public static function deleteSubStyleCategoryAssignments(string $a_skin_id, string $a_style_id, string $a_substyle)
     {
         global $DIC;
 
@@ -201,17 +175,13 @@ class ilSystemStyleSettings
 
     /**
      * Updates an assignment, e.g. in case of ID Change through GUI.
-     * @param string $old_skin_id
-     * @param string $old_style_id
-     * @param string $new_skin_id
-     * @param string $new_style_id
      */
     public static function updateSkinIdAndStyleIDOfSubStyleCategoryAssignments(
         string $old_skin_id,
         string $old_style_id,
         string $new_skin_id,
         string $new_style_id
-    ) {
+    ) : void {
         global $DIC;
 
         $DIC->database()->manipulate("UPDATE syst_style_cat " .
@@ -223,13 +193,11 @@ class ilSystemStyleSettings
 
     /**
      * Updates an assignment, e.g. in case of ID Change through GUI.
-     * @param string $old_substyle_id
-     * @param string $new_substyle_id
      */
     public static function updateSubStyleIdfSubStyleCategoryAssignments(
         string $old_substyle_id,
         string $new_substyle_id
-    ) {
+    ) : void {
         global $DIC;
 
         $DIC->database()->manipulate("UPDATE syst_style_cat " .
@@ -239,10 +207,8 @@ class ilSystemStyleSettings
 
     /**
      * Sets a users preferred system skin/style by using the user object.
-     * @param $skin_id
-     * @param $style_id
      */
-    public static function setCurrentUserPrefStyle($skin_id, $style_id)
+    public static function setCurrentUserPrefStyle(string $skin_id, string $style_id) : void
     {
         global $DIC;
 
@@ -253,9 +219,8 @@ class ilSystemStyleSettings
 
     /**
      * Gets a users preferred skin by using the user object.
-     * @return bool
      */
-    public static function getCurrentUserPrefSkin()
+    public static function getCurrentUserPrefSkin() : bool
     {
         global $DIC;
 
@@ -264,9 +229,8 @@ class ilSystemStyleSettings
 
     /**
      * Gets a users preferred style by using the user object.
-     * @return bool
      */
-    public static function getCurrentUserPrefStyle()
+    public static function getCurrentUserPrefStyle() : string
     {
         global $DIC;
 
@@ -299,7 +263,7 @@ class ilSystemStyleSettings
      * Gets default Skin of the System
      * @return string
      */
-    public static function getCurrentDefaultSkin()
+    public static function getCurrentDefaultSkin() : string
     {
         global $DIC;
 
@@ -314,10 +278,9 @@ class ilSystemStyleSettings
 
     /**
      * Gets default style of the system
-     * @return mixed
      * @throws ilSystemStyleException
      */
-    public static function getCurrentDefaultStyle()
+    public static function getCurrentDefaultStyle() : string
     {
         global $DIC;
         $skin_id = $DIC->clientIni()->readVariable("layout", "skin");

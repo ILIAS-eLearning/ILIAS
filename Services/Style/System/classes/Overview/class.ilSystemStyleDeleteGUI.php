@@ -1,32 +1,11 @@
-<?php
-include_once("./Services/Form/classes/class.ilPropertyFormGUI.php");
+<?php declare(strict_types=1);
 
-
-/**
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSystemStyleDeleteGUI
 {
+    protected ilLanguage $lng;
+    protected ilCtrl $ctrl;
+    protected array $styles = [];
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var array
-     */
-    protected $styles = array();
-
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         global $DIC;
@@ -35,10 +14,6 @@ class ilSystemStyleDeleteGUI
         $this->ctrl = $DIC->ctrl();
     }
 
-    /**
-     * @param ilSkinXML $skin
-     * @param ilSkinStyleXML $style
-     */
     public function addStyle(ilSkinXML $skin, ilSkinStyleXML $style)
     {
         $this->styles[] = array(
@@ -49,10 +24,7 @@ class ilSystemStyleDeleteGUI
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getDeleteStyleFormHTML()
+    public function getDeleteStyleFormHTML() : string
     {
         ilUtil::sendQuestion($this->lng->txt("info_delete_sure"), true);
 
@@ -66,18 +38,12 @@ class ilSystemStyleDeleteGUI
         return $table_form->getHTML();
     }
 
-    /**
-     * @return array
-     */
-    public function getStyles()
+    public function getStyles() : array
     {
         return $this->styles;
     }
 
-    /**
-     * @param array $styles
-     */
-    public function setStyles($styles)
+    public function setStyles(array $styles) : void
     {
         $this->styles = $styles;
     }

@@ -1,56 +1,21 @@
-<?php
-include_once "Services/Form/classes/class.ilPropertyFormGUI.php";
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
-include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconColorSet.php");
-include_once("Services/Style/System/classes/Icons/class.ilSystemStyleIconFolder.php");
+<?php declare(strict_types=1);
 
 use ILIAS\FileUpload\Location;
 
 /**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- *
  * @ilCtrl_Calls ilSystemStyleIconsGUI:
  */
 class ilSystemStyleIconsGUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilCtrl $ctrl;
+    protected ilLanguage $lng;
+    protected ilGlobalPageTemplate $tpl;
+    protected ilSystemStyleSkinContainer $style_container;
+    protected ilSystemStyleIconFolder $icon_folder;
+    protected ilTabsGUI $tabs;
+    protected \ILIAS\UI\Factory $f;
 
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilTemplate
-     */
-    protected $tpl;
-
-    /**
-     * @var ilSystemStyleSkinContainer
-     */
-    protected $style_container;
-
-    /**
-     * @var ilSystemStyleIconFolder
-     */
-    protected $icon_folder = null;
-
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * ilSystemStyleIconsGUI constructor.
-     * @param string $skin_id
-     * @param string $style_id
-     */
-    public function __construct($skin_id = "", $style_id = "")
+    public function __construct(string $skin_id = "", string $style_id = "")
     {
         global $DIC;
 
@@ -58,6 +23,7 @@ class ilSystemStyleIconsGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $this->tabs = $DIC->tabs();
+        $this->f = $DIC->ui()->factory();
 
         if ($skin_id == "") {
             $skin_id = $_GET["skin_id"];
@@ -76,10 +42,7 @@ class ilSystemStyleIconsGUI
         }
     }
 
-    /**
-     * Execute command
-     */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $cmd = $this->ctrl->getCmd();
         $this->setSubStyleSubTabs($cmd);
@@ -106,16 +69,13 @@ class ilSystemStyleIconsGUI
         }
     }
 
-    protected function fail()
+    protected function fail() : void
     {
         $form = $this->initByColorForm();
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @param string $active
-     */
-    protected function setSubStyleSubTabs($active = "")
+    protected function setSubStyleSubTabs(string $active = "") : void
     {
         $this->tabs->addSubTab('edit', $this->lng->txt('edit_by_color'), $this->ctrl->getLinkTarget($this, 'edit'));
         $this->tabs->addSubTab('editIcon', $this->lng->txt('edit_by_icon'), $this->ctrl->getLinkTarget($this, 'editIcon'));
@@ -130,21 +90,19 @@ class ilSystemStyleIconsGUI
         }
     }
 
-    protected function edit()
+    protected function edit() : void
     {
         $form = $this->initByColorForm();
         $this->getByColorValues($form);
         $this->tpl->setContent($form->getHTML());
     }
 
-    protected function preview()
+    protected function preview() : void
     {
         $this->tpl->setContent($this->renderIconsPreviews());
     }
-    /**
-     * @return ilPropertyFormGUI
-     */
-    public function initByColorForm()
+
+    public function initByColorForm() : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
@@ -212,19 +170,12 @@ class ilSystemStyleIconsGUI
             $form->addCommandButton("cancel", $this->lng->txt("cancel"));
         }
 
-
-
-
         $form->setFormAction($this->ctrl->getFormAction($this));
 
         return $form;
     }
 
-
-    /**
-     * @param ilPropertyFormGUI $form
-     */
-    public function getByColorValues(ilPropertyFormGUI $form)
+    public function getByColorValues(ilPropertyFormGUI $form) : void
     {
         $values = [];
 
@@ -240,11 +191,10 @@ class ilSystemStyleIconsGUI
             }
         }
 
-
         $form->setValuesByArray($values);
     }
 
-    public function reset()
+    public function reset() : void
     {
         $style = $this->getStyleContainer()->getSkin()->getStyle($_GET["style_id"]);
         $this->getStyleContainer()->resetImages($style);
@@ -254,12 +204,12 @@ class ilSystemStyleIconsGUI
             $this->lng->txt("color_reset"),
             ilSystemStyleMessage::TYPE_SUCCESS
         ));
-        $message_stack->sendMessages(true);
+        $message_stack->getUIComponentsMessages( $this->f);
 
         $this->ctrl->redirect($this, "edit");
     }
 
-    public function update()
+    public function update() : void
     {
         $form = $this->initByColorForm();
         if ($form->checkInput()) {
@@ -291,7 +241,7 @@ class ilSystemStyleIconsGUI
                 $this->lng->txt("color_update"),
                 ilSystemStyleMessage::TYPE_SUCCESS
             ));
-            $message_stack->sendMessages(true);
+            $message_stack->getUIComponentsMessages( $this->f);
             $this->ctrl->redirect($this, "edit");
         }
         $form->setValuesByPost();
@@ -299,7 +249,7 @@ class ilSystemStyleIconsGUI
     }
 
 
-    protected function editIcon()
+    protected function editIcon() : void
     {
         $icon_name = $_POST['selected_icon']?$_POST['selected_icon']:$_GET['selected_icon'];
 
@@ -312,10 +262,7 @@ class ilSystemStyleIconsGUI
         }
     }
 
-    /**
-     * @param $icon_name
-     */
-    protected function addSelectIconToolbar($icon_name)
+    protected function addSelectIconToolbar(?string $icon_name = "")
     {
         global $DIC;
 
@@ -344,18 +291,12 @@ class ilSystemStyleIconsGUI
         $toolbar->setFormAction($this->ctrl->getLinkTarget($this, 'editIcon'));
     }
 
-    /**
-     * @param $icon
-     * @return ilPropertyFormGUI
-     */
-    public function initByIconForm(ilSystemStyleIcon $icon)
+    public function initByIconForm(ilSystemStyleIcon $icon) : ilPropertyFormGUI
     {
         $form = new ilPropertyFormGUI();
 
         $form->setTitle($this->lng->txt("adapt_icon") . " " . $icon->getName());
         $form->setDescription($this->lng->txt("adapt_icon_description"));
-
-        $color_set = [];
 
         $title = $this->lng->txt("color");
         $id = 1;
@@ -388,27 +329,9 @@ class ilSystemStyleIconsGUI
         return $form;
     }
 
-
-    /**
-     * @param ilPropertyFormGUI $form
-     * @param ilSystemStyleIcon $icon
-     */
-    public function getByIconValues(ilPropertyFormGUI $form, ilSystemStyleIcon $icon)
-    {
-        $values = [];
-
-        foreach ($this->getIconFolder()->getColorSet()->getColors()  as $color) {
-            $values[$color->getId()] = $color->getColor();
-        }
-        $values["selected_icon"] = $icon->getPath();
-
-        $form->setValuesByArray($values);
-    }
-
-    public function updateIcon()
+    public function updateIcon() : void
     {
         global $DIC;
-
 
         $icon_path = $_POST['selected_icon'];
         $icon = $this->getIconFolder()->getIconByPath($icon_path);
@@ -466,7 +389,7 @@ class ilSystemStyleIconsGUI
                     continue;
                 }
             }
-            $message_stack->sendMessages(true);
+            $message_stack->getUIComponentsMessages( $this->f);
             $this->ctrl->setParameter($this, "selected_icon", $icon->getPath());
             $this->ctrl->redirect($this, "editIcon");
         }
@@ -474,11 +397,7 @@ class ilSystemStyleIconsGUI
         $this->tpl->setContent($form->getHTML());
     }
 
-    /**
-     * @param ilSystemStyleIcon $icon
-     * @return string
-     */
-    protected function renderIconPreview(ilSystemStyleIcon $icon)
+    protected function renderIconPreview(ilSystemStyleIcon $icon) : string
     {
         global $DIC;
 
@@ -496,11 +415,7 @@ class ilSystemStyleIconsGUI
         return $DIC->ui()->renderer()->render($report);
     }
 
-
-    /**
-     * @return string
-     */
-    protected function renderIconsPreviews()
+    protected function renderIconsPreviews() : string
     {
         global $DIC;
 
@@ -536,34 +451,22 @@ class ilSystemStyleIconsGUI
         return $DIC->ui()->renderer()->render($report);
     }
 
-    /**
-     * @return ilSystemStyleSkinContainer
-     */
-    public function getStyleContainer()
+    public function getStyleContainer() : ilSystemStyleSkinContainer
     {
         return $this->style_container;
     }
 
-    /**
-     * @param ilSystemStyleSkinContainer $style_container
-     */
-    public function setStyleContainer($style_container)
+    public function setStyleContainer(ilSystemStyleSkinContainer $style_container)
     {
         $this->style_container = $style_container;
     }
 
-    /**
-     * @return ilSystemStyleIconFolder
-     */
-    public function getIconFolder()
+    public function getIconFolder() : ilSystemStyleIconFolder
     {
         return $this->icon_folder;
     }
 
-    /**
-     * @param ilSystemStyleIconFolder $icon_folder
-     */
-    public function setIconFolder($icon_folder)
+    public function setIconFolder(ilSystemStyleIconFolder $icon_folder)
     {
         $this->icon_folder = $icon_folder;
     }

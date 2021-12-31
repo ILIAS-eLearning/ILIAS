@@ -1,24 +1,19 @@
-<?php
+<?php declare(strict_types=1);
 
-include_once("./Services/Style/System/classes/Less/class.ilSystemStyleLessCategory.php");
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSkinStyleLessCategoryTest extends TestCase
 {
-    public function testConstruct()
+    public function testConstruct() : void
     {
         $category = new ilSystemStyleLessCategory("name", "comment");
         $this->assertEquals("name", $category->getName());
         $this->assertEquals("comment", $category->getComment());
     }
 
-    public function testSetters()
+    public function testSetters() : void
     {
         $category = new ilSystemStyleLessCategory("name", "comment");
 
@@ -29,7 +24,7 @@ class ilSkinStyleLessCategoryTest extends TestCase
         $this->assertEquals("newComment", $category->getComment());
     }
 
-    public function testToString()
+    public function testToString() : void
     {
         $category = new ilSystemStyleLessCategory("name", "comment");
 

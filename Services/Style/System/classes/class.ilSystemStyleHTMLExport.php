@@ -1,31 +1,22 @@
-<?php
-/* Copyright (c) 1998-2011 ILIAS open source, Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-/**
- * HTML export class for system styles
- *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id: $
- * @ingroup ServicesStyle
- */
 class ilSystemStyleHTMLExport
 {
-    private $exp_dir = "";
-    private $images = [];
+    private string $exp_dir;
+    private array $images = [];
+    protected string $style_dir;
+    protected string $style_img_dir;
+    protected string $img_dir;
+    protected string $img_browser_dir;
 
-    /**
-     * Initialisation
-     *
-     * @param string $a_exp_dir export directory
-     */
-    public function __construct($a_exp_dir)
+    public function __construct(string $a_exp_dir)
     {
         $this->exp_dir = $a_exp_dir;
         $this->style_dir = $a_exp_dir . "/templates/default";
         $this->style_img_dir = $a_exp_dir . "/templates/default/images";
         $this->img_dir = $a_exp_dir . "/images";
         $this->img_browser_dir = $a_exp_dir . "/images/browser";
-        
+
         // add standard images
         $this->addImage("enlarge.svg");
         $this->addImage("browser/blank.png", "/browser/plus.png");
@@ -39,49 +30,38 @@ class ilSystemStyleHTMLExport
         $this->addImage("nav_arr_R.png");
     }
 
-    /**
-     * Create directories
-     */
     public function createDirectories()
     {
         ilUtil::makeDirParents($this->style_dir);
         ilUtil::makeDirParents($this->img_dir);
         ilUtil::makeDirParents($this->img_browser_dir);
     }
-    
-    /**
-     * Add (icon) image to the list of images to be exported
-     *
-     * @param $a_file
-     * @param string $a_exp_file_name
-     */
-    public function addImage($a_file, $a_exp_file_name = "")
-    {
-        $this->images[] = ["file" => $a_file,
-            "exp_file_name" => $a_exp_file_name];
-    }
 
     /**
-     * Export
+     * Add (icon) image to the list of images to be exported
      */
-    public function export()
+    public function addImage(string $a_file, string $a_exp_file_name = "")
     {
-        global $ilUser;
-        
+        $this->images[] = ["file" => $a_file,
+                           "exp_file_name" => $a_exp_file_name
+        ];
+    }
+
+    public function export() : void
+    {
         $this->createDirectories();
 
         // export system style sheet
         $location_stylesheet = ilUtil::getStyleSheetLocation("filesystem");
-        foreach (
-            $iterator = new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator(dirname($location_stylesheet), \RecursiveDirectoryIterator::SKIP_DOTS),
-                \RecursiveIteratorIterator::SELF_FIRST
-            ) as $item
-        ) {
+        $iterator = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator(dirname($location_stylesheet), RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST
+        );
+        foreach ($iterator as $item) {
             if ($item->isDir()) {
-                mkdir($this->style_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                mkdir($this->style_dir . DIRECTORY_SEPARATOR . $item->getSubPathName());
             } else {
-                copy($item, $this->style_dir . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+                copy($item, $this->style_dir . DIRECTORY_SEPARATOR . $item->getSubPathName());
             }
         }
 

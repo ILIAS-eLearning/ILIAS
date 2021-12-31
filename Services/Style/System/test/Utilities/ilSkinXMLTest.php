@@ -1,51 +1,17 @@
-<?php
-/* Copyright (c) 2016 Timon Amstutz <timon.amstutz@ilub.unibe.ch> Extended GPL, see docs/LICENSE */
+<?php declare(strict_types=1);
 
-include_once("./Services/Style/System/classes/Utilities/class.ilSkinStyleXML.php");
-include_once("./Services/Style/System/classes/Utilities/class.ilSkinXML.php");
-include_once("./Services/Style/System/test/fixtures/mocks/ilSystemStyleConfigMock.php");
-include_once("Services/Style/System/classes/Utilities/class.ilSystemStyleSkinContainer.php");
+require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-/**
- *
- * @author            Timon Amstutz <timon.amstutz@ilub.unibe.ch>
- * @version           $Id$*
- */
 class ilSkinXMLTest extends TestCase
 {
-
-
-    /**
-     * @var ilSkinXML
-     */
-    protected $skin;
-
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $style1 = null;
-
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $style2 = null;
-
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $substyle1 = null;
-
-    /**
-     * @var ilSkinStyleXML
-     */
-    protected $substyle2 = null;
-
-    /**
-     * @var ilSystemStyleConfigMock
-     */
-    protected $system_style_config;
+    protected ilSkinXML $skin;
+    protected ilSkinStyleXML $style1;
+    protected ilSkinStyleXML $style2;
+    protected ilSkinStyleXML $substyle1;
+    protected ilSkinStyleXML $substyle2;
+    protected ilSystemStyleConfigMock $system_style_config;
 
     protected function setUp() : void
     {
@@ -72,7 +38,8 @@ class ilSkinXMLTest extends TestCase
         $this->system_style_config = new ilSystemStyleConfigMock();
 
         mkdir($this->system_style_config->test_skin_temp_path);
-        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path, $this->system_style_config->test_skin_temp_path);
+        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path,
+            $this->system_style_config->test_skin_temp_path);
     }
 
     protected function tearDown() : void
@@ -80,125 +47,135 @@ class ilSkinXMLTest extends TestCase
         ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
-    public function testSkinNameAndId()
+    public function testSkinNameAndId() : void
     {
         $this->assertEquals("skin1", $this->skin->getId());
         $this->assertEquals("skin 1", $this->skin->getName());
     }
 
-    public function testAddStyle()
+    public function testAddStyle() : void
     {
-        $this->assertEquals(count($this->skin), 0);
-        $this->assertEquals(count($this->skin->getStyles()), 0);
+        $this->assertCount(0, $this->skin);
+        $this->assertCount(0, $this->skin->getStyles());
         $this->skin->addStyle($this->style1);
-        $this->assertEquals(count($this->skin), 1);
-        $this->assertEquals(count($this->skin->getStyles()), 1);
+        $this->assertCount(1, $this->skin);
+        $this->assertCount(1, $this->skin->getStyles());
         $this->skin->addStyle($this->style1);
-        $this->assertEquals(count($this->skin), 2);
-        $this->assertEquals(count($this->skin->getStyles()), 2);
+        $this->assertCount(2, $this->skin);
+        $this->assertCount(2, $this->skin->getStyles());
         $this->skin->addStyle($this->style2);
-        $this->assertEquals(count($this->skin), 3);
-        $this->assertEquals(count($this->skin->getStyles()), 3);
+        $this->assertCount(3, $this->skin);
+        $this->assertCount(3, $this->skin->getStyles());
     }
 
-    public function testGetStyles()
-    {
-        $this->skin->addStyle($this->style1);
-        $this->skin->addStyle($this->style2);
-
-        $this->assertNotEquals($this->skin->getStyle("style2"), $this->style1);
-        $this->assertEquals($this->skin->getStyle("style2"), $this->style2);
-    }
-
-    public function testAddSubstyle()
-    {
-        $this->skin->addStyle($this->substyle1);
-        $this->assertEquals(count($this->skin->getStyles()), 1);
-        $this->skin->addStyle($this->substyle2);
-        $this->assertEquals(count($this->skin), 2);
-    }
-
-    public function testGetSubStyles()
-    {
-        $this->skin->addStyle($this->substyle1);
-        $this->skin->addStyle($this->substyle2);
-
-        $this->assertNotEquals($this->skin->getStyle("substyle2"), $this->substyle1);
-        $this->assertEquals($this->skin->getStyle("substyle2"), $this->substyle2);
-    }
-
-    public function testGetAllSubStyles()
+    public function testGetStyles() : void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
-        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), []);
+
+        $this->assertNotEquals($this->style1, $this->skin->getStyle("style2"));
+        $this->assertEquals($this->style2, $this->skin->getStyle("style2"));
+    }
+
+    public function testAddSubstyle() : void
+    {
+        $this->skin->addStyle($this->substyle1);
+        $this->assertCount(1, $this->skin->getStyles());
+        $this->skin->addStyle($this->substyle2);
+        $this->assertCount(2, $this->skin);
+    }
+
+    public function testGetSubStyles() : void
+    {
         $this->skin->addStyle($this->substyle1);
         $this->skin->addStyle($this->substyle2);
-        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1]);
-        $this->assertEquals($this->skin->getSubstylesOfStyle("style2"), [$this->substyle2->getId() => $this->substyle2]);
+
+        $this->assertNotEquals($this->substyle1, $this->skin->getStyle("substyle2"));
+        $this->assertEquals($this->substyle2, $this->skin->getStyle("substyle2"));
+    }
+
+    public function testGetAllSubStyles() : void
+    {
+        $this->skin->addStyle($this->style1);
+        $this->skin->addStyle($this->style2);
+        $this->assertEquals([], $this->skin->getSubstylesOfStyle("style1"));
+        $this->skin->addStyle($this->substyle1);
+        $this->skin->addStyle($this->substyle2);
+        $this->assertEquals([$this->substyle1->getId() => $this->substyle1],
+            $this->skin->getSubstylesOfStyle("style1"));
+        $this->assertEquals([$this->substyle2->getId() => $this->substyle2],
+            $this->skin->getSubstylesOfStyle("style2"));
         $this->substyle2->setSubstyleOf($this->style1->getId());
-        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1,$this->substyle2->getId() => $this->substyle2]);
+        $this->assertEquals([$this->substyle1->getId() => $this->substyle1,
+                             $this->substyle2->getId() => $this->substyle2
+        ], $this->skin->getSubstylesOfStyle("style1"));
     }
 
-    public function testUpdateParentOfStyle()
+    public function testUpdateParentOfStyle() : void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
         $this->skin->addStyle($this->substyle1);
         $this->skin->addStyle($this->substyle2);
-        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1]);
-        $this->assertEquals($this->skin->getSubstylesOfStyle("style2"), [$this->substyle2->getId() => $this->substyle2]);
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"),
+            [$this->substyle1->getId() => $this->substyle1]);
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style2"),
+            [$this->substyle2->getId() => $this->substyle2]);
         $this->skin->updateParentStyleOfSubstyles($this->style2->getId(), $this->style1->getId());
-        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"), [$this->substyle1->getId() => $this->substyle1,$this->substyle2->getId() => $this->substyle2]);
+        $this->assertEquals($this->skin->getSubstylesOfStyle("style1"),
+            [$this->substyle1->getId() => $this->substyle1, $this->substyle2->getId() => $this->substyle2]);
     }
 
-    public function testRemoveStyles()
+    public function testRemoveStyles() : void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
-        $this->assertEquals(count($this->skin), 2);
+        $this->assertCount(2, $this->skin);
         $this->skin->removeStyle("style1");
-        $this->assertEquals(count($this->skin), 1);
+        $this->assertCount(1, $this->skin);
         $this->skin->removeStyle("style2");
-        $this->assertEquals(count($this->skin), 0);
+        $this->assertCount(0, $this->skin);
     }
 
-    public function testRemoveTestTwice()
+    public function testRemoveTestTwice() : void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
-        $this->assertEquals(count($this->skin), 2);
+        $this->assertCount(2, $this->skin);
         $this->skin->removeStyle("style1");
-        $this->assertEquals(count($this->skin), 1);
+        $this->assertCount(1, $this->skin);
         $this->skin->removeStyle("style2");
-        $this->assertEquals(count($this->skin), 0);
+        $this->assertCount(0, $this->skin);
         try {
             $this->skin->removeStyle("style2");
             $this->assertTrue(false);
         } catch (ilSystemStyleException $e) {
-            $this->assertEquals($e->getCode(), ilSystemStyleException::INVALID_ID);
+            $this->assertEquals(ilSystemStyleException::INVALID_ID, $e->getCode());
         }
     }
 
-    public function testAsXML()
+    public function testAsXML() : void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
-        $this->assertEquals($this->skin->asXML(), file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml"));
+        $this->assertEquals(file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml"),
+            $this->skin->asXML());
     }
 
-    public function testWriteXML()
+    public function testWriteXML() : void
     {
         $this->skin->addStyle($this->style1);
         $this->skin->addStyle($this->style2);
         $this->skin->writeToXMLFile($this->system_style_config->getCustomizingSkinPath() . "skin1/template-copy.xml");
-        $this->assertEquals(file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template-copy.xml"), file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml"));
+        $this->assertEquals(file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template-copy.xml"),
+            file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml"));
         unlink($this->system_style_config->getCustomizingSkinPath() . "skin1/template-copy.xml");
     }
 
-    public function testReadXML()
+    public function testReadXML() : void
     {
         $skin = ilSkinXML::parseFromXML($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml");
-        $this->assertEquals($skin->asXML(), file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml"));
+        $this->assertEquals($skin->asXML(),
+            file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml"));
     }
 }

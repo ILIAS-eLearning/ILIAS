@@ -224,6 +224,28 @@ class ilSystemStyleLessFile
         return $references_string;
     }
 
+    public function getRefAndCommentAsString(string $variable_name, string $refs_wording) : string
+    {
+        $references_string = "";
+        foreach ($this->getReferencesToVariable($variable_name) as $reference) {
+            $references_string .= "$reference; ";
+        }
+
+        $variable = $this->getVariableByName($variable_name);
+
+        if ($references_string != "") {
+            if ($variable->getComment()) {
+                $info = $variable->getComment() . "</br>" . $refs_wording . " " . $references_string;
+            } else {
+                $info = $refs_wording . " " . $references_string;
+            }
+        } else {
+            $info = $variable->getComment();
+        }
+
+        return $info;
+    }
+
     public function getLessVariablesFilePathName() : string
     {
         return $this->less_variables_file_path_name;
