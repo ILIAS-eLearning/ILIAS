@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,17 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * Media pool page configuration
- *
+ * Media pool test suite
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilMediaPoolPageConfig extends ilPageConfig
+class ilModulesMediaPoolSuite extends TestSuite
 {
-    public function init() : void
+    public static function suite()
     {
-        $this->setEnableInternalLinks(false);
-        $this->setPreventHTMLUnmasking(false);
-        $this->setMultiLangSupport(true);
+        $suite = new self();
+
+        require_once("./Modules/MediaPool/test/MepClipboardSessionRepositoryTest.php");
+        $suite->addTestSuite("MepClipboardSessionRepositoryTest");
+
+        return $suite;
     }
 }

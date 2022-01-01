@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,17 +13,27 @@
  * https://github.com/ILIAS-eLearning
  */
 
+namespace ILIAS\MediaPool;
+
+use ILIAS\DI\Container;
+
 /**
- * Media pool page configuration
- *
  * @author Alexander Killing <killing@leifos.de>
  */
-class ilMediaPoolPageConfig extends ilPageConfig
+class Service
 {
-    public function init() : void
+    protected Container $DIC;
+
+    public function __construct(Container $DIC)
     {
-        $this->setEnableInternalLinks(false);
-        $this->setPreventHTMLUnmasking(false);
-        $this->setMultiLangSupport(true);
+        $this->DIC = $DIC;
+    }
+
+    /**
+     * Internal service, do not use in other components
+     */
+    public function internal() : InternalService
+    {
+        return new InternalService($this->DIC);
     }
 }
