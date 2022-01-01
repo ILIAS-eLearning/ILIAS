@@ -411,7 +411,7 @@ class ilObjMediaPoolGUI extends ilObject2GUI
             default:
                 $this->prepareOutput();
                 $this->addHeaderAction();
-                $cmd = $this->ctrl->getCmd("listMedia");
+                $cmd = $this->ctrl->getCmd("listMedia") ?: "listMedia";
                 $this->$cmd();
                 if (!$this->getCreationMode()) {
                     $this->tpl->printToStdout();

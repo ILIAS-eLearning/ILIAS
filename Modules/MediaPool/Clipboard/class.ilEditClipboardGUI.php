@@ -21,7 +21,7 @@
  */
 class ilEditClipboardGUI
 {
-    protected string $mode = "";
+    public string $mode = "";
     protected string $page_back_title = "";
     protected bool $multiple = false;
     protected \ILIAS\MediaPool\Clipboard\ClipboardGUIRequest $request;

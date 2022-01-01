@@ -221,7 +221,7 @@ class ilTable2GUI extends ilTableGUI
         }
 
         $limit = 0;
-        if (isset($this->table_request) && $this->table_request->getRows($this->prefix) > 0) {
+        if (isset($this->table_request) && !is_null($this->table_request->getRows($this->prefix))) {
             $this->storeProperty("rows", $this->table_request->getRows($this->prefix));
             $limit = $this->table_request->getRows($this->prefix) ?? 0;
             $this->resetOffset();

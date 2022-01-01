@@ -45,9 +45,13 @@ class TableGUIRequest
         return $this->str($prefix . "_tpl");
     }
 
-    public function getRows($prefix) : int
+    public function getRows($prefix) : ?int
     {
-        return $this->int($prefix . "_trows");
+        $rows = $this->str($prefix . "_trows");
+        if ($rows == "") {
+            return null;
+        }
+        return (int) $rows;
     }
 
     public function getPostVar() : string
