@@ -1,46 +1,41 @@
 <?php
-/* Copyright (c) 1998-2010 ILIAS open source, Extended GPL, see docs/LICENSE */
 
-include_once("./Services/DataSet/classes/class.ilDataSet.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Notes Data set class. Entities
  * - user_notes: All personal notes of a user (do not use this for object
  *               related queries. Add a new entity for this purpose.
  *
- * @author Alex Killing <alex.killing@gmx.de>
- * @version $Id$
- * @ingroup ingroup ServicesNotes
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilNotesDataSet extends ilDataSet
 {
-    /**
-     * Get supported versions
-     * @param
-     * @return array
-     */
     public function getSupportedVersions() : array
     {
         return array("4.3.0");
     }
     
-    /**
-     * Get xml namespace
-     * @param
-     * @return string
-     */
     public function getXmlNamespace(string $a_entity, string $a_schema_version) : string
     {
-        return "http://www.ilias.de/xml/Services/Notes/" . $a_entity;
+        return "https://www.ilias.de/xml/Services/Notes/" . $a_entity;
     }
     
-    /**
-     * Get field types for entity
-     * @param
-     * @return array
-     */
-    protected function getTypes(string $a_entity, string $a_version) : array
-    {
+    protected function getTypes(
+        string $a_entity,
+        string $a_version
+    ) : array {
         // user notes
         if ($a_entity == "user_notes") {
             switch ($a_version) {
@@ -49,7 +44,6 @@ class ilNotesDataSet extends ilDataSet
                         "Id" => "integer",
                         "RepObjId" => "integer",
                         "ObjId" => "integer",
-                        "ObjType" => "text",
                         "ObjType" => "text",
                         "Type" => "integer",
                         "Author" => "integer",
@@ -61,20 +55,15 @@ class ilNotesDataSet extends ilDataSet
                     );
             }
         }
+        return [];
     }
 
-    /**
-     * Read data
-     * @param
-     * @return void
-     */
-    public function readData(string $a_entity, string $a_version, array $a_ids) : void
-    {
+    public function readData(
+        string $a_entity,
+        string $a_version,
+        array $a_ids
+    ) : void {
         $ilDB = $this->db;
-
-        if (!is_array($a_ids)) {
-            $a_ids = array($a_ids);
-        }
 
         // user notes
         if ($a_entity == "user_notes") {
@@ -91,9 +80,6 @@ class ilNotesDataSet extends ilDataSet
         }
     }
     
-    /**
-     * Determine the dependent sets of data
-     */
     protected function getDependencies(
         string $a_entity,
         string $a_version,
@@ -102,34 +88,27 @@ class ilNotesDataSet extends ilDataSet
     ) : array {
         return [];
     }
-    
-    ////
-    //// Needs abstraction (interface?) and version handling
-    ////
-    
-    
-    /**
-     * Import record
-     * @param
-     * @return void
-     */
-    public function importRecord(string $a_entity, array $a_types, array $a_rec, ilImportMapping $a_mapping, string $a_schema_version) : void
-    {
+
+    public function importRecord(
+        string $a_entity,
+        array $a_types,
+        array $a_rec,
+        ilImportMapping $a_mapping,
+        string $a_schema_version
+    ) : void {
         switch ($a_entity) {
             case "user_notes":
                 $usr_id = $a_mapping->getMapping("Services/User", "usr", $a_rec["Author"]);
                 if ($usr_id > 0) {
-                    include_once("./Services/Notes/classes/class.ilNote.php");
-                    
                     // only import real user (assigned to personal desktop) notes
                     // here.
                     if ((int) $a_rec["RepObjId"] == 0 &&
                         $a_rec["ObjId"] == $a_rec["Author"] &&
-                        $a_rec["Type"] == IL_NOTE_PRIVATE &&
+                        $a_rec["Type"] == ilNote::PRIVATE &&
                         $a_rec["ObjType"] == "pd") {
                         $note = new ilNote();
                         $note->setObject("pd", 0, $usr_id);
-                        $note->setType(IL_NOTE_PRIVATE);
+                        $note->setType(ilNote::PRIVATE);
                         $note->setAuthor($usr_id);
                         $note->setText($a_rec["NoteText"]);
                         $note->setSubject($a_rec["Subject"]);

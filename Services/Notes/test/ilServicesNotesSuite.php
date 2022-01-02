@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,18 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * Notes settings
- *
- * @author Alex Killing <killing@leifos.de>
+ * Notes test suite
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilObjNotesSettings extends ilObject
+class ilServicesNotesSuite extends TestSuite
 {
-    public function __construct(
-        int $a_id = 0,
-        bool $a_call_by_reference = true
-    ) {
-        $this->type = "nots";
-        parent::__construct($a_id, $a_call_by_reference);
+    public static function suite()
+    {
+        $suite = new self();
+
+        require_once("./Services/Notes/test/NotesSessionRepositoryTest.php");
+        $suite->addTestSuite("NotesSessionRepositoryTest");
+
+        return $suite;
     }
 }

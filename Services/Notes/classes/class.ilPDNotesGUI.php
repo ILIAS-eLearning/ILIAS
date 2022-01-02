@@ -1,67 +1,43 @@
 <?php
 
-/* Copyright (c) 1998-2012 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-
-include_once("Services/Notes/classes/class.ilNote.php");
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
-* Private Notes on PD
-*
-* @author Alex Killing <alex.killing@gmx.de>
-* @version $Id$
-*
-* @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI
-*
-*/
+ * Private Notes on PD
+ * @author Alexander Killing <killing@leifos.de>
+ * @ilCtrl_Calls ilPDNotesGUI: ilNoteGUI
+ */
 class ilPDNotesGUI
 {
+    public const PUBLIC_COMMENTS = "publiccomments";
+    public const PRIVATE_NOTES = "privatenotes";
     /**
-     * @var ilCtrl
+     * @var mixed
      */
-    protected $ctrl;
+    protected int $current_rel_obj;
+    protected \ILIAS\Notes\StandardGUIRequest $request;
 
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
+    protected ilCtrl $ctrl;
+    protected ilObjUser $user;
+    protected ilTabsGUI $tabs;
+    protected ilHelpGUI $help;
+    protected ilSetting $settings;
+    protected ilAccessHandler $access;
+    protected ilToolbarGUI $toolbar;
+    public ilGlobalTemplateInterface $tpl;
+    public ilLanguage $lng;
 
-    /**
-     * @var ilTabsGUI
-     */
-    protected $tabs;
-
-    /**
-     * @var ilHelpGUI
-     */
-    protected $help;
-
-    /**
-     * @var ilSetting
-     */
-    protected $settings;
-
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilToolbarGUI
-     */
-    protected $toolbar;
-
-    public $tpl;
-    public $lng;
-    
-    const PUBLIC_COMMENTS = "publiccomments";
-    const PRIVATE_NOTES = "privatenotes";
-
-    /**
-    * Constructor
-    *
-    * @access	public
-    */
     public function __construct()
     {
         global $DIC;
@@ -76,8 +52,12 @@ class ilPDNotesGUI
         $lng = $DIC->language();
         $ilCtrl = $DIC->ctrl();
         $ilUser = $DIC->user();
-        $ilTabs = $DIC->tabs();
         $ilHelp = $DIC["ilHelp"];
+
+        $this->request = $DIC->notes()
+            ->internal()
+            ->gui()
+            ->standardRequest();
 
         $ilHelp->setScreenIdComponent("note");
 
@@ -89,53 +69,43 @@ class ilPDNotesGUI
         $this->ctrl = $ilCtrl;
         
         // link from ilPDNotesBlockGUI
-        if ($_GET["rel_obj"]) {
-            $mode = ($_GET["note_type"] == IL_NOTE_PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
+        $rel_obj = $this->request->getRelatedObjId();
+        if ($rel_obj > 0) {
+            $mode = ($this->request->getNoteType() == ilNote::PRIVATE)
+                ? self::PRIVATE_NOTES
+                : self::PUBLIC_COMMENTS;
             $ilUser->writePref("pd_notes_mode", $mode);
-            $ilUser->writePref("pd_notes_rel_obj" . $mode, $_GET["rel_obj"]);
+            $ilUser->writePref("pd_notes_rel_obj" . $mode, (string) $rel_obj);
         }
         // edit link
-        elseif ($_REQUEST["note_id"]) {
-            $note = new ilNote($_REQUEST["note_id"]);
-            $mode = ($note->getType() == IL_NOTE_PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
+        elseif ($this->request->getNoteId() > 0) {
+            $note = new ilNote($this->request->getNoteId());
+            $mode = ($note->getType() == ilNote::PRIVATE) ? self::PRIVATE_NOTES : self::PUBLIC_COMMENTS;
             $obj = $note->getObject();
             $ilUser->writePref("pd_notes_mode", $mode);
             $ilUser->writePref("pd_notes_rel_obj" . $mode, $obj["rep_obj_id"]);
         }
     }
 
-    /**
-    * execute command
-    */
-    public function executeCommand()
+    public function executeCommand() : void
     {
         $next_class = $this->ctrl->getNextClass();
         switch ($next_class) {
             case "ilnotegui":
-                // scorm2004-start
-                $this->setTabs();
-                // scorm2004-end
                 $this->displayHeader();
                 $this->view();		// forwardCommand is invoked in view() method
                 break;
                 
             default:
-                // scorm2004-start
-                $this->setTabs();
-                // scorm2004-end
                 $cmd = $this->ctrl->getCmd("view");
                 $this->displayHeader();
                 $this->$cmd();
                 break;
         }
         $this->tpl->printToStdout(true);
-        return true;
     }
 
-    /**
-    * display header and locator
-    */
-    public function displayHeader()
+    public function displayHeader() : void
     {
         $ilSetting = $this->settings;
 
@@ -162,10 +132,7 @@ class ilPDNotesGUI
         ilUtil::infoPanel();
     }
 
-    /*
-    * display notes
-    */
-    public function view()
+    public function view() : void
     {
         $ilUser = $this->user;
         $lng = $this->lng;
@@ -173,17 +140,18 @@ class ilPDNotesGUI
         $ilAccess = $this->access;
         $ilToolbar = $this->toolbar;
 
-        //$this->tpl->addBlockFile("ADM_CONTENT", "objects", "tpl.table.html")
-        include_once("Services/Notes/classes/class.ilNoteGUI.php");
-                
-        // output related item selection (if more than one)
-        include_once("Services/Notes/classes/class.ilNote.php");
         $rel_objs = ilNote::_getRelatedObjectsOfUser($this->getMode());
         //var_dump($rel_objs);
         // prepend personal dektop, if first object
         //		if ($rel_objs[0]["rep_obj_id"] > 0 && $this->getMode() == ilPDNotesGUI::PRIVATE_NOTES)
         if ($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES) {
-            $rel_objs = array_merge(array(0), $rel_objs);
+            $rel_objs = array_merge(
+                [0 => [
+                    "rep_obj_id" => 0,
+                    "ref_ids" => []
+                ]],
+                $rel_objs
+            );
         }
 
         // #9410
@@ -192,16 +160,15 @@ class ilPDNotesGUI
             ilUtil::sendInfo($lng->txt("msg_no_search_result"));
             return;
         }
-
         $first = true;
         $current_ref_ids = [];
         foreach ($rel_objs as $r) {
             if ($first) {	// take first one as default
-                $this->current_rel_obj = $r["rep_obj_id"];
+                $this->current_rel_obj = (int) $r["rep_obj_id"];
                 $current_ref_ids = $r["ref_ids"];
             }
             if ($r["rep_obj_id"] == $ilUser->getPref("pd_notes_rel_obj" . $this->getMode())) {
-                $this->current_rel_obj = $r["rep_obj_id"];
+                $this->current_rel_obj = (int) $r["rep_obj_id"];
                 $current_ref_ids = $r["ref_ids"];
             }
             $first = false;
@@ -257,7 +224,8 @@ class ilPDNotesGUI
         if (count($rel_objs) > 1 ||
             ($rel_objs[0]["rep_obj_id"] > 0)) {
             $ilToolbar->setFormAction($this->ctrl->getFormAction($this));
-            
+
+            $options = [];
             foreach ($rel_objs as $obj) {
                 if ($obj["rep_obj_id"] > 0) {
                     $type = ilObject::_lookupType($obj["rep_obj_id"]);
@@ -272,7 +240,6 @@ class ilPDNotesGUI
                 $options[$obj["rep_obj_id"]] = $caption;
             }
             
-            include_once "Services/Form/classes/class.ilSelectInputGUI.php";
             $rel = new ilSelectInputGUI($lng->txt("related_to"), "rel_obj");
             $rel->setOptions($options);
             $rel->setValue($this->current_rel_obj);
@@ -287,47 +254,18 @@ class ilPDNotesGUI
         $this->tpl->setContent($html);
     }
     
-    /**
-    * change related object
-    */
-    public function changeRelatedObject()
+    public function changeRelatedObject() : void
     {
         $ilUser = $this->user;
-        
-        $ilUser->writePref("pd_notes_rel_obj" . $this->getMode(), $_POST["rel_obj"]);
+
+        $ilUser->writePref(
+            "pd_notes_rel_obj" . $this->getMode(),
+            (string) $this->request->getRelatedObjId()
+        );
         $this->ctrl->redirect($this);
     }
 
-    // scorm2004-start
-    /**
-    * Show subtabs
-    */
-    public function setTabs()
-    {
-        $ilTabs = $this->tabs;
-        $ilSetting = $this->settings;
-        $ilCtrl = $this->ctrl;
-
-        /*
-        if(!$ilSetting->get("disable_notes"))
-        {
-            $ilTabs->addTarget("private_notes",
-                $ilCtrl->getLinkTarget($this, "showPrivateNotes"), "", "", "",
-                ($this->getMode() == ilPDNotesGUI::PRIVATE_NOTES));
-        }
-
-        if(!$ilSetting->get("disable_comments"))
-        {
-            $ilTabs->addTarget("notes_public_comments",
-                $ilCtrl->getLinkTarget($this, "showPublicComments"), "", "", "",
-                ($this->getMode() == ilPDNotesGUI::PUBLIC_COMMENTS));
-        }*/
-    }
-    
-    /**
-    * Show private notes
-    */
-    public function showPrivateNotes()
+    public function showPrivateNotes() : void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -336,10 +274,7 @@ class ilPDNotesGUI
         $ilCtrl->redirect($this, "");
     }
     
-    /**
-    * Show public comments
-    */
-    public function showPublicComments()
+    public function showPublicComments() : void
     {
         $ilUser = $this->user;
         $ilCtrl = $this->ctrl;
@@ -353,10 +288,7 @@ class ilPDNotesGUI
         $ilCtrl->redirect($this, "");
     }
 
-    /**
-    * Get current mode
-    */
-    public function getMode()
+    public function getMode() : string
     {
         $ilUser = $this->user;
         $ilSetting = $this->settings;

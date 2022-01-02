@@ -168,7 +168,7 @@ abstract class assQuestionGUI
             false
         );
         
-        ilNoteGUI::initJavascript($notesUrl, IL_NOTE_PUBLIC, $this->ui->mainTemplate());
+        ilNoteGUI::initJavascript($notesUrl, ilNote::PUBLIC, $this->ui->mainTemplate());
         
         $redrawActionsUrl = $this->ctrl->getLinkTarget($this, 'redrawHeaderAction', '', true);
         $this->ui->mainTemplate()->addOnLoadCode("il.Object.setRedrawAHUrl('$redrawActionsUrl');");

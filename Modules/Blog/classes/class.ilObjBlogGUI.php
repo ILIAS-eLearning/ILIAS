@@ -1603,7 +1603,7 @@ class ilObjBlogGUI extends ilObject2GUI implements ilDesktopItemHandling
                     $this->obj_id,
                     $item["id"],
                     "blp",
-                    IL_NOTE_PUBLIC
+                    ilNote::PUBLIC
                 ));
                 
                 if ($a_cmd != "preview") {
