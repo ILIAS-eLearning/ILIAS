@@ -105,26 +105,26 @@ class ilLOMemberTestResultTableGUI extends ilTable2GUI
 
     /**
      * Fill table rows
-     * @param type $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_TITLE', $set['title']);
+        $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         if ($this->getSettings()->worksWithInitialTest()) {
-            if ($set['has_result_it']) {
+            if ($a_set['has_result_it']) {
                 $this->tpl->setCurrentBlock('it_has_result');
-                $this->tpl->setVariable('IT_LINK', $set['link_it']);
-                $this->tpl->setVariable('IT_VAL', $set['res_it'] . '%');
+                $this->tpl->setVariable('IT_LINK', $a_set['link_it']);
+                $this->tpl->setVariable('IT_VAL', $a_set['res_it'] . '%');
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setVariable('IT_NO_RES', '-');
             }
         }
         
-        if ($set['has_result_qt']) {
+        if ($a_set['has_result_qt']) {
             $this->tpl->setCurrentBlock('qt_has_result');
-            $this->tpl->setVariable('QT_LINK', $set['link_qt']);
-            $this->tpl->setVariable('QT_VAL', $set['res_qt'] . '%');
+            $this->tpl->setVariable('QT_LINK', $a_set['link_qt']);
+            $this->tpl->setVariable('QT_VAL', $a_set['res_qt'] . '%');
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setVariable('QT_NO_RES', '-');

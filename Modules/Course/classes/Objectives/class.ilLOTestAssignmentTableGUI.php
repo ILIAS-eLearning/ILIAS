@@ -120,24 +120,23 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
     }
     
     /**
-     *
-     * @param type $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $ilCtrl = $DIC['ilCtrl'];
         
         if ($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS) {
-            $this->tpl->setVariable('VAL_ID', $set['assignment_id']);
+            $this->tpl->setVariable('VAL_ID', $a_set['assignment_id']);
         } else {
-            $this->tpl->setVariable('VAL_ID', $set['ref_id']);
+            $this->tpl->setVariable('VAL_ID', $a_set['ref_id']);
         }
-        $this->tpl->setVariable('VAL_TITLE', $set['title']);
+        $this->tpl->setVariable('VAL_TITLE', $a_set['title']);
         include_once './Services/Link/classes/class.ilLink.php';
         
-        $ilCtrl->setParameterByClass('ilobjtestgui', 'ref_id', $set['ref_id']);
+        $ilCtrl->setParameterByClass('ilobjtestgui', 'ref_id', $a_set['ref_id']);
         $ilCtrl->setParameterByClass('ilobjtestgui', 'cmd', 'questionsTabGateway');
         $this->tpl->setVariable(
             'TITLE_LINK',
@@ -146,18 +145,18 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
         
         if ($this->getAssignmentType() == self::TYPE_MULTIPLE_ASSIGNMENTS) {
             $this->tpl->setCurrentBlock('objectives');
-            $this->tpl->setVariable('VAL_OBJECTIVE', (string) $set['objective']);
+            $this->tpl->setVariable('VAL_OBJECTIVE', (string) $a_set['objective']);
             $this->tpl->parseCurrentBlock();
         }
                 
         
         
         #$this->tpl->setVariable('TITLE_LINK',ilLink::_getLink($set['ref_id']));
-        if (strlen($set['description'])) {
-            $this->tpl->setVariable('VAL_DESC', $set['description']);
+        if (strlen($a_set['description'])) {
+            $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
 
-        switch ($set['ttype']) {
+        switch ($a_set['ttype']) {
             case ilObjTest::QUESTION_SET_TYPE_FIXED:
                 $type = $this->lng->txt('tst_question_set_type_fixed');
                 break;
@@ -168,10 +167,10 @@ class ilLOTestAssignmentTableGUI extends ilTable2GUI
         }
         
         $this->tpl->setVariable('VAL_TTYPE', $type);
-        $this->tpl->setVariable('VAL_QST_QPL', $set['qst_info']);
+        $this->tpl->setVariable('VAL_QST_QPL', $a_set['qst_info']);
         
-        if (isset($set['qpls']) && is_array($set['qpls']) && count($set['qpls']) > 0) {
-            foreach ($set['qpls'] as $title) {
+        if (isset($a_set['qpls']) && is_array($a_set['qpls']) && count($a_set['qpls']) > 0) {
+            foreach ($a_set['qpls'] as $title) {
                 $this->tpl->setCurrentBlock('qpl');
                 $this->tpl->setVariable('MAT_TITLE', $title);
                 $this->tpl->parseCurrentBlock();

@@ -176,7 +176,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
         $this->addCommandButton('updateMembers', $this->lng->txt('save'));
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         $login = $this->addFilterItemByMetaType(
             'login',
@@ -221,9 +221,9 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
     
     /**
      * Get selectable columns
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         global $DIC;
 
@@ -365,7 +365,7 @@ class ilSessionParticipantsTableGUI extends ilTable2GUI
      * @access public
      * @param array data set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_POSTNAME', 'participants');
 

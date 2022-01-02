@@ -97,7 +97,7 @@ class ilGroupEditParticipantsTableGUI extends ilTable2GUI
      * @access public
      * @param array usr_data
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);
         $this->tpl->setVariable('VAL_NAME', $a_set['lastname'] . ', ' . $a_set['firstname']);

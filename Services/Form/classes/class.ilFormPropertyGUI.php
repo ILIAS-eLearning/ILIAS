@@ -25,7 +25,7 @@ use ILIAS\Refinery;
 class ilFormPropertyGUI
 {
     protected ?ilTable2GUI $parent_table = null;
-    protected ilFormPropertyGUI $parent_gui;
+    protected ?ilFormPropertyGUI $parent_gui = null;
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected string $type = "";
@@ -185,7 +185,7 @@ class ilFormPropertyGUI
         $this->parent_gui = $a_val;
     }
     
-    public function getParent() : ilFormPropertyGUI
+    public function getParent() : ?ilFormPropertyGUI
     {
         return $this->parent_gui;
     }

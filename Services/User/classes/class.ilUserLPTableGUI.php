@@ -100,7 +100,7 @@ class ilUserLPTableGUI extends ilTable2GUI
         $this->lp_active = ilObjUserTracking::_enabledLearningProgress();
     }
     
-    protected function fillRow($user)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -108,32 +108,32 @@ class ilUserLPTableGUI extends ilTable2GUI
         
         if ($this->lp_active) {
             $ilCtrl->setParameterByClass("illearningprogressgui", "ref_id", $this->ref_id);
-            $ilCtrl->setParameterByClass("illearningprogressgui", "obj_id", $user["usr_id"]);
+            $ilCtrl->setParameterByClass("illearningprogressgui", "obj_id", $a_set["usr_id"]);
             $link = $ilCtrl->getLinkTargetByClass(array("ilobjusergui",'illearningprogressgui'), "");
 
             $this->tpl->setCurrentBlock("login_link");
             $this->tpl->setVariable("HREF_LOGIN", $link);
-            $this->tpl->setVariable("VAL_LOGIN", $user["login"]);
+            $this->tpl->setVariable("VAL_LOGIN", $a_set["login"]);
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock("login_plain");
-            $this->tpl->setVariable("VAL_LOGIN_PLAIN", $user["login"]);
+            $this->tpl->setVariable("VAL_LOGIN_PLAIN", $a_set["login"]);
             $this->tpl->parseCurrentBlock();
         }
         
-        $this->tpl->setVariable("VAL_FIRSTNAME", $user["firstname"]);
-        $this->tpl->setVariable("VAL_LASTNAME", $user["lastname"]);
+        $this->tpl->setVariable("VAL_FIRSTNAME", $a_set["firstname"]);
+        $this->tpl->setVariable("VAL_LASTNAME", $a_set["lastname"]);
         $this->tpl->setVariable(
             "VAL_ONLINE_TIME",
-            self::secondsToShortString($user["online_time"])
+            self::secondsToShortString($a_set["online_time"])
         );
         $this->tpl->setVariable(
             "VAL_LAST_LOGIN",
-            ilDatePresentation::formatDate(new ilDateTime($user["last_login"], IL_CAL_DATETIME))
+            ilDatePresentation::formatDate(new ilDateTime($a_set["last_login"], IL_CAL_DATETIME))
         );
     }
     
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, $a_set["login"]);
         $a_excel->setCell($a_row, 1, $a_set["firstname"]);

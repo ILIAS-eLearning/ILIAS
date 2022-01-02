@@ -159,12 +159,12 @@ class ilSurveyResultsCumulatedTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         return !in_array($a_field, array("question", "question_type"));
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TITLE", $a_set['title']);
     

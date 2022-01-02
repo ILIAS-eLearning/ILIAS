@@ -53,9 +53,9 @@ class ilConsultationHourGroupTableGUI extends ilTable2GUI
     
     /**
      * Fill row
-     * @param type $a_set
+     * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

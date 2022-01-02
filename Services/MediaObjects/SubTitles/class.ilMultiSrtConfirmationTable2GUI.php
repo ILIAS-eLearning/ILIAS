@@ -58,7 +58,7 @@ class ilMultiSrtConfirmationTable2GUI extends ilTable2GUI
         $this->addCommandButton("cancelMultiSrt", $lng->txt("cancel"));
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 

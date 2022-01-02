@@ -74,7 +74,7 @@ class ilSurveyQuestionPoolExportTableGUI extends ilTable2GUI
         $this->enable('header');
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if (!$this->confirmdelete) {
             $this->tpl->setCurrentBlock('checkbox');

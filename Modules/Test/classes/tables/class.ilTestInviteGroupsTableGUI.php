@@ -60,15 +60,14 @@ class ilTestInviteGroupsTableGUI extends ilTable2GUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("GROUP_ID", $data['ref_id']);
-        $this->tpl->setVariable("TITLE", $data['title']);
-        $this->tpl->setVariable("DESCRIPTION", $data['description']);
+        $this->tpl->setVariable("GROUP_ID", $a_set['ref_id']);
+        $this->tpl->setVariable("TITLE", $a_set['title']);
+        $this->tpl->setVariable("DESCRIPTION", $a_set['description']);
     }
 }

@@ -10,11 +10,7 @@ require_once 'Services/Table/classes/class.ilTable2GUI.php';
  */
 abstract class ilUnitCategoryTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilUnitConfigurationGUI
-     */
-    protected $parent_obj;
-    
+
     /**
      * @param ilUnitConfigurationGUI $controller
      * @param string                 $cmd
@@ -59,7 +55,7 @@ abstract class ilUnitCategoryTableGUI extends ilTable2GUI
     /**
      * @param array $row
      */
-    public function fillRow($row)
+    public function fillRow(array $row) : void
     {
         /**
          * @var $ilCtrl ilCtrl

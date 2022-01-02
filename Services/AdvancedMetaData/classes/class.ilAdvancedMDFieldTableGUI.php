@@ -65,7 +65,7 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
         $this->setDefaultOrderField("position");
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('TXT_SEARCHABLE', $this->lng->txt('md_adv_searchable'));
         $this->tpl->setVariable('ASS_ID', $a_set['id']);
@@ -113,10 +113,14 @@ class ilAdvancedMDFieldTableGUI extends ilTable2GUI
 
             $tmp_arr['position'] = ++$counter * 10;
             $tmp_arr['id'] = $definition->getFieldId();
-            $tmp_arr['title'] = $field_translations->getTitleForLanguage($definition->getFieldId(),
-                $this->active_language);
-            $tmp_arr['description'] = $field_translations->getDescriptionForLanguage($definition->getFieldId(),
-                $this->active_language);
+            $tmp_arr['title'] = $field_translations->getTitleForLanguage(
+                $definition->getFieldId(),
+                $this->active_language
+            );
+            $tmp_arr['description'] = $field_translations->getDescriptionForLanguage(
+                $definition->getFieldId(),
+                $this->active_language
+            );
             $tmp_arr['fields'] = array();
             $tmp_arr['searchable'] = $definition->isSearchable();
             $tmp_arr['type'] = $this->lng->txt($definition->getTypeTitle());

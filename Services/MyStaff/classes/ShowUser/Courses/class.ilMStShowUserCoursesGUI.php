@@ -121,7 +121,9 @@ class ilMStShowUserCoursesGUI
         global $DIC;
 
         $this->table = new ilMStShowUserCoursesTableGUI($this, self::CMD_INDEX);
-        $this->table->setTitle(sprintf($DIC->language()->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id)));
+        $this->table->setTitle(
+            sprintf($DIC->language()->txt('mst_courses_of'), ilObjCourse::_lookupTitle($this->usr_id))
+        );
 
         $DIC->ui()->mainTemplate()->setContent($this->table->getHTML());
     }

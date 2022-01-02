@@ -81,7 +81,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $this->getItems($a_parent_obj->getObjId(), $a_ref_id);
     }
 
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         global $DIC;
 
@@ -189,7 +189,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -197,7 +197,8 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $ilSetting = $DIC['ilSetting'];
         
         if ($this->is_root) {
-            return parent::initBaseFilter(true, false);
+            parent::initBaseFilter(true, false);
+            return;
         }
         
         // show only if extended data was activated in lp settings
@@ -638,7 +639,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -751,7 +752,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         return false;
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         $pos = strrpos($a_field, "_");
         if ($pos !== false) {
@@ -763,7 +764,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         return false;
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("title"));
 
@@ -813,7 +814,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt) . $a_row);
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, $a_set["title"]);
 
@@ -847,7 +848,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderCSV($a_csv)
+    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $a_csv->addColumn($this->lng->txt("title"));
 
@@ -893,7 +894,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         $a_csv->addColumn($a_set["title"]);
 

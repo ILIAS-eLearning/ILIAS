@@ -49,25 +49,25 @@ class ilRendererTableGUI extends ilTable2GUI
      * Standard Version of Fill Row. Most likely to
      * be overwritten by derived class.
      */
-    protected function fillRow($renderer)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
         $ilAccess = $DIC['ilAccess'];
         
-        $name = $renderer->getName();
-        $type = $lng->txt("renderer_type_" . ($renderer->isPlugin() ? "plugin" : "builtin"));
+        $name = $a_set->getName();
+        $type = $lng->txt("renderer_type_" . ($a_set->isPlugin() ? "plugin" : "builtin"));
         
         $repo_types = array();
-        foreach ($renderer->getSupportedRepositoryTypes() as $repo_type) {
+        foreach ($a_set->getSupportedRepositoryTypes() as $repo_type) {
             $repo_types[] = $lng->txt($repo_type);
         }
         
         // supports files?
         $file_types = "";
-        if ($renderer instanceof ilFilePreviewRenderer) {
-            $file_types = implode(", ", $renderer->getSupportedFileFormats());
+        if ($a_set instanceof ilFilePreviewRenderer) {
+            $file_types = implode(", ", $a_set->getSupportedFileFormats());
         }
         
         // fill template

@@ -68,7 +68,7 @@ class ilBiblTranslationTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $translation = $this->translation_facory->findById($a_set['id']);
         $this->tpl->setVariable('ID', $translation->getId());

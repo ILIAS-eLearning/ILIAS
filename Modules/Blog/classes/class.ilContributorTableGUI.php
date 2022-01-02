@@ -87,10 +87,9 @@ class ilContributorTableGUI extends ilTable2GUI
 
     /**
      * Fill template row
-     *
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("VAL_ID", $a_set["id"]);
         $this->tpl->setVariable("TXT_NAME", $a_set["name"]);

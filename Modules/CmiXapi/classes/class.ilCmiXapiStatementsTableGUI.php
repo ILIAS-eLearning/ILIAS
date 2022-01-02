@@ -67,7 +67,7 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->addColumn('', '', '1%');
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -94,33 +94,33 @@ class ilCmiXapiStatementsTableGUI extends ilTable2GUI
         $this->filter["period"] = $dp->getValue();
     }
     
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         $r = $DIC->ui()->renderer();
+
+        $a_set['rowkey'] = md5(serialize($a_set));
         
-        $data['rowkey'] = md5(serialize($data));
-        
-        $rawDataModal = $this->getRawDataModal($data);
-        $actionsList = $this->getActionsList($rawDataModal, $data);
+        $rawDataModal = $this->getRawDataModal($a_set);
+        $actionsList = $this->getActionsList($rawDataModal, $a_set);
         
         $date = ilDatePresentation::formatDate(
-            ilCmiXapiDateTime::fromXapiTimestamp($data['date'])
+            ilCmiXapiDateTime::fromXapiTimestamp($a_set['date'])
         );
         
         $this->tpl->setVariable('STMT_DATE', $date);
         
         if ($this->isMultiActorReport) {
-            $this->tpl->setVariable('STMT_ACTOR', $this->getUsername($data['actor']));
+            $this->tpl->setVariable('STMT_ACTOR', $this->getUsername($a_set['actor']));
         }
         
         $this->tpl->setVariable('STMT_VERB', ilCmiXapiVerbList::getVerbTranslation(
             $DIC->language(),
-            $data['verb_id']
+            $a_set['verb_id']
         ));
         
-        $this->tpl->setVariable('STMT_OBJECT', $data['object']);
-        $this->tpl->setVariable('STMT_OBJECT_INFO', $data['object_info']);
+        $this->tpl->setVariable('STMT_OBJECT', $a_set['object']);
+        $this->tpl->setVariable('STMT_OBJECT_INFO', $a_set['object_info']);
         $this->tpl->setVariable('ACTIONS', $r->render($actionsList));
         $this->tpl->setVariable('RAW_DATA_MODAL', $r->render($rawDataModal));
     }

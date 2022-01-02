@@ -127,7 +127,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         return $this->record_gui;
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
         
@@ -238,8 +238,12 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         
         if ($this->advmd) {
             // advanced metadata
-            $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER, "book", $this->pool_id,
-                "bobj");
+            $this->record_gui = new ilAdvancedMDRecordGUI(
+                ilAdvancedMDRecordGUI::MODE_FILTER,
+                "book",
+                $this->pool_id,
+                "bobj"
+            );
             $this->record_gui->setTableGUI($this);
             $this->record_gui->parse();
             
@@ -260,7 +264,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if (substr($a_field, 0, 3) == "md_") {
             $md_id = (int) substr($a_field, 3);
@@ -271,7 +275,7 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
         return false;
     }
     
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $cols = array();
         
@@ -292,9 +296,9 @@ class ilBookingObjectsTableGUI extends ilTable2GUI
 
     /**
      * Fill table row
-     * @param	array	$a_set
+     * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

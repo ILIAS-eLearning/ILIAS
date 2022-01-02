@@ -98,7 +98,7 @@ class ilFileVersionsTableGUI extends ilTable2GUI
         $this->setMaxCount(is_array($versions) ? count($versions) : 0);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $hist_id = $a_set["hist_entry_id"];
 

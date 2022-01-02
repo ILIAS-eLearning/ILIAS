@@ -28,7 +28,9 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
         
         $this->setFormAction($this->ctrl->getFormAction($this->getParentObject(), $this->getParentCmd()));
         
-        $this->setTitle($this->lng->txt(ilObject::_lookupType($this->getParentObject()->getObjId()) . '_custom_user_fields'));
+        $this->setTitle(
+            $this->lng->txt(ilObject::_lookupType($this->getParentObject()->getObjId()) . '_custom_user_fields')
+        );
         
         $this->addColumn('', '', 1);
         $this->addColumn($this->lng->txt('ps_cdf_name'), 'name', '30%');
@@ -54,17 +56,17 @@ class ilObjectCustomUserFieldsTableGUI extends ilTable2GUI
     
     /**
      * Fill row
-     * @param array $row
-     * @return
+     * @param array $a_set
+     * @return void
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('VAL_ID', $row['field_id']);
-        $this->tpl->setVariable('VAL_NAME', $row['name']);
-        $this->tpl->setVariable('VAL_TYPE', $row['type']);
-        $this->tpl->setVariable('REQUIRED_CHECKED', $row['required'] ? 'checked="checked"' : '');
+        $this->tpl->setVariable('VAL_ID', $a_set['field_id']);
+        $this->tpl->setVariable('VAL_NAME', $a_set['name']);
+        $this->tpl->setVariable('VAL_TYPE', $a_set['type']);
+        $this->tpl->setVariable('REQUIRED_CHECKED', $a_set['required'] ? 'checked="checked"' : '');
         
-        $this->ctrl->setParameter($this->getParentObject(), 'field_id', $row['field_id']);
+        $this->ctrl->setParameter($this->getParentObject(), 'field_id', $a_set['field_id']);
         $this->tpl->setVariable('EDIT_LINK', $this->ctrl->getLinkTarget($this->getParentObject(), 'editField'));
         $this->tpl->setVariable('TXT_EDIT', $this->lng->txt('edit'));
     }

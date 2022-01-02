@@ -15,10 +15,6 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
      */
     protected $facade;
     /**
-     * @var \ilBiblFieldFilterGUI
-     */
-    protected $parent_obj;
-    /**
      * @var array
      */
     protected $filter = [];
@@ -95,10 +91,9 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
 
     /**
      * Fills table rows with content from $a_set.
-     *
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         /**
          * @var ilBiblFieldFilter $filter
@@ -183,7 +178,7 @@ class ilBiblFieldFilterTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         $table = parent::getHTML();
         $modals = $this->dic()->ui()->renderer()->render($this->getInterruptiveModals());

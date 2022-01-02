@@ -111,7 +111,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
 
@@ -179,7 +179,7 @@ class ilSurveyQuestionbrowserTableGUI extends ilTable2GUI
         $this->filter["type"] = $si->getValue();
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('QUESTION_ID', $a_set["question_id"]);
         $this->tpl->setVariable("QUESTION_TITLE", ilUtil::prepareFormOutput($a_set["title"]));

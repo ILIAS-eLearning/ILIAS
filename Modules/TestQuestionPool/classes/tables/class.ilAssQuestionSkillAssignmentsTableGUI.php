@@ -97,16 +97,16 @@ class ilAssQuestionSkillAssignmentsTableGUI extends ilTable2GUI
         $this->addColumn($this->lng->txt('actions'), 'actions', '20%');
     }
 
-    public function fillRow($question)
+    public function fillRow(array $a_set) : void
     {
-        $assignments = $this->skillQuestionAssignmentList->getAssignmentsByQuestionId($question['question_id']);
+        $assignments = $this->skillQuestionAssignmentList->getAssignmentsByQuestionId($a_set['question_id']);
 
-        $this->ctrl->setParameter($this->parent_obj, 'question_id', $question['question_id']);
+        $this->ctrl->setParameter($this->parent_obj, 'question_id', $a_set['question_id']);
 
         $this->tpl->setCurrentBlock('question_title');
         $this->tpl->setVariable('ROWSPAN', $this->getRowspan($assignments));
-        $this->tpl->setVariable('QUESTION_TITLE', $question['title']);
-        $this->tpl->setVariable('QUESTION_DESCRIPTION', $question['description']);
+        $this->tpl->setVariable('QUESTION_TITLE', $a_set['title']);
+        $this->tpl->setVariable('QUESTION_DESCRIPTION', $a_set['description']);
         $this->tpl->parseCurrentBlock();
 
         $this->tpl->setCurrentBlock('tbl_content');

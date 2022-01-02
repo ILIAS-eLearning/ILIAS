@@ -8,21 +8,6 @@
  */
 class ilDclTableListTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
-     * @var ilDclTableListGUI
-     */
-    protected $parent_obj;
-
-
     /**
      * ilDclTableListTableGUI constructor.
      */
@@ -77,9 +62,9 @@ class ilDclTableListTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilDclTable $a_set
+     * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set->getId());
         $this->tpl->setVariable("ORDER_NAME", "order[{$a_set->getId()}]");

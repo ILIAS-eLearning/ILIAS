@@ -71,7 +71,7 @@ class ilSurveyResultsUserTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("USERNAME", $a_set['username']);
         $this->tpl->setVariable("QUESTION", $a_set['question']);

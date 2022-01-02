@@ -60,7 +60,7 @@ class ilForumNotificationTableGUI extends ilTable2GUI
         return $this->ui_renderer->render($icon);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_USER_ID', $a_set['user_id']);
         $this->tpl->setVariable('VAL_LOGIN', $a_set['login']);

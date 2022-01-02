@@ -1,31 +1,41 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI class for media pool page usages listing
- * @author  Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
+    protected bool $incl_hist = false;
+    protected ilMediaPoolPage $page;
+    protected ilTree $repo_tree;
+    protected ilAccessHandler $access;
 
-    /**
-     * Constructor
-     */
-    public function __construct($a_parent_obj, $a_parent_cmd, $a_page, $a_incl_hist)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd,
+        ilMediaPoolPage $a_page,
+        bool $a_incl_hist
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
         $this->lng = $DIC->language();
         $this->access = $DIC->access();
         $ilCtrl = $DIC->ctrl();
-        $lng = $DIC->language();
-        $ilAccess = $DIC->access();
         $lng = $DIC->language();
         $this->repo_tree = $DIC->repositoryTree();
 
@@ -40,15 +50,11 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("cont_mob_usages"));
     }
 
-    /**
-     * Get usages
-     */
-    public function getItems()
+    public function getItems() : void
     {
         $usages = $this->page->getUsages($this->incl_hist);
 
         $clip_cnt = 0;
-        $to_del = array();
         $agg_usages = array();
         foreach ($usages as $k => $usage) {
             $usage["trash"] = false;
@@ -95,26 +101,18 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         $this->setData($agg_usages);
     }
 
-    /**
-     * Standard Version of Fill Row. Most likely to
-     * be overwritten by derived class.
-     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
-        $ilCtrl = $this->ctrl;
-        $ilAccess = $this->access;
-
         $usage = $a_set;
-
-        //var_dump($usage);
+        $cont_type = "";
+        $item = null;
 
         if (is_int(strpos($usage["type"], ":"))) {
             $us_arr = explode(":", $usage["type"]);
             $usage["type"] = $us_arr[1];
             $cont_type = $us_arr[0];
         }
-        //var_dump($usage);
 
         switch ($usage["type"]) {
             case "pg":
@@ -147,7 +145,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
 
                     case "gdf":
                         $term_id = ilGlossaryDefinition::_lookupTermId($page_obj->getId());
-                        $glo_id = ilGlossaryTerm::_lookGlossaryId($term_id);
+                        $glo_id = ilGlossaryTerm::_lookGlossaryID($term_id);
                         $item["obj_type_txt"] = $this->lng->txt("obj_glo");
                         $item["obj_title"] = ilObject::_lookupTitle($glo_id);
                         $item["sub_txt"] = $this->lng->txt("cont_term");
@@ -249,7 +247,7 @@ class ilMediaPoolPageUsagesTableGUI extends ilTable2GUI
         }
     }
 
-    public function getFirstWritableRefId($a_obj_id)
+    public function getFirstWritableRefId(int $a_obj_id) : int
     {
         $ilAccess = $this->access;
 

@@ -25,10 +25,6 @@ class ilBiblEntryTableGUI extends ilTable2GUI
      * @var \ilBiblFactoryFacade
      */
     protected $facade;
-    /**
-     * @var \ilObjBibliographicGUI
-     */
-    protected $parent_obj;
 
 
     /**
@@ -62,7 +58,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     }
 
 
-    public function initFilter()
+    public function initFilter() : void
     {
         $available_fields_for_object = $this->facade->fieldFactory()->getAvailableFieldsForObjId($this->facade->iliasObjId());
 
@@ -97,7 +93,7 @@ class ilBiblEntryTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $ilBiblEntry = $this->facade->entryFactory()->findByIdAndTypeString($a_set['entry_id'], $a_set['entry_type']);
         //TODO instanciate presentation gui class

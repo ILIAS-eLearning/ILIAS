@@ -309,7 +309,9 @@ class ilObjTypeDefinitionGUI extends ilObjectGUI
         $tbl = new ilTableGUI();
         
         // title & header columns
-        $tbl->setTitle($this->lng->txt("edit_operations") . " " . strtolower($this->lng->txt("of")) . " '" . $this->object->getTitle() . "'");
+        $tbl->setTitle(
+            $this->lng->txt("edit_operations") . " " . strtolower($this->lng->txt("of")) . " '" . $this->object->getTitle() . "'"
+        );
 
         $header_names = [];
         foreach ($this->data["cols"] as $val) {

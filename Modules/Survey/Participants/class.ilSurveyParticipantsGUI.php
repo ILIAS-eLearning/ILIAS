@@ -280,7 +280,7 @@ class ilSurveyParticipantsGUI
                 'last_access' => $last_access,
                 'workingtime' => $wt,
                 'finished' => $finished,
-                'invited' => $user_data["invited"]
+                'invited' => $user_data["invited"] ?? false
             );
         }
         $table_gui->setData($data);

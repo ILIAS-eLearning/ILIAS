@@ -1,25 +1,43 @@
-<?php declare(strict_types=1);
+<?php
+include_once("./Services/Style/System/classes/class.ilSystemStyleSettings.php");
+include_once("./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php");
+
+
+include_once("./Services/Table/classes/class.ilTable2GUI.php");
 
 /**
  * TableGUI class for system styles
+ *
+ * @author Alex Killing <alex.killing@gmx.de>
+ * @author Timon Amstutz <timon.amstutz@ilub.unibe.ch>
+
+ * @version $Id$
+ *
+ * @ingroup ServicesStyle
  */
 class ilSystemStylesTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
+     * @var bool
      */
-    protected $ctrl;
+    protected $with_actions = false;
 
     /**
-     * @var ilLanguage
+     * @var bool
      */
-    protected $lng;
+    protected $management_enabled = false;
 
-    protected bool $with_actions = false;
-    protected bool $management_enabled = false;
-    protected bool $read_documentation = true;
+    /**
+     * @var bool
+     */
+    protected $read_documentation = true;
 
-    public function __construct(object $a_parent_obj, string $a_parent_cmd)
+    /**
+     * ilSystemStylesTableGUI constructor.
+     * @param int $a_parent_obj
+     * @param string $a_parent_cmd
+     */
+    public function __construct($a_parent_obj, $a_parent_cmd)
     {
         global $DIC;
 
@@ -43,7 +61,11 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         $this->setEnableHeader(true);
     }
 
-    public function addActions(bool $management_enabled, bool $read_documentation = true) : void
+    /**
+     * @param $management_enabled
+     * @param bool|true $read_documentation
+     */
+    public function addActions($management_enabled, $read_documentation = true)
     {
         $this->setManagementEnabled($management_enabled);
         $this->setReadDocumentation($read_documentation);
@@ -62,11 +84,14 @@ class ilSystemStylesTableGUI extends ilTable2GUI
         }
     }
 
-    public function getStyles() : void
+    /**
+     *
+     */
+    public function getStyles()
     {
         // get all user assigned styles
         $all_user_styles = ilObjUser::_getAllUserAssignedStyles();
-
+        
         // output "other" row for all users, that are not assigned to
         // any existing style
         $users_missing_styles = 0;
@@ -88,13 +113,17 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                     "skin_name" => "other",
                     "style_name" => "",
                     "users" => $users_missing_styles
-                );
+                    );
         }
 
         $this->setData($all_styles);
     }
 
-    protected function fillRow($a_set)
+
+    /**
+     * @param array $a_set
+     */
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -114,11 +143,11 @@ class ilSystemStylesTableGUI extends ilTable2GUI
             if (!$is_substyle) {
                 $this->tpl->setVariable("DEFAULT_ID", $a_set["id"]);
                 if (ilSystemStyleSettings::getCurrentDefaultSkin() == $a_set["skin_id"] &&
-                    ilSystemStyleSettings::getCurrentDefaultStyle() == $a_set["style_id"]
+                        ilSystemStyleSettings::getCurrentDefaultStyle() == $a_set["style_id"]
                 ) {
                     $this->tpl->setVariable("CHECKED_DEFAULT", ' checked="checked" ');
                 } else {
-                    $this->tpl->setVariable("CHECKED_DEFAULT");
+                    $this->tpl->setVariable("CHECKED_DEFAULT", '');
                 }
                 $this->tpl->parseCurrentBlock();
             }
@@ -132,12 +161,14 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                 if (ilSystemStyleSettings::_lookupActivatedStyle($a_set["skin_id"], $a_set["substyle_of"])) {
                     $this->tpl->setVariable("CHECKED_ACTIVE", ' checked="checked" ');
                 } else {
-                    $this->tpl->setVariable("CHECKED_ACTIVE");
+                    $this->tpl->setVariable("CHECKED_ACTIVE", '');
                 }
-            } elseif (ilSystemStyleSettings::_lookupActivatedStyle($a_set["skin_id"], $a_set["style_id"])) {
-                $this->tpl->setVariable("CHECKED_ACTIVE", ' checked="checked" ');
             } else {
-                $this->tpl->setVariable("CHECKED_ACTIVE");
+                if (ilSystemStyleSettings::_lookupActivatedStyle($a_set["skin_id"], $a_set["style_id"])) {
+                    $this->tpl->setVariable("CHECKED_ACTIVE", ' checked="checked" ');
+                } else {
+                    $this->tpl->setVariable("CHECKED_ACTIVE", '');
+                }
             }
 
             $this->tpl->parseCurrentBlock();
@@ -167,14 +198,14 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                 $this->lng->txt("local") . $DIC->ui()->renderer()->render($listing)
             );
         } else {
-            $this->tpl->setVariable("SUB_STYLE_OF");
+            $this->tpl->setVariable("SUB_STYLE_OF", "");
             $this->tpl->setVariable("CATEGORIES", $this->lng->txt("global"));
         }
 
         if ($this->isWithActions()) {
             if ($a_set["skin_id"] == "other") {
                 $this->tpl->setCurrentBlock("actions");
-                $this->tpl->setVariable("ACTIONS");
+                $this->tpl->setVariable("ACTIONS", "");
                 $this->tpl->parseCurrentBlock();
             } else {
                 $action_list = new ilAdvancedSelectionListGUI();
@@ -204,10 +235,10 @@ class ilSystemStylesTableGUI extends ilTable2GUI
                         $this->addMultiActions($a_set["id"]);
                     }
                     if (!$is_substyle && $a_set["skin_id"] != "default") {
-                        $action_list->addItem($this->lng->txt('export'), 'export',
-                            $this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI', 'export'));
+                        $action_list->addItem($this->lng->txt('export'), 'export', $this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI', 'export'));
                     }
                 }
+
 
                 $this->tpl->setCurrentBlock("actions");
                 $this->tpl->setVariable("ACTIONS", $action_list->getHTML());
@@ -218,45 +249,61 @@ class ilSystemStylesTableGUI extends ilTable2GUI
 
     protected function addManagementActionsToList(ilAdvancedSelectionListGUI $action_list)
     {
-        $action_list->addItem($this->lng->txt('edit'), 'edit',
-            $this->ctrl->getLinkTargetByClass('ilSystemStyleSettingsGUI'));
-        $action_list->addItem($this->lng->txt('delete'), 'delete',
-            $this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI', 'deleteStyle'));
+        $action_list->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('ilSystemStyleSettingsGUI'));
+        $action_list->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('ilSystemStyleOverviewGUI', 'deleteStyle'));
     }
 
-    protected function addMultiActions(string $id)
+    protected function addMultiActions($id)
     {
         $this->tpl->setCurrentBlock("multi_actions");
         $this->tpl->setVariable("MULTI_ACTIONS_ID", $id);
         $this->tpl->parseCurrentBlock();
     }
 
-    public function isWithActions() : bool
+    /**
+     * @return boolean
+     */
+    public function isWithActions()
     {
         return $this->with_actions;
     }
 
-    public function setWithActions(bool $with_actions) : void
+    /**
+     * @param boolean $with_actions
+     */
+    public function setWithActions($with_actions)
     {
         $this->with_actions = $with_actions;
     }
 
-    public function isManagementEnabled() : bool
+    /**
+     * @return boolean
+     */
+    public function isManagementEnabled()
     {
         return $this->management_enabled;
     }
 
-    public function setManagementEnabled(bool $management_enabled)
+    /**
+     * @param boolean $management_enabled
+     */
+    public function setManagementEnabled($management_enabled)
     {
         $this->management_enabled = $management_enabled;
     }
 
-    public function isReadDocumentation() : bool
+    /**
+     * @return boolean
+     */
+    public function isReadDocumentation()
     {
         return $this->read_documentation;
     }
 
-    public function setReadDocumentation(bool $read_documentation) : void
+    /**
+     * @param boolean $read_documentation
+     */
+    public function setReadDocumentation($read_documentation)
     {
         $this->read_documentation = $read_documentation;
     }

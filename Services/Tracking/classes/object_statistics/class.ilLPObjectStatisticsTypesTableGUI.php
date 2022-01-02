@@ -65,7 +65,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         }
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field != "title") {
             return true;
@@ -76,7 +76,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
     /**
     * Init filter
     */
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -195,7 +195,7 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ICON_SRC", $a_set["icon"]);
         $this->tpl->setVariable("ICON_ALT", $this->lng->txt("objs_" . $a_set["type"]));
@@ -257,11 +257,11 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         return $chart->getHTML();
     }
     
-    protected function fillMetaExcel(ilExcel $a_excel, &$a_row)
+    protected function fillMetaExcel(ilExcel $a_excel, int &$a_row) : void
     {
     }
     
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, $a_set["title"]);
         
@@ -275,11 +275,11 @@ class ilLPObjectStatisticsTypesTableGUI extends ilLPTableBaseGUI
         $a_excel->setCell($a_row, $cnt, $value);
     }
     
-    protected function fillMetaCSV($a_csv)
+    protected function fillMetaCSV(ilCSVWriter $a_csv) : void
     {
     }
     
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         $a_csv->addColumn($a_set["title"]);
         

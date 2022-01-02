@@ -96,7 +96,7 @@ class ilSCORMTrackingItemPerUserTableGUI extends ilTable2GUI
      * Fill row template
      * @param array $a_set
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

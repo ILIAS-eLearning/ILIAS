@@ -84,7 +84,7 @@ class ilExAssignmentTeamLogTableGUI extends ilTable2GUI
     /**
      * @throws ilDateTimeException
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $date = ilDatePresentation::formatDate(new ilDateTime($a_set["tstamp"], IL_CAL_UNIX));
         

@@ -10,11 +10,6 @@
 class ilObjectTranslationTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilAccessHandler
      */
     protected $access;
@@ -62,7 +57,7 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
     /**
     * Prepare output
     */
-    protected function prepareOutput()
+    protected function prepareOutput() : void
     {
         $lng = $this->lng;
 
@@ -76,7 +71,7 @@ class ilObjectTranslationTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 

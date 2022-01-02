@@ -41,7 +41,7 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         $this->getFiles($a_fss_export);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         return in_array($a_field, array('size', 'date'));
     }
@@ -62,7 +62,7 @@ class ilMemberExportFileTableGUI extends ilTable2GUI
         $this->setData($data);
     }
         
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

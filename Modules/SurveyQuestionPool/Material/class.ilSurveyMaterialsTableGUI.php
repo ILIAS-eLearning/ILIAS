@@ -57,7 +57,7 @@ class ilSurveyMaterialsTableGUI extends ilTable2GUI
         }
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TYPE", $a_set['type']);
         $this->tpl->setVariable("TITLE", $a_set['title']);

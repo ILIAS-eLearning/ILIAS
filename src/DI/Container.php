@@ -389,6 +389,11 @@ class Container extends \Pimple\Container
         return new \ILIAS\SurveyQuestionPool\Service($this);
     }
 
+    public function mediaPool() : \ILIAS\MediaPool\Service
+    {
+        return new \ILIAS\MediaPool\Service($this);
+    }
+
     /**
      * Note: Only use isDependencyAvailable if strictly required. The need for this,
      * mostly points to some underlying problem needing to be solved instead of using this.

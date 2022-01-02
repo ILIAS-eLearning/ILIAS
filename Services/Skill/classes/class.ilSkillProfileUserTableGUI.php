@@ -27,10 +27,6 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
  */
 class ilSkillProfileUserTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
     protected ilSkillProfile $profile;
     protected SkillTreeAccess $skill_tree_access_manager;
@@ -80,7 +76,7 @@ class ilSkillProfileUserTableGUI extends ilTable2GUI
         //$this->addCommandButton("", $lng->txt(""));
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 

@@ -53,7 +53,7 @@ class ilWikiSearchResultsTableGUI extends ilTable2GUI
         $this->setTitle($lng->txt("wiki_search_results") . ' "' . str_replace(array('"'), "", $a_term) . '"');
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
 

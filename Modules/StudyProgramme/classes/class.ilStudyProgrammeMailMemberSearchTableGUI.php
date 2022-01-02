@@ -38,11 +38,11 @@ class ilStudyProgrammeMailMemberSearchTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $set
+     * @param array $a_set
      */
-    public function fillRow($set) : void
+    public function fillRow(array $a_set) : void
     {
-        foreach ($set as $key => $value) {
+        foreach ($a_set as $key => $value) {
             $this->tpl->setVariable(strtoupper($key), $value);
         }
     }

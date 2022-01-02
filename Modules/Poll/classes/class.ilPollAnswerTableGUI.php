@@ -30,8 +30,10 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         
         $total = $this->getItems();
         
-        $this->setTitle($this->lng->txt("poll_question") . ": \"" .
-            $a_parent_obj->object->getQuestion() . "\"");
+        $this->setTitle(
+            $this->lng->txt("poll_question") . ": \"" .
+                $a_parent_obj->object->getQuestion() . "\""
+        );
         $this->setDescription(sprintf($this->lng->txt("poll_population"), $total));
 
         if ($total) {
@@ -46,7 +48,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field != "answer") {
             return true;
@@ -78,7 +80,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         return $total;
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("VALUE_POS", (int) ($a_set["pos"] ?? 10) / 10);
         $this->tpl->setVariable("TXT_ANSWER", nl2br((string) ($a_set["answer"] ?? '')));
@@ -86,7 +88,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         $this->tpl->setVariable("VALUE_PERCENTAGE", (int) ($a_set["percentage"] ?? 0));
     }
     
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         $a_csv->addColumn((int) ($a_set["pos"] ?? 10) / 10);
         $a_csv->addColumn((string) ($a_set["answer"] ?? ''));
@@ -95,7 +97,7 @@ class ilPollAnswerTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
     
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, (int) ($a_set["pos"] ?? 10) / 10);
         $a_excel->setCell($a_row, 1, (string) ($a_set["answer"] ?? ''));

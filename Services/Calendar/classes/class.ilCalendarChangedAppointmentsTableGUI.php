@@ -84,12 +84,11 @@ class ilCalendarChangedAppointmentsTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param array set of data
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
 

@@ -110,11 +110,10 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     }
     /**
      * Get selectable columns
-     *
      * @param
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         // default fields
         $cols = array();
@@ -164,8 +163,8 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $lng = $this->lng;
 
         $this->determineOffsetAndOrder(true);
-		$this->determineLimit();
-		
+        $this->determineLimit();
+        
         $ilSCORM2004TrackingItems = new ilSCORM2004TrackingItems();
         switch ($this->report) {
             case "exportSelectedCore":
@@ -198,7 +197,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
             include_once "Services/Utilities/classes/class.ilStr.php";
             $tr_data = ilUtil::stableSortArray($tr_data, ilUtil::stripSlashes($this->getOrderField()), ilUtil::stripSlashes($this->getOrderDirection()));
         }
-		
+        
         $this->setData($tr_data);
     }
     protected function parseValue($id, $value, $type)
@@ -225,29 +224,29 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
         foreach ($this->getSelectedColumns() as $c) {
             $this->tpl->setCurrentBlock("user_field");
-            $val = $this->parseValue($c, $data[$c], "scormtrac");
+            $val = $this->parseValue($c, $a_set[$c], "scormtrac");
             $this->tpl->setVariable("VAL_UF", $val);
             $this->tpl->parseCurrentBlock();
         }
     }
 
-    protected function fillHeaderExcel(ilExcel $worksheet, &$a_row)
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $labels = $this->getSelectableColumns();
         $cnt = 0;
         foreach ($this->getSelectedColumns() as $c) {
-            $worksheet->setCell($a_row, $cnt, $labels[$c]["txt"]);
+            $a_excel->setCell($a_row, $cnt, $labels[$c]["txt"]);
             $cnt++;
         }
     }
 
-    protected function fillRowExcel(ilExcel $worksheet, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("trac");
@@ -259,12 +258,12 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
             } else {
                 $val = ilLearningProgressBaseGUI::_getStatusText((int) $a_set[$c]);
             }
-            $worksheet->setCell($a_row, $cnt, $val);
+            $a_excel->setCell($a_row, $cnt, $val);
             $cnt++;
         }
     }
 
-    protected function fillHeaderCSV($a_csv)
+    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $labels = $this->getSelectableColumns();
         foreach ($this->getSelectedColumns() as $c) {
@@ -274,7 +273,7 @@ class ilSCORM2004TrackingItemsTableGUI extends ilTable2GUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         $lng = $this->lng;
         $lng->loadLanguageModule("trac");

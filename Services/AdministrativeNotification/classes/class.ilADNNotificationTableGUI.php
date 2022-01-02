@@ -12,11 +12,6 @@ use ILIAS\UI\Component\Modal\Interruptive;
  */
 class ilADNNotificationTableGUI extends ilTable2GUI
 {
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     /**
      * @var \ILIAS\Data\Factory
      */
@@ -79,7 +74,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         return $timestamp->format($this->data_factory->dateFormat()->germanLong()->toString() . ' - H:i:s') ?? '';
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         /**
          * @var ilADNNotification $notification
@@ -143,7 +138,7 @@ class ilADNNotificationTableGUI extends ilTable2GUI
         return $modal;
     }
     
-    public function getHTML()
+    public function getHTML() : string
     {
         return parent::getHTML() . $this->ui->renderer()->render($this->modals);
     }

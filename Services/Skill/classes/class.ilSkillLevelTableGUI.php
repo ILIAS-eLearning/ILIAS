@@ -25,10 +25,6 @@
  */
 class ilSkillLevelTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
     protected int $skill_id;
     protected ilBasicSkill $skill;
@@ -98,7 +94,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
     /**
      * @inheritdoc
      */
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == "nr") {
             return true;
@@ -126,7 +122,7 @@ class ilSkillLevelTableGUI extends ilTable2GUI
         return $levels;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

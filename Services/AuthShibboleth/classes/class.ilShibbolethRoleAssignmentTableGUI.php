@@ -32,10 +32,6 @@ include_once('Services/Table/classes/class.ilTable2GUI.php');
  */
 class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
 {
-    protected $lng;
-    protected $ctrl;
-
-
     /**
      * constructor
      *
@@ -69,7 +65,7 @@ class ilShibbolethRoleAssignmentTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['id']);
         $this->tpl->setVariable('VAL_TYPE', $a_set['type']);

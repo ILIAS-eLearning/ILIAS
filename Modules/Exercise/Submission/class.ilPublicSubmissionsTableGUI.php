@@ -48,7 +48,7 @@ class ilPublicSubmissionsTableGUI extends ilTable2GUI
      * @throws ilObjectNotFoundException
      * @throws ilDatabaseException
      */
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

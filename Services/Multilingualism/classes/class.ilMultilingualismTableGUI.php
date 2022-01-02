@@ -10,11 +10,6 @@
 class ilMultilingualismTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilAccessHandler
      */
     protected $access;
@@ -65,7 +60,7 @@ class ilMultilingualismTableGUI extends ilTable2GUI
     /**
     * Prepare output
     */
-    public function prepareOutput()
+    public function prepareOutput() : void
     {
         $lng = $this->lng;
 
@@ -78,7 +73,7 @@ class ilMultilingualismTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
 

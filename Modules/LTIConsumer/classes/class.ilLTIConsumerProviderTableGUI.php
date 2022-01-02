@@ -412,7 +412,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         }
     }
     
-    public function determineSelectedColumns()
+    public function determineSelectedColumns() : void
     {
         /**
          * - do nothing to avoid ilTable2::__construct() from initialising to early
@@ -420,7 +420,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
          */
     }
     
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -481,7 +481,7 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         return $columns;
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
         
@@ -524,39 +524,39 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         $this->filter['category'] = $category->getValue();
     }
     
-    protected function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
         if ($this->hasMultiCommands()) {
             $this->tpl->setCurrentBlock('checkbox_col');
-            $this->tpl->setVariable('PROVIDER_ID', $data['id']);
+            $this->tpl->setVariable('PROVIDER_ID', $a_set['id']);
             $this->tpl->parseCurrentBlock();
         }
         
         if ($this->getSelectProviderCmd()) {
             $this->tpl->setCurrentBlock('title_linked');
-            $this->tpl->setVariable('TITLE', $data['title']);
+            $this->tpl->setVariable('TITLE', $a_set['title']);
             $this->tpl->setVariable('TITLE_HREF', $this->buildProviderLink(
-                $data['id'],
+                $a_set['id'],
                 $this->getSelectProviderCmd()
             ));
             $this->tpl->parseCurrentBlock();
         } elseif ($this->getEditProviderCmd()) {
             $this->tpl->setCurrentBlock('title_linked');
-            $this->tpl->setVariable('TITLE', $data['title']);
+            $this->tpl->setVariable('TITLE', $a_set['title']);
             $this->tpl->setVariable('TITLE_HREF', $this->buildProviderLink(
-                $data['id'],
+                $a_set['id'],
                 $this->getEditProviderCmd()
             ));
             $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock('title');
-            $this->tpl->setVariable('TITLE', $data['title']);
+            $this->tpl->setVariable('TITLE', $a_set['title']);
             $this->tpl->parseCurrentBlock();
         }
         
-        if ($data['icon']) {
-            $this->tpl->setVariable('ICON_SRC', $data['icon']);
-            $this->tpl->setVariable('ICON_ALT', basename($data['icon']));
+        if ($a_set['icon']) {
+            $this->tpl->setVariable('ICON_SRC', $a_set['icon']);
+            $this->tpl->setVariable('ICON_ALT', basename($a_set['icon']));
         } else {
             $icon = ilObject::_getIcon("", "small", "lti");
             $this->tpl->setVariable('ICON_SRC', $icon);
@@ -564,53 +564,53 @@ class ilLTIConsumerProviderTableGUI extends ilTable2GUI
         }
         
         if ($this->isColumnSelected('description')) {
-            $this->tpl->setVariable('DESCRIPTION', $data['description']);
+            $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
         }
         
         if ($this->isColumnSelected('category')) {
-            $this->tpl->setVariable('CATEGORY', $this->getCategoryTranslation($data['category']));
+            $this->tpl->setVariable('CATEGORY', $this->getCategoryTranslation($a_set['category']));
         }
         
         if ($this->isColumnSelected('keywords')) {
-            $this->tpl->setVariable('KEYWORDS', $this->getKeywordsFormatted($data['keywords']));
+            $this->tpl->setVariable('KEYWORDS', $this->getKeywordsFormatted($a_set['keywords']));
         }
         
         if ($this->isColumnSelected('outcome')) {
-            $this->tpl->setVariable('OUTCOME', $this->getHasOutcomeFormatted($data['outcome']));
+            $this->tpl->setVariable('OUTCOME', $this->getHasOutcomeFormatted($a_set['outcome']));
         }
         
         if ($this->isColumnSelected('internal')) {
-            $this->tpl->setVariable('INTERNAL', $this->getIsInternalFormatted(!(bool) $data['external']));
+            $this->tpl->setVariable('INTERNAL', $this->getIsInternalFormatted(!(bool) $a_set['external']));
         }
         
         if ($this->isColumnSelected('with_key')) {
-            $this->tpl->setVariable('WITH_KEY', $this->getIsWithKeyFormatted(!(bool) $data['provider_key_customizable']));
+            $this->tpl->setVariable('WITH_KEY', $this->getIsWithKeyFormatted(!(bool) $a_set['provider_key_customizable']));
         }
         
         if ($this->isColumnSelected('availability') && $this->isAvailabilityColumnEnabled()) {
-            $this->tpl->setVariable('AVAILABILITY', $this->getAvailabilityLabel($data));
+            $this->tpl->setVariable('AVAILABILITY', $this->getAvailabilityLabel($a_set));
         }
         
         if ($this->isColumnSelected('own_provider') && $this->isOwnProviderColumnEnabled()) {
-            $this->tpl->setVariable('OWN_PROVIDER', $this->getOwnProviderLabel($data));
+            $this->tpl->setVariable('OWN_PROVIDER', $this->getOwnProviderLabel($a_set));
         }
         
         if ($this->isColumnSelected('provider_creator') && $this->isProviderCreatorColumnEnabled()) {
-            $this->tpl->setVariable('PROVIDER_CREATOR', $this->getProviderCreatorLabel($data));
+            $this->tpl->setVariable('PROVIDER_CREATOR', $this->getProviderCreatorLabel($a_set));
         }
         
         if ($this->isColumnSelected('usages_untrashed')) {
-            $usagesUntrashed = $data['usages_untrashed'] ? $data['usages_untrashed'] : '';
+            $usagesUntrashed = $a_set['usages_untrashed'] ? $a_set['usages_untrashed'] : '';
             $this->tpl->setVariable('USAGES_UNTRASHED', $usagesUntrashed);
         }
         
         if ($this->isColumnSelected('usages_trashed') && $this->isDetailedUsagesEnabled() && self::isTrashEnabled()) {
-            $usagesTrashed = $data['usages_trashed'] ? $data['usages_trashed'] : '';
+            $usagesTrashed = $a_set['usages_trashed'] ? $a_set['usages_trashed'] : '';
             $this->tpl->setVariable('USAGES_TRASHED', $usagesTrashed);
         }
         
         if ($this->isActionsColumnEnabled()) {
-            $this->tpl->setVariable('ACTIONS', $this->buildActionsListHtml($data));
+            $this->tpl->setVariable('ACTIONS', $this->buildActionsListHtml($a_set));
         }
     }
     

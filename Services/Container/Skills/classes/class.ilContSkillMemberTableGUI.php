@@ -27,16 +27,6 @@ use ILIAS\DI\UIServices;
 class ilContSkillMemberTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilGlobalTemplateInterface
      */
     protected $tpl;
@@ -97,7 +87,7 @@ class ilContSkillMemberTableGUI extends ilTable2GUI
         return $members;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;

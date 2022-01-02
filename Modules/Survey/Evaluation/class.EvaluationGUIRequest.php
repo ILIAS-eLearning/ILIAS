@@ -29,11 +29,15 @@ class EvaluationGUIRequest
 
     public function __construct(
         \ILIAS\HTTP\Services $http,
-        \ILIAS\Refinery\Factory $refinery
+        \ILIAS\Refinery\Factory $refinery,
+        ?array $get = null,
+        ?array $post = null
     ) {
         $this->initRequest(
             $http,
-            $refinery
+            $refinery,
+            $get,
+            $post
         );
     }
 

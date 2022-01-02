@@ -119,7 +119,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $this->setExportFormats(array(self::EXPORT_CSV, self::EXPORT_EXCEL));
     }
 
-    public function initFilter()
+    public function initFilter() : void
     {
         global $DIC;
 
@@ -135,7 +135,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         global $DIC;
 
@@ -371,7 +371,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         return false;
     }
 
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -471,7 +471,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $this->tpl->setVariable("VAL_LOGIN", $login);
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         global $DIC;
 
@@ -507,7 +507,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord($cnt) . $a_row);
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $a_excel->setCell($a_row, 0, $a_set["login"]);
 
@@ -551,7 +551,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         }
     }
 
-    protected function fillHeaderCSV($a_csv)
+    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         global $DIC;
 
@@ -584,7 +584,7 @@ class ilTrMatrixTableGUI extends ilLPTableBaseGUI
         $a_csv->addRow();
     }
 
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         $a_csv->addColumn($a_set["login"]);
 

@@ -28,10 +28,6 @@ use ILIAS\Skill\Service\SkillInternalManagerService;
  */
 class ilSkillProfileLevelsTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
     protected ilSkillProfile $profile;
     protected ilBasicSkillTreeRepository $tree_repo;
@@ -82,7 +78,7 @@ class ilSkillProfileLevelsTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $tree_id = $this->tree_repo->getTreeIdForNodeId($a_set["base_skill_id"]);
         $node_manager = $this->skill_manager->getTreeNodeManager($tree_id);

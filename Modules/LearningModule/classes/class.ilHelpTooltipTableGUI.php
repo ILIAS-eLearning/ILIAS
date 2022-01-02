@@ -56,7 +56,7 @@ class ilHelpTooltipTableGUI extends ilTable2GUI
         $this->addMultiCommand("deleteTooltips", $lng->txt("delete"));
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TEXT", ilUtil::prepareFormOutput($a_set["text"]));

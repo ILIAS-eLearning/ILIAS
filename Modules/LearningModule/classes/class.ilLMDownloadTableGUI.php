@@ -50,7 +50,7 @@ class ilLMDownloadTableGUI extends ilTable2GUI
         $this->setData($this->lm->getPublicExportFiles());
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TXT_FILENAME", $a_set["file"]);
 

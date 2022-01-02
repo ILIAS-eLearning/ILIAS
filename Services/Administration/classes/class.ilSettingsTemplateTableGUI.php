@@ -51,8 +51,10 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
         parent::__construct($a_parent_obj, $a_parent_cmd);
 
         $this->setData(ilSettingsTemplate::getAllSettingsTemplates($a_type, true));
-        $this->setTitle($lng->txt("adm_settings_templates") . " - " .
-            $lng->txt("obj_" . $a_type));
+        $this->setTitle(
+            $lng->txt("adm_settings_templates") . " - " .
+                $lng->txt("obj_" . $a_type)
+        );
 
         $this->addColumn("", "", "1", true);
         $this->addColumn($this->lng->txt("title"), "title");
@@ -71,7 +73,7 @@ class ilSettingsTemplateTableGUI extends ilTable2GUI
         }
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

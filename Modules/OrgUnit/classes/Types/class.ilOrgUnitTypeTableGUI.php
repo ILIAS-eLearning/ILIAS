@@ -4,17 +4,9 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
 {
 
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-    /**
      * @var ilTabsGUI
      */
     protected $tabs;
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
     /**
      * @var array
      */
@@ -49,19 +41,18 @@ class ilOrgUnitTypeTableGUI extends ilTable2GUI
 
     /**
      * Pass data to row template
-     *
-     * @param array $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('TITLE', $set['title']);
-        $this->tpl->setVariable('DESCRIPTION', $set['description']);
-        $this->tpl->setVariable('DEFAULT_LANG', $set['default_language']);
-        $this->tpl->setVariable('ICON', $set['icon']);
-        $this->ctrl->setParameterByClass("ilorgunittypegui", "type_id", $set['id']);
+        $this->tpl->setVariable('TITLE', $a_set['title']);
+        $this->tpl->setVariable('DESCRIPTION', $a_set['description']);
+        $this->tpl->setVariable('DEFAULT_LANG', $a_set['default_language']);
+        $this->tpl->setVariable('ICON', $a_set['icon']);
+        $this->ctrl->setParameterByClass("ilorgunittypegui", "type_id", $a_set['id']);
         $selection = new ilAdvancedSelectionListGUI();
         $selection->setListTitle($this->lng->txt('Actions'));
-        $selection->setId('action_orgu_type' . $set['id']);
+        $selection->setId('action_orgu_type' . $a_set['id']);
         $selection->addItem($this->lng->txt('edit'), 'edit', $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'edit'));
         $selection->addItem($this->lng->txt('delete'), 'delete', $this->ctrl->getLinkTargetByClass('ilorgunittypegui', 'delete'));
         $this->tpl->setVariable('ACTIONS', $selection->getHTML());

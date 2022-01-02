@@ -15,17 +15,6 @@ class ilGlossaryAutoLinkTableGUI extends ilTable2GUI
     protected $glossary;
 
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-
-    /**
      * Constructor
      */
     public function __construct(ilObjGlossary $a_glossary, $a_parent_obj, $a_parent_cmd)
@@ -58,7 +47,7 @@ class ilGlossaryAutoLinkTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->ctrl->setParameter($this->parent_obj, "glo_id", $a_set["glo_id"]);
         $this->tpl->setCurrentBlock("cmd");

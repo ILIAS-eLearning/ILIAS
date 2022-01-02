@@ -150,7 +150,7 @@ class SurveyConstraintsTableGUI extends ilTable2GUI
         return $this->structure;
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         $lng = $this->lng;
