@@ -13,12 +13,9 @@
 class ilBibliographicExporter extends ilXmlExporter
 {
 
+    protected ?\ilBibliographicDataSet $ds = null;
     /**
-     * @var ilBibliographicDataSet
-     */
-    protected $ds;
-    /**
-     * @var ilDB
+     * @var mixed|null
      */
     protected $db;
 

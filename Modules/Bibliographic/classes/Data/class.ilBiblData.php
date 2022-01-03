@@ -32,8 +32,6 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
 
 
     /**
-     * @var
-     *
      * @con_has_field  true
      * @con_fieldtype  integer
      * @con_length     4
@@ -42,7 +40,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      * @con_is_unique  true
      * @con_sequence   true
      */
-    protected $id;
+    protected ?int $id = null;
     /**
      * @var
      *
@@ -51,7 +49,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      * @con_length     256
      * @con_is_notnull true
      */
-    protected $filename;
+    protected ?string $filename = null;
     /**
      * @var
      *
@@ -60,7 +58,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      * @con_length     1
      * @con_is_notnull true
      */
-    protected $is_online;
+    protected ?int $is_online = null;
     /**
      * @var
      *
@@ -69,22 +67,21 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
      * @con_length     1
      * @con_is_notnull true
      */
-    protected $file_type;
+    protected ?int $file_type = null;
 
     /**
-     * @var string
      *
      * @con_has_field  true
      * @con_fieldtype  text
      * @con_length     255
      * @con_is_notnull true
      */
-    protected $rid;
+    protected ?string $rid = null;
 
     /**
-     * @return integer
+     * @return int|null
      */
-    public function getId()
+    public function getId() : ?int
     {
         return $this->id;
     }
@@ -93,16 +90,16 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     /**
      * @param integer $id
      */
-    public function setId($id)
+    public function setId(int $id) : void
     {
         $this->id = $id;
     }
 
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getFilename()
+    public function getFilename() : ?string
     {
         return $this->filename;
     }
@@ -111,34 +108,30 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     /**
      * @param string $filename
      */
-    public function setFilename($filename)
+    public function setFilename(string $filename) : void
     {
         $this->filename = $filename;
     }
-
-
-    /**
-     * @return integer
-     */
-    public function getIsOnline()
+    
+    public function isOnline() : bool
     {
-        return $this->is_online;
+        return (bool)$this->is_online;
     }
 
 
     /**
      * @param integer $is_online
      */
-    public function setIsOnline($is_online)
+    public function setIsOnline(int $is_online) : void
     {
         $this->is_online = $is_online;
     }
 
 
     /**
-     * @return integer
+     * @return int
      */
-    public function getFileType()
+    public function getFileType() : int
     {
         return $this->file_type;
     }
@@ -147,7 +140,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
     /**
      * @param integer $file_type
      */
-    public function setFileType($file_type)
+    public function setFileType(int $file_type) : void
     {
         $this->file_type = $file_type;
     }
@@ -160,11 +153,7 @@ class ilBiblData extends ActiveRecord implements ilBiblDataInterface
         return $this->rid;
     }
 
-    /**
-     * @param string $rid
-     * @return ilBiblData
-     */
-    public function setResourceId(string $rid) : ilBiblData
+    public function setResourceId(string $rid) : self
     {
         $this->rid = $rid;
         return $this;

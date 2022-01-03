@@ -10,10 +10,7 @@
 class ilBibliographicImporter extends ilXmlImporter
 {
 
-    /**
-     * @var ilBibliographicDataSet
-     */
-    protected $ds;
+    protected ?\ilBibliographicDataSet $ds = null;
 
 
     public function init() : void
