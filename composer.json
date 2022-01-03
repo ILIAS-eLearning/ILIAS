@@ -33,6 +33,7 @@
 		"ext-dom": "*",
 		"ext-xsl": "*",
 		"ext-curl": "*",
+		"ext-json": "*",
 		"cweagans/composer-patches": "^1.7",
 		"filp/whoops": "^2.1.13",
 		"monolog/monolog": "^2.3.5",
@@ -133,6 +134,17 @@
 			"last_update_by" : "",
 			"approved-by": "",
 			"approved-date": ""
+		},
+		"ext-json" : {
+			"source" : "https://www.php.net/manual/de/json.installation.php",
+			"used_version" : "*",
+			"wrapped_by" : "various",
+			"added_by" : "",
+			"last_update" : "",
+			"last_update_by" : "",
+			"approved-by": "",
+			"approved-date": "",
+			"info": "will be core extension with PHP 8.0"
 		},
 		"cweagans/composer-patches" : {
 			"source" : "https://github.com/cweagans/composer-patches",

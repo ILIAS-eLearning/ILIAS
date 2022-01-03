@@ -21,7 +21,7 @@
  */
 class ilSubmitButton extends ilButtonBase
 {
-    protected string $cmd;
+    protected string $cmd = "";
     
     public static function getInstance() : self
     {
