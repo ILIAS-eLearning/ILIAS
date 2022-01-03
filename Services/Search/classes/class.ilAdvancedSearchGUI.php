@@ -137,9 +137,23 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     protected function remoteSearch() : void
     {
-        $this->search_cache->setRoot((int) $_POST['root_id']);
+        $root_id = 0;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $queryString = '';
+        if ($this->http->wrapper()->post()->has('queryString')) {
+            $queryString = $this->http->wrapper()->post()->retrieve(
+                'queryString',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $this->search_cache->setRoot($root_id);
         $this->search_cache->setResultPageNumber(1);
-        $this->search_cache->setQuery(array('lom_content' => ilUtil::stripSlashes($_POST['queryString'])));
+        $this->search_cache->setQuery(array('lom_content' => $queryString));
         $this->search_cache->save();
 
         $this->options = $this->search_cache->getQuery();
@@ -158,9 +172,14 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
             unset($_SESSION['adv_max_page']);
             $this->search_cache->deleteCachedEntries();
         }
-        
-        if (isset($_POST['query'])) {
-            $this->search_cache->setQuery($_POST['query']);
+
+        if ($this->http->wrapper()->post()->has('query')) {
+            $this->search_cache->setQuery(
+                $this->http->wrapper()->post()->retrieve(
+                    'query',
+                    $this->refinery->kindlyTo()->string()
+                )
+            );
         }
         $res = new ilSearchResult();
         if ($res_con = $this->__performContentSearch()) {
@@ -802,16 +821,21 @@ class ilAdvancedSearchGUI extends ilSearchBaseGUI
 
     public function __setSearchOptions() : bool
     {
+        $query = '';
+        if ($this->http->wrapper()->post()->has('query')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'query',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+
         if (isset($_POST['cmd']['performSearch'])) {
-            $this->options = $_SESSION['search_adv'] = $_POST['query'];
+            $this->options = $_SESSION['search_adv'] = $query;
         } elseif (isset($_POST['cmd']['performAdvMDSearch'])) {
             $this->options = $_SESSION['search_adv_md'] = $_POST;
         } else {
             $this->options = ($_SESSION['search_adv'] ?? array());
         }
-        
-        $_POST['result'] = $_POST['id'];
-
         $this->filter = array();
 
         $this->options['type'] = 'all';

@@ -36,7 +36,7 @@ class ilLuceneAdvancedSearchFields
     public const ONLINE_QUERY = 1;
     public const OFFLINE_QUERY = 2;
     
-    private static ilLuceneAdvancedSearchFields $instance;
+    private static ?ilLuceneAdvancedSearchFields $instance = null;
     private ilLuceneAdvancedSearchSettings $settings;
     
     protected ilLanguage $lng;

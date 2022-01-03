@@ -92,11 +92,23 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      */
     protected function remoteSearch() : void
     {
-        $_POST['query'] = $_POST['queryString'];
-        $this->search_cache->setRoot((int) $_POST['root_id']);
-        $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['queryString']));
+        $root_id = 0;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $queryString = '';
+        if ($this->http->wrapper()->post()->has('queryString')) {
+            $queryString = $this->http->wrapper()->post()->retrieve(
+                'queryString',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $this->search_cache->setRoot($root_id);
+        $this->search_cache->setQuery($queryString);
         $this->search_cache->save();
-        
         $this->search();
     }
     
@@ -199,8 +211,13 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         if ($page_number) {
             $this->search_cache->setResultPageNumber($page_number);
         }
-        if (isset($_POST['term'])) {
-            $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));
+
+        if ($this->http->wrapper()->post()->has('term')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+            $this->search_cache->setQuery($query);
             $this->search_cache->setItemFilter(array());
             $this->search_cache->setMimeFilter(array());
             $this->search_cache->save();

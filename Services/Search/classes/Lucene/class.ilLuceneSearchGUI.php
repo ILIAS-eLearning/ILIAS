@@ -86,7 +86,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
             
             case 'ilobjectcopygui':
                 $this->ctrl->setReturn($this, '');
-                                $cp = new ilObjectCopyGUI($this);
+                $cp = new ilObjectCopyGUI($this);
                 $this->ctrl->forwardCommand($cp);
                 break;
             
@@ -140,14 +140,26 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function remoteSearch() : void
     {
-        $query = trim(ilUtil::stripSlashes($_POST['queryString']));
-
-                $qp = new ilLuceneQueryParser($query);
+        $queryString = '';
+        if ($this->http->wrapper()->post()->has('queryString')) {
+            $queryString = $this->http->wrapper()->post()->retrieve(
+                'queryString',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $root_id = ROOT_FOLDER_ID;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $qp = new ilLuceneQueryParser($queryString);
         $qp->parseAutoWildcard();
         
         $query = $qp->getQuery();
         
-        $this->search_cache->setRoot((int) $_POST['root_id']);
+        $this->search_cache->setRoot($root_id);
         $this->search_cache->setQuery(ilUtil::stripSlashes($query));
         $this->search_cache->save();
         
@@ -343,7 +355,6 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
      */
     protected function initUserSearchCache() : void
     {
-        
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_DEFAULT);
         $page_number = $this->initPageNumberFromQuery();
@@ -519,7 +530,7 @@ class ilLuceneSearchGUI extends ilSearchBaseGUI
         }
 
         // search area form
-        $this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
+        #$this->tpl->setVariable('SEARCH_AREA_FORM', $this->getSearchAreaForm()->getHTML());
         $this->tpl->setVariable("TXT_CHANGE", $this->lng->txt("change"));
         
         if (ilSearchSettings::getInstance()->isDateFilterEnabled()) {
