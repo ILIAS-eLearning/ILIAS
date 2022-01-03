@@ -110,7 +110,7 @@ class ilLanguage
      */
     public function getDefaultLanguage() : string
     {
-        return $this->lang_default ? $this->lang_default : "en";
+        return $this->lang_default ?: "en";
     }
 
     /**
@@ -288,7 +288,7 @@ class ilLanguage
             }
         }
 
-        return $languages ? $languages : array();
+        return $languages ?: [];
     }
 
     public static function _lookupEntry(string $a_lang_key, string $a_mod, string $a_id) : string
