@@ -24,6 +24,7 @@ class ilSurveyQuestionblockbrowserTableGUI extends ilTable2GUI
     protected bool $editable = true;
     protected bool $writeAccess = false;
     protected array $browsercolumns = array();
+    protected array $filter = [];
     
     public function __construct(
         object $a_parent_obj,
@@ -87,7 +88,7 @@ class ilSurveyQuestionblockbrowserTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
 
@@ -101,12 +102,12 @@ class ilSurveyQuestionblockbrowserTableGUI extends ilTable2GUI
         $this->filter["title"] = $ti->getValue();
     }
     
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable('QUESTIONBLOCK_ID', $data["questionblock_id"]);
-        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($data["title"]));
-        $this->tpl->setVariable("CONTAINS", ilUtil::prepareFormOutput($data["contains"]));
-        $this->tpl->setVariable("SVY", ilUtil::prepareFormOutput($data['svy']));
+        $this->tpl->setVariable('QUESTIONBLOCK_ID', $a_set["questionblock_id"]);
+        $this->tpl->setVariable("TITLE", ilUtil::prepareFormOutput($a_set["title"]));
+        $this->tpl->setVariable("CONTAINS", ilUtil::prepareFormOutput($a_set["contains"]));
+        $this->tpl->setVariable("SVY", ilUtil::prepareFormOutput($a_set['svy']));
     }
     
     public function setEditable(bool $value) : void

@@ -22,6 +22,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
     protected ilObjUser $user;
     protected bool $editable = true;
     protected bool $writeAccess = false;
+    protected array $filter = [];
     
     public function __construct(
         object $a_parent_obj,
@@ -134,7 +135,7 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->filter["author"] = $ti->getValue();
         
         // questiontype
-        $types = ilObjSurveyQuestionPool::_getQuestionTypes();
+        $types = ilObjSurveyQuestionPool::_getQuestiontypes();
         $options = array();
         $options[""] = $lng->txt('filter_all_question_types');
         foreach ($types as $translation => $row) {
@@ -174,26 +175,26 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         return $cols;
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        $class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($data["question_id"]));
+        $class = strtolower(SurveyQuestionGUI::_getGUIClassNameForId($a_set["question_id"]));
         $guiclass = $class . "GUI";
-        $this->ctrl->setParameterByClass(strtolower($guiclass), "q_id", $data["question_id"]);
-        
+        $this->ctrl->setParameterByClass(strtolower($guiclass), "q_id", $a_set["question_id"]);
+        $url_edit = "";
+        $obligatory = "";
         if ($this->getEditable()) {
             $url_edit = $this->ctrl->getLinkTargetByClass(strtolower($guiclass), "editQuestion");
             
             $this->tpl->setCurrentBlock("title_link_bl");
-            $this->tpl->setVariable("QUESTION_TITLE_LINK", $data["title"]);
+            $this->tpl->setVariable("QUESTION_TITLE_LINK", $a_set["title"]);
             $this->tpl->setVariable("URL_TITLE", $url_edit);
-            $this->tpl->parseCurrentBlock();
         } else {
             $this->tpl->setCurrentBlock("title_nolink_bl");
-            $this->tpl->setVariable("QUESTION_TITLE", $data["title"]);
-            $this->tpl->parseCurrentBlock();
+            $this->tpl->setVariable("QUESTION_TITLE", $a_set["title"]);
         }
-        
-        if ($data["complete"] == 0) {
+        $this->tpl->parseCurrentBlock();
+
+        if ($a_set["complete"] == 0) {
             $this->tpl->setCurrentBlock("qpl_warning");
             $this->tpl->setVariable("IMAGE_WARNING", ilUtil::getImagePath("icon_alert.svg"));
             $this->tpl->setVariable("ALT_WARNING", $this->lng->txt("warning_question_not_complete"));
@@ -204,34 +205,34 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         foreach ($this->getSelectedColumns() as $c) {
             if (strcmp($c, 'description') == 0) {
                 $this->tpl->setCurrentBlock('description');
-                $this->tpl->setVariable("QUESTION_COMMENT", (strlen($data["description"])) ? $data["description"] : "&nbsp;");
+                $this->tpl->setVariable("QUESTION_COMMENT", (strlen($a_set["description"])) ? $a_set["description"] : "&nbsp;");
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'type') == 0) {
                 $this->tpl->setCurrentBlock('type');
-                $this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName($data["type_tag"]));
+                $this->tpl->setVariable("QUESTION_TYPE", SurveyQuestion::_getQuestionTypeName($a_set["type_tag"]));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'author') == 0) {
                 $this->tpl->setCurrentBlock('author');
-                $this->tpl->setVariable("QUESTION_AUTHOR", $data["author"]);
+                $this->tpl->setVariable("QUESTION_AUTHOR", $a_set["author"]);
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'created') == 0) {
                 $this->tpl->setCurrentBlock('created');
-                $this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($data['created'], IL_CAL_UNIX)));
+                $this->tpl->setVariable("QUESTION_CREATED", ilDatePresentation::formatDate(new ilDate($a_set['created'], IL_CAL_UNIX)));
                 $this->tpl->parseCurrentBlock();
             }
             if (strcmp($c, 'updated') == 0) {
                 $this->tpl->setCurrentBlock('updated');
-                $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($data["tstamp"], IL_CAL_UNIX)));
+                $this->tpl->setVariable("QUESTION_UPDATED", ilDatePresentation::formatDate(new ilDate($a_set["tstamp"], IL_CAL_UNIX)));
                 $this->tpl->parseCurrentBlock();
             }
         }
         
         // actions
         $list = new ilAdvancedSelectionListGUI();
-        $list->setId($data["question_id"]);
+        $list->setId($a_set["question_id"]);
         $list->setListTitle($this->lng->txt("actions"));
         if ($url_edit) {
             $list->addItem($this->lng->txt("edit"), "", $url_edit);
@@ -242,10 +243,10 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
             
         // obligatory
         if ($this->getEditable()) {
-            $checked = $data["obligatory"] ? " checked=\"checked\"" : "";
-            $obligatory = "<input type=\"checkbox\" name=\"obligatory_" .
-                $data["question_id"] . "\" value=\"1\"" . $checked . " />";
-        } elseif ($data["obligatory"]) {
+            $checked = $a_set["obligatory"] ? " checked=\"checked\"" : "";
+            $obligatory = "<input type=\"checkbox\" name=\"obligatory[" .
+                $a_set["question_id"] . "]\" value=\"1\"" . $checked . " />";
+        } elseif ($a_set["obligatory"]) {
             $obligatory = "<img src=\"" . ilUtil::getImagePath("obligatory.png", "Modules/Survey") .
                 "\" alt=\"" . $this->lng->txt("question_obligatory") .
                 "\" title=\"" . $this->lng->txt("question_obligatory") . "\" />";
@@ -253,9 +254,9 @@ class ilSurveyQuestionsTableGUI extends ilTable2GUI
         $this->tpl->setVariable("OBLIGATORY", $obligatory);
                     
         if ($this->getWriteAccess()) {
-            $this->tpl->setVariable('CBOX_ID', $data["question_id"]);
+            $this->tpl->setVariable('CBOX_ID', $a_set["question_id"]);
         }
-        $this->tpl->setVariable('QUESTION_ID', $data["question_id"]);
+        $this->tpl->setVariable('QUESTION_ID', $a_set["question_id"]);
     }
     
     public function setEditable(bool $value) : void

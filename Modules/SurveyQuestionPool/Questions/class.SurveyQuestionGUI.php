@@ -13,6 +13,9 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use ILIAS\SurveyQuestionPool\Editing\EditingGUIRequest;
+use ILIAS\SurveyQuestionPool\Editing\EditManager;
+
 /**
  * Basic class for all survey question types
  * The SurveyQuestionGUI class defines and encapsulates basic methods and attributes
@@ -21,7 +24,8 @@
  */
 abstract class SurveyQuestionGUI
 {
-    protected \ILIAS\SurveyQuestionPool\Editing\EditManager $edit_manager;
+    protected EditingGUIRequest $request;
+    protected EditManager $edit_manager;
     protected ilRbacSystem $rbacsystem;
     protected ilObjUser $user;
     protected ilAccessHandler $access;
@@ -31,8 +35,8 @@ abstract class SurveyQuestionGUI
     protected ilGlobalTemplateInterface $tpl;
     protected ilLanguage $lng;
     protected ilCtrl $ctrl;
-    protected array $cumulated;
-    protected string $parent_url;
+    protected array $cumulated = [];
+    protected string $parent_url = "";
     protected ilLogger $log;
     
     public $object;
@@ -50,11 +54,22 @@ abstract class SurveyQuestionGUI
         $tpl = $DIC["tpl"];
         $ilCtrl = $DIC->ctrl();
 
+
+        $this->request = $DIC->surveyQuestionPool()
+                             ->internal()
+                             ->gui()
+                             ->editing()
+                             ->request();
+
         $this->lng = $lng;
         $this->tpl = $tpl;
         $this->ctrl = $ilCtrl;
         $this->ctrl->saveParameter($this, "q_id");
-        $this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
+        $this->ctrl->setParameterByClass(
+            $this->ctrl->getCmdClass(),
+            "sel_question_types",
+            $this->request->getSelectedQuestionTypes()
+        );
         $this->cumulated = array();
         $this->tabs = $DIC->tabs();
         
@@ -96,7 +111,7 @@ abstract class SurveyQuestionGUI
         int $question_id = -1
     ) : SurveyQuestionGUI {
         if ((!$questiontype) and ($question_id > 0)) {
-            $questiontype = SurveyQuestion::_getQuestiontype($question_id);
+            $questiontype = SurveyQuestion::_getQuestionType($question_id);
         }
         SurveyQuestion::_includeClass($questiontype, 1);
         $question_type_gui = $questiontype . "GUI";
@@ -106,7 +121,7 @@ abstract class SurveyQuestionGUI
     
     public static function _getGUIClassNameForId(int $a_q_id) : string
     {
-        $q_type = SurveyQuestion::_getQuestiontype($a_q_id);
+        $q_type = SurveyQuestion::_getQuestionType($a_q_id);
         $class_name = SurveyQuestionGUI::_getClassNameForQType($q_type);
         return $class_name;
     }
@@ -147,18 +162,22 @@ abstract class SurveyQuestionGUI
         $ilTabs = $this->tabs;
         
         $this->ctrl->setParameterByClass($guiclass, "sel_question_types", $this->getQuestionType());
-        $this->ctrl->setParameterByClass($guiclass, "q_id", $_GET["q_id"]);
+        $this->ctrl->setParameterByClass(
+            $guiclass,
+            "q_id",
+            $this->request->getQuestionId()
+        );
         
         if ($this->parent_url) {
             $addurl = "";
-            if (strlen($_GET["new_for_survey"])) {
-                $addurl = "&new_id=" . $_GET["q_id"];
+            if ($this->request->getNewForSurvey() > 0) {
+                $addurl = "&new_id=" . $this->request->getQuestionId();
             }
             $ilTabs->setBackTarget($this->lng->txt("menubacktosurvey"), $this->parent_url . $addurl);
         } else {
             $ilTabs->setBackTarget($this->lng->txt("spl"), $this->ctrl->getLinkTargetByClass("ilObjSurveyQuestionPoolGUI", "questions"));
         }
-        if ($_GET["q_id"]) {
+        if ($this->request->getQuestionId()) {
             $ilTabs->addNonTabbedLink(
                 "preview",
                 $this->lng->txt("preview"),
@@ -166,7 +185,7 @@ abstract class SurveyQuestionGUI
             );
         }
         
-        if ($rbacsystem->checkAccess('edit', $_GET["ref_id"])) {
+        if ($rbacsystem->checkAccess('edit', $this->request->getRefId())) {
             $ilTabs->addTab(
                 "edit_properties",
                 $this->lng->txt("properties"),
@@ -181,7 +200,7 @@ abstract class SurveyQuestionGUI
                 );
             }
         }
-        if ($_GET["q_id"]) {
+        if ($this->request->getQuestionId() > 0) {
             $ilTabs->addTab(
                 "material",
                 $this->lng->txt("material"),
@@ -294,7 +313,7 @@ abstract class SurveyQuestionGUI
     
     protected function saveSync() : void
     {
-        $this->save($_REQUEST["rtrn"], true);
+        $this->save($this->request->getReturn(), true);
     }
 
     protected function saveReturn() : void
@@ -384,8 +403,9 @@ abstract class SurveyQuestionGUI
     {
         $lng = $this->lng;
         $ilAccess = $this->access;
-        
-        if (!sizeof($_POST["qid"])) {
+
+        $qids = $this->request->getQuestionIds();
+        if (count($qids) == 0) {
             ilUtil::sendFailure($lng->txt("select_one"));
             $this->copySyncForm();
             return;
@@ -404,7 +424,7 @@ abstract class SurveyQuestionGUI
             
             if ($can_write) {
                 foreach ($questions as $qid) {
-                    if (in_array($qid, $_POST["qid"])) {
+                    if (in_array($qid, $qids)) {
                         $id = $this->object->getId();
                         
                         $this->object->setId($qid);
@@ -422,7 +442,7 @@ abstract class SurveyQuestionGUI
         }
         
         ilUtil::sendSuccess($lng->txt("survey_sync_success"), true);
-        $this->redirectAfterSaving($_REQUEST["rtrn"]);
+        $this->redirectAfterSaving($this->request->getReturn());
     }
     
     protected function originalSyncForm() : void
@@ -451,13 +471,13 @@ abstract class SurveyQuestionGUI
         }
 
         ilUtil::sendSuccess($this->lng->txt("msg_obj_modified"), true);
-        $this->redirectAfterSaving($_REQUEST["rtrn"]);
+        $this->redirectAfterSaving($this->request->getReturn());
     }
 
     protected function cancelSync() : void
     {
         ilUtil::sendInfo($this->lng->txt("question_changed_in_survey_only"), true);
-        $this->redirectAfterSaving($_REQUEST["rtrn"]);
+        $this->redirectAfterSaving($this->request->getReturn());
     }
             
     /**
@@ -471,8 +491,8 @@ abstract class SurveyQuestionGUI
             // to calling survey
             if ($this->parent_url) {
                 $addurl = "";
-                if (strlen($_GET["new_for_survey"])) {
-                    $addurl = "&new_id=" . $_GET["q_id"];
+                if ($this->request->getNewForSurvey() > 0) {
+                    $addurl = "&new_id=" . $this->request->getQuestionId();
                 }
                 ilUtil::redirect(str_replace("&amp;", "&", $this->parent_url) . $addurl);
             }
@@ -483,10 +503,22 @@ abstract class SurveyQuestionGUI
         }
         // stay in form
         else {
-            $this->ctrl->setParameterByClass($_GET["cmdClass"], "q_id", $this->object->getId());
-            $this->ctrl->setParameterByClass($_GET["cmdClass"], "sel_question_types", $_GET["sel_question_types"]);
-            $this->ctrl->setParameterByClass($_GET["cmdClass"], "new_for_survey", $_GET["new_for_survey"]);
-            $this->ctrl->redirectByClass($_GET["cmdClass"], "editQuestion");
+            $this->ctrl->setParameterByClass(
+                $this->ctrl->getCmdClass(),
+                "q_id",
+                $this->object->getId()
+            );
+            $this->ctrl->setParameterByClass(
+                $this->ctrl->getCmdClass(),
+                "sel_question_types",
+                $this->request->getSelectedQuestionTypes()
+            );
+            $this->ctrl->setParameterByClass(
+                $this->ctrl->getCmdClass(),
+                "new_for_survey",
+                $this->request->getNewForSurvey()
+            );
+            $this->ctrl->redirectByClass($this->ctrl->getCmdClass(), "editQuestion");
         }
     }
     
@@ -518,6 +550,7 @@ abstract class SurveyQuestionGUI
     protected function getPrintViewQuestionTitle(
         int $question_title = 1
     ) : string {
+        $title = "";
         switch ($question_title) {
             case ilObjSurvey::PRINT_HIDE_LABELS:
                 $title = ilUtil::prepareFormOutput($this->object->getTitle());
@@ -585,7 +618,7 @@ abstract class SurveyQuestionGUI
                 $template->setCurrentBlock('material');
                 switch ($material->type) {
                     case 0:
-                        $href = SurveyQuestion::_getInternalLinkHref($material->internal_link, $_GET['ref_id']);
+                        $href = SurveyQuestion::_getInternalLinkHref($material->internal_link, $this->request->getRefId());
                         $template->setVariable('MATERIAL_TYPE', 'internallink');
                         $template->setVariable('MATERIAL_HREF', $href);
                         break;
@@ -610,12 +643,16 @@ abstract class SurveyQuestionGUI
         bool $checkonly = false
     ) : bool {
         $rbacsystem = $this->rbacsystem;
+
         $ilTabs = $this->tabs;
-        
         $ilTabs->activateTab("material");
 
+        $href = "";
+        $type = "";
         $add_html = '';
-        if ($rbacsystem->checkAccess('write', $_GET['ref_id'])) {
+        $errors = false;
+
+        if ($rbacsystem->checkAccess('write', $this->request->getRefId())) {
             $form = new ilPropertyFormGUI();
             $form->setFormAction($this->ctrl->getFormAction($this));
             $form->setTitle($this->lng->txt('add_material'));
@@ -634,8 +671,6 @@ abstract class SurveyQuestionGUI
 
             $form->addCommandButton("addMaterial", $this->lng->txt("add"));
 
-            $errors = false;
-
             if ($checkonly) {
                 $form->setValuesByPost();
                 $errors = !$form->checkInput();
@@ -649,17 +684,21 @@ abstract class SurveyQuestionGUI
 
         $mat_html = "";
         if (count($this->object->getMaterial())) {
-            $table_gui = new ilSurveyMaterialsTableGUI($this, 'material', (($rbacsystem->checkAccess('write', $_GET['ref_id']) ? true : false)));
+            $table_gui = new ilSurveyMaterialsTableGUI(
+                $this,
+                'material',
+                $rbacsystem->checkAccess('write', $this->request->getRefId())
+            );
             $data = array();
             foreach ($this->object->getMaterial() as $material) {
                 switch ($material->type) {
                     case 0:
-                        $href = SurveyQuestion::_getInternalLinkHref($material->internal_link, $_GET['ref_id']);
+                        $href = SurveyQuestion::_getInternalLinkHref($material->internal_link, $this->request->getRefId());
                         $type = $this->lng->txt('internal_link');
                         break;
                 }
                 $title = (strlen($material->title)) ? ilUtil::prepareFormOutput($material->title) : $this->lng->txt('material');
-                array_push($data, array('href' => $href, 'title' => $title, 'type' => $type));
+                $data[] = array('href' => $href, 'title' => $title, 'type' => $type);
             }
             $table_gui->setData($data);
             $mat_html = $table_gui->getHTML();
@@ -673,8 +712,9 @@ abstract class SurveyQuestionGUI
     
     public function deleteMaterial() : void
     {
-        if (is_array($_POST['idx'])) {
-            $this->object->deleteMaterials($_POST['idx']);
+        $mids = $this->request->getMaterialIndexes();
+        if (count($mids) > 0) {
+            $this->object->deleteMaterials($mids);
             ilUtil::sendSuccess($this->lng->txt('materials_deleted'), true);
         } else {
             ilUtil::sendFailure($this->lng->txt('no_checkbox'), true);
@@ -698,7 +738,7 @@ abstract class SurveyQuestionGUI
         );
         
         if ($this->edit_manager->getNewLinkType() != "" || !$this->material(true)) {
-            switch ($_POST["internalLinkType"]) {
+            switch ($this->request->getNewLinkType()) {
                 case "lm":
                     $this->edit_manager->setNewLinkType("lm");
                     $this->edit_manager->setSearchLinkType("lm");
@@ -722,7 +762,7 @@ abstract class SurveyQuestionGUI
                 'addMaterial',
                 $this->edit_manager->getNewLinkType()
             );
-            $exp->setPathOpen((int) $_GET["ref_id"]);
+            $exp->setPathOpen($this->request->getRefId());
             if (!$exp->handleCommand()) {
                 $panel = ilPanelGUI::getInstance();
                 $panel->setHeading($this->lng->txt("select_object_to_link"));
@@ -749,7 +789,7 @@ abstract class SurveyQuestionGUI
         
     public function addPG() : void
     {
-        $this->object->addInternalLink("il__pg_" . $_GET["pg"]);
+        $this->object->addInternalLink("il__pg_" . $this->request->getLinkItemId("pg"));
         $this->edit_manager->clearNewLinkType();
         $this->edit_manager->clearSearchLinkType();
         ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
@@ -758,7 +798,7 @@ abstract class SurveyQuestionGUI
     
     public function addST() : void
     {
-        $this->object->addInternalLink("il__st_" . $_GET["st"]);
+        $this->object->addInternalLink("il__st_" . $this->request->getLinkItemId("st"));
         $this->edit_manager->clearNewLinkType();
         $this->edit_manager->clearSearchLinkType();
         ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
@@ -767,7 +807,7 @@ abstract class SurveyQuestionGUI
 
     public function addGIT() : void
     {
-        $this->object->addInternalLink("il__git_" . $_GET["git"]);
+        $this->object->addInternalLink("il__git_" . $this->request->getLinkItemId("git"));
         $this->edit_manager->clearNewLinkType();
         $this->edit_manager->clearSearchLinkType();
         ilUtil::sendSuccess($this->lng->txt("material_added_successfully"), true);
@@ -780,7 +820,7 @@ abstract class SurveyQuestionGUI
         
         $selectable_items = array();
         
-        $source_id = $_GET["source_id"];
+        $source_id = $this->request->getLinkSourceId();
 
         switch ($this->edit_manager->getSearchLinkType()) {
             case "pg":
@@ -1007,7 +1047,7 @@ abstract class SurveyQuestionGUI
      */
     public function confirmSavePhrase() : void
     {
-        $title = $_POST["phrase_title"];
+        $title = $this->request->getPhraseTitle();
         
         $valid = true;
         if (!trim($title)) {

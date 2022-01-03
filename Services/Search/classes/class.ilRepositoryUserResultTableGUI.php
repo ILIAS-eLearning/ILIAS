@@ -78,7 +78,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
      * @param string $a_field
      * @return boolean
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == 'relevance') {
             return true;
@@ -114,9 +114,8 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
-
         if (!self::$all_selectable_cols) {
             $columns = ilUserSearchOptions::getSelectableColumnInfo($this->review->isAssigned($this->user->getId(), SYSTEM_ROLE_ID));
             
@@ -141,7 +140,7 @@ class ilRepositoryUserResultTableGUI extends ilTable2GUI
         return true;
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("VAL_ID", $a_set["usr_id"]);
         

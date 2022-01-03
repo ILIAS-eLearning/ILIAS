@@ -15,11 +15,6 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
     protected $user;
 
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilTemplate
      */
     protected $tpl;
@@ -160,7 +155,7 @@ class ilBadgePersonalTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

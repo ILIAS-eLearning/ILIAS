@@ -30,9 +30,9 @@ class ilNavigationHistory
     protected $obj_definition;
 
     /**
-     * @var ilPluginAdmin
+     * @var ilComponentRepository
      */
-    protected $plugin_admin;
+    protected $component_repository;
 
 
     private $items;
@@ -50,7 +50,6 @@ class ilNavigationHistory
         $this->db = $DIC->database();
         $this->tree = $DIC->repositoryTree();
         $this->obj_definition = $DIC["objDefinition"];
-        $this->plugin_admin = $DIC["ilPluginAdmin"];
         $this->items = array();
         $items = null;
         if (isset($_SESSION["il_nav_history"])) {
@@ -59,6 +58,7 @@ class ilNavigationHistory
         if (is_array($items)) {
             $this->items = $items;
         }
+        $this->component_repository = $DIC["component.repository"];
     }
 
     /**
@@ -136,21 +136,18 @@ class ilNavigationHistory
         $ilDB = $this->db;
         $ilUser = $this->user;
         $objDefinition = $this->obj_definition;
-        $ilPluginAdmin = $this->plugin_admin;
+        $component_repository = $this->component_repository;
         
         $items = array();
         
         foreach ($this->items as $it) {
-            if ($tree->isInTree($it["ref_id"]) &&
+            if (
+                $tree->isInTree($it["ref_id"]) &&
                 (
                     !$objDefinition->isPluginTypeName($it["type"]) ||
-                $ilPluginAdmin->isActive(
-                    IL_COMP_SERVICE,
-                    "Repository",
-                    "robj",
-                    ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $it["type"])
+                    $component_repository->getPluginById($it["type"])->isActive()
                 )
-                )) {
+            ) {
                 $items[$it["ref_id"] . ":" . $it["sub_obj_id"]] = $it;
             }
         }
@@ -166,16 +163,13 @@ class ilNavigationHistory
             if (is_array($db_entries)) {
                 foreach ($db_entries as $rec) {
                     if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]])) {
-                        if ($tree->isInTree($rec["ref_id"]) &&
+                        if (
+                            $tree->isInTree($rec["ref_id"]) &&
                             (
                                 !$objDefinition->isPluginTypeName($rec["type"]) ||
-                            $ilPluginAdmin->isActive(
-                                IL_COMP_SERVICE,
-                                "Repository",
-                                "robj",
-                                ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $rec["type"])
+                                $component_repository->getPluginById($it["type"])->isActive()
                             )
-                            )) {
+                        ) {
                             $link = ($rec["goto_link"] != "")
                                 ? $rec["goto_link"]
                                 : ilLink::_getLink($rec["ref_id"]);

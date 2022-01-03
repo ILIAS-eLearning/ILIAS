@@ -10,11 +10,6 @@
 class ilTableTemplatesTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilAccessHandler
      */
     protected $access;
@@ -74,7 +69,7 @@ class ilTableTemplatesTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

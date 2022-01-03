@@ -24,10 +24,6 @@
  */
 class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
     protected ilObjUser $user;
     protected int $top_skill_id;
@@ -105,7 +101,7 @@ class ilSelfEvaluationSimpleTableGUI extends ilTable2GUI
         return $levels;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         if ($this->cur_level_id == $a_set["id"]) {
             $this->tpl->setVariable("CHECKED", "checked='checked'");

@@ -19,6 +19,7 @@
  */
 class ilSurveyRaterGUI
 {
+    protected \ILIAS\Survey\Editing\EditingGUIRequest $edit_request;
     protected \ilCtrl $ctrl;
     protected \ilLanguage $lng;
     protected \ILIAS\DI\UIServices $ui;
@@ -48,6 +49,11 @@ class ilSurveyRaterGUI
         $this->tabs = $DIC->tabs();
 
         $this->ctrl->saveParameter($this, "appr_id");
+        $this->edit_request = $DIC->survey()
+            ->internal()
+            ->gui()
+            ->editing()
+            ->request();
     }
 
     public function executeCommand() : void
@@ -177,11 +183,11 @@ class ilSurveyRaterGUI
         $auto->setMoreLinkAvailable(true);
         $auto->setPrivacyMode(ilUserAutoComplete::PRIVACY_MODE_RESPECT_USER_SETTING);
 
-        if (($_REQUEST['fetchall'])) {
+        if ($this->edit_request->getFetchAll()) {
             $auto->setLimit(ilUserAutoComplete::MAX_ENTRIES);
         }
 
-        echo $auto->getList(ilUtil::stripSlashes($_REQUEST['term']));
+        echo $auto->getList($this->edit_request->getTerm());
         exit();
     }
 
@@ -245,7 +251,7 @@ class ilSurveyRaterGUI
     {
         $appr_id = $this->parent->handleRatersAccess();
         $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "appr_id", $appr_id);
-        $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "rater_id", $_GET["rater_id"]);
+        $this->ctrl->setParameterByClass("ilSurveyParticipantsGUI", "rater_id", $this->edit_request->getRaterId());
         $this->ctrl->redirectByClass("ilSurveyParticipantsGUI", "mailRaters");
     }
 
@@ -269,7 +275,7 @@ class ilSurveyRaterGUI
         }
         sort($rec_data);
         $rec = new ilCustomInputGUI($this->lng->txt('recipients'));
-        $rec->setHTML(implode("<br />", $rec_data));
+        $rec->setHtml(implode("<br />", $rec_data));
         $form->addItem($rec);
 
         $subject = new ilTextInputGUI($this->lng->txt('subject'), 'subject');
@@ -283,7 +289,7 @@ class ilSurveyRaterGUI
             $first = array_shift($existingdata);
             foreach ($first as $key => $value) {
                 if (strcmp($key, 'code') != 0 && strcmp($key, 'email') != 0 && strcmp($key, 'sent') != 0) {
-                    array_push($existingcolumns, '[' . $key . ']');
+                    $existingcolumns[] = '[' . $key . ']';
                 }
             }
         }
@@ -323,8 +329,8 @@ class ilSurveyRaterGUI
         $appr_id = $this->parent->handleRatersAccess();
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
 
-        $rec_ids = explode(";", $_POST["rtr_id"]);
-        if (!sizeof($rec_ids)) {
+        $rec_ids = $this->edit_request->getRaterIds();
+        if (count($rec_ids) == 0) {
             $this->ctrl->redirect($this, "editRaters");
         }
 
@@ -386,12 +392,12 @@ class ilSurveyRaterGUI
         }
 
         $form->setValuesByPost();
-        $this->mailRatersObject($form);
+//        $this->mailRatersObject($form);
     }
 
     public function addExternalRater(ilPropertyFormGUI $form) : void
     {
-        $appr_id = $_REQUEST["appr_id"];
+        $appr_id = $this->edit_request->getAppraiseeId();
 
         if (!$appr_id) {
             $this->ctrl->redirect($this, "listAppraisees");
@@ -399,11 +405,6 @@ class ilSurveyRaterGUI
 
         $this->ctrl->setParameter($this, "appr_id", $appr_id);
 
-        $data = array(
-            "email" => $form->getInput("email"),
-            "lastname" => $form->getInput("lname"),
-            "firstname" => $form->getInput("fname")
-        );
         $code_id = $this->parent->addCodeForExternal(
             $form->getInput("email"),
             $form->getInput("lname"),
@@ -426,6 +427,8 @@ class ilSurveyRaterGUI
         // check access
         $ilAccess = $this->access;
         $ilUser = $this->user;
+
+        $user_id = 0;
 
         $appr_id = $this->parent->handleRatersAccess();
 

@@ -90,12 +90,11 @@ class ilCalendarAppointmentsTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param array set of data
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set['deletable']) {
             $this->tpl->setVariable('VAL_ID', $a_set['id']);

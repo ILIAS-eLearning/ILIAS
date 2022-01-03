@@ -15,20 +15,9 @@ include_once("./Services/Table/classes/class.ilTable2GUI.php");
 class ilUserActionAdminTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilTemplate
      */
     protected $tpl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
 
     /**
      * Constructor
@@ -61,7 +50,7 @@ class ilUserActionAdminTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         if ($a_set["active"]) {
             $this->tpl->touchBlock("checked");

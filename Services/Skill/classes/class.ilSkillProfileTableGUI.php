@@ -27,10 +27,6 @@ use ILIAS\Skill\Service\SkillAdminGUIRequest;
  */
 class ilSkillProfileTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
     protected ilAccessHandler $access;
     protected SkillTreeAccess $skill_tree_access_manager;
     protected SkillAdminGUIRequest $admin_gui_request;
@@ -90,7 +86,7 @@ class ilSkillProfileTableGUI extends ilTable2GUI
         return ilSkillProfile::getProfilesForSkillTree($a_skill_tree_id);
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

@@ -56,7 +56,7 @@ class ilLMMenuItemsTableGUI extends ilTable2GUI
         $this->addCommandButton("saveMenuProperties", $lng->txt("save"));
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         

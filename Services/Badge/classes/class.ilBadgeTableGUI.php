@@ -9,11 +9,6 @@
  */
 class ilBadgeTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
     protected $has_write; // [bool]
     protected $parent_type; // [string]
     
@@ -67,7 +62,7 @@ class ilBadgeTableGUI extends ilTable2GUI
         $this->getItems($a_parent_obj_id);
     }
     
-    public function initFilter()
+    public function initFilter() : void
     {
         $lng = $this->lng;
         
@@ -112,7 +107,7 @@ class ilBadgeTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $ilCtrl = $this->ctrl;

@@ -159,7 +159,6 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
             if ($this->object->getMaxChars()) {
                 $template->setVariable("MAXLENGTH", " maxlength=\"" . $this->object->getMaxChars() . "\"");
             }
-            $template->parseCurrentBlock();
         } else {
             $template->setCurrentBlock("textarea");
             if (is_array($working_data)) {
@@ -168,8 +167,8 @@ class SurveyTextQuestionGUI extends SurveyQuestionGUI
             $template->setVariable("QUESTION_ID", $this->object->getId());
             $template->setVariable("WIDTH", $this->object->getTextWidth());
             $template->setVariable("HEIGHT", $this->object->getTextHeight());
-            $template->parseCurrentBlock();
         }
+        $template->parseCurrentBlock();
         $template->setCurrentBlock("question_data_text");
         if ($show_questiontext) {
             $this->outQuestionText($template);

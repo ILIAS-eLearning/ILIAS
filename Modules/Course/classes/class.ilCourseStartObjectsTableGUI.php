@@ -115,7 +115,7 @@ class ilCourseStartObjectsTableGUI extends ilTable2GUI
         return $data;
     }
 
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("ID", $a_set["id"]);
         $this->tpl->setVariable("TXT_TITLE", $a_set["title"]);

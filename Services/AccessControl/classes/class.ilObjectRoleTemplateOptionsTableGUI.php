@@ -101,9 +101,9 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
     
     /**
      * Fill row template
-     * @return
+     * @return void
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
@@ -111,15 +111,14 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
         
 
         if (!$this->getShowOptions()) {
-            return true;
+            return;
         }
 
-        if (isset($row['recursive']) and !$this->show_admin_permissions) {
+        if (isset($a_set['recursive']) and !$this->show_admin_permissions) {
             $this->tpl->setCurrentBlock('recursive');
             $this->tpl->setVariable('TXT_RECURSIVE', $this->lng->txt('change_existing_objects'));
             $this->tpl->setVariable('DESC_RECURSIVE', $this->lng->txt('change_existing_objects_desc'));
-            return true;
-        } elseif ($row['protected']) {
+        } elseif ($a_set['protected']) {
             $this->tpl->setCurrentBlock('protected');
             
             if (!$rbacreview->isAssignable($this->getRoleId(), $this->getObjectRefId())) {
@@ -133,7 +132,6 @@ class ilObjectRoleTemplateOptionsTableGUI extends ilTable2GUI
             $this->tpl->setVariable('TXT_PROTECTED', $this->lng->txt('role_protect_permissions'));
             $this->tpl->setVariable('DESC_PROTECTED', $this->lng->txt('role_protect_permissions_desc'));
             $this->tpl->parseCurrentBlock();
-            return true;
         }
     }
     

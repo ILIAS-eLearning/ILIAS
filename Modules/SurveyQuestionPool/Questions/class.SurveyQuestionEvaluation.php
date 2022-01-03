@@ -79,7 +79,7 @@ abstract class SurveyQuestionEvaluation
             " JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)" .
             " WHERE svy_answer.question_fi = " . $ilDB->quote($this->question->getId(), "integer") .
             " AND svy_finished.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
-        if (is_array($this->finished_ids)) {
+        if (count($this->finished_ids) > 0) {
             $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
         }
         $set = $ilDB->query($sql);
@@ -217,7 +217,7 @@ abstract class SurveyQuestionEvaluation
     public function parseUserSpecificResults($a_qres, int $a_user_id) : array
     {
         $parsed_results = array();
-        
+        $tmp = "";
         if (is_array($a_qres)) {
             foreach ($a_qres as $row_idx => $row_results) {
                 $row_title = $row_results[0];
@@ -275,12 +275,12 @@ abstract class SurveyQuestionEvaluation
     ) : array {
         $lng = $this->lng;
         
-        if ((bool) $a_abs && (bool) $a_perc) {
+        if ($a_abs && $a_perc) {
             $cols = array(
                 $lng->txt("category_nr_selected"),
                 $lng->txt("svy_fraction_of_selections")
             );
-        } elseif ((bool) $a_abs) {
+        } elseif ($a_abs) {
             $cols = array(
                 $lng->txt("category_nr_selected")
             );
@@ -302,13 +302,13 @@ abstract class SurveyQuestionEvaluation
                     ? sprintf("%.2f", $var->perc * 100) . "%"
                     : "0%";
                 
-                if ((bool) $a_abs && (bool) $a_perc) {
+                if ($a_abs && $a_perc) {
                     $res["rows"][] = array(
                         $var->cat->title,
                         $var->abs,
                         $perc
                     );
-                } elseif ((bool) $a_abs) {
+                } elseif ($a_abs) {
                     $res["rows"][] = array(
                         $var->cat->title,
                         $var->abs
@@ -369,7 +369,7 @@ abstract class SurveyQuestionEvaluation
         $chart->setColors($colors);
             
         // :TODO:
-        $chart->setsize($this->chart_width, $this->chart_height);
+        $chart->setSize($this->chart_width, $this->chart_height);
                     
         $vars = $a_results->getVariables();
         
@@ -437,13 +437,13 @@ abstract class SurveyQuestionEvaluation
     {
         $ilDB = $this->db;
         
-        if (is_array($this->finished_ids)) {
+        if (count($this->finished_ids) > 0) {
             return sizeof($this->finished_ids);
         }
         
         $set = $ilDB->query("SELECT finished_id FROM svy_finished" .
             " WHERE survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer"));
-        return (int) $set->numRows();
+        return $set->numRows();
     }
     
     protected function getAnswerData() : array
@@ -456,7 +456,7 @@ abstract class SurveyQuestionEvaluation
             " JOIN svy_finished ON (svy_finished.finished_id = svy_answer.active_fi)" .
             " WHERE svy_answer.question_fi = " . $ilDB->quote($this->question->getId(), "integer") .
             " AND svy_finished.survey_fi = " . $ilDB->quote($this->getSurveyId(), "integer");
-        if (is_array($this->finished_ids)) {
+        if (count($this->finished_ids) > 0) {
             $sql .= " AND " . $ilDB->in("svy_finished.finished_id", $this->finished_ids, "", "integer");
         }
         $set = $ilDB->query($sql);

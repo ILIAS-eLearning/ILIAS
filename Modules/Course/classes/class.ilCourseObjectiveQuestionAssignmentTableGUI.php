@@ -115,12 +115,11 @@ class ilCourseObjectiveQuestionAssignmentTableGUI extends ilTable2GUI
     
     /**
      * fill row
-     *
      * @access protected
      * @param array row data
-     * @return
+     * @return void
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         foreach ($a_set['sub'] as $sub_data) {
             if ($a_set['random']) {

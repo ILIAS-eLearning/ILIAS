@@ -104,10 +104,12 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         
         switch ($this->pg_list_mode) {
             case IL_WIKI_WHAT_LINKS_HERE:
-                $this->setTitle(sprintf(
-                    $lng->txt("wiki_what_links_to_page"),
-                    ilWikiPage::lookupTitle($this->page_id)
-                ));
+                $this->setTitle(
+                    sprintf(
+                        $lng->txt("wiki_what_links_to_page"),
+                        ilWikiPage::lookupTitle($this->page_id)
+                    )
+                );
                 break;
                 
             default:
@@ -159,7 +161,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         $this->setData($pages);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == "cnt") {
             return true;
@@ -167,7 +169,7 @@ class ilWikiPagesTableGUI extends ilTable2GUI
         return false;
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
         

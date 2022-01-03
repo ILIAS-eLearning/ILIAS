@@ -370,7 +370,7 @@ class ilAccessibilityDocumentTableGUI extends ilAccessibilityTableGUI
     /**
      * @inheritDoc
      */
-    public function getHTML()
+    public function getHTML() : string
     {
         return parent::getHTML() . $this->uiRenderer->render($this->uiComponents);
     }

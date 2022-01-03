@@ -81,12 +81,12 @@ class ilTestExportTableGUI extends ilExportTableGUI
     }
 
     /**
-     * @param string $column
+     * @param string $a_field
      * @return bool
      */
-    public function numericOrdering($column)
+    public function numericOrdering(string $a_field) : bool
     {
-        if (in_array($column, array('size', 'date'))) {
+        if (in_array($a_field, array('size', 'date'))) {
             return true;
         }
 

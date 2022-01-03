@@ -61,7 +61,7 @@ class ilWikiRecentChangesTableGUI extends ilTable2GUI
         $this->setData($changes);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
 

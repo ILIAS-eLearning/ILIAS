@@ -40,7 +40,7 @@ class ilSurveyPhrases
     
     /**
      * Gets the available phrases from the database
-     * @param boolean $useronly Returns only the user
+     * @param bool $useronly Returns only the user
      * defined phrases if set to true. The default is false.
      * @return array All available phrases as key/value pairs
      */
@@ -118,7 +118,7 @@ class ilSurveyPhrases
     ) : void {
         $ilDB = $this->db;
         
-        if ((is_array($phrase_array)) && (count($phrase_array))) {
+        if (count($phrase_array) > 0) {
             $ilDB->manipulate("DELETE FROM svy_phrase WHERE " . $ilDB->in('phrase_id', $phrase_array, false, 'integer'));
             $ilDB->manipulate("DELETE FROM svy_phrase_cat WHERE " . $ilDB->in('phrase_fi', $phrase_array, false, 'integer'));
         }

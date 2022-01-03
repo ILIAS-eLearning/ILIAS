@@ -19,8 +19,6 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
      */
     protected $db;
 
-    protected $lng;
-
     protected $filter;
     protected $objects;
 
@@ -78,7 +76,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
     /**
      * Init Filter
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         $title = $this->addFilterItemByMetaType(
             "title",
@@ -115,7 +113,7 @@ class ilMDCopyrightUsageTableGUI extends ilTable2GUI
         return $filter;
     }
 
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

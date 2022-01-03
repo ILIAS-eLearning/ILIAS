@@ -19,6 +19,8 @@
  */
 class ilSumScoreTableGUI extends ilTable2GUI
 {
+    protected int $counter;
+
     public function __construct(
         object $a_parent_obj,
         string $a_parent_cmd,
@@ -52,23 +54,23 @@ class ilSumScoreTableGUI extends ilTable2GUI
         $this->setData($scores);
     }
 
-    public function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        if ($data['score'] === null) {
-            $data['score'] = "n.a.";
+        if ($a_set['score'] === null) {
+            $a_set['score'] = "n.a.";
         }
-        $this->tpl->setVariable("SUM_SCORE", $data['score']);
-        $this->tpl->setVariable("PARTICIPANT", $data['username']);
+        $this->tpl->setVariable("SUM_SCORE", $a_set['score']);
+        $this->tpl->setVariable("PARTICIPANT", $a_set['username']);
     }
 
-    protected function fillHeaderExcel(ilExcel $a_excel, &$a_row)
+    protected function fillHeaderExcel(ilExcel $a_excel, int &$a_row) : void
     {
         $a_excel->setCell($a_row, 0, $this->lng->txt("username"));
         $a_excel->setCell($a_row, 1, $this->lng->txt("sum_score"));
         $a_excel->setBold("A" . $a_row . ":" . $a_excel->getColumnCoord(2 - 1) . $a_row);
     }
 
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $a_set)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         if ($a_set['score'] === null) {
             $a_set['score'] = "n.a.";
@@ -77,13 +79,13 @@ class ilSumScoreTableGUI extends ilTable2GUI
         $a_excel->setCell($a_row, 1, $a_set["score"]);
     }
 
-    protected function fillHeaderCSV($a_csv)
+    protected function fillHeaderCSV(ilCSVWriter $a_csv) : void
     {
         $a_csv->addColumn($this->lng->txt("username"));
         $a_csv->addColumn($this->lng->txt("score"));
     }
 
-    protected function fillRowCSV($a_csv, $a_set)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
         if ($a_set['score'] === null) {
             $a_set['score'] = "n.a.";

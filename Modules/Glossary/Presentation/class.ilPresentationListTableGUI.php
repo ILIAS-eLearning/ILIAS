@@ -22,16 +22,6 @@ class ilPresentationListTableGUI extends ilTable2GUI
     protected $adv_cols_order = array();
 
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var bool
      */
     protected $offline;
@@ -111,8 +101,12 @@ class ilPresentationListTableGUI extends ilTable2GUI
         }
                 
         // advanced metadata
-        $this->record_gui = new ilAdvancedMDRecordGUI(ilAdvancedMDRecordGUI::MODE_FILTER, 'glo',
-            $this->glossary->getId(), 'term');
+        $this->record_gui = new ilAdvancedMDRecordGUI(
+            ilAdvancedMDRecordGUI::MODE_FILTER,
+            'glo',
+            $this->glossary->getId(),
+            'term'
+        );
         $this->record_gui->setTableGUI($this);
         $this->record_gui->parse();
         //$this->setDefaultOrderField("login");
@@ -148,7 +142,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
     /**
      * Init filter
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         // term
         $ti = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
@@ -173,10 +167,9 @@ class ilPresentationListTableGUI extends ilTable2GUI
     
     /**
      * Should this field be sorted numeric?
-     *
      * @return	boolean		numeric ordering; default is false
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if (substr($a_field, 0, 3) == "md_") {
             $md_id = (int) substr($a_field, 3);
@@ -190,16 +183,16 @@ class ilPresentationListTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($term)
+    protected function fillRow(array $a_set) : void
     {
-        $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-        $this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+        $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);
+        $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
 
         if ($this->glossary->getPresentationMode() == "full_def") {
             $this->tpl->setCurrentBlock("fd_td");
             $this->tpl->setVariable(
                 "FULL_DEF",
-                $this->parent_obj->listDefinitions($_GET["ref_id"], $term["id"], true)
+                $this->parent_obj->listDefinitions($_GET["ref_id"], $a_set["id"], true)
             );
             $this->tpl->parseCurrentBlock();
         } else {
@@ -212,12 +205,12 @@ class ilPresentationListTableGUI extends ilTable2GUI
                                 $this->ctrl->setParameter($this->parent_obj, "term", $filter);
                                 $this->ctrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
                             }
-                            $this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+                            $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
                             $this->ctrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
                             $def_href = $this->ctrl->getLinkTarget($this->parent_obj, "listDefinitions");
                             $this->ctrl->clearParameters($this->parent_obj);
                         } else {
-                            $def_href = "term_" . $term["id"] . ".html";
+                            $def_href = "term_" . $a_set["id"] . ".html";
                         }
                         $this->tpl->parseCurrentBlock();
 
@@ -283,7 +276,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
             // display additional column 'glossary' for meta glossaries
             if ($this->glossary->isVirtual()) {
                 $this->tpl->setCurrentBlock("glossary_row");
-                $glo_title = ilObject::_lookupTitle($term["glo_id"]);
+                $glo_title = ilObject::_lookupTitle($a_set["glo_id"]);
                 $this->tpl->setVariable("GLO_TITLE", $glo_title);
                 $this->tpl->parseCurrentBlock();
             }
@@ -300,7 +293,7 @@ class ilPresentationListTableGUI extends ilTable2GUI
                         $this->ctrl->setParameter($this->parent_obj, "term", $filter);
                         $this->ctrl->setParameter($this->parent_obj, "oldoffset", $_GET["oldoffset"]);
                     }
-                    $this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+                    $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
                     $this->ctrl->setParameter($this->parent_obj, "offset", $_GET["offset"]);
                     $this->tpl->setVariable(
                         "LINK_VIEW_TERM",
@@ -308,23 +301,23 @@ class ilPresentationListTableGUI extends ilTable2GUI
                     );
                     $this->ctrl->clearParameters($this->parent_obj);
                 } else {
-                    $this->tpl->setVariable("LINK_VIEW_TERM", "term_" . $term["id"] . ".html");
+                    $this->tpl->setVariable("LINK_VIEW_TERM", "term_" . $a_set["id"] . ".html");
                 }
                 $this->tpl->parseCurrentBlock();
                 
                 $this->tpl->setCurrentBlock("link_end");
-                $this->tpl->setVariable("ANCHOR_TERM", "term_" . $term["id"]);
+                $this->tpl->setVariable("ANCHOR_TERM", "term_" . $a_set["id"]);
                 $this->tpl->parseCurrentBlock();
                 
                 $this->tpl->setCurrentBlock("td");
-                $this->tpl->setVariable("TEXT", $term["term"]);
+                $this->tpl->setVariable("TEXT", $a_set["term"]);
                 $this->tpl->parseCurrentBlock();
             } else {
                 $id = $c["id"];
                                 
                 $val = " ";
-                if (isset($term["md_" . $id . "_presentation"])) {
-                    $pb = $term["md_" . $id . "_presentation"]->getList();
+                if (isset($a_set["md_" . $id . "_presentation"])) {
+                    $pb = $a_set["md_" . $id . "_presentation"]->getList();
                     if ($pb) {
                         $val = $pb;
                     }

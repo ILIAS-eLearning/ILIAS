@@ -106,12 +106,11 @@ class ilGroupParticipantsTableGUI extends ilParticipantTableGUI
 
     /**
      * fill row
-     *
      * @access public
      * @param
-     * @return
+     * @return void
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 

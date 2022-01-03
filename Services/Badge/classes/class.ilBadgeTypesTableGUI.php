@@ -9,11 +9,6 @@
  */
 class ilBadgeTypesTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
     public function __construct($a_parent_obj, $a_parent_cmd = "", $a_has_write)
     {
         global $DIC;
@@ -80,7 +75,7 @@ class ilBadgeTypesTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         

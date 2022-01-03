@@ -154,7 +154,7 @@ class ilRoleTableGUI extends ilTable2GUI
     /**
      * Init filter
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         $this->setDisableFilterHiding(true);
 
@@ -203,34 +203,33 @@ class ilRoleTableGUI extends ilTable2GUI
     }
 
     /**
-     *
-     * @param array $set
+     * @param array $a_set
      */
-    public function fillRow($set)
+    public function fillRow(array $a_set) : void
     {
         global $DIC;
 
         $rbacreview = $DIC['rbacreview'];
         $tree = $DIC['tree'];
 
-        if ($set['type'] == 'role') {
-            if ($set['parent'] != ROLE_FOLDER_ID) {
+        if ($a_set['type'] == 'role') {
+            if ($a_set['parent'] != ROLE_FOLDER_ID) {
                 $this->ctrl->setParameterByClass(
                     "ilobjrolegui",
                     "rolf_ref_id",
-                    $set['parent']
+                    $a_set['parent']
                 );
             }
 
-            $this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $set["obj_id"]);
+            $this->ctrl->setParameterByClass("ilobjrolegui", "obj_id", $a_set["obj_id"]);
             $link = $this->ctrl->getLinkTargetByClass("ilobjrolegui", "perm");
             $this->ctrl->setParameterByClass("ilobjrolegui", "rolf_ref_id", "");
         } else {
-            $this->ctrl->setParameterByClass("ilobjroletemplategui", "obj_id", $set["obj_id"]);
+            $this->ctrl->setParameterByClass("ilobjroletemplategui", "obj_id", $a_set["obj_id"]);
             $link = $this->ctrl->getLinkTargetByClass("ilobjroletemplategui", "perm");
         }
 
-        switch ($set['rtype']) {
+        switch ($a_set['rtype']) {
             case self::TYPE_GLOBAL_AU:
                 $this->tpl->setVariable('ROLE_TYPE', $this->lng->txt('rbac_auto_global'));
                 break;
@@ -254,16 +253,16 @@ class ilRoleTableGUI extends ilTable2GUI
 
 
         if (
-            ($set['obj_id'] != ANONYMOUS_ROLE_ID and
-            $set['obj_id'] != SYSTEM_ROLE_ID and
-            substr($set['title_orig'], 0, 3) != 'il_') or
+            ($a_set['obj_id'] != ANONYMOUS_ROLE_ID and
+                $a_set['obj_id'] != SYSTEM_ROLE_ID and
+            substr($a_set['title_orig'], 0, 3) != 'il_') or
             $this->getType() == self::TYPE_SEARCH) {
-            $this->tpl->setVariable('VAL_ID', $set['obj_id']);
+            $this->tpl->setVariable('VAL_ID', $a_set['obj_id']);
         }
-        $this->tpl->setVariable('VAL_TITLE_LINKED', $set['title']);
+        $this->tpl->setVariable('VAL_TITLE_LINKED', $a_set['title']);
         $this->tpl->setVariable('VAL_LINK', $link);
-        if (strlen($set['description'])) {
-            $this->tpl->setVariable('VAL_DESC', $set['description']);
+        if (strlen($a_set['description'])) {
+            $this->tpl->setVariable('VAL_DESC', $a_set['description']);
         }
 
         /**
@@ -273,7 +272,7 @@ class ilRoleTableGUI extends ilTable2GUI
         }
         */
 
-        $ref = $set['parent'];
+        $ref = $a_set['parent'];
         if ($ref == ROLE_FOLDER_ID) {
             $this->tpl->setVariable('CONTEXT', $this->lng->txt('rbac_context_global'));
         } else {
@@ -283,11 +282,11 @@ class ilRoleTableGUI extends ilTable2GUI
             );
         }
 
-        if ($this->getType() == self::TYPE_VIEW and $set['obj_id'] != SYSTEM_ROLE_ID) {
+        if ($this->getType() == self::TYPE_VIEW and $a_set['obj_id'] != SYSTEM_ROLE_ID) {
             if ($GLOBALS['DIC']['rbacsystem']->checkAccess('write', $this->role_folder_id)) {
                 // Copy role
                 $this->tpl->setVariable('COPY_TEXT', $this->lng->txt('rbac_role_rights_copy'));
-                $this->ctrl->setParameter($this->getParentObject(), "csource", $set["obj_id"]);
+                $this->ctrl->setParameter($this->getParentObject(), "csource", $a_set["obj_id"]);
                 $link = $this->ctrl->getLinkTarget($this->getParentObject(), 'roleSearch');
                 $this->tpl->setVariable(
                     'COPY_LINK',

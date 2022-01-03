@@ -64,10 +64,8 @@ class ilRepositoryObjectPluginSlot
     ) : bool {
         global $DIC;
         $component_repository = $DIC["component.repository"];
-        $ilPluginAdmin = $DIC["ilPluginAdmin"];
-        
-        $pname = ilPlugin::lookupNameForId(IL_COMP_SERVICE, "Repository", "robj", $a_type);
-        if ($pname == "") {
+
+        if (!$component_repository->hasPluginId($a_type)) {
             return false;
         }
 

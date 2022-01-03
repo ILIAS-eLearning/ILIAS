@@ -77,7 +77,7 @@ class ilMDCopyrightTableGUI extends ilTable2GUI
      * @param
      *
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         if ($this->has_write) {
             if ($a_set['default']) {

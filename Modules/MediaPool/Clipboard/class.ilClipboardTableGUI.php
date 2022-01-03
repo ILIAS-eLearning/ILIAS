@@ -1,36 +1,31 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
-
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * TableGUI clipboard items
- *
  * @author Alex Killing <alex.killing@gmx.de>
  */
 class ilClipboardTableGUI extends ilTable2GUI
 {
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
+    protected ilAccessHandler $access;
+    protected ilObjUser $user;
 
-    /**
-     * @var ilAccessHandler
-     */
-    protected $access;
-
-    /**
-     * @var ilObjUser
-     */
-    protected $user;
-
-
-    /**
-    * Constructor
-    */
-    public function __construct($a_parent_obj, $a_parent_cmd)
-    {
+    public function __construct(
+        object $a_parent_obj,
+        string $a_parent_cmd
+    ) {
         global $DIC;
 
         $this->ctrl = $DIC->ctrl();
@@ -69,28 +64,24 @@ class ilClipboardTableGUI extends ilTable2GUI
     }
 
     /**
-    * Get items from user clipboard
-    */
-    public function getItems()
+     * Get items from user clipboard
+     */
+    public function getItems() : void
     {
         $ilUser = $this->user;
         
         $objs = $ilUser->getClipboardObjects("mob");
         $objs2 = $ilUser->getClipboardObjects("incl");
         $objs = array_merge($objs, $objs2);
-//        $objs = ilUtil::sortArray($objs, $_GET["sort_by"], $_GET["sort_order"]);
 
         $this->setData($objs);
     }
     
-    /**
-    * Standard Version of Fill Row. Most likely to
-    * be overwritten by derived class.
-    */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $ilCtrl = $this->ctrl;
 
+        $mob = null;
         if ($a_set["type"] == "mob") {
             // output thumbnail
             $mob = new ilObjMediaObject($a_set["id"]);
@@ -101,9 +92,9 @@ class ilClipboardTableGUI extends ilTable2GUI
                 $this->tpl->setVariable("IMG_THUMB", $target);
                 $this->tpl->parseCurrentBlock();
             }
-            if ($med && ilUtil::deducibleSize($med->getFormat()) &&
+            if (ilUtil::deducibleSize($med->getFormat()) &&
                 $med->getLocationType() == "Reference") {
-                $size = @getimagesize($med->getLocation());
+                $size = getimagesize($med->getLocation());
                 if ($size[0] > 0 && $size[1] > 0) {
                     $wr = $size[0] / 80;
                     $hr = $size[1] / 80;
@@ -140,14 +131,13 @@ class ilClipboardTableGUI extends ilTable2GUI
             );
             $this->tpl->setVariable("TEXT_OBJECT", $a_set["title"] .
                 " [" . $a_set["id"] . "]");
-            $this->tpl->parseCurrentBlock();
         } else {		// just list elements for selection
             $this->tpl->setCurrentBlock("show");
             $this->tpl->setVariable("TEXT_OBJECT2", $a_set["title"] .
                 " [" . $a_set["id"] . "]");
-            $this->tpl->parseCurrentBlock();
         }
-        
+        $this->tpl->parseCurrentBlock();
+
         if ($a_set["type"] == "mob") {
             $this->tpl->setVariable(
                 "MEDIA_INFO",

@@ -30,16 +30,6 @@ use ILIAS\UI\Renderer;
 class ilContProfileTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilGlobalTemplateInterface
      */
     protected $tpl;
@@ -112,7 +102,7 @@ class ilContProfileTableGUI extends ilTable2GUI
         return $profiles;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         $tpl = $this->tpl;
         $ctrl = $this->ctrl;

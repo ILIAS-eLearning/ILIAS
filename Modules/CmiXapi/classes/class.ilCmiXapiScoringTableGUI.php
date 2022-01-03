@@ -53,7 +53,9 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         $this->setRowTemplate('tpl.cmix_scoring_table_row.html', 'Modules/CmiXapi');
 
         if ($tableId === 'highscore') {
-            $this->setTitle(sprintf($DIC->language()->txt('toplist_top_n_results'), (int) $this->_parent->object->getHighscoreTopNum()));
+            $this->setTitle(
+                sprintf($DIC->language()->txt('toplist_top_n_results'), (int) $this->_parent->object->getHighscoreTopNum())
+            );
         } else {
             $this->setTitle($DIC->language()->txt('toplist_your_result'));
         }
@@ -93,36 +95,36 @@ class ilCmiXapiScoringTableGUI extends ilTable2GUI
         $this->setLimit((int) $this->_parent->object->getHighscoreTopNum());
     }
 
-    public function fillRow($data)
+    public function fillRow(array $a_set) : void
     {
         global $DIC; /* @var \ILIAS\DI\Container $DIC */
 
-        $this->tpl->setVariable('SCORE_RANK', $data['rank']);
+        $this->tpl->setVariable('SCORE_RANK', $a_set['rank']);
 
         $this->tpl->setCurrentBlock('personal');
-        $this->tpl->setVariable('SCORE_USER', $this->getUsername($data));
+        $this->tpl->setVariable('SCORE_USER', $this->getUsername($a_set));
         $this->tpl->parseCurrentBlock();
 
         if ($this->_parent->object->getHighscoreAchievedTS()) {
             $this->tpl->setCurrentBlock('achieved');
-            $this->tpl->setVariable('SCORE_ACHIEVED', $data['date']);
+            $this->tpl->setVariable('SCORE_ACHIEVED', $a_set['date']);
             $this->tpl->parseCurrentBlock();
         }
 
 
         if ($this->_parent->object->getHighscorePercentage()) {
             $this->tpl->setCurrentBlock('percentage');
-            $this->tpl->setVariable('SCORE_PERCENTAGE', (float) $data['score'] * 100);
+            $this->tpl->setVariable('SCORE_PERCENTAGE', (float) $a_set['score'] * 100);
             $this->tpl->parseCurrentBlock();
         }
 
         if ($this->_parent->object->getHighscoreWTime()) {
             $this->tpl->setCurrentBlock('wtime');
-            $this->tpl->setVariable('SCORE_DURATION', $data['duration']);
+            $this->tpl->setVariable('SCORE_DURATION', $a_set['duration']);
             $this->tpl->parseCurrentBlock();
         }
 
-        $highlight = $data['ilias_user_id'] == $DIC->user()->getId() ? 'tblrowmarked' : '';
+        $highlight = $a_set['ilias_user_id'] == $DIC->user()->getId() ? 'tblrowmarked' : '';
         $this->tpl->setVariable('HIGHLIGHT', $highlight);
     }
 

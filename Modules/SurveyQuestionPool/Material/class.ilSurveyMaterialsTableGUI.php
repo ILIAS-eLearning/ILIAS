@@ -57,11 +57,11 @@ class ilSurveyMaterialsTableGUI extends ilTable2GUI
         }
     }
     
-    protected function fillRow($data)
+    protected function fillRow(array $a_set) : void
     {
-        $this->tpl->setVariable("TYPE", $data['type']);
-        $this->tpl->setVariable("TITLE", $data['title']);
-        $this->tpl->setVariable("HREF", $data['href']);
+        $this->tpl->setVariable("TYPE", $a_set['type']);
+        $this->tpl->setVariable("TITLE", $a_set['title']);
+        $this->tpl->setVariable("HREF", $a_set['href']);
         $this->tpl->setVariable("CHECKBOX_VALUE", $this->counter - 1);
         $this->tpl->setVariable("COUNTER", $this->counter++);
     }

@@ -116,7 +116,7 @@ class ilAlphabetInputGUI extends ilFormPropertyGUI implements ilToolbarItem
     public function setHighlighted(
         string $a_high_letter
     ) : void {
-        $this->highlight = true;
+        $this->highlight = ($a_high_letter != "");
         $this->highlight_letter = $a_high_letter;
     }
     

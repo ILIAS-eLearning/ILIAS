@@ -116,7 +116,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     /**
      *
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         // skill
         $item = new ilTextInputGUI($this->dic->language()->txt("skmg_skill"), 'skill');
@@ -157,7 +157,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
     /**
      * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         $cols = array();
 
@@ -229,13 +229,13 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilMStListCompetencesSkill $profile
+     * @param array $a_set
      */
-    public function fillRow($profile)
+    public function fillRow(array $a_set) : void
     {
         $propGetter = Closure::bind(function ($prop) {
             return $this->$prop;
-        }, $profile, $profile);
+        }, $a_set, $a_set);
 
         foreach ($this->getSelectableColumns() as $k => $v) {
             if ($this->isColumnSelected($k)) {
@@ -255,7 +255,7 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
         $actions->setListTitle($this->dic->language()->txt("actions"));
         $actions->setAsynch(true);
 
-        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $profile->getUserId());
+        $this->dic->ctrl()->setParameterByClass(get_class($this->parent_obj), 'mst_lcom_usr_id', $a_set->getUserId());
 
         $actions->setAsynchUrl(str_replace("\\", "\\\\", $this->dic->ctrl()
             ->getLinkTarget($this->parent_obj, ilMStListCompetencesSkillsGUI::CMD_GET_ACTIONS, "", true)));
@@ -265,14 +265,14 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilExcel                   $a_excel excel wrapper
-     * @param int                       $a_row
-     * @param ilMStListCompetencesSkill $selected_skill
+     * @param ilExcel $a_excel excel wrapper
+     * @param int     $a_row
+     * @param array   $a_set
      */
-    protected function fillRowExcel(ilExcel $a_excel, &$a_row, $selected_skill)
+    protected function fillRowExcel(ilExcel $a_excel, int &$a_row, array $a_set) : void
     {
         $col = 0;
-        foreach ($this->getFieldValuesForExport($selected_skill) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_excel->setCell($a_row, $col, $v);
             $col++;
         }
@@ -280,12 +280,12 @@ class ilMStListCompetencesSkillsTableGUI extends ilTable2GUI
 
 
     /**
-     * @param ilCSVWriter               $a_csv
-     * @param ilMStListCompetencesSkill $selected_skill
+     * @param ilCSVWriter $a_csv
+     * @param array       $a_set
      */
-    protected function fillRowCSV($a_csv, $selected_skill)
+    protected function fillRowCSV(ilCSVWriter $a_csv, array $a_set) : void
     {
-        foreach ($this->getFieldValuesForExport($selected_skill) as $k => $v) {
+        foreach ($this->getFieldValuesForExport($a_set) as $k => $v) {
             $a_csv->addColumn($v);
         }
         $a_csv->addRow();

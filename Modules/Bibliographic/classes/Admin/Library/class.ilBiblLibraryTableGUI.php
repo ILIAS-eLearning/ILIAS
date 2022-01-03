@@ -33,7 +33,7 @@ class ilBiblLibraryTableGUI extends ilTable2GUI
     /**
      * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_LIBRARY_NAME', $a_set['name']);
         $this->tpl->setVariable('VAL_LIBRARY_URL', $a_set['url']);

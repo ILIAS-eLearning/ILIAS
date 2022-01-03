@@ -19,6 +19,7 @@
  */
 class ilSurveyImporter extends ilXmlImporter
 {
+    protected ilSurveyDataSet $ds;
     protected ilLogger $log;
     protected static ilObjSurvey $survey;
     protected ilLogger $svy_log;
@@ -77,19 +78,17 @@ class ilSurveyImporter extends ilXmlImporter
     ) : void {
         if ($a_entity == "svy") {
             // Container import => test object already created
-            if ($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id)) {
-                $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
-            #$newObj->setImportDirectory(dirname(rtrim($this->getImportDirectory(),'/')));
-            } else {    // case ii, non container
+            if (!($new_id = $a_mapping->getMapping('Services/Container', 'objs', $a_id))) {    // case ii, non container
                 $new_id = $a_mapping->getMapping("Modules/Survey", "svy", 0);
-                $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             }
+            /** @var ilObjSurvey $newObj */
+            $newObj = ilObjectFactory::getInstanceByObjId($new_id, false);
             $this->setSurvey($newObj);
 
 
             list($xml_file) = $this->parseXmlFileNames();
 
-            if (!@file_exists($xml_file)) {
+            if (!file_exists($xml_file)) {
                 $GLOBALS['ilLog']->write(__METHOD__ . ': Cannot find xml definition: ' . $xml_file);
                 return;
             }
@@ -156,9 +155,7 @@ class ilSurveyImporter extends ilXmlImporter
                 $newObj->setOutro(ilRTE::_replaceMediaObjectImageSrc($newObj->getOutro(), 1));
                 $newObj->saveToDb();
             }
-            $a_mapping->addMapping("Modules/Survey", "svy", (int) $a_id, (int) $newObj->getId());
-            //return $newObj->getId();
-            return;
+            $a_mapping->addMapping("Modules/Survey", "svy", (int) $a_id, $newObj->getId());
         } else {
             $parser = new ilDataSetImportParser(
                 $a_entity,

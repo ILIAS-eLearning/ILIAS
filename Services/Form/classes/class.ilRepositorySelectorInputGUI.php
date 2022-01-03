@@ -56,9 +56,9 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
         $this->setSelectText($lng->txt("select"));
     }
 
-    public function setValue(int $a_value) : void
+    public function setValue(string $a_value) : void
     {
-        $this->value = $a_value;
+        $this->value = (int) $a_value;
     }
 
     public function getValue() : int
@@ -199,7 +199,7 @@ class ilRepositorySelectorInputGUI extends ilFormPropertyGUI implements ilTableF
                 break;
                 
             case "table_filter":
-                $parent_gui = get_class($this->getParent());
+                $parent_gui = get_class($this->getParentTable());
                 break;
         }
 

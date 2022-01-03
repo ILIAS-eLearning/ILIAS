@@ -85,7 +85,7 @@ class ilCourseGroupingTableGUI extends ilTable2GUI
         $this->setData($data);
     }
 
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         if (is_array($a_set["assigned"]) && count($a_set["assigned"]) > 0) {
             foreach ($a_set["assigned"] as $item) {

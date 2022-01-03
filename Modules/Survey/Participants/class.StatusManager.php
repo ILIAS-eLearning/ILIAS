@@ -25,6 +25,7 @@ use ILIAS\Survey\InternalRepoService;
  */
 class StatusManager
 {
+    protected \ILIAS\Survey\Execution\RunManager $run_manager;
     protected InternalDomainService $domain_service;
     protected \ilObjSurvey $survey;
     protected int $user_id;
@@ -140,8 +141,7 @@ class StatusManager
         $survey = $this->survey;
         $feature_config = $this->feature_config;
         $anon_session = $this->repo_service->execution()->runSession();
-        if (!is_null($survey) &&
-            $feature_config->usesAppraisees() &&
+        if ($feature_config->usesAppraisees() &&
             $anon_session->issetCode($survey->getId()) &&
             \ilObjSurvey::validateExternalRaterCode(
                 $survey->getRefId(),
@@ -156,8 +156,7 @@ class StatusManager
     {
         $survey = $this->survey;
         $feature_config = $this->feature_config;
-        if (!is_null($survey) &&
-            $feature_config->usesAppraisees() &&
+        if ($feature_config->usesAppraisees() &&
             $survey->isAppraisee($this->user_id)) {
             return true;
         }

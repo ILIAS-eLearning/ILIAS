@@ -59,8 +59,10 @@ class ilMMSubItemTableGUI extends ilTable2GUI
 
     protected function addFilterItems()
     {
-        $table_entry_status = new ilSelectInputGUI($this->lng->txt(self::F_TABLE_ENTRY_STATUS),
-            self::F_TABLE_ENTRY_STATUS);
+        $table_entry_status = new ilSelectInputGUI(
+            $this->lng->txt(self::F_TABLE_ENTRY_STATUS),
+            self::F_TABLE_ENTRY_STATUS
+        );
         $table_entry_status->setOptions(
             array(
                 self::F_TABLE_ALL_VALUE => $this->lng->txt("all"),
@@ -100,7 +102,7 @@ class ilMMSubItemTableGUI extends ilTable2GUI
     /**
      * @inheritDoc
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         static $position;
         static $parent_identification_string;
@@ -120,8 +122,10 @@ class ilMMSubItemTableGUI extends ilTable2GUI
                 $parent_identification_string = $item_facade->getParentIdentificationString();
                 $current_parent_identification = $this->item_repository->resolveIdentificationFromString($parent_identification_string);
                 $current_parent_item = $this->item_repository->getSingleItem($current_parent_identification);
-                $this->tpl->setVariable("PARENT_TITLE",
-                    $current_parent_item instanceof hasTitle ? $current_parent_item->getTitle() : "-");
+                $this->tpl->setVariable(
+                    "PARENT_TITLE",
+                    $current_parent_item instanceof hasTitle ? $current_parent_item->getTitle() : "-"
+                );
                 $position = 1;
             }
         }
@@ -141,30 +145,47 @@ class ilMMSubItemTableGUI extends ilTable2GUI
         $this->tpl->setVariable('TYPE', $item_facade->getTypeForPresentation());
         $this->tpl->setVariable('PROVIDER', $item_facade->getProviderNameForPresentation());
 
-        $this->ctrl->setParameterByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::IDENTIFIER,
-            $this->hash($a_set['identification']));
-        $this->ctrl->setParameterByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::IDENTIFIER,
-            $this->hash($a_set['identification']));
+        $this->ctrl->setParameterByClass(
+            ilMMSubItemGUI::class,
+            ilMMSubItemGUI::IDENTIFIER,
+            $this->hash($a_set['identification'])
+        );
+        $this->ctrl->setParameterByClass(
+            ilMMItemTranslationGUI::class,
+            ilMMItemTranslationGUI::IDENTIFIER,
+            $this->hash($a_set['identification'])
+        );
 
         if ($this->access->hasUserPermissionTo('write')) {
-            $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_EDIT),
-                $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_EDIT));
-            $items[] = $factory->button()->shy($this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE),
-                $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT));
+            $items[] = $factory->button()->shy(
+                $this->lng->txt(ilMMSubItemGUI::CMD_EDIT),
+                $this->ctrl->getLinkTargetByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_EDIT)
+            );
+            $items[] = $factory->button()->shy(
+                $this->lng->txt(ilMMTopItemGUI::CMD_TRANSLATE),
+                $this->ctrl->getLinkTargetByClass(ilMMItemTranslationGUI::class, ilMMItemTranslationGUI::CMD_DEFAULT)
+            );
 
-            $ditem = $factory->modal()->interruptiveItem($this->hash($a_set['identification']),
-                $item_facade->getDefaultTitle());
+            $ditem = $factory->modal()->interruptiveItem(
+                $this->hash($a_set['identification']),
+                $item_facade->getDefaultTitle()
+            );
 
             $delete_modal = "";
             if ($item_facade->isCustom()) {
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_DELETE);
                 $m = $factory->modal()
-                             ->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_DELETE),
-                                 $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_DELETE), $action)
+                             ->interruptive(
+                                 $this->lng->txt(ilMMSubItemGUI::CMD_DELETE),
+                                 $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_DELETE),
+                                 $action
+                             )
                              ->withAffectedItems([$ditem]);
 
-                $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_DELETE),
-                    "")->withOnClick($m->getShowSignal());
+                $items[] = $factory->button()->shy(
+                    $this->lng->txt(ilMMSubItemGUI::CMD_DELETE),
+                    ""
+                )->withOnClick($m->getShowSignal());
                 $delete_modal = $renderer->render([$m]);
             }
 
@@ -172,17 +193,24 @@ class ilMMSubItemTableGUI extends ilTable2GUI
             if ($item_facade->isInterchangeable()) {
                 $action = $this->ctrl->getFormActionByClass(ilMMSubItemGUI::class, ilMMSubItemGUI::CMD_MOVE);
                 $m = $factory->modal()
-                             ->interruptive($this->lng->txt(ilMMSubItemGUI::CMD_MOVE),
-                                 $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_MOVE), $action)
+                             ->interruptive(
+                                 $this->lng->txt(ilMMSubItemGUI::CMD_MOVE),
+                                 $this->lng->txt(ilMMSubItemGUI::CMD_CONFIRM_MOVE),
+                                 $action
+                             )
                              ->withActionButtonLabel(ilMMSubItemGUI::CMD_MOVE)
                              ->withAffectedItems([$ditem]);
-                $items[] = $factory->button()->shy($this->lng->txt(ilMMSubItemGUI::CMD_MOVE . '_to_top_item'),
-                    "")->withOnClick($m->getShowSignal());
+                $items[] = $factory->button()->shy(
+                    $this->lng->txt(ilMMSubItemGUI::CMD_MOVE . '_to_top_item'),
+                    ""
+                )->withOnClick($m->getShowSignal());
                 $move_modal = $renderer->render([$m]);
             }
 
-            $this->tpl->setVariable('ACTIONS',
-                $move_modal . $delete_modal . $renderer->render([$factory->dropdown()->standard($items)->withLabel($this->lng->txt('sub_actions'))]));
+            $this->tpl->setVariable(
+                'ACTIONS',
+                $move_modal . $delete_modal . $renderer->render([$factory->dropdown()->standard($items)->withLabel($this->lng->txt('sub_actions'))])
+            );
         }
     }
 

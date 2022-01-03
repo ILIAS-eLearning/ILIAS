@@ -63,9 +63,9 @@ class ilUserClipboardTableGUI extends ilTable2GUI
 
     /**
      * Fill row
-     * @param type $a_set
+     * @param array $a_set
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_POSTNAME', 'uids');
         $this->tpl->setVariable('VAL_ID', $a_set['usr_id']);

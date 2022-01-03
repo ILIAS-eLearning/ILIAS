@@ -20,16 +20,6 @@ class ilTermListTableGUI extends ilTable2GUI
     protected $term_perm;
 
     /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * Constructor
      */
     public function __construct($a_parent_obj, $a_parent_cmd, $a_tax_node)
@@ -144,21 +134,19 @@ class ilTermListTableGUI extends ilTable2GUI
 
     /**
      * Get selectable columns
-     *
      * @param
-     * @return
+     * @return array
      */
-    public function getSelectableColumns()
+    public function getSelectableColumns() : array
     {
         return $this->selectable_cols;
     }
 
     /**
      * Should this field be sorted numeric?
-     *
      * @return	boolean		numeric ordering; default is false
      */
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if (substr($a_field, 0, 3) == "md_") {
             $md_id = (int) substr($a_field, 3);
@@ -172,7 +160,7 @@ class ilTermListTableGUI extends ilTable2GUI
     /**
      * Init filter
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         // term
         $ti = new ilTextInputGUI($this->lng->txt("cont_term"), "term");
@@ -198,20 +186,20 @@ class ilTermListTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($term)
+    protected function fillRow(array $a_set) : void
     {
-        $defs = ilGlossaryDefinition::getDefinitionList($term["id"]);
-        $this->ctrl->setParameterByClass("ilobjglossarygui", "term_id", $term["id"]);
-        $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
-        $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $term["id"]);
+        $defs = ilGlossaryDefinition::getDefinitionList($a_set["id"]);
+        $this->ctrl->setParameterByClass("ilobjglossarygui", "term_id", $a_set["id"]);
+        $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $a_set["id"]);
+        $this->ctrl->setParameterByClass("ilglossarydefpagegui", "term_id", $a_set["id"]);
 
         // actions drop down
         //if ($this->glossary->getId() == $term["glo_id"])
 
-        if ($this->term_perm->checkPermission("write", $term["id"]) ||
-            $this->term_perm->checkPermission("edit_content", $term["id"])) {
-            if (ilGlossaryTerm::_lookGlossaryID($term["id"]) == $this->glossary->getId() ||
-                ilGlossaryTermReferences::isReferenced($this->glossary->getId(), $term["id"])) {
+        if ($this->term_perm->checkPermission("write", $a_set["id"]) ||
+            $this->term_perm->checkPermission("edit_content", $a_set["id"])) {
+            if (ilGlossaryTerm::_lookGlossaryID($a_set["id"]) == $this->glossary->getId() ||
+                ilGlossaryTermReferences::isReferenced($this->glossary->getId(), $a_set["id"])) {
                 $list = new ilAdvancedSelectionListGUI();
                 $list->addItem($this->lng->txt("cont_edit_term"), "", $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "editTerm"));
                 if (count($defs) > 1) {
@@ -225,7 +213,7 @@ class ilTermListTableGUI extends ilTable2GUI
                 $list->addItem($this->lng->txt("cont_add_definition"), "", $this->ctrl->getLinkTargetByClass("ilobjglossarygui", "addDefinition"));
                 $this->ctrl->setParameterByClass("ilglossarydefpagegui", "def", "");
 
-                $list->setId("act_term_" . $term["id"]);
+                $list->setId("act_term_" . $a_set["id"]);
                 $list->setListTitle($this->lng->txt("actions"));
                 $this->tpl->setVariable("ACTIONS", $list->getHTML());
             }
@@ -271,19 +259,19 @@ class ilTermListTableGUI extends ilTable2GUI
         }
 
         $this->tpl->setCurrentBlock("check_col");
-        $this->tpl->setVariable("CHECKBOX_ID", $term["id"]);
+        $this->tpl->setVariable("CHECKBOX_ID", $a_set["id"]);
         $this->tpl->parseCurrentBlock();
 
-        $this->ctrl->setParameter($this->parent_obj, "term_id", $term["id"]);
+        $this->ctrl->setParameter($this->parent_obj, "term_id", $a_set["id"]);
 
 
         // usage
         if (in_array("usage", $this->getSelectedColumns())) {
-            $nr_usage = ilGlossaryTerm::getNumberOfUsages($term["id"]);
-            if ($nr_usage > 0 && $this->glossary->getId() == $term["glo_id"]) {
+            $nr_usage = ilGlossaryTerm::getNumberOfUsages($a_set["id"]);
+            if ($nr_usage > 0 && $this->glossary->getId() == $a_set["glo_id"]) {
                 $this->tpl->setCurrentBlock("link_usage");
-                $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $term["id"]);
-                $this->tpl->setVariable("LUSAGE", ilGlossaryTerm::getNumberOfUsages($term["id"]));
+                $this->ctrl->setParameterByClass("ilglossarytermgui", "term_id", $a_set["id"]);
+                $this->tpl->setVariable("LUSAGE", ilGlossaryTerm::getNumberOfUsages($a_set["id"]));
                 $this->tpl->setVariable(
                     "LINK_USAGE",
                     $this->ctrl->getLinkTargetByClass("ilglossarytermgui", "listUsages")
@@ -292,7 +280,7 @@ class ilTermListTableGUI extends ilTable2GUI
                 $this->tpl->parseCurrentBlock();
             } else {
                 $this->tpl->setCurrentBlock("usage");
-                $this->tpl->setVariable("USAGE", ilGlossaryTerm::getNumberOfUsages($term["id"]));
+                $this->tpl->setVariable("USAGE", ilGlossaryTerm::getNumberOfUsages($a_set["id"]));
                 $this->tpl->parseCurrentBlock();
             }
             $this->tpl->setCurrentBlock("td_usage");
@@ -302,14 +290,14 @@ class ilTermListTableGUI extends ilTable2GUI
         // glossary title
         if ($this->showGlossaryColumn()) {
             $this->tpl->setCurrentBlock("glossary");
-            $this->tpl->setVariable("GLO_TITLE", ilObject::_lookupTitle($term["glo_id"]));
+            $this->tpl->setVariable("GLO_TITLE", ilObject::_lookupTitle($a_set["glo_id"]));
             $this->tpl->parseCurrentBlock();
         }
 
         // output language
         if (in_array("language", $this->getSelectedColumns())) {
             $this->tpl->setCurrentBlock("td_lang");
-            $this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_" . $term["language"]));
+            $this->tpl->setVariable("TEXT_LANGUAGE", $this->lng->txt("meta_l_" . $a_set["language"]));
             $this->tpl->parseCurrentBlock();
         }
 
@@ -317,15 +305,15 @@ class ilTermListTableGUI extends ilTable2GUI
         foreach ($this->adv_cols_order as $c) {
             if ($c["id"] == 0) {
                 $this->tpl->setCurrentBlock("td");
-                $this->tpl->setVariable("TD_VAL", $term["term"]);
+                $this->tpl->setVariable("TD_VAL", $a_set["term"]);
                 $this->tpl->parseCurrentBlock();
             } else {
                 if (in_array("md_" . $c["id"], $this->selected_cols)) {
                     $id = (int) $c["id"];
                     
                     $val = " ";
-                    if (isset($term["md_" . $id . "_presentation"])) {
-                        $pb = $term["md_" . $id . "_presentation"]->getHTML();
+                    if (isset($a_set["md_" . $id . "_presentation"])) {
+                        $pb = $a_set["md_" . $id . "_presentation"]->getHTML();
                         if ($pb) {
                             $val = $pb;
                         }

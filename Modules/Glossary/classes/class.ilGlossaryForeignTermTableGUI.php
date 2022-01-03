@@ -11,16 +11,6 @@
 class ilGlossaryForeignTermTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
-     * @var ilLanguage
-     */
-    protected $lng;
-
-    /**
      * @var ilObjGlossary
      */
     protected $glossary;
@@ -61,7 +51,7 @@ class ilGlossaryForeignTermTableGUI extends ilTable2GUI
     /**
      * Fill table row
      */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("TERM", $a_set["term"]);
         $this->tpl->setVariable("TERM_ID", $a_set["id"]);

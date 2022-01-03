@@ -13,37 +13,36 @@
  * https://github.com/ILIAS-eLearning
  */
 
-namespace ILIAS\Survey\Evaluation;
+namespace ILIAS\MediaPool\Clipboard;
 
-use ILIAS\Survey\InternalGUIService;
-use ILIAS\Survey\InternalDomainService;
+use ILIAS\MediaPool\InternalGUIService;
+use ILIAS\MediaPool\InternalDomainService;
 
 /**
  * @author Alexander Killing <killing@leifos.de>
  */
-class UIFactory
+class GUIService
 {
-    protected InternalGUIService $ui_service;
-    protected \ilObjectServiceInterface $object_service;
+    protected InternalGUIService $gui_service;
     protected InternalDomainService $domain_service;
 
     public function __construct(
-        InternalGUIService $ui_service,
-        \ilObjectServiceInterface $object_service,
-        \ilObjSurvey $survey,
-        InternalDomainService $domain_service
+        InternalDomainService $domain_service,
+        InternalGUIService $gui_service
     ) {
-        $this->ui_service = $ui_service;
-        $this->object_service = $object_service;
+        $this->gui_service = $gui_service;
         $this->domain_service = $domain_service;
-
-        $mode_ui_modifier = $ui_service->modeUIModifier($survey->getMode());
     }
 
-    public function request() : EvaluationGUIRequest
-    {
-        return new EvaluationGUIRequest(
-            $this->ui_service->http()
+    public function request(
+        ?array $passed_query_params = null,
+        ?array $passed_post_data = null
+    ) : ClipboardGUIRequest {
+        return new ClipboardGUIRequest(
+            $this->gui_service->http(),
+            $this->domain_service->refinery(),
+            $passed_query_params,
+            $passed_post_data
         );
     }
 }

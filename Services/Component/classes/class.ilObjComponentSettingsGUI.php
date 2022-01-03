@@ -75,7 +75,7 @@ class ilObjComponentSettingsGUI extends ilObjectGUI
     protected function getPlugin() : ilPlugin
     {
         return $this->component_factory->getPlugin(
-            $this->component_repository->getPluginByName($_GET[self::P_PLUGIN_NAME])
+            $this->component_repository->getPluginByName($_GET[self::P_PLUGIN_NAME])->getId()
         );
     }
 

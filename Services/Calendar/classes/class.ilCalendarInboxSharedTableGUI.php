@@ -72,13 +72,11 @@ class ilCalendarInboxSharedTableGUI extends ilTable2GUI
     }
     
     /**
-     *
-     *
      * @access public
      * @param array row data
-     * @return
+     * @return void
      */
-    public function fillRow($a_set)
+    public function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable('VAL_ID', $a_set['cal_id']);
         $this->tpl->setVariable('CALENDAR_NAME', $a_set['name']);

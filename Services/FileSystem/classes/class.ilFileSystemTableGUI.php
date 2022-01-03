@@ -80,7 +80,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
         $this->setEnableTitle(true);
     }
     
-    public function numericOrdering($a_field)
+    public function numericOrdering(string $a_field) : bool
     {
         if ($a_field == "size") {
             return true;
@@ -91,7 +91,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
     /**
     * Get data just before output
     */
-    public function prepareOutput()
+    public function prepareOutput() : void
     {
         $this->determineOffsetAndOrder(true);
         $this->setData($this->getEntries());
@@ -167,7 +167,7 @@ class ilFileSystemTableGUI extends ilTable2GUI
     /**
     * Fill table row
     */
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         global $DIC;
         $ilCtrl = $DIC['ilCtrl'];

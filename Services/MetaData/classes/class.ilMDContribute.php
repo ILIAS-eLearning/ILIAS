@@ -193,7 +193,7 @@ class ilMDContribute extends ilMDBase
                 $this->setParentId($row->parent_id);
                 $this->setParentType($row->parent_type);
                 $this->setRole($row->role);
-                $this->setDate($row->c_date);
+                $this->setDate((string) $row->c_date);
             }
         }
         return true;

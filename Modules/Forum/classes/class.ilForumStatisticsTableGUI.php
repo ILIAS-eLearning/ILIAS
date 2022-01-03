@@ -90,7 +90,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         return $columns;
     }
 
-    protected function fillRow($a_set) : void
+    protected function fillRow(array $a_set) : void
     {
         parent::fillRow($a_set);
 
@@ -121,7 +121,7 @@ class ilForumStatisticsTableGUI extends ilTable2GUI
         }
     }
 
-    public function numericOrdering($a_field) : bool
+    public function numericOrdering(string $a_field) : bool
     {
         switch ($a_field) {
             case 'ranking':

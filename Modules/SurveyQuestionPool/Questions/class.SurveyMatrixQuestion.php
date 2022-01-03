@@ -252,13 +252,13 @@ class SurveyMatrixQuestion extends SurveyQuestion
         if ($result->numRows() == 1) {
             $data = $ilDB->fetchAssoc($result);
             $this->setId((int) $data["question_id"]);
-            $this->setTitle($data["title"]);
-            $this->label = $data['label'];
-            $this->setDescription($data["description"]);
+            $this->setTitle((string) $data["title"]);
+            $this->label = (string) $data['label'];
+            $this->setDescription((string) $data["description"]);
             $this->setObjId((int) $data["obj_fi"]);
-            $this->setAuthor($data["author"]);
+            $this->setAuthor((string) $data["author"]);
             $this->setOwner((int) $data["owner_fi"]);
-            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc($data["questiontext"], 1));
+            $this->setQuestiontext(ilRTE::_replaceMediaObjectImageSrc((string) $data["questiontext"], 1));
             $this->setObligatory((bool) $data["obligatory"]);
             $this->setComplete((bool) $data["complete"]);
             $this->setOriginalId((int) $data["original_id"]);
@@ -268,10 +268,10 @@ class SurveyMatrixQuestion extends SurveyQuestion
             $this->setColumnSeparators((bool) $data["column_separators"]);
             $this->setColumnPlaceholders((bool) $data["column_placeholders"]);
             $this->setLegend((bool) $data["legend"]);
-            $this->setSingleLineRowCaption($data["singleline_row_caption"]);
-            $this->setRepeatColumnHeader($data["repeat_column_header"]);
-            $this->setBipolarAdjective(0, $data["bipolar_adjective1"]);
-            $this->setBipolarAdjective(1, $data["bipolar_adjective2"]);
+            $this->setSingleLineRowCaption((string) $data["singleline_row_caption"]);
+            $this->setRepeatColumnHeader((bool) $data["repeat_column_header"]);
+            $this->setBipolarAdjective(0, (string) $data["bipolar_adjective1"]);
+            $this->setBipolarAdjective(1, (string) $data["bipolar_adjective2"]);
             $this->setLayout($data["layout"]);
             $this->flushColumns();
 
@@ -282,7 +282,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
             );
             if ($result->numRows() > 0) {
                 while ($data = $ilDB->fetchAssoc($result)) {
-                    $this->columns->addCategory($data["title"], (int) $data["other"], (int) $data["neutral"], null, ($data['scale']) ? $data['scale'] : ($data['sequence'] + 1));
+                    $this->columns->addCategory($data["title"], (int) $data["other"], (int) $data["neutral"], null, ($data['scale']) ?: ($data['sequence'] + 1));
                 }
             }
             
@@ -388,16 +388,14 @@ class SurveyMatrixQuestion extends SurveyQuestion
         );
         $insert = false;
         $returnvalue = "";
+        $insert = true;
         if ($result->numRows()) {
-            $insert = true;
             while ($row = $ilDB->fetchAssoc($result)) {
                 if (strcmp($row["title"], $columntext) == 0) {
                     $returnvalue = $row["category_id"];
                     $insert = false;
                 }
             }
-        } else {
-            $insert = true;
         }
         if ($insert) {
             $next_id = $ilDB->nextId('svy_category');
@@ -482,7 +480,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         bool $a_include_header = true,
         bool $obligatory_state = false
     ) : string {
-        $a_xml_writer = new ilXmlWriter;
+        $a_xml_writer = new ilXmlWriter();
         $a_xml_writer->xmlHeader();
         $this->insertXML($a_xml_writer, $a_include_header);
         $xml = $a_xml_writer->xmlDumpMem(false);
@@ -503,7 +501,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         $attrs = array(
             "id" => $this->getId(),
             "title" => $this->getTitle(),
-            "type" => $this->getQuestiontype(),
+            "type" => $this->getQuestionType(),
             "subtype" => $this->getSubtype(),
             "obligatory" => $this->getObligatory()
         );
@@ -698,10 +696,18 @@ class SurveyMatrixQuestion extends SurveyQuestion
                     if (preg_match("/matrix_" . $this->getId() . "_(\d+)/", $key, $matches)) {
                         if (is_array($value)) {
                             foreach ($value as $val) {
-                                array_push($data, array("value" => $val, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
+                                $data[] = array("value" => $val,
+                                                "rowvalue" => $matches[1],
+                                                "textanswer" => $post_data['matrix_other_' . $this->getId(
+                                                ) . '_' . $matches[1]]
+                                );
                             }
                         } else {
-                            array_push($data, array("value" => $value, "rowvalue" => $matches[1], "textanswer" => $post_data['matrix_other_' . $this->getId() . '_' . $matches[1]]));
+                            $data[] = array("value" => $value,
+                                            "rowvalue" => $matches[1],
+                                            "textanswer" => $post_data['matrix_other_' . $this->getId(
+                                            ) . '_' . $matches[1]]
+                            );
                         }
                     }
                     break;
@@ -966,7 +972,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
             foreach ($data["material"] as $material) {
                 $column .= $material["text"];
             }
-            $this->columns->addCategory($column, null, (strcmp($data["label"], "neutral") == 0) ? true : false);
+            $this->columns->addCategory($column, null, strcmp($data["label"], "neutral") == 0);
         }
     }
 
@@ -1035,7 +1041,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
 
     public function getLayout() : array
     {
-        if (!is_array($this->layout) || count($this->layout) == 0) {
+        if (count($this->layout) == 0) {
             if ($this->hasBipolarAdjectives() && $this->hasNeutralColumn()) {
                 $this->layout = array(
                     "percent_row" => 30,
@@ -1081,7 +1087,7 @@ class SurveyMatrixQuestion extends SurveyQuestion
         if (is_array($layout)) {
             $this->layout = $layout;
         } else {
-            $this->layout = unserialize($layout);
+            $this->layout = unserialize($layout) ?: [];
         }
     }
     

@@ -122,9 +122,9 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
     }
 
     /**
-     * @return ilTestPassDetailsOverviewTableGUI $this
+     * @return void $this
      */
-    public function initFilter()
+    public function initFilter() : void
     {
         if (count($this->parent_obj->object->getResultFilterTaxIds())) {
             require_once 'Services/Taxonomy/classes/class.ilTaxSelectInputGUI.php';
@@ -138,8 +138,6 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
                 $this->filter[$postvar] = $inp->getValue();
             }
         }
-
-        return $this;
     }
 
     /**
@@ -159,18 +157,18 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
     }
 
     /**
-     * @param array $row
+     * @param array $a_set
      */
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
-        $this->ctrl->setParameter($this->parent_obj, 'evaluation', $row['qid']);
+        $this->ctrl->setParameter($this->parent_obj, 'evaluation', $a_set['qid']);
         
-        if (isset($row['pass'])) {
-            $this->ctrl->setParameter($this->parent_obj, 'pass', $row['pass']);
+        if (isset($a_set['pass'])) {
+            $this->ctrl->setParameter($this->parent_obj, 'pass', $a_set['pass']);
         }
 
         if ($this->isQuestionTitleLinkPossible()) {
-            $questionTitleLink = $this->getQuestionTitleLink($row['qid']);
+            $questionTitleLink = $this->getQuestionTitleLink($a_set['qid']);
 
             if (strlen($questionTitleLink)) {
                 $this->tpl->setVariable('URL_QUESTION_TITLE', $questionTitleLink);
@@ -182,36 +180,36 @@ class ilTestPassDetailsOverviewTableGUI extends ilTable2GUI
         }
         
         if ($this->isObjectiveOrientedPresentationEnabled() && $this->areMultipleObjectivesInvolved()) {
-            $objectives = $this->questionRelatedObjectivesList->getQuestionRelatedObjectiveTitles($row['qid']);
+            $objectives = $this->questionRelatedObjectivesList->getQuestionRelatedObjectiveTitles($a_set['qid']);
             $this->tpl->setVariable('VALUE_LO_OBJECTIVES', strlen($objectives) ? $objectives : '&nbsp;');
         }
 
         if ($this->getShowHintCount()) {
-            $this->tpl->setVariable('VALUE_HINT_COUNT', (int) $row['requested_hints']);
+            $this->tpl->setVariable('VALUE_HINT_COUNT', (int) $a_set['requested_hints']);
         }
 
         if ($this->getShowSuggestedSolution()) {
-            $this->tpl->setVariable('SOLUTION_HINT', $row['solution']);
+            $this->tpl->setVariable('SOLUTION_HINT', $a_set['solution']);
         }
 
         if ($this->areActionListsRequired()) {
-            $this->tpl->setVariable('ACTIONS_MENU', $this->getActionList($row['qid']));
+            $this->tpl->setVariable('ACTIONS_MENU', $this->getActionList($a_set['qid']));
         }
 
-        $this->tpl->setVariable('VALUE_QUESTION_TITLE', $row['title']);
-        $this->tpl->setVariable('VALUE_QUESTION_ID', $row['qid']);
+        $this->tpl->setVariable('VALUE_QUESTION_TITLE', $a_set['title']);
+        $this->tpl->setVariable('VALUE_QUESTION_ID', $a_set['qid']);
 
         if ($this->isPassColumnEnabled()) {
-            $this->tpl->setVariable('VALUE_QUESTION_PASS', $row['pass'] + 1);
+            $this->tpl->setVariable('VALUE_QUESTION_PASS', $a_set['pass'] + 1);
         } else {
-            $this->tpl->setVariable('VALUE_QUESTION_COUNTER', $row['nr']);
+            $this->tpl->setVariable('VALUE_QUESTION_COUNTER', $a_set['nr']);
         }
 
-        $this->tpl->setVariable('VALUE_MAX_POINTS', $row['max']);
-        $this->tpl->setVariable('VALUE_REACHED_POINTS', $row['reached']);
-        $this->tpl->setVariable('VALUE_PERCENT_SOLVED', $row['percent']);
+        $this->tpl->setVariable('VALUE_MAX_POINTS', $a_set['max']);
+        $this->tpl->setVariable('VALUE_REACHED_POINTS', $a_set['reached']);
+        $this->tpl->setVariable('VALUE_PERCENT_SOLVED', $a_set['percent']);
 
-        $this->tpl->setVariable('ROW_ID', $this->getRowId($row['qid']));
+        $this->tpl->setVariable('ROW_ID', $this->getRowId($a_set['qid']));
     }
 
     private function getRowId($questionId)

@@ -474,7 +474,7 @@ class ilPollBlockGUI extends ilBlockGUI
             return 0;
         }
 
-        return $number[$obj_id][IL_NOTE_PUBLIC];
+        return $number[$obj_id][ilNote::PUBLIC];
     }
 
     /**

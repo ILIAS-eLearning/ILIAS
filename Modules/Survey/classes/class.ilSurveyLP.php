@@ -43,7 +43,7 @@ class ilSurveyLP extends ilObjectLP
     
     public function isAnonymized()
     {
-        return (bool) ilObjSurveyAccess::_lookupAnonymize($this->obj_id);
+        return ilObjSurveyAccess::_lookupAnonymize($this->obj_id);
     }
 
     protected static function isLPMember(array &$a_res, $a_usr_id, $a_obj_ids)

@@ -13,13 +13,13 @@ function show_modal_on_button_click_async_rendered()
     $ctrl = $DIC->ctrl();
 
     $message = 'Are you sure you want to delete the following item?';
-    $ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'modal_nr', 2);
+    $ctrl->setParameterByClass('ilsystemstyledocumentationgui', 'modal_nr', "2");
     $form_action = $ctrl->getFormActionByClass('ilsystemstyledocumentationgui');
     $items = ['First Item', 'Second Item', 'Third Item'];
 
     // Check if this is the ajax request to deliver the new modal showing the affected item
     if ($request_wrapper->has('item')) {
-        $id = $request_wrapper->retrieve('item', $refinery->kindlyTo()->int());
+        $id = $request_wrapper->retrieve('item', $refinery->kindlyTo()->string());
         $item = $items[$id];
         $affected_item = $factory->modal()->interruptiveItem($id, $item);
         $modal = $factory->modal()->interruptive('Delete Items', $message, $form_action)

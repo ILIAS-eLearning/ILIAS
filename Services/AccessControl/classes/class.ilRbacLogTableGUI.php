@@ -64,7 +64,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $this->getItems($this->ref_id, $this->filter);
     }
 
-    public function initFilter()
+    public function initFilter() : void
     {
         $item = $this->addFilterItemByMetaType("action", ilTable2GUI::FILTER_SELECT);
         $item->setOptions(array("" => $this->lng->txt("all")) + $this->action_map);
@@ -97,7 +97,7 @@ class ilRbacLogTableGUI extends ilTable2GUI
         $this->setMaxCount($data["cnt"]);
     }
 
-    protected function fillRow($a_set)
+    protected function fillRow(array $a_set) : void
     {
         $this->tpl->setVariable("DATE", ilDatePresentation::formatDate(new ilDateTime($a_set["created"], IL_CAL_UNIX)));
         $name = ilObjUser::_lookupName($a_set["user_id"]);

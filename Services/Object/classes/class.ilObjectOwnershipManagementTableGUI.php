@@ -10,11 +10,6 @@
 class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
 {
     /**
-     * @var ilCtrl
-     */
-    protected $ctrl;
-
-    /**
      * @var ilAccessHandler
      */
     protected $access;
@@ -105,26 +100,26 @@ class ilObjectOwnershipManagementTableGUI extends ilTable2GUI
         $this->setData($data);
     }
     
-    public function fillRow($row)
+    public function fillRow(array $a_set) : void
     {
         $lng = $this->lng;
         $objDefinition = $this->obj_definition;
                 
         // #11050
-        if (!$objDefinition->isPlugin($row["type"])) {
-            $txt_type = $lng->txt("obj_" . $row["type"]);
+        if (!$objDefinition->isPlugin($a_set["type"])) {
+            $txt_type = $lng->txt("obj_" . $a_set["type"]);
         } else {
-            $txt_type = ilObjectPlugin::lookupTxtById($row["type"], "obj_" . $row["type"]);
+            $txt_type = ilObjectPlugin::lookupTxtById($a_set["type"], "obj_" . $a_set["type"]);
         }
         
-        $this->tpl->setVariable("TITLE", $row["title"]);
+        $this->tpl->setVariable("TITLE", $a_set["title"]);
         $this->tpl->setVariable("ALT_ICON", $txt_type);
-        $this->tpl->setVariable("SRC_ICON", ilObject::_getIcon("", "tiny", $row["type"]));
-        $this->tpl->setVariable("PATH", $row["path"]);
+        $this->tpl->setVariable("SRC_ICON", ilObject::_getIcon("", "tiny", $a_set["type"]));
+        $this->tpl->setVariable("PATH", $a_set["path"]);
         
-        if ($row["readable"]) {
+        if ($a_set["readable"]) {
             $this->tpl->setCurrentBlock("actions");
-            $this->tpl->setVariable("ACTIONS", $this->buildActions($row["ref_id"], $row["type"]));
+            $this->tpl->setVariable("ACTIONS", $this->buildActions($a_set["ref_id"], $a_set["type"]));
             $this->tpl->parseCurrentBlock();
         }
     }
