@@ -42,6 +42,7 @@ class ilLanguage
     protected bool $usage_log_enabled = false;
     protected static array $lng_log = array();
     protected string $cust_lang_path;
+    protected ilLogger $log;
 
     /**
      * Constructor
