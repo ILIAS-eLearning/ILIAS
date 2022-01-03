@@ -7,15 +7,15 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Alexander Killing <killing@leifos.de>
  */
-class NotesSessionRepositoryTest extends TestCase
+class NavigationSessionRepositoryTest extends TestCase
 {
     //protected $backupGlobals = false;
-    protected \ILIAS\Notes\NotesSessionRepository $repo;
+    protected \ILIAS\Navigation\NavigationSessionRepository $repo;
 
     protected function setUp() : void
     {
         parent::setUp();
-        $this->repo = new \ILIAS\Notes\NotesSessionRepository();
+        $this->repo = new \ILIAS\Navigation\NavigationSessionRepository();
     }
 
     protected function tearDown() : void
@@ -23,20 +23,21 @@ class NotesSessionRepositoryTest extends TestCase
     }
 
     /**
-     * Test sort
+     * Test history
      */
     public function testSortAscending()
     {
         $repo = $this->repo;
-        $repo->setSortAscending(true);
+        $repo->setHistory([
+            0 => "a",
+            1 => "b"
+        ]);
         $this->assertEquals(
-            true,
-            $repo->getSortAscending()
-        );
-        $repo->setSortAscending(false);
-        $this->assertEquals(
-            false,
-            $repo->getSortAscending()
+            [
+                0 => "a",
+                1 => "b"
+            ],
+            $repo->getHistory()
         );
     }
 }
