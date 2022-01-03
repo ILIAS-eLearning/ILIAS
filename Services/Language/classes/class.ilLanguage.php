@@ -55,7 +55,7 @@ class ilLanguage
     public function __construct(string $a_lang_key)
     {
         global $DIC;
-        $ilIliasIniFile = $DIC->iliasIni();
+        $client_ini = $DIC->clientIni();
 
         $this->log = $DIC->logger()->lang();
 
@@ -66,7 +66,7 @@ class ilLanguage
         $this->lang_path = ILIAS_ABSOLUTE_PATH . "/lang";
         $this->cust_lang_path = ILIAS_ABSOLUTE_PATH . "/Customizing/global/lang";
 
-        $this->lang_default = $ilIliasIniFile->readVariable("language", "default") ?: 'en';
+        $this->lang_default = $client_ini->readVariable("language", "default") ?: 'en';
 
         if ($DIC->offsetExists("ilSetting")) {
             $ilSetting = $DIC->settings();
