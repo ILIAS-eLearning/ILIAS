@@ -52,10 +52,6 @@ class ilObjMDSettings extends ilObject
     */
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
-
         parent::read();
     }
 } // END class.ilObjMDSettingsGUI

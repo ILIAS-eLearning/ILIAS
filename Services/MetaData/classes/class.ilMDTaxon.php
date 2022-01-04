@@ -67,12 +67,9 @@ class ilMDTaxon extends ilMDBase
 
     public function save()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         $fields = $this->__getFields();
-        $fields['meta_taxon_id'] = array('integer',$next_id = $ilDB->nextId('il_meta_taxon'));
+        $fields['meta_taxon_id'] = array('integer',$next_id = $this->db->nextId('il_meta_taxon'));
         
         if ($this->db->insert('il_meta_taxon', $fields)) {
             $this->setMetaId($next_id);
@@ -83,9 +80,6 @@ class ilMDTaxon extends ilMDBase
 
     public function update()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             if ($this->db->update(
@@ -101,13 +95,10 @@ class ilMDTaxon extends ilMDBase
 
     public function delete()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         if ($this->getMetaId()) {
             $query = "DELETE FROM il_meta_taxon " .
-                "WHERE meta_taxon_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_taxon_id = " . $this->db->quote($this->getMetaId(), 'integer');
             
             $this->db->query($query);
             
@@ -131,15 +122,12 @@ class ilMDTaxon extends ilMDBase
 
     public function read()
     {
-        global $DIC;
-
-        $ilDB = $DIC['ilDB'];
         
         include_once 'Services/MetaData/classes/class.ilMDLanguageItem.php';
 
         if ($this->getMetaId()) {
             $query = "SELECT * FROM il_meta_taxon " .
-                "WHERE meta_taxon_id = " . $ilDB->quote($this->getMetaId(), 'integer');
+                "WHERE meta_taxon_id = " . $this->db->quote($this->getMetaId(), 'integer');
 
             $res = $this->db->query($query);
             while ($row = $res->fetchRow(ilDBConstants::FETCHMODE_OBJECT)) {
@@ -181,7 +169,7 @@ class ilMDTaxon extends ilMDBase
     {
         global $DIC;
 
-        $ilDB = $DIC['ilDB'];
+        $ilDB = $DIC->database();
 
         $query = "SELECT meta_taxon_id FROM il_meta_taxon " .
             "WHERE rbac_id = " . $ilDB->quote($a_rbac_id, 'integer') . " " .
