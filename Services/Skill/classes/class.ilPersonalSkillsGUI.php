@@ -573,7 +573,7 @@ class ilPersonalSkillsGUI
             if ($this->getFilter()->showMaterialsRessources()) {
                 $sugg = $this->getSuggestedResources($this->getProfileId(), $level_data, $bs["id"], $bs["tref"]);
             }
-            if ($sugg != "") {
+            if ($sugg != "" && $this->getProfileId() == null) {
                 $panel_comps[] = $this->ui_fac->legacy($sugg);
             }
 
@@ -594,6 +594,9 @@ class ilPersonalSkillsGUI
                     $ilCtrl->getLinkTargetByClass("ilpersonalskillsgui", "selfEvaluation")
                 );
                 $sub = $sub->withActions($this->ui_fac->dropdown()->standard($actions)->withLabel($lng->txt("actions")));
+                if ($this->getProfileId() > 0) {
+                    $sub = $sub->withFurtherInformation($this->getSuggestedResources($this->getProfileId(), $level_data, $bs["id"], $bs["tref"]));
+                }
             }
 
             $sub_panels[] = $sub;
@@ -1611,27 +1614,47 @@ class ilPersonalSkillsGUI
         if ($a_profile_id > 0) {
             $res_manager = new ilSkillResourcesManager($a_base_skill, $a_tref_id);
 
+            // note for self-evaluation
+            if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
+                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $a_base_skill, $a_tref_id)) {
+                $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_needs_self_eval"));
+                $sec_panel = $this->ui_fac->panel()->secondary()->legacy("", $sec_panel_content);
+                return $sec_panel;
+            }
+
             // suggested resources
             if ($res_manager->isLevelTooLow($a_levels, $this->profile_levels, $this->actual_levels)) {
                 $imp_resources = $res_manager->getSuggestedResourcesForProfile();
+                $items = [];
 
                 foreach ($imp_resources as $r) {
                     $ref_id = $r["rep_ref_id"];
                     $obj_id = ilObject::_lookupObjId($ref_id);
                     $title = ilObject::_lookupTitle($obj_id);
-                    $tpl->setCurrentBlock("resource_item");
-                    $tpl->setVariable("TXT_RES", $title);
-                    $tpl->setVariable("HREF_RES", ilLink::_getLink($ref_id));
-                    $tpl->parseCurrentBlock();
+                    $icon = $this->ui_fac->symbol()->icon()->standard(
+                        ilObject::_lookupType($obj_id),
+                        $lng->txt("icon") . " " . $lng->txt(ilObject::_lookupType($obj_id))
+                    );
+                    $link = $this->ui_fac->link()->standard($title, ilLink::_getLink($ref_id));
+
+                    $items[] = $this->ui_fac->item()->standard($link)->withLeadIcon($icon);
                 }
+                $item_group = $this->ui_fac->item()->group("", $items);
                 if (count($imp_resources) > 0) {
-                    $tpl->touchBlock("resources_list");
-                    $tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_res"));
+                    $sec_panel = $this->ui_fac->panel()->secondary()->listing(
+                        $lng->txt("skmg_recommended_learning_material"),
+                        array($item_group)
+                    );
+                    return $sec_panel;
                 } else {
-                    $tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_needs_impr_no_res"));
+                    $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_needs_impr_no_res"));
+                    $sec_panel = $this->ui_fac->panel()->secondary()->legacy("", $sec_panel_content);
+                    return $sec_panel;
                 }
             } else {
-                $tpl->setVariable("SUGGESTED_MAT_MESS", $lng->txt("skmg_skill_no_needs_impr"));
+                $sec_panel_content = $this->ui_fac->legacy($lng->txt("skmg_skill_no_needs_impr"));
+                $sec_panel = $this->ui_fac->panel()->secondary()->legacy("", $sec_panel_content);
+                return $sec_panel;
             }
             return $tpl->get();
         } else {
@@ -1719,6 +1742,7 @@ class ilPersonalSkillsGUI
     public function listAssignedProfile() : void
     {
         $ilCtrl = $this->ctrl;
+        $lng = $this->lng;
 
         $main_tpl = $this->tpl;
 
@@ -1730,6 +1754,8 @@ class ilPersonalSkillsGUI
             $ilCtrl->getLinkTarget($this, "listallassignedprofiles")
         );
         $this->setProfileId($this->requested_profile_id);
+
+        $main_tpl->setTitle(ilSkillProfile::lookupTitle($this->getProfileId()));
 
         $filter_toolbar = new ilToolbarGUI();
         $filter_toolbar->setFormAction($ilCtrl->getFormAction($this));
@@ -1759,7 +1785,13 @@ class ilPersonalSkillsGUI
 
         // render
         $html = "";
+        $not_all_self_evaluated = false;
         foreach ($skills as $s) {
+            if ($this->skmg_settings->getHideProfileBeforeSelfEval() &&
+                !ilBasicSkill::hasSelfEvaluated($this->user->getId(), $s["base_skill_id"], $s["tref_id"])) {
+                $not_all_self_evaluated = true;
+            }
+
             // todo draft check
             $html .= $this->getSkillHTML($s["base_skill_id"], 0, true, $s["tref_id"]);
         }
@@ -1770,6 +1802,11 @@ class ilPersonalSkillsGUI
             $tpl->setVariable("FILTER", $filter_toolbar->getHTML());
 
             $html = $tpl->get() . $html;
+        }
+
+        if ($not_all_self_evaluated) {
+            $box = $this->ui_fac->messageBox()->info($lng->txt("skmg_skill_needs_self_eval_box"));
+            $html = $this->ui_ren->render($box) . $html;
         }
 
         $main_tpl->setContent($html);
