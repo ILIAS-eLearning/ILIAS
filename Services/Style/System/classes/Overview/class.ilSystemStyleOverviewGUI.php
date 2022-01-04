@@ -13,6 +13,8 @@ class ilSystemStyleOverviewGUI
     protected $ilias;
     protected \ILIAS\DI\Container $dic;
     protected \ILIAS\UI\Factory $f;
+    protected ilSkinFactory $skin_factory;
+    protected ilFileSystemHelper $file_system;
 
     public function __construct(bool $read_only, bool $management_enabled)
     {
@@ -25,6 +27,7 @@ class ilSystemStyleOverviewGUI
         $this->lng = $DIC->language();
         $this->tpl = $DIC["tpl"];
         $this->f = $DIC->ui()->factory();
+        $this->skin_factory = new ilSkinFactory();
 
         $this->ref_id = (int) $_GET["ref_id"];
 
@@ -234,10 +237,10 @@ class ilSystemStyleOverviewGUI
                 ilUtil::sendFailure($this->lng->txt("skin_id_exists"));
             } else {
                 try {
-                    $skin = new ilSkinXML($_POST["skin_id"], $_POST["skin_name"]);
-                    $style = new ilSkinStyleXML($_POST["style_id"], $_POST["style_name"]);
+                    $skin = new ilSkin($_POST["skin_id"], $_POST["skin_name"]);
+                    $style = new ilSkinStyle($_POST["style_id"], $_POST["style_name"]);
                     $skin->addStyle($style);
-                    $container = new ilSystemStyleSkinContainer($skin);
+                    $container = new ilSkinStyleContainer($skin);
                     $container->create($message_stack);
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $skin->getId());
                     $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id', $style->getId());
@@ -412,13 +415,16 @@ class ilSystemStyleOverviewGUI
         $style_id = $imploded_skin_style_id[1];
 
         try {
-            $container = ilSystemStyleSkinContainer::generateFromId($skin_id, $message_stack);
-            $new_container = $container->copy($this->lng->txt("sty_acopy"));
+            $container = $this->skin_factory->skinStyleContainerFromId($skin_id, $message_stack);
+            $new_container = $this->skin_factory->copyFromSkinStyleContainer($container, $this->file_system,
+                $this->lng->txt("sty_acopy"));
             $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("style_copied"),
                 ilSystemStyleMessage::TYPE_SUCCESS));
             $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id', $new_container->getSkin()->getId());
             $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'style_id',
                 $new_container->getSkin()->getStyle($style_id)->getId());
+            $message_stack->addMessage(new ilSystemStyleMessage($this->lng->txt("directory_created") . " " . $new_container->getSkinDirectory(),
+                ilSystemStyleMessage::TYPE_SUCCESS));
         } catch (Exception $e) {
             $message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(), ilSystemStyleMessage::TYPE_ERROR));
         }
@@ -434,9 +440,10 @@ class ilSystemStyleOverviewGUI
         $message_stack = new ilSystemStyleMessageStack();
 
         if ($this->checkDeletable($skin_id, $style_id, $message_stack)) {
-            $delete_form_table = new ilSystemStyleDeleteGUI();
-            $container = ilSystemStyleSkinContainer::generateFromId($skin_id);
-            $delete_form_table->addStyle($container->getSkin(), $container->getSkin()->getStyle($style_id));
+            $delete_form_table = new ilSystemStyleDeleteGUI($this->lng, $this->ctrl);
+            $container = $this->skin_factory->skinStyleContainerFromId($skin_id);
+            $delete_form_table->addStyle($container->getSkin(), $container->getSkin()->getStyle($style_id),
+                $container->getImagesSkinPath($style_id));
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());
         } else {
             $message_stack->prependMessage(new ilSystemStyleMessage($this->lng->txt("style_not_deleted"),
@@ -448,7 +455,7 @@ class ilSystemStyleOverviewGUI
 
     protected function deleteStyles() : void
     {
-        $delete_form_table = new ilSystemStyleDeleteGUI();
+        $delete_form_table = new ilSystemStyleDeleteGUI($this->lng, $this->ctrl);
         $message_stack = new ilSystemStyleMessageStack();
 
         $all_deletable = true;
@@ -465,8 +472,9 @@ class ilSystemStyleOverviewGUI
                 $imploded_skin_style_id = explode(":", $skin_style_id);
                 $skin_id = $imploded_skin_style_id[0];
                 $style_id = $imploded_skin_style_id[1];
-                $container = ilSystemStyleSkinContainer::generateFromId($skin_id);
-                $delete_form_table->addStyle($container->getSkin(), $container->getSkin()->getStyle($style_id));
+                $container = $this->skin_factory->skinStyleContainerFromId($skin_id);
+                $delete_form_table->addStyle($container->getSkin(), $container->getSkin()->getStyle($style_id),
+                    $container->getImagesSkinPath($style_id));
             }
             $this->tpl->setContent($delete_form_table->getDeleteStyleFormHTML());
         } else {
@@ -477,8 +485,11 @@ class ilSystemStyleOverviewGUI
         }
     }
 
-    protected function checkDeletable(string $skin_id, string $style_id, ilSystemStyleMessageStack $message_stack) : bool
-    {
+    protected function checkDeletable(
+        string $skin_id,
+        string $style_id,
+        ilSystemStyleMessageStack $message_stack
+    ) : bool {
         $passed = true;
         if (ilObjUser::_getNumberOfUsersForStyle($skin_id, $style_id) > 0) {
             $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_if_users_assigned"),
@@ -496,7 +507,7 @@ class ilSystemStyleOverviewGUI
             $passed = false;
         }
 
-        if (ilSystemStyleSkinContainer::generateFromId($skin_id)->getSkin()->getSubstylesOfStyle($style_id)) {
+        if ($this->skin_factory->skinStyleContainerFromId($skin_id)->getSkin()->getSubstylesOfStyle($style_id)) {
             $message_stack->addMessage(new ilSystemStyleMessage($style_id . ": " . $this->lng->txt("cant_delete_style_with_substyles"),
                 ilSystemStyleMessage::TYPE_ERROR));
             $passed = false;
@@ -512,7 +523,8 @@ class ilSystemStyleOverviewGUI
             if (is_string($skin_style_id) && strpos($key, 'style') !== false) {
                 try {
                     $imploded_skin_style_id = explode(":", $skin_style_id);
-                    $container = ilSystemStyleSkinContainer::generateFromId($imploded_skin_style_id[0], $message_stack);
+                    $container = $this->skin_factory->skinStyleContainerFromId($imploded_skin_style_id[0],
+                        $message_stack);
                     $syle = $container->getSkin()->getStyle($imploded_skin_style_id[1]);
                     $container->deleteStyle($syle);
                     if (!$container->getSkin()->hasStyles()) {
@@ -537,7 +549,7 @@ class ilSystemStyleOverviewGUI
 
         if ($form->checkInput()) {
             $message_stack = new ilSystemStyleMessageStack();
-            $imported_container = ilSystemStyleSkinContainer::import($_POST['importfile']['tmp_name'],
+            $imported_container = $this->skin_factory->skinStyleContainerFromZip($_POST['importfile']['tmp_name'],
                 $_POST['importfile']['name'], $message_stack);
             $this->ctrl->setParameterByClass('ilSystemStyleSettingsGUI', 'skin_id',
                 $imported_container->getSkin()->getId());
@@ -558,7 +570,7 @@ class ilSystemStyleOverviewGUI
     protected function export() : void
     {
         $skin_id = $_GET["skin_id"];
-        $container = ilSystemStyleSkinContainer::generateFromId($skin_id);
+        $container = $this->skin_factory->skinStyleContainerFromId($skin_id);
         try {
             $container->export();
         } catch (Exception $e) {
@@ -637,7 +649,7 @@ class ilSystemStyleOverviewGUI
                 $parent_skin_id = $imploded_parent_skin_style_id[0];
                 $parent_style_id = $imploded_parent_skin_style_id[1];
 
-                $container = ilSystemStyleSkinContainer::generateFromId($parent_skin_id);
+                $container = $this->skin_factory->skinStyleContainerFromId($parent_skin_id);
 
                 if (array_key_exists($_POST['sub_style_id'],
                     $container->getSkin()->getSubstylesOfStyle($parent_style_id))) {
@@ -647,7 +659,7 @@ class ilSystemStyleOverviewGUI
 
                 $sub_style_id = $_POST['sub_style_id'];
 
-                $style = new ilSkinStyleXML($_POST['sub_style_id'], $_POST['sub_style_name']);
+                $style = new ilSkinStyle($_POST['sub_style_id'], $_POST['sub_style_name']);
                 $style->setSubstyleOf($parent_style_id);
                 $container->addStyle($style);
 

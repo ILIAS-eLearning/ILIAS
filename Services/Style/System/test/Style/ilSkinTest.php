@@ -4,47 +4,63 @@ require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-class ilSkinXMLTest extends TestCase
+class ilSkinTest extends TestCase
 {
-    protected ilSkinXML $skin;
-    protected ilSkinStyleXML $style1;
-    protected ilSkinStyleXML $style2;
-    protected ilSkinStyleXML $substyle1;
-    protected ilSkinStyleXML $substyle2;
+    protected ilSkin $skin;
+    protected ilSkinStyle $style1;
+    protected ilSkinStyle $style2;
+    protected ilSkinStyle $substyle1;
+    protected ilSkinStyle $substyle2;
     protected ilSystemStyleConfigMock $system_style_config;
+    protected ilFileSystemHelper $file_system;
 
     protected function setUp() : void
     {
-        $this->skin = new ilSkinXML("skin1", "skin 1");
+        global $DIC;
 
-        $this->style1 = new ilSkinStyleXML("style1", "Style 1");
+        if(isset($this->save_dic)){
+            $DIC = $this->save_dic;
+        }
+
+        $DIC = new ilSystemStyleDICMock();
+
+        $this->skin = new ilSkin("skin1", "skin 1");
+
+        $this->style1 = new ilSkinStyle("style1", "Style 1");
         $this->style1->setCssFile("style1css");
         $this->style1->setImageDirectory("style1image");
         $this->style1->setSoundDirectory("style1sound");
         $this->style1->setFontDirectory("style1font");
 
-        $this->style2 = new ilSkinStyleXML("style2", "Style 2");
+        $this->style2 = new ilSkinStyle("style2", "Style 2");
         $this->style2->setCssFile("style2css");
         $this->style2->setImageDirectory("style2image");
         $this->style2->setSoundDirectory("style2sound");
         $this->style2->setFontDirectory("style2font");
 
-        $this->substyle1 = new ilSkinStyleXML("substyle1", "Substyle 1");
+        $this->substyle1 = new ilSkinStyle("substyle1", "Substyle 1");
         $this->substyle1->setSubstyleOf($this->style1->getId());
 
-        $this->substyle2 = new ilSkinStyleXML("substyle2", "Substyle 2");
+        $this->substyle2 = new ilSkinStyle("substyle2", "Substyle 2");
         $this->substyle2->setSubstyleOf($this->style2->getId());
 
         $this->system_style_config = new ilSystemStyleConfigMock();
 
         mkdir($this->system_style_config->test_skin_temp_path);
-        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path,
+        $this->file_system = new ilFileSystemHelper($DIC->language());
+        $this->file_system->recursiveCopy($this->system_style_config->test_skin_original_path,
             $this->system_style_config->test_skin_temp_path);
     }
 
     protected function tearDown() : void
     {
-        ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
+        global $DIC;
+
+        if (isset($this->save_dic)) {
+            $DIC = $this->save_dic;
+        }
+
+        $this->file_system->recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
     public function testSkinNameAndId() : void
@@ -170,12 +186,5 @@ class ilSkinXMLTest extends TestCase
         $this->assertEquals(file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template-copy.xml"),
             file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml"));
         unlink($this->system_style_config->getCustomizingSkinPath() . "skin1/template-copy.xml");
-    }
-
-    public function testReadXML() : void
-    {
-        $skin = ilSkinXML::parseFromXML($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml");
-        $this->assertEquals($skin->asXML(),
-            file_get_contents($this->system_style_config->getCustomizingSkinPath() . "skin1/template.xml"));
     }
 }

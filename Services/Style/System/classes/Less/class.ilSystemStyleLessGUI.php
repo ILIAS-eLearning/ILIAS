@@ -12,7 +12,7 @@ class ilSystemStyleLessGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalTemplateInterface $tpl;
-    protected ilSystemStyleSkinContainer $style_container;
+    protected ilSkinStyleContainer $style_container;
     protected ilSystemStyleLessFile $less_file;
     protected ilSystemStyleMessageStack $message_stack;
     protected Factory $ui_factory;
@@ -20,7 +20,7 @@ class ilSystemStyleLessGUI
     protected ServerRequestInterface $request;
     protected ilToolbarGUI $toolbar;
     protected Refinery $refinery;
-
+    protected ilSystemStyleConfig $config;
     protected string $style_id;
 
     public function __construct(
@@ -32,6 +32,7 @@ class ilSystemStyleLessGUI
         ServerRequestInterface $request,
         ilToolbarGUI $toolbar,
         Refinery $refinery,
+        ilSkinFactory $factory,
         string $skin_id,
         string $style_id
     ) {
@@ -43,14 +44,15 @@ class ilSystemStyleLessGUI
         $this->request = $request;
         $this->toolbar = $toolbar;
         $this->refinery = $refinery;
-
         $this->style_id = $style_id;
 
         $this->message_stack = new ilSystemStyleMessageStack();
 
+        $this->style_container = $factory->skinStyleContainerFromId($skin_id, $this->message_stack);
+        $this->less_file = new ilSystemStyleLessFile($this->style_container->getLessVariablesFilePath($style_id));
+
         try {
-            $this->style_container = ilSystemStyleSkinContainer::generateFromId($skin_id);
-            $this->less_file = new ilSystemStyleLessFile($this->style_container->getLessVariablesFilePath($style_id));
+
         } catch (ilSystemStyleException $e) {
             $this->message_stack->addMessage(new ilSystemStyleMessage($e->getMessage(),
                     ilSystemStyleMessage::TYPE_ERROR)

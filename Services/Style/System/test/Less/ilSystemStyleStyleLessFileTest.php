@@ -11,9 +11,10 @@ use PHPUnit\Framework\TestCase;
 class ilSystemStyleStyleLessFileTest extends TestCase
 {
     protected ilSystemStyleConfigMock $system_style_config;
-    protected ilSystemStyleSkinContainer $container;
-    protected ilSkinStyleXML $style;
+    protected ilSkinStyleContainer $container;
+    protected ilSkinStyle $style;
     protected ILIAS\DI\Container $save_dic;
+    protected ilFileSystemHelper $file_system;
 
     protected function setUp() : void
     {
@@ -31,10 +32,12 @@ class ilSystemStyleStyleLessFileTest extends TestCase
             mkdir($this->system_style_config->test_skin_temp_path);
         }
 
-        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path,
+        $this->file_system = new ilFileSystemHelper($DIC->language());
+        $this->file_system->recursiveCopy($this->system_style_config->test_skin_original_path,
             $this->system_style_config->test_skin_temp_path);
 
-        $this->container = ilSystemStyleSkinContainer::generateFromId("skin1", null, $this->system_style_config);
+        $factory = new ilSkinFactory($this->system_style_config);
+        $this->container = $factory->skinStyleContainerFromId("skin1");
         $this->style = $this->container->getSkin()->getStyle("style1");
     }
 
@@ -46,7 +49,7 @@ class ilSystemStyleStyleLessFileTest extends TestCase
             $this->save_dic = $DIC;
         }
 
-        ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
+        $this->file_system->recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
     public function testConstructAndRead() : void

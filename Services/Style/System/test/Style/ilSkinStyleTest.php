@@ -4,20 +4,20 @@ require_once("libs/composer/vendor/autoload.php");
 
 use PHPUnit\Framework\TestCase;
 
-class ilSkinStyleXMLTest extends TestCase
+class ilSkinStyleTest extends TestCase
 {
-    protected ilSkinStyleXML $style1;
+    protected ilSkinStyle $style1;
 
     public function testStyleNameAndId()
     {
-        $this->style1 = new ilSkinStyleXML("style1", "Style 1");
+        $this->style1 = new ilSkinStyle("style1", "Style 1");
         $this->assertEquals("style1", $this->style1->getId());
         $this->assertEquals("Style 1", $this->style1->getName());
     }
 
     public function testStyleProperties()
     {
-        $this->style1 = new ilSkinStyleXML("style1", "Style 1");
+        $this->style1 = new ilSkinStyle("style1", "Style 1");
         $this->style1->setId("id");
         $this->style1->setName("name");
         $this->style1->setCssFile("css");

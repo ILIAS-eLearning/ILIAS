@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-class ilSkinStyleXML
+class ilSkinStyle
 {
     /**
      * Id of the skin. Currently css and less files are named accordingely
@@ -75,7 +75,7 @@ class ilSkinStyleXML
     /**
      * @throws ilSystemStyleException
      */
-    public static function parseFromXMLElement(SimpleXMLElement $xml_element) : ilSkinStyleXML
+    public static function parseFromXMLElement(SimpleXMLElement $xml_element) : ilSkinStyle
     {
         return new self(
             (string) $xml_element->attributes()["id"],

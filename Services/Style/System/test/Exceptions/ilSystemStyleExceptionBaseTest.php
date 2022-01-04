@@ -23,7 +23,8 @@ abstract class ilSystemStyleExceptionBaseTest extends TestCase
      */
     public function testConstruct(int $code) : void
     {
-        $this->assertInstanceOf($this->getClassName(),new ($this->getClassName())($code, "Additional Info"));
+        $class_name = $this->getClassName();
+        $this->assertInstanceOf($class_name,new $class_name($code, "Additional Info"));
     }
 
     /**
@@ -31,7 +32,8 @@ abstract class ilSystemStyleExceptionBaseTest extends TestCase
      */
     public function testAssignMessageToCode(int $code) : void
     {
-        $exception = new ($this->getClassName())($code, "Additional Info");
+        $class_name = $this->getClassName();
+        $exception = new $class_name($code, "Additional Info");
         $this->assertIsString($exception->getMessage());
     }
 
@@ -40,7 +42,8 @@ abstract class ilSystemStyleExceptionBaseTest extends TestCase
      */
     public function testToString(int $code) : void
     {
-        $exception = new ($this->getClassName())($code, "Additional Info");
+        $class_name = $this->getClassName();
+        $exception = new $class_name($code, "Additional Info");
         $this->assertIsString($exception->__toString());
     }
 }

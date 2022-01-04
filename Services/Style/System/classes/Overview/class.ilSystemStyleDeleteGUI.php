@@ -6,21 +6,19 @@ class ilSystemStyleDeleteGUI
     protected ilCtrl $ctrl;
     protected array $styles = [];
 
-    public function __construct()
+    public function __construct(ilLanguage $lng, ilCtrl $ctrl)
     {
-        global $DIC;
-
-        $this->lng = $DIC->language();
-        $this->ctrl = $DIC->ctrl();
+        $this->lng = $lng;
+        $this->ctrl = $ctrl;
     }
 
-    public function addStyle(ilSkinXML $skin, ilSkinStyleXML $style)
+    public function addStyle(ilSkin $skin, ilSkinStyle $style, string $img_path)
     {
         $this->styles[] = array(
             "var" => "style_" . $skin->getId() . ":" . $style->getId(),
             "id" => $skin->getId() . ":" . $style->getId(),
             "text" => $skin->getName() . " / " . $style->getName(),
-            "img" => ilUtil::getImagePath('icon_stys.svg')
+            "img" => $img_path
         );
     }
 
@@ -34,17 +32,7 @@ class ilSystemStyleDeleteGUI
         $table_form->addCommandButton('confirmDelete', $this->lng->txt('confirm'));
         $table_form->addCommandButton('cancel', $this->lng->txt('cancel'));
         $table_form->setFormAction($this->ctrl->getFormActionByClass("ilSystemStyleOverviewGUI"));
-        $table_form->setData($this->getStyles());
+        $table_form->setData($this->styles);
         return $table_form->getHTML();
-    }
-
-    public function getStyles() : array
-    {
-        return $this->styles;
-    }
-
-    public function setStyles(array $styles) : void
-    {
-        $this->styles = $styles;
     }
 }

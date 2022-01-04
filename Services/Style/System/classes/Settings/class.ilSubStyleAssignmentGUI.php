@@ -26,7 +26,7 @@ class ilSubStyleAssignmentGUI
      *
      * @throws ilSystemStyleException
      */
-    public function assignStyle(ilSkinXML $skin, ilSkinStyleXML $substyle) : void
+    public function assignStyle(ilSkin $skin, ilSkinStyle $substyle) : void
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
 
@@ -68,7 +68,7 @@ class ilSubStyleAssignmentGUI
     /**
      * Save style category assignment
      */
-    public function saveAssignment(ilSkinXML $skin, ilSkinStyleXML $substyle) : void
+    public function saveAssignment(ilSkin $skin, ilSkinStyle $substyle) : void
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
         try {
@@ -90,7 +90,7 @@ class ilSubStyleAssignmentGUI
     /**
      * Delete system style to category assignments
      */
-    public function deleteAssignments(ilSkinXML $skin, ilSkinStyleXML $substyle) : void
+    public function deleteAssignments(ilSkin $skin, ilSkinStyle $substyle) : void
     {
         $style = $skin->getStyle($substyle->getSubstyleOf());
 

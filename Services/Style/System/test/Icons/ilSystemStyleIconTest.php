@@ -7,26 +7,33 @@ use PHPUnit\Framework\TestCase;
 class ilSystemStyleIconTest extends TestCase
 {
     protected ilSystemStyleConfigMock $system_style_config;
-    protected ilSystemStyleSkinContainer $container;
-    protected ilSkinStyleXML $style;
+    protected ilSkinStyleContainer $container;
+    protected ilSkinStyle $style;
     protected string $icon_name = "test_image_1.svg";
     protected string $icon_type = "svg";
-    protected ILIAS\DI\Container $save_dic;
+    protected ?ILIAS\DI\Container $save_dic = null;
+    protected ilFileSystemHelper $file_system;
 
     protected function setUp() : void
     {
         global $DIC;
 
-        $this->save_dic = $DIC;
+        if ($DIC) {
+            $this->save_dic = $DIC;
+        }
 
         $DIC = new ilSystemStyleDICMock();
 
         $this->system_style_config = new ilSystemStyleConfigMock();
 
         mkdir($this->system_style_config->test_skin_temp_path);
-        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path, $this->system_style_config->test_skin_temp_path);
+        $this->file_system = new ilFileSystemHelper($DIC->language());
+        $this->file_system->recursiveCopy($this->system_style_config->test_skin_original_path,
+            $this->system_style_config->test_skin_temp_path);
 
-        $this->container = ilSystemStyleSkinContainer::generateFromId("skin1", null, $this->system_style_config);
+        $factory = new ilSkinFactory($this->system_style_config);
+
+        $this->container = $factory->skinStyleContainerFromId("skin1");
         $this->style = $this->container->getSkin()->getStyle("style1");
     }
 
@@ -34,7 +41,7 @@ class ilSystemStyleIconTest extends TestCase
     {
         global $DIC;
         $DIC = $this->save_dic;
-        ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
+        $this->file_system->recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
     public function testConstruct() : void
@@ -59,7 +66,7 @@ class ilSystemStyleIconTest extends TestCase
         $path = "./Customizing" . $rel_path . "/" . $name;
         $icon = new ilSystemStyleIcon($name, $path, "svg");
 
-        $this->assertEquals($rel_path,$icon->getDirRelToCustomizing());
+        $this->assertEquals($rel_path, $icon->getDirRelToCustomizing());
     }
 
     public function testGetColorSet() : void

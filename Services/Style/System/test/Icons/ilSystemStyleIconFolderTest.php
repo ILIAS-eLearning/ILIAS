@@ -7,26 +7,32 @@ use PHPUnit\Framework\TestCase;
 class ilSystemStyleIconFolderTest extends TestCase
 {
     protected ilSystemStyleConfigMock $system_style_config;
-    protected ilSystemStyleSkinContainer $container;
-    protected ilSkinStyleXML $style;
+    protected ilSkinStyleContainer $container;
+    protected ilSkinStyle $style;
     protected string $icon_name = "test_image_1.svg";
     protected string $icon_type = "svg";
+    protected ilFileSystemHelper $file_system;
 
-    protected ILIAS\DI\Container $save_dic;
+    protected ?ILIAS\DI\Container $save_dic = null;
 
     protected function setUp() : void
     {
         global $DIC;
 
-        $this->save_dic = $DIC;
+        if ($DIC) {
+            $this->save_dic = $DIC;
+        }
         $DIC = new ilSystemStyleDICMock();
 
         $this->system_style_config = new ilSystemStyleConfigMock();
 
         mkdir($this->system_style_config->test_skin_temp_path);
-        ilSystemStyleSkinContainer::xCopy($this->system_style_config->test_skin_original_path, $this->system_style_config->test_skin_temp_path);
+        $this->file_system = new ilFileSystemHelper($DIC->language());
+        $this->file_system->recursiveCopy($this->system_style_config->test_skin_original_path,
+            $this->system_style_config->test_skin_temp_path);
 
-        $this->container = ilSystemStyleSkinContainer::generateFromId("skin1", null, $this->system_style_config);
+        $factory = new ilSkinFactory($this->system_style_config);
+        $this->container = $factory->skinStyleContainerFromId("skin1");
         $this->style = $this->container->getSkin()->getStyle("style1");
     }
 
@@ -35,7 +41,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         global $DIC;
         $DIC = $this->save_dic;
 
-        ilSystemStyleSkinContainer::recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
+        $this->file_system->recursiveRemoveDir($this->system_style_config->test_skin_temp_path);
     }
 
     public function testConstruct() : void
@@ -52,7 +58,6 @@ class ilSystemStyleIconFolderTest extends TestCase
 
         $this->assertEquals("pathnew", $folder->getPath());
     }
-
 
     public function testReadRecursiveCount() : void
     {
@@ -121,7 +126,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $path5 = $style_path . "/icon_accs.svg";
         $icon5 = new ilSystemStyleIcon("icon_accs.svg", $path5, "svg");
 
-        $expected_icons = [$icon5,$icon2,$icon3,$icon1,$icon4];
+        $expected_icons = [$icon5, $icon2, $icon3, $icon1, $icon4];
 
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
         $this->assertEquals($expected_icons, $folder->getIcons());
@@ -147,8 +152,8 @@ class ilSystemStyleIconFolderTest extends TestCase
         $icon5 = new ilSystemStyleIcon("icon_accs.svg", $path5, "svg");
 
         $expected_icons = [
-                $style_path => [$icon5,$icon1,$icon4],
-                $style_path . "/image_subfolder" => [$icon2,$icon3],
+            $style_path => [$icon5, $icon1, $icon4],
+            $style_path . "/image_subfolder" => [$icon2, $icon3],
         ];
 
         $folder = new ilSystemStyleIconFolder($this->container->getImagesSkinPath($this->style->getId()));
@@ -224,7 +229,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $icon3 = new ilSystemStyleIcon("sub_test_image_2.svg", $path3, "svg");
         $icon3->getColorSet();
 
-        $expected_icons_usages = [$icon2,$icon3,$icon1];
+        $expected_icons_usages = [$icon2, $icon3, $icon1];
 
         $this->assertEquals($expected_icons_usages, $folder1->getUsagesOfColor("id_6B6B6B"));
     }
@@ -250,7 +255,7 @@ class ilSystemStyleIconFolderTest extends TestCase
         $icon3 = new ilSystemStyleIcon("sub_test_image_2.svg", $path3, "svg");
         $icon3->getColorSet();
 
-        $expected_icons_usages = [$icon2,$icon3,$icon1];
+        $expected_icons_usages = [$icon2, $icon3, $icon1];
 
         $this->assertEquals($expected_icons_usages, $folder2->getUsagesOfColor("id_7B6B6B"));
         $this->assertEquals([], $folder2->getUsagesOfColor("id_6B6B6B"));

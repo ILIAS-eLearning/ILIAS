@@ -32,6 +32,7 @@ class ilSystemStyleMainGUI
     protected RefineryFactory $refinery;
     protected ServerRequestInterface $request;
     protected ilToolbarGUI $toolbar;
+    protected ilSkinFactory $skin_factory;
 
     public function __construct()
     {
@@ -55,6 +56,7 @@ class ilSystemStyleMainGUI
         $this->refinery = $DIC->refinery();
         $this->request = $DIC->http()->request();
         $this->toolbar = $DIC->toolbar();
+        $this->skin_factory = new ilSkinFactory();
 
         $this->ref_id = $this->request_wrapper->retrieve('ref_id', $this->refinery->kindlyTo()->string());
     }
@@ -70,11 +72,13 @@ class ilSystemStyleMainGUI
         $this->help->setScreenIdComponent("sty");
         $this->help->setScreenId("system_styles");
 
+        $config = new ilSystemStyleConfig();
+        $skin_factory = new ilSkinFactory();
+
         if ($this->request_wrapper->has('skin_id') && $this->request_wrapper->has('style_id')) {
             $skin_id = $this->request_wrapper->retrieve('skin_id', $this->refinery->kindlyTo()->string());
             $style_id = $this->request_wrapper->retrieve('style_id', $this->refinery->kindlyTo()->string());
         } else {
-            $config = new ilSystemStyleConfig();
             $skin_id = $config->getDefaultSkinId();
             $style_id = $config->getDefaultStyleId();
         }
@@ -105,7 +109,7 @@ class ilSystemStyleMainGUI
                     $this->setUnderworldTabs('less');
                     $this->setUnderworldTitle($skin_id, $style_id);
                     $system_styles_less = new ilSystemStyleLessGUI($this->ctrl, $this->lng, $this->tpl, $this->ui_factory,
-                        $this->renderer, $this->request, $this->toolbar, $this->refinery, $skin_id, $style_id);
+                        $this->renderer, $this->request, $this->toolbar, $this->refinery, $skin_factory, $skin_id, $style_id);
                     $this->ctrl->forwardCommand($system_styles_less);
                     break;
                 case "ilsystemstyleiconsgui":
@@ -225,7 +229,7 @@ class ilSystemStyleMainGUI
      */
     protected function setUnderworldTitle(string $skin_id, string $style_id, bool $read_only = false)
     {
-        $skin = ilSystemStyleSkinContainer::generateFromId($skin_id)->getSkin();
+        $skin = $this->skin_factory->skinStyleContainerFromId($skin_id)->getSkin();
         $style = $skin->getStyle($style_id);
 
         if ($read_only) {

@@ -29,14 +29,14 @@ class ilStyleDefinition
 
     /**
      * Skins available, used for caching
-     * @var ilSkinXML[]
+     * @var ilSkin[]
      */
     public static array $skins = [];
 
     /**
      * Sets the current skin. This is used by the global instance of this class.
      */
-    protected ilSkinXML $skin;
+    protected ilSkin $skin;
 
     /**
      * Used for caching.
@@ -48,6 +48,8 @@ class ilStyleDefinition
      * This is dynamic and not constant for this class to remain testable
      */
     protected ilSystemStyleConfig $system_style_config;
+
+    protected ilSkinFactory $skin_factory;
 
     /**
      * ilStyleDefinition constructor.
@@ -65,10 +67,12 @@ class ilStyleDefinition
             $this->setSystemStylesConf($system_style_config);
         }
 
+        $this->skin_factory = new ilSkinFactory($this->getSystemStylesConf());
+
         if ($skin_id != $this->getSystemStylesConf()->getDefaultSkinId()) {
-            $this->setSkin(ilSkinXML::parseFromXML($this->getSystemStylesConf()->getCustomizingSkinPath() . $skin_id . "/template.xml"));
+            $this->setSkin($this->skin_factory->skinFromXML($this->getSystemStylesConf()->getCustomizingSkinPath() . $skin_id . "/template.xml"));
         } else {
-            $this->setSkin(ilSkinXML::parseFromXML($this->getSystemStylesConf()->getDefaultTemplatePath()));
+            $this->setSkin($this->skin_factory->skinFromXML($this->getSystemStylesConf()->getDefaultTemplatePath()));
         }
     }
 
@@ -104,7 +108,7 @@ class ilStyleDefinition
     }
 
     /**
-     * @return ilSkinStyleXML[]
+     * @return ilSkinStyle[]
      */
     public function getStyles() : array
     {
@@ -119,7 +123,7 @@ class ilStyleDefinition
     /**
      * @throws ilSystemStyleException
      */
-    public function getStyle(string $a_id) : ilSkinStyleXML
+    public function getStyle(string $a_id) : ilSkinStyle
     {
         return $this->getSkin()->getStyle($a_id);
     }
@@ -164,11 +168,13 @@ class ilStyleDefinition
                 $system_style_config = new ilSystemStyleConfig();
             }
 
+            $skin_factory = new ilSkinFactory($system_style_config);
+
             /**
-             * @var $skins ilSkinXML[]
+             * @var $skins ilSkin[]
              */
             $skins = [];
-            $skins[$system_style_config->getDefaultSkinId()] = ilSkinXML::parseFromXML($system_style_config->getDefaultTemplatePath());
+            $skins[$system_style_config->getDefaultSkinId()] = $skin_factory->skinFromXML($system_style_config->getDefaultTemplatePath());
 
             if (is_dir($system_style_config->getCustomizingSkinPath())) {
                 $cust_skins_directory = new RecursiveDirectoryIterator($system_style_config->getCustomizingSkinPath(),
@@ -177,7 +183,7 @@ class ilStyleDefinition
                     if ($skin_folder->isDir()) {
                         $template_path = $skin_folder->getRealPath() . "/template.xml";
                         if (file_exists($template_path)) {
-                            $skin = ilSkinXML::parseFromXML($template_path);
+                            $skin = $skin_factory->skinFromXML($template_path);
                             $skins[$skin->getId()] = $skin;
                         }
                     }
@@ -355,7 +361,8 @@ class ilStyleDefinition
         if (!self::skinExists($skin_id)) {
             return false;
         }
-        $skin = ilSystemStyleSkinContainer::generateFromId($skin_id)->getSkin();
+        $factory = new ilSkinFactory();
+        $skin = $factory->skinStyleContainerFromId($skin_id)->getSkin();
         return $skin->hasStyle($style_id);
     }
 
@@ -372,7 +379,7 @@ class ilStyleDefinition
     }
 
     /**
-     * @return ilSkinXML[]
+     * @return ilSkin[]
      * @throws ilSystemStyleException
      */
     public static function getSkins() : array
@@ -381,19 +388,19 @@ class ilStyleDefinition
     }
 
     /**
-     * @param ilSkinXML[] $skins
+     * @param ilSkin[] $skins
      */
     public static function setSkins(array $skins)
     {
         self::$skins = $skins;
     }
 
-    public function getSkin() : ilSkinXML
+    public function getSkin() : ilSkin
     {
         return $this->skin;
     }
 
-    public function setSkin(ilSkinXML $skin)
+    public function setSkin(ilSkin $skin)
     {
         $this->skin = $skin;
     }

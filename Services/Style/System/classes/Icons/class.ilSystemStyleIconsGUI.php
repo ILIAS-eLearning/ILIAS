@@ -10,10 +10,11 @@ class ilSystemStyleIconsGUI
     protected ilCtrl $ctrl;
     protected ilLanguage $lng;
     protected ilGlobalPageTemplate $tpl;
-    protected ilSystemStyleSkinContainer $style_container;
+    protected ilSkinStyleContainer $style_container;
     protected ilSystemStyleIconFolder $icon_folder;
     protected ilTabsGUI $tabs;
     protected \ILIAS\UI\Factory $f;
+    protected ilSkinFactory $skin_factory;
 
     public function __construct(string $skin_id = "", string $style_id = "")
     {
@@ -24,6 +25,7 @@ class ilSystemStyleIconsGUI
         $this->tpl = $DIC["tpl"];
         $this->tabs = $DIC->tabs();
         $this->f = $DIC->ui()->factory();
+        $this->skin_factory = new ilSkinFactory();
 
         if ($skin_id == "") {
             $skin_id = $_GET["skin_id"];
@@ -31,7 +33,7 @@ class ilSystemStyleIconsGUI
         if ($style_id == "") {
             $style_id = $_GET["style_id"];
         }
-        $this->setStyleContainer(ilSystemStyleSkinContainer::generateFromId($skin_id));
+        $this->setStyleContainer($this->skin_factory->skinStyleContainerFromId($skin_id));
         if ($this->ctrl->getCmd() != "reset") {
             try {
                 $this->setIconFolder(new ilSystemStyleIconFolder($this->getStyleContainer()->getImagesSkinPath($style_id)));
@@ -451,12 +453,12 @@ class ilSystemStyleIconsGUI
         return $DIC->ui()->renderer()->render($report);
     }
 
-    public function getStyleContainer() : ilSystemStyleSkinContainer
+    public function getStyleContainer() : ilSkinStyleContainer
     {
         return $this->style_container;
     }
 
-    public function setStyleContainer(ilSystemStyleSkinContainer $style_container)
+    public function setStyleContainer(ilSkinStyleContainer $style_container)
     {
         $this->style_container = $style_container;
     }

@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
 /**
- * ilSkinXml holds an manages the basic data of a skin as provide by the template of the skin. This class is also
+ * ilSkin holds an manages the basic data of a skin as provide by the template of the skin. This class is also
  * responsible to read this data from the xml and, after manipulations transfer the data back to xml.
  *
  * To read a skin from xml do not use this class, us ilSkinContainer instead.
  */
-class ilSkinXML implements Iterator, Countable
+class ilSkin implements Iterator, Countable
 {
 
     /**
@@ -23,7 +23,7 @@ class ilSkinXML implements Iterator, Countable
     /**
      * Styles that the xml of this string provides.
      *
-     * @var ilSkinStyleXML[]
+     * @var ilSkinStyle[]
      */
     protected array $styles = [];
 
@@ -36,46 +36,6 @@ class ilSkinXML implements Iterator, Countable
     {
         $this->setId($id);
         $this->setName($name);
-    }
-
-    /**
-     * @throws ilSystemStyleException
-     */
-    public static function parseFromXML(string $path = "") : ilSkinXML
-    {
-        try {
-            $xml = new SimpleXMLElement(file_get_contents($path));
-        } catch (Exception $e) {
-            throw new ilSystemStyleException(ilSystemStyleException::FILE_OPENING_FAILED, $path);
-        }
-
-        $id = basename(dirname($path));
-        $skin = new self($id, (string) $xml->attributes()["name"]);
-        $skin->setVersion((string) $xml->attributes()["version"]);
-
-        /**
-         * @var ilSkinStyleXML $last_style
-         */
-        $last_style = null;
-
-
-        foreach ($xml->children() as $style_xml) {
-            $style = ilSkinStyleXML::parseFromXMLElement($style_xml);
-
-            /**
-             * @var SimpleXMLElement $style_xml
-             */
-            if ($style_xml->getName() == "substyle") {
-                if (!$last_style) {
-                    throw new ilSystemStyleException(ilSystemStyleException::NO_PARENT_STYLE, $style->getId());
-                }
-                $style->setSubstyleOf($last_style->getId());
-            } else {
-                $last_style = $style;
-            }
-            $skin->addStyle($style);
-        }
-        return $skin;
     }
 
     /**
@@ -109,7 +69,7 @@ class ilSkinXML implements Iterator, Countable
     /**
      * Used to generate the xml for styles contained by the skin
      */
-    protected function addChildToXML(SimpleXMLElement $xml, ilSkinStyleXML $style) : void
+    protected function addChildToXML(SimpleXMLElement $xml, ilSkinStyle $style) : void
     {
         $xml_style = null;
         if ($style->isSubstyle()) {
@@ -130,7 +90,7 @@ class ilSkinXML implements Iterator, Countable
         file_put_contents($path, $this->asXML());
     }
 
-    public function addStyle(ilSkinStyleXML $style) : void
+    public function addStyle(ilSkinStyle $style) : void
     {
         $this->styles[] = $style;
     }
@@ -152,7 +112,7 @@ class ilSkinXML implements Iterator, Countable
     /**
      * @throws ilSystemStyleException
      */
-    public function getStyle(string $id) : ilSkinStyleXML
+    public function getStyle(string $id) : ilSkinStyle
     {
         foreach ($this->getStyles() as $style) {
             if ($style->getId() == $id) {
@@ -172,7 +132,7 @@ class ilSkinXML implements Iterator, Countable
         return false;
     }
 
-    public function getDefaultStyle() : ilSkinStyleXML
+    public function getDefaultStyle() : ilSkinStyle
     {
         return array_values($this->styles)[0];
     }
@@ -187,7 +147,7 @@ class ilSkinXML implements Iterator, Countable
         return key($this->styles);
     }
 
-    public function current() : ilSkinStyleXML
+    public function current() : ilSkinStyle
     {
         return current($this->styles);
     }
@@ -234,7 +194,7 @@ class ilSkinXML implements Iterator, Countable
     }
 
     /**
-     * @return ilSkinStyleXML[]
+     * @return ilSkinStyle[]
      */
     public function getStyles() : array
     {
@@ -242,7 +202,7 @@ class ilSkinXML implements Iterator, Countable
     }
 
     /**
-     * @param ilSkinStyleXML[] $styles
+     * @param ilSkinStyle[] $styles
      */
     public function setStyles(array $styles) : void
     {
@@ -286,7 +246,7 @@ class ilSkinXML implements Iterator, Countable
     }
 
     /**
-     * @return ilSkinStyleXML[]
+     * @return ilSkinStyle[]
      */
     public function getSubstylesOfStyle(string $style_id) : array
     {
