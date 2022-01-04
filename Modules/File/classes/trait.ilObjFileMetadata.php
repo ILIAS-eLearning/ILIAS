@@ -18,12 +18,12 @@ trait ilObjFileMetadata
      * This method has been put into a separate operation, to allow a WebDAV Null resource
      * (class.ilObjNull.php) to become a file object.
      */
-    public function createProperties($a_upload = false)
+    public function createProperties(bool $a_upload = false) : void
     {
         global $DIC;
 
         if ($a_upload) {
-            return true;
+            return;
         }
 
         // New Item
@@ -70,7 +70,7 @@ trait ilObjFileMetadata
      */
     protected function doCreateMetaData() : void
     {
-        // add technical section with file size and format
+     return;   // add technical section with file size and format
         $md_obj = new ilMD($this->getId(), 0, $this->getType());
         $technical = $md_obj->addTechnical();
         $technical->setSize($this->getFileSize());
@@ -123,7 +123,8 @@ trait ilObjFileMetadata
      */
     protected function doUpdateMetaData() : void
     {
-        // add technical section with file size and format
+        
+        return;// add technical section with file size and format
         $md_obj = new ilMD($this->getId(), 0, $this->getType());
         if (!is_object($technical = $md_obj->getTechnical())) {
             $technical = $md_obj->addTechnical();

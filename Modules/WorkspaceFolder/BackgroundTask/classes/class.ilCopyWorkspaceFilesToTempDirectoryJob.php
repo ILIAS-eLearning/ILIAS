@@ -14,6 +14,7 @@
  */
 
 use ILIAS\BackgroundTasks\Implementation\Tasks\AbstractJob;
+use ILIAS\BackgroundTasks\Types\Type;
 use ILIAS\BackgroundTasks\Value;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\SingleType;
@@ -44,7 +45,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
             ];
     }
 
-    public function getOutputType() : SingleType
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -54,7 +55,7 @@ class ilCopyWorkspaceFilesToTempDirectoryJob extends AbstractJob
         return true;
     }
 
-    public function run(array $input, Observer $observer)
+    public function run(array $input, Observer $observer) : Value
     {
         $definition = $input[0];
 

@@ -7,6 +7,8 @@ use ILIAS\BackgroundTasks\Implementation\Values\AggregationValues\ListValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Observer;
 use ILIAS\BackgroundTasks\Types\ListType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 use ilObjFile;
 
 /**
@@ -16,7 +18,7 @@ use ilObjFile;
  */
 class SanitationReportJob extends AbstractJob
 {
-    public function run(array $input, Observer $observer)
+    public function run(array $input, Observer $observer) : Value
     {
         global $DIC;
 
@@ -40,25 +42,25 @@ class SanitationReportJob extends AbstractJob
     }
 
 
-    public function isStateless()
+    public function isStateless() : bool
     {
         return false;
     }
 
 
-    public function getExpectedTimeOfTaskInSeconds()
+    public function getExpectedTimeOfTaskInSeconds() : int
     {
         return 3600;
     }
 
 
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return array();
     }
 
 
-    public function getOutputType()
+    public function getOutputType() : Type
     {
         return new ListType(IntegerValue::class);
     }
