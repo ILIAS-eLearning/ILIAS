@@ -29,7 +29,7 @@ class BasicPersistence implements Persistence
     protected array $bucketHashToObserverContainerId = [];
     protected array $taskHashToTaskContainerId = [];
     protected array $valueHashToValueContainerId = [];
-    protected \arConnector $connector;
+    protected ?\arConnector $connector = null;
     protected static array $tasks = [];
     
     public static function instance() : \ILIAS\BackgroundTasks\Implementation\Persistence\BasicPersistence
