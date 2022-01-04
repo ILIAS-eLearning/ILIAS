@@ -81,7 +81,7 @@ EOT;
         $expected = <<<EOT
 <div class="il-item il-item-shy">
 	<div class="content">
-		<div class="il-item-title">noid"&gt;alert('CRITICAL')</div>
+		<div class="il-item-title">noid"&gt;&lt;script&gt;alert('CRITICAL')&lt;/script</div>
 	</div>
 </div>
 EOT;

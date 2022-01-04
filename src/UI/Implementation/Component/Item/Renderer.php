@@ -11,7 +11,7 @@ use ILIAS\UI\Implementation\Component\Symbol\Icon\Icon;
 use ILIAS\UI\Implementation\Render\AbstractComponentRenderer;
 use ILIAS\UI\Renderer as RendererInterface;
 use ILIAS\UI\Implementation\Render\Template;
-use ILIAS\UI\Component\Button\Shy as bShy;
+use ILIAS\UI\Component\Button;
 use ILIAS\UI\Component\Link\Link;
 use ILIAS\UI\Implementation\Render\ResourceRegistry;
 use ilUtil;
@@ -154,11 +154,11 @@ class Renderer extends AbstractComponentRenderer
 
         if ($component->getProperties() !== []) {
             foreach ($component->getProperties() as $name => $value) {
-                $name = ilUtil::stripSlashes($name);
-                if ($value instanceof bShy) {
+                $name = htmlentities($name);
+                if ($value instanceof Button\Shy) {
                     $value = $default_renderer->render($value);
                 } else {
-                    $value = ilUtil::stripSlashes($value);
+                    $value = htmlentities($value);
                 }
                 $tpl->setCurrentBlock("property_row");
                 $tpl->setVariable("PROP_NAME_A", $name);
@@ -263,10 +263,10 @@ class Renderer extends AbstractComponentRenderer
     protected function renderTitle(Item $component, RendererInterface $default_renderer, Template $tpl) : void
     {
         $title = $component->getTitle();
-        if ($title instanceof bShy || $title instanceof Link) {
+        if ($title instanceof Button\Shy || $title instanceof Link) {
             $title = $default_renderer->render($title);
         } else {
-            $title = ilUtil::stripSlashes($title);
+            $title = htmlentities($title);
         }
         $tpl->setVariable("TITLE", $title);
     }
@@ -277,7 +277,7 @@ class Renderer extends AbstractComponentRenderer
         $desc = $component->getDescription();
         if (!is_null($desc) && trim($desc) != "") {
             $tpl->setCurrentBlock("desc");
-            $tpl->setVariable("DESC", ilUtil::stripSlashes($desc));
+            $tpl->setVariable("DESC", htmlentities($desc));
             $tpl->parseCurrentBlock();
         }
     }
@@ -289,11 +289,11 @@ class Renderer extends AbstractComponentRenderer
         if (count($props) > 0) {
             $cnt = 0;
             foreach ($props as $name => $value) {
-                $name = ilUtil::stripSlashes($name);
-                if ($value instanceof bShy) {
+                $name = htmlentities($name);
+                if ($value instanceof Button\Shy) {
                     $value = $default_renderer->render($value);
                 } else {
-                    $value = ilUtil::stripSlashes($value);
+                    $value = htmlentities($value);
                 }
                 $cnt++;
                 if ($cnt % 2 == 1) {
