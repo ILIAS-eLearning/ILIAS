@@ -19,7 +19,7 @@
 /**
  * Description: <button> (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button) by Mozilla Contributors is licensed under CC-BY-SA 2.5.
  * @author  Michael Jansen <mjansen@databay.de>
- * @deprecated use KS Buttons instead
+ * @deprecated 9 Use KS Buttons instead
  */
 class ilButton extends ilButtonBase
 {
