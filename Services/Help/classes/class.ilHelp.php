@@ -1,22 +1,28 @@
 <?php
 
-/* Copyright (c) 1998-2021 ILIAS open source, GPLv3, see LICENSE */
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
 
 /**
  * Online help application class
  *
- * @author	Alex Killing <alex.killing@gmx.de>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilHelp
 {
-    /**
-     * Get tooltip for id
-     *
-     * @param
-     * @return
-     */
-    public static function getTooltipPresentationText($a_tt_id)
-    {
+    public static function getTooltipPresentationText(
+        string $a_tt_id
+    ) : string {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -82,35 +88,26 @@ class ilHelp
 
     /**
      * Get object_creation tooltip tab text
-     *
-     * @param string $a_tab_id tab id
-     * @return string tooltip text
      */
-    public static function getObjCreationTooltipText($a_type)
-    {
+    public static function getObjCreationTooltipText(
+        string $a_type
+    ) : string {
         return self::getTooltipPresentationText($a_type . "_create");
     }
 
     /**
-     * Get main menu tooltip
-     *
-     * @param string $a_mm_id
      * @return string tooltip text
      */
-    public static function getMainMenuTooltip($a_item_id)
-    {
+    public static function getMainMenuTooltip(
+        string $a_item_id
+    ) : string {
         return self::getTooltipPresentationText($a_item_id);
     }
 
-    
-    /**
-     * Get all tooltips
-     *
-     * @param
-     * @return
-     */
-    public static function getAllTooltips($a_comp = "", $a_module_id = 0)
-    {
+    public static function getAllTooltips(
+        string $a_comp = "",
+        int $a_module_id = 0
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -129,14 +126,11 @@ class ilHelp
         return $tts;
     }
     
-    /**
-     * Add tooltip
-     *
-     * @param
-     * @return
-     */
-    public static function addTooltip($a_tt_id, $a_text, $a_module_id = 0)
-    {
+    public static function addTooltip(
+        string $a_tt_id,
+        string $a_text,
+        int $a_module_id = 0
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -155,14 +149,11 @@ class ilHelp
             ")");
     }
     
-    /**
-     * Update tooltip
-     *
-     * @param
-     * @return
-     */
-    public static function updateTooltip($a_id, $a_text, $a_tt_id)
-    {
+    public static function updateTooltip(
+        int $a_id,
+        string $a_text,
+        string $a_tt_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -182,12 +173,10 @@ class ilHelp
     
     /**
      * Get all tooltip components
-     *
-     * @param
-     * @return
      */
-    public static function getTooltipComponents($a_module_id = 0)
-    {
+    public static function getTooltipComponents(
+        int $a_module_id = 0
+    ) : array {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -203,14 +192,9 @@ class ilHelp
         return $comps;
     }
     
-    /**
-     * Delete tooltip
-     *
-     * @param
-     * @return
-     */
-    public static function deleteTooltip($a_id)
-    {
+    public static function deleteTooltip(
+        int $a_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -221,14 +205,9 @@ class ilHelp
         );
     }
     
-    /**
-     * Delete tooltips of module
-     *
-     * @param
-     * @return
-     */
-    public static function deleteTooltipsOfModule($a_id)
-    {
+    public static function deleteTooltipsOfModule(
+        int $a_id
+    ) : void {
         global $DIC;
 
         $ilDB = $DIC->database();
@@ -241,10 +220,9 @@ class ilHelp
 
     /**
      * Get help lm id
-     *
      * @return int help learning module id
      */
-    public static function getHelpLMId()
+    public static function getHelpLMId() : int
     {
         global $DIC;
 
