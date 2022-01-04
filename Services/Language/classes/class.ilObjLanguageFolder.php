@@ -117,6 +117,9 @@ class ilObjLanguageFolder extends ilObject
                 $languages[$lang_key] = $lang;
                 $lang_keys[] = $lang_key;
 
+                $languages[$lang_key]["info"] = "";
+                $languages[$lang_key]["status"] = "";
+
                 // determine default language and language of current user
                 if ($lang_key == $this->lang_user) {
                     $languages[$lang_key]["status"] = "in_use";
@@ -170,7 +173,7 @@ class ilObjLanguageFolder extends ilObject
     {
         if (count($a_languages) > 0) {
             foreach ($a_languages as $lang_key => $lang_data) {
-                if ($lang_data["info"] == "new_language") {
+                if (isset($lang_data["info"]) && $lang_data["info"] == "new_language") {
                     include_once "./Services/Language/classes/class.ilObjLanguage.php";
                     $lngObj = new ilObjLanguage();
                     $lngObj->setTitle($lang_key);

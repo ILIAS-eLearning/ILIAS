@@ -21,7 +21,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
     /**
      * Constructor
      */
-    public function __construct(array $a_data, int $a_id, bool $a_call_by_reference)
+    public function __construct(?array $a_data, int $a_id, bool $a_call_by_reference)
     {
         $this->type = "lngf";
         parent::__construct($a_data, $a_id, $a_call_by_reference, false);
@@ -383,7 +383,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->out();
     }
 
-    public function out(): void
+    public function out() : void
     {
         ilUtil::sendInfo($this->data, true);
         $this->ctrl->redirect($this, "view");
@@ -497,7 +497,7 @@ class ilObjLanguageFolderGUI extends ilObjectGUI
         $this->tpl->setContent($conf_screen->getHTML());
     }
 
-    public function confirmUninstallObject(): void
+    public function confirmUninstallObject() : void
     {
         $this->checkPermission("write");
 
