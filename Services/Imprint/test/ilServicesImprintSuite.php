@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * This file is part of ILIAS, a powerful learning management system
@@ -13,18 +13,23 @@
  * https://github.com/ILIAS-eLearning
  */
 
+use PHPUnit\Framework\TestSuite;
+
+require_once 'libs/composer/vendor/autoload.php';
+
 /**
- * Imprint page configuration
- *
- * @author Alex Killing <alex.killing@gmx.de>
+ * Exercise test suite
+ * @author Alexander Killing <killing@leifos.de>
  */
-class ilImprintConfig extends ilPageConfig
+class ilServicesImprintSuite extends TestSuite
 {
-    public function init() : void
+    public static function suite()
     {
-        $this->setPreventHTMLUnmasking(true);
-        $this->setEnableInternalLinks(false);
-        $this->setEnableWikiLinks(false);
-        $this->setEnableActivation(true);
+        $suite = new self();
+
+        require_once("./Services/Imprint/test/ImprintStandardGUIRequestTest.php");
+        $suite->addTestSuite("ImprintStandardGUIRequestTest");
+
+        return $suite;
     }
 }
