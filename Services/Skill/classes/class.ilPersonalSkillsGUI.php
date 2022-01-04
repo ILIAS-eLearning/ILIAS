@@ -44,8 +44,8 @@ class ilPersonalSkillsGUI
     protected array $hidden_skills = [];
     protected string $mode = "";
     protected string $gap_mode = "";
-    protected int $gap_mode_obj_id;
-    protected string $gap_mode_type;
+    protected int $gap_mode_obj_id = 0;
+    protected string $gap_mode_type = "";
     protected string $gap_cat_title = "";
 
     protected UIServices $ui;
@@ -1115,23 +1115,6 @@ class ilPersonalSkillsGUI
         $this->mode = "gap";
     }
 
-    protected function getActualLevels(array $skills, int $user_id) : void
-    {
-        // get actual levels for gap analysis
-        $this->actual_levels = [];
-        foreach ($skills as $sk) {
-            $bs = new ilBasicSkill($sk["base_skill_id"]);
-            if ($this->gap_mode == "max_per_type") {
-                $max = $bs->getMaxLevelPerType($sk["tref_id"], $this->gap_mode_type, $user_id);
-            } elseif ($this->gap_mode == "max_per_object") {
-                $max = $bs->getMaxLevelPerObject($sk["tref_id"], $this->gap_mode_obj_id, $user_id);
-            } else {
-                $max = $bs->getMaxLevel($sk["tref_id"], $user_id);
-            }
-            $this->actual_levels[$sk["base_skill_id"]][$sk["tref_id"]] = $max;
-        }
-    }
-
     public function getGapAnalysisHTML($a_user_id = 0, array $a_skills = null) : string
     {
         $ilUser = $this->user;
@@ -1176,7 +1159,13 @@ class ilPersonalSkillsGUI
         }
 
         // get actual levels for gap analysis
-        $this->getActualLevels($skills, $user_id);
+        $prof_manager = new ilSkillProfileCompletionManager($user_id);
+        $this->actual_levels = $prof_manager->getActualMaxLevels(
+            $skills,
+            $this->gap_mode,
+            $this->gap_mode_type,
+            $this->gap_mode_obj_id
+        );
 
         $incl_self_eval = false;
         $self_vals = [];
@@ -1620,36 +1609,12 @@ class ilPersonalSkillsGUI
 
         // use a profile
         if ($a_profile_id > 0) {
-            $too_low = true;
-            $current_target_level = 0;
-
-            foreach ($a_levels as $k => $v) {
-                foreach ($this->profile_levels as $pl) {
-                    if ($pl["level_id"] == $v["id"] &&
-                        $pl["base_skill_id"] == $v["skill_id"]) {
-                        $too_low = true;
-                        $current_target_level = $v["id"];
-                    }
-                }
-
-                if ($this->actual_levels[$v["skill_id"]][$a_tref_id] == $v["id"]) {
-                    $too_low = false;
-                }
-            }
+            $res_manager = new ilSkillResourcesManager($a_base_skill, $a_tref_id);
 
             // suggested resources
-            if ($too_low) {
-                $skill_res = new ilSkillResources($a_base_skill, $a_tref_id);
-                $res = $skill_res->getResources();
-                $imp_resources = [];
-                foreach ($res as $level) {
-                    foreach ($level as $r) {
-                        if ($r["imparting"] == true &&
-                            $current_target_level == $r["level_id"]) {
-                            $imp_resources[] = $r;
-                        }
-                    }
-                }
+            if ($res_manager->isLevelTooLow($a_levels, $this->profile_levels, $this->actual_levels)) {
+                $imp_resources = $res_manager->getSuggestedResourcesForProfile();
+
                 foreach ($imp_resources as $r) {
                     $ref_id = $r["rep_ref_id"];
                     $obj_id = ilObject::_lookupObjId($ref_id);
@@ -1734,9 +1699,12 @@ class ilPersonalSkillsGUI
             );
             $this->ctrl->setParameter($this, "profile_id", "");
 
+            $prof_manager = new ilSkillProfileCompletionManager($this->user->getId());
+            $chart_value = $prof_manager->getProfileProgress($p["id"]);
             $prof_item = $this->ui_fac->item()->standard($link)
-                                      ->withDescription($p["description"])
-                                      ->withLeadImage($image);
+                ->withDescription($p["description"])
+                ->withLeadImage($image)
+                ->withProgress($this->ui_fac->chart()->progressMeter()->standard(100, $chart_value));
 
             $prof_items[] = $prof_item;
         }
@@ -1781,7 +1749,13 @@ class ilPersonalSkillsGUI
             }
         }
 
-        $this->getActualLevels($skills, $this->user->getId());
+        $prof_manager = new ilSkillProfileCompletionManager($this->user->getId());
+        $this->actual_levels = $prof_manager->getActualMaxLevels(
+            $skills,
+            $this->gap_mode,
+            $this->gap_mode_type,
+            $this->gap_mode_obj_id
+        );
 
         // render
         $html = "";

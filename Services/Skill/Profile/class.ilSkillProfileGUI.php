@@ -41,6 +41,7 @@ class ilSkillProfileGUI
     protected Factory $ui_fac;
     protected Renderer $ui_ren;
     protected ServerRequestInterface $request;
+    protected ilRbacReview $review;
     protected int $id = 0;
     protected ?ilSkillProfile $profile = null;
     protected SkillTreeService $tree_service;
@@ -73,6 +74,7 @@ class ilSkillProfileGUI
         $this->ui_fac = $DIC->ui()->factory();
         $this->ui_ren = $DIC->ui()->renderer();
         $this->request = $DIC->http()->request();
+        $this->review = $DIC->rbac()->review();
         $this->tree_service = $DIC->skills()->tree();
         $this->skill_tree_access_manager = $skill_tree_access_manager;
         $this->skill_tree_id = $skill_tree_id;
@@ -627,6 +629,9 @@ class ilSkillProfileGUI
             $this->profile->getMaxLevelOrderNr() + 10
         );
         $this->profile->update();
+
+        // profile completion check because of profile editing
+        $this->checkProfileCompletionForAllAssignedUsers();
         
         ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         if ($local) {
@@ -697,6 +702,9 @@ class ilSkillProfileGUI
             $this->profile->update();
             $this->profile->fixSkillOrderNumbering();
         }
+
+        // profile completion check because of profile editing
+        $this->checkProfileCompletionForAllAssignedUsers();
 
         if ($local) {
             $ilCtrl->redirect($this, "showLevelsWithLocalContext");
@@ -772,6 +780,9 @@ class ilSkillProfileGUI
         $user_id = ilObjUser::_lookupId($this->requested_user_login);
         if ($user_id > 0) {
             $this->profile->addUserToProfile($user_id);
+            // profile completion check for added user
+            $prof_manager = new ilSkillProfileCompletionManager($user_id);
+            $prof_manager->writeCompletionEntryForSingleProfile($this->profile->getId());
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
         }
 
@@ -781,6 +792,9 @@ class ilSkillProfileGUI
             foreach ($users as $id) {
                 if ($id > 0) {
                     $this->profile->addUserToProfile($id);
+                    // profile completion check for added user
+                    $prof_manager = new ilSkillProfileCompletionManager($id);
+                    $prof_manager->writeCompletionEntryForSingleProfile($this->profile->getId());
                 }
             }
             ilUtil::sendSuccess($lng->txt("msg_obj_modified"), true);
@@ -802,6 +816,7 @@ class ilSkillProfileGUI
         foreach ($role_ids as $id) {
             if ($id > 0) {
                 $this->profile->addRoleToProfile($id);
+                $this->checkProfileCompletionForRole($id);
                 $success = true;
             }
         }
@@ -982,6 +997,42 @@ class ilSkillProfileGUI
         } else {
             $form->setValuesByPost();
             $tpl->setContent($form->getHTML());
+        }
+    }
+
+    /**
+     * Write completion entries for a profile for all assigned users of the profile if fulfilment status has changed
+     */
+    protected function checkProfileCompletionForAllAssignedUsers() : void
+    {
+        $review = $this->review;
+
+        $p_users = $this->profile->getAssignedUsers();
+        foreach ($p_users as $user_id => $user) {
+            $prof_manager = new ilSkillProfileCompletionManager($user_id);
+            $prof_manager->writeCompletionEntryForSingleProfile($this->profile->getId());
+        }
+        $p_roles = $this->profile->getAssignedRoles();
+        foreach ($p_roles as $role_id => $role) {
+            $r_users = $review->assignedUsers($role_id);
+            foreach ($r_users as $user_id) {
+                $prof_manager = new ilSkillProfileCompletionManager($user_id);
+                $prof_manager->writeCompletionEntryForSingleProfile($this->profile->getId());
+            }
+        }
+    }
+
+    /**
+     * Write completion entries for a profile for assigned users of a role if fulfilment status has changed
+     */
+    protected function checkProfileCompletionForRole(int $a_role_id) : void
+    {
+        $review = $this->review;
+
+        $r_users = $review->assignedUsers($a_role_id);
+        foreach ($r_users as $user_id) {
+            $prof_manager = new ilSkillProfileCompletionManager($user_id);
+            $prof_manager->writeCompletionEntryForSingleProfile($this->profile->getId());
         }
     }
 }
