@@ -19,6 +19,8 @@
 /**
  * Class ilSplitButtonItemDivider
  * @author Michael Jansen <mjansen@databay.de>
+ *
+ * @deprecated 10
  */
 class ilSplitButtonItemDivider implements ilSplitButtonSeparatorMenuItem
 {

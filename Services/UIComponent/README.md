@@ -1,9 +1,6 @@
 # UIComponent Service
 
-The UI Component Service provides wrappers for several UI Components to be re-used. Note that many of those components
-have been deprecated, since we are migrating much of the content of this service to src/UI. If you feel that you need
-to use one of those components nevertheless for new developments, maybe think about providing a PR to src/UI to add the
-missing feature. This would be highly appreciated.
+The UI Component Service is depricated and MUST NOT be used anymore.
 
 ## UserInterfaceHook Pluginslot 
 This plugin slot has been published as stable with ILIAS 4.2. The goal of the user interface plugin slot is to allow simple

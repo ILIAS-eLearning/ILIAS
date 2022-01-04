@@ -19,6 +19,8 @@
 /**
  * Lightbox handling
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 10
  */
 class ilLightboxGUI
 {

@@ -19,6 +19,8 @@
 /**
  * This is a utility class for the yui tooltips.
  * this only works, if a parent has class="yui-skin-sam" attached.
+ *
+ * @deprecated 10
  */
 class ilTooltipGUI
 {

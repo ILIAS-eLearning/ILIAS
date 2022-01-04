@@ -22,6 +22,8 @@ use ILIAS\UI\Component\Tree\Tree;
  * Explorer class that works on tree objects (Services/Tree)
  *
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 10
  */
 abstract class ilTreeExplorerGUI extends ilExplorerBaseGUI implements \ILIAS\UI\Component\Tree\TreeRecursion
 {

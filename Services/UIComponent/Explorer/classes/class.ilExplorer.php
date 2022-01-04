@@ -23,7 +23,8 @@ const IL_FM_NEGATIVE = 2;
  * class for explorer view in admin frame
  *
  * @author Stefan Meyer <meyer@leifos.com>
- * @deprecated
+ *
+ * @deprecated 10
  */
 class ilExplorer
 {

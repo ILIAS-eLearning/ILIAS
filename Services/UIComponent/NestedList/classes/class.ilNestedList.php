@@ -19,6 +19,8 @@
 /**
  * Nested List
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 10
  */
 class ilNestedList
 {

@@ -22,6 +22,8 @@
  * is not defined by this abstract class.
  *
  * @author Alexander Killing <killing@leifos.de>
+ *
+ * @deprecated 10
  */
 abstract class ilExplorerBaseGUI
 {
