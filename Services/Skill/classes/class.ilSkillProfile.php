@@ -32,6 +32,7 @@ class ilSkillProfile implements ilSkillUsageInfo
     protected string $title;
     protected string $description;
     protected int $ref_id = 0;
+    protected string $image_id = "";
     protected int $skill_tree_id = 0;
     protected array $skill_level = [];
 
@@ -88,6 +89,16 @@ class ilSkillProfile implements ilSkillUsageInfo
         return $this->ref_id;
     }
 
+    public function setImageId(string $a_val)
+    {
+        $this->image_id = $a_val;
+    }
+
+    public function getImageId() : string
+    {
+        return $this->image_id;
+    }
+
     public function setSkillTreeId(int $a_val)
     {
         $this->skill_tree_id = $a_val;
@@ -141,6 +152,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         $this->setTitle($rec["title"]);
         $this->setDescription($rec["description"]);
         $this->setRefId($rec["ref_id"]);
+        $this->setImageId($rec["image_id"]);
         $this->setSkillTreeId($rec["skill_tree_id"]);
         
         $set = $ilDB->query(
@@ -164,11 +176,12 @@ class ilSkillProfile implements ilSkillUsageInfo
         // profile
         $this->setId($ilDB->nextId("skl_profile"));
         $ilDB->manipulate("INSERT INTO skl_profile " .
-            "(id, title, description, ref_id, skill_tree_id) VALUES (" .
+            "(id, title, description, ref_id, image_id, skill_tree_id) VALUES (" .
             $ilDB->quote($this->getId(), "integer") . "," .
             $ilDB->quote($this->getTitle(), "text") . "," .
             $ilDB->quote($this->getDescription(), "text") . "," .
             $ilDB->quote($this->getRefId(), "integer") . "," .
+            $ilDB->quote($this->getImageId(), "text") . "," .
             $ilDB->quote($this->getSkillTreeId(), "integer") .
             ")");
         
@@ -195,7 +208,8 @@ class ilSkillProfile implements ilSkillUsageInfo
         $ilDB->manipulate(
             "UPDATE skl_profile SET " .
             " title = " . $ilDB->quote($this->getTitle(), "text") . "," .
-            " description = " . $ilDB->quote($this->getDescription(), "text") .
+            " description = " . $ilDB->quote($this->getDescription(), "text") . "," .
+            " image_id = " . $ilDB->quote($this->getImageId(), "text") .
             " WHERE id = " . $ilDB->quote($this->getId(), "integer") .
             " AND ref_id = " . $ilDB->quote($this->getRefId(), "integer")
         );
@@ -534,7 +548,7 @@ class ilSkillProfile implements ilSkillUsageInfo
         // competence profiles coming from user assignments
         $user_profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title FROM skl_profile_user u JOIN skl_profile p " .
+            "SELECT p.id, p.title, p.description, p.image_id FROM skl_profile_user u JOIN skl_profile p " .
             " ON (u.profile_id = p.id) " .
             " WHERE user_id = " . $ilDB->quote($a_user_id, "integer") .
             " ORDER BY p.title ASC"
@@ -662,7 +676,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 
         $profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p " .
+            "SELECT p.id, p.title, p.description, p.image_id FROM skl_profile_role r JOIN skl_profile p " .
             " ON (r.profile_id = p.id) " .
             " WHERE r.role_id = " . $ilDB->quote($a_role_id, "integer") .
             " ORDER BY p.title ASC"
@@ -681,7 +695,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 
         $profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p " .
+            "SELECT p.id, p.title, p.description, p.image_id FROM skl_profile_role r JOIN skl_profile p " .
             " ON (r.profile_id = p.id) " .
             " WHERE r.role_id = " . $ilDB->quote($a_role_id, "integer") .
             " AND p.ref_id = 0" .
@@ -701,7 +715,7 @@ class ilSkillProfile implements ilSkillUsageInfo
 
         $profiles = [];
         $set = $ilDB->query(
-            "SELECT p.id, p.title FROM skl_profile_role r JOIN skl_profile p " .
+            "SELECT p.id, p.title, p.description, p.image_id FROM skl_profile_role r JOIN skl_profile p " .
             " ON (r.profile_id = p.id) " .
             " WHERE r.role_id = " . $ilDB->quote($a_role_id, "integer") .
             " AND p.ref_id = " . $ilDB->quote($a_ref_id, "integer") .
