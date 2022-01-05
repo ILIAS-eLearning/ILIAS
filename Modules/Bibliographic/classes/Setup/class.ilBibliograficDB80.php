@@ -18,6 +18,8 @@ class ilBibliograficDB80 implements ilDatabaseUpdateSteps
 
     public function step_1() : void
     {
-        $this->database->dropTableColumn('il_bibl_field', 'object_id');
+        if ($this->database->tableColumnExists('il_bibl_field', 'object_id')) {
+            $this->database->dropTableColumn('il_bibl_field', 'object_id');
+        }
     }
 }
