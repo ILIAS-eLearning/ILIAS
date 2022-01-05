@@ -16711,3 +16711,5 @@ rbac#:#manage_comp#:#Kompetenzen bearbeiten
 rbac#:#manage_comp_temp#:#Kompetenzvorlagen bearbeiten
 rbac#:#manage_profiles#:#Kompetenzprofile bearbeiten
 forum#:#file_upload_option_allow_info#:#In allen Foren können Dateien an Beiträge angehängt werden.
+skmg#:#skmg_custom_image_alt#:#Benutzerdefiniertes Bild für Kompetenzprofil
+skmg#:#skmg_form_presentation#:#Darstellung
