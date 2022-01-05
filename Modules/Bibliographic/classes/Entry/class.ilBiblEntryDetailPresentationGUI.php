@@ -9,14 +9,8 @@
 class ilBiblEntryDetailPresentationGUI
 {
     use \ILIAS\Modules\OrgUnit\ARHelper\DIC;
-    /**
-     * @var \ilBiblEntry
-     */
-    public $entry;
-    /**
-     * @var \ilBiblFactoryFacade
-     */
-    protected $facade;
+    public \ilBiblEntry $entry;
+    protected \ilBiblFactoryFacade $facade;
 
 
     /**
@@ -32,7 +26,7 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    private function initHelp()
+    private function initHelp(): void
     {
         global $DIC;
 
@@ -44,7 +38,7 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    private function initTabs()
+    private function initTabs(): void
     {
         $this->tabs()->clearTargets();
         $this->tabs()->setBackTarget(
@@ -54,10 +48,7 @@ class ilBiblEntryDetailPresentationGUI
     }
 
 
-    /**
-     * @return string
-     */
-    public function getHTML()
+    public function getHTML(): string
     {
         $this->initHelp();
         $this->initTabs();
@@ -71,7 +62,7 @@ class ilBiblEntryDetailPresentationGUI
         $this->tpl()->setPermanentLink(
             "bibl",
             $this->facade->iliasRefId(),
-            "_" . (int) $_GET[ilObjBibliographicGUI::P_ENTRY_ID]
+            "_" . $this->entry->getId()
         );
 
         return $form->getHTML();
@@ -81,7 +72,7 @@ class ilBiblEntryDetailPresentationGUI
     /**
      * @param \ilPropertyFormGUI $form
      */
-    protected function renderAttributes(ilPropertyFormGUI $form)
+    protected function renderAttributes(ilPropertyFormGUI $form): void
     {
         $attributes = $this->facade->attributeFactory()->getAttributesForEntry($this->entry);
         $sorted = $this->facade->attributeFactory()->sortAttributes($attributes);
@@ -98,7 +89,7 @@ class ilBiblEntryDetailPresentationGUI
     /**
      * @param \ilPropertyFormGUI $form
      */
-    protected function renderLibraries(ilPropertyFormGUI $form)
+    protected function renderLibraries(ilPropertyFormGUI $form): void
     {
         // generate/render links to libraries
         // TODO REFACTOR
@@ -116,10 +107,8 @@ class ilBiblEntryDetailPresentationGUI
      * This feature has to be discussed by JF first
      *
      * @param $string
-     *
-     * @return string
      */
-    public static function prepareLatex($string)
+    public static function prepareLatex($string): string
     {
         return $string;
         static $init;

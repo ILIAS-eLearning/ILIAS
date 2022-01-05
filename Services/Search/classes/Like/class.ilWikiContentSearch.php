@@ -29,7 +29,6 @@
 * @author Alex Killing <alex.killing@gmx.de>
 *
 */
-include_once 'Services/Search/classes/class.ilAbstractSearch.php';
 
 class ilWikiContentSearch extends ilAbstractSearch
 {

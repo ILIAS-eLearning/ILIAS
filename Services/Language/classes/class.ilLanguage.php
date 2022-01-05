@@ -41,7 +41,7 @@ class ilLanguage
     protected array $map_modules_txt = array();
     protected bool $usage_log_enabled = false;
     protected static array $lng_log = array();
-    protected string $cust_lang_path;
+    public string $cust_lang_path;      // public due to access in ilObjLanguage
 
     /**
      * Constructor

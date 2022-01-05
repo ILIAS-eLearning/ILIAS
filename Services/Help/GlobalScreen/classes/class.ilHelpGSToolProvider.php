@@ -1,5 +1,18 @@
 <?php
 
+/**
+ * This file is part of ILIAS, a powerful learning management system
+ * published by ILIAS open source e-Learning e.V.
+ * ILIAS is licensed with the GPL-3.0,
+ * see https://www.gnu.org/licenses/gpl-3.0.en.html
+ * You should have received a copy of said license along with the
+ * source code, too.
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ * https://www.ilias.de
+ * https://github.com/ILIAS-eLearning
+ */
+
 use ILIAS\GlobalScreen\Scope\MainMenu\Collector\Renderer\Hasher;
 use ILIAS\GlobalScreen\Scope\Tool\Provider\AbstractDynamicToolProvider;
 use ILIAS\GlobalScreen\ScreenContext\Stack\CalledContexts;
@@ -9,25 +22,19 @@ use ILIAS\UI\Implementation\Component\MainControls\Slate\Legacy as LegacySlate;
 
 /**
  * Class ilHelpGSToolProvider
- * @author Alex Killing <killing@leifos.com>
+ * @author Alexander Killing <killing@leifos.de>
  */
 class ilHelpGSToolProvider extends AbstractDynamicToolProvider
 {
-    const SHOW_HELP_TOOL = 'show_help_tool';
+    public const SHOW_HELP_TOOL = 'show_help_tool';
     use ilHelpDisplayed;
     use Hasher;
 
-    /**
-     * @inheritDoc
-     */
     public function isInterestedInContexts() : ContextCollection
     {
         return $this->context_collection->main();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getToolsForContextStack(CalledContexts $called_contexts) : array
     {
         global $DIC;
@@ -86,11 +93,6 @@ class ilHelpGSToolProvider extends AbstractDynamicToolProvider
         return $tools;
     }
 
-    /**
-     * help
-     * @param int $ref_id
-     * @return string
-     */
     private function getHelpContent() : string
     {
         global $DIC;

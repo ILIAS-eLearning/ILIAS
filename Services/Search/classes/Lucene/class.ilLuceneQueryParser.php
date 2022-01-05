@@ -94,7 +94,6 @@ class ilLuceneQueryParser
     /**
      * @throws ilLuceneQueryParserException
      * @todo add multi byte query validation.
-     * @todo ass unit tests
      */
     public static function validateQuery($a_query)
     {

@@ -9,6 +9,19 @@ use ILIAS\UI\Component\Button\Button;
 use ILIAS\UI\Component\Button\Shy;
 use ILIAS\UI\Component\Legacy\Legacy;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 /**
  * Class ilBTPopOverGUI
  *
@@ -18,10 +31,7 @@ use ILIAS\UI\Component\Legacy\Legacy;
 class ilBTPopOverGUI
 {
     use StateTranslator;
-    /**
-     * @var \ILIAS\DI\Container
-     */
-    protected $dic;
+    protected \ILIAS\DI\Container $dic;
 
 
     public function __construct(\ILIAS\DI\Container $dic)
@@ -70,7 +80,7 @@ class ilBTPopOverGUI
 
         $f = $this->dic->ui()->factory();
 
-        $state = (int) $observer->getState();
+        $state = $observer->getState();
         $current_task = $observer->getCurrentTask();
 
         $icon = $f->symbol()->icon()->standard("bgtk", $this->txt("bg_task"));
@@ -94,7 +104,7 @@ class ilBTPopOverGUI
             $input = $current_task->getInput();
             $message = $current_task->getMessage($input);
 
-            if ((!empty($message)) and ($message != null)) {
+            if (!empty($message) && $message != null) {
                 $item = $item->withDescription($message);
             } else {
                 $item = $item->withAdditionalContent($this->getProgressbar($observer));
@@ -110,15 +120,12 @@ class ilBTPopOverGUI
         if ($state === State::RUNNING) {
             $url = $this->getRefreshUrl($observer);
             //Running Items probably need to refresh themselves, right?
-            $item = $item->withAdditionalOnLoadCode(function ($id) use ($url) {
-                //Note this is only for demo purposes, adapt as needed.
-                return "var notification_item = il.UI.item.notification.getNotificationItemObject($('#$id'));
-                    il.BGTask.refreshItem(notification_item,'$url');";
-            });
+            $item = $item->withAdditionalOnLoadCode(fn($id) => "var notification_item = il.UI.item.notification.getNotificationItemObject($('#$id'));
+                    il.BGTask.refreshItem(notification_item,'$url');");
 
             $expected = $current_task->getExpectedTimeOfTaskInSeconds();
             $possibly_failed = ($observer->getLastHeartbeat() < (time() - $expected));
-            if ($possibly_failed === true) {
+            if ($possibly_failed) {
                 $item = $item->withDescription($this->txt('task_might_be_failed'));
                 $item = $item->withCloseAction(
                     $this->getCloseButtonAction($current_task->getAbortOption(), $redirect_uri, $observer)
@@ -137,7 +144,7 @@ class ilBTPopOverGUI
 
 
     /**
-     * @return Shy[]
+     * @return \ILIAS\UI\Component\Legacy\Legacy[]|\ILIAS\UI\Component\Button\Shy[]
      */
     public function getUserInteractionContent(Bucket $observer, string $redirect_uri) : array
     {
@@ -153,8 +160,8 @@ class ilBTPopOverGUI
         $userInteraction = $observer->getCurrentTask();
         $options = $userInteraction->getOptions($userInteraction->getInput());
 
-        $shy_buttons = array_map(
-            function (UserInteraction\Option $option) use ($ctrl, $factory, $observer, $persistence, $redirect_uri, $language) {
+        return array_map(
+            function (UserInteraction\Option $option) use ($ctrl, $factory, $observer, $persistence, $redirect_uri, $language): \ILIAS\UI\Component\Button\Shy {
                 $ctrl->setParameterByClass(
                     ilBTControllerGUI::class,
                     ilBTControllerGUI::FROM_URL,
@@ -180,8 +187,6 @@ class ilBTPopOverGUI
             },
             $options
         );
-
-        return $shy_buttons;
     }
 
 
@@ -190,11 +195,11 @@ class ilBTPopOverGUI
         $percentage = $observer->getOverallPercentage();
 
         switch (true) {
-            case ((int) $percentage === 100):
+            case ($percentage === 100):
                 $running = "";
                 $content = $this->dic->language()->txt("completed");
                 break;
-            case ((int) $observer->getState() === State::USER_INTERACTION):
+            case ($observer->getState() === State::USER_INTERACTION):
                 $running = "";
                 $content = $this->dic->language()->txt("waiting");
                 break;

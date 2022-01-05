@@ -9,6 +9,8 @@ use ILIAS\BackgroundTasks\Implementation\Values\AggregationValues\ListValue;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\IntegerValue;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Types\ListType;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 use ilObjFile;
 
 /**
@@ -22,19 +24,19 @@ class DownloadSanitationReportUserInteraction extends AbstractUserInteraction
     const OPTION_SANITIZE = "sanitize";
 
 
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return [new ListType(IntegerValue::class)];
     }
 
 
-    public function getOutputType()
+    public function getOutputType() : Type
     {
         return [];
     }
 
 
-    public function getOptions(array $input)
+    public function getOptions(array $input) : array
     {
         return [
             new UserInteractionOption("download", self::OPTION_DOWNLOAD),
@@ -43,7 +45,7 @@ class DownloadSanitationReportUserInteraction extends AbstractUserInteraction
     }
 
 
-    public function interaction(array $input, Option $user_selected_option, Bucket $bucket)
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket) : Value
     {
         /**
          * @var $list          ListValue

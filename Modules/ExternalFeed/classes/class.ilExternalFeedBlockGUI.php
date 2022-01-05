@@ -21,7 +21,6 @@ class ilExternalFeedBlockGUI extends ilBlockGUI
     const FORM_RE_EDIT = 2;
     const FORM_RE_CREATE = 2;
 
-    protected $gui_object;
     protected $form_edit_mode;
 
     /**

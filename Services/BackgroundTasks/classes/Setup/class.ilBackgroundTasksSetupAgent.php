@@ -1,27 +1,35 @@
 <?php
 
-/* Copyright (c) 2019 Richard Klees <richard.klees@concepts-and-training.de> Extended GPL, see docs/LICENSE */
-
 use ILIAS\Setup;
 use ILIAS\Refinery;
 use ILIAS\Data;
 use ILIAS\UI;
 
+/******************************************************************************
+ *
+ * This file is part of ILIAS, a powerful learning management system.
+ *
+ * ILIAS is licensed with the GPL-3.0, you should have received a copy
+ * of said license along with the source code.
+ *
+ * If this is not the case or you just want to try ILIAS, you'll find
+ * us at:
+ *      https://www.ilias.de
+ *      https://github.com/ILIAS-eLearning
+ *
+ *****************************************************************************/
 class ilBackgroundTasksSetupAgent implements Setup\Agent
 {
     use Setup\Agent\HasNoNamedObjective;
-
-    /**
-     * @var Refinery\Factory
-     */
-    protected $refinery;
-
+    
+    protected Refinery\Factory $refinery;
+    
     public function __construct(
         Refinery\Factory $refinery
     ) {
         $this->refinery = $refinery;
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -29,39 +37,39 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
     {
         return true;
     }
-
+    
     /**
      * @inheritdoc
      */
     public function getArrayToConfigTransformation() : Refinery\Transformation
     {
-        return $this->refinery->custom()->transformation(function ($data) {
-            return new \ilBackgroundTasksSetupConfig(
-                $data["type"] ?? \ilBackgroundTasksSetupConfig::TYPE_SYNCHRONOUS,
-                $data["max_number_of_concurrent_tasks"] ?? 1
-            );
-        });
+        return $this->refinery->custom()->transformation(fn($data): \ilBackgroundTasksSetupConfig => new \ilBackgroundTasksSetupConfig(
+            $data["type"] ?? \ilBackgroundTasksSetupConfig::TYPE_SYNCHRONOUS,
+            $data["max_number_of_concurrent_tasks"] ?? 1
+        ));
     }
-
+    
     /**
      * @inheritdoc
      */
     public function getInstallObjective(Setup\Config $config = null) : Setup\Objective
     {
+        /** @noinspection PhpParamsInspection */
         return new ilBackgroundTasksConfigStoredObjective($config);
     }
-
+    
     /**
      * @inheritdoc
      */
     public function getUpdateObjective(Setup\Config $config = null) : Setup\Objective
     {
         if ($config !== null) {
+            /** @noinspection PhpParamsInspection */
             return new ilBackgroundTasksConfigStoredObjective($config);
         }
         return new Setup\Objective\NullObjective();
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -69,7 +77,7 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
     {
         return new Setup\Objective\NullObjective();
     }
-
+    
     /**
      * @inheritdoc
      */
@@ -77,7 +85,7 @@ class ilBackgroundTasksSetupAgent implements Setup\Agent
     {
         return new ilBackgroundTasksMetricsCollectedObjective($storage);
     }
-
+    
     /**
      * @inheritDoc
      */

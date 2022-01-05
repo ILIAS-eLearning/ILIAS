@@ -7,6 +7,7 @@ use ILIAS\BackgroundTasks\Types\SingleType;
 use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 
 /**
  * Class ilMailDeliveryJobUserInteraction
@@ -40,7 +41,7 @@ class ilMailDeliveryJobUserInteraction extends AbstractUserInteraction
         array $input,
         ILIAS\BackgroundTasks\Task\UserInteraction\Option $user_selected_option,
         ILIAS\BackgroundTasks\Bucket $bucket
-    ) {
+    ) : Value {
         return $input;
     }
 

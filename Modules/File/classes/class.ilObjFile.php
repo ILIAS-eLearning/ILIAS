@@ -418,18 +418,20 @@ class ilObjFile extends ilObject2 implements ilObjFileImplementationInterface
         $q = "SELECT * FROM file_data WHERE file_id = %s";
         $r = $DIC->database()->queryF($q, ['integer'], [$this->getId()]);
         $row = $r->fetchObject();
-
-        $this->setFileName($row->file_name);
-        $this->setFileType($row->file_type);
-        $this->setFileSize($row->file_size);
-        $this->setVersion($row->version ? $row->version : 1);
+        if ($row !== null) {
+        
+        }
+        $this->setFileName($row->file_name ?? '');
+        $this->setFileType($row->file_type ?? '');
+        $this->setFileSize($row->file_size ?? 0);
+        $this->setVersion($row->version ?? 1);
         $this->setMaxVersion($row->max_version ? $row->max_version : 1);
         $this->setMode($row->f_mode);
         $this->setRating($row->rating);
         $this->setPageCount($row->page_count);
         $this->setPageCount($row->page_count);
         $this->setResourceId($row->rid);
-
+    
         $this->initImplementation();
     }
 

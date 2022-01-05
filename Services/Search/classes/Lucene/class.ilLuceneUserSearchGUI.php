@@ -42,7 +42,6 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         $this->prepareOutput();
         switch ($next_class) {
             case "ilpublicuserprofilegui":
-                include_once('./Services/User/classes/class.ilPublicUserProfileGUI.php');
                 $profile = new ilPublicUserProfileGUI((int) $_REQUEST['user']);
                 $profile->setBackUrl($this->ctrl->getLinkTarget($this, 'showSavedResults'));
                 $ret = $this->ctrl->forwardCommand($profile);
@@ -93,11 +92,23 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
      */
     protected function remoteSearch() : void
     {
-        $_POST['query'] = $_POST['queryString'];
-        $this->search_cache->setRoot((int) $_POST['root_id']);
-        $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['queryString']));
+        $root_id = 0;
+        if ($this->http->wrapper()->post()->has('root_id')) {
+            $root_id = $this->http->wrapper()->post()->retrieve(
+                'root_id',
+                $this->refinery->kindlyTo()->int()
+            );
+        }
+        $queryString = '';
+        if ($this->http->wrapper()->post()->has('queryString')) {
+            $queryString = $this->http->wrapper()->post()->retrieve(
+                'queryString',
+                $this->refinery->kindlyTo()->string()
+            );
+        }
+        $this->search_cache->setRoot($root_id);
+        $this->search_cache->setQuery($queryString);
         $this->search_cache->save();
-        
         $this->search();
     }
     
@@ -194,14 +205,19 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
     protected function initUserSearchCache() : void
     {
         
-        include_once('Services/Search/classes/class.ilUserSearchCache.php');
         $this->search_cache = ilUserSearchCache::_getInstance($this->user->getId());
         $this->search_cache->switchSearchType(ilUserSearchCache::LUCENE_USER_SEARCH);
-        if ((int) $_GET['page_number']) {
-            $this->search_cache->setResultPageNumber((int) $_GET['page_number']);
+        $page_number = $this->initPageNumberFromQuery();
+        if ($page_number) {
+            $this->search_cache->setResultPageNumber($page_number);
         }
-        if (isset($_POST['term'])) {
-            $this->search_cache->setQuery(ilUtil::stripSlashes($_POST['term']));
+
+        if ($this->http->wrapper()->post()->has('term')) {
+            $query = $this->http->wrapper()->post()->retrieve(
+                'term',
+                $this->refinery->kindlyTo()->string()
+            );
+            $this->search_cache->setQuery($query);
             $this->search_cache->setItemFilter(array());
             $this->search_cache->setMimeFilter(array());
             $this->search_cache->save();
@@ -219,15 +235,12 @@ class ilLuceneUserSearchGUI extends ilSearchBaseGUI
         
         $this->tpl->addBlockFile('ADM_CONTENT', 'adm_content', 'tpl.lucene_usr_search.html', 'Services/Search');
 
-        // include js needed
-        include_once("./Services/UIComponent/Overlay/classes/class.ilOverlayGUI.php");
         ilOverlayGUI::initJavascript();
         $this->tpl->addJavascript("./Services/Search/js/Search.js");
 
         $this->tpl->setVariable('FORM_ACTION', $this->ctrl->getFormAction($this, 'performSearch'));
         $this->tpl->setVariable("TERM", ilUtil::prepareFormOutput($this->search_cache->getQuery()));
         $this->tpl->setVariable("SEARCH_LABEL", $this->lng->txt("search"));
-        include_once("./Services/UIComponent/Button/classes/class.ilSubmitButton.php");
         $btn = ilSubmitButton::getInstance();
         $btn->setCommand("performSearch");
         $btn->setCaption("search");

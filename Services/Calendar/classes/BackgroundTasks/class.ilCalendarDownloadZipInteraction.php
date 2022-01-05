@@ -7,6 +7,8 @@ use ILIAS\BackgroundTasks\Implementation\Values\ScalarValues\StringValue;
 use ILIAS\BackgroundTasks\Implementation\Tasks\UserInteraction\UserInteractionOption;
 use ILIAS\BackgroundTasks\Task\UserInteraction\Option;
 use ILIAS\BackgroundTasks\Bucket;
+use ILIAS\BackgroundTasks\Types\Type;
+use ILIAS\BackgroundTasks\Value;
 use ILIAS\Filesystem\Util\LegacyPathHelper;
 
 /**
@@ -34,7 +36,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritdoc
      */
-    public function getInputTypes()
+    public function getInputTypes() : array
     {
         return [
             new SingleType(StringValue::class),
@@ -46,7 +48,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getRemoveOption()
+    public function getRemoveOption() : Option
     {
         return new UserInteractionOption('remove', self::OPTION_CANCEL);
     }
@@ -55,7 +57,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getOutputType()
+    public function getOutputType() : Type
     {
         return new SingleType(StringValue::class);
     }
@@ -64,7 +66,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function getOptions(array $input)
+    public function getOptions(array $input) : array
     {
         return [
             new UserInteractionOption('download', self::OPTION_DOWNLOAD),
@@ -75,7 +77,7 @@ class ilCalendarDownloadZipInteraction extends AbstractUserInteraction
     /**
      * @inheritDoc
      */
-    public function interaction(array $input, Option $user_selected_option, Bucket $bucket)
+    public function interaction(array $input, Option $user_selected_option, Bucket $bucket) : Value
     {
         global $DIC;
         $zip_name = $input[1];

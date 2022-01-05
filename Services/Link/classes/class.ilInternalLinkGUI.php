@@ -962,7 +962,7 @@ class ilInternalLinkGUI
 
 
     /**
-     * Get initialisation HTML to use interna link editing
+     * Get initialisation HTML to use internal link editing
      */
     public static function getInitHTML($a_url)
     {
@@ -971,15 +971,17 @@ class ilInternalLinkGUI
         $lng = $DIC->language();
         $tpl = $DIC["tpl"];
 
+        $tpl->addOnLoadCode(
+            "il.Util.addOnLoad(function() {il.IntLink.init({url: '$a_url'});});"
+        );
+
         $lng->loadLanguageModule("link");
 
         $tpl->addJavaScript("./Services/UIComponent/Explorer/js/ilExplorer.js");
         ilExplorerBaseGUI::init();
-
         ilYuiUtil::initConnection();
 
         $tpl->addJavascript("./Services/Link/js/ilIntLink.js");
-        
         // #18721
         $tpl->addJavaScript("Services/Form/js/Form.js");
 
@@ -988,12 +990,7 @@ class ilInternalLinkGUI
         $modal->setId("ilIntLinkModal");
         $modal->setBody("<div id='ilIntLinkModalContent'></div>");
 
-        $ltpl = new ilTemplate("tpl.int_link_panel.html", true, true, "Services/Link");
-        $ltpl->setVariable("MODAL", $modal->getHTML());
-
-        $ltpl->setVariable("IL_INT_LINK_URL", $a_url);
-
-        return $ltpl->get();
+        return $modal->getHTML();
     }
 
     /**
