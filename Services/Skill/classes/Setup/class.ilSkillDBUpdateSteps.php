@@ -264,7 +264,7 @@ class ilSkillDBUpdateSteps implements ilDatabaseUpdateSteps
         if (!$this->db->tableColumnExists("skl_profile", "image_id")) {
             $this->db->addTableColumn("skl_profile", "image_id", array(
                 "type" => "text",
-                "notnull" => false,
+                "notnull" => true,
                 "length" => 4000
             ));
         }
